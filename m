@@ -1,61 +1,72 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60430130AF7
-	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 16:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E921612EBC8;
+	Fri, 16 Feb 2024 16:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708101554; cv=none; b=DwiqBc+q9bSK7m/5Vovo5FUzlP24Vez7B3b2KYaa509LS237bagdlPoQkvLYg3SIwm07+P/8piRWgffC+h6Q5GciEwYECvha5XeMeYTPQSQnOgU2CXRtaSCN5wbAhnY1IdyRSVkPriA8+pQws8qOwRLLtC1j1f6/83RpHsgPsJE=
+	t=1708101896; cv=none; b=Qcz80kwzdl0cqsAfJvTIcC6MRvxG8bz4GnsFBq4fg3TUiU6Fga9CQQxXbiucbLMYYPEaqVZ/+IkkACwpld1U3fCHcts6SGr9C3tpiAXlz+ixxXmV4XRTdDvl4GNEGWU/X5RDdmC6u0dIwgfKxClv8RJ8JQf634ai7lGnVlcY3JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708101554; c=relaxed/simple;
-	bh=PkWRMaDgTly/5ez9/SA93u9YGwFkohBiRhZ2gvWvgoY=;
+	s=arc-20240116; t=1708101896; c=relaxed/simple;
+	bh=DREtwBpdo744kwdkZr603r+e8INTDQG/jJ9H007lpGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUFLzknWhFstODrY3O1ny1/JT/1Z61GmnSc7Epmbyhfp7Nf05aJIvmazc0d0VLj9RV3bP4BgyKuEe26lFbV/F1pRAb1raAhlK02fj6T0qXXH45byo0MD2SO6U6Qw5WK2C2m7tbG3RuqdiwGJy6MjZzqMlzn3O/85rpI9Bj5cIog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P/rHKmX3; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=RxLovDh91sA9PJJeOkPXB7vnFJ626ydfzMpOiSoXkGZ/6bAs0NJjOFK8zHNokVx5V86gi4ml2f1zKbU33AaFD4gFYO7c/0l4xJVodY1QBKbvzfj3Kyjd+z557mw4xcD5i9yYUN/PBfnouqntkRxhld5jCtlnr+0JhxL2wMPPr0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OCN94ZFt; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P/rHKmX3"
-Date: Fri, 16 Feb 2024 11:38:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1708101549;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ykstDffvORkHR/QBul+dunCrpEbnMsgllsNmRKwgALQ=;
-	b=P/rHKmX3j/prO7tgG2j74FOBqArykGjAD+QXCi/CNWHvRgoNUgOhhnMDCES9P7PyrRETo+
-	l/VeuBrESrdYcr+HcB7pGshKvMzuIAFjDfuOhDowTTeo3OT984nPcJzcavwvweaH8hU/1B
-	3Wof2PoerJMLJIVUnvZFOQj0zf3N6Rg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
-	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
-	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
-	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, 
-	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
-	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 21/35] mm/slab: add allocation accounting into slab
- allocation and free paths
-Message-ID: <vjtuo55tzxrezoxz54zav5oxp5djngtyftkgrj2mnimf4wqq6a@hedzv4xlrgv7>
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-22-surenb@google.com>
- <ec0f9be2-d544-45a6-b6a9-178872b27bd4@suse.cz>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OCN94ZFt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=DJeGR7MecqykZ6Yo2+icCQoR/1eFxGrSeBJy2YqSm+M=; b=OCN94ZFtA2QEKgR8FMWB0K+p5s
+	10xo3S9zwWVEv2IFIeoXxpbbNNExUy8MZRj0tu1FNV/NY7izR3/2GvWwzHS2/XsaEYF+ukqdDg3MN
+	Qv5SSGtzWgcPs7bYwCIe9KA6mt7hrHCgzJpSXdDL3JHSnKsNipkrO74wBTX2Qcf82tdNThyU5SP0l
+	1BKYP2iS076KAPaM4V7YHg+OePMJZGawKk8QNT0Gom1sxZxHCPo3qAKGoqs61M88f1QaDG+Ls4B18
+	qX1XBOg1OJc9N8wiSkxUWLBcBWp6525NUhTj8vuLe5WU416KrZa4p/zydvGXPT1JSv+uvfOBWEVB0
+	HzJd44Rw==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rb1K3-000000058zn-0K4J;
+	Fri, 16 Feb 2024 16:44:23 +0000
+Date: Fri, 16 Feb 2024 16:44:22 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Petr Tesarik <petrtesarik@huaweicloud.com>
+Cc: Dave Hansen <dave.hansen@intel.com>,
+	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	Pengfei Xu <pengfei.xu@intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Kai Huang <kai.huang@intel.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Joerg Roedel <jroedel@suse.de>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Tina Zhang <tina.zhang@intel.com>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	David Howells <dhowells@redhat.com>,
+	Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [RFC 6/8] KEYS: PGP data parser
+Message-ID: <Zc-Q5pVHjngq9lpX@casper.infradead.org>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
+ <20240216152435.1575-1-petrtesarik@huaweicloud.com>
+ <20240216152435.1575-7-petrtesarik@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,58 +75,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ec0f9be2-d544-45a6-b6a9-178872b27bd4@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240216152435.1575-7-petrtesarik@huaweicloud.com>
 
-On Fri, Feb 16, 2024 at 05:31:11PM +0100, Vlastimil Babka wrote:
-> On 2/12/24 22:39, Suren Baghdasaryan wrote:
-> > Account slab allocations using codetag reference embedded into slabobj_ext.
-> > 
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > ---
-> >  mm/slab.h | 26 ++++++++++++++++++++++++++
-> >  mm/slub.c |  5 +++++
-> >  2 files changed, 31 insertions(+)
-> > 
-> > diff --git a/mm/slab.h b/mm/slab.h
-> > index 224a4b2305fb..c4bd0d5348cb 100644
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > @@ -629,6 +629,32 @@ prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
-> >  
-> >  #endif /* CONFIG_SLAB_OBJ_EXT */
-> >  
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +
-> > +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
-> > +					void **p, int objects)
-> > +{
-> > +	struct slabobj_ext *obj_exts;
-> > +	int i;
-> > +
-> > +	obj_exts = slab_obj_exts(slab);
-> > +	if (!obj_exts)
-> > +		return;
-> > +
-> > +	for (i = 0; i < objects; i++) {
-> > +		unsigned int off = obj_to_index(s, slab, p[i]);
-> > +
-> > +		alloc_tag_sub(&obj_exts[off].ref, s->size);
-> > +	}
-> > +}
-> > +
-> > +#else
-> > +
-> > +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
-> > +					void **p, int objects) {}
-> > +
-> > +#endif /* CONFIG_MEM_ALLOC_PROFILING */
+On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
+> From: David Howells <dhowells@redhat.com>
 > 
-> You don't actually use the alloc_tagging_slab_free_hook() anywhere? I see
-> it's in the next patch, but logically should belong to this one.
+> Implement a PGP data parser for the crypto key type to use when
+> instantiating a key.
+> 
+> This parser attempts to parse the instantiation data as a PGP packet
+> sequence (RFC 4880) and if it parses okay, attempts to extract a public-key
+> algorithm key or subkey from it.
 
-I don't think it makes any sense to quibble about introducing something
-in one patch that's not used until the next patch; often times, it's
-just easier to review that way.
+I don't understand why we want to do this in-kernel instead of in
+userspace and then pass in the actual key.
+
