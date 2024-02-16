@@ -1,96 +1,94 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBC312FB1E;
-	Fri, 16 Feb 2024 17:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F9131756;
+	Fri, 16 Feb 2024 17:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708104107; cv=none; b=jgfEy9Eg+R/eQ39IOK6ll2Gu/Y8n3uwiPqEXYH1pDRA+g19OtLJvcsG7TaBwZMZ5wamL6SavRkRKJHl8XVJF10b9oqVFZeaKmlu3/5BMLi0uQRj0HiUwQwt0EjKBNkrtcog0udTGGp2RiUtPMGJ+iXuIEop12nc+DOClRcZKP/8=
+	t=1708106284; cv=none; b=jYZAN1SQ5Q0H78Tv4vhc+pnAZ/60omxJ7f8wtKtD4R3i2/21TNTp45qwmke+PjPkxaOgQpzPBMwSN8yC7joyHHqhsyT5U7U0jicqDLAQxGE+iGXIuAVgpc+U0uw1tjeO411j77BKfG3drmWja4vU33NWrWu0W8b49nf5F/tJnL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708104107; c=relaxed/simple;
-	bh=oZeRHJftRcXIPRMRWgsAE5DzyVWjn7Rzy5pxYXTYzMQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BD+Rvjlowg7ZT4ebTUfgqfmB0YhnNkvZt1McXn2XfUIhpo1DFUtSnCTd2K8bKuVLC5zrHobKGz1clKlJMdmITwds4SHajz3ogoOh3amXQifSmY1xIeRpO6bVUx6tCtnNAww3MyhreGHXPCC0VL9VJ9U34o5yK4aSCLwX+eBPvh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DmQvSnrJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1708106284; c=relaxed/simple;
+	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kn74lpXKleh49luNnAaoBQIyzFXHS0w1A5aNmo6OLq31OFUKgZ/J9sJ1f9aYxt/sA1INFj8S4Y8YDBp06mclJrMYYWO7VrUJbMq96L9pWS863U1cKPzPPq5kzoE74cf/8/Hqh1vqkCLw+9YdRV5K+pkgqg491HD30kldIqLwIdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nT6IeXcB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DmQvSnrJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8EB8F45ACA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708104104; bh=aNfLYadEKHx+SL9kFO60R4a0MD3kWy7oxdB7GLLKR10=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DmQvSnrJh8pC98E3y/Az0E7/FIQcF6lBhH6H9RYJ72Sw7vMfJz4qZf55MPy7kIieK
-	 +2969T7Uui5YWx298SOTzUX7shUTNA6c+J6E3IDoNS+P/oGTxqm4VhpH44hOzNSZWF
-	 2pwnu3URWk4Su2Oc3l0ydhl8fcwJRIao58D146eCXU+9BxRLXTOa0FRcaNJ3Rvo/8q
-	 54RhOFOjwR9bbDmm7Bk3z3mbWAKnDi/yGGkpAFkeLmmIwz0cwdD25597Jw0bHDZgbK
-	 Q2EExcyrAStd/8D6a0FF1fDYVJLKxqXzKayZ9q9CxRtHSG+dXXDDvZ0gk2gvJd5+9h
-	 fid9Y+jTaJdhg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8EB8F45ACA;
-	Fri, 16 Feb 2024 17:21:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>, Dave Hansen
- <dave.hansen@intel.com>
-Cc: Petr Tesarik <petrtesarik@huaweicloud.com>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "maintainer:X86
- ARCHITECTURE (32-BIT AND
- 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy
- Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
- Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
- Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
- <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
- <zegao2021@gmail.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, David Howells
- <dhowells@redhat.com>, Petr Tesarik <petr.tesarik1@huawei-partners.com>
-Subject: Re: [RFC 0/8] PGP key parser using SandBox Mode
-In-Reply-To: <20240216170805.0d0decd5@meshulam.tesarici.cz>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
- <20240216152435.1575-1-petrtesarik@huaweicloud.com>
- <c65eb8f1-2903-4043-a3ab-945d880043b5@intel.com>
- <20240216170805.0d0decd5@meshulam.tesarici.cz>
-Date: Fri, 16 Feb 2024 10:21:43 -0700
-Message-ID: <87y1bktjdk.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nT6IeXcB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53326C433C7;
+	Fri, 16 Feb 2024 17:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708106283;
+	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nT6IeXcB5A43SSuF9BwUjII4ilTrRHMPvyzAnUo1omQItjPLdK1yI1D9r6AZeDJjT
+	 Lwec75FjdfHRyDok4qKpynzHaY+jVireNBdMEX/3sIKAUUpmIhEG7WzhREkQiExlla
+	 CgQQTgxXPyDIS10jW64uzXwfZpoYlaicR7QgPuL2AkSdV1armgqhtJ8YVi3RmIUsAl
+	 Q2sDUO4AfPf2tDL7JF+EOIX5LDDCQbncjtrRPNNl7ClDtX9p0Tr4GtgrGyYSwu7tru
+	 dgGCbrO+S2RC7zBGm+KqHvQrvfNlefg2300BnAO27KjDWBt5rkFi4I/om5XiQtrGtZ
+	 +tSr/4cauSzEg==
+Date: Fri, 16 Feb 2024 17:57:52 +0000
+From: Will Deacon <will@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240216175752.GB2374@willie-the-truck>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
+ <20240213131210.GA28926@willie-the-truck>
+ <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> writes:
+On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
+> > >  SecPageTables
+> > > -              Memory consumed by secondary page tables, this currently
+> > > -              currently includes KVM mmu allocations on x86 and arm64.
+> > > +              Memory consumed by secondary page tables, this currently includes
+> > > +              KVM mmu and IOMMU allocations on x86 and arm64.
+> 
+> Hi Will,
+> 
+> > While I can see the value in this for IOMMU mappings managed by VFIO,
+> > doesn't this end up conflating that with the normal case of DMA domains?
+> > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> > wrong to subject that to accounting constraints.
+> 
+> The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+> is passed to the iommu mapping functions. We do that from the vfio,
+> iommufd, and vhost. Without this flag, the memory useage is reported
+> in /proc/meminfo as part of  SecPageTables field, but not constrained
+> in cgroup.
 
-> On Fri, 16 Feb 2024 07:38:30 -0800
-> Dave Hansen <dave.hansen@intel.com> wrote:
->> I'm confused by this.  The kernel doesn't (appear to) have a PGP parser
->> today.  So are you saying that it *should* have one and it's only
->> feasible if its confined in a sandbox?
->
-> I'm sorry if this is confusing. Yes, your understanding is correct.
-> This patch series demonstrates that SBM (even in the initial version
-> that was submitted) allows to write a PGP parser which can survive
-> memory safety bugs withoug compromising the rest of the kernel.
+Thanks, Pasha, that explanation makes sense. I still find it bizarre to
+include IOMMU allocations from the DMA API in SecPageTables though, and
+I worry that it will confuse people who are using that metric as a way
+to get a feeling for how much memory is being used by KVM's secondary
+page-tables. As an extreme example, having a non-zero SecPageTables count
+without KVM even compiled in is pretty bizarre.
 
-So I have a different question: some years ago we added the "usermode
-blob" feature for just this kind of use case - parsing firewall rules at
-the time.  It has never been used for that, but it's still there in
-kernel/usermode_driver.c.  Is there a reason why this existing
-functionality can't be used for tasks like PGP parsing as well?
-
-Thanks,
-
-jon
+Will
