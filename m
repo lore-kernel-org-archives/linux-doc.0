@@ -1,173 +1,119 @@
-Received: from smtp-fw-33001.amazon.com (smtp-fw-33001.amazon.com [207.171.190.10])
+Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8868C12C809;
-	Fri, 16 Feb 2024 15:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.190.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173B778B5C;
+	Fri, 16 Feb 2024 16:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708099056; cv=none; b=Fr85swdryohF9xe/7biVaAARlqkeoUkSTv5Yz5GjkEVhKOxO7V0nCZMRGBGzFFiGazUpe3Lkael8ESTuAjVWaNdLRnYYUEvn9GdTjzTTjBeFE6vRCRV/TqX7fFMVnBfC506q2sQqAb9vRyhAyrKR0Ld+mvLcvzNOHMmf4wraV8A=
+	t=1708099702; cv=none; b=k4o3vH9MjVmRIPMpwYzqpiC6BjaaBhJ0SFMVqy6NJDCVpuy0zEAjG3cFslIZrH8DAzIGW5MBECr8YG5KB6VUjQrnx0QVwgMjC8xB+Ots4BDbq9M0rPHqv9ifT6CKxn88uWMLT566Se7MTduDVBC7lVC3ntkAe5BLzn21M+EYqsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708099056; c=relaxed/simple;
-	bh=92zPtdd0rAFo21Fvita8bJaJeG+DPj1KURFAzjkg2QY=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Vt545GRyr3U7Ma/FVO5Kj9FTL4LUnjzQe5l3PsDe1tqFLzYmfuMuWw3XkOLrup3sXUPpNSykZoDPBZsuKgL3G5LJDJ9E7UxuLe4SZDBrGIGSEo1QaUDXKjzMLgmIjZ3t+TDtS0FZUjVeY6EtVCVPSskcsTWAsnZH/TY/L0Qomrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=INUCV6mq; arc=none smtp.client-ip=207.171.190.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1708099702; c=relaxed/simple;
+	bh=XZFqH1AHH+zywN7bCiDB54cVqBQHS1vAHNy2hjesWnU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W9p/1cNVC8TaQuW5Z9YNk3ERdT2mu2cUs9CIf50zmno7mPjxS3eaTHLvK5qj9Ee9+y+MdGkqBtBJWpbKfCP13d4rPzi1ky3do6EtotgJoF2fCyXQV6qXSS3NL8UBhEbT0b6NiS42kGbotHbJmxFa32qhP/jB1sb3LE1KEsNGWhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=Zcqc9q7K; arc=none smtp.client-ip=77.93.223.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="INUCV6mq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1708099055; x=1739635055;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ySlk5EP+5EPRFvPn7fKspQz+Y/lmLyPoeT8Lylq3p9Y=;
-  b=INUCV6mqjR9bApW5bPO0D8ZD37F1XaWRtO+wK3N12g+gRywP9XEtWK7q
-   ndTGY0ChLjMKu8+L1K953A1sZd20aXSOhg1LMfmMqY+yW1LdE/Wox4nkc
-   X5kIvTHlyqVnclXMUhgTxt3+hLdbhTBmhYh6uejjdrWjQlLrKrWTap/YR
-   E=;
-X-IronPort-AV: E=Sophos;i="6.06,165,1705363200"; 
-   d="scan'208";a="327444091"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-33001.sea14.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 15:57:26 +0000
-Received: from EX19MTAUEC002.ant.amazon.com [10.0.0.204:20286]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.58.150:2525] with esmtp (Farcaster)
- id 5a50e3a4-7605-4a6b-bd7b-2201142338a7; Fri, 16 Feb 2024 15:57:25 +0000 (UTC)
-X-Farcaster-Flow-ID: 5a50e3a4-7605-4a6b-bd7b-2201142338a7
-Received: from EX19D008UEA002.ant.amazon.com (10.252.134.125) by
- EX19MTAUEC002.ant.amazon.com (10.252.135.253) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 16 Feb 2024 15:57:10 +0000
-Received: from EX19MTAUEA001.ant.amazon.com (10.252.134.203) by
- EX19D008UEA002.ant.amazon.com (10.252.134.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 16 Feb 2024 15:57:09 +0000
-Received: from dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (10.15.11.255)
- by mail-relay.amazon.com (10.252.134.102) with Microsoft SMTP Server id
- 15.2.1118.40 via Frontend Transport; Fri, 16 Feb 2024 15:57:09 +0000
-Received: by dev-dsk-ptyadav-1c-37607b33.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id 4FB1420D21; Fri, 16 Feb 2024 16:57:09 +0100 (CET)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Alexander Graf <graf@amazon.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <kexec@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <x86@kernel.org>, Eric Biederman
-	<ebiederm@xmission.com>, "H . Peter Anvin" <hpa@zytor.com>, Andy Lutomirski
-	<luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Steven Rostedt
-	<rostedt@goodmis.org>, Andrew Morton <akpm@linux-foundation.org>, "Mark
- Rutland" <mark.rutland@arm.com>, Tom Lendacky <thomas.lendacky@amd.com>,
-	Ashish Kalra <ashish.kalra@amd.com>, James Gowans <jgowans@amazon.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>, <arnd@arndb.de>,
-	<pbonzini@redhat.com>, <madvenka@linux.microsoft.com>, Anthony Yznaga
-	<anthony.yznaga@oracle.com>, Usama Arif <usama.arif@bytedance.com>, "David
- Woodhouse" <dwmw@amazon.co.uk>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>
-Subject: Re: [PATCH v3 04/17] kexec: Add KHO parsing support
-In-Reply-To: <20240117144704.602-5-graf@amazon.com> (Alexander Graf's message
-	of "Wed, 17 Jan 2024 14:46:51 +0000")
-References: <20240117144704.602-1-graf@amazon.com>
-	<20240117144704.602-5-graf@amazon.com>
-Date: Fri, 16 Feb 2024 16:57:09 +0100
-Message-ID: <mafs0eddc8kru.fsf@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="Zcqc9q7K"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 5AAA51A8CE2;
+	Fri, 16 Feb 2024 17:08:07 +0100 (CET)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1708099687; bh=DKX/6lJWnQLEOT1m3g58ZZW/atm/xKbGax5uWE14zqU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Zcqc9q7KWchJwmvx0t4vSX1KyUPURQZe1OK75OB/21bUMdJEzk/HvdVz24nddVkD0
+	 CNVRqHQo7B4zrf1kvFcF4tB/aOZSV6aairJvFO88QqAjAo3zFBmlkHbsZhNXlaV3t2
+	 3BGih5r1MNlJeVPSsIhL7OwD7mgro5Ji5mLvxWoIUlSzHTjHQ65MAiJhJPwu86I/JH
+	 Y9FkETzAokazd09YWhYTQARYxGfZgBRA0iIZrGCwLBhekdPJObp8DVQRuVfWTYdf/Q
+	 rsLVpYSY13y+czJnxT7X7w7GUzCSq0Ui0Ej8FHtQilHx2Q0qlkgoAWtgp5Cr+ZX9PA
+	 N+eT8KYvOnZmw==
+Date: Fri, 16 Feb 2024 17:08:05 +0100
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Petr Tesarik <petrtesarik@huaweicloud.com>, Jonathan Corbet
+ <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, "maintainer:X86 ARCHITECTURE (32-BIT AND
+ 64-BIT)" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Andy
+ Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
+ <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
+ <rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
+ <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
+ <zegao2021@gmail.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
+ Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
+ (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
+ <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, David Howells
+ <dhowells@redhat.com>, Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [RFC 0/8] PGP key parser using SandBox Mode
+Message-ID: <20240216170805.0d0decd5@meshulam.tesarici.cz>
+In-Reply-To: <c65eb8f1-2903-4043-a3ab-945d880043b5@intel.com>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
+	<20240216152435.1575-1-petrtesarik@huaweicloud.com>
+	<c65eb8f1-2903-4043-a3ab-945d880043b5@intel.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Fri, 16 Feb 2024 07:38:30 -0800
+Dave Hansen <dave.hansen@intel.com> wrote:
 
-On Wed, Jan 17 2024, Alexander Graf wrote:
+> On 2/16/24 07:24, Petr Tesarik wrote:
+> > While I started working on my development branch to illustrate how
+> > SandBox Mode could be enhanced to allow dynamic memory allocation and
+> > other features necessary to convert some existing code, my colleague
+> > Roberto Sassu set out and adapted a PGP key parser to run in a sandbox.
+> > 
+> > Disclaimer:
+> > 
+> > The code had to be rearranged in order to avoid memory allocations
+> > and crypto operations in the sandbox. The code might contain errors.  
+> 
+> I'm confused by this.  The kernel doesn't (appear to) have a PGP parser
+> today.  So are you saying that it *should* have one and it's only
+> feasible if its confined in a sandbox?
 
-> When we have a KHO kexec, we get a device tree, mem cache and scratch
-> region to populate the state of the system. Provide helper functions
-> that allow architecture code to easily handle memory reservations based
-> on them and give device drivers visibility into the KHO DT and memory
-> reservations so they can recover their own state.
->
-> Signed-off-by: Alexander Graf <graf@amazon.com>
->
-> ---
->
-[...]
-> +/**
-> + * kho_return_mem - Notify the kernel that initially reserved memory is no
-> + * longer needed. When the last consumer of a page returns their mem, kho
-> + * returns the page to the buddy allocator as free page.
-> + */
-> +void kho_return_mem(const struct kho_mem *mem)
-> +{
-> +	uint64_t start_pfn, end_pfn, pfn;
-> +
-> +	start_pfn = PFN_DOWN(mem->addr);
-> +	end_pfn = PFN_UP(mem->addr + mem->len);
-> +
-> +	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-> +		kho_return_pfn(pfn);
-> +}
-> +EXPORT_SYMBOL_GPL(kho_return_mem);
-> +
-> +static void kho_claim_pfn(ulong pfn)
-> +{
-> +	struct page *page = pfn_to_page(pfn);
-> +
-> +	WARN_ON(!page);
-> +	if (WARN_ON(page_count(page) != 1))
-> +		pr_err("Claimed non kho pfn %lx", pfn);
+I'm sorry if this is confusing. Yes, your understanding is correct.
+This patch series demonstrates that SBM (even in the initial version
+that was submitted) allows to write a PGP parser which can survive
+memory safety bugs withoug compromising the rest of the kernel.
 
-You do sanity checks but then never actually change anything on the
-page. kho_claim_mem()'s documentation says: "This function removes the
-reserved state for all pages that the mem spans". So this function
-should at the very least call ClearPageReserved().
+> A much more powerful example would be to take something that the kernel
+> has already and put it in a sandbox.  That would show us how difficult
+> it is to sandbox something versus just doing it _normally_ in the kernel.
 
-Also, checking the page count is a very rough heuristic. There can be
-other non-KHO pages with page count == 1. Do you think it would make
-more sense to use one of the private pageflags bits to mark a page
-KHO-owned? If not, shouldn't you at least also check if the page is
-reserved?
+That's what I have also tested as a PoC with an earlier version of my
+patch series and a few quick hacks on top. As it happens, that code
+on top needs to be adapted for the current patch series, so I cannot
+post it just yet. Please, stay tuned.
 
-> +}
-> +
-> +/**
-> + * kho_claim_mem - Notify the kernel that a handed over memory range is now in
-> + * use by a kernel subsystem and considered an allocated page. This function
-> + * removes the reserved state for all pages that the mem spans.
-> + */
-> +void *kho_claim_mem(const struct kho_mem *mem)
-> +{
-> +	u64 start_pfn, end_pfn, pfn;
-> +	void *va = __va(mem->addr);
-> +
-> +	start_pfn = PFN_DOWN(mem->addr);
-> +	end_pfn = PFN_UP(mem->addr + mem->len);
-> +
-> +	for (pfn = start_pfn; pfn < end_pfn; pfn++)
-> +		kho_claim_pfn(pfn);
-> +
-> +	return va;
-> +}
-> +EXPORT_SYMBOL_GPL(kho_claim_mem);
-> +
-[...]
+> As it stands, I fear this was just the largest chunk of sandbox code
+> that was laying around and it seemed like a good idea to just chuck
+> ~1400 lines of code over the wall at a huge cc list.
 
---
-Regards,
-Pratyush Yadav
+You asked for some real-world scenarios, and this should be one.
+Another is on the way, but see above why it takes a bit of time.
 
+I am not trying to claim I'm the smartest person on this planet. I can
+accept it if there is a fundamental flaw in my approach. Yet, I'd be
+glad if somebody can make me a favor and at least hint at what exactly
+is the issue with it. I have to admit this thing is still not quite
+clear to me. I would be sad if I couldn't learn from this experience.
 
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+Petr T
