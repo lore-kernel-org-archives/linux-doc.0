@@ -1,116 +1,154 @@
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278B1130E2B;
-	Fri, 16 Feb 2024 16:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120D01E86B;
+	Fri, 16 Feb 2024 16:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708102418; cv=none; b=Zu66BY4xl0rrT5AM5zvXzgV7AaSl5PsOWcjTaysncTvoxJqGEGgTqeUlpF1aCtpSNs6hd3lBssdIMCmF/6BI1xAyR77krJAAU3oZIn0WYtE3haUlNRX0mmhtpS1U1R6Mb8naeK2ywL/UHbcoXW5aBa9Hvh8MKcT53nxflJPJz9Y=
+	t=1708102718; cv=none; b=PmciqTp8c2cE2Hm9GXy7L1kw1pNYZ1+TasQIJDeVwnsXjHzK6FdydXSP/Hyw0ZYRqyjA+Kb7aysBg9IIV37EcliFFpHQA4MP0emXOvF6TiaT43H1Q0u7mJvuUoY0D3pumzpaEJpRwbRZtw2PamTH6y06x0d63Xc8Sz/QeVuNaXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708102418; c=relaxed/simple;
-	bh=p+T7UhwuH1nBkWMxDYvNjDDJXqUPMgBVuhPNeXJWCME=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=E4cSg50v4hHWe+NZ5SU1PO5Fuwf21hmGRdlM3m+0mk9wbfiMVsDZOalk5XFMVPI6dTzZRBMEuHGbJu9OuXp8C07xbKWCzYEqtIk0KFngCggoXUeWsErwJk0LWSewjs+91PGnANQMr7HFvI/zqjhSLCXQuby1kBoBiqc52XsXGE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4TbyKh0XDHz9xFH8;
-	Sat, 17 Feb 2024 00:38:16 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id ECBB614059D;
-	Sat, 17 Feb 2024 00:53:22 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwCX0SXwks9lALGbAg--.29869S2;
-	Fri, 16 Feb 2024 17:53:22 +0100 (CET)
-Message-ID: <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com>
-Subject: Re: [RFC 6/8] KEYS: PGP data parser
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Matthew Wilcox <willy@infradead.org>, Petr Tesarik
-	 <petrtesarik@huaweicloud.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Petr =?UTF-8?Q?Tesa=C5=99=C3=ADk?=
- <petr@tesarici.cz>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "maintainer:X86
- ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, "H. Peter Anvin"
- <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Xin Li
- <xin3.li@intel.com>, Arnd Bergmann <arnd@arndb.de>,  Andrew Morton
- <akpm@linux-foundation.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Kees Cook <keescook@chromium.org>, "Masami Hiramatsu (Google)"
- <mhiramat@kernel.org>,  Pengfei Xu <pengfei.xu@intel.com>, Josh Poimboeuf
- <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,  "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>,  Brian Gerst <brgerst@gmail.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- David Howells <dhowells@redhat.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Date: Fri, 16 Feb 2024 17:53:01 +0100
-In-Reply-To: <Zc-Q5pVHjngq9lpX@casper.infradead.org>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
-	 <20240216152435.1575-1-petrtesarik@huaweicloud.com>
-	 <20240216152435.1575-7-petrtesarik@huaweicloud.com>
-	 <Zc-Q5pVHjngq9lpX@casper.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1708102718; c=relaxed/simple;
+	bh=5+/OALfWeGla2oIoNvZlD1Lmsrn4u5yZITZBsot76aM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qu+c8uCJECK/YzQ+Lszph31NoPCUXyyIO88Ti+S6mPdJR9eYVzW93Jy3IGnC6aGWpKcyObZ9pb6PtHyeDQG3RGL1T8pZzjWoEfTKDyg5Bn20EucRsZopRpJd3rKpCYSamPhdfqd6PDLmASSOGW81RX6hi5C81sBAcjsNEXZ7iFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S7vq49DO; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7vq49DO"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6080a19ea1cso1355687b3.1;
+        Fri, 16 Feb 2024 08:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708102716; x=1708707516; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8H6TMdxbH3gjPcLATt0FrG9vNldFLghzgP5wmvBiIh8=;
+        b=S7vq49DOS9MmNmCsn09F0Nbb9mPTtadpeu0vFbwDsMZY+qhWKS5E4ZyXHuXB91jCuZ
+         bKdSdZzqG65Q57GrFeODpbt6iyew31V4IQKIDaPvzdC0KqrNTRylXgKVLVIFliewHi1m
+         aoYeySrHDzTqddhHbMYetqb8wc+MPNWQTL3WIGJa4tmY32LCAHIpdr7qkTo4cxvsZg7F
+         6RRN17jSdaQQ2haRTPtMz5uSsIYRkrcqlzuNe4cXVXi0aKB5weH0adMMc6l2ctOH48KO
+         /f4HnSHmr21RrlyE3CSgUz1RpTQcrIv39KV9hAgfRF4UJaxuHgAla7mmqgIJU3LJZt1C
+         KIXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708102716; x=1708707516;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8H6TMdxbH3gjPcLATt0FrG9vNldFLghzgP5wmvBiIh8=;
+        b=tT0rnBFBp1amTQSDdudu5WGfCIO5Si3rP2tOAoAAIZvh5TrPB/hXImkY3lS9Cxfnta
+         0jB1hbvjed1NZWIWQCDEuc9qOLkr7+ww3lmhTAH6moQSF2NzOe7FEc8MlBSZQYwh9qrh
+         6fKgXM2wdcGRxLuJM8FiZK7vwpZA8koODUHlo9yTA9Vc2lgzZFitg39dWps2ehAgx2/r
+         rGhlxn7/3rQUYO9UBalDHU1TZOM6sHbN9mEoHtpQ5nCJz0fDFVZtSFFNvL3kqejmpCvO
+         8sED0qcp96KCn1qTiU6UfX3DDSQFppo9ODUiw1SIdxIUP2nE73tg3C6xDNBynnpjz4J1
+         ISIw==
+X-Forwarded-Encrypted: i=1; AJvYcCULHm/mVBH7i+JAMwcfTp27/8f1hvjIXh3n2wvwo5/kuIwSoF7hAVP1AYwCEz6BMVxx7RE9AELvLl7hVdsFBdawy2oppnjTCpJPScD4pRwMJLLudl8EWcmDk7T/aqOgDnv80J85S5FTZflbC3zrQ/l6p4Mqnz8VfGuqQl+SfQ8rx+IdGVNymi8He/XJz1f2xiv6wjRgSL/tYNwhpVNoHMJECboujLs=
+X-Gm-Message-State: AOJu0YxeS4lVEfO2Jyktx+8qWfzkx95jXgak1HiincdxTakMoyOqbYip
+	+sy/sgxvCYP4DjKa01VlPAi7Q+jh9CRQ6E1CKfHmGTYqs5zhYpTM
+X-Google-Smtp-Source: AGHT+IHsZLlv0bnvl1IPIWJwHKXapZEQIGK/QbfI4G4e+bag5U0aBYv91MatrSQU/R1DWMpQB2G3Bg==
+X-Received: by 2002:a81:6cc1:0:b0:607:d048:bd23 with SMTP id h184-20020a816cc1000000b00607d048bd23mr5474345ywc.20.1708102715908;
+        Fri, 16 Feb 2024 08:58:35 -0800 (PST)
+Received: from ?IPV6:2600:1700:6cf8:1240:6477:3a7d:9823:f253? ([2600:1700:6cf8:1240:6477:3a7d:9823:f253])
+        by smtp.gmail.com with ESMTPSA id n1-20020a819e41000000b00604d60609d9sm400781ywj.121.2024.02.16.08.58.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Feb 2024 08:58:35 -0800 (PST)
+Message-ID: <51b1ae50-161f-435e-afe0-6d11f2cfbfc6@gmail.com>
+Date: Fri, 16 Feb 2024 08:58:33 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwCX0SXwks9lALGbAg--.29869S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruw45Cr4kJF4ruF4rZFWkWFg_yoWDtFg_ZF
-	WIqw4qkw4DGrZ3u3W29Fs3XFZ3KFWUA34UJw1UWFZFyr93JF93JFZ3Ww1rZ3Z3GayIyrnr
-	G3s5Xr95tw129jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbx8FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJV
-	W0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUd8n
-	5UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAPBF1jj5ZtzAABsO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+Content-Language: en-US
+To: Benjamin Tissoires <bentiss@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+From: Kui-Feng Lee <sinquersw@gmail.com>
+In-Reply-To: <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
-> On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
-> > From: David Howells <dhowells@redhat.com>
-> >=20
-> > Implement a PGP data parser for the crypto key type to use when
-> > instantiating a key.
-> >=20
-> > This parser attempts to parse the instantiation data as a PGP packet
-> > sequence (RFC 4880) and if it parses okay, attempts to extract a public=
--key
-> > algorithm key or subkey from it.
->=20
-> I don't understand why we want to do this in-kernel instead of in
-> userspace and then pass in the actual key.
 
-Sigh, this is a long discussion.
 
-PGP keys would be used as a system-wide trust anchor to verify RPM
-package headers, which already contain file digests that can be used as
-reference values for kernel-enforced integrity appraisal.
+On 2/14/24 09:18, Benjamin Tissoires wrote:
+> +static void bpf_timer_work_cb(struct work_struct *work)
+> +{
+> + struct bpf_hrtimer *t = container_of(work, struct bpf_hrtimer, work);
+> + struct bpf_map *map = t->map;
+> + void *value = t->value;
+> + bpf_callback_t callback_fn;
+> + void *key;
+> + u32 idx;
+> +
+> + BTF_TYPE_EMIT(struct bpf_timer);
+> +
+> + rcu_read_lock();
+> + callback_fn = rcu_dereference(t->sleepable_cb_fn);
+> + rcu_read_unlock();
+> + if (!callback_fn)
+> + return;
+> +
+> + /* FIXME: do we need any locking? */
+> + if (map->map_type == BPF_MAP_TYPE_ARRAY) {
+> + struct bpf_array *array = container_of(map, struct bpf_array, map);
+> +
+> + /* compute the key */
+> + idx = ((char *)value - array->value) / array->elem_size;
+> + key = &idx;
+> + } else { /* hash or lru */
+> + key = value - round_up(map->key_size, 8);
+> + }
+> +
+> + /* FIXME: this crashes the system with
+> + * BUG: kernel NULL pointer dereference, address: 000000000000000b
+> + */
+> + /* callback_fn((u64)(long)map, (u64)(long)key, (u64)(long)value, 0, 0); */
+> + /* The verifier checked that return value is zero. */
+> +}
+> +
+>   static DEFINE_PER_CPU(struct bpf_hrtimer *, hrtimer_running);
+>   
+>   static enum hrtimer_restart bpf_timer_cb(struct hrtimer *hrtimer)
+>   {
+>   	struct bpf_hrtimer *t = container_of(hrtimer, struct bpf_hrtimer, timer);
+> + bpf_callback_t callback_fn, sleepable_cb_fn;
+>   	struct bpf_map *map = t->map;
+>   	void *value = t->value;
+> - bpf_callback_t callback_fn;
+>   	void *key;
+>   	u32 idx;
+>   
+>   	BTF_TYPE_EMIT(struct bpf_timer);
+> + sleepable_cb_fn = rcu_dereference_check(t->sleepable_cb_fn, 
+> rcu_read_lock_bh_held());
+> + if (sleepable_cb_fn) {
+> + schedule_work(&t->work);
+It seems nothing to stop the timer from being free here, right?
 
-With the assumptions that:
+You should have a way to make sure the timer & programs here is
+still alive when the work is running. For example, it can be flags
+to indicate the work is scheduled to prevent the timer from releasing,
+and indicate the timer should be free when returning from the callback.
 
-- In a locked-down system the kernel has more privileges than root
-- The kernel cannot offload this task to an user space process due to
-  insufficient isolation
-
-the only available option is to do it in the kernel (that is what I got
-as suggestion).
-
-Roberto
-
+> + goto out;
+> + }
+> +
+>   	callback_fn = rcu_dereference_check(t->callback_fn, rcu_read_lock_bh_held());
+>   	if (!callback_fn)
