@@ -1,134 +1,110 @@
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F350F130E2F;
-	Fri, 16 Feb 2024 17:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C7C130E44
+	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 17:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708103677; cv=none; b=GHKxYsDTqg/Y1r3r7i5ijqa7hi6VhGWg1q6ugIlsmoU1i2wrMV+R1AhVhHaXD6GcQzOJm8upEqQmhlBvgihJvXy+lC3quqTID5FqOTY8nCt+JOjNPdnnaCFPTiSLB8csUK3Ab5+k8HPf2wDuuwQV3Q7OLdUaNM7iHSct6Ko+AxM=
+	t=1708103928; cv=none; b=HV5uAMAFO3emmdvMT41psJfR6//WnvrM3gqDpdjnFbstGl4AJk+PcqSbvD25h3RLJ5gTA5YcNMOVowf33kPxMW9S4GGUobe66195hqXzmq7ywOeCxqJl0czJaPfbUoNtHQCVqvgaqQg5oAYgh2+DMjGKja9wdm8SK4I75Ef77ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708103677; c=relaxed/simple;
-	bh=rmDRwiwblhwvtwuvm75M2GVP+g+7jtMynVV9YVddlKM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=E4YLo7lEewiCekvrjejuRDnIOrtTb12/9ei0KmALZ8n35/4qXGr/pMRQ4x48ZjvO0XC/MgE6T9urQmFONUmw39AixzG35+aOKnkgBRl+fpW6CTt2zykwRN0UspL1QmaXy2qNwm+ASBiKNMzwQdeE/bOpVZrhbkX++62Y4rp5lz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4Tbynt0GgWz9yLtP;
-	Sat, 17 Feb 2024 00:59:14 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id ECDE91407B0;
-	Sat, 17 Feb 2024 01:14:20 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwA3Lxjal89lNL2hAg--.6264S2;
-	Fri, 16 Feb 2024 18:14:20 +0100 (CET)
-Message-ID: <c6d0c04a979e05b85acd55d574d56f368c7aa95e.camel@huaweicloud.com>
-Subject: Re: [RFC 6/8] KEYS: PGP data parser
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: "H. Peter Anvin" <hpa@zytor.com>, Matthew Wilcox <willy@infradead.org>, 
-	Petr Tesarik <petrtesarik@huaweicloud.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Petr =?UTF-8?Q?Tesa=C5=99=C3=ADk?=
- <petr@tesarici.cz>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "maintainer:X86
- ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Andy Lutomirski
- <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
- <arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
- <rick.p.edgecombe@intel.com>,  Kees Cook <keescook@chromium.org>, "Masami
- Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu
- <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao
- <zegao2021@gmail.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>,  Kai Huang <kai.huang@intel.com>, David
- Woodhouse <dwmw@amazon.co.uk>, Brian Gerst <brgerst@gmail.com>,  Jason
- Gunthorpe <jgg@ziepe.ca>, Joerg Roedel <jroedel@suse.de>, "Mike Rapoport
- (IBM)" <rppt@kernel.org>, Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- David Howells <dhowells@redhat.com>, Petr Tesarik
- <petr.tesarik1@huawei-partners.com>
-Date: Fri, 16 Feb 2024 18:13:58 +0100
-In-Reply-To: <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
-	 <20240216152435.1575-1-petrtesarik@huaweicloud.com>
-	 <20240216152435.1575-7-petrtesarik@huaweicloud.com>
-	 <Zc-Q5pVHjngq9lpX@casper.infradead.org>
-	 <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com>
-	 <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1708103928; c=relaxed/simple;
+	bh=2eKrnC6xOIWZ1NTwD/IJazyXMwCp/t3u/M4Pc8vdQNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gsnFcZG82DqJxgncC53hOIdJ2uynsg2bgb5B6e2DeC7n/oaUSBvqhj0m9C/UjfTDZjwgzWGZkFQ0E/rfYN8OPqQ6sSEU80xqD7llMgRTgOdN1mpoX36xRa0DomqOCm5P6Th4Fzq8D1NE980rfpRnnxAJB4NPLi77otFWnrrx7MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=bQxTPOn9; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="bQxTPOn9"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-42c758f075dso27988621cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 09:18:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708103925; x=1708708725; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttXNwKWugMJyygslP182txVVK8JBh5UVtMFEymJTCI0=;
+        b=bQxTPOn9WTXLnpyhxDEsmtOgQUNtA+cfA8a1UJ/SnidZ4cNowB3IzH91BFmbR8yVVX
+         n5w9F5nCodKqFu4cv6Uo1TVdfDutrblXDoFJCBkpZNdgpsd3jAvxKQvocFs73FqfCfnZ
+         Ty8VcdWL0UVMUiz/dwFRCwY4UMecgApLg+pC9V7lKjQCnK/TDEMitZ+rOeF6cfrnwUTN
+         LvwR1PIp8T9BlpxILOqJFiRfZN2sNWNAIXHBG51pGvUgQ4AI+Dmqk3zSvYQ5y0/2lE1r
+         bNuROBCX77VZOrM68PUxyOF9LjQHmtZ0WcLMbANRzuWCLmEccyY6XJidFLSGtG0TnzLC
+         MGGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708103925; x=1708708725;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ttXNwKWugMJyygslP182txVVK8JBh5UVtMFEymJTCI0=;
+        b=C7imHP5DgIFdSNKDdxm74MVOefja9VF1FgyyX93fKCI7OZsmVrTMsrjrufj1+WP4+r
+         fk8OW6a3w6OHdNlOnYEHG8jbUS3l/OijiWMvgeuVzL7HXZO+39jCEnH24JWd4p5i5hHx
+         +Z6xRGmyi9mefP/bJ870inP0lCxIbIdCMTP3nLTB0o03nkZ6iX7DecsC5cEGaMJ/FHdO
+         3PWI8UqWJrIPP6ejbcV+LRVK+YlMSAq5KQno71KbjEnFEhvojEOjL1nh6Li0uysddv8G
+         orlK6uYbZcpRIPt3+ZQl9nxP6+ZCslCd8/jzsysWet9/Dtl+Z87143jOTT3vXMivyOvS
+         NgBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCPO7FbxfU8kH43SUNgTxMG0LVQtMaDmbv1m1Wlb+2jN8lJA4T6IVQU25lHxIlfcquWga1EbUqN9vhDe4j9i/84BBxkLUtw+cN
+X-Gm-Message-State: AOJu0YxqFbLcJ+6lYLPBXKBZjbLrXoJs02ZGgX+8oPEbbczKnoQ+rerf
+	MVXaL2rsZ4mso4nCpGgn35LJkD4lAic6FWpJH81dBOWWRYgAgha542ZhENXLr61SobEA5e2D/Cl
+	fChbgLBo+yHnrrlY9iCWDh9TYewhawkgaP2lK1g==
+X-Google-Smtp-Source: AGHT+IGK94jPimX8q7FvTT5r2WHXeqQfvdyDWPQi6YyK2aTQJC/GbkrY2OBKc6aAMFaGl9yMXVM9CDJXDWJJ3i4OZS8=
+X-Received: by 2002:a05:622a:130d:b0:42c:7b12:70bd with SMTP id
+ v13-20020a05622a130d00b0042c7b1270bdmr14455790qtk.9.1708103925488; Fri, 16
+ Feb 2024 09:18:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwA3Lxjal89lNL2hAg--.6264S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFyUtw45JF1xArWDGF18AFb_yoW8XF4Dpr
-	yxGa48tF4vqr4Fvr4qyw1fu34Svw4fJr1DXrn8JrWFyFn09r1akr1Ikr45WF9Fgr4xG3W2
-	yw4qgryagw1UAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
-	0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0J
-	Ud8n5UUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAPBF1jj5pt9QABs4
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-14-surenb@google.com>
+ <20240215165438.cd4f849b291c9689a19ba505@linux-foundation.org>
+ <wdj72247rptlp4g7dzpvgrt3aupbvinskx3abxnhrxh32bmxvt@pm3d3k6rn7pm>
+ <CA+CK2bBod-1FtrWQH89OUhf0QMvTar1btTsE0wfROwiCumA8tg@mail.gmail.com>
+ <iqynyf7tiei5xgpxiifzsnj4z6gpazujrisdsrjagt2c6agdfd@th3rlagul4nn> <CAJuCfpHxaCQ_sy0u88EcdkgsV-GX3AbhCaiaRW-DWYFvZK1=Ew@mail.gmail.com>
+In-Reply-To: <CAJuCfpHxaCQ_sy0u88EcdkgsV-GX3AbhCaiaRW-DWYFvZK1=Ew@mail.gmail.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Fri, 16 Feb 2024 12:18:09 -0500
+Message-ID: <CA+CK2bCsW34RQtKhrp=1=3opMcfB=NSsLTnpwSejkULvo7CbTw@mail.gmail.com>
+Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
+ allocation profiling
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
+	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 2024-02-16 at 09:08 -0800, H. Peter Anvin wrote:
-> On February 16, 2024 8:53:01 AM PST, Roberto Sassu <roberto.sassu@huaweic=
-loud.com> wrote:
-> > On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
-> > > On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
-> > > > From: David Howells <dhowells@redhat.com>
-> > > >=20
-> > > > Implement a PGP data parser for the crypto key type to use when
-> > > > instantiating a key.
-> > > >=20
-> > > > This parser attempts to parse the instantiation data as a PGP packe=
-t
-> > > > sequence (RFC 4880) and if it parses okay, attempts to extract a pu=
-blic-key
-> > > > algorithm key or subkey from it.
-> > >=20
-> > > I don't understand why we want to do this in-kernel instead of in
-> > > userspace and then pass in the actual key.
-> >=20
-> > Sigh, this is a long discussion.
-> >=20
-> > PGP keys would be used as a system-wide trust anchor to verify RPM
-> > package headers, which already contain file digests that can be used as
-> > reference values for kernel-enforced integrity appraisal.
-> >=20
-> > With the assumptions that:
-> >=20
-> > - In a locked-down system the kernel has more privileges than root
-> > - The kernel cannot offload this task to an user space process due to
-> >  insufficient isolation
-> >=20
-> > the only available option is to do it in the kernel (that is what I got
-> > as suggestion).
-> >=20
-> > Roberto
-> >=20
-> >=20
->=20
-> Ok, at least one of those assumptions is false, and *definitely* this app=
-roach seems to be a solution in search of a problem.
+> > Personally, I hate trying to count long strings digits by eyeball...
+>
+> Maybe something like this work for everyone then?:
+>
+> 160432128 (153MiB)     mm/slub.c:1826 module:slub func:alloc_slab_page
 
-I'm looking for a solution to this for a long time. Could you please
-explain?
+That would be even harder to parse.
 
-Thanks
+This one liner should converts bytes to human readable size:
+sort -rn /proc/allocinfo | numfmt --to=iec
 
-Roberto
+Also, a "alloctop" script that would auto-update the current top
+allocators would be useful to put in tools/mm/
 
+Pasha
