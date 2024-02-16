@@ -1,183 +1,118 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94397130E27
-	for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 17:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CFF12BF07;
+	Fri, 16 Feb 2024 17:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708103063; cv=none; b=sTxaIRwWzBeQH5QAwKE+WX+kKMh9N1HQq7rcttYjRNutILqaFhzXN82PKfatW4KXUjeAJCeuJtEo3dfnsC1It4DGrNY3jAwyopEHgH4mGnrqCkZzp+rVgTFaOsKQmwJd4uFW3YToXrZCHh9uKG1V8/7HEVo+1poP72w4YLW3WbQ=
+	t=1708103387; cv=none; b=ayd1u/CFbkOkjHy3RrIxgn4E5dZhwvDhpQOs2PfGoWtoh7IeeQB0Hht/ez1bm3V0rKYk8D0iZrgWAzzsH1GXtnqqBVslsyYLrN5YYtKl92WGOGvbt9BTAIh622+2FRc/9mM2yS2d20QwsR7pL+m+PWRE/gLfal9gSyQOfvmCIYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708103063; c=relaxed/simple;
-	bh=3a7FMORiulYeKmE84zKi/piBb+dkvwU96kx/uVbaQFg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vo71jfa0M04voWckAlHdO4M7xHXDTsmLArewspkawvKYSZFDfSFQ/RVLPDIQU2bK3D0l3OKyvE1+P+10wRZQ35xvsWjXr1vEo+tqRRi4EZnDejwJIA7Xb98GUKpsc5jI53oZqgfZKYoBJd7mQglaSfKxmxhBBukYynyTL8E0B1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qdH7rwIE; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1708103387; c=relaxed/simple;
+	bh=eHCvsvK7FzSYW+2FVZi4jYh9j3AL+F2oTzbeXUur3NY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=KQemAojXEZKFP2DQQSEf0l+WvtTESC9Q936wxiIi+o3Iw/PxCAf3JiANyMI3fEqfi5zlY4rNVEyW+UclEEgEPinzNLcIKbk9udjI5FTjbbcuaiSgbMKSGZ8IVAn9WVQq5gTX/pZ3Mf8X+qMm6ZDXQ59SAleEVJQjAhLG+5xeOuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=S/cM9C8s; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qdH7rwIE"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so2344699276.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 09:04:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708103060; x=1708707860; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AONf6Rwt70Y/InxvAsZm9qasH+QAXmnPb6exgsQbAn0=;
-        b=qdH7rwIEutJjohj3+iLQ+MrYMO2JOxTZXt6DXmZHUv4X0WOsHTSDV2pY0udsMdTxtd
-         fofwGxmK4la2Ejmxb14rS2/69OpBaCCYH3oE6YLgqnyflnOj7KwxVInQOUlWoyZNCw6F
-         UtxWHzIoJjDI5gsC5hm7OT61vrKzYu3SvSEcYgPVQOj1ixFQKtyoHh69I2vb7X89nQPC
-         fy49PYaHmgz/BIyi9V2/HaaQPH+gvUWs8wvQODnJ/1Ggx9UG5p0dWyX3Qoj13/abE4KN
-         XZCU5DSADi8rvmwmeeZiyGwGVKBtS5q7JvcvcDqanvdlGVWhPMEzpmPo8p0b43EMG9E+
-         v37g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708103060; x=1708707860;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AONf6Rwt70Y/InxvAsZm9qasH+QAXmnPb6exgsQbAn0=;
-        b=EIayjyqjr0xXz5wW0Th9paM1zanXDiCyFZ+6JF4kKwQYt7q12MqiwgU5+ipDSLlX0F
-         HIx9yP8+TPJd3TxIkt94U6HtdnoUKy4mda7N51qNfMLPdAV+4vh7ZbhcUDB+YaP56/zL
-         oFgaPfO94UY2NYUIh+z3r4nss60KhGuGJbFNNdMTv0nmo7J7jwMMMJWWRi/uNUaoj4wW
-         gT+qtKq1uRJl1BSi/qRn7K4Wh3jCMsWS0oL/JkZHqFM+iNM8Rxxhe+Tbu7CFbLXtxlnc
-         4IWHJttUN032hSpq7xZ/FL+0swyHaZgO56bQJr5RoWdCcFXt7GcPhB6v+VG2whpE2GeO
-         QaOA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJnrZOzAOlrUEkNRFnm4Daq2hSN6yDmUjfaBpYSckEC4xBfRp8cAfTTZ2wBazP6AC8y71lI4hb0wJwuDN/FbzULwyTcw2rlB1d
-X-Gm-Message-State: AOJu0YxNzu7dltMe1tmBua6VoiPjLn7RLwvD10SsWuL42A7FutSXRs3V
-	yivCGzIWJCQVvby4U4UOPIrMKg930xh0ricrAlsIWpYz0bEohaMrZ1C8p1IZtgphAK8S/RI03ve
-	+P5EfPqOHc8FVmPuvk0//VdBBPGeQfCGWoREB
-X-Google-Smtp-Source: AGHT+IFKsCqKFJOqQT8bKrODn1/sGXg8SwbGnvmT7NLpaIG7hZMAXzI7k8uueS2KJuQc/CnCvGizvtw3FBEC6oUeP1g=
-X-Received: by 2002:a81:71d6:0:b0:604:a75:4274 with SMTP id
- m205-20020a8171d6000000b006040a754274mr4969437ywc.51.1708103060160; Fri, 16
- Feb 2024 09:04:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="S/cM9C8s"
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 41GH8CxZ2177841
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 16 Feb 2024 09:08:13 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 41GH8CxZ2177841
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024021201; t=1708103295;
+	bh=yE41dwzByXf5KF23clNh/IHW7SK625SXni353rbEmD4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=S/cM9C8syGe2Gd1h7OZtWYEh86Htb1CAw+qb17ipbI17JAYuVgsA8u2DTTv/rAvEg
+	 Hh3YNClUsDhVj/OpgIJCurvaZEZJsRy6YeLUEcQYyLufeGrtYAgkm726jqbutPEOPk
+	 7GJD+X5wbOD3TJeqJ8tH9cQixad1uN/kyfxDYNUTLk+BD77p+xEg+u3g0qyH8DtIcn
+	 AitqPQz9BL0FEaYCQQ5McbLSUydiErVHqy5yaqmSPpnuaEOvWo55Qiqr0Ax1C1rRgj
+	 9uMyJnSY7Ysel8VBdKp8JW9V+0Q6R5IhJDKMNn4ddndgudhXvZ8APOJ+O6+2LBuCdz
+	 vrndxYarlkWRA==
+Date: Fri, 16 Feb 2024 09:08:09 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>
+CC: Dave Hansen <dave.hansen@intel.com>,
+        =?UTF-8?Q?Petr_Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>,
+        Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Joerg Roedel <jroedel@suse.de>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Tina Zhang <tina.zhang@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Petr Tesarik <petr.tesarik1@huawei-partners.com>
+Subject: Re: [RFC 6/8] KEYS: PGP data parser
+User-Agent: K-9 Mail for Android
+In-Reply-To: <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com> <20240216152435.1575-1-petrtesarik@huaweicloud.com> <20240216152435.1575-7-petrtesarik@huaweicloud.com> <Zc-Q5pVHjngq9lpX@casper.infradead.org> <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com>
+Message-ID: <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-21-surenb@google.com>
- <e845a3ee-e6c0-47dd-81e9-ae0fb08886d1@suse.cz>
-In-Reply-To: <e845a3ee-e6c0-47dd-81e9-ae0fb08886d1@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 16 Feb 2024 09:04:06 -0800
-Message-ID: <CAJuCfpGrVM6DieUZPAoxNNx2zfR9cWeC1-7NboatGEQ4qPbckw@mail.gmail.com>
-Subject: Re: [PATCH v3 20/35] lib: add codetag reference into slabobj_ext
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 16, 2024 at 7:36=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+On February 16, 2024 8:53:01 AM PST, Roberto Sassu <roberto=2Esassu@huaweic=
+loud=2Ecom> wrote:
+>On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
+>> On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
+>> > From: David Howells <dhowells@redhat=2Ecom>
+>> >=20
+>> > Implement a PGP data parser for the crypto key type to use when
+>> > instantiating a key=2E
+>> >=20
+>> > This parser attempts to parse the instantiation data as a PGP packet
+>> > sequence (RFC 4880) and if it parses okay, attempts to extract a publ=
+ic-key
+>> > algorithm key or subkey from it=2E
+>>=20
+>> I don't understand why we want to do this in-kernel instead of in
+>> userspace and then pass in the actual key=2E
 >
-> On 2/12/24 22:39, Suren Baghdasaryan wrote:
-> > To store code tag for every slab object, a codetag reference is embedde=
-d
-> > into slabobj_ext when CONFIG_MEM_ALLOC_PROFILING=3Dy.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > ---
-> >  include/linux/memcontrol.h | 5 +++++
-> >  lib/Kconfig.debug          | 1 +
-> >  mm/slab.h                  | 4 ++++
-> >  3 files changed, 10 insertions(+)
-> >
-> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> > index f3584e98b640..2b010316016c 100644
-> > --- a/include/linux/memcontrol.h
-> > +++ b/include/linux/memcontrol.h
-> > @@ -1653,7 +1653,12 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_d=
-ata_t *pgdat, int order,
-> >   * if MEMCG_DATA_OBJEXTS is set.
-> >   */
-> >  struct slabobj_ext {
-> > +#ifdef CONFIG_MEMCG_KMEM
-> >       struct obj_cgroup *objcg;
-> > +#endif
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +     union codetag_ref ref;
-> > +#endif
-> >  } __aligned(8);
+>Sigh, this is a long discussion=2E
 >
-> So this means that compiling with CONFIG_MEM_ALLOC_PROFILING will increas=
-e
-> the memory overhead of arrays allocated for CONFIG_MEMCG_KMEM, even if
-> allocation profiling itself is not enabled in runtime? Similar concern to
-> the unconditional page_ext usage, that this would hinder enabling in a
-> general distro kernel.
+>PGP keys would be used as a system-wide trust anchor to verify RPM
+>package headers, which already contain file digests that can be used as
+>reference values for kernel-enforced integrity appraisal=2E
 >
-> The unused field overhead would be smaller than currently page_ext, but
-> getting rid of it when alloc profiling is not enabled would be more work
-> than introducing an early boot param for the page_ext case. Could be howe=
-ver
-> solved similarly to how page_ext is populated dynamically at runtime.
-> Hopefully it wouldn't add noticeable cpu overhead.
+>With the assumptions that:
+>
+>- In a locked-down system the kernel has more privileges than root
+>- The kernel cannot offload this task to an user space process due to
+>  insufficient isolation
+>
+>the only available option is to do it in the kernel (that is what I got
+>as suggestion)=2E
+>
+>Roberto
+>
+>
 
-Yes, slabobj_ext overhead is much smaller than page_ext one but still
-considerable and it would be harder to eliminate. Boot-time resizing
-of the extension object might be doable but that again would be quite
-complex and better be done as a separate patchset. This is lower on my
-TODO list than page_ext ones since the overhead is order of magnitude
-smaller.
-
->
-> >  static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_ite=
-m idx)
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 7bbdb0ddb011..9ecfcdb54417 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -979,6 +979,7 @@ config MEM_ALLOC_PROFILING
-> >       depends on !DEBUG_FORCE_WEAK_PER_CPU
-> >       select CODE_TAGGING
-> >       select PAGE_EXTENSION
-> > +     select SLAB_OBJ_EXT
-> >       help
-> >         Track allocation source code and record total allocation size
-> >         initiated at that code location. The mechanism can be used to t=
-rack
-> > diff --git a/mm/slab.h b/mm/slab.h
-> > index 77cf7474fe46..224a4b2305fb 100644
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > @@ -569,6 +569,10 @@ int alloc_slab_obj_exts(struct slab *slab, struct =
-kmem_cache *s,
-> >
-> >  static inline bool need_slab_obj_ext(void)
-> >  {
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +     if (mem_alloc_profiling_enabled())
-> > +             return true;
-> > +#endif
-> >       /*
-> >        * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditi=
-onally
-> >        * inside memcg_slab_post_alloc_hook. No other users for now.
->
+Ok, at least one of those assumptions is false, and *definitely* this appr=
+oach seems to be a solution in search of a problem=2E
