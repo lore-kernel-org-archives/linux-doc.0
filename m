@@ -1,74 +1,120 @@
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145AB14A81;
-	Fri, 16 Feb 2024 05:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D9510979;
+	Fri, 16 Feb 2024 06:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708061544; cv=none; b=c4tbHeaPnaoZC0TwyeLOcPU6hyS0L4u3GLyFU1rDjMEjP9LEAz/2WkiJalZ9x/gcMdT6q+1hTPZEpbijwVt45kCP3wm2V5FP3yMr3HchnrDPAUe+G9VKCVF6dwfuwCVKdprwqxePeHsU6wxC9u7ZGtZaG96pfRPa1fEp2lkvJDw=
+	t=1708064378; cv=none; b=p/vasPIkjGcCvTkm/zRc4iXynM3vywwTZTVTEuTakp8CZIjcmp8VNZ2mi6DjDbgsYSF5juWz3g6WIlH1zNQvFT9W25MqA99CuoMuIA7CtjOxKsyPEg8PqnEmfEjUMiVx1zpDqoPE3D+5ps1aH5gJ95T2eF4UoY9PLMZIsviqNkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708061544; c=relaxed/simple;
-	bh=pvjLrBptRgZtu6rGXWEV4j3B7BGqqXBHy2HA9pkezu0=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=GywKWkFScxK7gzMnsG1Fikk6DRV1fXvBM86AfJYSAQDUFNPqmQvVwadzJVRJpW09e7uj8uwzTRqTyMsU4osparZfgbE4xnP8ceQqrTGqo+T5G2CNKDQiq4JiB2iwQg9juRQeC5v5D0x8YTDHL1kNbnk/FbrEfN6WKwX9DyE0XkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=IGekkKEq; arc=none smtp.client-ip=162.62.57.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1708064378; c=relaxed/simple;
+	bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hQHEnhiX8jhGLCpbXRs/n49Fzq7pxiPnJKYXmf5cI3+L8cqmVfgIFs+m0JH/YcHdOCcOrccGXl+Ad/KbilEBPu3Q/lpBoBEzRvTYEX63V2kbrfuuqvamGRLmohjclMIuGyTs82DmjyXvnJpryS1XmUpNJtA3EICmGkwBImLtcU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAmT4VjZ; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="IGekkKEq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1708061529;
-	bh=Rvc2fug7Uaq7xVmmRaQlwuGeSMbuRAplnzQ8RFybO+A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IGekkKEqZSvkfUrhyAbbsENmo7dhUEBui5K9mzYltJbIscCtJ2y75vag2/xLoHZCC
-	 E2iqatlNGCMqAWBu3GbU1fsGfSqufTBhq8s4GhEe8NVpYNFZiq2fqh8fYuJnovunZI
-	 UlDYYVIqDsH6Xt3mw2nBi1t8F/3ixz1yxXKu0RQU=
-Received: from localhost.localdomain ([139.211.125.72])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id 7260DA6F; Fri, 16 Feb 2024 13:28:38 +0800
-X-QQ-mid: xmsmtpt1708061318tu8npfz2r
-Message-ID: <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
-X-QQ-XMAILINFO: MhK4DKsBP06iqGy2wE/u1l4Yh6I8YTHfADpjwLTLTNdtTagXHK9S1CpiaKQGqV
-	 X2ka1d/1xV3NuSj0A7Axu/50vllF0N5IHM1Pk9JnpQSGxQQ/uBwtFPdMFpqqEfpRAAMFw+29eJuC
-	 iHd0xfFb/2QJRpDKM612Rau0c2tB3Zq0LYs8m5fJMwSOF6IWnIrdw8AX5Hwni9E3Gd8UJ+pQrdQW
-	 Dou4rV7GIGF28LJTNl1lptFlE+J1r+XJWKAZPrBAwjUW3vX67Jy/ciZO1GE6ncm7GzQk4iaRmjCV
-	 cAaWaYu0hf0tYVCadC+UfGxQ31dqz4YhYPPMJzbwq1E91ikMGh5CZybWrRURg5YIiMrV9rEhYUmM
-	 eajCSWX9PTqsSXZZRBrHPefFN/HTC2RtusYSrga7EYMZk7Kp+ArbY+5/IZm1H73IvFmCir4Y6m/S
-	 wz94oo6vXMoEzXgemay/04Gfrw0wMDL0WLDzPP4xJvAhC8iRBRNPUqa0zhz17s8b2E/lDmfkV6OR
-	 OZ21xG/m/KsOCBJMHlBfLdIBK933YlJzvR6bte5c4qg6yunNnxJnIeUgdfHivmpSduU5Fd5fYoSG
-	 2eo5QE4RACBClImnGxDlSanZTKMigPpJlT6UmfKCfwYk9/n+0L81ONfsHMKeRtUhMGnkAbmQ03AN
-	 ZAkUqLf93aj7uALxuH3HFaJ1V+4y81kCosf2cxVHs48Iawlf6NKd/3zdUne/oPYE7H2XnJAutZIi
-	 FUKghMfWwS/dUo/cKcEGUFtPwI2N6NGLC4UeurV7wJg4w/5nrLaYlxp3uZ/p/rVtGmouUHQ4fvZO
-	 ambAsVaAW2flHz+mLUqvzrX1H5ec4kWkUeMoWKrLa6mxgrsWaj4LQT3kgsvgD+H6w76ypgg+bSln
-	 r6Q/r+E9iJ9NpavZGUZdnELssjAHlKbcOxonFnqnXkeJghGf/VackIeIK047+XinQ+MrxmWdKryi
-	 S+LMf9w9hWI0DZ4R07cXTb8SEuK61UJIJoewGHG5nL/TvYWt9gVyt8hM2J1kR/u54ZsXBxNt1Q86
-	 e5dOSO/5JIt3y1oBnPOJ6ImuZymuw=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: "Ran.Park" <ranpark@foxmail.com>
-To: ricardo@marliere.net
-Cc: akinobu.mita@gmail.com,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	ranpark@foxmail.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
-Date: Fri, 16 Feb 2024 13:28:38 +0800
-X-OQ-MSGID: <20240216052838.4547-1-ranpark@foxmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6>
-References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAmT4VjZ"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3dbc8426f3so39189066b.1;
+        Thu, 15 Feb 2024 22:19:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708064375; x=1708669175; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+        b=HAmT4VjZAlyDbs6F6VN2odRNpKU47eGnCfYH1gPP74wj0HZo7LcEKe+fpE31AHSrPk
+         q02BjmfoR/ro8cERH+W+yndE+xTFnoT0VHEIVmAM944vbS4YW28Zyq3yewEdvVcCqPwA
+         4TFCL5hlHv8bP7s6KPGl+cy+1J07dslQxD4jTfN1IZFvCyU7SYH2GbJqtcxetLECPFHT
+         NK15BBRX/CB+M/LJTO3gqoyXtrejC2TpHwb5Dw4A1BFWRnmFWbaLREqz591RrxXxHkza
+         xRMO9ulNi0b0hRFZJLi/lqVSUfg2D1kbE8ar4pNN1g7mMI12klAb2pvlWE19Fh2trzbi
+         kiYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708064375; x=1708669175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+        b=SzqR4zfOhBiMvZB1ZbE+mmXVmq7ATUztlHM+vZ3uyATgm4dPZ39IHTaLdWhrC0U5jK
+         NKAZsxGx6dfhWHYV7QDeanI8NLnnUdiNkz3G/vNaAguB8x5R7OAL/90wxuGqdXFvhTCd
+         LVjfqQt+kg3JcwzHWJWvqLkcngXvGziDZsvyugY7XGxMZVU9CQBNxETiG6BTKeMxLUEg
+         +ZQMOirdoJo0DU3FlDhAkYcjqRX9wW1DwjXG+buDV8gSJ+fl+7XGB69s608vYloTTO93
+         43PvMBKXfrcxF6WnbEpFrinVUU3LDr2KhB792Dc1F0poTAysmIpo1sr4ZSkAtS63E1Gd
+         qIDA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0XW8KxH2N5HfgaDfn4TT13rsYW89ga945d6ELW+jCDabcK8rU6hOGe8kPlTPU1KI4gt3nu8p6JFlCFlPQaPq5SG/Dc/wi2OVNaJ+1DIyS9tbpOltSzFVd4id8vpNSuGEB3gSmZLfr
+X-Gm-Message-State: AOJu0YzxQCzTFpDbNfE8fdHcbIb+MfUxLFtG0MfRPUoL/FA7e4sBY1uy
+	SYNmNCgQ15dFlZZXScEIXQWyHdoptdWAC0iMghIJ+e5p1jUy/GTdFn6MG9h1EqQeTjvHIMo0/MB
+	pDyR9OzoUu69qUwByTON+Dqj3D/E=
+X-Google-Smtp-Source: AGHT+IG3UH321Wj+62YjK+x82KH4WpkZBya/9VqrCbb8iOi2xWuIQnhYdvT8EKc9ZPnqf6YyWJaQstUaRwJ/OfHfStI=
+X-Received: by 2002:a17:906:8404:b0:a3c:f7c9:5ba with SMTP id
+ n4-20020a170906840400b00a3cf7c905bamr2441015ejx.10.1708064375165; Thu, 15 Feb
+ 2024 22:19:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6> <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
+In-Reply-To: <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Feb 2024 07:19:23 +0100
+Message-ID: <CAKXUXMy8WZwAqrARe-6nNhtvjSiosDD3X5aPZPfn7GXtkG8B8w@mail.gmail.com>
+Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
+To: "Ran.Park" <ranpark@foxmail.com>
+Cc: ricardo@marliere.net, akinobu.mita@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your reply. I'm sorry that I noticed this problem 
-while browsing the document. I have not seen any report about this problem 
-on lore.kernel.org or other places. Should I mention the situation elsewhere 
-and then resend the patch to mention and fix the problem.
+On Fri, Feb 16, 2024 at 6:29=E2=80=AFAM Ran.Park <ranpark@foxmail.com> wrot=
+e:
+>
+> Thank you for your reply. I'm sorry that I noticed this problem
+> while browsing the document. I have not seen any report about this proble=
+m
+> on lore.kernel.org or other places. Should I mention the situation elsewh=
+ere
+> and then resend the patch to mention and fix the problem.
+>
 
+Ran, in the future: please do not remove the context when you reply to
+somebody's email.
+
+In this case, I wanted to help you to understand what Ricardo was
+asking, but his original response was not in your email. So, I copy
+and pasted it now---but that is not how it is supposed to be for
+someone replying to your email.
+
+On Wed, Feb 14, 2024 at 2:21=E2=80=AFPM Ricardo B. Marliere
+<ricardo@marliere.net> wrote:
+>
+> Hi Ran,
+>
+> On 14 Feb 19:40, Ran.Park wrote:
+> > In the 'fault-injection' subdirectory, the first letter F
+> > is capitalized, whereas in index.rst f is lowercase, but in
+> > index.rst all other elements in the same column are capitalized.
+>
+> Does this fix any error or build warning? If so, it should be mentioned.
+>
+
+Ricardo suggests that:
+
+- you run 'make htmldocs' before applying the patch and check for the
+existing warnings.
+
+- you run 'make cleandocs' and 'make htmldocs' after applying the
+patch and check for the existing warnings.
+
+Did any warning disappear or appear due to your patch? Were you
+motivated by a specific warning you observed during the build and you
+addressing that?
+
+So, for starters: did you already try 'make htmldocs' with your patch
+applied? What did you observe?
+
+
+Lukas
