@@ -1,316 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E107CF09;
-	Sat, 17 Feb 2024 15:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CCC2D78A
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 16:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708185572; cv=none; b=N5445aJXLfD1M4PECHgd3gAn7axNkrlOOzHYMdGB/te7Knm9CPnSaQKKOR/VYOUdItitYtKCcQwOvojW/ydD1oZNB6+Z492vfa+3ux9FT0e17shStgUzLyTZfPF7MwNlf6AfXttTe1ne7Q/Sd6yUwXN3LUThTRsJTy1VgzDMRrg=
+	t=1708187661; cv=none; b=Af376SvYRM+eQVjoC02kKP3y0WkPVeZ37SCYypRxfGWsqLbWnLf1ayiyFn+Vzd6+F9kxMYtidPb1jepD4mhLTD7s+oaF9dORtq+meuUnlz5zhHK2F3rd3EigIUWC4uxv9NQS40J1RvzUAnFC5Vm9GQMg4/NMHYwOptGDC/9jyU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708185572; c=relaxed/simple;
-	bh=7dZw91IA9UkGUlxTQU6Q6OBgjnh8TxNDIuPOvGMyW+k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BC1MrMeW0IRtOyFb/3fCaAnWeyyrcecfDFGQeM3U7FLZEac4MlQ1OJMzRfw07iT99w5dxZmP/IXCwTDEqz0gYvW5Nz72LmmI6DVr0Uf1+MOv+uIKQpNFOM3wgj4fmzIJp+fXnU2ubWeA7GHu62svneIazoaS8uIca4nC3eCa3qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KepOSB9h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708187661; c=relaxed/simple;
+	bh=D1bRGTKhYbAaTA23n7QfW1h1Ir0TNAXseDoCvb0Jgcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s6ngJNtdBq8N7+jrD7WDix0UsQi0U4rT/AL6oEAyRWkMVDHiz6NoBq5N0zmFCqsNSjuWxN+N+qQqxfJIl+Bf4nfYhEI/KHnq2ef2A3JV0ONbRB/hPSsKOigG/AkpX1DPFe3va+GVlatBfuQ9qJeKcZbOUPLMZEIE1MW2mbxuGKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FGzKLh5a; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KepOSB9h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE532C433F1;
-	Sat, 17 Feb 2024 15:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708185571;
-	bh=7dZw91IA9UkGUlxTQU6Q6OBgjnh8TxNDIuPOvGMyW+k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KepOSB9hcnZ18sO/rJ+FcR2yhbl+WVXSspcGEoMD1mv8cLnqYI7QlddgpN112h3T5
-	 Y27MQsCpWDeeAXl/WVjwlI2fLYdf6PBWgHO0B21LoWBkLaNC7LVxRTCjIhAr5TLpko
-	 p39BJRVqtq1XMqlBeI0oxXJalJfS4y8g6CEmwAFE=
-Date: Sat, 17 Feb 2024 16:59:28 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v2 3/4] usb: gadget: legacy: add 9pfs multi gadget
-Message-ID: <2024021757-geography-hacksaw-3022@gregkh>
-References: <20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de>
- <20240116-ml-topic-u9p-v2-3-b46cbf592962@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FGzKLh5a"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=J8bIo5mYrgCW5S2otUZnc/+y0FuV38my26nSwy6FVCU=; b=FGzKLh5aUyCedM+zUp47AQGy3e
+	uKSyp70D/WGdtTCgEj68FvfhZwHpzk5qBHQ5eqS/oEvfJlJSjzHxQMqwF+n40oACZyM5oPocGDpKp
+	9hemjf7VcUXP2pG5PkqVU3gTzWQi67kF+4tQePlTv+W0ja3HrYeWjmsIrJSbsuJ1oWmFcAdEx4Pww
+	mGNtnWJwBi7WGhnCQLecaYdjpPIlya8+6NUK8r7RGt6JpubCQBxWwnFP0LDR2bPul5CE6NK8/EPzf
+	9wG2oRc1Ce3Xip+yUdumwKvmXSLu/mzWtEJwTUfpPZFQBeEH3jYVt2h1YkJpfHnqVMtE+tDoJeoWl
+	9xEeZw7Q==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rbNdn-000000061AR-0K8S;
+	Sat, 17 Feb 2024 16:34:15 +0000
+Message-ID: <e096699e-723f-4dcc-9da9-ec967cfc213f@infradead.org>
+Date: Sat, 17 Feb 2024 08:34:14 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v2-3-b46cbf592962@pengutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] doc headings sweep
+To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet
+ <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+ <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+ <2024021530-plank-cornmeal-90eb@gregkh>
+ <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com> <87v86o4xu0.fsf@intel.com>
+ <2024021619-barrack-shack-206c@gregkh> <87r0hcv4lj.fsf@meer.lwn.net>
+ <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 02, 2024 at 01:05:12AM +0100, Michael Grzeschik wrote:
-> Add the newly introduced 9pfs transport gadget interface with an new
-> multi composed gadget together with acm and eem.
+
+
+On 2/16/24 23:31, Vegard Nossum wrote:
+> On 16/02/2024 15:58, Jonathan Corbet wrote:
+>> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+>>
+>>> On Fri, Feb 16, 2024 at 10:28:39AM +0200, Jani Nikula wrote:
+>>>> rst basically allows any order of the heading underlines, and their
+>>>> relative hierarchy is determined by how they show up in each document,
+>>>> it's not specified by rst. However, it would be much easier for everyone
+>>>> if all the kernel documents followed the same style.
+>>>
+>>> Agreed, someone should pick a style and sweep the whole directory and
+>>> sync them up to the agreed formatting. :)
+>>
+>> Somebody did pick a style, it's in Documentation/doc-guide/sphinx.rst :)
 > 
-> When using this legacy module, it is also possible to
-> mount the 9PFS usb dir as root filesystem. Just follow the
-> instrucitons from Documentation/filesystems/9p.rst
-
-Why are we adding new "legacy" gadgets?  What's wrong with the "correct"
-api instead?  You need a lot of justification here to add something to
-an api we want to one day just delete.
-
-And can you wrap your changelog at 72 columns?
-
-
+> I have a (very long and ugly) script that can fix these up to a
+> consistent style, the attached patch is the result of running it on
+> Documentation/process/ only.
 > 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> I've done builds before and after the patch and diffed the resulting
+> HTML files, they show no difference. (HOWEVER, you do need a 'make
+> cleandocs' in between, as it seems doing 'make htmldocs; find
+> Documentation | xargs touch; make htmldocs' is going to change the
+> generated HTML for the sidebar -- another issue to look into at some
+> point, I guess; maybe it's specific to the Sphinx version I used here,
+> 4.3.2.)
 > 
-> ---
-> v1 -> v2:
->   - deleted the usbg 9pfs detailed instruction from commit message
->   - added depends on net for NET_9P dependency
-> ---
->  drivers/usb/gadget/legacy/9pfs.c   | 268 +++++++++++++++++++++++++++++++++++++
->  drivers/usb/gadget/legacy/Kconfig  |  16 +++
->  drivers/usb/gadget/legacy/Makefile |   2 +
->  3 files changed, 286 insertions(+)
+> The script will leave alone any file that it doesn't quite understand
+> (e.g. for a lot of the translations there are way more underlines than
+> characters in the heading and it doesn't match up with the byte count
+> either).
 > 
-> diff --git a/drivers/usb/gadget/legacy/9pfs.c b/drivers/usb/gadget/legacy/9pfs.c
-> new file mode 100644
-> index 0000000000000..3ac7f2e92c5a3
-> --- /dev/null
-> +++ b/drivers/usb/gadget/legacy/9pfs.c
-> @@ -0,0 +1,268 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * usb9pfs.c -- Gadget usb9pfs
-> + *
-> + * Copyright (C) 2023 Michael Grzeschik
-> + */
-> +
-> +/*
-> + * Gadget usb9pfs only needs two bulk endpoints, and will use the usb9pfs usb
-> + * transport to mount host filesystem via usb gadget. This driver will
-> + * also add one ACM and NCM interface.
+> Anyway, the question is: Is this worth doing in the first place, or is
+> it just churn? I assume just after -rc1 would be the ideal time to
+> submit these to avoid conflicts.
 
-Why "also"?  What are those interfaces going to be used for and what do
-they have to do with 9pfs?
+Yes, do it, please.
+Thanks.
 
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/slab.h>
-> +#include <linux/device.h>
-> +#include <linux/module.h>
-> +#include <linux/err.h>
-> +#include <linux/usb/composite.h>
-> +#include <linux/netdevice.h>
-> +
-> +#include "u_eem.h"
-> +#include "u_ether.h"
-> +
-> +/*-------------------------------------------------------------------------*/
-> +USB_GADGET_COMPOSITE_OPTIONS();
-> +
-> +USB_ETHERNET_MODULE_PARAMETERS();
-> +
-> +/* Defines */
-> +
-> +#define DRIVER_VERSION_STR "v1.0"
-> +#define DRIVER_VERSION_NUM 0x1000
-> +
-> +#define DRIVER_DESC	"Composite Gadget (9P + ACM + NCM)"
-> +
-> +/*-------------------------------------------------------------------------*/
-> +
-> +#define DRIVER_VENDOR_NUM	0x1d6b		/* Linux Foundation */
-> +#define DRIVER_PRODUCT_NUM	0x0109		/* Linux-USB 9PFS Gadget */
-> +
-> +/*-------------------------------------------------------------------------*/
-> +
-> +static struct usb_device_descriptor device_desc = {
-> +	.bLength =		sizeof(device_desc),
-> +	.bDescriptorType =	USB_DT_DEVICE,
-> +
-> +	/* .bcdUSB = DYNAMIC */
-> +
-> +	.bDeviceClass =		USB_CLASS_MISC,
-> +	.bDeviceSubClass =	2,
-> +	.bDeviceProtocol =	1,
-> +
-> +	/* .bMaxPacketSize0 = f(hardware) */
-> +
-> +	/* Vendor and product id can be overridden by module parameters.  */
-> +	.idVendor =		cpu_to_le16(DRIVER_VENDOR_NUM),
-> +	.idProduct =		cpu_to_le16(DRIVER_PRODUCT_NUM),
-> +	/* .bcdDevice = f(hardware) */
-> +	/* .iManufacturer = DYNAMIC */
-> +	/* .iProduct = DYNAMIC */
-> +	/* NO SERIAL NUMBER */
-> +	/*.bNumConfigurations =	DYNAMIC*/
-> +};
-> +
-> +static const struct usb_descriptor_header *otg_desc[2];
-> +
-> +static struct usb_string strings_dev[] = {
-> +	[USB_GADGET_MANUFACTURER_IDX].s = "",
-> +	[USB_GADGET_PRODUCT_IDX].s = DRIVER_DESC,
-> +	[USB_GADGET_SERIAL_IDX].s = "",
-> +	{  }			/* end of list */
-> +};
-> +
-> +static struct usb_gadget_strings stringtab_dev = {
-> +	.language	= 0x0409,	/* en-us */
-> +	.strings	= strings_dev,
-> +};
-> +
-> +static struct usb_gadget_strings *dev_strings[] = {
-> +	&stringtab_dev,
-> +	NULL,
-> +};
-> +
-> +static struct usb_configuration cdc_driver_conf = {
-> +	.label          = DRIVER_DESC,
-> +	.bConfigurationValue = 1,
-> +	/* .iConfiguration = DYNAMIC */
-> +	.bmAttributes   = USB_CONFIG_ATT_SELFPOWER,
-> +};
-> +
-> +static struct usb_function *f_9pfs;
-> +static struct usb_function_instance *fi_9pfs;
-> +
-> +static struct usb_function *f_acm;
-> +static struct usb_function_instance *fi_acm;
-> +
-> +static struct usb_function *f_eem;
-> +static struct usb_function_instance *fi_eem;
-> +
-> +static int cdc_do_config(struct usb_configuration *c)
-> +{
-> +	int ret;
-> +
-> +	if (gadget_is_otg(c->cdev->gadget)) {
-> +		c->descriptors = otg_desc;
-> +		c->bmAttributes |= USB_CONFIG_ATT_WAKEUP;
-> +	}
-> +
-> +	f_9pfs = usb_get_function(fi_9pfs);
-> +	if (IS_ERR(f_9pfs))
-> +		return PTR_ERR(f_9pfs);
-> +
-> +	ret = usb_add_function(c, f_9pfs);
-> +	if (ret < 0)
-> +		goto err_func_9pfs;
-> +
-> +	f_acm = usb_get_function(fi_acm);
-> +	if (IS_ERR(f_acm)) {
-> +		ret = PTR_ERR(f_acm);
-> +		goto err_func_acm;
-> +	}
-> +
-> +	ret = usb_add_function(c, f_acm);
-> +	if (ret)
-> +		goto err_conf;
-> +
-> +	f_eem = usb_get_function(fi_eem);
-> +	if (IS_ERR(f_eem)) {
-> +		ret = PTR_ERR(f_eem);
-> +		goto err_eem;
-> +	}
-> +
-> +	ret = usb_add_function(c, f_eem);
-> +	if (ret)
-> +		goto err_run;
-> +
-> +	return 0;
-> +err_run:
-> +	usb_put_function(f_eem);
-> +err_eem:
-> +	usb_remove_function(c, f_acm);
-> +err_conf:
-> +	usb_put_function(f_acm);
-> +err_func_acm:
-> +	usb_remove_function(c, f_9pfs);
-> +err_func_9pfs:
-> +	usb_put_function(f_9pfs);
-> +	return ret;
-> +}
-> +
-> +static int usb9pfs_bind(struct usb_composite_dev *cdev)
-> +{
-> +	struct f_eem_opts	*eem_opts = NULL;
-> +	int status;
-> +
-> +	fi_9pfs = usb_get_function_instance("usb9pfs");
-> +	if (IS_ERR(fi_9pfs)) {
-> +		if (PTR_ERR(fi_9pfs) == -ENOENT)
-> +			return -EPROBE_DEFER;
-> +		return PTR_ERR(fi_9pfs);
-> +	}
-> +
-> +	/* set up serial link layer */
-> +	fi_acm = usb_get_function_instance("acm");
-> +	if (IS_ERR(fi_acm)) {
-> +		if (PTR_ERR(fi_9pfs) == -ENOENT)
-> +			return -EPROBE_DEFER;
-> +		status = PTR_ERR(fi_acm);
-> +		goto err_conf_acm;
-> +	}
-> +
-> +	fi_eem = usb_get_function_instance("eem");
-> +	if (IS_ERR(fi_eem)) {
-> +		if (PTR_ERR(fi_9pfs) == -ENOENT)
-> +			return -EPROBE_DEFER;
-> +		status = PTR_ERR(fi_eem);
-> +		goto err_conf_eem;
-> +	}
-> +
-> +	eem_opts = container_of(fi_eem, struct f_eem_opts, func_inst);
-> +
-> +	gether_set_qmult(eem_opts->net, qmult);
-> +	if (!gether_set_host_addr(eem_opts->net, host_addr))
-> +		pr_info("using host ethernet address: %s", host_addr);
-> +	if (!gether_set_dev_addr(eem_opts->net, dev_addr))
-> +		pr_info("using self ethernet address: %s", dev_addr);
-> +
-> +	/* Allocate string descriptor numbers ... note that string
-> +	 * contents can be overridden by the composite_dev glue.
-> +	 */
-> +	status = usb_string_ids_tab(cdev, strings_dev);
-> +	if (status < 0)
-> +		return status;
-> +
-> +	device_desc.iManufacturer = strings_dev[USB_GADGET_MANUFACTURER_IDX].id;
-> +	device_desc.iProduct = strings_dev[USB_GADGET_PRODUCT_IDX].id;
-> +	device_desc.iSerialNumber = strings_dev[USB_GADGET_SERIAL_IDX].id;
-> +
-> +	/* support OTG systems */
-> +	if (gadget_is_otg(cdev->gadget)) {
-> +		if (!otg_desc[0]) {
-> +			struct usb_descriptor_header *usb_desc;
-> +
-> +			usb_desc = usb_otg_descriptor_alloc(cdev->gadget);
-> +			if (!usb_desc) {
-> +				status = -ENOMEM;
-> +				goto err_conf_otg;
-> +			}
-> +			usb_otg_descriptor_init(cdev->gadget, usb_desc);
-> +			otg_desc[0] = usb_desc;
-> +			otg_desc[1] = NULL;
-> +		}
-> +	}
-> +
-> +	status = usb_add_config(cdev, &cdc_driver_conf, cdc_do_config);
-> +	if (status)
-> +		goto err_free_otg_desc;
-> +
-> +	usb_ep_autoconfig_reset(cdev->gadget);
-> +	usb_composite_overwrite_options(cdev, &coverwrite);
-> +
-> +	dev_info(&cdev->gadget->dev, DRIVER_DESC " version: " DRIVER_VERSION_STR "\n");
-
-When drivers are working properly, they are quiet.
-
-thanks,
-
-greg k-h
+-- 
+#Randy
