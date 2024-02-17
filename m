@@ -1,238 +1,252 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CEF7B3C5
-	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 13:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D1F4E1D2
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 14:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708177357; cv=none; b=lxafDus3rcDFXmUi2aTfLeAZ+Cqonzfrrj1JECiV6mHhOeF3tOWdkHSWBH8ADTUbimZcjPzGm376uCc9uZU2kx/EK9qAfmXXQwOv1FXa1xOEYgocA4CZdGGkzo9KkBA3xGBcZlUzCkEI4zZR5KCzVvIUaVvNWkOM1l6QyjD29zo=
+	t=1708178522; cv=none; b=DsbZwF0fAIsPwn1bnMqIWXYPpVH2FbVtv4SNw+v0iIX9uKyF/uDnQrKKl4W/e7/yehqKS4icyOYWW8l05odH2D/gZ4axXB+zeVVgmkb2jSlXu01wI/Q1MSsKIS2mf308y/OeHFFwO/64MiJKPTgK1/Vipgc/aCp4Fw52L7QFBsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708177357; c=relaxed/simple;
-	bh=OtK3IzgJ3fGYA4kSv5N/upSwJ7FGiRagAHvl4Kht5OI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Skhphj01uA3pOL1QSoSDbYySX24uUGWV5zUq9gWpBtVwZWcK3Rg+Ccx84yN+tWsp+VgWvXBU18RNA3rTZ0FpisbGLIyTayNnR5jZl7m/Vr2zcls5lzFamDD+VUQk69bUVV5HZ00teddcAS3D47yNefzoaypiDFH8kLLqafJxink=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KpK0gP6r; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708178522; c=relaxed/simple;
+	bh=UqbGwt0t6wp2BJOZU3Pyz2nrZoLA3E0RRUpLzG5ehA8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q9+pChF5fIr9pZuAKJ9Tsb+mUv6DvU3EWND9rl/yxk4s7lbdRXyix6rDbEExx/87KKztcjYiOP0VQpNlOw4xF7X3f8o2Ls2HB6i62ogU7XjFMlGHGuUWpivcG9+n5y4unlnWUEXYiEPCjjujS/u/Db43sIsy5ZhPot8U8eqJMEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HFfH7NS+; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KpK0gP6r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708177354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
-	b=KpK0gP6r/WqR5Olg2TYJ4JSxLpEpvmpIhgQWmfrw9EpNU4h3rJWw606mZZZyLTbaMenByK
-	q/seQxuq1Wja1tUxTOl89nKgupT/oaoEz3YDZb8lRmllOU9hMwGxVHsiAqdG1hbbcjqxfu
-	fSaTtSU4e4W9LjcLgOmeci2o3ZjIWJo=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-615-6BBOHuOoOb2Ihs_HX2l3Mg-1; Sat, 17 Feb 2024 08:42:32 -0500
-X-MC-Unique: 6BBOHuOoOb2Ihs_HX2l3Mg-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-512a5c6465bso320134e87.1
-        for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 05:42:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HFfH7NS+"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-511898b6c9eso3727847e87.3
+        for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 06:01:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708178517; x=1708783317; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XausAk3wcLMS6aTKh7J69TRAU825TD7w7U2A7K837UA=;
+        b=HFfH7NS+Jm1ayYZNpvdC4j7VUVlwtmFqnubAEbqSTMHY23Eb80Ad8tWeOByMZUeAEd
+         gHlTWY3/k8pyxNilg+llxMXnfvKNM2JDKidIDUKGsSigmuphvcmcFRt+OY6u2DDvFNQC
+         Qmvg/RQ7Lfu85rc+SS2YCs+Cv0S1UnF0RTPyySUUCEVSaGjd6HXjUKVMp2lIZg7yn1Y8
+         1t0hfdI/8xvT7wT2sytbUFf3u8s+Lo3FoHeO5U5m68UabottirMA/+i854dw1kTtNgch
+         cg+ShLMIAQQjZTFXNqckVrx6OJlnBWlP3XRtWFTixH3kizJmYY3reK3o5oLs9WwDVZnw
+         EmIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708177351; x=1708782151;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
-        b=BSuEniUNiJTxN7VPTL/GzZqdCGz7P6K3bHU2FTyA/ujTV+snU6fgJq12yTjBBeQBJs
-         0g8rq/keblBTgb8FH08978lLoFkfQ5XnjxPABXF6uMTucQ6FRTbF874m7+AvZRaynOB7
-         ajIIhJYfDsfGYKossd2CHWtMEsf62g7ZUPaTxFbceAESytLmX+dFb4YwddJBqtfELNGg
-         GTo5+WFepeKg006HUgZlTrv+hk10tcSRju9r6Y/O2nd8PcQEEy68/x4xLG3WMorccWDI
-         q+xdIAghIhNi+vk/jY2/iysOEZJn64tUI0giCzxxtCDMmhfDOKNsUqFcipzvs1KCt/ff
-         Peog==
-X-Forwarded-Encrypted: i=1; AJvYcCUwlTr7jym3sKkhJh73KIaG+KYyYVIP6Llb9RWi7Ttx8e/XV7k71ycYrCQz0K1l8+jMVpPx09hCL9ENKX3zZHTemg8GmlfzVmkI
-X-Gm-Message-State: AOJu0YxKf5xdCz00RNChq9CgLKOPFW5qSImreTUEf0IqethYQ4tsTxZs
-	JQPunWmw3lAIqdqODrqtWNr9HYZ5RbwLkZtP8ewV3S9GgUk5suPN2/L1xKXpoB3B/y/NqZ/UtMn
-	LHZh3s8/I2QHNDJ1mOSiDsNaqcbs6Pj1EylCQLfMjGXJE5w+DdGJO8zrFyg==
-X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737946lfc.37.1708177351168;
-        Sat, 17 Feb 2024 05:42:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGzlzEcMgskLO4de5rW93PPpUzg2F1sD9bjOjwmEyrVCbfcZUo7mXf1ARcPnPiTPqsEAqCZsw==
-X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737925lfc.37.1708177350717;
-        Sat, 17 Feb 2024 05:42:30 -0800 (PST)
-Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
-        by smtp.gmail.com with ESMTPSA id n18-20020a1709062bd200b00a3d3bc0d689sm992614ejg.72.2024.02.17.05.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 05:42:29 -0800 (PST)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-	id 6D46710F5DDE; Sat, 17 Feb 2024 14:42:29 +0100 (CET)
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John
- Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
- Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
- <benjamin.tissoires@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <shuah@kernel.org>
-Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
- timers
-In-Reply-To: <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
-References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
- <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
- <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
- <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
- <87eddccx1q.fsf@toke.dk>
- <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date: Sat, 17 Feb 2024 14:42:29 +0100
-Message-ID: <878r3jcim2.fsf@toke.dk>
+        d=1e100.net; s=20230601; t=1708178517; x=1708783317;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XausAk3wcLMS6aTKh7J69TRAU825TD7w7U2A7K837UA=;
+        b=AtKxdN2LxhqKY3/mJsv68gdnQGt7zl/cwkE21O1OcPAUNyxsSDxgFywINKcfk2TE/N
+         YYNYY16bqApq7ZzFuD/XR97pXPfAT/O4ELw41pFdBDOu6ExnqEYicZkZWOKFU9zqs4+9
+         HDsqOl+4YoU8TAr+ggwwnQdQ9jboaaZsbvPoS8f0zF9+0DwJvf0j8jo16ipIKRpFeEcj
+         1T9T5KkMawBwydLj9U63TCidHkPqnp6xLSDpzJPYtAsaLpmekg1yScsJEvG1ox3ARI5x
+         Gggw1lmQRFF313XTSmHY78ahEUVdOzwIJwZwnri4To6rRJiaxt+Hjl38td1TsJjoWou0
+         H2YA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrVK6sBJ/2VPu+/tNJVYhISPGGTSFXrENihEOQDyO9/Qz+8SRjjD3BkiukBFjZAPUJYn4e+eTih2ZrlHiweiwQg7zRRToomrnS
+X-Gm-Message-State: AOJu0Yz/PVm2mM5ptP17odsnvIoSRikzlMW8xhikcYyiASh5UwjjV72X
+	r+nURKYjxsTtlNFMDS1s4CSJ/3CwZDWZdTevcFnAyHZ2aoH6dV9DS3unPA5LT7I=
+X-Google-Smtp-Source: AGHT+IHh5r7eqr2G0VMvB4lHnvn/22pI4BxegT8XvwdHZr9YDHIYA6OWcp0oD8D7X/lPF9ccKPKZVw==
+X-Received: by 2002:ac2:5926:0:b0:511:694b:245a with SMTP id v6-20020ac25926000000b00511694b245amr4853944lfi.58.1708178517566;
+        Sat, 17 Feb 2024 06:01:57 -0800 (PST)
+Received: from [192.168.0.22] ([78.10.207.130])
+        by smtp.gmail.com with ESMTPSA id vh6-20020a170907d38600b00a3cf436af4fsm1008809ejc.3.2024.02.17.06.01.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Feb 2024 06:01:56 -0800 (PST)
+Message-ID: <0d7b5549-f56b-4693-878f-e513fbf5ca16@linaro.org>
+Date: Sat, 17 Feb 2024 15:01:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Content-Language: en-US
+To: Kory Maincent <kory.maincent@bootlin.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>,
+ Russ Weight <russ.weight@linux.dev>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+ <20240215-feature_poe-v4-11-35bb4c23266c@bootlin.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240215-feature_poe-v4-11-35bb4c23266c@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Benjamin Tissoires <bentiss@kernel.org> writes:
+On 15/02/2024 17:02, Kory Maincent wrote:
+> PSE PI setup may encompass multiple PSE controllers or auxiliary circuits
+> that collectively manage power delivery to one Ethernet port.
+> Such configurations might support a range of PoE standards and require
+> the capability to dynamically configure power delivery based on the
+> operational mode (e.g., PoE2 versus PoE4) or specific requirements of
+> connected devices. In these instances, a dedicated PSE PI node becomes
+> essential for accurately documenting the system architecture. This node
+> would serve to detail the interactions between different PSE controllers,
+> the support for various PoE modes, and any additional logic required to
+> coordinate power delivery across the network infrastructure.
+> 
+> The old usage of "#pse-cells" is unsuficient as it carries only the PSE PI
+> index information.
+> 
+> This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
+> 
+> Changes in v3:
+> - New patch
+> 
+> Changes in v4:
+> - Remove $def
+> - Fix pairset-names item list
+> - Upgrade few properties description
+> - Update the commit message
+> ---
+>  .../bindings/net/pse-pd/pse-controller.yaml        | 84 +++++++++++++++++++++-
+>  1 file changed, 81 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+> index 2d382faca0e6..6f4faec216a5 100644
+> --- a/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+> @@ -13,6 +13,7 @@ description: Binding for the Power Sourcing Equipment (PSE) as defined in the
+>  
+>  maintainers:
+>    - Oleksij Rempel <o.rempel@pengutronix.de>
+> +  - Kory Maincent <kory.maincent@bootlin.com>
+>  
+>  properties:
+>    $nodename:
+> @@ -22,11 +23,88 @@ properties:
+>      description:
+>        Used to uniquely identify a PSE instance within an IC. Will be
+>        0 on PSE nodes with only a single output and at least 1 on nodes
+> -      controlling several outputs.
+> +      controlling several outputs which are not described in the pse_pis
+> +      subnode. This property is deprecated, please use pse_pis instead.
+>      enum: [0, 1]
+>  
+> -required:
+> -  - "#pse-cells"
+> +  pse_pis:
 
-> On Feb 16 2024, Toke H=C3=B8iland-J=C3=B8rgensen wrote:
->> Benjamin Tissoires <bentiss@kernel.org> writes:
->>=20
->> > On Feb 15 2024, Martin KaFai Lau wrote:
->> >> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
->> >> > +static void bpf_timer_work_cb(struct work_struct *work)
->> >> > +{
->> >> > +	struct bpf_hrtimer *t =3D container_of(work, struct bpf_hrtimer, =
-work);
->> >> > +	struct bpf_map *map =3D t->map;
->> >> > +	void *value =3D t->value;
->> >> > +	bpf_callback_t callback_fn;
->> >> > +	void *key;
->> >> > +	u32 idx;
->> >> > +
->> >> > +	BTF_TYPE_EMIT(struct bpf_timer);
->> >> > +
->> >> > +	rcu_read_lock();
->> >> > +	callback_fn =3D rcu_dereference(t->sleepable_cb_fn);
->> >> > +	rcu_read_unlock();
->> >>=20
->> >> I took a very brief look at patch 2. One thing that may worth to ask =
-here,
->> >> the rcu_read_unlock() seems to be done too early. It is protecting the
->> >> t->sleepable_cb_fn (?), so should it be done after finished using the
->> >> callback_fn?
->> >
->> > Probably :)
->> >
->> > TBH, everytime I work with RCUs I spent countless hours trying to
->> > re-understand everything, and in this case I'm currently in the "let's
->> > make it work" process than fixing concurrency issues.
->> > I still gave it a shot in case it solves my issue, but no, I still have
->> > the crash.
->> >
->> > But given that callback_fn might sleep, isn't it an issue to keep the
->> > RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
->> > might be fine, but I'd like the confirmation from someone else).
->>=20
->> You're right, it isn't. From the RCU/checklist.rst doc:
->>=20
->> 13.	Unlike most flavors of RCU, it *is* permissible to block in an
->> 	SRCU read-side critical section (demarked by srcu_read_lock()
->> 	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
->> 	Please note that if you don't need to sleep in read-side critical
->> 	sections, you should be using RCU rather than SRCU, because RCU
->> 	is almost always faster and easier to use than is SRCU.
->>=20
->> So we can't use the regular RCU protection for the callback in this
->> usage. We'll need to either convert it to SRCU, or add another
->> protection mechanism to make sure the callback function is not freed
->> from under us (like a refcnt). I suspect the latter may be simpler (from
->> reading the rest of that documentation around SRCU.
->
-> Currently I'm thinking at also incrementing the ->prog held in the
-> bpf_hrtimer which should prevent the callback to be freed, if I'm not wro=
-ng.
-> Then I should be able to just release the rcu_read_unlock before calling
-> the actual callback. And then put the ref on ->prog once done.
->
-> But to be able to do that I might need to protect ->prog with an RCU
-> too.
+How did this appear here? Underscores are no allowed.
 
-Hmm, bpf_timer_set_callback() already increments the bpf refcnt; so it's
-a matter of ensuring that bpf_timer_cancel() and
-bpf_timer_cancel_and_free() wait for the callback to complete even in
-the workqueue case. The current 'hrtimer_running' percpu global var is
-not going to cut it for that, so I guess some other kind of locking will
-be needed? Not really sure what would be appropriate here, a refcnt, or
-maybe a full mutex?
+> +    type: object
 
-I am not actually sure the RCU protection of the callback field itself
-is that important given all the other protections that make sure the
-callback has exited before cancelling? As long as we add another such
-protection I think it can just be a READ_ONCE() for getting the cb
-pointer?
 
->> >> A high level design question. The intention of the new
->> >> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a wor=
-kqueue.
->> >> It is useful to delay work from the bpf_timer_cb and it may also usef=
-ul to
->> >> delay work from other bpf running context (e.g. the networking hooks =
-like
->> >> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forci=
-ng
->> >> delay-work must be done in a bpf_timer_cb.
->> >
->> > Basically I'm just a monkey here. I've been told that I should use
->> > bpf_timer[0]. But my implementation is not finished, as Alexei mention=
-ed
->> > that we should bypass hrtimer if I'm not wrong [1].
->>=20
->> I don't think getting rid of the hrtimer in favour of
->> schedule_delayed_work() makes any sense. schedule_delayed_work() does
->> exactly the same as you're doing in this version of the patch: it
->> schedules a timer callback, and calls queue_work() from inside that
->> timer callback. It just uses "regular" timers instead of hrtimers. So I
->> don't think there's any performance benefit from using that facility; on
->> the contrary, it would require extra logic to handle cancellation etc;
->> might as well just re-use the existing hrtimer-based callback logic we
->> already have, and do a schedule_work() from the hrtimer callback like
->> you're doing now.
->
-> I agree that we can nicely emulate delayed_timer with the current patch
-> series. However, if I understand Alexei's idea (and Martin's) there are
-> cases where we just want schedule_work(), without any timer involved.
-> That makes a weird timer (with a delay always equal to 0), but it would
-> allow to satisfy those latency issues.
->
-> So (and this also answers your second email today) I'm thinking at:
-> - have multiple flags to control the timer (with dedicated timer_cb
->   kernel functions):
->   - BPF_F_TIMER_HRTIMER (default)
->   - BPF_F_TIMER_WORKER (no timer, just workqueue)
->   - BPF_F_TIMER_DELAYED_WORKER (hrtimer + workqueue, or actual
->     delayed_work, but that's re-implementing stuffs)
+Missing description.
 
-I don't think the "delayed" bit needs to be a property of the timer; the
-context in which the timer is executed (softirq vs workqueue) is,
-because that has consequences for how the callback is verified (it would
-be neat if we could know the flag at verification time, but since we
-can't we need the pairing with the _set_sleepable_cb()).
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +
+> +    patternProperties:
 
-But the same timer could be used both as an immediate and a delayed
-callback during its lifetime; so I think this should rather be governed
-by a flag to bpf_timer_start(). In fact, the patch I linked earlier[0]
-does just that, adding a BPF_TIMER_IMMEDIATE flag to bpf_timer_start().
-I.e., keep the hrtimer allocated at all times, but skip going through it
-if that flag is set.
+No underscores.
 
-An alternative could also be to just special-case a zero timeout in
-bpf_timer_start(); I don't actually recall why I went with the flag
-instead when I wrote that patch...
+> +      "^pse_pi@[0-9a-f]+$":
+> +        type: object
+> +        description:
+> +          PSE PI for power delivery via pairsets, compliant with IEEE
+> +          802.3-2022, Section 145.2.4. Each pairset comprises a positive and
+> +          a negative VPSE pair, adhering to the pinout configurations
+> +          detailed in the standard.
+> +          See Documentation/networking/pse-pd/pse-pi.rst for details.
+> +
+> +        properties:
+> +          reg:
+> +            description:
+> +              Address describing the PSE PI index.
+> +            maxItems: 1
+> +
+> +          "#pse-cells":
+> +            const: 0
+> +
+> +          pairset-names:
+> +            $ref: /schemas/types.yaml#/definitions/string-array
+> +            description:
+> +              Names of the pairsets as per IEEE 802.3-2022, Section 145.2.4.
+> +              Valid values are "alternative-a" and "alternative-b". Each name
+> +              should correspond to a phandle in the 'pairset' property
+> +              pointing to the power supply for that pairset.
+> +            minItems: 1
+> +            maxItems: 2
+> +            items:
+> +              enum:
+> +                - "alternative-a"
+> +                - "alternative-b"
 
--Toke
+No need for quotes.
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/?=
-h=3Dxdp-queueing-08&id=3D54bc201a358d1ac6ebfe900099315bbd0a76e862
+I believe you did not test it, so I will skip reviewing the rest.
+
+
+Best regards,
+Krzysztof
 
