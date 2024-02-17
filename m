@@ -1,101 +1,108 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CCC2D78A
-	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 16:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6971E515;
+	Sat, 17 Feb 2024 17:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708187661; cv=none; b=Af376SvYRM+eQVjoC02kKP3y0WkPVeZ37SCYypRxfGWsqLbWnLf1ayiyFn+Vzd6+F9kxMYtidPb1jepD4mhLTD7s+oaF9dORtq+meuUnlz5zhHK2F3rd3EigIUWC4uxv9NQS40J1RvzUAnFC5Vm9GQMg4/NMHYwOptGDC/9jyU8=
+	t=1708189661; cv=none; b=T7mdOhMfVboUTiwGUSz+zUin/QerKLcsY3/zeFnmSKjJMEC3dtakad5lbbBzYQtiRr5a08q9rHaljzrzHWxSiOblqegvtvEGUZuiOkMkm7UD7rQfYmYqN5+ye1Pn0IyiKFYliAvX5upXOyRN+19PW6NeNZoowh0Q1b8p6ztR0fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708187661; c=relaxed/simple;
-	bh=D1bRGTKhYbAaTA23n7QfW1h1Ir0TNAXseDoCvb0Jgcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s6ngJNtdBq8N7+jrD7WDix0UsQi0U4rT/AL6oEAyRWkMVDHiz6NoBq5N0zmFCqsNSjuWxN+N+qQqxfJIl+Bf4nfYhEI/KHnq2ef2A3JV0ONbRB/hPSsKOigG/AkpX1DPFe3va+GVlatBfuQ9qJeKcZbOUPLMZEIE1MW2mbxuGKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FGzKLh5a; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1708189661; c=relaxed/simple;
+	bh=P7I4J4DdTmbjWZu4aPEcn7nHHUmnnyqGemw9zvzq0QE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cGw2ln+/1GEi8rqyFLzFOLRfECl2uy0rrH+XInavUXxqSDfIJ8DuAJLZDS+uAE+YLHNscmqb8iICrtgTBW1pGnK9JiyuwLz3/PWcIe4pXTrXZxyz7DaxRY4BaPKElBHu2LSNexFAmXW6RHhYLIiDNrJzC7g0tE1RJyX+uI2jZDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=r8rhlLNO; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FGzKLh5a"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=J8bIo5mYrgCW5S2otUZnc/+y0FuV38my26nSwy6FVCU=; b=FGzKLh5aUyCedM+zUp47AQGy3e
-	uKSyp70D/WGdtTCgEj68FvfhZwHpzk5qBHQ5eqS/oEvfJlJSjzHxQMqwF+n40oACZyM5oPocGDpKp
-	9hemjf7VcUXP2pG5PkqVU3gTzWQi67kF+4tQePlTv+W0ja3HrYeWjmsIrJSbsuJ1oWmFcAdEx4Pww
-	mGNtnWJwBi7WGhnCQLecaYdjpPIlya8+6NUK8r7RGt6JpubCQBxWwnFP0LDR2bPul5CE6NK8/EPzf
-	9wG2oRc1Ce3Xip+yUdumwKvmXSLu/mzWtEJwTUfpPZFQBeEH3jYVt2h1YkJpfHnqVMtE+tDoJeoWl
-	9xEeZw7Q==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rbNdn-000000061AR-0K8S;
-	Sat, 17 Feb 2024 16:34:15 +0000
-Message-ID: <e096699e-723f-4dcc-9da9-ec967cfc213f@infradead.org>
-Date: Sat, 17 Feb 2024 08:34:14 -0800
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="r8rhlLNO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=GRWtM/ktgdCwvK0hR9nKaqw64qBDSz1jmEq5mVbyKEI=; b=r8rhlLNO/6AsRMW9Zz9sSPI1in
+	X85y7Wf6RkjfunwAJY5tc8qcYWnXOm36cfDJOK73KUO8Ke/FKjLRhKm5+yJePUl0hi0wN+fMH30Y7
+	a0G/rEr7JEyNyx1aUeIrYTgC5bG5UOpx80RLwapFYOKc1X6p0WBitYkafxeD2Kc0Ha54=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rbO9z-0084Zo-Cv; Sat, 17 Feb 2024 18:07:31 +0100
+Date: Sat, 17 Feb 2024 18:07:31 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY default
+ timestamp to MAC
+Message-ID: <b8926fe5-81ef-40ea-9e87-5e84b368b745@lunn.ch>
+References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
+ <20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
+ <87jzn4gtlv.fsf@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] doc headings sweep
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet
- <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jani Nikula <jani.nikula@intel.com>
-Cc: linux-doc@vger.kernel.org
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
- <2024021530-plank-cornmeal-90eb@gregkh>
- <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com> <87v86o4xu0.fsf@intel.com>
- <2024021619-barrack-shack-206c@gregkh> <87r0hcv4lj.fsf@meer.lwn.net>
- <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87jzn4gtlv.fsf@nvidia.com>
 
-
-
-On 2/16/24 23:31, Vegard Nossum wrote:
-> On 16/02/2024 15:58, Jonathan Corbet wrote:
->> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
->>
->>> On Fri, Feb 16, 2024 at 10:28:39AM +0200, Jani Nikula wrote:
->>>> rst basically allows any order of the heading underlines, and their
->>>> relative hierarchy is determined by how they show up in each document,
->>>> it's not specified by rst. However, it would be much easier for everyone
->>>> if all the kernel documents followed the same style.
->>>
->>> Agreed, someone should pick a style and sweep the whole directory and
->>> sync them up to the agreed formatting. :)
->>
->> Somebody did pick a style, it's in Documentation/doc-guide/sphinx.rst :)
+On Fri, Feb 16, 2024 at 10:09:36AM -0800, Rahul Rameshbabu wrote:
 > 
-> I have a (very long and ugly) script that can fix these up to a
-> consistent style, the attached patch is the result of running it on
-> Documentation/process/ only.
+> On Fri, 16 Feb, 2024 16:52:22 +0100 Kory Maincent <kory.maincent@bootlin.com> wrote:
+> > Change the API to select MAC default time stamping instead of the PHY.
+> > Indeed the PHY is closer to the wire therefore theoretically it has less
+> > delay than the MAC timestamping but the reality is different. Due to lower
+> > time stamping clock frequency, latency in the MDIO bus and no PHC hardware
+> > synchronization between different PHY, the PHY PTP is often less precise
+> > than the MAC. The exception is for PHY designed specially for PTP case but
+> > these devices are not very widespread. For not breaking the compatibility
+> > default_timestamp flag has been introduced in phy_device that is set by
+> > the phy driver to know we are using the old API behavior.
+> >
+> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > ---
 > 
-> I've done builds before and after the patch and diffed the resulting
-> HTML files, they show no difference. (HOWEVER, you do need a 'make
-> cleandocs' in between, as it seems doing 'make htmldocs; find
-> Documentation | xargs touch; make htmldocs' is going to change the
-> generated HTML for the sidebar -- another issue to look into at some
-> point, I guess; maybe it's specific to the Sphinx version I used here,
-> 4.3.2.)
-> 
-> The script will leave alone any file that it doesn't quite understand
-> (e.g. for a lot of the translations there are way more underlines than
-> characters in the heading and it doesn't match up with the byte count
-> either).
-> 
-> Anyway, the question is: Is this worth doing in the first place, or is
-> it just churn? I assume just after -rc1 would be the ideal time to
-> submit these to avoid conflicts.
+> Overall, I agree with the motivation and reasoning behind the patch. It
+> takes dedicated effort to build a good phy timestamping mechanism, so
+> this approach is good. I do have a question though. In this patch if we
+> set the phy as the default timestamp mechanism, does that mean for even
+> non-PTP applications, the phy will be used for timestamping when
+> hardware timestamping is enabled? If so, I think this might need some
+> thought because there are timing applications in general when a
+> timestamp closest to the MAC layer would be best.
 
-Yes, do it, please.
-Thanks.
+Could you give some examples? It seems odd to me, the application
+wants a less accurate timestamp?
 
--- 
-#Randy
+Is it more about overheads? A MAC timestamp might be less costly than
+a PHY timestamp?
+
+Or is the application not actually doing PTP, it does not care about
+the time of the packet on the wire, but it is more about media access
+control? Maybe the applications you are talking about are misusing the
+PTP API for something its not intended?
+
+    Andrew
