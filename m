@@ -1,71 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37E69E03;
-	Sat, 17 Feb 2024 11:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796C569E03
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 12:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708170971; cv=none; b=Crv9j2x1McI+1MzPx75xPZrX5jCMnJe3amJv9Dj6Z15k6qksuOc03he7hkSeUd9/Q7IZ2lmiU/17vUDE6Pnnc15IYPaatCgQn+DlYpYeuZsV/BkjO7hT9BrkJM0DF9IDfQXHqKpwN4woZ3fOIzz60OmTo4bWhMtziI9bCmYiKYQ=
+	t=1708172110; cv=none; b=PGXMXV7b0ouZEV+z4YvIoreL0J/c3fhwJMagvOdQtIiyhVgA/SdNw0T9FcSOhCqXaE2b7VJ9J1WRcdg4DIhDXxFNX2iN83fSE0mDu3XA1oU4TKqvRut1SxFEGCAucP2l4X8z7L0ohjtQNTvdi0gfvX9JARQzwXzn3KpPML4hMAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708170971; c=relaxed/simple;
-	bh=G4oVzcLV/ykkxbfQ9i2WyOmmFAhJ7hFVEiqulSQ7rtA=;
+	s=arc-20240116; t=1708172110; c=relaxed/simple;
+	bh=S2t8ZmWnf3+Vn3K2L7tspN0gX9dvNd1USxfVoDWBbZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rKhSkJAr7inuwH27P1mUEp3XuGfZzp+0+WIjR1Z9qTmq70wMipNXK09vKjuRnzMtBP+yEBJl/OlRDPucAJN34N7vWW+b/pfpu9JOEHbuGU4AAIs8KRqLe80cTpOOpJjORJ/JD/92wdRdVN05iEyIl/87Hg2+d0eZ8x5ZE5jiUAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bmwFHsR1; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bmwFHsR1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 895E3C433F1;
-	Sat, 17 Feb 2024 11:56:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708170971;
-	bh=G4oVzcLV/ykkxbfQ9i2WyOmmFAhJ7hFVEiqulSQ7rtA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bmwFHsR1utDNz5Ddraahz5/SdD9hSFNbRecKfb7nwYqrZGXJGjv/uHUFWYiuvnTPG
-	 Y6GuyEp8+jJfD0xeVcsiez5Hs/DaOLs0Dkyk3SNColG5GtpyIYPMtw6wRItVyanO+Z
-	 KTzjO9XQ6s0LqxzOX2KmhMekuAIo1++1Mk2qtUVQ=
-Date: Sat, 17 Feb 2024 12:56:07 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jani Nikula <jani.nikula@intel.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	security@kernel.org, Kees Cook <keescook@chromium.org>,
-	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Document the Linux Kernel CVE process
-Message-ID: <2024021751-impulsive-vanity-b799@gregkh>
-References: <2024021430-blanching-spotter-c7c8@gregkh>
- <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
- <2024021530-plank-cornmeal-90eb@gregkh>
- <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
- <87v86o4xu0.fsf@intel.com>
- <2024021619-barrack-shack-206c@gregkh>
- <87r0hcv4lj.fsf@meer.lwn.net>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJtslqCuDsbrOLaBLwaPy2jlCHOZN3HO3PSIRsDVFYlgwIZvg80JnK6ZmN02oJFgkJQlazlFvx7JThbeHrQKt7Crxw55FHGmK4VpWG7syXFa/sAO4uTFNgAlaVVvwcmONCd9F5l/wqZ6FQaCQMVCGZ1ema0wg2rZy8ucn3WgLw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbJaS-0000RV-Fa; Sat, 17 Feb 2024 13:14:32 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbJaP-001GBa-EN; Sat, 17 Feb 2024 13:14:29 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbJaP-00CwUe-15;
+	Sat, 17 Feb 2024 13:14:29 +0100
+Date: Sat, 17 Feb 2024 13:14:29 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v4 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <ZdCjJcPbbBGYVtuo@pengutronix.de>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+ <20240215-feature_poe-v4-14-35bb4c23266c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87r0hcv4lj.fsf@meer.lwn.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240215-feature_poe-v4-14-35bb4c23266c@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, Feb 16, 2024 at 07:58:00AM -0700, Jonathan Corbet wrote:
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+On Thu, Feb 15, 2024 at 05:02:55PM +0100, Kory Maincent wrote:
+> Add the PD692x0 I2C Power Sourcing Equipment controller device tree
+> bindings documentation.
 > 
-> > On Fri, Feb 16, 2024 at 10:28:39AM +0200, Jani Nikula wrote:
-> >> rst basically allows any order of the heading underlines, and their
-> >> relative hierarchy is determined by how they show up in each document,
-> >> it's not specified by rst. However, it would be much easier for everyone
-> >> if all the kernel documents followed the same style.
-> >
-> > Agreed, someone should pick a style and sweep the whole directory and
-> > sync them up to the agreed formatting. :)
+> This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
 > 
-> Somebody did pick a style, it's in Documentation/doc-guide/sphinx.rst :)
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
+...
+> +        pse_pis {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          pse_pi0: pse_pi@0 {
+> +            reg = <0>;
+> +            #pse-cells = <0>;
+> +            pairset-names = "alternative-a", "alternative-b";
+> +            pairsets = <&phys0>, <&phys1>;
+> +          };
+> +          pse_pi1: pse_pi@1 {
+> +            reg = <1>;
+> +            #pse-cells = <0>;
+> +            pairset-names = "alternative-a";
+> +            pairsets = <&phys2>;
 
-Fair enough, I'll go fix up the file headers here :)
+According to latest discussions, PSE PI nodes will need some
+additional, board specific, information:
+- this controller do not implements polarity switching, we need to know
+  what polarity is implemented on this board. The 802.3 spec provide not
+  really consistent names for polarity configurations:
+  - Alternative A MDI-X
+  - Alternative A MDI
+  - Alternative B X
+  - Alternative B S
+  The board may implement one of polarity configurations per alternative
+  or have additional helpers to switch them without using PSE
+  controller.
+  Even if specification explicitly say:
+  "The PD shall be implemented to be insensitive to the polarity of the power
+   supply and shall be able to operate per the PD Mode A column and the PD
+   Mode B column in Table 33–13"
+  it is possible to find reports like this:
+  https://community.ui.com/questions/M5-cant-take-reversed-power-polarity-/d834d9a8-579d-4f08-80b1-623806cc5070
 
-thanks,
+  Probably this kind of property is a good fit:
+  polarity-supported = "MDI-X", "MDI", "X", "S";
 
-greg k-h
+- Except of polarity, we have alternative-b variant with direct or
+  phantom feeding (No idea if it is proper description). Theoretically, this
+  difference would affect electrical rating specifications.
+  For example direct path for alternate-b (10/100Mbit only), would have
+  higher rating as the path over coils/magnetics. Practically, vendors do not
+  make different ratings for this paths, so no need to care about it for now
+  until someone will be able to provide good reason.
+  Here is example of RJ45 connector with integrated magnetics with PoE support
+  where alternative-a feed over magnetics and alternative-b is feed directly:
+  https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=5-2337992-4&DocType=Customer+Drawing&DocLang=English&PartCntxt=5-2337992-4&DocFormat=pdf 
+
+  (the last topic is more an answer to my self and for archive :))
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
