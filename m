@@ -1,107 +1,45 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E0C224CA
-	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 00:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2FB21100;
+	Sat, 17 Feb 2024 00:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708131529; cv=none; b=kV3qfF9FEuTyCzeTpBQ+52qM7u82MHs+4rNlWx/brHuM7Cua24jRay14UMH+4meB87tFGr3aNYtyE8Ilu7LzHX8Xunudhs+ObipnZQ6eOmUN1HIdYjnMbfcLlnCH7ODTYmIjNaEY42/Q9fjczAi3MkBYriR7TFNe5bVR4/MjYnQ=
+	t=1708131529; cv=none; b=hlXFef9vtaGwaHb+MzVsLh4qGhp8uY8ebLN2PovHLzML85VPkbXBmfHyl5Cm+QG66YOmFUBorjZ6Hkt182uHuxPuEj38KsdOqfgZuuL68ShC0k7+efpujktK26hcRnel1c2WvJ7mX3Ji5k1tI2+Q8St6j+Ot0FXh85thKknMrWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708131529; c=relaxed/simple;
-	bh=xGRjYApXgZ4WfYQCTXY8koBTsbYbevNMvM6kYRo0L74=;
+	bh=PHukevGUaPQZ0Um8hgVXJLMqOMYMR4EFewceSXfTR20=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Y5+27mBFyEHd2MXevVcCYrmp9nuVNV1n8S4b5dhzidZD9Mk8SeQQa+lKcaC9xdszL7zY7MkiPelZodYif7A2Ize6ayoCbwkWgRbkXFUCjjdEBq2IIwedl4eedkAvCTAph0hbDdLsmvtX2ZMwujnf+C16LNed4gn0e5FRFm8iZKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=YFP5sTYC; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 MIME-Version; b=L4nTWxQXHhMxY7ywXPaJCC0lnFRFYNWYoa06puRvABJRvIRxsI5hu5q2u7IUhqW5e/cj7lTxYsBLOXXf11RXMJj6J8JHQLkWE3Evo01U+Nb18fVQcFfcQciJJnpdcm5XnKtrrt8pLPE43G6cRc91uo2yeRqnZKMObhvBrf27PPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1LRIars; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YFP5sTYC"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-364f791a428so8149055ab.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 16:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708131525; x=1708736325; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JIGj4g715G6yohgyO/4Q0tCiDPX2tJrcO1/uwFaLqes=;
-        b=YFP5sTYCgJ3FdKs7hPjdkQuOFfKGwQgufq1cYmQJE5uHSoBKoTMOYvehtZ1yvm1bPj
-         sIMT622KNZQoNmLbL4pHn94Y5g7ClotgMs0NUCNT3O7FbH0KI9uqG7sPyNUUoIS8Hv6W
-         I2E7BNBRxljocM+lmFglT1MFr34gp17pJOoSZcxpu798oGFHH76Pqh7cYJVlTqigCwph
-         GauRzk9iKM7hMDJQRa6gfVwpUnuUEMtfp9t353QEyD5QECSM0QhS4WJ7YGohfqNZWBg5
-         nOXYfVXixIK3fbqDcFyWVLaN/YUcDzkcEKhCdWr9QQ2VgS7Le4930yocOdzVTEc+oeUa
-         WQUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708131525; x=1708736325;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JIGj4g715G6yohgyO/4Q0tCiDPX2tJrcO1/uwFaLqes=;
-        b=rALb1vke045eeUdOLVzI77gUPqKeTrTuwaa10615ildt2vvliEQw3slmwXqMLWNRUk
-         ujt5dW1MFQTN9bGSNDV6lSjRLF5rpl2834x1lEcTr/cV7P4P0nYlwD11+K9oAcIHBf5X
-         AbX7ckxHTBnMBj2/ZLpO1PPx0geDSY4nCzggTh2Eb1G1VGeiiPlK1v0IRnC8YZAI5u9V
-         42EVlT2T18pagfidIPm2MKpoH4KKnlZmMcrqRR9yvTz9UcTx/TGYOUeKZH4Tky2u+iy0
-         fMCGECd8eAI6aNzbWOmVr7FrpoBH3flPYocglpr1Y0VjgEgcVrvAgrxjnaQa4FfjugfF
-         Ycyg==
-X-Forwarded-Encrypted: i=1; AJvYcCXD2elUyq6/El4DjLvAc8xkZ1rDjdDYA5f26xvhsycO3X7/do0f1FivzyeeG45PgBSfmLvyRRTDRdsJxgoWO2mg1UlI8Yc7aVW/
-X-Gm-Message-State: AOJu0YydLiWH9zxJBoLKyzOI2qdUevNNZXU+stkpDsIdiqknyuqNmDad
-	1oLA5GQkL5ks82vej/DjYy0xkHqjCumTn7iAVsfRCMqwYLtSicsHB4Hv9le2X1U=
-X-Google-Smtp-Source: AGHT+IF+X2u5pVrDfJiSLKIz3PkBfnEp1Eo29CwD/FNCbs9zzOknJEUhVT4g49rCOyNlyB3Z65pvKw==
-X-Received: by 2002:a92:d081:0:b0:365:156:bb86 with SMTP id h1-20020a92d081000000b003650156bb86mr4612456ilh.2.1708131525473;
-        Fri, 16 Feb 2024 16:58:45 -0800 (PST)
-Received: from atishp.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d188-20020a6336c5000000b005dc89957e06sm487655pga.71.2024.02.16.16.58.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 16:58:45 -0800 (PST)
-From: Atish Patra <atishp@rivosinc.com>
-To: linux-kernel@vger.kernel.org
-Cc: Atish Patra <atishp@rivosinc.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Anup Patel <anup@brainfault.org>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Christian Brauner <brauner@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Conor Dooley <conor@kernel.org>,
-	devicetree@vger.kernel.org,
-	Evan Green <evan@rivosinc.com>,
-	Guo Ren <guoren@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Ian Rogers <irogers@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Clark <james.clark@arm.com>,
-	Jing Zhang <renyu.zj@linux.alibaba.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ji Sheng Teoh <jisheng.teoh@starfivetech.com>,
-	John Garry <john.g.garry@oracle.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1LRIars"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E7F1C43390;
+	Sat, 17 Feb 2024 00:58:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708131528;
+	bh=PHukevGUaPQZ0Um8hgVXJLMqOMYMR4EFewceSXfTR20=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=V1LRIarsi4JEdp5awudjc8ZjiK4TTDFQvBacB7HgvC9og6SplSDfSj8p9vx7Nj1vU
+	 MXt6mtUIt/A3GuCr60Kt4C+LT1P/BFtsSq+1sFP5SzhpblfgpDJHEx1coctwHfxF4Y
+	 1aflAnUaAPr8y286nDAaC2Bx03T5qXXnXP06wYAtuL//9xKsm8/mbH/ZdM2H3zWRAm
+	 4fW0ZDYAO0hI2FGOwq5MynjPnqmI6ulZsgjSumQuTmBN1vesW0pIRAvRFhu216FWyw
+	 w0N6B3qOo/dajkSf/2tCIL8phQRnHhfS9cwp+sb++optf0lUc91VHsTIbSMYg2mbVc
+	 vi47D6ILa3s6g==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Weilin Wang <weilin.wang@intel.com>,
-	Will Deacon <will@kernel.org>,
-	kaiwenxue1@gmail.com,
-	Yang Jihong <yangjihong1@huawei.com>
-Subject: [PATCH RFC 12/20] RISC-V: perf: Modify the counter discovery mechanism
-Date: Fri, 16 Feb 2024 16:57:30 -0800
-Message-Id: <20240217005738.3744121-13-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240217005738.3744121-1-atishp@rivosinc.com>
-References: <20240217005738.3744121-1-atishp@rivosinc.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 3/5] Docs/mm/damon: move DAMON operation sets list from the usage to the design document
+Date: Fri, 16 Feb 2024 16:58:40 -0800
+Message-Id: <20240217005842.87348-4-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240217005842.87348-1-sj@kernel.org>
+References: <20240217005842.87348-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -110,224 +48,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If both counter delegation and SBI PMU is present, the counter
-delegation will be used for hardware pmu counters while the SBI PMU
-will be used for firmware counters. Thus, the driver has to probe
-the counters info via SBI PMU to distinguish the firmware counters.
+The list of DAMON operation sets and their explanation, which may better
+to be on design document, is written on the usage document.  Move the
+detail to design document and make the usage document only reference the
+design document.
 
-The hybrid scheme also requires improvements of the informational
-logging messages to indicate the user about underlying interface
-used for each use case.
-
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
+Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- drivers/perf/riscv_pmu_dev.c | 120 ++++++++++++++++++++++++++---------
- 1 file changed, 90 insertions(+), 30 deletions(-)
+ Documentation/admin-guide/mm/damon/usage.rst | 19 +++++++------------
+ Documentation/mm/damon/design.rst            | 12 ++++++++++--
+ 2 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/perf/riscv_pmu_dev.c b/drivers/perf/riscv_pmu_dev.c
-index 3d27bd65f140..dfc0ddee9da4 100644
---- a/drivers/perf/riscv_pmu_dev.c
-+++ b/drivers/perf/riscv_pmu_dev.c
-@@ -35,6 +35,11 @@
- PMU_FORMAT_ATTR(event, "config:0-47");
- PMU_FORMAT_ATTR(firmware, "config:63");
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 0335d584956b..be0924f47a42 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -180,19 +180,14 @@ In each context directory, two files (``avail_operations`` and ``operations``)
+ and three directories (``monitoring_attrs``, ``targets``, and ``schemes``)
+ exist.
  
-+static DEFINE_STATIC_KEY_FALSE(riscv_pmu_sbi_available);
-+static DEFINE_STATIC_KEY_FALSE(riscv_pmu_cdeleg_available);
-+static bool cdeleg_available;
-+static bool sbi_available;
-+
- static struct attribute *riscv_arch_formats_attr[] = {
- 	&format_attr_event.attr,
- 	&format_attr_firmware.attr,
-@@ -56,7 +61,8 @@ static int sysctl_perf_user_access __read_mostly = SYSCTL_USER_ACCESS;
- 
- /*
-  * This structure is SBI specific but counter delegation also require counter
-- * width, csr mapping. Reuse it for now.
-+ * width, csr mapping. Reuse it for now we can have firmware counters for
-+ * platfroms with counter delegation support.
-  * RISC-V doesn't have heterogeneous harts yet. This need to be part of
-  * per_cpu in case of harts with different pmu counters
-  */
-@@ -67,6 +73,8 @@ static unsigned int riscv_pmu_irq;
- 
- /* Cache the available counters in a bitmask */
- static unsigned long cmask;
-+/* Cache the available firmware counters in another bitmask */
-+static unsigned long firmware_cmask;
- 
- struct sbi_pmu_event_data {
- 	union {
-@@ -575,35 +583,49 @@ static int rvpmu_sbi_find_num_ctrs(void)
- 		return sbi_err_map_linux_errno(ret.error);
- }
- 
--static int rvpmu_sbi_get_ctrinfo(int nctr, unsigned long *mask)
-+static int rvpmu_deleg_find_ctrs(void)
-+{
-+	/* TODO */
-+	return -1;
-+}
-+
-+static int rvpmu_sbi_get_ctrinfo(int nsbi_ctr, int ndeleg_ctr)
- {
- 	struct sbiret ret;
--	int i, num_hw_ctr = 0, num_fw_ctr = 0;
-+	int i, num_hw_ctr = 0, num_fw_ctr = 0, num_ctr = 0;
- 	union sbi_pmu_ctr_info cinfo;
- 
--	pmu_ctr_list = kcalloc(nctr, sizeof(*pmu_ctr_list), GFP_KERNEL);
--	if (!pmu_ctr_list)
--		return -ENOMEM;
+-DAMON supports multiple types of monitoring operations, including those for
+-virtual address space and the physical address space.  You can get the list of
+-available monitoring operations set on the currently running kernel by reading
++DAMON supports multiple types of :ref:`monitoring operations
++<damon_design_confiurable_operations_set>`, including those for virtual address
++space and the physical address space.  You can get the list of available
++monitoring operations set on the currently running kernel by reading
+ ``avail_operations`` file.  Based on the kernel configuration, the file will
+-list some or all of below keywords.
 -
--	for (i = 0; i < nctr; i++) {
-+	for (i = 0; i < nsbi_ctr; i++) {
- 		ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_COUNTER_GET_INFO, i, 0, 0, 0, 0, 0);
- 		if (ret.error)
- 			/* The logical counter ids are not expected to be contiguous */
- 			continue;
- 
--		*mask |= BIT(i);
+- - vaddr: Monitor virtual address spaces of specific processes
+- - fvaddr: Monitor fixed virtual address ranges
+- - paddr: Monitor the physical address space of the system
 -
- 		cinfo.value = ret.value;
- 		if (cinfo.type == SBI_PMU_CTR_TYPE_FW)
- 			num_fw_ctr++;
--		else
+-Please refer to :ref:`regions sysfs directory <sysfs_regions>` for detailed
+-differences between the operations sets in terms of the monitoring target
+-regions.
++list different available operation sets.  Please refer to the :ref:`design
++<damon_operations_set>` for the list of all available operation sets and their
++brief explanations.
+ 
+ You can set and get what type of monitoring operations DAMON will use for the
+ context by writing one of the keywords listed in ``avail_operations`` file and
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 9f16c4e62e72..6abf976dd71f 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -31,6 +31,8 @@ DAMON subsystem is configured with three layers including
+   interfaces for the user space, on top of the core layer.
+ 
+ 
++.. _damon_design_configurable_operations_set:
 +
-+		if (!cdeleg_available) {
- 			num_hw_ctr++;
--		pmu_ctr_list[i].value = cinfo.value;
-+			cmask |= BIT(i);
-+			pmu_ctr_list[i].value = cinfo.value;
-+		} else if (cinfo.type == SBI_PMU_CTR_TYPE_FW) {
-+			/* Track firmware counters in a different mask */
-+			firmware_cmask |= BIT(i);
-+			pmu_ctr_list[i].value = cinfo.value;
-+		}
+ Configurable Operations Set
+ ---------------------------
+ 
+@@ -63,6 +65,8 @@ modules that built on top of the core layer using the API, which can be easily
+ used by the user space end users.
+ 
+ 
++.. _damon_operations_set:
 +
- 	}
+ Operations Set Layer
+ ====================
  
--	pr_info("%d firmware and %d hardware counters\n", num_fw_ctr, num_hw_ctr);
-+	if (cdeleg_available) {
-+		pr_info("%d firmware and %d hardware counters\n", num_fw_ctr, ndeleg_ctr);
-+		num_ctr = num_fw_ctr + ndeleg_ctr;
-+	} else {
-+		pr_info("%d firmware and %d hardware counters\n", num_fw_ctr, num_hw_ctr);
-+		num_ctr = nsbi_ctr;
-+	}
+@@ -71,8 +75,12 @@ The monitoring operations are defined in two parts:
+ 1. Identification of the monitoring target address range for the address space.
+ 2. Access check of specific address range in the target space.
  
--	return 0;
-+	return num_ctr;
- }
- 
- static inline void rvpmu_sbi_stop_all(struct riscv_pmu *pmu)
-@@ -775,16 +797,33 @@ static void rvpmu_ctr_stop(struct perf_event *event, unsigned long flag)
- 	/* TODO: Counter delegation implementation */
- }
- 
--static int rvpmu_find_num_ctrs(void)
-+static int rvpmu_find_ctrs(void)
- {
--	return rvpmu_sbi_find_num_ctrs();
--	/* TODO: Counter delegation implementation */
--}
-+	int num_sbi_counters = 0, num_deleg_counters = 0, num_counters = 0;
- 
--static int rvpmu_get_ctrinfo(int nctr, unsigned long *mask)
--{
--	return rvpmu_sbi_get_ctrinfo(nctr, mask);
--	/* TODO: Counter delegation implementation */
-+	/*
-+	 * We don't know how many firmware counters available. Just allocate
-+	 * for maximum counters driver can support. The default is 64 anyways.
-+	 */
-+	pmu_ctr_list = kcalloc(RISCV_MAX_COUNTERS, sizeof(*pmu_ctr_list),
-+			       GFP_KERNEL);
-+	if (!pmu_ctr_list)
-+		return -ENOMEM;
+-DAMON currently provides the implementations of the operations for the physical
+-and virtual address spaces. Below two subsections describe how those work.
++DAMON currently provides below three operation sets.  Below two subsections
++describe how those work.
 +
-+	if (cdeleg_available)
-+		num_deleg_counters = rvpmu_deleg_find_ctrs();
-+
-+	/* This is required for firmware counters even if the above is true */
-+	if (sbi_available)
-+		num_sbi_counters = rvpmu_sbi_find_num_ctrs();
-+
-+	if (num_sbi_counters >= RISCV_MAX_COUNTERS || num_deleg_counters >= RISCV_MAX_COUNTERS)
-+		return -ENOSPC;
-+
-+	/* cache all the information about counters now */
-+	num_counters = rvpmu_sbi_get_ctrinfo(num_sbi_counters, num_deleg_counters);
-+
-+	return num_counters;
- }
++ - vaddr: Monitor virtual address spaces of specific processes
++ - fvaddr: Monitor fixed virtual address ranges
++ - paddr: Monitor the physical address space of the system
  
- static int rvpmu_event_map(struct perf_event *event, u64 *econfig)
-@@ -1069,12 +1108,21 @@ static int rvpmu_device_probe(struct platform_device *pdev)
- 	int ret = -ENODEV;
- 	int num_counters;
  
--	pr_info("SBI PMU extension is available\n");
-+	if (cdeleg_available) {
-+		pr_info("hpmcounters will use the counter delegation ISA extension\n");
-+		if (sbi_available)
-+			pr_info("Firmware counters will be use SBI PMU extension\n");
-+		else
-+			pr_info("Firmware counters will be not available as SBI PMU extension is not present\n");
-+	} else if (sbi_available) {
-+		pr_info("Both hpmcounters and firmware counters will use SBI PMU extension\n");
-+	}
-+
- 	pmu = riscv_pmu_alloc();
- 	if (!pmu)
- 		return -ENOMEM;
- 
--	num_counters = rvpmu_find_num_ctrs();
-+	num_counters = rvpmu_find_ctrs();
- 	if (num_counters < 0) {
- 		pr_err("SBI PMU extension doesn't provide any counters\n");
- 		goto out_free;
-@@ -1086,9 +1134,6 @@ static int rvpmu_device_probe(struct platform_device *pdev)
- 		pr_info("SBI returned more than maximum number of counters. Limiting the number of counters to %d\n", num_counters);
- 	}
- 
--	/* cache all the information about counters now */
--	if (rvpmu_get_ctrinfo(num_counters, &cmask))
--		goto out_free;
- 
- 	ret = rvpmu_setup_irqs(pmu, pdev);
- 	if (ret < 0) {
-@@ -1147,11 +1192,26 @@ static int __init rvpmu_devinit(void)
- 	int ret;
- 	struct platform_device *pdev;
- 
--	if (sbi_spec_version < sbi_mk_version(0, 3) ||
--	    !sbi_probe_extension(SBI_EXT_PMU)) {
--		return 0;
-+	if (sbi_spec_version >= sbi_mk_version(0, 3) &&
-+	    sbi_probe_extension(SBI_EXT_PMU)) {
-+		static_branch_enable(&riscv_pmu_sbi_available);
-+		sbi_available = true;
-+	}
-+
-+	/*
-+	 * We need all three extensions to be present to access the counters
-+	 * in S-mode via Supervisor Counter delegation.
-+	 */
-+	if (riscv_isa_extension_available(NULL, SSCCFG) &&
-+	    riscv_isa_extension_available(NULL, SMCDELEG) &&
-+	    riscv_isa_extension_available(NULL, SSCSRIND)) {
-+		static_branch_enable(&riscv_pmu_cdeleg_available);
-+		cdeleg_available = true;
- 	}
- 
-+	if (!(sbi_available || cdeleg_available))
-+		return 0;
-+
- 	ret = cpuhp_setup_state_multi(CPUHP_AP_PERF_RISCV_STARTING,
- 				      "perf/riscv/pmu:starting",
- 				      rvpmu_starting_cpu, rvpmu_dying_cpu);
+ VMA-based Target Address Range Construction
 -- 
-2.34.1
+2.39.2
 
