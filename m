@@ -1,87 +1,181 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469E71B7E5;
-	Sat, 17 Feb 2024 06:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA7B1CD1E
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 06:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708150714; cv=none; b=WkEklN9qChWzIlIbThPtF/TycrG7f2vX0bmFicx1w6rM68deHMLxCNq9MDCVHR+z+Rjk++TCFp6z9XMPhJSk74yROQW9ubgMoAkns3Jb4BBKoWafkPXzTPxRsbT1kOQDtC9DqPLY6GPnjwCGzQe02pPD/dXHwoeHKDGx0SIAOQg=
+	t=1708152460; cv=none; b=DiVeFSFg69OZNljPemhseMn3BIWwDLUhqslMe+MsSmed281k6fDdakXcC5LcM/HsF8imabSfUgUH28HQGWlHO7KzlyM1txXzLXev3e51p4tIwnrG3YFAaM8qqWBROhKTJEbUDawfx7a4EQpqbyU/+pIKbwSHJ8S3tyLa4eQJWxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708150714; c=relaxed/simple;
-	bh=HDGjIiHl6JexBertXG8SmqhqLZJIWv57C2E5U+Ef8c8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fXGfhYeY7V2w6x7dm/ygOjr2mYJLJQkpozQe11mEhiQIdVzKNtcBQ+fWPbP1UHFGZttqr8rsHL9/nNQbjMWi1FP3JuVjPvE6glwcpzQNXOgytml9VANEClWgp7uR8tfUtMyPZVCcy38sr5UDoAe63UUcqthQ7eQLLPZaX7yVIa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JiTvRVn4; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JiTvRVn4"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so3054615276.1;
-        Fri, 16 Feb 2024 22:18:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708150712; x=1708755512; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HDGjIiHl6JexBertXG8SmqhqLZJIWv57C2E5U+Ef8c8=;
-        b=JiTvRVn4R/mreZBNbyEpyjzBY3+IlXOsqwqGsvyQE1Vu4Ubs2cLUuCSjEnqikaOqiC
-         KY0qFBjxXgVAFLKP7fp2PG6r8p6y/Y8gswVzv9DB54+Fz9wp65dL981ekfhMo3ciVwuP
-         4K14lQZ39YHc8RTWr27YvHA5zEdRuiYQishQOpUfshNbDCamLcTZBeNd3IK7YPCtdPuH
-         TLFFTE/hFgDAq2kKX4INcUf3D2UaKAsst5PHyGsjlKd9nRLUYstVOhIL8jXOaigCy9pn
-         R4NKTpv1S8uUVZ44JbTQDx8vn6Yj4FWxBkc0WwPMCYfE9bRXQxpmQGjv3L0Ekz1DKjuI
-         4kig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708150712; x=1708755512;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HDGjIiHl6JexBertXG8SmqhqLZJIWv57C2E5U+Ef8c8=;
-        b=nMwzl6kpkrwZq/q8+mBeB1SEn32uHsF/Ufpc/nxxEP5cHrf1osyCTMWmWoEEquWJ19
-         0eTyDqyOb815pV5SXh09gIJDOARA7AVLaQ0+U3BYLTD10I90h/wn3fjqqKoEOVx4JdSF
-         4lk2OxOTWL9i6+MSi2sx/yLvjBWvBaF4/nd//0brYgXA7kf9Ic4V7wSCD3KBEdyjJa0E
-         BZyaQPvQfI4qB1kjd0fHAh+S1HKcz1IrPrEIyf4KMKeL89FnYLkM4+NYFRFsK0yZ/hYc
-         fI/emQ60ezF5cnYJHWOK8TvllqsP6aukjYwbDLJ0cJ28/4O3YJCMAfH4PN3mn9Goitt1
-         SR+w==
-X-Forwarded-Encrypted: i=1; AJvYcCW7ukEHWNmVNseyPJq2vQACFAtaL9n5qXfLsxgGGWKo5k083JE3u03E/UK37iztnAwHsu47ZXrN6F4c0yAWtfUhJ4dR5Q9h7hVBPPHEu6ZQDjOeGU3ck/cmT1HjToBmGsbKI4+EFaGhDJpA8z2Aajlpg9HtZfOG0wopFsfqfNW/
-X-Gm-Message-State: AOJu0YxXLpDbbnyid1jqVu/hpH8/0U+uEZTTY+1U3+kUDTfPfdRmGLIS
-	tgbAgFNNKCelMKayflxdc/bWEoOvO0jbrBJxT8o9GWu6CSQnmotXAPgeI4MauQwyMPuWnnQefwI
-	RoFPjRWjs2ZcS8hZYmGDIr2ef/iU=
-X-Google-Smtp-Source: AGHT+IHCh7huCKCOiKjghM4S6CgmsfthTmyxRgJc2uBOcAsh9Yi+EnV9V7BrFKj6FNlpMEtJpumjLDc02x1w5ZVLeXU=
-X-Received: by 2002:a05:6902:2487:b0:dc6:e5ef:3013 with SMTP id
- ds7-20020a056902248700b00dc6e5ef3013mr8370316ybb.0.1708150712074; Fri, 16 Feb
- 2024 22:18:32 -0800 (PST)
+	s=arc-20240116; t=1708152460; c=relaxed/simple;
+	bh=vct0oM2xD8QMdRPrjg/MRpA2z2oOXKzf3lvCs+WHSlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hAw51f+g1U/C22Q+KL+aCgoiIQ3UhjXkASZi7Vf0uE7LEW+1IubzL1yIIdbozgR0Nc+UDwlz88TXg1VrGWKQ/SKURyntqVLMGJe65Y/sok01pJd8MyoXPAg1xESve426HM9Awlv1c1p9mljniuYLlk5Ot8InKV6jOr2NjK+eROI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbETO-0000dn-DO; Sat, 17 Feb 2024 07:46:54 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbETJ-001DUW-My; Sat, 17 Feb 2024 07:46:49 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rbETJ-00CtWH-1w;
+	Sat, 17 Feb 2024 07:46:49 +0100
+Date: Sat, 17 Feb 2024 07:46:49 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Rob Herring <robh@kernel.org>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <ZdBWWXSgFIDSgn7P@pengutronix.de>
+References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
+ <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
+ <20240209145727.GA3702230-robh@kernel.org>
+ <ZciUQqjM4Z8Tc6Db@pengutronix.de>
+ <618be4b1-c52c-4b8f-8818-1e4150867cad@lunn.ch>
+ <Zc3IrO_MXIdLXnEL@pengutronix.de>
+ <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
+ <Zc8TAojumif1irE-@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212020403.1639030-1-hayatake396@gmail.com>
- <CADFiAcL+2vVUHWcWS_o3Oxk67tuZeNk8+8ygjGGKK3smop595A@mail.gmail.com>
- <8eb6384a82fc4c4b9c99463a6ff956f04c9d5e33.camel@redhat.com>
- <bad0da2c-546b-2e05-feea-d395439a0bb0@intel.com> <CADFiAc+RP91PfEBAnwbABjrHJkdLc0=nm3_TE=+ZaN1AiVQEEQ@mail.gmail.com>
- <b227037c-16e0-37b5-a5ac-cf8eb0d3556f@intel.com>
-In-Reply-To: <b227037c-16e0-37b5-a5ac-cf8eb0d3556f@intel.com>
-From: Takeru Hayasaka <hayatake396@gmail.com>
-Date: Sat, 17 Feb 2024 15:18:21 +0900
-Message-ID: <CADFiAcLo+3L1DVHaKpkPg8MXq=rDt6ykO==Q5hrW_-yV_mKbsQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v8 1/2] ethtool: Add GTP RSS hash options to ethtool.h
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, intel-wired-lan@lists.osuosl.org, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, mailhol.vincent@wanadoo.fr, 
-	vladimir.oltean@nxp.com, laforge@gnumonks.org, 
-	Marcin Szycik <marcin.szycik@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zc8TAojumif1irE-@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Tony-san
+Hi Kory,
 
-Thanks for your reply!
-> Everything is good for now. If we have issues or questions we will reach
-> out to you.
+Can you please integrated this new insights to the PSE PI documentation.
+Instead of 1000BaseT only, please use 1000/2.5G/5G/10GBASE-T as
+documented in the spec.
 
-Okay. Let me know if there's anything I can help with:)
+On Fri, Feb 16, 2024 at 08:47:14AM +0100, Oleksij Rempel wrote:
+> On Thu, Feb 15, 2024 at 06:51:55PM +0100, Andrew Lunn wrote:
+> > > Hm.. good question. I didn't found the answer in the spec. By combining all
+> > > puzzle parts I assume, different Alternative configurations are designed
+> > > to handle conflict between "PSE Physical Layer classification" and PHY
+> > > autoneg.
+> > > 
+> > > Here is how multi-pulse Physical Layer classification is done:
+> > > https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2020/07/Figure_5.5f2094553a61c.png
+> > > 
+> > > this is the source:
+> > > https://www.electronicdesign.com/technologies/power/whitepaper/21137799/silicon-labs-90-w-power-over-ethernet-explained
+> > > 
+> > > To avoid classification conflict with autoneg. Assuming, PHY on PD side
+> > > will be not powered until classification is completed. The only source
+> > > of pulses is the PHY on PSE side (if it is not under control of software
+> > > on PSE side or Midspan PSE is used), so aneg pulses should be send on
+> > > negative PoE pair? This all is just speculation, I would need to ask
+> > > some expert or do testing.
+> > > 
+> > > If this assumption is correct, PHY framework will need to know exact
+> > > layout of MDI-X setting and/or silent PHY until PSE classification is done.
+> > 
+> > Ideally, we don't want to define a DT binding, and then find it is
+> > wrong for 1000BaseT and above and we need to change it.
+> >
+> > So, either somebody needs to understand 1000BaseT and can say the
+> > proposed binding works, or we explicitly document the binding is
+> > limited to 10BaseT and 100BaseT.
+> 
+> I asked the internet and found the answer: Some PSE/PD implementations
+> are not compatible with 1000BaseT.
+> 
+> See Figure 33–4—10BASE-T/100BASE-TX Endpoint PSE location overview.
+> Alternative B show a variant where power is injected directly to pairs
+> without using magnetics as it is done for Alternative A (phantom
+> delivery - over magnetics).
+> 
+> I assume, the reasoning for this kind of design is simple - price.
+> Otherwise magnetics will have special requirements:
+> https://www.coilcraft.com/de-de/edu/series/magnetics-for-power-over-ethernet/
+> 
+> So, we have following variants of 2 pairs PoE:
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | Variant | Alternative   | Polarity          | Power Feeding Type  | Compatibility with |
+> |         | (a/b)         | (Direct/Reverse)  | (Direct/Phantom)    | 1000BaseT          |
+> +=========+===============+===================+=====================+====================+
+> | 1       | a             | Direct            | Phantom             | Yes                |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | 2       | a             | Reverse           | Phantom             | Yes                |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | 3       | b             | Direct            | Phantom             | Yes                |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | 4       | b             | Reverse           | Phantom             | Yes                |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | 5       | b             | Direct            | Direct              | No                 |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> | 6       | b             | Reverse           | Direct              | No                 |
+> +---------+---------------+-------------------+---------------------+--------------------+
+> 
+> An advanced PSE may implement range of different variants direct in the PSE
+> controller or with additional ICs in the PSE PI. The same is about PD.
+> 
+> Let's take as example PD-IM-7608M eval board:
+> https://www.microchip.com/en-us/development-tool/PD-IM-7608M
+> 
+> According to the schematics:
+> https://ww1.microchip.com/downloads/en/DeviceDoc/PD-IM-7608M.zip
+> It supports only Variant 5 - Alternative B, with only one polarity,
+> and direct feeding without magnetics.
+> 
+> The simple PD may support only one variant:
+> https://community.fs.com/article/troubleshooting-poe-errors.html
+> " the power modes of PSE and PD are other factors that may cause PoE
+> faults. There are three PoE modes: Alternative A, alternative B, and
+> 4-pair delivery. If a PD only supports PoE mode B power delivery, while
+> a PoE switch is based on Alternative A, as a result, the PD and PoE
+> switch can not work together."
+> 
+> For this case, it will be good if systems knows supported modes, so user
+> can get this information  directly. For example with ethtool
+> 
+> -- 
+> Pengutronix e.K.                           |                             |
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-Thanks
-Takeru
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
