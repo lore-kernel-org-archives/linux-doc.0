@@ -1,57 +1,57 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9D02E3F3
-	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 00:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1538F33CD3
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 00:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708131538; cv=none; b=e68tAxVVXihbJ+K/Gfbukq7TcElVq3ykjaGraXXL8aD0WnjmE1Ce4OXmZ10nTr4K69Z4CNrQdgjACe18Qfg7YGacwH2bhhRrDBfW7TdNw+/ZBhxVHWFSABDLbnOcokx0X89gp1MHj588tjzzYRm3ZiYM9qaRlTGGUx06Jz25yXI=
+	t=1708131542; cv=none; b=rdtAZPxXlrknchiOWC5cW7wtph44gNYxgWPpqOjwl1gjfIAYMCHzKBDfw06QJu9Gj0pfaiky/jXawhe806FWVwuo7tWr0kWsWo2JIAaG3nmXuKz4JVDBKKn7rTQfiPbs87PQX2QcJ+qcayFKAz6uf0GUUpAHTebV4jMr255J5Ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708131538; c=relaxed/simple;
-	bh=54qScfthhEAuE+eosMKvOHGN/ixxPgbOd6VfF3jL3Tw=;
+	s=arc-20240116; t=1708131542; c=relaxed/simple;
+	bh=9DAIMVm8fvPVvSUhtbVjIqqHxtU2fJeSDtTzHSCfXnU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nDpACyTMxassJ+2u/2TMaSZ4sC3BWkpo1Zm2JiYVE/xKqJG79ZlUC39Z7HazcQQDIc/PjekqGbqc72l+YpRRcLwoLA1SLvwD6vpjhJ8vNzEaGNN+8cXgS0ZXP10zZoc9GbYm8rRj7OVDCE7dRF3WNdMTx8eXTRpHT5HGd6MEsEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=IgB1jEAv; arc=none smtp.client-ip=209.85.160.45
+	 MIME-Version; b=hH9locTE2gak4QsGmTaFtIYr/ZUlJ1Rgzi+qK2wJ9U5w5ktMQJvKFCM/k6KcKVsSU5fkWY0ksvRkta+28LtztF5WoD8+KJxU/PiQSX5JNBFlYz4WaA22WvpVfgF8k0pvtAiDLt+NZCxkYVUSJ2AA5S1PpTMN79RTJblLEWXidbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=WrLODcPp; arc=none smtp.client-ip=209.85.160.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IgB1jEAv"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-21433afcc53so631404fac.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 16:58:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="WrLODcPp"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-20503dc09adso1560975fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Feb 2024 16:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708131536; x=1708736336; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708131539; x=1708736339; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UM8zssVewnxKekt4u8gJqVdaJ7ofC8o/V7nPW8x9v/k=;
-        b=IgB1jEAvE7iziKe+kiL4G5rklZhg3WbbRBBwz4ZZG025TosNvCatOhacEuCwYZbbDv
-         1/OIZ0YFWVO7/uytWcDkABOvZeIpc47ewmvGP51nsbyn5RcQteoyW3DPeETQr+BmZJ4/
-         h1RKcwHZEs2mEyB/rpYav+dk/Qv7CN43JjuOwG+5lRD9PEhuqTwoPZxzXz3oNbu1Whnb
-         Ao7T+RPeGC3Z/WDky5jnm8Qz7MdD9y78/JnrqYQgYkXMBZE/oav16ct1GHza/lJyVeJF
-         ZmCFbxTAEKMyt111fBvI4dS1xyrutETKjgC/h7vZ492YLeysf0CJ+edkROLAe8e1t3KP
-         XMcA==
+        bh=rOdL5Y7wmQdu3cBOk4Oia1bMlPhRJp0p0ru1YQcJjcc=;
+        b=WrLODcPpHGx0Lc6FyjAbFiuCgRbdCVaojVz6xr2Mkl1Hx5YJBwDbJtid/KKOAtn9x4
+         S4jIzf1VBMiawm1HFgaKuS5xJBpHhah/njFYh6sAiAs6jW3BeEwWqHJsEHWs976adLRC
+         AUH/5X3pt7xjoTXGspD6CGUqIixEtcQlHssqd4qmc79mOExPVJMpEfC9pGm8xwr1FVUO
+         C7QMBDQk3LaQAo3TZOcuDLXmpNj+YGsf1uLbrQECQUKMNL79DrhZAHCpIOnwnCCcBbB7
+         IyvwPBg7NA6//CsnLABc7HsCjrjsv1Di6diKO4tc4DNRk6yHoS0jhgytjsrybhqV7EPx
+         QSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708131536; x=1708736336;
+        d=1e100.net; s=20230601; t=1708131539; x=1708736339;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UM8zssVewnxKekt4u8gJqVdaJ7ofC8o/V7nPW8x9v/k=;
-        b=u/hJq791HCTu+kSRVKHQJxjWZEYgJRlcPQHgJ4Kls/Q6wuuvNPulnn7zn6iQtKptDV
-         978SO/RD9TmlYrAMSdFnFFChiZBrbAN9Yw53Oyehcybu6OchUrcOyHgQe8K/UQTQN5W9
-         sRCbCqpgXbWySRxmZbqG23VJ0D3MNx1NEf2XO623689uQasNV8KPxClblT7I+dVCy3id
-         BOWlh7CIMVP+NkN147fhDQiZTmkqRwqJLYS0+JV1jbou1QKz/QYJE5Xql2HYPPnsPfPP
-         C/3CLp58HROPY7Ua3sg4idP05E6kpGJjSfbQwameyoPTltCDJzMiccFtkS63XUZppFNy
-         wJgg==
-X-Forwarded-Encrypted: i=1; AJvYcCXc+fGVWn2/Rkexz4hreW1Kw5mGrvdqzcnVomal87wDw8GoNVzgw40DUZRofwQOgV+CWPxZ52iPmfb0CxKmuvgSFXqr5PLeJbWh
-X-Gm-Message-State: AOJu0YwdQR9ytbXKwB5ogDtHyJP5KUO/MMulHNYuki+mX/c3NfHwAaOl
-	Rkt7tpqqRWc4Z1CVXcL9eRn3gCsJnlNxTZyEO6FtlDhynUwL2t88yF4VTBSJK1M=
-X-Google-Smtp-Source: AGHT+IHxQ/ohabidKPISMfSUq9m2exq/kzmKZJs/ZvDEyG8lUk4zXZLeanKyyRpfmzqm9XJNLg+WQw==
-X-Received: by 2002:a05:6870:d88d:b0:218:df68:87b2 with SMTP id oe13-20020a056870d88d00b00218df6887b2mr6753520oac.44.1708131536206;
-        Fri, 16 Feb 2024 16:58:56 -0800 (PST)
+        bh=rOdL5Y7wmQdu3cBOk4Oia1bMlPhRJp0p0ru1YQcJjcc=;
+        b=TwNHFy4LlNGKZ+U+19tzbOiE2kjUkpr7D5wVvsIueYMZemUWdWtBUyc8xFk5obIGkL
+         qsntZco/F2MlqLeksBfxZSAjyTMYHhodnm1uZw7fzdm1i1RlXZYLjotd2lEOH2ZLxWY4
+         HaooF41qnqgUSN1zIyLHiE2hMMMOlXQ1TLUP1DXHQ533InfBgonAl+/4VDXuzYEF4uB0
+         T93d5aHySwc/WNNmawXdNWcI2pj6f0/omsjlRBrObSnPBvoBdEwUyIZQCwVoZDwSmFiJ
+         XAb2pCZc4K2lhfIygV+KsB5hUQBhXsLWUdBh91SKzWkqXbB7sKxntIIdkrBAvJ2qH/1w
+         ugXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXkF4CPyu6IEEJlZUh/Jb8OKoYpJdEuprI9veRMKALQYGVAreI5yDtnmA4by2dhRtHCgOoOyXk1V0D5mrZln/dF+KG3aj23sE68
+X-Gm-Message-State: AOJu0YwgWlXqaxx3MgMBoaFXLqfTkwDF1JiksIAAslS43dux4M2Rc0yX
+	wyBv9PRkyPbRtwpjWoN1PlgMyVJaSiBv+eFO33O1uODJ6v7hMxAb3AN3vNFLgZ4=
+X-Google-Smtp-Source: AGHT+IHFCfL+kwIHjaTpNxoNxqc+zu9FKDlVsVbSX+8xeWrslZki49h1LDIhhrjmSSo0/9Xc9V8bBQ==
+X-Received: by 2002:a05:6871:b26:b0:21e:430b:79e2 with SMTP id fq38-20020a0568710b2600b0021e430b79e2mr5862300oab.47.1708131538814;
+        Fri, 16 Feb 2024 16:58:58 -0800 (PST)
 Received: from atishp.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d188-20020a6336c5000000b005dc89957e06sm487655pga.71.2024.02.16.16.58.53
+        by smtp.gmail.com with ESMTPSA id d188-20020a6336c5000000b005dc89957e06sm487655pga.71.2024.02.16.16.58.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 16:58:55 -0800 (PST)
+        Fri, 16 Feb 2024 16:58:58 -0800 (PST)
 From: Atish Patra <atishp@rivosinc.com>
 To: linux-kernel@vger.kernel.org
 Cc: Atish Patra <atishp@rivosinc.com>,
@@ -96,9 +96,9 @@ Cc: Atish Patra <atishp@rivosinc.com>,
 	Will Deacon <will@kernel.org>,
 	kaiwenxue1@gmail.com,
 	Yang Jihong <yangjihong1@huawei.com>
-Subject: [PATCH RFC 16/20] tools/perf: Pass the Counter constraint values in the pmu events
-Date: Fri, 16 Feb 2024 16:57:34 -0800
-Message-Id: <20240217005738.3744121-17-atishp@rivosinc.com>
+Subject: [PATCH RFC 17/20] perf: Add json file for virt machine supported events
+Date: Fri, 16 Feb 2024 16:57:35 -0800
+Message-Id: <20240217005738.3744121-18-atishp@rivosinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240217005738.3744121-1-atishp@rivosinc.com>
 References: <20240217005738.3744121-1-atishp@rivosinc.com>
@@ -110,49 +110,140 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-RISC-V doesn't have any standard event to counter mapping discovery
-mechanism in the ISA. The ISA defines 29 programmable counters and
-platforms can choose to implement any number of them and map any
-events to any counters. Thus, the perf tool need to inform the driver
-about the counter mapping of each events.
+The linux driver will use the event encodings specified in platform
+specific json file only for platforms with counter delegation support.
 
-The current perf infrastructure only parses the 'Counter' constraints
-in metrics. This patch extends that to pass in the pmu events so that
-any driver can retrieve those values via perf attributes if defined
-accordingly.
+Use the perf json infrastructure to encode those events and let the
+driver uses that if counter delegation is available.
 
 Signed-off-by: Atish Patra <atishp@rivosinc.com>
 ---
- tools/perf/pmu-events/jevents.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tools/perf/pmu-events/arch/riscv/mapfile.csv  |  1 +
+ .../pmu-events/arch/riscv/qemu/virt/cpu.json  | 30 ++++++++
+ .../arch/riscv/qemu/virt/firmware.json        | 68 +++++++++++++++++++
+ 3 files changed, 99 insertions(+)
+ create mode 100644 tools/perf/pmu-events/arch/riscv/qemu/virt/cpu.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/qemu/virt/firmware.json
 
-diff --git a/tools/perf/pmu-events/jevents.py b/tools/perf/pmu-events/jevents.py
-index 30934a490109..f1e320077695 100755
---- a/tools/perf/pmu-events/jevents.py
-+++ b/tools/perf/pmu-events/jevents.py
-@@ -278,6 +278,11 @@ class JsonEvent:
-         return fixed[name.lower()]
-       return event
- 
-+    def counter_list_to_bitmask(counterlist):
-+      counter_ids = list(map(int, counterlist.split(',')))
-+      bitmask = sum(1 << pos for pos in counter_ids)
-+      return bitmask
-+
-     def unit_to_pmu(unit: str) -> Optional[str]:
-       """Convert a JSON Unit to Linux PMU name."""
-       if not unit:
-@@ -401,6 +406,10 @@ class JsonEvent:
-       else:
-         raise argparse.ArgumentTypeError('Cannot find arch std event:', arch_std)
- 
-+    if self.counter:
-+      bitmask = counter_list_to_bitmask(self.counter)
-+      event += f',counterid_mask={bitmask:#x}'
-+
-     self.event = real_event(self.name, event)
- 
-   def __repr__(self) -> str:
+diff --git a/tools/perf/pmu-events/arch/riscv/mapfile.csv b/tools/perf/pmu-events/arch/riscv/mapfile.csv
+index cfc449b19810..b3e7d544e29c 100644
+--- a/tools/perf/pmu-events/arch/riscv/mapfile.csv
++++ b/tools/perf/pmu-events/arch/riscv/mapfile.csv
+@@ -17,3 +17,4 @@
+ 0x489-0x8000000000000007-0x[[:xdigit:]]+,v1,sifive/u74,core
+ 0x5b7-0x0-0x0,v1,thead/c900-legacy,core
+ 0x67e-0x80000000db0000[89]0-0x[[:xdigit:]]+,v1,starfive/dubhe-80,core
++0x0-0x0-0x0,v1,qemu/virt,core
+diff --git a/tools/perf/pmu-events/arch/riscv/qemu/virt/cpu.json b/tools/perf/pmu-events/arch/riscv/qemu/virt/cpu.json
+new file mode 100644
+index 000000000000..9ab631723c88
+--- /dev/null
++++ b/tools/perf/pmu-events/arch/riscv/qemu/virt/cpu.json
+@@ -0,0 +1,30 @@
++[
++  {
++    "ArchStdEvent": "instructions",
++    "EventCode": "0x02",
++    "Counter":"2,3,4,5,6,7,8,9,10"
++  },
++  {
++    "ArchStdEvent": "cycles",
++    "EventCode": "0x01",
++    "Counter":"0,3,4,5,6,7,8,9,10"
++  },
++  {
++    "EventName": "dTLB-load-misses",
++    "EventCode": "0x10019",
++    "BriefDescription": "Data TLB load miss",
++    "Counter":"3,4,5,6,7,8,9,10"
++  },
++  {
++    "EventName": "dTLB-store-misses",
++    "EventCode": "0x1001B",
++    "BriefDescription": "Data TLB store miss",
++    "Counter":"3,4,5,6,7,8,9,10"
++  },
++  {
++    "EventName": "iTLB-load-misses",
++    "EventCode": "0x10021",
++    "BriefDescription": "Instruction fetch TLB load miss",
++    "Counter":"3,4,5,6,7,8,9,10"
++  }
++]
+diff --git a/tools/perf/pmu-events/arch/riscv/qemu/virt/firmware.json b/tools/perf/pmu-events/arch/riscv/qemu/virt/firmware.json
+new file mode 100644
+index 000000000000..9b4a032186a7
+--- /dev/null
++++ b/tools/perf/pmu-events/arch/riscv/qemu/virt/firmware.json
+@@ -0,0 +1,68 @@
++[
++  {
++    "ArchStdEvent": "FW_MISALIGNED_LOAD"
++  },
++  {
++    "ArchStdEvent": "FW_MISALIGNED_STORE"
++  },
++  {
++    "ArchStdEvent": "FW_ACCESS_LOAD"
++  },
++  {
++    "ArchStdEvent": "FW_ACCESS_STORE"
++  },
++  {
++    "ArchStdEvent": "FW_ILLEGAL_INSN"
++  },
++  {
++    "ArchStdEvent": "FW_SET_TIMER"
++  },
++  {
++    "ArchStdEvent": "FW_IPI_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_IPI_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_FENCE_I_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_FENCE_I_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_SFENCE_VMA_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_SFENCE_VMA_ASID_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_GVMA_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_GVMA_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_VVMA_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_VVMA_RECEIVED"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_SENT"
++  },
++  {
++    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_RECEIVED"
++  }
++]
 -- 
 2.34.1
 
