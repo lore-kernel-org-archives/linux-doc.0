@@ -1,259 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1B41CF94;
-	Sat, 17 Feb 2024 12:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CEF7B3C5
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 13:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708174539; cv=none; b=hb14pAPONdQDjuzSco+x+zgu2jmH9VgEq5Vv61coE8C30QU37IF165CIVsgbB91twKjBmpWnAPjDuKPGyfMfRTky5BdUEP5jQJDQfGElQ+pcmAo2qSqtdIRL1laXWeB33wK7BmFgIoWrV+ugotyy49vh+x61vcoWsH8U0Gw2G+M=
+	t=1708177357; cv=none; b=lxafDus3rcDFXmUi2aTfLeAZ+Cqonzfrrj1JECiV6mHhOeF3tOWdkHSWBH8ADTUbimZcjPzGm376uCc9uZU2kx/EK9qAfmXXQwOv1FXa1xOEYgocA4CZdGGkzo9KkBA3xGBcZlUzCkEI4zZR5KCzVvIUaVvNWkOM1l6QyjD29zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708174539; c=relaxed/simple;
-	bh=sbzC8sqteUeYbdvjl9u+wROGz1hPoLJs3Fz24vf5bP8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=refL6MYS0vbTNBSyGK0LnQ0Mj0uAcDJF0To3DQblATCsrxXSigNUex24JnFcA1BTa79yHkePDb2VxkYnXDtkIeQjKkQjOck/PoJpnlJ6j0KWRaXKmLPAFbKBTljv7lOJ2Ny34PHU4r0Xax4c8dJQ98gklmGEH1gAFtkGc7n31Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TStBeQOw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708177357; c=relaxed/simple;
+	bh=OtK3IzgJ3fGYA4kSv5N/upSwJ7FGiRagAHvl4Kht5OI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Skhphj01uA3pOL1QSoSDbYySX24uUGWV5zUq9gWpBtVwZWcK3Rg+Ccx84yN+tWsp+VgWvXBU18RNA3rTZ0FpisbGLIyTayNnR5jZl7m/Vr2zcls5lzFamDD+VUQk69bUVV5HZ00teddcAS3D47yNefzoaypiDFH8kLLqafJxink=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KpK0gP6r; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TStBeQOw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1056DC433F1;
-	Sat, 17 Feb 2024 12:55:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708174538;
-	bh=sbzC8sqteUeYbdvjl9u+wROGz1hPoLJs3Fz24vf5bP8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=TStBeQOwHK09rHoWU2GMcVIqx6ONy4459POlt2cePz23YAqzvrjFNEDLlU6MVqdUP
-	 3tUsl51lnAxW7MB4FbFC02bfSEiaT74NFNp4riNH9Cz7+Z3YXQmZLwXqKuL+1R7Um/
-	 JriPGHpxQIBgOauEzC1yT5wvKrQA6PANk+LGmDNo=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: corbet@lwn.net,
-	workflows@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	security@kernel.org,
-	linux@leemhuis.info,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Sasha Levin <sashal@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [PATCH v5] Documentation: Document the Linux Kernel CVE process
-Date: Sat, 17 Feb 2024 13:55:31 +0100
-Message-ID: <2024021731-essence-sadness-28fd@gregkh>
-X-Mailer: git-send-email 2.43.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KpK0gP6r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1708177354;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
+	b=KpK0gP6r/WqR5Olg2TYJ4JSxLpEpvmpIhgQWmfrw9EpNU4h3rJWw606mZZZyLTbaMenByK
+	q/seQxuq1Wja1tUxTOl89nKgupT/oaoEz3YDZb8lRmllOU9hMwGxVHsiAqdG1hbbcjqxfu
+	fSaTtSU4e4W9LjcLgOmeci2o3ZjIWJo=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-615-6BBOHuOoOb2Ihs_HX2l3Mg-1; Sat, 17 Feb 2024 08:42:32 -0500
+X-MC-Unique: 6BBOHuOoOb2Ihs_HX2l3Mg-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-512a5c6465bso320134e87.1
+        for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 05:42:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708177351; x=1708782151;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o1qCU6uoJSv5O0JLAhuPC8zEwWfa2duu6xW/6J/EB3s=;
+        b=BSuEniUNiJTxN7VPTL/GzZqdCGz7P6K3bHU2FTyA/ujTV+snU6fgJq12yTjBBeQBJs
+         0g8rq/keblBTgb8FH08978lLoFkfQ5XnjxPABXF6uMTucQ6FRTbF874m7+AvZRaynOB7
+         ajIIhJYfDsfGYKossd2CHWtMEsf62g7ZUPaTxFbceAESytLmX+dFb4YwddJBqtfELNGg
+         GTo5+WFepeKg006HUgZlTrv+hk10tcSRju9r6Y/O2nd8PcQEEy68/x4xLG3WMorccWDI
+         q+xdIAghIhNi+vk/jY2/iysOEZJn64tUI0giCzxxtCDMmhfDOKNsUqFcipzvs1KCt/ff
+         Peog==
+X-Forwarded-Encrypted: i=1; AJvYcCUwlTr7jym3sKkhJh73KIaG+KYyYVIP6Llb9RWi7Ttx8e/XV7k71ycYrCQz0K1l8+jMVpPx09hCL9ENKX3zZHTemg8GmlfzVmkI
+X-Gm-Message-State: AOJu0YxKf5xdCz00RNChq9CgLKOPFW5qSImreTUEf0IqethYQ4tsTxZs
+	JQPunWmw3lAIqdqODrqtWNr9HYZ5RbwLkZtP8ewV3S9GgUk5suPN2/L1xKXpoB3B/y/NqZ/UtMn
+	LHZh3s8/I2QHNDJ1mOSiDsNaqcbs6Pj1EylCQLfMjGXJE5w+DdGJO8zrFyg==
+X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737946lfc.37.1708177351168;
+        Sat, 17 Feb 2024 05:42:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGzlzEcMgskLO4de5rW93PPpUzg2F1sD9bjOjwmEyrVCbfcZUo7mXf1ARcPnPiTPqsEAqCZsw==
+X-Received: by 2002:a19:690e:0:b0:511:87b5:7ddb with SMTP id e14-20020a19690e000000b0051187b57ddbmr4737925lfc.37.1708177350717;
+        Sat, 17 Feb 2024 05:42:30 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id n18-20020a1709062bd200b00a3d3bc0d689sm992614ejg.72.2024.02.17.05.42.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Feb 2024 05:42:29 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 6D46710F5DDE; Sat, 17 Feb 2024 14:42:29 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John
+ Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong
+ Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires
+ <benjamin.tissoires@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <shuah@kernel.org>
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+In-Reply-To: <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+ <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
+ <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
+ <87eddccx1q.fsf@toke.dk>
+ <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Sat, 17 Feb 2024 14:42:29 +0100
+Message-ID: <878r3jcim2.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9768; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=sbzC8sqteUeYbdvjl9u+wROGz1hPoLJs3Fz24vf5bP8=; b=owGbwMvMwCRo6H6F97bub03G02pJDKkX1hzh+yK3nFfp/JnOpuZLIY84E9zPPm4W26ahP6H9m ePhVffndcSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBE1ooxzI/nmKxvP7uq9Opn WUWW+N8fDx14XcowT6+qx3r3/RX9Obet46wltOtU9ZdfAAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The Linux kernel project now has the ability to assign CVEs to fixed
-issues, so document the process and how individual developers can get a
-CVE if one is not automatically assigned for their fixes.
+Benjamin Tissoires <bentiss@kernel.org> writes:
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Lee Jones <lee@kernel.org>
----
-v5: change the .rst header formatting as per the documented way.
-v4: Add MAINTAINER entry
-    Lots of tiny wording changes based on many reviews
-    Collected some Reviewed-by: tags
-    Fixed documenation build by properly referencing the security
-    process documentation file.
-v3: fix up wording in security-bugs.rst based on the changes to the cve
-    assignment process from v1, thanks to a private reviewer for
-    pointing that out.
-v2: Grammer fixes based on review from Randy
-    Updated paragraph about how CVE identifiers will be assigned
-    (automatically when added to stable trees, or ask us for one
-    directly before that happens if so desired)
- Documentation/process/cve.rst           | 121 ++++++++++++++++++++++++
- Documentation/process/index.rst         |   1 +
- Documentation/process/security-bugs.rst |   5 +-
- MAINTAINERS                             |   5 +
- 4 files changed, 129 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/process/cve.rst
+> On Feb 16 2024, Toke H=C3=B8iland-J=C3=B8rgensen wrote:
+>> Benjamin Tissoires <bentiss@kernel.org> writes:
+>>=20
+>> > On Feb 15 2024, Martin KaFai Lau wrote:
+>> >> On 2/14/24 9:18 AM, Benjamin Tissoires wrote:
+>> >> > +static void bpf_timer_work_cb(struct work_struct *work)
+>> >> > +{
+>> >> > +	struct bpf_hrtimer *t =3D container_of(work, struct bpf_hrtimer, =
+work);
+>> >> > +	struct bpf_map *map =3D t->map;
+>> >> > +	void *value =3D t->value;
+>> >> > +	bpf_callback_t callback_fn;
+>> >> > +	void *key;
+>> >> > +	u32 idx;
+>> >> > +
+>> >> > +	BTF_TYPE_EMIT(struct bpf_timer);
+>> >> > +
+>> >> > +	rcu_read_lock();
+>> >> > +	callback_fn =3D rcu_dereference(t->sleepable_cb_fn);
+>> >> > +	rcu_read_unlock();
+>> >>=20
+>> >> I took a very brief look at patch 2. One thing that may worth to ask =
+here,
+>> >> the rcu_read_unlock() seems to be done too early. It is protecting the
+>> >> t->sleepable_cb_fn (?), so should it be done after finished using the
+>> >> callback_fn?
+>> >
+>> > Probably :)
+>> >
+>> > TBH, everytime I work with RCUs I spent countless hours trying to
+>> > re-understand everything, and in this case I'm currently in the "let's
+>> > make it work" process than fixing concurrency issues.
+>> > I still gave it a shot in case it solves my issue, but no, I still have
+>> > the crash.
+>> >
+>> > But given that callback_fn might sleep, isn't it an issue to keep the
+>> > RCU_reader lock so long? (we don't seem to call synchronize_rcu() so it
+>> > might be fine, but I'd like the confirmation from someone else).
+>>=20
+>> You're right, it isn't. From the RCU/checklist.rst doc:
+>>=20
+>> 13.	Unlike most flavors of RCU, it *is* permissible to block in an
+>> 	SRCU read-side critical section (demarked by srcu_read_lock()
+>> 	and srcu_read_unlock()), hence the "SRCU": "sleepable RCU".
+>> 	Please note that if you don't need to sleep in read-side critical
+>> 	sections, you should be using RCU rather than SRCU, because RCU
+>> 	is almost always faster and easier to use than is SRCU.
+>>=20
+>> So we can't use the regular RCU protection for the callback in this
+>> usage. We'll need to either convert it to SRCU, or add another
+>> protection mechanism to make sure the callback function is not freed
+>> from under us (like a refcnt). I suspect the latter may be simpler (from
+>> reading the rest of that documentation around SRCU.
+>
+> Currently I'm thinking at also incrementing the ->prog held in the
+> bpf_hrtimer which should prevent the callback to be freed, if I'm not wro=
+ng.
+> Then I should be able to just release the rcu_read_unlock before calling
+> the actual callback. And then put the ref on ->prog once done.
+>
+> But to be able to do that I might need to protect ->prog with an RCU
+> too.
 
-diff --git a/Documentation/process/cve.rst b/Documentation/process/cve.rst
-new file mode 100644
-index 000000000000..5e2753eff729
---- /dev/null
-+++ b/Documentation/process/cve.rst
-@@ -0,0 +1,121 @@
-+====
-+CVEs
-+====
-+
-+Common Vulnerabilities and Exposure (CVE®) numbers were developed as an
-+unambiguous way to identify, define, and catalog publicly disclosed
-+security vulnerabilities.  Over time, their usefulness has declined with
-+regards to the kernel project, and CVE numbers were very often assigned
-+in inappropriate ways and for inappropriate reasons.  Because of this,
-+the kernel development community has tended to avoid them.  However, the
-+combination of continuing pressure to assign CVEs and other forms of
-+security identifiers, and ongoing abuses by individuals and companies
-+outside of the kernel community has made it clear that the kernel
-+community should have control over those assignments.
-+
-+The Linux kernel developer team does have the ability to assign CVEs for
-+potential Linux kernel security issues.  This assignment is independent
-+of the :doc:`normal Linux kernel security bug reporting
-+process<../process/security-bugs>`.
-+
-+A list of all assigned CVEs for the Linux kernel can be found in the
-+archives of the linux-cve mailing list, as seen on
-+https://lore.kernel.org/linux-cve-announce/.  To get notice of the
-+assigned CVEs, please `subscribe
-+<https://subspace.kernel.org/subscribing.html>`_ to that mailing list.
-+
-+Process
-+=======
-+
-+As part of the normal stable release process, kernel changes that are
-+potentially security issues are identified by the developers responsible
-+for CVE number assignments and have CVE numbers automatically assigned
-+to them.  These assignments are published on the linux-cve-announce
-+mailing list as announcements on a frequent basis.
-+
-+Note, due to the layer at which the Linux kernel is in a system, almost
-+any bug might be exploitable to compromise the security of the kernel,
-+but the possibility of exploitation is often not evident when the bug is
-+fixed.  Because of this, the CVE assignment team is overly cautious and
-+assign CVE numbers to any bugfix that they identify.  This
-+explains the seemingly large number of CVEs that are issued by the Linux
-+kernel team.
-+
-+If the CVE assignment team misses a specific fix that any user feels
-+should have a CVE assigned to it, please email them at <cve@kernel.org>
-+and the team there will work with you on it.  Note that no potential
-+security issues should be sent to this alias, it is ONLY for assignment
-+of CVEs for fixes that are already in released kernel trees.  If you
-+feel you have found an unfixed security issue, please follow the
-+:doc:`normal Linux kernel security bug reporting
-+process<../process/security-bugs>`.
-+
-+No CVEs will be automatically assigned for unfixed security issues in
-+the Linux kernel; assignment will only automatically happen after a fix
-+is available and applied to a stable kernel tree, and it will be tracked
-+that way by the git commit id of the original fix.  If anyone wishes to
-+have a CVE assigned before an issue is resolved with a commit, please
-+contact the kernel CVE assignment team at <cve@kernel.org> to get an
-+identifier assigned from their batch of reserved identifiers.
-+
-+No CVEs will be assigned for any issue found in a version of the kernel
-+that is not currently being actively supported by the Stable/LTS kernel
-+team.  A list of the currently supported kernel branches can be found at
-+https://kernel.org/releases.html
-+
-+Disputes of assigned CVEs
-+=========================
-+
-+The authority to dispute or modify an assigned CVE for a specific kernel
-+change lies solely with the maintainers of the relevant subsystem
-+affected.  This principle ensures a high degree of accuracy and
-+accountability in vulnerability reporting.  Only those individuals with
-+deep expertise and intimate knowledge of the subsystem can effectively
-+assess the validity and scope of a reported vulnerability and determine
-+its appropriate CVE designation.  Any attempt to modify or dispute a CVE
-+outside of this designated authority could lead to confusion, inaccurate
-+reporting, and ultimately, compromised systems.
-+
-+Invalid CVEs
-+============
-+
-+If a security issue is found in a Linux kernel that is only supported by
-+a Linux distribution due to the changes that have been made by that
-+distribution, or due to the distribution supporting a kernel version
-+that is no longer one of the kernel.org supported releases, then a CVE
-+can not be assigned by the Linux kernel CVE team, and must be asked for
-+from that Linux distribution itself.
-+
-+Any CVE that is assigned against the Linux kernel for an actively
-+supported kernel version, by any group other than the kernel assignment
-+CVE team should not be treated as a valid CVE.  Please notify the
-+kernel CVE assignment team at <cve@kernel.org> so that they can work to
-+invalidate such entries through the CNA remediation process.
-+
-+Applicability of specific CVEs
-+==============================
-+
-+As the Linux kernel can be used in many different ways, with many
-+different ways of accessing it by external users, or no access at all,
-+the applicability of any specific CVE is up to the user of Linux to
-+determine, it is not up to the CVE assignment team.  Please do not
-+contact us to attempt to determine the applicability of any specific
-+CVE.
-+
-+Also, as the source tree is so large, and any one system only uses a
-+small subset of the source tree, any users of Linux should be aware that
-+large numbers of assigned CVEs are not relevant for their systems.
-+
-+In short, we do not know your use case, and we do not know what portions
-+of the kernel that you use, so there is no way for us to determine if a
-+specific CVE is relevant for your system.
-+
-+As always, it is best to take all released kernel changes, as they are
-+tested together in a unified whole by many community members, and not as
-+individual cherry-picked changes.  Also note that for many bugs, the
-+solution to the overall problem is not found in a single change, but by
-+the sum of many fixes on top of each other.  Ideally CVEs will be
-+assigned to all fixes for all issues, but sometimes we will fail to
-+notice fixes, therefore assume that some changes without a CVE assigned
-+might be relevant to take.
-+
-diff --git a/Documentation/process/index.rst b/Documentation/process/index.rst
-index 6cb732dfcc72..de9cbb7bd7eb 100644
---- a/Documentation/process/index.rst
-+++ b/Documentation/process/index.rst
-@@ -81,6 +81,7 @@ of special classes of bugs: regressions and security problems.
- 
-    handling-regressions
-    security-bugs
-+   cve
-    embargoed-hardware-issues
- 
- Maintainer information
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index 692a3ba56cca..56c560a00b37 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -99,9 +99,8 @@ CVE assignment
- The security team does not assign CVEs, nor do we require them for
- reports or fixes, as this can needlessly complicate the process and may
- delay the bug handling.  If a reporter wishes to have a CVE identifier
--assigned, they should find one by themselves, for example by contacting
--MITRE directly.  However under no circumstances will a patch inclusion
--be delayed to wait for a CVE identifier to arrive.
-+assigned for a confirmed issue, they can contact the :doc:`kernel CVE
-+assignment team<../process/cve>` to obtain one.
- 
- Non-disclosure agreements
- -------------------------
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 73d898383e51..4d05ac516ded 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5610,6 +5610,11 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/net/can/ctu,ctucanfd.yaml
- F:	drivers/net/can/ctucanfd/
- 
-+CVE ASSIGNMENT CONTACT
-+M:	CVE Assignment Team <cve@kernel.org>
-+S:	Maintained
-+F:	Documentation/process/cve.rst
-+
- CW1200 WLAN driver
- S:	Orphan
- F:	drivers/net/wireless/st/cw1200/
--- 
-2.43.1
+Hmm, bpf_timer_set_callback() already increments the bpf refcnt; so it's
+a matter of ensuring that bpf_timer_cancel() and
+bpf_timer_cancel_and_free() wait for the callback to complete even in
+the workqueue case. The current 'hrtimer_running' percpu global var is
+not going to cut it for that, so I guess some other kind of locking will
+be needed? Not really sure what would be appropriate here, a refcnt, or
+maybe a full mutex?
+
+I am not actually sure the RCU protection of the callback field itself
+is that important given all the other protections that make sure the
+callback has exited before cancelling? As long as we add another such
+protection I think it can just be a READ_ONCE() for getting the cb
+pointer?
+
+>> >> A high level design question. The intention of the new
+>> >> bpf_timer_set_sleepable_cb() kfunc is actually to delay work to a wor=
+kqueue.
+>> >> It is useful to delay work from the bpf_timer_cb and it may also usef=
+ul to
+>> >> delay work from other bpf running context (e.g. the networking hooks =
+like
+>> >> "tc"). The bpf_timer_set_sleepable_cb() seems to be unnecessary forci=
+ng
+>> >> delay-work must be done in a bpf_timer_cb.
+>> >
+>> > Basically I'm just a monkey here. I've been told that I should use
+>> > bpf_timer[0]. But my implementation is not finished, as Alexei mention=
+ed
+>> > that we should bypass hrtimer if I'm not wrong [1].
+>>=20
+>> I don't think getting rid of the hrtimer in favour of
+>> schedule_delayed_work() makes any sense. schedule_delayed_work() does
+>> exactly the same as you're doing in this version of the patch: it
+>> schedules a timer callback, and calls queue_work() from inside that
+>> timer callback. It just uses "regular" timers instead of hrtimers. So I
+>> don't think there's any performance benefit from using that facility; on
+>> the contrary, it would require extra logic to handle cancellation etc;
+>> might as well just re-use the existing hrtimer-based callback logic we
+>> already have, and do a schedule_work() from the hrtimer callback like
+>> you're doing now.
+>
+> I agree that we can nicely emulate delayed_timer with the current patch
+> series. However, if I understand Alexei's idea (and Martin's) there are
+> cases where we just want schedule_work(), without any timer involved.
+> That makes a weird timer (with a delay always equal to 0), but it would
+> allow to satisfy those latency issues.
+>
+> So (and this also answers your second email today) I'm thinking at:
+> - have multiple flags to control the timer (with dedicated timer_cb
+>   kernel functions):
+>   - BPF_F_TIMER_HRTIMER (default)
+>   - BPF_F_TIMER_WORKER (no timer, just workqueue)
+>   - BPF_F_TIMER_DELAYED_WORKER (hrtimer + workqueue, or actual
+>     delayed_work, but that's re-implementing stuffs)
+
+I don't think the "delayed" bit needs to be a property of the timer; the
+context in which the timer is executed (softirq vs workqueue) is,
+because that has consequences for how the callback is verified (it would
+be neat if we could know the flag at verification time, but since we
+can't we need the pairing with the _set_sleepable_cb()).
+
+But the same timer could be used both as an immediate and a delayed
+callback during its lifetime; so I think this should rather be governed
+by a flag to bpf_timer_start(). In fact, the patch I linked earlier[0]
+does just that, adding a BPF_TIMER_IMMEDIATE flag to bpf_timer_start().
+I.e., keep the hrtimer allocated at all times, but skip going through it
+if that flag is set.
+
+An alternative could also be to just special-case a zero timeout in
+bpf_timer_start(); I don't actually recall why I went with the flag
+instead when I wrote that patch...
+
+-Toke
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git/commit/?=
+h=3Dxdp-queueing-08&id=3D54bc201a358d1ac6ebfe900099315bbd0a76e862
 
