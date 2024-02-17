@@ -1,205 +1,136 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2077.outbound.protection.outlook.com [40.107.94.77])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847B15B1E7;
-	Sat, 17 Feb 2024 21:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708205008; cv=fail; b=Weh94+FE80jxx6gQU1KV1b4UxonRfQKZFhKHtaDYV1a1PW+yW7jFYpq0dhJAZ6DD9G3ErqRgWalG/CUsV6z+EkyKF9PblfOIfWy1LWq2+01SoHQvuPZdUbrbzaNzgCJIPZ6wG+zodj5uDQrC63VU2wCZ7xRWKR+4GFgdtoDYbu4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708205008; c=relaxed/simple;
-	bh=qIocdiArhV9yTZTCb509W8yUPjAVWc1M5nWkn3VsKsE=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=V5D9+p0dYvOnr4HTqi/7EFJ5rRtTPseZdtSMl+GWLFthknRTNWMj0FcO9AJ16JlUgXJ4nlUyQFdctk0NokYYCpeXc0hFkkPYlMZpHqpQhqJ5SyQzlhC2wAzhC+s4t3fdV0HWF6hSzovWnfnEMCBTA99KdKzqht2sjZPLEWv4wV4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Fg6Elk2d; arc=fail smtp.client-ip=40.107.94.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6FC7C083
+	for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 21:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708205379; cv=none; b=axXTCvXvBwrMFzPlaAd35c4q951MD0KKO954A669aFpczrsdsDK2uMgKMfx3lQc/0DbpOA3ksLp9Tpy+gRzluk8btx91xU5ZGRXgHFG2IRLnNU/uWfV69f+7J0s8tVAICq1LG5yujl9gjV/Ew5cTG7asb32WUdbVv9i5zJYcz68=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708205379; c=relaxed/simple;
+	bh=I3Oflpcd+SP1rRHPx3ZAx8FONkH0lXQbgkoO9jFLdj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SpMxAWP8hRXnWrFtBsKLdsz13gfLJVbgtEjSz1Gi8L62mp/gjny5QgM0VzfXfrGwXL9k8LngVryL6o/z/5Jl5I9Ta1qulI6XGIwD7p8g6B2ah9IH3q/c5r26tQgX3fgS/Zhsc2dEXtq5ojhiNXAnk2m6uUJ7uHVZ/XwGo3Nqnjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y57L9bC8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Fg6Elk2d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gnWPMml3hKsIK6KbgedMl3f5XDbJoD2cpUaKjM6L0AF8esNPNLPoIWtuDBE1L11xcJFRE/pNinPopAx6PNud4RRF1N+2ZX95RmTs/GJ9+1QjL+wrd4+2xVEbdq9PZSeGy9yiIDS8dXRI/iCvobpErJplomYtyMrk97vrJ1cc/xiNLxMjdGIytBVnMd3L60N4QSZHH4CGQtYMmZ4bXGt8PuVLRC0gWaeXy2vt9QXipBxtDysd1E5yP27kWiptOYuMhGmKUI3SLqBpgrdLK3fU7j7OI/vd/pTNh26edIVvBq8WT6IdMHcq1poXTJzD6Ot4ONYQwjfY5LDvIWDYcaOZHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S/S33O5k4T0ajGzZomawcoPsss/RcrnMFGRUK7hNGJA=;
- b=CO98w83d7Sca+GudoXCBaLfad9T5UNp9QuuUedt27FPDlOKdaphtauma60eASAjuFWbp2WVrnjA9I/LkiULcfDLRRYVCJsoTZwdOEN27H3czMQwofeA/1dWuuWyYM+0dx2B7wfx1IQne2lCFOV6kqkTdbWAq273h1/GiAnjf7OeK9aA+R3gE0h1uNamWzVJ6gby2/4n+aaDELBbA9aCkicsKuq3md1gUHg7ysRoYbMwX/WiJHiOC7azVAwUvF1n9lBEhroMt97NhZV1cvHqiHQEqvwDFsgSo+zJNIO4j3fQpO45B2gwsZUjWgFuK8vfnczE+F28kFG0a5nqwvTiaPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S/S33O5k4T0ajGzZomawcoPsss/RcrnMFGRUK7hNGJA=;
- b=Fg6Elk2dDiNRhMxWK1FoO9JaK1Ar1kYoduBsuuPn0YM05UAjGppDhOqaRyl9X3oQ1417bocSHf4+wBtoKzLa5ktIu97I0fHgDDEcQ69zDSbK+gbUzmB3wcpCu+iBzBk6kqcCnXuMLEZEJLgdXNbGLh7VUgHpBd2MlUZf9/x8HM+ODy/1nqnN0HGH5YBT2Wp38c6KWYxc+jWX1ejCvhONuiQQgo07QJ7GC4jWBPVJvR+EqM1mzkAC5Kmm/rbT+bNyO3jQV9D9W5DLzE7JRapGRu5jIh1YsQ/rP1ZBYAwVrFxrUf1U/K36syxVrZkz+punGb9Qd90q04+rcVHvs4RRzw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by DS7PR12MB8322.namprd12.prod.outlook.com (2603:10b6:8:ed::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.17; Sat, 17 Feb
- 2024 21:23:23 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::d726:fa79:bfce:f670]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::d726:fa79:bfce:f670%7]) with mapi id 15.20.7316.012; Sat, 17 Feb 2024
- 21:23:22 +0000
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
- <20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
- <87jzn4gtlv.fsf@nvidia.com> <b8926fe5-81ef-40ea-9e87-5e84b368b745@lunn.ch>
-User-agent: mu4e 1.10.8; emacs 28.2
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY
- default timestamp to MAC
-Date: Sat, 17 Feb 2024 13:05:40 -0800
-In-reply-to: <b8926fe5-81ef-40ea-9e87-5e84b368b745@lunn.ch>
-Message-ID: <87o7cebx9z.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0241.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::6) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y57L9bC8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8707C47AAD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1708205365; bh=8c3v0Jxyd4UCcIR1kgpPTaYZ0SlTHkNJBSr5/vWlsuE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y57L9bC8cxbMSTCVBQiJY3OdEflmYe6htqRCsPWbaROLcSbwDXiGh/C8b8fyNnsbp
+	 UsYBwPY9NXesr6qrwwgY/7TRAbTVdfQMFHY7IDaqShUHUjCV5LWYJaV0B8Ndt26gt3
+	 PdoLnZSSbngJ10kC2MBKUoLTeXROOPA8oqzU7klwYMOl1oEl8jQHZ+ivV1IA0ORblc
+	 ISAMJUbKnIwLYKoQmQ5t5nixWLl82TCu2VqSEXsm5A03IfRFnMBFn1orZRwqsw87SU
+	 Q6VjnsKs+UUAfjN6mnDf1EYC6KZxajQRanmOIDGhRXdDu35SV0WIrEPYJDDeXMUkg7
+	 vI9smHmwClF3Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8707C47AAD;
+	Sat, 17 Feb 2024 21:29:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: Akira Yokosawa <akiyks@gmail.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: PDF misery
+Date: Sat, 17 Feb 2024 14:29:24 -0700
+Message-ID: <8734tqsrt7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DS7PR12MB8322:EE_
-X-MS-Office365-Filtering-Correlation-Id: a07137ca-8036-4b6c-23fa-08dc2ffeab4a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	IAybwvnCHnfXxqwf9QsET4/QrFQm/287PZS5goUczZRdVk5V0Q30IULQ09uqEIrxAXLu5xR3ZycBhFNCghOGPkfJ3QXtLc1zOa01WDoDBHb0gsNX75sS9QQCKGZApM2zhp3Jeuac0FaqQj+5aTs0andLeTfMEDoY+VV0QaulRXsKtuXqc4wxVrbwNCnnI3RoJ1o/GpAybjxbXHJ3naaUq+98kF2kgVXd30ikf3IVEfeNmVkf0+o0i6h7nLOb+e7Dmz1UKreCiwbfBmHJYJjI71oUu9Zo3cwv6NSAJwhEk2zYVihyViPEQTpnFrcOpF+P5KK7dXQKduOUYeTRhXa1PRpppphlrbIRd9Jh6e17jgn8Kf78dYy+aQ+zyr/1WpdLtWEPRqqqSunYX56fPSSS1lEyf+KmRVJTLPCeLPNp6rJI3+WhcT+tbjWs8nmbOvlsJtiVEXa97UZdTWk0auzgYK39NEXlv2m0cqY6DT3eQK0PDOEP+8r8m+o+YT/+WKXnu5gYu8suR/EkJcuKZKojs4/1FLj2axSU5gs7F7Gxzmu8wfOuf3ZrYX2CUps+fI1/jVn+aaTj0SANME+9+uUIew6A65w/AAc3gQZuu/6CzrY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(136003)(396003)(376002)(39860400002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(38100700002)(5660300002)(4326008)(2906002)(66946007)(66556008)(66476007)(6916009)(8936002)(8676002)(7416002)(86362001)(66899024)(2616005)(26005)(83380400001)(54906003)(6486002)(36756003)(966005)(316002)(6506007)(6666004)(6512007)(478600001)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TOBLaHYs5gryPBKf2XeTXbm+lgP/VHZLb6tZsnZyPWMRUk7hzj84RHcDrfeF?=
- =?us-ascii?Q?8TrQS5cpiIyxvrqI+aCfuyk6Mp/QHKJCYKpKdj7tATPggZSj7Kge+v/23xQe?=
- =?us-ascii?Q?vRki6XJvljEC4gK8dY5k4Fhl8RhH4iQB736F983YGJacSx88Z0tmb1pD/RJT?=
- =?us-ascii?Q?X2OUKE5LxkWNZNaVvk8AfGUvtB4aMTmV51dJ32+cWbA0+jxVjmkZwBr8NNgc?=
- =?us-ascii?Q?syKieqZ/3spkUXIQ/BznTY8vwaV16TNAdwHm2TXlxgOTOSHb0Ye3AFYzMXk8?=
- =?us-ascii?Q?opBcasYmcKB7M65vvvbdfzfg4FPL0ZeZJE+5x6iZQZbzH0ahB3XIRtMDhQHZ?=
- =?us-ascii?Q?4HDdILAJkA2YRMpOZbSCu8zuzVDy/3VB1x5rLlrWjue0N39FSXKSQpifp60T?=
- =?us-ascii?Q?D1CbwGkOV5BQFaU+2CM+IzF7REd1l2/aTZGL7Yen8nTJ11UL3mCV6UuIkS95?=
- =?us-ascii?Q?PupKeJwyA4TzM3KRe/M5G7KfXTsZJHeDXYyAiDZ6kfS5iZgO7MLyDAwIlIfF?=
- =?us-ascii?Q?T88yG9QYmmI+AhGaKL3OLbaLLsdQY8HX/L4EvEjgK9Xck2RpWU8LVu4hKXPw?=
- =?us-ascii?Q?L/2VNWJ8AKvK69OShbBa88mqIPci70LaeT8F+/cJKI6+UVNzUhjhS0Zi0g9Z?=
- =?us-ascii?Q?uyMRqqQIazbf3K40VgIljeL09lUIEh9GTByArIOgPBLNARy13N9kvECqyOZZ?=
- =?us-ascii?Q?GRoArdIgLS64jcppUUEDk+C/bXrnWCodIass/gw5DHtjQJjOx5A9D7qyz5F/?=
- =?us-ascii?Q?EpPW7346ekKAe7DlqKnJ3rNzJ9F0jbPcWZKZ5mCJoYuGMZCXJe79T9H9J6k0?=
- =?us-ascii?Q?WbbYXyOmWsa4i7dw4Q6eJ4boJeN7N9ecyqa06SXDfzw31uI99G2H1W3PupvN?=
- =?us-ascii?Q?5T+kRO0vNuWqKRW6iN3ZJC0V0nL0FnUCKSlYvxvoy7thr7ixihPiCsuLUQE3?=
- =?us-ascii?Q?Gc+3Kh4ndJAJQev3FfrUCIZgfkIv8sKuiuZfz+buPV/hNF3R1EtvUI8BiL9b?=
- =?us-ascii?Q?8ikMxJJsMFYeGk7iTNF9eZNqf/D6NNPl0Hoizjt+QDJw2xwpbMZ/1pzT68Uu?=
- =?us-ascii?Q?LC1WZwKRbu/s1eRTN6iV3yGWwi1mJzj2Y+VMY3Uz5uAViZOCsK6kpHcyGcE5?=
- =?us-ascii?Q?HXAVTH4mEM6rAakZOogLfxILRvQ5ocZ8jLU8Koi8QDz0tKplwRikoI5/h2Qj?=
- =?us-ascii?Q?fSjSjIrkxM7ajaeYpfJAzTGLkZ+AtmLUePgNw758hmVrpKyGaS6xY11L9vMJ?=
- =?us-ascii?Q?59sj2y8yerY25VQKB06/RWRhRufZ85nlKfiisL4lKdgBZe823cgm6qJrVb4a?=
- =?us-ascii?Q?1nCaoPM1DHorqGWHZxL+nY+Maj5It6NFBqo4jYbiptuCupI7OFYxNDAvn+2r?=
- =?us-ascii?Q?yIHxFZuMCWx+q4+jvj6bOftMnvZAQ83WGSuJBSf0P5Wu2e+cPJFU3lRfGPZK?=
- =?us-ascii?Q?90mnwlJGMx/lT5+nrLVF6jXhNRZZID2qZgI1fcuSBr4FFSPkTBKLsndqanf6?=
- =?us-ascii?Q?6tl65gX5F8UCxaWsN8CY0SDmxROM5zHAA9PkLE352soh3ubJkfxyiQnXqPrv?=
- =?us-ascii?Q?7Iop4LoWS2qG7cwLjNLB/JWhownol9RyOR3rEDhJ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a07137ca-8036-4b6c-23fa-08dc2ffeab4a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2024 21:23:22.3359
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +a63vekqXwPulcLqcFH85OWOj8RQD1iNyqNqvA2Ns8jRUXKdLZfVENCbOrRN6gaOOv+jc/FqGWO2cYzSeqEh0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8322
+Content-Type: text/plain
 
-On Sat, 17 Feb, 2024 18:07:31 +0100 Andrew Lunn <andrew@lunn.ch> wrote:
-> On Fri, Feb 16, 2024 at 10:09:36AM -0800, Rahul Rameshbabu wrote:
->> 
->> On Fri, 16 Feb, 2024 16:52:22 +0100 Kory Maincent <kory.maincent@bootlin.com> wrote:
->> > Change the API to select MAC default time stamping instead of the PHY.
->> > Indeed the PHY is closer to the wire therefore theoretically it has less
->> > delay than the MAC timestamping but the reality is different. Due to lower
->> > time stamping clock frequency, latency in the MDIO bus and no PHC hardware
->> > synchronization between different PHY, the PHY PTP is often less precise
->> > than the MAC. The exception is for PHY designed specially for PTP case but
->> > these devices are not very widespread. For not breaking the compatibility
->> > default_timestamp flag has been introduced in phy_device that is set by
->> > the phy driver to know we are using the old API behavior.
->> >
->> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
->> > ---
->> 
->> Overall, I agree with the motivation and reasoning behind the patch. It
->> takes dedicated effort to build a good phy timestamping mechanism, so
->> this approach is good. I do have a question though. In this patch if we
->> set the phy as the default timestamp mechanism, does that mean for even
->> non-PTP applications, the phy will be used for timestamping when
->> hardware timestamping is enabled? If so, I think this might need some
->> thought because there are timing applications in general when a
->> timestamp closest to the MAC layer would be best.
->
-> Could you give some examples? It seems odd to me, the application
-> wants a less accurate timestamp?
->
-> Is it more about overheads? A MAC timestamp might be less costly than
-> a PHY timestamp?
+So, FYI, I have Vegard's PDF-generation fix applied here, but I've not
+pushed it yet (even though I think it's fine) because I wanted to be
+sure that all was well with PDF generation.  Bear with me as I ramble
+for a bit...
 
-It's a combination of both though I think primarily about line rate.
-This point is somewhat carried over from the previous discussions on
-this patch series in the last revision. I assume the device in question
-here cannot timestamp at the PHY at a high rate.
+I'll confess to not paying as much attention to PDF output as I should.
+Partly that's from a perception that not many people care about it
+(though a few really do), and partly because PDF generation has always
+been a bit of a house of cards that turns into a real pain whenever
+anybody looks at it hard.
 
-  https://lore.kernel.org/netdev/20231120093723.4d88fb2a@kernel.org/
+Somebody looked at it hard.
 
->
-> Or is the application not actually doing PTP, it does not care about
-> the time of the packet on the wire, but it is more about media access
-> control? Maybe the applications you are talking about are misusing the
-> PTP API for something its not intended?
+My fairly standard Fedora 39 system can't do a pdfdocs build at all.
+There are a couple of untoward things that get in the way.
 
-So hardware timestamping is not a PTP specific API or application right?
-It's purely a socket option that is not tied to PTP (unless I am missing
-something here).
+One is the dreaded Latex "too deeply nested" message that causes
+everything to explode while generating filesystems.pdf.  The problem,
+specifically, is .../filesystems/xfs/xfs-online-fsck-design.rst, which
+blows the limits in two ways.  This patch "fixes" it - this clearly
+isn't something to apply, it's just a demonstration of the problem:
 
-  https://docs.kernel.org/networking/timestamping.html#timestamp-generation
+-----
+diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+index 352516feef6f..1762a9415ec1 100644
+--- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
++++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+@@ -739,15 +739,6 @@ For a given fstests filesystem configuration:
+         7. Subtract a small quantity
+         8. Randomize the contents
+ 
+-        * ...test the reactions of:
+-
+-          1. The kernel verifiers to stop obviously bad metadata
+-          2. Offline checking (``xfs_repair -n``)
+-          3. Offline repair (``xfs_repair``)
+-          4. Online checking (``xfs_scrub -n``)
+-          5. Online repair (``xfs_scrub``)
+-          6. Both repair tools (``xfs_scrub`` and then ``xfs_repair`` if online repair doesn't succeed)
+-
+ This is quite the combinatoric explosion!
+ 
+ Fortunately, having this much test coverage makes it easy for XFS developers to
+@@ -2093,7 +2084,6 @@ of the records, so naturally the xfarray must also support sorting the record
+ set prior to bulk loading.
+ 
+ Case Study: Sorting xfarrays
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The sorting algorithm used in the xfarray is actually a combination of adaptive
+ quicksort and a heapsort subalgorithm in the spirit of
 
-So you could use this information for other applications like congestion
-control where you do not want to limit the line rate using the PHY
-timestamping mechanism.
+-----
+The first change removes the deepest level of nesting in an impressive
+set of enumerated lists; the second removes the nth-level subsection
+heading markup for "Sorting xfarrays".  Having either of those present
+will cause Latex to blow a fuse.
 
-In mlx5, we only steering PTP traffic to our PHY timestamping mechanism
-through a traffic matching logic.
+I'm surprised that nobody else is reporting this problem.  I honestly
+don't see a fix other than changing the organization of the document to
+avoid both deeply nested itemized lists and section structure, which is
+less than entirely desirable.  I think there are good reasons for
+avoiding structures that deep, but limitations in the tooling aren't one
+of them.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.h?id=a6e0cb150c514efba4aaba4069927de43d80bb59#n71
+Incidentally, on F38, I also run into a similar Latex error in
+.../userspace-api/media/v4l/pixfmt-rgb.html, which has a set of tables
+from hell.  On F39, that somehow works.  Weird.
 
-This is because we do not want to PHY/port timestamp timing related
-applications such as congestion control. I think it makes sense for
-specialized timestamping applications to instead use the ethtool ioctl
-to reconfigure using the PHY timestamps if the device is capable of PHY
-timestamping. (So have the change be in userspace application tools like
-linuxptp where precise but low <relative> rate timestamp information is
-ideal).
+The *other* problem is that PDF generation of the Chinese, Korean, or
+Japanese translations fails with:
 
---
-Thanks,
+  xdvipdfmx:fatal: Invalid TTC index number
 
-Rahul Rameshbabu
+This, I am thinking, is likely some sort of F39 bug.  xdvipdfmx is
+finding the CJK fonts just fine, but then something clearly goes wrong.
+I'll try to find the time to narrow that down and perhaps put in a
+proper bug report.
+
+Meanwhile, I wish I knew what to do to make the PDF build a bit more
+robust.  I wish that rst2pdf or rinohtype would progress to the point
+where they could be used, and Latex could be taken out of the picture,
+but no such luck.
+
+Oh well...sorry for rambling at you...I wish I had a good plan for
+making this whole thing better.
+
+jon
