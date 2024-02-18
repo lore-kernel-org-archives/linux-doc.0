@@ -1,25 +1,59 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BCE136A;
-	Sun, 18 Feb 2024 02:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCAE848A
+	for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 09:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708223450; cv=none; b=TUolR3YT+nq2fUCQ7J8AnkqYg2+rB5HNaZ9nJM4cxhsxFnXcaRHnUvVmZI5p1QQM4lXE5dPhoWyjW3FQ1Ni1ASHHJznSk3IoX4W0xQxrMuhsinJYmC1+UCvsZrwVIeyDVY3cKhuf7CDBJxDk8IUvVz36iNeDJGaGY1HyM1Vcd6E=
+	t=1708250331; cv=none; b=FAGUta4Qr0A1sLhUQl2AnDowm2VkRRRPYds3jNlwpJhGKD6tYRLX7kWmfSgsRYDByjnPfngf+e7560Auu4tJqJ+c+XQauwO3JEnVL3wg20FqJyHymPE15PBdQb01k9dL63gplhzLo/hNggdhz4kqDFdbjZsGDgKpnaCvZ3/1lqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708223450; c=relaxed/simple;
-	bh=iuYSgsm82GmOEjBo/CfBN7Oyn3THVKnRtiZmMIR38p8=;
+	s=arc-20240116; t=1708250331; c=relaxed/simple;
+	bh=GFd6q6TDJsPCFLX5bsGnMskeqJgQWdH9kwUXTWlpiE0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dfB4gha62riC0M00PGFDtb+8ykHIUQ2mg7ZdOKhGPAWVak/W2QfZE1Uzp6//z87v7Ib95O4hE0vTYGk9JtwUSzvtKLnMWENeBnba7lCOzjGhgj7hlGu4G7uzFfX0PCTB4b1sBNtLauEeHbkdBbYgowN7j9f6M44dy7A7i0G9FUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.108.61])
-	by gateway (Coremail) with SMTP id _____8CxmejTa9Fl3AwOAA--.18173S3;
-	Sun, 18 Feb 2024 10:30:43 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.108.61])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxnhPPa9FlJFU6AA--.28623S3;
-	Sun, 18 Feb 2024 10:30:41 +0800 (CST)
-Message-ID: <0b9c8709-432e-41f4-83f7-9f78ef46ef8f@loongson.cn>
-Date: Sun, 18 Feb 2024 10:30:39 +0800
+	 In-Reply-To:Content-Type; b=gi5WXb+LwJxyuqi2bioSTvd51kPyFzNhRjDXHClD+3N/lxPsHZjKHBUoRShyWvhefUJ3qf0LVGSqgROawvcFEDeS/XoMp/Yr9tRv4rhfIFEfyuQn2CxmOdvIX4oWBA/istApTKjXgBdR/dGZYfGfSnzYmoKly6nblkgjOWAZwcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CQdKbWEU; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CQdKbWEU"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2997a92e23bso94302a91.3
+        for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 01:58:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708250329; x=1708855129; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0wdJmgvKu5l1mjfhd7RljLwlhgJ8s2u0rgS2x2cicVM=;
+        b=CQdKbWEUleMxEzIznQWEd9ehWxwexlTJ+AOl0C14ZY9Jb+1ZtvHyOsxuy/k0F++4em
+         Ph0Y3PhtxcNm6hwNCntfaxPPqIAQ33dDDcQZj0RfwBsOAvYQOKqwznMchogjLrQQ+w27
+         jNt2ATjn/ipKnRUNxTuOKfUdiQDJ1bmS7VWqsPr2pzjErhemZZfaoAZT0mxOeNIeiGfm
+         EY9YXDHu9ONySrpNTaYx/MpxIyoLt1tO54SY3FMQ1/wWpkPIqVYBWtMcaMc8/KYbun9I
+         gDZS0zoqew8AubX+8fcVBRHT8jkOPp1AaR4NglzgH9C5Gi1m4DUzAhwrqznyl2bQNH6h
+         KcHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708250329; x=1708855129;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0wdJmgvKu5l1mjfhd7RljLwlhgJ8s2u0rgS2x2cicVM=;
+        b=AbQIPS+b3ZFB8/MbXtHWmZ+SALrVyAIZTb12iSVLk2LZ9qcWsCvHFKtOJ85C8Dy5xW
+         CuAKT7A4RySr7Pp9sO7tI6c958xFQvZk3ZrLCBcxcxScUO3pDXVaV341zOkNi4vm5hEu
+         Mq/VjtO1qps9d92PXy9VxWQgWWnexkrV2hArxslCobaoHCNVFskCH2oOKTDiR4AMFYE6
+         s/53C+dLASgaBKAm0s4dUq6abKCimLUgtxv1TpA+ZYVPHU22uwqadInRiebwDcQH1sZT
+         w7PN3fwZ3/9jz8o38lfvzmxkD9cZN4oR4c4NsiCUjn9M3JD7TWl45kbdnVkzKLvxLGZU
+         TTLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVO/z0Psg2mMznqgAEXryBMCClVLLpEM5ZWDdhJil9F3dIUTTxOMXKCrrZZZD7WMWWnJYUEUfHRV+6Wflp6bRWBzuW09Oi2jWgP
+X-Gm-Message-State: AOJu0YwQbd2B6sIIaM4Hr/52zRdOQSCPNCX+UJHikGl5PWtZylcx6xAg
+	aVvKnJBPO4lRdRhVl7N2s3vA8ABrEQrWg7Uc4+iL6rC+9uzEZNCv
+X-Google-Smtp-Source: AGHT+IF0LjBypN6LNarHAi4nFdQ4nbRimYdJzDwLHIJAYaYlLn53tJGzoXPkQmgBDgm37FB3X7GW1g==
+X-Received: by 2002:a17:903:120c:b0:1d9:c367:2032 with SMTP id l12-20020a170903120c00b001d9c3672032mr10837166plh.10.1708250328962;
+        Sun, 18 Feb 2024 01:58:48 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f9-20020a17090274c900b001d9eefef30csm2481666plt.6.2024.02.18.01.58.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Feb 2024 01:58:48 -0800 (PST)
+Message-ID: <64908dd3-17c9-47e3-a076-d78105fb823b@gmail.com>
+Date: Sun, 18 Feb 2024 18:58:47 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,152 +61,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: dt: Update overlay file extension
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Andrew Davis <afd@ti.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
+Subject: Re: PDF misery
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <8734tqsrt7.fsf@meer.lwn.net>
 Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxnhPPa9FlJFU6AA--.28623S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Ar43XFWkGFWrKr1kGF47WrX_yoW7Xr47pF
-	13JF17XF17Jr17Ww1UJF1UJr1UAr1UJ3WUGr17Jr1ktr4Yyr15Jr1Utwn5JFyUJFy8AryU
-	JryUJFyUJr12k3XCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Kb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
-	twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
-	kF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-	MxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
-	0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
-	14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
-	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
-	JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcpBTUUUUU
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <8734tqsrt7.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi Jon,
+
+A few comments on PDF of CJK docs. 
+
+On Sat, 17 Feb 2024 14:29:24 -0700, Jonathan Corbet wrote:
+> [...]
+> 
+> The *other* problem is that PDF generation of the Chinese, Korean, or
+> Japanese translations fails with:
+> 
+>   xdvipdfmx:fatal: Invalid TTC index number
+> 
+> This, I am thinking, is likely some sort of F39 bug.  xdvipdfmx is
+> finding the CJK fonts just fine, but then something clearly goes wrong.
+> I'll try to find the time to narrow that down and perhaps put in a
+> proper bug report.
+
+I think this is because xdvipdfmx accesses NotoSansCJK-VF.ttc, which is
+a variable font.  xdvipdfmx/xetex can't work with such fonts (yet).
+See note at the bottom for more info on variable fonts support.
+
+It sounds like you have google-noto-sans-cjk-vf-fonts installed on your
+system besides google-noto-sans-cjk-fonts.
+
+What does
+
+    fc-list | grep NotoSansCJK-VF.ttc
+
+say?
+
+I'm wondering why xdvipdfmx behaves that way despite the fontconfig
+setting with:
+
+        fc-match "Noto Sans CJK SC"
+
+    returning:
+
+        NotoSansCJK-Regular.ttc: "Noto Sans CJK SC" "Regular"
+
+This might be a bug in xdvipdfmx worth reporting.  Or there might
+be glitches in the fontconfig setting.
 
 
-在 2024/2/13 18:24, Geert Uytterhoeven 写道:
-> Building DTB overlays from .dts files is no longer supported.
-> Update the documentation to reflect this.
->
-> Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+Uninstalling google-noto-sans-cjk-vf-fonts (and
+google-noto-serif-cjk-vf-fonts in case you have it) should resolve
+the issue for you, that is if you can safely uninstall it/them.
 
 
-Thanks,
+* Note on variable fonts support:
 
-Yanteng
+In the announcement of LaTeX fontspec package v2.9a release [1], there is
+an entry:
 
-> ---
->   Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
->   .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
->   2 files changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
-> index e139f22b363e9f36..35e79242af9a928d 100644
-> --- a/Documentation/devicetree/overlay-notes.rst
-> +++ b/Documentation/devicetree/overlay-notes.rst
-> @@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
->   	};
->       ---- foo.dts ---------------------------------------------------------------
->   
-> -The overlay bar.dts,
-> +The overlay bar.dtso,
->   ::
->   
-> -    ---- bar.dts - overlay target location by label ----------------------------
-> +    ---- bar.dtso - overlay target location by label ---------------------------
->   	/dts-v1/;
->   	/plugin/;
->   	&ocp {
-> @@ -51,7 +51,7 @@ The overlay bar.dts,
->   			... /* various properties and child nodes */
->   		};
->   	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->   
->   when loaded (and resolved as described in [1]) should result in foo+bar.dts::
->   
-> @@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
->   location by label syntax is preferred because the overlay can be applied to
->   any base DT containing the label, no matter where the label occurs in the DT.
->   
-> -The above bar.dts example modified to use target path syntax is::
-> +The above bar.dtso example modified to use target path syntax is::
->   
-> -    ---- bar.dts - overlay target location by explicit path --------------------
-> +    ---- bar.dtso - overlay target location by explicit path -------------------
->   	/dts-v1/;
->   	/plugin/;
->   	&{/ocp} {
-> @@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
->   			... /* various properties and child nodes */
->   		}
->   	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->   
->   
->   Overlay in-kernel API
-> diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
-> --- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> +++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> @@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->   	};
->       ---- foo.dts ---------------------------------------------------------------
->   
-> -覆盖bar.dts,
-> +覆盖bar.dtso,
->   ::
->   
-> -    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
-> +    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
->   	/dts-v1/;
->   	/插件/;
->   	&ocp {
-> @@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->   			... /* 各种属性和子节点 */
->   		};
->   	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->   
->   当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
->   
-> @@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->   DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
->   较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
->   
-> -上面的bar.dts例子被修改为使用目标路径语法，即为::
-> +上面的bar.dtso例子被修改为使用目标路径语法，即为::
->   
-> -    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
-> +    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
->   	/dts-v1/;
->   	/插件/;
->   	&{/ocp} {
-> @@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
->   			... /* 各种外围设备和子节点 */
->   		}
->   	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->   
->   
->   内核中关于覆盖的API
+    - Support variable fonts under LuaLaTeX.
+
+It is not explicitly mentioned there, but in the opening paragraph
+of Part III "Selecting font features" Chapter 7 "Variable fonts" of
+fontspec's package documentation, there is a sentence which reads:
+
+    Currently OpenType variable fonts are only supported in LuaTEX, while
+    Multiple Master fonts only work with XETEX.
+
+As the xeCJK package requires xelatex, variable fonts are not in
+our options, I guess.
+
+[1]: https://ctan.org/ctan-ann/id/mailman.6477.1707925238.3764.ctan-ann@ctan.org
+
+HTH, Akira
 
