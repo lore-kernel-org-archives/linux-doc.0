@@ -1,243 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C821C360
-	for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 00:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13247641
+	for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 00:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708216823; cv=none; b=Z6uH3BuIWalqw2nufqMfwgXJO978Z+1ZA7hAZ24vlNI8LrVCgmpxdmnfOIy73cjlrSa+R68b54uKM1bbopxerkY6e/G8aOwzpbCiPZvh0OCMIJXFlAyv/YAP5IRfwDWTsgeYu8ph73k+a+gtKsx4r5llHbJwBwZDkWifXgIiY14=
+	t=1708217060; cv=none; b=SeIWq6T1lnzsXLhm3xZujGdcWrpPDIdk7aM1ofHAP+mZ6RrKHgwr1M7DAN3k71sSzyEMGZ7HYe0AKCtHUtUFp4f0C/GFJXr67+AXAHZjose5UEROQUxb3+vVYYoqg5enxHDa4M8FWSueNY0z4Ret6m4fnmTHZNifMIX7EAp1nB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708216823; c=relaxed/simple;
-	bh=AOkUgB1b71Q61HmhthppaU7AcqxWwAY7xWnfFaPQSiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GFDUSJpit4WgFwjQ8GHrD28C4rKl9+P8ebwVmde2FMCuhdc5Zu2OmQG/TS9gVuooQa15kME9V2v2At3bqBE4fC2hsuR0EQJVSHbNnTQEo+cqCxp4hRzlFrhGGCICY/URAGlMc3fszExgHiXbe6qYpCq8DDnFprp1LpkPdUfTWGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsiSZZdX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708217060; c=relaxed/simple;
+	bh=eObXZNCrhmMoAtoJx0M+KCXazEG8uiFRYjucowDmnr4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FUdT4WnQ42Nqb3p2qSymItbUjxgGt3GOEuHgFBuuSK0SoW7ddS6B0q6EsXAw9v1QlbUDU9ug/toBu6WHJy4BUrMykoH30YIZGBp6eTBRTi1Wwfpged3Hgj/bMeo070KhGjoYKmPV6bYO8yT0hqiUMSv7aS2T8ct3HPwtS2ULXiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T/xwhoLJ; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsiSZZdX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EADC433F1;
-	Sun, 18 Feb 2024 00:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708216823;
-	bh=AOkUgB1b71Q61HmhthppaU7AcqxWwAY7xWnfFaPQSiQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PsiSZZdX3l/ZIAqwzlQuLJ23F/0lLylwcLneshRIX9tPN8Japxu3s7fg3Avwmz/ct
-	 6RdkKG/4ulkCNdWLgLsNkk4W8ZjEuYvCfpOgotRR6TC9vOvqrGrF2Wj2fxJrB00b9M
-	 fJUJtEBpJ7JkTXtW5MfHTZKuFSSYXKJWgf4gxgICIvn9BxzLNj3ACugAixeVFShI48
-	 WhdtUcZrA6JHIcPXhzYyF+9Y/A2naxOwS2duv32NsBsKUtyFKZsa+1usv7t5RiRxIi
-	 wC86A9ugva4fz/Sl1Zqkhm3JgTtw7QZUj47LBZimdgGMJ4iVLj8CpYXbyVTcyjGzWI
-	 Ss3+HJlT2fuow==
-Date: Sun, 18 Feb 2024 01:40:19 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Vegard
- Nossum <vegard.nossum@oracle.com>
-Subject: Re: PDF misery
-Message-ID: <20240218014019.35fcf19e@coco.lan>
-In-Reply-To: <8734tqsrt7.fsf@meer.lwn.net>
-References: <8734tqsrt7.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T/xwhoLJ"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-60802b329c4so18457567b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 16:44:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708217058; x=1708821858; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cFEGcM8EospHG4JmqyUXYLdSoH1Alzf1U0lPv6eqJTM=;
+        b=T/xwhoLJPGVdk1V/HhrRgMZsfbN6nYRAHY5lwofz/l8q5zNjsBdJVXHBeS39CuSKox
+         oqZe9CArJF37hHdFcyB5oiFH4ujlXu4RT29aK9L9rAZCvLrzgxNAndKlFHnw4Em75p+K
+         eE/5z2hTbf2OGDYB0xQNRG48TSeSBUr/9TVi5eFpo8xxObEsGC6nEnrLNaYSUIa+x4oD
+         Fe+W3UaU3cJXUBmqIgQ0Fq9wm5jDazohABpGuT1uZ2A6O+/4Atyt1q0Z3BBgfyWd05Uy
+         yWqNIE2qrm1W/0DpZtWfEZFltW6lBPHP4XgwnjDduBKb5WSU3rF9Np+VyvH5zaXEZ//3
+         viqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708217058; x=1708821858;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cFEGcM8EospHG4JmqyUXYLdSoH1Alzf1U0lPv6eqJTM=;
+        b=wr9YFVSs3l4dtcmmg5coLaim0cQVEWgVC3vHmmaUcTi+bzjsiFSu6vcunG8CS+Fg6T
+         SQImZZsn4do91UHNp0dIMKUxB+ggValePBY7myFEMmB67iZHTchmAvolQXyBPXkQPtSI
+         lKEc+liXnf+1/BwRrdAepI+lrSe3JwcaJDi4Iwtk5fXCEYVsAf6BkAXOYtNRQbISb5tu
+         JwLQYMkJOrEfHN9q5OsFWn4GPcJ6o6UlkeKj3ytYrHismwmjmTywzmge0AwU02BGkAEs
+         ZpCtwcpiI23//ZexsDBRv4Ml+z6/86TGTE7XIOdBERe2kq8Dcz4C+L/wGnXm41PxZsnS
+         QImA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxD+8OxC3Iaix1L3JKP4SC7VSohYpZ41cgYC6dP/uTbkFdCSWcgN6VB/ueddCgCNriUVtGA/+uhGRmRuHYZektJg2DNXXAOtXd
+X-Gm-Message-State: AOJu0Yxk4HLtEnCH3zagKOH0H8w2UzlzqcenfE3Qo96AJomxTF7qMI1R
+	YsFTLrg4vMVN5gijXMD1V3n5bMz0sBGx8nglQs+Eb00VMpCRinHVlIzJfoNu7rCFtyeRDAvhNEq
+	PXwS448nrCJI7+mhSq5plhXTDQRsTb9u4CK81
+X-Google-Smtp-Source: AGHT+IF0zbur3ZnS0QBbUiRVZnclSCZcw12C5kwuIUJh6ZOEbr9od3x9F9LKEta3pcFjU0rivXF1DW3eH5+/zL6adzk=
+X-Received: by 2002:a81:914a:0:b0:604:f681:a1 with SMTP id i71-20020a81914a000000b00604f68100a1mr9152837ywg.16.1708217057719;
+ Sat, 17 Feb 2024 16:44:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-19-surenb@google.com>
+ <2e26bdf7-a793-4386-bcc1-5b1c7a0405b3@suse.cz> <CAJuCfpGUH9DNEzfDrt5O0z8T2oAfsJ7-RTTN2CGUqwA+m3g6_w@mail.gmail.com>
+In-Reply-To: <CAJuCfpGUH9DNEzfDrt5O0z8T2oAfsJ7-RTTN2CGUqwA+m3g6_w@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 18 Feb 2024 00:44:05 +0000
+Message-ID: <CAJuCfpFvSOtz7DaYdv=FXRvTvoRbMziXctFXqSpP_u97uNsFSQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/35] mm: create new codetag references during page splitting
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Sat, 17 Feb 2024 14:29:24 -0700
-Jonathan Corbet <corbet@lwn.net> escreveu:
+On Fri, Feb 16, 2024 at 4:46=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Fri, Feb 16, 2024 at 6:33=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> =
+wrote:
+> >
+> > On 2/12/24 22:39, Suren Baghdasaryan wrote:
+> > > When a high-order page is split into smaller ones, each newly split
+> > > page should get its codetag. The original codetag is reused for these
+> > > pages but it's recorded as 0-byte allocation because original codetag
+> > > already accounts for the original high-order allocated page.
+> >
+> > Wouldn't it be possible to adjust the original's accounted size and
+> > redistribute to the split pages for more accuracy?
+>
+> I can't recall why I didn't do it that way but I'll try to change and
+> see if something non-obvious comes up. Thanks!
 
-> So, FYI, I have Vegard's PDF-generation fix applied here, but I've not
-> pushed it yet (even though I think it's fine) because I wanted to be
-> sure that all was well with PDF generation.
+Ok, now I recall what's happening here. alloc_tag_add() effectively
+does two things:
+1. it sets reference to point to the tag (ref->ct =3D &tag->ct)
+2. it increments tag->counters
 
-Yeah, LaTeX Sphinx output is really tricky, requiring workarounds from
-time to time to address some issues.
+In pgalloc_tag_split() by calling
+alloc_tag_add(codetag_ref_from_page_ext(page_ext), tag, 0); we
+effectively set the reference from new page_ext to point to the
+original tag but we keep the tag->counters->bytes counter the same
+(incrementing by 0). It still increments tag->counters->calls but I
+think we need that because when freeing individual split pages we will
+be decrementing this counter for each individual page. We allocated
+many pages with one call, then split into smaller pages and will be
+freeing them with multiple calls. We need to balance out the call
+counter during the split.
 
-> The first change removes the deepest level of nesting in an impressive
-> set of enumerated lists; the second removes the nth-level subsection
-> heading markup for "Sorting xfarrays".  Having either of those present
-> will cause Latex to blow a fuse.
+I can refactor the part of alloc_tag_add() that sets the reference
+into a separate alloc_tag_ref_set() and make it set the reference and
+increments tag->counters->calls (with a comment explaining why we need
+this increment here). Then I can call alloc_tag_ref_set() from inside
+alloc_tag_add() and when splitting  pages. I think that will be a bit
+more clear.
 
-...
-
-> I'm surprised that nobody else is reporting this problem.  I honestly
-> don't see a fix other than changing the organization of the document to
-> avoid both deeply nested itemized lists and section structure, which is
-> less than entirely desirable.  I think there are good reasons for
-> avoiding structures that deep, but limitations in the tooling aren't one
-> of them.
-
-The maximum indentation level seems easily fixable. See my PoC at the
-end of this e-mail.
-
-From:
-	- https://tex.stackexchange.com/questions/571826/too-deeply-nested
-	- https://stackoverflow.com/questions/1935952/maximum-nesting-level-of-lists-in-latex
-
-And some local tests I did on Fedora 39, the default enum indentation
-limit is 7.
-
-This is configurable by adding \setlistdepth after using enum item,
-e. g.:
-
-	\usepackage{enumitem}
-	\setlistdepth{9}
-
-I guess we can add something like that to latex_elements at conf.py to 
-increase the maximum limit.
-
-> Incidentally, on F38, I also run into a similar Latex error in
-> .../userspace-api/media/v4l/pixfmt-rgb.html, which has a set of tables
-> from hell.  On F39, that somehow works.  Weird.
-
-I remember in the past I had to increase some LaTeX memory limits,
-but it seems that this is not required anymore.
-
-> 
-> The *other* problem is that PDF generation of the Chinese, Korean, or
-> Japanese translations fails with:
-> 
->   xdvipdfmx:fatal: Invalid TTC index number
-> 
-> This, I am thinking, is likely some sort of F39 bug.  xdvipdfmx is
-> finding the CJK fonts just fine, but then something clearly goes wrong.
-> I'll try to find the time to narrow that down and perhaps put in a
-> proper bug report.
-> 
-> Meanwhile, I wish I knew what to do to make the PDF build a bit more
-> robust.  I wish that rst2pdf or rinohtype would progress to the point
-> where they could be used, and Latex could be taken out of the picture,
-> but no such luck.
-
-I haven't tested rst2pdf for a while on Kernel builds. It works fine
-when producing IGT documentation, but the docs there are too trivial
-to cause issues.
-
-Didn't try rinohtype yet.
-
-Ideally, if one of those would work, that would be a lot better, as
-LaTeX makes it a lot more complex than it should be.
-
-> Oh well...sorry for rambling at you...I wish I had a good plan for
-> making this whole thing better.
-> 
-> jon
-
-Regards,
-Mauro
-
----
-
-The way the .tex file below is, it builds fine with:
-
-	$ xelatex  -halt-on-error /tmp/test.tex
-	This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex)
-	...
-	Output written on test2.pdf (1 page).
-	Transcript written on test2.log.
-
-If you remove this line:
-
-	\setlistdepth{9}
-
-You'll see the error:
-
-	$ xelatex  -halt-on-error /tmp/test_without_setlistdepth.tex
-	This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex)
-	...
-
-	! LaTeX Error: Too deeply nested.
-
-	See the LaTeX manual or LaTeX Companion for explanation.
-	Type  H <return>  for immediate help.
-	 ...                                              
-	                                                  
-	l.60                 \item
-	                           item level 7
-	No pages of output.
-	Transcript written on test_without_setlistdepth.log.
-
-And it indicates that it fails when level == 7.
-
-
--
-
-
-\documentclass{article}
-
-\usepackage{enumitem}
-\RequirePackage{enumitem}
-
-\setlistdepth{9}
-
-\setlist{nolistsep,
-         leftmargin = *}
-%
-%
-\newlist{myEnumerate}{enumerate}{9}
-\setlist[myEnumerate]{
-    font        = {\bfseries} ,
-    topsep      = 0pt }
-\setlist[myEnumerate,1]{label=\arabic* ---,ref=\arabic*}
-\setlist[myEnumerate,2]{label=\arabic{myEnumeratei}.\arabic*),ref=\themyEnumeratei.\arabic*}
-\setlist[myEnumerate,3]{label=\roman*),ref=\themyEnumerateii.\roman*}
-\setlist[myEnumerate,4]{label=\Roman*.,ref=\themyEnumerateiii.\Roman*}
-\setlist[myEnumerate,5]{label=\themyEnumerateiiii.\roman*.,ref = \themyEnumerateiiii.\roman*}
-\setlist[myEnumerate,6]{label=(\arabic*)}
-\setlist[myEnumerate,7]{label=(\Roman*)}
-\setlist[myEnumerate,8]{label=(\Alph*)}
-\setlist[myEnumerate,9]{label=(\roman*)}
-\newcommand{\ben}{\begin{myEnumerate}}
-\newcommand{\een}{\end{myEnumerate}}
-%
-\newlist{myItemize}{itemize}{9}
-\setlist[myItemize]{
-    topsep      = 0pt }
-\setlist[myItemize,1]{label=\textbullet}
-\setlist[myItemize,2]{label=---}
-\setlist[myItemize,3]{label=---}
-\setlist[myItemize,4]{label=---}
-\setlist[myItemize,5]{label=---}
-\setlist[myItemize,6]{label=---}
-\setlist[myItemize,7]{label=---}
-\setlist[myItemize,8]{label=---}
-\setlist[myItemize,9]{label=---}
-\newcommand{\bit}{\begin{myItemize}}
-\newcommand{\eit}{\end{myItemize}}
-
-
-\begin{document}
-
-\section{Main section}
-
-\section{Subsection}
-\ben 
-  \item item level 1
-  \ben
-  \item item level 2
-    \bit 
-    \item item level 3
-      \bit
-	\item item level 4
-	  \bit
-          \item item level 5
-            \bit
-              \item item level 6
-              \bit
-                \item item level 7
-                  \bit
-                  \item item level 8
-              \eit
-            \eit
-          \eit
-        \eit
-      \eit
-    \eit
-  \item item level 2
-  \een
-\item item level 1
-\een
-
-\end{document}
+>
+> >
