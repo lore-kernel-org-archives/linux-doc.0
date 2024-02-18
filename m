@@ -1,288 +1,178 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF87139B
-	for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 02:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BCE136A;
+	Sun, 18 Feb 2024 02:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708222895; cv=none; b=XU0nUq6rwrylyLMnc1h3ak5ZEGdyukPm4Mr5OeVHuQ/P5Q4UDsRqCew4IUpyBhzhzxMjz+zGQQLMvn5v1ZiT2Nwis9iwNu9fupGs4qYU46l7BlXeBDV6/TBfAGficfQDsodEaKOCIcsmj4gtNYEyep1hpXmSaZUbknFo0kY0FIs=
+	t=1708223450; cv=none; b=TUolR3YT+nq2fUCQ7J8AnkqYg2+rB5HNaZ9nJM4cxhsxFnXcaRHnUvVmZI5p1QQM4lXE5dPhoWyjW3FQ1Ni1ASHHJznSk3IoX4W0xQxrMuhsinJYmC1+UCvsZrwVIeyDVY3cKhuf7CDBJxDk8IUvVz36iNeDJGaGY1HyM1Vcd6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708222895; c=relaxed/simple;
-	bh=sGLQWy2gJ22i5/11EUF6i6TeDZNPTR8RdMNYUPKuXtM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hxRV+0vQ3Hq8+9dU4NpmhRSNRun5THhosbm4Sa4OtUJ7wGtkD8elHpzk205lYJh2ihXfbpO6YCEX0dWLmI6pVC9ngtf3TBcMNJCQ0TxQnuFnwHSxwTwCQ3Ixrg2OrOktU5Uqmq4viQbTlocMUZUYRyMHB0vU3xGdN8KoSBKZ1XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dy0+oSSo; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dy0+oSSo"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc73148611so3718168276.3
-        for <linux-doc@vger.kernel.org>; Sat, 17 Feb 2024 18:21:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708222892; x=1708827692; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aGwMPlFmMn7i+PsCRsmYPKBrgHwqE0wRHG6PNy5zjw0=;
-        b=Dy0+oSSo/rLVLFYRNniJ8/xLna969/++gNkbWpS6mx2DBrdgoFAbwDKo7xwr5EaXEc
-         BxdvFTlyenLEwcJGQy5hh7gYtHG65bMckXjyD3oskfkiunAoXiTycAClPHN6Wtun9zVN
-         JD+KyRvBXIKOLfDUgllhnEXBged/RY5qcN5ZgvnvDxdQbsTWJEjnfv6/+0yPBPKJ39ld
-         N1sfaXsKEwSAdu7Fcsymy3YO8aLDkEiX+qeJI4YFI7QdKWay0Q6eUnpsUmOCeYLoGYX5
-         jVQMRCoKm1AlRWnExVzMTyMzwdyBte1Oka+Eh+wI18AhcMi56/IQzNmSZ3A6ClUI8o/+
-         c6yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708222892; x=1708827692;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aGwMPlFmMn7i+PsCRsmYPKBrgHwqE0wRHG6PNy5zjw0=;
-        b=ueEEa2svKOR3TirZjaQvJMD/HHoQeFqQRg4rKAzU8UwXSnM5jA+ed3RswhgNKG0bSX
-         Zh8GJNX/Np5LWwb+bFHnh8W8/dBinH6KD9IO/TXdJTYw1pEzwJvOHtyiegGY8IQSuRIk
-         3XgueXDlPfjl5GAP0cdkzfM6yJ8L7yufSBiqlcrHvodlqxuqYeY7XYuuTFiC06kJotgx
-         D2tYeNH/O1La9SA+oyTap/aLZ8BmDSPoNxt2tdNqwQq691lpp6JMK8EJhtwyQI3FUWON
-         iTJOV0FhleW7ARGgeoKNchF6m5JjRqEBbk8gWA42Br6EaIq6nOQlyj5hC5V3WPAmMwuJ
-         Pk4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUcwkyecQTZfKKuSKCfEk7J26EghmDOanZDj/SzjkDd0Hh6YYAf0gx0gaLRlIztzT7CL5zGkfMVwLqCiQnaaTaPrl/SuhBR3U2X
-X-Gm-Message-State: AOJu0YyCULy7H7HRqsTprFheBKFn0ExL5nC9ewr6zykkQwgUAJFCpQxs
-	0e8dHLaZT/+JBe1wtjNgg9ZbCBLjoBowgRG1dq7IbEKUywsry8JHVvf8ntf6uuq02p54cpO6Lq8
-	G6jixabDmXkUk6eLSMd8sZnUtwM/tC+MeCuHw
-X-Google-Smtp-Source: AGHT+IFbcmWP0wuiiRTf0AlfSBMbSNfrD0N8TNtgVp/GNQHvOsL/OfZQsmBKdpZvPdO7G1/QjsP0VpRVVtpV4P/uhdk=
-X-Received: by 2002:a05:6902:268a:b0:dcd:4e54:9420 with SMTP id
- dx10-20020a056902268a00b00dcd4e549420mr9768527ybb.5.1708222891980; Sat, 17
- Feb 2024 18:21:31 -0800 (PST)
+	s=arc-20240116; t=1708223450; c=relaxed/simple;
+	bh=iuYSgsm82GmOEjBo/CfBN7Oyn3THVKnRtiZmMIR38p8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dfB4gha62riC0M00PGFDtb+8ykHIUQ2mg7ZdOKhGPAWVak/W2QfZE1Uzp6//z87v7Ib95O4hE0vTYGk9JtwUSzvtKLnMWENeBnba7lCOzjGhgj7hlGu4G7uzFfX0PCTB4b1sBNtLauEeHbkdBbYgowN7j9f6M44dy7A7i0G9FUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.108.61])
+	by gateway (Coremail) with SMTP id _____8CxmejTa9Fl3AwOAA--.18173S3;
+	Sun, 18 Feb 2024 10:30:43 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.108.61])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxnhPPa9FlJFU6AA--.28623S3;
+	Sun, 18 Feb 2024 10:30:41 +0800 (CST)
+Message-ID: <0b9c8709-432e-41f4-83f7-9f78ef46ef8f@loongson.cn>
+Date: Sun, 18 Feb 2024 10:30:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-14-surenb@google.com>
- <f92ad1e3-2dde-4db2-9b76-96c6bbc6a208@suse.cz>
-In-Reply-To: <f92ad1e3-2dde-4db2-9b76-96c6bbc6a208@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 18 Feb 2024 02:21:18 +0000
-Message-ID: <CAJuCfpGemg-aXyiK1fHavdKuW+-9+DM5_4krLAdg+DQh=24Dvg@mail.gmail.com>
-Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
- allocation profiling
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: dt: Update overlay file extension
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Andrew Davis <afd@ti.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <5ac79104822cdce7a4caab87f14ce02477f85820.1707819511.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxnhPPa9FlJFU6AA--.28623S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3Ar43XFWkGFWrKr1kGF47WrX_yoW7Xr47pF
+	13JF17XF17Jr17Ww1UJF1UJr1UAr1UJ3WUGr17Jr1ktr4Yyr15Jr1Utwn5JFyUJFy8AryU
+	JryUJFyUJr12k3XCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Kb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWU
+	twAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	kF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+	MxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+	0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+	14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
+	JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcpBTUUUUU
 
-On Fri, Feb 16, 2024 at 8:57=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> On 2/12/24 22:38, Suren Baghdasaryan wrote:
-> > Introduce CONFIG_MEM_ALLOC_PROFILING which provides definitions to easi=
-ly
-> > instrument memory allocators. It registers an "alloc_tags" codetag type
-> > with /proc/allocinfo interface to output allocation tag information whe=
-n
-> > the feature is enabled.
-> > CONFIG_MEM_ALLOC_PROFILING_DEBUG is provided for debugging the memory
-> > allocation profiling instrumentation.
-> > Memory allocation profiling can be enabled or disabled at runtime using
-> > /proc/sys/vm/mem_profiling sysctl when CONFIG_MEM_ALLOC_PROFILING_DEBUG=
-=3Dn.
-> > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT enables memory allocation
-> > profiling by default.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst |  16 +++
-> >  Documentation/filesystems/proc.rst      |  28 +++++
-> >  include/asm-generic/codetag.lds.h       |  14 +++
-> >  include/asm-generic/vmlinux.lds.h       |   3 +
-> >  include/linux/alloc_tag.h               | 133 ++++++++++++++++++++
-> >  include/linux/sched.h                   |  24 ++++
-> >  lib/Kconfig.debug                       |  25 ++++
-> >  lib/Makefile                            |   2 +
-> >  lib/alloc_tag.c                         | 158 ++++++++++++++++++++++++
-> >  scripts/module.lds.S                    |   7 ++
-> >  10 files changed, 410 insertions(+)
-> >  create mode 100644 include/asm-generic/codetag.lds.h
-> >  create mode 100644 include/linux/alloc_tag.h
-> >  create mode 100644 lib/alloc_tag.c
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/ad=
-min-guide/sysctl/vm.rst
-> > index c59889de122b..a214719492ea 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -43,6 +43,7 @@ Currently, these files are in /proc/sys/vm:
-> >  - legacy_va_layout
-> >  - lowmem_reserve_ratio
-> >  - max_map_count
-> > +- mem_profiling         (only if CONFIG_MEM_ALLOC_PROFILING=3Dy)
-> >  - memory_failure_early_kill
-> >  - memory_failure_recovery
-> >  - min_free_kbytes
-> > @@ -425,6 +426,21 @@ e.g., up to one or two maps per allocation.
-> >  The default value is 65530.
-> >
-> >
-> > +mem_profiling
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Enable memory profiling (when CONFIG_MEM_ALLOC_PROFILING=3Dy)
-> > +
-> > +1: Enable memory profiling.
-> > +
-> > +0: Disabld memory profiling.
->
->       Disable
 
-Ack.
+在 2024/2/13 18:24, Geert Uytterhoeven 写道:
+> Building DTB overlays from .dts files is no longer supported.
+> Update the documentation to reflect this.
+>
+> Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
->
-> ...
->
-> > +allocinfo
-> > +~~~~~~~
-> > +
-> > +Provides information about memory allocations at all locations in the =
-code
-> > +base. Each allocation in the code is identified by its source file, li=
-ne
-> > +number, module and the function calling the allocation. The number of =
-bytes
-> > +allocated at each location is reported.
->
-> See, it even says "number of bytes" :)
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 
-Yes, we are changing the output to bytes.
 
->
-> > +
-> > +Example output.
-> > +
-> > +::
-> > +
-> > +    > cat /proc/allocinfo
-> > +
-> > +      153MiB     mm/slub.c:1826 module:slub func:alloc_slab_page
->
-> Is "module" meant in the usual kernel module sense? In that case IIRC is
-> more common to annotate things e.g. [xfs] in case it's really a module, a=
-nd
-> nothing if it's built it, such as slub. Is that "slub" simply derived fro=
-m
-> "mm/slub.c"? Then it's just redundant?
+Thanks,
 
-Sounds good. The new example would look like this:
+Yanteng
 
-    > sort -rn /proc/allocinfo
-   127664128    31168 mm/page_ext.c:270 func:alloc_page_ext
-    56373248     4737 mm/slub.c:2259 func:alloc_slab_page
-    14880768     3633 mm/readahead.c:247 func:page_cache_ra_unbounded
-    14417920     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
-    13377536      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
-    11718656     2861 mm/filemap.c:1919 func:__filemap_get_folio
-     9192960     2800 kernel/fork.c:307 func:alloc_thread_stack_node
-     4206592        4 net/netfilter/nf_conntrack_core.c:2567
-func:nf_ct_alloc_hashtable
-     4136960     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod]
-func:ctagmod_start
-     3940352      962 mm/memory.c:4214 func:alloc_anon_folio
-     2894464    22613 fs/kernfs/dir.c:615 func:__kernfs_new_node
-     ...
+> ---
+>   Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
+>   .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
+>   2 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+> index e139f22b363e9f36..35e79242af9a928d 100644
+> --- a/Documentation/devicetree/overlay-notes.rst
+> +++ b/Documentation/devicetree/overlay-notes.rst
+> @@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
+>   	};
+>       ---- foo.dts ---------------------------------------------------------------
+>   
+> -The overlay bar.dts,
+> +The overlay bar.dtso,
+>   ::
+>   
+> -    ---- bar.dts - overlay target location by label ----------------------------
+> +    ---- bar.dtso - overlay target location by label ---------------------------
+>   	/dts-v1/;
+>   	/plugin/;
+>   	&ocp {
+> @@ -51,7 +51,7 @@ The overlay bar.dts,
+>   			... /* various properties and child nodes */
+>   		};
+>   	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>   
+>   when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+>   
+> @@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
+>   location by label syntax is preferred because the overlay can be applied to
+>   any base DT containing the label, no matter where the label occurs in the DT.
+>   
+> -The above bar.dts example modified to use target path syntax is::
+> +The above bar.dtso example modified to use target path syntax is::
+>   
+> -    ---- bar.dts - overlay target location by explicit path --------------------
+> +    ---- bar.dtso - overlay target location by explicit path -------------------
+>   	/dts-v1/;
+>   	/plugin/;
+>   	&{/ocp} {
+> @@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
+>   			... /* various properties and child nodes */
+>   		}
+>   	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>   
+>   
+>   Overlay in-kernel API
+> diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
+> --- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> +++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> @@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>   	};
+>       ---- foo.dts ---------------------------------------------------------------
+>   
+> -覆盖bar.dts,
+> +覆盖bar.dtso,
+>   ::
+>   
+> -    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
+> +    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
+>   	/dts-v1/;
+>   	/插件/;
+>   	&ocp {
+> @@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>   			... /* 各种属性和子节点 */
+>   		};
+>   	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>   
+>   当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
+>   
+> @@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>   DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
+>   较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
+>   
+> -上面的bar.dts例子被修改为使用目标路径语法，即为::
+> +上面的bar.dtso例子被修改为使用目标路径语法，即为::
+>   
+> -    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
+> +    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
+>   	/dts-v1/;
+>   	/插件/;
+>   	&{/ocp} {
+> @@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
+>   			... /* 各种外围设备和子节点 */
+>   		}
+>   	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>   
+>   
+>   内核中关于覆盖的API
 
-Note that [ctagmod] is the only allocation from a module in this example.
-
->
-> > +     6.08MiB     mm/slab_common.c:950 module:slab_common func:_kmalloc=
-_order
-> > +     5.09MiB     mm/memcontrol.c:2814 module:memcontrol func:alloc_sla=
-b_obj_exts
-> > +     4.54MiB     mm/page_alloc.c:5777 module:page_alloc func:alloc_pag=
-es_exact
-> > +     1.32MiB     include/asm-generic/pgalloc.h:63 module:pgtable func:=
-__pte_alloc_one
-> > +     1.16MiB     fs/xfs/xfs_log_priv.h:700 module:xfs func:xlog_kvmall=
-oc
-> > +     1.00MiB     mm/swap_cgroup.c:48 module:swap_cgroup func:swap_cgro=
-up_prepare
-> > +      734KiB     fs/xfs/kmem.c:20 module:xfs func:kmem_alloc
-> > +      640KiB     kernel/rcu/tree.c:3184 module:tree func:fill_page_cac=
-he_func
-> > +      640KiB     drivers/char/virtio_console.c:452 module:virtio_conso=
-le func:alloc_buf
-> > +      ...
-> > +
-> > +
-> >  meminfo
->
-> ...
->
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 0be2d00c3696..78d258ca508f 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -972,6 +972,31 @@ config CODE_TAGGING
-> >       bool
-> >       select KALLSYMS
-> >
-> > +config MEM_ALLOC_PROFILING
-> > +     bool "Enable memory allocation profiling"
-> > +     default n
-> > +     depends on PROC_FS
-> > +     depends on !DEBUG_FORCE_WEAK_PER_CPU
-> > +     select CODE_TAGGING
-> > +     help
-> > +       Track allocation source code and record total allocation size
-> > +       initiated at that code location. The mechanism can be used to t=
-rack
-> > +       memory leaks with a low performance and memory impact.
-> > +
-> > +config MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > +     bool "Enable memory allocation profiling by default"
-> > +     default y
->
-> I'd go with default n as that I'd select for a general distro.
-
-Well, we have MEM_ALLOC_PROFILING=3Dn by default, so if it was switched
-on manually, that is a strong sign that the user wants it enabled IMO.
-So, enabling this switch by default seems logical to me. If a distro
-wants to have the feature compiled in but disabled by default then
-this is perfectly doable, just need to set both options appropriately.
-Does my logic make sense?
-
->
-> > +     depends on MEM_ALLOC_PROFILING
-> > +
-> > +config MEM_ALLOC_PROFILING_DEBUG
-> > +     bool "Memory allocation profiler debugging"
-> > +     default n
-> > +     depends on MEM_ALLOC_PROFILING
-> > +     select MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > +     help
-> > +       Adds warnings with helpful error messages for memory allocation
-> > +       profiling.
-> > +
->
