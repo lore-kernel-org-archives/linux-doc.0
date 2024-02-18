@@ -1,149 +1,243 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C7E7CF0D;
-	Sat, 17 Feb 2024 22:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C821C360
+	for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 00:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708207820; cv=none; b=kF06D0hdMoE8dS5krrpg9tqhkFXDpPH72KPxQoZSWXYgCRasNfT2tAE2ZiI1xo3Xoc2mXzhOSIwTFvQYnvhiMs234afh540+P+BvCOr7vFM+qcNz1Dg3d4Isr87/t3HY64X61U2PK8E4MWpH8yu2IbBdvHr9dlT4L3z/OEnAUoM=
+	t=1708216823; cv=none; b=Z6uH3BuIWalqw2nufqMfwgXJO978Z+1ZA7hAZ24vlNI8LrVCgmpxdmnfOIy73cjlrSa+R68b54uKM1bbopxerkY6e/G8aOwzpbCiPZvh0OCMIJXFlAyv/YAP5IRfwDWTsgeYu8ph73k+a+gtKsx4r5llHbJwBwZDkWifXgIiY14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708207820; c=relaxed/simple;
-	bh=mYKwzXe2ZRGlF20vDTg03J91yT8nqSlhzoN8Ylq1xjE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMTwvWUAlrwm7iTaWOTSGiinBjgFnBqdB8QG6D6E+y4dBLmt0MFPkDDMa9oMdC2Rhj5xvAIy7dc5o1VtC2ZjdDkLeKVycpz2aWgT+kYvlLkqfo1ZBChlWckJNTSqbBZslQj4/oPtBfp+sKM9+06PdisfN1KpByjXFhnEkwGi+pE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=c6TUOfad; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1708216823; c=relaxed/simple;
+	bh=AOkUgB1b71Q61HmhthppaU7AcqxWwAY7xWnfFaPQSiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GFDUSJpit4WgFwjQ8GHrD28C4rKl9+P8ebwVmde2FMCuhdc5Zu2OmQG/TS9gVuooQa15kME9V2v2At3bqBE4fC2hsuR0EQJVSHbNnTQEo+cqCxp4hRzlFrhGGCICY/URAGlMc3fszExgHiXbe6qYpCq8DDnFprp1LpkPdUfTWGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsiSZZdX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="c6TUOfad"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=dBMEFj+vUqAqgSWaC9a7/Khmdxlt5g8WjS7g/9NczGU=; b=c6TUOfadK4NqEjqMqSb5/Ek+Gq
-	CSL/AFvP1Zq8sMM+xK7J2+sqWrkksPZNvHspX8F9efTEIbztyWQz+li5nMENrtD09dqVHeJWQ04Rz
-	ssNHCK2YCkMFw5ibUxERy7+Cj8czdLNeGHVtpgVtXS4Lemr7UrpjeJW9UD5U3D8sXrKc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rbSsp-0085e9-VR; Sat, 17 Feb 2024 23:10:07 +0100
-Date: Sat, 17 Feb 2024 23:10:07 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY default
- timestamp to MAC
-Message-ID: <9e2ce7a0-e938-4f5f-aae9-cfee3a066628@lunn.ch>
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
- <20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
- <87jzn4gtlv.fsf@nvidia.com>
- <b8926fe5-81ef-40ea-9e87-5e84b368b745@lunn.ch>
- <87o7cebx9z.fsf@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsiSZZdX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72EADC433F1;
+	Sun, 18 Feb 2024 00:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708216823;
+	bh=AOkUgB1b71Q61HmhthppaU7AcqxWwAY7xWnfFaPQSiQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PsiSZZdX3l/ZIAqwzlQuLJ23F/0lLylwcLneshRIX9tPN8Japxu3s7fg3Avwmz/ct
+	 6RdkKG/4ulkCNdWLgLsNkk4W8ZjEuYvCfpOgotRR6TC9vOvqrGrF2Wj2fxJrB00b9M
+	 fJUJtEBpJ7JkTXtW5MfHTZKuFSSYXKJWgf4gxgICIvn9BxzLNj3ACugAixeVFShI48
+	 WhdtUcZrA6JHIcPXhzYyF+9Y/A2naxOwS2duv32NsBsKUtyFKZsa+1usv7t5RiRxIi
+	 wC86A9ugva4fz/Sl1Zqkhm3JgTtw7QZUj47LBZimdgGMJ4iVLj8CpYXbyVTcyjGzWI
+	 Ss3+HJlT2fuow==
+Date: Sun, 18 Feb 2024 01:40:19 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Vegard
+ Nossum <vegard.nossum@oracle.com>
+Subject: Re: PDF misery
+Message-ID: <20240218014019.35fcf19e@coco.lan>
+In-Reply-To: <8734tqsrt7.fsf@meer.lwn.net>
+References: <8734tqsrt7.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87o7cebx9z.fsf@nvidia.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> > Could you give some examples? It seems odd to me, the application
-> > wants a less accurate timestamp?
-> >
-> > Is it more about overheads? A MAC timestamp might be less costly than
-> > a PHY timestamp?
+Em Sat, 17 Feb 2024 14:29:24 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> So, FYI, I have Vegard's PDF-generation fix applied here, but I've not
+> pushed it yet (even though I think it's fine) because I wanted to be
+> sure that all was well with PDF generation.
+
+Yeah, LaTeX Sphinx output is really tricky, requiring workarounds from
+time to time to address some issues.
+
+> The first change removes the deepest level of nesting in an impressive
+> set of enumerated lists; the second removes the nth-level subsection
+> heading markup for "Sorting xfarrays".  Having either of those present
+> will cause Latex to blow a fuse.
+
+...
+
+> I'm surprised that nobody else is reporting this problem.  I honestly
+> don't see a fix other than changing the organization of the document to
+> avoid both deeply nested itemized lists and section structure, which is
+> less than entirely desirable.  I think there are good reasons for
+> avoiding structures that deep, but limitations in the tooling aren't one
+> of them.
+
+The maximum indentation level seems easily fixable. See my PoC at the
+end of this e-mail.
+
+From:
+	- https://tex.stackexchange.com/questions/571826/too-deeply-nested
+	- https://stackoverflow.com/questions/1935952/maximum-nesting-level-of-lists-in-latex
+
+And some local tests I did on Fedora 39, the default enum indentation
+limit is 7.
+
+This is configurable by adding \setlistdepth after using enum item,
+e. g.:
+
+	\usepackage{enumitem}
+	\setlistdepth{9}
+
+I guess we can add something like that to latex_elements at conf.py to 
+increase the maximum limit.
+
+> Incidentally, on F38, I also run into a similar Latex error in
+> .../userspace-api/media/v4l/pixfmt-rgb.html, which has a set of tables
+> from hell.  On F39, that somehow works.  Weird.
+
+I remember in the past I had to increase some LaTeX memory limits,
+but it seems that this is not required anymore.
+
 > 
-> It's a combination of both though I think primarily about line rate.
-> This point is somewhat carried over from the previous discussions on
-> this patch series in the last revision.
-
-Sorry, i've not been keeping up with the discussion. That could also
-mean whatever i say below is total nonsense!
-
-> I assume the device in question
-> here cannot timestamp at the PHY at a high rate.
+> The *other* problem is that PDF generation of the Chinese, Korean, or
+> Japanese translations fails with:
 > 
->   https://lore.kernel.org/netdev/20231120093723.4d88fb2a@kernel.org/
+>   xdvipdfmx:fatal: Invalid TTC index number
 > 
-> >
-> > Or is the application not actually doing PTP, it does not care about
-> > the time of the packet on the wire, but it is more about media access
-> > control? Maybe the applications you are talking about are misusing the
-> > PTP API for something its not intended?
+> This, I am thinking, is likely some sort of F39 bug.  xdvipdfmx is
+> finding the CJK fonts just fine, but then something clearly goes wrong.
+> I'll try to find the time to narrow that down and perhaps put in a
+> proper bug report.
 > 
-> So hardware timestamping is not a PTP specific API or application right?
+> Meanwhile, I wish I knew what to do to make the PDF build a bit more
+> robust.  I wish that rst2pdf or rinohtype would progress to the point
+> where they could be used, and Latex could be taken out of the picture,
+> but no such luck.
 
-Well, we have drivers/ptp. The IOCTL numbers are all PTP_XXXX. It
-seems like the subsystem started life in order to support PTP. It is
-not unusual for a subsystem to gain extra capabilities, and maybe PTP
-timestamps can be used in a more general way than the PTP
-protocol.
+I haven't tested rst2pdf for a while on Kernel builds. It works fine
+when producing IGT documentation, but the docs there are too trivial
+to cause issues.
 
-> It's purely a socket option that is not tied to PTP (unless I am missing
-> something here).
+Didn't try rinohtype yet.
+
+Ideally, if one of those would work, that would be a lot better, as
+LaTeX makes it a lot more complex than it should be.
+
+> Oh well...sorry for rambling at you...I wish I had a good plan for
+> making this whole thing better.
 > 
->   https://docs.kernel.org/networking/timestamping.html#timestamp-generation
-> 
-> So you could use this information for other applications like congestion
-> control where you do not want to limit the line rate using the PHY
-> timestamping mechanism.
+> jon
 
-I think the key API point here is, you need to separate PTP stamping
-from other sorts of stamping. PTP stamping generally works better at
-the lowest point. So PTP stamping could be PHY stamping. If the PHY
-does not support PTP, or its implementation is poor, PTP stamping can
-be performed at the MAC. There are plenty of MACs which support that.
-So we need an API to configure where PTP stamping is performed.
+Regards,
+Mauro
 
-I expect the socket option is more generic. It is more about, give me
-a time stamp at a specific point in the stack. It is probably not
-being used by PTP, it could be used for flow control, etc. We probably
-need an API to configure that SOF_TIMESTAMPING_RX_HARDWARE actually
-means. It could be the PHY time stamp, maybe the MAC timestamp. Same
-for SOF_TIMESTAMPING_TX_HARDWARE, it could be the MAC, could be the
-PHY. But whatever they mean, i expect they are separate PTP.
+---
 
-> In mlx5, we only steering PTP traffic to our PHY timestamping mechanism
-> through a traffic matching logic.
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.h?id=a6e0cb150c514efba4aaba4069927de43d80bb59#n71
-> 
-> This is because we do not want to PHY/port timestamp timing related
-> applications such as congestion control. I think it makes sense for
-> specialized timestamping applications to instead use the ethtool ioctl
-> to reconfigure using the PHY timestamps if the device is capable of PHY
-> timestamping. (So have the change be in userspace application tools like
-> linuxptp where precise but low <relative> rate timestamp information is
-> ideal).
+The way the .tex file below is, it builds fine with:
 
-I would expect linuxptp is only interested in the PTP timestamp. It
-might be interested where the stamp is coming from, PHY or MAC, but it
-probably does not care too much, it just assumes the time stamp is
-good for PTP. But i would expect linuxptp has no interest in what the
-generic socket options are doing.
+	$ xelatex  -halt-on-error /tmp/test.tex
+	This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex)
+	...
+	Output written on test2.pdf (1 page).
+	Transcript written on test2.log.
 
-    Andrew
+If you remove this line:
+
+	\setlistdepth{9}
+
+You'll see the error:
+
+	$ xelatex  -halt-on-error /tmp/test_without_setlistdepth.tex
+	This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex)
+	...
+
+	! LaTeX Error: Too deeply nested.
+
+	See the LaTeX manual or LaTeX Companion for explanation.
+	Type  H <return>  for immediate help.
+	 ...                                              
+	                                                  
+	l.60                 \item
+	                           item level 7
+	No pages of output.
+	Transcript written on test_without_setlistdepth.log.
+
+And it indicates that it fails when level == 7.
+
+
+-
+
+
+\documentclass{article}
+
+\usepackage{enumitem}
+\RequirePackage{enumitem}
+
+\setlistdepth{9}
+
+\setlist{nolistsep,
+         leftmargin = *}
+%
+%
+\newlist{myEnumerate}{enumerate}{9}
+\setlist[myEnumerate]{
+    font        = {\bfseries} ,
+    topsep      = 0pt }
+\setlist[myEnumerate,1]{label=\arabic* ---,ref=\arabic*}
+\setlist[myEnumerate,2]{label=\arabic{myEnumeratei}.\arabic*),ref=\themyEnumeratei.\arabic*}
+\setlist[myEnumerate,3]{label=\roman*),ref=\themyEnumerateii.\roman*}
+\setlist[myEnumerate,4]{label=\Roman*.,ref=\themyEnumerateiii.\Roman*}
+\setlist[myEnumerate,5]{label=\themyEnumerateiiii.\roman*.,ref = \themyEnumerateiiii.\roman*}
+\setlist[myEnumerate,6]{label=(\arabic*)}
+\setlist[myEnumerate,7]{label=(\Roman*)}
+\setlist[myEnumerate,8]{label=(\Alph*)}
+\setlist[myEnumerate,9]{label=(\roman*)}
+\newcommand{\ben}{\begin{myEnumerate}}
+\newcommand{\een}{\end{myEnumerate}}
+%
+\newlist{myItemize}{itemize}{9}
+\setlist[myItemize]{
+    topsep      = 0pt }
+\setlist[myItemize,1]{label=\textbullet}
+\setlist[myItemize,2]{label=---}
+\setlist[myItemize,3]{label=---}
+\setlist[myItemize,4]{label=---}
+\setlist[myItemize,5]{label=---}
+\setlist[myItemize,6]{label=---}
+\setlist[myItemize,7]{label=---}
+\setlist[myItemize,8]{label=---}
+\setlist[myItemize,9]{label=---}
+\newcommand{\bit}{\begin{myItemize}}
+\newcommand{\eit}{\end{myItemize}}
+
+
+\begin{document}
+
+\section{Main section}
+
+\section{Subsection}
+\ben 
+  \item item level 1
+  \ben
+  \item item level 2
+    \bit 
+    \item item level 3
+      \bit
+	\item item level 4
+	  \bit
+          \item item level 5
+            \bit
+              \item item level 6
+              \bit
+                \item item level 7
+                  \bit
+                  \item item level 8
+              \eit
+            \eit
+          \eit
+        \eit
+      \eit
+    \eit
+  \item item level 2
+  \een
+\item item level 1
+\een
+
+\end{document}
