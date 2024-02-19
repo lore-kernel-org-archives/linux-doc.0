@@ -1,493 +1,480 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632665A10C;
-	Mon, 19 Feb 2024 22:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856C356757
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 23:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708382384; cv=none; b=HZOsr0y+x5iEdku/e9NBnVVBGSr+0EwBHuR7jtB8DESRbeDtbiGmG5niow6Xah2dD8ZhPGBbpYRX5FutMmVOVz5C1sXkLEMcGKtOaW4KmujCyZbucSmXqN0LAdxYaQcIIaDxd5hMqivz8AQoBp97wscB+r/qLcs8QEofCU0rB60=
+	t=1708386093; cv=none; b=JcDB48D/N6dzlnLRtYzC4zBDFcLiuqsBxilOOGAWripV8pvr+gE8lqjNYB1XguIzn89jsVVVa9OYxZaK42p2z1MMCDOlB7HSflowyEQ5yz9J8ImYX7c/Ax6nywhqBxAKBzeUNYDYJvdAv9x+prGQYJpbmeeRwws7F0i+UsoYJIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708382384; c=relaxed/simple;
-	bh=SUJpBI1b1llhJRkiQaApOLQii+xerSJMjLyEjf4MEck=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WUvUTKByEXERIKNZslMAPbcWwojfMXHE9Ir02+vcFVQBHgcwV2648AtN4hpVroCkp9w4jYAZbs4szT7UMqtbkhWNaV/1Q9hKA5hBwg/aU6JG4qv+Iat5s8DA8Jei//rwISuLvRK6swtHSP/hozs88UObxU2zIjH1eMPRNDs4pH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=oFqoKGKJ; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1708386093; c=relaxed/simple;
+	bh=CgLaPcrJ8UuZe99Nzs2aIaX8FJubBiNyxJ8PhVcKrRg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=szGKAr6uFnjXIcLJD3wqaT1/Ozir+Ge3Mn+OaML45JV2HPTeoarD86adBsGvSq3JBfyWCICEGFOQHW8zMDURCxuQJNQ0gRtBpATS/NDsh8rzEvq0GIkv+X/d3OCsF93NmjGb8kY8Y6+OLk4z6pet7aRFdhEvTd1sTgA3BSvFias=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bDjK1He+; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="oFqoKGKJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=samSw3M+aqxF7X67rQctdSDxKLgriXpySBxR0bQ8q1k=; b=oFqoKGKJX5P2mb3CpyW14nGaND
-	cINmI6ApFFQ2Tpick9bykXkp/8GD2fmvQBhFIgEjzWziOLBk66k03dc9EjzLyJWkmmbafGHNCsawE
-	pEmKUueEkwLapa2xDvKVy3P8KTLeA2DlDdj2nZ+Ea+nlCJlPn3WFBKTiESjxPsAMGc/RDkEkM1Wcr
-	NdbKcwQEhY9vzJ3p01LtBvFS3cPNZB6BCk4Z67W008hwQJNZXJfRJhN/2zHx1An/ZrVj6lVzaP1PP
-	VuG0KDC5r1ShEjqiReXkMWtd72LRTV+sey782ENiB14QQOx8PWK+twwgcIv1a5ssSRe1nyHkIq2Nm
-	wxzsJDiA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rcCIV-0037Oz-10;
-	Mon, 19 Feb 2024 16:39:39 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bDjK1He+"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5d4a1e66750so3509423a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 15:41:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1708386091; x=1708990891; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Rg+sHDVqNfA4kI4Nj60RArjG0KvQeKNF7H5zDOdEbI=;
+        b=bDjK1He+KO88fRq0Mid8V33aWi7vOCPepyXIb15wSPKnICL6OpDzoRk4PHFXEl734O
+         mZY+w/estbASSgnDPU04WgmNY2UxfX8eL6iZKjOBj+IRHNHO1SXHgwboagZc5yb6e6xj
+         DvpDTo7MDK4pyykwKaJc5c5+pbx14V9h8s2Oo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708386091; x=1708990891;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3Rg+sHDVqNfA4kI4Nj60RArjG0KvQeKNF7H5zDOdEbI=;
+        b=e+5ArU+n3si59TzaLCfyFJCW5WeABryNHikn2BY3H8DRFgPt21LL/MU04dkYfaJ6d2
+         APoQXSRlF1BWY9KTopTIjC8A8tP2897vttG8ilY2Jo5GisNCGQ5IM+9n9jtzZ+dqnmUT
+         6WJuuLUgjzvZ3Dx8dvAeG+DKxh0XSbsocyxU6iXIBDg5pa7juo4NTpmclEPXT2CXHiFZ
+         V4le44rvi59Mvh0raATswWSMbxEeN8qP8pvGeEqup84mppiw+Ylobj9XjO4CIbO06NiH
+         WAwAg9SGIuO1NHv/MeXlMte/EyLujTh8rVtOyrdrXMHZ8Gc35yJ0wQMaGGCBnXWr8jL3
+         951A==
+X-Forwarded-Encrypted: i=1; AJvYcCX33BynfKDnCKKloPZxOzLAXdJJpiFJymXJLl4fQ6Z1O3esX/YqwI9LVkv3idRQhucjORbQb7LUnYFt7DtKD56+WI0QGiX0Bo2V
+X-Gm-Message-State: AOJu0YwIA1f04xlg46jms6d4yOKU0UF7Otf1/ytgimvF99szUVV+5J57
+	HYg9YDw4T9d4PazeUzQH+ePELBASryrGFPksDcrNqtyLIsWS59i6SvJlrmEYuw==
+X-Google-Smtp-Source: AGHT+IG29y4RAikXI7aD3pJIVsLER3vVWeoNlnW5QiT2orL4eZUUzDNo+r8jdpDoyghFqbHmNLtzsA==
+X-Received: by 2002:a17:90b:3847:b0:299:8265:c79f with SMTP id nl7-20020a17090b384700b002998265c79fmr2952947pjb.46.1708386090683;
+        Mon, 19 Feb 2024 15:41:30 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id y3-20020a17090a8b0300b0029942a73eaesm5932876pjn.9.2024.02.19.15.41.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 15:41:30 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Kees Cook <keescook@chromium.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Haowen Bai <baihaowen@meizu.com>,
+	bpf@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Elizabeth Figura <zfigura@codeweavers.com>
-Subject: [PATCH v2 31/31] docs: ntsync: Add documentation for the ntsync uAPI.
-Date: Mon, 19 Feb 2024 16:38:33 -0600
-Message-ID: <20240219223833.95710-32-zfigura@codeweavers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240219223833.95710-1-zfigura@codeweavers.com>
-References: <20240219223833.95710-1-zfigura@codeweavers.com>
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Kui-Feng Lee <kuifeng@meta.com>,
+	Anton Protopopov <aspsk@isovalent.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v3] bpf: Replace bpf_lpm_trie_key 0-length array with flexible array
+Date: Mon, 19 Feb 2024 15:41:28 -0800
+Message-Id: <20240219234121.make.373-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15498; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=CgLaPcrJ8UuZe99Nzs2aIaX8FJubBiNyxJ8PhVcKrRg=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBl0+cnVLiiscNcGtW0kAJ8XWS4mrotWqvh8nkqf
+ 3SJCfr0e0eJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZdPnJwAKCRCJcvTf3G3A
+ JtG0D/9Ff+bMKTxinX38h/9HJOMX109fkG9aQu+AB0L6YKRnc4Aappjx0Fzc8BPZi59huXUITMj
+ FQ91R/UjMWGlfAPIaXn5IUpnIP61WDKORd+ChI/SHT+KfIgnDmwlwM8CIk/VasOlOVmlUWU4lAb
+ 4aykezGfvom5Y5likHMWMgQ/xO1CTgO9NnJ2BoDO8iL3mVNR/gM4vxN5F0edLXFNvCD9vx9TCxZ
+ R9RyieFQooMOKk4soLAnB30BqK50/mX0fO4mwPGE1PpqDbzd8g7uQcsROfuFlw3B7U6RRHckzWN
+ 81K34dv0VERKeUXNej9N3wPvUS3OOmotEVMEBLGDAGqfucR9zUTaETR1LPRrZ5BGQT3UlfuFof8
+ m0vyeX1TmZEadsB7QcVaf3gAr7qlNQeiHmHAqy+/17q/xoep9voduRtDLYeV6EREDpo2uV49aqz
+ du917pAXMTSjoW1yFDs2Ibrg4wJJx/rzVOZIYg/xAsHAe9cYvlygUIzg4jhM4W3gBf/3YDYJ/Xm
+ VAufXJnk7skz2x1Km9Uir9Ou+VdWtRvC4vwETp802dx4976mO1Wv8EWvfYg+m4/dzf5uo8PYYuh
+ W1AYaJTioTyF2Q7rWj0y3jtpj9wWuuQ2oIiMPzB/CIMSiK4fkXJ9udPtRVfLqDY364tVYHqUL8q
+ x2GEcD VJ201hXEg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Add an overall explanation of the driver architecture, and complete and precise
-specification for its intended behaviour.
+Replace deprecated 0-length array in struct bpf_lpm_trie_key with
+flexible array. Found with GCC 13:
 
-Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+../kernel/bpf/lpm_trie.c:207:51: warning: array subscript i is outside array bounds of 'const __u8[0]' {aka 'const unsigned char[]'} [-Warray-bounds=]
+  207 |                                        *(__be16 *)&key->data[i]);
+      |                                                   ^~~~~~~~~~~~~
+../include/uapi/linux/swab.h:102:54: note: in definition of macro '__swab16'
+  102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+      |                                                      ^
+../include/linux/byteorder/generic.h:97:21: note: in expansion of macro '__be16_to_cpu'
+   97 | #define be16_to_cpu __be16_to_cpu
+      |                     ^~~~~~~~~~~~~
+../kernel/bpf/lpm_trie.c:206:28: note: in expansion of macro 'be16_to_cpu'
+  206 |                 u16 diff = be16_to_cpu(*(__be16 *)&node->data[i]
+^
+      |                            ^~~~~~~~~~~
+In file included from ../include/linux/bpf.h:7:
+../include/uapi/linux/bpf.h:82:17: note: while referencing 'data'
+   82 |         __u8    data[0];        /* Arbitrary size */
+      |                 ^~~~
+
+And found at run-time under CONFIG_FORTIFY_SOURCE:
+
+  UBSAN: array-index-out-of-bounds in kernel/bpf/lpm_trie.c:218:49
+  index 0 is out of range for type '__u8 [*]'
+
+Changing struct bpf_lpm_trie_key is difficult since has been used by
+userspace. For example, in Cilium:
+
+	struct egress_gw_policy_key {
+	        struct bpf_lpm_trie_key lpm_key;
+	        __u32 saddr;
+	        __u32 daddr;
+	};
+
+While direct references to the "data" member haven't been found, there
+are static initializers what include the final member. For example,
+the "{}" here:
+
+        struct egress_gw_policy_key in_key = {
+                .lpm_key = { 32 + 24, {} },
+                .saddr   = CLIENT_IP,
+                .daddr   = EXTERNAL_SVC_IP & 0Xffffff,
+        };
+
+To avoid the build time and run time warnings seen with a 0-sized
+trailing array for struct bpf_lpm_trie_key, introduce a new struct
+that correctly uses a flexible array for the trailing bytes,
+struct bpf_lpm_trie_key_u8. As part of this, include the "header"
+portion (which is just the "prefixlen" member), so it can be used
+by anything building a bpf_lpr_trie_key that has trailing members that
+aren't a u8 flexible array (like the self-test[1]), which is named
+struct bpf_lpm_trie_key_hdr.
+
+Adjust the kernel code to use struct bpf_lpm_trie_key_u8 through-out,
+and for the selftest to use struct bpf_lpm_trie_key_hdr. Add a comment
+to the UAPI header directing folks to the two new options.
+
+Link: https://lore.kernel.org/all/202206281009.4332AA33@keescook/ [1]
+Reported-by: Mark Rutland <mark.rutland@arm.com>
+Closes: https://paste.debian.net/hidden/ca500597/
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- Documentation/userspace-api/index.rst  |   1 +
- Documentation/userspace-api/ntsync.rst | 399 +++++++++++++++++++++++++
- 2 files changed, 400 insertions(+)
- create mode 100644 Documentation/userspace-api/ntsync.rst
+v3- create a new pair of structs -- leave old struct alone
+v2- https://lore.kernel.org/lkml/20240216235536.it.234-kees@kernel.org/
+v1- https://lore.kernel.org/lkml/20230204183241.never.481-kees@kernel.org/
+Cc: Daniel Borkmann <daniel@iogearbox.net>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Andrii Nakryiko <andrii@kernel.org>
+Cc: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: Song Liu <song@kernel.org>
+Cc: Yonghong Song <yhs@fb.com>
+Cc: John Fastabend <john.fastabend@gmail.com>
+Cc: KP Singh <kpsingh@kernel.org>
+Cc: Stanislav Fomichev <sdf@google.com>
+Cc: Hao Luo <haoluo@google.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Mykola Lysenko <mykolal@fb.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: Haowen Bai <baihaowen@meizu.com>
+Cc: bpf@vger.kernel.org
+Cc: linux-kselftest@vger.kernel.org
+---
+ Documentation/bpf/map_lpm_trie.rst            |  2 +-
+ include/uapi/linux/bpf.h                      | 14 ++++++++++++-
+ kernel/bpf/lpm_trie.c                         | 20 +++++++++----------
+ samples/bpf/map_perf_test_user.c              |  2 +-
+ samples/bpf/xdp_router_ipv4_user.c            |  2 +-
+ tools/include/uapi/linux/bpf.h                | 14 ++++++++++++-
+ .../selftests/bpf/progs/map_ptr_kern.c        |  2 +-
+ tools/testing/selftests/bpf/test_lpm_map.c    | 18 ++++++++---------
+ 8 files changed, 49 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 09f61bd2ac2e..f5a72ed27def 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -34,6 +34,7 @@ place where this information is gathered.
-    tee
-    isapnp
-    dcdbas
-+   ntsync
+diff --git a/Documentation/bpf/map_lpm_trie.rst b/Documentation/bpf/map_lpm_trie.rst
+index 74d64a30f500..f9cd579496c9 100644
+--- a/Documentation/bpf/map_lpm_trie.rst
++++ b/Documentation/bpf/map_lpm_trie.rst
+@@ -17,7 +17,7 @@ significant byte.
  
- .. only::  subproject and html
+ LPM tries may be created with a maximum prefix length that is a multiple
+ of 8, in the range from 8 to 2048. The key used for lookup and update
+-operations is a ``struct bpf_lpm_trie_key``, extended by
++operations is a ``struct bpf_lpm_trie_key_u8``, extended by
+ ``max_prefixlen/8`` bytes.
  
-diff --git a/Documentation/userspace-api/ntsync.rst b/Documentation/userspace-api/ntsync.rst
-new file mode 100644
-index 000000000000..202c2350d3af
---- /dev/null
-+++ b/Documentation/userspace-api/ntsync.rst
-@@ -0,0 +1,399 @@
-+===================================
-+NT synchronization primitive driver
-+===================================
-+
-+This page documents the user-space API for the ntsync driver.
-+
-+ntsync is a support driver for emulation of NT synchronization
-+primitives by user-space NT emulators. It exists because implementation
-+in user-space, using existing tools, cannot match Windows performance
-+while offering accurate semantics. It is implemented entirely in
-+software, and does not drive any hardware device.
-+
-+This interface is meant as a compatibility tool only, and should not
-+be used for general synchronization. Instead use generic, versatile
-+interfaces such as futex(2) and poll(2).
-+
-+Synchronization primitives
-+==========================
-+
-+The ntsync driver exposes three types of synchronization primitives:
-+semaphores, mutexes, and events.
-+
-+A semaphore holds a single volatile 32-bit counter, and a static 32-bit
-+integer denoting the maximum value. It is considered signaled when the
-+counter is nonzero. The counter is decremented by one when a wait is
-+satisfied. Both the initial and maximum count are established when the
-+semaphore is created.
-+
-+A mutex holds a volatile 32-bit recursion count, and a volatile 32-bit
-+identifier denoting its owner. A mutex is considered signaled when its
-+owner is zero (indicating that it is not owned). The recursion count is
-+incremented when a wait is satisfied, and ownership is set to the given
-+identifier.
-+
-+A mutex also holds an internal flag denoting whether its previous owner
-+has died; such a mutex is said to be abandoned. Owner death is not
-+tracked automatically based on thread death, but rather must be
-+communicated using ``NTSYNC_IOC_MUTEX_KILL``. An abandoned mutex is
-+inherently considered unowned.
-+
-+Except for the "unowned" semantics of zero, the actual value of the
-+owner identifier is not interpreted by the ntsync driver at all. The
-+intended use is to store a thread identifier; however, the ntsync
-+driver does not actually validate that a calling thread provides
-+consistent or unique identifiers.
-+
-+An event holds a volatile boolean state denoting whether it is signaled
-+or not. There are two types of events, auto-reset and manual-reset. An
-+auto-reset event is designaled when a wait is satisfied; a manual-reset
-+event is not. The event type is specified when the event is created.
-+
-+Unless specified otherwise, all operations on an object are atomic and
-+totally ordered with respect to other operations on the same object.
-+
-+Objects are represented by files. When all file descriptors to an
-+object are closed, that object is deleted.
-+
-+Char device
-+===========
-+
-+The ntsync driver creates a single char device /dev/ntsync. Each file
-+description opened on the device represents a unique instance intended
-+to back an individual NT virtual machine. Objects created by one ntsync
-+instance may only be used with other objects created by the same
-+instance.
-+
-+ioctl reference
-+===============
-+
-+All operations on the device are done through ioctls. There are four
-+structures used in ioctl calls::
-+
-+   struct ntsync_sem_args {
-+   	__u32 sem;
-+   	__u32 count;
-+   	__u32 max;
-+   };
-+
-+   struct ntsync_mutex_args {
-+   	__u32 mutex;
-+   	__u32 owner;
-+   	__u32 count;
-+   };
-+
-+   struct ntsync_event_args {
-+   	__u32 event;
-+   	__u32 signaled;
-+   	__u32 manual;
-+   };
-+
-+   struct ntsync_wait_args {
-+   	__u64 timeout;
-+   	__u64 objs;
-+   	__u32 count;
-+   	__u32 owner;
-+   	__u32 index;
-+   	__u32 alert;
-+   	__u32 flags;
-+   	__u32 pad;
-+   };
-+
-+Depending on the ioctl, members of the structure may be used as input,
-+output, or not at all. All ioctls return 0 on success.
-+
-+The ioctls on the device file are as follows:
-+
-+.. c:macro:: NTSYNC_IOC_CREATE_SEM
-+
-+  Create a semaphore object. Takes a pointer to struct
-+  :c:type:`ntsync_sem_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``sem``
-+       - On output, contains a file descriptor to the created semaphore.
-+     * - ``count``
-+       - Initial count of the semaphore.
-+     * - ``max``
-+       - Maximum count of the semaphore.
-+
-+  Fails with ``EINVAL`` if ``count`` is greater than ``max``.
-+
-+.. c:macro:: NTSYNC_IOC_CREATE_MUTEX
-+
-+  Create a mutex object. Takes a pointer to struct
-+  :c:type:`ntsync_mutex_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``mutex``
-+       - On output, contains a file descriptor to the created mutex.
-+     * - ``count``
-+       - Initial recursion count of the mutex.
-+     * - ``owner``
-+       - Initial owner of the mutex.
-+
-+  If ``owner`` is nonzero and ``count`` is zero, or if ``owner`` is
-+  zero and ``count`` is nonzero, the function fails with ``EINVAL``.
-+
-+.. c:macro:: NTSYNC_IOC_CREATE_EVENT
-+
-+  Create an event object. Takes a pointer to struct
-+  :c:type:`ntsync_event_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``event``
-+       - On output, contains a file descriptor to the created event.
-+     * - ``signaled``
-+       - If nonzero, the event is initially signaled, otherwise
-+         nonsignaled.
-+     * - ``manual``
-+       - If nonzero, the event is a manual-reset event, otherwise
-+         auto-reset.
-+
-+The ioctls on the individual objects are as follows:
-+
-+.. c:macro:: NTSYNC_IOC_SEM_POST
-+
-+  Post to a semaphore object. Takes a pointer to a 32-bit integer,
-+  which on input holds the count to be added to the semaphore, and on
-+  output contains its previous count.
-+
-+  If adding to the semaphore's current count would raise the latter
-+  past the semaphore's maximum count, the ioctl fails with
-+  ``EOVERFLOW`` and the semaphore is not affected. If raising the
-+  semaphore's count causes it to become signaled, eligible threads
-+  waiting on this semaphore will be woken and the semaphore's count
-+  decremented appropriately.
-+
-+.. c:macro:: NTSYNC_IOC_MUTEX_UNLOCK
-+
-+  Release a mutex object. Takes a pointer to struct
-+  :c:type:`ntsync_mutex_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``mutex``
-+       - Ignored.
-+     * - ``owner``
-+       - Specifies the owner trying to release this mutex.
-+     * - ``count``
-+       - On output, contains the previous recursion count.
-+
-+  If ``owner`` is zero, the ioctl fails with ``EINVAL``. If ``owner``
-+  is not the current owner of the mutex, the ioctl fails with
-+  ``EPERM``.
-+
-+  The mutex's count will be decremented by one. If decrementing the
-+  mutex's count causes it to become zero, the mutex is marked as
-+  unowned and signaled, and eligible threads waiting on it will be
-+  woken as appropriate.
-+
-+.. c:macro:: NTSYNC_IOC_SET_EVENT
-+
-+  Signal an event object. Takes a pointer to a 32-bit integer, which on
-+  output contains the previous state of the event.
-+
-+  Eligible threads will be woken, and auto-reset events will be
-+  designaled appropriately.
-+
-+.. c:macro:: NTSYNC_IOC_RESET_EVENT
-+
-+  Designal an event object. Takes a pointer to a 32-bit integer, which
-+  on output contains the previous state of the event.
-+
-+.. c:macro:: NTSYNC_IOC_PULSE_EVENT
-+
-+  Wake threads waiting on an event object while leaving it in an
-+  unsignaled state. Takes a pointer to a 32-bit integer, which on
-+  output contains the previous state of the event.
-+
-+  A pulse operation can be thought of as a set followed by a reset,
-+  performed as a single atomic operation. If two threads are waiting on
-+  an auto-reset event which is pulsed, only one will be woken. If two
-+  threads are waiting a manual-reset event which is pulsed, both will
-+  be woken. However, in both cases, the event will be unsignaled
-+  afterwards, and a simultaneous read operation will always report the
-+  event as unsignaled.
-+
-+.. c:macro:: NTSYNC_IOC_READ_SEM
-+
-+  Read the current state of a semaphore object. Takes a pointer to
-+  struct :c:type:`ntsync_sem_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``sem``
-+       - Ignored.
-+     * - ``count``
-+       - On output, contains the current count of the semaphore.
-+     * - ``max``
-+       - On output, contains the maximum count of the semaphore.
-+
-+.. c:macro:: NTSYNC_IOC_READ_MUTEX
-+
-+  Read the current state of a mutex object. Takes a pointer to struct
-+  :c:type:`ntsync_mutex_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``mutex``
-+       - Ignored.
-+     * - ``owner``
-+       - On output, contains the current owner of the mutex, or zero
-+         if the mutex is not currently owned.
-+     * - ``count``
-+       - On output, contains the current recursion count of the mutex.
-+
-+  If the mutex is marked as abandoned, the function fails with
-+  ``EOWNERDEAD``. In this case, ``count`` and ``owner`` are set to
-+  zero.
-+
-+.. c:macro:: NTSYNC_IOC_READ_EVENT
-+
-+  Read the current state of an event object. Takes a pointer to struct
-+  :c:type:`ntsync_event_args`, which is used as follows:
-+
-+  .. list-table::
-+
-+     * - ``event``
-+       - Ignored.
-+     * - ``signaled``
-+       - On output, contains the current state of the event.
-+     * - ``manual``
-+       - On output, contains 1 if the event is a manual-reset event,
-+         and 0 otherwise.
-+
-+.. c:macro:: NTSYNC_IOC_KILL_OWNER
-+
-+  Mark a mutex as unowned and abandoned if it is owned by the given
-+  owner. Takes an input-only pointer to a 32-bit integer denoting the
-+  owner. If the owner is zero, the ioctl fails with ``EINVAL``. If the
-+  owner does not own the mutex, the function fails with ``EPERM``.
-+
-+  Eligible threads waiting on the mutex will be woken as appropriate
-+  (and such waits will fail with ``EOWNERDEAD``, as described below).
-+
-+.. c:macro:: NTSYNC_IOC_WAIT_ANY
-+
-+  Poll on any of a list of objects, atomically acquiring at most one.
-+  Takes a pointer to struct :c:type:`ntsync_wait_args`, which is
-+  used as follows:
-+
-+  .. list-table::
-+
-+     * - ``timeout``
-+       - Absolute timeout in nanoseconds. If ``NTSYNC_WAIT_REALTIME``
-+         is set, the timeout is measured against the REALTIME clock;
-+         otherwise it is measured against the MONOTONIC clock. If the
-+         timeout is equal to or earlier than the current time, the
-+         function returns immediately without sleeping. If ``timeout``
-+         is U64_MAX, the function will sleep until an object is
-+         signaled, and will not fail with ``ETIMEDOUT``.
-+     * - ``objs``
-+       - Pointer to an array of ``count`` file descriptors
-+         (specified as an integer so that the structure has the same
-+         size regardless of architecture). If any object is
-+         invalid, the function fails with ``EINVAL``.
-+     * - ``count``
-+       - Number of objects specified in the ``objs`` array.
-+         If greater than ``NTSYNC_MAX_WAIT_COUNT``, the function fails
-+         with ``EINVAL``.
-+     * - ``owner``
-+       - Mutex owner identifier. If any object in ``objs`` is a mutex,
-+         the ioctl will attempt to acquire that mutex on behalf of
-+         ``owner``. If ``owner`` is zero, the ioctl fails with
-+         ``EINVAL``.
-+     * - ``index``
-+       - On success, contains the index (into ``objs``) of the object
-+         which was signaled. If ``alert`` was signaled instead,
-+         this contains ``count``.
-+     * - ``alert``
-+       - Optional event object file descriptor. If nonzero, this
-+         specifies an "alert" event object which, if signaled, will
-+         terminate the wait. If nonzero, the identifier must point to a
-+         valid event.
-+     * - ``flags``
-+       - Zero or more flags. Currently the only flag is
-+         ``NTSYNC_WAIT_REALTIME``, which causes the timeout to be
-+         measured against the REALTIME clock instead of MONOTONIC.
-+     * - ``pad``
-+       - Unused, must be set to zero.
-+
-+  This function attempts to acquire one of the given objects. If unable
-+  to do so, it sleeps until an object becomes signaled, subsequently
-+  acquiring it, or the timeout expires. In the latter case the ioctl
-+  fails with ``ETIMEDOUT``. The function only acquires one object, even
-+  if multiple objects are signaled.
-+
-+  A semaphore is considered to be signaled if its count is nonzero, and
-+  is acquired by decrementing its count by one. A mutex is considered
-+  to be signaled if it is unowned or if its owner matches the ``owner``
-+  argument, and is acquired by incrementing its recursion count by one
-+  and setting its owner to the ``owner`` argument. An auto-reset event
-+  is acquired by designaling it; a manual-reset event is not affected
-+  by acquisition.
-+
-+  Acquisition is atomic and totally ordered with respect to other
-+  operations on the same object. If two wait operations (with different
-+  ``owner`` identifiers) are queued on the same mutex, only one is
-+  signaled. If two wait operations are queued on the same semaphore,
-+  and a value of one is posted to it, only one is signaled. The order
-+  in which threads are signaled is not specified.
-+
-+  If an abandoned mutex is acquired, the ioctl fails with
-+  ``EOWNERDEAD``. Although this is a failure return, the function may
-+  otherwise be considered successful. The mutex is marked as owned by
-+  the given owner (with a recursion count of 1) and as no longer
-+  abandoned, and ``index`` is still set to the index of the mutex.
-+
-+  The ``alert`` argument is an "extra" event which can terminate the
-+  wait, independently of all other objects. If members of ``objs`` and
-+  ``alert`` are both simultaneously signaled, a member of ``objs`` will
-+  always be given priority and acquired first.
-+
-+  It is valid to pass the same object more than once, including by
-+  passing the same event in the ``objs`` array and in ``alert``. If a
-+  wakeup occurs due to that object being signaled, ``index`` is set to
-+  the lowest index corresponding to that object.
-+
-+  The function may fail with ``EINTR`` if a signal is received.
-+
-+.. c:macro:: NTSYNC_IOC_WAIT_ALL
-+
-+  Poll on a list of objects, atomically acquiring all of them. Takes a
-+  pointer to struct :c:type:`ntsync_wait_args`, which is used
-+  identically to ``NTSYNC_IOC_WAIT_ANY``, except that ``index`` is
-+  always filled with zero on success if not woken via alert.
-+
-+  This function attempts to simultaneously acquire all of the given
-+  objects. If unable to do so, it sleeps until all objects become
-+  simultaneously signaled, subsequently acquiring them, or the timeout
-+  expires. In the latter case the ioctl fails with ``ETIMEDOUT`` and no
-+  objects are modified.
-+
-+  Objects may become signaled and subsequently designaled (through
-+  acquisition by other threads) while this thread is sleeping. Only
-+  once all objects are simultaneously signaled does the ioctl acquire
-+  them and return. The entire acquisition is atomic and totally ordered
-+  with respect to other operations on any of the given objects.
-+
-+  If an abandoned mutex is acquired, the ioctl fails with
-+  ``EOWNERDEAD``. Similarly to ``NTSYNC_IOC_WAIT_ANY``, all objects are
-+  nevertheless marked as acquired. Note that if multiple mutex objects
-+  are specified, there is no way to know which were marked as
-+  abandoned.
-+
-+  As with "any" waits, the ``alert`` argument is an "extra" event which
-+  can terminate the wait. Critically, however, an "all" wait will
-+  succeed if all members in ``objs`` are signaled, *or* if ``alert`` is
-+  signaled. In the latter case ``index`` will be set to ``count``. As
-+  with "any" waits, if both conditions are filled, the former takes
-+  priority, and objects in ``objs`` will be acquired.
-+
-+  Unlike ``NTSYNC_IOC_WAIT_ANY``, it is not valid to pass the same
-+  object more than once, nor is it valid to pass the same object in
-+  ``objs`` and in ``alert``. If this is attempted, the function fails
-+  with ``EINVAL``.
+ - For IPv4 addresses the data length is 4 bytes
+diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+index 754e68ca8744..c5a46d12076e 100644
+--- a/include/uapi/linux/bpf.h
++++ b/include/uapi/linux/bpf.h
+@@ -77,12 +77,24 @@ struct bpf_insn {
+ 	__s32	imm;		/* signed immediate constant */
+ };
+ 
+-/* Key of an a BPF_MAP_TYPE_LPM_TRIE entry */
++/* Deprecated: use struct bpf_lpm_trie_key_u8 (when the "data" member is needed for
++ * byte access) or struct bpf_lpm_trie_key_hdr (when using an alternative type for
++ * the trailing flexible array member) instead.
++ */
+ struct bpf_lpm_trie_key {
+ 	__u32	prefixlen;	/* up to 32 for AF_INET, 128 for AF_INET6 */
+ 	__u8	data[0];	/* Arbitrary size */
+ };
+ 
++/* Key of an a BPF_MAP_TYPE_LPM_TRIE entry, with trailing byte array. */
++struct bpf_lpm_trie_key_u8 {
++	__struct_group(bpf_lpm_trie_key_hdr, hdr, /* no attrs */,
++		/* up to 32 for AF_INET, 128 for AF_INET6 */
++		__u32	prefixlen;
++	);
++	__u8	data[];		/* Arbitrary size */
++};
++
+ struct bpf_cgroup_storage_key {
+ 	__u64	cgroup_inode_id;	/* cgroup inode id */
+ 	__u32	attach_type;		/* program attach type (enum bpf_attach_type) */
+diff --git a/kernel/bpf/lpm_trie.c b/kernel/bpf/lpm_trie.c
+index b32be680da6c..050fe1ebf0f7 100644
+--- a/kernel/bpf/lpm_trie.c
++++ b/kernel/bpf/lpm_trie.c
+@@ -164,13 +164,13 @@ static inline int extract_bit(const u8 *data, size_t index)
+  */
+ static size_t longest_prefix_match(const struct lpm_trie *trie,
+ 				   const struct lpm_trie_node *node,
+-				   const struct bpf_lpm_trie_key *key)
++				   const struct bpf_lpm_trie_key_u8 *key)
+ {
+ 	u32 limit = min(node->prefixlen, key->prefixlen);
+ 	u32 prefixlen = 0, i = 0;
+ 
+ 	BUILD_BUG_ON(offsetof(struct lpm_trie_node, data) % sizeof(u32));
+-	BUILD_BUG_ON(offsetof(struct bpf_lpm_trie_key, data) % sizeof(u32));
++	BUILD_BUG_ON(offsetof(struct bpf_lpm_trie_key_u8, data) % sizeof(u32));
+ 
+ #if defined(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS) && defined(CONFIG_64BIT)
+ 
+@@ -229,7 +229,7 @@ static void *trie_lookup_elem(struct bpf_map *map, void *_key)
+ {
+ 	struct lpm_trie *trie = container_of(map, struct lpm_trie, map);
+ 	struct lpm_trie_node *node, *found = NULL;
+-	struct bpf_lpm_trie_key *key = _key;
++	struct bpf_lpm_trie_key_u8 *key = _key;
+ 
+ 	if (key->prefixlen > trie->max_prefixlen)
+ 		return NULL;
+@@ -309,7 +309,7 @@ static long trie_update_elem(struct bpf_map *map,
+ 	struct lpm_trie *trie = container_of(map, struct lpm_trie, map);
+ 	struct lpm_trie_node *node, *im_node = NULL, *new_node = NULL;
+ 	struct lpm_trie_node __rcu **slot;
+-	struct bpf_lpm_trie_key *key = _key;
++	struct bpf_lpm_trie_key_u8 *key = _key;
+ 	unsigned long irq_flags;
+ 	unsigned int next_bit;
+ 	size_t matchlen = 0;
+@@ -437,7 +437,7 @@ static long trie_update_elem(struct bpf_map *map,
+ static long trie_delete_elem(struct bpf_map *map, void *_key)
+ {
+ 	struct lpm_trie *trie = container_of(map, struct lpm_trie, map);
+-	struct bpf_lpm_trie_key *key = _key;
++	struct bpf_lpm_trie_key_u8 *key = _key;
+ 	struct lpm_trie_node __rcu **trim, **trim2;
+ 	struct lpm_trie_node *node, *parent;
+ 	unsigned long irq_flags;
+@@ -536,7 +536,7 @@ static long trie_delete_elem(struct bpf_map *map, void *_key)
+ 				 sizeof(struct lpm_trie_node))
+ #define LPM_VAL_SIZE_MIN	1
+ 
+-#define LPM_KEY_SIZE(X)		(sizeof(struct bpf_lpm_trie_key) + (X))
++#define LPM_KEY_SIZE(X)		(sizeof(struct bpf_lpm_trie_key_u8) + (X))
+ #define LPM_KEY_SIZE_MAX	LPM_KEY_SIZE(LPM_DATA_SIZE_MAX)
+ #define LPM_KEY_SIZE_MIN	LPM_KEY_SIZE(LPM_DATA_SIZE_MIN)
+ 
+@@ -565,7 +565,7 @@ static struct bpf_map *trie_alloc(union bpf_attr *attr)
+ 	/* copy mandatory map attributes */
+ 	bpf_map_init_from_attr(&trie->map, attr);
+ 	trie->data_size = attr->key_size -
+-			  offsetof(struct bpf_lpm_trie_key, data);
++			  offsetof(struct bpf_lpm_trie_key_u8, data);
+ 	trie->max_prefixlen = trie->data_size * 8;
+ 
+ 	spin_lock_init(&trie->lock);
+@@ -616,7 +616,7 @@ static int trie_get_next_key(struct bpf_map *map, void *_key, void *_next_key)
+ {
+ 	struct lpm_trie_node *node, *next_node = NULL, *parent, *search_root;
+ 	struct lpm_trie *trie = container_of(map, struct lpm_trie, map);
+-	struct bpf_lpm_trie_key *key = _key, *next_key = _next_key;
++	struct bpf_lpm_trie_key_u8 *key = _key, *next_key = _next_key;
+ 	struct lpm_trie_node **node_stack = NULL;
+ 	int err = 0, stack_ptr = -1;
+ 	unsigned int next_bit;
+@@ -703,7 +703,7 @@ static int trie_get_next_key(struct bpf_map *map, void *_key, void *_next_key)
+ 	}
+ do_copy:
+ 	next_key->prefixlen = next_node->prefixlen;
+-	memcpy((void *)next_key + offsetof(struct bpf_lpm_trie_key, data),
++	memcpy((void *)next_key + offsetof(struct bpf_lpm_trie_key_u8, data),
+ 	       next_node->data, trie->data_size);
+ free_stack:
+ 	kfree(node_stack);
+@@ -715,7 +715,7 @@ static int trie_check_btf(const struct bpf_map *map,
+ 			  const struct btf_type *key_type,
+ 			  const struct btf_type *value_type)
+ {
+-	/* Keys must have struct bpf_lpm_trie_key embedded. */
++	/* Keys must have struct bpf_lpm_trie_key_u8 embedded. */
+ 	return BTF_INFO_KIND(key_type->info) != BTF_KIND_STRUCT ?
+ 	       -EINVAL : 0;
+ }
+diff --git a/samples/bpf/map_perf_test_user.c b/samples/bpf/map_perf_test_user.c
+index d2fbcf963cdf..07ff471ed6ae 100644
+--- a/samples/bpf/map_perf_test_user.c
++++ b/samples/bpf/map_perf_test_user.c
+@@ -370,7 +370,7 @@ static void run_perf_test(int tasks)
+ 
+ static void fill_lpm_trie(void)
+ {
+-	struct bpf_lpm_trie_key *key;
++	struct bpf_lpm_trie_key_u8 *key;
+ 	unsigned long value = 0;
+ 	unsigned int i;
+ 	int r;
+diff --git a/samples/bpf/xdp_router_ipv4_user.c b/samples/bpf/xdp_router_ipv4_user.c
+index 9d41db09c480..266fdd0b025d 100644
+--- a/samples/bpf/xdp_router_ipv4_user.c
++++ b/samples/bpf/xdp_router_ipv4_user.c
+@@ -91,7 +91,7 @@ static int recv_msg(struct sockaddr_nl sock_addr, int sock)
+ static void read_route(struct nlmsghdr *nh, int nll)
+ {
+ 	char dsts[24], gws[24], ifs[16], dsts_len[24], metrics[24];
+-	struct bpf_lpm_trie_key *prefix_key;
++	struct bpf_lpm_trie_key_u8 *prefix_key;
+ 	struct rtattr *rt_attr;
+ 	struct rtmsg *rt_msg;
+ 	int rtm_family;
+diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/bpf.h
+index 7f24d898efbb..c55244bf1a20 100644
+--- a/tools/include/uapi/linux/bpf.h
++++ b/tools/include/uapi/linux/bpf.h
+@@ -77,12 +77,24 @@ struct bpf_insn {
+ 	__s32	imm;		/* signed immediate constant */
+ };
+ 
+-/* Key of an a BPF_MAP_TYPE_LPM_TRIE entry */
++/* Deprecated: use struct bpf_lpm_trie_key_u8 (when the "data" member is needed for
++ * byte access) or struct bpf_lpm_trie_key_hdr (when using an alternative type for
++ * the trailing flexible array member) instead.
++ */
+ struct bpf_lpm_trie_key {
+ 	__u32	prefixlen;	/* up to 32 for AF_INET, 128 for AF_INET6 */
+ 	__u8	data[0];	/* Arbitrary size */
+ };
+ 
++/* Key of an a BPF_MAP_TYPE_LPM_TRIE entry, with trailing byte array. */
++struct bpf_lpm_trie_key_u8 {
++	__struct_group(bpf_lpm_trie_key_hdr, hdr, /* no attrs */,
++		/* up to 32 for AF_INET, 128 for AF_INET6 */
++		__u32	prefixlen;
++	);
++	__u8	data[];		/* Arbitrary size */
++};
++
+ struct bpf_cgroup_storage_key {
+ 	__u64	cgroup_inode_id;	/* cgroup inode id */
+ 	__u32	attach_type;		/* program attach type (enum bpf_attach_type) */
+diff --git a/tools/testing/selftests/bpf/progs/map_ptr_kern.c b/tools/testing/selftests/bpf/progs/map_ptr_kern.c
+index 3325da17ec81..efaf622c28dd 100644
+--- a/tools/testing/selftests/bpf/progs/map_ptr_kern.c
++++ b/tools/testing/selftests/bpf/progs/map_ptr_kern.c
+@@ -316,7 +316,7 @@ struct lpm_trie {
+ } __attribute__((preserve_access_index));
+ 
+ struct lpm_key {
+-	struct bpf_lpm_trie_key trie_key;
++	struct bpf_lpm_trie_key_hdr trie_key;
+ 	__u32 data;
+ };
+ 
+diff --git a/tools/testing/selftests/bpf/test_lpm_map.c b/tools/testing/selftests/bpf/test_lpm_map.c
+index c028d621c744..d98c72dc563e 100644
+--- a/tools/testing/selftests/bpf/test_lpm_map.c
++++ b/tools/testing/selftests/bpf/test_lpm_map.c
+@@ -211,7 +211,7 @@ static void test_lpm_map(int keysize)
+ 	volatile size_t n_matches, n_matches_after_delete;
+ 	size_t i, j, n_nodes, n_lookups;
+ 	struct tlpm_node *t, *list = NULL;
+-	struct bpf_lpm_trie_key *key;
++	struct bpf_lpm_trie_key_u8 *key;
+ 	uint8_t *data, *value;
+ 	int r, map;
+ 
+@@ -331,8 +331,8 @@ static void test_lpm_map(int keysize)
+ static void test_lpm_ipaddr(void)
+ {
+ 	LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_NO_PREALLOC);
+-	struct bpf_lpm_trie_key *key_ipv4;
+-	struct bpf_lpm_trie_key *key_ipv6;
++	struct bpf_lpm_trie_key_u8 *key_ipv4;
++	struct bpf_lpm_trie_key_u8 *key_ipv6;
+ 	size_t key_size_ipv4;
+ 	size_t key_size_ipv6;
+ 	int map_fd_ipv4;
+@@ -423,7 +423,7 @@ static void test_lpm_ipaddr(void)
+ static void test_lpm_delete(void)
+ {
+ 	LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_NO_PREALLOC);
+-	struct bpf_lpm_trie_key *key;
++	struct bpf_lpm_trie_key_u8 *key;
+ 	size_t key_size;
+ 	int map_fd;
+ 	__u64 value;
+@@ -532,7 +532,7 @@ static void test_lpm_delete(void)
+ static void test_lpm_get_next_key(void)
+ {
+ 	LIBBPF_OPTS(bpf_map_create_opts, opts, .map_flags = BPF_F_NO_PREALLOC);
+-	struct bpf_lpm_trie_key *key_p, *next_key_p;
++	struct bpf_lpm_trie_key_u8 *key_p, *next_key_p;
+ 	size_t key_size;
+ 	__u32 value = 0;
+ 	int map_fd;
+@@ -693,9 +693,9 @@ static void *lpm_test_command(void *arg)
+ {
+ 	int i, j, ret, iter, key_size;
+ 	struct lpm_mt_test_info *info = arg;
+-	struct bpf_lpm_trie_key *key_p;
++	struct bpf_lpm_trie_key_u8 *key_p;
+ 
+-	key_size = sizeof(struct bpf_lpm_trie_key) + sizeof(__u32);
++	key_size = sizeof(*key_p) + sizeof(__u32);
+ 	key_p = alloca(key_size);
+ 	for (iter = 0; iter < info->iter; iter++)
+ 		for (i = 0; i < MAX_TEST_KEYS; i++) {
+@@ -717,7 +717,7 @@ static void *lpm_test_command(void *arg)
+ 				ret = bpf_map_lookup_elem(info->map_fd, key_p, &value);
+ 				assert(ret == 0 || errno == ENOENT);
+ 			} else {
+-				struct bpf_lpm_trie_key *next_key_p = alloca(key_size);
++				struct bpf_lpm_trie_key_u8 *next_key_p = alloca(key_size);
+ 				ret = bpf_map_get_next_key(info->map_fd, key_p, next_key_p);
+ 				assert(ret == 0 || errno == ENOENT || errno == ENOMEM);
+ 			}
+@@ -752,7 +752,7 @@ static void test_lpm_multi_thread(void)
+ 
+ 	/* create a trie */
+ 	value_size = sizeof(__u32);
+-	key_size = sizeof(struct bpf_lpm_trie_key) + value_size;
++	key_size = sizeof(struct bpf_lpm_trie_key_hdr) + value_size;
+ 	map_fd = bpf_map_create(BPF_MAP_TYPE_LPM_TRIE, NULL, key_size, value_size, 100, &opts);
+ 
+ 	/* create 4 threads to test update, delete, lookup and get_next_key */
 -- 
-2.43.0
+2.34.1
 
