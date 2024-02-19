@@ -1,47 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3C054750;
-	Mon, 19 Feb 2024 21:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFCF53E2B;
+	Mon, 19 Feb 2024 21:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708379371; cv=none; b=ecSAaMiD76uf6WkXZ/7N1VUiYHAf5rwtJAWPgGSOr76pkjV5pDTfwQS1b0uuEu2QLJ/EiOWcgctxorDumIFFMMErUR7qiyrhf3TFZvrEYu2L0KgJh0q5/2BCpIYUbut3DPuIlX5m6qnj9C8EdrsaM4FDGjt+IC0vIu8LO0/7mXQ=
+	t=1708379510; cv=none; b=XzRumFwzw355hnhOLo4d/pRshEPUTeDpeAuMCGxSZNtVK/DTWM0LvDUezQOoHrurFa0EBRUpZ993P+HkoHCxkGZrUd7M0ob8oPznxoBqVlLFfggniLfTRf3ab2/sFmZcrZYI1TJr15cEopx8X3peG09Tkkw/s135ptN0P1f3h/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708379371; c=relaxed/simple;
-	bh=MwlZPQydiUTgLjiT566xCPNMY9FV3gDoEnY24s9X8sk=;
+	s=arc-20240116; t=1708379510; c=relaxed/simple;
+	bh=vRW11XbFfoaGIb4WC2HvUdVW74zOyp+Ix++rI0wiSE8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SN1FrrFGwL/FMI5YCbWlspnHAcGDOT3BFYDJoPQEcRxlQ4gJ0QpGzuVeyit3yShQzCm4nNwrSFJkOvPaIWMaR6j92qaehGYxabyaQahipKQ3NbSFCLO8bjzOiIRgCGhAVfYZNjF3TmgcC96o21nzhMQh8D86ggesJRpzIlcMsjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VIojW0+x; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=dLx0f39sLkM/pVTK1A5IAOb9NS0cSRHss1Qc85Y7J3mFVb5yXwtXEeU0It3uiP681H4HHm5u0U417d6TKzKMDtLf0IHEXdz5Ugn9CD5bbagd5yzUdeoOX8ubKn7QALyZVXxyPkb7eLEjvp4bRTdPMzD7YIdQ134Js3I30WsOuSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sJxe9nxh; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VIojW0+x"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B141B5A26F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sJxe9nxh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDB4D47A99
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708379369; bh=MlX+7ARQZsUZU7KaqQLobZ9XeWXdvwsDzVJEuhd3H50=;
+	t=1708379508; bh=rm6ybMXn3hJiiMKwvjsdFGz2P/M85CFwBhFz/mMDk90=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=VIojW0+xF5UWVlm8UzLSJBjLCR4WOQ1LlFdO81AFVFXt4yldSXloOYEUYZohuRS6I
-	 WlVkCrFmrfz2eEAQaEEJvpk2NUUdfvzmENBz7JGfqEe1SF7Bdq7O5n0VON5u3O61C6
-	 q30enbLJchbXr2l/nlkHaO+k7tE3TzxFgOy/0rUc11vtjnDNbfpvU1n7TO/qD8Gydc
-	 D53JbtjG6P9Va6tBh9YGncCs1RwzLhxJp4sewviLqV1RU//9rXR6PzpPD9a8ToM/of
-	 8+3TYCA8bdDx7Nwf2FGavrtyiX2SQBjRu+QWoq2yMhr7BOAqCZ2t3HlhFMkrmGy3qd
-	 +lqc5MKjaeBXQ==
+	b=sJxe9nxhwz3BH+qAJDemC/Oly3IaRkz2FjsbnCtONgfoSQ12U/NTI5RyZ3x2EPuVW
+	 w0fJn4JtqvFfnzsohtkb1P5bACjEEHTjt1cWUKjE8QNzpfiSECO1fbVhwPXsrjik2o
+	 7/7yLD3dzHoucvJOoQRish9LjQWjbjJWyNuLeHKHizDm/rWTTzKvmquBZMF2OkKh+K
+	 xOaUxstSlTRs+n5LsMrj1hbNx/pYRKcI8b+j+66gcG8hwtG4S6LFVYEO9B8hy5fX7R
+	 LNy/hO0SZKOWlmK8+0ryO7+bsQgRAfrQULAnxtCZ7jHlGl/dCUHuN89bVJnPxWfSrC
+	 c/5mklPkBxsCw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B141B5A26F;
-	Mon, 19 Feb 2024 21:49:29 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id DDB4D47A99;
+	Mon, 19 Feb 2024 21:51:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-doc@vger.kernel.org
+To: Kalle Valo <kvalo@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH v2] docs: MAINTAINERS: add "Profile" keyword entry name
-In-Reply-To: <20240219082448.14157-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <87zfvwbyu3.fsf@kernel.org>
 References: <20240219082448.14157-1-krzysztof.kozlowski@linaro.org>
-Date: Mon, 19 Feb 2024 14:49:29 -0700
-Message-ID: <87o7ccm8eu.fsf@meer.lwn.net>
+ <87zfvwbyu3.fsf@kernel.org>
+Date: Mon, 19 Feb 2024 14:51:46 -0700
+Message-ID: <87jzn0m8b1.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,42 +50,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
+Kalle Valo <kvalo@kernel.org> writes:
 
-> The HTML output of MAINTAINERS file prints "P:" for subsystem profile,
-> e.g.:
-> 	Status:   Maintained
-> 	P:        process/maintainer-soc-clean-dts
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> writes:
 >
-> Use "Profile" as this entry name.
+>> The HTML output of MAINTAINERS file prints "P:" for subsystem profile,
+>> e.g.:
+>> 	Status:   Maintained
+>> 	P:        process/maintainer-soc-clean-dts
+>>
+>> Use "Profile" as this entry name.
+>>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Heh, I was confused what HTML file Krzysztof was talking about but after
+> some digging I found this:
 >
-> ---
+> https://docs.kernel.org/process/maintainers.html
 >
-> Changes in v2:
-> 1. Drop duplicated "Profile" word.
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b9c3100ef587..36fac6b3499a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24,7 +24,7 @@ Descriptions of section entries and preferred order
->  	   filing info, a direct bug tracker link, or a mailto: URI.
->  	C: URI for *chat* protocol, server and channel where developers
->  	   usually hang out, for example irc://server/channel.
-> -	P: Subsystem Profile document for more details submitting
-> +	P: Subsystem *Profile* document for more details submitting
->  	   patches to the given subsystem. This is either an in-tree file,
+> This is very useful! You can link directly to entries[1] and it's easy
+> to read which makes it easier to talk with non-technical people.
 
-I would have taken this but ... SeongJae beat you to it by a few days:
+Non-technical people like ... maintainers? :)
 
-  https://lore.kernel.org/r/20240216201902.10095-1-sj@kernel.org
+> Jonathan, I wish we would make this HTML version more visible, for
+> example what about adding a link to the HTML version in beginning of the
+> file? And maybe add a short introduction text at the same time? I can
+> send a patch if there's interest.
+
+I'll certainly entertain a patch but ... I feel like the same could be
+said for any file within Documentation/.  Perhaps we should make the
+rendered docs on kernel.org more discoverable, but I'm not sure that the
+maintainers manual is the place to start...?
 
 Thanks,
 
