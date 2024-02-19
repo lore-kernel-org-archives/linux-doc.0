@@ -1,136 +1,59 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8438F96;
-	Mon, 19 Feb 2024 16:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C443B786;
+	Mon, 19 Feb 2024 16:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708359124; cv=none; b=JJOdlN9+QCbtjuS2M29xu+pvzdJHcIG7lgrVOiJ6WPeMP7svewbtGcx3fuISBy/yiC4KGZoWAdP7Nj1y99QbtfZ17tcFhP8/MnKoOsvitdhjyHVyj5FmONrA2Go3yktFEwIRCJgwlFvH0lOR8NeXiWhqMR0TtUiJprPsUaGgAwY=
+	t=1708359262; cv=none; b=ewZAn11dOw7ysgQhQEJRNqiZwZvwkXDpO2UFj1osbPOhHnShfsbX1me0lyetrCEbQ+ggTe8eOdJP6VLPKgbUMz9gYhJwXnlzfBgJRrTvf4xvbK1KS27cmjuG1uHFh6LLz/kw+rm2oxg6nzsryZHPOzYSGD2+bXJECbLNyJl/jJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708359124; c=relaxed/simple;
-	bh=iq6s+7WKZLZSrLV/9jdqYXS3RZE6PFmDztuMLteg06E=;
+	s=arc-20240116; t=1708359262; c=relaxed/simple;
+	bh=CjV/Q5tIGqEo2SgRvMzAGZhlSstVhiuysZf91I8p+VY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjysTuDy0QDM7mqbOEbLWfDGMvlNwp8f9SEdrhkjlRvTHW9gQx+8DjRt/1q1uu5c1l5IzvQWiK10o9NfjH8s0XgREfnadPWHWdqAAj304rCqCeGv+poDsha6Iria2jqkW/W29zm+NlcW3xXjo9rXM2R8dCCbpm6zMh0TJ0T//m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=UtWtc1GB; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=qfuK0OfQibaPVBJyXoSatPLxI5f1qxne2WDSYnbkBXETOjuc0x0Ej2rwbs11kkBPkV5mm7R1n/8AeMy7yc5q1TCCUFgKSkAFiWCdR4+PuTTM/LywcuvVfe6G5YAgzJf7fCOKQENoOIUrIy3ut5VR0RR987PrINRFRdfEMAQ1Gck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBgV9BYG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="UtWtc1GB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=m2nD4Vwza+aDllTk70i73HnQsiQ53xBK6QE6s2gWwMY=; b=UtWtc1GBcTmeW9Sgii2wiouPQc
-	4gEhMxxwzplTX9PRgnnwprVsPBi6GkUOY05K3a+jS24JnB3DvLoSSgLyNj0rlSl1IZWqPT2DpnysI
-	zPV6mUG5Rvw2XJ7qv7+QQyF3hKN3bOCcCWEQ66cqG5CpPOMae7xjLNSZgKv0vAQi+mqw0tGThFxSs
-	LudSLJh9EuSUUmlQ5kQpZPxFn6LD/iEPzr09MvzUZ5e6zsPUQZfEfStUvqgVoKJJHuV5MmY4+nax8
-	m1e4Re3VoEgATz6u8YIr3QCb4vJyTHptI+TLOWxXh/X2B2La17dWFuU7V+zPm7DW5nTJLuhOnaQeF
-	Pd2gmp4A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51960)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rc6El-0007Kt-2a;
-	Mon, 19 Feb 2024 16:11:23 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rc6Ee-0008V0-Sj; Mon, 19 Feb 2024 16:11:16 +0000
-Date: Mon, 19 Feb 2024 16:11:16 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>
-Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY default
- timestamp to MAC
-Message-ID: <ZdN9pPf3wXwE/9nX@shell.armlinux.org.uk>
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
- <20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
- <87jzn4gtlv.fsf@nvidia.com>
- <20240219142936.62112d34@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBgV9BYG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0CCC433F1;
+	Mon, 19 Feb 2024 16:14:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708359261;
+	bh=CjV/Q5tIGqEo2SgRvMzAGZhlSstVhiuysZf91I8p+VY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HBgV9BYGdv5+7+L1V+WdAYNwrx2x/X/1YIVY0S7LvqsrSpWXdIQaNG0UEixAqNv7y
+	 ZrnBihAWQI75HWzBI815Auh1vQxkPXbZycbFA/sCLa82/KzDj2S2u68ft8PY67AeDC
+	 Um5EEt1Yo3iFDyCDvEph8H/hUL8w35YRqQh++vTrffzhr+LtU7puJXmLIaI9mFAum7
+	 +vHl3u/c/IuNss4A4mxNpaecn/6cxWh7uiO/DJU9TxMYHcFeNm8Alw5Mqu3WxT21V4
+	 VOq7ud+x3rg45oWO3pa7/rA0D7HjVy7DIc08NQvkUgqiVM9NW8enssJ71bliSe1G0a
+	 Uc18LCe/igK5Q==
+Date: Mon, 19 Feb 2024 16:14:18 +0000
+From: Simon Horman <horms@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: update the link to the CI repo
+Message-ID: <20240219161418.GG40273@kernel.org>
+References: <20240216161945.2208842-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240219142936.62112d34@kmaincent-XPS-13-7390>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20240216161945.2208842-1-kuba@kernel.org>
 
-On Mon, Feb 19, 2024 at 02:29:36PM +0100, Köry Maincent wrote:
-> On Fri, 16 Feb 2024 10:09:36 -0800
-> Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
+On Fri, Feb 16, 2024 at 08:19:45AM -0800, Jakub Kicinski wrote:
+> Netronome graciously transferred the original NIPA repo
+> to our new netdev umbrella org. Link to that instead of
+> my private fork.
 > 
-> > On Fri, 16 Feb, 2024 16:52:22 +0100 Kory Maincent <kory.maincent@bootlin.com>
-> > wrote:
-> > > Change the API to select MAC default time stamping instead of the PHY.
-> > > Indeed the PHY is closer to the wire therefore theoretically it has less
-> > > delay than the MAC timestamping but the reality is different. Due to lower
-> > > time stamping clock frequency, latency in the MDIO bus and no PHC hardware
-> > > synchronization between different PHY, the PHY PTP is often less precise
-> > > than the MAC. The exception is for PHY designed specially for PTP case but
-> > > these devices are not very widespread. For not breaking the compatibility
-> > > default_timestamp flag has been introduced in phy_device that is set by
-> > > the phy driver to know we are using the old API behavior.
-> > >
-> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > > ---  
-> > 
-> > Overall, I agree with the motivation and reasoning behind the patch. It
-> > takes dedicated effort to build a good phy timestamping mechanism, so
-> > this approach is good. I do have a question though. In this patch if we
-> > set the phy as the default timestamp mechanism, does that mean for even
-> > non-PTP applications, the phy will be used for timestamping when
-> > hardware timestamping is enabled? If so, I think this might need some
-> > thought because there are timing applications in general when a
-> > timestamp closest to the MAC layer would be best.
-> 
-> This patch comes from a request from Russell due to incompatibility between MAC
-> and PHY timestamping when both were supported.
-> https://lore.kernel.org/netdev/Y%2F4DZIDm1d74MuFJ@shell.armlinux.org.uk/
-> 
-> His point was adding PTP support to a PHY driver would select timestamp from it
-> by default even if we had a better timestamp with the MAC which is often the
-> case. This is an unwanted behavior.
-> https://lore.kernel.org/netdev/Y%2F6Cxf6EAAg22GOL@shell.armlinux.org.uk/
-> 
-> In fact, with the new support of NDOs hwtstamp and the
-> dev_get/set_hwtstamp_phylib functions, alongside this series which make
-> timestamp selectable, changing the default timestamp may be not necessary
-> anymore.
-> 
-> Russell any thought about it? 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-My position remains: in the case of Marvell PP2 network driver with a
-Marvell PHY, when we add PTP support for the Marvell PHYs (I have
-patches for it for years) then we must _not_ regress the existing
-setup where the PP2 timestamps are the default.
+Although I no longer represent Netronome, I confirm that this is the case
+based on a discussion I had with Netronome to facilitate this move.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Thanks to Netronome for their help.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
