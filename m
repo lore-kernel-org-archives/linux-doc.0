@@ -1,102 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459A52135C;
-	Mon, 19 Feb 2024 08:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291EE8BEF
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 08:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708330387; cv=none; b=ZVO0Vh8ACLTsOSgcqDsgtRDIo21pK060sDfQdLksZ4IemqS/sGxhSn9fKIoemeNKDXIejnT2Av/lScyHL1bcvk/Q0WN3+eIwk+iRvT+5mz1jjycr14nzL7eRRp51kfs1y2FZH15D5UjwVSH1OsJAKHVNa+clIk2ETsK0BxHF8L8=
+	t=1708330940; cv=none; b=S/CkqP3GsLAA/AdtuqHvQhculhdbc6gzWQ+aIpk/cQ7eNnCizfLdbLnVglgGhb2/4MG0797M9LO7c3IVYsEqAuT/MR+OmOt1700wte+l0Pb9KDGu3kLaC2zqqpkoWbiNUWH278HNIlziYxWeZsLwdOKfQYt2yTI7B2HWkDXmIqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708330387; c=relaxed/simple;
-	bh=1w3J45VRLDLeMHSNQ1LNWwVGXu9vFKXbgM2hR+lw2cU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+6q6uEs7CqInmV+xi6GVVX0wCB/k8RDgzZiq51uTI9J1XDXbsH4i+HxFvY8sAI3pcSdTMuTcrQc/2Qg1vrefjzRBOj6FZFXrNgVOTTVSHjgsyAAo4oWoCjSXIhbPcLiS1KKXOkL8e71Jnm/W0tKWj87ab+syIO/l9zFKH0ZSHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jhfZg1UW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708330940; c=relaxed/simple;
+	bh=FvBbTrLHfzMAs7VtoWvq0W2MIUhWBuAqZ0NPy17yAQY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u8eSGbuPrOjwKyNjbqGcINMpTIhpLku8L70AvwuC/zclwGIJ8qqWFoMwU6nrNR/oMLEgGhLmDK7vz7YU5Yie6MESJ2MsRgjudOg7sELdaIhBSijcCYsAQtzd+NpyhyHdBvCTvB5fTnRSdWrgtOVnvOdxCsZMqg8pBrFtVBCsAcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YqQYis2J; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jhfZg1UW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59439C433C7;
-	Mon, 19 Feb 2024 08:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708330386;
-	bh=1w3J45VRLDLeMHSNQ1LNWwVGXu9vFKXbgM2hR+lw2cU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jhfZg1UWk/gIXkIAdbPlphVgddgqd1ksAhGXvha+wO8pNKb1DMovmkeVam5cOXg4V
-	 ZjobisTZkClepNOBnY4pK1TvUg5MRJ46gK7Jb8S9Dh+4mNUj2diDLWUzWREqyw4PD8
-	 PzqZuInLMj6WOi48A3lXFEc8a0b7BDAuxcmKG4ao=
-Date: Mon, 19 Feb 2024 09:13:03 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v2 3/4] usb: gadget: legacy: add 9pfs multi gadget
-Message-ID: <2024021911-facelift-graveyard-0760@gregkh>
-References: <20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de>
- <20240116-ml-topic-u9p-v2-3-b46cbf592962@pengutronix.de>
- <2024021757-geography-hacksaw-3022@gregkh>
- <ZdKze80oFj0PRkkZ@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YqQYis2J"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d0cdbd67f0so57404301fa.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 00:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708330937; x=1708935737; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ycvOyJbv26u3Dhx0FmRMkxR9ksBoiOuJ0RI4MXT3nOI=;
+        b=YqQYis2J+7HZG2tUZWiYo4PsGnEEhzPNX77ns8wPYZY1L6iI+4RdrCaYQr+xuCzCmP
+         jdXV46UrhVTFtQOJHYix7T2rEx7CFpiHnzRj15M9/MAqPlNYdiat6U4b9c8fe2rNHiFM
+         Zx7k8jho5Kk4W1GMPrTKVGUcY4Bq/rlnXSrFzL6x1stWcWSmaROEcvgJRE687oF0GYDC
+         LjnMv8iamnVeGOW3WDomvUurtD1ml3OoPGnWipI7OviYnTZ44laN+z3LbTOUMmvyqjs1
+         xcb0RMPb/r9t1PYS+aSxLtAST6av7OhWEsC5+KYsGV8YInYgwfmbKu+fm1efIgaP7jVD
+         Ra9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708330937; x=1708935737;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ycvOyJbv26u3Dhx0FmRMkxR9ksBoiOuJ0RI4MXT3nOI=;
+        b=XnA2Q8KyG7TW0VDn9BQ6M1dEDubnRljLm26pPHQwWH4oCk23IIWaZArlu992HGBxw1
+         vbaushDBkfObvnk8yIlmEpjM46tqIFoT51m08V6q7SMYfsW8jC3j0lmYcq33pAt62uAH
+         0XELDRyjCsFHIbWgRXyISLEsJOpuQG/iIIpUjjhen1pI5t7QWr97fSHiKb+MXxH8jBZt
+         hl+DzOmTFrgaA6nlIVbe/ulRv7Q4anZXNkiIBDzZhFsXwJFOH2qm+F3z3Q9r70DWv1TA
+         KHk4D3EUws0nzm8FZ16qDOmHCBPpiVpqMFFgodBPspWVl04G3g1+twfMM+6Jcacck1Kc
+         yvoA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1O8dJO5dFxsHQ3qBKaq8tqnoBsf8Ng73S41mGttaY5iZ4dgA1+btRqQOlFpVybH6onX6IF3n1M+3GFyCRpp55sivIW61v6q2r
+X-Gm-Message-State: AOJu0Yw2EPtSADgLNbZacmxwvKHG6W7GVuzXMLu3LqY4XxdT+nWKGfVY
+	tLL0NoTWGc4+f5snJZ/ZXLeo8J6JQmbDGBK4WSjfPiGL9zKQG2cVB6VAzn7/Eo54TUz6gT+NGLG
+	h
+X-Google-Smtp-Source: AGHT+IHvRfIaq2XgjkibK92o/u6nDYSEPMdw9SGBjJGEu6RzlWl8HQjQntEPLa5yOddMIpYADzYYYQ==
+X-Received: by 2002:a05:6512:3bb:b0:512:b694:27be with SMTP id v27-20020a05651203bb00b00512b69427bemr570928lfp.45.1708330937308;
+        Mon, 19 Feb 2024 00:22:17 -0800 (PST)
+Received: from krzk-bin.. ([178.197.222.116])
+        by smtp.gmail.com with ESMTPSA id bq24-20020a5d5a18000000b0033d50091f3dsm2214696wrb.8.2024.02.19.00.22.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 00:22:16 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: MAINTAINERS: add "Profile" keyword entry name
+Date: Mon, 19 Feb 2024 09:22:12 +0100
+Message-Id: <20240219082212.13676-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdKze80oFj0PRkkZ@pengutronix.de>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 19, 2024 at 02:48:43AM +0100, Michael Grzeschik wrote:
-> On Sat, Feb 17, 2024 at 04:59:28PM +0100, Greg Kroah-Hartman wrote:
-> > On Fri, Feb 02, 2024 at 01:05:12AM +0100, Michael Grzeschik wrote:
-> > > Add the newly introduced 9pfs transport gadget interface with an new
-> > > multi composed gadget together with acm and eem.
-> > > 
-> > > When using this legacy module, it is also possible to
-> > > mount the 9PFS usb dir as root filesystem. Just follow the
-> > > instrucitons from Documentation/filesystems/9p.rst
-> > 
-> > Why are we adding new "legacy" gadgets?  What's wrong with the "correct"
-> > api instead?  You need a lot of justification here to add something to
-> > an api we want to one day just delete.
-> 
-> Without the legacy gadget there is no real solution to mount
-> the 9pfs via the gadget as rootfs. The "correct" api is configfs
-> which will need the user to have some filesystem to mount it to.
+The HTML output of MAINTAINERS file prints "P:" for subsystem profile,
+e.g.:
+	Status:   Maintained
+	P:        process/maintainer-soc-clean-dts
 
-That's what your initramfs is for.  Why can't you just use that?
+Use "Profile" as this entry name.
 
-> There is the relatively new concept of bootconfig which sounds
-> promising to describe an complete configfs tree from system boot.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Great, but until that happens, again, just use initramfs.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b9c3100ef587..35933bd320cc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24,7 +24,7 @@ Descriptions of section entries and preferred order
+ 	   filing info, a direct bug tracker link, or a mailto: URI.
+ 	C: URI for *chat* protocol, server and channel where developers
+ 	   usually hang out, for example irc://server/channel.
+-	P: Subsystem Profile document for more details submitting
++	P: *Profile* Subsystem Profile document for more details submitting
+ 	   patches to the given subsystem. This is either an in-tree file,
+ 	   or a URI. See Documentation/maintainer/maintainer-entry-profile.rst
+ 	   for details.
+-- 
+2.34.1
 
-> However this is some future talk for now, so we would like to
-> stick with the legacy setup to be able to mount the 9pfs rootfs.
-
-I'd prefer to NOT add new legacy gadget drivers, and do everything
-possible to delete them all from the tree "soon".
-
-> > > +/*
-> > > + * Gadget usb9pfs only needs two bulk endpoints, and will use the usb9pfs usb
-> > > + * transport to mount host filesystem via usb gadget. This driver will
-> > > + * also add one ACM and NCM interface.
-> > 
-> > Why "also"?  What are those interfaces going to be used for and what do
-> > they have to do with 9pfs?
-> 
-> They are not necessary to be used with 9pfs. But since we introduce an
-> new legacy module which is fully claiming the UDC, it would make sense
-> to leave the other endpoints unavailable but instead add some common
-> interfaces like ecm and acm.
-
-But if no one needs/wants them, why make this complex?  Again, configfs
-can handle the composition of this if you need it, which is why that
-"new" interface was created.
-
-thanks,
-
-greg k-h
