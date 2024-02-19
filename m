@@ -1,99 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26015BAE1;
-	Mon, 19 Feb 2024 19:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2824F203;
+	Mon, 19 Feb 2024 19:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708371891; cv=none; b=UVOjBbWalIEX+LFOUrO/ONFDudk4HA9B5HDFJVCcVyMyuNyqVM5+N4JSSFQPINXH8dnF9p8/cAxv5ZtFH7M3Lk9AWq82APAnQNcOOKlTQO1jT7mmXqag0dkTGtOQPMtsfCP4b4FCpH5YWYDuaBHLwXAfP2ARwiVzn72XBwloOB8=
+	t=1708372602; cv=none; b=DHLIqOk/1zuzODK1TxZr8HGfHB52qeawYpUb5R33su4WXZ7wdq7O2KolJPgkr2eqLkkWeEvHV8GVRLtQQdsExja5sSo+f0n/e8XW2CN82kSlPyndDGcq0ClHn8UHxy/5/ZU8qRSb0n/Zd7VcoM2HgXXm4qtvBfDPwLB3sqsujww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708371891; c=relaxed/simple;
-	bh=N9nR7nwUdsukBui32rCfnM5+OryMCusxZ8X3or6m4gs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nZixfB0rYYq8AcyKehY0F1SuScN/nMe2x4oLn1gX6KImqKaH4QQqQcOTRF3TAOczurA2uh2DxPkPXBava3JEv+B5g8xWvikndPXIXsCvoBCvrbkb/VEegmMYvsiW5OTzI06WBxRGcw1OM0Mc86y0lqRRArYayXXhRlyP6BBrfow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqdSM2r2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708372602; c=relaxed/simple;
+	bh=OaAEMFvFDN1qhJ4t5nXfrOCymw4TroM52J1E3WnfAP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CH4YqlWQDjRZLjxA9JEkwaaOqLi/mrjBUUS/3yaX83WK06PFr8FxyNJBd91I6uSMOnjWDsIJ91rhDKrrmpit9Vhy8jb01pRudRtDZ9VQ3Rq0HhgzI/meluSTxcDYa/e5ovNASbEkGksYmoyofeDx5Fm7G3IfRDji4+O9hTZ2GkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j/Tf0rg/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqdSM2r2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D981C43394;
-	Mon, 19 Feb 2024 19:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708371890;
-	bh=N9nR7nwUdsukBui32rCfnM5+OryMCusxZ8X3or6m4gs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KqdSM2r2arnrE2pBIUDFF7hZiMjke6At78DYHjdLpERwp7GzGMMfZrZD/XkvVsvoL
-	 iZ0gKt+cXZC2/Q6/wDxgAXwR2lScpDLfLDBK0fbWYh8QYEaBEUqQaD8GbSEYU19OnH
-	 U++3UpC6Jpa+GOpKK5QyaegBWlVfHsoysde0a5MGIv1cNeG+RjS1KFiSJb8z408nxj
-	 LTZLeZw/EPiwFOioMXDWha/73iN4Zoz2vCX2USa/2Djbqs9MMszoIsoedfNOl1FCfS
-	 7RKT1NeXBEKPFeYON6dpCo1wCv301lTmRD+TNX3etwdGvFarVDTz+/bbCnHbR5kJo9
-	 LiI+VOgnX3CPg==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 20/20] Docs/admin-guide/mm/damon/reclaim: document auto-tuning parameters
-Date: Mon, 19 Feb 2024 11:44:31 -0800
-Message-Id: <20240219194431.159606-21-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240219194431.159606-1-sj@kernel.org>
-References: <20240219194431.159606-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j/Tf0rg/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BB28C433F1;
+	Mon, 19 Feb 2024 19:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708372601;
+	bh=OaAEMFvFDN1qhJ4t5nXfrOCymw4TroM52J1E3WnfAP0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j/Tf0rg/52VRU0RdqcIIbgIp34hsAGhLLM6UEzs4f8XeRAe8Pe0ZnvuYgjEaedKPh
+	 XzolqPbpGuyslO57mb26R3nPLHjlPXFweVZOqmQ+StxE+IHfCDJsSFchYOb0ECw4Ej
+	 9bic7JeKdiqsqqJlLXwCDhAwxYe5B/OGUhUOFkGU=
+Date: Mon, 19 Feb 2024 20:56:39 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+	robh+dt@kernel.org, konrad.dybcio@linaro.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v17 00/51] Introduce QC USB SND audio offloading support
+Message-ID: <2024021929-catching-subheader-d51b@gregkh>
+References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
+ <2024021754-unengaged-saggy-6ab1@gregkh>
+ <96ab6033-2cb9-daa7-ddad-090138896739@linux.intel.com>
+ <2024021922-privatize-runt-495e@gregkh>
+ <d82c8955-6793-7544-0013-1033abd9f1e9@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d82c8955-6793-7544-0013-1033abd9f1e9@linux.intel.com>
 
-Update DAMON_RECLAIM usage document for the user/self feedback based
-auto-tuning of the quota.
+On Mon, Feb 19, 2024 at 01:03:31PM +0200, Mathias Nyman wrote:
+> > > 
+> > > Patch 10/10 is based on an old POC patch by me, but it's heavily modified.
+> > > 
+> > > It looks like it does a few minor things that are not optimal, like extra
+> > > spinlock/unlock, and wait_for_completion_timeout() with magical timeout value.
+> > > I haven't tested this version, but I guess any fixes or cleanups can be done
+> > > later on top of it.
+> > 
+> > I can revert it now if you want, just let me know.
+> > 
+> 
+> Maybe reverting it would be better yes.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- .../admin-guide/mm/damon/reclaim.rst          | 27 +++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Ok, will do, thanks for letting me know.
 
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index 343e25b252f4..af05ae617018 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -117,6 +117,33 @@ milliseconds.
- 
- 1 second by default.
- 
-+quota_mem_pressure_us
-+---------------------
-+
-+Desired level of memory pressure-stall time in microseconds.
-+
-+While keeping the caps that set by other quotas, DAMON_RECLAIM automatically
-+increases and decreases the effective level of the quota aiming this level of
-+memory pressure is incurred.  System-wide ``some`` memory PSI in microseconds
-+per quota reset interval (``quota_reset_interval_ms``) is collected and
-+compared to this value to see if the aim is satisfied.  Value zero means
-+disabling this auto-tuning feature.
-+
-+Disabled by default.
-+
-+quota_autotune_feedback
-+-----------------------
-+
-+User-specifiable feedback for auto-tuning of the effective quota.
-+
-+While keeping the caps that set by other quotas, DAMON_RECLAIM automatically
-+increases and decreases the effective level of the quota aiming receiving this
-+feedback of value ``10,000`` from the user.  DAMON_RECLAIM assumes the feedback
-+value and the quota are positively proportional.  Value zero means disabling
-+this auto-tuning feature.
-+
-+Disabled by default.
-+
- wmarks_interval
- ---------------
- 
--- 
-2.39.2
-
+greg k-h
