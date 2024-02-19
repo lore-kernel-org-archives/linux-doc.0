@@ -1,66 +1,45 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053BB3CF5E
-	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 16:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE1D3B1A8
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 16:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708358905; cv=none; b=q8rk8uoE7C7Zpxnq3iItCCpaIo2N1zjp4IUDxy99aAxvX4IBdxCCC6xgTxCEPBC38U5c9LAPCMaDKbmoAZhuGY8hsA7mEW//Ya127kCece261fFNE+Vl+YJoTu9TYBlyAOlvubVM4SnSQ8KlZ4EHWisGWVKwi+wnxsG+43eqNZ0=
+	t=1708359015; cv=none; b=gD4bqeXxqfv10OFMnOh9oK0ucE3rGHtIQYrxbg0mLbbSKaDRqRFH4/YmkIAPV5zo56+Kc2IO1wKb2mn5mwet4GeDmrXWqblLjcvDFrWbWfzy3pSuFyqUpQRd/QhXq+LRwoFzSjJNI9FlkH7pC8O2C4nduNJHj8yVc8qivKdzjNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708358905; c=relaxed/simple;
-	bh=5t4JB3wAVHCHNA7BJWB1aH8LGEeC36ChXJ5ADZLD5QE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iraYnap1OgU3mpukk4SwvjU1d+adrRBBp08ad5E/yuotunaOHbbMOto8AEg+l1OSvTdzVcSRo2vCJsmAgr/vYG1Z7AcTObmpwwY4kJHCn/+e6qvdPtCToQyVMiEEHJR/+0UgKfv1Gc/6rcxdnjiKVfv/bILkhhSVl/QFcj9Uz00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rc6BH-0001n7-M6; Mon, 19 Feb 2024 17:07:47 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rc6BD-001gUj-U5; Mon, 19 Feb 2024 17:07:43 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rc6BD-00FvZo-2d;
-	Mon, 19 Feb 2024 17:07:43 +0100
-Date: Mon, 19 Feb 2024 17:07:43 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
- for PD692x0 PSE controller
-Message-ID: <ZdN8zypeUp0MmzcP@pengutronix.de>
-References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
- <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
- <20240209145727.GA3702230-robh@kernel.org>
- <ZciUQqjM4Z8Tc6Db@pengutronix.de>
- <618be4b1-c52c-4b8f-8818-1e4150867cad@lunn.ch>
- <Zc3IrO_MXIdLXnEL@pengutronix.de>
- <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
- <Zc8TAojumif1irE-@pengutronix.de>
- <20240219153106.19e83213@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1708359015; c=relaxed/simple;
+	bh=QsOQjp2KX+gAxQIUWax1oJeXQqYMvbV1/mtH6Xc/6dE=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TpvMYt0NoRk9nxkuw41f1Zr3ZorMjCJvmo/pklJJ/L4Y8nT4FTNf4otIKrfn3RauSlZq4U34MoQKuyEioTEr/Gml4VvmwMtZlASN3UoS/MMEaJz4iJbRC2kbAZTtG34AM5aqugHbMgsAq4jHzHNayL4HWDcvkyj/iUEwNgD9lMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=D1nJNTPE; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="D1nJNTPE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CEA8547AAD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1708359013; bh=u/5jKqMILqaaLOuttGb7WL2wgBWjYbsjvQp90otr7ho=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=D1nJNTPEcmfVe1Xk3xmKgWlU+qpBkTSepuBCrb1CqDUXjlvcnGVDUv4yv5zfpb90s
+	 K8NZGkLHJZ0zEWc7/yz4HhNG4/jM2N4FL4f1cCG0G+6aa43OIUUFzVicFIbDd3YITs
+	 rtwykRELQmtZ3+xPzSxMcLCT4y6zDMFza0hEtlJUJ6s9tXrelUTwHNdk6fCKRLWXCA
+	 0Bggc4L70gUSbAzTi8UmhY97gIV/Wv2UVSFIs2Nkw63nRNk0nxgbEZIE8NcTRFM+3Q
+	 XfvgW+OLo479Rr3OfBeBrU09Rvsi9IJBuJCdt3G8zqA7CCTBR163HqeQLg8caXhrNF
+	 OkReX3HmtmbyA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id CEA8547AAD;
+	Mon, 19 Feb 2024 16:10:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: =?utf-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0LjRhw==?= <relect@bk.ru>,
+ linux-doc@vger.kernel.org
+Subject: Re: make pdfdocs
+In-Reply-To: <1708089301.134753373@f501.i.mail.ru>
+References: <1708089301.134753373@f501.i.mail.ru>
+Date: Mon, 19 Feb 2024 09:10:11 -0700
+Message-ID: <87bk8cqvto.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,79 +47,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240219153106.19e83213@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 19, 2024 at 03:31:06PM +0100, Köry Maincent wrote:
-> On Fri, 16 Feb 2024 08:47:14 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> > >
-> > > So, either somebody needs to understand 1000BaseT and can say the
-> > > proposed binding works, or we explicitly document the binding is
-> > > limited to 10BaseT and 100BaseT.  
-> > 
-> > I asked the internet and found the answer: Some PSE/PD implementations
-> > are not compatible with 1000BaseT.
-> > 
-> > See Figure 33–4—10BASE-T/100BASE-TX Endpoint PSE location overview.
-> > Alternative B show a variant where power is injected directly to pairs
-> > without using magnetics as it is done for Alternative A (phantom
-> > delivery - over magnetics).
-> > 
-> > So, we have following variants of 2 pairs PoE:
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | Variant | Alternative   | Polarity          | Power Feeding Type  |
-> > Compatibility with | |         | (a/b)         | (Direct/Reverse)  |
-> > (Direct/Phantom)    | 1000BaseT          |
-> > +=========+===============+===================+=====================+====================+
-> > | 1       | a             | Direct            | Phantom             | Yes
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | 2       | a             | Reverse           | Phantom             | Yes
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | 3       | b             | Direct            | Phantom             | Yes
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | 4       | b             | Reverse           | Phantom             | Yes
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | 5       | b             | Direct            | Direct              | No
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> > | 6       | b             | Reverse           | Direct              | No
-> >            |
-> > +---------+---------------+-------------------+---------------------+--------------------+
-> 
-> Maybe we could remove the polarity column on this table as it does not bring
-> more information. It is also already explained on the PI pinout alternatives
-> table.
+=D0=98=D0=B2=D0=B0=D0=BD =D0=98=D0=B2=D0=B0=D0=BD=D0=BE=D0=B2=D0=B8=D1=87 <=
+relect@bk.ru> writes:
 
-Ack. I'm still not sure if "Phantom" is correct description.
+> Good afternoon, the build of the kernel documentation "make pdfdocs"
+> does not work.
+>=20=20
+> I read that there is a bug in the Sphinx version less than 7.2.x, so I
+> updated my Fedora to version 40 where the Sphinx bug was fixed. Some
+> documents are being built, but an error appears on the build of the
+> filesystems file =E2=80=94 make_pdfdocs.log
 
-> 
-> Also we should document that a 4pairs PSE supporting only 10/100BaseT (which
-> mean no magnetics on pinout AlternativeB) may not be compatible with a 4pairs
-> 1GBaseT PD.
+It looks like you've run into the problem we were discussing at:
 
-Ack. s/may not/is not/ :) and 4pairs PSE is not always compatible with
-PoE4 as well. I assume this  kind of knowledge we will get from PSE
-driver.
+  https://lore.kernel.org/linux-doc/8734tqsrt7.fsf@meer.lwn.net/
 
-Regards,
-Oleksij
+I've just posted a patch that addresses it:
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+  https://lore.kernel.org/linux-doc/87jzn0qw19.fsf@meer.lwn.net/T/#u
+
+Can you give it a try and see if it makes things work better for you?
+
+Thanks,
+
+jon
