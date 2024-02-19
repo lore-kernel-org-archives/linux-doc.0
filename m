@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2153812;
-	Mon, 19 Feb 2024 19:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BDF58ABE;
+	Mon, 19 Feb 2024 19:44:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708371882; cv=none; b=NrsgyozpI2TaRqjFRLxxjJVbO+NdnAayliLZ1U/NhI1CmcYz4Td4wwuJcBhqtowF/6isEnJIL4LSjBtJMmj4RnKJYAlqdbHvKU/zsyjdNNCo0o0eIUFK5VwURH+/SGWlr2NHlISn80b40wgmwoZRKxO1AvC1dEiAXsLJpr8wcqY=
+	t=1708371888; cv=none; b=NdWgradMnkSZpbcJ1n/LaJ8cg0viuIkhMat+PscEV7XqUEtNH5ilHmSfJYXxw0JbaqFIxthemUL5xMEiRJgTQG13eYyOAaLoC4uCph2kBd3rcOebOWIpnx6ph+sXD8bIIeBgtrLTSq/FOZP3i2G3IgDDVV+AcpVlQKo30H+YCqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708371882; c=relaxed/simple;
-	bh=Kc80eiLjIjFfjUUzf1ec4uqhs3PwKD70+PMFGRlYm9w=;
+	s=arc-20240116; t=1708371888; c=relaxed/simple;
+	bh=dE+jqLZYW9QB5NiFklbDnZHaYSFDuOnT6wibaYvQ7fQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZtM0fisApGOZqxpID6NWTfxehVIF3d1C0ICJYNYxqxyAwaAchrCtbFrxtRpBIJFOeeGkx8JQduFVtAMcNGwqf/OhhzOrd0J76vb8k/c1V2NSA5W60Bw4r+1om1780lPg2Ely4EJGO3XteVAjfCL8I0QX3upudhbUGiixeZqxvxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q3JlR1TM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=V6CSpID45oPoL3UOUAIop8LyyzyOjdCMwgItGP8u7CaMmoh/AOBivPmYqFPOydJRZovqLJhcOuFR8Odon7OzQhsCKst0S4YELVZcGULNKASK1/ByvfMuwtSm0rYxEHou4bJVqgTLIeBhyeUnlPUyCc5REKIjnSJdgEmjQURtwgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rN+wAd4r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q3JlR1TM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E787C43390;
-	Mon, 19 Feb 2024 19:44:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rN+wAd4r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A133C43399;
+	Mon, 19 Feb 2024 19:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708371881;
-	bh=Kc80eiLjIjFfjUUzf1ec4uqhs3PwKD70+PMFGRlYm9w=;
+	s=k20201202; t=1708371887;
+	bh=dE+jqLZYW9QB5NiFklbDnZHaYSFDuOnT6wibaYvQ7fQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q3JlR1TMBd4SZipJkxguG3s3i9iwsqiUwe8NWYu9g5VarCQPcboEKYUol/8Ltw02/
-	 7lVy4f/dwVLcQIzZq2RwxsBGYZPGlnDwh/ncGthYhY+xGOxovBI2rk5qA8CmR4V3P3
-	 rOgyHFgBbl7gBF7thKUeezEPey8JCAxfIjN1twH61U5pqFdIxT4PvAa4FHXrrhIGiu
-	 SUCph24Jhh8qdoNRJzRpTQnRUE1/Y3Xx91lMc263hFrZIgsAzmpfyQ+84r5OHWFwKQ
-	 cJ7bWU4XUwCN1ukCpTJBEgtQk1D5I6a6/1+YdOXyMFDGXpSrXK3/fhvNVVsDoZ+ZTV
-	 f7hbn9PJKUiPg==
+	b=rN+wAd4rUpHbmoSCSt+/pVijeH1M2J+z3ioq9IiqpMA7SQFSRjct47t4BrxCbYLzm
+	 g+NTWKrJdapNMH3m9ClPNCicsC8FXavIYUJ+PTZpM3XOUKOjufVIRPa+f6MVCL8FKx
+	 mnvvP4UR8ztDA3EZAIC758uAZSZn6xL0EAMZAUfFtGXapQSihyvtpmetzNaC/Kghcx
+	 UNloo8Ow4xzXJiJmt/6CbhAsy17pIVqzgkj0XUIKlijM/hF+Tkk2+/az2jLdwG67tG
+	 ZGw7C9Tdx2lPuF00Kfz/OfYDrG79xQFFIGBkn/Tpc1eB2mhLP1THJX3eXJLAQ/kPEA
+	 eQzcGIUVQS9rA==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -34,9 +34,9 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 05/20] Docs/admin-guide/mm/damon/usage: document effective_bytes file
-Date: Mon, 19 Feb 2024 11:44:16 -0800
-Message-Id: <20240219194431.159606-6-sj@kernel.org>
+Subject: [PATCH 15/20] Docs/mm/damon/design: document quota goal self-tuning
+Date: Mon, 19 Feb 2024 11:44:26 -0800
+Message-Id: <20240219194431.159606-16-sj@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240219194431.159606-1-sj@kernel.org>
 References: <20240219194431.159606-1-sj@kernel.org>
@@ -46,68 +46,52 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update DAMON usage document for the effective quota file of the DAMON
-sysfs interface.
+update DAMON design doc to explain the quota goal self-tuning, which can
+be used by setting the goal's metric to metrics that kernel can
+self-retrieve.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ Documentation/mm/damon/design.rst | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index db6620b5bc0a..220ebbde7324 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -83,7 +83,7 @@ comma (",").
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-     │ │ │ │ │ │ │ │ age/min,max
--    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms
-+    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals
-     │ │ │ │ │ │ │ │ │ 0/target_value,current_value
-@@ -153,6 +153,9 @@ Users can write below commands for the kdamond to the ``state`` file.
- - ``clear_schemes_tried_regions``: Clear the DAMON-based operating scheme
-   action tried regions directory for each DAMON-based operation scheme of the
-   kdamond.
-+- ``update_schemes_effective_bytes``: Update the contents of
-+  ``effective_bytes`` files for each DAMON-based operation scheme of the
-+  kdamond.  For more details, refer to :ref:`quotas directory <sysfs_quotas>`.
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 2bd0c203dcfb..8c89d26f0baa 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -398,12 +398,28 @@ Aim-oriented Feedback-driven Auto-tuning
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  
- If the state is ``on``, reading ``pid`` shows the pid of the kdamond thread.
+ Automatic feedback-driven quota tuning.  Instead of setting the absolute quota
+-value, users can repeatedly provide numbers representing how much of their goal
+-for the scheme is achieved as feedback.  DAMOS then automatically tunes the
++value, users can specify the metric of their interest, and what target value
++they want the metric value to be.  DAMOS then automatically tunes the
+ aggressiveness (the quota) of the corresponding scheme.  For example, if DAMOS
+ is under achieving the goal, DAMOS automatically increases the quota.  If DAMOS
+ is over achieving the goal, it decreases the quota.
  
-@@ -320,8 +323,9 @@ schemes/<N>/quotas/
- The directory for the :ref:`quotas <damon_design_damos_quotas>` of the given
- DAMON-based operation scheme.
- 
--Under ``quotas`` directory, three files (``ms``, ``bytes``,
--``reset_interval_ms``) and two directores (``weights`` and ``goals``) exist.
-+Under ``quotas`` directory, four files (``ms``, ``bytes``,
-+``reset_interval_ms``, ``effective_bytes``) and two directores (``weights`` and
-+``goals``) exist.
- 
- You can set the ``time quota`` in milliseconds, ``size quota`` in bytes, and
- ``reset interval`` in milliseconds by writing the values to the three files,
-@@ -332,6 +336,15 @@ apply the action to only up to ``bytes`` bytes of memory regions within the
- quota limits unless at least one :ref:`goal <sysfs_schemes_quota_goals>` is
- set.
- 
-+The time quota is internally transformed to a size quota.  Between the
-+transformed size quota and user-specified size quota, smaller one is applied.
-+Based on the user-specified :ref:`goal <sysfs_schemes_quota_goals>`, the
-+effective size quota is further adjusted.  Reading ``effective_bytes`` returns
-+the current effective size quota.  The file is not updated in real time, so
-+users should ask DAMON sysfs interface to update the content of the file for
-+the stats by writing a special keyword, ``update_schemes_effective_bytes`` to
-+the relevant ``kdamonds/<N>/state`` file.
++The goal can be specified with three parameters, namely ``target_metric``,
++``target_value``, and ``current_value``.  The auto-tuning mechanism tries to
++make ``current_value`` of ``target_metric`` be same to ``target_value``.
++Currently, two ``target_metric`` are provided.
 +
- Under ``weights`` directory, three files (``sz_permil``,
- ``nr_accesses_permil``, and ``age_permil``) exist.
- You can set the :ref:`prioritization weights
++- ``user_input``: User-provided value.  Users could use any metric that they
++  has interest in for the value.  Use space main workload's latency or
++  throughput, system metrics like free memory ratio or memory pressure stall
++  time (PSI) could be examples.  Note that users should explicitly set
++  ``current_value`` on their own in this case.  In other words, users should
++  repeatedly provide the feedback.
++- ``some_mem_psi_us``: System-wide ``some`` memory pressure stall information
++  in microseconds that measured from last quota reset to next quota reset.
++  DAMOS does the measurement on its own, so only ``target_value`` need to be
++  set by users at the initial time.  In other words, DAMOS does self-feedback.
++
+ 
+ .. _damon_design_damos_watermarks:
+ 
 -- 
 2.39.2
 
