@@ -1,111 +1,88 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D8628DD0;
-	Mon, 19 Feb 2024 10:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B7C1C10;
+	Mon, 19 Feb 2024 11:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708340263; cv=none; b=Yu7pkKsJreqQCxamdgrOdWNBNICwgAYNmkUBg564lsOpXzu6BzUETkYwokrp52SbLH9P29LArdfPTjahT6t4O3I4y19Ms9vuwPIN7oVtZMCmnT6b3/whLltIGhNXn0YJz2yUCc9VscUP6d9yDfwFgEzCVCaYQKADEb7qYs8ilHw=
+	t=1708340521; cv=none; b=HGRPBixG31K7+BlnDrVE8Lg3N3wjMQQ7vH+OwNowV3X0+7FAL1zv0ZdUWMPPzdCYZwpQ51ffQSEEtbgn9D++4f6mJ9omrxedSwiM0EM6Yn1gmHzXFXZlSTTepEI2k+EsMiR8agMRIytkpOGZIn++OJ+sQl8X61p2mvV/GRnz6cU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708340263; c=relaxed/simple;
-	bh=FsRYHVbp9tuQHI4J9Xv48IZ5RPikPqpgiZ6BV57fJt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pzF44WFTaOUOQLSiSocguXZa/KjYOicLwyt1J+aaHJjKMs64F/G3dfTIsDQKquRIpk6rWqtRWCoQN9ycyCzagnvfdFFc3yxkaFYjxbufn231b/OdagJWip3ImHPohxO4S6rrlPVIdHYkpNHei692nHaV0ioNr6cCYVPac9EgQqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nI38QFIL; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1708340521; c=relaxed/simple;
+	bh=FYHwUjv0CBOVE/UvV6qkWI5k+uNh+6/RQIoNRoiJaqg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S+cGZ/rTpG2hCZcaYuT0/KpyxyQSCLGNvnhNccGYYxPBPZC/tBgib1Oni+SAYA/2VRpp8yQi89IiDSzpL8DXeAvS6AVTRPx32MDoVb7Zi5ewnjBJ1ZbRF1t/iPece53la1218c6UrgDMn8A87DG+TgxfzP4uIXhVj6aSeHFmqNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iI3AdxuQ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nI38QFIL"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AE1D9FF803;
-	Mon, 19 Feb 2024 10:57:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708340259;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kjw46L82Im/+NbPXXzGcB4oRwbdkB7kHEPgjm1bWJJA=;
-	b=nI38QFIL7mTDl70sEBBsujtotl7H/QkDNtlUXzaiuYxYc8mYwsGMRfKTcXKAPFVmpp70ay
-	ghxreXuYIX1KNsMxnp9TGj4BEV4NEZG8+wmUXP4nsR6LdregpG4Z/Rom5O0GXiNEg84VfX
-	QSgqFLQr5Y69wsQpkkaEFs7M96/aF434Db09qVIyN2k/GQD+tnwxGpCLIssgfyW46F35aR
-	OPaNcsx8/uR/ggHXSCfl1Z1TbfRPP/yCJ9Ls8XGwNuVxykIUtzVj0UJMntv0uzpmxDT53Z
-	bjlDqmTyrfPfsBECzoRD3C+mHRsrNTczljzni65pQnaIjHPlFmuZNCUk4iVHpg==
-Date: Mon, 19 Feb 2024 11:57:36 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
- Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
- <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 06/13] net: Add struct
- kernel_ethtool_ts_info
-Message-ID: <20240219115736.7138a2a0@kmaincent-XPS-13-7390>
-In-Reply-To: <87frxsgt4i.fsf@nvidia.com>
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
-	<20240216-feature_ptp_netnext-v8-6-510f42f444fb@bootlin.com>
-	<87frxsgt4i.fsf@nvidia.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iI3AdxuQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708340519; x=1739876519;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=FYHwUjv0CBOVE/UvV6qkWI5k+uNh+6/RQIoNRoiJaqg=;
+  b=iI3AdxuQLJ85BdNTv3LccBvTl5WpMvi7xNNIB/S4qC0txlEEhksTTF4t
+   PObXqnZpH7B9civwnocqwQqi7C93tDCK7ntMrdlosEgtv4GHRtZmFZkrR
+   hbPSMYpk0z9IrOc7SQR6DN22A6iklWlgKP08i1akbwVjBrxa435dC7s4x
+   /ZOs19P1TCMAx+2atJl7CfGGimudpfoBiW6s89tAoHFzMM5CkQF7HtsN7
+   bJBRifBbJ+X798YVCRjVfVX+CYt5s7HVfH/oRB8cg1l9HYEvMsSKgdEVY
+   zeHxFy6koLkwkj4IChSaQMcnrJ5v0xh7a4bypUyV8zwLUpOJFFSb9fVMK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2276106"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="2276106"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 03:01:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="936276332"
+X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
+   d="scan'208";a="936276332"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2024 03:01:53 -0800
+Message-ID: <d82c8955-6793-7544-0013-1033abd9f1e9@linux.intel.com>
+Date: Mon, 19 Feb 2024 13:03:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+Subject: Re: [PATCH v17 00/51] Introduce QC USB SND audio offloading support
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, Thinh.Nguyen@synopsys.com,
+ broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
+ robh+dt@kernel.org, konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
+ <2024021754-unengaged-saggy-6ab1@gregkh>
+ <96ab6033-2cb9-daa7-ddad-090138896739@linux.intel.com>
+ <2024021922-privatize-runt-495e@gregkh>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <2024021922-privatize-runt-495e@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 16 Feb 2024 10:27:32 -0800
-Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
+>>
+>> Patch 10/10 is based on an old POC patch by me, but it's heavily modified.
+>>
+>> It looks like it does a few minor things that are not optimal, like extra
+>> spinlock/unlock, and wait_for_completion_timeout() with magical timeout value.
+>> I haven't tested this version, but I guess any fixes or cleanups can be done
+>> later on top of it.
+> 
+> I can revert it now if you want, just let me know.
+> 
 
-> > +/**
-> > + * struct kernel_ethtool_ts_info - kernel copy of struct ethtool_ts_in=
-fo
-> > + * @cmd: command number =3D %ETHTOOL_GET_TS_INFO
-> > + * @so_timestamping: bit mask of the sum of the supported SO_TIMESTAMP=
-ING
-> > flags
-> > + * @phc_index: device index of the associated PHC, or -1 if there is n=
-one
-> > + * @tx_types: bit mask of the supported hwtstamp_tx_types enumeration
-> > values
-> > + * @rx_filters: bit mask of the supported hwtstamp_rx_filters enumerat=
-ion
-> > values
-> > + */
-> > +struct kernel_ethtool_ts_info {
-> > +	u32 cmd;
-> > +	u32 so_timestamping;
-> > +	int phc_index;
-> > +	enum hwtstamp_tx_types tx_types; =20
->=20
-> I might just be terrible at reading code, but isn't this what
-> tx_reserved in ethtool_ts_info is for? I feel like using one of the
-> reserved memspaces for this enum removes the need to make
-> kernel_ethtool_ts_info? I might be missing something obvious however.
+Maybe reverting it would be better yes.
 
-I did it to prepare the introduction phc_qualifier in patch 12. I am not su=
-re it
-would be wise to put it under tx/rx_reserved field. IMHO create a new kernel
-structure is cleaner for that than the hack of using one of the tx/rx_reser=
-ved
-field.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks
+Mathias
