@@ -1,227 +1,110 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C432374C;
-	Mon, 19 Feb 2024 09:17:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9737424B2C;
+	Mon, 19 Feb 2024 09:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708334260; cv=none; b=oiq98HdcZHBtOKMNkIeGm6Wc8hbK8OK8YYjgDiPfYuLkQV7L/JYtnnYSZvD+paUDwBB9OcoDQuo5ZVV5PSVddCoQs9YqcJMMXqQVEwj3Fq7USYb2YiwBx8ePij4vxXtaxsSOejVKuK9TmkWnwqu1pG29urajuX20PPodYQ0DZpM=
+	t=1708334557; cv=none; b=kSXXNztDq2mKbjlNnYdDiR1hT1CjApkCtoeF49eE4NeBKqKkggJjkEaUh8k9ERpzJP5ncZlUFqCXe56xyMVLblwVjRK7o/3XsuiNEFVamsVk0gLGxM3xHxbXmS4OrbH9WMzXHb1O2aP0CofKbMAmo3q5/1eDW/z8yazKV2+7CiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708334260; c=relaxed/simple;
-	bh=IJlX/1YNrW4MfN2e7g/IXhlJ0tovkeaoJK+d3hUcH1w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lLonUzOZOWfm87L73QS8uRueM+3U3cPrY1wo8qoH08UGpEGY7KOmOq5fXrcvrhqmzKLE+lNYKGQMA3gSOkwGB6CMN8kIdLcdV93JXP/5DoNLKzcKbaz6ietyrvdbcDD66mrIBRS98YujEMC4xPUAVLXNq2HL7ISjKDuiWLilc6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MWMh6DJ/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GzteuApn; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=nhZfcUQl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8v+r0UKC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1708334557; c=relaxed/simple;
+	bh=O7jFalGLVz0Usog+xV7IsPPtI8rqcp1f1KiCelh/c9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tqEP3qvZANSHyp4IvsznAGTY1sIxJ2069MmR30ARCZrv+Ns4vy2QKceaoubwRV5kTDRYrrTQ0eTns7lk/5f8vgAxae0w3dKQiZ5bMEdu6sOy4KGMW1M5lyMJgo/qCl8fLhCMreXAoDC1Q+GlZnOqUAjBsiMhYomosOvRqp3vz0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K9v2V8BG; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MWMh6DJ/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GzteuApn";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="nhZfcUQl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="8v+r0UKC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AD65221EBE;
-	Mon, 19 Feb 2024 09:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708334256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K9v2V8BG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F2556FF80E;
+	Mon, 19 Feb 2024 09:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708334547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vIC/a+gVDD7XPQtjCAkXOILzScqhk7P47GEkxD0UDQs=;
-	b=MWMh6DJ/ibVstvW8CHhxalEdn+EfDp2Pp6CLtUS7w2G8aKm80u24jjbaqFlFeJq3lsm9Ch
-	zmZU9F9fWuq1aSYZnzyc2Nr6Wh+ESMVZCBy+st8OYiqW4rLl90iwbWjzdnPcA6cBBX1juT
-	wQ7oin3joQHdQCFUzFj+7IJwYO/35a0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708334256;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIC/a+gVDD7XPQtjCAkXOILzScqhk7P47GEkxD0UDQs=;
-	b=GzteuApnghPs8TtGI0ScLwvh9hL/i4LonLgBBl+wck2XX6f4rm3q0fbvXB4+6HxOzNxgPu
-	qyCzH5DeLqoEgEBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1708334254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIC/a+gVDD7XPQtjCAkXOILzScqhk7P47GEkxD0UDQs=;
-	b=nhZfcUQlK7pH0NXDM7sv2fYcGG6ZDiDb66Gs3exRJKPJtn1oKKXZk7O+L9mcFpHEICfrnI
-	AaunILK2z67g4pS3/czle2C8GcshxFhiA/5Fdd7m6L0ODF+AijttNP+JrMY5ZWs86XQc47
-	L4h7iwvt+dm0nWThHKdQsKNIJzn5kPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1708334254;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vIC/a+gVDD7XPQtjCAkXOILzScqhk7P47GEkxD0UDQs=;
-	b=8v+r0UKCTIoGKIjYstbF4ma5EEhXx29Kjd7rwRP4H+96aLGc+a6L9kcHVm8j614GlmUDPP
-	qNjxnGR/35wREXDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18E5713647;
-	Mon, 19 Feb 2024 09:17:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gyquBa4c02VrEgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 19 Feb 2024 09:17:34 +0000
-Message-ID: <5bd3761f-217d-45bb-bcd2-797f82c8a44f@suse.cz>
-Date: Mon, 19 Feb 2024 10:17:33 +0100
+	bh=6JJYLuBCOkfxTLbeT5DlIS6vVhI3AplaZr0S39SVoLc=;
+	b=K9v2V8BG3QduFJ0e3Uw3dCtS9hM2bn/TYvENJcI7ht1ALNz0gLx5AxCXxWAKxhNj7hM5PO
+	oFYsmddOq2qMVvTVgYIvnxHNxsy3I8G8OP+RaE337z4+ZbzrewUncvEBxjWUripbHcQplu
+	Zxo5UAcb2it3IpFrK7mV1iIzT2BrobYtXzO9D51ygVCFDbLOzCAL4Tfx3SrYATP4AV0Cvi
+	gvy4kDc/h6C3WMaasXvUsKtCG2EdgAe67CUs/dHViLh6G7azIWAy+wY9OsPQ8vwRoEPEMg
+	vqbX3QBQLvmttqzE1lAmhOB48zl4Uc37NX6No0Z4ZXx0zTU7Op+IsZDS5TDCZA==
+Date: Mon, 19 Feb 2024 10:22:24 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v4 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <20240219102224.50cf1010@kmaincent-XPS-13-7390>
+In-Reply-To: <0d7b5549-f56b-4693-878f-e513fbf5ca16@linaro.org>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+	<20240215-feature_poe-v4-11-35bb4c23266c@bootlin.com>
+	<0d7b5549-f56b-4693-878f-e513fbf5ca16@linaro.org>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 32/35] codetag: debug: skip objext checking when it's
- for objext itself
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
- dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
- corbet@lwn.net, void@manifault.com, peterz@infradead.org,
- juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
- arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
- rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
- yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
- hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
- ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
- ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20240212213922.783301-1-surenb@google.com>
- <20240212213922.783301-33-surenb@google.com>
- <f0a56027-472d-44a6-aba5-912bd50ee3ae@suse.cz>
- <CAJuCfpGUTu7uhcR-23=0d3Wnn8ZbDtNwTaFnukd9qYYVHS9aSA@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CAJuCfpGUTu7uhcR-23=0d3Wnn8ZbDtNwTaFnukd9qYYVHS9aSA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=nhZfcUQl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=8v+r0UKC
-X-Spamd-Result: default: False [1.20 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_GT_50(0.00)[73];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 1.20
-X-Rspamd-Queue-Id: AD65221EBE
-X-Spam-Level: *
-X-Spam-Flag: NO
-X-Spamd-Bar: +
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 2/19/24 02:04, Suren Baghdasaryan wrote:
-> On Fri, Feb 16, 2024 at 6:39 PM Vlastimil Babka <vbabka@suse.cz> wrote:
->>
->> On 2/12/24 22:39, Suren Baghdasaryan wrote:
->> > objext objects are created with __GFP_NO_OBJ_EXT flag and therefore have
->> > no corresponding objext themselves (otherwise we would get an infinite
->> > recursion). When freeing these objects their codetag will be empty and
->> > when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled this will lead to false
->> > warnings. Introduce CODETAG_EMPTY special codetag value to mark
->> > allocations which intentionally lack codetag to avoid these warnings.
->> > Set objext codetags to CODETAG_EMPTY before freeing to indicate that
->> > the codetag is expected to be empty.
->> >
->> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->> > ---
->> >  include/linux/alloc_tag.h | 26 ++++++++++++++++++++++++++
->> >  mm/slab.h                 | 25 +++++++++++++++++++++++++
->> >  mm/slab_common.c          |  1 +
->> >  mm/slub.c                 |  8 ++++++++
->> >  4 files changed, 60 insertions(+)
->> >
->> > diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
->> > index 0a5973c4ad77..1f3207097b03 100644
->>
->> ...
->>
->> > index c4bd0d5348cb..cf332a839bf4 100644
->> > --- a/mm/slab.h
->> > +++ b/mm/slab.h
->> > @@ -567,6 +567,31 @@ static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
->> >  int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
->> >                       gfp_t gfp, bool new_slab);
->> >
->> > +
->> > +#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
->> > +
->> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
->> > +{
->> > +     struct slabobj_ext *slab_exts;
->> > +     struct slab *obj_exts_slab;
->> > +
->> > +     obj_exts_slab = virt_to_slab(obj_exts);
->> > +     slab_exts = slab_obj_exts(obj_exts_slab);
->> > +     if (slab_exts) {
->> > +             unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
->> > +                                              obj_exts_slab, obj_exts);
->> > +             /* codetag should be NULL */
->> > +             WARN_ON(slab_exts[offs].ref.ct);
->> > +             set_codetag_empty(&slab_exts[offs].ref);
->> > +     }
->> > +}
->> > +
->> > +#else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
->> > +
->> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts) {}
->> > +
->> > +#endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
->> > +
->>
->> I assume with alloc_slab_obj_exts() moved to slub.c, mark_objexts_empty()
->> could move there too.
-> 
-> No, I think mark_objexts_empty() belongs here. This patch introduced
-> the function and uses it. Makes sense to me to keep it all together.
+On Sat, 17 Feb 2024 15:01:55 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Hi,
+> > -required:
+> > -  - "#pse-cells"
+> > +  pse_pis: =20
+>=20
+> How did this appear here? Underscores are no allowed.
 
-here I didn't mean moving between patches, but files. alloc_slab_obj_exts()
-in slub.c means all callers of mark_objexts_empty() are in slub.c so it
-doesn't need to be in slab.h
+Didn't know that, sorry.
+Indeed it is written in the dts-coding-style.rst, sorry for the error.
 
-Also same thing with mark_failed_objexts_alloc() and
-handle_failed_objexts_alloc() in patch 34/35.
+>=20
+> > +    type: object =20
+>=20
+>=20
+> Missing description.
 
+Ah indeed.
+
+> > +            items:
+> > +              enum:
+> > +                - "alternative-a"
+> > +                - "alternative-b" =20
+>=20
+> No need for quotes.
+
+Yes I saw that warning with yamllint up to date and have fixed it with for =
+the
+next version.
+
+> I believe you did not test it, so I will skip reviewing the rest.
+
+I tested it and did not face any error due to the underscore with
+"make DT_CHECKER_FLAGS=3D-m dt_binding_check DT_SCHEMA_FILES=3Dpse-controll=
+er.yaml"
+Did I miss something in the test options?
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
