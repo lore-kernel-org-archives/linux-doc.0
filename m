@@ -1,65 +1,65 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6300754BFA
-	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 22:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3755554BFA
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 22:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708380248; cv=none; b=ICGBQZ/XUl8m0xSDr5s7hbiMt52Be+fQVlRitSAQCM9ut3X2nLKlJoFxhvqNNtfy8kUL6uX8FcMz5aIIgqjUIWBwgJKIl+4Lk6vDiHPpYLoAYcM4TweII/dt2jsasJ0jXjzOK/HM5xaQ2EWu7yKP4XKt4chs3pxVe8HBDako07E=
+	t=1708380416; cv=none; b=t9fwoqf1GrnyJWqXfGJFvQbjG+jV9QrDG0AbNtMYcyr1tRRgneSqM2D8eR1ooFjQqMvd2hdzQNWUaOowZQJ7aRJoBImGgoMoWMAoSmBOMABq3pUCoTo5Axa09P2fmHnHsdrRJsZrkQ4ZZofpkO6N/iOsUvx6aiX7O1MoZOmlXyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708380248; c=relaxed/simple;
-	bh=J03aD5uG4DZQRY96gYjBmSEDE7q4ck4AQZKwQK9AIG0=;
+	s=arc-20240116; t=1708380416; c=relaxed/simple;
+	bh=l0HvovpPqMVUQu9B4ZqhpUtqDN71UcjNp3KMDMRYNP8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=d3dEtg5lXy64PdaGiufUzDPjOuB/5IRTfNSHx1t/WcwJ9E5cTPxL+isGdWrxTilomT8hvARxdrUOBRklQrCe6XYgjHQ0BarIRAL7mBvyAwy5yS6ww8eF4gQx5Uf0QuOag7C8YHa9hUM+6X8NiE5Rhh83i0vf7TWjBmuHJpO2vK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J+EPFUpE; arc=none smtp.client-ip=209.85.210.202
+	 To:Cc:Content-Type; b=A9C/QhBDyTKnoTplk6TxljXBESW7bai5vlYon3LqGdwonevhBN++DlhVqc7suD+YVITjQ/p7YFBoz4bGoY+ougIDRZSQSMIBNBp5Nhq67GElDUI7uB/ddCAunKMV5ypoDjSof3H4NrfNgGEqQVV8h30XBFKwQ/p48DRBUUZksek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oGP+GQB6; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J+EPFUpE"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-6e41d856114so1636013b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 14:04:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oGP+GQB6"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc6ade10cb8so9811505276.0
+        for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 14:06:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708380245; x=1708985045; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1708380414; x=1708985214; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sIoAxWg2Rgxh0wBAnGtn0nTSmvHTWVcMdwCyHzC/E98=;
-        b=J+EPFUpEHQ3akYJ89Gq6TMqfdrq3es23hlmojB0yE5/qQqySfBJdRxU8IV2vi5a9uU
-         +gwqVXf/PIdIu9qg7pVrNV9yDKwK94xd8eh8sz3N+X6AKujtH+2bQoNmBITcrg6mIXgd
-         BjR0JSEQqqsaB9Df2um/O3hY16ZbyfWF8ewFEEYnkvEHo8J9e99mfTez2AGRu+Se2kQ6
-         hkwJF2uS+uxIT39DmALg5Dx277sCVgCBk+O1juyprxJl0kQ3vcRsXqURChQyDfZC7q66
-         oK2wK76sBDUH4rxruhRXZusCJxNd7v/Lh8Yc5yFxY8JPoj1NWv8IIzBJoiMkTEaRhtNt
-         Imcg==
+        bh=mpOEZIVxoohE3GrUqHhwdrDwGh8LEXRlOdsMaQjdYhc=;
+        b=oGP+GQB6s2Je7VhzfpYJba2+bM5S9z+eV4RJaJFUN5dWI8Tivumk/t0sg/aOroXc7r
+         29vAAfGLHIWGzvb1+A/6TUuFoyXKyYmnorE/tru2PjJoTGHHQW+J3+0EENgOM1U0Fk74
+         OzzIPNe4OWGIvlDgGSxJW1dpRYaaqylFAy3Ee5wizVqs/rsoCecfT1JfUy3cz53STMix
+         EfEtLuUpTEFjV60iB8pztpvkhV8TApvaXGeNUFktmzrvu56LMgoCIaC8+fyyDC8oU2Tp
+         7KCrtwNqDVrWj24E6lQ/IQ+wWWA7APUXSPwLNZsba9cAWMgAewtpOLK8jUrINYc7YZu3
+         Krow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708380245; x=1708985045;
+        d=1e100.net; s=20230601; t=1708380414; x=1708985214;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sIoAxWg2Rgxh0wBAnGtn0nTSmvHTWVcMdwCyHzC/E98=;
-        b=UQ3wh4cSCnXOxVvHssxTdv+Wd0H0S53JiYhbGCpZv176D3zXxqoBg+Mf7ywkz7reuQ
-         tNC8y10/Zr8H/1NQo5Am/zAsgrQOz5qbttChvGpAPgov/t/Ex8XUXbICt2ldT/o6WIvV
-         lBjwvjUQRvGTWRW0tZeQ/Jx6+n628NEBhNkwiY3VWZlV8srbmc54Ke49sraR23RhX4Cu
-         4XE1XUmYtoVpe2yiTKzauHS/Ad1GdBLb9FpUTqlIXhcFnCyI8cvrxUOSARvJB53Kx24v
-         5zuhtbYURIaNHdVWXMOfpU3rV8+I1Nk3F/jadvyFxYFAm0xnhRQI55XJbio8qdm/Or79
-         PqeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0zGYqB+o3sXcg/afmG3drucnN33QLcNoTFq8+YRMjV/Hu457ImVTSiyOuOIcVIMoo/DjHYE/w9JL0WqFtFq3zz+2H3nHZrGJz
-X-Gm-Message-State: AOJu0Yxooxv+IWePMHtanL4OJcVq4wCOx0tIUvIzf6QS0nXH1yG/eJ0u
-	kW76suCVQ+lE9U5kaoDNNN6/GwJ+hG38+HhUrwxot5SYWK6YkaF68jU6ghgNsqohePfiH3Dgb7Q
-	eSA==
-X-Google-Smtp-Source: AGHT+IFDY1i11uY+A1y4zwyNJKqKjSoVvn1P9MYoGw0JshSgaam3+Hf2ZL2FiASqjr3f1ToaCJzxJgmnnPU=
+        bh=mpOEZIVxoohE3GrUqHhwdrDwGh8LEXRlOdsMaQjdYhc=;
+        b=cPqHx2pS96tmklM4zeppjv9PAwC+tdBI54XLZp2noBQr6PnRP74FV/XkAkZReQ6b6j
+         Vl2u/tizg7cJiwHNCLKn5IOfYJgnpu6AH/puLnxtZPDGK1hVVBkr5e/JJ6egF7/2vSlC
+         8QNcmrT7aIia3DKozISgoTVsEmBN2UyWz1/8h5jlScnhfe7CKX/mpUd818oOdmIw/4wi
+         E2SbXZFvJ6PF6rp3v0URPZDPPNgO1TMNZyoV8yAF+eOn64XTZq+SXb5Zmirz+76++x9I
+         F0bx3XYh4S+Qf25LJZ+MEFyI/wiOwHejdNXli9AhW1WMpSUS8txFPbkh9zfRU82YLATc
+         DGaw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Vgi2QkYNYazzLLyDsrk+uVDhUF18v/K5rmEHch9D+NRVxSVWDmbDMvr3gLGzIu9f5ntW55yBkn5uWzeYX5EzVANSGBbkwIgo
+X-Gm-Message-State: AOJu0YwCuIeMN84CCDaiMcYFO/tQ3bdiMjAi3s3Lvtuvxr8l2Uq028xw
+	z3pGEORuE9/CA7P5bHoYltNKvAaIKBzSh2LEhlb2wRQbSdldk31+ldBmRVyNx0Ujo0UF2w/1v4O
+	meg==
+X-Google-Smtp-Source: AGHT+IGRqD5MJLHGgiuZ4aiPpWZMq+YddUVmGLFXTlIV3IDh3/IjNrlEjd6bMLCvEt6hO0XIgEvR5LwUl4c=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:aa7:8890:0:b0:6e3:6c21:5fd9 with SMTP id
- z16-20020aa78890000000b006e36c215fd9mr187512pfe.0.1708380245606; Mon, 19 Feb
- 2024 14:04:05 -0800 (PST)
-Date: Mon, 19 Feb 2024 14:04:04 -0800
-In-Reply-To: <20240215152916.1158-19-paul@xen.org>
+ (user=seanjc job=sendgmr) by 2002:a05:6902:120a:b0:dc7:7655:46ce with SMTP id
+ s10-20020a056902120a00b00dc7765546cemr4267897ybu.2.1708380414286; Mon, 19 Feb
+ 2024 14:06:54 -0800 (PST)
+Date: Mon, 19 Feb 2024 14:06:52 -0800
+In-Reply-To: <20240215152916.1158-1-paul@xen.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240215152916.1158-1-paul@xen.org> <20240215152916.1158-19-paul@xen.org>
-Message-ID: <ZdPQVP7eejq3eFjc@google.com>
-Subject: Re: [PATCH v13 18/21] KVM: x86/xen: don't block on pfncache locks in kvm_xen_set_evtchn_fast()
+References: <20240215152916.1158-1-paul@xen.org>
+Message-ID: <ZdPQ_AcbTYMtArFJ@google.com>
+Subject: Re: [PATCH v13 00/21] KVM: xen: update shared_info and vcpu_info handling
 From: Sean Christopherson <seanjc@google.com>
 To: Paul Durrant <paul@xen.org>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -75,62 +75,54 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 Content-Type: text/plain; charset="us-ascii"
 
 On Thu, Feb 15, 2024, Paul Durrant wrote:
-> From: Paul Durrant <pdurrant@amazon.com>
+> David Woodhouse (1):
+>   KVM: pfncache: rework __kvm_gpc_refresh() to fix locking issues
 > 
-> As described in [1] compiling with CONFIG_PROVE_RAW_LOCK_NESTING shows that
-> kvm_xen_set_evtchn_fast() is blocking on pfncache locks in IRQ context.
-> There is only actually blocking with PREEMPT_RT because the locks will
-> turned into mutexes. There is no 'raw' version of rwlock_t that can be used
-> to avoid that, so use read_trylock() and treat failure to lock the same as
-> an invalid cache.
+> Paul Durrant (19):
+>   KVM: pfncache: Add a map helper function
+>   KVM: pfncache: remove unnecessary exports
+>   KVM: x86/xen: mark guest pages dirty with the pfncache lock held
+>   KVM: pfncache: add a mark-dirty helper
+>   KVM: pfncache: remove KVM_GUEST_USES_PFN usage
+>   KVM: pfncache: stop open-coding offset_in_page()
+>   KVM: pfncache: include page offset in uhva and use it consistently
+>   KVM: pfncache: allow a cache to be activated with a fixed (userspace)
+>     HVA
+>   KVM: x86/xen: separate initialization of shared_info cache and content
+>   KVM: x86/xen: re-initialize shared_info if guest (32/64-bit) mode is
+>     set
+>   KVM: x86/xen: allow shared_info to be mapped by fixed HVA
+>   KVM: x86/xen: allow vcpu_info to be mapped by fixed HVA
+>   KVM: selftests: map Xen's shared_info page using HVA rather than GFN
+>   KVM: selftests: re-map Xen's vcpu_info using HVA rather than GPA
+>   KVM: x86/xen: advertize the KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA
+>     capability
+>   KVM: x86/xen: split up kvm_xen_set_evtchn_fast()
+>   KVM: x86/xen: don't block on pfncache locks in
+>     kvm_xen_set_evtchn_fast()
+>   KVM: pfncache: check the need for invalidation under read lock first
+>   KVM: x86/xen: allow vcpu_info content to be 'safely' copied
 > 
-> [1] https://lore.kernel.org/lkml/99771ef3a4966a01fefd3adbb2ba9c3a75f97cf2.camel@infradead.org/T/#mbd06e5a04534ce9c0ee94bd8f1e8d942b2d45bd6
+> Sean Christopherson (1):
+>   KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot()
 > 
-> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: David Woodhouse <dwmw2@infradead.org>
-> Cc: x86@kernel.org
-> 
-> v13:
->  - Patch title change.
-> 
-> v11:
->  - Amended the commit comment.
-> 
-> v10:
->  - New in this version.
-> ---
->  arch/x86/kvm/xen.c | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-> index 59073642c078..8650141b266e 100644
-> --- a/arch/x86/kvm/xen.c
-> +++ b/arch/x86/kvm/xen.c
-> @@ -1678,10 +1678,13 @@ static int set_shinfo_evtchn_pending(struct kvm_vcpu *vcpu, u32 port)
->  	unsigned long flags;
->  	int rc = -EWOULDBLOCK;
->  
-> -	read_lock_irqsave(&gpc->lock, flags);
-> -	if (!kvm_gpc_check(gpc, PAGE_SIZE))
-> +	local_irq_save(flags);
-> +	if (!read_trylock(&gpc->lock))
->  		goto out;
+>  Documentation/virt/kvm/api.rst                |  53 ++-
+>  arch/s390/kvm/diag.c                          |   2 +-
+>  arch/s390/kvm/gaccess.c                       |  14 +-
+>  arch/s390/kvm/kvm-s390.c                      |   4 +-
+>  arch/s390/kvm/priv.c                          |   4 +-
+>  arch/s390/kvm/sigp.c                          |   2 +-
+>  arch/x86/kvm/x86.c                            |   7 +-
+>  arch/x86/kvm/xen.c                            | 361 +++++++++++------
+>  include/linux/kvm_host.h                      |  49 ++-
+>  include/linux/kvm_types.h                     |   8 -
+>  include/uapi/linux/kvm.h                      |   9 +-
+>  .../selftests/kvm/x86_64/xen_shinfo_test.c    |  59 ++-
+>  virt/kvm/pfncache.c                           | 382 ++++++++++--------
+>  13 files changed, 591 insertions(+), 363 deletions(-)
 
-I am not comfortable applying this patch.  As shown by the need for the next patch
-to optimize unrelated invalidations, switching to read_trylock() is more subtle
-than it seems at first glance.  Specifically, there are no fairness guarantees.
+Except for the read_trylock() patch, just a few nits that I can fixup when
+applying, though I'll defeinitely want your eyeballs on the end result as they
+tweaks aren't _that_ trivial.
 
-I am not dead set against this change, but I don't want to put my SoB on what I
-consider to be a hack.
-
-I've zero objections if you can convince Paolo to take this directly, i.e. this
-isn't a NAK.  I just don't want to take it through my tree.
+Running tests now, if all goes well I'll push to kvm-x86 within the hour. 
