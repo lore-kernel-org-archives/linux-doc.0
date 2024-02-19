@@ -1,35 +1,35 @@
 Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21315674D;
-	Mon, 19 Feb 2024 22:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298B556759;
+	Mon, 19 Feb 2024 22:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708382381; cv=none; b=q0qT0INtZ07R8RUyu7Hd7BeU72WQH5388F8mXQypeSdmZAJVAMR6HVXTZrl97Y8Yz3PHTZdmn+dWc3XMw01mLbLyerEaJ6orBVisc708cU/xWO7fWdWjrW4EWTvCZIxdlCgMJkKYO4PwV2l05kBflGe3xRAVvpY/g3TMuhVy6rI=
+	t=1708382381; cv=none; b=lzvrautD9i2flz6FqPxccxFIq7oROZ9OBw/6speXD9hxSTQiTzHiws9EtiOt8ixXJVWUorX8MY7mqA8+6BJnnkk3N4/zdMQLEKXuyKbsF9CNfnV+MzRy5kTvsjlbxP8VGVPcHaekzzNXXTANO+t7ma8HWZLHT4pQc63olNb9hBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708382381; c=relaxed/simple;
-	bh=fdEV6NvWPOr3H9DhWoCHZa8j5eufVwiEJHht5U0PHvE=;
+	bh=5mBQOp6SjQPwQE2r7Sw+cmn32H8r+RTlbfg4A/JMPOQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bhc5v8VtO4KHL6zbj3K80mSKQPFW4lt5ilRCtWebyIywez03YeobF3MosnI+GDIlWRMxh/jz/P7+Ik9S+sIjnO6TNjjNWMhpy5Ka+5AIexCGkZfB0901lLL0d7OER9ZQCBylymdemXatPyHaou5ZYL5YQ/SUrjn9c6ON1y+qM50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=U2GbVPBm; arc=none smtp.client-ip=4.36.192.163
+	 MIME-Version; b=t4ftr3GVUUbrPi6Phj3U4uZBbO2Gk4/7jyz80oD/i1r3BBdyhG7ilHdsAeqU2+fSJjf3+GL/RkdD6p0Fkx053GtyqE7PIQdRKe665PzwTrsKJJNnkbiCfMJl4vVz5QAMpAwXkNRDSWF3hZ6Fmo/qK9YfQ8D0fxam2z2vHZRIrss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=OXJy4aq0; arc=none smtp.client-ip=4.36.192.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="U2GbVPBm"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="OXJy4aq0"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=Nr8IOHHYhllR3HYtyEHbvyYMxtrQLzWrxlWMFjNl1S0=; b=U2GbVPBmcPv0ue+WIVhjwir5Wb
-	zp0OzBobNKawn6rZnuX92KR13VVogrx23btfdDwHYXt5ceF8EXvdmsNZQTy90JzvdMPGcWp7OjFYi
-	CCXNu7N1dKbs8qH0hNOONcwHzjWStVBtYOEVdK0G9FeNR1pqdz220S7smBPW4C+3L8k9n8cb7KMQ7
-	Oh03as2J1iogXCYyI249kNWtAuxkzxxurEEzCfVl97YTb3QQ/GUZ6CA2mIdNMOEIXW7rDk2dpRgob
-	YROzom9ELXZpX7B105sIHyk9bntWG0oRtcb+yJgZXBcSwxFQ8VTMXSLeGf8TafPO77qPBZfUwA+wH
-	BmQHxmTQ==;
+	bh=fI5a+2dMHnk+GhHmYILNu5mjq8uQWm3pTL4zsGR4SNg=; b=OXJy4aq0F1vKaWc2qkEX4mbWU9
+	i7R3RYYPuWzbBKbGV8XoGNK9R4iUIeQ2i5ICzzXw2/zm0WfsrUVq6VSYNB2+o2Lvcj/s32Z0et0hz
+	d4VfZ8kfCPYcfUJFAp51Bc1SP5aoeLs4gJmCi/wnX2pRR6ZKiwIqEsif8Qly0RlGlR1LfPWUFueqs
+	ARAFvjoTEME55ZHfOMpE7D/NCWerv2gmrnXf/WrfwkOQxWCjI+mCEVwHmr62fk8LBKzI1ntvWm5iO
+	efoKWwtUjO/bJ0vgL1AEiEP/R+jDtnEzSrVDKbIeu5qQaYn0WIVjDiv3eOn82EhdKLnHgCBQRgHKN
+	fHyPb4jg==;
 Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
 	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <zfigura@codeweavers.com>)
-	id 1rcCIL-0037Oz-0D;
-	Mon, 19 Feb 2024 16:39:29 -0600
+	id 1rcCIR-0037Oz-0G;
+	Mon, 19 Feb 2024 16:39:35 -0600
 From: Elizabeth Figura <zfigura@codeweavers.com>
 To: Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,9 +47,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Elizabeth Figura <zfigura@codeweavers.com>
-Subject: [PATCH v2 03/31] ntsync: Introduce NTSYNC_IOC_SEM_POST.
-Date: Mon, 19 Feb 2024 16:38:05 -0600
-Message-ID: <20240219223833.95710-4-zfigura@codeweavers.com>
+Subject: [PATCH v2 22/31] selftests: ntsync: Add some tests for wakeup signaling with WINESYNC_IOC_WAIT_ANY.
+Date: Mon, 19 Feb 2024 16:38:24 -0600
+Message-ID: <20240219223833.95710-23-zfigura@codeweavers.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240219223833.95710-1-zfigura@codeweavers.com>
 References: <20240219223833.95710-1-zfigura@codeweavers.com>
@@ -61,151 +61,173 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This corresponds to the NT syscall NtReleaseSemaphore().
-
-This increases the semaphore's internal counter by the given value, and returns
-the previous value. If the counter would overflow the defined maximum, the
-function instead fails and returns -EOVERFLOW.
+Test contended "wait-for-any" waits, to make sure that scheduling and wakeup
+logic works correctly.
 
 Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 ---
- drivers/misc/ntsync.c       | 72 +++++++++++++++++++++++++++++++++++--
- include/uapi/linux/ntsync.h |  2 ++
- 2 files changed, 71 insertions(+), 3 deletions(-)
+ .../testing/selftests/drivers/ntsync/ntsync.c | 150 ++++++++++++++++++
+ 1 file changed, 150 insertions(+)
 
-diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
-index 20158ec148bc..3c2f743c58b0 100644
---- a/drivers/misc/ntsync.c
-+++ b/drivers/misc/ntsync.c
-@@ -10,7 +10,9 @@
- #include <linux/fs.h>
- #include <linux/miscdevice.h>
- #include <linux/module.h>
-+#include <linux/overflow.h>
- #include <linux/slab.h>
-+#include <linux/spinlock.h>
- #include <uapi/linux/ntsync.h>
+diff --git a/tools/testing/selftests/drivers/ntsync/ntsync.c b/tools/testing/selftests/drivers/ntsync/ntsync.c
+index c0f372167557..993f5db23768 100644
+--- a/tools/testing/selftests/drivers/ntsync/ntsync.c
++++ b/tools/testing/selftests/drivers/ntsync/ntsync.c
+@@ -556,4 +556,154 @@ TEST(test_wait_all)
+ 	close(fd);
+ }
  
- #define NTSYNC_NAME	"ntsync"
-@@ -31,23 +33,70 @@ enum ntsync_type {
-  */
- 
- struct ntsync_obj {
-+	spinlock_t lock;
++struct wake_args {
++	int fd;
++	int obj;
++};
 +
- 	enum ntsync_type type;
- 
-+	struct file *file;
-+	struct ntsync_device *dev;
-+
-+	/* The following fields are protected by the object lock. */
- 	union {
- 		struct {
- 			__u32 count;
- 			__u32 max;
- 		} sem;
- 	} u;
--
--	struct file *file;
--	struct ntsync_device *dev;
- };
- 
- struct ntsync_device {
- 	struct file *file;
- };
- 
-+/*
-+ * Actually change the semaphore state, returning -EOVERFLOW if it is made
-+ * invalid.
-+ */
-+static int post_sem_state(struct ntsync_obj *sem, __u32 count)
-+{
-+	__u32 sum;
-+
-+	lockdep_assert_held(&sem->lock);
-+
-+	if (check_add_overflow(sem->u.sem.count, count, &sum) ||
-+	    sum > sem->u.sem.max)
-+		return -EOVERFLOW;
-+
-+	sem->u.sem.count = sum;
-+	return 0;
-+}
-+
-+static int ntsync_sem_post(struct ntsync_obj *sem, void __user *argp)
-+{
-+	__u32 __user *user_args = argp;
-+	__u32 prev_count;
-+	__u32 args;
++struct wait_args {
++	int fd;
++	unsigned long request;
++	struct ntsync_wait_args *args;
 +	int ret;
++	int err;
++};
 +
-+	if (copy_from_user(&args, argp, sizeof(args)))
-+		return -EFAULT;
-+
-+	if (sem->type != NTSYNC_TYPE_SEM)
-+		return -EINVAL;
-+
-+	spin_lock(&sem->lock);
-+
-+	prev_count = sem->u.sem.count;
-+	ret = post_sem_state(sem, args);
-+
-+	spin_unlock(&sem->lock);
-+
-+	if (!ret && put_user(prev_count, user_args))
-+		ret = -EFAULT;
-+
-+	return ret;
-+}
-+
- static int ntsync_obj_release(struct inode *inode, struct file *file)
- {
- 	struct ntsync_obj *obj = file->private_data;
-@@ -58,9 +107,25 @@ static int ntsync_obj_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static long ntsync_obj_ioctl(struct file *file, unsigned int cmd,
-+			     unsigned long parm)
++static void *wait_thread(void *arg)
 +{
-+	struct ntsync_obj *obj = file->private_data;
-+	void __user *argp = (void __user *)parm;
++	struct wait_args *args = arg;
 +
-+	switch (cmd) {
-+	case NTSYNC_IOC_SEM_POST:
-+		return ntsync_sem_post(obj, argp);
-+	default:
-+		return -ENOIOCTLCMD;
-+	}
++	args->ret = ioctl(args->fd, args->request, args->args);
++	args->err = errno;
++	return NULL;
 +}
 +
- static const struct file_operations ntsync_obj_fops = {
- 	.owner		= THIS_MODULE,
- 	.release	= ntsync_obj_release,
-+	.unlocked_ioctl	= ntsync_obj_ioctl,
-+	.compat_ioctl	= compat_ptr_ioctl,
- 	.llseek		= no_llseek,
- };
- 
-@@ -75,6 +140,7 @@ static struct ntsync_obj *ntsync_alloc_obj(struct ntsync_device *dev,
- 	obj->type = type;
- 	obj->dev = dev;
- 	get_file(dev->file);
-+	spin_lock_init(&obj->lock);
- 
- 	return obj;
- }
-diff --git a/include/uapi/linux/ntsync.h b/include/uapi/linux/ntsync.h
-index 6a4867a6c97b..dcfa38fdc93c 100644
---- a/include/uapi/linux/ntsync.h
-+++ b/include/uapi/linux/ntsync.h
-@@ -18,4 +18,6 @@ struct ntsync_sem_args {
- 
- #define NTSYNC_IOC_CREATE_SEM		_IOWR('N', 0x80, struct ntsync_sem_args)
- 
-+#define NTSYNC_IOC_SEM_POST		_IOWR('N', 0x81, __u32)
++static __u64 get_abs_timeout(unsigned int ms)
++{
++	struct timespec timeout;
++	clock_gettime(CLOCK_MONOTONIC, &timeout);
++	return (timeout.tv_sec * 1000000000) + timeout.tv_nsec + (ms * 1000000);
++}
 +
- #endif
++static int wait_for_thread(pthread_t thread, unsigned int ms)
++{
++	struct timespec timeout;
++
++	clock_gettime(CLOCK_REALTIME, &timeout);
++	timeout.tv_nsec += ms * 1000000;
++	timeout.tv_sec += (timeout.tv_nsec / 1000000000);
++	timeout.tv_nsec %= 1000000000;
++	return pthread_timedjoin_np(thread, NULL, &timeout);
++}
++
++TEST(wake_any)
++{
++	struct ntsync_mutex_args mutex_args = {0};
++	struct ntsync_wait_args wait_args = {0};
++	struct ntsync_sem_args sem_args = {0};
++	struct wait_args thread_args;
++	int objs[2], fd, ret;
++	__u32 count, index;
++	pthread_t thread;
++
++	fd = open("/dev/ntsync", O_CLOEXEC | O_RDONLY);
++	ASSERT_LE(0, fd);
++
++	sem_args.count = 0;
++	sem_args.max = 3;
++	sem_args.sem = 0xdeadbeef;
++	ret = ioctl(fd, NTSYNC_IOC_CREATE_SEM, &sem_args);
++	EXPECT_EQ(0, ret);
++	EXPECT_NE(0xdeadbeef, sem_args.sem);
++
++	mutex_args.owner = 123;
++	mutex_args.count = 1;
++	mutex_args.mutex = 0xdeadbeef;
++	ret = ioctl(fd, NTSYNC_IOC_CREATE_MUTEX, &mutex_args);
++	EXPECT_EQ(0, ret);
++	EXPECT_NE(0xdeadbeef, mutex_args.mutex);
++
++	objs[0] = sem_args.sem;
++	objs[1] = mutex_args.mutex;
++
++	/* test waking the semaphore */
++
++	wait_args.timeout = get_abs_timeout(1000);
++	wait_args.objs = (uintptr_t)objs;
++	wait_args.count = 2;
++	wait_args.owner = 456;
++	wait_args.index = 0xdeadbeef;
++	thread_args.fd = fd;
++	thread_args.args = &wait_args;
++	thread_args.request = NTSYNC_IOC_WAIT_ANY;
++	ret = pthread_create(&thread, NULL, wait_thread, &thread_args);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(ETIMEDOUT, ret);
++
++	count = 1;
++	ret = post_sem(sem_args.sem, &count);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, count);
++	check_sem_state(sem_args.sem, 0, 3);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, thread_args.ret);
++	EXPECT_EQ(0, wait_args.index);
++
++	/* test waking the mutex */
++
++	/* first grab it again for owner 123 */
++	ret = wait_any(fd, 1, &mutex_args.mutex, 123, &index);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, index);
++
++	wait_args.timeout = get_abs_timeout(1000);
++	wait_args.owner = 456;
++	ret = pthread_create(&thread, NULL, wait_thread, &thread_args);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(ETIMEDOUT, ret);
++
++	ret = unlock_mutex(mutex_args.mutex, 123, &count);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(2, count);
++
++	ret = pthread_tryjoin_np(thread, NULL);
++	EXPECT_EQ(EBUSY, ret);
++
++	ret = unlock_mutex(mutex_args.mutex, 123, &count);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(1, mutex_args.count);
++	check_mutex_state(mutex_args.mutex, 1, 456);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, thread_args.ret);
++	EXPECT_EQ(1, wait_args.index);
++
++	/* delete an object while it's being waited on */
++
++	wait_args.timeout = get_abs_timeout(200);
++	wait_args.owner = 123;
++	ret = pthread_create(&thread, NULL, wait_thread, &thread_args);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(ETIMEDOUT, ret);
++
++	close(sem_args.sem);
++	close(mutex_args.mutex);
++
++	ret = wait_for_thread(thread, 200);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(-1, thread_args.ret);
++	EXPECT_EQ(ETIMEDOUT, thread_args.err);
++
++	close(fd);
++}
++
+ TEST_HARNESS_MAIN
 -- 
 2.43.0
 
