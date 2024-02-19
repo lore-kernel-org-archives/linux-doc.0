@@ -1,84 +1,146 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015163A267
-	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 16:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053BB3CF5E
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 16:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708358747; cv=none; b=WVqBVJpdViEnDdEYULmK/DZIS3V2dbaO7TvLd5wGK5kP+9LfyOOTdozbqunB2TouVvc7VUDgbA4Syeitl15Z3Bvj8xNk0laqre9Y6C7oyLSv7wBfZAYpORTQG/b1QEcXfg+4vDp/hBt5POq4ZjR6DmC+BMzkrTacEFRiNZI5gpA=
+	t=1708358905; cv=none; b=q8rk8uoE7C7Zpxnq3iItCCpaIo2N1zjp4IUDxy99aAxvX4IBdxCCC6xgTxCEPBC38U5c9LAPCMaDKbmoAZhuGY8hsA7mEW//Ya127kCece261fFNE+Vl+YJoTu9TYBlyAOlvubVM4SnSQ8KlZ4EHWisGWVKwi+wnxsG+43eqNZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708358747; c=relaxed/simple;
-	bh=oiub+Frwe2xQQQjteSUs6NCVlmCri7tHEHSSf/abTLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GylbmHp40tuzlkMcXCoTTDclldFneP0GvmQbsyKqjke2n6XCA7OMK2WvQcKUESPCA9ZZnfGJZDio8sFzEe2mas76EqauI/1M0O2HMB+zVzmfuTar+hWU8Y9AdqQHvlIlWebm7dAbolzxEqJOL9EKcaEpe2/1zH3CIBA1yH+iAYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bRB72+ha; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bRB72+ha"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E800A47A99
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708358740; bh=5CtOWSNnQycldQx8oeTZ2HZoC7UmP4ljPNKekcr8eiM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bRB72+haMH605ZXBsZQZhwtx8hgmm+tTne0bLrqcC8UsqMqZv86I8n/1LcvvtRPWp
-	 p4TuZFwVAR5ZfgvdlhkjzkEMjuYs8e9/z0yr9DvY2vihaDYR145DNuqRYb3fXRp7C4
-	 8EYPqW8+ktwmfQ2KS8D7SqXqWrkeXO3kazAXm+j3uxarcJGkmiyjz3ZDTbO+HiSMd9
-	 YnNNmIkLqj5dk8UoRWmfrqZ6t/ZudfyzHWmXFQJO/NrTqn1mFFr5ieew1zn6fuZP3a
-	 gSTt++7mapmOXZdeb/RRcZfbeZwUkFD8egKJcrTQFRBCwkMLjDQ12tawHdo7NRLlAE
-	 M5etJtHN1+kRg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E800A47A99;
-	Mon, 19 Feb 2024 16:05:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: Akira Yokosawa <akiyks@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [PATCH] docs: Instruct LaTeX to cope with deeper nesting
-Date: Mon, 19 Feb 2024 09:05:38 -0700
-Message-ID: <87jzn0qw19.fsf@meer.lwn.net>
+	s=arc-20240116; t=1708358905; c=relaxed/simple;
+	bh=5t4JB3wAVHCHNA7BJWB1aH8LGEeC36ChXJ5ADZLD5QE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iraYnap1OgU3mpukk4SwvjU1d+adrRBBp08ad5E/yuotunaOHbbMOto8AEg+l1OSvTdzVcSRo2vCJsmAgr/vYG1Z7AcTObmpwwY4kJHCn/+e6qvdPtCToQyVMiEEHJR/+0UgKfv1Gc/6rcxdnjiKVfv/bILkhhSVl/QFcj9Uz00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rc6BH-0001n7-M6; Mon, 19 Feb 2024 17:07:47 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rc6BD-001gUj-U5; Mon, 19 Feb 2024 17:07:43 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rc6BD-00FvZo-2d;
+	Mon, 19 Feb 2024 17:07:43 +0100
+Date: Mon, 19 Feb 2024 17:07:43 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v3 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <ZdN8zypeUp0MmzcP@pengutronix.de>
+References: <20240208-feature_poe-v3-0-531d2674469e@bootlin.com>
+ <20240208-feature_poe-v3-14-531d2674469e@bootlin.com>
+ <20240209145727.GA3702230-robh@kernel.org>
+ <ZciUQqjM4Z8Tc6Db@pengutronix.de>
+ <618be4b1-c52c-4b8f-8818-1e4150867cad@lunn.ch>
+ <Zc3IrO_MXIdLXnEL@pengutronix.de>
+ <65099b67-b7dc-4d78-ba42-d550aae2c31e@lunn.ch>
+ <Zc8TAojumif1irE-@pengutronix.de>
+ <20240219153106.19e83213@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240219153106.19e83213@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-The addition of the XFS online fsck documentation starting with
-commit a8f6c2e54ddc ("xfs: document the motivation for online fsck design")
-added a deeper level of nesting than LaTeX is prepared to deal with.  That
-caused a pdfdocs build failure with the helpful "Too deeply nested" error
-message buried deeply in Documentation/output/filesystems.log.
+On Mon, Feb 19, 2024 at 03:31:06PM +0100, Köry Maincent wrote:
+> On Fri, 16 Feb 2024 08:47:14 +0100
+> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> > >
+> > > So, either somebody needs to understand 1000BaseT and can say the
+> > > proposed binding works, or we explicitly document the binding is
+> > > limited to 10BaseT and 100BaseT.  
+> > 
+> > I asked the internet and found the answer: Some PSE/PD implementations
+> > are not compatible with 1000BaseT.
+> > 
+> > See Figure 33–4—10BASE-T/100BASE-TX Endpoint PSE location overview.
+> > Alternative B show a variant where power is injected directly to pairs
+> > without using magnetics as it is done for Alternative A (phantom
+> > delivery - over magnetics).
+> > 
+> > So, we have following variants of 2 pairs PoE:
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | Variant | Alternative   | Polarity          | Power Feeding Type  |
+> > Compatibility with | |         | (a/b)         | (Direct/Reverse)  |
+> > (Direct/Phantom)    | 1000BaseT          |
+> > +=========+===============+===================+=====================+====================+
+> > | 1       | a             | Direct            | Phantom             | Yes
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | 2       | a             | Reverse           | Phantom             | Yes
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | 3       | b             | Direct            | Phantom             | Yes
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | 4       | b             | Reverse           | Phantom             | Yes
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | 5       | b             | Direct            | Direct              | No
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> > | 6       | b             | Reverse           | Direct              | No
+> >            |
+> > +---------+---------------+-------------------+---------------------+--------------------+
+> 
+> Maybe we could remove the polarity column on this table as it does not bring
+> more information. It is also already explained on the PI pinout alternatives
+> table.
 
-Increase the "maxlistdepth" parameter to instruct LaTeX that it needs to
-deal with the deeper nesting whether it wants to or not.
+Ack. I'm still not sure if "Phantom" is correct description.
 
-Suggested-by: Akira Yokosawa <akiyks@gmail.com>
-Link: https://lore.kernel.org/linux-doc/67f6ac60-7957-4b92-9d72-a08fbad0e028@gmail.com/
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/conf.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+> 
+> Also we should document that a 4pairs PSE supporting only 10/100BaseT (which
+> mean no magnetics on pinout AlternativeB) may not be compatible with a 4pairs
+> 1GBaseT PD.
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 5830b01c5642..da64c9fb7e07 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -388,6 +388,12 @@ latex_elements = {
-         verbatimhintsturnover=false,
-     ''',
- 
-+    #
-+    # Some of our authors are fond of deep nesting; tell latex to
-+    # cope.
-+    #
-+    'maxlistdepth': '10',
-+
-     # For CJK One-half spacing, need to be in front of hyperref
-     'extrapackages': r'\usepackage{setspace}',
- 
+Ack. s/may not/is not/ :) and 4pairs PSE is not always compatible with
+PoE4 as well. I assume this  kind of knowledge we will get from PSE
+driver.
+
+Regards,
+Oleksij
+
 -- 
-2.43.0
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
