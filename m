@@ -1,66 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8E0374DD;
-	Mon, 19 Feb 2024 20:07:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2178F1F18D
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 21:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708373240; cv=none; b=YGNrDO7ieq3n2zJDIKa3oPEoVqFRs71UuS+xiYLFYNv7RKMpoXcMeiv/uph1eBU5YcZJdrT5gCSnVyVIg1NHL2l5OaI4yh8ZeDvK2e0bwibRgU6kLjPtoZW9GSizaDjRPaGyS6pJdkv+/mkr0kroopYnRm00mJkuea2YlEOliL8=
+	t=1708376744; cv=none; b=h8PpKo16m5oamfq8pGl7HgRlRpAI9pdOBU2Rl9kKg/Ki3szjPDcm6Fdr5Bm4jtcp8C741EAlzTPxtRYI/PKlk99pjgBAfmK8N5gXLCT75h0wpoYy0VCHpHT3sjqOPaD0JoD3lfXev+Y/CPJbPJatA9C642zux9EuHMDmC+ArbaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708373240; c=relaxed/simple;
-	bh=aNEcQiXoV4afv/M+136E7/8ESPor1nnFBNzWVogGSEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jzpkQwqIsUf9nbpXjvvTuhNd/Q+zedWtZyC0QiYnPy7qr6nAUCyCShzwXhgkkPmCv/9HwiMG2gbZEvwlj1W3esRLicFi+/kXXQWHz7sw4TSMOrRgxZxM4R/Inr0SB0Am7vXimm8O2Za/xcKSVtTFxiqGqg38rkf1EXUb0JH2/XQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cAWui9vB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708376744; c=relaxed/simple;
+	bh=juTCiAWZz0rBmU6VhjN2IBkewdPUNHT/c3bpr/goaFQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HjN9S+paEP34Q2ltg8J/7V662MjWS25Pm6e0JsbD82+Kn1EbA3jFhhTJY1SHROTmfhSZvgzdEgUNzc94hDzeC5O1yBUO48Psa4+NtmBxDZf5C+R+YM219CdjhO2F+HTihFJGfmpMqW5VFuJkpS6lsk88IRcX7EZg2RzOpqqYrJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J6IKKALy; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cAWui9vB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB520C433C7;
-	Mon, 19 Feb 2024 20:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708373240;
-	bh=aNEcQiXoV4afv/M+136E7/8ESPor1nnFBNzWVogGSEE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cAWui9vBghjT4PJXtaXla7JmOHz+cZ4byaP61zxzYbzrycn7+e1jGzuzrokiFHU7z
-	 +zXQfUiH9DJ07uOfgmc9iDaggKTeUPpbYwIw7Bgct/2yL0wM8OuiK18aMFfplN4cjt
-	 /PNpGqjrBx/t6ccfb2QIDujVLQr37Tf/vURKs2FM=
-Date: Mon, 19 Feb 2024 21:07:17 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v2 3/4] usb: gadget: legacy: add 9pfs multi gadget
-Message-ID: <2024021948-reformer-silly-fe48@gregkh>
-References: <20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de>
- <20240116-ml-topic-u9p-v2-3-b46cbf592962@pengutronix.de>
- <2024021757-geography-hacksaw-3022@gregkh>
- <ZdKze80oFj0PRkkZ@pengutronix.de>
- <2024021911-facelift-graveyard-0760@gregkh>
- <ZdOz7mc-NbiEe2Ei@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J6IKKALy"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EC3BE47A99
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1708376742; bh=zondc8MNbUYMxqXL9FqRMlbBxcYIX++sAcPPdndXOBw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=J6IKKALynlo5CtkPSlI/3AXe+VgdljOS2tUH8S2lIALiASeWXV0QOYjz+x8a1D/Cb
+	 xKzmxipu/v+1MAB0MgmTzFvt7+UsR1X21OD2qM3Qv57NaVdpp0IauX18yp+NcZ1+sO
+	 qLG66iGEuzlj7xD5YdP9ZJtuSnlIsx6waqEe/y+BUbMRN+vK7y6yFR317s4Wb2PMdF
+	 lV0fKk0v2CtooKCgNnavmPvPJG+DZFPWKwcFrBKLtVoO+oKwwWLgni0bNWayLL+aZg
+	 cQJm6hK0vPH9iMqylwMK6tiW8+xObx8WWhzJ9zHof9DYqWNd+rmj9OWzt36z1kkCTu
+	 bz/WRsPFQebLw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EC3BE47A99;
+	Mon, 19 Feb 2024 21:05:41 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Vegard Nossum <vegard.nossum@oracle.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jani Nikula <jani.nikula@intel.com>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [RFC] doc headings sweep
+In-Reply-To: <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
+References: <2024021430-blanching-spotter-c7c8@gregkh>
+ <00057b93-b5fc-4536-b13d-cd3b6cead5b1@oracle.com>
+ <2024021530-plank-cornmeal-90eb@gregkh>
+ <26b25204-9829-44a8-9836-1ce1c8725586@oracle.com>
+ <87v86o4xu0.fsf@intel.com> <2024021619-barrack-shack-206c@gregkh>
+ <87r0hcv4lj.fsf@meer.lwn.net>
+ <e398ebb1-1d42-49ff-b355-b4bc3258fc10@oracle.com>
+Date: Mon, 19 Feb 2024 14:05:41 -0700
+Message-ID: <87le7gnp0a.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdOz7mc-NbiEe2Ei@pengutronix.de>
+Content-Type: text/plain
 
-On Mon, Feb 19, 2024 at 09:02:54PM +0100, Michael Grzeschik wrote:
-> Okay, What about the rest of the series? Can you just skip this patch
-> then for? Or do you want me to send the series again without this
-> legacy driver. There are no dependencies to this in that series.
+Vegard Nossum <vegard.nossum@oracle.com> writes:
 
-I don't remember what the rest of this series was, it is long gone from
-my review queue :(
+> I have a (very long and ugly) script that can fix these up to a
+> consistent style, the attached patch is the result of running it on
+> Documentation/process/ only.
+>
+> I've done builds before and after the patch and diffed the resulting
+> HTML files, they show no difference. (HOWEVER, you do need a 'make
+> cleandocs' in between, as it seems doing 'make htmldocs; find
+> Documentation | xargs touch; make htmldocs' is going to change the
+> generated HTML for the sidebar -- another issue to look into at some
+> point, I guess; maybe it's specific to the Sphinx version I used here,
+> 4.3.2.)
+>
+> The script will leave alone any file that it doesn't quite understand
+> (e.g. for a lot of the translations there are way more underlines than
+> characters in the heading and it doesn't match up with the byte count
+> either).
+>
+> Anyway, the question is: Is this worth doing in the first place, or is
+> it just churn? I assume just after -rc1 would be the ideal time to
+> submit these to avoid conflicts.
 
-So yes, please resend.
+So I must confess that I'm not convinced; it seems not that far removed
+from the sorts of white-space fixes that drive developers nuts
+elsewhere.
 
-thanks,
+"Avoid conflicts" isn't going to happen.  By its nature, docs-next tends
+to generate a lot of conflicts against other trees as it is -
+*everybody* puts their fingers into Documentation/.  This would surely
+create more of them, all of which I'd then get to explain to Linus.  I
+think it might be better to encourage people to fix things up gradually
+when they're in the files anyway.
 
-greg k-h
+But maybe others disagree?
+
+Thanks,
+
+jon
