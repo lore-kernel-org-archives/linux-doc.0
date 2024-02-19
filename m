@@ -1,207 +1,397 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B647EB
-	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 01:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E5CEBF
+	for <linux-doc@vger.kernel.org>; Mon, 19 Feb 2024 01:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708304710; cv=none; b=bCcjkT4ovKRG6cs6B6U1WXiCPqd7tpLOoP3asFA5HMSJhZ6brGtqcwlknpsOCEZJ0UTLPGn+AJbVonWY7IV9pk1Uzqm+tq6dPqGSY0LfoQiC/5wVNhvOdwwGMEo004lCNeyxOEe6udouEIKRsefSxuEXuVVfxVO3WyJ/x6i/jgg=
+	t=1708307346; cv=none; b=avridhdLjWIEmN43KrzT7rsIsBtUl6gxD8is+l0ABAk1TUnTcBhJpscnt5PMLByQ/+2m1vUeafj9QPQe0TIZdxDz6MCkrGch5A0wvZntn1Jq4Kkuc7Uvp/NG2Whk83GOgPP8z59vSvh0HXKC2UbKUJWgoNecfohsFajBI+WzVQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708304710; c=relaxed/simple;
-	bh=RN/oOnbxOXJRjgABecn+1xhjdfXant7wAu1DO9OYV0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pTUf/VahciLmYLpzCGd1j0TJeR2t8SaYFtP/eH0NkYlR50G4Y1F5pd3Axyu4b+eIHvk+ibnmMecnf3OAZa2u6X3CwAIKZv0uugXXF3sD0/3FapPGRUurVm3Laij8qUyrTVgsWLSqFvz5YnWvb8NarMdDTo8rRj9oDsoR7ohBsBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fz+QvxkG; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fz+QvxkG"
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so3543796276.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Feb 2024 17:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708304708; x=1708909508; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mIDaOHUmOnFQVc3Wwg+6+LPaeJ2ta81+Eqz5TMzPBys=;
-        b=fz+QvxkGr229b6bOrKWi9XavB8I5cjL/HDA9sjZn+pP0oqOmBxKuzRnbZm2bmE6Nue
-         0X98b9HQ0mJuVpQCJ8NsQDg7bMdv4O6KJJIzE6uqTskf5hlTpRx6+OMe0ARgOY0bFZZP
-         2QfpxR5ErVjv499/jVaEHj6IeV8mVNVWmXWCC4NkPE8oA+lEidFad5YsZfvgtKh3Orr/
-         hP0JbfDr5YYpgdcjnvL68K/qXF24lAuS2EDLWGYZeMwuDeXvtJBb4N5JExgrI8l5DAHr
-         B6lYOoDQJXe0Lhw9wpOcJKkd84rfPiGTDy54w80WJjCEq8y9G66FW8jcJBmU1Nibcmw/
-         qh9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708304708; x=1708909508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mIDaOHUmOnFQVc3Wwg+6+LPaeJ2ta81+Eqz5TMzPBys=;
-        b=i6dn8zuZk0xJs12CC1+ve9Uss9MJWboE+qVJdOmB/LtBsysJzkuJj5aCtqMpb4bZD0
-         b2KtEOXKbIza22LfCeU/xH536VJdFBeF7V96GfHTT/b4VF1pk3Zc40L8mFc6dqK4+41x
-         Wls2CTvraoj+jtowGD+Q7RS7FB3bq8qvDiVJtoPCNgRZUwgmpDmdF7HKcWBU+fxk/6/F
-         NTNK18VdknYNiZJw4CXmFAS+TXWMK0b6XTaEIA1y5Qm+s01lEw+wieTQF47u6bGtJ8ln
-         7FIRnxx2vHWKuBYgKRbFIRARxrsoOErg53OabHn8nxSu7jozf7VuIzKQwa04sXtqr9pW
-         XWew==
-X-Forwarded-Encrypted: i=1; AJvYcCWxVMuCw33CSGAPNjA/GWnLiZiNUlGD544SCKQsCtP578CPjFWCGcdk8RQrSWIWCNhfaMvfhrXg+ztrBjUbi3aIrJtO+PS7zcz4
-X-Gm-Message-State: AOJu0YxvK43ytSrtx5d9z06ISRDsxZpLNBZ/OM+Yipaq5dzP02SqSbuV
-	w5WZCXMXBK7iAfCmO3DZa+EaI7wEYk/8b8I4Vwuml0CXYY/4RV+G49H6KnrmEze6n+kkmx4FaYK
-	36pXo2ffLC6ldnq746gU0ToPcKVF4oe2i/HgY
-X-Google-Smtp-Source: AGHT+IFAFF6IWWYhF0S9T//EmmWIuYGcDfDoGsA7me1Exr/qYPq0aAoDdEWC37Tru9GNL3XObftohrbEHommrFTiK+w=
-X-Received: by 2002:a5b:b43:0:b0:dcc:eb38:199c with SMTP id
- b3-20020a5b0b43000000b00dcceb38199cmr10258615ybr.56.1708304707680; Sun, 18
- Feb 2024 17:05:07 -0800 (PST)
+	s=arc-20240116; t=1708307346; c=relaxed/simple;
+	bh=/+A2x1jMwrF0kaNIZ7nVmUvk0x4kJI9kCjxVuYXxOFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sKegQnXufxx7sY0L3QVLRkcjHsPHv6QDqgIvdlhiRqIKqRcrh+onUNSCLnA62L1QsaOsR798sPyu2Jg7h0vz/U9svm/CrOG1pA7KVhtnqzp77b9jCJNITZdPfvOhu5jF6WnRvq5Ds4wlunxjpHCFTbghYVnGugEBaG48xMcEwOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rbslz-0004De-Vq; Mon, 19 Feb 2024 02:48:47 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rbslv-001YPK-QO; Mon, 19 Feb 2024 02:48:43 +0100
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rbslv-00FiMX-2I;
+	Mon, 19 Feb 2024 02:48:43 +0100
+Date: Mon, 19 Feb 2024 02:48:43 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>, v9fs@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v2 3/4] usb: gadget: legacy: add 9pfs multi gadget
+Message-ID: <ZdKze80oFj0PRkkZ@pengutronix.de>
+References: <20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de>
+ <20240116-ml-topic-u9p-v2-3-b46cbf592962@pengutronix.de>
+ <2024021757-geography-hacksaw-3022@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-33-surenb@google.com>
- <f0a56027-472d-44a6-aba5-912bd50ee3ae@suse.cz>
-In-Reply-To: <f0a56027-472d-44a6-aba5-912bd50ee3ae@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 19 Feb 2024 01:04:54 +0000
-Message-ID: <CAJuCfpGUTu7uhcR-23=0d3Wnn8ZbDtNwTaFnukd9qYYVHS9aSA@mail.gmail.com>
-Subject: Re: [PATCH v3 32/35] codetag: debug: skip objext checking when it's
- for objext itself
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hmLwYFImqzne253t"
+Content-Disposition: inline
+In-Reply-To: <2024021757-geography-hacksaw-3022@gregkh>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+
+
+--hmLwYFImqzne253t
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 16, 2024 at 6:39=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+On Sat, Feb 17, 2024 at 04:59:28PM +0100, Greg Kroah-Hartman wrote:
+>On Fri, Feb 02, 2024 at 01:05:12AM +0100, Michael Grzeschik wrote:
+>> Add the newly introduced 9pfs transport gadget interface with an new
+>> multi composed gadget together with acm and eem.
+>>
+>> When using this legacy module, it is also possible to
+>> mount the 9PFS usb dir as root filesystem. Just follow the
+>> instrucitons from Documentation/filesystems/9p.rst
 >
-> On 2/12/24 22:39, Suren Baghdasaryan wrote:
-> > objext objects are created with __GFP_NO_OBJ_EXT flag and therefore hav=
-e
-> > no corresponding objext themselves (otherwise we would get an infinite
-> > recursion). When freeing these objects their codetag will be empty and
-> > when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled this will lead to fals=
-e
-> > warnings. Introduce CODETAG_EMPTY special codetag value to mark
-> > allocations which intentionally lack codetag to avoid these warnings.
-> > Set objext codetags to CODETAG_EMPTY before freeing to indicate that
-> > the codetag is expected to be empty.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  include/linux/alloc_tag.h | 26 ++++++++++++++++++++++++++
-> >  mm/slab.h                 | 25 +++++++++++++++++++++++++
-> >  mm/slab_common.c          |  1 +
-> >  mm/slub.c                 |  8 ++++++++
-> >  4 files changed, 60 insertions(+)
-> >
-> > diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> > index 0a5973c4ad77..1f3207097b03 100644
->
-> ...
->
-> > index c4bd0d5348cb..cf332a839bf4 100644
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > @@ -567,6 +567,31 @@ static inline struct slabobj_ext *slab_obj_exts(st=
-ruct slab *slab)
-> >  int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
-> >                       gfp_t gfp, bool new_slab);
-> >
-> > +
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> > +
-> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
-> > +{
-> > +     struct slabobj_ext *slab_exts;
-> > +     struct slab *obj_exts_slab;
-> > +
-> > +     obj_exts_slab =3D virt_to_slab(obj_exts);
-> > +     slab_exts =3D slab_obj_exts(obj_exts_slab);
-> > +     if (slab_exts) {
-> > +             unsigned int offs =3D obj_to_index(obj_exts_slab->slab_ca=
-che,
-> > +                                              obj_exts_slab, obj_exts)=
-;
-> > +             /* codetag should be NULL */
-> > +             WARN_ON(slab_exts[offs].ref.ct);
-> > +             set_codetag_empty(&slab_exts[offs].ref);
-> > +     }
-> > +}
-> > +
-> > +#else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
-> > +
-> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts) {}
-> > +
-> > +#endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
-> > +
->
-> I assume with alloc_slab_obj_exts() moved to slub.c, mark_objexts_empty()
-> could move there too.
+>Why are we adding new "legacy" gadgets?  What's wrong with the "correct"
+>api instead?  You need a lot of justification here to add something to
+>an api we want to one day just delete.
 
-No, I think mark_objexts_empty() belongs here. This patch introduced
-the function and uses it. Makes sense to me to keep it all together.
+Without the legacy gadget there is no real solution to mount
+the 9pfs via the gadget as rootfs. The "correct" api is configfs
+which will need the user to have some filesystem to mount it to.
+
+There is the relatively new concept of bootconfig which sounds
+promising to describe an complete configfs tree from system boot.
+
+However this is some future talk for now, so we would like to
+stick with the legacy setup to be able to mount the 9pfs rootfs.
+
+I will improve the commit message to make this clear.
+
+>And can you wrap your changelog at 72 columns?
+
+Sure
 
 >
-> >  static inline bool need_slab_obj_ext(void)
-> >  {
-> >  #ifdef CONFIG_MEM_ALLOC_PROFILING
-> > diff --git a/mm/slab_common.c b/mm/slab_common.c
-> > index 21b0b9e9cd9e..d5f75d04ced2 100644
-> > --- a/mm/slab_common.c
-> > +++ b/mm/slab_common.c
-> > @@ -242,6 +242,7 @@ int alloc_slab_obj_exts(struct slab *slab, struct k=
-mem_cache *s,
-> >                * assign slabobj_exts in parallel. In this case the exis=
-ting
-> >                * objcg vector should be reused.
-> >                */
-> > +             mark_objexts_empty(vec);
-> >               kfree(vec);
-> >               return 0;
-> >       }
-> > diff --git a/mm/slub.c b/mm/slub.c
-> > index 4d480784942e..1136ff18b4fe 100644
-> > --- a/mm/slub.c
-> > +++ b/mm/slub.c
-> > @@ -1890,6 +1890,14 @@ static inline void free_slab_obj_exts(struct sla=
-b *slab)
-> >       if (!obj_exts)
-> >               return;
-> >
-> > +     /*
-> > +      * obj_exts was created with __GFP_NO_OBJ_EXT flag, therefore its
-> > +      * corresponding extension will be NULL. alloc_tag_sub() will thr=
-ow a
-> > +      * warning if slab has extensions but the extension of an object =
-is
-> > +      * NULL, therefore replace NULL with CODETAG_EMPTY to indicate th=
-at
-> > +      * the extension for obj_exts is expected to be NULL.
-> > +      */
-> > +     mark_objexts_empty(obj_exts);
-> >       kfree(obj_exts);
-> >       slab->obj_exts =3D 0;
-> >  }
+>>
+>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>
+>> ---
+>> v1 -> v2:
+>>   - deleted the usbg 9pfs detailed instruction from commit message
+>>   - added depends on net for NET_9P dependency
+>> ---
+>>  drivers/usb/gadget/legacy/9pfs.c   | 268 ++++++++++++++++++++++++++++++=
++++++++
+>>  drivers/usb/gadget/legacy/Kconfig  |  16 +++
+>>  drivers/usb/gadget/legacy/Makefile |   2 +
+>>  3 files changed, 286 insertions(+)
+>>
+>> diff --git a/drivers/usb/gadget/legacy/9pfs.c b/drivers/usb/gadget/legac=
+y/9pfs.c
+>> new file mode 100644
+>> index 0000000000000..3ac7f2e92c5a3
+>> --- /dev/null
+>> +++ b/drivers/usb/gadget/legacy/9pfs.c
+>> @@ -0,0 +1,268 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * usb9pfs.c -- Gadget usb9pfs
+>> + *
+>> + * Copyright (C) 2023 Michael Grzeschik
+>> + */
+>> +
+>> +/*
+>> + * Gadget usb9pfs only needs two bulk endpoints, and will use the usb9p=
+fs usb
+>> + * transport to mount host filesystem via usb gadget. This driver will
+>> + * also add one ACM and NCM interface.
 >
+>Why "also"?  What are those interfaces going to be used for and what do
+>they have to do with 9pfs?
+
+They are not necessary to be used with 9pfs. But since we introduce an
+new legacy module which is fully claiming the UDC, it would make sense
+to leave the other endpoints unavailable but instead add some common
+interfaces like ecm and acm.
+
+I will also improve the comment and the commit message to point this
+out.
+
+>> + */
+>> +
+>> +#include <linux/kernel.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/device.h>
+>> +#include <linux/module.h>
+>> +#include <linux/err.h>
+>> +#include <linux/usb/composite.h>
+>> +#include <linux/netdevice.h>
+>> +
+>> +#include "u_eem.h"
+>> +#include "u_ether.h"
+>> +
+>> +/*---------------------------------------------------------------------=
+----*/
+>> +USB_GADGET_COMPOSITE_OPTIONS();
+>> +
+>> +USB_ETHERNET_MODULE_PARAMETERS();
+>> +
+>> +/* Defines */
+>> +
+>> +#define DRIVER_VERSION_STR "v1.0"
+>> +#define DRIVER_VERSION_NUM 0x1000
+>> +
+>> +#define DRIVER_DESC	"Composite Gadget (9P + ACM + NCM)"
+>> +
+>> +/*---------------------------------------------------------------------=
+----*/
+>> +
+>> +#define DRIVER_VENDOR_NUM	0x1d6b		/* Linux Foundation */
+>> +#define DRIVER_PRODUCT_NUM	0x0109		/* Linux-USB 9PFS Gadget */
+>> +
+>> +/*---------------------------------------------------------------------=
+----*/
+>> +
+>> +static struct usb_device_descriptor device_desc =3D {
+>> +	.bLength =3D		sizeof(device_desc),
+>> +	.bDescriptorType =3D	USB_DT_DEVICE,
+>> +
+>> +	/* .bcdUSB =3D DYNAMIC */
+>> +
+>> +	.bDeviceClass =3D		USB_CLASS_MISC,
+>> +	.bDeviceSubClass =3D	2,
+>> +	.bDeviceProtocol =3D	1,
+>> +
+>> +	/* .bMaxPacketSize0 =3D f(hardware) */
+>> +
+>> +	/* Vendor and product id can be overridden by module parameters.  */
+>> +	.idVendor =3D		cpu_to_le16(DRIVER_VENDOR_NUM),
+>> +	.idProduct =3D		cpu_to_le16(DRIVER_PRODUCT_NUM),
+>> +	/* .bcdDevice =3D f(hardware) */
+>> +	/* .iManufacturer =3D DYNAMIC */
+>> +	/* .iProduct =3D DYNAMIC */
+>> +	/* NO SERIAL NUMBER */
+>> +	/*.bNumConfigurations =3D	DYNAMIC*/
+>> +};
+>> +
+>> +static const struct usb_descriptor_header *otg_desc[2];
+>> +
+>> +static struct usb_string strings_dev[] =3D {
+>> +	[USB_GADGET_MANUFACTURER_IDX].s =3D "",
+>> +	[USB_GADGET_PRODUCT_IDX].s =3D DRIVER_DESC,
+>> +	[USB_GADGET_SERIAL_IDX].s =3D "",
+>> +	{  }			/* end of list */
+>> +};
+>> +
+>> +static struct usb_gadget_strings stringtab_dev =3D {
+>> +	.language	=3D 0x0409,	/* en-us */
+>> +	.strings	=3D strings_dev,
+>> +};
+>> +
+>> +static struct usb_gadget_strings *dev_strings[] =3D {
+>> +	&stringtab_dev,
+>> +	NULL,
+>> +};
+>> +
+>> +static struct usb_configuration cdc_driver_conf =3D {
+>> +	.label          =3D DRIVER_DESC,
+>> +	.bConfigurationValue =3D 1,
+>> +	/* .iConfiguration =3D DYNAMIC */
+>> +	.bmAttributes   =3D USB_CONFIG_ATT_SELFPOWER,
+>> +};
+>> +
+>> +static struct usb_function *f_9pfs;
+>> +static struct usb_function_instance *fi_9pfs;
+>> +
+>> +static struct usb_function *f_acm;
+>> +static struct usb_function_instance *fi_acm;
+>> +
+>> +static struct usb_function *f_eem;
+>> +static struct usb_function_instance *fi_eem;
+>> +
+>> +static int cdc_do_config(struct usb_configuration *c)
+>> +{
+>> +	int ret;
+>> +
+>> +	if (gadget_is_otg(c->cdev->gadget)) {
+>> +		c->descriptors =3D otg_desc;
+>> +		c->bmAttributes |=3D USB_CONFIG_ATT_WAKEUP;
+>> +	}
+>> +
+>> +	f_9pfs =3D usb_get_function(fi_9pfs);
+>> +	if (IS_ERR(f_9pfs))
+>> +		return PTR_ERR(f_9pfs);
+>> +
+>> +	ret =3D usb_add_function(c, f_9pfs);
+>> +	if (ret < 0)
+>> +		goto err_func_9pfs;
+>> +
+>> +	f_acm =3D usb_get_function(fi_acm);
+>> +	if (IS_ERR(f_acm)) {
+>> +		ret =3D PTR_ERR(f_acm);
+>> +		goto err_func_acm;
+>> +	}
+>> +
+>> +	ret =3D usb_add_function(c, f_acm);
+>> +	if (ret)
+>> +		goto err_conf;
+>> +
+>> +	f_eem =3D usb_get_function(fi_eem);
+>> +	if (IS_ERR(f_eem)) {
+>> +		ret =3D PTR_ERR(f_eem);
+>> +		goto err_eem;
+>> +	}
+>> +
+>> +	ret =3D usb_add_function(c, f_eem);
+>> +	if (ret)
+>> +		goto err_run;
+>> +
+>> +	return 0;
+>> +err_run:
+>> +	usb_put_function(f_eem);
+>> +err_eem:
+>> +	usb_remove_function(c, f_acm);
+>> +err_conf:
+>> +	usb_put_function(f_acm);
+>> +err_func_acm:
+>> +	usb_remove_function(c, f_9pfs);
+>> +err_func_9pfs:
+>> +	usb_put_function(f_9pfs);
+>> +	return ret;
+>> +}
+>> +
+>> +static int usb9pfs_bind(struct usb_composite_dev *cdev)
+>> +{
+>> +	struct f_eem_opts	*eem_opts =3D NULL;
+>> +	int status;
+>> +
+>> +	fi_9pfs =3D usb_get_function_instance("usb9pfs");
+>> +	if (IS_ERR(fi_9pfs)) {
+>> +		if (PTR_ERR(fi_9pfs) =3D=3D -ENOENT)
+>> +			return -EPROBE_DEFER;
+>> +		return PTR_ERR(fi_9pfs);
+>> +	}
+>> +
+>> +	/* set up serial link layer */
+>> +	fi_acm =3D usb_get_function_instance("acm");
+>> +	if (IS_ERR(fi_acm)) {
+>> +		if (PTR_ERR(fi_9pfs) =3D=3D -ENOENT)
+>> +			return -EPROBE_DEFER;
+>> +		status =3D PTR_ERR(fi_acm);
+>> +		goto err_conf_acm;
+>> +	}
+>> +
+>> +	fi_eem =3D usb_get_function_instance("eem");
+>> +	if (IS_ERR(fi_eem)) {
+>> +		if (PTR_ERR(fi_9pfs) =3D=3D -ENOENT)
+>> +			return -EPROBE_DEFER;
+>> +		status =3D PTR_ERR(fi_eem);
+>> +		goto err_conf_eem;
+>> +	}
+>> +
+>> +	eem_opts =3D container_of(fi_eem, struct f_eem_opts, func_inst);
+>> +
+>> +	gether_set_qmult(eem_opts->net, qmult);
+>> +	if (!gether_set_host_addr(eem_opts->net, host_addr))
+>> +		pr_info("using host ethernet address: %s", host_addr);
+>> +	if (!gether_set_dev_addr(eem_opts->net, dev_addr))
+>> +		pr_info("using self ethernet address: %s", dev_addr);
+>> +
+>> +	/* Allocate string descriptor numbers ... note that string
+>> +	 * contents can be overridden by the composite_dev glue.
+>> +	 */
+>> +	status =3D usb_string_ids_tab(cdev, strings_dev);
+>> +	if (status < 0)
+>> +		return status;
+>> +
+>> +	device_desc.iManufacturer =3D strings_dev[USB_GADGET_MANUFACTURER_IDX]=
+=2Eid;
+>> +	device_desc.iProduct =3D strings_dev[USB_GADGET_PRODUCT_IDX].id;
+>> +	device_desc.iSerialNumber =3D strings_dev[USB_GADGET_SERIAL_IDX].id;
+>> +
+>> +	/* support OTG systems */
+>> +	if (gadget_is_otg(cdev->gadget)) {
+>> +		if (!otg_desc[0]) {
+>> +			struct usb_descriptor_header *usb_desc;
+>> +
+>> +			usb_desc =3D usb_otg_descriptor_alloc(cdev->gadget);
+>> +			if (!usb_desc) {
+>> +				status =3D -ENOMEM;
+>> +				goto err_conf_otg;
+>> +			}
+>> +			usb_otg_descriptor_init(cdev->gadget, usb_desc);
+>> +			otg_desc[0] =3D usb_desc;
+>> +			otg_desc[1] =3D NULL;
+>> +		}
+>> +	}
+>> +
+>> +	status =3D usb_add_config(cdev, &cdc_driver_conf, cdc_do_config);
+>> +	if (status)
+>> +		goto err_free_otg_desc;
+>> +
+>> +	usb_ep_autoconfig_reset(cdev->gadget);
+>> +	usb_composite_overwrite_options(cdev, &coverwrite);
+>> +
+>> +	dev_info(&cdev->gadget->dev, DRIVER_DESC " version: " DRIVER_VERSION_S=
+TR "\n");
+>
+>When drivers are working properly, they are quiet.
+
+Right, I will fix that.
+
+Thanks,
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--hmLwYFImqzne253t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXSs3UACgkQC+njFXoe
+LGRxbQ/7BYgYye1JCQtKM2lwhdqY75Nya3hWcCw66xFW6MyuIjh/wXsfMXZDC3dK
+/19EfJQplNzSMCwDZFeA7HgJ8wxfl8ayjv90JZ7a66UJ1BYmXmojkLiDrn7LzUpa
+MBFZJfEQrZHGW/3YF0ifrbkov9wkSf6LXyS8MoVCbSgl9eL60JNDqD82VbZC+HQg
+1BYWYnorUQULrqYPB1FEg/N0QMBXyadXAu7EdG6nV/Zxlown5hhOXeB4aAvnguxe
+BXVwVV63rIMUwAtFfK8/RX6PhOLrNZTQ/z/ol1LvilWFlJ6mxNH6CHiWUeJw1vn3
+kodbANq4oadIvrInLL65woZp+4tyffMgIdnA/c8TyNgG1HwSlTwWlDvPi2zsB8gH
+P/tlRLmv0VUCbUXx+xtdfDdWCSX2cDsAQgnSvXKOFTDt84lfjCO9LNpRs6OjuvTP
+PvHO5IUziH9wIi1Q9VFFoXd38be4V6N26w90LL4WefMzeVx4Fo935Nb8gklO6ZYW
+izwqdY9wnccy40nSKXbPDUxHg6P/YbbcWp/z2z9mrT9S4e/LqvwYrQsJyZrbcKj8
+47NZmc2bXJUc+AjfGk8NwfLsk8vkEdDLjp9jQeIDHTOd0sq/59gs10gLNFm8pjw4
+hcBmryl9RgQk3OOWtys/hShrztriLxEFpewUwZLPCziWqq3EaLY=
+=WfB2
+-----END PGP SIGNATURE-----
+
+--hmLwYFImqzne253t--
