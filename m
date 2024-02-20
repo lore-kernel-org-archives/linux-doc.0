@@ -1,80 +1,76 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2049.outbound.protection.outlook.com [40.107.212.49])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2057.outbound.protection.outlook.com [40.107.220.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D425514A4E4;
-	Tue, 20 Feb 2024 20:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889C51FDB;
+	Tue, 20 Feb 2024 20:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708461003; cv=fail; b=Jy4gyAqnAe4jUYaN/oiihqUHXZypLSpdUXyhzW+HxD2gs1wGnuCeKHaUurvym7PsN3CApSU+oHsEM3l7su3JUd8FVXwGlJ5yY3UZ3nntuuYDE89mYR2GzCZTwqhZVcP4Lc6AqicLN7koePTjZjR/vBEu/xrlx+csvZYo+vbtoOk=
+	t=1708462131; cv=fail; b=ajlr29lHSjLd8L3YCp+IvT1x29sL7gG4qN3iUP4Ku8AX9EjMw3vhcEk+mq51zFuqfPcx8XpuGe8eFonQb+aBM3XLg/opoPzpxScudEuvYgXSqu0Kni+gJnreqG8akn2XQ/ywgCzkntUiCjYMRMROFxvD+9M0BK9thsW6WinuzHo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708461003; c=relaxed/simple;
-	bh=7NXxyjhpzdF5kD46hFaXaQ7ocothOqZjvD45hQGV7cI=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=FQ7+ns40ZBNDHKVMJ5rZyXlqQemPKvuediD+CwR9qz2Iilb2tw8F2FH5dvoIpx6Yjnva7Uc/A8JvtfvS+ZJrbHT49r1mS6bxVusrT3PicuTLwMm5AlvC9n1/rFWKNkTFqRJ5IC++gbrKvGwMw/O7A2EdccEAyIXZe21eJiPIpdY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dzQNd86z; arc=fail smtp.client-ip=40.107.212.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1708462131; c=relaxed/simple;
+	bh=19BWRNIoXRFgUXlcI9uFng/Rbe1gAJEN6C471RQ4Tlw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=lkmkWLA6aSA8+nm04eXKt9n7h0dcNGv084gcUHdhVUYtdigjIcrHPUFRyUYBIK2cG2dexEu+9Bcl2wngq7e4qPewtepziG7ZIIComkrUKpYmDVtLLVaP9V1vg7vo786Dvksz/z232oJ1zcji2LOYmoFZ8FXmn729G/dvnZvUIlU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yNM0b5Sp; arc=fail smtp.client-ip=40.107.220.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dzQNd86z"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yNM0b5Sp"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BVFJ5SgisfuVsRyp/EJixJJ2Ho4P3p3x1ZMeDB8/R0Q99ec09qR/lI1ltdtaP8QwHLp5Z4Jzs1FiYpRN4HYZw2q/U4SiYkl1V04EW8EFoNwnlHJVWHoH8mKZplHLFgHl1t63GHvxMnu8DU6KSeEkh+yfU420pH/1M+kUBBYYJDdJ+OwzADaaFiDSovhcSs0KkFLxe0Wylv8GU71Bs/KL6bHuR7LeRaUzqc6MIsLmKM7NhXeYEle4so07514NweI+ESjqcvKm5Ul9cSuPCLDLMBG069pqX6zs0hpMiCYFitJRHKH7FuBP0SPTh/sa89ZAS5+mOos4wdSYjl/P3wxe4A==
+ b=JFbtLqkEWwm9jkeHnqZb5s/qJ2jLuj2KMUAL3TRXCXNqT1FtW/CaI++Q+9bcH0deyNcW/6+FDgxRR5q5oO9YPRQVPmUhlA9AFYclnpx/KAOhY0QEufCDw5o7HmKkcQswkGAdyR3nh9s8jsH9qImmDhBxevhhC4hMZBL4FmnDBQzHRtsMTdrQ62cV7CLhTC9g2VlP/esJJ0VRiHnAoOyHZO7hpj8Fmu3KqUCA54zW5aB56v/LCBeAbPoBRJi7etjW24phviXGuxXAT5O1AB5HxaOSkRKzWNaVaTr0JAlXXzyFRzUKRxLTwEPY6wlN/LUhZixGtDhognAfvp3U3tRkCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SUCd6k+0G9SvEF4gIlNosCqVOEGAcbN+yNGQNGZ1ze8=;
- b=XmGcVeDHXOiGbZEvZKqU9Q7o3lJhVCP7ayLbW1WAJfkLQOY+Jou0JHyqNF2fMlQQDJUi9Q+LFUqiZqk0HY9goY7sz7Fm3Qd4XA00Z6gL2kNiFMoP/svzP3xCHxBiz2kY2Ie4VP+q9K03GDVKHp1Bpra1T3bSGLy5s2jerAwRpgBumPgTUEqX8MoosXXAUp6bDEzYGlGgM+wHevSNUJxjY243QAPRPyFu9c2m13+k7RiX1l5UiFCdGAXzLqGvNLlV2ZDsWRwSzsvaiCgPVcNjpkLyChL2axZET2yQv3RIJ3HgFTCnoZ3YHB46C0I1/HaBhfseaWfUOohNHeiLHFDIIA==
+ bh=1GBIrbzThaQDser2R6EXpGoRkEOb6ZKciBUJmkj5tag=;
+ b=fL0KU7Sq5NoU0/7RGTUqqmVs0Id9agcIf+28qmeKStBkOoLHnBsJdL9GYk15A6CVvQcF6kSGbYTCcfrWn92aIjejAyThq+PSt+hNFDGkBBYuwMq+ze3IMJGF95wpbNONBmKK1KY8ACOQqW8ptf3I2BeSue/IacypLEHMKV5ZcQ8ggcGsQz3fA3njRcCqz53kAM8sjRb5OwzVJmaEvUQL7npqqDjx2/nSVwIIkjaRXXvThQ9G1DyYyvTsSmpJhLLChb+LTwiNHpXfwidc2g+Ph8ascGj725RvKOE/KddFADnKJvyADBhXNTtisIH5Ov7RGATZfmgHmPF1qlGELifDVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SUCd6k+0G9SvEF4gIlNosCqVOEGAcbN+yNGQNGZ1ze8=;
- b=dzQNd86ziFGiXB+Jzh6CBzF5HI70WhtV52IlYMipkCGYnCJLWMwXW2G1NNEWq1Akl80WzS04z5SiX2G+64V75Gst+qXtKrlEJkO7Yis5UmX8vLjF0b2BKtqVeCRUH32Vs97sYPPjMAApwt0fLNbTw70TksUZZi+EC0k5g2ouTqidSDarf5FRGPcIIJMrSdCBbMZCcowktJFuSUPirowg0xJ/I1EN1pOjcrAkrcF0B/rQ1HwKL2ghmFZ5x/LAM8aRai3Uk6J0+dggyJZZXmVUvqoNtZ7jxNhOR8+fHsGWpE6baWnDhn5N2ekgjkptg6yXQ4YgovHsUbFbKM0j6Vmu5A==
+ bh=1GBIrbzThaQDser2R6EXpGoRkEOb6ZKciBUJmkj5tag=;
+ b=yNM0b5Sp36A+em3FYuBdo2dcCCFhjJANejOKh5b/Tg+rexdUVgAVpyk3naOQ2XiNUWQYPBSZCFuBxIGZ7fBWfQmC05sxY/s6o7lptxctCSMqxFjrT1c8lVdtbRTyihVn5evXbLrTKdAlXI9TDRkqgE8nre46oXiu5yGENV6nlN8=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by DS7PR12MB8418.namprd12.prod.outlook.com (2603:10b6:8:e9::16) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM6PR12MB4043.namprd12.prod.outlook.com (2603:10b6:5:216::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Tue, 20 Feb
- 2024 20:29:54 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::e127:7911:8149:184c]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::e127:7911:8149:184c%3]) with mapi id 15.20.7316.018; Tue, 20 Feb 2024
- 20:29:54 +0000
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
- <20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
- <87jzn4gtlv.fsf@nvidia.com> <b8926fe5-81ef-40ea-9e87-5e84b368b745@lunn.ch>
- <87o7cebx9z.fsf@nvidia.com> <9e2ce7a0-e938-4f5f-aae9-cfee3a066628@lunn.ch>
-User-agent: mu4e 1.10.8; emacs 28.2
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>,
- Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY
- default timestamp to MAC
-Date: Tue, 20 Feb 2024 12:17:52 -0800
-In-reply-to: <9e2ce7a0-e938-4f5f-aae9-cfee3a066628@lunn.ch>
-Message-ID: <87zfvuange.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0030.namprd05.prod.outlook.com
- (2603:10b6:a03:254::35) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+ 2024 20:48:47 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::ee3b:5116:72be:be7a]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::ee3b:5116:72be:be7a%4]) with mapi id 15.20.7316.018; Tue, 20 Feb 2024
+ 20:48:47 +0000
+Message-ID: <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
+Date: Tue, 20 Feb 2024 14:48:42 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Content-Language: en-US
+To: James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <cover.1705688538.git.babu.moger@amd.com>
+ <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR11CA0029.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::34) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,179 +78,306 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DS7PR12MB8418:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2884f26e-99e5-438c-e3bd-08dc3252b278
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM6PR12MB4043:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4fa5befe-96f0-484c-b7d6-08dc32555580
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	51kUlMgy21Z+YEfc1lmwcrFizJVR8OwJZxevDw1OHk3HuEtSOjuUjLhEtth+w4Z9jokBo2qkkTMuA0+b/uQFHyqXX0hL/Wd1yDUPfQvPpCu0JmOwWtZCLFlrG/OnYv366TXItaGavbAlm6GRPRhoXHWPoXCe8/4HBiijrgPJP63iJ92hq0lkD7leCEZDVAwW5Ux67wAASjaP6zcjQS7qktzWeklqzwOKbaZLZFI3rq9pl/0UV1zT5/D83odIhU/s9bU9EYOLVERKUoXSYyjTO2fO/QK+zB9xmlXthzaEiG5JaYhyRCtrlx8/PlNf6z6mBxdYlQRKmBCpAhDDrFWUlfrnMwU0e4ZEuIoip+txDepjCO1IhuR34tCr1Qk3qDi98tKUQ8qX43ZNuek4J8LzEq6roqoP6CoMgmkkzsdKrR5wB7wTtWBA67y2amsroa9XtqhQaNpmSFM/l+3Dlh9Z2jaEbQr9YoGsXLzpzO+pi2ZusNuIW/9QfeFgqK/xqGehy90uUVVg6Wvp8ltoMvvbktFb/cCkD4IE4UFKY9xXBdmhXSJbfjWp53Oz2f9u9cJYx+1uFfxJt3pQXAYLlkEr/g==
+	YkDcSzs8Oe56UpP4FTOPXO6k5d2r2rXhsPMX8AvLv9j/gS3ySGt12ZKiN40IF8xpix4RfmV4DHEO0m7YyVJuzkcF8SfaHeOph0IjLTb/zO8OmREXAiFO9utqa1k2NAZgD/XjeQl4/ju7M7whZdgSKE0WHbCOLx7K2ZFgzJstJwmaIWZ7NHOg42tyOWvpPb/oK+GYZNgus8dpYUW8A6CHtojNqD7q8JqxqRLkU0rp+dEg7FqfYjfxRar6C7sG/4OUCceqe6hmwtmyiRnuB102Ua1ov0St8IKm2KGhm0XOViBK9wUEHJf4QF+xbO1kKROJqGr/mcC3Lxr/HqZ77O/FDG1dG07Yrvps8aTbQCXgXWqL9NS2R2F2q0G7UDv3w4bMQ9qq+uBkIjq0x6RlLmcA1bqbmGSp8fLUSUWPUPcw3mZczvUzo5zmQC4jb6PX5Uk4xWbMEvaB0O/UXSuFrJRdniShxZat8rWeiZ3D2QtXq8T7BShvY6K1/dhPxM/wXSUcQXHvnUy4zeR69Ct0qgKHwg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uUZBAdh5soer+JkXvNQP8lSDB1sVBqd3mpOkcVniVdNEoq4YFAxWFu1VRgyd?=
- =?us-ascii?Q?Xmy/aPT4sY1LGhhDyweJiHfJ9EYRsdUltLl0U3t1lcZZhqNg6hdrAUGaIu4C?=
- =?us-ascii?Q?+EzdxuM3EWf86K2dtTuIrRveEvmiRGZJjM050jUY1NNvCheAwDr5sf+N0G0z?=
- =?us-ascii?Q?Brwl83RMMjsYueqGIV2tkV8mLmHd0H5qzP3r9bf3CRZa3GDjV1XzFCq2J2GO?=
- =?us-ascii?Q?2Qo2M041PiotPUhgV/+KQ2r0dn9dTVXloucVdp95fMC6c8+/VAyi6JspRRno?=
- =?us-ascii?Q?TK+0E11d1ebP6xJCSr1ovkqo2iYQAsRC4Rs8seB0Arf+3+BZL8pBSBGQosQu?=
- =?us-ascii?Q?zqiTXnMWsmgElvdeO9scvyDAFNokap5/E056ySasWOiBvqQuPwBbynLMEHYy?=
- =?us-ascii?Q?CF3cTTSCNAyb2CRfH5p1ejs4oC8x4Qtbuiq2M6O3aG+lDGMEO7gG2dbd5Edb?=
- =?us-ascii?Q?D5UOi3dcEpHYArbtH+O5m5/XupjkGMyVpt4F3VYRvw7PAxgVPCDulwKCkO7v?=
- =?us-ascii?Q?6qQqRJ1dN1hBoaHqBQ1ImnMxw8JLsXCMSrnpnqlLNon+Tg/RoSok4H1Wj8ev?=
- =?us-ascii?Q?4XRIJb9I9RxNNA/FrmVVm31LB+xyuiqv8o2JtJqYEitbWtse8j3Pi+gdlIlt?=
- =?us-ascii?Q?UHZ6D4Cii0L/N7AtSGbAwZtSS0VeIeZY23GJh8sQPz+IByQkgEXEzkgt4q/P?=
- =?us-ascii?Q?QYkYKgZ++d3I1oyP7Z4CQ4Adogp5z9l5FTq+dLgV5m2hbfnc8i4ejWhrKI3L?=
- =?us-ascii?Q?GHa+I27pXT1JOMcUgMDYpHoDmKAKq2K5kCveT/EfLHPpAIcFKbN6scHI9C2y?=
- =?us-ascii?Q?clww9odRTzdOqIVyn+vANL1RpOitqu1VIrAiDrCV+3ZGBmRai3hJ0MLIhUi2?=
- =?us-ascii?Q?VSF8ZK8lv7IiB2FSIx3Ro+Sg5jaJCJTebYiAphhAIZV/d4GsQKyEKJtfDHwi?=
- =?us-ascii?Q?UZzqfBow/Qx6/LOMirPYlDPd/zUoicdEC10bW4Spd8FCR+HnUq/QjqlXy9wg?=
- =?us-ascii?Q?A3NGFViBzDUfJ3RBavytFVArKtTRzmAV4FI9QSqn+gsR3aHagSJ0Mlwx0fCw?=
- =?us-ascii?Q?mMfqjzERFimi9bNUbwPaaPpOs4YhWJ/KN/P2HRwJE1SI0blbDAgAdA0RXbin?=
- =?us-ascii?Q?f6d2RxDealwzvOZLx8vYwJYk2r8lpkbYqLiuVjA8Hd4hh3b5UDZEj8BRe0Cj?=
- =?us-ascii?Q?GmXOTu+PeLBOxAAlqOZwu8q8HTSBqx/ysfPwoDx+xnBy/cTixmSCeAFQlcg5?=
- =?us-ascii?Q?KnSIiPOUU0J90+GpWZW84J9whaYNSGTIRc7L7dS8BDuiOexcWOkJ6A/lm/kq?=
- =?us-ascii?Q?SGD/4LMVRZG1MA+b2Hn//etPNKipJq+ckOLCRAbTYeAKzZGreUM0wlSMh91S?=
- =?us-ascii?Q?qwjbcRx43yF8KXWZwkbvjiz8LgZ+HqHBATyqgLZWT2bfqJ0Set9N85jMJrqZ?=
- =?us-ascii?Q?xAxVWNCDd+n/H0HYH8Kz6ZeJDtKCU8n3uW+GiPT5EGFTHfjM5MY7FzjsLuN8?=
- =?us-ascii?Q?yvihNFyWkcUopl31cEldVBmQXRZgAPgZQTEYj7PlGfswKHANU7Bf/azPen5K?=
- =?us-ascii?Q?1L85CywRjJfPCclJ2qxzvl5ovAywDymJMudDhO11cy3vxP4tF6TOn8ZN38fg?=
- =?us-ascii?Q?GQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2884f26e-99e5-438c-e3bd-08dc3252b278
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+	=?utf-8?B?T1dleTd4ZW5BYmZWeXNFekZzY1drMGZRMGl2M1pvNktKQ2JXOWJQUHh4WlNv?=
+ =?utf-8?B?RjAxZHo0TGVsZ0xieFlhNGNTOXl2Z3VLWG5qY01mcTlFNXhseURmaWYyWi9N?=
+ =?utf-8?B?My85SHNITTVwSHlEUGFQL0xrUS9UMUprbC9mWHZCa3JYVTZJNXFoT1RYY0RI?=
+ =?utf-8?B?THB6VDVCQ0RIdXk1WUFZREJUaDBYL2QxYzRZWm9TalZEcXU1NVp1VXBpLzl6?=
+ =?utf-8?B?SG9tVDZBV0gzbEI0UlM3U1lVaHEyUHRkWkxvOTR5RjNSVXRFdVpzNXNURkJS?=
+ =?utf-8?B?SXlublk0RTViNmZZaU1HdlNWcXBJdXJXZ3lhVUtLNHcwQnl1RFAxQ0hJY0V5?=
+ =?utf-8?B?S204VkZENFd1Q3NndS9RT3RnZ2hoMmZvcFRDZjYvRHp0NjFsZktXa3ZHOS9Z?=
+ =?utf-8?B?VXNpd2E3YmIrUXByZ29HWjVJbGRremJ5cDk3WStST25uM1NOczJJcFkvTmhk?=
+ =?utf-8?B?MlBYcm9sOEdwRTVqcnhVcGYyYjdOK0NpWUx3UFQ0elNwMTRBbE5QM3haOSt3?=
+ =?utf-8?B?TU10dWVQdEY4M3drUzJ5aDIrWGxENHRDVFBHdko3Z0cxK2lIcng3Z2RJNTNq?=
+ =?utf-8?B?WEwxcUR5QWlRKys5RGRvaTBwcFZCVlRSRGpndDdoRlN3QU8xV3FGRTB4NXEy?=
+ =?utf-8?B?SWdRckcxWG12NGErdkpEVkFtT0VlbXRGbnV2aGdVYXM3NTNlZTdnQnRmdFBj?=
+ =?utf-8?B?a1ZIOVFVWmxZMDZxb2tZVjFqOGZkS0MyMnBmempnNnVLU0FWTWk0cFNKNm1w?=
+ =?utf-8?B?SnA1dmFydG5EcThuM2hrNldvb1NBcm43eE51MHpsUHh1bGNBRnJMbFBCRjJB?=
+ =?utf-8?B?RzNCbysvM2NGVWpuaUlOTXVnTndubTlwUS83U2JoVGpOTmJ6SjhhdUppNXJQ?=
+ =?utf-8?B?cjJ5Ujk1WTV3VnZXTmlvdnRHS0VRakUzNXFPV3RpMjBWNmR4Wnl5eHpmWG1x?=
+ =?utf-8?B?QVlGVERBNjF1SVZ5T3FjUGduR3pUUFhvMm1pckdKZG1ialJCR2hHOStrb1F2?=
+ =?utf-8?B?a2k3cVJ2NHNyR2ttWUtaK2RpNitWWVlXMkJEM0FOVVRwYUtNUHQ0WDJrOGln?=
+ =?utf-8?B?RXkrZFFpaGxzTHEycG95eTJldGZmS2NqZGN3NXlWamNCMmdTc3Y2eDdWSVo5?=
+ =?utf-8?B?ZGpaZHI0TVljWjgybXZPY1pNWmpzSVBhQUFpUFJsUlVPTnBRV2VYY1A2Smwx?=
+ =?utf-8?B?YjFWckZCcCt2YWpXVEFDQmtWbzE3ZTE4S1hQOVp0eThGdU9zc3luay9hQzBM?=
+ =?utf-8?B?SGxKSkdXNFVNcmcrdUpsK0NPWi9XWU5nUExrM3dDQlZ6N2RZYXN2S1NkK2hv?=
+ =?utf-8?B?ZmlkZHlVNC9pZUc4emFzSUt3TGN6ZExLM1VwN0RRZkZBbTBwaEp4M1hPcEdo?=
+ =?utf-8?B?T1o0WG02aVZ1NmZYUWRCUENCNVZEZjBHQ2NxYkVrZWRzZXpLWU9xeDRaZSs5?=
+ =?utf-8?B?TFNQS1U2QlVjdVN6NUVLVm81d3BBbVlzQWcrZDhqNnFVWDdtZHF2YWJ3aVFK?=
+ =?utf-8?B?MHlFc0d5aGRwOThXRVMwZmg4ZjdiK3hhN1MrMVk2NUtRQmFnT0gyeU9EbWw4?=
+ =?utf-8?B?ODkzckYrZEY4VldURklESFdpWnR2dGxnNkI4NjFhUTRkbi84U2ZQQXR0YTkr?=
+ =?utf-8?B?T1pNdk5DVVA3YUYzWlFUTytuYmpJRjJ5TWd0eEk5MUk0ZDdZQ1ljTzlqam9w?=
+ =?utf-8?B?RXdMd2UzZ01ac09CRWt3UUN0RlpOVE9vRmdLekR2K0VORFROZSs5R2YwelBv?=
+ =?utf-8?B?WUFxZHZqbitSMWo0WnVOc1BBLzR1V25jUEpCeXpKUWJPOVo0SnVzMW01ZVdw?=
+ =?utf-8?B?OVNNUGJQVWlmaktzcXJVNytiNGl0Ymw5WDVsSTR6c0pWVE9OK1dpOEtjYjJG?=
+ =?utf-8?B?T1JiY0RhWG1qcTV4K3dxNGlPcWJKWkJyMWdaUUJ3N0Nod1Z3U1lkUzczWkxF?=
+ =?utf-8?B?NFRFYmlmVTBoRzB2VjM0V040a1o3REt6QThCejJ1N1FaYzZLLzhnd2h5V002?=
+ =?utf-8?B?RDk0YUU5bEF6aElEK1haV3pLQWR1TTF5b0pJRnR5Nk9FeXcycHhWN2wzd0NE?=
+ =?utf-8?B?bzE5bE9aYzVHZWprUzZEc0ZPdERQUmQwdjlOcC9CYmtidmJGN215UmVkcWNP?=
+ =?utf-8?Q?fnoE=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fa5befe-96f0-484c-b7d6-08dc32555580
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 20:29:54.3837
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 20:48:47.1665
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GiM2trBtu7XG6UTlrzlrw6g39fJTtt+T0iz/1DgWNrXJhEcHPiPsTfPh7tUNS4Kfbq08uimHUVEO4AAHQXOY+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8418
+X-MS-Exchange-CrossTenant-UserPrincipalName: 71nRkRunv/oS9kUgUxkv8fdUThE/bBxfnMuJKNIF3tAxrNfG+tYdO4F0Z4PvOyOC
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4043
 
+Hi James,
 
-On Sat, 17 Feb, 2024 23:10:07 +0100 Andrew Lunn <andrew@lunn.ch> wrote:
->> > Could you give some examples? It seems odd to me, the application
->> > wants a less accurate timestamp?
->> >
->> > Is it more about overheads? A MAC timestamp might be less costly than
->> > a PHY timestamp?
->> 
->> It's a combination of both though I think primarily about line rate.
->> This point is somewhat carried over from the previous discussions on
->> this patch series in the last revision.
->
-> Sorry, i've not been keeping up with the discussion. That could also
-> mean whatever i say below is total nonsense!
->
+On 2/20/24 09:21, James Morse wrote:
+> Hi Babu,
+> 
+> On 19/01/2024 18:22, Babu Moger wrote:
+>> These series adds the support for Assignable Bandwidth Monitoring Counters
+>> (ABMC). It is also called QoS RMID Pinning feature
+>>
+>> The feature details are documented in the  APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC). The documentation is available at
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>>
+>> The patches are based on top of commit
+>> 1ac6b49423e83af2abed9be7fbdf2e491686c66b (tip/master)
+>>
+>> # Introduction
+>>
+>> AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
+>> feature only guarantees that RMIDs currently assigned to a processor will
+>> be tracked by hardware. The counters of any other RMIDs which are no longer
+>> being tracked will be reset to zero. The MBM event counters return
+>> "Unavailable" for the RMIDs that are not active.
+>>
+>> Users can create 256 or more monitor groups. But there can be only limited
+>> number of groups that can be give guaranteed monitoring numbers.  With ever
+>> changing configurations there is no way to definitely know which of these
+>> groups will be active for certain point of time. Users do not have the
+>> option to monitor a group or set of groups for certain period of time
+>> without worrying about RMID being reset in between.
+>>
+>> The ABMC feature provides an option to the user to assign an RMID to the
+>> hardware counter and monitor the bandwidth for a longer duration.
+>> The assigned RMID will be active until the user unassigns it manually.
+>> There is no need to worry about counters being reset during this period.
+>> Additionally, the user can specify a bitmask identifying the specific
+>> bandwidth types from the given source to track with the counter.
+> 
+> At a high level, if existing software can't use the counters, I'd prefer we move them into
+> perf. We're currently re-inventing the perf wheel. (this argument doesn't hold for the
+> llc_occupancy, which is a state not counter!)
+> 
+> But if this lets someone 'pin' the counters for the groups they monitor, then use existing
+> tools, that seems a good enough argument for doing this.
 
-No worries. I could also be off here. I am mostly using mlx5 for my
-perspective here and I think Kory and Russell sent some feedback that
-likely confirms that this patch makes sense. Will reply to that in a
-bit.
+Not sure if I understand this. Yes. This feature provides the option to
+pin the counters to the monitor group.
 
->> I assume the device in question
->> here cannot timestamp at the PHY at a high rate.
->> 
->>   https://lore.kernel.org/netdev/20231120093723.4d88fb2a@kernel.org/
->> 
->> >
->> > Or is the application not actually doing PTP, it does not care about
->> > the time of the packet on the wire, but it is more about media access
->> > control? Maybe the applications you are talking about are misusing the
->> > PTP API for something its not intended?
->> 
->> So hardware timestamping is not a PTP specific API or application right?
->
-> Well, we have drivers/ptp. The IOCTL numbers are all PTP_XXXX. It
-> seems like the subsystem started life in order to support PTP. It is
-> not unusual for a subsystem to gain extra capabilities, and maybe PTP
-> timestamps can be used in a more general way than the PTP
-> protocol.
->
+> 
+> 
+>> Without ABMC enabled, monitoring will work in current mode without
+>> assignment option.
+> 
+> To check I understand: the counters will get spuriously reset a the whim of the hardware?
 
-This is a great point to bring up. I think the PTP related ioctls can be
-confusing. Rather than calling them PTP ioctls, I think it would be best
-to call them PHC ioctls, where PHC stands for PTP hardware clock. These
-ioctls are more about controlling the local PTP clock devices rather
-than handling timestamps sent/received via the PTP protocol.
+[1] Not spuriously. Hardware can keep track of certain number of counters
+active simultaneously (active counters). If there are more monitor groups
+than the hardware can track, then only most recent associations are kept
+active. The active set can change based on user actions(RMID association
+changes from user).
 
-https://docs.kernel.org/driver-api/ptp.html
+This feature can help to pin a counter so it does not reset.
 
-We can look at the ptp4l source code and see that PTP does indeed depend
-on the more generic PTP hardware timestamping socket options.
+> 
+> 
+>> # Linux Implementation
+>>
+>> Linux resctrl subsystem provides the interface to count maximum of two
+>> memory bandwidth events per group, from a combination of available total
+>> and local events. Keeping the current interface, users can assign a maximum
+>> of 2 ABMC counters per group. User will also have the option to assign only
+>> one counter to the group. If the system runs out of assignable ABMC
+>> counters, kernel will display an error. Users need to unassign an already
+>> assigned counter to make space for new assignments.
+>>
+>>
+>> # Examples
+>>
+>> a. Check if ABMC support is available
+>> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+>>
+>> 	#cat /sys/fs/resctrl/info/L3_MON/mon_features 
+>> 	llc_occupancy
+>> 	mbm_total_bytes
+>> 	mbm_total_bytes_config
+>> 	mbm_local_bytes
+>> 	mbm_local_bytes_config
+>> 	mbm_assign_capable ←  Linux kernel detected ABMC feature
+>>
+>> b. Check if ABMC is enabled. By default, ABMC feature is disabled.
+>>    Monitoring works in legacy monitor mode when ABMC is not enabled.
+>>
+>> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>> 	0
+>>
+>> c. There will be new file "monitor_state" for each monitor group when ABMC
+>>    feature is supported. However, monitor_state is not available if ABMC is
+>>    disabled.
+>> 	#cat /sys/fs/resctrl/monitor_state 
+>> 	Unsupported
+>> 	
+>> d. Read the event mbm_total_bytes and mbm_local_bytes. Without ABMC
+>>    enabled, monitoring will work in current mode without assignment option.
+>> 	
+>> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+>> 	779247936
+>> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+>> 	765207488
+>> 	
+>> e. Enable ABMC mode.
+>>
+>> 	#echo 1 > /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>>         #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>>         1
+> 
+> Why does this mode need enabling? Can't it be enabled automatically on hardware that
+> supports it, or enabled implicitly when the first assignment attempt arrives?
+> 
+> I guess this is really needed for a reset - could we implement that instead? This way
+> there isn't an extra step user-space has to do to make the assignments work.
 
-  https://github.com/richardcochran/linuxptp/blob/f271257b799d390d9ec09d5c7dafb7f10a3bd99b/sk.c#L559
+Mostly the new features are added as an opt-in method. So, kept it that
+way. If we enable this feature automatically, then we have provide an
+option to disable it.
 
-Again, I do know the ioctls can be confusing. The ioctls tend to be more
-about adjusting the PHCs rather than controlling the timestamping flow
-if that makes sense.
+> 
+> 
+>> f. Read the monitor states. By default, both total and local MBM
+>> 	events are in "unassign" state.
+>> 	
+>> 	#cat /sys/fs/resctrl/monitor_state
+>> 	total=unassign;local=unassign
+> 
+> 
+>> g. Read the event mbm_total_bytes and mbm_local_bytes. In ABMC mode,
+>>    the MBA events are not available until the user assigns the events
+>>    explicitly.
+> 
+> How does this fit with "monitoring will work in current mode without assignment option.".
 
->> It's purely a socket option that is not tied to PTP (unless I am missing
->> something here).
->> 
->>   https://docs.kernel.org/networking/timestamping.html#timestamp-generation
->> 
->> So you could use this information for other applications like congestion
->> control where you do not want to limit the line rate using the PHY
->> timestamping mechanism.
->
-> I think the key API point here is, you need to separate PTP stamping
-> from other sorts of stamping. PTP stamping generally works better at
-> the lowest point. So PTP stamping could be PHY stamping. If the PHY
-> does not support PTP, or its implementation is poor, PTP stamping can
-> be performed at the MAC. There are plenty of MACs which support that.
-> So we need an API to configure where PTP stamping is performed.
->
+See my response above. [1]
 
-I actually agree with this to a degree. However, I do think it is
-sensible for applications that understand their properties to explicitly
-select the timestamping layer in the application initialization as well.
-I think because of the impact on line rate, the MAC/DMA layer makes
-sense as the default.
+> You mentioned the hardware resets the counters when this mode is enabled, does it also
+> refuse to count until the MSR is programmed?
 
-> I expect the socket option is more generic. It is more about, give me
-> a time stamp at a specific point in the stack. It is probably not
-> being used by PTP, it could be used for flow control, etc. We probably
-> need an API to configure that SOF_TIMESTAMPING_RX_HARDWARE actually
-> means. It could be the PHY time stamp, maybe the MAC timestamp. Same
-> for SOF_TIMESTAMPING_TX_HARDWARE, it could be the MAC, could be the
-> PHY. But whatever they mean, i expect they are separate PTP.
->
+Yes. That is correct. We need to program the MSRs to start counting again.
 
-As I linked above, the socket options are being utilized by the linuxptp
-userspace stack.
+> 
+> If so - is there any mileage in auto-assigning the first N RMID to counters when the
+> groups are created? This way existing user-space tools work until they exceed the limits
+> of hardware. From that point a counter needs to be unassigned from another group. (we'd
+> need to make it easy to find which groups have a counter assigned)
 
->> In mlx5, we only steering PTP traffic to our PHY timestamping mechanism
->> through a traffic matching logic.
->> 
->>   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.h?id=a6e0cb150c514efba4aaba4069927de43d80bb59#n71
->> 
->> This is because we do not want to PHY/port timestamp timing related
->> applications such as congestion control. I think it makes sense for
->> specialized timestamping applications to instead use the ethtool ioctl
->> to reconfigure using the PHY timestamps if the device is capable of PHY
->> timestamping. (So have the change be in userspace application tools like
->> linuxptp where precise but low <relative> rate timestamp information is
->> ideal).
->
-> I would expect linuxptp is only interested in the PTP timestamp. It
-> might be interested where the stamp is coming from, PHY or MAC, but it
-> probably does not care too much, it just assumes the time stamp is
-> good for PTP. But i would expect linuxptp has no interest in what the
-> generic socket options are doing.
+Yes. That is correct. To see the state of assignment, I have added a
+monitor_state in each group to see if the counters are assigned to that group.
 
-For timestamping events and being able to generate and receive them for
-the userspace perspective, there is no special interface just for ptp.
-That said, maybe it makes sense versus having the userspace stack just
-make use of the generic timestamping options. I am slightly against
-doing something special for the ptp implementation since I do think it
-is a typically timestamping application with different configuration
-parameters (like which timestamping layer to select).
+> 
+> 
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+>> 	Unsupported
+>> 	
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+>> 	Unsupported
+>>
+>> h. The event llc_occupancy is not affected by ABMC mode. Users can still
+>>    read the llc_occupancy.
+>>
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/llc_occupancy 
+>> 	557056
+> 
+> {
+> 	MPAM would be the same - because llc_occupancy isn't a counter its a view of the
+> 	state, its possible to multiplex a single llc_occupancy counter behind the scenes
+> 	to provide the value for as many groups as needed. I suspect any other
+> 	architecture would  have the same property.
 
---
-Thanks,
+ok. Good to know.
 
-Rahul Rameshbabu
+> }
+> 
+>> i. Now assign the total event and read the monitor_state.
+>> 	
+>> 	#echo total=assign > /sys/fs/resctrl/monitor_state
+>> 	#cat /sys/fs/resctrl/monitor_state 
+>> 	total=assign;local=unassign
+>> 	
+>> j. Now that the total event is assigned. Read the total event.
+>> 	
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+>> 	6136000
+>> 	
+>> k. Now assign the local event and read the monitor_state.
+>> 	
+>> 	#echo local=assign > /sys/fs/resctrl/monitor_state
+>> 	#cat /sys/fs/resctrl/monitor_state
+>> 	total=assign;local=assign
+>>
+>>         Users can also assign both total and local events in one single
+>> 	command.
+>>
+>> l. Now that both total and local events are assigned, read the events.
+>> 	
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+>> 	6136000
+>> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+>> 	58694
+> 
+> (the bandwidth configuration stuff is the existing BMEC support right?)
 
+Yes. correct.
+
+> 
+> From user-space's perspective MPAM could be made to look the same.
+> 
+> There ought to be some indication to user-space of how many counters it can assign, this
+> number might be different for different resources. This won't be a problem today, but if
+> we had 'mbm_total_bytes' on the L2 cache, the number of counters may be different.
+> 
+> MPAM platforms are unlikely to support both 'mbm_total' and 'mbm_local',  I think this is
+
+Ok. Good to know.
+
+> just a documentation problem to say that mbm_local can't be configured if its not
+> supported - user-space can't blindly assign both.
+> 
+> If the configuration is changed over time - I bet user-space needs a quick way to find
+> where the counters are currently assigned - walking the tree to find out is a bit rubbish.
+> A file that lists the "control_group_name[/mon_group_name]" would help.
+
+Looks like you already found in here.
+
+https://lore.kernel.org/lkml/c16cac16c813a203390229d77d5ab37ebc923d95.1705688539.git.babu.moger@amd.com/
+
+> 
+> 
+> Thanks,
+> 
+> James
+
+-- 
+Thanks
+Babu Moger
