@@ -1,25 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3967603D;
-	Tue, 20 Feb 2024 15:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCE76BB3C
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 15:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708442513; cv=none; b=MJ/o8V5Hi8DYYmLFsYmcY+UZIfy+2kLrcVjyWSRsxsjxlsG71DarhbzeVn1RoTqob5W7TJEftuRmWhJro9KBt19hsF34gqBIp7sSNXuzjFTCDTyJbsuMq9ZmK0bg3ihzOQHR2qopkFLZc6mbqINdS10mNu3EcBWXR4TpgCJNCmk=
+	t=1708442941; cv=none; b=WcD4smxofMoLV3WU3p5JtN8yZJ6Wc+2K3g3sl7Rka85MJ3NQrex/FpQAKAifZ1k/oawBVtAuPKZhf7VNnGTRFYUr4Fpgjv9doLjHF08hgQKeyqm6CFpO7/17p+QVR41RLP8q0Qb74hOZ9hD7agDOvRjsodbUzi/mb3B/+a6MSrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708442513; c=relaxed/simple;
-	bh=j/x7j0zSp0zaeCiGknpLFUi7yYjdhVjWyDUiBYxrBWk=;
+	s=arc-20240116; t=1708442941; c=relaxed/simple;
+	bh=eMn9qDbC9wGSxZ4ewa2LjTQTyBnTusO4hzUEt4oe8Zc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GyDbgN891bdapwbmPPpmChpS/On/+LWXcaRaRB5DaypAov1BH5C+iBkzgdFC7an1muTwEtl0GhtbnJPqZIigDzYQY+Q8HZOQe3bKLj3y8xnvHMrOeqm7Iso+m9XHiuwoJJcZsugunzv2WW2xuZoEP0BJuNgOUn66Ca/sWr0TIAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B8721007;
-	Tue, 20 Feb 2024 07:22:29 -0800 (PST)
-Received: from [10.1.197.60] (eglon.cambridge.arm.com [10.1.197.60])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93FA63F7F4;
-	Tue, 20 Feb 2024 07:21:46 -0800 (PST)
-Message-ID: <1a8c1cd6-a1ce-47a2-bc87-d4cccc84519b@arm.com>
-Date: Tue, 20 Feb 2024 15:21:45 +0000
+	 In-Reply-To:Content-Type; b=pggVQzSYp8UzRUNg8dXVHASyuWtnDW67lYFaTWGDQZkqsT/W8+mvsWkJKX4t/ZXAwvmqrmlN3bsIvfMvqI31ugLE4EoSTL+WdWVHE+X/FOthJjs8NYPiB5krPPqftyafYlkTu6NoXnoNroiGXX5uzBAjsmHxHhHa7YRozqWEEn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c02umZ8E; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c02umZ8E"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d94323d547so39985545ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 07:28:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708442939; x=1709047739; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HiOQuHRHTl2ao4geU6ih/hRdL0KV5KJzFH9GXYSw1So=;
+        b=c02umZ8EFVuf4F/2h72sB45/28+VV/KFAGY4XfDK+pRZkcs3ecWi5mBnbacF10Rea+
+         VZF/YA6T5DX14s/ZM0z6HotVjYfb1KK3PJ0+vI8AocV79FuXAQMU0+rIJGz4HKF68WF4
+         SOJLriCRR39Rk62QHclOFMUwR6hXdPAflK/4v/azt3SuPk4FUv0+O+sGNXJB4sWaAJz2
+         E9JVNOZ0/A8JYMzILvLn/0CB2Uh185kAEFNfABKbU27XMhe7N+voPBuuDBV6BtuGF5e9
+         9SCafpHGSmR+YXcll+tbRcwHLrKBxpe9q8tUTSTqH2lkqoeqRBLYHO+KIA+VEnXBW5DO
+         xyKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708442939; x=1709047739;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HiOQuHRHTl2ao4geU6ih/hRdL0KV5KJzFH9GXYSw1So=;
+        b=vpKnJF95J5QCDrEuJfGnZc4nEEQ6mWaEVj5+PiZxvC0AlHFElf+eh1HF19Qoew0GVQ
+         LXXkV9Qkc1TcByaRAx6zOxdJI7ITS4xsnJOnAmYCadi6Phag4W3XSVUdxkw9C0gFq/ZM
+         X4sEa3AD5A/mo82y3liT8HRAY1hko7HM+5Sygg1Z5NCOYQeXGyi6W0fPxkYKDrXDUUWE
+         E0ONanY/SF/3LlkE813r2qp/tWeIWlrZ44hw2HMzJ3kE8di1L3Zj7UYunG+PUQFVPY+9
+         dlimIQGwe7ySc2ZQ28d+PqgvbyXxffGWydRhwfcRAp5d4gHV+nD+5ZeD7jG+gs+ypMSS
+         HM5w==
+X-Forwarded-Encrypted: i=1; AJvYcCWWW2X3H66YhnhcejhXKFfuTNChdiYplR/9OSwc5fyTdtQKiBZb9mBW6dBrVUeEiteJGhfzYGhVDtvg5gyk9dy2S7XsMyM+U3UB
+X-Gm-Message-State: AOJu0YwmFkrxu4baDHGC0qYtjDxjP41iNkzU0FidmvGKLmZ0ftd6iNrb
+	Bfm/oewwO1pclB0Tl1x2ZAKjIWtxdzxIiMhR+idReI7XZQyDxKQ6
+X-Google-Smtp-Source: AGHT+IH05mm98Jm+JkogcnJIG1qNbV1gSSE9v2UrGV+EDh4Tn8Rrh7T5Q9IpayywWbsFy94h4AUCBg==
+X-Received: by 2002:a17:903:32c7:b0:1db:8907:5fb8 with SMTP id i7-20020a17090332c700b001db89075fb8mr12802648plr.27.1708442938740;
+        Tue, 20 Feb 2024 07:28:58 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id jb19-20020a170903259300b001d9a41daf85sm6388078plb.256.2024.02.20.07.28.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 07:28:58 -0800 (PST)
+Message-ID: <685ad03e-b61c-4c1f-9080-c7298a7625dc@gmail.com>
+Date: Wed, 21 Feb 2024 00:28:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,139 +61,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-GB
-To: Peter Newman <peternewman@google.com>, babu.moger@amd.com
-Cc: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <7c26af23-fa1e-4e01-8088-8fbd9be3d6f3@intel.com>
- <431d6ac4-53cb-2f73-3cda-22616df2f96a@amd.com>
- <4bb63a78-0d0d-47bc-ad65-558af8bc5519@intel.com>
- <51c60991-eb10-40e8-b3ab-676b92b0c662@amd.com>
- <CALPaoChhKJiMAueFtgCTc7ffO++S5DJCySmxqf9ZDmhR9RQapw@mail.gmail.com>
-From: James Morse <james.morse@arm.com>
-In-Reply-To: <CALPaoChhKJiMAueFtgCTc7ffO++S5DJCySmxqf9ZDmhR9RQapw@mail.gmail.com>
+Subject: Re: [PATCH] docs: Instruct LaTeX to cope with deeper nesting
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <87jzn0qw19.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87jzn0qw19.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Peter, Babu,
-
-On 16/02/2024 20:18, Peter Newman wrote:
-> On Thu, Feb 8, 2024 at 9:29 AM Moger, Babu <babu.moger@amd.com> wrote:
->> On 2/5/24 16:38, Reinette Chatre wrote:
->>> You have made it clear on several occasions that you do not intend to support
->>> domain level assignment. That may be ok but the interface you create should
->>> not prevent future support of domain level assignment.
->>>
->>> If my point is not clear, could you please share how this interface is able to
->>> support domain level assignment in the future?
->>>
->>> I am starting to think that we need a file similar to the schemata file
->>> for group and domain level monitor configurations.
->>
->> Something like this?
->>
->> By default
->> #cat /sys/fs/resctrl/monitor_state
->> default:0=total=assign,local=assign;1=total=assign,local=assign
->>
->> With ABMC,
->> #cat /sys/fs/resctrl/monitor_state
->> ABMC:0=total=unassign,local=unassign;1=total=unassign,local=unassign
+On Mon, 19 Feb 2024 09:05:38 -0700, Jonathan Corbet wrote:
+> The addition of the XFS online fsck documentation starting with
+> commit a8f6c2e54ddc ("xfs: document the motivation for online fsck design")
+> added a deeper level of nesting than LaTeX is prepared to deal with.  That
+> caused a pdfdocs build failure with the helpful "Too deeply nested" error
+> message buried deeply in Documentation/output/filesystems.log.
 > 
-> The benefit from all the string parsing in this interface is only
-> halving the number of monitor_state sysfs writes we'd need compared to
-> creating a separate file for mbm_local and mbm_total. Given that our
-> use case is to assign the 32 assignable counters to read the bandwidth
-> of ~256 monitoring groups, this isn't a substantial gain to help us. I
-> think you should just focus on providing the necessary control
-> granularity without trying to consolidate writes in this interface. I
-> will propose an additional interface below to optimize our use case.
+> Increase the "maxlistdepth" parameter to instruct LaTeX that it needs to
+> deal with the deeper nesting whether it wants to or not.
 > 
-> Whether mbm_total and mbm_local are combined in the group directories
-> or not, I don't see why you wouldn't just repeat the same file
-> interface in the domain directories for a user needing finer-grained
-> controls.
+> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+> Link: https://lore.kernel.org/linux-doc/67f6ac60-7957-4b92-9d72-a08fbad0e028@gmail.com/
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-I don't follow why this has to be done globally. resctrl allows CLOSID to have different
-configurations for different purposes between different domains (as long as tasks are
-pinned to CPUs). It feels a bit odd that these counters can't be considered as per-domain too.
+Tested-by: Akira Yokosawa <akiyks@gmail.com>
 
-MPAM can equally allocate monitors/counters per-domain. If we are ever going to have
-per-domain assignment, I think its worth the extra work to do that now and avoid the extra
-user-space interface baggage from the global version.
+And it seems this one might deserve
 
+Cc: stable@vger.kernel.org # v6.4
 
->>>> Peter, James,
->>>>
->>>> Please comment on what you want achieve in "assignment" based on the features you are working on.
+too, in case someone tries "make pdfdocs" against 6.6.x LTS 
+and 6.7.x stable branches.
+
+Commit a8f6c2e54ddc did nothing wrong on its own, so a Fixes: tag
+is inappropriate here.
+
+> ---
+>  Documentation/conf.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> I prototyped and tested the following additional interface for the
-> large-scale, batch use case that we're primarily concerned about:
-> 
-> info/L3_MON/mbm_{local,total}_bytes_assigned
-> 
-> Writing a whitespace-delimited list of mongroup directory paths does
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 5830b01c5642..da64c9fb7e07 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -388,6 +388,12 @@ latex_elements = {
+>          verbatimhintsturnover=false,
+>      ''',
+>  
+> +    #
+> +    # Some of our authors are fond of deep nesting; tell latex to
+> +    # cope.
 
-| mkdir /sys/fs/resctrl/my\ group
+I like this wording! :-)
 
-string parsing in the kernel is rarely fun!
+        Thanks, Akira
 
+> +    #
+> +    'maxlistdepth': '10',
+> +
+>      # For CJK One-half spacing, need to be in front of hyperref
+>      'extrapackages': r'\usepackage{setspace}',
+>
 
-> the following:
-> 1. unassign all monitors for the given counter
-> 2. assigns a monitor to each mongroup referenced in the write
-> 3. batches per-domain register updates resulting from the assignments
-> into a single IPI for each domain
-> 
-> This interface allows us to do less sysfs writes and IPIs on systems
-> with more assignable monitoring resources, rather than doing more.
-> 
-> The reference to a mongroup when reading/writing the above node is the
-> resctrl-root-relative path to the monitoring group. There is probably
-> a more concise way to refer to the groups, but my prototype used
-> kernfs_walk_and_get() to locate each rdtgroup struct.
-
-If this file were re-used for finding where the monitors were currently allocated, using
-the name would be a natural fit for building a path to un-assign one group.
-
-
-> I would also like to add that in the software-ABMC prototype I made,
-> because it's based on assignment of a small number of RMIDs,
-> assignment results in all counters being assigned at once. On
-> implementations where per-counter assignments aren't possible,
-> assignment through such a resource would be allowed to assign more
-> resources than explicitly requested.
-> 
-> This would allow an implementation only capable of global assignment
-
-Do we know if this exists? Given the configurations have to be different for a domain, I'd
-be surprised if counter configuration is somehow distributed between domains.
-
-
-> to assign resources to all groups when a non-empty string is written
-> to the proposed file nodes, and all resources to be unassigned when an
-> empty string is written. Reading back from the file nodes would tell
-> the user how much was actually assigned.
-
-What do you mean by 'how much', is this allow to fail early? That feels a bit
-counter-intuitive. As this starts with a reset, if the number of counters is known - it
-should be easy for user-space to know it can only write X tokens into that file.
-
-
-Thanks,
-
-James
