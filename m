@@ -1,116 +1,113 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA952664B9;
-	Tue, 20 Feb 2024 11:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3A167C63
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 11:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708428635; cv=none; b=VYcHdssyao42YM2CJYLKpT54LoMGr+BQhSrsJocOtgeQyOmEQEyjJ99+4Bj+7SnsdYR3oCWa9QBgEnmWMfgs1AOqR32H5CT3T7VfYYBXvdzhGOgCQDDOXNeiLHBjBoDQkXomtT5ojb7D0rBsryAmD1Qrv8mfakD8bV30JuibVRQ=
+	t=1708429335; cv=none; b=PWLdXSOw29NNl0xLxwZ0zrTrlByIO/o4HDPEMazQe0Sv7foN7H+B/kzqIqe9wkv+rBN2qgclxwLNqi34S6VuNoTmHOlygPRk2H4hivvwQMB3Ypj8T6vQiFrzjGN4ql9vD2xwERIQMUYYGfoOvuulqmCHnpRsln66iVMymXkt5ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708428635; c=relaxed/simple;
-	bh=+DvpbPLBThjvTjdhN6hhOmNTy8Eu3RCG1WwHjSmI7lA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JO+b/Qw5V4bQ+SjmVfDzMxQhOULGanGBqBAzjOtNK7f5a56NidNzS+6rXj6zpx1sE/IDRH6wD9NdgLwlBD3tI6T18oKLBWcCvRsgiGL+wUdJMgxY0igY5VKfaBTbNzdtdcgHqVFpsiZimDO0hHOebgK913Gp5FUn+P0eOz0/wwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=fsSLVnDr; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1708429335; c=relaxed/simple;
+	bh=ouR2+vSQw/fSXVao+thlbu3IjNZ33JoflBcFWY3O8Jk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fptmu0qH8/hqeBXBwKwYM5sMpNlve969YXsI8YYiqDtBy/Yk5DEYYbqLZMFUyfXFmZc5WxnaYW5bOpp7Esb/AJeNO00vo97yQO0l1XIT91h58cmhbeVnZmQE+q066d2tggkiJMfbNNvEVrcSS5BVMaM67CL/BspiYWM7tvwKG+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=zqE1ULDu; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="fsSLVnDr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8IV/wZQmZmc4s7oLURGMbrTnuZsGulpwAe3ozx8f5sY=; b=fsSLVnDrrExhI/ODinstjQY7lP
-	HmvWm3h/RGYKlbPxL1A0a3vxKmj936BI7nB63cCc77mwlQtB7EkoPA6H14gi2c2p/E94vjc8iDvBG
-	sTYvRG6F3Jh/G9K03LitnZXPFDFStmjvubNkyGKrSSNOKoBdv7pX/cIa7f/wQ/uTRXxgtCGsX+Xd9
-	iNnRTbExTSaP+A26vWf8MLn40QWYwDxMJQpAEhTzYKM60BfWf5+Zlf6TMkgCCa9IB3sdf1E4sBH1y
-	44k/ZKPTxdYPW/5h1mZtb/SBW5Ce7+ZtjigBjo2MnUsRqUrJzu0YXrD8uzaVjFfif5eSByJylyZiq
-	gtWBI+NA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39114)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rcOKU-0002Jp-0v;
-	Tue, 20 Feb 2024 11:30:30 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rcOKT-0000pa-2v; Tue, 20 Feb 2024 11:30:29 +0000
-Date: Tue, 20 Feb 2024 11:30:28 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH RFC v4 01/15] ACPI: Only enumerate enabled (or
- functional) processor devices
-Message-ID: <ZdSNVPjsti7XKxCV@shell.armlinux.org.uk>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
- <E1rVDmP-0027YJ-EW@rmk-PC.armlinux.org.uk>
- <CAJZ5v0hY_LXp41WMVPhiLosPe7YVzF38Uz=EhmJqVwqFn==Upw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="zqE1ULDu"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4cea831ed57so263091e0c.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 03:42:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1708429333; x=1709034133; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AsA1IuJ1QgZr3RxDT4dHm54eEdxgfhuTT8X+jj/Chbk=;
+        b=zqE1ULDuEYEjsylSbBQU4zhm/yArJK978TWf3jKkxUIiwW5XiToMdRgkqF5hQseidX
+         X3CR8GsFEQ0TGEjFOcy8zD+YZiCuWlMueyKy+fSwE+bewsc1p3J6GFl3HbOgxtaOP873
+         gXZqAp31rH8PhkH3STA+0P4iXoV4VTXjxzYmC+K02khLFBWjxqqIJX9rL7hYB7ly4TE9
+         hrdFwL016oeDPcfNTSr162fURpO7aevF6oQCcLhfGy6K308RegpC1lEDxoVLdCnKbjUc
+         C4HJnNTTFouXjmOBbp13A7XO4aTETwMbgGooBruF+9+TNDE3AfLLcroXBSEUHuPntSiL
+         rIHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708429333; x=1709034133;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AsA1IuJ1QgZr3RxDT4dHm54eEdxgfhuTT8X+jj/Chbk=;
+        b=L0yc5YY5NMx3nNTK1SS6kuep7GAKkdDgI2S7XgL1GUuDcUeEypESyDpBBA5NaFypRk
+         AFM79mbF4QJMHY60UOUkzvJGRCApWxeKw/9FUjDAbXAP83VsHxXKiCrVM9gnyJEsvWEN
+         0cnCWFhbbujiB4Um7LtswK/M0DTkK48aio91aNJfDxFbGSP8Asj3w5DsWs+4+qrK84ZG
+         padfTKXVexnCZk36el14cON7njfPZ4Xqvd82oG+nizBA+W4eLq9HOOKA0DB4rG+qBK2I
+         WqQL/YEBpmEAedCU7HVB8Tse3E5ZDoH7deTMcmegUcacVuGVE7Oqur4la7F55EfdQBEM
+         3jRA==
+X-Forwarded-Encrypted: i=1; AJvYcCX6f8nKYD97ObN15NAtBnw3hk1VTdF1N0NR/QEO0iz0ZvqaASnPyLDb0G/kCAttj0F13Gvkq6ddcF+Ol7ebJmevblQvUShp07Ot
+X-Gm-Message-State: AOJu0YwoXcUs1NpL4xP82gJAZH4gD9RkI47uLKME9RU6d+Tcqi/c0Epa
+	Wcv5XXF3lgZuFeddZ1w115wfXJH+wwTxuz5am5k4GcYDvsXQ75RqUj9P+v7l1NPA/hU+6A3LGY6
+	vWLj11B0L31650wj0g3V0XeLd6XzR8rZxJh0unNlwsZe2YwFv
+X-Google-Smtp-Source: AGHT+IHcllRQy0QvMPlfXyC0j4mq7HZDSa6oNk423QQzmnQONpsBgUoG4iBcidN29kecafPXzp6gdVs8vJxKCKzoCyQ=
+X-Received: by 2002:a1f:4b07:0:b0:4c0:2182:3cdc with SMTP id
+ y7-20020a1f4b07000000b004c021823cdcmr11701946vka.1.1708429333138; Tue, 20 Feb
+ 2024 03:42:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0hY_LXp41WMVPhiLosPe7YVzF38Uz=EhmJqVwqFn==Upw@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20240213160522.37940-1-lincoln.wallace@canonical.com>
+In-Reply-To: <20240213160522.37940-1-lincoln.wallace@canonical.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 20 Feb 2024 12:42:02 +0100
+Message-ID: <CAMRc=MdoUuOLTYHu99+c_AVhnDZ5LkKHkYJ0D681fcJV_aW2Ng@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: Add a note on the deprecated GPIO
+ Testing Driver
+To: lincoln.wallace@canonical.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, corbet@lwn.net, linus.walleij@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 15, 2024 at 09:10:39PM +0100, Rafael J. Wysocki wrote:
-> On Wed, Jan 31, 2024 at 5:49 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> >
-> > From: James Morse <james.morse@arm.com>
-> >
-> > Today the ACPI enumeration code 'visits' all devices that are present.
-> >
-> > This is a problem for arm64, where CPUs are always present, but not
-> > always enabled. When a device-check occurs because the firmware-policy
-> > has changed and a CPU is now enabled, the following error occurs:
-> > | acpi ACPI0007:48: Enumeration failure
-> >
-> > This is ultimately because acpi_dev_ready_for_enumeration() returns
-> > true for a device that is not enabled. The ACPI Processor driver
-> > will not register such CPUs as they are not 'decoding their resources'.
-> >
-> > ACPI allows a device to be functional instead of maintaining the
-> > present and enabled bit, but we can't simply check the enabled bit
-> > for all devices since firmware can be buggy.
-> >
-> > If ACPI indicates that the device is present and enabled, then all well
-> > and good, we can enumate it. However, if the device is present and not
-> > enabled, then we also check whether the device is a processor device
-> > to limit the impact of this new check to just processor devices.
-> >
-> > This avoids enumerating present && functional processor devices that
-> > are not enabled.
-> >
-> > Signed-off-by: James Morse <james.morse@arm.com>
-> > Co-developed-by: Rafael J. Wysocki <rjw@rjwysocki.net>
-> > Tested-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> 
-> I can queue this up for 6.9 as it looks like the rest of the series
-> will still need some work.  What do you think?
+On Tue, Feb 13, 2024 at 5:05=E2=80=AFPM <lincoln.wallace@canonical.com> wro=
+te:
+>
+> From: Lincoln Wallace <lincoln.wallace@canonical.com>
+>
+> A deprecation note was added on gpio-mockup Kconfig since v6.7,
+> update the documentation to inform users.
+>
+> Signed-off-by: Lincoln Wallace <lincoln.wallace@canonical.com>
+> ---
+>  Documentation/admin-guide/gpio/gpio-mockup.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentati=
+on/admin-guide/gpio/gpio-mockup.rst
+> index 493071da1738..a6424de925da 100644
+> --- a/Documentation/admin-guide/gpio/gpio-mockup.rst
+> +++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
+> @@ -3,6 +3,11 @@
+>  GPIO Testing Driver
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> +.. note::
+> +    Since kernel version 6.7, this method is being deprecated. Prefer us=
+ing
+> +    Documentation/admin-guide/gpio/gpio-sim.rst instead for kernel versi=
+ons
+> +    newer than 5.17, which is when gpio-sim was added.
+> +
+>  The GPIO Testing Driver (gpio-mockup) provides a way to create simulated=
+ GPIO
+>  chips for testing purposes. The lines exposed by these chips can be acce=
+ssed
+>  using the standard GPIO character device interface as well as manipulate=
+d
+> --
+> 2.40.1
+>
 
-That seems to be the only way we can make some progress with this
-series. I've no idea how we progress from here because I can't answer
-your questions on patch 2.
+We already have a note on that, thanks.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Bart
