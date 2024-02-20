@@ -1,118 +1,146 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFACF76C6E
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 16:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FDE76408;
+	Tue, 20 Feb 2024 16:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708445720; cv=none; b=SQHrlkYDEqtBZEnznLUeltoScJIgGJOCqWgouAP7YlpWmJmBhjErnIcLJjNwHomW2Cz+IzJEiU/tmFeBja9wmcbv2aOJvldfPDqLl3olztijchjjzeQiOvPOJFzCS995ArtZ6lc3L9E42YWmVu9QTbIle8omV0ByMVto09ZFOaE=
+	t=1708446040; cv=none; b=GomqaNvUapRm6vccni10ZzboKHZ2ABZXw33YY8bb2rbt2RFRLNtMjz6pDF44AMMiNKxSGsp5QYdp6LYSUSOTuoOK1JoXE7eaZQKDzrEvte8BGZbftPJKYCNoQkOTOpxb7FIirbpJWFNpfeHR6hW5GujHuZkzjnm5b5wARA0IelM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708445720; c=relaxed/simple;
-	bh=Ey6ErHBVbqQQFaARRSSxWyFZtNcBtj/qBDxHXsIykls=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=An7x7QNMyGNH2Gqlwi6dDbyCwCvjNSTut6jp3BVyisgll5sQfp76IViJ8so1qb8Am315DyDYaWsHqTCdnYrZiFHld/qrL0IDKd34IiLoLJKBpmKIXoxcV0/7Vo2owXYTit3pQTiPzYjaL/npmkJS9uSeuOObq+FZxCAmpBneMGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dTxSX285; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1708446040; c=relaxed/simple;
+	bh=8YQv7aLTPzzKaJ7jlQ5Sre4GQB/b020Pt6fSgtcM+TE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HGjOrXBGhdwMo5p4715CRlUoPoRVED6XpHlPnfAC2QYeVDaE6Q5G3KJ5kSJDEiqwfAYLKqm2nzdNJpFcUbaYxxQ4CwP9GVEiLhdZlvIT097MqBJWU74xuYAAhzg/qhMqxtwe9RZC3Rd5xmq+C7kgHnDEJTgrwAIM5xHITiIcGdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QIRKyTj8; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dTxSX285"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6b26783b4so4730050276.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 08:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708445708; x=1709050508; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gGVaEpoRy83RsqKWj1BDNY8ZLAKIFU3H8chjcBdzZQ4=;
-        b=dTxSX285wINLcioxkombr9MEQCvXPobFahkDQ2lvGX6ul7kYwAp1vItnlUC1ZVavMz
-         BnG+UjuDNyIFZcTkCBpgeCa0S8Hipa7Q4//YuGIybW2fTdvlG4r6KM6uhcdqha+tTif6
-         wNJhmMjpQ8Spt7jw1F+GRSAvETTnQHP7aFJmsxOZ07nCTm8Yh8ZgmqUiownXRHzPtiCL
-         5p4X5vH0Y6va2UZEmkuXGAmiou5GMjN18X5MWNW1wjJLMKzvqqzfJqBPdV3kESleQ0vK
-         C+Xj2iOzvjcmrqTMDb/TVaTMdk5nLYvQLMcnLl4AoesGBfvCy8J21iqCCXEO7SpipZ+8
-         1KiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708445708; x=1709050508;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gGVaEpoRy83RsqKWj1BDNY8ZLAKIFU3H8chjcBdzZQ4=;
-        b=eTzkLfnCJGUUAIX28fpG/DvtI/ZGh4p+D6InTM/ySeyJBteJnPaYx32FWB1QFrGFzs
-         +AAschl6tESjuFJaVg4232Cvilz/slcSB2fPlKTphBWon0/D+slqZ5Ja89KYHgFeBT2A
-         FuK5iovXmfdSRokdFCMo1g7aL5KJRJI7/i6FaoDYSnl4J+rmI82/JWHwGNdWOig6kHRN
-         hsJR+j60RcE2Iu0tvnJ0LQS8w+k1W40Au0bBoHLlTRsHwizkou383rw7n5dxTmrt7OtJ
-         GJp4fGIOG5ybIX4ZfKZXDaj1t+Ihwt29KmsFNWcAfxNCIjxLLWoFDJ0NMIg/Xo8lToqG
-         4o7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUYRqSEcu3HJVQwJ3RqeSALzfUjNyBrxQK5gQYRkGZgPfTUy7W9TL3x6O5UJ1VuIfhjmLAH1IW9SHTvlBAUvQWPrRHh53UXPZ/r
-X-Gm-Message-State: AOJu0YxQiwuNdcZM+qPCZkjJnxiUBPP5yH6XkCG9rrjdBgtJwg+c85yN
-	POfbQWAGP1CALcD253NU36b9BjhwAqlMxtRnNNp4nvJe4RLIclZ7C/zmL7I0BRn1SnPZ+wr2zdI
-	mgw==
-X-Google-Smtp-Source: AGHT+IHOl1ZsAPNJTwpqdmUVaVuTbX0oezG+zWKz4lEs+PmYyLIBMZWVYtpKpRe+ZKQU8wz9tv5wxLQvY2M=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:1547:b0:dc7:3189:4e75 with SMTP id
- r7-20020a056902154700b00dc731894e75mr587165ybu.3.1708445707962; Tue, 20 Feb
- 2024 08:15:07 -0800 (PST)
-Date: Tue, 20 Feb 2024 08:15:06 -0800
-In-Reply-To: <05973da0-f68c-4c84-8806-bdba92f2ed6e@xen.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QIRKyTj8"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 02E04240004;
+	Tue, 20 Feb 2024 16:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708446035;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pXos02wI1NevLoKIn6UfDZ/DT2LVCxm0HsQrNIoS9qw=;
+	b=QIRKyTj8c5fpAGiYJiASyDw9WoF4XtF3FZAOmveqKKYIkasIzidfU3JLHPT8/T0CCqli53
+	s5q+RtSlnAko+igLmKgeVSTe1InW/gAuXXU6osKRWw1D7zjFLjZHBCsaYtt9+iiS2RFNkc
+	XDKrd29uZEvN5CINymsS4Zn1pCw6dvf4VEEW4od3YFhqEvnJdoY62vYj9KMssIr2j5Q0VC
+	NLn6VW/lc6vmI0E+Q3QLLYHwztna+ZFZZ5xVZu3W6WRINwqrbiZcyt94wPc9OIGpg/Qgqk
+	JLLZ0DGExukFlycsPkRXfSLuH+CuGkTrEhhBx0F5FwkovvFw9jfH21NzYhyOUg==
+Date: Tue, 20 Feb 2024 17:20:33 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard Cochran
+ <richardcochran@gmail.com>, Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY
+ default timestamp to MAC
+Message-ID: <20240220172033.556f321f@kmaincent-XPS-13-7390>
+In-Reply-To: <ZdN9pPf3wXwE/9nX@shell.armlinux.org.uk>
+References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
+	<20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
+	<87jzn4gtlv.fsf@nvidia.com>
+	<20240219142936.62112d34@kmaincent-XPS-13-7390>
+	<ZdN9pPf3wXwE/9nX@shell.armlinux.org.uk>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240215152916.1158-1-paul@xen.org> <170838297541.2281798.7838961694439257911.b4-ty@google.com>
- <05973da0-f68c-4c84-8806-bdba92f2ed6e@xen.org>
-Message-ID: <ZdTQCuWor4ipxW6E@google.com>
-Subject: Re: [PATCH v13 00/21] KVM: xen: update shared_info and vcpu_info handling
-From: Sean Christopherson <seanjc@google.com>
-To: paul@xen.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, David Hildenbrand <david@redhat.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-s390@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, Feb 20, 2024, Paul Durrant wrote:
-> On 20/02/2024 15:55, Sean Christopherson wrote:
-> > On Thu, 15 Feb 2024 15:28:55 +0000, Paul Durrant wrote:
-> > > From: Paul Durrant <pdurrant@amazon.com>
-> > > 
-> > > This series contains a new patch from Sean added since v12 [1]:
-> > > 
-> > > * KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot()
-> > > 
-> > > This frees up the function name kvm_is_error_gpa() such that it can then be
-> > > re-defined in:
-> > > 
-> > > [...]
-> > 
-> > *sigh*
-> > 
-> > I forgot to hit "send" on this yesterday.  But lucky for me, that worked out in
-> > my favor as I needed to rebase on top of kvm/kvm-uapi to avoid pointless conflicts
-> > in the uapi headeres.
-> > 
-> > So....
-> > 
-> > Applied to kvm-x86 xen, minus 18 and 19 (trylock stuff) and 21 (locking cleanup
-> > that we're doing elsewhere).
-> > 
-> 
-> Looks like you meant 17 & 18?
+On Mon, 19 Feb 2024 16:11:16 +0000
+"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 
-Doh, yes.
+> On Mon, Feb 19, 2024 at 02:29:36PM +0100, K=C3=B6ry Maincent wrote:
+> > On Fri, 16 Feb 2024 10:09:36 -0800
+> > Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
+> >  =20
+> > > On Fri, 16 Feb, 2024 16:52:22 +0100 Kory Maincent
+> > > <kory.maincent@bootlin.com> wrote: =20
+> > > > Change the API to select MAC default time stamping instead of the P=
+HY.
+> > > > Indeed the PHY is closer to the wire therefore theoretically it has=
+ less
+> > > > delay than the MAC timestamping but the reality is different. Due to
+> > > > lower time stamping clock frequency, latency in the MDIO bus and no=
+ PHC
+> > > > hardware synchronization between different PHY, the PHY PTP is often
+> > > > less precise than the MAC. The exception is for PHY designed specia=
+lly
+> > > > for PTP case but these devices are not very widespread. For not
+> > > > breaking the compatibility default_timestamp flag has been introduc=
+ed
+> > > > in phy_device that is set by the phy driver to know we are using the
+> > > > old API behavior.
+> > > >
+> > > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > > > ---   =20
+> > >=20
+> > > Overall, I agree with the motivation and reasoning behind the patch. =
+It
+> > > takes dedicated effort to build a good phy timestamping mechanism, so
+> > > this approach is good. I do have a question though. In this patch if =
+we
+> > > set the phy as the default timestamp mechanism, does that mean for ev=
+en
+> > > non-PTP applications, the phy will be used for timestamping when
+> > > hardware timestamping is enabled? If so, I think this might need some
+> > > thought because there are timing applications in general when a
+> > > timestamp closest to the MAC layer would be best. =20
+> >=20
+> > This patch comes from a request from Russell due to incompatibility bet=
+ween
+> > MAC and PHY timestamping when both were supported.
+> > https://lore.kernel.org/netdev/Y%2F4DZIDm1d74MuFJ@shell.armlinux.org.uk/
+> >=20
+> > His point was adding PTP support to a PHY driver would select timestamp
+> > from it by default even if we had a better timestamp with the MAC which=
+ is
+> > often the case. This is an unwanted behavior.
+> > https://lore.kernel.org/netdev/Y%2F6Cxf6EAAg22GOL@shell.armlinux.org.uk/
+> >=20
+> > In fact, with the new support of NDOs hwtstamp and the
+> > dev_get/set_hwtstamp_phylib functions, alongside this series which make
+> > timestamp selectable, changing the default timestamp may be not necessa=
+ry
+> > anymore.
+> >=20
+> > Russell any thought about it?  =20
+>=20
+> My position remains: in the case of Marvell PP2 network driver with a
+> Marvell PHY, when we add PTP support for the Marvell PHYs (I have
+> patches for it for years) then we must _not_ regress the existing
+> setup where the PP2 timestamps are the default.
 
-> > Paul and David, please take (another) look at the end result to make sure you don't
-> > object to any of my tweaks and that I didn't botch anything.
-> > 
-> 
-> What was the issue with 17? It was reasonable clean-up and I'd like to keep
-> it even without 18 being applied (and I totally understand your reasons for
-> that).
+Yes, that's what I thought.
+About the Marvell PHYs PTP support I have a few fixes on it, but we will
+talk about it when this series gets merged.
 
-I omitted it purely to avoid creating an unnecessary dependency for the trylock
-patch.  That way the trylock patch (or whatever it morphs into) can be applied on
-any branch (along with the cleanup), i.e. doesn't need to be taken through kvm-x86/xen.
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
