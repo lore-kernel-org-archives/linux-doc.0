@@ -1,62 +1,31 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DDF664A9;
-	Tue, 20 Feb 2024 10:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25473629FD;
+	Tue, 20 Feb 2024 10:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708426403; cv=none; b=C93xxsU9Gq5wEgYZFBs14wgnxL25TY/J/2+lk7iRqX41s/r86M5dXsfnU854XnJj/22u+NmjfENIoTZikQKOc/ihfk1pB4Rz/ySu76dvrdXp1JuxqA4t8NKCkQ5RW9eeseeH5jMhW8tCjqSy9WV19THvuMFxPf3PZ0I3Naxivyc=
+	t=1708426529; cv=none; b=YoJRoYqynCUIqKJHvBeCSGeVEZSDQ+fY6nXb2P8Ki4AgRPsx8G47unhb+H3zqlwuKvX7VMyqqm1xVgS1APsm/w793SM1SvTDZrImIEqiWR4LVnWnzOkq2hBffNGbL3VT3S3OrOpjwQH0pvrpZ7O8F3y86DfDMLPN8b2dU8ov7U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708426403; c=relaxed/simple;
-	bh=WcrPPnFdIaTswNzGGLNCjpYeRfDUJLHsrVeXfxJS7Wk=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YTThp2efe7emMzZsHqJ+aDVRGQGQfnTC3T8ouv6S+fLj90pkGN6NfS4tWT34bQVXFso4Q0CN+8Mhy8358EmKHPHVjypY25rCdVsP+B0XIAXdmsOAwnb/M/T4Nc8ZpsiwpUGPh6yvZdy2MWUzYJz5F5y0mErrnphBcoOcPRwKjLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TU7e7pDP; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TU7e7pDP"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3394bec856fso3600667f8f.0;
-        Tue, 20 Feb 2024 02:53:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708426400; x=1709031200; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Kk7TVBPE2HlTc1l9Sm4itMeOxxlwuSodhj0pqtVmHM=;
-        b=TU7e7pDP24TYuKARhHMIpwW55U49f5b5/PudxMBWTvNeKd9OHCk583W8CUl61O0loj
-         trxrqBIP32qju7gLSNWU1J83hO3wW+EadX28rggK7yR6wha4AdiGn/T/D4j/Po1r2AjM
-         h7FzLqBwei0ShQBtIfqolWxi3/X7p7j1TcJ0BaePblskZTihqaZcPEBt4Ely4wHyBkxD
-         /z79p9HHYgVseW5Uq3HXmqSIiIyicxOK+tMxM6QvDVGihInDVI01G4E3T55QFrO9y/eC
-         NfIzAUbsVvN5CqObIR+AxeNlHJ9G5ScKqDWr2p7+IaQsef0y2OYqirBb5lKJUetYdqH2
-         HD4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708426400; x=1709031200;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Kk7TVBPE2HlTc1l9Sm4itMeOxxlwuSodhj0pqtVmHM=;
-        b=c2s7dfBOs93FR7GsgDlri+6XLVdl4l4ktDiAsjAHAz3+hhTma0V3na8GAx2ppJQXWg
-         6aLOUgESIaGVr03sJhfMWmcMEaAxROwOvC5TPkJdO6sDwjNy75sYouE/LgDB4119qqmS
-         RwU9PX5JS8Hh02MCtacAeGLmyBrq+zWN6h3I0x0SaiIl19EzFsNNpcj7VqzIv4vvejEw
-         uZ+iFDnOpU4F1vPPWRbF2WAW/BW6glXzVwSThtQiLEFT5ADXkHfTUZ2zUnpy5M5MPW32
-         93lP5Cff8Ww6C0vqshr3Ov+jonw4fKnEzqH43j0lYkJMBOBn/31HeGSiNJHQCCJ33NP4
-         I66g==
-X-Forwarded-Encrypted: i=1; AJvYcCWQx7LrfKPoA2JHEgQG7YCgaK5BBXEOl3oWE37zHUPwJ42hYjflTYAAlFNplejujq035HqRM2sf48v6Wi50M4eOWOE2bgxpyOW/fF3C9ZKyeOtfFEvp76gktOOA7rhbv6oQtE9MAjAkm/yokAsUgTGWgQ199jfL42m+dwCQbKHjYomg5HGFDcEHQwx1YiauEKm+Do2n1/IaiMuJNBc6P9y8y0LNCYXF6/j7l1EKQRv2OljDxZT9yvvv0Q==
-X-Gm-Message-State: AOJu0Yw8oXJDhpl/MLOGjFGVWm0YJGKw5AQON4vdvntSeOf9hj+69q65
-	7cB7ahmXljegQJrkgXH+TpqHnMpVZXycNhhkvGGz/CdES3l2QcaQ
-X-Google-Smtp-Source: AGHT+IH7465FJ5bRclP1AsBPW6J2ByerjfrQoZxMhpklVxMUbyc5bzfafg2vxzaK3n/7AH+GNoFpcw==
-X-Received: by 2002:a5d:5345:0:b0:33d:1bd1:8ae2 with SMTP id t5-20020a5d5345000000b0033d1bd18ae2mr9759369wrv.19.1708426400183;
-        Tue, 20 Feb 2024 02:53:20 -0800 (PST)
-Received: from [192.168.10.18] (54-240-197-233.amazon.com. [54.240.197.233])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05600016c500b0033d60cba289sm3750737wrf.68.2024.02.20.02.53.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 02:53:19 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <0ba3a87b-7596-466c-9415-7af28c95dd1e@xen.org>
-Date: Tue, 20 Feb 2024 10:53:18 +0000
+	s=arc-20240116; t=1708426529; c=relaxed/simple;
+	bh=IprKEQacloDy2lr5l5ZpfQJvMm+MHJ9C7f5VwlbR96Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JUUcxu1tLvVojJU7BZ8LcwW+yK8+7AjIA26Hn/dlh+HRmoMvKw5FR0++ajRS0i5gwc1L6mtBacuT3Fl3s1PKMJxYB9qh/ipSa8icQAkXzOKinaT34e9gjgV24Kecx2whdPlYas/eBri56HvaCWQbu1l8HLp/PJ8cU4BoJ30XySE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TfGRT5fyCz6K5v8;
+	Tue, 20 Feb 2024 18:51:17 +0800 (CST)
+Received: from frapeml500002.china.huawei.com (unknown [7.182.85.205])
+	by mail.maildlp.com (Postfix) with ESMTPS id 27EEE140B30;
+	Tue, 20 Feb 2024 18:55:17 +0800 (CST)
+Received: from [10.81.214.45] (10.81.214.45) by frapeml500002.china.huawei.com
+ (7.182.85.205) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Tue, 20 Feb
+ 2024 11:55:16 +0100
+Message-ID: <773dd9fb-e668-4652-8b24-712553bb7ab1@huawei-partners.com>
+Date: Tue, 20 Feb 2024 11:55:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,92 +33,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v13 00/21] KVM: xen: update shared_info and vcpu_info
- handling
+Subject: Re: [RFC 6/8] KEYS: PGP data parser
 Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20240215152916.1158-1-paul@xen.org> <ZdPQ_AcbTYMtArFJ@google.com>
- <f85098ba-b56e-455a-9b73-909d71cf0b51@xen.org>
-Organization: Xen Project
-In-Reply-To: <f85098ba-b56e-455a-9b73-909d71cf0b51@xen.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: "H. Peter Anvin" <hpa@zytor.com>, Roberto Sassu
+	<roberto.sassu@huaweicloud.com>, Matthew Wilcox <willy@infradead.org>, Petr
+ Tesarik <petrtesarik@huaweicloud.com>
+CC: Dave Hansen <dave.hansen@intel.com>, =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?=
+	<petr@tesarici.cz>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner
+	<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "maintainer:X86
+ ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Andy Lutomirski
+	<luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
+	<peterz@infradead.org>, Xin Li <xin3.li@intel.com>, Arnd Bergmann
+	<arnd@arndb.de>, Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe
+	<rick.p.edgecombe@intel.com>, Kees Cook <keescook@chromium.org>, "Masami
+ Hiramatsu (Google)" <mhiramat@kernel.org>, Pengfei Xu <pengfei.xu@intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>, "Kirill
+ A. Shutemov" <kirill.shutemov@linux.intel.com>, Kai Huang
+	<kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>, Brian Gerst
+	<brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Joerg Roedel
+	<jroedel@suse.de>, "Mike Rapoport (IBM)" <rppt@kernel.org>, Tina Zhang
+	<tina.zhang@intel.com>, Jacob Pan <jacob.jun.pan@linux.intel.com>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>, David Howells <dhowells@redhat.com>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
+ <20240216152435.1575-1-petrtesarik@huaweicloud.com>
+ <20240216152435.1575-7-petrtesarik@huaweicloud.com>
+ <Zc-Q5pVHjngq9lpX@casper.infradead.org>
+ <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com>
+ <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com>
+From: Petr Tesarik <petr.tesarik1@huawei-partners.com>
+In-Reply-To: <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: frapeml100006.china.huawei.com (7.182.85.201) To
+ frapeml500002.china.huawei.com (7.182.85.205)
 
-On 20/02/2024 09:14, Paul Durrant wrote:
-> On 19/02/2024 22:06, Sean Christopherson wrote:
->> On Thu, Feb 15, 2024, Paul Durrant wrote:
->>> David Woodhouse (1):
->>>    KVM: pfncache: rework __kvm_gpc_refresh() to fix locking issues
+On 2/16/2024 6:08 PM, H. Peter Anvin wrote:
+> On February 16, 2024 8:53:01 AM PST, Roberto Sassu <roberto.sassu@huaweicloud.com> wrote:
+>> On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
+>>> On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
+>>>> From: David Howells <dhowells@redhat.com>
+>>>>
+>>>> Implement a PGP data parser for the crypto key type to use when
+>>>> instantiating a key.
+>>>>
+>>>> This parser attempts to parse the instantiation data as a PGP packet
+>>>> sequence (RFC 4880) and if it parses okay, attempts to extract a public-key
+>>>> algorithm key or subkey from it.
 >>>
->>> Paul Durrant (19):
->>>    KVM: pfncache: Add a map helper function
->>>    KVM: pfncache: remove unnecessary exports
->>>    KVM: x86/xen: mark guest pages dirty with the pfncache lock held
->>>    KVM: pfncache: add a mark-dirty helper
->>>    KVM: pfncache: remove KVM_GUEST_USES_PFN usage
->>>    KVM: pfncache: stop open-coding offset_in_page()
->>>    KVM: pfncache: include page offset in uhva and use it consistently
->>>    KVM: pfncache: allow a cache to be activated with a fixed (userspace)
->>>      HVA
->>>    KVM: x86/xen: separate initialization of shared_info cache and 
->>> content
->>>    KVM: x86/xen: re-initialize shared_info if guest (32/64-bit) mode is
->>>      set
->>>    KVM: x86/xen: allow shared_info to be mapped by fixed HVA
->>>    KVM: x86/xen: allow vcpu_info to be mapped by fixed HVA
->>>    KVM: selftests: map Xen's shared_info page using HVA rather than GFN
->>>    KVM: selftests: re-map Xen's vcpu_info using HVA rather than GPA
->>>    KVM: x86/xen: advertize the KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA
->>>      capability
->>>    KVM: x86/xen: split up kvm_xen_set_evtchn_fast()
->>>    KVM: x86/xen: don't block on pfncache locks in
->>>      kvm_xen_set_evtchn_fast()
->>>    KVM: pfncache: check the need for invalidation under read lock first
->>>    KVM: x86/xen: allow vcpu_info content to be 'safely' copied
->>>
->>> Sean Christopherson (1):
->>>    KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot()
->>>
->>>   Documentation/virt/kvm/api.rst                |  53 ++-
->>>   arch/s390/kvm/diag.c                          |   2 +-
->>>   arch/s390/kvm/gaccess.c                       |  14 +-
->>>   arch/s390/kvm/kvm-s390.c                      |   4 +-
->>>   arch/s390/kvm/priv.c                          |   4 +-
->>>   arch/s390/kvm/sigp.c                          |   2 +-
->>>   arch/x86/kvm/x86.c                            |   7 +-
->>>   arch/x86/kvm/xen.c                            | 361 +++++++++++------
->>>   include/linux/kvm_host.h                      |  49 ++-
->>>   include/linux/kvm_types.h                     |   8 -
->>>   include/uapi/linux/kvm.h                      |   9 +-
->>>   .../selftests/kvm/x86_64/xen_shinfo_test.c    |  59 ++-
->>>   virt/kvm/pfncache.c                           | 382 ++++++++++--------
->>>   13 files changed, 591 insertions(+), 363 deletions(-)
+>>> I don't understand why we want to do this in-kernel instead of in
+>>> userspace and then pass in the actual key.
 >>
->> Except for the read_trylock() patch, just a few nits that I can fixup 
->> when
->> applying, though I'll defeinitely want your eyeballs on the end result 
->> as they
->> tweaks aren't _that_ trivial.
+>> Sigh, this is a long discussion.
 >>
->> Running tests now, if all goes well I'll push to kvm-x86 within the hour.
+>> PGP keys would be used as a system-wide trust anchor to verify RPM
+>> package headers, which already contain file digests that can be used as
+>> reference values for kernel-enforced integrity appraisal.
+>>
+>> With the assumptions that:
+>>
+>> - In a locked-down system the kernel has more privileges than root
+>> - The kernel cannot offload this task to an user space process due to
+>>  insufficient isolation
+>>
+>> the only available option is to do it in the kernel (that is what I got
+>> as suggestion).
+>>
+>> Roberto
+>>
+>>
 > 
-> Oh, I read this last and you already made the changes :-) I'll check 
-> kvm-x86. Thanks.
-> 
+> Ok, at least one of those assumptions is false, and *definitely* this approach seems to be a solution in search of a problem.
 
-I checked the patches you amended. All LGTM and my tests are fine too.
+As a matter of fact, there is some truth to this observation.
+
+The frustrating story of Roberto's PGP parser sparked the idea, but it
+would clearly be overkill to add all this code just for this one parser.
+I started looking around if there are other potential uses of a sandbox
+mode, which might justify the effort. I quickly found out that it is
+difficult to find a self-contained part of the kernel.
+
+Now I believe that these dependencies among different parts of the
+kernel present an issue, both to kernel security and to maintainability
+of the source code. Even if sandbox mode as such is rejected (hopefully
+with an explanation of the reasons), I believe that it is good to split
+the kernel into smaller parts and reduce their interdependencies. In
+this sense, sandbox mode is a way to express and enforce the remaining
+dependencies.
+
+Petr T
