@@ -1,111 +1,150 @@
-Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC816BB3C;
-	Tue, 20 Feb 2024 17:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B696476C98;
+	Tue, 20 Feb 2024 17:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708450367; cv=none; b=dh0MKTe3JaABfG6pFgM2j0k8vATI05T81lGCL3wuen3Nl9Cfnf1AFDKHvTfcTfjqO6bTPvgTk4kKdA4qib8cF9th0bpfPV656+TXucZcqydlwGJxCwWzxfCOMKm6y7TvFnT0uW1CJhTPts00cs0UV2pOAYeTI5CgpJi0ttaBgqk=
+	t=1708451807; cv=none; b=Njr0Ksq2V2t5nvzNS0vXhSBavCPlMu7OuzX2SFdc9fhb4W+PYRv0VyP2Yoj96UrlTtmu8QfWq5VbhANbwnBEBMnzGBkZNJuGMP09gI4tT8dCaE/Hg9QiLsWzyxzhyMADcWCDk2kBPq5DFThz5SVwWzvCiZ1n1AHH+2b0DLUI8nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708450367; c=relaxed/simple;
-	bh=vLoBhOInKMXmUWflzrfzPFlT60Q1ZisK5pqmlkGmoR0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U/9O8BSay9DESk1+v0mh7Pv4Iw8xK10Bl2GToE4JlMOpJtyLU8IjkhzR0Dfp33EDtCrcT2h5xhJbHhchemN0gKWHBomdYNVMjoVaiMvVbdTuziLHcTL8w3b0gxLGO7dcBC3gthoq7SR1ZnC+PiY+GYot4Un7AsUCjYO8efI9ST8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fxyuYm2K; arc=none smtp.client-ip=91.218.175.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fxyuYm2K"
-Date: Tue, 20 Feb 2024 12:32:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1708450363;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OL5xFDTNv2eO4cGs2LE/aYT6r12sFC1afgYu/aCZ6KM=;
-	b=fxyuYm2KyZqwOjeFMmi1Let2DbXxCie5EhloySkSitC8BRgYw+g8xhKzEPRyrpwaBbr/TU
-	0tafzqcQ40XKTEmAPrIZ3Iw4O895GFa3q7oGe4uavWICcPdzTfB8TRB60MOp0jzPbPvQnG
-	iSWlmNcgFKjgbSQNuTfPAxD2k6jceVg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, david@redhat.com, 
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org, 
-	dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
-	paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com, 
-	yuzhao@google.com, dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-Message-ID: <jwhienldkk4gfxcv5giaxbphp5irfleo2c2inezaj34xu4gkmh@uujdnks2r5w6>
-References: <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
- <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
- <20240215180742.34470209@gandalf.local.home>
- <20240215181648.67170ed5@gandalf.local.home>
- <20240215182729.659f3f1c@gandalf.local.home>
- <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
- <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
- <ZdTSAWwNng9rmKtg@tiehlicka>
- <qnpkravlw4d5zic4djpku6ffghargekkohsolrnus3bvwipa7g@lfbucg3r4zbz>
- <ZdTgWb7eNtF4hLw2@tiehlicka>
+	s=arc-20240116; t=1708451807; c=relaxed/simple;
+	bh=vBVZJ8qhjBTqUAubMKlfbOnylTorwMxfjgmZNZSlUnY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GM/hjiJJg68ID752+6SwBWdP+qwiHiKnspP0nyEO9GXyL/pCAYYdzvt08Sb7CAzM69AUbed9ej/5RSOA/IjvmzPGcrNVlsYeglJGYwtjK9jjf+SpOgABGqDMA/7SkJooYcvRBhgrqAI1tBFdytX2t14lQRtl8DmL5a+uM+/0+7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0040FEC;
+	Tue, 20 Feb 2024 09:57:22 -0800 (PST)
+Received: from [10.1.197.60] (eglon.cambridge.arm.com [10.1.197.60])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DF113F762;
+	Tue, 20 Feb 2024 09:56:38 -0800 (PST)
+Message-ID: <50bd1168-5461-43de-9e64-cbe0019d571d@arm.com>
+Date: Tue, 20 Feb 2024 17:56:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZdTgWb7eNtF4hLw2@tiehlicka>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/17] x86/resctrl: Detect Assignable Bandwidth
+ Monitoring feature details
+Content-Language: en-GB
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <cover.1705688538.git.babu.moger@amd.com>
+ <bba869886410265ffac0250ba2a495e3e7576dfa.1705688539.git.babu.moger@amd.com>
+From: James Morse <james.morse@arm.com>
+In-Reply-To: <bba869886410265ffac0250ba2a495e3e7576dfa.1705688539.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 20, 2024 at 06:24:41PM +0100, Michal Hocko wrote:
-> On Tue 20-02-24 12:18:49, Kent Overstreet wrote:
-> > On Tue, Feb 20, 2024 at 05:23:29PM +0100, Michal Hocko wrote:
-> > > On Mon 19-02-24 09:17:36, Suren Baghdasaryan wrote:
-> > > [...]
-> > > > For now I think with Vlastimil's __GFP_NOWARN suggestion the code
-> > > > becomes safe and the only risk is to lose this report. If we get cases
-> > > > with reports missing this data, we can easily change to reserved
-> > > > memory.
-> > > 
-> > > This is not just about missing part of the oom report. This is annoying
-> > > but not earth shattering. Eating into very small reserves (that might be
-> > > the only usable memory while the system is struggling in OOM situation)
-> > > could cause functional problems that would be non trivial to test for.
-> > > All that for debugging purposes is just lame. If you want to reuse the code
-> > > for a different purpose then abstract it and allocate the buffer when you
-> > > can afford that and use preallocated on when in OOM situation.
-> > > 
-> > > We have always went extra mile to avoid potentially disruptive
-> > > operations from the oom handling code and I do not see any good reason
-> > > to diverge from that principle.
-> > 
-> > Michal, I gave you the logic between dedicated reserves and system
-> > reserves. Please stop repeating these vague what-ifs.
+Hi Babu,
+
+On 19/01/2024 18:22, Babu Moger wrote:
+> ABMC feature details are reported via CPUID Fn8000_0020_EBX_x5.
+> Bits Description
+> 15:0 MAX_ABMC Maximum Supported Assignable Bandwidth
+>      Monitoring Counter ID + 1
 > 
-> Your argument makes little sense and it seems that it is impossible to
-> explain that to you. I gave up on discussing this further with you.
+> Detect the feature details and update
+> /sys/fs/resctrl/info/L3_MON/mon_features.
+> 
+> If the system supports Assignable Bandwidth Monitoring Counters (ABMC),
+> the output will have additional text.
+>  $ cat /sys/fs/resctrl/info/L3_MON/mon_features
+>    mbm_assign_capable
+> 
+> The feature details are documented in APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC).
 
-It was your choice to not engage with the technical discussion. And if
-you're not going to engage, repeating the same arguments that I already
-responded to 10 or 20 emails later is a pretty dishonest way to argue.
+> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> index 4efe2d6a9eb7..f40ee271a5c7 100644
+> --- a/arch/x86/kernel/cpu/resctrl/core.c
+> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> @@ -303,6 +303,17 @@ static void rdt_get_cdp_l2_config(void)
+>  	rdt_get_cdp_config(RDT_RESOURCE_L2);
+>  }
+>  
+> +static void rdt_get_abmc_cfg(struct rdt_resource *r)
+> +{
+> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+> +	u32 eax, ebx, ecx, edx;
+> +
+> +	r->mbm_assign_capable = true;
+> +	/* Query CPUID_Fn80000020_EBX_x05 for number of ABMC counters */
+> +	cpuid_count(0x80000020, 5, &eax, &ebx, &ecx, &edx);
 
-You've been doing this kind of grandstanding throughout the entire
-discussion across every revision of the patchset.
+> +	hw_res->mbm_assignable_counters = (ebx & 0xFFFF) + 1;
 
-Knock it off.
+Please put the mbm_assignable_counters field in struct rdt_resource. The filesystem code
+needs to access this to allocate/free counters and report how many are available.
+After all this gets split and the filesystem code moves to /fs/, the rdt_hw_resrouce
+structure is inaccessible to the filesystem code.
+
+
+> +}
+> +
+>  static void
+>  mba_wrmsr_amd(struct rdt_domain *d, struct msr_param *m, struct rdt_resource *r)
+>  {
+> @@ -815,6 +826,12 @@ static __init bool get_rdt_alloc_resources(void)
+>  	if (get_slow_mem_config())
+>  		ret = true;
+>  
+> +	if (rdt_cpu_has(X86_FEATURE_ABMC)) {
+> +		r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+> +		rdt_get_abmc_cfg(r);
+
+> +		ret = true;
+
+Does it make sense to report rdt_alloc_capable if the SoC has ABMC, but nothing that can
+be configured?
+
+This code would probably make more sense in the get_rdt_mon_resources().
+
+
+> +	}
+> +
+>  	return ret;
+>  }
+>  
+> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+> index a4f1aa15f0a2..01eb0522b42b 100644
+> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+> @@ -391,6 +391,8 @@ struct rdt_parse_data {
+>   *			resctrl_arch_get_num_closid() to avoid confusion
+>   *			with struct resctrl_schema's property of the same name,
+>   *			which has been corrected for features like CDP.
+
+> + * @mbm_assignable_counters:
+> + *			Maximum number of assignable ABMC counters
+
+As above, please move this to struct rdt_resource. The 'hw' version becomes private to the
+arch code after the move to /fs//
+
+
+>   * @msr_base:		Base MSR address for CBMs
+>   * @msr_update:		Function pointer to update QOS MSRs
+>   * @mon_scale:		cqm counter * mon_scale = occupancy in bytes
+
+
+Thanks,
+
+James
+
