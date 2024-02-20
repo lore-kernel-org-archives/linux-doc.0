@@ -1,224 +1,153 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0632267E91
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 11:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90153664CF;
+	Tue, 20 Feb 2024 11:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708427495; cv=none; b=jsJ2wjjCZh3uPJmLRkCRPvmGYSiEKOkoXhknxcojzAYv0V8RMYAaEe78RvIwKBCOtkEzr3nfCsV72nnowIuGMZ9GTCIMcQOyKQsNRaZ4EuxTAPMbC0LtLmpMgkNOP7UNATrLPYZ70Vtzfwnar8NMehG7Esr3gRBVukjQpfAsb/o=
+	t=1708428451; cv=none; b=uDN8xS+cXldVwbYhT3DuKFoepLTkqYQroXkXTxCp7x2SaeC5E2NYA/tZuDRvmlcSN3rmvZ2iP9mO2Zb5hQIff/a6VkahLwNs3SthDGHxTPFnihEt/eiQJOZV3tEZybpF9JCAbpBGGuRWR50c/NGJx1lbh69wVx/dTeN/9deTymI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708427495; c=relaxed/simple;
-	bh=C91A5rLZ2ygagCyh3jj0WuRiDBihrW1zf2K5r9Y6ciQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TtBKpJ9mWgIYrX5ngEbIYrB7jbg/FeUgXrExHcQ2lU6Ato0326MWx+SYk/tgq/qBmHcoLDA4iitXQQW0Q0GCquPdEBhyc7CPn6GQ7EfpN258ywktSkFZRfEuTFhIY7Yr+lGhAMTOhB337CfMWtDQNWhP9fcZJSTZ/jPmWBPFPeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ST54df3H; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1708428451; c=relaxed/simple;
+	bh=Mipp2WNrLFK4BBvNJ8I27aEf24TMVYEu5ip2QcqVhxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CGZ7SB5qw73LHRYGc2CIWp+FIP7azwMEBOy0EETU6BfQ8G1U7iObrE88/+c3vEvB8ZQc+36NwqJpEdzNaOrx9qGYE1CXDhLYXV2vw88DqYpShbCgckPGcm/aVzctpYlA1Evn5Tt0dimcQoEoHzgcyCW3YZogWTLhz5whKEvOV+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=O6lRSVZh; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ST54df3H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708427492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2MSipKiPs67DEWw5wlFB16YMhuuCHo3NiTgEwpzrbFk=;
-	b=ST54df3HGW3KSVjLCu1l/7KL/LeRR3uQ5F5L251+jLcjty07oz0NngGZyVeKYp2zGI8PFc
-	BFUgcCPcqq9GgiQYSg0Sbp24OxkHWeQZrErrO3fEdhuI1p3DpUNnkNedbjdjipr5+ZSqTV
-	OMXTiOHR1MNgRGGM1YT0Gx35RGY8bLU=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-313-uFXrkOcJMU2MeCPTZpnmng-1; Tue, 20 Feb 2024 06:11:31 -0500
-X-MC-Unique: uFXrkOcJMU2MeCPTZpnmng-1
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-68c53f2816dso57186516d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 03:11:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708427491; x=1709032291;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2MSipKiPs67DEWw5wlFB16YMhuuCHo3NiTgEwpzrbFk=;
-        b=JAIS4DeJfvnlNTyOox4vvVY//0rZdYRWn/yda4WVr7AfKkKVv5Kl9jA7gmDtT/rF6Z
-         W9dFyaaT/Xjff8l9hz+mKq/q2qDsLTO4SW7pBfsqgCzL+1m1gQd0kDCe/Ypzu8A6Wmv3
-         xW/dc081tWiRltNT1eUsMXe2rRlwV8VRbmGNKyka+16ch8/LGuiSCu28W5k7Bq6nqmx0
-         4VA4M4PTuK3m1dlbs+Avf/UP/dkp2dDugG8peNv2zP2ImsxjJLHbzfv2Ho/ohhLn6u7s
-         BUB1eWOzuDVwelmkzSlM9++pSDt21TBG6l3RwTgKQRKplAcJhPIGefzd2hWkDXeao7jO
-         9K5w==
-X-Forwarded-Encrypted: i=1; AJvYcCX5OjzStFt/grarLj+s0EpflXIw857FSkOunP+crmqrBdRZnk1JmzEcts/GtaaTrN17vDZNYMw1LLD6GDOoJdOp0H8UG0+HydA8
-X-Gm-Message-State: AOJu0YwAdSVBNJOpX5l1bZUECoL7ycarHtyJccwWfsoZdoEeS6pa3c54
-	VsvmWRkR2xK7GbbOAvEvE0E6+OayvQYqx/O7xEB2Sa/xZJD4MLm7ifVgW+e2u6pi84H8NuCE8AM
-	Lu/bEhlD06cB0a2/hFyVingxMfTSq1lC40/85jSddMh00+AL/Z8bhA5EX
-X-Received: by 2002:a0c:f2c4:0:b0:68f:7c62:ccc7 with SMTP id c4-20020a0cf2c4000000b0068f7c62ccc7mr3525571qvm.52.1708427490872;
-        Tue, 20 Feb 2024 03:11:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH3e+rHiy7BLRRb2Bxlp90Q8E0Y8sYInFwg93yTV1yB+OetOFhQ+ojoYWpsW8esQ9yXtq0xnw==
-X-Received: by 2002:a0c:f2c4:0:b0:68f:7c62:ccc7 with SMTP id c4-20020a0cf2c4000000b0068f7c62ccc7mr3525546qvm.52.1708427490567;
-        Tue, 20 Feb 2024 03:11:30 -0800 (PST)
-Received: from [192.168.9.34] (net-2-34-24-75.cust.vodafonedsl.it. [2.34.24.75])
-        by smtp.gmail.com with ESMTPSA id l4-20020a0cee24000000b0068f6e1c3582sm255279qvs.146.2024.02.20.03.11.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 03:11:30 -0800 (PST)
-Message-ID: <9a9d4018-fd65-49be-9e0a-1eecc9cbf15d@redhat.com>
-Date: Tue, 20 Feb 2024 12:11:26 +0100
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="O6lRSVZh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YAbiUOeHNTOOtMQq3T2dYQUt8NBgKEvDfS/NrGbV6TI=; b=O6lRSVZhxbh5i6u+BH25w3f3Cm
+	1Vw7wxiDSgvtyuvUnEQCtl4LHsD0HzY1J+QnwBBfWvzYrZnw4ZdEKbmD4OvhU0znyUN2QW3v3TQK6
+	acFANS/gPds8L+eRUinfOfYI/5P5/HHW8+MaTKOwBEFBIXcdD2h/rAjy4+NEGoLQ4VhzrvLbGSILa
+	e4bVQ4JEXiZ5ggyFjiYKM2SMFHyueGtUiByprCY7LB4A0i9T5NoqAM9yDfSyA8mANNn7sjoowzKXf
+	gZg39Bgc4AYxKTEmwc/LOvXE0VrkkOYgYtUo08k1FAqXJPZDFh0Fdt9VSeb+Bh6zHM/C3MKPJvsVF
+	UW/+AtXw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54660)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rcOHQ-0002Id-2W;
+	Tue, 20 Feb 2024 11:27:20 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rcOHM-0000pR-05; Tue, 20 Feb 2024 11:27:16 +0000
+Date: Tue, 20 Feb 2024 11:27:15 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
+	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
+	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	jianyong.wu@arm.com, justin.he@arm.com,
+	James Morse <james.morse@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from
+ acpi_processor_get_info()
+Message-ID: <ZdSMk93c1I6x973h@shell.armlinux.org.uk>
+References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
+ <E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
+ <CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v5 1/1] fpga: add an owner and use it to take the
- low-level module's refcount
-Content-Language: en-US
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
- Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Tull <atull@opensource.altera.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org
-References: <20240111160242.149265-1-marpagan@redhat.com>
- <20240111160242.149265-2-marpagan@redhat.com>
- <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
- <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
- <Zb8dd9af0Ru/fzGi@yilunxu-OptiPlex-7050>
- <4aaa131a-4b64-4b86-9548-68aef63c87b3@redhat.com>
- <ZdHWaeU+/On6LmHX@yilunxu-OptiPlex-7050>
-From: Marco Pagani <marpagan@redhat.com>
-In-Reply-To: <ZdHWaeU+/On6LmHX@yilunxu-OptiPlex-7050>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-
-On 2024-02-18 11:05, Xu Yilun wrote:
-> On Mon, Feb 05, 2024 at 06:47:34PM +0100, Marco Pagani wrote:
->>
->>
->> On 2024-02-04 06:15, Xu Yilun wrote:
->>> On Fri, Feb 02, 2024 at 06:44:01PM +0100, Marco Pagani wrote:
->>>>
->>>>
->>>> On 2024-01-30 05:31, Xu Yilun wrote:
->>>>>> +#define fpga_mgr_register_full(parent, info) \
->>>>>> +	__fpga_mgr_register_full(parent, info, THIS_MODULE)
->>>>>>  struct fpga_manager *
->>>>>> -fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
->>>>>> +__fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
->>>>>> +			 struct module *owner);
->>>>>>  
->>>>>> +#define fpga_mgr_register(parent, name, mops, priv) \
->>>>>> +	__fpga_mgr_register(parent, name, mops, priv, THIS_MODULE)
->>>>>>  struct fpga_manager *
->>>>>> -fpga_mgr_register(struct device *parent, const char *name,
->>>>>> -		  const struct fpga_manager_ops *mops, void *priv);
->>>>>> +__fpga_mgr_register(struct device *parent, const char *name,
->>>>>> +		    const struct fpga_manager_ops *mops, void *priv, struct module *owner);
->>>>>> +
->>>>>>  void fpga_mgr_unregister(struct fpga_manager *mgr);
->>>>>>  
->>>>>> +#define devm_fpga_mgr_register_full(parent, info) \
->>>>>> +	__devm_fpga_mgr_register_full(parent, info, THIS_MODULE)
->>>>>>  struct fpga_manager *
->>>>>> -devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
->>>>>> +__devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
->>>>>> +			      struct module *owner);
->>>>>
->>>>> Add a line here. I can do it myself if you agree.
->>>>
->>>> Sure, that is fine by me. I also spotted a typo in the commit log body
->>>> (in taken -> is taken). Do you want me to send a v6, or do you prefer
->>>> to fix that in place?
->>>
->>> No need, I can fix it.
->>>
->>>>
->>>>>
->>>>> There is still a RFC prefix for this patch. Are you ready to get it merged?
->>>>> If yes, Acked-by: Xu Yilun <yilun.xu@intel.com>
->>>>
->>>> I'm ready for the patch to be merged. However, I recently sent an RFC
->>>> to propose a safer implementation of try_module_get() that would
->>>> simplify the code and may also benefit other subsystems. What do you
->>>> think?
->>>>
->>>> https://lore.kernel.org/linux-modules/20240130193614.49772-1-marpagan@redhat.com/
->>>
->>> I suggest take your fix to linux-fpga/for-next now. If your try_module_get()
->>> proposal is applied before the end of this cycle, we could re-evaluate
->>> this patch.
->>
->> That's fine by me.
+On Thu, Feb 15, 2024 at 08:22:29PM +0100, Rafael J. Wysocki wrote:
+> On Wed, Jan 31, 2024 at 5:50 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+> > diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
+> > index cf7c1cca69dd..a68c475cdea5 100644
+> > --- a/drivers/acpi/acpi_processor.c
+> > +++ b/drivers/acpi/acpi_processor.c
+> > @@ -314,6 +314,18 @@ static int acpi_processor_get_info(struct acpi_device *device)
+> >                         cpufreq_add_device("acpi-cpufreq");
+> >         }
+> >
+> > +       /*
+> > +        * Register CPUs that are present. get_cpu_device() is used to skip
+> > +        * duplicate CPU descriptions from firmware.
+> > +        */
+> > +       if (!invalid_logical_cpuid(pr->id) && cpu_present(pr->id) &&
+> > +           !get_cpu_device(pr->id)) {
+> > +               int ret = arch_register_cpu(pr->id);
+> > +
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> >         /*
+> >          *  Extra Processor objects may be enumerated on MP systems with
+> >          *  less than the max # of CPUs. They should be ignored _iff
 > 
-> Sorry, I still found issues about this solution.
+> This is interesting, because right below there is the following code:
 > 
-> void fpga_mgr_unregister(struct fpga_manager *mgr)
-> {
->         dev_info(&mgr->dev, "%s %s\n", __func__, mgr->name);
+>     if (invalid_logical_cpuid(pr->id) || !cpu_present(pr->id)) {
+>         int ret = acpi_processor_hotadd_init(pr);
 > 
->         /*
->          * If the low level driver provides a method for putting fpga into
->          * a desired state upon unregister, do it.
->          */
->         fpga_mgr_fpga_remove(mgr);
+>         if (ret)
+>             return ret;
+>     }
 > 
->         mutex_lock(&mgr->mops_mutex);
+> and acpi_processor_hotadd_init() essentially calls arch_register_cpu()
+> with some extra things around it (more about that below).
 > 
->         mgr->mops = NULL;
+> I do realize that acpi_processor_hotadd_init() is defined under
+> CONFIG_ACPI_HOTPLUG_CPU, so for the sake of the argument let's
+> consider an architecture where CONFIG_ACPI_HOTPLUG_CPU is set.
 > 
->         mutex_unlock(&mgr->mops_mutex);
+> So why are the two conditionals that almost contradict each other both
+> needed?  It looks like the new code could be combined with
+> acpi_processor_hotadd_init() to do the right thing in all cases.
 > 
->         device_unregister(&mgr->dev);
-> }
+> Now, acpi_processor_hotadd_init() does some extra things that look
+> like they should be done by the new code too.
 > 
-> Note that fpga_mgr_unregister() doesn't have to be called in module_exit().
-> So if we do fpga_mgr_get() then fpga_mgr_unregister(), We finally had a
-> fpga_manager dev without mops, this is not what the user want and cause
-> problem when using this fpga_manager dev for other FPGA APIs.
+> 1. It checks invalid_phys_cpuid() which appears to be a good idea to me.
+> 
+> 2. It uses locking around arch_register_cpu() which doesn't seem
+> unreasonable either.
+> 
+> 3. It calls acpi_map_cpu() and I'm not sure why this is not done by
+> the new code.
+> 
+> The only thing that can be dropped from it is the _STA check AFAICS,
+> because acpi_processor_add() won't even be called if the CPU is not
+> present (and not enabled after the first patch).
+> 
+> So why does the code not do 1 - 3 above?
 
-How about moving mgr->mops = NULL from fpga_mgr_unregister() to
-class->dev_release()? In that way, mops will be set to NULL only when the
-manager dev refcount reaches 0.
+Honestly, I'm out of my depth with this and can't answer your
+questions - and I really don't want to try fiddling with this code
+because it's just too icky (even in its current form in mainline)
+to be understandable to anyone who hasn't gained a detailed knowledge
+of this code.
 
-If fpga_mgr_unregister() is called from module_exit(), we are sure that nobody
-got the manager dev earlier using fpga_mgr_get(), or it would have bumped up
-the module's refcount, preventing its removal in the first place. In this case,
-when device_unregister() is called, it will trigger dev_release() since the
-manager dev refcount has reached 0.
+It's going to require a lot of analysis - how acpi_map_cpuid() behaves
+in all circumstances, what this means for invalid_logical_cpuid() and
+invalid_phys_cpuid(), what paths will be taken in each case. This code
+is already just too hairy for someone who isn't an experienced ACPI
+hacker to be able to follow and I don't see an obvious way to make it
+more readable.
 
-If fpga_mgr_unregister() is called elsewhere in the module that registered the
-manager (1), we have two subcases:
+James' additions make it even more complex and less readable.
 
-a) someone got the manager dev earlier and bumped the module's refcount. Hence,
-the ops are safe since the module cannot be removed until the manager dev is
-released by calling (the last) put_device(). This, in turn, will trigger
-class->dev_release().
-
-b) no one got manager dev. In this case, class->dev_release() will be called
-immediately.
-
-(1) The caller of fpga_mgr_register_*() is responsible for calling
-fpga_mgr_unregister(), as specified in the docs.
-
-> I have this concern when I was reviewing the same improvement for fpga
-> bridge. The change for fpga bridge seems workable, the mutex keeps hold
-> until fpga_bridge_put(). But I somewhat don't prefer the unregistration
-> been unnecessarily blocked for long term.
-
-I also don't like the idea of potentially blocking the unregistration, but I
-could not find a better solution for the bridge at the moment.
-
-> I think your try_module_get_safe() patch may finally solve the invalid
-> module owner issue. Some options now, we ignore the invalid module owner
-> issue (it exists before this change) and merge the rest of the
-> improvements, or we wait for your patch accepted then re-evaluate. I
-> prefer the former.
-
-Yeah, try_module_get_safe() would make things simpler and easier. I'm currently
-working on a series of selftests to demonstrate that the function is safe from
-deadlocks, as requested by the maintainer. I hope I can convince people of the
-advantages.
-
-Thanks,
-Marco
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
