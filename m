@@ -1,66 +1,66 @@
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2254692E4
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:21:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647205A7A0
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708431703; cv=none; b=ij0cZvI+zsx8HUvQGWDMIinkR7tPmuUokAkIyD3JGkU3wdA7saWV6dIHcPKaJfyGmEZwV5g/mBlhaMuVyEbUuI+LaWpJWzjFUnrM/ZcbI1U4EN3mwsy/mTbJEKEBRzb5W720dYH3jxwi2pdawqQDdGiAJHkz5UReI33BOza+lI4=
+	t=1708432137; cv=none; b=Tit5sohMf4aUuPjZ1jjWx5fjC2GUsuH7jeNPd7TbHuZ+ksAwxmhYW7PFwFNMb7Hq7wrzk2RaObpWcoEd2mHtXaUNP0eS1wpgzPodwgbMRk/fEi2NOyd8q7AgylGs2l2RY2XOiWwp+vfsUi5GxZN4I1xV9lyzHI6fNpJVTaGoPJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708431703; c=relaxed/simple;
-	bh=j5bs0/iOOUF9Cuyj4rG6IASjedmK5NxyUi/nRDfE1RY=;
+	s=arc-20240116; t=1708432137; c=relaxed/simple;
+	bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IF4rU1bBYtCCmzTRUpGqVSPXXCUUF4XggFeFmxAHLJgrGGj0mxi+OMlPcunoJc8XmZeawQGJzlLxp6UeUjNfCKME9lHhWxnsIXH2B/TCLs5+s8Y7B3hXSMDZIirbZgp4Xm0KPrEKo1GOToyVzgs1IanMC52wMF/ZtTEPfjqOrow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=Ny2YcrX+; arc=none smtp.client-ip=185.125.188.123
+	 MIME-Version; b=si2W90nJNIphDFyKaFursFdKbTBn1QiMcbo/CdQGerL1oE4FALIxwajjApY0tJyh8uAHvYzSg0tA2zimrcTgyhgDVuWcuJo37xkqAYMyqqkt0B47w592ERgVpk4yW8cQrYkyJOpj37vrf0WbDO2CSq07IEIOC1S2nJqJtX/lcWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=lwMcGTpm; arc=none smtp.client-ip=185.125.188.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Ny2YcrX+"
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="lwMcGTpm"
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 331373F125
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:21:39 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 560E73F125
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1708431699;
-	bh=j5bs0/iOOUF9Cuyj4rG6IASjedmK5NxyUi/nRDfE1RY=;
+	s=20210705; t=1708432134;
+	bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=Ny2YcrX+W4tLiIFEWxJLl0FpXluI5xS8M0VMtB9GVvvqybeABImyx7OcDtIIYccJx
-	 mLMPc+s3GOTIfiV7Tc01JpuxKDWqA/izBH2kXK+qh5DzeGUYEh/Q5T4SeGUaTWGYt3
-	 5KZAxeSfbfVk3XI8tcZJmbB+HQgaZ4sK7Fk2Jrwxw9lnk8aX8NnIE2ATBx8T4dBA11
-	 ud37ZcG2F+LL19H1kwDqbPaNwHw6LwAX2zcN0z9uMJxACNCedT01G6eoNh/+lWnskr
-	 xIlWOkbWxGv+7/n6ns0sOzeyfx30oAIh9EEuyIktO0lO4pthXwZuLFbaE/LTryxWKb
-	 f5B4SuA4ufYgA==
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-5cf555b2a53so4819845a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 04:21:39 -0800 (PST)
+	b=lwMcGTpmZefP9hlv8nzN/op01oN8AmR3LbENt7vhhI82aLOrLACKTb63Sr4XJ0t6g
+	 dhUrb1KTX5ZvedUP8gYEvGBdr7GR5gsfEqwYimjq/UdfJColzb3CKzezjclqPYCtUz
+	 gP5nNSE032HjScY2XP86CSG/lNm/7rMmxp2iDa6BuStxac+LJ3wd4JQkZodE5anj0m
+	 cxmbtu843Zbbs5wGOg4LCSbverZ/W5Mr9PXQnbfdjwO2AcqC43TjqIiRTBbAZ8KQF6
+	 gWJ2BfBzsddwn+rFP2EHDIOwsvHPpwinl6oWmVmiPI2maPaaOOrwQTPZBUtrSeXsun
+	 iTPTbsHTh59VQ==
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-5cf555b2a53so4823508a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 04:28:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708431697; x=1709036497;
+        d=1e100.net; s=20230601; t=1708432133; x=1709036933;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j5bs0/iOOUF9Cuyj4rG6IASjedmK5NxyUi/nRDfE1RY=;
-        b=GKIlbZ9Ie9VzFhNOpOt7mvLmYvu4TFU4pap2BQpqRAP6G2yjbcxp1EFtKRpXnDTmjn
-         Z6/pENPaaFGhUqa6hZ3gKwit3SUCUr8bR9Ibbi6SU48yULWRolV48h1LkQKoirRXjN82
-         rR2TT7awGnNDVYjFp/D9Wwte4gEu/x2fbHUgNyu29j4FQw6cEGlrf38Gb06UMzqzjlZj
-         0bHLIZ/QN/CUJCShvSHuXvQM30qq588Zx9JaGPDleBmgXg/MN5sd6B1DW5+UyYGz0T/2
-         nejzkFGfwLx1ykr/5wrLScoStkZjt4R0nwbiCkmkNPKwrzTopgKw8mqLw/m2tAfS6MDb
-         GXHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUsJVR2NJ233mkhv5vB8/olq/l4BDtU+Hzvyiy3pzj7kUiAlANivME44cxri03OonnAZGgC4vA+TWVFR0ApQoGevRWd+lcEskz7
-X-Gm-Message-State: AOJu0YzW3cxXcEe8uEMkiYhmvvpbZU2k/pf/iPr/8W+RVb5YmW1REF73
-	KU6DVQvWsldq5ZKqNxAjP17G6ohSfUQkxLTCiiwes4SlUw8ukFIFYJnb/W8/dO0VtmruPr+8zQC
-	U9p8JEWoqFsUSxMWjEOYyYY0AJv5l+9P5jryX+gtM89THjGYN6q+PtTVAxQKsN47evQHkP0jagA
+        bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
+        b=hfyCOkDR38vP5lZQNbZ9NM2z21p+UEWE7+ggDedUw7YE7emfWTNT3u48rrf1OLOB9U
+         lIQ0qpYCzf04hdgbl1DqHJJx76svKuUIY4JuOTsk+5/TWPCzjfMM8+p/mN2hZA6vdOb+
+         eV2VoBIBYBX/NGtK0W39JrQOuxZf4M+vAJXXrD3nJE5Hf/bdJsSI6Uzayl8kcEC5aTJC
+         oiiTWdxJ4KZIxWj7hxykTts15I59ON6Ia1KcXl0RvnFy1ukYHqsm8ovJOy2lx9m8uNnU
+         0UQJb3A4/WMEDXv0fCQ8Z02uLe9l1s8Sh7nYY4UUeMxAACxyb+cRKOjqqvKAwxk7L2dl
+         Z3/g==
+X-Forwarded-Encrypted: i=1; AJvYcCU+l9fILALrt5RvLlYNsXl/7Mx+y27RZx2N+DDbydwl1uiLKvBqku+h82VrI43njZFXROkLGP1E3/DlUzGWxnRgLfuYEOwlO00I
+X-Gm-Message-State: AOJu0Yw+W0lJjmE8HEWau0X4PqoXQD2R/6yF7eVRGrPmQgQ2vZ2Fbs9q
+	s5nKP99KmLWzSSg5Y+ZGlraCnyUmgrTGAGkD39OgXaklWggBtnwER7YEFHoCwcO4a8mLy7CjiH5
+	Ym0WgE/CXXzvpO9zDTjHpnk357N7L7qd5OfXvvd6spT1NDyQNqnEuAlmKIqnTUFZvsft1C/tgtA
 	==
-X-Received: by 2002:a17:90a:8304:b0:298:a422:937d with SMTP id h4-20020a17090a830400b00298a422937dmr18416929pjn.24.1708431697140;
-        Tue, 20 Feb 2024 04:21:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGLAtc7xJSsu2a2w8NbFlepqwlXit+secKB0bdFRp/jrwC17jdRwv1LfM6a++aLJcUbSYE/Iw==
-X-Received: by 2002:a17:90a:8304:b0:298:a422:937d with SMTP id h4-20020a17090a830400b00298a422937dmr18416908pjn.24.1708431696769;
-        Tue, 20 Feb 2024 04:21:36 -0800 (PST)
+X-Received: by 2002:a05:6a21:3a85:b0:19e:a9c2:e0cb with SMTP id zv5-20020a056a213a8500b0019ea9c2e0cbmr22090877pzb.25.1708432132997;
+        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE97B84Uq2UpG+abN/I+MwlHDTBfcdhI2z2qjsMLJLhpJVYV244lzq4DKO4QzS2xoZVv0hL4w==
+X-Received: by 2002:a05:6a21:3a85:b0:19e:a9c2:e0cb with SMTP id zv5-20020a056a213a8500b0019ea9c2e0cbmr22090858pzb.25.1708432132712;
+        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
 Received: from fenrir.. ([179.108.23.66])
-        by smtp.gmail.com with ESMTPSA id y7-20020a17090a644700b0029942d11f3bsm7012559pjm.3.2024.02.20.04.21.34
+        by smtp.gmail.com with ESMTPSA id u20-20020a056a00099400b006e47300e4edsm2456787pfg.183.2024.02.20.04.28.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 04:21:36 -0800 (PST)
+        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
 From: Lincoln Wallace <lincoln.wallace@canonical.com>
 To: brgl@bgdev.pl
 Cc: corbet@lwn.net,
@@ -70,8 +70,8 @@ Cc: corbet@lwn.net,
 	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: gpio: Add a note on the deprecated GPIO Testing Driver
-Date: Tue, 20 Feb 2024 09:21:32 -0300
-Message-Id: <20240220122132.16991-1-lincoln.wallace@canonical.com>
+Date: Tue, 20 Feb 2024 09:28:48 -0300
+Message-Id: <20240220122848.17864-1-lincoln.wallace@canonical.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <CAMRc=MdoUuOLTYHu99+c_AVhnDZ5LkKHkYJ0D681fcJV_aW2Ng@mail.gmail.com>
 References: <CAMRc=MdoUuOLTYHu99+c_AVhnDZ5LkKHkYJ0D681fcJV_aW2Ng@mail.gmail.com>
@@ -82,6 +82,10 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+
+Sorry, please ignore my last reply.
+
+But okay, thank you for letting me know, and thanks for your time.
 
 Lincoln
 
