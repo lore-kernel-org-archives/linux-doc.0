@@ -1,146 +1,128 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FDE76408;
-	Tue, 20 Feb 2024 16:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD31D763EF;
+	Tue, 20 Feb 2024 16:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708446040; cv=none; b=GomqaNvUapRm6vccni10ZzboKHZ2ABZXw33YY8bb2rbt2RFRLNtMjz6pDF44AMMiNKxSGsp5QYdp6LYSUSOTuoOK1JoXE7eaZQKDzrEvte8BGZbftPJKYCNoQkOTOpxb7FIirbpJWFNpfeHR6hW5GujHuZkzjnm5b5wARA0IelM=
+	t=1708446144; cv=none; b=oDhj09IglQpjDJOd0gz5VwT9p9edaZro4VIsEPl82bg0JuKgY7nK1DhuF/CsmZUFgo3TQCqAxl3cFscJaVQaibN+vcdomMhGVkz3CdOrzxF4E6VsQG5hDBqj75KZIX+tlIBSIEssyvzVYjE+Q7/60OFBZ+VPZroCzSx3lQGYxAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708446040; c=relaxed/simple;
-	bh=8YQv7aLTPzzKaJ7jlQ5Sre4GQB/b020Pt6fSgtcM+TE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HGjOrXBGhdwMo5p4715CRlUoPoRVED6XpHlPnfAC2QYeVDaE6Q5G3KJ5kSJDEiqwfAYLKqm2nzdNJpFcUbaYxxQ4CwP9GVEiLhdZlvIT097MqBJWU74xuYAAhzg/qhMqxtwe9RZC3Rd5xmq+C7kgHnDEJTgrwAIM5xHITiIcGdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QIRKyTj8; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1708446144; c=relaxed/simple;
+	bh=zFkxNm4XUPZy9yD4NN6KLdlxmc1jFsrfMD0v41KFIfU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ZWlRZvBNpzoIYIO12MNSiKtLhsOjsOUSMvQNSindWbVBMQhp7UJOQZSrV3PgmCMRqC+qpEMef4X2YSJAsUVAgmiazpjD2hVqqY2zkIgvJ7zW4TNv+FSo4Nso5VJwWyL0KmJEvGKe65I7munfGUQEMQLpKy2Br0jDTvBNtX1nZuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hNkl1r8M; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QIRKyTj8"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 02E04240004;
-	Tue, 20 Feb 2024 16:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708446035;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pXos02wI1NevLoKIn6UfDZ/DT2LVCxm0HsQrNIoS9qw=;
-	b=QIRKyTj8c5fpAGiYJiASyDw9WoF4XtF3FZAOmveqKKYIkasIzidfU3JLHPT8/T0CCqli53
-	s5q+RtSlnAko+igLmKgeVSTe1InW/gAuXXU6osKRWw1D7zjFLjZHBCsaYtt9+iiS2RFNkc
-	XDKrd29uZEvN5CINymsS4Zn1pCw6dvf4VEEW4od3YFhqEvnJdoY62vYj9KMssIr2j5Q0VC
-	NLn6VW/lc6vmI0E+Q3QLLYHwztna+ZFZZ5xVZu3W6WRINwqrbiZcyt94wPc9OIGpg/Qgqk
-	JLLZ0DGExukFlycsPkRXfSLuH+CuGkTrEhhBx0F5FwkovvFw9jfH21NzYhyOUg==
-Date: Tue, 20 Feb 2024 17:20:33 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Rahul Rameshbabu <rrameshbabu@nvidia.com>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Richard Cochran
- <richardcochran@gmail.com>, Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
- Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH RFC net-next v8 04/13] net: Change the API of PHY
- default timestamp to MAC
-Message-ID: <20240220172033.556f321f@kmaincent-XPS-13-7390>
-In-Reply-To: <ZdN9pPf3wXwE/9nX@shell.armlinux.org.uk>
-References: <20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com>
-	<20240216-feature_ptp_netnext-v8-4-510f42f444fb@bootlin.com>
-	<87jzn4gtlv.fsf@nvidia.com>
-	<20240219142936.62112d34@kmaincent-XPS-13-7390>
-	<ZdN9pPf3wXwE/9nX@shell.armlinux.org.uk>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hNkl1r8M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=BzeL9c/hzzSWVv3MKsT7A/KR/PSkHXr2fqH3rJbXD/E=; b=hNkl1r8MrK0h7XuvdH3qSHJNeK
+	4DIQ/6TbXd8tHEsUs6nBa1ZRa+mvZx+9488lzdh3/KTqrQ0C3lwKKlmpJRgESnI2Cl1UlQhANoNMW
+	lb6VNQKrBJVEbFg0uRuYRZMRR3424F3EmhNMQe/68gwhGaf2FeAax5t2GwozfYVtlY/7lV5PxpigP
+	K+1B2BLgRuEKJQBSyq5cpY96o/0NgaYJpXPktU357ig/qcuBMUx+gyj0/xu5MTq3puAkISEDb6c4q
+	omQGSCGfwiPYYEOdi3uLiBkGJQw/qKavQHZcDtirpOTVRgNclzOl1gQLCr1j5Ezqnk3ns9TSFFQn1
+	wkb0ZBAw==;
+Received: from [145.224.98.163] (helo=[127.0.0.1])
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rcSsW-0000000G1oT-0zRv;
+	Tue, 20 Feb 2024 16:21:56 +0000
+Date: Tue, 20 Feb 2024 17:21:52 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: Sean Christopherson <seanjc@google.com>, paul@xen.org
+CC: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v13_00/21=5D_KVM=3A_xen=3A_upda?= =?US-ASCII?Q?te_shared=5Finfo_and_vcpu=5Finfo_handling?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <ZdTQCuWor4ipxW6E@google.com>
+References: <20240215152916.1158-1-paul@xen.org> <170838297541.2281798.7838961694439257911.b4-ty@google.com> <05973da0-f68c-4c84-8806-bdba92f2ed6e@xen.org> <ZdTQCuWor4ipxW6E@google.com>
+Message-ID: <CFFFCD77-3B9E-4808-B084-E86F8EF265A7@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Mon, 19 Feb 2024 16:11:16 +0000
-"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+On 20 February 2024 17:15:06 CET, Sean Christopherson <seanjc@google=2Ecom>=
+ wrote:
+>On Tue, Feb 20, 2024, Paul Durrant wrote:
+>> On 20/02/2024 15:55, Sean Christopherson wrote:
+>> > On Thu, 15 Feb 2024 15:28:55 +0000, Paul Durrant wrote:
+>> > > From: Paul Durrant <pdurrant@amazon=2Ecom>
+>> > >=20
+>> > > This series contains a new patch from Sean added since v12 [1]:
+>> > >=20
+>> > > * KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot=
+()
+>> > >=20
+>> > > This frees up the function name kvm_is_error_gpa() such that it can=
+ then be
+>> > > re-defined in:
+>> > >=20
+>> > > [=2E=2E=2E]
+>> >=20
+>> > *sigh*
+>> >=20
+>> > I forgot to hit "send" on this yesterday=2E  But lucky for me, that w=
+orked out in
+>> > my favor as I needed to rebase on top of kvm/kvm-uapi to avoid pointl=
+ess conflicts
+>> > in the uapi headeres=2E
+>> >=20
+>> > So=2E=2E=2E=2E
+>> >=20
+>> > Applied to kvm-x86 xen, minus 18 and 19 (trylock stuff) and 21 (locki=
+ng cleanup
+>> > that we're doing elsewhere)=2E
+>> >=20
+>>=20
+>> Looks like you meant 17 & 18?
+>
+>Doh, yes=2E
+>
+>> > Paul and David, please take (another) look at the end result to make =
+sure you don't
+>> > object to any of my tweaks and that I didn't botch anything=2E
+>> >=20
+>>=20
+>> What was the issue with 17? It was reasonable clean-up and I'd like to =
+keep
+>> it even without 18 being applied (and I totally understand your reasons=
+ for
+>> that)=2E
+>
+>I omitted it purely to avoid creating an unnecessary dependency for the t=
+rylock
+>patch=2E  That way the trylock patch (or whatever it morphs into) can be =
+applied on
+>any branch (along with the cleanup), i=2Ee=2E doesn't need to be taken th=
+rough kvm-x86/xen=2E
 
-> On Mon, Feb 19, 2024 at 02:29:36PM +0100, K=C3=B6ry Maincent wrote:
-> > On Fri, 16 Feb 2024 10:09:36 -0800
-> > Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
-> >  =20
-> > > On Fri, 16 Feb, 2024 16:52:22 +0100 Kory Maincent
-> > > <kory.maincent@bootlin.com> wrote: =20
-> > > > Change the API to select MAC default time stamping instead of the P=
-HY.
-> > > > Indeed the PHY is closer to the wire therefore theoretically it has=
- less
-> > > > delay than the MAC timestamping but the reality is different. Due to
-> > > > lower time stamping clock frequency, latency in the MDIO bus and no=
- PHC
-> > > > hardware synchronization between different PHY, the PHY PTP is often
-> > > > less precise than the MAC. The exception is for PHY designed specia=
-lly
-> > > > for PTP case but these devices are not very widespread. For not
-> > > > breaking the compatibility default_timestamp flag has been introduc=
-ed
-> > > > in phy_device that is set by the phy driver to know we are using the
-> > > > old API behavior.
-> > > >
-> > > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > > > ---   =20
-> > >=20
-> > > Overall, I agree with the motivation and reasoning behind the patch. =
-It
-> > > takes dedicated effort to build a good phy timestamping mechanism, so
-> > > this approach is good. I do have a question though. In this patch if =
-we
-> > > set the phy as the default timestamp mechanism, does that mean for ev=
-en
-> > > non-PTP applications, the phy will be used for timestamping when
-> > > hardware timestamping is enabled? If so, I think this might need some
-> > > thought because there are timing applications in general when a
-> > > timestamp closest to the MAC layer would be best. =20
-> >=20
-> > This patch comes from a request from Russell due to incompatibility bet=
-ween
-> > MAC and PHY timestamping when both were supported.
-> > https://lore.kernel.org/netdev/Y%2F4DZIDm1d74MuFJ@shell.armlinux.org.uk/
-> >=20
-> > His point was adding PTP support to a PHY driver would select timestamp
-> > from it by default even if we had a better timestamp with the MAC which=
- is
-> > often the case. This is an unwanted behavior.
-> > https://lore.kernel.org/netdev/Y%2F6Cxf6EAAg22GOL@shell.armlinux.org.uk/
-> >=20
-> > In fact, with the new support of NDOs hwtstamp and the
-> > dev_get/set_hwtstamp_phylib functions, alongside this series which make
-> > timestamp selectable, changing the default timestamp may be not necessa=
-ry
-> > anymore.
-> >=20
-> > Russell any thought about it?  =20
->=20
-> My position remains: in the case of Marvell PP2 network driver with a
-> Marvell PHY, when we add PTP support for the Marvell PHYs (I have
-> patches for it for years) then we must _not_ regress the existing
-> setup where the PP2 timestamps are the default.
+What about if (in_atomic() && read_trylock()) return -EAGAIN; else read_lo=
+ck();
 
-Yes, that's what I thought.
-About the Marvell PHYs PTP support I have a few fixes on it, but we will
-talk about it when this series gets merged.
+That way we don't have any even theoretical fairness issues because the tr=
+ylock can fail just *once* which kicks us to the slow path and that'll take=
+ the lock normally now=2E
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+The condition might not actually be in_atomic() but I'm not working this w=
+eek and you get the idea=2E
