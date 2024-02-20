@@ -1,227 +1,247 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D75376020;
-	Tue, 20 Feb 2024 15:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 374847602F;
+	Tue, 20 Feb 2024 15:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708442057; cv=none; b=CnBlQdVFUqyL+VOhxwF/dd/K7b9aUgVcNOl0NIFY6Oo00ZPiKnpK3jvquHdgisU5kksRSLMUfuYZS/ORznq9dY07RRXFBYF8VDIYkw8QoJKzTFkJU4c4hkcU64qUqZo/Mp6DbZ6+WXhTPMxQ7/nHBWNqcxOMOebLVOLEt6PTQ28=
+	t=1708442511; cv=none; b=jM20ZvnmIkh+06E4ffUUe45Xbcs+GY1taTOs3VfNy4Xk7YFNe75kmS/vyfajaC//JQW4LJZBFsTegXOVVfngakM3FFyIXiR2ECJ1LBCukCplkg9eU8ngfx899Bb4WUwWOIa/CV2w+PDL6KqU+8di7hht2/a6+SOpqAIBh70Bsy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708442057; c=relaxed/simple;
-	bh=EerVHanUz2tefY83Hs9lDDnTHX9i7fSD2ZbOIE+Yu88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjgmYzBoJ1KrSLSAEyP8cJzx51Q6ZPS9NSwT1j2zxdZeoB2PY51VIRlYPGoijTc2cckRZwh0Fd1FWWmigEmla4KO3udTFC8qlCvTRLMemxygb65FLyJn98cRDzMXRUiDpVxF6hMvEZ9C3qKL7y25YT07oHN9NjgbrjJLhPZAB1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=Xy5iv0Wr; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="Xy5iv0Wr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qgc8OUZCtZPjwVAIjMqiHy7ikwaI1Mbu1Mp1IdFRzDs=; b=Xy5iv0WrTLeAO0Yk5KZRnMdKyj
-	P5Il3QQ+baeCRbUTHw+M2pQGpzCvY2kVMWyp3dXDSELRc5Ju3nfd11YBuUEHjVI4tFW2/xraLQejU
-	8tft/vHldbP7aGpknVnTEenRzyIrR0qgmIZkTDpzWNYBWSARs/hgaqJkstanzehwL6LPfJLIeqFLo
-	gUb/82YcOQPZlEGA8PE5OTomL+YF+FqTubxG54uf45edRw2uSwN7RfBx+Du1NGHDAZjqfMWrmpglo
-	yS8bLYhbsuhKYbVHwDGhCbqZMUPo3WgWbTMTAIMeCbEX6XIBN4y0pMZBZKVgW6FRGfRXxX28yVi92
-	FpAy11Fw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:45522)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rcRoq-00033P-2v;
-	Tue, 20 Feb 2024 15:14:05 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rcRok-0000xX-ST; Tue, 20 Feb 2024 15:13:58 +0000
-Date: Tue, 20 Feb 2024 15:13:58 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev,
-	x86@kernel.org, acpica-devel@lists.linuxfoundation.org,
-	linux-csky@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	jianyong.wu@arm.com, justin.he@arm.com,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from
- acpi_processor_get_info()
-Message-ID: <ZdTBtt0oR6Q1RcAB@shell.armlinux.org.uk>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
- <E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
- <CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
- <ZdSMk93c1I6x973h@shell.armlinux.org.uk>
+	s=arc-20240116; t=1708442511; c=relaxed/simple;
+	bh=b9b3K79qsHpoWeCkXdTpiDWhIZirWAQ4tWnT5kHY/w0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Tt3Ng5JcDsqDFEk9P5H/R+AGJDASj4iyoZHnlRcDzVtCXP86ykm5Lxnm9DJ7yrJU1H6I7L1OA9V60ODLYXIak9p+F0rvw9x3hDtqvpmFYn98VzG+dbqmu2TmxpFBm6zg8vSFb8WmGVmkVjZfRpl0kn7tmoZthS4lfSYIMb7W1jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7493CFEC;
+	Tue, 20 Feb 2024 07:22:28 -0800 (PST)
+Received: from [10.1.197.60] (eglon.cambridge.arm.com [10.1.197.60])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDDEA3F73F;
+	Tue, 20 Feb 2024 07:21:44 -0800 (PST)
+Message-ID: <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
+Date: Tue, 20 Feb 2024 15:21:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Content-Language: en-GB
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <cover.1705688538.git.babu.moger@amd.com>
+From: James Morse <james.morse@arm.com>
+In-Reply-To: <cover.1705688538.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdSMk93c1I6x973h@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Feb 20, 2024 at 11:27:15AM +0000, Russell King (Oracle) wrote:
-> On Thu, Feb 15, 2024 at 08:22:29PM +0100, Rafael J. Wysocki wrote:
-> > On Wed, Jan 31, 2024 at 5:50 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-> > > diff --git a/drivers/acpi/acpi_processor.c b/drivers/acpi/acpi_processor.c
-> > > index cf7c1cca69dd..a68c475cdea5 100644
-> > > --- a/drivers/acpi/acpi_processor.c
-> > > +++ b/drivers/acpi/acpi_processor.c
-> > > @@ -314,6 +314,18 @@ static int acpi_processor_get_info(struct acpi_device *device)
-> > >                         cpufreq_add_device("acpi-cpufreq");
-> > >         }
-> > >
-> > > +       /*
-> > > +        * Register CPUs that are present. get_cpu_device() is used to skip
-> > > +        * duplicate CPU descriptions from firmware.
-> > > +        */
-> > > +       if (!invalid_logical_cpuid(pr->id) && cpu_present(pr->id) &&
-> > > +           !get_cpu_device(pr->id)) {
-> > > +               int ret = arch_register_cpu(pr->id);
-> > > +
-> > > +               if (ret)
-> > > +                       return ret;
-> > > +       }
-> > > +
-> > >         /*
-> > >          *  Extra Processor objects may be enumerated on MP systems with
-> > >          *  less than the max # of CPUs. They should be ignored _iff
-> > 
-> > This is interesting, because right below there is the following code:
-> > 
-> >     if (invalid_logical_cpuid(pr->id) || !cpu_present(pr->id)) {
-> >         int ret = acpi_processor_hotadd_init(pr);
-> > 
-> >         if (ret)
-> >             return ret;
-> >     }
-> > 
-> > and acpi_processor_hotadd_init() essentially calls arch_register_cpu()
-> > with some extra things around it (more about that below).
-> > 
-> > I do realize that acpi_processor_hotadd_init() is defined under
-> > CONFIG_ACPI_HOTPLUG_CPU, so for the sake of the argument let's
-> > consider an architecture where CONFIG_ACPI_HOTPLUG_CPU is set.
-> > 
-> > So why are the two conditionals that almost contradict each other both
-> > needed?  It looks like the new code could be combined with
-> > acpi_processor_hotadd_init() to do the right thing in all cases.
-> > 
-> > Now, acpi_processor_hotadd_init() does some extra things that look
-> > like they should be done by the new code too.
-> > 
-> > 1. It checks invalid_phys_cpuid() which appears to be a good idea to me.
-> > 
-> > 2. It uses locking around arch_register_cpu() which doesn't seem
-> > unreasonable either.
-> > 
-> > 3. It calls acpi_map_cpu() and I'm not sure why this is not done by
-> > the new code.
-> > 
-> > The only thing that can be dropped from it is the _STA check AFAICS,
-> > because acpi_processor_add() won't even be called if the CPU is not
-> > present (and not enabled after the first patch).
-> > 
-> > So why does the code not do 1 - 3 above?
+Hi Babu,
+
+On 19/01/2024 18:22, Babu Moger wrote:
+> These series adds the support for Assignable Bandwidth Monitoring Counters
+> (ABMC). It is also called QoS RMID Pinning feature
 > 
-> Honestly, I'm out of my depth with this and can't answer your
-> questions - and I really don't want to try fiddling with this code
-> because it's just too icky (even in its current form in mainline)
-> to be understandable to anyone who hasn't gained a detailed knowledge
-> of this code.
+> The feature details are documented in the  APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC). The documentation is available at
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 > 
-> It's going to require a lot of analysis - how acpi_map_cpuid() behaves
-> in all circumstances, what this means for invalid_logical_cpuid() and
-> invalid_phys_cpuid(), what paths will be taken in each case. This code
-> is already just too hairy for someone who isn't an experienced ACPI
-> hacker to be able to follow and I don't see an obvious way to make it
-> more readable.
+> The patches are based on top of commit
+> 1ac6b49423e83af2abed9be7fbdf2e491686c66b (tip/master)
 > 
-> James' additions make it even more complex and less readable.
+> # Introduction
+> 
+> AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
+> feature only guarantees that RMIDs currently assigned to a processor will
+> be tracked by hardware. The counters of any other RMIDs which are no longer
+> being tracked will be reset to zero. The MBM event counters return
+> "Unavailable" for the RMIDs that are not active.
+>
+> Users can create 256 or more monitor groups. But there can be only limited
+> number of groups that can be give guaranteed monitoring numbers.  With ever
+> changing configurations there is no way to definitely know which of these
+> groups will be active for certain point of time. Users do not have the
+> option to monitor a group or set of groups for certain period of time
+> without worrying about RMID being reset in between.
+>
+> The ABMC feature provides an option to the user to assign an RMID to the
+> hardware counter and monitor the bandwidth for a longer duration.
+> The assigned RMID will be active until the user unassigns it manually.
+> There is no need to worry about counters being reset during this period.
+> Additionally, the user can specify a bitmask identifying the specific
+> bandwidth types from the given source to track with the counter.
 
-As an illustration of the problems I'm having here, I was just writing
-a reply to this with a suggestion of transforming this code ultimately
-to:
+At a high level, if existing software can't use the counters, I'd prefer we move them into
+perf. We're currently re-inventing the perf wheel. (this argument doesn't hold for the
+llc_occupancy, which is a state not counter!)
 
-	if (!get_cpu_device(pr->id)) {
-		int ret;
+But if this lets someone 'pin' the counters for the groups they monitor, then use existing
+tools, that seems a good enough argument for doing this.
 
-		if (!invalid_logical_cpuid(pr->id) && cpu_present(pr->id))
-			ret = acpi_processor_make_enabled(pr);
-		else
-			ret = acpi_processor_make_present(pr);
 
-		if (ret)
-			return ret;
-	}
+> Without ABMC enabled, monitoring will work in current mode without
+> assignment option.
 
-(acpi_processor_make_present() would be acpi_processor_hotadd_init()
-and acpi_processor_make_enabled() would be arch_register_cpu() at this
-point.)
+To check I understand: the counters will get spuriously reset a the whim of the hardware?
 
-Then I realised that's a bad idea - because we really need to check
-that pr->id is valid before calling get_cpu_device() on it, so this
-won't work. That leaves us with:
 
-	int ret;
+> # Linux Implementation
+> 
+> Linux resctrl subsystem provides the interface to count maximum of two
+> memory bandwidth events per group, from a combination of available total
+> and local events. Keeping the current interface, users can assign a maximum
+> of 2 ABMC counters per group. User will also have the option to assign only
+> one counter to the group. If the system runs out of assignable ABMC
+> counters, kernel will display an error. Users need to unassign an already
+> assigned counter to make space for new assignments.
+> 
+> 
+> # Examples
+> 
+> a. Check if ABMC support is available
+> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+> 
+> 	#cat /sys/fs/resctrl/info/L3_MON/mon_features 
+> 	llc_occupancy
+> 	mbm_total_bytes
+> 	mbm_total_bytes_config
+> 	mbm_local_bytes
+> 	mbm_local_bytes_config
+> 	mbm_assign_capable ←  Linux kernel detected ABMC feature
+> 
+> b. Check if ABMC is enabled. By default, ABMC feature is disabled.
+>    Monitoring works in legacy monitor mode when ABMC is not enabled.
+> 
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+> 	0
+> 
+> c. There will be new file "monitor_state" for each monitor group when ABMC
+>    feature is supported. However, monitor_state is not available if ABMC is
+>    disabled.
+> 	#cat /sys/fs/resctrl/monitor_state 
+> 	Unsupported
+> 	
+> d. Read the event mbm_total_bytes and mbm_local_bytes. Without ABMC
+>    enabled, monitoring will work in current mode without assignment option.
+> 	
+> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	779247936
+> 	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+> 	765207488
+> 	
+> e. Enable ABMC mode.
+> 
+> 	#echo 1 > /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>         #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>         1
 
-	if (invalid_logical_cpuid(pr->id) || !cpu_present(pr->id)) {
-		/* x86 et.al. path */
-		ret = acpi_processor_make_present(pr);
-	} else if (!get_cpu_device(pr->id)) {
-		/* Arm64 path */
-		ret = acpi_processor_make_enabled(pr);
-	} else {
-		ret = 0;
-	}
+Why does this mode need enabling? Can't it be enabled automatically on hardware that
+supports it, or enabled implicitly when the first assignment attempt arrives?
 
-	if (ret)
-		return ret;
+I guess this is really needed for a reset - could we implement that instead? This way
+there isn't an extra step user-space has to do to make the assignments work.
 
-Now, the next transformation would be to move !get_cpu_device(pr->id)
-into acpi_processor_make_enabled() which would eliminate one of those
-if() legs.
 
-Now, if we want to somehow make the call to arch_regster_cpu() common
-in these two paths, the next question is what are the _precise_
-semantics of acpi_map_cpu(), particularly with respect to it
-modifying pr->id. Is it guaranteed to always give the same result
-for the same processor described in ACPI? What acpi_map_cpu() anyway,
-I can find no documentation for it.
+> f. Read the monitor states. By default, both total and local MBM
+> 	events are in "unassign" state.
+> 	
+> 	#cat /sys/fs/resctrl/monitor_state
+> 	total=unassign;local=unassign
 
-Then there's the question whether calling acpi_unmap_cpu() should be
-done on the failure path if arch_register_cpu() fails, which is done
-for the x86 path but not the Arm64 path. Should it be done for the
-Arm64 path? I've no idea, but as Arm64 doesn't implement either of
-these two functions, I guess they could be stubbed out and thus be
-no-ops - but then we open a hole where if pr->id is invalid, we
-end up passing that invalid value to arch_register_cpu() which I'm
-quite sure will explode with a negative CPU number.
 
-So, to my mind, what you're effectively asking for is a total rewrite
-of all the code in and called by acpi_processor_get_info()... and that
-is not something I am willing to do (because it's too far outside of
-my knowledge area.)
+> g. Read the event mbm_total_bytes and mbm_local_bytes. In ABMC mode,
+>    the MBA events are not available until the user assigns the events
+>    explicitly.
 
-As I said in my reply to patch 1, I think your comments on patch 2
-make Arm64 vcpu hotplug unachievable in a reasonable time frame, and
-certainly outside the bounds of what I can do to progress this.
+How does this fit with "monitoring will work in current mode without assignment option.".
+You mentioned the hardware resets the counters when this mode is enabled, does it also
+refuse to count until the MSR is programmed?
 
-So, at this point I'm going to stand down from further participation
-with this patch set as I believe I've reached the limit of what I can
-do to progress it.
+If so - is there any mileage in auto-assigning the first N RMID to counters when the
+groups are created? This way existing user-space tools work until they exceed the limits
+of hardware. From that point a counter needs to be unassigned from another group. (we'd
+need to make it easy to find which groups have a counter assigned)
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	Unsupported
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+> 	Unsupported
+> 
+> h. The event llc_occupancy is not affected by ABMC mode. Users can still
+>    read the llc_occupancy.
+> 
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/llc_occupancy 
+> 	557056
+
+{
+	MPAM would be the same - because llc_occupancy isn't a counter its a view of the
+	state, its possible to multiplex a single llc_occupancy counter behind the scenes
+	to provide the value for as many groups as needed. I suspect any other
+	architecture would  have the same property.
+}
+
+> i. Now assign the total event and read the monitor_state.
+> 	
+> 	#echo total=assign > /sys/fs/resctrl/monitor_state
+> 	#cat /sys/fs/resctrl/monitor_state 
+> 	total=assign;local=unassign
+> 	
+> j. Now that the total event is assigned. Read the total event.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	6136000
+> 	
+> k. Now assign the local event and read the monitor_state.
+> 	
+> 	#echo local=assign > /sys/fs/resctrl/monitor_state
+> 	#cat /sys/fs/resctrl/monitor_state
+> 	total=assign;local=assign
+> 
+>         Users can also assign both total and local events in one single
+> 	command.
+> 
+> l. Now that both total and local events are assigned, read the events.
+> 	
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+> 	6136000
+> 	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+> 	58694
+
+(the bandwidth configuration stuff is the existing BMEC support right?)
+
+From user-space's perspective MPAM could be made to look the same.
+
+There ought to be some indication to user-space of how many counters it can assign, this
+number might be different for different resources. This won't be a problem today, but if
+we had 'mbm_total_bytes' on the L2 cache, the number of counters may be different.
+
+MPAM platforms are unlikely to support both 'mbm_total' and 'mbm_local',  I think this is
+just a documentation problem to say that mbm_local can't be configured if its not
+supported - user-space can't blindly assign both.
+
+If the configuration is changed over time - I bet user-space needs a quick way to find
+where the counters are currently assigned - walking the tree to find out is a bit rubbish.
+A file that lists the "control_group_name[/mon_group_name]" would help.
+
+
+Thanks,
+
+James
