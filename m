@@ -1,59 +1,62 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA33768E9
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 16:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92F176911;
+	Tue, 20 Feb 2024 17:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708448366; cv=none; b=H0KIxrBsEM4zLQq+IADM55/zqeI/VBc8lYu+vu7wootrU9E7Si4zVukaki04r6EU4NKzA/DuCPKvkzKc+EQ0OYMd9AnXVtvDI+HNpJ3Vjrt29gojobh/Jj0jCdHftOHEmHlix2OFzSWidKNTIfAe4jQESmJvouBUvAwACejyMIA=
+	t=1708448843; cv=none; b=QVQPY2D654ddAIxtcnN5BHq2OaAPAqK6bSACsEcif4ID/de3P8GJqEzX7WLjuP25w6U9icL+Eh1Ulbv2sRnQWXowMYPgRJSeQui3xN0l11LlL9ZKzxOiN7wKYdDkMFXKk4ye2/dgJsKuMulRsGD8Rg3BR3Uo2jYOebNZgYdQHn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708448366; c=relaxed/simple;
-	bh=6ym8f8jTbmZWP67n8mpqHfZeHSbKF9DkuHJ3SUPMLWY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=htJVw0+BLAQhhLuwsIHU7jUM3zWLcRavzxjyMaMvMAW5Fqz7itIdOHkgdMY3DuH37N95U+pwfy4ldw0KeN8BGTvsZWnJYxsPHer2cdwQBbNosgTi8r9mQv2wyHNb7Pb8EtSRXMJPg2yvohqYnQteo/Zv/KBeLMAqAubc5l/OjQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ToeNGLyu; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1708448843; c=relaxed/simple;
+	bh=mtYh4pPl8nUvoS1cpHihY1SAedbSQ4SPzAugmWQRuzg=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Y9tKtrsX/ngBqg2MyKGA5LjNzCCY1VRsJE0ImIUWu1g9u+j94OdLqEUQitNKFf73JnSGMgYx9GS8mpftAmGAOlv8nGzW0C84lcGdRk6hgrXYJYJAhJMGKFLLb19SBNOYIlYyovHsU1wZQtlmHYiqQrgPxy7vQIXb7+zvlsYkJ9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAI/MB9o; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ToeNGLyu"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4126e9d587dso2492175e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 08:59:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAI/MB9o"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4127109686fso3954715e9.2;
+        Tue, 20 Feb 2024 09:07:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708448362; x=1709053162; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/EviEX8TRRD/2iXyTrJZUWCxAWI35FiIxGgn/BSnnfY=;
-        b=ToeNGLyulg/HAlktV98wzMOaSQW7/qciEqcGZsU9ZRHzmc1zOWeQUg2IEJEwtj4HNT
-         avQDyMtJs7hDUNlnZsPc4vqDlLWKxVOApPgQZ5c79fegDjn+dXyWLBD14+7DgMUG/6BC
-         ObV/bLWfkCLZvFPpLUXDKzsRgLyLrktJ+1POIAebEuryZiKooGi0vRnVJA3GnKy2T6ez
-         9fbHnxUSBkzEkOamnR8T5OFvlF+pvXUus3JXS8Fmz42Alvq36Ejx+h+uOSwlAT8n3Sx4
-         gtmp7Gndepn9bYeCovRyxbPkA9rDkTpWXYHgSew72YO/Tr4DGo8h1F/E8MxGvQUd/Aq3
-         XBAQ==
+        d=gmail.com; s=20230601; t=1708448840; x=1709053640; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bS6mzlS2FvG30g8kCU8KyMPeOwgxgcQl7tVtSUw6YUE=;
+        b=lAI/MB9oFbzyaNZfoz840sx0CMM+mGzBvK2b4ln1Kge5yPZFBIpP1VhXIMjjkj5uNC
+         psYZuPFBvfwISobjsRTN5bRv2T8Q0EdRlT/YL7F9WT1uU+nsAKDLkoIyrHbDkzp6iW8t
+         Gx1B5I9MqU6bHy32svhJ/WpZGVlbTipSXdZWysjNKWFplkOvID1ULrNV1KuG17xFdcm1
+         00Oka3gVCTwKqysWHTLrHVcE/7Iv/hBcdu+cqjoc3aDmUjUVRnoJdGauABsIQLw50BiM
+         XRiYd+FmDrG9OHKvc4B8rOPut2GYuHpsPHj2MD1dTKD4sq5hSET/4QlCs/68MBqLEgyi
+         +tCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708448362; x=1709053162;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EviEX8TRRD/2iXyTrJZUWCxAWI35FiIxGgn/BSnnfY=;
-        b=GyESGYeKOu6dILCUJhpsPO/t7rrUVzPGsXnAm529YuwUnpDRK6Lb+iNFgQS2DbvjVo
-         gqIZc1mGtA5jppgtHnxC7UOu1GAcbo/TICRQrYpLcsLnqW55AQ2zw5dhcUm/oUOE+IZu
-         pkEshq6ISq331Dh5KB2JR/jC57+21a49fYYHCfrfjRIOqF8hBcZn11QcV9iIZy3nqAkn
-         SS3iUgOq9lnYkglPyo1Agp3grztFjrTssE+FgvglKZOBMWvjl+iktL1ZvIN8V3Zmbj8r
-         XBMZRzj161FiNO1HhNrCnzz/u4YUGvrLoX06t/VHLMkpyoZ5UBmc0IaS6rNtXXcmFtsi
-         ntkw==
-X-Forwarded-Encrypted: i=1; AJvYcCUm+IZxAWh1mXMC9KNSXsKvcvGWqmjDnAThVwFVFBhUxIBb5k1r829uSb1z5Y3CHkKc6w5Dy6qphYYQvxfqevq8l5mAP6wi18HI
-X-Gm-Message-State: AOJu0Yw9E/7PuL/jzw5AJYCJut+nCjUbrBhLqn+hRZJtAYNejvhgCpb+
-	1xcLsU7p7LUqwXM/Bp1ucrjWScxGliS1Y5hTRwUFzDquV+bsem8sIKER8o0daB0=
-X-Google-Smtp-Source: AGHT+IGQxErl3whqUl2JduTZmonP9tZ9r2pRvNgP2swc0PUclE5cXdKNpnDIqc/OizhzpT3qAwPiUQ==
-X-Received: by 2002:a05:600c:3513:b0:410:7d33:25ba with SMTP id h19-20020a05600c351300b004107d3325bamr10725379wmq.4.1708448361744;
-        Tue, 20 Feb 2024 08:59:21 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:999:a3a0:6202:c7ea:a0cd:ad4a? ([2a01:e0a:999:a3a0:6202:c7ea:a0cd:ad4a])
-        by smtp.gmail.com with ESMTPSA id m15-20020a056000008f00b0033b728190c1sm14059504wrx.79.2024.02.20.08.59.21
+        d=1e100.net; s=20230601; t=1708448840; x=1709053640;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bS6mzlS2FvG30g8kCU8KyMPeOwgxgcQl7tVtSUw6YUE=;
+        b=Ls2mFvTLZTSzKWqfZHsXXNN/4lthFSDbZ55S+lxCuXzdYHJyFZcX5YphIHpwCd6m5y
+         NdDqALDIWnmhLEYhYTyXN7NCCitmAKDak7znOh3QR/DwMdaNTDDoHuaSWPebZAR6dmEi
+         Oe6rZ9SHI/gxubn992Go3jnxmcLq2eF/60bDYzQqxirc4H+Zi1RQVEjF4HArMUbS4l9h
+         AtJnEbKuIDGsT5SxaNaELPddBVWPnViE2kl/JSTDNIa9N61GYUR9xgF2LQYAZ+1Qsfz7
+         Rmwuxjcto8FnNngTYIrWM00d6Y16OlV0KHo68xEArn5DAvG7pUSua7DndSzcUMYIPZSs
+         E4dA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRo17lhE6TcalT23u+VRU6rPP0Fdnh3HpZs2WRzD7zwrqzyKji8fdz9gpUIElbHNZqHs8tpczVlm2NaZp8iy944sscg6+MZ1MHLBysxFch/A732Q5/qw1BECaukZcAUrBKGEOc4+kLRtbheSY6p8PoHycPPBMUDc52vIIqhF7QNqNDq9XZyPS4kxu23b/QxrdwxuQWSmAYU+VYWzpkvMRcqkVkmjVjVX0lk3P0R6KwBHg3/Y1NBfi+qg==
+X-Gm-Message-State: AOJu0Yw0/jww1HVDaa96CwiGtPtcQ/dQkCIXvH+3a4ePzF5mRuElCuuI
+	vuMis8O8cXD2iXuCkXrY/WPq4zInCou5KGFAw6gNLYIUVzVvprJ7
+X-Google-Smtp-Source: AGHT+IGKDgeb1b4/RZMqZUijqCwIZaYIC4U3t4wwvNhBDBJASOb+1pT/1HGi9975hFGHmqQ0PDn8dQ==
+X-Received: by 2002:a05:600c:1c93:b0:412:6dd4:1001 with SMTP id k19-20020a05600c1c9300b004126dd41001mr2072917wms.16.1708448839929;
+        Tue, 20 Feb 2024 09:07:19 -0800 (PST)
+Received: from [192.168.10.18] (54-240-197-233.amazon.com. [54.240.197.233])
+        by smtp.gmail.com with ESMTPSA id o20-20020a05600c4fd400b00412590eee7csm12231744wmq.10.2024.02.20.09.07.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 08:59:21 -0800 (PST)
-Message-ID: <54d2ad13-9d9c-4ec0-96d7-95a54d54a29c@rivosinc.com>
-Date: Tue, 20 Feb 2024 17:59:20 +0100
+        Tue, 20 Feb 2024 09:07:19 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <bd028731-bc98-4735-a7f9-9b4ef9c00668@xen.org>
+Date: Tue, 20 Feb 2024 17:07:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,145 +64,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] riscv: hwprobe: export largest userspace address
+Reply-To: paul@xen.org
+Subject: Re: [PATCH v13 00/21] KVM: xen: update shared_info and vcpu_info
+ handling
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240215152916.1158-1-paul@xen.org>
+ <170838297541.2281798.7838961694439257911.b4-ty@google.com>
+ <05973da0-f68c-4c84-8806-bdba92f2ed6e@xen.org> <ZdTQCuWor4ipxW6E@google.com>
 Content-Language: en-US
-To: Stefan O'Rear <sorear@fastmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Robin Ehn <rehn@rivosinc.com>, Charlie Jenkins <charlie@rivosinc.com>,
- Jessica Clarke <jrtc27@jrtc27.com>
-References: <20240220110950.871307-1-cleger@rivosinc.com>
- <00cae989-9640-4931-9683-dd889cd6b7db@app.fastmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <00cae989-9640-4931-9683-dd889cd6b7db@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Organization: Xen Project
+In-Reply-To: <ZdTQCuWor4ipxW6E@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 20/02/2024 17:50, Stefan O'Rear wrote:
-> On Tue, Feb 20, 2024, at 6:09 AM, Clément Léger wrote:
->> Some userspace applications (OpenJDK for instance) uses the free MSBs
->> in pointers to insert additional information for their own logic and
->> need to get this information from somewhere. Currently they rely on
->> parsing /proc/cpuinfo "mmu=svxx" string to obtain the current value of
->> virtual address used bits [1]. Since this reflect the raw MMU mode
->> supported, it might differ from the logical one used internally.
->> Exporting the maximum mmappable address through hwprobe will allow a
->> more stable interface to be used. For that purpose, add a new hwprobe
->> key named RISCV_HWPROBE_MAX_KEY which will export the maximum mmappable
->> userspace address.
+On 20/02/2024 16:15, Sean Christopherson wrote:
+> On Tue, Feb 20, 2024, Paul Durrant wrote:
+>> On 20/02/2024 15:55, Sean Christopherson wrote:
+>>> On Thu, 15 Feb 2024 15:28:55 +0000, Paul Durrant wrote:
+>>>> From: Paul Durrant <pdurrant@amazon.com>
+>>>>
+>>>> This series contains a new patch from Sean added since v12 [1]:
+>>>>
+>>>> * KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot()
+>>>>
+>>>> This frees up the function name kvm_is_error_gpa() such that it can then be
+>>>> re-defined in:
+>>>>
+>>>> [...]
+>>>
+>>> *sigh*
+>>>
+>>> I forgot to hit "send" on this yesterday.  But lucky for me, that worked out in
+>>> my favor as I needed to rebase on top of kvm/kvm-uapi to avoid pointless conflicts
+>>> in the uapi headeres.
+>>>
+>>> So....
+>>>
+>>> Applied to kvm-x86 xen, minus 18 and 19 (trylock stuff) and 21 (locking cleanup
+>>> that we're doing elsewhere).
+>>>
 >>
->> Link: 
->> https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 
->> [1]
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>> Looks like you meant 17 & 18?
 > 
-> Reviewed-by: Stefan O'Rear <sorear@fastmail.com>
+> Doh, yes.
 > 
-> Ideally, we'd have something arch-independent, but this is a good interface
-> and simple enough to support in perpetuity.
-
-Hi Stefan,
-
-Indeed while not architecture specific, I did not found anything
-relevant in which this information could easily fit. sysconf is actually
-mainly compile time constants returned by the libc. And the few non
-POSIX sysconf defines (_SC_xx) are actually using either /proc parsing
-or the sysinfo syscall which did not changed since kernel 2.3. But maybe
-someone out there knows something better suited to export this information.
-
-Thanks,
-
-Clément
-
+>>> Paul and David, please take (another) look at the end result to make sure you don't
+>>> object to any of my tweaks and that I didn't botch anything.
+>>>
+>>
+>> What was the issue with 17? It was reasonable clean-up and I'd like to keep
+>> it even without 18 being applied (and I totally understand your reasons for
+>> that).
 > 
-> -s
-> 
->> ---
->> v2:
->>  - Note: tried sysconf to export it but this is not backed by syscall
->>    and thus does not allow exporting such information easily.
->>  - Use arch_get_mmap_end() instead of VA_BITS since it reflects the
->>    maximum logical address used by the riscv port
->>  - Change hwprobe key name from RISCV_HWPROBE_KEY_VA_BITS to
->>    RISCV_HWPROBE_KEY_MAX_ADDRESS
->>  - Link to v1: 
->> https://lore.kernel.org/lkml/20240201140319.360088-1-cleger@rivosinc.com/
->> ---
->>  Documentation/arch/riscv/hwprobe.rst  | 3 +++
->>  arch/riscv/include/asm/hwprobe.h      | 2 +-
->>  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->>  arch/riscv/kernel/sys_hwprobe.c       | 4 ++++
->>  4 files changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/riscv/hwprobe.rst 
->> b/Documentation/arch/riscv/hwprobe.rst
->> index b2bcc9eed9aa..a626aa21ac74 100644
->> --- a/Documentation/arch/riscv/hwprobe.rst
->> +++ b/Documentation/arch/riscv/hwprobe.rst
->> @@ -210,3 +210,6 @@ The following keys are defined:
->>
->>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
->>    represents the size of the Zicboz block in bytes.
->> +
->> +* :c:macro:`RISCV_HWPROBE_KEY_MAX_USER_ADDRESS`: An unsigned long which
->> +  represent the maximum userspace mmappable address.
->> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
->> index 630507dff5ea..150a9877b0af 100644
->> --- a/arch/riscv/include/asm/hwprobe.h
->> +++ b/arch/riscv/include/asm/hwprobe.h
->> @@ -8,7 +8,7 @@
->>
->>  #include <uapi/asm/hwprobe.h>
->>
->> -#define RISCV_HWPROBE_MAX_KEY 6
->> +#define RISCV_HWPROBE_MAX_KEY 7
->>
->>  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->>  {
->> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h 
->> b/arch/riscv/include/uapi/asm/hwprobe.h
->> index 9f2a8e3ff204..a6da434be9da 100644
->> --- a/arch/riscv/include/uapi/asm/hwprobe.h
->> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
->> @@ -67,6 +67,7 @@ struct riscv_hwprobe {
->>  #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
->>  #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
->>  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
->> +#define RISCV_HWPROBE_KEY_MAX_USER_ADDRESS	7
->>  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->>
->>  /* Flags */
->> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
->> index a7c56b41efd2..19a47540b4a2 100644
->> --- a/arch/riscv/kernel/sys_hwprobe.c
->> +++ b/arch/riscv/kernel/sys_hwprobe.c
->> @@ -8,6 +8,7 @@
->>  #include <asm/cacheflush.h>
->>  #include <asm/cpufeature.h>
->>  #include <asm/hwprobe.h>
->> +#include <asm/processor.h>
->>  #include <asm/sbi.h>
->>  #include <asm/switch_to.h>
->>  #include <asm/uaccess.h>
->> @@ -202,6 +203,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
->>  		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
->>  			pair->value = riscv_cboz_block_size;
->>  		break;
->> +	case RISCV_HWPROBE_KEY_MAX_USER_ADDRESS:
->> +		pair->value = arch_get_mmap_end(ULONG_MAX, 0, 0);
->> +		break;
->>
->>  	/*
->>  	 * For forward compatibility, unknown keys don't fail the whole
->> -- 
->> 2.43.0
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> I omitted it purely to avoid creating an unnecessary dependency for the trylock
+> patch.  That way the trylock patch (or whatever it morphs into) can be applied on
+> any branch (along with the cleanup), i.e. doesn't need to be taken through kvm-x86/xen.
+
+Ok, personally I don't see the dependency being an issue. I suspect it 
+will be a while before we decide what to do about the locking issue... 
+particularly since David is out this week, as he says.
