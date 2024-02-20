@@ -1,230 +1,118 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFC3762EC
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 18:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C157A762EC;
+	Tue, 20 Feb 2024 18:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708452693; cv=none; b=rbXRSXSo8gyVGNidIB0gxKrqw2DOcyKfULAimYWe26e75F1NCbQa/IrnXF33dKj3on47sGIAzcOIYF199VfvrADduWbDoWGeigCM4U9zFbzrPrv3uDlwMkyCIMot2VuBOfKhbchI4whUyhlqlBzhBQ8Q1p/YEu+rN6DMYoTP2fQ=
+	t=1708452891; cv=none; b=q3H/pQDkC5UkczWeV2PRCXU9Hvy0NuWTlpFZ515r6BjJiUHUTvgZRQf1oSArPIZLDx6vJVMqXHsWYnqJGgB1+DaNWfqh8e6NZcELRuitsu4JIFombZ4HH7NujBSIRLmyKZiHgym8SfezL+7IPe79pomS3UuNJ0CnKuSTALwbWWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708452693; c=relaxed/simple;
-	bh=Jcmd41pe+U9XHcdmhUbtas9UdvHEuh0spYTQz8UpyUA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eNQed4hV1M0YK4DVCi2MXfpvdGLZnquSXMq/f2ah90M0j1aKY7cO60NWWaUe0uURrhg7dIye0pOhOUDyqj73jgDr2GW7Xl72uimLtlWowjc/WAbb77cxHW6FdWizd2I7YsyCBu2ZqYKpcSoX0KE7yw4w5S6GQa9GB3F7GLM8Z1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JnCTH31E; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JnCTH31E"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-428405a0205so23761cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 10:11:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708452689; x=1709057489; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jcmd41pe+U9XHcdmhUbtas9UdvHEuh0spYTQz8UpyUA=;
-        b=JnCTH31EW1sErmYLpxyI1r06n03jtH0v16CcFYA4HlEB2SvVmqKkP5plx9WzzjGpIX
-         3ttdyplZ+z5+oI2cUvK5i06SsOoigA6yf1v/oRlcKyrY4xPCItfVfWvwxVpoPHD5IR1J
-         +r+KShOntd5uvqu7+SgJFUnyA2bNKCqrdutV6WO4dcuqyA4eX4LRqledHbs0vVw9N0Y5
-         igVVW79Qj3hlkN8UrzGHzR1SIZj2uAd9uoXtX/PJklOgInRTJqflrf1GvU5VsyI1SN27
-         TG2CXBfRKzVU1TWPC3mS6t570juzqzj4bgcuX++iT6t/iraGVEBVeWdL0d2W7a4bY+Qq
-         A6yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708452689; x=1709057489;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jcmd41pe+U9XHcdmhUbtas9UdvHEuh0spYTQz8UpyUA=;
-        b=aVykTvU/VgLCgaEFtu/xBVQCZBxqsktOe48hCFOB+/M6m0kPibon19y17YMYz4WAtx
-         YMl7g6f6hQfKK0W5nGQAddAj6/9thmmH5Rm5hCSatvD3vpkVl8VYKkCGO/MvJ8HcojdM
-         0DT504OexLENfq+t2NLJcvIfz1eRoxl1L169B0zv89ERnfmALO6Ez+w/v1DtNnWmAMB+
-         dkaNJYS8G4ZWF6WIOMNkRLmIoRtJOTs0RKCMcIgrdaOUIjVHNkMMmcvSb6aBtFlqAk/l
-         K4tIyww6WJn4YOcRfA3tUL7EVgWPFHkLOr7Y90AUGbuAri5KD+FGzA8xLbjs0Oo+9G0e
-         28Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1XrBcjMORnHdt7801X3tXOtGuXtCLOzevi/pH0rziGenryuQTxvDB37orZ5f1TTkb0masMipaz6CskTSgLfUA+RRjB2Z+g5Wh
-X-Gm-Message-State: AOJu0YyPx3UtCQu8AG+x9ZP0VOyfZPrV9ilwlD2un/0mvTjvYKZ2geBT
-	2yZK97u0ZFwT2N9R/j3g5wgwh+ttA2iDBGdsaWwb1jnNgFwDNC3dcUjjsotGJBcrUyBGoDIhxwB
-	YIla86Y21gV0Rdcr7L7f42zN0UTVEut10Ew9x
-X-Google-Smtp-Source: AGHT+IGlg76R0nwEA2yY2wzV4IpwOT43FMC0yb3BteA2LG3l1hE4F8w2kpfFd2vla/JQ/eQi1ZteqYfyjDx2MHlp56g=
-X-Received: by 2002:a05:622a:14cd:b0:42d:fe28:38e5 with SMTP id
- u13-20020a05622a14cd00b0042dfe2838e5mr607470qtx.20.1708452689417; Tue, 20 Feb
- 2024 10:11:29 -0800 (PST)
+	s=arc-20240116; t=1708452891; c=relaxed/simple;
+	bh=OEt8B9xfdY+l+e2STF/QjTUr6oMjKAKUVGw4y91xUL0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N0TpMPE/ZdSfiprRKCUbABvc8nXPmlW2EC0ZNPXdxgkwVk+TJqMe1lRUtEkiEuaVlusqUG3H1+qmZsTrOUIfZOvmlRHnDfyMu9DH2oElQCa9DyCFvp5qz2+dJ739mcdYubGNg+KGlrGPyQ6SEkS+JCVixfjMj0fjHNVO7VAHiOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACC56FEC;
+	Tue, 20 Feb 2024 10:15:27 -0800 (PST)
+Received: from [10.1.197.60] (eglon.cambridge.arm.com [10.1.197.60])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 408FB3F762;
+	Tue, 20 Feb 2024 10:14:42 -0800 (PST)
+Message-ID: <5ad6f627-45c6-4c2b-b761-c74f0fe85f6c@arm.com>
+Date: Tue, 20 Feb 2024 18:14:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201005720.235639-1-babu.moger@amd.com> <cover.1705688538.git.babu.moger@amd.com>
- <7c26af23-fa1e-4e01-8088-8fbd9be3d6f3@intel.com> <431d6ac4-53cb-2f73-3cda-22616df2f96a@amd.com>
- <4bb63a78-0d0d-47bc-ad65-558af8bc5519@intel.com> <51c60991-eb10-40e8-b3ab-676b92b0c662@amd.com>
- <CALPaoChhKJiMAueFtgCTc7ffO++S5DJCySmxqf9ZDmhR9RQapw@mail.gmail.com> <1a8c1cd6-a1ce-47a2-bc87-d4cccc84519b@arm.com>
-In-Reply-To: <1a8c1cd6-a1ce-47a2-bc87-d4cccc84519b@arm.com>
-From: Peter Newman <peternewman@google.com>
-Date: Tue, 20 Feb 2024 10:11:18 -0800
-Message-ID: <CALPaoCgNLtA7E2tgQZ6gmbZ=OF0nE0Lbi=1C7oR3F0wM4YRbjw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: James Morse <james.morse@arm.com>
-Cc: babu.moger@amd.com, Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net, 
-	fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
-	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
-	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
-	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
-	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/17] x86/resctrl: Introduce interface to display
+ number of ABMC counters
+Content-Language: en-GB
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <cover.1705688538.git.babu.moger@amd.com>
+ <c16cac16c813a203390229d77d5ab37ebc923d95.1705688539.git.babu.moger@amd.com>
+From: James Morse <james.morse@arm.com>
+In-Reply-To: <c16cac16c813a203390229d77d5ab37ebc923d95.1705688539.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi James,
+Hi Babu,
 
-On Tue, Feb 20, 2024 at 7:21=E2=80=AFAM James Morse <james.morse@arm.com> w=
-rote:
-> On 16/02/2024 20:18, Peter Newman wrote:
-> > On Thu, Feb 8, 2024 at 9:29=E2=80=AFAM Moger, Babu <babu.moger@amd.com>=
- wrote:
-> >> On 2/5/24 16:38, Reinette Chatre wrote:
-> >>> You have made it clear on several occasions that you do not intend to=
- support
-> >>> domain level assignment. That may be ok but the interface you create =
-should
-> >>> not prevent future support of domain level assignment.
-> >>>
-> >>> If my point is not clear, could you please share how this interface i=
-s able to
-> >>> support domain level assignment in the future?
-> >>>
-> >>> I am starting to think that we need a file similar to the schemata fi=
-le
-> >>> for group and domain level monitor configurations.
-> >>
-> >> Something like this?
-> >>
-> >> By default
-> >> #cat /sys/fs/resctrl/monitor_state
-> >> default:0=3Dtotal=3Dassign,local=3Dassign;1=3Dtotal=3Dassign,local=3Da=
-ssign
-> >>
-> >> With ABMC,
-> >> #cat /sys/fs/resctrl/monitor_state
-> >> ABMC:0=3Dtotal=3Dunassign,local=3Dunassign;1=3Dtotal=3Dunassign,local=
-=3Dunassign
-> >
-> > The benefit from all the string parsing in this interface is only
-> > halving the number of monitor_state sysfs writes we'd need compared to
-> > creating a separate file for mbm_local and mbm_total. Given that our
-> > use case is to assign the 32 assignable counters to read the bandwidth
-> > of ~256 monitoring groups, this isn't a substantial gain to help us. I
-> > think you should just focus on providing the necessary control
-> > granularity without trying to consolidate writes in this interface. I
-> > will propose an additional interface below to optimize our use case.
-> >
-> > Whether mbm_total and mbm_local are combined in the group directories
-> > or not, I don't see why you wouldn't just repeat the same file
-> > interface in the domain directories for a user needing finer-grained
-> > controls.
->
-> I don't follow why this has to be done globally. resctrl allows CLOSID to=
- have different
-> configurations for different purposes between different domains (as long =
-as tasks are
-> pinned to CPUs). It feels a bit odd that these counters can't be consider=
-ed as per-domain too.
-
-Assigning to all domains at once would allow us to better parallelize
-the resulting IPIs when we do need to iterate a small set of monitors
-over a large list of groups.
+On 19/01/2024 18:22, Babu Moger wrote:
+> The ABMC feature provides an option to the user to pin (or assign) the
+> RMID to the hardware counter and monitor the bandwidth for a longer
+> duration. There are only a limited number of hardware counters.
+> 
+> Provide the interface to display the number of ABMC counters supported.
 
 
-> > I prototyped and tested the following additional interface for the
-> > large-scale, batch use case that we're primarily concerned about:
-> >
-> > info/L3_MON/mbm_{local,total}_bytes_assigned
-> >
-> > Writing a whitespace-delimited list of mongroup directory paths does
->
-> | mkdir /sys/fs/resctrl/my\ group
->
-> string parsing in the kernel is rarely fun!
+> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> index a6c336b6de61..fa492ea820f0 100644
+> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> @@ -823,6 +823,10 @@ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+>  			resctrl_file_fflags_init("mbm_local_bytes_config",
+>  						 RFTYPE_MON_INFO | RFTYPE_RES_CACHE);
+>  		}
+> +
 
-Hopefully restricting to a newline-delimited list will keep this fun
-and easy then.
+> +		if (rdt_cpu_has(X86_FEATURE_ABMC))
 
-Otherwise if referring to many groups in a single write isn't a viable
-path forward, I'll still need to find a way to address the
-fs/syscall/IPI overhead of measuring the bandwidth of a large number
-of groups.
-
->
->
-> > the following:
-> > 1. unassign all monitors for the given counter
-> > 2. assigns a monitor to each mongroup referenced in the write
-> > 3. batches per-domain register updates resulting from the assignments
-> > into a single IPI for each domain
-> >
-> > This interface allows us to do less sysfs writes and IPIs on systems
-> > with more assignable monitoring resources, rather than doing more.
-> >
-> > The reference to a mongroup when reading/writing the above node is the
-> > resctrl-root-relative path to the monitoring group. There is probably
-> > a more concise way to refer to the groups, but my prototype used
-> > kernfs_walk_and_get() to locate each rdtgroup struct.
->
-> If this file were re-used for finding where the monitors were currently a=
-llocated, using
-> the name would be a natural fit for building a path to un-assign one grou=
-p.
->
->
-> > I would also like to add that in the software-ABMC prototype I made,
-> > because it's based on assignment of a small number of RMIDs,
-> > assignment results in all counters being assigned at once. On
-> > implementations where per-counter assignments aren't possible,
-> > assignment through such a resource would be allowed to assign more
-> > resources than explicitly requested.
-> >
-> > This would allow an implementation only capable of global assignment
->
-> Do we know if this exists? Given the configurations have to be different =
-for a domain, I'd
-> be surprised if counter configuration is somehow distributed between doma=
-ins.
-
-It's currently only a proposal[1] for mitigating the context switch
-overhead cost of soft RMIDs. I'm looking at the other alternative
-first, though.
+Please put this in a header and calling it something like
+resctrl_arch_has_assignable_counters(). These X86 feature definition macros aren't
+available on other architectures!
 
 
-> > to assign resources to all groups when a non-empty string is written
-> > to the proposed file nodes, and all resources to be unassigned when an
-> > empty string is written. Reading back from the file nodes would tell
-> > the user how much was actually assigned.
->
-> What do you mean by 'how much', is this allow to fail early? That feels a=
- bit
-> counter-intuitive. As this starts with a reset, if the number of counters=
- is known - it
-> should be easy for user-space to know it can only write X tokens into tha=
-t file.
+> +			resctrl_file_fflags_init("mbm_assignable_counters",
+> +						 RFTYPE_MON_INFO);
+>  	}
+>  
+>  	l3_mon_evt_init(r);
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 3e233251e7ed..53be5cd1c28e 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -811,6 +811,17 @@ static int rdtgroup_rmid_show(struct kernfs_open_file *of,
+>  	return ret;
+>  }
+>  
+> +static int rdtgroup_mbm_assignable_counters_show(struct kernfs_open_file *of,
+> +						 struct seq_file *s, void *v)
+> +{
+> +	struct rdt_resource *r = of->kn->parent->priv;
 
-I was referring to the operation assigning more groups than requested
-if the implementation is only capable of a master enable/disable for
-all monitoring: reading back would indicate that all monitoring groups
-are in the assigned list.
+> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
 
-There would otherwise be an interface telling the user how many
-monitors can be assigned, so there's no reason to expect this
-operation to fail, short of the user doing something silly like
-deleting a group while it's concurrently being assigned.
+(After the move out to /fs/ the resctrl_to_arch_res() macro is private to the arch code.
+ Needing to do this when providing a value to user-space is the indication that the value
+ should be in struct rdt_resource instead!)
 
--Peter
 
-[1] https://lore.kernel.org/lkml/CALPaoCiRD6j_Rp7ffew+PtGTF4rWDORwbuRQqH2i-=
-cY5SvWQBg@mail.gmail.com/
+> +	seq_printf(s, "%d\n", hw_res->mbm_assignable_counters);
+> +
+> +	return 0;
+> +}
+> +
+>  #ifdef CONFIG_PROC_CPU_RESCTRL
+>  
+>  /*
+
+
+Thanks,
+
+James
