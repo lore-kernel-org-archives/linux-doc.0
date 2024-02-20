@@ -1,91 +1,213 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647205A7A0
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1C46997D;
+	Tue, 20 Feb 2024 12:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708432137; cv=none; b=Tit5sohMf4aUuPjZ1jjWx5fjC2GUsuH7jeNPd7TbHuZ+ksAwxmhYW7PFwFNMb7Hq7wrzk2RaObpWcoEd2mHtXaUNP0eS1wpgzPodwgbMRk/fEi2NOyd8q7AgylGs2l2RY2XOiWwp+vfsUi5GxZN4I1xV9lyzHI6fNpJVTaGoPJM=
+	t=1708432323; cv=none; b=kposO515/IVKl6sWVD6NwPUFncAxr1OC3RJkXaPl7uInlQVP6cjKNHy7LfYPwE5S2L5Lmr364VHJ58GF+N7Fc6tbnSH2QIsJG7oMSPotRA71gV+0kgywpWcF2/NomzMb+TTW9oNFl8lPzF5J+Ey9aj9gajwJAP2vJlCdwAZguvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708432137; c=relaxed/simple;
-	bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=si2W90nJNIphDFyKaFursFdKbTBn1QiMcbo/CdQGerL1oE4FALIxwajjApY0tJyh8uAHvYzSg0tA2zimrcTgyhgDVuWcuJo37xkqAYMyqqkt0B47w592ERgVpk4yW8cQrYkyJOpj37vrf0WbDO2CSq07IEIOC1S2nJqJtX/lcWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=lwMcGTpm; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1708432323; c=relaxed/simple;
+	bh=C57tELA+v1jLOo/fRRVSiXHSRcnzvGUu74uuhfpwA/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kR7eoarZhYTeninsUc9D1k9BwgozIQIJiOgHhZ8/5Ca8oax6abRTEkCZTNwsakgJskUe/notW2tqM4KbrVatncaLLNXQI3hWewfZc9GmzWcNiffmZc4OxoTEqQGt5DXw58Mif/TJsdrim1/3ra4m8yi0JtjIEflqghAflFiFh8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=X0pt4tab; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="lwMcGTpm"
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 560E73F125
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 12:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1708432134;
-	bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version;
-	b=lwMcGTpmZefP9hlv8nzN/op01oN8AmR3LbENt7vhhI82aLOrLACKTb63Sr4XJ0t6g
-	 dhUrb1KTX5ZvedUP8gYEvGBdr7GR5gsfEqwYimjq/UdfJColzb3CKzezjclqPYCtUz
-	 gP5nNSE032HjScY2XP86CSG/lNm/7rMmxp2iDa6BuStxac+LJ3wd4JQkZodE5anj0m
-	 cxmbtu843Zbbs5wGOg4LCSbverZ/W5Mr9PXQnbfdjwO2AcqC43TjqIiRTBbAZ8KQF6
-	 gWJ2BfBzsddwn+rFP2EHDIOwsvHPpwinl6oWmVmiPI2maPaaOOrwQTPZBUtrSeXsun
-	 iTPTbsHTh59VQ==
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-5cf555b2a53so4823508a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 04:28:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708432133; x=1709036933;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lqd4WYUnccIBIqbzl7+NkpSoALyemojxRPYdhyqxBFk=;
-        b=hfyCOkDR38vP5lZQNbZ9NM2z21p+UEWE7+ggDedUw7YE7emfWTNT3u48rrf1OLOB9U
-         lIQ0qpYCzf04hdgbl1DqHJJx76svKuUIY4JuOTsk+5/TWPCzjfMM8+p/mN2hZA6vdOb+
-         eV2VoBIBYBX/NGtK0W39JrQOuxZf4M+vAJXXrD3nJE5Hf/bdJsSI6Uzayl8kcEC5aTJC
-         oiiTWdxJ4KZIxWj7hxykTts15I59ON6Ia1KcXl0RvnFy1ukYHqsm8ovJOy2lx9m8uNnU
-         0UQJb3A4/WMEDXv0fCQ8Z02uLe9l1s8Sh7nYY4UUeMxAACxyb+cRKOjqqvKAwxk7L2dl
-         Z3/g==
-X-Forwarded-Encrypted: i=1; AJvYcCU+l9fILALrt5RvLlYNsXl/7Mx+y27RZx2N+DDbydwl1uiLKvBqku+h82VrI43njZFXROkLGP1E3/DlUzGWxnRgLfuYEOwlO00I
-X-Gm-Message-State: AOJu0Yw+W0lJjmE8HEWau0X4PqoXQD2R/6yF7eVRGrPmQgQ2vZ2Fbs9q
-	s5nKP99KmLWzSSg5Y+ZGlraCnyUmgrTGAGkD39OgXaklWggBtnwER7YEFHoCwcO4a8mLy7CjiH5
-	Ym0WgE/CXXzvpO9zDTjHpnk357N7L7qd5OfXvvd6spT1NDyQNqnEuAlmKIqnTUFZvsft1C/tgtA
-	==
-X-Received: by 2002:a05:6a21:3a85:b0:19e:a9c2:e0cb with SMTP id zv5-20020a056a213a8500b0019ea9c2e0cbmr22090877pzb.25.1708432132997;
-        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE97B84Uq2UpG+abN/I+MwlHDTBfcdhI2z2qjsMLJLhpJVYV244lzq4DKO4QzS2xoZVv0hL4w==
-X-Received: by 2002:a05:6a21:3a85:b0:19e:a9c2:e0cb with SMTP id zv5-20020a056a213a8500b0019ea9c2e0cbmr22090858pzb.25.1708432132712;
-        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
-Received: from fenrir.. ([179.108.23.66])
-        by smtp.gmail.com with ESMTPSA id u20-20020a056a00099400b006e47300e4edsm2456787pfg.183.2024.02.20.04.28.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 04:28:52 -0800 (PST)
-From: Lincoln Wallace <lincoln.wallace@canonical.com>
-To: brgl@bgdev.pl
-Cc: corbet@lwn.net,
-	lincoln.wallace@canonical.com,
-	linus.walleij@linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: gpio: Add a note on the deprecated GPIO Testing Driver
-Date: Tue, 20 Feb 2024 09:28:48 -0300
-Message-Id: <20240220122848.17864-1-lincoln.wallace@canonical.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <CAMRc=MdoUuOLTYHu99+c_AVhnDZ5LkKHkYJ0D681fcJV_aW2Ng@mail.gmail.com>
-References: <CAMRc=MdoUuOLTYHu99+c_AVhnDZ5LkKHkYJ0D681fcJV_aW2Ng@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="X0pt4tab"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1708432316; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=i8MeXBL4Q21bO6Mt0CWzsHtCP+BDuMSfUqLrqrJbi1g=;
+	b=X0pt4tabGMITGOSIoiT5jMJGNCsEj0CyYMkZWuGJ3nbdQxOiJnWdwHe/+V0tkkjtZ1tY38aCO7p1jj1pTJli5MENhtVRrQulUPRGBYIdF9H80HzwAGQHurf6Dj5+84H/upjsrIq1tHkdtXELT79ZAsUtFpnOloswp9qP6dpnVZ0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=xiangzao@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0W0wo.d5_1708432314;
+Received: from 30.178.67.248(mailfrom:xiangzao@linux.alibaba.com fp:SMTPD_---0W0wo.d5_1708432314)
+          by smtp.aliyun-inc.com;
+          Tue, 20 Feb 2024 20:31:55 +0800
+Message-ID: <4b69e961-878d-45b0-bdc3-edcfe2306149@linux.alibaba.com>
+Date: Tue, 20 Feb 2024 20:31:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] tools/testing: adjust pstore backend related selftest
+To: Kees Cook <keescook@chromium.org>
+Cc: tony.luck@intel.com, gpiccoli@igalia.com, shuah@kernel.org,
+ corbet@lwn.net, xlpang@linux.alibaba.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, xiangzao@linux.alibaba.com
+References: <20240207021921.206425-1-xiangzao@linux.alibaba.com>
+ <20240207021921.206425-4-xiangzao@linux.alibaba.com>
+ <202402070452.24B3200@keescook>
+From: Yuanhe Shu <xiangzao@linux.alibaba.com>
+In-Reply-To: <202402070452.24B3200@keescook>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sorry, please ignore my last reply.
 
-But okay, thank you for letting me know, and thanks for your time.
 
-Lincoln
+On 2024/2/7 20:53, Kees Cook wrote:
+> On Wed, Feb 07, 2024 at 10:19:21AM +0800, Yuanhe Shu wrote:
+>> Pstore now supports multiple backends, the module parameter
+>> pstore.backend varies from 'registered backend' to 'backends that are
+>> allowed to register'. Adjust selftests to match the change.
+>>
+>> Signed-off-by: Yuanhe Shu <xiangzao@linux.alibaba.com>
+>> ---
+>>   tools/testing/selftests/pstore/common_tests   |  8 +--
+>>   .../selftests/pstore/pstore_post_reboot_tests | 65 ++++++++++---------
+>>   tools/testing/selftests/pstore/pstore_tests   |  2 +-
+>>   3 files changed, 38 insertions(+), 37 deletions(-)
+>>
+>> diff --git a/tools/testing/selftests/pstore/common_tests b/tools/testing/selftests/pstore/common_tests
+>> index 4509f0cc9c91..497e6fc3215f 100755
+>> --- a/tools/testing/selftests/pstore/common_tests
+>> +++ b/tools/testing/selftests/pstore/common_tests
+>> @@ -27,9 +27,9 @@ show_result() { # result_value
+>>   }
+>>   
+>>   check_files_exist() { # type of pstorefs file
+>> -    if [ -e ${1}-${backend}-0 ]; then
+>> +    if [ -e ${1}-${2}-0 ]; then
+>>   	prlog "ok"
+>> -	for f in `ls ${1}-${backend}-*`; do
+>> +	for f in `ls ${1}-${2}-*`; do
+>>               prlog -e "\t${f}"
+>>   	done
+>>       else
+>> @@ -74,9 +74,9 @@ prlog "=== Pstore unit tests (`basename $0`) ==="
+>>   prlog "UUID="$UUID
+>>   
+>>   prlog -n "Checking pstore backend is registered ... "
+>> -backend=`cat /sys/module/pstore/parameters/backend`
+>> +backends=$(dmesg | sed -n 's/.*pstore: Registered \(.*\) as persistent store backend.*/\1/p')
+>>   show_result $?
+>> -prlog -e "\tbackend=${backend}"
+>> +prlog -e "\tbackends="$backends
+> 
+> Missing trailing "? Also, doesn't this end up printing multiple lines?
+> Perhaps, like LSM stacking, we need a /sys/module entry for the list of
+> backends, comma separated?
+> 
 
+To avoid printing multiple lines here we move $backends out of "" then 
+it will print one single line backend names seperated by white space.
+
+Yes, I also referred to LSM stacking and wondering if we need a module 
+parameter to indicate which backends are registered at present. It would 
+be nice for users to know which pstore backends are registered and 
+selftest could take it for test easily. But I am worried about it would 
+be confusing for users that there is a parameter pstore.backend to 
+indicate which backends are allowed to be registered and another 
+parameter to indicate which backends are registered now. At first the 
+naming is a question. What is your advice?
+
+>>   prlog -e "\tcmdline=`cat /proc/cmdline`"
+>>   if [ $rc -ne 0 ]; then
+>>       exit 1
+>> diff --git a/tools/testing/selftests/pstore/pstore_post_reboot_tests b/tools/testing/selftests/pstore/pstore_post_reboot_tests
+>> index d6da5e86efbf..9e40ccb9c918 100755
+>> --- a/tools/testing/selftests/pstore/pstore_post_reboot_tests
+>> +++ b/tools/testing/selftests/pstore/pstore_post_reboot_tests
+>> @@ -36,45 +36,46 @@ else
+>>   fi
+>>   
+>>   cd ${mount_point}
+>> +for backend in ${backends}; do
+>> +    prlog -n "Checking ${backend}-dmesg files exist in pstore filesystem ... "
+>> +    check_files_exist dmesg ${backend}
+>>   
+>> -prlog -n "Checking dmesg files exist in pstore filesystem ... "
+>> -check_files_exist dmesg
+>> +    prlog -n "Checking ${backend}-console files exist in pstore filesystem ... "
+>> +    check_files_exist console ${backend}
+>>   
+>> -prlog -n "Checking console files exist in pstore filesystem ... "
+>> -check_files_exist console
+>> +    prlog -n "Checking ${backend}-pmsg files exist in pstore filesystem ... "
+>> +    check_files_exist pmsg ${backend}
+>>   
+>> -prlog -n "Checking pmsg files exist in pstore filesystem ... "
+>> -check_files_exist pmsg
+>> +    prlog -n "Checking ${backend}-dmesg files contain oops end marker"
+>> +    grep_end_trace() {
+>> +        grep -q "\---\[ end trace" $1
+>> +    }
+>> +    files=`ls dmesg-${backend}-*`
+>> +    operate_files $? "$files" grep_end_trace
+>>   
+>> -prlog -n "Checking dmesg files contain oops end marker"
+>> -grep_end_trace() {
+>> -    grep -q "\---\[ end trace" $1
+>> -}
+>> -files=`ls dmesg-${backend}-*`
+>> -operate_files $? "$files" grep_end_trace
+>> +    prlog -n "Checking ${backend}-console file contains oops end marker ... "
+>> +    grep -q "\---\[ end trace" console-${backend}-0
+>> +    show_result $?
+>>   
+>> -prlog -n "Checking console file contains oops end marker ... "
+>> -grep -q "\---\[ end trace" console-${backend}-0
+>> -show_result $?
+>> -
+>> -prlog -n "Checking pmsg file properly keeps the content written before crash ... "
+>> -prev_uuid=`cat $TOP_DIR/prev_uuid`
+>> -if [ $? -eq 0 ]; then
+>> -    nr_matched=`grep -c "$TEST_STRING_PATTERN" pmsg-${backend}-0`
+>> -    if [ $nr_matched -eq 1 ]; then
+>> -	grep -q "$TEST_STRING_PATTERN"$prev_uuid pmsg-${backend}-0
+>> -	show_result $?
+>> +    prlog -n "Checking ${backend}-pmsg file properly keeps the content written before crash ... "
+>> +    prev_uuid=`cat $TOP_DIR/prev_uuid`
+>> +    if [ $? -eq 0 ]; then
+>> +        nr_matched=`grep -c "$TEST_STRING_PATTERN" pmsg-${backend}-0`
+>> +        if [ $nr_matched -eq 1 ]; then
+>> +	    grep -q "$TEST_STRING_PATTERN"$prev_uuid pmsg-${backend}-0
+>> +	    show_result $?
+>> +        else
+>> +            prlog "FAIL"
+>> +            rc=1
+>> +        fi
+>>       else
+>> -	prlog "FAIL"
+>> -	rc=1
+>> +        prlog "FAIL"
+>> +        rc=1
+>>       fi
+>> -else
+>> -    prlog "FAIL"
+>> -    rc=1
+>> -fi
+>>   
+>> -prlog -n "Removing all files in pstore filesystem "
+>> -files=`ls *-${backend}-*`
+>> -operate_files $? "$files" rm
+>> +    prlog -n "Removing all ${backend} files in pstore filesystem "
+>> +    files=`ls *-${backend}-*`
+>> +    operate_files $? "$files" rm
+>> +done
+>>   
+>>   exit $rc
+>> diff --git a/tools/testing/selftests/pstore/pstore_tests b/tools/testing/selftests/pstore/pstore_tests
+>> index 2aa9a3852a84..f4665a8c77dc 100755
+>> --- a/tools/testing/selftests/pstore/pstore_tests
+>> +++ b/tools/testing/selftests/pstore/pstore_tests
+>> @@ -10,7 +10,7 @@
+>>   . ./common_tests
+>>   
+>>   prlog -n "Checking pstore console is registered ... "
+>> -dmesg | grep -Eq "console \[(pstore|${backend})"
+>> +dmesg | grep -Eq "console \[(pstore console)"
+>>   show_result $?
+>>   
+>>   prlog -n "Checking /dev/pmsg0 exists ... "
+>> -- 
+>> 2.39.3
+>>
+> 
+> Otherwise seems ok
+> 
