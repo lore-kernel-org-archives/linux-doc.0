@@ -1,57 +1,57 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77C473172
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 14:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09D974E3F
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 15:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708441199; cv=none; b=BMzB1DXUoxJsOyv3kcSW3Ax5pN9d0QCZW2r/3MEcZtmtPsxExeOtUh4jg/5dWexg19cQGsB6n3NbiACzF+P6s7x0U8QrFzbhm/zB0ELvB7XljrMcQ5YMWmyMz9JduAYO4yif5OfbksbPFTaYpWwGTbI1sXYSEzkArGwFUGRP5T4=
+	t=1708441202; cv=none; b=Ek0L4oKtMox4ZX3pmlfZjyx++1UmXDUps4Eaq7eydr0lHGc0P/DCgGQtrcmLrwi0pILVokcAHDcKsdds8cZVl9wc+z/qfU+wREopx+QUbSNghn83mb9vzHEepf4RGnXlqGi4xmjcSg7crMhKY3pV0pF2SiAstp0wx7eS6KxvoFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708441199; c=relaxed/simple;
-	bh=AmI+mhJl5AlGT+h0sLAqwwDtScLVW9svqVOc58XxKko=;
+	s=arc-20240116; t=1708441202; c=relaxed/simple;
+	bh=RkjU3Ub4ClpkOSSOEN84+hu/XY6PSH0IWTUar1yt9s8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Bz0QdaIRlWZ66z/rao5EMhwacmKSnN7ooqYjfkfjNQw1gdcb6wDefUkXgG8r+cLHVztjSjnpMI7MKv7auDJWwH2jKAytafc6lms13xIvDojIFiN6zvgEyS4923SGJA3+s0XEAIJNieXW5rtXzL7NEuSry8SLj/vSRuBRBg4Dkbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IsqrX2FP; arc=none smtp.client-ip=209.85.221.48
+	 MIME-Version; b=U8nJz0sM/uQVarsKsIfS1tOg0uqthDjMlKO5wHjtHGElx9SAygMI1SDS6IHkbrPCciQeWMkXsxZ7D4/5bshsVTOomjcg6wLJL64RdwJVMcRQZINbZJ32G0nC9OHIdZMz+x4m4Fiar9k7DPK5y3gMV40PWLrti53jqOeEhdLUanQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=znmVRaGS; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IsqrX2FP"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33d2710f3acso2382234f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 06:59:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="znmVRaGS"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33d509c5706so1318162f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 07:00:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708441196; x=1709045996; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1708441199; x=1709045999; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YQpO3XD9z+4WKZF9p2pzV79fzV1uiBng4ssGTZt9l7o=;
-        b=IsqrX2FPMBFlRuvG9ZdTR+XzNxypJO70Qyhu/GM20pYEiFd+gQdQcEPk3a5wpkbpmy
-         HsIAQcTeQsLlsHEpG/ZL4m02LLaH3HJJQ2CeuHF7+ZRA8WIQWsl+L/qsapzCLMNDDMhX
-         5YylWYZ2QnapX6wQloXbooSVlUAjS+Z2EssOc+P+FHVMd/yUm4MOovbB2kbO8T9PqOJU
-         abrPAf72ya+aDtsmOkOAbCYV8MC/hSLfOHVvZVlAwl2CBmR5TbwnwOvRzPxUbeR7HwjG
-         w0K3gDUFeePjjGe0g6pDVcMSuhLlk7GUnr+2H64Brv7jeely7/8qfIsiK1UQniPVkWQI
-         rIIA==
+        bh=OJN21V1bop2AoQQK03hl+NSFZtBSAxp4abYemrkmzIE=;
+        b=znmVRaGSJ6JJlCDRmvJMD0FoWz4wH7Io0JTJVv1GpGtNarkmgou1jwAvuzZmOo5MCI
+         HCd8PBeBjeLbGtcijb43T+SdLsYkQw3q6BcNXCWO9rmQlHHxaUzul+kB/L+84LaS5xBl
+         gsvTH1G8EwlkLnA0Af+vFZiILbyuAw1t2WJGmOjsElm6NaJL35wEJMffdMBwYe/SZfEu
+         2n29Fq94TWG15u/qBUD/ivGqc3RW/zBAKaslQCHLVQ89+i83h2qu2TpXRjb39a3XE5bD
+         W9abNXLuCGLXTP3hJrROU//oxwC0oRBladnYYXehiP+ihZVOxVkhtnHqLSFS+pmB9zUo
+         frKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708441196; x=1709045996;
+        d=1e100.net; s=20230601; t=1708441199; x=1709045999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YQpO3XD9z+4WKZF9p2pzV79fzV1uiBng4ssGTZt9l7o=;
-        b=CH5t+70P34Q94J83OcS742hofQsbibw1pcm93gzJnc42HwLZ4f5W7sq7/UMrzI37WP
-         ojpf9nL1tQVqdPfZdXeYdTpMvtE6u/svmM00P9p5h46AMDEkvt8jKKAa3KjkMMriCBNF
-         En6dlHhJMZ2bpElbAmABr07uD3aH9DbZzV+lYM1fc8rOj/RAsFyFBJxPdKwiz50oE6cQ
-         L7tg6EItkuBufenw1LTuw0HTpuQblgAaIVSPJcAde90E9pYHHdl4hvkordK0c4kEW/Jd
-         yDz20yO5JVE2hD4IqYe5Q6l1FWC98KUFhSjXV3hL4LyPh0uK4H2r4BNywtYcohiMmYzZ
-         yZ7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXBkiL+l4OjYR/ucrfw66DRfBqo7aQc0nLz6UKjeEyHXL2V38rGLLdjHTZ8Cw5ySvsprNxpvQ72BL4jUpPvHw07DuzXJAumrsXt
-X-Gm-Message-State: AOJu0Yw7WpvBwG7jIzQoNmRsgD50guOgh0/z8rzfd0dLQFDDNKnWLv96
-	r89UkbJjdFwDF5h+cok7IqRrpAHs1Ehj0pCSpDtkGDHjfHmE4QEoPagVLwgLPfM=
-X-Google-Smtp-Source: AGHT+IHU5FRmUVcTFyEWR5U3HbJ8O+99oQkcpexS5vm6MWZn87bgLjkitzYpQO0uvuGQ7Rvj1Y78tg==
-X-Received: by 2002:a5d:64eb:0:b0:33d:3ff3:f888 with SMTP id g11-20020a5d64eb000000b0033d3ff3f888mr7428353wri.0.1708441196168;
-        Tue, 20 Feb 2024 06:59:56 -0800 (PST)
+        bh=OJN21V1bop2AoQQK03hl+NSFZtBSAxp4abYemrkmzIE=;
+        b=mlf8bSen8lhRxVS92fam7ofSZLwx4PlgOR1wZZxyfTi1D44RPP0KsxQwMAEZhzAx3n
+         ORBaZSKfRPse2i7igWhf1DZ/+iwyKtJsi9fBZEqQp2+KEPzI3FLlg5fPigCyttdUtrON
+         Ya2+2UwpvVddFJf+bIUJDuSQBwDrPj6h3dCN/izHG1+pjZXYSR1KH9nNPRLNkIlBM3Jp
+         E9WIeuLI0znQPJ/dmu3WMsw7OHZ65pYkv7FUI3kuOOJJA7yepQ6WibAQfX1KK6BZBIim
+         zfh46JVCpRNPyPmoMXsZ6qLx6fTm5iISxl2jjxc3P4MTTBSRIUkHL3G9BJsv1Sdts1Zv
+         2APA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhw86lgF1BmYkJF/tfIBaYRdBvEdJFfX3Mhgbb3KSRKoK9smsJANVv4b4zAEpI9vR4Y6ez9HrcInvkfOfcD/bxYjXJnuDynTPM
+X-Gm-Message-State: AOJu0YzVNSWxOhkNWRz/yJZcFE/hcIHkAnsj99Lvg+nrkzZHPIa+AtR/
+	R8zu3MZm7WLZh3SsIwkq9/7qB0tGzWzg8Grd1FVZhl6TaBFnn0nwImZdNXrSsBQ=
+X-Google-Smtp-Source: AGHT+IF9tJG6cYo5kMgHAyXSW6LLub4Cy4QdsaVLmULHXyA1+3Ik6b0caALozs4YQUihhJTnKqZHLg==
+X-Received: by 2002:a5d:64a7:0:b0:33d:ed4:5c86 with SMTP id m7-20020a5d64a7000000b0033d0ed45c86mr13698111wrp.63.1708441199370;
+        Tue, 20 Feb 2024 06:59:59 -0800 (PST)
 Received: from vingu-book.. ([2a01:e0a:f:6020:8deb:bfb9:b028:6d5c])
-        by smtp.gmail.com with ESMTPSA id v4-20020a5d6784000000b0033d39626c27sm9304405wru.76.2024.02.20.06.59.54
+        by smtp.gmail.com with ESMTPSA id v4-20020a5d6784000000b0033d39626c27sm9304405wru.76.2024.02.20.06.59.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 06:59:55 -0800 (PST)
+        Tue, 20 Feb 2024 06:59:58 -0800 (PST)
 From: Vincent Guittot <vincent.guittot@linaro.org>
 To: linux@armlinux.org.uk,
 	catalin.marinas@arm.com,
@@ -84,11 +84,10 @@ To: linux@armlinux.org.uk,
 	linux-arm-msm@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Cc: Vincent Guittot <vincent.guittot@linaro.org>,
-	Qais Yousef <qyousef@layalina.io>
-Subject: [PATCH v5 1/5] cpufreq: Add a cpufreq pressure feedback for the scheduler
-Date: Tue, 20 Feb 2024 15:59:43 +0100
-Message-Id: <20240220145947.1107937-2-vincent.guittot@linaro.org>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Subject: [PATCH v5 3/5] thermal/cpufreq: Remove arch_update_thermal_pressure()
+Date: Tue, 20 Feb 2024 15:59:45 +0100
+Message-Id: <20240220145947.1107937-4-vincent.guittot@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240220145947.1107937-1-vincent.guittot@linaro.org>
 References: <20240220145947.1107937-1-vincent.guittot@linaro.org>
@@ -100,101 +99,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Provide to the scheduler a feedback about the temporary max available
-capacity. Unlike arch_update_thermal_pressure, this doesn't need to be
-filtered as the pressure will happen for dozens ms or more.
+arch_update_thermal_pressure() aims to update fast changing signal which
+should be averaged using PELT filtering before being provided to the
+scheduler which can't make smart use of fast changing signal.
+cpufreq now provides the maximum freq_qos pressure on the capacity to the
+scheduler, which includes cpufreq cooling device. Remove the call to
+arch_update_thermal_pressure() in cpufreq cooling device as this is
+handled by cpufreq_get_pressure().
 
 Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
 Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-Reviewed-by: Qais Yousef <qyousef@layalina.io>
 ---
- drivers/cpufreq/cpufreq.c | 36 ++++++++++++++++++++++++++++++++++++
- include/linux/cpufreq.h   | 10 ++++++++++
- 2 files changed, 46 insertions(+)
+ drivers/thermal/cpufreq_cooling.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 44db4f59c4cc..f4eee3d107f1 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -2563,6 +2563,40 @@ int cpufreq_get_policy(struct cpufreq_policy *policy, unsigned int cpu)
- }
- EXPORT_SYMBOL(cpufreq_get_policy);
- 
-+DEFINE_PER_CPU(unsigned long, cpufreq_pressure);
-+
-+/**
-+ * cpufreq_update_pressure() - Update cpufreq pressure for CPUs
-+ * @policy: cpufreq policy of the CPUs.
-+ *
-+ * Update the value of cpufreq pressure for all @cpus in the policy.
-+ */
-+static void cpufreq_update_pressure(struct cpufreq_policy *policy)
-+{
-+	unsigned long max_capacity, capped_freq, pressure;
-+	u32 max_freq;
-+	int cpu;
-+
-+	cpu = cpumask_first(policy->related_cpus);
-+	max_freq = arch_scale_freq_ref(cpu);
-+	capped_freq = policy->max;
-+
-+	/*
-+	 * Handle properly the boost frequencies, which should simply clean
-+	 * the cpufreq pressure value.
-+	 */
-+	if (max_freq <= capped_freq) {
-+		pressure = 0;
-+	} else {
-+		max_capacity = arch_scale_cpu_capacity(cpu);
-+		pressure = max_capacity -
-+			   mult_frac(max_capacity, capped_freq, max_freq);
-+	}
-+
-+	for_each_cpu(cpu, policy->related_cpus)
-+		WRITE_ONCE(per_cpu(cpufreq_pressure, cpu), pressure);
-+}
-+
- /**
-  * cpufreq_set_policy - Modify cpufreq policy parameters.
-  * @policy: Policy object to modify.
-@@ -2618,6 +2652,8 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
- 	policy->max = __resolve_freq(policy, policy->max, CPUFREQ_RELATION_H);
- 	trace_cpu_frequency_limits(policy);
- 
-+	cpufreq_update_pressure(policy);
-+
- 	policy->cached_target_freq = UINT_MAX;
- 
- 	pr_debug("new min and max freqs are %u - %u kHz\n",
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index afda5f24d3dd..13b69a816747 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -241,6 +241,12 @@ struct kobject *get_governor_parent_kobj(struct cpufreq_policy *policy);
- void cpufreq_enable_fast_switch(struct cpufreq_policy *policy);
- void cpufreq_disable_fast_switch(struct cpufreq_policy *policy);
- bool has_target_index(void);
-+
-+DECLARE_PER_CPU(unsigned long, cpufreq_pressure);
-+static inline unsigned long cpufreq_get_pressure(int cpu)
-+{
-+	return READ_ONCE(per_cpu(cpufreq_pressure, cpu));
-+}
- #else
- static inline unsigned int cpufreq_get(unsigned int cpu)
+diff --git a/drivers/thermal/cpufreq_cooling.c b/drivers/thermal/cpufreq_cooling.c
+index e2cc7bd30862..e77d3b44903e 100644
+--- a/drivers/thermal/cpufreq_cooling.c
++++ b/drivers/thermal/cpufreq_cooling.c
+@@ -448,7 +448,6 @@ static int cpufreq_set_cur_state(struct thermal_cooling_device *cdev,
+ 				 unsigned long state)
  {
-@@ -263,6 +269,10 @@ static inline bool cpufreq_supports_freq_invariance(void)
- 	return false;
- }
- static inline void disable_cpufreq(void) { }
-+static inline unsigned long cpufreq_get_pressure(int cpu)
-+{
-+	return 0;
-+}
- #endif
+ 	struct cpufreq_cooling_device *cpufreq_cdev = cdev->devdata;
+-	struct cpumask *cpus;
+ 	unsigned int frequency;
+ 	int ret;
  
- #ifdef CONFIG_CPU_FREQ_STAT
+@@ -465,8 +464,6 @@ static int cpufreq_set_cur_state(struct thermal_cooling_device *cdev,
+ 	ret = freq_qos_update_request(&cpufreq_cdev->qos_req, frequency);
+ 	if (ret >= 0) {
+ 		cpufreq_cdev->cpufreq_state = state;
+-		cpus = cpufreq_cdev->policy->related_cpus;
+-		arch_update_thermal_pressure(cpus, frequency);
+ 		ret = 0;
+ 	}
+ 
 -- 
 2.34.1
 
