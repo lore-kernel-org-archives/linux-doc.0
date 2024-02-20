@@ -1,128 +1,157 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD31D763EF;
-	Tue, 20 Feb 2024 16:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AC676914;
+	Tue, 20 Feb 2024 16:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708446144; cv=none; b=oDhj09IglQpjDJOd0gz5VwT9p9edaZro4VIsEPl82bg0JuKgY7nK1DhuF/CsmZUFgo3TQCqAxl3cFscJaVQaibN+vcdomMhGVkz3CdOrzxF4E6VsQG5hDBqj75KZIX+tlIBSIEssyvzVYjE+Q7/60OFBZ+VPZroCzSx3lQGYxAM=
+	t=1708446218; cv=none; b=BGW02W/338PGBGbqhT12UaARqeVpuQrnfn6o7lWUffiUM2AdNAvMTF9B+3gvGgc9uw/yM/7uPnVe2Be+sE1rSLL32FWVs+tDdUZW9Wops4rA/kIZ7KcIBLx4Eooa6VlozG96BI6nlLMGDeWRkUnqr0VUebHAhs5U7waXs0m8t80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708446144; c=relaxed/simple;
-	bh=zFkxNm4XUPZy9yD4NN6KLdlxmc1jFsrfMD0v41KFIfU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZWlRZvBNpzoIYIO12MNSiKtLhsOjsOUSMvQNSindWbVBMQhp7UJOQZSrV3PgmCMRqC+qpEMef4X2YSJAsUVAgmiazpjD2hVqqY2zkIgvJ7zW4TNv+FSo4Nso5VJwWyL0KmJEvGKe65I7munfGUQEMQLpKy2Br0jDTvBNtX1nZuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hNkl1r8M; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1708446218; c=relaxed/simple;
+	bh=g82dr/T1DAEl/vLBVbupqmB7edkNUjxgz7d9kHxYKs8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUxREODYhHOkUDzrq4eZiT7vxINB9rsaIkNTJ8f2K5WPmOP3dYVAD0zFWmJavPiJv6/wvTd0mELnz8oF++RpHAltWeFQ2bWT8gPmJFKWtD/2yD8vJ+hTa410zc0qBJGty1Hmtd38caat95t6eG1DeGIQqhoxThe8K8BdGDqnON0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ZFzfIWnc; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ZFzfIWnc; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hNkl1r8M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=BzeL9c/hzzSWVv3MKsT7A/KR/PSkHXr2fqH3rJbXD/E=; b=hNkl1r8MrK0h7XuvdH3qSHJNeK
-	4DIQ/6TbXd8tHEsUs6nBa1ZRa+mvZx+9488lzdh3/KTqrQ0C3lwKKlmpJRgESnI2Cl1UlQhANoNMW
-	lb6VNQKrBJVEbFg0uRuYRZMRR3424F3EmhNMQe/68gwhGaf2FeAax5t2GwozfYVtlY/7lV5PxpigP
-	K+1B2BLgRuEKJQBSyq5cpY96o/0NgaYJpXPktU357ig/qcuBMUx+gyj0/xu5MTq3puAkISEDb6c4q
-	omQGSCGfwiPYYEOdi3uLiBkGJQw/qKavQHZcDtirpOTVRgNclzOl1gQLCr1j5Ezqnk3ns9TSFFQn1
-	wkb0ZBAw==;
-Received: from [145.224.98.163] (helo=[127.0.0.1])
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rcSsW-0000000G1oT-0zRv;
-	Tue, 20 Feb 2024 16:21:56 +0000
-Date: Tue, 20 Feb 2024 17:21:52 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: Sean Christopherson <seanjc@google.com>, paul@xen.org
-CC: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v13_00/21=5D_KVM=3A_xen=3A_upda?= =?US-ASCII?Q?te_shared=5Finfo_and_vcpu=5Finfo_handling?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <ZdTQCuWor4ipxW6E@google.com>
-References: <20240215152916.1158-1-paul@xen.org> <170838297541.2281798.7838961694439257911.b4-ty@google.com> <05973da0-f68c-4c84-8806-bdba92f2ed6e@xen.org> <ZdTQCuWor4ipxW6E@google.com>
-Message-ID: <CFFFCD77-3B9E-4808-B084-E86F8EF265A7@infradead.org>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZFzfIWnc";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZFzfIWnc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ABB6921EFF;
+	Tue, 20 Feb 2024 16:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708446214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h8kDAAJVm9DuuVWWpgF8KUfDBqc/AfjUKVkybEu9ZjA=;
+	b=ZFzfIWnckCCIdzh/XxcA8I6i/Abl4myhPRohiC29Y1zma2EAik3pIboVw8rsuI2Fk/hf1f
+	X460EYZMpb0V7T5YuVeLML+iBfORaE9Sv7Lkf1cmVnxbV+Gjv5P9Ql1DFoPrxePSCl7R1K
+	RpsOZjPJ1F9Bjd8vgU0BDeIDc4Yw+Ac=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708446214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h8kDAAJVm9DuuVWWpgF8KUfDBqc/AfjUKVkybEu9ZjA=;
+	b=ZFzfIWnckCCIdzh/XxcA8I6i/Abl4myhPRohiC29Y1zma2EAik3pIboVw8rsuI2Fk/hf1f
+	X460EYZMpb0V7T5YuVeLML+iBfORaE9Sv7Lkf1cmVnxbV+Gjv5P9Ql1DFoPrxePSCl7R1K
+	RpsOZjPJ1F9Bjd8vgU0BDeIDc4Yw+Ac=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77DA3139D0;
+	Tue, 20 Feb 2024 16:23:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Dr6rHAbS1GVrVAAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Tue, 20 Feb 2024 16:23:34 +0000
+Date: Tue, 20 Feb 2024 17:23:29 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com,
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com,
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com,
+	dvyukov@google.com, shakeelb@google.com, songmuchun@bytedance.com,
+	jbaron@akamai.com, rientjes@google.com, minchan@google.com,
+	kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+Message-ID: <ZdTSAWwNng9rmKtg@tiehlicka>
+References: <Zc4_i_ED6qjGDmhR@tiehlicka>
+ <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
+ <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
+ <20240215180742.34470209@gandalf.local.home>
+ <20240215181648.67170ed5@gandalf.local.home>
+ <20240215182729.659f3f1c@gandalf.local.home>
+ <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
+ <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=ZFzfIWnc
+X-Spamd-Result: default: False [1.68 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 BAYES_HAM(-0.01)[47.30%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_GT_50(0.00)[73];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux.dev,goodmis.org,suse.cz,linux-foundation.org,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 1.68
+X-Rspamd-Queue-Id: ABB6921EFF
+X-Spam-Level: *
+X-Spam-Flag: NO
+X-Spamd-Bar: +
 
-On 20 February 2024 17:15:06 CET, Sean Christopherson <seanjc@google=2Ecom>=
- wrote:
->On Tue, Feb 20, 2024, Paul Durrant wrote:
->> On 20/02/2024 15:55, Sean Christopherson wrote:
->> > On Thu, 15 Feb 2024 15:28:55 +0000, Paul Durrant wrote:
->> > > From: Paul Durrant <pdurrant@amazon=2Ecom>
->> > >=20
->> > > This series contains a new patch from Sean added since v12 [1]:
->> > >=20
->> > > * KVM: s390: Refactor kvm_is_error_gpa() into kvm_is_gpa_in_memslot=
-()
->> > >=20
->> > > This frees up the function name kvm_is_error_gpa() such that it can=
- then be
->> > > re-defined in:
->> > >=20
->> > > [=2E=2E=2E]
->> >=20
->> > *sigh*
->> >=20
->> > I forgot to hit "send" on this yesterday=2E  But lucky for me, that w=
-orked out in
->> > my favor as I needed to rebase on top of kvm/kvm-uapi to avoid pointl=
-ess conflicts
->> > in the uapi headeres=2E
->> >=20
->> > So=2E=2E=2E=2E
->> >=20
->> > Applied to kvm-x86 xen, minus 18 and 19 (trylock stuff) and 21 (locki=
-ng cleanup
->> > that we're doing elsewhere)=2E
->> >=20
->>=20
->> Looks like you meant 17 & 18?
->
->Doh, yes=2E
->
->> > Paul and David, please take (another) look at the end result to make =
-sure you don't
->> > object to any of my tweaks and that I didn't botch anything=2E
->> >=20
->>=20
->> What was the issue with 17? It was reasonable clean-up and I'd like to =
-keep
->> it even without 18 being applied (and I totally understand your reasons=
- for
->> that)=2E
->
->I omitted it purely to avoid creating an unnecessary dependency for the t=
-rylock
->patch=2E  That way the trylock patch (or whatever it morphs into) can be =
-applied on
->any branch (along with the cleanup), i=2Ee=2E doesn't need to be taken th=
-rough kvm-x86/xen=2E
+On Mon 19-02-24 09:17:36, Suren Baghdasaryan wrote:
+[...]
+> For now I think with Vlastimil's __GFP_NOWARN suggestion the code
+> becomes safe and the only risk is to lose this report. If we get cases
+> with reports missing this data, we can easily change to reserved
+> memory.
 
-What about if (in_atomic() && read_trylock()) return -EAGAIN; else read_lo=
-ck();
+This is not just about missing part of the oom report. This is annoying
+but not earth shattering. Eating into very small reserves (that might be
+the only usable memory while the system is struggling in OOM situation)
+could cause functional problems that would be non trivial to test for.
+All that for debugging purposes is just lame. If you want to reuse the code
+for a different purpose then abstract it and allocate the buffer when you
+can afford that and use preallocated on when in OOM situation.
 
-That way we don't have any even theoretical fairness issues because the tr=
-ylock can fail just *once* which kicks us to the slow path and that'll take=
- the lock normally now=2E
-
-The condition might not actually be in_atomic() but I'm not working this w=
-eek and you get the idea=2E
+We have always went extra mile to avoid potentially disruptive
+operations from the oom handling code and I do not see any good reason
+to diverge from that principle.
+-- 
+Michal Hocko
+SUSE Labs
