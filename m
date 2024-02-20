@@ -1,128 +1,135 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2275A4CE;
-	Tue, 20 Feb 2024 07:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7032A5F492;
+	Tue, 20 Feb 2024 08:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708412544; cv=none; b=TZqkiG1kgVoU9V4/ifolN5qrUe1up4cra6p4QPCCi9Q1taHr0caNZ6zKhRtLBoGEVq1w6TZxzjjwLxKfAkeWOZ2QG0ekYgjd2JC4kghOs30pKCtV5iDaCjY2zT6paD69+SuK5JcYutNEf4OoxFZX82NiIqy0fpkFf2bNWRJcZCQ=
+	t=1708419586; cv=none; b=rR6LqCT0p8hIoR8nT6wp2AT4YhvfXxKp0DjtJIEiearveXZwoWaDRaxm+C8TtNpFXb2bQVjaLXWkKLp2R6Q12m7nZVycrxJfXVO7IYAnsnweoLYAjyis90m45vbfUpuODcdmWnv+kCeD8YRat3UC7esCHr6WOHoKs3WEcSYmvCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708412544; c=relaxed/simple;
-	bh=CGtGsFU2wXDy0isZRRb/KkEss2u7yvyia8mRoaJgn9M=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=mLSQ5lEfWMyBZeD2jenHfDM7vdo1whKmNsywm5KQnPH2JaBt0mIBIwN2ru+GnPnEOia7f158cGsnq3dnhNk8s5dka0mZClgLf2dYZbF45kz3yvdcUQFV3zePqQQwvNN46kSbh4R9quI5SrbNgPiX/Ku1yv/q1csP802A8LRpQd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GtDfhOPD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gSwCnKk+; arc=none smtp.client-ip=64.147.123.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1708419586; c=relaxed/simple;
+	bh=kMRyy94TGbI5G9a7NUzCwy7GqE4yhZZpGtIMYZLgoSk=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=sH//qOB2w65i4izcaSqehvYGGJYb9MzOOzLTzZvJz1OeNjR4H6hMfX3pVAH0wsgbSWwUc+eVAuTUoKKGUdnZayru0OXIVmzd2mBIWWywm6AfvKaqwXH1k9NrJI/Tuq9Kal0lmjlV/pMOtmsrDhcLUmA3EmAQIWLmH0Ww6rCz3Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VaVdyU6O; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GtDfhOPD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gSwCnKk+"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 63B3F3200035;
-	Tue, 20 Feb 2024 02:02:20 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 20 Feb 2024 02:02:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1708412539; x=1708498939; bh=mbO/zaQXvf
-	9m5LFtRthBDAWNdbFRPWSTknyOW7f6+rE=; b=GtDfhOPD6uD6H0sAelQ0ZtNx0/
-	NRlgJrzEmUmJCCkqZ194HFHqwEd/CELc5UGj+Tg5+5PO7VK5ixGcdABOPCHDJYAN
-	77f/cqTaGV3W0t/8BioPGkOP1E5Qkvn8uzW1csJAePyaq9FEzT5Dc/4AbFwik39m
-	7lgmvfhnDvYNEGR3zV7XvK6/4+iS5SJsRRtTJbytokoI7synhmim6yy1EykFOg+a
-	nkI03WRzGJDc3nDhkQ333t+aLEMTM6//bhgESNsmZYFfr9O+Yh5OY6tsxqBwcxXP
-	G+PpDTZAFDiBYVrDW5hnd84dLiVe/TTWyeilwsnbZTlAP8mQVZ0p2r4E73eg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1708412539; x=1708498939; bh=mbO/zaQXvf9m5LFtRthBDAWNdbFR
-	PWSTknyOW7f6+rE=; b=gSwCnKk+gBcaLaHDSiSJIw6GSXpisMD4GR/Yu6hpEl6k
-	HkMdYKrkkxtyBLK0rDY6JBtDp8oPLg89fLVG4lZA+6nEUUXScqU+CF7cSIGMDdEj
-	wRQtyHA0ndB5uCukNgV0463rARFFwlwQtZ7gMTfbnZ8iAL7nx/FJqY0XPic9SwR2
-	60KsF//vVH3oRGkzhZM0Js+/NL80t96taprp/uuLdhpRN35uWOyNVA5RckWw7fUy
-	g5pdAY3dNjWCRq+c/O3L/VXxObGeZg2tMMyo+EMhD//+fSq2vBpN7clH/cVXxB1s
-	yC65LBtOhMOSG0tlm5IobUETiqFtDQlHmP5QwFuSFw==
-X-ME-Sender: <xms:e07UZYBm2hAHCJXsZzNHYoM9w_MqFrjQeYAAE3f-399uYwTeXJn9ng>
-    <xme:e07UZajACisGNQ92u2SHlsHMFHYqwH6lj3Of1f8R6re0jpa1E0CGmRUGL2WbGnw9h
-    8uE-n4tkmH0M2XRi3U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdelgddutddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:e07UZblP6z4GUSL-aC_vKHC6wX4ABG6e8bUzBxO0EWnRsN_yJ-pxaw>
-    <xmx:e07UZeyTQGWHfj_t69Iu2lnA-jvGG0F9hIIzb8OjCnG21dlM9fWMlA>
-    <xmx:e07UZdTHOGMBgWVpilHMFgaMrsqKonYDKq_j9UPavaZ2vPfXvdU3Ug>
-    <xmx:e07UZTCp_m36J6zr-xHOlLigMehtSQIiqAs_dknUnbrxVoSIyV-t1w>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A0B7EB6008D; Tue, 20 Feb 2024 02:02:19 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VaVdyU6O"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4127008decdso1780865e9.1;
+        Tue, 20 Feb 2024 00:59:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708419583; x=1709024383; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CioH3BsTUz1maYuaICq+/SgJ+oQ0/fhAEh2/1YJhMeI=;
+        b=VaVdyU6Ob8JqmhehsbCvrPTtFGTcxsVwiBDrU6eUabGse5midM2FQU/V6VnOLMFEyB
+         3LCtl7S6u8f+4tKXNX29UrFjCh2APgta873hMBMyWIOzvekbeZTjNfTwSSZ4j9BNDtKw
+         j7wo2wcA4BIMweYYMyRF2uvG+A+2UumIq7VxCu03AOgVok1V01yq0BQkGLAf4WbzaCyh
+         955GmrL8Llk/glh2yIYMqQJj5fMpt6k1ghsD5/XSIMYC9S4WTM4tZWdqXQPL1q63Pljf
+         pOHc+gvhHAYy+0QryfqorI2bYOioEuBPMSJy9l+5ziBwzl5FEDXYoIdwwlamfnKFEUx/
+         3MaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708419583; x=1709024383;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CioH3BsTUz1maYuaICq+/SgJ+oQ0/fhAEh2/1YJhMeI=;
+        b=kRXkfF6u+UnJTwo3glqWFeRF13mlM4xT9OFO+8wUmcbT5nZqHoV2ltgciWSpWNQohb
+         IggZKyobc0jZC0GITccyzAp/8tYGQLlZJsxsxxc8khNvk+M9wKHRxJ8e5X84EIgqsTRF
+         urkIH3GrNBvV1Mci7yL/hE+vIpsgue00UU6u6GaqF7hXsIkYiYXTcqQDgp26wEJVhM0Q
+         6Nufq/wuWkVIftWNs1wTAH+JmebLUbfA3eoZcW5pIwqds9ZqZ8AhTJE9b3yyitxCojyZ
+         rYtU6+eooyZ8DAeI3ynddtV3ZUnjPzvmuce2ynIsTPrZIV0CyFQRq+O0Z0G2pi9Er8vr
+         8adA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYhu9RICOLdzQjQRE3KMqyM8/2d4DClbAg5Yd9EmFQs7qQMGaun3NUlQCHfDfhVyEmOM9GSXe2/A7dWy/tL7AlcJXtaSkxPUyyXPAE8y7Ya+U/Alu/dQ3cIQhchB77bORJnOBUV4KDMKsS6oxVqsXVMFFU7PlqFuYtLPej9lp3tmlnRgnNhnuNrlj4moTX5CkvI/GVyeIZfsVdwmfLvsGOeGG7f0u79oZsgFxT1w0UqrYPEn5RKS1gkQ==
+X-Gm-Message-State: AOJu0YzZJeJn+9FZXOlPfDx5MTab3rKXNPkiFBseCt68sGbs9mumStlT
+	dXah44LzzVkBe0zEImf8Es6b0WIR12D2aSxq5HjVdYV+K2Qkl7/Hc5lWMBrqHX8=
+X-Google-Smtp-Source: AGHT+IENQnZyd9AKtSsKq7VyOw+rJmwnCSsxPyTeYgkBgVSsc/+PvQop+z/l0W1bAvIRueJO4UZgdw==
+X-Received: by 2002:a05:6000:1787:b0:33d:56a0:88e3 with SMTP id e7-20020a056000178700b0033d56a088e3mr3094047wrg.65.1708419582378;
+        Tue, 20 Feb 2024 00:59:42 -0800 (PST)
+Received: from [10.24.67.19] ([15.248.2.239])
+        by smtp.gmail.com with ESMTPSA id co3-20020a0560000a0300b0033d70dd0e04sm279495wrb.8.2024.02.20.00.59.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 00:59:41 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <7871cd67-156a-4823-9b0d-d54ee4b72dd0@xen.org>
+Date: Tue, 20 Feb 2024 08:59:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <830b0788-35e6-4cbd-b195-254d434ba0cd@app.fastmail.com>
-In-Reply-To: <20240219223833.95710-18-zfigura@codeweavers.com>
-References: <20240219223833.95710-1-zfigura@codeweavers.com>
- <20240219223833.95710-18-zfigura@codeweavers.com>
-Date: Tue, 20 Feb 2024 08:01:59 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Elizabeth Figura" <zfigura@codeweavers.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jonathan Corbet" <corbet@lwn.net>, shuah <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- "Wolfram Sang" <wsa@kernel.org>, "Arkadiusz Hiler" <ahiler@codeweavers.com>,
- "Peter Zijlstra" <peterz@infradead.org>, "Andy Lutomirski" <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- "Randy Dunlap" <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 17/31] ntsync: Allow waits to use the REALTIME clock.
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Reply-To: paul@xen.org
+Subject: Re: [PATCH v13 04/21] KVM: pfncache: add a mark-dirty helper
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ David Woodhouse <dwmw2@infradead.org>, Shuah Khan <shuah@kernel.org>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240215152916.1158-1-paul@xen.org>
+ <20240215152916.1158-5-paul@xen.org> <ZdPLLsdNnAb5eXiZ@google.com>
+Organization: Xen Project
+In-Reply-To: <ZdPLLsdNnAb5eXiZ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 19, 2024, at 23:38, Elizabeth Figura wrote:
-> NtWaitForMultipleObjects() can receive a timeout in two forms, relative or
-> absolute. Relative timeouts are unaffected by changes to the system time and do
-> not count down while the system suspends; for absolute timeouts the opposite is
-> true.
->
-> In order to make the interface and implementation simpler, the ntsync driver
-> only deals in absolute timeouts. However, we need to be able to emulate both
-> behaviours apropos suspension and time adjustment, which is achieved by allowing
-> either the MONOTONIC or REALTIME clock to be used.
->
-> Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+On 19/02/2024 21:42, Sean Christopherson wrote:
+> On Thu, Feb 15, 2024, Paul Durrant wrote:
+>> +/**
+>> + * kvm_gpc_mark_dirty_in_slot - mark a cached guest page as dirty.
+>> + *
+>> + * @gpc:	   struct gfn_to_pfn_cache object.
+> 
+> Meh, just omit the kerneldoc comment.
+> 
+>> + */
+>> +static inline void kvm_gpc_mark_dirty_in_slot(struct gfn_to_pfn_cache *gpc)
+>> +{
+>> +	lockdep_assert_held(&gpc->lock);
+>> +	if (gpc->memslot)
+>> +		mark_page_dirty_in_slot(gpc->kvm, gpc->memslot,
+>> +					gpc->gpa >> PAGE_SHIFT);
+> 
+> It's kinda silly, but I think it's worth landing this below gpa_to_gfn() so that
+> there's no need to open code the shift.
+> 
+> And I have a (very) slight preference for an early return.
+> 
+> static inline void kvm_gpc_mark_dirty_in_slot(struct gfn_to_pfn_cache *gpc)
+> {
+> 	lockdep_assert_held(&gpc->lock);
+> 
+> 	if (!gpc->memslot)
+> 		return;
+> 
+> 	mark_page_dirty_in_slot(gpc->kvm, gpc->memslot, gpa_to_gfn(gpc->gpa));
+> }
+> 
 
-I understand that there is no practical problem in building
-up the API one patch at a time in the initial merge, but
-it still feels wrong to have an incompatible ABI change in
-the middle of the series:
+Ok. Will change.
 
-> @@ -35,6 +37,8 @@ struct ntsync_wait_args {
->  	__u32 owner;
->  	__u32 index;
->  	__u32 alert;
-> +	__u32 flags;
-> +	__u32 pad;
->  };
+>> +}
+>> +
+>>   void kvm_sigset_activate(struct kvm_vcpu *vcpu);
+>>   void kvm_sigset_deactivate(struct kvm_vcpu *vcpu);
+>>   
+>> -- 
+>> 2.39.2
+>>
 
-If this was patch to get merged at any later point, you'd have
-to support both the shorter and the longer structure layout
-with their distinct ioctl command codes.
-
-If you do a v3 series, maybe just merge this patch into the
-one that introduces the struct ntsync_wait_args. Overall,
-you could probably have fewer but larger patches anyway
-without harming the review process, but other than this
-one that is not a problem.
-
-       Arnd
