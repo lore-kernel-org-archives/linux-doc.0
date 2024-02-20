@@ -1,133 +1,190 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F48154432
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 23:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC3D78688
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 23:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708472579; cv=none; b=ZJLc467iWUz0srgwB/YS3gcH/PrtsdAKw2gASuDWHevMEZCo9ScxiuIEBSLocYOXYZs3OoaUPfwHufYB1hqDUw5ZskqGJGO0nNYI+1cEjgQuqnsvTZ6b2Je2qcXALJMhD/0QlH4VaFEhVIVcAKYqv5YkCaHsouNNy7om3D9aqp8=
+	t=1708473243; cv=none; b=Hqo2PhUyUprbTWlp1mDRm8H3RiWFJwh7LIHDBbUnQ4n9/F4Ttg99pn548/M4xM+NwQkxzDoHsVVBAtqsoVmZLOT3bkKmjwe8+979xqCIa5wDHh7cf8sP/eNZ15NsfpcD6Qp7AkYgIO4cTGN5SQ4n+elr8BvcRZ8svMZMNNoXYRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708472579; c=relaxed/simple;
-	bh=7jqO1lHIVsE5d+e0YtanS1tzyQWv/2YIqeBJHjsSe8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p80XKRyNElE3zhpIbodu5i7q4TVbb/p+9HVCZUjg8lMyzEFpW5OG94WVZoCzCLF1J/JSRO2qLWtU5S2uXbC6dKr2mHTbF3xBqT7hQry48PiqXzT22OJckBMoa5uBqVsEVmvAFyXdgPECitTU/KDltZX3+7FtUZOCvN94Y8jPi+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jgZxWmHV; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jgZxWmHV"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3bd4e6a7cb0so4244723b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 15:42:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708472577; x=1709077377; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rUPZxx4yc0Fym2aKmm76DxOfwl43+C+AKFEvJFvt0CE=;
-        b=jgZxWmHVx6coL9tdqlJp3iqFiVJbgQWwli+Fr2EeoFsjmse3rPqDWcnl2UU42Hz+9D
-         kEbWm3oCzZ2GX1kEkt4Cn0BBkuu6C7rgOOSGK9LhrwFDpdRRfpXubxCH/DLw0P14T2Ia
-         AXXuQBcnQQtFboeMKICzNo11svf9xEYF0rD/mX0V9WIj3Rk3Ua0+kx4B5nqyhOqXs4MC
-         axjcN4x5RcKuS7CHvf5zEjHwyFzTPlgcOlmw4rC0mJNf9nDYmsO7uCCYWtX1RoT1QZmu
-         TIcqtmn+T80pU+N/e6lHZwVvuQyy0Gg7/cRgbVkWzV9m0i0uTpRZ60xGxhTM4DokvfQf
-         lDYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708472577; x=1709077377;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rUPZxx4yc0Fym2aKmm76DxOfwl43+C+AKFEvJFvt0CE=;
-        b=pJb5JlFmJLkcAayWbxwVmv/jPPBOsgK4dogMpjP6V0Eu7x3Dg+1uU8ml7wh0BdArgo
-         LWW1N95XfM2tJhnQkxg54evlEcWS2d8IZP4X7zFiZaVPE40RTDcSwaexJwiHbG/EzKve
-         YS1JFPlFHAInurywRIh/zmF3Dkv5j1UogBvtemOuSM6LZVYyB8avepSyAeOI8wdtb0Zd
-         h5mXi1MLXeotmr1ZBQMvaOMaAo4+Ya0mH+AHlI6gJXX809BW7oQe2Lv90f2Aap2UMpHY
-         oRFspf6lAj94NDgyOXDVSn35FOAf/ZUDoTxDxBLY2YQiC/6Idenl/uUA3+LMOHkDzsjs
-         EFDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBjn/xEinecGjy65RbyLLT4pS5DhGV3p/1f8bbnlAdW6lcRmGeQOgsquP32k1DOKy35EDHSXuwhbNeOJbasbsVQKs8Zb2o7+Vk
-X-Gm-Message-State: AOJu0YzyGQU+4sTXeVkTJ0RsjRBWMGGJ2SGHs/miSm5wLcF7/0nxLB0P
-	XboeCYlJF6+haZErpwyh5u63UpYul39JQvM4ZUu61qHcNtb7qb7kzcRwUPilDGM=
-X-Google-Smtp-Source: AGHT+IGB8ll+ozYI3O381NSidlwWWtxrXnCXwOmpDex8sV8coE6I7gWpQPn7NnyYF6GY6vUHK3eedA==
-X-Received: by 2002:a05:6808:2f11:b0:3c1:5d20:179b with SMTP id gu17-20020a0568082f1100b003c15d20179bmr8468422oib.9.1708472576861;
-        Tue, 20 Feb 2024 15:42:56 -0800 (PST)
-Received: from [10.0.16.226] ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id o19-20020a637313000000b005dbed0ffb10sm7179064pgc.83.2024.02.20.15.42.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 15:42:56 -0800 (PST)
-Message-ID: <3cd9c332-1187-4204-94c9-34a3c4f5958c@rivosinc.com>
-Date: Tue, 20 Feb 2024 15:42:55 -0800
+	s=arc-20240116; t=1708473243; c=relaxed/simple;
+	bh=pv9M6nCH7P1FRo4VitsRtyecMjGHuwFYfQImuvaTZJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rzGnPJ70p3CUQvYF9Ic50c0lvuZvAxef8jODXWq/ShwqgiSLgIAAtA/wYtNo3UuoBJZmqIajyYRO7lVgdvAb144r2P1jdr4IBQDdBlXkPRUjgwnGzCQn8k600hR4kXpPTxl34RAxEWyyOKipQc2brimZ2KihNqBqp12Hcq/neks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=libc.org; arc=none smtp.client-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
+Date: Tue, 20 Feb 2024 18:54:16 -0500
+From: "dalias@libc.org" <dalias@libc.org>
+To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
+Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"musl@lists.openwall.com" <musl@lists.openwall.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"broonie@kernel.org" <broonie@kernel.org>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
+	"oleg@redhat.com" <oleg@redhat.com>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"ebiederm@xmission.com" <ebiederm@xmission.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"sorear@fastmail.com" <sorear@fastmail.com>
+Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
+ in userspace
+Message-ID: <20240220235415.GP4163@brightrain.aerifal.cx>
+References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
+ <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
+ <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
+ <20240220185714.GO4163@brightrain.aerifal.cx>
+ <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] riscv: hwprobe: export Zihintpause ISA extension
-Content-Language: en-US
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Robbin Ehn <rehn@rivosinc.com>
-References: <20240219154905.528301-1-cleger@rivosinc.com>
-From: Atish Patra <atishp@rivosinc.com>
-In-Reply-To: <20240219154905.528301-1-cleger@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-On 2/19/24 07:49, Clément Léger wrote:
-> Export the Zihintpause ISA extension through hwprobe which allows using
-> "pause" instructions. Some userspace applications (OpenJDK for
-> instance) uses this to handle some locking back-off.
+On Tue, Feb 20, 2024 at 11:30:22PM +0000, Edgecombe, Rick P wrote:
+> On Tue, 2024-02-20 at 13:57 -0500, Rich Felker wrote:
+> > On Tue, Feb 20, 2024 at 06:41:05PM +0000, Edgecombe, Rick P wrote:
+> > > Hmm, could the shadow stack underflow onto the real stack then? Not
+> > > sure how bad that is. INCSSP (incrementing the SSP register on x86)
+> > > loops are not rare so it seems like something that could happen.
+> > 
+> > Shadow stack underflow should fault on attempt to access
+> > non-shadow-stack memory as shadow-stack, no?
 > 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Maybe I'm misunderstanding. I thought the proposal included allowing
+> shadow stack access to convert normal address ranges to shadow stack,
+> and normal writes to convert shadow stack to normal.
+
+As I understood the original discussion of the proposal on IRC, it was
+only one-way (from shadow to normal). Unless I'm missing something,
+making it one-way is necessary to catch situations where the shadow
+stack would become compromised.
+
+> > > Shadow stacks currently have automatic guard gaps to try to prevent
+> > > one
+> > > thread from overflowing onto another thread's shadow stack. This
+> > > would
+> > > somewhat opens that up, as the stack guard gaps are usually
+> > > maintained
+> > > by userspace for new threads. It would have to be thought through
+> > > if
+> > > these could still be enforced with checking at additional spots.
+> > 
+> > I would think the existing guard pages would already do that if a
+> > thread's shadow stack is contiguous with its own data stack.
 > 
-> ---
->   Documentation/arch/riscv/hwprobe.rst  | 4 ++++
->   arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->   arch/riscv/kernel/sys_hwprobe.c       | 1 +
->   3 files changed, 6 insertions(+)
+> The difference is that the kernel provides the guard gaps, where this
+> would rely on userspace to do it. It is not a showstopper either.
 > 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index b2bcc9eed9aa..0012c8433613 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -188,6 +188,10 @@ The following keys are defined:
->          manual starting from commit 95cf1f9 ("Add changes requested by Ved
->          during signoff")
->   
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZIHINTPAUSE`: The Zihintpause extension is
-> +       supported as defined in the RISC-V ISA manual starting from commit commit
-> +       d8ab5c78c207 ("Zihintpause is ratified").
-> +
->   * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
->     information about the selected set of processors.
->   
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index 9f2a8e3ff204..31c570cbd1c5 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -59,6 +59,7 @@ struct riscv_hwprobe {
->   #define		RISCV_HWPROBE_EXT_ZTSO		(1ULL << 33)
->   #define		RISCV_HWPROBE_EXT_ZACAS		(1ULL << 34)
->   #define		RISCV_HWPROBE_EXT_ZICOND	(1ULL << 35)
-> +#define		RISCV_HWPROBE_EXT_ZIHINTPAUSE	(1ULL << 36)
->   #define RISCV_HWPROBE_KEY_CPUPERF_0	5
->   #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
->   #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> index a7c56b41efd2..1008d25880e1 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -111,6 +111,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
->   		EXT_KEY(ZTSO);
->   		EXT_KEY(ZACAS);
->   		EXT_KEY(ZICOND);
-> +		EXT_KEY(ZIHINTPAUSE);
->   
->   		if (has_vector()) {
->   			EXT_KEY(ZVBB);
+> I think my biggest question on this is how does it change the
+> capability for two threads to share a shadow stack. It might require
+> some special rules around the syscall that writes restore tokens. So
+> I'm not sure. It probably needs a POC.
 
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
+Why would they be sharing a shadow stack?
 
+> > From the musl side, I have always looked at the entirely of shadow
+> > stack stuff with very heavy skepticism, and anything that breaks
+> > existing interface contracts, introduced places where apps can get
+> > auto-killed because a late resource allocation fails, or requires
+> > applications to code around the existence of something that should be
+> > an implementation detail, is a non-starter. To even consider shadow
+> > stack support, it must truely be fully non-breaking.
+> 
+> The manual assembly stack switching and JIT code in the apps needs to
+> be updated. I don't think there is a way around it.
 
+Indeed, I'm not talking about programs with JIT/manual stack-switching
+asm, just anything using existing APIs for control of stack --
+pthread_setstack, makecontext, sigaltstack, etc.
+
+> I agree though that the late allocation failures are not great. Mark is
+> working on clone3 support which should allow moving the shadow stack
+> allocation to happen in userspace with the normal stack. Even for riscv
+> though, doesn't it need to update a new register in stack switching?
+
+If clone is called with signals masked, it's probably not necessary
+for the kernel to set the shadow stack register as part of clone3.
+
+> BTW, x86 shadow stack has a mode where the shadow stack is writable
+> with a special instruction (WRSS). It enables the SSP to be set
+> arbitrarily by writing restore tokens. We discussed this as an option
+> to make the existing longjmp() and signal stuff work more transparently
+> for glibc.
+> 
+> > 
+> > > > _Without_ doing this, sigaltstack cannot be used to recover from
+> > > > stack
+> > > > overflows if the shadow stack limit is reached first, and
+> > > > makecontext
+> > > > cannot be supported without memory leaks and unreportable error
+> > > > conditions.
+> > > 
+> > > FWIW, I think the makecontext() shadow stack leaking is a bad idea.
+> > > I
+> > > would prefer the existing makecontext() interface just didn't
+> > > support
+> > > shadow stack, rather than the leaking solution glibc does today.
+> > 
+> > AIUI the proposal by Stefan makes it non-leaking because it's just
+> > using normal memory that reverts to normal usage on any
+> > non-shadow-stack access.
+> > 
+> 
+> Right, but does it break any existing apps anyway (because of small
+> ucontext stack sizes)?
+> 
+> BTW, when I talk about "not supporting" I don't mean the app should
+> crash. I mean it should instead run normally, just without shadow stack
+> enabled. Not sure if that was clear. Since shadow stack is not
+> essential for an application to function, it is only security hardening
+> on top.
+> 
+> Although determining if an application supports shadow stack has turned
+> out to be difficult in practice. Handling dlopen() is especially hard.
+
+One reasonable thing to do, that might be preferable to overengineered
+solutions, is to disable shadow-stack process-wide if an interface
+incompatible with it is used (sigaltstack, pthread_create with an
+attribute setup using pthread_attr_setstack, makecontext, etc.), as
+well as if an incompatible library is is dlopened. This is much more
+acceptable than continuing to run with shadow stacks managed sloppily
+by the kernel and async killing the process on OOM, and is probably
+*more compatible* with apps than changing the minimum stack size
+requirements out from under them.
+
+The place where it's really needed to be able to allocate the shadow
+stack synchronously under userspace control, in order to harden normal
+applications that aren't doing funny things, is in pthread_create
+without a caller-provided stack.
+
+Rich
