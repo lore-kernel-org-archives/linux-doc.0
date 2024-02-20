@@ -1,159 +1,169 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A21265E20
-	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 11:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F77265BA1
+	for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 11:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708427148; cv=none; b=NjY7ukQvrQI8koJNiS99abdQqTtgJoSRAOxFHZ0Z+6j22/NAMhfwysCjktPo8HVJCrs6CP1Y4GomCTuCjd+K1Gnhh4mGnb8+L1GuFE06cG9nV8AklWjVandHtm/lPdlO6fRTWZYrka15pyzctJS3MfDhdlIo3+bIQg3of60oxRI=
+	t=1708427403; cv=none; b=Sj6oFvwVR8an60pIw7CVGCmyGkKq/2KWE2WKZZJm0vvpJc46AIxKTJw40lpUhFDWTkTtYt2K/4fxSMQTFFbvO6q38IhYhKDs2PBexTbYqkB2LMgIjFqVAy/RtfI/cY0oSR88UaHh5VYcrfCCayxRvmG81uUKlDt+BLXmbgeraVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708427148; c=relaxed/simple;
-	bh=Q9mYabNBUcqA8oe9D6+SQAxo2DGjJ2Cx4INUNvT3BdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVV6HaPxztDxVGC5Marz6e3CWGxvjq2eokgkXAECoFL0uMb7CVzoST9dcDR3KRVRzzn3TfWIXyDCKcpfWXXZCsSfR5VgAP17Cu7TkyEes+6uobdDFd13UantLg4UtX6+5DJlcdJHjtlh3Hk5+H87dsR4Vev7PM8NiPpiOda+d6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rcNw7-0004Em-QM; Tue, 20 Feb 2024 12:05:19 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rcNw5-001pNw-AE; Tue, 20 Feb 2024 12:05:17 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rcNw5-00HOOn-0e;
-	Tue, 20 Feb 2024 12:05:17 +0100
-Date: Tue, 20 Feb 2024 12:05:17 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v4 14/17] dt-bindings: net: pse-pd: Add bindings
- for PD692x0 PSE controller
-Message-ID: <ZdSHbZl6yGxfbNYD@pengutronix.de>
-References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
- <20240215-feature_poe-v4-14-35bb4c23266c@bootlin.com>
- <ZdCjJcPbbBGYVtuo@pengutronix.de>
- <20240220114029.6b1a445d@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1708427403; c=relaxed/simple;
+	bh=P8Aqy8ESp9/yuG+L+Ud949luCNrj2GyoAhcLJH3MYAQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lZ+Hf6a6Vvnrm3e8guEtWKZvgVUjBHt+Gf+sDd/NwVZC0JkmBEycvE0THgDbWvWwHiM5Ybgja3LkkU2UE813UVgDdCa2zMuBTATlwo/lCm0eEwRZNuVwTdBoaM0mpDY7WgCXpeI01/6mtdafD4lMwE1XaKuqA6YzD4ecvCA+FTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=yEV0jvSC; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="yEV0jvSC"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33d2746894dso910366f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 03:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708427399; x=1709032199; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R+NE38xHg+iFcMOIUoO6dahKVI267XimNpzeYRqug0o=;
+        b=yEV0jvSClIWlDwPsjtIQUnwVTkrr0HDk6FRz260a0BEvYvN/8Z0GmdxG5FaCElycf8
+         zesz/bdnaQG8uIKIKaIkFVawETxNyfZwF0/IjbTgUyqlYwh5Db4FK0nwI7UifRH0Pld6
+         926KTfrNny0+LjM/lICF8mcq1dVfvCZn0eZp1jAj4JSHxhmQLlzYv0KXGEPNr6VQv9ES
+         LwlLL4eLA1t6I1Z53HaFuC7QzUeBkh/UdFV4DHZhZ1pyscYNMYX3DCLi74ctb+0cwHHG
+         W/E432ywrmYUsu92v+3daWTVCgwDObP5WdBWvhOaz4huWUvypkRXZlG6Nq9YMb8Yjzu4
+         8Gdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708427399; x=1709032199;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R+NE38xHg+iFcMOIUoO6dahKVI267XimNpzeYRqug0o=;
+        b=cj3ZmM9vZIB+cCHfoQyjtFXDnDnB5jU/mAOp0mfUShSm3rXiGJX2K+w+npjt4144v6
+         08FUdGGJOFgXPLO47w7LU/yJyfm0lkf13kyciD8ERgA3/n0lQE8l61oSaTmfrGYxLJAV
+         w8mD1GEgzbvjU7P3POSED6hNEoVJ1rx9czrcO7Yea90sAZuslMqYbDAqZPNs3QdNHNTn
+         E6/Lql86Moqf8lxaEdzXXuhDf6c89KzrlAsewgfYHz+9S8vH7RuKBr1f48p2cgrhtOCV
+         87T3PVrOhKMS/Z/opTKY0GhDeOPzG6/THjCi9SRLCnhoeDwxskX31AdKcx8UYWNhwKfE
+         TNOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKWocOMTnRnzbSnk/tSHepd4bw11TkUsJktniUg1bu6n3GsjXIRw4dtJpMVtTquXbzpGljezML47tGYevxdEQr36Al3kokLxAI
+X-Gm-Message-State: AOJu0Ywc4FHRSFN28A9NZMVGUaAiJ2SyN71Exu4IoJc3cjeeZ/OZWyMd
+	MDhulDd59YORTusvjiZlFka1rNmstMcZlVedkgct5h1fyviavrmbwfpZaffj3ws=
+X-Google-Smtp-Source: AGHT+IFEeB57DA/UVYTFHFvFefw4+utIN4uHed+oWc9cOPONdvuPDUZUvkrfpHzHpS85/bYqCuA05g==
+X-Received: by 2002:a05:6000:79d:b0:33d:7221:97cf with SMTP id bu29-20020a056000079d00b0033d722197cfmr55643wrb.6.1708427399487;
+        Tue, 20 Feb 2024 03:09:59 -0800 (PST)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:6202:c7ea:a0cd:ad4a])
+        by smtp.gmail.com with ESMTPSA id az19-20020adfe193000000b0033d6ff7f9edsm1092523wrb.95.2024.02.20.03.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 03:09:59 -0800 (PST)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Robin Ehn <rehn@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	"Stefan O'Rear" <sorear@fastmail.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>
+Subject: [PATCH v2] riscv: hwprobe: export largest userspace address
+Date: Tue, 20 Feb 2024 12:09:46 +0100
+Message-ID: <20240220110950.871307-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240220114029.6b1a445d@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, Feb 20, 2024 at 11:40:29AM +0100, Köry Maincent wrote:
-> On Sat, 17 Feb 2024 13:14:29 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> 
-> > On Thu, Feb 15, 2024 at 05:02:55PM +0100, Kory Maincent wrote:
-> > > Add the PD692x0 I2C Power Sourcing Equipment controller device tree
-> > > bindings documentation.
-> > > 
-> > > This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
-> > > 
-> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > > ---  
-> > ...
-> > > +        pse_pis {
-> > > +          #address-cells = <1>;
-> > > +          #size-cells = <0>;
-> > > +
-> > > +          pse_pi0: pse_pi@0 {
-> > > +            reg = <0>;
-> > > +            #pse-cells = <0>;
-> > > +            pairset-names = "alternative-a", "alternative-b";
-> > > +            pairsets = <&phys0>, <&phys1>;
-> > > +          };
-> > > +          pse_pi1: pse_pi@1 {
-> > > +            reg = <1>;
-> > > +            #pse-cells = <0>;
-> > > +            pairset-names = "alternative-a";
-> > > +            pairsets = <&phys2>;  
-> > 
-> > According to latest discussions, PSE PI nodes will need some
-> > additional, board specific, information:
-> > - this controller do not implements polarity switching, we need to know
-> >   what polarity is implemented on this board. The 802.3 spec provide not
-> >   really consistent names for polarity configurations:
-> >   - Alternative A MDI-X
-> >   - Alternative A MDI
-> >   - Alternative B X
-> >   - Alternative B S
-> >   The board may implement one of polarity configurations per alternative
-> >   or have additional helpers to switch them without using PSE
-> >   controller.
-> >   Even if specification explicitly say:
-> >   "The PD shall be implemented to be insensitive to the polarity of the power
-> >    supply and shall be able to operate per the PD Mode A column and the PD
-> >    Mode B column in Table 33–13"
-> >   it is possible to find reports like this:
-> >   https://community.ui.com/questions/M5-cant-take-reversed-power-polarity-/d834d9a8-579d-4f08-80b1-623806cc5070
-> > 
-> >   Probably this kind of property is a good fit:
-> >   polarity-supported = "MDI-X", "MDI", "X", "S";
-> 
-> This property should be on the PD side.
+Some userspace applications (OpenJDK for instance) uses the free MSBs
+in pointers to insert additional information for their own logic and
+need to get this information from somewhere. Currently they rely on
+parsing /proc/cpuinfo "mmu=svxx" string to obtain the current value of
+virtual address used bits [1]. Since this reflect the raw MMU mode
+supported, it might differ from the logical one used internally.
+Exporting the maximum mmappable address through hwprobe will allow a
+more stable interface to be used. For that purpose, add a new hwprobe
+key named RISCV_HWPROBE_MAX_KEY which will export the maximum mmappable
+userspace address.
 
-Probably. Right now we are on PSE side.
+Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
 
-> Isn't it better to name it "polarity-provided" for each PSE PIs binding? What
-> do you think?
+---
+v2:
+ - Note: tried sysconf to export it but this is not backed by syscall
+   and thus does not allow exporting such information easily.
+ - Use arch_get_mmap_end() instead of VA_BITS since it reflects the
+   maximum logical address used by the riscv port
+ - Change hwprobe key name from RISCV_HWPROBE_KEY_VA_BITS to
+   RISCV_HWPROBE_KEY_MAX_ADDRESS
+ - Link to v1: https://lore.kernel.org/lkml/20240201140319.360088-1-cleger@rivosinc.com/
+---
+ Documentation/arch/riscv/hwprobe.rst  | 3 +++
+ arch/riscv/include/asm/hwprobe.h      | 2 +-
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 4 ++++
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-Yes, this suggestion was directed for PSE PI nodes.
-
-In the PHY world, we use "supported" capabilities for what HW can
-actually do and "advertised" for how the HW is configured.
-
-If we use word "provided", i would interpret it as subset of
-"supported", which at the end is a user space policy.
-
-Since I'm not native englisch speaker, my feeling can be wrong. So, any
-one with stronger opinion may have here other preferences.
-
-> We agreed that it is mainly for ethtool to show the polarity of a PI, right?
-
-We have two kind of information here:
-- polarity supported by HW. PSE PI may support more then one.
-- actually configured polarity.
-
-Regards,
-Oleksij
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index b2bcc9eed9aa..a626aa21ac74 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -210,3 +210,6 @@ The following keys are defined:
+ 
+ * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+   represents the size of the Zicboz block in bytes.
++
++* :c:macro:`RISCV_HWPROBE_KEY_MAX_USER_ADDRESS`: An unsigned long which
++  represent the maximum userspace mmappable address.
+diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+index 630507dff5ea..150a9877b0af 100644
+--- a/arch/riscv/include/asm/hwprobe.h
++++ b/arch/riscv/include/asm/hwprobe.h
+@@ -8,7 +8,7 @@
+ 
+ #include <uapi/asm/hwprobe.h>
+ 
+-#define RISCV_HWPROBE_MAX_KEY 6
++#define RISCV_HWPROBE_MAX_KEY 7
+ 
+ static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+ {
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 9f2a8e3ff204..a6da434be9da 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -67,6 +67,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
+ #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
++#define RISCV_HWPROBE_KEY_MAX_USER_ADDRESS	7
+ /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+ 
+ /* Flags */
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index a7c56b41efd2..19a47540b4a2 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -8,6 +8,7 @@
+ #include <asm/cacheflush.h>
+ #include <asm/cpufeature.h>
+ #include <asm/hwprobe.h>
++#include <asm/processor.h>
+ #include <asm/sbi.h>
+ #include <asm/switch_to.h>
+ #include <asm/uaccess.h>
+@@ -202,6 +203,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+ 			pair->value = riscv_cboz_block_size;
+ 		break;
++	case RISCV_HWPROBE_KEY_MAX_USER_ADDRESS:
++		pair->value = arch_get_mmap_end(ULONG_MAX, 0, 0);
++		break;
+ 
+ 	/*
+ 	 * For forward compatibility, unknown keys don't fail the whole
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.43.0
+
