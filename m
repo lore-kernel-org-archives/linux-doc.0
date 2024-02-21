@@ -1,224 +1,111 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E4F3C29
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 02:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC97C46BF;
+	Wed, 21 Feb 2024 02:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708482069; cv=none; b=KvKptRWavB4GfT12WXEqxx+ubS9KGdyY6Jc9Jqvau7Y6NH4hgp35C5y8F4LVDJUiT/Kni0uVfg1SufGWsBiJUtR/7y5Fo+tDy4GDUa+wZQqOkjCm9vTRxkwzU7r1rOUtojp1H6j85FOYGaFqbntKiWJIg3RVlxXbT9ebu+gm2Hg=
+	t=1708482150; cv=none; b=MQ3bmr/ibyyGSOWEI/fKIG4M1SxJZpCiO+Ku7VK94nsCHfa8Cni92wvGCF9NaiNcGLK0Pl2RCq4wjWF2/hXdwM7tyL6L1MbXQfZmUIqyysCJkSCvxuuyccsISmbvG6MA/4xtGMeNFCBrMBKZYyFXZYp52RugpCztuxoknqyJbP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708482069; c=relaxed/simple;
-	bh=Y+0FnZUf2IjxkyMaZORz2P4JzBZ3C5j9BQT3XkwWWxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LHEqZCSZCSgw1WkpDu+Ck8RhAc+pZsmn7xiIaaHKeC/9+eR4ANkO+AS7lepVtgLaujNFpjAkeG/K/7ZN+QY3S3OJ3BCvsUawwqBZcrShij6tu34I/ksXE/onwgeZ6+LTZsvcejFH5GEJfRBPRAJx7mU/LTI0Ix9GaLFDUPGELiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=GRJOmKG+; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1708482150; c=relaxed/simple;
+	bh=3KahlIpMvWJWOVfz3J0b1jo1fgdXtR++9nbG39MWiAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jhdvbAseYL+AnAgfWQukCZeaZ5PTJ/jr6kMtFQyO4EctTstGc9Yz8SUIG18trZqAcWX8lzmLbOf2yPRa0SqrZcuY9kRJqeMKhEaBA09smcSrCRHcCDszYgV2QXboY5tfqVkywaRJ/JttbuMXx5O6mxGUcV8LKp+bO7eqkNz3USg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8t0v/VQ; arc=none smtp.client-ip=209.85.166.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="GRJOmKG+"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5ce9555d42eso80596a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 18:21:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8t0v/VQ"
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7c490498729so6286539f.1;
+        Tue, 20 Feb 2024 18:22:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1708482066; x=1709086866; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1708482148; x=1709086948; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l1R6afuU9qtN5hIRvEmeA6FfNqFs/docJ+nZZc128Tk=;
-        b=GRJOmKG+tsgrhmKquEEH+nwbW190jvayWmLDIGe7jwm3jvXzZ3xEo2jjk/+IIPNWom
-         PhVyZNT6w4wVP6dt6EOjUTbppY6qzf/h0R+3vEzY5G8Bbp0NdurxATQqc+E1nuJPsooc
-         vLgP0H78aU4Hjf+Kl+3RQMumduUbUl41FB0Ik7iwUoL9BplQHq2lL0W9Fsi8YEDNwMRn
-         m+2RAvGISobICHoIHFKLU1ZH0cxCpbkYTMI0b0XT4Ay2ZMDAaDpx3gl+xqzLkpdFZVB4
-         45wf2PIyHTLn5sj3VNc2/6IpytVTM2P8bunF/bb2Z8wr+8DPubK2G9XP6ggT7sUM7MHH
-         AnNA==
+        bh=Mhk0q27X8GinCZy7XzzdW389DBQpazGkJTGn+SAUaKg=;
+        b=W8t0v/VQ3oUAFjcieqzqP6Jyyfp5yZ3rrHoMmkPVPsvWyMI44U+UEZI58KsqAuxB1C
+         YtdxtRnGI0Ua9SH+5CwzlxWudSMUt/AglSUNgRoWdCwmk9CyPFO9TNEZlz4JyLMoV3v7
+         sta9bs+FPI7Cm4MoizyG15BPGxpJAAcRlMNrMdqisHOSSno6Fs+mJo26TSWyebXNwu45
+         PmixupQ7KQwYejvicQehizzBwZnCMHVm5LUSGI9TP9S4BWGqnytgthfhl8WqSfyimdUY
+         vRI5AQCw7FzaTj9WSZqJe80gJNyL1XWDgdVqxma+uzQ4M6yqjv2rG6Df44lz0OCKE/mh
+         1PQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708482066; x=1709086866;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=l1R6afuU9qtN5hIRvEmeA6FfNqFs/docJ+nZZc128Tk=;
-        b=iGyK1i1MvsuC95MuJsHnhnfvlsNBahAhe+WVwU+HI6SRNW312eAPSI5V2jxUZU9Rax
-         QcNTYHL/mFF4q2wYYSuLKZNXliXVPi1QtHyr18brtI9GvtbtPcNwCst8d6K8uZYwnG4m
-         saZXzumHHi/ki3tb/l7JmBUXkSpkB5FTiim2MpquY9o8XE8aCJM08Rg/Xk1ljS5H6Zqb
-         hCwVfrujDHvB+a0cu9cFEyxu+iphl84+u8DqSUeN3E7y3ySJ1IA/p9WLNCuTX97PXWA9
-         rU4fUY5QzdlscPyOXredvAVkB/9yaMt0mPEflVgO8bLNuFPmYtgrUGdIgNa1bhPWucYU
-         Kngw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7AR4JNbBnzdn1DRVw2sGF/3icXx48Ba1i94k8KOeiZqaWexP6Ppf2epPD+7G6Ww4HOwqbsAc7L6pNJhG1Fp3wYrJM/MIvr2c6
-X-Gm-Message-State: AOJu0YyfvY2d3okn8ZDS7kEn9tWN2I/naeLF7cFSGJ6+ZAjnOJe+URtF
-	RWuMfPL7cjRbzWoSbFg2wGVKXXG7gA1cG/09LctxQ1SSJF8PTHMVJfeKgmYqiBE=
-X-Google-Smtp-Source: AGHT+IEO5o3QuZQacGlqYRaf8RZYwatPw3qTBMwsPeyn8POJuDm6UYyWHFwJTW83lpUYBJt3hHx5Bw==
-X-Received: by 2002:a05:6a21:3482:b0:1a0:c3e6:314f with SMTP id yo2-20020a056a21348200b001a0c3e6314fmr64380pzb.18.1708482066592;
-        Tue, 20 Feb 2024 18:21:06 -0800 (PST)
-Received: from [10.84.145.15] ([203.208.167.152])
-        by smtp.gmail.com with ESMTPSA id jd20-20020a170903261400b001d94a3f3987sm6907230plb.184.2024.02.20.18.21.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 18:21:06 -0800 (PST)
-Message-ID: <aa266a51-678d-45b7-a23f-ac18549b383c@bytedance.com>
-Date: Wed, 21 Feb 2024 10:20:58 +0800
+        d=1e100.net; s=20230601; t=1708482148; x=1709086948;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mhk0q27X8GinCZy7XzzdW389DBQpazGkJTGn+SAUaKg=;
+        b=nojeWnb4PFuFQr62WsZi1Ht+70RBDFXi6RGNxpXKlM5GoqH1JZyAH5XdL2fXM6BTOq
+         C4r/fKQJAiTfLmKfAPSCUuYX25mrSbe62TqDJ7nBkyk7/uJjIsSwAWLR8hzxMU3w7OZc
+         goGKj/N3B22jX9QDIHAUzPuTr7ur51wHNanYHe8sOX0oo26kqA6owvEppir7lNYGC3eq
+         dSApY0VR2fHm96tiCFdZP1/utO976EynuK6TpislSz8AfLk2zR9nHFaLuZZcauz7XAfb
+         mTQ8DRe4jMMo5ag8DBxb6AfDuo5HIv2siJnQCc1ja3Q0DhE79pX8YeWR8iTuEHdA2lyQ
+         YopQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQFoIGGoO7KBq316bUVK5VCQZyreXqUVptnAhVygShQosFfBrzXPHzfJDTj1uthHOiGQXbXK6cIHGG+WERyYT7Id63D8e6wmh9CM0G3FdOwyhAv3LuexMBhdy593dHtckOkZ9dp0G5oZ5KiMhG0VE1yiVIaScFs8aX19Ai/HvS8/QGEKoQWPDwEmT8qwZeIMuTodUDIqoOokFMLN6QBazx
+X-Gm-Message-State: AOJu0Yz62Bci2z/XE6Q1ab7Pt4koNNaTSFrPHygxghU0e0/TSQz3ADB8
+	FWDakDaIazIqpoukLqTetB8BYKINYoGE0ZicBkmTG+DF4sOwv8BdpD2bRZ/Zr1/cA70RLuPrlhB
+	i+w46L2Atgyrg4mZSX5McFhd8dS4=
+X-Google-Smtp-Source: AGHT+IF2VfDZBoX5pQjaflh73V91CMTptpS/eM0zxZ1Rx/DhA1L5dll99owOM9lN68Xa6i3gE5uApl5W+PVF+WaNdlc=
+X-Received: by 2002:a05:6602:3f92:b0:7c7:2e6a:9bbe with SMTP id
+ fb18-20020a0566023f9200b007c72e6a9bbemr16676784iob.10.1708482147782; Tue, 20
+ Feb 2024 18:22:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/10] fork: Use __mt_dup() to duplicate maple tree in
- dup_mmap()
-To: David Hildenbrand <david@redhat.com>
-Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, brauner@kernel.org,
- michael.christie@oracle.com, npiggin@gmail.com,
- Peng Zhang <zhangpeng.00@bytedance.com>, corbet@lwn.net,
- Liam.Howlett@oracle.com, willy@infradead.org, surenb@google.com,
- mjguzik@gmail.com, mathieu.desnoyers@efficios.com, peterz@infradead.org,
- oliver.sang@intel.com, akpm@linux-foundation.org, mst@redhat.com
-References: <20231027033845.90608-1-zhangpeng.00@bytedance.com>
- <20231027033845.90608-11-zhangpeng.00@bytedance.com>
- <6058742c-26e5-4600-85ad-0a21d8fd2e42@redhat.com>
- <bc7d1702-315f-4e10-899d-491a0cee8cee@redhat.com>
-From: Peng Zhang <zhangpeng.00@bytedance.com>
-In-Reply-To: <bc7d1702-315f-4e10-899d-491a0cee8cee@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231222013352.3873689-1-kcfeng0@nuvoton.com> <20231222013352.3873689-2-kcfeng0@nuvoton.com>
+ <5dd9d5f8-c909-4245-b37f-cfb0a8096a50@roeck-us.net>
+In-Reply-To: <5dd9d5f8-c909-4245-b37f-cfb0a8096a50@roeck-us.net>
+From: Ban Feng <baneric926@gmail.com>
+Date: Wed, 21 Feb 2024 10:22:16 +0800
+Message-ID: <CALz278Z_YgY6J3SqfnMad1tcw-SQquhSsOJjdA6Okpb5vz78Qw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org, kwliu@nuvoton.com, 
+	kcfeng0@nuvoton.com, DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com, 
+	naresh.solanki@9elements.com, billy_tsai@aspeedtech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Guenter,
 
+On Sat, Feb 3, 2024 at 11:09=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On Fri, Dec 22, 2023 at 09:33:50AM +0800, baneric926@gmail.com wrote:
+> > From: Naresh Solanki <naresh.solanki@9elements.com>
+> >
+> > Add common fan properties bindings to a schema.
+> >
+> > Bindings for fan controllers can reference the common schema for the
+> > fan
+> >
+> > child nodes:
+> >
+> >   patternProperties:
+> >     "^fan@[0-2]":
+> >       type: object
+> >       $ref: fan-common.yaml#
+> >       unevaluatedProperties: false
+> >
+> > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+>
+> Unfortunately the dt maintainer's Reviewed-by: tag on the latest version
+> of the fan schema patch got lost. I am not sure if I can add that back
+> in on my own without violating some rules. That will need to get resolved
+> before we can move forward with these patches.
+>
+> Guenter
 
-在 2024/2/21 01:31, David Hildenbrand 写道:
-> On 20.02.24 18:24, David Hildenbrand wrote:
->> On 27.10.23 05:38, Peng Zhang wrote:
->>> In dup_mmap(), using __mt_dup() to duplicate the old maple tree and then
->>> directly replacing the entries of VMAs in the new maple tree can result
->>> in better performance. __mt_dup() uses DFS pre-order to duplicate the
->>> maple tree, so it is efficient.
->>>
->>> The average time complexity of __mt_dup() is O(n), where n is the number
->>> of VMAs. The proof of the time complexity is provided in the commit log
->>> that introduces __mt_dup(). After duplicating the maple tree, each element
->>> is traversed and replaced (ignoring the cases of deletion, which are rare).
->>> Since it is only a replacement operation for each element, this process is
->>> also O(n).
->>>
->>> Analyzing the exact time complexity of the previous algorithm is
->>> challenging because each insertion can involve appending to a node, pushing
->>> data to adjacent nodes, or even splitting nodes. The frequency of each
->>> action is difficult to calculate. The worst-case scenario for a single
->>> insertion is when the tree undergoes splitting at every level. If we
->>> consider each insertion as the worst-case scenario, we can determine that
->>> the upper bound of the time complexity is O(n*log(n)), although this is a
->>> loose upper bound. However, based on the test data, it appears that the
->>> actual time complexity is likely to be O(n).
->>>
->>> As the entire maple tree is duplicated using __mt_dup(), if dup_mmap()
->>> fails, there will be a portion of VMAs that have not been duplicated in
->>> the maple tree. To handle this, we mark the failure point with
->>> XA_ZERO_ENTRY. In exit_mmap(), if this marker is encountered, stop
->>> releasing VMAs that have not been duplicated after this point.
->>>
->>> There is a "spawn" in byte-unixbench[1], which can be used to test the
->>> performance of fork(). I modified it slightly to make it work with
->>> different number of VMAs.
->>>
->>> Below are the test results. The first row shows the number of VMAs.
->>> The second and third rows show the number of fork() calls per ten seconds,
->>> corresponding to next-20231006 and the this patchset, respectively. The
->>> test results were obtained with CPU binding to avoid scheduler load
->>> balancing that could cause unstable results. There are still some
->>> fluctuations in the test results, but at least they are better than the
->>> original performance.
->>>
->>> 21     121   221    421    821    1621   3221   6421   12821  25621  51221
->>> 112100 76261 54227  34035  20195  11112  6017   3161   1606   802    393
->>> 114558 83067 65008  45824  28751  16072  8922   4747   2436   1233   599
->>> 2.19%  8.92% 19.88% 34.64% 42.37% 44.64% 48.28% 50.17% 51.68% 53.74% 52.42%
->>>
->>> [1] https://github.com/kdlucas/byte-unixbench/tree/master
->>>
->>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
->>> Suggested-by: Liam R. Howlett <Liam.Howlett@oracle.com>
->>> Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
->>> ---
->>>    include/linux/mm.h | 11 +++++++++++
->>>    kernel/fork.c      | 40 +++++++++++++++++++++++++++++-----------
->>>    mm/internal.h      | 11 -----------
->>>    mm/memory.c        |  7 ++++++-
->>>    mm/mmap.c          |  9 ++++++---
->>>    5 files changed, 52 insertions(+), 26 deletions(-)
->>>
->>> diff --git a/include/linux/mm.h b/include/linux/mm.h
->>> index 14d5aaff96d0..e9111ec5808c 100644
->>> --- a/include/linux/mm.h
->>> +++ b/include/linux/mm.h
->>> @@ -996,6 +996,17 @@ static inline int vma_iter_bulk_alloc(struct vma_iterator *vmi,
->>>        return mas_expected_entries(&vmi->mas, count);
->>>    }
->>> +static inline int vma_iter_clear_gfp(struct vma_iterator *vmi,
->>> +            unsigned long start, unsigned long end, gfp_t gfp)
->>> +{
->>> +    __mas_set_range(&vmi->mas, start, end - 1);
->>> +    mas_store_gfp(&vmi->mas, NULL, gfp);
->>> +    if (unlikely(mas_is_err(&vmi->mas)))
->>> +        return -ENOMEM;
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>    /* Free any unused preallocations */
->>>    static inline void vma_iter_free(struct vma_iterator *vmi)
->>>    {
->>> diff --git a/kernel/fork.c b/kernel/fork.c
->>> index 1e6c656e0857..1552ee66517b 100644
->>> --- a/kernel/fork.c
->>> +++ b/kernel/fork.c
->>> @@ -650,7 +650,6 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>>        int retval;
->>>        unsigned long charge = 0;
->>>        LIST_HEAD(uf);
->>> -    VMA_ITERATOR(old_vmi, oldmm, 0);
->>>        VMA_ITERATOR(vmi, mm, 0);
->>>        uprobe_start_dup_mmap();
->>> @@ -678,16 +677,22 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
->>>            goto out;
->>>        khugepaged_fork(mm, oldmm);
->>> -    retval = vma_iter_bulk_alloc(&vmi, oldmm->map_count);
->>> -    if (retval)
->>> +    /* Use __mt_dup() to efficiently build an identical maple tree. */
->>> +    retval = __mt_dup(&oldmm->mm_mt, &mm->mm_mt, GFP_KERNEL);
->>> +    if (unlikely(retval))
->>>            goto out;
->>>        mt_clear_in_rcu(vmi.mas.tree);
->>> -    for_each_vma(old_vmi, mpnt) {
->>> +    for_each_vma(vmi, mpnt) {
->>>            struct file *file;
->>>            vma_start_write(mpnt);
->>
->> We used to call vma_start_write() on the *old* VMA, to prevent any kind of page faults in
->> the old MM while we are duplicating PTEs (and COW-share pages).
->>
->> See
->>
->> commit fb49c455323ff8319a123dd312be9082c49a23a5
->> Author: Suren Baghdasaryan <surenb@google.com>
->> Date:   Sat Jul 8 12:12:12 2023 -0700
->>
->>       fork: lock VMAs of the parent process when forking
->>       When forking a child process, the parent write-protects anonymous pages
->>       and COW-shares them with the child being forked using copy_present_pte().
->>       We must not take any concurrent page faults on the source vma's as they
->>       are being processed, as we expect both the vma and the pte's behind it
->>       to be stable.  For example, the anon_vma_fork() expects the parents
->>       vma->anon_vma to not change during the vma copy.
->>
->>
->> Unless I am missing something, we now call vma_start_write() on the *new* VMA?
->>
->> If that is the case, this is broken and needs fixing; likely, going over all
->> VMAs in the old_mm and calling vma_start_write().
->>
->> But maybe there is some magic going on that I am missing :)
-> 
-> ... likely the magic is that the new tree links the same VMAs (we are not duplicating the VMAs before vm_area_dup()), so we are indeed locking the MM in the old_mm (that is temporarily linked into the new MM).
-Thanks for reminding. Yes, the VMAs in the tree built via __mt_dup() are the
-same as those in the old tree, so there won't be a problem here.
-> 
-> If that's the case, all good :)
-> 
+Owner will add 'Reviewed-by: tag from Rob' in the next version.
+
+Thanks,
+Ban
