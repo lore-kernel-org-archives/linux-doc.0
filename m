@@ -1,95 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC1B3D393;
-	Wed, 21 Feb 2024 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473D47FBA9
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 14:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708527111; cv=none; b=pl3Ns5jUtmm86bdGY89hO91m3zs5zb0emq7JunUIDPsfPeyLRkobRi3hKtCnDaA6AbitpGXbpg6WXRhtp9cYZkQlakdGhQb2xXOR/eggr+2ZZo+jzAQJDZh14FVxM5GGqZUk1gY1WGKkmwmDA3/GE7NazQTAKL54Ul1chjOeD1o=
+	t=1708527468; cv=none; b=YHchI7S8BAn5vQwILdL+Trd3dUcN71OSrMlT4E9EAJGmkGonzDvNd6ovOTy4CApO46Nv+5TRkSSU+6PDRd+dogCjdphWKobvrimdQXAUnXWTWaARnZBCuh8S7hMzF9MPKJmZogo2t8Z1poPdyEXLQFLqd+RIpAbQ5WhUlzgYMKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708527111; c=relaxed/simple;
-	bh=HPUPYQyaExW8zA3yPaGmJKIXa5Geol1ui08QSwOJ+e8=;
+	s=arc-20240116; t=1708527468; c=relaxed/simple;
+	bh=VXm+kZmxMVHqvGGNho4lRaBPvFnNMXrsUkhaZtCVkdg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oh++fXAcZdF0pi19hWZAlz0XkqaV5QzNljL91UPWdRxEEJ7VWQppKbWk0n50htiEmXBre3QXL1VJItIuqk4BQy8hu4pusvohs4MMEDe1+8vk6u4U5f6RwVWyOoJYfb+OJXeBYhQRV51hShOgR53HTbzkgxaU8eRJLlcu8FsCUyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMFnpjLX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMFnpjLX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE38C433C7;
-	Wed, 21 Feb 2024 14:51:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708527111;
-	bh=HPUPYQyaExW8zA3yPaGmJKIXa5Geol1ui08QSwOJ+e8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dMFnpjLXedjM59DSIP7iXzY0WAdOEKWw2u/GS9ufpmMUhyN1gq2g56jJr1k5cb6me
-	 ndysQF7iAZHjVGkxJl2V/twPaSZxqgpBWSG/5mJYAUw71cd0FPPz7UvcHNaAaYvbP2
-	 hCl9qtJuDmcpRxM2uSR7CoNhU60gCMgSxl75YS+dcLs8NvtMmXH/jcfLfoTxla6Eam
-	 4dGj5WLY8810xEziHMVbFfO3CV5HbXz1e5ojaa/UFlnVAbanhfqAuR0ETEC1wbqWTL
-	 nlYTECKP+aLri0NjRU/zScHoCyXQzwcaWAtm3Wa2kgdC6Iqzs/IdkfsR62xmNe2RO9
-	 t2iypTiwEKWqQ==
-Date: Wed, 21 Feb 2024 14:51:46 +0000
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Robin Ehn <rehn@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Stefan O'Rear <sorear@fastmail.com>,
-	Jessica Clarke <jrtc27@jrtc27.com>
-Subject: Re: [PATCH v2] riscv: hwprobe: export largest userspace address
-Message-ID: <20240221-pacifism-seismic-589dbbcbf38b@spud>
-References: <20240220110950.871307-1-cleger@rivosinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=di+Ph33/9JeP4ALbeKH/nteq+3JqDV4ThjtqH9emARidu3obJZKnTZ6LQ/AfmrvZbXi99bmQ14l+B9jpfL0t9wBVDY03RS2xEjZPv7E0ulhBrMDklvjf1iGBCamM/ZPbKnCK198k9kNEnqB3LS3eOFxGk6/DK17wTzGBt5aEWRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=libc.org; arc=none smtp.client-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
+Date: Wed, 21 Feb 2024 09:58:01 -0500
+From: "dalias@libc.org" <dalias@libc.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"musl@lists.openwall.com" <musl@lists.openwall.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
+	"oleg@redhat.com" <oleg@redhat.com>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"ebiederm@xmission.com" <ebiederm@xmission.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"sorear@fastmail.com" <sorear@fastmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
+ in userspace
+Message-ID: <20240221145800.GR4163@brightrain.aerifal.cx>
+References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
+ <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
+ <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
+ <20240220185714.GO4163@brightrain.aerifal.cx>
+ <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
+ <20240220235415.GP4163@brightrain.aerifal.cx>
+ <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
+ <20240221012736.GQ4163@brightrain.aerifal.cx>
+ <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XafRae+w6EWwmvjz"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220110950.871307-1-cleger@rivosinc.com>
+In-Reply-To: <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
+On Wed, Feb 21, 2024 at 01:53:10PM +0000, Mark Brown wrote:
+> On Tue, Feb 20, 2024 at 08:27:37PM -0500, dalias@libc.org wrote:
+> > On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
+> 
+> > > (INCSSP, RSTORSSP, etc). These are a collection of instructions that
+> > > allow limited control of the SSP. When shadow stack gets disabled,
+> > > these suddenly turn into #UD generating instructions. So any other
+> > > threads executing those instructions when shadow stack got disabled
+> > > would be in for a nasty surprise.
+> 
+> > This is the kernel's problem if that's happening. It should be
+> > trapping these and returning immediately like a NOP if shadow stack
+> > has been disabled, not generating SIGILL.
+> 
+> I'm not sure that's going to work out well, all it takes is some code
+> that's looking at the shadow stack and expecting something to happen as
+> a result of the instructions it's executing and we run into trouble.  A
+> lot of things won't notice and will just happily carry on but I expect
+> there are going to be things that care.  We also end up with an
+> additional state for threads that have had shadow stacks transparently
+> disabled, that's managable but still.
 
---XafRae+w6EWwmvjz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I said NOP but there's no reason it strictly needs to be a NOP. It
+could instead do something reasonable to convey the state of racing
+with shadow stack being disabled.
 
-On Tue, Feb 20, 2024 at 12:09:46PM +0100, Cl=E9ment L=E9ger wrote:
-> Some userspace applications (OpenJDK for instance) uses the free MSBs
-> in pointers to insert additional information for their own logic and
-> need to get this information from somewhere. Currently they rely on
-> parsing /proc/cpuinfo "mmu=3Dsvxx" string to obtain the current value of
-> virtual address used bits [1]. Since this reflect the raw MMU mode
-> supported, it might differ from the logical one used internally.
-> Exporting the maximum mmappable address through hwprobe will allow a
-> more stable interface to be used. For that purpose, add a new hwprobe
-> key named RISCV_HWPROBE_MAX_KEY which will export the maximum mmappable
-> userspace address.
->=20
-> Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux=
-_riscv/vm_version_linux_riscv.cpp#L171 [1]
-> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> 
+> > > > The place where it's really needed to be able to allocate the shadow
+> > > > stack synchronously under userspace control, in order to harden
+> > > > normal
+> > > > applications that aren't doing funny things, is in pthread_create
+> > > > without a caller-provided stack.
+> 
+> > > Yea most apps don't do anything too tricky. Mostly shadow stack "just
+> > > works". But it's no excuse to just crash for the others.
+> 
+> > One thing to note here is that, to enable this, we're going to need
+> > some way to detect "new enough kernel that shadow stack semantics are
+> > all right". If there are kernels that have shadow stack support but
+> > with problems that make it unsafe to use (this sounds like the case),
+> > we can't turn it on without a way to avoid trying to use it on those.
+> 
+> If we have this automatic conversion of pages to shadow stack then we
+> should have an API for enabling it, userspace should be able to use the
+> presence of that API to determine if the feature is there.
 
-Doesn't build for nommu:
-https://patchwork.kernel.org/project/linux-riscv/patch/20240220110950.87130=
-7-1-cleger@rivosinc.com/
+Yes, or if a new prctl is needed to make disabling safe (see above)
+that could probably be used.
 
-Cheers,
-Conor.
-
---XafRae+w6EWwmvjz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdYOAgAKCRB4tDGHoIJi
-0obVAQC6GAs9ZIYjcC3yuuwCX/HL09UmNvDXdYBZhG/lJ6OKywEAp01wPF8n5uxf
-K6XtGuHbFpAbomgUMPBexQpL2ieUxgM=
-=gv0b
------END PGP SIGNATURE-----
-
---XafRae+w6EWwmvjz--
+Rich
