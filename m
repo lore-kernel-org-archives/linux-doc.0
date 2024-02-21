@@ -1,93 +1,135 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43743B1B7
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 08:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8003C484
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 08:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708502809; cv=none; b=BiLqx+di/ZtEGJx/ObHNiOcIeQxbrsM/r/ldXklUrk71cGQ54tqVWcaYExCmUkBM/faj6rRxEqqpyD8LlPFI9NthUWwmIClsX7qYdqLaIo5xVSysE1q3ZRXWfqGfy22V0ZG0EKuTXG2E9Lu9Ycm3smuqybjzVLtWDvbfSXB8bRg=
+	t=1708504276; cv=none; b=hqCfNWHUo9Zu8Bs4BEikz/L/bk55eTetsS7RlzqXT2m1R5flnmwaoJOIMnmAGu467AuRD16X+E7qS53NW6pNgs0Fq1YXfNzQQJHzaDeeE8NXvunFkT5VGgKK8h9Jj2JyY3sp2qp0ICoimg0YpGkznY1gVhcGkwQcs0/zXq8jCqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708502809; c=relaxed/simple;
-	bh=VAp5EJfwMAx3N+LtvfX8uYtr5+xL1bjdXnqMcz/4K3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=omO946XEiNtXztQqAvTarHYJTMaQyzhm6thndsBRGMMeLlIGdLDXXiDdfFZsJUNsRCrDLv7sxEmR0Cq6MZfpwafBz2Qe+dAPAgA8oqiSyLM5AvAV1WqnZbrG9/J0o3yvF8TjahfQhySkJYPvmfh52yig11TQ2cQwT/odS2n6Hys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=MwEI1dou; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1708504276; c=relaxed/simple;
+	bh=vqbvLAUaPJ4WgRR+teh0/Ah4uMsjuy4TXqtUh9j5+sE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jf7ijbPeIyFIXjiIz9Dn/C+O4V51KeuPIRnLQS+UwQPEJc8FrqV6vhPNvcriQHC84EmOHyUOZe6Twcoi/o2icuxygjgBeQ2sto0io/GIGG3Z8gbw8rVUFESD2LnNyqE57EkdYI6NC5GVOp1V290VRApGww/uKe33+BJnLBFBCCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=UhuKLhBG; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="MwEI1dou"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d4efb419bso376893f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 00:06:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="UhuKLhBG"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33d72e6eebdso327031f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 00:31:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708502806; x=1709107606; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VAp5EJfwMAx3N+LtvfX8uYtr5+xL1bjdXnqMcz/4K3g=;
-        b=MwEI1dou+7YCBCm2uLi0F+KO0fE61XS3I9rGOcps2f6GphSJtsV0GpCLLC2y6Wr15w
-         s2T7mX/Q3bpMS4sk3i2bQID/MuleUdW6MT8biow/HCSLX7zA8TK/Q7PJPq/Y2UUnxrv4
-         rsNViZg3zwv1lqstpIagej2Mq7AXoFLeSik9hA0JfeMRKNSgVWph3Syyl0JnEj/QXdNA
-         gAP+1b5Jq/gMJjVuWugUKfU3sORlCETVzuXCNmXiBOtsASO4SPA5NpjWHRYhYvO5lzw0
-         +ZRhvAZIgcOQfONnGnEUIv0Lij1GgVn9bJoBY/bpwqE6uVpTcjQnb6xbi7PhKWfz6uWd
-         Kr3g==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708504272; x=1709109072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3DfmgtPB5KtCEWqqxteO1F8ctpQ9OvQULDo2fgyZ5GM=;
+        b=UhuKLhBGQ/Rjv05yaNvR/EWKJMdH1Nkxmlfib/Ra8xN1twy6AVAleTXbmpfS53Au9u
+         YMP9aK7I+Bgd4APrC+wdSgkpDtyEJbbe7+C9byJO+BLLa07VnCTfWgcYhFOmpjtYIemC
+         fJfeMB6JY5xhSO5IW47UTmBB5huqKeBA3aLhMZZp+JcJrLNfid0DJNvJBJmPVICo2xsK
+         T2i7pKBFAm5fPIoEDYChqST6pih7iho+L1U+HHtmjT25vbGGMKNPikws+oQgpX2CbIO2
+         foHLlvJrk+FpTLW8yTRZtZTZvdSxqAO8QDWRgXFF194IbydtBLqKFj9+HoUPKY8Z+4ZZ
+         LsKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708502806; x=1709107606;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VAp5EJfwMAx3N+LtvfX8uYtr5+xL1bjdXnqMcz/4K3g=;
-        b=C5g85GXY6GP7+Vae6xVey71hFWpxD7FRPbQJf8nc2HS85WcRLV5kZqLPGbcQfX+UCM
-         UingriFzWjBEb0X70YNIGIW7CSZGRvlIgouztUG4G90Sg1ZsSW8UfTMb8Azfl8+ZCpZ1
-         MZKHHLYN2QM7I4+hSGOGRFyAuL8P8sA+wvfva5SPibJxMzZNDMsw5VVtouRHzRbWfV3V
-         +hF9CCD0JETejeU8DwjhSvc+Ge+1bxqg+AMmD6Kp0nzaOI8/1b3gh9212I2xbTwuHfJX
-         BuPSnjUkA33GVvy5+c81f/gR2azbFTGEI+8BlyKbjZZK1n6y80zwlDg0+wAYZJK+7uFZ
-         eQjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUOtxwvrDgxC7+bRVvB2vVDZsFULAMXOtAlDmb9SVGrFkONrxZkm2JvepFl4JEan1Hycf/gRbIy25YFRfjQb/UO7yvBuWaSYKH1
-X-Gm-Message-State: AOJu0YzKAtksm4xR+5+IQQilIqv9D2P9XywgkhQvg1NV1m/BVC7VS5Jj
-	+kmfUrvlMXMKlMWVtmJdUkB4kYsxvFjQ+AFbUKlmUbapsBDPloKgqNZeYSqdm6M=
-X-Google-Smtp-Source: AGHT+IFhhuo+eJPWSLWQq+dZbJmeLfckVhpVthonWGbWlj64bYNPwd9tHXCUdOlo32NdqDMLAdPZBQ==
-X-Received: by 2002:a05:600c:1587:b0:412:5670:ef62 with SMTP id r7-20020a05600c158700b004125670ef62mr8238941wmf.1.1708502806057;
-        Wed, 21 Feb 2024 00:06:46 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:999:a3a0:e1be:e214:b8ab:dbb2? ([2a01:e0a:999:a3a0:e1be:e214:b8ab:dbb2])
-        by smtp.gmail.com with ESMTPSA id u16-20020a05600c19d000b00410bca333b7sm1629488wmq.27.2024.02.21.00.06.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 00:06:45 -0800 (PST)
-Message-ID: <2b667310-6bb4-45fa-9c11-098c532e6a7c@rivosinc.com>
-Date: Wed, 21 Feb 2024 09:06:44 +0100
+        d=1e100.net; s=20230601; t=1708504272; x=1709109072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3DfmgtPB5KtCEWqqxteO1F8ctpQ9OvQULDo2fgyZ5GM=;
+        b=kFDS1cqNbTHmbAagAtXhf/156CQ4sPVciR4enIZEAumF/gf2YXNJytvX5UGJsP/kXU
+         KqXKu2j+xXhJqLC8JyjH36Lt3ALUoVSQFtWZN7NJDVx7iT5j4USk8COkPllplNHxlP9R
+         eIJwpWXOAcJH6fLnikW9Nb3LUI4gVdYkiPRcYI4EQhTE8cpWns58g0a212WxhQKO4461
+         kmoKv6xC6kaMIdcP+fQO7Kzo52wU6urTU6u5iTgmHqf56vTjsqJA4QTql5UGSn3IWEUx
+         QxQZMiK6Yajrammd/LATSofe1PO5WvCjUoyeQIbvs4nU2EThqOybVP7xZG0N62mgoKJh
+         16Vg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKn/S3LOFdCIfysBEDXe1wbQAyOJiOd182Xb9CqHJ5ajCimlon/CxCRugS6SINfwPCRuqKIiNA72WzbG4VHA45jRFAPp4tsp8R
+X-Gm-Message-State: AOJu0Yw1iEyjtrlJ/FmY6D8WJWRL/88J4V/L45pLuIkyGjCT8VIhEVSM
+	f1/QBqcMJECKCytip2tU5wFFyyQJIs6dq0yfhPtdx9seqQ7o7cF4ZFcoMOErC2A=
+X-Google-Smtp-Source: AGHT+IFpQ25mW9HjQjzpg+0Xj68AfJWrOkwGecdVCbJfBfuwd15xExxElqbvXDzVs+szTRDW8c+wFw==
+X-Received: by 2002:a05:600c:1ca8:b0:412:52a2:bd4e with SMTP id k40-20020a05600c1ca800b0041252a2bd4emr9522943wms.3.1708504272039;
+        Wed, 21 Feb 2024 00:31:12 -0800 (PST)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:e1be:e214:b8ab:dbb2])
+        by smtp.gmail.com with ESMTPSA id q4-20020adfab04000000b0033cf637eea2sm16210705wrc.29.2024.02.21.00.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Feb 2024 00:31:11 -0800 (PST)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Robbin Ehn <rehn@rivosinc.com>,
+	Atish Patra <atishp@rivosinc.com>
+Subject: [PATCH v2] riscv: hwprobe: export Zihintpause ISA extension
+Date: Wed, 21 Feb 2024 09:31:06 +0100
+Message-ID: <20240221083108.1235311-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] riscv: hwprobe: export Zihintpause ISA extension
-Content-Language: en-US
-To: Atish Patra <atishp@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Robbin Ehn <rehn@rivosinc.com>
-References: <20240219154905.528301-1-cleger@rivosinc.com>
- <3cd9c332-1187-4204-94c9-34a3c4f5958c@rivosinc.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <3cd9c332-1187-4204-94c9-34a3c4f5958c@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Export the Zihintpause ISA extension through hwprobe which allows using
+"pause" instructions. Some userspace applications (OpenJDK for
+instance) uses this to handle some locking back-off.
 
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
+---
+v2:
+ - Fix typo "commit commit"
+ - Add Atish Reviewed-by:
+ - Link to v1: https://lore.kernel.org/lkml/20240219154905.528301-1-cleger@rivosinc.com/
+---
+ Documentation/arch/riscv/hwprobe.rst  | 4 ++++
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 1 +
+ 3 files changed, 6 insertions(+)
 
-On 21/02/2024 00:42, Atish Patra wrote:
->          during signoff")
->   +  * :c:macro:`RISCV_HWPROBE_EXT_ZIHINTPAUSE`: The Zihintpause
-> extension is
-> +       supported as defined in the RISC-V ISA manual starting from
-> commit commit
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index b2bcc9eed9aa..204cd4433af5 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -188,6 +188,10 @@ The following keys are defined:
+        manual starting from commit 95cf1f9 ("Add changes requested by Ved
+        during signoff")
+ 
++  * :c:macro:`RISCV_HWPROBE_EXT_ZIHINTPAUSE`: The Zihintpause extension is
++       supported as defined in the RISC-V ISA manual starting from commit
++       d8ab5c78c207 ("Zihintpause is ratified").
++
+ * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
+   information about the selected set of processors.
+ 
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 9f2a8e3ff204..31c570cbd1c5 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -59,6 +59,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZTSO		(1ULL << 33)
+ #define		RISCV_HWPROBE_EXT_ZACAS		(1ULL << 34)
+ #define		RISCV_HWPROBE_EXT_ZICOND	(1ULL << 35)
++#define		RISCV_HWPROBE_EXT_ZIHINTPAUSE	(1ULL << 36)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index a7c56b41efd2..1008d25880e1 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -111,6 +111,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		EXT_KEY(ZTSO);
+ 		EXT_KEY(ZACAS);
+ 		EXT_KEY(ZICOND);
++		EXT_KEY(ZIHINTPAUSE);
+ 
+ 		if (has_vector()) {
+ 			EXT_KEY(ZVBB);
+-- 
+2.43.0
 
-Looks like I did a typo ("commit" twice). Let me send a V2.
-
-Clément
-
-> +       d8ab5c78c207 ("Zihintpause is ratified").
-> +
