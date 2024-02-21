@@ -1,365 +1,191 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D77D6994A;
-	Wed, 21 Feb 2024 16:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCAB81727;
+	Wed, 21 Feb 2024 16:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708532047; cv=none; b=OlpKm+uKT3/y9BsptAsIRu77k+Bg2svvZugG8w+MjZ6Hkylm3HssESDXiYxuY9OZ5HqnCtgv7o3ZJpV0rWyhBX7zWWpUCRtZ1qrzHvyumdWB2w/ahjLyUOjAavvsro0FNZW5VZ6KSoplBz7i1IsF4aFvrhUQQ/BGj8NOVoNlZrQ=
+	t=1708532724; cv=none; b=K/jUXswQUCWXaQjKeJBwViS+IUb5iFI/Gs6Y8QCJVDuWa8SB3yXtI8pJHDtf7deRLeD0B8JKfD+vs4m+W6bg8iT6XFI4YuadsSQkOfm0adbldIm75TrJ/4cs+PeERqzGsntqdjUn6PzM9iwBni7kp4PUzPV6feFuuF8rzIRnS/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708532047; c=relaxed/simple;
-	bh=JHBed4HhRS/+miDeC1Vba8uHd/woC+WKGVjOOcm9Eoc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OxhT/oiaCH0TW2Yzo0cq447gTi0vhWztuCqZZxuMwg6SoDksRgfZ69alz1uEC0Z3nCC7jMPC0f30YpofiUWwVnN0lJq6P5yOvf667nZSmEkGV+gFmE52cyIu0qexG7YGDRw8pthmIsBc2RYd6TiBQRIdDkxWNcAP5J+KOdkIKRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QyEFEWg4; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1708532724; c=relaxed/simple;
+	bh=zRZq7ktIelCZZWJLLT8Fm+ahdGyQ/siOzgpKQQJWNz8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=d3YN/IojyFSgXJZ5RnxXUjIPTw86u5bf619adr7O5JQpF0FeF3YyeUhsfmBYJwE2H1MpYkefTYrgf90GuUvG9LYsHQn9Ji0jYp68//FzPZbjH0wXdamz2kJacN12ezFOKKiNKfP8u6fltL7daMaBsNri056lVVJ8APaf3tne/nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J7VmYAdG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QyEFEWg4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1708532042;
-	bh=JHBed4HhRS/+miDeC1Vba8uHd/woC+WKGVjOOcm9Eoc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=QyEFEWg4iOj696uNgzJEjM7VVBBxs5TR8MhbBa8yDqmZLFylpV17ZC0v+v3V1T7eL
-	 pP9udLVigJOnISA+mi+rJ4g8a+h5shEq/PPyk46PGcQ0Md91kcwNlstwT6y0Rg+ObK
-	 BLIlnYBBWgEsHvj7P3H1+88kWgNH1/234/bRn+hxbMm89EtVU7tnkXDn6w9flCNiQ3
-	 PnnxudmewEbTwgpv8sghHFxNCpba4YwuosgP666VBzEWGNhMHaT0efTJn4vzRMIVwp
-	 EM1loMtnW8am0K6rs3rzjdzSTAcmVnwwiP+ut2tL412oBvJqzwXypJWOaMf7XSMtxR
-	 GbBeI+CJg8v2w==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: alarumbe)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9FB2F3781FE6;
-	Wed, 21 Feb 2024 16:14:01 +0000 (UTC)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com,
-	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] drm/panfrost: Replace fdinfo's profiling debugfs knob with sysfs
-Date: Wed, 21 Feb 2024 16:12:32 +0000
-Message-ID: <20240221161237.2478193-1-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J7VmYAdG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EFDC433C7;
+	Wed, 21 Feb 2024 16:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708532724;
+	bh=zRZq7ktIelCZZWJLLT8Fm+ahdGyQ/siOzgpKQQJWNz8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=J7VmYAdGn2jUz4zfl8Q1nrvAFDCMu33mXMDJumE3auykorUG6ptw9I3uoM8F2Xxu9
+	 ywwCB8q72c/PkSEpeHZB7+M1tG2lhQzH7wkvHR01yKaQk6SITWhmBp2rmTHQQs8Yi4
+	 rUDZAJpRSORoiIz7PXIHmAEBGp+tKw1P4d0xIATwQI+21JZ/wIz+Yh538GFbA3rC2w
+	 UPpuz0NdZGYrcenQ47c5qLvx6EGVdre+ob3iXI1Vd4e5slKW4gbSwkqd4OeCR7yldu
+	 xGF7jb20SvqRkTLVZlGKp0kmZTj9/q8izfV0I2wgzeXGwLAKQk4YaLlZDWBCcOLYe4
+	 aBB+MPE1O5U9g==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH RFC bpf-next v3 00/16] sleepable bpf_timer (was: allow
+ HID-BPF to do device IOs)
+Date: Wed, 21 Feb 2024 17:25:16 +0100
+Message-Id: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOwj1mUC/23NQQrCMBAF0KvIrI0kMWmtK0HwAG7FRZNM22BJS
+ 1JCpfTupsWFQpf/M//NBAG9xQDn3QQeow22cykc9zvQTelqJNakDJxyQTmVpLGGqL4ioUXsS9U
+ i0ZTxjFamYFpA2vUeKzuu5gPut+vSLQuH4wDPFBobhs6/15+RrWdfvtjgIyOUCK1PhVSyNMpcX
+ ugdtofO1ysX+Q/BxBbBEyFzmSkqRc7FPzHP8wc3GdM5BwEAAA==
+To: Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1708532719; l=5588;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=zRZq7ktIelCZZWJLLT8Fm+ahdGyQ/siOzgpKQQJWNz8=;
+ b=Syk9/ZSBxBEt26q6j5DdxWU1oXWH+kMI3/GAMo63FMLAWFUnwvT3WuDR4vVGJe2WRI69d3JDF
+ mwgq7Sp08fFAN9VvpswTg23wXbBgheQFqyl+trA1lwwGax8ra3jMQI1
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Debugfs isn't always available in production builds that try to squeeze
-every single byte out of the kernel image, but we still need a way to
-toggle the timestamp and cycle counter registers so that jobs can be
-profiled for fdinfo's drm engine and cycle calculations.
+[Partly a RFC/formal submission: there are still FIXMEs in the code]
+[Also using bpf-next as the base tree for HID changes as there will
+be conflicting changes otherwise, so I'm personaly fine for the HID
+commits to go through bpf-next]
 
-Drop the debugfs knob and replace it with a sysfs file that accomplishes
-the same functionality, and document its ABI in a separate file.
+IMO, patches 1-3 and 9-14 are ready to go, rest is still pending review.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+For reference, the use cases I have in mind:
+
 ---
- .../testing/sysfs-driver-panfrost-profiling   | 10 +++
- Documentation/gpu/panfrost.rst                |  9 +++
- drivers/gpu/drm/panfrost/Makefile             |  5 +-
- drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ------
- drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 ----
- drivers/gpu/drm/panfrost/panfrost_device.h    |  5 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c       | 14 ++--
- drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
- drivers/gpu/drm/panfrost/panfrost_sysfs.c     | 74 +++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_sysfs.h     | 15 ++++
- 10 files changed, 124 insertions(+), 45 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
- delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.c
- create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.h
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-new file mode 100644
-index 000000000000..ce54069714f3
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-@@ -0,0 +1,10 @@
-+What:		/sys/bus/.../drivers/panfrost/.../drm/../profiling/status
-+Date:		February 2024
-+KernelVersion:	6.8.0
-+Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
-+Description:
-+                Get/set drm fdinfo's engine and cycles profiling status.
-+                Valid values are:
-+		0: Disable fdinfo job profiling sources. This disables both the GPU's
-+                timestamp and cycle counter registers.
-+		1: Enable the above.
-diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
-index b80e41f4b2c5..be4ac282ef63 100644
---- a/Documentation/gpu/panfrost.rst
-+++ b/Documentation/gpu/panfrost.rst
-@@ -38,3 +38,12 @@ the currently possible format options:
- 
- Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
- `drm-curfreq-` values convey the current operating frequency for that engine.
-+
-+Users must bear in mind that engine and cycle sampling are disabled by default,
-+because of power saving concerns. `fdinfo` users and benchmark applications which
-+query the fdinfo file must make sure to toggle the job profiling status of the
-+driver by writing into the appropriate sysfs node::
-+
-+    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/drm/card1/profiling
-+
-+Where `N` is either `0` or `1`, depending on the desired enablement status.
-diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-index 2c01c1e7523e..6e718595d8a6 100644
---- a/drivers/gpu/drm/panfrost/Makefile
-+++ b/drivers/gpu/drm/panfrost/Makefile
-@@ -10,8 +10,7 @@ panfrost-y := \
- 	panfrost_job.o \
- 	panfrost_mmu.o \
- 	panfrost_perfcnt.o \
--	panfrost_dump.o
--
--panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
-+	panfrost_dump.o \
-+	panfrost_sysfs.o
- 
- obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-deleted file mode 100644
-index 72d4286a6bf7..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-+++ /dev/null
-@@ -1,21 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/* Copyright 2023 Collabora ltd. */
--/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
--
--#include <linux/debugfs.h>
--#include <linux/platform_device.h>
--#include <drm/drm_debugfs.h>
--#include <drm/drm_file.h>
--#include <drm/panfrost_drm.h>
--
--#include "panfrost_device.h"
--#include "panfrost_gpu.h"
--#include "panfrost_debugfs.h"
--
--void panfrost_debugfs_init(struct drm_minor *minor)
--{
--	struct drm_device *dev = minor->dev;
--	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
--
--	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
--}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-deleted file mode 100644
-index c5af5f35877f..000000000000
---- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Copyright 2023 Collabora ltd.
-- * Copyright 2023 Amazon.com, Inc. or its affiliates.
-- */
--
--#ifndef PANFROST_DEBUGFS_H
--#define PANFROST_DEBUGFS_H
--
--#ifdef CONFIG_DEBUG_FS
--void panfrost_debugfs_init(struct drm_minor *minor);
--#endif
--
--#endif  /* PANFROST_DEBUGFS_H */
-diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-index 62f7e3527385..56c8e5551335 100644
---- a/drivers/gpu/drm/panfrost/panfrost_device.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-@@ -130,7 +130,10 @@ struct panfrost_device {
- 	struct list_head scheduled_jobs;
- 
- 	struct panfrost_perfcnt *perfcnt;
--	atomic_t profile_mode;
-+	struct kobj_profiling {
-+		struct kobject base;
-+		atomic_t profile_mode;
-+	} profiling;
- 
- 	struct mutex sched_lock;
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index a926d71e8131..6db1ea453514 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -20,7 +20,7 @@
- #include "panfrost_job.h"
- #include "panfrost_gpu.h"
- #include "panfrost_perfcnt.h"
--#include "panfrost_debugfs.h"
-+#include "panfrost_sysfs.h"
- 
- static bool unstable_ioctls;
- module_param_unsafe(unstable_ioctls, bool, 0600);
-@@ -600,10 +600,6 @@ static const struct drm_driver panfrost_drm_driver = {
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
--
--#ifdef CONFIG_DEBUG_FS
--	.debugfs_init		= panfrost_debugfs_init,
--#endif
- };
- 
- static int panfrost_probe(struct platform_device *pdev)
-@@ -663,8 +659,14 @@ static int panfrost_probe(struct platform_device *pdev)
- 	if (err)
- 		goto err_out2;
- 
-+	err = panfrost_sysfs_init(pfdev);
-+	if (err)
-+		goto err_out3;
-+
- 	return 0;
- 
-+err_out3:
-+	panfrost_gem_shrinker_cleanup(ddev);
- err_out2:
- 	drm_dev_unregister(ddev);
- err_out1:
-@@ -681,6 +683,8 @@ static void panfrost_remove(struct platform_device *pdev)
- 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
- 	struct drm_device *ddev = pfdev->ddev;
- 
-+	panfrost_sysfs_cleanup(pfdev);
-+
- 	drm_dev_unregister(ddev);
- 	panfrost_gem_shrinker_cleanup(ddev);
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index 0c2dbf6ef2a5..49413dfda2ea 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
- 	subslot = panfrost_enqueue_job(pfdev, js, job);
- 	/* Don't queue the job if a reset is in progress */
- 	if (!atomic_read(&pfdev->reset.pending)) {
--		if (atomic_read(&pfdev->profile_mode)) {
-+		if (atomic_read(&pfdev->profiling.profile_mode)) {
- 			panfrost_cycle_counter_get(pfdev);
- 			job->is_profiled = true;
- 			job->start_time = ktime_get();
-diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.c b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-new file mode 100644
-index 000000000000..072d3bf349d2
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright 2023 Collabora ltd. */
-+/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
-+
-+#include <linux/platform_device.h>
-+#include <drm/drm_file.h>
-+#include <drm/panfrost_drm.h>
-+
-+#include "panfrost_device.h"
-+#include "panfrost_gpu.h"
-+#include "panfrost_sysfs.h"
-+
-+static ssize_t
-+profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
-+{
-+	atomic_t *profile_mode =
-+		&container_of(kobj, struct {
-+			struct kobject base;
-+			atomic_t profile_mode; },
-+			base)->profile_mode;
-+
-+	return sysfs_emit(buf, "%d\n", atomic_read(profile_mode));
-+}
-+
-+static ssize_t
-+profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
-+	       const char *buf, size_t count)
-+{
-+	atomic_t *profile_mode =
-+		&container_of(kobj, struct {
-+			struct kobject base;
-+			atomic_t profile_mode; },
-+			base)->profile_mode;
-+	int err, value;
-+
-+	err = kstrtoint(buf, 0, &value);
-+	if (err)
-+		return err;
-+
-+	atomic_set(profile_mode, !!value);
-+
-+	return count;
-+}
-+
-+static const struct kobj_attribute profiling_status =
-+__ATTR(status, 0644, profiling_show, profiling_store);
-+
-+static const struct kobj_type kobj_profile_type = {
-+	.sysfs_ops = &kobj_sysfs_ops,
-+};
-+
-+int panfrost_sysfs_init(struct panfrost_device *pfdev)
-+{
-+	struct device *kdev = pfdev->ddev->primary->kdev;
-+	int err;
-+
-+	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
-+
-+	err = kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profiling");
-+	if (err)
-+		return err;
-+
-+	err = sysfs_create_file(&pfdev->profiling.base, &profiling_status.attr);
-+	if (err)
-+		kobject_del(&pfdev->profiling.base);
-+
-+	return err;
-+}
-+
-+void panfrost_sysfs_cleanup(struct panfrost_device *pfdev)
-+{
-+	sysfs_remove_file(&pfdev->profiling.base, &profiling_status.attr);
-+	kobject_del(&pfdev->profiling.base);
-+}
-diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.h b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-new file mode 100644
-index 000000000000..5fc9c8c1091a
---- /dev/null
-+++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2023 Collabora ltd.
-+ * Copyright 2023 Amazon.com, Inc. or its affiliates.
-+ */
-+
-+#ifndef PANFROST_SYSFS_H
-+#define PANFROST_SYSFS_H
-+
-+struct panfrost_device;
-+
-+int panfrost_sysfs_init(struct panfrost_device *pfdev);
-+void panfrost_sysfs_cleanup(struct panfrost_device *pfdev);
-+
-+#endif  /* PANFROST_SYSFS_H */
+Basically, I need to be able to defer a HID-BPF program for the
+following reasons (from the aforementioned patch):
+1. defer an event:
+   Sometimes we receive an out of proximity event, but the device can not
+   be trusted enough, and we need to ensure that we won't receive another
+   one in the following n milliseconds. So we need to wait those n
+   milliseconds, and eventually re-inject that event in the stack.
+
+2. inject new events in reaction to one given event:
+   We might want to transform one given event into several. This is the
+   case for macro keys where a single key press is supposed to send
+   a sequence of key presses. But this could also be used to patch a
+   faulty behavior, if a device forgets to send a release event.
+
+3. communicate with the device in reaction to one event:
+   We might want to communicate back to the device after a given event.
+   For example a device might send us an event saying that it came back
+   from sleeping state and needs to be re-initialized.
+
+Currently we can achieve that by keeping a userspace program around,
+raise a bpf event, and let that userspace program inject the events and
+commands.
+However, we are just keeping that program alive as a daemon for just
+scheduling commands. There is no logic in it, so it doesn't really justify
+an actual userspace wakeup. So a kernel workqueue seems simpler to handle.
+
+The other part I'm not sure is whether we can say that BPF maps of type
+queue/stack can be used in sleepable context.
+I don't see any warning when running the test programs, but that's probably
+not a guarantee I'm doing the things properly :)
+
+Cheers,
+Benjamin
+
+To: Alexei Starovoitov <ast@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+To: John Fastabend <john.fastabend@gmail.com>
+To: Andrii Nakryiko <andrii@kernel.org>
+To: Martin KaFai Lau <martin.lau@linux.dev>
+To: Eduard Zingerman <eddyz87@gmail.com>
+To: Song Liu <song@kernel.org>
+To: Yonghong Song <yonghong.song@linux.dev>
+To: KP Singh <kpsingh@kernel.org>
+To: Stanislav Fomichev <sdf@google.com>
+To: Hao Luo <haoluo@google.com>
+To: Jiri Olsa <jolsa@kernel.org>
+To: Jiri Kosina <jikos@kernel.org>
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <shuah@kernel.org>
+Cc:  <bpf@vger.kernel.org>
+Cc:  <linux-kernel@vger.kernel.org>
+Cc:  <linux-input@vger.kernel.org>
+Cc:  <linux-doc@vger.kernel.org>
+Cc:  <linux-kselftest@vger.kernel.org>
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+
+---
+Changes in v3:
+- fixed the crash from v2
+- changed the API to have only BPF_F_TIMER_SLEEPABLE for
+  bpf_timer_start()
+- split the new kfuncs/verifier patch into several sub-patches, for
+  easier reviews
+- Link to v2: https://lore.kernel.org/r/20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org
+
+Changes in v2:
+- make use of bpf_timer (and dropped the custom HID handling)
+- implemented bpf_timer_set_sleepable_cb as a kfunc
+- still not implemented global subprogs
+- no sleepable bpf_timer selftests yet
+- Link to v1: https://lore.kernel.org/r/20240209-hid-bpf-sleepable-v1-0-4cc895b5adbd@kernel.org
+
+---
+Benjamin Tissoires (16):
+      bpf/verifier: allow more maps in sleepable bpf programs
+      bpf/verifier: introduce in_sleepable() helper
+      bpf/verifier: add is_async_callback_calling_insn() helper
+      bpf/helpers: introduce sleepable bpf_timers
+      bpf/verifier: add bpf_timer as a kfunc capable type
+      bpf/helpers: introduce bpf_timer_set_sleepable_cb() kfunc
+      bpf/helpers: mark the callback of bpf_timer_set_sleepable_cb() as sleepable
+      bpf/verifier: do_misc_fixups for is_bpf_timer_set_sleepable_cb_kfunc
+      HID: bpf/dispatch: regroup kfuncs definitions
+      HID: bpf: export hid_hw_output_report as a BPF kfunc
+      selftests/hid: Add test for hid_bpf_hw_output_report
+      HID: bpf: allow to inject HID event from BPF
+      selftests/hid: add tests for hid_bpf_input_report
+      HID: bpf: allow to use bpf_timer_set_sleepable_cb() in tracing callbacks.
+      selftests/hid: add test for bpf_timer
+      selftests/hid: add KASAN to the VM tests
+
+ Documentation/hid/hid-bpf.rst                      |   2 +-
+ drivers/hid/bpf/hid_bpf_dispatch.c                 | 232 ++++++++++++++-------
+ drivers/hid/hid-core.c                             |   2 +
+ include/linux/bpf_verifier.h                       |   2 +
+ include/linux/hid_bpf.h                            |   3 +
+ include/uapi/linux/bpf.h                           |   4 +
+ kernel/bpf/helpers.c                               | 140 +++++++++++--
+ kernel/bpf/verifier.c                              | 114 ++++++++--
+ tools/testing/selftests/hid/config.common          |   1 +
+ tools/testing/selftests/hid/hid_bpf.c              | 195 ++++++++++++++++-
+ tools/testing/selftests/hid/progs/hid.c            | 198 ++++++++++++++++++
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |   8 +
+ 12 files changed, 795 insertions(+), 106 deletions(-)
+---
+base-commit: 5c331823b3fc52ffd27524bf5b7e0d137114f470
+change-id: 20240205-hid-bpf-sleepable-c01260fd91c4
+
+Best regards,
 -- 
-2.43.0
+Benjamin Tissoires <bentiss@kernel.org>
 
