@@ -1,120 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713017FBBE;
-	Wed, 21 Feb 2024 14:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC1B3D393;
+	Wed, 21 Feb 2024 14:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708526498; cv=none; b=JwjPJxwegBMNv2hbVjuCq9GrxJhLjr++06qlJ6UfH26N16EhvB4JmEy1saoY5M8TTUpoSHSY7zxwHQhgz49lXSnWmbDi7Mzn/YKOmK+B01zly6nEkfl5E9Y21MRed+QDDj/C8Dh/UJriYIJVUw79p9qDauybDonyDtQtRmGZd8Y=
+	t=1708527111; cv=none; b=pl3Ns5jUtmm86bdGY89hO91m3zs5zb0emq7JunUIDPsfPeyLRkobRi3hKtCnDaA6AbitpGXbpg6WXRhtp9cYZkQlakdGhQb2xXOR/eggr+2ZZo+jzAQJDZh14FVxM5GGqZUk1gY1WGKkmwmDA3/GE7NazQTAKL54Ul1chjOeD1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708526498; c=relaxed/simple;
-	bh=LMvwRVWrGpntZKffwPjxzABB0GbvgGzy15uoz5ce5Ck=;
+	s=arc-20240116; t=1708527111; c=relaxed/simple;
+	bh=HPUPYQyaExW8zA3yPaGmJKIXa5Geol1ui08QSwOJ+e8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LkhP6ia6rA3vTKCvmREOd6z+HZPnCudA2g2827wvEpcFGS2uwk5yPmTkUCDY9KzWO/K1njzKJeZxnfZiR0AoulB4/35aHougV3DHwsjGwGGr4lowWvX6cCf8yUzeSuTAgBcZKH3SRIksWKs4ELQYqydX300ManRJOF1ace3joos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ED+Is0Rs; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oh++fXAcZdF0pi19hWZAlz0XkqaV5QzNljL91UPWdRxEEJ7VWQppKbWk0n50htiEmXBre3QXL1VJItIuqk4BQy8hu4pusvohs4MMEDe1+8vk6u4U5f6RwVWyOoJYfb+OJXeBYhQRV51hShOgR53HTbzkgxaU8eRJLlcu8FsCUyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMFnpjLX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ED+Is0Rs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F34BC43399;
-	Wed, 21 Feb 2024 14:41:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMFnpjLX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE38C433C7;
+	Wed, 21 Feb 2024 14:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708526498;
-	bh=LMvwRVWrGpntZKffwPjxzABB0GbvgGzy15uoz5ce5Ck=;
+	s=k20201202; t=1708527111;
+	bh=HPUPYQyaExW8zA3yPaGmJKIXa5Geol1ui08QSwOJ+e8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ED+Is0RsdeVe2u1XRn9CptJaFKbYvAoA7zlpphH6RpmngRFblgD0fcKmbWmWRw+9R
-	 duuhOW191XM9FtLrmaayiakgjT+3nAHjaQldSiZwQkh+cKNrVAlNHy9qqp8nzN3y+s
-	 OcQm7CbEJNg5qelau0b6Ac6FSN4XjhYP5E+UhNBrfCu7/XqFFv1E+r1S02F/w4YvK9
-	 tS9WwvcDbrhuwqJTsltEGwo7mmmO0c6s1+Vdojn1SWXnM/06GMXfZXGNVUaGw33/2u
-	 LauqDeHtD4tNOLfxsEezzvnOBJJI6C9IYochwhRRUIDmeflWyKyZGnk20lZBAK3iRF
-	 E5wLxaGuUwsew==
-Date: Wed, 21 Feb 2024 07:41:35 -0700
-From: Rob Herring <robh@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v4 14/17] dt-bindings: net: pse-pd: Add bindings
- for PD692x0 PSE controller
-Message-ID: <20240221144135.GB2779189-robh@kernel.org>
-References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
- <20240215-feature_poe-v4-14-35bb4c23266c@bootlin.com>
- <ZdCjJcPbbBGYVtuo@pengutronix.de>
+	b=dMFnpjLXedjM59DSIP7iXzY0WAdOEKWw2u/GS9ufpmMUhyN1gq2g56jJr1k5cb6me
+	 ndysQF7iAZHjVGkxJl2V/twPaSZxqgpBWSG/5mJYAUw71cd0FPPz7UvcHNaAaYvbP2
+	 hCl9qtJuDmcpRxM2uSR7CoNhU60gCMgSxl75YS+dcLs8NvtMmXH/jcfLfoTxla6Eam
+	 4dGj5WLY8810xEziHMVbFfO3CV5HbXz1e5ojaa/UFlnVAbanhfqAuR0ETEC1wbqWTL
+	 nlYTECKP+aLri0NjRU/zScHoCyXQzwcaWAtm3Wa2kgdC6Iqzs/IdkfsR62xmNe2RO9
+	 t2iypTiwEKWqQ==
+Date: Wed, 21 Feb 2024 14:51:46 +0000
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Robin Ehn <rehn@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Stefan O'Rear <sorear@fastmail.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>
+Subject: Re: [PATCH v2] riscv: hwprobe: export largest userspace address
+Message-ID: <20240221-pacifism-seismic-589dbbcbf38b@spud>
+References: <20240220110950.871307-1-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="XafRae+w6EWwmvjz"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZdCjJcPbbBGYVtuo@pengutronix.de>
+In-Reply-To: <20240220110950.871307-1-cleger@rivosinc.com>
 
-On Sat, Feb 17, 2024 at 01:14:29PM +0100, Oleksij Rempel wrote:
-> On Thu, Feb 15, 2024 at 05:02:55PM +0100, Kory Maincent wrote:
-> > Add the PD692x0 I2C Power Sourcing Equipment controller device tree
-> > bindings documentation.
-> > 
-> > This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
-> > 
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > ---
-> ...
-> > +        pse_pis {
-> > +          #address-cells = <1>;
-> > +          #size-cells = <0>;
-> > +
-> > +          pse_pi0: pse_pi@0 {
-> > +            reg = <0>;
-> > +            #pse-cells = <0>;
-> > +            pairset-names = "alternative-a", "alternative-b";
-> > +            pairsets = <&phys0>, <&phys1>;
-> > +          };
-> > +          pse_pi1: pse_pi@1 {
-> > +            reg = <1>;
-> > +            #pse-cells = <0>;
-> > +            pairset-names = "alternative-a";
-> > +            pairsets = <&phys2>;
-> 
-> According to latest discussions, PSE PI nodes will need some
-> additional, board specific, information:
-> - this controller do not implements polarity switching, we need to know
->   what polarity is implemented on this board. The 802.3 spec provide not
->   really consistent names for polarity configurations:
->   - Alternative A MDI-X
->   - Alternative A MDI
->   - Alternative B X
->   - Alternative B S
->   The board may implement one of polarity configurations per alternative
->   or have additional helpers to switch them without using PSE
->   controller.
->   Even if specification explicitly say:
->   "The PD shall be implemented to be insensitive to the polarity of the power
->    supply and shall be able to operate per the PD Mode A column and the PD
->    Mode B column in Table 33–13"
->   it is possible to find reports like this:
->   https://community.ui.com/questions/M5-cant-take-reversed-power-polarity-/d834d9a8-579d-4f08-80b1-623806cc5070
-> 
->   Probably this kind of property is a good fit:
->   polarity-supported = "MDI-X", "MDI", "X", "S";
 
-Where does that live? Looks like a property of the consumers defined in 
-the provider. Generally, that's not the right way for DT. I'll say it 
-again, I think you should be expanding #pse-cells (>1), not getting rid 
-of them (==0).
+--XafRae+w6EWwmvjz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rob
+On Tue, Feb 20, 2024 at 12:09:46PM +0100, Cl=E9ment L=E9ger wrote:
+> Some userspace applications (OpenJDK for instance) uses the free MSBs
+> in pointers to insert additional information for their own logic and
+> need to get this information from somewhere. Currently they rely on
+> parsing /proc/cpuinfo "mmu=3Dsvxx" string to obtain the current value of
+> virtual address used bits [1]. Since this reflect the raw MMU mode
+> supported, it might differ from the logical one used internally.
+> Exporting the maximum mmappable address through hwprobe will allow a
+> more stable interface to be used. For that purpose, add a new hwprobe
+> key named RISCV_HWPROBE_MAX_KEY which will export the maximum mmappable
+> userspace address.
+>=20
+> Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux=
+_riscv/vm_version_linux_riscv.cpp#L171 [1]
+> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+
+Doesn't build for nommu:
+https://patchwork.kernel.org/project/linux-riscv/patch/20240220110950.87130=
+7-1-cleger@rivosinc.com/
+
+Cheers,
+Conor.
+
+--XafRae+w6EWwmvjz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZdYOAgAKCRB4tDGHoIJi
+0obVAQC6GAs9ZIYjcC3yuuwCX/HL09UmNvDXdYBZhG/lJ6OKywEAp01wPF8n5uxf
+K6XtGuHbFpAbomgUMPBexQpL2ieUxgM=
+=gv0b
+-----END PGP SIGNATURE-----
+
+--XafRae+w6EWwmvjz--
