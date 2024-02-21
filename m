@@ -1,35 +1,25 @@
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010F377A03;
-	Wed, 21 Feb 2024 13:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73C6762C1;
+	Wed, 21 Feb 2024 13:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708521878; cv=none; b=HJMf4ud2APrl9phXI67yP6dXxszslsG2KYI8FTzKw7pWQqTJBqNsSOAGJl9yCsDRkvYoKag0CYMs5lxjad7zyFLgbPJWWEhpeMEsdT4D22/DEvy+OO3CCRJdI8vcSrM04VT1c9HT8HfDC1DUhvvAEGI0rdTSOsLz89qI8GXjiXs=
+	t=1708522121; cv=none; b=ChVxc5FeQ9+JBq+vkiFwuKvrUoOP0s1cmiJcqyKNCpKQXOnebi/VWh9GkP4vgbdS9/IlPSbGMYz3zH+O4oQ3ge92Ja5OchtcxqvEaevaOhf7KfHPQPOBSsLpqT4ZKlT6sTgqXq3tbCJUH9JskbWxUPJGbIzb0ehrYaQFobILGWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708521878; c=relaxed/simple;
-	bh=KrK7iNq4+GifJCxvrxb6wK+cw9XXTFp9UkvXE9nlj2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mjUwELkP4XNUbeDxIOFWSIQq75GbvZ6iq86MNK12kT9dJSjJPO8tyP98s0ReiOviQp7XBbhNu9LUbD45NQu3SbKRHwhJdij1EJ+pD4JmpvjHDhwrUyf2YAA62rIrND/AtjgHhYoB9tsjXHQm2KCGcguxOFnVc4Vxljr9fD7BLO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 41LDLFIf072277;
-	Wed, 21 Feb 2024 22:21:15 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
- Wed, 21 Feb 2024 22:21:15 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 41LDL68M072234
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 21 Feb 2024 22:21:14 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <c5bd4224-8c97-4854-a0d6-253fcd8bd92b@I-love.SAKURA.ne.jp>
-Date: Wed, 21 Feb 2024 22:21:04 +0900
+	s=arc-20240116; t=1708522121; c=relaxed/simple;
+	bh=jcM7Y8plT+9yKZcGSc7nmPeNy9idDPzXx63Ses56ZJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=Lw9eWAaP8elQO9gCGBmpqE4E6QhHoCF9Q7LsllObyimR0lXMtInELo3jsRN4oi4J1rMBEbgE4FZi9d8MectE0CTfCaA4/Jtcs7ujglBB7Obf1BGmDQdqsMe942/ilosSrIl14Z0bv6EM+V60NcXxrVDEeuWqvx76joDF1/OZ2hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2AA85FEC;
+	Wed, 21 Feb 2024 05:29:16 -0800 (PST)
+Received: from [10.57.11.178] (unknown [10.57.11.178])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 95FE63F762;
+	Wed, 21 Feb 2024 05:28:32 -0800 (PST)
+Message-ID: <4e9603e9-4127-43f1-92be-6c2b59ff2fe0@arm.com>
+Date: Wed, 21 Feb 2024 13:28:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,70 +27,101 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-To: Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
-        Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Michal Hocko <mhocko@suse.com>,
-        akpm@linux-foundation.org, hannes@cmpxchg.org,
-        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
-        mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
-        dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
-        rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
-        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-        ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
-        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com,
-        vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-        iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-        elver@google.com, dvyukov@google.com, shakeelb@google.com,
-        songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
-        minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-        cgroups@vger.kernel.org
-References: <Zc3X8XlnrZmh2mgN@tiehlicka>
- <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
- <Zc4_i_ED6qjGDmhR@tiehlicka>
- <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
- <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
- <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
- <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
- <20240215180742.34470209@gandalf.local.home>
- <20240215181648.67170ed5@gandalf.local.home>
- <20240215182729.659f3f1c@gandalf.local.home>
- <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
- <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
- <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
+Subject: Re: [PATCH v5 0/5] Rework system pressure interface to the scheduler
 Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
-Content-Type: text/plain; charset=UTF-8
+To: Vincent Guittot <vincent.guittot@linaro.org>
+References: <20240220145947.1107937-1-vincent.guittot@linaro.org>
+Cc: konrad.dybcio@linaro.org, mhiramat@kernel.org, agross@kernel.org,
+ rafael@kernel.org, sudeep.holla@arm.com, will@kernel.org,
+ linux@armlinux.org.uk, bristot@redhat.com, mgorman@suse.de,
+ bsegall@google.com, rostedt@goodmis.org, andersson@kernel.org,
+ dietmar.eggemann@arm.com, juri.lelli@redhat.com, mingo@redhat.com,
+ linux-pm@vger.kernel.org, catalin.marinas@arm.com,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ corbet@lwn.net, amit.kachhap@gmail.com, daniel.lezcano@linaro.org,
+ peterz@infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ gregkh@linuxfoundation.org, vschneid@redhat.com, rui.zhang@intel.com,
+ viresh.kumar@linaro.org
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20240220145947.1107937-1-vincent.guittot@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2024/02/21 3:27, Vlastimil Babka wrote:
-> I'm sure more such scenarios exist, Cc: Tetsuo who I recall was an expert on
-> this topic.
+Hi Vincent,
 
-"[PATCH v3 10/35] lib: code tagging framework" says that codetag_lock_module_list()
-calls down_read() (i.e. sleeping operation), and
-"[PATCH v3 31/35] lib: add memory allocations report in show_mem()" says that
-__show_mem() calls alloc_tags_show_mem_report() after kmalloc(GFP_ATOMIC) (i.e.
-non-sleeping operation) but alloc_tags_show_mem_report() calls down_read() via
-codetag_lock_module_list() !?
+On 2/20/24 14:59, Vincent Guittot wrote:
+> Following the consolidation and cleanup of CPU capacity in [1], this serie
+> reworks how the scheduler gets the pressures on CPUs. We need to take into
+> account all pressures applied by cpufreq on the compute capacity of a CPU
+> for dozens of ms or more and not only cpufreq cooling device or HW
+> mitigiations. We split the pressure applied on CPU's capacity in 2 parts:
+> - one from cpufreq and freq_qos
+> - one from HW high freq mitigiation.
+> 
+> The next step will be to add a dedicated interface for long standing
+> capping of the CPU capacity (i.e. for seconds or more) like the
+> scaling_max_freq of cpufreq sysfs. The latter is already taken into
+> account by this serie but as a temporary pressure which is not always the
+> best choice when we know that it will happen for seconds or more.
+> 
+> [1] https://lore.kernel.org/lkml/20231211104855.558096-1-vincent.guittot@linaro.org/
+> 
+> Change since v4:
+> - Add READ_ONCE() in cpufreq_get_pressure()
+> - Add ack and reviewed tags
+> 
+> Change since v3:
+> - Fix uninitialized variables in cpufreq_update_pressure()
+> 
+> Change since v2:
+> - Rework cpufreq_update_pressure()
+> 
+> Change since v1:
+> - Use struct cpufreq_policy as parameter of cpufreq_update_pressure()
+> - Fix typos and comments
+> - Make sched_thermal_decay_shift boot param as deprecated
+> 
+> Vincent Guittot (5):
+>    cpufreq: Add a cpufreq pressure feedback for the scheduler
+>    sched: Take cpufreq feedback into account
+>    thermal/cpufreq: Remove arch_update_thermal_pressure()
+>    sched: Rename arch_update_thermal_pressure into
+>      arch_update_hw_pressure
+>    sched/pelt: Remove shift of thermal clock
+> 
+>   .../admin-guide/kernel-parameters.txt         |  1 +
+>   arch/arm/include/asm/topology.h               |  6 +-
+>   arch/arm64/include/asm/topology.h             |  6 +-
+>   drivers/base/arch_topology.c                  | 26 ++++----
+>   drivers/cpufreq/cpufreq.c                     | 36 +++++++++++
+>   drivers/cpufreq/qcom-cpufreq-hw.c             |  4 +-
+>   drivers/thermal/cpufreq_cooling.c             |  3 -
+>   include/linux/arch_topology.h                 |  8 +--
+>   include/linux/cpufreq.h                       | 10 +++
+>   include/linux/sched/topology.h                |  8 +--
+>   .../{thermal_pressure.h => hw_pressure.h}     | 14 ++---
+>   include/trace/events/sched.h                  |  2 +-
+>   init/Kconfig                                  | 12 ++--
+>   kernel/sched/core.c                           |  8 +--
+>   kernel/sched/fair.c                           | 63 +++++++++----------
+>   kernel/sched/pelt.c                           | 18 +++---
+>   kernel/sched/pelt.h                           | 16 ++---
+>   kernel/sched/sched.h                          | 22 +------
+>   18 files changed, 144 insertions(+), 119 deletions(-)
+>   rename include/trace/events/{thermal_pressure.h => hw_pressure.h} (55%)
+> 
 
-If __show_mem() might be called from atomic context (e.g. kmalloc(GFP_ATOMIC)),
-this will be a sleep in atomic bug.
-If __show_mem() might be called while semaphore is held for write,
-this will be a read-lock after write-lock deadlock bug.
 
-Not the matter of whether to allocate buffer statically or dynamically.
-Please don't hold a lock when trying to report memory usage.
+The code looks good and works as expected. The time delays in those
+old mechanisms that were important to me are good now. The boost is
+handled, cpufreq capping from sysfs - all good. Also the last patch
+which removes the shift and makes it obsolete. Thanks!
 
+Feel free to add to all patches:
+
+Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+Tested-by: Lukasz Luba <lukasz.luba@arm.com>
+
+Regards,
+Lukasz
