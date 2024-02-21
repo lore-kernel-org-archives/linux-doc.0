@@ -1,113 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163ED76C85;
-	Wed, 21 Feb 2024 13:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010F377A03;
+	Wed, 21 Feb 2024 13:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708521651; cv=none; b=HYBQ4c/3WZUECRdmVWLNx6uGQHSFiH3MK2C4UHeqBVdjv/fSDFj7igSBWXdmcd+MCxgPQoQ7yUDdFb6HCnkF60R3YgvnArJHSj+0FUrQYbf0UH9bc7jYL/OBZgYE65PQG4SIe1s4qzyzcRyFaLwm9V9+aMC6uM7MkjcGuFI/9oI=
+	t=1708521878; cv=none; b=HJMf4ud2APrl9phXI67yP6dXxszslsG2KYI8FTzKw7pWQqTJBqNsSOAGJl9yCsDRkvYoKag0CYMs5lxjad7zyFLgbPJWWEhpeMEsdT4D22/DEvy+OO3CCRJdI8vcSrM04VT1c9HT8HfDC1DUhvvAEGI0rdTSOsLz89qI8GXjiXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708521651; c=relaxed/simple;
-	bh=f2NrzF4nzvcnaYODmp0YAgL9skWT5fcG6qSGQ2kXZHM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KlwumhV9XXOpO0wASB8mE5nmSPAphZeYLVujss/4e3vVi4qT5rh6q0F6mb70fHAqEV182qxFHBmG3UZS3Rw9sEHmUw2wZa5SXmnaJfe9lHGkT+/MuYnEQbESiQ5BscBO4lBya5CHZKlgOrDj31QwIu04pxdg3N+WqtzD2JEJkhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sM0VhNzE; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sM0VhNzE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0F0C433F1;
-	Wed, 21 Feb 2024 13:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708521651;
-	bh=f2NrzF4nzvcnaYODmp0YAgL9skWT5fcG6qSGQ2kXZHM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sM0VhNzEU1kTwH7FSBnrMrRf0rJIGfhmub+HKrMXk7zmFZ570ejKa5zFqdK2rMDtA
-	 +rfQxU/ZYC7YWm4RcTPuIU+VuEMengbjXsfQ+isdwPg4uBc4b8eB43dwkV2QDfhV3Q
-	 TlBrWej1MPXx6wxz7VZipT3ELQCwxxvYYvvJl3yg=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Jarod Wilson <jarod@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Julian Wiedmann <jwi@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 169/202] Documentation: net-sysfs: describe missing statistics
-Date: Wed, 21 Feb 2024 14:07:50 +0100
-Message-ID: <20240221125937.220638328@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240221125931.742034354@linuxfoundation.org>
-References: <20240221125931.742034354@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+	s=arc-20240116; t=1708521878; c=relaxed/simple;
+	bh=KrK7iNq4+GifJCxvrxb6wK+cw9XXTFp9UkvXE9nlj2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mjUwELkP4XNUbeDxIOFWSIQq75GbvZ6iq86MNK12kT9dJSjJPO8tyP98s0ReiOviQp7XBbhNu9LUbD45NQu3SbKRHwhJdij1EJ+pD4JmpvjHDhwrUyf2YAA62rIrND/AtjgHhYoB9tsjXHQm2KCGcguxOFnVc4Vxljr9fD7BLO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 41LDLFIf072277;
+	Wed, 21 Feb 2024 22:21:15 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
+ Wed, 21 Feb 2024 22:21:15 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 41LDL68M072234
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 21 Feb 2024 22:21:14 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <c5bd4224-8c97-4854-a0d6-253fcd8bd92b@I-love.SAKURA.ne.jp>
+Date: Wed, 21 Feb 2024 22:21:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+To: Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+        Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Michal Hocko <mhocko@suse.com>,
+        akpm@linux-foundation.org, hannes@cmpxchg.org,
+        roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+        willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+        void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+        catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+        tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+        mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+        dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+        rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+        yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+        hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+        ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+        ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, bsegall@google.com, bristot@redhat.com,
+        vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+        iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+        elver@google.com, dvyukov@google.com, shakeelb@google.com,
+        songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+        minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+        cgroups@vger.kernel.org
+References: <Zc3X8XlnrZmh2mgN@tiehlicka>
+ <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
+ <Zc4_i_ED6qjGDmhR@tiehlicka>
+ <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
+ <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
+ <20240215180742.34470209@gandalf.local.home>
+ <20240215181648.67170ed5@gandalf.local.home>
+ <20240215182729.659f3f1c@gandalf.local.home>
+ <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
+ <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
+ <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-4.19-stable review patch.  If anyone has any objections, please let me know.
+On 2024/02/21 3:27, Vlastimil Babka wrote:
+> I'm sure more such scenarios exist, Cc: Tetsuo who I recall was an expert on
+> this topic.
 
-------------------
+"[PATCH v3 10/35] lib: code tagging framework" says that codetag_lock_module_list()
+calls down_read() (i.e. sleeping operation), and
+"[PATCH v3 31/35] lib: add memory allocations report in show_mem()" says that
+__show_mem() calls alloc_tags_show_mem_report() after kmalloc(GFP_ATOMIC) (i.e.
+non-sleeping operation) but alloc_tags_show_mem_report() calls down_read() via
+codetag_lock_module_list() !?
 
-From: Julian Wiedmann <jwi@linux.ibm.com>
+If __show_mem() might be called from atomic context (e.g. kmalloc(GFP_ATOMIC)),
+this will be a sleep in atomic bug.
+If __show_mem() might be called while semaphore is held for write,
+this will be a read-lock after write-lock deadlock bug.
 
-[ Upstream commit e528afb72a481977456bb18345d4e7f6b85fa7b1 ]
-
-Sync the ABI description with the interface statistics that are currently
-available through sysfs.
-
-CC: Jarod Wilson <jarod@redhat.com>
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
-Signed-off-by: Julian Wiedmann <jwi@linux.ibm.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Stable-dep-of: 5b3fbd61b9d1 ("net: sysfs: Fix /sys/class/net/<iface> path for statistics")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../ABI/testing/sysfs-class-net-statistics       | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-class-net-statistics b/Documentation/ABI/testing/sysfs-class-net-statistics
-index 397118de7b5e..55db27815361 100644
---- a/Documentation/ABI/testing/sysfs-class-net-statistics
-+++ b/Documentation/ABI/testing/sysfs-class-net-statistics
-@@ -51,6 +51,14 @@ Description:
- 		packet processing. See the network driver for the exact
- 		meaning of this value.
- 
-+What:		/sys/class/<iface>/statistics/rx_errors
-+Date:		April 2005
-+KernelVersion:	2.6.12
-+Contact:	netdev@vger.kernel.org
-+Description:
-+		Indicates the number of receive errors on this network device.
-+		See the network driver for the exact meaning of this value.
-+
- What:		/sys/class/<iface>/statistics/rx_fifo_errors
- Date:		April 2005
- KernelVersion:	2.6.12
-@@ -88,6 +96,14 @@ Description:
- 		due to lack of capacity in the receive side. See the network
- 		driver for the exact meaning of this value.
- 
-+What:		/sys/class/<iface>/statistics/rx_nohandler
-+Date:		February 2016
-+KernelVersion:	4.6
-+Contact:	netdev@vger.kernel.org
-+Description:
-+		Indicates the number of received packets that were dropped on
-+		an inactive device by the network core.
-+
- What:		/sys/class/<iface>/statistics/rx_over_errors
- Date:		April 2005
- KernelVersion:	2.6.12
--- 
-2.43.0
-
-
+Not the matter of whether to allocate buffer statically or dynamically.
+Please don't hold a lock when trying to report memory usage.
 
