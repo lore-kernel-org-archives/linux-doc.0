@@ -1,104 +1,105 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A4DEEB3;
-	Wed, 21 Feb 2024 20:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9F485C68
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 21:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708548009; cv=none; b=LEQ2EQ19i+ECfo6W6rXB8TPWqCNzRi07lUpwfwPze7vvjE3D5DrhgEw77sDV3bO+Dx5obXuCdL1XHKM+2jSrBSKXBrphM+lkn2odK7bjrtjHBF78eP7QOJ2Z0rOhD9E1uHHZdesOIqD5GGLuLtRtkYFLQr3zWrc6w6Fjzl0ZdzU=
+	t=1708549801; cv=none; b=Pozok7WZs33wxF29KxUb+2nm45fXp6ACT2iyAHS5+naTAAcTAgPEJkAozu+aPmgRD0NYkpCkwZoWwFDL/3N3dCe76DSNVKTKX3idNmiwXfobJdrnYnJYX2hhJvhfX/RaUfOViES4crykhDJ2IRHDAyK9qtAMR/Pl0inFO/A1vNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708548009; c=relaxed/simple;
-	bh=E/x3+oe39HZF1Bh6XdNdOApkobf1vRfLqS229DNUEnM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=H1lLsd4XMTiS8ZQXnjEj0JNpVMAxi2uHyN977Jcu71BLjfyCidDoalHkROg7cfvRE2TZQFvKpbxy5L37tWHWTj7k2O21F1r6Rbedit48knw6LsQpIeb3k+8SkkCjtbeL6Me4BoQE8dy/lh5aL6s7gcvW5VbolRa9maCJ5tDFzLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RdY8yQQK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1708549801; c=relaxed/simple;
+	bh=6G+unPQpsnHPop/GA0eV3gHBK3dDdnNrDGYdK1/13VM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dNXtDe/vaZFZkKrLl3GM+KCtiHse75sef9BuP82Qp0Uer/RD5/cBLu9Oihb22DQR1+VkrqooHSAWlCkca8kC6Mm4ag2efUNGtXEb6uqqlaLKYUYhV2WGecM3wojp5KUwd3MvWc2XW7bnxCPPovT0cwvGtJIbVunuRP786elI+vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=e+G5mbqn; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RdY8yQQK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 634FE45306
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708548001; bh=y8VAbAaDri8AQyPpLQNF35/zJbeU1wOfCns87s/gO7c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RdY8yQQK+Vm3OMiQZIPw7eIxFUfVILWNMpL0VyOxwzontcDWPceYATEl9WWZEkZ6C
-	 ka6sBAvIYPjkhOmcUhPUqX8kzQyCxWtbyCcp9sKtVT+r5hrVNUBk83SwXBhgkXbjAs
-	 jY82gAr4ehCpSzjSdBUmkyzUWqI8cN6X9y40uVCu3ncXfN8Meoy30GVXOP7Z0rn1Ad
-	 qFQBp18UkkrQX1kxDERYuYv9B7FGrweNtVTa6IBnM6XoD+xzHgeINvCLfhDp5J0xnp
-	 29HZdUe5HH2l/GdWYKspZbyxSCm98ccmPzizBuY8suVB8xcY+lx0hBNX66MMfqqYsH
-	 XLcCMthx39Bew==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 634FE45306;
-	Wed, 21 Feb 2024 20:40:01 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Carlos Bilbao <carlos.bilbao@amd.com>, rdunlap@infradead.org,
- vegard.nossum@oracle.com
-Cc: bilbao@vt.edu, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] docs: Include simplified link titles in main index
-In-Reply-To: <6314de0b-a69c-4e72-9538-8b133fc50047@amd.com>
-References: <20240109155643.3489369-1-carlos.bilbao@amd.com>
- <6314de0b-a69c-4e72-9538-8b133fc50047@amd.com>
-Date: Wed, 21 Feb 2024 13:40:00 -0700
-Message-ID: <874je1d00v.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="e+G5mbqn"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42dd9dfe170so25674911cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 13:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708549798; x=1709154598; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6G+unPQpsnHPop/GA0eV3gHBK3dDdnNrDGYdK1/13VM=;
+        b=e+G5mbqnwfVcZfCDCbvTTzq7jGtQao3+ljNOQCApBH1Or7jjEbck/m99Tqi7OZuUuN
+         VHrjxvPGI1XvNcckdp07xBlec7/cV1+OA8rq3PsA+bx9xSY0/tsTZ/Yx6sA2qVK5ECm6
+         90pO1gMJjgvDkOuX3a3aVoTQkHNPoXEefexVQpRz5vThiKoPiSX9wjHnofpAOKxifsbr
+         IP2L0czeTZW9pHYkoRwEKfnsCcz5C9a4s4Km0KtOQPnenrQqMi66vIBjWnsGGlm4jXT6
+         DpSLqXXX/7Mq02PhPVS5BQ7gYkj56SAQ7cZLdgVUUTbNSs4oQR9xqMlT5Wt/xsDgMblq
+         IznQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708549798; x=1709154598;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6G+unPQpsnHPop/GA0eV3gHBK3dDdnNrDGYdK1/13VM=;
+        b=BTKfSge/+M3z+Rp+M8U8GUVO2Nuq0MG0OHRR3kRfwFakLHLrVQbx31fHkMMOx/Wej3
+         VjDjZvvjhXs9MDob3LojUqbfako7UhPJr2w2GpOiVh2imvZ5/geR+4Hbp1AulBse/hJ1
+         XMmtg9tM1ZFfxNi5ab0310Q+ajfGJ+NLaj9mz+WppdNj/MBM1+91kxfHaboZ6Re9fvzF
+         RDePmCw0ghZSP9hiDSMtg01KSfcmamIhZ0Ne4ob8Nnu8Hn1OrZX1tFmGQ83SkrK/PbfS
+         /qnV2ufzUOiyJqNG8fAlSSjk17pbPwcF1HJeFN1IWu/s5irHwF6E328syfMAAn6wkcHh
+         Kefg==
+X-Forwarded-Encrypted: i=1; AJvYcCW1Mdb6aKIn46Sv9zQzCEmpLMnLJGi9sm9zkxCiMqD2QOCH+LjrFx82RSn8kELpsfKaYtj7K4VELqYpnJtr3CaZdiOfRDW+BMuo
+X-Gm-Message-State: AOJu0YxP/3LMEKOIYhRljvxW9SO0kIMp0cMvU8vTIXUcajyb/PewNffu
+	zzatZsI8WhVaPo3Ceir2ObGWiif8CNMkuy2KUryPksIy/V/yMH5oD9+osqBcIOZ/klvQu58YTsP
+	2U3GvX5fDFuzaVnRpZyx4vKku4b8z7XAGk2du9g==
+X-Google-Smtp-Source: AGHT+IFbNMG/eKGQfBxsEnoPFbDK6eYpGm1SWVL/cnzGi2c/1PCKaMW3zu0j9J+G8MGsPPZg33mj4TrwQBKh2/fVuMA=
+X-Received: by 2002:ac8:5f06:0:b0:42c:3b86:acb7 with SMTP id
+ x6-20020ac85f06000000b0042c3b86acb7mr18725477qta.39.1708549798307; Wed, 21
+ Feb 2024 13:09:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-2-surenb@google.com>
+In-Reply-To: <20240221194052.927623-2-surenb@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 21 Feb 2024 16:09:21 -0500
+Message-ID: <CA+CK2bC-uMw6hSNRCeWQjKDihd7=fd01g9VyQ_Y1iRwcq0LAaw@mail.gmail.com>
+Subject: Re: [PATCH v4 01/36] fix missing vmalloc.h includes
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Carlos Bilbao <carlos.bilbao@amd.com> writes:
-
-> Hello,
+On Wed, Feb 21, 2024 at 2:40=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
 >
-> On 1/9/24 09:56, Carlos Bilbao wrote:
->> The general consensus is that the documentation's website main entry point
->> and its sidebar leave room for improvement. Something we can easily fix is
->> that there's too much duplicated text.
->> 
->> To that point, consider the titles "The Linux kernel user's and
->> administrator's guide" and "The Linux kernel user-space API guide." We get
->> it, it's the Linux kernel. It's assumed that everything listed pertains to
->> the Linux kernel, given the overarching title, "The Linux Kernel
->> documentation." Constant repetition of "Linux" and "kernel" (45 times
->> each), "documentation" (21 times), and "guide" (18 times) are excessive and
->> affect UX.
->> 
->> I propose simplifying without altering actual document titles, the text
->> linking to these documents on the main page ("link titles"). For example,
->> "The Linux kernel user's and administrator's guide" could become "User's
->> and Administrator's Guide," and "A guide to the Kernel Development Process"
->> could be "Development Process". This is what my patch does.
->> 
->> Also, I send a patch fixing the formatting of the title of
->> admin-guide/index.rst (The Linux kernel user's and administrator's guide);
->> a detail I noticed because the link title would not work otherwise.
->> 
->> Thanks,
->> Carlos
->> 
->> Carlos Bilbao (2):
->>      docs: Correct formatting of title in admin-guide/index.rst
->>      docs: Include simplified link titles in main index
+> From: Kent Overstreet <kent.overstreet@linux.dev>
 >
-> Is there a reason why this patch set is currently on hold? It must to be
-> feeling a bit lonely by now.
+> The next patch drops vmalloc.h from a system header in order to fix
+> a circular dependency; this adds it to all the files that were pulling
+> it in implicitly.
+>
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-It's been sitting there because, as I explained in response to the first
-version, I'm not really convinced that it's the best idea.  We're
-trading off the readability of the main page to make things better for
-the sidebar, and I think there are better ways to improve the sidebar.
-
-That said, I've not managed to get around to experimenting with any of
-those better ways, and I don't see that happening anytime this side of
-the next merge window.
-
-So I'll go ahead and apply the series, but I do still intend to revisit
-this area when I can.
-
-Thanks,
-
-jon
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
