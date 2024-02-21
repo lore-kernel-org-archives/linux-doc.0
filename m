@@ -1,152 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBCD56456;
-	Wed, 21 Feb 2024 23:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECC11272B2
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 23:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708557862; cv=none; b=bXgU2jiPSdcUFeC6nq9/Qpw2zdwS/FJLxKrx6uuLARE4b7tPNzu1ossHia/rDzsD18Jq6KEDdKh2vMt4d7gmi9YN2f6ObCB66XPOC/TuHQovLxS/0uqnXl0ayOAsGAefgaBWGa5XVT5IO91FgQEbCm5wa1LCn+AjhZYSWuWVDB0=
+	t=1708558170; cv=none; b=ulvKP+3KZT0jCM813JKn5yWt0FCUv6QJ1CCulivjFJ9NGn4UkFhUEvMMafv0obNZFoTZXXcfv07fFhRhr0eeD8asCWllzw8Fu3t6WI7luClq6WamBm/SC+F9dEtW6pE/+dIAsF7DhRZzDEIBVmxXrBd++D8Zj1Etd6+AjrIfxM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708557862; c=relaxed/simple;
-	bh=o0pBvdU+JHgT39C/oZ43v61yIgxOBybqfEpddDffT+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X4BOlSGoxPIU5l4AobN6VjfgXmiDgDv5hqQvSGx3xa3c65QB7eMHJtTkcYLfRLU51C8OKtl7CQoXmQWytOTZ3lGDbADrRJzBu7a6z7cWLzXSoKu22yv7Bsh+EH3sgF8XDOLY9T0PUdCXrIhdLSdej4i1LBDBLcf2RFXmQBwyGpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uo6j9C+3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708558170; c=relaxed/simple;
+	bh=VBQFWc4+X2Kq6N54nWyl3qAakm9/sRlka/LIAP7cJPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CbJU3+I0tk49RiO/JuKgbtCuIRtpkFxy5rVJaxxKvEMWaHc9CDUPR8NTsTq3G4tymc0WWWYDENz2n8G5eJP3pKj9bMqCrhwJvVzXdrC5w+UgvwC1ZdwonBAQ11NUJIvBOMv2eb3IKdCXArY4DmH614oyhG7SBnGtr4pRJSJAz9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lq+ly2y7; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uo6j9C+3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2A2C433B2;
-	Wed, 21 Feb 2024 23:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708557862;
-	bh=o0pBvdU+JHgT39C/oZ43v61yIgxOBybqfEpddDffT+s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Uo6j9C+3yRULLuhfUameeJdnFArY/DJQDmDNfb1NtvgSUoJu5xf4jfx3Gzy+QWSD9
-	 /Ki6xXWWXFKWco2i+oBjemS298yxFH2zmONSAJcVKpgnn5ASa+vrnmQIpFxASzABp+
-	 xoSQLSGYl7MTRjNIb7yQfurBY6V9FXK8ivBg1ovDs85Q1KUONIJVWj5xmY8Ur8JYYU
-	 fZHc/w3kaVNWAkptQF2laAOVKKd9frUPsRF+EkoYYE7i6AHxoYzxa8iLUf660a9KUD
-	 GjhfnDzRtt2+7CtEkm91mWF+v2OU9tMK+ATcehpGg8SBuGV4NPe2dcC3yYgKO2TTcg
-	 nGOx4pK29xnCA==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d2531294faso19792401fa.2;
-        Wed, 21 Feb 2024 15:24:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVyNDcEzKTTQSv5DNDzm/PrucU88RphNZGanUIZpAW4RGjDQJRoA7FJlrzpZTt4kpx2CrcO1ZAs3P9e/iVNqF1VhthsobAG+dhfnKTe7wSsSdjrnEPK160TbQEifnJ6cxMni/EG6Kb7xGz3/xfbB6BHeSGx4yzb7N1MvOkq+WCmOCrewD+AbEAMPqmnF+BWfUgQNA48h1Km3vftmz4GB/6o3gILoVIaorvMToST92829DTGtVOhqZFyPaf6tC0X4XMJ
-X-Gm-Message-State: AOJu0YxaIvoxLHyGYb7bxG007v0Gnu3PS5YuKWr7ng7EE0b9ZPf+wHTt
-	YQ0yIU0PViUTWaBbYJ1dhHKJnMQTD7DbPx79iV/ma/Dee8P1mLaifevw0t3hppN3dAzc3eNCzkT
-	vnyRwpFbEarFUMmBRf6EbMcc5eYc=
-X-Google-Smtp-Source: AGHT+IEFjS3UH7erXEZ4kbkF96yuQm9TlfZ1AWhPucU81wH0eazr9XKjePangSR6zBzRuAu+rhDmfGqI9zl7A6Q+3YI=
-X-Received: by 2002:a2e:b8c8:0:b0:2d0:c77c:b1ca with SMTP id
- s8-20020a2eb8c8000000b002d0c77cb1camr14950388ljp.49.1708557860236; Wed, 21
- Feb 2024 15:24:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lq+ly2y7"
+Date: Wed, 21 Feb 2024 18:29:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708558166;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6hjF2SQllee7ug3mHeFW3uN8wvM2xkpGrw/6L+GvqAI=;
+	b=Lq+ly2y7ah6AgZEjrWQX8/IY+bYAY/Ak3A5hUtk/+rtO4t3TYNDPVCD+CvXmzOQkb6YHo7
+	7yI3N4yC5JmG7fb7Y9dHPG42OsUly1lTcqxUI6lMJfU5Uv30ghFpPF8KPSHsNaDtEzb/sY
+	xXygOWJKr+1K2eQRLdil8O1/4jAKKis=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Kees Cook <keescook@chromium.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v4 14/36] lib: add allocation tagging support for memory
+ allocation profiling
+Message-ID: <4vwiwgsemga7vmahgwsikbsawjq5xfskdsssmjsfe5hn7k2alk@b6ig5v2pxe5i>
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-15-surenb@google.com>
+ <202402211449.401382D2AF@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214221847.2066632-1-ross.philipson@oracle.com>
- <20240214221847.2066632-16-ross.philipson@oracle.com> <CAMj1kXF3k_c4Wn9GU+NC_+_aYfDpAzAUnfR=A4L_T+re1H3G=w@mail.gmail.com>
- <dc53f100-062b-47ae-abc8-5414ce8d041c@oracle.com> <C98F883A-31D5-4F67-97FF-4AEFAADDDC74@zytor.com>
-In-Reply-To: <C98F883A-31D5-4F67-97FF-4AEFAADDDC74@zytor.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 22 Feb 2024 00:24:06 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFYVbCd3EaweseNndhmOwdbzEmvB1vjWk2rmTBxAoPCxg@mail.gmail.com>
-Message-ID: <CAMj1kXFYVbCd3EaweseNndhmOwdbzEmvB1vjWk2rmTBxAoPCxg@mail.gmail.com>
-Subject: Re: [PATCH v8 15/15] x86: EFI stub DRTM launch support for Secure Launch
-To: "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <keescook@chromium.org>
-Cc: ross.philipson@oracle.com, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, dpsmith@apertussolutions.com, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, 
-	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, kanth.ghatraju@oracle.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202402211449.401382D2AF@keescook>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 21 Feb 2024 at 21:37, H. Peter Anvin <hpa@zytor.com> wrote:
->
-> On February 21, 2024 12:17:30 PM PST, ross.philipson@oracle.com wrote:
-> >On 2/15/24 1:01 AM, Ard Biesheuvel wrote:
-> >> On Wed, 14 Feb 2024 at 23:32, Ross Philipson <ross.philipson@oracle.co=
-m> wrote:
-> >>>
-> >>> This support allows the DRTM launch to be initiated after an EFI stub
-> >>> launch of the Linux kernel is done. This is accomplished by providing
-> >>> a handler to jump to when a Secure Launch is in progress. This has to=
- be
-> >>> called after the EFI stub does Exit Boot Services.
-> >>>
-> >>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> >>> ---
-> >>>   drivers/firmware/efi/libstub/x86-stub.c | 55 ++++++++++++++++++++++=
-+++
-> >>>   1 file changed, 55 insertions(+)
-> >>>
-> >>> diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmwa=
-re/efi/libstub/x86-stub.c
-> >>> index 0d510c9a06a4..4df2cf539194 100644
-> >>> --- a/drivers/firmware/efi/libstub/x86-stub.c
-> >>> +++ b/drivers/firmware/efi/libstub/x86-stub.c
-> >>> @@ -9,6 +9,7 @@
-> >>>   #include <linux/efi.h>
-> >>>   #include <linux/pci.h>
-> >>>   #include <linux/stddef.h>
-> >>> +#include <linux/slr_table.h>
-> >>>
-> >>>   #include <asm/efi.h>
-> >>>   #include <asm/e820/types.h>
-> >>> @@ -810,6 +811,57 @@ static efi_status_t efi_decompress_kernel(unsign=
-ed long *kernel_entry)
-> >>>          return EFI_SUCCESS;
-> >>>   }
-> >>>
-> >>> +static void efi_secure_launch(struct boot_params *boot_params)
-> >>> +{
-> >>> +       struct slr_entry_uefi_config *uefi_config;
-> >>> +       struct slr_uefi_cfg_entry *uefi_entry;
-> >>> +       struct slr_entry_dl_info *dlinfo;
-> >>> +       efi_guid_t guid =3D SLR_TABLE_GUID;
-> >>> +       struct slr_table *slrt;
-> >>> +       u64 memmap_hi;
-> >>> +       void *table;
-> >>> +       u8 buf[64] =3D {0};
-> >>> +
-> >>
-> >> If you add a flex array to slr_entry_uefi_config as I suggested in
-> >> response to the other patch, we could simplify this substantially
-> >
-> >I feel like there is some reason why we did not use flex arrays. We were=
- talking and we seem to remember we used to use them and someone asked us t=
-o remove them. We are still looking into it. But if we can go back to them,=
- I will take all the changes you recommended here.
-> >
->
-> Linux kernel code doesn't use VLAs because of the limited stack size, and=
- VLAs or alloca() makes stack size tracking impossible. Although this techn=
-ically speaking runs in a different environment, it is easier to enforce th=
-e constraint globally.
+On Wed, Feb 21, 2024 at 03:05:32PM -0800, Kees Cook wrote:
+> On Wed, Feb 21, 2024 at 11:40:27AM -0800, Suren Baghdasaryan wrote:
+> > [...]
+> > +struct alloc_tag {
+> > +	struct codetag			ct;
+> > +	struct alloc_tag_counters __percpu	*counters;
+> > +} __aligned(8);
+> > [...]
+> > +#define DEFINE_ALLOC_TAG(_alloc_tag)						\
+> > +	static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr);	\
+> > +	static struct alloc_tag _alloc_tag __used __aligned(8)			\
+> > +	__section("alloc_tags") = {						\
+> > +		.ct = CODE_TAG_INIT,						\
+> > +		.counters = &_alloc_tag_cntr };
+> > [...]
+> > +static inline struct alloc_tag *alloc_tag_save(struct alloc_tag *tag)
+> > +{
+> > +	swap(current->alloc_tag, tag);
+> > +	return tag;
+> > +}
+> 
+> Future security hardening improvement idea based on this infrastructure:
+> it should be possible to implement per-allocation-site kmem caches. For
+> example, we could create:
+> 
+> struct alloc_details {
+> 	u32 flags;
+> 	union {
+> 		u32 size; /* not valid after __init completes */
+> 		struct kmem_cache *cache;
+> 	};
+> };
+> 
+> - add struct alloc_details to struct alloc_tag
+> - move the tags section into .ro_after_init
+> - extend alloc_hooks() to populate flags and size:
+> 	.flags = __builtin_constant_p(size) ? KMALLOC_ALLOCATE_FIXED
+> 					    : KMALLOC_ALLOCATE_BUCKETS;
+> 	.size = __builtin_constant_p(size) ? size : SIZE_MAX;
+> - during kernel start or module init, walk the alloc_tag list
+>   and create either a fixed-size kmem_cache or to allocate a
+>   full set of kmalloc-buckets, and update the "cache" member.
+> - adjust kmalloc core routines to use current->alloc_tag->cache instead
+>   of using the global buckets.
+> 
+> This would get us fully separated allocations, producing better than
+> type-based levels of granularity, exceeding what we have currently with
+> CONFIG_RANDOM_KMALLOC_CACHES.
+> 
+> Does this look possible, or am I misunderstanding something in the
+> infrastructure being created here?
 
-Flex array !=3D VLA
-
-VLAs were phased out because of this reason (and VLAISs [VLAs in
-structs] were phased out before that because they are a GNU extension
-and not supported by Clang)
-
-Today, VLAs are not supported anywhere in the kernel.
-
-Flex arrays are widely used in the kernel. A flex array is a trailing
-array of unspecified size in a struct that makes the entire *type*
-have a variable size. But that does not make them VLAs (or VLAISs) - a
-VLA is a stack allocated *variable* whose size is based on a function
-parameter.
-
-Instances of types containing flex arrays can be allocated statically,
-or dynamically on the heap. This is common practice in the kernel, and
-even supported by instrumentation to help the compiler track the
-runtime size and flag overruns. We are even in the process of adding
-compiler support to annotate struct members as carrying the number of
-elements in an associated flex arrays, to improve the coverage of the
-instrumentation.
-
-I am not asking for a VLA here, only a flex array.
+Definitely possible, but... would we want this? That would produce a
+_lot_ of kmem caches, and don't we already try to collapse those where
+possible to reduce internal fragmentation?
