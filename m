@@ -1,103 +1,145 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDC64C99
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 02:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB37F1FDD;
+	Wed, 21 Feb 2024 02:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708480805; cv=none; b=uVQxLnDNgTzWpuHdvdyTBF0kTL+oqFB0m0T20c7IlIgq5Z7iAoY4OmFK0dgFsPCTNaOLKZ11AKOMzUDVqM2OT5Z04v+a+gMBo+J5Cck3JVN2PSI8tDAnqctPP0024gZltFTasFEemhrd/yEJVWip4y+xpX0Ty+cCDmazOri+WDg=
+	t=1708480891; cv=none; b=c4JfLtDLjofbuDEQB6CAuo0VPIYAQobn++Avn1GJB1g2d4n8MMaQV1M5Z3gr6O++A2mXu1yCNqT+OdYp3QOOyzLH27SvSDJJKYQZFP6VbaLOtR4zgxVS0qd8NgZgFvatTfYhrXEK2PbcLUx0obarR+/IkndgW6+RrDxcHzAx6BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708480805; c=relaxed/simple;
-	bh=/j03kTBhHuYv5hD6MBKvEOxeLJn8lDs/sfflH1ChU6k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d9QX/W2vbWH6yVCxu+kddTu5StuY+pNudOeOuYx8n+0xA7iX8kgnk82VsfUIMqT4KmxEkCLK3bx+Lew1aEKhbVzdSQPuHs/QMzrQBwD+sWmCb5v51MqjpGlA1zyZ/XbrYl8OHjcJgPOulfQCCqbuEUx3DiSqUHi3gyobjVw/pZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=OTSfQgIG; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
+	s=arc-20240116; t=1708480891; c=relaxed/simple;
+	bh=mLYufBarS+anA/5cTEM92vcNh7G3ytXILJ+fGEiq25s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AbxMcaM9Q4c7pM3vtR2TBWacpL9DfC3socbs8GApA3h5MBumRW4lCVNItF3+EdTtWs3cXFKUQ4FI00AnVZSdXRfFbEHGcuJtKwSiRphaw0tNLJ4DBa63lnFrzK9aOcTdihyWcDT7A2JeKTAuKuSbFF9nhanG2Tgmid60V2+yBa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MC7M6ECg; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="OTSfQgIG"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33d6fe64a9bso971763f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 18:00:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MC7M6ECg"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-21e9589d4ffso58602fac.1;
+        Tue, 20 Feb 2024 18:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1708480801; x=1709085601; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B0Xfrtyc6Fe2TP/mvUkjSY1AXhIKwaD0TJ4vwwuvGxU=;
-        b=OTSfQgIGlHX9tcFNUsWXNe4rSCwApq1CgniTDGp2dxiOYoGnaJX6miFKmwjsS9/4bQ
-         sOtAR5+7SfyBJ4IPTjNhr1ciFet7fwQwq2URKUkR8ytSjtQyF+sQTu01yv+YWCkDlENM
-         HtGor0vTfx2EmDAAcmqxoU70kPgex/LZlKLk3at80mLSIh1gq1x9PEBH0mkB1hY3Uw70
-         +vUyD1+i2VRphTwYULFTi/llsIjgGZc4J9lUHPezzMtiy8hYYaQyTMcp4czEcQtWvVuS
-         2H11p+ZWwSvuLwKQ5+WAxScCHIGr62Cm3dwZuApS1vhOkebIM4is464236mt2jhIfL8z
-         acDQ==
+        d=gmail.com; s=20230601; t=1708480889; x=1709085689; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7gv63IFLi2zDTh48OgfLa/wNUqIS6t0y+R/igyPXNzg=;
+        b=MC7M6ECg4TH4AVpM1VCSHYC4MSlBZuPk6+m5iNb5XeXbFF21eeqMc21qX0QsS/pI7p
+         oN9p8mva11U+inzBlsFErY1Z336uOjBuJ/5+urUEQb2GdaTgvUfMHMZM1swBv6epb+DQ
+         LZ5Gp+Ut+XlW9abb2hQUhmGjtt17zW1u5pnWwFRGjFHKoMDgGXhJ8q1afjXQiIyBqXTn
+         3JWKEX9FgxYU4LItTve6BHRQst/nUMltwWjZGRnOISvuXijDtFydQ92QvOyVhafYdnUT
+         cmHKMqowoV+kXa95HHv50MRZmM7H9L3FeQzJcSIYM6Zd0v/wVCo1MkYp5BqAfEvOtQGR
+         MHOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708480801; x=1709085601;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B0Xfrtyc6Fe2TP/mvUkjSY1AXhIKwaD0TJ4vwwuvGxU=;
-        b=WG9xSS65SEXJrULrVN+KAtg6w+eFEG9dI+90YQNZOFABgeq/Gjp6VJT7XmzrfW3+yo
-         UOI+7pPKkDWTMT+C7Q3lWvy/jmrXXZCW7+ysVmLD0oPGbNYwcuPF0IkEJE97TyBL9c9Y
-         rrj2M5dl82MJ6LM4evGwbJt+GOQReM+gXomiGs1ut9mBkDbDOYHQMerlS1JqRYaqdYfj
-         /ezZU9srNHxdaTff8vZXOuQMyyI4W4MRgU91X9UBPad/o/fTENUM5jmBRSNK3RyMJUSK
-         sS2OTXQrs8cnETIQFDuzjS6vwvWl+T/VDB36RDJZGq2hj19DLRYBBHGjWqKXx4w7JKpH
-         t6UA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJzhPIof2LPaBMO9cm3tghilH1eyodjfWsC17rLEfqpVOQGMBRRh3P2gjMlyIsleV3xJYVIII6Sd1fRogyDtV2bIBqHLXHN5Q+
-X-Gm-Message-State: AOJu0YwyED5JjCCFYFXtzVv9v7sl23axeer+rBV3400ms7NhK5N7xJWy
-	oOUQ9wSQ7LyF9ITdn4wtYtraCAayiwMDg5TWb+7xBmbC4ZM+1YqM50nBAdg53g==
-X-Google-Smtp-Source: AGHT+IHvBifN3KTXMY5XE5gInJfW2utknZtISjSR9rcpEniYiyxK6aT650VKdIao0/vIclIH/Pxydw==
-X-Received: by 2002:a5d:64c8:0:b0:33d:545b:a74 with SMTP id f8-20020a5d64c8000000b0033d545b0a74mr7815004wri.33.1708480800941;
-        Tue, 20 Feb 2024 18:00:00 -0800 (PST)
-Received: from [10.83.37.178] ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id z11-20020a1c4c0b000000b0040fd3121c4asm16018618wmf.46.2024.02.20.17.59.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 18:00:00 -0800 (PST)
-Message-ID: <1027d6bc-f4c7-4da5-bf46-3809b7c487d4@arista.com>
-Date: Wed, 21 Feb 2024 01:59:53 +0000
+        d=1e100.net; s=20230601; t=1708480889; x=1709085689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7gv63IFLi2zDTh48OgfLa/wNUqIS6t0y+R/igyPXNzg=;
+        b=JzySk0m4sSRvqwmFds30kY9nAeX3Mvy0IjPYKoAS+4imjYKOOI2bdkV/r6+dY5Zk52
+         n1GxCGe0h+eB0VeoY144Sp4oklhjvk/doZgGwUq0U6Yxx4W501wqt+/XYFnqo5Y0Z2Qv
+         Q3oZIFqOyibjdPnwrTFuF5KZSpu5fbM4B1JSAQoifvJ486v344gk65YdhEcnclNGHWKX
+         jSk2YTrWNQeR1D8Ge6MImxRFXAzSWyqGR0noUXjT+kmw4iXBTIq0ztJqcnm7knNpsz16
+         8wXr2Bb3WA9BZVoRe8hCmSL9I56Jj4TiQmAkdYSPg5qXjywKaudn0+XeZpmlp4UyXFLV
+         D2fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHtTZkQjGjhbKjrnuADw0TdzGiUHma0XKv3/zJt6Xh9UNgiUzS6mqyqumcPOHPdnXD6A0ujZO34NS+eaQBi2cPC91JMhUgPY8uLcja77E/do1CQaVR+DSWFkmmPnF6DyGLPxQhHwtq
+X-Gm-Message-State: AOJu0Yzes4RDBV28Uegu+s1IIwNHVM9Fjo7xy6ssKTpXYY4kb7QYQTW2
+	1r3FI3YPndzdgVxhf7FzOegoV1aWGD2ir1tM8ep1JuXTuWnqBuOqJGPt5HlwZhpupxfLeLIKg3I
+	6kSUAGsnxF+3db1uJQwONBxRr4qo=
+X-Google-Smtp-Source: AGHT+IExEGk1SZ5Vc6bP3hXb0hJMFYaLJSbgus97zoLXvJ8X0jQV/+2nWxIQMmLBoRccBZHA3yya5lghfADnDmtkGFw=
+X-Received: by 2002:a05:6870:55ca:b0:21e:8f75:95a2 with SMTP id
+ qk10-20020a05687055ca00b0021e8f7595a2mr9881270oac.12.1708480888711; Tue, 20
+ Feb 2024 18:01:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/ftrace: Correct wording on trace_options
- sharing
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Dmitry Safonov <0x7f454c46@gmail.com>
-References: <20240220-ftrace-options-docs-v1-1-95448f535056@arista.com>
-From: Dmitry Safonov <dima@arista.com>
-In-Reply-To: <20240220-ftrace-options-docs-v1-1-95448f535056@arista.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240219074634.2039-1-xuewen.yan@unisoc.com> <ZdTXWrB8dascOIM_@slm.duckdns.org>
+In-Reply-To: <ZdTXWrB8dascOIM_@slm.duckdns.org>
+From: Xuewen Yan <xuewen.yan94@gmail.com>
+Date: Wed, 21 Feb 2024 10:01:17 +0800
+Message-ID: <CAB8ipk9R3hRSTTEEBn8nvOcTZGBtaDQfomXiQwji+DTKgLghwQ@mail.gmail.com>
+Subject: Re: [PATCH] workqueue: Control the frequency of intensive warning
+ through cmdline
+To: Tejun Heo <tj@kernel.org>
+Cc: Xuewen Yan <xuewen.yan@unisoc.com>, jiangshanlai@gmail.com, corbet@lwn.net, 
+	paulmck@kernel.org, rdunlap@infradead.org, peterz@infradead.org, 
+	yanjiewtw@gmail.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ke.wang@unisoc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/20/24 21:00, Dmitry Safonov wrote:
-[..]
-> diff --git a/Documentation/trace/ftrace.rst b/Documentation/trace/ftrace.rst
-> index 7e7b8ec17934..c79a6bcef3c9 100644
-> --- a/Documentation/trace/ftrace.rst
-> +++ b/Documentation/trace/ftrace.rst
-> @@ -3603,9 +3603,9 @@ The files in the new directory work just like the files with the
->  same name in the tracing directory except the buffer that is used
->  is a separate and new buffer. The files affect that buffer but do not
->  affect the main buffer with the exception of trace_options. Currently,
-> -the trace_options affect all instances and the top level buffer
-> -the same, but this may change in future releases. That is, options
-> -may become specific to the instance they reside in.
-> +most of the options are specific to the instance they reside in, but
-> +trace_printk, printk-msg-only and record-cmd are affecting all instances
-> +and the top level buffer, but this may change in future releases.
+Hi Tejun
 
-Actually, it seems that at least on -next these 3 are not shared as
-well? (if my tests aren't misbehaving)
+Thanks for the reply!
 
-So, just remove the part about trace_options exception?
+On Wed, Feb 21, 2024 at 12:46=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
+>
+> Hello,
+>
+> On Mon, Feb 19, 2024 at 03:46:34PM +0800, Xuewen Yan wrote:
+> > +#ifdef CONFIG_WQ_CPU_INTENSIVE_REPORT
+> > +static unsigned int wq_cpu_intensive_warning_per_count =3D 4;
+> > +module_param_named(cpu_intensive_warning_per_count, wq_cpu_intensive_w=
+arning_per_count, uint, 0644);
+> > +#endif
+>
+> wq_cpu_intensive_warning_nth is probably shorter and more idiomatic.
+>
+> > @@ -1202,7 +1206,7 @@ static void wq_cpu_intensive_report(work_func_t f=
+unc)
+> >                * exponentially.
+> >                */
+> >               cnt =3D atomic64_inc_return_relaxed(&ent->cnt);
+> > -             if (cnt >=3D 4 && is_power_of_2(cnt))
+> > +             if (wq_cpu_intensive_warning_per_count && !(cnt % wq_cpu_=
+intensive_warning_per_count))
+>
+> But aren't you mostly interested in the first report? Note that these eve=
+nts
+> can be very high frequency and reporting every nth event can lead to a lo=
+t
+> of constant warnings. Wouldn't it make sense to keep the exponential back=
+off
+> while allowing adjusting the initial threshold?
 
-Thanks,
-             Dmitry
+Yes, it makes sense to keep the exponential backoff,
+but this may result in not being able to see the warning when the
+threshold is exceeded for the first time.
 
+Or what do you think about changing it to the following?
+
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index 7b482a26d741..e783b68ce597 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -1202,7 +1202,8 @@ static void wq_cpu_intensive_report(work_func_t func)
+                 * exponentially.
+                 */
+                cnt =3D atomic64_inc_return_relaxed(&ent->cnt);
+-               if (cnt >=3D 4 && is_power_of_2(cnt))
++               if (cnt =3D=3D wq_cpu_intensive_warning_nth ||
++                   (cnt > wq_cpu_intensive_warning_nth && is_power_of_2(cn=
+t)))
+                        printk_deferred(KERN_WARNING "workqueue: %ps
+hogged CPU for >%luus %llu times, consider switching to WQ_UNBOUND\n",
+                                        ent->func, wq_cpu_intensive_thresh_=
+us,
+                                        atomic64_read(&ent->cnt));
+
+When the cnt reaches the threshold for the first time, a warning can
+be printed immediately.
+When it exceeds the threshold, keep the exponential backoff.
+
+Thanks!
+BR
+--
+xuewen
+
+>
+> Thanks.
+>
+> --
+> tejun
