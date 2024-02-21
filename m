@@ -1,117 +1,149 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2E7E78F;
-	Wed, 21 Feb 2024 13:29:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6532676C99;
+	Wed, 21 Feb 2024 13:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708522170; cv=none; b=tyGtXln04cWn4qJh9+V6I03s1mtpp0RbiP/pyew4DDtk4mHxbw+e4qD+XToiEP36R/ax6Cksl2X6oKmU82LYt3/kyZ8XW79w+01p/fcelJ6ah/sQH2Jf6xC5RmiokuBy0ZBhNVzUK0eqXRsb0KHwKYithrjX4oSBxuDbPH4/iLo=
+	t=1708523600; cv=none; b=mv8H7iIi5f50H62oEtHw1Izhf5rR7mCA0fXRd6YmDPVEIa/+9lqyZx7SOyOXiQzhNSdp5yn2VG0YmH0vOJ+dbj5U1wifqTyKLiI6DW0NTVjZecbYjUine0sFmx5AYUZ0OQK0s0h0ptLkG6tMIPjXipXDzsJFDNyRb1BuMhnWCRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708522170; c=relaxed/simple;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
+	s=arc-20240116; t=1708523600; c=relaxed/simple;
+	bh=2qDB6aCchFqvsRrIZrlOnBUWRusFLsK6a7t86lO4/kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fkt8DjHEcCX6Q0tcMxgTAsfB4ucFIzJBkqFRxfcC8DhBVCGGeZrmymKG55kkIrymtbk/WKYgZf+Y+nvnUB/3MS3Gyc8ILHF9aTiMeUKqoHXq58MOhLoej4utNIt65L6up/wGODve7470JU80cvhSojfMqnqDUOVpXJSBaTN3yvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiBXL6Vx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=myu69FE7P+NnX/+X6Qtt7TxnZjPsU1wcAz28khjxoE0gcTRqTiE51tjsPQbh6YrXQR/b6OYitj6wX1XlKBVf88Vfc2gXXh2pj2BXzjphcj6venRC0FFyyMU+PU9FO1voszbr5LL2dZ7x849d9+oJjdHKKXkdPpqAXUb4c7NTL1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYWFYY21; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiBXL6Vx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A34C43390;
-	Wed, 21 Feb 2024 13:29:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYWFYY21"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8B9C433F1;
+	Wed, 21 Feb 2024 13:53:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708522170;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
+	s=k20201202; t=1708523600;
+	bh=2qDB6aCchFqvsRrIZrlOnBUWRusFLsK6a7t86lO4/kc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiBXL6VxZWpc4KOcEK2JVTNsblnglRNXqfOhTGNFEOOP3Z05SEHo/yJJZgGTfy6Yy
-	 x5i2ENXsswo0PsZfBbOQAsZyHoNv/onQNmWuZpA+8n/oxElvFdoqRi0mzLwWVmnusP
-	 4o020bDIPLnaGgwRaawuQ6ExPSxEwS9tjNHSOU3RRAgwx0t3fpNdN4N9xYYf8nH+f/
-	 AOtHcMNsU9xJMldnzfakVY3MacOvm0l/CKsIgCAZnZ61GsXNnBfAEtA1aDxQgVd0+n
-	 jM6rpcQZPk7BVwHx5KaEP4lSa8C5hCRPVxHKvPn3uCLDMLLgfnPAlq21qZXhNA05QB
-	 jflhzGp8tFFOg==
-Date: Wed, 21 Feb 2024 13:29:19 +0000
-From: Will Deacon <will@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-Message-ID: <20240221132919.GC7273@willie-the-truck>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com>
- <20240213131210.GA28926@willie-the-truck>
- <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
- <20240216175752.GB2374@willie-the-truck>
- <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
+	b=XYWFYY21ChMcDnqRafHBvRB0QxejjlT/bZHLI49dgPa5dRacaD3UN0LLMesLDhEVK
+	 FQALDj09HDwKPE6W4jj/Eh1jqbUH+H+QnFzr8lEIlZA/imkC3dRk/JOQvq/V/1qmnf
+	 AKtPOLPebGuFFRe5xPIXDbSmUtlL944IsVvIA7rGpLNSg/1AcaSk659q46C8HRHywn
+	 bhl8FLesEaZJjbv9GARHL60svpyiaFNTpyRdOuK9i5QgdctkDvVHFN/fMwhmSVZRSB
+	 /NtzQjotaqwXeqdsZ0ePVwa6GV0m+bjLd5HQ/Rwg6sMIIZRNIfrgzJfc4uR31QEOgk
+	 nbyq6X4Uq/GjQ==
+Date: Wed, 21 Feb 2024 13:53:10 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "dalias@libc.org" <dalias@libc.org>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"musl@lists.openwall.com" <musl@lists.openwall.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
+	"oleg@redhat.com" <oleg@redhat.com>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"ebiederm@xmission.com" <ebiederm@xmission.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"sorear@fastmail.com" <sorear@fastmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
+ in userspace
+Message-ID: <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
+References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
+ <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
+ <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
+ <20240220185714.GO4163@brightrain.aerifal.cx>
+ <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
+ <20240220235415.GP4163@brightrain.aerifal.cx>
+ <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
+ <20240221012736.GQ4163@brightrain.aerifal.cx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cNQgfjDz+IAKI+aZ"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20240221012736.GQ4163@brightrain.aerifal.cx>
+X-Cookie: The second best policy is dishonesty.
 
-On Fri, Feb 16, 2024 at 02:48:00PM -0500, Pasha Tatashin wrote:
-> On Fri, Feb 16, 2024 at 12:58 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
-> > > > >  SecPageTables
-> > > > > -              Memory consumed by secondary page tables, this currently
-> > > > > -              currently includes KVM mmu allocations on x86 and arm64.
-> > > > > +              Memory consumed by secondary page tables, this currently includes
-> > > > > +              KVM mmu and IOMMU allocations on x86 and arm64.
-> > >
-> > > Hi Will,
-> > >
-> > > > While I can see the value in this for IOMMU mappings managed by VFIO,
-> > > > doesn't this end up conflating that with the normal case of DMA domains?
-> > > > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> > > > wrong to subject that to accounting constraints.
-> > >
-> > > The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-> > > is passed to the iommu mapping functions. We do that from the vfio,
-> > > iommufd, and vhost. Without this flag, the memory useage is reported
-> > > in /proc/meminfo as part of  SecPageTables field, but not constrained
-> > > in cgroup.
-> >
-> > Thanks, Pasha, that explanation makes sense. I still find it bizarre to
-> > include IOMMU allocations from the DMA API in SecPageTables though, and
-> > I worry that it will confuse people who are using that metric as a way
-> > to get a feeling for how much memory is being used by KVM's secondary
-> > page-tables. As an extreme example, having a non-zero SecPageTables count
-> > without KVM even compiled in is pretty bizarre.
-> 
-> I agree; I also prefer a new field in /proc/meminfo named
-> 'IOMMUPageTables'. This is what I proposed at LPC, but I was asked to
-> reuse the existing 'SecPageTables' field instead. The rationale was
-> that 'secondary' implies not only KVM page tables, but any other
-> non-regular page tables.
-> 
-> I would appreciate the opinion of IOMMU maintainers on this: is it
-> preferable to bundle the information with 'SecPageTables' or maintain
-> a separate field?
 
-I personally find it confusing to add all IOMMU page-table allocations
-to SecPageTables, considering that userspace could be using that today
-with a reasonable expectation that it's concerned only with virtual
-machine overhead. However, if the opposite conclusion was reached at LPC,
-then I really don't want to re-open the discussion and derail your
-patchset.
+--cNQgfjDz+IAKI+aZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Will
+On Tue, Feb 20, 2024 at 08:27:37PM -0500, dalias@libc.org wrote:
+> On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
+
+> > (INCSSP, RSTORSSP, etc). These are a collection of instructions that
+> > allow limited control of the SSP. When shadow stack gets disabled,
+> > these suddenly turn into #UD generating instructions. So any other
+> > threads executing those instructions when shadow stack got disabled
+> > would be in for a nasty surprise.
+
+> This is the kernel's problem if that's happening. It should be
+> trapping these and returning immediately like a NOP if shadow stack
+> has been disabled, not generating SIGILL.
+
+I'm not sure that's going to work out well, all it takes is some code
+that's looking at the shadow stack and expecting something to happen as
+a result of the instructions it's executing and we run into trouble.  A
+lot of things won't notice and will just happily carry on but I expect
+there are going to be things that care.  We also end up with an
+additional state for threads that have had shadow stacks transparently
+disabled, that's managable but still.
+
+> > > The place where it's really needed to be able to allocate the shadow
+> > > stack synchronously under userspace control, in order to harden
+> > > normal
+> > > applications that aren't doing funny things, is in pthread_create
+> > > without a caller-provided stack.
+
+> > Yea most apps don't do anything too tricky. Mostly shadow stack "just
+> > works". But it's no excuse to just crash for the others.
+
+> One thing to note here is that, to enable this, we're going to need
+> some way to detect "new enough kernel that shadow stack semantics are
+> all right". If there are kernels that have shadow stack support but
+> with problems that make it unsafe to use (this sounds like the case),
+> we can't turn it on without a way to avoid trying to use it on those.
+
+If we have this automatic conversion of pages to shadow stack then we
+should have an API for enabling it, userspace should be able to use the
+presence of that API to determine if the feature is there.
+
+--cNQgfjDz+IAKI+aZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXWAEUACgkQJNaLcl1U
+h9BTcAf+MujJo/pNOGU2neBJWmbVKrnAz60+j+uAD98t6m1YXtFChsz+YR6gQOA1
+7FEah97yBTtTiSGpgeKnKCJZMVaWEYHF0Oal7bU/cO0uO6DshP7BIWygF/xyL6/r
+AiFhQ5IAhgRYlGKzShiXTP3rx7ITjIS/1ejalkQ4vHwCOA/N0rsnZwJadUytQjJv
+bHJxu0pC95Sb9lZG3yrrOqZJdljkMsnb7ThBwPRENX0XmGz/Y8l0/FjQwiyWc+Bv
+i4HuekjDwxdxIknpEI/kciFlk8gjthTCrAloZNN/PGNExBEppzAMUg44bTcUkuuu
+CReIkIoN/x1s3gztzAkcLF2nu1EF6w==
+=wfib
+-----END PGP SIGNATURE-----
+
+--cNQgfjDz+IAKI+aZ--
