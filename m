@@ -1,162 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C9F12F5B3;
-	Wed, 21 Feb 2024 21:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14588127B67
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 21:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708550707; cv=none; b=hCfJhxaFG5Tfcfr1kq1ZVLI8znJ1I9RlfwmnwyVIz+ZRmCTNFWiI/2xDU11RPmDK2QRUXgwW3tOBIPeeZE0mlR5bvBgQJWHXyA8ZOeUs2vOZWNJocxJKESkoF3bFoIhlLWRSaPGjvi4OfpQfXsi8sDbWafWpjGGuY4okn47xoY4=
+	t=1708550773; cv=none; b=jBCJ1OX/EUHSZVAivTPW4UG7H5428f8egsUIHYJYnS0xS/QRzct6AT9P0dGRCbVaYAJTQ9Ue87DPEHHfWsHTZAUzvEwH48ezedPW9Y7NP3aJwKfYul87MxG8N2y1M9apzNxPJ/4YMCF/GB24cuCL4fNZHPsY1H9PTIU7naJVeDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708550707; c=relaxed/simple;
-	bh=zvbUblF/TCnxaSxVn34c8qD/M35GRlC4hQ2KeRAG42o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pwPR5pnB80Y05/NSyV+T8CCBnRtFql7ZOv/ahG5Q9dq4JW8KOI24P7/Ef0uyEd3DXWUIxFiseOg7K7F7Iy2QWu6bbxszunBI3zOazP4WDlafHkzXNx9iQbBsA92GWNvisEuQunS2R5v/n1uuDlR96uAqJkoY9iL48humC5nlxec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKRsQRoc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708550773; c=relaxed/simple;
+	bh=1oEaHzezRAll9SQ0JkGYVz7chMh/UI28PlbGaomS6oA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NpHjlrdPm9C2xt5ASgwStSAtfeTXiTlAppUeb9zYyJhc+i+FJESn6sWThLSd77mkQQrGDE5x8UD3jvVnqJbMbRNrKFjMEqB4wgkcIF9AOl+AhUJo3ociulTqImtzf8jxfdkejJ6/EDKekBbSyrTjiA4g7LzTAA6Kx0oIqprIDR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=twlEEf1y; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKRsQRoc"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 68AF3C4160D;
-	Wed, 21 Feb 2024 21:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708550707;
-	bh=zvbUblF/TCnxaSxVn34c8qD/M35GRlC4hQ2KeRAG42o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SKRsQRocESZKds2vMmzDujSVC0SaK+TPB9iVo2XR4q47+NE6qs231rq9rzz933lJ5
-	 oPVzUdevmGiNU9XRdwvvFnMaFD1ajdUz3cg/gsMYIk9Y4aVeS3vFCAjku65uyfG3Do
-	 su9OTtRzMfobX+5JdtwaJjMHr4k49WoRZY4SgkF52OWD63ZsSUUvHJwPlsmICJ0ahH
-	 8fBe0zR8kwd0wtnJ+mqSGj9Nl2YRaen+lV7gGxd0aD7DA6IXBiQK4WRRkOw5QmwAUc
-	 jcxuZZAtzdHfaz3fHsCRfBb4H0Im2TZYioWp185DZbzBfKIhCVqwcm/1bwCa6TUEtB
-	 ePUEa8FJldjMA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EA3C5478C;
-	Wed, 21 Feb 2024 21:25:07 +0000 (UTC)
-From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-Date: Wed, 21 Feb 2024 15:24:55 -0600
-Subject: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="twlEEf1y"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3c049ccb623so4727158b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 13:26:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708550770; x=1709155570; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1oEaHzezRAll9SQ0JkGYVz7chMh/UI28PlbGaomS6oA=;
+        b=twlEEf1yUUSQY4M7jcQpxVobd+dWC5ezggwrEwNE60AZ8QeMObLxP14XTPx38VQ2eQ
+         TyrB4dnaVh7ipn13+vKwt6sJKS491Skg4KAMlL9NyxSI8HytAsFXSzZSk+umh+bpebcW
+         YHwErdKYko8+z7QnDr0g9jOg0w3y7Juvk+0CXSSikE8fwrDLZhKCz4YDBKFAX8UfBeYy
+         jUTHfw76ke8UM5rMB3x0u8xRuKsnecR7d8tvj0OaUwXWM9ceEuSwr94Fi6j2NKkbOyG0
+         vuocKoz75fJUtkV5Hsf7vnXoE01wfziYx61d427gMjkLIq2cHgMjI++ZqF99CfNbPmnQ
+         VnhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708550770; x=1709155570;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1oEaHzezRAll9SQ0JkGYVz7chMh/UI28PlbGaomS6oA=;
+        b=BTIeRbhXjz6ciuxLCP/59sU7rpWpffWxFiDzFXMTG+JcvKMcr8TfkM/NPnmE7CdSF2
+         EieWAkHRDNJ+vcTDb4xWythYtPCe/yg0eJ+3rlXeRXM5otnq/XPcnxsXSMJfUqMVSVO9
+         4L/CtCWcL7CaulehEEx2NOTdwOgO7ugYJCQr6Hs/IlXBw0UW/jAd9w5c1ZwAMIUMNaSw
+         nqAmm63dHjLj7m2qUPSXN5ak8Vxu1JvggGZSB+YwZHjqX8pZAJ9VBvJJtBmSvItNaePZ
+         UIikdIHeycHn01S/Rp0Q7Pz36A9HXIajBqkJLf0CtIScolz/2ir2kLjWqcDeIvHmdj1e
+         EppA==
+X-Forwarded-Encrypted: i=1; AJvYcCWgS3cFWJXQckGDNeIZC/nXC+r9t+vigcBp+Ag2htzcMK7yXjP1ncbTNNaRJRyGiTbFNsg3mfvrADI28mdPSGaKmlTQjBLDZ4io
+X-Gm-Message-State: AOJu0YxV7+VULhO+e0+WPb+JcKDXDwSVh66nxbuB4pL6qJKritfbAlyn
+	5uBPPNwq92uhEEy3WMlqsqxa6l4SkzCOi0E7VUyLX7Ed4hDqKGJly/r9X/gUFBhX1qXzqZzm6SL
+	Ae3hBszAvSZW5AIzG+1KttBJ2NLH/S8Ytu8SL1Q==
+X-Google-Smtp-Source: AGHT+IFZSNXNYlAy0AiXEzXx4upknBW0nGNBljw/bbiwmtTqAeSgHzhF6z+ApQTHTR9DUqPj2ju2fMwMSbPw53G4Luo=
+X-Received: by 2002:a05:6808:1208:b0:3c0:3d12:2002 with SMTP id
+ a8-20020a056808120800b003c03d122002mr24802049oil.13.1708550769929; Wed, 21
+ Feb 2024 13:26:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
-In-Reply-To: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, 
- Seth Forshee <sforshee@kernel.org>, Serge Hallyn <serge@hallyn.com>, 
- Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
- James Morris <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-security-module@vger.kernel.org, audit@vger.kernel.org, 
- selinux@vger.kernel.org, linux-integrity@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2792; i=sforshee@kernel.org;
- h=from:subject:message-id; bh=zvbUblF/TCnxaSxVn34c8qD/M35GRlC4hQ2KeRAG42o=; 
- =?utf-8?q?b=3DowEBbQGS/pANAwAKAVMDma7l9DHJAcsmYgBl1motMsHmTPRzonCbUf17MUmkA?=
- =?utf-8?q?trgRQQP52t1limF_xnRCVamJATMEAAEKAB0WIQSQnt+rKAvnETy4Hc9TA5mu5fQxy?=
- =?utf-8?q?QUCZdZqLQAKCRBTA5mu5fQxySjhB/_9/xvaR6j6ROnXfKTxmKnKxnszhmNMXT1obo?=
- =?utf-8?q?WqLVttCDoIEShnCN3jNsyIpALo6DQpAxED7nadYlW2F_vDcaQlOVAqpLDZExtPdSn?=
- =?utf-8?q?IAd61AuZiTbo96dmmNv46xSZbKz4YFtYStNCCynSuEuJ6T5hDfXI8ZC7l_D++5+5X?=
- =?utf-8?q?5lQSz00p/UyCKeSsMVATo8TLtwEQ0z6Z+55owxbqadtCXLzeeT9jYnv43ixJny2K5?=
- =?utf-8?q?DFwAT/_ONWSTYt66Dh/JR/D5nJ8mlOrqPvXlnOYpONu68LvMfAd5c3IWAYp3NeQYi?=
- =?utf-8?q?6GFXjBbQuE0sXInhC7rb?= xFOguuTz0t3YgEiStWMwzbqX0R1zY8
-X-Developer-Key: i=sforshee@kernel.org; a=openpgp;
- fpr=2ABCA7498D83E1D32D51D3B5AB4800A62DB9F73A
-X-Endpoint-Received:
- by B4 Relay for sforshee@kernel.org/default with auth_id=103
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-7-surenb@google.com>
+In-Reply-To: <20240221194052.927623-7-surenb@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 21 Feb 2024 16:25:33 -0500
+Message-ID: <CA+CK2bDX7v8+NHi2ioxQ4KF+vBYA0JhR3=Sj6ZxBS0jD7i2Gmw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/36] mm: enumerate all gfp flags
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org, =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use the vfs interfaces for fetching file capabilities for killpriv
-checks and from get_vfs_caps_from_disk(). While there, update the
-kerneldoc for get_vfs_caps_from_disk() to explain how it is different
-from vfs_get_fscaps_nosec().
+On Wed, Feb 21, 2024 at 2:41=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> Introduce GFP bits enumeration to let compiler track the number of used
+> bits (which depends on the config options) instead of hardcoding them.
+> That simplifies __GFP_BITS_SHIFT calculation.
+>
+> Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
----
- security/commoncap.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
-
-diff --git a/security/commoncap.c b/security/commoncap.c
-index a0ff7e6092e0..751bb26a06a6 100644
---- a/security/commoncap.c
-+++ b/security/commoncap.c
-@@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
-  */
- int cap_inode_need_killpriv(struct dentry *dentry)
- {
--	struct inode *inode = d_backing_inode(dentry);
-+	struct vfs_caps caps;
- 	int error;
- 
--	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
--	return error > 0;
-+	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant */
-+	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
-+	return error == 0;
- }
- 
- /**
-@@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry)
- {
- 	int error;
- 
--	error = __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
-+	error = vfs_remove_fscaps_nosec(idmap, dentry);
- 	if (error == -EOPNOTSUPP)
- 		error = 0;
- 	return error;
-@@ -719,6 +720,10 @@ ssize_t vfs_caps_to_user_xattr(struct mnt_idmap *idmap,
-  * @cpu_caps:	vfs capabilities
-  *
-  * Extract the on-exec-apply capability sets for an executable file.
-+ * For version 3 capabilities xattrs, returns the capabilities only if
-+ * they are applicable to current_user_ns() (i.e. that the rootid
-+ * corresponds to an ID which maps to ID 0 in current_user_ns() or an
-+ * ancestor), and returns -ENODATA otherwise.
-  *
-  * If the inode has been found through an idmapped mount the idmap of
-  * the vfsmount must be passed through @idmap. This function will then
-@@ -731,25 +736,16 @@ int get_vfs_caps_from_disk(struct mnt_idmap *idmap,
- 			   struct vfs_caps *cpu_caps)
- {
- 	struct inode *inode = d_backing_inode(dentry);
--	int size, ret;
--	struct vfs_ns_cap_data data, *nscaps = &data;
-+	int ret;
- 
- 	if (!inode)
- 		return -ENODATA;
- 
--	size = __vfs_getxattr((struct dentry *)dentry, inode,
--			      XATTR_NAME_CAPS, &data, XATTR_CAPS_SZ);
--	if (size == -ENODATA || size == -EOPNOTSUPP)
-+	ret = vfs_get_fscaps_nosec(idmap, (struct dentry *)dentry, cpu_caps);
-+	if (ret == -EOPNOTSUPP || ret == -EOVERFLOW)
- 		/* no data, that's ok */
--		return -ENODATA;
-+		ret = -ENODATA;
- 
--	if (size < 0)
--		return size;
--
--	ret = vfs_caps_from_xattr(idmap, inode->i_sb->s_user_ns,
--				  cpu_caps, nscaps, size);
--	if (ret == -EOVERFLOW)
--		return -ENODATA;
- 	if (ret)
- 		return ret;
- 
-
--- 
-2.43.0
-
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
