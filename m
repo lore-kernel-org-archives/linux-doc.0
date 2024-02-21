@@ -1,235 +1,126 @@
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC1723DE
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 01:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA6B17D5
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 01:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708478844; cv=none; b=HB1qH4TMD8e+P1BiFg7d7LiNYCvUea8XRKzSTkVZ2T859ZD/ma5SrRVlo6r99t4xpZRRQHhPobZMcY55jCKi0amfVs+48w50QRhw2jsGVqfpLQvCRMIRORob5PISqtSMRyBzRe22AHgQfTCABaYd8cBngiPZtRJjE9TzfeCDQm0=
+	t=1708479881; cv=none; b=oEEVdU7iQxzlz8e9bWrMOfUJoTur0Z+iBo0pOeNbfL3WWYzVW97rxOXdP926FrpGdLruXRheFgFgqj5cwtERORH7TKn9EalSFd31BI+9X1ic8QEXhOh+/05gZ8fk2mCq9K7ZCmhEOtx8h+tWEnWfzfd6rb84MNpN8dL03cj0SAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708478844; c=relaxed/simple;
-	bh=pJwSeYFj2jRtte9Mv3vmD/7PvwCI3TccoqOgPr5VrYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5s13mMLlyGoQP8GX8ghmNlfGOT5Vd2ueBHc/JMbPHfLz4lCwxhZPWwZKMg7bjO2RWKP8+9v8UjerPwDuYmZbY6+0wLzdDDNz/xJsgoaQODPdJA3JzGmWfo4iqCH01O8UF3fhXlWCD9VO6JPUG1gvxV3K2LO3KYyOMkfOn4Afkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=libc.org; arc=none smtp.client-ip=104.156.224.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
-Date: Tue, 20 Feb 2024 20:27:37 -0500
-From: "dalias@libc.org" <dalias@libc.org>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"musl@lists.openwall.com" <musl@lists.openwall.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"broonie@kernel.org" <broonie@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"ebiederm@xmission.com" <ebiederm@xmission.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"sorear@fastmail.com" <sorear@fastmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
- in userspace
-Message-ID: <20240221012736.GQ4163@brightrain.aerifal.cx>
-References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
- <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
- <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
- <20240220185714.GO4163@brightrain.aerifal.cx>
- <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
- <20240220235415.GP4163@brightrain.aerifal.cx>
- <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
+	s=arc-20240116; t=1708479881; c=relaxed/simple;
+	bh=rntGsrGT2b0FSGNjkPiXn5vaD9AYf6RyM9KYEdZyb9s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jWZf2lUdf4WYX9rUUIYOVA1kfghHvN3HwHdtdBeTXv+UHXIX4cvQTa7SFe/uKa47yDGFpsNah2ChAOeFvSTJKBV9WpU9O4qOMvumHX4OY6B/6VmNcFh0TDBgV09oB38PvH2Lgystq0pXNGrTRqMzjrRlg9xTyeWCsNQAxSFvfSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mhySLdN1; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mhySLdN1"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6e08dd0fa0bso5229376b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 20 Feb 2024 17:44:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708479879; x=1709084679; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GfzCDASynO9nsmpFD4ZwOTbhx0ossPnGTeBc4Rvjdi4=;
+        b=mhySLdN172PetUKSQX0kPLk6UzUuZRAhANdxlZd5QF853c26rsTnCnjGjVKmq5cdJR
+         WrmeNuRnbADFcze64ilOMG2p6jXb9LPN3F8BxDR3VZqLG9In7qEFYfbF2shiCinaXpt7
+         UjSsQYo89o/OtGtWLO8b5yJd/25HvVnawRUhyXugcDpKWvzi3p0DtCPYtP7wPdetH6mp
+         D3wFrkA2+XmB2JFVgV4184C+2z9RtRUwv9FlrhIvr1J0TfCPcw0OIxX7Px0L4eoMwTs+
+         QzdYZ0GfiNqB1F+VC3KGIXwswmGjDimsSIDluo8y/oi5fZJ1ttz7NZHF7hnRiDVd42K8
+         Ys2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708479879; x=1709084679;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GfzCDASynO9nsmpFD4ZwOTbhx0ossPnGTeBc4Rvjdi4=;
+        b=VgVhdmSHeKJ6TuLpMqvmSMSZrLZAzIRt1sXKgOEPkJpLK9WiPzEIqD77Foce1MvjZg
+         PswHG0wWayYtZkfdG7x273e1B9GVa42O18MU4hjtXXjpVKWfbSBCbmS8gH40OjhJNVTV
+         Oi7zy68n4Viq6/bKYH0dVufry9qJcqrVE2n+JOWGlscDeSlObAKNB0ha2n9Z9Gl0/pUL
+         ZP8DZ2yE7s0lgyMc7nzdRjDpcrMfdMiCLfewgYriVtTYW7dBsSLPwoiWpsHy3g1CjXos
+         3VxSJ7VluCkV+9YWfbCt2MIYOmLTfvRKWUZX9iyDESoVTV+PuCUFnoAGLpUtpUIWy0KN
+         vmRg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMcbtPjERC8t3RcibWZj5r84Mk4ms9hXC4a/J91gKchfuvPtDIfqGvKd+/vyu6zzfkl9tNP8gOQJ9aZ3j55HSs0TpqQna6BXEq
+X-Gm-Message-State: AOJu0YwhAH40UGKYI6WJink5RRrI7C2ojt4hSZzUOlBFD78S3a44CSNv
+	v4lBr5tmOvsG/zin75nsTTsnME8fUyp1Gjzif6hSFDpI6J3S07H2
+X-Google-Smtp-Source: AGHT+IGOiYZH9XipX5HYu8WFZB2ijuG+ZtS7/bIwVgRWox6T+xboPWhrurLRFzu9qXG/fJzXynxfzA==
+X-Received: by 2002:a05:6a20:e605:b0:1a0:584e:fda9 with SMTP id my5-20020a056a20e60500b001a0584efda9mr17341494pzb.28.1708479878830;
+        Tue, 20 Feb 2024 17:44:38 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id b4-20020a62cf04000000b006e4701c0aedsm3772495pfg.213.2024.02.20.17.44.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 17:44:38 -0800 (PST)
+Message-ID: <9359a5c6-1e54-4c68-9b7c-24177dbbbe01@gmail.com>
+Date: Wed, 21 Feb 2024 10:44:37 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Instruct LaTeX to cope with deeper nesting
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <87jzn0qw19.fsf@meer.lwn.net>
+ <685ad03e-b61c-4c1f-9080-c7298a7625dc@gmail.com>
+ <87msrug5s8.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87msrug5s8.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
-> On Tue, 2024-02-20 at 18:54 -0500, dalias@libc.org wrote:
-> > On Tue, Feb 20, 2024 at 11:30:22PM +0000, Edgecombe, Rick P wrote:
-> > > On Tue, 2024-02-20 at 13:57 -0500, Rich Felker wrote:
-> > > > On Tue, Feb 20, 2024 at 06:41:05PM +0000, Edgecombe, Rick P
-> > > > > Shadow stacks currently have automatic guard gaps to try to
-> > > > > prevent
-> > > > > one
-> > > > > thread from overflowing onto another thread's shadow stack.
-> > > > > This
-> > > > > would
-> > > > > somewhat opens that up, as the stack guard gaps are usually
-> > > > > maintained
-> > > > > by userspace for new threads. It would have to be thought
-> > > > > through
-> > > > > if
-> > > > > these could still be enforced with checking at additional
-> > > > > spots.
-> > > > 
-> > > > I would think the existing guard pages would already do that if a
-> > > > thread's shadow stack is contiguous with its own data stack.
-> > > 
-> > > The difference is that the kernel provides the guard gaps, where
-> > > this
-> > > would rely on userspace to do it. It is not a showstopper either.
-> > > 
-> > > I think my biggest question on this is how does it change the
-> > > capability for two threads to share a shadow stack. It might
-> > > require
-> > > some special rules around the syscall that writes restore tokens.
-> > > So
-> > > I'm not sure. It probably needs a POC.
-> > 
-> > Why would they be sharing a shadow stack?
+On Tue, 20 Feb 2024 14:55:03 -0700, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
 > 
-> The guard gap was introduced originally based on a suggestion that
-> overflowing a shadow stack onto an adjacent shadow stack could cause
-> corruption that could be used by an attacker to work around the
-> protection. There wasn't any concrete demonstrated attacks or
-> suggestion that all the protection was moot.
-
-OK, so not sharing, just happening to be adjacent.
-
-I was thinking from a standpoint of allocating them as part of the
-same range as the main stack, just with different protections, where
-that would never happen; you'd always have intervening non-shadowstack
-pages. But when they're kernel-allocated, yes, they need their own
-guard pages.
-
-> But when we talk about capabilities for converting memory to shadow
-> stack with simple memory accesses, and syscalls that can write restore
-> token to shadow stacks, it's not immediately clear to me that it
-> wouldn't open up something like that. Like if two restore tokens were
-> written to a shadow stack, or two shadow stacks were adjacent with
-> normal memory between them that later got converted to shadow stack.
-> Those sorts of scenarios, but I won't lean on those specific examples.
-> Sorry for being hand wavy. It's just where I'm at, at this point.
-
-I don't think it's safe to have automatic conversions back and forth,
-only for normal accesses to convert shadowstack to normal memory (in
-which case, any subsequent attempt to operate on it as shadow stack
-indicates a critical bug and should be trapped to terminate the
-process).
-
-> > > > From the musl side, I have always looked at the entirely of
-> > > > shadow
-> > > > stack stuff with very heavy skepticism, and anything that breaks
-> > > > existing interface contracts, introduced places where apps can
-> > > > get
-> > > > auto-killed because a late resource allocation fails, or requires
-> > > > applications to code around the existence of something that
-> > > > should be
-> > > > an implementation detail, is a non-starter. To even consider
-> > > > shadow
-> > > > stack support, it must truely be fully non-breaking.
-> > > 
-> > > The manual assembly stack switching and JIT code in the apps needs
-> > > to
-> > > be updated. I don't think there is a way around it.
-> > 
-> > Indeed, I'm not talking about programs with JIT/manual stack-
-> > switching
-> > asm, just anything using existing APIs for control of stack --
-> > pthread_setstack, makecontext, sigaltstack, etc.
+>> On Mon, 19 Feb 2024 09:05:38 -0700, Jonathan Corbet wrote:
+>>> The addition of the XFS online fsck documentation starting with
+>>> commit a8f6c2e54ddc ("xfs: document the motivation for online fsck design")
+>>> added a deeper level of nesting than LaTeX is prepared to deal with.  That
+>>> caused a pdfdocs build failure with the helpful "Too deeply nested" error
+>>> message buried deeply in Documentation/output/filesystems.log.
+>>>
+>>> Increase the "maxlistdepth" parameter to instruct LaTeX that it needs to
+>>> deal with the deeper nesting whether it wants to or not.
+>>>
+>>> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+>>> Link: https://lore.kernel.org/linux-doc/67f6ac60-7957-4b92-9d72-a08fbad0e028@gmail.com/
+>>> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+>>
+>> Tested-by: Akira Yokosawa <akiyks@gmail.com>
 > 
-> Then I think WRSS might fit your requirements better than what glibc
-> did. It was considered a reduced security mode that made libc's job
-> much easier and had better compatibility, but the last discussion was
-> to try to do it without WRSS.
-
-Where can I read more about this? Some searches I tried didn't turn up
-much useful information.
-
-> > > I agree though that the late allocation failures are not great.
-> > > Mark is
-> > > working on clone3 support which should allow moving the shadow
-> > > stack
-> > > allocation to happen in userspace with the normal stack. Even for
-> > > riscv
-> > > though, doesn't it need to update a new register in stack
-> > > switching?
-> > 
-> > If clone is called with signals masked, it's probably not necessary
-> > for the kernel to set the shadow stack register as part of clone3.
+> Thanks
 > 
-> So you would want a mode of clone3 that basically leaves the shadow
-> stack bits alone? Mark was driving that effort, but it doesn't seem
-> horrible to me on first impression. If it would open up the possibility
-> of musl support.
-
-Well I'm not sure. That's what we're trying to figure out. But I don't
-think modifying it is a hard requirement, since it can be modified
-from userspace if needed as long as signals are masked.
-
-> > One reasonable thing to do, that might be preferable to
-> > overengineered
-> > solutions, is to disable shadow-stack process-wide if an interface
-> > incompatible with it is used (sigaltstack, pthread_create with an
-> > attribute setup using pthread_attr_setstack, makecontext, etc.), as
-> > well as if an incompatible library is is dlopened.
+>> And it seems this one might deserve
+>>
+>> Cc: stable@vger.kernel.org # v6.4
+>>
+>> too, in case someone tries "make pdfdocs" against 6.6.x LTS 
+>> and 6.7.x stable branches.
 > 
-> I think it would be an interesting approach to determining
-> compatibility. On x86 there has been cases of binaries getting
-> mismarked as supporting shadow stack. So an automated way of filtering
-> some of those out would be very useful I think. I guess the dynamic
-> linker could determine this based on some list of functions?
-
-I didn't follow this whole mess, but from our side (musl) it does not
-seem relevant. There are no legacy binaries wrongly marked because we
-have never supported shadow stacks so far.
-
-> The dlopen() bit gets complicated though. You need to disable shadow
-> stack for all threads, which presumably the kernel could be coaxed into
-> doing. But those threads might be using shadow stack instructions
-> (INCSSP, RSTORSSP, etc). These are a collection of instructions that
-> allow limited control of the SSP. When shadow stack gets disabled,
-> these suddenly turn into #UD generating instructions. So any other
-> threads executing those instructions when shadow stack got disabled
-> would be in for a nasty surprise.
-
-This is the kernel's problem if that's happening. It should be
-trapping these and returning immediately like a NOP if shadow stack
-has been disabled, not generating SIGILL.
-
-> > The place where it's really needed to be able to allocate the shadow
-> > stack synchronously under userspace control, in order to harden
-> > normal
-> > applications that aren't doing funny things, is in pthread_create
-> > without a caller-provided stack.
+> Agreed, that was in my plans.
 > 
-> Yea most apps don't do anything too tricky. Mostly shadow stack "just
-> works". But it's no excuse to just crash for the others.
+>> Commit a8f6c2e54ddc did nothing wrong on its own, so a Fixes: tag
+>> is inappropriate here.
+> 
+> And a Fixes tag was definitely *not* in the plan.
 
-One thing to note here is that, to enable this, we're going to need
-some way to detect "new enough kernel that shadow stack semantics are
-all right". If there are kernels that have shadow stack support but
-with problems that make it unsafe to use (this sounds like the case),
-we can't turn it on without a way to avoid trying to use it on those.
+Now I see this in docs-fixes.
 
-Rich
+BTW, I expected Vergard's fix to the translations extension would
+also be in the -fixes branch, but it is now in the -mw branch as
+commit 2bd6f4d99e12.
+
+Can you please have a look at it?
+
+        Thanks, Akira
+
+> 
+> Thanks,
+> 
+> jon
+
