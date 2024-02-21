@@ -1,74 +1,69 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372CC82D9B;
-	Wed, 21 Feb 2024 17:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C9584A26
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 17:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708537481; cv=none; b=UviiAjkADM4yWZq9YaA3fQ6LcTMgQReTWDvZ+i0B3IQsMG0K9w67S1xGcSc/5LIl9/7dL8o4C8VwnVshVL4SA+50iQ1n3eIjmNBQbo/kdcNuWB9Lw+NMezHT3oXirhn0qT6a3qcKvRC7bMgXDJkneK1J3KDE+FtOpmEQXXULDI0=
+	t=1708538225; cv=none; b=Wed/RiXHzqqAZaW1yU29kmnHrb46YdM9n7Bkw0V1g8IcN6sKMFN5T/tn3MCAhS6aMPPiF0ESdcHkSF+ib/PbM3y2EsfSfS23Pn9H8IgfIc8SgktZZ92qFwPpe5HjsmTOUPacKH/phs6kFUUBFmt4JKqn7jrjRw5XAefB6drM0NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708537481; c=relaxed/simple;
-	bh=0bVEmtCEZemUuHzFPFzyEjeI011XV9VpYcqB7Ty1Qg4=;
+	s=arc-20240116; t=1708538225; c=relaxed/simple;
+	bh=+QLcuEiiCvBLANsK9jrSNNm+hbOucpscqS9eo+SVwXw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O8iwD3PHRsqyfFOMv424p/FEFL14pUq2L5ldfsJyj0jDTtYyDG/ACBzcT6jRuzlyBKigtzYhG/iFjELR14haY/paEAyJ7fO3cEvx+Moi3jbXVZplpKQy4+nI+ymxuB++pOG1lviBZ2TNFM3EKmjwow24OuIaadXQe5yXYqg3Owk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwFzm2dW; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwFzm2dW"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d911c2103aso40265805ad.0;
-        Wed, 21 Feb 2024 09:44:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708537479; x=1709142279; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t7L75x0M1Aq5vNN4NtGjAz1me5yaRbWCvbVsbiNBVrA=;
-        b=HwFzm2dWVNVo63BulK/xBf7rVZr/sVCqhagxPFCOOOqupfmvNOOQ0BNe03qydYIVCU
-         0tqhRc4CIN+alFn/hy8Tgw3SPn4G0mEtfb7y4ezNw2kj038+ZG2669y5OC6t0312MTWV
-         RSiBcXs5HH9okmNDXje8zbJrAME2VTOUgBxDfFiQEi9BJWxPsDlQQrCofgGNzSYsQ/Oc
-         zP9w3ULSeg4lGUW/db4Gau4XpgYL8Nmi8RUBmb1D5Or/EEkNzral7DLiSmWyEkiS7b1f
-         JqJm+mV23+3Bx5iPD0zPAuT1o8DF3zr84QbCZlJVk4ozM0ZJgRSeXHx9SUH5ej6kt+Mq
-         ldcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708537479; x=1709142279;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t7L75x0M1Aq5vNN4NtGjAz1me5yaRbWCvbVsbiNBVrA=;
-        b=UexuNCc+CLFGU1GFlQON3QJvx5H8sYXlrca1UaHH3CgCYFAG/nBl8XxRehbxryVMQC
-         0hygOEnPEOxNV5y92ekQlH+90ja2xfJea585Xv+TX7QzL8gsyGb/Qss7TcQwxcWfgFVU
-         fxDIFGTLSb9knRvjO6M13SdRrnOKQ2EV49QHP0vezAwG4wctr7tosGFbRbbn2VkmotfD
-         XiG5+zn9zpgZpa+fyKmFVhGziU17bBOo2xiXdj4EQH6OdismGEw9v8KfTyI+iO9Vfl2I
-         d9PsOKtz+fm6000XrXbfpFadCKxvXad+7syEZIIEMCv4XJR2hYYJ7zPudnQc/Vn//pnk
-         q1ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWeFLumLQFyBuM4Ol03R4KpeZ0FTGZPrl4+9KIQDPcSKWeZWAl5LDuPbNjJsupLUPu8fhGARW5vjKHWbN8f1vAXdALtsOTjdGPyFdDRj9Sutw1M6TPGc44R//mogKfRrLohDVX/K7mb
-X-Gm-Message-State: AOJu0YwS/17dlT+PHKGRPqw2BbGDzmAHJakglHWsx0/AfPX6NpxZ8CRF
-	uSh3tXa0LsguYZgq9yDoJM3WLyN+/H7z9eNzBpA3jvGDJ+U5aBFK
-X-Google-Smtp-Source: AGHT+IEeUA5r8/iLK8UqzJD4T6RJRFX0/T0ITD61nkOelDszmQoLLUPvwK0OUQY8BtPucwyTSXN55w==
-X-Received: by 2002:a17:902:ccce:b0:1dc:30bb:b5cf with SMTP id z14-20020a170902ccce00b001dc30bbb5cfmr2903189ple.59.1708537479511;
-        Wed, 21 Feb 2024 09:44:39 -0800 (PST)
-Received: from localhost (dhcp-141-239-158-86.hawaiiantel.net. [141.239.158.86])
-        by smtp.gmail.com with ESMTPSA id x16-20020a170902ec9000b001dbcf7f43c9sm7704885plg.303.2024.02.21.09.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 09:44:39 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Wed, 21 Feb 2024 07:44:38 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Xuewen Yan <xuewen.yan94@gmail.com>
-Cc: Xuewen Yan <xuewen.yan@unisoc.com>, jiangshanlai@gmail.com,
-	corbet@lwn.net, paulmck@kernel.org, rdunlap@infradead.org,
-	peterz@infradead.org, yanjiewtw@gmail.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ke.wang@unisoc.com
-Subject: Re: [PATCH] workqueue: Control the frequency of intensive warning
- through cmdline
-Message-ID: <ZdY2htJ5D0FisH1M@slm.duckdns.org>
-References: <20240219074634.2039-1-xuewen.yan@unisoc.com>
- <ZdTXWrB8dascOIM_@slm.duckdns.org>
- <CAB8ipk9R3hRSTTEEBn8nvOcTZGBtaDQfomXiQwji+DTKgLghwQ@mail.gmail.com>
- <ZdWNvolkfPCyMNj9@slm.duckdns.org>
- <CAB8ipk9FtgYh5Ho-nFQCwUO8zOPEk73VS0KHFDuRS9yxDRpe4A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FyQYvJQ00awgNlVSYijFi8L2I72G+IPDpTadoTdCOlU2VIuT35WTlTjlc3GAG3KMMbIDYz/iP3vfqOETnEIFPxz2ybmGctVa8BQsh3DRS1z3LunA3DtEtgBV4NAvbGlmqh0xvMn1b9T99zyhW8FOo9PsUao5daiR8QFKkVU5AK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=libc.org; arc=none smtp.client-ip=104.156.224.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
+Date: Wed, 21 Feb 2024 12:57:19 -0500
+From: "dalias@libc.org" <dalias@libc.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
+	"musl@lists.openwall.com" <musl@lists.openwall.com>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>,
+	"debug@rivosinc.com" <debug@rivosinc.com>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
+	"oleg@redhat.com" <oleg@redhat.com>,
+	"fweimer@redhat.com" <fweimer@redhat.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"ebiederm@xmission.com" <ebiederm@xmission.com>,
+	"will@kernel.org" <will@kernel.org>,
+	"brauner@kernel.org" <brauner@kernel.org>,
+	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+	"ardb@kernel.org" <ardb@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"sorear@fastmail.com" <sorear@fastmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
+ in userspace
+Message-ID: <20240221175717.GS4163@brightrain.aerifal.cx>
+References: <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
+ <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
+ <20240220185714.GO4163@brightrain.aerifal.cx>
+ <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
+ <20240220235415.GP4163@brightrain.aerifal.cx>
+ <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
+ <20240221012736.GQ4163@brightrain.aerifal.cx>
+ <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
+ <20240221145800.GR4163@brightrain.aerifal.cx>
+ <4a3809e8-61b2-4341-a868-292ba6e64e8a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,16 +72,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAB8ipk9FtgYh5Ho-nFQCwUO8zOPEk73VS0KHFDuRS9yxDRpe4A@mail.gmail.com>
+In-Reply-To: <4a3809e8-61b2-4341-a868-292ba6e64e8a@sirena.org.uk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-Hello,
+On Wed, Feb 21, 2024 at 05:36:12PM +0000, Mark Brown wrote:
+> On Wed, Feb 21, 2024 at 09:58:01AM -0500, dalias@libc.org wrote:
+> > On Wed, Feb 21, 2024 at 01:53:10PM +0000, Mark Brown wrote:
+> > > On Tue, Feb 20, 2024 at 08:27:37PM -0500, dalias@libc.org wrote:
+> > > > On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
+> 
+> > > > > (INCSSP, RSTORSSP, etc). These are a collection of instructions that
+> > > > > allow limited control of the SSP. When shadow stack gets disabled,
+> > > > > these suddenly turn into #UD generating instructions. So any other
+> > > > > threads executing those instructions when shadow stack got disabled
+> > > > > would be in for a nasty surprise.
+> 
+> > > > This is the kernel's problem if that's happening. It should be
+> > > > trapping these and returning immediately like a NOP if shadow stack
+> > > > has been disabled, not generating SIGILL.
+> 
+> > > I'm not sure that's going to work out well, all it takes is some code
+> > > that's looking at the shadow stack and expecting something to happen as
+> > > a result of the instructions it's executing and we run into trouble.  A
+> 
+> > I said NOP but there's no reason it strictly needs to be a NOP. It
+> > could instead do something reasonable to convey the state of racing
+> > with shadow stack being disabled.
+> 
+> This feels like it's getting complicated and I fear it may be an uphill
+> struggle to get such code merged, at least for arm64.  My instinct is
+> that it's going to be much more robust and generally tractable to let
+> things run to some suitable synchronisation point and then disable
+> there, but if we're going to do that then userspace can hopefully
+> arrange to do the disabling itself through the standard disable
+> interface anyway.  Presumably it'll want to notice things being disabled
+> at some point anyway?  TBH that's been how all the prior proposals for
+> process wide disable I've seen were done.
 
-On Wed, Feb 21, 2024 at 07:00:55PM +0800, Xuewen Yan wrote:
-> This way looks simpler, but it could not disable the warnings, but I
+If it's possible to disable per-thread rather than per-process, some
+things are easier. Disabling on account of using alt stacks only needs
+to be done on the threads using those stacks. However, for dlopen
+purposes you need a way to disable shadow stack for the whole process.
+Initially this is only needed for the thread that called dlopen, but
+it needs to have propagated to any thread that synchronizes with
+completion of the call to dlopen by the time that synchronization
+occurs, and since that synchronization can happen in lots of different
+ways that are purely userspace (thanks to futexes being userspace in
+the uncontended case), I don't see any way to make it work without
+extremely invasive, high-cost checks.
 
-Yeah, I meant that it'd make sense if the value 0 disables the warning.
+If folks on the kernel side are not going to be amenable to doing the
+things that are easy for the kernel to make it work without breaking
+compatibility with existing interfaces, but that are impossible or
+near-impossible for userspace to do, this seems like a dead-end. And I
+suspect an operation to "disable shadow stack, but without making
+threads still in SS-critical sections crash" is going to be
+necessary..
 
-Thanks.
-
--- 
-tejun
+Rich
