@@ -1,67 +1,68 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D04126F00
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 21:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743801272CC
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 21:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708550195; cv=none; b=LT3ShSYmpm4eAaV7JiBeuWs7BHVNLpwuvp1RloTwy6jeyZY0ii7+9TohWqu/ietexee/AkUzE9Uq7YfLmMh0F9cQLm8I9F2GVADga6oJBuPwdkJ8dOmxEg5Ds8zZ8PAqsurb1USYzlfjTXvMizCk79HKjwhtiXLY84OjP3tNqz8=
+	t=1708550473; cv=none; b=n8Dx6bXfywQu5eqkieUyqRzgmIb/amRNFU/Idsuh7mP4IGrQ5+EnuWHm19dvbfvB08xvY6ITej6gbytnFhsf8ctkbtqjS/V7qInReKI8YTioaiJIm2c5TEqI0Ai1hUgMg6UGaHIbDkBEQbWo7Dzr5VO7CzvnShpfHGz5x+Uq0yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708550195; c=relaxed/simple;
-	bh=04iwdfiihTWiqSIzPHAdzy89EcAty14KO44MmWzyPPg=;
+	s=arc-20240116; t=1708550473; c=relaxed/simple;
+	bh=JFD4yQzqaLEAi4PA03QBYwNo3rIHnJT2RUQoKF+C/Mg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qsAwwlLlRfOpGhlS8t7Uep5YmkdzoqTDYxK/fCT9eAGzO03Pspxei8e7hJlPTDgDGWaRs0vUoZKWNoIfD0IFFsMn1s1p63ujhTKPt6jN4BY1LwF/vKtV1aiAKfCMnRX+DiQhq5LzIvO4iwCPThcQ3oZC9PWDnT6fIe5kWF1E36g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=lwP34nuD; arc=none smtp.client-ip=209.85.210.45
+	 To:Cc:Content-Type; b=LJjpqiUxm74pr620MD2o2FwcdbgubZhqhD23fgo3YVHOr4pXxB8uK6H6z6kVf/pMxRkjYO0LnKcoP2CGbfgICAp5DD9wV1Ot/drUxp86920FTV0finR0v4OiaaNdZ9dICIXxGseCKZIQXYZcQ5LhAxlECmgwB8LTbAk4OV8Esm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=JxUB1ljL; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="lwP34nuD"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6e4423b64acso2750285a34.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 13:16:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="JxUB1ljL"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-42e457b4edbso1193121cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 13:21:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708550192; x=1709154992; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708550462; x=1709155262; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YWpAXMfptvXBWhPj/Zu9FAZfSnAxEQBXKk45RWYFa4c=;
-        b=lwP34nuD6nw4awH46Am+5av5lRCOibnaz9Ie7pvz945R95r/dnwwF5031LRlEHIX06
-         9rbHEtXuoNoO2ozZ3VkcvznexnbC5ACiq5lQ+15Zwd9MW5YQpfJ4uNfhX9aBR2oI3q0p
-         55vt5GxmCf/Y52qtArIACuoNxJ0H8rROljiOqAA35XrVj1E48Cgm1Sofi8C/ZOX+g1xM
-         HY0EkiGd9ugAvCz9VIxfX/Zmmn+CrHJzr9bzu3mrq0riPB5lgk6KV4jYnoWt/0RvwDiB
-         7/rOeNZkit6L36UCGeGm0ouAhXQjAy9f245UHOd5wo8kcyHXeV2Uoj7fZNBbA8IFBjrg
-         abUw==
+        bh=JFD4yQzqaLEAi4PA03QBYwNo3rIHnJT2RUQoKF+C/Mg=;
+        b=JxUB1ljL7XvovtiVCEiIV+ZgtEh/WCr4kltgFFgJQOX/Nze6UEOtT6SfoHf94oS5jO
+         F3PgJkRi/OzC+uTdyAXVDZmtuBXx1QevUcedfG5duFQQZh76wbB6L3+KWuUhGIpLKmeg
+         lE+A8eFEnzaYCiggTXZqyAlSoc8Xi3sSVCBTwEevS3Nb7Wvz9IiH3Mvo9QqvuKM1Exzq
+         rmwxKg2TCPQiLQ4fmnLgyPwn+aTdMq13ksJqrR7dXfzOnHvMAEgoLrl3ha+pGyxeENnF
+         JY0D23vKekg6Y0NHqqHpT8rjyB+aP5mxYFacnV4aFLgKRoeUbHuCMt7fUBTn/1Ola9MY
+         AQdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708550192; x=1709154992;
+        d=1e100.net; s=20230601; t=1708550462; x=1709155262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YWpAXMfptvXBWhPj/Zu9FAZfSnAxEQBXKk45RWYFa4c=;
-        b=w50BxePEOk7YKwMOv0PkaW6DoKGl1RcTtyMQE5Z+d3tkyD/MAZwlz+nXJDZPvHHUiD
-         VNTD4rb/6I3KXsxqmEQMDZTjGxDqqq4ZqIBCUleHvBlYrfSxB0YZKyraUPSezawap2NK
-         7gDrpSTM4LD42bcnNHp2zCog1MbCv72ZHXwXFuJCRs6eyOMu5UtME6YJE1KQIcGwFPcQ
-         t9st/2tbQdtOzIzls1EKSVN/EQh6Pn5TNgGSQRqRo3//nRVb2mbPEt4MX2n227bvd8aA
-         a73jzCMpQ9y0Yt6OTHxe15/nNbtFh8dxQsOa9pBB5ATACENlcR5KqjjUOySJzslQsIMe
-         wIIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWOi/ugNsIjk6orWIAJP50q6ZxjY3CHm/qrd4suI4meA93/KFwjhiTxjKCAcqlqv0sN4q/0uyHUM5bH2cvP2HrQ2HlCPG4BTYsE
-X-Gm-Message-State: AOJu0YxJwEm5uH5pA72AeBTxu6K97bRejJLPhU4jew9fTp7VpqwiWT42
-	Mgj0Pxfy9khjIvxa1haTI/0tkizPbx1cTQqNtdu9s1fWG/J6237VzcN/JyzdWCPQ3Y3RktXSTvm
-	lamfkJD44GPxzT9/glK2LSzxi6MwdVf/jdJI1oQ==
-X-Google-Smtp-Source: AGHT+IFlqSylMCeI6KGNha3000K+lFHjDKANDOKnq2alJEDr9oyGg2RKFtJGNI+yjwYm19RTm7J/7Xp71REjuXyqMMY=
-X-Received: by 2002:a05:6830:1345:b0:6e2:f2cc:e985 with SMTP id
- r5-20020a056830134500b006e2f2cce985mr19962028otq.13.1708550192733; Wed, 21
- Feb 2024 13:16:32 -0800 (PST)
+        bh=JFD4yQzqaLEAi4PA03QBYwNo3rIHnJT2RUQoKF+C/Mg=;
+        b=HR0VL/wNYbQWbjx4OO2VzZbg3Yhi58bduHpw9ngEX1AbQrjSHmJM9s1WOvw4Vrjfjp
+         wAlX/jpf6r6pmhoNb0v/oSOZrV6fSExFU+K08F2RzfYEHtEevtUQc9fTC6owj9EQ6ePH
+         UIKpceCaCdRyVUDNWX0YJXrSdB+4sDP8qByFv8M+WD9OA1OvP2SyVwGPPQgcKMOQKeQj
+         PV9TfZePQ4U/zNozs/BRCLr9FjxPp61Okxbfg7IQxwCz4VxsA8wFSoH/YpinB6Pl+q6j
+         X78GjmqbNW5tkXNCGZKjCDna0GxZEtiCDcNCcy/DtmT+HpEw82oNm6rlBtmVXhcWfnJx
+         CDIw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/k5C5GHPBd9fSzSfPntMyT0g2xOHT7O6NkZH7yg5Z97MVocvRgVCNtBD+y4/pFyJF9iuu4AdDNXiqT2Xz1r0I92LC0misU2c6
+X-Gm-Message-State: AOJu0Ywq424oHfn54vxODfhp1T7hoYKh+bINsfbSp6PNFzLrFId1Js9c
+	RiUlOFKykO92/geN6A6j7s1uJQnPK55s46oziH/sJmC/gK13pUD1N1DMIBbnn4W3UTiYfvMewhI
+	jDgZMOZCexhwXOkpfhIguzEZQ25zmhm6f6Ax8Qw==
+X-Google-Smtp-Source: AGHT+IGJtekCGEzDieaihS15p2Hc5EreGxKXqPCCpXJixs6Ac2iIPaw+nCtg/oETMxVwF6eTa85a+lNh3bwEt5JkkGQ=
+X-Received: by 2002:ac8:5981:0:b0:42e:17d9:f8bd with SMTP id
+ e1-20020ac85981000000b0042e17d9f8bdmr9654015qte.24.1708550462298; Wed, 21 Feb
+ 2024 13:21:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-4-surenb@google.com>
-In-Reply-To: <20240221194052.927623-4-surenb@google.com>
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-5-surenb@google.com>
+In-Reply-To: <20240221194052.927623-5-surenb@google.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 21 Feb 2024 16:15:56 -0500
-Message-ID: <CA+CK2bD8Cr1V2=PWAsf6CwDnakZ54Qaf_q5t4aVYV-jXQPtPbg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/36] mm/slub: Mark slab_free_freelist_hook() __always_inline
+Date: Wed, 21 Feb 2024 16:20:26 -0500
+Message-ID: <CA+CK2bBqUV-mTOYSuDCBaMjy+HyEs+=YnY9Ay9iQ45mStSn47w@mail.gmail.com>
+Subject: Re: [PATCH v4 04/36] scripts/kallysms: Always include __start and
+ __stop symbols
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
 	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
@@ -95,35 +96,12 @@ om> wrote:
 >
 > From: Kent Overstreet <kent.overstreet@linux.dev>
 >
-> It seems we need to be more forceful with the compiler on this one.
-> This is done for performance reasons only.
+> These symbols are used to denote section boundaries: by always including
+> them we can unify loading sections from modules with loading built-in
+> sections, which leads to some significant cleanup.
 >
 > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  mm/slub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 2ef88bbf56a3..d31b03a8d9d5 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2121,7 +2121,7 @@ bool slab_free_hook(struct kmem_cache *s, void *x, =
-bool init)
->         return !kasan_slab_free(s, x, init);
->  }
->
-> -static inline bool slab_free_freelist_hook(struct kmem_cache *s,
-> +static __always_inline bool slab_free_freelist_hook(struct kmem_cache *s=
-,
 
-__fastpath_inline seems to me more appropriate here. It prioritizes
-memory vs performance.
-
->                                            void **head, void **tail,
->                                            int *cnt)
->  {
-> --
-> 2.44.0.rc0.258.g7320e95886-goog
->
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
