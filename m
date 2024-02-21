@@ -1,198 +1,188 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2049.outbound.protection.outlook.com [40.107.243.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F78B15AAA6
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 19:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708544539; cv=none; b=jj/mQ85g6cbs/wwloxfik7oBl0ShYRl3O5Fq5V99d4atr9KQYqjr+/l4kpEamb8zhYnezxUN+oXa1o7/cBHBVWpiCRso1e2yEsYeTTWcP197gy6/nqxJsrxff2dU9Ci6m6HlWqHDhvSt5O8x3brJ1Z8ok6R7Z12Zz2+VcScUy1c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708544539; c=relaxed/simple;
-	bh=B81ntc2BK1ghpdKFoojoxaHAaxqN9YS49dmcG4ZqKGo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=G+t5ME6LZISoE8f5l/K/j9EeI1i5BlDGCQ0XP01meU9Plug+bZiKB70X1I9um1G5jcGohogRSZFPoAc0Lp3FsNLpf8nkkuOPZFAAKLu7tzYqXM2nS5uG+vQMpbG2FcAL+PD3TG7Zxhuv/BXhloRg29TJkpi1ZvGgyBq8xcxETGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ghJGqihq; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3358613B;
+	Wed, 21 Feb 2024 19:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708545521; cv=fail; b=QshXFuRnQHUz4DsQBY84goUG/Pu0FHbNvl6GH8hO9h01T3MkZPrRPf5HOQIeTyimAGxlhh4bK8cud2oODNgiGOch8OhYAqloXfcUQgvV87/PB6a6FBj8vVI7pjWyhhbMdow3/8UUX9XPOM9Ga+/Un1ZEk0OBiLtUey9VVA1B5c0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708545521; c=relaxed/simple;
+	bh=jy89R86GijhAwtZq4trxMSWk6QVLz9RO+yYGK/sgJRw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pnNacg2QDkB07q4BbyIgw1vNP/5GX7KGxpauzNeMGspb94Di0sz0NEvEXhaOBPf21KDGiyCGZ/sVE+YjGlwkFbmxpmtnk/DM/Poo3tuOkTrL5Qy2AD1Mfk7fi5dSZg60gmlhJ08qwVFPOpZpt+DkBljH5Uro8FlzqfWFXG1WcZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Vr/ftxw3; arc=fail smtp.client-ip=40.107.243.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ghJGqihq"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-5f38d676cecso1908267b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 11:42:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708544537; x=1709149337; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iHJNBSQgY470Nm1vo9kQv1HWTlhW4/9LqFry/+3J5f0=;
-        b=ghJGqihqcveTrqz0Vv1KgUfS81T6xIpcK9trj+ZdkkMLMW2FelijPvnlrXy1YyE6Sr
-         4IOXQ5VxXv5BbmADr5DVeu3DBef+/kW4LuMtHp18uLxidS2U0T1raLPMrqPVznQ6N2nf
-         YuUNHs0wbEj5vi9iMaM5oA1cM5FoOGo6LrlNpTOEx8t/n2HDv5oFzdn4tsD1H/HjM8di
-         fancbZSVHvioSF/nU0OvFR3fifYolcIlHwzSL8TFHXhUSmE6zLPMsIvCm3h9BosXxzBp
-         /NkeyAs2mHLEBqryrGRPmhtU3BF8bco6V4ZCZibX3nzSQmbCJkSyIv+5S4lUMhm3NlsI
-         qlig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708544537; x=1709149337;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iHJNBSQgY470Nm1vo9kQv1HWTlhW4/9LqFry/+3J5f0=;
-        b=f7LQCnBN9fyRKXMBQoaeAHf3BllP1C4Ws400814ZYlsOdvUh0zRUzLVNu0OnnfKg2z
-         ft2fV5wjUtFoHW83acLjC8mDEkcvKfeKAWcli8wZ6hb0yNJ+fgXIYWXaZLYcl9Lif5v9
-         aLbH91UhzjIdBan3VnxID0+q1HMtlN9hadWknC9r4vYAks9gPL6p7E3XLQTuUlQDM+bV
-         WNRsV4VoPv9jNbD/qZguuU2nsM81DXLfJQgVp5dU5NYyxC/E1GyAL5Ev8qK562C/Us5l
-         zly1ChE5J8Ft/Y+cwAdzMhlIsgzUHBvSjKEqgs3SViwi65atWTvuHletHR04xCyZ/CD9
-         MCSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtilqeCda5XKfCMcrDNC+S23XYAFIxjwQyXkiHZDgmUQkzKLoKe9+2XJAV3K1wECkMidcmuOHptQMdiv2qiW6Uo2DpXr+6GhCK
-X-Gm-Message-State: AOJu0YzERdA/ntqVQ/BJN1XCWoaV25ucwB/A2wHciZ3i9PXKN4sXCvXh
-	eKlY8TvqPto7y9Vc44x7LMh862qvColTAlKwqYKgrUnGTZGIo6MrKUzt1d09SPYG7UO9AR6BDSv
-	A1w==
-X-Google-Smtp-Source: AGHT+IHkeXMTMo11jEJZVLK3x/LUPbuFY0r5OfLvnPbsUo0+TD2woe9SeAhjFOGiRZt6wf97J57l2VuRNJw=
-X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:953b:9a4e:1e10:3f07])
- (user=surenb job=sendgmr) by 2002:a05:6902:1008:b0:dc6:e884:2342 with SMTP id
- w8-20020a056902100800b00dc6e8842342mr25280ybt.5.1708544536561; Wed, 21 Feb
- 2024 11:42:16 -0800 (PST)
-Date: Wed, 21 Feb 2024 11:40:49 -0800
-In-Reply-To: <20240221194052.927623-1-surenb@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Vr/ftxw3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=awipq7Qe3EBdUX4JFddN8FZoOeFErYDkZwG4Z/LqQZkANfuvTY63NCHI7TxBqmtPa1D853+QGtXM+ShUpU+2HwKF23MQ0I2gh6AlnVYHm4N27ICD9/W8nbi50HtzCP9xeX4ZhgHd0uWr/7TieGAnIT+u/tdpFJaxfx532yPA5J71r/SsaygDUzQNjzq98kWfpuax799vD72mi3DGkF299QB49owj/nxRr7CYNeIwsnxUDrVEcBQW8NXiR3RGYl6wvOTViNHa1eMw/vEbeN+yVj1zOA9+xBwRZUIIm4IgYYrzTtmn9eg0b+1oiRUibll9LFrbFzkU/1xGa6in0j06Kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ytJbochpmx6RQgvTe1+oAD1wA3jykYDxAEZEXKISvYg=;
+ b=QbF7SuUzQi+5JHqG53fVw8zAhGOBOe6vzC6eZTn+eCiFhZZiSephQKeGM4XBUmSZo6WeE/NghHPIBtmoZpncEd1+drLQl4i1bt6oIz/B6Mt8aH9bPzS3lx2YCYXjPm50+gvb+uRui7anSBTCMorskZrCbj9lQIoRrilKLQMP2O4Rg0gkBeKZlvT5qeSjXakkT57tzbcxnDP7ia7qY25FKcOnJibaUkTr43A1S5SGaaLwheKaL+cvhdu2oaLQttmAEhIOzcADLxEeZhquMowzsztUHXMeoPXIHuoi/W5Z+BDimD0h4hqgT0jGUhC+VbhqSWZpZ445tDKhjIaj7jJ+3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ytJbochpmx6RQgvTe1+oAD1wA3jykYDxAEZEXKISvYg=;
+ b=Vr/ftxw3vMqBDebmaaXS49Ggbg99z2rD/dn2ar7towss8fInmhOl3aXgXTiHwJDMV23dhlKPqeDApiPXrlndV6SlAnyNEKkpcO55yB/4jMwJYG+KzLOr3xreAIbnXLQ5023dMWkLe5wJkFv7gdipXhjNFq00x2N3oV/4FLJBkjw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
+ by BL1PR12MB5062.namprd12.prod.outlook.com (2603:10b6:208:313::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Wed, 21 Feb
+ 2024 19:58:36 +0000
+Received: from BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::251:b545:952c:18dd]) by BL1PR12MB5874.namprd12.prod.outlook.com
+ ([fe80::251:b545:952c:18dd%7]) with mapi id 15.20.7316.018; Wed, 21 Feb 2024
+ 19:58:36 +0000
+Message-ID: <6314de0b-a69c-4e72-9538-8b133fc50047@amd.com>
+Date: Wed, 21 Feb 2024 13:58:35 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] docs: Include simplified link titles in main index
+Content-Language: en-US
+To: corbet@lwn.net, rdunlap@infradead.org, vegard.nossum@oracle.com
+Cc: bilbao@vt.edu, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240109155643.3489369-1-carlos.bilbao@amd.com>
+From: Carlos Bilbao <carlos.bilbao@amd.com>
+In-Reply-To: <20240109155643.3489369-1-carlos.bilbao@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA9PR11CA0018.namprd11.prod.outlook.com
+ (2603:10b6:806:6e::23) To BL1PR12MB5874.namprd12.prod.outlook.com
+ (2603:10b6:208:396::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com>
-X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221194052.927623-37-surenb@google.com>
-Subject: [PATCH v4 36/36] memprofiling: Documentation
-From: Suren Baghdasaryan <surenb@google.com>
-To: akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, surenb@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|BL1PR12MB5062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2936d221-5755-4666-f572-08dc33177da5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	UedBhlCvPg/nrEybmAi0GSJmAOaRHnVa4YmNkhdvjU5iqy9yf7VjFXuctOVTRgMFukc3dtn2aBRC+4yTBpFxLqRKDetuJdCGdbE0rnn4WBaHihJCQyCAu5nWtz91nYtSxZY28D3NRUlq/QfPsLty1aQ7Z13E4BMZGdeCgYGruFWLO8BixmcZZE4P1nADh/2OYd5PUHGR5b2VOH/tRr/5WuDBFurTBnR7571G1jd8Vlh6RiYHsRT0yrNmRkk7gMul/ETkOBzDFtE774YaQZsENbwjt024+8rH2PT9MZ7070wM8u9He6DAjkf52bK7rvWCCC7jw/WI/VabQ8Ll3DfX+B3GNV/0dJE6miiGEwQL75T3e8UHom29wDkFMw7RJkxSlysAT24N3IkgajtGECa2HftwtE7WyLkYQ/1WJ13WfPMunIh6h7y/R3LILqeBqNVbGOvBpRzZBIIRWQizNLPLiYT/NyMFkc8+L7tLCFMVmalY3rwfSP+oCjpwJOk+hTtnOWE3B/FTHCRxC8F/VlB+bA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YnIxMTFVM2VSRDlFbEZqRFNCNU91cUpwWFhOOXBqYm1vRXMydWlLV2dWcUtL?=
+ =?utf-8?B?RWd2SXBOZTlIRmZPOXhGSnpYOGI5cGxCblRVMFpGUlh2ZzRobk9seTNob3Yx?=
+ =?utf-8?B?VzlxK0NaakpXdEVtS2dFN1ZwZmtGbmxoVk1ZQ1E3T29yRDNvdHhmRzRWSStt?=
+ =?utf-8?B?eDhrSE5wYk9yeDRVMGRPRlFrdEZpRXROd3FCMW9VcjQyUklxTkV5WVQ3TTR0?=
+ =?utf-8?B?dTF0amNuK2Q4a3hQUXBUOFpkYjlPem9mS2Zma1ExUHkzTHIvUXZiNHJRSnJJ?=
+ =?utf-8?B?TDNJNm1kMEE1UDJKWG11WVZSNysra2ZnVUhVNjZJREthVndCU0owcFdaSWpk?=
+ =?utf-8?B?cWRTRzFpNm5USWxWRWgvRFJiYWtvWk9maFhaeHVBSDNwUnBaSHdYMGpncXly?=
+ =?utf-8?B?aHZHdzJqeTlxaFp1aUJLOUZVVi9oYjU1TlpPVjBldy9pS2N3am9uWHRaMHBr?=
+ =?utf-8?B?SlFuQnZkc2lPZE4vVWpjd2FLcHRvc0RIZVM5d2gvRTRSNnB6NmhVbll6Yk9u?=
+ =?utf-8?B?UWdSSXd6TjBuVTlOaXpwTVh1RGtnSUsxTGwxcDI1R0RJWkpqcTEydTRxc0N2?=
+ =?utf-8?B?SmNWODNtck5McTRTcVF0Z2o5VUVmRjQvQXpoWUZsRDAwbDJwcithMGNMRUFS?=
+ =?utf-8?B?dlZxNXI0ZHpNTVJxdTRMc1dpc3pETHVNcVZaL09mKzJnSDRkdGZuNEc4SFVG?=
+ =?utf-8?B?Q1oxbi8zclBTVVdCWVNHRWR5SSsvMTRoeWZXYUNaRk4wZ0Erd0Q4K29kYTF3?=
+ =?utf-8?B?T0hlRnNteFBocDFZQmZuV3BGZzdIMEN3S21kc2M1WlZzQTE5Wkl4U3dLM0Jq?=
+ =?utf-8?B?WmNGb1NHcUtCWi9GVDNpdnJLWVBUcTljTVFNN0FDaHQrNWE3K1hSVDU1dlVu?=
+ =?utf-8?B?d0ZGRDBoNDhxaEdudTdodmQvRVJMM0poMEh6cUc1SzdvL01FdHAzQTUyQWpR?=
+ =?utf-8?B?cUsyNVhSUTNkNVFIcmZsNTZFOUhST1BoY3JUM1JSTmo4ZUpnQ0hORTUyWXdG?=
+ =?utf-8?B?RU9MZUY2T3VnRWtmdjNscmEwS3AvUC85TzJvL1RkN2RQRDhIVEh2bzNpQ1Zs?=
+ =?utf-8?B?ajhXNjdCWjl5ajZiblR0NUlrcVoxdy9MSmZBTmZuQkVaRVFid1FvNDFjMWti?=
+ =?utf-8?B?OHVNUkR4SXlaZ25MRUxqQnJ2czB2NzR3WnFPR2RLaXdaL2MzbVRFWW96SVA3?=
+ =?utf-8?B?STNyVVJXcUdEWGpYdytWcUxsZ3c0L0dranl0K1VrU2FFUFFlTDNxekZTS1hS?=
+ =?utf-8?B?d1htKzExUEtNMWx4UE81QWp5UFp6VGk3OFRJMmlQdGtkVkxDT1llS0pIbnFi?=
+ =?utf-8?B?REFxdm0xNDF5cTNCL01CM0p4cXlYMWdjNFFCZHVnMzZYTzFJNGNPcDRvZDRR?=
+ =?utf-8?B?bkxrN1Z2ZXRtc3ZUWFJhVVltTmxBT215QXJmTEIxbU9Db0t3YzgyZ0tUeHpT?=
+ =?utf-8?B?TDNJL0RHcUZHNmZMMkVuNW1UQjhOWDZLZUI3RkNTaGZjK0FPZld6cDlaajBu?=
+ =?utf-8?B?T2hRZ09QdXVid2N4Ukp0bVZSUkxLR1RONUtpVXo3MXd6WUxoa2k1SEJseGtD?=
+ =?utf-8?B?U3NvVm8ySW1OSFUvQzErYXRONy8rTmk1UzVmOFU4NnI5UnRGdlhnMUxuYmts?=
+ =?utf-8?B?NnBmM3ZPcExGU0QrOVdrTzFqazJTZ3c5Q3ZtTzZ1Z1RsOG1nRFMySzE5aGNY?=
+ =?utf-8?B?UEtTdEZZaGJnZnlFbHNid1hvdUthT01UMmR4MkhJMklVZWZ3ckRxdG5SeG54?=
+ =?utf-8?B?ZG9JWGY2cldNeHUyd2NHaHFkNEhSclpLOS9WU2NFTzhCQ3RDUTdUaVJWQTJK?=
+ =?utf-8?B?TURIYURuWmgwN0F6enNyN0V0MmZCYzloTk1GWUxjT1dUcXNaeE1sT1VjaDZZ?=
+ =?utf-8?B?L0o2MXlldmt4WUxOekR3T0dyVVZSNUQwZzluT1Ntd2JDVGVwNzRYNnVnVVlH?=
+ =?utf-8?B?UDIwcjFGQWVBTjNKcFNSalVpbkQzdHhrdFhYSU9ncCtHYUdxNFY3RmU2a015?=
+ =?utf-8?B?TVZtQWI3MWluWjE0QzYxWnhrcVhYeEpJOE1LM0U4cHFOaFlCRXk5OVpROFJR?=
+ =?utf-8?B?RGQrSzdvVnNQaGZCWDY3dCtUQlROWGljVldueXZjS3hINWtOMU50TVdNdWd4?=
+ =?utf-8?Q?nZRQrrs0vdJNEdMsgbk+qyBtY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2936d221-5755-4666-f572-08dc33177da5
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2024 19:58:36.6614
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KV/2IvlLSfIJg82ksR8sVvrJozIPBZBt5TysZ/1XUiZwxciM5/qpsUZshFgy5UVNZNJiYSCvHq+yKP3G4IGKEw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5062
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+Hello,
 
-Provide documentation for memory allocation profiling.
+On 1/9/24 09:56, Carlos Bilbao wrote:
+> The general consensus is that the documentation's website main entry point
+> and its sidebar leave room for improvement. Something we can easily fix is
+> that there's too much duplicated text.
+> 
+> To that point, consider the titles "The Linux kernel user's and
+> administrator's guide" and "The Linux kernel user-space API guide." We get
+> it, it's the Linux kernel. It's assumed that everything listed pertains to
+> the Linux kernel, given the overarching title, "The Linux Kernel
+> documentation." Constant repetition of "Linux" and "kernel" (45 times
+> each), "documentation" (21 times), and "guide" (18 times) are excessive and
+> affect UX.
+> 
+> I propose simplifying without altering actual document titles, the text
+> linking to these documents on the main page ("link titles"). For example,
+> "The Linux kernel user's and administrator's guide" could become "User's
+> and Administrator's Guide," and "A guide to the Kernel Development Process"
+> could be "Development Process". This is what my patch does.
+> 
+> Also, I send a patch fixing the formatting of the title of
+> admin-guide/index.rst (The Linux kernel user's and administrator's guide);
+> a detail I noticed because the link title would not work otherwise.
+> 
+> Thanks,
+> Carlos
+> 
+> Carlos Bilbao (2):
+>      docs: Correct formatting of title in admin-guide/index.rst
+>      docs: Include simplified link titles in main index
 
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
----
- Documentation/mm/allocation-profiling.rst | 86 +++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 Documentation/mm/allocation-profiling.rst
+Is there a reason why this patch set is currently on hold? It must to be
+feeling a bit lonely by now.
 
-diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
-new file mode 100644
-index 000000000000..2bcbd9e51fe4
---- /dev/null
-+++ b/Documentation/mm/allocation-profiling.rst
-@@ -0,0 +1,86 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+MEMORY ALLOCATION PROFILING
-+===========================
-+
-+Low overhead (suitable for production) accounting of all memory allocations,
-+tracked by file and line number.
-+
-+Usage:
-+kconfig options:
-+ - CONFIG_MEM_ALLOC_PROFILING
-+ - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-+ - CONFIG_MEM_ALLOC_PROFILING_DEBUG
-+   adds warnings for allocations that weren't accounted because of a
-+   missing annotation
-+
-+Boot parameter:
-+  sysctl.vm.mem_profiling=1
-+
-+sysctl:
-+  /proc/sys/vm/mem_profiling
-+
-+Runtime info:
-+  /proc/allocinfo
-+
-+Example output:
-+  root@moria-kvm:~# sort -g /proc/allocinfo|tail|numfmt --to=iec
-+        2.8M    22648 fs/kernfs/dir.c:615 func:__kernfs_new_node
-+        3.8M      953 mm/memory.c:4214 func:alloc_anon_folio
-+        4.0M     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod] func:ctagmod_start
-+        4.1M        4 net/netfilter/nf_conntrack_core.c:2567 func:nf_ct_alloc_hashtable
-+        6.0M     1532 mm/filemap.c:1919 func:__filemap_get_folio
-+        8.8M     2785 kernel/fork.c:307 func:alloc_thread_stack_node
-+         13M      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
-+         14M     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
-+         15M     3656 mm/readahead.c:247 func:page_cache_ra_unbounded
-+         55M     4887 mm/slub.c:2259 func:alloc_slab_page
-+        122M    31168 mm/page_ext.c:270 func:alloc_page_ext
-+===================
-+Theory of operation
-+===================
-+
-+Memory allocation profiling builds off of code tagging, which is a library for
-+declaring static structs (that typcially describe a file and line number in
-+some way, hence code tagging) and then finding and operating on them at runtime
-+- i.e. iterating over them to print them in debugfs/procfs.
-+
-+To add accounting for an allocation call, we replace it with a macro
-+invocation, alloc_hooks(), that
-+ - declares a code tag
-+ - stashes a pointer to it in task_struct
-+ - calls the real allocation function
-+ - and finally, restores the task_struct alloc tag pointer to its previous value.
-+
-+This allows for alloc_hooks() calls to be nested, with the most recent one
-+taking effect. This is important for allocations internal to the mm/ code that
-+do not properly belong to the outer allocation context and should be counted
-+separately: for example, slab object extension vectors, or when the slab
-+allocates pages from the page allocator.
-+
-+Thus, proper usage requires determining which function in an allocation call
-+stack should be tagged. There are many helper functions that essentially wrap
-+e.g. kmalloc() and do a little more work, then are called in multiple places;
-+we'll generally want the accounting to happen in the callers of these helpers,
-+not in the helpers themselves.
-+
-+To fix up a given helper, for example foo(), do the following:
-+ - switch its allocation call to the _noprof() version, e.g. kmalloc_noprof()
-+ - rename it to foo_noprof()
-+ - define a macro version of foo() like so:
-+   #define foo(...) alloc_hooks(foo_noprof(__VA_ARGS__))
-+
-+It's also possible to stash a pointer to an alloc tag in your own data structures.
-+
-+Do this when you're implementing a generic data structure that does allocations
-+"on behalf of" some other code - for example, the rhashtable code. This way,
-+instead of seeing a large line in /proc/allocinfo for rhashtable.c, we can
-+break it out by rhashtable type.
-+
-+To do so:
-+ - Hook your data structure's init function, like any other allocation function
-+ - Within your init function, use the convenience macro alloc_tag_record() to
-+   record alloc tag in your data structure.
-+ - Then, use the following form for your allocations:
-+   alloc_hooks_tag(ht->your_saved_tag, kmalloc_noprof(...))
--- 
-2.44.0.rc0.258.g7320e95886-goog
+> 
+> ---
+> 
+> v1 Link: https://lore.kernel.org/lkml/58e78693-82d1-451d-a546-51fb64ef6eb5@vt.edu/T/
+> 
+> Changes since v1:
+> 
+> - Apply feedback:
+>    Driver implementation API -> Driver APIs
+>    Testing -> Testing guide
+>    Hacking -> Hacking guides
+>    User-space tools -> Userspace tools
+>    User-space API -> Userspace APIs
+>    CPU Architectures -> CPU architectures
+> 
+> - Include patch fixing the title of The Linux kernel user's and
+>    administrator's guide.
+> 
+> - Minor changes: Change "main page's index" for "main index" in commit
+>    subject. Also use my work email to sign the commits.
+> 
+> ---
+> Documentation/admin-guide/index.rst |  1 +
+> Documentation/index.rst             | 52 ++++++++++++++---------------
+> 2 files changed, 27 insertions(+), 26 deletions(-)
+> 
 
+Thanks,
+Carlos
