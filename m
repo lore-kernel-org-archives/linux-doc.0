@@ -1,144 +1,93 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C02E762C1;
-	Wed, 21 Feb 2024 14:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBC41E4AF;
+	Wed, 21 Feb 2024 14:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708524276; cv=none; b=KAPNZzhebzNjH/Oiy7Pr2Rc1QyvuAaJqlhn0dmpEggjTjeZU7qANse9mBOm3gOkQPfGIe6LUilEH1w/cuTd9Cn5oxSlZlhZ6pvqJjZXsLgVKa9XCweExRZrSiifk/DKHJ4IOjZUedATYCDsVvcyHMYlEBEoFZXAR1kjr1VSHBK0=
+	t=1708526202; cv=none; b=HtrMxRkrBqjgZCeoGOQg2Ib19OsdCDSaCbOwvQ/o8lSK7WMBCTRWLuwRvzGyWyVqZqvKvjBkhjD+6HBsbz2yKJ+afVUQ5YtYk/Eon+GY6F0f4ip2qm+YLhOm9v9QVY1+uQUXYVcD1I02BHYWiSgbd1GpIhbW8oAUQ5298mLIpUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708524276; c=relaxed/simple;
-	bh=kNEIz7DluXXh2TDoFbuW54XyZrWn7/EUT/Q4+LwUoBs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=InIwWDxiq9F9+p+vKvyXSNGYldti2ro7PUPDG7ulCs15rI2vfmKS4RxGFVnZypGHGyofMUML+rOmWgRMpa89h/OEJ5XEENtB4itzAFLuNLhE+j81pIBHXuR4U9F10BqdrO9MrtIXSWLYY2cb9G9H/ipkXaDQGZCjxT/87eT78VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hMPZjQiP; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1708526202; c=relaxed/simple;
+	bh=qymbLOvSqp3zbYXm3A5nPTmLA9AeUS9MX95POI2/9Qo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8dNh9EOlNvxTgdd7jiOox0yOcXhdYGuDuS9L/NnntJI+RpJ8u6KbfuiToe5fMt/zwv5QG8IVImE/VYh1SV7MEYYZprybmpclPZnr6aCPz/XaIsvjIpAXz/oHImlrj5KzGfWLgkRFmMg5Dv23BGhoBgeo7g3a/OtXVczduUrYPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EnaKv/hV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hMPZjQiP"
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 41LE2W5O4032626
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 21 Feb 2024 06:02:33 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 41LE2W5O4032626
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024021201; t=1708524157;
-	bh=F8smVVCqOcx2eQeGpp+uPqQ1cqFR564JCusQLeNYovA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=hMPZjQiPo0IXyXhQ+XmIdKygX3w7dHdoubyXEZ6mQt2adBYxofhlGC6MzfmfGSVxc
-	 hB4TIDljjzrBYPeqbuhtXMlHBW+BnSrems13Pi1i9sMY+JGT6ulxcYN1tO5jmRjiPL
-	 mbUWt9qW0N1U8DRdh78jm3Ir6mEkld740nOjUMsZ8f667NsbDRgXgexyl4hIb3jKDq
-	 ZAVOoQ9AfYmPKKntUpJi2U8471nHwC+jbNdQj8hWKa8SlzPTh5dlsE8BLjOKfRMF+9
-	 tRTQn7Dc9t5psqS1H1Tdcw1cvm60NJ53KzjkeS6eqX15hjSkSHVS6G/AnnEEdylaY/
-	 mhnU3LEJAB9Sw==
-Date: Wed, 21 Feb 2024 06:02:30 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Petr Tesarik <petr.tesarik1@huawei-partners.com>,
-        Roberto Sassu <roberto.sassu@huaweicloud.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Petr Tesarik <petrtesarik@huaweicloud.com>
-CC: Dave Hansen <dave.hansen@intel.com>,
-        =?UTF-8?Q?Petr_Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>,
-        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>,
-        Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Joerg Roedel <jroedel@suse.de>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Tina Zhang <tina.zhang@intel.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>
-Subject: Re: [RFC 6/8] KEYS: PGP data parser
-User-Agent: K-9 Mail for Android
-In-Reply-To: <773dd9fb-e668-4652-8b24-712553bb7ab1@huawei-partners.com>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com> <20240216152435.1575-1-petrtesarik@huaweicloud.com> <20240216152435.1575-7-petrtesarik@huaweicloud.com> <Zc-Q5pVHjngq9lpX@casper.infradead.org> <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com> <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com> <773dd9fb-e668-4652-8b24-712553bb7ab1@huawei-partners.com>
-Message-ID: <70F9F1E7-4803-46C8-AB6E-AC1CF345F03E@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EnaKv/hV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FE92C433F1;
+	Wed, 21 Feb 2024 14:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708526202;
+	bh=qymbLOvSqp3zbYXm3A5nPTmLA9AeUS9MX95POI2/9Qo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EnaKv/hVzf/EMifF/czM+KXQ1HuU0M890L6xiokixoMqPExzkG1F5h560IEudKtlP
+	 cnoiuJ9kIZ5P6bO9J5vNa2EhGsKlkMV2yr2krsYSlFdRthEgMVpZEdGltQT97i9Y7Q
+	 EkUHh89SY2Gz25UGOlFbcOOtD0tvmY+U77GcaHSORjHlmJHjQgVbWwX5m8DjOj2KJb
+	 UmuWMzb6yVCaZjv1LsJj1Geq1/MQcF+91LcIcwizcZ/Tb83DzyYjtDw8XmY8TRZLHV
+	 8akLQddRz+yxUdxYr5E50JGZkdStjIQQZ5TxqsvONHPpnHRfuB7UQICPiNQXT9eFkV
+	 kxkYT7+AvY2gQ==
+Date: Wed, 21 Feb 2024 07:36:40 -0700
+From: Rob Herring <robh@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: =?iso-8859-1?Q?K=F6ry?= Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v4 05/17] net: pse-pd: Introduce PSE types
+ enumeration
+Message-ID: <20240221143640.GA2779189-robh@kernel.org>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+ <20240215-feature_poe-v4-5-35bb4c23266c@bootlin.com>
+ <20240215105846.6dd48886@kernel.org>
+ <20240216104211.2c11d1cc@kmaincent-XPS-13-7390>
+ <20240216173638.4bb12af2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240216173638.4bb12af2@kernel.org>
 
-On February 20, 2024 2:55:12 AM PST, Petr Tesarik <petr=2Etesarik1@huawei-p=
-artners=2Ecom> wrote:
->On 2/16/2024 6:08 PM, H=2E Peter Anvin wrote:
->> On February 16, 2024 8:53:01 AM PST, Roberto Sassu <roberto=2Esassu@hua=
-weicloud=2Ecom> wrote:
->>> On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
->>>> On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
->>>>> From: David Howells <dhowells@redhat=2Ecom>
->>>>>
->>>>> Implement a PGP data parser for the crypto key type to use when
->>>>> instantiating a key=2E
->>>>>
->>>>> This parser attempts to parse the instantiation data as a PGP packet
->>>>> sequence (RFC 4880) and if it parses okay, attempts to extract a pub=
-lic-key
->>>>> algorithm key or subkey from it=2E
->>>>
->>>> I don't understand why we want to do this in-kernel instead of in
->>>> userspace and then pass in the actual key=2E
->>>
->>> Sigh, this is a long discussion=2E
->>>
->>> PGP keys would be used as a system-wide trust anchor to verify RPM
->>> package headers, which already contain file digests that can be used a=
-s
->>> reference values for kernel-enforced integrity appraisal=2E
->>>
->>> With the assumptions that:
->>>
->>> - In a locked-down system the kernel has more privileges than root
->>> - The kernel cannot offload this task to an user space process due to
->>>  insufficient isolation
->>>
->>> the only available option is to do it in the kernel (that is what I go=
-t
->>> as suggestion)=2E
->>>
->>> Roberto
->>>
->>>
->>=20
->> Ok, at least one of those assumptions is false, and *definitely* this a=
-pproach seems to be a solution in search of a problem=2E
->
->As a matter of fact, there is some truth to this observation=2E
->
->The frustrating story of Roberto's PGP parser sparked the idea, but it
->would clearly be overkill to add all this code just for this one parser=
-=2E
->I started looking around if there are other potential uses of a sandbox
->mode, which might justify the effort=2E I quickly found out that it is
->difficult to find a self-contained part of the kernel=2E
->
->Now I believe that these dependencies among different parts of the
->kernel present an issue, both to kernel security and to maintainability
->of the source code=2E Even if sandbox mode as such is rejected (hopefully
->with an explanation of the reasons), I believe that it is good to split
->the kernel into smaller parts and reduce their interdependencies=2E In
->this sense, sandbox mode is a way to express and enforce the remaining
->dependencies=2E
->
->Petr T
+On Fri, Feb 16, 2024 at 05:36:38PM -0800, Jakub Kicinski wrote:
+> On Fri, 16 Feb 2024 10:42:11 +0100 Köry Maincent wrote:
+> > > On Thu, 15 Feb 2024 17:02:46 +0100 Kory Maincent wrote:  
+> > > > Introduce an enumeration to define PSE types (C33 or PoDL),
+> > > > utilizing a bitfield for potential future support of both types.
+> > > > Include 'pse_get_types' helper for external access to PSE type info.    
+> > > 
+> > > I haven't read the series, just noticed this breaks the build:
+> > > 
+> > > error: ../include/uapi/linux/pse.h: missing "WITH Linux-syscall-note" for
+> > > SPDX-License-Identifier  
+> > 
+> > By curiosity how do you get that error? 
+> > Is it with C=1? I didn't faced it with W=1.
+> > C=1 is broken for several architecture like arm64, indeed I forgot to run it.
+> 
+> Not 100% sure, TBH, I suspect it's somehow enabled by allmodconfig.
+> I don't think it's a C=1 thing because our clang build doesn't do C=1
+> and it also hit it.
 
-Congratulations=2E You just reinvented the microkernel=2E
+Probably from scripts/spdxcheck.py? IIRC, it has some dependencies which 
+have to be installed to enable it.
+
+Rob
