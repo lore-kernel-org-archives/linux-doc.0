@@ -1,149 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6532676C99;
-	Wed, 21 Feb 2024 13:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C02E762C1;
+	Wed, 21 Feb 2024 14:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708523600; cv=none; b=mv8H7iIi5f50H62oEtHw1Izhf5rR7mCA0fXRd6YmDPVEIa/+9lqyZx7SOyOXiQzhNSdp5yn2VG0YmH0vOJ+dbj5U1wifqTyKLiI6DW0NTVjZecbYjUine0sFmx5AYUZ0OQK0s0h0ptLkG6tMIPjXipXDzsJFDNyRb1BuMhnWCRY=
+	t=1708524276; cv=none; b=KAPNZzhebzNjH/Oiy7Pr2Rc1QyvuAaJqlhn0dmpEggjTjeZU7qANse9mBOm3gOkQPfGIe6LUilEH1w/cuTd9Cn5oxSlZlhZ6pvqJjZXsLgVKa9XCweExRZrSiifk/DKHJ4IOjZUedATYCDsVvcyHMYlEBEoFZXAR1kjr1VSHBK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708523600; c=relaxed/simple;
-	bh=2qDB6aCchFqvsRrIZrlOnBUWRusFLsK6a7t86lO4/kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=myu69FE7P+NnX/+X6Qtt7TxnZjPsU1wcAz28khjxoE0gcTRqTiE51tjsPQbh6YrXQR/b6OYitj6wX1XlKBVf88Vfc2gXXh2pj2BXzjphcj6venRC0FFyyMU+PU9FO1voszbr5LL2dZ7x849d9+oJjdHKKXkdPpqAXUb4c7NTL1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYWFYY21; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708524276; c=relaxed/simple;
+	bh=kNEIz7DluXXh2TDoFbuW54XyZrWn7/EUT/Q4+LwUoBs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=InIwWDxiq9F9+p+vKvyXSNGYldti2ro7PUPDG7ulCs15rI2vfmKS4RxGFVnZypGHGyofMUML+rOmWgRMpa89h/OEJ5XEENtB4itzAFLuNLhE+j81pIBHXuR4U9F10BqdrO9MrtIXSWLYY2cb9G9H/ipkXaDQGZCjxT/87eT78VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hMPZjQiP; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYWFYY21"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8B9C433F1;
-	Wed, 21 Feb 2024 13:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708523600;
-	bh=2qDB6aCchFqvsRrIZrlOnBUWRusFLsK6a7t86lO4/kc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XYWFYY21ChMcDnqRafHBvRB0QxejjlT/bZHLI49dgPa5dRacaD3UN0LLMesLDhEVK
-	 FQALDj09HDwKPE6W4jj/Eh1jqbUH+H+QnFzr8lEIlZA/imkC3dRk/JOQvq/V/1qmnf
-	 AKtPOLPebGuFFRe5xPIXDbSmUtlL944IsVvIA7rGpLNSg/1AcaSk659q46C8HRHywn
-	 bhl8FLesEaZJjbv9GARHL60svpyiaFNTpyRdOuK9i5QgdctkDvVHFN/fMwhmSVZRSB
-	 /NtzQjotaqwXeqdsZ0ePVwa6GV0m+bjLd5HQ/Rwg6sMIIZRNIfrgzJfc4uR31QEOgk
-	 nbyq6X4Uq/GjQ==
-Date: Wed, 21 Feb 2024 13:53:10 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "dalias@libc.org" <dalias@libc.org>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"musl@lists.openwall.com" <musl@lists.openwall.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"ebiederm@xmission.com" <ebiederm@xmission.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"sorear@fastmail.com" <sorear@fastmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
- in userspace
-Message-ID: <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
-References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
- <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
- <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
- <20240220185714.GO4163@brightrain.aerifal.cx>
- <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
- <20240220235415.GP4163@brightrain.aerifal.cx>
- <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
- <20240221012736.GQ4163@brightrain.aerifal.cx>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hMPZjQiP"
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 41LE2W5O4032626
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 21 Feb 2024 06:02:33 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 41LE2W5O4032626
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024021201; t=1708524157;
+	bh=F8smVVCqOcx2eQeGpp+uPqQ1cqFR564JCusQLeNYovA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=hMPZjQiPo0IXyXhQ+XmIdKygX3w7dHdoubyXEZ6mQt2adBYxofhlGC6MzfmfGSVxc
+	 hB4TIDljjzrBYPeqbuhtXMlHBW+BnSrems13Pi1i9sMY+JGT6ulxcYN1tO5jmRjiPL
+	 mbUWt9qW0N1U8DRdh78jm3Ir6mEkld740nOjUMsZ8f667NsbDRgXgexyl4hIb3jKDq
+	 ZAVOoQ9AfYmPKKntUpJi2U8471nHwC+jbNdQj8hWKa8SlzPTh5dlsE8BLjOKfRMF+9
+	 tRTQn7Dc9t5psqS1H1Tdcw1cvm60NJ53KzjkeS6eqX15hjSkSHVS6G/AnnEEdylaY/
+	 mhnU3LEJAB9Sw==
+Date: Wed, 21 Feb 2024 06:02:30 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Petr Tesarik <petr.tesarik1@huawei-partners.com>,
+        Roberto Sassu <roberto.sassu@huaweicloud.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Petr Tesarik <petrtesarik@huaweicloud.com>
+CC: Dave Hansen <dave.hansen@intel.com>,
+        =?UTF-8?Q?Petr_Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>,
+        Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>, Xin Li <xin3.li@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>, Ze Gao <zegao2021@gmail.com>,
+        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>,
+        Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Joerg Roedel <jroedel@suse.de>,
+        "Mike Rapoport (IBM)" <rppt@kernel.org>,
+        Tina Zhang <tina.zhang@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>
+Subject: Re: [RFC 6/8] KEYS: PGP data parser
+User-Agent: K-9 Mail for Android
+In-Reply-To: <773dd9fb-e668-4652-8b24-712553bb7ab1@huawei-partners.com>
+References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com> <20240216152435.1575-1-petrtesarik@huaweicloud.com> <20240216152435.1575-7-petrtesarik@huaweicloud.com> <Zc-Q5pVHjngq9lpX@casper.infradead.org> <5916fa3ac3d0ce2ade71e7ed1c9eb6923e374c1f.camel@huaweicloud.com> <EC53BCED-0D4C-4561-9041-584378326DD5@zytor.com> <773dd9fb-e668-4652-8b24-712553bb7ab1@huawei-partners.com>
+Message-ID: <70F9F1E7-4803-46C8-AB6E-AC1CF345F03E@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cNQgfjDz+IAKI+aZ"
-Content-Disposition: inline
-In-Reply-To: <20240221012736.GQ4163@brightrain.aerifal.cx>
-X-Cookie: The second best policy is dishonesty.
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On February 20, 2024 2:55:12 AM PST, Petr Tesarik <petr=2Etesarik1@huawei-p=
+artners=2Ecom> wrote:
+>On 2/16/2024 6:08 PM, H=2E Peter Anvin wrote:
+>> On February 16, 2024 8:53:01 AM PST, Roberto Sassu <roberto=2Esassu@hua=
+weicloud=2Ecom> wrote:
+>>> On Fri, 2024-02-16 at 16:44 +0000, Matthew Wilcox wrote:
+>>>> On Fri, Feb 16, 2024 at 04:24:33PM +0100, Petr Tesarik wrote:
+>>>>> From: David Howells <dhowells@redhat=2Ecom>
+>>>>>
+>>>>> Implement a PGP data parser for the crypto key type to use when
+>>>>> instantiating a key=2E
+>>>>>
+>>>>> This parser attempts to parse the instantiation data as a PGP packet
+>>>>> sequence (RFC 4880) and if it parses okay, attempts to extract a pub=
+lic-key
+>>>>> algorithm key or subkey from it=2E
+>>>>
+>>>> I don't understand why we want to do this in-kernel instead of in
+>>>> userspace and then pass in the actual key=2E
+>>>
+>>> Sigh, this is a long discussion=2E
+>>>
+>>> PGP keys would be used as a system-wide trust anchor to verify RPM
+>>> package headers, which already contain file digests that can be used a=
+s
+>>> reference values for kernel-enforced integrity appraisal=2E
+>>>
+>>> With the assumptions that:
+>>>
+>>> - In a locked-down system the kernel has more privileges than root
+>>> - The kernel cannot offload this task to an user space process due to
+>>>  insufficient isolation
+>>>
+>>> the only available option is to do it in the kernel (that is what I go=
+t
+>>> as suggestion)=2E
+>>>
+>>> Roberto
+>>>
+>>>
+>>=20
+>> Ok, at least one of those assumptions is false, and *definitely* this a=
+pproach seems to be a solution in search of a problem=2E
+>
+>As a matter of fact, there is some truth to this observation=2E
+>
+>The frustrating story of Roberto's PGP parser sparked the idea, but it
+>would clearly be overkill to add all this code just for this one parser=
+=2E
+>I started looking around if there are other potential uses of a sandbox
+>mode, which might justify the effort=2E I quickly found out that it is
+>difficult to find a self-contained part of the kernel=2E
+>
+>Now I believe that these dependencies among different parts of the
+>kernel present an issue, both to kernel security and to maintainability
+>of the source code=2E Even if sandbox mode as such is rejected (hopefully
+>with an explanation of the reasons), I believe that it is good to split
+>the kernel into smaller parts and reduce their interdependencies=2E In
+>this sense, sandbox mode is a way to express and enforce the remaining
+>dependencies=2E
+>
+>Petr T
 
---cNQgfjDz+IAKI+aZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Feb 20, 2024 at 08:27:37PM -0500, dalias@libc.org wrote:
-> On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
-
-> > (INCSSP, RSTORSSP, etc). These are a collection of instructions that
-> > allow limited control of the SSP. When shadow stack gets disabled,
-> > these suddenly turn into #UD generating instructions. So any other
-> > threads executing those instructions when shadow stack got disabled
-> > would be in for a nasty surprise.
-
-> This is the kernel's problem if that's happening. It should be
-> trapping these and returning immediately like a NOP if shadow stack
-> has been disabled, not generating SIGILL.
-
-I'm not sure that's going to work out well, all it takes is some code
-that's looking at the shadow stack and expecting something to happen as
-a result of the instructions it's executing and we run into trouble.  A
-lot of things won't notice and will just happily carry on but I expect
-there are going to be things that care.  We also end up with an
-additional state for threads that have had shadow stacks transparently
-disabled, that's managable but still.
-
-> > > The place where it's really needed to be able to allocate the shadow
-> > > stack synchronously under userspace control, in order to harden
-> > > normal
-> > > applications that aren't doing funny things, is in pthread_create
-> > > without a caller-provided stack.
-
-> > Yea most apps don't do anything too tricky. Mostly shadow stack "just
-> > works". But it's no excuse to just crash for the others.
-
-> One thing to note here is that, to enable this, we're going to need
-> some way to detect "new enough kernel that shadow stack semantics are
-> all right". If there are kernels that have shadow stack support but
-> with problems that make it unsafe to use (this sounds like the case),
-> we can't turn it on without a way to avoid trying to use it on those.
-
-If we have this automatic conversion of pages to shadow stack then we
-should have an API for enabling it, userspace should be able to use the
-presence of that API to determine if the feature is there.
-
---cNQgfjDz+IAKI+aZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXWAEUACgkQJNaLcl1U
-h9BTcAf+MujJo/pNOGU2neBJWmbVKrnAz60+j+uAD98t6m1YXtFChsz+YR6gQOA1
-7FEah97yBTtTiSGpgeKnKCJZMVaWEYHF0Oal7bU/cO0uO6DshP7BIWygF/xyL6/r
-AiFhQ5IAhgRYlGKzShiXTP3rx7ITjIS/1ejalkQ4vHwCOA/N0rsnZwJadUytQjJv
-bHJxu0pC95Sb9lZG3yrrOqZJdljkMsnb7ThBwPRENX0XmGz/Y8l0/FjQwiyWc+Bv
-i4HuekjDwxdxIknpEI/kciFlk8gjthTCrAloZNN/PGNExBEppzAMUg44bTcUkuuu
-CReIkIoN/x1s3gztzAkcLF2nu1EF6w==
-=wfib
------END PGP SIGNATURE-----
-
---cNQgfjDz+IAKI+aZ--
+Congratulations=2E You just reinvented the microkernel=2E
