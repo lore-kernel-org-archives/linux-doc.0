@@ -1,111 +1,110 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC97C46BF;
-	Wed, 21 Feb 2024 02:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022DE46A4;
+	Wed, 21 Feb 2024 02:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708482150; cv=none; b=MQ3bmr/ibyyGSOWEI/fKIG4M1SxJZpCiO+Ku7VK94nsCHfa8Cni92wvGCF9NaiNcGLK0Pl2RCq4wjWF2/hXdwM7tyL6L1MbXQfZmUIqyysCJkSCvxuuyccsISmbvG6MA/4xtGMeNFCBrMBKZYyFXZYp52RugpCztuxoknqyJbP4=
+	t=1708483791; cv=none; b=Gf3AQ8qDu/tDtF8jp4HDlDeWmnzdTFU5tv5+/ixdxajL+Gi0oFpOR+KthSUq+yBo2bt/qmM9JTSoTawK9yF+MvK4X0QO8AA+9XY1nZgrsG7uCSZcyBhZaRNRNibhkDLaI8o4BsfF8qU+ef+wXKpp6rHQZF9lyheSVmlYmOGCwiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708482150; c=relaxed/simple;
-	bh=3KahlIpMvWJWOVfz3J0b1jo1fgdXtR++9nbG39MWiAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jhdvbAseYL+AnAgfWQukCZeaZ5PTJ/jr6kMtFQyO4EctTstGc9Yz8SUIG18trZqAcWX8lzmLbOf2yPRa0SqrZcuY9kRJqeMKhEaBA09smcSrCRHcCDszYgV2QXboY5tfqVkywaRJ/JttbuMXx5O6mxGUcV8LKp+bO7eqkNz3USg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W8t0v/VQ; arc=none smtp.client-ip=209.85.166.47
+	s=arc-20240116; t=1708483791; c=relaxed/simple;
+	bh=0YzZT7AtbEwGuMMGVGesQNVHt+oEog5zyqr5o4Zt9Ho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BBIlea5RbTFbYYLs9zXWTrBFl4IXk1DBJChp1CjXG2/RzJ2NUSA+pP7LAWRwLx6jSQaWKjVR+eCVFvPNw5vpJKSWg++5pmrAQGVVdkcGqEZUUWrUBQmLkw5nnYb2tKE5BuD6QKOKA3ogK3BFY/7tl72XSEy+MfYkt65FRROHL1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kbOUNgYO; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8t0v/VQ"
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7c490498729so6286539f.1;
-        Tue, 20 Feb 2024 18:22:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbOUNgYO"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d932f6ccfaso50963765ad.1;
+        Tue, 20 Feb 2024 18:49:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708482148; x=1709086948; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mhk0q27X8GinCZy7XzzdW389DBQpazGkJTGn+SAUaKg=;
-        b=W8t0v/VQ3oUAFjcieqzqP6Jyyfp5yZ3rrHoMmkPVPsvWyMI44U+UEZI58KsqAuxB1C
-         YtdxtRnGI0Ua9SH+5CwzlxWudSMUt/AglSUNgRoWdCwmk9CyPFO9TNEZlz4JyLMoV3v7
-         sta9bs+FPI7Cm4MoizyG15BPGxpJAAcRlMNrMdqisHOSSno6Fs+mJo26TSWyebXNwu45
-         PmixupQ7KQwYejvicQehizzBwZnCMHVm5LUSGI9TP9S4BWGqnytgthfhl8WqSfyimdUY
-         vRI5AQCw7FzaTj9WSZqJe80gJNyL1XWDgdVqxma+uzQ4M6yqjv2rG6Df44lz0OCKE/mh
-         1PQQ==
+        d=gmail.com; s=20230601; t=1708483789; x=1709088589; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9pAyzYBVOxuKmn5DITDD4392qCfsQwduisHaKiAl1r0=;
+        b=kbOUNgYO4FYVFsIlbbIwiCACHrAKvq67lO7iZMFehwKzmw063yVUk55XH/tbIrih1Y
+         sDWqMvGMzFj1j90DBcTPWFI1oibrwBrFsW+vq2unHn+lX6SRh9tbn1DGvn0lD0P++73m
+         wZeszZsy41PKqCyEvDJTDGGfvCRJE6bUE0+IL7eybs/WO4EJNP4S0dZyr0tLvuD/z1u/
+         m5lvmKwzgnlATE58nKLgXqbmdRjOQ8T4P77F3ujyUL5tGRAi1ElfVWzM10NtrpeJH2mn
+         4H6O4Q2lPgwKHvLrL0vopNpZjwNDc3PkVuSIIEXUQ8r40eLCTZCpc1slA373LzQuHABS
+         LMEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708482148; x=1709086948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mhk0q27X8GinCZy7XzzdW389DBQpazGkJTGn+SAUaKg=;
-        b=nojeWnb4PFuFQr62WsZi1Ht+70RBDFXi6RGNxpXKlM5GoqH1JZyAH5XdL2fXM6BTOq
-         C4r/fKQJAiTfLmKfAPSCUuYX25mrSbe62TqDJ7nBkyk7/uJjIsSwAWLR8hzxMU3w7OZc
-         goGKj/N3B22jX9QDIHAUzPuTr7ur51wHNanYHe8sOX0oo26kqA6owvEppir7lNYGC3eq
-         dSApY0VR2fHm96tiCFdZP1/utO976EynuK6TpislSz8AfLk2zR9nHFaLuZZcauz7XAfb
-         mTQ8DRe4jMMo5ag8DBxb6AfDuo5HIv2siJnQCc1ja3Q0DhE79pX8YeWR8iTuEHdA2lyQ
-         YopQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQFoIGGoO7KBq316bUVK5VCQZyreXqUVptnAhVygShQosFfBrzXPHzfJDTj1uthHOiGQXbXK6cIHGG+WERyYT7Id63D8e6wmh9CM0G3FdOwyhAv3LuexMBhdy593dHtckOkZ9dp0G5oZ5KiMhG0VE1yiVIaScFs8aX19Ai/HvS8/QGEKoQWPDwEmT8qwZeIMuTodUDIqoOokFMLN6QBazx
-X-Gm-Message-State: AOJu0Yz62Bci2z/XE6Q1ab7Pt4koNNaTSFrPHygxghU0e0/TSQz3ADB8
-	FWDakDaIazIqpoukLqTetB8BYKINYoGE0ZicBkmTG+DF4sOwv8BdpD2bRZ/Zr1/cA70RLuPrlhB
-	i+w46L2Atgyrg4mZSX5McFhd8dS4=
-X-Google-Smtp-Source: AGHT+IF2VfDZBoX5pQjaflh73V91CMTptpS/eM0zxZ1Rx/DhA1L5dll99owOM9lN68Xa6i3gE5uApl5W+PVF+WaNdlc=
-X-Received: by 2002:a05:6602:3f92:b0:7c7:2e6a:9bbe with SMTP id
- fb18-20020a0566023f9200b007c72e6a9bbemr16676784iob.10.1708482147782; Tue, 20
- Feb 2024 18:22:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708483789; x=1709088589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9pAyzYBVOxuKmn5DITDD4392qCfsQwduisHaKiAl1r0=;
+        b=ehFmfz7uG5roagIClQ1iZwj0Vk69+I0BkTpT/aY+yantu+flqXpL5uxoM4tQJoIlpv
+         nE2uLC95M+e6wyRQ192WUfrTK4lZEFkpBMYAeUzXxb2DF0YVCQZrZTkcf1GkgRWqK2FH
+         rXK1ENDsNI/QcDaOGahx+XmmzGomFNbtjzNa6ojP/iU1ZVhdweM9VpAdAGSbPGwrNoC6
+         IGRAulL7xYWeXR4Tjgfaf/QNacoloajHT3V/M0M3FVreWAEa8zrY88kVrTwhPJAjYanG
+         zSF+fBaVB2XBAzTcybUOMmrmHlxK+ZU2qbS4JUIhHAOpXuoB5f9iaP6U+1jZv508TeYV
+         9XOA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqJ5UYVeFqC3hi8i1yAmSThuP5DlB+RnhR2nfL6dWAVvzoD7Wqvzkn+t9vBMOoc9uRzzrphlxe86EY81U7cDXLzuQvYMg6M6ofsSq2l9cUKBis1OaddOt4ez5OZcxR1DnUVYP20l2T4D35ipgSwKDemuyCivl4vArMpiZK2zyTo3INegKc7CVsA8B7vHs7om2aatfPDY7pSjtEknWH2wzr/crMH+7gFoD3uh5YGeMs5O/cseGNU7yrlsE=
+X-Gm-Message-State: AOJu0Yzl1PLxuqR+EvmELKqZnBDg+jMK85/uagNheWLznWxx203QuO+V
+	k544I/HUNhtxAjCQyEIFBpCH6lwvxf9Al3zqzbjp3uNs3nW5WGRw
+X-Google-Smtp-Source: AGHT+IGpD6WpkCgaR7lYoHcPIeliL0+6EyMXy2eFgCQmG/Odbul0rh0nTvlpvUfl9z5wmC4riV6UVw==
+X-Received: by 2002:a17:902:6847:b0:1db:9fef:b996 with SMTP id f7-20020a170902684700b001db9fefb996mr13328524pln.33.1708483789202;
+        Tue, 20 Feb 2024 18:49:49 -0800 (PST)
+Received: from macbook-pro-49.dhcp.thefacebook.com ([2620:10d:c090:400::4:b11c])
+        by smtp.gmail.com with ESMTPSA id kq13-20020a170903284d00b001db5c8202a4sm7005042plb.59.2024.02.20.18.49.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 18:49:48 -0800 (PST)
+Date: Tue, 20 Feb 2024 18:49:44 -0800
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Subject: Re: [PATCH RFC bpf-next v2 02/10] bpf/helpers: introduce sleepable
+ timers
+Message-ID: <rgjy2bzsugnm7eyye25sx4b4os3lenfpzncdy5x4jog7qqkycb@6z4ybeniikvc>
+References: <20240214-hid-bpf-sleepable-v2-0-5756b054724d@kernel.org>
+ <20240214-hid-bpf-sleepable-v2-2-5756b054724d@kernel.org>
+ <a72147f5-2b7d-4267-9881-6a645c575838@linux.dev>
+ <r3yhu4h23tdg2dqj7eq3lhevsigvvb3qkge3icxmaqpgkayvoi@gxfxstkr2pxl>
+ <87eddccx1q.fsf@toke.dk>
+ <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231222013352.3873689-1-kcfeng0@nuvoton.com> <20231222013352.3873689-2-kcfeng0@nuvoton.com>
- <5dd9d5f8-c909-4245-b37f-cfb0a8096a50@roeck-us.net>
-In-Reply-To: <5dd9d5f8-c909-4245-b37f-cfb0a8096a50@roeck-us.net>
-From: Ban Feng <baneric926@gmail.com>
-Date: Wed, 21 Feb 2024 10:22:16 +0800
-Message-ID: <CALz278Z_YgY6J3SqfnMad1tcw-SQquhSsOJjdA6Okpb5vz78Qw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org, kwliu@nuvoton.com, 
-	kcfeng0@nuvoton.com, DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com, 
-	naresh.solanki@9elements.com, billy_tsai@aspeedtech.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fckhc367l6eha2gpftixhzjdsmo2jts5p6ir6ukx2q5xndsbhf@btzjwvuamcv4>
 
-Hi Guenter,
+On Fri, Feb 16, 2024 at 03:58:20PM +0100, Benjamin Tissoires wrote:
+> 
+> So (and this also answers your second email today) I'm thinking at:
+> - have multiple flags to control the timer (with dedicated timer_cb
+>   kernel functions):
+>   - BPF_F_TIMER_HRTIMER (default)
+>   - BPF_F_TIMER_WORKER (no timer, just workqueue)
 
-On Sat, Feb 3, 2024 at 11:09=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> =
-wrote:
->
-> On Fri, Dec 22, 2023 at 09:33:50AM +0800, baneric926@gmail.com wrote:
-> > From: Naresh Solanki <naresh.solanki@9elements.com>
-> >
-> > Add common fan properties bindings to a schema.
-> >
-> > Bindings for fan controllers can reference the common schema for the
-> > fan
-> >
-> > child nodes:
-> >
-> >   patternProperties:
-> >     "^fan@[0-2]":
-> >       type: object
-> >       $ref: fan-common.yaml#
-> >       unevaluatedProperties: false
-> >
-> > Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> > Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
->
-> Unfortunately the dt maintainer's Reviewed-by: tag on the latest version
-> of the fan schema patch got lost. I am not sure if I can add that back
-> in on my own without violating some rules. That will need to get resolved
-> before we can move forward with these patches.
->
-> Guenter
+These two make sense, but
 
-Owner will add 'Reviewed-by: tag from Rob' in the next version.
+>   - BPF_F_TIMER_DELAYED_WORKER (hrtimer + workqueue, or actual
+>     delayed_work, but that's re-implementing stuffs)
 
-Thanks,
-Ban
+This one doesn't.
+Unlike hrtimer the workqueue is non deterministic.
+Requesting a callback after a specific delay only to be randomized
+by the workqueue is a confusing UX to give to bpf progs.
+If bpf author really want to do something like that they can implement
+such anti-feature manually with two bpf_timers.
+
+Later we'll add a selector for WQ. At that time we'd need to decide
+whether to use a dedicated kthread or any of system_*_wq or WQ_BH.
+For now I'd only expose 'sleepable' as a guarantee in bpf api.
+Hence BPF_F_TIMER_SLEEPABLE is the only extra bit in flags for bpf_timer_start().
+Not sure whether it's needed in bpf_timer_init() too.
