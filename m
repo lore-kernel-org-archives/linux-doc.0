@@ -1,126 +1,156 @@
-Received: from brightrain.aerifal.cx (brightrain.aerifal.cx [104.156.224.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473D47FBA9
-	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 14:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=104.156.224.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDB380BE3
+	for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 15:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708527468; cv=none; b=YHchI7S8BAn5vQwILdL+Trd3dUcN71OSrMlT4E9EAJGmkGonzDvNd6ovOTy4CApO46Nv+5TRkSSU+6PDRd+dogCjdphWKobvrimdQXAUnXWTWaARnZBCuh8S7hMzF9MPKJmZogo2t8Z1poPdyEXLQFLqd+RIpAbQ5WhUlzgYMKo=
+	t=1708528021; cv=none; b=K8di/snzJL5AnRSwNP3Sc8g7zdxt032FeaT3oJaD998tWN/dM5XiTMoBpIWUXxiZr6AqEE8Cohix/u949id+opDT+YzF5Gep9ldzd+RBG25AMIt3TuTtjyLWKdfIdWaatU9fFqG0yiaYXMh3y9+tnwhvbJZFxi3R+3KMo6jJVk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708527468; c=relaxed/simple;
-	bh=VXm+kZmxMVHqvGGNho4lRaBPvFnNMXrsUkhaZtCVkdg=;
+	s=arc-20240116; t=1708528021; c=relaxed/simple;
+	bh=VKs5SC9Um/6jmiJHZEARbnapbryfD+Cwve6zqW4sFCw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=di+Ph33/9JeP4ALbeKH/nteq+3JqDV4ThjtqH9emARidu3obJZKnTZ6LQ/AfmrvZbXi99bmQ14l+B9jpfL0t9wBVDY03RS2xEjZPv7E0ulhBrMDklvjf1iGBCamM/ZPbKnCK198k9kNEnqB3LS3eOFxGk6/DK17wTzGBt5aEWRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org; spf=pass smtp.mailfrom=libc.org; arc=none smtp.client-ip=104.156.224.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=libc.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=libc.org
-Date: Wed, 21 Feb 2024 09:58:01 -0500
-From: "dalias@libc.org" <dalias@libc.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"Szabolcs.Nagy@arm.com" <Szabolcs.Nagy@arm.com>,
-	"musl@lists.openwall.com" <musl@lists.openwall.com>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>,
-	"debug@rivosinc.com" <debug@rivosinc.com>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>, "maz@kernel.org" <maz@kernel.org>,
-	"oleg@redhat.com" <oleg@redhat.com>,
-	"fweimer@redhat.com" <fweimer@redhat.com>,
-	"keescook@chromium.org" <keescook@chromium.org>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"ebiederm@xmission.com" <ebiederm@xmission.com>,
-	"will@kernel.org" <will@kernel.org>,
-	"brauner@kernel.org" <brauner@kernel.org>,
-	"hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
-	"ardb@kernel.org" <ardb@kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"thiago.bauermann@linaro.org" <thiago.bauermann@linaro.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"sorear@fastmail.com" <sorear@fastmail.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [musl] Re: [PATCH v8 00/38] arm64/gcs: Provide support for GCS
- in userspace
-Message-ID: <20240221145800.GR4163@brightrain.aerifal.cx>
-References: <20240203-arm64-gcs-v8-0-c9fec77673ef@kernel.org>
- <22a53b78-10d7-4a5a-a01e-b2f3a8c22e94@app.fastmail.com>
- <4c7bdf8fde9cc45174f10b9221fa58ffb450b755.camel@intel.com>
- <20240220185714.GO4163@brightrain.aerifal.cx>
- <9fc9c45ff6e14df80ad023e66ff7a978bd4ec91c.camel@intel.com>
- <20240220235415.GP4163@brightrain.aerifal.cx>
- <a57d6c7eada4b9a7c35addbc8556f5b53a0c3e6f.camel@intel.com>
- <20240221012736.GQ4163@brightrain.aerifal.cx>
- <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qDh59ZJn0MXy2lKNaVzw4N26zXipBsXcQqFSsk3kvXeBKokQxAm3ZgCiddX0mSDp3bOASzFurBm/vX9ymmY9684zRNptkNf/QfUfnecXrVL6GBhw5GxlrAZEgA/P0zoQ14Hepsty7Pu2pHZTOlDJmfX/YwwKgwwBhqhGSFNJ2Zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rcoB2-0005mi-2V; Wed, 21 Feb 2024 16:06:28 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rcoAz-0023lz-EZ; Wed, 21 Feb 2024 16:06:25 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rcoAz-001Ke2-15;
+	Wed, 21 Feb 2024 16:06:25 +0100
+Date: Wed, 21 Feb 2024 16:06:25 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v4 14/17] dt-bindings: net: pse-pd: Add bindings
+ for PD692x0 PSE controller
+Message-ID: <ZdYRccm7-TXcRp_v@pengutronix.de>
+References: <20240215-feature_poe-v4-0-35bb4c23266c@bootlin.com>
+ <20240215-feature_poe-v4-14-35bb4c23266c@bootlin.com>
+ <ZdCjJcPbbBGYVtuo@pengutronix.de>
+ <20240221144135.GB2779189-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d18f060d-37ac-48b1-9f67-a5c5db79b34e@sirena.org.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240221144135.GB2779189-robh@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Wed, Feb 21, 2024 at 01:53:10PM +0000, Mark Brown wrote:
-> On Tue, Feb 20, 2024 at 08:27:37PM -0500, dalias@libc.org wrote:
-> > On Wed, Feb 21, 2024 at 12:35:48AM +0000, Edgecombe, Rick P wrote:
+On Wed, Feb 21, 2024 at 07:41:35AM -0700, Rob Herring wrote:
+> On Sat, Feb 17, 2024 at 01:14:29PM +0100, Oleksij Rempel wrote:
+> > On Thu, Feb 15, 2024 at 05:02:55PM +0100, Kory Maincent wrote:
+> > > Add the PD692x0 I2C Power Sourcing Equipment controller device tree
+> > > bindings documentation.
+> > > 
+> > > This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
+> > > 
+> > > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> > > ---
+> > ...
+> > > +        pse_pis {
+> > > +          #address-cells = <1>;
+> > > +          #size-cells = <0>;
+> > > +
+> > > +          pse_pi0: pse_pi@0 {
+> > > +            reg = <0>;
+> > > +            #pse-cells = <0>;
+> > > +            pairset-names = "alternative-a", "alternative-b";
+> > > +            pairsets = <&phys0>, <&phys1>;
+> > > +          };
+> > > +          pse_pi1: pse_pi@1 {
+> > > +            reg = <1>;
+> > > +            #pse-cells = <0>;
+> > > +            pairset-names = "alternative-a";
+> > > +            pairsets = <&phys2>;
+> > 
+> > According to latest discussions, PSE PI nodes will need some
+> > additional, board specific, information:
+> > - this controller do not implements polarity switching, we need to know
+> >   what polarity is implemented on this board. The 802.3 spec provide not
+> >   really consistent names for polarity configurations:
+> >   - Alternative A MDI-X
+> >   - Alternative A MDI
+> >   - Alternative B X
+> >   - Alternative B S
+> >   The board may implement one of polarity configurations per alternative
+> >   or have additional helpers to switch them without using PSE
+> >   controller.
+> >   Even if specification explicitly say:
+> >   "The PD shall be implemented to be insensitive to the polarity of the power
+> >    supply and shall be able to operate per the PD Mode A column and the PD
+> >    Mode B column in Table 33–13"
+> >   it is possible to find reports like this:
+> >   https://community.ui.com/questions/M5-cant-take-reversed-power-polarity-/d834d9a8-579d-4f08-80b1-623806cc5070
+> > 
+> >   Probably this kind of property is a good fit:
+> >   polarity-supported = "MDI-X", "MDI", "X", "S";
 > 
-> > > (INCSSP, RSTORSSP, etc). These are a collection of instructions that
-> > > allow limited control of the SSP. When shadow stack gets disabled,
-> > > these suddenly turn into #UD generating instructions. So any other
-> > > threads executing those instructions when shadow stack got disabled
-> > > would be in for a nasty surprise.
-> 
-> > This is the kernel's problem if that's happening. It should be
-> > trapping these and returning immediately like a NOP if shadow stack
-> > has been disabled, not generating SIGILL.
-> 
-> I'm not sure that's going to work out well, all it takes is some code
-> that's looking at the shadow stack and expecting something to happen as
-> a result of the instructions it's executing and we run into trouble.  A
-> lot of things won't notice and will just happily carry on but I expect
-> there are going to be things that care.  We also end up with an
-> additional state for threads that have had shadow stacks transparently
-> disabled, that's managable but still.
+> Where does that live? Looks like a property of the consumers defined in 
+> the provider. Generally, that's not the right way for DT. 
 
-I said NOP but there's no reason it strictly needs to be a NOP. It
-could instead do something reasonable to convey the state of racing
-with shadow stack being disabled.
+This is property of PSE PI (Power Interface)
 
-> 
-> > > > The place where it's really needed to be able to allocate the shadow
-> > > > stack synchronously under userspace control, in order to harden
-> > > > normal
-> > > > applications that aren't doing funny things, is in pthread_create
-> > > > without a caller-provided stack.
-> 
-> > > Yea most apps don't do anything too tricky. Mostly shadow stack "just
-> > > works". But it's no excuse to just crash for the others.
-> 
-> > One thing to note here is that, to enable this, we're going to need
-> > some way to detect "new enough kernel that shadow stack semantics are
-> > all right". If there are kernels that have shadow stack support but
-> > with problems that make it unsafe to use (this sounds like the case),
-> > we can't turn it on without a way to avoid trying to use it on those.
-> 
-> If we have this automatic conversion of pages to shadow stack then we
-> should have an API for enabling it, userspace should be able to use the
-> presence of that API to determine if the feature is there.
+                                             Ethernet PHY --\
+PSE (provider) ----> PSE PI (consumer of multiple PSE's) ----> Physial port
 
-Yes, or if a new prctl is needed to make disabling safe (see above)
-that could probably be used.
 
-Rich
+PSE - provides power lines.
+PSE PI - switches (or not) power lines in different configurations. This
+is different part of the board/system. PSE PI can have combination or
+one of following configurations: "MDI-X", "MDI", "X", "S";
+This is not something what PSE actually do. PSE PI and PSE are described
+in IEEE802.3 specification.
+
+> I'll say it 
+> again, I think you should be expanding #pse-cells (>1), not getting rid 
+> of them (==0).
+
+Did you took time to read my last explanation? Sorry for making it long
+description, this topic is a bit complex.
+
+Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
