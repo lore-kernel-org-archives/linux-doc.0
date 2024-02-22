@@ -1,49 +1,49 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECFC13BAE1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1391B277;
 	Thu, 22 Feb 2024 23:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708643830; cv=none; b=KCRQsMzGznSbXKzSHiLaHhbQNDAgNB3PJCHkcuWV4mDZUQDvGObDimsNhaTF/dKMkFYHj53HEchpHzWCXtVHfVQEiDPYb491TT6qJ6LWY81+NLLY9Nd28xHCoo8Cw7rXyTvjuRiw5QIR8LLYlxIHFcmyaU7pLU0vGcaRSVWzrDo=
+	t=1708643830; cv=none; b=SXMq4WsOqzTe2dZpq76P7J8AN0k8JrMRULdmR64/04EIImNdo5v/HPrEa3UCP+t1jADiJOqchff7BtrwDLQ5FGO9+QYEh+QyCjJy5s12d+0WjpRPd0o9Plw46h1B6SZE0wVPXES8q/ieHy5RNCUmb6cryzVtFPjm37JGJyopDqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708643830; c=relaxed/simple;
-	bh=CDMvd7OLfgO/mBRQoSaY+UNedhf98h+Fb9zoMiBia6w=;
+	bh=0SDf3C3yfT7s6Nm5OfG+fg0wBWPZL/8Mzhz2XJExiYY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=bEFxQT+P5km4HSARrFroxMNObP6CdPpUjHjk9rVgzxXjFqTvK7n57h+bPVohzc6Wvn1pV6Y4XzSquXHn4mLN/GFjKR1yLSRYZZdVc31/Sh5NAe8XU74ymzu16ec/X5JA2CKQrz828ZRhwKcqXf/VNHI4MUvO4ce25vyWG/ze6Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A7W7wqej; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=um0QAzDTZHAt8IwG6bruFpdJOHi5jnHxp1YaB5c52cJF00VY0rn8BImM5MJqR1dwd5F7Nem5vva1OTA3zq2pBiu8fgBNBvjDwNLmXZ1FjF4sFlJQ/LXPYDmosKByYioQB+Ln4+Z8B19/mvxbBtg6QM9IFZt/aeYdGH/+8d214eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=H/wcZInY; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A7W7wqej"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41MMgV2w013376;
-	Thu, 22 Feb 2024 23:16:44 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="H/wcZInY"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41MLxFWt026010;
+	Thu, 22 Feb 2024 23:16:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=vo+GeAkZrIZtCLsV/xLZNLxXgjO/d+8dOj+GwHIQAtA
-	=; b=A7W7wqejQwx3z1l/oM1GMtburTD6EFddQKuBnKoGYLGt2+b9GKt7z5tgI+G
-	tQHISS7AKjdH4P9r6NEvYcAS1YEnqMEl4l7LBJGz+lBPWzDkqhGp7J00N/ASyFv7
-	giXzs6CtafrawcvfKE6jMLd5ioTl+Yzaz/N9ZHiNFn7ZA9JkxjWn4vXULo5frsSc
-	7Vy3gId/qgro/Z87uWkyIb9/gmkAT2Q+Fvi3uvaZvGzBlFUaA/T25boT/q52goHP
-	ub10yfU0ASdLHaWMCuQGHCwxf1FeVtHZ9WkKVYXBGi8CnWC/MwZ0Voeqme+oX/is
-	6YtjBUgtQxGqEuVVP3Dwrb9DtKA==
+	:cc; s=qcppdkim1; bh=TYpwdT9rGpGU+Krn2HEFIYzazdkjNtusHFYwxcfsZAg
+	=; b=H/wcZInYw9DqA1TKF4h0M7BlAGWNbQ/KfRny3iN9QUXCd6MjSpbRIVxfHfV
+	lpWPKSJJGOieAjX02AuK0oeVlSf+DVbKSnX0/8hdRsnj0WjcRFHQrC7hrV6mp3a0
+	g+SSrCh2RhbLPB7o+ArRjNDoPVOTP7BkLo6ZnF1Nmy7hsRv6kHbZW3UZVHk32BCy
+	cDyBcSE0AW4zE/H+XUDLf8Y0RPzRQUjb5yh3exulGyN+mZ8MM574OiXn4S1CFvzA
+	fKUsURJwYneSWnFIsN8Tj3lYAZey8o4mTjPFu3nu+3bp99l+PH808lPkEZ250J7n
+	IEMyWYcLRTaUBLVgL4+67118wHg==
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wea7csc2y-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we24ajumj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 23:16:43 +0000 (GMT)
+	Thu, 22 Feb 2024 23:16:46 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MNGhwg027798
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MNGj5M028219
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 23:16:43 GMT
+	Thu, 22 Feb 2024 23:16:45 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 22 Feb 2024 15:16:42 -0800
+ 15.2.1118.40; Thu, 22 Feb 2024 15:16:44 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Thu, 22 Feb 2024 15:16:51 -0800
-Subject: [PATCH v17 28/35] virt: gunyah: Enable demand paging
+Date: Thu, 22 Feb 2024 15:16:55 -0800
+Subject: [PATCH v17 32/35] virt: gunyah: Add irqfd interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240222-gunyah-v17-28-1e9da6763d38@quicinc.com>
+Message-ID: <20240222-gunyah-v17-32-1e9da6763d38@quicinc.com>
 References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
 In-Reply-To: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -92,290 +92,310 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: LcPB2YrX8aG6g6aI739ImLk5MugK1jGr
-X-Proofpoint-GUID: LcPB2YrX8aG6g6aI739ImLk5MugK1jGr
+X-Proofpoint-GUID: 4M5Sctox9093hyrqv1fhYVdp-QAefRVI
+X-Proofpoint-ORIG-GUID: 4M5Sctox9093hyrqv1fhYVdp-QAefRVI
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-22_15,2024-02-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 impostorscore=0
- malwarescore=0 phishscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=999 phishscore=0 spamscore=0 mlxscore=0 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2402220179
 
-Tell resource manager to enable demand paging and wire vCPU faults to
-provide the backing folio when a guestmemfd is bound to the faulting
-access.
+Enable support for creating irqfds which can raise an interrupt on a
+Gunyah virtual machine. irqfds are exposed to userspace as a Gunyah VM
+function with the name "irqfd". If the VM devicetree is not configured
+to create a doorbell with the corresponding label, userspace will still
+be able to assert the eventfd but no interrupt will be raised on the
+guest.
 
+Acked-by: Alex Elder <elder@linaro.org>
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/guest_memfd.c | 94 +++++++++++++++++++++++++++++++++++++++
- drivers/virt/gunyah/gunyah_vcpu.c | 41 +++++++++++++----
- drivers/virt/gunyah/vm_mgr.c      | 29 ++++++++++++
- drivers/virt/gunyah/vm_mgr.h      |  3 ++
- 4 files changed, 159 insertions(+), 8 deletions(-)
+ drivers/virt/gunyah/Kconfig        |   9 ++
+ drivers/virt/gunyah/Makefile       |   1 +
+ drivers/virt/gunyah/gunyah_irqfd.c | 187 +++++++++++++++++++++++++++++++++++++
+ include/uapi/linux/gunyah.h        |  35 +++++++
+ 4 files changed, 232 insertions(+)
 
-diff --git a/drivers/virt/gunyah/guest_memfd.c b/drivers/virt/gunyah/guest_memfd.c
-index 0c35ffa616d9c..797bc29a520bc 100644
---- a/drivers/virt/gunyah/guest_memfd.c
-+++ b/drivers/virt/gunyah/guest_memfd.c
-@@ -891,3 +891,97 @@ int gunyah_gmem_reclaim_parcel(struct gunyah_vm *ghvm,
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+index fe2823dc48bac..1685b75fb77a0 100644
+--- a/drivers/virt/gunyah/Kconfig
++++ b/drivers/virt/gunyah/Kconfig
+@@ -27,3 +27,12 @@ config GUNYAH_QCOM_PLATFORM
+ 	  extra platform-specific support.
  
- 	return 0;
- }
+ 	  Say Y/M here to use Gunyah on Qualcomm platforms.
 +
-+int gunyah_gmem_setup_demand_paging(struct gunyah_vm *ghvm)
++config GUNYAH_IRQFD
++	tristate "Gunyah irqfd interface"
++	depends on GUNYAH
++	help
++	  Enable kernel support for creating irqfds which can raise an interrupt
++	  on Gunyah virtual machine.
++
++	  Say Y/M here if unsure and you want to support Gunyah VMMs.
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index c4505fce177dd..b41b02792921c 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -5,3 +5,4 @@ gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o vm_mgr.o vm_mgr_mem.o guest_memfd.o
+ obj-$(CONFIG_GUNYAH) += gunyah.o gunyah_rsc_mgr.o gunyah_vcpu.o
+ obj-$(CONFIG_GUNYAH_PLATFORM_HOOKS) += gunyah_platform_hooks.o
+ obj-$(CONFIG_GUNYAH_QCOM_PLATFORM) += gunyah_qcom.o
++obj-$(CONFIG_GUNYAH_IRQFD) += gunyah_irqfd.o
+diff --git a/drivers/virt/gunyah/gunyah_irqfd.c b/drivers/virt/gunyah/gunyah_irqfd.c
+new file mode 100644
+index 0000000000000..951da6e8d321e
+--- /dev/null
++++ b/drivers/virt/gunyah/gunyah_irqfd.c
+@@ -0,0 +1,187 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#include <linux/eventfd.h>
++#include <linux/device/driver.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/gunyah.h>
++#include <linux/module.h>
++#include <linux/poll.h>
++#include <linux/printk.h>
++
++#include <uapi/linux/gunyah.h>
++
++struct gunyah_irqfd {
++	struct gunyah_resource *ghrsc;
++	struct gunyah_vm_resource_ticket ticket;
++	struct gunyah_vm_function_instance *f;
++
++	bool level;
++
++	struct eventfd_ctx *ctx;
++	wait_queue_entry_t wait;
++	poll_table pt;
++};
++
++static int irqfd_wakeup(wait_queue_entry_t *wait, unsigned int mode, int sync,
++			void *key)
 +{
-+	struct gunyah_rm_mem_entry *entries;
-+	struct gunyah_gmem_binding *b;
-+	unsigned long index = 0;
-+	u32 count = 0, i;
++	struct gunyah_irqfd *irqfd =
++		container_of(wait, struct gunyah_irqfd, wait);
++	__poll_t flags = key_to_poll(key);
 +	int ret = 0;
 +
-+	down_read(&ghvm->bindings_lock);
-+	mt_for_each(&ghvm->bindings, b, index, ULONG_MAX)
-+		if (gunyah_guest_mem_is_lend(ghvm, b->flags))
-+			count++;
-+
-+	if (!count)
-+		goto out;
-+
-+	entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
-+	if (!entries) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	index = i = 0;
-+	mt_for_each(&ghvm->bindings, b, index, ULONG_MAX) {
-+		if (!gunyah_guest_mem_is_lend(ghvm, b->flags))
-+			continue;
-+		entries[i].phys_addr = cpu_to_le64(gunyah_gfn_to_gpa(b->gfn));
-+		entries[i].size = cpu_to_le64(b->nr << PAGE_SHIFT);
-+		if (++i == count)
-+			break;
-+	}
-+
-+	ret = gunyah_rm_vm_set_demand_paging(ghvm->rm, ghvm->vmid, i, entries);
-+	kfree(entries);
-+out:
-+	up_read(&ghvm->bindings_lock);
-+	return ret;
-+}
-+
-+int gunyah_gmem_demand_page(struct gunyah_vm *ghvm, u64 gpa, bool write)
-+{
-+	unsigned long gfn = gunyah_gpa_to_gfn(gpa);
-+	struct gunyah_gmem_binding *b;
-+	struct folio *folio;
-+	int ret;
-+
-+	down_read(&ghvm->bindings_lock);
-+	b = mtree_load(&ghvm->bindings, gfn);
-+	if (!b) {
-+		ret = -ENOENT;
-+		goto unlock;
-+	}
-+
-+	if (write && !(b->flags & GUNYAH_MEM_ALLOW_WRITE)) {
-+		ret = -EPERM;
-+		goto unlock;
-+	}
-+
-+	folio = gunyah_gmem_get_folio(file_inode(b->file),
-+				      gunyah_gfn_to_off(b, gfn));
-+	if (!folio) {
-+		ret = -ENOMEM;
-+		pr_err_ratelimited("Failed to obtain memory for guest addr %016llx\n", gpa);
-+		goto unlock;
-+	}
-+
-+	/**
-+	 * the folio covers the requested guest address, but the folio may not
-+	 * start at the requested guest address. recompute the gfn based on the
-+	 * folio itself.
-+	 */
-+	gfn = gunyah_off_to_gfn(b, folio_index(folio));
-+
-+	filemap_invalidate_lock_shared(b->file->f_mapping);
-+	ret = gunyah_vm_provide_folio(ghvm, folio, gfn,
-+				      !gunyah_guest_mem_is_lend(ghvm, b->flags),
-+				      !!(b->flags & GUNYAH_MEM_ALLOW_WRITE));
-+	filemap_invalidate_unlock_shared(b->file->f_mapping);
-+	if (ret) {
-+		if (ret != -EAGAIN)
++	if (flags & EPOLLIN) {
++		if (irqfd->ghrsc) {
++			ret = gunyah_hypercall_bell_send(irqfd->ghrsc->capid, 1,
++							 NULL);
++			if (ret)
++				pr_err_ratelimited(
++					"Failed to inject interrupt %d: %d\n",
++					irqfd->ticket.label, ret);
++		} else
 +			pr_err_ratelimited(
-+				"Failed to provide folio for guest addr: %016llx: %d\n",
-+				gpa, ret);
-+		goto out;
++				"Premature injection of interrupt\n");
 +	}
-+out:
-+	folio_unlock(folio);
-+	folio_put(folio);
-+unlock:
-+	up_read(&ghvm->bindings_lock);
-+	return ret;
++
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(gunyah_gmem_demand_page);
-diff --git a/drivers/virt/gunyah/gunyah_vcpu.c b/drivers/virt/gunyah/gunyah_vcpu.c
-index 8192350f180b0..f8306620b1dd6 100644
---- a/drivers/virt/gunyah/gunyah_vcpu.c
-+++ b/drivers/virt/gunyah/gunyah_vcpu.c
-@@ -89,29 +89,44 @@ static irqreturn_t gunyah_vcpu_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static void gunyah_handle_page_fault(
-+static bool gunyah_handle_page_fault(
- 	struct gunyah_vcpu *vcpu,
- 	const struct gunyah_hypercall_vcpu_run_resp *vcpu_run_resp)
- {
- 	u64 addr = vcpu_run_resp->state_data[0];
-+	bool write = !!vcpu_run_resp->state_data[1];
-+	int ret = 0;
 +
-+	ret = gunyah_gmem_demand_page(vcpu->ghvm, addr, write);
-+	if (!ret || ret == -EAGAIN)
-+		return true;
- 
- 	vcpu->vcpu_run->page_fault.resume_action = GUNYAH_VCPU_RESUME_FAULT;
--	vcpu->vcpu_run->page_fault.attempt = 0;
-+	vcpu->vcpu_run->page_fault.attempt = ret;
- 	vcpu->vcpu_run->page_fault.phys_addr = addr;
- 	vcpu->vcpu_run->exit_reason = GUNYAH_VCPU_EXIT_PAGE_FAULT;
-+	return false;
- }
- 
--static void
--gunyah_handle_mmio(struct gunyah_vcpu *vcpu,
-+static bool
-+gunyah_handle_mmio(struct gunyah_vcpu *vcpu, unsigned long resume_data[3],
- 		   const struct gunyah_hypercall_vcpu_run_resp *vcpu_run_resp)
- {
- 	u64 addr = vcpu_run_resp->state_data[0],
- 	    len = vcpu_run_resp->state_data[1],
- 	    data = vcpu_run_resp->state_data[2];
++static void irqfd_ptable_queue_proc(struct file *file, wait_queue_head_t *wqh,
++				    poll_table *pt)
++{
++	struct gunyah_irqfd *irq_ctx =
++		container_of(pt, struct gunyah_irqfd, pt);
++
++	add_wait_queue(wqh, &irq_ctx->wait);
++}
++
++static bool gunyah_irqfd_populate(struct gunyah_vm_resource_ticket *ticket,
++				  struct gunyah_resource *ghrsc)
++{
++	struct gunyah_irqfd *irqfd =
++		container_of(ticket, struct gunyah_irqfd, ticket);
 +	int ret;
- 
- 	if (WARN_ON(len > sizeof(u64)))
- 		len = sizeof(u64);
- 
-+	ret = gunyah_gmem_demand_page(vcpu->ghvm, addr,
-+				      vcpu->vcpu_run->mmio.is_write);
-+	if (!ret || ret == -EAGAIN) {
-+		resume_data[1] = GUNYAH_ADDRSPACE_VMMIO_ACTION_RETRY;
-+		return true;
++
++	if (irqfd->ghrsc) {
++		pr_warn("irqfd%d already got a Gunyah resource. Check if multiple resources with same label were configured.\n",
++			irqfd->ticket.label);
++		return false;
 +	}
 +
- 	if (vcpu_run_resp->state == GUNYAH_VCPU_ADDRSPACE_VMMIO_READ) {
- 		vcpu->vcpu_run->mmio.is_write = 0;
- 		/* Record that we need to give vCPU user's supplied value next gunyah_vcpu_run() */
-@@ -128,11 +143,15 @@ gunyah_handle_mmio(struct gunyah_vcpu *vcpu,
- 	vcpu->mmio_addr = vcpu->vcpu_run->mmio.phys_addr = addr;
- 	vcpu->vcpu_run->mmio.len = len;
- 	vcpu->vcpu_run->exit_reason = GUNYAH_VCPU_EXIT_MMIO;
-+
-+	return false;
- }
- 
- static int gunyah_handle_mmio_resume(struct gunyah_vcpu *vcpu,
- 				     unsigned long resume_data[3])
- {
-+	bool write = vcpu->state == GUNYAH_VCPU_RUN_STATE_MMIO_WRITE;
-+
- 	switch (vcpu->vcpu_run->mmio.resume_action) {
- 	case GUNYAH_VCPU_RESUME_HANDLED:
- 		if (vcpu->state == GUNYAH_VCPU_RUN_STATE_MMIO_READ) {
-@@ -148,6 +167,8 @@ static int gunyah_handle_mmio_resume(struct gunyah_vcpu *vcpu,
- 		resume_data[1] = GUNYAH_ADDRSPACE_VMMIO_ACTION_FAULT;
- 		break;
- 	case GUNYAH_VCPU_RESUME_RETRY:
-+		/* userspace probably added a memory binding */
-+		gunyah_gmem_demand_page(vcpu->ghvm, vcpu->mmio_addr, write);
- 		resume_data[1] = GUNYAH_ADDRSPACE_VMMIO_ACTION_RETRY;
- 		break;
- 	default:
-@@ -310,11 +331,15 @@ static int gunyah_vcpu_run(struct gunyah_vcpu *vcpu)
- 				break;
- 			case GUNYAH_VCPU_ADDRSPACE_VMMIO_READ:
- 			case GUNYAH_VCPU_ADDRSPACE_VMMIO_WRITE:
--				gunyah_handle_mmio(vcpu, &vcpu_run_resp);
--				goto out;
-+				if (!gunyah_handle_mmio(vcpu, resume_data,
-+							&vcpu_run_resp))
-+					goto out;
-+				break;
- 			case GUNYAH_VCPU_ADDRSPACE_PAGE_FAULT:
--				gunyah_handle_page_fault(vcpu, &vcpu_run_resp);
--				goto out;
-+				if (!gunyah_handle_page_fault(vcpu,
-+							      &vcpu_run_resp))
-+					goto out;
-+				break;
- 			default:
- 				pr_warn_ratelimited(
- 					"Unknown vCPU state: %llx\n",
-diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
-index 198a99d78c44c..473740a1f97d0 100644
---- a/drivers/virt/gunyah/vm_mgr.c
-+++ b/drivers/virt/gunyah/vm_mgr.c
-@@ -474,6 +474,23 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
- 		goto err;
- 	}
- 
-+	ret = gunyah_gmem_setup_demand_paging(ghvm);
-+	if (ret) {
-+		dev_warn(ghvm->parent,
-+			 "Failed to set up gmem demand paging: %d\n", ret);
-+		goto err;
-+	}
-+
-+	ret = gunyah_rm_vm_set_address_layout(
-+		ghvm->rm, ghvm->vmid, GUNYAH_RM_RANGE_ID_IMAGE,
-+		ghvm->dtb.parcel_start << PAGE_SHIFT,
-+		ghvm->dtb.parcel_pages << PAGE_SHIFT);
-+	if (ret) {
-+		dev_warn(ghvm->parent,
-+			 "Failed to set location of DTB mem parcel: %d\n", ret);
-+		goto err;
-+	}
-+
- 	ret = gunyah_rm_vm_init(ghvm->rm, ghvm->vmid);
- 	if (ret) {
- 		ghvm->vm_status = GUNYAH_RM_VM_STATUS_INIT_FAILED;
-@@ -501,8 +518,20 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
- 		gunyah_vm_add_resource(ghvm, ghrsc);
- 	}
- 
-+	ret = gunyah_vm_parcel_to_paged(ghvm, &ghvm->dtb.parcel,
-+					ghvm->dtb.parcel_start,
-+					ghvm->dtb.parcel_pages);
-+	if (ret)
-+		goto err;
-+
- 	ret = gunyah_rm_vm_start(ghvm->rm, ghvm->vmid);
- 	if (ret) {
-+		/**
-+		 * need to rollback parcel_to_paged because RM is still
-+		 * tracking the parcel
++	irqfd->ghrsc = ghrsc;
++	if (irqfd->level) {
++		/* Configure the bell to trigger when bit 0 is asserted (see
++		 * irq_wakeup) and for bell to automatically clear bit 0 once
++		 * received by the VM (ack_mask).  need to make sure bit 0 is cleared right away,
++		 * otherwise the line will never be deasserted. Emulating edge
++		 * trigger interrupt does not need to set either mask
++		 * because irq is listed only once per gunyah_hypercall_bell_send
 +		 */
-+		gunyah_vm_mm_erase_range(ghvm, ghvm->dtb.parcel_start,
-+					 ghvm->dtb.parcel_pages);
- 		dev_warn(ghvm->parent, "Failed to start VM: %d\n", ret);
- 		goto err;
- 	}
-diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
-index d8c299e5cf7cc..5eb14f30ba965 100644
---- a/drivers/virt/gunyah/vm_mgr.h
-+++ b/drivers/virt/gunyah/vm_mgr.h
-@@ -199,4 +199,7 @@ int gunyah_gmem_reclaim_parcel(struct gunyah_vm *ghvm,
- 			       struct gunyah_rm_mem_parcel *parcel, u64 gfn,
- 			       u64 nr);
- 
-+int gunyah_gmem_setup_demand_paging(struct gunyah_vm *ghvm);
-+int gunyah_gmem_demand_page(struct gunyah_vm *ghvm, u64 gpa, bool write);
++		ret = gunyah_hypercall_bell_set_mask(irqfd->ghrsc->capid, 1, 1);
++		if (ret)
++			pr_warn("irq %d couldn't be set as level triggered. Might cause IRQ storm if asserted\n",
++				irqfd->ticket.label);
++	}
 +
- #endif
++	return true;
++}
++
++static void gunyah_irqfd_unpopulate(struct gunyah_vm_resource_ticket *ticket,
++				    struct gunyah_resource *ghrsc)
++{
++}
++
++static long gunyah_irqfd_bind(struct gunyah_vm_function_instance *f)
++{
++	struct gunyah_fn_irqfd_arg *args = f->argp;
++	struct gunyah_irqfd *irqfd;
++	__poll_t events;
++	struct fd fd;
++	long r;
++
++	if (f->arg_size != sizeof(*args))
++		return -EINVAL;
++
++	/* All other flag bits are reserved for future use */
++	if (args->flags & ~GUNYAH_IRQFD_FLAGS_LEVEL)
++		return -EINVAL;
++
++	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
++	if (!irqfd)
++		return -ENOMEM;
++
++	irqfd->f = f;
++	f->data = irqfd;
++
++	fd = fdget(args->fd);
++	if (!fd.file) {
++		kfree(irqfd);
++		return -EBADF;
++	}
++
++	irqfd->ctx = eventfd_ctx_fileget(fd.file);
++	if (IS_ERR(irqfd->ctx)) {
++		r = PTR_ERR(irqfd->ctx);
++		goto err_fdput;
++	}
++
++	if (args->flags & GUNYAH_IRQFD_FLAGS_LEVEL)
++		irqfd->level = true;
++
++	init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
++	init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
++
++	irqfd->ticket.resource_type = GUNYAH_RESOURCE_TYPE_BELL_TX;
++	irqfd->ticket.label = args->label;
++	irqfd->ticket.owner = THIS_MODULE;
++	irqfd->ticket.populate = gunyah_irqfd_populate;
++	irqfd->ticket.unpopulate = gunyah_irqfd_unpopulate;
++
++	r = gunyah_vm_add_resource_ticket(f->ghvm, &irqfd->ticket);
++	if (r)
++		goto err_ctx;
++
++	events = vfs_poll(fd.file, &irqfd->pt);
++	if (events & EPOLLIN)
++		pr_warn("Premature injection of interrupt\n");
++	fdput(fd);
++
++	return 0;
++err_ctx:
++	eventfd_ctx_put(irqfd->ctx);
++err_fdput:
++	fdput(fd);
++	kfree(irqfd);
++	return r;
++}
++
++static void gunyah_irqfd_unbind(struct gunyah_vm_function_instance *f)
++{
++	struct gunyah_irqfd *irqfd = f->data;
++	u64 cnt;
++
++	eventfd_ctx_remove_wait_queue(irqfd->ctx, &irqfd->wait, &cnt);
++	gunyah_vm_remove_resource_ticket(irqfd->f->ghvm, &irqfd->ticket);
++	eventfd_ctx_put(irqfd->ctx);
++	kfree(irqfd);
++}
++
++static bool gunyah_irqfd_compare(const struct gunyah_vm_function_instance *f,
++				 const void *arg, size_t size)
++{
++	const struct gunyah_fn_irqfd_arg *instance = f->argp, *other = arg;
++
++	if (sizeof(*other) != size)
++		return false;
++
++	return instance->label == other->label;
++}
++
++DECLARE_GUNYAH_VM_FUNCTION_INIT(irqfd, GUNYAH_FN_IRQFD, 2, gunyah_irqfd_bind,
++				gunyah_irqfd_unbind, gunyah_irqfd_compare);
++MODULE_DESCRIPTION("Gunyah irqfd VM Function");
++MODULE_LICENSE("GPL");
+diff --git a/include/uapi/linux/gunyah.h b/include/uapi/linux/gunyah.h
+index 574116f544722..cb7b0bb9bef38 100644
+--- a/include/uapi/linux/gunyah.h
++++ b/include/uapi/linux/gunyah.h
+@@ -63,9 +63,12 @@ struct gunyah_vm_dtb_config {
+  * @GUNYAH_FN_VCPU: create a vCPU instance to control a vCPU
+  *              &struct gunyah_fn_desc.arg is a pointer to &struct gunyah_fn_vcpu_arg
+  *              Return: file descriptor to manipulate the vcpu.
++ * @GUNYAH_FN_IRQFD: register eventfd to assert a Gunyah doorbell
++ *               &struct gunyah_fn_desc.arg is a pointer to &struct gunyah_fn_irqfd_arg
+  */
+ enum gunyah_fn_type {
+ 	GUNYAH_FN_VCPU = 1,
++	GUNYAH_FN_IRQFD,
+ };
+ 
+ #define GUNYAH_FN_MAX_ARG_SIZE		256
+@@ -85,6 +88,38 @@ struct gunyah_fn_vcpu_arg {
+ 	__u32 id;
+ };
+ 
++/**
++ * enum gunyah_irqfd_flags - flags for use in gunyah_fn_irqfd_arg
++ * @GUNYAH_IRQFD_FLAGS_LEVEL: make the interrupt operate like a level triggered
++ *                        interrupt on guest side. Triggering IRQFD before
++ *                        guest handles the interrupt causes interrupt to
++ *                        stay asserted.
++ */
++enum gunyah_irqfd_flags {
++	GUNYAH_IRQFD_FLAGS_LEVEL		= 1UL << 0,
++};
++
++/**
++ * struct gunyah_fn_irqfd_arg - Arguments to create an irqfd function.
++ *
++ * Create this function with &GUNYAH_VM_ADD_FUNCTION using type &GUNYAH_FN_IRQFD.
++ *
++ * Allows setting an eventfd to directly trigger a guest interrupt.
++ * irqfd.fd specifies the file descriptor to use as the eventfd.
++ * irqfd.label corresponds to the doorbell label used in the guest VM's devicetree.
++ *
++ * @fd: an eventfd which when written to will raise a doorbell
++ * @label: Label of the doorbell created on the guest VM
++ * @flags: see &enum gunyah_irqfd_flags
++ * @padding: padding bytes
++ */
++struct gunyah_fn_irqfd_arg {
++	__u32 fd;
++	__u32 label;
++	__u32 flags;
++	__u32 padding;
++};
++
+ /**
+  * struct gunyah_fn_desc - Arguments to create a VM function
+  * @type: Type of the function. See &enum gunyah_fn_type.
 
 -- 
 2.34.1
