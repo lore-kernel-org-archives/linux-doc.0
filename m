@@ -1,55 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B62B12FF74;
-	Thu, 22 Feb 2024 13:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBDC1426D;
+	Thu, 22 Feb 2024 13:33:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708608053; cv=none; b=Tj1cDN2MN1j/q27Q9bWJ+snMM74KMi0jkLi58fj6q587sDbMAicm+doYSlQ3cgpmZTIJRndOWUUra1+3OJrU/dK4EBtRdvOW+Tn9ojRJhHyos4OO3zXxAr0sCZxMmJpZ2ler8YNGW6nZIQPaT93ZM5Kz+DTtApdP7zuTkRPsKRU=
+	t=1708608808; cv=none; b=WrCxZ2m+e1Oheswy85AVXDcoCa9ylQx2e8m0TQ+1y2e915WOnJdpqdFSfP+K9OB+tD2k+QPePMLtJ7Pc1m6rbKDF1jveSTqx/BNj1BvyOXQNV9W+NMi0C8XSxpfXjEB3eVTLRj0nu2SFmKaMcEIDkZT5lV3g0WSbnezDnAlKmRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708608053; c=relaxed/simple;
-	bh=Zu7T88OQKLjnCfKYveIU790NUrfbhEaWjmTCXZYnncA=;
+	s=arc-20240116; t=1708608808; c=relaxed/simple;
+	bh=ek76lcOHd6638oPTS6Co2oHesqGce0rC+wixg+GWnxQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNtQ1ng5ixnXs4zEodUnb4v7s5rGERkXlPhT7QPNXHzZ1AaqePyIf5kIzVr0hHAtgB0NHPiGQGZs27o+DxvZjCWSh7fNED7GV0HMM+ENxtCZS1bpy7SrS8821R6g1wtjUFty/VAeR0doBCst1iyrli+wu/q2jLgZm0SXQhD/MKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M0WEOm8k; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BjBc5O2NaDRcOqSMC6WvHzlLA67qmzprXc20Xtp47tUhg8dLCxRQ0Aeveqasng8aAeh+Rupaq95zuVU6MCdJMiLaxpZ1f+xMkXHOQoyNh3MmklQo8BilLaUpP8Ojf7/y1bEvRKhUwXpiL0bg6MIlG8QTcuNRS/2v1BlJEW2bbYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a3e5etia; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M0WEOm8k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3265DC433F1;
-	Thu, 22 Feb 2024 13:20:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a3e5etia"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62395C433F1;
+	Thu, 22 Feb 2024 13:33:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708608052;
-	bh=Zu7T88OQKLjnCfKYveIU790NUrfbhEaWjmTCXZYnncA=;
+	s=k20201202; t=1708608807;
+	bh=ek76lcOHd6638oPTS6Co2oHesqGce0rC+wixg+GWnxQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M0WEOm8ktKGlyWLacF5Eq1chGM6nr37qP9xBp8Ka3xn4FV0USBItMRkpg5davyEDR
-	 i7hd5f9rPQhrU9qLcZEr9ZkBmkyEzuiMvdXWJrU6qIaNCtMX4Pv5Bri+IvvSBT9eNJ
-	 R30zOLoUEJtZYT88fo7qS96vyaW4RNP+B/Q0R6TTt8n20wvvjWFebgWLnI3TK78xu7
-	 hWDtONcnJbzb1GmEp7XrmUgYzGLDSORugYi3RB57zioad41pS0OMVfY8jVD3Al/OZs
-	 giIWtZJtXo924svaDlRRvGibfVoVwwckTcaHTVi1KwWopCvrYpqw0+Bc7SPP6IcE8W
-	 Cd2/y5xQ8erxA==
-Date: Thu, 22 Feb 2024 14:20:49 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <cf6mfm7naqdgnr3ab2tkix7b2s2frpsamlgylwiwcgbsy6ngd7@iq6ezpdnehbf>
-References: <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
- <20240209203435.GB996172@toolbox>
- <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
- <Zco-DQaXqae7B1jt@intel.com>
- <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
- <20240212170618.GA1372043@toolbox>
- <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
- <20240219140144.GB1956149@toolbox>
- <euaujtp4jyyoud3ccg5qhyvixyq2p6vir4ojlzoky6kep754rj@wruidyfxssry>
- <ZddFBe4A-galsO91@intel.com>
+	b=a3e5etiaCTIf6mj5LJfPayGGRPCkqpzgVIw1FeLdsLBfQNoMAL/qYtEtGJibhp3oU
+	 XvqjYzMm14iBcabQH9ixoP1adKlIOXGttkEhHZ12Rn+NE7gvkO0FpJV0Zyj8nQwHej
+	 MjS2muDzwVxCuK7DRdg1nW1guor/t1KJ5KFDRVtVQGCSbEzRP9ZExfSI7/m4gQY7lu
+	 IH2ENW1K8nf3rbsVt1oRT1ORFvOCs/E01MBBu4hQdhIY6WX6HFJELx88n+Vg8H2giH
+	 DQ7AfczuUA1Y5ZtqJLYSw5zzQXVd8T4Ihv2M8i5skO8VC6v+6w6nuxJvbPeOJJ9KVr
+	 TwOSG7d+bkkgA==
+Date: Thu, 22 Feb 2024 13:33:10 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: rick.p.edgecombe@intel.com, Szabolcs.Nagy@arm.com,
+	kito.cheng@sifive.com, keescook@chromium.org,
+	ajones@ventanamicro.com, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, conor.dooley@microchip.com, cleger@rivosinc.com,
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
+	alexghiti@rivosinc.com, corbet@lwn.net, aou@eecs.berkeley.edu,
+	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de,
+	ebiederm@xmission.com, shuah@kernel.org, brauner@kernel.org,
+	guoren@kernel.org, samitolvanen@google.com, evan@rivosinc.com,
+	xiao.w.wang@intel.com, apatel@ventanamicro.com,
+	mchitale@ventanamicro.com, waylingii@gmail.com,
+	greentime.hu@sifive.com, heiko@sntech.de, jszhang@kernel.org,
+	shikemeng@huaweicloud.com, david@redhat.com, charlie@rivosinc.com,
+	panqinglin2020@iscas.ac.cn, willy@infradead.org,
+	vincent.chen@sifive.com, andy.chiu@sifive.com, gerg@kernel.org,
+	jeeheng.sia@starfivetech.com, mason.huo@starfivetech.com,
+	ancientmodern4@gmail.com, mathis.salmen@matsal.de,
+	cuiyunhui@bytedance.com, bhe@redhat.com, chenjiahao16@huawei.com,
+	ruscur@russell.cc, bgray@linux.ibm.com, alx@kernel.org,
+	baruch@tkos.co.il, zhangqing@loongson.cn, catalin.marinas@arm.com,
+	revest@chromium.org, josh@joshtriplett.org, joey.gouly@arm.com,
+	shr@devkernel.io, omosnace@redhat.com, ojeda@kernel.org,
+	jhubbard@nvidia.com, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [RFC PATCH v1 15/28] riscv/mm: Implement map_shadow_stack()
+ syscall
+Message-ID: <6ad3e87a-25ab-4938-8d81-c5c609619586@sirena.org.uk>
+References: <20240125062739.1339782-1-debug@rivosinc.com>
+ <20240125062739.1339782-16-debug@rivosinc.com>
+ <ZcJX2IJb0hOM5RF5@finisterre.sirena.org.uk>
+ <ZdaZj0pqaVJiNOUg@debug.ba.rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,243 +69,53 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tbiepc54hbczafix"
+	protocol="application/pgp-signature"; boundary="LxmbY0AjUg4WDPUw"
 Content-Disposition: inline
-In-Reply-To: <ZddFBe4A-galsO91@intel.com>
+In-Reply-To: <ZdaZj0pqaVJiNOUg@debug.ba.rivosinc.com>
+X-Cookie: I have accepted Provolone into my life!
 
 
---tbiepc54hbczafix
-Content-Type: text/plain; charset=iso-8859-1
+--LxmbY0AjUg4WDPUw
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 22, 2024 at 02:58:45PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Thu, Feb 22, 2024 at 11:54:04AM +0100, Maxime Ripard wrote:
-> > On Mon, Feb 19, 2024 at 03:01:44PM +0100, Sebastian Wick wrote:
-> > > On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
-> > > > On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
-> > > > > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
-> > > > > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wro=
-te:
-> > > > > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
-> > > > > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wr=
-ote:
-> > > > > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard w=
-rote:
-> > > > > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4=
-l=E4 wrote:
-> > > > > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripa=
-rd wrote:
-> > > > > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syr=
-j=E4l=E4 wrote:
-> > > > > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime =
-Ripard wrote:
-> > > > > > > > > > > > > > Hi,
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebas=
-tian Wick wrote:
-> > > > > > > > > > > > > > > > >  /**
-> > > > > > > > > > > > > > > > >   * DOC: HDMI connector properties
-> > > > > > > > > > > > > > > > >   *
-> > > > > > > > > > > > > > > > > + * Broadcast RGB
-> > > > > > > > > > > > > > > > > + *      Indicates the RGB Quantization R=
-ange (Full vs Limited) used.
-> > > > > > > > > > > > > > > > > + *      Infoframes will be generated acc=
-ording to that value.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      The value of this property can b=
-e one of the following:
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Automatic:
-> > > > > > > > > > > > > > > > > + *              RGB Range is selected au=
-tomatically based on the mode
-> > > > > > > > > > > > > > > > > + *              according to the HDMI sp=
-ecifications.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Full:
-> > > > > > > > > > > > > > > > > + *              Full RGB Range is forced.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Limited 16:235:
-> > > > > > > > > > > > > > > > > + *              Limited RGB Range is for=
-ced. Unlike the name suggests,
-> > > > > > > > > > > > > > > > > + *              this works for any numbe=
-r of bits-per-component.
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > > > + *      Drivers can set up this property=
- by calling
-> > > > > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_r=
-gb_property().
-> > > > > > > > > > > > > > > > > + *
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > This is a good time to document this in mor=
-e detail. There might be two
-> > > > > > > > > > > > > > > > different things being affected:
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
-> > > > > > > > > > > > > > > > 2. The color pipeline processing
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > All values of Broadcast RGB always affect t=
-he color pipeline processing
-> > > > > > > > > > > > > > > > such that a full-range input to the CRTC is=
- converted to either full- or
-> > > > > > > > > > > > > > > > limited-range, depending on what the monito=
-r is supposed to accept.
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > When automatic is selected, does that mean =
-that there is no signalling,
-> > > > > > > > > > > > > > > > or that the signalling matches what the mon=
-itor is supposed to accept
-> > > > > > > > > > > > > > > > according to the spec? Also, is this really=
- HDMI specific?
-> > > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > > When full or limited is selected and the mo=
-nitor doesn't support the
-> > > > > > > > > > > > > > > > signalling, what happens?
-> > > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > > Forgot to mention: user-space still has no co=
-ntrol over RGB vs YCbCr on
-> > > > > > > > > > > > > > > the cable, so is this only affecting RGB? If =
-not, how does it affect
-> > > > > > > > > > > > > > > YCbCr?
-> > > > > > > > > > > > > >=20
-> > > > > > > > > > > > > > So I dug a bit into both the i915 and vc4 drive=
-rs, and it looks like if
-> > > > > > > > > > > > > > we're using a YCbCr format, i915 will always us=
-e a limited range while
-> > > > > > > > > > > > > > vc4 will follow the value of the property.
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > The property is literally called "Broadcast *RGB*=
-".
-> > > > > > > > > > > > > That should explain why it's only affecting RGB.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > Right. And the limited range option is called "Limi=
-ted 16:235" despite
-> > > > > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs,=
- and history happens
-> > > > > > > > > > > > to make names inconsistent too, that's fine and not=
- an argument in
-> > > > > > > > > > > > itself.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > > Full range YCbCr is a much rarer beast so we've n=
-ever bothered
-> > > > > > > > > > > > > to enable it.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > vc4 supports it.
-> > > > > > > > > > >=20
-> > > > > > > > > > > Someone implemented it incorrectly then.
-> > > > > > > > > >=20
-> > > > > > > > > > Incorrectly according to what documentation / specifica=
-tion? I'm sorry,
-> > > > > > > > > > but I find it super ironic that i915 gets to do its own=
- thing, not
-> > > > > > > > > > document any of it, and when people try to clean things=
- up they get told
-> > > > > > > > > > that we got it all wrong.
-> > > > > > > > >=20
-> > > > > > > > > FWIW, this was an i915 property and if another driver use=
-s the same
-> > > > > > > > > property name it must have the same behavior. Yes, it isn=
-'t standardized
-> > > > > > > > > and yes, it's not documented (hence this effort here) but=
- it's still on
-> > > > > > > > > vc4 to make the property compatible.
-> > > > > > > >=20
-> > > > > > > > How is it not compatible? It's a superset of what i915 prov=
-ides, but
-> > > > > > > > it's strictly compatible with it.
-> > > > > > >=20
-> > > > > > > No it is not.
-> > > > > >=20
-> > > > > > The property is compatible with i915 interpretation of it, whet=
-her you
-> > > > > > like it or not. And that's what Sebastian was referring to.
-> > > > > >=20
-> > > > > > > Eg. what happens if you set the thing to full range for RGB (=
-which you
-> > > > > > > must on many broken monitors), and then the kernel automagica=
-lly
-> > > > > > > switches to YCbCr (for whatever reason) but the monitor doesn=
-'t
-> > > > > > > support full range YCbCr? Answer: you get crap output.
-> > > > > >=20
-> > > > > > And that part is just moving goalposts.
-> > > > >=20
-> > > > > But it's really not.
-> > > >=20
-> > > > It really is. This whole discussion started by "well it would be ni=
-ce if
-> > > > we made that property handled by the core", and we're now at the "we
-> > > > need to deal with broken YCbCr displays and i915 opinion about them"
-> > > > stage. After creating documentation, unit tests, etc. It's the text=
-book
-> > > > definition of moving goalposts. And while i915 won't be affected by=
- all
-> > > > that work.
-> > >=20
-> > > Sorry, but what you're saying is just not true.
-> > >=20
-> > > The Broadcast RGB property is an Intel specific property.
-> >=20
-> > No, it's not. vc4 has been using it for a year now.
-> >=20
-> > > It lacked documentation but the user space contract exists and it
-> > > based on how i915 implemented it. By changing the semantics you're
-> > > breaking user space. The documentation has to document the current
-> > > contract between i915 and user space, not whatever you want the
-> > > property to be like.
-> > >=20
-> > > I get that you're frustrated that you have to do work while i915 does=
-n't
-> > > but none of that is relevant for what the property is and how user sp=
-ace
-> > > expects it to work.
-> >=20
-> > That's not it, really. I don't mind doing the work. I do mind losing
-> > functionalities on something that was working fine. And getting the
-> > blame for something that is, at best, just as much of an documentation
-> > issue on i915 devs.
->=20
-> We've had a couple of these cases recently where people have taken
-> some old property implemented by i915 and implemented it differently
-> in some other driver. Dunno if the reason was that people didn't try
-> to understand what i915 is doing and why, or they misundestood it,
-> or they understood it but decided to ignore it anyway.
+On Wed, Feb 21, 2024 at 04:47:11PM -0800, Deepak Gupta wrote:
+> On Tue, Feb 06, 2024 at 04:01:28PM +0000, Mark Brown wrote:
 
-I can't tell for the other cases, but in this particular case it's
-definitely in the misunderstanding category. And implying that we didn't
-even try to understand it, or that we didn't consult anyone when the
-patches were posted on the ML for months doesn't seem fair either.
+> > > +#define SHADOW_STACK_SET_TOKEN (1ULL << 0)     /* Set up a restore token in the shadow stack */
 
-> Unfortunately having undocumented corners in the uapi is simply
-> a fact of life when dealing with a >15 year old legacy codebase.
-> Also there were basically no rules regarding properties in the
-> past, so everyone just added random properties whenever they=20
-> felt like it.
->=20
-> I think going forward we should probably lay down some extra
-> ground rules; if an old undocumented uapi is being extended
-> to cover more than one driver we must first figure out what
-> the de facto semantics are, and document things properly
-> before anything else gets done.
+> > For arm64 I also added a SHADOW_STACK_SET_MARKER for adding a top of
+> > stack marker, did you have any thoughts on that for RISC-V?  I think x86
+> > were considering adding it too, it'd be good if we could get things
+> > consistent.
 
-That sounds reasonable, but you (not you personally, but the i915 team
-in general) also have to engage, you can't just impose that on everyone
-else, and then just hope they will figure it out perfectly without your
-help.
+> Please correct me on this. A token at the top which can't be consumed to restore
+> but *just* purely as marker, right?
 
-I think that whole story is a testament to that.
+Yes, for arm64 we just leave a zero word (which can't be a valid token)
+above the stack switch token, that does mean you can't exactly tell that
+the top of stack marker is there unless there's also a stack switch
+token below it.
 
-Maxime
+> It's a good design basic with not a lot of cost.
 
---tbiepc54hbczafix
+> I think risc-v should be able to converge on that.
+
+Great.
+
+--LxmbY0AjUg4WDPUw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZddKMQAKCRDj7w1vZxhR
-xQZ0AP9xIjID3WRjPO9YmF5lo+fbKpeIUuu3c3a+WG/PCA+kOAD/d6a9EMFe7j7G
-LSSIf9ENRHhLQi1d/PbumiFAR9PLeQM=
-=aA2v
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXXTRUACgkQJNaLcl1U
+h9ChLQf/TR/+XFN8k0dkmk90JLlGHu3WaTQM0wqbCtUC2FExSxw4JGFIeRSKnUum
+10loLkMwAaklC1on36bhQcqVQ+qMOoVN0k9k+YJpi4iXFDo6LH95Z4Qwq37xUQOg
+EI+FqbA6BiCGk1OVOHibZO51nBBmQuwO4c/MYT24AYyoR2/uk6OPE+G1Mm7K4/M6
+zukeMbRS4LPn++luduEqROdMpJNdEBjeSELUQL8AjyUFemzG6ZlpojuJAvVNbVsN
+COBlGD75skhCaSfor7bhAv3iKrr+htaWDZ3zwkPMjlufoZjwYBUb+h3A7eE2G2YF
+wLkwHJN21WNLbqxqHXvjCFibtxling==
+=mXRS
 -----END PGP SIGNATURE-----
 
---tbiepc54hbczafix--
+--LxmbY0AjUg4WDPUw--
