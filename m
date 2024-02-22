@@ -1,57 +1,57 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8B812B7D
-	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 00:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E40101EC
+	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 00:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708562586; cv=none; b=UjvoTXMcao9Qd+LUNpVVwzrTpEBc/N/fPPDHTmo2SWBtOzUZon8DgGzAntaOMDJKOFU75P6BXSfel8w1bxTD07akR26nQTIonuk2G8ALafjZ9oFUqS6aWCNckft1E0Vr/3hPTNBDN2pP7OqtddbwrsbbJuh4nIOZmiAXeu2KzUo=
+	t=1708562838; cv=none; b=MLzZpQ9FVpWbW1jPqIIx2kSULFFfT0B3hTFWxtpjm2yLhposXxDMrQD86JgNbeR9SzRY5uPGP3eV//oe7vd6Iob8Ng6JN0Hd5Qdnm3WU1J0Pgh9Rt/pS+Ix8Qhx12Def+Ii2IjbMqUf79J8iaa4GTMd1u03ejoEcVSEkt4rdX+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708562586; c=relaxed/simple;
-	bh=70s578QhfI8VfYwqTA58Ok69jNRS8MFE5JRxsyKVwPk=;
+	s=arc-20240116; t=1708562838; c=relaxed/simple;
+	bh=TPRDg52o/XUAEJGbQcaz27E13NquY89Tp4mylzmLm5g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLEkc9qV0BzSrjanzZGp9xVYwF4HSJxWckfEz//r2S8LFbXDIADZsGJH0xg772I3n+ZFYitjESKreUeEa2clg1XyNPqynr2Kdbov1O+NSAzGeBOOatYu6ow0Si1IYoD+im31nCrPvKgVbixuTytgJjOXRjZOaSUBA0DzKPpLYEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=1WFKZv0p; arc=none smtp.client-ip=209.85.216.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJHKNRWpjoUb2I/HgZzI14Pv9XlZWK6nnpiRTUHw6m7HYNoY5Ao6ONGYMXPUnZwYKGJd7x9e/a30SYTd/bCPMAtFphbocMWylAkaK5TIdFj99Tl1uvFiJlsA3XC677kmHquSKeVinf4jebLAS02u9oY/6cR4hkLcHID3gXJ/G4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pRb17MbG; arc=none smtp.client-ip=209.85.167.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="1WFKZv0p"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-29954681b59so2827656a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 16:43:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pRb17MbG"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3bbc649c275so717228b6e.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 16:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708562584; x=1709167384; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1708562836; x=1709167636; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CR24aAbNKMU+aX5oJp3mmjRiDv2V+IvxS0ZLhqmyJiA=;
-        b=1WFKZv0pAJBZfWvLdsKJB6k92Da4ZkbHRhMmH6TNJ3nFMgzqUzSvKPNmtWBdrWlO4y
-         TltR+v3HZ8wcnoCcHckct0296eRkpvkrEFZw8XbUmMbnT/qvwkonqAh3LvWQ5Q3+8o4l
-         sslqqSQTeiaxJxmXlhUWfgMdsgsy443CCK8sin/7EZNx7tjlGzz2Nv2Sy+5HIXN3yuC7
-         ULVMK0KOb+TABB8I+oCuzeteXl9fDgWXwPw//jwgewZLEkC4/12DQfN7sfFILPAnfwZd
-         eXeaXULuroei2yw5d0tPIHywO+liURlP0wX5GaT7ERWe3ZD+2Fto0itXynUtSWargjyB
-         dFuw==
+        bh=PxnB8hIBaJHKU9GMJod5TzavYw729HDn9dbYWz/K8DM=;
+        b=pRb17MbGCSgF084iq8gn+zcwxWgWZ7DZdI4X3SQ4AQePL32QfkTF3m/ziJYnQP1k1S
+         2pMHI23BvPUIhmY0m6OkAntfXbw3EfAeUoV7KRsemjn3mXuov2AUF18H4uEs8A/atUSu
+         cWNiwZoec7ZLBovAlsoMNZBRLGZZrrA0gd5CCE2WCT59gHi+190Gw527w92Mg07nGNQz
+         b+aRR9ZXjcf75FYFJ8QUOhfvW/kN4lsfidpabsdKasHSFv7cW6SLjzDKcs8rJjgMEzdC
+         Mzb/E9HeHazoNloEL8LElBrxh1NYpZ/mG7h3Jr74W4qoEcZCXa1P0por5A6xtMniQdWf
+         2xBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708562584; x=1709167384;
+        d=1e100.net; s=20230601; t=1708562836; x=1709167636;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CR24aAbNKMU+aX5oJp3mmjRiDv2V+IvxS0ZLhqmyJiA=;
-        b=nG+wif8MXPoX7rKOnJG+ZNzVEH9UWb73ULF6JH7iT4CGMIr9MoGtP/B/TxaxpGkAO9
-         7wx6M7rnHvV+d7ii6WFA3tVIv65hZp2FyhRKVPvF9S8uVW0FXRzjMUYuVBU6MDSo/0wt
-         fiKsom4gpXRnDVzmw6dRyh1A1+w0XqkcY+Jv7Mg7EKXRf2HZzqtoWy2uknFzTgfNbjh2
-         VFfDQ2ASr8E0znO+fmkWCgOoX3QvsPcu0K6xFn1TdbBNHMhYwcgGHPV2ODNhc00JKvHA
-         FVS/Q3gqH76EPi1Dmjc9lkI3y6QT94T3SpMCI7OWW3Dt3HTeRhxkEci9bwXJRDM6WTFq
-         o4eg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6jv9oFblgcMLULjliGo+k2YyV/nyD7IpOp+kYLRZygGHcaPNvOAvbxLcnfgnIy1XbcmLTjLehgidWAnSXP2yXtb5m+8DKknA9
-X-Gm-Message-State: AOJu0Yy3EepiRI1hYTA2XhgiGkPcDAJVwNEQYGJ/H9cj7vrH6tpnc7Eb
-	qSUk60kQSr1Q60o0EoyloAPythNZ2TThDeTE9CAI6q+1IdOfL8f9DO+6dGAfgyU=
-X-Google-Smtp-Source: AGHT+IED8Qc8cv5em+hY8R0laXHeLyNpZm08160QFNjQ7Gn8Te5H8kX7oc01tG3ELGqs1k3ZjWLKiQ==
-X-Received: by 2002:a17:90b:606:b0:299:99f4:5911 with SMTP id gb6-20020a17090b060600b0029999f45911mr9465260pjb.29.1708562584637;
-        Wed, 21 Feb 2024 16:43:04 -0800 (PST)
+        bh=PxnB8hIBaJHKU9GMJod5TzavYw729HDn9dbYWz/K8DM=;
+        b=OmfoiiEHf8D0fw5uSdSqG8wU9TrqmNXH65AY5/CKQRPflQdmwBact//apbEENU5Cri
+         JhkBxLQ13Tn+4opA3EImuVzyXDPObJ/NR0+tJ5nGo1fs+241Xjnv0MSiRQcujIoCZldb
+         XPcIaj9WbIEGShqCILkdS/8rGHhhUbEbphuyMY6Cmba8RqozpwzW16PlciIBU2BJ4rfo
+         khfVTCMGV360SGQRTVMuA8QxcnCR1rN5vG0s3TDU+pDIUW6QCMcYgrheaN5QM7otaFsd
+         B1vuaUeCJR1zv7n1YwnAYRZclezNLdblt0huJaG3np3sQ8mXfMLRELsM1IqHmUIV8GP5
+         8mxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjw3rTj6G8FG7VwEBs0Bq4c3gqNQ4qZPD4k1GCZCQo27/SZ5blKR7XC64aVmkbhH47gqmokX3205t3tGOFIvRN/QN3HkkCB+3G
+X-Gm-Message-State: AOJu0YzpN4KfWNRtmW3nu9N217jvlhACaBQZk104/RnkDE+pIaEFsKYr
+	DBGQMzwEWRbJKfSjXa4LdNFAGY0+vZROwHgpoFdGjvyisgmVMdUF7vRw2ijOhrk=
+X-Google-Smtp-Source: AGHT+IFSLTMc3hCuIYilhHI07UG+3jHSb+dOia9uI0EVHy8hIHGEMNdRSjhvd4xYo+3moab7FJoglQ==
+X-Received: by 2002:a05:6808:170f:b0:3c1:5440:d2c5 with SMTP id bc15-20020a056808170f00b003c15440d2c5mr11757138oib.38.1708562836074;
+        Wed, 21 Feb 2024 16:47:16 -0800 (PST)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id bx12-20020a17090af48c00b0029a4089fbf0sm390177pjb.16.2024.02.21.16.43.01
+        by smtp.gmail.com with ESMTPSA id f10-20020a056a000b0a00b006dddf2ed8f0sm9533333pfu.154.2024.02.21.16.47.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 16:43:04 -0800 (PST)
-Date: Wed, 21 Feb 2024 16:42:59 -0800
+        Wed, 21 Feb 2024 16:47:15 -0800 (PST)
+Date: Wed, 21 Feb 2024 16:47:11 -0800
 From: Deepak Gupta <debug@rivosinc.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: rick.p.edgecombe@intel.com, Szabolcs.Nagy@arm.com,
@@ -80,12 +80,12 @@ Cc: rick.p.edgecombe@intel.com, Szabolcs.Nagy@arm.com,
 	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-arch@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: Re: [RFC PATCH v1 18/28] prctl: arch-agnostic prtcl for indirect
- branch tracking
-Message-ID: <ZdaYk8XERnOtiR3P@debug.ba.rivosinc.com>
+Subject: Re: [RFC PATCH v1 15/28] riscv/mm: Implement map_shadow_stack()
+ syscall
+Message-ID: <ZdaZj0pqaVJiNOUg@debug.ba.rivosinc.com>
 References: <20240125062739.1339782-1-debug@rivosinc.com>
- <20240125062739.1339782-19-debug@rivosinc.com>
- <ZcJas4tZNzOJv6hW@finisterre.sirena.org.uk>
+ <20240125062739.1339782-16-debug@rivosinc.com>
+ <ZcJX2IJb0hOM5RF5@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,28 +94,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <ZcJas4tZNzOJv6hW@finisterre.sirena.org.uk>
+In-Reply-To: <ZcJX2IJb0hOM5RF5@finisterre.sirena.org.uk>
 
-On Tue, Feb 06, 2024 at 04:13:39PM +0000, Mark Brown wrote:
->On Wed, Jan 24, 2024 at 10:21:43PM -0800, debug@rivosinc.com wrote:
+On Tue, Feb 06, 2024 at 04:01:28PM +0000, Mark Brown wrote:
+>On Wed, Jan 24, 2024 at 10:21:40PM -0800, debug@rivosinc.com wrote:
 >
->> To allow userspace to enable this feature for itself, following prtcls are
->> defined:
->>  - PR_GET_INDIR_BR_LP_STATUS: Gets current configured status for indirect branch
->>    tracking.
->>  - PR_SET_INDIR_BR_LP_STATUS: Sets a configuration for indirect branch tracking
->>    Following status options are allowed
->>            - PR_INDIR_BR_LP_ENABLE: Enables indirect branch tracking on user
->>              thread.
->>            - PR_INDIR_BR_LP_DISABLE; Disables indirect branch tracking on user
->>              thread.
->>  - PR_LOCK_INDIR_BR_LP_STATUS: Locks configured status for indirect branch
->>    tracking for user thread.
+>> As discussed extensively in the changelog for the addition of this
+>> syscall on x86 ("x86/shstk: Introduce map_shadow_stack syscall") the
+>> existing mmap() and madvise() syscalls do not map entirely well onto the
+>> security requirements for guarded control stacks since they lead to
+>> windows where memory is allocated but not yet protected or stacks which
+>> are not properly and safely initialised. Instead a new syscall
+>> map_shadow_stack() has been defined which allocates and initialises a
+>> shadow stack page.
 >
->FWIW the arm64 BTI feature is enabled per page of executable memory
->rather than in CPU state so it'd be hard for us to adopt this interface.
->I don't think that's a blocker, just noting it.
+>While I agree that this is very well written you probably want to update
+>the references to guarded control stacks to whatever the RISC-V term is :P
 
-Got it, makes sense.
+Noted. I'll do that in next patchset.
+
+>
+>> --- a/include/uapi/asm-generic/mman.h
+>> +++ b/include/uapi/asm-generic/mman.h
+>> @@ -19,4 +19,5 @@
+>>  #define MCL_FUTURE	2		/* lock all future mappings */
+>>  #define MCL_ONFAULT	4		/* lock all pages that are faulted in */
+>>
+>> +#define SHADOW_STACK_SET_TOKEN (1ULL << 0)     /* Set up a restore token in the shadow stack */
+>>  #endif /* __ASM_GENERIC_MMAN_H */
+>
+>For arm64 I also added a SHADOW_STACK_SET_MARKER for adding a top of
+>stack marker, did you have any thoughts on that for RISC-V?  I think x86
+>were considering adding it too, it'd be good if we could get things
+>consistent.
+
+Please correct me on this. A token at the top which can't be consumed to restore
+but *just* purely as marker, right?
+It's a good design basic with not a lot of cost.
+
+I think risc-v should be able to converge on that.
 
 
