@@ -1,116 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DE41FB2;
-	Thu, 22 Feb 2024 00:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D19A935
+	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 00:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708561717; cv=none; b=kVYCnTKJOdRP4FDZDURu01Vuvs+7/rLRFQb13FNjiRifP8LC+9zeoFBFkmbWGBeDXmL/pxwB3OixNu3diINVud5EpHlf9G+lgqKjyy7u6RTyWZS5IFfFfycy8lhjYFpxaUI1zNmk4KUZRo1TIncRgJbEH2eIyoMVJJfvM+jZSpk=
+	t=1708562101; cv=none; b=UFljIvmJwvAUqx0lNzdW15yBzzU2faAYrC6U1QnQ8OZekYDRaOK5b8MgbEJk1I4WyBO1QzspgXBPh7jIkIRmA3Pnb/8SX9QeI7wXDwA/0GAlTjfh0pjYlZDV4HIXG3QfZZSeafbU+LmqpmEjXX6GPBaMSPovMbB7n3QMfmHLBF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708561717; c=relaxed/simple;
-	bh=YZ6+Xgmd8ooFkzhBG9c/UeFWshDJf3VAD1VW9Z88ago=;
+	s=arc-20240116; t=1708562101; c=relaxed/simple;
+	bh=fsJO7Voe+3kvWM45B0Sk22Vetz/209FiI591NGHa660=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tc5o29c2otw3LGW9W7ZIAL/o0ZsIQdoHtvDoP8nx43ALzT76CHvU1aeNaB7FM1ezluGK12cAt5r+4Vmdgiw0/rwGbdb+yUAjriE+orwLxeC5uPMzGzl/DGuZnfuTwGSSqwho8rkA2SQh2tWlKuzulMLOh9YSJl3UVXTQd1lGvf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0PJSx2M; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlOkeDrPbLQpPeVd0m/H9jnOi7U2pjSPAomuHzZqhXGQJ3iDbjSkK6re5PiSIVGiipJBjiBpfOB9r9hg+RZENUbpXm8A8lfr+60TdEzfNMTfo+/if67NU5gpZsVqw3j8qVwUl+qCnLbK14QfTun5nTOlxhp1UqnvgjCaPDa5APg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DNUFEkkq; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0PJSx2M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0293C433C7;
-	Thu, 22 Feb 2024 00:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708561717;
-	bh=YZ6+Xgmd8ooFkzhBG9c/UeFWshDJf3VAD1VW9Z88ago=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U0PJSx2Mz6286a4r+SQm5k63aQj3YfF5fZkikW5JGMjY7DY9Mepu1R4gTud+GdZ37
-	 18QHjW/eJOc1BatX/jPWovN2DRaQMrnQYwYeNb1tOQt25rV1iQ9544SMYb1Nrx3B23
-	 XWaglwyE01VhOgYIqEjlL7XDKJRxSJkTj5LXZCSKGCFRe+sN7xci9HsrdUq8viYrL3
-	 eaXZxRG53al8uCTEv0YDq6b43NmD7KsUbALRD5Jf+aFQOzWjmFj/nlqwRGRSFGWS7Q
-	 8dBzfdwqmFBWENVNo2vZu2wx7e/ON0mKxmGJ1h+vmFFsEzYLoZgPili1Y6Ma9UymAO
-	 mPzznB3H5hTjQ==
-Date: Wed, 21 Feb 2024 18:28:35 -0600
-From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
-	Eric Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
-	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH v2 12/25] selinux: add hooks for fscaps operations
-Message-ID: <ZdaVM7watDacZojS@do-x1extreme>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
- <20240221-idmap-fscap-refactor-v2-12-3039364623bd@kernel.org>
- <CAHC9VhTgHP=3Te4=t6chGte15CA_tMoVjFuzBwh+FxQ6Ri4mQQ@mail.gmail.com>
- <ZdaRBBU6K3nvklPI@do-x1extreme>
- <CAHC9VhRr-AO2qrK3ZttsVMsQcJNhZThS7P5_i9dDC7tGPHdVAA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DNUFEkkq"
+Date: Wed, 21 Feb 2024 19:34:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1708562097;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G88uSOyu1u80Eng+KqSI+b6wDgfOq5t2Nzkcxgmz8B8=;
+	b=DNUFEkkqgQoWl+SP5laughmYXRyxMqPuHqKkeAnGKyFby/zySfYBY3FIzXWdfPg84xohpk
+	J9sGqqVtCHuZbx8fNQO/nCqhO4qFN18b+/JysbQQ/t5n2nk/SljAJhmsg3qEL65+dgnRkH
+	bSHDYXEVjKjZFJzAzNHVNqfZXbzQDrY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Kees Cook <keescook@chromium.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v4 14/36] lib: add allocation tagging support for memory
+ allocation profiling
+Message-ID: <vxx2o2wdcqjkxauglu7ul52mygu4tti2i3yc2dvmcbzydvgvu2@knujflwtakni>
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-15-surenb@google.com>
+ <202402211449.401382D2AF@keescook>
+ <4vwiwgsemga7vmahgwsikbsawjq5xfskdsssmjsfe5hn7k2alk@b6ig5v2pxe5i>
+ <202402211608.41AD94094@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhRr-AO2qrK3ZttsVMsQcJNhZThS7P5_i9dDC7tGPHdVAA@mail.gmail.com>
+In-Reply-To: <202402211608.41AD94094@keescook>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Feb 21, 2024 at 07:19:07PM -0500, Paul Moore wrote:
-> On Wed, Feb 21, 2024 at 7:10 PM Seth Forshee (DigitalOcean)
-> <sforshee@kernel.org> wrote:
-> > On Wed, Feb 21, 2024 at 06:38:33PM -0500, Paul Moore wrote:
-> > > On Wed, Feb 21, 2024 at 4:25 PM Seth Forshee (DigitalOcean)
-> > > <sforshee@kernel.org> wrote:
-> > > >
-> > > > Add hooks for set/get/remove fscaps operations which perform the same
-> > > > checks as the xattr hooks would have done for XATTR_NAME_CAPS.
-> > > >
-> > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
-> > > > ---
-> > > >  security/selinux/hooks.c | 26 ++++++++++++++++++++++++++
-> > > >  1 file changed, 26 insertions(+)
-> > > >
-> > > > diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> > > > index a6bf90ace84c..da129a387b34 100644
-> > > > --- a/security/selinux/hooks.c
-> > > > +++ b/security/selinux/hooks.c
-> > > > @@ -3367,6 +3367,29 @@ static int selinux_inode_removexattr(struct mnt_idmap *idmap,
-> > > >         return -EACCES;
-> > > >  }
-> > > >
-> > > > +static int selinux_inode_set_fscaps(struct mnt_idmap *idmap,
-> > > > +                                   struct dentry *dentry,
-> > > > +                                   const struct vfs_caps *caps, int flags)
+On Wed, Feb 21, 2024 at 04:25:02PM -0800, Kees Cook wrote:
+> On Wed, Feb 21, 2024 at 06:29:17PM -0500, Kent Overstreet wrote:
+> > On Wed, Feb 21, 2024 at 03:05:32PM -0800, Kees Cook wrote:
+> > > On Wed, Feb 21, 2024 at 11:40:27AM -0800, Suren Baghdasaryan wrote:
+> > > > [...]
+> > > > +struct alloc_tag {
+> > > > +	struct codetag			ct;
+> > > > +	struct alloc_tag_counters __percpu	*counters;
+> > > > +} __aligned(8);
+> > > > [...]
+> > > > +#define DEFINE_ALLOC_TAG(_alloc_tag)						\
+> > > > +	static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr);	\
+> > > > +	static struct alloc_tag _alloc_tag __used __aligned(8)			\
+> > > > +	__section("alloc_tags") = {						\
+> > > > +		.ct = CODE_TAG_INIT,						\
+> > > > +		.counters = &_alloc_tag_cntr };
+> > > > [...]
+> > > > +static inline struct alloc_tag *alloc_tag_save(struct alloc_tag *tag)
 > > > > +{
-> > > > +       return dentry_has_perm(current_cred(), dentry, FILE__SETATTR);
+> > > > +	swap(current->alloc_tag, tag);
+> > > > +	return tag;
 > > > > +}
-> > >
-> > > The selinux_inode_setxattr() code also has a cap_inode_setxattr()
-> > > check which is missing here.  Unless you are handling this somewhere
-> > > else, I would expect the function above to look similar to
-> > > selinux_inode_remove_fscaps(), but obviously tweaked for setting the
-> > > fscaps and not removing them.
-> >
-> > Right, but cap_inode_setxattr() doesn't do anything for fscaps, so I
-> > omitted the call. Unless you think the call should be included in case
-> > cap_inode_setxattr() changes in the future, which is a reasonable
-> > position.
+> > > 
+> > > Future security hardening improvement idea based on this infrastructure:
+> > > it should be possible to implement per-allocation-site kmem caches. For
+> > > example, we could create:
+> > > 
+> > > struct alloc_details {
+> > > 	u32 flags;
+> > > 	union {
+> > > 		u32 size; /* not valid after __init completes */
+> > > 		struct kmem_cache *cache;
+> > > 	};
+> > > };
+> > > 
+> > > - add struct alloc_details to struct alloc_tag
+> > > - move the tags section into .ro_after_init
+> > > - extend alloc_hooks() to populate flags and size:
+> > > 	.flags = __builtin_constant_p(size) ? KMALLOC_ALLOCATE_FIXED
+> > > 					    : KMALLOC_ALLOCATE_BUCKETS;
+> > > 	.size = __builtin_constant_p(size) ? size : SIZE_MAX;
+> > > - during kernel start or module init, walk the alloc_tag list
+> > >   and create either a fixed-size kmem_cache or to allocate a
+> > >   full set of kmalloc-buckets, and update the "cache" member.
+> > > - adjust kmalloc core routines to use current->alloc_tag->cache instead
+> > >   of using the global buckets.
+> > > 
+> > > This would get us fully separated allocations, producing better than
+> > > type-based levels of granularity, exceeding what we have currently with
+> > > CONFIG_RANDOM_KMALLOC_CACHES.
+> > > 
+> > > Does this look possible, or am I misunderstanding something in the
+> > > infrastructure being created here?
+> > 
+> > Definitely possible, but... would we want this?
 > 
-> Fair enough, but I'd be a lot happier if you included the call in case
-> something changes in the future.  I worry that omitting the call would
-> make it easier for us to forget about this if/when things change and
-> suddenly we have a security issue.  If you are morally opposed to
-> that, at the very least put a comment in selinux_inode_set_fscaps()
-> about this so we know who to yell at in the future ;)
+> Yes, very very much. One of the worst and mostly unaddressed weaknesses
+> with the kernel right now is use-after-free based type confusion[0], which
+> depends on merged caches (or cache reuse).
+> 
+> This doesn't solve cross-allocator (kmalloc/page_alloc) type confusion
+> (as terrifyingly demonstrated[1] by Jann Horn), but it does help with
+> what has been a very common case of "use msg_msg to impersonate your
+> target object"[2] exploitation.
 
-Makes sense, no objection from me. I'll add it in for v3.
+We have a ton of code that references PAGE_SIZE and uses the page
+allocator completely unnecessarily - that's something worth harping
+about at conferences; if we could motivate people to clean that stuff up
+it'd have a lot of positive effects.
+
+> > That would produce a _lot_ of kmem caches
+> 
+> Fewer than you'd expect, but yes, there is some overhead. However,
+> out-of-tree forks of Linux have successfully experimented with this
+> already and seen good results[3].
+
+So in that case - I don't think there's any need for a separate
+alloc_details; we'd just add a kmem_cache * to alloc_tag and then hook
+into the codetag init/unload path to create and destroy the kmem caches.
+
+No need to adjust the slab code either; alloc_hooks() itself could
+dispatch to kmem_cache_alloc() instead of kmalloc() if this is in use.
