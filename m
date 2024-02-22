@@ -1,309 +1,100 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9710614A8F
-	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 00:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27331854;
+	Thu, 22 Feb 2024 00:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708560194; cv=none; b=D6rLTD5cMwcjP8utCqnNlhKkNR2M6VX1bSAd4sYZLizxudlbcSJ6d9v6wFxdiNPi9FgOWgA04KAhNQWYTYYRFbIKY3j5Z+NnG20AUQ96FV2RHPsePDG1U/jhVqgrJ7K3d3TPSRuE/nlNgaRyEFjASKN7gkFK2wB91dh3TZ4ge+w=
+	t=1708560481; cv=none; b=bighMFvtnxScIe9blMRrySrupue9zM9x8WAQFRP4nB3hIbadegZ4hk9Ia3jG0UFuRjMJrJ/Qgn/8dDrAHetzaF/bNYo9v+6o5DVEfS26t377BRgBa/1TPWh6MqWOfAxt1QG/C8OenzmFHLfVi6sMfDVeQ3eWsvTMCwiLoxkZuow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708560194; c=relaxed/simple;
-	bh=CRm2/J2tmxJvfyj/dvWAkWX3iQ5AB5xxi9YWHB4X8ws=;
+	s=arc-20240116; t=1708560481; c=relaxed/simple;
+	bh=vE8G0tEnjCDvKYtM1hAj6g+Z7bZNowrFZogG32m/K70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6u1c0DOd/btuAxi7P3Rqhu7PYwEeHWfZxDmWi6FNX7RLIdwWxy1c81+TlUP5KFao2FlB9/Phe2kx20vwgjEHOed+lC8OHMFEHBsKdwBd0AnMoF5nkEh2V20g2byukNsj2Zfjwmv8focFTmH+GyNG9ll+ayCQi9l/E7FZP30Flg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rcwYA-0004FG-J6; Thu, 22 Feb 2024 01:02:54 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rcwY8-0027zR-Sz; Thu, 22 Feb 2024 01:02:52 +0100
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1rcwY8-001QME-2N;
-	Thu, 22 Feb 2024 01:02:52 +0100
-Date: Thu, 22 Feb 2024 01:02:52 +0100
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Dan Vacura <w36195@motorola.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: linux-usb@vger.kernel.org, Daniel Scally <dan.scally@ideasonboard.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Jeff Vanhoof <qjv001@motorola.com>, stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=FDpZvRKAXUTBXQBGwzd9zjJ7Y1eK3EPr2OpFFuReeIZ3TIkqLVUpTuoCPJxPq0i8twmEF3uvEi+2XKtUB4/3LK5mM0gXXSqpe3mbw22l8ggW07DuzgjzOVYzAzBCCFED8m92YK9mhUvhw47yiQ27b7wPXgF7JF8ZgezhG4YOo5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y42VscKr; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y42VscKr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF65C433C7;
+	Thu, 22 Feb 2024 00:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708560480;
+	bh=vE8G0tEnjCDvKYtM1hAj6g+Z7bZNowrFZogG32m/K70=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y42VscKrvxtAeYusTRWD6nCdHe83JpVE4gTfo6qOWzSr35vqn+d3jY7Zw5IcL0vnB
+	 PakgDEDQ6OPmTo0AK9gFPD6TJx3p4/8JJPJFk4lV1V5VLRgjczH0cX15H6dfnlWs19
+	 w9A5I0t+DccGyh5nE/w3d3RJxsfu3btoZCd1VpBOA8jebEHWFizMP5AWg0So7quzxy
+	 QjGE4Tti8547FKVzZGuTljGQDc+MGukbKyomzjNKeJn1tK8sY/PgOiEivvyH+Ww0bn
+	 a6KlSCCFCx5aeAWxlgoHf4bXLz8WtZSNJ8rbHPmwW6S9h1/qML7j6TvG6WBPb5Dara
+	 Fq6dZETVqsoFw==
+Date: Wed, 21 Feb 2024 18:07:59 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Eric Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
- release after missed isoc
-Message-ID: <ZdaPLGTbsBo4F4pK@pengutronix.de>
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-3-w36195@motorola.com>
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 11/25] security: add hooks for set/get/remove of fscaps
+Message-ID: <ZdaQX9385Sq3VmMZ@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-11-3039364623bd@kernel.org>
+ <CAHC9VhQ5QK_4BaHCj9SEvW9M_suWa9edDXrbw2MiNcn56eoWPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7167IsNR9GtUxaC9"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20221017205446.523796-3-w36195@motorola.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhQ5QK_4BaHCj9SEvW9M_suWa9edDXrbw2MiNcn56eoWPg@mail.gmail.com>
 
+On Wed, Feb 21, 2024 at 06:31:42PM -0500, Paul Moore wrote:
+> On Wed, Feb 21, 2024 at 4:26 PM Seth Forshee (DigitalOcean)
+> <sforshee@kernel.org> wrote:
+> >
+> > In preparation for moving fscaps out of the xattr code paths, add new
+> > security hooks. These hooks are largely needed because common kernel
+> > code will pass around struct vfs_caps pointers, which EVM will need to
+> > convert to raw xattr data for verification and updates of its hashes.
+> >
+> > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > ---
+> >  include/linux/lsm_hook_defs.h |  7 +++++
+> >  include/linux/security.h      | 33 +++++++++++++++++++++
+> >  security/security.c           | 69 +++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 109 insertions(+)
+> 
+> One minor problem below, but assuming you fix that, this looks okay to me.
+> 
+> Acked-by: Paul Moore <paul@paul-moore.com>
+> 
+> > diff --git a/security/security.c b/security/security.c
+> > index 3aaad75c9ce8..0d210da9862c 100644
+> > --- a/security/security.c
+> > +++ b/security/security.c
+> > @@ -2351,6 +2351,75 @@ int security_inode_remove_acl(struct mnt_idmap *idmap,
+> 
+> ...
+> 
+> > +/**
+> > + * security_inode_get_fscaps() - Check if reading fscaps is allowed
+> > + * @dentry: file
+> 
+> You are missing an entry for the @idmap parameter.
 
---7167IsNR9GtUxaC9
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Sorry for digging up this grave! :)
-
-I once more came accross the whole situation we are still encountering
-since one year or so again and found the some reasons why:
-
-#1 there are so many latencies, so that the system is not fast enough to
-enqueue requests back into an running HW-Transfer. At least on our
-system setup.
-
-and
-
-#2 there are so many missed transfers leading to broken frames
-when adding request with no_interrupt set.
-
-For #1: There sometimes are situations in the system where the threaded
-interrupt handler for the dwc3 is not called fast enough, although the
-HW-irq was called early and enqueued the irq event and woke the irq
-thread early. In our case this often happens, when there are other tasks
-involved on the same CPU and the scheduler is not able to pipeline the
-irq thread in the necessary time. In our case the main issue is an
-HW-irq handler of the ethernet controller (cadence macb) that runs
-berserk on CPU0 and therefor is taking a lot of CPU time. Per default on
-our system all irq handlers are running on the same CPU. As per
-definition all interrupt threads will be started on the same CPU as the
-irq was called, this forces a lot of pressure on one Core. So changing
-the smp_affinity of the dwc3 irq to the second CPU only, already solves
-a lot of the underruns.
-
-For #2: I found an issue in the handling of the completion of requests in
-the started list. When the interrupt handler is *explicitly* calling
-stop_active_transfer if the overall event of the request was an missed
-event. This event value only represents the value of the request that
-was actually triggering the interrupt.
-
-It also calls ep_cleanup_completed_requests and is iterating over the
-started requests and will call giveback/complete functions of the
-requests with the proper request status.
-
-So this will also catch missed requests in the queue. However, since
-there might be, lets say 5 good requests and one missed request, what
-will happen is, that each complete call for the first good requests will
-enqueue new requests into the started list and will also call the
-updatecmd on that transfer that was already missed until the loop will
-reach the one request with the MISSED status bit set.
-
-So in my opinion the patch from Jeff makes sense when adding the
-following change aswell. With those both changes the underruns and
-broken frames finally disappear. I am still unsure about the complete
-solution about that, since with this the mentioned 5 good requests
-will be cancelled aswell. So this is still a WIP status here.
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index e031813c5769b..b991d25bbf897 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3509,6 +3509,45 @@ static int dwc3_gadget_ep_cleanup_completed_request(=
-struct dwc3_ep *dep,
-         return ret;
-  }
-
-+static int dwc3_gadget_ep_check_missed_requests(struct dwc3_ep *dep)
-+{
-+       struct dwc3_request     *req;
-+       struct dwc3_request     *tmp;
-+       int ret =3D 0;
-+
-+       list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
-+               struct dwc3_trb *trb;
-+
-+               /* TOOD: check if the trb association is correct */
-+               trb =3D req->trb;
-+               switch (DWC3_TRB_SIZE_TRBSTS(trb->size)) {
-+               case DWC3_TRBSTS_MISSED_ISOC:
-+                       /* Isoc endpoint only */
-+                       ret =3D -EXDEV;
-+                       break;
-+               case DWC3_TRB_STS_XFER_IN_PROG:
-+                       /* Applicable when End Transfer with ForceRM=3D0 */
-+               case DWC3_TRBSTS_SETUP_PENDING:
-+                       /* Control endpoint only */
-+               case DWC3_TRBSTS_OK:
-+               default:
-+                       ret =3D 0;
-+                       break;
-+               }
-+       }
-+
-+       return ret;
-+}
-+
-  static void dwc3_gadget_ep_cleanup_completed_requests(struct dwc3_ep *dep,
-                 const struct dwc3_event_depevt *event, int status)
-  {
-@@ -3566,7 +3605,7 @@ static bool dwc3_gadget_endpoint_trbs_complete(struct=
- dwc3_ep *dep,
-         struct dwc3             *dwc =3D dep->dwc;
-         bool                    no_started_trb =3D true;
-
--       if (status =3D=3D -EXDEV) {
-+       if (status =3D=3D -EXDEV || dwc3_gadget_ep_check_missed_requests(de=
-p)) {
-                 struct dwc3_request *tmp;
-                 struct dwc3_request *req;
-
-
-On Mon, Oct 17, 2022 at 03:54:40PM -0500, Dan Vacura wrote:
->From: Jeff Vanhoof <qjv001@motorola.com>
->
->arm-smmu related crashes seen after a Missed ISOC interrupt when
->no_interrupt=3D1 is used. This can happen if the hardware is still using
->the data associated with a TRB after the usb_request's ->complete call
->has been made.  Instead of immediately releasing a request when a Missed
->ISOC interrupt has occurred, this change will add logic to cancel the
->request instead where it will eventually be released when the
->END_TRANSFER command has completed. This logic is similar to some of the
->cleanup done in dwc3_gadget_ep_dequeue.
->
->Fixes: 6d8a019614f3 ("usb: dwc3: gadget: check for Missed Isoc from event =
-status")
->Cc: <stable@vger.kernel.org>
->Signed-off-by: Jeff Vanhoof <qjv001@motorola.com>
->Co-developed-by: Dan Vacura <w36195@motorola.com>
->Signed-off-by: Dan Vacura <w36195@motorola.com>
->---
->V1 -> V3:
->- no change, new patch in series
->
-> drivers/usb/dwc3/core.h   |  1 +
-> drivers/usb/dwc3/gadget.c | 38 ++++++++++++++++++++++++++------------
-> 2 files changed, 27 insertions(+), 12 deletions(-)
->
->diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
->index 8f9959ba9fd4..9b005d912241 100644
->--- a/drivers/usb/dwc3/core.h
->+++ b/drivers/usb/dwc3/core.h
->@@ -943,6 +943,7 @@ struct dwc3_request {
-> #define DWC3_REQUEST_STATUS_DEQUEUED		3
-> #define DWC3_REQUEST_STATUS_STALLED		4
-> #define DWC3_REQUEST_STATUS_COMPLETED		5
->+#define DWC3_REQUEST_STATUS_MISSED_ISOC		6
-> #define DWC3_REQUEST_STATUS_UNKNOWN		-1
->
-> 	u8			epnum;
->diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->index 079cd333632e..411532c5c378 100644
->--- a/drivers/usb/dwc3/gadget.c
->+++ b/drivers/usb/dwc3/gadget.c
->@@ -2021,6 +2021,9 @@ static void dwc3_gadget_ep_cleanup_cancelled_request=
-s(struct dwc3_ep *dep)
-> 		case DWC3_REQUEST_STATUS_STALLED:
-> 			dwc3_gadget_giveback(dep, req, -EPIPE);
-> 			break;
->+		case DWC3_REQUEST_STATUS_MISSED_ISOC:
->+			dwc3_gadget_giveback(dep, req, -EXDEV);
->+			break;
-> 		default:
-> 			dev_err(dwc->dev, "request cancelled with wrong reason:%d\n", req->sta=
-tus);
-> 			dwc3_gadget_giveback(dep, req, -ECONNRESET);
->@@ -3402,21 +3405,32 @@ static bool dwc3_gadget_endpoint_trbs_complete(str=
-uct dwc3_ep *dep,
-> 	struct dwc3		*dwc =3D dep->dwc;
-> 	bool			no_started_trb =3D true;
->
->-	dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
->+	if (status =3D=3D -EXDEV) {
->+		struct dwc3_request *tmp;
->+		struct dwc3_request *req;
->
->-	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
->-		goto out;
->+		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
->+			dwc3_stop_active_transfer(dep, true, true);
->
->-	if (!dep->endpoint.desc)
->-		return no_started_trb;
->+		list_for_each_entry_safe(req, tmp, &dep->started_list, list)
->+			dwc3_gadget_move_cancelled_request(req,
->+					DWC3_REQUEST_STATUS_MISSED_ISOC);
->+	} else {
->+		dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
->
->-	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
->-		list_empty(&dep->started_list) &&
->-		(list_empty(&dep->pending_list) || status =3D=3D -EXDEV))
->-		dwc3_stop_active_transfer(dep, true, true);
->-	else if (dwc3_gadget_ep_should_continue(dep))
->-		if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
->-			no_started_trb =3D false;
->+		if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
->+			goto out;
->+
->+		if (!dep->endpoint.desc)
->+			return no_started_trb;
->+
->+		if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
->+			list_empty(&dep->started_list) && list_empty(&dep->pending_list))
->+			dwc3_stop_active_transfer(dep, true, true);
->+		else if (dwc3_gadget_ep_should_continue(dep))
->+			if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
->+				no_started_trb =3D false;
->+	}
->
-> out:
-> 	/*
->--=20
->2.34.1
->
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---7167IsNR9GtUxaC9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXWjykACgkQC+njFXoe
-LGRNBg/9Ggqr8dqyPbcVNqwQ76whL7PXxMgDlxYZVgyaH/muk5JSxnGVD4LzbNAn
-gq2kWbkWRV9qqlMICcniXSlDlumccR6PznVmC9SRcWm8sxY+3L8dAHGc1mJ6IyPy
-dgtbiBLitH0dRdBRN6Oo3cZoxE1zMkiKumaZDO7/U851glEgQ+/jgUPWTksbU7x0
-GNrvOHlK7S5IKnB25hcfYYtzsQOWobnyfEEBdgxkUd0tBfUjGNmHgP4tBVelbDAQ
-lKl8OBdazijiDs0JO1cW0Y2uQ8fUhVWi+b3SgUsTVj8eMMoz65xxEqHJla5x462t
-uNnRf2PDdjSGg5OloG6NmvvPin5NNAVKW9kCb6s6VDmun0XmpAG2e/rQdcwyAfpX
-62Uc7FzJxilMq1yT7RDI/sl82qYaLIvmLvgcDOGdqg4Ofl/pyj7Ck47Q71YMxwuQ
-bxiKZC+pzkifx6dw/MIKaA3JWj/0aMAGAToEPMEKxgAdyMlO0edIqNK9nvIx7wkr
-I74aaks+reY6CZxtv7wHHVuVH1leAtVL0xVtm5aq2deHx5ssJGQz+83AUYSwZPZY
-6dWZ7gUYM7v/0PpQeVLO10VJsnLZfHC40JWH7FQbTKyUbhA9zMdrH4dbQ2DtkGDV
-vHN8dgm5mDmUr5CrxybAK/OFAMrz/vSumAN8bKVmPkG/oVlPt5Q=
-=FhI4
------END PGP SIGNATURE-----
-
---7167IsNR9GtUxaC9--
+Fixed, thanks!
