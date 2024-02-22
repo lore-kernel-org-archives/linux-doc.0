@@ -1,76 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D23130E32;
-	Thu, 22 Feb 2024 16:28:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698341552E2;
+	Thu, 22 Feb 2024 16:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708619312; cv=none; b=R5LZAY6ByT1/2lycbu7JQJj/u/QtvfDmBsey8xtQ5E/6skjHQdychmhZN0h4cHz+8rVR70t7kLC0hFptOQuh3gsXt5eGZjq4cek6LAE1ai0oARchok+kRwE67h4fdDYTrzKsDDEBZzQ0D+J7vUFesTO3hruTv4oLEaAN5lvi8I4=
+	t=1708620616; cv=none; b=lP6qA8rMjiGcKKIsjzd1uvfK+nk6GTQdEKmEUw2Uu2YiqKM98TUBP/tF8D4gkZ66ENUUwOAAy9oRb5b1k5kwKS15jadgyMBU4AQwdOA5TJYeiYKVno5jI78GSYLeybiV4ipuaZrdk20gIJQG6jUaYYy/U0Y+szrDIxFkRMpFtt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708619312; c=relaxed/simple;
-	bh=/N54fL35ZdVbtebauo84ov69w0sjILFhff+gvM1V4NQ=;
+	s=arc-20240116; t=1708620616; c=relaxed/simple;
+	bh=jzgZY6zqPBSGD9YD0BKd1woI2fsVxRaFtsSJDMgRhhk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmEvtRKf/RjR1Gmp5csvavt0vx7rs1oVBpn7P+fSq2boaWeRGFTc3b5r2I7yfKnsJZw0gH5PaAzN6HxcZzuhvrdudRH3MxaLsO8aHHuph7yFCqtzavUWE6AuKXYwWbvmqJbaIPwOu5tDx+pQksMG4r0n9C/kmptCrR8umZUPC1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LSSOSWpv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=J/tn9odHoUhM0IQq5h0NydKvPcyAv7442KA8WUPWl9OrUdpdmUbLKkU+YvJnesZRCIhzY1undkeIM7Zz12zan9I6LvqUDLFBKokFi972+d8XRNjkMrJqdFTCmkiF1UjbBQlWWSu3MUGOzURnEWEnP88EpvsG1xIJYi/Z12S5oxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tvw+TbRx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LSSOSWpv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF65C433C7;
-	Thu, 22 Feb 2024 16:28:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tvw+TbRx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECBCC433F1;
+	Thu, 22 Feb 2024 16:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708619311;
-	bh=/N54fL35ZdVbtebauo84ov69w0sjILFhff+gvM1V4NQ=;
+	s=k20201202; t=1708620616;
+	bh=jzgZY6zqPBSGD9YD0BKd1woI2fsVxRaFtsSJDMgRhhk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LSSOSWpvtYIZUdKHdK5v726xYpd5If9zSDsal9KwYkamz32CsMORMaSaXI/72Bpg5
-	 22nEvBfXATGQPWXLadPhkOf6zHZgnVGaZQiW8KPJ2qugrI6tPe102a1KHsvoG+SHft
-	 nbLUkVuCRBv651s92Fc5UZWHtM9ev5xHVp4EIMgBMRAfCAqQ7ndd9W/ra89WBBWaYN
-	 loO2sTQELS5Qlk8MfRrVk3XeU2P4r+0CghckSCRoK7L+inB85apxFx7No8AVC6vshv
-	 4x3f+HqI2OZp/pbxliU0m95ZleWOQ41TUq605vpcdWwnIf74RMBZDIrfIjJo31Xdq/
-	 SrNw0kNrsqdUg==
-Date: Thu, 22 Feb 2024 10:28:30 -0600
-From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>,
-	Eric Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
-	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH v2 00/25] fs: use type-safe uid representation for
- filesystem capabilities
-Message-ID: <Zdd2LuUpQDldrkVO@do-x1extreme>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
- <20240222-fluchen-viren-50e216b653fb@brauner>
+	b=Tvw+TbRxk808PShE8X9kFc2djAPrBKVC3fPeou9JAwUeFEgmjlzWOarpNx0+DXxXp
+	 FY0YTS2GBnXJ8RYNdGq67aBx2KngY9DLAKutqHQVO0KNrhxMZI5IkYerQNXazGQ3ZT
+	 5n4TcWfuvwzo6M219lB8xUPyWUvLvyFowGO4IEdhX0zwlMEUT5sLea+jainoyh1OKv
+	 kzY0fPn9XEObThLrabLoLo9ypfpUfRGXIN3L3zury9khOitSoyV596qjtHyC3tk23z
+	 xOrc2HACbJB10923znohknE3lWyuIEnltcwgOxcuxXr6X8DJWxCDy7cXhRi8Nsdcja
+	 +SVhesevS2Z3w==
+Date: Thu, 22 Feb 2024 16:50:08 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+	corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+	Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+	robh+dt@kernel.org, konrad.dybcio@linaro.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v17 36/51] ASoC: dt-bindings: Update example for enabling
+ USB offload on SM8250
+Message-ID: <bdc57138-e67e-47ae-8cf1-b8be5aeb2369@sirena.org.uk>
+References: <20240217001017.29969-1-quic_wcheng@quicinc.com>
+ <20240217001017.29969-37-quic_wcheng@quicinc.com>
+ <7dc9e80e-0875-4dfc-adf9-9bfad2fb8589@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cOd1FR6fHMWZvLvO"
+Content-Disposition: inline
+In-Reply-To: <7dc9e80e-0875-4dfc-adf9-9bfad2fb8589@linaro.org>
+X-Cookie: I have accepted Provolone into my life!
+
+
+--cOd1FR6fHMWZvLvO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240222-fluchen-viren-50e216b653fb@brauner>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 22, 2024 at 04:27:50PM +0100, Christian Brauner wrote:
-> I still think that the generic_{get,set,remove}_fscaps() helpers falling
-> back to plain *vfs_*xattr() calls is a hackish. So ideally I'd like to
-> see this killed in a follow-up series and make all fses that support
-> them use the inode operation.
+On Thu, Feb 22, 2024 at 05:24:58PM +0100, Krzysztof Kozlowski wrote:
+> On 17/02/2024 01:10, Wesley Cheng wrote:
+> > Add an example on enabling of USB offload for the Q6DSP.  The routing c=
+an
+> > be done by the mixer, which can pass the multimedia stream to the USB
+> > backend.
+> >=20
+> > Acked-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > ---
+> >  .../devicetree/bindings/sound/qcom,sm8250.yaml    | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
 
-Right, you brought this up last time, and I probably should have
-mentioned it in the cover letter. I haven't seriously looked at doing
-this yet, in large part because I got interrupted from working on this
-and felt like v2 patches were long overdue (and you said you were fine
-with doing it as a follow-up series anyway). But I will have a look to
-see if it makes sense to change that in the next version of this series.
+> This broke next.
+
+> Wesley, are you sure you explained dependencies in this patch? Why is
+> next failing on this now?
+
+It's surprising to see this merged at all while the series is still in
+review?
+
+--cOd1FR6fHMWZvLvO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXXez8ACgkQJNaLcl1U
+h9CQogf/Rty+PzQj/jpG1Fsxu7+MaMcQMkpn1XF2iLD4N1C1cgT6z9UpSyhYC29E
+LHR1HWRiqckOMwnBNyrckGk+mP6PMkGkzqMGBb+rZskMwRX1hCrLkGQzNKVZiugQ
+mirk1eX7etmEaXOAwVT8dKNa34Z/YQXUmEe4lXM6fOpDXhoDDe+5DI8C50Xecsvr
+f/dVZiWq7Nl43QJfHimKiSHAR5JfIeiIBFKcJhTGLVhGAK/juChu9IK1bUnkXffT
+7s+3Fqk5c4YbZ8g4WogDEToJkKAt1dQMf4GSJ21Dhn1xy0sewSXnKSilzX5ieLSR
+PFrYDeV9DWhxNldEQDfvR+DPP/XWpQ==
+=xlAH
+-----END PGP SIGNATURE-----
+
+--cOd1FR6fHMWZvLvO--
