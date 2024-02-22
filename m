@@ -1,93 +1,165 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF9A80C;
-	Thu, 22 Feb 2024 01:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BFF13AC3
+	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 02:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708566748; cv=none; b=lQCKTyRFfGSVocVVMydgaNRKR0RKyiNOIhyBmsU0gP43ZOXelSf28AjliFf+IXPVUKTyhQ8AwA6mvtgOpC0LOXw0yRd+0Oien9ABLkP6UNWXxzqLwOvvyxlp3YclM9FD1Fq8c1VP4glzfWF4I2BjMsd9065+QsKIdrS+HRDxkvo=
+	t=1708567403; cv=none; b=f6vzTvDIAm3Wyt0EH/mXxkV83VZsVcjctoH7NA9yhwJCAF4r+0cRdeJM4zqjb/T+ZOAOxOh1IvqhMcLDGoJdQnk96iwAJ2cX+yEA3dHWTWi9gqemHtxPo9GDNISwKX50Xj3I2TkOctzFAOd2D2hVBJsuL78lwrAH5taJd665YF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708566748; c=relaxed/simple;
-	bh=HfikugucBiz+mFSGLjwANbX0NZhAAMQYJMToeenA2Ek=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FrOwxZs5AEYWsSQfSKyRiN0zbhk/w19TqU+0580gV12V0TwQo6Q8qWGr/m63P1glYbpJ7lbR+mXex3M0w3BSo8yw34H48EUM7/8S8cR/YKxcw74oN9qu4MqV2IF/QNqPIZ39/wGQqiiPNzu+s8DlJEaOSe7RrxVf/a+4f08paAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WviGeUDy; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708567403; c=relaxed/simple;
+	bh=JRupkqtOY1jWzd/kLbCtgp183MTrg3adCZsTzQc2mQg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rcIRnrZ12S7eu+W4h/OJpMAd+9OyYB+wlAGgFE51aGrSvo6p6A3nYemxCu48gMCy126L7b9ftnI54SJ1KG0aPq0DKsjarw0fpzjq0OOkv+ijBX6uFgCwQ/n4Ls8Tu67+9TRD1Ao2fS8uNDsgQF4Q1dUH4YwKKViK+7rygNFYvCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=Myd74kcu; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WviGeUDy"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6e45ef83c54so1441979a34.2;
-        Wed, 21 Feb 2024 17:52:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="Myd74kcu"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41279488d3cso6560255e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 Feb 2024 18:03:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708566746; x=1709171546; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HfikugucBiz+mFSGLjwANbX0NZhAAMQYJMToeenA2Ek=;
-        b=WviGeUDyb26DQRSj8Gl9aitumgeLJch+JujZAYXi8NqaIqoIdD5sFixymtFLPrGaUM
-         uWq/b+59muuwvxVgyw1hvATpikSYIVevSe4LNPEruNj8EKCekIu0sz3fPzLU51b+GTFw
-         gE5E5Xtj9ddyeiZDT4M8leEonzm9j2/mRxlpgEQF71TOcb/SVhJQim4PUGVzgu7YNcFc
-         qsgjNfDD4RbjMrr7sO1+NwonCcGRKihY29Mdf40YmUC26Sj1hXME46rfIhjC3Xu5Psy5
-         TTxGh+/V0hYDuAWHWpJZTS9jGxm4bmgSAqMKCj/bFfEZrXApZDpk7775623vPrwqzrYd
-         F1uA==
+        d=citrix.com; s=google; t=1708567400; x=1709172200; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RpCgjNX1LqPX7oZGVuldx9UiwfGbtf89koJSaGuEDxQ=;
+        b=Myd74kcur8vH1I3zmXPqZUmeM5zBeOLvHMqgEu654WOdpzz2U0+KzfJCVPGnEDV9Z1
+         3u8TrpzQqiotDZVjyrdIUIlJpP9n+jXcduSgdmN22sU9FBXLCdql6YLdTDrqiOsXU9Pf
+         Br0vBaZehS8dgnBO76KtsxmJLc3iEu6r32AKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708566746; x=1709171546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HfikugucBiz+mFSGLjwANbX0NZhAAMQYJMToeenA2Ek=;
-        b=c8kMar5Djam3e4ARN28UADr9MWYaa3zYPyb2/4EvINeXzfZMbQ/F03oH+3G+KL7jD4
-         P62YfU0GPrOFr+uYFf+wScsGXu2dsq8S5cTPSwTTeFYS7T8okuZ7D6kOO8rdqHz1k36R
-         Zy9+ttVdkOpTW64xQl0a0YT9903T+l0LEDSeL2MggWOefntORUWtQHgx/Fr8MxHkAwDZ
-         pM0KVTnjvfWCRLpVXjP5e6aaHVbIEdGPolGXbMifE1tTp5Ti/KeH44jSwQ+R8xndvXqD
-         mbuemNd9P7iXS/9ow050OUD4rHB7SxeZq8EDONIJ642FYTt/kdMnmdoG88jLEZt9Q+6I
-         M9DA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9rd78ifdRmnru+ehOrDmJ9ah4MZpHSEOCWNtTwIj8dXjlDu9Jh5ZbCz+e9lVX3bLd7pBH5EX+cV+5T1V7maaV1W/ONLn/wsyqNHHfRIfL0ynlCYkuuG7fTBm+rt0AaRqK+cO0N/DV
-X-Gm-Message-State: AOJu0YzdwlbUvDTBI1OZFCdTrl567p7mNghzqOvwDPE/0QfImWT1pNK2
-	NBNiCBy6Gokw8w0MuXR6fOyWacnaXzhCSIK0JMAQfHu6nUJX5ZgYi7A6X9JIM2jHtPVAe6eEt2p
-	+YDdku8xo9CmOrWPy65GGLGPjDlo=
-X-Google-Smtp-Source: AGHT+IGl6O2bvxEb6i+n3qN7lg0Ih5ZnjR+6GTWCaKStMtkwZGXMHk4HkYtPdZw/sVFQOtCT9VM8yAs9uY+SU/SoWsU=
-X-Received: by 2002:a05:6870:831e:b0:21e:f7cc:24e2 with SMTP id
- p30-20020a056870831e00b0021ef7cc24e2mr9503826oae.40.1708566746387; Wed, 21
- Feb 2024 17:52:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708567400; x=1709172200;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RpCgjNX1LqPX7oZGVuldx9UiwfGbtf89koJSaGuEDxQ=;
+        b=VLjs7CUaJoeywCUw7p3R2ToGkNtX3X7VKptyR7i5vdiljzfHLnZCzWCCl6lkVTfXXD
+         BdR1qSjq48iCBKavgzrJseD9Pk6MyHzf/UKZzIajq+9GAyqi9/hftLa1hq9L39RZE6O7
+         mIhtFJm5ueCEHXkk786YxqXP5jjEM2eKjklIXyqrp5k/LzN/pqPE7A8p9bGSQdZljVMt
+         1c/LnNEQEwy8mHOlFM/9Z3s40C7SVNvKlZJw5fW3zWCcIU2JJAfbHx+egf6K/u1KXBZT
+         i2UndnKbG8/xaHhJCUnPzRRTq1yRU1oRmDb4Vb7ysBerDdh/xQ1xJPhXds+P8o985saA
+         Epiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvZRi6v9cH94H9p0j9Iih7Z8GcLKZIoiAjrJANbRqUSVfTMU+aLVSAZxfnCS1CFRULG04EnRj+rynZH5igWHJGpQwi6ISz3rUY
+X-Gm-Message-State: AOJu0Yy1XtvjE4KSiZ5hM2lkGDYNUV2qXTsuehzow+HGGjb+Eq0l+qM2
+	DdUz40AoOLeb4JLN5L9RHIjEGnNE/J3PNg7MdK40+KiJDlxRH9lu7OQXP0B43sE=
+X-Google-Smtp-Source: AGHT+IF17JfDiQPU6La0me//6yi5Ziq+H6StnWpBIOWkvLcTMKHIezhdF+lH9T4BxYSFO+mETuw9kA==
+X-Received: by 2002:a05:600c:22c6:b0:411:ef17:9c46 with SMTP id 6-20020a05600c22c600b00411ef179c46mr14985747wmg.39.1708567400316;
+        Wed, 21 Feb 2024 18:03:20 -0800 (PST)
+Received: from [192.168.1.10] (host-92-3-248-192.as13285.net. [92.3.248.192])
+        by smtp.gmail.com with ESMTPSA id f9-20020a05600c44c900b00411e3cc0e0asm19318507wmo.44.2024.02.21.18.03.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Feb 2024 18:03:20 -0800 (PST)
+Message-ID: <08ac69b4-4d12-4454-aa16-40db7e54816f@citrix.com>
+Date: Thu, 22 Feb 2024 02:03:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240219074634.2039-1-xuewen.yan@unisoc.com> <ZdTXWrB8dascOIM_@slm.duckdns.org>
- <CAB8ipk9R3hRSTTEEBn8nvOcTZGBtaDQfomXiQwji+DTKgLghwQ@mail.gmail.com>
- <ZdWNvolkfPCyMNj9@slm.duckdns.org> <CAB8ipk9FtgYh5Ho-nFQCwUO8zOPEk73VS0KHFDuRS9yxDRpe4A@mail.gmail.com>
- <ZdY2htJ5D0FisH1M@slm.duckdns.org>
-In-Reply-To: <ZdY2htJ5D0FisH1M@slm.duckdns.org>
-From: Xuewen Yan <xuewen.yan94@gmail.com>
-Date: Thu, 22 Feb 2024 09:52:15 +0800
-Message-ID: <CAB8ipk_JyiuVrFCXQJieA96WpxhwG+MxBXsfoUB2HML37O_YUw@mail.gmail.com>
-Subject: Re: [PATCH] workqueue: Control the frequency of intensive warning
- through cmdline
-To: Tejun Heo <tj@kernel.org>
-Cc: Xuewen Yan <xuewen.yan@unisoc.com>, jiangshanlai@gmail.com, corbet@lwn.net, 
-	paulmck@kernel.org, rdunlap@infradead.org, peterz@infradead.org, 
-	yanjiewtw@gmail.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ke.wang@unisoc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/15] x86: Secure Launch Resource Table header file
+Content-Language: en-GB
+To: Ard Biesheuvel <ardb@kernel.org>,
+ Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, dpsmith@apertussolutions.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20240214221847.2066632-1-ross.philipson@oracle.com>
+ <20240214221847.2066632-5-ross.philipson@oracle.com>
+ <CAMj1kXGaMfUAR85jpeS2JxcmWBbpkzroCVZOtwa3WDQwStDjMw@mail.gmail.com>
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <CAMj1kXGaMfUAR85jpeS2JxcmWBbpkzroCVZOtwa3WDQwStDjMw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tejun
+On 15/02/2024 8:08 am, Ard Biesheuvel wrote:
+> On Wed, 14 Feb 2024 at 23:31, Ross Philipson <ross.philipson@oracle.com> wrote:
+>> +/*
+>> + * Primary SLR Table Header
 
-On Thu, Feb 22, 2024 at 1:44=E2=80=AFAM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Wed, Feb 21, 2024 at 07:00:55PM +0800, Xuewen Yan wrote:
-> > This way looks simpler, but it could not disable the warnings, but I
->
-> Yeah, I meant that it'd make sense if the value 0 disables the warning.
+I know it's just a comment, but SLR ought to be written in longhand here.
 
-Okay, I will add it.
+>> + */
+>> +struct slr_table {
+>> +       u32 magic;
+>> +       u16 revision;
+>> +       u16 architecture;
+>> +       u32 size;
+>> +       u32 max_size;
+>> +       /* entries[] */
+>> +} __packed;
+> Packing this struct has no effect on the layout so better drop the
+> __packed here. If this table is part of a structure that can appear
+> misaligned in memory, better to pack the outer struct or deal with it
+> there in another way.
 
-Thanks!
+As you note, __packed does two things not one.
 
---
-xuewen
+The consumer of the random integer that is expected to be a pointer to a
+struct lsr_table doesn't know whether it was invoked by a 16bit
+bootloader or a 32bit bootloader, and this really does make a difference
+for an ABI described only in C.
+
+Then again, we're holding off on setting the spec in stone until there's
+an agreement in principle, so we could retrofit a statement about the
+expected alignment of this structure in memory.
+
+The sane choices are either 8b alignment (there are uint64_t's in
+entires[], but I also see there are some misaligned uint64_t's too,
+which is dull), or using the good old x86 fallback or paragraph
+alignment just in case we really want to extend it with a uint128_t in
+future.
+
+Thoughts?
+
+~Andrew
