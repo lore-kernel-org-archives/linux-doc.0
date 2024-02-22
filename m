@@ -1,149 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2423118657;
-	Thu, 22 Feb 2024 18:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C6C15697D
+	for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 18:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708624993; cv=none; b=IzrXhhmDI+L9vqSnMHR87INl9r37q0sBKX3P8fY9RDWWPZGrW3MeU/0o4d8CXLJpBNd/9vGHu3ItCZDEeK5Q6/FVa6QfscxQV6ELXyhAlKYRYc3+FIGEuvVMaT5G3qycV7PkxwsSHDA9Z0TfreiNax55Zo2T6Pjp2GJZTiy1tTg=
+	t=1708625537; cv=none; b=ZiYHT1/f2iKJqVawZn/b08NGznMN7ROx53udT75Zu8mJRMqZLRoIUYq0DFLRKm4QqGoJ9TB9bqCtZs06YFPKuJHRNAonHDXlrdlXpW8CpiMIOcEqzop3JNsAIfzUHdN9P/eHX4p9AJQ1+bJOKkIryzYvU7hQDkENxGP1FVVG0b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708624993; c=relaxed/simple;
-	bh=eWIgrng0fomPV+v6ms8u6IZCYZ5GywPfM/uBGfotOyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bcG9OPhom+G6NN+vP9A6BY4bB10E4jKncT4qU3lHcSO0/ZMMr4Z/idaBMX5wD82klVkOYq9iU9mlMQOoxFIili4KiGphZY99rcu9SvqmAquldoMw/cxRqWTwjBMQtyA3zPysQFceh/ROWfFyFqTFhQBL9R6F1vP9wAqqmwPDPeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JyKBbDev; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1708625537; c=relaxed/simple;
+	bh=DPKDXhwMKF+B21xfPp2Xh9Ev5+Rn/9eQmV8Q0bIY9iE=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=ozo7Wvt2z4RKO6eufitKU8kT2Xy801SV/uo5rQRRr56RrrW27t/FgWLu8+bJ4SXTscH4R+oFHYmS8c88Kk9qA7Y/E79WErf+Asf8acgDDVEsc78v4IUKLPF5p9oiLVm9OVm01pxJo1YnljCW/uc54R62sxkF3Ah9BcrEF+XMKrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=W+zp04zb; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JyKBbDev"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708624991; x=1740160991;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eWIgrng0fomPV+v6ms8u6IZCYZ5GywPfM/uBGfotOyI=;
-  b=JyKBbDev1Sd21eLt0tVADK+fBhzTmDtmf99xVkKeZNLCnlawo2B1uYoQ
-   ov1mH7wqLvoeivBEhtR+Kgrdyd/8o16hFRtjLWoOn8WC/oExpaQoq2vDv
-   L0hbl4RvubUYE5wdUfEQ1x/Uqm5Bm6EfT+xgI3eqCRmOzimtpGa5k7XXd
-   mh8+0aeGSkx/5Ht9oGHMsMz6DxUrbXWQq7fechcj+kX1x5fg+qSQtbdTa
-   C7556YEN6oUNvI0sFLj3AUR5fAGBUfzc8uXk9au0QeZkjmR7tNFxVnEVS
-   bRgksN1wNY+9fmhGq6bX8LOioln3asR/hPIhe+PYRQDEQZ10KNvxMKGhA
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="3010774"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="3010774"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 10:03:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="10188836"
-Received: from jwbates1-mobl.amr.corp.intel.com (HELO [10.209.48.22]) ([10.209.48.22])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 10:03:05 -0800
-Message-ID: <5de7d665-7047-497b-94fb-76ec2af3c9e2@intel.com>
-Date: Thu, 22 Feb 2024 10:03:03 -0800
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="W+zp04zb"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-365220a2c3dso24716335ab.0
+        for <linux-doc@vger.kernel.org>; Thu, 22 Feb 2024 10:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1708625534; x=1709230334; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=74bdP9ntSNlgi9eqvP/1WueCOOc9bZEyjpMNXvBbiyI=;
+        b=W+zp04zbyjqTCxfQRXCx621YhAmOf+B96JbNgZpvMjWbLP2aHAEzXPR5MorGb4vT5i
+         qW+pI/XY85DmiekKmANtZJ3FEh/kMkCgSTvzd2tQjKCY98Bifwy82NMF3mO2lPVG51vG
+         FLvb2J8V6+KLeeKpIcHRPpMskbMcWOJ+nq6vNvmbJjiVyBaA5BQasCALbTAj5J6ICO7I
+         ublgMrVmmwZHjlFhkM3k6A1qrE5xUAayCWYt7sKqGYEvhzZwgfDz2PB1AcrgqTwpcptG
+         /+SuH+xWtDZWVK8zGFPfj68Am3uhOvQS/k9bLIcMyfpKx2Epzrwg0Hf2066KegRB3kLB
+         WaLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708625534; x=1709230334;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=74bdP9ntSNlgi9eqvP/1WueCOOc9bZEyjpMNXvBbiyI=;
+        b=UJuuszCdTd0mnOVXdSNsAD8Mpi/QGKuLsyvHNw7rGu27IDtHM/EYdl82pLpUVADh8/
+         j/YSUpmhjvLAvor8jxdheB0bWqeWPC3eRberhQZ+PT8gieMAUD8qrhhCVVtBmuHHFU0o
+         w5Y2kMY/oKm1VtD6OZb1QQXZVvn/9IwPBAyAptSPTume9txCcZKckeWNHW1CDIp/razf
+         fKCwU+ureFYy1X0Tt5TLdsgE+nfHPcC+Vv0rK1TvcpNZfq1eJMqdK7/n2Cv3ipGHq308
+         +yipO65+92LSHTcAY9TEvo58SXITIswJUNWNuJf64fU7X95up5qWxWkLEoqNvl88ynUx
+         8CGg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4O1VFRw93IraInpKzT1aYJdwJzYQUYoEnQwYD5eKi89z664JZFVw2wcL1G2r/hn/8kBcWY8O1tImWiSK0ID86R8YxyBgCjOs3
+X-Gm-Message-State: AOJu0YzGKoRYuIGraBry5qF+hsDt4zptX+prHSy/d1utB1VznVahGwHD
+	2cMbDRjCj50ExOJspC1z97kMsD8WXsuCTpd4I+VNinEcEPFQBxX4HqQt4FVplY8=
+X-Google-Smtp-Source: AGHT+IHEU0mqPccmhmy7V5QsN55AqKgFYRCvWyQ3UeVmBh7SkiI3lYgPdUTHoWwVZVLa7tiAUdKP5g==
+X-Received: by 2002:a05:6e02:f46:b0:363:dfc7:acc1 with SMTP id y6-20020a056e020f4600b00363dfc7acc1mr19081532ilj.2.1708625534044;
+        Thu, 22 Feb 2024 10:12:14 -0800 (PST)
+Received: from localhost ([50.213.54.97])
+        by smtp.gmail.com with ESMTPSA id d188-20020a6336c5000000b005dc89957e06sm10749199pga.71.2024.02.22.10.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 10:12:13 -0800 (PST)
+Date: Thu, 22 Feb 2024 10:12:13 -0800 (PST)
+X-Google-Original-Date: Thu, 22 Feb 2024 10:12:11 PST (-0800)
+Subject:     Re: [PATCH v6 0/4] StarFive's StarLink PMU Support
+In-Reply-To: <20240222125707.GA8589@willie-the-truck>
+CC: jisheng.teoh@starfivetech.com, corbet@lwn.net,
+  Mark Rutland <mark.rutland@arm.com>, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+  dan.j.williams@intel.com, ilkka@os.amperecomputing.com, Jonathan.Cameron@huawei.com,
+  dave.jiang@intel.com, leyfoon.tan@starfivetech.com, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Will Deacon <will@kernel.org>
+Message-ID: <mhng-008f9a14-40fe-4522-93f1-e7ebb1233931@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/5] sbm: fix up calls to dynamic memory allocators
-Content-Language: en-US
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: Petr Tesarik <petrtesarik@huaweicloud.com>,
- Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Andy Lutomirski <luto@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Xin Li <xin3.li@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Kees Cook <keescook@chromium.org>,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- Pengfei Xu <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Ze Gao <zegao2021@gmail.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Kai Huang <kai.huang@intel.com>, David Woodhouse <dwmw@amazon.co.uk>,
- Brian Gerst <brgerst@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Joerg Roedel <jroedel@suse.de>, "Mike Rapoport (IBM)" <rppt@kernel.org>,
- Tina Zhang <tina.zhang@intel.com>, Jacob Pan
- <jacob.jun.pan@linux.intel.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>,
- John Johansen <john.johansen@canonical.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org,
- Petr Tesarik <petr.tesarik1@huawei-partners.com>
-References: <fb4a40c7-af9a-406a-95ab-406595f3ffe5@intel.com>
- <20240222131230.635-1-petrtesarik@huaweicloud.com>
- <20240222131230.635-5-petrtesarik@huaweicloud.com>
- <f6135f2c-bc8f-41c3-9c6a-8346d685e4dc@intel.com>
- <20240222185744.509e4958@meshulam.tesarici.cz>
-From: Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20240222185744.509e4958@meshulam.tesarici.cz>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2/22/24 09:57, Petr Tesařík wrote:
-> * Hardware designers are adding (other) hardware security defenses to
->   ring-0 that are not applied to ring-3.
-> 
->   Could you give an example of these other security defenses, please?
+On Thu, 22 Feb 2024 04:57:08 PST (-0800), Will Deacon wrote:
+> On Mon, Jan 29, 2024 at 05:51:37PM +0800, Ji Sheng Teoh wrote:
+>> This patch series adds support for StarFive's Starlink Performance
+>> Monitor Unit(PMU).
+>> StarFive's StarLink PMU integrates one or more CPU cores with
+>> a shared L3 memory system. The PMU supports overflow interrupt,
+>> up to 16 programmable 64bit event counters, and an independent
+>> 64bit cycle counter.
+>> StarLink PMU is accessed via MMIO.
+>>
+>> Example Perf stat output:
+>> [root@user]# perf stat -a -e /starfive_starlink_pmu/cycles/ \
+>>         -e /starfive_starlink_pmu/read_miss/ \
+>>         -e /starfive_starlink_pmu/read_hit/ \
+>>         -e /starfive_starlink_pmu/release_request/  \
+>>         -e /starfive_starlink_pmu/write_hit/ \
+>>         -e /starfive_starlink_pmu/write_miss/ \
+>>         -e /starfive_starlink_pmu/write_request/ \
+>>         -e /starfive_starlink_pmu/writeback/ \
+>>         -e /starfive_starlink_pmu/read_request/ \
+>>         -- openssl speed rsa2048
+>> Doing 2048 bits private rsa's for 10s: 5 2048 bits private RSA's in
+>> 2.84s
+>> Doing 2048 bits public rsa's for 10s: 169 2048 bits public RSA's in
+>> 2.42s
+>> version: 3.0.11
+>> built on: Tue Sep 19 13:02:31 2023 UTC
+>> options: bn(64,64)
+>> CPUINFO: N/A
+>>                   sign    verify    sign/s verify/s
+>> rsa 2048 bits 0.568000s 0.014320s      1.8     69.8
+>> /////////
+>>  Performance counter stats for 'system wide':
+>>
+>>          649991998      starfive_starlink_pmu/cycles/
+>>            1009690      starfive_starlink_pmu/read_miss/
+>>            1079750      starfive_starlink_pmu/read_hit/
+>>            2089405      starfive_starlink_pmu/release_request/
+>>                129      starfive_starlink_pmu/write_hit/
+>>                 70      starfive_starlink_pmu/write_miss/
+>>                194      starfive_starlink_pmu/write_request/
+>>             150080      starfive_starlink_pmu/writeback/
+>>            2089423      starfive_starlink_pmu/read_request/
+>>
+>>       27.062755678 seconds time elapsed
+>>
+>> Ji Sheng Teoh (4):
+>>   perf: starfive: Add StarLink PMU support
+>>   dt-bindings: perf: starfive: Add JH8100 StarLink PMU
+>>   docs: perf: Add description for StarFive's StarLink PMU
+>>   MAINTAINERS: Add entry for StarFive StarLink PMU
+>>
+>>  Documentation/admin-guide/perf/index.rst      |   1 +
+>>  .../perf/starfive_starlink_pmu.rst            |  46 ++
+>>  .../perf/starfive,jh8100-starlink-pmu.yaml    |  46 ++
+>>  MAINTAINERS                                   |   7 +
+>>  drivers/perf/Kconfig                          |   9 +
+>>  drivers/perf/Makefile                         |   1 +
+>>  drivers/perf/starfive_starlink_pmu.c          | 643 ++++++++++++++++++
+>>  7 files changed, 753 insertions(+)
+>>  create mode 100644 Documentation/admin-guide/perf/starfive_starlink_pmu.rst
+>>  create mode 100644 Documentation/devicetree/bindings/perf/starfive,jh8100-starlink-pmu.yaml
+>>  create mode 100644 drivers/perf/starfive_starlink_pmu.c
+>
+> Palmer, are you ok with me taking this via the perf tree? I usually
+> leave the Risc-V stuff for you, but this one doesn't touch the arch code
+> at all.
 
-Here's one example:
+Sorry I missed these
 
-> https://www.intel.com/content/www/us/en/developer/articles/technical/software-security-guidance/technical-documentation/data-dependent-prefetcher.html
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-"DDP is neither trained by nor triggered by supervisor-mode accesses."
-
-But seriously, this is going to be my last message on this topic.  I
-appreciate your enthusiasm, but I don't see any viable way forward for
-this approach.
+> Cheers,
+>
+> Will
