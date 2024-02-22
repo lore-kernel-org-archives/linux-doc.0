@@ -1,49 +1,49 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9C213BADE;
-	Thu, 22 Feb 2024 23:17:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46AE137938;
+	Thu, 22 Feb 2024 23:17:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708643830; cv=none; b=mLyOfxkXqe1gjIsHCTCQjsg7mCbzTPtnqpVvLRho402iSApG9q/GkQ+F8Geh4LIzi7TjbYm8czKwvu1KUN+m/lIGmSgrJJr2SQCf0sDmbRJ1TE/GCqd+i5rM4+yz9m2ozamyjurz4eP9Hi4DtICYRncBjMRriHKlOc7BtHB+fpY=
+	t=1708643830; cv=none; b=XuT5iR3g6ngDRpNLHLe3JsR0IvCN0F1JAa9UYPsn0sK9b+jJPbrg2FVuRk0hp5mpha74S0NR/HxCGcrMmTCdKZ5D5E2RiK+ZoOb430i+sPK355r6NP1GrHBu/20kdSVBLqfeiuWI0AcXuH6935qulX1WYmWPl6ThFNIPz32mjHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708643830; c=relaxed/simple;
-	bh=9Alalk7LXfV/SaxnGokCnM4bydl53hwoFnS2Yh52xcQ=;
+	bh=wqcFf5tGf65Rykb5i/CI/IkG99/aSu0nMjKt5dgScTg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Rpk+F4nWXsWP/UuuQaTcdsyg/FrrLBJFKxZdeknbDudZ0xhSU4i3jZ2mAwxZhVjZskbPznBHK4rQvRxOvwf/W4+C2TSP4MmQrm+v1lwrHliPQxaesuhuUmOzdy43GNSKBk81bUSJssoXPsjRW82ANtkNDYbEFmJ4IuATLAE74zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=U+sTJqFd; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:CC; b=Hux/fjyU2xrcLub9BmrUb+rYG2S+vrRaec71Ybs99Eo8N0BY3kavyBUOKvnzc74GZifkfyr500Mrj9QdVJCNcmGNwQ/dNtAbtuigjzlarFrg/CrtWjp1pJXWAzrNJAW6dnmyHgNeWKmhi/tG90K1lOa6BeDYmpf2mDWOTmy+H0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IDTBGxDV; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="U+sTJqFd"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41MN1qgD012101;
-	Thu, 22 Feb 2024 23:16:45 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IDTBGxDV"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41MLfuAN024795;
+	Thu, 22 Feb 2024 23:16:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	from:date:subject:mime-version:content-type
 	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=UTw6fdMTFcjfZ33gKj3XSf3I7tXoLgizXBMgo1kqPAM
-	=; b=U+sTJqFdPtYFI9+8gqCMOwjh27gzGPcH+qsSLx4MufdlHO9LkEf7qf7ovPi
-	ihfRPS7yIKvuWsNlm79oYxdt5QESg0SMMV3yXcwYzo7h7ZcMU8w4biOvwyEWvKB4
-	CI2ZJ4GFhKZdQh8y9CD8oNJ0J0Wqqz1k4MYuV98SNyirx3GS+qVM05+9uLuWcM3w
-	GflnMQrs5QyhHqppmshSKwJ2L2hMU4aabmMgWIZRozWCydZu1UuoopYXnqcD6DlG
-	wd/TAz4240tRmK7d9h4d8s/KjIf3MnP3+KjW6Pjag3OKgpn7/8nvxejhmakPxOk0
-	CSXDQOcslaPX//MjSUXoF0G2RiA==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we97tgf8n-1
+	:cc; s=qcppdkim1; bh=qh+jPnXSbiXkdzqCKqtelkO/e60PKZzxBC0LGQzikQc
+	=; b=IDTBGxDVMlOnY9TRPjx4tn4PXf17/qS4NpZe+wOYSSQw3iNSpU6nagDoQtU
+	lOfNy+ctynbmIER1vf6k7eVjaJ5TZ527gZzso64lNSuy1MbsTXzYWLJ4AJppev60
+	1JoxGYk6Z/xgM2ufdsF+tKvtlpk8va6rog29gvVVHWYvABhKJRfAUQkqGKK8LIZe
+	qXKe6Cq/jx2vnY0oWB3g/2DH4RZR4nS4Bhs1WAqFyKSuWrVMJd2Mh5Ano6euMOIL
+	wyQBJ38QGUjEn+gipIe2o1MH/SO/A4MjcJ+nx2KgpIIEnZbZXICRiEPu+ZMhq/eV
+	d5eY2NgnIM/UorcVShQACEI3cVQ==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3we4dq17sy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 23:16:44 +0000 (GMT)
+	Thu, 22 Feb 2024 23:16:47 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MNGhSG017967
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MNGklC028227
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 23:16:43 GMT
+	Thu, 22 Feb 2024 23:16:46 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 22 Feb 2024 15:16:43 -0800
+ 15.2.1118.40; Thu, 22 Feb 2024 15:16:45 -0800
 From: Elliot Berman <quic_eberman@quicinc.com>
-Date: Thu, 22 Feb 2024 15:16:52 -0800
-Subject: [PATCH v17 29/35] gunyah: rsc_mgr: Add RPC to set VM boot context
+Date: Thu, 22 Feb 2024 15:16:56 -0800
+Subject: [PATCH v17 33/35] virt: gunyah: Add IO handlers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20240222-gunyah-v17-29-1e9da6763d38@quicinc.com>
+Message-ID: <20240222-gunyah-v17-33-1e9da6763d38@quicinc.com>
 References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
 In-Reply-To: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
 To: Alex Elder <elder@linaro.org>,
@@ -92,97 +92,261 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: LYAEtq1tGFHE7mfHB6YGiz_72K1Y_peD
-X-Proofpoint-ORIG-GUID: LYAEtq1tGFHE7mfHB6YGiz_72K1Y_peD
+X-Proofpoint-GUID: _RzcJvsLBoQGikWouASJqOQmU4qKmExK
+X-Proofpoint-ORIG-GUID: _RzcJvsLBoQGikWouASJqOQmU4qKmExK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-22_15,2024-02-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ malwarescore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2402220179
 
-The initial context of a the primary vCPU can be initialized by
-performing RM RPC calls.
+Add framework for VM functions to handle stage-2 write faults from Gunyah
+guest virtual machines. IO handlers have a range of addresses which they
+apply to. Optionally, they may apply to only when the value written
+matches the IO handler's value.
 
+Reviewed-by: Alex Elder <elder@linaro.org>
+Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
+Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/rsc_mgr.h     |  2 ++
- drivers/virt/gunyah/rsc_mgr_rpc.c | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+ drivers/virt/gunyah/gunyah_vcpu.c |   4 ++
+ drivers/virt/gunyah/vm_mgr.c      | 115 ++++++++++++++++++++++++++++++++++++++
+ drivers/virt/gunyah/vm_mgr.h      |   8 +++
+ include/linux/gunyah.h            |  29 ++++++++++
+ 4 files changed, 156 insertions(+)
 
-diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-index 99c2db18579ca..2acaf8dff365e 100644
---- a/drivers/virt/gunyah/rsc_mgr.h
-+++ b/drivers/virt/gunyah/rsc_mgr.h
-@@ -84,6 +84,8 @@ int gunyah_rm_vm_configure(struct gunyah_rm *rm, u16 vmid,
- 			   u32 mem_handle, u64 image_offset, u64 image_size,
- 			   u64 dtb_offset, u64 dtb_size);
- int gunyah_rm_vm_init(struct gunyah_rm *rm, u16 vmid);
-+int gunyah_rm_vm_set_boot_context(struct gunyah_rm *rm, u16 vmid, u8 reg_set,
-+				  u8 reg_index, u64 value);
- 
- struct gunyah_rm_hyp_resource {
- 	u8 type;
-diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-index dfffcf02ddaea..eabf8659eb8f9 100644
---- a/drivers/virt/gunyah/rsc_mgr_rpc.c
-+++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-@@ -24,6 +24,7 @@
- #define GUNYAH_RM_RPC_VM_INIT			0x5600000B
- #define GUNYAH_RM_RPC_VM_GET_HYP_RESOURCES	0x56000020
- #define GUNYAH_RM_RPC_VM_GET_VMID		0x56000024
-+#define GUNYAH_RM_RPC_VM_SET_BOOT_CONTEXT	0x56000031
- #define GUNYAH_RM_RPC_VM_SET_DEMAND_PAGING	0x56000033
- #define GUNYAH_RM_RPC_VM_SET_ADDRESS_LAYOUT	0x56000034
- /* clang-format on */
-@@ -105,6 +106,15 @@ struct gunyah_rm_vm_config_image_req {
- 	__le64 dtb_size;
- } __packed;
- 
-+/* Call: VM_SET_BOOT_CONTEXT */
-+struct gunyah_rm_vm_set_boot_context_req {
-+	__le16 vmid;
-+	u8 reg_set;
-+	u8 reg_index;
-+	__le32 _padding;
-+	__le64 value;
-+} __packed;
-+
- /* Call: VM_SET_DEMAND_PAGING */
- struct gunyah_rm_vm_set_demand_paging_req {
- 	__le16 vmid;
-@@ -447,6 +457,29 @@ int gunyah_rm_vm_init(struct gunyah_rm *rm, u16 vmid)
+diff --git a/drivers/virt/gunyah/gunyah_vcpu.c b/drivers/virt/gunyah/gunyah_vcpu.c
+index f8306620b1dd6..ef78503fe586d 100644
+--- a/drivers/virt/gunyah/gunyah_vcpu.c
++++ b/drivers/virt/gunyah/gunyah_vcpu.c
+@@ -133,6 +133,10 @@ gunyah_handle_mmio(struct gunyah_vcpu *vcpu, unsigned long resume_data[3],
+ 		vcpu->state = GUNYAH_VCPU_RUN_STATE_MMIO_READ;
+ 		vcpu->mmio_read_len = len;
+ 	} else { /* GUNYAH_VCPU_ADDRSPACE_VMMIO_WRITE */
++		if (!gunyah_vm_mmio_write(vcpu->ghvm, addr, len, data)) {
++			resume_data[0] = GUNYAH_ADDRSPACE_VMMIO_ACTION_EMULATE;
++			return true;
++		}
+ 		vcpu->vcpu_run->mmio.is_write = 1;
+ 		memcpy(vcpu->vcpu_run->mmio.data, &data, len);
+ 		vcpu->state = GUNYAH_VCPU_RUN_STATE_MMIO_WRITE;
+diff --git a/drivers/virt/gunyah/vm_mgr.c b/drivers/virt/gunyah/vm_mgr.c
+index a61a3f3ae92f1..2434be5dffe08 100644
+--- a/drivers/virt/gunyah/vm_mgr.c
++++ b/drivers/virt/gunyah/vm_mgr.c
+@@ -302,6 +302,118 @@ static void gunyah_vm_clean_resources(struct gunyah_vm *ghvm)
+ 	mutex_unlock(&ghvm->resources_lock);
  }
- ALLOW_ERROR_INJECTION(gunyah_rm_vm_init, ERRNO);
  
-+/**
-+ * gunyah_rm_vm_set_boot_context() - set the initial boot context of the primary vCPU
-+ * @rm: Handle to a Gunyah resource manager
-+ * @vmid: VM identifier
-+ * @reg_set: See &enum gunyah_vm_boot_context_reg
-+ * @reg_index: Which register to set; must be 0 for REG_SET_PC
-+ * @value: Value to set in the register
-+ */
-+int gunyah_rm_vm_set_boot_context(struct gunyah_rm *rm, u16 vmid, u8 reg_set,
-+				  u8 reg_index, u64 value)
++static int _gunyah_vm_io_handler_compare(const struct rb_node *node,
++					 const struct rb_node *parent)
 +{
-+	struct gunyah_rm_vm_set_boot_context_req req_payload = {
-+		.vmid = cpu_to_le16(vmid),
-+		.reg_set = reg_set,
-+		.reg_index = reg_index,
-+		.value = cpu_to_le64(value),
-+	};
++	struct gunyah_vm_io_handler *n =
++		container_of(node, struct gunyah_vm_io_handler, node);
++	struct gunyah_vm_io_handler *p =
++		container_of(parent, struct gunyah_vm_io_handler, node);
 +
-+	return gunyah_rm_call(rm, GUNYAH_RM_RPC_VM_SET_BOOT_CONTEXT,
-+			      &req_payload, sizeof(req_payload), NULL, NULL);
++	if (n->addr < p->addr)
++		return -1;
++	if (n->addr > p->addr)
++		return 1;
++	if ((n->len && !p->len) || (!n->len && p->len))
++		return 0;
++	if (n->len < p->len)
++		return -1;
++	if (n->len > p->len)
++		return 1;
++	/* one of the io handlers doesn't have datamatch and the other does.
++	 * For purposes of comparison, that makes them identical since the
++	 * one that doesn't have datamatch will cover the same handler that
++	 * does.
++	 */
++	if (n->datamatch != p->datamatch)
++		return 0;
++	if (n->data < p->data)
++		return -1;
++	if (n->data > p->data)
++		return 1;
++	return 0;
 +}
-+ALLOW_ERROR_INJECTION(gunyah_rm_vm_set_boot_context, ERRNO);
++
++static int gunyah_vm_io_handler_compare(struct rb_node *node,
++					const struct rb_node *parent)
++{
++	return _gunyah_vm_io_handler_compare(node, parent);
++}
++
++static int gunyah_vm_io_handler_find(const void *key,
++				     const struct rb_node *node)
++{
++	const struct gunyah_vm_io_handler *k = key;
++
++	return _gunyah_vm_io_handler_compare(&k->node, node);
++}
++
++static struct gunyah_vm_io_handler *
++gunyah_vm_mgr_find_io_hdlr(struct gunyah_vm *ghvm, u64 addr, u64 len, u64 data)
++{
++	struct gunyah_vm_io_handler key = {
++		.addr = addr,
++		.len = len,
++		.datamatch = true,
++		.data = data,
++	};
++	struct rb_node *node;
++
++	node = rb_find(&key, &ghvm->mmio_handler_root,
++		       gunyah_vm_io_handler_find);
++	if (!node)
++		return NULL;
++
++	return container_of(node, struct gunyah_vm_io_handler, node);
++}
++
++int gunyah_vm_mmio_write(struct gunyah_vm *ghvm, u64 addr, u32 len, u64 data)
++{
++	struct gunyah_vm_io_handler *io_hdlr = NULL;
++	int ret;
++
++	down_read(&ghvm->mmio_handler_lock);
++	io_hdlr = gunyah_vm_mgr_find_io_hdlr(ghvm, addr, len, data);
++	if (!io_hdlr || !io_hdlr->ops || !io_hdlr->ops->write) {
++		ret = -ENOENT;
++		goto out;
++	}
++
++	ret = io_hdlr->ops->write(io_hdlr, addr, len, data);
++
++out:
++	up_read(&ghvm->mmio_handler_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_mmio_write);
++
++int gunyah_vm_add_io_handler(struct gunyah_vm *ghvm,
++			     struct gunyah_vm_io_handler *io_hdlr)
++{
++	struct rb_node *found;
++
++	if (io_hdlr->datamatch &&
++	    (!io_hdlr->len || io_hdlr->len > sizeof(io_hdlr->data)))
++		return -EINVAL;
++
++	down_write(&ghvm->mmio_handler_lock);
++	found = rb_find_add(&io_hdlr->node, &ghvm->mmio_handler_root,
++			    gunyah_vm_io_handler_compare);
++	up_write(&ghvm->mmio_handler_lock);
++
++	return found ? -EEXIST : 0;
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_add_io_handler);
++
++void gunyah_vm_remove_io_handler(struct gunyah_vm *ghvm,
++				 struct gunyah_vm_io_handler *io_hdlr)
++{
++	down_write(&ghvm->mmio_handler_lock);
++	rb_erase(&io_hdlr->node, &ghvm->mmio_handler_root);
++	up_write(&ghvm->mmio_handler_lock);
++}
++EXPORT_SYMBOL_GPL(gunyah_vm_remove_io_handler);
++
+ static int gunyah_vm_rm_notification_status(struct gunyah_vm *ghvm, void *data)
+ {
+ 	struct gunyah_rm_vm_status_payload *payload = data;
+@@ -404,6 +516,9 @@ static __must_check struct gunyah_vm *gunyah_vm_alloc(struct gunyah_rm *rm)
+ 	INIT_LIST_HEAD(&ghvm->resource_tickets);
+ 	xa_init(&ghvm->boot_context);
+ 
++	init_rwsem(&ghvm->mmio_handler_lock);
++	ghvm->mmio_handler_root = RB_ROOT;
++
+ 	mt_init(&ghvm->mm);
+ 	mt_init(&ghvm->bindings);
+ 	init_rwsem(&ghvm->bindings_lock);
+diff --git a/drivers/virt/gunyah/vm_mgr.h b/drivers/virt/gunyah/vm_mgr.h
+index 8cee93e551700..daddb1d0cb70b 100644
+--- a/drivers/virt/gunyah/vm_mgr.h
++++ b/drivers/virt/gunyah/vm_mgr.h
+@@ -11,6 +11,7 @@
+ #include <linux/maple_tree.h>
+ #include <linux/mutex.h>
+ #include <linux/pagemap.h>
++#include <linux/rbtree.h>
+ #include <linux/rwsem.h>
+ #include <linux/set_memory.h>
+ #include <linux/wait.h>
+@@ -58,6 +59,9 @@ long gunyah_dev_vm_mgr_ioctl(struct gunyah_rm *rm, unsigned int cmd,
+  * @guest_shared_extent_ticket: Resource ticket to the capability for
+  *                              the memory extent that represents
+  *                              memory shared with the guest.
++ * @mmio_handler_root: RB tree of MMIO handlers.
++ *                     Entries are &struct gunyah_vm_io_handler
++ * @mmio_handler_lock: Serialization of traversing @mmio_handler_root
+  * @rm: Pointer to the resource manager struct to make RM calls
+  * @parent: For logging
+  * @nb: Notifier block for RM notifications
+@@ -93,6 +97,8 @@ struct gunyah_vm {
+ 	struct gunyah_vm_resource_ticket addrspace_ticket,
+ 		host_private_extent_ticket, host_shared_extent_ticket,
+ 		guest_private_extent_ticket, guest_shared_extent_ticket;
++	struct rb_root mmio_handler_root;
++	struct rw_semaphore mmio_handler_lock;
+ 
+ 	struct gunyah_rm *rm;
+ 
+@@ -119,6 +125,8 @@ struct gunyah_vm {
+ 	struct xarray boot_context;
+ };
+ 
++int gunyah_vm_mmio_write(struct gunyah_vm *ghvm, u64 addr, u32 len, u64 data);
 +
  /**
-  * gunyah_rm_get_hyp_resources() - Retrieve hypervisor resources (capabilities) associated with a VM
-  * @rm: Handle to a Gunyah resource manager
+  * folio_mmapped() - Returns true if the folio is mapped into any vma
+  * @folio: Folio to test
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+index a9d58150de696..dbd5b0251b491 100644
+--- a/include/linux/gunyah.h
++++ b/include/linux/gunyah.h
+@@ -155,6 +155,35 @@ int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
+ void gunyah_vm_remove_resource_ticket(struct gunyah_vm *ghvm,
+ 				      struct gunyah_vm_resource_ticket *ticket);
+ 
++/*
++ * gunyah_vm_io_handler contains the info about an io device and its associated
++ * addr and the ops associated with the io device.
++ */
++struct gunyah_vm_io_handler {
++	struct rb_node node;
++	u64 addr;
++
++	bool datamatch;
++	u8 len;
++	u64 data;
++	struct gunyah_vm_io_handler_ops *ops;
++};
++
++/*
++ * gunyah_vm_io_handler_ops contains function pointers associated with an iodevice.
++ */
++struct gunyah_vm_io_handler_ops {
++	int (*read)(struct gunyah_vm_io_handler *io_dev, u64 addr, u32 len,
++		    u64 data);
++	int (*write)(struct gunyah_vm_io_handler *io_dev, u64 addr, u32 len,
++		     u64 data);
++};
++
++int gunyah_vm_add_io_handler(struct gunyah_vm *ghvm,
++			     struct gunyah_vm_io_handler *io_dev);
++void gunyah_vm_remove_io_handler(struct gunyah_vm *ghvm,
++				 struct gunyah_vm_io_handler *io_dev);
++
+ #define GUNYAH_RM_ACL_X BIT(0)
+ #define GUNYAH_RM_ACL_W BIT(1)
+ #define GUNYAH_RM_ACL_R BIT(2)
 
 -- 
 2.34.1
