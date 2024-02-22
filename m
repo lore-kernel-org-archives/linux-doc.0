@@ -1,130 +1,306 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF95240BED;
-	Thu, 22 Feb 2024 10:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101833C480;
+	Thu, 22 Feb 2024 10:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708599068; cv=none; b=txEoq16OnZtBnLJPwh1HyHZeIGv/vdqMVlhM0LSgLZTlH0T3ETzVfQKJ+scsfYK1Q+yI9CER72bc/EHsAWoALMe6KPpqatNBYxPV5dDJ8x4cdmsg6X6JJWrU66bfUI5skQsPsYX1VQnqz178vp4+Vubxw5keUHpqNOqfZKrsiJU=
+	t=1708599248; cv=none; b=tRcgXXpLVUWb59YyfhMKkqjHfDPcXdNfKYJtz+nDnhXkT2E2tR8un6BVDVkmUMoqxX/K3J0ODAyB1vlc6GsUz65nuyKujhaQYt3LfRgPjlwJ7IvIyIJem74EJoV+0s8vGFltBhtbdeCHEWlPOMawY0CVuSOhsK1TCHE08naaRAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708599068; c=relaxed/simple;
-	bh=raZuYxSJtMx0MudlT3SLEW4IpFq3EtsOEUU8cpEzvaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EyuXnckvOAJJPFj110Qfi0l4Hr2H6HfHQTtyrTi5qz8EzkzQCWlzGUkKeXPF8UPcrRDBVYYykBMcUW8COtEgmlNwiNKj05CnYEPmzOXgBTpGDZeOXOnZHyIgyMAZ5FxUa1CfrbA6m/papHUtIugmkmDRDeTc0Jmf1BUN2lnQqq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nOeyczLZ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1708599248; c=relaxed/simple;
+	bh=loLivqtLkCVCvcc36ob4PcvIWRrqM9ZGR67glJQXpxQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b2J/kFiQq5SsozDBwcM5sLvNeazGVgJa+jltan6ulbAOjITnQdtG5ZWejbkVDtTbFsDFYE/2gGl7DPKwoJwPXqHOwi4CNFxhvus3G/R/W+0MqzAe108oKWE7Gi9jbn73cI0krG1jopLnua4LFHk11zM1MMA5GSZjkFPbLVlK40I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p3wvyloe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nOeyczLZ"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41M5lj6S008954;
-	Thu, 22 Feb 2024 10:50:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=2JkTC+bXaqZFi/7GY4UexWzdKPeIW/dbKAv4pJ3f/Yg=; b=nO
-	eyczLZoqYFh+ExkfQ4QkUFS1cLU88rbiJ80L9H0WELGb2jBE8i3q/LYOg81ka3jK
-	PL2A71kjwdRMbBpeQHdgyncUwAmK25yrUqYGWbQDej1sXLPOrDsqd6VlJCZQ6EVQ
-	yjA5PLLvGf8tZjtgdtIwLgYt5YvaqvNOpNxLHi0ffec0lRmB5IEUlEd8DgjdQvfn
-	mSV/u7StoEhotYJj4gLxkraBglFDIPHejs9zs298B6P3kpeBwIjYNlNDMlVjR48n
-	J6yDnYYeb5/WP7tCYZGHB6/vYzmJWZb2dWj+2T9McgYI5LpSKppK7tMUClsHlQx+
-	IcXkUIz+fNBBzuAeb9gA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wdpe6t4hr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 10:50:57 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41MAou6R007593
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 22 Feb 2024 10:50:56 GMT
-Received: from [10.217.216.110] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 22 Feb
- 2024 02:50:52 -0800
-Message-ID: <4ad84f2c-a5c1-4c7c-a1b9-8376bb293f0b@quicinc.com>
-Date: Thu, 22 Feb 2024 16:20:52 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p3wvyloe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 062AFC433F1;
+	Thu, 22 Feb 2024 10:54:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708599247;
+	bh=loLivqtLkCVCvcc36ob4PcvIWRrqM9ZGR67glJQXpxQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p3wvyloeEyROYySZMhKhyijsbbEPmsXor7/vqv3JAmDrQirLk9J3HpQfxHf2AHS4g
+	 3Mfkl4Z2sWtuKKkFkziZqxoMBoCctyt+WE9cuGJGizwvG7yvpeRcurNfsWHiVi+mYH
+	 THcCJ1trswqTgqUw3+La26WaVeATB6DDGyEm3ySw3HZzniNsdtWbaEA9SWKHKmzLvR
+	 V5T0cnYVsMtXBcqZtBzkn+JR2bfkQmGT7/cIWQb5pB49yZCPIF2Ys527u/KCq+8nmH
+	 cUnfDQz5A0/fGs2+TufpQ3OdZXy0xGdNsd0keKdkoWu84ILsff6dzn0BFmmYCv2TXM
+	 tkSJQ6H9fU8HQ==
+Date: Thu, 22 Feb 2024 11:54:04 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 08/44] drm/connector: hdmi: Add Broadcast RGB property
+Message-ID: <euaujtp4jyyoud3ccg5qhyvixyq2p6vir4ojlzoky6kep754rj@wruidyfxssry>
+References: <hez2m57ogqx3yyqk45tzdkvxvhrbdepgm244i4m2aty2xhf5b5@acqgvmxhmmvr>
+ <Zb0aYAapkxQ2kopt@intel.com>
+ <zml6j27skvjmbrfyz7agy5waxajv4p4asbemeexelm3wuv4o7j@xkd2wvnxhbuc>
+ <20240209203435.GB996172@toolbox>
+ <ahfl6f72lpgpsbnrbgvbsh4db4npr2hh36kua2c6krh544hv5r@dndw4hz2mu2g>
+ <Zco-DQaXqae7B1jt@intel.com>
+ <yx2t7xltxxgsngdsxamsfq6y7dze3wzegxcqwmsb5yrxen73x6@u3vilqhpci4w>
+ <20240212170618.GA1372043@toolbox>
+ <2mih3humepuedtli7ge52ncom4uffkqravdpalncgfyucmwdzc@bp5o7i3ky77a>
+ <20240219140144.GB1956149@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] interconnect: qcom: sc7280: enable QoS
- configuration
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, <djakov@kernel.org>
-CC: <rafael@kernel.org>, <corbet@lwn.net>, <linux-pm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_viveka@quicinc.com>, <peterz@infradead.org>,
-        <quic_mdtipton@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
-        <konrad.dybcio@linaro.org>, <quic_rlaggysh@quicinc.com>
-References: <20240205145606.16936-1-quic_okukatla@quicinc.com>
- <20240205145606.16936-3-quic_okukatla@quicinc.com>
- <ecdf3c46-77ba-443f-9d64-caf4dc67fc3a@linaro.org>
-From: Odelu Kukatla <quic_okukatla@quicinc.com>
-In-Reply-To: <ecdf3c46-77ba-443f-9d64-caf4dc67fc3a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NXnGpXFQWyaAdg9dcYoLGPMm8nEFnxbO
-X-Proofpoint-ORIG-GUID: NXnGpXFQWyaAdg9dcYoLGPMm8nEFnxbO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-22_08,2024-02-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- adultscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 spamscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402220084
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gwyt2ovqrahookux"
+Content-Disposition: inline
+In-Reply-To: <20240219140144.GB1956149@toolbox>
 
 
+--gwyt2ovqrahookux
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/5/2024 8:42 PM, Krzysztof Kozlowski wrote:
-> On 05/02/2024 15:56, Odelu Kukatla wrote:
->> Enable QoS configuration for the master ports with predefined values
->> for priority and urgency.
->>
->> Signed-off-by: Odelu Kukatla <quic_okukatla@quicinc.com>
->> ---
->>  drivers/interconnect/qcom/sc7280.c | 332 +++++++++++++++++++++++++++++
->>  1 file changed, 332 insertions(+)
->>
->> diff --git a/drivers/interconnect/qcom/sc7280.c b/drivers/interconnect/qcom/sc7280.c
->> index 7d33694368e8..438f927935e5 100644
->> --- a/drivers/interconnect/qcom/sc7280.c
->> +++ b/drivers/interconnect/qcom/sc7280.c
->> @@ -1,6 +1,7 @@
->>  // SPDX-License-Identifier: GPL-2.0
->>  /*
->>   * Copyright (c) 2021, The Linux Foundation. All rights reserved.
->> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>   *
->>   */
->>  
->> @@ -16,29 +17,53 @@
->>  #include "icc-rpmh.h"
->>  #include "sc7280.h"
->>  
->> +static struct qcom_icc_qosbox qhm_qspi_qos = {
-> 
-> Why this cannot be const?
-> 
+On Mon, Feb 19, 2024 at 03:01:44PM +0100, Sebastian Wick wrote:
+> On Thu, Feb 15, 2024 at 12:00:01PM +0100, Maxime Ripard wrote:
+> > On Mon, Feb 12, 2024 at 06:06:18PM +0100, Sebastian Wick wrote:
+> > > On Mon, Feb 12, 2024 at 05:53:48PM +0100, Maxime Ripard wrote:
+> > > > On Mon, Feb 12, 2024 at 05:49:33PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > On Mon, Feb 12, 2024 at 11:01:07AM +0100, Maxime Ripard wrote:
+> > > > > > On Fri, Feb 09, 2024 at 09:34:35PM +0100, Sebastian Wick wrote:
+> > > > > > > On Mon, Feb 05, 2024 at 10:39:38AM +0100, Maxime Ripard wrote:
+> > > > > > > > On Fri, Feb 02, 2024 at 06:37:52PM +0200, Ville Syrj=E4l=E4=
+ wrote:
+> > > > > > > > > On Fri, Feb 02, 2024 at 04:59:30PM +0100, Maxime Ripard w=
+rote:
+> > > > > > > > > > On Fri, Feb 02, 2024 at 05:40:47PM +0200, Ville Syrj=E4=
+l=E4 wrote:
+> > > > > > > > > > > On Fri, Feb 02, 2024 at 02:01:39PM +0100, Maxime Ripa=
+rd wrote:
+> > > > > > > > > > > > Hi,
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > On Mon, Jan 15, 2024 at 03:37:20PM +0100, Sebastian=
+ Wick wrote:
+> > > > > > > > > > > > > > >  /**
+> > > > > > > > > > > > > > >   * DOC: HDMI connector properties
+> > > > > > > > > > > > > > >   *
+> > > > > > > > > > > > > > > + * Broadcast RGB
+> > > > > > > > > > > > > > > + *      Indicates the RGB Quantization Range=
+ (Full vs Limited) used.
+> > > > > > > > > > > > > > > + *      Infoframes will be generated accordi=
+ng to that value.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      The value of this property can be on=
+e of the following:
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Automatic:
+> > > > > > > > > > > > > > > + *              RGB Range is selected automa=
+tically based on the mode
+> > > > > > > > > > > > > > > + *              according to the HDMI specif=
+ications.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Full:
+> > > > > > > > > > > > > > > + *              Full RGB Range is forced.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Limited 16:235:
+> > > > > > > > > > > > > > > + *              Limited RGB Range is forced.=
+ Unlike the name suggests,
+> > > > > > > > > > > > > > > + *              this works for any number of=
+ bits-per-component.
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > > > + *      Drivers can set up this property by =
+calling
+> > > > > > > > > > > > > > > + *      drm_connector_attach_broadcast_rgb_p=
+roperty().
+> > > > > > > > > > > > > > > + *
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > This is a good time to document this in more de=
+tail. There might be two
+> > > > > > > > > > > > > > different things being affected:
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > 1. The signalling (InfoFrame/SDP/...)
+> > > > > > > > > > > > > > 2. The color pipeline processing
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > All values of Broadcast RGB always affect the c=
+olor pipeline processing
+> > > > > > > > > > > > > > such that a full-range input to the CRTC is con=
+verted to either full- or
+> > > > > > > > > > > > > > limited-range, depending on what the monitor is=
+ supposed to accept.
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > When automatic is selected, does that mean that=
+ there is no signalling,
+> > > > > > > > > > > > > > or that the signalling matches what the monitor=
+ is supposed to accept
+> > > > > > > > > > > > > > according to the spec? Also, is this really HDM=
+I specific?
+> > > > > > > > > > > > > >=20
+> > > > > > > > > > > > > > When full or limited is selected and the monito=
+r doesn't support the
+> > > > > > > > > > > > > > signalling, what happens?
+> > > > > > > > > > > > >=20
+> > > > > > > > > > > > > Forgot to mention: user-space still has no contro=
+l over RGB vs YCbCr on
+> > > > > > > > > > > > > the cable, so is this only affecting RGB? If not,=
+ how does it affect
+> > > > > > > > > > > > > YCbCr?
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > So I dug a bit into both the i915 and vc4 drivers, =
+and it looks like if
+> > > > > > > > > > > > we're using a YCbCr format, i915 will always use a =
+limited range while
+> > > > > > > > > > > > vc4 will follow the value of the property.
+> > > > > > > > > > >=20
+> > > > > > > > > > > The property is literally called "Broadcast *RGB*".
+> > > > > > > > > > > That should explain why it's only affecting RGB.
+> > > > > > > > > >=20
+> > > > > > > > > > Right. And the limited range option is called "Limited =
+16:235" despite
+> > > > > > > > > > being usable on bpc > 8 bits. Naming errors occurs, and=
+ history happens
+> > > > > > > > > > to make names inconsistent too, that's fine and not an =
+argument in
+> > > > > > > > > > itself.
+> > > > > > > > > >=20
+> > > > > > > > > > > Full range YCbCr is a much rarer beast so we've never=
+ bothered
+> > > > > > > > > > > to enable it.
+> > > > > > > > > >=20
+> > > > > > > > > > vc4 supports it.
+> > > > > > > > >=20
+> > > > > > > > > Someone implemented it incorrectly then.
+> > > > > > > >=20
+> > > > > > > > Incorrectly according to what documentation / specification=
+? I'm sorry,
+> > > > > > > > but I find it super ironic that i915 gets to do its own thi=
+ng, not
+> > > > > > > > document any of it, and when people try to clean things up =
+they get told
+> > > > > > > > that we got it all wrong.
+> > > > > > >=20
+> > > > > > > FWIW, this was an i915 property and if another driver uses th=
+e same
+> > > > > > > property name it must have the same behavior. Yes, it isn't s=
+tandardized
+> > > > > > > and yes, it's not documented (hence this effort here) but it'=
+s still on
+> > > > > > > vc4 to make the property compatible.
+> > > > > >=20
+> > > > > > How is it not compatible? It's a superset of what i915 provides=
+, but
+> > > > > > it's strictly compatible with it.
+> > > > >=20
+> > > > > No it is not.
+> > > >=20
+> > > > The property is compatible with i915 interpretation of it, whether =
+you
+> > > > like it or not. And that's what Sebastian was referring to.
+> > > >=20
+> > > > > Eg. what happens if you set the thing to full range for RGB (whic=
+h you
+> > > > > must on many broken monitors), and then the kernel automagically
+> > > > > switches to YCbCr (for whatever reason) but the monitor doesn't
+> > > > > support full range YCbCr? Answer: you get crap output.
+> > > >=20
+> > > > And that part is just moving goalposts.
+> > >=20
+> > > But it's really not.
+> >=20
+> > It really is. This whole discussion started by "well it would be nice if
+> > we made that property handled by the core", and we're now at the "we
+> > need to deal with broken YCbCr displays and i915 opinion about them"
+> > stage. After creating documentation, unit tests, etc. It's the textbook
+> > definition of moving goalposts. And while i915 won't be affected by all
+> > that work.
+>=20
+> Sorry, but what you're saying is just not true.
+>=20
+> The Broadcast RGB property is an Intel specific property.
 
-I am addressing this in V3.
+No, it's not. vc4 has been using it for a year now.
 
->> +	.num_ports = 1,
->> +	.port_offsets = { 0x7000 },
->> +	.prio = 2,
->> +	.urg_fwd = 0,
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+> It lacked documentation but the user space contract exists and it
+> based on how i915 implemented it. By changing the semantics you're
+> breaking user space. The documentation has to document the current
+> contract between i915 and user space, not whatever you want the
+> property to be like.
+>=20
+> I get that you're frustrated that you have to do work while i915 doesn't
+> but none of that is relevant for what the property is and how user space
+> expects it to work.
 
-Thanks,
-Odelu
+That's not it, really. I don't mind doing the work. I do mind losing
+functionalities on something that was working fine. And getting the
+blame for something that is, at best, just as much of an documentation
+issue on i915 devs.
+
+> > That series has been stuck for multiple iterations on pointless and
+> > mundane debates while the biggest part and whole point of it is not
+> > getting any review. So yeah, sorry, it's frustrating.
+>=20
+> I'm reviewing the parts that I can, and that's the uAPI. I find it
+> really offensive that you're saying that this is pointless and mundate.
+
+I'm sorry I offended you, but I was talking about the whole debate
+itself, not the uAPI. The uAPI itself exists. It's already there, it's
+used in the wild on several drivers, and several user-space components.
+
+What that patch does is trying to document it, and test it. It's a net
+benefit. Is it perfect? Probably not.
+
+It's a net benefit nonetheless. The part where I mostly disagree with
+you I guess (and what we've actually been arguing obut) is trying to get
+something perfect (to the best of our knowledge) out of it.
+
+Anyway, I'll just shut up and to do the work I guess.
+
+> The uAPI is your end product, if it can't be used, everything you do in
+> your driver is utterly pointless.
+>=20
+> > > The Broadcast RGB property kind of works from a user space perspective
+> > > because it's a workaround for broken sinks. If a sink expects limited
+> > > range we can force full range. If this however affects YCbCr modes as
+> > > well, then this isn't a workaround for broken RGB range anymore
+> > > because it now breaks YCbCr.
+> >=20
+> > Or, you know, it's a workaround for broken YCbCr display.
+>=20
+> Displays can accept both RGB and YCbCr signals, drivers can chose
+> whichever they want, and user space can not influence or even know which
+> one is being used.
+>=20
+> The automatic selection of the range is very different between RGB and
+> YCbCr. If user space forces the range to a specific value and the driver
+> for whatever reason switches from RGB to YCbCr or the other way around,
+> this forcing of the range will most likely be incorrect.
+>=20
+> This is what we're talking about when we say that the semantics of the
+> vc4 Broadcast RGB property is broken. User space literally cannot use it
+> consistenly. By restricting it to RGB signals, user space can user it
+> consistently and fix monitors that do not follow the automatic
+> quantization range algorithm correctly. Yes, if there is an issue with
+> the quantization range of a YCbCr signal then this property doesn't
+> help, but it never tried to help those cases.
+
+Ack, thanks
+
+Maxime
+
+--gwyt2ovqrahookux
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdcnzAAKCRDj7w1vZxhR
+xRqnAQDefz6f2FBe9kLtuo09d0IXpRytvlJT3Y9pbl1YdRZYMgEApnLSteNUg63V
+/mBTl1qxQbzQrR5ewp8lQ1kYaAXFwQM=
+=eUkv
+-----END PGP SIGNATURE-----
+
+--gwyt2ovqrahookux--
