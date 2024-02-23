@@ -1,105 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A22E3FF1;
-	Fri, 23 Feb 2024 18:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BE4179A8
+	for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 19:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708713007; cv=none; b=Frx2sd9TrEhcZIL/fREyQR2cJiYvyi5fpMGJzqKXqpcBVRrMntQgB6tD7OCn3lLrRd53pHgk0F3T0sNhuYk0SyOYlmEOrwXNITGyaW6Cz7N2FPN7k2MKqH9+I6uj4yCQ/vE6SOpXMCh31qLcmfYv9qGALlapNdNVqGeToe3/93E=
+	t=1708716415; cv=none; b=WUyViRL3ligF05Vvq+kLJ8vE6e3L9e6/FqV01yxjwaT2azh34Ip6YJ9AqHg1QU+oBG00HNpVaCPHsGiPDk4VT8MESf+KUiZj9hp1FIb89DYOy8oRuUCiV/jxr3BibIC0A46WrtxdeJ+GRDUy/PMRpqoVhv3/rLr0NMSLA55i05A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708713007; c=relaxed/simple;
-	bh=h4pO3Tgr1PTkYatoEkKrET/MjLlwGSker91U7kqaO1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QBFUyTsE2Yhkqv02timKASG0rTN14cU/pqC/LjDnoMRgzWmlcMG94jSztEIL1sQZzKXsLHc6JeotO5utv6OR0oo0JCR3lnZv26sh4T7AylOO9aq3an2phwa9Zm9dM5X7yuNHvHIwruSwVPMV9T46q4iOqZdjAMyJvSjLum1ATTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nbO0L3o5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708716415; c=relaxed/simple;
+	bh=R6zUV9LQ644WPBwU2nAdaKkCRupl6ITF2pP4ziWZMV0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pjiUgwRQ83Xn6W7xMuFzd7Dc+ktDGWQgoQs2q3RMg8qCdzmgC+7nPSVTdn7denFPReeA8NSBVeFfj/HQS/CR+YppuosgXFpiN7EHLtESSYHRfZjJ8gKs/aU6L27YVpJL1hZ9pXcTks1IteiqgN7RV6oa8kUePWJHNw55gs5B3BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OpCi4S7E; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbO0L3o5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBFCDC433F1;
-	Fri, 23 Feb 2024 18:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708713006;
-	bh=h4pO3Tgr1PTkYatoEkKrET/MjLlwGSker91U7kqaO1o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nbO0L3o5nidphoFvFp61Tw3dg+tZlos4tvnVsxt3LBum2bv9S4cTfrRbYtCdgcpk8
-	 2K3+Bqs4WAKaIaUXuBtYuzhcR3M9qhvTbIwBIFPCyZaItSaQjQrr8Jd56PmZEqrQZb
-	 acEwsL077wp13g1v9RpB2z0nSaHiOLwmaOr9HiFeBHfwJxnAsJU8yhUiKDdA+zvn9n
-	 RHBDNQixtUS8LsYmrCB85aI7TzZ//EdZ8jMmeSMNGs5bSkm8fzONPNSAGQWnNkLgVx
-	 h4oof10cHJMT7hRlxo70kTubFphVQMWuM+RE2weKDWruUnrzxYplMjxaZS63eqxuam
-	 ++gfEOXUOc9gQ==
-Date: Fri, 23 Feb 2024 10:30:04 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andrew Cooper <andrew.cooper3@citrix.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>,
-	Ross Philipson <ross.philipson@oracle.com>,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-	linux-efi@vger.kernel.org, dpsmith@apertussolutions.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-	dave.hansen@linux.intel.com, mjg59@srcf.ucam.org,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-	davem@davemloft.net, kanth.ghatraju@oracle.com,
-	trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v8 06/15] x86: Add early SHA support for Secure Launch
- early measurements
-Message-ID: <20240223183004.GE1112@sol.localdomain>
-References: <20240214221847.2066632-1-ross.philipson@oracle.com>
- <20240214221847.2066632-7-ross.philipson@oracle.com>
- <CAMj1kXEmMBY_jc0uM5UgZbuZ3-C7NPKzg5AScaunyu9XzLgzZA@mail.gmail.com>
- <98ad92bb-ef17-4c15-88ba-252db2a2e738@citrix.com>
- <CAMj1kXFTu+bV2kQhAyu15hrYai20NcBLb4Zu8XG2Y-XjL0f+rw@mail.gmail.com>
- <1a8e69a7-89eb-4d36-94d6-0da662d8b72f@citrix.com>
- <CAMj1kXEvmGy9RJo4s8tECsFj2dufZ8jBPoJOEtkcGUoj+x2qsw@mail.gmail.com>
- <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com>
- <20240223175449.GA1112@sol.localdomain>
- <e641e2f1-16cf-4717-8a1f-8afac2644efe@citrix.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OpCi4S7E"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-608cf2e08f9so895447b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 11:26:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708716412; x=1709321212; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R6zUV9LQ644WPBwU2nAdaKkCRupl6ITF2pP4ziWZMV0=;
+        b=OpCi4S7EIle74AF4FZHaIEyLZXNxInq/DezUptdf3Dtyp+NkJo+dehUdZWG2qusLIi
+         bt8qF0ES+0LRUSPqWcX3BhMdXjaIdmafbMwRL9IPIvSNXVQcek1Jj0OLzR/dzhi+w7to
+         dAXnDGoFer1u6qbebk7TeotLVef6+Rz6kG/IIQYYpJYnHAms2nBdwshn2RMbFLixh9yV
+         eZZ0uK4Fjh1XP2wbWR9k7FrQhpvdHVp19ivE5SZkX2rlJbmBquB+IxJZ7azGQfDfOpLl
+         DtRq+AvFDvwCsisaBmPWMyn88TDIfYFY/bu64HZB+J1w9y9ZRnJSSKlJoV24LCl5T0vH
+         ZewQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708716412; x=1709321212;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R6zUV9LQ644WPBwU2nAdaKkCRupl6ITF2pP4ziWZMV0=;
+        b=LZQesM6OlM2XqafevYmeUihScPIFg4u36Jh/QpG2PwFP35hZH/sOZaRF94q577Y28B
+         CQyMUMiCQ/W0vKs/YkfNS0cEvG3UXXa1FIm6r+l8BBDodvZwv9hE5VwvK35OP0lK1EeX
+         e3DuNftLeBHJqLzAjMHDWe43IPCLxEM4whWgyRHL4qib3fuORQNtdQtWaHSuUHIFK8rJ
+         opxuz8I1iTYoDAxFF8tazy4RLVfjDxysjzHyzXtOm5iwCgOnCKPjf3Jn3qzN5/SytnU+
+         iQ9lKi/e2y4Q6ygmllagh15cinSAXBR8ZSeuiWKyp8lJZxhUcZq/EFEru1DMIbpIsaf/
+         +Cmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRwR4md85QNs3NN8oOCACD5iaX7LijI9j6C/nVdG6s7PE9Xz9lHRPK9UTXYJ3cdH9OeQY/kdnLYRz4bgWL5cpVk3OazwAosPLC
+X-Gm-Message-State: AOJu0Yw5XHuELkQel+RAHEiP9mZNhFFHM8ncC09nlbnsRx8eKdpBlPti
+	hKdwoJWp4oYm8nH9EI2qRPaQHz7eL3AYiK7geRJcXkjCbWVP4SjQSh5B50r3Q9NGxN+yQXcQr7f
+	d3PyF5jFTTO8nDgkc3CJPqGEkZ0cbs7LubELA
+X-Google-Smtp-Source: AGHT+IE/Pl6hrmaYgXKRMYbWWj3alWqUpkDIYPYsJjZVZ7mPx6TO4HEVqSuGco97bbBAS2NUd8BFNQPQR2paQWXSoCg=
+X-Received: by 2002:a25:2653:0:b0:dc6:b088:e742 with SMTP id
+ m80-20020a252653000000b00dc6b088e742mr843579ybm.8.1708716411749; Fri, 23 Feb
+ 2024 11:26:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e641e2f1-16cf-4717-8a1f-8afac2644efe@citrix.com>
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-7-surenb@google.com>
+ <Zdc6LUWnPOBRmtZH@tiehlicka> <20240222132410.6e1a2599@meshulam.tesarici.cz>
+In-Reply-To: <20240222132410.6e1a2599@meshulam.tesarici.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 23 Feb 2024 11:26:40 -0800
+Message-ID: <CAJuCfpGNoMa4G3o_us+Pn2wvAKxA2L=7WEif2xHT7tR76Mbw5g@mail.gmail.com>
+Subject: Re: [PATCH v4 06/36] mm: enumerate all gfp flags
+To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 23, 2024 at 06:20:27PM +0000, Andrew Cooper wrote:
-> On 23/02/2024 5:54 pm, Eric Biggers wrote:
-> > On Fri, Feb 23, 2024 at 04:42:11PM +0000, Andrew Cooper wrote:
-> >> Yes, and I agree.  We're not looking to try and force this in with
-> >> underhand tactics.
-> >>
-> >> But a blind "nack to any SHA-1" is similarly damaging in the opposite
-> >> direction.
-> >>
-> > Well, reviewers have said they'd prefer that SHA-1 not be included and given
-> > some thoughtful reasons for that.  But also they've given suggestions on how to
-> > make the SHA-1 support more palatable, such as splitting it into a separate
-> > patch and giving it a proper justification.
+On Thu, Feb 22, 2024 at 4:24=E2=80=AFAM 'Petr Tesa=C5=99=C3=ADk' via kernel=
+-team
+<kernel-team@android.com> wrote:
+>
+> On Thu, 22 Feb 2024 13:12:29 +0100
+> Michal Hocko <mhocko@suse.com> wrote:
+>
+> > On Wed 21-02-24 11:40:19, Suren Baghdasaryan wrote:
+> > > Introduce GFP bits enumeration to let compiler track the number of us=
+ed
+> > > bits (which depends on the config options) instead of hardcoding them=
+.
+> > > That simplifies __GFP_BITS_SHIFT calculation.
+> > >
+> > > Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > Reviewed-by: Kees Cook <keescook@chromium.org>
 > >
-> > All suggestions have been ignored.
-> 
-> The public record demonstrates otherwise.
-> 
-> But are you saying that you'd be happy if the commit message read
-> something more like:
-> 
-> ---8<---
-> For better or worse, Secure Launch needs SHA-1 and SHA-256.
-> 
-> The choice of hashes used lie with the platform firmware, not with
-> software, and is often outside of the users control.
-> 
-> Even if we'd prefer to use SHA-256-only, if firmware elected to start us
-> with the SHA-1 and SHA-256 backs active, we still need SHA-1 to parse
-> the TPM event log thus far, and deliberately cap the SHA-1 PCRs in order
-> to safely use SHA-256 for everything else.
-> ---
+> > I thought I have responded to this patch but obviously not the case.
+> > I like this change. Makes sense even without the rest of the series.
+> > Acked-by: Michal Hocko <mhocko@suse.com>
+>
+> Thank you, Michal. I also hope it can be merged without waiting for the
+> rest of the series.
 
-Please take some time to read through the comments that reviewers have left on
-previous versions of the patchset.
+Thanks Michal! I can post it separately. With the Ack I don't think it
+will delay the rest of the series.
+Thanks,
+Suren.
 
-- Eric
+>
+> Petr T
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
