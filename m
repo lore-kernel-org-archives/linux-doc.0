@@ -1,144 +1,164 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3084A2208E;
-	Fri, 23 Feb 2024 22:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1AF2208E
+	for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 23:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708729144; cv=none; b=KNtHvEhZETMXZsTcixduKS6ES6HBPYi2HoTh+EELXTvzuLa4u3OfkKcaasLFhY7FzDyE/H2zkOxCi0iJ9BB4YXb1G599xUJQjg9/h2bDwZX6cmOzPk3gAeR5WYhyoKrW/T8+6kgxwYFMlgrzyYASkewsuXTazi9KAQXVQU2jIyc=
+	t=1708731998; cv=none; b=NlX/jKTYxnuh3DAPuw6FAl2fk7OeVrjiQslgMUTTaMs8vULR6j6eBxSsGnFT9yCCTRY9GG43u2b4Qn2z1fUOf5wLR/zN4gLsVlgNr+FKXdRA07shSLiRmV0el861TwUNG6gOQVyiKnuT49nct/YmthUfD+AtpJP7zWNe3pLljHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708729144; c=relaxed/simple;
-	bh=Iky9mt4IFQ4238vl6hslSCEzTdMRADmFjH1aOU0JahA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nEzeVZIGRcvsBjrpyNcv8rvkt6+d0O2NMF2Zj8hvEsAMJv3QrxKxod6IvYUbXnnAxqGVBLb5GXimrMnKasEkUFZQv830ktxgXXJeOK6V6kGKGFidMoYU21UdjUqk1DhtI26OD4FohijSYznvOKIEAFhn3PXTVQImB3oDbBwOIdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=h3c/Xzch; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1708731998; c=relaxed/simple;
+	bh=mgHqWgnzX8YgCtUVgGyFblbfkBZfwH2hQtNerw34L/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Wveay5sgCAjllINgdQnR4y5PgmJO1xy1Pd5DdZADjCBZiTmxcu5tMhM8cx9yKqlz8fDxVhnMySFCWARbt2Vo53S7K9MwPzko6jcM1ivs44qalu0wSaCCq7v6Dlss3kGfU8QH23HnKguub8BEbabAvP118V03o3qW+nBI7CYnr08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WPYq7mXA; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="h3c/Xzch"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41NGqr7d032592;
-	Fri, 23 Feb 2024 22:58:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=xPrNabtICTcT3vIUG3kFM
-	Z6Om4CgJ2wIFuGOLFzaKxM=; b=h3c/Xzchc19KgFTkKGJ2KloVPB7OKYyXtrxh9
-	3NPcR5+doz66d2y8PR4HOE2ZntArg989jWWZeJNQcAowm01TAgJwLEOlrfHqvz/7
-	cOtXpAlnn/byWJmuztl6G9upTBBx057BT3eyTEJKiqIoWGvqyJvPrLTC7uURvY//
-	5qyMOX9Hq4EMG9BljNPX6s1BD/mxlfcif0XcRnAF8JZtoxWengc0dXVC+9mqNlZT
-	itsyrefjzxETnnhG8U+7to0ATUHYU3XPYg3L5HdVq6u/IkvwCy9n/YWrsfJ7RVPu
-	EM+YfyeIDJasWqtJgqV7jUWxRAD0wnFbYHm9cNnQGP20ZOZww==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wer8mst8p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Feb 2024 22:58:45 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41NMwi5f030081
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 23 Feb 2024 22:58:44 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 23 Feb 2024 14:58:43 -0800
-Date: Fri, 23 Feb 2024 14:58:43 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri
-	<quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu
-	<quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>,
-        Fuad Tabba <tabba@google.com>,
-        "Sean
- Christopherson" <seanjc@google.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: [PATCH v17 05/35] virt: gunyah: Add hypervisor driver
-Message-ID: <20240223144844667-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, Carl van Schaik <quic_cvanscha@quicinc.com>, 
-	Philip Derrin <quic_pderrin@quicinc.com>, Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-5-1e9da6763d38@quicinc.com>
- <a3356079-bd55-4852-9bb3-b5362a1c953e@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WPYq7mXA"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3ee69976c9so145816566b.0
+        for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 15:46:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708731995; x=1709336795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=NIAGIlOyfdPQGzUhuhBTCj1fg0Ra/brIZfOUyFxv3go=;
+        b=WPYq7mXA4GS5XMA1VDMZ5ZAmWyn84fNBhQFINGtYcK4i6ywGXwFC1qzi0mpc+vO8wT
+         kNfaqDU04031cp+L85JZNK3iajGT92DI5MS+vOicJm/FpdXbpxcd0z3KNiIeKRLFUyQt
+         tqLFcrAr5Vnnm7yCjDPQ8L+vaOlPa8r8o840iqMi7BA6VZUNbTct1oHrNNheMDG2jXri
+         M4/ySjPMFCcfnd9BChafx5RtXhUmedzJkNozQJmDgl0eolgniE4oFaavi+jr/OqD5IJm
+         OcXwdBUCLITcdT9t5MMRpdarSMXIqhcwEkZx1/lPGn9Q1CK9qxDo2RS7gJe19HPFqLcH
+         ACpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708731995; x=1709336795;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NIAGIlOyfdPQGzUhuhBTCj1fg0Ra/brIZfOUyFxv3go=;
+        b=K3Z7kIphnn23Jf+E5rX24AQcMYFXN7mS1UbPMpeDUwM4ucuhgKDPyYIo8w7Hh5adUk
+         Itu9ZC2KkOSQdm2mC6jpAaAjfGM+DfoWPvatmQagnWZayIXXFAVOO6rClvwoyKrbcMX/
+         u7MuKH49HNtnn4kVG6IJg3KpR+SsbL7VGen8cTHiDxEgUP4UVZU5eG5BabX7Vcf62pHH
+         PW948DfkRGqpmYc3PL/srDeETeY3GF8GYM1y9n+BN5rFHBGW6z0JBZEF58RXA5zuGSt4
+         dg02llm69LRiT8B3uYSOIdZV6neH+n81kIt0H0b9TcJ9/cQ0f36fPKiD7f2c/R9Dgtrz
+         Gy0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWAQGHQnqJWQnANQ5OUMxsCnwf8Mnwvd7WruSYmcfwCMtlRPX1uzUdOPKesf8q09SVo//5VIWHnSrufZ4s4kqeWCaSLDbkJokuW
+X-Gm-Message-State: AOJu0Yw/FRlVghC1aU+yGG6n+N+m00skwJOuU8EMcjq9+dnItpRimt6k
+	fsTI5QDFwjJVmlqlMXFj15AMydy9SEMRsYnCpU7IBlkhPlsq8ItZ7CFVAwmKz18=
+X-Google-Smtp-Source: AGHT+IE0+tL8hH0wqn2x+/epyE+ZkG3YGes2J0uLaDyxWp2Ro/Yw07l0+8CizphqXDIS10sDl1t62Q==
+X-Received: by 2002:a17:906:d923:b0:a41:30be:4a82 with SMTP id rn3-20020a170906d92300b00a4130be4a82mr677228ejb.61.1708731994017;
+        Fri, 23 Feb 2024 15:46:34 -0800 (PST)
+Received: from [192.168.179.2] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
+        by smtp.gmail.com with ESMTPSA id u22-20020a1709060b1600b00a3fbe13e2absm52810ejg.211.2024.02.23.15.46.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Feb 2024 15:46:33 -0800 (PST)
+Message-ID: <b50aae99-151b-47ed-b610-99f4748790bf@linaro.org>
+Date: Sat, 24 Feb 2024 00:46:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <a3356079-bd55-4852-9bb3-b5362a1c953e@linaro.org>
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YPAwTj7bUcX3EtoIiGC9hJQ_EHC82MxR
-X-Proofpoint-ORIG-GUID: YPAwTj7bUcX3EtoIiGC9hJQ_EHC82MxR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-23_06,2024-02-23_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- adultscore=0 malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0
- impostorscore=0 mlxlogscore=472 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402230165
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 05/35] virt: gunyah: Add hypervisor driver
+To: Alex Elder <elder@linaro.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Murali Nalajal <quic_mnalajal@quicinc.com>,
+ Trilok Soni <quic_tsoni@quicinc.com>,
+ Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+ Carl van Schaik <quic_cvanscha@quicinc.com>,
+ Philip Derrin <quic_pderrin@quicinc.com>,
+ Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+ Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba
+ <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mm@kvack.org
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-5-1e9da6763d38@quicinc.com>
+ <a3356079-bd55-4852-9bb3-b5362a1c953e@linaro.org>
+ <20240223144844667-0800.eberman@hu-eberman-lv.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240223144844667-0800.eberman@hu-eberman-lv.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 23, 2024 at 10:10:47PM +0100, Konrad Dybcio wrote:
-> On 23.02.2024 00:16, Elliot Berman wrote:
-> > Add driver to detect when running under Gunyah. It performs basic
-> > identification hypercall and populates the platform bus for resource
-> > manager to probe.
-> > 
-> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> > ---
+On 23.02.2024 23:58, Elliot Berman wrote:
+> On Fri, Feb 23, 2024 at 10:10:47PM +0100, Konrad Dybcio wrote:
+>> On 23.02.2024 00:16, Elliot Berman wrote:
+>>> Add driver to detect when running under Gunyah. It performs basic
+>>> identification hypercall and populates the platform bus for resource
+>>> manager to probe.
+>>>
+>>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>>> ---
+>>
+>> [...]
+>>
+>>> +
+>>> +	/* Might move this out to individual drivers if there's ever an API version bump */
+>>> +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
+>>> +		pr_info("Unsupported Gunyah version: %u\n",
+>>> +			gunyah_api_version(&gunyah_api));
+>>
+>> Weird for this not to be an error, but it's probably not worth resending
+>> over if it's the only thing
 > 
-> [...]
+> It is an error, but maybe I misunderstood:
+
+Sorry, I meant "pr_info might have been pr_err"
+
+Konrad
+
 > 
-> > +
-> > +	/* Might move this out to individual drivers if there's ever an API version bump */
-> > +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
-> > +		pr_info("Unsupported Gunyah version: %u\n",
-> > +			gunyah_api_version(&gunyah_api));
+>>> +	/* Might move this out to individual drivers if there's ever an API version bump */
+>>> +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
+>>> +		pr_info("Unsupported Gunyah version: %u\n",
+>>> +			gunyah_api_version(&gunyah_api));
+>>> +		return -ENODEV;
+>>> +	}
 > 
-> Weird for this not to be an error, but it's probably not worth resending
-> over if it's the only thing
-
-It is an error, but maybe I misunderstood:
-
-> > +	/* Might move this out to individual drivers if there's ever an API version bump */
-> > +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
-> > +		pr_info("Unsupported Gunyah version: %u\n",
-> > +			gunyah_api_version(&gunyah_api));
-> > +		return -ENODEV;
-> > +	}
-
