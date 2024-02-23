@@ -1,202 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BE61448DE;
-	Fri, 23 Feb 2024 21:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708722793; cv=fail; b=GUX6pLe72QJOLOgKT+A9Z0YQpA2fZBmqiCHBSzgsESrl7Iz+PJQRdciw6MfMLBWdXunBQV3BEYRBlRNHoSq5PgxfLl+g5cCNblpctuDYCs5jozxkpMQhUby6YmenTADqW7J+gpKn+KMpDug9HS+Q/AIBRPhaNzXpCOCYrhuRWgc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708722793; c=relaxed/simple;
-	bh=9YHE/2QWz0HUCH4iy2qhDFCCVNqR0nt0ypjgLb8wCz0=;
-	h=Message-ID:Date:Subject:From:To:CC:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DZjNkgsEynQ0Lk+ZQqmFd5Hzm4TjxEwy7nEyCFtzx3VOOhk/cb7UrLtanBTuJCa6TBE1HK/qVSuP/VY1+q+GE1EgRK0csPznTc7eMypxzY0O3chxijZ70QQ/qnX9SyNfDDJIlGhDorJX7GIrnK4Cwb3ZQ+R6A6uuOAitecHLSns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGN8TKqk; arc=fail smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F1A149387;
+	Fri, 23 Feb 2024 21:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708723145; cv=none; b=G1mhKeC325jJAreo7RI8Mevgr0lD2nTI/7QrYdURZ7lgQ+sT01+0gh9HaMTAX1onAtAiHmdqF6BdZEWaA3eq7uQXPlFwXd0b+1kmKImo7t/DTJbu26YFIFFXoDtFFBjcyhW+VDhPF9NaFZTwm2bbFHQIDSoc63XBh7Vs5/098+8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708723145; c=relaxed/simple;
+	bh=G9acwVY7ymcyRnYpWSx3LpLsRlDgFlbI0aKKwvJ3ZyM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZPXoYsRsIj+vplWuqlAMw2kQCurcyeqoZvwPb2A2PBP2YFdLR7BDAe293EuokhsdFaE/1vAW5q+Ucw1zqfAtKKBse9xe0D5XNBGlk6f+eOrcOdncfjghBlI4FGTRL7jMbt0g9BB4AYHfcJQ0vcQC3ZKzbRBykDeMzjHgPuCmje0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+850t0y; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGN8TKqk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+850t0y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708722791; x=1740258791;
-  h=message-id:date:subject:from:to:cc:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=9YHE/2QWz0HUCH4iy2qhDFCCVNqR0nt0ypjgLb8wCz0=;
-  b=EGN8TKqkow8QMpRlU40iQxdA8LwvOtoCKLq+r9+/oVDS7+QsX6iR5agW
-   vMPKSA2n/qG9wjpyx1CMB4hFfyXFkiG3Tg+DEjzbMHiaBPPURQSn27BW7
-   6TrXw6Qb3vqnZJSH3XKIRLeo7feC7If67VbYkk/+/sbO+58mfvVfVpA0c
-   pgAANp40QCrk7eWb79XEI3lANc/6WIg486yyR3CLATGwcwaAHrcOQAgM/
-   oudohuae3+/KC+m1KAwS3Z9mHxxFjeZfExGq1wn8Rzf9zWzVePgHGb8Pl
-   r9oROUmfzinkYL7kkVRDfepY/Dji8j7hRv2ikWz31C1cFxrKfD8KrXiNI
+  t=1708723144; x=1740259144;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=G9acwVY7ymcyRnYpWSx3LpLsRlDgFlbI0aKKwvJ3ZyM=;
+  b=h+850t0ye2zZb/KxefKlOx0vHWYl+pn9Xws/drW+1j2wKgzYI2Nq7r0e
+   hF/P6Igb0O0OAZuZ9DQvs97NvYpiWuFDongdIzFS0/IXxg+/bCIBMzroV
+   BnoHDkuXOXEo0F71oHn5mHu8X3oSKZXNxcrIoEcFHYMnhSH7sYYo63utb
+   mLa9YSc2JCi6o/FwqvxPXGcJXNlmAyQfOrA5LwPR28D9c0DIaBvbKpTun
+   2K0cs6dxVQpY/mfDkJRo9sL2oeImoWw3JFPYjat7sn/JMtBbQpWxoYIVt
+   ukO19yKARmlbVrcLifCn2PUrjoMHUzS8pnHcfgHU5QIjGr9oZ1QaknEQX
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6848303"
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="6876802"
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6848303"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 13:12:58 -0800
+   d="scan'208";a="6876802"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 13:19:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
-   d="scan'208";a="6389876"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Feb 2024 13:12:57 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 23 Feb 2024 13:12:57 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 13:12:57 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 23 Feb 2024 13:12:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rq/Stv3VbosuP6l93bkQbIpG6Qx10knoGadcSGSgl4tJCIJv3ztVoEmNNlDaDEoiqhs009XrrKa2cxXhRJWHzgvUqHh4eUHG9yuUDFIJZxMLf2/6uLLDgGg8iOTkPIXpKFOLoFgFBckSk6odlCnkMilYYF0/CEaeiBuOLQ7NjhK6rMgm6tIzOQMP/y7/DjSgfAP2cYZPZ0aA6AwW3xkSAEccfSieW1Vis2qbZEPDrlwrZNgH+QCo64AlbeA9nmyecnMiPbH3a6CidYHBnY2ckZj19Bx7Qw6RxyS2gE9QQWU6PeSS2hT5m+LNcRWRk1o/+2L8BHZYu+i4vliEz2uwUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n4vIUfB1ihNDrkC2Lxr+dSRQ0bkjYz1EvIJCapaCpKs=;
- b=H6kx7FKpTWoFcukhtdwGyWKlulM2b3F2oL95G548EEwyH7K9EbzWJuWoYVbFfygmRFOoD+Gqpn9Zqbq4dNdo3UQsZPfvZ1xNkesklzkrzPD8NC1+prpLDwIhuTPzdPq1PcG/t46uikJh5q47wWzv1408LGr63+bfxmTi1OMnjfkEaXbcRXN0WF7mjgmj1T2HoaqMBIIaVXPXrLkX2HRhorWdt9EW6cJHAMTBwShHpSlXtiCaYa7HBg6PoOP2qylYfVgjHMbUU30gGFyMTfhloMBd+nMgjvHBUHxxkkQ/e4LsdotvtOi9Ar+UjEsiZIdrcFgHZHZaql4ksGBzzHnSig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
- by DM6PR11MB4737.namprd11.prod.outlook.com (2603:10b6:5:2a2::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.10; Fri, 23 Feb
- 2024 21:12:54 +0000
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::b383:e86d:874:245a]) by CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::b383:e86d:874:245a%5]) with mapi id 15.20.7339.007; Fri, 23 Feb 2024
- 21:12:54 +0000
-Message-ID: <fb8c6ec5-05d0-46cc-8bb4-b97b3d77c02b@intel.com>
-Date: Fri, 23 Feb 2024 13:12:52 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next v1 0/6] ethtool HW timestamping statistics
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>, Saeed Mahameed
-	<saeed@kernel.org>, Leon Romanovsky <leon@kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
-	<corbet@lwn.net>, Richard Cochran <richardcochran@gmail.com>, Tariq Toukan
-	<tariqt@nvidia.com>, Gal Pressman <gal@nvidia.com>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	"Ahmed Zaki" <ahmed.zaki@intel.com>, Alexander Lobakin
-	<aleksander.lobakin@intel.com>, Hangbin Liu <liuhangbin@gmail.com>, "Paul
- Greenwalt" <paul.greenwalt@intel.com>, Justin Stitt <justinstitt@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Maxime Chevallier
-	<maxime.chevallier@bootlin.com>, Kory Maincent <kory.maincent@bootlin.com>,
-	Wojciech Drewek <wojciech.drewek@intel.com>, Vladimir Oltean
-	<vladimir.oltean@nxp.com>, Jiri Pirko <jiri@resnulli.us>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, "Dragos
- Tatulea" <dtatulea@nvidia.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
- <4c94d725-a903-4979-bcc6-9353e0869cd7@intel.com>
-In-Reply-To: <4c94d725-a903-4979-bcc6-9353e0869cd7@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0352.namprd04.prod.outlook.com
- (2603:10b6:303:8a::27) To CO1PR11MB5089.namprd11.prod.outlook.com
- (2603:10b6:303:9b::16)
+   d="scan'208";a="5913894"
+Received: from gtkramer-mobl1.amr.corp.intel.com (HELO [10.209.82.163]) ([10.209.82.163])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 13:19:02 -0800
+Message-ID: <b26fc2d6-207c-4d93-b9a3-1fa81fd89f6c@intel.com>
+Date: Fri, 23 Feb 2024 13:19:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|DM6PR11MB4737:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9850344-70f3-4c56-2120-08dc34b433bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: heckScMTBrl2Sh1vtnQtUJ8877x9qp5Oj53gHVCmpwnAY5+DkfFE7l2V5YgGsmegFDW/eiz+3kCysEuHV0hvXu71gZzwtAVIyj4wXiPgvMMrJq5PslIJqcOMbCLAt1hyfM4iLMJac1F2PMffHs3+4bZsfXwSsVT5rx18DSGtyxHFd2xM32yWSCrySvdgMo0K5URVi6ManYzivwP5xECqhsJvyHuuWW2out+q9m6Ip9BRN2tU4if0pxEZM5KR6VTdHZ89vT+7j18ORJ0drWzBt7UxU41pmOR++qOMYjwTPIkXdYXOWwzHyhHdruHTbCcT6sdq/nzi0TlIY6Cs8+37hsw+dVEeue7bVp0q9b11I8D07z1LU3fjrMfnYU0XJcMoNkjmo7NSxQcUydq8gwyp1SBItfNEpdsQAtJqlmd+C/D6TsoaumsYXgbC9RkTirx9cvHi/pkD47z5N4Yp2XseOCWgHjBEmk9MpkhTrGBiqYjYkuNRnjO5AXhOdtr7X2BwMVdj2Ino/7FXKk0cVsBfiPIfXC6Tv2I9P8Fq3n89m3vvaK5MRBjrGDFA13EQbKUsuilpADFIb6v2Wx24f+eOOw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2c3QVc4dDdNNE11bXFaVklNTEYzV3ErTFZwRGVXaWcvVFR6M1lNb210YUM2?=
- =?utf-8?B?MHdPTEthTXVTaUhJdFFpTEd3NWJNMllzamRueVc1bDBTUzNaZjZRRDdIQ2Uz?=
- =?utf-8?B?Zk54VWxVUzdCSUNzeFJWMVpqemZXTjZOMTk5K1c3T2Q4SXIzU1JPNitsSHR1?=
- =?utf-8?B?MUhXOEE1ZEpxc3FMbmlRMHcvLzA5M2xNbjU4WGptL25SRUdtcVZKZmVDOWox?=
- =?utf-8?B?VGhwMTRsWlJwdXlqZU0wR0M2WlZzKzlNMEFEQUx0Qi9lc0I4SDArUnV0azho?=
- =?utf-8?B?Q2VJZlpCNEtTUVE1dDhZbWJWcWdNS25rRVd5elZqV1R3bnN6Q3lXNzBucXdK?=
- =?utf-8?B?N016ZkVOVWVFenhFalZxTWg4Nk1QcDRmcDdNRW5kYW9STm8rV3ZURHRaSHNQ?=
- =?utf-8?B?U0gxSXN5Mks2bFNQNEI2MVp6Z01TYTR6NlVmSUNZYk9DWkYzVVAwaHViNDdt?=
- =?utf-8?B?N2FIRmVJY3NsTjdPbE1kcU1QOXVOa2ZTdUJMN3E0YTEzd255WjNWNUZoamJS?=
- =?utf-8?B?b3ZQRWx6RHlCdEhpaC9ucHlxbXNCUTVSbGJFOHA4M1BrODJmVTcyMG9jTXFv?=
- =?utf-8?B?Y0RIN3Z3MDdHbXpialIzMmEvYzZXNEh6d2xJWG9qakRBRFozQjJ4NlpSakNh?=
- =?utf-8?B?ZDdLTkpNM1FqcWFlZWRoR3ZHSVJyWVpnd3Z1SlRGL1ZjLy9iNXo4VUwzSWtL?=
- =?utf-8?B?T1JJTk5lckVwODJqdGhnWFJpUUtqaDI5N3hPZFA2ZzE3bmlYVTVMd1ViSTlK?=
- =?utf-8?B?QTdLb2t2Q1BSa1BLcWtCSm82WWRmUVl0aER6QXVCeW1jVWRtVE9TK1dMZEdP?=
- =?utf-8?B?N29PVit3SUZUekU3TzZ1WWk2ck5PR0tZTFZuNVJUbUlSY0o0a0hVNDdBYlJG?=
- =?utf-8?B?ejBzYzJwZlExYm44RHF1ekRiK3RmbDlCeENjdHpRZER3Zjk3blZveGtkcXg5?=
- =?utf-8?B?VFlSbU1LYWhIazdLckd6NG9wWk1FcVh3V1Bsb0tCeW5DWURlcjJ3UkFaeGFq?=
- =?utf-8?B?eGp6QWdxU2lFUUxySDgxS1FMcVVxSS9vM3g4eVYzdkI0N29lMDlTcjZPYWZX?=
- =?utf-8?B?MnlzaUxOSkQwWlgvaklyVDl1eGh4K053WmozRHVEai82WDFpN2RoTHNDYUVn?=
- =?utf-8?B?OTNqd3E1TGFLaFpzUExYRkI5U0RQUkd3SmFKaFBtZ3IzNDRIcFR6NE9GRVhE?=
- =?utf-8?B?TG40RHZrZkErYXhqWE9HMFlHeGJIMXNKMmZrMmw0c0tmSzBXZXRQZEZ5akhZ?=
- =?utf-8?B?Sk02M056Ry9sTzFFdFRXdVR1QnlDMGZQUE1xUG5sZ2lUYmgvMVVZeDk1TTNI?=
- =?utf-8?B?QkdXUVFiZFlXajFGbWpwK3dabXJTcFZtaFlmZFZ0Ym4xengwWFNIYlJrVHB1?=
- =?utf-8?B?T3dxU0xzNGdTSkxHdUprbmZYOUNvTlp0OGFoM000a0xPRERmR21nUXgwODBH?=
- =?utf-8?B?QUM2OUhENlZlUmFQOEZiMkpQN05IRWlMQlAvRjJVU3NucGFnb3F6dThIbWND?=
- =?utf-8?B?V0FJT0lKVEd5by9JWFZYTzNUaXpnUFhaMmVsTDNqWWJFSXRSa0szV1FzeGhk?=
- =?utf-8?B?cTlaeGNocnBIRmVzLyt0azM3ZGRNWHJYR056U0J4SHNGeTN5QWt4NGVVaHRS?=
- =?utf-8?B?TFY0SWdxcE9xQU5iU0hTL1Evd0NxQ1hldUdkWXBMUXQ4Q01Nb0FkaDExTDZQ?=
- =?utf-8?B?S1FtMDhCdUhrN1hXVmJ0dVZkclErTUNERTlEQXJJYjdwR3Z3RzY1Z2JTbzN3?=
- =?utf-8?B?d0s2RjBrRHQyWTZ4RDlOSFlRK1hzcnN2OURFdWNITnRtWUZEQU1uV2NwUmRy?=
- =?utf-8?B?MUg1bmhKSUV3bDhvRnR0Qk92N3l1MGpRck13QWhwMGR4S3lsajg2cjFNeEl4?=
- =?utf-8?B?NXVRb3h6eG5VajlxVE9QL3k3eE1tU0dURzVJaEJ5R2dlbHlDRS9tY0lZb2JC?=
- =?utf-8?B?VWJIQ1BrN2JZNVVyaVBLM295cS9HeDVvUWhlbHdKQy8yN1N0b0xyYUVtQU82?=
- =?utf-8?B?UmR4aC9MNkdMN0dxdTN6WHh3ckY0c0dFNnZJQVlEcjI1TGxSN2JsMHpDTENI?=
- =?utf-8?B?OGNYRGpXdFE5UGM2WjJJcTR2NWdoZzZQa0lhSnBtcTRNTlk2NnJ3T1JyY3I3?=
- =?utf-8?B?TlVId1RJVy9uZk1IUmFkSklKeDJRa2UyVmFOUkVLTTNWeGpIU2tkUGVxd2VD?=
- =?utf-8?B?V1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9850344-70f3-4c56-2120-08dc34b433bd
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2024 21:12:54.7448
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NRCyXwHe4DHXDylIlEVpwDq1idEyOcyntuXr9SVUqU1gZafnZtUW0VJfwph1hYP2MFzZf3U2B+mimXf9I6KDbaBAvgUzTMkG5MOfRVBg31o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4737
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 16/20] famfs: Add fault counters
+Content-Language: en-US
+To: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com,
+ Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
+ dave.hansen@linux.intel.com, gregory.price@memverge.com
+References: <cover.1708709155.git.john@groves.net>
+ <43245b463f00506016b8c39c0252faf62bd73e35.1708709155.git.john@groves.net>
+ <05a12c0b-e3e3-4549-b02e-442e4b48a86d@intel.com>
+ <l66vdkefx4ut73jis52wvn4j6hzj5omvrtpsoda6gbl27d4uwg@yolm6jx4yitn>
+ <65d8fa6736a18_2509b29410@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <ytyzwnrpxrc4pakw763qytiz2uft66qynwbjqhuuxrs376xiik@iazam6xcqbhv>
+From: Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <ytyzwnrpxrc4pakw763qytiz2uft66qynwbjqhuuxrs376xiik@iazam6xcqbhv>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-
-On 2/23/2024 1:00 PM, Jacob Keller wrote:
-> 
-> 
-> On 2/23/2024 11:24 AM, Rahul Rameshbabu wrote:
->> The goal of this patch series is to introduce a common set of ethtool statistics
->> for hardware timestamping that a driver implementer can hook into. The
->> statistics counters added are based on what I believe are common
->> patterns/behaviors found across various hardware timestamping implementations
->> seen in the kernel tree today. The mlx5 family of devices is used as the PoC for
->> this patch series. Other vendors are more than welcome to chim in on this
->> series.
+On 2/23/24 12:39, John Groves wrote:
+>> We had similar unit test regression concerns with fsdax where some
+>> upstream change silently broke PMD faults. The solution there was trace
+>> points in the fault handlers and a basic test that knows apriori that it
+>> *should* be triggering a certain number of huge faults:
 >>
->> Statistics can be queried from either the DMA or PHY layers. I think this
->> concept of layer-based statistics selection and the general timestamping layer
->> selection work Kory Maincent is working on can be converged together [1].
->>
->> [1] https://lore.kernel.org/netdev/20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com/
->>
-> 
-> Makes sense! I like this direction, I had meant to work on this for the
-> Intel parts, but got sidetracked by other tasks. I look forward to
-> seeing what you've done here.
-> 
+>> https://github.com/pmem/ndctl/blob/main/test/dax.sh#L31
+> Good approach, thanks Dan! My working assumption is that we'll be able to make
+> that approach work in the famfs tests. So the fault counters should go away
+> in the next version.
 
-I'm fairly happy with the series overall, and the entire thing read
-pretty straight forward.
+I do really suspect there's something more generic that should be done
+here.  Maybe we need a generic 'huge_faults' perf event to pair up with
+the good ol' faults that we already have:
 
-I'd be happy to follow up with patches to convert the ice driver to
-report these statistics as well.
+# perf stat -e faults /bin/ls
+
+ Performance counter stats for '/bin/ls':
+
+               104      faults
+
+
+       0.001499862 seconds time elapsed
+
+       0.001490000 seconds user
+       0.000000000 seconds sys
+
+
+
