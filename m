@@ -1,94 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBC979CC;
-	Fri, 23 Feb 2024 14:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DD3823A9;
+	Fri, 23 Feb 2024 14:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708699622; cv=none; b=RIn9qiNKqAWUeyzK3Xjnvqdk+zHwOBDoLp8WpnJCLPV5g1JCKTceFZ22Do8sfEmhWiK5NYpDk08oSnBjhDHy6SB+vWjp3PUPxZaBRvvY9E7LDgnPkGx7ocYMK/r20sat4ST547PHVaySDyge1NK7340ptkg39LCcR5AnkgX01/w=
+	t=1708699736; cv=none; b=OPkjjiI+bGYL+sYNJEayx/Mp9JLZIoWYPmBLfKmy6DzbathRnIb+Qn92u8mtHAPGsqa8sB7Or40XnPxMGZ3FikfGbZm7ociXvOyRKSf99ADGWOHhrVo0K+MdOkPJbtfkDBxj5eCRIsGkIMbA0MnR+fNhGP0onJszwiDksiTLJcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708699622; c=relaxed/simple;
-	bh=q8YZ4Jqh0OdMYxUhGwlEvT90DTayzIssQudujNgApkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqZMYz+ytAtoPURM9JeqShB9+31/Drui4isTqUIyyJQF6RNS8MJ/geJie5LhboVAv0L4EebPrhmzWHx4spfxWPlmsWY5uqLdnQMxQ9wp5qMgFvGnPsMiuKWjameRoQ7GRikLusM25EUhiUl16kHERIGDEz+WScfLhQ5lMhGqwoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjBvEHz6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708699736; c=relaxed/simple;
+	bh=8JApompvM0J/gpnwcLTup3cUj8M9W3A4GPR/LpT+CDE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TfI0ufxryYtvxpDioDs4nmLmak3BQxYv71fz72T1IBDH6Lu8SDC0xg7K3wIYMvf75WzxUnnKOicPFH+jUjfTA1d1aXSJPO8vnWKZ8cwF95r2l3gxLE91qTMl2QMNJsOV5nXkRbfzSGFthIXupyG87ZUOFlz001PiY3BE4NrvV1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWgXK3H3; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjBvEHz6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA50C433F1;
-	Fri, 23 Feb 2024 14:47:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708699621;
-	bh=q8YZ4Jqh0OdMYxUhGwlEvT90DTayzIssQudujNgApkM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JjBvEHz6kUl/uCdmc0Fbofl0/L2+tWprk1uNCOiaVJXEhXl8LIF0c2I/PW7XOp7mO
-	 9hxJ7iCyymDlgJ8D7fmhHNpFtAL9dF7jz8uNoEJDwtqaIuN4CPuZk0pqcd94YqCOMt
-	 EzfKx1lbkpfjTuRw4nbZNVZggJPFmtnsw67EONWnuCRjL0ibPSKpy3X/I/RObxfepK
-	 KduLr4jHvMTTec3jaFdRG1x40vDpKD4A0QN6JVDDnJHvpMPVPa2plJsZbLGwKOVcEZ
-	 WsnJon4aU1/K+q4D6TXnkdB8C9XMnKkH6Upttv9dPFKtraBaB+rE1K7AsVIdYmLcix
-	 EsceGqWSMukMQ==
-Date: Fri, 23 Feb 2024 14:46:56 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Dave Martin <dave.martin@arm.com>, kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 12/14] KVM: arm64: Support FEAT_FPMR for guests
-Message-ID: <Zdiv4E+sjo6JeiP8@finisterre.sirena.org.uk>
-References: <20240122-arm64-2023-dpisa-v4-0-776e094861df@kernel.org>
- <20240122-arm64-2023-dpisa-v4-12-776e094861df@kernel.org>
- <86plwn2ztw.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWgXK3H3"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-299b92948a6so690731a91.3;
+        Fri, 23 Feb 2024 06:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708699734; x=1709304534; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8JApompvM0J/gpnwcLTup3cUj8M9W3A4GPR/LpT+CDE=;
+        b=ZWgXK3H37YHGevUEcPLFXnRx2IejpyYb/tMr4AU/ozLaCqVXFGEoRw7SWVQf97Pj8u
+         OieD0TeQQA3Dtf7yjacIEHiq/1rmXC2Qjscij6As9isjdPlWKxIbVjfu7kDsS9lteETk
+         QsX6vWLSBjkr6E7I6xhRukhQ0s/s11WmfdfaW2fXbfvvlrYrapwq25xYM18u3omv3e8V
+         LT3Pin/8ymRkGsz3XDGvhMaF21BuHYnKrasIfre37XDdTzhdZPzq1wslpREQuxRCQDxt
+         W1ktEGynTZM7UUYBi931Ys0WouAleX+8ymF0+x00z+T3sSUBzxZ/XXqRDBbPJjVEp8Hq
+         muLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708699734; x=1709304534;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8JApompvM0J/gpnwcLTup3cUj8M9W3A4GPR/LpT+CDE=;
+        b=ikjQUiVZl/nhVTBoDU1s/Q73LwZVgRNEMKAPwHhki6k0U0xtHd21CIMfE3pMrGGdxM
+         VKapEEOZQ0/fkVcuzmR9q9vtf7V+7BvtLKv0jmkjhOXaNYy1k//GePybviE3hkctRERh
+         YwUSCzBaRQZLD+dYjsaO8+ZYFr6SEhPpyJZvdy50Hw/GznWTHbotth4+ExJchIsRgMG2
+         StTkqlAwcjbrsrK8LylgRf8ntzqw0TxOg0ylCMNjg7kvRnuxY1LVI8RZmEOdJnh04rkN
+         MwpPE4XmLNc7LNZc8gwhcNbCNWvxACVsNGp4SuUEin81qd7uKXU98ENL8A0nrbw7MZxC
+         ZOhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVDK7bCv+6oZBxzZpOEbB5FhLzAxKMCc0Pv4c3EycosJXuRvOpF8WLnfRuGhaemPGnIwz5dKlns6FJiJ8F2zK5qXAFHvMXqP3uMi2H7WSBPF6FJ59H6h+Ic0bux4AWqGboAKC5iFP3eq/uUEW47Qp1BMeSVcJ1ZM8DeKET0vRS7kpKdy0AVg8I=
+X-Gm-Message-State: AOJu0YwycSpXEYimlvwwqRtIzHPPkQno8PFdf0mg0/UYsu+whMridG4i
+	etwxuyvXCv8n0Kx1wbJnIVmbSfYbz21/fwB1ajt4tTLmhVTtsj65gDfUBqCu+LHjTfFe7dIBw9S
+	xwQA3CqrJsJe95Qh2256MIMhO4NM=
+X-Google-Smtp-Source: AGHT+IEx80L+NjAGNZBT0jrWK6YYZABf331Gny44+Vt2581VZkWmKe7cyuzJfytUyxpNvh1A/stzEYfy6+bcfMkUw/I=
+X-Received: by 2002:a17:90a:68ce:b0:29a:2788:c9d1 with SMTP id
+ q14-20020a17090a68ce00b0029a2788c9d1mr7269pjj.39.1708699734458; Fri, 23 Feb
+ 2024 06:48:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GH+IzJ0CKriU7ph5"
-Content-Disposition: inline
-In-Reply-To: <86plwn2ztw.wl-maz@kernel.org>
-X-Cookie: You might have mail.
+References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-palatable-quintuple-ed221a517407@spud>
+In-Reply-To: <20240223-palatable-quintuple-ed221a517407@spud>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 23 Feb 2024 15:48:42 +0100
+Message-ID: <CANiq72=z+aO2cvmyHNYOVQyAXLiZeM5KV+YrMXAsCkotJFcHag@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] RISC-V: enable building 64-bit kernels with rust support
+To: Conor Dooley <conor@kernel.org>
+Cc: linux-riscv@lists.infradead.org, Conor Dooley <conor.dooley@microchip.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Feb 23, 2024 at 2:38=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> As 64-bit RISC-V is now supported, add it to the arch support table,
+> taking the opportunity to sort the table in alphabetical order.
 
---GH+IzJ0CKriU7ph5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Nit: this can be removed now.
 
-On Fri, Feb 23, 2024 at 11:18:51AM +0000, Marc Zyngier wrote:
-> Mark Brown <broonie@kernel.org> wrote:
-
-> >  #define HCRX_GUEST_FLAGS \
-> > -	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | \
-> > +	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | HCRX_EL2_EnFPM | \
-
-> No. We don't do that anymore. This can only be enabled if the guest
-> has it advertised via ID_AA64PFR2_EL1.FPMR.
-
-Right, as mentioned in the cover letter (and previously discussed with
-one of the other serieses) this needs a rework against your at the time
-of posting still pending changes to parse the ID registers.  It looks
-like everything is there for those now so I'll do that after the merge
-window.
-
---GH+IzJ0CKriU7ph5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXYr+AACgkQJNaLcl1U
-h9Cl7gf/de45BtxdA27brC5etmUy5Ui3vnW6bYjHBKBu56enms/PZuUqOqd5/KBL
-0ikRdLAXsO+gpmqV1/kHeMeuWfVgcj/s3vM0leABNSKFzJ1AcNSWpNONQGC5zuXJ
-6YrBF7gitd+mCXTs+x2JERjw0C7KLd6/uFLX20gqRTS+7GLjpA7KUKfKqyw55vOa
-kRroWcD2lXyDZmF0kQ7WbF/zugHWIO0z2VslrYEwMWEWTDN2rqxB+TtY+OniI1Di
-uWUX9h41zV0HgJOKFXSAjkEs57KHAGrLzUnDiF3h/dJqZm26BwfH3SYymdcEfdC5
-pQBn84s5Thf6r843Z2zamQA6jXx7ZA==
-=DQlf
------END PGP SIGNATURE-----
-
---GH+IzJ0CKriU7ph5--
+Cheers,
+Miguel
