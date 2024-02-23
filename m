@@ -1,156 +1,83 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C21814CAA3;
-	Fri, 23 Feb 2024 17:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144FB13A88E;
+	Fri, 23 Feb 2024 17:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708710198; cv=none; b=suN0HGDBmrGeHq3rrKsvFkOoCg/jA5xXak06XRYUdUJEuo6kRK6GaY9cTJ8rCPgV7jwcFyUBI8dJqNGEtEu9v8IAj/Lhyc/VUMTonIOMAcTkpx78ElftIlmIo3i1Klz1aXFJBlSgQtuGUTMv7vY2kjFeDaWlkImWpDAUzF4BUzk=
+	t=1708710892; cv=none; b=ndX5K2g9auAh9UGwwacaxuyprEonD9brJC8lv05H3hNbfWowmcINO4rX9G/3/xPWUeDOPaXHpZE2KLmqKAuT6/ulQ0wDvSfYSEUw5/iKkYHAZysa+/vOLDyGcoLo5Jx3OCCZfZyrGKMPq2S8vRXmInJ3tiygMHjFs8sAwD/e2YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708710198; c=relaxed/simple;
-	bh=5E8ws1s3l5Z0WPoeTvetPbeYIJIcr9hUCwqUfntZF8s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UMuwP6uLuzKzYBGr5IaJmxy79QQglqb2fpuNzOL5Y/BvB13DuttO3OLoqIVlrduH9l2vZeBPfW8WvjT10Vj/NHPx/bkq6BfXnqqYPU5krBmcKEo8aDQu7u9c54vjoXBqYOiwKKkKXcFXbcuCCedvbfXM96iIXBTaWvDAUON2qiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B0bAx9pv; arc=none smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=Groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708710892; c=relaxed/simple;
+	bh=QDQLjwhGjrv6J0gGJFn9+fBtaCu989tCcvRM0N4xN5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SAZQEvjYOhoJ8QS9BHtW52RSgJJWEVa3Cv+meX4LZDVgfylYDclRR1Wv/fPOhpgYdS6fRV/RYiLzx/UuuW3EPEs27N3ApnL1w2KnVFgaz/I53BvO/YZ9S/EWjxJg78nBFlgxx+cF8rjMoY+kzwafolDiPIC/BQf/cs5j39i6zwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sLDmk0vY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B0bAx9pv"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-214c940145bso280784fac.1;
-        Fri, 23 Feb 2024 09:43:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708710195; x=1709314995; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zu2qZWqnSX2CvxPOf8wPdAKOwn+qgMDO2ue/T6c8dWQ=;
-        b=B0bAx9pvCF1D6/l324gryIcIkYjxGugpsY2Pr4HVR7BLnwlbxdL6UWrNrbmpGHeEkj
-         wzA8x1J0hjuytXyRMUHvWH2be2f4n4p9WRryOJJ9Vhu/y+7vwbZywi6QNMKCjXI3q11R
-         bvam7xwHBwNodU2b5UrzJFKIY089RXcHKSa4RAIFXPZjnVSyMh9oAdys8Sdi75YA1n8z
-         /4emqswolk+926uXu6oMQkJMhz9JbNP/q+8xA0QmDLiWoeBpC0ApJsIDOhEUretjE+D2
-         c3aMOdoO9iM57YhtTtqwQq4Y5Pk2GNXzA3kl2aremxwriicNE9DtZOjNaPX554izfpHK
-         TGTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708710195; x=1709314995;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zu2qZWqnSX2CvxPOf8wPdAKOwn+qgMDO2ue/T6c8dWQ=;
-        b=EHjcW8uLWcmeuR7wkUnp/2NMD9+1glZ5+y5zbhsu5TrO/6sQmhMFlwBvNo2xKfSb+T
-         UXOligqjPxadd68qxj/P2WUdj+nMMnvbIC/5x595xP6B3jkAUG41lsQ8ygdenpO2bqNA
-         GI0qiwYjVGKuU88Btom61PdmiXn0Aznr8vCr+vBFFKEvT+b1VbiP+Gb62yxtuc8qkHgz
-         eiAKUsZOo/lDPRqjGcGRrMQUvIZCB89MJgTtx64CR2+z9deTXKi5I+yOrt+50DJX1eQH
-         I9u2GUUKoc0pLlocP3YYR9/lP0rLCR2WiPkO4e31fWED+gsWOZLqxafieOacw8nx0g67
-         KY2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWQXCOQ25RkYQBC2sFY84KY310eSx/1Sp92fvDWh84Ka5XudqjOuWXvZA+kpAd3mEvq+5zy1msKOLcVhQuW4yJTGf3al52L1zoNZSyBwdvt9GjViTUrMM3q+RKdrzgoI0/ldJrYVOD0JFY2N4hTgveaMgIWj5z++5Bbh9z023Gu/IihjGuYowiOLIqDPfMF/Y87BRley3dMERsQTBwwak67Gw==
-X-Gm-Message-State: AOJu0Yy7PbfAMC0z5QQQ3l0GUcQ2NZ0TNis+xPQO3yMDfnG1RGTlwwYV
-	lH256Tj/lcz2usCt3yaHotX62qc+4JbGbtUTlfA3jEivZ3oUsR+N
-X-Google-Smtp-Source: AGHT+IGYcgtz8Iy06lQQNWXgj+Ve6jWn51fNo3ZASvjNCtG6BLvd5/jrMrMZaBzsTgxAsVPTnEaAAA==
-X-Received: by 2002:a05:6870:93cb:b0:21e:4f99:d3c9 with SMTP id c11-20020a05687093cb00b0021e4f99d3c9mr406481oal.50.1708710195603;
-        Fri, 23 Feb 2024 09:43:15 -0800 (PST)
-Received: from localhost.localdomain (070-114-203-196.res.spectrum.com. [70.114.203.196])
-        by smtp.gmail.com with ESMTPSA id rb7-20020a056871618700b0021f6a2bd4b9sm1257803oab.3.2024.02.23.09.43.13
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 23 Feb 2024 09:43:15 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-From: John Groves <John@Groves.net>
-X-Google-Original-From: John Groves <john@groves.net>
-To: John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev
-Cc: John@Groves.net,
-	john@jagalactic.com,
-	Dave Chinner <david@fromorbit.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	dave.hansen@linux.intel.com,
-	gregory.price@memverge.com,
-	John Groves <john@groves.net>
-Subject: [RFC PATCH 20/20] famfs: Add Kconfig and Makefile plumbing
-Date: Fri, 23 Feb 2024 11:42:04 -0600
-Message-Id: <1225d42bc8756c016bb73f8a43095a384b08524a.1708709155.git.john@groves.net>
-X-Mailer: git-send-email 2.39.3 (Apple Git-145)
-In-Reply-To: <cover.1708709155.git.john@groves.net>
-References: <cover.1708709155.git.john@groves.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sLDmk0vY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C556C43399;
+	Fri, 23 Feb 2024 17:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708710891;
+	bh=QDQLjwhGjrv6J0gGJFn9+fBtaCu989tCcvRM0N4xN5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sLDmk0vYspblgOXAoC1hDGtndhtEX5ClQrqv4HwBrmPOeqoDPmCoH9QecDEkw4k+b
+	 le+AJCfHgTBFu7ME44ZsdGBgrPxx1XDntVzq7JqVKDEOoFe7olbmg8/Mlx14w0aKX4
+	 3u2OB28AFlNz0RHygrPBtUvDPALSu+g3uUh4LE/RJbkhBQEe4R9IHYfaoPygrWlBkr
+	 x0UQuR43gmgaTidqfHdUjdCr9FiQFhBf9jBVPN6Dhm7K/Wnvc11ns7eAbOUh04bbb/
+	 GIMVyqki0yi5QhPsaSZUOq/tLrKFAzL4NndRsVCcGlq6gjsrZFsKE8F/it6IfkWKaw
+	 4h/c916YgvLHg==
+Date: Fri, 23 Feb 2024 09:54:49 -0800
+From: Eric Biggers <ebiggers@kernel.org>
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>,
+	Ross Philipson <ross.philipson@oracle.com>,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+	linux-efi@vger.kernel.org, dpsmith@apertussolutions.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+	dave.hansen@linux.intel.com, mjg59@srcf.ucam.org,
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+	nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
+	davem@davemloft.net, kanth.ghatraju@oracle.com,
+	trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v8 06/15] x86: Add early SHA support for Secure Launch
+ early measurements
+Message-ID: <20240223175449.GA1112@sol.localdomain>
+References: <20240214221847.2066632-1-ross.philipson@oracle.com>
+ <20240214221847.2066632-7-ross.philipson@oracle.com>
+ <CAMj1kXEmMBY_jc0uM5UgZbuZ3-C7NPKzg5AScaunyu9XzLgzZA@mail.gmail.com>
+ <98ad92bb-ef17-4c15-88ba-252db2a2e738@citrix.com>
+ <CAMj1kXFTu+bV2kQhAyu15hrYai20NcBLb4Zu8XG2Y-XjL0f+rw@mail.gmail.com>
+ <1a8e69a7-89eb-4d36-94d6-0da662d8b72f@citrix.com>
+ <CAMj1kXEvmGy9RJo4s8tECsFj2dufZ8jBPoJOEtkcGUoj+x2qsw@mail.gmail.com>
+ <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com>
 
-Add famfs Kconfig and Makefile, and hook into fs/Kconfig and fs/Makefile
+On Fri, Feb 23, 2024 at 04:42:11PM +0000, Andrew Cooper wrote:
+> 
+> Yes, and I agree.  We're not looking to try and force this in with
+> underhand tactics.
+> 
+> But a blind "nack to any SHA-1" is similarly damaging in the opposite
+> direction.
+> 
 
-Signed-off-by: John Groves <john@groves.net>
----
- fs/Kconfig        |  2 ++
- fs/Makefile       |  1 +
- fs/famfs/Kconfig  | 10 ++++++++++
- fs/famfs/Makefile |  5 +++++
- 4 files changed, 18 insertions(+)
- create mode 100644 fs/famfs/Kconfig
- create mode 100644 fs/famfs/Makefile
+Well, reviewers have said they'd prefer that SHA-1 not be included and given
+some thoughtful reasons for that.  But also they've given suggestions on how to
+make the SHA-1 support more palatable, such as splitting it into a separate
+patch and giving it a proper justification.
 
-diff --git a/fs/Kconfig b/fs/Kconfig
-index 89fdbefd1075..8a11625a54a2 100644
---- a/fs/Kconfig
-+++ b/fs/Kconfig
-@@ -141,6 +141,8 @@ source "fs/autofs/Kconfig"
- source "fs/fuse/Kconfig"
- source "fs/overlayfs/Kconfig"
- 
-+source "fs/famfs/Kconfig"
-+
- menu "Caches"
- 
- source "fs/netfs/Kconfig"
-diff --git a/fs/Makefile b/fs/Makefile
-index c09016257f05..382c1ea4f4c3 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -130,3 +130,4 @@ obj-$(CONFIG_EFIVAR_FS)		+= efivarfs/
- obj-$(CONFIG_EROFS_FS)		+= erofs/
- obj-$(CONFIG_VBOXSF_FS)		+= vboxsf/
- obj-$(CONFIG_ZONEFS_FS)		+= zonefs/
-+obj-$(CONFIG_FAMFS)             += famfs/
-diff --git a/fs/famfs/Kconfig b/fs/famfs/Kconfig
-new file mode 100644
-index 000000000000..e450928d8912
---- /dev/null
-+++ b/fs/famfs/Kconfig
-@@ -0,0 +1,10 @@
-+
-+
-+config FAMFS
-+       tristate "famfs: shared memory file system"
-+       depends on DEV_DAX && FS_DAX
-+       help
-+         Support for the famfs file system. Famfs is a dax file system that
-+	 can support scale-out shared access to fabric-attached memory
-+	 (e.g. CXL shared memory). Famfs is not a general purpose file system;
-+	 it is an enabler for data sets in shared memory.
-diff --git a/fs/famfs/Makefile b/fs/famfs/Makefile
-new file mode 100644
-index 000000000000..8cac90c090a4
---- /dev/null
-+++ b/fs/famfs/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_FAMFS) += famfs.o
-+
-+famfs-y := famfs_inode.o famfs_file.o
--- 
-2.43.0
+All suggestions have been ignored.
 
+- Eric
