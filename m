@@ -1,94 +1,94 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E6622329;
-	Fri, 23 Feb 2024 14:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBC979CC;
+	Fri, 23 Feb 2024 14:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708699525; cv=none; b=lZUiI6A1yqBFqOaxWt7hRj9srJBV7wJiZwLglO9F03B30oaeF3tvFC/2IjPjdjAosaBmDCrnN3tsZTWtG6k+FWF5QSFPHJmZ0CYfnzK+YUzQUjQAMOomk8uNs6wJoA91OT7iz9/d+NtWXBaFP0wKE+1+rd0zET5NZGvy/HYnNA4=
+	t=1708699622; cv=none; b=RIn9qiNKqAWUeyzK3Xjnvqdk+zHwOBDoLp8WpnJCLPV5g1JCKTceFZ22Do8sfEmhWiK5NYpDk08oSnBjhDHy6SB+vWjp3PUPxZaBRvvY9E7LDgnPkGx7ocYMK/r20sat4ST547PHVaySDyge1NK7340ptkg39LCcR5AnkgX01/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708699525; c=relaxed/simple;
-	bh=FYS368qujw0WANetUJ0YWVVEYUneG/dCxdwk6stMB3o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ljzmNRBwhWR9NY8L3h3ZqJvH7hkp4Bg1ArpdOf7CNY4ojcEHaJRMgPXG2PZ8LaoqBkai/WqaPp8A3FZOXDO8Jz6vJBvEPC1fulFsGiIZlM8mi1A3zbHG4VeCtf3NV/vzoRbpmDIDQbwOuX8X6XlKhUXDwpB1ZH9E50hl3ex0xTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCPiZqGI; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708699622; c=relaxed/simple;
+	bh=q8YZ4Jqh0OdMYxUhGwlEvT90DTayzIssQudujNgApkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QqZMYz+ytAtoPURM9JeqShB9+31/Drui4isTqUIyyJQF6RNS8MJ/geJie5LhboVAv0L4EebPrhmzWHx4spfxWPlmsWY5uqLdnQMxQ9wp5qMgFvGnPsMiuKWjameRoQ7GRikLusM25EUhiUl16kHERIGDEz+WScfLhQ5lMhGqwoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JjBvEHz6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCPiZqGI"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1dc0e5b223eso7151005ad.1;
-        Fri, 23 Feb 2024 06:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708699524; x=1709304324; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FYS368qujw0WANetUJ0YWVVEYUneG/dCxdwk6stMB3o=;
-        b=aCPiZqGIS+AKK5+7Zad6rGgsXk+4VkEKBkDY/PKQGqIzFAnf5FTIfk7usvQ/6JBLZb
-         YDdy3NYTNfaWiwooUxIyBacSdkId7POMChbaLxvKCny/VoVQrqA+W+mrvofzL2K8JrD+
-         MG1zj81k/+4pNEgnp/um/l7+2VOz4yPMUbXGh3DF0ncugE6a3Jb9HB4S+90eKV0H3T1m
-         f5HogaACDAU0+CWr28Eq4uHl6HEryvbipW0PavQbRI4RBPEezp6yH+tvoXnCb4B8MS9e
-         B/zp5BRBAThQfYji3tvGQaeqEC1i5pLH816LXgHbDu8KeV5rn+87EpJDx1Q3hPX9N0J4
-         pXog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708699524; x=1709304324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FYS368qujw0WANetUJ0YWVVEYUneG/dCxdwk6stMB3o=;
-        b=SpjAmB7gVLi0Y6Ubj9z3lPmumaTaO4rE7txSRUca7mrEWzJrHA69eKuk1YPGMj93Ai
-         eb3FV4Q2xlrgKdYTgAXANL9PdGbVBya+6xit6gzzSbMz0wVl/OgTC5PktQX1X0RTDmVl
-         8mKovSyGXZ6+zEQTrkAVwNq7LeUKSC08zXRrbk2lNrB7htoxd/lPKF7nAXi0inkjeug2
-         Wtj4BYRgo1BP/4NYPHz8jP5Ub094AgcHsv2gStDFmji+736IIMmjEBdibjzyvIpFBxMI
-         WEDaiLaoIBp2QYJdrwuVpRPqm+qrKAbtHTmWUw2jGHp7T7UR0qU/MO5qo0pKDdiTx/FF
-         sTPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVYiA+a8BOgOS3zJuREVRO+Ma0pQLnhP9VhQVs688bvfBPqn+/Ec5eM0NcSAtGIHCKM/cQhv5AMScKhblfY9uKx6KpVwPNJyrCnHRcIOMhDpO0vomr5QutW2qYlNEws2n8mgXT49j1ykrbda4UdNx2VRoRTm7orqS2nHVpqdHB0EjMHLab3nLtX2hJ/bKFXSrvQiSQqVj6J5ou8HbEDt6Y=
-X-Gm-Message-State: AOJu0Yz7OZh0s9Cm0X/qDHfcrw8nKAxB7atBS2FD2S0KsMDPuDH5ft0H
-	H7pGpX+6q6WExfV2BPlR2n4apklhc5ms0q/VK2aqcV/fUbeWuSg37rNa8wQFzHgpsJCMaZ9+nss
-	dOEeAggfDT5TQVN0tmAyd9nmi+gM=
-X-Google-Smtp-Source: AGHT+IGQh4Gasx98EwmKbpWjx7oNjPOHi30hzceQIltFlR3Zv8xEu09Tzkr96XjYz57W4Vc5AnxGSufwQh5QIluHSa4=
-X-Received: by 2002:a17:902:f811:b0:1d9:7095:7e3c with SMTP id
- ix17-20020a170902f81100b001d970957e3cmr1600961plb.57.1708699522325; Fri, 23
- Feb 2024 06:45:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JjBvEHz6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBA50C433F1;
+	Fri, 23 Feb 2024 14:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708699621;
+	bh=q8YZ4Jqh0OdMYxUhGwlEvT90DTayzIssQudujNgApkM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JjBvEHz6kUl/uCdmc0Fbofl0/L2+tWprk1uNCOiaVJXEhXl8LIF0c2I/PW7XOp7mO
+	 9hxJ7iCyymDlgJ8D7fmhHNpFtAL9dF7jz8uNoEJDwtqaIuN4CPuZk0pqcd94YqCOMt
+	 EzfKx1lbkpfjTuRw4nbZNVZggJPFmtnsw67EONWnuCRjL0ibPSKpy3X/I/RObxfepK
+	 KduLr4jHvMTTec3jaFdRG1x40vDpKD4A0QN6JVDDnJHvpMPVPa2plJsZbLGwKOVcEZ
+	 WsnJon4aU1/K+q4D6TXnkdB8C9XMnKkH6Upttv9dPFKtraBaB+rE1K7AsVIdYmLcix
+	 EsceGqWSMukMQ==
+Date: Fri, 23 Feb 2024 14:46:56 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Dave Martin <dave.martin@arm.com>, kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 12/14] KVM: arm64: Support FEAT_FPMR for guests
+Message-ID: <Zdiv4E+sjo6JeiP8@finisterre.sirena.org.uk>
+References: <20240122-arm64-2023-dpisa-v4-0-776e094861df@kernel.org>
+ <20240122-arm64-2023-dpisa-v4-12-776e094861df@kernel.org>
+ <86plwn2ztw.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-perjury-preshow-fc2cf73d552e@spud>
-In-Reply-To: <20240223-perjury-preshow-fc2cf73d552e@spud>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 23 Feb 2024 15:45:10 +0100
-Message-ID: <CANiq72=mCnm0mKOw5K44PmZ+jF=67jxEEkcXP-E0O8CaUrps=w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] rust: make mutually exclusive with CFI_CLANG
-To: Conor Dooley <conor@kernel.org>, Matthew Maurer <mmaurer@google.com>
-Cc: linux-riscv@lists.infradead.org, Conor Dooley <conor.dooley@microchip.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, stable@vger.kernel.org, 
-	Sami Tolvanen <samitolvanen@google.com>, Ramon de C Valle <rcvalle@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GH+IzJ0CKriU7ph5"
+Content-Disposition: inline
+In-Reply-To: <86plwn2ztw.wl-maz@kernel.org>
+X-Cookie: You might have mail.
 
-On Fri, Feb 23, 2024 at 2:38=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> configuring a kernel without symmetrical support for kfi.
 
-Nit: typo.
+--GH+IzJ0CKriU7ph5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> This probably needs to go to stable. The correct fixes tag for that I am
-> not sure of however, but since CFI_CLANG predates RUST, I blamed the
-> commit adding rust support.
+On Fri, Feb 23, 2024 at 11:18:51AM +0000, Marc Zyngier wrote:
+> Mark Brown <broonie@kernel.org> wrote:
 
-Cc'ing Matthew et al. in case this is a problem for them, but I guess
-we can relax it later as needed.
+> >  #define HCRX_GUEST_FLAGS \
+> > -	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | \
+> > +	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | HCRX_EL2_EnFPM | \
 
-Cheers,
-Miguel
+> No. We don't do that anymore. This can only be enabled if the guest
+> has it advertised via ID_AA64PFR2_EL1.FPMR.
+
+Right, as mentioned in the cover letter (and previously discussed with
+one of the other serieses) this needs a rework against your at the time
+of posting still pending changes to parse the ID registers.  It looks
+like everything is there for those now so I'll do that after the merge
+window.
+
+--GH+IzJ0CKriU7ph5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXYr+AACgkQJNaLcl1U
+h9Cl7gf/de45BtxdA27brC5etmUy5Ui3vnW6bYjHBKBu56enms/PZuUqOqd5/KBL
+0ikRdLAXsO+gpmqV1/kHeMeuWfVgcj/s3vM0leABNSKFzJ1AcNSWpNONQGC5zuXJ
+6YrBF7gitd+mCXTs+x2JERjw0C7KLd6/uFLX20gqRTS+7GLjpA7KUKfKqyw55vOa
+kRroWcD2lXyDZmF0kQ7WbF/zugHWIO0z2VslrYEwMWEWTDN2rqxB+TtY+OniI1Di
+uWUX9h41zV0HgJOKFXSAjkEs57KHAGrLzUnDiF3h/dJqZm26BwfH3SYymdcEfdC5
+pQBn84s5Thf6r843Z2zamQA6jXx7ZA==
+=DQlf
+-----END PGP SIGNATURE-----
+
+--GH+IzJ0CKriU7ph5--
