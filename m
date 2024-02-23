@@ -1,74 +1,52 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C85314A8C;
-	Fri, 23 Feb 2024 07:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA79171A3;
+	Fri, 23 Feb 2024 08:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708674508; cv=none; b=Pltiub71pDi9vvRyuy3wXgzLT1Btek54BKB3HY8llMdSCrFHqQU4MazgH+RrdIWuZIYUo7+wRrBd2Bw1ELCSsViQdixcnQsQAQoyaZ/esvCscR1gQuckKZdnLxYEJsHhwMJ3bijG6hzA4qiUIE3xy7Um18HASkdoXs5YcnQ1NbI=
+	t=1708675694; cv=none; b=gYQJYZKALYYDrvjYOmPb6PsZ4naS5uvKkWADeIEiS/Dsav4kbCWWak/e1mi4Nij9cuUNJ+/+6BspzbhHOyaJX+GPlLBJAsx1FDFDAUBeAMXc9PRs2cjPXlT96NGC+tsbPknmar/5wzVlymKMZCuN0nPRJ8ITBvEfhoHwmxjsmIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708674508; c=relaxed/simple;
-	bh=Gc8cEPpRnT7K/uEI11qV46cLFyoGxwzQ3spfYpGmRfg=;
+	s=arc-20240116; t=1708675694; c=relaxed/simple;
+	bh=sHWn05MJttavUBMB12+GNMdadLjZiLx3RXhhBDrmsJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G1jrQENmVbk7HB2gnj7I/BTNgH6KWXZ1aTf9iW/JiOfv3GEPKq4jWeTy1/TA6hWvWaGCtcUbNyEugRoeX18Q8wdLWqVnsvl9gGrnRB/nqXiaZxbUTPE48d6aKVLUwGa2riN4M5FxQX/ArJdWO7s1MSTLhYgWBIZpaGYU84FiMss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1mnU+ug; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLVFLbFuiY4m7qiPVRJVvHHFNzBwV8sfTr3nTdbAL0LNvfpLSxyrTJ7cQxlFinIES8g2kSoHS9Y40pxvG1iWcrVys0DZP6SdJfgo7f5WcbI+Zqjd9AAlguMT0KwYXuyRJXKrutKhQ1MOr04lXn2gJdjaeA2kWOgT5Xbzqfbr2gI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jg3XufS0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1mnU+ug"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1dc1ff697f9so5060175ad.0;
-        Thu, 22 Feb 2024 23:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708674506; x=1709279306; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fdsNF2JyLvh2bfhzUEKeK8vbyn9SNnJcbP1Cgc7lhBc=;
-        b=k1mnU+ugHsGiEM9yNCohtsQ9j+ADKNLLu7HrHwdjm3SYMDP4ierxOV5wSySKkcP9OG
-         BsqKQLxPktFcwkyq4b5daB+V2xld6Aw9a5stsGYRTgst7hxtYqf7WqGO5L0YGv3lEMGG
-         DxlSdm3uBcmg+x5UdSd7LW1V0VkCnzCsJEw7xjg0YzrLfrqlCE22LNyz+5weFaraQfNa
-         pMBPT/z3Yd/+EnB5s9Nl6x1COEsFwX3SONSB3ZNFyi5/a9VlRieuq3FNcr1ECxMxT/o5
-         EbuCy+9gtcd15CybGwToNyihjjsH1Yd6M07cipCpt2xuMrQQRWYoEiXp9hAMWtS3zXi0
-         J1Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708674506; x=1709279306;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fdsNF2JyLvh2bfhzUEKeK8vbyn9SNnJcbP1Cgc7lhBc=;
-        b=jYvCGIvBK6GjJs37Fd/n+M8QUIwPHUKSexkOvsFgSvfBOldq/j4gNHph+xcxSlemCm
-         X/KirmYrQUBvBdGhXgMoxS7mTvsa5b12IIpcGtaQNI/uTVJ+za1rJMNaEOxmIBrLoH4/
-         Nm+nhZyizdqAiDQPFkun40XBIuf7B8XLq+r391R1BOWBHGyWfMTidAIqAV7VIHYps/ps
-         px4xLDsRUc2STMeN1g1eV+dg9xGt3FN1/s3kn5v7Etx/JG0MZ3on4fM/oVMwlIt/IByu
-         s0DHlMykn7DLGEO929AjqZyhaAyZCeYECO7hl/LGIN6XXKSxIk2o4MLJJUpf8Dl1q37U
-         kanw==
-X-Forwarded-Encrypted: i=1; AJvYcCUC9qb8qoWIBC62ZMmrLfMucTaeN5HQCEDw8pFfIcLU85EF2nE1g06WoM8eY9ztRq6ojenHT+uYBZWBHFR5q9cXBXaK//Fucz82JXlyV9bzXWV1oQOI7Yhlr8FMctFYhcJLEutogeIO
-X-Gm-Message-State: AOJu0YwtwKM7BbDVWKNowjQdam+I2qfxvaUpVOkc6gDZ5GsTfPipwXi/
-	5ix2sUCQbAMMO5KuwZ/R+JSCD+GhHcxjZIIW3mqZONixPygYP0bG
-X-Google-Smtp-Source: AGHT+IGNuq6TWqgfifsaQWW/BGbBr/8AFZyE9NWnbpCMzz2P1+lRaSIrRLLfXwHhSTllopBdNJ2BRg==
-X-Received: by 2002:a17:902:d50e:b0:1db:9759:f716 with SMTP id b14-20020a170902d50e00b001db9759f716mr1016890plg.55.1708674506490;
-        Thu, 22 Feb 2024 23:48:26 -0800 (PST)
-Received: from Laptop-X1 ([43.228.180.230])
-        by smtp.gmail.com with ESMTPSA id l12-20020a170902d34c00b001d8f81ecebesm10967130plk.192.2024.02.22.23.48.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 23:48:26 -0800 (PST)
-Date: Fri, 23 Feb 2024 15:48:21 +0800
-From: Hangbin Liu <liuhangbin@gmail.com>
-To: Jones Syue =?utf-8?B?6Jab5oe35a6X?= <jonessyue@qnap.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"j.vosburgh@gmail.com" <j.vosburgh@gmail.com>,
-	"andy@greyhouse.net" <andy@greyhouse.net>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v2] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
- with __agg_has_partner
-Message-ID: <ZdhNxWivTVixYRFK@Laptop-X1>
-References: <SI2PR04MB5097AA23EE6799B3E56C0762DC552@SI2PR04MB5097.apcprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jg3XufS0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05A8C433C7;
+	Fri, 23 Feb 2024 08:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708675694;
+	bh=sHWn05MJttavUBMB12+GNMdadLjZiLx3RXhhBDrmsJ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jg3XufS0q2T0sNHkSOrBEvEFenHkbXULgGhZWIT/XqOkumh1aj0AiFgeSUL7Z6Hyf
+	 5Bty9R6AcZFx0YaW121AcFq+dSWQMWU8RrZy3vqXKB/NyVtOeIaOBmRcs1zzLDjiKY
+	 uJIS2kyqqlK5TlhAMzk/j/70dR0J5sICT2U4aWIroXzev3OEltfWpNjQ3uN/PhJZY/
+	 Ss3LBviK+JcQf4ucWSVTPNaVDQevgquBsc8UzNJSLe/UTPBiqC6QxkmZE18KgHBwKQ
+	 tZz6Yz0TLQD1ogAfVNnqygGlx7NnzU9hEiD0oyA7ZFDlfo6bUNETAb7lVpxzM7ka0h
+	 6/mVZwFzxICOg==
+Date: Fri, 23 Feb 2024 09:08:05 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, 
+	Eric Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 06/25] capability: provide helpers for converting
+ between xattrs and vfs_caps
+Message-ID: <20240223-beilhieb-nagetiere-83d9488f05f8@brauner>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-6-3039364623bd@kernel.org>
+ <20240222-wieweit-eiskunstlauf-0dbab2007754@brauner>
+ <ZddqXN51+8UaKVTC@do-x1extreme>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,41 +55,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SI2PR04MB5097AA23EE6799B3E56C0762DC552@SI2PR04MB5097.apcprd04.prod.outlook.com>
+In-Reply-To: <ZddqXN51+8UaKVTC@do-x1extreme>
 
-Hi Jones,
-On Fri, Feb 23, 2024 at 04:12:00AM +0000, Jones Syue 薛懷宗 wrote:
-> They are verifying the same thing: if aggregator has a partner or not.
-> Replaces macro with inline function would look more clear to understand.
+On Thu, Feb 22, 2024 at 09:38:04AM -0600, Seth Forshee (DigitalOcean) wrote:
+> On Thu, Feb 22, 2024 at 04:20:08PM +0100, Christian Brauner wrote:
+> > > +	if ((magic_etc & VFS_CAP_REVISION_MASK) != VFS_CAP_REVISION_1) {
+> > > +		vfs_caps->permitted.val += (u64)le32_to_cpu(caps->data[1].permitted) << 32;
+> > > +		vfs_caps->inheritable.val += (u64)le32_to_cpu(caps->data[1].inheritable) << 32;
+> > 
+> > That + makes this even more difficult to read. This should be rewritten.
+> 
+> Do you meant that you would prefer |= to +=, or do you have something
 
-MAC_ADDRESS_EQUAL and __agg_has_partner are not the same thing.
-
-MAC_ADDRESS_EQUAL() is only same with __agg_has_partner() when verifying
-agg partner mac addr with null_mac_addr. The description could be more
-accurate.
-
-Since you want to replace the null_mac_addr checking for MAC_ADDRESS_EQUAL().
-Maybe we can also replace the null_mac_addr checking in
-ad_port_selection_logic(). This should be safe as the
-aggregator->partner_system and port->partner_oper.system has been compared.
-e.g.
-
-diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
-index f2942e8c6c91..bd46dcb4013c 100644
---- a/drivers/net/bonding/bond_3ad.c
-+++ b/drivers/net/bonding/bond_3ad.c
-@@ -1588,7 +1588,7 @@ static void ad_port_selection_logic(struct port *port, bool *update_slave_arr)
-                     (aggregator->partner_system_priority == port->partner_oper.system_priority) &&
-                     (aggregator->partner_oper_aggregator_key == port->partner_oper.key)
-                    ) &&
--                   ((!MAC_ADDRESS_EQUAL(&(port->partner_oper.system), &(null_mac_addr)) && /* partner answers */
-+                   ((__agg_has_partner(aggregator) && /* partner answers */
-                      !aggregator->is_individual)  /* but is not individual OR */
-                    )
-                   ) {
-
-With this the null_mac_addr definition could be removed.
-
-Thanks
-Hangbin
+Yes.
