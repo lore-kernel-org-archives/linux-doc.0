@@ -1,208 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1D5633E9;
-	Fri, 23 Feb 2024 11:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A899767C7D;
+	Fri, 23 Feb 2024 11:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708687600; cv=none; b=mS7SrSXVdabbXm0jQ8eQX30I8JH1j2jJ8lM2meoat/k4/mjpabtnWkEXzvzoLhn2iMcF6lnbG6aFhOdFKodty06IHfETL807EE7CjG0fRp6TOa1iOxOAZ0wOD0odEfpzOT6wo4MkYBM+vFdkQFTfzUMiWue76Z9XYcelagt3CRo=
+	t=1708688012; cv=none; b=lzrJ8swXyqhKy6wPOiv9gaApXUZ5m3TZ5xIu1ixj1Odwdt0A0a7Lwzdv92K9+3Pi5GlcAdx0Eo920lLNZPSDKc4U8K37koQQz8PX1sNUDmejVILAywVHSh/Y98Yzjf8CBoWBkNXcE/LC+vEQu/goK48IP7tpP0Ngtk/BpyHZQCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708687600; c=relaxed/simple;
-	bh=pPKLLS6SVTpg1tKiUiKHfl/jdui9YbrMYB1Xo5+H3qw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m00oa1Gt6Gnr4PrUppxOHYiTvlCZ6I3rcexxE+unf5nZCVuSlZ6j8SlYG3u2gOaWAYNb5BkzB4hzln+Q9UiZX8Y5B/vuAr2P+pHinTl1h38QWMn/hIHNpP638Sy2yRTx6lAz09aiDBoiGA8gI521r94/XCffWORGVZTIjpQR68Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1VBBDuw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708688012; c=relaxed/simple;
+	bh=DeskMZXMo1BHkhunM8FKpUi8Q19ZTNc3ArIJp1xOFd8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cWfTb7hRydyzNxAq6RR1G/Zv6bZFDwE5He8VDf3ktcXhzOexa/P1l+qic9hZiXnfkVOXWhBvYjUyddiY7zWbC/32dxGMVYiZwl0DRQhoGd7AQ0SFMev92rP7ZDoBaHoptWkLFt1n08WAca7b7NevsEHUe2PpiiHu6V9xC1+Kops=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aufE4WBh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1VBBDuw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC829C43390;
-	Fri, 23 Feb 2024 11:26:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aufE4WBh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9678C433C7;
+	Fri, 23 Feb 2024 11:33:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708687599;
-	bh=pPKLLS6SVTpg1tKiUiKHfl/jdui9YbrMYB1Xo5+H3qw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p1VBBDuws5kOxlmM1rNRc6tfcBgeJ2kZK52q+QUTB5RLSJfE2lKpDbEhCMyDz540s
-	 y7GndBI06OoCvSFiXEBS9MvP8dvCgbvSSdd1cm2VIWRnmGIcB8CE4tC0mRBuOtBWot
-	 0Uvo0VyLpfGF2I5xkN0J5vpjPmx/5zkNqXkX6HMDVZHMkhD9S+rs3dZib/JrtyS1K2
-	 svl5QMxTb+rCBVM2+QrSXXLE2xF6Jad4uIU5mzlKZoBgzsNuWjcbnDalrEf2BdxYf9
-	 3fmPGEoT9ZmVbm1iGWRJwCpHDN7tJ7zK76OGAzGjR1xQFMKaqD7nRNLh6+yQZkyEM5
-	 CnPZ0fRkDk6/w==
-Date: Fri, 23 Feb 2024 11:26:33 +0000
-From: Will Deacon <will@kernel.org>
-To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 1/4] perf: starfive: Add StarLink PMU support
-Message-ID: <20240223112633.GA10403@willie-the-truck>
-References: <20240129095141.3262366-1-jisheng.teoh@starfivetech.com>
- <20240129095141.3262366-2-jisheng.teoh@starfivetech.com>
+	s=k20201202; t=1708688011;
+	bh=DeskMZXMo1BHkhunM8FKpUi8Q19ZTNc3ArIJp1xOFd8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aufE4WBhKJvZ/R/CqHJp8Yck6eEk24phlJikoE5txPu0aTVmViLyy+usvfOs2zhxh
+	 B8ywTiS2xEjOjrAZf7CNyv3zoNcZ6DEK9tt1G1LyfLk0aUfepGn6ixGawQlWmOqiv6
+	 ILaCZzG2bnSUON/j5XVr57XLOsQGgJNQ3Rrz55YqynaG0Za/GgTynbG1/m+H0OlcP1
+	 dYQ22KKpmAux4Tvf+L+kbn8kvPlUfszEUcK+9IU+aftiitwa4K3PykCBUWtb8STZas
+	 d27N7aLIudxbVurXRvjh8GT7BsyCOFc60MoQuitWZPYzplWsEcgFrLxqzf35X5kvxP
+	 vldNXgxjkZHcA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1rdTo1-0064Ef-VC;
+	Fri, 23 Feb 2024 11:33:30 +0000
+Date: Fri, 23 Feb 2024 11:33:29 +0000
+Message-ID: <86o7c72z5i.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Dave Martin <dave.martin@arm.com>,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 11/14] KVM: arm64: Add newly allocated ID registers to register descriptions
+In-Reply-To: <20240122-arm64-2023-dpisa-v4-11-776e094861df@kernel.org>
+References: <20240122-arm64-2023-dpisa-v4-0-776e094861df@kernel.org>
+	<20240122-arm64-2023-dpisa-v4-11-776e094861df@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240129095141.3262366-2-jisheng.teoh@starfivetech.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dave.martin@arm.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi,
+On Mon, 22 Jan 2024 16:28:14 +0000,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> The 2023 architecture extensions have allocated some new ID registers, add
+> them to the KVM system register descriptions so that they are visible to
+> guests.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kvm/sys_regs.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 30253bd19917..38503b1cd2eb 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -2292,12 +2292,12 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  		   ID_AA64PFR0_EL1_AdvSIMD |
+>  		   ID_AA64PFR0_EL1_FP), },
+>  	ID_SANITISED(ID_AA64PFR1_EL1),
+> -	ID_UNALLOCATED(4,2),
+> +	ID_SANITISED(ID_AA64PFR2_EL1),
 
-On Mon, Jan 29, 2024 at 05:51:38PM +0800, Ji Sheng Teoh wrote:
-> This patch adds support for StarFive's StarLink PMU (Performance
-> Monitor Unit). StarLink PMU integrates one or more CPU cores with
-> a shared L3 memory system. The PMU supports overflow interrupt,
-> up to 16 programmable 64bit event counters, and an independent
-> 64bit cycle counter. StarLink PMU is accessed via MMIO.
+So you now expose all sort of MTE things to the guest?
 
-Since Palmer acked this (thanks!), I queued it locally but then ran into
-a few small issues with my build testing. Comments below.
-
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 273d67ecf6d2..41278742ef88 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -86,6 +86,15 @@ config RISCV_PMU_SBI
->  	  full perf feature support i.e. counter overflow, privilege mode
->  	  filtering, counter configuration.
+>  	ID_UNALLOCATED(4,3),
+>  	ID_WRITABLE(ID_AA64ZFR0_EL1, ~ID_AA64ZFR0_EL1_RES0),
+>  	ID_HIDDEN(ID_AA64SMFR0_EL1),
+>  	ID_UNALLOCATED(4,6),
+> -	ID_UNALLOCATED(4,7),
+> +	ID_SANITISED(ID_AA64FPFR0_EL1),
 >  
-> +config STARFIVE_STARLINK_PMU
-> +	depends on ARCH_STARFIVE
+>  	/* CRm=5 */
+>  	{ SYS_DESC(SYS_ID_AA64DFR0_EL1),
+> @@ -2324,7 +2324,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	ID_WRITABLE(ID_AA64ISAR2_EL1, ~(ID_AA64ISAR2_EL1_RES0 |
+>  					ID_AA64ISAR2_EL1_APA3 |
+>  					ID_AA64ISAR2_EL1_GPA3)),
+> -	ID_UNALLOCATED(6,3),
+> +	ID_WRITABLE(ID_AA64ISAR3_EL1, ~ID_AA64ISAR3_EL1_RES0),
 
-Please can you add "|| COMPILE_TEST" to this dependency so that you get
-build coverage from other architectures?
+How about the non dpISA stuff that is advertised in the same register,
+and for which no support exists?
 
-> +	bool "StarFive StarLink PMU"
-> +	help
-> +	   Provide support for StarLink Performance Monitor Unit.
-> +	   StarLink Performance Monitor Unit integrates one or more cores with
-> +	   an L3 memory system. The L3 cache events are added into perf event
-> +	   subsystem, allowing monitoring of various L3 cache perf events.
-> +
->  config ARM_PMU_ACPI
->  	depends on ARM_PMU && ACPI
->  	def_bool y
+>  	ID_UNALLOCATED(6,4),
+>  	ID_UNALLOCATED(6,5),
+>  	ID_UNALLOCATED(6,6),
+> 
 
-[...]
+	M.
 
-> diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
-> new file mode 100644
-> index 000000000000..2447ca09a471
-> --- /dev/null
-> +++ b/drivers/perf/starfive_starlink_pmu.c
-> @@ -0,0 +1,643 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * StarFive's StarLink PMU driver
-> + *
-> + * Copyright (C) 2023 StarFive Technology Co., Ltd.
-> + *
-> + * Author: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
-> + *
-> + */
-
-[...]
-
-> +static void starlink_pmu_counter_start(struct perf_event *event,
-> +				       struct starlink_pmu *starlink_pmu)
-> +{
-> +	struct hw_perf_event *hwc = &event->hw;
-> +	int idx = event->hw.idx;
-> +	u64 val;
-> +
-> +	/*
-> +	 * Enable counter overflow interrupt[63:0],
-> +	 * which is mapped as follow:
-> +	 *
-> +	 * event counter 0	- Bit [0]
-> +	 * event counter 1	- Bit [1]
-> +	 * ...
-> +	 * cycle counter	- Bit [63]
-> +	 */
-> +	val = readq(starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
-> +
-> +	if (hwc->config == STARLINK_CYCLES) {
-> +		/*
-> +		 * Cycle count has its dedicated register, and it starts
-> +		 * counting as soon as STARLINK_PMU_GLOBAL_ENABLE is set.
-> +		 */
-> +		val |= STARLINK_PMU_CYCLE_OVERFLOW_MASK;
-> +	} else {
-> +		writeq(event->hw.config, starlink_pmu->pmu_base +
-> +		       STARLINK_PMU_EVENT_SELECT + idx * sizeof(u64));
-> +
-> +		val |= (1 << idx);
-> +	}
-
-I think this needs to be a u64 on the right hand side, or just use the
-BIT_ULL() macro.
-
-> +
-> +	writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
-> +
-> +	writeq(STARLINK_PMU_GLOBAL_ENABLE, starlink_pmu->pmu_base +
-> +	       STARLINK_PMU_CONTROL);
-> +}
-
-[...]
-
-> +static irqreturn_t starlink_pmu_handle_irq(int irq_num, void *data)
-> +{
-> +	struct starlink_pmu *starlink_pmu = data;
-> +	struct starlink_hw_events *hw_events =
-> +			this_cpu_ptr(starlink_pmu->hw_events);
-> +	bool handled = false;
-> +	int idx;
-> +	u64 overflow_status;
-> +
-> +	for (idx = 0; idx < STARLINK_PMU_MAX_COUNTERS; idx++) {
-> +		struct perf_event *event = hw_events->events[idx];
-> +
-> +		if (!event)
-> +			continue;
-> +
-> +		overflow_status = readq(starlink_pmu->pmu_base +
-> +					STARLINK_PMU_COUNTER_OVERFLOW_STATUS);
-> +		if (!(overflow_status & BIT(idx)))
-> +			continue;
-> +
-> +		writeq(1 << idx, starlink_pmu->pmu_base +
-> +		       STARLINK_PMU_COUNTER_OVERFLOW_STATUS);
-
-Same shifting problem here.
-
-> +static int starlink_pmu_probe(struct platform_device *pdev)
-> +{
-> +	struct starlink_pmu *starlink_pmu;
-> +	struct starlink_hw_events *hw_events;
-> +	struct resource *res;
-> +	int cpuid, i, ret;
-> +
-> +	starlink_pmu = devm_kzalloc(&pdev->dev, sizeof(*starlink_pmu), GFP_KERNEL);
-> +	if (!starlink_pmu)
-> +		return -ENOMEM;
-> +
-> +	starlink_pmu->pmu_base =
-> +			devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-> +	if (IS_ERR(starlink_pmu->pmu_base))
-> +		return PTR_ERR(starlink_pmu->pmu_base);
-> +
-> +	starlink_pmu->hw_events = alloc_percpu_gfp(struct starlink_hw_events,
-> +						   GFP_KERNEL);
-> +	if (!starlink_pmu->hw_events) {
-> +		dev_err(&pdev->dev, "Failed to allocate per-cpu PMU data\n");
-> +		kfree(starlink_pmu);
-
-You shouldn't call kfree() on a device-managed object (i.e. allocated with
-devm_kzalloc()).
-
-Will
+-- 
+Without deviation from the norm, progress is not possible.
