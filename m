@@ -1,164 +1,197 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1AF2208E
-	for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 23:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708731998; cv=none; b=NlX/jKTYxnuh3DAPuw6FAl2fk7OeVrjiQslgMUTTaMs8vULR6j6eBxSsGnFT9yCCTRY9GG43u2b4Qn2z1fUOf5wLR/zN4gLsVlgNr+FKXdRA07shSLiRmV0el861TwUNG6gOQVyiKnuT49nct/YmthUfD+AtpJP7zWNe3pLljHA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708731998; c=relaxed/simple;
-	bh=mgHqWgnzX8YgCtUVgGyFblbfkBZfwH2hQtNerw34L/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Wveay5sgCAjllINgdQnR4y5PgmJO1xy1Pd5DdZADjCBZiTmxcu5tMhM8cx9yKqlz8fDxVhnMySFCWARbt2Vo53S7K9MwPzko6jcM1ivs44qalu0wSaCCq7v6Dlss3kGfU8QH23HnKguub8BEbabAvP118V03o3qW+nBI7CYnr08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WPYq7mXA; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B01314DFD2;
+	Fri, 23 Feb 2024 23:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708732244; cv=fail; b=suDRCvRdUTaEt/kXX8Xj0x+WHh6AURAZhxQ89uyUM+/Mw+H7mdaeGRcvUGw/jOg+0ZI+uEv26LsQpq8IrHdSXPdAZWHjnFVIQRiwJ/yYvj8Te8ZEmLBBlITC8dMFSydjb/K3n9Mt+WfhHEta6nedFmaq7MuhkrJIYzSlMoZSb/s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708732244; c=relaxed/simple;
+	bh=R+nrnn6jbEKc+IHBSRFr6RKxaC/VSZqzBGFXdN8eJTY=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AoKZv9SubqAuvHreiuQdOoYEBf8J10d1CMnBSfb4iO/MS4j267k5FwdEET3xt1UsGt6MeFKG2meyZKwglXgcxz5nI0ZCklINJPAzFnmVAYMLTDpVhrERf7s9ywHAN84iGxQhNwNYdoaOukJO9+olsJo1y5uXPTZW4q+MnlnYK28=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCKeUhD/; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WPYq7mXA"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3ee69976c9so145816566b.0
-        for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 15:46:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708731995; x=1709336795; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=NIAGIlOyfdPQGzUhuhBTCj1fg0Ra/brIZfOUyFxv3go=;
-        b=WPYq7mXA4GS5XMA1VDMZ5ZAmWyn84fNBhQFINGtYcK4i6ywGXwFC1qzi0mpc+vO8wT
-         kNfaqDU04031cp+L85JZNK3iajGT92DI5MS+vOicJm/FpdXbpxcd0z3KNiIeKRLFUyQt
-         tqLFcrAr5Vnnm7yCjDPQ8L+vaOlPa8r8o840iqMi7BA6VZUNbTct1oHrNNheMDG2jXri
-         M4/ySjPMFCcfnd9BChafx5RtXhUmedzJkNozQJmDgl0eolgniE4oFaavi+jr/OqD5IJm
-         OcXwdBUCLITcdT9t5MMRpdarSMXIqhcwEkZx1/lPGn9Q1CK9qxDo2RS7gJe19HPFqLcH
-         ACpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708731995; x=1709336795;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NIAGIlOyfdPQGzUhuhBTCj1fg0Ra/brIZfOUyFxv3go=;
-        b=K3Z7kIphnn23Jf+E5rX24AQcMYFXN7mS1UbPMpeDUwM4ucuhgKDPyYIo8w7Hh5adUk
-         Itu9ZC2KkOSQdm2mC6jpAaAjfGM+DfoWPvatmQagnWZayIXXFAVOO6rClvwoyKrbcMX/
-         u7MuKH49HNtnn4kVG6IJg3KpR+SsbL7VGen8cTHiDxEgUP4UVZU5eG5BabX7Vcf62pHH
-         PW948DfkRGqpmYc3PL/srDeETeY3GF8GYM1y9n+BN5rFHBGW6z0JBZEF58RXA5zuGSt4
-         dg02llm69LRiT8B3uYSOIdZV6neH+n81kIt0H0b9TcJ9/cQ0f36fPKiD7f2c/R9Dgtrz
-         Gy0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWAQGHQnqJWQnANQ5OUMxsCnwf8Mnwvd7WruSYmcfwCMtlRPX1uzUdOPKesf8q09SVo//5VIWHnSrufZ4s4kqeWCaSLDbkJokuW
-X-Gm-Message-State: AOJu0Yw/FRlVghC1aU+yGG6n+N+m00skwJOuU8EMcjq9+dnItpRimt6k
-	fsTI5QDFwjJVmlqlMXFj15AMydy9SEMRsYnCpU7IBlkhPlsq8ItZ7CFVAwmKz18=
-X-Google-Smtp-Source: AGHT+IE0+tL8hH0wqn2x+/epyE+ZkG3YGes2J0uLaDyxWp2Ro/Yw07l0+8CizphqXDIS10sDl1t62Q==
-X-Received: by 2002:a17:906:d923:b0:a41:30be:4a82 with SMTP id rn3-20020a170906d92300b00a4130be4a82mr677228ejb.61.1708731994017;
-        Fri, 23 Feb 2024 15:46:34 -0800 (PST)
-Received: from [192.168.179.2] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
-        by smtp.gmail.com with ESMTPSA id u22-20020a1709060b1600b00a3fbe13e2absm52810ejg.211.2024.02.23.15.46.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Feb 2024 15:46:33 -0800 (PST)
-Message-ID: <b50aae99-151b-47ed-b610-99f4748790bf@linaro.org>
-Date: Sat, 24 Feb 2024 00:46:31 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCKeUhD/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708732243; x=1740268243;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=R+nrnn6jbEKc+IHBSRFr6RKxaC/VSZqzBGFXdN8eJTY=;
+  b=oCKeUhD/v4/48Epdlbi1ew+s2IvhJYGDXdKjqYlhkTlqIQH5MSKuB2YP
+   MbcnKDWxH52IxhTT1G/cuq02bP7FtJcgYGV8HwNkv2U3W+YS6y85fmQgS
+   as8dQPuA2cMSazEJWTXOuxB1tueQtnzXRnOc0RBc8lgZ7Sx7quKYH5b5z
+   nvDi8Ei0GzJ+nAqyJR6LelGu4i5v7T/mePIqwp4mthEbrtYMoZpVcylJw
+   sesHPunq0cUXe9XBpySNMyJkLbxIr+/pb8b+K1D83vhrQRv3Do6rYVjTZ
+   zJJoVm49uRM91L7sVQ1T7Nc55R3Wff0q7tmFnIrt73QW/PLUgBDDYykCJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="3588233"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="3588233"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 15:50:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="6064308"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Feb 2024 15:50:42 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 23 Feb 2024 15:50:40 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 15:50:40 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 23 Feb 2024 15:50:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e/Qt+LbIwm608EDscj/wjQ9yNiV0crsjogoPVfCihM51gfuGqNYBT3GmOdMDZRWcICRA6UEA+Z6XDD34pYMSy8Xy8hyUsl8pbT5otH7Rum9kwvf3KXD/fFjxrKPjk56R1ygQ1h1t7TcZrmp+fexFbUxUglh2zl6RBnwTBb4rhm+4qtF0A1kI5Zo4cpz2CcCdnACa38vw86t08/dRS6nCIQqw4on2VfnN3/sNMLvXLTmZVrfK5/F/wumqwY8xPsc5oSbH7Jni62CBCgzilfnhY5C6XoqVDyCHBAY5iOP8d4DDDNY2G+OUb9IqwrO5H3U9ZL6HgxekVqrbp8ZKqm9XVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8uwr0SlvOuGnd77fo8wuAzM6ljI4toNet8jj1GON4xs=;
+ b=KVWNANXrQoYvbShI0aLpIhTrNdRkrHWIjaIVWFJNikhAHKH50f2IKnkQVrtLGyMN+xwJ0VJIC+Ht69ffOJCqfIvohKvnIXDAE1Y2FULG0ibNLCFTx4yu552V8GRYs3TYKoJK7uoymsVy6Oc2qELwrfr1D0Eo3qPZujxDOrzOtrRcRqPQ0sdmWbMYAY+/Srh3yaFQNR7silChtgVIpCF6YSJnJoWFCMN1QwcaGXLPDbApik0LGVbp7r4LBfONv3fY8LZUzcyGn6o4oxNYhRKyMdsXqi+F4pj2Z53Yy7AotJe1fDeBCAP/exT/7KWrNCEMs+X9OwISKJvv9Cd3U1ZFRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by PH0PR11MB4950.namprd11.prod.outlook.com (2603:10b6:510:33::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Fri, 23 Feb
+ 2024 23:50:37 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::da43:97f6:814c:4dc]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::da43:97f6:814c:4dc%7]) with mapi id 15.20.7316.018; Fri, 23 Feb 2024
+ 23:50:37 +0000
+Date: Fri, 23 Feb 2024 15:50:33 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Dave Hansen <dave.hansen@intel.com>, John Groves <John@groves.net>, "Dan
+ Williams" <dan.j.williams@intel.com>
+CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	"Vishal Verma" <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+	<brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox
+	<willy@infradead.org>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<john@jagalactic.com>, Dave Chinner <david@fromorbit.com>, Christoph Hellwig
+	<hch@infradead.org>, <dave.hansen@linux.intel.com>,
+	<gregory.price@memverge.com>
+Subject: Re: [RFC PATCH 16/20] famfs: Add fault counters
+Message-ID: <65d92f49ee454_1711029468@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+References: <cover.1708709155.git.john@groves.net>
+ <43245b463f00506016b8c39c0252faf62bd73e35.1708709155.git.john@groves.net>
+ <05a12c0b-e3e3-4549-b02e-442e4b48a86d@intel.com>
+ <l66vdkefx4ut73jis52wvn4j6hzj5omvrtpsoda6gbl27d4uwg@yolm6jx4yitn>
+ <65d8fa6736a18_2509b29410@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+ <ytyzwnrpxrc4pakw763qytiz2uft66qynwbjqhuuxrs376xiik@iazam6xcqbhv>
+ <b26fc2d6-207c-4d93-b9a3-1fa81fd89f6c@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <b26fc2d6-207c-4d93-b9a3-1fa81fd89f6c@intel.com>
+X-ClientProxiedBy: MW4PR03CA0290.namprd03.prod.outlook.com
+ (2603:10b6:303:b5::25) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 05/35] virt: gunyah: Add hypervisor driver
-To: Alex Elder <elder@linaro.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Murali Nalajal <quic_mnalajal@quicinc.com>,
- Trilok Soni <quic_tsoni@quicinc.com>,
- Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
- Carl van Schaik <quic_cvanscha@quicinc.com>,
- Philip Derrin <quic_pderrin@quicinc.com>,
- Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
- Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba
- <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-5-1e9da6763d38@quicinc.com>
- <a3356079-bd55-4852-9bb3-b5362a1c953e@linaro.org>
- <20240223144844667-0800.eberman@hu-eberman-lv.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
- 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
- izWDgYvmBE8=
-In-Reply-To: <20240223144844667-0800.eberman@hu-eberman-lv.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|PH0PR11MB4950:EE_
+X-MS-Office365-Filtering-Correlation-Id: 359be0a6-8901-47ed-f844-08dc34ca3b9e
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 31cEkHEE7g61iokt0b5aHYYALfm8p2tpyP0bXeZYP0WwFdj9jJ+PHtPjOVEMkIcncJtAkftg14mTEkhCVH1R5CnGnABS7btMtclURwUpqfDpOykKkBaXVjL3eNhd4ECpGvXEQYtjbvgrE8ZN8DZhhDrjnkQh7h5FcZKUUX0qiSDl626rzn6NeW9UqmhZ2+wzKwoKMByXLvHhz3FgbKqMwVbdY5cY5wfKukR12AYY5X/lOrYRoVpGs0JqIAlDoB7mICFFlIqojGcCakxKuA9wuAz84flT5ujeRRrVOpNLPuNSvhBTWNdaua/iA4P0wAo1I4tHcMrunIujk9gXaXQSnT9oOUpsVfXnzwhsmv01lqzKWQvcWt17UxswriKSgFJu9r11cPw2A4I/aetJMguV9GZjac8vZz/EjRWCrMBenh+lSwWYWE/d8sFnDZ1pCQstqr2wF71aWC/p6XciSwJU6LGLSefhN7a2Vgas0rIZX7s3dmkT86kg0IfU2m0bCAPTuj7natNOc9OXwRMQbAC36w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9fvIdi1KTJfDN4fauKntNWGrGO3kXIMQf5KVMyf9L5QU1jQ0j4ZbNTKZsYzw?=
+ =?us-ascii?Q?yufNmMK6enq88pXOsMtA9gSvPaklWzd8mpKw+0fPAVR2iaIopkYuLD7e2OJA?=
+ =?us-ascii?Q?6xocNcLSlWu1Uo+nwaVflrFyK7w3D5/duZhypwI/PkbZxhuTEk72eGPfibMh?=
+ =?us-ascii?Q?bAoBKNQj6ETwRgyz/8us3Lk09bAgmlLe+tn/WJBGu+f5+pb+2e540R9cfGB8?=
+ =?us-ascii?Q?JNdDWlGDujUDlabwVztao6FFibpKQQImkXhKOoV87+AoxkLbXohmF+TsnVQ/?=
+ =?us-ascii?Q?DYwfUp9XqXmbvp84AGbCx+F1aU6qSgyCoIj97nbYldmqYD0talECs0zsTQuL?=
+ =?us-ascii?Q?z3hR0cgZNL8W8V4rYOtx8KsNmDHa8Gbu+0rBIQMEXjfGWvXNC2MbgUUJRWOf?=
+ =?us-ascii?Q?7ou4DhHiovu5nsNmQnpcB3D6y5a4qCmAWdpk8YvxvhuwsdzbbNcUsRtW9cB2?=
+ =?us-ascii?Q?vlRyxSTpyjxfgikj8jIzhyZnhPZDROcxsTzie234Cxb47kzFg3AP6ku6w43N?=
+ =?us-ascii?Q?Ii3vDBsZhSaWV73P5DV8/Mhl2ZSlSuLSkPpkdQfBJOiK+cmNae51kczum7w6?=
+ =?us-ascii?Q?5r5LsKUto7622I/BfdCniMzLSghAv2nKwtflHRiuoD4Dq0EsfB6nJtO3tsad?=
+ =?us-ascii?Q?bFTUa5+Qznp7HNNtNMUnlbQBhAH4emsZCi77Ubs9OzF/tUF7kRVATdCcvpNb?=
+ =?us-ascii?Q?2SNRNV/NsKfIRmpuZW97EZT1aACEUQ98tz9EL0fuEypYu8nGBkyhlfQwxXJ2?=
+ =?us-ascii?Q?yr4NgIgCaT/qIOawmrzfZyzwfiWR7tTHqhGAz4sKTNZMtbokVE/0tW7/YvhR?=
+ =?us-ascii?Q?8UWlm0axHO/xEaSBXgPMQvwpBF9jUbo9G/AGPCTtIHFoUobCXIVgC7UtJUjc?=
+ =?us-ascii?Q?AhTbxybDCUuxuEoFUhQKV7ZMO0reWy8pWkw33fR6rnHTGsQc9aLdxFUBY3f8?=
+ =?us-ascii?Q?Q9reTqzp2Xw8vrCnauQHoowVXlJtc0z+FugcrM+z3q9fbae1kgbvRyALyng0?=
+ =?us-ascii?Q?2+AFNa7hjAstUifvZMexAtMUxCTZi/B0c4NBWmYGweTCW0K3u3TNyhXMI4HE?=
+ =?us-ascii?Q?WiKJ1wZxeTDFtWKl+eLphWD7onil5s01J2ziWE0fHG700ikQE753uTRPeY1S?=
+ =?us-ascii?Q?oxUWxs6FhzKFkFiF9fWFBCdar+R+/MZm+/2dB/lkZuWFZ/rsYJWmLJExaWMG?=
+ =?us-ascii?Q?5tQ7zjfz/b3Jzn4BuGwuUEkeNq+2YQ7AAhdNSZRJ8AaVjtJxPeZV6OBjaVla?=
+ =?us-ascii?Q?WAFGNlfjkpE1q5/2/6ExAE7fquDtiCJY2vQTVOWi+6J/NPbsEzDS7Z1UMYi9?=
+ =?us-ascii?Q?7Em8+c4MEcF5i9pyGPUZhRfKp0a27zqPZWwxJ87shnmLjBgYOUcrgQJENx3m?=
+ =?us-ascii?Q?3dbqtnOsZHgArWj+oEXN0Nz1LvuLo00GnRbzywo0Qyh1c2WA0OLBkbWcvR+M?=
+ =?us-ascii?Q?PTGveCAEz/0hbUhbrlQv3poh9aAVIiVg2diEVmDJq+4TkbuBoZ0md37JoMuz?=
+ =?us-ascii?Q?MzyH0ZNwLxSxLFfVwUTrhNAUHL2U4tzhlejdlkTbS4AC/X7HcRoykjgLUPdU?=
+ =?us-ascii?Q?z4hwDhoAPPclCFPt7QX2QpKMHauTha3MglSIFD1+mIpFCfpwuM93WYOYVp8z?=
+ =?us-ascii?Q?zg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 359be0a6-8901-47ed-f844-08dc34ca3b9e
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2024 23:50:37.2198
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nXSePbOczYmwghFMe9p1EP8BAOvnJXwZlePlUMFO56hPMxF1+v/SrovSeqqm4lczPRHMq7cMzX48xVPAnZI94vh5I14To6NqyF8AuR1xRjo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4950
+X-OriginatorOrg: intel.com
 
-On 23.02.2024 23:58, Elliot Berman wrote:
-> On Fri, Feb 23, 2024 at 10:10:47PM +0100, Konrad Dybcio wrote:
->> On 23.02.2024 00:16, Elliot Berman wrote:
->>> Add driver to detect when running under Gunyah. It performs basic
->>> identification hypercall and populates the platform bus for resource
->>> manager to probe.
->>>
->>> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
->>> ---
->>
->> [...]
->>
->>> +
->>> +	/* Might move this out to individual drivers if there's ever an API version bump */
->>> +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
->>> +		pr_info("Unsupported Gunyah version: %u\n",
->>> +			gunyah_api_version(&gunyah_api));
->>
->> Weird for this not to be an error, but it's probably not worth resending
->> over if it's the only thing
+Dave Hansen wrote:
+> On 2/23/24 12:39, John Groves wrote:
+> >> We had similar unit test regression concerns with fsdax where some
+> >> upstream change silently broke PMD faults. The solution there was trace
+> >> points in the fault handlers and a basic test that knows apriori that it
+> >> *should* be triggering a certain number of huge faults:
+> >>
+> >> https://github.com/pmem/ndctl/blob/main/test/dax.sh#L31
+> > Good approach, thanks Dan! My working assumption is that we'll be able to make
+> > that approach work in the famfs tests. So the fault counters should go away
+> > in the next version.
 > 
-> It is an error, but maybe I misunderstood:
-
-Sorry, I meant "pr_info might have been pr_err"
-
-Konrad
-
+> I do really suspect there's something more generic that should be done
+> here.  Maybe we need a generic 'huge_faults' perf event to pair up with
+> the good ol' faults that we already have:
 > 
->>> +	/* Might move this out to individual drivers if there's ever an API version bump */
->>> +	if (gunyah_api_version(&gunyah_api) != GUNYAH_API_V1) {
->>> +		pr_info("Unsupported Gunyah version: %u\n",
->>> +			gunyah_api_version(&gunyah_api));
->>> +		return -ENODEV;
->>> +	}
+> # perf stat -e faults /bin/ls
 > 
+>  Performance counter stats for '/bin/ls':
+> 
+>                104      faults
+> 
+> 
+>        0.001499862 seconds time elapsed
+> 
+>        0.001490000 seconds user
+>        0.000000000 seconds sys
+
+Certainly something like that would have satisified this sanity test use
+case. I will note that mm_account_fault() would need some help to figure
+out the size of the page table entry that got installed. Maybe
+extensions to vm_fault_reason to add VM_FAULT_P*D? That compliments
+VM_FAULT_FALLBACK to indicate whether, for example, the fallback went
+from PUD to PMD, or all the way back to PTE.
+
+Then use cases like this could just add a dynamic probe in
+mm_account_fault(). No real need for a new tracepoint unless there was a
+use case for this outside of regression testing fault handlers, right?
