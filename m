@@ -1,246 +1,208 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F555C911;
-	Fri, 23 Feb 2024 11:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1D5633E9;
+	Fri, 23 Feb 2024 11:26:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708687136; cv=none; b=NR5qolPAUVy8vxhjL8r8owz6yMecGDYNb0FUi3bs6FkT8D8Cj4YBn6sv+G+/fgaNEzI+TsdKCheyYsrp6HDEYRiUU1MPR8CoKcZ5Bz1JSA2etcQHxswVkp0ej1GFg5NjAWaTZUwzG5olp1Pz6gAyCYRJaslbKNJVwUVXWnBFOXI=
+	t=1708687600; cv=none; b=mS7SrSXVdabbXm0jQ8eQX30I8JH1j2jJ8lM2meoat/k4/mjpabtnWkEXzvzoLhn2iMcF6lnbG6aFhOdFKodty06IHfETL807EE7CjG0fRp6TOa1iOxOAZ0wOD0odEfpzOT6wo4MkYBM+vFdkQFTfzUMiWue76Z9XYcelagt3CRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708687136; c=relaxed/simple;
-	bh=DDeLOBkL7z6riCGOV97XoJTY1vZaFPeBQPATuj2ulYg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DWIGTNTFJ24OlaXBsl03+jODOoIce0EySGJi5RSXq3ga6GMhR0kfObRUGZ62E70FOZv1xQkEwUuBR7418UmO52B3rYqWplfArLhBp8a1Bu844TWhF/1usqjqy1hwLysEGj97+HF29dpYyZCjGh7lmiyxO9zY5cso2o302eYFHzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQJwTg+D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708687600; c=relaxed/simple;
+	bh=pPKLLS6SVTpg1tKiUiKHfl/jdui9YbrMYB1Xo5+H3qw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m00oa1Gt6Gnr4PrUppxOHYiTvlCZ6I3rcexxE+unf5nZCVuSlZ6j8SlYG3u2gOaWAYNb5BkzB4hzln+Q9UiZX8Y5B/vuAr2P+pHinTl1h38QWMn/hIHNpP638Sy2yRTx6lAz09aiDBoiGA8gI521r94/XCffWORGVZTIjpQR68Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p1VBBDuw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQJwTg+D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5627C433C7;
-	Fri, 23 Feb 2024 11:18:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p1VBBDuw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC829C43390;
+	Fri, 23 Feb 2024 11:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708687135;
-	bh=DDeLOBkL7z6riCGOV97XoJTY1vZaFPeBQPATuj2ulYg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gQJwTg+DR9eBYHrl/ADjvl6lI9Vf1UqIjNUSfmAHFFQcC7Rcxbar7XlUSEn5J+yHu
-	 Mhhgzmb/yc/ts8Db5mpYWBgzh/rV/06HP3eNGeGEcq/2CRgeifmkAcGmaBLlYsXPkF
-	 oV/QUKA/Olz+pTPM7qNSOzFvMvLvFUmKSigeL2Slb+ZZs9VB30yphngm4ASU21d0TU
-	 Ed2Qs2c1XwAhmF2UNNHh63HUB+Q+ABG/Q3Exw3pTqM7K1rggVAIefCM7s3YoDeKVJG
-	 x3aSLeQeuSOUMnN2NjUjnZ9nomDec/Z3QBAvx0q2HVFG5FTV760ipiDIOSLJmLNpwO
-	 VbF3GFox8/NOg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1rdTZt-00642G-4l;
-	Fri, 23 Feb 2024 11:18:53 +0000
-Date: Fri, 23 Feb 2024 11:18:51 +0000
-Message-ID: <86plwn2ztw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Dave Martin <dave.martin@arm.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 12/14] KVM: arm64: Support FEAT_FPMR for guests
-In-Reply-To: <20240122-arm64-2023-dpisa-v4-12-776e094861df@kernel.org>
-References: <20240122-arm64-2023-dpisa-v4-0-776e094861df@kernel.org>
-	<20240122-arm64-2023-dpisa-v4-12-776e094861df@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1708687599;
+	bh=pPKLLS6SVTpg1tKiUiKHfl/jdui9YbrMYB1Xo5+H3qw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p1VBBDuws5kOxlmM1rNRc6tfcBgeJ2kZK52q+QUTB5RLSJfE2lKpDbEhCMyDz540s
+	 y7GndBI06OoCvSFiXEBS9MvP8dvCgbvSSdd1cm2VIWRnmGIcB8CE4tC0mRBuOtBWot
+	 0Uvo0VyLpfGF2I5xkN0J5vpjPmx/5zkNqXkX6HMDVZHMkhD9S+rs3dZib/JrtyS1K2
+	 svl5QMxTb+rCBVM2+QrSXXLE2xF6Jad4uIU5mzlKZoBgzsNuWjcbnDalrEf2BdxYf9
+	 3fmPGEoT9ZmVbm1iGWRJwCpHDN7tJ7zK76OGAzGjR1xQFMKaqD7nRNLh6+yQZkyEM5
+	 CnPZ0fRkDk6/w==
+Date: Fri, 23 Feb 2024 11:26:33 +0000
+From: Will Deacon <will@kernel.org>
+To: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Ley Foon Tan <leyfoon.tan@starfivetech.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 1/4] perf: starfive: Add StarLink PMU support
+Message-ID: <20240223112633.GA10403@willie-the-truck>
+References: <20240129095141.3262366-1-jisheng.teoh@starfivetech.com>
+ <20240129095141.3262366-2-jisheng.teoh@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, dave.martin@arm.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240129095141.3262366-2-jisheng.teoh@starfivetech.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, 22 Jan 2024 16:28:15 +0000,
-Mark Brown <broonie@kernel.org> wrote:
-> 
-> FEAT_FPMR introduces a new system register FPMR which allows configuration
-> of floating point behaviour, currently for FP8 specific features. Allow use
-> of this in guests, disabling the trap while guests are running and saving
-> and restoring the value along with the rest of the floating point state.
-> Since FPMR is stored immediately after the main floating point state we
-> share it with the hypervisor by adjusting the size of the shared region.
-> 
-> Access to FPMR is covered by both a register specific trap HCRX_EL2.EnFPM
-> and the overall floating point access trap so we just unconditionally
-> enable the FPMR specific trap and rely on the floating point access trap to
-> detect guest floating point usage.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
->  arch/arm64/include/asm/kvm_arm.h        |  2 +-
->  arch/arm64/include/asm/kvm_host.h       |  3 ++-
->  arch/arm64/kvm/emulate-nested.c         |  8 ++++++++
->  arch/arm64/kvm/fpsimd.c                 |  2 +-
->  arch/arm64/kvm/hyp/include/hyp/switch.h |  7 ++++++-
->  arch/arm64/kvm/sys_regs.c               | 11 +++++++++++
->  6 files changed, 29 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_arm.h b/arch/arm64/include/asm/kvm_arm.h
-> index 7f45ce9170bb..b2ddb6165953 100644
-> --- a/arch/arm64/include/asm/kvm_arm.h
-> +++ b/arch/arm64/include/asm/kvm_arm.h
-> @@ -103,7 +103,7 @@
->  #define HCR_HOST_VHE_FLAGS (HCR_RW | HCR_TGE | HCR_E2H)
->  
->  #define HCRX_GUEST_FLAGS \
-> -	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | \
-> +	(HCRX_EL2_SMPME | HCRX_EL2_TCR2En | HCRX_EL2_EnFPM | \
+Hi,
 
-No. We don't do that anymore. This can only be enabled if the guest
-has it advertised via ID_AA64PFR2_EL1.FPMR.
+On Mon, Jan 29, 2024 at 05:51:38PM +0800, Ji Sheng Teoh wrote:
+> This patch adds support for StarFive's StarLink PMU (Performance
+> Monitor Unit). StarLink PMU integrates one or more CPU cores with
+> a shared L3 memory system. The PMU supports overflow interrupt,
+> up to 16 programmable 64bit event counters, and an independent
+> 64bit cycle counter. StarLink PMU is accessed via MMIO.
 
->  	 (cpus_have_final_cap(ARM64_HAS_MOPS) ? (HCRX_EL2_MSCEn | HCRX_EL2_MCE2) : 0))
->  #define HCRX_HOST_FLAGS (HCRX_EL2_MSCEn | HCRX_EL2_TCR2En | HCRX_EL2_EnFPM)
+Since Palmer acked this (thanks!), I queued it locally but then ran into
+a few small issues with my build testing. Comments below.
+
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 273d67ecf6d2..41278742ef88 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -86,6 +86,15 @@ config RISCV_PMU_SBI
+>  	  full perf feature support i.e. counter overflow, privilege mode
+>  	  filtering, counter configuration.
 >  
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index c4fdcc94d733..99c0f8944f04 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -384,6 +384,8 @@ enum vcpu_sysreg {
->  	APGAKEYLO_EL1,
->  	APGAKEYHI_EL1,
->  
-> +	FPMR,
+> +config STARFIVE_STARLINK_PMU
+> +	depends on ARCH_STARFIVE
+
+Please can you add "|| COMPILE_TEST" to this dependency so that you get
+build coverage from other architectures?
+
+> +	bool "StarFive StarLink PMU"
+> +	help
+> +	   Provide support for StarLink Performance Monitor Unit.
+> +	   StarLink Performance Monitor Unit integrates one or more cores with
+> +	   an L3 memory system. The L3 cache events are added into perf event
+> +	   subsystem, allowing monitoring of various L3 cache perf events.
 > +
->  	/* Memory Tagging Extension registers */
->  	RGSR_EL1,	/* Random Allocation Tag Seed Register */
->  	GCR_EL1,	/* Tag Control Register */
-> @@ -544,7 +546,6 @@ struct kvm_vcpu_arch {
->  	enum fp_type fp_type;
->  	unsigned int sve_max_vl;
->  	u64 svcr;
-> -	unsigned long fpmr;
->  
->  	/* Stage 2 paging state used by the hardware on next switch */
->  	struct kvm_s2_mmu *hw_mmu;
-> diff --git a/arch/arm64/kvm/emulate-nested.c b/arch/arm64/kvm/emulate-nested.c
-> index 431fd429932d..3af5fd0e28dc 100644
-> --- a/arch/arm64/kvm/emulate-nested.c
-> +++ b/arch/arm64/kvm/emulate-nested.c
-> @@ -67,6 +67,8 @@ enum cgt_group_id {
->  	CGT_HCR_TTLBIS,
->  	CGT_HCR_TTLBOS,
->  
-> +	CGT_HCRX_EnFPM,
-> +
->  	CGT_MDCR_TPMCR,
->  	CGT_MDCR_TPM,
->  	CGT_MDCR_TDE,
-> @@ -279,6 +281,11 @@ static const struct trap_bits coarse_trap_bits[] = {
->  		.mask		= HCR_TTLBOS,
->  		.behaviour	= BEHAVE_FORWARD_ANY,
->  	},
-> +	[CGT_HCRX_EnFPM] = {
-> +		.index		= HCRX_EL2,
-> +		.mask		= HCRX_EL2_EnFPM,
-> +		.behaviour	= BEHAVE_FORWARD_ANY,
+>  config ARM_PMU_ACPI
+>  	depends on ARM_PMU && ACPI
+>  	def_bool y
 
-This is obviously incorrect.
+[...]
 
-> +	},
->  	[CGT_MDCR_TPMCR] = {
->  		.index		= MDCR_EL2,
->  		.value		= MDCR_EL2_TPMCR,
-> @@ -478,6 +485,7 @@ static const struct encoding_to_trap_config encoding_to_cgt[] __initconst = {
->  	SR_TRAP(SYS_AIDR_EL1,		CGT_HCR_TID1),
->  	SR_TRAP(SYS_SMIDR_EL1,		CGT_HCR_TID1),
->  	SR_TRAP(SYS_CTR_EL0,		CGT_HCR_TID2),
-> +	SR_TRAP(SYS_FPMR,		CGT_HCRX_EnFPM),
->  	SR_TRAP(SYS_CCSIDR_EL1,		CGT_HCR_TID2_TID4),
->  	SR_TRAP(SYS_CCSIDR2_EL1,	CGT_HCR_TID2_TID4),
->  	SR_TRAP(SYS_CLIDR_EL1,		CGT_HCR_TID2_TID4),
-> diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
-> index 6cf22cd8f020..9e002489c843 100644
-> --- a/arch/arm64/kvm/fpsimd.c
-> +++ b/arch/arm64/kvm/fpsimd.c
-> @@ -152,7 +152,7 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
->  		fp_state.sve_vl = vcpu->arch.sve_max_vl;
->  		fp_state.sme_state = NULL;
->  		fp_state.svcr = &vcpu->arch.svcr;
-> -		fp_state.fpmr = &vcpu->arch.fpmr;
-> +		fp_state.fpmr = (unsigned long *)&__vcpu_sys_reg(vcpu, FPMR);
->  		fp_state.fp_type = &vcpu->arch.fp_type;
->  
->  		if (vcpu_has_sve(vcpu))
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> index 27fcdfd432b9..abf785c473d0 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
-> @@ -370,10 +370,15 @@ static bool kvm_hyp_handle_fpsimd(struct kvm_vcpu *vcpu, u64 *exit_code)
->  	isb();
->  
->  	/* Write out the host state if it's in the registers */
-> -	if (vcpu->arch.fp_state == FP_STATE_HOST_OWNED)
-> +	if (vcpu->arch.fp_state == FP_STATE_HOST_OWNED) {
->  		__fpsimd_save_state(&(vcpu->arch.host_uw->fpsimd_state));
-> +		if (cpus_have_final_cap(ARM64_HAS_FPMR))
+> diff --git a/drivers/perf/starfive_starlink_pmu.c b/drivers/perf/starfive_starlink_pmu.c
+> new file mode 100644
+> index 000000000000..2447ca09a471
+> --- /dev/null
+> +++ b/drivers/perf/starfive_starlink_pmu.c
+> @@ -0,0 +1,643 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * StarFive's StarLink PMU driver
+> + *
+> + * Copyright (C) 2023 StarFive Technology Co., Ltd.
+> + *
+> + * Author: Ji Sheng Teoh <jisheng.teoh@starfivetech.com>
+> + *
+> + */
 
-Same thing as above: this cannot be unconditional.
+[...]
 
-> +			vcpu->arch.host_uw->fpmr = read_sysreg_s(SYS_FPMR);
-> +	}
->  
->  	/* Restore the guest state */
-> +	if (cpus_have_final_cap(ARM64_HAS_FPMR))
-> +		write_sysreg_s(__vcpu_sys_reg(vcpu, FPMR), SYS_FPMR);
->  	if (sve_guest)
->  		__hyp_sve_restore_guest(vcpu);
->  	else
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 38503b1cd2eb..216eac44c124 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -2067,6 +2067,15 @@ static unsigned int hidden_user_visibility(const struct kvm_vcpu *vcpu,
->  	.visibility = hidden_user_visibility,	\
->  }
->  
-> +static unsigned int fpmr_visibility(const struct kvm_vcpu *vcpu,
-> +				    const struct sys_reg_desc *rd)
+> +static void starlink_pmu_counter_start(struct perf_event *event,
+> +				       struct starlink_pmu *starlink_pmu)
 > +{
-> +	if (cpus_have_final_cap(ARM64_HAS_FPMR))
-> +		return 0;
+> +	struct hw_perf_event *hwc = &event->hw;
+> +	int idx = event->hw.idx;
+> +	u64 val;
+> +
+> +	/*
+> +	 * Enable counter overflow interrupt[63:0],
+> +	 * which is mapped as follow:
+> +	 *
+> +	 * event counter 0	- Bit [0]
+> +	 * event counter 1	- Bit [1]
+> +	 * ...
+> +	 * cycle counter	- Bit [63]
+> +	 */
+> +	val = readq(starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
+> +
+> +	if (hwc->config == STARLINK_CYCLES) {
+> +		/*
+> +		 * Cycle count has its dedicated register, and it starts
+> +		 * counting as soon as STARLINK_PMU_GLOBAL_ENABLE is set.
+> +		 */
+> +		val |= STARLINK_PMU_CYCLE_OVERFLOW_MASK;
+> +	} else {
+> +		writeq(event->hw.config, starlink_pmu->pmu_base +
+> +		       STARLINK_PMU_EVENT_SELECT + idx * sizeof(u64));
+> +
+> +		val |= (1 << idx);
+> +	}
 
-Same thing.
+I think this needs to be a u64 on the right hand side, or just use the
+BIT_ULL() macro.
 
 > +
-> +	return REG_HIDDEN;
+> +	writeq(val, starlink_pmu->pmu_base + STARLINK_PMU_INTERRUPT_ENABLE);
+> +
+> +	writeq(STARLINK_PMU_GLOBAL_ENABLE, starlink_pmu->pmu_base +
+> +	       STARLINK_PMU_CONTROL);
 > +}
+
+[...]
+
+> +static irqreturn_t starlink_pmu_handle_irq(int irq_num, void *data)
+> +{
+> +	struct starlink_pmu *starlink_pmu = data;
+> +	struct starlink_hw_events *hw_events =
+> +			this_cpu_ptr(starlink_pmu->hw_events);
+> +	bool handled = false;
+> +	int idx;
+> +	u64 overflow_status;
 > +
->  /*
->   * Since reset() callback and field val are not used for idregs, they will be
->   * used for specific purposes for idregs.
-> @@ -2463,6 +2472,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
->  	{ SYS_DESC(SYS_CSSELR_EL1), access_csselr, reset_unknown, CSSELR_EL1 },
->  	{ SYS_DESC(SYS_CTR_EL0), access_ctr },
->  	{ SYS_DESC(SYS_SVCR), undef_access },
-> +	{ SYS_DESC(SYS_FPMR), access_rw, reset_unknown, FPMR,
-> +	  .visibility = fpmr_visibility },
->  
->  	{ PMU_SYS_REG(PMCR_EL0), .access = access_pmcr, .reset = reset_pmcr,
->  	  .reg = PMCR_EL0, .get_user = get_pmcr, .set_user = set_pmcr },
-> 
+> +	for (idx = 0; idx < STARLINK_PMU_MAX_COUNTERS; idx++) {
+> +		struct perf_event *event = hw_events->events[idx];
+> +
+> +		if (!event)
+> +			continue;
+> +
+> +		overflow_status = readq(starlink_pmu->pmu_base +
+> +					STARLINK_PMU_COUNTER_OVERFLOW_STATUS);
+> +		if (!(overflow_status & BIT(idx)))
+> +			continue;
+> +
+> +		writeq(1 << idx, starlink_pmu->pmu_base +
+> +		       STARLINK_PMU_COUNTER_OVERFLOW_STATUS);
 
-Thanks,
+Same shifting problem here.
 
-	M.
+> +static int starlink_pmu_probe(struct platform_device *pdev)
+> +{
+> +	struct starlink_pmu *starlink_pmu;
+> +	struct starlink_hw_events *hw_events;
+> +	struct resource *res;
+> +	int cpuid, i, ret;
+> +
+> +	starlink_pmu = devm_kzalloc(&pdev->dev, sizeof(*starlink_pmu), GFP_KERNEL);
+> +	if (!starlink_pmu)
+> +		return -ENOMEM;
+> +
+> +	starlink_pmu->pmu_base =
+> +			devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(starlink_pmu->pmu_base))
+> +		return PTR_ERR(starlink_pmu->pmu_base);
+> +
+> +	starlink_pmu->hw_events = alloc_percpu_gfp(struct starlink_hw_events,
+> +						   GFP_KERNEL);
+> +	if (!starlink_pmu->hw_events) {
+> +		dev_err(&pdev->dev, "Failed to allocate per-cpu PMU data\n");
+> +		kfree(starlink_pmu);
 
--- 
-Without deviation from the norm, progress is not possible.
+You shouldn't call kfree() on a device-managed object (i.e. allocated with
+devm_kzalloc()).
+
+Will
