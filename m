@@ -1,145 +1,267 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1BD14CAC5
-	for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 22:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708726680; cv=none; b=nhi9GNak7BEBQPp598XLagJWZ3WxYfdqSQCuIeyE9ZAZ9EoGxbmAen1J0YLDp5KKXHRjCZbfYtbIDzpVmVcm89/iFKFKkSSW/N37oeoXcFDQfJx+P9ZiJbG7pxjMbf3Gh2lqmjJq4XJSWQgDbNZNy3zZVATdROh7xkvbNYy0pXs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708726680; c=relaxed/simple;
-	bh=mr+d1THQdIOXLBHXtZjKUSDXbb7TH7vTqrSqao2j71w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z96UKsgywOr8AKAXGQ5zSCHLakTHk7+nrg/v9PkWVPVENovqiK4rZrtr5sbiueQ//xBHrCKhHCPL2NoE+Jo9DCac2CUfyFTPZ+NcfBQECA5ZqLeqIWn30GWoSjAt3zroc+kZZOEjwl07slbgOg5hSwTeuPpQuMnjEe7hGH5cjTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VdEii+wV; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ED214D44A;
+	Fri, 23 Feb 2024 22:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708726895; cv=fail; b=ASyb6Go9aDDg/dKhdnN4nAMWO5iqbFdT7AYVWM43YUA/5EXY5730UbqKb40fW0/RPRhuvxgiNLlSdkmWC4FXfphwypvTTTUuUEivoDW8jLZjDHe9/8tb4aWAdajPnU5jctJ84kag5zf9opwNYenfbvjK+TcTBxaIfRutiFD4HLE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708726895; c=relaxed/simple;
+	bh=cBGhTu/BwkDgD6q7Cl6FZSf5GIix0kvPHF4oDBFj2x0=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=u0OrmG82Ytd3b4GpIJkxH96qBy5pCIAQ+GJqu+EVx7G8UYAs8/q+eYluLJPm3LpaWBPUveRQc811gMiOimC47NmOWe5KbJOrNUBisImv/6maOOzBK1Z0mK3XnUQyvIocZm9H5LBWMwnSdULyZLIsiY+R258plX2TVIiv12m9i9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSuZHAG1; arc=fail smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VdEii+wV"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-607bfa4c913so14548717b3.3
-        for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 14:17:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708726677; x=1709331477; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mr+d1THQdIOXLBHXtZjKUSDXbb7TH7vTqrSqao2j71w=;
-        b=VdEii+wVRnJp1mt3DLFbLstJLZ/qohvz+uwS06r5/nk3fYwfMxW+/vdbORHgEMfQ6V
-         //+/+IhByApeXKiHe8wSxfYEuEZYIUPOnqOQZs/vLMV8SWswH8kbRMouhgqB75Ssf/uE
-         9wzrB8/2WIi0puq4JAx0PnY9sMr3J/BpLlubAEBBrGUIz0LYmGSTC6ovFKL/TaZ2FTAJ
-         WR9c2RUwFoRHwqV7zoI6oijiyxTF6+ZGSqnwBQo20sbR2jP6ux0HC+h2PwG3qMs7sKSd
-         R0qd+leXxrawGLgwD1vKL0dy24+1d1jG4QB4Vav+gUykapzedxDSuQOBul5mVndE2dZg
-         TFTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708726677; x=1709331477;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mr+d1THQdIOXLBHXtZjKUSDXbb7TH7vTqrSqao2j71w=;
-        b=qSfUQZN/zNe0UMAII8FGdEinqkpANwIErvXFPMkj6U+6QyJdZsz0n9YFkUi8WV3NiT
-         pu6PuzTfb+PZJvWh8bBr6acu29AyBElvr8BXC4qI5NUKIxLzL2GQkouQ+q9jQdJ0WREI
-         10IdVwORb3G6h61fVHQlFJApB+O92c76F+QAG5yIIduxpzFnl5hdH1pRmVPyZtMph0TB
-         lB84BPY6Ey86mOS7it3M0ODbiA4UMnO1MhvmDfUDTV1mA2fiIThR8ew72OrnH2+GqGRe
-         9sY93F2r4DwFk75yy5rL2mX6XW/pKw77pftT9Jesv6VVhj3Zxb1nA7a02HIj2kd4poBV
-         kt7w==
-X-Forwarded-Encrypted: i=1; AJvYcCXFPH2uYQ2O8eMBZc1RRc7b01CbvkA3RJJkQy9JXDi2b0YHmro7w0LdtFPfwc74dK2es8AQXeV55MZjNV0FkH1B3suGsBIm8WZt
-X-Gm-Message-State: AOJu0YxbxK1vqGu0s0mD1Uj4J4oSzG9hBs3FlkzD2feD/kgpoZZ2o6+d
-	lJ+0hZ0QhdJ/chZph6lMy1C2NByrldDBQPQZ374RIKlV0W9zUGzKlfPW38krn6J2i+gPGYIJHXt
-	TKzCjDt0chuLW+syFrDtad9vFE1jHW5W+5IsI
-X-Google-Smtp-Source: AGHT+IFvVslf3S11aDqNfvq204R/MIDJZtFxjw2mS4TXD0XUNA43SeY457VF5UW1NHR7Lcxr2CpVLic3B31+1rRIW2U=
-X-Received: by 2002:a25:a427:0:b0:dc7:47b7:9053 with SMTP id
- f36-20020a25a427000000b00dc747b79053mr1214318ybi.15.1708726677063; Fri, 23
- Feb 2024 14:17:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSuZHAG1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708726884; x=1740262884;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=cBGhTu/BwkDgD6q7Cl6FZSf5GIix0kvPHF4oDBFj2x0=;
+  b=nSuZHAG1tlJXN761RO5BGHzu+WU2lWPuhyFRNcrjrsRmLPlLTuyYql24
+   sR7HCzvrxn+bSlrn47GX4MeZdMai2BtY7P7OJCYBKI+OWPv9nPs6Vlgt4
+   dvJaWeOnHrj6RjUyfYQkXemEfar/3T5anCxeKZ2GlbVLygFKzmxLjZGIp
+   BtmaHRhBP2Kg725ZPpdhgc7J76HExd+YycmX3cXgF4GgtbHpbhmNjuWUa
+   Chk0Fz/f3e95zw8Ic0BxDyid3oC/k5WC0LMd4V9UU+IKB2gaTgESiqX9X
+   AHFL3acSCxIlGex5tnbAY9HKLytDU1P4Qf6XOR49M9592DH5QTrDurMeu
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="3223710"
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="3223710"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 14:21:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,180,1705392000"; 
+   d="scan'208";a="6406261"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Feb 2024 14:21:21 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 23 Feb 2024 14:21:20 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 23 Feb 2024 14:21:19 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 14:21:19 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 23 Feb 2024 14:21:19 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AYRym0+iOH+PmrAbEhWTyjnTa4RA2/l3il4fdQd5hGeq0YSTR86oOfp5RKNnz9cbF32Fk8hkVPoLHqVdyV/O4c3eAjIGKZl24xuCACzLSLGCaDrBN0ry0tUjzdH55VgZ0HoYQjVeIqVSrAkTlWroSPeoW97eOPHHYMGZMUrrrv27iMtbSUR00GUVWnWTPivHeu7vqkn/Qjqpbhbu9B+ySLNf4sgJGd5WfiKdfylGQgWcRowBtimrtOyI+AhXxNsH4xNluG1oA5GTu7eOXLrZ6Ruhn+qpLLsA5JMBZ8xY3xIyh5MaQAzhODLDDNhY4rOYSVQNIL5stx3GaEB+M7lvGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r+lMoMdwUl2t089i5gFDDmeDH88h2UeBJelvICWdbO8=;
+ b=n+YVwK3H9zlYDMvMUpqZVtOZzCWlMEmPdHo7SNuvTvnMxbx3nSygfn/P58Hvn9nAIRYKsejXdHR9RPxFfUoBIpunOrzA6DcXDR04JNAS6tbMpsyT+D4/FnzVHXI6C6k1PI48Uglt3nCtsfzEjb5HJtF60eME5qxr4ZwEE4y/Q75MXTPEqY8aSX6eP8LfPO8+77prJ/i36u+zsuW5qX2J3kExbKMqqL1m4nHom1XaUAl+Yl1AZG1UPUrebO1DOkso6Yq1wy8kIKm2vmEkwZGeVw7Yb8QzSAplhAOLjwzHbbDuobCiw8O6ZlKeZhBmb4Elp+b1eVnOXOQLL9zCrwOc7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA0PR11MB8354.namprd11.prod.outlook.com (2603:10b6:208:48c::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.21; Fri, 23 Feb
+ 2024 22:21:16 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::c903:6ee5:ed69:f4fa%7]) with mapi id 15.20.7292.036; Fri, 23 Feb 2024
+ 22:21:16 +0000
+Message-ID: <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
+Date: Fri, 23 Feb 2024 14:21:12 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Content-Language: en-US
+To: <babu.moger@amd.com>, James Morse <james.morse@arm.com>, <corbet@lwn.net>,
+	<fenghua.yu@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
+	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
+	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <cover.1705688538.git.babu.moger@amd.com>
+ <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
+ <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
+ <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
+ <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW2PR16CA0072.namprd16.prod.outlook.com
+ (2603:10b6:907:1::49) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-25-surenb@google.com>
- <CAH5fLgiyouEuDGkbm3fB6WTOxAnTiDx=z6ADx7HN3BTMAO851g@mail.gmail.com>
-In-Reply-To: <CAH5fLgiyouEuDGkbm3fB6WTOxAnTiDx=z6ADx7HN3BTMAO851g@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 23 Feb 2024 14:17:44 -0800
-Message-ID: <CAJuCfpHBEX27ThkdMBag-rOwir0Aaie-EeAUgF6bem=3OX4EdA@mail.gmail.com>
-Subject: Re: [PATCH v4 24/36] rust: Add a rust helper for krealloc()
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA0PR11MB8354:EE_
+X-MS-Office365-Filtering-Correlation-Id: a2076def-014e-4f92-49c0-08dc34bdc054
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vSRoWFhgOhhwyaAuphFi780vLtTZo+3nkkchX2BYDzo1FE+hNC1F6UqVD7un8qcE2iiXnTie4rQIWnoDBvL98598mpdABO/2qYOvqemMXKkcHU0J/CbMzDYoQx9AqB9T9HFyfXEWmwvWoOf7OOS+N5bZ4OlkVs+W9kpo/fNLO9ujFsX3pW//Jm9H/hZUwkAiRPPLxl4T/8IqvOZpmAMs9c4k4BnC2F9bvC+HpV57MTKhv2xQtyK9fUYJhteV6MpvjU4IhLKoBBMZnanCuQQRFx7YgNF3tn0dHPrbH6hWnl03aVpV3BFjmuERulzlXTkgAhOu8e96FfgzaGuEb27OtjYxCs7zzvxFd2tN5u52g5I3i/tPcT663lWJkmKd9Vd3urcIgirgfjpwV/SgRLu7+y3mrGbSv8HDoIUlTIgTzgj4gb+dF02gA2B+RNyB417jL5Ab11WZsXjw0pdfmknNg3nk2fxOq7ZnRDaIc7VUr7RRMDKInV3zp+UZbOuvWrbdOLIroHaG56w2qlaUhvKwaik+beAeIhoYfUXIodblxIg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUNmbk1lNlplM3FNa3RjQkJ3U0pHQTB1R3NVTm5lWVorL3JLN2tOUWd2cmti?=
+ =?utf-8?B?YTFzZ1F0ZHN0MGZuZ2tTck1kNGhwb2ZPeklQK2JiOGIxUm0rSVJIaWRUUEFG?=
+ =?utf-8?B?NFVBQkkreFFqallJOGQrMlArZWlIMWVHNCt5T1FxdDRxS3ZNdjk5WjZGeWpr?=
+ =?utf-8?B?WWJRYXVBam1EYmVnemt5MFk0V1NaSGZUR0lJTEZMVXVqQXc1Z05yRy9BRnp6?=
+ =?utf-8?B?VjgvQTA3MkZRaW9kT29KMGk4VmJiUVhTQkR5RzZWYmg1ZFRsbnVQOGRoUWRo?=
+ =?utf-8?B?VEJBaUMrZWVlaTFneVJlSlFmUUwvZ0dFRlZscW9SNnBuaEkvSDRzMUpDYlFu?=
+ =?utf-8?B?NjVDeUo5MWhYSmppdnprRmVyNGpSdklkRlNMNTlXVlVXeUxpaUVSTG5NaXNS?=
+ =?utf-8?B?OWt6S01Sd1hRSFVyL0tjZWlqcjE4eEJ3UUxwWTljSnJXMHEvSm9qalVjS0Y5?=
+ =?utf-8?B?aUNWQnMvZW1CZFpUYUh5Mk1ud0ZMMnhEMGJ1UEhTOFdSNW5SMHZVZVRQRmZQ?=
+ =?utf-8?B?YTJHdWx0RlpLWG9ZMjN5aERBS0R6cC9CdWFGM2VMalNZVEg0NXhwUUFWeW9n?=
+ =?utf-8?B?NmJJWWVPd0xITHBkSHQxNVl1QllYMC9xb29pTXFubjVqb2pzakVlRWFzdml6?=
+ =?utf-8?B?cFNyYnQya2JBK01rZlRPbzRkZE53K1BwUmEzeFVoOExkTGVJTnMrODR4a1BK?=
+ =?utf-8?B?RndFM0tLWFE0UVZneWhuMkZ2b1ZrVGk2Y3ZMMG56Z0RnNkk2Y2E5Zy9XUm1M?=
+ =?utf-8?B?TEJpRHlOVTE4cUl2bHk2aWVsNG9rT0lxOTNYSkh6T3JmRWNxWlh2SnZiOW1Q?=
+ =?utf-8?B?SCtxcEhIeHp2SDFiTUQxL1BETzF1cm9xby90emtscm9GYTlPZ1NnaUlSTnpw?=
+ =?utf-8?B?RmFIVENEbDFscVhSUVd4WUQwc0QvOWRWeDB6SXFGdFN1b2ZmeTJwMEhEaXUx?=
+ =?utf-8?B?bEdiWW1LaCtQSHRVYzZTRlpUM3pYNG5la01saEVNTEJOMVgvOENXSmp0b2lY?=
+ =?utf-8?B?VTNpZmhWQjFpYVZIZXJBZllXeGtyWHh4d3dtZ1BZU1BkdzhDVlJWRm1KbUd5?=
+ =?utf-8?B?S0RBWGhmVWdvZlljajlVVWgzZVh2dUtXVlU1MDljdEhXNXJRMnlvbnJmVlVD?=
+ =?utf-8?B?eTFiQ0RKa0wwTVA5c2F5bDkxQnhkUm1ycDhOMGhMSWJYeEVIclBoSitrR1JP?=
+ =?utf-8?B?U2VhS2hVWk1WNEU2cXlkWmhNZ2NWNHZwZU5rZHpObXZXYzhQWW1sd1JveWxi?=
+ =?utf-8?B?bU4wd2s0VVROU2VGMllyL1NCZDRDQU04RU13Wkt3bm5YVWZ5RzJURDhqdjRG?=
+ =?utf-8?B?TERvcjlkMDJCVWJta1d0ZFA4ZThWR1d3dWx4RlYyTjdabnNsRFBNaTFSelNF?=
+ =?utf-8?B?ZzRnZGFrYzZhVjJIWGUzdHhIejhNc0Z3ZjRVeTdYdjBocnZWV29zelBVZ1Q0?=
+ =?utf-8?B?b2hvc3duNTN3RHpHZFYyT2hyTzFyekU2d0ZCMGRIc21XMFdxem5mUVdhTnpj?=
+ =?utf-8?B?U2k3M3g5clhyQjQwK0h2dnFPY2RuZVlaaUFlbTJzejlkZkUzSkxrRkpmdVQx?=
+ =?utf-8?B?WVBWWHQ2WmZpWHgxYmc0RHZxRFBZZFJzVmM4V0w0ZDI5VXJRZ1VkR0c4L2pH?=
+ =?utf-8?B?KzJEWURsVCtWL3krb3NEY1IxNitMcUluM0llMDFUVVB6b0tHRjBJb1QyVTBk?=
+ =?utf-8?B?OFVOc1pTbTdlL0daLzYzUW5oT25BU1o5REVGMktNSDhZSWhpeUxOa1JuSy96?=
+ =?utf-8?B?elp4RWYwOXdrdjl0VjRNMjR6N2RjNXArbDNNTHpGM0t4S1RGWmtDT3RrTFly?=
+ =?utf-8?B?VkM5U1hST0pWUlNuV0VyaTNyQVZrVjBVWmFIODJuUUxKUTBla2RzeVJySTY0?=
+ =?utf-8?B?YXJtVE91MUZSemlub0wxMjk3aVdncUVaTTZWSFNySGw1VXVvYnhJTE8zeXlX?=
+ =?utf-8?B?RjM3eUdaQUwrc3JCV3Y0Q2FHL3NTZkhCT1lsczlheFpTMmdBcnBXQ25SSnJs?=
+ =?utf-8?B?UFh0RTVJK0xUOVNzRzREYm9DOFNEOGNTL3RmdDJ4eUkzNkdEWHFFUnMvVW9R?=
+ =?utf-8?B?MjdBazNtNmYrYjBEbjlXekdkUTJMUkVBQzc4QXUxa3pGSjZ2ejdzYnROT1Nr?=
+ =?utf-8?B?cjF0YmpGN0o3MWhFblFUazBzdTh0OGpUUEtIQnRlTlYxMklXVmsxOTdEcWVj?=
+ =?utf-8?B?Y3c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: a2076def-014e-4f92-49c0-08dc34bdc054
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2024 22:21:16.2331
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FZQs05o332A602bAefpSz1l3EeoUJzhaphtswvENLcSLWIEp9wusm0e89062oURGbpKlrcb/XHE2Od3Gf73qLNkmxCAZut+Q/5dppv/nxko=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8354
+X-OriginatorOrg: intel.com
 
-On Thu, Feb 22, 2024 at 2:00=E2=80=AFAM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> On Wed, Feb 21, 2024 at 8:41=E2=80=AFPM Suren Baghdasaryan <surenb@google=
-.com> wrote:
-> >
-> > From: Kent Overstreet <kent.overstreet@linux.dev>
-> >
-> > Memory allocation profiling is turning krealloc() into a nontrivial
-> > macro - so for now, we need a helper for it.
-> >
-> > Until we have proper support on the rust side for memory allocation
-> > profiling this does mean that all Rust allocations will be accounted to
-> > the helper.
-> >
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Cc: Miguel Ojeda <ojeda@kernel.org>
-> > Cc: Alex Gaynor <alex.gaynor@gmail.com>
-> > Cc: Wedson Almeida Filho <wedsonaf@gmail.com>
-> > Cc: Boqun Feng <boqun.feng@gmail.com>
-> > Cc: Gary Guo <gary@garyguo.net>
-> > Cc: "Bj=C3=B6rn Roy Baron" <bjorn3_gh@protonmail.com>
-> > Cc: Benno Lossin <benno.lossin@proton.me>
-> > Cc: Andreas Hindborg <a.hindborg@samsung.com>
-> > Cc: Alice Ryhl <aliceryhl@google.com>
-> > Cc: rust-for-linux@vger.kernel.org
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> Currently, the Rust build doesn't work throughout the entire series
-> since there are some commits where krealloc is missing before you
-> introduce the helper. If you introduce the helper first before
-> krealloc stops being an exported function, then the Rust build should
-> work throughout the entire series. (Having both the helper and the
-> exported function at the same time is not a problem.)
+Hi Babu,
 
-Ack. I'll move it up in the series.
+On 2/23/2024 12:11 PM, Moger, Babu wrote:
+> On 2/23/24 11:17, Reinette Chatre wrote:
+>>
+>>
+>> On 2/20/2024 12:48 PM, Moger, Babu wrote:
+>>> On 2/20/24 09:21, James Morse wrote:
+>>>> On 19/01/2024 18:22, Babu Moger wrote:
+>>
+>>>>> e. Enable ABMC mode.
+>>>>>
+>>>>> 	#echo 1 > /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>>>>>         #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
+>>>>>         1
+>>>>
+>>>> Why does this mode need enabling? Can't it be enabled automatically on hardware that
+>>>> supports it, or enabled implicitly when the first assignment attempt arrives?
+>>>>
+>>>> I guess this is really needed for a reset - could we implement that instead? This way
+>>>> there isn't an extra step user-space has to do to make the assignments work.
+>>>
+>>> Mostly the new features are added as an opt-in method. So, kept it that
+>>> way. If we enable this feature automatically, then we have provide an
+>>> option to disable it.
+>>>
+>>
+>> At the same time it sounds to me like ABMC can improve current users'
+>> experience without requiring them to do anything. This sounds appealing.
+>> For example, if I understand correctly, it may be possible to start resctrl
+>> with ABMC enabled by default and the number of monitoring groups (currently
+>> exposed to user space via "num_rmids") limited to the number of counters
+>> supported by ABMC. Existing users would then by default obtain better behavior
+>> of counters not resetting.
+> 
+> Yes, I like the idea. But i will break compatibility with pqos
+> tool(intel_cmt_cat utility). pqos tool monitoring will not work without
+> supporting ABMC enablement in the tool. ABMC feature requires an extra
+> step to assign the counters for monitor to work.
 
->
-> With the patch reordered:
->
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+I am considering two scenarios, the "default behavior" is what a user will
+experience when booting resctrl on an ABMC system and the "new feature
+behavior" where a user can take full advantage of all that ABMC (and soft
+RMID, and MPAM) can offer.
 
-Thanks Alice!
+So, first, on an ABMC system in the "default behavior" scenario I expect
+that resctrl can do required ABMC counter configuration automatically at
+the time a monitor group is created. In this "default behavior" scenario
+resctrl would expose "num_rmids" to be half of the number of assignable
+counters. When a user then creates a monitor group two counters will be
+used and configured to count the local and total bytes respectively. If
+two counters are not available then ENOSPC returned, just like when system
+is out of closid/rmid.  With this "default behavior" user space thus gets
+improved behavior without making any changes on its part. I do not have
+insight into how many counters ABMC could be expected to expose though ...
+so some users may be surprised at how few monitor groups can be created
+with new hardware? This may not be an issue since that would accurately
+reflect how many _reliable_ monitor groups can be created and if user needs
+more monitor groups then that would be a time to explore the "new feature"
+that requires changes in how user interacts with resctrl.
 
->
-> Alice
+Apart from the "default behavior" there are two options to consider ...
+(a) the "original" behavior(? I do not know what to call it) - this would be
+    where user space wants(?) to have the current non-ABMC behavior on an ABMC
+    system, where the previous "num_rmids" monitor groups can be created but
+    the counters are reset unpredictably ... should this still be supported
+    on ABMC systems though?
+(b) the "new feature" behavior where user space gets full benefit of ABMC
+    that allows user space to create any number of monitor groups but then
+    user space needs to let hardware (via resctrl) know which
+    events should be counted.
+
+I expect that only (b) above would require user space change. Considering
+that per documentation, "num_rmids" means "This is the upper bound for how
+many "CTRL_MON" + "MON" groups can be created" I expect that "num_rmids"
+becomes undefined when "new feature" is enabled. When this new feature is enabled
+then user space is no longer limited by number of RMIDs on how many monitor
+groups can be created and this is the point that the user interface that you
+and Peter have ideas about comes into play. Specifically, user space needing
+a way to specify:
+(a) "let me create more monitor groups that the hardware can support"/"let me
+     control which events/monitor groups are counted"
+     (like the "mbm_assign" file in your proposal)
+(b) "here are the events that need to be counted" 
+     (like the "monitor_state" and "mbm_{local,total}_bytes_assigned" proposals)
+
+Reinette
+
+
+
