@@ -1,81 +1,117 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1A64414;
-	Fri, 23 Feb 2024 07:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C85314A8C;
+	Fri, 23 Feb 2024 07:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708672185; cv=none; b=sBctHtSs6UFbM2dZtCa4NZcUfXrMoXlRpmO/Euwc1m/NyA+gXTBmEMjyRQ6j2YdNnHk+iqAtYir58fhj5aPFJvbiArwV9c0JZJB4DMwG8cKRLFHktMELTraqDAee6CGhPkoAS2aVs7OYwCOyb6Gy4SUOL3NSOYt7b6vcTeppWEk=
+	t=1708674508; cv=none; b=Pltiub71pDi9vvRyuy3wXgzLT1Btek54BKB3HY8llMdSCrFHqQU4MazgH+RrdIWuZIYUo7+wRrBd2Bw1ELCSsViQdixcnQsQAQoyaZ/esvCscR1gQuckKZdnLxYEJsHhwMJ3bijG6hzA4qiUIE3xy7Um18HASkdoXs5YcnQ1NbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708672185; c=relaxed/simple;
-	bh=Zz70VcC6ec8uW9MYAOTjf18dTlcTTAeDita2hNGYrmI=;
+	s=arc-20240116; t=1708674508; c=relaxed/simple;
+	bh=Gc8cEPpRnT7K/uEI11qV46cLFyoGxwzQ3spfYpGmRfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZBDAt3NpKM9xe0xlGSL2XVIv24W/JwcUAZCVCog82JR1vSPCe6gmgrDaNe1xEZ6ZA4gppJihCkHISLixtTtK3BW87cF0MlMsncu8zeCbmZjLrxzuqM5sBZsPVRPi+eDqufCTRC8ge8fvnxvBX8SNxQRUpxESBK9hCC0M8r3WAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iwwqeyI9; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1jrQENmVbk7HB2gnj7I/BTNgH6KWXZ1aTf9iW/JiOfv3GEPKq4jWeTy1/TA6hWvWaGCtcUbNyEugRoeX18Q8wdLWqVnsvl9gGrnRB/nqXiaZxbUTPE48d6aKVLUwGa2riN4M5FxQX/ArJdWO7s1MSTLhYgWBIZpaGYU84FiMss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1mnU+ug; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iwwqeyI9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=m+Owkp1rvs3wqHimfEH8BwiCegvG2RGz55AKhwheUbg=; b=iwwqeyI9c3+8e3/yCE9TC/w5CH
-	+apLO/tqnHj5OoEfskS2+ieWWgT6wYzNDVHvLRUwZCrkIRWwHo0xJ1V7anDQ2Z2tcXnO5OkeyDwlB
-	OYvrcCpFFGqai+oPl73PV76BDln7Vcb8zlKN3VhzOYCOZ1ju0MawnKpEf/NFKZxR0Van91cOu2bbx
-	7yMT2BVLFcJE5nNV9q6xK60ppA8eZzGA5zDW2AkwKAregxIwBLSQT6mfq6dkikHwvD0kk8yGu3M0b
-	evY+e5fafMmBj4yVCqPfcV9bHRRMBY26AF9b5bihcdFFw1bGbqxouM33wVdEeNI2goEITiCuBSog3
-	fApTjHIQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdPgi-00000008G7y-2lsb;
-	Fri, 23 Feb 2024 07:09:40 +0000
-Date: Thu, 22 Feb 2024 23:09:40 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Elliot Berman <quic_eberman@quicinc.com>
-Cc: Alex Elder <elder@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Murali Nalajal <quic_mnalajal@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-	Carl van Schaik <quic_cvanscha@quicinc.com>,
-	Philip Derrin <quic_pderrin@quicinc.com>,
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map functions
-Message-ID: <ZdhEtH7xzbzdhS2j@infradead.org>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1mnU+ug"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1dc1ff697f9so5060175ad.0;
+        Thu, 22 Feb 2024 23:48:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708674506; x=1709279306; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fdsNF2JyLvh2bfhzUEKeK8vbyn9SNnJcbP1Cgc7lhBc=;
+        b=k1mnU+ugHsGiEM9yNCohtsQ9j+ADKNLLu7HrHwdjm3SYMDP4ierxOV5wSySKkcP9OG
+         BsqKQLxPktFcwkyq4b5daB+V2xld6Aw9a5stsGYRTgst7hxtYqf7WqGO5L0YGv3lEMGG
+         DxlSdm3uBcmg+x5UdSd7LW1V0VkCnzCsJEw7xjg0YzrLfrqlCE22LNyz+5weFaraQfNa
+         pMBPT/z3Yd/+EnB5s9Nl6x1COEsFwX3SONSB3ZNFyi5/a9VlRieuq3FNcr1ECxMxT/o5
+         EbuCy+9gtcd15CybGwToNyihjjsH1Yd6M07cipCpt2xuMrQQRWYoEiXp9hAMWtS3zXi0
+         J1Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708674506; x=1709279306;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fdsNF2JyLvh2bfhzUEKeK8vbyn9SNnJcbP1Cgc7lhBc=;
+        b=jYvCGIvBK6GjJs37Fd/n+M8QUIwPHUKSexkOvsFgSvfBOldq/j4gNHph+xcxSlemCm
+         X/KirmYrQUBvBdGhXgMoxS7mTvsa5b12IIpcGtaQNI/uTVJ+za1rJMNaEOxmIBrLoH4/
+         Nm+nhZyizdqAiDQPFkun40XBIuf7B8XLq+r391R1BOWBHGyWfMTidAIqAV7VIHYps/ps
+         px4xLDsRUc2STMeN1g1eV+dg9xGt3FN1/s3kn5v7Etx/JG0MZ3on4fM/oVMwlIt/IByu
+         s0DHlMykn7DLGEO929AjqZyhaAyZCeYECO7hl/LGIN6XXKSxIk2o4MLJJUpf8Dl1q37U
+         kanw==
+X-Forwarded-Encrypted: i=1; AJvYcCUC9qb8qoWIBC62ZMmrLfMucTaeN5HQCEDw8pFfIcLU85EF2nE1g06WoM8eY9ztRq6ojenHT+uYBZWBHFR5q9cXBXaK//Fucz82JXlyV9bzXWV1oQOI7Yhlr8FMctFYhcJLEutogeIO
+X-Gm-Message-State: AOJu0YwtwKM7BbDVWKNowjQdam+I2qfxvaUpVOkc6gDZ5GsTfPipwXi/
+	5ix2sUCQbAMMO5KuwZ/R+JSCD+GhHcxjZIIW3mqZONixPygYP0bG
+X-Google-Smtp-Source: AGHT+IGNuq6TWqgfifsaQWW/BGbBr/8AFZyE9NWnbpCMzz2P1+lRaSIrRLLfXwHhSTllopBdNJ2BRg==
+X-Received: by 2002:a17:902:d50e:b0:1db:9759:f716 with SMTP id b14-20020a170902d50e00b001db9759f716mr1016890plg.55.1708674506490;
+        Thu, 22 Feb 2024 23:48:26 -0800 (PST)
+Received: from Laptop-X1 ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id l12-20020a170902d34c00b001d8f81ecebesm10967130plk.192.2024.02.22.23.48.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 23:48:26 -0800 (PST)
+Date: Fri, 23 Feb 2024 15:48:21 +0800
+From: Hangbin Liu <liuhangbin@gmail.com>
+To: Jones Syue =?utf-8?B?6Jab5oe35a6X?= <jonessyue@qnap.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"j.vosburgh@gmail.com" <j.vosburgh@gmail.com>,
+	"andy@greyhouse.net" <andy@greyhouse.net>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v2] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
+ with __agg_has_partner
+Message-ID: <ZdhNxWivTVixYRFK@Laptop-X1>
+References: <SI2PR04MB5097AA23EE6799B3E56C0762DC552@SI2PR04MB5097.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SI2PR04MB5097AA23EE6799B3E56C0762DC552@SI2PR04MB5097.apcprd04.prod.outlook.com>
 
-On Thu, Feb 22, 2024 at 03:16:42PM -0800, Elliot Berman wrote:
-> Firmware and hypervisor drivers can donate system heap memory to their
-> respective firmware/hypervisor entities. Those drivers should unmap the
-> pages from the kernel's logical map before doing so.
-> 
-> Export can_set_direct_map, set_direct_map_invalid_noflush, and
-> set_direct_map_default_noflush.
+Hi Jones,
+On Fri, Feb 23, 2024 at 04:12:00AM +0000, Jones Syue 薛懷宗 wrote:
+> They are verifying the same thing: if aggregator has a partner or not.
+> Replaces macro with inline function would look more clear to understand.
 
-Err, not they should not.  And not using such super low-level interfaces
-from modular code.
+MAC_ADDRESS_EQUAL and __agg_has_partner are not the same thing.
+
+MAC_ADDRESS_EQUAL() is only same with __agg_has_partner() when verifying
+agg partner mac addr with null_mac_addr. The description could be more
+accurate.
+
+Since you want to replace the null_mac_addr checking for MAC_ADDRESS_EQUAL().
+Maybe we can also replace the null_mac_addr checking in
+ad_port_selection_logic(). This should be safe as the
+aggregator->partner_system and port->partner_oper.system has been compared.
+e.g.
+
+diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
+index f2942e8c6c91..bd46dcb4013c 100644
+--- a/drivers/net/bonding/bond_3ad.c
++++ b/drivers/net/bonding/bond_3ad.c
+@@ -1588,7 +1588,7 @@ static void ad_port_selection_logic(struct port *port, bool *update_slave_arr)
+                     (aggregator->partner_system_priority == port->partner_oper.system_priority) &&
+                     (aggregator->partner_oper_aggregator_key == port->partner_oper.key)
+                    ) &&
+-                   ((!MAC_ADDRESS_EQUAL(&(port->partner_oper.system), &(null_mac_addr)) && /* partner answers */
++                   ((__agg_has_partner(aggregator) && /* partner answers */
+                      !aggregator->is_individual)  /* but is not individual OR */
+                    )
+                   ) {
+
+With this the null_mac_addr definition could be removed.
+
+Thanks
+Hangbin
