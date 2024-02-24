@@ -1,132 +1,138 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD28CA4A;
-	Sat, 24 Feb 2024 01:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B94DDA2
+	for <linux-doc@vger.kernel.org>; Sat, 24 Feb 2024 01:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708739432; cv=none; b=uaJ/5lP+CXmcr6E7ruR2BHnIoyFoozwmx8csFEOmzY8G+bNaKkey9o2NGXnixzpLPPKHw84SOgSbKXGpjA7IiDKdLWQCIWa6JLf52n/5hjLxgjHcaSn5PYdkkrS69LsISpiWEK4w1fZZ9PLp/Ut8UOhymartqmz9NVJJD4HdDXY=
+	t=1708739982; cv=none; b=J7mxiFhQfkWCqicnE/tkLYW++F4cZ6Ezm68/Jt8KtuPjKWiO2Mg9QPzHp0R+YYyLmrQMXhXHjBP5AsmZeeCi3YNXHfyfEDCAkf7A75yTuej0i+CsrZJn+3BNjIuAqZ3ZeyZdKhn/1Dfry3ZiWOL1GV1YaDPqEg4SSMq25wn19gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708739432; c=relaxed/simple;
-	bh=xi6nVk0C04NkzR7H2GZk/dICTy1LUs3OH0IEQVV1NDc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eSTFGLQYGTjq0D6gqAUqR7yf9Niux7r7ApalwB9ERo63n8kBBNrSM2F8LUkYZ71wvNjZPRLsCELhWyw/ynTOJ6a+H8ZX6dskOGWjOEU0JRSgwf0OYylbdpXHOlxGUPKs/al9vAShYjFUrtbeZW7ObT3zI+GT1L4D/Sel+WwOMOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TVYB3G0c; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1708739982; c=relaxed/simple;
+	bh=T+a2SRS9CYU21NdR/LXMyfpfOaFxGBggdHbbvAXJGNw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cqaZ52BV4sBSXRt4S4XPObhZv3hggS82LB6faSQ5urPudKNeB78xXjbIhpjfGb7VmR/lizdwnZ9Kl4ePg3UHQwuwwo4OivsjllhliGkLkui/MrP7LmNYfbOS+Mj7Uev+yn209/CiZTgRy3/ot6L4jwC1BH6NyB5nMDVTRWwU4+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zntyXLY0; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TVYB3G0c"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=06UnnJyhnElyuP2IJrtOSRTp1BF1dFG21xSI11X6/3g=; b=TVYB3G0c87xVqJOIVHuyTu8RtT
-	fDG2tL0IzR9zpeos133a6nAsWtGMB4xc2zcpXBEKl7OopDPtSiayNNt3Dc6wgo6x5N4AwqFfkJUDU
-	cwKAJW3PqqcytmKt/8vjUHPnuHYjwapv0JpBW6x7ZViJOfGM3GuxGaRtWKKIM1u6VJqhNp6gc1c9N
-	okBZ/NHOYZinVgYsOcUFmvUkArxlD6/o1aM7zdeo19BxJ1Lt0wc03VApp71yd8x8xp/R+OR39ro1r
-	aVA+z1/Xn7tE9md4VocP5NoEciGjGg8kQa/k2stXGYmlTvlj/cXU0FWCywXf7TiXFmAJ0y7+1qCGp
-	Lnf++ZSQ==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rdhBL-0000000BpTS-26Er;
-	Sat, 24 Feb 2024 01:50:27 +0000
-Message-ID: <161f53c9-65ba-422d-b08e-2e5d88a208a2@infradead.org>
-Date: Fri, 23 Feb 2024 17:50:26 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zntyXLY0"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso1128659276.1
+        for <linux-doc@vger.kernel.org>; Fri, 23 Feb 2024 17:59:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708739979; x=1709344779; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T+a2SRS9CYU21NdR/LXMyfpfOaFxGBggdHbbvAXJGNw=;
+        b=zntyXLY0prDLuWUAhvw7ixaIAkbzjzN//FBBd3O1inJndHdJNJMleIJeV7pmILIE3j
+         H1sZwAVtjmK4UL17vQLGrErXQgtH9PEo56eebJxhiRdq5oKHMvaMmWnyndxXsxaPDXpP
+         B0G+/TPLtQdYA+tqWpY1HLN0IUBPlHROJ6oEHXFr4bBEs5NbLPiYkVxGTthTCwdI89AD
+         BsSQ+baqISaQvSdgEpLz+sjf7DYzOqk9VgIBOYVwAc0IiEDMsCy1yTyDzz4GGOko2bpL
+         LXdoK1umc4qmBuz/eYU/H3495v3656CSywMDPyRHm/YcM7FljiuX4s/TNoB7YqCFRu8+
+         lwmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708739979; x=1709344779;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T+a2SRS9CYU21NdR/LXMyfpfOaFxGBggdHbbvAXJGNw=;
+        b=GJPhoOR3nV4tcFmrVJ+c/52ACPLFW9ZSBTul4sVhvwV0+GTv8NRHEQQkvFY5kQryQD
+         yAeFaMLMKntYy4lYxSIVKhCz0IvjFJ/38clAb2OypxriL0lgA4jalv48D96IP3h4ruot
+         O597UGExTGlnObQT8fVGONLgdqrp97TupBDHzPOVa9pc0UZDPsoQgN4YaPnJ/DGxOQT5
+         i9sYvYSbTelDMKzhLWKAbHJknx+23/66fe0PuLGAwa2po51ynyr4K+uRi+tuBjzhmFLs
+         dWAAwKif4BpL7SAcOBqMKkr0/xtI8MG4xakO71ggMxW/m6oAb1GMXztu2YcdorvC9MDj
+         MgDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVP8kr+1gRMBQcfGGSXksginN8LtjMnQl226QeYGuszlrtZHYs4JTgWcYh0WxfewFtTLY4Vy0h+B4BqnFKv09FVY8JXlqyhLw7D
+X-Gm-Message-State: AOJu0Yw7kLPnVA+Hi0od1JabQefcS5Y0HCJRJfIIQl4k0Mg/rMofpKjs
+	zUn+SzVh566AmiKfL127TpS8218SIAEsY1gSRF3ZXS8QmtepRTfcpHBuqRcrYt1XJ39uMBwCuBa
+	N21McB20KksP9DNPFx6DT3TU6oaygjp+pBlcj
+X-Google-Smtp-Source: AGHT+IE96gofthBIDY1zcxV1fCC6ZYb0ubhfQdxrWxQDA5xXy9sf7lsJXU+uVwoyJAnzh9d/485wU5tc9VrVgvYEwvY=
+X-Received: by 2002:a25:aa67:0:b0:dcc:b69c:12e1 with SMTP id
+ s94-20020a25aa67000000b00dccb69c12e1mr1515692ybi.59.1708739979162; Fri, 23
+ Feb 2024 17:59:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 20/20] famfs: Add Kconfig and Makefile plumbing
-Content-Language: en-US
-To: John Groves <John@Groves.net>, John Groves <jgroves@micron.com>,
- Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev
-Cc: john@jagalactic.com, Dave Chinner <david@fromorbit.com>,
- Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com,
- gregory.price@memverge.com
-References: <cover.1708709155.git.john@groves.net>
- <1225d42bc8756c016bb73f8a43095a384b08524a.1708709155.git.john@groves.net>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1225d42bc8756c016bb73f8a43095a384b08524a.1708709155.git.john@groves.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-7-surenb@google.com>
+ <Zdc6LUWnPOBRmtZH@tiehlicka> <20240222132410.6e1a2599@meshulam.tesarici.cz> <CAJuCfpGNoMa4G3o_us+Pn2wvAKxA2L=7WEif2xHT7tR76Mbw5g@mail.gmail.com>
+In-Reply-To: <CAJuCfpGNoMa4G3o_us+Pn2wvAKxA2L=7WEif2xHT7tR76Mbw5g@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 23 Feb 2024 17:59:26 -0800
+Message-ID: <CAJuCfpHY1T2jCCitt7cufKSeXP7zhh_f9gVN0UNZoOQz1cNBjw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/36] mm: enumerate all gfp flags
+To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Feb 23, 2024 at 11:26=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
+com> wrote:
+>
+> On Thu, Feb 22, 2024 at 4:24=E2=80=AFAM 'Petr Tesa=C5=99=C3=ADk' via kern=
+el-team
+> <kernel-team@android.com> wrote:
+> >
+> > On Thu, 22 Feb 2024 13:12:29 +0100
+> > Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > > On Wed 21-02-24 11:40:19, Suren Baghdasaryan wrote:
+> > > > Introduce GFP bits enumeration to let compiler track the number of =
+used
+> > > > bits (which depends on the config options) instead of hardcoding th=
+em.
+> > > > That simplifies __GFP_BITS_SHIFT calculation.
+> > > >
+> > > > Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > >
+> > > I thought I have responded to this patch but obviously not the case.
+> > > I like this change. Makes sense even without the rest of the series.
+> > > Acked-by: Michal Hocko <mhocko@suse.com>
+> >
+> > Thank you, Michal. I also hope it can be merged without waiting for the
+> > rest of the series.
+>
+> Thanks Michal! I can post it separately. With the Ack I don't think it
+> will delay the rest of the series.
 
-On 2/23/24 09:42, John Groves wrote:
-> Add famfs Kconfig and Makefile, and hook into fs/Kconfig and fs/Makefile
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/Kconfig        |  2 ++
->  fs/Makefile       |  1 +
->  fs/famfs/Kconfig  | 10 ++++++++++
->  fs/famfs/Makefile |  5 +++++
->  4 files changed, 18 insertions(+)
->  create mode 100644 fs/famfs/Kconfig
->  create mode 100644 fs/famfs/Makefile
-> 
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index 89fdbefd1075..8a11625a54a2 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -141,6 +141,8 @@ source "fs/autofs/Kconfig"
->  source "fs/fuse/Kconfig"
->  source "fs/overlayfs/Kconfig"
->  
-> +source "fs/famfs/Kconfig"
-> +
->  menu "Caches"
->  
->  source "fs/netfs/Kconfig"
-> diff --git a/fs/Makefile b/fs/Makefile
-> index c09016257f05..382c1ea4f4c3 100644
-> --- a/fs/Makefile
-> +++ b/fs/Makefile
-> @@ -130,3 +130,4 @@ obj-$(CONFIG_EFIVAR_FS)		+= efivarfs/
->  obj-$(CONFIG_EROFS_FS)		+= erofs/
->  obj-$(CONFIG_VBOXSF_FS)		+= vboxsf/
->  obj-$(CONFIG_ZONEFS_FS)		+= zonefs/
-> +obj-$(CONFIG_FAMFS)             += famfs/
-> diff --git a/fs/famfs/Kconfig b/fs/famfs/Kconfig
-> new file mode 100644
-> index 000000000000..e450928d8912
-> --- /dev/null
-> +++ b/fs/famfs/Kconfig
-> @@ -0,0 +1,10 @@
-> +
-> +
-> +config FAMFS
-> +       tristate "famfs: shared memory file system"
-> +       depends on DEV_DAX && FS_DAX
-> +       help
-> +         Support for the famfs file system. Famfs is a dax file system that
-> +	 can support scale-out shared access to fabric-attached memory
-> +	 (e.g. CXL shared memory). Famfs is not a general purpose file system;
-> +	 it is an enabler for data sets in shared memory.
+Stand-alone version is posted as v5 here:
+https://lore.kernel.org/all/20240224015800.2569851-1-surenb@google.com/
 
-Please use one tab + 2 spaces to indent help text (below the "help" keyword)
-as documented in Documentation/process/coding-style.rst.
-
-> diff --git a/fs/famfs/Makefile b/fs/famfs/Makefile
-> new file mode 100644
-> index 000000000000..8cac90c090a4
-> --- /dev/null
-> +++ b/fs/famfs/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +obj-$(CONFIG_FAMFS) += famfs.o
-> +
-> +famfs-y := famfs_inode.o famfs_file.o
-
--- 
-#Randy
+> Thanks,
+> Suren.
+>
+> >
+> > Petr T
+> >
+> > --
+> > To unsubscribe from this group and stop receiving emails from it, send =
+an email to kernel-team+unsubscribe@android.com.
+> >
