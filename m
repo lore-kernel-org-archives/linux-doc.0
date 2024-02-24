@@ -1,180 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A177A2905;
-	Sat, 24 Feb 2024 04:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708749028; cv=fail; b=SaXGR1gCofx977LLzZFzJaOqVnHAKhK46aXaiA4s//mbJFJDN53UcTU5qENtB/1SgpP33vFoWsIaBMtOo9bKI4qE6d5x5T6nhPtrWM3L77qQTWhFy5fVaFs2RO4Re745aB1J5/W8vlGRhz95H/h2b61kRqhRN0ILrIAsFTkRIE0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708749028; c=relaxed/simple;
-	bh=Yru5OvyKucHpUK9pN7UkV/A4a3OqCmwsI0AEse412bs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Rq2sQ5weAqKdm68K8sOr1rmw5sSZn+hRh8EvWgC+yY46bwoC7KHmgD8QgwxjVeTdpJgfd+SLecDxWK/1lt104KTEZog4lI+LwVWqH1Wc68YEeNK5KYmk5UChahUZrRjjNmeaJJc/of5ccGiio3rgzCYJQhW/ZGvtAPstjitMzhI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EbWMh+Ch; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DE513FFF;
+	Sat, 24 Feb 2024 06:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708755812; cv=none; b=bN+/on8d/N/vq9zOcyHVRsDrMyHk+EaNKM10Gx+ULTdEztlMECy/6kqAKVFYkGLLCMImU7tKKiRxom3BlRtvtwQQ6AQ0YACOCSS1BlKIV6Qg38IfMobRLZMdUZpAbIdJRnLA6P938BegO+0/qk5pb5ygGnG24IgyZWY2vPXTnfc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708755812; c=relaxed/simple;
+	bh=W0u5IT/H5hLXinO/B5FelGXdqlc5c1QwMVi0wEyDxCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OTzUWSACK4WTMvdwK7tB8K2rbTgdVz5ijhNdRVg/4Nyu8BejrMgVIEWJX0bcXGotLXh0UDNTeYEeGi7UgwDUjwQiM+RPaL96d5GnqMdmJN3YlpEOIlYjTV4/buj6N0NQMmR6KY9xQaBXTZ3AmbxkFBAn3FwA0x72Sqg9ytJUn6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=J4TSy+Mm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbWMh+Ch"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708749027; x=1740285027;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Yru5OvyKucHpUK9pN7UkV/A4a3OqCmwsI0AEse412bs=;
-  b=EbWMh+ChTSJHPb9MN5Hq4T/MrK/dN1uLGpgzWYuT5kkmsqm2/znIylAl
-   EnyrIiHyVvPV65kGfUTmie9DPzV9vPFbkXYVV/+gTwGmOJ7VRiPBd9SJr
-   skcYhs5u6SE2u4nComr/SduX3DnygunIiJgZUcEiL0pLCNvDE2Dx4vDYY
-   J249BtsFLokFe1reZJ2YOjO7vvK/5+79ROArUN/G0Ja3R0IcQUg2DF90m
-   3aXUbtf6kJncRrp6rT5+1d62PrREWwLDLxFutcjaBnjcmhrPrA9Jrv884
-   UgZ18u1GDDqBY6+kZqxh0rNERXOOvHK/spm414BZZTPB+SNQTm9tVfytV
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10993"; a="3253025"
-X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="3253025"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2024 20:30:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,181,1705392000"; 
-   d="scan'208";a="6601212"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Feb 2024 20:30:26 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 23 Feb 2024 20:30:24 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 23 Feb 2024 20:30:24 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 23 Feb 2024 20:30:24 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AzwXXGuRewWmzpszE2pNICYSLgoZM6hWLwJqw8J53FEJKZdTZf9dhGPhJTB8+W9yff02mu3aTMsQjgnrNwnectlr5AdiEFJcueElAueYo0kjwCenfWnaeHkdMg+ES0s1IJpZ8CldmJInUZMNtuG/DSomBse3pEzwgAGkY707oAb0QfALwY1dSP2FLK58fHCrlccCvRGPT2/gS+OgDzAmMqFiVOChKQYByKrHKxzs3kzQNlfxSR9KL0gfmmec0bAwQmOB/OnzuUQO2MSFGgILzPDmtVLzHBCpYraHKqg2s9S3bj6NUkjURu9UMF56FYzRrS6K/ow3hdt90FSe9qruXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vzqe+JbuosEWAzvemVu8fRWd5iIFg4lQ0JIZ6i8Obdk=;
- b=YiitM/Is9GsJKO28NNQsglzR6n+Ao5HDU0jTQt5bDbQ4/wxsOVv74SM7YTUp1E/VrqoisvMO9a2ztTdIbvYKFFfRnB2tO5IWCWTmD+zXnBza7rlw1yBgYgtr1+/xOjgfb19fajmlPS1Fu63pzudfeY/6ynZQj62u3IvexheRpkCGrRNRvS6Q9rN0Jt5yzSl26GJ/PPaLe8GUzhNmcjZ+948Vn9vltGoRO4cM9xj5KYJp3MzUPrrMt1SsLYAcRCSoMeqPFG91yC1M68oLDbk7IPmtMC9DwT137E1IyQiSF+/K+Fi1bwmFWtzfg6gXJBqgEc1mRVSwl77PR7h8J6JEFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.10; Sat, 24 Feb
- 2024 04:30:22 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::da43:97f6:814c:4dc]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::da43:97f6:814c:4dc%7]) with mapi id 15.20.7316.018; Sat, 24 Feb 2024
- 04:30:22 +0000
-Date: Fri, 23 Feb 2024 20:30:19 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Matthew Wilcox <willy@infradead.org>, Dan Williams
-	<dan.j.williams@intel.com>
-CC: Dave Hansen <dave.hansen@intel.com>, John Groves <John@groves.net>, "John
- Groves" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, <linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 16/20] famfs: Add fault counters
-Message-ID: <65d970db2d7dd_2509b29435@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <cover.1708709155.git.john@groves.net>
- <43245b463f00506016b8c39c0252faf62bd73e35.1708709155.git.john@groves.net>
- <05a12c0b-e3e3-4549-b02e-442e4b48a86d@intel.com>
- <l66vdkefx4ut73jis52wvn4j6hzj5omvrtpsoda6gbl27d4uwg@yolm6jx4yitn>
- <65d8fa6736a18_2509b29410@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <ytyzwnrpxrc4pakw763qytiz2uft66qynwbjqhuuxrs376xiik@iazam6xcqbhv>
- <b26fc2d6-207c-4d93-b9a3-1fa81fd89f6c@intel.com>
- <65d92f49ee454_1711029468@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <Zdlpj3hW8mUfPv_L@casper.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Zdlpj3hW8mUfPv_L@casper.infradead.org>
-X-ClientProxiedBy: MW4PR04CA0246.namprd04.prod.outlook.com
- (2603:10b6:303:88::11) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J4TSy+Mm"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41O5pM72004828;
+	Sat, 24 Feb 2024 06:22:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=QCYPc8ZRVSnAHVFnIu3U13dqMb2KRmhi+yyRJZMHU5M=; b=J4
+	TSy+MmWnctP1jtu2cXW9nSBuUjYMjc3VRLXJdbd3ywzS0ZW8jiRGtT2HY56pI8HF
+	b1/g3fTj0RAGMyGNv6IjywbpmWNlF6bdeobrLbiFM/MhZbbTEDPud84mRYMQiiTP
+	jGRz4AHhqhfNjwQXt7tOWgPmRbC0XaJf0bchSnUWrMfGfiZ3T6hBF6hHF/19msue
+	LXyvwcVBniQzj5XzuZaoEbs8W6FFIuCBfPLU4z2IcKGTaYbOZk5FVwDzDZva2Spe
+	qwXVcbzHuzpzymPJqTm4nVXKpCwpVRYVZbZ3nX0XGb81r+wbyfWq0pPKMNSYnRGD
+	pMZ2hdiQ2XECFTNQw42A==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wf65hrbbj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 24 Feb 2024 06:22:57 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41O6MuwG006607
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 24 Feb 2024 06:22:56 GMT
+Received: from [10.110.15.108] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 23 Feb
+ 2024 22:22:55 -0800
+Message-ID: <76922981-88ec-a376-ce61-ea1ff85f43d2@quicinc.com>
+Date: Fri, 23 Feb 2024 22:22:50 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DM4PR11MB5549:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac1f9e7e-eb09-4a46-fb6e-08dc34f150a7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IWo4/+xwSHMhVKGXLQ30Knd7ik3m8Wr50s7QBcX3IBDJzb49Odxr9DftA9qz9ow9gZ/YTw+g9AL00lM0qNMHiz+Jz1DyrR1m1LK5XIf6YkhMs71+sY9IecZddwYolR4QaObb7rga8szTyC0nZFamfKK5shqzGrKm+OWaOcZoGQ1yien97hIrV4SpylyBmSZQcyXx8f6dVe5JAgRFZlEMsSjm/ZFxkGhHDqVGethE8/LvpJzo9X9A2oWZdMRitFIDMitoYqxEy8N/aHG4mRumWPQ9d3Cdf7ZrRM5tSwKt7AoAlVeo/XNTixi2WpiTT9HfcN8aBCcewQ8k+2dBfnmOCR/4hgSeknmUm58sktlxqS8g75OrkQWQ+jQJYzWo4Zmg+30XeMO0jvkcnhzeP4LnHZuwbdsyvKB+2YNdjSaH6ITJ81iYW5hi0vXqMhodBLgfb0W3A0GCZooR8WvDnM+P7Y7rqjFvdsi3cuaDDpDY0bSAvnTU8CqXgQbQ8tW3EAIG65JXpGsMPX8mvu242nUxDvBElct3dqHT8cZRgY/3LPg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?V9YvITWLBHsFKJ7jAgGiwFO9E9WPCExiQ/K7DIQKQmNEcekrV6McE5kBxwug?=
- =?us-ascii?Q?3FnyV58B4DW0DQ+CyvArtefADGjAb1AfgFZxYKlCyeyw2Jlq/PUGFkZqHx9w?=
- =?us-ascii?Q?On6K4lBptfakdMGZuzYufKwAwijvz7A3WjIuWMRx4D0DVi2w7n8bKPmN7v+p?=
- =?us-ascii?Q?KtD7V9unNb5VCH60tw9iDNog2pZMLNr3AMCIVLm4gIsMfEhXlCYe6CKIG2AT?=
- =?us-ascii?Q?cVXZdP1HTh9lo1mcFNsDQgjxcBSrQISUk43sdGZoMw0N9RmmVmv0UwHSKBIX?=
- =?us-ascii?Q?m0kfEMH1WuI2aEJVEKXfIbd89mQW3CsJ++JO9lqtFDzyXRk5B/i6dbm8oXSJ?=
- =?us-ascii?Q?D0ykEbwSr9rCtQzy1vaPpTd4iRop322pK3ecRLgrcaV/gcj5xwXOR4dMG6eA?=
- =?us-ascii?Q?dlK8cfrrkg/jwnuspyGJZj34vSY+SgBXDJcZJ93MhAitHvOMehm5u8hT0qPx?=
- =?us-ascii?Q?dCpxzTMWa7bGogS6XasqRLhcoptG5vdG2M61ZEfVV0kA0n5vdzsQWo+3ARRN?=
- =?us-ascii?Q?VF9UOtMSAAyNDsHzAMkQBKr2LbL1d52EnYxMMByX8BKhl0BZLcviLMWSoKr3?=
- =?us-ascii?Q?k4HmbLsqu/h+zp1uw1BWW/j7lZjxbhYigY1vp5ovb+Bx99pPe2cIxREgCf3K?=
- =?us-ascii?Q?GjnKnUzbQJfnI23PzfoNvj4X8Xo3U/Iz66Rs5hotyDZtLpL0bXWGaKGcErMv?=
- =?us-ascii?Q?frUG3oNBIHUyAXNP9OcMVAewyGm7GSkP+EQ0RC9ug1c11/KiFHUbNWBV7B64?=
- =?us-ascii?Q?PlAGVyLI5GNvqXBXPrBAvVHAGHYl6h+1hQaXG+fyzJu+8439TCOa2Ci9Ryf7?=
- =?us-ascii?Q?+W4gHGp0dWerOIJtb/sjwEvD56zaRiSZW9cXkC0E9HBsirJ766bJIb6GIuEy?=
- =?us-ascii?Q?w3+wfGegQxrzrdxwzW0hoO3dvlMQ7EUeSmHXdNKYLqRQLMeJ9fzrIxJ62NS8?=
- =?us-ascii?Q?oY85CEiXWzPLTPMVS+Ulpa6FkEkYOW5z7GmCZBOdjKE3dlG2YZ7QJHmBCAuR?=
- =?us-ascii?Q?qS8nyxRq+O7LYvq5SlITatSjMh9D1QxdM5qSCZkwo61sL0OXzJnqxR1zCcZD?=
- =?us-ascii?Q?r1tL/4gPXiL2AdIGciX2eFAJKJwu8MeXe3E9TSf2NWVR1m715MCi67MzXvHp?=
- =?us-ascii?Q?2oEw78Np1RqlNl/kLRpFMRxI6Z2ibfrrdNkiDZOuCEXFT6+UzcHoZ+e9bt3U?=
- =?us-ascii?Q?c1xs0E3+Q0tUbnhVDsAzDlI/Mk+MxmqlNzLZTLkJeQCok4uXYK1x8Cmhl0Db?=
- =?us-ascii?Q?hxKglv1qqGPgsXLmgtsY0blnsnLgH1doTR9ch3fWI8H4JgUfWh6q/OWeOIb5?=
- =?us-ascii?Q?6TZvfYrmG0DFpqTw/V3YvG4TsEIDK73kY4GIEqma7nUqrHuddjc+5gowaj9p?=
- =?us-ascii?Q?xzws32qBH0JKIAr1yqbdSo8MnmsUGn4uZC91N3r1dFLcxXMI0qvnmXaVaMpZ?=
- =?us-ascii?Q?nqN67Yg3ue7VoVFjyPSPrNBUyDWePQXYMJO4SzXWC3Mfm+lNfhyXjWxoMusI?=
- =?us-ascii?Q?11Wkrki4KlHkjQER2GDqzuqnPbTK+RzOOBuviSGdCAH4X9JbpB66Dk8QYOBh?=
- =?us-ascii?Q?enOxZL36OU8tXzXYf/HFNxnqXWVyfiOGNLZRVLhcddq06hLbuQKiY24jXphy?=
- =?us-ascii?Q?OQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac1f9e7e-eb09-4a46-fb6e-08dc34f150a7
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2024 04:30:22.6021
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AWR+upVW11YkzP0usDXixR0qsvDjwHRw11A2iWYP8Arl35nEKa+LgLtx8XZCmwJFGSTiDbRySXiig0lwdPrrq60Ur62JC3SKmFAqgxxDK40=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5549
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v14 32/53] ALSA: usb-audio: Check for support for
+ requested audio format
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
+        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
+References: <20240208231406.27397-1-quic_wcheng@quicinc.com>
+ <20240208231406.27397-33-quic_wcheng@quicinc.com>
+ <87v86x2a27.wl-tiwai@suse.de>
+ <cb3b7857-dc6c-80db-4fa7-6772a856f328@quicinc.com>
+ <7f0c4f85-5a63-4643-8553-e3f5d6af67ec@quicinc.com>
+ <87y1bjpfn0.wl-tiwai@suse.de>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <87y1bjpfn0.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Q1NKQpUrdoWd5O5aWBixNCa6-08HgSIz
+X-Proofpoint-GUID: Q1NKQpUrdoWd5O5aWBixNCa6-08HgSIz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-24_02,2024-02-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1015
+ bulkscore=0 mlxlogscore=949 suspectscore=0 adultscore=0 priorityscore=1501
+ impostorscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2402240050
 
-Matthew Wilcox wrote:
-> On Fri, Feb 23, 2024 at 03:50:33PM -0800, Dan Williams wrote:
-> > Certainly something like that would have satisified this sanity test use
-> > case. I will note that mm_account_fault() would need some help to figure
-> > out the size of the page table entry that got installed. Maybe
-> > extensions to vm_fault_reason to add VM_FAULT_P*D? That compliments
-> > VM_FAULT_FALLBACK to indicate whether, for example, the fallback went
-> > from PUD to PMD, or all the way back to PTE.
+Hi Takashi,
+
+On 2/17/2024 2:08 AM, Takashi Iwai wrote:
+> On Sat, 17 Feb 2024 00:42:18 +0100,
+> Wesley Cheng wrote:
+>>
+>> Hi Takashi,
+>>
+>> On 2/9/2024 1:34 PM, Wesley Cheng wrote:
+>>> Hi Takashi,
+>>>
+>>> On 2/9/2024 2:42 AM, Takashi Iwai wrote:
+>>>> On Fri, 09 Feb 2024 00:13:45 +0100,
+>>>> Wesley Cheng wrote:
+>>>>>
+>>>>> Allow for checks on a specific USB audio device to see if a
+>>>>> requested PCM
+>>>>> format is supported.  This is needed for support when playback is
+>>>>> initiated by the ASoC USB backend path.
+>>>>>
+>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>> ---
+>>>>>    sound/usb/card.c | 31 +++++++++++++++++++++++++++++++
+>>>>>    sound/usb/card.h | 11 +++++++++++
+>>>>>    2 files changed, 42 insertions(+)
+>>>>>
+>>>>> diff --git a/sound/usb/card.c b/sound/usb/card.c
+>>>>> index 7dc8007ba839..1ad99a462038 100644
+>>>>> --- a/sound/usb/card.c
+>>>>> +++ b/sound/usb/card.c
+>>>>> @@ -155,6 +155,37 @@ int snd_usb_unregister_platform_ops(void)
+>>>>>    }
+>>>>>    EXPORT_SYMBOL_GPL(snd_usb_unregister_platform_ops);
+>>>>> +/*
+>>>>> + * Checks to see if requested audio profile, i.e sample rate, # of
+>>>>> + * channels, etc... is supported by the substream associated to the
+>>>>> + * USB audio device.
+>>>>> + */
+>>>>> +struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+>>>>> +            struct snd_pcm_hw_params *params, int direction)
+>>>>> +{
+>>>>> +    struct snd_usb_audio *chip;
+>>>>> +    struct snd_usb_substream *subs;
+>>>>> +    struct snd_usb_stream *as;
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Register mutex is held when populating and clearing usb_chip
+>>>>> +     * array.
+>>>>> +     */
+>>>>> +    guard(mutex)(&register_mutex);
+>>>>> +    chip = usb_chip[card_idx];
+>>>>> +
+>>>>> +    if (chip && enable[card_idx]) {
+>>>>> +        list_for_each_entry(as, &chip->pcm_list, list) {
+>>>>> +            subs = &as->substream[direction];
+>>>>> +            if (snd_usb_find_substream_format(subs, params))
+>>>>> +                return as;
+>>>>> +        }
+>>>>> +    }
+>>>>> +
+>>>>> +    return NULL;
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(snd_usb_find_suppported_substream);
+>>>>> +
+>>>>>    /*
+>>>>>     * disconnect streams
+>>>>>     * called from usb_audio_disconnect()
+>>>>> diff --git a/sound/usb/card.h b/sound/usb/card.h
+>>>>> index 02e4ea898db5..ed4a664e24e5 100644
+>>>>> --- a/sound/usb/card.h
+>>>>> +++ b/sound/usb/card.h
+>>>>> @@ -217,4 +217,15 @@ struct snd_usb_platform_ops {
+>>>>>    int snd_usb_register_platform_ops(struct snd_usb_platform_ops *ops);
+>>>>>    int snd_usb_unregister_platform_ops(void);
+>>>>> +
+>>>>> +#if IS_ENABLED(CONFIG_SND_USB_AUDIO)
+>>>>> +struct snd_usb_stream *snd_usb_find_suppported_substream(int card_idx,
+>>>>> +            struct snd_pcm_hw_params *params, int direction);
+>>>>> +#else
+>>>>> +static struct snd_usb_stream
+>>>>> *snd_usb_find_suppported_substream(int card_idx,
+>>>>> +            struct snd_pcm_hw_params *params, int direction)
+>>>>> +{
+>>>>> +    return NULL;
+>>>>> +}
+>>>>> +#endif /* IS_ENABLED(CONFIG_SND_USB_AUDIO) */
+>>>>
+>>>> The usefulness of ifdef guard here is doubtful, IMO.  This header is
+>>>> only for USB-audio driver enablement, and not seen as generic
+>>>> helpers.  So, just add the new function declarations without dummy
+>>>> definitions.
+>>>>
+>>>
+>>> Got it, will remove it.  We also have a dependency in place for the
+>>> qc_audio_offload driver and SND USB AUDIO in the Kconfig.
+>>>
+>>
+>> Looking at this again after trying some mixed Kconfig settings.  These
+>> declarations aren't specific for USB-audio.  They are helpers that are
+>> exposed to soc usb, so that it can do some basic verification with soc
+>> usb before allowing the enable stream to continue.
 > 
-> ugh, no, it's more complicated than that.  look at the recent changes to
-> set_ptes().  we can now install PTEs of many different sizes, depending
-> on the architecture.  someday i look forward to supporting all the page
-> sizes on parisc (4k, 16k, 64k, 256k, ... 4G)
+> Then rather the question is why snd-soc-usb calls those functions
+> *unconditionally*.  No matter whether we have dependencies in Kconfig,
+> calling the function means that the callee shall be drug when the
+> corresponding code is running.
+> 
+> If it were generic core API stuff such as power-management or ACPI,
+> it'd make sense to define dummy functions without the enablement, as
+> many code may have optional calls.  If the API is enabled, it's anyway
+> in the core.  If not, it's optional.  That'll be fine.
+> 
+> OTOH, the stuff you're calling certainly belongs to snd-usb-audio.
+> Even if the call is really optional, it means that you'll have a hard
+> dependency when snd-usb-audio is built, no matter whether you need or
+> not.
+> 
+>> Since the ASoC
+>> layer doesn't have insight on what audio profiles are supported by the
+>> usb device, this API will ensure that the request profile is
+>> supported.
+>>
+>> Issues are seen when we disable SND USB audio config and enable the
+>> ASoC parts.
+> 
+> If snd-usb-audio is disabled, what snd-soc-usb would serve at all?
+> Does it still make sense to keep it enabled?
+> That said, the statement above (building snd-soc-usb without
+> snd-usb-audio) looks already dubious; isn't it better to have a proper
+> dependency in Kconfig, instead?
+> 
 
-Nice!
+Ok, took a look at it a bit more and should have gotten all the 
+dependencies addressed through Kconfigs.  Thanks for the review comments 
+and feedback.
 
-There are enough bits in vm_fault_t to represent many page sizes instead
-of the entry type as I suggested, but I would defer to you or Dave on
-how to make "installed pte size" generically traceable per Dave's
-suggestion.
+Thanks
+Wesley Cheng
