@@ -1,96 +1,178 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C8914276;
-	Sun, 25 Feb 2024 15:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7305175B7
+	for <linux-doc@vger.kernel.org>; Sun, 25 Feb 2024 16:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708875969; cv=none; b=H+Y4issQ5fY6V5YI7FskvZTSHG3W2fLIUxqo2RUp7Au9jixp6WXJ/Uii4XGUCzCBUiR4vDUnlE0HbGd2U3XsFvOoYDWyH0V9wVwDQg5VnuEn8NzmVzKdwhcoRRrDwmVUTgBAho6MrQOB0h7nkPYBu3b8FYbRh0A0Dcagh1S2RhA=
+	t=1708877375; cv=none; b=Y4GI/QtxmjZDLovu8W6Ft3V1292f73NqNS8SB68jJBwX3nkFuj77VY6UHmbAiaIyOzqZt8+twg+oSGyMIZO8WTd8riuFXtQeV/8baBiOcvgQD3rhVcSpBvZ/OwgXJqQjI97Xm21azhptWX/PJm44lJhLIE/Dpbro/bympCFHhY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708875969; c=relaxed/simple;
-	bh=t9F39Ikr4dVm3edibCROfCU2YuulRER1E6uwGvflmoY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UvhaT4L30rwCExmvGuiTsJg/QGjrXjUCJvWN2DLdFU8h+z7PKCGYJidf9utTnCt8MHWomtJ9MyREqOPqEVwUWgsSJ1jZxA8lGD6LnGtx+cygz7LBlDjte5P4BkiMhbpONBGnkKplEQw1MRxrAdAUXdlSmX4iPCi3H1P/87dCE9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2E+HvhU; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708877375; c=relaxed/simple;
+	bh=CXVFzfxGpn9qFW0iQ3fUvAoQ4Dnr+o7skXfAk4DfHeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IlNu9krSfXOuXeAs5C+xNOIyEemRk63cpguAtUKbiYHyhShAOOt3CcJWwGfH5wtxkvFHqDTqzF2+WYizik/7wDnKN0KBA24VLa6IWj0GBoXj6p83qEPVbmq712BmzlrB0F/eJEFcJWPe/4FDQp2vN0vEDXyFlTtnZ+T5m8kz0z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=asg93LvR; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2E+HvhU"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-58e256505f7so2419007eaf.3;
-        Sun, 25 Feb 2024 07:46:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="asg93LvR"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5d8b276979aso1856585a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 25 Feb 2024 08:09:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708875967; x=1709480767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Ie9GBSxINBIsyz8X4p5mFdB/eNwrXZ+fsuhlbACghM=;
-        b=F2E+HvhUprOU0YyJsYG3NBVPRAbh7YHtS9xxQZQ+zAmGZl0jCk/xJKtWP6PjuvSWxK
-         NQG8iE0ivfEWsRm22D/2BcwEjSeE98W2LjoOJUdNhoNEJzqO4ttbQ2KZXpYLiQqfPB7i
-         3hFtsZNWZ/5r1ZnrhJ0Xx++foU+rUK4Iat+aJoCwaA/9FnQYyJYEUuSYt5NxpuXQ2pgy
-         nOOXSMiE0MWfXyifHJlh9M+hnjXam6V+2MdkRlTkT0svHxuU/NLzHGDUEufFEgqfQBkV
-         DveFwhljOrztVadXDGUlieO9T890I3FJ1bVcDZxywU3DwX/RemgS63eflnzEMMNprIHV
-         q9zA==
+        d=linaro.org; s=google; t=1708877373; x=1709482173; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2cB6oxKBDQvRDzfa7GxlQ1uXrMwFDIwByZ0N4Dfmmns=;
+        b=asg93LvRQqCxfd8oyh9AGARiAEXBHex8qNukHySCUNnHXpSy3WiVeU3i/nOy5O3Q5H
+         ShSKa+bJ7ZNmfyGcAarfCfnDrtr+9PGtNgTbQoBJAYUKO+1o4DoUf9z5WiqiYlCpicm6
+         OMYGmFjf9gIXkvsPxy4xMXyhk0/tNJFVk5EQ7sOZT0z4eIz10KHPnT7xBEGf/1X+o5Y1
+         aN+YjgzlBIjZl4jcrNW2W2ewY/YaY2/h6HI6UDa7wRw7YHJDarPn/FgiZn7EjgiXjO/Y
+         49Ozi1GnFdAUd+eMqMiz7cfoVi5UuHQl40qOoKWad2dL9Sz53xBJssCDbkhexsvF8tXk
+         Yrkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708875967; x=1709480767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5Ie9GBSxINBIsyz8X4p5mFdB/eNwrXZ+fsuhlbACghM=;
-        b=FaghQzoAZRdhMsE6JdlLJQSIWuS6IHJQVEZNlXkhRMaGdRD+m7mZzsktg/Jjwn/pv9
-         fe0RLrmLFlUuFiwDNmXCiGDUp5YfU2gwtWfzQpQMf4T6lPqgqiZSUS9uS6q/Rwj7MAih
-         NJuq20FAssExd+OxuYyeMsIISGWgjr9vWELbh1UxlJA9uHxBW0aLL5jdoDkRqUT61qZF
-         W++TRC59dlYfuvYLkodDk5mBI/YYnhQYzmDErcvvFkNecaehXZxvY0AnCoRJHbmlCZ5T
-         W+A7qXToY8Ij0FzngLooHnCcUfsxI/6L9xOK1vmQs82nyK2Yj7DOoVWsm4RyvnW/2Ytc
-         iBJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKidxCdxGXTkxYT3T0tLfEd3FCgU3LsCGUgERTcomqYObU3WKqKejvGnKDjYgDOp7QnTtmS0mZLyicec/xSkuF73nHd4bGhMCnQjMfeEhZ2xD0wQriaHN9Ie4SAQMI1qqTH5KxdbGSUkdNG+BXLOy5EC+W8pfyX0+bLtFk7JanC0o=
-X-Gm-Message-State: AOJu0Yw+D1e3LNjXN0iRZl7IhTcTsc80vu/o4DFIPi3HIcM+1pNaLS2j
-	tFBZbqp4/qddGwP1s0KtL0rE/EtKFPWfMFvxnacLoFrfLsGWNGg/
-X-Google-Smtp-Source: AGHT+IFWhLZfdDmqeXxHV2Hz5s5QMMfN88PxbrSK4NtiVrje2/QYuuUDVC/eIo94JaLTYSpskqYCow==
-X-Received: by 2002:a05:6358:6386:b0:17b:57fd:ec5d with SMTP id k6-20020a056358638600b0017b57fdec5dmr7714634rwh.24.1708875967244;
-        Sun, 25 Feb 2024 07:46:07 -0800 (PST)
-Received: from localhost.localdomain (123-193-217-197.dynamic.kbronet.com.tw. [123.193.217.197])
-        by smtp.gmail.com with ESMTPSA id h18-20020a056a00219200b006e468cd0a5asm2541701pfi.178.2024.02.25.07.46.05
+        d=1e100.net; s=20230601; t=1708877373; x=1709482173;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2cB6oxKBDQvRDzfa7GxlQ1uXrMwFDIwByZ0N4Dfmmns=;
+        b=wDD4xZX+C2bzthMPG36EetwQXFJkWOkXOSAM/O3qJdzF+MTP8ox1BKc2qeNzm8026C
+         Y81yzKn7TSYJL5ZMX5XM9sqBfR2U5L5yqeRPElM+Mf/48Tw7bkbHGjtKkB/lwc6CXYyN
+         AA26d8G57oekSK5wk3djxCTqI7ufQtwpp/9vwWAX2P9RHC/9yyzPdFD8LbDzBHYcAiP+
+         KXJrs1okx4mbMLHL/zGpu0TWRH5mQmQzw+AFFnTAd4jeWSsuSJbARlR9msTiZAYOUv2B
+         X+C0oRPWqmYt+VhOL/IBe53xRkJYKG1tfIU25sh0w2sp8nq81CM9AXu0NftMsSwUwIIG
+         G/Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+E8JGRKR4UaB4IMlheaCeeqi4xxwrQYIX8rskftD/GHGzYSWCcbvpezWzOnTjpnQuUJrTKO4JVvVpat7msy7xokUGJncjWzZw
+X-Gm-Message-State: AOJu0Yyh9Ormh2IqNYVzFK8IQopsgGGdYh9BzMjIgYWp7grMwglmLw6p
+	/8krFhJo3XjD/myGaxEsijaniNhFf4V/sxqmRKKk+YroeegE24IyM2DM05hQYw==
+X-Google-Smtp-Source: AGHT+IGQbcNzjmDRKIKLEdITzXTWaRNodmOp/SEhRlcPD3qZCwGAjUzjwC35n9gDwnqOyp00/kTIEA==
+X-Received: by 2002:a05:6a20:9f03:b0:1a0:a61d:1230 with SMTP id mk3-20020a056a209f0300b001a0a61d1230mr4242673pzb.23.1708877373021;
+        Sun, 25 Feb 2024 08:09:33 -0800 (PST)
+Received: from thinkpad ([103.246.195.16])
+        by smtp.gmail.com with ESMTPSA id f26-20020aa79d9a000000b006e4f0e2cc52sm2470639pfq.168.2024.02.25.08.09.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 07:46:06 -0800 (PST)
-From: Yiwei Lin <s921975628@gmail.com>
-To: rafael@kernel.org
-Cc: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	s921975628@gmail.com
-Subject: [PATCH] Documentation: PM: Fix runtime_pm.rst markdown syntax
-Date: Sun, 25 Feb 2024 21:00:57 +0800
-Message-Id: <20240225130057.42633-1-s921975628@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 25 Feb 2024 08:09:32 -0800 (PST)
+Date: Sun, 25 Feb 2024 21:39:26 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Wadim Mueller <wafgo01@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Shunsuke Mie <mie@igel.co.jp>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add support for Block Passthrough Endpoint function
+ driver
+Message-ID: <20240225160926.GA58532@thinkpad>
+References: <20240224210409.112333-1-wafgo01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240224210409.112333-1-wafgo01@gmail.com>
 
-The '7. Generic subsystem callbacks' should be
-a section title, but the markdown syntax now is wrong to show
-this as expected. Fix it so we can to link the chapter
-at docs.kernel.org correctly.
+On Sat, Feb 24, 2024 at 10:03:59PM +0100, Wadim Mueller wrote:
+> Hello,
+> 
+> This series adds support for the Block Passthrough PCI(e) Endpoint functionality.
+> PCI Block Device Passthrough allows one Linux Device running in EP mode to expose its Block devices to the PCI(e) host (RC). The device can export either the full disk or just certain partitions.
+> Also an export in readonly mode is possible. This is useful if you want to share the same blockdevice between different SoCs, providing each SoC its own partition(s).
+> 
+> 
+> Block Passthrough
+> ==================
+> The PCI Block Passthrough can be a useful feature if you have multiple SoCs in your system connected
+> through a PCI(e) link, one running in RC mode, the other in EP mode.
+> If the block devices are connected to one SoC (SoC2 in EP Mode from the diagramm below) and you want to access
+> those from the other SoC (SoC1 in RC mode below), without having any direct connection to
+> those block devices (e.g. if you want to share an NVMe between two SoCs). An simple example of such a configurationis is shown below:
+> 
+> 
+>                                                            +-------------+
+>                                                            |             |
+>                                                            |   SD Card   |
+>                                                            |             |
+>                                                            +------^------+
+>                                                                   |
+>                                                                   |
+>     +--------------------------+                +-----------------v----------------+
+>     |                          |      PCI(e)    |                                  |
+>     |         SoC1 (RC)        |<-------------->|            SoC2 (EP)             |
+>     | (CONFIG_PCI_REMOTE_DISK) |                |(CONFIG_PCI_EPF_BLOCK_PASSTHROUGH)|
+>     |                          |                |                                  |
+>     +--------------------------+                +-----------------^----------------+
+>                                                                   |
+>                                                                   |
+>                                                            +------v------+
+>                                                            |             |
+>                                                            |    NVMe     |
+>                                                            |             |
+>                                                            +-------------+
+> 
+> 
+> This is to a certain extent a similar functionality which NBD exposes over Network, but on the PCI(e) bus utilizing the EPC/EPF Kernel Framework.
+> 
+> The Endpoint Function driver creates parallel Queues which run on seperate CPU Cores using percpu structures. The number of parallel queues is limited
+> by the number of CPUs on the EP device. The actual number of queues is configurable (as all other features of the driver) through CONFIGFS.
+> 
+> A documentation about the functional description as well as a user guide showing how both drivers can be configured is part of this series.
+> 
+> Test setup
+> ==========
+> 
+> This series has been tested on an NXP S32G2 SoC running in Endpoint mode with a direct connection to an ARM64 host machine.
+> 
+> A performance measurement on the described setup shows good performance metrics. The S32G2 SoC has a 2xGen3 link which has a maximum Bandwidth of ~2GiB/s.
+> With the explained setup a Read Datarate of 1.3GiB/s (with DMA ... without DMA the speed saturated at ~200MiB/s) was achieved using an 512GiB Kingston NVMe
+> when accessing the NVMe from the ARM64 (SoC1) Host. The local Read Datarate accessing the NVMe dirctly from the S32G2 (SoC2) was around 1.5GiB.
+> 
+> The measurement was done through the FIO tool [1] with 4kiB Blocks.
+> 
+> [1] https://linux.die.net/man/1/fio
+> 
 
-Signed-off-by: Yiwei Lin <s921975628@gmail.com>
----
- Documentation/power/runtime_pm.rst | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the proposal! We are planning to add virtio function support to
+endpoint subsystem to cover usecases like this. I think your usecase can be
+satisfied using vitio-blk. Maybe you can add the virtio-blk endpoint function
+support once we have the infra in place. Thoughts?
 
-diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/runtime_pm.rst
-index 65b86e487..82bc76d3d 100644
---- a/Documentation/power/runtime_pm.rst
-+++ b/Documentation/power/runtime_pm.rst
-@@ -730,6 +730,7 @@ out the following operations:
-     for it, respectively.
- 
- 7. Generic subsystem callbacks
-+==============================
- 
- Subsystems may wish to conserve code space by using the set of generic power
- management callbacks provided by the PM core, defined in
+- Mani
+
+> Wadim Mueller (3):
+>   PCI: Add PCI Endpoint function driver for Block-device passthrough
+>   PCI: Add PCI driver for a PCI EP remote Blockdevice
+>   Documentation: PCI: Add documentation for the PCI Block Passthrough
+> 
+>  .../function/binding/pci-block-passthru.rst   |   24 +
+>  Documentation/PCI/endpoint/index.rst          |    3 +
+>  .../pci-endpoint-block-passthru-function.rst  |  331 ++++
+>  .../pci-endpoint-block-passthru-howto.rst     |  158 ++
+>  MAINTAINERS                                   |    8 +
+>  drivers/block/Kconfig                         |   14 +
+>  drivers/block/Makefile                        |    1 +
+>  drivers/block/pci-remote-disk.c               | 1047 +++++++++++++
+>  drivers/pci/endpoint/functions/Kconfig        |   12 +
+>  drivers/pci/endpoint/functions/Makefile       |    1 +
+>  .../functions/pci-epf-block-passthru.c        | 1393 +++++++++++++++++
+>  include/linux/pci-epf-block-passthru.h        |   77 +
+>  12 files changed, 3069 insertions(+)
+>  create mode 100644 Documentation/PCI/endpoint/function/binding/pci-block-passthru.rst
+>  create mode 100644 Documentation/PCI/endpoint/pci-endpoint-block-passthru-function.rst
+>  create mode 100644 Documentation/PCI/endpoint/pci-endpoint-block-passthru-howto.rst
+>  create mode 100644 drivers/block/pci-remote-disk.c
+>  create mode 100644 drivers/pci/endpoint/functions/pci-epf-block-passthru.c
+>  create mode 100644 include/linux/pci-epf-block-passthru.h
+> 
+> -- 
+> 2.25.1
+> 
+
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
