@@ -1,78 +1,63 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6C78F5B;
-	Sun, 25 Feb 2024 18:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581BE3212;
+	Sun, 25 Feb 2024 19:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708887064; cv=none; b=DW4iyaui9iGI1DSulJI8NlexQRgFlzQfQR70cChUNzcDVJsLuKodlHB7SYdDwoX7jTQcMQ0juFYy8FU8Avr3hRWEyXYi/AYYKQew9oqxC9QZLwY4Sfl3feWKXwqYqYwaq33k3nWfWHgbroXvh2VjXHAZB74keRmJ+tr2gk4tQGA=
+	t=1708890778; cv=none; b=rNg8s2EjIycnrbDpbET1dOZx2uIaGdhvAmhalQNqs/BDjzkI5QYkfdsKhdrEPsgBuzvQj+n4Eof07CiKqY08G1skdhx+NftC25DsD0ykb3tvJOatySNZvqO1X2O5nlek5vMGllrz2WJu0viH423fFWZBM0NMtpUgt/CkBx6Qbbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708887064; c=relaxed/simple;
-	bh=UgRdhmfh10gDKv2Y5kuVJ6W6bY2dnFiuiGLeicbl2Fg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T+u5NWmj98i4XWrJ2xhGXdtkIQKGH8XkaE+K8REUu7eqclV+D+WKrSBIfSX7W/OmOAc8YGE1BpV3Dbm5NWxXnlSNHShkzFwA7xOAutaw5M9vkGYK8DYryLh3APX/PyyboCwqZK22b2pmlW3UvayhWq/HYyoF7Oau45aDdbPtoX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HMNhhX4W; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1708890778; c=relaxed/simple;
+	bh=8GNhRqi7Vuh1WOHAeJoQNPHbOmC5+3e5XCSn45x+kz8=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=AYGcWFzS8cH6E/xNVSHge00NEVVqMmSZogOHC8vRcnrwTsMjVvZnb01toqhkZhNJhtrkiRvoW5gtp5wqwaNbpBhhFg6wqZXDfzd2UgY8RygQ3YAc98s2z+HsxGLwy0/BcNpGRRHkhUqwtFkCGH5syox5hzskQmW2gBQEmJw7bTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjiHFFz8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HMNhhX4W"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E069147A99
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1708887054; bh=WH6GM9goJEt1bM9bjbu7aMgm20/St90ib3S/MlnO49Y=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HMNhhX4WwKMZBM65aY6Yejps5M2tZk+3GYw3IFiFZlwAhjhIbZOK9qaYLeyuGxsnt
-	 tvyHldUviV/7EQssVLhsUiRke4fHLyNjW1uabphhGyflG2zyyRVVOxE4SPA+tcIiiO
-	 2eop0m/gvfTI70W135Y+4F8yxJLnaq0PQC1BioCWgC77ndJrwaULhWzt5PRwl2jJDV
-	 NwI/QhxKspp8bhP66Yn4rhpIr6Y9m2P4m4loK0GHrR9g1G3etwqEtxAV32m0aR2PdI
-	 QFtZ662UMKHdFhIzTKlmljjsOjajw5FSTkih5EB+C59+7sOtPqcAL6paRDT3VKhsfF
-	 Yxhn9P5vmiNAA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E069147A99;
-	Sun, 25 Feb 2024 18:50:53 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] Two more documentation fixes for 6.8
-Date: Sun, 25 Feb 2024 11:50:53 -0700
-Message-ID: <87y1b85qeq.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjiHFFz8"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF23AC433F1;
+	Sun, 25 Feb 2024 19:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708890777;
+	bh=8GNhRqi7Vuh1WOHAeJoQNPHbOmC5+3e5XCSn45x+kz8=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=mjiHFFz86VP3LdA/11bfmZzefCRC5qlwyFm3jOVdON/OkAj4g3XVZUeURfoTQPrjt
+	 DL4RjWg8KqctjYQuk3teil+/ZAO43OnYuYCRdPOLwBJHwVMptyo7hqIXW5d5A74QKL
+	 vy2uybgSEsXFW4cPx4i3Uj/qDjGe7dO3FNFlIMZ5WWsHfFr96yIDvVYPfK9yawos2Q
+	 YmuxLhXYwerdDe40y5lZovbLn8Qs5kpi5A9h8L66giQTD/hFrr1gX8byvIyRWrafW7
+	 br7VLB2WHd41sjNU7t9sRhU/6h0VaqREYCYaI5GtAUh4Zmzc8NdQUw/t23CXZZSZiU
+	 AAGSvl7Ony+lg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BB774C59A4C;
+	Sun, 25 Feb 2024 19:52:57 +0000 (UTC)
+Subject: Re: [GIT PULL] Two more documentation fixes for 6.8
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87y1b85qeq.fsf@meer.lwn.net>
+References: <87y1b85qeq.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87y1b85qeq.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.8-fixes3
+X-PR-Tracked-Commit-Id: b7b2ffc3ca59b06397550f96febe95f3f153eb1e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 70ff1fe626a166dcaadb5a81bfe75e22c91f5dbf
+Message-Id: <170889077775.21635.6225591635939745564.pr-tracker-bot@kernel.org>
+Date: Sun, 25 Feb 2024 19:52:57 +0000
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-The following changes since commit c23de7ceae59e4ca5894c3ecf4f785c50c0fa428:
+The pull request you sent on Sun, 25 Feb 2024 11:50:53 -0700:
 
-  docs: kernel_feat.py: fix build error for missing files (2024-02-08 11:05:35 -0700)
+> git://git.lwn.net/linux.git tags/docs-6.8-fixes3
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/70ff1fe626a166dcaadb5a81bfe75e22c91f5dbf
 
-  git://git.lwn.net/linux.git tags/docs-6.8-fixes3
+Thank you!
 
-for you to fetch changes up to b7b2ffc3ca59b06397550f96febe95f3f153eb1e:
-
-  docs: translations: use attribute to store current language (2024-02-21 13:41:37 -0700)
-
-----------------------------------------------------------------
-Two documentation build fixes:
-
-- The XFS online fsck documentation uses incredibly deeply nested
-  subsection and list nesting; that broke the PDF docs build.  Tweak a
-  parameter to tell LaTeX to allow the deeper nesting.
-
-- Fix a 6.8 PDF-build regression
-
-----------------------------------------------------------------
-Jonathan Corbet (1):
-      docs: Instruct LaTeX to cope with deeper nesting
-
-Vegard Nossum (1):
-      docs: translations: use attribute to store current language
-
- Documentation/conf.py                |  6 ++++++
- Documentation/sphinx/translations.py | 10 ++++------
- 2 files changed, 10 insertions(+), 6 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
