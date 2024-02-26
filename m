@@ -1,169 +1,98 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33507F7D0;
-	Mon, 26 Feb 2024 12:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FF97F7F9
+	for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 12:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708951903; cv=none; b=cvH6b3rsHOT4J0uz7vaEBWwDH89lRhije050IMlwEWVcfdB+ZmYzaLXqy8162o0m9+NSHiLniu3LhUAi1s/ji/QafPFjc2t0CvJgK9aXvqwadnvD4wnMtKt71ayodfPcHdqHcXOZDUDyAx1l5ik8Hp4488ieHMb2znJlov84tCM=
+	t=1708952036; cv=none; b=Re3pbjRUPXYr7q2IkwAn+IPk+gTyuqTocVkTAVhUAIZMFCyebMo6px3WBWrug/TON4unuQTUQkgZNzPALyk15UJP6g9fK2qzsUk966s4QSUxp6EhkFZ9ySzRY93JVrvqedSp+in0JcquqMHf4ZX5RDKDUt/gEza8ekkmTgq1OmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708951903; c=relaxed/simple;
-	bh=WXZHOU0/VVsz2WZBsy4+DbitB3SDhWUUx6Cp0aYy9iI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FnBUE0jFubCTuduXcddWtQQiBa1bSQdbseaNvehtsjKsUWJFEi+ZbZc8eougetnGpPe0h2pj5vOCQEVpKoGv9BKmNc3wYliUU1yBTWyZW5i5DoK2xUK60n+3MY2Ke6nKidHPIpdRbaflEtHpgAeycoGECS/oar9TNcNBw8Ws5JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tk0kb5lhdz689Hq;
-	Mon, 26 Feb 2024 20:47:19 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5A6C71400DB;
-	Mon, 26 Feb 2024 20:51:38 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
- 2024 12:51:37 +0000
-Date: Mon, 26 Feb 2024 12:51:36 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: John Groves <John@Groves.net>
-CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 09/20] famfs: Add super_operations
-Message-ID: <20240226125136.00002e64@Huawei.com>
-In-Reply-To: <537f836056c141ae093c42b9623d20de919083b1.1708709155.git.john@groves.net>
-References: <cover.1708709155.git.john@groves.net>
-	<537f836056c141ae093c42b9623d20de919083b1.1708709155.git.john@groves.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1708952036; c=relaxed/simple;
+	bh=M9B5Uvew9xAvuUMjh9ofeJ7p8pQRcV7VkL83dSaI60U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yjc2cdCefQ088cXozNgbTQStLY6vDahi6D+QcXNMAgsykUL9V8cUPdUakfE8bVFezxHHN+9MD5haI6Q2qCMM+e64fnY19vNzhh4h5QKreRsZpCzA7ruUrECFRaH/LK/v+o6Ng4r5TXYdY4iP0eaQgjscJEwYmlNWpIx6JYcaRU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=Z9O9xi7d; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Z9O9xi7d"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412a4a932f4so7186515e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 04:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1708952033; x=1709556833; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M9B5Uvew9xAvuUMjh9ofeJ7p8pQRcV7VkL83dSaI60U=;
+        b=Z9O9xi7dxpp7cx8NUpGPeXLqnAP2bM+5vufZEBB1FbO1LLRHK0w7C3uEnE0ZZcUk7D
+         124lgXKsnGfHmrA4JsiSP9SPRg6yLCczezFbJmprkr4qxQGgqoodV328KJV9p/fclPlL
+         /t1CMNe2Ivu9vZ8Tu6DAz2EvfMxiNvPiex+FxhEdSLVFJLxnMkwEBk2DlQoAD7PIkBRg
+         0d/DI1vyiMjIvrtg4lYKZ6NPl2oNtwZf0mjP7vOsdtIC2KZNrVV4S80W6wyYSyyt8edq
+         hcgoawZbKD/+Y5FuVunhZxUj5foe0vgWFjwODqpyV6rtD6MrnCp1Edqam0jlnvdiZ2jm
+         85hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708952033; x=1709556833;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M9B5Uvew9xAvuUMjh9ofeJ7p8pQRcV7VkL83dSaI60U=;
+        b=q3VxZi5D+WUmgMZDFcvJXO63EfqKvtU60w1GEssS3eqlk3coHNRT1HJDSyJPHpwvoZ
+         ysN/K65xWOew26vEbrXDzBAIefJEXnnSlyGUqKM6+yoH/1Ziq1iKxr/DjphvVECVgl1c
+         E66d7eidihQapAND5Qp5MHZ9QMETOQ7XDL71vtdwRaQsGkrwWkR5Faj3IJeX1zJlEHq4
+         9ET3inBDgVC4O0GeC0TfkarlHGVBn51/f9cTAn4eRMRkCkahHwV3hlwnSeudk4O8riDF
+         Pc4VqBDRN0HS5Uit9q/vWFcOxHXPRHwn88ryzWjCsrSgzw9d7YW9DH5Byj8OaNAzV2xo
+         akYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWR76tKY8r3ra3Vb4PFv2ke4vBZRxtAJIB6mEdIowoWd/sIHfN+lkXUo+VRKSM1eA7KwhfHDq+PrNwm9Dbdx7pld7P7meZvR5+V
+X-Gm-Message-State: AOJu0Yzgr1HjDEwD7uIFukX5JuESo35aQd/eO/zi3q4u5FvZhks6Phzh
+	m5nbESqfkDdkCEDL7mwc4Z1/CwD/nbsJXtcahs1sO0ntv6uBNP/9pnO14rMOg98=
+X-Google-Smtp-Source: AGHT+IH2HngUcMJC48WFCod9LwDdU8GV8wk6wSxDPAdNYGXBCkBvfwODhTqtj1uuUDkwMZa8j7vurA==
+X-Received: by 2002:a5d:5b85:0:b0:33d:87e9:5900 with SMTP id df5-20020a5d5b85000000b0033d87e95900mr4608962wrb.62.1708952033028;
+        Mon, 26 Feb 2024 04:53:53 -0800 (PST)
+Received: from localhost ([86.61.181.4])
+        by smtp.gmail.com with ESMTPSA id g16-20020adffc90000000b0033d3b8820f8sm8172448wrr.109.2024.02.26.04.53.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 04:53:52 -0800 (PST)
+Date: Mon, 26 Feb 2024 13:53:51 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jones Syue =?utf-8?B?6Jab5oe35a6X?= <jonessyue@qnap.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"j.vosburgh@gmail.com" <j.vosburgh@gmail.com>,
+	"andy@greyhouse.net" <andy@greyhouse.net>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
+ with __agg_has_partner
+Message-ID: <ZdyJ32Ne-qKs-RDP@nanopsycho>
+References: <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
 
-On Fri, 23 Feb 2024 11:41:53 -0600
-John Groves <John@Groves.net> wrote:
+Mon, Feb 26, 2024 at 03:24:52AM CET, jonessyue@qnap.com wrote:
+>Replace macro MAC_ADDRESS_EQUAL() for null_mac_addr checking with inline
+>function__agg_has_partner(). When MAC_ADDRESS_EQUAL() is verifiying
+>aggregator's partner mac addr with null_mac_addr, means that seeing if
+>aggregator has a valid partner or not. Using __agg_has_partner() makes it
+>more clear to understand.
+>
+>In ad_port_selection_logic(), since aggregator->partner_system and
+>port->partner_oper.system has been compared first as a prerequisite, it is
+>safe to replace the upcoming MAC_ADDRESS_EQUAL() for null_mac_addr checking
+>with __agg_has_partner().
+>
+>Delete null_mac_addr, which is not required anymore in bond_3ad.c, since
+>all references to it are gone.
+>
+>Signed-off-by: Jones Syue <jonessyue@qnap.com>
 
-> Introduce the famfs superblock operations
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/famfs/famfs_inode.c | 72 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 fs/famfs/famfs_inode.c
-> 
-> diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> new file mode 100644
-> index 000000000000..3329aff000d1
-> --- /dev/null
-> +++ b/fs/famfs/famfs_inode.c
-> @@ -0,0 +1,72 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * famfs - dax file system for shared fabric-attached memory
-> + *
-> + * Copyright 2023-2024 Micron Technology, inc
-> + *
-> + * This file system, originally based on ramfs the dax support from xfs,
-> + * is intended to allow multiple host systems to mount a common file system
-> + * view of dax files that map to shared memory.
-> + */
-> +
-> +#include <linux/fs.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/highmem.h>
-> +#include <linux/time.h>
-> +#include <linux/init.h>
-> +#include <linux/string.h>
-> +#include <linux/backing-dev.h>
-> +#include <linux/sched.h>
-> +#include <linux/parser.h>
-> +#include <linux/magic.h>
-> +#include <linux/slab.h>
-> +#include <linux/uaccess.h>
-> +#include <linux/fs_context.h>
-> +#include <linux/fs_parser.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/dax.h>
-> +#include <linux/hugetlb.h>
-> +#include <linux/uio.h>
-> +#include <linux/iomap.h>
-> +#include <linux/path.h>
-> +#include <linux/namei.h>
-> +#include <linux/pfn_t.h>
-> +#include <linux/blkdev.h>
-
-That's a lot of header for such a small patch.. I'm going to guess
-they aren't all used - bring them in as you need them - I hope
-you never need some of these!
-
-
-> +
-> +#include "famfs_internal.h"
-> +
-> +#define FAMFS_DEFAULT_MODE	0755
-> +
-> +static const struct super_operations famfs_ops;
-> +static const struct inode_operations famfs_file_inode_operations;
-> +static const struct inode_operations famfs_dir_inode_operations;
-
-Why are these all up here?
-
-> +
-> +/**********************************************************************************
-> + * famfs super_operations
-> + *
-> + * TODO: implement a famfs_statfs() that shows size, free and available space, etc.
-> + */
-> +
-> +/**
-> + * famfs_show_options() - Display the mount options in /proc/mounts.
-Run kernel doc script + fix all warnings.
-
-> + */
-> +static int famfs_show_options(
-> +	struct seq_file *m,
-> +	struct dentry   *root)
-Not that familiar with fs code, but this unusual kernel style. I'd go with 
-something more common
-
-static int famfs_show_options(struct seq_file *m, struct dentry *root)
-
-> +{
-> +	struct famfs_fs_info *fsi = root->d_sb->s_fs_info;
-> +
-> +	if (fsi->mount_opts.mode != FAMFS_DEFAULT_MODE)
-> +		seq_printf(m, ",mode=%o", fsi->mount_opts.mode);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct super_operations famfs_ops = {
-> +	.statfs		= simple_statfs,
-> +	.drop_inode	= generic_delete_inode,
-> +	.show_options	= famfs_show_options,
-> +};
-> +
-> +
-One blank line probably fine.
-
-
-Add the rest of the stuff a module normally has, author etc in this
-patch.
-
-> +MODULE_LICENSE("GPL");
-
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
