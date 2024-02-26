@@ -1,156 +1,216 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E5A12C800;
-	Mon, 26 Feb 2024 17:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BAC12DD9B;
+	Mon, 26 Feb 2024 17:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708968485; cv=none; b=lwUO6GMQPPOiAGmHIwbOlj042YLe15A5RZwa5YKuzCAtjYjtLWdh98hXClfjhAqoH64Gz+ambWHdL4Och+TsU2t3JgIKlPQw9q8LzEa8rs7/9uc4yywWdfDRavoauDe3Jlru3PRHx7hHnuSeeSuL1/8WA43ltY5GVtTs4nplwVE=
+	t=1708968922; cv=none; b=EH8BCuW5pQoZS9V5oqMNeb5Idmu6io6PHt8WxUk8CJ86aMLX6cGSfb0LqXjYxFSUsKhWMbWL9LcFTBsRr8uhgl0zupvd3adIK4xYqkg18GMRNGz+oU0+rItgfntfrCzuTmd8RNTQCVuU83Mx1dPrnvr8XPZGNRssDpgYDk+pFVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708968485; c=relaxed/simple;
-	bh=2HBgRJuzD/DEzOuUlPeELaZHx85jbXyYOMRMlHWPSzc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qo8rfRTqDJmCj3QEzlEWEjjxTzP1XDNZZKYT//XGWayQrftwPX0DUigFMmCaohDMpgdGSADTiiAl1Cgej8w2f0DGlP+e80fKegqJxzHiSjzrZ3s6tpGbwquwAs1J1h1sFSYnTyEjnIIC+pKJlZanjE6luDpiOcJpU/iOkwEcths=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iGXtAiZe; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1708968922; c=relaxed/simple;
+	bh=pZFdEHHS74uSQSTtdQp92KKc3jquRq20V+XWcp6EgKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=khIzCPUpvLHSPoWEOrdXTAbVz6xCQMjwSrCOJr85EICxU9WolFzNgY84RxZOfx2YkK3EqDAIpPOYGIK+aZvWbhXCZJ+uursR7VpMGca7dJJyYnRjk7HnOh8PyvN1zuJPC0z509nnUL7EF1JgXoAnOfWR1WQ8EgiZzeaIH9UVr98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFaxMXfp; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iGXtAiZe"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41QF8hTo032325;
-	Mon, 26 Feb 2024 17:27:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=xo8BL5z8F/dpS6FAXBqND
-	ypdFj4PXEGX78m0qafgn+w=; b=iGXtAiZeAnwWh00/pCFGofQ1KwaPva7d/Ihol
-	0Ov4ZNEBvedo37tPPfAZwlFnbSuYct7ZSAWsgiPahpvbN+eEsVP8OL3+8pOQBg8U
-	u4HD3ZjcPt/2yDsZDxiR+mL+Fc1E4XVPrmU3lbPgQU+9afqdXyMHNUNlr9Kr3WHh
-	1ZI2W8z+f+9NFZaGJ4424ErG+q/uE4SdilrHmGbSS97kY/6Mw/y7VkzEDPVQF0ZO
-	gBPG2xT23IB74x5kxPKpVNyWs4AwivfqAZA5Ay7flOnWAJCSXAjQ+jNGtBc+HyXG
-	x5IvoYWAMaen/lCj+g1+r/OwN/NRhKan+MMrgHgj8rDHDQMVw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wgkxq9hfy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 17:27:42 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41QHRWV4026940
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 17:27:32 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 26 Feb 2024 09:27:31 -0800
-Date: Mon, 26 Feb 2024 09:27:31 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: David Hildenbrand <david@redhat.com>
-CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-        Quentin Perret <qperret@google.com>,
-        Chris Goldsworthy
-	<quic_cgoldswo@quicinc.com>,
-        Android KVM <android-kvm@google.com>,
-        "Patrick
- Daly" <quic_pdaly@quicinc.com>,
-        Alex Elder <elder@linaro.org>,
-        "Srinivas
- Kandagatla" <srinivas.kandagatla@linaro.org>,
-        Murali Nalajal
-	<quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa
- Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>,
-        Fuad Tabba <tabba@google.com>,
-        "Sean Christopherson" <seanjc@google.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map functions
-Message-ID: <20240226092020370-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>, 
-	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
-	Quentin Perret <qperret@google.com>, Chris Goldsworthy <quic_cgoldswo@quicinc.com>, 
-	Android KVM <android-kvm@google.com>, Patrick Daly <quic_pdaly@quicinc.com>, 
-	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, Carl van Schaik <quic_cvanscha@quicinc.com>, 
-	Philip Derrin <quic_pderrin@quicinc.com>, Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
- <Zdxwo0abvklfam-Z@infradead.org>
- <2f4c44ad-b309-4baa-ac21-2ae19efd31fb@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFaxMXfp"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3bbd6ea06f5so1914626b6e.1;
+        Mon, 26 Feb 2024 09:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708968919; x=1709573719; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hg3y8nxzXla36uWDR1Drq6uiHQJkrYi4jCCDyrCzFbs=;
+        b=TFaxMXfp3JGeK9rllU4q9ofK/0Lh1SJWyiBZDr76KNyWArPxKLWGTdfXIoEvn7Dd60
+         RSx+lMGC672ZDaJdmfQnub6MpQZrEUudpzt/oQVg0CMuXnESay/aoSkCIdOgTtSm4cm9
+         MGWnb/iyA1bpZ4oTiPtwlGHDlMujBuVn/ku1Oa7MA51GVTgD6vrW/1ereRhYzHH0tB2N
+         jI4gy40F7OHsmQOf04rHyIi5MetxRVtBDBXeKpfuBrvOuM7JnsEq6MVD+505hHp1cs7D
+         6nQWqu75nKvIIoG1zWTUvGtAJ+SMwfFjz7erA6oZj/s2kmx5mSUUe0LRK/97mk22mMG4
+         +u3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708968919; x=1709573719;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hg3y8nxzXla36uWDR1Drq6uiHQJkrYi4jCCDyrCzFbs=;
+        b=GZDakPuv5kJxh5ThHivFtMarV2GxA806VhOnnDNwTcrktgZhWqrcG9VQ2EfZBlfIqU
+         +04Q4htxMJhjlNWfLvRYD7EcaN7JRJoKDnJ6umtQeEqViBjAseKyRoE0MB06jeq3oROd
+         wqEESjHDcy8n7WBGhNU++MhQCtqhrfw9PrOrk6oYVM+KgQf62hQdaulbw5uPpQAaSsDM
+         2X+RU0rE/2ExX3EU9cdaG7kz4puOUBURR01LZKXPM2X42DYHyCONvnDZRGg8CvJMXNk8
+         MgyuOiLelcbUZzbD3NCNu82CHWCeSSaxmYhiYmjxW4DxxEWfdjadpiyPkGXwzT5IJwWr
+         Q7qw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGwfw8uanz+A3FwfbRMLzcD+6r92UcmkIjmeUTJRwLOOMYHHogE/4TLP1b77chQ06TY9ovoUjtlJSlbZnsn0pnO2Y3drjzzLqfTcoibhKBeBSIfcP1cKJFPoZBSJpa/98EEqO5TvItZlSsGEMBl1/mOF8GWeITbMU3tR0SzLDbccXA0eVCiwmOp+V3yrr7oNbn4BY9svV/tM7IL/CMDy1qpw==
+X-Gm-Message-State: AOJu0Yyha+5NXBSYw2wGGFCi5iKZ0PdvmxIewdbJFA8GE6yFBR2KWoCN
+	NUWGcabyha7QkCNfdxRwvxa+BBfeK+KH+zxuwstHFiqcc5fGgIjs/KqnWqCvRzE=
+X-Google-Smtp-Source: AGHT+IFuGdZK2cA6mg4QaQRipIAZUshKOlcLnpK35D5bx97ZwiW/jzC0fLpOLdgOaA8FJ/BdbTj3rQ==
+X-Received: by 2002:a05:6808:d8:b0:3c1:578b:e25e with SMTP id t24-20020a05680800d800b003c1578be25emr3049917oic.9.1708968919401;
+        Mon, 26 Feb 2024 09:35:19 -0800 (PST)
+Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
+        by smtp.gmail.com with ESMTPSA id bh26-20020a056808181a00b003c15125b39asm1126976oib.34.2024.02.26.09.35.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 09:35:18 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Mon, 26 Feb 2024 11:35:17 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
+	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
+	dave.hansen@linux.intel.com, gregory.price@memverge.com
+Subject: Re: [RFC PATCH 08/20] famfs: Add famfs_internal.h
+Message-ID: <u6nfwlidsmmhejsboqdo4r2juox4txkzt4ffjlnlcqzzrwthlt@wsh5eb5xeghj>
+References: <cover.1708709155.git.john@groves.net>
+ <13556dbbd8d0f51bc31e3bdec796283fe85c6baf.1708709155.git.john@groves.net>
+ <20240226124818.0000251d@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2f4c44ad-b309-4baa-ac21-2ae19efd31fb@redhat.com>
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: LdjTkC-YCMeGWoOjKwhoFF8DF33-q3k1
-X-Proofpoint-GUID: LdjTkC-YCMeGWoOjKwhoFF8DF33-q3k1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
- impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402260133
+In-Reply-To: <20240226124818.0000251d@Huawei.com>
 
-On Mon, Feb 26, 2024 at 12:53:48PM +0100, David Hildenbrand wrote:
-> On 26.02.24 12:06, Christoph Hellwig wrote:
-> > The point is that we can't we just allow modules to unmap data from
-> > the kernel mapping, no matter how noble your intentions are.
+On 24/02/26 12:48PM, Jonathan Cameron wrote:
+> On Fri, 23 Feb 2024 11:41:52 -0600
+> John Groves <John@Groves.net> wrote:
 > 
-> I absolutely agree.
+> > Add the famfs_internal.h include file. This contains internal data
+> > structures such as the per-file metadata structure (famfs_file_meta)
+> > and extent formats.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> Hi John,
+> 
+> Build this up as you add the definitions in later patches.
+> 
+> Separate header patches just make people jump back and forth when trying
+> to review.  Obviously more work to build this stuff up cleanly but
+> it's worth doing to save review time.
 > 
 
-Hi David and Chirstoph,
+Ohhhhkaaaaay. I think you're right, just not looking forward to
+all that rebasing.
 
-Are your preferences that we should make Gunyah builtin only or should add
-fixing up S2 PTW errors (or something else)?
+> Generally I'd plumb up Kconfig and Makefile a the beginning as it means
+> that the set is bisectable and we can check the logic of building each stage.
+> That is harder to do but tends to bring benefits in forcing clear step
+> wise approach on a patch set. Feel free to ignore this one though as it
+> can slow things down.
 
-Also, do you extend that preference to modifying S2 mappings? This would
-require any hypervisor driver that supports confidential compute
-usecases to only ever be builtin.
+I'm not sure that's practical. A file system needs a bunch of different
+kinds of operations
+- super_operations
+- fs_context_operations
+- inode_operations
+- file_operations
+- dax holder_operations, iomap_ops
+- etc.
 
-Is your concern about unmapping data from kernel mapping, then module
-being unloaded, and then having no way to recover the mapping? Would a
-permanent module be better? The primary reason we were wanting to have
-it as module was to avoid having driver in memory if you're not a Gunyah
-guest.
+Will think about the dependency graph of these entities, but I'm not sure
+it's tractable...
+
+> 
+> A few trivial comments inline.
+> 
+> > ---
+> >  fs/famfs/famfs_internal.h | 53 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 53 insertions(+)
+> >  create mode 100644 fs/famfs/famfs_internal.h
+> > 
+> > diff --git a/fs/famfs/famfs_internal.h b/fs/famfs/famfs_internal.h
+> > new file mode 100644
+> > index 000000000000..af3990d43305
+> > --- /dev/null
+> > +++ b/fs/famfs/famfs_internal.h
+> > @@ -0,0 +1,53 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * famfs - dax file system for shared fabric-attached memory
+> > + *
+> > + * Copyright 2023-2024 Micron Technology, Inc.
+> > + *
+> > + * This file system, originally based on ramfs the dax support from xfs,
+> > + * is intended to allow multiple host systems to mount a common file system
+> > + * view of dax files that map to shared memory.
+> > + */
+> > +#ifndef FAMFS_INTERNAL_H
+> > +#define FAMFS_INTERNAL_H
+> > +
+> > +#include <linux/atomic.h>
+> 
+> Why?
+
+Because fault counters are the one phased change to this file, and this
+should have been with that. That may go away, but either way I'll do the
+phased thing with this file.
+
+> 
+> > +#include <linux/famfs_ioctl.h>
+> > +
+> > +#define FAMFS_MAGIC 0x87b282ff
+> > +
+> > +#define FAMFS_BLKDEV_MODE (FMODE_READ|FMODE_WRITE)
+> 
+> Spaces around | 
+
+Done
+
+> 
+> > +
+> > +extern const struct file_operations      famfs_file_operations;
+> 
+> I wouldn't force alignment. It rots too often as new stuff gets added
+> and doesn't really help readability much.
+
+OK
+
+> 
+> > +
+> > +/*
+> > + * Each famfs dax file has this hanging from its inode->i_private.
+> > + */
+> > +struct famfs_file_meta {
+> > +	int                   error;
+> > +	enum famfs_file_type  file_type;
+> > +	size_t                file_size;
+> > +	enum extent_type      tfs_extent_type;
+> > +	size_t                tfs_extent_ct;
+> > +	struct famfs_extent   tfs_extents[];  /* flexible array */
+> 
+> Comment kind of obvious ;) I'd drop it.  Though we have
+> magic markings for __counted_by which would be good to use from the start.
+
+Done
+
+> 
+> 
+> 
+> > +};
+> > +
+> > +struct famfs_mount_opts {
+> > +	umode_t mode;
+> > +};
+> > +
+> > +extern const struct iomap_ops             famfs_iomap_ops;
+> > +extern const struct vm_operations_struct  famfs_file_vm_ops;
+> > +
+> > +#define ROOTDEV_STRLEN 80
+> 
+> Why?  You aren't creating an array of this size here so I can't
+> immediately see what the define is for.
+
+Oversight. It was a char array but I switched to strdup() and 
+failed to delete this. Gone now, thanks.
 
 Thanks,
-Elliot
+John
 
