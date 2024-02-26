@@ -1,180 +1,121 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB2A81756;
-	Mon, 26 Feb 2024 12:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA44680BFB;
+	Mon, 26 Feb 2024 12:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708952208; cv=none; b=AVmGHMpfDRNJJXKAPACV3iplJn3JK/SRAhSwo0RCkYEmWlmYb9uNATaDi16Spv0Nbgqu/vEKfrh5G+D7dbEoCsB9fZsXlIowNTvP/ZC6atIeKT7ukl224qDz4UaCla8MjUJCBOhFgxICB4Bhy3HWRt4aJTCvnZoQz1cMUeicXQA=
+	t=1708952306; cv=none; b=PghnLJZplLtILAr2inzcJes6AkwxXChZVYI7nVbzLHn5mDmMIbUekS1vjk2S5onrsaYDguB4nmS5KFz1qGNhWDLLbRqqqGlBv2fv6tZomsn9x57br3BO6PdEH0K9dent6HpH0DhmC0N7uPAtf6LWJibnGq4tusgnus8IMReO4JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708952208; c=relaxed/simple;
-	bh=NC9zbuoZghbczDmZXWcpM9NU9mKbcnjtKFhuyF8fuZs=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XmlU2Y5svXNQP2I1mmdauHhBrlOMRxZwf4b/qSDRV5vSTFMobtAggOGhjwUEYUO3ghjJbVg6k519nQPU2cYQBvW7/xSLrSY9VtN4b8MH3Y+xJO1zFwl1hztsuEqHzLeZNLaHchOGYV3w7YwqTRutHB6wYfpVWhqlLZLgxs8nSGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tk0s85lMRz6K9JP;
-	Mon, 26 Feb 2024 20:53:00 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id F41F9140FB6;
-	Mon, 26 Feb 2024 20:56:43 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
- 2024 12:56:43 +0000
-Date: Mon, 26 Feb 2024 12:56:42 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: John Groves <John@Groves.net>
-CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 10/20] famfs: famfs_open_device() &
- dax_holder_operations
-Message-ID: <20240226125642.000076d2@Huawei.com>
-In-Reply-To: <74359fdc83688fb1aac1cb2c336fbd725590a131.1708709155.git.john@groves.net>
-References: <cover.1708709155.git.john@groves.net>
-	<74359fdc83688fb1aac1cb2c336fbd725590a131.1708709155.git.john@groves.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1708952306; c=relaxed/simple;
+	bh=TYd1QFQIy3LiHRMTeLxXNhm+koA9OdQaPyZaAGwwoHo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fZXzB32A2kxZMbY8mQeF7clG+sG36eFfOasMbQgVngBTAgOB/PoswcyIHkMcXWDFs50X4e+1oKphKq3kQOau6EkHC2tWswp/BDiu32ILEB0OR93f/+nL6l1IvH4hp4lbEXZTRg/Tg5n/DvJsLL16A9xnOblD4qdpreIeQnSiDoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OinfDMTt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OinfDMTt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60066C433C7;
+	Mon, 26 Feb 2024 12:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708952306;
+	bh=TYd1QFQIy3LiHRMTeLxXNhm+koA9OdQaPyZaAGwwoHo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OinfDMTtujWwkAT2ORY5BuKW9Zbeh0Itlatgty/p3WZ6TmZHBaXOnRzUMqAdXyowD
+	 KfiWYXtFSfzhZRAJtUSIxwhX4jZmf0viWfHS/ATHSRclMe6t4406K/cQcOl+9e0gjs
+	 O/8wtIMqPgYbFG1tP0EgHIrL7GoWUV3nA+aIhJfy5FwjLt5bovjVtQ9JoSifzKR5Fg
+	 JNVF5ndOKcLUUJNrxNNbN2lpNmttu9URhvCW27z5ff4kXGUtYSuEejAL5RKuyT/Efv
+	 IhNXCaZcDhdPdg8Xn3pzEJoJHIRQ6vvqYtDMa5rmXHIxRUnWjP6r6ynRa/MVuDY4lc
+	 UmwKK26X656YQ==
+Message-ID: <2f0f67d3-6a69-400b-b653-9353a3ddff02@kernel.org>
+Date: Mon, 26 Feb 2024 04:58:24 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] Add support for Block Passthrough Endpoint function
+ driver
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Wadim Mueller <wafgo01@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Shunsuke Mie <mie@igel.co.jp>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+References: <20240224210409.112333-1-wafgo01@gmail.com>
+ <20240225160926.GA58532@thinkpad> <20240225203917.GA4678@bhlegrsu.conti.de>
+ <20240226094530.GA2778@thinkpad>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240226094530.GA2778@thinkpad>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Fri, 23 Feb 2024 11:41:54 -0600
-John Groves <John@Groves.net> wrote:
+On 2024/02/26 1:45, Manivannan Sadhasivam wrote:
 
-> Famfs works on both /dev/pmem and /dev/dax devices. This commit introduces
-> the function that opens a block (pmem) device and the struct
-> dax_holder_operations that are needed for that ABI.
+[...]
+
+>> As virtio is made mainly for Hypervisor <->
+>> Guest communication I was afraid that a Hypersisor is able to Trap every
+>> Register access from the Guest and act accordingly, which I would not be
+>> able to do. I hope this make sense to you.
+>>
 > 
-> In this commit, support for opening character /dev/dax is stubbed. A
-> later commit introduces this capability.
+> I'm not worrying about the hypervisor right now. Here the endpoint is exposing
+> the virtio devices and host is consuming it. There is no virtualization play
+> here. I talked about this in the last plumbers [2].
+
+FYI, we are still working on our NVMe PCI EPF function driver. It is working OK
+using either a rockpro64 (PCI Gen2) board and a Radxa Rock 5B board (PCI Gen3,
+rk3588 SoC/DWC EPF driver). Just been super busy recently with the block layer &
+ATA stuff so I have not been able to rebase/cleanup and send stuff. This driver
+also depends on many cleanup/improvement patches (see below).
+
 > 
-> Signed-off-by: John Groves <john@groves.net>
-
-Formatting comments mostly same as previous patches, so I'll stop repeating them.
-
-> ---
->  fs/famfs/famfs_inode.c | 83 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 83 insertions(+)
+>> But to make a long story short, yes I agree with you that virtio-blk
+>> would satisfy my usecase, and I generally think it would be a better
+>> solution, I just did not know that you are working on some
+>> infrastructure for that. And yes I would like to implement the endpoint
+>> function driver for virtio-blk. Is there already an development tree you
+>> use to work on the infrastructre I could have a look at?
+>>
 > 
-> diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> index 3329aff000d1..82c861998093 100644
-> --- a/fs/famfs/famfs_inode.c
-> +++ b/fs/famfs/famfs_inode.c
-> @@ -68,5 +68,88 @@ static const struct super_operations famfs_ops = {
->  	.show_options	= famfs_show_options,
->  };
->  
-> +/***************************************************************************************
-> + * dax_holder_operations for block dax
-> + */
-> +
-> +static int
-> +famfs_blk_dax_notify_failure(
-> +	struct dax_device	*dax_devp,
-> +	u64			offset,
-> +	u64			len,
-> +	int			mf_flags)
-> +{
-> +
-> +	pr_err("%s: dax_devp %llx offset %llx len %lld mf_flags %x\n",
-> +	       __func__, (u64)dax_devp, (u64)offset, (u64)len, mf_flags);
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +const struct dax_holder_operations famfs_blk_dax_holder_ops = {
-> +	.notify_failure		= famfs_blk_dax_notify_failure,
-> +};
-> +
-> +static int
-> +famfs_open_char_device(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	pr_err("%s: Root device is %s, but your kernel does not support famfs on /dev/dax\n",
-> +	       __func__, fc->source);
-> +	return -ENODEV;
-> +}
-> +
-> +/**
-> + * famfs_open_device()
-> + *
-> + * Open the memory device. If it looks like /dev/dax, call famfs_open_char_device().
-> + * Otherwise try to open it as a block/pmem device.
-> + */
-> +static int
-> +famfs_open_device(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> +	struct dax_device    *dax_devp;
-> +	u64 start_off = 0;
-> +	struct bdev_handle   *handlep;
-Definitely don't force alignment in local parameter definitions.
-Always goes wrong and makes for unreadable mess in patches!
+> Shunsuke has a WIP branch [3], that I plan to co-work in the coming days.
+> You can use it as a reference in the meantime.
 
-> +
-> +	if (fsi->dax_devp) {
-> +		pr_err("%s: already mounted\n", __func__);
-Fine to fail but worth a error message? Not sure on convention on this but seems noisy
-and maybe in userspace control which isn't good.
-> +		return -EALREADY;
-> +	}
-> +
-> +	if (strstr(fc->source, "/dev/dax")) /* There is probably a better way to check this */
-> +		return famfs_open_char_device(sb, fc);
-> +
-> +	if (!strstr(fc->source, "/dev/pmem")) { /* There is probably a better way to check this */
-> +		pr_err("%s: primary backing dev (%s) is not pmem\n",
-> +		       __func__, fc->source);
-> +		return -EINVAL;
-> +	}
-> +
-> +	handlep = bdev_open_by_path(fc->source, FAMFS_BLKDEV_MODE, fsi, &fs_holder_ops);
-> +	if (IS_ERR(handlep->bdev)) {
-> +		pr_err("%s: failed blkdev_get_by_path(%s)\n", __func__, fc->source);
-> +		return PTR_ERR(handlep->bdev);
-> +	}
-> +
-> +	dax_devp = fs_dax_get_by_bdev(handlep->bdev, &start_off,
-> +				      fsi  /* holder */,
-> +				      &famfs_blk_dax_holder_ops);
-> +	if (IS_ERR(dax_devp)) {
-> +		pr_err("%s: unable to get daxdev from handlep->bdev\n", __func__);
-> +		bdev_release(handlep);
-> +		return -ENODEV;
-> +	}
-> +	fsi->bdev_handle = handlep;
-> +	fsi->dax_devp    = dax_devp;
-> +
-> +	pr_notice("%s: root device is block dax (%s)\n", __func__, fc->source);
+This one is very similar to what I did in my series:
 
-pr_debug()  Kernel log is too noisy anyway! + I'd assume we can tell this succeeded
-in lots of other ways.
+https://github.com/torvalds/linux/commit/05e21d458b1eaa8c22697f12a1ae42dcb04ff377
 
+My series is here:
 
-> +	return 0;
-> +}
-> +
-> +
->  
->  MODULE_LICENSE("GPL");
+https://github.com/damien-lemoal/linux/tree/rock5b_ep_v8
+
+It is a bit of a mess but what's there is:
+1) Add the "map_info" EPF method to get mapping that are not dependent on the
+host address alignment. That is similar to the align_mem method Shunsuke
+introduced, but with more info to make it generic and allow EPF to deal with any
+host DMA address.
+2) Fixes for the rockpro64 DMA mapping as it is broken
+3) Adds rk2588 EPF driver
+4) Adds the NVMe EPF function driver. That is implemented as a PCI EPF frontend
+to an NVMe-of controller so that any NMVe-Of supported device can be exposed
+over PCI (block device, file, real NVMe controller).
+
+There are also a bunch of API changes and cleanups to make the EPF code (core
+and driver) more compact/easier to read.
+
+Once I am done with my current work on the block layer side, I intend to come
+back to this for the next cycle. I still need to complete the IRQ lehacy -> intx
+renaming as well...
+
+Cheers.
+
+-- 
+Damien Le Moal
+Western Digital Research
 
