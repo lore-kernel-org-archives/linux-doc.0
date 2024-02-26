@@ -1,281 +1,222 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2056.outbound.protection.outlook.com [40.107.237.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5256012C815;
-	Mon, 26 Feb 2024 17:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708970384; cv=fail; b=WDX3Rhyi29C89Iq8GOd6nPOPsgy8dQm0Hd6QLUp+p9mnYXKx3Yzy4IkvPlOW2uhvLsuHBinCHwC2Gm2lXgGg1jqpxOrV8AliNwZaNvQ+iaEs5MzwJOfVpF9+9XErTVJoPqDXbqrLFvfYPlU8g6W+8lNKHosq/7a3oMjIIoGkgCY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708970384; c=relaxed/simple;
-	bh=NaLvMfkxLyxA9mKpFOxT2kSNDFFghnANNLr+eNGJKXM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Qspg0nbB+B1CrlmOpmIYMmmhEycSKPl+XvGIY047KrtwlQRSKmM76mmXSKGFSSl/RD1UEtu9YO41pINYopMuYUofUhlq5zr5NCZsw2wcCIMLbTThrHsoCOOezKWGGsH+pPNOphTNpgcodfNusEnaPUD2H0oDbXrfuFxyM4EoPk0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LYFDzpX2; arc=fail smtp.client-ip=40.107.237.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0912412EBC4;
+	Mon, 26 Feb 2024 18:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708970650; cv=none; b=hAz/FbH5y6/hQt/YM+oXGdiDvzteI28ydLuo7mvo0B+Paly6AYs2Ewd9nz5hLWQq9r9+R3gitaLQGvt5Ae6y+5233ME8utGblBXUOodPlaTD1aweUioBhDejswPdlaeT+1C6bi8PvK0Giahzokd+JGvlZsKInRAKS/Eyo1YDxRg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708970650; c=relaxed/simple;
+	bh=tDPb8vlw/ZoRmRrLyIh3Zsy28YswYOKaPkn8/G0z84Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCDr1N/4DMYLQnd+SM/ipg4N+pza5o8Q2ofJz72MfVgr05Uh2xxeaxIopze49q/KBNQ809f6a8sHaSsgyY8PY8irysQKg5yItdZr2SqXAmHagzyViqUZEhLbj3WWJjakj1K7QnRrAYE3PX2NhUJwTdXeth34Z7IkuvCeDVa0KAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WLTavNwQ; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LYFDzpX2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F6DyzRukwitUfASgh37Mnq/ymgYAJS6v/PvJVFgWqNOl10iGcPS9GILsA2W7PxtRfHt2/Jz0lm4xtTAW9NPmTcIV5Jsswy+05xd9hc5XHHaM6QPZ+oStaYJxobcW5de7IdcI2ayM+dne2BrClluexJYOz4hWPq0IslgBb/2+YJDeab1bhob+v6wdDkpmFNUf/8d/X09J9MWhJKf0K2t5S7Bd3Su/O4tKMMmAlxltsUSMj01k24XuK4Kwn+Ube3CtqHoEEYNhfmbf7yJSKqECqDkrmMe2mvoxtd69nGj1LWGoYsIs6fZvXGiJIWT1gN+kCzybgdWvapxTRnRHi/SUAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ntdnWREn2uULbCXKcm5r3vBmkpka6W15eQUnAfms1wo=;
- b=Kdo6m7yRAvuSuOM1PEGBcV2jvzr6aCPfxTxxUyzKp507DM5p0vmClUir+kDT5JlrbmkcqA9IPltEZ+YlxGICvufxWezayXQLkf8Q413xiZV0xIl4w+NzSe9ScxfxA6i7x1trrunXPPNO1PLY7BjkOhv5Sj8LAMW+C8PnpG59zj6yXyctEWo4v0yRwho7m+wAKo8l0iNOs5HJYYX0YPFZ+yXEJ1vArI8SaHnlr3g+UJ01sGarpTnCBU4cJKzarq6wIeUnL0Yqh5pSOHLSp4KofRbsZpZvLw9GV0AR2VajblWsZaOyOuOWcwvqhvwQrkaZ9U2Kyk0tKxLMKHMjofI+jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntdnWREn2uULbCXKcm5r3vBmkpka6W15eQUnAfms1wo=;
- b=LYFDzpX2xbmD94gjkGfxMC6wO1xUhZP7WDjO01j6knFJoFKS/Xz9Zz6bIHInFEGEOVay1v7g6b28kzAKXuk9iHbMmRrwxrvGtqbrUAEEnKNRwhyG0knvDolUzaniDHaZjTZ5mKGe+Bn7mTbLVRgVK6Nmi+472BOA2MiyemwO+bg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SA1PR12MB8093.namprd12.prod.outlook.com (2603:10b6:806:335::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.34; Mon, 26 Feb
- 2024 17:59:39 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54%4]) with mapi id 15.20.7316.034; Mon, 26 Feb 2024
- 17:59:38 +0000
-Message-ID: <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
-Date: Mon, 26 Feb 2024 11:59:33 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
- <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
- <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
- <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0501CA0066.namprd05.prod.outlook.com
- (2603:10b6:803:41::43) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WLTavNwQ"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5a02e5c5d2dso1431631eaf.1;
+        Mon, 26 Feb 2024 10:04:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708970648; x=1709575448; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b7s8IUy8czqrAQYpGOzabD/DmImOT4f/IOsvl+2f5BQ=;
+        b=WLTavNwQNJvZrshbf5J/Uhv1KPrmcUJ2q/1xn4CMAqouj/UfyyrkCJGMMsihvQA4Q7
+         fj8sgeHUo/i/kcXAtgkp/C6veZ0+QWoEhB5Z8qlxJYLB6cyKpTTrIywpRYaB/VPFMjFZ
+         7nZ3f1Yw05g8YPFXOclLDmPrAubLVIIdFn7ItVxYnt2Ai8ERod3/r8lZV6mHJ3dBXAXr
+         F3L/v9ocDXXCTY0+HES5TG/aeziz252eicLNm/7XgKrw17VzQIeu614a0Fp0rYvK4PpK
+         B8R0eu9NX06kT8r7FMI+m8xlqKm0miSWCGT8pFoAhV/Fo4/3m6mYy7MpcoAujRKbxgv6
+         SL0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708970648; x=1709575448;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b7s8IUy8czqrAQYpGOzabD/DmImOT4f/IOsvl+2f5BQ=;
+        b=k6PaaucnGtk1aNx60AwX75gfJOq7au064wV7JkkMVzsY5s2MW/CDNL3B/xJgjyGwJE
+         sspSWT+btsMiQKVPBfzwx9GqXoJwDNeRQh3kkMvC88b2bSv4eC5ML1XUf9AgRncoo4fy
+         dtQAtYiWjTofZAbv9RBqxbuw7I0hh/b/HNcd59lBMgyzHeAATuCd2tywvAHJ06E3hJWl
+         e8rTQK+zLXMtK8SwOETOQwC2RJYBlb3N7pEy8L7hlb5DnmicoPOlRXoXs97uwIJFqqvf
+         hSmDzFdXKMYcM2jHHLNQlmH8Mvi0Pe2xCYNGjCvndD7uSovayNywHj7cvPJLWnU2ub6d
+         VSrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnBzGpR21qP7HqckY5K/pS1OchouvKuGf5urUqSMInmwNL02/OejN5SXdG2/3OV7f16qRFsbRsEle+jFNT0g+RafJd0g8yJI/MuyviJrZaHMcZX7PcUEl4JQgbV9mfHu5hXop272zMZqkiJWNWZ6sBiixVBlPMEFRtrl+1TeeODPllAhnSA/wMItMWsNS0DhQ2pna/DJFdCSy/e+8yKQZysA==
+X-Gm-Message-State: AOJu0Yw1KMyFpZye/XcsYYNd9TeWEug+HkKbTt/zYpv84u6thDkwPDYG
+	2RU4MY+RGsqSHZB+aJnH6Hax4N7r3OMuKYcaI8p7wtvBLt0hDRkS
+X-Google-Smtp-Source: AGHT+IHO3JQJqrUqgBn9egOt4HQjL1Epy1k4IOgfQYCQYmmcGSlN0f4WlPT0wFFWU2jOVnrpPNk8kA==
+X-Received: by 2002:a4a:bd83:0:b0:5a0:6b03:a660 with SMTP id k3-20020a4abd83000000b005a06b03a660mr2448473oop.2.1708970648068;
+        Mon, 26 Feb 2024 10:04:08 -0800 (PST)
+Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
+        by smtp.gmail.com with ESMTPSA id x14-20020a4a620e000000b005a0a1249615sm179887ooc.5.2024.02.26.10.04.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 10:04:07 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Mon, 26 Feb 2024 12:04:05 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
+	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
+	dave.hansen@linux.intel.com, gregory.price@memverge.com
+Subject: Re: [RFC PATCH 07/20] famfs: Add include/linux/famfs_ioctl.h
+Message-ID: <4v6ug44nrtk2tqvio2teglsm4auhdvocgyyggtlwc3xkv7b6zw@ntw24jye7omz>
+References: <cover.1708709155.git.john@groves.net>
+ <b40ca30e4bf689249a8c237909d9a7aaca9861e4.1708709155.git.john@groves.net>
+ <20240226123940.0000692c@Huawei.com>
+ <z3fx5uiv6uu4sawvxrhfvx42qetchmq4ozxhq2huwg2rrcyk5c@odbiisdhop2m>
+ <20240226165639.000025c6@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SA1PR12MB8093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f0352e7-d7c7-40b9-dcb0-08dc36f4b2fa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	iN4dZwQ0DFJC6bi++MkxU07FOV6C1fWAHVTrCfMBRG7T33/14be0xJQOLP2NygN2UYWH2C4uNI2e/zOrNLOkkIIdvDMb3YFuI08I6rVVP9wz55iDWqHQWN5byi1AtrzOifmXOwqHAdMuE6Bs7iXrUw6mFC/iBY23Y4HGbmBJFwMuEChwORtewpY7OtF9vJukqZWRrQo/Rt+RtR4ONrH/l0CjBxkF8p4di2dAgwH01CEJ7UMzcaIt15TmOR+wTNhV+SLSYEePPUqKqIQP8iml6WcyxPWFiXXS5Yc/vkMUjBQotaTYMXi9XNMil+x/haN5FC372XkIYJM8/tdu9ZJSJZPqKG81xjkKaaecDAMYcdsmkXph+rP+FdjkAPbC6/PM/pib/ipj0LSqelctaB36lqtPPaffo7xmIQXvIqyiUTGg52/7gPUulyVY7FNSFO+tRrlj4Er3S5xwdTih54gVTbBX+GcO4kWKKer+4Ajc8QdDaUv8z6OS+0GmN0vzff1lO3NSXClEKwycNP+3kJbP91K99RhSzFeow7YllWgGUPEAx3nXiWfN/NeJdcHT+43FMTFheanzhULnl5lV/yKBRDRdnkjVssuXXQLyn1qDbWXP0Z7SGpgNT0r6GO31mUB9
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UlZ1b3p6aitBY3kzcHhrZGJGMTNVOExuWFdYOEZWYldCUEhGTDFiclBiSVRG?=
- =?utf-8?B?Y0lwSmFiazhpb3k0RWJHOFAvaTNKL0JGbXp0TEhhMnl5ZVo0bFZiMlJKdElU?=
- =?utf-8?B?TzNJT2luaUR6V1RzZmszaWMxd2paVmRUd0JrdkwvZVhRTjlHV0ErMFh3alVy?=
- =?utf-8?B?cGE2TnI2OURnQndDQm5mVjFuNnJJOW5Lb2JhdVhGNE13eFA4dDBHUkJJdGpt?=
- =?utf-8?B?a1Byb3RtdG5McklFVlJZbFhQZ2ZEVUZsV1c5T0pWUVJ5aUh5T0xQWVdWNCtV?=
- =?utf-8?B?Q0loZlJFMEsxYjlkN3kyZURublRTTnNRbitpUk5lbWZpQVB4U0FzU1lRdEhK?=
- =?utf-8?B?K0wydzVnRzVrTUtuOEpFK3NSZXExVkhabVlTb0t6OG1Sb2pMNkphRm1xSER6?=
- =?utf-8?B?ZFExbWcrWDZmQnIrZjhhV3Noa1ZyaXVhUlVGc0x5MzJPN2xjRjBmOEVFZHlO?=
- =?utf-8?B?OWdhVURpN095cHpldWZ3V0RwelkwSHlWdWorNVU0eTB2eE8rZnZ3MGRWSXZz?=
- =?utf-8?B?WkFDaUlVNjJlYmlRVEdtV0RiZXlub1VWNHFTUHc3UnhqK0ZPdDM1N0VTbDRi?=
- =?utf-8?B?TXAxeU1WanNwOHlGTnhoVDBDdXcxYmQ2NlhibDFPbEh6RDlOdFVFYTNRbEVr?=
- =?utf-8?B?SnJRQlZJQmhXT1hRZVhKMGkzeEhRS3llQVZlTXZ0elBGZ2lVUy80N0VraE1K?=
- =?utf-8?B?STlEWGkrRTROdklnbzcvYmZ1N2J1NmhNRGpLYXozU2hvcmlLYzQwVDNqeTQ1?=
- =?utf-8?B?ajZuSHJLSzcrdVdUb0d6aElwbERNd0dOendHeHZUNFAvdUNYR0NvWkdEalZx?=
- =?utf-8?B?N1JlWk5WaXlpYzQxbktGbjA3Zmdpak5PVHRXdmNnSDRnWk5SMzdITXhEOG9E?=
- =?utf-8?B?Vk5lWjB1VXZpS2RJeldGMGlMMFFMSmg4UlpadmhudlRFQ2Z4UzA1ZER0TkM0?=
- =?utf-8?B?OGhEcFJwRThyL1ZlVllubmFoZktJMTNPUm1hY2s4Y01razFXODBuUVArTEcr?=
- =?utf-8?B?OXJzNnFVc0FMYVlwaFp4RGFCZE5iQ1grRTJpK2hCSkh2TTlKZEFIQkJoeWNJ?=
- =?utf-8?B?dEJ0bmh6bnZ2VitVRTgraW9qRVRwUnRvZjNSc3UzdEMwZ3lFd21yV2pIckZx?=
- =?utf-8?B?Szc3MFppd29xd2NjVHFpdDVCNHN1cFg2R1dUQjQxZVdkTjA4TmEvVDd4bWsy?=
- =?utf-8?B?YXdnTkhOanA5NzdYOWd1YnQ3Q1FhMSsvNERLZHZzRUZ6Mk12WHlKRFJXY2Nl?=
- =?utf-8?B?V3lIQ2ZpejhMSTNkTXFVK2E2bmwwTWR4b3dkU2VSS1Zrc3ZkWS9XZFNYN1BQ?=
- =?utf-8?B?RXIyUzUvV2g3YlR4NXFqR0tvRkRhcjg4L2h0UTBDb0xpSVRKMFVIV2FYVU54?=
- =?utf-8?B?VEtJK2JvK0lUVTRnalVoaHMzT2NiQndBaGpPWi9xV0ZlMXYvQ2tpSStkYXlB?=
- =?utf-8?B?YmkxRnl1UlNoa0dncGdGeE5LcVpGU3M0bFAyWDhrLzdiRXA0a1JTcExVNGpD?=
- =?utf-8?B?MjJRYlA4ZWVXa200cUswYldGWHRiOTVYNWlHM1RMR3IvVDI1SlI4VHluVlZ1?=
- =?utf-8?B?YmthTDZyZzhSUzFpSXpHMDdTbjVFTFVrakJBbVE2RXZ4ZmUxOUxtZXZpQ1o3?=
- =?utf-8?B?TWsycXZYTWpqTnpKS2NjQ1JuMDhjak5lMEU3OVZJUEVWTTlKZThyZWt6UWtL?=
- =?utf-8?B?WE4vcjZZWDNWRnhOTW1hMVU4cHhiVkd1NkdyQkNYZFc5RnhWUS8zYXlwak5Q?=
- =?utf-8?B?UEVlbXpzNnlLQVdHeERtWHlEekVBUnd6VC8vWldwUXlzTndZWW9NdGFqRkRw?=
- =?utf-8?B?TzVCWVlyL2ZuWVQ4VVBxOGhnZlBITyt1bFNnOXVjTjhXUFBtZEdqaWswUG5m?=
- =?utf-8?B?RmsxUUMwVTRpSXVZYjk5TEF2b2hJR05qNkR0Ukw2ZWxROWlGb3VTREtVR3Rv?=
- =?utf-8?B?a3ZuUTl1M2lLbEl5WnhnRlZTcjVmbkthYmtqY1NQZ0ZsTW55akVUSHRVVS85?=
- =?utf-8?B?c3VyNFRvL2JySll3VTZ3NytiL2ZicUN0NW40aW1NYnY2cjZxdFJaT3hMWjl6?=
- =?utf-8?B?ZlQxLys3dTVOWlRGYU83N0JIS0g2M29HVW92M09RRXRtVGZqdWJkbkJlZllu?=
- =?utf-8?Q?CURk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f0352e7-d7c7-40b9-dcb0-08dc36f4b2fa
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 17:59:38.3945
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WD3LSssZ++/3NkSc8CORwnlQkTGFjczgi9lI1VDpsjs3V9cEruMObfze8aqMm8qO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8093
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240226165639.000025c6@Huawei.com>
 
-Hi Reinette,
-
-On 2/23/24 16:21, Reinette Chatre wrote:
-> Hi Babu,
+On 24/02/26 04:56PM, Jonathan Cameron wrote:
+> On Mon, 26 Feb 2024 10:44:43 -0600
+> John Groves <John@groves.net> wrote:
 > 
-> On 2/23/2024 12:11 PM, Moger, Babu wrote:
->> On 2/23/24 11:17, Reinette Chatre wrote:
->>>
->>>
->>> On 2/20/2024 12:48 PM, Moger, Babu wrote:
->>>> On 2/20/24 09:21, James Morse wrote:
->>>>> On 19/01/2024 18:22, Babu Moger wrote:
->>>
->>>>>> e. Enable ABMC mode.
->>>>>>
->>>>>> 	#echo 1 > /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
->>>>>>         #cat /sys/fs/resctrl/info/L3_MON/mbm_assign_enable
->>>>>>         1
->>>>>
->>>>> Why does this mode need enabling? Can't it be enabled automatically on hardware that
->>>>> supports it, or enabled implicitly when the first assignment attempt arrives?
->>>>>
->>>>> I guess this is really needed for a reset - could we implement that instead? This way
->>>>> there isn't an extra step user-space has to do to make the assignments work.
->>>>
->>>> Mostly the new features are added as an opt-in method. So, kept it that
->>>> way. If we enable this feature automatically, then we have provide an
->>>> option to disable it.
->>>>
->>>
->>> At the same time it sounds to me like ABMC can improve current users'
->>> experience without requiring them to do anything. This sounds appealing.
->>> For example, if I understand correctly, it may be possible to start resctrl
->>> with ABMC enabled by default and the number of monitoring groups (currently
->>> exposed to user space via "num_rmids") limited to the number of counters
->>> supported by ABMC. Existing users would then by default obtain better behavior
->>> of counters not resetting.
->>
->> Yes, I like the idea. But i will break compatibility with pqos
->> tool(intel_cmt_cat utility). pqos tool monitoring will not work without
->> supporting ABMC enablement in the tool. ABMC feature requires an extra
->> step to assign the counters for monitor to work.
+> > On 24/02/26 12:39PM, Jonathan Cameron wrote:
+> > > On Fri, 23 Feb 2024 11:41:51 -0600
+> > > John Groves <John@Groves.net> wrote:
+> > >   
+> > > > Add uapi include file for famfs. The famfs user space uses ioctl on
+> > > > individual files to pass in mapping information and file size. This
+> > > > would be hard to do via sysfs or other means, since it's
+> > > > file-specific.
+> > > > 
+> > > > Signed-off-by: John Groves <john@groves.net>
+> > > > ---
+> > > >  include/uapi/linux/famfs_ioctl.h | 56 ++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 56 insertions(+)
+> > > >  create mode 100644 include/uapi/linux/famfs_ioctl.h
+> > > > 
+> > > > diff --git a/include/uapi/linux/famfs_ioctl.h b/include/uapi/linux/famfs_ioctl.h
+> > > > new file mode 100644
+> > > > index 000000000000..6b3e6452d02f
+> > > > --- /dev/null
+> > > > +++ b/include/uapi/linux/famfs_ioctl.h
+> > > > @@ -0,0 +1,56 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > > +/*
+> > > > + * famfs - dax file system for shared fabric-attached memory
+> > > > + *
+> > > > + * Copyright 2023-2024 Micron Technology, Inc.
+> > > > + *
+> > > > + * This file system, originally based on ramfs the dax support from xfs,
+> > > > + * is intended to allow multiple host systems to mount a common file system
+> > > > + * view of dax files that map to shared memory.
+> > > > + */
+> > > > +#ifndef FAMFS_IOCTL_H
+> > > > +#define FAMFS_IOCTL_H
+> > > > +
+> > > > +#include <linux/ioctl.h>
+> > > > +#include <linux/uuid.h>
+> > > > +
+> > > > +#define FAMFS_MAX_EXTENTS 2  
+> > > Why 2?  
+> > 
+> > You catch everything! 
+> > 
+> > This limit is in place to avoid supporting somethign we're not testing. It
+> > will probably be raised later.
+> > 
+> > Currently user space doesn't support deleting files, which makes it easy
+> > to ignore whether any clients have a stale view of metadata. If there is
+> > no delete, there's actually no reason to have more than 1 extent.
+> Then have 1. + a Comment on why it is 1.
+
+Actually we test the 2 case. That seemed important to testing ioctl and
+famfs_meta_to_dax_offset(). It just doesn't yet happen in the wild. Will
+clarify with a comment.
+
+> > 
+> > > > +
+> > > > +enum extent_type {
+> > > > +	SIMPLE_DAX_EXTENT = 13,  
+> > > 
+> > > Comment on this would be good to have  
+> > 
+> > Done. Basically we anticipate there being other types of extents in the
+> > future.
 > 
-> I am considering two scenarios, the "default behavior" is what a user will
-> experience when booting resctrl on an ABMC system and the "new feature
-> behavior" where a user can take full advantage of all that ABMC (and soft
-> RMID, and MPAM) can offer.
-> 
-> So, first, on an ABMC system in the "default behavior" scenario I expect
-> that resctrl can do required ABMC counter configuration automatically at
-> the time a monitor group is created. In this "default behavior" scenario
-> resctrl would expose "num_rmids" to be half of the number of assignable
-> counters. When a user then creates a monitor group two counters will be
-> used and configured to count the local and total bytes respectively. If
-> two counters are not available then ENOSPC returned, just like when system
-> is out of closid/rmid.  With this "default behavior" user space thus gets
-> improved behavior without making any changes on its part. I do not have
+> I was more curious about the 13!
 
-We can automatically assign the h/w counter when monitor group is created
-until we run out of h/w counters. That is good idea. By default user will
-not notice any difference in ABMC mode.
-
-> insight into how many counters ABMC could be expected to expose though ...
-> so some users may be surprised at how few monitor groups can be created
-> with new hardware? This may not be an issue since that would accurately
-> reflect how many _reliable_ monitor groups can be created and if user needs
-> more monitor groups then that would be a time to explore the "new feature"
-> that requires changes in how user interacts with resctrl.
-
-Currently, 32 h/w counters are available to configure. With two counters
-for each group, we can create 16 groups(15 new groups plus the default
-group). That should be fine as pqos tool creates only 16 groups when it is
-started.
+I think I was just being feisty that day. Will drop that...
 
 > 
-> Apart from the "default behavior" there are two options to consider ...
-> (a) the "original" behavior(? I do not know what to call it) - this would be
->     where user space wants(?) to have the current non-ABMC behavior on an ABMC
->     system, where the previous "num_rmids" monitor groups can be created but
->     the counters are reset unpredictably ... should this still be supported
->     on ABMC systems though?
+> > 
+> > >   
+> > > > +	INVALID_EXTENT_TYPE,
+> > > > +};
+> > > > +
+> > > > +struct famfs_extent {
+> > > > +	__u64              offset;
+> > > > +	__u64              len;
+> > > > +};
+> > > > +
+> > > > +enum famfs_file_type {
+> > > > +	FAMFS_REG,
+> > > > +	FAMFS_SUPERBLOCK,
+> > > > +	FAMFS_LOG,
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * struct famfs_ioc_map
+> > > > + *
+> > > > + * This is the metadata that indicates where the memory is for a famfs file
+> > > > + */
+> > > > +struct famfs_ioc_map {
+> > > > +	enum extent_type          extent_type;
+> > > > +	enum famfs_file_type      file_type;  
+> > > 
+> > > These are going to be potentially varying in size depending on arch, compiler
+> > > settings etc.  Been a while, but I though best practice for uapi was always
+> > > fixed size elements even though we lose the typing.  
+> > 
+> > I might not be following you fully here. User space is running the same
+> > arch as kernel, so an enum can't be a different size, right? It could be
+> > a different size on different arches, but this is just between user/kernel.
+> 
+> I can't remember why, but this has bitten me in the past.
+> Ah, should have known Daniel would have written something on it ;)
+> https://www.kernel.org/doc/html/next/process/botching-up-ioctls.html
+> 
+> It's the fun of need for compat ioctls with 32bit userspace on 64bit kernels.
+> 
+> The alignment one is key as well. That bit me more than once due to
+> 32bit x86 aligning 64 bit integers at 32 bits.
+> 
+> We could just not support these cases but it's easy to get right so why
+> bother with complexity of ruling them out.
 
-I would say yes. For some reason user(hardware or software issues) is not
-able to use ABMC mode, they have an option to go back to legacy mode.
-
-> (b) the "new feature" behavior where user space gets full benefit of ABMC
->     that allows user space to create any number of monitor groups but then
->     user space needs to let hardware (via resctrl) know which
->     events should be counted.
-
-Is this "new feature" is enabled by default when ABMC is available?
-
-Or we need to provide an interface to enable this feature?
-
+Makes sense. Will do.
 
 > 
-> I expect that only (b) above would require user space change. Considering
-> that per documentation, "num_rmids" means "This is the upper bound for how
-> many "CTRL_MON" + "MON" groups can be created" I expect that "num_rmids"
-> becomes undefined when "new feature" is enabled. When this new feature is enabled
-> then user space is no longer limited by number of RMIDs on how many monitor
+> > 
+> > I initially thought of XDR for on-media-format, which file systems need
+> > to do with on-media structs (superblocks, logs, inodes, etc. etc.). But
+> > this struct is not used in that way.
+> > 
+> > In fact, famfs' on-media/in-memory metadata (superblock, log, log entries)
+> > is only ever read read and written by user space - so it's the user space
+> > code that needs XDR on-media-format handling.
+> > 
+> > So to clarify - do you think those enums should be u32 or the like?
+> 
+> Yes. As it's userspace, uint32_t maybe or __u32. I 'think'
+> both are acceptable in uapi headers these days.
 
-With ABMC, we will have a new field "mbm_assignable_counters". We don't
-have to change the definition of "num_rmids".
+Roger that.
 
-> groups can be created and this is the point that the user interface that you
-> and Peter have ideas about comes into play. Specifically, user space needing
-> a way to specify:
-> (a) "let me create more monitor groups that the hardware can support"/"let me
->      control which events/monitor groups are counted"
->      (like the "mbm_assign" file in your proposal)
-> (b) "here are the events that need to be counted" 
->      (like the "monitor_state" and "mbm_{local,total}_bytes_assigned" proposals)
-
-With global assignment option out of way for now(may be introduced later),
-we can provide two interfaces.
-
-1. /sys/fs/resctrl/info/L3_MON/mbm_assign
-This will be enabled by default when ABMC is available. Users can disable
-this option to go back to legacy mode.
-
-2. /sys/fs/resctrl/monitor_state.
-This can used to individually assign or unassign the counters in each group.
-
-When assigned:
-#cat /sys/fs/resctrl/monitor_state
-0=total-assign,local-assign;1=total-assign,local-assign
-
-When unassigned:
-#cat /sys/fs/resctrl/monitor_state
-0=total-unassign,local-unassign;1=total-unassign,local-unassign
-
-
-Thoughts?
--- 
-Thanks
-Babu Moger
+Thanks,
+John
