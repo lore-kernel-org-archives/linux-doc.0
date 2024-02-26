@@ -1,260 +1,156 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D49012B166
-	for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 17:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E5A12C800;
+	Mon, 26 Feb 2024 17:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708968165; cv=none; b=rqgsdTPJS8BHZQPyc/PrO25RjSGmBQMHdMVitwJiAXXELO2LWh3dhQ1p4w7wsjgWX2jeXuzT4w1TblwZ9XuINAwlCI+Num1jdh24/4tRF+ovV9k3G4966W91sdUsdjVYv0eBYTR4j8cVgp77ye0oLNPbcQU4+j9UZOzzq4c2cdg=
+	t=1708968485; cv=none; b=lwUO6GMQPPOiAGmHIwbOlj042YLe15A5RZwa5YKuzCAtjYjtLWdh98hXClfjhAqoH64Gz+ambWHdL4Och+TsU2t3JgIKlPQw9q8LzEa8rs7/9uc4yywWdfDRavoauDe3Jlru3PRHx7hHnuSeeSuL1/8WA43ltY5GVtTs4nplwVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708968165; c=relaxed/simple;
-	bh=EqmeweN9yJbHN4ZOPQ4NNULOO0mEliqSsTTtiukx5Xg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ou4DHqkRvNDR2UW7DWcqJao+SCrKTeiGZ8xRT5qCOlDn9UORJlKP3uYmxgT4RVw9EO5Dgf/4tpxHGplga6Yh8fyaZx9Q929tAwP9gFLBs1nYhExuSYM4W1S4qzTLKK4pY/OTNDoDG2Na9H6k0qgD6O2ooN8bAapD0amLGitg/48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UtEdZPQI; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1708968485; c=relaxed/simple;
+	bh=2HBgRJuzD/DEzOuUlPeELaZHx85jbXyYOMRMlHWPSzc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qo8rfRTqDJmCj3QEzlEWEjjxTzP1XDNZZKYT//XGWayQrftwPX0DUigFMmCaohDMpgdGSADTiiAl1Cgej8w2f0DGlP+e80fKegqJxzHiSjzrZ3s6tpGbwquwAs1J1h1sFSYnTyEjnIIC+pKJlZanjE6luDpiOcJpU/iOkwEcths=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iGXtAiZe; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UtEdZPQI"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d09cf00214so52407351fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 09:22:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708968161; x=1709572961; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dv1MR8FFyIVeo2kD5/jRtw1zZdBqiDH8uTYdJ7duKRA=;
-        b=UtEdZPQIZQ3QnohdxOrVw8t21VecFDMJ22AYc8M3h/OLTcWQGmofC5i2wHNfp5etvd
-         IxycCl+BPuxdiJPETX3fYYBIVegZY/vN+xUCEaifNbAmwLrnCi97dSL+u/624e0iVsDD
-         TkEcuEPlhDJPrEhQW3tw6AxiK0wnEC7A0OhZEP3hOXEWT/UH3N5czcorAcpJUMueHs7I
-         XmuqjWvOUm+mpWtOeHegPpxOGo7lxpf9TXhZWzP+WZUnQHy4D9MSMTnWOpNgnZjhkvHe
-         S5lswx19Inj0FaKiPePkX0oICzcdVKrWe/4KjFm0v49JRYDrlDdD2Gk21rsxbVbmQEf/
-         3tew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708968161; x=1709572961;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dv1MR8FFyIVeo2kD5/jRtw1zZdBqiDH8uTYdJ7duKRA=;
-        b=gCd4sRJHakd5kYCJ7D7o7JxCYTKjIduQ3kz4mk/+wvuM1GMdxrqYE+yGpcKu5T6QMj
-         iCT7qKyFUaIqOWMp1ipoM1y+kSsI11Txd7nPPLjSenKZzw6ffhFpd/P7A52H5sc2+w8Q
-         RmiRqAFwk+qoj4/5EkaCEljYVZQ3hyyzbilHPdgsUpRfIRaShy4ycX/YtafFzL521WBL
-         qxNBOfLan8USaBEs8zHAQU9+5IQjqq8jp0WswA4I7krlO+0F5yGyRWc+UpUxX7TT32VJ
-         f3XwvbsxTQSRL6X9s6YQj8R6bdQg+c/5DQgAH0giVgPg4qvrvzd6/BNiL1uj7Ajnd47r
-         8ZNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXHi9O9nSd5PAHGYQylZYP4p/KvzsXpc6H/ffKwkB14yIbTzmmBI63n0eQ/mqgH/B/bMD+VOnDtj517LtJcnP6EXWUnQQUGwJ3Z
-X-Gm-Message-State: AOJu0YyNZWv3rAhlhRPBIV7PfvoR1d1eYO12/QGM06qfZ/1lrD+l6wHu
-	C1m5XgdH5iExMyamYzbhmhWAZqJ4gZ+pBNBiFFzSnSaUEBF2vT2rNQGxQMgMrCb9cbveG65RSvV
-	Wg6xZn6uEmAb+VtGq+w/J3kvKqzRr9T70p6SE
-X-Google-Smtp-Source: AGHT+IHRxxQsMQSRpnlCaAS8PflYsK1iTOiKydsmAuE0utC3AXspYUhCmo2l3tTpb+Dmf3/YMDJ4hjbxrgCTIuiY2OA=
-X-Received: by 2002:a2e:990b:0:b0:2d2:7164:c6ba with SMTP id
- v11-20020a2e990b000000b002d27164c6bamr4367139lji.43.1708968160893; Mon, 26
- Feb 2024 09:22:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iGXtAiZe"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41QF8hTo032325;
+	Mon, 26 Feb 2024 17:27:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=xo8BL5z8F/dpS6FAXBqND
+	ypdFj4PXEGX78m0qafgn+w=; b=iGXtAiZeAnwWh00/pCFGofQ1KwaPva7d/Ihol
+	0Ov4ZNEBvedo37tPPfAZwlFnbSuYct7ZSAWsgiPahpvbN+eEsVP8OL3+8pOQBg8U
+	u4HD3ZjcPt/2yDsZDxiR+mL+Fc1E4XVPrmU3lbPgQU+9afqdXyMHNUNlr9Kr3WHh
+	1ZI2W8z+f+9NFZaGJ4424ErG+q/uE4SdilrHmGbSS97kY/6Mw/y7VkzEDPVQF0ZO
+	gBPG2xT23IB74x5kxPKpVNyWs4AwivfqAZA5Ay7flOnWAJCSXAjQ+jNGtBc+HyXG
+	x5IvoYWAMaen/lCj+g1+r/OwN/NRhKan+MMrgHgj8rDHDQMVw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wgkxq9hfy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 17:27:42 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41QHRWV4026940
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 26 Feb 2024 17:27:32 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 26 Feb 2024 09:27:31 -0800
+Date: Mon, 26 Feb 2024 09:27:31 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: David Hildenbrand <david@redhat.com>
+CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
+        Quentin Perret <qperret@google.com>,
+        Chris Goldsworthy
+	<quic_cgoldswo@quicinc.com>,
+        Android KVM <android-kvm@google.com>,
+        "Patrick
+ Daly" <quic_pdaly@quicinc.com>,
+        Alex Elder <elder@linaro.org>,
+        "Srinivas
+ Kandagatla" <srinivas.kandagatla@linaro.org>,
+        Murali Nalajal
+	<quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa
+ Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik
+	<quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+        Fuad Tabba <tabba@google.com>,
+        "Sean Christopherson" <seanjc@google.com>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map functions
+Message-ID: <20240226092020370-0800.eberman@hu-eberman-lv.qualcomm.com>
+Mail-Followup-To: David Hildenbrand <david@redhat.com>, 
+	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
+	Quentin Perret <qperret@google.com>, Chris Goldsworthy <quic_cgoldswo@quicinc.com>, 
+	Android KVM <android-kvm@google.com>, Patrick Daly <quic_pdaly@quicinc.com>, 
+	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
+	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, Carl van Schaik <quic_cvanscha@quicinc.com>, 
+	Philip Derrin <quic_pderrin@quicinc.com>, Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
+ <ZdhEtH7xzbzdhS2j@infradead.org>
+ <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+ <Zdxwo0abvklfam-Z@infradead.org>
+ <2f4c44ad-b309-4baa-ac21-2ae19efd31fb@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-8-surenb@google.com>
- <6851f8a0-e5d2-4b79-9cee-cff0fdec2970@suse.cz>
-In-Reply-To: <6851f8a0-e5d2-4b79-9cee-cff0fdec2970@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 26 Feb 2024 17:22:21 +0000
-Message-ID: <CAJuCfpHA-0PsQcNMcJVniVyUo4+nUYaioQSS7ZnXO_TGxgumqA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/36] mm: introduce slabobj_ext to support slab object extensions
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2f4c44ad-b309-4baa-ac21-2ae19efd31fb@redhat.com>
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: LdjTkC-YCMeGWoOjKwhoFF8DF33-q3k1
+X-Proofpoint-GUID: LdjTkC-YCMeGWoOjKwhoFF8DF33-q3k1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402260133
 
-On Mon, Feb 26, 2024 at 8:26=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> > Currently slab pages can store only vectors of obj_cgroup pointers in
-> > page->memcg_data. Introduce slabobj_ext structure to allow more data
-> > to be stored for each slab object. Wrap obj_cgroup into slabobj_ext
-> > to support current functionality while allowing to extend slabobj_ext
-> > in the future.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> Hi, mostly good from slab perspective, just some fixups:
->
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > -int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
-> > -                              gfp_t gfp, bool new_slab);
-> > -void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgd=
-at,
-> > -                  enum node_stat_item idx, int nr);
-> > -#else /* CONFIG_MEMCG_KMEM */
-> > -static inline struct obj_cgroup **slab_objcgs(struct slab *slab)
-> > +int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
-> > +                     gfp_t gfp, bool new_slab);
-> >
->
-> We could remove this declaration and make the function static in mm/slub.=
-c.
+On Mon, Feb 26, 2024 at 12:53:48PM +0100, David Hildenbrand wrote:
+> On 26.02.24 12:06, Christoph Hellwig wrote:
+> > The point is that we can't we just allow modules to unmap data from
+> > the kernel mapping, no matter how noble your intentions are.
+> 
+> I absolutely agree.
+> 
 
-Ack.
+Hi David and Chirstoph,
 
->
-> > +#else /* CONFIG_SLAB_OBJ_EXT */
-> > +
-> > +static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
-> >  {
-> >       return NULL;
-> >  }
-> >
-> > -static inline int memcg_alloc_slab_cgroups(struct slab *slab,
-> > -                                            struct kmem_cache *s, gfp_=
-t gfp,
-> > -                                            bool new_slab)
-> > +static inline int alloc_slab_obj_exts(struct slab *slab,
-> > +                                   struct kmem_cache *s, gfp_t gfp,
-> > +                                   bool new_slab)
-> >  {
-> >       return 0;
-> >  }
->
-> Ditto
+Are your preferences that we should make Gunyah builtin only or should add
+fixing up S2 PTW errors (or something else)?
 
-Ack.
+Also, do you extend that preference to modifying S2 mappings? This would
+require any hypervisor driver that supports confidential compute
+usecases to only ever be builtin.
 
->
-> > -#endif /* CONFIG_MEMCG_KMEM */
-> > +
-> > +static inline struct slabobj_ext *
-> > +prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
-> > +{
-> > +     return NULL;
-> > +}
->
-> Same here (and the definition and usage even happens in later patch).
+Is your concern about unmapping data from kernel mapping, then module
+being unloaded, and then having no way to recover the mapping? Would a
+permanent module be better? The primary reason we were wanting to have
+it as module was to avoid having driver in memory if you're not a Gunyah
+guest.
 
-Ack.
+Thanks,
+Elliot
 
->
-> > +#endif /* CONFIG_SLAB_OBJ_EXT */
-> > +
-> > +#ifdef CONFIG_MEMCG_KMEM
-> > +void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgd=
-at,
-> > +                  enum node_stat_item idx, int nr);
-> > +#endif
-> >
-> >  size_t __ksize(const void *objp);
-> >
-> > diff --git a/mm/slub.c b/mm/slub.c
-> > index d31b03a8d9d5..76fb600fbc80 100644
-> > --- a/mm/slub.c
-> > +++ b/mm/slub.c
-> > @@ -683,10 +683,10 @@ static inline bool __slab_update_freelist(struct =
-kmem_cache *s, struct slab *sla
-> >
-> >       if (s->flags & __CMPXCHG_DOUBLE) {
-> >               ret =3D __update_freelist_fast(slab, freelist_old, counte=
-rs_old,
-> > -                                         freelist_new, counters_new);
-> > +                                         freelist_new, counters_new);
-> >       } else {
-> >               ret =3D __update_freelist_slow(slab, freelist_old, counte=
-rs_old,
-> > -                                         freelist_new, counters_new);
-> > +                                         freelist_new, counters_new);
-> >       }
-> >       if (likely(ret))
-> >               return true;
-> > @@ -710,13 +710,13 @@ static inline bool slab_update_freelist(struct km=
-em_cache *s, struct slab *slab,
-> >
-> >       if (s->flags & __CMPXCHG_DOUBLE) {
-> >               ret =3D __update_freelist_fast(slab, freelist_old, counte=
-rs_old,
-> > -                                         freelist_new, counters_new);
-> > +                                         freelist_new, counters_new);
-> >       } else {
-> >               unsigned long flags;
-> >
-> >               local_irq_save(flags);
-> >               ret =3D __update_freelist_slow(slab, freelist_old, counte=
-rs_old,
-> > -                                         freelist_new, counters_new);
-> > +                                          freelist_new, counters_new);
->
-> Please no drive-by fixups of whitespace in code you're not actually
-> changing. I thought you agreed in v3?
-
-Sorry, I must have misunderstood your previous comment. I thought you
-were saying that the alignment I changed to was incorrect. I'll keep
-them untouched.
-
-
->
-> >  static inline bool memcg_slab_pre_alloc_hook(struct kmem_cache *s,
-> >                                            struct list_lru *lru,
-> >                                            struct obj_cgroup **objcgp,
-> > @@ -2314,7 +2364,7 @@ static __always_inline void account_slab(struct s=
-lab *slab, int order,
-> >                                        struct kmem_cache *s, gfp_t gfp)
-> >  {
-> >       if (memcg_kmem_online() && (s->flags & SLAB_ACCOUNT))
-> > -             memcg_alloc_slab_cgroups(slab, s, gfp, true);
-> > +             alloc_slab_obj_exts(slab, s, gfp, true);
->
-> This is still guarded by the memcg_kmem_online() static key, which is goo=
-d.
->
-> >
-> >       mod_node_page_state(slab_pgdat(slab), cache_vmstat_idx(s),
-> >                           PAGE_SIZE << order);
-> > @@ -2323,8 +2373,7 @@ static __always_inline void account_slab(struct s=
-lab *slab, int order,
-> >  static __always_inline void unaccount_slab(struct slab *slab, int orde=
-r,
-> >                                          struct kmem_cache *s)
-> >  {
-> > -     if (memcg_kmem_online())
-> > -             memcg_free_slab_cgroups(slab);
-> > +     free_slab_obj_exts(slab);
->
-> But this no longer is, yet it still could be?
-
-Yes, I missed that, it seems. free_slab_obj_exts() would bail out but
-still checking the static key is more efficient. I'll revive this
-check.
-
-Thanks for the review!
-Suren.
-
->
-> >
-> >       mod_node_page_state(slab_pgdat(slab), cache_vmstat_idx(s),
-> >                           -(PAGE_SIZE << order));
->
