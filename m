@@ -1,216 +1,159 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33212126F3B;
-	Mon, 26 Feb 2024 13:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04238129A60
+	for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 13:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708955555; cv=none; b=eV9ugEz4qZ8MQ1dO03cV+Do1O6re7O1AXfV8g93r9HqsAcUiA6YojqTUzhDhIiG+FEl2+wrHah0u+Xyq2p4ZqheGl4/x+ckVCdlio1EFZRPIBSFWHdv92QYotkI9s1ls1R55ulRkmRXEfp8YOjNSNUS0B82i1urgnempgYXBh2M=
+	t=1708955784; cv=none; b=d0y1rYPoxFTYi9VjuFclwra7TT3p6Mq83MIDAY4yFCOdwObVD/sZNZ5uon5dbDhLChgdLL5gqyZ5Lfob0d1xbxo+RCJJNZiP55WczrgYdZt6iNm1ZFjsC41Fgp7LUD5H3aC2SamJ3TrRTzu+SANrn2dISWL6HppVaeEM/5XtjnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708955555; c=relaxed/simple;
-	bh=Xsm/8R6Mlt6gOOz8zdM11uszjNbgmxwBzqPat5Py7Xw=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Oa23mBpzrJrbZO3eE9zpPG9BrbOIGoVVJWb2edX6GgVGG9Qs9rcX34G4DHq4M2oyp2ZwudvIHH36UAPqCCMocx8cFiiurrA1sTExFGhXOaTcLjagzPZyiYC3sJGW+8k2jtv0oKKEVAl2Bw6XY7JF5rrzUOvJjeDea619kwdbR24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tk24r0YY0z67PcT;
-	Mon, 26 Feb 2024 21:48:12 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id BB3CE140A70;
-	Mon, 26 Feb 2024 21:52:30 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
- 2024 13:52:30 +0000
-Date: Mon, 26 Feb 2024 13:52:28 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: John Groves <John@Groves.net>
-CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 18/20] famfs: Support character dax via the
- dev_dax_iomap patch
-Message-ID: <20240226135228.00007714@Huawei.com>
-In-Reply-To: <fa06095b6a05a26a0a016768b2e2b70663163eeb.1708709155.git.john@groves.net>
-References: <cover.1708709155.git.john@groves.net>
-	<fa06095b6a05a26a0a016768b2e2b70663163eeb.1708709155.git.john@groves.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1708955784; c=relaxed/simple;
+	bh=XIkSHf9MuD6TQyL63b+wRC/40nq8CMEr5zZm2/qaYHA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eBbLASGfmFogp8+DW+0AWlFDXUzdsYFWnYAT8gHG+iOjhDSXdTdFCuT3hjfNdXQ1LJFrED+xETahvzHgCF0xJtC0ZGxNMOKaqpN87qYgqhfH/HPuSpFC+gQQnsVvksDWsAwv4E2StpJ3zBWVZV9edEav4wW3dCSoXTHuCjXuwdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rebSh-00047B-FK; Mon, 26 Feb 2024 14:56:07 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rebSg-0030Qd-Bf; Mon, 26 Feb 2024 14:56:06 +0100
+Received: from localhost ([::1] helo=dude04.red.stw.pengutronix.de)
+	by dude04.red.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <m.grzeschik@pengutronix.de>)
+	id 1rebSg-009FzF-0y;
+	Mon, 26 Feb 2024 14:56:06 +0100
+From: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: [PATCH v3 0/3] usb: gadget: 9pfs transport
+Date: Mon, 26 Feb 2024 14:56:03 +0100
+Message-Id: <20240116-ml-topic-u9p-v3-0-c62a36eccda1@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+X-B4-Tracking: v=1; b=H4sIAHOY3GUC/32NQQ6DIBREr2JYlwqIVrrqPZouAL9KomBAjY3x7
+ gW3Tbt8k5k3OwrgDQR0z3bkYTXBOBuhuGRI99J2gE0TGTHCOKG0wuOAZzcZjRcx4VqU7MbLgoC
+ iKE6UDICVl1b3aTQO45Cf7Ty2U2Hy0Jrt/Hu+IvcmzM6/z/uVpvTH00oxwbKpdUGqVkgOjwlst
+ 8zeWbNdG0DJtrJ/BhYNildataVgomJfhuM4Pg4hBI4QAQAA
+To: Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ kernel@pengutronix.de, Michael Grzeschik <m.grzeschik@pengutronix.de>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4095;
+ i=m.grzeschik@pengutronix.de; h=from:subject:message-id;
+ bh=XIkSHf9MuD6TQyL63b+wRC/40nq8CMEr5zZm2/qaYHA=;
+ b=owEBbQKS/ZANAwAKAb9pWET5cfSrAcsmYgBl3Jh0xW1GHNjv9zrehCmAqI3J3gtUlO/kNkvGa
+ 8MMworIHiSJAjMEAAEKAB0WIQQV2+2Fpbqd6fvv0Gi/aVhE+XH0qwUCZdyYdAAKCRC/aVhE+XH0
+ q39DD/0UD8bDJxrAVL8hAIgxDzidf9NPpn7eQr96MiptN/HDVLo+7zJbK0BqGG7Vej6GmU1jrHp
+ Ssz5SC+iJrIGq4Ol51hgUD5boGJvbR+x7Dqtvlvqth11BzpvZKhtu8tSnyMFD+LPNudMedAEo0J
+ hPC7P+7oFWi/DfpbJeA32Q6QhL8qj6rKLJqRHuIsEMT4K1g6Yf+gicpWVtt7zVDC/RU7Pi+9VWQ
+ XPERD6DnBvkWTYK1Sx9a/7Zq90/9DEXRwTSZeY23ULHpAOEZF5C5zEyh2cbFsbuZgJhpQ2FmMWQ
+ v+ho5ZfDnvKfsHuw983iB62bhPwEAkTgX6JX9wPk25UmgYSbw4I2889C0tow5USY9QK2vvIVNj7
+ OItyI4QzUCRCiacYNYECf7RqIzVANjUudDsocY4kuyDLfmyYRbYEj/3TdBh35nVqkqAtpMmlMsj
+ UqqL5mr40RFNCGbbsZLSy9u2u6+jUPQiaiuLYaBHjd6icf4423wOGSifTNkTBqbFMSwNXucK14t
+ EJaQMe2paLYqoCVCidHnwSouvpUIce6r+ZE/Gieck+EyHsTHF4B2YnzRDb9d/T3/F6cEAYDUR29
+ tATUBfeIK8OHf97OXw/kFCIKrw5aG0SS/iyzp+NDKr1PcltS1psELyI/m1FRvVrmsdvz0j0Bk2A
+ 0n1rP4tsko6TA8g==
+X-Developer-Key: i=m.grzeschik@pengutronix.de; a=openpgp;
+ fpr=957BC452CE953D7EA60CF4FC0BE9E3157A1E2C64
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.grzeschik@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, 23 Feb 2024 11:42:02 -0600
-John Groves <John@Groves.net> wrote:
+This series is adding support to mount usb hostside exported 9pfs
+filesystems via the usb gadget interface. It also includes a simple tool
+(p9_fwd.py) to translate an tcp 9pfs transport and reuse it via the usb
+interface.
 
-> This commit introduces the ability to open a character /dev/dax device
-> instead of a block /dev/pmem device. This rests on the dev_dax_iomap
-> patches earlier in this series.
+    +--------------------------+    |    +--------------------------+
+    |  9PFS mounting client    |    |    |  9PFS exporting server   |
+ SW |                          |    |    |                          |
+    |   (this:trans_usbg)      |    |    |(e.g. diod or nfs-ganesha)|
+    +-------------^------------+    |    +-------------^------------+
+                  |                 |                  |
+                  |                 |           +------v------+
+                  |                 |           |  p9_fwd.py  |
+                  |                 |           +------^------+
+                  |                 |                  |
+------------------|------------------------------------|-------------
+                  |                 |                  |
+    +-------------v------------+    |    +-------------v------------+
+    |                          |    |    |                          |
+ HW |   USB Device Controller  <--------->   USB Host Controller    |
+    |                          |    |    |                          |
+    +--------------------------+    |    +--------------------------+
 
-Not sure the back reference is needed given it's in the series.
+The USB host exports a filesystem, while the gadget on the USB device
+side makes it mountable.
 
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/famfs/famfs_inode.c | 97 +++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 87 insertions(+), 10 deletions(-)
-> 
-> diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> index 0d659820e8ff..7d65ac497147 100644
-> --- a/fs/famfs/famfs_inode.c
-> +++ b/fs/famfs/famfs_inode.c
-> @@ -215,6 +215,93 @@ static const struct super_operations famfs_ops = {
->  	.show_options	= famfs_show_options,
->  };
->  
-> +/*****************************************************************************/
-> +
-> +#if defined(CONFIG_DEV_DAX_IOMAP)
-> +
-> +/*
-> + * famfs dax_operations  (for char dax)
-> + */
-> +static int
-> +famfs_dax_notify_failure(struct dax_device *dax_dev, u64 offset,
-> +			u64 len, int mf_flags)
-> +{
-> +	pr_err("%s: offset %lld len %llu flags %x\n", __func__,
-> +	       offset, len, mf_flags);
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static const struct dax_holder_operations famfs_dax_holder_ops = {
-> +	.notify_failure		= famfs_dax_notify_failure,
-> +};
-> +
-> +/*****************************************************************************/
-> +
-> +/**
-> + * famfs_open_char_device()
-> + *
-> + * Open a /dev/dax device. This only works in kernels with the dev_dax_iomap patch
+Diod (9pfs server) and the forwarder are on the development host, where
+the root filesystem is actually stored. The gadget is initialized during
+boot (or later) on the embedded board. Then the forwarder will find it
+on the USB bus and start forwarding requests.
 
-That comment you definitely don't need as this won't get merged without
-that patch being in place.
+In this case the 9p requests come from the device and are handled by the
+host. The reason is that USB device ports are normally not available on
+PCs, so a connection in the other direction would not work.
 
+One use-case is to use it as an alternative to NFS root booting during
+the development of embedded Linux devices.
 
-> + */
-> +static int
-> +famfs_open_char_device(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> +	struct dax_device    *dax_devp;
-> +	struct inode         *daxdev_inode;
-> +
-> +	int rc = 0;
-set in all paths where it's used.
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+Changes in v3:
+- dropped patch "usb: gadget: legacy: add 9pfs multi gadget" as discussed with gregkh
+- Link to v2: https://lore.kernel.org/r/20240116-ml-topic-u9p-v2-0-b46cbf592962@pengutronix.de
 
-> +
-> +	pr_notice("%s: Opening character dax device %s\n", __func__, fc->source);
+Changes in v2:
+- improved the commit messages
+- introduced an patch to move the header u_f.h to include/linux/usb to compile usb gadget functions treewide
+- moved usbg gadget function to net/9p/
+- adderessed several comments in function driver, like the cleanup path and kbuild errors
+- improved the documentation in Documentation/filesystems/9p.rst
+- Link to v1: https://lore.kernel.org/r/20240116-ml-topic-u9p-v1-0-ad8c306f9a4e@pengutronix.de
 
-pr_debug
+---
+Michael Grzeschik (3):
+      usb: gadget: function: move u_f.h to include/linux/usb/
+      net/9p/usbg: Add new usb gadget function transport
+      tools: usb: p9_fwd: add usb gadget packet forwarder script
 
-> +
-> +	fsi->dax_filp = filp_open(fc->source, O_RDWR, 0);
-> +	if (IS_ERR(fsi->dax_filp)) {
-> +		pr_err("%s: failed to open dax device %s\n",
-> +		       __func__, fc->source);
-> +		fsi->dax_filp = NULL;
-Better to use a local variable
+ Documentation/filesystems/9p.rst                |  47 ++
+ drivers/usb/gadget/configfs.c                   |   2 +-
+ drivers/usb/gadget/function/f_fs.c              |   2 +-
+ drivers/usb/gadget/function/f_hid.c             |   2 +-
+ drivers/usb/gadget/function/f_loopback.c        |   2 +-
+ drivers/usb/gadget/function/f_midi.c            |   2 +-
+ drivers/usb/gadget/function/f_midi2.c           |   2 +-
+ drivers/usb/gadget/function/f_sourcesink.c      |   2 +-
+ drivers/usb/gadget/u_f.c                        |   2 +-
+ {drivers/usb/gadget => include/linux/usb}/u_f.h |   0
+ net/9p/Kconfig                                  |   6 +
+ net/9p/Makefile                                 |   4 +
+ net/9p/trans_usbg.c                             | 871 ++++++++++++++++++++++++
+ tools/usb/p9_fwd.py                             | 194 ++++++
+ 14 files changed, 1130 insertions(+), 8 deletions(-)
+---
+base-commit: 41bccc98fb7931d63d03f326a746ac4d429c1dd3
+change-id: 20240116-ml-topic-u9p-895274530eb1
 
-	fp = filp_open(fc->source, O_RDWR, 0);
-	if (IS_ERR(fp)) {
-		pr_err.
-		return;
-	}
-	fsi->dax_filp = fp;
-or similar.
-
-> +		return PTR_ERR(fsi->dax_filp);
-> +	}
-> +
-> +	daxdev_inode = file_inode(fsi->dax_filp);
-> +	dax_devp     = inode_dax(daxdev_inode);
-> +	if (IS_ERR(dax_devp)) {
-> +		pr_err("%s: unable to get daxdev from inode for %s\n",
-> +		       __func__, fc->source);
-> +		rc = -ENODEV;
-> +		goto char_err;
-> +	}
-> +
-> +	rc = fs_dax_get(dax_devp, fsi, &famfs_dax_holder_ops);
-> +	if (rc) {
-> +		pr_info("%s: err attaching famfs_dax_holder_ops\n", __func__);
-> +		goto char_err;
-> +	}
-> +
-> +	fsi->bdev_handle = NULL;
-> +	fsi->dax_devp = dax_devp;
-> +
-> +	return 0;
-> +
-> +char_err:
-> +	filp_close(fsi->dax_filp, NULL);
-
-You carefully set fsi->dax_filp to null in other other error paths.
-Why there and not here?
-
-> +	return rc;
-> +}
-> +
-> +#else /* CONFIG_DEV_DAX_IOMAP */
-> +static int
-> +famfs_open_char_device(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	pr_err("%s: Root device is %s, but your kernel does not support famfs on /dev/dax\n",
-> +	       __func__, fc->source);
-> +	return -ENODEV;
-> +}
-> +
-> +
-> +#endif /* CONFIG_DEV_DAX_IOMAP */
-> +
->  /***************************************************************************************
->   * dax_holder_operations for block dax
->   */
-> @@ -236,16 +323,6 @@ const struct dax_holder_operations famfs_blk_dax_holder_ops = {
->  	.notify_failure		= famfs_blk_dax_notify_failure,
->  };
->  
-
-Put it in right place earlier! Makes this less noisy.
-
-> -static int
-> -famfs_open_char_device(
-> -	struct super_block *sb,
-> -	struct fs_context  *fc)
-> -{
-> -	pr_err("%s: Root device is %s, but your kernel does not support famfs on /dev/dax\n",
-> -	       __func__, fc->source);
-> -	return -ENODEV;
-> -}
-> -
->  /**
->   * famfs_open_device()
->   *
+Best regards,
+-- 
+Michael Grzeschik <m.grzeschik@pengutronix.de>
 
