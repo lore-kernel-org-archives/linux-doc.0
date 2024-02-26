@@ -1,68 +1,50 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7DC1B966;
-	Mon, 26 Feb 2024 11:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A101CD30;
+	Mon, 26 Feb 2024 11:08:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708945583; cv=none; b=dQaCCIRWAAxHP2CHA33RFDx7YAvfw1qs42ghBVoa7xb9TevFSrKzvDPCNoCm+lRZ9yXj/0+sqa7f5RUd6zOeg38j7Skjnk1xhMp7E9qjVPddRS+AQTWYt0DS8xIYM/1c8k36UyIWVcQfZZ4+pgPkuw/PmJawaNdezZNjiYkTsmE=
+	t=1708945703; cv=none; b=j/lzty9WfUbB6DriATsJ0GrZ2m/KvQqlNKcqRt4IKuxoOxtL6d/EKIRJYRcA6+a30VgCtmXKWPubj9AVhKvET10l6PowuaoXLEDFr5dNSAyzkLcJVjMBcGFad2cCBtU+cINymb4dhfc4XbpSGZ1Zw/tVfVOlA2ebw6hcM6oC2cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708945583; c=relaxed/simple;
-	bh=WHdbQnlfcOYTc10sxSqdjWKBT+rdFQUDsUt4B65OTok=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nyrMZg/jy31D+tfOZnQqBlW9shit5N6MZ986/WZJWx7GHvpGEuiROWQ2nQ9/5633VUHeuKQAu8ZWdI8j3n3YrYIbjr6dfQwUdDsduiMzvljY8ywkgHyDIgs1eiV4GmP/1fpOqrPmzPIiUAiqvraBOsViLMj4fe43WVw521jFu68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p1MrETxd; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1708945703; c=relaxed/simple;
+	bh=MH3NkRJlLsr92n8XmE7uUhNlrOYcMau2VISmVPiEn7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mdmhzCuFQrCkKScpd73xNSeoirHp33RO7QUUJZPwZyUlGiNKzegvXhqHWIp6zjlX62EDRXaS+ukKtI3/oKVp34+a/BwrLpoYxaXiFaTlkeSPCUkEAxgCkj4vwdNB/i64lxLpesjfE+l0syLHTFdGnvpdgLfPKo9/cuARZWfkGGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UlTvyCKR; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p1MrETxd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UlTvyCKR"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WHdbQnlfcOYTc10sxSqdjWKBT+rdFQUDsUt4B65OTok=; b=p1MrETxdo6Glkfbn+2vVS2RuEW
-	rinH2/GnYT9ViW/GlytDBwgUUtTmnis3fU16E3YJmEwQC9ppSayw//xMK1gh+p4YTgQjTMFqJHEq9
-	EGHfRR1+FVVXnJBKnyD5CGzrLHZzFN8poH8dC8IOvgs/LoXfchH+F3fORvbr2AItKgENhoT9g8Dau
-	OTvOqDvrbmYPADRsOV309CtAb8CVNuHcxv5itsGIy4yAQHEKYP1h/QtwFTlQOcl48BVWZwdRfhtWM
-	5j+LF4wnMJO5aqsNE4p3awTDT0ZraCyFA+kgCejP6UdgG9Dot1X7WSItWQtst1GF1lj+UpLVZen1r
-	2VWNAtIw==;
+	bh=oj61w1EtZvU5zXErbswMW0jEIMEss4/Kn4pcmzNb168=; b=UlTvyCKRizAl9mcUNVH9wzWNh+
+	admk3vNpmvpsGmhf5Ff9vy2+atxJhnGlMY1w7eweWoSfbMInJK32TAw6YIEI54cIHOPk7jX3m0EJM
+	FCKDpecaX8Hd05q3enPumxLA5vAPJ4Py/nS+sh81DhcFA2arUv0Zo46xSp07wFVkLNN4CTBUQaWr8
+	ifro4rtJ+6gB0lSL+/K0RzIuRXcSpEgAL9pbsN8CjfoMqdUibIrF/F9pZFPEWDVuEAsYp5WfK76BX
+	B7pruLi30yTDCZpZp1MsrS1r2kxzzCraJGzi8sma7qaxMV/CxIg5xjzB7E1pUEBgCOihYKj9gbcVx
+	8Wrh1Nvg==;
 Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1reYoF-00000000Gzk-46br;
-	Mon, 26 Feb 2024 11:06:11 +0000
-Date: Mon, 26 Feb 2024 03:06:11 -0800
+	id 1reYqJ-00000000HTi-0SxK;
+	Mon, 26 Feb 2024 11:08:19 +0000
+Date: Mon, 26 Feb 2024 03:08:19 -0800
 From: Christoph Hellwig <hch@infradead.org>
-To: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-	Quentin Perret <qperret@google.com>,
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-	Android KVM <android-kvm@google.com>,
-	Patrick Daly <quic_pdaly@quicinc.com>,
-	Alex Elder <elder@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Murali Nalajal <quic_mnalajal@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-	Carl van Schaik <quic_cvanscha@quicinc.com>,
-	Philip Derrin <quic_pderrin@quicinc.com>,
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map functions
-Message-ID: <Zdxwo0abvklfam-Z@infradead.org>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+To: Wadim Mueller <wafgo01@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Shunsuke Mie <mie@igel.co.jp>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add support for Block Passthrough Endpoint function
+ driver
+Message-ID: <ZdxxI7bqdajK3Hb7@infradead.org>
+References: <20240224210409.112333-1-wafgo01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,9 +53,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+In-Reply-To: <20240224210409.112333-1-wafgo01@gmail.com>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-The point is that we can't we just allow modules to unmap data from
-the kernel mapping, no matter how noble your intentions are.
-
+Please don't just create a new (and as far as I can tell underspecified)
+new "hardware" interface for this.  If the nvme endpoint work is too
+much for your use case maybe just implement a minimal virtio_blk
+interface.
