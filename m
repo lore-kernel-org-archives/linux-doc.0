@@ -1,66 +1,78 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B5F60B9F;
-	Mon, 26 Feb 2024 16:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC7F12C7E2;
+	Mon, 26 Feb 2024 16:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708966178; cv=none; b=UV+p8mXZyF4rPJC7HWrO2HOSiqb1s+SGKUx4m86AAM9QfHv6BzQd1rh2u+dyjY8srIX7mdFjazzCBkTn2Y1lpMAoGSybV7ZudppIDbEhzFsjAPLn8TtEwR7H/ms5a9RmHi29PpVHSEA/K3rkaru89sQITGpDPxNxNgS2/3rwM7A=
+	t=1708966307; cv=none; b=P3BN3QnOW+WF3qTct/Z5ybqRsz/RdSKV3rWTD67nuq0xoiU2LKqPXXNtILFqE046h2JUCReGABOTyztBYI9jGpZEnnap3pIlIvj86iYl/lns0hBLx+733vwqx2gUNk2JXf55VL2t1oJ+V6OYObor9IO4eNLFfTif+404GmVXJWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708966178; c=relaxed/simple;
-	bh=qgSbrEvPXdgNiC/UJm11zFW9tgsbpt+8ylKHzAn/bhs=;
+	s=arc-20240116; t=1708966307; c=relaxed/simple;
+	bh=JAKtkL3qygIuWnqEHwm6bMalmBhBaJKjbqU8dhW8Nho=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HR6m684adtXxOtAEjubArg48RXaO8Uy1GOm2XZlv9PBmtNsPSb8NefK8ln5IqN8VvV0HogugPNAvMxJDsM+tR1tHEkFQttOUQbK7+5t42CAdBEsfb3mhBKWFmiY2vOokzcj+8GYrfCWpYodxZFpHtaQ8+Nvnj3bu9MOl00IokOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=O1Fo3E7g; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=OjfjVitqYkOe6o2L8q6Gql5nzdGyJKd1DE3+3AGz1L3AQP4UpJAwxEveZc94KhsTsDKHeLJCpOXPqspqawUa8gtDjvmiRMXqOsivZEwQCc3RqxMZ6iLXEwLtWkeMBV1A3MpgClt/uazAEf3liPWKihtXypbs2JZkfS4NqQW39kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2BWh9ZO2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SXUyZNBH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=2BWh9ZO2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SXUyZNBH; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="O1Fo3E7g"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 41QGh0Rl003527;
-	Mon, 26 Feb 2024 16:47:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=UdqOq7Lx+mxt1cvwHHbViM4XUO6JWwWx781fxPxQPO8=;
- b=O1Fo3E7gRgmssVTQRm+zDcPE9BpTYK/yPOvocD7WgmNGodQHNg+OeqrNokSZNOiwyCp8
- m7ygfj4PjDSeAx6CMEaZJL8TVJwtfNTFzT80cUp2/1LQGU7jDOpev7yuP9kadDVYHM/x
- 4ozFtXiCDlvs4yXpt19HRFM66QF12FWV59nGIdfehej6zwCgZWcTuQ2uaV1cEamF5cCJ
- S9Lgn0cNvnfi0w5ld/FyXw9tUfAnatrm4+nVnlPT/0DAnbcurzsTRto8abt8NcJgfJpI
- R0UIkMuWAG+RwasK9nS2lYyfdL+DWTQXYMPN7hH5oNvYPtl8UhhL8fyjy/hBZ9UhKB+2 fg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wgxdfr3gg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 16:47:07 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 41QGjEsc011226;
-	Mon, 26 Feb 2024 16:47:07 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wgxdfr3fu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 16:47:07 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 41QF8J1a021278;
-	Mon, 26 Feb 2024 16:47:06 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wfusntdaw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 26 Feb 2024 16:47:05 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 41QGl14M24183328
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Feb 2024 16:47:04 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CAC892004B;
-	Mon, 26 Feb 2024 16:47:01 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8799C20040;
-	Mon, 26 Feb 2024 16:47:00 +0000 (GMT)
-Received: from [9.171.38.134] (unknown [9.171.38.134])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 26 Feb 2024 16:47:00 +0000 (GMT)
-Message-ID: <f7f47717-276f-47f5-af7d-4117b2eb1338@linux.ibm.com>
-Date: Mon, 26 Feb 2024 17:47:00 +0100
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2BWh9ZO2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SXUyZNBH";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="2BWh9ZO2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SXUyZNBH"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C33721FB63;
+	Mon, 26 Feb 2024 16:51:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708966303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uJZhnt5DTMh+MpsqVvPBL3KYGUK68E8u5IzFbAjaEiM=;
+	b=2BWh9ZO253ovC2zNdfqtvftgT6pWuH9m0/Sf5zUUwHwcq7uPJ928cF1nL/DAHC2cUK/UTi
+	A5/0r6RpRdsUC8e89nu1dAgnPIycbQ0AF5zvtYneZaKbkNie/fTCNdNe0PRwd3X2UiYvJM
+	JMkhAopyS7CPH9delRfnvWuNCmmcuz4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708966303;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uJZhnt5DTMh+MpsqVvPBL3KYGUK68E8u5IzFbAjaEiM=;
+	b=SXUyZNBHaq32S/kPenhxE7cL6y3M/KL6EdlzZI1R25VXrHJ5lZZPru/d+efycQgbLcFNpE
+	BkTGfBKCe3Qs/ZAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1708966303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uJZhnt5DTMh+MpsqVvPBL3KYGUK68E8u5IzFbAjaEiM=;
+	b=2BWh9ZO253ovC2zNdfqtvftgT6pWuH9m0/Sf5zUUwHwcq7uPJ928cF1nL/DAHC2cUK/UTi
+	A5/0r6RpRdsUC8e89nu1dAgnPIycbQ0AF5zvtYneZaKbkNie/fTCNdNe0PRwd3X2UiYvJM
+	JMkhAopyS7CPH9delRfnvWuNCmmcuz4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1708966303;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uJZhnt5DTMh+MpsqVvPBL3KYGUK68E8u5IzFbAjaEiM=;
+	b=SXUyZNBHaq32S/kPenhxE7cL6y3M/KL6EdlzZI1R25VXrHJ5lZZPru/d+efycQgbLcFNpE
+	BkTGfBKCe3Qs/ZAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A77513A58;
+	Mon, 26 Feb 2024 16:51:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MgflBZ/B3GVLFgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 26 Feb 2024 16:51:43 +0000
+Message-ID: <a5a5d0ec-b04e-4cb1-9ac8-9aac00badc0e@suse.cz>
+Date: Mon, 26 Feb 2024 17:51:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,67 +80,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 06/13] net: Add struct kernel_ethtool_ts_info
-To: Kory Maincent <kory.maincent@bootlin.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
-        Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King
- <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Horatiu Vultur <horatiu.vultur@microchip.com>,
-        UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Rahul Rameshbabu <rrameshbabu@nvidia.com>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
- <20240226-feature_ptp_netnext-v9-6-455611549f21@bootlin.com>
+Subject: Re: [PATCH v4 08/36] mm: introduce __GFP_NO_OBJ_EXT flag to
+ selectively prevent slabobj_ext creation
 Content-Language: en-US
-From: Alexandra Winter <wintera@linux.ibm.com>
-In-Reply-To: <20240226-feature_ptp_netnext-v9-6-455611549f21@bootlin.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com,
+ penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+ ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-9-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240221194052.927623-9-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: LQqKCQFvXnND9bQqkLWZGehnxJwN6suK
-X-Proofpoint-ORIG-GUID: GCCOKM-MW73RDG1Trk6kCKNNLXEvb2s1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-26_11,2024-02-26_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- adultscore=0 impostorscore=0 clxscore=1011 bulkscore=0 mlxscore=0
- malwarescore=0 priorityscore=1501 spamscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2402260127
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=2BWh9ZO2;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=SXUyZNBH
+X-Spamd-Result: default: False [0.91 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-0.29)[74.52%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_GT_50(0.00)[74];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 0.91
+X-Rspamd-Queue-Id: C33721FB63
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Bar: /
 
-
-
-On 26.02.24 14:39, Kory Maincent wrote:
-> In prevision to add new UAPI for hwtstamp we will be limited to the struct
-> ethtool_ts_info that is currently passed in fixed binary format through the
-> ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new kernel code
-> already started operating on an extensible kernel variant of that
-> structure, similar in concept to struct kernel_hwtstamp_config vs struct
-> hwtstamp_config.
+On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> Introduce __GFP_NO_OBJ_EXT flag in order to prevent recursive allocations
+> when allocating slabobj_ext on a slab.
 > 
-> Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
-> we introduce the kernel-only structure in include/linux/ethtool.h.
-> The manual copy is then made in the function called by ETHTOOL_GET_TS_INFO.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-For drivers/s390/net/qeth_ethtool.c  :
-Acked-by: Alexandra Winter <wintera@linux.ibm.com>
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
