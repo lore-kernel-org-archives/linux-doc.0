@@ -1,59 +1,59 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15084131E3F;
-	Mon, 26 Feb 2024 22:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515DD132C09;
+	Mon, 26 Feb 2024 22:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708986135; cv=none; b=GNhMbt3VgyaKzf3tpNE8JcMBR8K2VdyA0hLHWTf2sVgyWvALMD/iwtvbDlAu6kkBxyk2DibG5gkjQ3dUI5DQlR5gb2FtV6uLCyP1IRQzaCnnYTFIqIGokl8t2SEpkGulHtoZfSmgMbSuIN+oK5ejuM2B3z8ZAZrCfXc3g0ya5hw=
+	t=1708987410; cv=none; b=IC8Turo5vvUAxKH3twGNbypcgLC89YPnx2eeQo05P3ImV0G8ZQsLdx6RXBGH9QSPtPKISzv0zGD0WqVTTC//VdzTrEu0Y7uQLlyH3YhTNRoZkNkQm+QuYT3M3fLCc6ahNnCJsioWvebUm8ABfWvz7auMvelLft9k6ANHRSiJ6eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708986135; c=relaxed/simple;
-	bh=9B9sVk95/X6RVwf+p1Qn/KhyyBM6EhLa8TimasuHcWM=;
+	s=arc-20240116; t=1708987410; c=relaxed/simple;
+	bh=lZO496usxRZc4uLXOrLSsGfI9A7Y3eJcpNSY/9wvdTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pp4BMSMpdcf95S9tA9BPQ7bjpi4oX6XRTkkWi1K0dcnAps4kaBTTgT7z+pjX9VxIXenypbr1VsysxWRJycsRHLJKN7apsr5P1GHUdnRLR0Wsqhjc4h7qpSBjjFIRykNalCgsAqxXM7L1FlJPsV8E4WhSNFfSeb0fQF26yJuPFBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fMeBzee4; arc=none smtp.client-ip=209.85.167.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=hIKb+paP5Z/RQLdElswcW3HHmfUn8knPe+YbjsvgGEbLVTQTxnkqvBtqdJokNbqEPktgENyEbiQyX5UKb8p2V83kQUXpZJiIf4kBcMLGaBTq9Fr2C32TLRvd6LQv/74Pw5N3sgGb+Utgago52NGNotseOgN3tzlABzd9dkz1Ctc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZOco68Oc; arc=none smtp.client-ip=209.85.160.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fMeBzee4"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c19bc08f96so1752168b6e.2;
-        Mon, 26 Feb 2024 14:22:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOco68Oc"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-22007fe465bso926033fac.1;
+        Mon, 26 Feb 2024 14:43:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708986133; x=1709590933; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1708987407; x=1709592207; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uCljusvDbpC85XBVMK3c5kvPOrdu09iyxvjz7pu6Gtk=;
-        b=fMeBzee4rdGqRf++KZpHwK7fHc2KRak3BUg2XDr3gOIp1HTm4uKJhiOT13ukFACDBM
-         CBh3Z6QSKr4UjoYxztmAUvdsvnyJG6B9Rp1B1VdCA9SxWIQASYb6y4gl11PcufsYGTrO
-         xUhzTwlTdkJtDS2HL+CVIJiaeXDRTSChPHhTcHFj5ql5PaPwxt2OOqlaftJ7REsNwiWN
-         TxzTXcmNAq+x/xv7BKV4m+ZxGAoUr92ltlUgj0LchQP/SfqW7ladtmkvU2ABsYqvM5vK
-         m4nNhTJFOHN3dNyjWqKZ1NSfm/vQkxjjU0yjQYXDVPH44zhAFQHnQnUuJ8t1WRmNnkrI
-         f8HA==
+        bh=DUPmDk09/sTy9Hx2AnE6xr34od72PSugc7feC6111Fo=;
+        b=ZOco68Ocod7WdLh1iUd5Q5MtS5M0djusP4y+mrSP7VEubqe9EJdeuLucBiPgRceeTj
+         WQKIwARzmaguugZDwZLtt+Vj5181JGb9XzZcpmj7wr3+1XndV6KUI/UeKEU+n91xAd+j
+         Z43W43wLE7cM62lSiBF/93syQU+zko6vitVR0F4ItoJ9+EORHKxC5JMKUaJbHFNXLv1b
+         a4MGhLT+SoUgtxLtSPlFZT/uMnUZuQx834Tkn+mxUKNks5CB0GREnqG4H7jl2adzXnXY
+         +/lZg8Mgu7niI696eGNb1+MI6McfQSLgjEmy8QwA8/0A32J48AlZyCA+qShFp9jdClxB
+         lfhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708986133; x=1709590933;
+        d=1e100.net; s=20230601; t=1708987407; x=1709592207;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uCljusvDbpC85XBVMK3c5kvPOrdu09iyxvjz7pu6Gtk=;
-        b=dZ3FcY8n8YULEBQ7+deg+QT5m6E/R+7rBaSTGHKm3QP8UvRctVkB8c1RW8t6JOEAJm
-         ncju6Pfidtt2L2UAKJ/DCsQdjfz1H78LwJGKw73Pkq5yne4DoC0Qt46bq04wvxzgQDSQ
-         Bc7l2novsCR+RKeNLI7Lzz6M9UrN4AGUho5G1mxFEwNjae0MEtcxLeiaMcBhvj8/fTMe
-         tqYlneV1BkVuazZRjqIfP1N+YvGGlahujqVRZp1IAWqNaGdOC0iCBKa5ONdfFMOWmJ2G
-         +bSS5UGvB1l9LTrMAJUJK84HPaZpABYm7d5sjAmNIsWxPrFvm8YhNxiIJk6KKR1iwbLM
-         6f/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWI2vmopXK3UjJyM3SzokcPDBUXKySdHHe5GhHync58JDBo/zpVD3uPhZV60H6IOc75cm4TOwBLrCyuDhcPw5u2PAIhniVDcZPn5oMWUEzwN9cbx4NrBUhF0q9kZacXWMCDlr3mOBVfNDE/HsDWlwVjBKifrn0Z/O0Afn+Dh6qSgWXnppG/StLzrrfzByd5h4lijWc40zNuyuXawt+8xbkx1w==
-X-Gm-Message-State: AOJu0YwEuNwUwsF1kJU3Q2CWRQFYfGwLUVnDQkAMP92khA94Xw+yndnO
-	O2Qa+09Pfsy/HxlGIqN2m8sFc8H6gRKVREp5ckKedblU4F10JfBC
-X-Google-Smtp-Source: AGHT+IH9/ZHMOlN9m2pQ3tNxm4b1iBEwlbsa1DLKOeAJmdm28kiQkwzlw6kslYe8H3uqCwJle03KrA==
-X-Received: by 2002:a05:6808:168e:b0:3c0:3752:626f with SMTP id bb14-20020a056808168e00b003c03752626fmr434507oib.58.1708986133186;
-        Mon, 26 Feb 2024 14:22:13 -0800 (PST)
+        bh=DUPmDk09/sTy9Hx2AnE6xr34od72PSugc7feC6111Fo=;
+        b=LsFjt9rn7mxzsva4GZYJV9gtrQ6HQlbg9JuvcBNWDdui5BruAi3K0bbmjE+KHT55dz
+         y/ztMZff3t1t6gKifKgz6RByRW5iYvs8+rjwSBmm07mLgMtSsOxseRra1EczcMyxKiYl
+         citA/uZF6AoWhhUGUFSKRAEDQTDpO8//M2GoqFXLxo0tVrrTv335Wi6wvVDw3tRgVKRo
+         krD1DdTtSLN6GF0HyJVYlML/jAk2IA4twMatx7c++waNmCWG16519rNeZLq/6OhGJuoN
+         8BgwF7sq2E70pdNzbChxBwZA/ibV7dMVqLldv4atVL8DyigDgbYvMr6ga0RPl1d/qvR5
+         Krmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUXRplfXdZPuMSyLqA6fiWAODZwreFFGEK4rABkIubKlUub4NJaEe54JbBziGSoxzuIXMzjRi0qJtW6Zpeg1qfmPj4WfDTcZB4CgxRm/h/mmA3JhUdBnoegq9mLOjKd/sP1H0SLVYPEmX2QHXtVlBqdkbDv711JvaFZvgM45GVsGeM4BPjfcyhHdPHjRRutp16XSd2bDy6K090cvBFS7MKcCA==
+X-Gm-Message-State: AOJu0YxLxI+Heme8OFFd9aikCjx5jf5hh7K1Cp6kEs8KhlK4Honf4D4B
+	kGbHOQ7PGhWbyLdr+xAiaO+uV7fQI7SS+F4eDtXn1i/qUAu7+Wnv9PbXp19ixdM=
+X-Google-Smtp-Source: AGHT+IEoZRM885tJ3SKMed/vEAVoJO38AS5Hl87/35VAcOvt6F3arFNSsmi3/j7xjKGIzHYaoLT4dg==
+X-Received: by 2002:a05:6870:b253:b0:21f:642:5240 with SMTP id b19-20020a056870b25300b0021f06425240mr9200382oam.31.1708987407360;
+        Mon, 26 Feb 2024 14:43:27 -0800 (PST)
 Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
-        by smtp.gmail.com with ESMTPSA id d17-20020a05680805d100b003c1ad351e43sm50022oij.1.2024.02.26.14.22.11
+        by smtp.gmail.com with ESMTPSA id er1-20020a0568303c0100b006e34506c5e5sm1280715otb.57.2024.02.26.14.43.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 14:22:12 -0800 (PST)
+        Mon, 26 Feb 2024 14:43:27 -0800 (PST)
 Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 26 Feb 2024 16:22:11 -0600
+Date: Mon, 26 Feb 2024 16:43:25 -0600
 From: John Groves <John@groves.net>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
@@ -64,12 +64,11 @@ Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
 	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
 	dave.hansen@linux.intel.com, gregory.price@memverge.com
-Subject: Re: [RFC PATCH 10/20] famfs: famfs_open_device() &
- dax_holder_operations
-Message-ID: <xslmwjulygnvrqvzevrzj5clalxwhqnmv5p2k2yvrp56bkqdn6@bbdmfeb24axf>
+Subject: Re: [RFC PATCH 11/20] famfs: Add fs_context_operations
+Message-ID: <5aw6k6rcnpj7ukps7jcjlj2creqa4aalnesukgdi4nmjqccfg7@7l7rvtzwpjha>
 References: <cover.1708709155.git.john@groves.net>
- <74359fdc83688fb1aac1cb2c336fbd725590a131.1708709155.git.john@groves.net>
- <20240226125642.000076d2@Huawei.com>
+ <a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
+ <20240226132019.00007b8c@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,143 +77,191 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240226125642.000076d2@Huawei.com>
+In-Reply-To: <20240226132019.00007b8c@Huawei.com>
 
-On 24/02/26 12:56PM, Jonathan Cameron wrote:
-> On Fri, 23 Feb 2024 11:41:54 -0600
+On 24/02/26 01:20PM, Jonathan Cameron wrote:
+> On Fri, 23 Feb 2024 11:41:55 -0600
 > John Groves <John@Groves.net> wrote:
 > 
-> > Famfs works on both /dev/pmem and /dev/dax devices. This commit introduces
-> > the function that opens a block (pmem) device and the struct
-> > dax_holder_operations that are needed for that ABI.
-> > 
-> > In this commit, support for opening character /dev/dax is stubbed. A
-> > later commit introduces this capability.
+> > This commit introduces the famfs fs_context_operations and
+> > famfs_get_inode() which is used by the context operations.
 > > 
 > > Signed-off-by: John Groves <john@groves.net>
-> 
-> Formatting comments mostly same as previous patches, so I'll stop repeating them.
-
-I tried to bulk apply those recommendations.
-
+> Trivial comments inline.
 > 
 > > ---
-> >  fs/famfs/famfs_inode.c | 83 ++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 83 insertions(+)
+> >  fs/famfs/famfs_inode.c | 178 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 178 insertions(+)
 > > 
 > > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index 3329aff000d1..82c861998093 100644
+> > index 82c861998093..f98f82962d7b 100644
 > > --- a/fs/famfs/famfs_inode.c
 > > +++ b/fs/famfs/famfs_inode.c
-> > @@ -68,5 +68,88 @@ static const struct super_operations famfs_ops = {
-> >  	.show_options	= famfs_show_options,
-> >  };
+> > @@ -41,6 +41,50 @@ static const struct super_operations famfs_ops;
+> >  static const struct inode_operations famfs_file_inode_operations;
+> >  static const struct inode_operations famfs_dir_inode_operations;
 > >  
-> > +/***************************************************************************************
-> > + * dax_holder_operations for block dax
-> > + */
-> > +
-> > +static int
-> > +famfs_blk_dax_notify_failure(
-> > +	struct dax_device	*dax_devp,
-> > +	u64			offset,
-> > +	u64			len,
-> > +	int			mf_flags)
-> > +{
-> > +
-> > +	pr_err("%s: dax_devp %llx offset %llx len %lld mf_flags %x\n",
-> > +	       __func__, (u64)dax_devp, (u64)offset, (u64)len, mf_flags);
-> > +	return -EOPNOTSUPP;
-> > +}
-> > +
-> > +const struct dax_holder_operations famfs_blk_dax_holder_ops = {
-> > +	.notify_failure		= famfs_blk_dax_notify_failure,
-> > +};
-> > +
-> > +static int
-> > +famfs_open_char_device(
+> > +static struct inode *famfs_get_inode(
 > > +	struct super_block *sb,
-> > +	struct fs_context  *fc)
+> > +	const struct inode *dir,
+> > +	umode_t             mode,
+> > +	dev_t               dev)
 > > +{
-> > +	pr_err("%s: Root device is %s, but your kernel does not support famfs on /dev/dax\n",
-> > +	       __func__, fc->source);
-> > +	return -ENODEV;
+> > +	struct inode *inode = new_inode(sb);
+> > +
+> > +	if (inode) {
+> reverse logic would be simpler and reduce indent.
+> 
+> 	if (!inode)
+> 		return NULL;
+> 
+
+Good one - I can be derpy this way. Although I'd bet I just copied that
+from ramfs...
+
+> 
+> > +		struct timespec64       tv;
+> > +
+> > +		inode->i_ino = get_next_ino();
+> > +		inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
+> > +		inode->i_mapping->a_ops = &ram_aops;
+> > +		mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+> > +		mapping_set_unevictable(inode->i_mapping);
+> > +		tv = inode_set_ctime_current(inode);
+> > +		inode_set_mtime_to_ts(inode, tv);
+> > +		inode_set_atime_to_ts(inode, tv);
+> > +
+> > +		switch (mode & S_IFMT) {
+> > +		default:
+> > +			init_special_inode(inode, mode, dev);
+> > +			break;
+> > +		case S_IFREG:
+> > +			inode->i_op = &famfs_file_inode_operations;
+> > +			inode->i_fop = &famfs_file_operations;
+> > +			break;
+> > +		case S_IFDIR:
+> > +			inode->i_op = &famfs_dir_inode_operations;
+> > +			inode->i_fop = &simple_dir_operations;
+> > +
+> > +			/* Directory inodes start off with i_nlink == 2 (for "." entry) */
+> > +			inc_nlink(inode);
+> > +			break;
+> > +		case S_IFLNK:
+> > +			inode->i_op = &page_symlink_inode_operations;
+> > +			inode_nohighmem(inode);
+> > +			break;
+> > +		}
+> > +	}
+> > +	return inode;
 > > +}
 > > +
-> > +/**
-> > + * famfs_open_device()
-> > + *
-> > + * Open the memory device. If it looks like /dev/dax, call famfs_open_char_device().
-> > + * Otherwise try to open it as a block/pmem device.
+> >  /**********************************************************************************
+> >   * famfs super_operations
+> >   *
+> > @@ -150,6 +194,140 @@ famfs_open_device(
+> >  	return 0;
+> >  }
+> >  
+> > +/*****************************************************************************************
+> > + * fs_context_operations
 > > + */
 > > +static int
-> > +famfs_open_device(
+> > +famfs_fill_super(
 > > +	struct super_block *sb,
 > > +	struct fs_context  *fc)
 > > +{
 > > +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> > +	struct dax_device    *dax_devp;
-> > +	u64 start_off = 0;
-> > +	struct bdev_handle   *handlep;
-> Definitely don't force alignment in local parameter definitions.
-> Always goes wrong and makes for unreadable mess in patches!
+> > +	struct inode *inode;
+> > +	int rc = 0;
+> Always initialized so no need to do it here.
 
-Okay, undone. Everywhere.
+Fixed in more than one place.
 
 > 
 > > +
-> > +	if (fsi->dax_devp) {
-> > +		pr_err("%s: already mounted\n", __func__);
-> Fine to fail but worth a error message? Not sure on convention on this but seems noisy
-> and maybe in userspace control which isn't good.
-
-Changing to pr_debug. Would be good to have access to it in that way
-
-> > +		return -EALREADY;
-> > +	}
+> > +	sb->s_maxbytes		= MAX_LFS_FILESIZE;
+> > +	sb->s_blocksize		= PAGE_SIZE;
+> > +	sb->s_blocksize_bits	= PAGE_SHIFT;
+> > +	sb->s_magic		= FAMFS_MAGIC;
+> > +	sb->s_op		= &famfs_ops;
+> > +	sb->s_time_gran		= 1;
 > > +
-> > +	if (strstr(fc->source, "/dev/dax")) /* There is probably a better way to check this */
-> > +		return famfs_open_char_device(sb, fc);
-> > +
-> > +	if (!strstr(fc->source, "/dev/pmem")) { /* There is probably a better way to check this */
-> > +		pr_err("%s: primary backing dev (%s) is not pmem\n",
-> > +		       __func__, fc->source);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	handlep = bdev_open_by_path(fc->source, FAMFS_BLKDEV_MODE, fsi, &fs_holder_ops);
-> > +	if (IS_ERR(handlep->bdev)) {
-> > +		pr_err("%s: failed blkdev_get_by_path(%s)\n", __func__, fc->source);
-> > +		return PTR_ERR(handlep->bdev);
-> > +	}
-> > +
-> > +	dax_devp = fs_dax_get_by_bdev(handlep->bdev, &start_off,
-> > +				      fsi  /* holder */,
-> > +				      &famfs_blk_dax_holder_ops);
-> > +	if (IS_ERR(dax_devp)) {
-> > +		pr_err("%s: unable to get daxdev from handlep->bdev\n", __func__);
-> > +		bdev_release(handlep);
-> > +		return -ENODEV;
-> > +	}
-> > +	fsi->bdev_handle = handlep;
-> > +	fsi->dax_devp    = dax_devp;
-> > +
-> > +	pr_notice("%s: root device is block dax (%s)\n", __func__, fc->source);
-> 
-> pr_debug()  Kernel log is too noisy anyway! + I'd assume we can tell this succeeded
-> in lots of other ways.
+> > +	rc = famfs_open_device(sb, fc);
+> > +	if (rc)
+> > +		goto out;
+> 		return rc; //unless you need to do more in out in later patch..
 
 Done
 
 > 
+> > +
+> > +	inode = famfs_get_inode(sb, NULL, S_IFDIR | fsi->mount_opts.mode, 0);
+> > +	sb->s_root = d_make_root(inode);
+> > +	if (!sb->s_root)
+> > +		rc = -ENOMEM;
+> 		return -ENOMEM;
+
+Done
+
 > 
-> > +	return 0;
+> 	return 0;
+
+Done
+
+> 
+> > +
+> > +out:
+> > +	return rc;
 > > +}
 > > +
-> > +
-> >  
-> >  MODULE_LICENSE("GPL");
+> > +enum famfs_param {
+> > +	Opt_mode,
+> > +	Opt_dax,
+> Why capital O?
 
-Thanks,
-John
+Direct copy from ramfs
+
 > 
+> > +};
+> > +
+> 
+> ...
+> 
+> > +
+> > +static DEFINE_MUTEX(famfs_context_mutex);
+> > +static LIST_HEAD(famfs_context_list);
+> > +
+> > +static int famfs_get_tree(struct fs_context *fc)
+> > +{
+> > +	struct famfs_fs_info *fsi_entry;
+> > +	struct famfs_fs_info *fsi = fc->s_fs_info;
+> > +
+> > +	fsi->rootdev = kstrdup(fc->source, GFP_KERNEL);
+> > +	if (!fsi->rootdev)
+> > +		return -ENOMEM;
+> > +
+> > +	/* Fail if famfs is already mounted from the same device */
+> > +	mutex_lock(&famfs_context_mutex);
+> 
+> New toys might be good to use from start to avoid need for explicit
+> unlocks in error paths.
+> 
+> 	scoped_guard(mutex, &famfs_context_mutex) {
+> 		list_for_each_entry(fsi_entry, &famfs_context_list, fsi_list) {
+> 			if (strcmp(fsi_entry->rootdev, cs_source) == 0) {
+> 			//could invert with a continue to reduce indent
+> 			// or factor this out as a little helper.
+> 			// famfs_check_not_mounted()
+> 				pr_err();
+> 				return -EALREADY;
+> 			}
+> 		}	
+> 		list_add(&fsi->fs_list, &famfs_context_list);
+> 	}
+> 
+> 	return get_tree_nodev(...
+
+Hey, I like this one. Thanks!
+
+John
+
