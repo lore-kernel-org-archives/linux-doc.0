@@ -1,267 +1,194 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515DD132C09;
-	Mon, 26 Feb 2024 22:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8902A1E897
+	for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 22:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708987410; cv=none; b=IC8Turo5vvUAxKH3twGNbypcgLC89YPnx2eeQo05P3ImV0G8ZQsLdx6RXBGH9QSPtPKISzv0zGD0WqVTTC//VdzTrEu0Y7uQLlyH3YhTNRoZkNkQm+QuYT3M3fLCc6ahNnCJsioWvebUm8ABfWvz7auMvelLft9k6ANHRSiJ6eo=
+	t=1708987634; cv=none; b=OwoQd3LGTh6R6ly759LYYAjwFjpTtVI7A6xfiJAxHPH1k4hMm39Cx/eBVW4oghzakPLB5X40iP1Lm4VCFckN2mbC/xfddEad7P+HQ63sET058g8fCu1Ee2sFH7q1j07TE6knH6X9uiynp3jMNvOfTJFRDIyKawCodjkMup1tBno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708987410; c=relaxed/simple;
-	bh=lZO496usxRZc4uLXOrLSsGfI9A7Y3eJcpNSY/9wvdTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hIKb+paP5Z/RQLdElswcW3HHmfUn8knPe+YbjsvgGEbLVTQTxnkqvBtqdJokNbqEPktgENyEbiQyX5UKb8p2V83kQUXpZJiIf4kBcMLGaBTq9Fr2C32TLRvd6LQv/74Pw5N3sgGb+Utgago52NGNotseOgN3tzlABzd9dkz1Ctc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZOco68Oc; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708987634; c=relaxed/simple;
+	bh=6S2iaa1ziWP/+AZL5PVpvzk6dQnjcMLBdQBD+N8qB+8=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=J15+cHCjFqyTJFj7M8MyBlX38N0O4xN4Hvn1Ho40UG+DhAKrl47LquCamhXdHFZZUTuwGsUDBLvk9i/mvhL7yplwENsGGEpAIKFHnJwvTXsb2zLQiBBjEnFvo/gZ+erSSjXBUhL3p5Q6ZH2a4JEL2EjLGa4kCPePZ25R/lNqIWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=jE8AVnq/; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZOco68Oc"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-22007fe465bso926033fac.1;
-        Mon, 26 Feb 2024 14:43:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708987407; x=1709592207; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DUPmDk09/sTy9Hx2AnE6xr34od72PSugc7feC6111Fo=;
-        b=ZOco68Ocod7WdLh1iUd5Q5MtS5M0djusP4y+mrSP7VEubqe9EJdeuLucBiPgRceeTj
-         WQKIwARzmaguugZDwZLtt+Vj5181JGb9XzZcpmj7wr3+1XndV6KUI/UeKEU+n91xAd+j
-         Z43W43wLE7cM62lSiBF/93syQU+zko6vitVR0F4ItoJ9+EORHKxC5JMKUaJbHFNXLv1b
-         a4MGhLT+SoUgtxLtSPlFZT/uMnUZuQx834Tkn+mxUKNks5CB0GREnqG4H7jl2adzXnXY
-         +/lZg8Mgu7niI696eGNb1+MI6McfQSLgjEmy8QwA8/0A32J48AlZyCA+qShFp9jdClxB
-         lfhw==
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="jE8AVnq/"
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 0DBFE40DBA
+	for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 22:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1708987623;
+	bh=gr+WKKnlHjOQT4Ki8d0xTGUPBtTeKxzlDsfRKLcxP1U=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID;
+	b=jE8AVnq/jQkuTpV0+yrrtn2qMGyZABwqMNcjdZra0kJT4ya6vjacp/TGVp1ADhYFU
+	 tYNTWTZC2CvuDJRGP2SephbGbYSpQO/dI4PpP1PzV/Ndoh64D3I0irbXgcDUDZ7Epf
+	 /FQjDXAVtVkIh2NW3R+1Ck2P5eZHXoxlPTsbiDaxgKxrm0NQC3CTdo050UGv+Pc4kF
+	 TPtedurvw7WeTvBoG+xikAxnvnePizA/yV3zbvxxAfW3TOoTUfpwgZ22MsECodHXiM
+	 YsVDASPqs/iRV7sK7378IR9iNrRANMp9NcVIU6NKyCJp7ynZVhcB6oceP0HR/evMhe
+	 6DPb0hk8U5Elg==
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-5c5c8ef7d0dso3179098a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 14:47:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708987407; x=1709592207;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DUPmDk09/sTy9Hx2AnE6xr34od72PSugc7feC6111Fo=;
-        b=LsFjt9rn7mxzsva4GZYJV9gtrQ6HQlbg9JuvcBNWDdui5BruAi3K0bbmjE+KHT55dz
-         y/ztMZff3t1t6gKifKgz6RByRW5iYvs8+rjwSBmm07mLgMtSsOxseRra1EczcMyxKiYl
-         citA/uZF6AoWhhUGUFSKRAEDQTDpO8//M2GoqFXLxo0tVrrTv335Wi6wvVDw3tRgVKRo
-         krD1DdTtSLN6GF0HyJVYlML/jAk2IA4twMatx7c++waNmCWG16519rNeZLq/6OhGJuoN
-         8BgwF7sq2E70pdNzbChxBwZA/ibV7dMVqLldv4atVL8DyigDgbYvMr6ga0RPl1d/qvR5
-         Krmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXRplfXdZPuMSyLqA6fiWAODZwreFFGEK4rABkIubKlUub4NJaEe54JbBziGSoxzuIXMzjRi0qJtW6Zpeg1qfmPj4WfDTcZB4CgxRm/h/mmA3JhUdBnoegq9mLOjKd/sP1H0SLVYPEmX2QHXtVlBqdkbDv711JvaFZvgM45GVsGeM4BPjfcyhHdPHjRRutp16XSd2bDy6K090cvBFS7MKcCA==
-X-Gm-Message-State: AOJu0YxLxI+Heme8OFFd9aikCjx5jf5hh7K1Cp6kEs8KhlK4Honf4D4B
-	kGbHOQ7PGhWbyLdr+xAiaO+uV7fQI7SS+F4eDtXn1i/qUAu7+Wnv9PbXp19ixdM=
-X-Google-Smtp-Source: AGHT+IEoZRM885tJ3SKMed/vEAVoJO38AS5Hl87/35VAcOvt6F3arFNSsmi3/j7xjKGIzHYaoLT4dg==
-X-Received: by 2002:a05:6870:b253:b0:21f:642:5240 with SMTP id b19-20020a056870b25300b0021f06425240mr9200382oam.31.1708987407360;
-        Mon, 26 Feb 2024 14:43:27 -0800 (PST)
-Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
-        by smtp.gmail.com with ESMTPSA id er1-20020a0568303c0100b006e34506c5e5sm1280715otb.57.2024.02.26.14.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 14:43:27 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 26 Feb 2024 16:43:25 -0600
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
-	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
-	dave.hansen@linux.intel.com, gregory.price@memverge.com
-Subject: Re: [RFC PATCH 11/20] famfs: Add fs_context_operations
-Message-ID: <5aw6k6rcnpj7ukps7jcjlj2creqa4aalnesukgdi4nmjqccfg7@7l7rvtzwpjha>
-References: <cover.1708709155.git.john@groves.net>
- <a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
- <20240226132019.00007b8c@Huawei.com>
+        d=1e100.net; s=20230601; t=1708987621; x=1709592421;
+        h=message-id:date:content-transfer-encoding:mime-version:comments
+         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gr+WKKnlHjOQT4Ki8d0xTGUPBtTeKxzlDsfRKLcxP1U=;
+        b=s1KXVfqAOE5na+9AP0X1kWb3r9PQwh6A0Ah4C1Gry2cicPEeADsMuRNnxmtUq+Cqdi
+         anYWxjzNS+aqH0ajMgnGAAn9bqS1Nn1EoqwvawkPbmIc7BD/PyZhZqo28u//G5dTpjJB
+         WxOYpa80dkY9PwRwHNPJ0ClBlvLsaOC7OXgcE2MFWMCG9OhyvgcsJy20B9yUxB/7JMzT
+         9ciShEZl8L1aLVjzxHNiKO4Zo/uVstcTMBmUmKlTg3iBoYk4dxWUEGrOIwQjKYw9XY7s
+         P1YUyHFlhcyO6qZIiOHAHD2TFoSCDGbD72/DV/lJ6ru7++g4DQsfsQcpGSzR/RO0MOdo
+         6ehw==
+X-Forwarded-Encrypted: i=1; AJvYcCV9qzYD953z3W2vz+156BVByFPd/d/NQrx6fiIWZmcvhiErSEhUzo8llryS/6cggJN0IU7JyZOWEK8g/1m8SStxwlkTcrwEU8Xn
+X-Gm-Message-State: AOJu0YwgioRrG/S0ePzt83KuFGe9tqLuaMonvQyvr8LFSABqxV/Qtt8w
+	mxL9DQKivrO1C2Ye/EdhUk76FSDZxfu9z4Ib60BrSFPJehiMCrwniB0AXHSZkOLnMZZfzsqE1VZ
+	HJYFcCo35TdDwMzZ0+BVSt8GAdp+5f/ETIZI8mBdqXie3RpDVTvLajHRPe8KJBtEUJjniBrwGmA
+	==
+X-Received: by 2002:a17:90a:1210:b0:29a:adb5:b045 with SMTP id f16-20020a17090a121000b0029aadb5b045mr4473999pja.9.1708987621446;
+        Mon, 26 Feb 2024 14:47:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFfO8b7Km0xOTYWEQV0dBP+d4tg1/74p4NInrzrufP6TwLpfyBM1I5NvyZZu8SzCRkTtprVwA==
+X-Received: by 2002:a17:90a:1210:b0:29a:adb5:b045 with SMTP id f16-20020a17090a121000b0029aadb5b045mr4473974pja.9.1708987621028;
+        Mon, 26 Feb 2024 14:47:01 -0800 (PST)
+Received: from famine.localdomain ([50.125.80.253])
+        by smtp.gmail.com with ESMTPSA id e4-20020a17090ab38400b0029a75101532sm4909195pjr.50.2024.02.26.14.47.00
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 26 Feb 2024 14:47:00 -0800 (PST)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 34BF0604B6; Mon, 26 Feb 2024 14:47:00 -0800 (PST)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 2EF979FAAA;
+	Mon, 26 Feb 2024 14:47:00 -0800 (PST)
+From: Jay Vosburgh <jay.vosburgh@canonical.com>
+To: =?us-ascii?Q?=3D=3Fiso-2022-jp=3FB=3FSm9uZXMgU3l1ZSAbJEJpLVhnPSEbKEI?= =?us-ascii?Q?=3D=3F=3D?= <jonessyue@qnap.com>
+cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+    "andy@greyhouse.net" <andy@greyhouse.net>,
+    "davem@davemloft.net" <davem@davemloft.net>,
+    "edumazet@google.com" <edumazet@google.com>,
+    Jakub Kicinski <kuba@kernel.org>,
+    "pabeni@redhat.com" <pabeni@redhat.com>,
+    "corbet@lwn.net" <corbet@lwn.net>, Jiri Pirko <jiri@resnulli.us>,
+    "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+    "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL with __agg_has_partner
+In-reply-to: <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
+References: <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
+Comments: In-reply-to =?us-ascii?Q?=3D=3Fiso-2022-jp=3FB=3FSm9uZXMgU3l1ZSA?=
+ =?us-ascii?Q?bJEJpLVhnPSEbKEI=3D=3F=3D?= <jonessyue@qnap.com>
+   message dated "Mon, 26 Feb 2024 02:24:52 +0000."
+X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240226132019.00007b8c@Huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Feb 2024 14:47:00 -0800
+Message-ID: <16063.1708987620@famine>
 
-On 24/02/26 01:20PM, Jonathan Cameron wrote:
-> On Fri, 23 Feb 2024 11:41:55 -0600
-> John Groves <John@Groves.net> wrote:
-> 
-> > This commit introduces the famfs fs_context_operations and
-> > famfs_get_inode() which is used by the context operations.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> Trivial comments inline.
-> 
-> > ---
-> >  fs/famfs/famfs_inode.c | 178 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 178 insertions(+)
-> > 
-> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index 82c861998093..f98f82962d7b 100644
-> > --- a/fs/famfs/famfs_inode.c
-> > +++ b/fs/famfs/famfs_inode.c
-> > @@ -41,6 +41,50 @@ static const struct super_operations famfs_ops;
-> >  static const struct inode_operations famfs_file_inode_operations;
-> >  static const struct inode_operations famfs_dir_inode_operations;
-> >  
-> > +static struct inode *famfs_get_inode(
-> > +	struct super_block *sb,
-> > +	const struct inode *dir,
-> > +	umode_t             mode,
-> > +	dev_t               dev)
-> > +{
-> > +	struct inode *inode = new_inode(sb);
-> > +
-> > +	if (inode) {
-> reverse logic would be simpler and reduce indent.
-> 
-> 	if (!inode)
-> 		return NULL;
-> 
+Jones Syue =E8=96=9B=E6=87=B7=E5=AE=97 <jonessyue@qnap.com> wrote:
 
-Good one - I can be derpy this way. Although I'd bet I just copied that
-from ramfs...
+>Replace macro MAC_ADDRESS_EQUAL() for null_mac_addr checking with inline
+>function__agg_has_partner(). When MAC_ADDRESS_EQUAL() is verifiying
+>aggregator's partner mac addr with null_mac_addr, means that seeing if
+>aggregator has a valid partner or not. Using __agg_has_partner() makes it
+>more clear to understand.
+>
+>In ad_port_selection_logic(), since aggregator->partner_system and
+>port->partner_oper.system has been compared first as a prerequisite, it is
+>safe to replace the upcoming MAC_ADDRESS_EQUAL() for null_mac_addr checking
+>with __agg_has_partner().
 
-> 
-> > +		struct timespec64       tv;
-> > +
-> > +		inode->i_ino = get_next_ino();
-> > +		inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
-> > +		inode->i_mapping->a_ops = &ram_aops;
-> > +		mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
-> > +		mapping_set_unevictable(inode->i_mapping);
-> > +		tv = inode_set_ctime_current(inode);
-> > +		inode_set_mtime_to_ts(inode, tv);
-> > +		inode_set_atime_to_ts(inode, tv);
-> > +
-> > +		switch (mode & S_IFMT) {
-> > +		default:
-> > +			init_special_inode(inode, mode, dev);
-> > +			break;
-> > +		case S_IFREG:
-> > +			inode->i_op = &famfs_file_inode_operations;
-> > +			inode->i_fop = &famfs_file_operations;
-> > +			break;
-> > +		case S_IFDIR:
-> > +			inode->i_op = &famfs_dir_inode_operations;
-> > +			inode->i_fop = &simple_dir_operations;
-> > +
-> > +			/* Directory inodes start off with i_nlink == 2 (for "." entry) */
-> > +			inc_nlink(inode);
-> > +			break;
-> > +		case S_IFLNK:
-> > +			inode->i_op = &page_symlink_inode_operations;
-> > +			inode_nohighmem(inode);
-> > +			break;
-> > +		}
-> > +	}
-> > +	return inode;
-> > +}
-> > +
-> >  /**********************************************************************************
-> >   * famfs super_operations
-> >   *
-> > @@ -150,6 +194,140 @@ famfs_open_device(
-> >  	return 0;
-> >  }
-> >  
-> > +/*****************************************************************************************
-> > + * fs_context_operations
-> > + */
-> > +static int
-> > +famfs_fill_super(
-> > +	struct super_block *sb,
-> > +	struct fs_context  *fc)
-> > +{
-> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> > +	struct inode *inode;
-> > +	int rc = 0;
-> Always initialized so no need to do it here.
+	Ok, I missed this bit when I read the patch this morning, so you
+can ignore my earlier email's question.  Patch looks good to me, glad to
+see null_mac_addr get the boot.
 
-Fixed in more than one place.
+>Delete null_mac_addr, which is not required anymore in bond_3ad.c, since
+>all references to it are gone.
+>
+>Signed-off-by: Jones Syue <jonessyue@qnap.com>
 
-> 
-> > +
-> > +	sb->s_maxbytes		= MAX_LFS_FILESIZE;
-> > +	sb->s_blocksize		= PAGE_SIZE;
-> > +	sb->s_blocksize_bits	= PAGE_SHIFT;
-> > +	sb->s_magic		= FAMFS_MAGIC;
-> > +	sb->s_op		= &famfs_ops;
-> > +	sb->s_time_gran		= 1;
-> > +
-> > +	rc = famfs_open_device(sb, fc);
-> > +	if (rc)
-> > +		goto out;
-> 		return rc; //unless you need to do more in out in later patch..
+Acked-by: Jay Vosburgh <jay.vosburgh@canonical.com>
 
-Done
+	-J
 
-> 
-> > +
-> > +	inode = famfs_get_inode(sb, NULL, S_IFDIR | fsi->mount_opts.mode, 0);
-> > +	sb->s_root = d_make_root(inode);
-> > +	if (!sb->s_root)
-> > +		rc = -ENOMEM;
-> 		return -ENOMEM;
-
-Done
-
-> 
-> 	return 0;
-
-Done
-
-> 
-> > +
-> > +out:
-> > +	return rc;
-> > +}
-> > +
-> > +enum famfs_param {
-> > +	Opt_mode,
-> > +	Opt_dax,
-> Why capital O?
-
-Direct copy from ramfs
-
-> 
-> > +};
-> > +
-> 
-> ...
-> 
-> > +
-> > +static DEFINE_MUTEX(famfs_context_mutex);
-> > +static LIST_HEAD(famfs_context_list);
-> > +
-> > +static int famfs_get_tree(struct fs_context *fc)
-> > +{
-> > +	struct famfs_fs_info *fsi_entry;
-> > +	struct famfs_fs_info *fsi = fc->s_fs_info;
-> > +
-> > +	fsi->rootdev = kstrdup(fc->source, GFP_KERNEL);
-> > +	if (!fsi->rootdev)
-> > +		return -ENOMEM;
-> > +
-> > +	/* Fail if famfs is already mounted from the same device */
-> > +	mutex_lock(&famfs_context_mutex);
-> 
-> New toys might be good to use from start to avoid need for explicit
-> unlocks in error paths.
-> 
-> 	scoped_guard(mutex, &famfs_context_mutex) {
-> 		list_for_each_entry(fsi_entry, &famfs_context_list, fsi_list) {
-> 			if (strcmp(fsi_entry->rootdev, cs_source) == 0) {
-> 			//could invert with a continue to reduce indent
-> 			// or factor this out as a little helper.
-> 			// famfs_check_not_mounted()
-> 				pr_err();
-> 				return -EALREADY;
-> 			}
-> 		}	
-> 		list_add(&fsi->fs_list, &famfs_context_list);
-> 	}
-> 
-> 	return get_tree_nodev(...
-
-Hey, I like this one. Thanks!
-
-John
-
+>---
+>v3:
+>  - replace macro with inline function in ad_port_selection_logic()
+>  - delete static variable null_mac_addr in bond_3ad.c
+>  - re-phrase patch description with more precise text
+>  - re-phrase patch description in imperative mood
+>v2: https://lore.kernel.org/netdev/SI2PR04MB5097AA23EE6799B3E56C0762DC552@=
+SI2PR04MB5097.apcprd04.prod.outlook.com/
+>  - add correct CC list by 'get_maintainer.pl -f .../bonding.rst'
+>v1: https://lore.kernel.org/netdev/SI2PR04MB50977DA9BB51D9C8FAF6928ADC562@=
+SI2PR04MB5097.apcprd04.prod.outlook.com/
+>---
+> drivers/net/bonding/bond_3ad.c | 14 +++-----------
+> 1 file changed, 3 insertions(+), 11 deletions(-)
+>
+>diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad=
+.c
+>index f2942e8c6c91..c6807e473ab7 100644
+>--- a/drivers/net/bonding/bond_3ad.c
+>+++ b/drivers/net/bonding/bond_3ad.c
+>@@ -82,10 +82,6 @@ enum ad_link_speed_type {
+> #define MAC_ADDRESS_EQUAL(A, B)	\
+> 	ether_addr_equal_64bits((const u8 *)A, (const u8 *)B)
+>=20
+>-static const u8 null_mac_addr[ETH_ALEN + 2] __long_aligned =3D {
+>-	0, 0, 0, 0, 0, 0
+>-};
+>-
+> static const u16 ad_ticks_per_sec =3D 1000 / AD_TIMER_INTERVAL;
+> static const int ad_delta_in_ticks =3D (AD_TIMER_INTERVAL * HZ) / 1000;
+>=20
+>@@ -1588,7 +1584,7 @@ static void ad_port_selection_logic(struct port *por=
+t, bool *update_slave_arr)
+> 		     (aggregator->partner_system_priority =3D=3D port->partner_oper.sys=
+tem_priority) &&
+> 		     (aggregator->partner_oper_aggregator_key =3D=3D port->partner_oper=
+.key)
+> 		    ) &&
+>-		    ((!MAC_ADDRESS_EQUAL(&(port->partner_oper.system), &(null_mac_addr)=
+) && /* partner answers */
+>+		    ((__agg_has_partner(aggregator) && /* partner answers */
+> 		      !aggregator->is_individual)  /* but is not individual OR */
+> 		    )
+> 		   ) {
+>@@ -2036,9 +2032,7 @@ static void ad_enable_collecting(struct port *port)
+>  */
+> static void ad_disable_distributing(struct port *port, bool *update_slave=
+_arr)
+> {
+>-	if (port->aggregator &&
+>-	    !MAC_ADDRESS_EQUAL(&port->aggregator->partner_system,
+>-			       &(null_mac_addr))) {
+>+	if (port->aggregator && __agg_has_partner(port->aggregator)) {
+> 		slave_dbg(port->slave->bond->dev, port->slave->dev,
+> 			  "Disabling distributing on port %d (LAG %d)\n",
+> 			  port->actor_port_number,
+>@@ -2078,9 +2072,7 @@ static void ad_enable_collecting_distributing(struct=
+ port *port,
+> static void ad_disable_collecting_distributing(struct port *port,
+> 					       bool *update_slave_arr)
+> {
+>-	if (port->aggregator &&
+>-	    !MAC_ADDRESS_EQUAL(&(port->aggregator->partner_system),
+>-			       &(null_mac_addr))) {
+>+	if (port->aggregator && __agg_has_partner(port->aggregator)) {
+> 		slave_dbg(port->slave->bond->dev, port->slave->dev,
+> 			  "Disabling port %d (LAG %d)\n",
+> 			  port->actor_port_number,
+>--=20
+>2.1.4
+>
