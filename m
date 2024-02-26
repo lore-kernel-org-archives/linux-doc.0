@@ -1,126 +1,233 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2135.outbound.protection.outlook.com [40.107.244.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F4812A14A;
-	Mon, 26 Feb 2024 16:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.135
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708963278; cv=fail; b=gpuUad97IDWu6bALbwEpjGj2Ff11vrwXa7Zb2NIyvGZo9Yi+pigMZdfpXfBCj7ILSjyu64pkRS+XERCmlLB1ozFntISihpmXIrUt3xuQS7OCr7TqM7juT/y8ZBz5h5SAFTD0t0sQLp+yMOXCKmPC13xY6GnwVbtw9r1+25e7qOo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708963278; c=relaxed/simple;
-	bh=71B22+rEAxX1H9i+OstDbl6NCr/6yM6TlAbnFiP92RY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=TJpI6SMPYy00kvD5GDiletGyGdS3qxdK7E7j8b1oBta5iczXZq85VJw1ZS2KlPPgCbS3tnHLVVYJ56UUeqsIeWYYvBDMsy22uskan8kdMXWHqfCtb0onseZLIm2jdfNmsibi0gtFCpeXoaFphaVm7rpswiFsuSp1HlEPJY60sok=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=MReaSjWx; arc=fail smtp.client-ip=40.107.244.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826FC12C52D;
+	Mon, 26 Feb 2024 16:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708963750; cv=none; b=GE2uchgINJ4Hw9t7x/DjeW0W3RPmS2XlgBd/T23SgRFm7RaMbHeQggcEA2lbnr6fguk+tdZaelLj+gIJ/mZUzPdgzkzRcsR7Rve2inCcW+9T9USAsbJ3nygQhC8u9gSOoCAkH6g9yOu80CDSskA4Rvx8dkuhYrVJ75K2n6pwIpc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708963750; c=relaxed/simple;
+	bh=haOLgV/8XDe1wiDHpv8/QB2A+c/GZzdT/aVNiO2q4Bg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QvTHCYQMDvlmjQubAgYwbV7fiofNXKTiE2or1Vg87Cy2kncBPbeEruylVLnnvbW5FaPmte6hZ9nHiJ3b3YhDVqiXETuPjRDLz7G7twAgMC5yk4dKkJEZPQPFt788DixpK0eczYXP2xldehbXXjGa2zSNhbPuii2hwIDuMViQNR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1x9q6O6; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="MReaSjWx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZHGrTL8VY+5aMd8NtDwSnIE6BS69mbGEyQjOur7pj89DsPnUyaJI5Lb6G3XHebrjuYIgs1bgEzmTkU2bOv+Hw5u7lTaXkc1EQbrFiU06gkLIhdgGgeb1VggN/PDmVFOwdmMZcqrwJ3xV9Kjz2hlj0XK76Z/86gSl0DjJN/Kd0z4Ld9ZbhQ21HRsPdb+ljU0zTsqzp5BMfsd/ixskmQweU8ADr7nmdzjqQEfMRg3IgvLkB64sLEjYhygbRL/0KJXYAnhmNw3kUAI1EF+PHvzRwXbT61GV6OcYT4petl2KGifeHjiS1bw/4HO4tBMkVMh6gfPtg7og6BQgzWGJrp4GzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X7GRPK4KsCB/ioqyVihrkJpiLgQATajaF2TgHlXGSZk=;
- b=P0xH+EUh4Mt6XGs8U/if0Z0yWgcmoBYyxoBY2hsPYnIv1GW/nQjRXGbwnhjdCSAOiqf6+ZXYLW48IxNLs+aSLWRCIe5h9KiBGAXznW7gMl4rBeAizoF8gbG0HlcRY43xYp2PdvuE5IXHBLMoeK3lAwZDWf5FMwRNIWU1Wvj2WwZKEegWgV9HCB3C2w+f0mYySyTWx4mlHBGQwQU12tHkulvb0hUoiAMXtZyDmg4LDS9/lovgm4nZSEFmCK9PFvkkjZX9rMX2Aeu02tMzmiKbCQUUVD1mWdgp1JLnX++LURJA33CwN4G0sl5Ww1BooTUJ7boBFfxHZLzHVEHxbBK6yQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1x9q6O6"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-21f2f813e3bso1223990fac.0;
+        Mon, 26 Feb 2024 08:09:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X7GRPK4KsCB/ioqyVihrkJpiLgQATajaF2TgHlXGSZk=;
- b=MReaSjWxsLtQgEkDfS3Zq+ur20EHufDVTgb8SjS0mL9bkF5TcmRsNDTKZyzyIk8wNaKJH4QvzGO4rr4emIKjacmklewLIund4Mx3LijIM4zDQzhZTOKLnW1ItxAymVxarNhT3QSg3YhEkdYTDqwxUUOPgGaM60fBRThfJMLW6A8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
- MN0PR01MB7612.prod.exchangelabs.com (2603:10b6:208:377::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7316.33; Mon, 26 Feb 2024 16:01:08 +0000
-Received: from DM6PR01MB5259.prod.exchangelabs.com
- ([fe80::7ba2:4e8d:3bb:6e1b]) by DM6PR01MB5259.prod.exchangelabs.com
- ([fe80::7ba2:4e8d:3bb:6e1b%6]) with mapi id 15.20.7316.034; Mon, 26 Feb 2024
- 16:01:08 +0000
-Date: Mon, 26 Feb 2024 08:01:03 -0800 (PST)
-From: "Lameter, Christopher" <cl@os.amperecomputing.com>
-To: Adam Li <adamli@os.amperecomputing.com>
-cc: corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-    pabeni@redhat.com, willemb@google.com, yangtiezhu@loongson.cn, 
-    atenart@kernel.org, kuniyu@amazon.com, wuyun.abel@bytedance.com, 
-    leitao@debian.org, alexander@mihalicyn.com, dhowells@redhat.com, 
-    paulmck@kernel.org, joel.granados@gmail.com, urezki@gmail.com, 
-    joel@joelfernandes.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-    patches@amperecomputing.com, shijie@os.amperecomputing.com
-Subject: Re: [PATCH] net: make SK_MEMORY_PCPU_RESERV tunable
-In-Reply-To: <20240226022452.20558-1-adamli@os.amperecomputing.com>
-Message-ID: <3f6e41b4-e385-e045-f95b-266fc80e0904@os.amperecomputing.com>
-References: <20240226022452.20558-1-adamli@os.amperecomputing.com>
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-ClientProxiedBy: CH2PR05CA0067.namprd05.prod.outlook.com
- (2603:10b6:610:38::44) To DM6PR01MB5259.prod.exchangelabs.com
- (2603:10b6:5:68::27)
+        d=gmail.com; s=20230601; t=1708963746; x=1709568546; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u9D3RCtWOdzu87BYCJb9nwXu0HmW2w9gBV06s00d0kw=;
+        b=L1x9q6O6B2Vbglr+3HDAjXBOAOjEypy4U6IR5uvNuhjKP+X2nSVquIFGOXMU1zIS9M
+         pp+l/XDApl9RDvM2t5fit5kLUOMJf5NSvql3yqPM4ycetFTx/6E0pxvK0C87dQuC5mzH
+         kOGdUBEXeV2RykShD5vJ2mo2zVsJCMr5CimvGo6H3s87uG7oUsmOm2q1ERKEqd5hHzWE
+         2Wo1HoxPvRu8RWY01fK0heCZB8rgkSMB4f2JJ6wViWL4NfhRKRyNRYCWZi3TOPeua9/E
+         vkSF0rEW6TYNHoRZOXMpsf/3pHKyReiRIeq4bxPe6ZkMlckLm646/iET5oABBEcim1nQ
+         lTfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708963746; x=1709568546;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u9D3RCtWOdzu87BYCJb9nwXu0HmW2w9gBV06s00d0kw=;
+        b=v4PGZu/iYbzxC8xiQmRoW9X6HKxugdmo58YhUDpXmPB8mN0KWFf5FQVCG7fRQ/X044
+         NzXXeucbWsIKJnHSDoOeXr0wO96oIUMQ03aRT6t65vIQe3wpAT6c8cSs/O7xK9M988FI
+         pzXp5W3Jk/D9P36JmVqu/rmIDw7COWQ7zqJfRSJIiFkvkhUYE/BPkTHzh9deoo9SJMvv
+         nUNUIs/xwKwdSpj1R6dvOMA6qi9y8dMgNGfypobFf+Cu8AP2BdaT38l0nrjSfKEmL94I
+         ig3fXxXtB3FG22tITxR+OvDOvGC4kpiSQ113oIdYflS2zslZXHXQrCu9E1hZ1fXvNvUC
+         urAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURyotDUi0cbHHrspVMUDJnQU3mpZgPTyzXDjh0j5aHysJE6P5fMFl4pYoPWaWJiGPd9QqF8PrxLjJ3YBi8VaoctzttMDZjM+tYgc7dMEsvDvokvlkzPehPHschP3lT1CFujfqXX0Anqqaba+Pp2+tKeS+4PKQDYCD/h60PY3UXHsQTgmVbJU3Mx4hPFwz2v2nBUf9sD7BQKenxJNWkCMM6Cw==
+X-Gm-Message-State: AOJu0YxTums/h8esjWbOpr47rGAxGQFGMfNjkmgiRvxAD8TtsaPFJ/gf
+	+SR8V1Gu2MvXCERfJjyy3PsCbv0BnscVaUXYEIHOqFug2yFiYp/K
+X-Google-Smtp-Source: AGHT+IGzZAR5zUijDa1rMNpaNuIzI/u6jivbkCIhyuA7EK93AA3nmZ0c+VT5zVgwq3sS2f/9SptS+w==
+X-Received: by 2002:a05:6871:340c:b0:21d:e301:6a34 with SMTP id nh12-20020a056871340c00b0021de3016a34mr3700813oac.3.1708963746644;
+        Mon, 26 Feb 2024 08:09:06 -0800 (PST)
+Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
+        by smtp.gmail.com with ESMTPSA id e20-20020a056870451400b0021fd54aba16sm1497112oao.48.2024.02.26.08.09.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 08:09:06 -0800 (PST)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Mon, 26 Feb 2024 10:09:04 -0600
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
+	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
+	dave.hansen@linux.intel.com, gregory.price@memverge.com
+Subject: Re: [RFC PATCH 05/20] dev_dax_iomap: Add dax_operations for use by
+ fs-dax on devdax
+Message-ID: <2cidhftdpd6t3zsbeafk5oty6uogtgfwkyysicsyyd5hbmmb7k@ebbbikzq4jyb>
+References: <cover.1708709155.git.john@groves.net>
+ <5727b1be956278e3a6c4cf7b728ee4f8f037ae51.1708709155.git.john@groves.net>
+ <20240226123245.00000c01@Huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|MN0PR01MB7612:EE_
-X-MS-Office365-Filtering-Correlation-Id: fba416a9-2837-4430-64ee-08dc36e424d1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	424hC0BrwCejOwMfbDqGTgpiL0wK0tn5rZf0IJODWdn5lymhoTRkCLsxFKlDGSEhfEajAj2RoGB/3D9iR+fGI8hk+5pr0JxFCOEP8L/VfrVXJ9UtPpEruHO6Ep28Wv6AwcqWUwbFJ8+h40By8p/fugn2H5HCYnHcGtfrYSts/5MlWSBaRCMy3IHNEnd8anKPq7MP1duXt0rOctY+PF6bPmReXo+jsognFDSLFL3ptC2XAvoXQyB2ihLmlp7tIjHr1kmX1dm4XUTfWdFdEaVuSkesQh+j3Nd4PrKY3hkU/tpJiPXL/T+7Dve2lJldnxNDSru0uVofnBvfkOhKnvO7bRknFzheKIUhnFNUsrU6Q/mAP/X64Pe6MVlIJIPnVQ5ln4L/q2P5oZXDVwM0KA6rf9wBcNJQa6WNXN+zx8TaNQQgoO31S95D+lXuUMgfQXfM1SkUF6UJLpZ6JQVB9mFb4Tr+bW1RLyzobXJA+iahn//lgx5JrZQyzDmExLCGskDZmXnFEM3W14e5vjYpvm50ROS5IKxdjZwl9mHp9nKtoAIuTlTi20HqfIfLDyXn1sTT2TDaSunLh26xO+nkgGLK8e/kxYHD4izqy/e7sPdYNdr8QdUlYBCVXgOU09sC/rHtlUmCJgYtkumHV/PM8QFq8w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VD/qSkiYuI+5vrVA51YTPzyYD2DCDlunoD3VN4ZafH45Y53wqEe3G22GsVC/?=
- =?us-ascii?Q?mkr9sfw4OPDzT+opeOAOXNPQC6YY7fZ2HQgi/Lp7/UWt6Y64wx2hLW+EEQqX?=
- =?us-ascii?Q?rW4DKHWDMQQ1O2AsDtUTUsAX3uG7TLlLkqVLturWiAafPA8lm/lt9hoQRA++?=
- =?us-ascii?Q?FrujThivWCpq82bUYMeXgKxwDSXKqLNM9eYgXAlYc9BpVhZgZqxPiGCRp4Sp?=
- =?us-ascii?Q?Y1LRNjv8scUPOq9bsIHv4qjn8kiYgpoYgA10rYXY/rijL7QoYySZg1saswZv?=
- =?us-ascii?Q?h/ckChYDd93PXBe1U03Ar0wplNnX27CWoSIv2VV2AECKGupkm54mTj7TBlMB?=
- =?us-ascii?Q?N+mV7q0DZMJ2Gt687XaD4S2lZtTM/4zhOCxAnYEHiHrdBMg9/qMS7zcAmEUL?=
- =?us-ascii?Q?8nrC0TiOmhIdCw6I7+riJojk39J2OFMzkjDpNsBNhdBmmAxk7J2vMyl9VBcg?=
- =?us-ascii?Q?bK7s++cBI0sdq3q1y3izDMfkNH/tu8Ua+Avza4gnYg4D2qs1zJoICaqbJame?=
- =?us-ascii?Q?mupRWm2M8hXMGU60SELVctOQnDs8BmRz77CGGhoEZSHhmkKVcAevA9K0GEl7?=
- =?us-ascii?Q?XIeCU/mF7LyOCrpUgPaEHWbp8cvHVZvNoTBJSak0v0TZhirrHd4SV3pikl+z?=
- =?us-ascii?Q?AzKK29lCp6YEocIgpyUN/+wAP7uXGUb1Hybq5gBi2ohQY9dMRSrhZ5Uo7AWO?=
- =?us-ascii?Q?4sJ0FpVqV8G02H1XpI2rqBnGZObLJdVM/e13ToVSh42TTzKIm3/R5ent2Vb4?=
- =?us-ascii?Q?Wt/N9yKTgyH0cO4PXUH6PjU0uC77W6NXOrIMCu1fQ7YwF0IJdgPgeltJrQtc?=
- =?us-ascii?Q?GJmK1p0N29WnajIrVIcaT/NH5RJ5uk0e9SKJU+ZOT7xZg+7eYpJah/bB0WS5?=
- =?us-ascii?Q?GUlr6YcbwLQ92lrC9y8JVZdAH+a6DzXhpDUftjLH6ZYD+GBPxTm2LftPq9SM?=
- =?us-ascii?Q?9b7eA3UGcsKEa5b+EsMpnWyb1iId92pQ1znOMmH7bisjsIvKv3Ow5WA+Qavq?=
- =?us-ascii?Q?0FtMuu0lmEYCOc0/+F7XTRzxosXlzAfhT2IaCc3FOyx+meeWXmrdJeFT1Og3?=
- =?us-ascii?Q?A46WLklLbq2Up9wnznlGJcZGGGuFP4Z01/H3ciMlG5m+Ki2QufiSbhUlNi8q?=
- =?us-ascii?Q?tqKeUVR/ZJX6KRI44/tObagcFwwEpamFo1gUcYOoc+fRTMGxqKlSJgGG5o7z?=
- =?us-ascii?Q?A0FTgwB8vJytoy8f0blremxF/xDEzoGPs6db81EXXPxXbZrl0Oyq54/qrbUw?=
- =?us-ascii?Q?7HMdjXC3iCMB6zY+mQEROWsDhpkhRmBqfnbz1Hz14Dk2rWZBNl9ibsEk3YhG?=
- =?us-ascii?Q?2AaUiXAAILVWHkp3gxL/UYA49D9f+PP8+lQMt28qNzTgBp8r2m0S0IkxqXle?=
- =?us-ascii?Q?PiuXH9cEPWSAaNxtfbTCU4wmBw2EP9TGHJWxY5uQDJV6YjvK5lXMiNWHG/vb?=
- =?us-ascii?Q?E74YTJGZncXGlApLoDO75VN3CUdsJpyMFRQng+FWI8ynZMg+enyacsjLWJsK?=
- =?us-ascii?Q?eFeX3SZTxmLvZmSocO3OCBpJyFkgDJYpoMsh4ChAJssm7AgHfdjbmvuPJFnV?=
- =?us-ascii?Q?lOSBvp/c1LWvxpDzQSDjX4NJDnoERPC2iia1RyKOJVyvGUBXtMK4dkLhtITQ?=
- =?us-ascii?Q?u+av0xxUArwEU6SwJ3eteNo=3D?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fba416a9-2837-4430-64ee-08dc36e424d1
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 16:01:08.1735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9e5aYo/YVN5lWQG2oiRjuk7/YqVvW0iT5yCSkMG/4bvp0HHXunj6miTR7mDs4k2j6iADzRDN8vx0DvC2hmcl+2rerzbxKoLunOJa3laRvtE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR01MB7612
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240226123245.00000c01@Huawei.com>
 
-Looks good to me. What may be done in an additional patch is to set the 
-tunable automatically higher on machines with high core counts.
+On 24/02/26 12:32PM, Jonathan Cameron wrote:
+> On Fri, 23 Feb 2024 11:41:49 -0600
+> John Groves <John@Groves.net> wrote:
+> 
+> > Notes about this commit:
+> > 
+> > * These methods are based somewhat loosely on pmem_dax_ops from
+> >   drivers/nvdimm/pmem.c
+> > 
+> > * dev_dax_direct_access() is returns the hpa, pfn and kva. The kva was
+> >   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> > 
+> > * The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+> >   for read/write (dax_iomap_rw())
+> > 
+> > * dev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+> >   tested yet. I'm looking for suggestions as to how to test those.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  drivers/dax/bus.c | 107 ++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 107 insertions(+)
+> > 
+> > diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> > index 664e8c1b9930..06fcda810674 100644
+> > --- a/drivers/dax/bus.c
+> > +++ b/drivers/dax/bus.c
+> > @@ -10,6 +10,12 @@
+> >  #include "dax-private.h"
+> >  #include "bus.h"
+> >  
+> > +#if IS_ENABLED(CONFIG_DEV_DAX_IOMAP)
+> > +#include <linux/backing-dev.h>
+> > +#include <linux/pfn_t.h>
+> > +#include <linux/range.h>
+> > +#endif
+> > +
+> 
+> Is it worth avoiding includes based on config? Probably not.
 
-Reviewed-by: Christoph Lameter (Ampere) <cl@linux.com>
+Just trying to demonstrate that I can be tedious :D
+I'll drop the #if unless somebody disagrees.
+
+> 
+> >  static DEFINE_MUTEX(dax_bus_lock);
+> >  
+> >  #define DAX_NAME_LEN 30
+> > @@ -1349,6 +1355,101 @@ __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+> >  }
+> >  EXPORT_SYMBOL_GPL(dax_pgoff_to_phys);
+> >  
+> > +#if IS_ENABLED(CONFIG_DEV_DAX_IOMAP)
+> > +
+> 
+> > +
+> > +static long __dev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> > +			     long nr_pages, enum dax_access_mode mode, void **kaddr,
+> > +			     pfn_t *pfn)
+> > +{
+> > +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> > +	size_t dax_size = dev_dax_size(dev_dax);
+> > +	size_t size = nr_pages << PAGE_SHIFT;
+> > +	size_t offset = pgoff << PAGE_SHIFT;
+> > +	phys_addr_t phys;
+> > +	u64 virt_addr = dev_dax->virt_addr + offset;
+> > +	pfn_t local_pfn;
+> > +	u64 flags = PFN_DEV|PFN_MAP;
+> > +
+> > +	WARN_ON(!dev_dax->virt_addr); /* virt_addr must be saved for direct_access */
+> Fair enough, but from local code point of view, does it make sense to check this
+> if !kaddr as we won't use this.
+
+Hmm. This gets called with kaddr=NULL for mmap faults, and with non-NULL
+kaddr for read/write (which need the virt_addr to do a memcpy variant).
+If dev_dax->virt-addr is NULL, mmap will work but read/write will hork.
+
+I lean toward keeping the warning. With these updates, it's broken if
+read/write are broken.
+
+> > +
+> > +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
+> > +
+> > +	if (kaddr)
+> > +		*kaddr = (void *)virt_addr;
+> 
+> Back to earlier comment on virt_addr as a void *. Definitely looking like
+> that would be more accurate and simpler!  Also not much point in computing
+> virt_addr unless kaddr is good.
+
+Yes, done (the void *).
+
+the computation is copied directly from drivers/nvdimm/__pmem_direct_access() -
+which does not warn if virt_addr is null. Actually I suppose this code should
+just trust that dev_dax_probe sets virt_addr, and not warn?
+
+So I'm now contradicting myself above...
+
+> 
+> > +
+> > +	local_pfn = phys_to_pfn_t(phys, flags); /* are flags correct? */
+> If you aren't going to do anything with it for !pfn, move it under the if (pfn).
+> 
+> > +	if (pfn)
+> > +		*pfn = local_pfn;
+> > +
+> > +	/* This the valid size at the specified address */
+> > +	return PHYS_PFN(min_t(size_t, size, dax_size - offset));
+> > +}
+> > +
+> 
+> > +
+> > +static const struct dax_operations dev_dax_ops = {
+> > +	.direct_access = dev_dax_direct_access,
+> > +	.zero_page_range = dev_dax_zero_page_range,
+> > +	.recovery_write = dev_dax_recovery_write,
+> > +};
+> > +
+> > +#endif /* IS_ENABLED(CONFIG_DEV_DAX_IOMAP) */
+> > +
+> >  struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
+> >  {
+> >  	struct dax_region *dax_region = data->dax_region;
+> > @@ -1404,11 +1505,17 @@ struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data)
+> >  		}
+> >  	}
+> >  
+> 
+> If we were to make this 
+> 
+> 	if (IS_ENABLED(CONFIG_DEV_DAX_IOMAP))
+> 
+> etc can we avoid the ifdef stuff above and let dead code removal deal with it?
+> Might need a few stubs - I haven't tried.
+
+Better, thanks. No stubs needed.
+
+> 
+> > +#if IS_ENABLED(CONFIG_DEV_DAX_IOMAP)
+> > +	/* holder_ops currently populated separately in a slightly hacky way */
+> > +	dax_dev = alloc_dax(dev_dax, &dev_dax_ops);
+> > +#else
+> >  	/*
+> >  	 * No dax_operations since there is no access to this device outside of
+> >  	 * mmap of the resulting character device.
+> >  	 */
+> >  	dax_dev = alloc_dax(dev_dax, NULL);
+> > +#endif
+
+Thanks!
+John
 
