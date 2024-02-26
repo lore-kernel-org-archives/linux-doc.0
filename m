@@ -1,165 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AF31272AE;
-	Mon, 26 Feb 2024 13:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C0D127B6E;
+	Mon, 26 Feb 2024 13:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708953741; cv=none; b=VvjuRYMsHbPNCpbwtmtv5wA469FT3ZBdkjQV/tN9fthVF+IdzVyQKnxohQ4rohWGZEEJs3Oezfsm02G76MuITDgCcLHuCALDnvP16p0D8I8OFI1D7RV3G1+qgd36Xeldg0nIYnwjaX/u4IVzb+n5IxtS7glODOh0Wir6gQE4+gU=
+	t=1708953945; cv=none; b=og+EwdHTjy5DreTBNxvFAfNc8B80XYU/3VGRf4XLXfKeJ2sjsbzzyGBwFaVKoxO8p1xfdgc3MHVHpmvSq9YPwu6iAM6Js9Taw5U7VKeEilPxh+ymp5IhltKby8DA06vpMunUlZ18vvtdXZVmwmSHz7x/h444YFJc4TFeTgTtXHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708953741; c=relaxed/simple;
-	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rx3XGy9ZLR7iM+zBiwNqjrd13LBZkiPRGG8WyaMi0zXqoSPJ9ryFd0M9CTcpTdSHblcaOz4TtZYg2DTtiDQULn4JQZejEs0NGgGcNDSSq7yXcfNTYFdWFNQf6MFIKP7MuzlwU7lD0SCII6vPa15dY1FwpfjC5OC5T6QgbdgKbBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7AtsCdA; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7AtsCdA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95020C433F1;
-	Mon, 26 Feb 2024 13:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708953741;
-	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=T7AtsCdA/xtJ3EoX6jQR+kZNHOFOCrlfIMbhsDkPVxZaFZDJ7k+mDvPE97EsH1I5j
-	 11eSiKoRYlcfxXOQtod9b/+Z9MbyB7yjT8cfEGIvAwfIFWPzxuLScojwy0Drly6vWl
-	 BBid2EkxGJOjOQqtgW+EsnX0VYbbPTPlD0LaJ6PUWq7B9/edORgGjPEBTAEp+5/UB4
-	 ON2tQLxpddAdmNp/OfI84j9G/sTSSzHKxN7PVuXp+H5XnFfOi6JB9s6aYYuLK6weNl
-	 r8k1uqO9gOBylOuHSFsHkE1TExdORSOZYl2QngI1QNiQddQ7PUVPWDslHUIaMRL94U
-	 s4POR6jF+Mklw==
-Date: Mon, 26 Feb 2024 14:22:18 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno <freedreno@lists.freedesktop.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
-Subject: Re: [PATCH v7 00/36] drm/connector: Create HDMI Connector
- infrastructure
-Message-ID: <4mm45qddujasmbinalcyhjzu4iege3n2a7odbmqmcsnjifyleh@q3kdpjhvwhsq>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
+	s=arc-20240116; t=1708953945; c=relaxed/simple;
+	bh=u2OYFseBDBv+gj6x9L887oAOOsq7PZaQa4/b9bbukLo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ib7NnJFlt+vTIgXtUttI02IDMd3A3bD+ptFyueuOyN1ZLzjMKInogxsMCfZQK1O9O8F6o8SR9cQKrOZevs5HYpCfK5LozC5/+vfoQ/BTUUc8fb16qxm2H9nH6DEa+GBLgaX1sogkGaAB9RhekDptir0Eb6UxY2Zk3ORTm0ihFBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tk1Ts4xsjz6K5xc;
+	Mon, 26 Feb 2024 21:21:21 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 503B8140CB9;
+	Mon, 26 Feb 2024 21:25:40 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
+ 2024 13:25:39 +0000
+Date: Mon, 26 Feb 2024 13:25:38 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: John Groves <John@Groves.net>
+CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
+ Williams" <dan.j.williams@intel.com>, Vishal Verma
+	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
+ Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
+	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
+	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
+	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
+Subject: Re: [RFC PATCH 12/20] famfs: Add inode_operations and
+ file_system_type
+Message-ID: <20240226132538.00002656@Huawei.com>
+In-Reply-To: <bd2bbdd7523d1c74ca559d8912984e7facabe5c6.1708709155.git.john@groves.net>
+References: <cover.1708709155.git.john@groves.net>
+	<bd2bbdd7523d1c74ca559d8912984e7facabe5c6.1708709155.git.john@groves.net>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hqmqlzbdpcfo2xan"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+
+On Fri, 23 Feb 2024 11:41:56 -0600
+John Groves <John@Groves.net> wrote:
+
+> This commit introduces the famfs inode_operations. There is nothing really
+> unique to famfs here in the inode_operations..
+> 
+> This commit also introduces the famfs_file_system_type struct and the
+> famfs_kill_sb() function.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+
+Trivial comments only.
+
+> +
+> +/*
+> + * File creation. Allocate an inode, and we're done..
+> + */
+> +/* SMP-safe */
+> +static int
+> +famfs_mknod(
+> +	struct mnt_idmap *idmap,
+> +	struct inode     *dir,
+> +	struct dentry    *dentry,
+> +	umode_t           mode,
+> +	dev_t             dev)
+> +{
+> +	struct inode *inode = famfs_get_inode(dir->i_sb, dir, mode, dev);
+> +	int error           = -ENOSPC;
+> +
+> +	if (inode) {
+
+As below. I would flip it for cleaner code/ shorter indent etc.
+
+> +		struct timespec64       tv;
+> +
+> +		d_instantiate(dentry, inode);
+> +		dget(dentry);	/* Extra count - pin the dentry in core */
+> +		error = 0;
+> +		tv = inode_set_ctime_current(inode);
+> +		inode_set_mtime_to_ts(inode, tv);
+> +		inode_set_atime_to_ts(inode, tv);
+> +	}
+> +	return error;
+> +}
+> +
+> +static int famfs_mkdir(
+> +	struct mnt_idmap *idmap,
+> +	struct inode     *dir,
+> +	struct dentry    *dentry,
+> +	umode_t           mode)
+> +{
+> +	int retval = famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFDIR, 0);
+> +
+> +	if (!retval)
+> +		inc_nlink(dir);
+
+Copy local style, so fine if this is common pattern, otherwise I'd go for
+consistent error cases out of line as easier for us sleepy caffeine 
+deprived reviewers.
 
 
---hqmqlzbdpcfo2xan
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+	if (retval)
+		return retval;
 
-Hi Dmitry,
+	inc_nlink(dir);
 
-On Sun, Feb 25, 2024 at 04:50:00PM +0200, Dmitry Baryshkov wrote:
-> On Thu, 22 Feb 2024 at 20:14, Maxime Ripard <mripard@kernel.org> wrote:
-> > Here's a series that creates some extra infrastructure specifically
-> > targeted at HDMI controllers.
-> >
-> > The idea behind this series came from a recent discussion on IRC during
-> > which we discussed infoframes generation of i915 vs everything else.
-> >
-> > Infoframes generation code still requires some decent boilerplate, with
-> > each driver doing some variation of it.
-> >
-> > In parallel, while working on vc4, we ended up converting a lot of i915
-> > logic (mostly around format / bpc selection, and scrambler setup) to
-> > apply on top of a driver that relies only on helpers.
-> >
-> > While currently sitting in the vc4 driver, none of that logic actually
-> > relies on any driver or hardware-specific behaviour.
-> >
-> > The only missing piece to make it shareable are a bunch of extra
-> > variables stored in a state (current bpc, format, RGB range selection,
-> > etc.).
-> >
-> > The initial implementation was relying on some generic subclass of
-> > drm_connector to address HDMI connectors, with a bunch of helpers that
-> > will take care of all the "HDMI Spec" related code. Scrambler setup is
-> > missing at the moment but can easily be plugged in.
-> >
-> > The feedback was that creating a connector subclass like was done for
-> > writeback would prevent the adoption of those helpers since it couldn't
-> > be used in all situations (like when the connector driver can implement
-> > multiple output) and required more churn to cast between the
-> > drm_connector and its subclass. The decision was thus to provide a set
-> > of helper and to store the required variables in drm_connector and
-> > drm_connector_state. This what has been implemented now.
-> >
-> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
-> > to retrieve infoframes from HDMI receiver and implementing a tool to
-> > decode (and eventually check) infoframes. His current work on
-> > edid-decode to enable that based on that series can be found here:
-> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
-> >
-> > And some more context here:
-> > https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@=
-xs4all.nl/
-> >
-> > This series thus leverages the infoframe generation code to expose it
-> > through debugfs.
->=20
-> [...]
->=20
-> >
-> > Let me know what you think,
-> > Maxime
->=20
-> The overall idea looks great. I've started checking how I can use that
-> for our msm devices family, which makes use of bridges and
-> drm_bridge_connector.
+	return 0;
+> +
+> +	return retval;
+> +}
+> +
+> +static int famfs_create(
+> +	struct mnt_idmap *idmap,
+> +	struct inode     *dir,
+> +	struct dentry    *dentry,
+> +	umode_t           mode,
+> +	bool              excl)
+> +{
+> +	return famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFREG, 0);
+> +}
+> +
+> +static int famfs_symlink(
+> +	struct mnt_idmap *idmap,
+> +	struct inode     *dir,
+> +	struct dentry    *dentry,
+> +	const char       *symname)
+> +{
+> +	struct inode *inode;
+> +	int error = -ENOSPC;
+> +
+> +	inode = famfs_get_inode(dir->i_sb, dir, S_IFLNK | 0777, 0);
+	if (!inode)
+		return -ENOSPC;
 
-Yeah, I had that in mind for a while too. I think it would be valuable,
-but it's difficult as it is already so I didn't tackle it at first :)
+> +	if (inode) {
+> +		int l = strlen(symname)+1;
+> +
+> +		error = page_symlink(inode, symname, l);
+	if (error) {
+		iput(inode);
+		return error;
+	}
+	
+	...
 
-The format negociation especially seems to divert quite a lot from what
-i915 and vc4 have been doing, and that's user facing to some extent.
+> +		if (!error) {
+> +			struct timespec64       tv;
+> +
+> +			d_instantiate(dentry, inode);
+> +			dget(dentry);
+> +			tv = inode_set_ctime_current(inode);
+> +			inode_set_mtime_to_ts(inode, tv);
+> +			inode_set_atime_to_ts(inode, tv);
+> +		} else
+> +			iput(inode);
+> +	}
+> +	return error;
+> +}
 
-> My current idea is to extend the drm_bridge_funcs with the new
-> callback to be called once the drm_connector has been instantiated.
-> This way all the bridges can influence new connector.
-> Another possibility is to follow drm_bridge_connector design closely
-> and let it call into drm_connector_hdmi code if it detects that the
-> last bridge is the HDMI one.
-> WDYT?
 
-I had the latter in mind, but I haven't really tried to reconcile the
-connector state output_format with the
-drm_atomic_helper_bridge_propagate_bus_fmt, and plug in the output_bpc
-count too.
-
-We would have to create the max_bpc properties from the HDMI connector,
-and then propagate that upstream along the bridges I guess (or we can
-just ignore it for now).
-
-So, yeah, I had the latter in mind but it might turn out that the former
-is actually easier. Both make sense to me at least.
-
-Maxime
-
---hqmqlzbdpcfo2xan
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdyQigAKCRDj7w1vZxhR
-xbuAAP4tcqj0CCuj697zMFFK59Fkl+ntwJnDHJijUuztt43AQwD/fzLo/sHP+roN
-fQLUY+aBNymzblpBsRsstG3l6Zw2dgQ=
-=l8IQ
------END PGP SIGNATURE-----
-
---hqmqlzbdpcfo2xan--
