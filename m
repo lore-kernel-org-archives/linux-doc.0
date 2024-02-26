@@ -1,121 +1,132 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E26C2033F;
-	Mon, 26 Feb 2024 08:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0B57F463;
+	Mon, 26 Feb 2024 09:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708937974; cv=none; b=Fkf37ZtUfxczDa5jSPIxRs7W9HkzQAJkulk4OEnh/HnfzXwN8xMBkuUv9EjQdJ+F2DdYDGXSXYAlkgvdL79b8SO1zmAK1GsmSvm11lFEYp7jyJlQuU7mVsggEePAqlTrZeFmZNnZ04HEGn8C+C98C0fz222anYD2fVFcmifKwXg=
+	t=1708938710; cv=none; b=PUixXIVIV5+nKCRwK+hZMCogUO3Ajqu5nIV7vipmNnayPefTpXQIFoq4Tvup8uwlWfjM0WphZXi6UwyGPiIkfi2IuaAzXyyZt6KqBbuT33QWzL56bU70aUsq1F4zPymh8iFD6uYdr9wAC579+sOMCGmfCgw0GA0XYhtaN82ooXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708937974; c=relaxed/simple;
-	bh=TKMBEQsICcf1Jqz8go5zK6Xhh9LdECeamokbuWo4YyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IN7dBQShA1dIFU9/t/jM7B9FagaG76xvopR2YyHs880wv8jCq95ckAKq+/RSEWs5QnF/FHtivf/PdTP2k7DE4i+7t6mXQvOL3S2Qahj0uRENpCfqs1t3br3GSS4Aueo1YolgiXWQWrgzNqCI2QB+JsUqESJeNKlWAJSZ5UuqrQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JuIsGb/T; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1708938710; c=relaxed/simple;
+	bh=HmQtwuVTdmVLT7OgJWjjNCGSFahCKuzF399EFnjzcZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pJLjHVj6qvo0qpoPR2WO2EteQl4JQhsW5qYedhuHZlFtv9fN+BHP4tH0+O6t7kYx5jPnTwhFOkEEiQBd95onsxO4x3PWNsKzQ7bFy6CcCLdkReMRvU9fnvmv7uhIS5u5yGHAWvz0X9gG+DHl24iQ+vOj1+V6oWIiuSeuyvmJPFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azttXLZK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JuIsGb/T"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 826DF60008;
-	Mon, 26 Feb 2024 08:59:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708937964;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPb6uM0vuQeGyvRuwmurAcfRX+uCUbmF9exG7CadPqI=;
-	b=JuIsGb/Tqmh9AHLD4dviBjlXLScBrmdGVV5R1jGgg5j267sxOuG19XceWlMRagF/nv5OSF
-	dklMzNwHtdhRhQ+dMe2Ivi8C2cYlWMVkmnOJRIVxgMQIG42j+0mChiQO3ozCzOSuUFzFg5
-	+4iPdt/3FSqa8oY8yhYF3/OIoBCGrZJGHCna11I0Xz1iNHwOwq3wjT/FQEcFQWqqKX6KUo
-	BTcRM8W4Ygwed5tbFeahfprYw1YaNgXc1aQ4g5INwaX6neF8hpAaYnmf5YZ4U+f4nGxS4T
-	vA38EF+eaTATYvVDh9Fuv1ohVZpWvYOBQjFBJXvaMz51Ld6UTpoF9G4jA48mYw==
-Date: Mon, 26 Feb 2024 09:59:19 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: Saeed Mahameed <saeed@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
- <richardcochran@gmail.com>, Tariq Toukan <tariqt@nvidia.com>, Gal Pressman
- <gal@nvidia.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Przemek Kitszel
- <przemyslaw.kitszel@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>, Hangbin Liu
- <liuhangbin@gmail.com>, Paul Greenwalt <paul.greenwalt@intel.com>, Justin
- Stitt <justinstitt@google.com>, Randy Dunlap <rdunlap@infradead.org>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>, Wojciech Drewek
- <wojciech.drewek@intel.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
- Jiri Pirko <jiri@resnulli.us>, Jacob Keller <jacob.e.keller@intel.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu
- <joabreu@synopsys.com>, Dragos Tatulea <dtatulea@nvidia.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net-next v1 1/6] ethtool: add interface to read Tx
- hardware timestamping statistics
-Message-ID: <20240226095919.1c242444@kmaincent-XPS-13-7390>
-In-Reply-To: <20240223192658.45893-2-rrameshbabu@nvidia.com>
-References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
-	<20240223192658.45893-2-rrameshbabu@nvidia.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azttXLZK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2857BC433C7;
+	Mon, 26 Feb 2024 09:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708938709;
+	bh=HmQtwuVTdmVLT7OgJWjjNCGSFahCKuzF399EFnjzcZ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=azttXLZK2HR58ht4UAz6hDNX2DSwFY9VjTwzFm1/lVrxMUjehHSq32+rHOdRbgxLj
+	 ftTU7zjUGmdSpdsbuxrTyHU98xvnC1B33Ep1kAWvkW1v/GKSxNX82Pkpw6vrTID9Ed
+	 YWZCvHNPkyi2U90jgrUxJ+zjI5OfbCp6M50ZqEIIxvqWYuXmO2U9lXzS00L0BgHUwv
+	 E4Sh7z1x+GlENyyd3Vm3MgfmJRvdfXj4BJvbBUH4ScQgER4hwe6Z5lUNAAr92Ppdlz
+	 nUCoRWxlRJe7ITKvYOUw32tby++UOAk6gsEwlX0bBtZ5X7xBvrDIoWm4yVqbc5HTUn
+	 6Kzk+k549KZ3w==
+Date: Mon, 26 Feb 2024 04:13:03 -0500
+From: Al Viro <viro@kernel.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [RFC] documentation on filesystem exposure to RCU pathwalk from
+ fs maintainers' POV
+Message-ID: <ZdxWH4uNfwcftWYI@duke.home>
+References: <Zdu58Jevui1ySBqa@duke.home>
+ <5879f44e-1c28-4be1-a684-9bf4fbf6966b@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5879f44e-1c28-4be1-a684-9bf4fbf6966b@oracle.com>
 
-On Fri, 23 Feb 2024 11:24:45 -0800
-Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
+On Mon, Feb 26, 2024 at 07:35:17AM +0100, Vegard Nossum wrote:
 
-> Multiple network devices that support hardware timestamping appear to have
-> common behavior with regards to timestamp handling. Implement common Tx
-> hardware timestamping statistics in a tx_stats struct_group. Common Rx
-> hardware timestamping statistics can subsequently be implemented in a
-> rx_stats struct_group for ethtool_ts_stats.
->=20
-> Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-> Reviewed-by: Dragos Tatulea <dtatulea@nvidia.com>
- =20
-> +/**
-> + * enum ethtool_ts_stats_layer - layer to query hardware timestamping
-> statistics
-> + * @ETHTOOL_TS_STATS_LAYER_ACTIVE:
-> + *	retrieve the statistics from the layer that is currently feeding
-> + *	hardware timestamps for packets.
-> + * @ETHTOOL_TS_STATS_LAYER_DMA:
-> + *	retrieve the statistics from the DMA hardware timestamping layer
-> of the
-> + *	device.
-> + * @ETHTOOL_TS_STATS_PHY:
-> + *	retrieve the statistics from the PHY hardware timestamping layer
-> of the
-> + *	device.
-> + */
-> +enum ethtool_ts_stats_layer {
-> +	ETHTOOL_TS_STATS_LAYER_ACTIVE,
-> +	ETHTOOL_TS_STATS_LAYER_DMA,
-> +	ETHTOOL_TS_STATS_LAYER_PHY,
-> +};
+> There is a slight apparent contradiction here between "at the very
+> least, they can expect [...] to remain live throughout the operation" in
+> the first paragraph (which sounds like they _do_ have these guarantees)
+> and most of the second paragraph (which says they _don't_ have these
+> guarantees).
+> 
+> I *think* what you are saying is that dentries/inodes/sbs involved will
+> indeed stay live (i.e. allocated), but that there are OTHER warranties
+> you might usually expect that are not there, such as objects not being
+> locked and potentially changing underneath your filesystem's VFS
+> callback or being in a partial state or other indirectly pointed-to
+> objects not being safe to access.
 
-The all point of my v8 series new implementation (asked by the maintainers)=
- was
-to move on from the timestamp layer to the phc provider which is described =
-by a
-phc index + phc qualifier (precise IEEE 1588/approx DMA). The struct being
-introduce in patch 9 of my series.
-You should do the same, use the phc provider instead of the layer.
+Live != memory object hasn't been freed yet.  It's a lot stronger than
+that.  And most of the filesystem methods get those stronger warranties;
+life would be very hard if we did not have those.
 
-With using only the layer and in case of several PHYs we could not reach the
-right ts stats.
-Same goes for the MAC having both type of timestamp IEEE 1588 and DMA.
+E.g. when you are in the middle of ->read(), you know that struct file
+passed to you won't reach ->release() until after your ->read() returns,
+that the filesystem it's on hasn't even started to be shut down, that
+its in-core inode won't get to ->evict_inode(), that its dentry is
+still associated with the same inode and will stay that way until you are
+done, etc.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Normally we do get that kind of warranties - caller holds references
+to the objects we are asked to operate upon.  However, the fast
+path of pathname resolution (everything's in the VFS caches, no IO
+or blocking operations needed, etc.) is an exception.  Several filesystem
+methods (the ones involved in the fast path) may be called with
+the warranties that are weaker than what they (and the rest of the
+methods) normally get.  Note that e.g.  ->lookup() does not need to worry -
+it's off the fast path pretty much by definition and VFS switches to
+pinning objects before calling anything of that sort.
+
+"Unsafe call" refers to the method calls made by RCU pathwalk with
+weaker warranties.  Part of the objects passed to those might have
+already started on the way through their destructors.
+
+> Filesystem methods can usually count upon a number of VFS-provided
+> warranties regarding the stability of the dentries/inodes/superblocks
+> they are called to act upon. For example, they always can expect these
+> objects to remain live throughout the operation; life would be much more
+> painful without that.
+> 
+> However, such warranties do not come for free and other warranties may
+> not always be provided. [...]
+> """
+
+Maybe...
+
+> (As a side note, you may also want to actually link the docs we have for
+> RCU lookup where you say "details are described elsewhere".)
+> 
+> > What methods are affected?
+> > ==========================
+> > 
+> > 	The list of the methods that could run into that fun:
+> > 
+> > ========================	==================================	=================
+> > 	method			indication that the call is unsafe	unstable objects
+> > ========================	==================================	=================
+> 
+> I'd wish for explicit definitions of "unsafe" (which is a terminology
+> you do use more or less consistently in this doc) and "unstable". The
+> definitions don't need mathematical precision, but there should be a
+> quick one-line explanation of each.
+ 
+See above.
+
+> I think "the call is unsafe" means that it doesn't have all the usual
+> safety warranties (as detailed above).
+> 
+> I think "unstable" means "not locked, can change underneath the
+> function" (but not that it can be freed), but it would be good to have
+> it spelled out.
+
+Nope.  "Locked" is not an issue.  "Might be hit by a destructor called by
+another thread right under your nose" is.  It's _that_ unpleasant.  Fortunately,
+most of the nastiness is on the VFS side, but there's a good reason why
+quite a few filesystems simply bail out and tell VFS to piss off and not
+come back without having grabbed the references, so that nothing of that
+sort would have to be dealt with.
