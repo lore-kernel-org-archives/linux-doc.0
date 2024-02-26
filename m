@@ -1,237 +1,165 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4396D7F7F7;
-	Mon, 26 Feb 2024 13:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88AF31272AE;
+	Mon, 26 Feb 2024 13:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708953627; cv=none; b=A0wH9ZQ1yPVIFtnsJ/ODOr8Y8MDH5WmeNnovoB+X5+NyLwcymXo+ZdGON3k/MLzWzmzB4q3CexFbNbTwFsyFQ0cXDDfpQuAAxRq8Z5i7x2mOPdB9OYqdL/jYDEBdQBn1UHS+SlBMNwD3t6SD1rdLPGLzfpvq3Qy/O2lFeaMJYk8=
+	t=1708953741; cv=none; b=VvjuRYMsHbPNCpbwtmtv5wA469FT3ZBdkjQV/tN9fthVF+IdzVyQKnxohQ4rohWGZEEJs3Oezfsm02G76MuITDgCcLHuCALDnvP16p0D8I8OFI1D7RV3G1+qgd36Xeldg0nIYnwjaX/u4IVzb+n5IxtS7glODOh0Wir6gQE4+gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708953627; c=relaxed/simple;
-	bh=yfBCNOdJ64HYR4E9FB66qv/dbzZd5+q8idAXgMnC+hk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uzCl/TU3Jx7W4Xm4bO+IOvvWPshSi5O4/KBRMB8kzqGd5xyBUwzx/Cs7qrPJAH2XMt6lNGoUZ+XjmGyN4X7wv+lqCS/GMdmJQ/PTJXvEii9Mb9SskLb1vnRh3m2g6f4GNK13lL2/wXDoE/zQB0SNk+ap90Fg0tfxyPQ868an9s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tk1MR2tNfz6JBQS;
-	Mon, 26 Feb 2024 21:15:47 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 26B1B140D30;
-	Mon, 26 Feb 2024 21:20:21 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 26 Feb
- 2024 13:20:20 +0000
-Date: Mon, 26 Feb 2024 13:20:19 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: John Groves <John@Groves.net>
-CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 11/20] famfs: Add fs_context_operations
-Message-ID: <20240226132019.00007b8c@Huawei.com>
-In-Reply-To: <a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
-References: <cover.1708709155.git.john@groves.net>
-	<a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1708953741; c=relaxed/simple;
+	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rx3XGy9ZLR7iM+zBiwNqjrd13LBZkiPRGG8WyaMi0zXqoSPJ9ryFd0M9CTcpTdSHblcaOz4TtZYg2DTtiDQULn4JQZejEs0NGgGcNDSSq7yXcfNTYFdWFNQf6MFIKP7MuzlwU7lD0SCII6vPa15dY1FwpfjC5OC5T6QgbdgKbBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7AtsCdA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7AtsCdA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95020C433F1;
+	Mon, 26 Feb 2024 13:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708953741;
+	bh=G1JpQCt7xBq5ZuFeLJZNzoswIp5s4ji8mVX2ZexQGro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T7AtsCdA/xtJ3EoX6jQR+kZNHOFOCrlfIMbhsDkPVxZaFZDJ7k+mDvPE97EsH1I5j
+	 11eSiKoRYlcfxXOQtod9b/+Z9MbyB7yjT8cfEGIvAwfIFWPzxuLScojwy0Drly6vWl
+	 BBid2EkxGJOjOQqtgW+EsnX0VYbbPTPlD0LaJ6PUWq7B9/edORgGjPEBTAEp+5/UB4
+	 ON2tQLxpddAdmNp/OfI84j9G/sTSSzHKxN7PVuXp+H5XnFfOi6JB9s6aYYuLK6weNl
+	 r8k1uqO9gOBylOuHSFsHkE1TExdORSOZYl2QngI1QNiQddQ7PUVPWDslHUIaMRL94U
+	 s4POR6jF+Mklw==
+Date: Mon, 26 Feb 2024 14:22:18 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno <freedreno@lists.freedesktop.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Sui Jingfeng <sui.jingfeng@linux.dev>
+Subject: Re: [PATCH v7 00/36] drm/connector: Create HDMI Connector
+ infrastructure
+Message-ID: <4mm45qddujasmbinalcyhjzu4iege3n2a7odbmqmcsnjifyleh@q3kdpjhvwhsq>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-
-On Fri, 23 Feb 2024 11:41:55 -0600
-John Groves <John@Groves.net> wrote:
-
-> This commit introduces the famfs fs_context_operations and
-> famfs_get_inode() which is used by the context operations.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-Trivial comments inline.
-
-> ---
->  fs/famfs/famfs_inode.c | 178 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 178 insertions(+)
-> 
-> diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> index 82c861998093..f98f82962d7b 100644
-> --- a/fs/famfs/famfs_inode.c
-> +++ b/fs/famfs/famfs_inode.c
-> @@ -41,6 +41,50 @@ static const struct super_operations famfs_ops;
->  static const struct inode_operations famfs_file_inode_operations;
->  static const struct inode_operations famfs_dir_inode_operations;
->  
-> +static struct inode *famfs_get_inode(
-> +	struct super_block *sb,
-> +	const struct inode *dir,
-> +	umode_t             mode,
-> +	dev_t               dev)
-> +{
-> +	struct inode *inode = new_inode(sb);
-> +
-> +	if (inode) {
-reverse logic would be simpler and reduce indent.
-
-	if (!inode)
-		return NULL;
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hqmqlzbdpcfo2xan"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpqB+Mf4jp88__r5dfsRSuGdAB+Q3vK5MBfBXysvRB92iQ@mail.gmail.com>
 
 
-> +		struct timespec64       tv;
-> +
-> +		inode->i_ino = get_next_ino();
-> +		inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
-> +		inode->i_mapping->a_ops = &ram_aops;
-> +		mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
-> +		mapping_set_unevictable(inode->i_mapping);
-> +		tv = inode_set_ctime_current(inode);
-> +		inode_set_mtime_to_ts(inode, tv);
-> +		inode_set_atime_to_ts(inode, tv);
-> +
-> +		switch (mode & S_IFMT) {
-> +		default:
-> +			init_special_inode(inode, mode, dev);
-> +			break;
-> +		case S_IFREG:
-> +			inode->i_op = &famfs_file_inode_operations;
-> +			inode->i_fop = &famfs_file_operations;
-> +			break;
-> +		case S_IFDIR:
-> +			inode->i_op = &famfs_dir_inode_operations;
-> +			inode->i_fop = &simple_dir_operations;
-> +
-> +			/* Directory inodes start off with i_nlink == 2 (for "." entry) */
-> +			inc_nlink(inode);
-> +			break;
-> +		case S_IFLNK:
-> +			inode->i_op = &page_symlink_inode_operations;
-> +			inode_nohighmem(inode);
-> +			break;
-> +		}
-> +	}
-> +	return inode;
-> +}
-> +
->  /**********************************************************************************
->   * famfs super_operations
->   *
-> @@ -150,6 +194,140 @@ famfs_open_device(
->  	return 0;
->  }
->  
-> +/*****************************************************************************************
-> + * fs_context_operations
-> + */
-> +static int
-> +famfs_fill_super(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> +	struct inode *inode;
-> +	int rc = 0;
-Always initialized so no need to do it here.
+--hqmqlzbdpcfo2xan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +	sb->s_maxbytes		= MAX_LFS_FILESIZE;
-> +	sb->s_blocksize		= PAGE_SIZE;
-> +	sb->s_blocksize_bits	= PAGE_SHIFT;
-> +	sb->s_magic		= FAMFS_MAGIC;
-> +	sb->s_op		= &famfs_ops;
-> +	sb->s_time_gran		= 1;
-> +
-> +	rc = famfs_open_device(sb, fc);
-> +	if (rc)
-> +		goto out;
-		return rc; //unless you need to do more in out in later patch..
+Hi Dmitry,
 
-> +
-> +	inode = famfs_get_inode(sb, NULL, S_IFDIR | fsi->mount_opts.mode, 0);
-> +	sb->s_root = d_make_root(inode);
-> +	if (!sb->s_root)
-> +		rc = -ENOMEM;
-		return -ENOMEM;
+On Sun, Feb 25, 2024 at 04:50:00PM +0200, Dmitry Baryshkov wrote:
+> On Thu, 22 Feb 2024 at 20:14, Maxime Ripard <mripard@kernel.org> wrote:
+> > Here's a series that creates some extra infrastructure specifically
+> > targeted at HDMI controllers.
+> >
+> > The idea behind this series came from a recent discussion on IRC during
+> > which we discussed infoframes generation of i915 vs everything else.
+> >
+> > Infoframes generation code still requires some decent boilerplate, with
+> > each driver doing some variation of it.
+> >
+> > In parallel, while working on vc4, we ended up converting a lot of i915
+> > logic (mostly around format / bpc selection, and scrambler setup) to
+> > apply on top of a driver that relies only on helpers.
+> >
+> > While currently sitting in the vc4 driver, none of that logic actually
+> > relies on any driver or hardware-specific behaviour.
+> >
+> > The only missing piece to make it shareable are a bunch of extra
+> > variables stored in a state (current bpc, format, RGB range selection,
+> > etc.).
+> >
+> > The initial implementation was relying on some generic subclass of
+> > drm_connector to address HDMI connectors, with a bunch of helpers that
+> > will take care of all the "HDMI Spec" related code. Scrambler setup is
+> > missing at the moment but can easily be plugged in.
+> >
+> > The feedback was that creating a connector subclass like was done for
+> > writeback would prevent the adoption of those helpers since it couldn't
+> > be used in all situations (like when the connector driver can implement
+> > multiple output) and required more churn to cast between the
+> > drm_connector and its subclass. The decision was thus to provide a set
+> > of helper and to store the required variables in drm_connector and
+> > drm_connector_state. This what has been implemented now.
+> >
+> > Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+> > to retrieve infoframes from HDMI receiver and implementing a tool to
+> > decode (and eventually check) infoframes. His current work on
+> > edid-decode to enable that based on that series can be found here:
+> > https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=3Dhverkuil
+> >
+> > And some more context here:
+> > https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@=
+xs4all.nl/
+> >
+> > This series thus leverages the infoframe generation code to expose it
+> > through debugfs.
+>=20
+> [...]
+>=20
+> >
+> > Let me know what you think,
+> > Maxime
+>=20
+> The overall idea looks great. I've started checking how I can use that
+> for our msm devices family, which makes use of bridges and
+> drm_bridge_connector.
 
-	return 0;
+Yeah, I had that in mind for a while too. I think it would be valuable,
+but it's difficult as it is already so I didn't tackle it at first :)
 
-> +
-> +out:
-> +	return rc;
-> +}
-> +
-> +enum famfs_param {
-> +	Opt_mode,
-> +	Opt_dax,
-Why capital O?
+The format negociation especially seems to divert quite a lot from what
+i915 and vc4 have been doing, and that's user facing to some extent.
 
-> +};
-> +
+> My current idea is to extend the drm_bridge_funcs with the new
+> callback to be called once the drm_connector has been instantiated.
+> This way all the bridges can influence new connector.
+> Another possibility is to follow drm_bridge_connector design closely
+> and let it call into drm_connector_hdmi code if it detects that the
+> last bridge is the HDMI one.
+> WDYT?
 
-...
+I had the latter in mind, but I haven't really tried to reconcile the
+connector state output_format with the
+drm_atomic_helper_bridge_propagate_bus_fmt, and plug in the output_bpc
+count too.
 
-> +
-> +static DEFINE_MUTEX(famfs_context_mutex);
-> +static LIST_HEAD(famfs_context_list);
-> +
-> +static int famfs_get_tree(struct fs_context *fc)
-> +{
-> +	struct famfs_fs_info *fsi_entry;
-> +	struct famfs_fs_info *fsi = fc->s_fs_info;
-> +
-> +	fsi->rootdev = kstrdup(fc->source, GFP_KERNEL);
-> +	if (!fsi->rootdev)
-> +		return -ENOMEM;
-> +
-> +	/* Fail if famfs is already mounted from the same device */
-> +	mutex_lock(&famfs_context_mutex);
+We would have to create the max_bpc properties from the HDMI connector,
+and then propagate that upstream along the bridges I guess (or we can
+just ignore it for now).
 
-New toys might be good to use from start to avoid need for explicit
-unlocks in error paths.
+So, yeah, I had the latter in mind but it might turn out that the former
+is actually easier. Both make sense to me at least.
 
-	scoped_guard(mutex, &famfs_context_mutex) {
-		list_for_each_entry(fsi_entry, &famfs_context_list, fsi_list) {
-			if (strcmp(fsi_entry->rootdev, cs_source) == 0) {
-			//could invert with a continue to reduce indent
-			// or factor this out as a little helper.
-			// famfs_check_not_mounted()
-				pr_err();
-				return -EALREADY;
-			}
-		}	
-		list_add(&fsi->fs_list, &famfs_context_list);
-	}
+Maxime
 
-	return get_tree_nodev(...
+--hqmqlzbdpcfo2xan
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +	list_for_each_entry(fsi_entry, &famfs_context_list, fsi_list) {
-> +		if (strcmp(fsi_entry->rootdev, fc->source) == 0) {
-> +			mutex_unlock(&famfs_context_mutex);
-> +			pr_err("%s: already mounted from rootdev %s\n", __func__, fc->source);
-> +			return -EALREADY;
-> +		}
-> +	}
-> +
-> +	list_add(&fsi->fsi_list, &famfs_context_list);
-> +	mutex_unlock(&famfs_context_mutex);
-> +
-> +	return get_tree_nodev(fc, famfs_fill_super);
-> +
-> +}
+-----BEGIN PGP SIGNATURE-----
 
->  
->  MODULE_LICENSE("GPL");
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZdyQigAKCRDj7w1vZxhR
+xbuAAP4tcqj0CCuj697zMFFK59Fkl+ntwJnDHJijUuztt43AQwD/fzLo/sHP+roN
+fQLUY+aBNymzblpBsRsstG3l6Zw2dgQ=
+=l8IQ
+-----END PGP SIGNATURE-----
 
+--hqmqlzbdpcfo2xan--
