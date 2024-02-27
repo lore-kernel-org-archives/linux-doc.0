@@ -1,119 +1,125 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EC31386CF;
-	Tue, 27 Feb 2024 11:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940DA130E48;
+	Tue, 27 Feb 2024 11:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709033088; cv=none; b=QMuZQSRotj2mZYYuaCIkNy2yNmJ7Xl5NBZKL5xCWauIS5ZmudQIcl5OriBCDX3c7zf236h+ZczXqpvjQStKirM1DqSfQUngstL0MWa0RO+/vpL5wJEM9YGQ//Z7M85992wvssMKWoLsgjfnGUZdD7hWxWVKURbHAw/eRwRzSF3g=
+	t=1709034306; cv=none; b=AAcQdWglmJrTF7vx1E2R9mP0/x9MXLPvgJWwI+sQAPvKZ1ACytKX5XAr1qp/h27z6fLpTgcJ9PbFfhz8wf+USEgFhHw1uvBI1fXLkJfF3bS7HL52aNUz51jVfdH+zlYGt1AY9RYxPpGAsTO7yobpXHZkNnzVrIq/7q8te32j32A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709033088; c=relaxed/simple;
-	bh=GVuMBdQqkgWQcbGGoSTLXWpS7LUUBUPbnmMli3sXPcw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aV2C0xjRbveuozXcpod4g5T02d/JsmLIwz9OzCFgBvnP4wACgS6iuz1rH8CgMYxHkP/f5ZL+M6iXkSGmxLrAQ/8HvBxayjvM0FXjy0dUsclWq/gglemice6ryThvVuYmgjRsfA7rP9O6qqoERfeyzLvXhN4AQ/IpAX8ibpZ4QF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-60925d20af0so5881587b3.2;
-        Tue, 27 Feb 2024 03:24:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709033085; x=1709637885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UgPevVmoAKj0DGuT65JWL0siEdc3m+Qb/SY/mrF/WhA=;
-        b=hKez+5s7KHdI2/CxbWsrwUTaS+n4g0OFJn3q1ns3oF5Q0FwssLGr9jNKfYoAolCOHc
-         0uiLBpLOnHwDqYjYu1hJmBlptoMcn2fpcJ7SuvG42/MQ6D7iDu9zNA6xfiI8y0PlBbtd
-         GhzH87+wHJnvp+p4fnO4cgKLXqFtRGpEYZ4XHyHL9kOv0PKad6SjrZQwvfrlaWMJc0jE
-         5Y4Qqxga7rdVsHBXggHdBRYSjWJc3N7KddTJ9aUJqlja5YKWrraAxSGfoJTeW6fziwFj
-         n15frq+wfqqWSUD5xQ0w6iJ46befR0Km3zeQm1K9n3JP8KuAgLFYo12udLznEFx06OtN
-         cs2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUpkJmU1CSj3LzJDrtn7WSEFGDbx9x61rNDa3+V+oENjcHJucJaPGQ/rc+r2w8aJ31cRQNpf8bJLsG1t8lSr1t6DuY2QNcpxwZ/b0l3NwEyGqO7YtgaHh8oHdkPdAm/iHLc0XeCM6CBtjh1sZvAjRUMVW1JlCEDuJRY+ENiX5/gIarVrG3FWdpaDVhuKHaXuDxGTJh/Q7zzcf6TN10frU2MRmrc
-X-Gm-Message-State: AOJu0Yzs/AT4QPTIG661fL1P0dYKaxIbQJKS8BFZs8DLDUdqD6EWhFE6
-	776cQ2tbt5ZCBve1UZX2/pSlRJSBgGSmblvvgdSPK+8txE4rLhsOHXs+UGqzMNE=
-X-Google-Smtp-Source: AGHT+IF6qZXhkh31/FL9NWIWiaWNbs75azxaLQr+q0HbfoJAOi5esIyA3/0S3GFWa2NY/xosW0awAg==
-X-Received: by 2002:a81:af14:0:b0:608:d1f:1088 with SMTP id n20-20020a81af14000000b006080d1f1088mr1716762ywh.17.1709033085558;
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id s132-20020a81778a000000b00607f86fa184sm1715590ywc.99.2024.02.27.03.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso3965991276.3;
-        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWVJ7xa8M3RUqQkjMQuIs6vqZOPftr7CjDdBfQisOSUZySBmc57Vd+/azmelXnVxPjs/+K3CFTOVzydfxwZkQO2iIfRXggH2eccDhhLw+Cby0XLQtuX3H9tfk3n78DhURjWFF7VGeE9YriB6AJsBDqnyGd/+TNKo/iKKtMzLCuujYG3hBkKa3qHQimKapbP6uz/prROSso9CPCS+Xt0+aFLL2y4
-X-Received: by 2002:a25:ef41:0:b0:dc6:9c51:760f with SMTP id
- w1-20020a25ef41000000b00dc69c51760fmr1490502ybm.56.1709033085185; Tue, 27 Feb
- 2024 03:24:45 -0800 (PST)
+	s=arc-20240116; t=1709034306; c=relaxed/simple;
+	bh=reB1Odb45/l1dvPXc/JgyVKuOjKvEdq6Kb78XAUVaxU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RiAicTEk57Y3AMEkV9qtDvNQR2O6RCjFKqY65uD+SUj5KmxOmKCj8RAHRV9dskHAjQpzoI9AsSh83WVJmHNsx96BONSaRNhC9PJcD0v+m3o5hTzBbWwUEgh3E/ZhfiR/ySSIPGrQrHoMdhlGBKmDV4H9QJP/cE/EB98c5PbM6Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=dqJg9RIE; arc=none smtp.client-ip=198.252.153.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="dqJg9RIE"
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4TkbJH3rPtz9sjZ;
+	Tue, 27 Feb 2024 11:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1709034303; bh=reB1Odb45/l1dvPXc/JgyVKuOjKvEdq6Kb78XAUVaxU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dqJg9RIE8eu8y2cKu+9cnGHYFnsGUkL7ueJyGDO2S1kJDFRYprUsj2yzAkh5kWxWi
+	 Q2QIhVdaUsO9DDLumxdp3NlRr5JXaHFpL84dxbh+hM3qT1ZaxOf2VNQvXfac1Wy9C+
+	 jupyHQB4Crd79qLolye0CPSa5Sjiz6c6DWNjUyGg=
+X-Riseup-User-ID: 32958693706746C82A54B118B535079799FE5CF83FAE7455EBE508B6A3F4C0A7
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkbJB4cHjzJqCg;
+	Tue, 27 Feb 2024 11:44:58 +0000 (UTC)
+Message-ID: <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
+Date: Tue, 27 Feb 2024 08:44:52 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
- <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org> <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
- <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
-In-Reply-To: <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 12:24:33 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
-Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+ <20240227111941.061a2892.pekka.paalanen@collabora.com>
+Content-Language: en-US
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240227111941.061a2892.pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Lukas,
 
-On Tue, Feb 27, 2024 at 12:04=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail=
-.com> wrote:
-> On Tue, Feb 27, 2024 at 9:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead=
-.org> wrote:
-> > > >   - Concerning checking with tools, checkpatch probably still makes=
- sense;
-> > > >     it pointed out in several places. If sparse and checkstack are =
-really
-> > > >     the next two tools to point out, I am not so sure about.
-> > >
-> > > I doubt that ckeckstack is important since gcc & clang warn us about
-> > > stack usage.
-> >
-> > True, but that would leave you without a tool to get figures when
-> > there is no excess stack usage detected by the compiler.
->
-> possibly, we can configure the compiler to report/warn on any stack
-> usage from every invocation and then turn all those warnings into a
-> readable format or some format that further visualization and analysis
-> tools can process.
 
-"possibly"
+On 27/02/24 06:19, Pekka Paalanen wrote:
+> On Mon, 26 Feb 2024 17:42:11 -0300
+> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> 
+>> Now that we have a defined benchmark for testing the driver, add
+>> documentation on how to run it.
+>>
+>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>> ---
+>>  Documentation/gpu/vkms.rst | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>> index ba04ac7c2167..6d07f79f77ff 100644
+>> --- a/Documentation/gpu/vkms.rst
+>> +++ b/Documentation/gpu/vkms.rst
+>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
+>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>>  
+>> +If you are developing features that may affect performance, you can run the kms_fb_stress
+> 
+> s/can/must/
+> 
+>> +benchmark::
+> 
+> before and after, and report the numbers.
 
-> If that works, we can remove the checkstack tool. It is not a
-> massively large script, but it is certainly written with a very
-> special purpose. I mean it basically does object-code
-> reverse-engineering with a magic set of regular expressions in Perl.
-> If our current compilers can emit the same information, we are
-> probably better off just using the output from a compiler and
-> postprocessing that.
+Did you mean to write the benchmarks logs here?
 
-I'm fully aware how it works.
-And I have used Linux' checkstack.pl tool for non-Linux projects, too.
+> 
+>> +
+>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
+>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress
+> 
+> Do people need to run both commands?
 
-Gr{oetje,eeting}s,
+No, they don't, just two options.
 
-                        Geert
+Best Regards,
+~Arthur Grillo
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 
+> Anyway, a good idea.
+> 
+> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> 
+> 
+> Thanks,
+> pq
+> 
+>> +
+>>  TODO
+>>  ====
+>>  
+>>
+>> ---
+>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+>> change-id: 20240226-bench-vkms-5b8b7aab255e
+>>
+>> Best regards,
+> 
