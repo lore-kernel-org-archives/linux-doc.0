@@ -1,209 +1,243 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9616813A87C;
-	Tue, 27 Feb 2024 13:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1B0145320;
+	Tue, 27 Feb 2024 13:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709040405; cv=none; b=XV5Q1M9iWssQkiEJfzivlA33SCzNofUEbxKxy5D3PD0O4jPl+kBADsw4N+X2NjOOcfRXfSn8nRTWxGm7/gOsyKe82++omr5vXX+zr0q9sSMMA1WmRGxuDfF2v7iRw5woIsZa7mVtvRPY8epavmY6DyAPof7iuxaVf0vFfWItb80=
+	t=1709040514; cv=none; b=f4ja+QGoqSJj1lKCJzLieSsdgGR/diefmiTST77ICljb7gMlD9dv1ro2CqfR9FmaswTneEVqXimVbEJUqMVhDCW8W37qjUjND1gqnhlV4KCe8fZGBj3nAM711qHG96/NG2DJLaT0k8QTuGnk5Di4QEG6StQwsg8HihJfAi3jyS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709040405; c=relaxed/simple;
-	bh=je8RxzPOXqGPjuvQPyzxZ26n+2I11ZgZOJBFkDsTSWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIvDe4WdiA1vkwzhjTiR2uxHDBZWMbvH1IkBO8UFWTYpkwML2ehXXmXxp+VaMcUQGDSVhhFd0/5p8dyLcOR7HaiWQtc5F1d2t/jy0sl12EUkwpdPt+fGf9kDjO6iLLV2JZayoPnkEtWypaknaiLid6DYPeIc+8M2jEWTr6Mi0E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YI+H3/pN; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709040514; c=relaxed/simple;
+	bh=zru7ObNNKkQqccBKGdjO4JlNuuwVy5ujT0QSm0dUZfY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dOTITVbzkRWM3JQgmlgPldnVEEqlW3XUqz956DbjDsn2K91/Hyr0lmKWRTwM6KMJ7+l1gGdjoHt2b+jdZsldaqyrAWtND9+md0qh4yAF5SUBVDOVROxXF0AplSNTecDvN3Xe3szJrLZOlxUgob9fPJuDQc3hq0OCb6fT1pyxUK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqhMdDGw; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YI+H3/pN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709040401;
-	bh=je8RxzPOXqGPjuvQPyzxZ26n+2I11ZgZOJBFkDsTSWQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YI+H3/pNPwYSk40IM1WIt8OyCHs4sJeIYUuJLN3RZY6RsJJXgt48JtuzrdwFFpBzv
-	 5a1K9LLFs+mJ1I0oJftOMhv1qrLELTQ9YpFiJEVroOyw4AwOubJ5BhhFuQot8g0ZGf
-	 sJhHGs2GEMTSPBdEzDaAHjhN3v4iA2WrDmHRWHVqacoyd6MEshyfjL4TCDAtuy0tv6
-	 jJI3/Pk7SeIXWguIWjB9RlYlEjCtw1kn90GX0GKqae0Bgc1Ky6N6nw/A4MHifaNxTe
-	 UTpuzM8EoaFPWgU7UnBEnbu5T9mefr2a77JC2k2/2Cfq9Oe4coyCD0gb2Nez5LBMaS
-	 mLg6rIa/l9MhA==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DBDBB3781FE6;
-	Tue, 27 Feb 2024 13:26:40 +0000 (UTC)
-Date: Tue, 27 Feb 2024 15:26:39 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Message-ID: <20240227152639.6426c401.pekka.paalanen@collabora.com>
-In-Reply-To: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
-	<20240227111941.061a2892.pekka.paalanen@collabora.com>
-	<8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
-	<20240227135545.62dd5f57.pekka.paalanen@collabora.com>
-	<0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqhMdDGw"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-42e7e8e7c09so5959381cf.1;
+        Tue, 27 Feb 2024 05:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709040510; x=1709645310; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sA3eGpdy0V1trjnCYXdrUG6FXIcsye2wJjLbDY0NJk8=;
+        b=XqhMdDGwh8qeJuw5TKIfabet8iRADsTgCEWViON/4WPjJbZDOe8h/NDobRN1wZQdUq
+         +Y7p795dCNDcwH7f0F20HHz9SmOcJPcGiloAaUqbZ2Hxp8nambdOSG3nCaaXGEZETwrB
+         BzZr73CjF1LEqHiPG8Il17bfLxzO3Ab9D9YM5wGOHoa3AX3fLtdzwbjbCrYpqZhGVzU1
+         DeZRwm///ooTMDHZC8/LI4r6GRatsfmrie38CBmHmdEz2L4LyCg1RY29L4DsJsInepgZ
+         oZ+wPmdceobvJjfwxcWJCwWPM9e/fQdJZ034prVwjvLq0i+o3QoNI4+W8x/V5WrkwSnm
+         3Jaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709040510; x=1709645310;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sA3eGpdy0V1trjnCYXdrUG6FXIcsye2wJjLbDY0NJk8=;
+        b=Me92wfj+UPknIJtr4k6NmfkLZg/ELobuXnDuSoukYFoAqNVfNDAyseKByNVAKKBgip
+         mNEmRZH35KO8zrkEQHaIlnET+LCV9rcV3jsMy7+ubMGD6MWuKzz1kXUU0fmTj/sa+HMm
+         Sp3klKAhqd7CSLGqLhAZYlcYwh101oD2//oNZyKKvkkBIF6A6sAHDIpuXbI6gtPkFtNf
+         VYexkoiuTxQ1aoJ63GWhPKJe65BH6S4pmuowP9M9Dk9iXuFVqxD6UmvUx5GlLntpcfX7
+         ichoRmn9881T+/1XcWXDvELjxJYl9MeO5MUDvns09EAbEQPc05DW5nTY7QDpj2kb87jq
+         aSsA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZXq/A7TYlBqpY2xdTxBE4F8CeMR22DaT/5m+y2blYiFoNwfSGKTeF9kkG2NTKJXQyme+7jm3pEpA/OS7kA2aivu/stKthYxT0G5qbRKFOkJBAXU42xWa0JcLHe628ta+/0jYl7/Zw4fQXOxfOrRMrQ6HOj/rfCdX2VDbrukacNQN/Q9lYkUeJF4Y5NgqTAUqTnDLHQDvZj0UDEIOkiGaLd2ouYu0ZaURUB/zu4REdSZntts+Crfr0Adb4Z8BfbdnL++teniDceORYkm9l+Z8E8PupZ90J4MZE68EoSZfJn5KgNttFfoLeU5MNcmq0zLf8sNlar5DD89zZSsw0OVVqKGqolTk1zxqXr32aPeTQ1P3vR9WrfA6i7o9cF8U=
+X-Gm-Message-State: AOJu0YwNr0XY4GJw0tMeZryvjZ2m5kGzO8U7ILUDtcAfI8IxU31VehxK
+	oVCTEUIBBmePyHxVO95rML3jOno09dMe0rTlq9tGGYs66ybiXjmezP1VV9j8KlR+PaYbSDSH34e
+	kiI1JSQ1q8zfD2MiEtFCHLWILWx0=
+X-Google-Smtp-Source: AGHT+IHd1fYGCovL5jMrwGyPD3t9BUZlBl4i58kM3c7T6/2cjncdv2UjHD2jwvbN+FNdJ7hm/vJBg7tdpkEc9efldco=
+X-Received: by 2002:ac8:5bd2:0:b0:42e:8a6b:5d00 with SMTP id
+ b18-20020ac85bd2000000b0042e8a6b5d00mr4856001qtb.26.1709040510180; Tue, 27
+ Feb 2024 05:28:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DX6kKQq2iBgSz7fGP6YUgnj";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj
-Content-Type: text/plain; charset=US-ASCII
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org> <20240221-idmap-fscap-refactor-v2-20-3039364623bd@kernel.org>
+In-Reply-To: <20240221-idmap-fscap-refactor-v2-20-3039364623bd@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 27 Feb 2024 15:28:18 +0200
+Message-ID: <CAOQ4uxjvrFuz2iCiO9dsOnear+qN=M+GFW-eEOZU5uCzBkTwLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 20/25] ovl: add fscaps handlers
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>, 
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
+	James Morris <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	audit@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 27 Feb 2024 09:29:58 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
+On Wed, Feb 21, 2024 at 11:25=E2=80=AFPM Seth Forshee (DigitalOcean)
+<sforshee@kernel.org> wrote:
+>
+> Add handlers which read fs caps from the lower or upper filesystem and
+> write/remove fs caps to the upper filesystem, performing copy-up as
+> necessary.
+>
+> While fscaps only really make sense on regular files, the general policy
+> is to allow most xattr namespaces on all different inode types, so
+> fscaps handlers are installed in the inode operations for all types of
+> inodes.
+>
+> Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> ---
+>  fs/overlayfs/dir.c       |  2 ++
+>  fs/overlayfs/inode.c     | 72 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  fs/overlayfs/overlayfs.h |  5 ++++
+>  3 files changed, 79 insertions(+)
+>
+> diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
+> index 0f8b4a719237..4ff360fe10c9 100644
+> --- a/fs/overlayfs/dir.c
+> +++ b/fs/overlayfs/dir.c
+> @@ -1307,6 +1307,8 @@ const struct inode_operations ovl_dir_inode_operati=
+ons =3D {
+>         .get_inode_acl  =3D ovl_get_inode_acl,
+>         .get_acl        =3D ovl_get_acl,
+>         .set_acl        =3D ovl_set_acl,
+> +       .get_fscaps     =3D ovl_get_fscaps,
+> +       .set_fscaps     =3D ovl_set_fscaps,
+>         .update_time    =3D ovl_update_time,
+>         .fileattr_get   =3D ovl_fileattr_get,
+>         .fileattr_set   =3D ovl_fileattr_set,
+> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+> index c63b31a460be..7a8978ea6fe1 100644
+> --- a/fs/overlayfs/inode.c
+> +++ b/fs/overlayfs/inode.c
+> @@ -568,6 +568,72 @@ int ovl_set_acl(struct mnt_idmap *idmap, struct dent=
+ry *dentry,
+>  }
+>  #endif
+>
+> +int ovl_get_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
+> +                  struct vfs_caps *caps)
+> +{
+> +       int err;
+> +       const struct cred *old_cred;
+> +       struct path realpath;
+> +
+> +       ovl_path_real(dentry, &realpath);
+> +       old_cred =3D ovl_override_creds(dentry->d_sb);
+> +       err =3D vfs_get_fscaps(mnt_idmap(realpath.mnt), realpath.dentry, =
+caps);
+> +       revert_creds(old_cred);
+> +       return err;
+> +}
+> +
+> +int ovl_set_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
+> +                  const struct vfs_caps *caps, int setxattr_flags)
+> +{
+> +       int err;
+> +       struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
+> +       struct dentry *upperdentry =3D ovl_dentry_upper(dentry);
+> +       struct dentry *realdentry =3D upperdentry ?: ovl_dentry_lower(den=
+try);
+> +       const struct cred *old_cred;
+> +
+> +       /*
+> +        * If the fscaps are to be remove from a lower file, check that t=
+hey
+> +        * exist before copying up.
+> +        */
 
-> On 27/02/24 08:55, Pekka Paalanen wrote:
-> > On Tue, 27 Feb 2024 08:44:52 -0300
-> > Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> >  =20
-> >> On 27/02/24 06:19, Pekka Paalanen wrote: =20
-> >>> On Mon, 26 Feb 2024 17:42:11 -0300
-> >>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> >>>    =20
-> >>>> Now that we have a defined benchmark for testing the driver, add
-> >>>> documentation on how to run it.
-> >>>>
-> >>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> >>>> ---
-> >>>>  Documentation/gpu/vkms.rst | 6 ++++++
-> >>>>  1 file changed, 6 insertions(+)
-> >>>>
-> >>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> >>>> index ba04ac7c2167..6d07f79f77ff 100644
-> >>>> --- a/Documentation/gpu/vkms.rst
-> >>>> +++ b/Documentation/gpu/vkms.rst
-> >>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to r=
-un the entire test::
-> >>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --devi=
-ce "sys:/sys/devices/platform/vkms"
-> >>>>    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/=
-kms_flip --run-subtest basic-plain-flip
-> >>>> =20
-> >>>> +If you are developing features that may affect performance, you can=
- run the kms_fb_stress   =20
-> >>>
-> >>> s/can/must/
-> >>>    =20
-> >>>> +benchmark::   =20
-> >>>
-> >>> before and after, and report the numbers.   =20
-> >>
-> >> Did you mean to write the benchmarks logs here? =20
-> >=20
-> > I mean people should be required tell their before and after numbers in
-> > either commit message (my preference) or in series cover letter (if
-> > benchmarking commits is not useful).
-> >=20
-> > With the addition of YUV support in VKMS, maybe the benchmark needs to =
-=20
->=20
-> With the upcoming addition, I've sent a patch to arbitrarily change the
-> formats on the benchmark via command-line options. It's not adding a new
-> case, but maybe just this could already help.
->=20
-> https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@=
-riseup.net/
+Don't you need to convert -ENODATA to 0 return value in this case?
 
-In that case you would need to document exactly what command line
-options to use, and ask people to report the numbers of each test
-case.
+> +       if (!caps && !upperdentry) {
+> +               struct path realpath;
+> +               struct vfs_caps lower_caps;
+> +
+> +               ovl_path_lower(dentry, &realpath);
+> +               old_cred =3D ovl_override_creds(dentry->d_sb);
+> +               err =3D vfs_get_fscaps(mnt_idmap(realpath.mnt), realdentr=
+y,
+> +                                    &lower_caps);
+> +               revert_creds(old_cred);
+> +               if (err)
+> +                       goto out;
+> +       }
+> +
+> +       err =3D ovl_want_write(dentry);
+> +       if (err)
+> +               goto out;
+> +
 
-That works. Alternatively or additionally, the test cases could be
-built in to the benchmark, and it just reports numbers for all of them
-in a single invocation. Then people running the standard benchmark do
-not need to worry about getting the command line options right, or
-running multiple cases. And reviewers do not need to ask to re-run with
-the correct options.
+ovl_want_write() should after ovl_copy_up(), see:
+162d06444070 ("ovl: reorder ovl_want_write() after ovl_inode_lock()")
 
-I suppose rotations might get added, too.
 
-Or maybe you'd provide a script that covers all the standard
-performance test cases?
+> +       err =3D ovl_copy_up(dentry);
+> +       if (err)
+> +               goto out_drop_write;
+> +       upperdentry =3D ovl_dentry_upper(dentry);
+> +
+> +       old_cred =3D ovl_override_creds(dentry->d_sb);
+> +       if (!caps)
+> +               err =3D vfs_remove_fscaps(ovl_upper_mnt_idmap(ofs), upper=
+dentry);
+> +       else
+> +               err =3D vfs_set_fscaps(ovl_upper_mnt_idmap(ofs), upperden=
+try,
+> +                                    caps, setxattr_flags);
+> +       revert_creds(old_cred);
+> +
+> +       /* copy c/mtime */
+> +       ovl_copyattr(d_inode(dentry));
+> +
+> +out_drop_write:
+> +       ovl_drop_write(dentry);
+> +out:
+> +       return err;
+> +}
+> +
+>  int ovl_update_time(struct inode *inode, int flags)
+>  {
+>         if (flags & S_ATIME) {
+> @@ -747,6 +813,8 @@ static const struct inode_operations ovl_file_inode_o=
+perations =3D {
+>         .get_inode_acl  =3D ovl_get_inode_acl,
+>         .get_acl        =3D ovl_get_acl,
+>         .set_acl        =3D ovl_set_acl,
+> +       .get_fscaps     =3D ovl_get_fscaps,
+> +       .set_fscaps     =3D ovl_set_fscaps,
+>         .update_time    =3D ovl_update_time,
+>         .fiemap         =3D ovl_fiemap,
+>         .fileattr_get   =3D ovl_fileattr_get,
+> @@ -758,6 +826,8 @@ static const struct inode_operations ovl_symlink_inod=
+e_operations =3D {
+>         .get_link       =3D ovl_get_link,
+>         .getattr        =3D ovl_getattr,
+>         .listxattr      =3D ovl_listxattr,
+> +       .get_fscaps     =3D ovl_get_fscaps,
+> +       .set_fscaps     =3D ovl_set_fscaps,
+>         .update_time    =3D ovl_update_time,
+>  };
+>
+> @@ -769,6 +839,8 @@ static const struct inode_operations ovl_special_inod=
+e_operations =3D {
+>         .get_inode_acl  =3D ovl_get_inode_acl,
+>         .get_acl        =3D ovl_get_acl,
+>         .set_acl        =3D ovl_set_acl,
+> +       .get_fscaps     =3D ovl_get_fscaps,
+> +       .set_fscaps     =3D ovl_set_fscaps,
+>         .update_time    =3D ovl_update_time,
+>  };
+>
 
+
+Sorry, I did not understand the explanation why fscaps ops are needed
+for non regular files. It does not look right to me.
 
 Thanks,
-pq
-
-> > start printing YUV numbers separately as a new case.
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >> =20
-> >>>    =20
-> >>>> +
-> >>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/=
-platform/vkms"
-> >>>> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchm=
-arks/kms_fb_stress   =20
-> >>>
-> >>> Do people need to run both commands?   =20
-> >>
-> >> No, they don't, just two options.
-> >>
-> >> Best Regards,
-> >> ~Arthur Grillo
-> >> =20
-> >>>
-> >>> Anyway, a good idea.
-> >>>
-> >>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >>>
-> >>>
-> >>> Thanks,
-> >>> pq
-> >>>    =20
-> >>>> +
-> >>>>  TODO
-> >>>>  =3D=3D=3D=3D
-> >>>> =20
-> >>>>
-> >>>> ---
-> >>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-> >>>> change-id: 20240226-bench-vkms-5b8b7aab255e
-> >>>>
-> >>>> Best regards,   =20
-> >>>    =20
-> >  =20
-
-
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXd4w8ACgkQI1/ltBGq
-qqfnHxAAp79lJUjUsLan8ziK6wUyuM4IoJLwb3oFaNNDCcPrFKMLXTUBu87boL/n
-n47WzJ/1mKbMlgSXCWLR/2j6RTjBy+gGCPx1TLDBY+2Jf+s48ms/RyS6GTEB1Bj0
-MhCUhYt4FrgqXecdpINJXQ4/WpIbt4RECU1chiMF0PoXvTe21G02Zhg2rfvyc1Xh
-yLn3I+I3cjwqTVmLMPTPGRIoX0ax64TWMU6L1CSWpRdHkQanUJLERb1NKZG0y3gK
-eZF2CaSyq5IM2zur9TrYIzJjuHvsvNx0ax6FBifZYLmFGWB7BSx2BPg49mCdM2zF
-8wSTcn2OW+ndUsXY1aZrUF/breJXIdCne008J43ygXOahg7ltAezMu7g0LE+tjBC
-o3tRPlspfDjyVVvjFXjDvRmdagYUzemAcZY6NldG38TqmqYegXjR/RC6NLI/MKTd
-X1Lo4xIArbPU7GU0gyJz0VwehFgc4ZcTaq8j7/KhTQRXNkDnotoNdhY8VIrd3EO/
-Fvh6xSE22xxvmFw4psscLe5lxmM3BBecRRhQ83IoBxhCIOQrOsg8+HK8rmv+dGkT
-xtwqvEieZHmvKqmSbJsLXhgNNe2OOZHz8BfyvXQUeQ7fn3V+dqepSopeVDOqS4t5
-hSd67SKpCocwdmXOkap20qYxWtiquw/0Viv4HtgD45EpnYHVi4o=
-=MeCb
------END PGP SIGNATURE-----
-
---Sig_/DX6kKQq2iBgSz7fGP6YUgnj--
+Amir.
