@@ -1,299 +1,122 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C747D13B29C;
-	Tue, 27 Feb 2024 13:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6244E54FA5;
+	Tue, 27 Feb 2024 13:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709039918; cv=none; b=J6HhOwqO8aLyhKHRzbqDAUW0XdAKFLlFrwtTYh0fAJumKPeRJFN8WJ3tnyHY+Ff2CEiBgBfSaveztJ8OQ+eP/kI3tsGId1FbiEiEzhQQq3AQroo2pqd535BgzHQz0HXNkBPNIgU+mVBT9T5G+Y/i5l9ySB7pyh4OzxVvyuawYaw=
+	t=1709040318; cv=none; b=uv0GMVAYRD9h9pC5V4w1PyP6UfA/dIR95/vCW0gfaAo6P3pGvsoWulmiT7fvS1SlWSI1k0nSmAQjowmpd4iF8LCjt308scCD4ajNinVLpx1RTN+poI3NMlZNOfgM0ioI03W64sfj8POrlNXTmNU/Qg/tVw+fCpYt6KrjvOK44nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709039918; c=relaxed/simple;
-	bh=3gcuV61t2Hf8iIU8GS9e4WnOjtwy66ob4TygKymP7vI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IrPhu2RKmpZTUucBCEEV2XJTBmLYYLnuOxs79OpuXnpQzbDUS75pI3Vo139VHtkzbe++WQ2ORJ/KcW67j6Z6Qt6/Brz+dTpZrI9Wh4zcsq5mXLNwCQwwKIOt6hWOsbKE9pnLjp+SCXFjBotoykA18TmkQYyeI7VvlS4qSX+quXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t+9keHML; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GRvXGAM1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=F9IZKXKZ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qeLIL82+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1709040318; c=relaxed/simple;
+	bh=5sj9NXTrAoUjaPMj/9h4zOUnoupcAA5GHb0+0GioHCY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n6Sd4d4UhDpLJy6/4L6CjQY9bQfLl/Ii86INS2xAH0jreYSPFNb4lbSJyXpNDde5uVLIl496SzT5ij4YyGA1R0LGk/FqwIHjZ7KIChqo2nQClB5cTUAfFGFsagqqTzHVwhMidzveyCogRtjISFj1+OL3lynp89gn2Oc38x7z3+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P41mkqlZ; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t+9keHML";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GRvXGAM1";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="F9IZKXKZ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qeLIL82+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CD386222B1;
-	Tue, 27 Feb 2024 13:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1709039914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b5fxnH3MZSXNsSIAXZNKwmzfwaEYfCce0iXFeFygkQg=;
-	b=t+9keHMLh4mZ9U9FQ87VKQu8qlErdV098YFQ27/heTmhZppg6tdPU6yJ9Eo76VKzqONnnB
-	1DBPJEyQqJV/UxcctxZ22Xq3EhU0hSfd5ki6CR8KBtRG2fx3ZgjUmb8S2H5X+dAnVF5Svw
-	CMbh1JgO3q0lxv2gMts6lsIDlkbCUZg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1709039914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b5fxnH3MZSXNsSIAXZNKwmzfwaEYfCce0iXFeFygkQg=;
-	b=GRvXGAM18yVMX0BW2K+RwWRfUhc/w+IroW6mjGbZVcLNZgZY0hFKcOseHovdH82tnqfTto
-	OlaadaQpT0hAOkDw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1709039913; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b5fxnH3MZSXNsSIAXZNKwmzfwaEYfCce0iXFeFygkQg=;
-	b=F9IZKXKZt1gaRwhJRkHRlaQl1OHHL8G72P9VbBh9roM6E3f52yS+BVAhXmn3S2584WUvxJ
-	ENH/CybjETOcGt4IQKTDzjQUBrSJRyTn/xgopePYT59Kc+3X6u6ghbXOY8evc12MXdxiqu
-	DD9NtaFXXx+SvDohX/QhkhPtG+o3fsw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1709039913;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b5fxnH3MZSXNsSIAXZNKwmzfwaEYfCce0iXFeFygkQg=;
-	b=qeLIL82+HCy8ZAeUFMjZFYLviW9bzTdgWX6Cj9qpRxpNfNN2rVWl2yY3EOP1Z6qmCjOMY8
-	DkkhqX5V+tGh6EAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31E4C13A58;
-	Tue, 27 Feb 2024 13:18:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pt1+Cyjh3WWwLAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 27 Feb 2024 13:18:32 +0000
-Message-ID: <ae4f9958-813a-42c8-8e54-4ef19fd36d6c@suse.cz>
-Date: Tue, 27 Feb 2024 14:19:04 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P41mkqlZ"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3d5e77cfbeso757832666b.0;
+        Tue, 27 Feb 2024 05:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709040314; x=1709645114; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7mfy+8kAD4Sg5cY1crfDT7qIqsKPJZTTBHdCAQaHu3Q=;
+        b=P41mkqlZ+inwX5x4hn86zkOs1SUlx8S2XkeEtvxHHC7CES/72E6qUlIrV2/d4jxvhu
+         nfT73dPMEZLcIw2B3kQeQzBvAB2mRQ8PJvULYL+g9uU/fv9/gLEA0MSI+PRQAuh9wSGM
+         hc9p4vUu7UvDREh0MFvXuh1iRe+xG4LL6gX1s9UseUFyC0tqCKT5ZmmzUW4Y0LFh/GeQ
+         qkF3ZKfYMB8kpaS0MXH99SUGadNimYccD+VzRKSm5BLtrfPT9Mubl/qmbZh5IyFhGhSn
+         AKFMr72EGY/IF3xvG4/Y/ea5dLqKjMNimhZyuEsiYz2uPsRGI20cCC4Ct6dB9cppZGhg
+         ojvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709040314; x=1709645114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7mfy+8kAD4Sg5cY1crfDT7qIqsKPJZTTBHdCAQaHu3Q=;
+        b=RZoI8uhjF0f8tn3nC6b7TEFOP/r3VRrQK9ynWfNDTY4I3vtZc9PUR4fIWsWMlQob34
+         MKmOPb3p1XGqs1vCDIXMApB+tEnMej2BWFxaI8vS8XPMe9OZsNx0QIsQtBSYuvqh2pSl
+         QElF1B2R+t81z7m86ut0YGQXCLdPLkaZsZ8i2bA768EoSDCPpGRzj281N7BIDnXgdox4
+         sSNWwrBxs5hMeI/sryK9sIjeLmsSL1o+tg/DRHf46ANM20CAd0nUua34eVef4i4EXHGW
+         bnD96T6qkjm/xinbE83OKT7C/TAlt4z/F8VcHrUTPCdpQgfC/tTl9ORgDZ5amK7Hwllj
+         0MVA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiRugcD8T6ep/VQWVczvlzoBa3uy9Bs5gYQWW2u8VwIF4ZU5P7T+xTnFkuW8TqOUKk4FDiTaDJfEtGTV+A0e42Ttd5qqhPaj6a
+X-Gm-Message-State: AOJu0YzKopR3r3XVa+wl0xbwa/nA+Wgper/Rh+6K+jpf/8/rYHlhqQNF
+	npOqAyAqijfYNXzMfDb7wA0zN4uwzVp98FM23jEFViOP6vnm/WDac3lZmu1BHSYsPHfC1MdK4ig
+	HOYQwjOieGo4pliQ6SyuQ950hPqE=
+X-Google-Smtp-Source: AGHT+IHE4znenK09HkV6uURTuS9RBcOY3Hyzi9IIvKhH5QUyp/hHFLNoRLipHmm9xrihLpAqOjyebro5LUqfP2wuiDA=
+X-Received: by 2002:a17:906:2417:b0:a3e:ec63:8fa9 with SMTP id
+ z23-20020a170906241700b00a3eec638fa9mr9324108eja.16.1709040314372; Tue, 27
+ Feb 2024 05:25:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 31/36] lib: add memory allocations report in show_mem()
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com,
- penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
- rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
- yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
- hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
- ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
- ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20240221194052.927623-1-surenb@google.com>
- <20240221194052.927623-32-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20240221194052.927623-32-surenb@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=F9IZKXKZ;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qeLIL82+
-X-Spamd-Result: default: False [1.20 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_HAM(-0.00)[11.51%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.cz:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_GT_50(0.00)[74];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,linux.dev:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 1.20
-X-Rspamd-Queue-Id: CD386222B1
-X-Spam-Level: *
-X-Spam-Flag: NO
-X-Spamd-Bar: +
+References: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 27 Feb 2024 14:25:03 +0100
+Message-ID: <CAKXUXMzejT7++UgpgE_eHbXTC+w0cz2-sPr3XawV6N2mCkupgw@mail.gmail.com>
+Subject: Re: [PATCH] docs: drop the version constraints for sphinx and dependencies
+To: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Akira Yokosawa <akiyks@gmail.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> Include allocations in show_mem reports.
-> 
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+On Tue, Feb 27, 2024 at 2:14=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail.=
+com> wrote:
+>
+> As discussed (see Links), there is some inertia to move to the recent
+> Sphinx versions for the doc build environment.
+>
+> As first step, drop the version constraints and the related comments.
+> Then, the sphinx-pre-install script will fail though with:
+>
+>   Can't get default sphinx version from ./Documentation/sphinx/requiremen=
+ts.txt at ./scripts/sphinx-pre-install line 305.
+>
+> The script simply expects to parse a version constraint with Sphinx in th=
+e
+> requirements.txt. That version is used in the script for suggesting the
+> virtualenv directory name.
+>
+> To suggest a virtualenv directory name, when there is no version given in
+> the requirements.txt, one could try to guess the version that would be
+> downloaded with 'pip install -r Documentation/sphinx/requirements.txt'.
+> However, there seems no simple way to get that version without actually
+> setting up the venv and running pip. So, instead, name the directory with
+> the fixed name 'sphinx_latest'.
+>
+> Finally update the Sphinx build documentation to reflect this directory
+> name change.
+>
+> Link: https://lore.kernel.org/linux-doc/874jf4m384.fsf@meer.lwn.net/
+> Link: https://lore.kernel.org/linux-doc/20240226093854.47830-1-lukas.bulw=
+ahn@gmail.com/
+>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Oops, I was a bit quick on sending this out, I wanted to add those
+remarks for the patch discussion:
 
-Nit: there's pr_notice() that's shorter than printk(KERN_NOTICE
+This change seems to work for my setup, but I have really only dipped my
+toes into the waters of this sphinx-pre-install script.
 
-> ---
->  include/linux/alloc_tag.h |  7 +++++++
->  include/linux/codetag.h   |  1 +
->  lib/alloc_tag.c           | 38 ++++++++++++++++++++++++++++++++++++++
->  lib/codetag.c             |  5 +++++
->  mm/show_mem.c             | 26 ++++++++++++++++++++++++++
->  5 files changed, 77 insertions(+)
-> 
-> diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> index 29636719b276..85a24a027403 100644
-> --- a/include/linux/alloc_tag.h
-> +++ b/include/linux/alloc_tag.h
-> @@ -30,6 +30,13 @@ struct alloc_tag {
->  
->  #ifdef CONFIG_MEM_ALLOC_PROFILING
->  
-> +struct codetag_bytes {
-> +	struct codetag *ct;
-> +	s64 bytes;
-> +};
-> +
-> +size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep);
-> +
->  static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
->  {
->  	return container_of(ct, struct alloc_tag, ct);
-> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-> index bfd0ba5c4185..c2a579ccd455 100644
-> --- a/include/linux/codetag.h
-> +++ b/include/linux/codetag.h
-> @@ -61,6 +61,7 @@ struct codetag_iterator {
->  }
->  
->  void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
-> +bool codetag_trylock_module_list(struct codetag_type *cttype);
->  struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
->  struct codetag *codetag_next_ct(struct codetag_iterator *iter);
->  
-> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-> index cb5adec4b2e2..ec54f29482dc 100644
-> --- a/lib/alloc_tag.c
-> +++ b/lib/alloc_tag.c
-> @@ -86,6 +86,44 @@ static const struct seq_operations allocinfo_seq_op = {
->  	.show	= allocinfo_show,
->  };
->  
-> +size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
-> +{
-> +	struct codetag_iterator iter;
-> +	struct codetag *ct;
-> +	struct codetag_bytes n;
-> +	unsigned int i, nr = 0;
-> +
-> +	if (can_sleep)
-> +		codetag_lock_module_list(alloc_tag_cttype, true);
-> +	else if (!codetag_trylock_module_list(alloc_tag_cttype))
-> +		return 0;
-> +
-> +	iter = codetag_get_ct_iter(alloc_tag_cttype);
-> +	while ((ct = codetag_next_ct(&iter))) {
-> +		struct alloc_tag_counters counter = alloc_tag_read(ct_to_alloc_tag(ct));
-> +
-> +		n.ct	= ct;
-> +		n.bytes = counter.bytes;
-> +
-> +		for (i = 0; i < nr; i++)
-> +			if (n.bytes > tags[i].bytes)
-> +				break;
-> +
-> +		if (i < count) {
-> +			nr -= nr == count;
-> +			memmove(&tags[i + 1],
-> +				&tags[i],
-> +				sizeof(tags[0]) * (nr - i));
-> +			nr++;
-> +			tags[i] = n;
-> +		}
-> +	}
-> +
-> +	codetag_lock_module_list(alloc_tag_cttype, false);
-> +
-> +	return nr;
-> +}
-> +
->  static void __init procfs_init(void)
->  {
->  	proc_create_seq("allocinfo", 0444, NULL, &allocinfo_seq_op);
-> diff --git a/lib/codetag.c b/lib/codetag.c
-> index b13412ca57cc..7b39cec9648a 100644
-> --- a/lib/codetag.c
-> +++ b/lib/codetag.c
-> @@ -36,6 +36,11 @@ void codetag_lock_module_list(struct codetag_type *cttype, bool lock)
->  		up_read(&cttype->mod_lock);
->  }
->  
-> +bool codetag_trylock_module_list(struct codetag_type *cttype)
-> +{
-> +	return down_read_trylock(&cttype->mod_lock) != 0;
-> +}
-> +
->  struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
->  {
->  	struct codetag_iterator iter = {
-> diff --git a/mm/show_mem.c b/mm/show_mem.c
-> index 8dcfafbd283c..1e41f8d6e297 100644
-> --- a/mm/show_mem.c
-> +++ b/mm/show_mem.c
-> @@ -423,4 +423,30 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
->  #ifdef CONFIG_MEMORY_FAILURE
->  	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
->  #endif
-> +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> +	{
-> +		struct codetag_bytes tags[10];
-> +		size_t i, nr;
-> +
-> +		nr = alloc_tag_top_users(tags, ARRAY_SIZE(tags), false);
-> +		if (nr) {
-> +			printk(KERN_NOTICE "Memory allocations:\n");
-> +			for (i = 0; i < nr; i++) {
-> +				struct codetag *ct = tags[i].ct;
-> +				struct alloc_tag *tag = ct_to_alloc_tag(ct);
-> +				struct alloc_tag_counters counter = alloc_tag_read(tag);
-> +
-> +				/* Same as alloc_tag_to_text() but w/o intermediate buffer */
-> +				if (ct->modname)
-> +					printk(KERN_NOTICE "%12lli %8llu %s:%u [%s] func:%s\n",
-> +					       counter.bytes, counter.calls, ct->filename,
-> +					       ct->lineno, ct->modname, ct->function);
-> +				else
-> +					printk(KERN_NOTICE "%12lli %8llu %s:%u func:%s\n",
-> +					       counter.bytes, counter.calls, ct->filename,
-> +					       ct->lineno, ct->function);
-> +			}
-> +		}
-> +	}
-> +#endif
->  }
+I only dropped the version constraints, but possibly one can even drop
+some of the packages in the requirements.txt, as they are pulled in
+automatically by Sphinx dependencies.
+
+So, I am happy to get your feedback, but I am well aware about its
+potential to be improved and the lack of my deep knowledge about the
+script. I hope, though, you can test it in your setup and confirm if
+it works as expected and then we can discuss the details (e.g.,
+naming).
+
+Lukas
