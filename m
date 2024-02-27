@@ -1,154 +1,94 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A28C13A87C;
-	Tue, 27 Feb 2024 12:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944B01CFA9;
+	Tue, 27 Feb 2024 12:34:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709037009; cv=none; b=oqRcVpralyQZ8lbtfVEpBXwtcppPbZ7Zsdu7ACIzED/uZTFpMUFLqIX4SyV/SSUAOdnQAYrJiQQ41G1Jy2RjB6gG8ehiE2bHkpDyETzQqDbnCtTGVT/a8f7+X1Hib1Yuw+RVnhEAfX4DAw472PeRDMvOL4EB3Enj0qN/ddtxlk0=
+	t=1709037269; cv=none; b=hdfQAyK9NqqbFNqbNrcq0JOG7vdmX9PjEQH75qLSrOyatCpOez2wFt741gy9NiVgH22FR3akC1bXihxDUO3DquXw5U4N85yxTORFgduNjCKG2QQAXkDb4JtA986ll+93e/o+CPN3e9yGSET//qXueUfqCta2yrnQjuvV2q9MEvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709037009; c=relaxed/simple;
-	bh=4Oml5WGpUWGH4E2pAWDmHJLXIurGcZNjrQiigLwRZxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cZoN4pF4sizYZFA2ayciOLzGI7NTKwPPs4/gGR+EdgmzIXTkggwGhHy49oqeGuj2PcQsxfgquqp3Y5QD7gr7/MzjT5ogcART1Kd5saF6xI47/w/LIlII6BG3b01td4KDmNKC33ua4p50gshMyliiu64mGA/i8QaLOPwQ2YSFIxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=mQYuSXA9; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1709037269; c=relaxed/simple;
+	bh=N9j9qlONozduTz+bniTZX4spLz7Dtuw1zBMBtIuIeC0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MAvtQ/rpmKIwFMeDnzZ0QkosGlyx7O+Vd2rOjDzTdOst3WxmIS+Jt1qiABT76JG/YSAaELO2oJXVfYUlX++PhTj6onoO3gcAJNgdgyP60XqZ33PaWo/otdvHUXtc9AeZo4f4NPXmKxiaeNiaNQ1c6q8S9P5su4GKeeMWzavUAvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBZelrBl; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="mQYuSXA9"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4TkcJG3RP2zDqxh;
-	Tue, 27 Feb 2024 12:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1709037006; bh=4Oml5WGpUWGH4E2pAWDmHJLXIurGcZNjrQiigLwRZxw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mQYuSXA9hwz4kYJiAqIkpx33zjljXzNw0McZ/d8AEb4W6ypvWOENBZfqVS8Qi3TK5
-	 hFaGS6zD8qKMJj5f6oDZl7wONjgkB/ngwXWKqQpZ9uaju56h8e8FU9hQjrX4UVQRD5
-	 OtuptIXcDjwf18nqJPFXsHic7+YBeLheLXpyNrhk=
-X-Riseup-User-ID: 3F2DEF444453EB7DD4603CFBCDDEB278E8EE48B49FA58E4A5F087EA6FADAFF74
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkcJ955ZgzJpbF;
-	Tue, 27 Feb 2024 12:30:01 +0000 (UTC)
-Message-ID: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
-Date: Tue, 27 Feb 2024 09:29:58 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBZelrBl"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2997a92e23bso2887446a91.3;
+        Tue, 27 Feb 2024 04:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709037267; x=1709642067; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N9j9qlONozduTz+bniTZX4spLz7Dtuw1zBMBtIuIeC0=;
+        b=SBZelrBlMCrAok/Ji5IEEIJ0HuE10ktW936bNSRp7GdMIR5e+y4QvpsYvEucM5xjeu
+         mKdxLMsjdQIalqDWPrC4t2jI6azU5RQJjnWHjz9N4uTEswRgLHcDs7uHx6A2vWPRLu2x
+         vYLZQb3dpdY4C8cdspbbw79YWR0oPeMC5x8PD7iQaOGd+f6WdxH16hGFJUwYUI/M/nVp
+         FaagOgWF8MIchQBZlC92uGDpHeowb555aiKuff+BubVIEfdqOExTTdV83W5qsZAiVSeg
+         TTttIMqUmApTIYcKSQhqSpziL6By7gLclakfPzID3zOEjzxf6FkGgYXFe3TSaC679HBe
+         IIqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709037267; x=1709642067;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N9j9qlONozduTz+bniTZX4spLz7Dtuw1zBMBtIuIeC0=;
+        b=uO+F8ZftviYg1B1Av0GTIAzZmaTq4QfL0Qa+xteX7YJq3dWo6IvUlWEOO0uc9Wde0P
+         kQ2YEvixO+XoiMcinQlOcSC8iALGaH4rh+U9g3Iq1TYyXgyVc+xIOOug0Zlt/a+Q9c8C
+         FZVdG6sEfdcl3JRFkIT44aOp6R1Ut9oJFH20hGfawK8BjKqxXMu4LsnwhzNINkROJ/Mi
+         VGALXQmJPJB3pHpUI0PmXNMsSlIXrt54+zd1rLu762am5RaxSkfjHU+6llatOoEY2bqf
+         EbuS4zaGvvqAU2hAFywr88BMURBhKRLdsTrIDecNf8rDuTonm1sG3gwXk7CdQ2rpIU9Y
+         z91Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV13V7aDEi27eSWyemQ7TcL7ZpvgZK0/hzmplO14Q+UMAMg5IDpgndtRMFus1AUPFoIUxCEyFnr/OFQR41jq3XonhvNloib1UIxxFT9eUrgPzKswE2GVEmueZ27MBCVtzK8oJckBDtvAgTz1CcVkNy4NFmCwabpK7+dGGXVcs/RuxKKkgWOL4OP+Fx40I8FeQ+ErQEJGLhjnfaIM4459EM=
+X-Gm-Message-State: AOJu0Yy+8ZO4uMbZebHD84QGA9riTQmoSxOKrWYoTPNcdnGsogBq2HyI
+	sgRRFnt/trEac0P/cWDNK0wlSONYiyRChVEJu5whlsYpLmChf2gKsoIyF3lik3yXkE07K0aJvxo
+	0rw8qnJ6smy3Z0B9mdD70W5R3ccY=
+X-Google-Smtp-Source: AGHT+IEuXAPX9FOqOhNJb3Owku+lxeLjmPjbeDLcLvCF79H6OR73WYykC8gycjj0GEybh553JRImPRMosUkl+JhzaAA=
+X-Received: by 2002:a17:90a:5804:b0:299:389e:b611 with SMTP id
+ h4-20020a17090a580400b00299389eb611mr5540528pji.47.1709037266902; Tue, 27 Feb
+ 2024 04:34:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Content-Language: en-US
-To: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
- <20240227111941.061a2892.pekka.paalanen@collabora.com>
- <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
- <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-perjury-preshow-fc2cf73d552e@spud>
+ <CANiq72=mCnm0mKOw5K44PmZ+jF=67jxEEkcXP-E0O8CaUrps=w@mail.gmail.com> <20240227-uncertain-amaze-6197e627ad95@wendy>
+In-Reply-To: <20240227-uncertain-amaze-6197e627ad95@wendy>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 27 Feb 2024 13:34:14 +0100
+Message-ID: <CANiq72=geBobqM0Dc2yv=NjAc3MWXhOrDHfuJ84TgQ+XVxBo0w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] rust: make mutually exclusive with CFI_CLANG
+To: Conor Dooley <conor.dooley@microchip.com>, Nathan Chancellor <nathan@kernel.org>
+Cc: Conor Dooley <conor@kernel.org>, Matthew Maurer <mmaurer@google.com>, 
+	linux-riscv@lists.infradead.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, stable@vger.kernel.org, 
+	Sami Tolvanen <samitolvanen@google.com>, Ramon de C Valle <rcvalle@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Feb 27, 2024 at 11:54=E2=80=AFAM Conor Dooley
+<conor.dooley@microchip.com> wrote:
+>
+> I did try to test it but I ran into too many toolchain issues - my
+> older copies of LLVM (pre 17) are not multiarch as I built them by hand
+> with PGO for x86 and RISC-V. My LLVM 17 is from kernel.org and has no
+> libclang. And then the copy of LLVM 18 on kernel.org apparently does not
+> support kcfi at all. I gave up there, but I don't see how this would not
 
+I asked Nathan to add libclang a few days ago, and he very quickly did
+it for LLVM 18 -- though I don't know the plan for the others. I just
+pinged in that thread.
 
-On 27/02/24 08:55, Pekka Paalanen wrote:
-> On Tue, 27 Feb 2024 08:44:52 -0300
-> Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> 
->> On 27/02/24 06:19, Pekka Paalanen wrote:
->>> On Mon, 26 Feb 2024 17:42:11 -0300
->>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
->>>   
->>>> Now that we have a defined benchmark for testing the driver, add
->>>> documentation on how to run it.
->>>>
->>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->>>> ---
->>>>  Documentation/gpu/vkms.rst | 6 ++++++
->>>>  1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
->>>> index ba04ac7c2167..6d07f79f77ff 100644
->>>> --- a/Documentation/gpu/vkms.rst
->>>> +++ b/Documentation/gpu/vkms.rst
->>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
->>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
->>>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
->>>>  
->>>> +If you are developing features that may affect performance, you can run the kms_fb_stress  
->>>
->>> s/can/must/
->>>   
->>>> +benchmark::  
->>>
->>> before and after, and report the numbers.  
->>
->> Did you mean to write the benchmarks logs here?
-> 
-> I mean people should be required tell their before and after numbers in
-> either commit message (my preference) or in series cover letter (if
-> benchmarking commits is not useful).
-> 
-> With the addition of YUV support in VKMS, maybe the benchmark needs to
-
-With the upcoming addition, I've sent a patch to arbitrarily change the
-formats on the benchmark via command-line options. It's not adding a new
-case, but maybe just this could already help.
-
-https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@riseup.net/
-
-Best Regards,
-~Arthur Grillo
-
-> start printing YUV numbers separately as a new case.
-> 
-> 
-> Thanks,
-> pq
-> 
->>
->>>   
->>>> +
->>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
->>>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress  
->>>
->>> Do people need to run both commands?  
->>
->> No, they don't, just two options.
->>
->> Best Regards,
->> ~Arthur Grillo
->>
->>>
->>> Anyway, a good idea.
->>>
->>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>>
->>>
->>> Thanks,
->>> pq
->>>   
->>>> +
->>>>  TODO
->>>>  ====
->>>>  
->>>>
->>>> ---
->>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
->>>> change-id: 20240226-bench-vkms-5b8b7aab255e
->>>>
->>>> Best regards,  
->>>   
-> 
+Cheers,
+Miguel
