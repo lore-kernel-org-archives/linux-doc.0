@@ -1,39 +1,39 @@
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093D313B29B;
-	Tue, 27 Feb 2024 14:43:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FFA13B2B4;
+	Tue, 27 Feb 2024 14:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709044998; cv=none; b=bB+Xh2IggGzq9zosH+IHiSWl/CgSAExINLDS5y+ST18TRYEcA1bvrHyDj7FtxmKj9MIuBECCy9Wokku7ZDKYvrRbUh+9DcGiVl8PNC6UsOnGeyCNk8l6nDKll8SSPKA6k8x6oLmyuiYYT4II+DemkF3VPwmPcIWW9Z6B1GskErQ=
+	t=1709044999; cv=none; b=EFtxUNTOfTobtlMvYnD5eAci8e8+HaKsCOJR94u+lTIrGQkU3B5HjIOEZ8qFIFxH51Q4MbMsThuHuYm1VHKiCBOr7EipIFaLSP4bQ1jlvSfQz5soRG9AIVPgBotGiyY1cU3c3mnw9qmON13R9dE//D5xQG1QeMfJOQZX9U8AFLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709044998; c=relaxed/simple;
-	bh=3Dn5Z7gs9ooWjrdQoGkSDWdaFikj6YkWqQme8khskjU=;
+	s=arc-20240116; t=1709044999; c=relaxed/simple;
+	bh=srhZSGHJfqjamOi38mDY3sqIKVh91zvLP9E2PCX7pZw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=becLDcLZK4IUWgo+k0EQCJoDUpdVm0T2bKVHDCwDZxKHZC3T+Lz7A6AbICGchqQ66YCR5kMmwoWagz7iNP0y/ZCGBJegZl0/dzEJ5g2qrlfJZUMayDcN2TZUFiInhe/T8svSvH16hlz7q2rbuPaCWYyD9leQ5w/Z8ZX7GaJMqxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TZTSyRxl; arc=none smtp.client-ip=217.70.183.200
+	 In-Reply-To:To:Cc; b=jMOa7c5BQ03rkdvt428X4QxHluDfqNK3c/5J+XQixrLcDOcHAf5AjwrvVxg2j8WUX21Cjtokmvh3ZyD+mdqUUCb8l5kqhDhlyaSmzSIHDeMM2S3Q/reJkIfC85w/lnFCVUNJFxho6Ed2ggfYombRQRaY92uIjVVKw7ZmmxvkieM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=n51Vs6tL; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TZTSyRxl"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2612220014;
-	Tue, 27 Feb 2024 14:43:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="n51Vs6tL"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7667D20008;
+	Tue, 27 Feb 2024 14:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709044988;
+	t=1709044994;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=AT7HF8blg+QUl+1AkEF4c8gKh4Um8SfTBovXNKYLb20=;
-	b=TZTSyRxlWWjFgduXF3LReHlKZFl749ZA2QVAkyNuvPYKGn3Oeqoe6CySRaIxmibXvUEXB/
-	T4WAxdXbTvZqAL+zcbgYdQyniUof6/P436iQDZB6BK4S2n+Ndujfz4K45S5GMSo7hdk0ev
-	h+STWA9s5YX3Gj9MnFnf1VZNAJfVj4tyUVbgnSPe2amE1Wi8QLOiExsQQRYh4uAvW4HiPt
-	qAshu0f1bO1oSseyJgM3xGgb8SM0TzosZ5HQqxjUh31NPMvZUuIjJ2ikyE1na/KcjU5YZ0
-	UibA57DEdoeSLE9mTMPF6TXtJi4Zht9pELJMCdSxix/xb0oS3TN3u4nWgoqHDw==
+	bh=duNhzLlF0+xqYz4mZG+pOzHJttp5EnGEWcAEv3AyFYY=;
+	b=n51Vs6tL+qv3/ny7CmGighUDi5RG9B+OKfWpnnLvhxWcmxnAJFZpn+eB+5EX6On9AaE3tv
+	0ciVt4vgJuUlkSDkPAB7OzR58uTW+r96jm5nDFW7qHMOKktA1MDTc7FBSJMyOHrJy46aTX
+	djZvtxVcCntrJUqYsEmuFRiUkANWnmUK5VShciE7JkREB1PPNmrZq7dA2mcw11xPVdnlw2
+	hB8G/WNL9CZtfsG5rlJY7HE87vGTPwS0jtKBn0bQtY6fVmLmLTvBtdHG9y6MXchsDFYd5R
+	rNKdhFqZPi3xKA1llPMeKsDIp5HYLpw4ALHBiYVJ5YT1vznH7ykoGhb4R911rg==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 27 Feb 2024 15:42:44 +0100
-Subject: [PATCH net-next v5 02/17] of: property: Add fw_devlink support for
- pse parent
+Date: Tue, 27 Feb 2024 15:42:49 +0100
+Subject: [PATCH net-next v5 07/17] netlink: specs: Modify pse attribute
+ prefix
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240227-feature_poe-v5-2-28f0aa48246d@bootlin.com>
+Message-Id: <20240227-feature_poe-v5-7-28f0aa48246d@bootlin.com>
 References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
 In-Reply-To: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -64,8 +64,8 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-This allows fw_devlink to create device links between consumers of
-a PSE and the supplier of the PSE.
+Remove podl from the attribute prefix to prepare the support of PoE pse
+netlink spec.
 
 This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
 
@@ -73,32 +73,56 @@ Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
-Changes in v3:
-- New patch
----
- drivers/of/property.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v2:
+- Add the ethtool auto generated code.
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index b71267c6667c..c14001d40cd2 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -1240,6 +1240,7 @@ DEFINE_SIMPLE_PROP(leds, "leds", NULL)
- DEFINE_SIMPLE_PROP(backlight, "backlight", NULL)
- DEFINE_SIMPLE_PROP(panel, "panel", NULL)
- DEFINE_SIMPLE_PROP(msi_parent, "msi-parent", "#msi-cells")
-+DEFINE_SIMPLE_PROP(pses, "pses", "#pse-cells")
- DEFINE_SUFFIX_PROP(regulators, "-supply", NULL)
- DEFINE_SUFFIX_PROP(gpio, "-gpio", "#gpio-cells")
- 
-@@ -1344,6 +1345,7 @@ static const struct supplier_bindings of_supplier_bindings[] = {
- 	{ .parse_prop = parse_backlight, },
- 	{ .parse_prop = parse_panel, },
- 	{ .parse_prop = parse_msi_parent, },
-+	{ .parse_prop = parse_pses, },
- 	{ .parse_prop = parse_gpio_compat, },
- 	{ .parse_prop = parse_interrupts, },
- 	{ .parse_prop = parse_regulators, },
+Changes in v3:
+- Remove the ethtool auto generated code.
+---
+ Documentation/netlink/specs/ethtool.yaml | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 197208f419dc..33e81fa189ca 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -878,17 +878,17 @@ attribute-sets:
+         type: nest
+         nested-attributes: header
+       -
+-        name: admin-state
++        name: podl-pse-admin-state
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+       -
+-        name: admin-control
++        name: podl-pse-admin-control
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+       -
+-        name: pw-d-status
++        name: podl-pse-pw-d-status
+         type: u32
+-        name-prefix: ethtool-a-podl-pse-
++        name-prefix: ethtool-a-
+   -
+     name: rss
+     attributes:
+@@ -1571,9 +1571,9 @@ operations:
+         reply:
+           attributes: &pse
+             - header
+-            - admin-state
+-            - admin-control
+-            - pw-d-status
++            - podl-pse-admin-state
++            - podl-pse-admin-control
++            - podl-pse-pw-d-status
+       dump: *pse-get-op
+     -
+       name: pse-set
 
 -- 
 2.25.1
