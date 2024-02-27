@@ -1,147 +1,94 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8601B1DFF0;
-	Tue, 27 Feb 2024 10:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7873D137C36;
+	Tue, 27 Feb 2024 10:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709030076; cv=none; b=YDWxLdQisWVxGY0QY0U44gp0ZAx0w/KefpkmDRDeUWZFd8VLlHxZIU2KAvEye39R54OxBa/a3oWEtVR0+4DvUvwMUkJCqO4avL0gffO+98yG9f9vbJSy2ix3BfCkwDX7VdhqRIYo0Bl/G48F7vGmjG0iPZ6gdBO+vQclnxM0Rkg=
+	t=1709030816; cv=none; b=LuUXgZzW77uvOb/1VJM+WpX/64VWuCx4a3pQ2SnNOUejMl1FJMZapBRUEpbGx4WAK0ylFd92tTClDKg1q7bQUihoTt2iM7GMS+4iNnGCkpHRVISPvj34RKZf97QfSjtyRBMJfGIDO0xPN2fU77Igja3lTTWEoq77cgg5S93xozg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709030076; c=relaxed/simple;
-	bh=rq30rbnIvctTRtsZdN+r5jwNIkoDDZRInFyNbgXLyHo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UcekGOgyS/NsUj86wjFlNa3HrVh5szNXCHX4rCJC+hz1XwdyyU1NzXvb0KGLCQC18TYfZG0gYbOPkcUk3KR3o1QuN1tLl9wl6GsqOCss0w097wJ7Hy8XffFN7+LNPVYpAZzVheAQ3K6TOUnvWpEQMjbKeqhjVtBZqshsb0pherA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4TkYdS29fTz6J9Zy;
-	Tue, 27 Feb 2024 18:29:48 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id F26F614058E;
-	Tue, 27 Feb 2024 18:34:24 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 27 Feb
- 2024 10:34:24 +0000
-Date: Tue, 27 Feb 2024 10:34:23 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: John Groves <John@groves.net>
-CC: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, "Dan
- Williams" <dan.j.williams@intel.com>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Jan
- Kara" <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <john@jagalactic.com>, Dave Chinner
-	<david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>,
-	<dave.hansen@linux.intel.com>, <gregory.price@memverge.com>
-Subject: Re: [RFC PATCH 09/20] famfs: Add super_operations
-Message-ID: <20240227103423.0000510e@Huawei.com>
-In-Reply-To: <z3tnfxbbvhtbyantbm3yr3yv2qsih7darbm3p5pwwdsknuxlqa@rvexwleaixiy>
-References: <cover.1708709155.git.john@groves.net>
-	<537f836056c141ae093c42b9623d20de919083b1.1708709155.git.john@groves.net>
-	<20240226125136.00002e64@Huawei.com>
-	<z3tnfxbbvhtbyantbm3yr3yv2qsih7darbm3p5pwwdsknuxlqa@rvexwleaixiy>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1709030816; c=relaxed/simple;
+	bh=XHyReOttpij5I54r5x4WgZ+cIyUHaBfTMin6OfRWlGU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B/bRKfKIRC7H3Tv8z7J7dXq7GXmFw1282UuNk2O7suUbFEwpRrL1B6KkqDj0fCmbbO/YXp9DRm6P9FpZouKhnm7BygNbEtUIgW8QEsmuLqOh5n7CHOzo2oodEW032+PY7Ga5qDsZN1KKBhevVvFXBjdF3DMcLNR7SnGt4n6XovE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y0VpuCvd; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0VpuCvd"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29996cc6382so2780508a91.3;
+        Tue, 27 Feb 2024 02:46:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709030815; x=1709635615; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XHyReOttpij5I54r5x4WgZ+cIyUHaBfTMin6OfRWlGU=;
+        b=Y0VpuCvdBt7C1P4kfCsaRV6cDqPio2fHc6Zm+TSwT0nPq5r5Y3nJGqMzGPzZkKpuFH
+         //QPWPoLf4ZCtxJvqj/7MAvZma1FfqPGozfoK7v6Ts0pUK4IPFJpAYnN68/6KEbMNm92
+         IX6ZsnOuGtHioByp/x5EnDazkB2/bGkx9ZHTxA7uztHCP08GT+PGMxyZRykbSpDX/jY8
+         Ar3D7/EgId+u/ce84Xk3FerDVWlMayvqPCP9X7rbil61XGhVV2i5KtqrUSkei3R2DYZT
+         2LWX/rG6318GlSPAWercAIH+Ytj/r3N0KExrWjI5CW5sTIIJIxnCjmKuadv1Vq4327/d
+         pEoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709030815; x=1709635615;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XHyReOttpij5I54r5x4WgZ+cIyUHaBfTMin6OfRWlGU=;
+        b=tKi8IJT0Jz5ze/GtUF+2YVifKUpqoF8xmng+xraIGsHCM83yXoRl5JTNeIED9mCU5k
+         cp/ths5hRJtWOcsZFJ+vT78KOzHAxie+gMMVt1nl5iz2Hzj3LsGGbUeXc6CD02aIuQ8+
+         wo5WCc5xb0h/Ap5mWxieVm1MKQUnuPTK3rYpk92y3NRvGt9/q4CrCScykbkg6O7sbBha
+         HWjQS4R4bory2Oc8ynTfdl4rSwC73j5OTHRxGNWtVIZpB1dTsDqpJVcn95IZ3qMWTlzR
+         xac43oxmWNOWe/b07xAqusN2nCDHjUjFx8BwPXBDIRk6uGdGqTBx+48e8nhRZw8V7+ac
+         ikVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU4QJ5rf6vbtDLgcZ7MVihOA8Z6Ax5p06uTnLs7WAaTzAKqUARrtWnnn9tP9CfzqXbxoiPDXQj1nI2SR+QBoIQ8JKPZJBAbH7TIPRURzXE8fpshl1J0pB/M69ASGrLFqy2P3wyfdn2MB6eVL8xPz/EXjfjR0EDXaib8/GiV9/Zdz641cS0qv+M=
+X-Gm-Message-State: AOJu0Yz105ynEUacs47HD2UM3aLG6Acbknfqa3yPZ6XX/sMOQQ6uuxWP
+	wGz1X7nhL88++q3pHnZAl/OXYWeXwS0+dxTnyke7qeKv5ou6EIXpRJ1KlpLM9ER1mNSctd+5xPL
+	95dpBN7ZOVWZwYPvCRGDSGgdU/1Y=
+X-Google-Smtp-Source: AGHT+IHM+6rRS1JfIDKhTWqLKrWosGlB3CKAX90C0/Xd3mVu0FyLDdjQsn5XBbm5H/3r+xFgrsAmb7KF3ofv00QMlG8=
+X-Received: by 2002:a17:90a:e018:b0:29a:ce5f:4da1 with SMTP id
+ u24-20020a17090ae01800b0029ace5f4da1mr3644307pjy.8.1709030814815; Tue, 27 Feb
+ 2024 02:46:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-employee-pessimism-03ba0b58db6b@spud>
+ <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com> <20240227-resolved-deceit-4a59a6af5b71@wendy>
+In-Reply-To: <20240227-resolved-deceit-4a59a6af5b71@wendy>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 27 Feb 2024 11:46:42 +0100
+Message-ID: <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on RISC-V
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 26 Feb 2024 15:47:53 -0600
-John Groves <John@groves.net> wrote:
+On Tue, Feb 27, 2024 at 11:17=E2=80=AFAM Conor Dooley
+<conor.dooley@microchip.com> wrote:
+>
+> Sure, I'll take a look.
 
-> On 24/02/26 12:51PM, Jonathan Cameron wrote:
-> > On Fri, 23 Feb 2024 11:41:53 -0600
-> > John Groves <John@Groves.net> wrote:
-> >   
-> > > Introduce the famfs superblock operations
-> > > 
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  fs/famfs/famfs_inode.c | 72 ++++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 72 insertions(+)
-> > >  create mode 100644 fs/famfs/famfs_inode.c
-> > > 
-> > > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > > new file mode 100644
-> > > index 000000000000..3329aff000d1
-> > > --- /dev/null
-> > > +++ b/fs/famfs/famfs_inode.c
-> > > @@ -0,0 +1,72 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * famfs - dax file system for shared fabric-attached memory
-> > > + *
-> > > + * Copyright 2023-2024 Micron Technology, inc
-> > > + *
-> > > + * This file system, originally based on ramfs the dax support from xfs,
-> > > + * is intended to allow multiple host systems to mount a common file system
-> > > + * view of dax files that map to shared memory.
-> > > + */
-> > > +
-> > > +#include <linux/fs.h>
-> > > +#include <linux/pagemap.h>
-> > > +#include <linux/highmem.h>
-> > > +#include <linux/time.h>
-> > > +#include <linux/init.h>
-> > > +#include <linux/string.h>
-> > > +#include <linux/backing-dev.h>
-> > > +#include <linux/sched.h>
-> > > +#include <linux/parser.h>
-> > > +#include <linux/magic.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/uaccess.h>
-> > > +#include <linux/fs_context.h>
-> > > +#include <linux/fs_parser.h>
-> > > +#include <linux/seq_file.h>
-> > > +#include <linux/dax.h>
-> > > +#include <linux/hugetlb.h>
-> > > +#include <linux/uio.h>
-> > > +#include <linux/iomap.h>
-> > > +#include <linux/path.h>
-> > > +#include <linux/namei.h>
-> > > +#include <linux/pfn_t.h>
-> > > +#include <linux/blkdev.h>  
-> > 
-> > That's a lot of header for such a small patch.. I'm going to guess
-> > they aren't all used - bring them in as you need them - I hope
-> > you never need some of these!  
-> 
-> I didn't phase in headers in this series. Based on these recommendations,
-> the next version of this series is gonna have to be 100% constructed from
-> scratch, but okay. My head hurts just thinking about it. I need a nap...
-> 
-> I've been rebasing for 3 weeks to get this series out, and it occurs to
-> me that maybe there are tools I'm not aware of that make it eaiser? I'm
-> just typing "rebase -i..." 200 times a day. Is there a less soul-crushing way?
+Thanks!
 
-Hmm. There are things that make it easier to pick and chose parts of a
-big diff for different patches.  Some combination of 
-git reset HEAD~1
-and one of the 'graphical' tools like tig that let you pick lines.
+> Nah, I think that is silly. Either this goes in as-is, and there's
+> fixup done by Linus, or the thing should be converted to match arm64,
+> assuming that that is possible.
 
-That lets you quickly break up a patch where you want to move things, then
-you can reorder the patches to put them next to where you want to move
-changes to and rely on git rebase -i with f or s to squash them.
+Ah, so you are going for 6.9 too? I can give the series a try on my
+side in that case. When do you plan to apply them?
 
-Figuring out optimum path to the eventual break up you want is
-a skill though.  When doing this sort of mangling I tend to get it wrong
-and shout at my computer a few times a day ;)
-Then git rebase --abort and try again.
-
-End result is that you end up with coherent series and it looks like
-you wrote perfect code in nice steps from the start!
-
-Jonathan
-
-
+Cheers,
+Miguel
