@@ -1,173 +1,119 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C78955E63;
-	Tue, 27 Feb 2024 11:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C8F137C20;
+	Tue, 27 Feb 2024 12:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709034951; cv=none; b=bGCP3czXiU6gJ6S0IO6jpdN9rPUCG9kL7P7DuS26yFygU6eciG1f4hxVi4NPZ6tISWc977vZUZJLWZE0XUtBlfXtEM1GtwtzDRBtvAsTIfXsBrFy0oftxIrW6vU7ziWDZy9yvXEq+hGjHrn5MhdxszMeMgTzzmCudkaBt1YNnDI=
+	t=1709035697; cv=none; b=lPT+vCSgt9jgAIKDWsF/JiM3Ytuh5wLCeh1BmAuF2uuVBlXPTJqu53lNgDWxUOPw8+nXLXBSnDnYhWWx/Wta8xxm+BOsDQe4KR1/VITF+ZrpvKWJxVL+AugbdE3MZ61w1w6X7uTcN64/Oxn2bSs9fF6ijMp2rpYKm+yaaq2AxQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709034951; c=relaxed/simple;
-	bh=RfddnnU8S+jV++kMOxgI3dSukhFkW631ZIFHHadg1VA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bz4Ms1m0k8nYKgJJHKhujV9Mgs/hhtAHGVKZJ5IA9RcGTDnVgYwQmqY/RbnkTH4f6VneDJisnMG7yUfpWELUPIxunzucj3wb190YFIVxnmjhxs7iZUm0sDzvZCzqnPB9nrLEMYk3lzAg6R/YbwdQtKOUxuGQlJapQ2BMPLw1wtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GibmauCk; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709035697; c=relaxed/simple;
+	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qIu6A+sgTD3lzGRrHUzM0ISvDwwTjbYh8FOPWO/DE8Gzj/srQGKcOrMeonvxYdty8sfpFq63jtpEyn8MxTqSHVHCKBOpdP/2CacP99dupwOi1Vq10PVcA2I86GLsEWhQuoSGG4xPcQmhztphDd55kiVPVD4vQA1y2gB8B5FSivE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPcOhAiN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GibmauCk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709034948;
-	bh=RfddnnU8S+jV++kMOxgI3dSukhFkW631ZIFHHadg1VA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GibmauCkTF0b1YsFR4GI6l3k2A3/qVIQNfjNNTsfBcVN1FH1zofdiiC0fUrCMlGuR
-	 04PyiPtkc6jbCWN8RN/wmp0kxKFk8+M0ClgZ1e54qMZ+GLl5FfU69B0FweAcfI1R7f
-	 LiZ4u34RG6sls+w1ULDn/7QfXMnNnmGZMqEt2LlOg+kcUEpoI8FeaBoomgx4C4HnzD
-	 Xbx0qXDCqzPdMuiqRvFiKCDvto8w+zhwsmEvCyYnzrFSlt3hZEv2H4ogB4vY8/BSSx
-	 HeulD0NXJ0X9YnTbCgEegARZxAyWZdUCLiCLqpvYanJHRaYa/Qb49AOOoytpCIaFD7
-	 mVm5c/DnDuYsQ==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 59C6B37820CC;
-	Tue, 27 Feb 2024 11:55:47 +0000 (UTC)
-Date: Tue, 27 Feb 2024 13:55:45 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Message-ID: <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
-In-Reply-To: <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
-	<20240227111941.061a2892.pekka.paalanen@collabora.com>
-	<8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPcOhAiN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9B4C43390;
+	Tue, 27 Feb 2024 12:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709035697;
+	bh=ACaz7oj5ReqFoIR72ebNJXl994t4BOU7shgO5K8CUjs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rPcOhAiN2PtkNLYRBMqmRiMbDR6p59SbOgdUHY6MdY/GfepvdtHrN4RR9v1sZYqf6
+	 jGI2QQj99JWnXpmDj76LwUn5WOEnN2l8plI/Woy9JymhacQ8VopW5b3x8MDmW6BR3I
+	 1mhXEPNwYTypLA8EvT5QrKq5WyQSqfjz/WuF4zmZbFCzvBEEroimeIedS523uwhWc0
+	 uq2irP6Mmsab/1y0zyVOZI3iqcQ1Tt+elVYtsRMaL5qiHIHNgePfxDPrjcFVWcmbyP
+	 nzPJdHwMz3keyVrdNrECnvtckEFIcLNcawWXousAOSunIXQ/sdzf7RMhsqiuz0ENoH
+	 NKhxbGiV9gDEw==
+Date: Tue, 27 Feb 2024 13:08:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 25/36] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <lxvyfigepzg4jhqub6lg6lmffen4puf477zjxmi766f3hu6trn@nnvg6htufsjn>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-25-8f4af575fce2@kernel.org>
+ <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/A2mWu+vSdQNKM_BZwjnjD0Q";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ocit6yam46alzc5t"
+Content-Disposition: inline
+In-Reply-To: <CAA8EJpri_whY8YfX2BsBjMN_4JvFsU-ogfr1W-KUKrasRoH-WQ@mail.gmail.com>
 
---Sig_/A2mWu+vSdQNKM_BZwjnjD0Q
-Content-Type: text/plain; charset=US-ASCII
+
+--ocit6yam46alzc5t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 27 Feb 2024 08:44:52 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
-
-> On 27/02/24 06:19, Pekka Paalanen wrote:
-> > On Mon, 26 Feb 2024 17:42:11 -0300
-> > Arthur Grillo <arthurgrillo@riseup.net> wrote:
-> >  =20
-> >> Now that we have a defined benchmark for testing the driver, add
-> >> documentation on how to run it.
-> >>
-> >> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> >> ---
-> >>  Documentation/gpu/vkms.rst | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> >> index ba04ac7c2167..6d07f79f77ff 100644
-> >> --- a/Documentation/gpu/vkms.rst
-> >> +++ b/Documentation/gpu/vkms.rst
-> >> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run=
- the entire test::
-> >>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device=
- "sys:/sys/devices/platform/vkms"
-> >>    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/km=
-s_flip --run-subtest basic-plain-flip
-> >> =20
-> >> +If you are developing features that may affect performance, you can r=
-un the kms_fb_stress =20
-> >=20
-> > s/can/must/
-> >  =20
-> >> +benchmark:: =20
-> >=20
-> > before and after, and report the numbers. =20
+On Sun, Feb 25, 2024 at 05:02:51PM +0200, Dmitry Baryshkov wrote:
+> > @@ -476,6 +478,7 @@ EXPORT_SYMBOL(drmm_connector_init);
+> >   */
+> >  int drmm_connector_hdmi_init(struct drm_device *dev,
+> >                              struct drm_connector *connector,
+> > +                            const char *vendor, const char *product,
+> >                              const struct drm_connector_funcs *funcs,
+> >                              const struct drm_connector_hdmi_funcs *hdm=
+i_funcs,
+> >                              int connector_type,
+> > @@ -485,6 +488,13 @@ int drmm_connector_hdmi_init(struct drm_device *de=
+v,
+> >  {
+> >         int ret;
+> >
+> > +       if (!vendor || !product)
+> > +               return -EINVAL;
+> > +
+> > +       if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
+> > +           (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+> > +               return -EINVAL;
+> > +
+> >         if (!(connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIA ||
+> >               connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB))
+> >                 return -EINVAL;
+> > @@ -500,6 +510,12 @@ int drmm_connector_hdmi_init(struct drm_device *de=
+v,
+> >                 return ret;
+> >
+> >         connector->hdmi.supported_formats =3D supported_formats;
+> > +       strtomem_pad(connector->hdmi.vendor, vendor, 0);
+> > +       strtomem_pad(connector->hdmi.product, product, 0);
+> > +
+> > +       ret =3D drmm_mutex_init(dev, &connector->hdmi.infoframes.lock);
 >=20
-> Did you mean to write the benchmarks logs here?
+> I'd suggest moving this call to the generic __drm_connector_init().
+> This way no matter how the rest of the drm code (mis)uses the
+> connector, the lock is always present and valid.
 
-I mean people should be required tell their before and after numbers in
-either commit message (my preference) or in series cover letter (if
-benchmarking commits is not useful).
+Yeah, that makes sense, I'll change it.
 
-With the addition of YUV support in VKMS, maybe the benchmark needs to
-start printing YUV numbers separately as a new case.
+Thanks!
+Maxime
 
-
-Thanks,
-pq
-
->=20
-> >  =20
-> >> +
-> >> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/pl=
-atform/vkms"
-> >> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchmar=
-ks/kms_fb_stress =20
-> >=20
-> > Do people need to run both commands? =20
->=20
-> No, they don't, just two options.
->=20
-> Best Regards,
-> ~Arthur Grillo
->=20
-> >=20
-> > Anyway, a good idea.
-> >=20
-> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> >=20
-> >=20
-> > Thanks,
-> > pq
-> >  =20
-> >> +
-> >>  TODO
-> >>  =3D=3D=3D=3D
-> >> =20
-> >>
-> >> ---
-> >> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-> >> change-id: 20240226-bench-vkms-5b8b7aab255e
-> >>
-> >> Best regards, =20
-> >  =20
-
-
---Sig_/A2mWu+vSdQNKM_BZwjnjD0Q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--ocit6yam46alzc5t
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXdzcEACgkQI1/ltBGq
-qqc8SA//bU98zQBK+jIEVhc/aP0I7notpot6B1M0AFjUka9CgrjdKa5KKWjZspUy
-uCkPYdDHLqIEq3rhABUlxhIscQZDeNPWbkau6abaf/jhlrRytwwJ9tP2CKhjX6HE
-WADwmKjRQwBYyxVmAXA++4abB818zfniZN1VbpgHlHiiZTsM0Y/Ck9PCl2sKhzpp
-ANI3HvYyRiYnvYJuIRrGsE6t8JCFglUx8C4yaNlma+N7N7nzel+lMw2RjE7cprNc
-1kBXj/fo3RvrhPv6e84YxfzXNSOnKo9PBEgWw2srapFIXf9Y3GnyU2kuX/lsoilv
-gekCWYdaDTwraTJOsmLAHTtKFF554Ab1KGx+S5rx6QBPDg5/8F9KDYd43KEGzfkg
-mGl0Up0UIqhdb5ioiXrFAkcwQ7+ChpqNj1Tr0dsiyiqWu7T6VQFWK2PBrATJ6ONI
-hv/v0GSFzyBOVjSt5J0PbKZkqYYxwbCRjdpAjlxCyCkc3GaJEnRwRjNnVx6foz/m
-xs4kLSo1XwRuGz0u6Vjt6xxecMEBulmoHKK+wQsHRThr96BSdPL5OAI86lZOvFrF
-sRIycPX+SFR17AiQfyxYByUPrqzr6kHpAosBeEZ6N9gIUGNGSoOBijzRR+HoayoJ
-gu6f4ssszr4qskgMqvNSDQnxhtBpJj2JN4IdXTZ2R4FwesuXmFw=
-=dsHb
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3QrgAKCRDj7w1vZxhR
+xUw4AQDY/7kZ7wFpO+/Ak/W0YWywU3LNZ5pkN4Om9GBNtAUK6wD/YV9OiFjDhmlL
+sW/aBGeDNa/yzjkkc0NKa5D6dGQe5Qc=
+=FJc2
 -----END PGP SIGNATURE-----
 
---Sig_/A2mWu+vSdQNKM_BZwjnjD0Q--
+--ocit6yam46alzc5t--
