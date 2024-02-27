@@ -1,145 +1,187 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA34C136663;
-	Tue, 27 Feb 2024 09:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC49A13666C;
+	Tue, 27 Feb 2024 09:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709025588; cv=none; b=OwHWQfgEY6dPSfmdI+e2JX9eMw05M30SSjuw4PIIJV3ec94k4bvzs0+v+RtYF85OkbT88u3ntiqWGLUq3mo7ajrkFSirZXudBMFKj/jMTRmjGlkSLCpmRU4CIhhj7N+FKDRGXkuMR/2ppXrHrpgp6MiHokmX9iYEBA0vrygcjzI=
+	t=1709026226; cv=none; b=drXh6wcpussbbufYADZA/iRclTTL582kwyj54XwIrb+HGF1X7co2qACs1Ol/PLYU4O33F6KhRHrMV/EjAKSx93JUiNlBjGINV2uEl21JUvlWWDORW9+PZs6GpBTXOepLvSik6Dprz7mJ9tWKBEQn6aGkvmjlSSvNUWC6q5/bUeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709025588; c=relaxed/simple;
-	bh=C/oFzRJOAX2fab2jouBghp4z46x7LVa76qoFEBIuBbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rC9SfvY7FLBovNOskdgfHlfknL+5AQmemcY84dhyKwiBE+s8AeH+lmC/y3CRpY7/d4f0XSJuwBEpzwWznANLz6WR+3JUPbKctoAt11bKlAaDiyQMXaAfuug2uQQFmJShM6UgpKSHN7XlTAMp9bDYQNrg9n9P7SKdR3usLFFK2+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LrYgYKBI; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709026226; c=relaxed/simple;
+	bh=V8bBaiplfc/wVHe6wlfGo3JD6VOdJZwSExMn/u7zeBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lJ+U0v/ydk0CPSIrlTHKn0xrLx7LZnNN83Tut8NEJ8QN5Bl4anATE3EzLdjGiN7Pu23TDDstUJZG+lhtCqEi6liVtRMSFHX40Tn+JMn8IuzzN/B+mZ4KCUck6NPvvhBJo/owIS7vvMEssNEgCSmARSOsJ8fuVgWKXoBhU0JClb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0+Xj01Kk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=a5suGYZ0; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0+Xj01Kk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=a5suGYZ0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LrYgYKBI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709025583;
-	bh=C/oFzRJOAX2fab2jouBghp4z46x7LVa76qoFEBIuBbo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LrYgYKBI6DOH/pc/J7Ecmx7ttT5KIkffirla/dzc3bn81fLzhQgOIG0tqaHxOQO6G
-	 AHPdsi75rlq8QALWaEZFFOLMnlrwoXdsyiKk1xsOWeCWk0onAN0CikzdPDo16tMImq
-	 YWJoWwdmHwyZJ2+OdFQqiXuT0KSOEPJFHGHxbPSZta5y8ETLSOXTSr2mLb5OQZNC3s
-	 s+odA/MNkmLG6eIeSllVJiRBIhw9QL149crogYPIumL5bSoOWKlU6Pj6wpLYakO+TV
-	 pp6ucS/gstI4ep3IVMV1VXKk+6DvsLdZwz2Eq67loRYD2p2//hDR5NVtGUB+d7f1pL
-	 x82SfNoMjKwAg==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0+Xj01Kk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="a5suGYZ0";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0+Xj01Kk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="a5suGYZ0"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 132A13781FA4;
-	Tue, 27 Feb 2024 09:19:43 +0000 (UTC)
-Date: Tue, 27 Feb 2024 11:19:41 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Arthur Grillo <arthurgrillo@riseup.net>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
- <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Message-ID: <20240227111941.061a2892.pekka.paalanen@collabora.com>
-In-Reply-To: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0888121F39;
+	Tue, 27 Feb 2024 09:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709026222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2tfyNx8Ewzx9RhyM+EFV+xT647ehMQIa9lFPRNlyECQ=;
+	b=0+Xj01KkKvhGJdcjtMAWzvJi7m2CYOxjq5YrvrR72FrAbBnNksgWTG3mO/sjQJxliG0g07
+	y5XsdIYk5XIw4V9w/uFGbV+ho5g2Z79tZZHX9Z5MisAFZaNbg0ho00u47ApDjRWrG0I7x9
+	LSiAQEtP8rShQ5r3WMB7RTCprO6zAnM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709026222;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2tfyNx8Ewzx9RhyM+EFV+xT647ehMQIa9lFPRNlyECQ=;
+	b=a5suGYZ0cgpf5Gj/Tn3aV8oNvMw4mA2P70HXJT8NNRif7MsKFvRRBqOmJe+FSffjbyvyAG
+	BTUMPoP/9cEiW9CQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709026222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2tfyNx8Ewzx9RhyM+EFV+xT647ehMQIa9lFPRNlyECQ=;
+	b=0+Xj01KkKvhGJdcjtMAWzvJi7m2CYOxjq5YrvrR72FrAbBnNksgWTG3mO/sjQJxliG0g07
+	y5XsdIYk5XIw4V9w/uFGbV+ho5g2Z79tZZHX9Z5MisAFZaNbg0ho00u47ApDjRWrG0I7x9
+	LSiAQEtP8rShQ5r3WMB7RTCprO6zAnM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709026222;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2tfyNx8Ewzx9RhyM+EFV+xT647ehMQIa9lFPRNlyECQ=;
+	b=a5suGYZ0cgpf5Gj/Tn3aV8oNvMw4mA2P70HXJT8NNRif7MsKFvRRBqOmJe+FSffjbyvyAG
+	BTUMPoP/9cEiW9CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B04E513A58;
+	Tue, 27 Feb 2024 09:30:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QuGyKq2r3WW8cgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 27 Feb 2024 09:30:21 +0000
+Message-ID: <72cc5f0b-90cc-48a8-a026-412fa1186acd@suse.cz>
+Date: Tue, 27 Feb 2024 10:30:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Al3K0O_fW7VTKwg+hyaw9T9";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/36] lib: introduce support for page allocation
+ tagging
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+ ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-16-surenb@google.com>
+ <d6141a99-3409-447b-88ac-16c24b0a892e@suse.cz>
+ <CAJuCfpGZ6W-vjby=hWd5F3BOCLjdeda2iQx_Tz-HcyjCAsmKVg@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CAJuCfpGZ6W-vjby=hWd5F3BOCLjdeda2iQx_Tz-HcyjCAsmKVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [1.39 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-0.02)[52.97%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 RCPT_COUNT_GT_50(0.00)[74];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Level: *
+X-Spam-Score: 1.39
+X-Spam-Flag: NO
 
---Sig_/Al3K0O_fW7VTKwg+hyaw9T9
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 26 Feb 2024 17:42:11 -0300
-Arthur Grillo <arthurgrillo@riseup.net> wrote:
-
-> Now that we have a defined benchmark for testing the driver, add
-> documentation on how to run it.
->=20
-> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> ---
->  Documentation/gpu/vkms.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index ba04ac7c2167..6d07f79f77ff 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run th=
-e entire test::
->    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "s=
-ys:/sys/devices/platform/vkms"
->    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/kms_f=
-lip --run-subtest basic-plain-flip
-> =20
-> +If you are developing features that may affect performance, you can run =
-the kms_fb_stress
-
-s/can/must/
-
-> +benchmark::
-
-before and after, and report the numbers.
-
-> +
-> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platf=
-orm/vkms"
-> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchmarks/=
-kms_fb_stress
-
-Do people need to run both commands?
-
-Anyway, a good idea.
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
 
-Thanks,
-pq
+On 2/26/24 18:11, Suren Baghdasaryan wrote:
+> On Mon, Feb 26, 2024 at 9:07 AM Vlastimil Babka <vbabka@suse.cz> wrote:
+>>
+>> On 2/21/24 20:40, Suren Baghdasaryan wrote:
+>>> Introduce helper functions to easily instrument page allocators by
+>>> storing a pointer to the allocation tag associated with the code that
+>>> allocated the page in a page_ext field.
+>>>
+>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>>> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+>>> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+>>
+>> The static key usage seems fine now. Even if the page_ext overhead is still
+>> always paid when compiled in, you mention in the cover letter there's a plan
+>> for boot-time toggle later, so
+> 
+> Yes, I already have a simple patch for that to be included in the next
+> revision: https://github.com/torvalds/linux/commit/7ca367e80232345f471b77b3ea71cf82faf50954
 
-> +
->  TODO
->  =3D=3D=3D=3D
-> =20
->=20
-> ---
-> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
-> change-id: 20240226-bench-vkms-5b8b7aab255e
->=20
-> Best regards,
+This opt-out logic would require a distro kernel with allocation
+profiling compiled-in to ship together with something that modifies
+kernel command line to disable it by default, so it's not very
+practical. Could the CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT be
+turned into having 3 possible choices, where one of them would
+initialize mem_profiling_enabled to false?
 
+Or, taking a step back, is it going to be a common usecase to pay the
+memory overhead unconditionally, but only enable the profiling later
+during runtime? Also what happens if someone would enable and disable it
+multiple times during one boot? Would the statistics get all skewed
+because some frees would be not accounted while it's disabled?
 
---Sig_/Al3K0O_fW7VTKwg+hyaw9T9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXdqS0ACgkQI1/ltBGq
-qqfGJRAApGG99tBnUJJr8a9IT2dsMQqZ46B5JVGCsYV1IR8pQOa7XIuuXgla19vF
-HcIiUw0SZDclUtRiK5K1p1S6VPR65Yr0wrfBGlmjJDOOoWuGwEcfPbs8e7KThpxr
-pA55UAzznjP2jXpY70ef5FE4wAbM7Q48zdEjoOd7OREkKMPjuMW0IfuQdGZp7YjZ
-RzPZPhnqVChBkRwYD5mWs8Au/gMZkaIMedg8hyAhimO6h1GDNA2GMqEFr1DSYv8A
-TBG/mkIWlCGmb+j6+V7EQzoDZODASTjtf+KRqDlQnfpZB63UnOvt83mqABUM1wYt
-ltVilQfRO3gUJYbqZchCKj5kce91amQydbnlwgtdeue5JZUYx9XUk6Pz9lOysysV
-UpCbYTKytIrS+owxhxbsCcsq0P2xeV9g+jT07ZjLU9K78XnKMeL4Tzf+8ssEfWKS
-zVmBDhaKA0l2RRBB+Md9sQqwmyCufAAz05mmXOduYSvJhZPolp2vqVpVEkrIfQ76
-Xmuw1AeC4Iz/3zAdlSL0sQ8xauwT+A/MPGaeNEfxBYjMKZj6Q8adQlQ0yFhTCcF/
-+co2b/dSFYu5Pvb0G6nwH9kXGYutsM/BEeY5cXWeqez2U0tegbRSjWX8kxRdQU1i
-cRAfOOIvgzpqMyWHbPrWPf5KVDV0erWwhuVcIfQuEEfWIsKGPao=
-=FQV+
------END PGP SIGNATURE-----
-
---Sig_/Al3K0O_fW7VTKwg+hyaw9T9--
+>>
+>> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> 
+> Thanks!
+> 
+>>
+>>
