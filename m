@@ -1,937 +1,111 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2137A14F987;
-	Tue, 27 Feb 2024 14:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3314213B797;
+	Tue, 27 Feb 2024 14:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709045012; cv=none; b=Bh8C9qpbmP87bBCDozsxRSDsfQdYpdJ6tLQRYb28ZdcjVmPmPHYkIvDg3EYLWQz0f81UNTo+L7eSy1eoEI6IejxcrjbEKaCjypXwdtlp7MHaBARaOHEJ3H203WBCeNnc8jDlNRMNn9k+TxPBgSf7+xKDyH2DcdbCu77nwTj3zTU=
+	t=1709045264; cv=none; b=Ly6Sn9/TPl1opS0jyTxqDC2xkchKcAZjXNnfSV1TWoSR2ZQj5Y0/TaSagLRC9YV1CffdmOfnhLF7VV3OZ2B+tRyW/GJxTqBm8tGwuiOb78E2SxWv35eO+k5ZibV9XtOvsTcNaf3F6b9p/Utyfzqe/LM/sQGxZ9+/UhUr5Vbbk4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709045012; c=relaxed/simple;
-	bh=dCBRxVNmjb00edzf32MNBLzQjRs1GhxEdbP2Tc8n9no=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=erUnWB/FJwidIX3JyN5IjkM/SKI5eoAQmJqYRyLtTqT/zLTrPRqgKZC0gFT/X2d1CcqgdLedNtEq/V8e5ZEeRJ2x+woTtDEnawUzXR9QBr8N9vt/1ixV+/TOVLuJhTjhaL+uxUREBr+1Y916hHsDjwle49fjMQAPfQkXVW5Jc30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k0W0T9yQ; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709045264; c=relaxed/simple;
+	bh=I7STVGxFEhzeUUnynFVCazQYTKSuDkuz5TcCbE8wTBU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gXB1HXQg8zsQH+ot9MzyRUgIpY6/ryWVloarc/dpbQKkMihy0M3b9aMRRbWQsO0waeZj/oQVtF+9VehWwN6x199GniBX4B5h4wyPPviOHBvSJpwGLkd8CzTPJ9vSubvsYF4j7h0qnOuHhNdcc+qAlNL3uQH2XwlfKxEqvdgrc0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5C76UY9; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k0W0T9yQ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4E8BE20016;
-	Tue, 27 Feb 2024 14:43:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709045007;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bM1pd3c8SGDuUigEZcKJlaTFqai08DhOe3/Pi7YlHXU=;
-	b=k0W0T9yQzmurk7E/0mKPblQIn/N8O9ITjMbtWsdtaGtmUSxRX9icGcumdY6I03qoEVGdO0
-	WO870DV+V8JOBCvHO8MOUjD9HKpfa89Jo8s1Xizpv3yEC5st9rFvcYXruVbFMHuzy64Yu+
-	aPlgMEDucI6TU5adjuLwOAP6/Tg1rVntCXmk21d1qdGNDO78fHkdFDfcnnR7NCI3J+4h5f
-	F/Kl6JqbB1O61xVFVGA4Q51OElwz2Ju/V+R22ZQsL3N5KYmprMMojfy26fBlH9wPffeS7G
-	GGf3IZ3a8PCAqabByHgLjlxGD6QUfAi7LAYecrc5HWZKId09zdxXYpZwbLZacw==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 27 Feb 2024 15:42:59 +0100
-Subject: [PATCH net-next v5 17/17] net: pse-pd: Add TI TPS23881 PSE
- controller driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5C76UY9"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-53fa455cd94so3198529a12.2;
+        Tue, 27 Feb 2024 06:47:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709045262; x=1709650062; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YCy743fk4tyJkNw6DXsgUea2FahrCbo/h1GwjkT/m8w=;
+        b=C5C76UY9g/SFjwOxrGGHL3xxdYTWS2UdptMmk9qGB36tQ6jkhYs5uO2GmcMmQp0NL7
+         1M5FwI8UnsiI++/3ci5D4siKDNFNX4Z6tCQXpHVfkdufjyo1BMbq/XqbeL6MrMkG96MJ
+         +Ki0TCrnZHWhFWAc/jP3OQKa0y0bDaUziUCtIqCDECxSNn6SZOCSj0v2u66zFa3WcAlT
+         nHK3XqOBd0Cj9oiDK5uXWeSqxQWOrSur5DnSXkepVYn8OvaHrSYNNqGtjEO9Hh4Vn6AE
+         vWRvty+6CTsf0WDxuEJ+Q8XHGiOlsR/azbT3S93VAEDV8/Lx5NQkTPF5uWpmb4/2tv5M
+         KXPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709045262; x=1709650062;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YCy743fk4tyJkNw6DXsgUea2FahrCbo/h1GwjkT/m8w=;
+        b=dGeXkj8+qnGNXr/CgLaK4eNVSKBxHREoj1Rsq9QPIil8U2Rcn6GV0rb33qAdkPuwQA
+         P+CzGqZeKvO1ZXpmNtxxVGsv4JBuQ2uHn15kbZxZOce3S4VOpN5SNnqwsYezliCBpeOQ
+         jPW5TtfxKRae9ZKngs195kUm0B94md6RzzIXCzOTu+eUW9QL8TOOajFD912PwairqTdu
+         04X1ChFHu7MYyijAKPL+LjKFXpBxL+9wU6MoO9bEsMWuP/wR27DppqNTLUn9n2S0pMWl
+         zYa9QOQJjKmuiFsXdCrmoJPX5tpuJsTf+QUIu//gCLofe5U+xZKZW0SJDU0zE4LISkMp
+         o3aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUk4hqFwG5Tc4ctEptCi4hh4YKJohrLMPe9yrnpMNn/S30dwYWImqmozB6j3rQtt0Oiss/wRZH/WLYbv/83m9fwEoQX67rK4bU4u6pw5cV7JAGpZIyvXs/aux5Nq7zbJuL9AQ/GN08VIYDCQ9sb4UcxkVPaxVbTpbRyT0M2FMQZhaCe6X0mb3M=
+X-Gm-Message-State: AOJu0YwrtLmpWqF4P7Jj4foiPkQaDxThhwF3QYMDpPV0DrfXYUTfH9/g
+	N91wORUe+EUXTG4u1qpDzEebPc8N3pyppKsvjfIKwKJyIdmIDU6cGn/6LdAy4qSpEdBirCqSWoj
+	6JUsk8u3ZM0YHZ8TKkxKmCkXF3EM=
+X-Google-Smtp-Source: AGHT+IFafpLdk0evJiKKq2WOgHZJ334wUaliiML9yKUEBDk7ieZRcShNP65NIpPeHhXYIz7pBy67jwjYFUhaFlkV+Ak=
+X-Received: by 2002:a17:90a:dc0f:b0:29a:b713:8b27 with SMTP id
+ i15-20020a17090adc0f00b0029ab7138b27mr5063628pjv.46.1709045262472; Tue, 27
+ Feb 2024 06:47:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240227-feature_poe-v5-17-28f0aa48246d@bootlin.com>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-In-Reply-To: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>, 
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.12.4
-X-GND-Sasl: kory.maincent@bootlin.com
+References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-employee-pessimism-03ba0b58db6b@spud>
+ <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
+ <20240227-resolved-deceit-4a59a6af5b71@wendy> <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
+ <20240227-glove-underwire-f562a56cf2c7@wendy> <CANiq72=f03_bw9B8ww8UxHkVyP2F7ZPyvC+KWCyhO3Nk1yqdaw@mail.gmail.com>
+ <20240227-swarm-serpent-2010b255f68a@wendy>
+In-Reply-To: <20240227-swarm-serpent-2010b255f68a@wendy>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 27 Feb 2024 15:47:29 +0100
+Message-ID: <CANiq72=69uBBhKMrw5P8K6eDHPiwAw_Oj8g1aYcywEYhhUG8OA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on RISC-V
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new driver for the TI TPS23881 I2C Power Sourcing Equipment
-controller.
+On Tue, Feb 27, 2024 at 1:37=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> Looking closer at those targets, all of them enable compressed
+> instructors, but we support hardware that does not support them.
+> I think that means we are stuck with the custom targets.
 
-This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
+Did you try `-Ctarget-feature=3D-c`? i.e. as far as I know, you can
+disable target features even if they are enabled from the built-in.
 
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+It seems to work from a quick try (in userspace), e.g.
 
----
-Change in v3:
-- New patch.
----
- drivers/net/pse-pd/Kconfig    |   9 +
- drivers/net/pse-pd/Makefile   |   1 +
- drivers/net/pse-pd/tps23881.c | 818 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 828 insertions(+)
+0000000000000000 <f>:
+       0: 9b 05 05 00      sext.w    a1, a0
+       4: 13 05 a0 02      li    a0, 0x2a
+       8: 63 84 05 00      beqz    a1, 0x10 <f+0x10>
+       c: 13 05 b0 07      li    a0, 0x7b
+      10: 67 80 00 00      ret
 
-diff --git a/drivers/net/pse-pd/Kconfig b/drivers/net/pse-pd/Kconfig
-index e3a6ba669f20..80cf373a5a0e 100644
---- a/drivers/net/pse-pd/Kconfig
-+++ b/drivers/net/pse-pd/Kconfig
-@@ -31,4 +31,13 @@ config PSE_PD692X0
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called pd692x0.
- 
-+config PSE_TPS23881
-+	tristate "TPS23881 PSE controller"
-+	depends on I2C
-+	help
-+	  This module provides support for TPS23881 regulator based Ethernet
-+	  Power Sourcing Equipment.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called tps23881.
- endif
-diff --git a/drivers/net/pse-pd/Makefile b/drivers/net/pse-pd/Makefile
-index 9c12c4a65730..9d2898b36737 100644
---- a/drivers/net/pse-pd/Makefile
-+++ b/drivers/net/pse-pd/Makefile
-@@ -5,3 +5,4 @@ obj-$(CONFIG_PSE_CONTROLLER) += pse_core.o
- 
- obj-$(CONFIG_PSE_REGULATOR) += pse_regulator.o
- obj-$(CONFIG_PSE_PD692X0) += pd692x0.o
-+obj-$(CONFIG_PSE_TPS23881) += tps23881.o
-diff --git a/drivers/net/pse-pd/tps23881.c b/drivers/net/pse-pd/tps23881.c
-new file mode 100644
-index 000000000000..253eb525d3f3
---- /dev/null
-+++ b/drivers/net/pse-pd/tps23881.c
-@@ -0,0 +1,818 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for the TI TPS23881 PoE PSE Controller driver (I2C bus)
-+ *
-+ * Copyright (c) 2023 Bootlin, Kory Maincent <kory.maincent@bootlin.com>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/firmware.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/pse-pd/pse.h>
-+
-+#define TPS23881_MAX_CHANS 8
-+
-+#define TPS23881_REG_PW_STATUS	0x10
-+#define TPS23881_REG_OP_MODE	0x12
-+#define TPS23881_REG_DIS_EN	0x13
-+#define TPS23881_REG_DET_CLA_EN	0x14
-+#define TPS23881_REG_GEN_MASK	0x17
-+#define TPS23881_REG_NBITACC	BIT(5)
-+#define TPS23881_REG_PW_EN	0x19
-+#define TPS23881_REG_PORT_MAP	0x26
-+#define TPS23881_REG_PORT_POWER	0x29
-+#define TPS23881_REG_POEPLUS	0x40
-+#define TPS23881_REG_TPON	BIT(0)
-+#define TPS23881_REG_FWREV	0x41
-+#define TPS23881_REG_DEVID	0x43
-+#define TPS23881_REG_SRAM_CTRL	0x60
-+#define TPS23881_REG_SRAM_DATA	0x61
-+
-+struct tps23881_port_desc {
-+	u8 chan[2];
-+	bool is_4p;
-+};
-+
-+struct tps23881_priv {
-+	struct i2c_client *client;
-+	struct pse_controller_dev pcdev;
-+	struct device_node *np;
-+	struct tps23881_port_desc port[TPS23881_MAX_CHANS];
-+};
-+
-+static struct tps23881_priv *to_tps23881_priv(struct pse_controller_dev *pcdev)
-+{
-+	return container_of(pcdev, struct tps23881_priv, pcdev);
-+}
-+
-+static int tps23881_pi_enable(struct pse_controller_dev *pcdev, int id)
-+{
-+	struct tps23881_priv *priv = to_tps23881_priv(pcdev);
-+	struct i2c_client *client = priv->client;
-+	u8 chan;
-+	u16 val;
-+	int ret;
-+
-+	if (id >= TPS23881_MAX_CHANS)
-+		return -ERANGE;
-+
-+	ret = i2c_smbus_read_word_data(client, TPS23881_REG_PW_STATUS);
-+	if (ret < 0)
-+		return ret;
-+
-+	chan = priv->port[id].chan[0];
-+	if (chan < 4)
-+		val = (u16)(ret | BIT(chan));
-+	else
-+		val = (u16)(ret | BIT(chan + 4));
-+
-+	if (priv->port[id].is_4p) {
-+		chan = priv->port[id].chan[1];
-+		if (chan < 4)
-+			val |= BIT(chan);
-+		else
-+			val |= BIT(chan + 4);
-+	}
-+
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_PW_EN, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tps23881_pi_disable(struct pse_controller_dev *pcdev, int id)
-+{
-+	struct tps23881_priv *priv = to_tps23881_priv(pcdev);
-+	struct i2c_client *client = priv->client;
-+	u8 chan;
-+	u16 val;
-+	int ret;
-+
-+	if (id >= TPS23881_MAX_CHANS)
-+		return -ERANGE;
-+
-+	ret = i2c_smbus_read_word_data(client, TPS23881_REG_PW_STATUS);
-+	if (ret < 0)
-+		return ret;
-+
-+	chan = priv->port[id].chan[0];
-+	if (chan < 4)
-+		val = (u16)(ret | BIT(chan + 4));
-+	else
-+		val = (u16)(ret | BIT(chan + 8));
-+
-+	if (priv->port[id].is_4p) {
-+		chan = priv->port[id].chan[1];
-+		if (chan < 4)
-+			val |= BIT(chan + 4);
-+		else
-+			val |= BIT(chan + 8);
-+	}
-+
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_PW_EN, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tps23881_pi_is_enabled(struct pse_controller_dev *pcdev, int id)
-+{
-+	struct tps23881_priv *priv = to_tps23881_priv(pcdev);
-+	struct i2c_client *client = priv->client;
-+	bool enabled;
-+	u8 chan;
-+	int ret;
-+
-+	ret = i2c_smbus_read_word_data(client, TPS23881_REG_PW_STATUS);
-+	if (ret < 0)
-+		return ret;
-+
-+	chan = priv->port[id].chan[0];
-+	if (chan < 4)
-+		enabled = ret & BIT(chan);
-+	else
-+		enabled = ret & BIT(chan + 4);
-+
-+	if (priv->port[id].is_4p) {
-+		chan = priv->port[id].chan[1];
-+		if (chan < 4)
-+			enabled &= !!(ret & BIT(chan));
-+		else
-+			enabled &= !!(ret & BIT(chan + 4));
-+	}
-+
-+	/* Return enabled status only if both channel are on this state */
-+	return enabled;
-+}
-+
-+static int tps23881_ethtool_get_status(struct pse_controller_dev *pcdev,
-+				       unsigned long id,
-+				       struct netlink_ext_ack *extack,
-+				       struct pse_control_status *status)
-+{
-+	struct tps23881_priv *priv = to_tps23881_priv(pcdev);
-+	struct i2c_client *client = priv->client;
-+	bool enabled, delivering;
-+	u8 chan;
-+	int ret;
-+
-+	ret = i2c_smbus_read_word_data(client, TPS23881_REG_PW_STATUS);
-+	if (ret < 0)
-+		return ret;
-+
-+	chan = priv->port[id].chan[0];
-+	if (chan < 4) {
-+		enabled = ret & BIT(chan);
-+		delivering = ret & BIT(chan + 4);
-+	} else {
-+		enabled = ret & BIT(chan + 4);
-+		delivering = ret & BIT(chan + 8);
-+	}
-+
-+	if (priv->port[id].is_4p) {
-+		chan = priv->port[id].chan[1];
-+		if (chan < 4) {
-+			enabled &= !!(ret & BIT(chan));
-+			delivering &= !!(ret & BIT(chan + 4));
-+		} else {
-+			enabled &= !!(ret & BIT(chan + 4));
-+			delivering &= !!(ret & BIT(chan + 8));
-+		}
-+	}
-+
-+	/* Return delivering status only if both channel are on this state */
-+	if (delivering)
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING;
-+	else
-+		status->c33_pw_status = ETHTOOL_C33_PSE_PW_D_STATUS_DISABLED;
-+
-+	/* Return enabled status only if both channel are on this state */
-+	if (enabled)
-+		status->c33_admin_state = ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED;
-+	else
-+		status->c33_admin_state = ETHTOOL_C33_PSE_ADMIN_STATE_DISABLED;
-+
-+	return 0;
-+}
-+
-+/* Parse managers subnode into a array of device node */
-+static int
-+tps23881_get_of_channels(struct tps23881_priv *priv,
-+			 struct device_node *chan_node[TPS23881_MAX_CHANS])
-+{
-+	struct device_node *channels_node, *node;
-+	int i, ret;
-+
-+	if (!priv->np)
-+		return -EINVAL;
-+
-+	channels_node = of_find_node_by_name(priv->np, "channels");
-+	if (!channels_node)
-+		return -EINVAL;
-+
-+	for_each_child_of_node(channels_node, node) {
-+		u32 chan_id;
-+
-+		if (!of_node_name_eq(node, "channel"))
-+			continue;
-+
-+		ret = of_property_read_u32(node, "reg", &chan_id);
-+		if (ret) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		if (chan_id >= TPS23881_MAX_CHANS || chan_node[chan_id]) {
-+			dev_err(&priv->client->dev,
-+				"wrong number of port (%d)\n", chan_id);
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		of_node_get(node);
-+		chan_node[chan_id] = node;
-+	}
-+
-+	of_node_put(channels_node);
-+	return 0;
-+
-+out:
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		of_node_put(chan_node[i]);
-+		chan_node[i] = NULL;
-+	}
-+
-+	of_node_put(node);
-+	of_node_put(channels_node);
-+	return ret;
-+}
-+
-+struct tps23881_port_matrix {
-+	u8 pi_id;
-+	u8 lgcl_chan[2];
-+	u8 hw_chan[2];
-+	bool is_4p;
-+	bool exist;
-+};
-+
-+static int
-+tps23881_match_channel(const struct pse_pi_pairset *pairset,
-+		       struct device_node *chan_node[TPS23881_MAX_CHANS])
-+{
-+	int i;
-+
-+	/* Look on every channels */
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		if (pairset->np == chan_node[i])
-+			return i;
-+	}
-+
-+	return -ENODEV;
-+}
-+
-+static bool
-+tps23881_is_chan_free(struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS],
-+		      int chan)
-+{
-+	int i;
-+
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		if (port_matrix[i].exist &&
-+		    (port_matrix[i].hw_chan[0] == chan ||
-+		    port_matrix[i].hw_chan[1] == chan))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+/* Fill port matrix with the matching channels */
-+static int
-+tps23881_match_port_matrix(struct pse_pi *pi, int pi_id,
-+			   struct device_node *chan_node[TPS23881_MAX_CHANS],
-+			   struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS])
-+{
-+	int ret;
-+
-+	if (!pi->pairset[0].np)
-+		return 0;
-+
-+	ret = tps23881_match_channel(&pi->pairset[0], chan_node);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!tps23881_is_chan_free(port_matrix, ret)) {
-+		pr_err("tps23881: channel %d already used\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	port_matrix[pi_id].hw_chan[0] = ret;
-+	port_matrix[pi_id].exist = true;
-+
-+	if (!pi->pairset[1].np)
-+		return 0;
-+
-+	ret = tps23881_match_channel(&pi->pairset[1], chan_node);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!tps23881_is_chan_free(port_matrix, ret)) {
-+		pr_err("tps23881: channel %d already used\n", ret);
-+		return -ENODEV;
-+	}
-+
-+	if (port_matrix[pi_id].hw_chan[0] / 4 != ret / 4) {
-+		pr_err("tps23881: 4-pair PSE can only be set within the same 4 ports group");
-+		return -ENODEV;
-+	}
-+
-+	port_matrix[pi_id].hw_chan[1] = ret;
-+	port_matrix[pi_id].is_4p = true;
-+
-+	return 0;
-+}
-+
-+static int
-+tps23881_get_unused_chan(struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS],
-+			 int port_cnt)
-+{
-+	bool used;
-+	int i, j;
-+
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		used = false;
-+
-+		for (j = 0; j < port_cnt; j++) {
-+			if (port_matrix[j].hw_chan[0] == i) {
-+				used = true;
-+				break;
-+			}
-+
-+			if (port_matrix[j].is_4p &&
-+			    port_matrix[j].hw_chan[1] == i) {
-+				used = true;
-+				break;
-+			}
-+		}
-+
-+		if (!used)
-+			return i;
-+	}
-+
-+	return -1;
-+}
-+
-+/* Sort the port matrix to following particular hardware ports matrix
-+ * specification of the tps23881. The device has two 4-ports groups and
-+ * each 4-pair powered device has to be configured to use two consecutive
-+ * logical channel in each 4 ports group (1 and 2 or 3 and 4). Also the
-+ * hardware matrix has to be fully configured even with unused chan to be
-+ * valid.
-+ */
-+static int
-+tps23881_sort_port_matrix(struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS])
-+{
-+	struct tps23881_port_matrix tmp_port_matrix[TPS23881_MAX_CHANS] = {0};
-+	int i, ret, port_cnt = 0, cnt_4ch_grp1 = 0, cnt_4ch_grp2 = 4;
-+
-+	/* Configure 4p port matrix */
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		int *cnt;
-+
-+		if (!port_matrix[i].exist || !port_matrix[i].is_4p)
-+			continue;
-+
-+		if (port_matrix[i].hw_chan[0] < 4)
-+			cnt = &cnt_4ch_grp1;
-+		else
-+			cnt = &cnt_4ch_grp2;
-+
-+		tmp_port_matrix[port_cnt].exist = true;
-+		tmp_port_matrix[port_cnt].is_4p = true;
-+		tmp_port_matrix[port_cnt].pi_id = i;
-+		tmp_port_matrix[port_cnt].hw_chan[0] = port_matrix[i].hw_chan[0];
-+		tmp_port_matrix[port_cnt].hw_chan[1] = port_matrix[i].hw_chan[1];
-+
-+		/* 4-pair ports have to be configured with consecutive
-+		 * logical channels 0 and 1, 2 and 3.
-+		 */
-+		tmp_port_matrix[port_cnt].lgcl_chan[0] = (*cnt)++;
-+		tmp_port_matrix[port_cnt].lgcl_chan[1] = (*cnt)++;
-+
-+		port_cnt++;
-+	}
-+
-+	/* Configure 2p port matrix */
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		int *cnt;
-+
-+		if (!port_matrix[i].exist || port_matrix[i].is_4p)
-+			continue;
-+
-+		if (port_matrix[i].hw_chan[0] < 4)
-+			cnt = &cnt_4ch_grp1;
-+		else
-+			cnt = &cnt_4ch_grp2;
-+
-+		tmp_port_matrix[port_cnt].exist = true;
-+		tmp_port_matrix[port_cnt].pi_id = i;
-+		tmp_port_matrix[port_cnt].lgcl_chan[0] = (*cnt)++;
-+		tmp_port_matrix[port_cnt].hw_chan[0] = port_matrix[i].hw_chan[0];
-+
-+		port_cnt++;
-+	}
-+
-+	/* Complete the rest of the first 4 port group matrix even if
-+	 * channels are unused
-+	 */
-+	while (cnt_4ch_grp1 < 4) {
-+		ret = tps23881_get_unused_chan(tmp_port_matrix, port_cnt);
-+		if (ret < 0) {
-+			pr_err("tps23881: port matrix issue, no chan available\n");
-+			return -ENODEV;
-+		}
-+
-+		if (port_cnt >= TPS23881_MAX_CHANS) {
-+			pr_err("tps23881: wrong number of channels\n");
-+			return -ENODEV;
-+		}
-+		tmp_port_matrix[port_cnt].lgcl_chan[0] = cnt_4ch_grp1;
-+		tmp_port_matrix[port_cnt].hw_chan[0] = ret;
-+		cnt_4ch_grp1++;
-+		port_cnt++;
-+	}
-+
-+	/* Complete the rest of the second 4 port group matrix even if
-+	 * channels are unused
-+	 */
-+	while (cnt_4ch_grp2 < 8) {
-+		ret = tps23881_get_unused_chan(tmp_port_matrix, port_cnt);
-+		if (ret < 0) {
-+			pr_err("tps23881: port matrix issue, no chan available\n");
-+			return -ENODEV;
-+		}
-+
-+		if (port_cnt >= TPS23881_MAX_CHANS) {
-+			pr_err("tps23881: wrong number of channels\n");
-+			return -ENODEV;
-+		}
-+		tmp_port_matrix[port_cnt].lgcl_chan[0] = cnt_4ch_grp2;
-+		tmp_port_matrix[port_cnt].hw_chan[0] = ret;
-+		cnt_4ch_grp2++;
-+		port_cnt++;
-+	}
-+
-+	memcpy(port_matrix, tmp_port_matrix, sizeof(tmp_port_matrix));
-+
-+	return port_cnt;
-+}
-+
-+/* Write port matrix to the hardware port matrix and the software port
-+ * matrix.
-+ */
-+static int
-+tps23881_write_port_matrix(struct tps23881_priv *priv,
-+			   struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS],
-+			   int port_cnt)
-+{
-+	struct i2c_client *client = priv->client;
-+	u8 pi_id, lgcl_chan, hw_chan;
-+	u16 val = 0;
-+	int i, ret;
-+
-+	for (i = 0; i < port_cnt; i++) {
-+		pi_id = port_matrix[i].pi_id;
-+		lgcl_chan = port_matrix[i].lgcl_chan[0];
-+		hw_chan = port_matrix[i].hw_chan[0] % 4;
-+
-+		/* Set software port matrix for existing ports */
-+		if (port_matrix[i].exist)
-+			priv->port[pi_id].chan[0] = lgcl_chan;
-+
-+		/* Set hardware port matrix for all ports */
-+		val |= hw_chan << (lgcl_chan * 2);
-+
-+		if (!port_matrix[i].is_4p)
-+			continue;
-+
-+		lgcl_chan = port_matrix[i].lgcl_chan[1];
-+		hw_chan = port_matrix[i].hw_chan[1] % 4;
-+
-+		/* Set software port matrix for existing ports */
-+		if (port_matrix[i].exist) {
-+			priv->port[pi_id].is_4p = true;
-+			priv->port[pi_id].chan[1] = lgcl_chan;
-+		}
-+
-+		/* Set hardware port matrix for all ports */
-+		val |= hw_chan << (lgcl_chan * 2);
-+	}
-+
-+	/* Write hardware ports matrix */
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_PORT_MAP, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int
-+tps23881_set_ports_conf(struct tps23881_priv *priv,
-+			struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS])
-+{
-+	struct i2c_client *client = priv->client;
-+	int i, ret;
-+	u16 val;
-+
-+	/* Set operating mode */
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_OP_MODE, 0xaaaa);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Disable DC disconnect */
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_DIS_EN, 0x0);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Set port power allocation */
-+	val = 0;
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		if (!port_matrix[i].exist)
-+			continue;
-+
-+		if (port_matrix[i].is_4p)
-+			val |= 0xf << ((port_matrix[i].lgcl_chan[0] / 2) * 4);
-+		else
-+			val |= 0x3 << ((port_matrix[i].lgcl_chan[0] / 2) * 4);
-+	}
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_PORT_POWER, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* Enable detection and classification */
-+	val = 0;
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		if (!port_matrix[i].exist)
-+			continue;
-+
-+		val |= BIT(port_matrix[i].lgcl_chan[0]) |
-+		       BIT(port_matrix[i].lgcl_chan[0] + 4);
-+		if (port_matrix[i].is_4p)
-+			val |= BIT(port_matrix[i].lgcl_chan[1]) |
-+			       BIT(port_matrix[i].lgcl_chan[1] + 4);
-+	}
-+	ret = i2c_smbus_write_word_data(client, TPS23881_REG_DET_CLA_EN, 0xffff);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int
-+tps23881_set_ports_matrix(struct tps23881_priv *priv,
-+			  struct device_node *chan_node[TPS23881_MAX_CHANS])
-+{
-+	struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS] = {0};
-+	int i, ret;
-+
-+	/* Update with values for every PSE PIs */
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
-+		ret = tps23881_match_port_matrix(&priv->pcdev.pi[i], i,
-+						 chan_node, port_matrix);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	ret = tps23881_sort_port_matrix(port_matrix);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = tps23881_write_port_matrix(priv, port_matrix, ret);
-+	if (ret)
-+		return ret;
-+
-+	ret = tps23881_set_ports_conf(priv, port_matrix);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int tps23881_setup_pi_matrix(struct pse_controller_dev *pcdev)
-+{
-+	struct device_node *chan_node[TPS23881_MAX_CHANS] = {NULL};
-+	struct tps23881_priv *priv = to_tps23881_priv(pcdev);
-+	int ret, i;
-+
-+	ret = tps23881_get_of_channels(priv, chan_node);
-+	if (ret < 0) {
-+		dev_warn(&priv->client->dev,
-+			 "Unable to parse port-matrix, default matrix will be used\n");
-+		return 0;
-+	}
-+
-+	ret = tps23881_set_ports_matrix(priv, chan_node);
-+
-+	for (i = 0; i < TPS23881_MAX_CHANS; i++)
-+		of_node_put(chan_node[i]);
-+
-+	return ret;
-+}
-+
-+static const struct pse_controller_ops tps23881_ops = {
-+	.setup_pi_matrix = tps23881_setup_pi_matrix,
-+	.pi_enable = tps23881_pi_enable,
-+	.pi_disable = tps23881_pi_disable,
-+	.pi_is_enabled = tps23881_pi_is_enabled,
-+	.ethtool_get_status = tps23881_ethtool_get_status,
-+};
-+
-+static const char fw_parity_name[] = "ti/tps23881/tps23881-parity-14.bin";
-+static const char fw_sram_name[] = "ti/tps23881/tps23881-sram-14.bin";
-+
-+struct tps23881_fw_conf {
-+	u8 reg;
-+	u8 val;
-+};
-+
-+static const struct tps23881_fw_conf tps23881_parity_flash_conf[] = {
-+	{.reg = 0x60, .val = 0x01},
-+	{.reg = 0x62, .val = 0x00},
-+	{.reg = 0x63, .val = 0x80},
-+	{.reg = 0x60, .val = 0xC4},
-+	{.reg = 0x1D, .val = 0xBC},
-+	{.reg = 0xD7, .val = 0x02},
-+	{.reg = 0x91, .val = 0x00},
-+	{.reg = 0x90, .val = 0x00},
-+	{.reg = 0xD7, .val = 0x00},
-+	{.reg = 0x1D, .val = 0x00},
-+	{ /* sentinel */ }
-+};
-+
-+static const struct tps23881_fw_conf tps23881_sram_flash_conf[] = {
-+	{.reg = 0x60, .val = 0xC5},
-+	{.reg = 0x62, .val = 0x00},
-+	{.reg = 0x63, .val = 0x80},
-+	{.reg = 0x60, .val = 0xC0},
-+	{.reg = 0x1D, .val = 0xBC},
-+	{.reg = 0xD7, .val = 0x02},
-+	{.reg = 0x91, .val = 0x00},
-+	{.reg = 0x90, .val = 0x00},
-+	{.reg = 0xD7, .val = 0x00},
-+	{.reg = 0x1D, .val = 0x00},
-+	{ /* sentinel */ }
-+};
-+
-+static int tps23881_flash_fw_part(struct i2c_client *client,
-+				  const char *fw_name,
-+				  const struct tps23881_fw_conf *fw_conf)
-+{
-+	const struct firmware *fw = NULL;
-+	int i, ret;
-+
-+	ret = request_firmware(&fw, fw_name, &client->dev);
-+	if (ret)
-+		return ret;
-+
-+	dev_info(&client->dev, "Flashing %s\n", fw_name);
-+
-+	/* Prepare device for RAM download */
-+	while (fw_conf->reg) {
-+		ret = i2c_smbus_write_byte_data(client, fw_conf->reg,
-+						fw_conf->val);
-+		if (ret < 0)
-+			return ret;
-+
-+		fw_conf++;
-+	}
-+
-+	/* Flash the firmware file */
-+	for (i = 0; i < fw->size; i++) {
-+		ret = i2c_smbus_write_byte_data(client,
-+						TPS23881_REG_SRAM_DATA,
-+						fw->data[i]);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	release_firmware(fw);
-+
-+	return 0;
-+}
-+
-+static int tps23881_flash_fw(struct i2c_client *client)
-+{
-+	int ret;
-+
-+	ret = tps23881_flash_fw_part(client, fw_parity_name,
-+				     tps23881_parity_flash_conf);
-+	if (ret)
-+		return ret;
-+
-+	ret = tps23881_flash_fw_part(client, fw_sram_name,
-+				     tps23881_sram_flash_conf);
-+	if (ret)
-+		return ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, TPS23881_REG_SRAM_CTRL, 0x18);
-+	if (ret < 0)
-+		return ret;
-+
-+	mdelay(12);
-+
-+	return 0;
-+}
-+
-+static int tps23881_i2c_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct tps23881_priv *priv;
-+	int ret;
-+	u8 val;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(dev, "i2c check functionality failed\n");
-+		return -ENXIO;
-+	}
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	ret = i2c_smbus_read_byte_data(client, TPS23881_REG_DEVID);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (ret != 0x22) {
-+		dev_err(dev, "Wrong device ID\n");
-+		return -ENXIO;
-+	}
-+
-+	ret = tps23881_flash_fw(client);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = i2c_smbus_read_byte_data(client, TPS23881_REG_FWREV);
-+	if (ret < 0)
-+		return ret;
-+
-+	dev_info(&client->dev, "Firmware revision 0x%x\n", ret);
-+
-+	/* Set configuration B, 16 bit access on a single device address */
-+	ret = i2c_smbus_read_byte_data(client, TPS23881_REG_GEN_MASK);
-+	if (ret < 0)
-+		return ret;
-+
-+	val = ret | TPS23881_REG_NBITACC;
-+	ret = i2c_smbus_write_byte_data(client, TPS23881_REG_GEN_MASK, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	priv->client = client;
-+	i2c_set_clientdata(client, priv);
-+	priv->np = dev->of_node;
-+
-+	priv->pcdev.owner = THIS_MODULE;
-+	priv->pcdev.ops = &tps23881_ops;
-+	priv->pcdev.dev = dev;
-+	priv->pcdev.types = ETHTOOL_PSE_C33;
-+	priv->pcdev.nr_lines = TPS23881_MAX_CHANS;
-+	ret = devm_pse_controller_register(dev, &priv->pcdev);
-+	if (ret) {
-+		return dev_err_probe(dev, ret,
-+				     "failed to register PSE controller\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static const struct i2c_device_id tps23881_id[] = {
-+	{ "tps23881", 0 },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(i2c, tps23881_id);
-+
-+static const struct of_device_id tps23881_of_match[] = {
-+	{ .compatible = "ti,tps23881", },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, tps23881_of_match);
-+
-+static struct i2c_driver tps23881_driver = {
-+	.probe		= tps23881_i2c_probe,
-+	.id_table	= tps23881_id,
-+	.driver		= {
-+		.name		= "tps23881",
-+		.of_match_table = tps23881_of_match,
-+	},
-+};
-+module_i2c_driver(tps23881_driver);
-+
-+MODULE_AUTHOR("Kory Maincent <kory.maincent@bootlin.com>");
-+MODULE_DESCRIPTION("TI TPS23881 PoE PSE Controller driver");
-+MODULE_LICENSE("GPL");
+vs.
 
--- 
-2.25.1
+0000000000000000 <f>:
+       0: 9b 05 05 00      sext.w    a1, a0
+       4: 13 05 a0 02      li    a0, 0x2a
+       8: 99 c1            beqz    a1, 0xe <f+0xe>
+       a: 13 05 b0 07      li    a0, 0x7b
+       e: 82 80            ret
 
+Cheers,
+Miguel
