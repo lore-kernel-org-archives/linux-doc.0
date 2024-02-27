@@ -1,115 +1,122 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1888C130ADF;
-	Tue, 27 Feb 2024 11:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36A6130ADF;
+	Tue, 27 Feb 2024 11:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709031847; cv=none; b=hepN/E1cwRJ0CJUHFGU2Gzud1Lk5Zjkiv7U8iIESI09XQKJnzK9rNvpDElpwxumW07735SjiNhfZk7cN2cMV3q0W+Yf3gdHSPQJ2DpvApoZU7zVXaEBDCOtYify4+4j7LlovJThM8ig36q6i/9hkHciPS+fw9kdKf+PxqnXSCGY=
+	t=1709031909; cv=none; b=Swst7tOP2pbUt09Ph7Kegk1skotXL3e8nmK/g7i8czHY8dEFMztezXPvWV4w33corRnF1jlyXNioLj4/FX/YRNgOCaU40hEpdjL9/DEMst5CJ7EGRUKP+nI94seLnOmS4fBCSG5UGryKf7xdhemmw1VvU8og2gXGzImMVm1YEe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709031847; c=relaxed/simple;
-	bh=S994xZS5hVn5DF9xj4V4VbvofR11fVlbVQtqyP9zaRE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uXdb2c+8AeW3fbJfhbJoi0qj/yhvgLuyUjruR3/arr6Xs8f62X8CGYRupDOG0irQoYSnc+gNulliLMBOC+g7//TLXvWDzk/wGQ1yxl9TeXjB4PWG2/hteIy/HHH0/SgWRQyLPzfiB+hdDIukVkCnfWJSFiSKi27SrFWSWiAcOf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bSyrW8bb; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709031909; c=relaxed/simple;
+	bh=nkEmgcF2sqsTVrDLvW1DSslli5qr0PA0DGExmFUENFo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdKmkEVxGKrbo+44kAC+di+AkuQm4HFeVeOFaZwULBEWhkNNbLfrTaLaYoLNaeoY7mOA5uqpMa4GH6xKj7OOW5aseS212vFDxQXDTOm9PT6xzsmsj+f5SJrn4NwchD1hJw4r6FSPDjah7qFUW0nl3A5NujiRRLOyRZEtFYeMLy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=kAeNuAsj; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bSyrW8bb"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3e7f7b3d95so466284366b.3;
-        Tue, 27 Feb 2024 03:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709031843; x=1709636643; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qB49JUidhnyE0DLnYhbcXl+mJdF4zQ+oZKR7iKk8odU=;
-        b=bSyrW8bbaKUY5Nzagj3x4z02pruLNlJ3s7jV805GNIhbuD97zlLo0b4ErBfpX2+Dcs
-         xRkpvcgWWFGskPaom5ZtslyV9BiGp/MnpnfccLpItALvfXKncgEMc1Zd+I9U0UwNqomF
-         QbWSWDU+YolZzyqijaW2XhlKh+38cBsstjwow12MHKD41LASWmL6z8X1/f1q6ZihMhQp
-         t0h1ZXX6N3orEiuGxqYZxeasovbeRAgFIbkwqIN20BtEL93ycJAMjRTB2hIrli92ZdtR
-         beRRRApKP1Wvv5XbPQg1mekCBQVZSHrPr9oL/ivQoioKUiKzi+b2cdDc50PpLxxhR+UI
-         E5zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709031843; x=1709636643;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qB49JUidhnyE0DLnYhbcXl+mJdF4zQ+oZKR7iKk8odU=;
-        b=t6LXRQAM06k4BEMkrRZRXM2cRSVmaF2Vt1mcMilU1fkC5AnfQ6fKvECKxCAesPJpLj
-         w/hCx2leKb805dS7ITQ2rDB5jKhnQsWBB+lswF4l3N2HGCwXwDcK29hXbc/nIgOiK31r
-         h1KfyePUhi3NQ9mmZunF5U0ld1Hy7Tua1o4+1pv50LSstMioAj5u5ZTnHk4rSskukibm
-         lXP1r9WvttujwRafzSvNlIhKGB0Q0MIX9ZJGjxj4OpiHsLcdPd7Qolywh2D05NAndUed
-         jFj6qYzeoGGUXUVDe12yvCReoH29imsHLJDTtcCYSYJlMCOIkaMKa6INcr3vIRluOQPm
-         w92Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUEFWSLW88i0sUqtf5Ez57gNLdXI2vsYldRzSOoMz/H2LgE82/zKT0u9xxom71ry6C/8q7MFFr096NP4/60/mdL3J01NNYDfKJCDU5IUTKPjWDflggsGhNsBMEyizkxVXf9tBLr2yFQHdHJBRhBwL/yYcNZfQEc5BzbGG9451IoD7TNyksWvyC//6w//FQZMwRBrolPUj40Vk2H68ca+7IncfW1
-X-Gm-Message-State: AOJu0Yx0qoIu26vdh41tUNd3v01FyufOzNcovTuq7+CePmSzcF3km2S5
-	+9FPA8X6kXaDfQyFT8ziWr7leIPW3LFh6Ol1Ze/C8v6z6vNZxy/bn3EK1A295+QrQdbyGSQmMO5
-	HqW6SQjv6g+M5y6kGKd2xwf2cbR23p8t+PUM=
-X-Google-Smtp-Source: AGHT+IE3mVEu8Iomgte4NRXBGNXbJaWUrcAateWi4bx3mG6CvQy7ZQHn2UaYBVCVJjiMbOFetlQdzCyMIV9Gr/e8tMM=
-X-Received: by 2002:a17:906:a049:b0:a43:3670:a2b7 with SMTP id
- bg9-20020a170906a04900b00a433670a2b7mr4449686ejb.44.1709031843264; Tue, 27
- Feb 2024 03:04:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="kAeNuAsj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1709031907; x=1740567907;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nkEmgcF2sqsTVrDLvW1DSslli5qr0PA0DGExmFUENFo=;
+  b=kAeNuAsjZPcZrxLSW2xXHhiW9q4lVKoBtABPTYFaZq8pVJn4m+uUPG/I
+   BRjWKJalUXetz5phBc2adYGTqvJc/VncHCPFn6f8KoAnxJa3k2dfU6z32
+   q3Be0IoPRys7MfdcwITd/Yd19x43PedJulUC9HeqbUTvlP/mflJKUAhcs
+   zD3eAoEGpA/Y2M6VaSSDDtvkzn8k92q6/kwyY96N51g1fJM37FEjwEE3J
+   HEyl7q9lqyQMrjARIjHsRkYcuYbdpzRIp8UF4rd+qgj6VfWeTUrvB9DXp
+   29CxDbot132UQptmp5NhC5xayVVPLsiUPA/tTOm678etVoSoRcs1PhjMN
+   w==;
+X-CSE-ConnectionGUID: hJeSGw/8TAyVRlagmnchCA==
+X-CSE-MsgGUID: KTDcPATNQk+OtFWm54w0BA==
+X-IronPort-AV: E=Sophos;i="6.06,187,1705388400"; 
+   d="asc'?scan'208";a="16880169"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2024 04:05:06 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 27 Feb 2024 04:04:59 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Tue, 27 Feb 2024 04:04:56 -0700
+Date: Tue, 27 Feb 2024 11:04:13 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Miguel
+ Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida
+ Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+	<gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
+	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<llvm@lists.linux.dev>
+Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on
+ RISC-V
+Message-ID: <20240227-glove-underwire-f562a56cf2c7@wendy>
+References: <20240223-leverage-walmart-5424542cd8bd@spud>
+ <20240223-employee-pessimism-03ba0b58db6b@spud>
+ <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
+ <20240227-resolved-deceit-4a59a6af5b71@wendy>
+ <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
- <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org> <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 27 Feb 2024 12:03:51 +0100
-Message-ID: <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4yFQMGvLloPM49wl"
+Content-Disposition: inline
+In-Reply-To: <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
+
+--4yFQMGvLloPM49wl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 9:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Randy,
->
-> On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead.o=
-rg> wrote:
-> > >   - Concerning checking with tools, checkpatch probably still makes s=
-ense;
-> > >     it pointed out in several places. If sparse and checkstack are re=
-ally
-> > >     the next two tools to point out, I am not so sure about.
+On Tue, Feb 27, 2024 at 11:46:42AM +0100, Miguel Ojeda wrote:
+> On Tue, Feb 27, 2024 at 11:17=E2=80=AFAM Conor Dooley
+> <conor.dooley@microchip.com> wrote:
 > >
-> > I doubt that ckeckstack is important since gcc & clang warn us about
-> > stack usage.
->
-> True, but that would leave you without a tool to get figures when
-> there is no excess stack usage detected by the compiler.
->
+> > Sure, I'll take a look.
+>=20
+> Thanks!
+>=20
+> > Nah, I think that is silly. Either this goes in as-is, and there's
+> > fixup done by Linus, or the thing should be converted to match arm64,
+> > assuming that that is possible.
+>=20
+> Ah, so you are going for 6.9 too? I can give the series a try on my
+> side in that case. When do you plan to apply them?
 
-Geert,
+If they're to be applied, it would be Palmer, not I. And if history is
+any guide, it could be into the merge window. My point though was more
+that either this was acceptable for v6.9 or would be v6.10 material
+with the same mechanism as arm64. Rebasing after v6.9-rc1 but not
+adapting to that way of doing things is what seemed silly to me, since
+if a resend is required then the other improvements should be carried
+out at the same time.
 
-possibly, we can configure the compiler to report/warn on any stack
-usage from every invocation and then turn all those warnings into a
-readable format or some format that further visualization and analysis
-tools can process.
+Cheers,
+Conor.
 
-If that works, we can remove the checkstack tool. It is not a
-massively large script, but it is certainly written with a very
-special purpose. I mean it basically does object-code
-reverse-engineering with a magic set of regular expressions in Perl.
-If our current compilers can emit the same information, we are
-probably better off just using the output from a compiler and
-postprocessing that.
+--4yFQMGvLloPM49wl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Anyways, I think it is worth investigating all that and then see if
-the checkstack.pl tool still has a unique functionality, or if there
-are other better ways to get this kind of information---well, it is
-marked as todo, so anyone is free to pick it up.
+-----BEGIN PGP SIGNATURE-----
 
-Lukas
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd3BrQAKCRB4tDGHoIJi
+0l+1AQD2Kv7qn0sG5InjsblGeMCFLO+iLg5s4b1JdnY/mXJAMgEAnPLESP1zEN5H
+BZ6fe0suc1bctDUkHs99G3uQ759MlQc=
+=9yZw
+-----END PGP SIGNATURE-----
 
-Lukas
+--4yFQMGvLloPM49wl--
