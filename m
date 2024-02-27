@@ -1,219 +1,362 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E35E6AB8;
-	Tue, 27 Feb 2024 02:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98ED64CDE5
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 06:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708999564; cv=none; b=Kthp/R/DAH270bCs41CQzNMV6/wA9OnMyTbQrOdzVE6Dv9ta1HJ+T573Co3A0a21lVYvZTT7kS4Cv1v7Z4UN+1iX61HZ7nePCQFv9Gw4Ayou/iY3oEhuw+n1VVc14mIMm19JIJxLpj8YgXKuqPmzcbD4KFuDKlPKdDb4PczgV3c=
+	t=1709014021; cv=none; b=oIyiGmgxR895mceKDx0K4kSuI9LvpeDv7Mif3qQUr//Bjh3XUEthqKiKScKZrh/J50rSNbH+YEDJ3vhoGSbMvu9ngLDQ6HE47I4AMGDBsep4F/F17/BdrO6B3tcEa3OkUQ26IXhiqvaXzmTogGrik5RdD3DQ6kVxIoQbLMEbjtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708999564; c=relaxed/simple;
-	bh=p/sc65/Y89SirN+8xPleSpJF18VTWd6zEoKYs9P9wXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U47XXXdJ8CQBmysujd3RAkgpRQcAB+B9rpcvdLWugBw/+8mZoBRxG6IgEEF4wNajT4A/0Lt6rJW7N/Bx4utFEyI0Uigx/OQheHri5DKYR/U3/rXU5RA9xVZHZnUA+XBCjUmzC0kdvhQgs9h8DXqMMRZOviIKz2Lg2+F+VuHZWlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CRGBNlO7; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709014021; c=relaxed/simple;
+	bh=Y+QE7Ge+KB7lAmHslk+gdLUNs2/yMyFmhAeGV/Yb21U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MczLNxWvupKXrk423uFf/eFya+aXjNcXCVg8JmEAiDUVMlLuvNZLx11NprgUET3/o9M+tnbpjPFm2tWywq0pZu12ZzVBMLDElo0x8OTzCCLDAIFisL/BW6hy6TjIm4DpU4pg22VsOacxrfNYCoTkw0ezQr0gjQDEEKFajBmMNnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T6KDV8Fz; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CRGBNlO7"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3c19b7d9de7so913148b6e.2;
-        Mon, 26 Feb 2024 18:06:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T6KDV8Fz"
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-7d5cbc4a585so1359687241.3
+        for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 22:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708999561; x=1709604361; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SV9pHyGiurUhVbqmy78OWf51SeUPEW4JNQf5fgdiwuI=;
-        b=CRGBNlO7UZnfTJ8bHk1Ux1PBlxWC7y8l0DB4lzHt7VD1dAcr9Vv4rfcqj/koOoCOtK
-         Ke28TwSzuwfpdawJkU4x8/krDBLZhj+lp/wS3w7DYyq8lhXdJieJzDHyU+rofZxSQYiG
-         F6517wCsvVr0T0l+DwXLyR9i2g95wA2qZczdyBsjLDO/5VkW3bs6Sr+0pCu0IBT9QQa8
-         Xsu7U/g9IhVcRcUOfHDRnMmKKkxAcNqKtOYeKP6CPtLgnLc2FFfc3IjuZ9mpy/fwV8jg
-         1f96q3bV7GRz1v0sk4bR10fp92CZ5uCeK6VWuPvM/06SejBTwm4K8XsBJg/VSyl3BJl5
-         vL1g==
+        d=linaro.org; s=google; t=1709014018; x=1709618818; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ztf4083pTZ5RLIpZH0hN9fs10mfQLsMuM0cOvPbKDX4=;
+        b=T6KDV8FzNR/8yjWx6RRKamZDbfpOLLQjO1W0f6LinsMfPEEuiFFEOywjzHYwUpqQhO
+         eJXU9H27mFSheX4nLquQHnjkCzvaDcOvgf+15UJ7MBhcgBLq9Ss0hIiHarfDddPoTJMz
+         cTyPwJznLEwdKMp7v71Z8FJla1U7ckJUcHnzED1Bygo7iX8J3NSKu57lXROpw0xU598t
+         CvZfSsI1zZ4t51L3Xko7VrNVVYSbuf1phZWzX9EtLlczdqL3memk4s7iQ2FD+DO5T09f
+         4+fFwuMJxVG44mrjzxQTxPaDH/rO9DDRTryiFb0tAAbWRySIWhIA9T9Wv04BrcORv/1S
+         q4tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708999561; x=1709604361;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SV9pHyGiurUhVbqmy78OWf51SeUPEW4JNQf5fgdiwuI=;
-        b=X5D18owrsL/cWUyKbxnv3RN56be69HSLCDVAODFi0lP6AxMP2IXMtbFYLZqiZUmcmG
-         6Is3DUEOtDvrHtLGfYPy2HOEtbXlTJEq+D4HqznzN0HVLtw8J0KHF+D5uIY75drPcwz+
-         e3wjVwOURrDZoXy45jO4VrrOBa1WY0HMvd/ZHbX01pVreiHjL3lvMviWSHgwzZsSWg04
-         RXI7VZRpXlm+2yBiLr0/bBJoQ7CYi23zH5LMaqyyzQkXsx1T3XFcbzgk73iXr6mOVpQi
-         hcKwNiANwCBgM59yXd/eB+ybpRLp7C/e5HWDadhcPUbP/2eUSjTXajUOsEQVIxOvKH4u
-         dEug==
-X-Forwarded-Encrypted: i=1; AJvYcCUjI2JW/3KsfKxC5GiCziwGqDlAq083SWxo/fB6u2KBN4QrmfhZLAQmzQEmzqWbavDpND2KqDCcUeNXCGYUKACRFntlcHLBGPXGS7KxiFTatnw4/gwFPHfzBTsRYffkG3wIsDjMj5+2FUhl5B17mOA0RMODV9TCxMyE9zN4URZsDi5R3qMkkFTglP9WDZxQ70HD+kqchBwUr0szUEzNTIVK7Q==
-X-Gm-Message-State: AOJu0Yzcl3XN6mhDVwHMVqb2hTYQQlv9rUnN90FcO4VVXwS8Fyk7o1ad
-	e/Ft/gQtIzoDL37hatjgMVVHCWYvmPBrfE3MkngpiEqH9iroxbsg
-X-Google-Smtp-Source: AGHT+IEto5Hv/5kS0NEzNyuamOC5figEue036XmH8VnitTet5uL5i9qxzmLAbquKR88Rimd4Iq2s8A==
-X-Received: by 2002:a05:6870:7315:b0:21e:877d:78d5 with SMTP id q21-20020a056870731500b0021e877d78d5mr10124312oal.50.1708999561459;
-        Mon, 26 Feb 2024 18:06:01 -0800 (PST)
-Received: from Borg-9.local (070-114-203-196.res.spectrum.com. [70.114.203.196])
-        by smtp.gmail.com with ESMTPSA id t22-20020a0568301e3600b006e12266433csm1343052otr.27.2024.02.26.18.05.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 18:06:00 -0800 (PST)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 26 Feb 2024 20:05:58 -0600
-From: John Groves <John@groves.net>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
-	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
-	dave.hansen@linux.intel.com, gregory.price@memverge.com
-Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
-Message-ID: <mw4yhbmza4idassgbqeiti4ue7jq377ezxfrqrcbsbzsrmfiln@kn7qmqljvswl>
-References: <cover.1708709155.git.john@groves.net>
- <ZdkzJM6sze-p3EWP@bombadil.infradead.org>
- <cc2pabb3szzpm5jxxeku276csqu5vwqgzitkwevfluagx7akiv@h45faer5zpru>
- <Zdy0CGL6e0ri8LiC@bombadil.infradead.org>
- <w5cqtmdgqtjvbnrg5okdgmxe45vjg5evaxh6gg3gs6kwfqmn5p@wgakpqcumrbt>
- <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1709014018; x=1709618818;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ztf4083pTZ5RLIpZH0hN9fs10mfQLsMuM0cOvPbKDX4=;
+        b=BWE/Ek2ULMvCpauefNI5H/skvil2lLczgsWP62k8/X/77xaau5KtTwOq8QjsXvz3WI
+         9VYKNok/B993bXJUEYBwiyZ5UVfoA9NNa8VJzkooQw8UXaYqBmeDkQnja/Fx5IZ5e9R6
+         0VLSfKnpvybvgRGat8LD8Xq7YGZ5Zpe8eFweiMM2dCgOfOIaEQkV3HH9n4b34B9E4LkI
+         IAPC3MEW9FVSijbRXZofvH7yRQ6jpth5/rH2oiqJNCh7I6tWcTSTwhaKzBAgxqjKmu5Z
+         8ekKOZj1WxLsTqqiTavWqNxtLRU3m7e5NbO7QmPjlAcBCVqFSuBjit4Go/1aRwTqg+Le
+         hb7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUtY+YZhIYeHxb5SF3BYVxLBkNcxUNohEoUlAn7TjDTChsYJzl9xv9nrKoDAq/9+PBVbDz8A6DU+rCKh0tEMKidJ632H0nM8vs7
+X-Gm-Message-State: AOJu0Yxu4xfiNBGpbKV+/bkZdTEmKVgkmB5fCc1wntRpJnf13zBQECXN
+	Q64e9LSd3I0L1Pt64s02DvU4AYNtMtW4oO7syvqeAGQVBHtAyDOe65Bwc5KzjNrI4ut0/BZldAB
+	iZ5K6RVB/Qag8XDN+BoignJpcRP/fvTLsEFYEQhE5xmeBJM48z7Y=
+X-Google-Smtp-Source: AGHT+IGYqahDatj5+yVLQz7txwSkeI2eV7I6NLB7src9IlNQaWKf37hIjexRX3qOazK8NreM8tiy6+o3IHOL/S8h21I=
+X-Received: by 2002:a05:6102:125c:b0:470:53d1:2900 with SMTP id
+ p28-20020a056102125c00b0047053d12900mr4832831vsg.30.1709014018186; Mon, 26
+ Feb 2024 22:06:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
+References: <20240223095133.109046-1-balint.dobszay@arm.com> <20240223095133.109046-2-balint.dobszay@arm.com>
+In-Reply-To: <20240223095133.109046-2-balint.dobszay@arm.com>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Tue, 27 Feb 2024 11:36:47 +0530
+Message-ID: <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
+To: Balint Dobszay <balint.dobszay@arm.com>
+Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com, 
+	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 24/02/26 04:58PM, Luis Chamberlain wrote:
-> On Mon, Feb 26, 2024 at 1:16 PM John Groves <John@groves.net> wrote:
-> >
-> > On 24/02/26 07:53AM, Luis Chamberlain wrote:
-> > > On Mon, Feb 26, 2024 at 07:27:18AM -0600, John Groves wrote:
-> > > > Run status group 0 (all jobs):
-> > > >   WRITE: bw=29.6GiB/s (31.8GB/s), 29.6GiB/s-29.6GiB/s (31.8GB/s-31.8GB/s), io=44.7GiB (48.0GB), run=1511-1511msec
-> > >
-> > > > This is run on an xfs file system on a SATA ssd.
-> > >
-> > > To compare more closer apples to apples, wouldn't it make more sense
-> > > to try this with XFS on pmem (with fio -direct=1)?
-> > >
-> > >   Luis
-> >
-> > Makes sense. Here is the same command line I used with xfs before, but
-> > now it's on /dev/pmem0 (the same 128G, but converted from devdax to pmem
-> > because xfs requires that.
-> >
-> > fio -name=ten-256m-per-thread --nrfiles=10 -bs=2M --group_reporting=1 --alloc-size=1048576 --filesize=256MiB --readwrite=write --fallocate=none --numjobs=48 --create_on_open=0 --ioengine=io_uring --direct=1 --directory=/mnt/xfs
-> 
-> Could you try with mkfs.xfs -d agcount=1024
-> 
->  Luis
+Hi Balint,
 
-$ luis/fio-xfsdax.sh 
-+ sudo mkfs.xfs -d agcount=1024 -m reflink=0 -f /dev/pmem0
-meta-data=/dev/pmem0             isize=512    agcount=1024, agsize=32768 blks
-         =                       sectsz=4096  attr=2, projid32bit=1
-         =                       crc=1        finobt=1, sparse=1, rmapbt=0
-         =                       reflink=0    bigtime=1 inobtcount=1 nrext64=0
-data     =                       bsize=4096   blocks=33554432, imaxpct=25
-         =                       sunit=0      swidth=0 blks
-naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
-log      =internal log           bsize=4096   blocks=16384, version=2
-         =                       sectsz=4096  sunit=1 blks, lazy-count=1
-realtime =none                   extsz=4096   blocks=0, rtextents=0
-+ sudo mount -o dax /dev/pmem0 /mnt/xfs
-+ sudo chown jmg:jmg /mnt/xfs
-+ ls -al /mnt/xfs
-total 0
-drwxr-xr-x  2 jmg  jmg   6 Feb 26 19:56 .
-drwxr-xr-x. 4 root root 30 Feb 26 14:58 ..
-++ nproc
-+ fio -name=ten-256m-per-thread --nrfiles=10 -bs=2M --group_reporting=1 --alloc-size=1048576 --filesize=256MiB --readwrite=write --fallocate=none --numjobs=48 --create_on_open=0 --ioengine=io_uring --direct=1 --directory=/mnt/xfs
-ten-256m-per-thread: (g=0): rw=write, bs=(R) 2048KiB-2048KiB, (W) 2048KiB-2048KiB, (T) 2048KiB-2048KiB, ioengine=io_uring, iodepth=1
-...
-fio-3.33
-Starting 48 processes
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-ten-256m-per-thread: Laying out IO files (10 files / total 2441MiB)
-Jobs: 17 (f=170): [_(2),W(1),_(8),W(2),_(7),W(3),_(2),W(2),_(3),W(2),_(2),W(1),_(2),W(1),_(1),W(3),_(4),W(2)][Jobs: 1 (f=10): [_(47),W(1)][100.0%][w=8022MiB/s][w=4011 IOPS][eta 00m:00s]                                                                                
-ten-256m-per-thread: (groupid=0, jobs=48): err= 0: pid=141563: Mon Feb 26 19:56:28 2024
-  write: IOPS=6578, BW=12.8GiB/s (13.8GB/s)(114GiB/8902msec); 0 zone resets
-    slat (usec): min=18, max=60593, avg=1230.85, stdev=1799.97
-    clat (usec): min=2, max=98969, avg=5133.25, stdev=5141.07
-     lat (usec): min=294, max=99725, avg=6364.09, stdev=5440.30
-    clat percentiles (usec):
-     |  1.00th=[   11],  5.00th=[   46], 10.00th=[  217], 20.00th=[ 2376],
-     | 30.00th=[ 2999], 40.00th=[ 3556], 50.00th=[ 3785], 60.00th=[ 3982],
-     | 70.00th=[ 4228], 80.00th=[ 7504], 90.00th=[13173], 95.00th=[14091],
-     | 99.00th=[21890], 99.50th=[27919], 99.90th=[45351], 99.95th=[57934],
-     | 99.99th=[82314]
-   bw (  MiB/s): min= 5085, max=27367, per=100.00%, avg=14361.95, stdev=165.61, samples=719
-   iops        : min= 2516, max=13670, avg=7160.17, stdev=82.88, samples=719
-  lat (usec)   : 4=0.05%, 10=0.72%, 20=2.23%, 50=2.48%, 100=3.02%
-  lat (usec)   : 250=1.54%, 500=2.37%, 750=1.34%, 1000=0.75%
-  lat (msec)   : 2=3.20%, 4=43.10%, 10=23.05%, 20=14.81%, 50=1.25%
-  lat (msec)   : 100=0.08%
-  cpu          : usr=10.18%, sys=0.79%, ctx=67227, majf=0, minf=38511
-  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=0,58560,0,0 short=0,0,0,0 dropped=0,0,0,0
-     latency   : target=0, window=0, percentile=100.00%, depth=1
+On Fri, 23 Feb 2024 at 15:22, Balint Dobszay <balint.dobszay@arm.com> wrote:
+>
+> Move the pool alloc and free helper functions from the OP-TEE driver to
+> the TEE subsystem, since these could be reused in other TEE drivers.
+> This patch is not supposed to change behavior, it's only reorganizing
+> the code.
+>
+> Suggested-by: Jens Wiklander <jens.wiklander@linaro.org>
+> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+> ---
+>  drivers/tee/optee/core.c          | 64 ------------------------------
+>  drivers/tee/optee/ffa_abi.c       |  6 +--
+>  drivers/tee/optee/optee_private.h | 12 ------
+>  drivers/tee/optee/smc_abi.c       | 11 +++---
+>  drivers/tee/tee_shm.c             | 65 +++++++++++++++++++++++++++++++
+>  include/linux/tee_drv.h           | 11 ++++++
+>  6 files changed, 85 insertions(+), 84 deletions(-)
+>
+> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> index 3aed554bc8d8..9390f21f9902 100644
+> --- a/drivers/tee/optee/core.c
+> +++ b/drivers/tee/optee/core.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/crash_dump.h>
+>  #include <linux/errno.h>
+>  #include <linux/io.h>
+> -#include <linux/mm.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+> @@ -17,69 +16,6 @@
+>  #include <linux/types.h>
+>  #include "optee_private.h"
+>
+> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> -                              size_t size, size_t align,
+> -                              int (*shm_register)(struct tee_context *ctx,
+> -                                                  struct tee_shm *shm,
+> -                                                  struct page **pages,
+> -                                                  size_t num_pages,
+> -                                                  unsigned long start))
+> -{
+> -       size_t nr_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> -       struct page **pages;
+> -       unsigned int i;
+> -       int rc = 0;
+> -
+> -       /*
+> -        * Ignore alignment since this is already going to be page aligned
+> -        * and there's no need for any larger alignment.
+> -        */
+> -       shm->kaddr = alloc_pages_exact(nr_pages * PAGE_SIZE,
+> -                                      GFP_KERNEL | __GFP_ZERO);
+> -       if (!shm->kaddr)
+> -               return -ENOMEM;
+> -
+> -       shm->paddr = virt_to_phys(shm->kaddr);
+> -       shm->size = nr_pages * PAGE_SIZE;
+> -
+> -       pages = kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> -       if (!pages) {
+> -               rc = -ENOMEM;
+> -               goto err;
+> -       }
+> -
+> -       for (i = 0; i < nr_pages; i++)
+> -               pages[i] = virt_to_page((u8 *)shm->kaddr + i * PAGE_SIZE);
+> -
+> -       shm->pages = pages;
+> -       shm->num_pages = nr_pages;
+> -
+> -       if (shm_register) {
+> -               rc = shm_register(shm->ctx, shm, pages, nr_pages,
+> -                                 (unsigned long)shm->kaddr);
+> -               if (rc)
+> -                       goto err;
+> -       }
+> -
+> -       return 0;
+> -err:
+> -       free_pages_exact(shm->kaddr, shm->size);
+> -       shm->kaddr = NULL;
+> -       return rc;
+> -}
+> -
+> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> -                              int (*shm_unregister)(struct tee_context *ctx,
+> -                                                    struct tee_shm *shm))
+> -{
+> -       if (shm_unregister)
+> -               shm_unregister(shm->ctx, shm);
+> -       free_pages_exact(shm->kaddr, shm->size);
+> -       shm->kaddr = NULL;
+> -       kfree(shm->pages);
+> -       shm->pages = NULL;
+> -}
+> -
+>  static void optee_bus_scan(struct work_struct *work)
+>  {
+>         WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
+> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> index ecb5eb079408..ee11918a2b35 100644
+> --- a/drivers/tee/optee/ffa_abi.c
+> +++ b/drivers/tee/optee/ffa_abi.c
+> @@ -374,14 +374,14 @@ static int optee_ffa_shm_unregister_supp(struct tee_context *ctx,
+>  static int pool_ffa_op_alloc(struct tee_shm_pool *pool,
+>                              struct tee_shm *shm, size_t size, size_t align)
+>  {
+> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> -                                         optee_ffa_shm_register);
+> +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> +                                           optee_ffa_shm_register);
+>  }
+>
+>  static void pool_ffa_op_free(struct tee_shm_pool *pool,
+>                              struct tee_shm *shm)
+>  {
+> -       optee_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister);
+> +       tee_shm_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister);
+>  }
+>
+>  static void pool_ffa_op_destroy_pool(struct tee_shm_pool *pool)
+> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+> index 7a5243c78b55..a153285a1919 100644
+> --- a/drivers/tee/optee/optee_private.h
+> +++ b/drivers/tee/optee/optee_private.h
+> @@ -283,18 +283,6 @@ int optee_cancel_req(struct tee_context *ctx, u32 cancel_id, u32 session);
+>  int optee_enumerate_devices(u32 func);
+>  void optee_unregister_devices(void);
+>
+> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> -                              size_t size, size_t align,
+> -                              int (*shm_register)(struct tee_context *ctx,
+> -                                                  struct tee_shm *shm,
+> -                                                  struct page **pages,
+> -                                                  size_t num_pages,
+> -                                                  unsigned long start));
+> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> -                              int (*shm_unregister)(struct tee_context *ctx,
+> -                                                    struct tee_shm *shm));
+> -
+> -
+>  void optee_remove_common(struct optee *optee);
+>  int optee_open(struct tee_context *ctx, bool cap_memref_null);
+>  void optee_release(struct tee_context *ctx);
+> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> index a37f87087e5c..b0c616b6870d 100644
+> --- a/drivers/tee/optee/smc_abi.c
+> +++ b/drivers/tee/optee/smc_abi.c
+> @@ -592,19 +592,20 @@ static int pool_op_alloc(struct tee_shm_pool *pool,
+>          * to be registered with OP-TEE.
+>          */
+>         if (shm->flags & TEE_SHM_PRIV)
+> -               return optee_pool_op_alloc_helper(pool, shm, size, align, NULL);
+> +               return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> +                                                   NULL);
+>
+> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> -                                         optee_shm_register);
+> +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> +                                           optee_shm_register);
+>  }
+>
+>  static void pool_op_free(struct tee_shm_pool *pool,
+>                          struct tee_shm *shm)
+>  {
+>         if (!(shm->flags & TEE_SHM_PRIV))
+> -               optee_pool_op_free_helper(pool, shm, optee_shm_unregister);
+> +               tee_shm_pool_op_free_helper(pool, shm, optee_shm_unregister);
+>         else
+> -               optee_pool_op_free_helper(pool, shm, NULL);
+> +               tee_shm_pool_op_free_helper(pool, shm, NULL);
+>  }
+>
+>  static void pool_op_destroy_pool(struct tee_shm_pool *pool)
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index 731d9028b67f..641aad92ffe2 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -202,6 +202,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+>
+> +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
 
-Run status group 0 (all jobs):
-  WRITE: bw=12.8GiB/s (13.8GB/s), 12.8GiB/s-12.8GiB/s (13.8GB/s-13.8GB/s), io=114GiB (123GB), run=8902-8902msec
+I don't see the first argument (struct tee_shm_pool *pool) being used,
+so drop that. Also, we can just rename it as
+tee_dyn_shm_alloc_helper().
 
-Disk stats (read/write):
-  pmem0: ios=0/0, merge=0/0, ticks=0/0, in_queue=0, util=0.00%
+> +                                size_t size, size_t align,
+> +                                int (*shm_register)(struct tee_context *ctx,
+> +                                                    struct tee_shm *shm,
+> +                                                    struct page **pages,
+> +                                                    size_t num_pages,
+> +                                                    unsigned long start))
+> +{
+> +       size_t nr_pages = roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> +       struct page **pages;
+> +       unsigned int i;
+> +       int rc = 0;
+> +
+> +       /*
+> +        * Ignore alignment since this is already going to be page aligned
+> +        * and there's no need for any larger alignment.
+> +        */
+> +       shm->kaddr = alloc_pages_exact(nr_pages * PAGE_SIZE,
+> +                                      GFP_KERNEL | __GFP_ZERO);
+> +       if (!shm->kaddr)
+> +               return -ENOMEM;
+> +
+> +       shm->paddr = virt_to_phys(shm->kaddr);
+> +       shm->size = nr_pages * PAGE_SIZE;
+> +
+> +       pages = kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> +       if (!pages) {
+> +               rc = -ENOMEM;
+> +               goto err;
+> +       }
+> +
+> +       for (i = 0; i < nr_pages; i++)
+> +               pages[i] = virt_to_page((u8 *)shm->kaddr + i * PAGE_SIZE);
+> +
+> +       shm->pages = pages;
+> +       shm->num_pages = nr_pages;
+> +
+> +       if (shm_register) {
+> +               rc = shm_register(shm->ctx, shm, pages, nr_pages,
+> +                                 (unsigned long)shm->kaddr);
+> +               if (rc)
+> +                       goto err;
+> +       }
+> +
+> +       return 0;
+> +err:
+> +       free_pages_exact(shm->kaddr, shm->size);
+> +       shm->kaddr = NULL;
+> +       return rc;
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_pool_op_alloc_helper);
+> +
+> +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
 
+Ditto tee_shm_pool_op_free_helper() -> tee_dyn_shm_free_helper()
 
-I ran it several times with similar results.
+> +                                int (*shm_unregister)(struct tee_context *ctx,
+> +                                                      struct tee_shm *shm))
+> +{
+> +       if (shm_unregister)
+> +               shm_unregister(shm->ctx, shm);
+> +       free_pages_exact(shm->kaddr, shm->size);
+> +       shm->kaddr = NULL;
+> +       kfree(shm->pages);
+> +       shm->pages = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(tee_shm_pool_op_free_helper);
+> +
+>  static struct tee_shm *
+>  register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, u32 flags,
+>                     int id)
+> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> index 911ddf92dcee..4cf402424e71 100644
+> --- a/include/linux/tee_drv.h
+> +++ b/include/linux/tee_drv.h
+> @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *teedev);
+>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size);
+>
+> +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> +                                size_t size, size_t align,
+> +                                int (*shm_register)(struct tee_context *ctx,
+> +                                                    struct tee_shm *shm,
+> +                                                    struct page **pages,
+> +                                                    size_t num_pages,
+> +                                                    unsigned long start));
+> +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> +                                int (*shm_unregister)(struct tee_context *ctx,
+> +                                                      struct tee_shm *shm));
+> +
 
-Regards,
-John
+These rather belong to drivers/tee/tee_private.h as we shouldn't
+expose them to other kernel client drivers.
 
+-Sumit
+
+>  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+>                                             void *addr, size_t length);
+>
+> --
+> 2.34.1
+>
