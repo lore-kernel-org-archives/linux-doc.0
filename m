@@ -1,226 +1,323 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC1B134B1;
-	Tue, 27 Feb 2024 20:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709066563; cv=fail; b=qwG1lTLyCkgqVHMGMZwd3ErIBj9y/2QgvcYQzcUG8EOvNk+/JQgDM3YkaFHyOAGgfq4Uo/YFVi92obuM4M8OO8WAd3TgXf+umpaOnv/IfBND6Q8gpzFVhasYi5YsWDkr4kh/joqE26GFUsj/VyTJ9h4zqD6LFLxxLzs5dUBANC8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709066563; c=relaxed/simple;
-	bh=hH64iq5y/dbaNEo67uomlCARyaRbvneTc4kfdnlCkVw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DcEc/KKe9mEd/4bmS+qIqv/TZsnzJF4YUaJBrhwRIY0Y2VB8ZPPUgG5o04JY/GVFzlrE/GwMHgJZWa16R9jJhZJBESSnO5XiY8GaZScIJX3todcaeDz3qaN98S4E/nmyuMTXbp0pvvXM0mgoRyzxgPEuUGXxGxe/4oVpls9QLiE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=k+CWh9Lr; arc=fail smtp.client-ip=40.107.243.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="k+CWh9Lr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MDeq6C/7z8kg8cO/iYccGalisCqGtBRnX4uCgD9ySEAYPdllQFJNySQajAB9IhExTpUFxv8Tu6ULu/rlSYlaRe+UTZw2eN+e/FNXtI+B8IDuvrbvR+VqT0Pvgxkzc4BM6qxZ7/GTjQnU0Pims1i4UYR2GT/u+Nms5Zna7FcfL9uxHI+QSa4Iljp/Qdvhppq4DMWeSOUJ4hhpUiQeTYde2j4MHIamTKMt9rFL2RI6DHumW6ZOYgxiH0EHoZkENmiXmZCWoQwB/ykqWJkopZ0Pk/eWyvGIoNNDro6QYs9MqeB9e+IoN3lvQUEnvOAv+bWtzge9RHGf6qRLxW5HmP6S/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LTrNzDtOMGiGUp1FmUSirS12BX4jCw1TYpLGtjXc5+M=;
- b=hxxFrjM2Cvu/AzX4oAaYCypspBTujHbt3wZoEgnTnNho+TRYO3uLk3C1znNGbDlYxDCRUnzveLIlLu0IgqkQhzgHJW30g5PdmRpSHtCV8zgFTA07xTZA8HOtdR0ptc7llTldZxJnUMsYBb+2e9RgTKE2c8hCNezlfLnL9TI1KEeGb5DQnxmGqbr5VEXwTDOZdlhBITaLgFva2N/+1NPr8hQvKpd3nzqNkFqJDtKeHwluSYvyP82JlBWOtKrHF/vaywZYeW7NDQHi5Ew9I/2OLTS0bbcTIbHyD9pQoFW/7WGskIUgdbEJu7Sg7shox1O/mFmbG0wCQFkVb7bfepXBVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LTrNzDtOMGiGUp1FmUSirS12BX4jCw1TYpLGtjXc5+M=;
- b=k+CWh9LroCjFRpuqDWol+3O+aCkFVjNZajABT5H+BMW0LiDlrnnqzryeaYmUE0qCaJPVfs56E47OaUM/j7N0DODgWlJNao/tiw5G5JquYTJgx2sP0HqR44GFyLCSjZsXox94zO4CL583mLLQxHAf5l8EbTsFba5UXMXCo/9m5MI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA1PR12MB8357.namprd12.prod.outlook.com (2603:10b6:208:3ff::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Tue, 27 Feb
- 2024 20:42:38 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54%4]) with mapi id 15.20.7316.035; Tue, 27 Feb 2024
- 20:42:38 +0000
-Message-ID: <c3838a4d-4b7f-4673-a416-9aa569eeddd0@amd.com>
-Date: Tue, 27 Feb 2024 14:42:34 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: Peter Newman <peternewman@google.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>,
- James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
- <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
- <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
- <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
- <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
- <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <CALPaoCgxSAWPYGcmnZZS7M31M+gMJQ-vWd+Q5Zn1Y548bxi2Kw@mail.gmail.com>
- <db9a87b8-40e5-419c-b36e-400f380892a0@amd.com>
- <CALPaoChiVXWz6ObQsLZudNo+ammmPnf_iLvvETDswzwY0n0rQQ@mail.gmail.com>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <CALPaoChiVXWz6ObQsLZudNo+ammmPnf_iLvvETDswzwY0n0rQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA1P222CA0180.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c4::17) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3F814DFE6
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 21:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709067704; cv=none; b=mK7Jz1Gl/4Har3O3H3U/zC7UuKfo5lE2rMXuBoHLR5MI9QHPFn8DtomS1Q07tqesh/JPiSgWUI/l/2kK67o8+DseOKF9Eu1cHh//o9arrFcn5Pbl7IDANm3RsqFGz2xOF6lepC6ZDvbEFVioLr2Vs+qenEKSgm2omLDHw37h2+A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709067704; c=relaxed/simple;
+	bh=nCzgjMDm7SNoYMyvWumebey3yITUrDkfXAMvOb4CD1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6tvAT2LCR4xlZ/FOmg+re9wdaNhm0ll8gTBxg/lc+UB5EYe4P+Ym5JYFDfeXoDjdU4tvAxPATy8au2Mta3AUmefztsGFmAGpMh8NvoMLW24Fy/XLqhiRTCDO23ifSlA8O44RB2lq7ZhalrH2/RLyVaKlN0NjHiTDx5S6RD+Vag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rf4Zl-0006II-QH; Tue, 27 Feb 2024 22:01:21 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rf4Zi-003Gpt-Fk; Tue, 27 Feb 2024 22:01:18 +0100
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1rf4Zi-00AhiH-1F;
+	Tue, 27 Feb 2024 22:01:18 +0100
+Date: Tue, 27 Feb 2024 22:01:18 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Dan Vacura <w36195@motorola.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jeff Vanhoof <qjv001@motorola.com>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Felipe Balbi <balbi@kernel.org>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
+ release after missed isoc
+Message-ID: <Zd5Nns91uXvTOAwd@pengutronix.de>
+References: <20221017205446.523796-1-w36195@motorola.com>
+ <20221017205446.523796-3-w36195@motorola.com>
+ <ZdaPLGTbsBo4F4pK@pengutronix.de>
+ <20240222011955.7sida4udjlvrlue7@synopsys.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA1PR12MB8357:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fc51614-fc26-4a5e-e512-08dc37d4a2fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	VU5A8XXRPFiIJkx6JqiWl9wvGxideRcIDW8Ohq3bOk72eQY17HqTXK7RMECUxP4TxV0dQHkHFsMGayaoCD/QksEQm4D1EiCBiLQp5wmEPXaIOgOqChFvwBMU/BvklrloMPOTAN8kI9XDRyHHatwwffCT1qpwTJ2CL+FOz7Bme9D5bY190CCuxFovH4GOHZO3Bcsp2DBjypWG3A5LamAzoPRF/VTwkfwFaHhIjIKhiyDTX0TmGzYUR+dtikilTjcRKGTdtG1ate3JI2m87d23QmVzozm8olUdrWwi1kjkTYZa84CPvas7/Ao9dt4mtejLT0cVjF4JD9+7VY/hZ6ZV9un6igFNZqApvVO6HEVz7UvajGDj/Q1D0LzwKfoYUM2qNxepIH59RR9azy4sfyt3MniiF0UfPng2K+sviuSrykNaIP7CqftuHHqjA59GqCl/Fe7sXbstraGCjDFg0tlR+PprwrNlzPUehjZ9H6b2c2jy11zjU9gvjLHfqLny9y4Ess2yKZ6/AnQQYTHQOGgI4eZbaGMG3fsFgS+QEf8SV+/WKUDC9mOuuOzSvtnIo5jQx6EHHB/o7kyiLjWW3qr0/EJ+kB/fvjyU/TC/fAFlf0ors3b0xk/ERinq+EuAjRzI
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OWpxT3VvK0t5UXBPeEp1dGVoRG1vU0x0Z0s3REZVZC84YVlKeUEvN0VLeXEr?=
- =?utf-8?B?V3JoUWs5OXJlRVRWWFhVay9JdWd1UVZGek5tb0ppY0VYbzVnREc0ZUovbjhi?=
- =?utf-8?B?eUs0dzRTeEtwNm50SHByZ2NTREJoK2J0cDZWcjkwRmFCanpPSUljN2ZhNkVU?=
- =?utf-8?B?MG8wN1hITG9ENGtaZEdkWUZKYUcrOGxONTFEbGcxUTJoanRsYkxwSnM0SVN2?=
- =?utf-8?B?S0kzdXdQS2xxTW96eVRlSEJHZWFnU3E1V0RoQ3BsSUZYOTFaZmVxbnppOEN0?=
- =?utf-8?B?Qm9Ha0k4Q3BYV0xiQjBPcEkzc21zQTc5UFgvL3liMGpHdTY0ZUdrekR5Vlp2?=
- =?utf-8?B?VTZTN0huSUpoU1pjak43RWRLWlUzRHdzczkvL01JOVZRenlEVU9SclJ6YzIv?=
- =?utf-8?B?dFVKRm5ZVVh6aDR5ck1PbGduNHVRM2RHbUk0T0JYeEc3dm5waEJSeFRlSW00?=
- =?utf-8?B?ZzUyOWNnN095RlVCYjBQLzg4aSt3bTNlbUtTSDI4c3RLS0ltZXMzNUFlNVdn?=
- =?utf-8?B?d3oyNVpGOWhKc0RyYnpkVkIzdm5FOFZHamZzMCtpVVp1dHpIVGt6SGpWOHNi?=
- =?utf-8?B?VWxjWHBzaERiNktzZTZmU0xnSk1pVHJaVCtYSG96Z2lpKzZYWEdhQk9VMS9T?=
- =?utf-8?B?cGRBdzFHeWxMVk9nZ3VVN1lsT1E1Q2hSdEsxWnFPbU9Md0srT1ZLb25yQWtr?=
- =?utf-8?B?UWVReGM5OUE0UlBncjVKTEZYNmFlb3MydnB2SDBXQUthQk5GL2VWR2FDT0hz?=
- =?utf-8?B?YWNWYzZXczlXWTZrQnlqWmtjWExUaFF0b2g0MmNoajQycy9WYmdlRUUvZllQ?=
- =?utf-8?B?QnZHUUVCSDBoRXRScTZoVDZLeDgzTktzSjV1aDRKK0pSckkwZllFWVppN2ds?=
- =?utf-8?B?LzFVSGl2bU9xQzUwUFJtSlVxaW1iT0pvVXhiVG83bW5RbjlPcUFBWlE0M0Fj?=
- =?utf-8?B?T0dQM3NES2UxbjZzTnJncmxZQ2RUMmFTSWVyUU5VNlg5T0V6ZFJDMVpXN0JF?=
- =?utf-8?B?MWw3WjlRT2ErVS9YZ0tUSGllKzhYYU82V1VBM3V0Q2NBQkRqT2VOZUh2dDhO?=
- =?utf-8?B?bWp5c05VU09ZdkJ1MDBIeFZPaVlLZGJGNGZzcUFoK2hqVU5jaU9PekJGVlBI?=
- =?utf-8?B?c0lqdzR0UWZEYklTSEdXVlVvcEVhUm9ZYlQxQS9ycjBEL0FiWmlQMWYwSExR?=
- =?utf-8?B?U2UxYU1UY0JLMmxMdHMySVdMQjJYYXBhNTFEMUNWbUkyanFVc1FTR1N2dGNu?=
- =?utf-8?B?UW1NWG9CbFNJSVFaR2lMdExxSDRLVXZhSHowMndwWHNGRWljN0VQZGVIWElO?=
- =?utf-8?B?Wlk5Ri9ZUkdMbVk1alJQTk1WQnVlcnFSUThzemE0andSRGJheWVmVlBNUzIz?=
- =?utf-8?B?UURSRmxlNXluSmtqNlh1azFFcmQ0S3AxSGlYanlSY25MeVNuRFVTY2prcXRZ?=
- =?utf-8?B?aGV5a3NYOXZnRUYwNnlWaW94b0JyN0Z0aWcxL2hieGNRTlJmb3J1OUhjcjMv?=
- =?utf-8?B?US84TUpyRVhRNmEzVDRUNGV2SGJiZTVxMHJ0RWNLNll0cWZyR3B1UWduSmxG?=
- =?utf-8?B?UWtLR3ZjVVF1YXU2TVU5S1NlNGJMNlMyTVRZWGhUNjVpYjd1UWlIQnFkK0xI?=
- =?utf-8?B?QnBJampTQmFpeFdiR2IzY0hJRWZXYVVSS0pvTjZ1L1JJS2RXeC9HbmZvb29v?=
- =?utf-8?B?QlpFdmFBYXVtK1I4UEE1dWplMVN1N0REZlpxMVBEZnhCMWhFLzNUTHZOUVJD?=
- =?utf-8?B?cTNpNjVsUkZoeTIvZktXSUpmeGNQRXRFUlJHVEJGWkVjM2dGNHRJSUtqNkEy?=
- =?utf-8?B?ZTluYTZYb0RPZEpPR0ZpekMwQ0FxcFliVmFQcVlKeWNOaTJEeSsxQXJZTzZS?=
- =?utf-8?B?Y3E3UUxhOU9UVCtxb2RWTDRCRTEvdmowU01wV1NobHYyazNMYWZxZGVoK1JQ?=
- =?utf-8?B?c04xL3NMRG0yUFlLajZzWTNHVEdrdFRmSDNRbTJ4VDNwYUNOcjMyOE9PZ2FU?=
- =?utf-8?B?bnlzMXR2VVJ6UE9Sbm5GQnpvT1Brei8xK3pydEtEbSsxaEJ5Q1Jjd3lxcXl3?=
- =?utf-8?B?SzNsK2huLzlOTWpadGFzQ3N6YW9sRkw4eUtCSk5OeXNPQzJ6ekp3dVU5T1BG?=
- =?utf-8?Q?B5o4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fc51614-fc26-4a5e-e512-08dc37d4a2fc
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2024 20:42:38.8477
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3ErUlLu5gv2YNW1uQQXugQpWVyJywTRcXnQbMawirFb3AR3FVdbaD/loHcQ/PeJ5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8357
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UGG4/oZux7XmFe0u"
+Content-Disposition: inline
+In-Reply-To: <20240222011955.7sida4udjlvrlue7@synopsys.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Hi Peter,
 
-On 2/27/24 14:06, Peter Newman wrote:
-> Hi Babu,
-> 
-> On Tue, Feb 27, 2024 at 11:37 AM Moger, Babu <babu.moger@amd.com> wrote:
->> On 2/27/24 12:26, Peter Newman wrote:
->>> On Tue, Feb 27, 2024 at 10:12 AM Moger, Babu <babu.moger@amd.com> wrote:
->>>>
->>>> On 2/26/24 15:20, Reinette Chatre wrote:
->>>>>
->>>>> For example, if I understand correctly, theoretically, when ABMC is enabled then
->>>>> "num_rmids" can be U32_MAX (after a quick look it is not clear to me why r->num_rmid
->>>>> is not unsigned, tbd if number of directories may also be limited by kernfs).
->>>>> User space could theoretically create more monitor groups than the number of
->>>>> rmids that a resource claims to support using current upstream enumeration.
->>>>
->>>> CPU or task association still uses PQR_ASSOC(MSR C8Fh). There are only 11
->>>> bits(depends on specific h/w) to represent RMIDs. So, we cannot create
->>>> more than this limit(r->num_rmid).
->>>>
->>>> In case of ABMC, h/w uses another counter(mbm_assignable_counters) with
->>>> RMID to assign the monitoring. So, assignment limit is
->>>> mbm_assignable_counters. The number of mon groups limit is still r->num_rmid.
->>>
->>> That is not entirely true. As long as you don't need to maintain
->>> bandwidth counts for unassigned monitoring groups, there's no need to
->>> allocate a HW RMID to a monitoring group.
+--UGG4/oZux7XmFe0u
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 22, 2024 at 01:20:04AM +0000, Thinh Nguyen wrote:
+>On Thu, Feb 22, 2024, Michael Grzeschik wrote:
+>> For #2: I found an issue in the handling of the completion of requests in
+>> the started list. When the interrupt handler is *explicitly* calling
+>> stop_active_transfer if the overall event of the request was an missed
+>> event. This event value only represents the value of the request that
+>> was actually triggering the interrupt.
 >>
->> We don't need to allocate a h/w counter for unassigned group.
->> My proposal is to allocate h/w counter only if user requests a assignment.
->>  The limit for assigned events at time is mbm_assignable_counters(32 right
->> now).
-> 
-> I said "RMID", not "counter". The point is, the main purpose served by
-> the RMID in an unassigned mongroup is providing a unique value to
-> write into the task_struct to indicate group membership.
-
-In case of ABMC, cpu(or task) association still uses RMID value stored in
-"struct mongroup" data structure. Same value is written to PQR_ASSOC(MSR
-C8Fh). It needs to be a valid value. Hope that make sense.
-
-> 
+>> It also calls ep_cleanup_completed_requests and is iterating over the
+>> started requests and will call giveback/complete functions of the
+>> requests with the proper request status.
 >>
->>>
->>> In my soft-ABMC prototype, where a limited number of HW RMIDs are
->>> allocated to assigned monitoring groups, I was forced to replace the
->>> HW RMID value stored in the task_struct to a pointer to the struct
->>> mongroup, since the RMID value assigned to the mongroup would
->>> frequently change, resulting in excessive walks down the tasklist to
->>> find all of the tasks using the previous value.
-
-You are using this pointer as unique value. This will work as long as you
-are not writing this value to PQR_ASSOC MSR.
-
-
->>>
->>> However, the number of hardware monitor group identifiers supported
->>> (i.e., RMID, PARTID:PMG) is usually high enough that I don't think
->>> there's much motivation to support unlimited monitoring groups. In
->>> both soft-RMID and soft-ABMC, I didn't bother supporting more groups
->>> than num_rmids, because the number was large enough.
+>> So this will also catch missed requests in the queue. However, since
+>> there might be, lets say 5 good requests and one missed request, what
+>> will happen is, that each complete call for the first good requests will
+>> enqueue new requests into the started list and will also call the
+>> updatecmd on that transfer that was already missed until the loop will
+>> reach the one request with the MISSED status bit set.
 >>
->> What is soft-ABMC?
-> 
-> It's the term I'm using to describe[1] the approach of using the
-> monitor assignment interface to allocate a small number of RMIDs to
-> monitoring groups.
-> 
-> -Peter
-> 
-> [1] https://lore.kernel.org/lkml/CALPaoCiRD6j_Rp7ffew+PtGTF4rWDORwbuRQqH2i-cY5SvWQBg@mail.gmail.com/
+>> So in my opinion the patch from Jeff makes sense when adding the
+>> following change aswell. With those both changes the underruns and
+>> broken frames finally disappear. I am still unsure about the complete
+>> solution about that, since with this the mentioned 5 good requests
+>> will be cancelled aswell. So this is still a WIP status here.
+>>
+>
+>When the dwc3 driver issues stop_active_transfer(), that means that the
+>started_list is empty and there is an underrun.
 
--- 
-Thanks
-Babu Moger
+At this moment this is only the case when both, pending and started list
+are empty. Or the interrupt event was EXDEV.
+
+The main problem is that the function
+dwc3_gadget_ep_cleanup_completed_requests(dep, event, status); will
+issue an complete for each started request, which on the other hand will
+refill the pending list, and therefor after that refill the
+stop_active_transfer is currently never hit.
+
+>It treats the incoming requests as staled. However, for UVC, they are
+>still "good".
+
+Right, so in that case we can requeue them anyway. But this will have to
+be done after the stop transfer cmd has finished.
+
+>I think you can just check if the started_list is empty before queuing
+>new requests. If it is, perform stop_active_transfer() to reschedule the
+>incoming requests. None of the newly queue requests will be released
+>yet since they are in the pending_list.
+
+So that is basically exactly what my patch is doing. However in the case
+of an underrun it is not safe to call dwc3_gadget_ep_cleanup_completed_requ=
+ests
+as jeff stated. So his underlying patch is really fixing an issue here.
+
+>For UVC, perhaps you can introduce a new flag to usb_request called
+>"ignore_queue_latency" or something equivalent. The dwc3 is already
+>partially doing this for UVC. With this new flag, we can rework dwc3 to
+>clearly separate the expected behavior from the function driver.
+
+I don't know why this "extra" flag is even necessary. The code example
+is already working without that extra flag.
+
+Actually I even came up with an better solution. Additionally of checking if
+one of the requests in the started list was missed, we can activly check if
+the trb ring did run dry and if dwc3_gadget_endpoint_trbs_complete is
+going to enqueue in to the empty trb ring.
+
+So my whole change looks like that:
+
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index efe6caf4d0e87..2c8047dcd1612 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -952,6 +952,7 @@ struct dwc3_request {
+  #define DWC3_REQUEST_STATUS_DEQUEUED		3
+  #define DWC3_REQUEST_STATUS_STALLED		4
+  #define DWC3_REQUEST_STATUS_COMPLETED		5
++#define DWC3_REQUEST_STATUS_MISSED_ISOC		6
+  #define DWC3_REQUEST_STATUS_UNKNOWN		-1
+ =20
+  	u8			epnum;
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 858fe4c299b7a..a31f4d3502bd3 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2057,6 +2057,9 @@ static void dwc3_gadget_ep_cleanup_cancelled_requests=
+(struct dwc3_ep *dep)
+  		req =3D next_request(&dep->cancelled_list);
+  		dwc3_gadget_ep_skip_trbs(dep, req);
+  		switch (req->status) {
++		case 0:
++			dwc3_gadget_giveback(dep, req, 0);
++			break;
+  		case DWC3_REQUEST_STATUS_DISCONNECTED:
+  			dwc3_gadget_giveback(dep, req, -ESHUTDOWN);
+  			break;
+@@ -2066,6 +2069,9 @@ static void dwc3_gadget_ep_cleanup_cancelled_requests=
+(struct dwc3_ep *dep)
+  		case DWC3_REQUEST_STATUS_STALLED:
+  			dwc3_gadget_giveback(dep, req, -EPIPE);
+  			break;
++		case DWC3_REQUEST_STATUS_MISSED_ISOC:
++			dwc3_gadget_giveback(dep, req, -EXDEV);
++			break;
+  		default:
+  			dev_err(dwc->dev, "request cancelled with wrong reason:%d\n", req->sta=
+tus);
+  			dwc3_gadget_giveback(dep, req, -ECONNRESET);
+@@ -3509,6 +3515,36 @@ static int dwc3_gadget_ep_cleanup_completed_request(=
+struct dwc3_ep *dep,
+  	return ret;
+  }
+ =20
++static int dwc3_gadget_ep_check_missed_requests(struct dwc3_ep *dep)
++{
++	struct dwc3_request	*req;
++	struct dwc3_request	*tmp;
++	int ret =3D 0;
++
++	list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
++		struct dwc3_trb *trb;
++
++		trb =3D req->trb;
++		switch (DWC3_TRB_SIZE_TRBSTS(trb->size)) {
++		case DWC3_TRBSTS_MISSED_ISOC:
++			/* Isoc endpoint only */
++			ret =3D -EXDEV;
++			break;
++		case DWC3_TRB_STS_XFER_IN_PROG:
++			/* Applicable when End Transfer with ForceRM=3D0 */
++		case DWC3_TRBSTS_SETUP_PENDING:
++			/* Control endpoint only */
++		case DWC3_TRBSTS_OK:
++		default:
++			ret =3D 0;
++			break;
++		}
++	}
++
++	return ret;
++}
++
+  static void dwc3_gadget_ep_cleanup_completed_requests(struct dwc3_ep *dep,
+  		const struct dwc3_event_depevt *event, int status)
+  {
+@@ -3565,22 +3601,51 @@ static bool dwc3_gadget_endpoint_trbs_complete(stru=
+ct dwc3_ep *dep,
+  {
+  	struct dwc3		*dwc =3D dep->dwc;
+  	bool			no_started_trb =3D true;
++	unsigned int		transfer_in_flight =3D 0;
++
++	/* It is possible that the interrupt thread was delayed by
++	 * scheduling in the system, and therefor the HW has already
++	 * run dry. In that case the last trb in the queue is already
++	 * handled by the hw. By checking the HWO bit we know to restart
++	 * the whole transfer. The condition to appear is more likelely
++	 * if not every trb has the IOC bit set and therefor does not
++	 * trigger the interrupt thread fewer.
++	 */
++	if (dep->number && usb_endpoint_xfer_isoc(dep->endpoint.desc)) {
++		struct dwc3_trb *trb;
+ =20
+-	dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
++		trb =3D dwc3_ep_prev_trb(dep, dep->trb_enqueue);
++		transfer_in_flight =3D trb->ctrl & DWC3_TRB_CTRL_HWO;
++	}
+ =20
+-	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
+-		goto out;
++	if (status =3D=3D -EXDEV || !transfer_in_flight) {
++		struct dwc3_request *tmp;
++		struct dwc3_request *req;
+ =20
+-	if (!dep->endpoint.desc)
+-		return no_started_trb;
++		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
++			dwc3_stop_active_transfer(dep, true, true);
+ =20
+-	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
+-		list_empty(&dep->started_list) &&
+-		(list_empty(&dep->pending_list) || status =3D=3D -EXDEV))
+-		dwc3_stop_active_transfer(dep, true, true);
+-	else if (dwc3_gadget_ep_should_continue(dep))
+-		if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
+-			no_started_trb =3D false;
++		list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
++			dwc3_gadget_move_cancelled_request(req,
++					(DWC3_TRB_SIZE_TRBSTS(req->trb->size) =3D=3D DWC3_TRBSTS_MISSED_ISOC)=
+ ?
++					DWC3_REQUEST_STATUS_MISSED_ISOC : 0);
++		}
++	} else {
++		dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
++
++		if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
++			goto out;
++
++		if (!dep->endpoint.desc)
++			return no_started_trb;
++
++		if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
++			list_empty(&dep->started_list) && list_empty(&dep->pending_list))
++			dwc3_stop_active_transfer(dep, true, true);
++		else if (dwc3_gadget_ep_should_continue(dep))
++			if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
++				no_started_trb =3D false;
++	}
+ =20
+  out:
+  	/*
+
+I will seperate the whole hunk into smaller changes and send an v1
+the next days to review.
+
+Regards,
+Michael
+
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--UGG4/oZux7XmFe0u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXeTZsACgkQC+njFXoe
+LGT+YBAAmyQp+fkJX9X1YZEkLMUI7viPG090DrrOGPRlyCf4wK/TQBj220yhHKzx
+do1CWiET5QuL9B8qqpIsjgaqgAJDj/rLnPAAZMinj+nZ9ETWwyxradf2vlpigmIr
+a0upO/I6oFOTSuuYtnE42rhMvQ8iCuTboe6yRIn1PYdfvxmXOxV2hLK8NTS5UOBv
+eTANs5vIrLgfYHnM1S+o/ScyeM7AiZg561Xorj6LFkwY9lHTps27h5BlQgC8sOiS
+dP2dZwxuJxC7BrLDJNBnrsNV2RDlT2lc55Mtow41rYyHPg8H8FY0hO85a7nHYMTJ
+bCYg6eCqIVVUvafzUyFQ3zx4xqYCOCceP4KDUy0Q7SS8JRIgJFqpAtFva6rOeCo1
+7Yisi8p+4NQqn6cApgFJCOKCHrd9Jc4ES25tW7EAVAgoorWwl5r0oPQC8FFLv55z
+OowxA4np4DQR7DCkvXFUThNXho2ghxSwzaxcRyTgfCEURPChWMtaDGwB4ptIwq8p
+8hAOGRYh7GQNC+im89JuMZoExkKRzdHenQMI9FqNrI4PMI7mIHPIcrdr0BeTFiDM
+TO0e1xMC2dVu6jS+Rmn4XdObVWtpmbPk0FmWkFZw09CScWno23fojSE3ndv6a5rD
+GtGHnk6x9Vx5zZoMFii0NzbssJIsSG7ZJPwdYc5oPgJ/g4qqrGw=
+=YOB/
+-----END PGP SIGNATURE-----
+
+--UGG4/oZux7XmFe0u--
