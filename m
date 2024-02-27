@@ -1,127 +1,104 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0E11CD3B;
-	Tue, 27 Feb 2024 12:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0989113B285;
+	Tue, 27 Feb 2024 13:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709037448; cv=none; b=HFEj8AtQAnf6LzYcPgGJru9Fl2TIVwrpWpIeGUSEESe6CEN9tloy6waFqXD33YH9Da6tVajGY/8QUavkN5iOyqErjdCZaIZQJi3wkRE6A1iH/AVXXUqjyizomoyMliIhFla20taPPVdAmLqGJHX6Ouh3GnXha4IYIO6EKZ2AUX0=
+	t=1709038976; cv=none; b=sJhe9cN2i7ORzDd9mOYO4GJuF1s3IOSBA5w0r9X6FnxtX8JpYQrOXu3ka9ZMBRslsNTcIsDwpTlFsrGJ9iEea1/nSd+aZ9CAkuuPZ3gdAWzaFONlxUNAwPEm5JaGx4GnJ5JESW7dJaco4mCWmttoU4NoPb1sBn+fFyLwJhJzlsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709037448; c=relaxed/simple;
-	bh=vL3h/IKG2Lc53EUgGT8KSBiS7JMMvvCh4EzUmuDxQuI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PrshsZqcllTisn67flBj+K2kIqhnyyr8DRAVpnGCqiTPiuhYmk4R/kUO2tZPguQNP97t3uxMPf3SJlbDfyLdvghyQX7xLaZeqTkVvD+stcxmnb97H8KuAgfweJoaEwB4DaadzY9G8ZTMoSUjI3woEJSVjGkBT90qZZpP4+Lc/x8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=hqnyz1zy; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1709038976; c=relaxed/simple;
+	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lheQu2czqLTSeP4NK3mxt33Edb02KQjVy/vzbIwpmyC2cAXBhCnrSl0FIm+7M1+sjkkEwlaM63ZbXKCV2Jimg0wpyMUp6Fd3RdxGX+4rgSXmfY8r82rnPJZbRJepHBQ9PV5w9WFMgOKSQqs1ULqTgiwnSrJragLaGUDaH71vYSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpmbbDRj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="hqnyz1zy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1709037446; x=1740573446;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vL3h/IKG2Lc53EUgGT8KSBiS7JMMvvCh4EzUmuDxQuI=;
-  b=hqnyz1zyUmFx0mZVDgnVpoyeyc98LDGtGQqep23JBNikKIOmNQtYPZZw
-   Cpuaj2zj+Tzm0OaYn44FFbNiuhZfKCPVdGz4bqc/rVeOuj93HTV9CN3ID
-   0vqVDPNwN1LlkGgg6dO0qVneqptTd78uraVSU1GLMEt8UF5bFzo2ii90Q
-   RNP9MJ7o1yZboZmqIZe/ZRdV97d7QsDFyiK0FAlxRLtdXL66fleo2VY86
-   50RQy2yTVxaNjlJRWxY329KQi+Izk05Pvl1r85tnpjmce0o3oXpAzA1SS
-   pmFp//244xdLHXb8kLtfifufNI+wMWrmwzWBCHmBDOkH0qH7QZB1Jxv9Z
-   Q==;
-X-CSE-ConnectionGUID: RIjtrF0uTky5IbYLb0NUFw==
-X-CSE-MsgGUID: VyN+l4VUTNyBBErAHgla5w==
-X-IronPort-AV: E=Sophos;i="6.06,187,1705388400"; 
-   d="asc'?scan'208";a="16883354"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2024 05:37:25 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 05:37:09 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Tue, 27 Feb 2024 05:37:06 -0700
-Date: Tue, 27 Feb 2024 12:36:23 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Miguel
- Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida
- Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
-	<gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
-	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on
- RISC-V
-Message-ID: <20240227-swarm-serpent-2010b255f68a@wendy>
-References: <20240223-leverage-walmart-5424542cd8bd@spud>
- <20240223-employee-pessimism-03ba0b58db6b@spud>
- <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
- <20240227-resolved-deceit-4a59a6af5b71@wendy>
- <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
- <20240227-glove-underwire-f562a56cf2c7@wendy>
- <CANiq72=f03_bw9B8ww8UxHkVyP2F7ZPyvC+KWCyhO3Nk1yqdaw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpmbbDRj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFF9C433C7;
+	Tue, 27 Feb 2024 13:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709038975;
+	bh=K8zljY/jOjHfxijTuYAHOGluUedQxnvvUsTqJTxkXzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HpmbbDRj7DsgN7C+l0Nsac1JlsRLWmqQFqIGFCkbGxKteJFERSFF+sy5GSXwIUKOl
+	 1kkVc2T/o/MNqrMmzbg17m2eYF6giueFjm/iXh9pf2CTrYHd47O+0DLs4CEziLmag8
+	 lqW9T5vGj5jb4I/IQrlatzFgMDOEdJ/eRHcrhERUkTuHuE8WE+FOtIFVQzNJgQI/lj
+	 OFaxV54oZfzgTYDOWj2C6vzyr4cJuzXRtb/dJdW0m/t2DP1h4rYOn8Igyw+lT1MbkT
+	 /xuvt7TFgTDGlZKwg3dCxaPdPdNMiNJuceUy7f/c67/fGV4PZe0iHlh4EjMBSjdirU
+	 qpD4wU3U97/2A==
+Date: Tue, 27 Feb 2024 14:02:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
+Message-ID: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
+ <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lgqlciDgvTDbCOgO"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cwsjmzyidxiy2r5i"
 Content-Disposition: inline
-In-Reply-To: <CANiq72=f03_bw9B8ww8UxHkVyP2F7ZPyvC+KWCyhO3Nk1yqdaw@mail.gmail.com>
+In-Reply-To: <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
 
---lgqlciDgvTDbCOgO
-Content-Type: text/plain; charset=utf-8
+
+--cwsjmzyidxiy2r5i
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 01:12:51PM +0100, Miguel Ojeda wrote:
-> On Tue, Feb 27, 2024 at 12:05=E2=80=AFPM Conor Dooley
-> <conor.dooley@microchip.com> wrote:
-> >
-> > My point though was more
-> > that either this was acceptable for v6.9 or would be v6.10 material
-> > with the same mechanism as arm64. Rebasing after v6.9-rc1 but not
-> > adapting to that way of doing things is what seemed silly to me, since
-> > if a resend is required then the other improvements should be carried
-> > out at the same time.
+Hi Ma=EDra,
+
+Thanks for you reviews!
+
+On Mon, Feb 26, 2024 at 09:29:32AM -0300, Ma=EDra Canal wrote:
+> On 2/22/24 15:14, Maxime Ripard wrote:
+> > The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
 >=20
-> If avoiding the `target.json` is possible, definitely.
->=20
-> I didn't want to assume it is, though -- e.g. the native integer
-> widths you have is 64 but the built-in targets use 32:64 (perhaps
-> there is a way to tweak it with an LLVM param via `-Cllvm-args`, but I
-> don't see any obvious way from a quick look; `opt` does have it,
-> though).
+> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
+> equivalent to drm_plane?
 
-Looking closer at those targets, all of them enable compressed
-instructors, but we support hardware that does not support them.
-I think that means we are stuck with the custom targets.
+Both statements are true :)
 
-I could badger Palmer to pick this up tomorrow, provided you're okay
-with the gist of this series.
+vc4 itself uses vc4_plane to holds its plane-related content, but it
+turns out that there's nothing in that structure anymore and vc4_plane
+=3D=3D drm_plane.
 
-Cheers,
-Conor.
+In our mock driver, we have another structure meant to store the
+mock-plane-related content which doesn't have anything in it anymore,
+and is thus equivalent to vc4_plane.
 
---lgqlciDgvTDbCOgO
+So, basically, vc4_dummy_plane =3D=3D vc4_plane =3D=3D drm_plane.
+
+This patch is only about getting rid of vc4_dummy_plane though.
+
+Is it clearer?
+
+Maxime
+
+--cwsjmzyidxiy2r5i
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd3XRwAKCRB4tDGHoIJi
-0pwnAQDKxa0TynZPieVRztR0zcy3tmhfLcVSi9lF1+smiaRObwD/S98C/1BHyqaa
-o69/XjNcE1BNOR9mwoXX9xRD9UA01Qc=
-=I1HU
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3dfAAKCRDj7w1vZxhR
+xQB3AQCM6yIbUIAvcz/rSyKw6mmw6G4nrZh7GPft2T1APOLu4wEAylXMYpdYV8KH
+P8oZ7t3+gt3/8m9lr6IwSflU4vD4bwI=
+=qSeA
 -----END PGP SIGNATURE-----
 
---lgqlciDgvTDbCOgO--
+--cwsjmzyidxiy2r5i--
