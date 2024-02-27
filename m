@@ -1,135 +1,141 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD18C136A;
-	Tue, 27 Feb 2024 00:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D3B1847;
+	Tue, 27 Feb 2024 00:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708994500; cv=none; b=SPEwa4LPvoQz9LQZyFVaHUEXFjxVVo79NUuC42VthElamH5E2bHxa4WZwyRe6UaBeZHcaUtoHIrOfewvzdI4+J4gxtFmCfkUwgOH27u4D3McJPYEXgfUwxKwdtwIPwupJkpVY+iK+blP98+D9YZXeZJ+ER12ho6+NKeU6PJMAwA=
+	t=1708995422; cv=none; b=DJ1nxYHXR/YboqfVBw49IpB5Spuf7D1Kl9FD6lmmytA6EsnX7cu5KN+sEsLNuWIo/gm5rhixa+HWHHY2OURQHCyxEermxg2uTPiMq91mJ3aBqUUlp55otmLVn9XrGCyRjAWmQfr8ttbb4oT9RiSE4zsYu6bhLLTTm363ouLZHKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708994500; c=relaxed/simple;
-	bh=OCMg9lVSRi1dM4mQ/dHVKSvIT2dNp6Xad44VFS/XxqA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C7iy0I6PwV0N3QUS5+N4hTY5cSKH6FzZ+gUuqwBEvI7vIPGLAWR1FUPnT201w+CAsPy4+HLsxvhITf5mgp0CPBIi1X/rumd+SjuPq3oh92X03dStYFLmV1hVZhz8wPkye+/48QxNS87eZfTCjFla5fkgYIYufHp5TCO2ilyKhhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E9Pw2iwk; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1708995422; c=relaxed/simple;
+	bh=Rpstasz6qy5asuH/ldMOofvDaUhuD9+siwLcWOuJaC4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rh2SAKE0WziPvEOJTU9H1t6rmLKKrq0eHb0t9SxzDMcK/rf3bT5v9IMRKXXom2PbBn3OzLk3WGeu1JDnYdYwOH97vDNqun2EZuAy1l58GQnbmtTpKsTbpfK/ZdiXV4/PF6issGXOlPIryOh+Lnbh/GFW7SE0XBC46Ebf08dJGEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eXa000Oz; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E9Pw2iwk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=E3yLeoY54L7an1gZ4crtQOnqHhnFkPcsPYy0GYM/xeQ=; b=E9Pw2iwkGDsfhccy5Lx+Hx4Mlg
-	70ogJLDoMrg4GWhsksRjSilxhaGGnPUV9B0gNqASn5zii8g91A1xK/BiMkQge0f3CvchoM2ifOUTA
-	rV7oYrED8mzqWgjAiArJdUZF2AyUc2gMfrI4WaHMWNj+BpA0EtnYQz7F4COSKeX3YoKtx+mLMkWcZ
-	61mtJJyNA/6QYOLjRYnpD7t1gEPXBOa+L7JXPQG8hs1tWtdu4/ksWYVEBHrIH7n9SDw9mIAitqJrR
-	qFVz9dVCE1rakSnVmhDSR5WJIT+OopKjwuMSfFk56SnUy7GjmT1GoOyFGzKEpCzpWOjoTRhSqWwg+
-	Kj7ixWXA==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1relXN-000000038CT-14fW;
-	Tue, 27 Feb 2024 00:41:37 +0000
-Message-ID: <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
-Date: Mon, 26 Feb 2024 16:41:36 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eXa000Oz"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5d3912c9a83so2799247a12.3;
+        Mon, 26 Feb 2024 16:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708995420; x=1709600220; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rWOqPITH8/D/rm9Piee283eHAkgF3ezgjvokn+PRZ8I=;
+        b=eXa000OzWsZE9/wtEOwGV3tJ2cQMYFnuFqQZtNT1kjEseq7uQllk9GKpzTlr0SY1jZ
+         nxhbfti5T9wClU6/nXktvR22QOkeVmzqnljQ156GfGA1kMibTPTJTI8ffLdiugIQVUo6
+         2FR/dhpvoy5pGU07x9ZZ8dl/zU8Js7yZikJ8R3/vRofnJQ3NfJMcn9fOuJseH2grK9bM
+         teb90nWYgQQZCOWg30S3egblVkr76UgM3A6UWQiFuJis2ub6RflCuF+vfby/L7ZLD69z
+         nKxeb3TQj1+DgM5x3k2WG0CAkMqGH5f0T7cQtUyy8zeBxcXiZaQpK/QF4DeAjij1MMO0
+         gK/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708995420; x=1709600220;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rWOqPITH8/D/rm9Piee283eHAkgF3ezgjvokn+PRZ8I=;
+        b=fksBdRnz8dYfkTMF2gN2szYukT0deK2s6i8Al4JyMDYEhPdPRemNtcUSsGGCt4Tmvo
+         ftCbCMhtk0JnITpnjH8rr14E9eHXXGhoI2lbq9cd2BAWLPXW7uDqkZwT+Xl4qxzmT+g5
+         Dwl20MT/xfF138whXPqh/2sn13sTofMATbf+t0/yKWnNlChPtDoezwp0jWuqq7oSztSp
+         5ZX+UJi96ibEEgVgLKTyEyKTyGfBSoNlFJUwggkpR2odqneJHKmAg7HDaJ9xvEOTet43
+         lOHNEoUzwKc305WbsQ2H9omUmpRx7NORg9UZImVGFddO/6NEvaNfemDcQPXnHS7yFXVe
+         E4Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCX2vRgl2f6G4oCa3cwPVlbALa1yHd9PeSF69FtQVAYj7Qi7p4EltHmVMYeoztVY4hT6oG85rm+FXTUCyWvvKJoeSqjyAqYbUsYxz+5LcCwIZRLKGsF3bYqxab734grzerLVyNyTmoUTcIA5pkFqhVDMEI50nPgPw3MyFYRHjFL65MqqNA==
+X-Gm-Message-State: AOJu0Yzh6veWx0gwexfm/S+2HorhC5qtWBtsTHiODgrlTo/ptHNBS2PR
+	MG4mneLdAuUhr8xLj/mhTjYdMtxXPecwVd9K9GbZU4YxH+nnjE/G
+X-Google-Smtp-Source: AGHT+IFi5e/RLc/BtrFNtrv1ceMqXDqLPgjk0Fze9Pvw/xHtkjf+4uFWRAv/dagnTOmwpr9Lwd2C2A==
+X-Received: by 2002:a17:902:f690:b0:1dc:5dc0:9ba with SMTP id l16-20020a170902f69000b001dc5dc009bamr9461638plg.26.1708995419555;
+        Mon, 26 Feb 2024 16:56:59 -0800 (PST)
+Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170902e84c00b001db3361bc1dsm289253plg.102.2024.02.26.16.56.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 16:56:59 -0800 (PST)
+From: baneric926@gmail.com
+X-Google-Original-From: kcfeng0@nuvoton.com
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net
+Cc: linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	openbmc@lists.ozlabs.org,
+	kwliu@nuvoton.com,
+	kcfeng0@nuvoton.com,
+	DELPHINE_CHIU@wiwynn.com,
+	Bonnie_Lo@wiwynn.com,
+	naresh.solanki@9elements.com,
+	billy_tsai@aspeedtech.com
+Subject: [PATCH v4 0/3] hwmon: Driver for Nuvoton NCT7363Y
+Date: Tue, 27 Feb 2024 08:56:03 +0800
+Message-Id: <20240227005606.1107203-1-kcfeng0@nuvoton.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-Content-Language: en-US
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Lukas,
+From: Ban Feng <kcfeng0@nuvoton.com>
 
-I'll review the file changes separately. This is just replying
-to the patch description comments.
+NCT7363Y is an I2C based hardware monitoring chip from Nuvoton.
 
+Changes since version 3:
+- Cherry-pick the fan-common.yaml in [1]
+- Fix "checkpatch --strict" report
+- Replace BIT_CHECK() with BIT()
+- Fix CamelCase defines or variables
+- Drop enum chips
+- Drop all local caching and just read values through regmap
+- Drop chip auto-detection since it increases boot time
 
-On 2/26/24 02:46, Lukas Bulwahn wrote:
-> While going through the submit checklist, the list order seemed rather
-> random, probably just by historical coincidences of always adding yet the
-> next point someone thought of at the end of the list.
+[1]: https://patchwork.kernel.org/project/linux-hwmon/patch/
+     20240221104025.1306227-2-billy_tsai@aspeedtech.com/
 
-Probably.
+Changes since version 2:
+- Cherry-pick the fan-common.yaml in [1]
+- Fix nct736x typo and add unevaluatedProperties
 
-> Structure and order them by the category of such activity,
-> reviewing, documenting, checking with tools, building and testing.
-> 
-> As the diff of the reordering is large:
-> Review code now includes previous points 1, 5 and 22.
-> Review Kconfig includes previous 6, 7 and 8.
-> Documenting includes previous 11, 15, 16, 17, 18 and 23.
-> Checking with tools includes previous 5, 9 and 10.
-> Building includes previous 2, 3, 20 and 24.
-> Testing includes previous 12, 13, 14, 19 and 21.
-> 
-...
+[1]: https://patchwork.kernel.org/project/linux-hwmon/patch/
+     20231107105025.1480561-2-billy_tsai@aspeedtech.com/
 
-> 
-> The recommendation to test with the -mm patchset (previous 21, now
-> testing, point 5) was updated to the current state of affairs to test with
-> a recent tag of linux-next.
+Changes since version 1:
+- Modify NCT736X(nct736x) to NCT7363Y(nct7363)
+- Convert to devm_hwmon_device_register_with_info API
+- All ID tables are next to each other and should be consistent
+  between i2c_device_id and of_device_id
+- Ref. fan-common.yaml and modify properties (nuvoton,pwm-mask/
+  nuvoton,fanin-mask) to (pwms/tach-ch)
+- Convert to devm_regmap_init_i2c API
+- Remove unused function (watchdog timer)
+- Fix uninitialized symbol which is reported by kernel test robot
 
-ack.
+Ban Feng (2):
+  dt-bindings: hwmon: Add NCT7363Y documentation
+  hwmon: Driver for Nuvoton NCT7363Y
 
-> Note that the previous first point still remains the first list even after
-> reordering. Based on some vague memory, the first point was important to
-> Randy to stay the first one in any reordering.
+Naresh Solanki (1):
+  dt-bindings: hwmon: fan: Add fan binding to schema
 
-Yes, I have said that. Stephen Rothwell wanted it to be first in the list.
-
-
-> While at it, the reference to CONFIG_SLUB_DEBUG was replaced by
-> CONFIG_DEBUG_SLAB.
-
-I don't understand this comment. DEBUG_SLAB is gone.
-I think those 2 symbols might be reversed in your comments. ?
-
-
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
-> So far, no point disappeared and nothing new was added.
-> 
-
-That's a good start IMO.
-
-> Points/Ideas for further improvements (based on my knowledge and judgement):
-> 
->   - The Review Kconfig changes makes sense, but I am not sure if they are
->     so central during review. If we keep it, let us see if there are other
->     parts for review that are also important similar to Kconfig changes.
->    
->   - Concerning checking with tools, checkpatch probably still makes sense;
->     it pointed out in several places. If sparse and checkstack are really
->     the next two tools to point out, I am not so sure about.
-
-I doubt that ckeckstack is important since gcc & clang warn us about
-stack usage.
-
->     sparse has a lot of false positives nowadays, and many things are not
->     fixed just because sparse complains about it.
->     And I have never used make checkstack and have not found much
->     documentation about it.
->     So, maybe other tools deserve to be mentioned here instead?
-> 
-> I am happy to get feedback---I will work through submitting-patches next
-> and do some clean-up there. While doing that, I might learn what really
-> should go into a better future 'submit-checklist' documentation.
-> 
->  Documentation/process/submit-checklist.rst | 157 +++++++++++----------
->  1 file changed, 84 insertions(+), 73 deletions(-)
-
+ .../devicetree/bindings/hwmon/fan-common.yaml |  78 ++++
+ .../bindings/hwmon/nuvoton,nct7363.yaml       |  63 +++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/nct7363.rst               |  33 ++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/Kconfig                         |  11 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/nct7363.c                       | 412 ++++++++++++++++++
+ 8 files changed, 607 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/fan-common.yaml
+ create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+ create mode 100644 Documentation/hwmon/nct7363.rst
+ create mode 100644 drivers/hwmon/nct7363.c
 
 -- 
-#Randy
+2.34.1
+
