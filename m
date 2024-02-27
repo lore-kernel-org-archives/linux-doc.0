@@ -1,209 +1,180 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B26320DD3;
-	Tue, 27 Feb 2024 16:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C6B2376A
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 16:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709052796; cv=none; b=YqyJGj/EZgc5HGP2kV0qLHjKC/0C8bJ+Yo2xWOoExRLjjQ//NhtsA1rKZzdYywa24O405d6Ebw6meLYUvrT9agfMl3fIkrsZE2Gs7vJ5Ja2DgcpwC5Xgo0l7U+owEzFQthDyBf5sDfg2br3B9gLxJ88rdzpCpjbWraoZVV11enk=
+	t=1709052946; cv=none; b=HaUVhr3FwAjuYovYnbN6S5BAFDP3HMO0pnHdph6jLW5sJFiRkGNBiRINtQVjrZEJM4kBtlZFjDd6/XpMmjEqkSBiHstHju/KdYZ7jpGShPugv6gBk0N7iDcf0zElm7BgiEa/q3Suwsir9kJd7TMcZfP3SpyXiGxHRhR9HDqgenA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709052796; c=relaxed/simple;
-	bh=Da954MbnRPw4bxw+5mIkqfjjxTIv+w4RxJZWrQGj13Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=dCelcqFVZ2cSvNGTuArhfpfBFaJlT9y6gAiUHwxcO5O5GY8OZIyuEehRwkmugyEvMQ7Svq6/DQOq60gQ0aJeFUW96jB5q3Q/+iXZ62cVmQs0MMU77xks9jPUvxneWZLKYun29+g06znGenhS33Lz0VXncZra+N3IZFW+OU8E9uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=NJwn5npR; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1709052946; c=relaxed/simple;
+	bh=WING8+ifDIdPqWo/GgNARqwiCxM6QeK8N+15oiAYs8U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZXooCZ+Jgz1HGThNxDsKU8F4aQHwbJel/DOTUI0krgYF0lLqM4bnWmEISzo+ut5GRiJRqXO5kWfnyKRkixm6GEojONu+T/rvZdMShQSdoszs8YidehZHQpSY1NtzGemSe/7y/Ra78d8/FfXI91Uro91BwtJZIXv1LVIQsknUqrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0bqFZOxi; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="NJwn5npR"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4Tkk7m11lpzDqWP;
-	Tue, 27 Feb 2024 16:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1709052788; bh=Da954MbnRPw4bxw+5mIkqfjjxTIv+w4RxJZWrQGj13Q=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=NJwn5npRMXm6Skwq2AdJ6RK8+WSAKBcRTkXBkZsvegwvHJPlAlLDQZeJME25XbbHm
-	 0OHKncuJh7Yvyoc0KZiDzJCGjZ3lQhAVCIGxUeqLtg7YvLxt1KwdsqmiWe7nUWc0vA
-	 3dfDCVyIEdG9OCYa5NYiiecUA+p0hy78UWIZFJns=
-X-Riseup-User-ID: 7D71F872B5A8A8BB4637B660A5C3BEF426D5D08ECD5582D178E0808550356D2B
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Tkk7f6kxfzJrX8;
-	Tue, 27 Feb 2024 16:53:02 +0000 (UTC)
-Message-ID: <6979cd2e-2b00-4dc4-8e41-66b435cf7ea8@riseup.net>
-Date: Tue, 27 Feb 2024 13:52:59 -0300
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0bqFZOxi"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-60938adfed8so624347b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 08:55:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709052943; x=1709657743; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WING8+ifDIdPqWo/GgNARqwiCxM6QeK8N+15oiAYs8U=;
+        b=0bqFZOxifsJ5NMk/8m7O9TZYcXJ4ZOagI0CeK7ew9Up7vZXassuRVZgV3R/hAaURqv
+         yipQfkJyTGrMRfSjlRKrdq4rMXzq+EopO8mvVXBysaMoXgk8PNFQW+b8ncZMj9oYX/ug
+         4KoRGbpZ7K/nMqn/kBhm0MJzWddgZMP/DRsBPrqhGzjEW+JFM4cP38yDFRQZI5+Vhg5s
+         FiESy5ktg21UABE/kurAAaft0GtHZkORBxkm2W74qjQFqXkvTOvIvTBo3qiZg5Z1OXFV
+         pzPo+VVQkodHYXIDfqiADzhsKkEboRV1fWgLjk3rDQ3UyI8O19BWJwc5Ewki5YStBmlf
+         qemQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709052943; x=1709657743;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WING8+ifDIdPqWo/GgNARqwiCxM6QeK8N+15oiAYs8U=;
+        b=ci6wdnejYIjS5iSd6C+w3Uul8MeUvjqgj9yhf/WhYm7BVSq6jyumuG3IEInWAQJpEq
+         r3cd7zqvgSROb2sCUUF8xjQBviHyT4YRZo7thT12FOL8K7XuRv5PCgPm5O82dMOduT4a
+         qI1JVFOPlvXOKdZ2bLfH6VVdd7Eg9Fv5I3+Eat89bv2p2hZ+8k6Z4Acm573HsBQVDNkS
+         sYgOX0xGOXHWF0It+fY06a/33D7Ndx7a+GxtR4/E9m+ns7ZQJVLYvMHTi5QS5t3IseM1
+         8HQKJgqNXZxVNs2hBqGY4MDDnnS9uDatC14ws1MF+sBXsKNd6ceWTnOplpZa26jt4/Gn
+         AT9g==
+X-Forwarded-Encrypted: i=1; AJvYcCULzgbpMrI2EH2+VkeVcC8mnfc5ZrQoLiaIcDZlP48hF1/JOdmrrYrwLKwTd+OLsxBEImEKHBMs+DW4DnCWL/EvQOkC4grXDmts
+X-Gm-Message-State: AOJu0YyFDgq1pDnhDsq++HAz/Blhj5Uim41E3gU5HQA8XbcuNa5XtFqF
+	OwvYCj7RzkUD0rDlsnwOC9bYDNiUlv7Pgb40nSAYzCI4uDY9RSVzK78F+3XK/ExeHe6OS3GV7s5
+	0+/6PGCE1oyVF9m8wgd6+zQ9/GL669jcGYGDk
+X-Google-Smtp-Source: AGHT+IFx4IMLdqGd5Fz34j1UAm6oDJfltAQpGSG6yeY6HBGKjoGVypF3GR4a4leI/V5eKU8dpRmwS6ivB2dTqeub54A=
+X-Received: by 2002:a81:e245:0:b0:609:2857:af0 with SMTP id
+ z5-20020a81e245000000b0060928570af0mr1933120ywl.25.1709052942967; Tue, 27 Feb
+ 2024 08:55:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
-Content-Language: en-US
-To: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
- <20240227111941.061a2892.pekka.paalanen@collabora.com>
- <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
- <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
- <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
- <20240227152639.6426c401.pekka.paalanen@collabora.com>
- <Zd35c5TLS6ygc_Pr@localhost.localdomain>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <Zd35c5TLS6ygc_Pr@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-16-surenb@google.com>
+ <d6141a99-3409-447b-88ac-16c24b0a892e@suse.cz> <CAJuCfpGZ6W-vjby=hWd5F3BOCLjdeda2iQx_Tz-HcyjCAsmKVg@mail.gmail.com>
+ <72cc5f0b-90cc-48a8-a026-412fa1186acd@suse.cz>
+In-Reply-To: <72cc5f0b-90cc-48a8-a026-412fa1186acd@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 27 Feb 2024 08:55:32 -0800
+Message-ID: <CAJuCfpF=uwxH93BF6905FAcvaihYD0iyT=rJS-REe4u_1Km22w@mail.gmail.com>
+Subject: Re: [PATCH v4 15/36] lib: introduce support for page allocation tagging
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Feb 27, 2024 at 1:30=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+>
+>
+> On 2/26/24 18:11, Suren Baghdasaryan wrote:
+> > On Mon, Feb 26, 2024 at 9:07=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> >>
+> >> On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> >>> Introduce helper functions to easily instrument page allocators by
+> >>> storing a pointer to the allocation tag associated with the code that
+> >>> allocated the page in a page_ext field.
+> >>>
+> >>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >>> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+> >>> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> >>
+> >> The static key usage seems fine now. Even if the page_ext overhead is =
+still
+> >> always paid when compiled in, you mention in the cover letter there's =
+a plan
+> >> for boot-time toggle later, so
+> >
+> > Yes, I already have a simple patch for that to be included in the next
+> > revision: https://github.com/torvalds/linux/commit/7ca367e80232345f471b=
+77b3ea71cf82faf50954
+>
+> This opt-out logic would require a distro kernel with allocation
+> profiling compiled-in to ship together with something that modifies
+> kernel command line to disable it by default, so it's not very
+> practical. Could the CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT be
+> turned into having 3 possible choices, where one of them would
+> initialize mem_profiling_enabled to false?
 
+I was thinking about a similar approach of having the early boot
+parameter to be a tri-state with "0 | 1 | Never". The default option
+would be "Never" if CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dn
+and "1" if CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dy. Would that
+solve the problem for distributions?
 
-On 27/02/24 12:02, Louis Chauvet wrote:
-> Le 27/02/24 - 15:26, Pekka Paalanen a écrit :
->> On Tue, 27 Feb 2024 09:29:58 -0300
->> Arthur Grillo <arthurgrillo@riseup.net> wrote:
->>
->>> On 27/02/24 08:55, Pekka Paalanen wrote:
->>>> On Tue, 27 Feb 2024 08:44:52 -0300
->>>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
->>>>   
->>>>> On 27/02/24 06:19, Pekka Paalanen wrote:  
->>>>>> On Mon, 26 Feb 2024 17:42:11 -0300
->>>>>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
->>>>>>     
->>>>>>> Now that we have a defined benchmark for testing the driver, add
->>>>>>> documentation on how to run it.
->>>>>>>
->>>>>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->>>>>>> ---
->>>>>>>  Documentation/gpu/vkms.rst | 6 ++++++
->>>>>>>  1 file changed, 6 insertions(+)
->>>>>>>
->>>>>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
->>>>>>> index ba04ac7c2167..6d07f79f77ff 100644
->>>>>>> --- a/Documentation/gpu/vkms.rst
->>>>>>> +++ b/Documentation/gpu/vkms.rst
->>>>>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
->>>>>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
->>>>>>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
->>>>>>>  
->>>>>>> +If you are developing features that may affect performance, you can run the kms_fb_stress    
->>>>>>
->>>>>> s/can/must/
->>>>>>     
->>>>>>> +benchmark::    
->>>>>>
->>>>>> before and after, and report the numbers.    
->>>>>
->>>>> Did you mean to write the benchmarks logs here?  
->>>>
->>>> I mean people should be required tell their before and after numbers in
->>>> either commit message (my preference) or in series cover letter (if
->>>> benchmarking commits is not useful).
->>>>
->>>> With the addition of YUV support in VKMS, maybe the benchmark needs to  
->>>
->>> With the upcoming addition, I've sent a patch to arbitrarily change the
->>> formats on the benchmark via command-line options. It's not adding a new
->>> case, but maybe just this could already help.
->>>
->>> https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@riseup.net/
->>
->> In that case you would need to document exactly what command line
->> options to use, and ask people to report the numbers of each test
->> case.
->>
->> That works. Alternatively or additionally, the test cases could be
->> built in to the benchmark, and it just reports numbers for all of them
->> in a single invocation. Then people running the standard benchmark do
->> not need to worry about getting the command line options right, or
->> running multiple cases. And reviewers do not need to ask to re-run with
->> the correct options.
->>
->> I suppose rotations might get added, too.
->>
->> Or maybe you'd provide a script that covers all the standard
->> performance test cases?
-> 
-> I agree with Pekka, it would be nice to have a simple "bench everything" 
-> tool. Like kms_rotation is a test for all rotations, kms_plane for color 
-> conversions... kms_fb_test can run a few combinations (rgb+norotation, 
-> rgb+yuv, rgb+rotation...) and report a "global result" (this way it's easy 
-> to spot a regression not related directly to your changes).
-> 
-> I don't know the IGT benchmark API, but I think there is a way to create 
-> "sub-benchmarks" so you can run a specific benchmark when developping and 
-> the whole thing before pushing your series.
-> 
-> Kind regards,
-> Louis Chauvet
-> 
+>
+> Or, taking a step back, is it going to be a common usecase to pay the
+> memory overhead unconditionally, but only enable the profiling later
+> during runtime?
 
-Thank you guys for the ideas!
+I think that would be the option one would use in the early
+deployments, to be able to enable the feature on specific devices
+without a reboot. Pasha brought up also an option when we disable the
+feature initially (via early boot option) but can enable it and reboot
+the system that will come up with enabled option.
 
-I'm going to work on something along on those lines, having combinations
-of formats, rotations and whatever property that might be useful for
-stress testing the driver. Maybe query the driver for the supported
-properties (e.g. what formats and rotations it supports) and do many/all
-possible combinations.
+As Kent mentioned, he has been working on a pointer compression
+mechanism to cut the overhead of each codtag reference from one
+pointer (8 bytes) to 2 bytes index. I'm yet to check the performance
+but if that works and we can fit this index into page flags, that
+would completely eliminate dependency on page_ext and this memory
+overhead will be gone. This mechanism is not mature enough and I don't
+want to include these optimizations into the initial patchset, that's
+why it's not included in this patchset.
 
-Best Regards,
-~Arthur Grillo
+> Also what happens if someone would enable and disable it
+> multiple times during one boot? Would the statistics get all skewed
+> because some frees would be not accounted while it's disabled?
 
+Yes and this was discussed during last LSFMM when the runtime control
+was brought up for the first time. That loss of accounting while the
+feature is disabled seems to be expected and acceptable. One could
+snapshot the state before re-enabling the feature and then compare
+later results with the initial snapshot to figure out the allocation
+growth.
 
->>
->> Thanks,
->> pq
->>
->>>> start printing YUV numbers separately as a new case.
->>>>
->>>>
->>>> Thanks,
->>>> pq
->>>>   
->>>>>  
->>>>>>     
->>>>>>> +
->>>>>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
->>>>>>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress    
->>>>>>
->>>>>> Do people need to run both commands?    
->>>>>
->>>>> No, they don't, just two options.
->>>>>
->>>>> Best Regards,
->>>>> ~Arthur Grillo
->>>>>  
->>>>>>
->>>>>> Anyway, a good idea.
->>>>>>
->>>>>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
->>>>>>
->>>>>>
->>>>>> Thanks,
->>>>>> pq
->>>>>>     
->>>>>>> +
->>>>>>>  TODO
->>>>>>>  ====
->>>>>>>  
->>>>>>>
->>>>>>> ---
->>>>>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
->>>>>>> change-id: 20240226-bench-vkms-5b8b7aab255e
->>>>>>>
->>>>>>> Best regards,    
->>>>>>     
->>>>   
->>
-> 
-> 
-> 
+>
+> >>
+> >> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> >
+> > Thanks!
+> >
+> >>
+> >>
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
