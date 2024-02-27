@@ -1,143 +1,421 @@
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2136.outbound.protection.outlook.com [40.107.117.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB9145B01;
-	Tue, 27 Feb 2024 15:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709048645; cv=fail; b=TNFJZrdGBl08RgQ6EKWvoFTYWiYokjobW2+BSSogdXG6qw7oAXb7xuGJXRY3XJmpxUmNDwEyMb2zkIDNy3trZQJHni9OGH0WDSMT2/R0jpUn7Xd1hmL7wF/AY5r6eOoOJKHv0iEFozHUZbjJApfRggvh4SqFAcDfV8d3t0XN918=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709048645; c=relaxed/simple;
-	bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UYDa56GPihD1V9ebSUBEgHiNarQRRsFlbxN5XIFZFAVaimXGpODo+UH1CAs0mj1OuzjL/I8yblOCxwhNWu8mAs0Qf12nyuOccrSMJ0U0zwNiYMUte2NbsWdCoqiE/6nEER0XGmtvZmw+418CmOkBpH0pqN5qIwjhVaxHpIHmkkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com; spf=pass smtp.mailfrom=qnap.com; dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b=WmgYdoGn; arc=fail smtp.client-ip=40.107.117.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qnap.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676981468E7
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 15:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709049002; cv=none; b=b4SolduZDmFe1OvXUmRRG1tYdRG72WBiZTC2X3l7gw7fIoH3ZV7OIctNXWBiAspVl/Y+YH0PF3zzfUvR9GTZVwPitdHq7NhAUEvdoA+FuZ/UHynzzVKyV3qaURyuGwsSV9E4Qef9zKOL2lv1dMZdjCqIrxAU5gi3NpBdy1AxnEs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709049002; c=relaxed/simple;
+	bh=vIkQQpslZuckwTFsbaZ9JcwKjcTdPDrI3rJXKYsiiT0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pANhBlzirv4Qg+JF+vM7ElhGAArcuU/d781cX2J3qoMYeGf3d7pgSPIeU1kJE26R/hNc7NFSRPlYaKww3ZIVa25PewfdmHysUnHlA1U189osQl1KsgaesLcunn4M413doA5Y5RFtV30pvbEne+CJD91aVJGh/Mt+9EaumD547FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xrlNT/AV; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b="WmgYdoGn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X/eGgsZ+ham1lXyK392TZR7ORdglO5Fu9Fl8mv0yvcBhNGwqAL1GzhL2VzVL8N4yHPnKqgFiIYXy+jbkyCEFgi3y0W7vMfnKGWzS+ZU48aZ57AnUt4OrPux/XjZ2+47ipqGzeU4WkfKtgJ6tMoiz7I6SPxGlCK14lK+aop05Z+tyzW25ZlfU1rry27RXGv5djlHFR4pz0mWnq8CIEe82vsAv2pKtyywzbCqatd5MHFG+D07CL7bjd0NXfUIRtLOdtbtc2DN+mVx/yD2KPooRjaQf50sakGDuPXtT+pv7lf4RknZJffjGVMWzTBO28e5Qq59mfOyAcJ2fNQTNLlmdsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
- b=VEFVzEQ13mdczcNNi6ZS4A/i1ZlMxWvLPpP3MKRu/o+ofKyrVPMjJgynn79JgPAWHu5Rnluilpdln5Aw9xtiYXHsIKyt30ddvlGD2N5FMN+8u9YwhCcas7DRvOZlsa8r8+umMR4Fdq9pwiUp8UR8vaOeIFsMrG0WZoIP2mbtofDUpLSmO4TbCAH7fdrMuWyHsbILtVXFXTTLWaPrIx7xTU+HMzRWo2gbqYU7vkI1fdHTj+f5xrWo/rAAlfMdK5DoA6RhW2XBuXlifTr49FhT/Db0RazwwlT4M5+0SWxvuZFVge9rF/F4gBpKhjp9JCXQlmK7YReFolReyhOUtoYiiw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qnap.com; dmarc=pass action=none header.from=qnap.com;
- dkim=pass header.d=qnap.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
- b=WmgYdoGnHMjiUgLtF9/Ge9xKsjh8TBEsZFPmP5hDU3ZEaJSHDI2W2OnrVYEIyBsmNEJegMob45/iZ4+uA+MLYCDETdCZDwzFxlC7ntxhdsYi4dCd21sdS2p7uytFYgQFqfNRkedjWFeVMubb0fwWM0EXbHdyLD9iy00TSsdEvI8mWwMc2gAwRM+MT++u6zt0GFfU13OdAN10oOEO0HnqMwfgzRcVUJDIF5psUTSbprpW5v5UVtTDIX7YRKOQFES6GtElMS+kdpEIGacXhjGHBOPYKZwtrxeBuztWltXkmLmORRjbhKD+tn7Bj7zdoSVLevTgMD9gg68okaPJWqwJoQ==
-Received: from SI2PR04MB5097.apcprd04.prod.outlook.com (2603:1096:4:14d::9) by
- TYSPR04MB7523.apcprd04.prod.outlook.com (2603:1096:405:30::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7316.24; Tue, 27 Feb 2024 15:44:00 +0000
-Received: from SI2PR04MB5097.apcprd04.prod.outlook.com
- ([fe80::d7ad:6be5:d8bf:6f92]) by SI2PR04MB5097.apcprd04.prod.outlook.com
- ([fe80::d7ad:6be5:d8bf:6f92%4]) with mapi id 15.20.7316.035; Tue, 27 Feb 2024
- 15:44:00 +0000
-From: =?utf-8?B?Sm9uZXMgU3l1ZSDolpvmh7flrpc=?= <jonessyue@qnap.com>
-To: Hangbin Liu <liuhangbin@gmail.com>, "jiri@nvidia.com" <jiri@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jay Vosburgh <jay.vosburgh@canonical.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "andy@greyhouse.net"
-	<andy@greyhouse.net>, "davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
-	<pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, Jiri Pirko
-	<jiri@resnulli.us>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
- with __agg_has_partner
-Thread-Topic: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
- with __agg_has_partner
-Thread-Index: AQHaaQW6oy9l+UHDLUqKxFSfovO8KLEeUytN
-Date: Tue, 27 Feb 2024 15:44:00 +0000
-Message-ID:
- <SI2PR04MB509754BA193576FECA74D5DBDC592@SI2PR04MB5097.apcprd04.prod.outlook.com>
-References:
- <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
- <16063.1708987620@famine>
-In-Reply-To: <16063.1708987620@famine>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=qnap.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR04MB5097:EE_|TYSPR04MB7523:EE_
-x-ms-office365-filtering-correlation-id: d1099f73-66e9-4989-979d-08dc37aaeae0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- rAAh2ZIZgDxspPl4cFBq5EfTirGQb5m5NH4vOlQms2uRzx7d73dHAqCEgpbP9EyWdoOeOWRqCwaHM+xgm+q+YxFQAU6TpKHPecQuf1eIfeacQFzzfulbPm0+aOCMeiuILb9IwPSs8P3VACue+lifPgI+lY0j8jiH2mRhX0ABCene7mux1FN6LEH7HOkzkDfHLMS01h0dK1TclHPWwM1LnUaQSUUTnm8Cgb/I/hi2dzZMeDzRDBaHP6/yuAjDL5pZ5gezrMAjo/MaMfAzcZ2WL2n5OPol+wqlBECDCDa4GzKZqP0xur8LA7yM8cD4/nzY8m4+igE8XG7OlWTGlBOPzL+YQg3wKyrDbojD+D4jdGt+RT7VMIJ1rswry7XIdUaetvxzxzvz8ZFY71O1tgJcN6YjaQe9r8uT5JqDAFymVKx4JC8/gKuSiYqL5dfipr2TCbnmc+u46O9srqR31jQ4cxGygVO4770uiJTjbmWgCV3f5/p7Nvoy7FBkp1I1C0ju53u/6oi7xlXF18vt5ruF2s4wz0N/PV/Ox1dxpkVx/K4rNbtSfghYkLzaNTP1TnLoxhR6dA3tKAMpvmSHCHkefJpfCObrMxtLEfYmj8KhelVD6eRo1i04/PCgpVyBiSL3Bhl/agfIVgPnFkgguFXLcb6mDpkT+qrjg0d8sJdzSqyY56Q6sTO1JEHozAZ9P1pe7WFVIoXMHb0n8rIEOdbJ/g==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR04MB5097.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?UncrR0RNd2pnRGFaY1pvc3FLVUVmSWNVR1ZPTE84MEMwNGxzRmMrbWxKY21t?=
- =?utf-8?B?anN2TW82YmhtdzdQOEpqdkdUS0g3aTEvbDlDdERtSktJZkpBM0g5a2JjejB2?=
- =?utf-8?B?RTJiTzNQUU5nMlE2U09lRWtmMkpNaStJQVFlWmpKQUlXZ2Y5UjZDTFg5YzJZ?=
- =?utf-8?B?TVdkNDY2NWExaEVRa25sUml2Z2NsMVpER002bHozcDdCaDdaZXV4djNHZkdL?=
- =?utf-8?B?ODM0dzdPaVlybnpzRnJqUkh2dWRVSFIwS25PWUVEWXREbWUwVUJtR3hFcWFC?=
- =?utf-8?B?TkhBYjVsd0dSOFg5SFZKUVJrREtKTzQvanh2MWxCTmF3QytZbDk4NHNnQWFn?=
- =?utf-8?B?WXZyR1pEQTZYVStnOEVtUjNUWmNqNnF5QzB1ME90M1FQclNhWW8vUTFXZGxu?=
- =?utf-8?B?TlVtdW9sR1EvU0V1ZUhRVWthMG5CUUJrOWNJRis5MjdLSWwyV04yeHVra0p6?=
- =?utf-8?B?dG83aVdsdE5OVld6SHQvWW5Gdk1nVnI2OE80RENQT1JJT3dRd1VIbFdPbFpl?=
- =?utf-8?B?VWwrNWZsSFJUNmJuZExLM0ljNURCWWpZT3hQVWhCR0U1SndnRUpoV2RyeHIy?=
- =?utf-8?B?Nzg0dm5WTTZHQlZzVTRoeW9yTFp1bEQ5SkxSQVBQN0Q0eFZPTjRyaEdQRGxL?=
- =?utf-8?B?aEo5MnpHZGEzc3ZwVnlZOUUxU3Z2Uzdnb3RvbEZPTmNOZ1BrMXRnd3BUWUo1?=
- =?utf-8?B?WXZtdVk5a0xaOXVoeUgxK2lrNDBXRWNleEwxYWdlYVlrQjlRRXhSYmVva251?=
- =?utf-8?B?OEV5SmwyQlptcFc1TStmRXN1VXRZTDcrZHpqcUM1YThNVHpwNW52R2lsWklJ?=
- =?utf-8?B?QjJyZVY5M0ZKQklrM0RTanB3b2ltTWV1QnlzZ05hbVNDWDJ3elRiTmxsVFNU?=
- =?utf-8?B?eDVaYy9Ka0E2VlA4N0poZlhCaC93ZGZISm5sQ29xTng2UFI2aURrTlFQckgw?=
- =?utf-8?B?b3ZvVXEyUGQwbmRqNURDVFhnMEpTRERtb3N6TmtMNDU4dGtEUFhMMjFFWEs2?=
- =?utf-8?B?Wm5HeVB3ZWVONmJEejFOd1RiQkJ5TFVGZGQySzk3TlgrU000dVVNS0hCVmk5?=
- =?utf-8?B?WFRNQ3JWdTN0U2RKMW1ySXovU2pSOTcxdG9vNVU5L3pIM2FET2tmT2VBOTlZ?=
- =?utf-8?B?ZGlIV3ZDZDQ5K3krYVUyZFlwME1xaHZBdE1VK0IvN1JyM3lSZ2VqUGEwWXRy?=
- =?utf-8?B?SExvbWFLcVh5Ny85aStHemd6bUpYTGw3Z0V6SEcyc2lKUXlWcFJ4ZHRlSkpG?=
- =?utf-8?B?QzhSb3BTYUliQzE1cE5aMVpPWXljY3UrdytoMEpwNGkvRWJLbjBOdCtCS3lT?=
- =?utf-8?B?T3E1KzFTdTh3TGdNdElsVE40RG05VDM4VXJVd0ZnWmlpdHMxN2RZUzBTVlRk?=
- =?utf-8?B?ZmpzOWhjaENQUmFueVJSci9TNkpyMFJPcFdLZXo5UHYwWG1xZVN5UjJSUDdm?=
- =?utf-8?B?dk5EYXUyd2Z0bzVwUUpBZ2pxdWhkb0xnQU4zU0hBYjl3dUNSdDNJZVpRNkpH?=
- =?utf-8?B?OUhLUTJJbUIrVFdIOCtrdmZxUUhOMWpMK2d3L0pRTHpIVVQwN0dMa01HSk1q?=
- =?utf-8?B?MmRuZ05NZmZOd3M2ZmhncThkVzJUSFhKanZncXQvc2JENGpCMzVLZnZWa3lt?=
- =?utf-8?B?ZDZMVW9FUFJma1lYeW4wbEZnK3lmNFJqNEY0RVR6dmZRMFYrNFNjOUVaamdJ?=
- =?utf-8?B?R0NFZWhwTGVNSkFjdkJ0S0JIQkYxbWRTbHl0TkNrTDJGMWg2SnJKK2oxRDlU?=
- =?utf-8?B?akJScHUvbHl3SEtDcjFINFJ0MHBRWDJhbnBtbmRRYnhob1M3SnBtdnFnS0Mx?=
- =?utf-8?B?dTlUU1dZS0pFcDFvRitqYWhtakpTQ1piWHd6V3NYZGhRKzZIOVk5b1ZNL0s4?=
- =?utf-8?B?WUdZaVVyMXEvYUxiQ2NhQ2dzbEhyQUJKMkNZTmlWOHlzTHB2QWJ6bE5mbUZL?=
- =?utf-8?B?S21NRTZCdXNBa1RFZENpTlZBWE0wWGVCRWsybmhVbEJvdVg0bTFxaFB3SUpZ?=
- =?utf-8?B?ZzRCNXI2b2lZdFM1NlJkdm1LR2x6MStsaXduM0ovTVpXbE1rVnJ3bXlOWmN4?=
- =?utf-8?B?US9IbzJrMjB5TXE2UUw2RE8wd0JtakdETWNHU0hkWVNDQkp1MVVPdTRUUWVr?=
- =?utf-8?Q?Z74s=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xrlNT/AV"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5a02e5c5d2dso1824823eaf.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 07:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709048999; x=1709653799; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GtuZKFPbk53MrmXfvLeh2XdFMq7EjplJgU6ouCpiVEc=;
+        b=xrlNT/AVAxvD4sTlgKA1Y9lc0w9784grdtJLRWa+PnsvM6i2m2F2/eX23WOnGKPvX3
+         xh5ZP6xJnJw5IUa7PBlQ8Ogd9stjTLqC/vx9qtpKy2FvO6N3s15Zm6U6V1swB27+7TTo
+         lU/EpCFXWAgXiSTN50Ya/0S1oGLxNK9yxZ3MVsSXfXzCFX2ECHbU49Suqd4P+ACvcgrL
+         uCu8nn3KuyFTi7YVDLwSaynxoS7Z1g3QIWlmRoh+qdJfyljGY47ilm0nZgWM4QI21xwr
+         IgwnHX4BdIDID3oako+4Zfy958ZZez5o5UNzmtSa6vUAX7iV/LKEWDYUt6OqsvkNAT2o
+         a46g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709048999; x=1709653799;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GtuZKFPbk53MrmXfvLeh2XdFMq7EjplJgU6ouCpiVEc=;
+        b=kD+6rRl1CPDS85ZXSbRTSTC/+7W4+oY+rr0Dl34Z8WXzHIbJG7pDmVWwrGrub8hczJ
+         QPaeDFgPef7fWMhoxYKBDjxtVxRFC7CLaRqKifNyrnEhfwzAvkeiLQXxuOvqkbqhHjPy
+         j0ySYtX8DeRdyDtSHjq/Tueqa5asGJgweOWqsqkHP7X+7H+hnMe3ZriOGLTwS+0698/q
+         6Ma0u+wi9euDSBpcCc7SjpYneVRG1k8s+ynKFdMB/Q0kA1+93wV5D3nmm1KeVLU9tOBr
+         UmIAz9VK6Tceu75UnRXVvkM8yTSPL8cSU1jLLT7p6T3gW99U99404rP2E4IX9dYLE5eh
+         v8Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCWpW+Tl7/BJMHT3QqHiMh/HCwa7pKNxXRgzfuHZeFsdmz2oDA68D4D419fGZyzKQ4/wHSBavs0S4oQJirzMGxjdQ3MGWXpRDAme
+X-Gm-Message-State: AOJu0Yz0Z+ndaw9kZfaMYLWjui7hcY4Ch6j0XV5ipFgD/SgFqxKoumSc
+	zqp8jXpjm51ZEVbA/thpyNieLKdAmQWrnXIJr5g1Dm/uwEgkkOjjytkhi427F1S7ZnttBBdWJnv
+	pNa0IZj8T8BUKr69qFv+wtq0X7o9eKy0YDWLYag==
+X-Google-Smtp-Source: AGHT+IFTqn0uGGW1Ksta/QYf76E2hpgCveYOh5cApCHYBXc/4krcUBwVqN0vqfNRuuh2crjF+7+P7Osxc0of4YqErDs=
+X-Received: by 2002:a4a:2453:0:b0:5a0:be6c:9e0a with SMTP id
+ v19-20020a4a2453000000b005a0be6c9e0amr406499oov.4.1709048999505; Tue, 27 Feb
+ 2024 07:49:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: qnap.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR04MB5097.apcprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1099f73-66e9-4989-979d-08dc37aaeae0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2024 15:44:00.4099
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6eba8807-6ef0-4e31-890c-a6ecfbb98568
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ++3pscQ93/hC+I/y6+ifICpaZBB28/I2G5HI0H8we/aqDuUUWesTHP7fwU+YHib8205IYB4/cNW5H1ktlIm+cg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7523
+References: <20240223095133.109046-1-balint.dobszay@arm.com>
+ <20240223095133.109046-2-balint.dobszay@arm.com> <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+In-Reply-To: <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 27 Feb 2024 16:49:48 +0100
+Message-ID: <CAHUa44G70L9CnQD6V3ivWf1hYfK0iWFt-cfg98-JGB-s8TVd-A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: Balint Dobszay <balint.dobszay@arm.com>, op-tee@lists.trustedfirmware.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, corbet@lwn.net, sudeep.holla@arm.com, 
+	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-VGhhbmsgeW91IGZvciBraW5kIGZlZWRiYWNrISBIYW5nYmluLCBKaXJpLCBKYWt1YiwgYW5kIEph
-eS4KCj7CoCDCoMKgwqDCoMKgwqAgT2ssIEkgbWlzc2VkIHRoaXMgYml0IHdoZW4gSSByZWFkIHRo
-ZSBwYXRjaCB0aGlzIG1vcm5pbmcsIHNvIHlvdQo+IGNhbiBpZ25vcmUgbXkgZWFybGllciBlbWFp
-bCdzIHF1ZXN0aW9uLsKgIFBhdGNoIGxvb2tzIGdvb2QgdG8gbWUsIGdsYWQgdG8KPiBzZWUgbnVs
-bF9tYWNfYWRkciBnZXQgdGhlIGJvb3QuCj4gQWNrZWQtYnk6IEpheSBWb3NidXJnaCA8amF5LnZv
-c2J1cmdoQGNhbm9uaWNhbC5jb20+CgotLQpSZWdhcmRzLApKb25lcyBTeXVlIHwg6Jab5oe35a6X
-ClFOQVAgU3lzdGVtcywgSW5jLgoK
+On Tue, Feb 27, 2024 at 7:06=E2=80=AFAM Sumit Garg <sumit.garg@linaro.org> =
+wrote:
+>
+> Hi Balint,
+>
+> On Fri, 23 Feb 2024 at 15:22, Balint Dobszay <balint.dobszay@arm.com> wro=
+te:
+> >
+> > Move the pool alloc and free helper functions from the OP-TEE driver to
+> > the TEE subsystem, since these could be reused in other TEE drivers.
+> > This patch is not supposed to change behavior, it's only reorganizing
+> > the code.
+> >
+> > Suggested-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+> > ---
+> >  drivers/tee/optee/core.c          | 64 ------------------------------
+> >  drivers/tee/optee/ffa_abi.c       |  6 +--
+> >  drivers/tee/optee/optee_private.h | 12 ------
+> >  drivers/tee/optee/smc_abi.c       | 11 +++---
+> >  drivers/tee/tee_shm.c             | 65 +++++++++++++++++++++++++++++++
+> >  include/linux/tee_drv.h           | 11 ++++++
+> >  6 files changed, 85 insertions(+), 84 deletions(-)
+> >
+> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> > index 3aed554bc8d8..9390f21f9902 100644
+> > --- a/drivers/tee/optee/core.c
+> > +++ b/drivers/tee/optee/core.c
+> > @@ -9,7 +9,6 @@
+> >  #include <linux/crash_dump.h>
+> >  #include <linux/errno.h>
+> >  #include <linux/io.h>
+> > -#include <linux/mm.h>
+> >  #include <linux/module.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/string.h>
+> > @@ -17,69 +16,6 @@
+> >  #include <linux/types.h>
+> >  #include "optee_private.h"
+> >
+> > -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_s=
+hm *shm,
+> > -                              size_t size, size_t align,
+> > -                              int (*shm_register)(struct tee_context *=
+ctx,
+> > -                                                  struct tee_shm *shm,
+> > -                                                  struct page **pages,
+> > -                                                  size_t num_pages,
+> > -                                                  unsigned long start)=
+)
+> > -{
+> > -       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> > -       struct page **pages;
+> > -       unsigned int i;
+> > -       int rc =3D 0;
+> > -
+> > -       /*
+> > -        * Ignore alignment since this is already going to be page alig=
+ned
+> > -        * and there's no need for any larger alignment.
+> > -        */
+> > -       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
+> > -                                      GFP_KERNEL | __GFP_ZERO);
+> > -       if (!shm->kaddr)
+> > -               return -ENOMEM;
+> > -
+> > -       shm->paddr =3D virt_to_phys(shm->kaddr);
+> > -       shm->size =3D nr_pages * PAGE_SIZE;
+> > -
+> > -       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> > -       if (!pages) {
+> > -               rc =3D -ENOMEM;
+> > -               goto err;
+> > -       }
+> > -
+> > -       for (i =3D 0; i < nr_pages; i++)
+> > -               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_S=
+IZE);
+> > -
+> > -       shm->pages =3D pages;
+> > -       shm->num_pages =3D nr_pages;
+> > -
+> > -       if (shm_register) {
+> > -               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
+> > -                                 (unsigned long)shm->kaddr);
+> > -               if (rc)
+> > -                       goto err;
+> > -       }
+> > -
+> > -       return 0;
+> > -err:
+> > -       free_pages_exact(shm->kaddr, shm->size);
+> > -       shm->kaddr =3D NULL;
+> > -       return rc;
+> > -}
+> > -
+> > -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_s=
+hm *shm,
+> > -                              int (*shm_unregister)(struct tee_context=
+ *ctx,
+> > -                                                    struct tee_shm *sh=
+m))
+> > -{
+> > -       if (shm_unregister)
+> > -               shm_unregister(shm->ctx, shm);
+> > -       free_pages_exact(shm->kaddr, shm->size);
+> > -       shm->kaddr =3D NULL;
+> > -       kfree(shm->pages);
+> > -       shm->pages =3D NULL;
+> > -}
+> > -
+> >  static void optee_bus_scan(struct work_struct *work)
+> >  {
+> >         WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
+> > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> > index ecb5eb079408..ee11918a2b35 100644
+> > --- a/drivers/tee/optee/ffa_abi.c
+> > +++ b/drivers/tee/optee/ffa_abi.c
+> > @@ -374,14 +374,14 @@ static int optee_ffa_shm_unregister_supp(struct t=
+ee_context *ctx,
+> >  static int pool_ffa_op_alloc(struct tee_shm_pool *pool,
+> >                              struct tee_shm *shm, size_t size, size_t a=
+lign)
+> >  {
+> > -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> > -                                         optee_ffa_shm_register);
+> > +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> > +                                           optee_ffa_shm_register);
+> >  }
+> >
+> >  static void pool_ffa_op_free(struct tee_shm_pool *pool,
+> >                              struct tee_shm *shm)
+> >  {
+> > -       optee_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister);
+> > +       tee_shm_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister=
+);
+> >  }
+> >
+> >  static void pool_ffa_op_destroy_pool(struct tee_shm_pool *pool)
+> > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opte=
+e_private.h
+> > index 7a5243c78b55..a153285a1919 100644
+> > --- a/drivers/tee/optee/optee_private.h
+> > +++ b/drivers/tee/optee/optee_private.h
+> > @@ -283,18 +283,6 @@ int optee_cancel_req(struct tee_context *ctx, u32 =
+cancel_id, u32 session);
+> >  int optee_enumerate_devices(u32 func);
+> >  void optee_unregister_devices(void);
+> >
+> > -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_s=
+hm *shm,
+> > -                              size_t size, size_t align,
+> > -                              int (*shm_register)(struct tee_context *=
+ctx,
+> > -                                                  struct tee_shm *shm,
+> > -                                                  struct page **pages,
+> > -                                                  size_t num_pages,
+> > -                                                  unsigned long start)=
+);
+> > -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_s=
+hm *shm,
+> > -                              int (*shm_unregister)(struct tee_context=
+ *ctx,
+> > -                                                    struct tee_shm *sh=
+m));
+> > -
+> > -
+> >  void optee_remove_common(struct optee *optee);
+> >  int optee_open(struct tee_context *ctx, bool cap_memref_null);
+> >  void optee_release(struct tee_context *ctx);
+> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> > index a37f87087e5c..b0c616b6870d 100644
+> > --- a/drivers/tee/optee/smc_abi.c
+> > +++ b/drivers/tee/optee/smc_abi.c
+> > @@ -592,19 +592,20 @@ static int pool_op_alloc(struct tee_shm_pool *poo=
+l,
+> >          * to be registered with OP-TEE.
+> >          */
+> >         if (shm->flags & TEE_SHM_PRIV)
+> > -               return optee_pool_op_alloc_helper(pool, shm, size, alig=
+n, NULL);
+> > +               return tee_shm_pool_op_alloc_helper(pool, shm, size, al=
+ign,
+> > +                                                   NULL);
+> >
+> > -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> > -                                         optee_shm_register);
+> > +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> > +                                           optee_shm_register);
+> >  }
+> >
+> >  static void pool_op_free(struct tee_shm_pool *pool,
+> >                          struct tee_shm *shm)
+> >  {
+> >         if (!(shm->flags & TEE_SHM_PRIV))
+> > -               optee_pool_op_free_helper(pool, shm, optee_shm_unregist=
+er);
+> > +               tee_shm_pool_op_free_helper(pool, shm, optee_shm_unregi=
+ster);
+> >         else
+> > -               optee_pool_op_free_helper(pool, shm, NULL);
+> > +               tee_shm_pool_op_free_helper(pool, shm, NULL);
+> >  }
+> >T
+> >  static void pool_op_destroy_pool(struct tee_shm_pool *pool)
+> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> > index 731d9028b67f..641aad92ffe2 100644
+> > --- a/drivers/tee/tee_shm.c
+> > +++ b/drivers/tee/tee_shm.c
+> > @@ -202,6 +202,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_=
+context *ctx, size_t size)
+> >  }
+> >  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+> >
+> > +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+>
+> I don't see the first argument (struct tee_shm_pool *pool) being used,
+> so drop that. Also, we can just rename it as
+> tee_dyn_shm_alloc_helper().
+>
+> > +                                size_t size, size_t align,
+> > +                                int (*shm_register)(struct tee_context=
+ *ctx,
+> > +                                                    struct tee_shm *sh=
+m,
+> > +                                                    struct page **page=
+s,
+> > +                                                    size_t num_pages,
+> > +                                                    unsigned long star=
+t))
+> > +{
+> > +       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> > +       struct page **pages;
+> > +       unsigned int i;
+> > +       int rc =3D 0;
+> > +
+> > +       /*
+> > +        * Ignore alignment since this is already going to be page alig=
+ned
+> > +        * and there's no need for any larger alignment.
+> > +        */
+> > +       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
+> > +                                      GFP_KERNEL | __GFP_ZERO);
+> > +       if (!shm->kaddr)
+> > +               return -ENOMEM;
+> > +
+> > +       shm->paddr =3D virt_to_phys(shm->kaddr);
+> > +       shm->size =3D nr_pages * PAGE_SIZE;
+> > +
+> > +       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> > +       if (!pages) {
+> > +               rc =3D -ENOMEM;
+> > +               goto err;
+> > +       }
+> > +
+> > +       for (i =3D 0; i < nr_pages; i++)
+> > +               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_S=
+IZE);
+> > +
+> > +       shm->pages =3D pages;
+> > +       shm->num_pages =3D nr_pages;
+> > +
+> > +       if (shm_register) {
+> > +               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
+> > +                                 (unsigned long)shm->kaddr);
+> > +               if (rc)
+> > +                       goto err;
+> > +       }
+> > +
+> > +       return 0;
+> > +err:
+> > +       free_pages_exact(shm->kaddr, shm->size);
+> > +       shm->kaddr =3D NULL;
+> > +       return rc;
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_shm_pool_op_alloc_helper);
+> > +
+> > +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+>
+> Ditto tee_shm_pool_op_free_helper() -> tee_dyn_shm_free_helper()
+>
+> > +                                int (*shm_unregister)(struct tee_conte=
+xt *ctx,
+> > +                                                      struct tee_shm *=
+shm))
+> > +{
+> > +       if (shm_unregister)
+> > +               shm_unregister(shm->ctx, shm);
+> > +       free_pages_exact(shm->kaddr, shm->size);
+> > +       shm->kaddr =3D NULL;
+> > +       kfree(shm->pages);
+> > +       shm->pages =3D NULL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(tee_shm_pool_op_free_helper);
+> > +
+> >  static struct tee_shm *
+> >  register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, u3=
+2 flags,
+> >                     int id)
+> > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> > index 911ddf92dcee..4cf402424e71 100644
+> > --- a/include/linux/tee_drv.h
+> > +++ b/include/linux/tee_drv.h
+> > @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *teedev);
+> >  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t=
+ size);
+> >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size=
+_t size);
+> >
+> > +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > +                                size_t size, size_t align,
+> > +                                int (*shm_register)(struct tee_context=
+ *ctx,
+> > +                                                    struct tee_shm *sh=
+m,
+> > +                                                    struct page **page=
+s,
+> > +                                                    size_t num_pages,
+> > +                                                    unsigned long star=
+t));
+> > +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > +                                int (*shm_unregister)(struct tee_conte=
+xt *ctx,
+> > +                                                      struct tee_shm *=
+shm));
+> > +
+>
+> These rather belong to drivers/tee/tee_private.h as we shouldn't
+> expose them to other kernel client drivers.
+
+This is the right place, this .h file is for TEE drivers too.
+
+Cheers,
+Jens
+
+>
+> -Sumit
+>
+> >  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+> >                                             void *addr, size_t length);
+> >
+> > --
+> > 2.34.1
+> >
