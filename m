@@ -1,22 +1,34 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1525B1D6A8;
-	Tue, 27 Feb 2024 20:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E37351004
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 20:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709064688; cv=none; b=R2sZTofyoV9KuIu1jQt9nSvoKE8H3QxQMxzpfrv4phwBjzIEDnCC/IIugvaw6vJ3fqZSM4R2N7Bwc/Jr11IumeCq+ZYKfVdBK2LKK5oiI/m/MiPk294VpITQZFMN/025krYRtZaXQCjj4eTXklGmGaAZT52kdUuX3r1d1xwTD/0=
+	t=1709065603; cv=none; b=e0ilalURaL9L9lmjTf+xkXWdXDEBmhe8ARe5mW5miGxSkZhfZGE5BbSIlrCr1xZw1X5v6sRFZqUalsnMdnE5MhnMQFEVxKaFPbloDkEDaduP9aqtUuLl0XTlwW5ExtghAVSecaBsvlJTgPQMoet7QLezjr97Rco805PBJ86t4Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709064688; c=relaxed/simple;
-	bh=asmb5gigKVGR1GsnUvrFAnwASHCIwvnjV+4uj7J8U7Y=;
+	s=arc-20240116; t=1709065603; c=relaxed/simple;
+	bh=3tRZuvPHHOhygSXJBJH+alzzC66qaSEYolDegpnsGqw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XO8SIT+jM3Haz2QOXeRwseh0r/fCICPNbwl5XASE02/bDpbS3BlswItdCYKLbsXtu8qr8Ta67jNb0t/pFaTukK8v6P0Rqu+VbqhDKCgdYivveQm+hXGb9rJ2FdMxgDVbog/9hXKVa8xL751pPZiJyl04KTEi1HUR1BlmBKgvOo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B399DC433F1;
-	Tue, 27 Feb 2024 20:11:24 +0000 (UTC)
-Date: Tue, 27 Feb 2024 20:11:22 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Oliver Upton <oliver.upton@linux.dev>
+	 Content-Type:Content-Disposition:In-Reply-To; b=PVE7cLdk+sP5F+/aZAh2vlG23f2CVgHj+JHZECZU6T5+KIOhSAMiQFMzjiNOOMzQFMWnxiK99hzgahnifnWHWF2hk9UwiyhRzs6JzVsUwH6l2oc8R4RkNMhU4ae0P3FunGGvaqH1xylkZWXiCGTx8RJSJpYB9uL2JmQYq9ZtCnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FBGdxf0/; arc=none smtp.client-ip=95.215.58.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FBGdxf0/"
+Date: Tue, 27 Feb 2024 20:26:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1709065599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sdw1puFlbNlHUYaiFr/sDKEHRN2itqNfYyV2O0hyzVM=;
+	b=FBGdxf0/6LIvQI8sIuws8hVaxLlZ89fe7AjRV0bLbqh4BDmPKWkEW40uT/zR6fKP0dxqjT
+	pZCAKxMtm1aWyird4Lz7+CBzrwDzNZaZmiObRDYx7OotZkfztZHZn+hIT+T/SwFwwHNnXA
+	9hpHsOsind2LxoHj+BvaBh71kYR+gTQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Catalin Marinas <catalin.marinas@arm.com>
 Cc: Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
 	kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -26,9 +38,10 @@ Cc: Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
 	d.scott.phillips@amperecomputing.com
 Subject: Re: [PATCH] arm64: errata: Minimize tlb flush due to vttbr writes on
  AmpereOne
-Message-ID: <Zd5B6huxqEcYIW6b@arm.com>
+Message-ID: <Zd5FeS0Vlzp8MIwr@linux.dev>
 References: <20240207090458.463021-1-gankulkarni@os.amperecomputing.com>
  <ZcNRV-lMiNgE0_jv@linux.dev>
+ <Zd5B6huxqEcYIW6b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,54 +50,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZcNRV-lMiNgE0_jv@linux.dev>
+In-Reply-To: <Zd5B6huxqEcYIW6b@arm.com>
+X-Migadu-Flow: FLOW_OUT
 
-(catching up on emails)
+On Tue, Feb 27, 2024 at 08:11:22PM +0000, Catalin Marinas wrote:
+> On Wed, Feb 07, 2024 at 09:45:59AM +0000, Oliver Upton wrote:
 
-On Wed, Feb 07, 2024 at 09:45:59AM +0000, Oliver Upton wrote:
-> On Wed, Feb 07, 2024 at 01:04:58AM -0800, Ganapatrao Kulkarni wrote:
-> > AmpereOne implementation is doing tlb flush when ever there is
-> > a write to vttbr_el2. As per KVM implementation, vttbr_el2 is updated
-> > with VM's S2-MMU while return to VM. This is not necessary when there
-> > is no VM context switch and a just return to same Guest.
-> > 
-> > Adding a check to avoid the vttbr_el2 write if the same value
-> > already exist to prevent needless tlb flush.
+[...]
+
+> > Think of the precedent this would establish. What would stop
+> > implementers from, say, changing out our memcpy implementation into a
+> > a hundred different uarch-specific routines. That isn't maintainable,
+> > nor is it even testable as most folks don't have access to your
+> > hardware.
 > 
-> Sorry, zero interest in taking what is really a uarch optimization.
-> The errata framework exists to allow the kernel achieve *correctness*
-> on a variety of hardware and is not a collection of party tricks for
-> optimizing any given implementation.
+> I agree. FTR, I'm fine with uarch optimisations if (a) they don't
+> run-time patch the kernel binary, (b) don't affect the existing hardware
+> and (c) show significant gains on the targeted uarch in some meaningful
+> benchmarks (definitely not microbenchmark hammering a certain kernel
+> path).
 
-Definitely, we should not abuse the errata framework for uarch
-optimisations.
+and (d) they have a minimal, maintainable code footprint :)
 
-> Think of the precedent this would establish. What would stop
-> implementers from, say, changing out our memcpy implementation into a
-> a hundred different uarch-specific routines. That isn't maintainable,
-> nor is it even testable as most folks don't have access to your
-> hardware.
+> So, if one wants an optimisation, it better benefits the other
+> implementations or at least it doesn't make them worse. Now, we do have
+> hardware from mobiles to large enterprise systems, so at some point we
+> may have to make a call on different kernel behaviours, possibly even at
+> run-time. We already do this at build-time, e.g. CONFIG_NUMA where it
+> doesn't make much sense in a mobile (yet). But they should not be seen
+> as uarch specific tweaks, more like higher-level classes of
+> optimisations.
 
-I agree. FTR, I'm fine with uarch optimisations if (a) they don't
-run-time patch the kernel binary, (b) don't affect the existing hardware
-and (c) show significant gains on the targeted uarch in some meaningful
-benchmarks (definitely not microbenchmark hammering a certain kernel
-path).
+Agreed. I think the way we handled this case is a great example of how
+these sort of things should go -- a general improvement to how the stage-2
+MMU gets loaded on VHE systems, which ought to benefit other
+implementations too.
 
-We did have uarch optimisations in the past that broke rule (a). We
-tried to make them somewhat more justifiable by creating optimisation
-classes (well, I think it was only ARM64_HAS_NO_HW_PREFETCH). But such
-changes don't scale well for maintainers, so I'd rather not go back
-there.
-
-So, if one wants an optimisation, it better benefits the other
-implementations or at least it doesn't make them worse. Now, we do have
-hardware from mobiles to large enterprise systems, so at some point we
-may have to make a call on different kernel behaviours, possibly even at
-run-time. We already do this at build-time, e.g. CONFIG_NUMA where it
-doesn't make much sense in a mobile (yet). But they should not be seen
-as uarch specific tweaks, more like higher-level classes of
-optimisations.
+Only if we can't extract a generalization should we even think about
+something implementation-specific, IMO.
 
 -- 
-Catalin
+Thanks,
+Oliver
