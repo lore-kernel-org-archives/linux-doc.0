@@ -1,111 +1,138 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3314213B797;
-	Tue, 27 Feb 2024 14:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75454145343;
+	Tue, 27 Feb 2024 14:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709045264; cv=none; b=Ly6Sn9/TPl1opS0jyTxqDC2xkchKcAZjXNnfSV1TWoSR2ZQj5Y0/TaSagLRC9YV1CffdmOfnhLF7VV3OZ2B+tRyW/GJxTqBm8tGwuiOb78E2SxWv35eO+k5ZibV9XtOvsTcNaf3F6b9p/Utyfzqe/LM/sQGxZ9+/UhUr5Vbbk4A=
+	t=1709045872; cv=none; b=QrcgrKWhHO/FCgxbhaFyJXx2XewJv/JaA0FIEJNawqYimE5M6YwwpUCSLDI5tEo0wUM3u8iZMsxeepepVDKM5cL8iAIE2g59IK2FaRObYnPSv2F3hIJ9P6TCVq8XbScvDg8B2tou3UaKGsWmBqtM+Ix7ejxusJBg9IBX4SCwbfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709045264; c=relaxed/simple;
-	bh=I7STVGxFEhzeUUnynFVCazQYTKSuDkuz5TcCbE8wTBU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gXB1HXQg8zsQH+ot9MzyRUgIpY6/ryWVloarc/dpbQKkMihy0M3b9aMRRbWQsO0waeZj/oQVtF+9VehWwN6x199GniBX4B5h4wyPPviOHBvSJpwGLkd8CzTPJ9vSubvsYF4j7h0qnOuHhNdcc+qAlNL3uQH2XwlfKxEqvdgrc0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C5C76UY9; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709045872; c=relaxed/simple;
+	bh=wmEclif75z08Y7k+kYIcq9r8njHDzniHYzsVWuX5qXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nvcEbAN/CYonehRsQzbHPhoEnmFJbVdD71rxtQpTCDz1+LJmal3gxNKQUcW772uVU+78sxbhiBDrvW4ovnhLIqIMUnLFZGCk4nJJzSYjMT4FSeuSoLRY8RTDC/vP7liQk2qd9l1+9nNXNvwzEMLmC4CHOTFaYeGwwn4ci4ruHxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsXgDuZq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C5C76UY9"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-53fa455cd94so3198529a12.2;
-        Tue, 27 Feb 2024 06:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709045262; x=1709650062; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YCy743fk4tyJkNw6DXsgUea2FahrCbo/h1GwjkT/m8w=;
-        b=C5C76UY9g/SFjwOxrGGHL3xxdYTWS2UdptMmk9qGB36tQ6jkhYs5uO2GmcMmQp0NL7
-         1M5FwI8UnsiI++/3ci5D4siKDNFNX4Z6tCQXpHVfkdufjyo1BMbq/XqbeL6MrMkG96MJ
-         +Ki0TCrnZHWhFWAc/jP3OQKa0y0bDaUziUCtIqCDECxSNn6SZOCSj0v2u66zFa3WcAlT
-         nHK3XqOBd0Cj9oiDK5uXWeSqxQWOrSur5DnSXkepVYn8OvaHrSYNNqGtjEO9Hh4Vn6AE
-         vWRvty+6CTsf0WDxuEJ+Q8XHGiOlsR/azbT3S93VAEDV8/Lx5NQkTPF5uWpmb4/2tv5M
-         KXPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709045262; x=1709650062;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YCy743fk4tyJkNw6DXsgUea2FahrCbo/h1GwjkT/m8w=;
-        b=dGeXkj8+qnGNXr/CgLaK4eNVSKBxHREoj1Rsq9QPIil8U2Rcn6GV0rb33qAdkPuwQA
-         P+CzGqZeKvO1ZXpmNtxxVGsv4JBuQ2uHn15kbZxZOce3S4VOpN5SNnqwsYezliCBpeOQ
-         jPW5TtfxKRae9ZKngs195kUm0B94md6RzzIXCzOTu+eUW9QL8TOOajFD912PwairqTdu
-         04X1ChFHu7MYyijAKPL+LjKFXpBxL+9wU6MoO9bEsMWuP/wR27DppqNTLUn9n2S0pMWl
-         zYa9QOQJjKmuiFsXdCrmoJPX5tpuJsTf+QUIu//gCLofe5U+xZKZW0SJDU0zE4LISkMp
-         o3aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUk4hqFwG5Tc4ctEptCi4hh4YKJohrLMPe9yrnpMNn/S30dwYWImqmozB6j3rQtt0Oiss/wRZH/WLYbv/83m9fwEoQX67rK4bU4u6pw5cV7JAGpZIyvXs/aux5Nq7zbJuL9AQ/GN08VIYDCQ9sb4UcxkVPaxVbTpbRyT0M2FMQZhaCe6X0mb3M=
-X-Gm-Message-State: AOJu0YwrtLmpWqF4P7Jj4foiPkQaDxThhwF3QYMDpPV0DrfXYUTfH9/g
-	N91wORUe+EUXTG4u1qpDzEebPc8N3pyppKsvjfIKwKJyIdmIDU6cGn/6LdAy4qSpEdBirCqSWoj
-	6JUsk8u3ZM0YHZ8TKkxKmCkXF3EM=
-X-Google-Smtp-Source: AGHT+IFafpLdk0evJiKKq2WOgHZJ334wUaliiML9yKUEBDk7ieZRcShNP65NIpPeHhXYIz7pBy67jwjYFUhaFlkV+Ak=
-X-Received: by 2002:a17:90a:dc0f:b0:29a:b713:8b27 with SMTP id
- i15-20020a17090adc0f00b0029ab7138b27mr5063628pjv.46.1709045262472; Tue, 27
- Feb 2024 06:47:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsXgDuZq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB6BC433F1;
+	Tue, 27 Feb 2024 14:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709045872;
+	bh=wmEclif75z08Y7k+kYIcq9r8njHDzniHYzsVWuX5qXc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tsXgDuZqZaxkgTGkVT4vgZZkifzs/XhauPG/Z8VblgKg3JYBuzgPCH2sN/AOfYAsz
+	 Cizp02wJoy2Js13JQt0E+Zl0HHvCGA3oZPWP9ioF8VBtoICsQTFvdJzNjP0YHkL+jx
+	 ZIEk0/YHOPTJNdkd9MEZU1P/jrlu9PFKFSfTKXyWBhplucxucznwgrqof5c5iGRM/2
+	 tUKDL8CJyGhfVnM/DYhRi1QnqmdGaigiZHrlvcPEAFN5h7QksWvunvY47bRRJDFmc2
+	 IfgbTjgpxKGsD+8Gs+Bdb72wnC6/I2S3F3cVc+DfaWBszVKJLxEdYDxu+6MSCu1WCQ
+	 xKCvkJWQbWn0Q==
+Date: Tue, 27 Feb 2024 08:57:51 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
+	James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 20/25] ovl: add fscaps handlers
+Message-ID: <Zd34b4Lw9hOHJYr2@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-20-3039364623bd@kernel.org>
+ <CAOQ4uxjvrFuz2iCiO9dsOnear+qN=M+GFW-eEOZU5uCzBkTwLQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-employee-pessimism-03ba0b58db6b@spud>
- <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
- <20240227-resolved-deceit-4a59a6af5b71@wendy> <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
- <20240227-glove-underwire-f562a56cf2c7@wendy> <CANiq72=f03_bw9B8ww8UxHkVyP2F7ZPyvC+KWCyhO3Nk1yqdaw@mail.gmail.com>
- <20240227-swarm-serpent-2010b255f68a@wendy>
-In-Reply-To: <20240227-swarm-serpent-2010b255f68a@wendy>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 27 Feb 2024 15:47:29 +0100
-Message-ID: <CANiq72=69uBBhKMrw5P8K6eDHPiwAw_Oj8g1aYcywEYhhUG8OA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on RISC-V
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOQ4uxjvrFuz2iCiO9dsOnear+qN=M+GFW-eEOZU5uCzBkTwLQ@mail.gmail.com>
 
-On Tue, Feb 27, 2024 at 1:37=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
-p.com> wrote:
->
-> Looking closer at those targets, all of them enable compressed
-> instructors, but we support hardware that does not support them.
-> I think that means we are stuck with the custom targets.
+On Tue, Feb 27, 2024 at 03:28:18PM +0200, Amir Goldstein wrote:
+> > +int ovl_set_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
+> > +                  const struct vfs_caps *caps, int setxattr_flags)
+> > +{
+> > +       int err;
+> > +       struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
+> > +       struct dentry *upperdentry = ovl_dentry_upper(dentry);
+> > +       struct dentry *realdentry = upperdentry ?: ovl_dentry_lower(dentry);
+> > +       const struct cred *old_cred;
+> > +
+> > +       /*
+> > +        * If the fscaps are to be remove from a lower file, check that they
+> > +        * exist before copying up.
+> > +        */
+> 
+> Don't you need to convert -ENODATA to 0 return value in this case?
 
-Did you try `-Ctarget-feature=3D-c`? i.e. as far as I know, you can
-disable target features even if they are enabled from the built-in.
+Do you mean that trying to remove an xattr that does not exist should
+return 0? Standard behavior is to return -ENODATA in this situation.
 
-It seems to work from a quick try (in userspace), e.g.
+> 
+> > +       if (!caps && !upperdentry) {
+> > +               struct path realpath;
+> > +               struct vfs_caps lower_caps;
+> > +
+> > +               ovl_path_lower(dentry, &realpath);
+> > +               old_cred = ovl_override_creds(dentry->d_sb);
+> > +               err = vfs_get_fscaps(mnt_idmap(realpath.mnt), realdentry,
+> > +                                    &lower_caps);
+> > +               revert_creds(old_cred);
+> > +               if (err)
+> > +                       goto out;
+> > +       }
+> > +
+> > +       err = ovl_want_write(dentry);
+> > +       if (err)
+> > +               goto out;
+> > +
+> 
+> ovl_want_write() should after ovl_copy_up(), see:
+> 162d06444070 ("ovl: reorder ovl_want_write() after ovl_inode_lock()")
 
-0000000000000000 <f>:
-       0: 9b 05 05 00      sext.w    a1, a0
-       4: 13 05 a0 02      li    a0, 0x2a
-       8: 63 84 05 00      beqz    a1, 0x10 <f+0x10>
-       c: 13 05 b0 07      li    a0, 0x7b
-      10: 67 80 00 00      ret
+Fixed.
 
-vs.
+> > @@ -758,6 +826,8 @@ static const struct inode_operations ovl_symlink_inode_operations = {
+> >         .get_link       = ovl_get_link,
+> >         .getattr        = ovl_getattr,
+> >         .listxattr      = ovl_listxattr,
+> > +       .get_fscaps     = ovl_get_fscaps,
+> > +       .set_fscaps     = ovl_set_fscaps,
+> >         .update_time    = ovl_update_time,
+> >  };
+> >
+> > @@ -769,6 +839,8 @@ static const struct inode_operations ovl_special_inode_operations = {
+> >         .get_inode_acl  = ovl_get_inode_acl,
+> >         .get_acl        = ovl_get_acl,
+> >         .set_acl        = ovl_set_acl,
+> > +       .get_fscaps     = ovl_get_fscaps,
+> > +       .set_fscaps     = ovl_set_fscaps,
+> >         .update_time    = ovl_update_time,
+> >  };
+> >
+> 
+> 
+> Sorry, I did not understand the explanation why fscaps ops are needed
+> for non regular files. It does not look right to me.
 
-0000000000000000 <f>:
-       0: 9b 05 05 00      sext.w    a1, a0
-       4: 13 05 a0 02      li    a0, 0x2a
-       8: 99 c1            beqz    a1, 0xe <f+0xe>
-       a: 13 05 b0 07      li    a0, 0x7b
-       e: 82 80            ret
-
-Cheers,
-Miguel
+The kernel does not forbid XATTR_NAME_CAPS for non-regular files and
+will internally even try to read them from non-regular files during
+killpriv checks. If we do not add handlers then we will end up using the
+normal ovl xattr handlers, which call vfs_*xattr(). These will return an
+error for fscaps xattrs after this series, which would be a change in
+behavior for overlayfs and make it behave differently from other
+filesystems.
