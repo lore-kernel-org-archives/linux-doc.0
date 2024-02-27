@@ -1,178 +1,135 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51EB53E32
-	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 07:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277E75467A;
+	Tue, 27 Feb 2024 07:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709018105; cv=none; b=p3jkCLJFLO8F6HBPtmzOLlUplY5TIhC2pAt1wkHahznb7XJ9/7NOC3d158Jyx2IC9FoOhCPSNps10GCz+0zYj6WIc/OJhZAWo/0dvbBgb/NgI0FSJ64OBC4BE19PMZBePsh94BFomxl+dsEAOf44vkBnAUnQraUG7ll5SyKjrP0=
+	t=1709018904; cv=none; b=ohkVX78L2Tu1ansXuLcPq7ZhbTEtm4Fk5fkeGj0myKGGhOegoEMZplbEbRBh5LPLgYSXLpytl+FXudz7FVlBM38sPIOJaykFjhsyysP3p51APWh1yvyINqToTexSa6h22tKJEu5yxNE03tsMiGvb52coiPWvPhIvk75bQkSJVwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709018105; c=relaxed/simple;
-	bh=TeIqcp3WpttmFHIW3XnvocYFn3BQTg7igUcNSN1yPAg=;
+	s=arc-20240116; t=1709018904; c=relaxed/simple;
+	bh=1/iCSINOM9ktWkzosjfbZRxEXx1qwuEmh0fqu+UCCps=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KZuCln2fa0pabfTiuTGDLbT5EVzhnmO4AZgxJh6zEFmtlSfXCQdPa3f+dhJqzbWe1MeWneGLNfdjw428J7/NTnNNRnZxbr/ww4XhWuqFsLMM1zzJDR9UC2j1XmAHeGnXchPAaMwporq6aRYmEBXwexhbB5vwy/nUTZ+K1wHWQ/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ceIeDVUV; arc=none smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 To:Cc:Content-Type; b=BoGnfUxjevIVW/FGeTy8wpuCXKj+WWgGy0zhS5t1/tBIefajzItfow5ZMS0Zpc5AleT2dTAeW/+lZ9i/PuUxj0p35P/TXTrhWYnIy2S2NCLv5ejoad0LhSYMlUrjZjhsLXeCbBdKB/F0Q1S1XLG3WBUO+fhe2e6VQsk2NFO/rsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crayPIgt; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ceIeDVUV"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7d5c890c67fso1855297241.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Feb 2024 23:15:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crayPIgt"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3e85a76fa8so364327066b.1;
+        Mon, 26 Feb 2024 23:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709018103; x=1709622903; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N8vWHZRUeld7g6+ZkMc+yQ/mSTYD3W0qvbbr+ouei6I=;
-        b=ceIeDVUVNIL7ycUjdxsEpWzQ8isuYHSV+AdJkxc+Ks2LQSk8d+khHa9car0Zizq1WA
-         cYuzNlLwOwKMLS86ZBt02k+YO9tV7CQKmm0IFe7gDWvWLIS8pIKNiyJyE9pcfzZlTSn7
-         v/JssoiUQLgeRVHVt0q5E0h/2qFLl3ASDnPiSKENEESFnSHrNAJqYWU+bOeu6im9tW4i
-         AceZEF6V3BRfkIIsHz23dsXNoOQiK9/HV+TQwl4LvilpdBtZjyYX4tJ2XYd61XzedYNJ
-         M/kSdiEoXaT5fFeXG2N8If34G4xKsQLcGUIhf/wUXhjQU3RJIQo70tgFw9LHodlDF0OG
-         7Mxg==
+        d=gmail.com; s=20230601; t=1709018901; x=1709623701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zI30shSOvui+UA44wihEn+kkOQkF830aXh8hZ+sdOqY=;
+        b=crayPIgtPu6xX654pJ6a3WoMUrJOxlsmbjVVzCIMHUieRyc246rzFENqHFv58t/PyM
+         6DAyL8PJhkn9LDC3wVBDdmQpQKWnyGJkOlQwEV6Yur7zo54PWRuRulX6trMdH7+Znw24
+         FnM/m08HAIUSOHmbUJR2W5FBQsb91gLZLRpQM0YHw+utKBIoFC5A4iWSAP4DV35smPib
+         Cqn6s6gqR4eP6DojpvARdNNiXVLDuGxYF5bGAEr8b1jON2ySl2LZo70LhT1AtDBk1y3/
+         kulMqCizUjMO2n5QD4k0LU7i5mrEtQoXjQ/fOesB/e5Us71dMrm5GvRYj4d9xwgDLEmh
+         swug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709018103; x=1709622903;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8vWHZRUeld7g6+ZkMc+yQ/mSTYD3W0qvbbr+ouei6I=;
-        b=NLmwQfCO/f7tznADcpJx+RCFX5LzItJUBTArjwQiwkIEFWpIjQaxtNo/BcnB9IklMZ
-         ahbJlCDPqmgjp+wDVWBQlLVk+kxFsFg+jxI7wSbpILGt504VdpIO6s6AzWXgmehLRyGh
-         Qpdo3CIU0hUNLFs1xFc8FkIulIpIFRWDpLUBD9EzEUNnIzJK3+4S7MwZPMybW27Q5doV
-         N+O0tPopWI5pKnfByYBFYxKcKJuqqS33SgBfps4n+seRAz3NIQNrFxCKDK9cVJIBqf35
-         jn6fRbpP+cOFhAGBY0PslmnKbK0l4xX20rvjj1abWiyhCi11Stba+r1ok2zjZboFsJ7/
-         DLjg==
-X-Forwarded-Encrypted: i=1; AJvYcCVIxp0PCFOUWD2rLUST6giRzB62FU2dMJ/OSG6bgA/QVFDg4AO/xEAO1eGtuWKXuiM4UIBHhs6Fgyw1HJXkjhwPwha19saYYUUd
-X-Gm-Message-State: AOJu0YxLF9D7W30JdlBjjhgOnDFIPDAgeMmLhtSPdW6inOcWePaQvg0H
-	d3NPhPLG8G3B8aXGlRx5t2vFfxiapN0A8/rEr44vZ/3H3S3gB47LIxb0r62TQaEiLusbWNYg9r0
-	Zs5oUPhLOKl6O1VE2u7TVbsOL/fP+BzrdiF+a8g==
-X-Google-Smtp-Source: AGHT+IETqLQ6OmJoJdnFc8F84miMDQkGhVQSfNUHRAERey1hj1gfrnCVpeEojfYJc5ISMOnuLCiw+y72t9vB98e04w8=
-X-Received: by 2002:a05:6102:2751:b0:471:fc79:bf0d with SMTP id
- p17-20020a056102275100b00471fc79bf0dmr2907031vsu.2.1709018102699; Mon, 26 Feb
- 2024 23:15:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709018901; x=1709623701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zI30shSOvui+UA44wihEn+kkOQkF830aXh8hZ+sdOqY=;
+        b=Ur/U4Sa16M+HBXXrEHHJDmpqh+DkxluTnuREHYu3ug6oVSU1opdNZPwMQ05YP8D4lz
+         5AtFjAoyxbiFoPOI/rsfMwVVLJAHgWopR8R+cNVwJA8e2BTZYPVcXFM1cCgG8NVl4vqJ
+         Oh6fHuOBIP0O0bXRgFih1qGlLaNUuHZwShz3DZvjUiNhNBT2Bv/OikCOjklrFQie/vlQ
+         dbvuC08x+qo3WKAZIMYjw2GrA7sshaGfSLjkesf9t++HF6N5KGrjlvmmAdlPEYZMa8fd
+         0STzgAoXjHzmnOz+7+EZ8euu/2azXUastnZtMzahuATAOlHPia87UZEkBqFxhSZNOASx
+         2QLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXj6DWwopVX94eOOjsreq9lVmnsTVXBIEB7xhFcg64VR6PSodQ8vJE2swtRU7p6wq1olSPYZkc1cyTF1Wg0iTJamGB1RvMcv8cUNKwnioNsVVsKedzafoECwRtDhzeThJjqFOzC4MJ5gutBgTj9gABXCn/X466F46BP13IORy5ToWPUJWvt0GQuV260S1cD7EHC8d5iGHQkH1vKWJz7CkaLFzXm
+X-Gm-Message-State: AOJu0Yy97oEH9JBg63EJXOSeLo04uJsLiiT1/8sS7AfNbC8JU3ltEqSw
+	1UosZ0lTgukoDTHdYyLqqrchf/UhVr4hpnhw/DXlKEFFdg8SPC8cFH4UWJO+XolwFk0knU7LqY9
+	gaWa/BDbFzsF5z9b0At1jWh0l0aX/cMuso7Wb2A==
+X-Google-Smtp-Source: AGHT+IEg2zGbhLsEmK2ifI6SjC4f7kPzu91OBzps+VEwu7WS+AfN3IpeWRons2+BVRC69ODcSaX8fDa9Gqy3tZ2gFQk=
+X-Received: by 2002:a17:906:2318:b0:a43:ab98:d36a with SMTP id
+ l24-20020a170906231800b00a43ab98d36amr644131eja.17.1709018901441; Mon, 26 Feb
+ 2024 23:28:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223095133.109046-1-balint.dobszay@arm.com> <20240223095133.109046-4-balint.dobszay@arm.com>
-In-Reply-To: <20240223095133.109046-4-balint.dobszay@arm.com>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Tue, 27 Feb 2024 12:44:51 +0530
-Message-ID: <CAFA6WYP4WVv2H4_2PAn_BOUpYYbG1SDcWL0Gmd6c0ECiH62c_w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] Documentation: tee: Add TS-TEE driver
-To: Balint Dobszay <balint.dobszay@arm.com>
-Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com, 
-	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+References: <20240226104653.54877-1-lukas.bulwahn@gmail.com> <87o7c3mlwb.fsf@intel.com>
+In-Reply-To: <87o7c3mlwb.fsf@intel.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 27 Feb 2024 08:28:10 +0100
+Message-ID: <CAKXUXMz-aTN3qrOmacWT_12awUT4wYTH8sr7SEc4B6XiYtz-BA@mail.gmail.com>
+Subject: Re: [PATCH] docs: submit-checklist: structure by category
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 23 Feb 2024 at 15:23, Balint Dobszay <balint.dobszay@arm.com> wrote:
+Hi Jani,
+
+On Mon, Feb 26, 2024 at 1:48=E2=80=AFPM Jani Nikula <jani.nikula@intel.com>=
+ wrote:
 >
-> Add documentation for the Trusted Services TEE driver.
+> On Mon, 26 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > diff --git a/Documentation/process/submit-checklist.rst b/Documentation=
+/process/submit-checklist.rst
+> > index b1bc2d37bd0a..7d8dba942fe8 100644
+> > --- a/Documentation/process/submit-checklist.rst
+> > +++ b/Documentation/process/submit-checklist.rst
+> > @@ -11,110 +11,121 @@ These are all above and beyond the documentation =
+that is provided in
+> >  and elsewhere regarding submitting Linux kernel patches.
+> >
+> >
+> > +*Review your code:*
 >
-> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
-> ---
->  Documentation/tee/index.rst  |  1 +
->  Documentation/tee/ts-tee.rst | 71 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 72 insertions(+)
->  create mode 100644 Documentation/tee/ts-tee.rst
+> If you're adding subheadings, maybe consider making them actual
+> subheadings instead of just italicizing them.
+>
+> The top heading should probably be modified to follow the guidelines in
+> Documentation/doc-guide/sphinx.rst. This should be a separate change.
 >
 
-Acked-by: Sumit Garg <sumit.garg@linaro.org>
+I have done that. In my humble personal opinion, at the moment, the
+subheadings look a bit too large in the HTML view compared to the few
+points below.
+However, I am planning to add more points to the checklist anyway when
+I understand and have summarized the essence of the other documents
+for patch submissions (submitting-patches and howto).
 
--Sumit
+So, let us make them subheadings.
 
-> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
-> index a23bd08847e5..4be6e69d7837 100644
-> --- a/Documentation/tee/index.rst
-> +++ b/Documentation/tee/index.rst
-> @@ -10,6 +10,7 @@ TEE Subsystem
->     tee
->     op-tee
->     amd-tee
-> +   ts-tee
+> > +
+> >  1) If you use a facility then #include the file that defines/declares
+> >     that facility.  Don't depend on other header files pulling in ones
+> >     that you use.
+> >
+> > -2) Builds cleanly:
+> > +2) Check your patch for general style as detailed in
+> > +   :ref:`Documentation/process/coding-style.rst <codingstyle>`.
+> >
+> > -  a) with applicable or modified ``CONFIG`` options ``=3Dy``, ``=3Dm``=
+, and
+> > -     ``=3Dn``.  No ``gcc`` warnings/errors, no linker warnings/errors.
+> > +3) All memory barriers {e.g., ``barrier()``, ``rmb()``, ``wmb()``} nee=
+d a
+> > +   comment in the source code that explains the logic of what they are=
+ doing
+> > +   and why.
 >
->  .. only::  subproject and html
+> I think we should just remove all the manually updated bullet
+> numbering. Either make them bulleted lists with "*" or autonumbered
+> lists with "#.". See [1]. This should be a separate change.
 >
-> diff --git a/Documentation/tee/ts-tee.rst b/Documentation/tee/ts-tee.rst
-> new file mode 100644
-> index 000000000000..843e34422648
-> --- /dev/null
-> +++ b/Documentation/tee/ts-tee.rst
-> @@ -0,0 +1,71 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================================
-> +TS-TEE (Trusted Services project)
-> +=================================
-> +
-> +This driver provides access to secure services implemented by Trusted Services.
-> +
-> +Trusted Services [1] is a TrustedFirmware.org project that provides a framework
-> +for developing and deploying device Root of Trust services in FF-A [2] S-EL0
-> +Secure Partitions. The project hosts the reference implementation of the Arm
-> +Platform Security Architecture [3] for Arm A-profile devices.
-> +
-> +The FF-A Secure Partitions (SP) are accessible through the FF-A driver [4] which
-> +provides the low level communication for this driver. On top of that the Trusted
-> +Services RPC protocol is used [5]. To use the driver from user space a reference
-> +implementation is provided at [6], which is part of the Trusted Services client
-> +library called libts [7].
-> +
-> +All Trusted Services (TS) SPs have the same FF-A UUID; it identifies the TS RPC
-> +protocol. A TS SP can host one or more services (e.g. PSA Crypto, PSA ITS, etc).
-> +A service is identified by its service UUID; the same type of service cannot be
-> +present twice in the same SP. During SP boot each service in the SP is assigned
-> +an "interface ID". This is just a short ID to simplify message addressing.
-> +
-> +The generic TEE design is to share memory at once with the Trusted OS, which can
-> +then be reused to communicate with multiple applications running on the Trusted
-> +OS. However, in case of FF-A, memory sharing works on an endpoint level, i.e.
-> +memory is shared with a specific SP. User space has to be able to separately
-> +share memory with each SP based on its endpoint ID; therefore a separate TEE
-> +device is registered for each discovered TS SP. Opening the SP corresponds to
-> +opening the TEE device and creating a TEE context. A TS SP hosts one or more
-> +services. Opening a service corresponds to opening a session in the given
-> +tee_context.
-> +
-> +Overview of a system with Trusted Services components::
-> +
-> +   User space                  Kernel space                   Secure world
-> +   ~~~~~~~~~~                  ~~~~~~~~~~~~                   ~~~~~~~~~~~~
-> +   +--------+                                               +-------------+
-> +   | Client |                                               | Trusted     |
-> +   +--------+                                               | Services SP |
-> +      /\                                                    +-------------+
-> +      ||                                                          /\
-> +      ||                                                          ||
-> +      ||                                                          ||
-> +      \/                                                          \/
-> +   +-------+                +----------+--------+           +-------------+
-> +   | libts |                |  TEE     | TS-TEE |           |  FF-A SPMC  |
-> +   |       |                |  subsys  | driver |           |   + SPMD    |
-> +   +-------+----------------+----+-----+--------+-----------+-------------+
-> +   |      Generic TEE API        |     |  FF-A  |     TS RPC protocol     |
-> +   |      IOCTL (TEE_IOC_*)      |     | driver |        over FF-A        |
-> +   +-----------------------------+     +--------+-------------------------+
-> +
-> +References
-> +==========
-> +
-> +[1] https://www.trustedfirmware.org/projects/trusted-services/
-> +
-> +[2] https://developer.arm.com/documentation/den0077/
-> +
-> +[3] https://www.arm.com/architecture/security-features/platform-security
-> +
-> +[4] drivers/firmware/arm_ffa/
-> +
-> +[5] https://trusted-services.readthedocs.io/en/v1.0.0/developer/service-access-protocols.html#abi
-> +
-> +[6] https://git.trustedfirmware.org/TS/trusted-services.git/tree/components/rpc/ts_rpc/caller/linux/ts_rpc_caller_linux.c?h=v1.0.0
-> +
-> +[7] https://git.trustedfirmware.org/TS/trusted-services.git/tree/deployments/libts/arm-linux/CMakeLists.txt?h=v1.0.0
-> --
-> 2.34.1
->
+
+Done that. I used "#." to still have the numbering in place.
+
+The two changes are straightforward, and I will send them out as a v2
+series, once Randy has had time to provide his feedback on the content
+of the v1 patch and I have included his review remarks.
+
+
+Lukas
