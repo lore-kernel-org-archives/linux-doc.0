@@ -1,94 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3311847;
-	Tue, 27 Feb 2024 00:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3BC2916;
+	Tue, 27 Feb 2024 01:45:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708995505; cv=none; b=Wcs52oVbZYxWviusC7mw6lgNJrZm9+4iBVqm+nAwNaWndWPi55FLBRVoCWM/RQcRKg7AYbq62obKLCLu1CuckEl2QdMiRrPBhMlAGkUW8wO6MJcbUTPsHh1LeRaIHkC+vTGBiwDg122TxoJb1a9CzI45XcV1DY0SDGYOrAUSOIs=
+	t=1708998359; cv=none; b=qaNfWJtHf/M9o9HJXZnDpl0QwsnBwz4FUy1zMZJV/ITIaWeFpqLKyIORATpwbPO6IfiP98qPz2kiqlDLefIm8pZFZiY4gbWq/PiFU12f1ayt7cOKE14wi2VY82c3oStYPB7n+mz2SHmGMff9U7SMEpX2V0pDmNN04QHeOjgmcH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708995505; c=relaxed/simple;
-	bh=qaRGbZw3nMP//+JFjvNcVW+EqA2CwVdYh7gZL5mLkLg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ODuiojWSorSYvzZctFMT1bCaqWbzZyuRIqqwMU+GzeNQli+n89jie6WKKuGZe7KCQ2kMGPaysv9I+BYDOHsqQWjm2eP/KP63Cg2zJG3HMvPV0RNiu3y8ZU+Fbvwt8cWdONWsiGIcKOVxPpRjSnp2+JMlS++kqtfh7aOHsSSdd0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=spdX/faj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="spdX/faj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E36DAC43394;
-	Tue, 27 Feb 2024 00:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708995504;
-	bh=qaRGbZw3nMP//+JFjvNcVW+EqA2CwVdYh7gZL5mLkLg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=spdX/fajxfIgjTyQMaNQ2X1LJ8aV2Fopwm1O6ldTSf/MhZk1FpJWOcwuIXQh7X3vU
-	 919tq201q3FVeruH33Ej9unvbymjO/vB4vp6mcO6i0O6/LSChs9FrjviK3gPq4LCM8
-	 yjrlNWKVWEyQjrCgref8LSGJvAbXxXBIz1THDnajacyTLJyvU354kMAgJDLW/S4Us+
-	 e0GDFCqLfoMcYjZ/QyswH+13yXg5dLCiF4NdS30C9DfRBQc3bbCxs3Q0sesdoJz4Ja
-	 l11CQaAdczcwGWZit/4XB8IRLWOOcHqzsuYUQO2sMrsptADdnA8Y64vyfMAK3XwUSb
-	 g4x9RzckQmUOg==
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412a4a932f4so13126155e9.0;
-        Mon, 26 Feb 2024 16:58:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV+dsz/OMX6ev6RtvZNmfzEZe4VvEzl3WJ/r6AVeFyfvqWhjFUJl+VgPYJEnzBgSq5l+3PD64SSNP0uLobQsGVgpfKflYt5Njqpo0CJkd2Pg/5Sm4EhB6o3u1lODsGXd8UWnu3gXjvevQRxU6tQ8/1aRM1ROhBQNErUKk/bJK1G7RQm3X+7Yq+dhaJFqN1UFmgmtDgE977/kOVLfno2GrIXNw==
-X-Gm-Message-State: AOJu0YwFIh1AfOVQd5cEW22oaswSNlmmHRfoOsuNO4Mnv3rPNgR3an56
-	sf01HVrIsjvcjt8fDxzAOkqPlC5sRzZlcdye3gw1RRMoCjF3ZzJA/RHRnUKlpthdaZ1wWJTGCxT
-	Un8QXqtxFr7TLUk2H7vLhwpj7tDQ=
-X-Google-Smtp-Source: AGHT+IFqjJgJkjMPawllVB8Z7vRbF30E2T+0rElmebjASihu2o/pZv4K7aKT/m1kXdVooPiQbMb0WJiPbiiC5Pfh6/A=
-X-Received: by 2002:a05:600c:a07:b0:412:955e:90e0 with SMTP id
- z7-20020a05600c0a0700b00412955e90e0mr5714587wmp.34.1708995503389; Mon, 26 Feb
- 2024 16:58:23 -0800 (PST)
+	s=arc-20240116; t=1708998359; c=relaxed/simple;
+	bh=LuyC8MIBSY/6X2DV9kyguJMcgXgow64FfJ55DNaRInI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O+i56kCQXs5W5iL0+lwW2FrMlDhSxL0YgIUNKqQ6MmEAlG+ZY/76u4yYuJGamB3OjmmiGYhogclfPzRPcZue4sTK01ptkdgZClNhXjRfhiSFKJHrjbuQqmqPjPtzSciRCH+SbcC2SwNmI5/MUr1FbleT6GxQSXyUOwJH8PyX8Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A64C43390;
+	Tue, 27 Feb 2024 01:45:56 +0000 (UTC)
+Date: Mon, 26 Feb 2024 20:47:57 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Huang Yiwei <quic_hyiwei@quicinc.com>
+Cc: <mhiramat@kernel.org>, <mark.rutland@arm.com>, <mcgrof@kernel.org>,
+ <keescook@chromium.org>, <j.granados@samsung.com>,
+ <mathieu.desnoyers@efficios.com>, <corbet@lwn.net>,
+ <linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <quic_bjorande@quicinc.com>, <quic_tsoni@quicinc.com>,
+ <quic_satyap@quicinc.com>, <quic_aiquny@quicinc.com>, <kernel@quicinc.com>,
+ Ross Zwisler <zwisler@google.com>, Joel Fernandes <joel@joelfernandes.org>
+Subject: Re: [PATCH v5] tracing: Support to dump instance traces by
+ ftrace_dump_on_oops
+Message-ID: <20240226204757.1a968a10@gandalf.local.home>
+In-Reply-To: <20240208131814.614691-1-quic_hyiwei@quicinc.com>
+References: <20240208131814.614691-1-quic_hyiwei@quicinc.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1708709155.git.john@groves.net> <ZdkzJM6sze-p3EWP@bombadil.infradead.org>
- <cc2pabb3szzpm5jxxeku276csqu5vwqgzitkwevfluagx7akiv@h45faer5zpru>
- <Zdy0CGL6e0ri8LiC@bombadil.infradead.org> <w5cqtmdgqtjvbnrg5okdgmxe45vjg5evaxh6gg3gs6kwfqmn5p@wgakpqcumrbt>
-In-Reply-To: <w5cqtmdgqtjvbnrg5okdgmxe45vjg5evaxh6gg3gs6kwfqmn5p@wgakpqcumrbt>
-From: Luis Chamberlain <mcgrof@kernel.org>
-Date: Mon, 26 Feb 2024 16:58:09 -0800
-X-Gmail-Original-Message-ID: <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
-Message-ID: <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
-To: John Groves <John@groves.net>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, john@jagalactic.com, 
-	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, 
-	gregory.price@memverge.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 26, 2024 at 1:16=E2=80=AFPM John Groves <John@groves.net> wrote=
-:
->
-> On 24/02/26 07:53AM, Luis Chamberlain wrote:
-> > On Mon, Feb 26, 2024 at 07:27:18AM -0600, John Groves wrote:
-> > > Run status group 0 (all jobs):
-> > >   WRITE: bw=3D29.6GiB/s (31.8GB/s), 29.6GiB/s-29.6GiB/s (31.8GB/s-31.=
-8GB/s), io=3D44.7GiB (48.0GB), run=3D1511-1511msec
-> >
-> > > This is run on an xfs file system on a SATA ssd.
-> >
-> > To compare more closer apples to apples, wouldn't it make more sense
-> > to try this with XFS on pmem (with fio -direct=3D1)?
-> >
-> >   Luis
->
-> Makes sense. Here is the same command line I used with xfs before, but
-> now it's on /dev/pmem0 (the same 128G, but converted from devdax to pmem
-> because xfs requires that.
->
-> fio -name=3Dten-256m-per-thread --nrfiles=3D10 -bs=3D2M --group_reporting=
-=3D1 --alloc-size=3D1048576 --filesize=3D256MiB --readwrite=3Dwrite --fallo=
-cate=3Dnone --numjobs=3D48 --create_on_open=3D0 --ioengine=3Dio_uring --dir=
-ect=3D1 --directory=3D/mnt/xfs
+On Thu, 8 Feb 2024 21:18:14 +0800
+Huang Yiwei <quic_hyiwei@quicinc.com> wrote:
 
-Could you try with mkfs.xfs -d agcount=3D1024
+> Currently ftrace only dumps the global trace buffer on an OOPs. For
+> debugging a production usecase, instance trace will be helpful to
+> check specific problems since global trace buffer may be used for
+> other purposes.
+> 
+> This patch extend the ftrace_dump_on_oops parameter to dump a specific
+> or multiple trace instances:
+> 
+>   - ftrace_dump_on_oops=0: as before -- don't dump
+>   - ftrace_dump_on_oops[=1]: as before -- dump the global trace buffer
+>   on all CPUs
+>   - ftrace_dump_on_oops=2 or =orig_cpu: as before -- dump the global
+>   trace buffer on CPU that triggered the oops
+>   - ftrace_dump_on_oops=<instance_name>: new behavior -- dump the
+>   tracing instance matching <instance_name>
+>   - ftrace_dump_on_oops[=2/orig_cpu],<instance1_name>[=2/orig_cpu],
+>   <instrance2_name>[=2/orig_cpu]: new behavior -- dump the global trace
+>   buffer and multiple instance buffer on all CPUs, or only dump on CPU
+>   that triggered the oops if =2 or =orig_cpu is given
 
- Luis
+So we need to add that the syntax is:
+
+ ftrace_dump_on_oops[=[<0|1|2|orig_cpu>,][<instance_name>[=<1|2|orig_cpu>][,...]]
+
+> 
+> Also, the sysctl node can handle the input accordingly.
+> 
+> Cc: Ross Zwisler <zwisler@google.com>
+> Signed-off-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+> Signed-off-by: Huang Yiwei <quic_hyiwei@quicinc.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  26 ++-
+>  Documentation/admin-guide/sysctl/kernel.rst   |  30 +++-
+>  include/linux/ftrace.h                        |   4 +-
+>  include/linux/kernel.h                        |   1 +
+>  kernel/sysctl.c                               |   4 +-
+>  kernel/trace/trace.c                          | 156 +++++++++++++-----
+>  kernel/trace/trace_selftest.c                 |   2 +-
+>  7 files changed, 168 insertions(+), 55 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 31b3a25680d0..3d6ea8e80c2f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1561,12 +1561,28 @@
+>  			The above will cause the "foo" tracing instance to trigger
+>  			a snapshot at the end of boot up.
+>  
+> -	ftrace_dump_on_oops[=orig_cpu]
+> +	ftrace_dump_on_oops[=2(orig_cpu) | =<instance>][,<instance> |
+> +			  ,<instance>=2(orig_cpu)]
+>  			[FTRACE] will dump the trace buffers on oops.
+> -			If no parameter is passed, ftrace will dump
+> -			buffers of all CPUs, but if you pass orig_cpu, it will
+> -			dump only the buffer of the CPU that triggered the
+> -			oops.
+> +			If no parameter is passed, ftrace will dump global
+> +			buffers of all CPUs, if you pass 2 or orig_cpu, it
+> +			will dump only the buffer of the CPU that triggered
+> +			the oops, or the specific instance will be dumped if
+> +			its name is passed. Multiple instance dump is also
+> +			supported, and instances are separated by commas. Each
+> +			instance supports only dump on CPU that triggered the
+> +			oops by passing 2 or orig_cpu to it.
+> +
+> +			ftrace_dump_on_oops=foo=orig_cpu
+> +
+> +			The above will dump only the buffer of "foo" instance
+> +			on CPU that triggered the oops.
+> +
+> +			ftrace_dump_on_oops,foo,bar=orig_cpu
+
+I believe the above is incorrect. It should be:
+
+			ftrace_dump_on_oops=foo,bar=orig_cpu
+
+And you can add here as well:
+
+  ftrace_dump_on_oops[=[<0|1|2|orig_cpu>,][<instance_name>[=<1|2|orig_cpu>][,...]]
+
+
+Thanks,
+
+--Steve
+
+> +
+> +			The above will dump global buffer on all CPUs, the
+> +			buffer of "foo" instance on all CPUs and the buffer
+> +			of "bar" instance on CPU that triggered the oops.
+>  
+>  	ftrace_filter=[function-list]
