@@ -1,122 +1,209 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6244E54FA5;
-	Tue, 27 Feb 2024 13:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9616813A87C;
+	Tue, 27 Feb 2024 13:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709040318; cv=none; b=uv0GMVAYRD9h9pC5V4w1PyP6UfA/dIR95/vCW0gfaAo6P3pGvsoWulmiT7fvS1SlWSI1k0nSmAQjowmpd4iF8LCjt308scCD4ajNinVLpx1RTN+poI3NMlZNOfgM0ioI03W64sfj8POrlNXTmNU/Qg/tVw+fCpYt6KrjvOK44nE=
+	t=1709040405; cv=none; b=XV5Q1M9iWssQkiEJfzivlA33SCzNofUEbxKxy5D3PD0O4jPl+kBADsw4N+X2NjOOcfRXfSn8nRTWxGm7/gOsyKe82++omr5vXX+zr0q9sSMMA1WmRGxuDfF2v7iRw5woIsZa7mVtvRPY8epavmY6DyAPof7iuxaVf0vFfWItb80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709040318; c=relaxed/simple;
-	bh=5sj9NXTrAoUjaPMj/9h4zOUnoupcAA5GHb0+0GioHCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n6Sd4d4UhDpLJy6/4L6CjQY9bQfLl/Ii86INS2xAH0jreYSPFNb4lbSJyXpNDde5uVLIl496SzT5ij4YyGA1R0LGk/FqwIHjZ7KIChqo2nQClB5cTUAfFGFsagqqTzHVwhMidzveyCogRtjISFj1+OL3lynp89gn2Oc38x7z3+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P41mkqlZ; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709040405; c=relaxed/simple;
+	bh=je8RxzPOXqGPjuvQPyzxZ26n+2I11ZgZOJBFkDsTSWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WIvDe4WdiA1vkwzhjTiR2uxHDBZWMbvH1IkBO8UFWTYpkwML2ehXXmXxp+VaMcUQGDSVhhFd0/5p8dyLcOR7HaiWQtc5F1d2t/jy0sl12EUkwpdPt+fGf9kDjO6iLLV2JZayoPnkEtWypaknaiLid6DYPeIc+8M2jEWTr6Mi0E0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YI+H3/pN; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P41mkqlZ"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3d5e77cfbeso757832666b.0;
-        Tue, 27 Feb 2024 05:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709040314; x=1709645114; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7mfy+8kAD4Sg5cY1crfDT7qIqsKPJZTTBHdCAQaHu3Q=;
-        b=P41mkqlZ+inwX5x4hn86zkOs1SUlx8S2XkeEtvxHHC7CES/72E6qUlIrV2/d4jxvhu
-         nfT73dPMEZLcIw2B3kQeQzBvAB2mRQ8PJvULYL+g9uU/fv9/gLEA0MSI+PRQAuh9wSGM
-         hc9p4vUu7UvDREh0MFvXuh1iRe+xG4LL6gX1s9UseUFyC0tqCKT5ZmmzUW4Y0LFh/GeQ
-         qkF3ZKfYMB8kpaS0MXH99SUGadNimYccD+VzRKSm5BLtrfPT9Mubl/qmbZh5IyFhGhSn
-         AKFMr72EGY/IF3xvG4/Y/ea5dLqKjMNimhZyuEsiYz2uPsRGI20cCC4Ct6dB9cppZGhg
-         ojvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709040314; x=1709645114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7mfy+8kAD4Sg5cY1crfDT7qIqsKPJZTTBHdCAQaHu3Q=;
-        b=RZoI8uhjF0f8tn3nC6b7TEFOP/r3VRrQK9ynWfNDTY4I3vtZc9PUR4fIWsWMlQob34
-         MKmOPb3p1XGqs1vCDIXMApB+tEnMej2BWFxaI8vS8XPMe9OZsNx0QIsQtBSYuvqh2pSl
-         QElF1B2R+t81z7m86ut0YGQXCLdPLkaZsZ8i2bA768EoSDCPpGRzj281N7BIDnXgdox4
-         sSNWwrBxs5hMeI/sryK9sIjeLmsSL1o+tg/DRHf46ANM20CAd0nUua34eVef4i4EXHGW
-         bnD96T6qkjm/xinbE83OKT7C/TAlt4z/F8VcHrUTPCdpQgfC/tTl9ORgDZ5amK7Hwllj
-         0MVA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiRugcD8T6ep/VQWVczvlzoBa3uy9Bs5gYQWW2u8VwIF4ZU5P7T+xTnFkuW8TqOUKk4FDiTaDJfEtGTV+A0e42Ttd5qqhPaj6a
-X-Gm-Message-State: AOJu0YzKopR3r3XVa+wl0xbwa/nA+Wgper/Rh+6K+jpf/8/rYHlhqQNF
-	npOqAyAqijfYNXzMfDb7wA0zN4uwzVp98FM23jEFViOP6vnm/WDac3lZmu1BHSYsPHfC1MdK4ig
-	HOYQwjOieGo4pliQ6SyuQ950hPqE=
-X-Google-Smtp-Source: AGHT+IHE4znenK09HkV6uURTuS9RBcOY3Hyzi9IIvKhH5QUyp/hHFLNoRLipHmm9xrihLpAqOjyebro5LUqfP2wuiDA=
-X-Received: by 2002:a17:906:2417:b0:a3e:ec63:8fa9 with SMTP id
- z23-20020a170906241700b00a3eec638fa9mr9324108eja.16.1709040314372; Tue, 27
- Feb 2024 05:25:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YI+H3/pN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709040401;
+	bh=je8RxzPOXqGPjuvQPyzxZ26n+2I11ZgZOJBFkDsTSWQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YI+H3/pNPwYSk40IM1WIt8OyCHs4sJeIYUuJLN3RZY6RsJJXgt48JtuzrdwFFpBzv
+	 5a1K9LLFs+mJ1I0oJftOMhv1qrLELTQ9YpFiJEVroOyw4AwOubJ5BhhFuQot8g0ZGf
+	 sJhHGs2GEMTSPBdEzDaAHjhN3v4iA2WrDmHRWHVqacoyd6MEshyfjL4TCDAtuy0tv6
+	 jJI3/Pk7SeIXWguIWjB9RlYlEjCtw1kn90GX0GKqae0Bgc1Ky6N6nw/A4MHifaNxTe
+	 UTpuzM8EoaFPWgU7UnBEnbu5T9mefr2a77JC2k2/2Cfq9Oe4coyCD0gb2Nez5LBMaS
+	 mLg6rIa/l9MhA==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DBDBB3781FE6;
+	Tue, 27 Feb 2024 13:26:40 +0000 (UTC)
+Date: Tue, 27 Feb 2024 15:26:39 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+Message-ID: <20240227152639.6426c401.pekka.paalanen@collabora.com>
+In-Reply-To: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+	<20240227111941.061a2892.pekka.paalanen@collabora.com>
+	<8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
+	<20240227135545.62dd5f57.pekka.paalanen@collabora.com>
+	<0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
-In-Reply-To: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 27 Feb 2024 14:25:03 +0100
-Message-ID: <CAKXUXMzejT7++UgpgE_eHbXTC+w0cz2-sPr3XawV6N2mCkupgw@mail.gmail.com>
-Subject: Re: [PATCH] docs: drop the version constraints for sphinx and dependencies
-To: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Akira Yokosawa <akiyks@gmail.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/DX6kKQq2iBgSz7fGP6YUgnj";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/DX6kKQq2iBgSz7fGP6YUgnj
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 2:14=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail.=
-com> wrote:
->
-> As discussed (see Links), there is some inertia to move to the recent
-> Sphinx versions for the doc build environment.
->
-> As first step, drop the version constraints and the related comments.
-> Then, the sphinx-pre-install script will fail though with:
->
->   Can't get default sphinx version from ./Documentation/sphinx/requiremen=
-ts.txt at ./scripts/sphinx-pre-install line 305.
->
-> The script simply expects to parse a version constraint with Sphinx in th=
-e
-> requirements.txt. That version is used in the script for suggesting the
-> virtualenv directory name.
->
-> To suggest a virtualenv directory name, when there is no version given in
-> the requirements.txt, one could try to guess the version that would be
-> downloaded with 'pip install -r Documentation/sphinx/requirements.txt'.
-> However, there seems no simple way to get that version without actually
-> setting up the venv and running pip. So, instead, name the directory with
-> the fixed name 'sphinx_latest'.
->
-> Finally update the Sphinx build documentation to reflect this directory
-> name change.
->
-> Link: https://lore.kernel.org/linux-doc/874jf4m384.fsf@meer.lwn.net/
-> Link: https://lore.kernel.org/linux-doc/20240226093854.47830-1-lukas.bulw=
-ahn@gmail.com/
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+On Tue, 27 Feb 2024 09:29:58 -0300
+Arthur Grillo <arthurgrillo@riseup.net> wrote:
 
-Oops, I was a bit quick on sending this out, I wanted to add those
-remarks for the patch discussion:
+> On 27/02/24 08:55, Pekka Paalanen wrote:
+> > On Tue, 27 Feb 2024 08:44:52 -0300
+> > Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> >  =20
+> >> On 27/02/24 06:19, Pekka Paalanen wrote: =20
+> >>> On Mon, 26 Feb 2024 17:42:11 -0300
+> >>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> >>>    =20
+> >>>> Now that we have a defined benchmark for testing the driver, add
+> >>>> documentation on how to run it.
+> >>>>
+> >>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> >>>> ---
+> >>>>  Documentation/gpu/vkms.rst | 6 ++++++
+> >>>>  1 file changed, 6 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> >>>> index ba04ac7c2167..6d07f79f77ff 100644
+> >>>> --- a/Documentation/gpu/vkms.rst
+> >>>> +++ b/Documentation/gpu/vkms.rst
+> >>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to r=
+un the entire test::
+> >>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --devi=
+ce "sys:/sys/devices/platform/vkms"
+> >>>>    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/=
+kms_flip --run-subtest basic-plain-flip
+> >>>> =20
+> >>>> +If you are developing features that may affect performance, you can=
+ run the kms_fb_stress   =20
+> >>>
+> >>> s/can/must/
+> >>>    =20
+> >>>> +benchmark::   =20
+> >>>
+> >>> before and after, and report the numbers.   =20
+> >>
+> >> Did you mean to write the benchmarks logs here? =20
+> >=20
+> > I mean people should be required tell their before and after numbers in
+> > either commit message (my preference) or in series cover letter (if
+> > benchmarking commits is not useful).
+> >=20
+> > With the addition of YUV support in VKMS, maybe the benchmark needs to =
+=20
+>=20
+> With the upcoming addition, I've sent a patch to arbitrarily change the
+> formats on the benchmark via command-line options. It's not adding a new
+> case, but maybe just this could already help.
+>=20
+> https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@=
+riseup.net/
 
-This change seems to work for my setup, but I have really only dipped my
-toes into the waters of this sphinx-pre-install script.
+In that case you would need to document exactly what command line
+options to use, and ask people to report the numbers of each test
+case.
 
-I only dropped the version constraints, but possibly one can even drop
-some of the packages in the requirements.txt, as they are pulled in
-automatically by Sphinx dependencies.
+That works. Alternatively or additionally, the test cases could be
+built in to the benchmark, and it just reports numbers for all of them
+in a single invocation. Then people running the standard benchmark do
+not need to worry about getting the command line options right, or
+running multiple cases. And reviewers do not need to ask to re-run with
+the correct options.
 
-So, I am happy to get your feedback, but I am well aware about its
-potential to be improved and the lack of my deep knowledge about the
-script. I hope, though, you can test it in your setup and confirm if
-it works as expected and then we can discuss the details (e.g.,
-naming).
+I suppose rotations might get added, too.
 
-Lukas
+Or maybe you'd provide a script that covers all the standard
+performance test cases?
+
+
+Thanks,
+pq
+
+> > start printing YUV numbers separately as a new case.
+> >=20
+> >=20
+> > Thanks,
+> > pq
+> >  =20
+> >> =20
+> >>>    =20
+> >>>> +
+> >>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/=
+platform/vkms"
+> >>>> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchm=
+arks/kms_fb_stress   =20
+> >>>
+> >>> Do people need to run both commands?   =20
+> >>
+> >> No, they don't, just two options.
+> >>
+> >> Best Regards,
+> >> ~Arthur Grillo
+> >> =20
+> >>>
+> >>> Anyway, a good idea.
+> >>>
+> >>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> >>>
+> >>>
+> >>> Thanks,
+> >>> pq
+> >>>    =20
+> >>>> +
+> >>>>  TODO
+> >>>>  =3D=3D=3D=3D
+> >>>> =20
+> >>>>
+> >>>> ---
+> >>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+> >>>> change-id: 20240226-bench-vkms-5b8b7aab255e
+> >>>>
+> >>>> Best regards,   =20
+> >>>    =20
+> >  =20
+
+
+--Sig_/DX6kKQq2iBgSz7fGP6YUgnj
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXd4w8ACgkQI1/ltBGq
+qqfnHxAAp79lJUjUsLan8ziK6wUyuM4IoJLwb3oFaNNDCcPrFKMLXTUBu87boL/n
+n47WzJ/1mKbMlgSXCWLR/2j6RTjBy+gGCPx1TLDBY+2Jf+s48ms/RyS6GTEB1Bj0
+MhCUhYt4FrgqXecdpINJXQ4/WpIbt4RECU1chiMF0PoXvTe21G02Zhg2rfvyc1Xh
+yLn3I+I3cjwqTVmLMPTPGRIoX0ax64TWMU6L1CSWpRdHkQanUJLERb1NKZG0y3gK
+eZF2CaSyq5IM2zur9TrYIzJjuHvsvNx0ax6FBifZYLmFGWB7BSx2BPg49mCdM2zF
+8wSTcn2OW+ndUsXY1aZrUF/breJXIdCne008J43ygXOahg7ltAezMu7g0LE+tjBC
+o3tRPlspfDjyVVvjFXjDvRmdagYUzemAcZY6NldG38TqmqYegXjR/RC6NLI/MKTd
+X1Lo4xIArbPU7GU0gyJz0VwehFgc4ZcTaq8j7/KhTQRXNkDnotoNdhY8VIrd3EO/
+Fvh6xSE22xxvmFw4psscLe5lxmM3BBecRRhQ83IoBxhCIOQrOsg8+HK8rmv+dGkT
+xtwqvEieZHmvKqmSbJsLXhgNNe2OOZHz8BfyvXQUeQ7fn3V+dqepSopeVDOqS4t5
+hSd67SKpCocwdmXOkap20qYxWtiquw/0Viv4HtgD45EpnYHVi4o=
+=MeCb
+-----END PGP SIGNATURE-----
+
+--Sig_/DX6kKQq2iBgSz7fGP6YUgnj--
