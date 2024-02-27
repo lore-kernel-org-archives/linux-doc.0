@@ -1,183 +1,131 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4502B55E57;
-	Tue, 27 Feb 2024 08:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C20556440
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 08:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709021103; cv=none; b=GRx6XUJ3abBQx/6GEpEn4II5iyl8NXzgBVX+Bs/1HNd8gNnbfksOrDvKgkrg3xEGUVzaXnza12lYFsDYXUG1KcwXk8UYDnm92jZejiSKWmWxwW9KBGkBGnXFt3U+qxyUh6me4K/YXpQeK1fVUuUgpN9KsWCbjJxtRMR+9JvQwws=
+	t=1709022264; cv=none; b=A7KPR+fesgrTNSR7BvCYuj8rxwFbRekp6l06iRMHoD5pVB8953DrGozrnP8N9tdMlMOFkelsFMZ3hfXkI4RoKcBS3B7G3+AgovdjQkcDbIHgX2Gv3GCjrhXxvsBAb+BK6x+6IkvLnLDLwpLSNQ5kRj+t6hr76iN9i1nxueFTqsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709021103; c=relaxed/simple;
-	bh=dLc6qzpdn0QcbWH35jBWzBShMzWwsYYOLtQdcDNpS08=;
+	s=arc-20240116; t=1709022264; c=relaxed/simple;
+	bh=Up5Td7o+pgdLisM/ELg+/hkF2Di2viopub7QweYTu64=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W/Nz7Irf/5UeFpWxgwN6THAs1djuvKz3Boj+istMyblBbC/GZ6msm97csNZEhpQcvI+zrbRFS2WfyauAavlrsqo1sRp5HOHbBA5OQBVZFOvjY7X/xuHX9Jfxa5zymK+0YzGtne45ydlS+HYL5iufDt/imQ0HAUSN73+f7UDqCus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AGu/0dR9; arc=none smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=iM0URMyf7k8o55yxjGIGp3B0ltXWawBkeNvO/HfEgGgPRWwTgKOSMcQwGtJeu1CtlmzKMrlQht7DA7igbSNQm4PHUAmOvWE8zrXI2ynuCI7lbdevFSweyez/VbGtd+ZwZzzGHFeYpiqtkMy8O7kHEAlyVTshRyOgBVcS/sIS73w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrVe9xZd; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGu/0dR9"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5656e5754ccso4902155a12.0;
-        Tue, 27 Feb 2024 00:05:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrVe9xZd"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a3122b70439so479555766b.3
+        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 00:24:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709021099; x=1709625899; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1709022261; x=1709627061; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8IQYfg/jEbKsFfnP7Ml8GxrhHj0pSAVN9Eix4gdEtcY=;
-        b=AGu/0dR97o7ALNRJBJIjtnL5ZqtzEjPFZqxQK5A/DUANqvjIQxm+fenlNu4NEdeVc1
-         56S+zMHoyyW5ZbXoxyb5HKhJndiV3J+ZH2onDEbXYh5bmHWyYU0rUTy/GwNXBPNRgtoz
-         waToFSeg1FMvCP8J8bgMnQI8Sgly6DRls3/iIynK2sCQtNhSUyB7LO5+ZYuljS9EBHNZ
-         N0EglxP1KNIIA53u0yMJTvAzHqY2or9DgHoz9+pzEdVvPCIgIfrhB1g5UzhiHf6cPuSi
-         gTV9wusuJpdOLIzdTIwSLvEVn0UoN6hyu2ENvlJEYa9qOgb86zNjsN2U/Bbfwi2lCywz
-         6mdA==
+        bh=BgWlK0X29r9cMQpWxSf/jEya6nGwTnP4LZMYlaQlkfQ=;
+        b=LrVe9xZdfhQv9Qh3Nogv+oLdXE1BUfTuoi55uYJjzKfmhYiWRCJr7+3TmFtvjj+GMs
+         IZBB/znuvblW6RgjXeHZwwg6fpx5rLEP/axOv6u3BSncZwohHnxzu2ZWjaW0d0S+JcM6
+         ivH4HDHegMr8nbR52+apa6gR/VHMu7uSt4nyyS3RUkDowsIH+/8QuRQwnAPD1HA43CsQ
+         PT7J2FO7VNn8AUaRFWFu+w7W2/OVSkEULCNKET6DxMuJumsCGK0VGfrSR4eCPIVw1yfj
+         PIpTLUbSAgkoJux/NUIwyBWEsGDI+AVMizb0VRPOW5kxtb3pNSUXeJdUfgeokqRPrc+z
+         DgLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709021099; x=1709625899;
+        d=1e100.net; s=20230601; t=1709022261; x=1709627061;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8IQYfg/jEbKsFfnP7Ml8GxrhHj0pSAVN9Eix4gdEtcY=;
-        b=td+t7iXRDl8Jd9pD7qFLHY6utvGj7ErOrrFSOtq3oe+Lrv4bur02JKCgkVn7Khiqc3
-         0Zk9pxSkzIqAJsoqnSvHR0QAQma1Auf/1Hq5fIHoKDFFx23fSIr57XU1aIsiTEtxajFm
-         z0AQ3oeoroCOPostDJbwskdG6VEhD8Sr2z8pCHX25kNfpEfofl+GrnlrDhdwhF75Tlks
-         LdkKlKJhyOFenW2y5roRWrf41JZMnkV4yRs92OZ1bFgfAs4JgAn59j7KafTPGdmeXKhG
-         quZQOUBVSYbtmPlKaqa2uzPOt5GHcRAYxFGUUibLHCr9yVVDH0wFRA5WtvwQNsj5ZdQ2
-         dr2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVIKMOe3Dtv5e0O3XhROtOWNFCMDCH5VnjBXk0wvluiR+UBMop3YEvrhxvG5cHBUJidWXfr5eE3lTN0QiG+Qon0D0V877R/GwaAtfaWofqF2f2CmhXnoMWgTgfmfpqT1SaNjtGN00q1wrJaGq9v2nfTVMCwUoEwyT8B1lxJ9dyflU75BDKo82a65E/f5zaxkebBLkGfvMxHreEHY3SA1t+5KqO4
-X-Gm-Message-State: AOJu0YzU+Iay7eir6jpjxAgYXFkfupFH/gNVjCyKiV7i1Jn8Xu0H4pjY
-	OnnMeTl9LfOIUjbPidHerCnoYWW0GwnCOfM1jWKWP6xD0aEh+i5DRSNU8eeFehu9Q2FI1ZlWkKu
-	dsbgTjn02EFbrHeqiPiJQ5u49xts2tNLxP2OQmA==
-X-Google-Smtp-Source: AGHT+IFlufugla77dD0j6LnZaS9EwyRoI4OBtOt4iPjnpLBqDX7T/t9hkHQLyVLsNt3OF+TRgbh8PTkCNXKpThlby/o=
-X-Received: by 2002:a17:906:5fce:b0:a3e:73c9:7acc with SMTP id
- k14-20020a1709065fce00b00a3e73c97accmr5824341ejv.33.1709021099415; Tue, 27
- Feb 2024 00:04:59 -0800 (PST)
+        bh=BgWlK0X29r9cMQpWxSf/jEya6nGwTnP4LZMYlaQlkfQ=;
+        b=GbaZpHdoby9EJSjxlNPjxRRJ6uR/wvgZLzpjscOuy8N9dQn+6EFyu+x841ZS+mBdzz
+         gnvQWZrVelzxmx35AIUwtGEAdgUqxwcBlCvIBel1nRoyXJ8CEVwQL/CPW4KywfDcrTIc
+         4E3jjlWJCTwpauO75HiBIWPghmWjtC/ULAPJR7TrWS9FZfboeqWWcC6Akl8+xQOJu5wM
+         /hcGngFJzwT4JzLcjrZlhVUaUSZioQ4s9Ng4ujYZZ1glweFHMFLqESAci9LMIaOwzfvW
+         KSWm2qlduyGI9kzqc9tL3c5V10fpVnVozePp0wlbp51qHEqeycoQL+7fJWrbnefjKxNJ
+         hwRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVokXinyMAehzNFB6DzjWe5OU+GVH3JGT8iWJEZkQgPCdjXi5Z3kHX9gN8pv3OjcK/od/oHB04iQNv2iyWUli9045cVqNTR0M2K
+X-Gm-Message-State: AOJu0YxV9Kusntq2Wpqbh4gP8MSKrb23+hOfNX7PALHoUWUnUPHGfreu
+	CG+MQ7eryhKnaVYyesKkcsaeCnrRmsrb58HKEq8HZ2GSM3povnEMcyn2EkYaaI83g2XNh24fy+/
+	5OtPe0OraVDBzG8W5EVZFjkNKz78=
+X-Google-Smtp-Source: AGHT+IGvLfmLAGP/0eGefpfGSy1GItijzCfPYQqCwzH37xYhgKFt8eibHuY+OmQcDoSo/qlu/xZT9VtxAEGu3Dlrvjw=
+X-Received: by 2002:a17:907:bb8b:b0:a43:827d:53c5 with SMTP id
+ xo11-20020a170907bb8b00b00a43827d53c5mr2249910ejc.32.1709022261592; Tue, 27
+ Feb 2024 00:24:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com> <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
-In-Reply-To: <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
+References: <20240226093854.47830-1-lukas.bulwahn@gmail.com> <a6e683f5-3088-48ef-9930-93c95e85c5ce@gmail.com>
+In-Reply-To: <a6e683f5-3088-48ef-9930-93c95e85c5ce@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 27 Feb 2024 09:04:48 +0100
-Message-ID: <CAKXUXMxSnEEYCtvxVN6Z_QuDTEpLiq=Zsz+=g=kNzwKuLeH=Pg@mail.gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 27 Feb 2024 09:24:10 +0100
+Message-ID: <CAKXUXMz1HLYKo=D4UrtPDf3GO4VjxXmU1xtYm_aZ3tXo6PrekQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: freeze some package versions for sphinx virtualenv setup
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: corbet@lwn.net, vegard.nossum@oracle.com, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
+On Tue, Feb 27, 2024 at 7:57=E2=80=AFAM Akira Yokosawa <akiyks@gmail.com> w=
+rote:
 >
-> Hi Lukas,
+> [dropping most CCs]
 >
-> I'll review the file changes separately. This is just replying
-> to the patch description comments.
+> Hello Lukas,
 >
+> This is a friendly notice for filling in some contexts.
 >
-> On 2/26/24 02:46, Lukas Bulwahn wrote:
-(snipped)
+> On Mon, 26 Feb 2024 10:38:54 +0100, Lukas Bulwahn wrote:
+> [...]
+> > Akira-san Yokosawa reported this already in January 2023 and Jani Nikul=
+a
+> > was fast in providing a fix (see Link). This however remained as a thre=
+ad
+> > on the linux-doc mailing and was never turned into a patch for Jonathan=
+ to
+> > pick up.
 >
-> > Note that the previous first point still remains the first list even af=
-ter
-> > reordering. Based on some vague memory, the first point was important t=
-o
-> > Randy to stay the first one in any reordering.
+> Have you read Jon's message in the thread archived at:
 >
-> Yes, I have said that. Stephen Rothwell wanted it to be first in the list=
-.
+>     https://lore.kernel.org/linux-doc/874jf4m384.fsf@meer.lwn.net/
 >
-
-I have adjusted my commit message:
-
-Note that the previous first point still remains the first list even after
-reordering. Randy confirmed that it was important to Stephen Rothwell to
-keep 'include what you use' to be the first in the list.
-
+> I think you can see why there had been no submission of a proper patch
+> in your patch's direction nor others.
 >
-> > While at it, the reference to CONFIG_SLUB_DEBUG was replaced by
-> > CONFIG_DEBUG_SLAB.
+> If you still want your patch applied soon, you need to convince Jon.
 >
-> I don't understand this comment. DEBUG_SLAB is gone.
-> I think those 2 symbols might be reversed in your comments. ?
+> A patch that helps us to go in the direction of 1) in Jon's message is
+> most welcome!
 >
-
-I must have mixed them up while writing down the commit message; so
-now it reads:
-
-While at it, replace the reference to the obsolete CONFIG_DEBUG_SLAB with
-CONFIG_SLUB_DEBUG.
-
-That is what is happening in the file.
-
+> Be aware that if you simply remove =3D=3D2.4.4 from requirements.txt,
+> sphinx-pre-install will prevent you from running "make htmldocs".
 >
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > ---
-> > So far, no point disappeared and nothing new was added.
-> >
+> You'll see this error:
 >
-> That's a good start IMO.
->
-> > Points/Ideas for further improvements (based on my knowledge and judgem=
-ent):
-> >
-> >   - The Review Kconfig changes makes sense, but I am not sure if they a=
-re
-> >     so central during review. If we keep it, let us see if there are ot=
-her
-> >     parts for review that are also important similar to Kconfig changes=
-.
-> >
-> >   - Concerning checking with tools, checkpatch probably still makes sen=
-se;
-> >     it pointed out in several places. If sparse and checkstack are real=
-ly
-> >     the next two tools to point out, I am not so sure about.
->
-> I doubt that ckeckstack is important since gcc & clang warn us about
-> stack usage.
+>     Can't get default sphinx version from ./Documentation/sphinx/requirem=
+ents.txt at ./scripts/sphinx-pre-install line 305.
 >
 
-So, I might drop this later on and replace it with something more
-important to ask.
+Yes, I have seen Jonathan's message. I also read that updating to
+recent versions---despite the slight performance issues---is the way
+forward. I will try out if I can make a proper patch to get that setup
+working.
 
-I have put it on my todo list (but others are welcome as well to pick it up=
-):
+However, I also read:
+Jonathan is "happy to not break 2.4.4 for now, though I suspect that
+day may come". Hence, as the current sphinx 2.4.4 setup is broken and
+still the one and only way that is documented on how to set up the
+kernel documentation build, I thought we will need to at least get
+that back into the working state until the documentation for how to
+use the new versions is in place.
 
-KTODO: Investigate if the make checkstack tool is really obsolete, as
-gcc and clang are already set up to warn about large stack usage just
-as well as make checkstack does.
-
-Present how it was investigated and which kind of "benchmark" was set
-up and how the results were evaluated. If make checkstack is really
-obsolete, create a patch to remove the tool from the repository, and
-add some documentation to explain how kernel developers can check for
-large stack usage.
-
-> >     sparse has a lot of false positives nowadays, and many things are n=
-ot
-> >     fixed just because sparse complains about it.
-> >     And I have never used make checkstack and have not found much
-> >     documentation about it.
-> >     So, maybe other tools deserve to be mentioned here instead?
-> >
-
-If make checkstack is removed from the list, this might give rise to
-another linting/static analysis tool worth mentioning. The candidates
-that come to my mind are clang-tidy or smatch. I need to check,
-though, if the installation guides for those tools and the setup for
-the kernel sources are clear enough to actually promote running these
-tools.
-
-But maybe there is another tool worth mentioning. I know about the
-coverity setup, but this is not really suitable for checking
-individual patches.
-
-Randy, I will wait for your review and feedback on the file changes
-and then send out a v2 patch. So far, the changes are only changes to
-the commit message.
+Hence, I proposed this patch here. It works (for me). But I do not
+care if it is picked or not---because I am just continuing the
+whack-a-mole game. As of now, I do not know how much work the better
+solution for "updating to recent versions" needs. I will spend half a
+day and hopefully I can then present a good working patch. But let us
+see.
 
 
 Lukas
