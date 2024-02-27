@@ -1,116 +1,298 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A001913AA2C;
-	Tue, 27 Feb 2024 13:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681E31332A7;
+	Tue, 27 Feb 2024 13:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709039006; cv=none; b=BRQFAIJyzCKgOuz+3pDjSe5wmopX/B3Qrnnjl1aivp0/gj9TeYRr6fpPV84ySuWslj1SZyhriBj5SfFgZ/CbiZ81zVtmKRfSW2xwl6ZbkRDrYqHp+Ed6PyziGuJyHeRxaiYsA83D0f0QizBaseMLZEK544HsL7fJzw8t5XHEaHM=
+	t=1709039236; cv=none; b=Mio4j+JMNG3gMZG/6mVL1ZR74IJAu3p0R9svJd0VTj9DyaCi9wvSWhahm1sUTFV5pw0iNwlNGwYhFblZfaPoTLvRFgQqKB/CwiZ1xs4gwTlHvvsNbn24BgTUb6OQwpHgIv3TeC0WiyiCv+v+t5qYpiOFR/j2ORhAIa2j2l8YObM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709039006; c=relaxed/simple;
-	bh=MXbXhXbeu0cQ9TFbNb7UEonPBK55rX+buvq6bECICU8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F7OIe5VDQ/v7G4APezyu2OUS/qX3Q1M70mxZlN7vCF9E2sibfZUVJFmReBsSxVcW0fhxYas4Ndj16OLelmNGweN1LSgB1gQgB2h5bdBjrojocndDp2k4UikoGo4jym3kVussvlQ1dsMFv1Kz6F87K1wcCPi5qKlMDb+PHjtzlwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=dbMq4gCk; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1709039236; c=relaxed/simple;
+	bh=0isnxikG8GrDJkS92OJPHouLCX1i2vGfJQ6mWe0D9QQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gWKCz7FiL3CBvxmYo/SbyOmvBykcvGXO24/TOxl4snwSNIssaQlqH+XFVgXiKF2co4BH0KwbkWa9HW+NOs3QR8zIehiDiq96UrWJRw/IVdpUqnF3A4hqiw9061n7vgjGttTXA5Ik6Ft/HyG7v6jnVUaPjgGtdY/HARk/9F0bgi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lLjXBkwS; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QuOdtqlw; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TDeXG6qf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=x7kVZZ2b; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="dbMq4gCk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1709039005; x=1740575005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MXbXhXbeu0cQ9TFbNb7UEonPBK55rX+buvq6bECICU8=;
-  b=dbMq4gCkgozKQM5P+r2OnRtqJAfxkPSoSuC2Zgw2UNuY9q1ijh1RLmXV
-   sZEJVlpjTv3wDoDknTPqIC7OkS1qdafgu3GLasjzJ7ViVJ5AW2B5/GDxw
-   riu1M+HgBYPD7IEY7XSJevkxT9mainLserfXEvSATCXXrHzpJ8NJi8bfi
-   nDKw0u0IGC/LBItZW64iQ1AA6ORVuMW/uq/kO26lVzrIf47umGCN1UiZ+
-   3S5BJWs0kljGsKRgMUh9qticT61N54/SxRfM3qSJ8Vvjk6U09n0rXFTJD
-   3XcBN2Y1c/iTwKVMJhf6skHXOtpewFpssw+TbRKEXlWVg0MRd96Y7amsT
-   g==;
-X-CSE-ConnectionGUID: we5qw0mfT+K6Mg0u+ozr0g==
-X-CSE-MsgGUID: mMGKrDnoRIqlIlHrvTgxew==
-X-IronPort-AV: E=Sophos;i="6.06,187,1705388400"; 
-   d="asc'?scan'208";a="247636234"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2024 06:03:22 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 06:02:58 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Tue, 27 Feb 2024 06:02:54 -0700
-Date: Tue, 27 Feb 2024 13:02:11 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Nathan Chancellor <nathan@kernel.org>, Conor Dooley <conor@kernel.org>,
-	Matthew Maurer <mmaurer@google.com>, <linux-riscv@lists.infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson
- Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary
- Guo <gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
-	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nick
- Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
-	<rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
-	<stable@vger.kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Ramon de C
- Valle <rcvalle@google.com>
-Subject: Re: [PATCH v2 1/3] rust: make mutually exclusive with CFI_CLANG
-Message-ID: <20240227-unwind-canteen-3da9b07af10c@wendy>
-References: <20240223-leverage-walmart-5424542cd8bd@spud>
- <20240223-perjury-preshow-fc2cf73d552e@spud>
- <CANiq72=mCnm0mKOw5K44PmZ+jF=67jxEEkcXP-E0O8CaUrps=w@mail.gmail.com>
- <20240227-uncertain-amaze-6197e627ad95@wendy>
- <CANiq72=geBobqM0Dc2yv=NjAc3MWXhOrDHfuJ84TgQ+XVxBo0w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lLjXBkwS";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QuOdtqlw";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TDeXG6qf";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="x7kVZZ2b"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A8D1D1FB96;
+	Tue, 27 Feb 2024 13:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709039230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cW70zYu78ce27du6nFlEM9h9LcRqy3qIdoJOEMgxHrU=;
+	b=lLjXBkwSq4zVWDpU6/ofgbzfBCnuGD7WdSXfD8ViQQRE1+HKJbO34+Gzh29oHqfhywajAJ
+	xd6VpHYHeA+lMIDc2X0LUuilIJLgFgRUWpX0+2USkX8CkBSSuM5wQ8HcvRNtGEJDU8zQzg
+	B1EiPMFl21up4fU4/nhvYVWOow9hpcQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709039230;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cW70zYu78ce27du6nFlEM9h9LcRqy3qIdoJOEMgxHrU=;
+	b=QuOdtqlwB2n5UpUvZAQXn1p6d3jd41mAMNMufuBBkSELyBp/2B9PV6bswWPZs/NGwzSwma
+	MfH9Uc8gUFNHdnBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709039228; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cW70zYu78ce27du6nFlEM9h9LcRqy3qIdoJOEMgxHrU=;
+	b=TDeXG6qfFssifgl/IwZPUo2hz8sRgPKz7Rc+MiJVTP4aR1BZWy7Q6jkFcRNhFXSoq9UfSu
+	cN35aZnq5noMPiPIwcTJ6Wbc9eN5lKdjPWO9jqaZdLUwn/xvaDQoSSCKZCpxQKC8uBTm+U
+	soVbxLp9C4/rdFn1gbl5nYmN0zVuniQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709039228;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cW70zYu78ce27du6nFlEM9h9LcRqy3qIdoJOEMgxHrU=;
+	b=x7kVZZ2bAkzoDmE//U9l56lfDmWmTUJkTS193DKe/lp6VGXut63+mJFIV0tJi7b7AxADyk
+	Pb79/ZLGUtSXyIBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F129813A58;
+	Tue, 27 Feb 2024 13:07:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XexAOnre3WWJKQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 27 Feb 2024 13:07:06 +0000
+Message-ID: <4a0e40e5-3542-4d47-bb2b-c0666f6a904d@suse.cz>
+Date: Tue, 27 Feb 2024 14:07:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="W8J+rAw6y6pbbfl0"
-Content-Disposition: inline
-In-Reply-To: <CANiq72=geBobqM0Dc2yv=NjAc3MWXhOrDHfuJ84TgQ+XVxBo0w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 22/36] mm/slab: add allocation accounting into slab
+ allocation and free paths
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com,
+ penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+ ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-23-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240221194052.927623-23-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -2.79
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-3.00)[100.00%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 RCPT_COUNT_GT_50(0.00)[74];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,linux.dev:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
 
---W8J+rAw6y6pbbfl0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 01:34:14PM +0100, Miguel Ojeda wrote:
-> On Tue, Feb 27, 2024 at 11:54=E2=80=AFAM Conor Dooley
-> <conor.dooley@microchip.com> wrote:
-> >
-> > I did try to test it but I ran into too many toolchain issues - my
-> > older copies of LLVM (pre 17) are not multiarch as I built them by hand
-> > with PGO for x86 and RISC-V. My LLVM 17 is from kernel.org and has no
-> > libclang. And then the copy of LLVM 18 on kernel.org apparently does not
-> > support kcfi at all. I gave up there, but I don't see how this would not
->=20
-> I asked Nathan to add libclang a few days ago, and he very quickly did
-> it for LLVM 18 -- though I don't know the plan for the others. I just
-> pinged in that thread.
 
-I had actually said it to him on IRC already (although he is CCed here)
-but I just noticed that this was my fault - I symlinked incorrectly
-after downloading the toolchain. kcfi is detected fine with llvm18.
-I'll give testing another try.
+On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> Account slab allocations using codetag reference embedded into slabobj_ext.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  mm/slab.h | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  mm/slub.c |  9 ++++++++
+>  2 files changed, 75 insertions(+)
+> 
+> diff --git a/mm/slab.h b/mm/slab.h
+> index 13b6ba2abd74..c4bd0d5348cb 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -567,6 +567,46 @@ static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
+>  int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+>  			gfp_t gfp, bool new_slab);
+>  
+> +static inline bool need_slab_obj_ext(void)
+> +{
+> +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> +	if (mem_alloc_profiling_enabled())
+> +		return true;
+> +#endif
+> +	/*
+> +	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
+> +	 * inside memcg_slab_post_alloc_hook. No other users for now.
+> +	 */
+> +	return false;
+> +}
+> +
+> +static inline struct slabobj_ext *
+> +prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
+> +{
+> +	struct slab *slab;
+> +
+> +	if (!p)
+> +		return NULL;
+> +
+> +	if (!need_slab_obj_ext())
+> +		return NULL;
+> +
+> +	if (s->flags & SLAB_NO_OBJ_EXT)
+> +		return NULL;
+> +
+> +	if (flags & __GFP_NO_OBJ_EXT)
+> +		return NULL;
+> +
+> +	slab = virt_to_slab(p);
+> +	if (!slab_obj_exts(slab) &&
+> +	    WARN(alloc_slab_obj_exts(slab, s, flags, false),
+> +		 "%s, %s: Failed to create slab extension vector!\n",
+> +		 __func__, s->name))
+> +		return NULL;
+> +
+> +	return slab_obj_exts(slab) + obj_to_index(s, slab, p);
+> +}
+> +
+>  #else /* CONFIG_SLAB_OBJ_EXT */
+>  
+>  static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
+> @@ -589,6 +629,32 @@ prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
+>  
+>  #endif /* CONFIG_SLAB_OBJ_EXT */
+>  
+> +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> +
+> +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+> +					void **p, int objects)
 
---W8J+rAw6y6pbbfl0
-Content-Type: application/pgp-signature; name="signature.asc"
+Only used from mm/slub.c so could move?
 
------BEGIN PGP SIGNATURE-----
+> +{
+> +	struct slabobj_ext *obj_exts;
+> +	int i;
+> +
+> +	obj_exts = slab_obj_exts(slab);
+> +	if (!obj_exts)
+> +		return;
+> +
+> +	for (i = 0; i < objects; i++) {
+> +		unsigned int off = obj_to_index(s, slab, p[i]);
+> +
+> +		alloc_tag_sub(&obj_exts[off].ref, s->size);
+> +	}
+> +}
+> +
+> +#else
+> +
+> +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+> +					void **p, int objects) {}
+> +
+> +#endif /* CONFIG_MEM_ALLOC_PROFILING */
+> +
+>  #ifdef CONFIG_MEMCG_KMEM
+>  void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgdat,
+>  		     enum node_stat_item idx, int nr);
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 5dc7beda6c0d..a69b6b4c8df6 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3826,6 +3826,7 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
+>  			  unsigned int orig_size)
+>  {
+>  	unsigned int zero_size = s->object_size;
+> +	struct slabobj_ext *obj_exts;
+>  	bool kasan_init = init;
+>  	size_t i;
+>  	gfp_t init_flags = flags & gfp_allowed_mask;
+> @@ -3868,6 +3869,12 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
+>  		kmemleak_alloc_recursive(p[i], s->object_size, 1,
+>  					 s->flags, init_flags);
+>  		kmsan_slab_alloc(s, p[i], init_flags);
+> +		obj_exts = prepare_slab_obj_exts_hook(s, flags, p[i]);
+> +#ifdef CONFIG_MEM_ALLOC_PROFILING
+> +		/* obj_exts can be allocated for other reasons */
+> +		if (likely(obj_exts) && mem_alloc_profiling_enabled())
+> +			alloc_tag_add(&obj_exts->ref, current->alloc_tag, s->size);
+> +#endif
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd3dUwAKCRB4tDGHoIJi
-0iscAQCFqXISaMEU8lWDJeRHwsnAImvV4ocTSMxS5RJFKcJHqQD/a/u0vuVtSyp7
-18rvQE+YASYYpq5tCU08KsgXCbSU7gI=
-=o4T8
------END PGP SIGNATURE-----
+I think that like in the page allocator, this could be better guarded by
+mem_alloc_profiling_enabled() as the outermost thing.
 
---W8J+rAw6y6pbbfl0--
+>  	}
+>  
+>  	memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
+> @@ -4346,6 +4353,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>  	       unsigned long addr)
+>  {
+>  	memcg_slab_free_hook(s, slab, &object, 1);
+> +	alloc_tagging_slab_free_hook(s, slab, &object, 1);
+
+Same here, the static key is not even inside of this?
+
+>  
+>  	if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
+>  		do_slab_free(s, slab, object, object, 1, addr);
+> @@ -4356,6 +4364,7 @@ void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
+>  		    void *tail, void **p, int cnt, unsigned long addr)
+>  {
+>  	memcg_slab_free_hook(s, slab, p, cnt);
+> +	alloc_tagging_slab_free_hook(s, slab, p, cnt);
+
+Ditto.
+
+>  	/*
+>  	 * With KASAN enabled slab_free_freelist_hook modifies the freelist
+>  	 * to remove objects, whose reuse must be delayed.
