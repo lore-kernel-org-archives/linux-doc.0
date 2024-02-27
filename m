@@ -1,39 +1,38 @@
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A5114601E;
-	Tue, 27 Feb 2024 14:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132F61487CF;
+	Tue, 27 Feb 2024 14:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709045001; cv=none; b=A9pC44zDLVOlaHD6VnIsnrTQQ5Hu8YRU+1S5T/NdwipR8R5L6771uWEgyF+KbZxpkKjCfgd495Cwep+RmLDxZWXogRx3fhBk53JQ3qAJ69CJGjYBRo6A/cgivLm8EA6q9xNcc7FR/N1WeD/MKn8j/Q1Co7ggtMh41ZdA3Eim5qc=
+	t=1709045003; cv=none; b=agZ8A3ULn6MxLuL8qIMEc67m2ob44v9+ucSm6QJ56HF0GE9CU6+nXy9hJN8jHJwXAvkylJGmVCTV47y1nHjfP7u+vTYVMN/KLu34+f36KDtyqW6xkvluqRqsDwDq2zxxoP40yYf+5y1XA2YnRtMCHz0/Jwk8POCfruLOUV1wQeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709045001; c=relaxed/simple;
-	bh=6pZ4Mx3ep3BJEXn9x7PzPXV+PugtR8OueqQQFY0HGP8=;
+	s=arc-20240116; t=1709045003; c=relaxed/simple;
+	bh=7gr8JffbyjpiOcx7ir5VJJ8JkuBUnx4ABU70jXIduvo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tMqxtI2Q2vv/Kjoe3XiZVra72ZH2FGcjUQF4EnNwfqDutaUKB/I/RQf6McF8KNoZtlWUwZND5oyxgYCnTY4vrW3TS5F3nlGRmlmsG8nvM7AucBzDGBrTxDkeDoKnmFbA6LNStVo9JtJBhW3xzK4mSITC1p8Tj6AdPUFa9Cg9om4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kSdVqHnZ; arc=none smtp.client-ip=217.70.183.200
+	 In-Reply-To:To:Cc; b=FgL54xNTl5wQVerOF4NhaFVYBgbkBl72tOsS+9Ah0Rp8JJmXrgP63//y2MfYTENN0BOtOirNDPyrhDtu0ezbP+bPJddpL6vSXKyMuuD7kZV5p025NDQ95X1bPWe1W1TuJ94UjYGJI2X1+b1cAqDkrfMr0H5L5AdaDy2Vz5ucqDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HL87vcwS; arc=none smtp.client-ip=217.70.183.200
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kSdVqHnZ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A901120010;
-	Tue, 27 Feb 2024 14:43:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HL87vcwS"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 419742001A;
+	Tue, 27 Feb 2024 14:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709044990;
+	t=1709044998;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rx0pIeBf2xrhF9D3A2KU+pnOiVHJcfCqK5cuKeCLk0g=;
-	b=kSdVqHnZYLNcQxB+6AUrr4wsdK5XEYYrB11u3v9C1tZIhk7H+tINwa8WGEI3E2S20a52Bv
-	nXH45c3wPlyL4FZvhBY3Qsoz0Ayfzoip5oD02B1JHMaT3zNJsiU3rRD0M8NXs/WMJ3zC/X
-	q1e5e0T5E/MTY3OLnwfsjIlWAVnK9onCHr0oZ2tzPS7LxP3TEXUHogXEUMQxEQrIWbbq17
-	YGw2UpeVjnGptsylkH6CCzPrmCFY8O+iJliuiaZvtkzW3/nJGBvn9TCKgAkvLtsbo+dVkC
-	3mQakRUnrZCgf19xiWC5YlTk1RxKbHnjlGOh4lNU3k8N9SovRjiA+kXxdldyKg==
+	bh=/3EtOQA+jvdHVpOgGrofp+mb2WndUVuGUT0wIshK7e4=;
+	b=HL87vcwSEWi9r2hSiNucJJpiaEyy0RRlqhPnuyxBke1R4zNO4VtMWYAmU5GHrqk1Mvl8I8
+	EYMZzZQtxC9qZnk/CiYhuTzJS+SX+dKbDUrZ8r7WHE0X8ScT8PBaq4XER2Oz11FMaX38mr
+	US+FrEGw4QTGJkAnj0tLnLgf1oxSj2FteWr2TQfCd++M2P9kJDVkVahqUKMrQM8wuC582U
+	nzxExt8EQ8rJMb8HHNBMlbhVxo8dp9LyJhp3NXuCjl4rirSMEs9WLcR9meGD1uHJCR1ONG
+	wyi7p6V8v1WYyHfcf951OHjJoyqCEsT4GneeGzWSTCO2WW5B6Ejymom8n1l0WQ==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Tue, 27 Feb 2024 15:42:46 +0100
-Subject: [PATCH net-next v5 04/17] ethtool: Expand Ethernet Power Equipment
- with c33 (PoE) alongside PoDL
+Date: Tue, 27 Feb 2024 15:42:52 +0100
+Subject: [PATCH net-next v5 10/17] net: pse-pd: Add support for PSE PIs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240227-feature_poe-v5-4-28f0aa48246d@bootlin.com>
+Message-Id: <20240227-feature_poe-v5-10-28f0aa48246d@bootlin.com>
 References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
 In-Reply-To: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
 To: "David S. Miller" <davem@davemloft.net>, 
@@ -64,254 +63,695 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: kory.maincent@bootlin.com
 
-In the current PSE interface for Ethernet Power Equipment, support is
-limited to PoDL. This patch extends the interface to accommodate the
-objects specified in IEEE 802.3-2022 145.2 for Power sourcing
-Equipment (PSE).
-
-The following objects are now supported and considered mandatory:
-- IEEE 802.3-2022 30.9.1.1.5 aPSEPowerDetectionStatus
-- IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
-- IEEE 802.3-2022 30.9.1.2.1 aPSEAdminControl
-
-To avoid confusion between "PoDL PSE" and "PoE PSE", which have similar
-names but distinct values, we have followed the suggestion of Oleksij
-Rempel and Andrew Lunn to maintain separate naming schemes for each,
-using c33 (clause 33) prefix for "PoE PSE".
-You can find more details in the discussion threads here:
-https://lore.kernel.org/netdev/20230912110637.GI780075@pengutronix.de/
-https://lore.kernel.org/netdev/2539b109-72ad-470a-9dae-9f53de4f64ec@lunn.ch/
+Add support for getting the PSE controller node through PSE PI device
+subnode.
+This supports adds a way to get the PSE PI id from the pse_pi devicetree
+subnode of a PSE controller node simply by reading the reg property.
 
 This patch is sponsored by Dent Project <dentproject@linuxfoundation.org>.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
 
-Changes in v2:
-- Rename all the PoE variables and enum with a c33 prefix.
-- Add documentation, thanks to Oleksij for having written one.
-
 Changes in v3:
-- Fix documentation build warning.
----
- Documentation/networking/index.rst               |  1 +
- Documentation/networking/pse-pd/index.rst        |  9 +++
- Documentation/networking/pse-pd/introduction.rst | 73 ++++++++++++++++++++++++
- include/linux/pse-pd/pse.h                       |  9 +++
- include/uapi/linux/ethtool.h                     | 43 ++++++++++++++
- include/uapi/linux/ethtool_netlink.h             |  3 +
- 6 files changed, 138 insertions(+)
+- New patch.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 69f3d6dcd9fd..af7da7006ce8 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -92,6 +92,7 @@ Contents:
-    plip
-    ppp_generic
-    proc_net_tcp
-+   pse-pd/index
-    radiotap-headers
-    rds
-    regulatory
+Changes in v4:
+- Add PSE PI documentation.
+
+Changes in v5:
+- Update PSE PI documentation.
+---
+ Documentation/networking/pse-pd/index.rst  |   1 +
+ Documentation/networking/pse-pd/pse-pi.rst | 302 +++++++++++++++++++++++++++++
+ drivers/net/pse-pd/pse_core.c              | 223 +++++++++++++++++----
+ include/linux/pse-pd/pse.h                 |  38 +++-
+ 4 files changed, 520 insertions(+), 44 deletions(-)
+
 diff --git a/Documentation/networking/pse-pd/index.rst b/Documentation/networking/pse-pd/index.rst
-new file mode 100644
-index 000000000000..18197bc7303d
---- /dev/null
+index 18197bc7303d..de28a5aee316 100644
+--- a/Documentation/networking/pse-pd/index.rst
 +++ b/Documentation/networking/pse-pd/index.rst
-@@ -0,0 +1,9 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Power Sourcing Equipment (PSE) Documentation
-+============================================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   introduction
-diff --git a/Documentation/networking/pse-pd/introduction.rst b/Documentation/networking/pse-pd/introduction.rst
+@@ -7,3 +7,4 @@ Power Sourcing Equipment (PSE) Documentation
+    :maxdepth: 2
+ 
+    introduction
++   pse-pi
+diff --git a/Documentation/networking/pse-pd/pse-pi.rst b/Documentation/networking/pse-pd/pse-pi.rst
 new file mode 100644
-index 000000000000..e3d3faaef717
+index 000000000000..c4a50c670d9c
 --- /dev/null
-+++ b/Documentation/networking/pse-pd/introduction.rst
-@@ -0,0 +1,73 @@
++++ b/Documentation/networking/pse-pd/pse-pi.rst
+@@ -0,0 +1,302 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Power Sourcing Equipment (PSE) in IEEE 802.3 Standard
-+=====================================================
++PSE Power Interface (PSE PI) Documentation
++==========================================
 +
-+Overview
-+--------
++The Power Sourcing Equipment Power Interface (PSE PI) plays a pivotal role in
++the architecture of Power over Ethernet (PoE) systems. It is essentially a
++blueprint that outlines how one or multiple power sources are connected to the
++eight-pin modular jack, commonly known as the Ethernet RJ45 port. This
++connection scheme is crucial for enabling the delivery of power alongside data
++over Ethernet cables.
 +
-+Power Sourcing Equipment (PSE) is essential in networks for delivering power
-+along with data over Ethernet cables. It usually refers to devices like
-+switches and hubs that supply power to Powered Devices (PDs) such as IP
-+cameras, VoIP phones, and wireless access points.
++Documentation and Standards
++---------------------------
 +
-+PSE vs. PoDL PSE
-+----------------
++The IEEE 802.3 standard provides detailed documentation on the PSE PI.
++Specifically:
 +
-+PSE in the IEEE 802.3 standard generally refers to equipment that provides
-+power alongside data over Ethernet cables, typically associated with Power over
-+Ethernet (PoE).
++- Section "33.2.3 PI pin assignments" covers the pin assignments for PoE
++  systems that utilize two pairs for power delivery.
++- Section "145.2.4 PSE PI" addresses the configuration for PoE systems that
++  deliver power over all four pairs of an Ethernet cable.
 +
-+PoDL PSE, or Power over Data Lines PSE, specifically denotes PSEs operating
-+with single balanced twisted-pair PHYs, as per Clause 104 of IEEE 802.3. PoDL
-+is significant in contexts like automotive and industrial controls where power
-+and data delivery over a single pair is advantageous.
++PSE PI and Single Pair Ethernet
++-------------------------------
 +
-+IEEE 802.3-2018 Addendums and Related Clauses
++Single Pair Ethernet (SPE) represents a different approach to Ethernet
++connectivity, utilizing just one pair of conductors for both data and power
++transmission. Unlike the configurations detailed in the PSE PI for standard
++Ethernet, which can involve multiple power sourcing arrangements across four or
++two pairs of wires, SPE operates on a simpler model due to its single-pair
++design. As a result, the complexities of choosing between alternative pin
++assignments for power delivery, as described in the PSE PI for multi-pair
++Ethernet, are not applicable to SPE.
++
++Understanding PSE PI
++--------------------
++
++The Power Sourcing Equipment Power Interface (PSE PI) is a framework defining
++how Power Sourcing Equipment (PSE) delivers power to Powered Devices (PDs) over
++Ethernet cables. It details two main configurations for power delivery, known
++as Alternative A and Alternative B, which are distinguished not only by their
++method of power transmission but also by the implications for polarity and data
++transmission direction.
++
++Alternative A and B Overview
++----------------------------
++
++- **Alternative A:** Utilizes RJ45 conductors 1, 2, 3 and 6. In either case of
++  networks 10/100BaseT or 1G/2G/5G/10GBaseT, the pairs used are carrying data.
++  The power delivery's polarity in this alternative can vary based on the MDI
++  (Medium Dependent Interface) or MDI-X (Medium Dependent Interface Crossover)
++  configuration.
++
++- **Alternative B:** Utilizes RJ45 conductors 4, 5, 7 and 8. In case of
++  10/100BaseT network the pairs used are spare pairs without data and are less
++  influenced by data transmission direction. This is not the case for
++  1G/2G/5G/10GBaseT network. Alternative B includes two configurations with
++  different polarities, known as variant X and variant S, to accommodate
++  different network requirements and device specifications.
++
++Table 145–3—PSE Pinout Alternatives
++-----------------------------------
++
++The following table outlines the pin configurations for both Alternative A and
++Alternative B.
++
+++------------+-------------------+-----------------+-----------------+-----------------+
++| Conductor  | Alternative A     | Alternative A   | Alternative B   | Alternative B   |
++|            |    (MDI-X)        |      (MDI)      |        (X)      |        (S)      |
+++============+===================+=================+=================+=================+
++| 1          | Negative V        | Positive V      | -               | -               |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 2          | Negative V        | Positive V      | -               | -               |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 3          | Positive V        | Negative V      | -               | -               |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 4          | -                 | -               | Negative V      | Positive V      |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 5          | -                 | -               | Negative V      | Positive V      |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 6          | Positive V        | Negative V      | -               | -               |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 7          | -                 | -               | Positive V      | Negative V      |
+++------------+-------------------+-----------------+-----------------+-----------------+
++| 8          | -                 | -               | Positive V      | Negative V      |
+++------------+-------------------+-----------------+-----------------+-----------------+
++
++.. note::
++    - "Positive V" and "Negative V" indicate the voltage polarity for each pin.
++    - "-" indicates that the pin is not used for power delivery in that
++      specific configuration.
++
++PSE PI compatibilities
++----------------------
++
++The following table outlines the compatibility between the pinout alternative
++and the 1000/2.5G/5G/10GBaseT in the PSE 2 pairs connection.
++
+++---------+---------------+---------------------+-----------------------+
++| Variant | Alternative   | Power Feeding Type  | Compatibility with    |
++|         | (A/B)         | (Direct/Phantom)    | 1000/2.5G/5G/10GBaseT |
+++=========+===============+=====================+=======================+
++| 1       | A             | Phantom             | Yes                   |
+++---------+---------------+---------------------+-----------------------+
++| 2       | B             | Phantom             | Yes                   |
+++---------+---------------+---------------------+-----------------------+
++| 3       | B             | Direct              | No                    |
+++---------+---------------+---------------------+-----------------------+
++
++.. note::
++    - "Direct" indicate a variant where the power is injected directly to pairs
++       without using magnetics in case of spare pairs.
++    - "Phantom" indicate power path over coils/magnetics as it is done for
++       Alternative A variant.
++
++In case of PSE 4 pairs, a PSE supporting only 10/100BaseT (which mean Direct
++Power on pinout Alternative B) is not compatible with a 4 pairs
++1000/2.5G/5G/10GBaseT.
++
++PSE Power Interface (PSE PI) Connection Diagram
++-----------------------------------------------
++
++The diagram below illustrates the connection architecture between the RJ45
++port, the Ethernet PHY (Physical Layer), and the PSE PI (Power Sourcing
++Equipment Power Interface), demonstrating how power and data are delivered
++simultaneously through an Ethernet cable. The RJ45 port serves as the physical
++interface for these connections, with each of its eight pins connected to both
++the Ethernet PHY for data transmission and the PSE PI for power delivery.
++
++.. code-block::
++
++    +--------------------------+
++    |                          |
++    |          RJ45 Port       |
++    |                          |
++    +--+--+--+--+--+--+--+--+--+                +-------------+
++      1| 2| 3| 4| 5| 6| 7| 8|                   |             |
++       |  |  |  |  |  |  |  o-------------------+             |
++       |  |  |  |  |  |  o--|-------------------+             +<--- PSE 1
++       |  |  |  |  |  o--|--|-------------------+             |
++       |  |  |  |  o--|--|--|-------------------+             |
++       |  |  |  o--|--|--|--|-------------------+  PSE PI     |
++       |  |  o--|--|--|--|--|-------------------+             |
++       |  o--|--|--|--|--|--|-------------------+             +<--- PSE 2 (optional)
++       o--|--|--|--|--|--|--|-------------------+             |
++       |  |  |  |  |  |  |  |                   |             |
++    +--+--+--+--+--+--+--+--+--+                +-------------+
++    |                          |
++    |       Ethernet PHY       |
++    |                          |
++    +--------------------------+
++
++Simple PSE PI Configuration for Alternative A
 +---------------------------------------------
 +
-+Key addenda to the IEEE 802.3-2018 standard relevant to power delivery over
-+Ethernet are as follows:
++The diagram below illustrates a straightforward PSE PI (Power Sourcing
++Equipment Power Interface) configuration designed to support the Alternative A
++setup for Power over Ethernet (PoE). This implementation is tailored to provide
++power delivery through the data-carrying pairs of an Ethernet cable, suitable
++for either MDI or MDI-X configurations, albeit supporting one variation at a
++time.
 +
-+- **802.3af (Approved in 2003-06-12)**: Known as PoE in the market, detailed in
-+  Clause 33, delivering up to 15.4W of power.
-+- **802.3at (Approved in 2009-09-11)**: Marketed as PoE+, enhancing PoE as
-+  covered in Clause 33, increasing power delivery to up to 30W.
-+- **802.3bt (Approved in 2018-09-27)**: Known as 4PPoE in the market, outlined
-+  in Clause 33. Type 3 delivers up to 60W, and Type 4 up to 100W.
-+- **802.3bu (Approved in 2016-12-07)**: Formerly referred to as PoDL, detailed
-+  in Clause 104. Introduces Classes 0 - 9. Class 9 PoDL PSE delivers up to ~65W
++.. code-block::
 +
-+Kernel Naming Convention Recommendations
-+----------------------------------------
++         +-------------+
++         |    PSE PI   |
++ 8  -----+                             +-------------+
++ 7  -----+                    Rail 1   |
++ 6  -----+------+----------------------+
++ 5  -----+      |                      |
++ 4  -----+     /              Rail 2   |  PSE 1
++ 3  -----+----´          +-------------+
++ 2  -----+----+---------´              |
++ 1  -----+---´                         +-------------+
++         |
++         +-------------+
 +
-+For clarity and consistency within the Linux kernel's networking subsystem, the
-+following naming conventions are recommended:
++In this configuration:
 +
-+- For general PSE (PoE) code, use "c33_pse" key words. For example:
-+  ``enum ethtool_c33_pse_admin_state c33_admin_control;``.
-+  This aligns with Clause 33, encompassing various PoE forms.
++- Pins 1 and 2, as well as pins 3 and 6, are utilized for power delivery in
++  addition to data transmission. This aligns with the standard wiring for
++  10/100BaseT Ethernet networks where these pairs are used for data.
++- Rail 1 and Rail 2 represent the positive and negative voltage rails, with
++  Rail 1 connected to pins 1 and 2, and Rail 2 connected to pins 3 and 6.
++  More advanced PSE PI configurations may include integrated or external
++  switches to change the polarity of the voltage rails, allowing for
++  compatibility with both MDI and MDI-X configurations.
 +
-+- For PoDL PSE - specific code, use "podl_pse". For example:
-+  ``enum ethtool_podl_pse_admin_state podl_admin_control;`` to differentiate
-+  PoDL PSE settings according to Clause 104.
++More complex PSE PI configurations may include additional components, to support
++Alternative B, or to provide additional features such as power management, or
++additional power delivery capabilities such as 2-pair or 4-pair power delivery.
 +
-+Summary of Clause 33: Data Terminal Equipment (DTE) Power via Media Dependent Interface (MDI)
-+---------------------------------------------------------------------------------------------
++.. code-block::
 +
-+Clause 33 of the IEEE 802.3 standard defines the functional and electrical
-+characteristics of Powered Device (PD) and Power Sourcing Equipment (PSE).
-+These entities enable power delivery using the same generic cabling as for data
-+transmission, integrating power with data communication for devices such as
-+10BASE-T, 100BASE-TX, or 1000BASE-T.
++         +-------------+
++         |    PSE PI   |
++         |        +---+
++ 8  -----+--------+   |                 +-------------+
++ 7  -----+--------+   |       Rail 1   |
++ 6  -----+--------+   +-----------------+
++ 5  -----+--------+   |                |
++ 4  -----+--------+   |       Rail 2   |  PSE 1
++ 3  -----+--------+   +----------------+
++ 2  -----+--------+   |                |
++ 1  -----+--------+   |                 +-------------+
++         |        +---+
++         +-------------+
 +
-+Summary of Clause 104: Power over Data Lines (PoDL) of Single Balanced Twisted-Pair Ethernet
-+--------------------------------------------------------------------------------------------
++Device Tree Configuration: Describing PSE PI Configurations
++-----------------------------------------------------------
 +
-+Clause 104 of the IEEE 802.3 standard delineates the functional and electrical
-+characteristics of PoDL Powered Devices (PDs) and PoDL Power Sourcing Equipment
-+(PSEs). These are designed for use with single balanced twisted-pair Ethernet
-+Physical Layers. In this clause, 'PSE' refers specifically to PoDL PSE, and
-+'PD' to PoDL PD. The key intent is to provide devices with a unified interface
-+for both data and the power required to process this data over a single
-+balanced twisted-pair Ethernet connection.
++The necessity for a separate PSE PI node in the device tree is influenced by
++the intricacy of the Power over Ethernet (PoE) system's setup. Here are
++descriptions of both simple and complex PSE PI configurations to illustrate
++this decision-making process:
++
++**Simple PSE PI Configuration:**
++In a straightforward scenario, the PSE PI setup involves a direct, one-to-one
++connection between a single PSE controller and an Ethernet port. This setup
++typically supports basic PoE functionality without the need for dynamic
++configuration or management of multiple power delivery modes. For such simple
++configurations, detailing the PSE PI within the existing PSE controller's node
++may suffice, as the system does not encompass additional complexity that
++warrants a separate node. The primary focus here is on the clear and direct
++association of power delivery to a specific Ethernet port.
++
++**Complex PSE PI Configuration:**
++Contrastingly, a complex PSE PI setup may encompass multiple PSE controllers or
++auxiliary circuits that collectively manage power delivery to one Ethernet
++port. Such configurations might support a range of PoE standards and require
++the capability to dynamically configure power delivery based on the operational
++mode (e.g., PoE2 versus PoE4) or specific requirements of connected devices. In
++these instances, a dedicated PSE PI node becomes essential for accurately
++documenting the system architecture. This node would serve to detail the
++interactions between different PSE controllers, the support for various PoE
++modes, and any additional logic required to coordinate power delivery across
++the network infrastructure.
++
++**Guidance:**
++
++For simple PSE setups, including PSE PI information in the PSE controller node
++might suffice due to the straightforward nature of these systems. However,
++complex configurations, involving multiple components or advanced PoE features,
++benefit from a dedicated PSE PI node. This method adheres to IEEE 802.3
++specifications, improving documentation clarity and ensuring accurate
++representation of the PoE system's complexity.
++
++PSE PI Node: Essential Information
++----------------------------------
++
++The PSE PI (Power Sourcing Equipment Power Interface) node in a device tree can
++include several key pieces of information critical for defining the power
++delivery capabilities and configurations of a PoE (Power over Ethernet) system.
++Below is a list of such information, along with explanations for their
++necessity and reasons why they might not be found within a PSE controller node:
++
++1. **Powered Pairs Configuration**
++
++   - *Description:* Identifies the pairs used for power delivery in the
++     Ethernet cable.
++   - *Necessity:* Essential to ensure the correct pairs are powered according
++     to the board's design.
++   - *PSE Controller Node:* Typically lacks details on physical pair usage,
++     focusing on power regulation.
++
++2. **Polarity of Powered Pairs**
++
++   - *Description:* Specifies the polarity (positive or negative) for each
++     powered pair.
++   - *Necessity:* Critical for safe and effective power transmission to PDs.
++   - *PSE Controller Node:* Polarity management may exceed the standard
++     functionalities of PSE controllers.
++
++3. **PSE Cells Association**
++
++   - *Description:* Details the association of PSE cells with Ethernet ports or
++     pairs in multi-cell configurations.
++   - *Necessity:* Allows for optimized power resource allocation in complex
++     systems.
++   - *PSE Controller Node:* Controllers may not manage cell associations
++     directly, focusing instead on power flow regulation.
++
++4. **Support for PoE Standards**
++
++   - *Description:* Lists the PoE standards and configurations supported by the
++     system.
++   - *Necessity:* Ensures system compatibility with various PDs and adherence
++     to industry standards.
++   - *PSE Controller Node:* Specific capabilities may depend on the overall PSE
++     PI design rather than the controller alone. Multiple PSE cells per PI
++     do not necessarily imply support for multiple PoE standards.
++
++5. **Protection Mechanisms**
++
++   - *Description:* Outlines additional protection mechanisms, such as
++     overcurrent protection and thermal management.
++   - *Necessity:* Provides extra safety and stability, complementing PSE
++     controller protections.
++   - *PSE Controller Node:* Some protections may be implemented via
++     board-specific hardware or algorithms external to the controller.
++
+diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
+index fed006cbc185..9124eb3d6492 100644
+--- a/drivers/net/pse-pd/pse_core.c
++++ b/drivers/net/pse-pd/pse_core.c
+@@ -27,38 +27,137 @@ struct pse_control {
+ 	struct kref refcnt;
+ };
+ 
+-/**
+- * of_pse_zero_xlate - dummy function for controllers with one only control
+- * @pcdev: a pointer to the PSE controller device
+- * @pse_spec: PSE line specifier as found in the device tree
+- *
+- * This static translation function is used by default if of_xlate in
+- * :c:type:`pse_controller_dev` is not set. It is useful for all PSE
+- * controllers with #pse-cells = <0>.
+- */
+-static int of_pse_zero_xlate(struct pse_controller_dev *pcdev,
+-			     const struct of_phandle_args *pse_spec)
++static int of_load_pse_pi_pairsets(struct device_node *node,
++				   struct pse_pi *pi,
++				   int npairsets)
+ {
+-	return 0;
++	struct device_node *pairset_np;
++	const char *name;
++	int i, ret;
++
++	for (i = 0; i < npairsets; i++) {
++		ret = of_property_read_string_index(node,
++						    "pairset-names",
++						     i, &name);
++		if (ret)
++			break;
++
++		if (strcmp(name, "alternative-a")) {
++			pi->pairset[i].pinout = ALTERNATIVE_A;
++		} else if (strcmp(name, "alternative-b")) {
++			pi->pairset[i].pinout = ALTERNATIVE_B;
++		} else {
++			pr_err("pse: wrong pairset-names value %s\n", name);
++			ret = -EINVAL;
++			break;
++		}
++
++		pairset_np = of_parse_phandle(node, "pairsets", i);
++		if (!pairset_np) {
++			ret = -ENODEV;
++			break;
++		}
++
++		pi->pairset[i].np = pairset_np;
++	}
++
++	if (i == 2 && pi->pairset[0].pinout == pi->pairset[1].pinout) {
++		pr_err("pse: two PI pairsets can not have identical pinout");
++		ret = -EINVAL;
++	}
++
++	/* If an error appears on the second pairset load, release the first
++	 * pairset device node kref
++	 */
++	if (ret) {
++		of_node_put(pi->pairset[0].np);
++		pi->pairset[0].np = NULL;
++		of_node_put(pi->pairset[1].np);
++		pi->pairset[1].np = NULL;
++	}
++
++	return ret;
+ }
+ 
+-/**
+- * of_pse_simple_xlate - translate pse_spec to the PSE line number
+- * @pcdev: a pointer to the PSE controller device
+- * @pse_spec: PSE line specifier as found in the device tree
+- *
+- * This static translation function is used by default if of_xlate in
+- * :c:type:`pse_controller_dev` is not set. It is useful for all PSE
+- * controllers with 1:1 mapping, where PSE lines can be indexed by number
+- * without gaps.
+- */
+-static int of_pse_simple_xlate(struct pse_controller_dev *pcdev,
+-			       const struct of_phandle_args *pse_spec)
++static int of_load_pse_pis(struct pse_controller_dev *pcdev)
+ {
+-	if (pse_spec->args[0] >= pcdev->nr_lines)
+-		return -EINVAL;
++	struct device_node *np = pcdev->dev->of_node;
++	struct device_node *node, *pis;
++	int ret, i;
+ 
+-	return pse_spec->args[0];
++	if (!np)
++		return -ENODEV;
++
++	pcdev->pi = kcalloc(pcdev->nr_lines, sizeof(*pcdev->pi), GFP_KERNEL);
++	if (!pcdev->pi)
++		return -ENOMEM;
++
++	pis = of_get_child_by_name(np, "pse-pis");
++	if (!pis) {
++		/* Legacy OF description of PSE PIs */
++		pcdev->of_legacy = true;
++		return 0;
++	}
++
++	for_each_child_of_node(pis, node) {
++		struct pse_pi pi = {0};
++		int npairsets;
++		u32 id;
++
++		if (!of_node_name_eq(node, "pse-pi"))
++			continue;
++
++		ret = of_property_read_u32(node, "reg", &id);
++		if (ret)
++			goto out;
++
++		if (id >= pcdev->nr_lines || pcdev->pi[id].np) {
++			dev_err(pcdev->dev, "wrong id of pse pi: %u\n",
++				id);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		ret = of_property_count_strings(node, "pairset-names");
++		if (ret <= 0)
++			goto out;
++		npairsets = ret;
++
++		ret = of_count_phandle_with_args(node, "pairsets", NULL);
++		if (ret <= 0)
++			goto out;
++
++		/* npairsets is limited to value one or two */
++		if (ret != npairsets || ret > 2) {
++			dev_err(pcdev->dev,
++				"wrong number of pairsets or pairset-names for pse pi %d\n",
++				id);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		ret = of_load_pse_pi_pairsets(node, &pi, npairsets);
++		if (ret)
++			goto out;
++
++		of_node_get(node);
++		pi.np = node;
++		memcpy(&pcdev->pi[id], &pi, sizeof(pi));
++	}
++
++	of_node_put(pis);
++	return 0;
++
++out:
++	for (i = 0; i <= pcdev->nr_lines; i++) {
++		of_node_put(pcdev->pi[i].pairset[0].np);
++		of_node_put(pcdev->pi[i].pairset[1].np);
++		of_node_put(pcdev->pi[i].np);
++	}
++	of_node_put(node);
++	of_node_put(pis);
++	kfree(pcdev->pi);
++	return ret;
+ }
+ 
+ /**
+@@ -67,16 +166,18 @@ static int of_pse_simple_xlate(struct pse_controller_dev *pcdev,
+  */
+ int pse_controller_register(struct pse_controller_dev *pcdev)
+ {
+-	if (!pcdev->of_xlate) {
+-		if (pcdev->of_pse_n_cells == 0)
+-			pcdev->of_xlate = of_pse_zero_xlate;
+-		else if (pcdev->of_pse_n_cells == 1)
+-			pcdev->of_xlate = of_pse_simple_xlate;
+-	}
++	int ret;
+ 
+ 	mutex_init(&pcdev->lock);
+ 	INIT_LIST_HEAD(&pcdev->pse_control_head);
+ 
++	if (!pcdev->nr_lines)
++		pcdev->nr_lines = 1;
++
++	ret = of_load_pse_pis(pcdev);
++	if (ret)
++		return ret;
++
+ 	mutex_lock(&pse_list_mutex);
+ 	list_add(&pcdev->list, &pse_controller_list);
+ 	mutex_unlock(&pse_list_mutex);
+@@ -91,6 +192,14 @@ EXPORT_SYMBOL_GPL(pse_controller_register);
+  */
+ void pse_controller_unregister(struct pse_controller_dev *pcdev)
+ {
++	int i;
++
++	for (i = 0; i <= pcdev->nr_lines; i++) {
++		of_node_put(pcdev->pi[i].pairset[0].np);
++		of_node_put(pcdev->pi[i].pairset[1].np);
++		of_node_put(pcdev->pi[i].np);
++	}
++	kfree(pcdev->pi);
+ 	mutex_lock(&pse_list_mutex);
+ 	list_del(&pcdev->list);
+ 	mutex_unlock(&pse_list_mutex);
+@@ -203,8 +312,33 @@ pse_control_get_internal(struct pse_controller_dev *pcdev, unsigned int index)
+ 	return psec;
+ }
+ 
+-struct pse_control *
+-of_pse_control_get(struct device_node *node)
++static int of_pse_match_pi(struct pse_controller_dev *pcdev,
++			   struct device_node *np)
++{
++	int i;
++
++	for (i = 0; i <= pcdev->nr_lines; i++) {
++		if (pcdev->pi[i].np == np)
++			return i;
++	}
++
++	return -EINVAL;
++}
++
++static int psec_id_legacy_xlate(struct pse_controller_dev *pcdev,
++				const struct of_phandle_args *pse_spec)
++{
++	if (!pcdev->of_pse_n_cells)
++		return 0;
++
++	if (pcdev->of_pse_n_cells > 1 ||
++	    pse_spec->args[0] >= pcdev->nr_lines)
++		return -EINVAL;
++
++	return pse_spec->args[0];
++}
++
++struct pse_control *of_pse_control_get(struct device_node *node)
+ {
+ 	struct pse_controller_dev *r, *pcdev;
+ 	struct of_phandle_args args;
+@@ -222,7 +356,14 @@ of_pse_control_get(struct device_node *node)
+ 	mutex_lock(&pse_list_mutex);
+ 	pcdev = NULL;
+ 	list_for_each_entry(r, &pse_controller_list, list) {
+-		if (args.np == r->dev->of_node) {
++		if (!r->of_legacy) {
++			ret = of_pse_match_pi(r, args.np);
++			if (ret >= 0) {
++				pcdev = r;
++				psec_id = ret;
++				break;
++			}
++		} else if (args.np == r->dev->of_node) {
+ 			pcdev = r;
+ 			break;
+ 		}
+@@ -238,10 +379,12 @@ of_pse_control_get(struct device_node *node)
+ 		goto out;
+ 	}
+ 
+-	psec_id = pcdev->of_xlate(pcdev, &args);
+-	if (psec_id < 0) {
+-		psec = ERR_PTR(psec_id);
+-		goto out;
++	if (pcdev->of_legacy) {
++		psec_id = psec_id_legacy_xlate(pcdev, &args);
++		if (psec_id < 0) {
++			psec = ERR_PTR(psec_id);
++			goto out;
++		}
+ 	}
+ 
+ 	/* pse_list_mutex also protects the pcdev's pse_control list */
 diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index 199cf4ae3cf2..be4e5754eb24 100644
+index 19589571157f..01b3b9adfe2a 100644
 --- a/include/linux/pse-pd/pse.h
 +++ b/include/linux/pse-pd/pse.h
-@@ -17,9 +17,12 @@ struct pse_controller_dev;
-  *
-  * @podl_admin_control: set PoDL PSE admin control as described in
-  *	IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
-+ * @c33_admin_control: set PSE admin control as described in
-+ *	IEEE 802.3-2022 30.9.1.2.1 acPSEAdminControl
-  */
- struct pse_control_config {
- 	enum ethtool_podl_pse_admin_state podl_admin_control;
-+	enum ethtool_c33_pse_admin_state c33_admin_control;
- };
+@@ -64,6 +64,36 @@ struct device_node;
+ struct of_phandle_args;
+ struct pse_control;
  
- /**
-@@ -29,10 +32,16 @@ struct pse_control_config {
-  *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-  * @podl_pw_status: power detection status of the PoDL PSE.
-  *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
-+ * @c33_admin_state: operational state of the PSE
-+ *	functions. IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
-+ * @c33_pw_status: power detection status of the PSE.
-+ *	IEEE 802.3-2022 30.9.1.1.5 aPSEPowerDetectionStatus:
-  */
- struct pse_control_status {
- 	enum ethtool_podl_pse_admin_state podl_admin_state;
- 	enum ethtool_podl_pse_pw_d_status podl_pw_status;
-+	enum ethtool_c33_pse_admin_state c33_admin_state;
-+	enum ethtool_c33_pse_pw_d_status c33_pw_status;
- };
- 
- /**
-diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-index 06ef6b78b7de..d35f044e88eb 100644
---- a/include/uapi/linux/ethtool.h
-+++ b/include/uapi/linux/ethtool.h
-@@ -752,6 +752,49 @@ enum ethtool_module_power_mode {
- 	ETHTOOL_MODULE_POWER_MODE_HIGH,
- };
- 
-+/**
-+ * enum ethtool_c33_pse_admin_state - operational state of the PoDL PSE
-+ *	functions. IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
-+ * @ETHTOOL_C33_PSE_ADMIN_STATE_UNKNOWN: state of PSE functions is unknown
-+ * @ETHTOOL_C33_PSE_ADMIN_STATE_DISABLED: PSE functions are disabled
-+ * @ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED: PSE functions are enabled
-+ */
-+enum ethtool_c33_pse_admin_state {
-+	ETHTOOL_C33_PSE_ADMIN_STATE_UNKNOWN = 1,
-+	ETHTOOL_C33_PSE_ADMIN_STATE_DISABLED,
-+	ETHTOOL_C33_PSE_ADMIN_STATE_ENABLED,
++/* PSE PI pairset pinout can either be Alternative A or Alternative B */
++enum pse_pi_pairset_pinout {
++	ALTERNATIVE_A,
++	ALTERNATIVE_B,
 +};
 +
 +/**
-+ * enum ethtool_c33_pse_pw_d_status - power detection status of the PSE.
-+ *	IEEE 802.3-2022 30.9.1.1.3 aPoDLPSEPowerDetectionStatus:
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_UNKNOWN: PSE status is unknown
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_DISABLED: "The enumeration “disabled”
-+ *	indicates that the PSE State diagram is in the state DISABLED."
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_SEARCHING: "The enumeration “searching”
-+ *	indicates the PSE State diagram is in a state other than those
-+ *	listed."
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING: "The enumeration
-+ *	“deliveringPower” indicates that the PSE State diagram is in the
-+ *	state POWER_ON."
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_TEST: "The enumeration “test” indicates that
-+ *	the PSE State diagram is in the state TEST_MODE."
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_FAULT: "The enumeration “fault” indicates that
-+ *	the PSE State diagram is in the state TEST_ERROR."
-+ * @ETHTOOL_C33_PSE_PW_D_STATUS_OTHERFAULT: "The enumeration “otherFault”
-+ *	indicates that the PSE State diagram is in the state IDLE due to
-+ *	the variable error_condition = true."
++ * struct pse_pi_pairset - PSE PI pairset entity describing the pinout
++ *			   alternative ant its phandle
++ *
++ * @pinout: description of the pinout alternative
++ * @np: device node pointer describing the pairset phandle
 + */
-+enum ethtool_c33_pse_pw_d_status {
-+	ETHTOOL_C33_PSE_PW_D_STATUS_UNKNOWN = 1,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_DISABLED,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_SEARCHING,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_TEST,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_FAULT,
-+	ETHTOOL_C33_PSE_PW_D_STATUS_OTHERFAULT,
++struct pse_pi_pairset {
++	enum pse_pi_pairset_pinout pinout;
++	struct device_node *np;
++};
++
++/**
++ * struct pse_pi - PSE PI (Power Interface) entity as described in
++ *		   IEEE 802.3-2022 145.2.4
++ *
++ * @pairset: table of the PSE PI pinout alternative for the two pairset
++ * @np: device node pointer of the PSE PI node
++ */
++struct pse_pi {
++	struct pse_pi_pairset pairset[2];
++	struct device_node *np;
 +};
 +
  /**
-  * enum ethtool_podl_pse_admin_state - operational state of the PoDL PSE
-  *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
-index 3f89074aa06c..3f32d360beb1 100644
---- a/include/uapi/linux/ethtool_netlink.h
-+++ b/include/uapi/linux/ethtool_netlink.h
-@@ -895,6 +895,9 @@ enum {
- 	ETHTOOL_A_PODL_PSE_ADMIN_STATE,		/* u32 */
- 	ETHTOOL_A_PODL_PSE_ADMIN_CONTROL,	/* u32 */
- 	ETHTOOL_A_PODL_PSE_PW_D_STATUS,		/* u32 */
-+	ETHTOOL_A_C33_PSE_ADMIN_STATE,		/* u32 */
-+	ETHTOOL_A_C33_PSE_ADMIN_CONTROL,	/* u32 */
-+	ETHTOOL_A_C33_PSE_PW_D_STATUS,		/* u32 */
+  * struct pse_controller_dev - PSE controller entity that might
+  *                             provide multiple PSE controls
+@@ -73,11 +103,11 @@ struct pse_control;
+  * @pse_control_head: head of internal list of requested PSE controls
+  * @dev: corresponding driver model device struct
+  * @of_pse_n_cells: number of cells in PSE line specifiers
+- * @of_xlate: translation function to translate from specifier as found in the
+- *            device tree to id as given to the PSE control ops
+  * @nr_lines: number of PSE controls in this controller device
+  * @lock: Mutex for serialization access to the PSE controller
+  * @types: types of the PSE controller
++ * @pi: table of PSE PIs described in this controller device
++ * @of_legacy: flag set if the pse_pis devicetree node is not used
+  */
+ struct pse_controller_dev {
+ 	const struct pse_controller_ops *ops;
+@@ -86,11 +116,11 @@ struct pse_controller_dev {
+ 	struct list_head pse_control_head;
+ 	struct device *dev;
+ 	int of_pse_n_cells;
+-	int (*of_xlate)(struct pse_controller_dev *pcdev,
+-			const struct of_phandle_args *pse_spec);
+ 	unsigned int nr_lines;
+ 	struct mutex lock;
+ 	enum ethtool_pse_types types;
++	struct pse_pi *pi;
++	bool of_legacy;
+ };
  
- 	/* add new constants above here */
- 	__ETHTOOL_A_PSE_CNT,
+ #if IS_ENABLED(CONFIG_PSE_CONTROLLER)
 
 -- 
 2.25.1
