@@ -1,237 +1,160 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7323A2576B
-	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 16:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4450E200DB
+	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 16:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709051951; cv=none; b=eVYRT197EFaYM8PwU0wYZIiIcQA0jKztmpYnUVqBE8fI1OP81wKvf/72rMXKKPcPsoGh2AKpL/vDvZUaUjzB4Ne+kG3ek55w37rFXTIJbfYII/+dAqCq/CqNOhCB2ObC+10+RqbnezIdRnEy46KNWJ9zEAWsz9bQFfCYgQqCLrs=
+	t=1709052717; cv=none; b=CzwBF3daHSarLWiZHdghQzqMC/2fqpMJw8mCSFmWcjQjUqW5KOK8im7wm9UTOdxygDkf5hiBt/oV9H/qhOE7g+hYPJafNg4S02ze3DHCL/EMT0AMVJL2ykWVjIhLTukfh3G+bdAxFJJcwKbgsU2fkCeEc2YggHWaeqrFhKnMZbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709051951; c=relaxed/simple;
-	bh=NgpWdnxiLbFqNexAmzcqA9YP7ocmvHBLOxsvEhPCKvg=;
+	s=arc-20240116; t=1709052717; c=relaxed/simple;
+	bh=zaOkgxIiB8GNse2AVQG29Q0YOlZCBjN6gtzoplU25RI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=alJ51SaWYTUBgWcA1wDqMfWmEa6hk0Ubl6RpqZuzEuSYDDHdUxueBLj11ARWsCCfmpz9zf7HYbjqzSLch/PXIO/FrqOyqwJnYhCsqvzkW6ItYrrbV1Ys0fqEsMbVUUTsFHjWlT0xeoiONGaIm94eJ9ZhLcn3wYD6zrcuhAKE4tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QKD7Q0CU; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=Bt04sfbIK2DDE+mkOV0mnoJgbPr0oGJH9qbNOjEkNQakjw/5IKmw/xsDSkZ2ZGhIFUGU+tDCKGfg+hpznblKy8wUg5qcYoA9lB3UbqY9k800z4OUsS6Bw2nLDXIkx2dyvdSDxIZf8Qgy0H8YV5glE8isuxot5LQyXqUo4MfTRjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X6hI2fG9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QKD7Q0CU"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-608e3530941so29954147b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 08:39:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709051948; x=1709656748; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z/ds6xBAyNMUyUudVMgCcZQOOdZHJrbf6LFZuMELU1U=;
-        b=QKD7Q0CU+PmNSO7RJww0aB+q3R7zUuzk7/y1EuKmJFnj7MkMmhvOdGPLJ/dOhGOi/j
-         SqDwkcPkraX8yTXe804U9TSSRoF6+z6sgaBoWk+hpR/ZxiTDheObd6jWF+A7MtkSz++w
-         Av2kDuZInsSMRm2hAAUb4BLDauRLOBm4yx8tXlbBX9PUbwx8iyfnP7ev0xXkMYZMZ8in
-         Gbz0hc9sqnLaZbD8ji4kT71KIkoKUtZoTysPK6cwhRxOd+XLYxh0Dk+hke3ItkHhX3MX
-         QnLp0UhMtRJxMw5uYVO4j5oLc6fuvHGwfsRshcOlf2JGk4vHAkKCVDhhP4gfz0Gy661o
-         lNdA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X6hI2fG9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709052714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fa7hNUw2MnGUSkkyaysmsOHXW2bn0B5N2bcUJWgOZXI=;
+	b=X6hI2fG9tp79Q4ZX0QQdJKdH6vfVc5Gd1j/ST9fnixjP5lKgjkKS/Rj7rdQbjP5OIH3Qbj
+	653g0AlRZxf9hZ+bk/W3ZkfnKsdMnflz/1SX4ke5gicCDhGlhuta1EuWy1q4NC9W8iDsr1
+	rRMrHyJYCB1gCn1w6zOdllUcncLHPqI=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-520-a7Rkz3ELMP215CKiSYqB2A-1; Tue, 27 Feb 2024 11:51:53 -0500
+X-MC-Unique: a7Rkz3ELMP215CKiSYqB2A-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-512a5c6465bso4132206e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 08:51:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709051948; x=1709656748;
+        d=1e100.net; s=20230601; t=1709052712; x=1709657512;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z/ds6xBAyNMUyUudVMgCcZQOOdZHJrbf6LFZuMELU1U=;
-        b=g/IBxBT+fSxZZrtnijQOhDtwV+y/oinEzemmvQjxJaBVp9zF4uWPJAV8Nfaw3UZCgQ
-         bC7LiOUu1FsspymVZy2+tM7vS1L01HLaL6NecLY7YYBrzXAZUqp2YNaBTGB4Tdr6yIP5
-         ZZjhqwD6UnnNxWzZILGk4p1xvgFr7vVpEsxXG0Z3OFU2wCOPDJ/suK74iu5+20RKOeOT
-         Kx1x8OUjHPmCwmNe8PExaMXi26ChJ55Q6DM+WjC8LIMVu3uTLeIixNh5ATq+YC9Gvg9a
-         YhHbRh8/2C6coKVYxPvQaSFADNNPb01hWtVYwGlS81p8UQp5CCyTo4zHzxSgWFla3Dwq
-         6IBA==
-X-Forwarded-Encrypted: i=1; AJvYcCWICemyfyEv4sEAFI7NaxnJmzM3gRyAwrZjqoGk69Piauyl81+BZflAV3ZlkbeEBzMsO7CF0itkK0elCJPyHHNUYB/eZr8FQIRQ
-X-Gm-Message-State: AOJu0YxYBIlhm1Cv6fsP9fUwFCMNfnjuxzBxx7CVhHI/3IevaOqcJAYg
-	HYE9Wu+rvyMOOXKOrm3KelqV+CyrUZzHTMz+WSPq2PD44IGp2raNL/lgHjx1K0WeUWVGN8AAZs/
-	LNW6KIIpWUwyP6SZegOgH+g0AqBiyX4uB7hKl
-X-Google-Smtp-Source: AGHT+IGYsfj1hpFG2qZ+lv3Tc2gaVahH2B+pghzlhO4uZB2pAxOqLV3b7HUJfJpPshrzze8w4TdCoPFLjSNMBWpeWIM=
-X-Received: by 2002:a0d:cc52:0:b0:609:2c38:4dd2 with SMTP id
- o79-20020a0dcc52000000b006092c384dd2mr1712145ywd.42.1709051948102; Tue, 27
- Feb 2024 08:39:08 -0800 (PST)
+        bh=Fa7hNUw2MnGUSkkyaysmsOHXW2bn0B5N2bcUJWgOZXI=;
+        b=pRjBQvu5gS1+jpUuCFeWkb8x9/84NdnPlT/v1PyDF3Si9SfavDg/UQH4Sh0yttxvn7
+         urEnGjTq9y4V8TTzZNt6mQ2rmflvrX1HsoLRJ5Ju2upsm4JEId9FxnWJ90YePrhnU6t3
+         hcOOI0w4UmqNtUqL+wU5K472vYxfI9aLdsUUGs2NJ3pga2r0rW+zTUX7fzLjvQ4rwONt
+         UyH7rpQ8obzaUo/3BDJ45ZOvnCn4VC3d9iNROnQQUS95W5ORLNkcV/LmIxLIqpKFKkPt
+         mASdpge+XazDWnYrX62xPDIbpeNVRLpYJAxzza9fjP0P7kdT9Fh3sp2xQjVtwuXVUdl6
+         Zjfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVTMr90rC1DUq/vQ/XGYL65iFuQi146yHRP891norA7pVsxGbJcYJig3x+1s9VMP1H3zQtORnwXAZ4hoWh+2jyBzrqoeS2nPkU
+X-Gm-Message-State: AOJu0YxMqDHGZBrHgjeKcsbKXGGv7BT1nYjUQeUiMlc/5hXpJ4IiJvzj
+	IDJAGqZEATaPEDhiaNOMyz0L0YxbfkukqltMyPwpw0J8Rwqgz6EVYcyivfJLmNsUHq8VcE87zNg
+	n7UDNq/AJL5G0ogQsROirO3/7crxnsu7uUt/4SFjCt2Tv7eLCX36A5CW1sHAZC9aspb7AiJOZDi
+	hfVEkbAL0KSgPqL5GgfIX130oIurR2OrXd
+X-Received: by 2002:a05:6512:21c3:b0:512:eb68:d314 with SMTP id d3-20020a05651221c300b00512eb68d314mr5801923lft.37.1709052712047;
+        Tue, 27 Feb 2024 08:51:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFn+5DokthX5JEB0laGa6PU+Ets4rObRsTUnAYyutXhmYDPA3cLG84WeT3/0s2gZENZv7xZvDHyIB5bfThwtvA=
+X-Received: by 2002:a05:6512:21c3:b0:512:eb68:d314 with SMTP id
+ d3-20020a05651221c300b00512eb68d314mr5801912lft.37.1709052711724; Tue, 27 Feb
+ 2024 08:51:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-20-surenb@google.com>
- <2daf5f5a-401a-4ef7-8193-6dca4c064ea0@suse.cz>
-In-Reply-To: <2daf5f5a-401a-4ef7-8193-6dca4c064ea0@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 27 Feb 2024 08:38:54 -0800
-Message-ID: <CAJuCfpGt+zfFzfLSXEjeTo79gw2Be-UWBcJq=eL1qAnPf9PaiA@mail.gmail.com>
-Subject: Re: [PATCH v4 19/36] mm: create new codetag references during page splitting
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
+References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
+ <20240221-hid-bpf-sleepable-v3-8-1fb378ca6301@kernel.org> <55177311ccdc24a74811d4a291ee1880044a5227.camel@gmail.com>
+ <pocfd5n6lxriqg7r6usyhrlprgslclxs44jqoq63lw734fjl2g@5kv4hjaux2fp> <9a35a53a1887fb664fd540ec7e272cb3ea63f799.camel@gmail.com>
+In-Reply-To: <9a35a53a1887fb664fd540ec7e272cb3ea63f799.camel@gmail.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Tue, 27 Feb 2024 17:51:39 +0100
+Message-ID: <CAO-hwJ+TGiLrc4De7htvKaSsMfQnZahK-zONAMNgUMYHEQb-7g@mail.gmail.com>
+Subject: Re: [PATCH RFC bpf-next v3 08/16] bpf/verifier: do_misc_fixups for is_bpf_timer_set_sleepable_cb_kfunc
+To: Eduard Zingerman <eddyz87@gmail.com>
+Cc: Benjamin Tissoires <bentiss@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 2:10=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+On Tue, Feb 27, 2024 at 5:36=E2=80=AFPM Eduard Zingerman <eddyz87@gmail.com=
+> wrote:
 >
-> On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> > When a high-order page is split into smaller ones, each newly split
-> > page should get its codetag. The original codetag is reused for these
-> > pages but it's recorded as 0-byte allocation because original codetag
-> > already accounts for the original high-order allocated page.
+> On Tue, 2024-02-27 at 17:18 +0100, Benjamin Tissoires wrote:
+> [...]
 >
-> This was v3 but then you refactored (for the better) so the commit log
-> could reflect it?
-
-Yes, technically mechnism didn't change but I should word it better.
-Smth like this:
-
-When a high-order page is split into smaller ones, each newly split
-page should get its codetag. After the split each split page will be
-referencing the original codetag. The codetag's "bytes" counter
-remains the same because the amount of allocated memory has not
-changed, however the "calls" counter gets increased to keep the
-counter correct when these individual pages get freed.
-
+> > Hmm, I must still be missing a piece of the puzzle:
+> > if I declare bpf_timer_set_sleepable_cb() to take a third "aux"
+> > argument, given that it is declared as kfunc, I also must declare it in
+> > my bpf program, or I get the following:
+> >
+> > # libbpf: extern (func ksym) 'bpf_timer_set_sleepable_cb': func_proto [=
+264] incompatible with vmlinux [18151]
+> >
+> > And if I declare it, then I don't know what to pass, given that this is
+> > purely added by the verifier:
+> >
+> > 43: (85) call bpf_timer_set_sleepable_cb#18152
+> > arg#2 pointer type STRUCT bpf_prog_aux must point to scalar, or struct =
+with scalar
 >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Right, something has to be done about number of arguments and we don't
+> have a convenient mechanism for this afaik.
 >
-> I was going to R-b, but now I recalled the trickiness of
-> __free_pages() for non-compound pages if it loses the race to a
-> speculative reference. Will the codetag handling work fine there?
+> The simplest way would be to have two kfuncs:
+> - one with 2 arguments, used form bpf program;
+> - another with 3 arguments, used at runtime;
+> - replace former by latter during rewrite.
 
-I think so. Each non-compoud page has its individual reference to its
-codetag and will decrement it whenever the page is freed. IIUC the
-logic in  __free_pages(), when it loses race to a speculative
-reference it will free all pages except for the first one and the
-first one will be freed when the last put_page() happens. If prior to
-this all these pages were split from one page then all of them will
-have their own reference which points to the same codetag. Every time
-one of these pages are freed that codetag's "bytes" and "calls"
-counters will be decremented. I think accounting will work correctly
-irrespective of where these pages are freed, in __free_pages() or by
-put_page().
+It's hacky but seems interesting enough to be tested :)
 
 >
-> > ---
-> >  include/linux/pgalloc_tag.h | 30 ++++++++++++++++++++++++++++++
-> >  mm/huge_memory.c            |  2 ++
-> >  mm/page_alloc.c             |  2 ++
-> >  3 files changed, 34 insertions(+)
-> >
-> > diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
-> > index b49ab955300f..9e6ad8e0e4aa 100644
-> > --- a/include/linux/pgalloc_tag.h
-> > +++ b/include/linux/pgalloc_tag.h
-> > @@ -67,11 +67,41 @@ static inline void pgalloc_tag_sub(struct page *pag=
-e, unsigned int order)
-> >       }
-> >  }
-> >
-> > +static inline void pgalloc_tag_split(struct page *page, unsigned int n=
-r)
-> > +{
-> > +     int i;
-> > +     struct page_ext *page_ext;
-> > +     union codetag_ref *ref;
-> > +     struct alloc_tag *tag;
-> > +
-> > +     if (!mem_alloc_profiling_enabled())
-> > +             return;
-> > +
-> > +     page_ext =3D page_ext_get(page);
-> > +     if (unlikely(!page_ext))
-> > +             return;
-> > +
-> > +     ref =3D codetag_ref_from_page_ext(page_ext);
-> > +     if (!ref->ct)
-> > +             goto out;
-> > +
-> > +     tag =3D ct_to_alloc_tag(ref->ct);
-> > +     page_ext =3D page_ext_next(page_ext);
-> > +     for (i =3D 1; i < nr; i++) {
-> > +             /* Set new reference to point to the original tag */
-> > +             alloc_tag_ref_set(codetag_ref_from_page_ext(page_ext), ta=
-g);
-> > +             page_ext =3D page_ext_next(page_ext);
-> > +     }
-> > +out:
-> > +     page_ext_put(page_ext);
-> > +}
-> > +
-> >  #else /* CONFIG_MEM_ALLOC_PROFILING */
-> >
-> >  static inline void pgalloc_tag_add(struct page *page, struct task_stru=
-ct *task,
-> >                                  unsigned int order) {}
-> >  static inline void pgalloc_tag_sub(struct page *page, unsigned int ord=
-er) {}
-> > +static inline void pgalloc_tag_split(struct page *page, unsigned int n=
-r) {}
-> >
-> >  #endif /* CONFIG_MEM_ALLOC_PROFILING */
-> >
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index 94c958f7ebb5..86daae671319 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -38,6 +38,7 @@
-> >  #include <linux/sched/sysctl.h>
-> >  #include <linux/memory-tiers.h>
-> >  #include <linux/compat.h>
-> > +#include <linux/pgalloc_tag.h>
-> >
-> >  #include <asm/tlb.h>
-> >  #include <asm/pgalloc.h>
-> > @@ -2899,6 +2900,7 @@ static void __split_huge_page(struct page *page, =
-struct list_head *list,
-> >       /* Caller disabled irqs, so they are still disabled here */
-> >
-> >       split_page_owner(head, nr);
-> > +     pgalloc_tag_split(head, nr);
-> >
-> >       /* See comment in __split_huge_page_tail() */
-> >       if (PageAnon(head)) {
-> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > index 58c0e8b948a4..4bc5b4720fee 100644
-> > --- a/mm/page_alloc.c
-> > +++ b/mm/page_alloc.c
-> > @@ -2621,6 +2621,7 @@ void split_page(struct page *page, unsigned int o=
-rder)
-> >       for (i =3D 1; i < (1 << order); i++)
-> >               set_page_refcounted(page + i);
-> >       split_page_owner(page, 1 << order);
-> > +     pgalloc_tag_split(page, 1 << order);
-> >       split_page_memcg(page, 1 << order);
-> >  }
-> >  EXPORT_SYMBOL_GPL(split_page);
-> > @@ -4806,6 +4807,7 @@ static void *make_alloc_exact(unsigned long addr,=
- unsigned int order,
-> >               struct page *last =3D page + nr;
-> >
-> >               split_page_owner(page, 1 << order);
-> > +             pgalloc_tag_split(page, 1 << order);
-> >               split_page_memcg(page, 1 << order);
-> >               while (page < --last)
-> >                       set_page_refcounted(last);
+> > Maybe I should teach the verifier that this kfunc only takes 2
+> > arguments, and the third one is virtual, but that also means that when
+> > the kfunc definitions are to be included in vmlinux.h, they would also
+> > have this special case.
+>
+> It might be a somewhat generic mechanism, e.g. btf_decl_tag("hidden")
+> for kfunc parameter.
+
+We also could use the suffix (like __uninit, __k, etc...), but it
+might introduce more headaches than the 2 kfuncs you are proposing.
+
+>
+> imho, having two kfuncs is less hacky.
+>
+> > (I just tried with a blank u64 instead of the struct bpf_prog_aux*, but
+> >  it crashes with KASAN complaining).
+>
+> For my understanding:
+> - you added a 3rd param (void *) to kfunc;
+
+it was struct bpf_prog_aux *, but yes
+
+> - passed it as zero in BPF program;
+> - applied the above rewrite, so that r3 equals to prog->aux;
+> - and now KASAN complains, right?
+
+yep, but see below
+
+>
+> Could you please provide more details on what exactly it complains about?
+>
+
+Well, there is a simple reason: that code is never reached because, in
+that function, there is a `if (insn->src_reg =3D=3D
+BPF_PSEUDO_KFUNC_CALL)` above that unconditionally terminates with a
+`continue`. So basically this part of the code is never hit.
+
+I'll include that new third argument and the dual kfunc call in
+fixup_kfunc_call() and report if it works from here.
+
+Cheers,
+Benjamin
+
