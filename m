@@ -1,103 +1,154 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B6113A877;
-	Tue, 27 Feb 2024 12:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A28C13A87C;
+	Tue, 27 Feb 2024 12:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709035986; cv=none; b=BEWCLxQWV1bwA18tKItZc0C2q2omtN6GUGOBVw66QBjqmaS6Bdu95UnwbpU4LpRgE4NcGC5BLE614gGrdZ6nkr56OetKqE2RIhnO1qhsdkp/+bfEFFgLsPaiM6A++aJtUDrJ9K/MUdGimO+FVdkr4ANp6ET+tYX59FKjINxX2Bk=
+	t=1709037009; cv=none; b=oqRcVpralyQZ8lbtfVEpBXwtcppPbZ7Zsdu7ACIzED/uZTFpMUFLqIX4SyV/SSUAOdnQAYrJiQQ41G1Jy2RjB6gG8ehiE2bHkpDyETzQqDbnCtTGVT/a8f7+X1Hib1Yuw+RVnhEAfX4DAw472PeRDMvOL4EB3Enj0qN/ddtxlk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709035986; c=relaxed/simple;
-	bh=PNfuFy5Ba+D5qLkPXV/F9tZVKt/ke8CC3TLHGloyd2k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mgM1DsJkUa9/Tdtri+bw0ikMfdU0rrAF1xxfxPAxvkCv66W9KfSgQc+nxnfYATv2gkExG5p6WkIWZG2MhN0oUHQAMwjjPQMIsAYp6qnLquicrOtkoULgkAHjY7ZRv+97aJmt80Hw5Eml8kqJxh2smgnjz+QQvjuQTiiHf91qpDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7RzuOTH; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709037009; c=relaxed/simple;
+	bh=4Oml5WGpUWGH4E2pAWDmHJLXIurGcZNjrQiigLwRZxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cZoN4pF4sizYZFA2ayciOLzGI7NTKwPPs4/gGR+EdgmzIXTkggwGhHy49oqeGuj2PcQsxfgquqp3Y5QD7gr7/MzjT5ogcART1Kd5saF6xI47/w/LIlII6BG3b01td4KDmNKC33ua4p50gshMyliiu64mGA/i8QaLOPwQ2YSFIxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=mQYuSXA9; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7RzuOTH"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5ce07cf1e5dso3310671a12.2;
-        Tue, 27 Feb 2024 04:13:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709035984; x=1709640784; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PNfuFy5Ba+D5qLkPXV/F9tZVKt/ke8CC3TLHGloyd2k=;
-        b=A7RzuOTHT5lz7H92/ApnlKWkrpzABYAqTtBJob3puaeqDP3j8uvkkM9vaZcbzzr4hP
-         cve7C/GSu3+ilq18saUNgNNoPyo3fSND4ON7zrzCnc77KlD1aNtaaFlxBe/YvKrJbco7
-         56zQGnTMnTS9FITUmEqIhGQrbrnAkqXk4I1h7AbLgAe3cJMHuQzUUfvsPp9JUICBaehF
-         epGbY+0dzpdC45ddGFmVVt87yy3LJZx0B9GHy7Ncr1ssIexs51tiL0Qi4aWzhp+Bv7wS
-         mnV16H+SW6GonNihM0Lx3jRvgCUhrX3l1s/2ciKaOGi3iWfjSx8l9b8fQYps+b0cshkd
-         gSUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709035984; x=1709640784;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PNfuFy5Ba+D5qLkPXV/F9tZVKt/ke8CC3TLHGloyd2k=;
-        b=vn+5+BZ52UbCI2vApJKwl06WFhO14jP+mpeKw5CD4NQ6B0F7Fuv/gsj2H82N/hAMpI
-         DyXKoRBxRqfKEcVLy3f+I5chlujJHQz1NEeOesNLz6DpAfpUf1d00HLEQ5feKi8gtvAI
-         gg+t8dV9yY4LtdMCxZqVYw9PxgOMTqy0rfzka2F1Fata0+UnLqhTcrrU8EhVa04EOj8c
-         XEx5dv/QYnwMs2Ev63MeeumVUw1xmu0mQ5tApEoFiNVYKx22ElZAWC+xsgsubBg4Rcwg
-         0t3Y37aGy9ob+HK66SKWfDY1XoaEJcUKrpiDhyVT3/llgaUzRBCMFjVs6U5dMpmZQGsC
-         wVug==
-X-Forwarded-Encrypted: i=1; AJvYcCVWi65WapItJITmttdmeB1zFHEUfmoBDk9a9wLxlScZ9L7BS9v8si3N4yn9llAGxIw6xMaYJdaaXkLbWgU3yZnrT0UWYcbveGY5uHELGC3YB9fQT8mVsxgE1HLaAWSMyUX+jKM+Ha0+ez+r5lyyVV+Gn+C31eCgNCChtxZKiH6ylplaccNxzzU=
-X-Gm-Message-State: AOJu0YwiBLOXS/XAMfAdjMPcFdTgyi2eVrTGGumAW09QTQ2vubzkw3mb
-	bX4dHtDYNX4f75/nBGhHhobzspqLKciQ80zqG2m7SVE7AP5hvynq68DHjGomewkrTWZ3mW/CQjk
-	TQkfQFin9zpvbC7EDDpjxu5R1ZOk=
-X-Google-Smtp-Source: AGHT+IEZrxxC5KTd1mUmyNpa02ckU0dvc0XT6naKz7W71hSie5HLJAV5L6JVbDjYli/t99gdzmOA0c0J+BbxKw9TRZg=
-X-Received: by 2002:a17:90a:1b85:b0:299:6a7f:3f55 with SMTP id
- w5-20020a17090a1b8500b002996a7f3f55mr6019384pjc.45.1709035984277; Tue, 27 Feb
- 2024 04:13:04 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="mQYuSXA9"
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4TkcJG3RP2zDqxh;
+	Tue, 27 Feb 2024 12:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+	t=1709037006; bh=4Oml5WGpUWGH4E2pAWDmHJLXIurGcZNjrQiigLwRZxw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mQYuSXA9hwz4kYJiAqIkpx33zjljXzNw0McZ/d8AEb4W6ypvWOENBZfqVS8Qi3TK5
+	 hFaGS6zD8qKMJj5f6oDZl7wONjgkB/ngwXWKqQpZ9uaju56h8e8FU9hQjrX4UVQRD5
+	 OtuptIXcDjwf18nqJPFXsHic7+YBeLheLXpyNrhk=
+X-Riseup-User-ID: 3F2DEF444453EB7DD4603CFBCDDEB278E8EE48B49FA58E4A5F087EA6FADAFF74
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TkcJ955ZgzJpbF;
+	Tue, 27 Feb 2024 12:30:01 +0000 (UTC)
+Message-ID: <0892593d-0fd9-4381-b2bd-843627bd2723@riseup.net>
+Date: Tue, 27 Feb 2024 09:29:58 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223-leverage-walmart-5424542cd8bd@spud> <20240223-employee-pessimism-03ba0b58db6b@spud>
- <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
- <20240227-resolved-deceit-4a59a6af5b71@wendy> <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
- <20240227-glove-underwire-f562a56cf2c7@wendy>
-In-Reply-To: <20240227-glove-underwire-f562a56cf2c7@wendy>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 27 Feb 2024 13:12:51 +0100
-Message-ID: <CANiq72=f03_bw9B8ww8UxHkVyP2F7ZPyvC+KWCyhO3Nk1yqdaw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on RISC-V
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+Content-Language: en-US
+To: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+ <20240227111941.061a2892.pekka.paalanen@collabora.com>
+ <8ac7bf91-fbce-4403-a801-9dfee39ea802@riseup.net>
+ <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
+From: Arthur Grillo <arthurgrillo@riseup.net>
+In-Reply-To: <20240227135545.62dd5f57.pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 27, 2024 at 12:05=E2=80=AFPM Conor Dooley
-<conor.dooley@microchip.com> wrote:
->
-> My point though was more
-> that either this was acceptable for v6.9 or would be v6.10 material
-> with the same mechanism as arm64. Rebasing after v6.9-rc1 but not
-> adapting to that way of doing things is what seemed silly to me, since
-> if a resend is required then the other improvements should be carried
-> out at the same time.
 
-If avoiding the `target.json` is possible, definitely.
 
-I didn't want to assume it is, though -- e.g. the native integer
-widths you have is 64 but the built-in targets use 32:64 (perhaps
-there is a way to tweak it with an LLVM param via `-Cllvm-args`, but I
-don't see any obvious way from a quick look; `opt` does have it,
-though).
+On 27/02/24 08:55, Pekka Paalanen wrote:
+> On Tue, 27 Feb 2024 08:44:52 -0300
+> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+> 
+>> On 27/02/24 06:19, Pekka Paalanen wrote:
+>>> On Mon, 26 Feb 2024 17:42:11 -0300
+>>> Arthur Grillo <arthurgrillo@riseup.net> wrote:
+>>>   
+>>>> Now that we have a defined benchmark for testing the driver, add
+>>>> documentation on how to run it.
+>>>>
+>>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+>>>> ---
+>>>>  Documentation/gpu/vkms.rst | 6 ++++++
+>>>>  1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+>>>> index ba04ac7c2167..6d07f79f77ff 100644
+>>>> --- a/Documentation/gpu/vkms.rst
+>>>> +++ b/Documentation/gpu/vkms.rst
+>>>> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run the entire test::
+>>>>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
+>>>>    sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
+>>>>  
+>>>> +If you are developing features that may affect performance, you can run the kms_fb_stress  
+>>>
+>>> s/can/must/
+>>>   
+>>>> +benchmark::  
+>>>
+>>> before and after, and report the numbers.  
+>>
+>> Did you mean to write the benchmarks logs here?
+> 
+> I mean people should be required tell their before and after numbers in
+> either commit message (my preference) or in series cover letter (if
+> benchmarking commits is not useful).
+> 
+> With the addition of YUV support in VKMS, maybe the benchmark needs to
 
-(That is why we supported `target.json`, since it gives the most
-freedom in the beginning.)
+With the upcoming addition, I've sent a patch to arbitrarily change the
+formats on the benchmark via command-line options. It's not adding a new
+case, but maybe just this could already help.
 
-Cheers,
-Miguel
+https://lore.kernel.org/all/20240226-kms_fb_stress-dev-v1-0-1c14942b1244@riseup.net/
+
+Best Regards,
+~Arthur Grillo
+
+> start printing YUV numbers separately as a new case.
+> 
+> 
+> Thanks,
+> pq
+> 
+>>
+>>>   
+>>>> +
+>>>> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platform/vkms"
+>>>> +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/benchmarks/kms_fb_stress  
+>>>
+>>> Do people need to run both commands?  
+>>
+>> No, they don't, just two options.
+>>
+>> Best Regards,
+>> ~Arthur Grillo
+>>
+>>>
+>>> Anyway, a good idea.
+>>>
+>>> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+>>>
+>>>
+>>> Thanks,
+>>> pq
+>>>   
+>>>> +
+>>>>  TODO
+>>>>  ====
+>>>>  
+>>>>
+>>>> ---
+>>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+>>>> change-id: 20240226-bench-vkms-5b8b7aab255e
+>>>>
+>>>> Best regards,  
+>>>   
+> 
