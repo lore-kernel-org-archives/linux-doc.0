@@ -1,205 +1,143 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2136.outbound.protection.outlook.com [40.107.117.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E3E13EFE9
-	for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 15:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709047879; cv=none; b=jCwyRHStlWqH7taxhjpf+sNyj1AGNJNQUqd9Wuvbdh/PRIwV6Vf+cSMQOIeRdfXliLKLhIFWv4mOtGtmPIV8TjXvXG22xg9NAr4vay7vczu0N9Eme+AA8oWP9C/KTR6UvhZ3T/BufMhli7HTH92K4Br1FGO/l5QM9UIEdvxXwjo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709047879; c=relaxed/simple;
-	bh=/M8wynPJ9hWR3NdkG8xbaATbFhESmsZqG6LLBAZyUR4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uPnAKFWpA7YK3fv5zALQcRmcDUQ3wVc1F93qbFpTBghMWSgoU7GvS5iffJi3za/mvkVeuC3xI03C+RtK6wGpEbaufKEJHZSF9Gvxw2dMCeGRZ+hOGgQ4VQ36llLnrc0AT9377CsU+clMD3+rf6hNq6UyrUCGl0JGrcYKd1I5fvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com; spf=none smtp.mailfrom=mojatatu.com; dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b=F5WsoJYQ; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB9145B01;
+	Tue, 27 Feb 2024 15:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.136
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709048645; cv=fail; b=TNFJZrdGBl08RgQ6EKWvoFTYWiYokjobW2+BSSogdXG6qw7oAXb7xuGJXRY3XJmpxUmNDwEyMb2zkIDNy3trZQJHni9OGH0WDSMT2/R0jpUn7Xd1hmL7wF/AY5r6eOoOJKHv0iEFozHUZbjJApfRggvh4SqFAcDfV8d3t0XN918=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709048645; c=relaxed/simple;
+	bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UYDa56GPihD1V9ebSUBEgHiNarQRRsFlbxN5XIFZFAVaimXGpODo+UH1CAs0mj1OuzjL/I8yblOCxwhNWu8mAs0Qf12nyuOccrSMJ0U0zwNiYMUte2NbsWdCoqiE/6nEER0XGmtvZmw+418CmOkBpH0pqN5qIwjhVaxHpIHmkkE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com; spf=pass smtp.mailfrom=qnap.com; dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b=WmgYdoGn; arc=fail smtp.client-ip=40.107.117.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qnap.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="F5WsoJYQ"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-608959cfcbfso46048307b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 07:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1709047876; x=1709652676; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRYaqYRi+3F/3uHRenTFC45AylG9BESTewFZhEha2sQ=;
-        b=F5WsoJYQK5AH1MPqbbHIYhug+7Pyz8L8FB/wfVealauGGoMB4M3llImhTkTWnvVcxM
-         l8idYkOFGQscDsEQs48Udv8mvGdWY8AoNujzuLPeiXcAgF57cUCpOGi73N85Nof+OfhX
-         6+xC9vtN0d1vuLSiOzGbV+Be5oQ3NKu4Z7G9jOOLjfPPIciCMiUqDRY5kLKDij8NTt4V
-         izxpyv4lZbmUBhnl9/hhfiAOKwK6HRgObsHN1t4wOip2alc5illGJmIfFJSvnQii2g68
-         yS59Yg3QclVDh/samMgr6c0guF3+4YrXKszk74VFaQdWacwyMKxYwCaoY54UduJ/IUpM
-         oPzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709047876; x=1709652676;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gRYaqYRi+3F/3uHRenTFC45AylG9BESTewFZhEha2sQ=;
-        b=oIhY3HpuEFvOK4664kvuPnAwQgtkrdszXrlqya0VM39zu/h8EYxuF7xkw/0HtQAFwz
-         6AAQJU0TRWQ6KppsuSfKX1FpoZkbE1DqwfiwiOEuRn2hqElASdAeUvH/fOgRj0NsyiPo
-         xFgtR3Hs59uur80+nDfXJgomKH2TE861QHlaiqbR8O8EigfN7KWgRPHuzFwu19Mkvbrt
-         CQnTdnEAmEqD5+maEgAvp6wVfGjZxilTD/QkLioK5sxfHUR47AJ2B95YTT0jdraVPxsA
-         Z0XnJXb8zhBgFyV4lMRGtbtrLkGF1ke8dCwzwoST5VzXjleERKitXN+937lCFWjV+/hg
-         9cew==
-X-Forwarded-Encrypted: i=1; AJvYcCVDYgxSY3TDyvGS4McC3pElH/BgqLhEpEjicMOymcGDz0a3A+3w/oUHABCLD8F6mLo7oDFKGHw49oz/kvECUzUASalFy6X02qFz
-X-Gm-Message-State: AOJu0YzqP9RMVcECuZ24PtLkB+9+Mi+oO6frWVoShV3wLBcSK6mLs6pF
-	GiPKrPpQldcUhTs1jhsof1ykRjfs2nRNf8Z5S8LUWyY3ixmpoivTzWo2jd9GOF0/iPCsLp3z2EU
-	uHkcLXNoB7NzSVRHwphCvYE5P1pWQQLkc/pOr
-X-Google-Smtp-Source: AGHT+IGy0eQ3YNLVWVgjeMOPTQb/2KqLY7USqqeVSG+fxHnakfCslc6a0iEyqlZgE+HoAi+0hU5T2r0o/4IueD1WwyU=
-X-Received: by 2002:a81:9107:0:b0:608:bc79:1af5 with SMTP id
- i7-20020a819107000000b00608bc791af5mr2680393ywg.18.1709047876681; Tue, 27 Feb
- 2024 07:31:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b="WmgYdoGn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X/eGgsZ+ham1lXyK392TZR7ORdglO5Fu9Fl8mv0yvcBhNGwqAL1GzhL2VzVL8N4yHPnKqgFiIYXy+jbkyCEFgi3y0W7vMfnKGWzS+ZU48aZ57AnUt4OrPux/XjZ2+47ipqGzeU4WkfKtgJ6tMoiz7I6SPxGlCK14lK+aop05Z+tyzW25ZlfU1rry27RXGv5djlHFR4pz0mWnq8CIEe82vsAv2pKtyywzbCqatd5MHFG+D07CL7bjd0NXfUIRtLOdtbtc2DN+mVx/yD2KPooRjaQf50sakGDuPXtT+pv7lf4RknZJffjGVMWzTBO28e5Qq59mfOyAcJ2fNQTNLlmdsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
+ b=VEFVzEQ13mdczcNNi6ZS4A/i1ZlMxWvLPpP3MKRu/o+ofKyrVPMjJgynn79JgPAWHu5Rnluilpdln5Aw9xtiYXHsIKyt30ddvlGD2N5FMN+8u9YwhCcas7DRvOZlsa8r8+umMR4Fdq9pwiUp8UR8vaOeIFsMrG0WZoIP2mbtofDUpLSmO4TbCAH7fdrMuWyHsbILtVXFXTTLWaPrIx7xTU+HMzRWo2gbqYU7vkI1fdHTj+f5xrWo/rAAlfMdK5DoA6RhW2XBuXlifTr49FhT/Db0RazwwlT4M5+0SWxvuZFVge9rF/F4gBpKhjp9JCXQlmK7YReFolReyhOUtoYiiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=qnap.com; dmarc=pass action=none header.from=qnap.com;
+ dkim=pass header.d=qnap.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gvW10nTrXwrNlASEP4xEDLcucADAhctp33iqE0ZAJQk=;
+ b=WmgYdoGnHMjiUgLtF9/Ge9xKsjh8TBEsZFPmP5hDU3ZEaJSHDI2W2OnrVYEIyBsmNEJegMob45/iZ4+uA+MLYCDETdCZDwzFxlC7ntxhdsYi4dCd21sdS2p7uytFYgQFqfNRkedjWFeVMubb0fwWM0EXbHdyLD9iy00TSsdEvI8mWwMc2gAwRM+MT++u6zt0GFfU13OdAN10oOEO0HnqMwfgzRcVUJDIF5psUTSbprpW5v5UVtTDIX7YRKOQFES6GtElMS+kdpEIGacXhjGHBOPYKZwtrxeBuztWltXkmLmORRjbhKD+tn7Bj7zdoSVLevTgMD9gg68okaPJWqwJoQ==
+Received: from SI2PR04MB5097.apcprd04.prod.outlook.com (2603:1096:4:14d::9) by
+ TYSPR04MB7523.apcprd04.prod.outlook.com (2603:1096:405:30::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7316.24; Tue, 27 Feb 2024 15:44:00 +0000
+Received: from SI2PR04MB5097.apcprd04.prod.outlook.com
+ ([fe80::d7ad:6be5:d8bf:6f92]) by SI2PR04MB5097.apcprd04.prod.outlook.com
+ ([fe80::d7ad:6be5:d8bf:6f92%4]) with mapi id 15.20.7316.035; Tue, 27 Feb 2024
+ 15:44:00 +0000
+From: =?utf-8?B?Sm9uZXMgU3l1ZSDolpvmh7flrpc=?= <jonessyue@qnap.com>
+To: Hangbin Liu <liuhangbin@gmail.com>, "jiri@nvidia.com" <jiri@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Jay Vosburgh <jay.vosburgh@canonical.com>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "andy@greyhouse.net"
+	<andy@greyhouse.net>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
+	<pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>, Jiri Pirko
+	<jiri@resnulli.us>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
+ with __agg_has_partner
+Thread-Topic: [PATCH net-next v3] bonding: 802.3ad replace MAC_ADDRESS_EQUAL
+ with __agg_has_partner
+Thread-Index: AQHaaQW6oy9l+UHDLUqKxFSfovO8KLEeUytN
+Date: Tue, 27 Feb 2024 15:44:00 +0000
+Message-ID:
+ <SI2PR04MB509754BA193576FECA74D5DBDC592@SI2PR04MB5097.apcprd04.prod.outlook.com>
+References:
+ <SI2PR04MB5097BCA8FF2A2F03D9A5A3EEDC5A2@SI2PR04MB5097.apcprd04.prod.outlook.com>
+ <16063.1708987620@famine>
+In-Reply-To: <16063.1708987620@famine>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=qnap.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR04MB5097:EE_|TYSPR04MB7523:EE_
+x-ms-office365-filtering-correlation-id: d1099f73-66e9-4989-979d-08dc37aaeae0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ rAAh2ZIZgDxspPl4cFBq5EfTirGQb5m5NH4vOlQms2uRzx7d73dHAqCEgpbP9EyWdoOeOWRqCwaHM+xgm+q+YxFQAU6TpKHPecQuf1eIfeacQFzzfulbPm0+aOCMeiuILb9IwPSs8P3VACue+lifPgI+lY0j8jiH2mRhX0ABCene7mux1FN6LEH7HOkzkDfHLMS01h0dK1TclHPWwM1LnUaQSUUTnm8Cgb/I/hi2dzZMeDzRDBaHP6/yuAjDL5pZ5gezrMAjo/MaMfAzcZ2WL2n5OPol+wqlBECDCDa4GzKZqP0xur8LA7yM8cD4/nzY8m4+igE8XG7OlWTGlBOPzL+YQg3wKyrDbojD+D4jdGt+RT7VMIJ1rswry7XIdUaetvxzxzvz8ZFY71O1tgJcN6YjaQe9r8uT5JqDAFymVKx4JC8/gKuSiYqL5dfipr2TCbnmc+u46O9srqR31jQ4cxGygVO4770uiJTjbmWgCV3f5/p7Nvoy7FBkp1I1C0ju53u/6oi7xlXF18vt5ruF2s4wz0N/PV/Ox1dxpkVx/K4rNbtSfghYkLzaNTP1TnLoxhR6dA3tKAMpvmSHCHkefJpfCObrMxtLEfYmj8KhelVD6eRo1i04/PCgpVyBiSL3Bhl/agfIVgPnFkgguFXLcb6mDpkT+qrjg0d8sJdzSqyY56Q6sTO1JEHozAZ9P1pe7WFVIoXMHb0n8rIEOdbJ/g==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR04MB5097.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?UncrR0RNd2pnRGFaY1pvc3FLVUVmSWNVR1ZPTE84MEMwNGxzRmMrbWxKY21t?=
+ =?utf-8?B?anN2TW82YmhtdzdQOEpqdkdUS0g3aTEvbDlDdERtSktJZkpBM0g5a2JjejB2?=
+ =?utf-8?B?RTJiTzNQUU5nMlE2U09lRWtmMkpNaStJQVFlWmpKQUlXZ2Y5UjZDTFg5YzJZ?=
+ =?utf-8?B?TVdkNDY2NWExaEVRa25sUml2Z2NsMVpER002bHozcDdCaDdaZXV4djNHZkdL?=
+ =?utf-8?B?ODM0dzdPaVlybnpzRnJqUkh2dWRVSFIwS25PWUVEWXREbWUwVUJtR3hFcWFC?=
+ =?utf-8?B?TkhBYjVsd0dSOFg5SFZKUVJrREtKTzQvanh2MWxCTmF3QytZbDk4NHNnQWFn?=
+ =?utf-8?B?WXZyR1pEQTZYVStnOEVtUjNUWmNqNnF5QzB1ME90M1FQclNhWW8vUTFXZGxu?=
+ =?utf-8?B?TlVtdW9sR1EvU0V1ZUhRVWthMG5CUUJrOWNJRis5MjdLSWwyV04yeHVra0p6?=
+ =?utf-8?B?dG83aVdsdE5OVld6SHQvWW5Gdk1nVnI2OE80RENQT1JJT3dRd1VIbFdPbFpl?=
+ =?utf-8?B?VWwrNWZsSFJUNmJuZExLM0ljNURCWWpZT3hQVWhCR0U1SndnRUpoV2RyeHIy?=
+ =?utf-8?B?Nzg0dm5WTTZHQlZzVTRoeW9yTFp1bEQ5SkxSQVBQN0Q0eFZPTjRyaEdQRGxL?=
+ =?utf-8?B?aEo5MnpHZGEzc3ZwVnlZOUUxU3Z2Uzdnb3RvbEZPTmNOZ1BrMXRnd3BUWUo1?=
+ =?utf-8?B?WXZtdVk5a0xaOXVoeUgxK2lrNDBXRWNleEwxYWdlYVlrQjlRRXhSYmVva251?=
+ =?utf-8?B?OEV5SmwyQlptcFc1TStmRXN1VXRZTDcrZHpqcUM1YThNVHpwNW52R2lsWklJ?=
+ =?utf-8?B?QjJyZVY5M0ZKQklrM0RTanB3b2ltTWV1QnlzZ05hbVNDWDJ3elRiTmxsVFNU?=
+ =?utf-8?B?eDVaYy9Ka0E2VlA4N0poZlhCaC93ZGZISm5sQ29xTng2UFI2aURrTlFQckgw?=
+ =?utf-8?B?b3ZvVXEyUGQwbmRqNURDVFhnMEpTRERtb3N6TmtMNDU4dGtEUFhMMjFFWEs2?=
+ =?utf-8?B?Wm5HeVB3ZWVONmJEejFOd1RiQkJ5TFVGZGQySzk3TlgrU000dVVNS0hCVmk5?=
+ =?utf-8?B?WFRNQ3JWdTN0U2RKMW1ySXovU2pSOTcxdG9vNVU5L3pIM2FET2tmT2VBOTlZ?=
+ =?utf-8?B?ZGlIV3ZDZDQ5K3krYVUyZFlwME1xaHZBdE1VK0IvN1JyM3lSZ2VqUGEwWXRy?=
+ =?utf-8?B?SExvbWFLcVh5Ny85aStHemd6bUpYTGw3Z0V6SEcyc2lKUXlWcFJ4ZHRlSkpG?=
+ =?utf-8?B?QzhSb3BTYUliQzE1cE5aMVpPWXljY3UrdytoMEpwNGkvRWJLbjBOdCtCS3lT?=
+ =?utf-8?B?T3E1KzFTdTh3TGdNdElsVE40RG05VDM4VXJVd0ZnWmlpdHMxN2RZUzBTVlRk?=
+ =?utf-8?B?ZmpzOWhjaENQUmFueVJSci9TNkpyMFJPcFdLZXo5UHYwWG1xZVN5UjJSUDdm?=
+ =?utf-8?B?dk5EYXUyd2Z0bzVwUUpBZ2pxdWhkb0xnQU4zU0hBYjl3dUNSdDNJZVpRNkpH?=
+ =?utf-8?B?OUhLUTJJbUIrVFdIOCtrdmZxUUhOMWpMK2d3L0pRTHpIVVQwN0dMa01HSk1q?=
+ =?utf-8?B?MmRuZ05NZmZOd3M2ZmhncThkVzJUSFhKanZncXQvc2JENGpCMzVLZnZWa3lt?=
+ =?utf-8?B?ZDZMVW9FUFJma1lYeW4wbEZnK3lmNFJqNEY0RVR6dmZRMFYrNFNjOUVaamdJ?=
+ =?utf-8?B?R0NFZWhwTGVNSkFjdkJ0S0JIQkYxbWRTbHl0TkNrTDJGMWg2SnJKK2oxRDlU?=
+ =?utf-8?B?akJScHUvbHl3SEtDcjFINFJ0MHBRWDJhbnBtbmRRYnhob1M3SnBtdnFnS0Mx?=
+ =?utf-8?B?dTlUU1dZS0pFcDFvRitqYWhtakpTQ1piWHd6V3NYZGhRKzZIOVk5b1ZNL0s4?=
+ =?utf-8?B?WUdZaVVyMXEvYUxiQ2NhQ2dzbEhyQUJKMkNZTmlWOHlzTHB2QWJ6bE5mbUZL?=
+ =?utf-8?B?S21NRTZCdXNBa1RFZENpTlZBWE0wWGVCRWsybmhVbEJvdVg0bTFxaFB3SUpZ?=
+ =?utf-8?B?ZzRCNXI2b2lZdFM1NlJkdm1LR2x6MStsaXduM0ovTVpXbE1rVnJ3bXlOWmN4?=
+ =?utf-8?B?US9IbzJrMjB5TXE2UUw2RE8wd0JtakdETWNHU0hkWVNDQkp1MVVPdTRUUWVr?=
+ =?utf-8?Q?Z74s=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-In-Reply-To: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-Date: Tue, 27 Feb 2024 10:31:05 -0500
-Message-ID: <CAM0EoM=Q3hdXSHNADKX=erJQJWT4Jz0XeAD8kMYHv_VGagvPQA@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 00/17] net: Add support for Power over
- Ethernet (PoE)
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>, 
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: qnap.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR04MB5097.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1099f73-66e9-4989-979d-08dc37aaeae0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2024 15:44:00.4099
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 6eba8807-6ef0-4e31-890c-a6ecfbb98568
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ++3pscQ93/hC+I/y6+ifICpaZBB28/I2G5HI0H8we/aqDuUUWesTHP7fwU+YHib8205IYB4/cNW5H1ktlIm+cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7523
 
-On Tue, Feb 27, 2024 at 9:43=E2=80=AFAM Kory Maincent <kory.maincent@bootli=
-n.com> wrote:
->
-> This patch series aims at adding support for PoE (Power over Ethernet),
-> based on the already existing support for PoDL (Power over Data Line)
-> implementation. In addition, it adds support for two specific PoE
-> controller, the Microchip PD692x0 and the TI TPS23881.
->
-> This patch series is sponsored by Dent Project
-> <dentproject@linuxfoundation.org>.
-
-Sorry, couldnt resist because it sounded like a commercial;-> And
-likely i am out of touch. I am all for giving credit but does it have
-to be explicitly called out as "this patch is sponsored by X"?
-
-cheers,
-jamal
-
-
-> In detail:
-> - Patch 1 to 13 prepare net to support PoE devices.
-> - Patch 14 and 15 add PD692x0 PoE PSE controller driver and its binding.
-> - Patch 16 and 17 add TI TPS23881 PSE controller driver and its binding.
->
-> Changes in v5:
-> - Fix bindings nit.
-> - Add supported-polarity parameter to bindings.
-> - Fix yamllint binding errors.
-> - Remove the nested lock brought by the use of regulator framework.
-> - Link to v4: https://lore.kernel.org/r/20240215-feature_poe-v4-0-35bb4c2=
-3266c@bootlin.com
->
-> Changes in v4:
-> - Replaced sponsored-by tag by a simple sentence.
-> - Fix pse_pi node bindings.
-> - Add pse pi documentation written by Oleksij.
-> - Link to v3: https://lore.kernel.org/r/20240208-feature_poe-v3-0-531d267=
-4469e@bootlin.com
->
-> Changes in v3:
-> - Add patches to add Oleksij and myself to PSE MAINTAINERS.
-> - Add patches to add pse devlink.
-> - Add TI TPS23881 PSE controller driver with its binding.
-> - Replace pse_get_types helper by pse_has_podl and pse_has_c33
-> - Changed the PSE core bindings.
-> - Add a setup_pi_matrix callback.
-> - Register regulator for each PSE PI (Power Interface).
-> - Changed the PD692x0 bindings.
-> - Updated PD692x0 drivers to new bindings and PSE PI description.
-> - Updated PD692x0 drivers according to the reviews and made fixes.
-> - Link to v2: https://lore.kernel.org/r/20231201-feature_poe-v2-0-56d8cac=
-607fa@bootlin.com
->
-> Changes in v2:
-> - Extract "firmware_loader: Expand Firmware upload error codes patches" t=
-o
->   send it alone and get it merge in an immutable branch.
-> - Add "c33" prefix for PoE variables and enums.
-> - Enhance few comments.
-> - Add PSE Documentation.
-> - Make several changes in pd692x0 driver, mainly for readibility.
-> - Link to v1: https://lore.kernel.org/r/20231116-feature_poe-v1-0-be48044=
-bf249@bootlin.com
->
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
-> Kory Maincent (17):
->       MAINTAINERS: net: Add Oleksij to pse-pd maintainers
->       of: property: Add fw_devlink support for pse parent
->       net: pse-pd: Rectify and adapt the naming of admin_cotrol member of=
- struct pse_control_config
->       ethtool: Expand Ethernet Power Equipment with c33 (PoE) alongside P=
-oDL
->       net: pse-pd: Introduce PSE types enumeration
->       net: ethtool: pse-pd: Expand pse commands with the PSE PoE interfac=
-e
->       netlink: specs: Modify pse attribute prefix
->       netlink: specs: Expand the pse netlink command with PoE interface
->       MAINTAINERS: Add myself to pse networking maintainer
->       net: pse-pd: Add support for PSE PIs
->       dt-bindings: net: pse-pd: Add another way of describing several PSE=
- PIs
->       net: pse-pd: Add support for setup_pi_matrix callback
->       net: pse-pd: Use regulator framework within PSE framework
->       dt-bindings: net: pse-pd: Add bindings for PD692x0 PSE controller
->       net: pse-pd: Add PD692x0 PSE controller driver
->       dt-bindings: net: pse-pd: Add bindings for TPS23881 PSE controller
->       net: pse-pd: Add TI TPS23881 PSE controller driver
->
->  .../bindings/net/pse-pd/microchip,pd692x0.yaml     |  158 +++
->  .../bindings/net/pse-pd/pse-controller.yaml        |  100 +-
->  .../bindings/net/pse-pd/ti,tps23881.yaml           |   93 ++
->  Documentation/netlink/specs/ethtool.yaml           |   33 +-
->  Documentation/networking/ethtool-netlink.rst       |   20 +
->  Documentation/networking/index.rst                 |    1 +
->  Documentation/networking/pse-pd/index.rst          |   10 +
->  Documentation/networking/pse-pd/introduction.rst   |   73 ++
->  Documentation/networking/pse-pd/pse-pi.rst         |  302 +++++
->  MAINTAINERS                                        |    8 +
->  drivers/net/mdio/fwnode_mdio.c                     |   29 +-
->  drivers/net/pse-pd/Kconfig                         |   20 +
->  drivers/net/pse-pd/Makefile                        |    2 +
->  drivers/net/pse-pd/pd692x0.c                       | 1223 ++++++++++++++=
-++++++
->  drivers/net/pse-pd/pse_core.c                      |  429 ++++++-
->  drivers/net/pse-pd/pse_regulator.c                 |   49 +-
->  drivers/net/pse-pd/tps23881.c                      |  818 +++++++++++++
->  drivers/of/property.c                              |    2 +
->  include/linux/pse-pd/pse.h                         |   86 +-
->  include/uapi/linux/ethtool.h                       |   55 +
->  include/uapi/linux/ethtool_netlink.h               |    3 +
->  net/ethtool/pse-pd.c                               |   60 +-
->  22 files changed, 3451 insertions(+), 123 deletions(-)
-> ---
-> base-commit: f308eae1e1cdacca3cef65c7f4f691dfcb0c8976
-> change-id: 20231024-feature_poe-139490e73403
->
-> Best regards,
-> --
-> K=C3=B6ry Maincent, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
->
->
+VGhhbmsgeW91IGZvciBraW5kIGZlZWRiYWNrISBIYW5nYmluLCBKaXJpLCBKYWt1YiwgYW5kIEph
+eS4KCj7CoCDCoMKgwqDCoMKgwqAgT2ssIEkgbWlzc2VkIHRoaXMgYml0IHdoZW4gSSByZWFkIHRo
+ZSBwYXRjaCB0aGlzIG1vcm5pbmcsIHNvIHlvdQo+IGNhbiBpZ25vcmUgbXkgZWFybGllciBlbWFp
+bCdzIHF1ZXN0aW9uLsKgIFBhdGNoIGxvb2tzIGdvb2QgdG8gbWUsIGdsYWQgdG8KPiBzZWUgbnVs
+bF9tYWNfYWRkciBnZXQgdGhlIGJvb3QuCj4gQWNrZWQtYnk6IEpheSBWb3NidXJnaCA8amF5LnZv
+c2J1cmdoQGNhbm9uaWNhbC5jb20+CgotLQpSZWdhcmRzLApKb25lcyBTeXVlIHwg6Jab5oe35a6X
+ClFOQVAgU3lzdGVtcywgSW5jLgoK
