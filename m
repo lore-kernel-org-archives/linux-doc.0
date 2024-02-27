@@ -1,116 +1,145 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2138.outbound.protection.outlook.com [40.107.101.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24B61D556;
-	Tue, 27 Feb 2024 22:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709073979; cv=none; b=D4vHwJzT/O5LKkVL/K2vfih3OQUYZjpXzqsbzTddeMlcuaUEZPZJd4xP7epZHfiWzUsQ2CZvdv/PJbYpJg68cExYaVFBzvE3obk6TJbKouq3dPppm9w5k6dn4utYQPV81+Xv2DWJKyNsnyodeTOtetiO+SQTqk7L9EfUNvBx6DQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709073979; c=relaxed/simple;
-	bh=jMOvdp+7Kb57vAU/pajmYjMpp+leXZBO/O/x1MAJUTU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFEvu8hQtDxMHNSCokRHHtTTsNgEEGtzeBF64slGIYffYjIzpRw/Bp2TMeaOwFdeJxeFY9zvqAiMipIJQxEpRQn93xAV4m7R645SRH+VdnVn8fTUEoiYlvoJ3S4SVSwTMaAjEwgDGeN8F1nqSWoqJn8lpwft82CggMCOF6RSGVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=r3ZhuY/6; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE8D55C32;
+	Tue, 27 Feb 2024 23:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.138
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709075307; cv=fail; b=NfIwEofJh/5l8CXUDtx6DR3/rySUrjiqgvMBWp1ihxtKukQNZRcQkNWf1MYl8egWbz7c6AUfTTUdWYetSRXL/ZM5tXRYKMG9cYOflAyBDg7xzt9QhwuUQ9de/hR4plOUJfZ8cDURKtlv4pwGszoQUpa9USls/IGdwR6Bu22rhlY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709075307; c=relaxed/simple;
+	bh=9c9yf9ZHJefwwJ7UoP7kygg9rUK3MEOxj7l1zVpiJug=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 Content-Type:MIME-Version; b=L52O4FE4MPHQeygVdcJS9KNGfSMQOgUPAHmbBps5tEUo0B7doCkRPnCQKmf158ANeTwTkd7hxA9q/X/ZbBc7dvdO831xGhalp5hF3Y6XnAZwVBWluyvtZgmu3gU0+ALjO8oobdAhXi+rvlKJZo77FdccvYjRygi7bhwFYcgQ5eI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=ipFSvdVR; arc=fail smtp.client-ip=40.107.101.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="r3ZhuY/6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GELtHCqztILJCJyymU5pQS8T2fsqGAS/e9ITGcryoD0=; b=r3ZhuY/60lM3m4cl4kp3YR5KnM
-	9SZzwe5SgNk/Q+6Dk7Co7U+crfx6xjdJtiGcrL/TX7PT5dsXKclYLe510taXv65W948NJ5aY1huiK
-	WGiWYgy2E58C/SXgKZhVkRl0WOKDE/d+amjDiu7KxYCvQkSgzTPhTtaZjgv5kPSZKrLIuEkCx81+A
-	uUbVKxB6G53JrleM1wHNuSABctLyDW2j0sVdTSv3bM54vtfth/9HhYHapbt63t9/UXZHXpUFFyFMi
-	cnpirBCn74tDUSmH/9eXXlUAMb94x0a5DKwBlRCx+TpXEQVDF/spXq+ZYARRCs4GFtwx8QK4b+fcS
-	8n5dD4ow==;
-Received: from [200.173.162.98] (helo=[192.168.52.5])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1rf6CE-0044Ea-FM; Tue, 27 Feb 2024 23:45:10 +0100
-Message-ID: <2693770c-0d27-4186-87e1-e55a0a5f17a5@igalia.com>
-Date: Tue, 27 Feb 2024 19:45:01 -0300
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="ipFSvdVR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cTTcvAyn+nrzc7GXW9rzvsKNegVOztzAnK7agDaxVj1jnChBm0teEAV/wUHfioMVkGnoE4x2pI3JlCF58QrH3O6XIJur+b+as2lOBC1jpyg8q/txTf2gIgg9zjQhe51Tg19N10/4mc5oI2SrPjLE7R+Ec6Pdr6b4mCZ5oJckIWpEqRn/BRJ82LJlK/czHgZHqLU8J+gFQnbhXyeoq44d7EVggsgD3oHPdsdcU0mhcOv9r1OdmxFLDU5pGEfKLtuM9dS8m37fGV6aJxm5Z216xosPB3pRubvoK8dHbr6YtulGL/ZGOkf9wRikzf93YoUKczycxhQyTTkdqiTLWk89WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FZF3KivCJnnPIEnGZwbRcq/ueQ2nMArP1ef/QpDpLaQ=;
+ b=mA4LCodq1XE9up0RX/b7FHn2vxX7/KkrjqrGiSchv6zBuunoCrJp+eI7vz/pF5dzn5wWy1tttoCMtkVvAExFSbgL7Y1jU5rbzvynNJXDJFFwAeJEtdGRbf4q5lctOntmMwTRHSPd5GyHHlenkEr+NaWiDm9scZVZSiaS7QyFggGk8BEMPH1KQeCwMJSMSIZDRyIDuQZAchqGCwhdv83XItJCPoOKE7v6AUSA1eAl/qRHI6QuKQbzEmeW4eZqg8tJGK6tiQdunFjyRBC6t/oHB3qHWybkE7M3lRlPXheGUqObtwHSuEA7/392l5zQN3eKMY5a7iVcKNG/lHYPPAlDeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FZF3KivCJnnPIEnGZwbRcq/ueQ2nMArP1ef/QpDpLaQ=;
+ b=ipFSvdVR0/TDpGp38lUhyANSh+3wARyrvM9jAf8ZuxN4GW0MoqynlTijP0YvkrZifk8dTlEBWRpSXSLJMzuul4TU/id73LBJ5aacVdgWOSN8ObOmjmn5l9R8Cbus3lhKVF/0ysxCJlF0cPTDyJXo8IsJidOY2uEWdzT3j4kpEVI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
+ BN0PR01MB7055.prod.exchangelabs.com (2603:10b6:408:16a::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7316.36; Tue, 27 Feb 2024 23:08:23 +0000
+Received: from DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::7ba2:4e8d:3bb:6e1b]) by DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::7ba2:4e8d:3bb:6e1b%6]) with mapi id 15.20.7316.037; Tue, 27 Feb 2024
+ 23:08:23 +0000
+Date: Tue, 27 Feb 2024 15:08:18 -0800 (PST)
+From: "Lameter, Christopher" <cl@os.amperecomputing.com>
+To: Eric Dumazet <edumazet@google.com>
+cc: Adam Li <adamli@os.amperecomputing.com>, corbet@lwn.net, 
+    davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+    willemb@google.com, yangtiezhu@loongson.cn, atenart@kernel.org, 
+    kuniyu@amazon.com, wuyun.abel@bytedance.com, leitao@debian.org, 
+    alexander@mihalicyn.com, dhowells@redhat.com, paulmck@kernel.org, 
+    joel.granados@gmail.com, urezki@gmail.com, joel@joelfernandes.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    netdev@vger.kernel.org, patches@amperecomputing.com, 
+    shijie@os.amperecomputing.com
+Subject: Re: [PATCH] net: make SK_MEMORY_PCPU_RESERV tunable
+In-Reply-To: <CANn89iLbA4_YdQrF+9Rmv2uVSb1HLhu0qXqCm923FCut1E78FA@mail.gmail.com>
+Message-ID: <bc168824-25dd-7541-1a34-38b1a3c00489@os.amperecomputing.com>
+References: <20240226022452.20558-1-adamli@os.amperecomputing.com> <CANn89iLbA4_YdQrF+9Rmv2uVSb1HLhu0qXqCm923FCut1E78FA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-ClientProxiedBy: CH0PR03CA0212.namprd03.prod.outlook.com
+ (2603:10b6:610:e7::7) To DM6PR01MB5259.prod.exchangelabs.com
+ (2603:10b6:5:68::27)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 29/36] drm/vc4: tests: Remove vc4_dummy_plane structure
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-29-8f4af575fce2@kernel.org>
- <244fe6b9-f295-4c85-908a-014ada0033fa@igalia.com>
- <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xjMEZIsaeRYJKwYBBAHaRw8BAQdAGU6aY8oojw61KS5rGGMrlcilFqR6p6ID45IZ6ovX0h3N
- H01haXJhIENhbmFsIDxtY2FuYWxAaWdhbGlhLmNvbT7CjwQTFggANxYhBDMCqFtIvFKVRJZQ
- hDSPnHLaGFVuBQJkixp5BQkFo5qAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQNI+cctoYVW5u
- GAEAwpaC5rI3wD8zqETKwGVoXd6+AbmGfZuVD40xepy7z/8BAM5w95/oyPsHUqOsg/xUTlNp
- rlbhA+WWoaOXA3XgR+wCzjgEZIsaeRIKKwYBBAGXVQEFAQEHQGoOK0jgh0IorMAacx6WUUWb
- s3RLiJYWUU6iNrk5wWUbAwEIB8J+BBgWCAAmFiEEMwKoW0i8UpVEllCENI+cctoYVW4FAmSL
- GnkFCQWjmoACGwwACgkQNI+cctoYVW6cqwD/Q9R98msvkhgRvi18fzUPFDwwogn+F+gQJJ6o
- pwpgFkAA/R2zOfla3IT6G3SBoV5ucdpdCpnIXFpQLbmfHK7dXsAC
-In-Reply-To: <y7mxj2i56h7bcnonywjdf2eirdqil66k32drw3wb3z7juqr3ph@4u24mlrvxslc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|BN0PR01MB7055:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c7db4bb-a809-4f09-bb39-08dc37e8fee6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	wqYk5l5CfTLvKanlRGijLrGhqamh/MVXkT+ImY2wGo0698k/MN1EH5xpd7x+rQonkB5MXofbtJ6sfLND+iqXcv3hnO/uQypyEQ7/2Tn1A1NYOFKPwnU489rtm1j7Sc0o0Dl26GQt/lYjsAYMKCx4EDgbBvvuFcdqZ+M2P16nhW/1iVJ8CjWgw+kUPTCOvKr1FQe2N/0mODS7wSJQU0QaqRALq2MY+OO5mbffc3FzUKQa+sJZU5lOI9F6EH1P8Cu2t0Kz50QlUXUZcA5N0RkDJlI4TiGcx9bcLoIjxPibmtJhpqSboUElGTdwFGCe1N+dYkndTWA4iGPalREfPOql0DhEjZ2adoXGhP9XLxo86CXvjGESjc+CafyXM4SpjMVRTVFB+awWs5yhCFu45RxMgr0KMjbwIOX6oeIdror6h1Aj8xq+nTy7J051xH20EJ25dITCRUHqJjc/m8fRTrtB1qYyNF1LcTGpBrHACHdDWH46rEockw4njQZgcPyVS3Zbdzf7gYSHK9lIOLk0STcS1YOPBV4B+zeYdDHVggwpkr/jOWyKgh89l88avIcbIeIGfUNW4cFBRJ5P4h8xuc41ymSpMSjSzWozxucagLRo46an382wPCHiYTwa2eYG0jpJRXTR16T1NMTEDilZTNMClg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?q3i2Dm7L643C1KQI8fyXWQa5M4slZMgVPVQVbpQFKmpSYAhgiJYBNCqpYR14?=
+ =?us-ascii?Q?sBvPjIPV2kPBU/xmG6z+RgRmP+eXlVb/q1Lm7UMvQplwPDysOsJmip//RgMA?=
+ =?us-ascii?Q?ZiIjJoo7XUdw2S/MjUS717XBsRLQYfqEyCaJdxD5H9ic+dGPxGB4q34rXIzI?=
+ =?us-ascii?Q?4OsgYccfpwrvXTrK1z8G/bfgeIrKfOJIMN1QRUP8mLXzxZ93emj4ifR/Tgyx?=
+ =?us-ascii?Q?519L7a3Saxy6bHReWcl9OpzavR/KbOC1aDgl8XJ2xalVs8z7nKhiWlHl+RJP?=
+ =?us-ascii?Q?ulzkcLeL8Xbk8mR6hHlyDQucleXlPT7nRR8E1w4cueh8CnfG6sSN/P4bFONq?=
+ =?us-ascii?Q?Z0KPcKMznJiUnwkVo22CbkNjm48L5PePVebPRaugKdcHyX0GfkyQEvwneAat?=
+ =?us-ascii?Q?m2iQPHvX/p5dI+dxmwFeYIswMjYt/9QAN4GAHKlkOpnTdvUQ7BUsuEJxBhwU?=
+ =?us-ascii?Q?bcPBqJXflP900ZPfT+VIXjwOrGNsqln7F1CiU5//hPyjZ+Zq2siQidiibzoQ?=
+ =?us-ascii?Q?VLPUdIhPUX8U0jf8ly4fpXtyu6LlHmk/Y4dxosYbTlJN6Qusi275+v/b0wF7?=
+ =?us-ascii?Q?i16BMdwDIkXnLAMki2QMK5k2lFTyRBl5vFV8q0g+DG4HQMVwhJi0QdcuS/0P?=
+ =?us-ascii?Q?RfZbUN34OpsPw5TEY1x/86pR0RJgYLEZtfoN3dFcbTtMeDvu90Yau+2/hQEn?=
+ =?us-ascii?Q?k4s4578AlqDgjGbXgnLT3jk5hTaA1zFkMcrBswzPL5mOLSxdt7WdhbAoR4Jh?=
+ =?us-ascii?Q?3T5F1+/rwA1ClDUz11uj+i3LX1reUu+1c7wwuWteF0BZhUX9UTkOJQHpUf0/?=
+ =?us-ascii?Q?ELNZi9fCL+XBNJ8H8LEdZTWFDMZxv0T+QlxoVA6j5S/gGnvQm+BNedTFCV+o?=
+ =?us-ascii?Q?wxcXDrO5tiSaEwU/FGaE5K7POTg/MdZqCewUGjgfZ7tywY0ninJjJS2Hncsq?=
+ =?us-ascii?Q?IDxwyGrrUoibIw/upAMNptQX6jIHfTY5IcrRZolMdsOo2c1caU3VthbSGg2H?=
+ =?us-ascii?Q?27BF+ElksdguGznJNiyJ95l5eE2QgTRGJs0raVTJtMQo4m6jSzSPDHFvC3Hq?=
+ =?us-ascii?Q?VSJuDFaVfB5Snp5q2z3XUlwzNmaaycO5CclPuQ75XlWfDsozLriTi2pnf/1a?=
+ =?us-ascii?Q?HDBhn3+LYV4eI/tJoefdDf9Y22YE2len3y5DyUtmCSk4fpkI3Z7tOZE6Vf6e?=
+ =?us-ascii?Q?TcHt3iRB8QcFHS4C23u4YrId98KSzDtzSD5V32UmAV25EttjRPTTLI1BvpZF?=
+ =?us-ascii?Q?acyBnEPR46BHwKm8LEg0EP+NM+orn86Q4iA+OF3iYjyGOGjjvrG5/ezCOaCe?=
+ =?us-ascii?Q?Ddakbua8b7F/oujMKStah9gdfdbxCwGjHPALuT3z6lkiHMs/alkppDu5iR1p?=
+ =?us-ascii?Q?cIKaIDpz1B23izCdKGJ22EG9x0sg2pj02CiAD2pSCpRqUxWXd8nW29AG4lzz?=
+ =?us-ascii?Q?lLUpWQqGpY2lMgikIj2tdyLstEbTPsH3kFvlK9R78Ym+bjjSEbvLPGQddYG9?=
+ =?us-ascii?Q?FEwOMv9gewtyGW0TgvGasPldRQ4xEuRrlKXfUe1GgjUdUZUefTV0iB1KngAM?=
+ =?us-ascii?Q?wuvepnmEoqYffd/Ka+lLnLRR0Gu4ePsFw73yJnzPB80ne2tURpgI8u+alpo9?=
+ =?us-ascii?Q?H39eAcQhTfjDhYK6WX2F+q4=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c7db4bb-a809-4f09-bb39-08dc37e8fee6
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2024 23:08:23.0886
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hFpIYIB689enl5yb5bWF9Vi9hRkjIo67eIyJalhXa/VjZSQ7oR/HyUvZfKrfUi4s47lhZt3v0lKg4QXmgiXhMzTAf7WaJV2II1LBH112GMY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR01MB7055
 
-Hi Maxime,
+On Tue, 27 Feb 2024, Eric Dumazet wrote:
 
-On 2/27/24 10:02, Maxime Ripard wrote:
-> Hi Maíra,
-> 
-> Thanks for you reviews!
-> 
-> On Mon, Feb 26, 2024 at 09:29:32AM -0300, Maíra Canal wrote:
->> On 2/22/24 15:14, Maxime Ripard wrote:
->>> The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
+>> sk_prot->memory_allocated points to global atomic variable:
+>> atomic_long_t tcp_memory_allocated ____cacheline_aligned_in_smp;
 >>
->> Maybe I understood incorrectly, but isn't the vc4_dummy_plane structure
->> equivalent to drm_plane?
-> 
-> Both statements are true :)
-> 
-> vc4 itself uses vc4_plane to holds its plane-related content, but it
-> turns out that there's nothing in that structure anymore and vc4_plane
-> == drm_plane.
-> 
-> In our mock driver, we have another structure meant to store the
-> mock-plane-related content which doesn't have anything in it anymore,
-> and is thus equivalent to vc4_plane.
-> 
-> So, basically, vc4_dummy_plane == vc4_plane == drm_plane.
-> 
-> This patch is only about getting rid of vc4_dummy_plane though.
-> 
-> Is it clearer?
-> 
+>> If increasing the per-cpu cache size from 1MB to e.g. 16MB,
+>> changes to sk->sk_prot->memory_allocated can be further reduced.
+>> Performance may be improved on system with many cores.
+>
+> This looks good, do you have any performance numbers to share ?
+>
+> On a host with 384 threads, 384*16 ->  6 GB of memory.
 
-Yeah, with that pointed out, you can add my:
+Those things also come with corresponding memories of a couple of TB...
 
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
+> With this kind of use, we might need a shrinker...
 
-Best Regards,
-- Maíra
+Yes. No point of keeping the buffers around if the core stops doing 
+networking. But to be done at times when there is no contention please. 
+Isnt there something like a timeout for skbs in the network stack already?
 
-> Maxime
+
+
