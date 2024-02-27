@@ -1,122 +1,119 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36A6130ADF;
-	Tue, 27 Feb 2024 11:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EC31386CF;
+	Tue, 27 Feb 2024 11:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709031909; cv=none; b=Swst7tOP2pbUt09Ph7Kegk1skotXL3e8nmK/g7i8czHY8dEFMztezXPvWV4w33corRnF1jlyXNioLj4/FX/YRNgOCaU40hEpdjL9/DEMst5CJ7EGRUKP+nI94seLnOmS4fBCSG5UGryKf7xdhemmw1VvU8og2gXGzImMVm1YEe0=
+	t=1709033088; cv=none; b=QMuZQSRotj2mZYYuaCIkNy2yNmJ7Xl5NBZKL5xCWauIS5ZmudQIcl5OriBCDX3c7zf236h+ZczXqpvjQStKirM1DqSfQUngstL0MWa0RO+/vpL5wJEM9YGQ//Z7M85992wvssMKWoLsgjfnGUZdD7hWxWVKURbHAw/eRwRzSF3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709031909; c=relaxed/simple;
-	bh=nkEmgcF2sqsTVrDLvW1DSslli5qr0PA0DGExmFUENFo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdKmkEVxGKrbo+44kAC+di+AkuQm4HFeVeOFaZwULBEWhkNNbLfrTaLaYoLNaeoY7mOA5uqpMa4GH6xKj7OOW5aseS212vFDxQXDTOm9PT6xzsmsj+f5SJrn4NwchD1hJw4r6FSPDjah7qFUW0nl3A5NujiRRLOyRZEtFYeMLy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=kAeNuAsj; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="kAeNuAsj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1709031907; x=1740567907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nkEmgcF2sqsTVrDLvW1DSslli5qr0PA0DGExmFUENFo=;
-  b=kAeNuAsjZPcZrxLSW2xXHhiW9q4lVKoBtABPTYFaZq8pVJn4m+uUPG/I
-   BRjWKJalUXetz5phBc2adYGTqvJc/VncHCPFn6f8KoAnxJa3k2dfU6z32
-   q3Be0IoPRys7MfdcwITd/Yd19x43PedJulUC9HeqbUTvlP/mflJKUAhcs
-   zD3eAoEGpA/Y2M6VaSSDDtvkzn8k92q6/kwyY96N51g1fJM37FEjwEE3J
-   HEyl7q9lqyQMrjARIjHsRkYcuYbdpzRIp8UF4rd+qgj6VfWeTUrvB9DXp
-   29CxDbot132UQptmp5NhC5xayVVPLsiUPA/tTOm678etVoSoRcs1PhjMN
-   w==;
-X-CSE-ConnectionGUID: hJeSGw/8TAyVRlagmnchCA==
-X-CSE-MsgGUID: KTDcPATNQk+OtFWm54w0BA==
-X-IronPort-AV: E=Sophos;i="6.06,187,1705388400"; 
-   d="asc'?scan'208";a="16880169"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2024 04:05:06 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 04:04:59 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Tue, 27 Feb 2024 04:04:56 -0700
-Date: Tue, 27 Feb 2024 11:04:13 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Conor Dooley <conor@kernel.org>, <linux-riscv@lists.infradead.org>, Miguel
- Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida
- Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
-	<gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
-	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
-	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, <rust-for-linux@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<llvm@lists.linux.dev>
-Subject: Re: [PATCH v2 2/3] scripts: generate_rust_target: enable building on
- RISC-V
-Message-ID: <20240227-glove-underwire-f562a56cf2c7@wendy>
-References: <20240223-leverage-walmart-5424542cd8bd@spud>
- <20240223-employee-pessimism-03ba0b58db6b@spud>
- <CANiq72ngEZskjH0f=8+cJuQsFTK227bGCxe5G0STMHuPbZYnXg@mail.gmail.com>
- <20240227-resolved-deceit-4a59a6af5b71@wendy>
- <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
+	s=arc-20240116; t=1709033088; c=relaxed/simple;
+	bh=GVuMBdQqkgWQcbGGoSTLXWpS7LUUBUPbnmMli3sXPcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aV2C0xjRbveuozXcpod4g5T02d/JsmLIwz9OzCFgBvnP4wACgS6iuz1rH8CgMYxHkP/f5ZL+M6iXkSGmxLrAQ/8HvBxayjvM0FXjy0dUsclWq/gglemice6ryThvVuYmgjRsfA7rP9O6qqoERfeyzLvXhN4AQ/IpAX8ibpZ4QF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-60925d20af0so5881587b3.2;
+        Tue, 27 Feb 2024 03:24:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709033085; x=1709637885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UgPevVmoAKj0DGuT65JWL0siEdc3m+Qb/SY/mrF/WhA=;
+        b=hKez+5s7KHdI2/CxbWsrwUTaS+n4g0OFJn3q1ns3oF5Q0FwssLGr9jNKfYoAolCOHc
+         0uiLBpLOnHwDqYjYu1hJmBlptoMcn2fpcJ7SuvG42/MQ6D7iDu9zNA6xfiI8y0PlBbtd
+         GhzH87+wHJnvp+p4fnO4cgKLXqFtRGpEYZ4XHyHL9kOv0PKad6SjrZQwvfrlaWMJc0jE
+         5Y4Qqxga7rdVsHBXggHdBRYSjWJc3N7KddTJ9aUJqlja5YKWrraAxSGfoJTeW6fziwFj
+         n15frq+wfqqWSUD5xQ0w6iJ46befR0Km3zeQm1K9n3JP8KuAgLFYo12udLznEFx06OtN
+         cs2g==
+X-Forwarded-Encrypted: i=1; AJvYcCUpkJmU1CSj3LzJDrtn7WSEFGDbx9x61rNDa3+V+oENjcHJucJaPGQ/rc+r2w8aJ31cRQNpf8bJLsG1t8lSr1t6DuY2QNcpxwZ/b0l3NwEyGqO7YtgaHh8oHdkPdAm/iHLc0XeCM6CBtjh1sZvAjRUMVW1JlCEDuJRY+ENiX5/gIarVrG3FWdpaDVhuKHaXuDxGTJh/Q7zzcf6TN10frU2MRmrc
+X-Gm-Message-State: AOJu0Yzs/AT4QPTIG661fL1P0dYKaxIbQJKS8BFZs8DLDUdqD6EWhFE6
+	776cQ2tbt5ZCBve1UZX2/pSlRJSBgGSmblvvgdSPK+8txE4rLhsOHXs+UGqzMNE=
+X-Google-Smtp-Source: AGHT+IF6qZXhkh31/FL9NWIWiaWNbs75azxaLQr+q0HbfoJAOi5esIyA3/0S3GFWa2NY/xosW0awAg==
+X-Received: by 2002:a81:af14:0:b0:608:d1f:1088 with SMTP id n20-20020a81af14000000b006080d1f1088mr1716762ywh.17.1709033085558;
+        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id s132-20020a81778a000000b00607f86fa184sm1715590ywc.99.2024.02.27.03.24.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso3965991276.3;
+        Tue, 27 Feb 2024 03:24:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWVJ7xa8M3RUqQkjMQuIs6vqZOPftr7CjDdBfQisOSUZySBmc57Vd+/azmelXnVxPjs/+K3CFTOVzydfxwZkQO2iIfRXggH2eccDhhLw+Cby0XLQtuX3H9tfk3n78DhURjWFF7VGeE9YriB6AJsBDqnyGd/+TNKo/iKKtMzLCuujYG3hBkKa3qHQimKapbP6uz/prROSso9CPCS+Xt0+aFLL2y4
+X-Received: by 2002:a25:ef41:0:b0:dc6:9c51:760f with SMTP id
+ w1-20020a25ef41000000b00dc69c51760fmr1490502ybm.56.1709033085185; Tue, 27 Feb
+ 2024 03:24:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4yFQMGvLloPM49wl"
-Content-Disposition: inline
-In-Reply-To: <CANiq72mwM+4Oh-H5WmRoqQ_nE1w-eJ1wn-nEwS=BR9JRwzxMMQ@mail.gmail.com>
-
---4yFQMGvLloPM49wl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
+ <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org> <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
+ <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
+In-Reply-To: <CAKXUXMz66AzotSqzVHvXivdwhh0d34_GWqLu-hBgEq46AOOFSg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Feb 2024 12:24:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
+Message-ID: <CAMuHMdV_s=moOpSpdrOaMqxJXcV4af_7RL_2++ZPmHYZKF72oQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: submit-checklist: structure by category
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 11:46:42AM +0100, Miguel Ojeda wrote:
-> On Tue, Feb 27, 2024 at 11:17=E2=80=AFAM Conor Dooley
-> <conor.dooley@microchip.com> wrote:
+Hi Lukas,
+
+On Tue, Feb 27, 2024 at 12:04=E2=80=AFPM Lukas Bulwahn <lukas.bulwahn@gmail=
+.com> wrote:
+> On Tue, Feb 27, 2024 at 9:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead=
+.org> wrote:
+> > > >   - Concerning checking with tools, checkpatch probably still makes=
+ sense;
+> > > >     it pointed out in several places. If sparse and checkstack are =
+really
+> > > >     the next two tools to point out, I am not so sure about.
+> > >
+> > > I doubt that ckeckstack is important since gcc & clang warn us about
+> > > stack usage.
 > >
-> > Sure, I'll take a look.
->=20
-> Thanks!
->=20
-> > Nah, I think that is silly. Either this goes in as-is, and there's
-> > fixup done by Linus, or the thing should be converted to match arm64,
-> > assuming that that is possible.
->=20
-> Ah, so you are going for 6.9 too? I can give the series a try on my
-> side in that case. When do you plan to apply them?
+> > True, but that would leave you without a tool to get figures when
+> > there is no excess stack usage detected by the compiler.
+>
+> possibly, we can configure the compiler to report/warn on any stack
+> usage from every invocation and then turn all those warnings into a
+> readable format or some format that further visualization and analysis
+> tools can process.
 
-If they're to be applied, it would be Palmer, not I. And if history is
-any guide, it could be into the merge window. My point though was more
-that either this was acceptable for v6.9 or would be v6.10 material
-with the same mechanism as arm64. Rebasing after v6.9-rc1 but not
-adapting to that way of doing things is what seemed silly to me, since
-if a resend is required then the other improvements should be carried
-out at the same time.
+"possibly"
 
-Cheers,
-Conor.
+> If that works, we can remove the checkstack tool. It is not a
+> massively large script, but it is certainly written with a very
+> special purpose. I mean it basically does object-code
+> reverse-engineering with a magic set of regular expressions in Perl.
+> If our current compilers can emit the same information, we are
+> probably better off just using the output from a compiler and
+> postprocessing that.
 
---4yFQMGvLloPM49wl
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm fully aware how it works.
+And I have used Linux' checkstack.pl tool for non-Linux projects, too.
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd3BrQAKCRB4tDGHoIJi
-0l+1AQD2Kv7qn0sG5InjsblGeMCFLO+iLg5s4b1JdnY/mXJAMgEAnPLESP1zEN5H
-BZ6fe0suc1bctDUkHs99G3uQ759MlQc=
-=9yZw
------END PGP SIGNATURE-----
+                        Geert
 
---4yFQMGvLloPM49wl--
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
