@@ -1,95 +1,145 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8127BAE7;
-	Tue, 27 Feb 2024 08:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA34C136663;
+	Tue, 27 Feb 2024 09:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709024270; cv=none; b=NZ90v3EtHDJwpziKFXQbuSV/1xsgVYBLG5Ihav89aFXsUt4+I3SZnFhFRuv+avftfm4wLTzO5G4S9G0QXigSUnz0oPUa4uBY/12UNDFIAWgr6gA/5caRYx9Xno9YtXMFqQYPwWZIDq10jgxFxsvVW/C7MxAI5ZhUpvzflCN7+CU=
+	t=1709025588; cv=none; b=OwHWQfgEY6dPSfmdI+e2JX9eMw05M30SSjuw4PIIJV3ec94k4bvzs0+v+RtYF85OkbT88u3ntiqWGLUq3mo7ajrkFSirZXudBMFKj/jMTRmjGlkSLCpmRU4CIhhj7N+FKDRGXkuMR/2ppXrHrpgp6MiHokmX9iYEBA0vrygcjzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709024270; c=relaxed/simple;
-	bh=Kp2ifpJ0SNc79LHyMlF9EWLBMbcmEY+PW69cCFFGc5c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kcm/SA7i87B+R2J9Cge0FjOrZf9IhGemVRkYm0BBRphJrjxfc+5KZYPeYcEG+1Pyd0lcV2tNhyUfHB50tUCTVoTgpCOI6gWgvzDDqG4m3+xYtB0QFLo05lcetD42tgbw9ZG0kjUyArkd8YtAQ0dQHD5RiAnIJ+cOOg2d3ivoRTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-608c40666e0so28028367b3.2;
-        Tue, 27 Feb 2024 00:57:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709024268; x=1709629068;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EcuIBmP721rI1L1wymdosgxGWLt7Pvpr1hHaQTlwKTE=;
-        b=byGgy0tBBiNcWZxusYUwG38A/j534TIgr+tbIXKChy7iEq1/GvYOijATdxCMjNKzu8
-         ibTQYFWHzTFeXJxtgLBWIQUhhyZrOpjFPdz+zvKY6W+EmL0oJyxJZUZPK17rCZ9ykAaT
-         VTK0fOTyjFqbNskLPBH3dfghSnwR5nl/ilwIqvXuEvatBS/VRkXcHemASJczMkqPAX3G
-         BX17HKPuJGc1UwhrzskmkTWDweqgI4IqgUr8WZKibRdCcF2wRxYXADt9e8Rxl5vcIr0k
-         uJwdG8FQnEmVev1FNZzplh1+WwVgQC7cM2KuXNOVdTot2rlJscKLxhUJY40IP1yA/8ed
-         s0/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXFHnZLUQCbMKJdjFL6lWXEd504EEzOgrjoK0AfT1Hh+XSh/q8spVeYjZI/E9lu5Zajon9ysbfg5jEU37az0l/cFUCIv4F6o7rjEHQWpdYoKX0g5hHX9xHL1KBS07F8BsKxhlMTq9aR5Ik/jsQEGaFLvWoEvHJYfQlvJheKVtOZn6dEXC59gGHdIAmUiH/QNUlLzS9tznEZwu5PHMFFx35bk5xq
-X-Gm-Message-State: AOJu0Yxek2ki5rfQFtx7O/kZ9sN/tjFM7s0vXdx2aqOe5uXUgjdPmzn+
-	OGOzLUxnCVbAgL36iHa23gQEJ0LP/0Knhq7etNXjUR/aZfaPRMHc4nNlOaNKNQY=
-X-Google-Smtp-Source: AGHT+IHTOpgvI+j+1DN0AnO0Z4bdGQr6EpGv2DjOu69YeCXi0iYmRq+b99+PuNuAS0H/ZfaSgeZtiQ==
-X-Received: by 2002:a81:b385:0:b0:5ff:a9bc:3893 with SMTP id r127-20020a81b385000000b005ffa9bc3893mr1445738ywh.12.1709024267703;
-        Tue, 27 Feb 2024 00:57:47 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id w10-20020a0dd40a000000b006077c89b001sm1664164ywd.83.2024.02.27.00.57.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 00:57:47 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6092149eb55so8724107b3.0;
-        Tue, 27 Feb 2024 00:57:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWzxBpQ5hk/RlJt/+f6hUSlV+Tce+yNw4xEnewjRmrJg9m7Rl2RHd2ONBlEIXHsUojMpYumetK6AJS2CRhU2WQCS2D02/uZEkVtF50L7EZItJIkAa4pr7/h+8DEXIPYLg63PXiO9MuzE27a6aJrZIXkftMHWDRqXQlR6vqKstOujV9Tz92TrRRPnrKALg/Z/JaPSCoSxDP+Po2qKRtDzu+lkqoq
-X-Received: by 2002:a25:6b43:0:b0:dc7:4ba0:9d24 with SMTP id
- o3-20020a256b43000000b00dc74ba09d24mr1357549ybm.59.1709024266977; Tue, 27 Feb
- 2024 00:57:46 -0800 (PST)
+	s=arc-20240116; t=1709025588; c=relaxed/simple;
+	bh=C/oFzRJOAX2fab2jouBghp4z46x7LVa76qoFEBIuBbo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rC9SfvY7FLBovNOskdgfHlfknL+5AQmemcY84dhyKwiBE+s8AeH+lmC/y3CRpY7/d4f0XSJuwBEpzwWznANLz6WR+3JUPbKctoAt11bKlAaDiyQMXaAfuug2uQQFmJShM6UgpKSHN7XlTAMp9bDYQNrg9n9P7SKdR3usLFFK2+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LrYgYKBI; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LrYgYKBI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709025583;
+	bh=C/oFzRJOAX2fab2jouBghp4z46x7LVa76qoFEBIuBbo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LrYgYKBI6DOH/pc/J7Ecmx7ttT5KIkffirla/dzc3bn81fLzhQgOIG0tqaHxOQO6G
+	 AHPdsi75rlq8QALWaEZFFOLMnlrwoXdsyiKk1xsOWeCWk0onAN0CikzdPDo16tMImq
+	 YWJoWwdmHwyZJ2+OdFQqiXuT0KSOEPJFHGHxbPSZta5y8ETLSOXTSr2mLb5OQZNC3s
+	 s+odA/MNkmLG6eIeSllVJiRBIhw9QL149crogYPIumL5bSoOWKlU6Pj6wpLYakO+TV
+	 pp6ucS/gstI4ep3IVMV1VXKk+6DvsLdZwz2Eq67loRYD2p2//hDR5NVtGUB+d7f1pL
+	 x82SfNoMjKwAg==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 132A13781FA4;
+	Tue, 27 Feb 2024 09:19:43 +0000 (UTC)
+Date: Tue, 27 Feb 2024 11:19:41 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Arthur Grillo <arthurgrillo@riseup.net>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen
+ <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/vkms: Add information on how to benchmark
+Message-ID: <20240227111941.061a2892.pekka.paalanen@collabora.com>
+In-Reply-To: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+References: <20240226-bench-vkms-v1-1-515ef91b11c8@riseup.net>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226104653.54877-1-lukas.bulwahn@gmail.com> <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
-In-Reply-To: <43df625f-bd32-4dd9-a960-6d0f5c0304c7@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 09:57:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
-Message-ID: <CAMuHMdUD94XuE_7UK3TEWbeZ2eMOPimDi-xoo9+43FhY3O2aDA@mail.gmail.com>
-Subject: Re: [PATCH] docs: submit-checklist: structure by category
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/Al3K0O_fW7VTKwg+hyaw9T9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/Al3K0O_fW7VTKwg+hyaw9T9
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi Randy,
+On Mon, 26 Feb 2024 17:42:11 -0300
+Arthur Grillo <arthurgrillo@riseup.net> wrote:
 
-On Tue, Feb 27, 2024 at 1:41=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
-> >   - Concerning checking with tools, checkpatch probably still makes sen=
-se;
-> >     it pointed out in several places. If sparse and checkstack are real=
-ly
-> >     the next two tools to point out, I am not so sure about.
->
-> I doubt that ckeckstack is important since gcc & clang warn us about
-> stack usage.
+> Now that we have a defined benchmark for testing the driver, add
+> documentation on how to run it.
+>=20
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> ---
+>  Documentation/gpu/vkms.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index ba04ac7c2167..6d07f79f77ff 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -89,6 +89,12 @@ You can also run subtests if you do not want to run th=
+e entire test::
+>    sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "s=
+ys:/sys/devices/platform/vkms"
+>    sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/tests/kms_f=
+lip --run-subtest basic-plain-flip
+> =20
+> +If you are developing features that may affect performance, you can run =
+the kms_fb_stress
 
-True, but that would leave you without a tool to get figures when
-there is no excess stack usage detected by the compiler.
+s/can/must/
 
-Gr{oetje,eeting}s,
+> +benchmark::
 
-                        Geert
+before and after, and report the numbers.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> +
+> +  sudo ./build/benchmarks/kms_fb_stress --device "sys:/sys/devices/platf=
+orm/vkms"
+> +  sudo IGT_DEVICE=3D"sys:/sys/devices/platform/vkms" ./build/benchmarks/=
+kms_fb_stress
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Do people need to run both commands?
+
+Anyway, a good idea.
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+
+Thanks,
+pq
+
+> +
+>  TODO
+>  =3D=3D=3D=3D
+> =20
+>=20
+> ---
+> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
+> change-id: 20240226-bench-vkms-5b8b7aab255e
+>=20
+> Best regards,
+
+
+--Sig_/Al3K0O_fW7VTKwg+hyaw9T9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXdqS0ACgkQI1/ltBGq
+qqfGJRAApGG99tBnUJJr8a9IT2dsMQqZ46B5JVGCsYV1IR8pQOa7XIuuXgla19vF
+HcIiUw0SZDclUtRiK5K1p1S6VPR65Yr0wrfBGlmjJDOOoWuGwEcfPbs8e7KThpxr
+pA55UAzznjP2jXpY70ef5FE4wAbM7Q48zdEjoOd7OREkKMPjuMW0IfuQdGZp7YjZ
+RzPZPhnqVChBkRwYD5mWs8Au/gMZkaIMedg8hyAhimO6h1GDNA2GMqEFr1DSYv8A
+TBG/mkIWlCGmb+j6+V7EQzoDZODASTjtf+KRqDlQnfpZB63UnOvt83mqABUM1wYt
+ltVilQfRO3gUJYbqZchCKj5kce91amQydbnlwgtdeue5JZUYx9XUk6Pz9lOysysV
+UpCbYTKytIrS+owxhxbsCcsq0P2xeV9g+jT07ZjLU9K78XnKMeL4Tzf+8ssEfWKS
+zVmBDhaKA0l2RRBB+Md9sQqwmyCufAAz05mmXOduYSvJhZPolp2vqVpVEkrIfQ76
+Xmuw1AeC4Iz/3zAdlSL0sQ8xauwT+A/MPGaeNEfxBYjMKZj6Q8adQlQ0yFhTCcF/
++co2b/dSFYu5Pvb0G6nwH9kXGYutsM/BEeY5cXWeqez2U0tegbRSjWX8kxRdQU1i
+cRAfOOIvgzpqMyWHbPrWPf5KVDV0erWwhuVcIfQuEEfWIsKGPao=
+=FQV+
+-----END PGP SIGNATURE-----
+
+--Sig_/Al3K0O_fW7VTKwg+hyaw9T9--
