@@ -1,243 +1,147 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1B0145320;
-	Tue, 27 Feb 2024 13:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943E01420D2;
+	Tue, 27 Feb 2024 13:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709040514; cv=none; b=f4ja+QGoqSJj1lKCJzLieSsdgGR/diefmiTST77ICljb7gMlD9dv1ro2CqfR9FmaswTneEVqXimVbEJUqMVhDCW8W37qjUjND1gqnhlV4KCe8fZGBj3nAM711qHG96/NG2DJLaT0k8QTuGnk5Di4QEG6StQwsg8HihJfAi3jyS8=
+	t=1709040705; cv=none; b=oF5Lfv6eJOgSnBE8EHzRGm+UI0WAw/YWdXvXxXRCKetajiiySq3UA+waSnN2gfRy9PBErnHW8nD3zpegrxuHO4XnDSVhA++I9ZYjvj6rZVlLEbnvcCnOF6TXss/6WP7tVhQkRT4R+1v8mPqxFIkbFH9mcwwTD0IBPObDHnLa4Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709040514; c=relaxed/simple;
-	bh=zru7ObNNKkQqccBKGdjO4JlNuuwVy5ujT0QSm0dUZfY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dOTITVbzkRWM3JQgmlgPldnVEEqlW3XUqz956DbjDsn2K91/Hyr0lmKWRTwM6KMJ7+l1gGdjoHt2b+jdZsldaqyrAWtND9+md0qh4yAF5SUBVDOVROxXF0AplSNTecDvN3Xe3szJrLZOlxUgob9fPJuDQc3hq0OCb6fT1pyxUK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqhMdDGw; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709040705; c=relaxed/simple;
+	bh=Ki82SoGWmWX3Ugj8uBKuzuI2IE1hzceZHBRrq0QZbE4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=to98xe72+kuYcLgIGdh+s45m9Ts08Izihjh38wHB0miCCuoUZJ1T2NmBjOTzo144/Rh82+96EkUfTVj2qfRu7X+G2+WomTsAUpRxP8xvm12usCrEXhlw98zbHHQV8cZFp51gHK9mgWxRJNntRIvzQ4qcHRHpxdzcE7NlrItJ61k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=iLSOAyvK; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqhMdDGw"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-42e7e8e7c09so5959381cf.1;
-        Tue, 27 Feb 2024 05:28:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709040510; x=1709645310; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sA3eGpdy0V1trjnCYXdrUG6FXIcsye2wJjLbDY0NJk8=;
-        b=XqhMdDGwh8qeJuw5TKIfabet8iRADsTgCEWViON/4WPjJbZDOe8h/NDobRN1wZQdUq
-         +Y7p795dCNDcwH7f0F20HHz9SmOcJPcGiloAaUqbZ2Hxp8nambdOSG3nCaaXGEZETwrB
-         BzZr73CjF1LEqHiPG8Il17bfLxzO3Ab9D9YM5wGOHoa3AX3fLtdzwbjbCrYpqZhGVzU1
-         DeZRwm///ooTMDHZC8/LI4r6GRatsfmrie38CBmHmdEz2L4LyCg1RY29L4DsJsInepgZ
-         oZ+wPmdceobvJjfwxcWJCwWPM9e/fQdJZ034prVwjvLq0i+o3QoNI4+W8x/V5WrkwSnm
-         3Jaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709040510; x=1709645310;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sA3eGpdy0V1trjnCYXdrUG6FXIcsye2wJjLbDY0NJk8=;
-        b=Me92wfj+UPknIJtr4k6NmfkLZg/ELobuXnDuSoukYFoAqNVfNDAyseKByNVAKKBgip
-         mNEmRZH35KO8zrkEQHaIlnET+LCV9rcV3jsMy7+ubMGD6MWuKzz1kXUU0fmTj/sa+HMm
-         Sp3klKAhqd7CSLGqLhAZYlcYwh101oD2//oNZyKKvkkBIF6A6sAHDIpuXbI6gtPkFtNf
-         VYexkoiuTxQ1aoJ63GWhPKJe65BH6S4pmuowP9M9Dk9iXuFVqxD6UmvUx5GlLntpcfX7
-         ichoRmn9881T+/1XcWXDvELjxJYl9MeO5MUDvns09EAbEQPc05DW5nTY7QDpj2kb87jq
-         aSsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXZXq/A7TYlBqpY2xdTxBE4F8CeMR22DaT/5m+y2blYiFoNwfSGKTeF9kkG2NTKJXQyme+7jm3pEpA/OS7kA2aivu/stKthYxT0G5qbRKFOkJBAXU42xWa0JcLHe628ta+/0jYl7/Zw4fQXOxfOrRMrQ6HOj/rfCdX2VDbrukacNQN/Q9lYkUeJF4Y5NgqTAUqTnDLHQDvZj0UDEIOkiGaLd2ouYu0ZaURUB/zu4REdSZntts+Crfr0Adb4Z8BfbdnL++teniDceORYkm9l+Z8E8PupZ90J4MZE68EoSZfJn5KgNttFfoLeU5MNcmq0zLf8sNlar5DD89zZSsw0OVVqKGqolTk1zxqXr32aPeTQ1P3vR9WrfA6i7o9cF8U=
-X-Gm-Message-State: AOJu0YwNr0XY4GJw0tMeZryvjZ2m5kGzO8U7ILUDtcAfI8IxU31VehxK
-	oVCTEUIBBmePyHxVO95rML3jOno09dMe0rTlq9tGGYs66ybiXjmezP1VV9j8KlR+PaYbSDSH34e
-	kiI1JSQ1q8zfD2MiEtFCHLWILWx0=
-X-Google-Smtp-Source: AGHT+IHd1fYGCovL5jMrwGyPD3t9BUZlBl4i58kM3c7T6/2cjncdv2UjHD2jwvbN+FNdJ7hm/vJBg7tdpkEc9efldco=
-X-Received: by 2002:ac8:5bd2:0:b0:42e:8a6b:5d00 with SMTP id
- b18-20020ac85bd2000000b0042e8a6b5d00mr4856001qtb.26.1709040510180; Tue, 27
- Feb 2024 05:28:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="iLSOAyvK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1709040703; x=1740576703;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ki82SoGWmWX3Ugj8uBKuzuI2IE1hzceZHBRrq0QZbE4=;
+  b=iLSOAyvKamz3G/D6WUlmaq1RobHx9/KxZ9NGnp0gN8/8mQB/VjdKzzTG
+   wRes47z+RIfL93Buc+LhxZDqji7OKbzKqiownBYLF7JZcugMTNmt/frpv
+   Zw3fZSdcQ3jWZgqR7RipIP221EXSl9wjScc4QRrjH1KTP9BmY93C9z55m
+   hef0iP2RTdH6Hbu/yyleKHCzWhXQoQSGW/GkbF7r5NK/GsgaASxirUAOk
+   LEIFHtbShKrVAZYaYEibq3gP6HQHLE95f8s6HtTTlM8TTMl2uDF0+AYJQ
+   fMt66rFmMfMotAGlJZjpxcaXGh+I3LqzijWO5DMUL/GjTVcVdVKPMiGEC
+   w==;
+X-CSE-ConnectionGUID: yz8g29ITRhSf6O9VOhbtEQ==
+X-CSE-MsgGUID: OaQoEJFJSXqnfheKzxcBOA==
+X-IronPort-AV: E=Sophos;i="6.06,187,1705388400"; 
+   d="asc'?scan'208";a="18458098"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Feb 2024 06:31:42 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 27 Feb 2024 06:31:16 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Tue, 27 Feb 2024 06:31:11 -0700
+Date: Tue, 27 Feb 2024 13:30:28 +0000
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Nathan Chancellor <nathan@kernel.org>, Conor Dooley <conor@kernel.org>,
+	Matthew Maurer <mmaurer@google.com>, <linux-riscv@lists.infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson
+ Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary
+ Guo <gary@garyguo.net>, =?iso-8859-1?Q?Bj=F6rn?= Roy Baron
+	<bjorn3_gh@protonmail.com>, Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+	<paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nick
+ Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
+	<rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <llvm@lists.linux.dev>,
+	<stable@vger.kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Ramon de C
+ Valle <rcvalle@google.com>
+Subject: Re: [PATCH v2 1/3] rust: make mutually exclusive with CFI_CLANG
+Message-ID: <20240227-nutrient-uncorrupt-202767671f78@wendy>
+References: <20240223-leverage-walmart-5424542cd8bd@spud>
+ <20240223-perjury-preshow-fc2cf73d552e@spud>
+ <CANiq72=mCnm0mKOw5K44PmZ+jF=67jxEEkcXP-E0O8CaUrps=w@mail.gmail.com>
+ <20240227-uncertain-amaze-6197e627ad95@wendy>
+ <CANiq72=geBobqM0Dc2yv=NjAc3MWXhOrDHfuJ84TgQ+XVxBo0w@mail.gmail.com>
+ <20240227-unwind-canteen-3da9b07af10c@wendy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org> <20240221-idmap-fscap-refactor-v2-20-3039364623bd@kernel.org>
-In-Reply-To: <20240221-idmap-fscap-refactor-v2-20-3039364623bd@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 27 Feb 2024 15:28:18 +0200
-Message-ID: <CAOQ4uxjvrFuz2iCiO9dsOnear+qN=M+GFW-eEOZU5uCzBkTwLQ@mail.gmail.com>
-Subject: Re: [PATCH v2 20/25] ovl: add fscaps handlers
-To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>, 
-	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
-	James Morris <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	audit@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="r5yJmoa5fGQ0bLaA"
+Content-Disposition: inline
+In-Reply-To: <20240227-unwind-canteen-3da9b07af10c@wendy>
+
+--r5yJmoa5fGQ0bLaA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 21, 2024 at 11:25=E2=80=AFPM Seth Forshee (DigitalOcean)
-<sforshee@kernel.org> wrote:
->
-> Add handlers which read fs caps from the lower or upper filesystem and
-> write/remove fs caps to the upper filesystem, performing copy-up as
-> necessary.
->
-> While fscaps only really make sense on regular files, the general policy
-> is to allow most xattr namespaces on all different inode types, so
-> fscaps handlers are installed in the inode operations for all types of
-> inodes.
->
-> Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
-> ---
->  fs/overlayfs/dir.c       |  2 ++
->  fs/overlayfs/inode.c     | 72 ++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  fs/overlayfs/overlayfs.h |  5 ++++
->  3 files changed, 79 insertions(+)
->
-> diff --git a/fs/overlayfs/dir.c b/fs/overlayfs/dir.c
-> index 0f8b4a719237..4ff360fe10c9 100644
-> --- a/fs/overlayfs/dir.c
-> +++ b/fs/overlayfs/dir.c
-> @@ -1307,6 +1307,8 @@ const struct inode_operations ovl_dir_inode_operati=
-ons =3D {
->         .get_inode_acl  =3D ovl_get_inode_acl,
->         .get_acl        =3D ovl_get_acl,
->         .set_acl        =3D ovl_set_acl,
-> +       .get_fscaps     =3D ovl_get_fscaps,
-> +       .set_fscaps     =3D ovl_set_fscaps,
->         .update_time    =3D ovl_update_time,
->         .fileattr_get   =3D ovl_fileattr_get,
->         .fileattr_set   =3D ovl_fileattr_set,
-> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-> index c63b31a460be..7a8978ea6fe1 100644
-> --- a/fs/overlayfs/inode.c
-> +++ b/fs/overlayfs/inode.c
-> @@ -568,6 +568,72 @@ int ovl_set_acl(struct mnt_idmap *idmap, struct dent=
-ry *dentry,
->  }
->  #endif
->
-> +int ovl_get_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
-> +                  struct vfs_caps *caps)
-> +{
-> +       int err;
-> +       const struct cred *old_cred;
-> +       struct path realpath;
-> +
-> +       ovl_path_real(dentry, &realpath);
-> +       old_cred =3D ovl_override_creds(dentry->d_sb);
-> +       err =3D vfs_get_fscaps(mnt_idmap(realpath.mnt), realpath.dentry, =
-caps);
-> +       revert_creds(old_cred);
-> +       return err;
-> +}
-> +
-> +int ovl_set_fscaps(struct mnt_idmap *idmap, struct dentry *dentry,
-> +                  const struct vfs_caps *caps, int setxattr_flags)
-> +{
-> +       int err;
-> +       struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
-> +       struct dentry *upperdentry =3D ovl_dentry_upper(dentry);
-> +       struct dentry *realdentry =3D upperdentry ?: ovl_dentry_lower(den=
-try);
-> +       const struct cred *old_cred;
-> +
-> +       /*
-> +        * If the fscaps are to be remove from a lower file, check that t=
-hey
-> +        * exist before copying up.
-> +        */
+On Tue, Feb 27, 2024 at 01:02:17PM +0000, Conor Dooley wrote:
 
-Don't you need to convert -ENODATA to 0 return value in this case?
+> I'll give testing another try.
 
-> +       if (!caps && !upperdentry) {
-> +               struct path realpath;
-> +               struct vfs_caps lower_caps;
-> +
-> +               ovl_path_lower(dentry, &realpath);
-> +               old_cred =3D ovl_override_creds(dentry->d_sb);
-> +               err =3D vfs_get_fscaps(mnt_idmap(realpath.mnt), realdentr=
-y,
-> +                                    &lower_caps);
-> +               revert_creds(old_cred);
-> +               if (err)
-> +                       goto out;
-> +       }
-> +
-> +       err =3D ovl_want_write(dentry);
-> +       if (err)
-> +               goto out;
-> +
+Yah, it is (as expected) broken on arm64 too:
 
-ovl_want_write() should after ovl_copy_up(), see:
-162d06444070 ("ovl: reorder ovl_want_write() after ovl_inode_lock()")
+ CFI failure at do_one_initcall+0xec/0x26c (target: __rust_minimal_init+0x0=
+/0x64; expected type: 0x36b1c5a6)
+ Internal error: Oops - CFI: 00000000f2008233 [#1] PREEMPT SMP
+ Modules linked in:
+ CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.8.0-rc3-00002-g724a75ac9542 #10
+ Hardware name: linux,dummy-virt (DT)
+ pstate: a0000005 (NzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+ pc : do_one_initcall+0xec/0x26c
+ lr : do_initcall_level+0x8c/0xb0
+ sp : ffff80008000bab0
+ x29: ffff80008000bda0 x28: 0000000000000000 x27: 0000000000000000
+ x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+ x23: 0000000000000000 x22: 0000000000000000 x21: ffff18d941cb0000
+ x20: ffffb8f6d6d9f000 x19: ffffb8f6d63e8b18 x18: 0000000000000002
+ x17: 0000000036b1c5a6 x16: 00000000d65f03c0 x15: 0000000000000000
+ x14: ffff18d9420280b1 x13: 0000000065dde380 x12: 0000000000000017
+ x11: 0000000000000000 x10: 0000000000000000 x9 : d4db8c0058e7e300
+ x8 : 0000000000000000 x7 : 0000000001f4c18b x6 : 0000000001f4c18b
+ x5 : ffffb8f6d6d300a0 x4 : ffff80008000ba78 x3 : ffff18d942019860
+ x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffb8f6d63e8b18
+ Call trace:
+  do_one_initcall+0xec/0x26c
+  do_initcall_level+0x8c/0xb0
+  do_initcalls+0x54/0x94
+  do_basic_setup+0x68/0x78
+  kernel_init_freeable+0x100/0x16c
+  kernel_init+0x20/0x1a0
+  ret_from_fork+0x10/0x20
+ Code: 7298b4d1 72a6d631 6b11021f 54000040 (d4304660)=20
+ ---[ end trace 0000000000000000 ]---
+ note: swapper/0[1] exited with irqs disabled
+ note: swapper/0[1] exited with preempt_count 1
+ Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x0000000b
+ Kernel Offset: 0x38f655800000 from 0xffff800080000000
+ PHYS_OFFSET: 0xffffe72700000000
+ CPU features: 0x0,88000203,3c020000,0100421b
+ Memory Limit: none
+ ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x=
+0000000b ]---
 
+Cheers,
+Conor.
 
-> +       err =3D ovl_copy_up(dentry);
-> +       if (err)
-> +               goto out_drop_write;
-> +       upperdentry =3D ovl_dentry_upper(dentry);
-> +
-> +       old_cred =3D ovl_override_creds(dentry->d_sb);
-> +       if (!caps)
-> +               err =3D vfs_remove_fscaps(ovl_upper_mnt_idmap(ofs), upper=
-dentry);
-> +       else
-> +               err =3D vfs_set_fscaps(ovl_upper_mnt_idmap(ofs), upperden=
-try,
-> +                                    caps, setxattr_flags);
-> +       revert_creds(old_cred);
-> +
-> +       /* copy c/mtime */
-> +       ovl_copyattr(d_inode(dentry));
-> +
-> +out_drop_write:
-> +       ovl_drop_write(dentry);
-> +out:
-> +       return err;
-> +}
-> +
->  int ovl_update_time(struct inode *inode, int flags)
->  {
->         if (flags & S_ATIME) {
-> @@ -747,6 +813,8 @@ static const struct inode_operations ovl_file_inode_o=
-perations =3D {
->         .get_inode_acl  =3D ovl_get_inode_acl,
->         .get_acl        =3D ovl_get_acl,
->         .set_acl        =3D ovl_set_acl,
-> +       .get_fscaps     =3D ovl_get_fscaps,
-> +       .set_fscaps     =3D ovl_set_fscaps,
->         .update_time    =3D ovl_update_time,
->         .fiemap         =3D ovl_fiemap,
->         .fileattr_get   =3D ovl_fileattr_get,
-> @@ -758,6 +826,8 @@ static const struct inode_operations ovl_symlink_inod=
-e_operations =3D {
->         .get_link       =3D ovl_get_link,
->         .getattr        =3D ovl_getattr,
->         .listxattr      =3D ovl_listxattr,
-> +       .get_fscaps     =3D ovl_get_fscaps,
-> +       .set_fscaps     =3D ovl_set_fscaps,
->         .update_time    =3D ovl_update_time,
->  };
->
-> @@ -769,6 +839,8 @@ static const struct inode_operations ovl_special_inod=
-e_operations =3D {
->         .get_inode_acl  =3D ovl_get_inode_acl,
->         .get_acl        =3D ovl_get_acl,
->         .set_acl        =3D ovl_set_acl,
-> +       .get_fscaps     =3D ovl_get_fscaps,
-> +       .set_fscaps     =3D ovl_set_fscaps,
->         .update_time    =3D ovl_update_time,
->  };
->
+--r5yJmoa5fGQ0bLaA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Sorry, I did not understand the explanation why fscaps ops are needed
-for non regular files. It does not look right to me.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd3j9AAKCRB4tDGHoIJi
+0u2PAQC5/4jfWMdylFg+y63pffgtxRDgGSmDgaHdyDygKV9j9QD+PNFWt0vl/a+D
+X2nh2w6BJGQiRtf9I1HY/qbOMamdlQE=
+=4HMF
+-----END PGP SIGNATURE-----
 
-Thanks,
-Amir.
+--r5yJmoa5fGQ0bLaA--
