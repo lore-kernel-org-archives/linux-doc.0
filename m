@@ -1,351 +1,214 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0647813B2B4;
-	Tue, 27 Feb 2024 13:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682191420A2;
+	Tue, 27 Feb 2024 14:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709041433; cv=none; b=CodKn2dtHVavKbT8JDpEff1jqVoR93h2KPz2MJz7+t/pNTYtevl1h7Da16d0iHud5jI7hZ+7hJLCiRhoOcYv050lQaI6IqoNlB2/LY5stT5JJH/fEg2ntKvmaClIwU/9r+iVPy5wbKqqyKI03hpuhK65D5qUlJyTqmykj4PV6qU=
+	t=1709042489; cv=none; b=htDEhn9S0f4HN93qWv0UfHNsytj56i4ftwU2xTi2BnS2UMr1IkgnUV1nAFcgu6rORN7zqfKm9w7L/5Lnj/oiYKDE/w6PoQE6l7Kof3g2VBQddAjLI7yVt5AaGR17jJ23SAxYXCsZo1WzNwx5b7sayExC6NpqdEzn0XGx6d723G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709041433; c=relaxed/simple;
-	bh=n+sWKaLJY675WI200sbvcsNtX5pExAoPLJuSEeVd/mw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s7etgIwXRZL0HW6AERB5/pSywOEtjfOJjhPXemrN5e9XfBiOyl4Z7XJ4BpWLPaGaOmOSMGaJpOXWha2yLshlpwg53wAsPqwXY0jdM1XC1cRiGYJ1apaNVo+bbhBVCOShQCgZ8g1AZR4Wt3RfHd5F+Y+tzYCRxCk4jYV5+wyPEdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKlYDKM4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709042489; c=relaxed/simple;
+	bh=xCkbRrGm9KUzkhAwbM6To2Tg2wmXxpHrMpykco6RiTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NFn20vHxjNKmRDcc8u54VE20fof4oLA0MyYSfKPcwULKmQIzwQFPBrWpbRfGXCi5iCJtEj/wyoxVg7xFCye5Nfm0RnGIKTfl4wdSAYeEdHIurDmBOz1eSxncjC5SFe1/tmZzRwgCx/KJB+amDOACq6Ukt9d5R68P9pyK4Rb870E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p33FKrEl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKlYDKM4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51564C433F1;
-	Tue, 27 Feb 2024 13:43:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p33FKrEl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63BFC433A6;
+	Tue, 27 Feb 2024 14:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709041432;
-	bh=n+sWKaLJY675WI200sbvcsNtX5pExAoPLJuSEeVd/mw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lKlYDKM4QyX2+1hqzVO+A7DqDkyNi4syNZdmOc8x+feEUEnoC4Gcoy7KA9tjMv8Um
-	 HqhFffK1OisZcZbKeUfM2t44ZGUTxC035WlriXYOK+g13iiKadadcauLFsAAol1Avo
-	 imfpK0U8/UFbpnYFMwGnuvxmJMS4U6vEQcsETm3UI8SbDk9l76fBytmDsAVIy48qPA
-	 uB/XzsDm3F+B8sLp/DhxDswItVslliu614fifi7M+Inlv/JtBzd+/Ns9yQdqdcGuay
-	 Ue8XtGFoytVwlI69wHj4/+EXF+ZjDDfn/3NZLv+1Gbw9jmUyfopViBnZi3FwDeh0bq
-	 3/qIh6zQaDJSA==
-From: Christian Brauner <brauner@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Christian Brauner <brauner@kernel.org>,
-	John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	john@jagalactic.com,
-	Dave Chinner <david@fromorbit.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	dave.hansen@linux.intel.com,
-	gregory.price@memverge.com
-Subject: Re: [RFC PATCH 11/20] famfs: Add fs_context_operations
-Date: Tue, 27 Feb 2024 14:41:44 +0100
-Message-ID: <20240227-mammut-tastatur-d791ca2f556b@brauner>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To:  <a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
-References: 
+	s=k20201202; t=1709042489;
+	bh=xCkbRrGm9KUzkhAwbM6To2Tg2wmXxpHrMpykco6RiTk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p33FKrElIhnO0+GzW7v95ecGNxi2xlWdfACIJ9+rCODu23YXF1i/U0loqeowLj84C
+	 qE6SLxpSV9oNwcGsiNZFQ1KKLRLf4YVyPfa7O8VkLxx5+QHXAgW0qJQhI6gFt6Ge+D
+	 lq4RhnOMlMc9FgPDkmsEo8IDRRGU6fUj7EMQxtBStiDAYmla5WXJ/TR5Sxj34h5M4q
+	 Cl6BpbMd0j+dw/8bgmrqiFRXIGt9LqPZcMTCh+n/OpI2oQIE9X/8ACIXU+CMXLEk24
+	 Z+CtdpBqZacoDkMufgdizq5qXbaPf/SVe3ShBuwFdeTffz1kc5436fwY+HOQXAPPRx
+	 OUhjcEXEF+prA==
+Date: Tue, 27 Feb 2024 15:01:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Alex Bee <knaerzche@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 19/36] drm/connector: hdmi: Compute bpc and format
+ automatically
+Message-ID: <vsetubfn5uvdczjrhyu6jprefdqqglpkgyw6ejbxbjypxqaxrs@u6g7cwbawrih>
+References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
+ <20240222-kms-hdmi-connector-state-v7-19-8f4af575fce2@kernel.org>
+ <67e9fbc5-ed7f-48b9-ae2a-e07c5fbd2218@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8704; i=brauner@kernel.org; h=from:subject:message-id; bh=n+sWKaLJY675WI200sbvcsNtX5pExAoPLJuSEeVd/mw=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTefc4nJW+35q+SSdiLc5dyC1Vkks02uC76P0HMuthws xY/426njlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk0rGH4K+Fx+NWclvU5y6aW 1oi/4uH6Mdn24r0n6/4UMPdKf3774Cgjw7o5q/4UiFRdVpjxdNZPnxMbLl4Xijkc+PKoWt+l208 T2LkB
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nj3gdbp5aimebgk5"
+Content-Disposition: inline
+In-Reply-To: <67e9fbc5-ed7f-48b9-ae2a-e07c5fbd2218@gmail.com>
 
-On Fri, Feb 23, 2024 at 11:41:55AM -0600, John Groves wrote:
-> This commit introduces the famfs fs_context_operations and
-> famfs_get_inode() which is used by the context operations.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/famfs/famfs_inode.c | 178 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 178 insertions(+)
-> 
-> diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> index 82c861998093..f98f82962d7b 100644
-> --- a/fs/famfs/famfs_inode.c
-> +++ b/fs/famfs/famfs_inode.c
-> @@ -41,6 +41,50 @@ static const struct super_operations famfs_ops;
->  static const struct inode_operations famfs_file_inode_operations;
->  static const struct inode_operations famfs_dir_inode_operations;
->  
-> +static struct inode *famfs_get_inode(
-> +	struct super_block *sb,
-> +	const struct inode *dir,
-> +	umode_t             mode,
-> +	dev_t               dev)
-> +{
-> +	struct inode *inode = new_inode(sb);
-> +
-> +	if (inode) {
-> +		struct timespec64       tv;
-> +
-> +		inode->i_ino = get_next_ino();
-> +		inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
-> +		inode->i_mapping->a_ops = &ram_aops;
-> +		mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
-> +		mapping_set_unevictable(inode->i_mapping);
-> +		tv = inode_set_ctime_current(inode);
-> +		inode_set_mtime_to_ts(inode, tv);
-> +		inode_set_atime_to_ts(inode, tv);
-> +
-> +		switch (mode & S_IFMT) {
-> +		default:
-> +			init_special_inode(inode, mode, dev);
-> +			break;
-> +		case S_IFREG:
-> +			inode->i_op = &famfs_file_inode_operations;
-> +			inode->i_fop = &famfs_file_operations;
-> +			break;
-> +		case S_IFDIR:
-> +			inode->i_op = &famfs_dir_inode_operations;
-> +			inode->i_fop = &simple_dir_operations;
-> +
-> +			/* Directory inodes start off with i_nlink == 2 (for "." entry) */
-> +			inc_nlink(inode);
-> +			break;
-> +		case S_IFLNK:
-> +			inode->i_op = &page_symlink_inode_operations;
-> +			inode_nohighmem(inode);
-> +			break;
-> +		}
-> +	}
-> +	return inode;
-> +}
-> +
->  /**********************************************************************************
->   * famfs super_operations
->   *
-> @@ -150,6 +194,140 @@ famfs_open_device(
->  	return 0;
->  }
->  
-> +/*****************************************************************************************
-> + * fs_context_operations
-> + */
-> +static int
-> +famfs_fill_super(
-> +	struct super_block *sb,
-> +	struct fs_context  *fc)
-> +{
-> +	struct famfs_fs_info *fsi = sb->s_fs_info;
-> +	struct inode *inode;
-> +	int rc = 0;
-> +
-> +	sb->s_maxbytes		= MAX_LFS_FILESIZE;
-> +	sb->s_blocksize		= PAGE_SIZE;
-> +	sb->s_blocksize_bits	= PAGE_SHIFT;
-> +	sb->s_magic		= FAMFS_MAGIC;
-> +	sb->s_op		= &famfs_ops;
-> +	sb->s_time_gran		= 1;
-> +
-> +	rc = famfs_open_device(sb, fc);
-> +	if (rc)
-> +		goto out;
-> +
-> +	inode = famfs_get_inode(sb, NULL, S_IFDIR | fsi->mount_opts.mode, 0);
-> +	sb->s_root = d_make_root(inode);
-> +	if (!sb->s_root)
-> +		rc = -ENOMEM;
-> +
-> +out:
-> +	return rc;
-> +}
-> +
-> +enum famfs_param {
-> +	Opt_mode,
-> +	Opt_dax,
-> +};
-> +
-> +const struct fs_parameter_spec famfs_fs_parameters[] = {
-> +	fsparam_u32oct("mode",	  Opt_mode),
-> +	fsparam_string("dax",     Opt_dax),
-> +	{}
-> +};
-> +
-> +static int famfs_parse_param(
-> +	struct fs_context   *fc,
-> +	struct fs_parameter *param)
-> +{
-> +	struct famfs_fs_info *fsi = fc->s_fs_info;
-> +	struct fs_parse_result result;
-> +	int opt;
-> +
-> +	opt = fs_parse(fc, famfs_fs_parameters, param, &result);
-> +	if (opt == -ENOPARAM) {
-> +		opt = vfs_parse_fs_param_source(fc, param);
-> +		if (opt != -ENOPARAM)
-> +			return opt;
 
-I'm not sure I understand this. But in any case add, you should add
-Opt_source to enum famfs_param and then add
+--nj3gdbp5aimebgk5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-        fsparam_string("source",        Opt_source),
+Hi Alex,
 
-to famfs_fs_parameters. Then you can add:
+On Sun, Feb 25, 2024 at 02:56:02PM +0100, Alex Bee wrote:
+> Am 22.02.24 um 19:14 schrieb Maxime Ripard:
+> > Now that we have all the infrastructure needed, we can add some code
+> > that will, for a given connector state and mode, compute the best output
+> > format and bpc.
+> >=20
+> > The algorithm is equivalent to the one already found in i915 and vc4.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_state_helper.c          | 184 ++++++++++++=
+++++++++-
+> >   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |  25 ++-
+> >   2 files changed, 197 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
+m/drm_atomic_state_helper.c
+> > index 448b4a73d1c8..9f517599f117 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -31,6 +31,7 @@
+> >   #include <drm/drm_connector.h>
+> >   #include <drm/drm_crtc.h>
+> >   #include <drm/drm_device.h>
+> > +#include <drm/drm_edid.h>
+> >   #include <drm/drm_framebuffer.h>
+> >   #include <drm/drm_plane.h>
+> >   #include <drm/drm_print.h>
+> > @@ -662,6 +663,96 @@ connector_state_get_mode(const struct drm_connecto=
+r_state *conn_state)
+> >   	return &crtc_state->mode;
+> >   }
+> > +static bool
+> > +sink_supports_format_bpc(const struct drm_connector *connector,
+> > +			 const struct drm_display_info *info,
+> > +			 const struct drm_display_mode *mode,
+> > +			 unsigned int format, unsigned int bpc)
+> > +{
+> > +	struct drm_device *dev =3D connector->dev;
+> > +	u8 vic =3D drm_match_cea_mode(mode);
+> > +
+> > +	if (vic =3D=3D 1 && bpc !=3D 8) {
+> > +		drm_dbg(dev, "VIC1 requires a bpc of 8, got %u\n", bpc);
+> > +		return false;
+> > +	}
+> > +
+> > +	if (!info->is_hdmi &&
+> > +	    (format !=3D HDMI_COLORSPACE_RGB || bpc !=3D 8)) {
+> > +		drm_dbg(dev, "DVI Monitors require an RGB output at 8 bpc\n");
+> > +		return false;
+> > +	}
+> > +
+> > +	if (!(connector->hdmi.supported_formats & BIT(format))) {
+> > +		drm_dbg(dev, "%s format unsupported by the connector.\n",
+> > +			drm_hdmi_connector_get_output_format_name(format));
+> > +		return false;
+> > +	}
+> > +
+> > +	switch (format) {
+> > +	case HDMI_COLORSPACE_RGB:
+> > +		drm_dbg(dev, "RGB Format, checking the constraints.\n");
+> > +
+> > +		if (!(info->color_formats & DRM_COLOR_FORMAT_RGB444))
+> > +			return false;
+> > +
+> > +		if (bpc =3D=3D 10 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HD=
+MI_DC_30)) {
+> > +			drm_dbg(dev, "10 BPC but sink doesn't support Deep Color 30.\n");
+> > +			return false;
+> > +		}
+> > +
+> > +		if (bpc =3D=3D 12 && !(info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HD=
+MI_DC_36)) {
+> > +			drm_dbg(dev, "12 BPC but sink doesn't support Deep Color 36.\n");
+> > +			return false;
+> > +		}
+> > +
+> > +		drm_dbg(dev, "RGB format supported in that configuration.\n");
+> > +
+> > +		return true;
+> > +
+> > +	case HDMI_COLORSPACE_YUV422:
+> > +		drm_dbg(dev, "YUV422 format, checking the constraints.\n");
+> > +
+> > +		if (!(info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
+> > +			drm_dbg(dev, "Sink doesn't support YUV422.\n");
+> > +			return false;
+> > +		}
+> > +
+> > +		if (bpc !=3D 12) {
+> > +			drm_dbg(dev, "YUV422 only supports 12 bpc.\n");
+> > +			return false;
+> > +		}
+> > +
+> I'm not sure this check is really necessary/helpful.
+> In [0] you are quoting HDMI specs which are saying that YUV422 is just
+> always 12 bpc - which I guess is correct. The problem I'm seeing here:
+> There are HDMI 1.4 controllers, like Rockchip Inno HDMI, that support
+> YUV422 but do not support any other color depth than 8 bpc for RGB or
+> YUV444. In drmm_connector_hdmi_init you are expecting to give the max bpc
+> as parameter and (if I'm getting it correctly) I'd had to set it to 12 to
+> also get YUV422 modes, but I'd also get RGB/YUV444 with bpc > 8 modes whi=
+ch
+> are not supported by this controller. I guess the same applies to other
+> HDMI 1.4 controllers that support YUV422. Or would I have to filter it out
+> myself?
+> So I guess the easiest way around is to drop the above check since it is
+> just always 12 bpc for YUV422 and there is no need to filter out anything.
+> (Same applies to the similar check in [0]).
 
-famfs_parse_source(fc, param);
+So, let's tackle drm_connector_hdmi_compute_mode_clock() first, and then
+I'll try to answer most of your question there.
 
-You might want to consider validating your devices right away. So think
-about:
+If drm_connector_hdmi_compute_mode_clock() is called with the YCbCr422
+format and a bpc !=3D 12, what should we return if not an error?
 
-fd_fs = fsopen("famfs", ...);
-ret = fsconfig(fd_fs, FSCONFIG_SET_STRING, "source", "/definitely/not/valid/device", ...) // succeeds
-ret = fsconfig(fd_fs, FSCONFIG_SET_FLAG, "OPTION_1", ...) // succeeds
-ret = fsconfig(fd_fs, FSCONFIG_SET_FLAG, "OPTION_2", ...) // succeeds 
-ret = fsconfig(fd_fs, FSCONFIG_SET_FLAG, "OPTION_3", ...) // succeeds 
-ret = fsconfig(fd_fs, FSCONFIG_SET_FLAG, "OPTION_N", ...) // succeeds 
-ret = fsconfig(fd_fs, FSCONFIG_CMD_CREATE, ...) // superblock creation failed
+It's the only bpc count allowed by the spec and for which we have a
+formula for. I just can't return the character rate of YCbCr422 with 8
+bpc, I have no idea what it should be.
 
-So what failed exactly? Yes, you can log into the fscontext and dmesg
-that it's @source that's the issue but it's annoying for userspace to
-setup a whole mount context only to figure out that some option was
-wrong at the end of it.
+And now pivoting to the block of code you commented on, there's two
+things to consider here. Eventually, the userspace is in charge of
+limiting the bpc count, and we have to take it into account.
 
-So validating
+If the userspace limits us to below 12bpc, we fall back to the
+discussion above: we simply have no way to tell how it works out for
+YCbCr422, and RGB is the only solution we have.
 
-famfs_parse_source(...)
-{
-	if (fc->source)
-		return invalfc(fc, "Uhm, we already have a source....
-	
-       lookup_bdev(fc->source, &dev)
-       // validate it's a device you're actually happy to use
+In your particular case, what you actually want is to prevent RGB 10 and
+12bpc to be used. I guess we could create a new driver hook or extend
+the one that checks for the code you pointed out to check whether the
+driver supports it (possibly turned into a helper), but there's no other
+way around it I think.
 
-       fc->source = param->string;
-       param->string = NULL;
-}
+Maxime
 
-Your ->get_tree implementation that actually creates/finds the
-superblock will validate fc->source again and yes, there's a race here
-in so far as the path that fc->source points to could change in between
-validating this in famfs_parse_source() and ->get_tree() superblock
-creation. This is fixable even right now but then you couldn't reuse
-common infrastrucute so I would just accept that race for now and we
-should provide a nicer mechanism on the vfs layer.
+--nj3gdbp5aimebgk5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +		return 0;
-> +	}
-> +	if (opt < 0)
-> +		return opt;
-> +
-> +	switch (opt) {
-> +	case Opt_mode:
-> +		fsi->mount_opts.mode = result.uint_32 & S_IALLUGO;
-> +		break;
-> +	case Opt_dax:
-> +		if (strcmp(param->string, "always"))
-> +			pr_notice("%s: invalid dax mode %s\n",
-> +				  __func__, param->string);
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static DEFINE_MUTEX(famfs_context_mutex);
-> +static LIST_HEAD(famfs_context_list);
-> +
-> +static int famfs_get_tree(struct fs_context *fc)
-> +{
-> +	struct famfs_fs_info *fsi_entry;
-> +	struct famfs_fs_info *fsi = fc->s_fs_info;
-> +
-> +	fsi->rootdev = kstrdup(fc->source, GFP_KERNEL);
-> +	if (!fsi->rootdev)
-> +		return -ENOMEM;
-> +
-> +	/* Fail if famfs is already mounted from the same device */
-> +	mutex_lock(&famfs_context_mutex);
-> +	list_for_each_entry(fsi_entry, &famfs_context_list, fsi_list) {
-> +		if (strcmp(fsi_entry->rootdev, fc->source) == 0) {
-> +			mutex_unlock(&famfs_context_mutex);
-> +			pr_err("%s: already mounted from rootdev %s\n", __func__, fc->source);
-> +			return -EALREADY;
+-----BEGIN PGP SIGNATURE-----
 
-What errno is EALREADY? Isn't that socket stuff. In any case, it seems
-you want EBUSY?
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZd3rNQAKCRDj7w1vZxhR
+xSMeAQCznapx1KyjndzP2EVcJy12qE1B9F+D8X9w5siGsAvSoQD+M22Fg/bWZcFS
+1T5GE+QJEPAzWkUzJT1TOEwa3EPalAM=
+=YL5c
+-----END PGP SIGNATURE-----
 
-But bigger picture I'm lost. And why do you keep that list based on
-strings? What if I do:
-
-mount -t famfs /dev/pmem1234 /mnt # succeeds
-
-mount -t famfs /dev/pmem1234 /opt # ah, fsck me, this fails.. But wait a minute....
-
-mount --bind /dev/pmem1234 /evil-masterplan
-
-mount -t famfs /evil-masterplan /opt # succeeds. YAY
-
-I believe that would trivially defeat your check.
-
-> +		}
-> +	}
-> +
-> +	list_add(&fsi->fsi_list, &famfs_context_list);
-> +	mutex_unlock(&famfs_context_mutex);
-> +
-> +	return get_tree_nodev(fc, famfs_fill_super);
-
-So why isn't this using get_tree_bdev()? Note that a while ago I
-added FSCONFIG_CMD_CREAT_EXCL which prevents silent superblock reuse. To
-implement that I added fs_context->exclusive. If you unconditionally set
-fc->exclusive = 1 in your famfs_init_fs_context() and use
-get_tree_bdev() it will give you EBUSY if fc->source is already in use -
-including other famfs instances.
-
-I also fail to yet understand how that function which actually opens the block
-device and gets the dax device figures into this. It's a bit hard to follow
-what's going on since you add all those unused functions and types so there's
-never a wider context to see that stuff in.
-
-> +
-> +}
-> +
-> +static void famfs_free_fc(struct fs_context *fc)
-> +{
-> +	struct famfs_fs_info *fsi = fc->s_fs_info;
-> +
-> +	if (fsi && fsi->rootdev)
-> +		kfree(fsi->rootdev);
-> +
-> +	kfree(fsi);
-> +}
-> +
-> +static const struct fs_context_operations famfs_context_ops = {
-> +	.free		= famfs_free_fc,
-> +	.parse_param	= famfs_parse_param,
-> +	.get_tree	= famfs_get_tree,
-> +};
-> +
-> +static int famfs_init_fs_context(struct fs_context *fc)
-> +{
-> +	struct famfs_fs_info *fsi;
-> +
-> +	fsi = kzalloc(sizeof(*fsi), GFP_KERNEL);
-> +	if (!fsi)
-> +		return -ENOMEM;
-> +
-> +	fsi->mount_opts.mode = FAMFS_DEFAULT_MODE;
-> +	fc->s_fs_info        = fsi;
-> +	fc->ops              = &famfs_context_ops;
-> +	return 0;
-> +}
->  
->  
->  MODULE_LICENSE("GPL");
-> -- 
-> 2.43.0
-> 
+--nj3gdbp5aimebgk5--
