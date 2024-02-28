@@ -1,262 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8213A249F7;
-	Wed, 28 Feb 2024 10:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8304B12B15B
+	for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 11:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709114849; cv=none; b=HmlLx4Kmsmx2AgkhYnHDgFHQVKHY6bFiljo72t0ORGV84fwTp+fIq3Lr3F2VTo0o5MeorhiflKMWU22zL8LxIzD0rDM5AiPaHnZtB1cz5FdwpNz13Xh+9H5/oJrW1gvB0iTNpTdGDJnzdN3abxa9gUDDvVENuLPhTVbFLZudpVk=
+	t=1709118102; cv=none; b=K6jfS4V/K0aT9CLhtbdPNDRXbbSA5AQP3bevGTt4tuK4S+9YjMg5NyujlRzXMRbQGWdIdqPYvz9GD8FEhPaQYaRIrds8jEdPI+Ujt2+tRCG9QBM/SdbZdRFvpmSvW9xDQ2mLjtK1kU7qk6oXRMBnJCBGeYi4rYMIkqt9O9w/E5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709114849; c=relaxed/simple;
-	bh=rZo0ydXrxvyEza4GJeAVdGqsDl2NljfQHPEeT26VUQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aUgnjmyzpRTsITJcMIIpFq4ong/dcOt/WzfbgG/arbP+9vbhoQfId0H0QqQ0fGQqg+yooxZdaeNIjlWYDlg02OXiaeDqPNNwThi6PE1bvAILSxbZW3cMpQTh8zMG2bqx5s2W7irqtWAtmH96k2elRX/DYWwOwi9TJzfSkVjS4Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuM1xVIX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709118102; c=relaxed/simple;
+	bh=8OgkdCAnRjKaw3j4wSYcHFa/xxgMjTCLQm7+X/e43Tc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BfZwqA+x+3IDzTRt3qmUkTPEV2oB3gLFy8dpQEdIS4IMTFYG15uKhPFaujmSkNjtFdMJkHky4u3NFrZRYktPX1pej2zCAcARAJYyZUGECnTfZR+0rl3B05ch38hYTZ83iNO2JoygfFydssPuqAiNfv77VCeBS05soDCnut+oaNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XHhBoAsb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuM1xVIX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 187EBC433C7;
-	Wed, 28 Feb 2024 10:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709114849;
-	bh=rZo0ydXrxvyEza4GJeAVdGqsDl2NljfQHPEeT26VUQ4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WuM1xVIXTrnvPCUNb1upoTRr6ZnMNWc28k/bJOaWRcgrBqQN9L8bhr8QcnlVpxmig
-	 UU5d/n7Jv9j4xry3qIvV6rFL1KMlE80Dph11hGAdHsRBFr2V6vxAvafZ5CDvVfNC9c
-	 aY6CoJwHd/x76McxmCzal+7v3iHJCSgei6rh9XCtVfIwQ3EydBzYjTTzr2y9twVqFS
-	 DhDnBwjWSerNtKR7iyS3Oupd8PSDPe+dylGQmN9ZrvPhUU291xSzDz+AT4epFE9eEM
-	 OsbLXdQb28XUZ1cunSl1Kn0mr3b3U/AwiXOc8I+U0QzhO2FhBIMjBLXtpkyjk7qod0
-	 vChwXxkI40VPQ==
-Date: Wed, 28 Feb 2024 11:07:20 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: John Groves <John@groves.net>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, john@jagalactic.com, Dave Chinner <david@fromorbit.com>, 
-	Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, gregory.price@memverge.com
-Subject: Re: [RFC PATCH 11/20] famfs: Add fs_context_operations
-Message-ID: <20240228-zecken-zonen-d07e89c6f536@brauner>
-References: <a645646f071e7baa30ef37ea46ea1330ac2eb63f.1708709155.git.john@groves.net>
- <20240227-mammut-tastatur-d791ca2f556b@brauner>
- <6jrtl2vc4dmi5b6db6tte2ckiyjmiwezbtlwrtmm464v65wkhj@znzv2mwjfgsk>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XHhBoAsb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1709118099;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KHUgioFTWud+yVu8FFp4Z9cGICZSxHxVkQZdXkVKoZc=;
+	b=XHhBoAsby16Jjm+hUk9QMxgWU6zJ0KaN4Qh3TBtw8bUDB1YGCWZ3O9XIK1sdJwOMWwgs96
+	B4IDpa6ZP3nTZw7cHH9ZGNOQ8BgEnOq0NfbuOd11dfG8zZ/x45d7LBIBvOSse8Y+db6Jul
+	L35SQ5ykzworJqRmkvdhhNAhQJ1N8ww=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-211-Q4teKi3iO8--qgb415bOzw-1; Wed, 28 Feb 2024 06:01:36 -0500
+X-MC-Unique: Q4teKi3iO8--qgb415bOzw-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5664cac7b14so751146a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 03:01:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709118096; x=1709722896;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KHUgioFTWud+yVu8FFp4Z9cGICZSxHxVkQZdXkVKoZc=;
+        b=grclCFHLpVzf5VvqhFtFRt5LC0cuwZidS9JHrKk3oRkOxyRCBIB3JO1rAWnlIO3Tj7
+         rVp5StGVca/Gheh5gucz0UIqd0X+Bo2h2o3Cq+JnTNl2+KCuB9yJI2xWhhZQOUwazVNy
+         BdS8qoTloMX4ZYBHmalPgsiHHqqHGCJqsi/drzshTEAe/begYJ66sPbs3mOSvZqO9n+M
+         ABVLik3njcQ0neKYgoTQinbADs2ch9oDvEiXGxcEG+2TQisMJLClyAAdw/qbp64l3GCW
+         LjSHbLh2N18wluKdtEs740jIMq7xklJw7S1ejF0hfG/4Gy0dPRHljw2IDS0VXrYWZ+MI
+         8K6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVQpftd/RaMgD5JlsdhnSHlMvBArb++X/J8Nbq0qxzZajJsDW1Za/lj82TAy7Uxkom0QqD1OllzJ7j9qy1C2aRetu73z9vFj06e
+X-Gm-Message-State: AOJu0Yx7xMihl8dY7asvmO7cjTQ54iRxH6MNBBRWJg3mOq5X3m0PkxxW
+	8QinNMFvpYS6TjLwfEHtzLR3l6rW9Cr3RN20Ng9vgfvZX1EulPPbxuJRDdZHhytjKdCRSTEqv/4
+	rdPM/PDat0W7OFIqAn3Pni48ib0bmF3VEGq0ZZYEwHM6PWdt621R9RDD4ITjYfqrgmubrY/16Bm
+	P7hfIh4CzFcBqYbfeP0W0+T5rdp5IaBl50
+X-Received: by 2002:a17:906:1450:b0:a3f:c6a6:3b79 with SMTP id q16-20020a170906145000b00a3fc6a63b79mr8266991ejc.6.1709118095845;
+        Wed, 28 Feb 2024 03:01:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFAWI5m4fiH4ALLfFYlhSHwy5bFWy63vFpnGQNng4cv4hRI1z/LUykHqlS5EudRuxJtWXmdgW+znCdtAHZdRn8=
+X-Received: by 2002:a17:906:1450:b0:a3f:c6a6:3b79 with SMTP id
+ q16-20020a170906145000b00a3fc6a63b79mr8266966ejc.6.1709118095447; Wed, 28 Feb
+ 2024 03:01:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6jrtl2vc4dmi5b6db6tte2ckiyjmiwezbtlwrtmm464v65wkhj@znzv2mwjfgsk>
+References: <20240221-hid-bpf-sleepable-v3-0-1fb378ca6301@kernel.org>
+ <20240221-hid-bpf-sleepable-v3-8-1fb378ca6301@kernel.org> <55177311ccdc24a74811d4a291ee1880044a5227.camel@gmail.com>
+ <pocfd5n6lxriqg7r6usyhrlprgslclxs44jqoq63lw734fjl2g@5kv4hjaux2fp>
+ <9a35a53a1887fb664fd540ec7e272cb3ea63f799.camel@gmail.com>
+ <CAO-hwJ+TGiLrc4De7htvKaSsMfQnZahK-zONAMNgUMYHEQb-7g@mail.gmail.com> <CAADnVQKrKzrvzu9NmcaDYGFYicqN--R5J6r--_J58gB0jic_NA@mail.gmail.com>
+In-Reply-To: <CAADnVQKrKzrvzu9NmcaDYGFYicqN--R5J6r--_J58gB0jic_NA@mail.gmail.com>
+From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date: Wed, 28 Feb 2024 12:01:23 +0100
+Message-ID: <CAO-hwJL_WAsOOJ5oScvNBbXwK=g3R_5S=PqUmNi5C156pcwgzQ@mail.gmail.com>
+Subject: Re: [PATCH RFC bpf-next v3 08/16] bpf/verifier: do_misc_fixups for is_bpf_timer_set_sleepable_cb_kfunc
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Eduard Zingerman <eddyz87@gmail.com>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	bpf <bpf@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> I wasn't aware of the new fsconfig interface. Is there documentation or a
-> file sytsem that already uses it that I should refer to? I didn't find an
-> obvious candidate, but it might be me. If it should be obvious from the
-> example above, tell me and I'll try harder.
-> 
-> My famfs code above was copied from ramfs. If you point me to 
+On Wed, Feb 28, 2024 at 2:49=E2=80=AFAM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Tue, Feb 27, 2024 at 8:51=E2=80=AFAM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > On Tue, Feb 27, 2024 at 5:36=E2=80=AFPM Eduard Zingerman <eddyz87@gmail=
+.com> wrote:
+> > >
+> > > On Tue, 2024-02-27 at 17:18 +0100, Benjamin Tissoires wrote:
+> > > [...]
+> > >
+> > > > Hmm, I must still be missing a piece of the puzzle:
+> > > > if I declare bpf_timer_set_sleepable_cb() to take a third "aux"
+> > > > argument, given that it is declared as kfunc, I also must declare i=
+t in
+> > > > my bpf program, or I get the following:
+> > > >
+> > > > # libbpf: extern (func ksym) 'bpf_timer_set_sleepable_cb': func_pro=
+to [264] incompatible with vmlinux [18151]
+> > > >
+> > > > And if I declare it, then I don't know what to pass, given that thi=
+s is
+> > > > purely added by the verifier:
+> > > >
+> > > > 43: (85) call bpf_timer_set_sleepable_cb#18152
+> > > > arg#2 pointer type STRUCT bpf_prog_aux must point to scalar, or str=
+uct with scalar
+> > >
+> > > Right, something has to be done about number of arguments and we don'=
+t
+> > > have a convenient mechanism for this afaik.
+> > >
+> > > The simplest way would be to have two kfuncs:
+> > > - one with 2 arguments, used form bpf program;
+> > > - another with 3 arguments, used at runtime;
+> > > - replace former by latter during rewrite.
+> >
+> > It's hacky but seems interesting enough to be tested :)
+>
+> Too hacky imo :)
+>
+> Let's follow the existing pattern.
+> See:
+> __bpf_kfunc void *bpf_obj_new_impl(u64 local_type_id__k, void *meta__ign)
+>
+> __ign suffix tells the verifier to ignore it.
+>
+> Then we do:
+> #define bpf_obj_new(type) \
+>   ((type *)bpf_obj_new_impl(bpf_core_type_id_local(type), NULL))
+>
+> and later the verifier replaces arg2 with the correct pointer.
 
-Ok, but that's the wrong filesystem to use as a model imho. Because it
-really doesn't deal with devices at all. That's why it uses
-get_tree_nodev() with "nodev" as in "no device" kinda. So ramfs doesn't
-have any of these issues. Whereas your filesystems is dealing with
-devices dax (or pmem).
+\o/ Thanks, it works :)
 
-> documentation I might send you a ramfs fsconfig patch too :D.
+>
+> > We also could use the suffix (like __uninit, __k, etc...), but it
+> > might introduce more headaches than the 2 kfuncs you are proposing.
+>
+> Only one kfunc pls. Let's not make it more complex than necessary.
+>
+> We cannot easily add a suffix to tell libbpf to ignore that arg,
+> since bpf_core_types_are_compat() compares types and there are
+> no argument names in the types.
+> So it will be a significant surgery for libbpf to find the arg name
+> in vmlinux BTF and strcmp the suffix.
 
-So the manpages are at:
+Yeah, I guessed so. Having a single #define is fine, especially given
+that there are already a lot of them for the same purpose.
 
-https://github.com/brauner/man-pages-md
+>
+> >
+> > >
+> > > Could you please provide more details on what exactly it complains ab=
+out?
+> > >
+> >
+> > Well, there is a simple reason: that code is never reached because, in
+> > that function, there is a `if (insn->src_reg =3D=3D
+> > BPF_PSEUDO_KFUNC_CALL)` above that unconditionally terminates with a
+> > `continue`. So basically this part of the code is never hit.
+> >
+> > I'll include that new third argument and the dual kfunc call in
+> > fixup_kfunc_call() and report if it works from here.
+>
+> Something is wrong. fixup_kfunc_call() can rewrite args with whatever
+> it wants.
+> Are you sure you've added bpf_timer_set_sleepable_cb to special_kfunc_lis=
+t ?
+>
 
-But really, there shouldn't be anything that needs to change for ramfs.
+Yeah, but as I mentioned, I wasn't hacking at the correct place. I was
+not doing the changes in the fixup_kfunc_call() but in the helper
+processing, so that path was not hit.
 
-> > What errno is EALREADY? Isn't that socket stuff. In any case, it seems
-> > you want EBUSY?
-> 
-> Thanks... That should probaby be EBUSY. But the whole famfs_context_list
-> should probably also be removed. More below...
-> 
-> > 
-> > But bigger picture I'm lost. And why do you keep that list based on
-> > strings? What if I do:
-> > 
-> > mount -t famfs /dev/pmem1234 /mnt # succeeds
-> > 
-> > mount -t famfs /dev/pmem1234 /opt # ah, fsck me, this fails.. But wait a minute....
-> > 
-> > mount --bind /dev/pmem1234 /evil-masterplan
-> > 
-> > mount -t famfs /evil-masterplan /opt # succeeds. YAY
-> > 
-> > I believe that would trivially defeat your check.
-> > 
-> 
-> And I suspect this is related to the get_tree issue you noticed below.
-> 
-> This famfs code was working in 6.5 without keeping the linked list of devices,
-> but in 6.6/6.7/6.8 it works provided you don't try to repeat a mount command
-> that has already succeeded. I'm not sure why 6.5 protected me from that,
-> but the later versions don't. In 6.6+ That hits a BUG_ON (have specifics on 
-> that but not handy right now).
+But with your instructions it works.
 
-get_tree_nodev() by default will always allocate a new superblock. This
-is how tmpfs and ramfs work. If you do:
+I have a couple of changes to do and the selftests to add and the
+series will be ready.
 
-mount -t tmpfs tmpfs /mnt
-mount -t tmpfs tmpfs /opt
+Cheers,
+Benjamin
 
-You get two new, independent superblocks. This is what you want for
-these multi-instance filesystems: each new mount creates a new instance.
-
-If famfs doesn't want to allow reusing devices - which I very much think
-it wants to prevent - then it cannot use get_tree_nodev() directly
-without having a hack like you did. Because you'll get a new superblock
-no problem. So the fact that it did work somehow likely was a bug in
-your code.
-
-The reason your code causes crashes is very likely this:
-
-struct famfs_fs_info *fsi = sb->s_fs_info;
-handlep = bdev_open_by_path(fc->source, FAMFS_BLKDEV_MODE, fsi, &fs_holder_ops);
-
-If you look at Documentation/filesystems/porting.rst you should see that
-if you use @fs_holder_ops then your holder should be the struct
-super_block, not your personal fsinfo.
-
-> So for a while we just removed repeated mount requests from the famfs smoke
-> tests, but eventually I implemented the list above, which - though you're right
-> it would be easy to circumvent and therefore is not right - it did solve the
-> problem that we were testing for.
-> 
-> I suspect that correctly handling get_tree might solve this problem.
-> 
-> Please assume that linked list will be removed - it was not the right solution.
-> 
-> More below...
-> 
-> > > +		}
-> > > +	}
-> > > +
-> > > +	list_add(&fsi->fsi_list, &famfs_context_list);
-> > > +	mutex_unlock(&famfs_context_mutex);
-> > > +
-> > > +	return get_tree_nodev(fc, famfs_fill_super);
-> > 
-> > So why isn't this using get_tree_bdev()? Note that a while ago I
-> > added FSCONFIG_CMD_CREAT_EXCL which prevents silent superblock reuse. To
-> > implement that I added fs_context->exclusive. If you unconditionally set
-> > fc->exclusive = 1 in your famfs_init_fs_context() and use
-> > get_tree_bdev() it will give you EBUSY if fc->source is already in use -
-> > including other famfs instances.
-> > 
-> > I also fail to yet understand how that function which actually opens the block
-> > device and gets the dax device figures into this. It's a bit hard to follow
-> > what's going on since you add all those unused functions and types so there's
-> > never a wider context to see that stuff in.
-> 
-> Clearly that's a bug in my code. That get_tree_nodev() is from ramfs, which
-> was the starting point for famfs.
-> 
-> I'm wondering if doing this correctly (get_tree_bdev() when it's pmem) would
-> have solved my double mount problem on 6.6 onward.
-> 
-> However, there's another wrinkle: I'm concluding
-> (see https://lore.kernel.org/linux-fsdevel/ups6cvjw6bx5m3hotn452brbbcgemnarsasre6ep2lbe4tpjsy@ezp6oh5c72ur/)
-> that famfs should drop block support and just work with /dev/dax. So famfs 
-> may be the first file system to be hosted on a character device? Certainly 
-> first on character dax. 
-
-Ugh, ok. I defer to others whether that makes sense or not. It would be
-a lot easier for you if you used pmem block devices, I guess because it
-would be easy to detect reuse in common infrastructure.
-
-But also, I'm looking at your code a bit closer. There's a bit of a
-wrinkle the way it's currently written...
-
-Say someone went a bit weird and did:
-
-mount -t xfs xfs /dev/sda /my/xfs-filesystem
-mknod DAX_DEVICE /my/xfs-filesystem/dax1234
-
-and then did:
-
-mount -t famfs famfs /my/xfs-filesystem/dax1234 /mnt
-
-Internally in famfs you do:
-
-fsi->dax_filp = filp_open(fc->source, O_RDWR, 0);
-
-and you stash that file... Which means that you are pinning that xfs
-filesystems implicitly. IOW, if someone does:
-
-umount /my/xfs-filesystem
-
-they get EBUSY for completely opaque reasons. And if they did:
-
-umount -l /my/xfs-filesystem
-
-followed by mounting that xfs filesystem again they'd get the same
-superblock for that xfs filesystem.
-
-What I'm trying to say is that I think you cannot pin another filesystem
-like this when you open that device.
-
-IOW, you either need to stash the plain dax device or dax needs to
-become it's own tiny internal pseudo fs such that we can open dax
-devices internally just like files. Which might actually also be worth
-doing. But I'm not the maintainer of that.
-
-> 
-> Given that, what variant of get_tree() should it call? Should it add 
-> get_tree_dax()? I'm not yet familiar enough with that code to have a worthy 
-> opinion on this.
-
-I don't think we need a common helper if famfs would be the only user of this.
-But maybe I'm wrong. But roughly you'd need something similar to what we
-do for block devices, I'd reckon. So lookup_daxdev() which is similar to
-lookup_bdev() and allows you to translate from path to dax device
-number maybe.
-
-lookup_daxdev(const char *name, struct dax_dev? *daxdev)
-{
-	/* Don't actually open the dax device pointlessly */
-	kern_path(fc->source, LOOKUP_FOLLOW, path);
-	if (!S_ISCHR(inode->i_mode))
-		// fail
-	if (!may_open_dev(&path))
-		// fail
-
-	// check dax device and pin
-
-	// get rid of path references
-	path_put(&path);
-}
-
-famfs_get_tree(/* broken broken broken */)
-{
-
-	lookup_daxdev(fc->source, &ddev);
-
-	sb = sget_fc(fc, famfs_test_super, set_anon_super_fc)
-	if (IS_ERR(sb))
-		// Error here may mean (aside from memory):
-		// * superblock incompatible bc of read-write vs read-only
-		// * non-matching user namespace
-		// * FSCONFIG_CMD_CREATE_EXCL requested by mounter
-
-	if (!sb->s_root) {
-		// fill_super; new sb; dax device currently not used.
-	} else {
-		// A superblock for that dax device already exists and
-		// may be reused. Any additional rejection reasons for
-		// such an sb are up to the filesystem.
-	}
-
-	// Now really open or claim the dax device.
-	// If you fail get rid of the superblock
-	// (deactivate_locked_super()).
-
-All handwavy, I know and probably I forgot details. But for you to fill
-that in. ;)
