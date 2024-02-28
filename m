@@ -1,94 +1,99 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6D21361A4;
-	Wed, 28 Feb 2024 22:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD2C76EEC;
+	Wed, 28 Feb 2024 22:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709160257; cv=none; b=LZI6dhR+b8aeCZ0bC0S71rWwRdzRWxkrLHWnPEOR0juBh0zSeLfjMnTWV/Zywr51LP/oCXDEZlUOLY3jDmRS3tq5dmQV16uILdeCdEiIQSdv1fDPGccs0X/aI0ac8tO6v27sI2OQ+beNr2TqAGcho5g7duF5TVwZXaPDmOlht1o=
+	t=1709161138; cv=none; b=IgUcp2X6umGgcF1Xmax0wsM34u2TvUIw2x5xdycD6ioX37hI3f8IeiFqXWpw4eKwsROO0XQyP7D2blzz0riHspNly2U09YcfV4QC9q0aAz0ZtUecoZYl47EIFA7Qi+4tBubP0QcqvN8fmz710jgaj/21zGfp/vL2IQ6LcW5MP0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709160257; c=relaxed/simple;
-	bh=sFfSQI8H9anZqbz5zbNOIZk5SSnIblghGOAsPyjilNY=;
+	s=arc-20240116; t=1709161138; c=relaxed/simple;
+	bh=ZuIJTceCtZ2xSuE9RAflMaDB1tn1/NCs2BITgHRDVWo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ne3z+051HVH0UdirKSHAyebv8m/M9HiGWrLPLDMzZRaP0gB61PuDj2M+yaiNLXOpG/O+4zFygq+hjJbAOGItLNYGPm7rK8/OTACi4hYKOKsfFlhoWEUDdnByJigIR+7OalSO7wcY0QajxvzXnqmgXVsgOUgDq5QAHNDcZF3wsfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kYxz469G; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=lIx7EkAu4+6uF0N2/j7gTrBz1zGBmY5fu1ZznbQI160qAgJ63sFyyRN1wLgCbwpkfzgP7e2js98fvpbtSLSw9TKLPmtz6cfSb3XD91NjntlTMeQSUut//CLQULmqwsIRq3cp4Y8hGnUCIOgRt1vH4+v2AbcRJH5ppCg2jUnKgsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VYXwrRpH; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kYxz469G"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 564AE418B5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VYXwrRpH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 95885418B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1709160255; bh=bPfj70haa25vAmOOxEZhbdceUi0BE5fJTxAq5LIhQMQ=;
+	t=1709161135; bh=bMQo17aK5IXMuIY8jqYlZuQKMdqgCIgA46aWjm0/nSM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kYxz469GMvwqL0TDa/2gg7OCU9jAQKhQ8VcBrE+zyB5gecIQq/mj3QxaEdLrIpWhw
-	 1aaX3Pr/8HF+7bTXppbjQBZAV9YgC4PiwZRJaAVD212OJzzUhs+XoNjGDnO3ZRkvo0
-	 MCDmAxdXfrWzmtNPNVAdVnr0OEtkWyG77D+Cx0PhMrLsDEha1DF+/PVJrU1/xu2SS5
-	 VoInppWoPPAk1xBAXS9o2lX1AJVm3d+MgrMMd8CiqyHJT1ffONOw/ktr0LcqhN0p3o
-	 dc9g32owRJIMB7tyzLPj4tHeGLozLuulr702Mvqb2vX3bDDasQPx22gZlML6f2nFYF
-	 3VXNYM8tnqhTg==
+	b=VYXwrRpHFQ6ml2TODjNhVttcrfUEx3DPssenggkI3hzswGMnK8ZJXrZPXbHdXF6Yb
+	 rgByaD95z/FRLtkv24KMv356Qnvdy6KeH05zlsyu0AD6Q5ODXsQnUmoADc1w9UBrus
+	 bNOOeQhkqiBRyqA8KnKg3Cv0rLKH9mjLBDd11AeZeKhFiRREDUgHiWuf4O+Cfe5LHt
+	 BLQWu1hfF3Yp0ec3uj8JwVcoymwKytFIBauig4AWHdastX51T6XqSxGWj4kIK9GxAk
+	 7yH8E6UiVpQloXcXUvp1W8Gq2faaaHBUUrugUF/KeovJFlBZ11i4SD5U2F8WsxuaqZ
+	 4efrguHDQ/6Eg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 564AE418B5;
-	Wed, 28 Feb 2024 22:44:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 95885418B5;
+	Wed, 28 Feb 2024 22:58:55 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Zhang Qiao <zhangqiao22@huawei.com>
-Cc: mingo@kernel.org, chrubis@suse.cz, zhangqiao22@huawei.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
-In-Reply-To: <20240131123238.2332064-1-zhangqiao22@huawei.com>
-References: <20240131123238.2332064-1-zhangqiao22@huawei.com>
-Date: Wed, 28 Feb 2024 15:44:14 -0700
-Message-ID: <875xy8p5tt.fsf@meer.lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+Cc: Akira Yokosawa <akiyks@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] docs: Restore "smart quotes" for quotes
+In-Reply-To: <20240225094600.65628-1-akiyks@gmail.com>
+References: <20240225094600.65628-1-akiyks@gmail.com>
+Date: Wed, 28 Feb 2024 15:58:54 -0700
+Message-ID: <8734tcp55d.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Zhang Qiao <zhangqiao22@huawei.com> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
-> we should document this sched feature.
+> Commit eaae75754d81 ("docs: turn off "smart quotes" in the HTML build")
+> disabled conversion of quote marks along with that of dashes.
+> Despite the short summary, the change affects not only HTML build
+> but also other build targets including PDF.
 >
-> Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+> However, as "smart quotes" had been enabled for more than half a
+> decade already, quite a few readers of HTML pages are likely expecting
+> conversions of "foo" -> =E2=80=9Cfoo=E2=80=9D and 'bar' -> =E2=80=98bar=
+=E2=80=99.
+>
+> Furthermore, in LaTeX typesetting convention, it is common to use
+> distinct marks for opening and closing quote marks.
+>
+> To satisfy such readers' expectation, restore conversion of quotes
+> only by setting smartquotes_action [1].
+>
+> Link: [1] https://www.sphinx-doc.org/en/master/usage/configuration.html#c=
+onfval-smartquotes_action
+> Cc: stable@vger.kernel.org  # v6.4
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 > ---
->  Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  Documentation/conf.py | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-> index d685609ed3d7..4d8eceb71f5e 100644
-> --- a/Documentation/scheduler/sched-rt-group.rst
-> +++ b/Documentation/scheduler/sched-rt-group.rst
-> @@ -12,6 +12,7 @@ Real-Time group scheduling
->       2.1 System-wide settings
->       2.2 Default behaviour
->       2.3 Basis for grouping tasks
-> +     2.4 RT_RUNTIME_SHARE sched feature
->     3. Future plans
->  
->  
-> @@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
->  
->     \Sum_{i} runtime_{i} <= global_runtime
->  
-> +2.4 RT_RUNTIME_SHARE sched feature
-> +----------------------------
-> +
-> +RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
-> +out of its own rt-runtime.
-> +
-> +With this feature enabled, a rt-task probably hits 100% cpu usage and starves
-> +per-cpu tasks like kworkers, as a result, it may hang up the whole system.
-> +Therefore, in order to avoid such exception, recommand to disable this feature
-> +by default unless you really know what you're up to.
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index da64c9fb7e07..d148f3e8dd57 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -346,9 +346,9 @@ sys.stderr.write("Using %s theme\n" % html_theme)
+>  html_static_path =3D ['sphinx-static']
+>=20=20
+>  # If true, Docutils "smart quotes" will be used to convert quotes and da=
+shes
+> -# to typographically correct entities.  This will convert "--" to "=E2=
+=80=94",
+> -# which is not always what we want, so disable it.
+> -smartquotes =3D False
+> +# to typographically correct entities.  However, conversion of "--" to "=
+=E2=80=94"
+> +# is not always what we want, so enable only quotes.
+> +smartquotes_action =3D 'q'
+>=20=20
 
-So this doesn't appear to have been picked up by anybody...should I
-carry it in docs, or is there some other reason why it hasn't gone in?
-
-Thanks,
+Applied, thanks.
 
 jon
