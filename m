@@ -1,99 +1,87 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD2C76EEC;
-	Wed, 28 Feb 2024 22:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1ED13D2EC;
+	Wed, 28 Feb 2024 23:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709161138; cv=none; b=IgUcp2X6umGgcF1Xmax0wsM34u2TvUIw2x5xdycD6ioX37hI3f8IeiFqXWpw4eKwsROO0XQyP7D2blzz0riHspNly2U09YcfV4QC9q0aAz0ZtUecoZYl47EIFA7Qi+4tBubP0QcqvN8fmz710jgaj/21zGfp/vL2IQ6LcW5MP0E=
+	t=1709161393; cv=none; b=Yvfb2eNwT+OQBMKBthtFAiJGShbO8OSpTdWabzd4IdMi9JBxkeJyfdWmySIICybCs1fYFeTPt4vEu2tFDpSXG/dTwoBuCfw1xj27qHDU1crAlm9a5pM/KWFlAmpEf4AQvLEa/SOKmC9D6RsrpEm+/vTHF4v/5lIaZcrEzdCWj1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709161138; c=relaxed/simple;
-	bh=ZuIJTceCtZ2xSuE9RAflMaDB1tn1/NCs2BITgHRDVWo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lIx7EkAu4+6uF0N2/j7gTrBz1zGBmY5fu1ZznbQI160qAgJ63sFyyRN1wLgCbwpkfzgP7e2js98fvpbtSLSw9TKLPmtz6cfSb3XD91NjntlTMeQSUut//CLQULmqwsIRq3cp4Y8hGnUCIOgRt1vH4+v2AbcRJH5ppCg2jUnKgsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VYXwrRpH; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1709161393; c=relaxed/simple;
+	bh=po5FvhdrjHlOz2JRmBTxwzgRG233kHblzB3DOAhWYmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nYl8Q0bCNvBOaWiSvsXE3fwddTKlZ3rZc4L/5AhXEkxaaFbqV53JgKJXuKfaAJEwX5+hVfRtwmZJxG/Ot6RA6Nz5BMKiHkh1TE2UlFbXBkFVXqOVLmRvgTfZnY8wqU7VZAGPnESNfhDXzq/NNu3kW9/6IwuJq43NV9vu00CRlxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UX+Nty8i; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VYXwrRpH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 95885418B5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1709161135; bh=bMQo17aK5IXMuIY8jqYlZuQKMdqgCIgA46aWjm0/nSM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=VYXwrRpHFQ6ml2TODjNhVttcrfUEx3DPssenggkI3hzswGMnK8ZJXrZPXbHdXF6Yb
-	 rgByaD95z/FRLtkv24KMv356Qnvdy6KeH05zlsyu0AD6Q5ODXsQnUmoADc1w9UBrus
-	 bNOOeQhkqiBRyqA8KnKg3Cv0rLKH9mjLBDd11AeZeKhFiRREDUgHiWuf4O+Cfe5LHt
-	 BLQWu1hfF3Yp0ec3uj8JwVcoymwKytFIBauig4AWHdastX51T6XqSxGWj4kIK9GxAk
-	 7yH8E6UiVpQloXcXUvp1W8Gq2faaaHBUUrugUF/KeovJFlBZ11i4SD5U2F8WsxuaqZ
-	 4efrguHDQ/6Eg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 95885418B5;
-	Wed, 28 Feb 2024 22:58:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-Cc: Akira Yokosawa <akiyks@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] docs: Restore "smart quotes" for quotes
-In-Reply-To: <20240225094600.65628-1-akiyks@gmail.com>
-References: <20240225094600.65628-1-akiyks@gmail.com>
-Date: Wed, 28 Feb 2024 15:58:54 -0700
-Message-ID: <8734tcp55d.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UX+Nty8i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=exl8mldDgfMmNdvFA8534z1ZX7bw2tXMon2gQ9u2Kc0=; b=UX+Nty8i10/+0ZGaNcSgbYFxUk
+	AO5ZurXOhP9FZzoxqWRQO0GU/RUDUFHxGqwb2FOA+Sl61CatxoT+LKm39IC5KitnyGuagPpu5Ruid
+	nnvoz7pyl2Ae6d/ZlL2KelFwbu/Zmf0XgNDU4OFHa743DSKPlFiUCbaCErD0Bi36BoUfTPvy8wNY7
+	XDe/lv4aeFh4EsSNqdkH6mNbRhP169iFSbBmeAGpZZLdLJD18wmbHVPTbENlNJMZZiOukfxxNvjb/
+	2+cN44S66anzAxL8bJtCm31tWXih94rXyD8/wNXSorOWFkYZKBIJe6mCkjjfqlp8NJHq4p46zc6oZ
+	KyGmk/QQ==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rfSxC-0000000BE5a-2kXP;
+	Wed, 28 Feb 2024 23:03:10 +0000
+Message-ID: <4bec9a50-e846-4507-9332-22bd7a05e7f2@infradead.org>
+Date: Wed, 28 Feb 2024 15:03:08 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submit-checklist: structure by category
+Content-Language: en-US
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240226104653.54877-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Hi Lukas,
 
-> Commit eaae75754d81 ("docs: turn off "smart quotes" in the HTML build")
-> disabled conversion of quote marks along with that of dashes.
-> Despite the short summary, the change affects not only HTML build
-> but also other build targets including PDF.
->
-> However, as "smart quotes" had been enabled for more than half a
-> decade already, quite a few readers of HTML pages are likely expecting
-> conversions of "foo" -> =E2=80=9Cfoo=E2=80=9D and 'bar' -> =E2=80=98bar=
-=E2=80=99.
->
-> Furthermore, in LaTeX typesetting convention, it is common to use
-> distinct marks for opening and closing quote marks.
->
-> To satisfy such readers' expectation, restore conversion of quotes
-> only by setting smartquotes_action [1].
->
-> Link: [1] https://www.sphinx-doc.org/en/master/usage/configuration.html#c=
-onfval-smartquotes_action
-> Cc: stable@vger.kernel.org  # v6.4
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> ---
->  Documentation/conf.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/conf.py b/Documentation/conf.py
-> index da64c9fb7e07..d148f3e8dd57 100644
-> --- a/Documentation/conf.py
-> +++ b/Documentation/conf.py
-> @@ -346,9 +346,9 @@ sys.stderr.write("Using %s theme\n" % html_theme)
->  html_static_path =3D ['sphinx-static']
->=20=20
->  # If true, Docutils "smart quotes" will be used to convert quotes and da=
-shes
-> -# to typographically correct entities.  This will convert "--" to "=E2=
-=80=94",
-> -# which is not always what we want, so disable it.
-> -smartquotes =3D False
-> +# to typographically correct entities.  However, conversion of "--" to "=
-=E2=80=94"
-> +# is not always what we want, so enable only quotes.
-> +smartquotes_action =3D 'q'
->=20=20
+Sorry about the (my) delay.
 
-Applied, thanks.
 
-jon
+On 2/26/24 02:46, Lukas Bulwahn wrote:
+
+> 
+>  Documentation/process/submit-checklist.rst | 157 +++++++++++----------
+>  1 file changed, 84 insertions(+), 73 deletions(-)
+> 
+> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+> index b1bc2d37bd0a..7d8dba942fe8 100644
+> --- a/Documentation/process/submit-checklist.rst
+> +++ b/Documentation/process/submit-checklist.rst
+> @@ -11,110 +11,121 @@ These are all above and beyond the documentation that is provided in
+>  and elsewhere regarding submitting Linux kernel patches.
+>  
+>  
+> +*Review your code:*
+
+These "headings" (?) shouldn't have ending ':'s IMO.
+Maybe they should be real headings?
+
+Otherwise the patch is a very good & welcome improvement, although as
+Jon said, the file needs some TLC. (after this patch is applied)
+
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+Thanks.
+-- 
+#Randy
