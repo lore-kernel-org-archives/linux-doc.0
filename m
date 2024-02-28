@@ -1,221 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D68C722EF0;
-	Wed, 28 Feb 2024 07:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CC92560C;
+	Wed, 28 Feb 2024 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709104503; cv=none; b=khswgFs/MwRjypPbu8dHljOSWn5U14IrABy/uG78bQ8mA00cD28GIYbtpSpBU4Gg0K8mcXcsUapeHX2pom3J6j6MKlOta61rAhc45GtsAG6arKu+AHPlCgQJAfW7PFq0ejHILCBw9C/FM8D5qXHO9p+zbJmtWFoUE/97vtCMEkI=
+	t=1709105511; cv=none; b=CRiVdtA3CWKwnWaL+SBPRbueIYTnpx4A1BlYJrHdrCVknYYs/gaD3cw1+dsuUtafyjhKy9PxqarkGJeeJ/QZPqteMmjXma6nlnUK8BHJmDLeV8i+ZTBrOqbD6DLpThiOSycMHZyJP4WL98w631/4g5WFCU5X5B/D/qX9Cx1bE10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709104503; c=relaxed/simple;
-	bh=1gglbZIP1dlhyVEj/0RVeL/8j5qVaiNlDxPsZ0gsr8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sywW3lUIOt8hNB0dNsAHrjWpcPSSCq+zRz2YnDxYZ5EuRltjk4NT82dj9C3gPEdCGF1ZVdOPdauODuQKxIB4LAx3qO5Qg28QTLspWJEffZ2a4sAgFNtOHdjusJNChS71bW8tYEYcgxzWgYm6mpwtbxuWGcusswYtKy43qt3cbZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fz47KIXv; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fz47KIXv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709104501; x=1740640501;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1gglbZIP1dlhyVEj/0RVeL/8j5qVaiNlDxPsZ0gsr8A=;
-  b=fz47KIXv15CWMR/WX5jktDDBRi5neldVIVK9VVfLmvRNepba+Pr9850s
-   xMYoMegkbHdCwMshUVb5gAk/NF3YNiJ33iODKFvav83kqU+t8z1oTZfBk
-   /QWk8xebmNalSDVR8NFqwO3sxwIylrKpeFQ4Ri3ev1YZaOHrIDfcQ1O9M
-   ZAluGcXz8m/rV7bHmaplDqoT41mNArC84pbDJfZ2M3OxEqZuPIfHBJRpc
-   7jeSKRG/mhUis/2Df1aRgV3Ym3XXA9zQnLKaXAcIhwI9Auf9Ng9wpOsac
-   B3BP7zaZYqkA5L+tTVYjYrHRKO0rLx/UA5Gq5/DRecU3jil/a/ikzYpYo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="28921389"
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
-   d="scan'208";a="28921389"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP; 27 Feb 2024 23:15:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,190,1705392000"; 
-   d="scan'208";a="11895371"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Feb 2024 23:14:57 -0800
-Date: Wed, 28 Feb 2024 15:10:53 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Marco Pagani <marpagan@redhat.com>
-Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Tull <atull@opensource.altera.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fpga@vger.kernel.org
-Subject: Re: [RFC PATCH v5 1/1] fpga: add an owner and use it to take the
- low-level module's refcount
-Message-ID: <Zd7cff43ffbJOGNY@yilunxu-OptiPlex-7050>
-References: <20240111160242.149265-1-marpagan@redhat.com>
- <20240111160242.149265-2-marpagan@redhat.com>
- <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
- <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
- <Zb8dd9af0Ru/fzGi@yilunxu-OptiPlex-7050>
- <4aaa131a-4b64-4b86-9548-68aef63c87b3@redhat.com>
- <ZdHWaeU+/On6LmHX@yilunxu-OptiPlex-7050>
- <9a9d4018-fd65-49be-9e0a-1eecc9cbf15d@redhat.com>
- <ZdYKnZxdTCvu5THG@yilunxu-OptiPlex-7050>
- <ae3cd81b-82af-4977-91d7-fa809c6fc45a@redhat.com>
+	s=arc-20240116; t=1709105511; c=relaxed/simple;
+	bh=7b/Mm0rd6kV5M5+yNjB1eglhtbDPT0suSYpIqAyjs98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eu185EIeErU5qMIZ+OqukEJw7j4izDk4jx8K09eIBeHiYP9KInfn5Y3VwcHJZ5/2abziZHyDw9Ho4FMAp4LLZ2edgn8uiz3u6PF+H6TCHU5wH1gu114QTdhmq5x7eFyjyUl8cXPX1AqaZPnd8XMr1n542fdqd2C1lTkX3scl8oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.224] (ip5f5aedb1.dynamic.kabel-deutschland.de [95.90.237.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id A509361E5FE04;
+	Wed, 28 Feb 2024 08:30:42 +0100 (CET)
+Message-ID: <93d67381-34fc-423c-868a-565378c63e09@molgen.mpg.de>
+Date: Wed, 28 Feb 2024 08:30:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae3cd81b-82af-4977-91d7-fa809c6fc45a@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] dt-bindings: hwmon: Add NCT7363Y documentation
+Content-Language: en-US
+To: Ban Feng <baneric926@gmail.com>
+Cc: jdelvare@suse.com, linux@roeck-us.net, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ kcfeng0@nuvoton.com, kwliu@nuvoton.com, openbmc@lists.ozlabs.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ DELPHINE_CHIU@wiwynn.com, naresh.solanki@9elements.com,
+ billy_tsai@aspeedtech.com, Rob Herring <robh@kernel.org>
+References: <20240227005606.1107203-1-kcfeng0@nuvoton.com>
+ <20240227005606.1107203-3-kcfeng0@nuvoton.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240227005606.1107203-3-kcfeng0@nuvoton.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 27, 2024 at 12:49:06PM +0100, Marco Pagani wrote:
-> 
-> 
-> On 2024-02-21 15:37, Xu Yilun wrote:
-> > On Tue, Feb 20, 2024 at 12:11:26PM +0100, Marco Pagani wrote:
-> >>
-> >>
-> >> On 2024-02-18 11:05, Xu Yilun wrote:
-> >>> On Mon, Feb 05, 2024 at 06:47:34PM +0100, Marco Pagani wrote:
-> >>>>
-> >>>>
-> >>>> On 2024-02-04 06:15, Xu Yilun wrote:
-> >>>>> On Fri, Feb 02, 2024 at 06:44:01PM +0100, Marco Pagani wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 2024-01-30 05:31, Xu Yilun wrote:
-> >>>>>>>> +#define fpga_mgr_register_full(parent, info) \
-> >>>>>>>> +	__fpga_mgr_register_full(parent, info, THIS_MODULE)
-> >>>>>>>>  struct fpga_manager *
-> >>>>>>>> -fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
-> >>>>>>>> +__fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
-> >>>>>>>> +			 struct module *owner);
-> >>>>>>>>  
-> >>>>>>>> +#define fpga_mgr_register(parent, name, mops, priv) \
-> >>>>>>>> +	__fpga_mgr_register(parent, name, mops, priv, THIS_MODULE)
-> >>>>>>>>  struct fpga_manager *
-> >>>>>>>> -fpga_mgr_register(struct device *parent, const char *name,
-> >>>>>>>> -		  const struct fpga_manager_ops *mops, void *priv);
-> >>>>>>>> +__fpga_mgr_register(struct device *parent, const char *name,
-> >>>>>>>> +		    const struct fpga_manager_ops *mops, void *priv, struct module *owner);
-> >>>>>>>> +
-> >>>>>>>>  void fpga_mgr_unregister(struct fpga_manager *mgr);
-> >>>>>>>>  
-> >>>>>>>> +#define devm_fpga_mgr_register_full(parent, info) \
-> >>>>>>>> +	__devm_fpga_mgr_register_full(parent, info, THIS_MODULE)
-> >>>>>>>>  struct fpga_manager *
-> >>>>>>>> -devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
-> >>>>>>>> +__devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
-> >>>>>>>> +			      struct module *owner);
-> >>>>>>>
-> >>>>>>> Add a line here. I can do it myself if you agree.
-> >>>>>>
-> >>>>>> Sure, that is fine by me. I also spotted a typo in the commit log body
-> >>>>>> (in taken -> is taken). Do you want me to send a v6, or do you prefer
-> >>>>>> to fix that in place?
-> >>>>>
-> >>>>> No need, I can fix it.
-> >>>>>
-> >>>>>>
-> >>>>>>>
-> >>>>>>> There is still a RFC prefix for this patch. Are you ready to get it merged?
-> >>>>>>> If yes, Acked-by: Xu Yilun <yilun.xu@intel.com>
-> >>>>>>
-> >>>>>> I'm ready for the patch to be merged. However, I recently sent an RFC
-> >>>>>> to propose a safer implementation of try_module_get() that would
-> >>>>>> simplify the code and may also benefit other subsystems. What do you
-> >>>>>> think?
-> >>>>>>
-> >>>>>> https://lore.kernel.org/linux-modules/20240130193614.49772-1-marpagan@redhat.com/
-> >>>>>
-> >>>>> I suggest take your fix to linux-fpga/for-next now. If your try_module_get()
-> >>>>> proposal is applied before the end of this cycle, we could re-evaluate
-> >>>>> this patch.
-> >>>>
-> >>>> That's fine by me.
-> >>>
-> >>> Sorry, I still found issues about this solution.
-> >>>
-> >>> void fpga_mgr_unregister(struct fpga_manager *mgr)
-> >>> {
-> >>>         dev_info(&mgr->dev, "%s %s\n", __func__, mgr->name);
-> >>>
-> >>>         /*
-> >>>          * If the low level driver provides a method for putting fpga into
-> >>>          * a desired state upon unregister, do it.
-> >>>          */
-> >>>         fpga_mgr_fpga_remove(mgr);
-> >>>
-> >>>         mutex_lock(&mgr->mops_mutex);
-> >>>
-> >>>         mgr->mops = NULL;
-> >>>
-> >>>         mutex_unlock(&mgr->mops_mutex);
-> >>>
-> >>>         device_unregister(&mgr->dev);
-> >>> }
-> >>>
-> >>> Note that fpga_mgr_unregister() doesn't have to be called in module_exit().
-> >>> So if we do fpga_mgr_get() then fpga_mgr_unregister(), We finally had a
-> >>> fpga_manager dev without mops, this is not what the user want and cause
-> >>> problem when using this fpga_manager dev for other FPGA APIs.
-> >>
-> >> How about moving mgr->mops = NULL from fpga_mgr_unregister() to
-> >> class->dev_release()? In that way, mops will be set to NULL only when the
-> >> manager dev refcount reaches 0.
-> > 
-> > I'm afraid it doesn't help.  The lifecycle of the module and the fpga
-> > mgr dev is different.
-> > 
-> > We use mops = NULL to indicate module has been freed or will be freed in no
-> > time.  On the other hand mops != NULL means module is still there, so
-> > that try_module_get() could be safely called.  It is possible someone
-> > has got fpga mgr dev but not the module yet, at that time the module is
-> > unloaded, then try_module_get() triggers crash.
-> > 
-> >>
-> >> If fpga_mgr_unregister() is called from module_exit(), we are sure that nobody
-> >> got the manager dev earlier using fpga_mgr_get(), or it would have bumped up
-> > 
-> > No, someone may get the manager dev but not the module yet, and been
-> > scheduled out.
-> >
-> 
-> You are right. Overall, it's a bad idea. How about then using an additional 
-> bool flag instead of "overloading" the mops pointer? Something like:
-> 
-> get:
-> 	if (!mgr->owner_valid || !try_module_get(mgr->mops_owner))
-> 
-> remove:
-> 	mgr->owner_valid = false;
+Dear Ban,
 
-I'm not quite sure which function is actually mentioned by "remove".  I
-assume it should be fpga_mgr_unregister().  IIUC this flag means no
-more reference to fpga mgr, but existing references are still valid.
 
-It works for me. But the name of this flag could be reconsidered to
-avoid misunderstanding.  The owner is still valid (we still need to put
-the owner) but allows no more reference.  Maybe "owner_inactive"?
+Thank you for your patch.
 
-I still wanna this owner reference change been splitted, so that
-we could simply revert it when the try_module_get_safe() got accepted.
 
-Thanks,
-Yilun
+Am 27.02.24 um 01:56 schrieb baneric926@gmail.com:
+> From: Ban Feng <kcfeng0@nuvoton.com>
+> 
+> Adding bindings for the Nuvoton NCT7363Y Fan Controller
 
+s/Adding/Add/ or even Document bindings …
+
+Do you have an URL to the datasheet?
+
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+> ---
+>   .../bindings/hwmon/nuvoton,nct7363.yaml       | 63 +++++++++++++++++++
+>   MAINTAINERS                                   |  6 ++
+>   2 files changed, 69 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
 > 
-> Another possibility that comes to my mind would be to "overload" the owner
-> pointer itself by using the ERR_PTR/IS_ERR macros. However, it looks ugly
-> to me.
-> 
-> Thanks,
-> Marco
-> 
-> 
-> [...]
-> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml b/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+> new file mode 100644
+> index 000000000000..1a9d9a5d614e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+> @@ -0,0 +1,63 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +
+> +$id: http://devicetree.org/schemas/hwmon/nuvoton,nct7363.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Nuvoton NCT7363Y Hardware Monitoring IC
+> +
+> +maintainers:
+> +  - Ban Feng <kcfeng0@nuvoton.com>
+> +
+> +description: |
+> +  The NCT7363Y is a Fan controller which provides up to 16 independent
+
+lowecase: fan controller?
+
+> +  FAN input monitors, and up to 16 independent PWM output with SMBus interface.
+
+output*s*?
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nuvoton,nct7363
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#pwm-cells":
+> +    const: 2
+> +
+> +patternProperties:
+> +  "^fan-[0-9]+$":
+> +    $ref: fan-common.yaml#
+> +    unevaluatedProperties: false
+> +    required:
+> +      - pwms
+> +      - tach-ch
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#pwm-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        hwmon: hwmon@22 {
+> +            compatible = "nuvoton,nct7363";
+> +            reg = <0x22>;
+> +            #pwm-cells = <2>;
+> +
+> +            fan-0 {
+> +                pwms = <&hwmon 0 50000>;
+> +                tach-ch = /bits/ 8 <0x00>;
+> +            };
+> +            fan-1 {
+> +                pwms = <&hwmon 1 50000>;
+> +                tach-ch = /bits/ 8 <0x01>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2ecaaec6a6bf..7b1efefed7c4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15084,6 +15084,12 @@ S:	Maintained
+>   F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct6775.yaml
+>   F:	drivers/hwmon/nct6775-i2c.c
+>   
+> +NCT7363 HARDWARE MONITOR DRIVER
+> +M:	Ban Feng <kcfeng0@nuvoton.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+> +
+>   NETDEVSIM
+>   M:	Jakub Kicinski <kuba@kernel.org>
+>   S:	Maintained
+
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+
+
+Kind regards,
+
+Paul
