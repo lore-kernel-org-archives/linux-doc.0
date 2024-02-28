@@ -1,314 +1,447 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330E2200B7;
-	Wed, 28 Feb 2024 04:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7E71CD15
+	for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 05:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709094039; cv=none; b=tGugleM6cQNKABt32L3QD6uZcNy59EB8p1O0GbxybBdYEFOe9RCI53uN+iGBytuPBkQ/x7nagOmzmeskjyhOjOJrxLUV1Y/LChyzEEm6+c1SiNJ789AFj2N7dZof+90sfPEM9dmIKqB4iZiahGDb0iSOipykJVA73yhK+f6lIKo=
+	t=1709099900; cv=none; b=Z4YxBUSwRFD3iBTB0ESqBh5kMxWiXsAXNVC/iYIHj9pn9YnRO1Him3wuZZJvQYrAUZyrDj1k0wCSoImkVFBt4Vyb5nustEqhisMmRR4fNVMAAUH6+5MEjjYSjeLWJ1KrroCyyp8ozTcXCBl+cuHirU5+VtsV3xEzdtbynbRgo58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709094039; c=relaxed/simple;
-	bh=ZPm+GwZd577nB8ZUduThtSFZ2o4FAjzwXa4um3NIR7U=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=gaxN2x1n1LRk8tJM/Lx+cp6ahMK0LnsYkUJA/8G7jadAcTrSGj5esocCEuAE1dq1TabqWShDN0I7osfxI2G7GNPRWUr9U7/L7lD4cGv0Ikqem0dxR63iIXfpVWN3TPORG6gVHY7OqVRst+uLCS0X3Nh7G+9LEJ6WPafSi6ph36A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MNEqdi28; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709099900; c=relaxed/simple;
+	bh=ee7Vp1TB+Ew1LAT2T+j7SXT+wKOj71PUtQg1CudCgYs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lCY691Jsy5bwlD6D/+FlyaRhLgC7tdUyd+4+RT1VoTVgjMQMZ4wYxLRAPN1aTq01CmRNh0msnQqPnk7P8ZWW1kCwyqfGMafnB6djcGN4KEodsB+I+w8j/LA7f1qFVpZuW9OJN1Q2KBTOkjk28z5CKHoeJBuGR95+mcHvkEfMdgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xG/frEBl; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MNEqdi28"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-29ac703a6b5so1808362a91.1;
-        Tue, 27 Feb 2024 20:20:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xG/frEBl"
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7dadba3284cso183725241.2
+        for <linux-doc@vger.kernel.org>; Tue, 27 Feb 2024 21:58:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709094037; x=1709698837; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Eodb5CvdSe9XMcvk7dNogUgkp553bG/HJKa75f7yVdo=;
-        b=MNEqdi2875+e9e9fcEghXr+oQkjnnzLNSuX7hWp1sOWxYhmzTh8tl36h97mI5RmaQm
-         nG/+DoHvg//pCFTA5fK8Ae3yR76fbGajttrBkR0utv1yhio6oQ1/vcEGo3P/J0KnqGuN
-         ng1DNb0QCOHi6ga6ttqTRKaiMzL2hbpFLEv5YQZuWmDC9a7YpK+3cRLj0dXMCnTv1VjF
-         /ze7sHiLkVpUXoP/wUhzgerdVladzEfc/aJnf7T5fgMl5G8iv/8CzTJ/0gHd0vYZa3ib
-         SVQpNhJqKhbtsljRpIY2wsNc+srBbzLZL92Eo+4rOIEAglkCvg0EUhY1MK7iA0/8p42V
-         WjPQ==
+        d=linaro.org; s=google; t=1709099897; x=1709704697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nGe9lOncSq556xqf1ibLSzm0UZ/qDNnkGKZZwN7/jGk=;
+        b=xG/frEBlyXVMSa+LRcZzBqhdiAz4kz4VQhfiFEwt30WFSnnRFSESqLgiudN+IL6EDG
+         N4Xl5XfCifEblLCTEZEKF32e9QlMzdkEnGLeFO9J/Eljm/WKbcCN/knwRlX7D8YP+5u5
+         RxLj4Ud18ZTvyRnHXhX07DNY7i1tnTcadO6HZ2xoYE5G+r+fIMdOwNoBEzkZv5y9yDN3
+         lkg/5qI6MBgf36TDPevV7WaW/BYio3ZVF2D4NWFky71wXfsxsCFp4/FHO64+MyC7CbND
+         +kDcurbKdsaNkLpGCxUcNoo5kMdRgc7w+1R42EcBNJJWhKvEU8yE4WUcN99LFbYwQ7lr
+         1+lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709094037; x=1709698837;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Eodb5CvdSe9XMcvk7dNogUgkp553bG/HJKa75f7yVdo=;
-        b=RfFUKYcz9t7kLVaEhhicyNPRB0OGrfkBvkLtJyE51cmkE5likq7NYv2M8u7roG+imQ
-         apcANVQ6IHyG16CuGonniBhw+tsLo6/+Qzf2l4MCc+LOvVXZTqJNBcHjraQTM64S7+9M
-         mX2H5kIM/HC4XSALSNiCeXnHW4q0osjc0aKkGB5mw4sj4FRvYgokriZf/N+X12+GrKjC
-         p60xxVTHKKAZjEFhXkxyin0IprCm+cqE6oVWFYHzwUh/baKTZsnff2FNDybHD3bS5lTp
-         Wl1TCqhCRO4u6wSNpe9M0KyX0nNEY1VHZV0k9eo6UEdvPilrndCLqIhjpdANKZezi+YQ
-         IcLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXy/Yj+LgVeMjSB6WLY6XPJ/UVvqWEvb+NIU7Uh8DFERh6SBC2EaC5nrAqju5o3MMfK5Z1maz4RBCrMlNEcVDcyT3bgYD/KqiIAXLzgFA==
-X-Gm-Message-State: AOJu0YxlGrYZUvxl0U6WxCXjucrZSN3JpNyWdP2SeKf2+klrWGZLJam8
-	3LCnweoExEkXAi362jUHBuSUAP9SRqA4NK7oOpAi5w+SZ1spdYNEYpKLZW8N
-X-Google-Smtp-Source: AGHT+IFymfFEYEELHm32gHj7f94GcsRR7ihpvMnl+6WjMfMapVM0npL3P5d7dH8magjlV8kbWS/5VQ==
-X-Received: by 2002:a17:90b:1b44:b0:299:2d59:a3d2 with SMTP id nv4-20020a17090b1b4400b002992d59a3d2mr9440704pjb.32.1709094037200;
-        Tue, 27 Feb 2024 20:20:37 -0800 (PST)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w8-20020a17090ad60800b00296a23e407csm419790pju.7.2024.02.27.20.20.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 20:20:36 -0800 (PST)
-Message-ID: <4d7c9c8b-4fc0-4ed8-8be7-627daf8f4018@gmail.com>
-Date: Wed, 28 Feb 2024 13:20:35 +0900
+        d=1e100.net; s=20230601; t=1709099897; x=1709704697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nGe9lOncSq556xqf1ibLSzm0UZ/qDNnkGKZZwN7/jGk=;
+        b=b5TqJ+f5W6V0O1/Sg22w/5SlbXeU2tUtB7K9FOabEqyFbIanhm5YcMN7W7D2indvXi
+         /uH4QhjVR1kjfykS6Sxyiosg/I7HHL93U0W0ylypM8ac4OZ2RG/oY5sSR0FW75j8w7PW
+         z10vsODcMKz57pvUu/tEZbaQte7glglkNKOKwGrqj+QZBFhRMjruxR2CeImzHDqZgid4
+         fxJ2iyxKtf3yw5B/dQFIIWlKZmj9231iNalTntidhDaP/kJl0kSU/L3hR6PzF84mryjC
+         1n1Ew+Kx66P3iTlG95Or8L5bYIsiS9lWOokCVPEbtnOpl8L5OHmp0HoAM6DA7t8QhLG1
+         IQ5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWqrTy4zwfx5hCrVlBTKpJGRe/GKa0Z4WS5vmm8MeD1wHm9nZ1aOGZsTX1voSKZwvuujh/cVPJHJUkjCxKtjIG6yG+r4gAXELc0
+X-Gm-Message-State: AOJu0Yx/08Y4xTSmAxPk325sInRXFxnY9OlEF0/WQHv6lyvuy3JZGScU
+	mdmUJ0uDRD6krFNActqky7MYTw0PVSfBMrg0UeqgDUM9xTHub4jS4SZIyxgXHb6sCNLsJqD5kyo
+	Dhot9CMROSgTZl7yhaMg/0RzfSso0rpbmmP5rUw==
+X-Google-Smtp-Source: AGHT+IE0yPOh6qHRst0Gdv6eWVbDYZtYCCHqx6ykderKyu7T+A7lr0EINgN8KyyqukS+aiEggNnII5g/SpyQztVrOnc=
+X-Received: by 2002:a05:6102:2751:b0:471:fc79:bf0d with SMTP id
+ p17-20020a056102275100b00471fc79bf0dmr5589340vsu.2.1709099896756; Tue, 27 Feb
+ 2024 21:58:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: viro@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- torvalds@linux-foundation.org, Akira Yokosawa <akiyks@gmail.com>
-References: <Zd2XqwmAtNFe1Is9@duke.home>
-Subject: Re: [RFC][v3] documentation on filesystem exposure to RCU pathwalk
- from fs maintainers' POV
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <Zd2XqwmAtNFe1Is9@duke.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240223095133.109046-1-balint.dobszay@arm.com>
+ <20240223095133.109046-2-balint.dobszay@arm.com> <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+ <CAHUa44G70L9CnQD6V3ivWf1hYfK0iWFt-cfg98-JGB-s8TVd-A@mail.gmail.com>
+In-Reply-To: <CAHUa44G70L9CnQD6V3ivWf1hYfK0iWFt-cfg98-JGB-s8TVd-A@mail.gmail.com>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Wed, 28 Feb 2024 11:28:05 +0530
+Message-ID: <CAFA6WYOq3tHq5n7=XYpsSgBghCF0RtAxs-sLxvLYMWwnQuFSeQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Balint Dobszay <balint.dobszay@arm.com>, op-tee@lists.trustedfirmware.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, corbet@lwn.net, sudeep.holla@arm.com, 
+	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Al,
-
-I'm not a VFS/FS person, but just wanted to suggest proper formatting
-of footnotes in ReST.
-
-On Tue, 27 Feb 2024 03:04:59 -0500, Al Viro wrote:
-...
-> On Mon, Feb 26, 2024 at 01:35:12PM -0500, Al Viro wrote:
->> Updated variant follows.  Changes since the previous:
->> * beginning has been rewritten
->> * typos spotted by Randy should be fixed
->> * dumb braino in "opt out" part fixed (->d_automount is irrelevant, it's
->> ->d_manage one needs to watch out for)
->> * a stale bit in discussion of ->permission() ("currently (6.5) run afoul")
->> updated (to "did (prior to 6.8-rc6) run afoul").
->> * I gave up on ReST footnotes and did something similar manually.
-
-But first, one of enumerated lists here:
-
-> Opting out
-> ==========
-> 
-> To large extent a filesystem can opt out of RCU pathwalk; that loses all
-> scalability benefits whenever your filesystem gets involved in pathname
-> resolution, though.  If that's the way you choose to go, just make sure
-> that
-> 
-> 1. any non-default ->d_revalidate(), ->permission(), ->get_link() and
-> ->get_inode_acl() instance bails out if called by RCU pathwalk (see below
-> for details).  Costs a couple of lines of boilerplate in each.
-> 
-> 2. if some symlink inodes have ->i_link set to a dynamically allocated
-> object, that object won't be freed without an RCU delay.  Anything
-> coallocated with inode is fine, so's anything freed from ->free_inode().
-> Usually comes for free, just remember to avoid freeing directly
-> from ->destroy_inode().
-> 
-> 3. any ->d_hash() and ->d_compare() instances (if you have those) do
-> not access any filesystem objects.
-> 
-> 4. there's no ->d_manage() instances in your filesystem.
+On Tue, 27 Feb 2024 at 21:20, Jens Wiklander <jens.wiklander@linaro.org> wr=
+ote:
 >
-> If your case does not fit the above, the easy opt-out is not for you.
-> If so, you'll have to keep reading...
+> On Tue, Feb 27, 2024 at 7:06=E2=80=AFAM Sumit Garg <sumit.garg@linaro.org=
+> wrote:
+> >
+> > Hi Balint,
+> >
+> > On Fri, 23 Feb 2024 at 15:22, Balint Dobszay <balint.dobszay@arm.com> w=
+rote:
+> > >
+> > > Move the pool alloc and free helper functions from the OP-TEE driver =
+to
+> > > the TEE subsystem, since these could be reused in other TEE drivers.
+> > > This patch is not supposed to change behavior, it's only reorganizing
+> > > the code.
+> > >
+> > > Suggested-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+> > > ---
+> > >  drivers/tee/optee/core.c          | 64 -----------------------------=
+-
+> > >  drivers/tee/optee/ffa_abi.c       |  6 +--
+> > >  drivers/tee/optee/optee_private.h | 12 ------
+> > >  drivers/tee/optee/smc_abi.c       | 11 +++---
+> > >  drivers/tee/tee_shm.c             | 65 +++++++++++++++++++++++++++++=
+++
+> > >  include/linux/tee_drv.h           | 11 ++++++
+> > >  6 files changed, 85 insertions(+), 84 deletions(-)
+> > >
+> > > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> > > index 3aed554bc8d8..9390f21f9902 100644
+> > > --- a/drivers/tee/optee/core.c
+> > > +++ b/drivers/tee/optee/core.c
+> > > @@ -9,7 +9,6 @@
+> > >  #include <linux/crash_dump.h>
+> > >  #include <linux/errno.h>
+> > >  #include <linux/io.h>
+> > > -#include <linux/mm.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/slab.h>
+> > >  #include <linux/string.h>
+> > > @@ -17,69 +16,6 @@
+> > >  #include <linux/types.h>
+> > >  #include "optee_private.h"
+> > >
+> > > -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > > -                              size_t size, size_t align,
+> > > -                              int (*shm_register)(struct tee_context=
+ *ctx,
+> > > -                                                  struct tee_shm *sh=
+m,
+> > > -                                                  struct page **page=
+s,
+> > > -                                                  size_t num_pages,
+> > > -                                                  unsigned long star=
+t))
+> > > -{
+> > > -       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> > > -       struct page **pages;
+> > > -       unsigned int i;
+> > > -       int rc =3D 0;
+> > > -
+> > > -       /*
+> > > -        * Ignore alignment since this is already going to be page al=
+igned
+> > > -        * and there's no need for any larger alignment.
+> > > -        */
+> > > -       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
+> > > -                                      GFP_KERNEL | __GFP_ZERO);
+> > > -       if (!shm->kaddr)
+> > > -               return -ENOMEM;
+> > > -
+> > > -       shm->paddr =3D virt_to_phys(shm->kaddr);
+> > > -       shm->size =3D nr_pages * PAGE_SIZE;
+> > > -
+> > > -       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> > > -       if (!pages) {
+> > > -               rc =3D -ENOMEM;
+> > > -               goto err;
+> > > -       }
+> > > -
+> > > -       for (i =3D 0; i < nr_pages; i++)
+> > > -               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE=
+_SIZE);
+> > > -
+> > > -       shm->pages =3D pages;
+> > > -       shm->num_pages =3D nr_pages;
+> > > -
+> > > -       if (shm_register) {
+> > > -               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
+> > > -                                 (unsigned long)shm->kaddr);
+> > > -               if (rc)
+> > > -                       goto err;
+> > > -       }
+> > > -
+> > > -       return 0;
+> > > -err:
+> > > -       free_pages_exact(shm->kaddr, shm->size);
+> > > -       shm->kaddr =3D NULL;
+> > > -       return rc;
+> > > -}
+> > > -
+> > > -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > > -                              int (*shm_unregister)(struct tee_conte=
+xt *ctx,
+> > > -                                                    struct tee_shm *=
+shm))
+> > > -{
+> > > -       if (shm_unregister)
+> > > -               shm_unregister(shm->ctx, shm);
+> > > -       free_pages_exact(shm->kaddr, shm->size);
+> > > -       shm->kaddr =3D NULL;
+> > > -       kfree(shm->pages);
+> > > -       shm->pages =3D NULL;
+> > > -}
+> > > -
+> > >  static void optee_bus_scan(struct work_struct *work)
+> > >  {
+> > >         WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
+> > > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.=
+c
+> > > index ecb5eb079408..ee11918a2b35 100644
+> > > --- a/drivers/tee/optee/ffa_abi.c
+> > > +++ b/drivers/tee/optee/ffa_abi.c
+> > > @@ -374,14 +374,14 @@ static int optee_ffa_shm_unregister_supp(struct=
+ tee_context *ctx,
+> > >  static int pool_ffa_op_alloc(struct tee_shm_pool *pool,
+> > >                              struct tee_shm *shm, size_t size, size_t=
+ align)
+> > >  {
+> > > -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> > > -                                         optee_ffa_shm_register);
+> > > +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> > > +                                           optee_ffa_shm_register);
+> > >  }
+> > >
+> > >  static void pool_ffa_op_free(struct tee_shm_pool *pool,
+> > >                              struct tee_shm *shm)
+> > >  {
+> > > -       optee_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister=
+);
+> > > +       tee_shm_pool_op_free_helper(pool, shm, optee_ffa_shm_unregist=
+er);
+> > >  }
+> > >
+> > >  static void pool_ffa_op_destroy_pool(struct tee_shm_pool *pool)
+> > > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/op=
+tee_private.h
+> > > index 7a5243c78b55..a153285a1919 100644
+> > > --- a/drivers/tee/optee/optee_private.h
+> > > +++ b/drivers/tee/optee/optee_private.h
+> > > @@ -283,18 +283,6 @@ int optee_cancel_req(struct tee_context *ctx, u3=
+2 cancel_id, u32 session);
+> > >  int optee_enumerate_devices(u32 func);
+> > >  void optee_unregister_devices(void);
+> > >
+> > > -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > > -                              size_t size, size_t align,
+> > > -                              int (*shm_register)(struct tee_context=
+ *ctx,
+> > > -                                                  struct tee_shm *sh=
+m,
+> > > -                                                  struct page **page=
+s,
+> > > -                                                  size_t num_pages,
+> > > -                                                  unsigned long star=
+t));
+> > > -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee=
+_shm *shm,
+> > > -                              int (*shm_unregister)(struct tee_conte=
+xt *ctx,
+> > > -                                                    struct tee_shm *=
+shm));
+> > > -
+> > > -
+> > >  void optee_remove_common(struct optee *optee);
+> > >  int optee_open(struct tee_context *ctx, bool cap_memref_null);
+> > >  void optee_release(struct tee_context *ctx);
+> > > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.=
+c
+> > > index a37f87087e5c..b0c616b6870d 100644
+> > > --- a/drivers/tee/optee/smc_abi.c
+> > > +++ b/drivers/tee/optee/smc_abi.c
+> > > @@ -592,19 +592,20 @@ static int pool_op_alloc(struct tee_shm_pool *p=
+ool,
+> > >          * to be registered with OP-TEE.
+> > >          */
+> > >         if (shm->flags & TEE_SHM_PRIV)
+> > > -               return optee_pool_op_alloc_helper(pool, shm, size, al=
+ign, NULL);
+> > > +               return tee_shm_pool_op_alloc_helper(pool, shm, size, =
+align,
+> > > +                                                   NULL);
+> > >
+> > > -       return optee_pool_op_alloc_helper(pool, shm, size, align,
+> > > -                                         optee_shm_register);
+> > > +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+> > > +                                           optee_shm_register);
+> > >  }
+> > >
+> > >  static void pool_op_free(struct tee_shm_pool *pool,
+> > >                          struct tee_shm *shm)
+> > >  {
+> > >         if (!(shm->flags & TEE_SHM_PRIV))
+> > > -               optee_pool_op_free_helper(pool, shm, optee_shm_unregi=
+ster);
+> > > +               tee_shm_pool_op_free_helper(pool, shm, optee_shm_unre=
+gister);
+> > >         else
+> > > -               optee_pool_op_free_helper(pool, shm, NULL);
+> > > +               tee_shm_pool_op_free_helper(pool, shm, NULL);
+> > >  }
+> > >T
+> > >  static void pool_op_destroy_pool(struct tee_shm_pool *pool)
+> > > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> > > index 731d9028b67f..641aad92ffe2 100644
+> > > --- a/drivers/tee/tee_shm.c
+> > > +++ b/drivers/tee/tee_shm.c
+> > > @@ -202,6 +202,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct te=
+e_context *ctx, size_t size)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+> > >
+> > > +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct t=
+ee_shm *shm,
+> >
+> > I don't see the first argument (struct tee_shm_pool *pool) being used,
+> > so drop that. Also, we can just rename it as
+> > tee_dyn_shm_alloc_helper().
+> >
+> > > +                                size_t size, size_t align,
+> > > +                                int (*shm_register)(struct tee_conte=
+xt *ctx,
+> > > +                                                    struct tee_shm *=
+shm,
+> > > +                                                    struct page **pa=
+ges,
+> > > +                                                    size_t num_pages=
+,
+> > > +                                                    unsigned long st=
+art))
+> > > +{
+> > > +       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
+> > > +       struct page **pages;
+> > > +       unsigned int i;
+> > > +       int rc =3D 0;
+> > > +
+> > > +       /*
+> > > +        * Ignore alignment since this is already going to be page al=
+igned
+> > > +        * and there's no need for any larger alignment.
+> > > +        */
+> > > +       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
+> > > +                                      GFP_KERNEL | __GFP_ZERO);
+> > > +       if (!shm->kaddr)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       shm->paddr =3D virt_to_phys(shm->kaddr);
+> > > +       shm->size =3D nr_pages * PAGE_SIZE;
+> > > +
+> > > +       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
+> > > +       if (!pages) {
+> > > +               rc =3D -ENOMEM;
+> > > +               goto err;
+> > > +       }
+> > > +
+> > > +       for (i =3D 0; i < nr_pages; i++)
+> > > +               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE=
+_SIZE);
+> > > +
+> > > +       shm->pages =3D pages;
+> > > +       shm->num_pages =3D nr_pages;
+> > > +
+> > > +       if (shm_register) {
+> > > +               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
+> > > +                                 (unsigned long)shm->kaddr);
+> > > +               if (rc)
+> > > +                       goto err;
+> > > +       }
+> > > +
+> > > +       return 0;
+> > > +err:
+> > > +       free_pages_exact(shm->kaddr, shm->size);
+> > > +       shm->kaddr =3D NULL;
+> > > +       return rc;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(tee_shm_pool_op_alloc_helper);
+> > > +
+> > > +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct t=
+ee_shm *shm,
+> >
+> > Ditto tee_shm_pool_op_free_helper() -> tee_dyn_shm_free_helper()
+> >
+> > > +                                int (*shm_unregister)(struct tee_con=
+text *ctx,
+> > > +                                                      struct tee_shm=
+ *shm))
+> > > +{
+> > > +       if (shm_unregister)
+> > > +               shm_unregister(shm->ctx, shm);
+> > > +       free_pages_exact(shm->kaddr, shm->size);
+> > > +       shm->kaddr =3D NULL;
+> > > +       kfree(shm->pages);
+> > > +       shm->pages =3D NULL;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(tee_shm_pool_op_free_helper);
+> > > +
+> > >  static struct tee_shm *
+> > >  register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, =
+u32 flags,
+> > >                     int id)
+> > > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> > > index 911ddf92dcee..4cf402424e71 100644
+> > > --- a/include/linux/tee_drv.h
+> > > +++ b/include/linux/tee_drv.h
+> > > @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *teedev)=
+;
+> > >  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size=
+_t size);
+> > >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, si=
+ze_t size);
+> > >
+> > > +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct t=
+ee_shm *shm,
+> > > +                                size_t size, size_t align,
+> > > +                                int (*shm_register)(struct tee_conte=
+xt *ctx,
+> > > +                                                    struct tee_shm *=
+shm,
+> > > +                                                    struct page **pa=
+ges,
+> > > +                                                    size_t num_pages=
+,
+> > > +                                                    unsigned long st=
+art));
+> > > +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct t=
+ee_shm *shm,
+> > > +                                int (*shm_unregister)(struct tee_con=
+text *ctx,
+> > > +                                                      struct tee_shm=
+ *shm));
+> > > +
+> >
+> > These rather belong to drivers/tee/tee_private.h as we shouldn't
+> > expose them to other kernel client drivers.
+>
+> This is the right place, this .h file is for TEE drivers too.
+>
 
-is not recognized by Sphinx due to missing indents.
+But this is shared with other kernel TEE client drivers and we
+shouldn't expose internal APIs which aren't meant for them with a side
+effect of API abuse too. Any particular reason to not use
+drivers/tee/tee_private.h?
 
-You need to indent each item as shown bellow:
+-Sumit
 
-----------8-<---------------
-Opting out
-==========
-
-To large extent a filesystem can opt out of RCU pathwalk; that loses all
-scalability benefits whenever your filesystem gets involved in pathname
-resolution, though.  If that's the way you choose to go, just make sure
-that
-
-1. any non-default ->d_revalidate(), ->permission(), ->get_link() and
-   ->get_inode_acl() instance bails out if called by RCU pathwalk (see below
-   for details).  Costs a couple of lines of boilerplate in each.
-
-2. if some symlink inodes have ->i_link set to a dynamically allocated
-   object, that object won't be freed without an RCU delay.  Anything
-   coallocated with inode is fine, so's anything freed from ->free_inode().
-   Usually comes for free, just remember to avoid freeing directly
-   from ->destroy_inode().
-
-3. any ->d_hash() and ->d_compare() instances (if you have those) do
-   not access any filesystem objects.
-
-4. there's no ->d_manage() instances in your filesystem.
-
-If your case does not fit the above, the easy opt-out is not for you.
-If so, you'll have to keep reading...
-----------8-<---------------
-
-Missing indents is also the reason why your footnotes didn't work as you
-expected.
-
-Diff below partially reverts your v2 changes WRT footnotes and does
-proper indents in footnote contents area.
-
-----------8-<---------------
---- a/Documentation/filesystems/rcu-exposure.rst
-+++ b/Documentation/filesystems/rcu-exposure.rst
-@@ -42,7 +42,7 @@ caller deliberately does *not* take steps that would normally protect
- the object from being torn down by another thread while the method is
- trying to work with it.  That applies not just to dentries - associated
- inodes and even the filesystem instance the object belongs to could be
--in process of getting torn down (yes, really - see [0] for details).
-+in process of getting torn down (yes, really).\ [#f0]_
- Of course, from the filesystem POV every call like that is a potential
- source of headache.
- 
-@@ -188,8 +188,8 @@ when called for dying dentry - an incorrect return value won't harm the
- caller in such case.  False positives and false negatives alike - the
- callers take care of that.  To be pedantic, make that "false positives
- do not cause problems unless they have ->d_manage()", but ->d_manage()
--is present only on autofs and there's no autofs ->d_compare() instances.
--See [1] for details, if you are curious.
-+is present only on autofs and there's no autofs ->d_compare()
-+instances.\ [#f1]_
- 
- There is no indication that ->d_compare() is called in RCU mode;
- the majority of callers are such, anyway, so we need to cope with that.
-@@ -321,8 +321,7 @@ goes there [this is NOT a suggestion, folks].
- 
- Again, this can be called in RCU mode.  Even if your ->d_revalidate()
- always returns -ECHILD in RCU mode and kicks the pathwalk out of it,
--you can't assume that ->get_link() won't be reached (see [2] for
--details).
-+you can't assume that ->get_link() won't be reached.\ [#f2]_
- 
- NULL dentry argument is an indicator of unsafe call; if you can't handle
- it, just return ERR_PTR(-ECHILD).  Any allocations you need to do (and
-@@ -350,13 +349,14 @@ bailout is done by returning ERR_PTR(-CHILD) and the usual considerations
- apply for any access to data structures you might need to do.
- 
- 
--Footnotes
--=========
-+.. rubric:: Footnotes
- 
--[0]  The fast path of pathname resolution really can run into a dentry on
--a filesystem that is getting shut down.
-+.. [#f0]
- 
--Here's one of the scenarios for that to happen:
-+  The fast path of pathname resolution really can run into a dentry on
-+  a filesystem that is getting shut down.
-+
-+  Here's one of the scenarios for that to happen:
- 
- 	1. have two threads sharing fs_struct chdir'ed on that filesystem.
- 	2. lazy-umount it, so that the only thing holding it alive is
-@@ -366,54 +366,54 @@ Here's one of the scenarios for that to happen:
- 	4. at the same time the second thread does fchdir(), moving to
- 	   different directory.
- 
--In fchdir(2) we get to set_fs_pwd(), which set the current directory
--to the new place and does mntput() on the old one.  No RCU delays here,
--we calculate the refcount of that mount and see that we are dropping
--the last reference.  We make sure that the pathwalk in progress in
--the first thread will fail when it comes to legitimize_mnt() and do this
--(in mntput_no_expire())::
-+  In fchdir(2) we get to set_fs_pwd(), which set the current directory
-+  to the new place and does mntput() on the old one.  No RCU delays here,
-+  we calculate the refcount of that mount and see that we are dropping
-+  the last reference.  We make sure that the pathwalk in progress in
-+  the first thread will fail when it comes to legitimize_mnt() and do this
-+  (in mntput_no_expire())::
- 
- 	init_task_work(&mnt->mnt_rcu, __cleanup_mnt);
- 	if (!task_work_add(task, &mnt->mnt_rcu, TWA_RESUME))
- 		return;
- 
--As we leave the syscall, we have __cleanup_mnt() run; it calls cleanup_mnt()
--on our mount, which hits deactivate_super().  That was the last reference to
--superblock.
-+  As we leave the syscall, we have __cleanup_mnt() run; it calls cleanup_mnt()
-+  on our mount, which hits deactivate_super().  That was the last reference to
-+  superblock.
- 
--Voila - we have a filesystem shutdown right under the nose of a thread
--running in ->d_hash() of something on that filesystem.  Mutatis mutandis,
--one can arrange the same for other methods called by rcu pathwalk.
-+  Voila - we have a filesystem shutdown right under the nose of a thread
-+  running in ->d_hash() of something on that filesystem.  Mutatis mutandis,
-+  one can arrange the same for other methods called by rcu pathwalk.
- 
--It's not easy to hit (especially if you want to get through the
--entire ->kill_sb() before the first thread gets through ->d_hash()),
--and it's probably impossible on the real hardware; on KVM it might be
--borderline doable.  However, it is possible and I would not swear that
--other ways of arranging the same thing are equally hard to hit.
-+  It's not easy to hit (especially if you want to get through the
-+  entire ->kill_sb() before the first thread gets through ->d_hash()),
-+  and it's probably impossible on the real hardware; on KVM it might be
-+  borderline doable.  However, it is possible and I would not swear that
-+  other ways of arranging the same thing are equally hard to hit.
- 
--The bottom line: methods that can be called in RCU mode need to
--be careful about the per-superblock objects destruction.
-+  The bottom line: methods that can be called in RCU mode need to
-+  be careful about the per-superblock objects destruction.
- 
--[1]
-+.. [#f1]
- 
--Some callers prevent being called for dying dentry (holding ->d_lock and
--having verified !d_unhashed() or finding it in the list of inode's aliases
--under ->i_lock).  For those the scenario in question simply cannot arise.
-+  Some callers prevent being called for dying dentry (holding ->d_lock and
-+  having verified !d_unhashed() or finding it in the list of inode's aliases
-+  under ->i_lock).  For those the scenario in question simply cannot arise.
- 
--Some follow the match with lockref_get_not_dead() and treat the failure
--as mismatch.  That takes care of false positives, and false negatives on
--dying dentry are still correct - we simply pretend to have lost the race.
-+  Some follow the match with lockref_get_not_dead() and treat the failure
-+  as mismatch.  That takes care of false positives, and false negatives on
-+  dying dentry are still correct - we simply pretend to have lost the race.
- 
--The only caller that does not fit into the classes above is
--__d_lookup_rcu_op_compare().  There we sample ->d_seq and verify
--!d_unhashed() before calling ->d_compare().  That is not enough to
--prevent dentry from starting to die right under us; however, the sampled
--value of ->d_seq will be rechecked when the caller gets to step_into(),
--so for a false positive we will end up with a mismatch.  The corner case
--around ->d_manage() is due to the handle_mounts() done before step_into()
--gets to ->d_seq validation...
-+  The only caller that does not fit into the classes above is
-+  __d_lookup_rcu_op_compare().  There we sample ->d_seq and verify
-+  !d_unhashed() before calling ->d_compare().  That is not enough to
-+  prevent dentry from starting to die right under us; however, the sampled
-+  value of ->d_seq will be rechecked when the caller gets to step_into(),
-+  so for a false positive we will end up with a mismatch.  The corner case
-+  around ->d_manage() is due to the handle_mounts() done before step_into()
-+  gets to ->d_seq validation...
- 
--[2]
-+.. [#f2]
- 
--binding a symlink on top of a regular file on another filesystem is possible
--and that's all it takes for RCU pathwalk to get there.
-+  binding a symlink on top of a regular file on another filesystem is possible
-+  and that's all it takes for RCU pathwalk to get there.
-----------8-<---------------
-
-This should generate footnotes both in PDF and HTML outputs.
-
-Note that the pattern "foo bar.\ [#fn]_" in the referencing sites is to
-place the footnote markers just next to the punctuation. In PDF, it should
-prevent line breaks in front of the markers.  HTML doesn't behave that
-way, it seems.
-
-HTH, Akira
-
+> Cheers,
+> Jens
+>
+> >
+> > -Sumit
+> >
+> > >  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+> > >                                             void *addr, size_t length=
+);
+> > >
+> > > --
+> > > 2.34.1
+> > >
