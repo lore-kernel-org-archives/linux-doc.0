@@ -1,154 +1,208 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0EA12FF69
-	for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 11:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411CD12E1FD;
+	Wed, 28 Feb 2024 11:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709119218; cv=none; b=MkY5R+Az9z+VrqUd0Oif7PgCP0WHr1RE7QXsh629g0azKzcnHjnwp/RJ27wLktbK17KvTjYAtVyyE97EGtXTmNxHYsRSAZ28Vwx2f0pfSBZCZqHcw+o/8zLAtz4lO0RaPAqIKqlm+ViRHrn1aV7wVGz4iGQKfSQSVS8ioM8cigU=
+	t=1709119701; cv=none; b=FTwS0rbrXvE4rtJnLYaQgLTXZmMIIlP/Jo/9C4pbWjBFDjwcxuNZ71R+45BuA1DQmcfXWcBj2Q99mGQKKFzZIcwU4Q28K+hJ37mHj8DW1bau4MztsO7DiK1P7Tb0jhVt3Mq1MONYgn0XkziEewcLtITejYamwpvHdUXixhETqU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709119218; c=relaxed/simple;
-	bh=+nPljukr79/k+aBoFw1zKq3c7bPlfzNhe25zdAfdkf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ow/6SvVqD/VRG3jzd0ZIsJ798EctJE+++wJ0BRLnByWLdGCnE9n7xWSU4tJoJus+83k9C20P2WgNfuP/xCYFTD/aLd3TatXW7BHVVcC3aA+dMZRQ3yDI1clVwUgqYE5iHDxJrcGFUVjyZdfc1oOdmIVtQA4huNFPA0+viwRGNiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sjOLh3Oo; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709119701; c=relaxed/simple;
+	bh=4aOopf4jXtqDRDW3FIuhQ4/nRYsU/hj/5V3KCzXokSY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ui63O6YfuMHcMQ0H57ErpTEoVP0GcnW0kFzAY84Y7UVUkzcsZ0qKs3R5b0vzDuKHnl0LVNG6A/cQjmWzKyLtMswwB5qgA2m2Dc4HiKfXQPfxzDHSHXqD/HyiC9r+OYq1kpt5B/TNnXci4yR3MLLLoHm1k9NkkYpH41DnwGGeaxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WVCfrTLG; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sjOLh3Oo"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-47268928105so76373137.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 03:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709119215; x=1709724015; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cz56F1rJBplYFoLx/g3BveNwqzw9wyCIbG8M8QMxDrI=;
-        b=sjOLh3OoTvyE5A/QuR+/am1mG2gY9wsoDZUGmuC3YxyMOcYzndCorjrItiBXrFC++H
-         D7LRGdeOANvM1SbfQEQYTbBc8hhHvflg60OaBc6nkQpFr8g6I7eQ4aUSzYPGAhUkd0Mo
-         a3JeBkZLCXed9p0vOiQ1I4Vb/ChyEUarCMp9dRZ7pm1KrQpr8juq5fyXxi8K0lSq0wd2
-         EN6w5yK2dZ09+hljkY5iPfpSQ9zob6VCvFlF0R6rEqz5GxmWLH8xIN6lXB9m9ZMc4Et+
-         rtDb5V0gc4r/cTme6sKXrgNEOnj11rmjTUo60KOjvt6YmZ7q638sgpBZPn0amXIZfVoq
-         4CUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709119215; x=1709724015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cz56F1rJBplYFoLx/g3BveNwqzw9wyCIbG8M8QMxDrI=;
-        b=WleZdCRJlqyk2zN3Pj0EErGYjKUe/AKpLY+9GFCR4yAlf5bnIx0QlXgrXha1N4RUVI
-         UOruzt4oVGRv8jvKtA9aSMN8bucvYABUPcZPuz+ipQNn+Ps8Ypdlilw+6rxZLCwtSMlC
-         HMXrqE6gFdWJNoLdU70tVocJ6s2+42rqJLPqXqvVQwsy3qDEXkyvyAvF+zs392aMJI6q
-         Nm8VcMuMz0h/obhRsxxoSp9Tbozjk+3j9/bcVDyu06weuvJjcfa7Lo0elGN5Cgytrplx
-         uFLHXfF/Rj/e8O2GsZqQrYKnjkNK6NsBkERJmaZQAU6RWCLt2cMp1Q19quToxfFVfgxv
-         Sjiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp81NdL1wO7SQGwyppLiF9jJMdaNCAc88slKb0Lmdzdq4BF6NxyCpUicJDQfWrEv272kzn1Fss0i4mi2gSqyPIuCBzxsxV8BhR
-X-Gm-Message-State: AOJu0YwYv3hf7OuZdJjKFNyxmCK5fZH67+V+omHLHkOe0W63/l6KEp6U
-	p309b2GMKVat0zSk5/NjckP6MoEc7FcVxhhiw0JztXsVE8nohquVk+UkL3ExTkovtt6fxfKvIWm
-	Umy+2hE5V2PPvrE1CwCO6TN1kkEgSy5cwbP4FwA==
-X-Google-Smtp-Source: AGHT+IGjLYsLmcXmODaXN692Ax33B+2DO8wWUZO+yRjb3+yUlIx33TwTXTshNhd1Z1IG7aczIPXUNgyD6o94ZePaL0k=
-X-Received: by 2002:a05:6102:30b6:b0:472:6e23:1f3d with SMTP id
- y22-20020a05610230b600b004726e231f3dmr1143660vsd.1.1709119213982; Wed, 28 Feb
- 2024 03:20:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WVCfrTLG"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6A0EF1BF213;
+	Wed, 28 Feb 2024 11:28:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709119690;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VtE8ccdMBx2A8EhTVDOTFlKlJ4eQpPULg5/PMLwosXM=;
+	b=WVCfrTLGmYi4GhNKJ4qT5hcVa3heEJca6ADyK1rjR6iMcCK9m+R9eXxoNbNxAWQfTq0y7c
+	3oAaRclaLppRM99Fo0jAL+h2v9v1p3MmJrGh9n1qyl0qEbyLYwa6zYrPabSaEqCXgWg3eP
+	FxbS3gTETuKaj5DcOUqhMlnrlttlxH3wLKeD30gfhUaN/hGKh4Q/HnfShdl6yIobuK8EfH
+	v0FmKOaKfToGfxloywYFapyy035wA+gL8IwNDG9vtuhXwiiWCTizB7nRsc+1jY+IFpN59l
+	sL4WhNsKOV29g22nuO97IceD8m+Y3dHordn3RmXUAbzugl8MMG3E8/G4lAQrZg==
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: [PATCH v2 00/30] Rework Nomadik GPIO to add Mobileye EyeQ5 support
+Date: Wed, 28 Feb 2024 12:27:58 +0100
+Message-Id: <20240228-mbly-gpio-v2-0-3ba757474006@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223095133.109046-1-balint.dobszay@arm.com>
- <20240223095133.109046-2-balint.dobszay@arm.com> <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
- <CAHUa44G70L9CnQD6V3ivWf1hYfK0iWFt-cfg98-JGB-s8TVd-A@mail.gmail.com>
- <CAFA6WYOq3tHq5n7=XYpsSgBghCF0RtAxs-sLxvLYMWwnQuFSeQ@mail.gmail.com> <CAHUa44F=0juXyyhA7Bu0SzCK+1igRYEWCn1XRL1sDG1ZWNhr3g@mail.gmail.com>
-In-Reply-To: <CAHUa44F=0juXyyhA7Bu0SzCK+1igRYEWCn1XRL1sDG1ZWNhr3g@mail.gmail.com>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Wed, 28 Feb 2024 16:50:02 +0530
-Message-ID: <CAFA6WYOWQZqtAcdCKcBa7qnCY1ueBzU1_1HSbfHPaLeyPdtxbw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Balint Dobszay <balint.dobszay@arm.com>, op-tee@lists.trustedfirmware.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, corbet@lwn.net, sudeep.holla@arm.com, 
-	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAL8Y32UC/03MQQ6DIBCF4auYWZcGBhtJV71H40Io6CQKBgypM
+ dy96KqLWfyTl++AZCPZBM/mgGgzJQq+Bt4aMNPgR8voUxuQoxT12KLnnY0rBTZI/uiENRKVhLp
+ fo3X0vax3X3uitIW4X3QW5/dUWo6i/VOyYJw5pQw3xskO9UuHsM3k7yYs0JdSfuaBJNWkAAAA
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mips@vger.kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Stephen Warren <swarren@wwwdotorg.org>, Jonathan Corbet <corbet@lwn.net>, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.13.0
+X-GND-Sasl: theo.lebrun@bootlin.com
 
-On Wed, 28 Feb 2024 at 14:11, Jens Wiklander <jens.wiklander@linaro.org> wr=
-ote:
->
-> On Wed, Feb 28, 2024 at 6:58=E2=80=AFAM Sumit Garg <sumit.garg@linaro.org=
-> wrote:
-> >
-> > On Tue, 27 Feb 2024 at 21:20, Jens Wiklander <jens.wiklander@linaro.org=
-> wrote:
-> > >
-> > > On Tue, Feb 27, 2024 at 7:06=E2=80=AFAM Sumit Garg <sumit.garg@linaro=
-.org> wrote:
-> [snip]
-> > > > > --- a/include/linux/tee_drv.h
-> > > > > +++ b/include/linux/tee_drv.h
-> > > > > @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *tee=
-dev);
-> > > > >  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, =
-size_t size);
-> > > > >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx=
-, size_t size);
-> > > > >
-> > > > > +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, stru=
-ct tee_shm *shm,
-> > > > > +                                size_t size, size_t align,
-> > > > > +                                int (*shm_register)(struct tee_c=
-ontext *ctx,
-> > > > > +                                                    struct tee_s=
-hm *shm,
-> > > > > +                                                    struct page =
-**pages,
-> > > > > +                                                    size_t num_p=
-ages,
-> > > > > +                                                    unsigned lon=
-g start));
-> > > > > +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, stru=
-ct tee_shm *shm,
-> > > > > +                                int (*shm_unregister)(struct tee=
-_context *ctx,
-> > > > > +                                                      struct tee=
-_shm *shm));
-> > > > > +
-> > > >
-> > > > These rather belong to drivers/tee/tee_private.h as we shouldn't
-> > > > expose them to other kernel client drivers.
-> > >
-> > > This is the right place, this .h file is for TEE drivers too.
-> > >
-> >
-> > But this is shared with other kernel TEE client drivers and we
-> > shouldn't expose internal APIs which aren't meant for them with a side
-> > effect of API abuse too. Any particular reason to not use
-> > drivers/tee/tee_private.h?
->
-> drivers/tee/tee_private.h is supposed to be used internally by only
-> the files in drivers/tee.
+Hi,
 
-How about "struct tee_device" being in drivers/tee/tee_private.h?
+This patch series reworks the Nomadik GPIO driver to bring it up to date
+to current kernel standards. We then add Mobileye EyeQ5 support that
+uses the same IP block but with limited functionality. We also add
+features required by our newly supported platform:
 
-> If you look in include/linux/tee_drv.h
-> you'll find a few functions and other definitions that a kernel TEE
-> client driver should not use, for instance, tee_device_register() and
-> tee_device_unregister(). This kernel TEE client interface was
-> introduced with commit 25559c22cef8 ("tee: add kernel internal client
-> interface"). include/linux/tee_drv.h existed before we even had any
-> kernel TEE client interface.
+ - Dynamic GPIO ID allocation;
+ - Make clock optional;
+ - Shared IRQ (usecase: EyeQ5 has two banks using the same IRQ);
+ - Handle variadic GPIO counts (usecase: EyeQ5 has <32 GPIOs per bank);
+ - Grab optional reset at probe (usecase: EyeQ5 has a shared GPIO reset).
 
-Anyhow, it looks like there is a chance for refactoring here. How
-about splitting this header further in something like
-include/linux/tee_core.h which will contain all the pieces relevant to
-TEE drivers?
+This GPIO platform driver was previously declared & registered inside
+drivers/pinctrl/nomadik/pinctrl-nomadik.c, side-by-side with the
+pinctrl driver. Both are tightly integrated, mostly for muxing reasons.
+Now that gpio-nomadik is used for another platform, we loosen the
+relationship. The behavior should not change on already supported
+hardware but I do not have Nomadik hardware to test for that.
 
-BTW, this patch series can keep using include/linux/tee_drv.h for the
-time being.
+We have some dependencies. Those are:
+- The base platform support series from Grégory [0], present in
+  mips-next. It in turns depends on [1], also in mips-next. This
+  relates to the last four patches (27 thru 30), ie defconfig and
+  devicetree.
+- The OLB syscon support series [2]. It provides reset and pinctrl nodes
+  inside the devicetree. This relates to the last two patches (29 and
+  30), ie resets and gpio-ranges DT props. GPIO works fine if patches
+  29 and 30 are dropped and bootloader deasserts the reset (it does).
 
--Sumit
+This has been tested on the EyeQ5 hardware, with the two parent series
+applied. It also works fine without the OLB syscon series when our last
+two patches are removed. It has been built on both Arm defconfigs that
+rely on pinctrl-nomadik: nhk8815_defconfig and u8500_defconfig. I don't
+have any Nomadik hardware to test though.
 
->
-> Cheers,
-> Jens
+Have a nice day,
+Théo
+
+[0]: https://lore.kernel.org/lkml/20240216174227.409400-1-gregory.clement@bootlin.com/
+[1]: https://lore.kernel.org/linux-mips/20240209-regname-v1-0-2125efa016ef@flygoat.com/
+[2]: https://lore.kernel.org/lkml/20240227-mbly-clk-v8-0-c57fbda7664a@bootlin.com/
+
+To: Linus Walleij <linus.walleij@linaro.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Rob Herring <robh+dt@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-gpio@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: Gregory CLEMENT <gregory.clement@bootlin.com>
+Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: Tawfik Bayouk <tawfik.bayouk@mobileye.com>
+Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
+
+Changes in v2:
+- dt-bindings: add description to gpio-bank.
+- dt-bindings: fix disabling of st,supports-sleepmode prop with
+  st,supports-sleepmode compatible.
+- gpio: move "fix offset bug in nmk_pmx_set()" to the start of the
+  series and add a Fixes trailer. The patch changed because of that.
+- pinctrl: allow building PINCTRL_NOMADIK and co with COMPILE_TEST.
+- gpio: in "support shared GPIO IRQs" remove fake raw lock and use
+  generic_handle_domain_irq_safe() helper.
+- gpio: remove OF API calls.
+    of_property_read_*()     => device_property_read_*()
+    of_find_device_by_node() => bus_find_device_by_of_node()
+- gpio: use device_is_compatible() rather than match data to detect for
+  Mobileye SoC. If GPIO device is populated by pinctrl match data is
+  unavailable.
+- gpio: rename quirk_mbly field to is_mobileye_soc.
+- gpio: add comment about unbalanced reset_control_deassert() and
+  disable bind sysfs attributes.
+- gpio: use devm_platform_ioremap_resource() helper.
+- gpio: use devres version of clk_get*() in case of probe failure.
+- gpio: add missing <linux/slab.h> include.
+- Documentation: gpio: replace outdated comment of using a fake spin
+  lock and mention the generic_handle_irq_safe() helper.
+- gpio: in "follow whitespace kernel coding conventions", add missing
+  newline before headers.
+- Take 6 Reviewed-By Linus, 1 Reviewed-by and 1 Acked-by Krzysztof.
+- Link to v1: https://lore.kernel.org/r/20240214-mbly-gpio-v1-0-f88c0ccf372b@bootlin.com
+
+---
+Théo Lebrun (30):
+      dt-bindings: gpio: nomadik: convert into yaml format
+      dt-bindings: gpio: nomadik: add optional ngpios property
+      dt-bindings: gpio: nomadik: add mobileye,eyeq5-gpio compatible
+      dt-bindings: gpio: nomadik: add optional reset property
+      gpio: nomadik: fix offset bug in nmk_pmx_set()
+      gpio: nomadik: extract GPIO platform driver from drivers/pinctrl/nomadik/
+      pinctrl: nomadik: Kconfig: allow building with COMPILE_TEST
+      pinctrl: nomadik: fix build warning (-Wformat)
+      pinctrl: nomadik: fix build warning (-Wpointer-to-int-cast)
+      pinctrl: nomadik: minimise indentation in probe
+      pinctrl: nomadik: follow type-system kernel coding conventions
+      pinctrl: nomadik: follow whitespace kernel coding conventions
+      pinctrl: nomadik: follow conditional kernel coding conventions
+      gpio: nomadik: add #include <linux/slab.h>
+      gpio: nomadik: replace of_find_*() by bus_find_device_by_of_node()
+      gpio: nomadik: replace of_property_read_*() by device_property_read_*()
+      gpio: nomadik: use devm_platform_ioremap_resource() helper
+      gpio: nomadik: use devres version of clk_get*()
+      gpio: nomadik: request dynamic ID allocation
+      gpio: nomadik: make clock optional
+      gpio: nomadik: change driver name from gpio to gpio-nomadik
+      gpio: nomadik: support shared GPIO IRQs
+      gpio: nomadik: handle variadic GPIO count
+      gpio: nomadik: support mobileye,eyeq5-gpio
+      gpio: nomadik: grab optional reset control and deassert it at probe
+      Documentation: gpio: mention generic_handle_irq_safe()
+      MIPS: eyeq5_defconfig: enable GPIO by default
+      MIPS: mobileye: eyeq5: add two GPIO bank nodes
+      MIPS: mobileye: eyeq5: add resets to GPIO banks
+      MIPS: mobileye: eyeq5: map GPIOs to pins using gpio-ranges
+
+ .../devicetree/bindings/gpio/gpio-nmk.txt          |  31 -
+ .../devicetree/bindings/gpio/st,nomadik-gpio.yaml  |  95 +++
+ Documentation/driver-api/gpio/driver.rst           |  11 +-
+ MAINTAINERS                                        |   2 +
+ arch/mips/boot/dts/mobileye/eyeq5.dtsi             |  30 +
+ arch/mips/configs/eyeq5_defconfig                  |   2 +
+ drivers/gpio/Kconfig                               |  13 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-nomadik.c                        | 722 ++++++++++++++++
+ drivers/pinctrl/nomadik/Kconfig                    |   7 +-
+ drivers/pinctrl/nomadik/pinctrl-nomadik-db8500.c   |   3 +-
+ drivers/pinctrl/nomadik/pinctrl-nomadik-stn8815.c  |   3 +-
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c          | 939 +++------------------
+ .../linux/gpio/gpio-nomadik.h                      | 123 ++-
+ 14 files changed, 1117 insertions(+), 865 deletions(-)
+---
+base-commit: 3ebad8a9638d4c667e8925968806a82e1b9025ea
+change-id: 20231023-mbly-gpio-a30571ec3283
+
+Best regards,
+-- 
+Théo Lebrun <theo.lebrun@bootlin.com>
+
