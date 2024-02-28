@@ -1,290 +1,123 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2065.outbound.protection.outlook.com [40.107.243.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069214087B;
-	Wed, 28 Feb 2024 17:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709143169; cv=fail; b=qq4sfyib26zFfg8Dwij5V2W8cJ1a+JYnck4oHuEV05QWnf//opYEkdppR1tRtg0OjKA7rqThbRgOaxfrJ93fXFJ2ORczbnQHCF8BkatG/OkgGAc+FoPz3M+qxdTNb/6HzJ8UqqyON+jcqVNRsQv64cuD5j2IqWv0HfnrDdLOHww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709143169; c=relaxed/simple;
-	bh=74XubRKg6pQNSoH9b/+VkeHKLLL5WrGoT8mCUJ/xY+o=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ib5CXIrHY7TnJrl7yuvs7PQivNsuESr3dMpR+/ZM/ZBIT5eIfH8SVLusYkdZGupHpfw1eDiIPYrXILDTBXbhaouDt62TM7J2p2urDp6jChED/Yyi2/Hv1ZeOFKFGQpiLjnjkRaHwdKe7bHV+PqJx7Q4pMdNuXMq+obe5BFeApYA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ss5Ea+Ua; arc=fail smtp.client-ip=40.107.243.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F3079B73
+	for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 18:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709143523; cv=none; b=D3FzmZL1hvRdl2WEYH6tSDrES5eJT4pYjTQ8NFZee/s9b+q7kQQLT2zTES5KDrXDLBc9J9lKCURk1FqOm+cakClr474GfTSoV0f7qbj/7AcynlRcJx+3eWc6Ji84PXV846D9EQfRR8FTe/Rbxf9SaJyNseY+1uS+7kyF0tJNA0M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709143523; c=relaxed/simple;
+	bh=M5RWLefMMZcrjC6ohvg7ZMSlCbzmM6eu4zL9kM45cas=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RSqyJoyqsoNWvVpcrtPwbKSMOS5yb1W4zx2Ab0zmUnBJVvWB+bc77qKJNipNDUxMYF5Cmymbr2IQaJckR3g8fuipE2qXoDFt8lQPuAITW5OBJuNdBdU64wYml1r5IsV9cUbTOEgDKQnpHPiE/qAAAvZSvJuisQsA3rfIArKAx94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=07Nj3u52; arc=none smtp.client-ip=209.85.219.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ss5Ea+Ua"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GoHzEc41E7dtwB/xl/gG7cTsBnRuB90Qbh/dYH97BrtZkjKaWZv5XDcZMAMaQ8U/y/MgyOvgNUb8IQbXymcM9TXqyvjnp/sBCniMIIX0Fasxg8GT5RamoA7k0Aw2Ft+a5xKXBGkf0U+AIYITinCzVukHEk1t9yCT05kjkTjN/8r4TBVIx4+w624ApjCzQmRoZ27VxvAN784oFUBv4DkuEUNGOfQNF4qinyHINGaED3gBJGaFv54r2jwKrfMgevAC9mp5q638IeNhvOWbDZmd6juluCJP2wlw/cZscIeH3c11Ds2INe9oKJwby7/tuuOQGUAPV67UYNcZrJGdcZ+oTQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TicALnHLiYjyXJ5DviCRdCMfq/ctJ/NZBipP3GUhuxU=;
- b=EQo0C6pLSleY1ednqCPpLn7w7xAD83LmeWiMsPv6WgrCNX6B4diYaKzU33aVXxQVKetOWaeRccz6ANAh8zmfiayKLX3TZSomELimECKBTzZQvFNNkk+2N0efxNyQiAxj5apMK4JB0feIIBd7TwlDyibC9S6E5av021GBjIm9GRrlJBGxcdwogYTW7mVsR9eYEBc7RKMhMyZertwg7CwQhNJFenwJCm0CIjuUGMwCX7gKvN7ZURQIbrbys8XLe6iA5lkrFlmKA0FA3MBqv49H9D8pDWQeUorXPpUCXevOp9cUXmcp5/iENRUC/8wpv9dDreGhclCNDknS3JBlJRi6FQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TicALnHLiYjyXJ5DviCRdCMfq/ctJ/NZBipP3GUhuxU=;
- b=Ss5Ea+UajYyK1NcPz5007UTYUkjro3QqSoLrg7o9m0b9DWifSou+uox+R96zRn7rUV7pvzoChCxEZS8lANuxagHWJHeDu+3s7UiOUib2Foxe8XzQK8crekaVD8iQ+qFzseEa0+Z4A4D61gYA1BbeI0Pu2v4T5NtXtrs51OAp//A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MN0PR12MB5786.namprd12.prod.outlook.com (2603:10b6:208:375::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Wed, 28 Feb
- 2024 17:59:23 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b49d:bb81:38b6:ce54%4]) with mapi id 15.20.7316.039; Wed, 28 Feb 2024
- 17:59:23 +0000
-Message-ID: <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
-Date: Wed, 28 Feb 2024 11:59:19 -0600
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
- <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
- <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
- <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
- <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
- <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7P222CA0018.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::27) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="07Nj3u52"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso68576276.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Feb 2024 10:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709143520; x=1709748320; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M5RWLefMMZcrjC6ohvg7ZMSlCbzmM6eu4zL9kM45cas=;
+        b=07Nj3u52kU5HkNbHmQi6GSJlFvm+hwSmH23kU9J3YIdBUAZcfVKU5HQ3RCYnYic0v6
+         QLRHfuCjI9k+jiAG3w+DoaSoumtOezIBDz1r8Kz8fHtyP7r7SZx31n43NzTdmop/PO2A
+         8mM/4NeVzeoWdN0ez7/q13ruSZDGpAfWv4C6Jt0Y0ZDccQI15hWg5epL5i0sGXGwRR2Z
+         QyHgs217g8YnqC7+n46M+BhjmuNXp3pKxFMqFRf5dLwy6cELVZXPEu+Ogd7PlX5F4r/Y
+         GY/qYMx/nxnzCGNBgbHCEaaY4EPWcJbvRoW29RCrocuMaX6hzZjZnlqLuzHzfEmrYQi9
+         uEOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709143520; x=1709748320;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M5RWLefMMZcrjC6ohvg7ZMSlCbzmM6eu4zL9kM45cas=;
+        b=J7nZcxCVlvd+a6j9fSv0RK99SMVyC8NOMxgf+ygdadajbJQcoFThREmwtvmCjlRCMR
+         8vUgeWFU29eaOzcYXYsnPZ8jaA1yGipyk9MFaVH0TrZenn2/TSzeJqKFdRsouX6zwIJW
+         x+FypKoSrFBaFe0W3FfB6VQuRpP1Vm1z2GufODsqLa8yGFHSRTBKd3ZPozhZ1SwUQsfC
+         0EKLxnNq02wHVOlSUAsvSPIlyIIjds0dL5DY6dNVljKzSDaEg4RRih+OkUSO8rNlL+c0
+         SB/kWMbaVEkBK+Kk2Xgaq/mohP9s2bq3KSclAM1hIcSpA5GXz9dmc3HD8YrgIrvYAeOG
+         rz5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVadpid3OrNn2yD5DHNglDrU8jc3kNS4qr0DldJTY0jGKPHPZev6Uzn4KDdd2YQwDFeZkAYECO1kAgBdidRXnnXbbJjPLJXP52G
+X-Gm-Message-State: AOJu0YwZBd+iKB9u26EmiL9GAWLvk6jiYwJVMvoZZ59rzIeLZ2wnsujf
+	oiEBCnOcd8L8NXUel/FXzKxj4yqm+ogOuF7NfjqxupuWW0ZeJSmGPHsS6qAWOL+/wT1aX8eHNjJ
+	CZOMS3/aa7coRX84IkzEXYOIoW8E9H5AclVFn
+X-Google-Smtp-Source: AGHT+IGXC8lezvXLfyLFgurkGO2/8+xbMmbLbWU2Dhx0X772e49nOZcLM0/mejcqQER1kvdSNB2vVup4Slt3VEZ2U4I=
+X-Received: by 2002:a25:4687:0:b0:dc2:398b:fa08 with SMTP id
+ t129-20020a254687000000b00dc2398bfa08mr21101yba.31.1709143520037; Wed, 28 Feb
+ 2024 10:05:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MN0PR12MB5786:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9b44aee-8959-40d9-a8ec-08dc3886fecf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	VuZi1cqUGVXhzSaIFi/hDuZHHTRzjpLG9mbp+8M3CtJ7TkyImpHrNppti03L+Hz2ihJ0z8COqNJNmFCmlO/FvwfY2NF5UDYbTY8JjIpJo2wxtUgke7AR/rMiURbA8vhKjldT1Ftmsj8ZMVojxr9eMt5f6lqZxQv6AzDyJtFlhaOH3RuciEkSS7tHa6BIBhwNjIYXUzEsoy5FLZiheHGd9HA/1dC2HjY0RFdFwoRlJfTF13hgjYrcLJq/nn9Cnwc1vO5NWI0fUCi5QSyaVtSIgO+VtiYBalsgnM9YhSwpguMdVelUz75vsb4i7DlgRbONYIYugzItSfBBhGKki+8AiKSEVQknOjTdRHUBx53i/WV5GEuTj+lyf95C0JF+NqDBMtCTcgubEX4d3TJh/P2vDAaZNyT1ShkSRyOf+bKygOcw2SkslcdDs1EDISdCwMf2El+QrQ1Qc82rD6pj+2WS1ir/MTaSOevAZBt/ezrgHGMTZyumB9pL48EjTy3YuaLp9TnTUrByoV00E6Vig6WUnCPX1KX1+PH46okBWmPT1v4T3aJsWTr5AAdoJCCDu/XSUbBzE70G1OpRPZIKVx+E7yNJkg9Mxt8+AudvHLRz4W9VDRcrNXZ8s3XW3xLVsibc/lKc3Wdu+5wPlZwko/fwvw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NEVLbGZ6ZXhHU1J6NUZBNlhodWZBSURhV1B4M0RaSFVSRFI4OW5NYU9EbVFJ?=
- =?utf-8?B?Wk5zcGpiVExpSWtGYlVrMU1EL3pPWHVUcmVJRFlsUTE4aHhpd1VNS25jYUhX?=
- =?utf-8?B?ckpTcUhzVURGdldzaHdkejhRREMva3l6bHFoeTVSWWVJNURjbitYRGc3a2NI?=
- =?utf-8?B?L29rRysxZUpINVJwTnk3WURrbm16a2R3T0FxNGJnSWtydHhEZHJDK0hJQXd6?=
- =?utf-8?B?M01DRFozdUtxY2VmU1ZFVEhrc09CYWRDZ21ldW9FWWVQbHc0bGVRL1lWZXZC?=
- =?utf-8?B?RTNyMUJtOTYzQ1V6RGJEM3JZQUM3TG5yWWZwQmpBU2NUcEsrUWZhZUp2R0k5?=
- =?utf-8?B?ZzFjbGxGMzRLbEFJNGw0QjFtd3YyTTVySTdBOXZuMzhXNU80Sll1NmJRcmla?=
- =?utf-8?B?UVpQVnI3MHphWGZHaVdsQ29yaE9ibXRZQmoxMHRPdjRBV2gvdzg5aGI3T0sy?=
- =?utf-8?B?dll2R2Q4M3FoMTFXRHVnSlFzSmhMQ3VpcmM1emQ0bjNwQ1B3VTNYcEpRcW15?=
- =?utf-8?B?RWlweGtLaDVKMWwxWFhhR1BiOEdLMGJpeDJ1dldXUERRREZwT2QxOWtWM291?=
- =?utf-8?B?Z0lqYUs4S2FPeVdsSEtCb244SXpwcnlxemtOQnNjODZKTkRKQ3Q1aGJhZU1q?=
- =?utf-8?B?UzgySDdrRUt3UjVGNmFWeExZTlRHR3VIQzJicENZdWoraS9pb2x1NHVObGZL?=
- =?utf-8?B?S2Zmdk4wSWtFTWdadnN4ZWZLYjNiNHl3TzQ5TmZ6L1JMenFjZE9MTTRjeDRW?=
- =?utf-8?B?YlNXaEk1UDlUUnJzNWo0WnE3bjRFYk9TbWVTaEdyYVd2VG8xd2VKTTFxMDgw?=
- =?utf-8?B?d08rbUlMNk51cktwUGlIOHNvbkFIOThLeFBTcEoySFJ1SDR6OEwydkIyamh3?=
- =?utf-8?B?OG8xdnphTVpGYjZ5TU5LTStJOEI0WXlyczZ0WVZVWWsvQ0lNR2JxRm1GWjcz?=
- =?utf-8?B?Q0hsaEU5RUUzdmRPNlNaOEFwVHdFUnUyN0pjdWpHSFB2UzJsQ1FrdVNQMEMr?=
- =?utf-8?B?K1lrcnBzZ2lKaXVMOTJEL1B3cFlYd0JTYW1PRlRBQ3ZFMTlBaFNaZ2tyRmZS?=
- =?utf-8?B?dHBaZVpLVEhlUjVPWHVtR1M4ODF2bE9HaGVjWHplaUhJaFhaYkZWN3dhdWhE?=
- =?utf-8?B?NGNySGVRbmJodE5Rc1dTUytWd3pTVEc2Qy8vUFBGRTQ3M3dhRnpWQ3J4M25m?=
- =?utf-8?B?c0VrckFXOVdMSUMzRENIOFVHMGJNYkVVejlpd2FycU1abktoaitrcFZjVjZY?=
- =?utf-8?B?NFZLT1hlWTM4Zy9MamRGQkw0a1FXY0ZCbmZhMk1SMzVjZ1V4SjM3alRRK0Vk?=
- =?utf-8?B?L1dEaERYVVdwU09iR0ZLdVRDOHRUcVdUdzZyU1NQaUlvcUtReTM2M2VQTHpX?=
- =?utf-8?B?NFIybTRTdFNpaEdKRjl4V1pYVDVTNnJ4SGpPdTVIQnBYckdzdG5QRFN1ZDVE?=
- =?utf-8?B?ZVgrT0tNMFdYZ09aYkV6RGFjSlZMdXNBT25RTGJuL1U0KzJZZUFsWkc0V2cr?=
- =?utf-8?B?WDQrcGZ3UWlYWXg3cGJaQVlFNGFSTnpXU3ZjNkJkNzVFUXdnUUdRYkVIU25S?=
- =?utf-8?B?OGtPNVZzVytFbEFCQm5SNlVERkVtcUZiZklUZCtLK1dvTlU3dmJqeithQ0p0?=
- =?utf-8?B?R1BpVnpNK1Zjcmt2WWpTUjdmeWxGeTJKK0hWbjBGRHdCY0FvNktXa2hVdVI2?=
- =?utf-8?B?K1A5S1ZuVUFKMFpRNHpuaTFLM3h2WnFscE1MNFVEMkNudk9MczRjRnRuWER6?=
- =?utf-8?B?N21NUUs4UjZXR01UNVpXR1lTSGRRVFV3TDdFQnVzS1BlRjhsNmFvREZKRlNa?=
- =?utf-8?B?VkdhQzNOSmpqb0daTTJSRUFEeXM5eWhFNXlNT2xJelJPOHFMemlZV1hNU2gr?=
- =?utf-8?B?SW52anBoOXBBOTZOMlpXdVNqVG15V1BrOFY0QlM5TkFscDUwT0J5STB6ZnFV?=
- =?utf-8?B?N0QvUjJIc3pVcStaNWVFMUNTay95UlRzOXRGQTFoYVJmOWVibWJzQlNBdjBN?=
- =?utf-8?B?MzBRUkVwN0p3bmFlM28ra29JNTFGQkttK0FmS29lWjRvUm5QbjlKNkxxTS9N?=
- =?utf-8?B?YTVqR0tDcHE5eXlOTHVIeEFFZ2VYQjZDbEtjanVIN252blBFMExVRDlaU0xj?=
- =?utf-8?Q?siBY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9b44aee-8959-40d9-a8ec-08dc3886fecf
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 17:59:23.3263
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QNXhSwyU6ujYZBCkzumpLh7alvFKux33xRVQcdqUf/AjPoj4fxtdvEsPW14WCBIe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5786
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-15-surenb@google.com>
+ <1287d17e-9f9e-49a4-8db7-cf3bbbb15d02@suse.cz>
+In-Reply-To: <1287d17e-9f9e-49a4-8db7-cf3bbbb15d02@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 28 Feb 2024 18:05:08 +0000
+Message-ID: <CAJuCfpGSNut2st7vKYJE7NXb6BPjd=DFW_VEUKfw=hGyzUpqJw@mail.gmail.com>
+Subject: Re: [PATCH v4 14/36] lib: add allocation tagging support for memory
+ allocation profiling
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Wed, Feb 28, 2024 at 8:29=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> >
+> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)
+> > +{
+> > + __alloc_tag_sub(ref, bytes);
+> > +}
+> > +
+> > +static inline void alloc_tag_sub_noalloc(union codetag_ref *ref, size_=
+t bytes)
+> > +{
+> > + __alloc_tag_sub(ref, bytes);
+> > +}
+> > +
+>
+> Nit: just notice these are now the same and maybe you could just drop bot=
+h
+> wrappers and rename __alloc_tag_sub to alloc_tag_sub?
 
-On 2/27/24 17:50, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 2/27/2024 10:12 AM, Moger, Babu wrote:
->> On 2/26/24 15:20, Reinette Chatre wrote:
->>> On 2/26/2024 9:59 AM, Moger, Babu wrote:
->>>> On 2/23/24 16:21, Reinette Chatre wrote:
-> 
->>>>> Apart from the "default behavior" there are two options to consider ...
->>>>> (a) the "original" behavior(? I do not know what to call it) - this would be
->>>>>     where user space wants(?) to have the current non-ABMC behavior on an ABMC
->>>>>     system, where the previous "num_rmids" monitor groups can be created but
->>>>>     the counters are reset unpredictably ... should this still be supported
->>>>>     on ABMC systems though?
->>>>
->>>> I would say yes. For some reason user(hardware or software issues) is not
->>>> able to use ABMC mode, they have an option to go back to legacy mode.
->>>
->>> I see. Should this perhaps be protected behind the resctrl "debug" mount option?
->>
->> The debug option gives wrong impression. It is better to keep the option
->> open to enable the feature in normal mode.
-> 
-> You mentioned that it would only be needed when there are hardware or
-> software issues ... so debug does sound appropriate. Could you please give
-> an example of how debug option gives wrong impression? Why would you want
-> users to keep using "legacy" mode on an ABMC system?
+Ack.
 
-I don't have a strong argument here. I am fine as long as there is a way
-to go back to legacy mode if required. We can provide legacy option in
-debug mode.
-
-> 
-> ...
-> 
->>> For example, if I understand correctly, theoretically, when ABMC is enabled then
->>> "num_rmids" can be U32_MAX (after a quick look it is not clear to me why r->num_rmid
->>> is not unsigned, tbd if number of directories may also be limited by kernfs).
->>> User space could theoretically create more monitor groups than the number of
->>> rmids that a resource claims to support using current upstream enumeration.
->>
->> CPU or task association still uses PQR_ASSOC(MSR C8Fh). There are only 11
->> bits(depends on specific h/w) to represent RMIDs. So, we cannot create
->> more than this limit(r->num_rmid).
->>
->> In case of ABMC, h/w uses another counter(mbm_assignable_counters) with
->> RMID to assign the monitoring. So, assignment limit is
->> mbm_assignable_counters. The number of mon groups limit is still r->num_rmid.
-> 
-> I see. Thank you for clarifying. This does make enabling simpler and one
-> less user interface item that needs changing.
-> 
-> ...
-> 
->>>> 2. /sys/fs/resctrl/monitor_state.
->>>> This can used to individually assign or unassign the counters in each group.
->>>>
->>>> When assigned:
->>>> #cat /sys/fs/resctrl/monitor_state
->>>> 0=total-assign,local-assign;1=total-assign,local-assign
->>>>
->>>> When unassigned:
->>>> #cat /sys/fs/resctrl/monitor_state
->>>> 0=total-unassign,local-unassign;1=total-unassign,local-unassign
->>>>
->>>>
->>>> Thoughts?
->>>
->>> How do you expect this interface to be used? I understand the mechanics
->>> of this interface but on a higher level, do you expect user space to
->>> once in a while assign a new counter to a single event or monitor group
->>> (for which a fine grained interface works) or do you expect user space to
->>> shift multiple counters across several monitor events at intervals?
->>
->> I think we should provide both the options. I was thinking of providing
->> fine grained interface first.
-> 
-> Could you please provide a motivation for why two interfaces, one inefficient
-> and one not, should be created and maintained? Users can still do fine grained
-> assignment with a global assignment interface.
-
-Lets consider one by one.
-
-1. Fine grained assignment.
-
-It will be part of the mongroup(or control mongroup). User has the access
-to the group and can query the group's current status before assigning or
-unassigning.
-
-   $cd /sys/fs/resctrl/ctrl_mon1
-   $cat /sys/fs/resctrl/ctrl_mon1/monitor_state
-       0=total-unassign,local-unassign;1=total-unassign,local-unassign;
-
-Assign the total event
-
-  $echo 0=total-assign > /sys/fs/resctrl/ctrl_mon1/monitor_state
-
-Assign the local event
-
-   $echo 0=local-assign > /sys/fs/resctrl/ctrl_mon1/monitor_state
-
-Assign both events:
-
-   $echo 0=total-assign,local-assign > /sys/fs/resctrl/ctrl_mon1/monitor_state
-
-Check the assignment status.
-
-   $cat /sys/fs/resctrl/ctrl_mon1/monitor_state
-       0=total-assign,local-assign;1=total-unassign,local-unassign;
-
--User interface is simple.
-
--Assignment will fail if all the h/w counters are exhausted. User needs to
-unassign a counter from another group and use that counter here. This can
-be done just querying the monitor state of another group.
-
--Monitor group's details(cpus, tasks) are part of the group. So, it is
-better to have assignment state inside the group.
-
-Note: Used interface names here just to give example.
-
-
-2. global assignment:
-
-I would assume the interface file will be in /sys/fs/resctrl/info/L3_MON/
-directory.
-
-In case there are 100 mongroups, we need to have a way to list current
-assignment status for these groups. I am not sure how to list status of
-these 100 groups.
-
-If user is wants to assign the local event(or total) in a specific group
-in this list of 100 groups, I am not sure how to provide interface for
-that. Should we pass the name of mongroup? That will involve looping
-through using the call kernfs_walk_and_get. This may be ok if we are
-dealing with very small number of groups.
-
--- 
-Thanks
-Babu Moger
+>
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
