@@ -1,78 +1,61 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07E21DDD1;
-	Wed, 28 Feb 2024 08:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584F8364CD;
+	Wed, 28 Feb 2024 09:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709110041; cv=none; b=FnUZpD5nTKiG9gucLqLpYaE1pbc8eoT+UOar7ntveeV8EcHGwoelPREAg+d878/NqKMFJ2lTSuk6evrAIOw4SL1rWMuIkEKAQ+0LagK4J6ViMfaGQMvrcHwB4f2qgWM57AeLYT/kqSo6gWpTOMnJMgep3Uk6mGoOs6P3wuGoveU=
+	t=1709111044; cv=none; b=gogsuJewB+vE6aMfVKp6iu6ghnAbJRzCPPQPn7lbXb+eu7QR+7YxjJgN+bnoxnJZjImfnlHY7+3myhKlUwzEebETC+MYUsW2oCryEqhXmz3FmK2mRQS0VoPaUKc2WOPHuaqmqGdbw7rbYmgIyvYA9KN9uYzgXtr5Ny//eInL8RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709110041; c=relaxed/simple;
-	bh=da7fKvfglkLdtpNErLBCbJjKSB2vf0y1Y/4zsoOTLBk=;
+	s=arc-20240116; t=1709111044; c=relaxed/simple;
+	bh=CDCmmBveuUqNZJ2apAV+ihYwz534BZMsrY3cmgntKqY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C6wk/hLLLFXv9+S5ZZiY112tzk6ztmeF75KAyQHzipytoFmz2qVmPPpBMhn/NkL2fmRYyzFOt9JM8HDgOaiOsB4hXBTYoJfE9jygWUfvX9iF1Q/XRYYLsn0gvJIT2jzwGVLKH6HzCTo/jhaL1avPqaf3uFc3x2aQHq5AWTmL52Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=s6ogdVMW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=A7eYUasH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=s6ogdVMW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=A7eYUasH; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 In-Reply-To:Content-Type; b=aZP2I/Zm1/78/0w+ZQvH8ebGTKBeSB9RqyFJgem2VimgM0I0XV+zZ/rm1FEP/9jTwQ/Eq7n/gCaErNrnETaOzwe6ia29hsj/Uqgat6RVZmF5rvryS3hasT7+dKIwp39CZW5FtC3Crw74aiffb8S2P07bz2dXS+bQ/gZSkLoxVkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yt6KK5zG; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="s6ogdVMW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="A7eYUasH";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="s6ogdVMW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="A7eYUasH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0A4421F7A4;
-	Wed, 28 Feb 2024 08:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1709110038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vj8SBiVnmCzYeLcoo696dWgrqk2e7VmSkmzYdiIhZIA=;
-	b=s6ogdVMWJ9Yj9M6VNL5ljL6Ihfa+xkxsw6TeA+cvHUv191l4MKLQpNULNHkeB8GJ+Auu9v
-	PlYnqE2eAGQFWv8MbBbeDgIXLU4P3Vp4vlAlYxXdU17cH7RDGQc5/8z8it3Ueoh+CGKfRr
-	MPuPGNG5Utti2cOzW55ELkB4rw0zp6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1709110038;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vj8SBiVnmCzYeLcoo696dWgrqk2e7VmSkmzYdiIhZIA=;
-	b=A7eYUasHGOqwTH88ZwnQWwVHo65JIkxjb91z9NcIz/jEEyMjS4CeV6OF9o9IbMR0a8tvDr
-	fG/C/fs7C5VAitBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1709110038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vj8SBiVnmCzYeLcoo696dWgrqk2e7VmSkmzYdiIhZIA=;
-	b=s6ogdVMWJ9Yj9M6VNL5ljL6Ihfa+xkxsw6TeA+cvHUv191l4MKLQpNULNHkeB8GJ+Auu9v
-	PlYnqE2eAGQFWv8MbBbeDgIXLU4P3Vp4vlAlYxXdU17cH7RDGQc5/8z8it3Ueoh+CGKfRr
-	MPuPGNG5Utti2cOzW55ELkB4rw0zp6Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1709110038;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vj8SBiVnmCzYeLcoo696dWgrqk2e7VmSkmzYdiIhZIA=;
-	b=A7eYUasHGOqwTH88ZwnQWwVHo65JIkxjb91z9NcIz/jEEyMjS4CeV6OF9o9IbMR0a8tvDr
-	fG/C/fs7C5VAitBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D9ED13AB0;
-	Wed, 28 Feb 2024 08:47:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id d+w3GhXz3mXBIQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 28 Feb 2024 08:47:17 +0000
-Message-ID: <6db0f0c8-81cb-4d04-9560-ba73d63db4b8@suse.cz>
-Date: Wed, 28 Feb 2024 09:47:17 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yt6KK5zG"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-595aa5b1fe0so3504223eaf.2;
+        Wed, 28 Feb 2024 01:04:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709111042; x=1709715842; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=FenSeDhx37Fn4h4rPIP/X4cfvW1ZC8JOsi6cnZG14Mo=;
+        b=Yt6KK5zGoZE7sYHcW8jKLHSAQJ5s9V+YMXNVggmlToTSTj9UpQGMQP3jn33BQfKX7n
+         0hmAyx/qD5np3qL+9+2rP7w+wzA2YjZHCqLgpWIR0s9x1QFW5VobRCPtgYGNjAYOpPRn
+         7e9/lbeDZ772Cs3lBj3F3t21esUXqGWbg+pT6+5dGnAGEDfW1ok1jILUsBCzulmW2Wtm
+         00rBdCX3jSQICp84Cek9znsvJmJUBORAsUs1L9KmPeOrccX4wwliRnbbrYrKKfbZV+14
+         lTHa7+XhNrYgBPS0ZoCH04pdn2Pf1lFKxdNz2WlMlmS3tXxmUU6L4g+2P1rfpfi5bj/h
+         CkLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709111042; x=1709715842;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FenSeDhx37Fn4h4rPIP/X4cfvW1ZC8JOsi6cnZG14Mo=;
+        b=lLpRMoMES/F1LW2MDcUTZhmo2FFgxLWa28SUvSnkM4I+MpqGQhWer82apyDzkBc6gJ
+         I8FApqZPe5SwGd3JSKiAA+wV1fqPN967QVF3kfJRWHsZynV+Ej5wnzYk7o9bXWQTl2mz
+         Ttlx4dxzaugs4KwG9BJtsG5gwxhyKxYSOiSlhF3V3lNzaogPmZZwafXHZNtPpIWpJN1Q
+         BdUH7fvyLKjUq8nDtTtRct5hFJx6DlCdbEYRGKr84cQgL/ja4k5jOFuOAnf3KsFOzc3t
+         GePk8P0/Xw/obsz4TmwMCGkgSjXe4G5FxmFMgaCQMP0LTpBIwq1mI+vL7tqHI7pGeUlp
+         BO7w==
+X-Forwarded-Encrypted: i=1; AJvYcCV3Ij+jiNZFZ6I10S/RY4JdVnOVkQYaNr8+4iwPl5NjEFg15g2wdAVE78dY1Cio/bClm/094BBWT5cJEX9k5VFADqxcmskfyDgNrl+WQcYmB597RuJNYJ7doTcCUbCtSnLirD0E11J+gikn8vWms4HgXennNwXvMjDzB/fQ62LZj5Q2OYsvMxKgQleZR/dAG3aMW83UsyVmxjjyDZF7k40m
+X-Gm-Message-State: AOJu0Yw0zycz8DCZ1RMaewjV3KzrbOCtIFxaDFy+0gKUFPWTX7hy0SpE
+	NaSs77E7lUk7uxGryM/W9yNWLf9dIsNglKrBy1mLiTtSHJoNb3B3
+X-Google-Smtp-Source: AGHT+IHnRve3OtpyuvD83WrEZqqI1Lk+ep0Bewe4MemDLs++I/if9YlOf41NMMKqP5ugfkes2LfgHw==
+X-Received: by 2002:a05:6870:9625:b0:220:15bb:ba43 with SMTP id d37-20020a056870962500b0022015bbba43mr9037258oaq.48.1709111042263;
+        Wed, 28 Feb 2024 01:04:02 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u4-20020a056a00098400b006e5619b2f83sm874654pfg.7.2024.02.28.01.03.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 01:04:01 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4b06d535-6739-47b5-ad1e-0ff94322620e@roeck-us.net>
+Date: Wed, 28 Feb 2024 01:03:58 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,139 +63,99 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 19/36] mm: create new codetag references during page
- splitting
+Subject: Re: [PATCH v4 3/3] hwmon: Driver for Nuvoton NCT7363Y
 Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
- dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
- penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
- rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
- yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
- hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
- ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
- ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20240221194052.927623-1-surenb@google.com>
- <20240221194052.927623-20-surenb@google.com>
- <2daf5f5a-401a-4ef7-8193-6dca4c064ea0@suse.cz>
- <CAJuCfpGt+zfFzfLSXEjeTo79gw2Be-UWBcJq=eL1qAnPf9PaiA@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <CAJuCfpGt+zfFzfLSXEjeTo79gw2Be-UWBcJq=eL1qAnPf9PaiA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -2.79
-X-Spamd-Result: default: False [-2.79 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_GT_50(0.00)[74];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
+To: Paul Menzel <pmenzel@molgen.mpg.de>, Ban Feng <baneric926@gmail.com>
+Cc: jdelvare@suse.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, corbet@lwn.net, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, kcfeng0@nuvoton.com, kwliu@nuvoton.com,
+ openbmc@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, DELPHINE_CHIU@wiwynn.com,
+ naresh.solanki@9elements.com, billy_tsai@aspeedtech.com
+References: <20240227005606.1107203-1-kcfeng0@nuvoton.com>
+ <20240227005606.1107203-4-kcfeng0@nuvoton.com>
+ <62f38808-7d5f-4466-a65e-b6a64b2e7c01@molgen.mpg.de>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <62f38808-7d5f-4466-a65e-b6a64b2e7c01@molgen.mpg.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2/27/24 17:38, Suren Baghdasaryan wrote:
-> On Tue, Feb 27, 2024 at 2:10 AM Vlastimil Babka <vbabka@suse.cz> wrote:
+On 2/27/24 23:57, Paul Menzel wrote:
+> Dear Ban,
+> 
+> 
+> Thank you for your patch. Some minor things from my side.
+> 
+> 
+> Am 27.02.24 um 01:56 schrieb baneric926@gmail.com:
+>> From: Ban Feng <kcfeng0@nuvoton.com>
 >>
->> On 2/21/24 20:40, Suren Baghdasaryan wrote:
->> > When a high-order page is split into smaller ones, each newly split
->> > page should get its codetag. The original codetag is reused for these
->> > pages but it's recorded as 0-byte allocation because original codetag
->> > already accounts for the original high-order allocated page.
->>
->> This was v3 but then you refactored (for the better) so the commit log
->> could reflect it?
+>> NCT7363Y is an I2C based hardware monitoring chip from Nuvoton.
 > 
-> Yes, technically mechnism didn't change but I should word it better.
-> Smth like this:
+> Please reference the datasheet.
 > 
-> When a high-order page is split into smaller ones, each newly split
-> page should get its codetag. After the split each split page will be
-> referencing the original codetag. The codetag's "bytes" counter
-> remains the same because the amount of allocated memory has not
-> changed, however the "calls" counter gets increased to keep the
-> counter correct when these individual pages get freed.
 
-Great, thanks.
-The concern with __free_pages() is not really related to splitting, so for
-this patch:
+Note that something like
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Datasheet: Available from Nuvoton upon request
 
+is quite common for hardware monitoring chips and acceptable.
+
+> Could you please give a high level description of the driver design?
 > 
->>
->> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->>
->> I was going to R-b, but now I recalled the trickiness of
->> __free_pages() for non-compound pages if it loses the race to a
->> speculative reference. Will the codetag handling work fine there?
-> 
-> I think so. Each non-compoud page has its individual reference to its
-> codetag and will decrement it whenever the page is freed. IIUC the
-> logic in  __free_pages(), when it loses race to a speculative
-> reference it will free all pages except for the first one and the
 
-The "tail" pages of this non-compound high-order page will AFAICS not have
-code tags assigned, so alloc_tag_sub() will be a no-op (or a warning with
-_DEBUG).
+Can you be more specific ? I didn't have time yet to look into details,
+but at first glance this looks like a standard hardware monitoring driver.
+One could argue that the high level design of such drivers is described
+in Documentation/hwmon/hwmon-kernel-api.rst.
+I don't usually ask for a additional design information for hwmon drivers
+unless some chip interaction is unusual and needs to be explained,
+and then I prefer to have it explained in the code. Given that, I am
+quite curious and would like to understand what you are looking for.
 
-> first one will be freed when the last put_page() happens. If prior to
-> this all these pages were split from one page then all of them will
-> have their own reference which points to the same codetag.
-
-Yeah I'm assuming there's no split before the freeing. This patch about
-splitting just reminded me of that tricky freeing scenario.
-
-So IIUC the "else if (!head)" path of __free_pages() will do nothing about
-the "tail" pages wrt code tags as there are no code tags.
-Then whoever took the speculative "head" page reference will put_page() and
-free it, which will end up in alloc_tag_sub(). This will decrement calls
-properly, but bytes will become imbalanced, because that put_page() will
-pass order-0 worth of bytes - the original order is lost.
-
-Now this might be rare enough that it's not worth fixing if that would be
-too complicated, just FYI.
-
-
-> Every time
-> one of these pages are freed that codetag's "bytes" and "calls"
-> counters will be decremented. I think accounting will work correctly
-> irrespective of where these pages are freed, in __free_pages() or by
-> put_page().
-> 
+Thanks,
+Guenter
 
