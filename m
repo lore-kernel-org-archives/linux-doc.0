@@ -1,130 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909F06FD00;
-	Wed, 28 Feb 2024 19:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAC15E079;
+	Wed, 28 Feb 2024 19:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709149049; cv=none; b=jKwBWH5HWvREMbtUU6IgT44EDXoqVfH6FGOaflsRd+9wcqs3pqB46ODHcPNhllgsfE7gKqP3N4c9DnMsMplc5jqxyuefLWjJOCHJvYN9E47i0apiH73lZya6hhk9oY3BalmMhxDHtHFqzVEiEHDdr8gUUHzUbTACz2gy/2PdbxY=
+	t=1709149899; cv=none; b=DliOhwP6+6eP1WCKrgjsIHRfsudEKI1tNQ0z4YHaH+nFv0n20C5NISUng95YjOXN6DOtOc9bMtKTaAeQ55XEg23JR1UPUrh3i52TopHX1bkfxZoILiNmPNFbnAovDo4EfBoJsWyhAPD2LRlLjkQeHkp7/fB0G0ougRv8DeI8foA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709149049; c=relaxed/simple;
-	bh=Zt8rdVP9ferchSPjP8MyEknFNupbw37j1uwmdwWPA+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eIIqGuSwhmJJeoRareTXsdY2eCo1JvlONvYWIosbn0iZfS+CHWHweYgno2znRzkysmptisYBXW0VTM0cohtCxemnEVAfhjoKq720WOihbeI3IL9eHvUpTPs2S0AfJawBkgTJ5lBhAHRz25PN3nTJwQFa/yc6Yf9REx9Qr5Q2P6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n9uyHwzo; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1709149899; c=relaxed/simple;
+	bh=kArOyMHY5+4vffML5guH3LLRbRSIeEUWV6WhuUq5CBU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H8luiv4F6hm4We1gQkEX0STYy7Z+IOapXQ03m9uxnWdaQus3ijA02dyJZJ/Yu7QH2mPqjqobJNvPMNgDwZ7Ya34NJLCUFmZ1DWzHrqlOE4xVtshfpqOLt6vpEM3lOpxZGVifMsT3gfWzuggDbpd/e50lMJusJujHnv1amjCi20g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMjMPkbd; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n9uyHwzo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709149048; x=1740685048;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Zt8rdVP9ferchSPjP8MyEknFNupbw37j1uwmdwWPA+0=;
-  b=n9uyHwzoFUuhesCzQhDLVV1vMY+gvG7OkDP7FbSJbkMPu8n8xWfYwaTU
-   BGHWmGbrTkpDSWi7toshf5BWxOXpSvI2IIlvHeT6ppkBj/lWhGkfYbOZD
-   Yc5yyiDHuovNEr2QAcoiTGpQYqy6JLrdHw0kMn1txo7lCL0+ZwqaLU5OM
-   CSww2MLh9jzvfYdagqtBEWSUoWw5KDMF/h+jmA3+MTuD3qWwymWHGJHIA
-   hWpi1O4nTKWK73c7+Bsg1Yrg8B1v+Y5uQKBHkWIHrJB//DKKYi5fj4xd8
-   hZ0c4kx9JQ42OpQ6jgwFF1Ruh2GWoe3U2g7BCW52MR2ZppE3dr03xZ2Gq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3495589"
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="3495589"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 11:37:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,191,1705392000"; 
-   d="scan'208";a="7485407"
-Received: from agluck-desk3.sc.intel.com ([172.25.222.105])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 11:37:21 -0800
-From: Tony Luck <tony.luck@intel.com>
-To: Fenghua Yu <fenghua.yu@intel.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	x86@kernel.org
-Cc: Shaopeng Tan <tan.shaopeng@fujitsu.com>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Drew Fustini <dfustini@baylibre.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	patches@lists.linux.dev,
-	Tony Luck <tony.luck@intel.com>
-Subject: [PATCH v15 8/8] x86/resctrl: Update documentation with Sub-NUMA cluster changes
-Date: Wed, 28 Feb 2024 11:37:03 -0800
-Message-ID: <20240228193717.8170-10-tony.luck@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240228112935.8087-tony.luck@intel.com>
-References: <20240228112215.8044-tony.luck@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMjMPkbd"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55f50cf2021so305831a12.1;
+        Wed, 28 Feb 2024 11:51:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709149896; x=1709754696; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PXcu3bFZcsrAoAiVrWjtsqyBDoVNoBgQRciFYDiNitI=;
+        b=cMjMPkbdGZDmLR+nDtzqTULHvY0UDrSlOmqlmfkiRxJJi1zAF6eWOXq2pxFYELrsHL
+         OPTWby4CojW9NxBSF5q11oqWnVQW4XQ0UOlHggEMAoJiR80q/95CgATNh8/Cmv87L9WY
+         Y6MRO025KLkBEYJEFbqMiJaTTl52c7kksTTPGRfr0szvfk1yUfpJSqhd2FsdZRBnIOjR
+         Yr+mnkZUL2/qBgI+2+Vab+Uhvrk6hRsvT7tg/V46oB3vcSQDkIFlZNCjYt+pPKNFbdRB
+         OxHIiz/UL1Wq8uonhaIomLp2mT9t6qaGVOGq85FgA3U69LMP/dQePWyBCD6SgvFE4/NG
+         Qp3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709149896; x=1709754696;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PXcu3bFZcsrAoAiVrWjtsqyBDoVNoBgQRciFYDiNitI=;
+        b=u1YwqVjlVpqgWJ0vpfcPaM8N92iIC4xNb/+i8MBSmSCV4VBZwQm5xOrwGifImOnDR9
+         YWnM34SWcSlc/1vwxT6CU7/OIMZdfGsv/Hn+4p1IvFYtZpbFFGJshvQInkGLCxTmBHH8
+         EpEoafEah6coo8NwWk9IXHtM6FSq3oj45Xpg/XnhcD2X/1945biQEi+cGWnFsln06WI9
+         5GDHxw6prFaFr+jd50ksEEoWEIZpl/46fbfylOuwvO6KDxFTqFv7zu1zJoWdYX+jDOGO
+         BRhI/mj6wS9cYGozMKJOiRLKj86QP/IOzgFI0yJmfDKBlP1bD0DRomqA0E0gmSNMUtII
+         pSXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUX/0F4Ma3iVGC/abX3zU0GczVbyk6wf8fRCY91MoMHUWU4Lcl527ztUqOPJmOFpqUei5ZavRkZDHumKEfjuJBeNrXX78mO11Zo+i2CU+nc4Se+6Ki7onjq+mNx9MLCpNAfBbebJWiOKCgseXLPwScpuYtXcdHEj31WCZOgbw0V
+X-Gm-Message-State: AOJu0YxPjm5HbAsBFzLx6TP5vPZjplxc09ouQX3aFE5Lt4m4Hcp/l53J
+	hJhS4TGPdoh+KIweWnIWZPeZvn0OiYzmYJYHyRBUM3Ln1v1+THOhE7PQ3oLYq7QzPkqiPPL/Q7o
+	FPODgF9M5vXpaLk3+vxDTho+DsXY=
+X-Google-Smtp-Source: AGHT+IHVoY0oGVQWBGe4FFrjlo5iWLfO+2p8dgc6oJtU8Gv/j7UJJgrbF3TuRNKK1nSur+YZaq6r/lJD8LKpK0qMdOY=
+X-Received: by 2002:aa7:dd0b:0:b0:566:821:d183 with SMTP id
+ i11-20020aa7dd0b000000b005660821d183mr242179edv.42.1709149895985; Wed, 28 Feb
+ 2024 11:51:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240228172948.221910-1-thepacketgeek@gmail.com> <77497701-3bd2-4f5f-9404-b32d9e91683b@gmail.com>
+In-Reply-To: <77497701-3bd2-4f5f-9404-b32d9e91683b@gmail.com>
+From: Matthew Wood <thepacketgeek@gmail.com>
+Date: Wed, 28 Feb 2024 11:51:24 -0800
+Message-ID: <CADvopva5LAe2WQa8N83mhi68++GRvh1Uw8SqatYY79uEOEZTEQ@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: netconsole: Add continuation line prefix to
+ userdata messages
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Breno Leitao <leitao@debian.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With Sub-NUMA Cluster mode enabled the scope of monitoring resources is
-per-NODE instead of per-L3 cache. Suffixes of directories with "L3" in
-their name refer to Sub-NUMA nodes instead of L3 cache ids.
+On Wed, Feb 28, 2024 at 9:32=E2=80=AFAM Florian Fainelli <f.fainelli@gmail.=
+com> wrote:
+>
+> On 2/28/24 09:29, Matthew Wood wrote:
+> > Add a space (' ') prefix to every userdata line to match docs for
+> > dev-kmsg. To account for this extra character in each userdata entry,
+> > reduce userdata entry names (directory name) from 54 characters to 53.
+> >
+> > According to the dev-kmsg docs, a space is used for subsequent lines to
+> > mark them as continuation lines.
+> >
+> >> A line starting with ' ', is a continuation line, adding
+> >> key/value pairs to the log message, which provide the machine
+> >> readable context of the message, for reliable processing in
+> >> userspace.
+> >
+> > Testing for this patch::
+> >
+> >   cd /sys/kernel/config/netconsole && mkdir cmdline0
+> >   cd cmdline0
+> >   mkdir userdata/test && echo "hello" > userdata/test/value
+> >   mkdir userdata/test2 && echo "hello2" > userdata/test2/value
+> >   echo "message" > /dev/kmsg
+> >
+> > Outputs::
+> >
+> >   6.8.0-rc5-virtme,12,493,231373579,-;message
+> >    test=3Dhello
+> >    test2=3Dhello2
+> >
+> > And I confirmed all testing works as expected from the original patchse=
+t
+> >
+> > Fixes: df03f830d099 ("net: netconsole: cache userdata formatted string =
+in netconsole_target")
+> > Signed-off-by: Matthew Wood <thepacketgeek@gmail.com>
+> > ---
+> >   Documentation/networking/netconsole.rst | 6 +++---
+> >   drivers/net/netconsole.c                | 4 ++--
+> >   2 files changed, 5 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/networking/netconsole.rst b/Documentation/ne=
+tworking/netconsole.rst
+> > index b28c525e5d1e..c2dec12f6060 100644
+> > --- a/Documentation/networking/netconsole.rst
+> > +++ b/Documentation/networking/netconsole.rst
+> > @@ -197,8 +197,8 @@ Messages will now include this additional user data=
+::
+> >   Sends::
+> >
+> >    12,607,22085407756,-;This is a message
+> > - foo=3Dbar
+> > - qux=3Dbaz
+> > +  foo=3Dbar
+> > +  qux=3Dbaz
+> >
+> >   Preview the userdata that will be appended with::
+> >
+> > @@ -218,7 +218,7 @@ The `qux` key is omitted since it has no value::
+> >
+> >    echo "This is a message" > /dev/kmsg
+> >    12,607,22085407756,-;This is a message
+> > - foo=3Dbar
+> > +  foo=3Dbar
+> >
+> >   Delete `userdata` entries with `rmdir`::
+> >
+> > diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+> > index 0de108a1c0c8..ffd3e19406b5 100644
+> > --- a/drivers/net/netconsole.c
+> > +++ b/drivers/net/netconsole.c
+> > @@ -43,7 +43,7 @@ MODULE_DESCRIPTION("Console driver for network interf=
+aces");
+> >   MODULE_LICENSE("GPL");
+> >
+> >   #define MAX_PARAM_LENGTH    256
+> > -#define MAX_USERDATA_NAME_LENGTH     54
+> > +#define MAX_USERDATA_NAME_LENGTH     53 /* 256 - 200 - 3 (for ' =3D\n'=
+ chars)*/
+>
+> Could we take this opportunity to define MAX_USERDATA_NAME_LENGTH based
+> upon MAX_PARAM_LENGTH - MAX_USERDATA_VALUE_LENGTH - 3 then?
+>
+> >   #define MAX_USERDATA_VALUE_LENGTH   200
+> >   #define MAX_USERDATA_ENTRY_LENGTH   256
+> >   #define MAX_USERDATA_ITEMS          16
+> > @@ -671,7 +671,7 @@ static void update_userdata(struct netconsole_targe=
+t *nt)
+> >                * checked to not exceed MAX items with child_count above
+> >                */
+> >               complete_idx +=3D scnprintf(&nt->userdata_complete[comple=
+te_idx],
+> > -                                       MAX_USERDATA_ENTRY_LENGTH, "%s=
+=3D%s\n",
+> > +                                       MAX_USERDATA_ENTRY_LENGTH, " %s=
+=3D%s\n",
+> >                                         item->ci_name, udm_item->value)=
+;
+> >       }
+> >       nt->userdata_length =3D strnlen(nt->userdata_complete,
+>
+> --
+> Florian
+>
 
-Users should be aware that SNC mode also affects the amount of L3 cache
-available for allocation within each SNC node.
-
-Signed-off-by: Tony Luck <tony.luck@intel.com>
----
- Documentation/arch/x86/resctrl.rst | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index a6279df64a9d..15f1cff6ee76 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -366,10 +366,10 @@ When control is enabled all CTRL_MON groups will also contain:
- When monitoring is enabled all MON groups will also contain:
- 
- "mon_data":
--	This contains a set of files organized by L3 domain and by
--	RDT event. E.g. on a system with two L3 domains there will
--	be subdirectories "mon_L3_00" and "mon_L3_01".	Each of these
--	directories have one file per event (e.g. "llc_occupancy",
-+	This contains a set of files organized by L3 domain or by NUMA
-+	node (depending on whether Sub-NUMA Cluster (SNC) mode is disabled
-+	or enabled respectively) and by RDT event.  Each of these
-+	directories has one file per event (e.g. "llc_occupancy",
- 	"mbm_total_bytes", and "mbm_local_bytes"). In a MON group these
- 	files provide a read out of the current value of the event for
- 	all tasks in the group. In CTRL_MON groups these files provide
-@@ -478,6 +478,23 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
- each bit represents 5% of the capacity of the cache. You could partition
- the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
- 
-+Notes on Sub-NUMA Cluster mode
-+==============================
-+When SNC mode is enabled, Linux may load balance tasks between Sub-NUMA
-+nodes much more readily than between regular NUMA nodes since the CPUs
-+on Sub-NUMA nodes share the same L3 cache and the system may report
-+the NUMA distance between Sub-NUMA nodes with a lower value than used
-+for regular NUMA nodes.  Users who do not bind tasks to the CPUs of a
-+specific Sub-NUMA node must read the "llc_occupancy", "mbm_total_bytes",
-+and "mbm_local_bytes" for all Sub-NUMA nodes where the tasks may execute
-+to get the full view of traffic for which the tasks were the source.
-+
-+The cache allocation feature still provides the same number of
-+bits in a mask to control allocation into the L3 cache, but each
-+of those ways has its capacity reduced because the cache is divided
-+between the SNC nodes. The values reported in the resctrl
-+"size" files are adjusted accordingly.
-+
- Memory bandwidth Allocation and monitoring
- ==========================================
- 
--- 
-2.43.0
-
+Yes, great suggestion. I'll send an update with this change tomorrow. thank=
+ you!
