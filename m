@@ -1,50 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4651361A2;
-	Wed, 28 Feb 2024 22:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6D21361A4;
+	Wed, 28 Feb 2024 22:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709158572; cv=none; b=qVgkPE1evx1JJjcPuPC4Y3VWqR1AJO8DghoCP4CVn8kK4YLeYdZ8B5o83a1IqzeUyqjY7ttXFBlh3IHbSkZDp+fYTJGCcXv6Q0YS2zRt9HIzGsX7pQFuRwrsH8zg/j+2XOlK1A8E2G5zYzFljXDafjyaDMvNUnM70lVO55e54CE=
+	t=1709160257; cv=none; b=LZI6dhR+b8aeCZ0bC0S71rWwRdzRWxkrLHWnPEOR0juBh0zSeLfjMnTWV/Zywr51LP/oCXDEZlUOLY3jDmRS3tq5dmQV16uILdeCdEiIQSdv1fDPGccs0X/aI0ac8tO6v27sI2OQ+beNr2TqAGcho5g7duF5TVwZXaPDmOlht1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709158572; c=relaxed/simple;
-	bh=pbol3C/d6CbOoRd3i/PquRtvHsjSPUGwtK9y5Vjhr8A=;
+	s=arc-20240116; t=1709160257; c=relaxed/simple;
+	bh=sFfSQI8H9anZqbz5zbNOIZk5SSnIblghGOAsPyjilNY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ltta+JXV2RIZWVDLXLfPVZHD4IZwp4lwV2yD7HTYmHCWPyHOj6TBacKlHSIq+On712WpZ4OsV+R5q0v7K0GsD/1Ye4uAdUXgupVInMBK8Bt7Sk2ncqDPdkKtU7Kf3l3Inm0rjTZAdY78JHYR67UrIMgrQZheTwgOZK8qXojk02Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GYBdu5kF; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Ne3z+051HVH0UdirKSHAyebv8m/M9HiGWrLPLDMzZRaP0gB61PuDj2M+yaiNLXOpG/O+4zFygq+hjJbAOGItLNYGPm7rK8/OTACi4hYKOKsfFlhoWEUDdnByJigIR+7OalSO7wcY0QajxvzXnqmgXVsgOUgDq5QAHNDcZF3wsfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kYxz469G; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GYBdu5kF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36F7D418B4
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kYxz469G"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 564AE418B5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1709158565; bh=Lq5jNvdtUpjtScfMNUa8PE+SfaHQ79U7h7StVMGVEjc=;
+	t=1709160255; bh=bPfj70haa25vAmOOxEZhbdceUi0BE5fJTxAq5LIhQMQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GYBdu5kFufFhSyMU4cpfPrGWqV2QxzMLbD+zbedrlDRfORZrpJR2L/XjG5GnZSI74
-	 FJ+4nVbit9BFclR28YABL4F0EjKMp2ewBCtkznygPMwotY5Wui82alAbT+ym7bxXwR
-	 iT4chwZSsVG1EXeJQpdd0PuGfbJSnjmainEvYNzZHE6zAA4vgipUcW7sttMfFZSjMg
-	 wz+/NqoMXn4fycnQjsaPzGYCLAXNQyiyldb7uQFpGN5G5yNp/LT18ye5kHY+zA98NL
-	 cdjojXqSBX63i9KnQTozJtjkrTHH8pnAOh003Mq82d4mXuSJrnmwRGTGvg1VSZVzHx
-	 v/Wfl7h7wlfTw==
+	b=kYxz469GMvwqL0TDa/2gg7OCU9jAQKhQ8VcBrE+zyB5gecIQq/mj3QxaEdLrIpWhw
+	 1aaX3Pr/8HF+7bTXppbjQBZAV9YgC4PiwZRJaAVD212OJzzUhs+XoNjGDnO3ZRkvo0
+	 MCDmAxdXfrWzmtNPNVAdVnr0OEtkWyG77D+Cx0PhMrLsDEha1DF+/PVJrU1/xu2SS5
+	 VoInppWoPPAk1xBAXS9o2lX1AJVm3d+MgrMMd8CiqyHJT1ffONOw/ktr0LcqhN0p3o
+	 dc9g32owRJIMB7tyzLPj4tHeGLozLuulr702Mvqb2vX3bDDasQPx22gZlML6f2nFYF
+	 3VXNYM8tnqhTg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 36F7D418B4;
-	Wed, 28 Feb 2024 22:16:05 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 564AE418B5;
+	Wed, 28 Feb 2024 22:44:15 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Vegard Nossum <vegard.nossum@oracle.com>, Akira
- Yokosawa <akiyks@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: drop the version constraints for sphinx and
- dependencies
-In-Reply-To: <CAKXUXMzejT7++UgpgE_eHbXTC+w0cz2-sPr3XawV6N2mCkupgw@mail.gmail.com>
-References: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
- <CAKXUXMzejT7++UgpgE_eHbXTC+w0cz2-sPr3XawV6N2mCkupgw@mail.gmail.com>
-Date: Wed, 28 Feb 2024 15:16:04 -0700
-Message-ID: <87edcwp74r.fsf@meer.lwn.net>
+To: Zhang Qiao <zhangqiao22@huawei.com>
+Cc: mingo@kernel.org, chrubis@suse.cz, zhangqiao22@huawei.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
+In-Reply-To: <20240131123238.2332064-1-zhangqiao22@huawei.com>
+References: <20240131123238.2332064-1-zhangqiao22@huawei.com>
+Date: Wed, 28 Feb 2024 15:44:14 -0700
+Message-ID: <875xy8p5tt.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,28 +49,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Zhang Qiao <zhangqiao22@huawei.com> writes:
 
-> This change seems to work for my setup, but I have really only dipped my
-> toes into the waters of this sphinx-pre-install script.
+> RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
+> we should document this sched feature.
 >
-> I only dropped the version constraints, but possibly one can even drop
-> some of the packages in the requirements.txt, as they are pulled in
-> automatically by Sphinx dependencies.
+> Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+> ---
+>  Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
+> index d685609ed3d7..4d8eceb71f5e 100644
+> --- a/Documentation/scheduler/sched-rt-group.rst
+> +++ b/Documentation/scheduler/sched-rt-group.rst
+> @@ -12,6 +12,7 @@ Real-Time group scheduling
+>       2.1 System-wide settings
+>       2.2 Default behaviour
+>       2.3 Basis for grouping tasks
+> +     2.4 RT_RUNTIME_SHARE sched feature
+>     3. Future plans
+>  
+>  
+> @@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
+>  
+>     \Sum_{i} runtime_{i} <= global_runtime
+>  
+> +2.4 RT_RUNTIME_SHARE sched feature
+> +----------------------------
+> +
+> +RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
+> +out of its own rt-runtime.
+> +
+> +With this feature enabled, a rt-task probably hits 100% cpu usage and starves
+> +per-cpu tasks like kworkers, as a result, it may hang up the whole system.
+> +Therefore, in order to avoid such exception, recommand to disable this feature
+> +by default unless you really know what you're up to.
 
-That's a cleanup we can do at any time, I guess.  I note that not all of
-them get pulled in correctly, though; after installing 7.2.6 with pip, I
-still had to get pyyaml separately before it would work.
-
-> So, I am happy to get your feedback, but I am well aware about its
-> potential to be improved and the lack of my deep knowledge about the
-> script. I hope, though, you can test it in your setup and confirm if
-> it works as expected and then we can discuss the details (e.g.,
-> naming).
-
-I think this is the direction we need to go.  We can add a separate
-requirements file for successful installation of 2.4.x later if that's
-really needed.  Unless I hear screams, my plan is to apply this.
+So this doesn't appear to have been picked up by anybody...should I
+carry it in docs, or is there some other reason why it hasn't gone in?
 
 Thanks,
 
