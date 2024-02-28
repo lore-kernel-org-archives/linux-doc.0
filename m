@@ -1,547 +1,503 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789E51487DF;
-	Wed, 28 Feb 2024 12:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709125121; cv=fail; b=OSmBC2FfnNx2zT1fW1n9IekyJhyHezITzc7LioA2fDyDj9j7nyM8eTKd2B+E/rkAtJSC6iTHAsznqaASuswAhBPNbBH6SJY2eTknqHtdx8jb4ir45vNEfl90y4JOoXIsTDRvUmlhycg/+Mxqqgb+igNjRtyuGDsqDZXcUKQSuHg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709125121; c=relaxed/simple;
-	bh=+LdNGKODjidhFjD67+8mjNg4ZNr4FKVUUvgwOOjxnjQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RctdNFSkWJZ/BfXN212el73fYGDL5yuDEYe+K61NijtQ8gUd2dEv1wXRefF9iuq6OFcVVvWnVLQKd42rPm7QYsAfWKxdvgZGQ1Byy1eZDnRNQV2hY8w5sO7ZvIYAN3aK8Ixn9I7sjWyGDDg15PoXadwN5T0B9dWNNpyoejNwcuk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bLysYCAm; arc=fail smtp.client-ip=40.107.236.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980D373508;
+	Wed, 28 Feb 2024 13:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709125304; cv=none; b=LNHJvEmCDEHTn3YhICu1+lsQMS8+ETkAWwKLB0XVGzNODuhjwp9xweVaU2GU2bCFIMwPgKp99UJ158EuxJ5wurJRYSPrIZF3I+iD3wiBcrlZd7rfcaYMwDo5K5i7e3eScpjV0LBSdf78zz/SHj2QWt3+DoyWXcr/9jAdsOfjpYc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709125304; c=relaxed/simple;
+	bh=dvKQXhNDsRdDuMi3T+MEGZB+PIdc0k+ecNP7SiCFNTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yosw6ywDymmU/qLxNyoT7PUN2lMnrF0tcoVADeOMgknzlrFO9UTGg5ZlCJhMbC3JGopjK+ayXOVgUTumrXbG0Ip5hso4/fJGncJX3K64cxqeYsJIQsC/HJGhEM7KechjV1b+FiVQQVGWf/VznKDBLIDl9fQDRw/OgBRLp6hDKBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPh3/8Dh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bLysYCAm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jkPpBQlgEeUlDs9Hdrb6s0hQwXxj4nUMY4eJapZ0/GCHYZHhyR6HLzLax8pv/SakeOzDXA+RHTf4K/bs+T4jssWiCn6VpW50Ddu5P6qPOTSfkKTRUEbP+DPw/WXrNcCyl1jggdO8D2O0gjlh/51bRuMGtnlsa8aeFzTdUf4RIqlApAs+KYjRqYqmLMs0mIODiYRPCb7nVmlfaR7HVpC4avLNF4moTPmzDhjR7tJNDx+msX+rlKsVsb4/y9y6ehRlGMqpOQq5PSvdlyHpzXden4NUOq8U2KP2j1iJ/Y7ynM+Flr0B/IAYe3gXrfukNVjpc7YCnh4dikx8NUeJwLmzPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=km8O+Bbqp5VjRWGtVFWspLxJHyuMM46DH/4xj/EyMyQ=;
- b=j6HCtJvJIRhWl9EjTfomabWd5mFKLAPl6XNUuJHDpXFcKVNJzKbxLBzzE9A/+MljFi+m2OV+4+j0xBcQph59k3QIRHNsMPMVwUigibC69Ys/dZc0OZ3W4+6FWorYDKB6saOyWs7YkzbOniygkwHEhrYXskNmIzBqK/hgRhlyZTJOiogjqcI4S5jg825an3OALiD8jfIKK0PEjUb//nfNOtj/dsnhSL5Dkws6EnIWpHacEt0npHrAgBsC1v3dnkjSy3PbE89Lz+cXDWxyy2HaoF365pOuvSTvxCExouskmDlvvYiRZB1GSTnB4I9tAhSsGMf2VMKKajqMV9s2aMOpBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=km8O+Bbqp5VjRWGtVFWspLxJHyuMM46DH/4xj/EyMyQ=;
- b=bLysYCAmU6Fli+1SaXxk6Y6GB+lL8O315Kcgcq9eCKgtZDZm/ny2w5msFVYyuleDazSKqHs2W1MBmG8VcjRI7w8eHOtYDHTkBCDtEBqLjxZGwn1S13zwEtUBhQcsj1ISXfXgpWeTq8VcQfw6+vb5u/QBh1h+WAoib4fZqLdiDGRvk909AgoqEX8rngRcMhzQE5f3BQM9EjZv9MA/b6y91IX1fBrojaJEmQ3l9utE09sm0KGs/3HFiwjwMRNIPqVHn4Uq9KQVpiBWdi/bS24a1bjESeQG9Uz3QJffIhjd+SPMZdpYJPNn4Q3gkT0L3vpA5vsG1BTqmgzbdOvqSbEBgw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com (2603:10b6:a03:45e::8)
- by CH3PR12MB9218.namprd12.prod.outlook.com (2603:10b6:610:19f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Wed, 28 Feb
- 2024 12:58:35 +0000
-Received: from SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::aa05:b8a0:7d5:b463]) by SJ1PR12MB6075.namprd12.prod.outlook.com
- ([fe80::aa05:b8a0:7d5:b463%3]) with mapi id 15.20.7316.032; Wed, 28 Feb 2024
- 12:58:35 +0000
-From: Aurelien Aptel <aaptel@nvidia.com>
-To: linux-nvme@lists.infradead.org,
-	netdev@vger.kernel.org,
-	sagi@grimberg.me,
-	hch@lst.de,
-	kbusch@kernel.org,
-	axboe@fb.com,
-	chaitanyak@nvidia.com,
-	davem@davemloft.net,
-	kuba@kernel.org
-Cc: Yoray Zack <yorayz@nvidia.com>,
-	aaptel@nvidia.com,
-	aurelien.aptel@gmail.com,
-	smalin@nvidia.com,
-	malin1024@gmail.com,
-	ogerlitz@nvidia.com,
-	borisp@nvidia.com,
-	galshalom@nvidia.com,
-	mgurtovoy@nvidia.com,
-	linux-doc@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	corbet@lwn.net
-Subject: [PATCH v23 09/20] Documentation: add ULP DDP offload documentation
-Date: Wed, 28 Feb 2024 12:57:22 +0000
-Message-Id: <20240228125733.299384-10-aaptel@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240228125733.299384-1-aaptel@nvidia.com>
-References: <20240228125733.299384-1-aaptel@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0419.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::18) To SJ1PR12MB6075.namprd12.prod.outlook.com
- (2603:10b6:a03:45e::8)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPh3/8Dh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E367C433F1;
+	Wed, 28 Feb 2024 13:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709125304;
+	bh=dvKQXhNDsRdDuMi3T+MEGZB+PIdc0k+ecNP7SiCFNTk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cPh3/8DhWAftWtR+uyJREppas0HQ/Vr82ebvLRUdNdSKX4cMlacl3bOgPnfWZ+o1y
+	 TAijMTaV0SP0KmAe6l7U3HW08A8HMNARa+gSztjbs7pV7N54XHOio9C2CfHbiW6XZo
+	 NlwTTRTJX4UFRDqO6Jva+EiHyJ0wye3a8vDkc2/MHjnt2TSEICDZnS5rpoZxqdOVOH
+	 lO50nPnII1AFvOj0M2lqQIcYal3s21OlE/yaNska3TiLTadz8UECKL+nacrHkgx3K8
+	 hStqNAC5NejAsWQQZRxw63AKN4OPnfmbEN90fOuHL+6Ho2bysdQrbmyjIVQaniNpBd
+	 WyGSRsKOdeITA==
+Date: Wed, 28 Feb 2024 08:02:59 -0500
+From: Al Viro <viro@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: [RFC][v4] documentation on filesystem exposure to RCU pathwalk from
+ fs maintainers' POV
+Message-ID: <Zd8vA3VCEXS7MyuN@duke.home>
+References: <Zdu58Jevui1ySBqa@duke.home>
+ <ZdzZ4LVrCie2MF3H@duke.home>
+ <Zd2XqwmAtNFe1Is9@duke.home>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6075:EE_|CH3PR12MB9218:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8503666-677a-4f19-03d0-08dc385cf91d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	QgY8NyGdQMxhh7RAd311bcjYBPcwKKKrgGCtUnsOuneBk+wUGsbPI/YR+mMO6/TNIP6LjYHuRA9JZV/2eIsl4J5EA3r1NtUQcXO5r3cBAmDTx67CjVAyYVQWcG6u+V/hJBTzatIKb69NPDP15SMwmsl1VRNrXVJijeGCpVBtb7kBuqMJ6sQCUsbVIY8Xu1BiH8L+VcChJY5ONPwsa26mveX78VkNZ/6VEBxIt7pqwmqtJSStSXbPezxy2EzerJkZKMWZCqTgHUWEGnnHoGqPgQpg9cyGt8EbYjtu5gYGCrfI2iC+FwuvST1ck0oywXCWISy/ePqbpsD0Fy4BW5R7+kugYmCp8nk7u9IiGzVVHUkltMEFJPcihWYASJ/yjZ+cWRFjdtzlTPaWCQJfxcofngcjmStVDkp+77BY0dmbyyO9R8MIpTTgLXOwHWBxwb4qsDVKSScG6A7/9BR8vJfIxqp37Oe4qbOFUX62+fUR78UQTe9aYp/QYWLywpZi0wHEsoURnFuF8VcI+uwHY6ZWQB+WQWBnxPuLIJ5R7foZgw8+yEDaP0GScic4UYx/gwzjbwcVG+bcRlMHEjK8IMX1yRQit4dHdOJSyeDlDLyF6y3AJ3Xr85UATk5ZomxRNNHMd6JCa6JMtKYi1ryxAchdlA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iW84r4eorqia6YK0HHRVTOHwB9jQZCzpeUbcbsNU2+Z6iqsTyWjVsbh8zidK?=
- =?us-ascii?Q?HSx5/UeiljRmCeBDPgfFnpt4dfw5rHeTcPBmKE5O1V0ONI4tonn6SUFIIUqt?=
- =?us-ascii?Q?T+LZQrF7dh56EHr7GH5fTPZDNCOyeoMh6tk3mxnWdpmSfTTE3sIshb7uJ6K9?=
- =?us-ascii?Q?fCPlLwNfh0WE3jf7bkdfEky1Ykd+xxd8HFdOTnn8ZLUgwyqxqzSY42yqDNJd?=
- =?us-ascii?Q?6K12RGymwOBLMnrvkhEu+sqBVUZNL825HR6m5HrwMU/XlDsF1vzX9o5bXowE?=
- =?us-ascii?Q?bDgueJnyqwUdma/am+k45dxC7OjUSUGAY5MCLjiPrIjq9mXP7qeW1eOIMOwQ?=
- =?us-ascii?Q?5mAVQ6gRU7K0P6Saxq/XRXjD7pDn23ax/VJ+8vJzemDBi78g+0M19h8UA+4d?=
- =?us-ascii?Q?i3JD7zgmgsx4oEV5XGUXjmw7/FA1mZESKbDMNEKY7D/tuGD6FfF7f3KA+G6q?=
- =?us-ascii?Q?LSYGeKxKDmRtwe/EMJeqopxDp+9TMiEwPssiSe4qn6LLxJwBTAyBRbHzWbPR?=
- =?us-ascii?Q?UcsoSVx/UZ6DFSQYQd2OrLfbndvaUcokPzBL5r7gyg5CLdZm3syfWxIO254i?=
- =?us-ascii?Q?8DGXxOQ2SawVKNdOhjEiYlD1U+h1kFDSWuzypwDuZAChDLak5XtfhdFVeNWV?=
- =?us-ascii?Q?m1qk2digN4BOjkFtGPNl78KRm8OCzqZZio+XEw33PzEiQZJV5dN7ql9RcdSC?=
- =?us-ascii?Q?1EQG0jUfV4rntE7VFgRsY7hElVQEMnJe0DtJ5Q3R/b50jSFR8RR62NlmeO6P?=
- =?us-ascii?Q?DI7MW0BRDsmyqIDRxcpFmOd9P5ME2/EsCKWpZvVYnzJoPwVrOiig1S4nvaxE?=
- =?us-ascii?Q?Rq3QQYcnUh6szFH5x/AIVMvD+CVvbDceUKa0bpiFPEmsJECZcs2MqiE0gGEK?=
- =?us-ascii?Q?6ThFg3i8KPhh7bj9hWY4WeacuNr7Q6vuDfq+0a8fD73NjFaK8YiBd6/a8aBj?=
- =?us-ascii?Q?HDLgjIA1Sn35IDrZvlPz4RsxTKiuxsrpZXcjcP8hdzRk0QN43XeSFv1QaE+P?=
- =?us-ascii?Q?kqrpKYiQ6VvxXb6Hj1kVTeYoJExCYS6WhWlhyii4AGa2RIWy8QQRNE9dYHr9?=
- =?us-ascii?Q?C58Vb2neRtzp8sUTNh4wFT6/gtpMZe5gJnOqzgPgIf9QRI3oCygiDxxVhfJs?=
- =?us-ascii?Q?mApmbaUIUsJgCp1LI94dcYScirkVaYY9BkOo3PJBYfGahq5SEo2WpbIgyubw?=
- =?us-ascii?Q?Je38hmQSzsrBuVHk64n4P8E1O4e2uZqm+c52wYqA2Vfuvzd34WZRs+iPnC2j?=
- =?us-ascii?Q?odvH4lH7UphrtRExgUxUddm4iGGX8HwuYOTw5e4AWmJQrA7teq5xybHUNK1D?=
- =?us-ascii?Q?sAqvQ/Trto+CsEoysokJR6lpz0C3miw+PN0Lm0v43N2B0rIWVs0Yg6OCd7rG?=
- =?us-ascii?Q?kHwhKSuq7PrNTlXsij0gMqNnSGhd1En2Uj2VzQNEdm1boqzN27AboufNhiVl?=
- =?us-ascii?Q?p2wi6FbO25HhHZjEeScEVp8gHUifcUW8Q4J6YQqtMttvTGHgpI58swJD/nKF?=
- =?us-ascii?Q?9fs8xwVbjynwEitZL3SvwBH3Hb6BkMEbIt2+JuJI0saWqqGXdaY6wt2Yk+xF?=
- =?us-ascii?Q?K/LBPWE9ArnpKli2UOzlxbB3lCMf4xFcLA1CfL7Z?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8503666-677a-4f19-03d0-08dc385cf91d
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6075.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2024 12:58:35.0144
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0jS9uxQLKUq/oLX7x4uMcjYGLzoGMuOXo9POQREK0WLhA/t1KqIw3HMTUAqG4D/9i8Kj8IAbunEKvVylC1yhNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9218
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zd2XqwmAtNFe1Is9@duke.home>
 
-From: Yoray Zack <yorayz@nvidia.com>
+On Tue, Feb 27, 2024 at 03:04:59AM -0500, Al Viro wrote:
+> On Mon, Feb 26, 2024 at 01:35:12PM -0500, Al Viro wrote:
+> > On Sun, Feb 25, 2024 at 05:06:40PM -0500, Al Viro wrote:
+> > > 	The text below is a rough approximation to what should, IMO,
+> > > end up in Documentation/filesystems/rcu-exposure.rst.  It started
+> > > as a part of audit notes.  Intended target audience of the text is
+> > > filesystem maintainers and/or folks who are reviewing fs code;
+> > > I hope the current contents is already useful to an extent, but
+> > > I'm pretty certain that it needs more massage before it could
+> > > go into the tree.
+> > > 
+> > > 	Please, read and review - comments and suggestions would be
+> > > very welcome, both for contents and for markup - I'm *not* familiar
+> > > with ReST or the ways it's used in the kernel (in particular, footnotes
+> > > seem to get lost in PDF).
+> > 
+> > Updated variant follows.  Changes since the previous:
+> > * beginning has been rewritten
+> > * typos spotted by Randy should be fixed
+> > * dumb braino in "opt out" part fixed (->d_automount is irrelevant, it's
+> > ->d_manage one needs to watch out for)
+> > * a stale bit in discussion of ->permission() ("currently (6.5) run afoul")
+> > updated (to "did (prior to 6.8-rc6) run afoul").
+> > * I gave up on ReST footnotes and did something similar manually.
+> 
+> Hopefully that one is better - the introductory part should be less handwavy
+> and easier to follow now...
 
-Document the new ULP DDP API and add it under "networking".
-Use NVMe-TCP implementation as an example.
+Changes since v3:
+* used the suggestion by Akira Yokosawa re fixing the footnotes
+* another rewrite of introductory part.
 
-Signed-off-by: Boris Pismenny <borisp@nvidia.com>
-Signed-off-by: Ben Ben-Ishay <benishay@nvidia.com>
-Signed-off-by: Or Gerlitz <ogerlitz@nvidia.com>
-Signed-off-by: Yoray Zack <yorayz@nvidia.com>
-Signed-off-by: Shai Malin <smalin@nvidia.com>
-Signed-off-by: Aurelien Aptel <aaptel@nvidia.com>
----
- Documentation/networking/index.rst           |   1 +
- Documentation/networking/ulp-ddp-offload.rst | 374 +++++++++++++++++++
- 2 files changed, 375 insertions(+)
- create mode 100644 Documentation/networking/ulp-ddp-offload.rst
+Please, review.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 69f3d6dcd9fd..2b96da09269f 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -110,6 +110,7 @@ Contents:
-    tc-queue-filters
-    tcp_ao
-    tcp-thin
-+   ulp-ddp-offload
-    team
-    timestamping
-    tipc
-diff --git a/Documentation/networking/ulp-ddp-offload.rst b/Documentation/networking/ulp-ddp-offload.rst
-new file mode 100644
-index 000000000000..438f060e9af4
---- /dev/null
-+++ b/Documentation/networking/ulp-ddp-offload.rst
-@@ -0,0 +1,374 @@
-+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+=================================
-+ULP direct data placement offload
-+=================================
-+
-+Overview
-+========
-+
-+The Linux kernel ULP direct data placement (DDP) offload infrastructure
-+provides tagged request-response protocols, such as NVMe-TCP, the ability to
-+place response data directly in pre-registered buffers according to header
-+tags. DDP is particularly useful for data-intensive pipelined protocols whose
-+responses may be reordered.
-+
-+For example, in NVMe-TCP numerous read requests are sent together and each
-+request is tagged using the PDU header CID field. Receiving servers process
-+requests as fast as possible and sometimes responses for smaller requests
-+bypasses responses to larger requests, e.g., 4KB reads bypass 1GB reads.
-+Thereafter, clients correlate responses to requests using PDU header CID tags.
-+The processing of each response requires copying data from SKBs to read
-+request destination buffers; The offload avoids this copy. The offload is
-+oblivious to destination buffers which can reside either in userspace
-+(O_DIRECT) or in kernel pagecache.
-+
-+Request TCP byte-stream:
-+
-+.. parsed-literal::
-+
-+ +---------------+-------+---------------+-------+---------------+-------+
-+ | PDU hdr CID=1 | Req 1 | PDU hdr CID=2 | Req 2 | PDU hdr CID=3 | Req 3 |
-+ +---------------+-------+---------------+-------+---------------+-------+
-+
-+Response TCP byte-stream:
-+
-+.. parsed-literal::
-+
-+ +---------------+--------+---------------+--------+---------------+--------+
-+ | PDU hdr CID=2 | Resp 2 | PDU hdr CID=3 | Resp 3 | PDU hdr CID=1 | Resp 1 |
-+ +---------------+--------+---------------+--------+---------------+--------+
-+
-+The driver builds SKB page fragments that point to destination buffers.
-+Consequently, SKBs represent the original data on the wire, which enables
-+*transparent* inter-operation with the network stack. To avoid copies between
-+SKBs and destination buffers, the layer-5 protocol (L5P) will check
-+``if (src == dst)`` for SKB page fragments, success indicates that data is
-+already placed there by NIC hardware and copy should be skipped.
-+
-+In addition, L5P might have DDGST which ensures data integrity over
-+the network.  If not offloaded, ULP DDP might not be efficient as L5P
-+will need to go over the data and calculate it by itself, cancelling
-+out the benefits of the DDP copy skip.  ULP DDP has support for Rx/Tx
-+DDGST offload. On the received side the NIC will verify DDGST for
-+received PDUs and update SKB->ulp_ddp and SKB->ulp_crc bits.  If all the SKBs
-+making up a L5P PDU have crc on, L5P will skip on calculating and
-+verifying the DDGST for the corresponding PDU. On the Tx side, the NIC
-+will be responsible for calculating and filling the DDGST fields in
-+the sent PDUs.
-+
-+Offloading does require NIC hardware to track L5P protocol framing, similarly
-+to RX TLS offload (see Documentation/networking/tls-offload.rst).  NIC hardware
-+will parse PDU headers, extract fields such as operation type, length, tag
-+identifier, etc. and only offload segments that correspond to tags registered
-+with the NIC, see the :ref:`buf_reg` section.
-+
-+Device configuration
-+====================
-+
-+During driver initialization the driver sets the ULP DDP operations
-+for the :c:type:`struct net_device <net_device>` via
-+`netdev->netdev_ops->ulp_ddp_ops`.
-+
-+The :c:member:`get_caps` operation returns the ULP DDP capabilities
-+enabled and/or supported by the device to the caller. The current list
-+of capabilities is represented as a bitset:
-+
-+.. code-block:: c
-+
-+  enum ulp_ddp_cap {
-+	ULP_DDP_CAP_NVME_TCP,
-+	ULP_DDP_CAP_NVME_TCP_DDGST,
-+  };
-+
-+The enablement of capabilities can be controlled via the
-+:c:member:`set_caps` operation. This operation is exposed to userspace
-+via netlink. See Documentation/netlink/specs/ulp_ddp.yaml for more
-+details.
-+
-+Later, after the L5P completes its handshake, the L5P queries the
-+driver for its runtime limitations via the :c:member:`limits` operation:
-+
-+.. code-block:: c
-+
-+ int (*limits)(struct net_device *netdev,
-+	       struct ulp_ddp_limits *lim);
-+
-+
-+All L5P share a common set of limits and parameters (:c:type:`struct ulp_ddp_limits <ulp_ddp_limits>`):
-+
-+.. code-block:: c
-+
-+ /**
-+  * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
-+  * protocol limits.
-+  * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, etc.).
-+  *
-+  * @type:		type of this limits struct
-+  * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
-+  * @io_threshold:	minimum payload size required to offload
-+  * @tls:		support for ULP over TLS
-+  * @nvmeotcp:		NVMe-TCP specific limits
-+  */
-+ struct ulp_ddp_limits {
-+	enum ulp_ddp_type	type;
-+	int			max_ddp_sgl_len;
-+	int			io_threshold;
-+	bool			tls:1;
-+	union {
-+		/* ... protocol-specific limits ... */
-+		struct nvme_tcp_ddp_limits nvmeotcp;
-+	};
-+ };
-+
-+But each L5P can also add protocol-specific limits e.g.:
-+
-+.. code-block:: c
-+
-+ /**
-+  * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
-+  *
-+  * @full_ccid_range:	true if the driver supports the full CID range
-+  */
-+ struct nvme_tcp_ddp_limits {
-+	bool			full_ccid_range;
-+ };
-+
-+Once the L5P has made sure the device is supported the offload
-+operations are installed on the socket.
-+
-+If offload installation fails, then the connection is handled by software as if
-+offload was not attempted.
-+
-+To request offload for a socket `sk`, the L5P calls :c:member:`sk_add`:
-+
-+.. code-block:: c
-+
-+ int (*sk_add)(struct net_device *netdev,
-+	       struct sock *sk,
-+	       struct ulp_ddp_config *config);
-+
-+The function return 0 for success. In case of failure, L5P software should
-+fallback to normal non-offloaded operations.  The `config` parameter indicates
-+the L5P type and any metadata relevant for that protocol. For example, in
-+NVMe-TCP the following config is used:
-+
-+.. code-block:: c
-+
-+ /**
-+  * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO queue
-+  *
-+  * @pfv:        pdu version (e.g., NVME_TCP_PFV_1_0)
-+  * @cpda:       controller pdu data alignment (dwords, 0's based)
-+  * @dgst:       digest types enabled.
-+  *              The netdev will offload crc if L5P data digest is supported.
-+  * @queue_size: number of nvme-tcp IO queue elements
-+  * @queue_id:   queue identifier
-+  */
-+ struct nvme_tcp_ddp_config {
-+	u16			pfv;
-+	u8			cpda;
-+	u8			dgst;
-+	int			queue_size;
-+	int			queue_id;
-+ };
-+
-+When offload is not needed anymore, e.g. when the socket is being released, the L5P
-+calls :c:member:`sk_del` to release device contexts:
-+
-+.. code-block:: c
-+
-+ void (*sk_del)(struct net_device *netdev,
-+	        struct sock *sk);
-+
-+Normal operation
-+================
-+
-+At the very least, the device maintains the following state for each connection:
-+
-+ * 5-tuple
-+ * expected TCP sequence number
-+ * mapping between tags and corresponding buffers
-+ * current offset within PDU, PDU length, current PDU tag
-+
-+NICs should not assume any correlation between PDUs and TCP packets.
-+If TCP packets arrive in-order, offload will place PDU payloads
-+directly inside corresponding registered buffers. NIC offload should
-+not delay packets. If offload is not possible, than the packet is
-+passed as-is to software. To perform offload on incoming packets
-+without buffering packets in the NIC, the NIC stores some inter-packet
-+state, such as partial PDU headers.
-+
-+RX data-path
-+------------
-+
-+After the device validates TCP checksums, it can perform DDP offload.  The
-+packet is steered to the DDP offload context according to the 5-tuple.
-+Thereafter, the expected TCP sequence number is checked against the packet
-+TCP sequence number. If there is a match, offload is performed: the PDU payload
-+is DMA written to the corresponding destination buffer according to the PDU header
-+tag.  The data should be DMAed only once, and the NIC receive ring will only
-+store the remaining TCP and PDU headers.
-+
-+We remark that a single TCP packet may have numerous PDUs embedded inside. NICs
-+can choose to offload one or more of these PDUs according to various
-+trade-offs. Possibly, offloading such small PDUs is of little value, and it is
-+better to leave it to software.
-+
-+Upon receiving a DDP offloaded packet, the driver reconstructs the original SKB
-+using page frags, while pointing to the destination buffers whenever possible.
-+This method enables seamless integration with the network stack, which can
-+inspect and modify packet fields transparently to the offload.
-+
-+.. _buf_reg:
-+
-+Destination buffer registration
-+-------------------------------
-+
-+To register the mapping between tags and destination buffers for a socket
-+`sk`, the L5P calls :c:member:`setup` of :c:type:`struct ulp_ddp_dev_ops
-+<ulp_ddp_dev_ops>`:
-+
-+.. code-block:: c
-+
-+ int (*setup)(struct net_device *netdev,
-+	      struct sock *sk,
-+	      struct ulp_ddp_io *io);
-+
-+
-+The `io` provides the buffer via scatter-gather list (`sg_table`) and
-+corresponding tag (`command_id`):
-+
-+.. code-block:: c
-+
-+ /**
-+  * struct ulp_ddp_io - tcp ddp configuration for an IO request.
-+  *
-+  * @command_id:  identifier on the wire associated with these buffers
-+  * @nents:       number of entries in the sg_table
-+  * @sg_table:    describing the buffers for this IO request
-+  * @first_sgl:   first SGL in sg_table
-+  */
-+ struct ulp_ddp_io {
-+	u32			command_id;
-+	int			nents;
-+	struct sg_table		sg_table;
-+	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
-+ };
-+
-+After the buffers have been consumed by the L5P, to release the NIC mapping of
-+buffers the L5P calls :c:member:`teardown` of :c:type:`struct
-+ulp_ddp_dev_ops <ulp_ddp_dev_ops>`:
-+
-+.. code-block:: c
-+
-+ void (*teardown)(struct net_device *netdev,
-+		  struct sock *sk,
-+		  struct ulp_ddp_io *io,
-+		  void *ddp_ctx);
-+
-+`teardown` receives the same `io` context and an additional opaque
-+`ddp_ctx` that is used for asynchronous teardown, see the :ref:`async_release`
-+section.
-+
-+.. _async_release:
-+
-+Asynchronous teardown
-+---------------------
-+
-+To teardown the association between tags and buffers and allow tag reuse NIC HW
-+is called by the NIC driver during `teardown`. This operation may be
-+performed either synchronously or asynchronously. In asynchronous teardown,
-+`teardown` returns immediately without unmapping NIC HW buffers. Later,
-+when the unmapping completes by NIC HW, the NIC driver will call up to L5P
-+using :c:member:`ddp_teardown_done` of :c:type:`struct ulp_ddp_ulp_ops <ulp_ddp_ulp_ops>`:
-+
-+.. code-block:: c
-+
-+ void (*ddp_teardown_done)(void *ddp_ctx);
-+
-+The `ddp_ctx` parameter passed in `ddp_teardown_done` is the same on provided
-+in `teardown` and it is used to carry some context about the buffers
-+and tags that are released.
-+
-+Resync handling
-+===============
-+
-+RX
-+--
-+In presence of packet drops or network packet reordering, the device may lose
-+synchronization between the TCP stream and the L5P framing, and require a
-+resync with the kernel's TCP stack. When the device is out of sync, no offload
-+takes place, and packets are passed as-is to software. Resync is very similar
-+to TLS offload (see documentation at Documentation/networking/tls-offload.rst)
-+
-+If only packets with L5P data are lost or reordered, then resynchronization may
-+be avoided by NIC HW that keeps tracking PDU headers. If, however, PDU headers
-+are reordered, then resynchronization is necessary.
-+
-+To resynchronize hardware during traffic, we use a handshake between hardware
-+and software. The NIC HW searches for a sequence of bytes that identifies L5P
-+headers (i.e., magic pattern).  For example, in NVMe-TCP, the PDU operation
-+type can be used for this purpose.  Using the PDU header length field, the NIC
-+HW will continue to find and match magic patterns in subsequent PDU headers. If
-+the pattern is missing in an expected position, then searching for the pattern
-+starts anew.
-+
-+The NIC will not resume offload when the magic pattern is first identified.
-+Instead, it will request L5P software to confirm that indeed this is a PDU
-+header. To request confirmation the NIC driver calls up to L5P using
-+:c:member:`resync_request` of :c:type:`struct ulp_ddp_ulp_ops <ulp_ddp_ulp_ops>`:
-+
-+.. code-block:: c
-+
-+  bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
-+
-+The `seq` parameter contains the TCP sequence of the last byte in the PDU header.
-+The `flags` parameter contains a flag (`ULP_DDP_RESYNC_PENDING`) indicating whether
-+a request is pending or not.
-+L5P software will respond to this request after observing the packet containing
-+TCP sequence `seq` in-order. If the PDU header is indeed there, then L5P
-+software calls the NIC driver using the :c:member:`resync` function of
-+the :c:type:`struct ulp_ddp_dev_ops <ulp_ddp_ops>` inside the :c:type:`struct
-+net_device <net_device>` while passing the same `seq` to confirm it is a PDU
-+header.
-+
-+.. code-block:: c
-+
-+ void (*resync)(struct net_device *netdev,
-+		struct sock *sk, u32 seq);
-+
-+Statistics
-+==========
-+
-+Per L5P protocol, the NIC driver must report statistics for the above
-+netdevice operations and packets processed by offload.
-+These statistics are per-device and can be retrieved from userspace
-+via netlink (see Documentation/netlink/specs/ulp_ddp.yaml).
-+
-+For example, NVMe-TCP offload reports:
-+
-+ * ``rx_nvme_tcp_sk_add`` - number of NVMe-TCP Rx offload contexts created.
-+ * ``rx_nvme_tcp_sk_add_fail`` - number of NVMe-TCP Rx offload context creation
-+   failures.
-+ * ``rx_nvme_tcp_sk_del`` - number of NVMe-TCP Rx offload contexts destroyed.
-+ * ``rx_nvme_tcp_setup`` - number of DDP buffers mapped.
-+ * ``rx_nvme_tcp_setup_fail`` - number of DDP buffers mapping that failed.
-+ * ``rx_nvme_tcp_teardown`` - number of DDP buffers unmapped.
-+ * ``rx_nvme_tcp_drop`` - number of packets dropped in the driver due to fatal
-+   errors.
-+ * ``rx_nvme_tcp_resync`` - number of packets with resync requests.
-+ * ``rx_nvme_tcp_packets`` - number of packets that used offload.
-+ * ``rx_nvme_tcp_bytes`` - number of bytes placed in DDP buffers.
-+
-+NIC requirements
-+================
-+
-+NIC hardware should meet the following requirements to provide this offload:
-+
-+ * Offload must never buffer TCP packets.
-+ * Offload must never modify TCP packet headers.
-+ * Offload must never reorder TCP packets within a flow.
-+ * Offload must never drop TCP packets.
-+ * Offload must not depend on any TCP fields beyond the
-+   5-tuple and TCP sequence number.
--- 
-2.34.1
+===================================================================
+The ways in which RCU pathwalk can ruin filesystem maintainer's day
+===================================================================
 
+Pathname resolution fast path: the scarier conditions for filesystem code
+=========================================================================
+
+The basic safety assumption for any multithreaded OO code is that
+objects passed to a function will not have been already destroyed by
+another thread.  It may guaranteed by various mechanisms (refcounting,
+some form of exclusion, not having pointers to the object visible to other
+threads, etc.), but no matter how it's done, the caller is expected to
+have done that.
+
+Usually one wants a stronger warranty - that destructors of any objects
+passed to a function would not be called by other threads until the
+function has either done something that explicitly allows that to happen
+(e.g. dropped a reference to refcounted object that had been passed
+to it, stored a pointer in a shared data structure, etc.) or finished
+its execution.
+
+Filesystem methods **usually** can count upon such warranties regarding
+the lifetime of objects they are called to act upon.
+
+However, there is one important case where providing such warranties
+is rather costly.  On the fast path in pathname resolution (the case
+when everything we need is in VFS caches), grabbing and dropping dentry
+references for every visited directory would cause unpleasant scalability
+issues.
+
+The problem is that access patterns are heavily biased; every system call
+getting an absolute pathname will have to start at root directory, etc.
+Having each of them in effect write "I'd been here" on the same memory
+objects would cost quite a bit.
+
+To deal with that we try to keep the fast path stores-free, bumping
+no refcounts and taking no locks.  Details are described elsewhere
+(Documentation/filesystems/path-lookup.txt), but the bottom line for
+filesystems is that the methods involved in fast path of pathname
+resolution may be called with much looser warranties than usual.
+The caller deliberately does *not* take the steps that would normally
+protect the object from being torn down by another thread while the
+method is trying to work with it.  This applies not just to dentries -
+associated inodes and even the filesystem instance the object belongs
+to could be in process of getting torn down (yes, really).\ [#f0]_
+Of course, from the filesystem point of view, every call like that is
+a potential source of headache.
+
+Such unsafe method calls do get *some* warranties.  Before going into
+the details, keep in mind that
+
+* few methods are affected, and their defaults (i.e. what we get if the
+  method is left NULL) are safe.  If your filesystem does not need to
+  override any of those defaults, you are fine (there is a minor nit
+  regarding the cached fast symlinks, but that's easy to take care of).
+
+* for most of those methods there is a way to bail out and tell VFS to
+  leave the fast path and switch to holding proper references from
+  that point on.  That's what has to happen when an instance sees that it
+  can't go on without a blocking operation, but you can use the same
+  mechanism to bail out as soon as you see an unsafe call.
+
+
+Which methods are affected?
+===========================
+
+	The list of the methods that could run into that fun:
+
+========================	==================================	===================	====================
+	method			indication that the call is unsafe	unprotected objects	bailout return value
+========================	==================================	===================	====================
+->d_hash(d, ...) 		none - any call might be		d
+->d_compare(d, ...)		none - any call might be		d
+->d_revalidate(d, f)		f & LOOKUP_RCU				d			-ECHILD
+->d_manage(d, f)		f					d			-ECHILD
+->permission(i, m)		m & MAY_NOT_BLOCK			i			-ECHILD
+->get_link(d, i, ...)		d == NULL				i			ERR_PTR(-ECHILD)
+->get_inode_acl(i, t, f)	f == LOOKUP_RCU				i			ERR_PTR(-ECHILD)
+========================	==================================	===================	====================
+
+Additionally, callback set by set_delayed_call() from unsafe call of
+->get_link() will be run in the same environment; that one is usually not
+a problem, though.
+
+For the sake of completeness, three of LSM methods
+(->inode_permission(), ->inode_follow_link() and ->task_to_inode())
+might be called in similar environment, but that's a problem for LSM
+crowd, not for filesystem folks.
+
+
+Opting out
+==========
+
+To large extent a filesystem can opt out of RCU pathwalk; that loses all
+scalability benefits whenever your filesystem gets involved in pathname
+resolution, though.  If that's the way you choose to go, just make sure
+that
+
+1. any non-default ->d_revalidate(), ->permission(), ->get_link() and
+   ->get_inode_acl() instance bails out if called by RCU pathwalk (see
+   below for details).  Costs a couple of lines of boilerplate in each.
+
+2. if some symlink inodes have ->i_link set to a dynamically allocated
+   object, that object won't be freed without an RCU delay.  Anything
+   coallocated with inode is fine, so's anything freed from ->free_inode().
+   Usually comes for free, just remember to avoid freeing directly
+   from ->destroy_inode().
+
+3. any ->d_hash() and ->d_compare() instances (if you have those) do
+   not access any filesystem objects.
+
+4. there's no ->d_manage() instances in your filesystem.
+
+If your case does not fit the above, the easy opt-out is not for you.
+If so, you'll have to keep reading...
+
+
+What is guaranteed and what is required?
+========================================
+
+Any method call is, of course, required not to crash - no stepping on
+freed memory, etc.  All of the unsafe calls listed above are done under
+rcu_read_lock(), so they are not allowed to block.  Further requirements
+vary between the methods.
+
+Before going through the list of affected methods, several notes on
+the things that *are* guaranteed:
+
+* if a reference to struct dentry is passed to such call, it will
+  not be freed until the method returns.  The same goes for a reference to
+  struct inode and to struct super_block pointed to by ->d_sb or ->i_sb
+  members of dentry and inode respectively.  Any of those might be in
+  process of being torn down or enter such state right under us;
+  the entire point of those unsafe calls is that we make them without
+  telling anyone they'd need to wait for us.
+
+* following ->d_parent and ->d_inode of such dentries is fine,
+  provided that it's done by READ_ONCE() (for ->d_inode the preferred
+  form is d_inode_rcu(dentry)).  The value of ->d_parent is never going
+  to be NULL and it will again point to a struct dentry that will not be
+  freed until the method call finishes.  The value of ->d_inode might
+  be NULL; if non-NULL, it'll be pointing to a struct inode that will
+  not be freed until the method call finishes.
+
+* none of the inodes passed to an unsafe call could have reached
+  fs/inode.c:evict() before the caller grabbed rcu_read_lock().
+
+* for inodes 'not freed' means 'not entered ->free_inode()', so
+  anything that won't be destroyed until ->free_inode() is safe to access.
+  Anything synchronously destroyed in ->evict_inode() or ->destroy_inode()
+  is not safe; however, one can count upon the call_rcu() callbacks
+  issued in those yet to be entered.  Note that unlike dentries and
+  superblocks, inodes are embedded into filesystem-private objects;
+  anything stored directly in the containing object is safe to access.
+
+* for dentries anything destroyed by ->d_prune() (synchronously or
+  not) is not safe; the same goes for the things synchronously destroyed
+  by ->d_release().  However, call_rcu() callbacks issued in ->d_release()
+  are yet to be entered.
+
+* for superblocks we can count upon call_rcu() callbacks issued
+  from inside the ->kill_sb() (including the ones issued from
+  ->put_super()) yet to be entered.  You can also count upon
+  ->s_user_ns still being pinned and ->s_security still not
+  freed.
+
+* NOTE: we **can not** count upon the things like ->d_parent
+  being positive (or a directory); a race with rename()+rmdir()+mknod()
+  and you might find a FIFO as parent's inode.  NULL is even easier -
+  just have the dentry and its ex-parent already past dentry_kill()
+  (which is a normal situation for eviction on memory pressure) and there
+  you go.  Normally such pathologies are prevented by the locking (and
+  dentry refcounting), but... the entire point of that stuff is to avoid
+  informing anyone that we are there, so those mechanisms are bypassed.
+  What's more, if dentry is not pinned by refcount, grabbing its ->d_lock
+  will *not* suffice to prevent that kind of mess - the scenario with
+  eviction by memory pressure won't be prevented by that; you might have
+  grabbed ->d_lock only after the dentry_kill() had released it, and
+  at that point ->d_parent still points to what used to be the parent,
+  but there's nothing to prevent its eviction.
+
+
+->d_compare()
+-------------
+
+For ->d_compare() we just need to make sure it won't crash when called
+for dying dentry - an incorrect return value won't harm the caller in
+such case.  False positives and false negatives alike - the callers take
+care of that.  To be pedantic, make that "false positives do not cause
+problems unless they have ->d_manage()", but ->d_manage() is present
+only on autofs and there's no autofs ->d_compare() instances.\ [#f1]_
+
+There is no indication that ->d_compare() is called in RCU mode;
+the majority of callers are such, anyway, so we need to cope with that.
+VFS guarantees that dentry won't be freed under us; the same goes for
+the superblock pointed to by its ->d_sb.  Name points to memory object
+that won't get freed under us and length does not exceed the size of
+that object.  The contents of that object is *NOT* guaranteed to be
+stable; d_move() might race with us, modifying the name.  However, in
+that case we are free to return an arbitrary result - the callers will
+take care of both false positives and false negatives in such case.
+The name we are comparing dentry with (passed in qstr) is stable,
+thankfully...
+
+If we need to access any other data, it's up to the filesystem
+to protect it.  In practice it means that destruction of fs-private part
+of superblock (and possibly unicode tables hanging off it, etc.) might
+need to be RCU-delayed.
+
+*IF* you want the behaviour that varies depending upon the parent
+directory, you get to be very careful with READ_ONCE() and watch out
+for the object lifetimes.
+
+Basically, if the things get that tricky, ask for help.
+Currently there are two such instances in the tree - proc_sys_compare()
+and generic_ci_d_compare().  Both are... special.
+
+
+->d_hash()
+----------
+
+For ->d_hash() on a dying dentry we are free to report any hash
+value; the only extra requirement is that we should not return stray
+hard errors.  In other words, if we return anything other than 0 or
+-ECHILD, we'd better make sure that this error would've been correct
+before the parent started dying.  Since ->d_hash() error reporting is
+usually done to reject unacceptable names (too long, contain unsuitable
+characters for this filesystem, etc.), that's really not a problem -
+hard errors depend only upon the name, not the parent.
+
+Again, VFS guarantees that freeing of dentry and of the superblock
+pointed to by dentry->d_sb won't happen under us.  The name passed to
+us (in qstr) is stable.  If you need anything beyond that, you are
+in the same situation as with ->d_compare().  Might want to RCU-delay
+freeing private part of superblock (if that's what we need to access),
+might want the same for some objects hanging off that (unicode tables,
+etc.).  If you need something beyond that - ask for help.
+
+
+->d_revalidate()
+----------------
+
+For this one we do have an indication of call being unsafe -
+flags & LOOKUP_RCU.  With ->d_revalidate we are always allowed to bail
+out and return -ECHILD; that will have the caller drop out of RCU mode.
+We definitely need to do that if revalidate would require any kind of IO,
+mutex-taking, etc.; we can't block in RCU mode.
+
+Quite a few instances of ->d_revalidate() simply treat LOOKUP_RCU
+in flags as "return -ECHILD and be done with that"; it's guaranteed to
+do the right thing, but you lose the benefits of RCU pathwalks whenever
+you run into such dentry.
+
+Same as with the previous methods, we are guaranteed that
+dentry and dentry->d_sb won't be freed under us.  We are also guaranteed
+that ->d_parent (which is *not* stable, so use READ_ONCE) points to a
+struct dentry that won't get freed under us.  As always with ->d_parent,
+it's not NULL - for a detached dentry it will point to dentry itself.
+d_inode_rcu() of dentry and its parent will be either NULL or will
+point to a struct inode that won't get freed under us.  Anything beyond
+than that is not guaranteed.  We may find parent to be negative - it can
+happen if we race with d_move() and removal of old parent.  In that case
+just return -ECHILD and be done with that.
+
+On non-RCU side you could use dget_parent() instead - that
+would give a positive dentry and its ->d_inode would remain stable.
+dget_parent() has to be paired with dput(), though, so it's not usable
+in RCU mode.
+
+If you need fs-private objects associated with dentry, its parent
+inode(s) or superblock - see the general notes above on how to access
+those.
+
+
+->d_manage()
+------------
+
+Can be called in RCU mode; gets an argument telling it if it has
+been called so.  Pretty much autofs-only; for everyone's sanity sake,
+don't inflict more of those on the kernel.  Definitely don't do that
+without asking first...
+
+
+->permission()
+--------------
+
+Can be called in RCU mode; that is indicated by MAY_NOT_BLOCK
+in mask, and it can only happen for MAY_EXEC checks on directories.
+In RCU mode it is not allowed to block, and it is allowed to bail out
+by returning -ECHILD.  It might be called for an inode that is getting
+torn down, possibly along with its filesystem.  Errors other than -ECHILD
+should only be returned if they would've been returned in non-RCU mode;
+several instances in procfs did (prior to 6.8-rc6) run afoul of that one.
+That's an instructive example, BTW - what happens is that proc_pid_permission()
+uses proc_get_task() to find the relevant process.  proc_get_task()
+uses PID reference stored in struct proc_inode our inode is embedded
+into; inode can't have been freed yet, so fetching ->pid member in that
+is safe.  However, using the value you've fetched is a different story
+- proc_evict_inode() would have passed it to put_pid() and replaced
+it with NULL.  Unsafe caller has no way to tell if that is happening
+right under it.  Solution: stop zeroing ->pid in proc_evict_inode()
+and move put_pid() from proc_pid_evict_inode() to proc_free_inode().
+That's not all that is needed (there's access to procfs-private part of
+superblock as well), but it does make a good example of how such stuff
+can be dealt with.
+
+Note that idmap argument is safe on all calls - its destruction
+is rcu-delayed.
+
+The amount of headache is seriously reduced (for now) by the fact
+that a lot of instances boil down to generic_permission() (which will
+do the right thing in RCU mode) when mask is MAY_EXEC | MAY_NOT_BLOCK.
+If we ever extend RCU mode to other ->permission() callers, the thing will
+get interesting; that's not likely to happen, though, unless access(2)
+goes there [this is NOT a suggestion, folks].
+
+
+->get_link()
+------------
+
+Again, this can be called in RCU mode.  Even if your ->d_revalidate()
+always returns -ECHILD in RCU mode and kicks the pathwalk out of it,
+you can't assume that ->get_link() won't be reached.\ [#f2]_
+
+NULL dentry argument is an indicator of unsafe call; if you can't handle
+it, just return ERR_PTR(-ECHILD).  Any allocations you need to do (and
+with this method you really might need that) should be done with GFP_ATOMIC
+in the unsafe case.
+
+Whatever you pass to set_delayed_call() is going to be called
+in the same mode as ->get_link() itself; not a problem for most of the
+instances.  The string you return needs to stay there until the
+callback gets called or, if no callback is set, until at least the
+freeing of inode.  As usual, for an unsafe call the inode might be
+in process of teardown, possibly along with the hosting filesystem.
+The usual considerations apply.  The same, BTW, applies to whatever
+you set in ->i_link - it must stay around at least until ->free_inode().
+
+
+->get_inode_acl()
+-----------------
+
+Very limited exposure for that one - unsafe call is possible
+only if you explicitly set ACL_DONT_CACHE as cached ACL value.
+Only two filesystems (fuse and overlayfs) even bother.  Unsafe call
+is indicated by explicit flag (the third argument of the method),
+bailout is done by returning ERR_PTR(-CHILD) and the usual considerations
+apply for any access to data structures you might need to do.
+
+.. rubric:: Footnotes                                                                                                              
+
+.. [#f0]
+
+  The fast path of pathname resolution really can run into a dentry on
+  a filesystem that is getting shut down.
+
+  Here's one of the scenarios for that to happen:
+
+	1. have two threads sharing fs_struct chdir'ed on that filesystem.
+	2. lazy-umount it, so that the only thing holding it alive is
+	   cwd of these threads.
+	3. the first thread does relative pathname resolution
+	   and gets to e.g. ->d_hash().  It's holding rcu_read_lock().
+	4. at the same time the second thread does fchdir(), moving to
+	   different directory.
+
+  In fchdir(2) we get to set_fs_pwd(), which set the current directory
+  to the new place and does mntput() on the old one.  No RCU delays here,
+  we calculate the refcount of that mount and see that we are dropping
+  the last reference.  We make sure that the pathwalk in progress in
+  the first thread will fail when it comes to legitimize_mnt() and do this
+  (in mntput_no_expire())::
+
+	init_task_work(&mnt->mnt_rcu, __cleanup_mnt);
+	if (!task_work_add(task, &mnt->mnt_rcu, TWA_RESUME))
+		return;
+
+  As we leave the syscall, we have __cleanup_mnt() run; it calls
+  cleanup_mnt() on our mount, which hits deactivate_super().  That was
+  the last reference to superblock.
+
+  Voila - we have a filesystem shutdown right under the nose of
+  a thread running in ->d_hash() of something on that filesystem.
+  Mutatis mutandis, one can arrange the same for other methods called
+  by rcu pathwalk.
+
+  It's not easy to hit (especially if you want to get through the
+  entire ->kill_sb() before the first thread gets through ->d_hash()),
+  and it's probably impossible on the real hardware; on KVM it might be
+  borderline doable.  However, it is possible and I would not swear that
+  other ways of arranging the same thing are equally hard to hit.
+
+  The bottom line: methods that can be called in RCU mode need to be
+  careful about the per-superblock objects destruction.
+
+.. [#f1]
+
+  Some callers prevent being called for dying dentry (holding ->d_lock
+  and having verified !d_unhashed() or finding it in the list of inode's
+  aliases under ->i_lock).  For those the scenario in question simply
+  cannot arise.
+
+  Some follow the match with lockref_get_not_dead() and treat the failure
+  as mismatch.  That takes care of false positives, and false negatives
+  on dying dentry are still correct - we simply pretend to have lost
+  the race.
+
+  The only caller that does not fit into the classes above is
+  __d_lookup_rcu_op_compare().  There we sample ->d_seq and verify
+  !d_unhashed() before calling ->d_compare().  That is not enough to
+  prevent dentry from starting to die right under us; however, the
+  sampled value of ->d_seq will be rechecked when the caller gets to
+  step_into(), so for a false positive we will end up with a mismatch.
+  The corner case around ->d_manage() is due to the handle_mounts()
+  done before step_into() gets to ->d_seq validation...
+
+.. [#f2]
+
+  binding a symlink on top of a regular file on another filesystem is
+  possible and that's all it takes for RCU pathwalk to get there.
