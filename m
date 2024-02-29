@@ -1,165 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2EF50A78;
-	Thu, 29 Feb 2024 06:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFAD8F4A;
+	Thu, 29 Feb 2024 06:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709188740; cv=none; b=FtLY9H4B1TLdOumwLBdXvnL+J/YNhgDTluDCzBFWoA329M1sZhnkfsDzHIHSgl2xfow4b8BwlwttqhHo4sIZ20wt9vVWc64QIBAsD+kfsUJXYBE0olD0P/Q/02giIT7Uy/RlDUqnvkEJI6TJ8CLgLiHpsy4ybBVEhL+JtGaPLJc=
+	t=1709189566; cv=none; b=A3waFE6a/NK6qzjc29dLXPBmSJePzB2DMYRB4Eu1JWJQKe7L+q9VqE7aXLiSRepJdgAbYGr7ICKrfUPngrWXcCbCnyBBK+HMYzSXIwWzVsbdSuYtR7Qpd0RmMraMe1GfMx4VLDTtP41cdMKoxBVVZOlBo5wmiD82u6gmv6Q475Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709188740; c=relaxed/simple;
-	bh=cfh98lsnK1WA24iz8Eoegn/HEuWd+0TrFqTV/dJ6qbA=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=JtqQ85uiA52x9XWSIk3/XJPZhMxIPwToC6R07FEO1StAlbFguiBfatwe4spOXMW15XReoDw2cTbneGTPnJiFrn/ZRu2MrJIz3hL04WgLUACZZVWKGP0C6UikVoy1Djwn3beSUCzcWOHamxW26E4d3Ci0PIKDwtFuNqSKM+vbu9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sa5uX/5L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709189566; c=relaxed/simple;
+	bh=QEJAoHeT2wh90dI+ZjoF1ZHx+LcAYE5U/em2XDUBioM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=atALxQJHlNUCOMFuP3B8F7t8lQcteFeA4/+hI/nZzZ837GXor4FByfQ2NKljMTvF5CgtM/BdvbLMfMocOUgkU+PHeL6VjCd6HHmVPEu6cWuAIH8f5E3M4Un9WNxQvFdzjpYr6NxTsCWi2UHnfbdoBiN4kCYI4xj5puvv56ROQ7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdZO2z78; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sa5uX/5L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D02C433F1;
-	Thu, 29 Feb 2024 06:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709188740;
-	bh=cfh98lsnK1WA24iz8Eoegn/HEuWd+0TrFqTV/dJ6qbA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Sa5uX/5L0fo+9Xu4rwU36fBtU3OqtGH71/qOtqqJ6XyZrV71FtwYXIHJ8WUSJqdDj
-	 gd/pZAU0+epjdcjKLR771mYZbVUrf5BzsPE5wBu2b5Y29N14X/PcS7yphvWyFuu+JQ
-	 zyJdsqLIHXyQSx2PFZHdTBdK2SfghMc3+08UFJAS9+SSADAsL3jnoeHssoyscRNynZ
-	 4wii49o7xSJSDrx0NHv2wTVyNMXOQO23MnazuB6SaZjRnugWDEuU6sBXWA/tEuD+VB
-	 x6Bx88vlC1dTVpSgQ5JOY8NKlNcCXlx83iE4UtTayWE113TLVezg8gvh+i4KBGjQx0
-	 aI8rfRWHDiTdg==
-Date: Thu, 29 Feb 2024 15:38:55 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] tracing/probes: Support function parameter
- access from return probe
-Message-Id: <20240229153855.6fe3fb454cf56eebc6ea9953@kernel.org>
-In-Reply-To: <20240229145139.a215085c44add62302463312@kernel.org>
-References: <170891987362.609861.6767830614537418260.stgit@devnote2>
-	<Zd9eBn2FTQzYyg7L@krava>
-	<20240229145139.a215085c44add62302463312@kernel.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdZO2z78"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-42e8758fd52so4332761cf.1;
+        Wed, 28 Feb 2024 22:52:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709189564; x=1709794364; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iPX1yFcE2Qv3sy/mqTmODI/j9a9JW9C8YeAhgYmhLGs=;
+        b=QdZO2z78FLEY4RWdjVmUdbrKoq0N/fYM+uC5aG9e6ZJmCKek53xR3UVmADzlUwOLDO
+         0iBOf6bXHyV01JkM2zJzFHb8bKVhsB8s38YRrrvk2sgrbA+vndWnP86CWUOx44UcvRa3
+         gAI9IhZLtJi89nlvmaE1yGQ+S7Y3208HzgJylGPszXl84JeLy7N81pzYM1W70jF6mPUa
+         t+kMHNiUb6lzQHrGrYzQ7CnAT0H1lZ7gJh68GFElWJGU1DXh5naQWJFqp/QYvc/tMx+6
+         G2GSrQRboLWvQAf9z74/RRxegpLpCW1i8fUo6VtRdLCbNFyMWzFmN7QKqFrzAw0SFXfg
+         XRMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709189564; x=1709794364;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iPX1yFcE2Qv3sy/mqTmODI/j9a9JW9C8YeAhgYmhLGs=;
+        b=d7qDmIclWJrCQsb6+dBgVnj8sI/SrJZAo7vNQW5pnyrxQMTqwD/+RShwRXj2P/IpYt
+         Zv9yN0AIBZFEDJoGQVcUvLrIxSPDdv4gfHM3AkDpu6YZP6PDh+n6S/UyYou/1gswljoH
+         QFh1eR7jEP7ezi1TIeHp6Oqcm7dDxK3hocQSioEr2w4fCGm2Iij9A4AtOYHth8tlNEZA
+         JthQdmjaI3qJW32ctRXsldx4JzLqqInEER1A1RRcYHPRv7mnxB7yK9KszWcp0XsHGess
+         N+Zg1IdNPSjJ+qSJDXPX6ykHAK9No9T4N/1LfXaCFsQxNpLD0KPxPb7cLBGNaYpWMKUu
+         rTYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVr4zRzWPu3iYMXgfM5TETbOozfb4d0Ch1BvjNcSq6dfd40P7HLNGiNNN7zVCTVH4AjPIph63xKb0zqRpIEgiJILBL6QvjLllEMVQuJUezZPYDMfkzFQjoI/YiOuAE8eGNTmLgju/Fl+QK9oLMYfamIfijAsFaEFurew1kNYdOpw4seeuU8Czn1h0h2hk2aY4bfz8GXBX9KnChX8GR4cUbIjA==
+X-Gm-Message-State: AOJu0YzFCvZPqENBTpu15bNMO4Q7ZVZBFNZ0n9WXZLBvm60a+617cdCs
+	3KXbkbXVoTLkcEL8Zox3IyLw/kf1evhb2tOBjYdrV/+21vuNQsoWoC5tvSeXubUZQdrTuq7nGcr
+	Dun4i/FjXah7NM81MiCjWmTDomRs=
+X-Google-Smtp-Source: AGHT+IFn20kiezhjvNWVPNWkvhcd3j6u19avlEPGAe1WEmIZ6yWLp27W9XetikSPB9EKVwpdSFz5h3OKt1KsGriybmc=
+X-Received: by 2002:ac8:7f82:0:b0:42e:8c8f:42f6 with SMTP id
+ z2-20020ac87f82000000b0042e8c8f42f6mr1421021qtj.40.1709189563696; Wed, 28 Feb
+ 2024 22:52:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <cover.1708709155.git.john@groves.net>
+In-Reply-To: <cover.1708709155.git.john@groves.net>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 29 Feb 2024 08:52:32 +0200
+Message-ID: <CAOQ4uxiPc5ciD_zm3jp5sVQaP4ndb40mApw5hx2DL+8BZNd==A@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
+To: John Groves <John@groves.net>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, john@jagalactic.com, 
+	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, 
+	gregory.price@memverge.com, Miklos Szeredi <miklos@szeredi.hu>, 
+	Vivek Goyal <vgoyal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Feb 2024 14:51:39 +0900
-Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+On Fri, Feb 23, 2024 at 7:42=E2=80=AFPM John Groves <John@groves.net> wrote=
+:
+>
+> This patch set introduces famfs[1] - a special-purpose fs-dax file system
+> for sharable disaggregated or fabric-attached memory (FAM). Famfs is not
+> CXL-specific in anyway way.
+>
+> * Famfs creates a simple access method for storing and sharing data in
+>   sharable memory. The memory is exposed and accessed as memory-mappable
+>   dax files.
+> * Famfs supports multiple hosts mounting the same file system from the
+>   same memory (something existing fs-dax file systems don't do).
+> * A famfs file system can be created on either a /dev/pmem device in fs-d=
+ax
+>   mode, or a /dev/dax device in devdax mode (the latter depending on
+>   patches 2-6 of this series).
+>
+> The famfs kernel file system is part the famfs framework; additional
+> components in user space[2] handle metadata and direct the famfs kernel
+> module to instantiate files that map to specific memory. The famfs user
+> space has documentation and a reasonably thorough test suite.
+>
 
-> On Wed, 28 Feb 2024 17:23:34 +0100
-> Jiri Olsa <olsajiri@gmail.com> wrote:
-> 
-> > On Mon, Feb 26, 2024 at 12:57:53PM +0900, Masami Hiramatsu (Google) wrote:
-> > > Hi,
-> > > 
-> > > Here is version 2 series of patches to support accessing function entry data
-> > > from function *return* probes (including kretprobe and fprobe-exit event).
-> > > 
-> > > In this version, I added another cleanup [4/7], updated README[5/7], added
-> > > testcases[6/7] and updated document[7/7].
-> > > 
-> > > This allows us to access the results of some functions, which returns the
-> > > error code and its results are passed via function parameter, such as an
-> > > structure-initialization function.
-> > > 
-> > > For example, vfs_open() will link the file structure to the inode and update
-> > > mode. Thus we can trace that changes.
-> > > 
-> > >  # echo 'f vfs_open mode=file->f_mode:x32 inode=file->f_inode:x64' >> dynamic_events
-> > >  # echo 'f vfs_open%return mode=file->f_mode:x32 inode=file->f_inode:x64' >> dynamic_events 
-> > >  # echo 1 > events/fprobes/enable 
-> > >  # cat trace
-> > >               sh-131     [006] ...1.  1945.714346: vfs_open__entry: (vfs_open+0x4/0x40) mode=0x2 inode=0x0
-> > >               sh-131     [006] ...1.  1945.714358: vfs_open__exit: (do_open+0x274/0x3d0 <- vfs_open) mode=0x4d801e inode=0xffff888008470168
-> > >              cat-143     [007] ...1.  1945.717949: vfs_open__entry: (vfs_open+0x4/0x40) mode=0x1 inode=0x0
-> > >              cat-143     [007] ...1.  1945.717956: vfs_open__exit: (do_open+0x274/0x3d0 <- vfs_open) mode=0x4a801d inode=0xffff888005f78d28
-> > >              cat-143     [007] ...1.  1945.720616: vfs_open__entry: (vfs_open+0x4/0x40) mode=0x1 inode=0x0
-> > >              cat-143     [007] ...1.  1945.728263: vfs_open__exit: (do_open+0x274/0x3d0 <- vfs_open) mode=0xa800d inode=0xffff888004ada8d8
-> > 
-> > hi,
-> > I hit a crash while playing with this, by runnning:
-> > 
-> >   # echo 'f vfs_read%return $arg*' >> dynamic_events
-> >   # echo 1 > events/fprobes/enable 
-> 
-> Thanks for reporting! But I can not reproduce it.
-> Can you share your kconfig?
+So can we say that Famfs is Fuse specialized for DAX?
 
-No problem, I could reproduce it.
+I am asking because you seem to have asked it first:
+https://lore.kernel.org/linux-fsdevel/0100018b2439ebf3-a442db6f-f685-4bc4-b=
+4b0-28dc333f6712-000000@email.amazonses.com/
+I guess that you did not get your answers to your questions before or at LP=
+C?
 
-/sys/kernel/tracing # echo 'f vfs_read%return $arg* $retval' >> dynamic_events 
-/sys/kernel/tracing # echo 1 > events/fprobes/enable 
-/sys/kernel/tracing # 
-/sys/kernel/tracing # [   67.709725] general protection fault, maybe for address 0xffffc9000047bef8: 0000 [#1] PREEMPT SMP PTI
-[   67.714672] CPU: 5 PID: 132 Comm: sh Tainted: G                 N 6.8.0-rc5-00007-gd5e41e4cee7e #149
-[   67.716491] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
-[   67.718036] RIP: 0010:__x86_indirect_thunk_r13+0xa/0x20
-[   67.719087] Code: e8 01 00 00 00 cc 4c 89 24 24 c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 66 0f 1f 44 00 00 e8 01 00 00 00 cc 4c 89 2c 24 <c3> cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 66 0f 1f 44 00 00
-[   67.722314] RSP: 0018:ffffc9000047bdf0 EFLAGS: 00010286
-[   67.723251] RAX: ffffc9000047bef8 RBX: ffff8880073258e0 RCX: ffffc9000047be48
-[   67.724704] RDX: ffffffff813aba09 RSI: 0000000000000000 RDI: ffff8880073258d0
-[   67.725840] RBP: ffff8880073258e0 R08: 0000000000000000 R09: ffff888005053648
-[   67.727017] R10: ffff888008452388 R11: 0000000000000001 R12: ffffffff813aba09
-[   67.728107] R13: 9c73d7ba3660c600 R14: ffffc9000047bef0 R15: ffffc9000047be48
-[   67.729630] FS:  000000000115d8c0(0000) GS:ffff88807d940000(0000) knlGS:0000000000000000
-[   67.731231] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   67.732285] CR2: 00000000005a2319 CR3: 0000000005ad6000 CR4: 00000000000006b0
-[   67.733502] Call Trace:
-[   67.734013]  <TASK>
-[   67.734504]  ? die_addr+0x37/0x90
-[   67.735307]  ? exc_general_protection+0x1ac/0x3f0
-[   67.736158]  ? asm_exc_general_protection+0x26/0x30
-[   67.736984]  ? ksys_read+0x69/0xf0
-[   67.737559]  ? ksys_read+0x69/0xf0
-[   67.738142]  ? __x86_indirect_thunk_r13+0xa/0x20
-[   67.739160]  ? rethook_trampoline_handler+0x95/0x200
-[   67.739919]  ? arch_rethook_trampoline_callback+0x3a/0x50
-[   67.740665]  ? arch_rethook_trampoline+0x2c/0x60
-[   67.741362]  ? ksys_read+0x69/0xf0
-[   67.741980]  ? trace_clock_x86_tsc+0x20/0x20
-[   67.742662]  ? do_syscall_64+0xcc/0x1e0
-[   67.743289]  ? entry_SYSCALL_64_after_hwframe+0x6f/0x77
-[   67.744620]  </TASK>
-[   67.745044] Modules linked in:
-[   67.745559] ---[ end trace 0000000000000000 ]---
-[   67.746221] RIP: 0010:__x86_indirect_thunk_r13+0xa/0x20
-[   67.746927] Code: e8 01 00 00 00 cc 4c 89 24 24 c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 66 0f 1f 44 00 00 e8 01 00 00 00 cc 4c 89 2c 24 <c3> cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 66 0f 1f 44 00 00
-[   67.749176] RSP: 0018:ffffc9000047bdf0 EFLAGS: 00010286
-[   67.749835] RAX: ffffc9000047bef8 RBX: ffff8880073258e0 RCX: ffffc9000047be48
-[   67.750687] RDX: ffffffff813aba09 RSI: 0000000000000000 RDI: ffff8880073258d0
-[   67.751880] RBP: ffff8880073258e0 R08: 0000000000000000 R09: ffff888005053648
-[   67.752810] R10: ffff888008452388 R11: 0000000000000001 R12: ffffffff813aba09
-[   67.753721] R13: 9c73d7ba3660c600 R14: ffffc9000047bef0 R15: ffffc9000047be48
-[   67.754554] FS:  000000000115d8c0(0000) GS:ffff88807d940000(0000) knlGS:0000000000000000
-[   67.755568] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   67.756278] CR2: 00000000005a2319 CR3: 0000000005ad6000 CR4: 00000000000006b0
-[   67.757089] Kernel panic - not syncing: Fatal exception
-[   67.757917] Kernel Offset: disabled
-[   67.758404] ---[ end Kernel panic - not syncing: Fatal exception ]---
+I did not see your question back in October.
+Let me try to answer your questions and we can discuss later if a new dedic=
+ated
+kernel driver + userspace API is really needed, or if FUSE could be used as=
+ is
+extended for your needs.
 
-Hmm, this seems arch_rethook_trampoline caused the issue.
+You wrote:
+"...My naive reading of the existence of some sort of fuse/dax support
+for virtiofs
+suggested that there might be a way of doing this - but I may be wrong
+about that."
 
-And curiously, it depends on the number of stored data.
+I'm not virtiofs expert, but I don't think that you are wrong about this.
+IIUC, virtiofsd could map arbitrary memory region to any fuse file mmaped
+by virtiofs client.
 
-OK:
-/sys/kernel/tracing # echo 'f vfs_read%return $arg1 $arg2 $arg3' >> dynamic_events 
-/sys/kernel/tracing # echo 1 > events/fprobes/enable 
+So what are the gaps between virtiofs and famfs that justify a new filesyst=
+em
+driver and new userspace API?
 
-NG:
-/sys/kernel/tracing # echo 'f vfs_read%return $arg1 $arg2 $arg3 $arg4' >> dynamic_events 
-/sys/kernel/tracing # echo 1 > events/fprobes/enable 
-
-I also confirmed that on 'vfs_write' caused the same result. 3 arguments(24 bytes) is OK,
-but 4 arguments (32bytes) is NG.
-
-Thank you,
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Thanks,
+Amir.
