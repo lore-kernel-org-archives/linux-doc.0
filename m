@@ -1,87 +1,162 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E167828A;
-	Thu, 29 Feb 2024 19:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC917828D
+	for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 19:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709234244; cv=none; b=Ty+mzYyDDBXEbEEU4ed/mxWIcWOVRzxOtdWbGzQQy6HCmToxOJvwrlPXMObomqIrKA91D7MM6+Llb/gvULPlbHPK2l8mrrPSX/+EfzobCdGIqe8BOEU1D7VDRGQ2Nw6Xv4Pwkfjoc5FOlb7G+YAw2TCOgldN4E/qzI1eaLc4Sro=
+	t=1709234497; cv=none; b=CnfQcwPut7s2fufXD9rj8XeQLBI+PBRuWoeUI4eHAvXUwlqy7Z2JSvl6nJJVYFjYxQN8jR/WKjbh9LwE0JiOPWUCQSQfMWiJFHray8l6iVCehnzOGxcHfuYIkVyflqMQlVnZ792AjXgHtBhtqv1TxDAVLdtcavan4e2hhyvla14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709234244; c=relaxed/simple;
-	bh=FBZleihRz//Gl+B2DFY+Ko0MRtXnH634JYwkpERaJM8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fyhmU8ZuOYiVE64IvN3TLj71yO/iXYzBUndAUuLLm5uIHQLgDZQZ3lmlFSoriI6sf62Y6gt3i+5kYZKh6V1TKpzaRvOfA9OOsV7YOFajk7DmvpHmSZkIr+wpdaiPX6ZnlIlWrmZ/fas91t+heHkGkwF7CiN/8v7rpY0zwQ8wFmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e4857d93ebso319717a34.0;
-        Thu, 29 Feb 2024 11:17:22 -0800 (PST)
+	s=arc-20240116; t=1709234497; c=relaxed/simple;
+	bh=fGfu0Q3nthw9sx30v36veHsP6NqWca80nHwERt01OC0=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=s0wAY11HYWtBxfFgta1f57E4xRRzo12kwfnfIBcA23EjzMvfxWLve4UppcwX3rf/hbTwGc3ha7oJYcXZODQnD359vPrVuhCwU4wpjGUiwZTOmB62jyHGmL+y55oj1PYEAvxorZ//RQxSllhzONFhZA9X/cFbgSMEMQ+kczCpdek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=v8RjAY7x; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="v8RjAY7x"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e459b39e2cso1885343b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 11:21:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1709234495; x=1709839295; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tI0BeeYqM9dH4CtDmNU5Z89KyVB0ENS6fdLlu9zwgwk=;
+        b=v8RjAY7xHJQH0QUKntTMgz8W5YUzAB06+2MN51dnCDUQM4ScTGBFlKgSzslq4Huq5D
+         RTYJdbxlVZlzzz17XRGgPoq5PlTCyQewympTYvK+Vg1Jhq8yq+xf9ZjCwTU13h+BcTGf
+         f//ienXj7Q2szz1vddAewvr2+uO3X7cqVQ4bRFeomLyOV6dNmewFJkYNrJ3C4Fg6+dwN
+         sbyGkVBD5B2yMKxmoF9I6z9xqyd1MnUdqMV/CbdFDAV2Bbw+z/mv2G8QInRpsVk8hywY
+         WPe7r1J0tUk9nKxGcjaC/hQrz7h9h6lW9zn76cUKpXYDViWXJz8Pul2k8zOmO7zgx0V2
+         WcEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709234242; x=1709839042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y4kpkILx+rl+5M6wPy0kCyBMrKJ22BL2YvhP99fGIT4=;
-        b=ffRJ+fLRnj8w41JPom5XetUZowX34+8pRD4pRDLuvRrGdnNk33IphLmqd5pttKVxSF
-         fLbkzAsMGC4b0oiFLF6LkNP90B4b6UNy7qykST+6CW9Y/OLOtyh1Wfv3Lc2ZkTBIBBMP
-         wc6/GOLRg28aZJa7hTaxbev+hNQA3oYxDo1os/vQlLRdZK9dKk4WANN8pzW8MzD+tP37
-         tzyQIGTS3jxw96bTrHus/9xT6wdjgJ1PzzIrzk0Wo5wcFxKWLMuhvi51J59ZwHPY39rg
-         ptCQqN5FVbIjDphlZDPEI2k6pOjwPhfJX5+sSyIpYOQzecYMDVN010HBUM65AgxEcAgF
-         YO2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXsoaU0oZObLYUGRXB6jikOnl5bcSvw/6TCc+WNYDEJ19e5I/xEz6Hoq1zIz5NFuW6TOuGd0dBjja1oD8D3OjUX9+h2sgQvLQx3wj8KiQjuwFVUZJqS22Q/6ecxNWxPg8gaSh0vpEIdBIbXXfCYQmuIKnBugp2W2SALHfljoBeyOiw=
-X-Gm-Message-State: AOJu0YwcDFR+L83cDc4bQoOQyv2WwvDgQejnFKf6F2JmAW6fql4GQGjv
-	Yct4FsRw3oBfv7R93Lj8N2jrD/Zf7l6qFXm6k000i4p8gFpQyS+ciRhEVdK9bqGWzQvjxSjZkIA
-	oNjpeH/iPGmiA/thcPoYPzQKBQjc=
-X-Google-Smtp-Source: AGHT+IET15oeZ9A4Gl+g3bcOmsjvaP/3t9x/x3o3O+8cGgdoAH1s+bxhozrHbmv7trCPELLedqDj5+QwUra+XDo4tCQ=
-X-Received: by 2002:a4a:625e:0:b0:5a0:4d78:975d with SMTP id
- y30-20020a4a625e000000b005a04d78975dmr3185438oog.1.1709234242209; Thu, 29 Feb
- 2024 11:17:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709234495; x=1709839295;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tI0BeeYqM9dH4CtDmNU5Z89KyVB0ENS6fdLlu9zwgwk=;
+        b=WCUvOqWaLBxqzV0krGjH6avYPIhMEyPwSLm+vjAWsdafP+/Qa42Akj7CBXHhZhwR4X
+         AyH1hdz1q5nLjO+CmJfq2ZKAuOsdgmpMdPH/mbDJ5pFfDnJBkMjg3uksjGJJLTEBI475
+         fZx2dZXeIgcyVINy4BqQpp/LPdoG1ttPpP0zI9hoCWG9zS7oJFuQQe5YpzUHtHaPCBwm
+         wWPpT5Vr0j2IZl2wY996l9Mh0SvyTcBzyJKegxdrc4hZ6d/Y+GPHM20rh2v18778dUM6
+         UNJ97U8TrNMk3Sl6/a3JXnvWcXeUOyVVfQRMi6XTENaJVl8ztItgeGD4t3c245Pfr299
+         9xYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtVj11IwEL4X1bcgsYSlHxxP7M7Uiu8rjDoMJ4HhxrwBUV6xKxDUAYQFr34t1RaKMNEwnSI4f9WWhI/QTqUCmG32KmdrQn5O0o
+X-Gm-Message-State: AOJu0YzSx8d71qigwv0MGw61nQRxB88zqSWfaw+CflN9cfJ3VouWbHHu
+	CezxbWpbSzaMDuA4X9dZs6UQ23X/dH56jn0XTFvdTdr0URqsaUxQSFeNNF/n8bU=
+X-Google-Smtp-Source: AGHT+IEb+gGTWSZJgyAaR/j/macgR4G7Qn8rFIkQpEZb0vtMqMn8yLy4/Fk0QWniPKOilz8fvl9fwA==
+X-Received: by 2002:a05:6a20:e616:b0:1a1:209e:99da with SMTP id my22-20020a056a20e61600b001a1209e99damr4015579pzb.28.1709234494948;
+        Thu, 29 Feb 2024 11:21:34 -0800 (PST)
+Received: from localhost ([50.213.54.97])
+        by smtp.gmail.com with ESMTPSA id e6-20020aa798c6000000b006e4f18784cfsm1625915pfm.124.2024.02.29.11.21.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 11:21:34 -0800 (PST)
+Date: Thu, 29 Feb 2024 11:21:34 -0800 (PST)
+X-Google-Original-Date: Thu, 29 Feb 2024 11:21:32 PST (-0800)
+Subject:     Re: [PATCH v2 0/3] RISC-V: mm: do not treat hint addr on mmap as the upper bound to search
+In-Reply-To: <tencent_3E8D4B7CAE824BDA238EA2B821310F21EE08@qq.com>
+CC: cyy@cyyself.name, alexghiti@rivosinc.com, andy.chiu@sifive.com,
+  Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>, guoren@kernel.org,
+  jszhang@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+  Paul Walmsley <paul.walmsley@sifive.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: cyy@cyyself.name
+Message-ID: <mhng-67b02dff-5423-466d-bd90-f3ad3a3ab6a9@palmer-ri-x1c9a>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240225130057.42633-1-s921975628@gmail.com>
-In-Reply-To: <20240225130057.42633-1-s921975628@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 29 Feb 2024 20:17:11 +0100
-Message-ID: <CAJZ5v0hAcR1oWYJX2oADdyY14dxC_ohS5hOxuAx3D_1rCSesUg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: PM: Fix runtime_pm.rst markdown syntax
-To: Yiwei Lin <s921975628@gmail.com>
-Cc: rafael@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 25, 2024 at 4:46=E2=80=AFPM Yiwei Lin <s921975628@gmail.com> wr=
-ote:
+On Thu, 29 Feb 2024 04:10:03 PST (-0800), cyy@cyyself.name wrote:
+> This patch has not been reviewed for more than a month. There is another patch that did the same fix but in another way and still has not been reviewed like this. I'm here to do a comparison of some choices briefly to let the maintainer understand the issues and the solutions. I think it's time to make a decision before the next Linux LTS v6.9. As a number of sv48 chips will be released this year.
 >
-> The '7. Generic subsystem callbacks' should be
-> a section title, but the markdown syntax now is wrong to show
-> this as expected. Fix it so we can to link the chapter
-> at docs.kernel.org correctly.
+> Issues:
 >
-> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
-> ---
->  Documentation/power/runtime_pm.rst | 1 +
->  1 file changed, 1 insertion(+)
+> Since commit add2cc6b6515 ("RISC-V: mm: Restrict address space for sv39,sv48,sv57") from patch [1], userspace software cannot create virtual address memory mapping on the hint address if the address larger than (1<<38) on sv48, sv57 capable CPU using mmap without MAP_FIXED set.
 >
-> diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/run=
-time_pm.rst
-> index 65b86e487..82bc76d3d 100644
-> --- a/Documentation/power/runtime_pm.rst
-> +++ b/Documentation/power/runtime_pm.rst
-> @@ -730,6 +730,7 @@ out the following operations:
->      for it, respectively.
+> This is because since that commit, the hint address is treated as the upper bound to create the mapping when the hint address is larger than (1<<38).
 >
->  7. Generic subsystem callbacks
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->
->  Subsystems may wish to conserve code space by using the set of generic p=
-ower
->  management callbacks provided by the PM core, defined in
-> --
+> Existing regression for userspace software since that commit:
+> - box64 [2]
 
-Applied as 6.9 material (with changelog edits), thanks!
+Is this the same regression as before?  IIUC the real issue there is 
+that userspace wasn't passing MAP_FIXED and expecting a fixed address to 
+be mapped.  That's just a bug in userspace.
+
+Is there any software that uses mmap() in a legal way that the flags 
+patch caused a regression in?  If that's the case then we'll need to 
+figure out what it's doing so we can avoid the regression.
+
+The only thing I can think of are realloc-type schemes, where rounding 
+the hint address down would result in performance problems.  I don't 
+know of anything like that specifically, but I think Charlie's patch 
+would fix it.
+
+> Some choices are:
+>
+> 1. Do not change it
+>
+> Con:
+>
+> This behavior is not the same as x86, arm64, and powerpc when treating memory address space larger than 48-bit. On x86, arm64, and powerpc, if the hint address is larger than 48-bit, mmap will not limit the upper bound to use.
+>
+> Also, these ISAs limit the mmap to 48-bit by default. However, RISC-V currently uses sv39 by default, which is not the same as the document and commit message.
+
+IIUC arm64/amd64 started with 48-bit-capable hardware and kernels, and 
+thus the only regression was when moving to the larger VA spaces.  We 
+started with sv39-based VA space, 
+
+> 2. Use my patch
+>
+> which limits the upper bound of mmap to 47-bit by default, if the hint address is larger than (1<<47), then no limit.
+>
+> Pros: Let the behavior of mmap align with x86, arm64, powerpc
+>
+> Cons: A new regression for software that assumes mmap will not return an address larger than the hint address if the hint address is larger than (1<<38) as it has been documented on RISC-V since v6.6. However, there is no change in the widespread sv39 systems we use now.
+
+The OpenJDK and Go people have at least talked about using the interface 
+as it is currently defined.  I'm trying to chase down some of the folks 
+around here who understand that stuff, but it might take a bit...
+
+> 3. Use Charlie's patch [3]
+>
+> which adjusts the upper bound to hint address + size.
+
+IMO we can call that compatible with the docs.  There's sort of a grey 
+area in "A hint address passed to mmap will cause the largest
+address space that fits entirely into the hint to be used" as to how 
+that hint address is used, but I think interpreting it as the base 
+address is sane and we can just update the docs.
+
+This also should fix the realloc-type cases I can think of, though those 
+are sort of theoretical right now.
+
+> Pros: Still has upper-bound limit using hint address but allows userspace to create mapping on the hint address without MAP_FIXED set.
+>
+> Cons: That patch will introduce a new regression even for the sv39 system when creating mmap with the same hint address more than one time if the hint address is less than round-gap.
+
+I'm not quite sure what you're trying to say there.  If users are 
+passing a hint that's already allocated then they're not going to get 
+that address allocated, so as long as we give them something else we're 
+OK.
+
+We might want to take more advantage of the clause in the docs that 
+allows larger addresses to be allocated under memory pressure to avoid 
+too many allocation failures, but that applies to any of these schemes.
+
+> 4. Some new ideas currently are not on the mailing list
+>
+> Hope this issue can be fixed before the Linux v6.9 release.
+>
+> Thanks,
+> Yangyu Chen
+>
+> [1] https://lore.kernel.org/linux-riscv/20230809232218.849726-2-charlie@rivosinc.com/
+> [2] https://github.com/ptitSeb/box64/commit/5b700cb6e6f397d2074c49659f7f9915f4a33c5f
+> [3] https://lore.kernel.org/linux-riscv/20240130-use_mmap_hint_address-v3-0-8a655cfa8bcb@rivosinc.com/
