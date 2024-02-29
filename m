@@ -1,103 +1,107 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C2B60BBA;
-	Thu, 29 Feb 2024 09:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C11612F3
+	for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 09:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709199683; cv=none; b=O5h3vTMMiRH9kleXYEIIiaLxIkJKcNWBQUrdR6E1sdPtG2tWzhB8A42rAy25W3lSwj2XFvhww8Z3NyPJZUGqMiqe/i5fmqwfdd3RrrSVbVpW+r1br0VG2k1d56UNK4iK/7Lhwy3iygZfy98OvN9A8nxuMkhsWQ7FJtrg9s8EfHs=
+	t=1709199887; cv=none; b=pFwP1I8axdSr9Su8Wj+pGjyxo/tQVPNmIfMdBYy2iXfZFf2peDN2mbt9RMTJxKEbwnmC5FnYhoGuIk00U/4cGbmYIoV6YFdy+yNm3atGt1pFwVgtR4mYZdXI0/ZpXklt+PO7GnuxwpYz15unObsvkPJsN699+qlmyqCYJxDiM6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709199683; c=relaxed/simple;
-	bh=sFjwo3k0DJQ95l5/XGTun+1UQyAPnjIJqK2nH7Yo7yk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pbF2wz+RYqIUpAwsLXU2cHwQaXU/g/90YSqd59KBATEjC2vWpKO3pFIwMm1noUGSwn05DvhA7RmDRi9KXKiXdfg8eULQOHGZnwWwJhXGPDJSo2ylObiEeeIgqhxKqNldiX44lxUB52pO8C3fZxKQqNssw0H55TWgRzKAXLad0SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BhBaekxm; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709199887; c=relaxed/simple;
+	bh=6K0C69v8aY51x+51DR4S1y5FfPh76F89vxnIkCM64Fc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QLApTl6giG+knMf3TYhvBLGIumKKkrGbj2obvWOLDhE7JMwKzlG29wrJcVzOs0cfAmp7gKkBte3qpGixeTwcwPg60Png4Sk+1pN9EZ2/qFyPDxMeUUURedEZyn3QbaVoegOaIzfXxrtriy422l3BJk2REoedewBFhF1B3un5tRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t+50Fwdf; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BhBaekxm"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CD80A20014;
-	Thu, 29 Feb 2024 09:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709199679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=miimJ0QV3VvK+wNEwrpf81APPWqkbf1H8b2Er4VQt5U=;
-	b=BhBaekxmrCJddaSy/g+XrJndV/Bge++ZWK2tlct4TWoKfps2OXYAQ87mWlZtGklwjFmKdi
-	onEjlkGrcfLWp73GaAQQ8p8jT2Sabx99BJu0HkUBIA0DF8lHfIKcnaCM47Hjnn9KvxOv1S
-	+60HENXE9gWyChvcZRETgV2TdgV5Ml3VcNnCxxfQNoW1GGj2lhCDV4VIUKh8237HK9m2Fk
-	QNMSeM0vaLxPbO6itroDcXyxIwjwBT7VpXCpfgYGduksLoL1QZJAH3VdFYgbeZtcF03+U9
-	wulSUMED+0x1d5toURGHWhLbcDK31ojoM7o8S1XkOw6o0mh9n5/x7M8uU33R5w==
-Date: Thu, 29 Feb 2024 10:41:17 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Simon Horman <horms@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240229104117.4edf96ae@kmaincent-XPS-13-7390>
-In-Reply-To: <20240228124801.GC292522@kernel.org>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
-	<20240228124801.GC292522@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t+50Fwdf"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso792842276.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 01:44:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709199885; x=1709804685; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FtGe/ds1ZRlsDzPhDzq5vY2M1N8N9oZVvQoi1ym4DQk=;
+        b=t+50FwdfE+URjGigg3CltFoEYEGxSFwhYFI4KJHK1sRFAdBN/QbCAVBZtWWe/rwlfq
+         buI4lWvF/G7e+8Snre4sjNj9wzKVn0AkqWlBw5UTR8IpVeaZ2CK5CLSwE1oSYI/jIYq2
+         IxxN9pR3s/Y+1Y+HkKuIjUbz/FVlxsSp7Sh8wIa9jiyxqqubgv9H0r5c0B0sI6r3qH2h
+         UdPzI6NoWLsnBfJFvMiOqbdeG1a3UVkOy/opGP6JcuUqie9KJioRYSii/axy8/8mVqgt
+         XTMpZvIAil3vJuCYEM7BIsPNqrDtelAh/5yyCN0GzazpLijL7WjbPyLr7EkBbbYB8Abh
+         tJZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709199885; x=1709804685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FtGe/ds1ZRlsDzPhDzq5vY2M1N8N9oZVvQoi1ym4DQk=;
+        b=GRPycKYh003/plssFB8wNVBFTFcFpgaI4oE0qLrlKfVuDV4a+YKgeMOk/4M0I5Nluj
+         neyaiW6S1N7ZRh6V1LNKmUZAj74sgtLBjwqwgUkDQHDgplWbyhOeaVmY37ytYCm+IW2u
+         ShvFy1E12Eh9l4vakzaJ4sIsG8Pbre1e0SdRgBiOPuQkeqL+bBJS6uhF6P5vf5Gdb1tB
+         h+C2LPuYdJtbFtTnLHgpeB+RvI6xpKVZE+FIMPxelWvugDYf4Y8i6egoyecgW4MDgp9B
+         HADQdACbvyXiXpalHb91wJqdeR7erMsYyB153GOY6ha5GQK478JGFLvzSAxhvXoJzcQk
+         bjKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUXnM69YpOx7fbaoepkY0LyFtIPoym6MOwHacGBQgt3J0ft4SpbTEswuB9ORbpw0+lST3bOsMqpCjZVrNx+PVy5UnT5wMbRVmD5
+X-Gm-Message-State: AOJu0YyMs6ChCb4dTolpiQZO9dTHkvZ3iWxsmUGXi0hQjHZ8gBcKJEd2
+	8AI0dPgce/Q/2IcmJmv9ecGr1B6S0zgNDZtbawIxIdu6BfgAMKIGNj+uIiOgom3vP2crEp6Eob1
+	oavUF1sXTd04peRLcvh0R/s4pj8Um2Y/tyeNF7Q==
+X-Google-Smtp-Source: AGHT+IGbChf405oU9sCbujzjSA/cHfa3590PjMRDmzrZOTzMB7BN3TjSi37+bplsHq5uUkE5RbjhcMUip8MDonqNbgI=
+X-Received: by 2002:a5b:751:0:b0:dcf:3f11:633a with SMTP id
+ s17-20020a5b0751000000b00dcf3f11633amr1588471ybq.35.1709199884731; Thu, 29
+ Feb 2024 01:44:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20240228-mbly-gpio-v2-0-3ba757474006@bootlin.com>
+In-Reply-To: <20240228-mbly-gpio-v2-0-3ba757474006@bootlin.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 29 Feb 2024 10:44:33 +0100
+Message-ID: <CACRpkdbK2Sa_4qp3VE0ivHP8W6F-QDkuxV-XnZYviAkO5ZBMsg@mail.gmail.com>
+Subject: Re: [PATCH v2 00/30] Rework Nomadik GPIO to add Mobileye EyeQ5 support
+To: =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>, 
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Stephen Warren <swarren@wwwdotorg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, 28 Feb 2024 12:48:01 +0000
-Simon Horman <horms@kernel.org> wrote:
+On Wed, Feb 28, 2024 at 12:28=E2=80=AFPM Th=C3=A9o Lebrun <theo.lebrun@boot=
+lin.com> wrote:
 
-> On Tue, Feb 27, 2024 at 03:42:55PM +0100, Kory Maincent wrote:
->=20
-> ...
->=20
-> > diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-> > index 522115cc6cef..a3e297cc2150 100644
-> > --- a/include/linux/pse-pd/pse.h
-> > +++ b/include/linux/pse-pd/pse.h
-> > @@ -55,10 +55,10 @@ struct pse_controller_ops {
-> >  	int (*ethtool_get_status)(struct pse_controller_dev *pcdev,
-> >  		unsigned long id, struct netlink_ext_ack *extack,
-> >  		struct pse_control_status *status);
-> > -	int (*ethtool_set_config)(struct pse_controller_dev *pcdev,
-> > -		unsigned long id, struct netlink_ext_ack *extack,
-> > -		const struct pse_control_config *config);
-> >  	int (*setup_pi_matrix)(struct pse_controller_dev *pcdev);
-> > +	int (*pi_is_enabled)(struct pse_controller_dev *pcdev, int id);
-> > +	int (*pi_enable)(struct pse_controller_dev *pcdev, int id);
-> > +	int (*pi_disable)(struct pse_controller_dev *pcdev, int id); =20
->=20
-> Hi Kory,
->=20
-> Please update the Kernel doc for struct pse_controller_ops to reflect the
-> added and removed fields.
+> This patch series reworks the Nomadik GPIO driver to bring it up to date
+> to current kernel standards. We then add Mobileye EyeQ5 support that
+> uses the same IP block but with limited functionality. We also add
+> features required by our newly supported platform:
+>
+>  - Dynamic GPIO ID allocation;
+>  - Make clock optional;
+>  - Shared IRQ (usecase: EyeQ5 has two banks using the same IRQ);
+>  - Handle variadic GPIO counts (usecase: EyeQ5 has <32 GPIOs per bank);
+>  - Grab optional reset at probe (usecase: EyeQ5 has a shared GPIO reset).
+>
+> This GPIO platform driver was previously declared & registered inside
+> drivers/pinctrl/nomadik/pinctrl-nomadik.c, side-by-side with the
+> pinctrl driver. Both are tightly integrated, mostly for muxing reasons.
+> Now that gpio-nomadik is used for another platform, we loosen the
+> relationship. The behavior should not change on already supported
+> hardware but I do not have Nomadik hardware to test for that.
 
-Hello Simon,
-Sorry I totally forgot to update the kernel doc on that patch.
+I have queued the relevant patches to an immutable branch in the
+pinctrl tree for testing and I can also pick up some ACKs if they arrive.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+When I'm confident in the branch, I will send an optional pull request
+to Bartosz for it!
+
+Yours,
+Linus Walleij
