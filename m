@@ -1,179 +1,278 @@
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697E313D2E3;
-	Wed, 28 Feb 2024 23:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B955F2C856;
+	Thu, 29 Feb 2024 00:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709163789; cv=none; b=agpUTWpvVLY9YGo+VHmCDTNx25ywclHPv5u5jsN7ZmiNMWQ91NVmco6g3eC9PdLEVoEmDBnIDNHyUpLYoNW+c5sadGN/BtVGIyGrHbkWX1D+OulkfTPdA5DBkoeDVc+hZRnMHGDis0vXrA1dfhgZDL833u3pS0PGuwxK5RKpOyg=
+	t=1709168121; cv=none; b=jtB/mvuWAE7gl6Au+jORpQ4T0elTTXugxBnaAXtiEX2QsJBX/6uv+mGK3ZrFNEE20a/5tmZSBBSjMG1l8CztIY26avSUKD74jfoeX2fF3I1z5DI4wlr2XxfcLKisjg7uakqDHapJkjUqh1/tRgpdTrsJ/IeZj3yprBwNjTcpf4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709163789; c=relaxed/simple;
-	bh=PP8PEC6rFh1DwcrVPHXVW/931c6ONXSblHZE9aVTqp8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d15ZplBM6h/suArHTd7ukhOByTW05RCf6EsDK5DKobjt30hPAzyLQOhJtZhoPi2s34oJmdqmfKVpNZgAfWCVfKOHU8HMzlcB96r2PcRE3kPVG9ScR8sqnzgqNF80fT46tYv5BPhuMhb+tUGYGwlT3SmdNJkkI4fjiyXjLYJy8Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=i4fk+b1j; arc=none smtp.client-ip=198.252.153.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1709168121; c=relaxed/simple;
+	bh=EDo5RTtPeuCmWwByqD0kigCW6lb+mDj+rRRl1BJXMoU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=huaT5/pf/f+0aDIVx0bLUS3LkrmPxPU6W177c8bWEJYhUGfwpotvIBjd8jA4uH/K/nE3RpQvplh+uT4+HSVgXhcV3dN/cyaCoyAX1Tjr9KJcnZ8ICjopjUg/G50tkua//Xi53Nl+Tz2DjPWQtD56aucaX/YBw7ljTkK10QCZG7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VaeyjUDc; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="i4fk+b1j"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4TlWB21vmjzDq6T;
-	Wed, 28 Feb 2024 23:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1709163781; bh=PP8PEC6rFh1DwcrVPHXVW/931c6ONXSblHZE9aVTqp8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i4fk+b1jpnaGlH3cL5gWB/A8KeL08j9ZijONrP/WfY8cIVdC6zJQH6Dg21pBNrHPQ
-	 Z6rwY7uTB94u7bBvg69unZNj+mb+sB9yBP+fz7HGuV1ZffwsIMPkehDs40x3I5Sd1l
-	 1BgWhtqg2dDlId3bTLK+EXd3yXqBeNe3cP6lRQuw=
-X-Riseup-User-ID: 2052F0A24D6BCE5ED2705508C577C34C275D6FB563886C45EEEF070D3EB3EA2F
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4TlW9w5nmszJrYk;
-	Wed, 28 Feb 2024 23:42:44 +0000 (UTC)
-Message-ID: <9e6ed0e5-c9aa-4fb9-a6d8-4c3b1d658ef2@riseup.net>
-Date: Wed, 28 Feb 2024 20:42:41 -0300
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VaeyjUDc"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id 8BDCC20B74C5; Wed, 28 Feb 2024 16:55:18 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8BDCC20B74C5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1709168118;
+	bh=HFneUDC8Z8Dzy3b48RYvWYU96HA+vpivC93Ukb00udk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VaeyjUDc+8JO4rPJ7hesRJoJksglcnozafZKfBahk6zuyIG+QRWSyE+tKnQvxTnaH
+	 Ayl4NCvWI1kr9hog/zpSl9jtmfYwzlQgmBqAGBAptUfY3VB892TGccF7+zPhuIxsYl
+	 Edptdjhq0lGodpRzH/Iu5ov0L4Q/puX05ZpY+kkQ=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	zohar@linux.ibm.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	tytso@mit.edu,
+	ebiggers@kernel.org,
+	axboe@kernel.dk,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	eparis@redhat.com,
+	paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	audit@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [RFC PATCH v13 03/20] ipe: add evaluation loop
+Date: Wed, 28 Feb 2024 16:54:45 -0800
+Message-Id: <1709168102-7677-4-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1709168102-7677-1-git-send-email-wufan@linux.microsoft.com>
+References: <1709168102-7677-1-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/7] Add YUV formats to VKMS
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
- <20240115150600.GC160656@toolbox>
-Content-Language: en-US
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240115150600.GC160656@toolbox>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+From: Deven Bowers <deven.desai@linux.microsoft.com>
 
+IPE must have a centralized function to evaluate incoming callers
+against IPE's policy. This iteration of the policy for against the rules
+for that specific caller is known as the evaluation loop.
 
-On 15/01/24 12:06, Sebastian Wick wrote:
-> On Wed, Jan 10, 2024 at 02:44:00PM -0300, Arthur Grillo wrote:
->> This patchset aims to add support for additional buffer YUV formats.
->> More specifically, it adds support to:
->>
->> Semi-planar formats:
->>
->> - NV12
->> - NV16
->> - NV24
->> - NV21
->> - NV61
->> - NV42
->>
->> Planar formats:
->>
->> - YUV440
->> - YUV422
->> - YUV444
->> - YVU440
->> - YVU422
->> - YVU444
->>
->> These formats have more than one plane, and most have chroma
->> subsampling. These properties don't have support on VKMS, so I had to
->> work on this before.
->>
->> To ensure that the conversions from YUV to RGB are working, I wrote a
->> KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
->> not yet merged, I took the setup part (Kconfig entry and .kunitfile)
->> from it.
->>
->> Furthermore, I couldn't find any sources with the conversion matrices,
->> so I had to work out the values myself based on the ITU papers[2][3][4].
->> So, I'm not 100% sure if the values are accurate. I'd appreciate some
->> input if anyone has more knowledge in this area.
-> 
-> H.273 CICP [1] has concise descriptions of the required values for most
-> widely used formats and the colour python framework [2] also can be used
-> to quickly get to the desired information most of the time.
-> 
-> [1]: https://www.itu.int/rec/T-REC-H.273
-> [2]: https://www.colour-science.org/
+Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
-I want to thank you for suggesting the python framework, it helped
-immensely now that I'm changing the precision from 8-bit to 32-bit[1].
+---
+v2:
++ Split evaluation loop, access control hooks, and evaluation loop from policy parser and userspace interface to pass mailing list character limit
 
-If I'd known about this framework while developing this patch, I
-would've saved myself a few weeks of pain and suffering recreating a
-part of this library XD.
+v3:
++ Move ipe_load_properties to patch 04.
++ Remove useless 0-initializations Prefix extern variables with ipe_
++ Remove kernel module parameters, as these are exposed through sysctls.
++ Add more prose to the IPE base config option help text.
++ Use GFP_KERNEL for audit_log_start.
++ Remove unnecessary caching system.
++ Remove comments from headers
++ Use rcu_access_pointer for rcu-pointer null check
++ Remove usage of reqprot; use prot only.
++Move policy load and activation audit event to 03/12
 
-[1]: https://lore.kernel.org/all/b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net/
+v4:
++ Remove sysctls in favor of securityfs nodes
++ Re-add kernel module parameters, as these are now exposed through securityfs.
++ Refactor property audit loop to a separate function.
 
-Best Regards,
-~Arthur Grillo
+v5:
++ fix minor grammatical errors
++ do not group rule by curly-brace in audit record,
++ reconstruct the exact rule.
 
-> 
->> Also, I used two IGT tests to check if the formats were having a correct
->> conversion (all with the --extended flag):
->>
->> - kms_plane@pixel_format
->> - kms_plane@pixel_format_source_clamping.
->>
->> The nonsubsampled formats don't have support on IGT, so I sent a patch
->> fixing this[5].
->>
->> Currently, this patchset does not add those formats to the writeback, as
->> it would require a rewrite of how the conversions are done (similar to
->> what was done on a previous patch[6]). So, I would like to review this
->> patchset before I start the work on this other part.
->>
->> [1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
->> [2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
->> [3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
->> [4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
->> [5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
->> [6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
->>
->> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->> ---
->> Changes in v2:
->> - Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
->>   file (Maxime)
->> - Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
->>
->> ---
->> Arthur Grillo (7):
->>       drm/vkms: Use drm_frame directly
->>       drm/vkms: Add support for multy-planar framebuffers
->>       drm/vkms: Add range and encoding properties to pixel_read function
->>       drm/vkms: Add chroma subsampling
->>       drm/vkms: Add YUV support
->>       drm/vkms: Drop YUV formats TODO
->>       drm/vkms: Create KUnit tests for YUV conversions
->>
->>  Documentation/gpu/vkms.rst                    |   3 +-
->>  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->>  drivers/gpu/drm/vkms/Makefile                 |   1 +
->>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->>  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->>  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
->>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->>  drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
->>  drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
->>  drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
->>  drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
->>  11 files changed, 426 insertions(+), 49 deletions(-)
->> ---
->> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
->> change-id: 20231226-vkms-yuv-6f7859f32df8
->>
->> Best regards,
->> -- 
->> Arthur Grillo <arthurgrillo@riseup.net>
->>
-> 
+v6:
++ No changes
+
+v7:
++ Further split lsm creation into a separate commit from the evaluation loop and audit system, for easier review.
++ Propagating changes to support the new ipe_context structure in the evaluation loop.
+
+v8:
++ Remove ipe_hook enumeration; hooks can be correlated via syscall record.
+
+v9:
++ Remove ipe_context related code and simplify the evaluation loop.
+
+v10:
++ Split eval part and boot_verified part
+
+v11:
++ Fix code style issues
+
+v12:
++ Correct an rcu_read_unlock usage
++ Add a WARN to unknown op during evaluation
+
+v13:
++ No changes
+---
+ security/ipe/Makefile |   1 +
+ security/ipe/eval.c   | 100 ++++++++++++++++++++++++++++++++++++++++++
+ security/ipe/eval.h   |  24 ++++++++++
+ 3 files changed, 125 insertions(+)
+ create mode 100644 security/ipe/eval.c
+ create mode 100644 security/ipe/eval.h
+
+diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+index c09aec4904f2..57fe922cf1fc 100644
+--- a/security/ipe/Makefile
++++ b/security/ipe/Makefile
+@@ -6,6 +6,7 @@
+ #
+ 
+ obj-$(CONFIG_SECURITY_IPE) += \
++	eval.o \
+ 	ipe.o \
+ 	policy.o \
+ 	policy_parser.o \
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+new file mode 100644
+index 000000000000..af56815ed0fa
+--- /dev/null
++++ b/security/ipe/eval.c
+@@ -0,0 +1,100 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#include <linux/fs.h>
++#include <linux/types.h>
++#include <linux/slab.h>
++#include <linux/file.h>
++#include <linux/sched.h>
++#include <linux/rcupdate.h>
++
++#include "ipe.h"
++#include "eval.h"
++#include "policy.h"
++
++struct ipe_policy __rcu *ipe_active_policy;
++
++/**
++ * evaluate_property - Analyze @ctx against a property.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ * @p: Supplies a pointer to the property to be evaluated.
++ *
++ * Return:
++ * * true	- The current @ctx match the @p
++ * * false	- The current @ctx doesn't match the @p
++ */
++static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
++			      struct ipe_prop *p)
++{
++	return false;
++}
++
++/**
++ * ipe_evaluate_event - Analyze @ctx against the current active policy.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ *
++ * This is the loop where all policy evaluation happens against IPE policy.
++ *
++ * Return:
++ * * 0		- OK
++ * * -EACCES	- @ctx did not pass evaluation.
++ * * !0		- Error
++ */
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
++{
++	bool match = false;
++	enum ipe_action_type action;
++	struct ipe_policy *pol = NULL;
++	const struct ipe_rule *rule = NULL;
++	const struct ipe_op_table *rules = NULL;
++	struct ipe_prop *prop = NULL;
++
++	rcu_read_lock();
++
++	pol = rcu_dereference(ipe_active_policy);
++	if (!pol) {
++		rcu_read_unlock();
++		return 0;
++	}
++
++	if (ctx->op == IPE_OP_INVALID) {
++		if (pol->parsed->global_default_action == IPE_ACTION_DENY) {
++			rcu_read_unlock();
++			return -EACCES;
++		}
++		if (pol->parsed->global_default_action == IPE_ACTION_INVALID)
++			WARN(1, "no default rule set for unknown op, ALLOW it");
++		rcu_read_unlock();
++		return 0;
++	}
++
++	rules = &pol->parsed->rules[ctx->op];
++
++	list_for_each_entry(rule, &rules->rules, next) {
++		match = true;
++
++		list_for_each_entry(prop, &rule->props, next) {
++			match = evaluate_property(ctx, prop);
++			if (!match)
++				break;
++		}
++
++		if (match)
++			break;
++	}
++
++	if (match)
++		action = rule->action;
++	else if (rules->default_action != IPE_ACTION_INVALID)
++		action = rules->default_action;
++	else
++		action = pol->parsed->global_default_action;
++
++	rcu_read_unlock();
++	if (action == IPE_ACTION_DENY)
++		return -EACCES;
++
++	return 0;
++}
+diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+new file mode 100644
+index 000000000000..6b434515968f
+--- /dev/null
++++ b/security/ipe/eval.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#ifndef _IPE_EVAL_H
++#define _IPE_EVAL_H
++
++#include <linux/file.h>
++#include <linux/types.h>
++
++#include "policy.h"
++
++extern struct ipe_policy __rcu *ipe_active_policy;
++
++struct ipe_eval_ctx {
++	enum ipe_op_type op;
++
++	const struct file *file;
++};
++
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
++
++#endif /* _IPE_EVAL_H */
+-- 
+2.43.1
+
