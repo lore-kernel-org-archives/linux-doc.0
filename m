@@ -1,117 +1,87 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86AE17828A;
-	Thu, 29 Feb 2024 18:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E167828A;
+	Thu, 29 Feb 2024 19:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709233169; cv=none; b=V9rAWC0Wivb9LbEyJMQrTyZUIsYXrtNQn5NENtoEViRgxOLyHjquLNc1gVbNf8Et6lOuDmhIFOVpHxqWxV5k4LWDN22o3ZSyQeRQVrRoFmHNXKqhw4/b9yCV/2ofbndmkfS49/8/l8Sa34LMSz0EkhPSOLdLoA9P57PZs9Bdvcs=
+	t=1709234244; cv=none; b=Ty+mzYyDDBXEbEEU4ed/mxWIcWOVRzxOtdWbGzQQy6HCmToxOJvwrlPXMObomqIrKA91D7MM6+Llb/gvULPlbHPK2l8mrrPSX/+EfzobCdGIqe8BOEU1D7VDRGQ2Nw6Xv4Pwkfjoc5FOlb7G+YAw2TCOgldN4E/qzI1eaLc4Sro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709233169; c=relaxed/simple;
-	bh=03wrvTX4PmazfhRynJz8dIwWNCpXUtctCoHli5CWq3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BSiHEnK1bdl+ZO+qo/qnoUUG9LdFoS69mI789yi1f9M4hbQlP3TwSgZ4QgZw1CoRcTC1YdEaJ0nHdnKXs7DNBqKU9nmfQH3VkmTrcvK8pDbKiasf/pkmrHecWZoQDAUZ0B6jEZODhMuABiCXqLDyvfZGtqsbP5IevGcsG/q6MCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Chwd/gWh; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Chwd/gWh"
-Received: from [10.137.106.151] (unknown [131.107.8.87])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 67BEC20B74C1;
-	Thu, 29 Feb 2024 10:59:21 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 67BEC20B74C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1709233161;
-	bh=JV+3tSiFvjDV+NVnRDenCsHCjaCafQUqnYHRslOz/Is=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Chwd/gWhaBwu6cGDHeTQLShmFSuRlHjpipSjMmiY+uPVfP9m8FVNjLOHiAxx+ZPF/
-	 mebhxmfmUfYNWYgKAjhshktx0kymWEOFVKFUkQGBgOaJ0lidTIXk/2OEIuZ/FtL46I
-	 mzpviYdU/EUUFj7yvd/zQgv5h89QqsFhP/icO91I=
-Message-ID: <b73e3387-558f-4f40-8741-c6ed7965b25f@linux.microsoft.com>
-Date: Thu, 29 Feb 2024 10:59:21 -0800
+	s=arc-20240116; t=1709234244; c=relaxed/simple;
+	bh=FBZleihRz//Gl+B2DFY+Ko0MRtXnH634JYwkpERaJM8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fyhmU8ZuOYiVE64IvN3TLj71yO/iXYzBUndAUuLLm5uIHQLgDZQZ3lmlFSoriI6sf62Y6gt3i+5kYZKh6V1TKpzaRvOfA9OOsV7YOFajk7DmvpHmSZkIr+wpdaiPX6ZnlIlWrmZ/fas91t+heHkGkwF7CiN/8v7rpY0zwQ8wFmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e4857d93ebso319717a34.0;
+        Thu, 29 Feb 2024 11:17:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709234242; x=1709839042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y4kpkILx+rl+5M6wPy0kCyBMrKJ22BL2YvhP99fGIT4=;
+        b=ffRJ+fLRnj8w41JPom5XetUZowX34+8pRD4pRDLuvRrGdnNk33IphLmqd5pttKVxSF
+         fLbkzAsMGC4b0oiFLF6LkNP90B4b6UNy7qykST+6CW9Y/OLOtyh1Wfv3Lc2ZkTBIBBMP
+         wc6/GOLRg28aZJa7hTaxbev+hNQA3oYxDo1os/vQlLRdZK9dKk4WANN8pzW8MzD+tP37
+         tzyQIGTS3jxw96bTrHus/9xT6wdjgJ1PzzIrzk0Wo5wcFxKWLMuhvi51J59ZwHPY39rg
+         ptCQqN5FVbIjDphlZDPEI2k6pOjwPhfJX5+sSyIpYOQzecYMDVN010HBUM65AgxEcAgF
+         YO2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXsoaU0oZObLYUGRXB6jikOnl5bcSvw/6TCc+WNYDEJ19e5I/xEz6Hoq1zIz5NFuW6TOuGd0dBjja1oD8D3OjUX9+h2sgQvLQx3wj8KiQjuwFVUZJqS22Q/6ecxNWxPg8gaSh0vpEIdBIbXXfCYQmuIKnBugp2W2SALHfljoBeyOiw=
+X-Gm-Message-State: AOJu0YwcDFR+L83cDc4bQoOQyv2WwvDgQejnFKf6F2JmAW6fql4GQGjv
+	Yct4FsRw3oBfv7R93Lj8N2jrD/Zf7l6qFXm6k000i4p8gFpQyS+ciRhEVdK9bqGWzQvjxSjZkIA
+	oNjpeH/iPGmiA/thcPoYPzQKBQjc=
+X-Google-Smtp-Source: AGHT+IET15oeZ9A4Gl+g3bcOmsjvaP/3t9x/x3o3O+8cGgdoAH1s+bxhozrHbmv7trCPELLedqDj5+QwUra+XDo4tCQ=
+X-Received: by 2002:a4a:625e:0:b0:5a0:4d78:975d with SMTP id
+ y30-20020a4a625e000000b005a04d78975dmr3185438oog.1.1709234242209; Thu, 29 Feb
+ 2024 11:17:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v13 17/20] ipe: enable support for fs-verity as a
- trust provider
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1709168102-7677-1-git-send-email-wufan@linux.microsoft.com>
- <1709168102-7677-18-git-send-email-wufan@linux.microsoft.com>
- <20240229044625.GA1946@sol.localdomain>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <20240229044625.GA1946@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240225130057.42633-1-s921975628@gmail.com>
+In-Reply-To: <20240225130057.42633-1-s921975628@gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 29 Feb 2024 20:17:11 +0100
+Message-ID: <CAJZ5v0hAcR1oWYJX2oADdyY14dxC_ohS5hOxuAx3D_1rCSesUg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: PM: Fix runtime_pm.rst markdown syntax
+To: Yiwei Lin <s921975628@gmail.com>
+Cc: rafael@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Feb 25, 2024 at 4:46=E2=80=AFPM Yiwei Lin <s921975628@gmail.com> wr=
+ote:
+>
+> The '7. Generic subsystem callbacks' should be
+> a section title, but the markdown syntax now is wrong to show
+> this as expected. Fix it so we can to link the chapter
+> at docs.kernel.org correctly.
+>
+> Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+> ---
+>  Documentation/power/runtime_pm.rst | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/run=
+time_pm.rst
+> index 65b86e487..82bc76d3d 100644
+> --- a/Documentation/power/runtime_pm.rst
+> +++ b/Documentation/power/runtime_pm.rst
+> @@ -730,6 +730,7 @@ out the following operations:
+>      for it, respectively.
+>
+>  7. Generic subsystem callbacks
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>
+>  Subsystems may wish to conserve code space by using the set of generic p=
+ower
+>  management callbacks provided by the PM core, defined in
+> --
 
-
-On 2/28/2024 8:46 PM, Eric Biggers wrote:
-> On Wed, Feb 28, 2024 at 04:54:59PM -0800, Fan Wu wrote:
->> diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
->> index f5190a1347a6..ca1573ff21b7 100644
->> --- a/security/ipe/hooks.c
->> +++ b/security/ipe/hooks.c
->> @@ -254,3 +254,33 @@ int ipe_bdev_setsecurity(struct block_device *bdev, const char *key,
->>   	return -EOPNOTSUPP;
->>   }
->>   #endif /* CONFIG_IPE_PROP_DM_VERITY */
->> +
->> +#ifdef CONFIG_IPE_PROP_FS_VERITY
->> +/**
->> + * ipe_inode_setsecurity - Sets fields of a inode security blob from @key.
->> + * @inode: The inode to source the security blob from.
->> + * @name: The name representing the information to be stored.
->> + * @value: The value to be stored.
->> + * @size: The size of @value.
->> + * @flags: unused
->> + *
->> + * Saves fsverity signature & digest into inode security blob
->> + *
->> + * Return:
->> + * * 0	- OK
->> + * * !0	- Error
->> + */
->> +int ipe_inode_setsecurity(struct inode *inode, const char *name,
->> +			  const void *value, size_t size,
->> +			  int flags)
->> +{
->> +	struct ipe_inode *inode_sec = ipe_inode(inode);
->> +
->> +	if (!strcmp(name, FS_VERITY_INODE_SEC_NAME)) {
->> +		inode_sec->fs_verity_signed = size > 0 && value;
->> +		return 0;
->> +	}
->> +
->> +	return -EOPNOTSUPP;
->> +}
-> 
-> So IPE is interested in whether a file has an fsverity builtin signature, but it
-> doesn't care what the signature is or whether it has been checked.  What is the
-> point?
-> 
-> - Eric
-
-It does make sure the signature is checked. This hook call can only be 
-triggered after fsverity_verify_signature() succeed. Therefore, for 
-files that are marked with the security blob inode_sec->fs_verity_sign 
-as true, they must successfully pass the fsverity_verify_signature() check.
-
-Regarding the other question, the current version does not support 
-defining policies to trust files based on the inner content of their 
-signatures because the current patch set is already too large.
-
-We plan to introduce new policy grammars to enable the policy to define 
-which certificate of the signature can be trusted after this version is 
-accepted.
-
--Fan
+Applied as 6.9 material (with changelog edits), thanks!
