@@ -1,87 +1,77 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAC12B9A7;
-	Thu, 29 Feb 2024 10:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D7F64A8A;
+	Thu, 29 Feb 2024 10:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709201995; cv=none; b=PscL8+PvTsFEczMJur19gJSr0qz9/18c5PK4eEN5T6Qd0mX7cOvqmrbljdlC9yuCBtbRHiBnD8+5YuElUvvNGIZDEFQCRstb1aFRYXxF5hvBQ5qaYAHgAg3UY9VoE4PDLc9cpIFpLN4s/ADqcv/YyZGVew1jUN28t14NlzqWmbc=
+	t=1709202354; cv=none; b=XuDVt9NAIjo3YMaRmI45eihXHraapkew2UrtjziDWtI9vkE6XRoa9Rk8UbJtVaPsOhli06HTewEmXV8s/dJ+RLf7mBrAfM2E5YUfbXLT8Em5az3vQRv2yypFZXX+VDV1IOdPMdgXCVfQs8WmMqSn41XSNe/i4m/HqMGIAX3DsG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709201995; c=relaxed/simple;
-	bh=Y7qkGKwjx3H/TRQEVveGrfu+zQX9hFFpwqUq2WdelWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Eu3KiKFIeb9Wav+fAdUZIt4h+/rr31R8sXXQsu0wKZJ/eiCSmO6sTDNZKYJYVojaPzp/+DGbKeml9u62gHpsLU9/37QXUE1CIGJtBJzS1ESbdgWfvTaDfCiKhkl9ORd73QoisYkqQMU8kmFHAMH0JAwXcO4JZZt4BSZh2/UT5Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gu6bm++s; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709202354; c=relaxed/simple;
+	bh=BZOzxkLaNwJzyuWMx5kdxPnNkLL7LABOOFE1Vzr+SB4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JFFGpM0PEURtldhjh3+1B36GeMr8mX3o0Z3nYJMts+xJq4T0jjsZcA0eluSnMnpvYetbXb+MfyoL2zZwNO2MYURJAz+PzLfctKtI5/2XOTY5u58f1EPfdp5h1aWoMTlDpWx+//KKvznTo0RZUvGEn9X2fBlEdgGc+G+dAib1azQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyQi1zYZ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gu6bm++s"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 144F41BF211;
-	Thu, 29 Feb 2024 10:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709201990;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MEFBYdkM7f3YtLcjvK4kv6EBOhP/yfXSiL46fHzaCaw=;
-	b=gu6bm++sSMvSXZlTFo4Ku2RjXcsU52xQ2TI68nL9UfnPYDs6qU+c9/4X6gdSiEB53/yp1s
-	qNeowayRuUk805Mgk8Aoo4q5I3Lxx7QE3+vYuEKF3xwBerjNTPb/86keHErgJEv7P1Wadf
-	MpwQDiMrQRQuK0BUDT8WQuotRZCl4ZQaui1vakqzQ3g8a/fhYx5wZooT8YZmbvsfG/vTo2
-	j8+4IOKpLoJ6Tk/sCd/RqEbEaCNvT0EgBJEyaRyODmrCMLpnX53DiYA9FTjVJcadXIDbJP
-	CXfDVF6m8ucYOF756of8h700EHDxuiAvVTmowQS2mbtV3SuiEY6cFXygQcva1Q==
-Date: Thu, 29 Feb 2024 11:19:46 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown
- <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
- <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240229111946.55426a60@kmaincent-XPS-13-7390>
-In-Reply-To: <20240227165659.76a971aa@kernel.org>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
-	<20240227165659.76a971aa@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyQi1zYZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709202353; x=1740738353;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=BZOzxkLaNwJzyuWMx5kdxPnNkLL7LABOOFE1Vzr+SB4=;
+  b=iyQi1zYZ42f43Ljn2az1KeblEJTEekiREoJE3zWqfInP1FySP7MQRlTJ
+   qOXAnSd55kxvvnBp19T9c2T0njxYkI8dIKAO98U/TMmozsOx6/LILGJ0K
+   EMXhZV+tg/Rl6tJWFD8zpA+6C2AiV9Ox60PEk2IvEBW6/c2/g95Oj8iOk
+   tjRkU2jLUk4l0P6t3IHp15bXr10Lt4YqlSbSEv3iyyF+IUgg9N4xslF3y
+   C8vfTQIDdKt+wI2QZHlWwApbP48vEY1iQzbkJh70h4w3VPNu5+r242Ufc
+   isRRiO/4ouzRWmFsjxahYSFnhr3ly82B0IdHMcucWzwIxhfUyzcXDB7kw
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10998"; a="3786392"
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="3786392"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:25:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,194,1705392000"; 
+   d="scan'208";a="30961090"
+Received: from smatua-mobl.ger.corp.intel.com (HELO localhost) ([10.252.47.143])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Feb 2024 02:25:49 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH v2 0/3] docs: submit-checklist: structure by category
+In-Reply-To: <20240229030743.9125-1-lukas.bulwahn@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240229030743.9125-1-lukas.bulwahn@gmail.com>
+Date: Thu, 29 Feb 2024 12:25:46 +0200
+Message-ID: <87plwf8t3p.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-On Tue, 27 Feb 2024 16:56:59 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Thu, 29 Feb 2024, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> from Jani Nikula:
+>   - turn categories into subheadings
+>   - use common heading adornment
+>   - change to bullet or autonumbered lists
+>   - propose those changes as separate additional patches
 
-> On Tue, 27 Feb 2024 15:42:55 +0100 Kory Maincent wrote:
-> > +	psec->ps =3D devm_regulator_get_exclusive(dev,
-> > +
-> > rdev_get_name(pcdev->pi[index].rdev));
-> > +	if (IS_ERR(psec->ps)) {
-> > +		kfree(psec);
-> > +		return ERR_CAST(psec->ps); =20
->=20
-> coccinelle says: ERROR: reference preceded by free on line 458
+I was hoping these cleanups would've come *first*, but up to Jon to
+decide if that really matters.
 
-Ouch, indeed, missed this error.
+BR,
+Jani.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+
+-- 
+Jani Nikula, Intel
