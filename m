@@ -1,93 +1,95 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4255813C9DF;
-	Thu, 29 Feb 2024 19:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD0913F447;
+	Thu, 29 Feb 2024 20:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709236781; cv=none; b=qT9SCO+xHEYYHFYpA4vFqo8Sm/STK3cWt+LPHzRMH/90EQb04UEgNMhZ26A/R2rBSUvGissWSG2MfMW9JxDEOT3CPTSZuh7ENr3U3EJW5We8R6lvxp31nzPPJjlJSp1oDUkmK9EQ6fjUZHlppDQ77WSM64uMKtcUtNb3M09IQv8=
+	t=1709238530; cv=none; b=DWiHfWIWkL21BSd13O3A445zlq3+f308CcdWQYrF4dGMdRC1yZQiAqv+LMnK/qlb6H6XI3mN3UHtNw1FcXW5jKQtWZyhkOC6gt/lYzHXK9kx+RDngOXtI2/eU7T9V2fE2EyI7PnS5BHRXx5WCoo77Y60htP0ODNuFI6JmzK7cz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709236781; c=relaxed/simple;
-	bh=1iFRua+KRGwO6LXerMjQRyUEaPugQrsxR57ztwBXH+o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MI/qSM61IOCROZ+jbsNSxoaf/s0DmiJbbs31ywe8DhB8kwUffALPy4G6Em/CrlWJewJcRqWu6uwC7C9yYr1jD7/J3EqLXSCMlh1brT+NAFzw8oDXqDzWqeWpFs8RwbH3aUt5klD16rqU2JitQln8DNUXZsHZixFRFxcwu1yFFZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FAEOTZDG; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1709238530; c=relaxed/simple;
+	bh=KFX1TCMwnm/yL0uHJIWoMdu2yhBd4riGw+GeL8KJaF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tLf6Rm0XP+wiedmqLtvkaKGEklpesdHk/N13nH8qWpYqTpSArT+FkgV5zzGVrP1qJurOaKrVwPqgQqvEKqYilokJe8/UfoWG50LsBdbiJQwN8/loJKLQ77gYo8CpoQ1VEDEjA20kWOlyKIJ+fzPlLc46qNi1bnd4DuQDaq6aMfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TZx/Wzeb; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FAEOTZDG"
-Received: from [10.137.106.151] (unknown [131.107.8.87])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9622C20B74C0;
-	Thu, 29 Feb 2024 11:59:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9622C20B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1709236779;
-	bh=G8RefpRZLqdFOepXMPPmDviGVAqIh+9z7ml3Ytz4pAw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FAEOTZDGgg7u1+aNsJy4wgD3dI4ZJ/MMnTMSY55caDEIorrF7oioQY7Fi2LzMWFSN
-	 RaR7XBcH8RrRiU+7ymQEq/w0Gw8ej/+0quxYw1hGfzOqRzW5lj9MAlatW88mfHeiHj
-	 mBTrAGBJg01GEvclsyNBG73rkqgfOzbUVfDuKv4o=
-Message-ID: <a6061c25-1f7d-4954-b5d3-5d21c6d6df82@linux.microsoft.com>
-Date: Thu, 29 Feb 2024 11:59:39 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TZx/Wzeb"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1dcafff3c50so11789845ad.0;
+        Thu, 29 Feb 2024 12:28:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709238528; x=1709843328; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9VSE+Pm8C/sEK5iU2pg56gusVe39c03R2dAi7lJgdVQ=;
+        b=TZx/Wzebt2rzqyXN8RSVDwErWQV+EpSbv0cWukYa+vzJ47b7HuolBnrNDuEyJJV3/8
+         9PHu54xTlIYaBce/cK4XhcKrBn5fU6ecnTuwCIBf1SqTBof3UunUuOYOiye6yMGibLZ+
+         MALgCvKQkKLyGd3YB+tunO8lIuHNdxHLhPksrmfTWHeHgDy/jbX3YkYfw9+SUPzFK8F4
+         56CeqVlDrv/DPuPBGHrqJbNRmdxfxRzYwNIbGB8Jm6WLiRrWfpQEwCfTkWpqO877VUFB
+         9xqCHl0yBqyi6xJh8YN+HaMqyzmNU/BakwraV61l5+bMZIgNP4fP32iYaJ1Vfo8d52ng
+         xLsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709238528; x=1709843328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9VSE+Pm8C/sEK5iU2pg56gusVe39c03R2dAi7lJgdVQ=;
+        b=P2qFaIbgEK6UQIJRDNecCN4ewTB9QbphVH3IOd+1BEzyo/LI1Ko37ugDhz7iDZvL+o
+         aMh1Th2v8XsbVlicWBB44X+dWZ8H9upF8V8GXzneWHnF8HCdk48+pMunrmXy7hLcXOs2
+         bSYa8x4CIMBBbZDTu88z+3Oq6Q8m9aksSCd4X+rbwhzWfWKtBrxcYQUfK9vsHyeu8Tla
+         oA9AOt+G4AGoBbMCHjCvrZzUl/sOX3hupEW3CGY3S5av8w9EzkqXVmJ78waBmtfUok5F
+         g3pJFFXrCrk1ZQPzzoeA4DIKLLuDHYzHhIBDYUkKScOgMmfBlvSAAa1twzHbhE5kXbt6
+         jJOw==
+X-Forwarded-Encrypted: i=1; AJvYcCWscRtEyfDFGiT6+YSMKtBdWX3EkXzpTASRltdtFrF47bohggu/tqnsArvJUdEV7H53FVe3UKm6JYheer7ryNXiFrdR2t4LetVCNtUu2xEKy1jZIYRKqvkf1csxVCkWVaZijB5Y6LY9pusD9Wrksb+s/yI207OPT42s+MuckCX6yoFNayyRYI2j+i7VzHyLeHwfsyGkkXzj9xEm5Q==
+X-Gm-Message-State: AOJu0Yxw79B6FghOU5npwnZwnIbONjceC24J5g8g77zAbLm1XG1fVeDD
+	sKxM8HYcCgdvxzYifrklZlalDNrFo2hwjflj39kKrFDZzuvvJuQ4
+X-Google-Smtp-Source: AGHT+IGRU+IzisICIwXmJa1iH8rdoES4zwYMUZNyG1kCHKTbFlaZJKAx3cqhxR9JFJXiLqyuOKk7zg==
+X-Received: by 2002:a17:902:e811:b0:1dc:7856:2210 with SMTP id u17-20020a170902e81100b001dc78562210mr4168597plg.36.1709238527798;
+        Thu, 29 Feb 2024 12:28:47 -0800 (PST)
+Received: from localhost ([2620:10d:c090:400::5:8305])
+        by smtp.gmail.com with ESMTPSA id kw13-20020a170902f90d00b001dc90ac1cecsm1917293plb.284.2024.02.29.12.28.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 12:28:47 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Thu, 29 Feb 2024 10:28:45 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Xiongwei Song <xiongwei.song@windriver.com>
+Cc: longman@redhat.com, lizefan.x@bytedance.com, hannes@cmpxchg.org,
+	corbet@lwn.net, vbabka@suse.cz, yosryahmed@google.com,
+	rostedt@goodmis.org, cl@linux.com, chengming.zhou@linux.dev,
+	zhengyejian1@huawei.com, cgroups@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] cgroup/cpuset: Remove cpuset_do_slab_mem_spread()
+Message-ID: <ZeDo_U5j7N7sH_v0@slm.duckdns.org>
+References: <20240229142007.1278610-1-xiongwei.song@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v13 17/20] ipe: enable support for fs-verity as a
- trust provider
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1709168102-7677-1-git-send-email-wufan@linux.microsoft.com>
- <1709168102-7677-18-git-send-email-wufan@linux.microsoft.com>
- <20240229044625.GA1946@sol.localdomain>
- <b73e3387-558f-4f40-8741-c6ed7965b25f@linux.microsoft.com>
- <20240229194237.GA1454@sol.localdomain>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <20240229194237.GA1454@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240229142007.1278610-1-xiongwei.song@windriver.com>
 
-
-
-On 2/29/2024 11:42 AM, Eric Biggers wrote:
-> On Thu, Feb 29, 2024 at 10:59:21AM -0800, Fan Wu wrote:
->>>
->>> So IPE is interested in whether a file has an fsverity builtin signature, but it
->>> doesn't care what the signature is or whether it has been checked.  What is the
->>> point?
->>>
->>> - Eric
->>
->> It does make sure the signature is checked. This hook call can only be
->> triggered after fsverity_verify_signature() succeed. Therefore, for files
->> that are marked with the security blob inode_sec->fs_verity_sign as true,
->> they must successfully pass the fsverity_verify_signature() check.
->>
->> Regarding the other question, the current version does not support defining
->> policies to trust files based on the inner content of their signatures
->> because the current patch set is already too large.
->>
->> We plan to introduce new policy grammars to enable the policy to define
->> which certificate of the signature can be trusted after this version is
->> accepted.
+On Thu, Feb 29, 2024 at 10:20:06PM +0800, Xiongwei Song wrote:
+> The SLAB allocator has been removed sine 6.8-rc1 [1], so there is no user
+> with SLAB_MEM_SPREAD and cpuset_do_slab_mem_spread(). Then SLAB_MEM_SPREAD
+> is marked as unused by [2]. Here we can remove
+> cpuset_do_slab_mem_spread(). For more details, please check [3].
 > 
-> Ah, I see, you're relying on the fact that fsverity_verify_signature() verifies
-> the signature (if present) even if fs.verity.require_signatures hasn't been set.
-> That does happen to be its behavior, but this isn't clearly documented since
-> there previously wasn't really a use case for the builtin signatures without
-> setting fs.verity.require_signatures.  Can you please make sure this behavior is
-> documented properly in Documentation/filesystems/fsverity.rst and in function
-> comments?  Otherwise I worry that it could get changed and break your code.
+> [1] https://lore.kernel.org/linux-mm/20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz/
+> [2] https://lore.kernel.org/linux-kernel/20240223-slab-cleanup-flags-v2-0-02f1753e8303@suse.cz/T/
+> [3] https://lore.kernel.org/lkml/32bc1403-49da-445a-8c00-9686a3b0d6a3@redhat.com/T/#mf14b838c5e0e77f4756d436bac3d8c0447ea4350
 > 
-> - Eric
+> Signed-off-by: Xiongwei Song <xiongwei.song@windriver.com>
 
-Thanks for the suggestion. I will add this info in the next version.
--Fan
+Applied to cgroup/for-6.9.
+
+Thanks.
+
+-- 
+tejun
