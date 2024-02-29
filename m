@@ -1,132 +1,82 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFAD8F4A;
-	Thu, 29 Feb 2024 06:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14855446B8;
+	Thu, 29 Feb 2024 07:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709189566; cv=none; b=A3waFE6a/NK6qzjc29dLXPBmSJePzB2DMYRB4Eu1JWJQKe7L+q9VqE7aXLiSRepJdgAbYGr7ICKrfUPngrWXcCbCnyBBK+HMYzSXIwWzVsbdSuYtR7Qpd0RmMraMe1GfMx4VLDTtP41cdMKoxBVVZOlBo5wmiD82u6gmv6Q475Q=
+	t=1709190805; cv=none; b=p6lmd6WfsVkv8V8EhFuiCZd4qyXAR9UR4exEcOJIS9OrB55CBMVN0Zd1KbczT3HszLEhG+os1jT604Q/naEdnncUtK6DZVVPkad5jsTjHyLFe+4ll5abluIfQXC/hfHYiTZza8l/OkKQAe0pVhqcEWuXE6phoR7pSPgtWxahpTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709189566; c=relaxed/simple;
-	bh=QEJAoHeT2wh90dI+ZjoF1ZHx+LcAYE5U/em2XDUBioM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=atALxQJHlNUCOMFuP3B8F7t8lQcteFeA4/+hI/nZzZ837GXor4FByfQ2NKljMTvF5CgtM/BdvbLMfMocOUgkU+PHeL6VjCd6HHmVPEu6cWuAIH8f5E3M4Un9WNxQvFdzjpYr6NxTsCWi2UHnfbdoBiN4kCYI4xj5puvv56ROQ7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdZO2z78; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709190805; c=relaxed/simple;
+	bh=sTFRZabajf/krYk3PM4o4UwGsA4jCPH/kYX/YIBaFFQ=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=rrou+qyt/mZB5i6rY5HjB2GFYmu6UMU3/LcpUhAgwEd4c9Zu4+zUl8aykqOr0l00V2QjOaY1o5AISgPbM5x+zONjMpQMkG6puRABdnaUn6RCS1g77m8sWIoVMsmshvVR9GH24SpsNrEPe0V7V3VsvjdV2CwDpeazsjhwQbiiw2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUGlU738; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdZO2z78"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-42e8758fd52so4332761cf.1;
-        Wed, 28 Feb 2024 22:52:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709189564; x=1709794364; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iPX1yFcE2Qv3sy/mqTmODI/j9a9JW9C8YeAhgYmhLGs=;
-        b=QdZO2z78FLEY4RWdjVmUdbrKoq0N/fYM+uC5aG9e6ZJmCKek53xR3UVmADzlUwOLDO
-         0iBOf6bXHyV01JkM2zJzFHb8bKVhsB8s38YRrrvk2sgrbA+vndWnP86CWUOx44UcvRa3
-         gAI9IhZLtJi89nlvmaE1yGQ+S7Y3208HzgJylGPszXl84JeLy7N81pzYM1W70jF6mPUa
-         t+kMHNiUb6lzQHrGrYzQ7CnAT0H1lZ7gJh68GFElWJGU1DXh5naQWJFqp/QYvc/tMx+6
-         G2GSrQRboLWvQAf9z74/RRxegpLpCW1i8fUo6VtRdLCbNFyMWzFmN7QKqFrzAw0SFXfg
-         XRMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709189564; x=1709794364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iPX1yFcE2Qv3sy/mqTmODI/j9a9JW9C8YeAhgYmhLGs=;
-        b=d7qDmIclWJrCQsb6+dBgVnj8sI/SrJZAo7vNQW5pnyrxQMTqwD/+RShwRXj2P/IpYt
-         Zv9yN0AIBZFEDJoGQVcUvLrIxSPDdv4gfHM3AkDpu6YZP6PDh+n6S/UyYou/1gswljoH
-         QFh1eR7jEP7ezi1TIeHp6Oqcm7dDxK3hocQSioEr2w4fCGm2Iij9A4AtOYHth8tlNEZA
-         JthQdmjaI3qJW32ctRXsldx4JzLqqInEER1A1RRcYHPRv7mnxB7yK9KszWcp0XsHGess
-         N+Zg1IdNPSjJ+qSJDXPX6ykHAK9No9T4N/1LfXaCFsQxNpLD0KPxPb7cLBGNaYpWMKUu
-         rTYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVr4zRzWPu3iYMXgfM5TETbOozfb4d0Ch1BvjNcSq6dfd40P7HLNGiNNN7zVCTVH4AjPIph63xKb0zqRpIEgiJILBL6QvjLllEMVQuJUezZPYDMfkzFQjoI/YiOuAE8eGNTmLgju/Fl+QK9oLMYfamIfijAsFaEFurew1kNYdOpw4seeuU8Czn1h0h2hk2aY4bfz8GXBX9KnChX8GR4cUbIjA==
-X-Gm-Message-State: AOJu0YzFCvZPqENBTpu15bNMO4Q7ZVZBFNZ0n9WXZLBvm60a+617cdCs
-	3KXbkbXVoTLkcEL8Zox3IyLw/kf1evhb2tOBjYdrV/+21vuNQsoWoC5tvSeXubUZQdrTuq7nGcr
-	Dun4i/FjXah7NM81MiCjWmTDomRs=
-X-Google-Smtp-Source: AGHT+IFn20kiezhjvNWVPNWkvhcd3j6u19avlEPGAe1WEmIZ6yWLp27W9XetikSPB9EKVwpdSFz5h3OKt1KsGriybmc=
-X-Received: by 2002:ac8:7f82:0:b0:42e:8c8f:42f6 with SMTP id
- z2-20020ac87f82000000b0042e8c8f42f6mr1421021qtj.40.1709189563696; Wed, 28 Feb
- 2024 22:52:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUGlU738"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98225C433F1;
+	Thu, 29 Feb 2024 07:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709190804;
+	bh=sTFRZabajf/krYk3PM4o4UwGsA4jCPH/kYX/YIBaFFQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OUGlU738hUpRVx01d84rqAhOzR10pyvcWXzBPl3tO/bB0Ve/kdCrehO4Nvx7CNknc
+	 zrpXNjLeKSA8R10DDUlU9Euuer0LPnly3RInbJbxAd3H7CTMDjQUXxjB6PzSbM64UQ
+	 94U86xoToN7HwCt8P917HtYwhQdXb1ENvc6Dj5pdtv/I0KC2QZfhVqYj8HyVtbBHtI
+	 L40MwM5UeB/+WMvCHr3E7OZ7koK23UXGBLX/alScaAmG5kFCKjKboruwtYlov6xQOa
+	 diSK0jIl+0u04MeA5uel3UHKZA8Cz6573rDBfoiZcAj0nZlS/+zZKnm1jFzoJffcKA
+	 tw+pk4LjuB1yg==
+Date: Thu, 29 Feb 2024 16:13:20 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 0/7] tracing/probes: Support function parameter
+ access from return probe
+Message-Id: <20240229161320.978190f42dcc1a521c192e7d@kernel.org>
+In-Reply-To: <20240229153855.6fe3fb454cf56eebc6ea9953@kernel.org>
+References: <170891987362.609861.6767830614537418260.stgit@devnote2>
+	<Zd9eBn2FTQzYyg7L@krava>
+	<20240229145139.a215085c44add62302463312@kernel.org>
+	<20240229153855.6fe3fb454cf56eebc6ea9953@kernel.org>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cover.1708709155.git.john@groves.net>
-In-Reply-To: <cover.1708709155.git.john@groves.net>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 29 Feb 2024 08:52:32 +0200
-Message-ID: <CAOQ4uxiPc5ciD_zm3jp5sVQaP4ndb40mApw5hx2DL+8BZNd==A@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
-To: John Groves <John@groves.net>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, john@jagalactic.com, 
-	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, 
-	gregory.price@memverge.com, Miklos Szeredi <miklos@szeredi.hu>, 
-	Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 23, 2024 at 7:42=E2=80=AFPM John Groves <John@groves.net> wrote=
-:
->
-> This patch set introduces famfs[1] - a special-purpose fs-dax file system
-> for sharable disaggregated or fabric-attached memory (FAM). Famfs is not
-> CXL-specific in anyway way.
->
-> * Famfs creates a simple access method for storing and sharing data in
->   sharable memory. The memory is exposed and accessed as memory-mappable
->   dax files.
-> * Famfs supports multiple hosts mounting the same file system from the
->   same memory (something existing fs-dax file systems don't do).
-> * A famfs file system can be created on either a /dev/pmem device in fs-d=
-ax
->   mode, or a /dev/dax device in devdax mode (the latter depending on
->   patches 2-6 of this series).
->
-> The famfs kernel file system is part the famfs framework; additional
-> components in user space[2] handle metadata and direct the famfs kernel
-> module to instantiate files that map to specific memory. The famfs user
-> space has documentation and a reasonably thorough test suite.
->
+On Thu, 29 Feb 2024 15:38:55 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-So can we say that Famfs is Fuse specialized for DAX?
+> Hmm, this seems arch_rethook_trampoline caused the issue.
+> 
+> And curiously, it depends on the number of stored data.
+> 
+> OK:
+> /sys/kernel/tracing # echo 'f vfs_read%return $arg1 $arg2 $arg3' >> dynamic_events 
+> /sys/kernel/tracing # echo 1 > events/fprobes/enable 
+> 
+> NG:
+> /sys/kernel/tracing # echo 'f vfs_read%return $arg1 $arg2 $arg3 $arg4' >> dynamic_events 
+> /sys/kernel/tracing # echo 1 > events/fprobes/enable 
+> 
+> I also confirmed that on 'vfs_write' caused the same result. 3 arguments(24 bytes) is OK,
+> but 4 arguments (32bytes) is NG.
 
-I am asking because you seem to have asked it first:
-https://lore.kernel.org/linux-fsdevel/0100018b2439ebf3-a442db6f-f685-4bc4-b=
-4b0-28dc333f6712-000000@email.amazonses.com/
-I guess that you did not get your answers to your questions before or at LP=
-C?
+And this may be the fprobe bug. kretprobe events doesn't show this issue.
 
-I did not see your question back in October.
-Let me try to answer your questions and we can discuss later if a new dedic=
-ated
-kernel driver + userspace API is really needed, or if FUSE could be used as=
- is
-extended for your needs.
+OK:
+/sys/kernel/tracing # echo 'r vfs_read $arg*' >> kprobe_events 
+/sys/kernel/tracing # echo 1 > events/kprobes/enable 
 
-You wrote:
-"...My naive reading of the existence of some sort of fuse/dax support
-for virtiofs
-suggested that there might be a way of doing this - but I may be wrong
-about that."
+But this is strange because both uses same rethook...
 
-I'm not virtiofs expert, but I don't think that you are wrong about this.
-IIUC, virtiofsd could map arbitrary memory region to any fuse file mmaped
-by virtiofs client.
+Thank you,
 
-So what are the gaps between virtiofs and famfs that justify a new filesyst=
-em
-driver and new userspace API?
-
-Thanks,
-Amir.
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
