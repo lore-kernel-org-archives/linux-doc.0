@@ -1,103 +1,105 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEE758AA0;
-	Thu, 29 Feb 2024 09:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5A95D90C
+	for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 09:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709198272; cv=none; b=muCpaTDwLA2aMKUmacKTzDKMXpLtfm6dHomaDs8I+mBr155NiYWONjPT8OuRg/Fdu7DKiHJuMz7QeRtrsPfxh9FROfMd9xuGeyi+Zcpn3uctNDzBZvCErybesA9735oOim0OA1Xj8Qou69smZUgRSCnarbdNZ7SR4WXNVS6+DLY=
+	t=1709199284; cv=none; b=iQlt6qxwacgFuduYqNAKiFn+YBPK4UxHUXCXEsaBAuCH+IZiPvlkq8net8mN6cukUjmNF+RYI1+7b/M7E+IzZeNqCM/5z0ZzHIhAG2TVGzFRnmSsIn1PstKuk6pI6y7CxCdTMrTDxSyRvvIeL8pXklwYQmFvko16nmQaH7Xjzrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709198272; c=relaxed/simple;
-	bh=JC7LY6MOJvw096/9yY09D0IdT5x2U+eDx0fw6U/BXNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BS5aoReEUFm4YDRhHIdBQwbNsVTvO4KiK1VDvQIPevNal/D0LpJ96rCWidjjyni+3PfTqcz6Owzxe/APWdQhrh4lEGUZZGpVS9A7leA8iSu45j++26e6ArUMuS+OMsrAioYDaMg7QM13rtaPsdQ1a4AKXygS8FOAidr4QbpkdaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fUQTkMoU; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709199284; c=relaxed/simple;
+	bh=2o3I/8Z/fCxH03jhXNbXbl79FASICQdOxt3di9g6Iu0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Kkq3kZkOpi8i5j+7xrjo+2/4GgQbjUWDJasKWgt+ucQCiC7w3sX11rQKF0XZWKhy7YhOzDG3URi9EMKcvvpTPrAPJ8W7MPcQPNX4Gz8zGw7zh9rdAIzbwwLYBggRDJnogj2OhODJCQlOPe7Yb4BNUV4EhLhvyAlBEoNLP96RBy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0CfkIVN; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fUQTkMoU"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 56428FF80E;
-	Thu, 29 Feb 2024 09:17:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709198262;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JC7LY6MOJvw096/9yY09D0IdT5x2U+eDx0fw6U/BXNY=;
-	b=fUQTkMoU7i26EC3kV6o8BYQnUim5Gc1EEch3UbHe1RnYryma9zTl0y8fnl62/tGu3LLFRv
-	rMK5NHv2e9Svo37t+K3eNpN2P0fvLLiiRa4siuiQtzqKuUBRflv2Wus6z20H8CYVbB9ZhM
-	DxNk7JI2nIv+8k2gqcS3Kww82Xj0h8KjqrBq1IeNoGp6Uq1A4gdXBpGUvVfnsC4JaWcDx4
-	cmMYamFSIQ4W9v2TPXmFzYxKONG2G/IPQ4zEnYVZcJ/jbpKBqdIufVZoVUDZzPbhC/dmT0
-	UfQtNxhtRJUS8GmLs0VqG59JX/srrUBzaT0khFojQW+jfpT7tXQ/6hp3gvbI6w==
-Date: Thu, 29 Feb 2024 10:17:39 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 06/13] net: Add struct
- kernel_ethtool_ts_info
-Message-ID: <20240229101739.2b1cdecb@kmaincent-XPS-13-7390>
-In-Reply-To: <20240227192737.5d834155@kernel.org>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-6-455611549f21@bootlin.com>
-	<20240227192737.5d834155@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0CfkIVN"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dcb3e6ff3fso5788385ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Feb 2024 01:34:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709199282; x=1709804082; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ba0u2jTmO3RCrkbC3jlDWPxQ4C4shiMEP6Syst/UoiM=;
+        b=h0CfkIVNssJ2/rJ5DAvKM8bFke3yibg+53Wka80U0Tx3HWL59TozsPZzaTBSfSokac
+         zuuROh5S/1hcOpcTNnrPAzDQ2q9YkYXCLzNDEp4cXKxmg/pOciRCByjjHW2Hlum11B4n
+         C4gIImThlsR0x66fIqGchZqUqiKZ0u7QRT35l77pACA+/Y4bDqXPM1bEiNK6tMkr8Ziv
+         MXx2qaG1MMMycLTME/0kWebop9JrgqX1/b7kCgROyqn6k/DMJFpt/LiiI0k1X0k4syqS
+         ffEUGv1e3VLkKHEo2JooS/uXnMwQHCVQrix1ac/r3PFyQ8lmaxUlAVV8/zowyq9V4c9M
+         fgrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709199282; x=1709804082;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ba0u2jTmO3RCrkbC3jlDWPxQ4C4shiMEP6Syst/UoiM=;
+        b=t4eAl9qEiAYuuQtyWIvObN028h/f76uCEKZtSmdFGzB90eYYvHrNGxnPOHDr7D7mfC
+         YRbZEC9JiqgN3tYxueHtfRLxqQhtsWCJ+2gycZQ0md1V3cZ96oWYeszLRAUcxDGWWFVt
+         x1wR3Er2NHR6KFJJsxXn61HCAtuYhOA1GVLK1MXE1DU2q7fU74vRqB4Ybc6EtVh74OJE
+         FNUrJZVZCfTgX3pZURdhbD8xHhBusRPjBDjD4F4qFR5M7UbO9D/pMyJXnYRm4xjVocKv
+         SFZD4EY5mzlZvf+kcNaOGVw6J3UFgTTgo9YpvOTJQS2o9Leg1bEXb0uuSxWmtKaOUVGG
+         Ghjg==
+X-Gm-Message-State: AOJu0YypwUG0nT9YatCKcV3hhr5AnYovwgcJ8HjpNJDDSQCe1D57XGQW
+	KCfl4HzvcQ3Jz9kLtHxzFHM4Vx7X8dboFFwTx5aMhpJazUQDp8BI
+X-Google-Smtp-Source: AGHT+IHKkRRRCY9NcyLyrWLcOMxLPK4QsFYtLby2Il/HyKpT0Xe3Br523bydW+yNc/Y03LV9P3+U8A==
+X-Received: by 2002:a17:903:2409:b0:1dc:a282:365f with SMTP id e9-20020a170903240900b001dca282365fmr1837353plo.40.1709199282528;
+        Thu, 29 Feb 2024 01:34:42 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id d3-20020a170903230300b001db7d3276fbsm986401plh.27.2024.02.29.01.34.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Feb 2024 01:34:42 -0800 (PST)
+Message-ID: <b175c52f-34ee-4753-b172-e57fee6fcc30@gmail.com>
+Date: Thu, 29 Feb 2024 18:34:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>,
+ Tsugikazu Shibata <shibata@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: Move ja_JP/howto.rst to ja_JP/process/howto.rst
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 7bit
 
-On Tue, 27 Feb 2024 19:27:37 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+Subject: [PATCH] docs: Move ja_JP/howto.rst to ja_JP/process/howto.rst
 
-> On Mon, 26 Feb 2024 14:39:57 +0100 Kory Maincent wrote:
-> > In prevision to add new UAPI for hwtstamp we will be limited to the str=
-uct
-> > ethtool_ts_info that is currently passed in fixed binary format through=
- the
-> > ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new kernel code
-> > already started operating on an extensible kernel variant of that
-> > structure, similar in concept to struct kernel_hwtstamp_config vs struct
-> > hwtstamp_config.
-> >=20
-> > Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
-> > we introduce the kernel-only structure in include/linux/ethtool.h.
-> > The manual copy is then made in the function called by ETHTOOL_GET_TS_I=
-NFO.
-> > =20
->=20
-> This one doesn't apply.
-> It's going to be a pain to keep rebasing it, since its a nop AFAICT -
-> do you want to post it separately to get it merged quickly?
+Let Japanese translation of howto.rst in the language drop-down list
+by moving it to the expected place.
 
-Weird, it does on my side on net-next.
-It would be great to have a review on the core of the new implementation
-beforehand. I don't want this patch to be merged but not used at all if the
-implementation does not fit what is expected. What do you think?
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+---
+ Documentation/translations/ja_JP/index.rst               | 2 +-
+ Documentation/translations/ja_JP/{ => process}/howto.rst | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename Documentation/translations/ja_JP/{ => process}/howto.rst (100%)
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+index 43b9fb7246d3..0b476b429e3b 100644
+--- a/Documentation/translations/ja_JP/index.rst
++++ b/Documentation/translations/ja_JP/index.rst
+@@ -11,7 +11,7 @@
+ .. toctree::
+    :maxdepth: 1
+ 
+-   howto
++   process/howto
+ 
+ .. raw:: latex
+ 
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/process/howto.rst
+similarity index 100%
+rename from Documentation/translations/ja_JP/howto.rst
+rename to Documentation/translations/ja_JP/process/howto.rst
+
+base-commit: fe2562582bffe675721e77e00b3bf5bfa1d7aeab
+-- 
+2.34.1
+
