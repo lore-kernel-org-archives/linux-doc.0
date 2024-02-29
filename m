@@ -1,107 +1,87 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E765F86F;
-	Thu, 29 Feb 2024 09:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAC12B9A7;
+	Thu, 29 Feb 2024 10:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709200599; cv=none; b=o1McPd2cAGXU/81mVh5yQ2+QwXKzLmNHjxSNQbL8+MvpDZeECNKnyDRjqvR8H4CiMvZffRIPkU2iZMmdoIRlzUFEwLmuyXmFYZxGFm/iRlnYiAYtyhjKQ+Ma+id5jsRWmNvYmlpNLiGMmB6WD06kwZ50mVx41dQ5hVlhFESBljI=
+	t=1709201995; cv=none; b=PscL8+PvTsFEczMJur19gJSr0qz9/18c5PK4eEN5T6Qd0mX7cOvqmrbljdlC9yuCBtbRHiBnD8+5YuElUvvNGIZDEFQCRstb1aFRYXxF5hvBQ5qaYAHgAg3UY9VoE4PDLc9cpIFpLN4s/ADqcv/YyZGVew1jUN28t14NlzqWmbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709200599; c=relaxed/simple;
-	bh=6r5UPWYkvqQFSDHNeLtsINM/kTHr8C9zl217UjTeoQQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=PKKNMEyNDjNQGugBZBiwidxh4Ew3Jo14JD0QQhJRbJlDdOXsCXYXXQyVqRaMRwcgkBhZmPCr/Uepa/+BQySDrBDadxSIJ4QxXO53qETz2qd7XvFfs4tlUgdlaTlTw2FLrbSpssQrK/ljKle+0RfsC5I23zXcvDDNH7Qt43cGdRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=L3PusnRP; arc=none smtp.client-ip=217.70.183.193
+	s=arc-20240116; t=1709201995; c=relaxed/simple;
+	bh=Y7qkGKwjx3H/TRQEVveGrfu+zQX9hFFpwqUq2WdelWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Eu3KiKFIeb9Wav+fAdUZIt4h+/rr31R8sXXQsu0wKZJ/eiCSmO6sTDNZKYJYVojaPzp/+DGbKeml9u62gHpsLU9/37QXUE1CIGJtBJzS1ESbdgWfvTaDfCiKhkl9ORd73QoisYkqQMU8kmFHAMH0JAwXcO4JZZt4BSZh2/UT5Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gu6bm++s; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="L3PusnRP"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B5074240011;
-	Thu, 29 Feb 2024 09:56:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gu6bm++s"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 144F41BF211;
+	Thu, 29 Feb 2024 10:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709200594;
+	t=1709201990;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k/PhTuZtbma+b2uqep16NcKtM46o621J394ZeTPTZI0=;
-	b=L3PusnRPwEbDjYR4L9o8gH4UGu9vXKeMdR2QKBwtIJPNgNAXIEI+R36BHQ8lEnayZQfkpW
-	R2bOAaawZ2iyC9hVzar02u9ocGEa/2L4vUD4N4ObBe14RalRlDKIzRwilBVoYgPK9/2SDw
-	N5g2wiTrFKhSBWRymq2fI1gpCuSWxH+E908J0eDHmiTN72eNJ4eKgN/GJpOHOiqWbaIipM
-	ehoa7OiNbYptLGA9no1SnMR3hR61e23++aiwj0vcWr6ko37Rn2SjPQu1tzDRyxYr4q27Gz
-	Ux1m+dqzUgwWPxMD229EXKofRwfo5iQvOgg/iFCxVRkLkOFeGbahe6lcv15qwA==
+	bh=MEFBYdkM7f3YtLcjvK4kv6EBOhP/yfXSiL46fHzaCaw=;
+	b=gu6bm++sSMvSXZlTFo4Ku2RjXcsU52xQ2TI68nL9UfnPYDs6qU+c9/4X6gdSiEB53/yp1s
+	qNeowayRuUk805Mgk8Aoo4q5I3Lxx7QE3+vYuEKF3xwBerjNTPb/86keHErgJEv7P1Wadf
+	MpwQDiMrQRQuK0BUDT8WQuotRZCl4ZQaui1vakqzQ3g8a/fhYx5wZooT8YZmbvsfG/vTo2
+	j8+4IOKpLoJ6Tk/sCd/RqEbEaCNvT0EgBJEyaRyODmrCMLpnX53DiYA9FTjVJcadXIDbJP
+	CXfDVF6m8ucYOF756of8h700EHDxuiAvVTmowQS2mbtV3SuiEY6cFXygQcva1Q==
+Date: Thu, 29 Feb 2024 11:19:46 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
+ <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown
+ <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
+ <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
+ within PSE framework
+Message-ID: <20240229111946.55426a60@kmaincent-XPS-13-7390>
+In-Reply-To: <20240227165659.76a971aa@kernel.org>
+References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
+	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
+	<20240227165659.76a971aa@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 29 Feb 2024 10:56:32 +0100
-Message-Id: <CZHH1KDAVDCC.1INC050YK8HU1@bootlin.com>
-Subject: Re: [PATCH v2 00/30] Rework Nomadik GPIO to add Mobileye EyeQ5
- support
-Cc: "Bartosz Golaszewski" <brgl@bgdev.pl>, "Rob Herring"
- <robh+dt@kernel.org>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Thomas Bogendoerfer"
- <tsbogend@alpha.franken.de>, <linux-gpio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
- "Gregory CLEMENT" <gregory.clement@bootlin.com>, "Vladimir Kondratiev"
- <vladimir.kondratiev@mobileye.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, "Tawfik Bayouk"
- <tawfik.bayouk@mobileye.com>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski@linaro.org>, "Stephen Warren" <swarren@wwwdotorg.org>,
- "Jonathan Corbet" <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-To: "Linus Walleij" <linus.walleij@linaro.org>
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-X-Mailer: aerc 0.15.2
-References: <20240228-mbly-gpio-v2-0-3ba757474006@bootlin.com>
- <CACRpkdbK2Sa_4qp3VE0ivHP8W6F-QDkuxV-XnZYviAkO5ZBMsg@mail.gmail.com>
-In-Reply-To: <CACRpkdbK2Sa_4qp3VE0ivHP8W6F-QDkuxV-XnZYviAkO5ZBMsg@mail.gmail.com>
-X-GND-Sasl: theo.lebrun@bootlin.com
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hello,
+On Tue, 27 Feb 2024 16:56:59 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-On Thu Feb 29, 2024 at 10:44 AM CET, Linus Walleij wrote:
-> On Wed, Feb 28, 2024 at 12:28=E2=80=AFPM Th=C3=A9o Lebrun <theo.lebrun@bo=
-otlin.com> wrote:
->
-> > This patch series reworks the Nomadik GPIO driver to bring it up to dat=
-e
-> > to current kernel standards. We then add Mobileye EyeQ5 support that
-> > uses the same IP block but with limited functionality. We also add
-> > features required by our newly supported platform:
-> >
-> >  - Dynamic GPIO ID allocation;
-> >  - Make clock optional;
-> >  - Shared IRQ (usecase: EyeQ5 has two banks using the same IRQ);
-> >  - Handle variadic GPIO counts (usecase: EyeQ5 has <32 GPIOs per bank);
-> >  - Grab optional reset at probe (usecase: EyeQ5 has a shared GPIO reset=
-).
-> >
-> > This GPIO platform driver was previously declared & registered inside
-> > drivers/pinctrl/nomadik/pinctrl-nomadik.c, side-by-side with the
-> > pinctrl driver. Both are tightly integrated, mostly for muxing reasons.
-> > Now that gpio-nomadik is used for another platform, we loosen the
-> > relationship. The behavior should not change on already supported
-> > hardware but I do not have Nomadik hardware to test for that.
->
-> I have queued the relevant patches to an immutable branch in the
-> pinctrl tree for testing and I can also pick up some ACKs if they arrive.
->
-> When I'm confident in the branch, I will send an optional pull request
-> to Bartosz for it!
+> On Tue, 27 Feb 2024 15:42:55 +0100 Kory Maincent wrote:
+> > +	psec->ps =3D devm_regulator_get_exclusive(dev,
+> > +
+> > rdev_get_name(pcdev->pi[index].rdev));
+> > +	if (IS_ERR(psec->ps)) {
+> > +		kfree(psec);
+> > +		return ERR_CAST(psec->ps); =20
+>=20
+> coccinelle says: ERROR: reference preceded by free on line 458
 
-That is all great news, thanks Linus! I'm staying available if you
-encounter anything that needs action.
+Ouch, indeed, missed this error.
 
-Have a nice day,
-
---
-Th=C3=A9o Lebrun, Bootlin
-Embedded Linux and Kernel engineering
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
 https://bootlin.com
-
