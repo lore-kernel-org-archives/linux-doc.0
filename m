@@ -1,196 +1,176 @@
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E7D612C520;
-	Thu, 29 Feb 2024 18:27:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67F8383B0;
+	Thu, 29 Feb 2024 18:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709231267; cv=none; b=W/Qzb1JQDhsWBEQ2gKG7UEaFaCOsbvXeTLdA8mAUsvORznTO/3e6xR/63H4KylS6FdP0gkz/MlY0W9VDI+C+s/e1dib+oDDkru8jQb6d3vyI1W8UE3zxKGf8SPZlBkDIKd8gubYuvVHZyIrPxo2wIpL80Yftxb74Q1GwBPeR7Ok=
+	t=1709231766; cv=none; b=bR7W/DCZOfN3LqnwS9nwJ4Jo+wme+9cLFp4BUPmHW7/CJqzqsdaGSYt7vff5pneLnRPl27cGwLtH8bFLeZc5vzeUzhj+yUObMGhJjVkCACvqAkFMOF0YTgIp+IQiXwbYQWmksq/TcCbeuvXK5v6t4c9osq9hZmfxOkijdXVOHL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709231267; c=relaxed/simple;
-	bh=IikNFncDhPNUrs9XBc55FZA7mrIZS7IcplMg6eJzV7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qKrt+1kzPWh58zBsg9z6Z/5Ho4Z1T+mG8eXv3s0tCNrOjZa9icXxflerTMBOM+Jut+LQ65WWOHGRLdhxAGpQ9cNVaR0+H66Yrsz4rYiZr6Yj74IgWZhN8j0DCXq5KGeVCiGKhTVj7A0Zq2pjuwcm1WSDx/XBqR4HvE9MGaHqDeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=MjAfSFtJ; arc=none smtp.client-ip=198.252.153.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1709231766; c=relaxed/simple;
+	bh=MTQ2Zp10v4EFATTAdn8YTq6PqucoTKlCqk+EsJm56cU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YjSf9yGLOZVoxTFBJdvUPXGpZ1q/K/11GLNt0eMBgP038MoeZ0WYij2gUUwIt813sGjaXy2v09DaT1P5UhSe+gPxV07Z4AGkoBtRtjCehc3J6w7KvjzvY8b1aVjRmSLG/7qRimVvFRrx0d4cN8If3uTaNcd6eKUf9srNAVYiM9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eeg5ydFc; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="MjAfSFtJ"
-Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4Tm0800W31z9s44;
-	Thu, 29 Feb 2024 18:27:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-	t=1709231264; bh=IikNFncDhPNUrs9XBc55FZA7mrIZS7IcplMg6eJzV7A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MjAfSFtJVXnD6HnmWPPMMZErbBYtoLGrI9hcVfkZ07iMsirYqaorXSxDZTOIObCgP
-	 DSR/pr+lcpV8Azrmmc4WwspDoW/RPAJOPhcIAwLkRctgd+6VN386CPvVvNKuu/N70n
-	 m9PQZJ/GqpAllSnrpcakRNrdyDYMllloY57VqUIs=
-X-Riseup-User-ID: 11E8A1D120F8300CD2355ADB1F9C112F86711D07CF81ADFCBEBCA5B2B03849E4
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4Tm07v1gxlzJsQh;
-	Thu, 29 Feb 2024 18:27:38 +0000 (UTC)
-Message-ID: <5f7618d1-d895-44ee-bb8d-ed591bf7ca55@riseup.net>
-Date: Thu, 29 Feb 2024 15:27:35 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eeg5ydFc"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e55b33ad14so815694b3a.1;
+        Thu, 29 Feb 2024 10:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709231764; x=1709836564; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+gMaEJ0wh9SI3Z0iigxIJILHIqBzk3ZTRAx3N1QiYM=;
+        b=Eeg5ydFcSY54VaJ6RhfgXfB1a6w5OLQjCpzkM9P9ETX9onS+XapskhBo7cgReiEixY
+         V/zrNjvohFapiWsTwm5QXBOv+7uaRdWfnCaxczgNnm4FkbhqCfEMJShecEdzzqPRMM67
+         ZNvjn4PuYuOPUdVYbZh8TjKL1UdfA+op40GcPem4cSTY3sawObb0Cps1RZ03n3WlbDjy
+         W0rAgFBzuZrHEzuRehiuB2pbM1RjLp5Id9si/mzapnEMwI7RlXd+uYbN4I/WFYsmUE4W
+         hu3Z4PgJZglRYnNJN5hPQ55/N2TiZkNVzpKU0LPWu9LUCavvWvmcE2fu0BER8pf0Hovh
+         BAgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709231764; x=1709836564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3+gMaEJ0wh9SI3Z0iigxIJILHIqBzk3ZTRAx3N1QiYM=;
+        b=T5ZCPPqELB1h4K1gNN1D1llZsVlutTC+Yo2WG1rCT/cpGxMhncK0T5ax51Hze0VnNw
+         G+xyyCgiF/IJVeXxywRYhffXx0M4QZbruCX4NZ7xM2HWlfnazynQ66uqct67TjpWOSSE
+         hRaA60wHLGjHgtHZp5jYTQovz5PcAXFN344+IEcDRB9RsMZX5VZIlfgB5m0QAfQ1QjOr
+         RxUqmWhjLofmTMurQDKl6AkzUjQItlFouYplyhs00qEyk5oijBYRyAVxaw4+9FkjZchk
+         pATbAS+L2TThdpBNOMyKxmgtWZq32AoPAiBLSzIXGcTgXXm2doQncKKvWhn7IshHtIOh
+         H05w==
+X-Forwarded-Encrypted: i=1; AJvYcCXJnMDkLjvqkq+XC2xomdfZfqKaGDHIQQIZiodTnu/+ac8/9NP6YH78QxepvhaYpun2ewgWmfy4C8Ut1muc/1bCC8bHOPIBnb/pmJP0vJ6aUPlVIebgvJZh/UdoNa7//rIjGMOqLJ/s
+X-Gm-Message-State: AOJu0YxSj3s0gfPfczn0o2bxuoXa/uu3BTaGJk97+SP/M6d8DX+fWQZp
+	ik2sBhv67ipEwfhvJbVEyzjaEaErPWiqRiAZ10F7Uh2h0q4l1VOu
+X-Google-Smtp-Source: AGHT+IESfJPaPW4XdZ0Mu53/VQlgf7pW8jpNwrPcnJhzbPBfRKKNRO4uibv22o8d82QjfHXgqirXXQ==
+X-Received: by 2002:aa7:87d3:0:b0:6e5:5cc4:3fef with SMTP id i19-20020aa787d3000000b006e55cc43fefmr3166438pfo.11.1709231763675;
+        Thu, 29 Feb 2024 10:36:03 -0800 (PST)
+Received: from localhost ([2601:644:9381:2f20::119d])
+        by smtp.gmail.com with ESMTPSA id c2-20020a62e802000000b006e1463c18f8sm1595604pfi.37.2024.02.29.10.36.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 10:36:03 -0800 (PST)
+From: Matthew Wood <thepacketgeek@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Breno Leitao <leitao@debian.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v2] net: netconsole: Add continuation line prefix to userdata messages
+Date: Thu, 29 Feb 2024 10:36:01 -0800
+Message-ID: <20240229183602.321747-1-thepacketgeek@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/7] Add YUV formats to VKMS
-Content-Language: en-US
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Harry Wentland <harry.wentland@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Melissa Wen <melissa.srw@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20240110-vkms-yuv-v2-0-952fcaa5a193@riseup.net>
- <20240115150600.GC160656@toolbox>
- <9e6ed0e5-c9aa-4fb9-a6d8-4c3b1d658ef2@riseup.net>
- <20240229175211.GA166694@toolbox>
-From: Arthur Grillo <arthurgrillo@riseup.net>
-In-Reply-To: <20240229175211.GA166694@toolbox>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Add a space (' ') prefix to every userdata line to match docs for
+dev-kmsg. To account for this extra character in each userdata entry,
+reduce userdata entry names (directory name) from 54 characters to 53.
 
+According to the dev-kmsg docs, a space is used for subsequent lines to
+mark them as continuation lines.
 
-On 29/02/24 14:52, Sebastian Wick wrote:
-> On Wed, Feb 28, 2024 at 08:42:41PM -0300, Arthur Grillo wrote:
->>
->>
->> On 15/01/24 12:06, Sebastian Wick wrote:
->>> On Wed, Jan 10, 2024 at 02:44:00PM -0300, Arthur Grillo wrote:
->>>> This patchset aims to add support for additional buffer YUV formats.
->>>> More specifically, it adds support to:
->>>>
->>>> Semi-planar formats:
->>>>
->>>> - NV12
->>>> - NV16
->>>> - NV24
->>>> - NV21
->>>> - NV61
->>>> - NV42
->>>>
->>>> Planar formats:
->>>>
->>>> - YUV440
->>>> - YUV422
->>>> - YUV444
->>>> - YVU440
->>>> - YVU422
->>>> - YVU444
->>>>
->>>> These formats have more than one plane, and most have chroma
->>>> subsampling. These properties don't have support on VKMS, so I had to
->>>> work on this before.
->>>>
->>>> To ensure that the conversions from YUV to RGB are working, I wrote a
->>>> KUnit test. As the work from Harry on creating KUnit tests on VKMS[1] is
->>>> not yet merged, I took the setup part (Kconfig entry and .kunitfile)
->>>> from it.
->>>>
->>>> Furthermore, I couldn't find any sources with the conversion matrices,
->>>> so I had to work out the values myself based on the ITU papers[2][3][4].
->>>> So, I'm not 100% sure if the values are accurate. I'd appreciate some
->>>> input if anyone has more knowledge in this area.
->>>
->>> H.273 CICP [1] has concise descriptions of the required values for most
->>> widely used formats and the colour python framework [2] also can be used
->>> to quickly get to the desired information most of the time.
->>>
->>> [1]: https://www.itu.int/rec/T-REC-H.273
->>> [2]: https://www.colour-science.org/
->>
->> I want to thank you for suggesting the python framework, it helped
->> immensely now that I'm changing the precision from 8-bit to 32-bit[1].
->>
->> If I'd known about this framework while developing this patch, I
->> would've saved myself a few weeks of pain and suffering recreating a
->> part of this library XD.
-> 
-> I'm glad this is useful for you! We also used it for our color-and-hdr
-> project https://gitlab.freedesktop.org/pq/color-and-hdr/.
+> A line starting with ' ', is a continuation line, adding
+> key/value pairs to the log message, which provide the machine
+> readable context of the message, for reliable processing in
+> userspace.
 
-Cool project! I'll be sure to give look!
+Testing for this patch::
 
-Best Regards,
-~Arthur Grillo
+ cd /sys/kernel/config/netconsole && mkdir cmdline0
+ cd cmdline0
+ mkdir userdata/test && echo "hello" > userdata/test/value
+ mkdir userdata/test2 && echo "hello2" > userdata/test2/value
+ echo "message" > /dev/kmsg
 
-> 
->> [1]: https://lore.kernel.org/all/b23da076-0bfb-48b2-9386-383a6dec1868@riseup.net/
->>
->> Best Regards,
->> ~Arthur Grillo
->>
->>>
->>>> Also, I used two IGT tests to check if the formats were having a correct
->>>> conversion (all with the --extended flag):
->>>>
->>>> - kms_plane@pixel_format
->>>> - kms_plane@pixel_format_source_clamping.
->>>>
->>>> The nonsubsampled formats don't have support on IGT, so I sent a patch
->>>> fixing this[5].
->>>>
->>>> Currently, this patchset does not add those formats to the writeback, as
->>>> it would require a rewrite of how the conversions are done (similar to
->>>> what was done on a previous patch[6]). So, I would like to review this
->>>> patchset before I start the work on this other part.
->>>>
->>>> [1]: https://lore.kernel.org/all/20231108163647.106853-5-harry.wentland@amd.com/
->>>> [2]: https://www.itu.int/rec/R-REC-BT.601-7-201103-I/en
->>>> [3]: https://www.itu.int/rec/R-REC-BT.709-6-201506-I/en
->>>> [4]: https://www.itu.int/rec/R-REC-BT.2020-2-201510-I/en
->>>> [5]: https://lists.freedesktop.org/archives/igt-dev/2024-January/066937.html
->>>> [6]: https://lore.kernel.org/dri-devel/20230414135151.75975-2-mcanal@igalia.com/
->>>>
->>>> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
->>>> ---
->>>> Changes in v2:
->>>> - Use EXPORT_SYMBOL_IF_KUNIT instead of including the .c test
->>>>   file (Maxime)
->>>> - Link to v1: https://lore.kernel.org/r/20240105-vkms-yuv-v1-0-34c4cd3455e0@riseup.net
->>>>
->>>> ---
->>>> Arthur Grillo (7):
->>>>       drm/vkms: Use drm_frame directly
->>>>       drm/vkms: Add support for multy-planar framebuffers
->>>>       drm/vkms: Add range and encoding properties to pixel_read function
->>>>       drm/vkms: Add chroma subsampling
->>>>       drm/vkms: Add YUV support
->>>>       drm/vkms: Drop YUV formats TODO
->>>>       drm/vkms: Create KUnit tests for YUV conversions
->>>>
->>>>  Documentation/gpu/vkms.rst                    |   3 +-
->>>>  drivers/gpu/drm/vkms/Kconfig                  |  15 ++
->>>>  drivers/gpu/drm/vkms/Makefile                 |   1 +
->>>>  drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
->>>>  drivers/gpu/drm/vkms/tests/Makefile           |   3 +
->>>>  drivers/gpu/drm/vkms/tests/vkms_format_test.c | 156 ++++++++++++++++
->>>>  drivers/gpu/drm/vkms/vkms_drv.h               |   6 +-
->>>>  drivers/gpu/drm/vkms/vkms_formats.c           | 247 ++++++++++++++++++++++----
->>>>  drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
->>>>  drivers/gpu/drm/vkms/vkms_plane.c             |  26 ++-
->>>>  drivers/gpu/drm/vkms/vkms_writeback.c         |   5 -
->>>>  11 files changed, 426 insertions(+), 49 deletions(-)
->>>> ---
->>>> base-commit: eeb8e8d9f124f279e80ae679f4ba6e822ce4f95f
->>>> change-id: 20231226-vkms-yuv-6f7859f32df8
->>>>
->>>> Best regards,
->>>> -- 
->>>> Arthur Grillo <arthurgrillo@riseup.net>
->>>>
->>>
->>
-> 
+Outputs::
+
+ 6.8.0-rc5-virtme,12,493,231373579,-;message
+  test=hello
+  test2=hello2
+
+And I confirmed all testing works as expected from the original patchset
+
+v1 -> v2:
+- Calculate 53 byte user data name from: entry length - formatting chars - value length
+- Update docs to reflect 53 byte limit for user data name (director)
+
+Fixes: df03f830d099 ("net: netconsole: cache userdata formatted string in netconsole_target")
+Signed-off-by: Matthew Wood <thepacketgeek@gmail.com>
+---
+ Documentation/networking/netconsole.rst | 8 ++++----
+ drivers/net/netconsole.c                | 8 +++++---
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+index b28c525e5d1e..d55c2a22ec7a 100644
+--- a/Documentation/networking/netconsole.rst
++++ b/Documentation/networking/netconsole.rst
+@@ -180,7 +180,7 @@ Custom user data can be appended to the end of messages with netconsole
+ dynamic configuration enabled. User data entries can be modified without
+ changing the "enabled" attribute of a target.
+ 
+-Directories (keys) under `userdata` are limited to 54 character length, and
++Directories (keys) under `userdata` are limited to 53 character length, and
+ data in `userdata/<key>/value` are limited to 200 bytes::
+ 
+  cd /sys/kernel/config/netconsole && mkdir cmdline0
+@@ -197,8 +197,8 @@ Messages will now include this additional user data::
+ Sends::
+ 
+  12,607,22085407756,-;This is a message
+- foo=bar
+- qux=baz
++  foo=bar
++  qux=baz
+ 
+ Preview the userdata that will be appended with::
+ 
+@@ -218,7 +218,7 @@ The `qux` key is omitted since it has no value::
+ 
+  echo "This is a message" > /dev/kmsg
+  12,607,22085407756,-;This is a message
+- foo=bar
++  foo=bar
+ 
+ Delete `userdata` entries with `rmdir`::
+ 
+diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+index 0de108a1c0c8..46e447ea41b8 100644
+--- a/drivers/net/netconsole.c
++++ b/drivers/net/netconsole.c
+@@ -43,9 +43,11 @@ MODULE_DESCRIPTION("Console driver for network interfaces");
+ MODULE_LICENSE("GPL");
+ 
+ #define MAX_PARAM_LENGTH	256
+-#define MAX_USERDATA_NAME_LENGTH	54
+-#define MAX_USERDATA_VALUE_LENGTH	200
+ #define MAX_USERDATA_ENTRY_LENGTH	256
++#define MAX_USERDATA_VALUE_LENGTH	200
++#define MAX_USERDATA_NAME_LENGTH	MAX_USERDATA_ENTRY_LENGTH - \
++					MAX_USERDATA_VALUE_LENGTH - \
++					3 /* ' ' '=' '\n' characters */
+ #define MAX_USERDATA_ITEMS		16
+ #define MAX_PRINT_CHUNK		1000
+ 
+@@ -671,7 +673,7 @@ static void update_userdata(struct netconsole_target *nt)
+ 		 * checked to not exceed MAX items with child_count above
+ 		 */
+ 		complete_idx += scnprintf(&nt->userdata_complete[complete_idx],
+-					  MAX_USERDATA_ENTRY_LENGTH, "%s=%s\n",
++					  MAX_USERDATA_ENTRY_LENGTH, " %s=%s\n",
+ 					  item->ci_name, udm_item->value);
+ 	}
+ 	nt->userdata_length = strnlen(nt->userdata_complete,
+-- 
+2.44.0
+
