@@ -1,111 +1,492 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CCA6EEEB;
-	Fri,  1 Mar 2024 14:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E05D6F06D
+	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 14:24:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709302990; cv=none; b=oAHYGuvAkGQ8qm6iADFnKkUwal9J04wiYdAzruhmjVhNiK+oHaavJEuuDIIxE7qGHavg3oLoK9HdBQgbA7lPrtDXiP05fnnBEjLwDIipCrk1l7uKg4AUq+dx/xls3DuBOSsA2QTYRtK+k5TlCZZ6jfFbKuG7O6UZ92d9iTjb7XA=
+	t=1709303090; cv=none; b=ZxOzVAL9HgJbfPP910CfHbrjXSjkNzRxx0dtjycon5Afu7+sD1t/s+5KdTzqRjwC4RcnoR/kqLDsHZcicU+jNFl8iAZ1RyiPFnFq9MhTkofOeL2vRniTMb3CHUuYnNwn/RSKmMaAkhe0p8yWd3anuvEWQPnnihimw0b15zml+sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709302990; c=relaxed/simple;
-	bh=HZCxlrgGljidyTarDfuqfAysxjyvcHG4UHNCNIebsrA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ubry8Lry6yNzvu8C41lW8eRY5Ex2e87wMOu5DqMRiVlTzVwHV49zEfMo6z14wvV99NsipZ9iv9bAKqzOpnz4h8rXLlaz1wvW1pdiU+ttyHFrha+NLCROwByxmn2uxrrKokYh85a8Q6uuXcTGRMxETTInklSR5PtV5JNjjtRNsmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SCCoIZdE; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCCoIZdE"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-566df43a1f8so802142a12.0;
-        Fri, 01 Mar 2024 06:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709302987; x=1709907787; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bda4kfIFTgemCk1Wz0NaLukSggxZd32xgBKtfHKR0eg=;
-        b=SCCoIZdEm17nU0m8jxLXgvG1JJGCSxNX6HDCB4DIKZV3aAxUi2JDNVffWOaKIiOXS5
-         y3rCjFuM6zgMfdfCF733GzQIMCjuQCw7EzcjQJy1Fm8MBWKgNKuYbRtt+0S3N8tgLVhv
-         KXzXNtzYGDNiYC8DXWI7+VCowu6aMhPL1/gSwTB0o2vKHkJyHNx5yHO1wZ67gMQxUbj4
-         g8/3cre2sVGCmctRWDXgFpuWJRg71SmworPSly2vD1ntRRUZBuIVRAr4EKXbzP+2Jo2Z
-         7ahy1+gN1pRLn3YhZIVe1TRix46pQdRppyg+qY8QX3W5BhI4FpVISGaNtYvoic2EyWhS
-         XLSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709302987; x=1709907787;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Bda4kfIFTgemCk1Wz0NaLukSggxZd32xgBKtfHKR0eg=;
-        b=F+U/Iod1H+aQpa4WqtULElvX09SyoowQbIwSNopAwppA7twdmXhsFau+bQQa6mkLsQ
-         B7h16ZE51dRt+rO3vFtQSBLJZudXNeOe6JV+MZNCl3OOxHZM58FWcHLYQbiCcFzI/qbm
-         pa3bpoNSDw8FxibFEX6UVVOGrUuSjZzfq136+4hxF1DmgsB+fjyb7GvRViJ14WqdkeQn
-         bEpdUfUhy8idd6p0l5V/uZIuWhsvms76AO8Q0ECvxSfAhmqXzLzt6A3tFh5VGo5zTPfx
-         Uje0OrXcNQ35f8anVFhkuX+mqpIfMjKJv2tdwcOf/6YLf5sfWqGRS22S8r/ecos4mQo4
-         uLHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8J16+H88V+buNUIamMcKiO64D5n9GMkfaOatjZP+dvlSC2/BshhDCioHj3YvSxKVwhHc7ZEvJstDRgWaeBzm7yeeiyanOYftquM5xeKxSH2nECEQJ/lT5CtuqroFrmcuV9YrCb5uw
-X-Gm-Message-State: AOJu0YyhjOerBUTzNW4qwGy6wlm7DIkzcm0o/5292bW2GQPKfk5UA0O1
-	Cxrae2FuVD/25W8IG7VPXlxZ95/QzRQdp6WflDQBpV2W9/KNNCvM3jGTkFjR2fVX5VCVXPz4qhU
-	jAaSq6JYg7uyy3ih7uC1S4QQxDbU=
-X-Google-Smtp-Source: AGHT+IEwdB8lfu9PxIvgbBfvGBG0oALBdsAnOzy3HWx7e/FKDGO9udHXaNGUJcmenJrpKZRPZ/63J90jNo3z/ay2LuY=
-X-Received: by 2002:a17:906:bc48:b0:a44:958:c3a4 with SMTP id
- s8-20020a170906bc4800b00a440958c3a4mr1345109ejv.32.1709302987239; Fri, 01 Mar
- 2024 06:23:07 -0800 (PST)
+	s=arc-20240116; t=1709303090; c=relaxed/simple;
+	bh=YXLdxOmj/R68Jm/J5RqLWwegKYldmJWogNjWasOi9Dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV6+OVWG1oEuDOSkL0Z1c5Or+TeVJ5i5g3k94l4LokmMR36swtXV3syRp6bOjv23ZT0yS/63BNNfHRIkEg5CgCULQ2B6jZ4sz2CsQ0N6l2SagtyHMD/n9Xal8g3XW43vH5tBptFkVBBj9EuFxQPMprkL5xlBr7dNZZB5AemyRWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rg3o2-0002YQ-Nr; Fri, 01 Mar 2024 15:24:10 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rg3nz-003nVf-Jc; Fri, 01 Mar 2024 15:24:07 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rg3nz-00F6Pu-1b;
+	Fri, 01 Mar 2024 15:24:07 +0100
+Date: Fri, 1 Mar 2024 15:24:07 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v5 10/17] net: pse-pd: Add support for PSE PIs
+Message-ID: <ZeHlB8DLEqWxBRYH@pengutronix.de>
+References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
+ <20240227-feature_poe-v5-10-28f0aa48246d@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227131410.35269-1-lukas.bulwahn@gmail.com> <e6441dc1-6821-4514-b285-ebc24114aece@oracle.com>
-In-Reply-To: <e6441dc1-6821-4514-b285-ebc24114aece@oracle.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 1 Mar 2024 15:22:56 +0100
-Message-ID: <CAKXUXMwGekn7++3TmKhe20s0bebM=hjSU82PhuWV9=0Cc9wfkw@mail.gmail.com>
-Subject: Re: [PATCH] docs: drop the version constraints for sphinx and dependencies
-To: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240227-feature_poe-v5-10-28f0aa48246d@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Feb 29, 2024 at 3:39=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle=
-.com> wrote:
->
->
-> On 27/02/2024 14:14, Lukas Bulwahn wrote:
-> > As discussed (see Links), there is some inertia to move to the recent
-> > Sphinx versions for the doc build environment.
->
-> [...]
->
-> > diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphi=
-nx/requirements.txt
-> > index 5d47ed443949..1f3b98eee2c9 100644
-> > --- a/Documentation/sphinx/requirements.txt
-> > +++ b/Documentation/sphinx/requirements.txt
-> > @@ -1,6 +1,4 @@
-> > -# jinja2>=3D3.1 is not compatible with Sphinx<4.0
-> > -jinja2<3.1
-> > -# alabaster>=3D0.7.14 is not compatible with Sphinx<=3D3.3
-> > -alabaster<0.7.14
-> > -Sphinx=3D=3D2.4.4
-> > +jinja2
-> > +alabaster
-> > +Sphinx
-> >   pyyaml
->
-> I know you wrote this as well, but just for the record I tried dropping
-> jinja2 from this list and it still pulled it in automatically:
+Hi Kory,
 
-Vegard, I took your suggestion and removed jinja2 from the
-requirements.txt in my patch v2:
+On Tue, Feb 27, 2024 at 03:42:52PM +0100, Kory Maincent wrote:
+....
 
-https://lore.kernel.org/linux-doc/20240301141800.30218-1-lukas.bulwahn@gmai=
-l.com/
+> diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
+> index fed006cbc185..9124eb3d6492 100644
+> --- a/drivers/net/pse-pd/pse_core.c
+> +++ b/drivers/net/pse-pd/pse_core.c
+> @@ -27,38 +27,137 @@ struct pse_control {
+>  	struct kref refcnt;
+>  };
+>  
+> -/**
+> - * of_pse_zero_xlate - dummy function for controllers with one only control
+> - * @pcdev: a pointer to the PSE controller device
+> - * @pse_spec: PSE line specifier as found in the device tree
+> - *
+> - * This static translation function is used by default if of_xlate in
+> - * :c:type:`pse_controller_dev` is not set. It is useful for all PSE
+> - * controllers with #pse-cells = <0>.
+> - */
 
-So, there is no need for any further future one-line deletion patch.
+Please replace documentation
 
-Jonathan, please pick the patch v2.
+> -static int of_pse_zero_xlate(struct pse_controller_dev *pcdev,
+> -			     const struct of_phandle_args *pse_spec)
+> +static int of_load_pse_pi_pairsets(struct device_node *node,
+> +				   struct pse_pi *pi,
+> +				   int npairsets)
+>  {
+> -	return 0;
+> +	struct device_node *pairset_np;
+> +	const char *name;
+> +	int i, ret;
+> +
+> +	for (i = 0; i < npairsets; i++) {
 
-Lukas
+please move this scope to a separate function.
+
+> +		ret = of_property_read_string_index(node,
+> +						    "pairset-names",
+> +						     i, &name);
+> +		if (ret)
+> +			break;
+> +
+> +		if (strcmp(name, "alternative-a")) {
+
+strcmp returns 0 if it matching
+
+		if (!strcmp(name, "alternative-a")) {
+
+
+> +			pi->pairset[i].pinout = ALTERNATIVE_A;
+> +		} else if (strcmp(name, "alternative-b")) {
+
+		if (!strcmp(name, "alternative-a")) {
+
+> +			pi->pairset[i].pinout = ALTERNATIVE_B;
+> +		} else {
+> +			pr_err("pse: wrong pairset-names value %s\n", name);
+> +			ret = -EINVAL;
+> +			break;
+> +		}
+> +
+> +		pairset_np = of_parse_phandle(node, "pairsets", i);
+> +		if (!pairset_np) {
+> +			ret = -ENODEV;
+> +			break;
+> +		}
+> +
+> +		pi->pairset[i].np = pairset_np;
+> +	}
+> +
+> +	if (i == 2 && pi->pairset[0].pinout == pi->pairset[1].pinout) {
+> +		pr_err("pse: two PI pairsets can not have identical pinout");
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	/* If an error appears on the second pairset load, release the first
+> +	 * pairset device node kref
+> +	 */
+> +	if (ret) {
+> +		of_node_put(pi->pairset[0].np);
+> +		pi->pairset[0].np = NULL;
+> +		of_node_put(pi->pairset[1].np);
+> +		pi->pairset[1].np = NULL;
+> +	}
+> +
+> +	return ret;
+>  }
+>  
+> -/**
+> - * of_pse_simple_xlate - translate pse_spec to the PSE line number
+> - * @pcdev: a pointer to the PSE controller device
+> - * @pse_spec: PSE line specifier as found in the device tree
+> - *
+> - * This static translation function is used by default if of_xlate in
+> - * :c:type:`pse_controller_dev` is not set. It is useful for all PSE
+> - * controllers with 1:1 mapping, where PSE lines can be indexed by number
+> - * without gaps.
+> - */
+
+Please replace documentation
+
+> -static int of_pse_simple_xlate(struct pse_controller_dev *pcdev,
+> -			       const struct of_phandle_args *pse_spec)
+> +static int of_load_pse_pis(struct pse_controller_dev *pcdev)
+>  {
+> -	if (pse_spec->args[0] >= pcdev->nr_lines)
+> -		return -EINVAL;
+> +	struct device_node *np = pcdev->dev->of_node;
+> +	struct device_node *node, *pis;
+> +	int ret, i;
+>  
+> -	return pse_spec->args[0];
+> +	if (!np)
+> +		return -ENODEV;
+> +
+> +	pcdev->pi = kcalloc(pcdev->nr_lines, sizeof(*pcdev->pi), GFP_KERNEL);
+> +	if (!pcdev->pi)
+> +		return -ENOMEM;
+> +
+> +	pis = of_get_child_by_name(np, "pse-pis");
+> +	if (!pis) {
+
+Do we need to allocate pcdev->pi if there are no pse-pis?
+
+> +		/* Legacy OF description of PSE PIs */
+> +		pcdev->of_legacy = true;
+
+It is not "legacy" :) PoDL do not providing definition of PSE PI since there
+is only one pair. May be: single_pair, no_pse_pi or any other idea.
+
+> +		return 0;
+> +	}
+> +
+> +	for_each_child_of_node(pis, node) {
+
+please move this scope to a separate function.
+
+> +		struct pse_pi pi = {0};
+> +		int npairsets;
+> +		u32 id;
+> +
+> +		if (!of_node_name_eq(node, "pse-pi"))
+> +			continue;
+> +
+> +		ret = of_property_read_u32(node, "reg", &id);
+> +		if (ret)
+
+error: can't get "reg" property for node "%s"
+
+> +			goto out;
+> +
+> +		if (id >= pcdev->nr_lines || pcdev->pi[id].np) {
+
+Here two different kind of errors:
+- (id >= pcdev->nr_lines) reg value is out of range. print value and max
+  range.
+- (pcdev->pi[id].np) other node with same reg value was already
+  registered... print both node names.
+
+> +			dev_err(pcdev->dev, "wrong id of pse pi: %u\n",
+> +				id);
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		ret = of_property_count_strings(node, "pairset-names");
+> +		if (ret <= 0)
+
+if (ret < 0)
+   error: can't get "pairset-names" property: %pe
+if (ret < 1 || ret > 2)
+   error: wrong number of pairset-names. Should be 1 or 2, got %i
+
+> +			goto out;
+> +		npairsets = ret;
+> +
+> +		ret = of_count_phandle_with_args(node, "pairsets", NULL);
+> +		if (ret <= 0)
+
+same as for pairset-names
+
+> +			goto out;
+> +
+> +		/* npairsets is limited to value one or two */
+> +		if (ret != npairsets || ret > 2) {
+
+(ret > 2) will be handled by previous checks
+(ret != npairsets) amount of pairsets and pairset-names is not equal %i
+!= %i
+
+> +			dev_err(pcdev->dev,
+> +				"wrong number of pairsets or pairset-names for pse pi %d\n",
+> +				id);
+> +			ret = -EINVAL;
+> +			goto out;
+> +		}
+> +
+> +		ret = of_load_pse_pi_pairsets(node, &pi, npairsets);
+> +		if (ret)
+> +			goto out;
+> +
+> +		of_node_get(node);
+> +		pi.np = node;
+> +		memcpy(&pcdev->pi[id], &pi, sizeof(pi));
+> +	}
+> +
+> +	of_node_put(pis);
+> +	return 0;
+> +
+> +out:
+> +	for (i = 0; i <= pcdev->nr_lines; i++) {
+> +		of_node_put(pcdev->pi[i].pairset[0].np);
+> +		of_node_put(pcdev->pi[i].pairset[1].np);
+> +		of_node_put(pcdev->pi[i].np);
+> +	}
+> +	of_node_put(node);
+> +	of_node_put(pis);
+> +	kfree(pcdev->pi);
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -67,16 +166,18 @@ static int of_pse_simple_xlate(struct pse_controller_dev *pcdev,
+>   */
+>  int pse_controller_register(struct pse_controller_dev *pcdev)
+>  {
+> -	if (!pcdev->of_xlate) {
+> -		if (pcdev->of_pse_n_cells == 0)
+> -			pcdev->of_xlate = of_pse_zero_xlate;
+> -		else if (pcdev->of_pse_n_cells == 1)
+> -			pcdev->of_xlate = of_pse_simple_xlate;
+> -	}
+> +	int ret;
+>  
+>  	mutex_init(&pcdev->lock);
+>  	INIT_LIST_HEAD(&pcdev->pse_control_head);
+>  
+> +	if (!pcdev->nr_lines)
+> +		pcdev->nr_lines = 1;
+> +
+> +	ret = of_load_pse_pis(pcdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	mutex_lock(&pse_list_mutex);
+>  	list_add(&pcdev->list, &pse_controller_list);
+>  	mutex_unlock(&pse_list_mutex);
+> @@ -91,6 +192,14 @@ EXPORT_SYMBOL_GPL(pse_controller_register);
+>   */
+>  void pse_controller_unregister(struct pse_controller_dev *pcdev)
+>  {
+> +	int i;
+> +
+> +	for (i = 0; i <= pcdev->nr_lines; i++) {
+> +		of_node_put(pcdev->pi[i].pairset[0].np);
+> +		of_node_put(pcdev->pi[i].pairset[1].np);
+> +		of_node_put(pcdev->pi[i].np);
+> +	}
+> +	kfree(pcdev->pi);
+
+Same pattern was already used. It is better to move it to a separate
+function.
+
+>  	mutex_lock(&pse_list_mutex);
+>  	list_del(&pcdev->list);
+>  	mutex_unlock(&pse_list_mutex);
+> @@ -203,8 +312,33 @@ pse_control_get_internal(struct pse_controller_dev *pcdev, unsigned int index)
+>  	return psec;
+>  }
+>  
+> -struct pse_control *
+> -of_pse_control_get(struct device_node *node)
+> +static int of_pse_match_pi(struct pse_controller_dev *pcdev,
+> +			   struct device_node *np)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i <= pcdev->nr_lines; i++) {
+> +		if (pcdev->pi[i].np == np)
+> +			return i;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int psec_id_legacy_xlate(struct pse_controller_dev *pcdev,
+> +				const struct of_phandle_args *pse_spec)
+
+rename legacy to some other name in all places.
+
+> +{
+> +	if (!pcdev->of_pse_n_cells)
+> +		return 0;
+> +
+> +	if (pcdev->of_pse_n_cells > 1 ||
+> +	    pse_spec->args[0] >= pcdev->nr_lines)
+> +		return -EINVAL;
+> +
+> +	return pse_spec->args[0];
+> +}
+> +
+> +struct pse_control *of_pse_control_get(struct device_node *node)
+>  {
+>  	struct pse_controller_dev *r, *pcdev;
+>  	struct of_phandle_args args;
+> @@ -222,7 +356,14 @@ of_pse_control_get(struct device_node *node)
+>  	mutex_lock(&pse_list_mutex);
+>  	pcdev = NULL;
+>  	list_for_each_entry(r, &pse_controller_list, list) {
+> -		if (args.np == r->dev->of_node) {
+> +		if (!r->of_legacy) {
+> +			ret = of_pse_match_pi(r, args.np);
+> +			if (ret >= 0) {
+> +				pcdev = r;
+> +				psec_id = ret;
+> +				break;
+> +			}
+> +		} else if (args.np == r->dev->of_node) {
+>  			pcdev = r;
+>  			break;
+>  		}
+> @@ -238,10 +379,12 @@ of_pse_control_get(struct device_node *node)
+>  		goto out;
+>  	}
+>  
+> -	psec_id = pcdev->of_xlate(pcdev, &args);
+> -	if (psec_id < 0) {
+> -		psec = ERR_PTR(psec_id);
+> -		goto out;
+> +	if (pcdev->of_legacy) {
+> +		psec_id = psec_id_legacy_xlate(pcdev, &args);
+> +		if (psec_id < 0) {
+> +			psec = ERR_PTR(psec_id);
+> +			goto out;
+> +		}
+>  	}
+>  
+>  	/* pse_list_mutex also protects the pcdev's pse_control list */
+> diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+> index 19589571157f..01b3b9adfe2a 100644
+> --- a/include/linux/pse-pd/pse.h
+> +++ b/include/linux/pse-pd/pse.h
+> @@ -64,6 +64,36 @@ struct device_node;
+>  struct of_phandle_args;
+>  struct pse_control;
+>  
+> +/* PSE PI pairset pinout can either be Alternative A or Alternative B */
+> +enum pse_pi_pairset_pinout {
+> +	ALTERNATIVE_A,
+> +	ALTERNATIVE_B,
+> +};
+> +
+> +/**
+> + * struct pse_pi_pairset - PSE PI pairset entity describing the pinout
+> + *			   alternative ant its phandle
+> + *
+> + * @pinout: description of the pinout alternative
+> + * @np: device node pointer describing the pairset phandle
+> + */
+> +struct pse_pi_pairset {
+> +	enum pse_pi_pairset_pinout pinout;
+> +	struct device_node *np;
+> +};
+> +
+> +/**
+> + * struct pse_pi - PSE PI (Power Interface) entity as described in
+> + *		   IEEE 802.3-2022 145.2.4
+> + *
+> + * @pairset: table of the PSE PI pinout alternative for the two pairset
+> + * @np: device node pointer of the PSE PI node
+> + */
+> +struct pse_pi {
+> +	struct pse_pi_pairset pairset[2];
+> +	struct device_node *np;
+> +};
+> +
+>  /**
+>   * struct pse_controller_dev - PSE controller entity that might
+>   *                             provide multiple PSE controls
+> @@ -73,11 +103,11 @@ struct pse_control;
+>   * @pse_control_head: head of internal list of requested PSE controls
+>   * @dev: corresponding driver model device struct
+>   * @of_pse_n_cells: number of cells in PSE line specifiers
+> - * @of_xlate: translation function to translate from specifier as found in the
+> - *            device tree to id as given to the PSE control ops
+>   * @nr_lines: number of PSE controls in this controller device
+>   * @lock: Mutex for serialization access to the PSE controller
+>   * @types: types of the PSE controller
+> + * @pi: table of PSE PIs described in this controller device
+> + * @of_legacy: flag set if the pse_pis devicetree node is not used
+>   */
+>  struct pse_controller_dev {
+>  	const struct pse_controller_ops *ops;
+> @@ -86,11 +116,11 @@ struct pse_controller_dev {
+>  	struct list_head pse_control_head;
+>  	struct device *dev;
+>  	int of_pse_n_cells;
+> -	int (*of_xlate)(struct pse_controller_dev *pcdev,
+> -			const struct of_phandle_args *pse_spec);
+>  	unsigned int nr_lines;
+>  	struct mutex lock;
+>  	enum ethtool_pse_types types;
+> +	struct pse_pi *pi;
+> +	bool of_legacy;
+>  };
+>  
+>  #if IS_ENABLED(CONFIG_PSE_CONTROLLER)
+
+Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
