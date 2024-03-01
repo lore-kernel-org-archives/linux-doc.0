@@ -1,155 +1,114 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C760A4F1E5;
-	Fri,  1 Mar 2024 12:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7768386;
+	Fri,  1 Mar 2024 12:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709295546; cv=none; b=L1euk9MF4AvAqI3VSlBlzT0RTA5JYKt0zucetBPCrlhE61CS6tzYpt2S7yIFpBFO/1B97rTyde1zFe1vD+XFGpm96sCy8/6NXmUk3AmhhUFKaWucF2LJ5eVZOHjfR0gK9fEv2ZUg2+gvTNRGe5sfiqm+3ia07O2voH+PDSRRDVw=
+	t=1709296275; cv=none; b=Ud7jB2atGXp9WlE3QG8FWgYyIN3Rbsj9sxzNcWQ1gl+GXMcUch1c4pI8hNrNuoQPeNnpbpl2kmjevH93zSkdDPgW2MLQTkm4/cCr8L0NZyIy59OVEsiicfUHByg1RiteqemjNwqYd8PMO6HhontAmgsgjqMBY8yUHrJpT+fmNpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709295546; c=relaxed/simple;
-	bh=/JuogARoTSkexC999JDvQiVZli/6nhMtXRKfthwm9cw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pu4gonOE1H+bJ4u9TwwYeG78OXd1hQx96KUGfXN2X56OCuk5JjiqoCNFmlt4PBhc6H7413zyhX5zS8+xgz1zDRwSgdjAtbU2+KdhHTBbn136MIPlaPzA0N39QZ7X54KSrpitxQgHXthsxqJ14xM4rYUn8iJTHB8jo5jmNRlNFhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=S6lYDqXJ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709296275; c=relaxed/simple;
+	bh=8RnPvClv7KQ+Hc7khmpr12985u/duy/3v/TKfh9A88M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=M7bl3P6q36aolLpPvgUoJbp3sr32b7aa7AtRWtFJhhE9/WzqsB2oNZBY1lYYPODuQ+7nV1rteeaweuBJAb+gAuPXhkd9cFra2I4E2fCUwV/0nOvsG02weewWlQO4FZOIgUWn0XIbP5peEVIdc3yMiF38IXR3q47lqEdzhqiar9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D9+IIolr; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S6lYDqXJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709295542;
-	bh=/JuogARoTSkexC999JDvQiVZli/6nhMtXRKfthwm9cw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S6lYDqXJrWXUDzPO1wTmvcUBucoziKYFzSnZOSZUEAB1QwwGMnwSj9RquoSAOkPJ/
-	 ++HwlGFBlVjPES5nwc555SgdlGFrPN8PVYChSzRSTD7xQaR0O3JCCC1lIb2mLJtM31
-	 kCyDlCATlHHcYdwBa3hsXYzOM8N8+FE3uUD0XkYXid7DYVxuw+Vpx628DAilTvjnk/
-	 NcBvlpGOPQOxm8Hr2E+M0wtCChqfHXo/YJqFuJLjwaMF71knauhnn6nqVjoWOonb8K
-	 voWsn5IaQ7Cwlz4cnNjiGwOCUAVGjNT86uhYLgezNrfqseQxjy5zgS8lUHt8h3tkad
-	 1uVuziX/wL+7w==
-Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BEAED378000E;
-	Fri,  1 Mar 2024 12:19:01 +0000 (UTC)
-Date: Fri, 1 Mar 2024 14:19:00 +0200
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson
- <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB
- property
-Message-ID: <20240301141900.1ee1e2ef.pekka.paalanen@collabora.com>
-In-Reply-To: <20240301-loyal-cornflower-oxpecker-83ed59@houat>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
-	<20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
-	<20240229194726.GB166694@toolbox>
-	<20240301-light-impressive-grasshopper-adabeb@houat>
-	<20240301112941.GE166694@toolbox>
-	<20240301-loyal-cornflower-oxpecker-83ed59@houat>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9+IIolr"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a44ad785a44so33663866b.3;
+        Fri, 01 Mar 2024 04:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709296272; x=1709901072; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=qOvH3P5HGSrpjjPMuyCiz1PZ+rc7XO0ytGp7zjRcMjA=;
+        b=D9+IIolrOZn1OMYjdvDPv+KaOQ3NJN8dZmRvhfSp5S8bL3aUlmzGIiI5Uf9HrAAWNJ
+         voF2UvLvHtLLecuig44i1zJoh2iJzbCpKpJqDO+CNWZb93XG1GUk5+kicw0VkB5/LbMO
+         fvexk1/KtHD8Qh8W7tflzvA58qWX29rZfDNmt+gi9FpBHmJUphGByxNrzxVVthbfU3fm
+         t3KqafE2GN8W1ZLFwf0NcryB+Bf8dXeLGdBB1e57jlUpLOTanaO9vDQ2hgous4E3gjmb
+         5Vem/4suECsS91Ay51fqiOxqwX3WMSVFV85qMWHog8Z0JwzA352YrroIZz4HDRc+fiUw
+         uepw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709296272; x=1709901072;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qOvH3P5HGSrpjjPMuyCiz1PZ+rc7XO0ytGp7zjRcMjA=;
+        b=USIx4UpJlBDxyWA/XSPv1G6Lg+ur56Qky4LObvdIhMHpeNnIiKkbDf7GjMii1J/K6r
+         aEppudlIyeUl9Pc9IVPvzRpoldWkpLz4YHmbYr0N9nmK0yoC2DsPEZWcn4cMYxDSGGh+
+         BeEV7vybqqeiAxWiWZS3cSH23LvMkEsC4/sjtR/SGzIy9HxkUnpvLyrlw8QIr79wbXk5
+         f7BOL7R0zI+2yD/PlO70eoaW2MHeoTn9SIMsWCM2BLPbAirStv673L6kS7PM9uUGya6a
+         etMrt94IUZVsjcshwNe+TFUzbsRe9AZXAkjTk+jK07ismN4QzJ56+JS6SivqogOVr1dy
+         7STg==
+X-Forwarded-Encrypted: i=1; AJvYcCW7weBHJLLEjTB1IwxjYEoWAUCWXJxfh88kj+WNpnGGr6cUJ5S/tK++g9krv1vin4mPjuKFsuhCRESFJ1SERFwC+/1xLtDwF8iRb8rSE2UhwAo12bqOA/pCd+ACWDoiu4LYhNhzaIArG8q1DKVnby0ier7l+oGDyxho4zAmRVOh
+X-Gm-Message-State: AOJu0Ywd/09w2y40AbIhcbuNAQZCkuvHGVRWtgExtGaMqUVBhWrVPjn7
+	Gf3i5Q+miJp3ANrv1FNAfw1jL2RkvB9eNc2V4QeXIIC38fOTghDzV2ExrilxzZA=
+X-Google-Smtp-Source: AGHT+IFd140UexM9EOnEMJHomFWLoVYeGO7aw8HyZ/c5klK42r+DtIXPre1WNqulSOjeGkGfj4x07w==
+X-Received: by 2002:a17:906:ccc8:b0:a44:1a51:a1fd with SMTP id ot8-20020a170906ccc800b00a441a51a1fdmr1069869ejb.64.1709296272204;
+        Fri, 01 Mar 2024 04:31:12 -0800 (PST)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id mp7-20020a1709071b0700b00a440ceb4110sm1673266ejc.183.2024.03.01.04.31.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 04:31:11 -0800 (PST)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+	id D1E30BE2EE8; Fri,  1 Mar 2024 13:31:10 +0100 (CET)
+Date: Fri, 1 Mar 2024 13:31:10 +0100
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: regressions@lists.linux.dev, stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ben Hutchings <ben@decadent.org.uk>,
+	Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Aditya Srivastava <yashsri421@gmail.com>, 1064035@bugs.debian.org
+Subject: [regression 5.10.y] linux-doc builds: Global symbol "$args" requires
+ explicit package name (did you forget to declare "my $args"?) at
+ ./scripts/kernel-doc line 1236.
+Message-ID: <ZeHKjjPGoyv_b2Tg@eldamar.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/yomWKOIfqdy35zj6dRjUbn_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Sig_/yomWKOIfqdy35zj6dRjUbn_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Fri, 1 Mar 2024 13:12:02 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+Ben Hutchings reported in https://bugs.debian.org/1064035 a problem
+with the kernel-doc builds once 3080ea5553cc ("stddef: Introduce
+DECLARE_FLEX_ARRAY() helper") got applied in 5.10.210 (as
+prerequisite of another fix in 5.10.y):
 
-> On Fri, Mar 01, 2024 at 12:29:41PM +0100, Sebastian Wick wrote:
-> > On Fri, Mar 01, 2024 at 11:30:56AM +0100, Maxime Ripard wrote: =20
-> > > On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote: =20
-> > > > > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subc=
-onnector_property);
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB (HDMI specific)
-> > > > > + *      Indicates the Quantization Range (Full vs Limited) used.=
- The color
-> > > > > + *      processing pipeline will be adjusted to match the value =
-of the
-> > > > > + *      property, and the Infoframes will be generated and sent =
-accordingly.
-> > > > > + *
-> > > > > + *      This property is only relevant if the HDMI output format=
- is RGB. If
-> > > > > + *      it's one of the YCbCr variant, it will be ignored and th=
-e output will
-> > > > > + *      use a limited quantization range. =20
-> > > >=20
-> > > > Uh, maybe just say that the quantization range is selected automati=
-cally
-> > > > in case a YCbCr output format is in use. I'm not sure every YCbCr
-> > > > variant requires limited and even if it does, new formats could cha=
-nge
-> > > > this. =20
-> > >=20
-> > > I documented what i915 is doing:
-> > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/d=
-isplay/intel_hdmi.c#L2143 =20
-> >=20
-> > Sure, this is one valid strategy for the automatic behavior of YCbCr.
-> > Drivers could also always send an InfoFrame to ensure full range where
-> > possible. The point here is that this property shall not affect YCbCr
-> > output formats!
-> >=20
-> > Maybe it's even better to say "driver specific" instead of "automatic".=
- =20
->=20
-> Honestly, I'm not sure what you want from me here. Ville and you
-> insisted on the previous version to document what i915 is doing and to
-> follow whatever the behaviour was, and that we shouldn't spend time
-> improving the property. Fine, I did that.
->=20
-> But now, you want me to ... improve the property?
+> The backport of commit 3080ea5553cc "stddef: Introduce
+> DECLARE_FLEX_ARRAY() helper" modified scripts/kernel-doc and
+> introduced a syntax error:
+> 
+> Global symbol "$args" requires explicit package name (did you forget to declare "my $args"?) at ./scripts/kernel-doc line 1236.
+> Global symbol "$args" requires explicit package name (did you forget to declare "my $args"?) at ./scripts/kernel-doc line 1236.
+> Execution of ./scripts/kernel-doc aborted due to compilation errors.
+> 
+> This doesn't stop the documentation build process, but causes the
+> documentation that should be extracted by kernel-doc to be missing
+> from linux-doc-5.10.
+> 
+> We should be able to fix this by eithering backport commit
+> e86bdb24375a "scripts: kernel-doc: reduce repeated regex expressions
+> into variables" or replacing /$args/ with /([^,)]+)/.
+> 
+> Ben.
 
-Just drop the "and the output will use a limited quantization range"
-part.
+What would be prefered here from stable maintainers point of view?
+AFAICS e86bdb24375a ("scripts: kernel-doc: reduce repeated regex
+expressions into variables") won't apply cleanly and needs some
+refactoring. The alternative pointed out by Ben would be to replace
+the /$args/ with  /([^,)]+)/.
 
+# 5.10.y specific regression
+#regzbot introduced: 443b16ee3d9ce0a3ece0e3526a5af883e5b16eaf
+#regzbot link: https://bugs.debian.org/1064035
 
-Thanks,
-pq
-
---Sig_/yomWKOIfqdy35zj6dRjUbn_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXhx7QACgkQI1/ltBGq
-qqcFMhAApnw120yGkMTU78b9MLRYnIpCL8IVDkC74fOg134teNF3ZHRveBy91rEy
-yGr5TiB5iXahBTUIM8oSttIEu0IpqTauZISYsBOnVXqukbO2MktR8Nbec4YioVb0
-HFLYbyzewiyTOkuF5Ud9C7icE2g65xEt/RxserG73jUAj6CTnhWRl8zbZQOo5ze7
-1P8E2uWGehaZh8YRzbwIjXJYxj8gEUfj5vZy7HX+YmPYfls/lanw0XWU2ON+rs1f
-xFM2u6nDeQ30pGSG7I0ccD6oXFw4yesbSusecHexpByjwIyDMlz0uP5HkLuqeI9I
-mBZmvX4YEfyjQgq3H0Rnsm1OJIU3SC2pGQ9YLJxpmA/dSf3PZ2ktHsz3WQjRxbhr
-aJq1d8DroMft41SRdindTDUwg2lssg1MNWu3GRLee8vWxc8Paf/4eNEhbolfTFHB
-dXagpKniLK0Fk8BCpKv0M2TuKyiv5Hc5jCiwHtHX3ESIvhBC952k7UP4aHRPif5U
-Df9nQwfRKgOb9CYXPKZK+Ug6u9Ayxb1m47e2Z3K0duRyi4I7yMz9M8FAEguvMNsH
-YoghGtR4geDcBruuLIOI2yeORwOYorHRww9U+J9spCN1zEcbO+9aCxZ+EmEKABtw
-XXN/e3yaSp0gEqGOQfIFopUV3gYq7M1YcNFP4hMRzIro6qVwqUQ=
-=+Rkf
------END PGP SIGNATURE-----
-
---Sig_/yomWKOIfqdy35zj6dRjUbn_--
+Regards,
+Salvatore
