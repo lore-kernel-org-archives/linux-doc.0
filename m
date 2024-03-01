@@ -1,146 +1,167 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A67717E1
-	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 13:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8867E5F483;
+	Fri,  1 Mar 2024 13:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709298929; cv=none; b=AbGPRp7OKHnYXdJATee5TExBUduqrZ19XJ5S3nutr8Q/ejThJ+KvxI8tGl9EX9/3uU1awLxhlnqL+qYhzfUbXQX0ecpNnvBe52+oV03zwctQu2CP4bDi0c1qobwSprAyMwHXS+GR7ZGTvWsWR7Wtn4+Mx8DOJkUUcBJgwAAOK4c=
+	t=1709299178; cv=none; b=iqx66ydRkqEKhPGhqzq4ObCeQ6MEa++wyLmFu93Bocwgo3q0QAfoX9m1zkAx7ipocwMPYTiBWHpsr10vHQy85vnx2seTTG67QOfsT1wlrUQnCZ7cMEtJbilOcIFUwj2Srfs8yVatPii0u47k2h0VqMvgd4KYHWaMMli1V6AeWG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709298929; c=relaxed/simple;
-	bh=ppxwsid024kYh+xIImopd5C7MqjcjcriC8usZ9HcFiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LLXLd8GGmblgzWleqOXQkVCFaF1t3WF5l5IIcbrNmEDgNAKn3fRqn0xpGUF4H0EdsaSlC0hrTcEc5nK5o8RIdBagwob1l9Rjc8s/HT7ek4ZklaiMc3yc5p+F4zHqX4hdxJKSQ7TwUXxlWxTtoO033okk44B4Aeas6ik3irC16fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RVa4J3Wl; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RVa4J3Wl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709298926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
-	b=RVa4J3Wlfk1aD4BVAnTbkPGGxMmrunaF2e22Gbsw6fzkGMIXuLhwrLJd4zbSvmYcrO+rq8
-	s5Jx1ET5CM0BJUgbAK50GuuUse0ZwxBisABVXUfNjsUcOwD3B41FLy+7GqDpy5aP8x1rp+
-	LCg+zqCm8lKB5aBGtkfW3guFtpmuxXs=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-343-JcwEMqy_MPWB8bdwd02G4w-1; Fri, 01 Mar 2024 08:15:24 -0500
-X-MC-Unique: JcwEMqy_MPWB8bdwd02G4w-1
-Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-512a5c6465bso1589248e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 Mar 2024 05:15:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709298922; x=1709903722;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j6JDdzMRW33EgNy8WVE2rwXJul+k7YILcoZp2XURKLI=;
-        b=dCnRpKLQeYYjzcCtQIW00LrGstOX3zF3defZ5IzpfIjKoWjIRwnHVZvZulRdlhkIRz
-         SIWi8UdRcX5sYvKdBzEAMteNK3dPIN/vXx8e/GK2rG0ksvT+yPcDnMZGgXeQ9RLbwV5J
-         KtFaJWogn5Uj2mXOm1YwUfjU8LkXsLn1w3O0LKJ/GQXkiShnx+BsEdEoN8sH2CG/ELYF
-         JRiCXPY1QNJmZpXAgggpOPATqIp0wQDWWrCDgjR7tGF42qnDrORu4SJFkY7SnEMz8u7N
-         f5pdNcKp8O4xo8Kt22dQEOylIjkBjZjY0LLQeWPCah6smwJMLgepFW6aozE0HLXDqjW4
-         b5Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbufNsNv0IqiguSxhQsVuDtGrcdiMDaH7YpTn+BZdG9moCYT5vT9Cr9KWRv1RtVJSJHpyEEr5YGAQEhAz971aji7gpCr2E3FtY
-X-Gm-Message-State: AOJu0YxbEF2TgGJya3Ywk34RSDV0n1P+YK2aOgfKZC68pFmsSLZpd1Bi
-	hSfQrq0658qdJwnTtZ/Org8qfxOCoQO+vnw/LDaQLDlWcrje5n4JoqmuWGVwrEgxVkOeoaY7qtH
-	dcHSAyJ6/Bo/KzTrG+jFyH8oEz6iQPR/JNYxC0pk5WASzzDPawekznfU+ng==
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id w27-20020ac2599b000000b00512f6d39998mr1223722lfn.17.1709298922220;
-        Fri, 01 Mar 2024 05:15:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFwlzt5HlgK0WAcZyh2ZsOJe95EyGGHjhxje8QxMH4nFVP4Pvs9Hg/dbyzZ0Awcz9X/EGacJg==
-X-Received: by 2002:ac2:599b:0:b0:512:f6d3:9998 with SMTP id w27-20020ac2599b000000b00512f6d39998mr1223689lfn.17.1709298921881;
-        Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Received: from toolbox ([2001:9e8:89a0:c500:c65:1f3a:8c08:2a1d])
-        by smtp.gmail.com with ESMTPSA id bw1-20020a0560001f8100b0033db0c866f7sm4639850wrb.11.2024.03.01.05.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 05:15:21 -0800 (PST)
-Date: Fri, 1 Mar 2024 14:15:19 +0100
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v7 21/36] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240301131519.GA10491@toolbox>
-References: <20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org>
- <20240222-kms-hdmi-connector-state-v7-21-8f4af575fce2@kernel.org>
- <20240229194726.GB166694@toolbox>
- <20240301-light-impressive-grasshopper-adabeb@houat>
- <20240301112941.GE166694@toolbox>
- <20240301-loyal-cornflower-oxpecker-83ed59@houat>
+	s=arc-20240116; t=1709299178; c=relaxed/simple;
+	bh=xRLjt2ZtMD2Q1XzlAIEVwSLp295JjvW6H5VxtRoWhCs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VVz/xu4/nMnhNsDnOFsMpXaoaixfFY9kG67aroeQ+ZoUsWr3H+wi3V8zcu9fHAaL2IC29akD7I5FKrZUygj8oyjvWqFvAUu8n9iovs2jlUYf6F7R0IFYX307NUpJENygt7bbCk5Xy9wHcJZYx7SPpS/6X4ll8RkfiHFBcqvwrww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TmSvw53b9z9y0Nw;
+	Fri,  1 Mar 2024 21:03:56 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 279D01400D2;
+	Fri,  1 Mar 2024 21:19:32 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwDHACXT1eFlyDx6Aw--.60471S2;
+	Fri, 01 Mar 2024 14:19:31 +0100 (CET)
+Message-ID: <e6f263b25061651e948a881d36bfdff17cfaf1b0.camel@huaweicloud.com>
+Subject: Re: [PATCH v2 14/25] evm: add support for fscaps security hooks
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, Serge Hallyn
+ <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, Eric Paris
+ <eparis@redhat.com>, James Morris <jmorris@namei.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Stephen Smalley
+ <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,  Dmitry Kasatkin
+ <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet
+ <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein
+ <amir73il@gmail.com>,  linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org,  linux-security-module@vger.kernel.org,
+ audit@vger.kernel.org,  selinux@vger.kernel.org,
+ linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-unionfs@vger.kernel.org
+Date: Fri, 01 Mar 2024 14:19:11 +0100
+In-Reply-To: <20240301-zucht-umfeld-9a923a7d070a@brauner>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+	 <20240221-idmap-fscap-refactor-v2-14-3039364623bd@kernel.org>
+	 <15a69385b49c4f8626f082bc9b957132388414fb.camel@huaweicloud.com>
+	 <20240301-zucht-umfeld-9a923a7d070a@brauner>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240301-loyal-cornflower-oxpecker-83ed59@houat>
+X-CM-TRANSID:GxC2BwDHACXT1eFlyDx6Aw--.60471S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXFWxtFWkCry7XFW5WF1DGFg_yoW5uw18pa
+	y5Ka4SkF4ktF17Jr92yw4qqw40k3yfJay5Grn5J3y8Zwn8JF1fGrWSk3y3ZF9a9rs3G34a
+	vr4Iya47Zwn8ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkmb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6xAYrwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
+	WxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUguHqUUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAJBF1jj5rgNgACsz
 
-On Fri, Mar 01, 2024 at 01:12:02PM +0100, Maxime Ripard wrote:
-> On Fri, Mar 01, 2024 at 12:29:41PM +0100, Sebastian Wick wrote:
-> > On Fri, Mar 01, 2024 at 11:30:56AM +0100, Maxime Ripard wrote:
-> > > On Thu, Feb 29, 2024 at 08:47:26PM +0100, Sebastian Wick wrote:
-> > > > > @@ -1708,6 +1731,39 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
-> > > > >  /**
-> > > > >   * DOC: HDMI connector properties
-> > > > >   *
-> > > > > + * Broadcast RGB (HDMI specific)
-> > > > > + *      Indicates the Quantization Range (Full vs Limited) used. The color
-> > > > > + *      processing pipeline will be adjusted to match the value of the
-> > > > > + *      property, and the Infoframes will be generated and sent accordingly.
-> > > > > + *
-> > > > > + *      This property is only relevant if the HDMI output format is RGB. If
-> > > > > + *      it's one of the YCbCr variant, it will be ignored and the output will
-> > > > > + *      use a limited quantization range.
-> > > > 
-> > > > Uh, maybe just say that the quantization range is selected automatically
-> > > > in case a YCbCr output format is in use. I'm not sure every YCbCr
-> > > > variant requires limited and even if it does, new formats could change
-> > > > this.
-> > > 
-> > > I documented what i915 is doing:
-> > > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i915/display/intel_hdmi.c#L2143
-> > 
-> > Sure, this is one valid strategy for the automatic behavior of YCbCr.
-> > Drivers could also always send an InfoFrame to ensure full range where
-> > possible. The point here is that this property shall not affect YCbCr
-> > output formats!
-> > 
-> > Maybe it's even better to say "driver specific" instead of "automatic".
-> 
-> Honestly, I'm not sure what you want from me here. Ville and you
-> insisted on the previous version to document what i915 is doing and to
-> follow whatever the behaviour was, and that we shouldn't spend time
-> improving the property. Fine, I did that.
-> 
-> But now, you want me to ... improve the property?
+On Fri, 2024-03-01 at 13:54 +0100, Christian Brauner wrote:
+> On Fri, Mar 01, 2024 at 10:19:13AM +0100, Roberto Sassu wrote:
+> > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > Support the new fscaps security hooks by converting the vfs_caps to r=
+aw
+> > > xattr data and then handling them the same as other xattrs.
+> >=20
+> > Hi Seth
+> >=20
+> > I started looking at this patch set.
+> >=20
+> > The first question I have is if you are also going to update libcap
+> > (and also tar, I guess), since both deal with the raw xattr.
+> >=20
+> > From IMA/EVM perspective (Mimi will add on that), I guess it is
+> > important that files with a signature/HMAC continue to be accessible
+> > after applying this patch set.
+> >=20
+> > Looking at the code, it seems the case (if I understood correctly,
+> > vfs_getxattr_alloc() is still allowed).
+> >=20
+> > To be sure that everything works, it would be really nice if you could
+> > also extend our test suite:
+> >=20
+> > https://github.com/mimizohar/ima-evm-utils/blob/next-testing/tests/port=
+able_signatures.test
+> >=20
+> > and
+> >=20
+> > https://github.com/mimizohar/ima-evm-utils/blob/next-testing/tests/evm_=
+hmac.test
+> >=20
+> >=20
+> > The first test we would need to extend is check_cp_preserve_xattrs,
+> > which basically does a cp -a. We would need to set fscaps in the
+> > origin, copy to the destination, and see if the latter is accessible.
+> >=20
+> > I would also extend:
+> >=20
+> > check_tar_extract_xattrs_different_owner
+> > check_tar_extract_xattrs_same_owner
+> > check_metadata_change
+> > check_evm_revalidate
+> > check_evm_portable_sig_ima_appraisal
+> > check_evm_portable_sig_ima_measurement_list
+> >=20
+> > It should not be too complicated. The purpose would be to exercise your
+> > code below.
+> >=20
+> >=20
+> > Regarding the second test, we would need to extend just check_evm_hmac.
+> >=20
+> >=20
+> > Just realized, before extending the tests, it would be necessary to
+> > modify also evmctl.c, to retrieve fscaps through the new interfaces,
+> > and to let users provide custom fscaps the HMAC or portable signature
+> > is calculated on.
+>=20
+> While request for tests are obviously fine they should be added by the
+> respective experts for IMA/EVM in this case. I don't think it's
+> appropriate to expect Seth to do that especially because you seem to
+> imply that you currently don't have any tests for fscaps at all. We're
+> always happy to test things and if that'd be adding new IMA/EVM specific
+> features than it would be something to discuss but really we're
+> refactoring so the fact that you don't have tests we can run is not the
+> fault of this patchset and IMA/EVM is just a small portion of it.=20
 
-The property has a clear scope: quantization range for RGB output
-formats. What Intel does with things that are not in scope of the
-property is irrelevant. This isn't improving the property either but
-documenting the scope of the property.
+Hi Christian
 
-Sorry if this seems arbitrary but these details are so important to get
-right because the interactions between all the different things is
-already majorly broken.
+I have seen this policy of adding tests in other subsystems (eBPF),
+which in my opinion makes sense, since you want anyway to check that
+you didn't break existing code.
 
-> Maxime
-> 
+And yes, I agree that we should have better tests, and a better
+workflow (we are working on improving it).
+
+In this particular case, I was not asking to write a test from scratch,
+that should not be difficult per se, but adding additional commands.
+
+If I got it correctly, even if current tests for fscaps would have
+existed, they would not work anyway, since they would have been based
+on getting/setting the raw xattrs (as far as I know, at least for tar).
+
+Happy to try adding the tests, would appreciate your help to review if
+the tests are done in the correct way.
+
+Thanks
+
+Roberto
 
