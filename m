@@ -1,117 +1,68 @@
-Received: from mail1.med.uni-goettingen.de (mail1.med.uni-goettingen.de [134.76.103.230])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0267F6D1A7
-	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 13:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.76.103.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49333381DE;
+	Fri,  1 Mar 2024 13:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709299454; cv=none; b=EZtxKDGnGSt1IlW+H5SFl4zfIdteZ5inCjQszM4vJSDUJuWa0xslD8Q71TJVoquIa0vl5JRngVcj4a5zTB7aNuWDpn6lp3regtWQIEWHHiEmEya9874DVFm1YrASQYb3HDDiuSYnkg9/H/fAkliquuWwjMYra4QY++/VDRt7hL0=
+	t=1709300371; cv=none; b=NDepxziwH9glH1JqBipUQzmemy7LvQ8sEhbzmoX7tvmBYOpJWqaTD0OsvBNLtUTn4SIJPeYFVr7oQg9ZqkM9XSG6CAzRldu6YyyFaPy7Vk+Tevl3xmiDX9ydaqKgP94om78oUaKmJ/XqVY7NKR0b5g5zAsJixD/Z1e9JWJZ5/DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709299454; c=relaxed/simple;
-	bh=mxWKJ8RTRnGA7eFG1tywu8YEdQFGZoDBTHm7fjuKdTU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rBIK9fTVV36ecI8H9/s1xUfdWNqyEmNxNpA1BcoTllwdsA/5SNfgnb1W706mFUMJ5BvGI4FKv1eCbiI1wWzLxqiQ0jSB0TT6GUWh0Q21lzvCWjhNhFQmLnSg/tYBJ4FSJyn1MCbqASokFPFk7dKVWGjNjUUOXTFGn4uLQNvAuhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=med.uni-goettingen.de; spf=pass smtp.mailfrom=med.uni-goettingen.de; dkim=pass (2048-bit key) header.d=med.uni-goettingen.de header.i=@med.uni-goettingen.de header.b=Ps5nlape; arc=none smtp.client-ip=134.76.103.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=med.uni-goettingen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=med.uni-goettingen.de
+	s=arc-20240116; t=1709300371; c=relaxed/simple;
+	bh=200DnVfdBW01DT/X3+moyKLm3jYVD1mA8Rk9R6nnvy8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QxVTsNeAyUAatAjKzCJEbQv+lXdHuGmDqhzqch0aDiTlrHDUlVmzSo9/sLHQD3z4XRjhTuw5xk4Qy8YJqGK7svHU/NQouzSAp6JOuSu+RI+lcaRQPKW5FptR5BR58B+AjL+nf6fkUH39pM5TqqCFny6tMFsx1xGZpllOIdeL77A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmlsN0Af; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=med.uni-goettingen.de header.i=@med.uni-goettingen.de header.b="Ps5nlape"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=med.uni-goettingen.de; s=Mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:
-	From:Sender:Reply-To:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mxWKJ8RTRnGA7eFG1tywu8YEdQFGZoDBTHm7fjuKdTU=; b=Ps5nlapeyCdeYTvUj3ICVS2vg5
-	zdj8/b9anNyLt1UWZtGaovWMpHtFfgdPmNCqJqRUXKhG57Rb768EViLErecZeeXSJieDlSKZfVejD
-	UZ6LUzCG5kmlo9ymfCYFTD2CHIFlJpPkW65Ols9p6b/SdLM59hzWfIxpmudRwSp25oS8U2cqZxf55
-	MW/qxwmm9iMIIfGChqZCZsRMIapEdVadnTPb8Y6cvYipCrRD7nWJJTObvU7lDZUtBeGK0uqEIOzY0
-	4tKRJqVJErlvoKVrNlpnlgCtLPkwhmT3t6OseyPy2JwzR6vBoldAejnT5pyNbd21rDTBHGUvjJwbL
-	MYyjszAw==;
-Received: from umg-exc-01.ads.local.med.uni-goettingen.de ([10.76.100.74]:29415)
-	by mail1.med.uni-goettingen.de with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <Martin.Uecker@med.uni-goettingen.de>)
-	id 1rg2pg-00032L-0c;
-	Fri, 01 Mar 2024 14:21:48 +0100
-Received: from umg-exc-01.ads.local.med.uni-goettingen.de (10.76.100.74) by
- umg-exc-01.ads.local.med.uni-goettingen.de (10.76.100.74) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 1 Mar 2024 14:21:45 +0100
-Received: from umg-exc-01.ads.local.med.uni-goettingen.de
- ([fe80::2886:b6b:10e3:deea]) by umg-exc-01.ads.local.med.uni-goettingen.de
- ([fe80::2886:b6b:10e3:deea%6]) with mapi id 15.01.2507.035; Fri, 1 Mar 2024
- 14:21:45 +0100
-From: "Uecker, Martin" <Martin.Uecker@med.uni-goettingen.de>
-To: "keescook@chromium.org" <keescook@chromium.org>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
-	"David.Laight@ACULAB.COM" <David.Laight@ACULAB.COM>
-CC: "corbet@lwn.net" <corbet@lwn.net>, "miguel.ojeda.sandonis@gmail.com"
-	<miguel.ojeda.sandonis@gmail.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "gustavoars@kernel.org" <gustavoars@kernel.org>,
-	"ndesaulniers@google.com" <ndesaulniers@google.com>,
-	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-	"ojeda@kernel.org" <ojeda@kernel.org>, "linux-hardening@vger.kernel.org"
-	<linux-hardening@vger.kernel.org>
-Subject: Re: [+externe Mail+] RE: [PATCH] compiler.h: Explain how
- __is_constexpr() works
-Thread-Topic: [+externe Mail+] RE: [PATCH] compiler.h: Explain how
- __is_constexpr() works
-Thread-Index: AQHaa7zea2tnGf5kn0G3mh48EMfk27EizpQA
-Date: Fri, 1 Mar 2024 13:21:45 +0000
-Message-ID: <22c9c4cc27b13b2fb6f3cd9fa6f827f56f30770b.camel@med.uni-goettingen.de>
-References: <20240301044428.work.411-kees@kernel.org>
-	 <af0eff12e6bc41039614add550406c11@AcuMS.aculab.com>
-In-Reply-To: <af0eff12e6bc41039614add550406c11@AcuMS.aculab.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <935E7E0ABD95954982DB4A23C34DA0E8@med.uni-goettingen.de>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmlsN0Af"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7827C433C7;
+	Fri,  1 Mar 2024 13:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709300371;
+	bh=200DnVfdBW01DT/X3+moyKLm3jYVD1mA8Rk9R6nnvy8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LmlsN0Afn3hqkExjN7Wyw+6uU+Dpkw1N5GNTe84u1nwEX8OeaUvMkmMNvrEZ2TmVC
+	 j0lcFtUkG0FmPkNWw2wmFAjH83SByHMprhRWazPBtPscr8gzzMkm+Psxu3yn0At+M8
+	 2nm9OOjvrm2E4B8jXOaYIj4ooZGeOqbJgeOq2p/gtpMP5/8l1PSOlSjPeUzxM/MbIu
+	 nGYgHnOjfgUprywtIpDeOSN6rCVEN/GWi6TvCO2yXQbDvIWM2qVDCfMZQZASfV9JV+
+	 4sDMCQmrBrgCcyxmb8DE50icAWVqKwKSa+A1qMkg1HMvMMq72jD1VdwIpkC4MhNoPr
+	 gfHvFPrOUsJ2w==
+Date: Fri, 1 Mar 2024 14:39:22 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, 
+	Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
+	James Morris <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 14/25] evm: add support for fscaps security hooks
+Message-ID: <20240301-sport-bekriegen-5b34fd5a014b@brauner>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-14-3039364623bd@kernel.org>
+ <15a69385b49c4f8626f082bc9b957132388414fb.camel@huaweicloud.com>
+ <20240301-zucht-umfeld-9a923a7d070a@brauner>
+ <e6f263b25061651e948a881d36bfdff17cfaf1b0.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e6f263b25061651e948a881d36bfdff17cfaf1b0.camel@huaweicloud.com>
 
-DQpCVFcgbXkgbWFpbiBlbWFpbCBhZGRlc3MgaXMgbm93OiB1ZWNrZXJAdHVncmF6LmF0DQoNCk15
-IHN1Z2dlc3Rpb24gd291bGQgYWxzbyB0byBsaW1pdCBleHBsYW5hdGlvbi4gTm9ib2R5IHNob3Vs
-ZA0Kd3JpdGUgc3VjaCBjb2RlIGFuZCBpZiB5b3UgbmVlZCB0bywgeW91IGNhbiBmaW5kIGV4cGxh
-bmF0aW9ucw0KYWxsIG92ZXIgdGhlIGludGVybmV0Lg0KDQpGaW5hbGx5LCBJIHN0aWxsIHRoaW5r
-IHRoZSBtb3RpdmF0aW9uIGZvciB0aGlzIG1hY3JvIChyZW1vdmluZw0KVkxBcykgaXMgbWlzZ3Vp
-ZGVkIGlmIHNlY3VyaXR5IGlzIHRoZSBnb2FsIGJlY2F1c2UgVkxBcyBwcm92aWRlDQpwcmVjaXNl
-IGJvdW5kcyBhbmQgbGFyZ2VyIHdvcnN0LWNhc2UgZml4ZWQtc2l6ZSBhcnJheXMgZG8gbm90LiAg
-wqANCg0KSXQgd291bGQgYmUgYmV0dGVyIHRvIHVzZSB0aGUgY29tcGlsZXIgb3B0aW9ucyB0aGF0
-IGRldGVjdA0KcG9zc2libHkgdXNlIG9mIFZMQXMgb2YgdW5ib3VuZGVkIHNpemUgYW5kIGlmIHRo
-ZXJlIGEgcHJvYmxlbXMNCndpdGggdGhpcywgaW1wcm92ZSB0aGlzIG9uIHRoZSBjb21waWxlciBz
-aWRlLg0KDQpNYXJ0aW4NCg0KDQpBbSBGcmVpdGFnLCBkZW0gMDEuMDMuMjAyNCB1bSAwOTozMiAr
-MDAwMCBzY2hyaWViIERhdmlkIExhaWdodDoNCj4gRnJvbTogS2VlcyBDb29rDQo+ID4gU2VudDog
-MDEgTWFyY2ggMjAyNCAwNDo0NQ0KPiA+IFRvOiBSYXNtdXMgVmlsbGVtb2VzIDxsaW51eEByYXNt
-dXN2aWxsZW1vZXMuZGs+DQo+ID4gDQo+ID4gVGhlIF9faXNfY29uc3RleHByKCkgbWFjcm8gaXMg
-ZGFyayBtYWdpYy4gU2hlZCBzb21lIGxpZ2h0IG9uIGl0IHdpdGgNCj4gPiBhIGNvbW1lbnQgdG8g
-ZXhwbGFpbiBob3cgYW5kIHdoeSBpdCB3b3Jrcy4NCj4gDQo+IEFsbCB0aGUgOHMgZG9uJ3QgaGVs
-cC4uLg0KPiANCj4gSSBkb24ndCB0aGluayB5b3UgbmVlZCB0aGF0IG11Y2ggZXhwbGFuYXRpb24u
-DQo+IA0KPiBQZXJoYXBzIGp1c3Qgc2F5aW5nIHRoYXQgdGhlIHR5cGUgb2YgPzogZGVwZW5kcyBv
-biB0aGUgdHlwZXMNCj4gb2YgdGhlIHZhbHVlcyBhbmQgaXMgaW5kZXBlbmRlbnQgb2YgdGhlIGNv
-bmRpdGlvbi4NCj4gVGhlIHR5cGUgb2YgKDAgPyAodm9pZCAqKXAgOiAoZm9vICopcSkgaXMgbm9y
-bWFsbHkgJ3ZvaWQgKicNCj4gKHNvIHRoYXQgYm90aCB2YWx1ZXMgY2FuIGJlIGFzc2lnbmVkIHRv
-IGl0KS4NCj4gQnV0IGlmICdwJyBpcyAnYW4gaW50ZWdlciBjb25zdGFudCBleHByZXNzaW9uIHdp
-dGggdmFsdWUgMCcNCj4gdGhlbiAodm9pZCAqKXAgaXMgTlVMTCBhbmQgdGhlIHR5cGUgaXMgJ2Zv
-byAqJy4NCj4gDQo+IFRoZSB0eXBlIGNhbiB0aGVuIGJlIGNoZWNrZWQgdG8gZmluZCBvdXQgaXQg
-J3AnIGlzIGNvbnN0YW50IDAuDQo+IEEgbm9uLXplcm8gY29uc3RhbnQgJ3AnIGNhbiBiZSBtdWx0
-aXBsZXMgYnkgMC4NCj4gDQo+IEkgbmVlZCB0byByZXBsYWNlIHRoZSBkZWZpbml0aW9uIHdpdGgg
-KHRoZSBtb3JlIHBvcnRhYmxlKToNCj4gI2RlZmluZSBfX2lmX2NvbnN0ZXhwcihjb25kLCBpZl9j
-b25zdCwgaWZfbm90X2NvbnN0KSBcDQo+IAlfR2VuZXJpYygwID8gKHZvaWQgKikoKGxvbmcpKGNv
-bmQpICogMCkgOiAoY2hhciAqKTAsIFwNCj4gCQljaGFyICo6IChpZl9jb25zdCksIFwNCj4gCQl2
-b2lkICo6IChpZl9ub3RfY29uc3QpKQ0KPiB3aGljaCBpcyBhcmd1YWJseSBsZXNzIGNyeXB0aWMu
-DQo+IA0KPiAjZGVmaW5lIF9faXNfY29uc3RleHByKGNvbmQpIF9faWZfY29uc3RleHByKGNvbmQs
-IDEsIDApDQo+IA0KPiBTbyB0aGF0IEkgY2FuIHdyaXRlOg0KPiAjZGVmaW5lIGlzX25vbl9uZWdf
-Y29uc3QoeCkgKF9faWZfY29uc3RleHByKHgsIHggLCAtMSkgPj0gMCkNCj4gYW5kIGF2b2lkIHRo
-ZSBjb21waWxlciBibGVhdGluZyBhYm91dCBzb21lIGNvbXBhcmlzb25zDQo+IGluIHVucmVhY2hh
-YmxlIGNvZGUuDQo+IA0KPiAJRGF2aWQNCj4gDQo+IC0NCj4gUmVnaXN0ZXJlZCBBZGRyZXNzIExh
-a2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQs
-IFVLDQo+IFJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo+IA0KDQo=
+> I have seen this policy of adding tests in other subsystems (eBPF),
+
+It makes sense if the drive of the patchset would be IMA/EVM features
+not refactoring of existing code.
+
+> Happy to try adding the tests, would appreciate your help to review if
+
+Cool, happy to help review them.
