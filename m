@@ -1,70 +1,102 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4EF5B1E2;
-	Fri,  1 Mar 2024 09:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BD56A8A5
+	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 09:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709285171; cv=none; b=HRV/OozubLi1p4mCh3wUy+oEWvRNXktRXuDZvSoEQgCOL85s04RV5l+zmnj4heid/IeFgbfIVX8Al8z0YQDzQ7N81g8q6xnYAchlsFvScya0ne7qulHkvn8MpOa6qOVaa0SMbqg5NT7zajUJLmrLnlhvxlypH8Ua9pS4gf2AFCo=
+	t=1709285542; cv=none; b=VMjyV1t0ghaLn9HytA77CtUtLtld9YkdMEd+afdl5ohIM6Kr13D/eLWgccmtJZdWxk+0i4687Ld0iStAmZiXguNT05F6v7TnqQlF6zkZA8nE8g2mDM/6TqtTSMIiveM9yFWWDDdp16f8dJ7NwE2qN70gyiuKhAVFn96LMuu9+hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709285171; c=relaxed/simple;
-	bh=XVijBgf47AH9bKLDYJfv4s0pOiIl3MYByfqkrXcw5PY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bx/EuhaDM24sEa9XkIP2fomst9qDSpT0ZbuSNnko65lkUfpsbV1rTHMMigiRL5NoDYEd7h5hX+Gz9J6fQPJhVkuMbhYUTolZavfeItEYfF3WTK/HxT4YRms+lJ2UtdiV2WmIYHcJVhHtaY/INkw3rwDy3CGddzGjyu2A3lXvP6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dba177c596so12726465ad.0;
-        Fri, 01 Mar 2024 01:26:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709285170; x=1709889970;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VzX57J7oPMIn3joyPVyu15a9GoRQHdSXQHoH6ecRo0U=;
-        b=VsoRaczML8FOO2nDQ5eG2R98AbzcMHKXfVD7zIYnpIbL5K67P1EFnsed0Anv9aw4Nl
-         aJGPHLyHts2OqJMrhDTNUGvNFOJ4ajki1UsYRMHgihYx04fQQoRkpEHWgCx/2oCRCoVp
-         85vFajgWlVF5WmxhykngONy5/3RRksYx4c5JQUuJsmjXtAzlfk/36D3JBosT5h41/jak
-         HYYdHLSud4aj1tqTDMk9CZKgnA3IbUuVgsi5EFQiAURQXJW/BZrMRpWadu3X+7ik3BEM
-         7DEvqAhJiCmpibPcorVspXj6g0Jl8DVKBLKDsc+MLmYz4f3s8p9Y+Q0oLXj1q2GiMOe4
-         FrOw==
-X-Forwarded-Encrypted: i=1; AJvYcCWy+HNY1uDQDI7nO8pvwHBWREjswMVU0gdmNFO/av4b3NBdhmStLnkFNM4TYIQTGJpaxRC9J5RpBYcFDjhqVGsgtUFhruYkyFc9j9mlxhFY22Z5zJB7Pz+o8K7jsXgGsjKBVK7wCNoxtW78ARM8ch1ldQeFxjFp3PjAwYWv+mo9MgSLOtRk
-X-Gm-Message-State: AOJu0YynXulEaXGiO/VsqtGFcuax1FCuEgLjXngYiV6cjl4wPWstY8Rc
-	r8y2I99erw9zKqtN7dSj4myw3a/FsQhpApK39UWyDJ8HXwhJOHWW
-X-Google-Smtp-Source: AGHT+IHdj4TBqDZ/nsUk9Q3eC/RSH6DDRWbkp4XYl1cGETYJmyFG/GtILG67TQ9mtOr1cag9Mb5TTA==
-X-Received: by 2002:a17:902:654a:b0:1dc:b887:35bd with SMTP id d10-20020a170902654a00b001dcb88735bdmr1445126pln.5.1709285170001;
-        Fri, 01 Mar 2024 01:26:10 -0800 (PST)
-Received: from liuwe-devbox-debian-v2 ([20.69.120.36])
-        by smtp.gmail.com with ESMTPSA id n4-20020a170902968400b001db8145a1a2sm2959624plp.274.2024.03.01.01.26.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 01:26:09 -0800 (PST)
-Date: Fri, 1 Mar 2024 09:26:08 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: mhklinux@outlook.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] Documentation: hyperv: Add overview of PCI
- pass-thru device support
-Message-ID: <ZeGfMMxu87B-L9Qc@liuwe-devbox-debian-v2>
-References: <20240222200710.305259-1-mhklinux@outlook.com>
+	s=arc-20240116; t=1709285542; c=relaxed/simple;
+	bh=pY/JAuUkdZ3AyIyGff0Ip5uQfvmqurSeKSVYl4idjR0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=H9pCv8Vz8xFBbUl2+xm5CRUS6S9MZZnr1qczY6lSE5dFmwO/FBLzmebQgicR6YNscJtSTWmZb7vQd9vu6mS0brT9s5FWR+oJ/kBHxNLUk4v5LxE2OER9NBmjOUdzieCUqYz7xcJ7jHCZS24VQz4qnPrQp+Q/pGGlRRZ2QpWYRkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-144-cAe80tt0OtKldFFkrcHoig-1; Fri, 01 Mar 2024 09:32:17 +0000
+X-MC-Unique: cAe80tt0OtKldFFkrcHoig-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 1 Mar
+ 2024 09:32:16 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 1 Mar 2024 09:32:16 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Kees Cook' <keescook@chromium.org>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>
+CC: "Gustavo A . R . Silva" <gustavoars@kernel.org>, Miguel Ojeda
+	<miguel.ojeda.sandonis@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+	Nick Desaulniers <ndesaulniers@google.com>, Martin Uecker
+	<Martin.Uecker@med.uni-goettingen.de>, Jonathan Corbet <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Miguel Ojeda
+	<ojeda@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-hardening@vger.kernel.org"
+	<linux-hardening@vger.kernel.org>
+Subject: RE: [PATCH] compiler.h: Explain how __is_constexpr() works
+Thread-Topic: [PATCH] compiler.h: Explain how __is_constexpr() works
+Thread-Index: AQHaa5MvghvgXFQBskOAdfSAj6aDybEilNag
+Date: Fri, 1 Mar 2024 09:32:16 +0000
+Message-ID: <af0eff12e6bc41039614add550406c11@AcuMS.aculab.com>
+References: <20240301044428.work.411-kees@kernel.org>
+In-Reply-To: <20240301044428.work.411-kees@kernel.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240222200710.305259-1-mhklinux@outlook.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 22, 2024 at 12:07:10PM -0800, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
-> 
-> Add documentation topic for PCI pass-thru devices in Linux guests
-> on Hyper-V and for the associated PCI controller driver (pci-hyperv.c).
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+From: Kees Cook
+> Sent: 01 March 2024 04:45
+> To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>=20
+> The __is_constexpr() macro is dark magic. Shed some light on it with
+> a comment to explain how and why it works.
 
-Applied. Thanks.
+All the 8s don't help...
+
+I don't think you need that much explanation.
+
+Perhaps just saying that the type of ?: depends on the types
+of the values and is independent of the condition.
+The type of (0 ? (void *)p : (foo *)q) is normally 'void *'
+(so that both values can be assigned to it).
+But if 'p' is 'an integer constant expression with value 0'
+then (void *)p is NULL and the type is 'foo *'.
+
+The type can then be checked to find out it 'p' is constant 0.
+A non-zero constant 'p' can be multiples by 0.
+
+I need to replace the definition with (the more portable):
+#define __if_constexpr(cond, if_const, if_not_const) \
+=09_Generic(0 ? (void *)((long)(cond) * 0) : (char *)0, \
+=09=09char *: (if_const), \
+=09=09void *: (if_not_const))
+which is arguably less cryptic.
+
+#define __is_constexpr(cond) __if_constexpr(cond, 1, 0)
+
+So that I can write:
+#define is_non_neg_const(x) (__if_constexpr(x, x , -1) >=3D 0)
+and avoid the compiler bleating about some comparisons
+in unreachable code.
+
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
