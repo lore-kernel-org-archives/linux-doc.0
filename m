@@ -1,359 +1,357 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9B35915C;
-	Fri,  1 Mar 2024 23:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709335245; cv=fail; b=l/FAlbrumlERN3bG5zqZn2qIUXOXDIz1cYazy04mS1dyq/AWgb8g/InHWL+Ll2fOKI+boYTfAo9YROrj2r/0+pT7gX9GVckrNEiD1x1rWAyD0n6WhdBRyCZPrlhusWgQ+3sAKnHSY0odOOIOwAzI35VGY6ZTLZzLh2rtMfKFH+U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709335245; c=relaxed/simple;
-	bh=BA9p6s2+gj5LK4vNIVCbJEIHvLHMZazkz/Cce3ibJAU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uWnzsmIVT2G1BXqPqG0XxpuhO2wD/+cEsbZ9BwPDNSHQ44FrjS0BHRYEl6BRQbGJNEpEEnpFecz5ypQNMkrF/uh0SBI7t4tyLPgFRYmmeOi/RM8Sm3kf8Qy59wZKXBNHWbPvppZo2zSmUvfR0f6u8o/HXDRD1aAUwjzKYXieJ9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O4Q9GAw6; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C92C5EE70
+	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 23:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709337339; cv=none; b=QsyXWjIkrTt0duvTMVtAC5yN2thIIZmEAdMnwOII4EOYPa0WlIFcam9vXK9RINziZu3DpSDBD5y2vKfWRHudqDrSZp9ZaEinhQCuDtMi6Ysp1vqUjExQIh/iAOPbjeJ4U3oB8lO3jDdG8tFceW9j/SE94oQ66EBgpA4KTBcGzY4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709337339; c=relaxed/simple;
+	bh=4YGOE3S/+xlxJA6cepBgu5j+OzdBlb3dX5SQEc+qpek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=me4d/XeXXYU/OPDXF7mC9sH0EcBwqwrqIGGm908XVvBNGuKnAIWEerLrZAcMR9U5ZrXxBu0sJD08mXzCERtPsUAUiXYLFcCjUAgDt/ZkH7YInJ5YVCPswl3jGrKsTIgSUPXrf97K3JEzUfT7L6e5rFpVLJUKui61C/VSHqBIB0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ZfslYog3; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O4Q9GAw6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709335243; x=1740871243;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=BA9p6s2+gj5LK4vNIVCbJEIHvLHMZazkz/Cce3ibJAU=;
-  b=O4Q9GAw63oUglDdIe4rWKmRXVLTsgnJOLOThhE32OG0jxLmRctxAqr6s
-   7HRrQiVGJlkSnSiZ055+3k9dENcS39o/jcUQYrUaVBSnsV3tUOBDAnZKV
-   KcmM7lW9LvKJKKovFSjG7CLiiPqAbVBb1xAGxcFNGSCHvHtpabq55DYDb
-   qSUbWSBryvqHxdhUkgtpQ9U6tmmuhm/iibH3ei7CdpRWYSD5itNPKw6o6
-   1bcKGZN3nKB7u8nXVvfHXeWIgsnxZoHwT4upgVmZs59T1lBOJZn3Bk38d
-   Fa+8m748u/WZ8cjI+eu+9JEXcsi+Fq8COUZ/b4j7i99NPjEH12wOHY3hv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3747227"
-X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="3747227"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 15:20:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,197,1705392000"; 
-   d="scan'208";a="12908116"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 01 Mar 2024 15:20:41 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 1 Mar 2024 15:20:40 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 1 Mar 2024 15:20:40 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 1 Mar 2024 15:20:40 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dgcL9WAP+b/ACWZ2Wt9AAvfrtennalS2Ej852i9ySQQDW3zsBuz1RVMaO0BCdAnSE3Drfa0VfxAXCjcmclJQfyZlhxlZ2GvEM+NSfAQCnZnqVU6WPmEZl7rnqmuwTcKBFIfhJBr/2gmqZz6HxrYDEQnlSx+5SzzP3DcQ08JlR2MKzySOVMIku1EU+PpAFik0ndkkcxuJsvocCEIAFwDAv1/YKQLkm4xf4D6YQivRZGw6y8wzWsy5Clz4iJA5Z6IXQUuANDXy6eRNobQ7bL7Oh2kRYs5jHo3/3OyZ1iz6qjRd3PFINe8fFxiVvZSIQ7aV8s1HP/LJuVPOABgW35j3Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CY1ywFaQCcWBx6BNi0tUXMok3tBPKhjIvK5wJFwL0vs=;
- b=lJE+IQIVF9JJCgNeOlLmCGRGT4+huy8z4ybmVT9+Y0DKFcpjNmlq6pHXw4u1JQI18za4HJPPsaZNfaXfe2AP8R/98tFnCKX29Bl73HeCvIZRVHypkxKtTXAOlh0sWNEwggP+0bdz7/CYS1WjjRXYno4CiJ4bvyWAZms2fiawox/pwk2lZxw3x+UtIL/mBdAlOCNDNJtCDbD2Yao3Y6aK8FW/4DNbFV6p0yWtUVJy+cpMZbclp8zkr69Zo8J0fGCOIjasO4ADfl691MBVW6W2EHw9bzej31h0FbqO3ahwhBEAV/8nAjK06rLB/DcqTKQ1s0LzSR1UeXnCP/Wc6Yxe4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by PH7PR11MB8250.namprd11.prod.outlook.com (2603:10b6:510:1a8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.26; Fri, 1 Mar
- 2024 23:20:36 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7339.024; Fri, 1 Mar 2024
- 23:20:36 +0000
-Message-ID: <c73f444b-83a1-4e9a-95d3-54c5165ee782@intel.com>
-Date: Fri, 1 Mar 2024 15:20:32 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: <babu.moger@amd.com>, James Morse <james.morse@arm.com>, <corbet@lwn.net>,
-	<fenghua.yu@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, Peter Newman
-	<peternewman@google.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
- <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
- <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
- <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
- <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
- <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
- <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
- <1738493b-3248-4c9e-82a8-1599a033440d@intel.com>
- <369ab28a-f3fa-4359-8e73-4dcf214c9b6e@amd.com>
- <54687d59-d0e4-4fe7-b25f-dc1fead01ea1@intel.com>
- <11487a31-908e-d474-50c6-65617d417deb@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <11487a31-908e-d474-50c6-65617d417deb@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR02CA0005.namprd02.prod.outlook.com
- (2603:10b6:303:16d::14) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ZfslYog3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1dc13fb0133so22570545ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Mar 2024 15:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709337335; x=1709942135; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cJRi2nMvQ05iq4LzD2IglU9vOCyw2FiJe+YL2tOcuSs=;
+        b=ZfslYog3jmE3dPViF7iY7uqBPyCEvf2YZcMJctFSVEGARB8jFkXxYEs9rX6pxZ3LDR
+         XoUhr913lvbcOT1B2qfWHaUk0li3+BW1sQw1gQp5TmdOsSCUw80SAMXceYkQL7LN0Net
+         YHmJNWl0HnwjEJvxs3KfMq/xVtAptqc1fLgyU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709337335; x=1709942135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cJRi2nMvQ05iq4LzD2IglU9vOCyw2FiJe+YL2tOcuSs=;
+        b=STN0uDp9CEo9GLg4QL/KJ2CEJpheoPIQL615wspkfbSaTcwY+4u43lzxKzh49sjBr/
+         aFmmOs2erk7LMXr44qx+nibjh3MAxfgDtyUk7ucwzene6R3BmC1JzXLaXmDIJh5Vw+m6
+         BYgvrddEvgc24ZHMX6KNkmHzOzuNuGy3td6hU+GtyskThqDpHKuKilVUMCOBPP7q2hHj
+         NLxMsYHXs1re2br2pisT3sSILMbEVsMvr3sIizlF8WPYLc/hEQZ2xsiaIO56IYcoYwyu
+         TEjKyAHq21Qg82O0/ewrZEq8rz7tD7G4U+DHGtoe+OLgIdVGCt+twncOQ5CGJNg5sWXo
+         4dXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKVJH6g15mhRRsKo/ERD7bKoE+R5OMnTSgnJFZTs/sIcpIF81hWXleKB2Me3v36JxM/Jhp3Xa6QR2OGW+R4o2rGyUC6rfUwHfr
+X-Gm-Message-State: AOJu0YxfWDE/l8hC8Tj+0Rz2LHezFFUihbQGJNZz71MHtrNKFTXAE3Gi
+	D/SIpoem2poi0QVfdAVKRb4X3Tkvn/1g/DCgc6LpMEnbz9ewr/R1lllCI11OQQ==
+X-Google-Smtp-Source: AGHT+IFMn0iF/LiN2cgV3wkKV0EqqrvvmHS0VgJ728h/jd15ihsuhX1FcVHE5yRVhuwVXArK6vmibQ==
+X-Received: by 2002:a17:902:c40f:b0:1dc:ad86:8f41 with SMTP id k15-20020a170902c40f00b001dcad868f41mr3048391plk.28.1709337335608;
+        Fri, 01 Mar 2024 15:55:35 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id l15-20020a170902f68f00b001dc96b19616sm4042292plg.66.2024.03.01.15.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 15:55:35 -0800 (PST)
+Date: Fri, 1 Mar 2024 15:55:34 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, kernel@collabora.com,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <202403011451.C236A38@keescook>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH7PR11MB8250:EE_
-X-MS-Office365-Filtering-Correlation-Id: f245645d-052f-4636-c4e3-08dc3a46333d
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Al/H+gYm9jM9GPUHaZ8nHBnWU3pPN16zF4KYpdLxuzd8OKHKIllhSYb8uEBsCr9kOqbJ3b3YAB71m96zXFxWSb/Mt+Y4/ip71Kq28HCuMtr5K0Z1YYRMLp94pmzkHfN1x/cqV6qLJWLUw6X6njSd1QVDo2KHDdNtFz/JbTxmBopCamBA+nt9aHQ8+jIFsssqSoQLmQ5NXv9hTOVU63YVS0R+ECFqU/PSmLZaOFTR6jNtG2Pv4VdsKRraVJurVr3fIx/ALVy6CLnW8LENb83H3/DZDUJ/zTrrDqQnOQ8mp8YpTS0SFg+ZPRw4iz2wTD3ZA9rNzXHCv8kB6nPpnw9Tl47O5EnybRkpZ5yRVFy92I58X88/y2WyYNdFQnHvYO0fbQzpFV3FnaWX8Egc7PWAQm8MQI+OqH6qMd/Zg2eSPAhrmfLAit4EEG+x+xAyY8SkeL6eYnETaro2KW9bAb8vhKcDQrJlrnorO/TzmE5UzW5CfxIViYe7zUI6OpuqAXpDQvk4Coe3xUoEx1apJ12AZAbpvb/s9l23tPaotrpZsukzl93l70ibo5FQzpiJh2GuzD1OlVzZWcYxhznhJpejPfXPCcL1kmq4pIv3JV9m1XWS4M1QaeB/uHIdbOzr+FgV3NcH/IaLHzoIRlc5ep40Fw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dE9kSXRHa0U2OHUrQksrKzJ2dktXRlZUUDFMb3lFTXRvUUpRWStMbW9ZeDdR?=
- =?utf-8?B?WDUvT3JiWXJJU2lKclpVUDRMelkrTGFMK1l1Q1hRL2VtaG5mOFZIQ1J1WXZQ?=
- =?utf-8?B?QTVpZUxEWXR1SzZ2bXBJZ1B0bzJMNnVhSTU2bmUwMFpIT2V2cEFvWE15THdl?=
- =?utf-8?B?TXh3NFhwTE1xWDFSMXdVT1Fza3lFSkgzYXF6d3dtZHJwRG9wK0FqKzI0ZTl2?=
- =?utf-8?B?L1V3SHNYZklsbFlaVUhoZEN4dTA3QmFNcWFQNHF0ZHZxRWNIdmt6TFhGY2d0?=
- =?utf-8?B?R1M1NG1iUmttODV0QXRxeDJLRlB3eVZFYTlhMDk4Um0wODdoR3crQXlwemZi?=
- =?utf-8?B?a0VMa213RlhKYkRaeVkrTEVUazJLNkY1VnNzRmJkMUF3ZUoyYS9OcThSUXZL?=
- =?utf-8?B?b2dmRFp2R2JtQjhydU5yYi9ZMEFvdEhyK1QzZ2ZaeFNiNC9sUTlLZURRREpV?=
- =?utf-8?B?N1lBYk8zYzdFVWRzdkJKb0VUT3lxKzhmLzI5MVRSOTdsWG1pSmJDWVc3MlYx?=
- =?utf-8?B?a2VNUldPczBwcVB2VUhnbFFrSWsvOHdwdGlUYk9vV0JmM2RkSEZQRHQyZkZT?=
- =?utf-8?B?ckVxRmlNNTE1eU83SUw0SGY0cTlDUkdJWFNEMDNLeE1wajlFR1kzMW9KQ0JI?=
- =?utf-8?B?VGdrRWJXd1BXZjdaVHZnREc5dlc3Q3JxbENTL2hOL2JnZDJoTnF3YXpCSzBz?=
- =?utf-8?B?RDk2YkFRRDB1a25VbkRaWlFpZEhWNFNJNnByNllLd0E5VFgxdU5RTldocCtQ?=
- =?utf-8?B?bVo4VmxCWVlDRG1mRElpNW9iZHRJR0xZWjZTZDRkUDZwZjhTV1lVRUdzU0xr?=
- =?utf-8?B?b2RqVmFqcURaYU1MVEthYXRIdE53YWVyN1U5OU5FVkNvc0V2TEpUVWUwTTB5?=
- =?utf-8?B?Qzh2MGd3eVRJZUJPdE1QRWQvR0lVaFBtUGliN0NHZndjcHZpdSttei9EY3NM?=
- =?utf-8?B?Wmw0SVRpRitaNGdaTzVLVHg3UlExTDhBQTFaKzJiSmU2MVFFZnlUSWRDbE1s?=
- =?utf-8?B?TGNwbjFaa3Jqc2FndnVUektQcUhucnorMVZLREphS2dXUHRIeVVIakp1aTZH?=
- =?utf-8?B?ZHJPVWE2V2haMmo3eTR2dVVjcWF6MzdrVEQ0cEEvRVJGdzNiUVVleVNKckhm?=
- =?utf-8?B?S1dMbWgxUGJXbGRnQXZBcGg3S0V2YWpHT1JMSFZOUTVMdTVYdzZ0d0VsQXA1?=
- =?utf-8?B?UGRsNkhKSk1wd09aRXMwZE5YdlBPQ21vaVNTbmxMZHVyME4zQ3VnazEvVzIr?=
- =?utf-8?B?dWRDbG5HREQveXR3Z1ZsT09vbjk1L1QzaVF6MUJVS1d4UEd0d2hveHhPQ0tj?=
- =?utf-8?B?UVpoekhYYlBaOXJKd0Rxd3JxWElEYkNkbStSTDU4ckdCVXhEWG4xeU1mUzhH?=
- =?utf-8?B?c1E3Y0RPYjd2dFNGS2NkbkRvanBQZ3llUUJnTXYwdmxkMzQ4T2tnVjR2Ti9u?=
- =?utf-8?B?M05sTFRZb2JtWFV2WTZyUzRUT1paRXFXdUJBWWJZMVNNRTdJL2s0U090N1lL?=
- =?utf-8?B?dW1BYjNxUFFzelRzOTVOWjBScDU2RjU5RzRVT0hwbzkyTGtLb1RrTmVCMXlP?=
- =?utf-8?B?Yjl2WDh4aHF2SGllSGowdjNiblpMRGlkdHN1a24wOHJEOU5XZE5oNWxmMkZW?=
- =?utf-8?B?bHFqZlRmdFZrSWRRVU8relJCNE95K3o2VTc5MUt1bTFsUU51d0R3NVJTK21h?=
- =?utf-8?B?V05rTktrUEs4aTV6cVplTmJuQmVpR0VJdGNXeFBkQmQ2aDdrODB3SVlHNUZE?=
- =?utf-8?B?QnRlNGY1anhkYmgxOU5GN1ZaaDF4ck9WVmFoaVB1TEtsOWw4OERJd2JPVm1t?=
- =?utf-8?B?K2k1RG1TdmlyMzd1OXM5cHdNTTZTM3l2VnZDWjViTi9OTm9iOTliZVowSnJz?=
- =?utf-8?B?NVltOEJEb1J0UjNBeURLYkMxejFFSXFEQi9jYmFUNFJDajVodGZ4c3hGdzc5?=
- =?utf-8?B?dGZ5NVcvbEkzMzE1dEtMZk1PWFBUMXluVlA2RkpyY3JxMk5kenhzTTg5alNH?=
- =?utf-8?B?MG5sckNOSHFmUld2bEpnc1lUZ1UwQmc4dndWM1ZGVWU1TGtad2FkWXVPYU5q?=
- =?utf-8?B?M0VkTE54V3luckkvWklPUWpyc0lSSnp5V1hDaDJ4SlkxVzk1MkgrcTdBWkVj?=
- =?utf-8?B?Mkl0ZnBXRzVQdVE5STNBQTdzOEFSZThCb1hYeWpJUUNUcWd5TlA2Rk1DdnF2?=
- =?utf-8?B?YUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f245645d-052f-4636-c4e3-08dc3a46333d
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2024 23:20:36.3782
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Gvhje/q1vmrdVybUYAkBGsOuG7hYb33NnYEbAtQXvH5mntxUORz33g2keVkgc/lxdaPApGKKPkWi4LWyMrL4+qLUd+uHvFgJAclYhKmWwh8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8250
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240301213442.198443-1-adrian.ratiu@collabora.com>
 
-Hi Babu,
+On Fri, Mar 01, 2024 at 11:34:42PM +0200, Adrian Ratiu wrote:
+> Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> after which it got allowed in commit 198214a7ee50 ("proc: enable
+> writing to /proc/pid/mem"). Famous last words from that patch:
+> "no longer a security hazard". :)
+> 
+> Afterwards exploits appeared started causing drama like [1]. The
 
-On 3/1/2024 12:36 PM, Moger, Babu wrote:
-> On 2/29/24 15:50, Reinette Chatre wrote:
->> On 2/29/2024 12:37 PM, Moger, Babu wrote:
+nit: I think "appeared" can be dropped here.
 
+> /proc/*/mem exploits can be rather sophisticated like [2] which
+> installed an arbitrary payload from noexec storage into a running
+> process then exec'd it, which itself could include an ELF loader
+> to run arbitrary code off noexec storage.
+> 
+> As part of hardening against these types of attacks, distrbutions
+> can restrict /proc/*/mem to only allow writes when they makes sense,
+> like in case of debuggers which have ptrace permissions, as they
+> are able to access memory anyway via PTRACE_POKEDATA and friends.
+> 
+> Dropping the mode bits disables write access for non-root users.
+> Trying to `chmod` the paths back fails as the kernel rejects it.
+> 
+> For users with CAP_DAC_OVERRIDE (usually just root) we have to
+> disable the mem_write callback to avoid bypassing the mode bits.
+> 
+> Writes can be used to bypass permissions on memory maps, even if a
+> memory region is mapped r-x (as is a program's executable pages),
+> the process can open its own /proc/self/mem file and write to the
+> pages directly.
+> 
+> Even if seccomp filters block mmap/mprotect calls with W|X perms,
+> they often cannot block open calls as daemons want to read/write
+> their own runtime state and seccomp filters cannot check file paths.
+> Write calls also can't be blocked in general via seccomp.
+> 
+> Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> can't run chmod once at boot to restrict it (and trying to react
+> to every process and run chmod doesn't scale, and the kernel no
+> longer allows chmod on any of these paths).
+> 
+> SELinux could be used with a rule to cover all /proc/*/mem files,
+> but even then having multiple ways to deny an attack is useful in
+> case on layer fails.
+
+Everything above here is good to keep in the commit log, but it's all
+the "background". Please also write here what has been done to address
+the background above it. e.g.:
+
+"Introduce a CONFIG and a __ro_after_init runtime toggle to make
+it so only processes that are already tracing the task to write to
+/proc/<pid>/mem." etc
+
+> 
+> [1] https://lwn.net/Articles/476947/
+> [2] https://issues.chromium.org/issues/40089045
+
+These can be:
+
+Link: https://lwn.net/Articles/476947/ [1]
+Link: https://issues.chromium.org/issues/40089045 [2]
+
+> Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+> 
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+> Changes in v2:
+>  * Added boot time parameter with default kconfig option
+>  * Moved check earlier in mem_open() instead of mem_write()
+>  * Simplified implementation branching
+>  * Removed dependency on CONFIG_MEMCG
+
+Can you mention in the commit log what behaviors have been tested with
+this patch? For example, I assume gdb still works with
+restrict_proc_mem_write=y ?
+
+When this is enabled, what _does_ break that people might expect to
+work?
+
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  4 ++
+>  fs/proc/base.c                                | 47 ++++++++++++++++++-
+>  security/Kconfig                              | 22 +++++++++
+>  3 files changed, 71 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 460b97a1d0da..0647e2f54248 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5618,6 +5618,10 @@
+>  	reset_devices	[KNL] Force drivers to reset the underlying device
+>  			during initialization.
+>  
+> +	restrict_proc_mem_write= [KNL]
+
+Please add here:
+
+			Format: <bool>
+
+> +			Enable or disable write access to /proc/*/mem files.
+> +			Default is SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON.
+> +
+>  	resume=		[SWSUSP]
+>  			Specify the partition device for software suspend
+>  			Format:
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 98a031ac2648..92f668191312 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -152,6 +152,30 @@ struct pid_entry {
+>  		NULL, &proc_pid_attr_operations,	\
+>  		{ .lsmid = LSMID })
+>  
+> +#ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE
+
+Please drop this CONFIG entirely -- it should be always available for
+all builds of the kernel. Only CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON
+needs to remain.
+
+> +DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+> +			   restrict_proc_mem_write);
+> +static int __init early_restrict_proc_mem_write(char *buf)
+> +{
+> +	int ret;
+> +	bool bool_result;
+> +
+> +	ret = kstrtobool(buf, &bool_result);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (bool_result)
+> +		static_branch_enable(&restrict_proc_mem_write);
+> +	else
+> +		static_branch_disable(&restrict_proc_mem_write);
+> +	return 0;
+> +}
+> +early_param("restrict_proc_mem_write", early_restrict_proc_mem_write);
+> +# define PROC_PID_MEM_MODE S_IRUSR
+> +#else
+> +# define PROC_PID_MEM_MODE (S_IRUSR|S_IWUSR)
+> +#endif
+
+PROC_PID_MEM_MODE will need to be a __ro_after_init variable, set by
+early_restrict_proc_mem_write, otherwise the mode won't change based on
+the runtime setting. e.g.:
+
+#ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON
+mode_t proc_pid_mem_mode __ro_after_init = S_IRUSR;
+#else
+mode_t proc_pid_mem_mode __ro_after_init = (S_IRUSR|S_IWUSR);
+#endif
+
+DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+			   restrict_proc_mem_write);
 ...
+	if (bool_result) {
+		static_branch_enable(&restrict_proc_mem_write);
+		proc_pid_mem_mode = S_IRUSR;
+	} else {
+		static_branch_disable(&restrict_proc_mem_write);
+		proc_pid_mem_mode = (S_IRUSR|S_IWUSR);
+	}
+...
+	REG("mem",        proc_pid_mem_mode, proc_mem_operations),
 
->>> To make more clear, let me list all the groups here based this.
->>>
->>> When none of the counters assigned:
->>>
->>> $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>> resctrl/00=none,none;01=none,none (#default control_mon group)
->>> resctrl/mon_a/00=none,none;01=none,none (#mon group)
->>> resctrl/ctrl_a/00=none,none;01=none,none (#control_mon group)
->>> resctrl/ctrl_a/mon_ab/00=none,none;01=none,none (#mon group)
->>
->> I am concerned that inconsistent use of "/" will make parsing hard.
+
+> +
+>  /*
+>   * Count the number of hardlinks for the pid_entry table, excluding the .
+>   * and .. links.
+> @@ -829,6 +853,25 @@ static int mem_open(struct inode *inode, struct file *file)
+>  {
+>  	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+>  
+> +#ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE
+
+Drop this ifdef (as mentioned above).
+
+> +	struct mm_struct *mm = file->private_data;
+> +	struct task_struct *task = get_proc_task(inode);
+> +
+> +	if (mm && task) {
+> +		/* Only allow writes by processes already ptracing the target task */
+> +		if (file->f_mode & FMODE_WRITE &&
+> +		    static_branch_maybe(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+> +					&restrict_proc_mem_write)) {
+
+Do we need to also do an mm_access() on the task to verify that the task
+we're about to check has its mm still matching file->private_data? The
+PID can change out from under us (but the mm cannot).
+
+> +			rcu_read_lock();
+> +			if (!ptracer_capable(current, mm->user_ns) ||
+> +			    current != ptrace_parent(task))
+
+If you're just allowing "already ptracing", why include the
+ptracer_capable() check?
+
+> +				ret = -EACCES;
+> +			rcu_read_unlock();
+> +		}
+> +		put_task_struct(task);
+> +	}
+> +#endif
+> +
+>  	/* OK to pass negative loff_t, we can catch out-of-range */
+>  	file->f_mode |= FMODE_UNSIGNED_OFFSET;
+>  
+> @@ -3281,7 +3324,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+>  #ifdef CONFIG_NUMA
+>  	REG("numa_maps",  S_IRUGO, proc_pid_numa_maps_operations),
+>  #endif
+> -	REG("mem",        S_IRUSR|S_IWUSR, proc_mem_operations),
+> +	REG("mem",        PROC_PID_MEM_MODE, proc_mem_operations),
+>  	LNK("cwd",        proc_cwd_link),
+>  	LNK("root",       proc_root_link),
+>  	LNK("exe",        proc_exe_link),
+> @@ -3631,7 +3674,7 @@ static const struct pid_entry tid_base_stuff[] = {
+>  #ifdef CONFIG_NUMA
+>  	REG("numa_maps", S_IRUGO, proc_pid_numa_maps_operations),
+>  #endif
+> -	REG("mem",       S_IRUSR|S_IWUSR, proc_mem_operations),
+> +	REG("mem",       PROC_PID_MEM_MODE, proc_mem_operations),
+>  	LNK("cwd",       proc_cwd_link),
+>  	LNK("root",      proc_root_link),
+>  	LNK("exe",       proc_exe_link),
+> diff --git a/security/Kconfig b/security/Kconfig
+> index 412e76f1575d..ffee9e847ed9 100644
+> --- a/security/Kconfig
+> +++ b/security/Kconfig
+> @@ -19,6 +19,28 @@ config SECURITY_DMESG_RESTRICT
+>  
+>  	  If you are unsure how to answer this question, answer N.
+>  
+> +config SECURITY_PROC_MEM_RESTRICT_WRITE
+> +	bool "Restrict /proc/*/mem write access"
+> +	default n
+> +	help
+> +	  This restricts writes to /proc/<pid>/mem, except when the current
+> +	  process ptraces the /proc/<pid>/mem task, because a ptracer already
+> +	  has write access to the tracee memory.
+> +
+> +	  Write access to this file allows bypassing memory map permissions,
+> +	  such as modifying read-only code.
+> +
+> +	  If you are unsure how to answer this question, answer N.
+> +
+> +config SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON
+> +	bool "Default state of /proc/*/mem write restriction"
+> +	depends on SECURITY_PROC_MEM_RESTRICT_WRITE
+> +	default y
+> +	help
+> +	  /proc/*/mem write access is controlled by kernel boot param
+> +	  "restrict_proc_mem_write" and this config chooses the default
+> +	  boot state.
+
+As mentioned, I'd say merge the help texts here, but drop
+SECURITY_PROC_MEM_RESTRICT_WRITE.
+
+> +
+>  config SECURITY
+>  	bool "Enable different security models"
+>  	depends on SYSFS
+> -- 
+> 2.30.2
 > 
-> Do you mean, you don't want to see multiple "/"?
 
-No. I think that having a consistent number of "/" will be easier to
-parse. In the above example, there are instances of 1, 2, as well as
-three "/" among the lines. That seems complicated to parse.
+Thanks for this! I look forward to turning it on. :)
 
-I was thinking that it will make interpreting and parsing easier if there
-consistently are just always two "/".
+-Kees
 
-(You may find things to be different once you work on the parsing code
-though.)
-
-In summary:
-* for monitoring of default CTRL_MON group: "//<flags>"
-* for MON_GROUP inside default CTRL_MON group: "/<MON group>/<flags>"
-* for monitoring of non-default CTRL_MON group: "<CTRL_MON group>//flags"
-* for MON_GROUP within CTRL_MON group: "<CTRL_MON group>/<MON group>/<flags>"
-
-What do you think?
-
-> 
-> resctrl/ctrl_a/mon_ab/
-> 
-> Change to
-> 
-> mon_ab/
-
-rather:
-ctrl_a/mon_ab/<flags>
-
-> 
->>
->> I find "resctrl" and all the "none" redundant. It is not clear what
->> this improves.
->> Why have:
->> resctrl/00=none,none;01=none,none
->> when this could do:
->> //00=_;01=_
-> 
-> ok.
-> 
-> "//" meaning root of resctrl filesystem?
-
-More specifically, monitoring of default control group. It is not intended to
-specify a pathname.
-
->>> When some counters are assigned:
->>>
->>> $echo "resctrl/00=total,local" >
->>> /sys/fs/resctrl/info/L3_MON/mbm_assign_control (#assigning counter to
->>> default group)
->>>
->>> $echo "resctrl/mon_a/00=total;01=total" >
->>> /sys/fs/resctrl/info/L3_MON/mbm_assign_control (#assigning counter to mon
->>> group)
->>>
->>> $echo "resctrl/ctrl_a/00=local;01=local" >
->>> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>
->>> $echo "resctrl/ctrl_a/mon_ab/00=total,local;01=total,local" >
->>> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
->>>
->>
->> We could learn some more lessons from dynamic debug (see Documentation/admin-guide/dynamic-debug-howto.rst). For example, "=" can be used to make an assignment while "+"
->> can be used to add a counter and "-" can be used to remove a counter.
->> "=_" can be used to remove counters from all events in that domain.
-> 
-> Yes. Looked at dynamic debug. I am still learning this interface. Some examples below based on my understanding.
-> 
-> To assign a counters to default group on domain 0.
-> $echo "//00=+lt;01=+lt" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-
-It should not be necessary to use both "=" and "+" in the same assignment.
-I think of "=" as "assign" and "+" as append ("-" as remove).
-
-An example of this, just focusing on default group.
-
-#hypothetical start state of no counters assigned
-$ cat mbm_assign_control 
-#control_group/monitor_group/flags
-//00=_;01=_
-
-#assign counter to total MBM of both domains
-$ echo "//00=t;01=t" > mbm_assign_control 
-$ cat mbm_assign_control
-#control_group/monitor_group/flags
-//00=t;01=t
-
-#add counter to local MBM of both domains without impacting total MBM counters
-$echo "//00+l;01+l" > mbm_assign_control
-$ cat mbm_assign_control
-#control_group/monitor_group/flags
-//00=tl;01=tl
-
-#remove local MBM counters without impacting total MBM counters
-$echo "//00-l;01-l" > mbm_assign_control
-$ cat mbm_assign_control
-#control_group/monitor_group/flags
-//00=t;01=t
-
-#assign local MBM counters, removing total MBM counters while doing so
-$echo "//00=l;01=l" > mbm_assign_control
-$ cat mbm_assign_control
-#control_group/monitor_group/flags
-//00=l;01=l
-
-#remove all counters
-$echo "//00=_;01=_" > mbm_assign_control
-$ cat mbm_assign_control
-#control_group/monitor_group/flags
-//00=_;01=_
-
-
-> 
-> To assign a counters to mon group inside the default group.
-> $echo "mon_a/00=+t;01=+t" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-
-I think it will simplify parsing if number of "/" is consistent:
-$echo "/mon_a/00=t;01=t" > ...
-
-> 
-> To assign a counters to control mon group inside the default group.
-
-It is not clear to me what you mean with this.
-
-> $echo "ctrl_a/00=+l;01=+l"  > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-
-this looks similar to previous example, so I think it will be hard for parser
-to know whether it is dealing with control group or monitor group.
-I am not sure I understand your example, but this may perhaps be:
-
-echo "ctrl_a//00=l;01=l > ...
-
-> 
-> To assign a counters to control mon group inside another control group.
-
-I do not know what you mean with "another control group" 
-
-> $echo "mon_ab/00=+lt;01=+lt" > /sys/fs/resctrl/nfo/L3_MON/mbm_assign_contro
-
-How will parser know which control group? I was expecting:
-$ echo "<CTRL_MON group>/<MON group>/<flags>"
-
-> 
-> To unassign a counters to control mon group inside another control group.
-> $echo "mon_ab/00=-lt;01=-lt" > /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
-> 
-> To unassign all the counters on a specific group.
-> $echo "mon_ab/00=_" > /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
-> 
-> It does not matter control group or mon group. We just need to name of the group in this interface.
-
-It matters because users can have monitor groups with the same name within
-different control groups.
-
-Reinette
+-- 
+Kees Cook
