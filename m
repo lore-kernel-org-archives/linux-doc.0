@@ -1,244 +1,262 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EF91FDD;
-	Fri,  1 Mar 2024 15:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A3D70044;
+	Fri,  1 Mar 2024 15:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709306216; cv=none; b=cYpSEWeIF3KJpD3H8J2RdZjxP26aLVyjae2nOsrxb4N2xZHjJwqJIGNJtRcNTUGwHrYP8HTihZrmBgDDpnLOGkT+hWK9zZ+rujqgEOe+VqtAgO726Lho5UsAZPm7ws2k5y30PLq9q7BZe/lEhD236CWjYL9FG2IFpjMmt+NEY3E=
+	t=1709308799; cv=none; b=pw067gSUKma0wrBzPHtb4MkklevLVHpzd/eUPM7bIM+9T/IbsWIgMYrnYbfQyl21tiSXvoGNKY4+qXT9OHAfTSyFltG8iDrWFjjVFHbtoE1YIi08z5ERQz693CobfSOT8Z8akxuISJoLGGyRHn8e/111l50bP5AxFaK2IH5Ngnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709306216; c=relaxed/simple;
-	bh=J2Vds4mlqs77XbVSxBgLgpHcoivpOW6VW8MgVYY5Mtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hrUZbUZXNWwbm1IzNnKJR5CYGC7WYeTUMfmorbUlHStdKDuxJdIDlp/rPqOvqsRqXWVt3lHW/wYMUfKtOB8L5vqnL7cUYKEueKQzbMP3+41+WzsjIH6z+Ek55VU5w0oK+Oj0w8Wu3zHdH1o8BHYwFIy8lbCfrKszJP19dPdeB+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdUy8HJe; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdUy8HJe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709306215; x=1740842215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J2Vds4mlqs77XbVSxBgLgpHcoivpOW6VW8MgVYY5Mtg=;
-  b=kdUy8HJePdLvpGR+MwDMWxbd4Xgbf1QLqJWPDKRi5v3ec7UNXeC9d3CD
-   Harz2PH26afax95uckxHx5I7hLxDyjYvcSnF8IeHsTsJ9vwNdj1P0FQEw
-   f4Fm7nIg7/m6U/smgXgm9sqjwCJOHw+1DgD7C5gB5RgZTZ6nF+xVsHrBN
-   NKMJysC/+IfXNOc1Dcd39OfQGYElyAuZQHgNfKdhZVZYsf7bcAbM5Nl5l
-   VlHcZ2/AiYngEP6e0/y62VepK/jRkif79yskSuHDd6/vzvphhQmFLaYu2
-   Ut4R+39goSxx2Km4jhJj+xJoO6lWrDMqlAa2LpMf2RSGiKjr0CocYSXdG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="3698456"
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="3698456"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2024 07:16:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,196,1705392000"; 
-   d="scan'208";a="8363650"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Mar 2024 07:16:50 -0800
-Date: Fri, 1 Mar 2024 23:12:42 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Marco Pagani <marpagan@redhat.com>
-Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Tull <atull@opensource.altera.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fpga@vger.kernel.org
-Subject: Re: [RFC PATCH v5 1/1] fpga: add an owner and use it to take the
- low-level module's refcount
-Message-ID: <ZeHwatupHVmC2N2+@yilunxu-OptiPlex-7050>
-References: <Zbh7iO9wlm9ekzB7@yilunxu-OptiPlex-7050>
- <0720eb91-72f9-4781-8558-8a1b0a3691c2@redhat.com>
- <Zb8dd9af0Ru/fzGi@yilunxu-OptiPlex-7050>
- <4aaa131a-4b64-4b86-9548-68aef63c87b3@redhat.com>
- <ZdHWaeU+/On6LmHX@yilunxu-OptiPlex-7050>
- <9a9d4018-fd65-49be-9e0a-1eecc9cbf15d@redhat.com>
- <ZdYKnZxdTCvu5THG@yilunxu-OptiPlex-7050>
- <ae3cd81b-82af-4977-91d7-fa809c6fc45a@redhat.com>
- <Zd7cff43ffbJOGNY@yilunxu-OptiPlex-7050>
- <0c885ff2-44bc-4158-b5dd-3d7513cb2857@redhat.com>
+	s=arc-20240116; t=1709308799; c=relaxed/simple;
+	bh=kDTvRc/rJJuZ/ZVMznCa0bNE9fhdVJ07LePSL3ijCaM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pQNjjRmEACJuZcSTbj3vxSEotkGBW4gC8JRhtjceWx2ET5IYyQpQdWry13gT/wi5u+zyGnESrU2O+D5+uHI/VdjhTf9S+ZAyEKQmyHGd3+BuDdfCYbX2EwoOPe6ILZz23dZ4ZJOtRj4immUaHt5qmNkTHPHulOCV4nZQlomFOA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4TmXND29r2z9xGXC;
+	Fri,  1 Mar 2024 23:40:12 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 610721405A2;
+	Fri,  1 Mar 2024 23:59:37 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwAXBChY++Fl5Qt8Aw--.52748S2;
+	Fri, 01 Mar 2024 16:59:36 +0100 (CET)
+Message-ID: <c5b496e53dac2b4b5402cc5aa9a09178d63323b7.camel@huaweicloud.com>
+Subject: Re: [PATCH v2 11/25] security: add hooks for set/get/remove of
+ fscaps
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>, Paul Moore
+ <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, James Morris
+ <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara
+ <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej
+ Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg
+ <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi
+ <miklos@szeredi.hu>,  Amir Goldstein <amir73il@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Date: Fri, 01 Mar 2024 16:59:16 +0100
+In-Reply-To: <20240221-idmap-fscap-refactor-v2-11-3039364623bd@kernel.org>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+	 <20240221-idmap-fscap-refactor-v2-11-3039364623bd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c885ff2-44bc-4158-b5dd-3d7513cb2857@redhat.com>
+X-CM-TRANSID:GxC2BwAXBChY++Fl5Qt8Aw--.52748S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw1fWw1DtF1DKF4xGw45Wrg_yoWxXFWfpF
+	4rt3ZxGw4SqFyagr18tF45u39a9FyfC3y7ArW2gwnIyFnrtr15KFsa9FyUCryfCrWUGr90
+	qFnIyrs8Cw13JrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+	7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
+	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+	AIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+	aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAJBF1jj5biNgABs9
 
-On Thu, Feb 29, 2024 at 11:37:10AM +0100, Marco Pagani wrote:
-> 
-> On 2024-02-28 08:10, Xu Yilun wrote:
-> > On Tue, Feb 27, 2024 at 12:49:06PM +0100, Marco Pagani wrote:
-> >>
-> >>
-> >> On 2024-02-21 15:37, Xu Yilun wrote:
-> >>> On Tue, Feb 20, 2024 at 12:11:26PM +0100, Marco Pagani wrote:
-> >>>>
-> >>>>
-> >>>> On 2024-02-18 11:05, Xu Yilun wrote:
-> >>>>> On Mon, Feb 05, 2024 at 06:47:34PM +0100, Marco Pagani wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 2024-02-04 06:15, Xu Yilun wrote:
-> >>>>>>> On Fri, Feb 02, 2024 at 06:44:01PM +0100, Marco Pagani wrote:
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> On 2024-01-30 05:31, Xu Yilun wrote:
-> >>>>>>>>>> +#define fpga_mgr_register_full(parent, info) \
-> >>>>>>>>>> +	__fpga_mgr_register_full(parent, info, THIS_MODULE)
-> >>>>>>>>>>  struct fpga_manager *
-> >>>>>>>>>> -fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
-> >>>>>>>>>> +__fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
-> >>>>>>>>>> +			 struct module *owner);
-> >>>>>>>>>>  
-> >>>>>>>>>> +#define fpga_mgr_register(parent, name, mops, priv) \
-> >>>>>>>>>> +	__fpga_mgr_register(parent, name, mops, priv, THIS_MODULE)
-> >>>>>>>>>>  struct fpga_manager *
-> >>>>>>>>>> -fpga_mgr_register(struct device *parent, const char *name,
-> >>>>>>>>>> -		  const struct fpga_manager_ops *mops, void *priv);
-> >>>>>>>>>> +__fpga_mgr_register(struct device *parent, const char *name,
-> >>>>>>>>>> +		    const struct fpga_manager_ops *mops, void *priv, struct module *owner);
-> >>>>>>>>>> +
-> >>>>>>>>>>  void fpga_mgr_unregister(struct fpga_manager *mgr);
-> >>>>>>>>>>  
-> >>>>>>>>>> +#define devm_fpga_mgr_register_full(parent, info) \
-> >>>>>>>>>> +	__devm_fpga_mgr_register_full(parent, info, THIS_MODULE)
-> >>>>>>>>>>  struct fpga_manager *
-> >>>>>>>>>> -devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info);
-> >>>>>>>>>> +__devm_fpga_mgr_register_full(struct device *parent, const struct fpga_manager_info *info,
-> >>>>>>>>>> +			      struct module *owner);
-> >>>>>>>>>
-> >>>>>>>>> Add a line here. I can do it myself if you agree.
-> >>>>>>>>
-> >>>>>>>> Sure, that is fine by me. I also spotted a typo in the commit log body
-> >>>>>>>> (in taken -> is taken). Do you want me to send a v6, or do you prefer
-> >>>>>>>> to fix that in place?
-> >>>>>>>
-> >>>>>>> No need, I can fix it.
-> >>>>>>>
-> >>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> There is still a RFC prefix for this patch. Are you ready to get it merged?
-> >>>>>>>>> If yes, Acked-by: Xu Yilun <yilun.xu@intel.com>
-> >>>>>>>>
-> >>>>>>>> I'm ready for the patch to be merged. However, I recently sent an RFC
-> >>>>>>>> to propose a safer implementation of try_module_get() that would
-> >>>>>>>> simplify the code and may also benefit other subsystems. What do you
-> >>>>>>>> think?
-> >>>>>>>>
-> >>>>>>>> https://lore.kernel.org/linux-modules/20240130193614.49772-1-marpagan@redhat.com/
-> >>>>>>>
-> >>>>>>> I suggest take your fix to linux-fpga/for-next now. If your try_module_get()
-> >>>>>>> proposal is applied before the end of this cycle, we could re-evaluate
-> >>>>>>> this patch.
-> >>>>>>
-> >>>>>> That's fine by me.
-> >>>>>
-> >>>>> Sorry, I still found issues about this solution.
-> >>>>>
-> >>>>> void fpga_mgr_unregister(struct fpga_manager *mgr)
-> >>>>> {
-> >>>>>         dev_info(&mgr->dev, "%s %s\n", __func__, mgr->name);
-> >>>>>
-> >>>>>         /*
-> >>>>>          * If the low level driver provides a method for putting fpga into
-> >>>>>          * a desired state upon unregister, do it.
-> >>>>>          */
-> >>>>>         fpga_mgr_fpga_remove(mgr);
-> >>>>>
-> >>>>>         mutex_lock(&mgr->mops_mutex);
-> >>>>>
-> >>>>>         mgr->mops = NULL;
-> >>>>>
-> >>>>>         mutex_unlock(&mgr->mops_mutex);
-> >>>>>
-> >>>>>         device_unregister(&mgr->dev);
-> >>>>> }
-> >>>>>
-> >>>>> Note that fpga_mgr_unregister() doesn't have to be called in module_exit().
-> >>>>> So if we do fpga_mgr_get() then fpga_mgr_unregister(), We finally had a
-> >>>>> fpga_manager dev without mops, this is not what the user want and cause
-> >>>>> problem when using this fpga_manager dev for other FPGA APIs.
-> >>>>
-> >>>> How about moving mgr->mops = NULL from fpga_mgr_unregister() to
-> >>>> class->dev_release()? In that way, mops will be set to NULL only when the
-> >>>> manager dev refcount reaches 0.
-> >>>
-> >>> I'm afraid it doesn't help.  The lifecycle of the module and the fpga
-> >>> mgr dev is different.
-> >>>
-> >>> We use mops = NULL to indicate module has been freed or will be freed in no
-> >>> time.  On the other hand mops != NULL means module is still there, so
-> >>> that try_module_get() could be safely called.  It is possible someone
-> >>> has got fpga mgr dev but not the module yet, at that time the module is
-> >>> unloaded, then try_module_get() triggers crash.
-> >>>
-> >>>>
-> >>>> If fpga_mgr_unregister() is called from module_exit(), we are sure that nobody
-> >>>> got the manager dev earlier using fpga_mgr_get(), or it would have bumped up
-> >>>
-> >>> No, someone may get the manager dev but not the module yet, and been
-> >>> scheduled out.
-> >>>
-> >>
-> >> You are right. Overall, it's a bad idea. How about then using an additional 
-> >> bool flag instead of "overloading" the mops pointer? Something like:
-> >>
-> >> get:
-> >> 	if (!mgr->owner_valid || !try_module_get(mgr->mops_owner))
-> >>
-> >> remove:
-> >> 	mgr->owner_valid = false;
-> > 
-> > I'm not quite sure which function is actually mentioned by "remove".  I
-> > assume it should be fpga_mgr_unregister().
-> 
-> Yes, I was referring to fpga_mgr_unregister().
-> 
-> > IIUC this flag means no more reference to fpga mgr, but existing
-> > references are still valid.
-> 
-> Yes.
-> 
-> > 
-> > It works for me. But the name of this flag could be reconsidered to
-> > avoid misunderstanding.  The owner is still valid (we still need to put
-> > the owner) but allows no more reference.  Maybe "owner_inactive"?
-> 
-> Right, owner_valid might be misleading. How about removing any
-> reference to the owner module and name the flag unreg?
+On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> In preparation for moving fscaps out of the xattr code paths, add new
+> security hooks. These hooks are largely needed because common kernel
+> code will pass around struct vfs_caps pointers, which EVM will need to
+> convert to raw xattr data for verification and updates of its hashes.
+>=20
+> Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> ---
+>  include/linux/lsm_hook_defs.h |  7 +++++
+>  include/linux/security.h      | 33 +++++++++++++++++++++
+>  security/security.c           | 69 +++++++++++++++++++++++++++++++++++++=
+++++++
+>  3 files changed, 109 insertions(+)
+>=20
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
+h
+> index 76458b6d53da..7b3c23f9e4a5 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -152,6 +152,13 @@ LSM_HOOK(int, 0, inode_get_acl, struct mnt_idmap *id=
+map,
+>  	 struct dentry *dentry, const char *acl_name)
+>  LSM_HOOK(int, 0, inode_remove_acl, struct mnt_idmap *idmap,
+>  	 struct dentry *dentry, const char *acl_name)
+> +LSM_HOOK(int, 0, inode_set_fscaps, struct mnt_idmap *idmap,
+> +	 struct dentry *dentry, const struct vfs_caps *caps, int flags);
+> +LSM_HOOK(void, LSM_RET_VOID, inode_post_set_fscaps, struct mnt_idmap *id=
+map,
+> +	 struct dentry *dentry, const struct vfs_caps *caps, int flags);
+> +LSM_HOOK(int, 0, inode_get_fscaps, struct mnt_idmap *idmap, struct dentr=
+y *dentry);
+> +LSM_HOOK(int, 0, inode_remove_fscaps, struct mnt_idmap *idmap,
+> +	 struct dentry *dentry);
 
-the full name "unregistered" is better.
+Uhm, there should not be semicolons here.
 
-> 
-> __fpga_mgr_get:
-> 	if (mgr->unreg || !try_module_get(mgr->mops_owner))
-> 		mgr = ERR_PTR(-ENODEV);
-> 
-> fpga_mgr_unregister:
->  	mgr->unreg = true;
-> 
-> > I still wanna this owner reference change been splitted, so that
-> > we could simply revert it when the try_module_get_safe() got accepted.
-> 
-> I guess it may take some time to have try_module_get_safe() accepted.
-> What do you prefer to do with the bridge and the region in the
-> meantime?
+Roberto
 
-This issue could happen in little chance. I actually don't have much
-preference, either way is good to me.
+>  LSM_HOOK(int, 0, inode_need_killpriv, struct dentry *dentry)
+>  LSM_HOOK(int, 0, inode_killpriv, struct mnt_idmap *idmap,
+>  	 struct dentry *dentry)
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index d0eb20f90b26..40be548e5e12 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -378,6 +378,13 @@ int security_inode_getxattr(struct dentry *dentry, c=
+onst char *name);
+>  int security_inode_listxattr(struct dentry *dentry);
+>  int security_inode_removexattr(struct mnt_idmap *idmap,
+>  			       struct dentry *dentry, const char *name);
+> +int security_inode_set_fscaps(struct mnt_idmap *idmap, struct dentry *de=
+ntry,
+> +			      const struct vfs_caps *caps, int flags);
+> +void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
+> +				    struct dentry *dentry,
+> +				    const struct vfs_caps *caps, int flags);
+> +int security_inode_get_fscaps(struct mnt_idmap *idmap, struct dentry *de=
+ntry);
+> +int security_inode_remove_fscaps(struct mnt_idmap *idmap, struct dentry =
+*dentry);
+>  int security_inode_need_killpriv(struct dentry *dentry);
+>  int security_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dent=
+ry);
+>  int security_inode_getsecurity(struct mnt_idmap *idmap,
+> @@ -935,6 +942,32 @@ static inline int security_inode_removexattr(struct =
+mnt_idmap *idmap,
+>  	return cap_inode_removexattr(idmap, dentry, name);
+>  }
+> =20
+> +static inline int security_inode_set_fscaps(struct mnt_idmap *idmap,
+> +					    struct dentry *dentry,
+> +					    const struct vfs_caps *caps,
+> +					    int flags)
+> +{
+> +	return 0;
+> +}
+> +static void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
+> +					   struct dentry *dentry,
+> +					   const struct vfs_caps *caps,
+> +					   int flags)
+> +{
+> +}
+> +
+> +static int security_inode_get_fscaps(struct mnt_idmap *idmap,
+> +				     struct dentry *dentry)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int security_inode_remove_fscaps(struct mnt_idmap *idmap,
+> +					struct dentry *dentry)
+> +{
+> +	return 0;
+> +}
+> +
+>  static inline int security_inode_need_killpriv(struct dentry *dentry)
+>  {
+>  	return cap_inode_need_killpriv(dentry);
+> diff --git a/security/security.c b/security/security.c
+> index 3aaad75c9ce8..0d210da9862c 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -2351,6 +2351,75 @@ int security_inode_remove_acl(struct mnt_idmap *id=
+map,
+>  	return evm_inode_remove_acl(idmap, dentry, acl_name);
+>  }
+> =20
+> +/**
+> + * security_inode_set_fscaps() - Check if setting fscaps is allowed
+> + * @idmap: idmap of the mount
+> + * @dentry: file
+> + * @caps: fscaps to be written
+> + * @flags: flags for setxattr
+> + *
+> + * Check permission before setting the file capabilities given in @vfs_c=
+aps.
+> + *
+> + * Return: Returns 0 if permission is granted.
+> + */
+> +int security_inode_set_fscaps(struct mnt_idmap *idmap, struct dentry *de=
+ntry,
+> +			      const struct vfs_caps *caps, int flags)
+> +{
+> +	if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
+> +		return 0;
+> +	return call_int_hook(inode_set_fscaps, 0, idmap, dentry, caps, flags);
+> +}
+> +
+> +/**
+> + * security_inode_post_set_fscaps() - Update the inode after setting fsc=
+aps
+> + * @idmap: idmap of the mount
+> + * @dentry: file
+> + * @caps: fscaps to be written
+> + * @flags: flags for setxattr
+> + *
+> + * Update inode security field after successfully setting fscaps.
+> + *
+> + */
+> +void security_inode_post_set_fscaps(struct mnt_idmap *idmap,
+> +				    struct dentry *dentry,
+> +				    const struct vfs_caps *caps, int flags)
+> +{
+> +	if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
+> +		return;
+> +	call_void_hook(inode_post_set_fscaps, idmap, dentry, caps, flags);
+> +}
+> +
+> +/**
+> + * security_inode_get_fscaps() - Check if reading fscaps is allowed
+> + * @dentry: file
+> + *
+> + * Check permission before getting fscaps.
+> + *
+> + * Return: Returns 0 if permission is granted.
+> + */
+> +int security_inode_get_fscaps(struct mnt_idmap *idmap, struct dentry *de=
+ntry)
+> +{
+> +	if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
+> +		return 0;
+> +	return call_int_hook(inode_get_fscaps, 0, idmap, dentry);
+> +}
+> +
+> +/**
+> + * security_inode_remove_fscaps() - Check if removing fscaps is allowed
+> + * @idmap: idmap of the mount
+> + * @dentry: file
+> + *
+> + * Check permission before removing fscaps.
+> + *
+> + * Return: Returns 0 if permission is granted.
+> + */
+> +int security_inode_remove_fscaps(struct mnt_idmap *idmap, struct dentry =
+*dentry)
+> +{
+> +	if (unlikely(IS_PRIVATE(d_backing_inode(dentry))))
+> +		return 0;
+> +	return call_int_hook(inode_remove_fscaps, 0, idmap, dentry);
+> +}
+> +
+>  /**
+>   * security_inode_post_setxattr() - Update the inode after a setxattr op=
+eration
+>   * @dentry: file
+>=20
 
-Thanks,
-Yilun
-
-> 
-> Thanks,
-> Marco
-> 
