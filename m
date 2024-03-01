@@ -1,68 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49333381DE;
-	Fri,  1 Mar 2024 13:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD9B6D1A4
+	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 13:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709300371; cv=none; b=NDepxziwH9glH1JqBipUQzmemy7LvQ8sEhbzmoX7tvmBYOpJWqaTD0OsvBNLtUTn4SIJPeYFVr7oQg9ZqkM9XSG6CAzRldu6YyyFaPy7Vk+Tevl3xmiDX9ydaqKgP94om78oUaKmJ/XqVY7NKR0b5g5zAsJixD/Z1e9JWJZ5/DA=
+	t=1709300621; cv=none; b=nO3Z6l8z9J2GANsFfsNnMPZA0k2NYYx/Mdr2JBaBrPPUlOy1yhgAOWxOVKtw+cf33AG0KCvX43y/GOovZKl2dOQMUNZZFT0hFJnsW4K0DZCtXA2lXt4tyWNx7HuxsV0lH7T+drU7XcEaBOWUM9sVt7/AMFhF2R/IG86SoaXoPG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709300371; c=relaxed/simple;
-	bh=200DnVfdBW01DT/X3+moyKLm3jYVD1mA8Rk9R6nnvy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxVTsNeAyUAatAjKzCJEbQv+lXdHuGmDqhzqch0aDiTlrHDUlVmzSo9/sLHQD3z4XRjhTuw5xk4Qy8YJqGK7svHU/NQouzSAp6JOuSu+RI+lcaRQPKW5FptR5BR58B+AjL+nf6fkUH39pM5TqqCFny6tMFsx1xGZpllOIdeL77A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmlsN0Af; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmlsN0Af"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7827C433C7;
-	Fri,  1 Mar 2024 13:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709300371;
-	bh=200DnVfdBW01DT/X3+moyKLm3jYVD1mA8Rk9R6nnvy8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LmlsN0Afn3hqkExjN7Wyw+6uU+Dpkw1N5GNTe84u1nwEX8OeaUvMkmMNvrEZ2TmVC
-	 j0lcFtUkG0FmPkNWw2wmFAjH83SByHMprhRWazPBtPscr8gzzMkm+Psxu3yn0At+M8
-	 2nm9OOjvrm2E4B8jXOaYIj4ooZGeOqbJgeOq2p/gtpMP5/8l1PSOlSjPeUzxM/MbIu
-	 nGYgHnOjfgUprywtIpDeOSN6rCVEN/GWi6TvCO2yXQbDvIWM2qVDCfMZQZASfV9JV+
-	 4sDMCQmrBrgCcyxmb8DE50icAWVqKwKSa+A1qMkg1HMvMMq72jD1VdwIpkC4MhNoPr
-	 gfHvFPrOUsJ2w==
-Date: Fri, 1 Mar 2024 14:39:22 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>, 
-	Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, 
-	James Morris <jmorris@namei.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler <casey@schaufler-ca.com>, 
-	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, audit@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH v2 14/25] evm: add support for fscaps security hooks
-Message-ID: <20240301-sport-bekriegen-5b34fd5a014b@brauner>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
- <20240221-idmap-fscap-refactor-v2-14-3039364623bd@kernel.org>
- <15a69385b49c4f8626f082bc9b957132388414fb.camel@huaweicloud.com>
- <20240301-zucht-umfeld-9a923a7d070a@brauner>
- <e6f263b25061651e948a881d36bfdff17cfaf1b0.camel@huaweicloud.com>
+	s=arc-20240116; t=1709300621; c=relaxed/simple;
+	bh=Ma1KpOvHWUcqpTf0DyGC6ylpZU3RI52UAcVgAc0a4FI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=LVN1ER1hjluAc4numx4AKlTBeHIQZFasyYlfA66vEgOAP54sJRzy0/ElGdiItu8LbNl+tn+h3ed+zQuPZMEQnxA+Epsqs5+D4Z7bqxfxvTtzFnG4N5V7FGch5X8M8WehaVfB6u/uIglYZPBLJpNCPh9Si9baGJqQll23XpptOcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-17-bbzuvQ2FPi6D0WR-XddUGw-1; Fri, 01 Mar 2024 13:43:31 +0000
+X-MC-Unique: bbzuvQ2FPi6D0WR-XddUGw-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 1 Mar
+ 2024 13:43:23 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 1 Mar 2024 13:43:23 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'Uecker, Martin'" <Martin.Uecker@med.uni-goettingen.de>,
+	"keescook@chromium.org" <keescook@chromium.org>, "linux@rasmusvillemoes.dk"
+	<linux@rasmusvillemoes.dk>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "miguel.ojeda.sandonis@gmail.com"
+	<miguel.ojeda.sandonis@gmail.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "gustavoars@kernel.org" <gustavoars@kernel.org>,
+	"ndesaulniers@google.com" <ndesaulniers@google.com>,
+	"jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+	"ojeda@kernel.org" <ojeda@kernel.org>, "linux-hardening@vger.kernel.org"
+	<linux-hardening@vger.kernel.org>
+Subject: RE: [+externe Mail+] RE: [PATCH] compiler.h: Explain how
+ __is_constexpr() works
+Thread-Topic: [+externe Mail+] RE: [PATCH] compiler.h: Explain how
+ __is_constexpr() works
+Thread-Index: AQHaa5MvghvgXFQBskOAdfSAj6aDybEilNaggABK04CAAAHC0A==
+Date: Fri, 1 Mar 2024 13:43:23 +0000
+Message-ID: <9c4518eae05c4758afe08c6b90678e92@AcuMS.aculab.com>
+References: <20240301044428.work.411-kees@kernel.org>
+	 <af0eff12e6bc41039614add550406c11@AcuMS.aculab.com>
+ <22c9c4cc27b13b2fb6f3cd9fa6f827f56f30770b.camel@med.uni-goettingen.de>
+In-Reply-To: <22c9c4cc27b13b2fb6f3cd9fa6f827f56f30770b.camel@med.uni-goettingen.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e6f263b25061651e948a881d36bfdff17cfaf1b0.camel@huaweicloud.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-> I have seen this policy of adding tests in other subsystems (eBPF),
+RnJvbTogVWVja2VyLCBNYXJ0aW4NCj4gU2VudDogMDEgTWFyY2ggMjAyNCAxMzoyMg0KPiANCj4g
+TXkgc3VnZ2VzdGlvbiB3b3VsZCBhbHNvIHRvIGxpbWl0IGV4cGxhbmF0aW9uLiBOb2JvZHkgc2hv
+dWxkDQo+IHdyaXRlIHN1Y2ggY29kZSBhbmQgaWYgeW91IG5lZWQgdG8sIHlvdSBjYW4gZmluZCBl
+eHBsYW5hdGlvbnMNCj4gYWxsIG92ZXIgdGhlIGludGVybmV0Lg0KPiANCj4gRmluYWxseSwgSSBz
+dGlsbCB0aGluayB0aGUgbW90aXZhdGlvbiBmb3IgdGhpcyBtYWNybyAocmVtb3ZpbmcNCj4gVkxB
+cykgaXMgbWlzZ3VpZGVkIGlmIHNlY3VyaXR5IGlzIHRoZSBnb2FsIGJlY2F1c2UgVkxBcyBwcm92
+aWRlDQo+IHByZWNpc2UgYm91bmRzIGFuZCBsYXJnZXIgd29yc3QtY2FzZSBmaXhlZC1zaXplIGFy
+cmF5cyBkbyBub3QuDQo+IA0KPiBJdCB3b3VsZCBiZSBiZXR0ZXIgdG8gdXNlIHRoZSBjb21waWxl
+ciBvcHRpb25zIHRoYXQgZGV0ZWN0DQo+IHBvc3NpYmx5IHVzZSBvZiBWTEFzIG9mIHVuYm91bmRl
+ZCBzaXplIGFuZCBpZiB0aGVyZSBhIHByb2JsZW1zDQo+IHdpdGggdGhpcywgaW1wcm92ZSB0aGlz
+IG9uIHRoZSBjb21waWxlciBzaWRlLg0KDQpJbiBrZXJuZWwgY29kZSAod2l0aCBsaW1pdGVkIHN0
+YWNrKSB0aGVyZSBoYXMgdG8gYmUgZW5vdWdoIHJvb20NCmZvciB0aGUgbGFyZ2VzdCBwb3NzaWJs
+ZSAnVkxBJyBzbyB5b3UgbWlnaHQgYXMgd2VsbCBhbGxvY2F0ZSBvbmUuDQoNCkFsbG93aW5nIFZM
+QSBhbHNvIG1ha2VzIGl0IHByZXR0eSBtdWNoIGltcG9zc2libGUgdG8gZG8gYW55DQpraW5kIG9m
+IHN0YXRpYyBzdGFjayB1c2UgYW5hbHlzaXMuDQpUaGUgZmluZSBJQlQgdGFncyBjYW4gYmUgdXNl
+ZCBpZGVudGlmeSB2YWxpZCBpbmRpcmVjdCBjYWxscw0Kd2hpY2ggcHJldHR5IG11Y2ggb25seSBs
+ZWF2ZXMgcmVjdXJzaW9uIHN0b3BwaW5nIGZ1bGwgc3RhdGljDQpzdGFjayBhbmFseXNpcyAtIGFu
+ZCB0aGF0IGNvdWxkIGJlIGJhbm5lZCBleGNlcHQgZm9yIGEgZmV3DQpsaW1pdGVkIGNhc2VzIHdo
+ZXJlIDEgbGV2ZWwgY291bGQgYmUgcGVybWl0dGQuDQoNCmlzX2NvbnN0ZXhwcigpIGhhcyBvdGhl
+ciB1c2VzIC0gdGhlcmUgYXJlIHBsYWNlcyB3aGVyZQ0KX19idWlsdGluX2NvbnN0YW50X3AoKSBp
+c24ndCBzdHJvbmcgZW5vdWdoLg0KUGFydGljdWxhcmx5IGlmIHlvdSBuZWVkIHRvIHVzZSBidWls
+dGluX2Nob29zZV9leHByKCkNCm9yIF9HZW5lcmljKCkgdG8gZ2V0IHNlbGVjdCBhIHR5cGUuDQoN
+CkZvciBpbnN0YW5jZSwgaWYgeW91IGNhbiBhIGNvbnN0YW50IHZhbHVlIGJldHdlZW4gMCBhbmQg
+TUFYSU5UDQppdCBpcyBzYWZlIHRvIGNhc3QgdG8vZnJvbSB1bnNpZ25lZCBpbiBvcmRlciBjaGFu
+Z2UgYW55DQppbXBsaWNpdCBpbnRlZ2VyIHByb21vdGlvbiBjYXN0IHRoYXQgbWF5IGJlIGdyaWVm
+IHNvbWUuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1s
+ZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJh
+dGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-It makes sense if the drive of the patchset would be IMA/EVM features
-not refactoring of existing code.
-
-> Happy to try adding the tests, would appreciate your help to review if
-
-Cool, happy to help review them.
