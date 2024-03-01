@@ -1,196 +1,86 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C365E6EB7D;
-	Fri,  1 Mar 2024 14:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73DB69D0D;
+	Fri,  1 Mar 2024 14:19:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709302686; cv=none; b=HxYEXogrDsLn4gO/dEyF9Ctykq7Ztcm4Jt5M6IgHlDMBDT+zuoEHjf33ct7InrJGxnHoXDJL/3lFcFPZXTE6sMjm3MMvf1wrRvxmFT/reahYX+7pXg6+RygRiQqywuwtUM7kHjq9HDsmkPdDiXGdXaJv2M4pUbVBhtEv+C4RAXk=
+	t=1709302777; cv=none; b=d2RmQtZIyMXSE1ErRmMvMQsh+nBIrOO1o2/qmfVEmuR0TEyeEeB5UvNF7hyd/i1JpsIdv6MXpNCwm2FvncRZDG1UN4qgGh8ylwM8iO+fjEk+xaeEX/bsXLAayhHtSdcBWuHPlHw/GDrHD4q3VMNlJj6BapU+Fw/IMaOXz10P+/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709302686; c=relaxed/simple;
-	bh=D+vLVgNSB6OJCkwkdiQ/Iewxjkio5RJ2m9abpN1+EHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f+6vtFrcpghs/hONxStmzeqGiGmA4TjKebBG+utcXXTxd4p3GQrkDeb8EzqfgEKe+wH0hsqCnpiGwtOWWIh6/zpHPtIuCOkqmtIurYlH0eSw3cSeEXT8a7yOqkXldD4+fT9Ujv/5jCOI8E6xd/DTo6ZvM8t4d2452KvGgMuO5sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gk5b3wei; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1709302777; c=relaxed/simple;
+	bh=oWApTNsFnjDQr9F2G8qFXul4Y3OtYCYATCmwSwhoKHg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZupSA1VCf7U4bdmkg1VqDwYHC3b/1eZIWNsZGp2RZ51sRY88HxY4ABv9mRBiOTpvlpk/HB1tGzhXaK32DsjYqMjrUQoHnSvIbyQ2YFJF8DK3Ul9cTE05PJQfe4q+UXlLk1XvmNytGnFOCFX8iIj/hbaka1rUDOD43HUZIkWYbT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9eAhn31; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gk5b3wei"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d18931a94so1219218f8f.1;
-        Fri, 01 Mar 2024 06:18:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9eAhn31"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3566c0309fso298370166b.1;
+        Fri, 01 Mar 2024 06:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709302683; x=1709907483; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iZ5qWcryj1xGwlryYdwJv9e3FPpE5SnnsgIwWyR+VCI=;
-        b=gk5b3weiC+NAv21ctRURRrS6et69aHeYQXSr73e322QlK11dggZNUkxIvRN9hqjg9t
-         vGstpaFDgJQEdzaQCgFXJhMUjsTh0609If6u/wFOsjXMP6XqesOvzPwQ5a5rt0qFLsez
-         lCOhhPtGHpAg+Y1xrVhBD+ArqTVIsgILfyhjP5Z5lRTHDbz7+LPrTM4yqO+ipJSMCyDj
-         2l6oRxLO0uxeRxgrfNdoSqb989h4gRhrH7nDG8z6Ji2EnbG/agkWNqKyqIbTckoqOqaj
-         Ehag6KgrTkB0pik4SiqcH9EMg4GEja4vIve4Yb5YbBsQPRESMiwTinicLe3wyoZjN1s8
-         Wd9g==
+        d=gmail.com; s=20230601; t=1709302774; x=1709907574; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oWApTNsFnjDQr9F2G8qFXul4Y3OtYCYATCmwSwhoKHg=;
+        b=j9eAhn31ZSLOIeNbTkNhNhUXtZLvMlF/YROMVlkVjZVJBZGgqgnqTgwYb0B+w4Kq5B
+         IHHEJobvpoNG7saTdLwtC+TiuGhC98ojrA01plLB/Uq7ujEPfZdLZ0aublZBgVqxLJhh
+         wGRK8PkoNO4BPF1+2t1QU53z/siBt1DHk/TSh42lkxSDhc/OPcq45CBa/8orJ5F1KfTA
+         0NF3/Y9Y4nrJMvGTYKrsDpGL+0ffUzeHGdNwSd1iDfC4//t5ZysLAnNQCiv4G/ZSpDk0
+         81mwBUMLeFaNZSd9MT9cbITcRpsDSfqzhymYuwrdk9rUg1mpzWUhM73y3Dkw8m8/6Fze
+         1KMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709302683; x=1709907483;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iZ5qWcryj1xGwlryYdwJv9e3FPpE5SnnsgIwWyR+VCI=;
-        b=sgUJm19mWM3iHAYfiSJBX4sDFKSPboCKFRn2wFRk4MfwLDaW/2pEFUAS7DOYKQ8COp
-         QpUZhmlTZZRWvEHUZV3Z0HqwyvvECkwTsXo2tW9MPolZpg8pOqAM5LhMryHEiP8IL0yY
-         PxBAkLG3rynTXrFbu+F7txV5MH/O6RoU7m8q83/sBc+PSmq9h5P25gGb+Yxd5OHv7u5K
-         eL0Gshnk7WYX0HKhwVhxlRXm3vp0aUZAuPGdzUY2JgZJL5kQL9OOXFlSpcGn7LO+jOaI
-         Qmd8uPqBHdhIiYVD5p/PnyK2exdX7yNAlKWWrjyEy95AkKXBRSnJH0mohGWtge0O65Fh
-         chhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUi9t81njMyl8AWMx3kQytzEB0RIqXn9Fq5pIQ4IRc8WHvlLDAjID8fLeC5CHfIxIFxJdE4lrVnniSWWu2geAqrpbtIhLGOEYcr
-X-Gm-Message-State: AOJu0YwR6bnCydjX912Z5lzTJx0E/qWFwB6hvldRGDSWgkuA67S1y3Ee
-	T3gFWdcZgBSLynd4561E45nQoUlkhSGwP92DFDWG7T8+Z1/Xdr5N
-X-Google-Smtp-Source: AGHT+IF9n1Rh1FgSNSP10DMZLzJAe5zxlQFzu8xYDxrAPxsWnV1C1vlZJbg+9zEPk/y3YGhxoXC+bw==
-X-Received: by 2002:a05:6000:c8:b0:33e:142f:7ca9 with SMTP id q8-20020a05600000c800b0033e142f7ca9mr1340932wrx.54.1709302682965;
-        Fri, 01 Mar 2024 06:18:02 -0800 (PST)
-Received: from lola.. ([2a02:810d:7e40:14b0:d371:e319:5dd0:9b35])
-        by smtp.gmail.com with ESMTPSA id j13-20020adff00d000000b0033d06dfcf84sm4643368wro.100.2024.03.01.06.18.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Mar 2024 06:18:02 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v2] docs: drop the version constraints for sphinx and dependencies
-Date: Fri,  1 Mar 2024 15:18:00 +0100
-Message-ID: <20240301141800.30218-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.43.2
+        d=1e100.net; s=20230601; t=1709302774; x=1709907574;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oWApTNsFnjDQr9F2G8qFXul4Y3OtYCYATCmwSwhoKHg=;
+        b=ZbJYdbdG/r/70QqzdqR5LBK8bIfMNCo4xBylT2BZ/EA43YdD/WELdk+fevEPn9goXI
+         uCPQgZOc/BrLDoxV6m//lWM6njjc6vwMuQS8N7OqZtib8w5hqOw6hYb0gKCltboQzxP5
+         aIvH1+EVF6kykKY8KnNR/uxJF3cpD7lbre2kvCWRP4P+She4CyV1BG7hvMhdOrghLv40
+         aivsdvSaF+zojFzZCJEebaeL3uZGJ6cFYuNK+bEarMhP2bl09VEYha+Gwbdr8163ncwc
+         CDAMdNtAWItYjt7hCpDndH2arsjUNan0f14Yq+BclVGwl5psjvamyjj9fhZCACLhmx5/
+         I2Vg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7tbc+29iYWkcTWk7WemZmzZjz97gprtRUrywNpcEq2Vfmi/Ls5lASyLbWBrZCDQyw7simh7rrB6CW1DOjO4Bar+eQaX9JdxIi17e98VCNHWPy1CCLO3LenXBkSCRZYjsoiAflS2qp
+X-Gm-Message-State: AOJu0YxFn9nStIPVEmnLWQgXsyKW2mmLyQyEg5UivpVGrNkqtjtxmcqh
+	y/TT8K0kd3wCZPMPr/XiJC2kf1HJXzuyQ27+tMxoSSift6JKRPlbDOYm7ppzz38Biira4Soxm0R
+	gWBLzTjif/AYCV1b3YVlYT4u+S6EVEuLjrD0=
+X-Google-Smtp-Source: AGHT+IFXEHGsIrvwY+jV6XUZNBG6TKiT9hS0PoYaCnN9n2zNF0X8feRu3Vgf1Iv4zRSPRvLBYPmXjCUkveLQ0Rx/KKI=
+X-Received: by 2002:a17:906:40cf:b0:a44:21db:5f24 with SMTP id
+ a15-20020a17090640cf00b00a4421db5f24mr1557315ejk.66.1709302774084; Fri, 01
+ Mar 2024 06:19:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240227131410.35269-1-lukas.bulwahn@gmail.com>
+ <e6441dc1-6821-4514-b285-ebc24114aece@oracle.com> <fc6563ac-e705-48ff-9581-ac4154a064ac@gmail.com>
+In-Reply-To: <fc6563ac-e705-48ff-9581-ac4154a064ac@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 1 Mar 2024 15:19:22 +0100
+Message-ID: <CAKXUXMxtp2LLWasuU6oJU9zV8EcCL6h4RdbopVF-RexH+-Z5OQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: drop the version constraints for sphinx and dependencies
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: Vegard Nossum <vegard.nossum@oracle.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As discussed (see Links), there is some inertia to move to the recent
-Sphinx versions for the doc build environment.
+On Fri, Mar 1, 2024 at 3:33=E2=80=AFAM Akira Yokosawa <akiyks@gmail.com> wr=
+ote:
+>
+> (snipped)
+>
+> Lukas, many thanks for doing this.
+>
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+>
 
-As first step, drop the version constraints and the related comments. As
-sphinx depends on jinja2, jinja2 is pulled in automatically. So drop that.
-Then, the sphinx-pre-install script will fail though with:
+Akira-san, thanks for the review!
 
-  Can't get default sphinx version from ./Documentation/sphinx/requirements.txt at ./scripts/sphinx-pre-install line 305.
-
-The script simply expects to parse a version constraint with Sphinx in the
-requirements.txt. That version is used in the script for suggesting the
-virtualenv directory name.
-
-To suggest a virtualenv directory name, when there is no version given in
-the requirements.txt, one could try to guess the version that would be
-downloaded with 'pip install -r Documentation/sphinx/requirements.txt'.
-However, there seems no simple way to get that version without actually
-setting up the venv and running pip. So, instead, name the directory with
-the fixed name 'sphinx_latest'.
-
-Finally update the Sphinx build documentation to reflect this directory
-name change.
-
-Link: https://lore.kernel.org/linux-doc/874jf4m384.fsf@meer.lwn.net/
-Link: https://lore.kernel.org/linux-doc/20240226093854.47830-1-lukas.bulwahn@gmail.com/
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-Tested-by: Vegard Nossum <vegard.nossum@oracle.com>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-v1 -> v2:
-  drop jinja2 as suggested by Vegard.
-  add tags from v1 review
-
- Documentation/doc-guide/sphinx.rst    | 11 ++++++-----
- Documentation/sphinx/requirements.txt |  7 ++-----
- scripts/sphinx-pre-install            | 19 +++----------------
- 3 files changed, 11 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 709e19821a16..8081ebfe48bc 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -48,13 +48,14 @@ or ``virtualenv``, depending on how your distribution packaged Python 3.
-       on the Sphinx version, it should be installed separately,
-       with ``pip install sphinx_rtd_theme``.
- 
--In summary, if you want to install Sphinx version 2.4.4, you should do::
-+In summary, if you want to install the latest version of Sphinx, you
-+should do::
- 
--       $ virtualenv sphinx_2.4.4
--       $ . sphinx_2.4.4/bin/activate
--       (sphinx_2.4.4) $ pip install -r Documentation/sphinx/requirements.txt
-+       $ virtualenv sphinx_latest
-+       $ . sphinx_latest/bin/activate
-+       (sphinx_latest) $ pip install -r Documentation/sphinx/requirements.txt
- 
--After running ``. sphinx_2.4.4/bin/activate``, the prompt will change,
-+After running ``. sphinx_latest/bin/activate``, the prompt will change,
- in order to indicate that you're using the new environment. If you
- open a new shell, you need to rerun this command to enter again at
- the virtual environment before building the documentation.
-diff --git a/Documentation/sphinx/requirements.txt b/Documentation/sphinx/requirements.txt
-index 5d47ed443949..5017f307c8a4 100644
---- a/Documentation/sphinx/requirements.txt
-+++ b/Documentation/sphinx/requirements.txt
-@@ -1,6 +1,3 @@
--# jinja2>=3.1 is not compatible with Sphinx<4.0
--jinja2<3.1
--# alabaster>=0.7.14 is not compatible with Sphinx<=3.3
--alabaster<0.7.14
--Sphinx==2.4.4
-+alabaster
-+Sphinx
- pyyaml
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index de0de5dd676e..4c781617ffe6 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -280,8 +280,6 @@ sub get_sphinx_version($)
- 
- sub check_sphinx()
- {
--	my $default_version;
--
- 	open IN, $conf or die "Can't open $conf";
- 	while (<IN>) {
- 		if (m/^\s*needs_sphinx\s*=\s*[\'\"]([\d\.]+)[\'\"]/) {
-@@ -293,18 +291,7 @@ sub check_sphinx()
- 
- 	die "Can't get needs_sphinx version from $conf" if (!$min_version);
- 
--	open IN, $requirement_file or die "Can't open $requirement_file";
--	while (<IN>) {
--		if (m/^\s*Sphinx\s*==\s*([\d\.]+)$/) {
--			$default_version=$1;
--			last;
--		}
--	}
--	close IN;
--
--	die "Can't get default sphinx version from $requirement_file" if (!$default_version);
--
--	$virtenv_dir = $virtenv_prefix . $default_version;
-+	$virtenv_dir = $virtenv_prefix . "latest";
- 
- 	my $sphinx = get_sphinx_fname();
- 	if ($sphinx eq "") {
-@@ -318,8 +305,8 @@ sub check_sphinx()
- 	die "$sphinx didn't return its version" if (!$cur_version);
- 
- 	if ($cur_version lt $min_version) {
--		printf "ERROR: Sphinx version is %s. It should be >= %s (recommended >= %s)\n",
--		       $cur_version, $min_version, $default_version;
-+		printf "ERROR: Sphinx version is %s. It should be >= %s\n",
-+		       $cur_version, $min_version;
- 		$need_sphinx = 1;
- 		return;
- 	}
--- 
-2.43.2
-
+Lukas
