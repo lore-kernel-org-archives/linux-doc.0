@@ -1,102 +1,159 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BD56A8A5
-	for <linux-doc@vger.kernel.org>; Fri,  1 Mar 2024 09:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F816A354;
+	Fri,  1 Mar 2024 09:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709285542; cv=none; b=VMjyV1t0ghaLn9HytA77CtUtLtld9YkdMEd+afdl5ohIM6Kr13D/eLWgccmtJZdWxk+0i4687Ld0iStAmZiXguNT05F6v7TnqQlF6zkZA8nE8g2mDM/6TqtTSMIiveM9yFWWDDdp16f8dJ7NwE2qN70gyiuKhAVFn96LMuu9+hk=
+	t=1709285751; cv=none; b=BuS8B0cG0d77O0EOBDtcaNqFoaZ1hdjHnVEObLHEFnuQESxVS72/e8QihArcDQ92ILADlIj5qxdKn1Rxdzi0VCy+YA1f6wVwydqx7xhlIXQxg/IVDyvHcI9sFCEWz9URiaNCFKxfdJNVdJWTyKbWqGoTVdAqOHX+1Fgn7W+tUIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709285542; c=relaxed/simple;
-	bh=pY/JAuUkdZ3AyIyGff0Ip5uQfvmqurSeKSVYl4idjR0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=H9pCv8Vz8xFBbUl2+xm5CRUS6S9MZZnr1qczY6lSE5dFmwO/FBLzmebQgicR6YNscJtSTWmZb7vQd9vu6mS0brT9s5FWR+oJ/kBHxNLUk4v5LxE2OER9NBmjOUdzieCUqYz7xcJ7jHCZS24VQz4qnPrQp+Q/pGGlRRZ2QpWYRkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-144-cAe80tt0OtKldFFkrcHoig-1; Fri, 01 Mar 2024 09:32:17 +0000
-X-MC-Unique: cAe80tt0OtKldFFkrcHoig-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 1 Mar
- 2024 09:32:16 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Fri, 1 Mar 2024 09:32:16 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Kees Cook' <keescook@chromium.org>, Rasmus Villemoes
-	<linux@rasmusvillemoes.dk>
-CC: "Gustavo A . R . Silva" <gustavoars@kernel.org>, Miguel Ojeda
-	<miguel.ojeda.sandonis@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
-	Nick Desaulniers <ndesaulniers@google.com>, Martin Uecker
-	<Martin.Uecker@med.uni-goettingen.de>, Jonathan Corbet <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Miguel Ojeda
-	<ojeda@kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-hardening@vger.kernel.org"
-	<linux-hardening@vger.kernel.org>
-Subject: RE: [PATCH] compiler.h: Explain how __is_constexpr() works
-Thread-Topic: [PATCH] compiler.h: Explain how __is_constexpr() works
-Thread-Index: AQHaa5MvghvgXFQBskOAdfSAj6aDybEilNag
-Date: Fri, 1 Mar 2024 09:32:16 +0000
-Message-ID: <af0eff12e6bc41039614add550406c11@AcuMS.aculab.com>
-References: <20240301044428.work.411-kees@kernel.org>
-In-Reply-To: <20240301044428.work.411-kees@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	s=arc-20240116; t=1709285751; c=relaxed/simple;
+	bh=8bNhQxbcCbIomd4dt6eew7xOLqapH0ekcPWsALbORUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HCyJesxh9n05Ov6rKtkRTa9Yq8T6jGR/jAOfYOcKiIXDlHF2BIx42W9ORpqDtSynPCspYqlDVfyhFEj/hnI9MxkM71GfBpbEd1ovNpWXpLpioe9jdOm2srgQXFF0HVWUkAS0wqBeTRJvtjLEoUux3lGjYTku21Z00EOcFEPKU1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412bfacd146so8595005e9.0;
+        Fri, 01 Mar 2024 01:35:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709285748; x=1709890548;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1gjhUQtfjcW3P/Ik/3eAaSYAXs9I9SaEMNpWMrhksnk=;
+        b=V3wlWE9A9SjUqw0U9Dy/QqJm1wzspZv+ebCUApw2ayNwUmvlP/YEkQbfcHXdngSMai
+         nnxfkOvkghXCW5jdq59Yd5Urv7wCMVbdsOt2SLaya8NDVdjNXVSa7xV7Pzfo/STVV4vI
+         ONgweYrd0ggtsCe9JOkX8XWDEHmn11tfhlgUIhTBzfHeuNlRx/KdzL1GNpTFVIO4k/T0
+         9T5yCCNlSEPbwNZqZziyHclu/CgLB6I1rNEj5KoLJAa8rRZ/z892KM2ZvhHWcv9al+X9
+         MoEblBnW2fgezQ88tIBRq8z7gc0zckhDJUqLi5LuuDXi2pj6ah4FyLveOULL4Y2sK3UG
+         fklg==
+X-Forwarded-Encrypted: i=1; AJvYcCWxPjUkIo49xcvq2/2gYPzMFmG8NE1s5ReW+7EVc/IRDicjYaVxnHKFjqu9RvgA7DPR23SAkdd8NHVD+VrbuIDmY9BkJ8DXFJOaXj+DaKC88oYw/wsM+vrgpH47PKP1WKbwoLN3BmL6gwj/h+QYGy2jZm0TB0MXUODWibJdJUAo
+X-Gm-Message-State: AOJu0Yw2ejJZf3VYwmNTGlCXInLsX8aAuQTIyFoODWKXn3X9VA/osxM7
+	a4AjzlScfiXUnSX6xtCqdpHaRPqqzqG3NA8LQS83YnBV8/eGUQvGydQCtXIn
+X-Google-Smtp-Source: AGHT+IHJDI/TzDartf8NY/ZhFuVhtyIPZkGhPS1hZ/O9GtvpENuTyWbmh0D26/bAjBhR+zHpTBrJoA==
+X-Received: by 2002:a05:600c:154f:b0:412:bca4:6a00 with SMTP id f15-20020a05600c154f00b00412bca46a00mr1546337wmg.18.1709285747492;
+        Fri, 01 Mar 2024 01:35:47 -0800 (PST)
+Received: from gmail.com (fwdproxy-lla-006.fbsv.net. [2a03:2880:30ff:6::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c024100b0040fddaf9ff4sm7830123wmj.40.2024.03.01.01.35.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Mar 2024 01:35:47 -0800 (PST)
+Date: Fri, 1 Mar 2024 01:35:44 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Matthew Wood <thepacketgeek@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2] net: netconsole: Add continuation line
+ prefix to userdata messages
+Message-ID: <ZeGhcN/C7h1KWcTO@gmail.com>
+References: <20240229183602.321747-1-thepacketgeek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240229183602.321747-1-thepacketgeek@gmail.com>
 
-From: Kees Cook
-> Sent: 01 March 2024 04:45
-> To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
->=20
-> The __is_constexpr() macro is dark magic. Shed some light on it with
-> a comment to explain how and why it works.
+On Thu, Feb 29, 2024 at 10:36:01AM -0800, Matthew Wood wrote:
+> Add a space (' ') prefix to every userdata line to match docs for
+> dev-kmsg. To account for this extra character in each userdata entry,
+> reduce userdata entry names (directory name) from 54 characters to 53.
+> 
+> According to the dev-kmsg docs, a space is used for subsequent lines to
+> mark them as continuation lines.
+> 
+> > A line starting with ' ', is a continuation line, adding
+> > key/value pairs to the log message, which provide the machine
+> > readable context of the message, for reliable processing in
+> > userspace.
+> 
+> Testing for this patch::
+> 
+>  cd /sys/kernel/config/netconsole && mkdir cmdline0
+>  cd cmdline0
+>  mkdir userdata/test && echo "hello" > userdata/test/value
+>  mkdir userdata/test2 && echo "hello2" > userdata/test2/value
+>  echo "message" > /dev/kmsg
+> 
+> Outputs::
+> 
+>  6.8.0-rc5-virtme,12,493,231373579,-;message
+>   test=hello
+>   test2=hello2
+> 
+> And I confirmed all testing works as expected from the original patchset
+> 
+> v1 -> v2:
+> - Calculate 53 byte user data name from: entry length - formatting chars - value length
+> - Update docs to reflect 53 byte limit for user data name (director)
 
-All the 8s don't help...
+I think the changelog needs to come after the --- below, but I will
+defer that to the maintainers.
 
-I don't think you need that much explanation.
+> Fixes: df03f830d099 ("net: netconsole: cache userdata formatted string in netconsole_target")
+> Signed-off-by: Matthew Wood <thepacketgeek@gmail.com>
+> ---
+>  Documentation/networking/netconsole.rst | 8 ++++----
+>  drivers/net/netconsole.c                | 8 +++++---
+>  2 files changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+> index b28c525e5d1e..d55c2a22ec7a 100644
+> --- a/Documentation/networking/netconsole.rst
+> +++ b/Documentation/networking/netconsole.rst
+> @@ -180,7 +180,7 @@ Custom user data can be appended to the end of messages with netconsole
+>  dynamic configuration enabled. User data entries can be modified without
+>  changing the "enabled" attribute of a target.
+>  
+> -Directories (keys) under `userdata` are limited to 54 character length, and
+> +Directories (keys) under `userdata` are limited to 53 character length, and
+>  data in `userdata/<key>/value` are limited to 200 bytes::
+>  
+>   cd /sys/kernel/config/netconsole && mkdir cmdline0
+> @@ -197,8 +197,8 @@ Messages will now include this additional user data::
+>  Sends::
+>  
+>   12,607,22085407756,-;This is a message
+> - foo=bar
+> - qux=baz
+> +  foo=bar
+> +  qux=baz
+>  
+>  Preview the userdata that will be appended with::
+>  
+> @@ -218,7 +218,7 @@ The `qux` key is omitted since it has no value::
+>  
+>   echo "This is a message" > /dev/kmsg
+>   12,607,22085407756,-;This is a message
+> - foo=bar
+> +  foo=bar
+>  
+>  Delete `userdata` entries with `rmdir`::
+>  
+> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+> index 0de108a1c0c8..46e447ea41b8 100644
+> --- a/drivers/net/netconsole.c
+> +++ b/drivers/net/netconsole.c
+> @@ -43,9 +43,11 @@ MODULE_DESCRIPTION("Console driver for network interfaces");
+>  MODULE_LICENSE("GPL");
+>  
+>  #define MAX_PARAM_LENGTH	256
+> -#define MAX_USERDATA_NAME_LENGTH	54
+> -#define MAX_USERDATA_VALUE_LENGTH	200
+>  #define MAX_USERDATA_ENTRY_LENGTH	256
+> +#define MAX_USERDATA_VALUE_LENGTH	200
+> +#define MAX_USERDATA_NAME_LENGTH	MAX_USERDATA_ENTRY_LENGTH - \
+> +					MAX_USERDATA_VALUE_LENGTH - \
+> +					3 /* ' ' '=' '\n' characters */
 
-Perhaps just saying that the type of ?: depends on the types
-of the values and is independent of the condition.
-The type of (0 ? (void *)p : (foo *)q) is normally 'void *'
-(so that both values can be assigned to it).
-But if 'p' is 'an integer constant expression with value 0'
-then (void *)p is NULL and the type is 'foo *'.
+This is not beautiful even for my standards. I think something like the
+code below makes more sense, even if checkpatch is not happy.
 
-The type can then be checked to find out it 'p' is constant 0.
-A non-zero constant 'p' can be multiples by 0.
-
-I need to replace the definition with (the more portable):
-#define __if_constexpr(cond, if_const, if_not_const) \
-=09_Generic(0 ? (void *)((long)(cond) * 0) : (char *)0, \
-=09=09char *: (if_const), \
-=09=09void *: (if_not_const))
-which is arguably less cryptic.
-
-#define __is_constexpr(cond) __if_constexpr(cond, 1, 0)
-
-So that I can write:
-#define is_non_neg_const(x) (__if_constexpr(x, x , -1) >=3D 0)
-and avoid the compiler bleating about some comparisons
-in unreachable code.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+/* The number three below comes from ' ' + '=' + '\n' characters */
+#define MAX_USERDATA_NAME_LENGTH 	MAX_USERDATA_ENTRY_LENGTH - MAX_USERDATA_VALUE_LENGTH - 3 
