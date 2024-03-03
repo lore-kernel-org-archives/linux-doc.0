@@ -1,82 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AD05A0E6;
-	Sun,  3 Mar 2024 15:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E4067C52;
+	Sun,  3 Mar 2024 15:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709480907; cv=none; b=hOAnwTvFfRjyIWDmvorp7NHlPY4EaVWqR0/FKjD/aDQvTeN45Mnl7yN6E0Xj5nTP8lZCNtKOGHgk7H1IWZi5Yo1CiOXo1UOAph0cGVN8FqpUZ2kY+Txy/czrc8SCRtizWZGV9PGbj15H2mU0FcTnWMZo6T5ZTrsAwZn8Ss/CQ3A=
+	t=1709481355; cv=none; b=SMfVN+B/rXs5AqEiWo2HKY2wl5FDOhJDabWD+xoUTHo2a4lMeYJBqXIT1QqxfDQWAaSKqI9cz/HJJYiRNEGKkAGjVx6BJuNTSIBE2ysNh8osnkqb/DIUu1lYlJ9vGkMNixhBHQ6QaIv2MqTg5l0hcrszxjgUIVhAmoBSlPzi2+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709480907; c=relaxed/simple;
-	bh=nLO2exXHSWbViJf+T8mA8tkfEsJX/bkWxp3QzPBeDG4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=EfLnNn0th3vJ+qGkij0UmUVkcYxCV5iiCcWkWeNqn3bmJauYF5sEaoPmbyhDijEOWvymGJ1WvW7ryDLoiJvSSGp4lpoktWpFuqsOtBFdTsWbyKo6ZSwpQ3kaRg0gL/NCi+cageywUqGuwA7lSvAvuFX1V431LrEa0+nA7xo5Aus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlgxNmwD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709481355; c=relaxed/simple;
+	bh=A4oTZLMFkOenzCOJ/988jBNt6yXBVrkt33H6ar9BUhk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ILRCkgzysEOe0Q+Ru5CzUvGgjHhDNhP8dViRTM8Ff03Iuh3jA+JgNtwR2dZztEVmUg3T/FcrJrI3d4BCsiBIbMOeu21Guub02tC/k9Dc6bYEhiiOTHQdKC8Jwp0P+SnEFD85GxIskYtAHLYc7Vf/A/egYfIvWdRewwGmVMpkZVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aUld6k3M; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlgxNmwD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F45FC433C7;
-	Sun,  3 Mar 2024 15:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709480907;
-	bh=nLO2exXHSWbViJf+T8mA8tkfEsJX/bkWxp3QzPBeDG4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QlgxNmwDshBrhp2F9+AhsjUWAUrFy7uWOcAl+FSVqvWk/ArWfavTRR3G+eHGs85cy
-	 oURhlI6P5k1qroMHSslyfMizvCjuLoZZpfV+Zei1rgBEhQVLzZJ3QcZRS9ZuM/WGqm
-	 MNT85PZsrmanPWABjNU29Dhr9/biGJxvq1q95AhJEuzfFy1Ad2fGNZPoJFwipnnSiu
-	 9MtMlIulKiTgbm4aRa/IlQqOyhIb/cFshnGTFx+/R3x6M9++Z7OzTmuNmRky8yGHlu
-	 0MT7QXMb/4MVarLqjQCeBcnePh1oUQsaoFOfcq2kv0jFp/n1H32DdlzZB6KszIZhK/
-	 VEt213AyyN+dA==
-Date: Mon, 4 Mar 2024 00:48:23 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jiri Olsa <jolsa@kernel.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 3/7] tracing/probes: cleanup: Set
- trace_probe::nr_args at trace_probe_init
-Message-Id: <20240304004823.5c475262a5b0117a4a60be89@kernel.org>
-In-Reply-To: <20240229223753.0e6dce81@gandalf.local.home>
-References: <170891987362.609861.6767830614537418260.stgit@devnote2>
-	<170891990355.609861.2805086066595778818.stgit@devnote2>
-	<20240229223753.0e6dce81@gandalf.local.home>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aUld6k3M"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC716418B6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1709481352; bh=MYNtKSCO59wyJH3h0SJ4lWAQ9OF6yT+pyl7GmiHG76M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=aUld6k3MOhNiW5SOakY4A89povdbxKwn1JO1ZNRdO5Py2S63GQVylVdBBbmqPlBGa
+	 qWMm4ZGEDKgCz4VjXsnhpG0K4NjrrAsxEqehtY1SPGV3D/EZ5CQ6XmdgQ/Lko7nope
+	 ma3jqMrXbCb6jWtj7mU1DhYNfZZtXMXXq5nSpKDJRumuFvpJ6enMX05qIRCHUPCLdU
+	 3XRz02qFomIX1SJp4HxZ881qZH33vF4JNRgW0mT6XdMHUAL96QDRETbUoYFTJCAEu2
+	 io/uWaSHISTdu3qiyDb+QhCyQ1YlI0+MTasOr6yZdvrRdxIC+95CzGVaFQOpvN4+rd
+	 DotcBLla2n73A==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id BC716418B6;
+	Sun,  3 Mar 2024 15:55:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>, lukas.bulwahn@gmail.com
+Cc: jani.nikula@intel.com, kernel-janitors@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, workflows@vger.kernel.org, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH v2 3/3] docs: submit-checklist: change to autonumbered
+ lists
+In-Reply-To: <8df0c587-8f5b-4523-89d7-dc458ab2c1df@gmail.com>
+References: <20240229030743.9125-4-lukas.bulwahn@gmail.com>
+ <8df0c587-8f5b-4523-89d7-dc458ab2c1df@gmail.com>
+Date: Sun, 03 Mar 2024 08:55:51 -0700
+Message-ID: <8734t7z4vs.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Thu, 29 Feb 2024 22:37:53 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> On Mon, 26 Feb 2024 12:58:23 +0900
-> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-> 
-> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > 
-> > Instead of incrementing the trace_probe::nr_args, init it at trace_probe_init().
-> > This is a cleanup, so the behavior is not changed.
-> 
-> The change is fine, but the change log does not say why this was done.
+>> -1) If you use a facility then #include the file that defines/declares
+>> +#. If you use a facility then #include the file that defines/declares
+>>     that facility.  Don't depend on other header files pulling in ones
+>>     that you use.
+>
+> Wait.  This will render the list starting from:
+>
+>     1. If you use ...
+>
+> In patch 1/1, you didn't change the ")".
+>
+> It was Jani who suggested "#.", but "#)" would work just fine.
 
-This change is to get the number of trace_probe arguments while parsing
-the argument strings.
+So I'm a little confused.  Is the objection that it renders the number
+as "1." rather than "1)"?  That doesn't seem like the biggest of deals,
+somehow, but am I missing something?
 
-Thank you,
+A bigger complaint I might raise is that auto-numbering restarts the
+enumeration in each subsection, so we have a lot of steps #1, which is a
+definite change from before.
 
-> 
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-> 
-> -- Steve
-> 
-> 
-> > 
-> > Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > ---
+That, of course, can be fixed by giving an explicit starting number in
+each subsection, partially defeating the point of the change in the
+first place.
 
+I honestly have to wonder: does this document need the enumerated list
+at all?  We don't refer to the numbers anywhere, so I don't think there
+is much useful information there.  How about just using regular bulleted
+lists instead?
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+That said, I don't have strong feelings one way or the other, and can
+certainly apply it as-is if that's the consensus on what we should do.
+
+Thanks,
+
+jon
