@@ -1,157 +1,91 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8A7A94B;
-	Sun,  3 Mar 2024 10:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFDB5A107
+	for <linux-doc@vger.kernel.org>; Sun,  3 Mar 2024 15:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709461082; cv=none; b=ft0/lOdxSxRsiAQ0nyHxXq+Kc8lG6pAJCJZNSfKhMgDr9iDvvMGM7O78ure/0LC6lwQs0OYdhZh4gA174UhxaDAA0OCbcFSH3skPrLdjEh0iFpJoxwmZprMESAwBXi4UpYlAGpLE1ikzDcnllBd3MkCQISsQWXSlS3LOgWN3RbU=
+	t=1709478961; cv=none; b=lo6ZuA2OgxTotmTrFwzOBTSuscrHQ4xtYLApt6dM7M9W0UNcpKV+b3W8EUW0cMLg/yxcWytvXfXUBxHA3gVQ9BiWtWs6n0f1z/QV2RFvjCeGBXwHKkNNJR+2rGgySSYV3F4oIUwy5z0aAzk3L1ZskST5NdInfYD+sMY3HLr38ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709461082; c=relaxed/simple;
-	bh=45ij17AkYurMrAWoXY+Q9kcrsIcKnV/tqm8Gw0XdLlg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kw/p3eDSg8jF61k10cSm/HX2zSJk5+FAbcSiACv2Blk0CUi1LCPPVkIHmgj0psjHdbbfMFqpOGGvt44u7TfGdYI1y/+fvMC2Gya/3bK91Y40oZiyMk1F3vqmN+MsGc6uvbtZx7J6aRy5taSlydmuF7x63BkgSnVNTNP1sqhgtM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavinjoseph.com; spf=pass smtp.mailfrom=pavinjoseph.com; dkim=pass (1024-bit key) header.d=pavinjoseph.com header.i=@pavinjoseph.com header.b=QC2JlroV; arc=none smtp.client-ip=159.100.241.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavinjoseph.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavinjoseph.com
+	s=arc-20240116; t=1709478961; c=relaxed/simple;
+	bh=3kvxSuwQ8nZklwG5iHu0nh15RM51L3Np6a4HCNQTTRY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gHn1nilHHwPKHVvqwf1Lwbwm0FdQeW1LdkXSSzuvoUU0Ba/SUH8G6X6UDXgFgt8CpBca1qy+eNMH5PMEidpx/bUvN+L/x362gf6fLqbnZE0ClTlea4UZyK4rjq6giSDTzMrJs6dO6KBZflBZZZhOJJxCWu8l7bDV/732zcHG53k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XrjEPtQV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=pavinjoseph.com header.i=@pavinjoseph.com header.b="QC2JlroV"
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [149.56.97.132])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id 7281420058;
-	Sun,  3 Mar 2024 10:17:58 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id ADFD23E981;
-	Sun,  3 Mar 2024 10:17:50 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf1.mymailcheap.com (Postfix) with ESMTPSA id DB2E440604;
-	Sun,  3 Mar 2024 10:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pavinjoseph.com;
-	s=default; t=1709461069;
-	bh=45ij17AkYurMrAWoXY+Q9kcrsIcKnV/tqm8Gw0XdLlg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QC2JlroVsBdMrNV2WhzaAhprVI13i1nuw73dvnmCs9gMAWy9HeFkZTG1454LU3KQu
-	 rmihuW7g+lDTpJb2z273hjI+bJQTuew+n9b5GJzEB69l/6+dcKShhJKXDFYuJOHpyv
-	 SHAh6f9K246yS8i3xZQmR1MRtUkISnKPzhUOzwhY=
-Received: from [10.66.66.8] (unknown [139.59.64.216])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XrjEPtQV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5FE62418B6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1709478950; bh=u/5H4moqKvo4bs1nDfp/IdXMhRJkdeEQR9Ob42G02N0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XrjEPtQVo+1ghb7MYFgg3CL6yM+LXJOh3y/emGWGEic9e84eV2xs+OlI3EnZdPKgk
+	 aR+EpJvtBu25fwsKzAqSlzpiyBcGhA2ZzJpi7AFjfvvdq804/573T3nE6yy3SGtTRc
+	 E6B+w3VIcx68sH5RfnXFGMSr+SUMUY5pos9sL7k8zM8j13O24lJb6hsbTsvXKVQVSg
+	 LnWhawOtW23On+ZA9nie/7bcF+7rgobJUn0KDBu4bVQTzikNqpZKKLOeghoGlM9hQT
+	 6e99ZotsdPhjOJBNE9byN+bhkU9lvLLycZ5Pn4xmIyZYZph+rdUvj6x28X1FIFCrKX
+	 GJ9d0UKdEatuw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 2C17D4244B;
-	Sun,  3 Mar 2024 10:17:46 +0000 (UTC)
-Message-ID: <66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
-Date: Sun, 3 Mar 2024 15:47:44 +0530
+	by ms.lwn.net (Postfix) with ESMTPSA id 5FE62418B6;
+	Sun,  3 Mar 2024 15:15:50 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: kerneldoc-preamble.sty: Remove code for Sphinx <2.4
+In-Reply-To: <ed1ec6f2-0050-46f6-807d-8679f26427e9@gmail.com>
+References: <ed1ec6f2-0050-46f6-807d-8679f26427e9@gmail.com>
+Date: Sun, 03 Mar 2024 08:15:49 -0700
+Message-ID: <87o7bvz6qi.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: guide on bisecting (was Re: [REGRESSION] kexec does firmware
- reboot in kernel v6.7.6)
-Content-Language: en-US
-To: Thorsten Leemhuis <linux@leemhuis.info>,
- Linux regressions mailing list <regressions@lists.linux.dev>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <3a1b9909-45ac-4f97-ad68-d16ef1ce99db@pavinjoseph.com>
- <7ebb1c90-544d-4540-87c0-b18dea963004@leemhuis.info>
- <3a8453e8-03a3-462f-81a2-e9366466b990@pavinjoseph.com>
- <a84c1a5d-3a8a-4eea-9f66-0402c983ccbb@leemhuis.info>
- <806629e6-c228-4046-828a-68d397eb8dbc@pavinjoseph.com>
- <4630483e-fc4e-448d-8fd6-916d3422784e@leemhuis.info>
-From: Pavin Joseph <me@pavinjoseph.com>
-In-Reply-To: <4630483e-fc4e-448d-8fd6-916d3422784e@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.09 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4]
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: DB2E440604
+Content-Type: text/plain
 
-On 3/3/24 14:06, Thorsten Leemhuis wrote:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> That being said: I think I might know what sent you sideways: the main
-> section lacked a "git remote add -t master stable
-> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git". :-((
+> Now that Sphinx 2.4.4 or better is required, get rid of
+> \providecommand{}'s for compatibility with Sphinx 1.7.9.
+>
+> While at it, reword the comment on \sphinxtableofcontentshook
+> for better description of why it needs to be emptied.
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> ---
+>  Documentation/sphinx/kerneldoc-preamble.sty | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
+> index 9707e033c8c4..3092df051c95 100644
+> --- a/Documentation/sphinx/kerneldoc-preamble.sty
+> +++ b/Documentation/sphinx/kerneldoc-preamble.sty
+> @@ -54,9 +54,7 @@
+>  \renewcommand*\l@section{\@dottedtocline{1}{2.4em}{3.2em}}
+>  \renewcommand*\l@subsection{\@dottedtocline{2}{5.6em}{4.3em}}
+>  \makeatother
+> -%% Sphinx < 1.8 doesn't have \sphinxtableofcontentshook
+> -\providecommand{\sphinxtableofcontentshook}{}
+> -%% Undefine it for compatibility with Sphinx 1.7.9
+> +%% Prevent default \sphinxtableofcontentshook from overwriting above tweaks.
+>  \renewcommand{\sphinxtableofcontentshook}{} % Empty the hook
+>  
+>  % Prevent column squeezing of tabulary.  \tymin is set by Sphinx as:
+> @@ -136,9 +134,6 @@
+>      }
+>      \newCJKfontfamily[JPsans]\jpsans{Noto Sans CJK JP}[AutoFakeSlant]
+>      \newCJKfontfamily[JPmono]\jpmono{Noto Sans Mono CJK JP}[AutoFakeSlant]
+> -    % Dummy commands for Sphinx < 2.3 (no 'extrapackages' support)
+> -    \providecommand{\onehalfspacing}{}
+> -    \providecommand{\singlespacing}{}
+>      % Define custom macros to on/off CJK
+>      %% One and half spacing for CJK contents
 
-Now that I read through it with a fresh pair of eyes, this is exactly 
-the problem!
+Applied, thanks.
 
->> 2. The "installkernel" command is called "kernel-install" in OpenSuse,
-> 
-> Yeah, it looks like that, but that's not really the case. :-) In short:
-> on Fedora "installkernel" calls into kernel-install -- and
-> "installkernel" has a long history, so doing what Fedora does is likely
-> a wise thing for distros. And openSUSE had a "installkernel" as well,
-> which was part of the dracut package. Not sure if that is still the case
-> for current Leap and Tumbleweed. Could you check?
-
-It's not available even as a symlink in OpenSuse TW / Slowroll I'm afraid.
-
-suse-pc:~ # whereis installkernel
-installkernel:
-suse-pc:~ # whereis kernel-install
-kernel-install: /usr/bin/kernel-install 
-/usr/share/man/man8/kernel-install.8.gz
-suse-pc:~ # man kernel-install | grep -i installkernel
-        installkernel [OPTIONS...] VERSION VMLINUZ [MAP] [INSTALLATION-DIR]
-        When invoked as installkernel, this program accepts arguments as 
-specified by the kernel build system's make install command. The VERSION 
-and VMLINUZ parameters
-
->> and it doesn't really perform all the steps to install kernel. It calls
->> dracut to create initramfs though, but that's hardly much help.
-> 
-> Could you please elaborate a bit on that "hardly much help", as I'm not
-> really sure what you exactly mean here. Are you and/or openSUSE normally
-> not using dracut?
-
-I meant that calling kernel-install in OpenSuse only seems to then call 
-dracut to build an initramfs for the kernel. I can call dracut myself 
-without adding an unnecessary middleman (kernel-install) in the process 
-and less verbosely too: dracut --kver $(make -s kernelrelease)
-
-Perhaps you could add generic details such as I provided in the 
-reference section for distros where installkernel doesn't exist or don't 
-perform all the steps required.
-
->> 3. The dependencies for kernel building in OpenSuse and other major
->> distros are incomplete,
-> 
-> So what was missing?
-
-Sorry, I don't remember. The compile/build threw some error and I looked 
-up how to install kernel building dependencies in OpenSuse only to find 
-out there was a pattern for it already.
-
-Perhaps you could list the basic dependencies in the main section and 
-provide the collection/patterns in the reference section.
-
->> 4. The command to build RPM package (make binrpm-pkg) fails as the
->> modules are installed into "/home/<user>/linux/.../lib" while depmod
->> checks for modules in "/home/<user>/linux/.../usr/lib".
-> 
-> That sounds like a bug that should be reported and fixed, not something
-> that docs should catch and work around. Could you report that?
-
-Please, could you tell me where to report this bug? Kernel bugzilla? 
-Which category/component? Thanks for all your help 😉
-
-Kind regards,
-Pavin Joseph.
+jon
