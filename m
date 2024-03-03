@@ -1,89 +1,82 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0ADA679F8;
-	Sun,  3 Mar 2024 15:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AD05A0E6;
+	Sun,  3 Mar 2024 15:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709480367; cv=none; b=hppNIzHjVcNfPoWNDAZxJnAUB/kwLDKdA0chOSP9wipEsz5bVve3hxUxMLjhaBdttNPW4GeIl93TzKGSe+IFxnqlP1cMek3chPk96z9XQtfR2NYBEYP+MYWWhmbkU37OohwUF7MSVz2jO00LhsW5kazypm043H+4pqEti2V2P8g=
+	t=1709480907; cv=none; b=hOAnwTvFfRjyIWDmvorp7NHlPY4EaVWqR0/FKjD/aDQvTeN45Mnl7yN6E0Xj5nTP8lZCNtKOGHgk7H1IWZi5Yo1CiOXo1UOAph0cGVN8FqpUZ2kY+Txy/czrc8SCRtizWZGV9PGbj15H2mU0FcTnWMZo6T5ZTrsAwZn8Ss/CQ3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709480367; c=relaxed/simple;
-	bh=XplKrTH6YCJ0IDOk3BxUgRV0HbH1Oa6kx9jBhsTY1uo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZLzJzt+5eU9DdLh1WS+/h1J+Zpbba+vC9XjG/yWMiD3D+BuhX7Izn0dShKFxutRdNBm//NTfa/rXSHPmqb89bi9fk/T9N2Ynfs+eFYjjqptiHYdsaTfx95HvDc1AEeLkkanAD2pFk1AmsqcoNp0TisDEq6RdkN9ZIBD3bGbt2Xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iW5D5N8O; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1709480907; c=relaxed/simple;
+	bh=nLO2exXHSWbViJf+T8mA8tkfEsJX/bkWxp3QzPBeDG4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=EfLnNn0th3vJ+qGkij0UmUVkcYxCV5iiCcWkWeNqn3bmJauYF5sEaoPmbyhDijEOWvymGJ1WvW7ryDLoiJvSSGp4lpoktWpFuqsOtBFdTsWbyKo6ZSwpQ3kaRg0gL/NCi+cageywUqGuwA7lSvAvuFX1V431LrEa0+nA7xo5Aus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlgxNmwD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iW5D5N8O"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 14842418B6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1709480365; bh=2x/tLZ3JXMv1iZzytZCA40HbTYsn9biwz7yj7+QKAfI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iW5D5N8Ozt603G6lHabiIUwnENIUKvd4XgYYIXGyjb9WNOq3wYg/8QwWcaratpdc6
-	 QHSDf2B1Yol6VPLqti27g3rjFCs/qj7SunnOqt3X6skEVNT4Y5KCsPgtdlB/00wD6n
-	 uAO0TZ9jZwV/XzeZNFFmENYbvFt2e4s3fYcgflNzZdmD/Csxvxn+/CrQbmob7BTqun
-	 xdvcCD5sXUIJ6VoQsRgnwhBkaQtlE5Dr7HZP5rjfk4eh3fVvGrDhRdDAJpypXGNms4
-	 c+jFWsOL0MieaGC1BaJ6LQRUqGflDwFVC7sNPFzWTF8fmJrHqbKXV3870kcN7NPyO2
-	 77ImQyoqJ1NfA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 14842418B6;
-	Sun,  3 Mar 2024 15:39:25 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>
-Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, Nathan
- Chancellor <nathan@kernel.org>, Petr =?utf-8?B?VGVzYcWZw61r?=
- <petr@tesarici.cz>, Vegard
- Nossum <vegard.nossum@oracle.com>, Jani Nikula
- <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v2] docs: new text on bisecting which also covers bug
- validation
-In-Reply-To: <6d282271-25fa-4ed9-9748-df3705f9d5fb@leemhuis.info>
-References: <02b084a06de4ad61ac4ecd92b9265d4df4d03d71.1709282441.git.linux@leemhuis.info>
- <6d282271-25fa-4ed9-9748-df3705f9d5fb@leemhuis.info>
-Date: Sun, 03 Mar 2024 08:39:24 -0700
-Message-ID: <878r2zz5n7.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlgxNmwD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F45FC433C7;
+	Sun,  3 Mar 2024 15:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709480907;
+	bh=nLO2exXHSWbViJf+T8mA8tkfEsJX/bkWxp3QzPBeDG4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QlgxNmwDshBrhp2F9+AhsjUWAUrFy7uWOcAl+FSVqvWk/ArWfavTRR3G+eHGs85cy
+	 oURhlI6P5k1qroMHSslyfMizvCjuLoZZpfV+Zei1rgBEhQVLzZJ3QcZRS9ZuM/WGqm
+	 MNT85PZsrmanPWABjNU29Dhr9/biGJxvq1q95AhJEuzfFy1Ad2fGNZPoJFwipnnSiu
+	 9MtMlIulKiTgbm4aRa/IlQqOyhIb/cFshnGTFx+/R3x6M9++Z7OzTmuNmRky8yGHlu
+	 0MT7QXMb/4MVarLqjQCeBcnePh1oUQsaoFOfcq2kv0jFp/n1H32DdlzZB6KszIZhK/
+	 VEt213AyyN+dA==
+Date: Mon, 4 Mar 2024 00:48:23 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jiri Olsa <jolsa@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 3/7] tracing/probes: cleanup: Set
+ trace_probe::nr_args at trace_probe_init
+Message-Id: <20240304004823.5c475262a5b0117a4a60be89@kernel.org>
+In-Reply-To: <20240229223753.0e6dce81@gandalf.local.home>
+References: <170891987362.609861.6767830614537418260.stgit@devnote2>
+	<170891990355.609861.2805086066595778818.stgit@devnote2>
+	<20240229223753.0e6dce81@gandalf.local.home>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-"Linux regression tracking (Thorsten Leemhuis)"
-<regressions@leemhuis.info> writes:
+On Thu, 29 Feb 2024 22:37:53 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> On 01.03.24 09:41, Thorsten Leemhuis wrote:
->> Add a second document on bisecting regressions explaining the whole
->> process from beginning to end -- while also describing how to validate
->> if a problem is still present in mainline.  This "two in one" approach
->> is possible, as checking whenever a bug is in mainline is one of the
->> first steps before performing a bisection anyway and thus needs to be
->> described. Due to this approach the text also works quite nicely in
->> conjunction with Documentation/admin-guide/reporting-issues.rst, as it
->> covers all typical cases where users will need to build a kernel in
->> exactly the same order.
->> [...]
->> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
->> index ed8a629e59c86a..c53bb6e36291b8 100644
->> --- a/Documentation/admin-guide/index.rst
->> +++ b/Documentation/admin-guide/index.rst
->> @@ -1,4 +1,3 @@
->> -=================================================
->
-> Just saw that, that line obviously was not meant to be removed. Sorry.
->
-> Jonathan, in case you consider merging this "soon", as suggested
-> yesterday by  Vegard, could you please fix this up? Otherwise I'll fix
-> this with v3.
+> On Mon, 26 Feb 2024 12:58:23 +0900
+> "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> 
+> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > 
+> > Instead of incrementing the trace_probe::nr_args, init it at trace_probe_init().
+> > This is a cleanup, so the behavior is not changed.
+> 
+> The change is fine, but the change log does not say why this was done.
 
-I've applied the patch and undone the little change, no need for a v3.
+This change is to get the number of trace_probe arguments while parsing
+the argument strings.
 
-Thanks,
+Thank you,
 
-jon
+> 
+> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> 
+> -- Steve
+> 
+> 
+> > 
+> > Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > ---
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
