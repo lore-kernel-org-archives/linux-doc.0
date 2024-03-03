@@ -1,150 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBFE1EF12;
-	Sun,  3 Mar 2024 17:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE81B654;
+	Sun,  3 Mar 2024 18:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709487782; cv=none; b=REeGf+mBe/GNjG02mItZAN23hZawcc5ax3mXZtudvr7HT7Xra1r9+6yb7OcqkjrdLteYqv1xDX27e9Aw8cDUM+kGERqKZLtqjrpnFfe3IzzGXRQch/aBlxDfzsnUXzwLao5wjRscG4DVOTwEIxyykA7AhZX0TouYUqtVmDjx/nY=
+	t=1709490000; cv=none; b=Q18EmG47ltar6s/M5ct1T8yblumlHD/aBpOvbgHWbzp+ZgMCZIqN/4zEJ/l9iwhAXW8IUrw+pkAjf33awHyTgUVpDafzQWXxqtKuSJUj4iMmnTWvUVJ1BdjT8Pg0+MYwrTUl050OIDiSUboAFwPuPQR3FVDxshe8zulsUiEndY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709487782; c=relaxed/simple;
-	bh=qJ09RHZhZupJd0yUAMrg15L1EonazM6hfg7HvBc4dqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zf/OuwGWfDpSBYvHdwjchS0NcM7U9Vrh39JBKge9B9rcOZyx0ZKIlJ0zz/vdGtW4A+4BlMLgA+UO/RrRFAZGO2BdJ0pL2+2mVgosf83nDdQb2vjCd7gSrOkd3XBwDnc5fnPnOpf3GYHZBZfihQFTk17nAQnx/SfNDy9hThqYDAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gl3mvHj1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709490000; c=relaxed/simple;
+	bh=OpFUZkht/kNkK1sffj4iZQMCp1wCBtb91Rpt3Ft7ccA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AFwlgYuYwcc22MhGGl996cGQwhCJxUvyk9JdQaVyUQrwRSPdnHmy/b458w+oEjd/9YH6PXtAUqyZx0yf9fFx28eONzDnW/+M/cH3zyVq1MxjMdzgt0efqTj59JKONUTZqM5ov1SVHIjpx/zKhE9s2j/pvGH9Rnmtbbisw4A98Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=22aNaIbi; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gl3mvHj1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E43C433F1;
-	Sun,  3 Mar 2024 17:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709487782;
-	bh=qJ09RHZhZupJd0yUAMrg15L1EonazM6hfg7HvBc4dqU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Gl3mvHj1LeSU+t+auF4ARJDUMTEiCum/A3TvDet9nk9H8ra5LejfpRm9zdDrE62fC
-	 lgTsPcPk2mVECDumxiceoujTh4tu/+EL0MWT0mOgD5/NZwu9bExDqwGj5uxJPKkuNP
-	 GBexCInsXs3vGrSMEDXEDndORFgB3DDIJsQocGMIfy8OVODdjAFba0V4sBeSf5FGHU
-	 r4CpDFiebw/m1qH7cEA2RY5wHXl5icL+7gnwBbqID1M3REqMbJvgn6iTI+kOvS0dOr
-	 /Tr+SpzjOdL8uRRiCujBcGkcJwPd25CwhM3/iV7CP5F8iBdRmM8qM0OafgKlj6kwFV
-	 ZO//USU2UeFgQ==
-Date: Sun, 3 Mar 2024 17:42:45 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
- <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
- <Michael.Hennerich@analog.com>, <linux-doc@vger.kernel.org>,
- <dmaengine@vger.kernel.org>, <linux-iio@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
-Message-ID: <20240303174245.37efc0b0@jic23-huawei>
-In-Reply-To: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="22aNaIbi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4Zprqxh0tqZFACIsoF0C+/8aiRekfRqNvxtqcVAY67w=; b=22aNaIbicw0tEK5jEEVEjslKJT
+	cvZ6D2p0pwLk7niNKqQNrnSlCS88e2po8vaO1wtQKIiutVD9GNp3lBxxTZmIq4jMKo+bmZL83RnMr
+	Ho///zFagi5/fdPZsReW1qUxHwAQ6x6tdewFaEOXBNaUAiEDoCDxQw+G9cgsXYmxiFp8M3pg6fSpE
+	pVA26IeTPBK/P83hPMtIVRmySELsumRYukFcU0zlYIE6tNaH5sQrairFuMx+zompNAxO1dLZhBPHA
+	fJ2TZd+dAdRpISKjYpHA35hTVnLen4Jb5j4piT1niUZoGvO7aHZLSDGgG8abqp3ZD6eUR420gDAAh
+	S1z9Pjeg==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rgqRG-00000006SaN-2aT9;
+	Sun, 03 Mar 2024 18:19:54 +0000
+Message-ID: <04c07ca9-6377-4326-b9b5-4a4ed49c2f66@infradead.org>
+Date: Sun, 3 Mar 2024 10:19:54 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] docs: submit-checklist: change to autonumbered
+ lists
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+ lukas.bulwahn@gmail.com
+Cc: jani.nikula@intel.com, kernel-janitors@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <20240229030743.9125-4-lukas.bulwahn@gmail.com>
+ <8df0c587-8f5b-4523-89d7-dc458ab2c1df@gmail.com>
+ <8734t7z4vs.fsf@meer.lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <8734t7z4vs.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 23 Feb 2024 13:13:58 +0100
-Nuno Sa <nuno.sa@analog.com> wrote:
 
-> Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
-> honest, we're hoping to get this merged this for the 6.9 merge window.
-> Main reason is because the USB part is already in (so it would be nice
-> to get the whole thing in). Moreover, the changes asked in v6 were simple
-> (even though I'm not quite sure in one of them) and Paul has no access to
-> it's laptop so he can't send v7 himself. So he kind of said/asked for me =
-to do it.
 
-So, we are cutting this very fine. If Linus hints strongly at an rc8 maybe =
-we
-can sneak this in. However, I need an Ack from Vinod for the dma engine cha=
-nges first.
+On 3/3/24 07:55, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>>> -1) If you use a facility then #include the file that defines/declares
+>>> +#. If you use a facility then #include the file that defines/declares
+>>>     that facility.  Don't depend on other header files pulling in ones
+>>>     that you use.
+>>
+>> Wait.  This will render the list starting from:
+>>
+>>     1. If you use ...
+>>
 
-Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even better!)
+I have already said that Stephen Rothwell wanted this #1 item to be at the
+top of the checklist. That makes it easy to tell people to "see submit-checklist
+item #1".
 
-Seems that the other side got resolved in the USB gadget, but last we heard=
- form
-Daniel and Christian looks to have been back on v5. I'd like them to confirm
-they are fine with the changes made as a result.=20
 
-I've been happy with the IIO parts for a few versions now but my ability to=
- review
-the DMABUF and DMA engine bits is limited.
+>> In patch 1/1, you didn't change the ")".
+>>
+>> It was Jani who suggested "#.", but "#)" would work just fine.
+> 
+> So I'm a little confused.  Is the objection that it renders the number
+> as "1." rather than "1)"?  That doesn't seem like the biggest of deals,
+> somehow, but am I missing something?
+> 
+> A bigger complaint I might raise is that auto-numbering restarts the
+> enumeration in each subsection, so we have a lot of steps #1, which is a
+> definite change from before.
 
-A realistic path to get this in is rc8 is happening, is all Acks in place b=
-y Wednesday,
-I get apply it and hits Linux-next Thursday, Pull request to Greg on Saturd=
-ay and Greg
-is feeling particularly generous to take one on the day he normally closes =
-his trees.
+ack
 
-Whilst I'll cross my fingers, looks like 6.10 material to me :(
+> That, of course, can be fixed by giving an explicit starting number in
+> each subsection, partially defeating the point of the change in the
+> first place.
 
-I'd missed the progress on the USB side so wasn't paying enough attention. =
-Sorry!
+ack
 
-Jonathan
+> I honestly have to wonder: does this document need the enumerated list
+> at all?  We don't refer to the numbers anywhere, so I don't think there
+> is much useful information there.  How about just using regular bulleted
+> lists instead?
 
->=20
-> v6:
->  * https://lore.kernel.org/linux-iio/20240129170201.133785-1-paul@crapoui=
-llou.net/
->=20
-> v7:
->  - Patch 1
->   * Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_ve=
-c();
->   * Added a new flag parameter to the function as agreed between Paul
->     and Vinod. I renamed the first parameter to prep_flags as it's suppos=
-ed to
->     be used (I think) with enum dma_ctrl_flags. I'm not really sure how t=
-hat API
->     can grow but I was thinking in just having a bool cyclic parameter (a=
-s the
->     first intention of the flags is to support cyclic transfers) but ende=
-d up
->     "respecting" the previously agreed approach.
-> - Patch 2
->   * Adapted patch for the changes made in patch 1.
-> - Patch 5
->   * Adapted patch for the changes made in patch 1.
->=20
-> Patchset based on next-20240223.
->=20
-> ---
-> Paul Cercueil (6):
->       dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->       dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->       iio: core: Add new DMABUF interface infrastructure
->       iio: buffer-dma: Enable support for DMABUFs
->       iio: buffer-dmaengine: Support new DMABUF based userspace API
->       Documentation: iio: Document high-speed DMABUF based API
->=20
->  Documentation/iio/dmabuf_api.rst                   |  54 +++
->  Documentation/iio/index.rst                        |   2 +
->  drivers/dma/dma-axi-dmac.c                         |  40 ++
->  drivers/iio/buffer/industrialio-buffer-dma.c       | 181 +++++++-
->  drivers/iio/buffer/industrialio-buffer-dmaengine.c |  59 ++-
->  drivers/iio/industrialio-buffer.c                  | 462 +++++++++++++++=
-++++++
->  include/linux/dmaengine.h                          |  27 ++
->  include/linux/iio/buffer-dma.h                     |  31 ++
->  include/linux/iio/buffer_impl.h                    |  33 ++
->  include/uapi/linux/iio/buffer.h                    |  22 +
->  10 files changed, 894 insertions(+), 17 deletions(-)
-> ---
-> base-commit: 33e1d31873f87d119e5120b88cd350efa68ef276
-> change-id: 20240223-iio-dmabuf-5ee0530195ca
-> --
->=20
-> Thanks!
-> - Nuno S=C3=A1
->=20
+That also works.
 
+> That said, I don't have strong feelings one way or the other, and can
+> certainly apply it as-is if that's the consensus on what we should do.
+
+My preference is to leave the submit-checklist numbered from 1 to N,
+without a repeated #1 in each section. But I'm not hung up on it.
+
+thanks.
+-- 
+#Randy
