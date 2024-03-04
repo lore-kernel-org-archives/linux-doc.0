@@ -1,154 +1,117 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A025CDDD;
-	Mon,  4 Mar 2024 17:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22F2612F6
+	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 17:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709571838; cv=none; b=CSUMKjy+qDToJGlHn3lW5kmlN1S5gQ+KHMvVbdpHQU4pq0nz4x8TH1mryzuv2rgQg1jVNWftD+k1x9Gm/BGlr++4K1aCCNDr3fbEjeOzjmjkf3A8ShgRl+81X6cAiHu+iPxMbiZId90tW0hBIkax6n6Und7la2n1ldsqxWz2gpg=
+	t=1709574123; cv=none; b=B5tv1ZrN1CPpkX4bU2TuQlg47AFoS0t9wwb2ZvsfsjytbwUX0gpho+CBCWJ33bj70c5Uvj+5a7XMUXVFF67OteMVQXcxEZb1mIvLlNnQO4h2CkykZmqb/7d+NhX5xiyTGbixbXu5pMmrz+ojbEfh1ByHnSlPTrX9mINr2sJYrC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709571838; c=relaxed/simple;
-	bh=QVFxd1YSLwW2a7fCHIdyRN5o6f+rp+oB5zXu4FiVrfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V6zUcrtaOHUKHl5k6WUHt0b23Asp9jiR4cHOIgw2Z/7gvTI6/inud3KuNE09XeLO6ApkFUNCyIVG96p0lalKOxphsjeNUkBHz2ymG/6TqPuXtD3hGdlf6hcBaheyQ9uaCZFsvm1k94ZoRA++STXGofxMxVeXLScePQcR3hC61eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EJmp2YwZ; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1709574123; c=relaxed/simple;
+	bh=hU2yLMJMJXbgNEPYfx2RPR8hYlJGjYJqjcguiRszWgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aTNVfvYuNASarJcj5e1J5648GU4YOn41cruMD09yh0TUo261j61vL4tM9IZGFXB4iyXDcwsgPumEybjMeeyC3D34cmsClUbwu3FJb470BGLbtBwj9lAdeZCFL6LvlJuNeEOl15WDLTH9MCbh8ICZ3mS+VLdpgu59P+NytcwJDtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UREnqlSD; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EJmp2YwZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1709571832;
-	bh=QVFxd1YSLwW2a7fCHIdyRN5o6f+rp+oB5zXu4FiVrfE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EJmp2YwZN2npYth3cYKdcDbjC89Fb7BLm57YTX0okcstsmnZ2dZbh3wZR1kizg1Ub
-	 +Yyhexq7++bev8BdvIY8jg2WruI3TFqiC4b5fZu6ju3SEW2bWc46mgGXwB8WFLYZ2i
-	 BmyUK8/ZWSSB68ITN6ZouphhbjLQbni0j3qC/px+ewUQbX9jKo52QGBMGwSCYpKniE
-	 C20k2wE/ATntdD4anS+VAtEvfgv8w/UyXjQzqtEE3JD/VHMqh0HXLvqnHPrzMx4gO1
-	 BqE63y/PqhbfRgx2UlaXy3DfiC+fTAnNtHIeHoZIZgJv1Stwm24NtAm/+5i4IlQDbd
-	 vQXJnI6Jqs5Yw==
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 32BCB37820CC;
-	Mon,  4 Mar 2024 17:03:52 +0000 (UTC)
-Date: Mon, 4 Mar 2024 18:03:50 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Rob
- Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
- knob with sysfs
-Message-ID: <20240304180350.74e7e385@collabora.com>
-In-Reply-To: <51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
-References: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
-	<20240302154845.3223223-3-adrian.larumbe@collabora.com>
-	<51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UREnqlSD"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dc49afb495so45078605ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 09:42:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709574121; x=1710178921; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=M7401r6D2cA71znQdJzF80EF2KfSktKnOfloCrndmE8=;
+        b=UREnqlSD958HTAgmrhBip/bfGztwZ8eypIZwaQlGTuInTcMW9AqA9D5Y+G3lR8O+k3
+         iLRb64wLgf61g6ucctVm/oMVRqC16j+sIhcBLSQBFW0q5g+VkRoclbb0mWfpzl4WHqfa
+         V8+lnGHSWFIqmVAf7zS7nUuwlJRJ3lR2h1eVE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709574121; x=1710178921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M7401r6D2cA71znQdJzF80EF2KfSktKnOfloCrndmE8=;
+        b=aeVRRmpy6fy11VjvGOVw2E1Ito4LuDXCK8dKx4IZz6OIgjNlZUYqz87MKvbOTbElGm
+         Dmg63c+winnD5Pb0gCsS4o4ZhXa+U6SnDp03csRN156iuZboYPcPl1OORyqMJyeJoBR7
+         G9O3Z4iJs9nP6j8OZuur+ncj3myNSfDjpfU9HiFjMCiM6z4Qr1aJ565gMj6A/lIcAgET
+         +t9Db0qUgjZBMDqMyBWsF2bZkbohkbYZtT2kmNlCE3scxSmc1KIC03t7vKE9CZQQSr63
+         9XDyUuXXuk+hsMIMc3CQEtzzBWEJ+Dh+ozDxek0R8mVmI8vGNpbJDO6h2KuqcFpyU0ac
+         7i1A==
+X-Forwarded-Encrypted: i=1; AJvYcCXj8jJmlOJM7XqYrB96BK1FoXdGEWtH7Xbxa18SVI0vQ1qdi0IXCf1TH076HvHE6ctEYM8cE71wNfFQp1WvME3M+ggQS/R9ynVF
+X-Gm-Message-State: AOJu0YxJFZXB4lg45pVAeBT9EiKHlvQmqn4t0Q1M8KhF50iZ7tlRAevw
+	OzXPQ6SMfeX9bKuiUQoy8Jg+lvAVfLn48HQ2lXOebZgWH9Si2G2MBYB2SCQjFQ==
+X-Google-Smtp-Source: AGHT+IGbjTF4ZKwzOe0VNjsw6UtT/zASPWXIHtUxjXFZsMlGN7NGI8dA/FI7NCmH8IqvtDTQ74pfsQ==
+X-Received: by 2002:a17:902:6f17:b0:1dc:540f:c5eb with SMTP id w23-20020a1709026f1700b001dc540fc5ebmr9727288plk.51.1709574121089;
+        Mon, 04 Mar 2024 09:42:01 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id u2-20020a17090341c200b001dd0d0d26a4sm2963663ple.147.2024.03.04.09.42.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 09:42:00 -0800 (PST)
+Date: Mon, 4 Mar 2024 09:42:00 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, kernel@collabora.com,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <202403040940.BAFD26EA4@keescook>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
+ <202403011451.C236A38@keescook>
+ <39f23-65e5d580-3-638b0780@155677577>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39f23-65e5d580-3-638b0780@155677577>
 
-On Mon, 4 Mar 2024 16:04:34 +0000
-Steven Price <steven.price@arm.com> wrote:
+On Mon, Mar 04, 2024 at 02:06:43PM +0000, Adrian Ratiu wrote:
+> On Saturday, March 02, 2024 01:55 EET, Kees Cook <keescook@chromium.org> wrote:
+> > On Fri, Mar 01, 2024 at 11:34:42PM +0200, Adrian Ratiu wrote:
+> > > [...]
+> > > +# define PROC_PID_MEM_MODE S_IRUSR
+> > > +#else
+> > > +# define PROC_PID_MEM_MODE (S_IRUSR|S_IWUSR)
+> > > +#endif
+> > 
+> > PROC_PID_MEM_MODE will need to be a __ro_after_init variable, set by
+> > early_restrict_proc_mem_write, otherwise the mode won't change based on
+> > the runtime setting. e.g.:
+> > 
+> > #ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON
+> > mode_t proc_pid_mem_mode __ro_after_init = S_IRUSR;
+> > #else
+> > mode_t proc_pid_mem_mode __ro_after_init = (S_IRUSR|S_IWUSR);
+> > #endif
+> > 
+> > DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+> > 			   restrict_proc_mem_write);
+> > ...
+> > 	if (bool_result) {
+> > 		static_branch_enable(&restrict_proc_mem_write);
+> > 		proc_pid_mem_mode = S_IRUSR;
+> > 	} else {
+> > 		static_branch_disable(&restrict_proc_mem_write);
+> > 		proc_pid_mem_mode = (S_IRUSR|S_IWUSR);
+> > 	}
+> > ...
+> > 	REG("mem",        proc_pid_mem_mode, proc_mem_operations),
+> 
+> I'm having trouble implementing this because the proc_pid_mem_mode initializer needs to be a compile-time constant, so I can't set a runtime value in the REG() definition like suggested above.
 
-> On 02/03/2024 15:48, Adri=C3=A1n Larumbe wrote:
-> > Debugfs isn't always available in production builds that try to squeeze
-> > every single byte out of the kernel image, but we still need a way to
-> > toggle the timestamp and cycle counter registers so that jobs can be
-> > profiled for fdinfo's drm engine and cycle calculations.
-> >=20
-> > Drop the debugfs knob and replace it with a sysfs file that accomplishes
-> > the same functionality, and document its ABI in a separate file.
-> >=20
-> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> =20
->=20
-> I'm happy with this.
->=20
-> Reviewed-by: Steven Price <steven.price@arm.com>
->=20
-> Boris: are you happy with the sysfs ABI, or would you like to
-> investigate further the implications of leaving the counters enabled all
-> the time during execution before committing to the sysfs ABI?
+Ah. Yeah, so I guess just drop the perms change -- you're already
+checking the behavior in the open(), so you can just leave the perms
+alone.
 
-No, that's fine, but I have a few comments on the implementation.
-
-> > +static ssize_t
-> > +profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char=
- *buf)
-> > +{
-> > +	bool *profile_mode =3D
-> > +		&container_of(kobj, struct panfrost_device,
-> > +			      profiling.base)->profiling.profile_mode;
-> > +
-> > +	return sysfs_emit(buf, "%d\n", *profile_mode);
-> > +}
-> > +
-> > +static ssize_t
-> > +profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
-> > +	       const char *buf, size_t count)
-> > +{
-> > +	bool *profile_mode =3D
-> > +		&container_of(kobj, struct panfrost_device,
-> > +			      profiling.base)->profiling.profile_mode;
-> > +	int err, value;
-> > +
-> > +	err =3D kstrtoint(buf, 0, &value);
-
-I'd suggest using kstrtobool() since you make the result a boolean
-anyway.
-
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	*profile_mode =3D !!value;
-> > +
-> > +	return count;
-> > +}
-> > +
-> > +static const struct kobj_attribute profiling_status =3D
-> > +__ATTR(status, 0644, profiling_show, profiling_store);
-> > +
-> > +static const struct kobj_type kobj_profile_type =3D {
-> > +	.sysfs_ops =3D &kobj_sysfs_ops,
-> > +};
-
-DEVICE_ATTR(profiling, 0644, profiling_show, profiling_store);
-
-?
-
-> > +
-> > +int panfrost_sysfs_init(struct panfrost_device *pfdev)
-> > +{
-> > +	struct device *kdev =3D pfdev->ddev->primary->kdev;
-> > +	int err;
-> > +
-> > +	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
-> > +
-> > +	err =3D kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profi=
-ling");
-
-Can we make it a device attribute instead of adding an extra kboj?
-
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	err =3D sysfs_create_file(&pfdev->profiling.base, &profiling_status.a=
-ttr);
-> > +	if (err)
-> > +		kobject_del(&pfdev->profiling.base);
-> > +
-> > +	return err;
-> > +}
+-- 
+Kees Cook
