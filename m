@@ -1,193 +1,202 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F41A7CF06
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 23:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FF97CF1F;
+	Mon,  4 Mar 2024 23:38:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709594496; cv=none; b=Yjq3P5vNx0LNFUvFbWZOsFjDZGTi1WfO9cKQ841qZ3KnHsGwW8GwCZTGRMtVQt6oyUxUY/Z4xRNxtCoxmG9o+pZc/R6ru4c5IZ5t1Y/mfRDqaXW86uXsIoijjWmVsZ8vW56ea456RQsLlQ1h5Ef0CVbJUPITFtBioUPlJcZP2bc=
+	t=1709595501; cv=none; b=Ri8zFkdXQyzjM3GnP5RQFTZPXhirT7DC+w7PNPQGamNeaDRAx3edWNo5SaL2N9IlbSYbCms5fzSBLZWuiesFpQ5E9H6HaoNMvOv3L3s1GguofS8IIs/AWv+emwySa4k4RbYbvEDLQneUPzKsHehR5+Yno5AJE2r6dp0fumwAXpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709594496; c=relaxed/simple;
-	bh=lh1j9mkwmpI2gqFb91geb6fvk73hJ96VT9uC2utdnFE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OrcdFAETHcwdaSl9F7TDZi7X26c73ZfibYGTzLXpfljLPdDM0ANuZsMLO/IGt6t+JSze1oa4ump+iLbwRCRhqjCccocRD50kAiBH3MPFciuwdzeEMKHK3Ta1jo1nIEyt8AqIuAUFCWUBxm+8mPE3e82DSaes6kUkBNY7Jawb4Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=S6ylp9g9; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1709595501; c=relaxed/simple;
+	bh=bjapdOzSpG6/EEi9GeF2HdEhMLKu2TdtZOkHv8LOaro=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Esumc27XnIH2X4MOD/cvrSx4wImrdN0QAscpSa14LkvXgI+LXGkOWbhzTMlAUn6yOE3KIgnwXYifYQe4omj0GEg7uqxL6sEJvpdtDWeJodWCX3YI8oyHhW/4i/TKHxFncYP1uQ0yI422AHQmKuMDlBQC36VTc9O1pX5UU7YapNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YgBG4vkN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="S6ylp9g9"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d269dc3575so44331071fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 15:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709594492; x=1710199292; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N3ZG5nlSne7db2l1bcwU+jExqpiSpjwO/TmBdJh8VJg=;
-        b=S6ylp9g982cS6wb4uZ7VPArITV9OTV2DCi/ZCnteBYB7FAczdV0rdgJUhbEuFYFUil
-         H/3188cYn++7aCbwWwq2+I0Hzdigeb/t+dFy42VcbMaQQ2Y8pW8mciHZ23VKo9OGCeaC
-         F9QMvnf5MfgEkq6XfRq5A7553+nHjvSBkh9I2SEVQ+nAE4mo6hRcdoBT9TkJpApNrJE+
-         XbdBT3huYLU2VKAhAj+6CKMdBmLl60y0d+adKiuatm/wrqjtqvGn/MfJ8INZlFlaE47K
-         BDcyITVblRBcLvYzWpHvHuMQDlSw1UOYBeQZb6g733BLGNBJk8o/CZxYSibIjb1ZnvHW
-         d3Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709594492; x=1710199292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N3ZG5nlSne7db2l1bcwU+jExqpiSpjwO/TmBdJh8VJg=;
-        b=BPcvzBw4g59IJIoQZUuoT3u2EuP/yzLerm3jhNmV2ziCadU0LqCFhVmnUtL2ICPMNg
-         qagp6Y4uFdQLFeNIrJ21n7xWc8aHhgpHEgLfY8TZF6IJuAnxqKZOfQF8tizVQTotzPFD
-         JL9F6uhN5EfnPqrA20PQ7GcVVQIhuM4jbNAUWtemW5LUbYmgGRNLeyjwfW1DcGB1B775
-         KpLxeQXCz5oI5sy5w0MjXlvLBzmzd/eDppQ4qRlQkosBLWh3E3eLAB9YqdcnkOUw6SzK
-         q4bUe2RH06DD2OQCpk3NOtIiQQhZdr4ud6mWg6JidsTnZlx2ATOE3NdC4LVmyRpunegU
-         3urw==
-X-Forwarded-Encrypted: i=1; AJvYcCVch37MQtdZhPDCzHd10RE2b1UWOhTrzzHj5t8FtW9wdib7fMdTVY4TP3y2d13n6tGe7+3fFWPTZBwj96RGz7anPXmVCKh18iNr
-X-Gm-Message-State: AOJu0YxijTXAdG4zWkGfQQhrYlyPzv1LDjG0MRoe/FZZ7r1GAeNgP4Wj
-	Z9cf0UUK7O5eRTM1y6ztRgigS4akDLcz0RgVfePv6rLydSO/TeNhglvMKSgwT+G7M+R/x8FRjA8
-	2693nrRhTj/oISHoFfFFI/DTUa+dIRllgeNPIDg==
-X-Google-Smtp-Source: AGHT+IHhkmAMXuI+MFs08V2iullSSxJpLZi8jtE64M56Q68Qh2gmKRxSf52O1/PncRjgbQAB/LiVw+q9XDtozfckFb4=
-X-Received: by 2002:a2e:80ca:0:b0:2d2:2c74:ff02 with SMTP id
- r10-20020a2e80ca000000b002d22c74ff02mr87597ljg.9.1709594492412; Mon, 04 Mar
- 2024 15:21:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YgBG4vkN"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 424NSdCb005853;
+	Mon, 4 Mar 2024 23:37:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=uKjDd80FGy/SXXVWkcCr2
+	CwjDneS2/5OgR/fSz8cyMA=; b=YgBG4vkN7z+ndBrQN2oDjS0orZ/i3gPbP8Weu
+	nrwmrnVhXZumPT8H7vablWKclm+7KXfO9eIUBhMYjQiUmM1Y/2QOGR0tmz65hFns
+	w5QxnW+Gaz8vSIqjO5r+OsnyHpjecgr3n2CChPrAJPs9zqCqAfU00O1vFkYieTrK
+	A6u+JJ+IjLQc/5RxSGnuAS9MzDpAOlAYklXN/fHj1WqJgCKUGuUiZIywL4OorbnJ
+	/z8dKn416B+iZisK6J/sAcM+MC2ejJrsZiUcjVrewGKciKIrvIIcoLuWn5bZ9Wao
+	tgkxaTlmhR/9U5iLUwt3/CCWmGHuvv41uNwSImj+FGtQnKybw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wnjtbgr6q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 Mar 2024 23:37:52 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 424NbhGk018095
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 4 Mar 2024 23:37:43 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 4 Mar 2024 15:37:42 -0800
+Date: Mon, 4 Mar 2024 15:37:41 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Quentin Perret <qperret@google.com>
+CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
+        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
+        Android KVM
+	<android-kvm@google.com>,
+        Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder
+	<elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni
+	<quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Philip Derrin
+	<quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu
+	<quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+        Fuad Tabba <tabba@google.com>,
+        "Sean Christopherson" <seanjc@google.com>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map
+ functions
+Message-ID: <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
+Mail-Followup-To: Quentin Perret <qperret@google.com>, 
+	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
+	Chris Goldsworthy <quic_cgoldswo@quicinc.com>, Android KVM <android-kvm@google.com>, 
+	Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder <elder@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Murali Nalajal <quic_mnalajal@quicinc.com>, 
+	Trilok Soni <quic_tsoni@quicinc.com>, Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
+	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
+	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
+ <ZdhEtH7xzbzdhS2j@infradead.org>
+ <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+ <ZeXIWBLVWzVycm0r@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
- <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com> <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
-In-Reply-To: <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
-From: David Lechner <dlechner@baylibre.com>
-Date: Mon, 4 Mar 2024 17:21:21 -0600
-Message-ID: <CAMknhBHP+x4e0kTmNTn6JNKv=VCosZhBWce1MjjFW4MZ+K2Hcg@mail.gmail.com>
-Subject: Re: [PATCH 01/13] spi: add core support for controllers with offload capabilities
-To: Mark Brown <broonie@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Jander <david@protonic.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZeXIWBLVWzVycm0r@google.com>
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: sjPu5sIWWRGDh-oe0xUU5hU_E0NcZLdz
+X-Proofpoint-ORIG-GUID: sjPu5sIWWRGDh-oe0xUU5hU_E0NcZLdz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-04_18,2024-03-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403040182
 
-On Wed, Jan 10, 2024 at 3:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
+On Mon, Mar 04, 2024 at 01:10:48PM +0000, Quentin Perret wrote:
+> On Friday 23 Feb 2024 at 16:37:23 (-0800), Elliot Berman wrote:
+> > On Thu, Feb 22, 2024 at 11:09:40PM -0800, Christoph Hellwig wrote:
+> > > On Thu, Feb 22, 2024 at 03:16:42PM -0800, Elliot Berman wrote:
+> > > > Firmware and hypervisor drivers can donate system heap memory to their
+> > > > respective firmware/hypervisor entities. Those drivers should unmap the
+> > > > pages from the kernel's logical map before doing so.
+> > > > 
+> > > > Export can_set_direct_map, set_direct_map_invalid_noflush, and
+> > > > set_direct_map_default_noflush.
+> > > 
+> > > Err, not they should not.  And not using such super low-level interfaces
+> > > from modular code.
+> > 
+> > Hi Cristoph,
+> >  
+> > We've observed a few times that Linux can unintentionally access a page
+> > we've unmapped from host's stage 2 page table via an unaligned load from
+> > an adjacent page. The stage 2 is managed by Gunyah. There are few
+> > scenarios where even though we allocate and own a page from buddy,
+> > someone else could try to access the page without going through the
+> > hypervisor driver. One such instance we know about is
+> > load_unaligned_zeropad() via pathlookup_at() [1].
+> >  
+> > load_unaligned_zeropad() could be called near the end of a page. If the
+> > next page isn't mapped by the kernel in the stage one page tables, then
+> > the access from to the unmapped page from load_unaligned_zeropad() will
+> > land in __do_kernel_fault(), call fixup_exception(), and fill the
+> > remainder of the load with zeroes. If the page in question is mapped in
+> > stage 1 but was unmapped from stage 2, then the access lands back in
+> > Linux in do_sea(), leading to a panic().
+> >  
+> > Our preference would be to add fixup_exception() to S2 PTW errors for
+> > two reasons:
+> > 1. It's cheaper to do performance wise: we've already manipulated S2
+> >    page table and prevent intentional access to the page because
+> >    pKVM/Gunyah drivers know that access to the page has been lost.
+> > 2. Page-granular S1 mappings only happen on arm64 with rodata=full.
+> >  
+> > In an off-list discussion with the Android pkvm folks, their preference
+> > was to have the pages unmapped from stage 1. I've gone with that
+> > approach to get started but welcome discussion on the best approach.
+> >  
+> > The Android (downstream) implementation of arm64 pkvm is currently
+> > implementing a hack where s2 ptw faults are given back to the host as s1
+> > ptw faults (i.e. __do_kernel_fault() gets called and not do_sea()) --
+> > allowing the kernel to fixup the exception.
+> >  
+> > arm64 pKVM will also face this issue when implementing guest_memfd or
+> > when donating more memory to the hyp for s2 page tables, etc. As far as
+> > I can tell, this isn't an issue for arm64 pKVM today because memory
+> > isn't being dynamically donated to the hypervisor.
+> 
+> FWIW pKVM already donates memory dynamically to the hypervisor, to store
+> e.g. guest VM metadata and page-tables, and we've never seen that
+> problem as far as I can recall.
+> 
+> A key difference is that pKVM injects a data abort back into the kernel
+> in case of a stage-2 fault, so the whole EXTABLE trick/hack in
+> load_unaligned_zeropad() should work fine out of the box.
+> 
+> As discussed offline, Gunyah injecting an SEA into the kernel is
+> questionable, but I understand that the architecture is a bit lacking in
+> this department, and that's probably the next best thing.
 >
-> On Wed, Jan 10, 2024 at 01:49:42PM -0600, David Lechner wrote:
-> > This adds a feature for specialized SPI controllers that can record
-> > a series of SPI transfers, including tx data, cs assertions, delays,
-> > etc. and then play them back using a hardware trigger without CPU
-> > intervention.
->
-> > The intended use case for this is with the AXI SPI Engine to capture
-> > data from ADCs at high rates (MSPS) with a stable sample period.
->
-> > Most of the implementation is controller-specific and will be handled b=
-y
-> > drivers that implement the offload_ops callbacks. The API follows a
-> > prepare/enable pattern that should be familiar to users of the clk
-> > subsystem.
->
-> This is a lot to do in one go, and I think it's a bit too off on the
-> side and unintegrated with the core.  There's two very high level bits
-> here, there's the pre-cooking a message for offloading to be executed by
-> a hardware engine and there's the bit where that's triggered by some
-> hardwar event rather than by software.
->
+> Could the Gunyah driver allocate from a CMA region instead? That would
+> surely simplify unmapping from EL1 stage-1 (similar to how drivers
+> usually donate memory to TZ).
 
-...
+In my opinion, CMA is overly restrictive because we'd have to define the
+region up front and we don't know how much memory the virtual machines
+the user will want to launch.
 
->
-> The bit where messages are initiated by hardware is a step beyond that,
-> I think we need a bit more API for connecting up the triggers and we
-> also need to have something handling what happens with normal operation
-> of the device while these triggers are enabled.  I think it could be
-> useful to split this bit out since there's a lot more to work out there
-> in terms of interfaces.
+Thanks,
+Elliot
 
-Now that we have addressed the pre-cooking messages bit [1] I'm coming
-back to the hardware trigger bit. Since the hardware trigger part
-hasn't been discussed in the past, it's not so clear to me what is
-being requested here (also see specific questions below).
-
-[1]: https://lore.kernel.org/linux-spi/20240219-mainline-spi-precook-messag=
-e-v2-0-4a762c6701b9@baylibre.com/T/#t
-
->
-> > +/**
-> > + * SPI_OFFLOAD_RX - placeholder for indicating read transfers for offl=
-oads
-> > + *
-> > + * Assign xfer->rx_buf to this value for any read transfer passed to
-> > + * spi_offload_prepare(). This will act as a flag to indicate to the o=
-ffload
-> > + * that it should do something with the data read during this transfer=
-. What
-> > + * that something can be is determined by the specific hardware, e.g. =
-it could
-> > + * be piped to DMA or a DSP, etc.
-> > + */
-> > +#define SPI_OFFLOAD_RX_SENTINEL ((void *)1)
->
-> This feels like something where there are likely to be multiple options
-> and we need configurability.  I'd also expect to see a similar transmit
-> option.
-
-Having something similar for TX makes sense. What other sorts of
-options are you envisioning here?
-
->
-> > +int spi_offload_prepare(struct spi_offload *offload, struct spi_device=
- *spi,
-> > +                       struct spi_transfer *xfers, unsigned int num_xf=
-ers)
->
-> I would expect us to just generically prepare a message, then pass a
-> prepared message into the API that enables a trigger.  We would need
-> something that handles the difference between potentially offloading for
-> better performance and having a hardware trigger, I think that might be
-> a case of just not exposing the engine's prepare to client drivers and
-> then having the core track if it needs to do that when enabling a
-> hardware trigger.
-
-Not exposing the offload prepare to client drivers sounds reasonable.
-I'm not sure I understand the potential need for an offload without a
-hardware trigger though.
-
->
-> > +     /**
-> > +      * @enable: Callback to enable the offload.
-> > +      */
-> > +     int (*enable)(struct spi_offload *offload);
-> > +     /**
-> > +      * @disable: Callback to disable the offload.
-> > +      */
-> > +     void (*disable)(struct spi_offload *offload);
->
-> I'm not seeing anything in this API that provides a mechanism for
-> configuring what triggers things to start, even in the case where things
-> are triggered by hardware rather than initiated by software I'd expect
-> to see hardware with runtime configurability.  The binding is a bit
-> unclear but it seems to be expecting this to be statically configured in
-> hardware and that there will be a 1:1 mapping between triggers and
-> scripts that can be configured, if nothing else I would expect that
-> there will be hardware with more possible triggers than scripts.
-
-For the use case of ADCs/DACs we would want a periodic trigger where
-the period of the trigger is runtime configurable (via sysfs). Is this
-the sort of thing you had in mind here? What other sorts of triggers
-do you have in mind?
-
->
-> I'd also expect some treatement of what happens with the standard SPI
-> API while something is enabled.
-
-I suppose it makes sense to return -EBUSY from
-spi_sync()/spi_async()/spi_bus_lock() when a hardware trigger is
-enabled.
