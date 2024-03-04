@@ -1,202 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4417B1947D;
-	Mon,  4 Mar 2024 09:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD2D1BF3D
+	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 09:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709543155; cv=none; b=D1sRWdwQWK/5RHeyB5ERC5WevHXl1KtbRC5goX9w0wrjZ2LxnppX3VlaaJa1SUaIllvpnB409hDGwAYiCYQkZw1HJW9iXsQ4u152XDiVVaQxdTtIUllSvXHZos2kWuN6GFOkVKkhx3scaKhja+j5UXmkd+XlCNc8++ALa1qxVfg=
+	t=1709543845; cv=none; b=tKi+xzO8HAhll7GJqNAYu7V2klhv/M2bGss0rtgBu9kctAQLlbhV5W40DNRvnEmFsOXrGzIImbt4IlP6CIyN3X/wYCIqQVwILUWRDhl7OVDXilsNJGa8TyHIELKEoSGTSXU56Ab9HbELDPPWIw1sJEKVhH/u99dy1DDypmjxK2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709543155; c=relaxed/simple;
-	bh=oBSQ2BaP6ONlD26Oi/FiYU4Y0o8yj3TOaconIxJdkWo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gLNDs9KwfA2I5+rOm3x4EyTwlIZR5DameyZj6x9UQrY3fEOrLXiU6alIjHjlPZpJroyOGfUJikTdvWqbyeMMGJcMhgiEn1RKerLrkg9Nuoi6N346YfEjG/L+TGcQCsKxDdhqrQXzRgWse4dboiubD5he8ELwtdrtm+26En/bIRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 917181FB;
-	Mon,  4 Mar 2024 01:06:30 -0800 (PST)
-Received: from [10.37.129.2] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1497E3F762;
-	Mon,  4 Mar 2024 01:05:51 -0800 (PST)
-From: Balint Dobszay <balint.dobszay@arm.com>
-To: Sumit Garg <sumit.garg@linaro.org>
-Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com,
- rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
-Subject: Re: [PATCH v2 3/3] Documentation: tee: Add TS-TEE driver
-Date: Mon, 04 Mar 2024 10:05:50 +0100
-X-Mailer: MailMate (1.14r5937)
-Message-ID: <96D25150-1FBC-4DEA-A202-CA85E718FAA7@arm.com>
-In-Reply-To: <CAFA6WYP4WVv2H4_2PAn_BOUpYYbG1SDcWL0Gmd6c0ECiH62c_w@mail.gmail.com>
-References: <20240223095133.109046-1-balint.dobszay@arm.com>
- <20240223095133.109046-4-balint.dobszay@arm.com>
- <CAFA6WYP4WVv2H4_2PAn_BOUpYYbG1SDcWL0Gmd6c0ECiH62c_w@mail.gmail.com>
+	s=arc-20240116; t=1709543845; c=relaxed/simple;
+	bh=0cH0sGgH29hlXLiK6gSK9NkKYoxG4zTANFmso2w03CI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FdOeE5cmEY66sMNPyJ8Nd6e7mF4TKgSJM3vgZVsaFOVUMr6jCel8VsBzvbz78/OALoKrdDuKsS58+nq/nuHQuNc9VmOX0L+rZptPITg1VsDMNw58GvDjwVPHnvsJeHPHj4INrKWmRdbjfDSbETq6t7fPjTUWhOvJxV22CgpIYzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZmfpqWs/; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZmfpqWs/"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4703e4d53b6so2357406137.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 01:17:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709543842; x=1710148642; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0MwiZA1cBA+0PzvnzU74hfVNWNLRRcLuEqTA/3M/Bbo=;
+        b=ZmfpqWs/wwjbGUncTcbhtxuETIFupyYg06RvDahAqP7UkyvuXaLPLSC5SESVrG7vHR
+         5wcTFWS+L/WQvKCkCB3XMV0zqKC7dD0VJoDiVusF44s0/UQvBVSZvOHM57GIKmbOj5Ub
+         tBvgj0Gd9Ny8iAL8rKBEOOr2+MdiE5PHOAyQZeo8OKtiNIUU1lGBHgCGYY6UKPLRJA49
+         G4EcrGbR05geMG0wiUFIAQgsivoTyKqHUGEQsRLTY86EsK3sg5xQyMcJucLcmOF/BI8l
+         EZW+kHTCvhDeMoWNB7q8KOPOfxZylvg+0mhuLcT0b0Tx3q0K0+X34NuugjHpk7UDCGau
+         GedQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709543842; x=1710148642;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0MwiZA1cBA+0PzvnzU74hfVNWNLRRcLuEqTA/3M/Bbo=;
+        b=vlfipvfi2nJrl8t6ZbcegGzKNu2DnU532gMZGP8HQjbuRze+Lr+x/36ejlJytYODfT
+         LdEm1d0VOVBQvG2v4HJafkDNu8gEFlRwNv4tWCEdfWWSKmO0G4lMak1+MV9FFeEUfeEv
+         OLxFNctdEbyel0uJIEf+D1wQupfhA0S+z0Fn07I2iJIWtckSYvKfbZ9LLMq0ETyUX9l1
+         1yzTtCE59aCSlH6zJL4xdragLiaoV3vDqbVVIUrc5FNBHuV8DHPs46QbLRtgPayF8l5t
+         8UlHiPI27WTxlcphOtn5GH9x3xaw2Pjei7RfucVfLI10fNzrfnrjZ+jXz8fhKVKA7ext
+         hJMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzQS3kX4jzFN+rqfMTq5xkL/3SZ0N3BvBIZwv//4+/8xws3PuYtRms/qx8hGn00YWZmDVwxiXk/RqDi2LSws50F3mH/5SB7ICy
+X-Gm-Message-State: AOJu0YzLztrYh6buXwBMdE7Z/e/ln5cN2X+4vWj+YRZyNqtJ13DeGonc
+	JVkgCGPyyAbcOdIWAjVqe3f4H9Fp23O9ianAyUxj6PY+5JjFvzt9rOOYnN6NLSn1nXGcmZZK0Bs
+	cQqM1Y2lrbvyRYli7MIeXOQwi6+Nx6vwQIXfWBw==
+X-Google-Smtp-Source: AGHT+IGm58EGp6zyEamWAbvLgFuXFt0fgBxhzGA+FlV7PlF7jNoSc6rWzROVnOONJMROb+xdl1spvGMBUyIuuAKRJpw=
+X-Received: by 2002:a05:6102:1590:b0:472:9b30:567a with SMTP id
+ g16-20020a056102159000b004729b30567amr6374784vsv.3.1709543842338; Mon, 04 Mar
+ 2024 01:17:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+References: <20240223095133.109046-1-balint.dobszay@arm.com>
+ <20240223095133.109046-2-balint.dobszay@arm.com> <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+ <4E68610D-8F2B-4E27-AE5C-45CB59D7FEC0@arm.com>
+In-Reply-To: <4E68610D-8F2B-4E27-AE5C-45CB59D7FEC0@arm.com>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Mon, 4 Mar 2024 14:47:11 +0530
+Message-ID: <CAFA6WYNz57v_S9CBQHUjvPdzcP9FWuDN0ciPNvgUZY_-m3JKRg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
+To: Balint Dobszay <balint.dobszay@arm.com>
+Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com, 
+	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 27 Feb 2024, at 8:14, Sumit Garg wrote:
+Hi Balint,
 
-> On Fri, 23 Feb 2024 at 15:23, Balint Dobszay <balint.dobszay@arm.com> w=
-rote:
->>
->> Add documentation for the Trusted Services TEE driver.
->>
->> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
->> ---
->>  Documentation/tee/index.rst  |  1 +
->>  Documentation/tee/ts-tee.rst | 71 +++++++++++++++++++++++++++++++++++=
-+
->>  2 files changed, 72 insertions(+)
->>  create mode 100644 Documentation/tee/ts-tee.rst
->>
+On Mon, 4 Mar 2024 at 14:33, Balint Dobszay <balint.dobszay@arm.com> wrote:
 >
-> Acked-by: Sumit Garg <sumit.garg@linaro.org>
+> Hi Sumit,
 >
-> -Sumit
 
-Thanks, I'll apply the tag in the next version.
+[snip]
 
-Regards,
-Balint
+> >> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> >> index 911ddf92dcee..4cf402424e71 100644
+> >> --- a/include/linux/tee_drv.h
+> >> +++ b/include/linux/tee_drv.h
+> >> @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *teedev);
+> >>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+> >>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, size_t size);
+> >>
+> >> +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> >> +                                size_t size, size_t align,
+> >> +                                int (*shm_register)(struct tee_context *ctx,
+> >> +                                                    struct tee_shm *shm,
+> >> +                                                    struct page **pages,
+> >> +                                                    size_t num_pages,
+> >> +                                                    unsigned long start));
+> >> +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_shm *shm,
+> >> +                                int (*shm_unregister)(struct tee_context *ctx,
+> >> +                                                      struct tee_shm *shm));
+> >> +
+> >
+> > These rather belong to drivers/tee/tee_private.h as we shouldn't
+> > expose them to other kernel client drivers.
+>
+> As per the discussion in the other thread I'll ignore this.
+>
 
->> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst=
+Then it will have conflicts with this [1] patch. If you are fine to
+incorporate [1] in your series then the right place for these function
+declarations should be include/linux/tee_core.h.
 
->> index a23bd08847e5..4be6e69d7837 100644
->> --- a/Documentation/tee/index.rst
->> +++ b/Documentation/tee/index.rst
->> @@ -10,6 +10,7 @@ TEE Subsystem
->>     tee
->>     op-tee
->>     amd-tee
->> +   ts-tee
->>
->>  .. only::  subproject and html
->>
->> diff --git a/Documentation/tee/ts-tee.rst b/Documentation/tee/ts-tee.r=
-st
->> new file mode 100644
->> index 000000000000..843e34422648
->> --- /dev/null
->> +++ b/Documentation/tee/ts-tee.rst
->> @@ -0,0 +1,71 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +TS-TEE (Trusted Services project)
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +This driver provides access to secure services implemented by Trusted=
- Services.
->> +
->> +Trusted Services [1] is a TrustedFirmware.org project that provides a=
- framework
->> +for developing and deploying device Root of Trust services in FF-A [2=
-] S-EL0
->> +Secure Partitions. The project hosts the reference implementation of =
-the Arm
->> +Platform Security Architecture [3] for Arm A-profile devices.
->> +
->> +The FF-A Secure Partitions (SP) are accessible through the FF-A drive=
-r [4] which
->> +provides the low level communication for this driver. On top of that =
-the Trusted
->> +Services RPC protocol is used [5]. To use the driver from user space =
-a reference
->> +implementation is provided at [6], which is part of the Trusted Servi=
-ces client
->> +library called libts [7].
->> +
->> +All Trusted Services (TS) SPs have the same FF-A UUID; it identifies =
-the TS RPC
->> +protocol. A TS SP can host one or more services (e.g. PSA Crypto, PSA=
- ITS, etc).
->> +A service is identified by its service UUID; the same type of service=
- cannot be
->> +present twice in the same SP. During SP boot each service in the SP i=
-s assigned
->> +an "interface ID". This is just a short ID to simplify message addres=
-sing.
->> +
->> +The generic TEE design is to share memory at once with the Trusted OS=
-, which can
->> +then be reused to communicate with multiple applications running on t=
-he Trusted
->> +OS. However, in case of FF-A, memory sharing works on an endpoint lev=
-el, i.e.
->> +memory is shared with a specific SP. User space has to be able to sep=
-arately
->> +share memory with each SP based on its endpoint ID; therefore a separ=
-ate TEE
->> +device is registered for each discovered TS SP. Opening the SP corres=
-ponds to
->> +opening the TEE device and creating a TEE context. A TS SP hosts one =
-or more
->> +services. Opening a service corresponds to opening a session in the g=
-iven
->> +tee_context.
->> +
->> +Overview of a system with Trusted Services components::
->> +
->> +   User space                  Kernel space                   Secure =
-world
->> +   ~~~~~~~~~~                  ~~~~~~~~~~~~                   ~~~~~~~=
-~~~~~
->> +   +--------+                                               +--------=
------+
->> +   | Client |                                               | Trusted=
-     |
->> +   +--------+                                               | Service=
-s SP |
->> +      /\                                                    +--------=
------+
->> +      ||                                                          /\
->> +      ||                                                          ||
->> +      ||                                                          ||
->> +      \/                                                          \/
->> +   +-------+                +----------+--------+           +--------=
------+
->> +   | libts |                |  TEE     | TS-TEE |           |  FF-A S=
-PMC  |
->> +   |       |                |  subsys  | driver |           |   + SPM=
-D    |
->> +   +-------+----------------+----+-----+--------+-----------+--------=
------+
->> +   |      Generic TEE API        |     |  FF-A  |     TS RPC protocol=
-     |
->> +   |      IOCTL (TEE_IOC_*)      |     | driver |        over FF-A   =
-     |
->> +   +-----------------------------+     +--------+--------------------=
------+
->> +
->> +References
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +[1] https://www.trustedfirmware.org/projects/trusted-services/
->> +
->> +[2] https://developer.arm.com/documentation/den0077/
->> +
->> +[3] https://www.arm.com/architecture/security-features/platform-secur=
-ity
->> +
->> +[4] drivers/firmware/arm_ffa/
->> +
->> +[5] https://trusted-services.readthedocs.io/en/v1.0.0/developer/servi=
-ce-access-protocols.html#abi
->> +
->> +[6] https://git.trustedfirmware.org/TS/trusted-services.git/tree/comp=
-onents/rpc/ts_rpc/caller/linux/ts_rpc_caller_linux.c?h=3Dv1.0.0
->> +
->> +[7] https://git.trustedfirmware.org/TS/trusted-services.git/tree/depl=
-oyments/libts/arm-linux/CMakeLists.txt?h=3Dv1.0.0
->> --
->> 2.34.1
->>
+[1] https://www.spinics.net/lists/kernel/msg5122983.html
+
+-Sumit
+
+> Regards,
+> Balint
+>
+> >>  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
+> >>                                             void *addr, size_t length);
+> >>
+> >> --
+> >> 2.34.1
+> >>
