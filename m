@@ -1,186 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2027D3F4;
-	Mon,  4 Mar 2024 23:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709593684; cv=fail; b=A+Uy0E3cAOpYnqyCFiARa0XrDsjvlSNms7DvzKzbfeWYvRdgWwxnRF57fgidxire5LX2U1YC1feDVZicj1L5B7Y8khck48wXOAEmvSy9dOOjgVn6FFK7TqaaXNap7n4Aw2q81FSOFpY91l7OhyYw3MWDV5mk1mlBZa9IjdNGnKk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709593684; c=relaxed/simple;
-	bh=loBZPWgHzWGBZ8iRlTxM0OSSvxIKltSNg2wmJLZYcBM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JzntNl+vg3iUKpywz3x7nQKQ1CNKGp4QSUS+4TCeZXwNM/pg/PpYNxQiSdNndnke7UKd4Ue9BFPrBI1ZvGFVEICI3oEg9DJkgLxbY6RDRiNOmTqgTupG48EUJujpkJn6dx/aQQCS8Z6xMmlV9Qu+p5dUUwk23uFjx8F5ETZUgys=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzIVFtgG; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F41A7CF06
+	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 23:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709594496; cv=none; b=Yjq3P5vNx0LNFUvFbWZOsFjDZGTi1WfO9cKQ841qZ3KnHsGwW8GwCZTGRMtVQt6oyUxUY/Z4xRNxtCoxmG9o+pZc/R6ru4c5IZ5t1Y/mfRDqaXW86uXsIoijjWmVsZ8vW56ea456RQsLlQ1h5Ef0CVbJUPITFtBioUPlJcZP2bc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709594496; c=relaxed/simple;
+	bh=lh1j9mkwmpI2gqFb91geb6fvk73hJ96VT9uC2utdnFE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OrcdFAETHcwdaSl9F7TDZi7X26c73ZfibYGTzLXpfljLPdDM0ANuZsMLO/IGt6t+JSze1oa4ump+iLbwRCRhqjCccocRD50kAiBH3MPFciuwdzeEMKHK3Ta1jo1nIEyt8AqIuAUFCWUBxm+8mPE3e82DSaes6kUkBNY7Jawb4Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=S6ylp9g9; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzIVFtgG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709593683; x=1741129683;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=loBZPWgHzWGBZ8iRlTxM0OSSvxIKltSNg2wmJLZYcBM=;
-  b=bzIVFtgGBNWL1aZ2QJ3hx7wPz6XGv8I09S2ZL4rxnqAvaNhjcUfSh0dp
-   eBng58tJKIF421YtopNir4CQ5sHBrEr2ystOxSd9ox76ZyjdQofnMWivI
-   rh1pJ3WS2dA1D6miJb6oeSEuGk/7XzjH/4WMzwOYOVDaoMoHSwKhvoE2d
-   kQj9//b9YHmhY1i40MqJpIKNWtI/Ruxg6sX4vhIYITTGzXK50KjqGJAsu
-   ZUQ2ux/upuOCUecs0A2KqA2Vkxw8e8CZpRQ3UXa/MPmfZv9I6G/crBX+b
-   kTf7rrzIL/btkKY3hpjqD7Q7PAUCYm7/ZtOwtrY0wuBw1LCASDAFxNHA8
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7933485"
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="7933485"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 15:08:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
-   d="scan'208";a="40029775"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Mar 2024 15:08:01 -0800
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 4 Mar 2024 15:08:00 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 15:08:00 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 4 Mar 2024 15:08:00 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eu8vY7fbQOZ+bMN1eLWckv8e6vPQzup8MPIToDAWPCkDaaqiXuibjB7wC9+eoT0cra6gIzogmrIgxJgTRZ/8Dp2TN3moIscDs7PzQpbeFS5uWabsOXruFafrfG5igtOYMiyvpirXGPeY3qAkcoBk8q6ZGOFsE5CrVQJgdUD9HqBiShSvgL0gL422/0MaF4RjO3b1juGNLe9VjKpskh1NcVH/AtWksF1+09hSNIznYmEWgk9gEF4LOkUe4L2J0/XrdhY+TUqEVHsG2/7QtIUTMEISLojLILF07tFW6tVkCsoODJL35DGywPJ5lvtzcjlduKVY7zulHtzmnZ6UjjkRmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F8tgfN1iqvVgCh8h1tlSMwxOQqz0jd7KhJFTgxQOXTg=;
- b=nBZxCMvTR1lR55v1RUxlzQSIgO+Bo2szzTYZVe1ajLHZKvYJwWG0FP9M+GH43WPOraCpeaNH76FiUsAr0CU2vjqJiE+Ln01riWUT/TytaWOUQ26igIBK+7oT8jSMrqCa9FcjCF8rwsgHUQCxSQ2edao/CZzBwK5RKSzKuA4y109hk2K8dwWR2ilVeS6z4S0d4LGn0g/o45CTlnIqAUVjvX/pI3GOxchOBLwr7nJq0WKqTVJL9oGK/PVrIMCqE3/IZ3A6nxn+VY1k7EmNSDME5RVlC6yUR0g2yHr3ShvOxF4nVBPTGBhk2JMq8l95nw+vh2PXsAUD9oT6Sju/n9nhog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by IA1PR11MB6074.namprd11.prod.outlook.com (2603:10b6:208:3d6::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.22; Mon, 4 Mar
- 2024 23:07:53 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
- 23:07:52 +0000
-Message-ID: <58c936af-b338-4951-97d4-4af9185babd4@intel.com>
-Date: Mon, 4 Mar 2024 15:07:51 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] x86/resctrl: Simplify call convention for MSR
- update functions
-Content-Language: en-US
-To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
- Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, <x86@kernel.org>
-CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
-	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
-	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, Drew Fustini
-	<dfustini@baylibre.com>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <patches@lists.linux.dev>
-References: <20240228112215.8044-tony.luck@intel.com>
- <20240228193717.8170-2-tony.luck@intel.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20240228193717.8170-2-tony.luck@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0250.namprd04.prod.outlook.com
- (2603:10b6:303:88::15) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="S6ylp9g9"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d269dc3575so44331071fa.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 15:21:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709594492; x=1710199292; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N3ZG5nlSne7db2l1bcwU+jExqpiSpjwO/TmBdJh8VJg=;
+        b=S6ylp9g982cS6wb4uZ7VPArITV9OTV2DCi/ZCnteBYB7FAczdV0rdgJUhbEuFYFUil
+         H/3188cYn++7aCbwWwq2+I0Hzdigeb/t+dFy42VcbMaQQ2Y8pW8mciHZ23VKo9OGCeaC
+         F9QMvnf5MfgEkq6XfRq5A7553+nHjvSBkh9I2SEVQ+nAE4mo6hRcdoBT9TkJpApNrJE+
+         XbdBT3huYLU2VKAhAj+6CKMdBmLl60y0d+adKiuatm/wrqjtqvGn/MfJ8INZlFlaE47K
+         BDcyITVblRBcLvYzWpHvHuMQDlSw1UOYBeQZb6g733BLGNBJk8o/CZxYSibIjb1ZnvHW
+         d3Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709594492; x=1710199292;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N3ZG5nlSne7db2l1bcwU+jExqpiSpjwO/TmBdJh8VJg=;
+        b=BPcvzBw4g59IJIoQZUuoT3u2EuP/yzLerm3jhNmV2ziCadU0LqCFhVmnUtL2ICPMNg
+         qagp6Y4uFdQLFeNIrJ21n7xWc8aHhgpHEgLfY8TZF6IJuAnxqKZOfQF8tizVQTotzPFD
+         JL9F6uhN5EfnPqrA20PQ7GcVVQIhuM4jbNAUWtemW5LUbYmgGRNLeyjwfW1DcGB1B775
+         KpLxeQXCz5oI5sy5w0MjXlvLBzmzd/eDppQ4qRlQkosBLWh3E3eLAB9YqdcnkOUw6SzK
+         q4bUe2RH06DD2OQCpk3NOtIiQQhZdr4ud6mWg6JidsTnZlx2ATOE3NdC4LVmyRpunegU
+         3urw==
+X-Forwarded-Encrypted: i=1; AJvYcCVch37MQtdZhPDCzHd10RE2b1UWOhTrzzHj5t8FtW9wdib7fMdTVY4TP3y2d13n6tGe7+3fFWPTZBwj96RGz7anPXmVCKh18iNr
+X-Gm-Message-State: AOJu0YxijTXAdG4zWkGfQQhrYlyPzv1LDjG0MRoe/FZZ7r1GAeNgP4Wj
+	Z9cf0UUK7O5eRTM1y6ztRgigS4akDLcz0RgVfePv6rLydSO/TeNhglvMKSgwT+G7M+R/x8FRjA8
+	2693nrRhTj/oISHoFfFFI/DTUa+dIRllgeNPIDg==
+X-Google-Smtp-Source: AGHT+IHhkmAMXuI+MFs08V2iullSSxJpLZi8jtE64M56Q68Qh2gmKRxSf52O1/PncRjgbQAB/LiVw+q9XDtozfckFb4=
+X-Received: by 2002:a2e:80ca:0:b0:2d2:2c74:ff02 with SMTP id
+ r10-20020a2e80ca000000b002d22c74ff02mr87597ljg.9.1709594492412; Mon, 04 Mar
+ 2024 15:21:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB6074:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f778cb7-f4e0-443a-9460-08dc3c9feb73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lbilV+yL8Yd/cnsNn1DyUBUdGUh/dQ5GbbInKZv+J5J24qqZq9AUC6+/QbDvZaDsm5DsDyimtrlGMHSyQJ34H8Tf7SuMQBbbqUo1edwublpA0yRCOVB2BZ6MxFxeE78S55lYQxcT2u8h4CSUG3k6yFU+24KvJayFJNX05J5bfdLSGBcrbqMVKoA0VwT1cgQN3664eQ7mpt355z6IENOqPeM9VzJXABQE1568p7eqPbgXHcprjjfAx0rNppRbaNU9DN0cUdJslDAlZQn1tPiTMkQqXY63exwkk9TS8IQLg+0nYblrNGaxxzH4J9pzcpJKXX6QeEA1KmNIj/XD5TQ59D9rtoyruBCk67b3LhHqs+U25H5ukbzwDNAPcWngEoixgHyCZD1g7lrUj03Yr6d5Tu3EARd10PsgiU8BBxIlO281Bl1Y5mfJwunc3gruC7NxRz+nYOxEfKmE/c3cc7eIYPrmunkt3gif2vg5xnuirW6EET9Juy2gDk+9BM5sDbcrYdcuPwOgKJ5ACenjHwcY8/Wsvlj2r8S+3VctjpvNOYIMAnfFFoUEge+lP+i0Uo5JRSKUw15hthe/mcVDXjcBfdjoMAksjnTVbGWAVMGsYaMQFGb1L8Jw0XQX8U7sJgrqud4Aph6ag+fCRZc2arcRqlTqSN7NCygee0B85HK/G9E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVY2MjFZY2lJd1JSVElzNHhrZm5weWZxcytNRWJ6Z29ieTR1ZUpEM0VJT0xE?=
- =?utf-8?B?TFlKd0FtaUFqTk9hUXVpcG84d2w5RmxKZU5HQ2c3V0lzZUNIUzdwMnNFejJU?=
- =?utf-8?B?eUlvZm9FRE5BcFA0WmJyeHlnekpSeXR1TlFrblRlSzVFcExEK2FDTitDYWRN?=
- =?utf-8?B?ZGl4bDhHMjdSdkJRekpBVDhNVG5FMSsxbkl2NW85Y2U2L0grVFdCbkdnT29P?=
- =?utf-8?B?UVdFWlhQWlc3RzhMMytnTXlheTNEaDFONzdzK2tYQkVNdkx2dHVuQXBmZmlJ?=
- =?utf-8?B?NHRXTnhGZkNkTWlFNGQ4V0xvcTFSY3lOUmlxQ2ZtV3NtaU1BNjFkSFVPTTJU?=
- =?utf-8?B?ME5iUDFHVVJCZjkvdVZHalNCUzdsNU51K1doUW5CazFZMTltTWRKd3FNV3Yz?=
- =?utf-8?B?NFBqM1FNb25sdE90d25yK2RRZXIyUk5aeTFGUm4zTkdxS1JlbHpXZzJJeksv?=
- =?utf-8?B?YUtRTnlHR2FMdTNIYzRzcXJhamtLdVFDSDJiWnB1NmNhM1R6SzFTL1YwQnhJ?=
- =?utf-8?B?UnErdkN5MkRNZm9NUXhxK3ZJMnNPRHNSMFYybTVzcm5JZFpUS3pKUjVaM2Zv?=
- =?utf-8?B?WVFuVzBndTBvTjZtS2pXSzhTaWJJNU9ZNC9FRFlWdkMxNE5sckpnV2VDb2hz?=
- =?utf-8?B?L2VxT2t3T2c0R29nV2p1czRLTjRRLzd0ajk2M3FtQnJkbE84VVQ2VHFzUWVm?=
- =?utf-8?B?bzZvdTJ0M2Q0TDJVUGp0VG5WSHorTDBJai9vRTJGUGN4NzB1RUhHejNJY1lo?=
- =?utf-8?B?ZG1ORkwyVldxdGtjeHI4RkNkd0ZNMUZONDM2NDZPbzFBZlVyMXhUUEYzb2k4?=
- =?utf-8?B?ckg5eU5aSG9VSWJiV21ncXlrUU43eEJEOHdYK0JpQ3JzVWt0Ym1lZjh3T0NM?=
- =?utf-8?B?NWtmT2VXWXhvMDdna3FoUVZ1azMrUWZoVXhIS0tIRm41V0hhSHdRVnZDYlNU?=
- =?utf-8?B?bitSSEt3UGNzNTNpbnM3U3oya0c3dzNKMXR6a3RmYUo3VUdqT0xYcGhWaXlS?=
- =?utf-8?B?Vk5ka1pIMGVIZENBakI2Y0J2c09kK3Zxa0RuSXJmdUV0VHlrZ05VUHlvNG1U?=
- =?utf-8?B?Wk9LWkk2R2E5d2VjQUJUejdRMkhOTEIrTFhSRjdXTEFhL0JvZTBpUkxUYXdZ?=
- =?utf-8?B?eldVWEZRempkRlExcmlsaDJSbStjRXBXL01HNGFrc3N1dXZDUUpvcG1kN2RJ?=
- =?utf-8?B?eHhPNmc1RzNwaDlZZkUwcjZJQlc1b0xnY0xEakJ1dHVoVnorY1IzMDh3QTNX?=
- =?utf-8?B?dWFoWXkrTldLRzBZeFUrdEIxMGQzVHB5UDNxR2crT1JWdHBJQkVLZzJyRWsv?=
- =?utf-8?B?bi9mN1kvcU9QNGk3c2ZvSFJBNDNYOHhOUjdmU0k0bm5IYklFUjY5SHptV2Qy?=
- =?utf-8?B?VmpId3FFcXArSHJtVE9aOTlHeUR3U0thTEpMb2FhWnNtb3Qrb0c2MktrZmp5?=
- =?utf-8?B?ZWtzQU5LaXRzTktuOGZhTWNVWVVUZkJ0cVo5OHBCYWc0MzZFRlVRcjNmWlA3?=
- =?utf-8?B?Nmc0NEZYL2FVUVFKN2dTRVRzdkR2TlVoVU5HTnNpYVRzZm5MR0VPazhQcUR2?=
- =?utf-8?B?MTRhK09HTGpJL0dEMElVTmJBV1Q2MUl6QUlHeVRsdEtHNUdwWHpKSElZTFFx?=
- =?utf-8?B?UUJoZW9nZ08vMDhyQ3ljLzR3akx1aU1LeW5KYW9leHN2b0p0Tm5uaFhlTExO?=
- =?utf-8?B?WGFSZmJ6SnNScVNoT2M1YktLbXNYM1k2ZFkvY0FnWXhlSUl3eHlwdTFKRWlk?=
- =?utf-8?B?QU1kejVieWdERkNoQU4yTHpGVDB4Zkx6ZDZDRWtuU2d5QUF4ZFh4eWp4QWJ2?=
- =?utf-8?B?Vk5odEVRS0hqYk4yQ1RJcFBjbHl2d1Q2Vk0wVHZYNkpINUxRMmw5d3E1WjRh?=
- =?utf-8?B?c0pYd043Z0orM3p1Yko4bENBeDc4NzkxemhyWlhYQlN4YmZuRm5xSG90VjFK?=
- =?utf-8?B?NVMrM1Brcll0bWlEYkFiQTJlTzFhV2twM1BhSDBPQlNtc0RNem5Vblg1blBZ?=
- =?utf-8?B?dXo3S0F0UzVqbnE4dGg0YVVNSzJxS2QwaFgyYXU4V0VqckdNZGI0Sis3ODFO?=
- =?utf-8?B?c2xtbCtQSkhlYXcvT3F3NkxJaS9VVTNrb1U3MVRQNVpKODdUT25PQTliemYv?=
- =?utf-8?B?UFZFQmtVRUdKOHNPT09JZm1kb21Cb0NtdGsyT2J0akZBNys3QUVrRUd4UWdq?=
- =?utf-8?B?MlE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f778cb7-f4e0-443a-9460-08dc3c9feb73
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 23:07:52.8585
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: owMEv+QLMwdZZSLNXx7XigTeeTXLi/Qsb7FPi2qn6mLM0NJMdffSERZfOpAQrGX3i/FyTnSWKd4nW4zUNasmcDNZtGeWHn6OFKxNroifyOQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6074
-X-OriginatorOrg: intel.com
+References: <20240109-axi-spi-engine-series-3-v1-0-e42c6a986580@baylibre.com>
+ <20240109-axi-spi-engine-series-3-v1-1-e42c6a986580@baylibre.com> <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
+In-Reply-To: <2c74aad9-3cb9-4222-8072-e72120c2658e@sirena.org.uk>
+From: David Lechner <dlechner@baylibre.com>
+Date: Mon, 4 Mar 2024 17:21:21 -0600
+Message-ID: <CAMknhBHP+x4e0kTmNTn6JNKv=VCosZhBWce1MjjFW4MZ+K2Hcg@mail.gmail.com>
+Subject: Re: [PATCH 01/13] spi: add core support for controllers with offload capabilities
+To: Mark Brown <broonie@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Hennerich <michael.hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Frank Rowand <frowand.list@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-spi@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	David Jander <david@protonic.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tony,
+On Wed, Jan 10, 2024 at 3:36=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Wed, Jan 10, 2024 at 01:49:42PM -0600, David Lechner wrote:
+> > This adds a feature for specialized SPI controllers that can record
+> > a series of SPI transfers, including tx data, cs assertions, delays,
+> > etc. and then play them back using a hardware trigger without CPU
+> > intervention.
+>
+> > The intended use case for this is with the AXI SPI Engine to capture
+> > data from ADCs at high rates (MSPS) with a stable sample period.
+>
+> > Most of the implementation is controller-specific and will be handled b=
+y
+> > drivers that implement the offload_ops callbacks. The API follows a
+> > prepare/enable pattern that should be familiar to users of the clk
+> > subsystem.
+>
+> This is a lot to do in one go, and I think it's a bit too off on the
+> side and unintegrated with the core.  There's two very high level bits
+> here, there's the pre-cooking a message for offloading to be executed by
+> a hardware engine and there's the bit where that's triggered by some
+> hardwar event rather than by software.
+>
 
-On 2/28/2024 11:36 AM, Tony Luck wrote:
-> The per-resource MSR update functions cat_wrmsr(), mba_wrmsr_intel(),
-> and mba_wrmsr_amd() all take three arguments:
-> 
->   (struct rdt_domain *d, struct msr_param *m, struct rdt_resource *r)
-> 
-> struct msr_param contains pointers to both struct rdt_resource and struct
-> rdt_domain, thus only struct msr_param is necessary.
-> 
-> Pass struct msr_param as a single parameter. Clean up formatting and
-> fix some fir tree declaration ordering.
-> 
-> No functional change.
-> 
-> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
+...
 
-Thank you.
+>
+> The bit where messages are initiated by hardware is a step beyond that,
+> I think we need a bit more API for connecting up the triggers and we
+> also need to have something handling what happens with normal operation
+> of the device while these triggers are enabled.  I think it could be
+> useful to split this bit out since there's a lot more to work out there
+> in terms of interfaces.
 
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+Now that we have addressed the pre-cooking messages bit [1] I'm coming
+back to the hardware trigger bit. Since the hardware trigger part
+hasn't been discussed in the past, it's not so clear to me what is
+being requested here (also see specific questions below).
 
-Reinette
+[1]: https://lore.kernel.org/linux-spi/20240219-mainline-spi-precook-messag=
+e-v2-0-4a762c6701b9@baylibre.com/T/#t
+
+>
+> > +/**
+> > + * SPI_OFFLOAD_RX - placeholder for indicating read transfers for offl=
+oads
+> > + *
+> > + * Assign xfer->rx_buf to this value for any read transfer passed to
+> > + * spi_offload_prepare(). This will act as a flag to indicate to the o=
+ffload
+> > + * that it should do something with the data read during this transfer=
+. What
+> > + * that something can be is determined by the specific hardware, e.g. =
+it could
+> > + * be piped to DMA or a DSP, etc.
+> > + */
+> > +#define SPI_OFFLOAD_RX_SENTINEL ((void *)1)
+>
+> This feels like something where there are likely to be multiple options
+> and we need configurability.  I'd also expect to see a similar transmit
+> option.
+
+Having something similar for TX makes sense. What other sorts of
+options are you envisioning here?
+
+>
+> > +int spi_offload_prepare(struct spi_offload *offload, struct spi_device=
+ *spi,
+> > +                       struct spi_transfer *xfers, unsigned int num_xf=
+ers)
+>
+> I would expect us to just generically prepare a message, then pass a
+> prepared message into the API that enables a trigger.  We would need
+> something that handles the difference between potentially offloading for
+> better performance and having a hardware trigger, I think that might be
+> a case of just not exposing the engine's prepare to client drivers and
+> then having the core track if it needs to do that when enabling a
+> hardware trigger.
+
+Not exposing the offload prepare to client drivers sounds reasonable.
+I'm not sure I understand the potential need for an offload without a
+hardware trigger though.
+
+>
+> > +     /**
+> > +      * @enable: Callback to enable the offload.
+> > +      */
+> > +     int (*enable)(struct spi_offload *offload);
+> > +     /**
+> > +      * @disable: Callback to disable the offload.
+> > +      */
+> > +     void (*disable)(struct spi_offload *offload);
+>
+> I'm not seeing anything in this API that provides a mechanism for
+> configuring what triggers things to start, even in the case where things
+> are triggered by hardware rather than initiated by software I'd expect
+> to see hardware with runtime configurability.  The binding is a bit
+> unclear but it seems to be expecting this to be statically configured in
+> hardware and that there will be a 1:1 mapping between triggers and
+> scripts that can be configured, if nothing else I would expect that
+> there will be hardware with more possible triggers than scripts.
+
+For the use case of ADCs/DACs we would want a periodic trigger where
+the period of the trigger is runtime configurable (via sysfs). Is this
+the sort of thing you had in mind here? What other sorts of triggers
+do you have in mind?
+
+>
+> I'd also expect some treatement of what happens with the standard SPI
+> API while something is enabled.
+
+I suppose it makes sense to return -EBUSY from
+spi_sync()/spi_async()/spi_bus_lock() when a hardware trigger is
+enabled.
