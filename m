@@ -1,147 +1,122 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004D45970
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 14:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1BE3FB8B;
+	Mon,  4 Mar 2024 14:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709562234; cv=none; b=i3BXUwn8vXyy37+7o9BuOCLZDm53vYV0bwqq9KpRCHHNUIrWm+ZQrbi+n1XU5NcVgvNlACLr+9Ahd1NtnTIHgJKl3oxskV1n5zOs2IXkkfwLkHjG9qYL4s1N7lRXze/aXqiCbzXjfR0EHYlr6Sjy2nU9Nz5Sj16e+zjM7evYOdA=
+	t=1709562284; cv=none; b=tCf8IPQrchVldnUxzU4+DFQM5guLABmbXhLA02wgRwzDrApgS5nbNyzh6b5kWOh0INVfZOc4DuQE+xbemAWgxgQrmjgtw45dx1VS3EukZrRZrM9c4C2Nnrw7vuy4m3ALiF1euyFgaJDamtIQBsnvElM2qR7+YBTDy/6dldr0M0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709562234; c=relaxed/simple;
-	bh=ObcxFbtc6CHI8exv2xXtNHEcKxe9mw8/hFp5f4FVeIQ=;
+	s=arc-20240116; t=1709562284; c=relaxed/simple;
+	bh=KITP09qisQQ4/2pZCbAvCnZGgo1XzhvdRiFLcmTHqb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YpyiEGQvzGH52Z24zWIz2neOa2eM2tpZc0XeCEKt1Q9YeIYJvtieNdqkjfTIjQWO6N46jKh1V/FzjslfQ+3xIjEvAkruALltcI6Wdn+H6Z6nLHXA4Erj6D/u5LeiUdjlhfSDjpxQDkUPE7tSDfkuLPxCiEEbeycHeuaucecH7ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh9Du-00016V-Bk; Mon, 04 Mar 2024 15:23:22 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh9Dt-004N6X-1P; Mon, 04 Mar 2024 15:23:21 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh9Ds-001ulU-30;
-	Mon, 04 Mar 2024 15:23:20 +0100
-Date: Mon, 4 Mar 2024 15:23:20 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=RuHfJyOxT9t6whOLSevGq6jOqgoaP3CsnHFYWTLKRIs7+WRZm9squzOC6Q76+4LIcd2RyZpBqzplLDXg/LW24G52qpTM1xDDQV/bs3WEY80mkfjHx+l7HEMBeCMcBI9SxulgVAIAfer7ncmR+NtZpbXwxfKn6rPN/qtEyqnBPKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ehaq55tS; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ehaq55tS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56A25C433C7;
+	Mon,  4 Mar 2024 14:24:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709562283;
+	bh=KITP09qisQQ4/2pZCbAvCnZGgo1XzhvdRiFLcmTHqb4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ehaq55tSG+2t9+StHrrqBipANU2b83k2yNcb1blrzEyGt4+jcqmbJN51d+wZP7VYI
+	 WjL780kUEccs2iD3JbCsxbUxOk/fIOJL24eDnlUwa/4tj9VjcX/Wt00Ygr4xkeR4BQ
+	 48mo7Af1s/UxBDHcU0OfM67z90hF/jhdsIRuTQEKwXzB3s9nMCaUPmQEpi8ZpflqbS
+	 sJw3BASxEWhmK6XUyPm9aCTyM2WiO6ufOpj2djBd9O3cJLc5U1AJwpNjDmfFROs9DU
+	 a+WRpD1q4ms9UY5U5DCQHf/gQ5Lxxq7wJjhvTc4nA4YwD2pxmEAfZJvbwT9u6baMCy
+	 tVWTyPR8PdQGQ==
+Date: Mon, 4 Mar 2024 08:24:42 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
+	James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <ZeXZWAq1QwqCUJAm@pengutronix.de>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
- <20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
- <ZeObuKHkPN3tiWz_@pengutronix.de>
- <20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
- <84b300c7-8295-424b-9117-c604fb4cd73e@lunn.ch>
- <ZeXO_NhXZQajGZPr@pengutronix.de>
- <290c516e-6cf7-4db2-9b32-c9dc7200fe73@lunn.ch>
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 06/25] capability: provide helpers for converting
+ between xattrs and vfs_caps
+Message-ID: <ZeXZqueCPTNzZtku@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-6-3039364623bd@kernel.org>
+ <7633ab5d5359116a602cdc8f85afd2561047960e.camel@huaweicloud.com>
+ <ZeIlwkUx5lNBrdS9@do-x1extreme>
+ <be91c7158b1b9bed35aa9c3205e8f8e467778a5f.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <290c516e-6cf7-4db2-9b32-c9dc7200fe73@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <be91c7158b1b9bed35aa9c3205e8f8e467778a5f.camel@huaweicloud.com>
 
-On Mon, Mar 04, 2024 at 02:53:54PM +0100, Andrew Lunn wrote:
-> On Mon, Mar 04, 2024 at 02:39:08PM +0100, Oleksij Rempel wrote:
-> > On Mon, Mar 04, 2024 at 02:32:50PM +0100, Andrew Lunn wrote:
-> > > > > > +	psec = dev_find_pse_control(&phy->mdio.dev);
-> > > > > > +	if (IS_ERR(psec)) {
-> > > > > > +		rc = PTR_ERR(psec);
-> > > > > > +		goto unregister_phy;
-> > > > > > +	}
-> > > > > > +  
-> > > > > 
-> > > > > I do not think it is a good idea to make PSE controller depend on
-> > > > > phy->mdio.dev. The only reason why we have fwnode_find_pse_control()
-> > > > > here was the missing port abstraction.
-> > > > 
-> > > > I totally agree that having port abstraction would be more convenient.
-> > > > Maxime Chevallier is currently working on this and will post it after his
-> > > > multi-phy series get merged.
-> > > > Meanwhile, we still need a device pointer for getting the regulator. The
-> > > > phy->mdio.dev is the only one I can think of as a regulator consumer.
-> > > > Another idea?
+On Mon, Mar 04, 2024 at 09:33:06AM +0100, Roberto Sassu wrote:
+> On Fri, 2024-03-01 at 13:00 -0600, Seth Forshee (DigitalOcean) wrote:
+> > On Fri, Mar 01, 2024 at 05:30:55PM +0100, Roberto Sassu wrote:
+> > > > +/*
+> > > > + * Inner implementation of vfs_caps_to_xattr() which does not return an
+> > > > + * error if the rootid does not map into @dest_userns.
+> > > > + */
+> > > > +static ssize_t __vfs_caps_to_xattr(struct mnt_idmap *idmap,
+> > > > +				   struct user_namespace *dest_userns,
+> > > > +				   const struct vfs_caps *vfs_caps,
+> > > > +				   void *data, size_t size)
+> > > > +{
+> > > > +	struct vfs_ns_cap_data *ns_caps = data;
+> > > > +	struct vfs_cap_data *caps = (struct vfs_cap_data *)ns_caps;
+> > > > +	kuid_t rootkuid;
+> > > > +	uid_t rootid;
+> > > > +
+> > > > +	memset(ns_caps, 0, size);
 > > > 
-> > > Sorry, i've not been keeping up...
-> > > 
-> > > Doesn't the device tree binding determine this? Where is the consumer
-> > > in the tree?
+> > > size -> sizeof(*ns_caps) (or an equivalent change)
 > > 
-> > The real consumer is outside of the system.
+> > This is zeroing out the passed buffer, so it should use the size passed
+> > for the buffer. sizeof(*ns_caps) could potentially be more than the size
+> > of the buffer.
 > 
-> The device on the other end of the cable?
-
-yes.
-
-> > Withing the system, it would be the RJ45 port, but we have no
-> > abstraction for ports so far.
+> Uhm, then maybe the problem is that you are passing the wrong argument?
 > 
-> A Linux regulator is generally used in a producer/consumer pair. If
-> there is no consumer device, why have a producer? What is going to use
-> the consumer API?
+> ssize_t
+> do_getxattr(struct mnt_idmap *idmap, struct dentry *d,
+> 	struct xattr_ctx *ctx)
+> {
+> 	ssize_t error;
+> 	char *kname = ctx->kname->name;
+> 
+> 	if (is_fscaps_xattr(kname)) {
+> 		struct vfs_caps caps;
+> 		struct vfs_ns_cap_data data;
+> 		int ret;
+> 
+> 		ret = vfs_get_fscaps(idmap, d, &caps);
+> 		if (ret)
+> 			return ret;
+> 		/*
+> 		 * rootid is already in the mount idmap, so pass nop_mnt_idmap
+> 		 * so that it won't be mapped.
+> 		 */
+> 		ret = vfs_caps_to_user_xattr(&nop_mnt_idmap, current_user_ns(),
+> 					     &caps, &data, ctx->size);
+> 
+> 
+> ctx->size in my case is 1024 bytes.
 
-We already consulted Mark Brown in precious iterations of this patch
-series and got his OK. I also described all advantages of using
-regulator framework within the PSE subsystem. I need to search it. Short answer,
-it is relatively common to have open-ended regulator with consumer outside of
-the system. A PSE system can be relatively complex, representing all
-supply dependencies from power supplies (one or multiple) to the ports
-will help to provide needed diagnostic information and power saving
-if port are disabled. Some functionality is currently not supported by
-the regulator framework, but need to be extended - power budged,
-priorities and reservation. All of this are not exclusive PSE
-challenges. So, using regulator framework seems to be a straightforward 
-decision.
-
-> When we have a port representor, do we expect it to have active
-> elements? Something which will consume this regulator?
-
-Not in a usual sense. There are two levels of PSE control:
-- autodetected by PSE controller
-- fine tuned by using LLDP wich may respond to PD requests by allocating
-  more or reducing/disabling power.
-
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Ah, yes that definitely isn't correct. I will fix it, thanks for finding
+it.
