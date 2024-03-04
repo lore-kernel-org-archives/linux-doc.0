@@ -1,182 +1,119 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C418636AED
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 10:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB4A2BAF5;
+	Mon,  4 Mar 2024 11:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709548322; cv=none; b=NZVoBfIdc8okFe1rjrK/j3MstJPrL9QXHlZJM8lpTuZbazv4N0tlsyq5vdcvYUd91STd1epL8Yt0hcSL6V/4eL9E7edZQer1JiY3NNJkRsQnHOGJtpyP7TfyIpzG2szntktFSGQn/WK3YNLOv/ufjMsHaPDx49fSfVU5JYZ1uYc=
+	t=1709550458; cv=none; b=kRtkCM8RHUBhesC9fEY7ORb027PrehG+HLdjPZturggrAXOQfXMiH8fwsvVZO0pkMlNJ4OffPSUx8O7+vGHAxb4YB1+IyePZYVwemuiRnXdvVs7jO3ECnHWh5+9s6poMmjA/AgNILAW3dwAqMjHkiHuCQ2K7HbALBJ1arHSjMqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709548322; c=relaxed/simple;
-	bh=FlayRBYu6A31qOHMHpZ5ejYBRbr7TX0lwoHUNTBNul8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cn/fr8DRyFBCYrmYMJs0A7UMxubX9I9+lWrDQvwoV7N7k50eTiQO6rf9cU4CpXZ5tqSYv5eYEDrNFoY9UuN5tr28cxpNu5fcE43GK1WsU1rayHi2qIre1vBjE6svzLTHd/G80mt2BMW87mcRNHOrW0SaRaOYUo9B8AvXVKmnT+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh5bO-00043R-0Y; Mon, 04 Mar 2024 11:31:22 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh5bL-004Kfu-Eo; Mon, 04 Mar 2024 11:31:19 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rh5bL-001rP7-17;
-	Mon, 04 Mar 2024 11:31:19 +0100
-Date: Mon, 4 Mar 2024 11:31:19 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <ZeWi90H-B4XeSkFs@pengutronix.de>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
- <20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
- <ZeObuKHkPN3tiWz_@pengutronix.de>
- <20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1709550458; c=relaxed/simple;
+	bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JSGDWxJmlVFLs1UUP5/Hd2YdvLbsCht3XPEe/YfI3eJFWws1KBHmJ4OJ+L5eN6Q8YeefgzBndXx1zQ/xWG/2HKxpWXs2Mwm+K4tXvA3K9Ow53GMAaFv3QE8+SVW6Z7y+zfCtO8C82OjK/80B9ZEcQMb9x1zLL1hIfmOhKEWl36A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkM7w7N6; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkM7w7N6"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a441d7c6125so525625466b.2;
+        Mon, 04 Mar 2024 03:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709550455; x=1710155255; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+        b=DkM7w7N6chsrTadjk+5y6I7kQbbUCRM8SVNPGcg/wczjnTO+4rL92wptPGOJmk2LqH
+         JwbHP/lmdzzMo/OY03CFJACZZfXz54WNpF9gxExFCfcerYinHwS4KDUbDVJc9mi6rLEr
+         pWxZfxDyCwc8mkmnhGX7swtkSWlDIpE5GK0E70J7YIzMgdTMfDjRRakoIQ0ILsrrLwPk
+         9JKOPfKx121lUdCaYH8ufT9J0PPwSd0Ba0sqzikovjCgNvY/aSH6sNhfFpbOdeuZ0FFw
+         vUwya8u/KmHQYXPCmk8hzUXqzKm1IzhftsR8cLNv+MmsDNIaGMKs7GJfyy5yrLSAMJSX
+         hlxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709550455; x=1710155255;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Wu1HQfAzXdwAMW97wtn2MyUT9kqXYE4x4WqJIu7nsOI=;
+        b=QdV7bTBI+F9GPF7gtZw3uQjkz4TjzshUcD7D1TOES0pZwY8fjGeJUD1+mQphd37NQP
+         l30CKfeXPOWZgFbqGXi5a+ZAFSoPDoxvrI5gSuDLrjNiG5stKZnPsenLv2czsJScQq3t
+         UrWFJXH7hOP6B/SvUEwGz/qZeeWol6bcqJMDmHNcTuhenuFUckBDf7oAaW9pT8NWgmdX
+         P6lMdQ4AGI1mIaK4Vhgp27gUoXRrH7yu1kBiYNYll6fSkMTWiY4SBySJVkGN8ZJwsH9B
+         Bn/vJCn6hEpeWxnNNhYRGvhrVrPfu8ZTGdBPtpPPJjCg1ul3wcdgE7zkvyVxV2SaCa16
+         V1ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVeb3yrfNQLLqo6YEkPXnPzusPj5bCzwaP+jjArw/sjEAMuHO5qW3m2bQdCJB4qP/EnCa0YoRyho5dFrUnYaSdm09KZbHZkAUZWlL37yxEotinnTrVk17CT6cheOnL1nQWDWFHL9Fbd+vnn2chGSCmoLtP8/J2aCUikYA4+pE4wdF1vKUHY3NHx8jUIO7QnGYpJzKOXFBiplco+/z4=
+X-Gm-Message-State: AOJu0YwOETIYd1Hi/wFLi3+ca6eAJmA+WDfh43Zl6qPw9RA8VV3lBdJY
+	mA8bpoPfHZ9HKnDO2m5t0iIhvBsXTABeosHiveiOEiKA+rv/6qfY
+X-Google-Smtp-Source: AGHT+IHgDGK/BZFLZ4o0q5QlhX+iDooVzGPEucKa4H0749pnNAkElImYC6SGV1YXCUk8M8A4OsMdqw==
+X-Received: by 2002:a17:906:3511:b0:a3f:ac2f:893a with SMTP id r17-20020a170906351100b00a3fac2f893amr5794723eja.73.1709550454470;
+        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
+        by smtp.gmail.com with ESMTPSA id i23-20020a170906265700b00a44dca5f9c1sm2512075ejc.100.2024.03.04.03.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 03:07:34 -0800 (PST)
+Message-ID: <a8c3bddfb7a53682f23f4c99ce46e67ffc0213d1.camel@gmail.com>
+Subject: Re: [PATCH v7 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Nuno Sa <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
+ <paul@crapouillou.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
+	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Date: Mon, 04 Mar 2024 12:10:58 +0100
+In-Reply-To: <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+	 <20240223-iio-dmabuf-v7-1-78cfaad117b9@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Mon, Mar 04, 2024 at 10:27:08AM +0100, Köry Maincent wrote:
-> Hello Oleksij,
+On Fri, 2024-02-23 at 13:13 +0100, Nuno Sa wrote:
+> From: Paul Cercueil <paul@crapouillou.net>
+>=20
+> This function can be used to initiate a scatter-gather DMA transfer,
+> where the address and size of each segment is located in one entry of
+> the dma_vec array.
+>=20
+> The major difference with dmaengine_prep_slave_sg() is that it supports
+> specifying the lengths of each DMA transfer; as trying to override the
+> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+> process. The introduction of a new API function is also justified by the
+> fact that scatterlists are on their way out.
+>=20
+> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+> case, as it assumes that the address of each segment will be higher than
+> the one of the previous segment, which we just cannot guarantee in case
+> of a scatter-gather transfer.
+>=20
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> ---
 
-> > > +	psec = dev_find_pse_control(&phy->mdio.dev);
-> > > +	if (IS_ERR(psec)) {
-> > > +		rc = PTR_ERR(psec);
-> > > +		goto unregister_phy;
-> > > +	}
-> > > +  
-> > 
-> > I do not think it is a good idea to make PSE controller depend on
-> > phy->mdio.dev. The only reason why we have fwnode_find_pse_control()
-> > here was the missing port abstraction.
-> 
-> I totally agree that having port abstraction would be more convenient.
-> Maxime Chevallier is currently working on this and will post it after his
-> multi-phy series get merged.
-> Meanwhile, we still need a device pointer for getting the regulator. The
-> phy->mdio.dev is the only one I can think of as a regulator consumer.
-> Another idea?
+Hi Vinod,
 
-I would say, in current code state, PSE controller is regulator provider and
-consumer - both are same devices. Otherwise, it will be impossible to
-unregistered PHY devices without shutting down PSE-PI. Mostly, we should
-be able to continue to provide the power even if network interface is down. 
+Is this already good for you? I do not want to be pushy but we're trying to=
+ see
+if we can have this in the 6.9 cycle and Jonathan definitely wants an ack f=
+rom
+you before merging this in his tree. I've more or less till Wednesday so th=
+at's
+why I'm asking already today so I still have time to re-spin if you want so=
+me
+changes.
 
-> > > +	rconfig.dev = pcdev->dev;
-> > > +	rconfig.driver_data = pcdev;
-> > > +	rconfig.init_data = &pse_pi_initdata;  
-> > 
-> > Please add input supply to track all dependencies:
-> >         if (of_property_present(np, "vin-supply"))
-> > config->input_supply = "vin";
-> > 
-> > May be better to make it not optional...
-> 
-> Does the "vin-supply" property be added at the pse-pi node level or the
-> pse-controller node level or at the hardware port node level or the manager node
-> level for the pd692x0?
-> Maybe better at the pse-pi node level and each PIs of the manager will get the
-> same regulator?
-> What do you think?
+- Nuno S=C3=A1
 
-Yes, I agree. PSE-PI should share same parent regulator. Different PSE
-managers may have different power supplies. One port (PSE PI) - not.
 
->  
-> > Should be tested, but if, instead of "vin-supply", we will use
-> > "pse-supply" it will make most part of pse_regulator.c obsolete.
-> 
-> Don't know, if it is done at the pse-pi node level it may not break
-> pse_regulator.c. Not sure about it.
-
-me too. Before your patch set, the regulator topology for PoDL PSE was
-following:
-power-source
-  fixed-regulator
-     PoDL_PSE-consumer
-
-Now it will be:
-power-source
-  fixed-regulator
-     PoDL_PSE-consumer
-       PSE-PI-provider
-         PSE-PI-consumer
-
-By porting porting PSE framework to regulator, probably it make sense to
-remove two levels of regulators?
-power-source
-  fixed-regulator
-     PSE-PI-consumer
-
-> > ....  
-> > > @@ -310,6 +452,20 @@ pse_control_get_internal(struct pse_controller_dev
-> > > *pcdev, unsigned int index) return ERR_PTR(-ENODEV);
-> > >  	}
-> > >  
-> > > +	psec->ps = devm_regulator_get_exclusive(dev,
-> > > +
-> > > rdev_get_name(pcdev->pi[index].rdev));
-> > > +	if (IS_ERR(psec->ps)) {
-> > > +		kfree(psec);
-> > > +		return ERR_CAST(psec->ps);
-> > > +	}
-> > > +
-> > > +	ret = regulator_is_enabled(psec->ps);
-> > > +	if (ret < 0) {
-> > > +		kfree(psec);
-> > > +		return ERR_PTR(ret);
-> > > +	}
-> > > +	pcdev->pi[index].enabled = ret;  
-> > 
-> > If I see it correctly, it will prevent us to refcount a request from
-> > user space. So, the runtime PM may suspend PI.
-> 
-> I don't think so as the regulator_get_exclusive() does the same and refcount it:
-> https://elixir.bootlin.com/linux/v6.7.8/source/drivers/regulator/core.c#L2268
-
-ok, thx.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
