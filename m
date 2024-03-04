@@ -1,142 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500D0A20;
-	Mon,  4 Mar 2024 16:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2031D5C90F;
+	Mon,  4 Mar 2024 16:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709571379; cv=none; b=lIidscSWDLYpbcWWFBQWTBw9W0FDFAEhCzzEle7YiqwQCXdhrbr+dR78YGPFu0Jviou64JpeBf28u/Za6pIqpcMZf8lMazkOY0NlMQbgIrMIuBmtZhRduQp0mxoERDq08rga1rHjL3fzt4vDU/dtXI4uV9vsORKa76w01uhtBzA=
+	t=1709571412; cv=none; b=Ff3NXYHsqXIxZ6BfvUtdIOAHqNNrTK7/qAj0Gm+KNkDEYFplDMuCKKNh2+/1WAKtXC1nIqShQrP6pPGGAp080ML0UZOLPS/wl9nTnMb9goQaJKliSQeTHiGiObDNY5kbLBWK5jn0NMSTJBWq1tT2OJNUm3eidl6UPZyb/qR4bCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709571379; c=relaxed/simple;
-	bh=Iw/1JU1TagbMrr1ftOYJ1zZMGOHfXtUQyWKwKKbthFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JiCZLKQrQgCzfRmPfCAVmYZ7H6r73vhgabDW4r/Y8oxRQhV635azFKdIDfInwlmLuPGQExi5uiR0OLWzaVm8O0BvxA1oinFHus9ifGB63GQ4PCrrrfvKG598upqK5SHeS2RxKn+9nkr5io4vo6dRWaUwIsoYykx2mECwLsmgGMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ/pqmGe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709571412; c=relaxed/simple;
+	bh=ZGMXcFuQrgx1SMeh//RuHHEKTwX4JgGSvJklkPh98+A=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ty9y1M7HTIi37yDGW+bAkNdc3FfAGXGRSCjxkQj7YElqY1vYpooJdxQkLIPUazCnhNulDiiIdgyCMKIKM0lw9O+TiSNsBliDrIwnkIvH8TMCBkbxVKybuUcnCpn2Q9rQdltByyKjQ8Plm4WL+aXdzd00mEErOG/Xf/b7XToAbds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dmrsCZlk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ivc7oN7f; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dmrsCZlk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ivc7oN7f; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ/pqmGe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D6E2C433C7;
-	Mon,  4 Mar 2024 16:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709571378;
-	bh=Iw/1JU1TagbMrr1ftOYJ1zZMGOHfXtUQyWKwKKbthFQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EZ/pqmGek5fFsjKeUCHY0Z3TuGQv/4R64k5i0wi3azQ7z+ti/o9T+ZggO2c/i1aSe
-	 hWRhGtBQlZPOprsX9pAgX5YnlXV/qWfXT03T4Z4gZla+QlbZYNlDG6WKYgAOuAjfEr
-	 i2XWor6/AhbldPmjvS9MsCkf1hUeEwn+ghF9pVUFs1P1NE+eK0vMt8wui7m0Irv9hr
-	 VynKf3+pZzL/aSJf5Sl6y2NuGZ9vEbCsfmB9g+HvVViEiqhLGen80AkxXBhQMnrIjp
-	 QjYlfqXUcs57/aWMFblpa5G6Tnxgy5gRMHqbAfDtbVUGJRFX5To0MGB1folgF/Tosr
-	 BKSK8hxUxPWJA==
-Date: Mon, 4 Mar 2024 10:56:17 -0600
-From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
-	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
-	James Morris <jmorris@namei.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
-	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
-Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
-Message-ID: <ZeX9MRhU/EGhHkCY@do-x1extreme>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
- <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
- <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
- <ZeXpbOsdRTbLsYe9@do-x1extreme>
- <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dmrsCZlk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ivc7oN7f";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dmrsCZlk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ivc7oN7f"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CEDE33688;
+	Mon,  4 Mar 2024 16:56:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709571409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
+	b=dmrsCZlkGijUKt4OPFwE+aIuXT1qureSUgSqEQv3iJOtSpcVMLx4+8m00Y3BPHXLvQIy5X
+	vJ38Z0PvADCOOKqMFK9HlYprqdbwV/a3NYIKje+f0SiTH5V7WSDLVeuF+Fvd/6dSfHDhr4
+	d6qWybpfVftpH01YmFHzMtuUbKt0jBk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709571409;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
+	b=ivc7oN7fe5rpjHA2qwoj4aFXG+p3OJvZpRqkl5c6Qs1H9K23FDr6B1gk8YDBHDq/TcOZBx
+	MZNl9qLkLjZsTnAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709571409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
+	b=dmrsCZlkGijUKt4OPFwE+aIuXT1qureSUgSqEQv3iJOtSpcVMLx4+8m00Y3BPHXLvQIy5X
+	vJ38Z0PvADCOOKqMFK9HlYprqdbwV/a3NYIKje+f0SiTH5V7WSDLVeuF+Fvd/6dSfHDhr4
+	d6qWybpfVftpH01YmFHzMtuUbKt0jBk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709571409;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
+	b=ivc7oN7fe5rpjHA2qwoj4aFXG+p3OJvZpRqkl5c6Qs1H9K23FDr6B1gk8YDBHDq/TcOZBx
+	MZNl9qLkLjZsTnAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D7DB13A5B;
+	Mon,  4 Mar 2024 16:56:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iHG3AVH95WX1BAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 16:56:49 +0000
+Date: Mon, 04 Mar 2024 17:56:48 +0100
+Message-ID: <87il223pgv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Pavin Joseph <me@pavinjoseph.com>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>,
+	Linux regressions mailing list <regressions@lists.linux.dev>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: guide on bisecting (was Re: [REGRESSION] kexec does firmware reboot in kernel v6.7.6)
+In-Reply-To: <66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
+References: <3a1b9909-45ac-4f97-ad68-d16ef1ce99db@pavinjoseph.com>
+	<7ebb1c90-544d-4540-87c0-b18dea963004@leemhuis.info>
+	<3a8453e8-03a3-462f-81a2-e9366466b990@pavinjoseph.com>
+	<a84c1a5d-3a8a-4eea-9f66-0402c983ccbb@leemhuis.info>
+	<806629e6-c228-4046-828a-68d397eb8dbc@pavinjoseph.com>
+	<4630483e-fc4e-448d-8fd6-916d3422784e@leemhuis.info>
+	<66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dmrsCZlk;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ivc7oN7f
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.93 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 TO_DN_ALL(0.00)[];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.92)[86.30%]
+X-Spam-Score: -4.93
+X-Rspamd-Queue-Id: 4CEDE33688
+X-Spam-Flag: NO
 
-On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
-> On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
-> > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
-> > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
-> > > > Use the vfs interfaces for fetching file capabilities for killpriv
-> > > > checks and from get_vfs_caps_from_disk(). While there, update the
-> > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is different
-> > > > from vfs_get_fscaps_nosec().
-> > > > 
-> > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
-> > > > ---
-> > > >  security/commoncap.c | 30 +++++++++++++-----------------
-> > > >  1 file changed, 13 insertions(+), 17 deletions(-)
-> > > > 
-> > > > diff --git a/security/commoncap.c b/security/commoncap.c
-> > > > index a0ff7e6092e0..751bb26a06a6 100644
-> > > > --- a/security/commoncap.c
-> > > > +++ b/security/commoncap.c
-> > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
-> > > >   */
-> > > >  int cap_inode_need_killpriv(struct dentry *dentry)
-> > > >  {
-> > > > -	struct inode *inode = d_backing_inode(dentry);
-> > > > +	struct vfs_caps caps;
-> > > >  	int error;
-> > > >  
-> > > > -	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
-> > > > -	return error > 0;
-> > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant */
-> > > > +	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
-> > > > +	return error == 0;
-> > > >  }
-> > > >  
-> > > >  /**
-> > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry)
-> > > >  {
-> > > >  	int error;
-> > > >  
-> > > > -	error = __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
-> > > > +	error = vfs_remove_fscaps_nosec(idmap, dentry);
-> > > 
-> > > Uhm, I see that the change is logically correct... but the original
-> > > code was not correct, since the EVM post hook is not called (thus the
-> > > HMAC is broken, or an xattr change is allowed on a portable signature
-> > > which should be not).
-> > > 
-> > > For completeness, the xattr change on a portable signature should not
-> > > happen in the first place, so cap_inode_killpriv() would not be called.
-> > > However, since EVM allows same value change, we are here.
+On Sun, 03 Mar 2024 11:17:44 +0100,
+Pavin Joseph wrote:
+> 
+> On 3/3/24 14:06, Thorsten Leemhuis wrote:
+> 
+> >> 2. The "installkernel" command is called "kernel-install" in OpenSuse,
 > > 
-> > I really don't understand EVM that well and am pretty hesitant to try an
-> > change any of the logic around it. But I'll hazard a thought: should EVM
-> > have a inode_need_killpriv hook which returns an error in this
-> > situation?
+> > Yeah, it looks like that, but that's not really the case. :-) In short:
+> > on Fedora "installkernel" calls into kernel-install -- and
+> > "installkernel" has a long history, so doing what Fedora does is likely
+> > a wise thing for distros. And openSUSE had a "installkernel" as well,
+> > which was part of the dracut package. Not sure if that is still the case
+> > for current Leap and Tumbleweed. Could you check?
 > 
-> Uhm, I think it would not work without modifying
-> security_inode_need_killpriv() and the hook definition.
+> It's not available even as a symlink in OpenSuse TW / Slowroll I'm afraid.
 > 
-> Since cap_inode_need_killpriv() returns 1, the loop stops and EVM would
-> not be invoked. We would need to continue the loop and let EVM know
-> what is the current return value. Then EVM can reject the change.
-> 
-> An alternative way would be to detect that actually we are setting the
-> same value for inode metadata, and maybe not returning 1 from
-> cap_inode_need_killpriv().
-> 
-> I would prefer the second, since EVM allows same value change and we
-> would have an exception if there are fscaps.
-> 
-> This solves only the case of portable signatures. We would need to
-> change cap_inode_need_killpriv() anyway to update the HMAC for mutable
-> files.
+> suse-pc:~ # whereis installkernel
+> installkernel:
+> suse-pc:~ # whereis kernel-install
+> kernel-install: /usr/bin/kernel-install
+> /usr/share/man/man8/kernel-install.8.gz
+> suse-pc:~ # man kernel-install | grep -i installkernel
+>        installkernel [OPTIONS...] VERSION VMLINUZ [MAP] [INSTALLATION-DIR]
+>        When invoked as installkernel, this program accepts arguments
+> as specified by the kernel build system's make install command. The
+> VERSION and VMLINUZ parameters
 
-I see. In any case this sounds like a matter for a separate patch
-series.
+FYI, /usr/sbin/installkernel is included in kernel-install-tools
+package.
+
+
+Takashi
