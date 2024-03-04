@@ -1,159 +1,154 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2031D5C90F;
-	Mon,  4 Mar 2024 16:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A025CDDD;
+	Mon,  4 Mar 2024 17:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709571412; cv=none; b=Ff3NXYHsqXIxZ6BfvUtdIOAHqNNrTK7/qAj0Gm+KNkDEYFplDMuCKKNh2+/1WAKtXC1nIqShQrP6pPGGAp080ML0UZOLPS/wl9nTnMb9goQaJKliSQeTHiGiObDNY5kbLBWK5jn0NMSTJBWq1tT2OJNUm3eidl6UPZyb/qR4bCU=
+	t=1709571838; cv=none; b=CSUMKjy+qDToJGlHn3lW5kmlN1S5gQ+KHMvVbdpHQU4pq0nz4x8TH1mryzuv2rgQg1jVNWftD+k1x9Gm/BGlr++4K1aCCNDr3fbEjeOzjmjkf3A8ShgRl+81X6cAiHu+iPxMbiZId90tW0hBIkax6n6Und7la2n1ldsqxWz2gpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709571412; c=relaxed/simple;
-	bh=ZGMXcFuQrgx1SMeh//RuHHEKTwX4JgGSvJklkPh98+A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ty9y1M7HTIi37yDGW+bAkNdc3FfAGXGRSCjxkQj7YElqY1vYpooJdxQkLIPUazCnhNulDiiIdgyCMKIKM0lw9O+TiSNsBliDrIwnkIvH8TMCBkbxVKybuUcnCpn2Q9rQdltByyKjQ8Plm4WL+aXdzd00mEErOG/Xf/b7XToAbds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dmrsCZlk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ivc7oN7f; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dmrsCZlk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ivc7oN7f; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1709571838; c=relaxed/simple;
+	bh=QVFxd1YSLwW2a7fCHIdyRN5o6f+rp+oB5zXu4FiVrfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V6zUcrtaOHUKHl5k6WUHt0b23Asp9jiR4cHOIgw2Z/7gvTI6/inud3KuNE09XeLO6ApkFUNCyIVG96p0lalKOxphsjeNUkBHz2ymG/6TqPuXtD3hGdlf6hcBaheyQ9uaCZFsvm1k94ZoRA++STXGofxMxVeXLScePQcR3hC61eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EJmp2YwZ; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dmrsCZlk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ivc7oN7f";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dmrsCZlk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ivc7oN7f"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EJmp2YwZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709571832;
+	bh=QVFxd1YSLwW2a7fCHIdyRN5o6f+rp+oB5zXu4FiVrfE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EJmp2YwZN2npYth3cYKdcDbjC89Fb7BLm57YTX0okcstsmnZ2dZbh3wZR1kizg1Ub
+	 +Yyhexq7++bev8BdvIY8jg2WruI3TFqiC4b5fZu6ju3SEW2bWc46mgGXwB8WFLYZ2i
+	 BmyUK8/ZWSSB68ITN6ZouphhbjLQbni0j3qC/px+ewUQbX9jKo52QGBMGwSCYpKniE
+	 C20k2wE/ATntdD4anS+VAtEvfgv8w/UyXjQzqtEE3JD/VHMqh0HXLvqnHPrzMx4gO1
+	 BqE63y/PqhbfRgx2UlaXy3DfiC+fTAnNtHIeHoZIZgJv1Stwm24NtAm/+5i4IlQDbd
+	 vQXJnI6Jqs5Yw==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CEDE33688;
-	Mon,  4 Mar 2024 16:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709571409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
-	b=dmrsCZlkGijUKt4OPFwE+aIuXT1qureSUgSqEQv3iJOtSpcVMLx4+8m00Y3BPHXLvQIy5X
-	vJ38Z0PvADCOOKqMFK9HlYprqdbwV/a3NYIKje+f0SiTH5V7WSDLVeuF+Fvd/6dSfHDhr4
-	d6qWybpfVftpH01YmFHzMtuUbKt0jBk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709571409;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
-	b=ivc7oN7fe5rpjHA2qwoj4aFXG+p3OJvZpRqkl5c6Qs1H9K23FDr6B1gk8YDBHDq/TcOZBx
-	MZNl9qLkLjZsTnAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709571409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
-	b=dmrsCZlkGijUKt4OPFwE+aIuXT1qureSUgSqEQv3iJOtSpcVMLx4+8m00Y3BPHXLvQIy5X
-	vJ38Z0PvADCOOKqMFK9HlYprqdbwV/a3NYIKje+f0SiTH5V7WSDLVeuF+Fvd/6dSfHDhr4
-	d6qWybpfVftpH01YmFHzMtuUbKt0jBk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709571409;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X18wun2KPgEkmdf+nMDldpOLsokiS1pBuUIkbNKN0Jc=;
-	b=ivc7oN7fe5rpjHA2qwoj4aFXG+p3OJvZpRqkl5c6Qs1H9K23FDr6B1gk8YDBHDq/TcOZBx
-	MZNl9qLkLjZsTnAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D7DB13A5B;
-	Mon,  4 Mar 2024 16:56:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iHG3AVH95WX1BAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Mar 2024 16:56:49 +0000
-Date: Mon, 04 Mar 2024 17:56:48 +0100
-Message-ID: <87il223pgv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pavin Joseph <me@pavinjoseph.com>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>,
-	Linux regressions mailing list <regressions@lists.linux.dev>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: guide on bisecting (was Re: [REGRESSION] kexec does firmware reboot in kernel v6.7.6)
-In-Reply-To: <66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
-References: <3a1b9909-45ac-4f97-ad68-d16ef1ce99db@pavinjoseph.com>
-	<7ebb1c90-544d-4540-87c0-b18dea963004@leemhuis.info>
-	<3a8453e8-03a3-462f-81a2-e9366466b990@pavinjoseph.com>
-	<a84c1a5d-3a8a-4eea-9f66-0402c983ccbb@leemhuis.info>
-	<806629e6-c228-4046-828a-68d397eb8dbc@pavinjoseph.com>
-	<4630483e-fc4e-448d-8fd6-916d3422784e@leemhuis.info>
-	<66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: bbrezillon)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 32BCB37820CC;
+	Mon,  4 Mar 2024 17:03:52 +0000 (UTC)
+Date: Mon, 4 Mar 2024 18:03:50 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Rob
+ Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
+ knob with sysfs
+Message-ID: <20240304180350.74e7e385@collabora.com>
+In-Reply-To: <51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
+References: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
+	<20240302154845.3223223-3-adrian.larumbe@collabora.com>
+	<51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dmrsCZlk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ivc7oN7f
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.93 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DWL_DNSWL_HI(-3.50)[suse.de:dkim];
-	 RCPT_COUNT_FIVE(0.00)[5];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 TO_DN_ALL(0.00)[];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.92)[86.30%]
-X-Spam-Score: -4.93
-X-Rspamd-Queue-Id: 4CEDE33688
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 03 Mar 2024 11:17:44 +0100,
-Pavin Joseph wrote:
-> 
-> On 3/3/24 14:06, Thorsten Leemhuis wrote:
-> 
-> >> 2. The "installkernel" command is called "kernel-install" in OpenSuse,
-> > 
-> > Yeah, it looks like that, but that's not really the case. :-) In short:
-> > on Fedora "installkernel" calls into kernel-install -- and
-> > "installkernel" has a long history, so doing what Fedora does is likely
-> > a wise thing for distros. And openSUSE had a "installkernel" as well,
-> > which was part of the dracut package. Not sure if that is still the case
-> > for current Leap and Tumbleweed. Could you check?
-> 
-> It's not available even as a symlink in OpenSuse TW / Slowroll I'm afraid.
-> 
-> suse-pc:~ # whereis installkernel
-> installkernel:
-> suse-pc:~ # whereis kernel-install
-> kernel-install: /usr/bin/kernel-install
-> /usr/share/man/man8/kernel-install.8.gz
-> suse-pc:~ # man kernel-install | grep -i installkernel
->        installkernel [OPTIONS...] VERSION VMLINUZ [MAP] [INSTALLATION-DIR]
->        When invoked as installkernel, this program accepts arguments
-> as specified by the kernel build system's make install command. The
-> VERSION and VMLINUZ parameters
+On Mon, 4 Mar 2024 16:04:34 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-FYI, /usr/sbin/installkernel is included in kernel-install-tools
-package.
+> On 02/03/2024 15:48, Adri=C3=A1n Larumbe wrote:
+> > Debugfs isn't always available in production builds that try to squeeze
+> > every single byte out of the kernel image, but we still need a way to
+> > toggle the timestamp and cycle counter registers so that jobs can be
+> > profiled for fdinfo's drm engine and cycle calculations.
+> >=20
+> > Drop the debugfs knob and replace it with a sysfs file that accomplishes
+> > the same functionality, and document its ABI in a separate file.
+> >=20
+> > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> =20
+>=20
+> I'm happy with this.
+>=20
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>=20
+> Boris: are you happy with the sysfs ABI, or would you like to
+> investigate further the implications of leaving the counters enabled all
+> the time during execution before committing to the sysfs ABI?
 
+No, that's fine, but I have a few comments on the implementation.
 
-Takashi
+> > +static ssize_t
+> > +profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char=
+ *buf)
+> > +{
+> > +	bool *profile_mode =3D
+> > +		&container_of(kobj, struct panfrost_device,
+> > +			      profiling.base)->profiling.profile_mode;
+> > +
+> > +	return sysfs_emit(buf, "%d\n", *profile_mode);
+> > +}
+> > +
+> > +static ssize_t
+> > +profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
+> > +	       const char *buf, size_t count)
+> > +{
+> > +	bool *profile_mode =3D
+> > +		&container_of(kobj, struct panfrost_device,
+> > +			      profiling.base)->profiling.profile_mode;
+> > +	int err, value;
+> > +
+> > +	err =3D kstrtoint(buf, 0, &value);
+
+I'd suggest using kstrtobool() since you make the result a boolean
+anyway.
+
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	*profile_mode =3D !!value;
+> > +
+> > +	return count;
+> > +}
+> > +
+> > +static const struct kobj_attribute profiling_status =3D
+> > +__ATTR(status, 0644, profiling_show, profiling_store);
+> > +
+> > +static const struct kobj_type kobj_profile_type =3D {
+> > +	.sysfs_ops =3D &kobj_sysfs_ops,
+> > +};
+
+DEVICE_ATTR(profiling, 0644, profiling_show, profiling_store);
+
+?
+
+> > +
+> > +int panfrost_sysfs_init(struct panfrost_device *pfdev)
+> > +{
+> > +	struct device *kdev =3D pfdev->ddev->primary->kdev;
+> > +	int err;
+> > +
+> > +	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
+> > +
+> > +	err =3D kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profi=
+ling");
+
+Can we make it a device attribute instead of adding an extra kboj?
+
+> > +	if (err)
+> > +		return err;
+> > +
+> > +	err =3D sysfs_create_file(&pfdev->profiling.base, &profiling_status.a=
+ttr);
+> > +	if (err)
+> > +		kobject_del(&pfdev->profiling.base);
+> > +
+> > +	return err;
+> > +}
