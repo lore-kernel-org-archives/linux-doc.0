@@ -1,168 +1,199 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490453D542
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 13:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77453D547;
+	Mon,  4 Mar 2024 13:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709557856; cv=none; b=ftwbUyrJbVKAEdw7Z6W5bL6uhY/gPCn2ev6AU+3/NonwKTKAnetbUa1ftkcaeZSmmr8Va1Tgkx7tTzEwDrOEsJF6aM2+mEzj8reOlLvwmiDZk9MEZTnW2hCnoFKH0QOfIDpRZda8WVPZxXuIFGVunQLS3rYw5pmmIulyYCSK6/c=
+	t=1709558429; cv=none; b=p4aiU7mN9LoAhXxs8oOUV7vowUPSjrvD+NJPvjelHv2Y9p4y/86UFvLJkEL1QIvbfXUXaGCkaoo2U5shMyOL54Bz1uaAZ5+M3iyO4r853eE+r9uXoXx/1Qx0pL9O4tl2+QSlYOT+oiV48GkJ9e1Yt3xTGnWJEGFTkLGKDBdi5hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709557856; c=relaxed/simple;
-	bh=edMqvmg6y2VKb4yfnj4dW1OskK2vzKd7zQJdJKQMyrs=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OCRp6mQoDgRDZn4rWQEPDi9O7XtEf01s5e5FBg4hrB7etpNWitsSdqBh2vfzMnudgnahR5fP49un8Q+rhWsDxMq5PihmUCwOmMMGoveAsv87ogUJyNNWvNctmWvHPfhyzTh7ocZkSwDueLJB0H4y5wZwljd16X+wmn3SN03jDMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LJgRO+Hb; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709558429; c=relaxed/simple;
+	bh=lWH6ZQb+u3aVI1K8RVWtzh32u94Bi50MfHqB4s7lSSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BoGRRQV08UGNOm/8RBoRTI6MvJlbiwNiBuX62FdGFcGOxd3Gzy+UVFTsfl0FY8xfTV8jLfIjBqwTyd6K6V1puPgp5D15y5GvjcCdCtPoV7urJDTlp+KxX+zg4CM5ScSEGW+NAJtIgCMxUZcfc/7lR9ryvWY6hR9w/PjFZ641bxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz0MnUrk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LJgRO+Hb"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a4499ef8b5aso287837166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 05:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709557853; x=1710162653; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z3m7OivOxzJeGdkMzIGOv6kRagQeqCuoThPb8xlNbgo=;
-        b=LJgRO+HbeUy+EAApm7gnwP1G5T1RzxP/43RuN159JitjmB+tqdik+WseMa7ppc0Lsw
-         zFJ/Qi4F2nmvJIcG0J3r6XAbWwoibIB/l1J8L0LBqT9cfVHrFCP2fSuj53GXHlK2MgTN
-         KOf4NIk6XpxoKoJopFvDojC8rQWS3tpNWkF60XOnb7NXm0Lmo8pL0YaDTLyRvX8bLHFx
-         a6kbFFniAVqz0C8/pXNe+MUMsm03pMjJFqyu0ozGtPkTCqoCZER98AHfi/8SUIdOYHEL
-         SvLwOaZvfecGr7W8VQxZHVJqAJUUAuCNp9lon7ghkhiS3+vIlx0DPSIQplF9fjXXF24I
-         Arwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709557853; x=1710162653;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=z3m7OivOxzJeGdkMzIGOv6kRagQeqCuoThPb8xlNbgo=;
-        b=mL5k/kcTulBaTtSvpOVWt3B4s2irJjs0U90LSbA+J45DFTID1+DVp6Gc/O9pxnNk7E
-         8yX6NPQvO+CYIXbzcP44R2/FwpI/v9zYo+Uv7JlnlgY7xPGXoZ4DNaPIN1f1yzrUS/Tg
-         244Tzvef60E1ya9qd6OqQ8Ho5q7qzE/h+cDxHpgy4lq/Mql8YML7nqMNRJiDSG24z1/Z
-         zTjl7qWxvcI0JW0XqSy/4beio3fa2oSFWYanOZ3n8TmveprmWa+P7XtHH63+JbMrSIjy
-         KCuJOT3LDY1dDcdn6sBfqgiokqHELOU4qtHIhDiokPsPKtfaJNdRkOUG+BxGRydM6ZhR
-         chDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOklQiGc4+lYqzfZEnB9a04EY2slwPisAWl+hDzYDESk4CR99zN+6F87Egx2PzGifeI1FJ2OXkuGVvSCdRDz+HoTawO5TEVeQ/
-X-Gm-Message-State: AOJu0Yw1wjIGMwFFkNv3+oLzXUbPIBErxH3zB4/Uam+T0/1sctT5dnhO
-	nNLTHV7s+StiCHbY7/nfS1KTc+Heds2AuO2DlFl/YJVwO4VaTzZ6n3ctcConmw==
-X-Google-Smtp-Source: AGHT+IGrvXADFoe0PTlXPw7y7hmD/cJqKu6+s04vNFfdc9+9OA1wUWqNlu47ZlZ+Fh8V1+pbnqa8SA==
-X-Received: by 2002:a17:906:4f09:b0:a45:70b9:252b with SMTP id t9-20020a1709064f0900b00a4570b9252bmr965095eju.57.1709557852486;
-        Mon, 04 Mar 2024 05:10:52 -0800 (PST)
-Received: from google.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
-        by smtp.gmail.com with ESMTPSA id r18-20020a1709067fd200b00a4589f3392esm98523ejs.207.2024.03.04.05.10.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 05:10:51 -0800 (PST)
-Date: Mon, 4 Mar 2024 13:10:48 +0000
-From: Quentin Perret <qperret@google.com>
-To: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-	Android KVM <android-kvm@google.com>,
-	Patrick Daly <quic_pdaly@quicinc.com>,
-	Alex Elder <elder@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Murali Nalajal <quic_mnalajal@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-	Carl van Schaik <quic_cvanscha@quicinc.com>,
-	Philip Derrin <quic_pderrin@quicinc.com>,
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map functions
-Message-ID: <ZeXIWBLVWzVycm0r@google.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz0MnUrk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42281C433F1;
+	Mon,  4 Mar 2024 13:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709558428;
+	bh=lWH6ZQb+u3aVI1K8RVWtzh32u94Bi50MfHqB4s7lSSU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cz0MnUrkf2ihH7Ow57r9X6otRH+qG8mZW44tV5mDWRoGMBhvsFJLXmbmYnux+QVYP
+	 ol7TT8gPYF93lXPVXEI+/8x5J0IsT+20XBWhhcT1HaA6JqhL9SRjFjPUFxKQ90bbDb
+	 G5wKzVL8k9UWRbi7MxOZHgP2lE6k2KbnB9KrQ4LsIsOft0uTEUherYltcdedmzaJOX
+	 1VYUoJyzMYusNq/OD6GJGQhiL9/r/k/lyuBgYyevcnrwLNAW6gLmyFlogKAQBeISKL
+	 6U4g3yCcW+ktZYLiFlXsDJa3Jk9z+nLEZ6pxUCNEnLEzZidKBZzOf5PJGYU+nir60d
+	 ibt5cZK+qn5HA==
+Date: Mon, 4 Mar 2024 14:20:22 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, kernel@collabora.com, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Guenter Roeck <groeck@chromium.org>, Doug Anderson <dianders@chromium.org>, 
+	Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <20240304-zugute-abtragen-d499556390b3@brauner>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+In-Reply-To: <20240301213442.198443-1-adrian.ratiu@collabora.com>
 
-On Friday 23 Feb 2024 at 16:37:23 (-0800), Elliot Berman wrote:
-> On Thu, Feb 22, 2024 at 11:09:40PM -0800, Christoph Hellwig wrote:
-> > On Thu, Feb 22, 2024 at 03:16:42PM -0800, Elliot Berman wrote:
-> > > Firmware and hypervisor drivers can donate system heap memory to their
-> > > respective firmware/hypervisor entities. Those drivers should unmap the
-> > > pages from the kernel's logical map before doing so.
-> > > 
-> > > Export can_set_direct_map, set_direct_map_invalid_noflush, and
-> > > set_direct_map_default_noflush.
-> > 
-> > Err, not they should not.  And not using such super low-level interfaces
-> > from modular code.
+On Fri, Mar 01, 2024 at 11:34:42PM +0200, Adrian Ratiu wrote:
+> Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> after which it got allowed in commit 198214a7ee50 ("proc: enable
+> writing to /proc/pid/mem"). Famous last words from that patch:
+> "no longer a security hazard". :)
 > 
-> Hi Cristoph,
+> Afterwards exploits appeared started causing drama like [1]. The
+> /proc/*/mem exploits can be rather sophisticated like [2] which
+> installed an arbitrary payload from noexec storage into a running
+> process then exec'd it, which itself could include an ELF loader
+> to run arbitrary code off noexec storage.
+> 
+> As part of hardening against these types of attacks, distrbutions
+> can restrict /proc/*/mem to only allow writes when they makes sense,
+> like in case of debuggers which have ptrace permissions, as they
+> are able to access memory anyway via PTRACE_POKEDATA and friends.
+> 
+> Dropping the mode bits disables write access for non-root users.
+> Trying to `chmod` the paths back fails as the kernel rejects it.
+> 
+> For users with CAP_DAC_OVERRIDE (usually just root) we have to
+> disable the mem_write callback to avoid bypassing the mode bits.
+> 
+> Writes can be used to bypass permissions on memory maps, even if a
+> memory region is mapped r-x (as is a program's executable pages),
+> the process can open its own /proc/self/mem file and write to the
+> pages directly.
+> 
+> Even if seccomp filters block mmap/mprotect calls with W|X perms,
+> they often cannot block open calls as daemons want to read/write
+> their own runtime state and seccomp filters cannot check file paths.
+> Write calls also can't be blocked in general via seccomp.
+> 
+> Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> can't run chmod once at boot to restrict it (and trying to react
+> to every process and run chmod doesn't scale, and the kernel no
+> longer allows chmod on any of these paths).
+> 
+> SELinux could be used with a rule to cover all /proc/*/mem files,
+> but even then having multiple ways to deny an attack is useful in
+> case on layer fails.
+> 
+> [1] https://lwn.net/Articles/476947/
+> [2] https://issues.chromium.org/issues/40089045
+> 
+> Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+> 
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+> Changes in v2:
+>  * Added boot time parameter with default kconfig option
+>  * Moved check earlier in mem_open() instead of mem_write()
+>  * Simplified implementation branching
+>  * Removed dependency on CONFIG_MEMCG
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  4 ++
+>  fs/proc/base.c                                | 47 ++++++++++++++++++-
+>  security/Kconfig                              | 22 +++++++++
+>  3 files changed, 71 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 460b97a1d0da..0647e2f54248 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5618,6 +5618,10 @@
+>  	reset_devices	[KNL] Force drivers to reset the underlying device
+>  			during initialization.
 >  
-> We've observed a few times that Linux can unintentionally access a page
-> we've unmapped from host's stage 2 page table via an unaligned load from
-> an adjacent page. The stage 2 is managed by Gunyah. There are few
-> scenarios where even though we allocate and own a page from buddy,
-> someone else could try to access the page without going through the
-> hypervisor driver. One such instance we know about is
-> load_unaligned_zeropad() via pathlookup_at() [1].
+> +	restrict_proc_mem_write= [KNL]
+> +			Enable or disable write access to /proc/*/mem files.
+> +			Default is SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON.
+> +
+>  	resume=		[SWSUSP]
+>  			Specify the partition device for software suspend
+>  			Format:
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 98a031ac2648..92f668191312 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -152,6 +152,30 @@ struct pid_entry {
+>  		NULL, &proc_pid_attr_operations,	\
+>  		{ .lsmid = LSMID })
 >  
-> load_unaligned_zeropad() could be called near the end of a page. If the
-> next page isn't mapped by the kernel in the stage one page tables, then
-> the access from to the unmapped page from load_unaligned_zeropad() will
-> land in __do_kernel_fault(), call fixup_exception(), and fill the
-> remainder of the load with zeroes. If the page in question is mapped in
-> stage 1 but was unmapped from stage 2, then the access lands back in
-> Linux in do_sea(), leading to a panic().
+> +#ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE
+> +DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+> +			   restrict_proc_mem_write);
+> +static int __init early_restrict_proc_mem_write(char *buf)
+> +{
+> +	int ret;
+> +	bool bool_result;
+> +
+> +	ret = kstrtobool(buf, &bool_result);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (bool_result)
+> +		static_branch_enable(&restrict_proc_mem_write);
+> +	else
+> +		static_branch_disable(&restrict_proc_mem_write);
+> +	return 0;
+> +}
+> +early_param("restrict_proc_mem_write", early_restrict_proc_mem_write);
+> +# define PROC_PID_MEM_MODE S_IRUSR
+> +#else
+> +# define PROC_PID_MEM_MODE (S_IRUSR|S_IWUSR)
+> +#endif
+> +
+>  /*
+>   * Count the number of hardlinks for the pid_entry table, excluding the .
+>   * and .. links.
+> @@ -829,6 +853,25 @@ static int mem_open(struct inode *inode, struct file *file)
+>  {
+>  	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
 >  
-> Our preference would be to add fixup_exception() to S2 PTW errors for
-> two reasons:
-> 1. It's cheaper to do performance wise: we've already manipulated S2
->    page table and prevent intentional access to the page because
->    pKVM/Gunyah drivers know that access to the page has been lost.
-> 2. Page-granular S1 mappings only happen on arm64 with rodata=full.
->  
-> In an off-list discussion with the Android pkvm folks, their preference
-> was to have the pages unmapped from stage 1. I've gone with that
-> approach to get started but welcome discussion on the best approach.
->  
-> The Android (downstream) implementation of arm64 pkvm is currently
-> implementing a hack where s2 ptw faults are given back to the host as s1
-> ptw faults (i.e. __do_kernel_fault() gets called and not do_sea()) --
-> allowing the kernel to fixup the exception.
->  
-> arm64 pKVM will also face this issue when implementing guest_memfd or
-> when donating more memory to the hyp for s2 page tables, etc. As far as
-> I can tell, this isn't an issue for arm64 pKVM today because memory
-> isn't being dynamically donated to the hypervisor.
+> +#ifdef CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE
+> +	struct mm_struct *mm = file->private_data;
+> +	struct task_struct *task = get_proc_task(inode);
+> +
+> +	if (mm && task) {
+> +		/* Only allow writes by processes already ptracing the target task */
+> +		if (file->f_mode & FMODE_WRITE &&
+> +		    static_branch_maybe(CONFIG_SECURITY_PROC_MEM_RESTRICT_WRITE_DEFAULT_ON,
+> +					&restrict_proc_mem_write)) {
+> +			rcu_read_lock();
+> +			if (!ptracer_capable(current, mm->user_ns) ||
+> +			    current != ptrace_parent(task))
+> +				ret = -EACCES;
 
-FWIW pKVM already donates memory dynamically to the hypervisor, to store
-e.g. guest VM metadata and page-tables, and we've never seen that
-problem as far as I can recall.
+Uhm, this will break the seccomp notifier, no? So you can't turn on
+SECURITY_PROC_MEM_RESTRICT_WRITE when you want to use the seccomp
+notifier to do system call interception and rewrite memory locations of
+the calling task, no? Which is very much relied upon in various
+container managers and possibly other security tools.
 
-A key difference is that pKVM injects a data abort back into the kernel
-in case of a stage-2 fault, so the whole EXTABLE trick/hack in
-load_unaligned_zeropad() should work fine out of the box.
+Which means that you can't turn this on in any of the regular distros.
 
-As discussed offline, Gunyah injecting an SEA into the kernel is
-questionable, but I understand that the architecture is a bit lacking in
-this department, and that's probably the next best thing.
-
-Could the Gunyah driver allocate from a CMA region instead? That would
-surely simplify unmapping from EL1 stage-1 (similar to how drivers
-usually donate memory to TZ).
-
-Thanks,
-Quentin
-
-
+So you need to either account for the calling task being a seccomp
+supervisor for the task whose memory it is trying to access or you need
+to provide a migration path by adding an api that let's caller's perform
+these writes through the seccomp notifier.
