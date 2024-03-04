@@ -1,90 +1,106 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB9E612FA
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 17:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E061756D;
+	Mon,  4 Mar 2024 18:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709574966; cv=none; b=MZ9Xn+LrLkY9yDGnWsKlqzYy+7pPelKgH5DS2trKQIcTULJ24O8iVUt4WFANyxf5ibJTR4XtWbdP34UYFCoXtKuG/f3P6jGs+ZoyajcVS+FiGqvfzPrIZTe2u51+Q1MoE1sacuGlxY7OS4bcp6gO1ZsD0SiCVtbc2nwMg6zm3uY=
+	t=1709575411; cv=none; b=pG0TEdMXHk7iMKFWF33RSaKWAooCQKyHxHM9WFTkKbUBmp1T/L+x1UKBHuV49stgCxHMXcXCkymn+Q7CTdoHd0S/FMmRV+cND3RzsRlHKSbavzrF5BzRIHTykCinZkWWtAil3qg9s93Yp0bIKkrtOHk4TybmAAdLFHwjJRsbDfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709574966; c=relaxed/simple;
-	bh=sjlJjVa6TG/fX5vFVh6AwpeyDBSvVtN6my3+HRQrKNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFOM0WEYvpub/rByERBoqn1Yxx/Z2Di/vU6oUBAExNDtnms9uvVZsEOEJHNW5x+GC7bvciOXGB1pmS1Cvw8UW0XrEd/lMg1ypntFHiAx2yEcSsEi0tTZ4Zp6NItu4WCarcAgz5wIugTOuq1pts4o/p3v9zvLQ/wEDIfphmbSYRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JaZSX2nW; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1709575411; c=relaxed/simple;
+	bh=0uJGpOI+Rh64wRVIQbrKMA5KI3BR1426JYHXEJX/tu4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bHp1C+8KMJS/MgMbGs6lH4RT0pg6pBQuMPncAtJeg3CtiTutwjQwdeKsZ2aQfvlN38NFiihGmO8e75kAM3MUA0U4lzfDJoAPukUSokSSTUX+BkDp0yEnpv8NxA/hMWuhfHqLi2BJSEhp3S+WqfiByukqPWHYLVq8lbfIcVjosoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavinjoseph.com; spf=pass smtp.mailfrom=pavinjoseph.com; dkim=pass (1024-bit key) header.d=pavinjoseph.com header.i=@pavinjoseph.com header.b=bLApyCSk; arc=none smtp.client-ip=159.100.248.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavinjoseph.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavinjoseph.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JaZSX2nW"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dd1d9daf02so5793195ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 09:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709574964; x=1710179764; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v2VvyqeNIcG/snWQL5vBwyojit65ijRwWamSan0U1MA=;
-        b=JaZSX2nWU6XL1jLsvNiWT7HooTxxdp4LNSLgG+aRhKYZMw0tCPKQNaKsbI0amVaE9a
-         4pzgs27tB3ZdAGv4mgzTBYf5Q0+/elxcqWEHHyAhHfBJH7GXjynRJvabpWaAH0NFRct9
-         yKLnlgaZvNKwbiCZ3VMUEQS4Jq2nlEBM3VwbQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709574964; x=1710179764;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v2VvyqeNIcG/snWQL5vBwyojit65ijRwWamSan0U1MA=;
-        b=VlazVFOTrkBpWpXxGt19l0oCbAOKY0Zjk8U/ttuX8RnSdfCtJAfsEDNGLf5ID+ruMI
-         svS9KHAZvIUsMqThDtwsyEuPNIrAtWgK8SLvScQpb8phS2DV5iMrDs8hlaVfTMt6uXto
-         VhxEeI72Q6dmXUzW2gvfHqj497L5cSNTnRIfcFraHyF09ugyFjcuZwIlo6Q0VhZylkcu
-         XAl0NsJ1pYyYlYEuWb9/X/j5MBQyN19PhL/yO/AYh9dp5kJrL6f84jqrhXn8MNxXgoX3
-         /TFqEm6H24GoolTewuLrtLFXrxTJhOm5cbcQJHpkbSsYqyJm5bH6NyZhCXBXn7rfEwt7
-         oXSw==
-X-Forwarded-Encrypted: i=1; AJvYcCXo+MFhmLTdS5hZebkCyHDsVlN1606DaFKkd/JndRNcgYvPbR4kkoPDLL7K6tia5CnOklv9/qUXR07uzYskcT4ep6HFsllOcVx7
-X-Gm-Message-State: AOJu0YxoalQIDUDATTFVzLoQcBXw3p2usfMzJPjhxC7qMp84Ah5YG+/8
-	thfmdajcW9NgwpCLJ64aoQb+eaSlqk7+4v6C/CmtivdjjeSQcim6I0Pb/EViZg==
-X-Google-Smtp-Source: AGHT+IHDdo++0qU0prq5GO315bAFoyYz0xOujqSX7tL10ghla7++THNQj2iSnziTmJMEzirgbCrDIw==
-X-Received: by 2002:a17:902:ccc2:b0:1dd:159:e2e7 with SMTP id z2-20020a170902ccc200b001dd0159e2e7mr6628681ple.39.1709574964374;
-        Mon, 04 Mar 2024 09:56:04 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id t7-20020a170902e84700b001d9a91af8a4sm8792261plg.28.2024.03.04.09.56.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 09:56:03 -0800 (PST)
-Date: Mon, 4 Mar 2024 09:56:03 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	kernel@collabora.com, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
-Message-ID: <202403040951.C63C3DF5@keescook>
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <39e47-65e5d100-1-5e37bd0@176022561>
- <20240304-legten-pelzmantel-1dca3659a892@brauner>
- <3a1eb-65e5dc00-15-364077c0@216340496>
+	dkim=pass (1024-bit key) header.d=pavinjoseph.com header.i=@pavinjoseph.com header.b="bLApyCSk"
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.66.162])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 3332D2615A;
+	Mon,  4 Mar 2024 18:03:27 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay2.mymailcheap.com (Postfix) with ESMTPS id 43D7A3E989;
+	Mon,  4 Mar 2024 19:03:19 +0100 (CET)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 19E0E4007F;
+	Mon,  4 Mar 2024 18:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=pavinjoseph.com;
+	s=default; t=1709575398;
+	bh=0uJGpOI+Rh64wRVIQbrKMA5KI3BR1426JYHXEJX/tu4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bLApyCSksVMMr8pDE+OTY1DI9HM0Bb5lp9O1Dchw4popfy8F116nLrhJeIslnEYla
+	 rehUDk16kxgvnEK7y1PrINwdXpLGVMF2tnFwsnB6Ku4TDjCeMv+Y7RF0YBQi65lm8F
+	 K/QR0YRlpEwl2jORX2c9JcMHk0tXrnVyBDNBQ1Fc=
+Received: from [10.66.66.8] (unknown [139.59.64.216])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 2E0694047D;
+	Mon,  4 Mar 2024 18:03:15 +0000 (UTC)
+Message-ID: <5a4e412e-e797-4db6-908e-09cb1e5f5623@pavinjoseph.com>
+Date: Mon, 4 Mar 2024 23:33:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3a1eb-65e5dc00-15-364077c0@216340496>
+User-Agent: Mozilla Thunderbird
+Subject: Re: guide on bisecting (was Re: [REGRESSION] kexec does firmware
+ reboot in kernel v6.7.6)
+Content-Language: en-US
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>
+References: <3a1b9909-45ac-4f97-ad68-d16ef1ce99db@pavinjoseph.com>
+ <7ebb1c90-544d-4540-87c0-b18dea963004@leemhuis.info>
+ <3a8453e8-03a3-462f-81a2-e9366466b990@pavinjoseph.com>
+ <a84c1a5d-3a8a-4eea-9f66-0402c983ccbb@leemhuis.info>
+ <806629e6-c228-4046-828a-68d397eb8dbc@pavinjoseph.com>
+ <4630483e-fc4e-448d-8fd6-916d3422784e@leemhuis.info>
+ <66019e35-5adb-4817-a64d-e379b6f4240a@pavinjoseph.com>
+ <e1d87d5c-97ee-4e08-84c9-61a02c81ca63@leemhuis.info>
+From: Pavin Joseph <me@pavinjoseph.com>
+In-Reply-To: <e1d87d5c-97ee-4e08-84c9-61a02c81ca63@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.09 / 10.00];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4]
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 19E0E4007F
 
-On Mon, Mar 04, 2024 at 02:35:29PM +0000, Adrian Ratiu wrote:
-> Yes, easy to block and also respect page permissions (can't write
-> read-only memory) as well as require ptrace access anyway by checking
-> PTRACE_MODE_ATTACH_REALCREDS.
+On 3/4/24 11:46, Thorsten Leemhuis wrote:
+> I'm not really familiar with openSUSE, but it set up a TW container and
+> found that a package kernel-install-tools provides installkernel script.
+> Not sure how good it works though. Could you maybe test that?
 
-right, I don't think process_vm_writev() ignores page permissions? i.e. I
-don't see where it is using FOLL_FORCE, which is one of the central
-problems with /proc/$pid/mem. (Which reminds me, this is worth mentioning
-more explicitly in the commit log for v3.)
+Yep, that package got me "installkernel" and it does all the 
+installation as expected. I only needed to change the symlink of 
+"/boot/<initrd|vmlinuz>" to point to the new ones created by it.
 
--- 
-Kees Cook
+> kernel-install is normally meant to copy the image over to /boot/ as
+> well afaik; maybe it did not do that in your case because you already
+> had placed it there manually?
+
+kernel-install doesn't do that in my testing, it also doesn't remove 
+anything AFAICT. 🧐
+
+Kind regards,
+Pavin Joseph.
