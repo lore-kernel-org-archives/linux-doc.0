@@ -1,37 +1,37 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BF01A58B;
-	Mon,  4 Mar 2024 09:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294B01A731;
+	Mon,  4 Mar 2024 09:04:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709543011; cv=none; b=Gis61dL53Jg6ox3WNJyU1I2RDFg0LOpqsXBo5FEljKHfS6QC5h3/9qOubO9xJ2p7oaH+GdduODRN2SwGXPoOj3AnYcN3QSnnbnrC+K2h/Qbz3RI7Y4Mtgbgdy93+VMw+5ssXHX4U+3B77yZK2M+0wOw2DDa2Y1Xw6SE6as6J21A=
+	t=1709543098; cv=none; b=rGuCHMu74bByN0hphP7pW0bSSbFdIgcPM8aJtWmhRted+xc0I457236GoHL9NWGT2tJpn9ZKpPLVT3smWvTmnY6XYCTMkE7qQOwW2fzUoIqguILfsR3DI0lbIM5yKZeYfDUzZI8mqEVuMwLr4d/TYg1FWL/cLNYGShWWkMzQGs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709543011; c=relaxed/simple;
-	bh=CC+1rirYTzLGvEtFwGB1EgD63WwGrPZRKnDwinQpM+w=;
+	s=arc-20240116; t=1709543098; c=relaxed/simple;
+	bh=l4wv2HTEtBH4U0aOIGr5tKq7yAId05b+INAdZNMXCCc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CTAXg2xhYgSwcHaWjaifrVnF0jEOCRkDQF/fa+i9bYg3sSpsQCCkeyXwqdbOyyIXeBDPAZ76+DaYYCwCbGCuX3FlhQn4wdBILIdowhPgSSric+LHMyNYn+24kFjWSokxh4ZUboTXgHrMiRzD88xL6UH0Gqxd2jXJgfI3H/iQkTQ=
+	 MIME-Version:Content-Type; b=OICkerOqp1e0wVvcm5wGRNnIWEy0wemql6PklrczkmgsYC5Dpv0C07OcYhiJ2N09UJkq/nwrUZZc/DoJS1G/H70esgQRJ5VnU37Zj7/wT78xrh4TpS5MoJaFeiY+vkpIeYIfXS3OmuZRXkNK2akiU5qELEjJ56grRdGGyFE71IY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EFF21FB;
-	Mon,  4 Mar 2024 01:04:05 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17EFB1FB;
+	Mon,  4 Mar 2024 01:05:32 -0800 (PST)
 Received: from [10.37.129.2] (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E1B6F3F762;
-	Mon,  4 Mar 2024 01:03:26 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69F8A3F762;
+	Mon,  4 Mar 2024 01:04:53 -0800 (PST)
 From: Balint Dobszay <balint.dobszay@arm.com>
 To: Sumit Garg <sumit.garg@linaro.org>
 Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com,
  rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
-Subject: Re: [PATCH v2 1/3] tee: optee: Move pool_op helper functions
-Date: Mon, 04 Mar 2024 10:03:24 +0100
+Subject: Re: [PATCH v2 2/3] tee: tstee: Add Trusted Services TEE driver
+Date: Mon, 04 Mar 2024 10:04:51 +0100
 X-Mailer: MailMate (1.14r5937)
-Message-ID: <4E68610D-8F2B-4E27-AE5C-45CB59D7FEC0@arm.com>
-In-Reply-To: <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+Message-ID: <666ACEA9-7A19-46BC-BC85-837021910900@arm.com>
+In-Reply-To: <CAFA6WYOKtxGTU33BY_z1H01UF41rm6g-LTxUi-DX4CJrV-aT3w@mail.gmail.com>
 References: <20240223095133.109046-1-balint.dobszay@arm.com>
- <20240223095133.109046-2-balint.dobszay@arm.com>
- <CAFA6WYNW9-7gCZQSEaV=Gcr+GLdu25rQ8MpTg9yNpX7OwyZ0Tg@mail.gmail.com>
+ <20240223095133.109046-3-balint.dobszay@arm.com>
+ <CAFA6WYOKtxGTU33BY_z1H01UF41rm6g-LTxUi-DX4CJrV-aT3w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,367 +41,771 @@ MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sumit,
+On 27 Feb 2024, at 8:08, Sumit Garg wrote:
 
-On 27 Feb 2024, at 7:06, Sumit Garg wrote:
-
-> Hi Balint,
->
 > On Fri, 23 Feb 2024 at 15:22, Balint Dobszay <balint.dobszay@arm.com> w=
 rote:
 >>
->> Move the pool alloc and free helper functions from the OP-TEE driver t=
-o
->> the TEE subsystem, since these could be reused in other TEE drivers.
->> This patch is not supposed to change behavior, it's only reorganizing
->> the code.
+>> The Trusted Services project provides a framework for developing and
+>> deploying device Root of Trust services in FF-A Secure Partitions. The=
+
+>> FF-A SPs are accessible through the FF-A driver, but this doesn't
+>> provide a user space interface. The goal of this TEE driver is to make=
+
+>> Trusted Services SPs accessible for user space clients.
 >>
->> Suggested-by: Jens Wiklander <jens.wiklander@linaro.org>
+>> All TS SPs have the same FF-A UUID, it identifies the RPC protocol use=
+d
+>> by TS. A TS SP can host one or more services, a service is identified =
+by
+>> its service UUID. The same type of service cannot be present twice in
+>> the same SP. During SP boot each service in an SP is assigned an
+>> interface ID, this is just a short ID to simplify message addressing.
+>> There is 1:1 mapping between TS SPs and TEE devices, i.e. a separate T=
+EE
+>> device is registered for each TS SP. This is required since contrary t=
+o
+>> the generic TEE design where memory is shared with the whole TEE
+>> implementation, in case of FF-A, memory is shared with a specific SP. =
+A
+>> user space client has to be able to separately share memory with each =
+SP
+>> based on its endpoint ID.
+>>
 >> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
 >> ---
->>  drivers/tee/optee/core.c          | 64 ------------------------------=
-
->>  drivers/tee/optee/ffa_abi.c       |  6 +--
->>  drivers/tee/optee/optee_private.h | 12 ------
->>  drivers/tee/optee/smc_abi.c       | 11 +++---
->>  drivers/tee/tee_shm.c             | 65 ++++++++++++++++++++++++++++++=
+>>  drivers/tee/Kconfig               |   1 +
+>>  drivers/tee/Makefile              |   1 +
+>>  drivers/tee/tstee/Kconfig         |  11 +
+>>  drivers/tee/tstee/Makefile        |   3 +
+>>  drivers/tee/tstee/core.c          | 490 +++++++++++++++++++++++++++++=
 +
->>  include/linux/tee_drv.h           | 11 ++++++
->>  6 files changed, 85 insertions(+), 84 deletions(-)
+>>  drivers/tee/tstee/tstee_private.h |  94 ++++++
+>>  include/uapi/linux/tee.h          |   1 +
+>>  7 files changed, 601 insertions(+)
+>>  create mode 100644 drivers/tee/tstee/Kconfig
+>>  create mode 100644 drivers/tee/tstee/Makefile
+>>  create mode 100644 drivers/tee/tstee/core.c
+>>  create mode 100644 drivers/tee/tstee/tstee_private.h
 >>
->> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
->> index 3aed554bc8d8..9390f21f9902 100644
->> --- a/drivers/tee/optee/core.c
->> +++ b/drivers/tee/optee/core.c
->> @@ -9,7 +9,6 @@
->>  #include <linux/crash_dump.h>
->>  #include <linux/errno.h>
->>  #include <linux/io.h>
->> -#include <linux/mm.h>
->>  #include <linux/module.h>
->>  #include <linux/slab.h>
->>  #include <linux/string.h>
->> @@ -17,69 +16,6 @@
->>  #include <linux/types.h>
->>  #include "optee_private.h"
+>> diff --git a/drivers/tee/Kconfig b/drivers/tee/Kconfig
+>> index 73a147202e88..61b507c18780 100644
+>> --- a/drivers/tee/Kconfig
+>> +++ b/drivers/tee/Kconfig
+>> @@ -15,5 +15,6 @@ if TEE
 >>
->> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              size_t size, size_t align,
->> -                              int (*shm_register)(struct tee_context =
-*ctx,
->> -                                                  struct tee_shm *shm=
-,
->> -                                                  struct page **pages=
-,
->> -                                                  size_t num_pages,
->> -                                                  unsigned long start=
-))
->> -{
->> -       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
->> -       struct page **pages;
->> -       unsigned int i;
->> -       int rc =3D 0;
->> -
->> -       /*
->> -        * Ignore alignment since this is already going to be page ali=
-gned
->> -        * and there's no need for any larger alignment.
->> -        */
->> -       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
->> -                                      GFP_KERNEL | __GFP_ZERO);
->> -       if (!shm->kaddr)
->> -               return -ENOMEM;
->> -
->> -       shm->paddr =3D virt_to_phys(shm->kaddr);
->> -       shm->size =3D nr_pages * PAGE_SIZE;
->> -
->> -       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
->> -       if (!pages) {
->> -               rc =3D -ENOMEM;
->> -               goto err;
->> -       }
->> -
->> -       for (i =3D 0; i < nr_pages; i++)
->> -               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_=
-SIZE);
->> -
->> -       shm->pages =3D pages;
->> -       shm->num_pages =3D nr_pages;
->> -
->> -       if (shm_register) {
->> -               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
->> -                                 (unsigned long)shm->kaddr);
->> -               if (rc)
->> -                       goto err;
->> -       }
->> -
->> -       return 0;
->> -err:
->> -       free_pages_exact(shm->kaddr, shm->size);
->> -       shm->kaddr =3D NULL;
->> -       return rc;
->> -}
->> -
->> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              int (*shm_unregister)(struct tee_contex=
-t *ctx,
->> -                                                    struct tee_shm *s=
-hm))
->> -{
->> -       if (shm_unregister)
->> -               shm_unregister(shm->ctx, shm);
->> -       free_pages_exact(shm->kaddr, shm->size);
->> -       shm->kaddr =3D NULL;
->> -       kfree(shm->pages);
->> -       shm->pages =3D NULL;
->> -}
->> -
->>  static void optee_bus_scan(struct work_struct *work)
->>  {
->>         WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
->> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c=
-
->> index ecb5eb079408..ee11918a2b35 100644
->> --- a/drivers/tee/optee/ffa_abi.c
->> +++ b/drivers/tee/optee/ffa_abi.c
->> @@ -374,14 +374,14 @@ static int optee_ffa_shm_unregister_supp(struct =
-tee_context *ctx,
->>  static int pool_ffa_op_alloc(struct tee_shm_pool *pool,
->>                              struct tee_shm *shm, size_t size, size_t =
-align)
->>  {
->> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
->> -                                         optee_ffa_shm_register);
->> +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
->> +                                           optee_ffa_shm_register);
->>  }
+>>  source "drivers/tee/optee/Kconfig"
+>>  source "drivers/tee/amdtee/Kconfig"
+>> +source "drivers/tee/tstee/Kconfig"
 >>
->>  static void pool_ffa_op_free(struct tee_shm_pool *pool,
->>                              struct tee_shm *shm)
->>  {
->> -       optee_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister)=
-;
->> +       tee_shm_pool_op_free_helper(pool, shm, optee_ffa_shm_unregiste=
-r);
->>  }
->>
->>  static void pool_ffa_op_destroy_pool(struct tee_shm_pool *pool)
->> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opt=
-ee_private.h
->> index 7a5243c78b55..a153285a1919 100644
->> --- a/drivers/tee/optee/optee_private.h
->> +++ b/drivers/tee/optee/optee_private.h
->> @@ -283,18 +283,6 @@ int optee_cancel_req(struct tee_context *ctx, u32=
- cancel_id, u32 session);
->>  int optee_enumerate_devices(u32 func);
->>  void optee_unregister_devices(void);
->>
->> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              size_t size, size_t align,
->> -                              int (*shm_register)(struct tee_context =
-*ctx,
->> -                                                  struct tee_shm *shm=
-,
->> -                                                  struct page **pages=
-,
->> -                                                  size_t num_pages,
->> -                                                  unsigned long start=
-));
->> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              int (*shm_unregister)(struct tee_contex=
-t *ctx,
->> -                                                    struct tee_shm *s=
-hm));
->> -
->> -
->>  void optee_remove_common(struct optee *optee);
->>  int optee_open(struct tee_context *ctx, bool cap_memref_null);
->>  void optee_release(struct tee_context *ctx);
->> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c=
-
->> index a37f87087e5c..b0c616b6870d 100644
->> --- a/drivers/tee/optee/smc_abi.c
->> +++ b/drivers/tee/optee/smc_abi.c
->> @@ -592,19 +592,20 @@ static int pool_op_alloc(struct tee_shm_pool *po=
-ol,
->>          * to be registered with OP-TEE.
->>          */
->>         if (shm->flags & TEE_SHM_PRIV)
->> -               return optee_pool_op_alloc_helper(pool, shm, size, ali=
-gn, NULL);
->> +               return tee_shm_pool_op_alloc_helper(pool, shm, size, a=
-lign,
->> +                                                   NULL);
->>
->> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
->> -                                         optee_shm_register);
->> +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
->> +                                           optee_shm_register);
->>  }
->>
->>  static void pool_op_free(struct tee_shm_pool *pool,
->>                          struct tee_shm *shm)
->>  {
->>         if (!(shm->flags & TEE_SHM_PRIV))
->> -               optee_pool_op_free_helper(pool, shm, optee_shm_unregis=
-ter);
->> +               tee_shm_pool_op_free_helper(pool, shm, optee_shm_unreg=
-ister);
->>         else
->> -               optee_pool_op_free_helper(pool, shm, NULL);
->> +               tee_shm_pool_op_free_helper(pool, shm, NULL);
->>  }
->>
->>  static void pool_op_destroy_pool(struct tee_shm_pool *pool)
->> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
->> index 731d9028b67f..641aad92ffe2 100644
->> --- a/drivers/tee/tee_shm.c
->> +++ b/drivers/tee/tee_shm.c
->> @@ -202,6 +202,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee=
-_context *ctx, size_t size)
->>  }
->>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
->>
->> +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct te=
-e_shm *shm,
->
-> I don't see the first argument (struct tee_shm_pool *pool) being used,
-> so drop that. Also, we can just rename it as
-> tee_dyn_shm_alloc_helper().
-
-Okay, I'll refactor.
-
->> +                                size_t size, size_t align,
->> +                                int (*shm_register)(struct tee_contex=
-t *ctx,
->> +                                                    struct tee_shm *s=
-hm,
->> +                                                    struct page **pag=
-es,
->> +                                                    size_t num_pages,=
-
->> +                                                    unsigned long sta=
-rt))
->> +{
->> +       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
->> +       struct page **pages;
->> +       unsigned int i;
->> +       int rc =3D 0;
+>>  endif
+>> diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
+>> index 68da044afbfa..5488cba30bd2 100644
+>> --- a/drivers/tee/Makefile
+>> +++ b/drivers/tee/Makefile
+>> @@ -5,3 +5,4 @@ tee-objs +=3D tee_shm.o
+>>  tee-objs +=3D tee_shm_pool.o
+>>  obj-$(CONFIG_OPTEE) +=3D optee/
+>>  obj-$(CONFIG_AMDTEE) +=3D amdtee/
+>> +obj-$(CONFIG_ARM_TSTEE) +=3D tstee/
+>> diff --git a/drivers/tee/tstee/Kconfig b/drivers/tee/tstee/Kconfig
+>> new file mode 100644
+>> index 000000000000..d32f91d47398
+>> --- /dev/null
+>> +++ b/drivers/tee/tstee/Kconfig
+>> @@ -0,0 +1,11 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +config ARM_TSTEE
+>> +       tristate "Arm Trusted Services TEE driver"
+>> +       depends on ARM_FFA_TRANSPORT
+>> +       default n
+>> +       help
+>> +         The Trusted Services project provides a framework for develo=
+ping and
+>> +         deploying device Root of Trust services in FF-A Secure Parti=
+tions.
+>> +         This driver provides an interface to make Trusted Services S=
+ecure
+>> +         Partitions accessible for user space clients, since the FF-A=
+ driver
+>> +         doesn't implement a user space interface directly.
+>> diff --git a/drivers/tee/tstee/Makefile b/drivers/tee/tstee/Makefile
+>> new file mode 100644
+>> index 000000000000..5227020ebd30
+>> --- /dev/null
+>> +++ b/drivers/tee/tstee/Makefile
+>> @@ -0,0 +1,3 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +arm-tstee-objs :=3D core.o
+>> +obj-$(CONFIG_ARM_TSTEE) =3D arm-tstee.o
+>> diff --git a/drivers/tee/tstee/core.c b/drivers/tee/tstee/core.c
+>> new file mode 100644
+>> index 000000000000..2932be017dbe
+>> --- /dev/null
+>> +++ b/drivers/tee/tstee/core.c
+>> @@ -0,0 +1,490 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2023, Arm Limited
+>> + */
 >> +
->> +       /*
->> +        * Ignore alignment since this is already going to be page ali=
-gned
->> +        * and there's no need for any larger alignment.
->> +        */
->> +       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
->> +                                      GFP_KERNEL | __GFP_ZERO);
->> +       if (!shm->kaddr)
+>> +#define DRIVER_NAME "Arm TSTEE"
+>> +#define pr_fmt(fmt) DRIVER_NAME ": " fmt
+>> +
+>> +#include <linux/arm_ffa.h>
+>> +#include <linux/err.h>
+>> +#include <linux/errno.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/limits.h>
+>> +#include <linux/list.h>
+>> +#include <linux/mm.h>
+>> +#include <linux/module.h>
+>> +#include <linux/scatterlist.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/stat.h>
+>> +#include <linux/tee_drv.h>
+>> +#include <linux/types.h>
+>> +#include <linux/uaccess.h>
+>> +
+>> +#include "tstee_private.h"
+>> +
+>> +#define FFA_DIRECT_REQ_ARG_NUM 5
+>> +#define FFA_INVALID_MEM_HANDLE U64_MAX
+>> +
+>> +static void arg_list_to_ffa_data(const u32 *args,
+>> +                                struct ffa_send_direct_data *data)
+>> +{
+>> +       data->data0 =3D args[0];
+>> +       data->data1 =3D args[1];
+>> +       data->data2 =3D args[2];
+>> +       data->data3 =3D args[3];
+>> +       data->data4 =3D args[4];
+>> +}
+>> +
+>> +static void arg_list_from_ffa_data(const struct ffa_send_direct_data =
+*data,
+>> +                                  u32 *args)
+>> +{
+>> +       args[0] =3D lower_32_bits(data->data0);
+>> +       args[1] =3D lower_32_bits(data->data1);
+>> +       args[2] =3D lower_32_bits(data->data2);
+>> +       args[3] =3D lower_32_bits(data->data3);
+>> +       args[4] =3D lower_32_bits(data->data4);
+>> +}
+>> +
+>> +static void tstee_get_version(struct tee_device *teedev,
+>> +                             struct tee_ioctl_version_data *vers)
+>> +{
+>> +       struct tstee *tstee =3D tee_get_drvdata(teedev);
+>> +       struct tee_ioctl_version_data v =3D {
+>> +               .impl_id =3D TEE_IMPL_ID_TSTEE,
+>> +               /* FF-A endpoint ID only uses the lower 16 bits */
+>> +               .impl_caps =3D lower_16_bits(tstee->ffa_dev->vm_id),
+>> +               .gen_caps =3D 0,
+>> +       };
+>> +
+>> +       *vers =3D v;
+>> +}
+>> +
+>> +static int tstee_open(struct tee_context *ctx)
+>> +{
+>> +       struct ts_context_data *ctxdata;
+>> +
+>> +       ctxdata =3D kzalloc(sizeof(*ctxdata), GFP_KERNEL);
+>> +       if (!ctxdata)
 >> +               return -ENOMEM;
 >> +
->> +       shm->paddr =3D virt_to_phys(shm->kaddr);
->> +       shm->size =3D nr_pages * PAGE_SIZE;
+>> +       mutex_init(&ctxdata->mutex);
+>> +       xa_init_flags(&ctxdata->sess_list, XA_FLAGS_ALLOC);
 >> +
->> +       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
->> +       if (!pages) {
->> +               rc =3D -ENOMEM;
->> +               goto err;
->> +       }
->> +
->> +       for (i =3D 0; i < nr_pages; i++)
->> +               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_=
-SIZE);
->> +
->> +       shm->pages =3D pages;
->> +       shm->num_pages =3D nr_pages;
->> +
->> +       if (shm_register) {
->> +               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
->> +                                 (unsigned long)shm->kaddr);
->> +               if (rc)
->> +                       goto err;
->> +       }
+>> +       ctx->data =3D ctxdata;
 >> +
 >> +       return 0;
->> +err:
->> +       free_pages_exact(shm->kaddr, shm->size);
->> +       shm->kaddr =3D NULL;
->> +       return rc;
 >> +}
->> +EXPORT_SYMBOL_GPL(tee_shm_pool_op_alloc_helper);
 >> +
->> +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct te=
-e_shm *shm,
->
-> Ditto tee_shm_pool_op_free_helper() -> tee_dyn_shm_free_helper()
-
-Okay, actually the first argument is unused here too, I'll drop it.
-
->> +                                int (*shm_unregister)(struct tee_cont=
-ext *ctx,
->> +                                                      struct tee_shm =
-*shm))
+>> +static void tstee_release(struct tee_context *ctx)
 >> +{
->> +       if (shm_unregister)
->> +               shm_unregister(shm->ctx, shm);
->> +       free_pages_exact(shm->kaddr, shm->size);
->> +       shm->kaddr =3D NULL;
->> +       kfree(shm->pages);
->> +       shm->pages =3D NULL;
->> +}
->> +EXPORT_SYMBOL_GPL(tee_shm_pool_op_free_helper);
+>> +       struct ts_context_data *ctxdata =3D ctx->data;
+>> +       struct ts_session *sess;
+>> +       unsigned long idx;
 >> +
->>  static struct tee_shm *
->>  register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, u=
-32 flags,
->>                     int id)
->> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
->> index 911ddf92dcee..4cf402424e71 100644
->> --- a/include/linux/tee_drv.h
->> +++ b/include/linux/tee_drv.h
->> @@ -275,6 +275,17 @@ void *tee_get_drvdata(struct tee_device *teedev);=
+>> +       if (!ctxdata)
+>> +               return;
+>> +
+>> +       xa_for_each(&ctxdata->sess_list, idx, sess) {
+>> +               xa_erase(&ctxdata->sess_list, idx);
+>> +               kfree(sess);
+>> +       }
+>> +
+>> +       xa_destroy(&ctxdata->sess_list);
+>> +       mutex_destroy(&ctxdata->mutex);
+>> +
+>> +       kfree(ctxdata);
+>> +       ctx->data =3D NULL;
+>> +}
+>> +
+>> +static int tstee_open_session(struct tee_context *ctx,
+>> +                             struct tee_ioctl_open_session_arg *arg,
+>> +                             struct tee_param *param __always_unused)=
 
->>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_=
-t size);
->>  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, siz=
-e_t size);
->>
->> +int tee_shm_pool_op_alloc_helper(struct tee_shm_pool *pool, struct te=
-e_shm *shm,
->> +                                size_t size, size_t align,
->> +                                int (*shm_register)(struct tee_contex=
-t *ctx,
->> +                                                    struct tee_shm *s=
-hm,
->> +                                                    struct page **pag=
-es,
->> +                                                    size_t num_pages,=
+>> +{
+>> +       struct tstee *tstee =3D tee_get_drvdata(ctx->teedev);
+>> +       struct ffa_device *ffa_dev =3D tstee->ffa_dev;
+>> +       struct ts_context_data *ctxdata =3D ctx->data;
+>> +       struct ffa_send_direct_data ffa_data;
+>> +       struct ts_session *sess =3D NULL;
+>> +       u32 ffa_args[FFA_DIRECT_REQ_ARG_NUM] =3D {};
+>> +       u32 sess_id;
+>> +       int rc;
+>> +
+>> +       ffa_args[TS_RPC_CTRL_REG] =3D
+>> +               TS_RPC_CTRL_PACK_IFACE_OPCODE(TS_RPC_MGMT_IFACE_ID,
+>> +                                             TS_RPC_OP_SERVICE_INFO);=
 
->> +                                                    unsigned long sta=
-rt));
->> +void tee_shm_pool_op_free_helper(struct tee_shm_pool *pool, struct te=
-e_shm *shm,
->> +                                int (*shm_unregister)(struct tee_cont=
-ext *ctx,
->> +                                                      struct tee_shm =
-*shm));
+>> +
+>> +       memcpy(ffa_args + TS_RPC_SERVICE_INFO_UUID0, arg->uuid, UUID_S=
+IZE);
+>> +
+>> +       arg_list_to_ffa_data(ffa_args, &ffa_data);
+>> +       rc =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &ffa_=
+data);
+>> +       if (rc)
+>> +               return rc;
+>> +
+>> +       arg_list_from_ffa_data(&ffa_data, ffa_args);
+>> +
+>> +       if (ffa_args[TS_RPC_SERVICE_INFO_RPC_STATUS] !=3D TS_RPC_OK)
+>> +               return -ENODEV;
+>> +
+>> +       if (ffa_args[TS_RPC_SERVICE_INFO_IFACE] > U8_MAX)
+>> +               return -EINVAL;
+>> +
+>> +       sess =3D kzalloc(sizeof(*sess), GFP_KERNEL);
+>> +       if (!sess)
+>> +               return -ENOMEM;
+>> +
+>> +       sess->iface_id =3D ffa_args[TS_RPC_SERVICE_INFO_IFACE];
+>> +
+>> +       rc =3D xa_alloc(&ctxdata->sess_list, &sess_id, sess, xa_limit_=
+32b,
+>> +                     GFP_KERNEL);
+>> +       if (rc) {
+>> +               kfree(sess);
+>> +               return rc;
+>> +       }
+>> +
+>> +       arg->session =3D sess_id;
+>> +       arg->ret =3D 0;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int tstee_close_session(struct tee_context *ctx, u32 session)
+>> +{
+>> +       struct ts_context_data *ctxdata =3D ctx->data;
+>> +       struct ts_session *sess;
+>> +
+>> +       mutex_lock(&ctxdata->mutex);
+>> +       sess =3D xa_erase(&ctxdata->sess_list, session);
+>> +       mutex_unlock(&ctxdata->mutex);
+>> +       if (!sess)
+>> +               return -EINVAL;
+>> +
+>> +       kfree(sess);
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int tstee_invoke_func(struct tee_context *ctx,
+>> +                            struct tee_ioctl_invoke_arg *arg,
+>> +                            struct tee_param *param)
+>> +{
+>> +       struct tstee *tstee =3D tee_get_drvdata(ctx->teedev);
+>> +       struct ffa_device *ffa_dev =3D tstee->ffa_dev;
+>> +       struct ts_context_data *ctxdata =3D ctx->data;
+>> +       struct ffa_send_direct_data ffa_data;
+>> +       struct tee_shm *shm =3D NULL;
+>> +       struct ts_session *sess;
+>> +       u32 req_len, ffa_args[FFA_DIRECT_REQ_ARG_NUM] =3D {};
+>> +       int shm_id, rc;
+>> +       u8 iface_id;
+>> +       u64 handle;
+>> +       u16 opcode;
+>> +
+>> +       mutex_lock(&ctxdata->mutex);
+>> +       sess =3D xa_load(&ctxdata->sess_list, arg->session);
+>> +
+>> +       /*
+>> +        * Do this while holding the mutex to make sure that the sessi=
+on wasn't
+>> +        * closed meanwhile
+>> +        */
+>> +       if (sess)
+>> +               iface_id =3D sess->iface_id;
+>> +
+>> +       mutex_unlock(&ctxdata->mutex);
+>> +       if (!sess)
+>> +               return -EINVAL;
 >> +
 >
-> These rather belong to drivers/tee/tee_private.h as we shouldn't
-> expose them to other kernel client drivers.
+> We can drop usage of mutex here and other places via reusing
+> xa_lock(), something like below should work:
+>
+>         xa_lock(&ctxdata->sess_list);
+>
+>         sess =3D xa_load(&ctxdata->sess_list, arg->session);
+>         if (sess)
+>                 iface_id =3D sess->iface_id;
+>
+>         xa_unlock(&ctxdata->sess_list);
 
-As per the discussion in the other thread I'll ignore this.
+Good point, I'll refactor according to your suggestion.
 
 Regards,
 Balint
 
->>  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ctx,
->>                                             void *addr, size_t length)=
-;
+>> +       opcode =3D lower_16_bits(arg->func);
+>> +       shm_id =3D lower_32_bits(param[0].u.value.a);
+>> +       req_len =3D lower_32_bits(param[0].u.value.b);
+>> +
+>> +       if (shm_id !=3D 0) {
+>> +               shm =3D tee_shm_get_from_id(ctx, shm_id);
+>> +               if (IS_ERR(shm))
+>> +                       return PTR_ERR(shm);
+>> +
+>> +               if (shm->size < req_len) {
+>> +                       pr_err("request doesn't fit into shared memory=
+ buffer\n");
+>> +                       rc =3D -EINVAL;
+>> +                       goto out;
+>> +               }
+>> +
+>> +               handle =3D shm->sec_world_id;
+>> +       } else {
+>> +               handle =3D FFA_INVALID_MEM_HANDLE;
+>> +       }
+>> +
+>> +       ffa_args[TS_RPC_CTRL_REG] =3D TS_RPC_CTRL_PACK_IFACE_OPCODE(if=
+ace_id,
+>> +                                                                 opco=
+de);
+>> +       ffa_args[TS_RPC_SERVICE_MEM_HANDLE_LSW] =3D lower_32_bits(hand=
+le);
+>> +       ffa_args[TS_RPC_SERVICE_MEM_HANDLE_MSW] =3D upper_32_bits(hand=
+le);
+>> +       ffa_args[TS_RPC_SERVICE_REQ_LEN] =3D req_len;
+>> +       ffa_args[TS_RPC_SERVICE_CLIENT_ID] =3D 0;
+>> +
+>> +       arg_list_to_ffa_data(ffa_args, &ffa_data);
+>> +       rc =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &ffa_=
+data);
+>> +       if (rc)
+>> +               goto out;
+>> +
+>> +       arg_list_from_ffa_data(&ffa_data, ffa_args);
+>> +
+>> +       if (ffa_args[TS_RPC_SERVICE_RPC_STATUS] !=3D TS_RPC_OK) {
+>> +               pr_err("invoke_func rpc status: %d\n",
+>> +                      ffa_args[TS_RPC_SERVICE_RPC_STATUS]);
+>> +               rc =3D -EINVAL;
+>> +               goto out;
+>> +       }
+>> +
+>> +       arg->ret =3D ffa_args[TS_RPC_SERVICE_STATUS];
+>> +       if (shm && shm->size >=3D ffa_args[TS_RPC_SERVICE_RESP_LEN])
+>> +               param[0].u.value.a =3D ffa_args[TS_RPC_SERVICE_RESP_LE=
+N];
+>> +
+>> +out:
+>> +       if (shm)
+>> +               tee_shm_put(shm);
+>> +
+>> +       return rc;
+>> +}
+>> +
+>> +static int tstee_shm_register(struct tee_context *ctx, struct tee_shm=
+ *shm,
+>> +                             struct page **pages, size_t num_pages,
+>> +                             unsigned long start __always_unused)
+>> +{
+>> +       struct tstee *tstee =3D tee_get_drvdata(ctx->teedev);
+>> +       struct ffa_device *ffa_dev =3D tstee->ffa_dev;
+>> +       struct ffa_mem_region_attributes mem_attr =3D {
+>> +               .receiver =3D tstee->ffa_dev->vm_id,
+>> +               .attrs =3D FFA_MEM_RW,
+>> +               .flag =3D 0,
+>> +       };
+>> +       struct ffa_mem_ops_args mem_args =3D {
+>> +               .attrs =3D &mem_attr,
+>> +               .use_txbuf =3D true,
+>> +               .nattrs =3D 1,
+>> +               .flags =3D 0,
+>> +       };
+>> +       struct ffa_send_direct_data ffa_data;
+>> +       struct sg_table sgt;
+>> +       u32 ffa_args[FFA_DIRECT_REQ_ARG_NUM] =3D {};
+>> +       int rc;
+>> +
+>> +       rc =3D sg_alloc_table_from_pages(&sgt, pages, num_pages, 0,
+>> +                                      num_pages * PAGE_SIZE, GFP_KERN=
+EL);
+>> +       if (rc)
+>> +               return rc;
+>> +
+>> +       mem_args.sg =3D sgt.sgl;
+>> +       rc =3D ffa_dev->ops->mem_ops->memory_share(&mem_args);
+>> +       sg_free_table(&sgt);
+>> +       if (rc)
+>> +               return rc;
+>> +
+>> +       shm->sec_world_id =3D mem_args.g_handle;
+>> +
+>> +       ffa_args[TS_RPC_CTRL_REG] =3D
+>> +                       TS_RPC_CTRL_PACK_IFACE_OPCODE(TS_RPC_MGMT_IFAC=
+E_ID,
+>> +                                                     TS_RPC_OP_RETRIE=
+VE_MEM);
+>> +       ffa_args[TS_RPC_RETRIEVE_MEM_HANDLE_LSW] =3D
+>> +                       lower_32_bits(shm->sec_world_id);
+>> +       ffa_args[TS_RPC_RETRIEVE_MEM_HANDLE_MSW] =3D
+>> +                       upper_32_bits(shm->sec_world_id);
+>> +       ffa_args[TS_RPC_RETRIEVE_MEM_TAG_LSW] =3D 0;
+>> +       ffa_args[TS_RPC_RETRIEVE_MEM_TAG_MSW] =3D 0;
+>> +
+>> +       arg_list_to_ffa_data(ffa_args, &ffa_data);
+>> +       rc =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &ffa_=
+data);
+>> +       if (rc) {
+>> +               (void)ffa_dev->ops->mem_ops->memory_reclaim(shm->sec_w=
+orld_id,
+>> +                                                           0);
+>> +               return rc;
+>> +       }
+>> +
+>> +       arg_list_from_ffa_data(&ffa_data, ffa_args);
+>> +
+>> +       if (ffa_args[TS_RPC_RETRIEVE_MEM_RPC_STATUS] !=3D TS_RPC_OK) {=
+
+>> +               pr_err("shm_register rpc status: %d\n",
+>> +                      ffa_args[TS_RPC_RETRIEVE_MEM_RPC_STATUS]);
+>> +               ffa_dev->ops->mem_ops->memory_reclaim(shm->sec_world_i=
+d, 0);
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static int tstee_shm_unregister(struct tee_context *ctx, struct tee_s=
+hm *shm)
+>> +{
+>> +       struct tstee *tstee =3D tee_get_drvdata(ctx->teedev);
+>> +       struct ffa_device *ffa_dev =3D tstee->ffa_dev;
+>> +       struct ffa_send_direct_data ffa_data;
+>> +       u32 ffa_args[FFA_DIRECT_REQ_ARG_NUM] =3D {};
+>> +       int rc;
+>> +
+>> +       ffa_args[TS_RPC_CTRL_REG] =3D
+>> +                       TS_RPC_CTRL_PACK_IFACE_OPCODE(TS_RPC_MGMT_IFAC=
+E_ID,
+>> +                                                     TS_RPC_OP_RELINQ=
+_MEM);
+>> +       ffa_args[TS_RPC_RELINQ_MEM_HANDLE_LSW] =3D
+>> +                       lower_32_bits(shm->sec_world_id);
+>> +       ffa_args[TS_RPC_RELINQ_MEM_HANDLE_MSW] =3D
+>> +                       upper_32_bits(shm->sec_world_id);
+>> +
+>> +       arg_list_to_ffa_data(ffa_args, &ffa_data);
+>> +       rc =3D ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &ffa_=
+data);
+>> +       if (rc)
+>> +               return rc;
+>> +       arg_list_from_ffa_data(&ffa_data, ffa_args);
+>> +
+>> +       if (ffa_args[TS_RPC_RELINQ_MEM_RPC_STATUS] !=3D TS_RPC_OK) {
+>> +               pr_err("shm_unregister rpc status: %d\n",
+>> +                      ffa_args[TS_RPC_RELINQ_MEM_RPC_STATUS]);
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       rc =3D ffa_dev->ops->mem_ops->memory_reclaim(shm->sec_world_id=
+, 0);
+>> +
+>> +       return rc;
+>> +}
+>> +
+>> +static const struct tee_driver_ops tstee_ops =3D {
+>> +       .get_version =3D tstee_get_version,
+>> +       .open =3D tstee_open,
+>> +       .release =3D tstee_release,
+>> +       .open_session =3D tstee_open_session,
+>> +       .close_session =3D tstee_close_session,
+>> +       .invoke_func =3D tstee_invoke_func,
+>> +       .shm_register =3D tstee_shm_register,
+>> +       .shm_unregister =3D tstee_shm_unregister,
+>> +};
+>> +
+>> +static const struct tee_desc tstee_desc =3D {
+>> +       .name =3D "tstee-clnt",
+>> +       .ops =3D &tstee_ops,
+>> +       .owner =3D THIS_MODULE,
+>> +};
+>> +
+>> +static int pool_op_alloc(struct tee_shm_pool *pool, struct tee_shm *s=
+hm,
+>> +                        size_t size, size_t align)
+>> +{
+>> +       return tee_shm_pool_op_alloc_helper(pool, shm, size, align,
+>> +                                           tstee_shm_register);
+>> +}
+>> +
+>> +static void pool_op_free(struct tee_shm_pool *pool, struct tee_shm *s=
+hm)
+>> +{
+>> +       tee_shm_pool_op_free_helper(pool, shm, tstee_shm_unregister);
+>> +}
+>> +
+>> +static void pool_op_destroy_pool(struct tee_shm_pool *pool)
+>> +{
+>> +       kfree(pool);
+>> +}
+>> +
+>> +static const struct tee_shm_pool_ops pool_ops =3D {
+>> +       .alloc =3D pool_op_alloc,
+>> +       .free =3D pool_op_free,
+>> +       .destroy_pool =3D pool_op_destroy_pool,
+>> +};
+>> +
+>> +static struct tee_shm_pool *tstee_create_shm_pool(void)
+>> +{
+>> +       struct tee_shm_pool *pool =3D kzalloc(sizeof(*pool), GFP_KERNE=
+L);
+>> +
+>> +       if (!pool)
+>> +               return ERR_PTR(-ENOMEM);
+>> +
+>> +       pool->ops =3D &pool_ops;
+>> +
+>> +       return pool;
+>> +}
+>> +
+>> +static bool tstee_check_rpc_compatible(struct ffa_device *ffa_dev)
+>> +{
+>> +       struct ffa_send_direct_data ffa_data;
+>> +       u32 ffa_args[FFA_DIRECT_REQ_ARG_NUM] =3D {};
+>> +
+>> +       ffa_args[TS_RPC_CTRL_REG] =3D
+>> +                       TS_RPC_CTRL_PACK_IFACE_OPCODE(TS_RPC_MGMT_IFAC=
+E_ID,
+>> +                                                     TS_RPC_OP_GET_VE=
+RSION);
+>> +
+>> +       arg_list_to_ffa_data(ffa_args, &ffa_data);
+>> +       if (ffa_dev->ops->msg_ops->sync_send_receive(ffa_dev, &ffa_dat=
+a))
+>> +               return false;
+>> +
+>> +       arg_list_from_ffa_data(&ffa_data, ffa_args);
+>> +
+>> +       return ffa_args[TS_RPC_GET_VERSION_RESP] =3D=3D TS_RPC_PROTOCO=
+L_VERSION;
+>> +}
+>> +
+>> +static int tstee_probe(struct ffa_device *ffa_dev)
+>> +{
+>> +       struct tstee *tstee;
+>> +       int rc;
+>> +
+>> +       ffa_dev->ops->msg_ops->mode_32bit_set(ffa_dev);
+>> +
+>> +       if (!tstee_check_rpc_compatible(ffa_dev))
+>> +               return -EINVAL;
+>> +
+>> +       tstee =3D kzalloc(sizeof(*tstee), GFP_KERNEL);
+>> +       if (!tstee)
+>> +               return -ENOMEM;
+>> +
+>> +       tstee->ffa_dev =3D ffa_dev;
+>> +
+>> +       tstee->pool =3D tstee_create_shm_pool();
+>> +       if (IS_ERR(tstee->pool)) {
+>> +               rc =3D PTR_ERR(tstee->pool);
+>> +               tstee->pool =3D NULL;
+>> +               goto err_free_tstee;
+>> +       }
+>> +
+>> +       tstee->teedev =3D tee_device_alloc(&tstee_desc, NULL, tstee->p=
+ool, tstee);
+>> +       if (IS_ERR(tstee->teedev)) {
+>> +               rc =3D PTR_ERR(tstee->teedev);
+>> +               tstee->teedev =3D NULL;
+>> +               goto err_free_pool;
+>> +       }
+>> +
+>> +       rc =3D tee_device_register(tstee->teedev);
+>> +       if (rc)
+>> +               goto err_unreg_teedev;
+>> +
+>> +       ffa_dev_set_drvdata(ffa_dev, tstee);
+>> +
+>> +       return 0;
+>> +
+>> +err_unreg_teedev:
+>> +       tee_device_unregister(tstee->teedev);
+>> +err_free_pool:
+>> +       tee_shm_pool_free(tstee->pool);
+>> +err_free_tstee:
+>> +       kfree(tstee);
+>> +       return rc;
+>> +}
+>> +
+>> +static void tstee_remove(struct ffa_device *ffa_dev)
+>> +{
+>> +       struct tstee *tstee =3D ffa_dev->dev.driver_data;
+>> +
+>> +       tee_device_unregister(tstee->teedev);
+>> +       tee_shm_pool_free(tstee->pool);
+>> +       kfree(tstee);
+>> +}
+>> +
+>> +static const struct ffa_device_id tstee_device_ids[] =3D {
+>> +       /* TS RPC protocol UUID: bdcd76d7-825e-4751-963b-86d4f84943ac =
+*/
+>> +       { TS_RPC_UUID },
+>> +       {}
+>> +};
+>> +
+>> +static struct ffa_driver tstee_driver =3D {
+>> +       .name =3D "arm_tstee",
+>> +       .probe =3D tstee_probe,
+>> +       .remove =3D tstee_remove,
+>> +       .id_table =3D tstee_device_ids,
+>> +};
+>> +
+>> +module_ffa_driver(tstee_driver);
+>> +
+>> +MODULE_AUTHOR("Balint Dobszay <balint.dobszay@arm.com>");
+>> +MODULE_DESCRIPTION("Arm Trusted Services TEE driver");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/drivers/tee/tstee/tstee_private.h b/drivers/tee/tstee/tst=
+ee_private.h
+>> new file mode 100644
+>> index 000000000000..6d24cf0dbbc2
+>> --- /dev/null
+>> +++ b/drivers/tee/tstee/tstee_private.h
+>> @@ -0,0 +1,94 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2023, Arm Limited
+>> + */
+>> +
+>> +#ifndef TSTEE_PRIVATE_H
+>> +#define TSTEE_PRIVATE_H
+>> +
+>> +#include <linux/arm_ffa.h>
+>> +#include <linux/bitops.h>
+>> +#include <linux/tee_drv.h>
+>> +#include <linux/types.h>
+>> +#include <linux/uuid.h>
+>> +#include <linux/xarray.h>
+>> +
+>> +/*
+>> + * The description of the ABI implemented in this file is available a=
+t
+>> + * https://trusted-services.readthedocs.io/en/v1.0.0/developer/servic=
+e-access-protocols.html#abi
+>> + */
+>> +
+>> +/* UUID of this protocol */
+>> +#define TS_RPC_UUID UUID_INIT(0xbdcd76d7, 0x825e, 0x4751, \
+>> +                             0x96, 0x3b, 0x86, 0xd4, 0xf8, 0x49, 0x43=
+, 0xac)
+>> +
+>> +/* Protocol version*/
+>> +#define TS_RPC_PROTOCOL_VERSION                (1)
+>> +
+>> +/* Status codes */
+>> +#define TS_RPC_OK                      (0)
+>> +
+>> +/* RPC control register */
+>> +#define TS_RPC_CTRL_REG                        (0)
+>> +#define OPCODE_MASK                    GENMASK(15, 0)
+>> +#define IFACE_ID_MASK                  GENMASK(23, 16)
+>> +#define TS_RPC_CTRL_OPCODE(x)          ((u16)(FIELD_GET(OPCODE_MASK, =
+(x))))
+>> +#define TS_RPC_CTRL_IFACE_ID(x)                ((u8)(FIELD_GET(IFACE_=
+ID_MASK, (x))))
+>> +#define TS_RPC_CTRL_PACK_IFACE_OPCODE(i, o)    \
+>> +       (FIELD_PREP(IFACE_ID_MASK, (i)) | FIELD_PREP(OPCODE_MASK, (o))=
+)
+>> +#define TS_RPC_CTRL_SAP_RC             BIT(30)
+>> +#define TS_RPC_CTRL_SAP_ERR            BIT(31)
+>> +
+>> +/* Interface ID for RPC management operations */
+>> +#define TS_RPC_MGMT_IFACE_ID           (0xff)
+>> +
+>> +/* Management calls */
+>> +#define TS_RPC_OP_GET_VERSION          (0x0000)
+>> +#define TS_RPC_GET_VERSION_RESP                (1)
+>> +
+>> +#define TS_RPC_OP_RETRIEVE_MEM         (0x0001)
+>> +#define TS_RPC_RETRIEVE_MEM_HANDLE_LSW (1)
+>> +#define TS_RPC_RETRIEVE_MEM_HANDLE_MSW (2)
+>> +#define TS_RPC_RETRIEVE_MEM_TAG_LSW    (3)
+>> +#define TS_RPC_RETRIEVE_MEM_TAG_MSW    (4)
+>> +#define TS_RPC_RETRIEVE_MEM_RPC_STATUS (1)
+>> +
+>> +#define TS_RPC_OP_RELINQ_MEM           (0x0002)
+>> +#define TS_RPC_RELINQ_MEM_HANDLE_LSW   (1)
+>> +#define TS_RPC_RELINQ_MEM_HANDLE_MSW   (2)
+>> +#define TS_RPC_RELINQ_MEM_RPC_STATUS   (1)
+>> +
+>> +#define TS_RPC_OP_SERVICE_INFO         (0x0003)
+>> +#define TS_RPC_SERVICE_INFO_UUID0      (1)
+>> +#define TS_RPC_SERVICE_INFO_UUID1      (2)
+>> +#define TS_RPC_SERVICE_INFO_UUID2      (3)
+>> +#define TS_RPC_SERVICE_INFO_UUID3      (4)
+>> +#define TS_RPC_SERVICE_INFO_RPC_STATUS (1)
+>> +#define TS_RPC_SERVICE_INFO_IFACE      (2)
+>> +
+>> +/* Service call */
+>> +#define TS_RPC_SERVICE_MEM_HANDLE_LSW  (1)
+>> +#define TS_RPC_SERVICE_MEM_HANDLE_MSW  (2)
+>> +#define TS_RPC_SERVICE_REQ_LEN         (3)
+>> +#define TS_RPC_SERVICE_CLIENT_ID       (4)
+>> +#define TS_RPC_SERVICE_RPC_STATUS      (1)
+>> +#define TS_RPC_SERVICE_STATUS          (2)
+>> +#define TS_RPC_SERVICE_RESP_LEN                (3)
+>> +
+>> +struct tstee {
+>> +       struct ffa_device *ffa_dev;
+>> +       struct tee_device *teedev;
+>> +       struct tee_shm_pool *pool;
+>> +};
+>> +
+>> +struct ts_session {
+>> +       u8 iface_id;
+>> +};
+>> +
+>> +struct ts_context_data {
+>> +       struct xarray sess_list;
+>> +       /* Serializes access to the session list */
+>> +       struct mutex mutex;
+>> +};
+>> +
+>> +#endif /* TSTEE_PRIVATE_H */
+>> diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+>> index 23e57164693c..d0430bee8292 100644
+>> --- a/include/uapi/linux/tee.h
+>> +++ b/include/uapi/linux/tee.h
+>> @@ -56,6 +56,7 @@
+>>   */
+>>  #define TEE_IMPL_ID_OPTEE      1
+>>  #define TEE_IMPL_ID_AMDTEE     2
+>> +#define TEE_IMPL_ID_TSTEE      3
 >>
+>>  /*
+>>   * OP-TEE specific capabilities
 >> --
 >> 2.34.1
 >>
