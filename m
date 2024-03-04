@@ -1,92 +1,142 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034A55C5F3
-	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 16:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500D0A20;
+	Mon,  4 Mar 2024 16:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709571197; cv=none; b=E/GF5Tgu13ya+dc+XqsN0BpiZtLp8XgGdkmqcBb7JMl34PwNaTiavHU76EgNrAG9Cv60zERAPJFcP1V/EzlauV88DlH4WHkgElqsiNgDC/7vgjyfOHEOfxrI6cQsbbAluaF8cvhHDRGGHaVuSHeJFfEah3bGIw3XMig4mYmGwHM=
+	t=1709571379; cv=none; b=lIidscSWDLYpbcWWFBQWTBw9W0FDFAEhCzzEle7YiqwQCXdhrbr+dR78YGPFu0Jviou64JpeBf28u/Za6pIqpcMZf8lMazkOY0NlMQbgIrMIuBmtZhRduQp0mxoERDq08rga1rHjL3fzt4vDU/dtXI4uV9vsORKa76w01uhtBzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709571197; c=relaxed/simple;
-	bh=uirtXHt2GRmTN/MJHpx0AE7MnBAQPCAKYbtW//3AYqI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IiGC0WfS/zb/rtuXtSUuwG65LexIopUgldEE+uksHfjd6+H/ZwpkTFhNC9enYwqeYL9yQgBgYeu0KIXh9ZrBtmRvROBwFZjZLEa+NCVwdOH3ubOzZkXTm4XGLJTEryx/1B41s+iO9rPfo7ZsVEBJ1YmoMqDbaaqWVPqEVzHqaHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oJHNJCZy; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709571379; c=relaxed/simple;
+	bh=Iw/1JU1TagbMrr1ftOYJ1zZMGOHfXtUQyWKwKKbthFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JiCZLKQrQgCzfRmPfCAVmYZ7H6r73vhgabDW4r/Y8oxRQhV635azFKdIDfInwlmLuPGQExi5uiR0OLWzaVm8O0BvxA1oinFHus9ifGB63GQ4PCrrrfvKG598upqK5SHeS2RxKn+9nkr5io4vo6dRWaUwIsoYykx2mECwLsmgGMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ/pqmGe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oJHNJCZy"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412e80e13abso5149905e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 04 Mar 2024 08:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709571194; x=1710175994; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lmfK1qwaZeZanYojHD0RUbXhDuCbIKpAYEoB7wzNyKE=;
-        b=oJHNJCZydzgvwwg0pPpvODiubSxP83AXeOYfrOvYNRX1745RjAPD07MslMP/m9h9bf
-         e3eDlVl9yBqdMb56ueaTtMcFXIm6+iauxnmcIbZSo70xHzjrHHcJZoBrHJNMJ/kForqH
-         7TwD0b1oxFKSEclLU8+bJEcic3qG/iwr3vCfCVSwpde71J5EFyF/LwtqfR4/P8hqGyCo
-         XGxokaKsOuEQ4FpVgFLgDw5Yj9THP2+COyHlHzt1l3i08sMq1+CSWRRxcUtsexcvjJtg
-         LIcdGmRXl+GqZXv0Gmz6P1mDaryOOIdIRdRI7zWrREMx6cm6huCsUc7hQObUGD63hDXi
-         t7Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709571194; x=1710175994;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lmfK1qwaZeZanYojHD0RUbXhDuCbIKpAYEoB7wzNyKE=;
-        b=M/etU8ja1GRp30RNXY+8wL+I+i533/AvKBmXDYOOOsndcikAmKleIXXbXvvnI+KQhE
-         P4TyS8fN5bCXHXh25gzPt5RrxGJEuiW1c+18BEGQOq0JnX1U335zXhxWc7nsHkc4LjL6
-         NWMPVkI9oe/GDhcoROeFkT4zsrxsin+soQo9FtYn76LSFan3sP4F84shQ48+SKdjpCUO
-         ga58o2bVcy2hvcJZjtNt8ImDxn2LVHnvu2h8N72DCNqtudj4PkeUTTRz3CvfYzs9m+1/
-         Gecn3ggch1RdLqK5viB9Bx2u7Jt3L29m7ULWzIDRKbS8thf4Yv96AGZuqsLkAY8McKy9
-         q4Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCVEOr0MdzFVU1D1ezI/cf5IlDkgfxwdicMjXn9U+29f5kwXUtjG2sxWtLO6atWTHI6L9YhKanQcYlT6fziWxbACnUsQZZjTZj1p
-X-Gm-Message-State: AOJu0Yz61X8bG3GYCmt3Td9lnxUUW0sC1xPu9yDgWYz1F3xXegX3Dru8
-	79lYIzm51uBdrstH6ajAko9hdPEsJi2jxsHnVYzga+QMLZUAWBUgsVE81FiXAkErURxM4PrXf5T
-	tK2zK6IO8SwqIbJwbGof0uVXr0myAh0BIISiu
-X-Google-Smtp-Source: AGHT+IHO0Vyyj9NTmtrzCpdzXYPsNb82jFuB6Tek6U/mE6kJNdZ0Szp7dN5s8m6Is2RH0XDeJ4uHDoLAJmI7qfo9wFU=
-X-Received: by 2002:adf:a441:0:b0:33e:4524:e473 with SMTP id
- e1-20020adfa441000000b0033e4524e473mr993953wra.50.1709571194160; Mon, 04 Mar
- 2024 08:53:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ/pqmGe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D6E2C433C7;
+	Mon,  4 Mar 2024 16:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709571378;
+	bh=Iw/1JU1TagbMrr1ftOYJ1zZMGOHfXtUQyWKwKKbthFQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EZ/pqmGek5fFsjKeUCHY0Z3TuGQv/4R64k5i0wi3azQ7z+ti/o9T+ZggO2c/i1aSe
+	 hWRhGtBQlZPOprsX9pAgX5YnlXV/qWfXT03T4Z4gZla+QlbZYNlDG6WKYgAOuAjfEr
+	 i2XWor6/AhbldPmjvS9MsCkf1hUeEwn+ghF9pVUFs1P1NE+eK0vMt8wui7m0Irv9hr
+	 VynKf3+pZzL/aSJf5Sl6y2NuGZ9vEbCsfmB9g+HvVViEiqhLGen80AkxXBhQMnrIjp
+	 QjYlfqXUcs57/aWMFblpa5G6Tnxgy5gRMHqbAfDtbVUGJRFX5To0MGB1folgF/Tosr
+	 BKSK8hxUxPWJA==
+Date: Mon, 4 Mar 2024 10:56:17 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
+	James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+Message-ID: <ZeX9MRhU/EGhHkCY@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
+ <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
+ <ZeXpbOsdRTbLsYe9@do-x1extreme>
+ <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240301044428.work.411-kees@kernel.org>
-In-Reply-To: <20240301044428.work.411-kees@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 4 Mar 2024 08:52:58 -0800
-Message-ID: <CAKwvOdkzQCSM1+Z1mRphgu3Vs8SdiDpgxywWiO_OHn+S_Z6UwA@mail.gmail.com>
-Subject: Re: [PATCH] compiler.h: Explain how __is_constexpr() works
-To: Kees Cook <keescook@chromium.org>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, David Laight <David.Laight@aculab.com>, 
-	Martin Uecker <Martin.Uecker@med.uni-goettingen.de>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
 
-On Thu, Feb 29, 2024 at 8:44=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> The __is_constexpr() macro is dark magic. Shed some light on it with
-> a comment to explain how and why it works.
->
-> Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
+> On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
+> > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
+> > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > Use the vfs interfaces for fetching file capabilities for killpriv
+> > > > checks and from get_vfs_caps_from_disk(). While there, update the
+> > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is different
+> > > > from vfs_get_fscaps_nosec().
+> > > > 
+> > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > > > ---
+> > > >  security/commoncap.c | 30 +++++++++++++-----------------
+> > > >  1 file changed, 13 insertions(+), 17 deletions(-)
+> > > > 
+> > > > diff --git a/security/commoncap.c b/security/commoncap.c
+> > > > index a0ff7e6092e0..751bb26a06a6 100644
+> > > > --- a/security/commoncap.c
+> > > > +++ b/security/commoncap.c
+> > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
+> > > >   */
+> > > >  int cap_inode_need_killpriv(struct dentry *dentry)
+> > > >  {
+> > > > -	struct inode *inode = d_backing_inode(dentry);
+> > > > +	struct vfs_caps caps;
+> > > >  	int error;
+> > > >  
+> > > > -	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
+> > > > -	return error > 0;
+> > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant */
+> > > > +	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
+> > > > +	return error == 0;
+> > > >  }
+> > > >  
+> > > >  /**
+> > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry)
+> > > >  {
+> > > >  	int error;
+> > > >  
+> > > > -	error = __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
+> > > > +	error = vfs_remove_fscaps_nosec(idmap, dentry);
+> > > 
+> > > Uhm, I see that the change is logically correct... but the original
+> > > code was not correct, since the EVM post hook is not called (thus the
+> > > HMAC is broken, or an xattr change is allowed on a portable signature
+> > > which should be not).
+> > > 
+> > > For completeness, the xattr change on a portable signature should not
+> > > happen in the first place, so cap_inode_killpriv() would not be called.
+> > > However, since EVM allows same value change, we are here.
+> > 
+> > I really don't understand EVM that well and am pretty hesitant to try an
+> > change any of the logic around it. But I'll hazard a thought: should EVM
+> > have a inode_need_killpriv hook which returns an error in this
+> > situation?
+> 
+> Uhm, I think it would not work without modifying
+> security_inode_need_killpriv() and the hook definition.
+> 
+> Since cap_inode_need_killpriv() returns 1, the loop stops and EVM would
+> not be invoked. We would need to continue the loop and let EVM know
+> what is the current return value. Then EVM can reject the change.
+> 
+> An alternative way would be to detect that actually we are setting the
+> same value for inode metadata, and maybe not returning 1 from
+> cap_inode_need_killpriv().
+> 
+> I would prefer the second, since EVM allows same value change and we
+> would have an exception if there are fscaps.
+> 
+> This solves only the case of portable signatures. We would need to
+> change cap_inode_need_killpriv() anyway to update the HMAC for mutable
+> files.
 
-Is Documentation/kernel-hacking/hacking.rst perhaps a more appropriate
-place for this block of text?  Perhaps as another :c:macro: in that
-file?
-
-You know I'm not a big fan of increasing header size, even if it is
-just a comment.
---=20
-Thanks,
-~Nick Desaulniers
+I see. In any case this sounds like a matter for a separate patch
+series.
