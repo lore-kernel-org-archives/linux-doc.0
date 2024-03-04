@@ -1,140 +1,137 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDFB514005;
-	Mon,  4 Mar 2024 07:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A61AADE;
+	Mon,  4 Mar 2024 08:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709538987; cv=none; b=WT967ERcABrSaRIuDrRV1+/biVWZJpL2g6zI8GXu5IarrNPhbVMc5h3ESqF6UNhKxy5ppFSqPkkiC0ocq/NupFLshPqTrHB8svPcAfmaLEC2qfs/duxBwR1qqcYXY5cNHJj4Lz2gkVHx5G/NRfI/2j5t4esaH9v48WY9W6llddk=
+	t=1709542393; cv=none; b=AfrH2ZbxTkSxHWrrZ4sWTrGYqwVlz9yg9nlGi7dwZDjA7YAOSbHqELS9Kgx2Vpuo5PnKjv2gQpWxStn0aLgXSMb1hmKWE2pfBFDqu4l/vAbT2KqNbLTtqzXM5VY5hqw3awaJ+3pDUrB5RTZHWPnG2dZ5rFzCv4eTN/OLgAdq+5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709538987; c=relaxed/simple;
-	bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
+	s=arc-20240116; t=1709542393; c=relaxed/simple;
+	bh=lZjS9KQIklaHVo9RkVEZuFyeCOlTaULg5xVUzMo42g8=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hz9tUXX0KPrJ50I9L/fwd6fOmLxYwlwa9lWTvMb2qCxpYrry6Cirq8heUCStXzDbqSOB0H3fcgmRMbKcAdgliBzBUgazGkXkUJssYNyiSxuqgGswtpuNhbuQZ20O89whq+9JR63ACUz3KvUep48BBbkXFnZERZSpDmmUD4R1D3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftNv2pas; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftNv2pas"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a45606c8444so41621366b.3;
-        Sun, 03 Mar 2024 23:56:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709538983; x=1710143783; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
-        b=ftNv2paseRsgY8Budqo5Sya3Ru844KgFEAs3H64DDT/pGTikYNodj49JhD/rFIXdQB
-         D/jnpRgo62eK0kXe3I1lJVyiUEgYadvIRpGarcFL/k6S3zmOjx4HNpdw7vcQYp5uPuff
-         +xxQjDtWW2KPMAAk1ql2StkuLCZxFHBBxZgHIQTC/gsAEW69AWKLKvZqIDmNaYPaYHgX
-         nObnB9w3AF5yY+eZ+c0ZtQlo62anm9RUUby/wG6XVfEv9Y8ztS7NRmUYi3h05oDmTn90
-         /cWQuJ/6/R7kfvamXUFsDyO7XZPDyUGfsey/FcC/sxgXWNromQAiEQBswmD0E5QV1nyz
-         7Ddw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709538983; x=1710143783;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JU7B4JEXTqNDcYf4cw4oV1wq3naZdiA7hXrTs7ex2DA=;
-        b=VWqIpQY1l2dXvQklQij5WRDJtH4GB7fJBuPBibt+67UHg1PplvL1qhhtRNC9RSfcp+
-         jeJxjzN78oGvF6FvZRJjDajv7AnXE/nDiV7TcGd//TyrBp/UCSXyK4AFaD5/WboRJIGJ
-         3haoZDPGXn6IQxwshiQqHVFZlhNoqEO0ZqLQhU5TPM3jGCYoJ0KECPcj3//Yv1AJ22S5
-         OhZ4aQ4SWlx6XorVR85Msyt67Py1Zha6ThC6nmnUwOtUGeqHLlwUz680rKQBHgvM1YJj
-         jPwoZk8IC2ZlK+yU+8BebIwywl8Va/c3R6KePBVM4/NqZ38FPUUl+Fxrk+SpFvQZhEwA
-         yL0w==
-X-Forwarded-Encrypted: i=1; AJvYcCW9jkXG8130/gg3fVFDEdwF3FVqSELq6INf33Bx0hWchE8u5Cfrg8+WKjXW4ZyoCY3KO4pmUaChoRbnxe60v8Uj14tNdvdjN5ZizlpcC7yP0a2s2uJZZrFja3pvPlV//bAuzlNiOi2q0Q965bpjmDPvC3iCUNp87Vnfe0Ua0a/Mu8+fSpiAdR2tPsuamlMyN0n8TIZR5ZIeQSnDXRU=
-X-Gm-Message-State: AOJu0YybcC9PQw3+hFyeCao/Ec4+kKiNEH2eMa7RnSOQYX7Rzs2GKK0J
-	0W38v9ZzLOB+DVWoXo2CzjUHadaCis0+DXLNPd9tfoUcY1W3YekI
-X-Google-Smtp-Source: AGHT+IFDGr7vFAQ+PxmjQk9WiX9JA+Bj/agAwF6Fti3FyVIMSz4fL7PwqOI0+GiLNxiumrzfSC6zRg==
-X-Received: by 2002:a17:906:f293:b0:a45:1fa8:3850 with SMTP id gu19-20020a170906f29300b00a451fa83850mr1753968ejb.58.1709538982788;
-        Sun, 03 Mar 2024 23:56:22 -0800 (PST)
-Received: from ?IPv6:2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47? (p200300f6ef1b2000944ccbc71e1c2c47.dip0.t-ipconnect.de. [2003:f6:ef1b:2000:944c:cbc7:1e1c:2c47])
-        by smtp.gmail.com with ESMTPSA id h4-20020a1709063b4400b00a433f470cf1sm4402055ejf.138.2024.03.03.23.56.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 23:56:22 -0800 (PST)
-Message-ID: <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
-Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Paul
- Cercueil <paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael
- Hennerich <Michael.Hennerich@analog.com>,  linux-doc@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org
-Date: Mon, 04 Mar 2024 08:59:47 +0100
-In-Reply-To: <20240303174245.37efc0b0@jic23-huawei>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	 <20240303174245.37efc0b0@jic23-huawei>
+	 Content-Type:MIME-Version; b=EQ1NQ3wO6Gwth6QvYrgyn6XOCr+4BwbQBPJtbuN1CjvWRvwCUT9N6w7CjByimBsxwjFWgBKmwM+/sLd45+vjfM0wpsky6fwnLLF/y7gmc4x0XLWMXqz7KQc8/awWvKnIeqFXntz8MAieOClHkg8+P5TOA/bjKEhjOyx3IEdxNDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TpBQV4KnCz9xGgj;
+	Mon,  4 Mar 2024 16:17:54 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id ABC0A14068C;
+	Mon,  4 Mar 2024 16:33:26 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwAH9CdGh+VluhunAw--.56753S2;
+	Mon, 04 Mar 2024 09:33:26 +0100 (CET)
+Message-ID: <be91c7158b1b9bed35aa9c3205e8f8e467778a5f.camel@huaweicloud.com>
+Subject: Re: [PATCH v2 06/25] capability: provide helpers for converting
+ between xattrs and vfs_caps
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+  Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, James
+ Morris <jmorris@namei.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,  Casey Schaufler
+ <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>,  Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi
+ <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, audit@vger.kernel.org, 
+ selinux@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Date: Mon, 04 Mar 2024 09:33:06 +0100
+In-Reply-To: <ZeIlwkUx5lNBrdS9@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+	 <20240221-idmap-fscap-refactor-v2-6-3039364623bd@kernel.org>
+	 <7633ab5d5359116a602cdc8f85afd2561047960e.camel@huaweicloud.com>
+	 <ZeIlwkUx5lNBrdS9@do-x1extreme>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-CM-TRANSID:GxC2BwAH9CdGh+VluhunAw--.56753S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJF1Uur1fKFWxWryDZw1UKFg_yoW8WFyDpF
+	y3K3Z8KFs2qr1Ygr48Jr45Aa1SkFyrJry7WayUCas0y3Wqgr13AFy09a48uFy5uw4kGr15
+	XFs0yas8Cry3AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFYFCUUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAMBF1jj5rvqQACsm
 
-On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
-> On Fri, 23 Feb 2024 13:13:58 +0100
-> Nuno Sa <nuno.sa@analog.com> wrote:
+On Fri, 2024-03-01 at 13:00 -0600, Seth Forshee (DigitalOcean) wrote:
+> On Fri, Mar 01, 2024 at 05:30:55PM +0100, Roberto Sassu wrote:
+> > > +/*
+> > > + * Inner implementation of vfs_caps_to_xattr() which does not return=
+ an
+> > > + * error if the rootid does not map into @dest_userns.
+> > > + */
+> > > +static ssize_t __vfs_caps_to_xattr(struct mnt_idmap *idmap,
+> > > +				   struct user_namespace *dest_userns,
+> > > +				   const struct vfs_caps *vfs_caps,
+> > > +				   void *data, size_t size)
+> > > +{
+> > > +	struct vfs_ns_cap_data *ns_caps =3D data;
+> > > +	struct vfs_cap_data *caps =3D (struct vfs_cap_data *)ns_caps;
+> > > +	kuid_t rootkuid;
+> > > +	uid_t rootid;
+> > > +
+> > > +	memset(ns_caps, 0, size);
+> >=20
+> > size -> sizeof(*ns_caps) (or an equivalent change)
 >=20
-> > Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
-> > honest, we're hoping to get this merged this for the 6.9 merge window.
-> > Main reason is because the USB part is already in (so it would be nice
-> > to get the whole thing in). Moreover, the changes asked in v6 were simp=
-le
-> > (even though I'm not quite sure in one of them) and Paul has no access =
-to
-> > it's laptop so he can't send v7 himself. So he kind of said/asked for m=
-e to
-> > do it.
->=20
-> So, we are cutting this very fine. If Linus hints strongly at an rc8 mayb=
-e we
-> can sneak this in. However, I need an Ack from Vinod for the dma engine
-> changes first.
->=20
-> Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even bette=
-r!)
->=20
-> Seems that the other side got resolved in the USB gadget, but last we hea=
-rd
-> form
-> Daniel and Christian looks to have been back on v5. I'd like them to conf=
-irm
-> they are fine with the changes made as a result.=20
->=20
+> This is zeroing out the passed buffer, so it should use the size passed
+> for the buffer. sizeof(*ns_caps) could potentially be more than the size
+> of the buffer.
 
-I can ask Christian or Daniel for some acks but my feeling (I still need, a=
-t
-some point, to get really familiar with all of this) is that this should be
-pretty similar to the USB series (from a DMABUF point of view) as they are =
-both
-importers.
+Uhm, then maybe the problem is that you are passing the wrong argument?
 
-> I've been happy with the IIO parts for a few versions now but my ability =
-to
-> review
-> the DMABUF and DMA engine bits is limited.
+ssize_t
+do_getxattr(struct mnt_idmap *idmap, struct dentry *d,
+	struct xattr_ctx *ctx)
+{
+	ssize_t error;
+	char *kname =3D ctx->kname->name;
+
+	if (is_fscaps_xattr(kname)) {
+		struct vfs_caps caps;
+		struct vfs_ns_cap_data data;
+		int ret;
+
+		ret =3D vfs_get_fscaps(idmap, d, &caps);
+		if (ret)
+			return ret;
+		/*
+		 * rootid is already in the mount idmap, so pass nop_mnt_idmap
+		 * so that it won't be mapped.
+		 */
+		ret =3D vfs_caps_to_user_xattr(&nop_mnt_idmap, current_user_ns(),
+					     &caps, &data, ctx->size);
+
+
+ctx->size in my case is 1024 bytes.
+
+Roberto
+
+> Maybe it would be clearer if it was memset(data, 0, size)?
 >=20
-> A realistic path to get this in is rc8 is happening, is all Acks in place=
- by
-> Wednesday,
-> I get apply it and hits Linux-next Thursday, Pull request to Greg on Satu=
-rday
-> and Greg
-> is feeling particularly generous to take one on the day he normally close=
-s his
-> trees.
->=20
-
-Well, it looks like we still have a shot. I'll try to see if Vinod is fine =
-with
-the DMAENGINE stuff.
-
-- Nuno S=C3=A1
+> > I was zeroing more (the size of the buffer passed to vfs_getxattr()).
+> >=20
+> > Roberto
 
