@@ -1,140 +1,147 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2948A3FB0F;
-	Mon,  4 Mar 2024 14:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1004D45970
+	for <linux-doc@vger.kernel.org>; Mon,  4 Mar 2024 14:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709562048; cv=none; b=R+Dds2s8BpI7RsLpe37AhgmU9wyKJWVXecrHYf4wvmekRm30Kgc/FtfJF+e4yhnzgQ3iPfYvijPREQZvRXrd+DPZ6EeA07OH14cwJyHpR0mtzwAnzpqaT/youEQrNR2GJy0braC99SETNGAHzfrkX+TylBB+gQBmXRtmIMYN200=
+	t=1709562234; cv=none; b=i3BXUwn8vXyy37+7o9BuOCLZDm53vYV0bwqq9KpRCHHNUIrWm+ZQrbi+n1XU5NcVgvNlACLr+9Ahd1NtnTIHgJKl3oxskV1n5zOs2IXkkfwLkHjG9qYL4s1N7lRXze/aXqiCbzXjfR0EHYlr6Sjy2nU9Nz5Sj16e+zjM7evYOdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709562048; c=relaxed/simple;
-	bh=pKy5pU+Eo7irYeotj9cWui+l2HeyGOhLSFnZS3avHmo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Z1hItIYfObQVcWgme6RpOGt7Pm4Xy7l5NldUwnsIjpev4wQmOswF5vVslNykp0Hv7f1yHwGbVEH4icYAniAVkyqlhcZPvxmdr6nhuMpBsNFGRv1+60pi6asOTaLfIdBr7+QflK3Y9XDnwm7VofiM+FFXi+8IYyEKyNV8CEARgMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=S/5sJpLz; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="S/5sJpLz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1709562044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=NF/1gTwR111FGU1RQbqHeXbtTmbO0DDWWwYzwfIsjFs=;
-	b=S/5sJpLzsAOufi2PtMIeKIsXCwdv1EfSd1fACtXxpwlKGJgUbTUa6L7F7btXW30BGWIkrt
-	uZehPHva50vpgexAn0g1IdUJfQtaC4VX4QkDOGhSsII2DfiZFAW78I+AU4aECPqi29PiHG
-	jvq0f6UxYF3VGEepStCbMXQxlNN6HHA=
-Message-ID: <b46deb887cd9d181931fd5a9c0914debd0b666fb.camel@crapouillou.net>
-Subject: Re: [PATCH v7 3/6] iio: core: Add new DMABUF interface
- infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Nuno Sa
-	 <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>, Lars-Peter Clausen
-	 <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>, Sumit Semwal
-	 <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
-	 <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Date: Mon, 04 Mar 2024 15:20:42 +0100
-In-Reply-To: <63f8a0f5-55a4-47c9-99d7-bb0b8ad22b3a@amd.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	 <20240223-iio-dmabuf-v7-3-78cfaad117b9@analog.com>
-	 <85782edb-4876-4cbd-ac14-abcbcfb58770@amd.com>
-	 <d17bd8aa17ac82773d0bdd6ce4edfe4a6249f179.camel@crapouillou.net>
-	 <63f8a0f5-55a4-47c9-99d7-bb0b8ad22b3a@amd.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1709562234; c=relaxed/simple;
+	bh=ObcxFbtc6CHI8exv2xXtNHEcKxe9mw8/hFp5f4FVeIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YpyiEGQvzGH52Z24zWIz2neOa2eM2tpZc0XeCEKt1Q9YeIYJvtieNdqkjfTIjQWO6N46jKh1V/FzjslfQ+3xIjEvAkruALltcI6Wdn+H6Z6nLHXA4Erj6D/u5LeiUdjlhfSDjpxQDkUPE7tSDfkuLPxCiEEbeycHeuaucecH7ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rh9Du-00016V-Bk; Mon, 04 Mar 2024 15:23:22 +0100
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rh9Dt-004N6X-1P; Mon, 04 Mar 2024 15:23:21 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rh9Ds-001ulU-30;
+	Mon, 04 Mar 2024 15:23:20 +0100
+Date: Mon, 4 Mar 2024 15:23:20 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: =?utf-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
+ within PSE framework
+Message-ID: <ZeXZWAq1QwqCUJAm@pengutronix.de>
+References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
+ <20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
+ <ZeObuKHkPN3tiWz_@pengutronix.de>
+ <20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
+ <84b300c7-8295-424b-9117-c604fb4cd73e@lunn.ch>
+ <ZeXO_NhXZQajGZPr@pengutronix.de>
+ <290c516e-6cf7-4db2-9b32-c9dc7200fe73@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <290c516e-6cf7-4db2-9b32-c9dc7200fe73@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Le lundi 04 mars 2024 =C3=A0 15:07 +0100, Christian K=C3=B6nig a =C3=A9crit=
-=C2=A0:
-> =C2=A0Am 04.03.24 um 14:59 schrieb Paul Cercueil:
-> =C2=A0
-> > [SNIP]
-> > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > +	dma_to_ram =3D buffer->direction =3D=3D
-> > > > IIO_BUFFER_DIRECTION_IN;
-> > > > +
-> > > > +	if (dma_to_ram) {
-> > > > +		/*
-> > > > +		 * If we're writing to the DMABUF, make sure
-> > > > we
-> > > > don't have
-> > > > +		 * readers
-> > > > +		 */
-> > > > +		retl =3D dma_resv_wait_timeout(dmabuf->resv,
-> > > > +					=C2=A0=C2=A0=C2=A0=C2=A0
-> > > > DMA_RESV_USAGE_READ,
-> > > > true,
-> > > > +					=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
-> > > > +		if (retl =3D=3D 0)
-> > > > +			retl =3D -EBUSY;
-> > > > +		if (retl < 0) {
-> > > > +			ret =3D (int)retl;
-> > > > +			goto err_resv_unlock;
-> > > > +		}
-> > > > +	}
-> > > > +
-> > > > +	if (buffer->access->lock_queue)
-> > > > +		buffer->access->lock_queue(buffer);
-> > > > +
-> > > > +	ret =3D dma_resv_reserve_fences(dmabuf->resv, 1);
-> > > > +	if (ret)
-> > > > +		goto err_queue_unlock;
-> > > > +
-> > > > +	dma_resv_add_fence(dmabuf->resv, &fence->base,
-> > > > +			=C2=A0=C2=A0 dma_resv_usage_rw(dma_to_ram));
-> > > > =C2=A0
-> > > =C2=A0
-> > > That is incorrect use of the function dma_resv_usage_rw(). That
-> > > function=20
-> > > is for retrieving fences and not adding them.
-> > >=20
-> > > See the function implementation and comments, when you use it
-> > > like
-> > > this=20
-> > > you get exactly what you don't want.
-> > >=20
-> >=20
-> > No, I get exactly what I want. If "dma_to_ram", I get
-> > DMA_RESV_USAGE_READ, otherwise I get DMA_RESV_USAGE_WRITE.
-> >=20
->=20
-> =C2=A0Ah, so basically !dma_to_ram means that you have a write access to
-> the buffer?
-> =C2=A0
+On Mon, Mar 04, 2024 at 02:53:54PM +0100, Andrew Lunn wrote:
+> On Mon, Mar 04, 2024 at 02:39:08PM +0100, Oleksij Rempel wrote:
+> > On Mon, Mar 04, 2024 at 02:32:50PM +0100, Andrew Lunn wrote:
+> > > > > > +	psec = dev_find_pse_control(&phy->mdio.dev);
+> > > > > > +	if (IS_ERR(psec)) {
+> > > > > > +		rc = PTR_ERR(psec);
+> > > > > > +		goto unregister_phy;
+> > > > > > +	}
+> > > > > > +  
+> > > > > 
+> > > > > I do not think it is a good idea to make PSE controller depend on
+> > > > > phy->mdio.dev. The only reason why we have fwnode_find_pse_control()
+> > > > > here was the missing port abstraction.
+> > > > 
+> > > > I totally agree that having port abstraction would be more convenient.
+> > > > Maxime Chevallier is currently working on this and will post it after his
+> > > > multi-phy series get merged.
+> > > > Meanwhile, we still need a device pointer for getting the regulator. The
+> > > > phy->mdio.dev is the only one I can think of as a regulator consumer.
+> > > > Another idea?
+> > > 
+> > > Sorry, i've not been keeping up...
+> > > 
+> > > Doesn't the device tree binding determine this? Where is the consumer
+> > > in the tree?
+> > 
+> > The real consumer is outside of the system.
+> 
+> The device on the other end of the cable?
 
-"dma_to_ram" means the data flows from the DMA to the RAM.
+yes.
 
-... Which means that it writes the buffer, so you are right, this is
-wrong.
+> > Withing the system, it would be the RJ45 port, but we have no
+> > abstraction for ports so far.
+> 
+> A Linux regulator is generally used in a producer/consumer pair. If
+> there is no consumer device, why have a producer? What is going to use
+> the consumer API?
 
-> >=20
-> > If you really don't like the macro, I can inline things here.
->=20
-> =C2=A0Yeah, that would still be incorrect use.
-> =C2=A0
-> =C2=A0The dma__resv_usage_rw() is for retrieving the fences to sync to fo=
-r
-> read and write operations and should never be used together with
-> dma_fence_resv_add().
->=20
+We already consulted Mark Brown in precious iterations of this patch
+series and got his OK. I also described all advantages of using
+regulator framework within the PSE subsystem. I need to search it. Short answer,
+it is relatively common to have open-ended regulator with consumer outside of
+the system. A PSE system can be relatively complex, representing all
+supply dependencies from power supplies (one or multiple) to the ports
+will help to provide needed diagnostic information and power saving
+if port are disabled. Some functionality is currently not supported by
+the regulator framework, but need to be extended - power budged,
+priorities and reservation. All of this are not exclusive PSE
+challenges. So, using regulator framework seems to be a straightforward 
+decision.
 
-Ok, I'll inline it (and fix it) then.
+> When we have a port representor, do we expect it to have active
+> elements? Something which will consume this regulator?
 
-Cheers,
--Paul
+Not in a usual sense. There are two levels of PSE control:
+- autodetected by PSE controller
+- fine tuned by using LLDP wich may respond to PD requests by allocating
+  more or reducing/disabling power.
+
+Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
