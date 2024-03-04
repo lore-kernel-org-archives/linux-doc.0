@@ -1,243 +1,225 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2072.outbound.protection.outlook.com [40.107.92.72])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165C13EA8F;
-	Mon,  4 Mar 2024 13:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709559712; cv=fail; b=GOnq2HrHJLNzCnMOQrH6SiuI+AoJF/aFf4gkVaHsvhDYRYmJKsyLUwH4XUGcysWbs7BHzcF+IBHLSwZsxyuVrATxzKGmdWRooYIhycGL3lh6PfU9qOWdOIPikymMO4zi4tq+19lSdAIh8exND+zLd3Z1y5dZ80PhCrGVD4OEoLQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709559712; c=relaxed/simple;
-	bh=Y2KZrxNSHJh4qY0YH/9ajxYQuuxG7HjUiLW/OtWWn9A=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=l9oA8T5YC36jDZR9JwDN++CpVnHClt1uzGce14DQJnidLmtHePERyL/rTVfYb2TxSXr1T4wiNPJLlI+HO0kOnPuM3QXRGS4QAT6zejS99rB/C91Yz573/ctrp5I1fUWxaoxs4w0Onp1YYuHx2Cj/L6Mq666PYa2QNMyDomRrpcc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=idIDUDyL; arc=fail smtp.client-ip=40.107.92.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="idIDUDyL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fn16UFm0O5iagcxEeJtK1PBZvg4yhkZuUoR8VhIkN2OxsfEOh+YWAnbPGLLasXs6jaqIa2CSNbjTltgiVFsXcy5TReSM43i/SORr3n0k07p1yg+4nNK1JmcM54Q3bBHVXjZ6teFMVUbYn2il68K65fXPcp4zfXbBcoEAVO7daRsoctnb1mn/XxtxNfn3HmuyZieqGuziFEgqjHNdY3lVeW3+nBy5Vv9eRLkkq3NhA0OdIyRQLsRys4MxSqakEOz9Jz+TlxwRbYphtxArwGFBq4SLSu7PEZkiYATv7fU1SXxXQdBO6WJWaQUXCQCAyvDU1KkWvHnPK2iwEJBcHbX3UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ePN3x23+roha51YUZlubH5rBXH/uv1grg1OOKxvKieY=;
- b=LZNNDmTplp0WYVqzD8GLQqvfMryPQwM1r88hwE/MdEVXRII5M4gVtfqyEewKgk6zDwl3jRENkcd3yHONJl5i/yiQUEaO5xDGOplqB+SsrKuBfX1WXb8siBXj2ZqrcUNrkyQ4l9RRw8PZMLx2AtqWt213eNI26RWHewL8LuXBDq2RGbejz8XOIbJA2uHUc+Mp3HYNSDolbGLETrMMS+CmfKq2aNm2ujlRCEHbfBm7sTtMTdhAmElYm90tycI3jhNJIAG0Oxdr+CZmrwAuSlI3POIv02kPxrMO3CVOk+UGVk+PKdrhU08CDd6ck3bPwwjMyLL4wlHpFD5A86fMsnBjKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ePN3x23+roha51YUZlubH5rBXH/uv1grg1OOKxvKieY=;
- b=idIDUDyLFcFqPp08V41AcXL68oqGrOeKbnJoyZ8fE/innNBTNdR35qeUE242sryNLwKaFsgjsP2Ee92hFsDbH84wfLwO7lOIexvdmg+IMY4C+J02l1RWvEpe0GlwaAUp4E5mDpg4cwQ44aegueEmYYXZEkLiWuZysklRVQegNKo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW3PR12MB4460.namprd12.prod.outlook.com (2603:10b6:303:2f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39; Mon, 4 Mar
- 2024 13:41:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::f2b6:1034:76e8:f15a%6]) with mapi id 15.20.7339.031; Mon, 4 Mar 2024
- 13:41:47 +0000
-Message-ID: <8962f6cf-7e5e-4bfe-a86b-cbb66a815187@amd.com>
-Date: Mon, 4 Mar 2024 14:41:44 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/6] iio: core: Add new DMABUF interface infrastructure
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Nuno Sa <nuno.sa@analog.com>, Vinod Koul <vkoul@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Paul Cercueil <paul@crapouillou.net>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
- Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
- <20240223-iio-dmabuf-v7-3-78cfaad117b9@analog.com>
- <85782edb-4876-4cbd-ac14-abcbcfb58770@amd.com>
- <f40f018359d25c78abbeeb3ce02c5b761aabe900.camel@gmail.com>
- <796e8189-0e1a-46d4-8251-7963e56704ac@amd.com>
-In-Reply-To: <796e8189-0e1a-46d4-8251-7963e56704ac@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ZR0P278CA0221.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:6a::29) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450393D542;
+	Mon,  4 Mar 2024 13:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709560104; cv=none; b=NZ4wGWay5OyfG9mn1BjWWmRUwzkeNlael8Rp7WU7pUcVMxW4Kacglsj8gHesCbafT1A7U21vkk4Zbd9RX4cZ5+fZkGpjfULmIT3mG0Du4Uq81pQ65V6tsl72ZiDY+qqGugLXYAc1uyiKlePlIQrq0dcmS6lDsaOgmgAGjcivAUo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709560104; c=relaxed/simple;
+	bh=uby7Z8vhLTiM08+HxX4A1oBn8GHa+JawYv/Et6sp3js=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=aR/a0pmAvSnBolDXygbJNcdHEIL5R8gXfCXsW6sLYKQIRd4m8qpfBr5Z+foGZekGMZ9DTn0g4VKORgg2fzWG4g1C/r1iU5X9/pVH/Iykduvs0uCOBEvkw5D2xmoi49T+R5yw0WNNbVIIll3rRfnGnLYzvuOj7Rt1SY0rj/EkRj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 76E8C37820CB;
+	Mon,  4 Mar 2024 13:48:19 +0000 (UTC)
+From: "Adrian Ratiu" <adrian.ratiu@collabora.com>
+In-Reply-To: <20240304-zugute-abtragen-d499556390b3@brauner>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com> <20240304-zugute-abtragen-d499556390b3@brauner>
+Date: Mon, 04 Mar 2024 13:48:19 +0000
+Cc: linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, "Guenter Roeck" <groeck@chromium.org>, "Doug Anderson" <dianders@chromium.org>, "Kees Cook" <keescook@chromium.org>, "Jann Horn" <jannh@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Mike Frysinger" <vapier@chromium.org>
+To: "Christian Brauner" <brauner@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW3PR12MB4460:EE_
-X-MS-Office365-Filtering-Correlation-Id: 72b54a66-7fd4-4e34-2780-08dc3c50d6a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Eede40SCJBMqGPSZKeszytlopDweKdr+8vSMlfu6ae1KisVl+ATVVYjeFCrWUMNLpjwCr6N2jozx5JJ9IFOdmZEzm6Uk6EFnO7Mw9wuScCNEAmSBsrFU2mlG6vQAHh2KZ33gjqbFA8QkFPTdeZy8SJdWLnZIhOjUbwwHw6i5RTqTze/U59L4oTn+qk/drXZBUf8eGD78byHknxhI48p7tRaEBWAf/YpNxZqyp4NSriyVpYd0UPU1zVbMuUgU54N1V1qXeJ4hMtg5iX4TW7ct6EKFMVczaPQcVj3mFxiEkFsBDdyKTTs+q+xKLvlWdF89YePj9Zlty6nTHMJHjQo/kHZyArCBg6RFFZRo7+7Vf/feM52y+nhzPjF8S/WQVjqDtqvcMJcIUUi3lWIkRJ6AB4sUtKJtdBcOR8lRnoLUaf7TzjlGRQcYPWov6g08qj319C3pwdQ2WBGHLJcrTqhc7ienfMeG3RknHKaLj1To3ryI87O+22Gligz0BopECI+dNzZhrMJ91efhc1m5oU5I//eEGkBalVid9ovDrFQGTheJthV54AsUsOWoC0A+Yg/pc0qlZvEAHLn/9U+Iqhif2jtpz7NzN6P2PBA+ayh4UBA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZFBOR2R2am9xTVpISjFLcHYwMkdSRHlDcHpIamd4cVdyYUMycDVBR3ZWMjFD?=
- =?utf-8?B?UE9vT2NCdklFbmJKM1NZcDZKRUpnbTdwYzlEL09XUmVDSHpvcU81enpjQVYr?=
- =?utf-8?B?Yzd3Z2VkT29Ha2J2RXg0eXkyTDUrV0dMbWxLU0FseS8xeHk2UzJvdjV4MzNI?=
- =?utf-8?B?RkNpY3YwUXN5K2VXclNNMWk0NzZ5S2R2emhOZDFEWlhPUW44cmhaaW95SW9J?=
- =?utf-8?B?dm9ucjV2ZmM2YVJwanY0VlJHTUtSb3pUNHZMc3ZaN3NEMXovTGVIdUEyV2Ns?=
- =?utf-8?B?RkJndkJSYUsrZnJaeVBBeWJQaDl5c3N5U3VWV1FBZEpGUFRDSGZkd21Pbkd3?=
- =?utf-8?B?U3djYXBDZHBvR1pCUzNYUGRLUWpLdFM2U3Z0QTVWazlvZ2Rad05hd2JqTXZ1?=
- =?utf-8?B?ZE95Z3dVaks4aGFMSFRuREs2cW5LOXVwL081UnZSeTlkd2JZR1dSNDdVWEt6?=
- =?utf-8?B?VmNVMHMxNWhBanE2QzlQY1JKZXFZRTlCak1XRnhYSWNVaUpTR0tma3pCUkc3?=
- =?utf-8?B?aDJKbGRPRmRqaXVuRjBGc2R2MnBMUTk0RWI4NzEyVzY2MWZ0TmpYRERNMXh5?=
- =?utf-8?B?Ujd1aWh1Q0NKRDh2dkZLdWsrRDE2R3NHK0JONUMzUHM2U3BRallzOFVGd1hH?=
- =?utf-8?B?QnVOTVFOczRITlJSZVBZSkc2bEpSaHRKL1c3SHNUbENFRW5OOVB5SzR4TmVG?=
- =?utf-8?B?amh5WmN0TFFHd25uREswYjlBemxTekZLTUJmKzJCRjZLY0hGSWhMSnZ6eVJ4?=
- =?utf-8?B?dy92UzlTZFFJS00xUDR3M1NaYWlYbmVZV1p5RGpTT3NKTjgzRExBVDFDeWkx?=
- =?utf-8?B?MFNrdGI3clRyb0hESEF2NXNzVHh4eE4wNlZoMXAraFV6cEtaNEN5ZkxlWWFs?=
- =?utf-8?B?ejJYMEo3OGlncVZTYyt6SWdLR3NZSzBVTmJydS9hL2dUTythb2J4bVNRNmRn?=
- =?utf-8?B?SzBsRHpWYjdzQjBzNHhQTWFWdGxWSUlBTzNHMXkyNnRyZUxOd09YdnovY2Fp?=
- =?utf-8?B?cmM3MlJiOE9vN09jSjFCN2pUSDJpU2dPV0lnaGpVUUtvZ3FYVVppUDVReDRN?=
- =?utf-8?B?emtZbkZkRUNCYTlScVphMVhGeWJZaEpLbEFEenhzakJxb1h4NXoyWldVaTVp?=
- =?utf-8?B?V1ZwbUw4MDFWbEFtVDUyWmw5cUFZV1ZqcjZTTGVHQ2RObTU2d0xHUm5JdjBp?=
- =?utf-8?B?M2hrbHgxU1VyUExzMm1QNXNLSTdXK0FIb3NndW1OV08wR2ZZWXVsL1BRUE5X?=
- =?utf-8?B?VnB3ZFYvV2xSbTl3cExHdFhkeER1UExibHZ0c3ROSG9WR1N3d2xla0ZCRDZh?=
- =?utf-8?B?MVVsRTNFZnJqWFhnYkhvRUd0dWZXd1k3ZjIrYWZROG1IelhoRVBBdU5kMFo4?=
- =?utf-8?B?YlZGODQxU0tLQ3czM2FuNEtEOUZuV1U0TDRqYjYwUCtHNmdJNjJVU3k4Y1Iw?=
- =?utf-8?B?NW9yTTZYbHBiNWRvS3FKSDUxcnpsekIxOU1CZ3FFQ0hRSzIvRU0xSCs1VlJM?=
- =?utf-8?B?K0dYRUJyN1VQcXdCUnJPVWh6dVNXUkJiUVkxT3JHbVduUnVLd0lvL3BrUFRO?=
- =?utf-8?B?eUR6V1MxUENiZjdtVzdudGx6Y3loVXk1MEgrQ1l6YlFjeTRCMThndHNFeGFp?=
- =?utf-8?B?L1MxMlVuZzNpRnp2Z2FWcndXNjhRcUgra0NDNzFIUk1pa2RMcVJyRmdrTmFy?=
- =?utf-8?B?b1NVMTRxaVRtSkd2MkprR1VZVVZhZHRnTFBiTitLTXJhOXJkbUNKR2I4eWpR?=
- =?utf-8?B?VFgvZEpmK3VjL1BlN2RkL3JZNHVvSW5wOVJIZkxPc1VLa1E5YzZLZms0SWFh?=
- =?utf-8?B?UnNpUXF5QXlIMVVMSE1TRkw5aUZ6ckk4SmpHell3MStMc0lKWkNrMktlbHhz?=
- =?utf-8?B?R2hzTTRVVGtOL3cvUmFUUW80VVFKN0VsbEQvWldKYlF2K3k3WVVCZHdYdnkv?=
- =?utf-8?B?MkgyQW1QeThscFlRb3k1Q0ttUTVLbFE5aUUwR2d3R3pwM2YrQ09CMktLZ3JT?=
- =?utf-8?B?WVkvak9CamxJU0duM1VlZFZURXc0TjJWQU5sOHR6eXpyYXc2Q1o3OENyYldt?=
- =?utf-8?B?TXpGWjdGVkgzN01sT3RzdDZNWGg2MDIxdEh2SzdnNktvRW1vclZudEFqaE5q?=
- =?utf-8?Q?QvOWFDwv+KnWCdIyVoCiB8SMe?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72b54a66-7fd4-4e34-2780-08dc3c50d6a5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 13:41:47.7327
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WLHolhMOrnukA8mrgNZmyEW1jZtdxErh7tpHPjBkUeDbGjdHamTceIBT0syZs2PG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4460
+Message-ID: <39e47-65e5d100-1-5e37bd0@176022561>
+Subject: =?utf-8?q?Re=3A?= [PATCH v2] =?utf-8?q?proc=3A?= allow restricting 
+ /proc/pid/mem writes
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-Trying to send this once more as text only.
+On Monday, March 04, 2024 15:20 EET, Christian Brauner <brauner@kernel.=
+org> wrote:
 
-Am 04.03.24 um 14:40 schrieb Christian König:
-> Am 04.03.24 um 14:28 schrieb Nuno Sá:
->> On Mon, 2024-03-04 at 13:44 +0100, Christian König wrote:
->>> Am 23.02.24 um 13:14 schrieb Nuno Sa:
->>>> From: Paul Cercueil<paul@crapouillou.net>
->>>>
->>>> Add the necessary infrastructure to the IIO core to support a new
->>>> optional DMABUF based interface.
->>>>
->>>> With this new interface, DMABUF objects (externally created) can be
->>>> attached to a IIO buffer, and subsequently used for data transfer.
->>>>
->>>> A userspace application can then use this interface to share DMABUF
->>>> objects between several interfaces, allowing it to transfer data in a
->>>> zero-copy fashion, for instance between IIO and the USB stack.
->>>>
->>>> The userspace application can also memory-map the DMABUF objects, and
->>>> access the sample data directly. The advantage of doing this vs. the
->>>> read() interface is that it avoids an extra copy of the data between the
->>>> kernel and userspace. This is particularly userful for high-speed
->>>> devices which produce several megabytes or even gigabytes of data per
->>>> second.
->>>>
->>>> As part of the interface, 3 new IOCTLs have been added:
->>>>
->>>> IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
->>>>    Attach the DMABUF object identified by the given file descriptor to the
->>>>    buffer.
->>>>
->>>> IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
->>>>    Detach the DMABUF object identified by the given file descriptor from
->>>>    the buffer. Note that closing the IIO buffer's file descriptor will
->>>>    automatically detach all previously attached DMABUF objects.
->>>>
->>>> IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
->>>>    Request a data transfer to/from the given DMABUF object. Its file
->>>>    descriptor, as well as the transfer size and flags are provided in the
->>>>    "iio_dmabuf" structure.
->>>>
->>>> These three IOCTLs have to be performed on the IIO buffer's file
->>>> descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
->>> A few nit picks and one bug below, apart from that looks good to me.
->> Hi Christian,
->>
->> Thanks for looking at it. I'll just add some comment on the bug below and for
->> the other stuff I hope Paul is already able to step in and reply to it. My
->> assumption (which seems to be wrong) is that the dmabuf bits should be already
->> good to go as they should be pretty similar to the USB part of it.
->>
->> ...
->>
->>>> +	if (dma_to_ram) {
->>>> +		/*
->>>> +		 * If we're writing to the DMABUF, make sure we don't have
->>>> +		 * readers
->>>> +		 */
->>>> +		retl = dma_resv_wait_timeout(dmabuf->resv,
->>>> +					     DMA_RESV_USAGE_READ, true,
->>>> +					     timeout);
->>>> +		if (retl == 0)
->>>> +			retl = -EBUSY;
->>>> +		if (retl < 0) {
->>>> +			ret = (int)retl;
->>>> +			goto err_resv_unlock;
->>>> +		}
->>>> +	}
->>>> +
->>>> +	if (buffer->access->lock_queue)
->>>> +		buffer->access->lock_queue(buffer);
->>>> +
->>>> +	ret = dma_resv_reserve_fences(dmabuf->resv, 1);
->>>> +	if (ret)
->>>> +		goto err_queue_unlock;
->>>> +
->>>> +	dma_resv_add_fence(dmabuf->resv, &fence->base,
->>>> +			   dma_resv_usage_rw(dma_to_ram));
->>> That is incorrect use of the function dma_resv_usage_rw(). That function
->>> is for retrieving fences and not adding them.
->>>
->>> See the function implementation and comments, when you use it like this
->>> you get exactly what you don't want.
->>>
->> Does that mean that the USB stuff [1] is also wrong?
->>
->> [1]:https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/tree/drivers/usb/gadget/function/f_fs.c?h=usb-next#n1669
->
-> Yes, that's broken as well. The dma_resv_usage_rw() function is 
-> supposed to be used while retrieving fences.
->
-> In other words your "if (dma_to_ram) ..." above is incorrect as well. 
-> That one should look more like this:
-> /*
->   * Writes needs to wait for other writes and reads, but readers only have to wait for writers.
->   */
->
-> retl = dma_resv_wait_timeout(dmabuf->resv, dma_resv_usage_rw(dma_to_ram), timeout);
->
-> Regards,
-> Christian.
->
->> - Nuno Sá
->>
->>
->
+> On Fri, Mar 01, 2024 at 11:34:42PM +0200, Adrian Ratiu wrote:
+> > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> > after which it got allowed in commit 198214a7ee50 ("proc: enable
+> > writing to /proc/pid/mem"). Famous last words from that patch:
+> > "no longer a security hazard". :)
+> >=20
+> > Afterwards exploits appeared started causing drama like [1]. The
+> > /proc/*/mem exploits can be rather sophisticated like [2] which
+> > installed an arbitrary payload from noexec storage into a running
+> > process then exec'd it, which itself could include an ELF loader
+> > to run arbitrary code off noexec storage.
+> >=20
+> > As part of hardening against these types of attacks, distrbutions
+> > can restrict /proc/*/mem to only allow writes when they makes sense=
+,
+> > like in case of debuggers which have ptrace permissions, as they
+> > are able to access memory anyway via PTRACE=5FPOKEDATA and friends.
+> >=20
+> > Dropping the mode bits disables write access for non-root users.
+> > Trying to `chmod` the paths back fails as the kernel rejects it.
+> >=20
+> > For users with CAP=5FDAC=5FOVERRIDE (usually just root) we have to
+> > disable the mem=5Fwrite callback to avoid bypassing the mode bits.
+> >=20
+> > Writes can be used to bypass permissions on memory maps, even if a
+> > memory region is mapped r-x (as is a program's executable pages),
+> > the process can open its own /proc/self/mem file and write to the
+> > pages directly.
+> >=20
+> > Even if seccomp filters block mmap/mprotect calls with W|X perms,
+> > they often cannot block open calls as daemons want to read/write
+> > their own runtime state and seccomp filters cannot check file paths=
+.
+> > Write calls also can't be blocked in general via seccomp.
+> >=20
+> > Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> > can't run chmod once at boot to restrict it (and trying to react
+> > to every process and run chmod doesn't scale, and the kernel no
+> > longer allows chmod on any of these paths).
+> >=20
+> > SELinux could be used with a rule to cover all /proc/*/mem files,
+> > but even then having multiple ways to deny an attack is useful in
+> > case on layer fails.
+> >=20
+> > [1] https://lwn.net/Articles/476947/
+> > [2] https://issues.chromium.org/issues/40089045
+> >=20
+> > Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+> >=20
+> > Cc: Guenter Roeck <groeck@chromium.org>
+> > Cc: Doug Anderson <dianders@chromium.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Christian Brauner <brauner@kernel.org>
+> > Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> > Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> > ---
+> > Changes in v2:
+> >  * Added boot time parameter with default kconfig option
+> >  * Moved check earlier in mem=5Fopen() instead of mem=5Fwrite()
+> >  * Simplified implementation branching
+> >  * Removed dependency on CONFIG=5FMEMCG
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |  4 ++
+> >  fs/proc/base.c                                | 47 +++++++++++++++=
++++-
+> >  security/Kconfig                              | 22 +++++++++
+> >  3 files changed, 71 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docu=
+mentation/admin-guide/kernel-parameters.txt
+> > index 460b97a1d0da..0647e2f54248 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -5618,6 +5618,10 @@
+> >  	reset=5Fdevices	[KNL] Force drivers to reset the underlying devic=
+e
+> >  			during initialization.
+> > =20
+> > +	restrict=5Fproc=5Fmem=5Fwrite=3D [KNL]
+> > +			Enable or disable write access to /proc/*/mem files.
+> > +			Default is SECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE=5FDEFAULT=5F=
+ON.
+> > +
+> >  	resume=3D		[SWSUSP]
+> >  			Specify the partition device for software suspend
+> >  			Format:
+> > diff --git a/fs/proc/base.c b/fs/proc/base.c
+> > index 98a031ac2648..92f668191312 100644
+> > --- a/fs/proc/base.c
+> > +++ b/fs/proc/base.c
+> > @@ -152,6 +152,30 @@ struct pid=5Fentry {
+> >  		NULL, &proc=5Fpid=5Fattr=5Foperations,	\
+> >  		{ .lsmid =3D LSMID })
+> > =20
+> > +#ifdef CONFIG=5FSECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE
+> > +DEFINE=5FSTATIC=5FKEY=5FMAYBE=5FRO(CONFIG=5FSECURITY=5FPROC=5FMEM=5F=
+RESTRICT=5FWRITE=5FDEFAULT=5FON,
+> > +			   restrict=5Fproc=5Fmem=5Fwrite);
+> > +static int =5F=5Finit early=5Frestrict=5Fproc=5Fmem=5Fwrite(char *=
+buf)
+> > +{
+> > +	int ret;
+> > +	bool bool=5Fresult;
+> > +
+> > +	ret =3D kstrtobool(buf, &bool=5Fresult);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (bool=5Fresult)
+> > +		static=5Fbranch=5Fenable(&restrict=5Fproc=5Fmem=5Fwrite);
+> > +	else
+> > +		static=5Fbranch=5Fdisable(&restrict=5Fproc=5Fmem=5Fwrite);
+> > +	return 0;
+> > +}
+> > +early=5Fparam("restrict=5Fproc=5Fmem=5Fwrite", early=5Frestrict=5F=
+proc=5Fmem=5Fwrite);
+> > +# define PROC=5FPID=5FMEM=5FMODE S=5FIRUSR
+> > +#else
+> > +# define PROC=5FPID=5FMEM=5FMODE (S=5FIRUSR|S=5FIWUSR)
+> > +#endif
+> > +
+> >  /*
+> >   * Count the number of hardlinks for the pid=5Fentry table, exclud=
+ing the .
+> >   * and .. links.
+> > @@ -829,6 +853,25 @@ static int mem=5Fopen(struct inode *inode, str=
+uct file *file)
+> >  {
+> >  	int ret =3D =5F=5Fmem=5Fopen(inode, file, PTRACE=5FMODE=5FATTACH)=
+;
+> > =20
+> > +#ifdef CONFIG=5FSECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE
+> > +	struct mm=5Fstruct *mm =3D file->private=5Fdata;
+> > +	struct task=5Fstruct *task =3D get=5Fproc=5Ftask(inode);
+> > +
+> > +	if (mm && task) {
+> > +		/* Only allow writes by processes already ptracing the target ta=
+sk */
+> > +		if (file->f=5Fmode & FMODE=5FWRITE &&
+> > +		    static=5Fbranch=5Fmaybe(CONFIG=5FSECURITY=5FPROC=5FMEM=5FRES=
+TRICT=5FWRITE=5FDEFAULT=5FON,
+> > +					&restrict=5Fproc=5Fmem=5Fwrite)) {
+> > +			rcu=5Fread=5Flock();
+> > +			if (!ptracer=5Fcapable(current, mm->user=5Fns) ||
+> > +			    current !=3D ptrace=5Fparent(task))
+> > +				ret =3D -EACCES;
+>=20
+> Uhm, this will break the seccomp notifier, no? So you can't turn on
+> SECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE when you want to use the sec=
+comp
+> notifier to do system call interception and rewrite memory locations =
+of
+> the calling task, no? Which is very much relied upon in various
+> container managers and possibly other security tools.
+>=20
+> Which means that you can't turn this on in any of the regular distros=
+.
+>=20
+> So you need to either account for the calling task being a seccomp
+> supervisor for the task whose memory it is trying to access or you ne=
+ed
+> to provide a migration path by adding an api that let's caller's perf=
+orm
+> these writes through the seccomp notifier.
+
+Thanks for raising this!
+
+I did test seccomp filtering/blocking functionality which seemed to wor=
+k but I'll make sure to also test syscall interception before sending v=
+3, to confirm whether it breaks.
+
+The simplest solution is to add an exception for seccomp supervisors ju=
+st like we did for tracers, yes, so I'm inclined to go with that if nee=
+ded. :)
+
+Ideally we find all exceptions and fix them before defaulting this to o=
+n -- unforeseen breakages is why I want to default it to OFF, at least =
+initially, until we can be reasonably sure all cases have been covered.
 
