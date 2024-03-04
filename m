@@ -1,358 +1,152 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9C1495E5;
-	Mon,  4 Mar 2024 16:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA28482DA;
+	Mon,  4 Mar 2024 16:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709568269; cv=none; b=lFP0UOmtHtI0mjrmFj7tfaO6M1f3TOdKHOQEbxols/VYnBVE9CkpLnJlQpkJCB0Ul7HqDrGeA9oqnGQ+awzQaGE/p7SetT3F0LMnBhM2A98Qplc8jCENT+XE9BpILnlhxwNdKSmupNW1f7Xm02omy1bnlFz7BwSSi3KQaAYmQwc=
+	t=1709569114; cv=none; b=eV+/QlY/IpNUKfjtGk7O4EDSlvQ5MSzuvG5ly9HIhEh3+M0JuiUB1C9nxbTA244ZZxBpESVTXMtbQU+GJPH9GPKHvurzRB27l4LIbktf9EiNFtd5nVZAn4Z9Ju0UqY4s8u77gV/3mK6UD/gttN61nL98dl8UtCGopN0bZ81/Xks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709568269; c=relaxed/simple;
-	bh=unFJcofVzKyoiKWDJzt70UNc7QyZ4tlqdJ1s1LDLZmc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ebzrM6pSbKbNREc5coeoi2XdFG3+CksAh96hzrmOHXumHVYB0TmuCLeydlGaxiTmaoOS+OISl+oFoQH+lqwH0IebPbncO6Br4wrhYrtdRrX5sgRVPDy8w+BaWbb+Jt3q+38ZWPgxgthhENQSIIGFtokreNaAo66b5UjInO3sS7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C5BB1FB;
-	Mon,  4 Mar 2024 08:05:03 -0800 (PST)
-Received: from [10.57.13.242] (unknown [10.57.13.242])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 551883F73F;
-	Mon,  4 Mar 2024 08:04:24 -0800 (PST)
-Message-ID: <51167b19-5a2c-4749-8b8c-b2a0e6050a33@arm.com>
-Date: Mon, 4 Mar 2024 16:04:34 +0000
+	s=arc-20240116; t=1709569114; c=relaxed/simple;
+	bh=vfCt86t5faZJDVibBfvf2Juvf6JHTd3OEradfAtDy3g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A8FZysNVWuXKRY/Ptbw+fgJDy6eDjDAMqxc9ES7rkf4lR400cwkOotEtJjFtOdrOKRPc4Og3S29w+bCQw8jceJO7C2d9R/ql34nlQCceTi8fOrddPHZlsIiGHgQH11bmVuJbWdaZbi3qBtlVmgQ0NU7O6V5BfhOgwKCuW/HfXPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4TpNky4sfvz9y5ZR;
+	Tue,  5 Mar 2024 00:02:50 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id A67B814066A;
+	Tue,  5 Mar 2024 00:18:17 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwD37xg49OVl09+0Aw--.24845S2;
+	Mon, 04 Mar 2024 17:18:16 +0100 (CET)
+Message-ID: <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+  Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>, James
+ Morris <jmorris@namei.org>,  Alexander Viro <viro@zeniv.linux.org.uk>, Jan
+ Kara <jack@suse.cz>, Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,  Casey Schaufler
+ <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu
+ <roberto.sassu@huawei.com>,  Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi
+ <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, audit@vger.kernel.org, 
+ selinux@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Date: Mon, 04 Mar 2024 17:17:57 +0100
+In-Reply-To: <ZeXpbOsdRTbLsYe9@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+	 <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
+	 <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
+	 <ZeXpbOsdRTbLsYe9@do-x1extreme>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
- knob with sysfs
-Content-Language: en-GB
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-References: <20240302154845.3223223-2-adrian.larumbe@collabora.com>
- <20240302154845.3223223-3-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240302154845.3223223-3-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwD37xg49OVl09+0Aw--.24845S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFyfZrWkCrWxGw4UJw1fZwb_yoW5CrW5pF
+	W3GFnxKr4kXr17Crn7tr4DZa4F9w4fJF47GF97G3y0ywnFkr1ftr4S9347uFy5Cry8Kr45
+	ZF1qya45CrZ8ZaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+	7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
+	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+	AIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1c4S7UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAMBF1jj5r12AAAsP
 
-On 02/03/2024 15:48, Adrián Larumbe wrote:
-> Debugfs isn't always available in production builds that try to squeeze
-> every single byte out of the kernel image, but we still need a way to
-> toggle the timestamp and cycle counter registers so that jobs can be
-> profiled for fdinfo's drm engine and cycle calculations.
-> 
-> Drop the debugfs knob and replace it with a sysfs file that accomplishes
-> the same functionality, and document its ABI in a separate file.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
+> On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
+> > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > Use the vfs interfaces for fetching file capabilities for killpriv
+> > > checks and from get_vfs_caps_from_disk(). While there, update the
+> > > kerneldoc for get_vfs_caps_from_disk() to explain how it is different
+> > > from vfs_get_fscaps_nosec().
+> > >=20
+> > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > > ---
+> > >  security/commoncap.c | 30 +++++++++++++-----------------
+> > >  1 file changed, 13 insertions(+), 17 deletions(-)
+> > >=20
+> > > diff --git a/security/commoncap.c b/security/commoncap.c
+> > > index a0ff7e6092e0..751bb26a06a6 100644
+> > > --- a/security/commoncap.c
+> > > +++ b/security/commoncap.c
+> > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
+> > >   */
+> > >  int cap_inode_need_killpriv(struct dentry *dentry)
+> > >  {
+> > > -	struct inode *inode =3D d_backing_inode(dentry);
+> > > +	struct vfs_caps caps;
+> > >  	int error;
+> > > =20
+> > > -	error =3D __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
+> > > -	return error > 0;
+> > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant =
+*/
+> > > +	error =3D vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
+> > > +	return error =3D=3D 0;
+> > >  }
+> > > =20
+> > >  /**
+> > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, s=
+truct dentry *dentry)
+> > >  {
+> > >  	int error;
+> > > =20
+> > > -	error =3D __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
+> > > +	error =3D vfs_remove_fscaps_nosec(idmap, dentry);
+> >=20
+> > Uhm, I see that the change is logically correct... but the original
+> > code was not correct, since the EVM post hook is not called (thus the
+> > HMAC is broken, or an xattr change is allowed on a portable signature
+> > which should be not).
+> >=20
+> > For completeness, the xattr change on a portable signature should not
+> > happen in the first place, so cap_inode_killpriv() would not be called.
+> > However, since EVM allows same value change, we are here.
+>=20
+> I really don't understand EVM that well and am pretty hesitant to try an
+> change any of the logic around it. But I'll hazard a thought: should EVM
+> have a inode_need_killpriv hook which returns an error in this
+> situation?
 
-I'm happy with this.
+Uhm, I think it would not work without modifying
+security_inode_need_killpriv() and the hook definition.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Since cap_inode_need_killpriv() returns 1, the loop stops and EVM would
+not be invoked. We would need to continue the loop and let EVM know
+what is the current return value. Then EVM can reject the change.
 
-Boris: are you happy with the sysfs ABI, or would you like to
-investigate further the implications of leaving the counters enabled all
-the time during execution before committing to the sysfs ABI?
+An alternative way would be to detect that actually we are setting the
+same value for inode metadata, and maybe not returning 1 from
+cap_inode_need_killpriv().
 
-Steve
+I would prefer the second, since EVM allows same value change and we
+would have an exception if there are fscaps.
 
-> ---
->  .../testing/sysfs-driver-panfrost-profiling   | 10 +++
->  Documentation/gpu/panfrost.rst                |  9 +++
->  drivers/gpu/drm/panfrost/Makefile             |  5 +-
->  drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ------
->  drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 ----
->  drivers/gpu/drm/panfrost/panfrost_device.h    |  5 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       | 14 ++--
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_sysfs.c     | 70 +++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_sysfs.h     | 15 ++++
->  10 files changed, 120 insertions(+), 45 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
->  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
->  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.c
->  create mode 100644 drivers/gpu/drm/panfrost/panfrost_sysfs.h
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-> new file mode 100644
-> index 000000000000..889527b71b9d
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-> @@ -0,0 +1,10 @@
-> +What:		/sys/bus/.../drivers/panfrost/.../drm/../profiling/status
-> +Date:		February 2024
-> +KernelVersion:	6.8.0
-> +Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
-> +Description:
-> +		Get/set drm fdinfo's engine and cycles profiling status.
-> +		Valid values are:
-> +		0: Don't enable fdinfo job profiling sources.
-> +		1: Enable fdinfo job profiling sources, this enables both the GPU's
-> +		   timestamp and cycle counter registers.
-> \ No newline at end of file
-> diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
-> index b80e41f4b2c5..be4ac282ef63 100644
-> --- a/Documentation/gpu/panfrost.rst
-> +++ b/Documentation/gpu/panfrost.rst
-> @@ -38,3 +38,12 @@ the currently possible format options:
->  
->  Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
->  `drm-curfreq-` values convey the current operating frequency for that engine.
-> +
-> +Users must bear in mind that engine and cycle sampling are disabled by default,
-> +because of power saving concerns. `fdinfo` users and benchmark applications which
-> +query the fdinfo file must make sure to toggle the job profiling status of the
-> +driver by writing into the appropriate sysfs node::
-> +
-> +    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/drm/card1/profiling
-> +
-> +Where `N` is either `0` or `1`, depending on the desired enablement status.
-> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-> index 2c01c1e7523e..6e718595d8a6 100644
-> --- a/drivers/gpu/drm/panfrost/Makefile
-> +++ b/drivers/gpu/drm/panfrost/Makefile
-> @@ -10,8 +10,7 @@ panfrost-y := \
->  	panfrost_job.o \
->  	panfrost_mmu.o \
->  	panfrost_perfcnt.o \
-> -	panfrost_dump.o
-> -
-> -panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
-> +	panfrost_dump.o \
-> +	panfrost_sysfs.o
->  
->  obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-> deleted file mode 100644
-> index 72d4286a6bf7..000000000000
-> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/* Copyright 2023 Collabora ltd. */
-> -/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
-> -
-> -#include <linux/debugfs.h>
-> -#include <linux/platform_device.h>
-> -#include <drm/drm_debugfs.h>
-> -#include <drm/drm_file.h>
-> -#include <drm/panfrost_drm.h>
-> -
-> -#include "panfrost_device.h"
-> -#include "panfrost_gpu.h"
-> -#include "panfrost_debugfs.h"
-> -
-> -void panfrost_debugfs_init(struct drm_minor *minor)
-> -{
-> -	struct drm_device *dev = minor->dev;
-> -	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
-> -
-> -	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
-> -}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-> deleted file mode 100644
-> index c5af5f35877f..000000000000
-> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * Copyright 2023 Collabora ltd.
-> - * Copyright 2023 Amazon.com, Inc. or its affiliates.
-> - */
-> -
-> -#ifndef PANFROST_DEBUGFS_H
-> -#define PANFROST_DEBUGFS_H
-> -
-> -#ifdef CONFIG_DEBUG_FS
-> -void panfrost_debugfs_init(struct drm_minor *minor);
-> -#endif
-> -
-> -#endif  /* PANFROST_DEBUGFS_H */
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 62f7e3527385..2f3580c7ba0d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -130,7 +130,10 @@ struct panfrost_device {
->  	struct list_head scheduled_jobs;
->  
->  	struct panfrost_perfcnt *perfcnt;
-> -	atomic_t profile_mode;
-> +	struct kobj_profiling {
-> +		struct kobject base;
-> +		bool profile_mode;
-> +	} profiling;
->  
->  	struct mutex sched_lock;
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index a926d71e8131..6db1ea453514 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -20,7 +20,7 @@
->  #include "panfrost_job.h"
->  #include "panfrost_gpu.h"
->  #include "panfrost_perfcnt.h"
-> -#include "panfrost_debugfs.h"
-> +#include "panfrost_sysfs.h"
->  
->  static bool unstable_ioctls;
->  module_param_unsafe(unstable_ioctls, bool, 0600);
-> @@ -600,10 +600,6 @@ static const struct drm_driver panfrost_drm_driver = {
->  
->  	.gem_create_object	= panfrost_gem_create_object,
->  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
-> -
-> -#ifdef CONFIG_DEBUG_FS
-> -	.debugfs_init		= panfrost_debugfs_init,
-> -#endif
->  };
->  
->  static int panfrost_probe(struct platform_device *pdev)
-> @@ -663,8 +659,14 @@ static int panfrost_probe(struct platform_device *pdev)
->  	if (err)
->  		goto err_out2;
->  
-> +	err = panfrost_sysfs_init(pfdev);
-> +	if (err)
-> +		goto err_out3;
-> +
->  	return 0;
->  
-> +err_out3:
-> +	panfrost_gem_shrinker_cleanup(ddev);
->  err_out2:
->  	drm_dev_unregister(ddev);
->  err_out1:
-> @@ -681,6 +683,8 @@ static void panfrost_remove(struct platform_device *pdev)
->  	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
->  	struct drm_device *ddev = pfdev->ddev;
->  
-> +	panfrost_sysfs_cleanup(pfdev);
-> +
->  	drm_dev_unregister(ddev);
->  	panfrost_gem_shrinker_cleanup(ddev);
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 0c2dbf6ef2a5..1be9c31b2b61 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	subslot = panfrost_enqueue_job(pfdev, js, job);
->  	/* Don't queue the job if a reset is in progress */
->  	if (!atomic_read(&pfdev->reset.pending)) {
-> -		if (atomic_read(&pfdev->profile_mode)) {
-> +		if (pfdev->profiling.profile_mode) {
->  			panfrost_cycle_counter_get(pfdev);
->  			job->is_profiled = true;
->  			job->start_time = ktime_get();
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.c b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-> new file mode 100644
-> index 000000000000..380d74e61611
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.c
-> @@ -0,0 +1,70 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright 2023 Collabora ltd. */
-> +/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
-> +
-> +#include <linux/platform_device.h>
-> +#include <drm/drm_file.h>
-> +#include <drm/panfrost_drm.h>
-> +
-> +#include "panfrost_device.h"
-> +#include "panfrost_gpu.h"
-> +#include "panfrost_sysfs.h"
-> +
-> +static ssize_t
-> +profiling_show(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
-> +{
-> +	bool *profile_mode =
-> +		&container_of(kobj, struct panfrost_device,
-> +			      profiling.base)->profiling.profile_mode;
-> +
-> +	return sysfs_emit(buf, "%d\n", *profile_mode);
-> +}
-> +
-> +static ssize_t
-> +profiling_store(struct kobject *kobj, struct kobj_attribute *attr,
-> +	       const char *buf, size_t count)
-> +{
-> +	bool *profile_mode =
-> +		&container_of(kobj, struct panfrost_device,
-> +			      profiling.base)->profiling.profile_mode;
-> +	int err, value;
-> +
-> +	err = kstrtoint(buf, 0, &value);
-> +	if (err)
-> +		return err;
-> +
-> +	*profile_mode = !!value;
-> +
-> +	return count;
-> +}
-> +
-> +static const struct kobj_attribute profiling_status =
-> +__ATTR(status, 0644, profiling_show, profiling_store);
-> +
-> +static const struct kobj_type kobj_profile_type = {
-> +	.sysfs_ops = &kobj_sysfs_ops,
-> +};
-> +
-> +int panfrost_sysfs_init(struct panfrost_device *pfdev)
-> +{
-> +	struct device *kdev = pfdev->ddev->primary->kdev;
-> +	int err;
-> +
-> +	kobject_init(&pfdev->profiling.base, &kobj_profile_type);
-> +
-> +	err = kobject_add(&pfdev->profiling.base, &kdev->kobj, "%s", "profiling");
-> +	if (err)
-> +		return err;
-> +
-> +	err = sysfs_create_file(&pfdev->profiling.base, &profiling_status.attr);
-> +	if (err)
-> +		kobject_del(&pfdev->profiling.base);
-> +
-> +	return err;
-> +}
-> +
-> +void panfrost_sysfs_cleanup(struct panfrost_device *pfdev)
-> +{
-> +	sysfs_remove_file(&pfdev->profiling.base, &profiling_status.attr);
-> +	kobject_del(&pfdev->profiling.base);
-> +}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_sysfs.h b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-> new file mode 100644
-> index 000000000000..5fc9c8c1091a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panfrost/panfrost_sysfs.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright 2023 Collabora ltd.
-> + * Copyright 2023 Amazon.com, Inc. or its affiliates.
-> + */
-> +
-> +#ifndef PANFROST_SYSFS_H
-> +#define PANFROST_SYSFS_H
-> +
-> +struct panfrost_device;
-> +
-> +int panfrost_sysfs_init(struct panfrost_device *pfdev);
-> +void panfrost_sysfs_cleanup(struct panfrost_device *pfdev);
-> +
-> +#endif  /* PANFROST_SYSFS_H */
+This solves only the case of portable signatures. We would need to
+change cap_inode_need_killpriv() anyway to update the HMAC for mutable
+files.
+
+Roberto
 
