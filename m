@@ -1,169 +1,183 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F03984FC1
-	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 20:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56D48613C;
+	Tue,  5 Mar 2024 20:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709668825; cv=none; b=V1/ltF9fW3+qslZvtjJ/fovO+3xKlzIpr+VJdbbo6EodBwi6uyVL0z5uIRaM4KoRR+4nS2ie6DJCT//X/taAPFdAF9Ma1s5eRInafX4vr24qM16DjGkeNST7vBL2R0vBEhpZe/8C22lyPJPuo3aFM5p1ZO7H9F3ZzlODVpK3/L8=
+	t=1709669848; cv=none; b=MPs6X6lrmlYqWebmXQ/5I3bqQR3ecvwq3T4zOVEYB68CdZ4WcfMHM0uG0FiRtdqd9I2SvEpk2IjfYWm76Kut8xo2MbGksR8zSD4kyl264qsZX/OrmE+SYyfvDo8M64+/P6Gotw4Gt+ygYMkgXqSalW/ZPyiBU4ZJKSgPPIs6tsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709668825; c=relaxed/simple;
-	bh=zvCIxr8VBjsKzdRKj72ITiWaaPuXwUFhasVmFGiaDtk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tu+ID3pLgZdmNCqOuv1E4v6wPWYBvyabeHLIPLlArmd54EDWsKSDS+qufwGH/+BEDAodOAqYfq1CHKUENPkU8aZn2GHf8qL79ToHVf4UXHjoAuTtuQH8QboFy2Yf3zk01s1MWT2fLH6mj3X4KeDJdGbOVWhAOnn8axG4ow/ch3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GQCcdh2M; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709669848; c=relaxed/simple;
+	bh=6861cbPK504ommcSxo2vB7OyTQCUdsGAtfNeJdvyvJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IzFROUK0m6GpYtbDTdyi+oLYNxpXRdbqDHYfEwR3i3ClkK3jowiyNsbQAivv7Q4e3gVeq3phMbZUHAIG/s28lkkIUN4d9ihvsqUkL/m7tBzLF3+ZWPUmghSCFxesx6zoV3R7hu3J6r5t20L9/0jbvCCSC/9We1gQFbCLqKPEYqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swfNuock; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GQCcdh2M"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so1022131466b.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 12:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709668821; x=1710273621; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Um7HQJN8N4J1bd3DjjlCtIBtcKYJjLGAY5O7WX29jhs=;
-        b=GQCcdh2MldH/YcpNngEOhJ93Lez+BG92jbvj3xTQKZfXfuaZNCzmOOZbV2gDMd4//R
-         RUDIXcB0aVfS9WSwFs7IJJQ/y1Qy/nicYVfdFQluHtxSMfgcamUEChzZrV6bE5RVAg+d
-         8x7sUhgoYrXyQAD3Q6LRJGRQxNsdjrhT6qN4tKbeqfoxWmkzMvDIL7erP/n5qj18xKHf
-         R8fBtNcxgwib9+mtc8yx+839STKOJlbtiDxY5Rzdvlj2/s7kRdLuo4E2+Lxyc/t5v71o
-         hE27KoRkiuOaRQejDkoDPRhF+QXyaz5wGJRSvG72AT2vKBH6JSBdgt/ZHxE3VsBBvnf8
-         rw+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709668821; x=1710273621;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Um7HQJN8N4J1bd3DjjlCtIBtcKYJjLGAY5O7WX29jhs=;
-        b=DsYjM1yeWRImfaPaOHcUrpzxNzXeMwLd1UEczFOO9zKPVhM5XFxXpxuRclwUNdLnuZ
-         EA16SS+eYqAdN2Kem4za3QER7+lYXQAhgY3XA7B2RRQIGHiwdYfrjyQN5xn0k10KLvql
-         JpdwZQQSo5R/F/5idVVLzTcxaSUta/39HXxImJhsEBoG1P7dnuhLI6LFWzAVCvlxgmWu
-         kvhu2wEn/4aubbJrwBh0XuzO/vJaKRiIO3oZHqqOY11rsrVUBynRIzjKDPkIXuQonJ9Z
-         dExooIueQ9GKe/bEhWMhnTCjkVeCUUnLN6aJJ4iehz3yBcSahlzBbCTaQ46UQ+grJ2TF
-         ZreQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVMSClF8alSQsFVSOY90PFSunNvMvuJoHusS0iUWohr+Wc591b7k1/pTQLTvk00xyPO8Ga+0l6TM10/2tWkI5aNDz9cAlFUyX4
-X-Gm-Message-State: AOJu0YwpoGEkU0A7P6nIk5Hl/bZykw9gQ2TMkycEYBm0CiMMfxPe51Mi
-	kQW24rEeE9xtL21nSJxkK3UH4J+AA+c+7JWnZrSeXjUsTdPdJ9n/sMcVzjLjrpE66rksfJM7Gry
-	/I5ZEl9lhdbgBflUR0enizPgq4XNLVyGDJLdS
-X-Google-Smtp-Source: AGHT+IHytdC7v7Vx7sLFDUTdLyz9HH4/B980RlTrZABliOPKZSD4E6pDWhlNI6pqEZujcxK31LaEVTdzhieo1tJYP+0=
-X-Received: by 2002:a17:906:394b:b0:a43:6146:a4df with SMTP id
- g11-20020a170906394b00b00a436146a4dfmr7667230eje.21.1709668820535; Tue, 05
- Mar 2024 12:00:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swfNuock"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 149E6C433C7;
+	Tue,  5 Mar 2024 20:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709669848;
+	bh=6861cbPK504ommcSxo2vB7OyTQCUdsGAtfNeJdvyvJY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=swfNuockyppey7DGeXzQJ3jV8CHoQtMjHp1tiE7fBTRrtgry5fF8tz2FVlvPEAV/w
+	 ZnP/3cfuTJpBykA1G6yrNRUmWCYxv/E2uQ4LPbiQrBMhH9hvkWzK7XoegrbKPk9SLe
+	 SZHqAOFaAzXR11T0QSiXWiqRs60yH/suKf1rjNX871spM1nuIn5n9ppOxxyYC6SyxY
+	 au36vY+W5tuOYNZPgYU2R+XqlUBLN/BCfUt7FLqsnGBIFtctZdzWfeNokHD1omoL0+
+	 boRAr/Qw0yMvpqTS98E3TozZwpwGCFd7vMNpI4VMTb9DcFV0E86X+tit5pnMveWnXG
+	 bv2pFF0FZEx1A==
+Date: Tue, 5 Mar 2024 14:17:27 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
+	James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+Message-ID: <Zed91y4MYugjI1/K@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
+ <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
+ <ZeXpbOsdRTbLsYe9@do-x1extreme>
+ <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+ <ZeX9MRhU/EGhHkCY@do-x1extreme>
+ <20240305-fachjargon-abmontieren-75b1d6c67a83@brauner>
+ <3098aef3e5f924e5717b4ba4a34817d9f22ec479.camel@huaweicloud.com>
+ <7058e2f93d16f910336a5380877b14a2e069ee9d.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-6-almasrymina@google.com> <5e2f9342-4ee9-4b30-9dcf-393e57e0f7c6@app.fastmail.com>
-In-Reply-To: <5e2f9342-4ee9-4b30-9dcf-393e57e0f7c6@app.fastmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 5 Mar 2024 12:00:08 -0800
-Message-ID: <CAHS8izPhvRDPVHr8mY2FffPCLYjKqaazjy5NFcnJSnLK+CdyCA@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to netdevice
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Netdev <netdev@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Linux-Arch <linux-arch@vger.kernel.org>, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, shuah <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7058e2f93d16f910336a5380877b14a2e069ee9d.camel@huaweicloud.com>
 
-On Tue, Mar 5, 2024 at 1:05=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
->
-> > +int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> > +                    struct netdev_dmabuf_binding **out)
-> > +{
-> > +     struct netdev_dmabuf_binding *binding;
-> > +     static u32 id_alloc_next;
-> > +     struct scatterlist *sg;
-> > +     struct dma_buf *dmabuf;
-> > +     unsigned int sg_idx, i;
-> > +     unsigned long virtual;
-> > +     int err;
-> > +
-> > +     if (!capable(CAP_NET_ADMIN))
-> > +             return -EPERM;
-> > +
-> > +     dmabuf =3D dma_buf_get(dmabuf_fd);
-> > +     if (IS_ERR_OR_NULL(dmabuf))
-> > +             return -EBADFD;
->
-> You should never need to use IS_ERR_OR_NULL() for a properly
-> defined kernel interface. This one should always return an
-> error or a valid pointer, so don't check for NULL.
->
+On Tue, Mar 05, 2024 at 06:11:45PM +0100, Roberto Sassu wrote:
+> On Tue, 2024-03-05 at 13:46 +0100, Roberto Sassu wrote:
+> > On Tue, 2024-03-05 at 10:12 +0100, Christian Brauner wrote:
+> > > On Mon, Mar 04, 2024 at 10:56:17AM -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
+> > > > > On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > > > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
+> > > > > > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > > > > > Use the vfs interfaces for fetching file capabilities for killpriv
+> > > > > > > > checks and from get_vfs_caps_from_disk(). While there, update the
+> > > > > > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is different
+> > > > > > > > from vfs_get_fscaps_nosec().
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > > > > > > > ---
+> > > > > > > >  security/commoncap.c | 30 +++++++++++++-----------------
+> > > > > > > >  1 file changed, 13 insertions(+), 17 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/security/commoncap.c b/security/commoncap.c
+> > > > > > > > index a0ff7e6092e0..751bb26a06a6 100644
+> > > > > > > > --- a/security/commoncap.c
+> > > > > > > > +++ b/security/commoncap.c
+> > > > > > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
+> > > > > > > >   */
+> > > > > > > >  int cap_inode_need_killpriv(struct dentry *dentry)
+> > > > > > > >  {
+> > > > > > > > -	struct inode *inode = d_backing_inode(dentry);
+> > > > > > > > +	struct vfs_caps caps;
+> > > > > > > >  	int error;
+> > > > > > > >  
+> > > > > > > > -	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
+> > > > > > > > -	return error > 0;
+> > > > > > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant */
+> > > > > > > > +	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
+> > > > > > > > +	return error == 0;
+> > > > > > > >  }
+> > > > > > > >  
+> > > > > > > >  /**
+> > > > > > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry)
+> > > > > > > >  {
+> > > > > > > >  	int error;
+> > > > > > > >  
+> > > > > > > > -	error = __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
+> > > > > > > > +	error = vfs_remove_fscaps_nosec(idmap, dentry);
+> > > > > > > 
+> > > > > > > Uhm, I see that the change is logically correct... but the original
+> > > > > > > code was not correct, since the EVM post hook is not called (thus the
+> > > > > > > HMAC is broken, or an xattr change is allowed on a portable signature
+> > > > > > > which should be not).
+> > > > > > > 
+> > > > > > > For completeness, the xattr change on a portable signature should not
+> > > > > > > happen in the first place, so cap_inode_killpriv() would not be called.
+> > > > > > > However, since EVM allows same value change, we are here.
+> > > > > > 
+> > > > > > I really don't understand EVM that well and am pretty hesitant to try an
+> > > > > > change any of the logic around it. But I'll hazard a thought: should EVM
+> > > > > > have a inode_need_killpriv hook which returns an error in this
+> > > > > > situation?
+> > > > > 
+> > > > > Uhm, I think it would not work without modifying
+> > > > > security_inode_need_killpriv() and the hook definition.
+> > > > > 
+> > > > > Since cap_inode_need_killpriv() returns 1, the loop stops and EVM would
+> > > > > not be invoked. We would need to continue the loop and let EVM know
+> > > > > what is the current return value. Then EVM can reject the change.
+> > > > > 
+> > > > > An alternative way would be to detect that actually we are setting the
+> > > > > same value for inode metadata, and maybe not returning 1 from
+> > > > > cap_inode_need_killpriv().
+> > > > > 
+> > > > > I would prefer the second, since EVM allows same value change and we
+> > > > > would have an exception if there are fscaps.
+> > > > > 
+> > > > > This solves only the case of portable signatures. We would need to
+> > > > > change cap_inode_need_killpriv() anyway to update the HMAC for mutable
+> > > > > files.
+> > > > 
+> > > > I see. In any case this sounds like a matter for a separate patch
+> > > > series.
+> > > 
+> > > Agreed.
+> > 
+> > Christian, how realistic is that we don't kill priv if we are setting
+> > the same owner?
+> > 
+> > Serge, would we be able to replace __vfs_removexattr() (or now
+> > vfs_get_fscaps_nosec()) with a security-equivalent alternative?
+> 
+> It seems it is not necessary.
+> 
+> security.capability removal occurs between evm_inode_setattr() and
+> evm_inode_post_setattr(), after the HMAC has been verified and before
+> the new HMAC is recalculated (without security.capability).
+> 
+> So, all good.
+> 
+> Christian, Seth, I pushed the kernel and the updated tests (all patches
+> are WIP):
+> 
+> https://github.com/robertosassu/linux/commits/evm-fscaps-v2/
+> 
+> https://github.com/robertosassu/ima-evm-utils/commits/evm-fscaps-v2/
+> 
+> 
+> The tests are passing:
+> 
+> https://github.com/robertosassu/ima-evm-utils/actions/runs/8159877004/job/22305521359
 
-Thanks for clarifying. I will convert to IS_ERR().
-
-> > +     binding->attachment =3D dma_buf_attach(binding->dmabuf, dev->dev.=
-parent);
-> > +     if (IS_ERR(binding->attachment)) {
-> > +             err =3D PTR_ERR(binding->attachment);
-> > +             goto err_free_id;
-> > +     }
-> > +
-> > +     binding->sgt =3D
-> > +             dma_buf_map_attachment(binding->attachment, DMA_BIDIRECTI=
-ONAL);
-> > +     if (IS_ERR(binding->sgt)) {
-> > +             err =3D PTR_ERR(binding->sgt);
-> > +             goto err_detach;
-> > +     }
->
-> Should there be a check to verify that this buffer
-> is suitable for network data?
->
-> In general, dmabuf allows buffers that are uncached or reside
-> in MMIO space of another device, but I think this would break
-> when you get an skb with those buffers and try to parse the
-> data inside of the kernel on architectures where MMIO space
-> is not a normal pointer or unaligned access is disallowed on
-> uncached data.
->
->         Arnd
-
-A key goal of this patch series is that the kernel does not try to
-parse the skb frags that reside in the dma-buf for that precise
-reason. This is achieved using patch "net: add support for skbs with
-unreadable frags" which disables the kernel touching the payload in
-these skbs, and "tcp: RX path for devmem TCP" which implements a uapi
-where the kernel hands the data in the dmabuf to the userspace via a
-cmsg that gives the user a pointer to the data in the dmabuf (offset +
-size).
-
-So really AFACT the only restriction here is that the NIC should be
-able to DMA into the dmabuf that we're attaching, and dma_buf_attach()
-fails in this scenario so we're covered there.
-
---=20
-Thanks,
-Mina
+Thanks! I probably won't be able to take them exactly as-is due to other
+changes for the next version (rebasing onto the changes to make IMA and
+EVM LSMs, forbidding xattr handlers entirely for fscaps), but they will
+serve as a good road map for what needs to happen.
