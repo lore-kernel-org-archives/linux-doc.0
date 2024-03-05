@@ -1,212 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6682134CC;
-	Tue,  5 Mar 2024 16:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709657340; cv=fail; b=tE5OVgf89D4HYJbF6Hxv4qoNFeGOPe7MsNJOov0R3BuHQ4KbZEuZkMnSo5wF4R8Jp9W6fSk+fLdyxJ2dhoijtLXAu9f/pfs27BQAkXbMbRW9dWishEro0IbuYi2Ecoh6ebl9b7UWgsArdYuPhILjAQwMvE4dMpqn+qKn/BgBIVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709657340; c=relaxed/simple;
-	bh=0Z5sESx7apkUWmV4dSaU5NRT7CLzUqYCohdxHG02Qco=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pdonIdct6DYQMkMyNVN5eiV/lUIKn/vK8TWLd/92M0yMW2ya1QNAbin4OtLXqGIa1spWK8NJMpKy39eqwHAnx6g0DyAt95XjbCFZzsnOPkMl8KpALoq6Q2UPxUc+XXwMIH5QHEDczctJyZD6QSNlZcWgPr1oq2SC2qRzJBYytfQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YN32+OlP; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE70134A0;
+	Tue,  5 Mar 2024 16:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709657582; cv=none; b=nX/pRd0YFW+c9x/yrsaYGOBR4QrMinGPGo3wmDrNbz86xWfFHr19IKc/NrGYrwa36AuBFbvFe5O/F+lM9BlDV1HT/sKGxjpVhFnd1j7YUYo8yvTIzlRjbXTfqPKZtzQ/8+G38PYorYh6OZvQnc4oEvRldy+SugY4rGZ7oYyHN3s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709657582; c=relaxed/simple;
+	bh=wtYtDVJZiqM1pogoWHG3mgthzJAbRFC3EtRyyF4qw5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kIXBHLtGwe1MrU17NfbLPYAnyZFyco9rN8njlaI7S97uUu46mGwHFGsMLPzHT1MijVXe/5KsW3mZ6tSAZ6pAZ5nhwy0bc3hVxPB7leIK0yw838wj9p3tgbmTQVfSub3HhAt+6Ft6x/QmvwwkLlIN3Z2hCY+3foP20v2hyZOrGP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CZbUipyX; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YN32+OlP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709657339; x=1741193339;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=0Z5sESx7apkUWmV4dSaU5NRT7CLzUqYCohdxHG02Qco=;
-  b=YN32+OlPpzRnwjDVZ5h5ktG3Ao76tznx6l1GYn8UieqNz2/wSyDlX92n
-   DY4/SHRC1VRpLN5nfe2RwMQJuslxcysGQ6t0ntpHCVpwZ24vpeaJzQTSD
-   fApaX+8Mupk4Qas6hHyYZEjGnJbtVPMZxHvrVpHiX5f9GJLOubS8vWnsS
-   14NEhrHkp+PYDfuaEGM8yFCef7A0URXPsBlf0eH0W3DppSnU7KHWVnSJ2
-   TJ2tZmvMrtTTkZ6wjKoVN0uOWJPR9s+8Xl4kBIQAlEI1hxoXXW909g8ff
-   H94ok38TLqWi2Oinyv4iKNxB0U6diCnlet2hOKr1ZD5emNnJYBL2g6kOs
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="4392325"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="4392325"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 08:48:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="40436984"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Mar 2024 08:48:58 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 5 Mar 2024 08:48:56 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 5 Mar 2024 08:48:56 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 5 Mar 2024 08:48:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KzO3kq6CO365NCKkMvExTT5IAZgsCMZ/yoltGLtaDX2Lqk2OdkrXUG4cbveI4wmTgBACFH8g4yAWG8rG4jZRFbp9D6/DQNXO0dnZJb7qf8ARin0jJeHE2SzvDGLuiG/qxb1whPVBTquLJtPgl+XzAGqLlQO7jjUQN2ThpjTFrvZDhRmWKC4Z80HzqmR9B/RRxJ3UEOBR5wwyYxPGfbQeA5AwKR69JL/BL6EO1EJESkUvkz1nRj9SDKqoFXPNm/j5eB548eJD8R51sqAIVPdm4nW0WsyBRhh/4snVJ29Mt7CqRKzgXpwF3HwUpFmSmk8QVXrt1xpn0jI5CIPy8g7Geg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xAFd5T7RMSlECvui898/CVua/nG48wqFFAg5hIZfN+c=;
- b=IIgHdrkgQ0lnJE7W92ohI7TzudxsM7OjbVFphEKrIqi3pL4wciq9+Km2IKFT7/j12q1mzGMWG9E/Rg3sTeq3AbzYi6YGrLpw2datgNqia6R1yVZgXpyu+TAqHxHOf0PpEwaF9+FT5F3X0p/FKUB0Bz5OUV7Cah+IMcsOk1mQMvnYAWDwop3aZIB2N+wEDWiM5Rr/bwoR6n/p5fjuyDMa8TcIcDM1K0M9HmaQNhNche42HJe5fS7/XU3RWPZc1JGytzJ/1/GyqxnkqV0aOIDVLQMw/h5PJVV/iIGDVIqi3l9j6aS0HO5PGe48yR0x+ayIEGPNC3u7XJmbR+xHOWg0YQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DS0PR11MB7681.namprd11.prod.outlook.com (2603:10b6:8:f0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Tue, 5 Mar
- 2024 16:48:54 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7362.019; Tue, 5 Mar 2024
- 16:48:54 +0000
-Message-ID: <10e7de42-d0c4-45d8-a9f8-bd8e9d4b84db@intel.com>
-Date: Tue, 5 Mar 2024 08:48:51 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] x86/resctrl: Pass domain to target CPU
-Content-Language: en-US
-To: "Luck, Tony" <tony.luck@intel.com>, "Yu, Fenghua" <fenghua.yu@intel.com>,
-	Peter Newman <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>
-CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
-	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
-	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, Drew Fustini
-	<dfustini@baylibre.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>
-References: <20240228112215.8044-tony.luck@intel.com>
- <20240228193717.8170-1-tony.luck@intel.com>
- <12766261-26b2-4aa4-a735-c2380c4963fd@intel.com>
- <SJ1PR11MB60839371908CDC17A01F2167FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <428622f8-8dd9-40c8-8762-6bdef6d3a785@intel.com>
- <SJ1PR11MB6083C8DF1FD451CD43D6726FFC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <SJ1PR11MB6083C8DF1FD451CD43D6726FFC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0140.namprd03.prod.outlook.com
- (2603:10b6:303:8c::25) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CZbUipyX"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 98E236000F;
+	Tue,  5 Mar 2024 16:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709657576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r/DJ06AQj7j8kFaAT82/9WOuSylUEZa/XluKSMLVR2c=;
+	b=CZbUipyXh0uIDFs7UIuHYQbXhuzXMGFrVmVOGNvAhHvPowzAFnNVPDo2G/WiPUra5Kgq0s
+	nztEcaah9if87869LbLxZjfBOoc/e9AacgFZ5R3KbDRf2/uRkTrszDuq7Pc/SCVHJY91qd
+	0n7stiMeN+EqUFlWfmwXcV+p1ZcqcH49S3SyerF8mgpHzyT0H53xLK2/CDc97S3VsnFkVF
+	8CgFoaUyaUL8vVMw1/BchY9/KmgNwAGxqCUpGMjhKTkrvRjxZiQIMUVmc5fyekQ+tDeo9N
+	Kw1PXxCRBwrLfsb+MlxSCquvAMBv0NTv+drYyOmrEi5kK8fsL2ihc9QkXM1toQ==
+Date: Tue, 5 Mar 2024 17:52:53 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v9 12/13] net: ethtool: tsinfo: Add support for
+ hwtstamp provider and get/set hwtstamp config
+Message-ID: <20240305175253.764f041a@kmaincent-XPS-13-7390>
+In-Reply-To: <20240304192733.1e8e08cc@kernel.org>
+References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
+	<20240226-feature_ptp_netnext-v9-12-455611549f21@bootlin.com>
+	<20240304192733.1e8e08cc@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB7681:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e78e26e-0ff6-4410-b8f0-08dc3d342470
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iWh4I8zC+UTa++Pbw7JpRBbawOHyfvVAH8qZVNGVSDAzQmwQOy6uQltf1LLVDDbjnq/BSdReu1o6As6VmmzpwczMf6nRlP9IPpJRYcdldY1F8++aiHnJNq0Kvj4xYncYxo0P0vNrjMdnfXc9CTNGsbBxM9PjL9mfaGqwy3R7PJtoKCJgVQdroeET5N7j5zUPI2eqbBPMwSJwsBDmIsYhYMomqk8MYQnJXrKJnNwsnA47muAie4vC6E2t4F6878fx3EcaVilssDOeqF3cNCgsOAzsPeZOkhUUsQJlGypISiyNFmGsVfwxt7i6uXhTfnNwUFtmmPXhJZWksnNHNh+m/Rth9G33um8QVDiIQ3svC1CDxw1q0B2x+wKBKYm/7BALRw23PnlYFZv7xghWZITfKFFMA6zPfrf+Z+hz8snVs3kTX75711puV+Ud4HZqAYYiO4UUTCz3cxhO8mUpxKAkDle329XW180lHOUIPin68Wdcjdl843eiVhadXvN12EPjgstwmXk3A3YtFgTZMS0O56ubavLiRj2Ag8G8ahMZyunbEfMkV7llv9XxJtXJYoT+p2iuTCDKNm8jgznTu16uAEb/L2P0KhQl7WK/XucOxvTBOCgI9UHWlsSC5BTGMdlkm07b5d6lBW93fsITqiUL0VTe0gd3ffUA8/UwppgopYM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1o4Vm1jcE5nQ3FDbmVoRWNlWE00SW1wK1VkejFVY0duRlFwbzFDNTN6bkgw?=
- =?utf-8?B?ekJrd3FIeWpySnYxK014NEw3ZDB6NHFqUHhVdWFCQmdFMWJQQUNTTFJ6VlBi?=
- =?utf-8?B?QUxGbnVnaURGN0JIRmJFUjNZb2MyYm1uQm1WZVVpdkJ6UUZNOUhlc1AvcDJn?=
- =?utf-8?B?MXBaQUdSblVHckN2WXVxa08xMDZ3ZVV1NGt5UE02cG5HaytuN0wvUXhoR2dM?=
- =?utf-8?B?c0NQREdOenp4Tm44ckpLTzNaa0dtWDJ2ZjlTejd2cFE0MGV5bWV0aVA5YmRl?=
- =?utf-8?B?ZXFKV2lGZXRrOHkrcGZ0MUdseHFhWHJ2K01UNDhvbVJKS3cxbzFpTkhESjRP?=
- =?utf-8?B?VlZ0K00reHBISVl4T0FUcEJjVEdaK1UxQzJVUDZDY2NhS2VScjBpMmZCZ2ZT?=
- =?utf-8?B?RGtUQVZ6MzhKNFgvSlp3d0RmY2RaT2N6ZWhycSt0T2UrVmo2WkhLeG9ad01t?=
- =?utf-8?B?Sk80TVovYVpNZzdoQldBRmdPWHZxMVN4RzQzQk1SMENvVlB1cnNDVGVoRXNZ?=
- =?utf-8?B?Zk43OVhWTXpEWW9UYy9qa0czN2YrMkxUT1VTUW1lakdQVE41Ymc5Y05RVVFY?=
- =?utf-8?B?WktpOHJGKzZXM0lxcTYxL2grZENLbExHOVlHQkJqVXBxaStwb2JSanRObkNM?=
- =?utf-8?B?WXpLcVNkZytrUmx1cTU5MVpRVjNGWEN2RXlqMWE1NjVxYU9RYytMKzM5YXRJ?=
- =?utf-8?B?a2VZZnU4dU50OHNOcC9ibkFtWTBFZU03VkRMZ2FrYmROakhpSUJGaDJGaFY5?=
- =?utf-8?B?b1BpU3I2dFVvWkFnK2ZNOXVIRVkzcEM2Qk9WOTlibjlmNFNiQU1pL1RheW5X?=
- =?utf-8?B?M1ladjdoU2N2TWRBdkRNLy94VjVZWVFUQ1JPMnMyK0ZrZWRNK0RHbnNSSE1p?=
- =?utf-8?B?SDhHZks0R1V2VEpyekE4a2ROd2FOVWVEUVVXS0I0QWJmWkpxV1F2anltRE9u?=
- =?utf-8?B?UFIrZUo2UDB3Z0NkdStWdHptNjZlblVrVGEwNkFXeThKUEMyUmszb2pzZC85?=
- =?utf-8?B?clE0MWt6NzNNajg1UzI2NmxIUUNlbHNVQldtaEtoeDlFTS9HQWJBK2IrR2dV?=
- =?utf-8?B?WFhTa0lBa2VLNGYrQ3pXVGowVWdtRE15aW10aStxV2dYT0M0LzFxZUpTMzZ6?=
- =?utf-8?B?VFlwNnZFak9iLzlnSTEvUlJ1ZTZ3NTNXSW1kU08vSXEvMzlTeE5tV25Xd0VZ?=
- =?utf-8?B?OTVSRjk2RXh2amFBYXd6QVI2OFl2M09HUERTUndKNGlicEpXZmNnMmprdmNm?=
- =?utf-8?B?QjlyZDBoNEM1TjVneUhxbUxEQjBReTdEZG1oSzczbzlOdVRyTG12aDlveHpW?=
- =?utf-8?B?ZU42T1pDNGFvMEtMRDJra2JvdGtHMzgxRDRKOEgxOFg0MVNSM0tRKzJoNE15?=
- =?utf-8?B?VXFIdWJLUE1WTDFQV0IrZHZBSWppbWU5eWNoMUhyMHZ0RG5aYmE0NnBWdmFq?=
- =?utf-8?B?RUozYUxmaUdHSE4yRnVhUnE0TmhhVVZ1aUJ5OVhtV1Z2ZDBsV0wzWXlFZUZt?=
- =?utf-8?B?aERwenZRN3JCVU1YUWNwOWd6ZFY1bVZic1BFNjVYNVRsaGU3YjNVMzE2M0FN?=
- =?utf-8?B?b3lEVkVEYlo2M0pxdng0Y1RGTk9FWjFwWi8vVWxqd3FWa3hpR1Z5TmN5M25N?=
- =?utf-8?B?TFphZ0FiT0pzVkZDT0wzQjhEeWxvNVd2VXlJempPVEVlUElaZzBadjRDclBV?=
- =?utf-8?B?VmdmWmU5Qk9nUkJZbnVzdm53MGhVbm52Vm5aYjdpYldxQ0dmRkg0Qko0ZEhy?=
- =?utf-8?B?bUlDUm12c2Y2aU13Q2Z0ZDJZNm5hTFU4bUFRVEtDN2ljTDdGK1IwSDdtZFo1?=
- =?utf-8?B?cC9FM1FFQW81OWNEL0FlNVJVMEMxK1A2UW5idFFQalY2cmx0cGhVbEJLU1Js?=
- =?utf-8?B?UmNKQ2NpQ2NYM3V6RlpJYTVjdkRaZXF2T214SWQ5QkVyeE5qRXhFVkxjSmZJ?=
- =?utf-8?B?YmE5dFFZdVFEZG1HN1hUUnNva2ZaOVpsZVA0WWxNWXhUcGp2aXB2UUw3c1JE?=
- =?utf-8?B?MjVLK2VPMjI5MkVKenVCZkEvSzQyL1g4d0V4SE9QQmZQTDVzeExLRDhjaGY5?=
- =?utf-8?B?Q2ZIa3lZaDNKVFg5ZnIzR3pwbmtaUVZteDJkdzErS3ZFWXFJZ1NlQWVtYXlM?=
- =?utf-8?B?UXhod1Z4NTBCRDdkaUl6TW1VMFYzdzFmb1FwZVRIOGErck02Ni9zeHlwajdp?=
- =?utf-8?B?Mmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e78e26e-0ff6-4410-b8f0-08dc3d342470
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2024 16:48:54.0563
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5i/+6DbmFSWJt4ikBKGAoECQIMKkRjwGO1Z0NxyEkKCGql7TklgnKVLbug4nzQq1FA/7XZS0+cuYtVhlCiVYNmSdlnJIBD1dkIlyduXmsX8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7681
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Tony,
+On Mon, 4 Mar 2024 19:27:33 -0800
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-On 3/5/2024 8:37 AM, Luck, Tony wrote:
->> If I understand correctly that would always look for a valid "cpu"
->> even when none is needed. Not quite what I proposed but should
->> work. Just some wasted cycles in a non critical path. 
-> 
-> Reinette,
-> 
-> Sorry for misunderstanding. You are right. Assignment to msr_param.dom
-> can also be deferred to the same point. Like this:
-> 
->         list_for_each_entry(d, &r->domains, list) {
->                 hw_dom = resctrl_to_arch_dom(d);
->                 msr_param.res = NULL;
->                 for (t = 0; t < CDP_NUM_TYPES; t++) {
->                         cfg = &hw_dom->d_resctrl.staged_config[t];
->                         if (!cfg->have_new_ctrl)
->                                 continue;
-> 
->                         idx = get_config_index(closid, t);
->                         if (cfg->new_ctrl == hw_dom->ctrl_val[idx])
->                                 continue;
->                         hw_dom->ctrl_val[idx] = cfg->new_ctrl;
-> 
->                         if (!msr_param.res) {
->                                 msr_param.low = idx;
->                                 msr_param.high = msr_param.low + 1;
->                                 msr_param.res = r;
->                                 msr_param.dom = d;
->                                 cpu = cpumask_any(&d->cpu_mask);
->                         } else {
->                                 msr_param.low = min(msr_param.low, idx);
->                                 msr_param.high = max(msr_param.high, idx + 1);
->                         }
->                 }
->                 if (msr_param.res)
->                         smp_call_function_single(cpu, rdt_ctrl_update, &msr_param, 1);
->         }
+> On Mon, 26 Feb 2024 14:40:03 +0100 Kory Maincent wrote:
+> > diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+> > index b3f45c307301..37071929128a 100644
+> > --- a/net/ethtool/common.c
+> > +++ b/net/ethtool/common.c
+> > @@ -426,6 +426,7 @@ const char sof_timestamping_names[][ETH_GSTRING_LEN=
+] =3D {
+> >  	[const_ilog2(SOF_TIMESTAMPING_OPT_TX_SWHW)]  =3D "option-tx-swhw",
+> >  	[const_ilog2(SOF_TIMESTAMPING_BIND_PHC)]     =3D "bind-phc",
+> >  	[const_ilog2(SOF_TIMESTAMPING_OPT_ID_TCP)]   =3D "option-id-tcp",
+> > +	[const_ilog2(SOF_TIMESTAMPING_GHWTSTAMP)]    =3D "get-hwtstamp", =20
+>=20
+> What is this new SOF_TIMESTAMPING_GHWTSTAMP? If there's=20
+> a good reason for it to exist it should be documented in
+> Documentation/networking/timestamping.rst
 
-This looks good to me. 
+/o\ Sorry I totally forgot about documentation here!
 
-Thank you very much.
+> > +const struct nla_policy ethnl_tsinfo_get_policy[ETHTOOL_A_TSINFO_MAX +=
+ 1]
+> > =3D { [ETHTOOL_A_TSINFO_HEADER]		=3D
+> >  		NLA_POLICY_NESTED(ethnl_header_policy),
+> > +	[ETHTOOL_A_TSINFO_TIMESTAMPING] =3D { .type =3D NLA_NESTED },
+> > +	[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_NEST] =3D { .type =3D NLA_NESTED
+> > }, =20
+>=20
+> link the policy by NLA_POLICY_NESTED() so that user space can inspect
+> the sub-layers via the control family.
 
-Reinette
+Ok thanks!
 
+> > +
+> > +	if (!hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX] ||
+> > +	    !hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_QUALIFIER])
+> > +		return -EINVAL; =20
+>=20
+> NL_REQ_ATTR_CHECK()
+
+ok.
+
+>=20
+> > +	ret =3D
+> > nla_get_u32(hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX]);
+> > +	if (ret < 0)
+> > +		return -EINVAL; =20
+>=20
+> How's the get_u32 going to return a negative value?
+> That's the purpose of this check?
+> The policy should contain the max expected value - NLA_POLICY_MAX().
+
+Right I will use more NLA_POLICY_* to check the values in next version.
+
+> >  		return ret;
+> > -	ret =3D __ethtool_get_ts_info(dev, &data->ts_info);
+> > +
+> > +	if (!netif_device_present(dev)) { =20
+>=20
+>  ethnl_ops_begin() checks for presence
+
+Ok thanks!
+
+>=20
+> > +	if (req->hwtst.index !=3D -1) {
+> > +		struct hwtstamp_provider hwtstamp;
+> > +
+> > +		hwtstamp.ptp =3D ptp_clock_get_by_index(req->hwtst.index);
+> > +		if (!hwtstamp.ptp) {
+> > +			ret =3D -ENODEV;
+> > +			goto out;
+> > +		}
+> > +		hwtstamp.qualifier =3D req->hwtst.qualifier;
+> > +
+> > +		ret =3D ethtool_get_ts_info_by_phc(dev, &data->ts_info,
+> > +						 &hwtstamp);
+> > +	} else {
+> > +		ret =3D __ethtool_get_ts_info(dev, &data->ts_info); =20
+>=20
+> Not sure I grok why we need 3 forms of getting the tstamp config.
+>=20
+> Please make sure to always update
+> Documentation/networking/ethtool-netlink.rst
+> when extending ethtool-nl.
+
+Yes sorry I forgot!
+The three cases are:
+- get hwtstamp config like ioctl SIOCGHWTSTAMP
+- get tsinfo of the current hwtstamp
+- get tsinfo of a specific hwtstamp
+
+> > +	if (ts_info->phc_index >=3D 0) {
+> > +		/* _TSINFO_HWTSTAMP_PROVIDER_NEST */
+> > +		len +=3D nla_total_size(sizeof(u32) * 2); =20
+>=20
+> That translates to two raw u32s into a single attribute.
+> Is that what you mean?
+
+Oh right that's not what I want. Thanks you!
+This is better:
+len +=3D 2 * nla_total_size(sizeof(u32));
+
+> > +	if (ts_info->phc_index >=3D 0) {
+> > +		ret =3D nla_put_u32(skb, ETHTOOL_A_TSINFO_PHC_INDEX,
+> > +				  ts_info->phc_index);
+> > +		if (ret)
+> > +			return -EMSGSIZE;
+> > +
+> > +		nest =3D nla_nest_start(skb,
+> > ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_NEST);
+> > +		if (!nest)
+> > +			return -EMSGSIZE;
+> > +
+> > +		ret =3D nla_put_u32(skb,
+> > +				  ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX,
+> > +				  ts_info->phc_index); =20
+>=20
+> You can assume nla_put_u32 only returns EMSGSIZE, so doing:
+>=20
+> if (nla_put_u32(....) ||
+>     nla_put_u32(....))
+> 	return -EMSGSIZE;
+>=20
+> is generally considered to be fine.
+
+Ok.
+
+> > +
+> > +		/* Does the hwtstamp supported in the netdev topology */
+> > +		if (mod) {
+> > +			hwtstamp.ptp =3D ptp_clock_get_by_index(phc_index); =20
+>=20
+> This just returns a pointer without any refcounting, right?
+> What guarantees the ptp object doesn't disappear?
+
+Could the ptp object disappears within rtnlock?
+Maybe I should add refcounting.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
