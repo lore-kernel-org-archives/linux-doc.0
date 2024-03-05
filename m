@@ -1,63 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6F027441
-	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 03:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9243A2940D;
+	Tue,  5 Mar 2024 04:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709610538; cv=none; b=mZRXi39yl+ANklj0bR9eGc5ciZPi8ES/54Pz1wVVZCNmtNbcP6C81U3Er2wQ/7l8gDxkJ3R+bPQxodiLYRV8SQinQ8O6KpyPMMfUUroJpm35FEugZ1Iuj7teBGSES4QjGpxYxUiS54gOcavNfVXLrJcy9YwYPAQpXzTN9t8xSdo=
+	t=1709612587; cv=none; b=MDJpEV5FwjlbzJanKMIJBAVmIBJmL0WnSHjGHor8865sAxS6P8ZJENdHEuhiIDH9osurIx5zLQ0b0KXI74UaOSaklHLzF1HcGEkCqw7QUGpUXecYntK2goD0uVbSy7Bkz5Xz5f6JeCSGHhb4mHtZo2oOafWQEMRv/NXlP+c4L8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709610538; c=relaxed/simple;
-	bh=kfsbBMaU22SmPNp0ud+FGzRcNB5LM+XYUOEtgDPvS7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vE1qj1Dg4PW7960h0ZcAze2f3ZH9mZcRONGnvvJEitjSpV3VKNjhgaYxJKjmMdcHWWl0Xta2cgd/lW08Jca+OS+9sJkz45p8wns0MK6zA5b5+LpQY/4SKFLVatF+Pi9ufSuD4H658TUoUOr+UU7b/JSiFqouY2KDUYjwi5PQFck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euJCdI8X; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709612587; c=relaxed/simple;
+	bh=yQNBbjLLiqAPFBqtBerGf1G2HRZprMYdpTiF0eQeK4k=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ky1PmfgXoUDPXvc+q9nBKc1GJSUzgyOlaLY3unz5ogR1IEZ49944+nI8jTKrv6QOZm5uluUF1L9/+RS3w26UWnV9P5gvDTQF68wiyKali65UCXiPkYviW+tRJkQ8I24WiiJv01G6oVr5n6pC5JprVzQoJTzvQSBI7Yxf5LLl0r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmtDUjwi; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euJCdI8X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709610537; x=1741146537;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kfsbBMaU22SmPNp0ud+FGzRcNB5LM+XYUOEtgDPvS7Y=;
-  b=euJCdI8XxUigMOqJugbMWw8x1tLlwziM8Ivx0+DQ4lK0CkBKFX8+G+Cf
-   kAxafVtfYoCipyswrjny7Cs6RxoC7JJsrM4ycvSj3aFqdFJuJ1SiDGxSJ
-   y1m3/DBdBZIbXvWc6E7LrrIE4mz9vgWPaSHoJY2YCCETss2nfEGfZ9ZOp
-   HR8LEURt4ClWCacBA3NDCdzVSFKXovQos13zDHuUYU6fU6pCvbC0lCHYv
-   zF2EigYCkqtshonXucPoaFHc3b6mjoLMusoEVOF3EpbDFZG05E9858h/+
-   AhgeTIFahyiT0zCLXZ7MIWVeiJ/a7JugX+J3vN3gB+62bUCfqLtiBAQuu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="26600685"
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="26600685"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 19:48:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,205,1705392000"; 
-   d="scan'208";a="9295919"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 19:48:56 -0800
-Date: Mon, 4 Mar 2024 19:48:54 -0800
-From: Andi Kleen <ak@linux.intel.com>
-To: Moody Liu <mooodyhunter@outlook.com>
-Cc: linux-doc@vger.kernel.org, x86@kernel.org, mingo@redhat.com,
-	dave.hansen@linux.intel.com, tglx@linutronix.de
-Subject: Re: [PATCH] docs: x86_64: fix a typo in fsgs.rst
-Message-ID: <ZeaWJsPVhUrXwBT5@tassilo>
-References: <SYCP282MB0461A3FB2A62030F63663583D3232@SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmtDUjwi"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c1f582673bso579866b6e.2;
+        Mon, 04 Mar 2024 20:23:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709612584; x=1710217384; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fzMmBUOjgJ7iR9AaCreLenUOKeyl+lWeAI9zCHfBr1c=;
+        b=lmtDUjwi7DcyV5PGQgdtZsYF1fz07cw9n9zUeLoSRKZcpFT0c7HBQf0xhbe/Y0+3QP
+         QeTDiMXgMolcsNOyrj2q4W2mlWZtroJmbZzS8ism5LU/tViKvkVLmo+iCfo0gHFPybHb
+         e+83DFVC2QBa0wAoiQXsfC/7PELv5LcxvFpfkiS59jomrfBtye8exsAuoydW2rueftzj
+         jWgizpOY2iyReCEVmdybJX7WJAEofWHgwUESpPA7V0nrg7vQ53H1vNPYTtcGrSyRMrnr
+         YLjdcqRUxFk05xZPKxQOiwLpQaaX4jgE9ypEqFTxyRLWYez+1X46TVUR6F/GW46xCcAz
+         mKew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709612584; x=1710217384;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fzMmBUOjgJ7iR9AaCreLenUOKeyl+lWeAI9zCHfBr1c=;
+        b=slYs+TfxmYy4eWzuswuyS56LobAXCm4SLbczxBavcMW/szcN3780zqxdhhT5NV+5W+
+         xYQSr1vrMEoOk8cypH26JprbffnJB4JM7rcIqa3YyXEmkAKmnkzZa2r98dfM4n6BU21Q
+         k5DoUgN1dFG3lo+YlT7qYS/RGKZutohr6PUyzLoRbdvmcgFWqRl3wIIK+C7kYQBctfsv
+         gsLpnVeZ3jyGxk/IBq0mbzMY6m6hjxsIQUVJvpf1EcpuHpN6MCXZPy+am5woWYpCw/b+
+         e07aneZ49+pSog9BtA+fLksSWgkY0vVlIwdY3zdnnsL3D8S9Hf5MFSCkdNg3Reu0Y9ee
+         vJrA==
+X-Forwarded-Encrypted: i=1; AJvYcCWaqsjalYf/GCJTN65E/QNEv/0omGqc+DzDo/BVLtTxozraxizsCU3UVU09sbULdUoIuiof71biaPb80QDUsMe5l0U0mknh7UNGjQS4fnPGHKgYtP4F5cjcRrhtssZo00n+t6zp0CxnUvktv8Ai9TnGiZSXiexkmq4QqMlc+1Mt
+X-Gm-Message-State: AOJu0YxF3rGoyDrWM1gu/1eSj/a8vLyQ8itUnJvHt4cKoCBcbvvOBC+Y
+	//81mko7q2zZ/3zsV2KD7uynhAxd12AUv7uY2An0aThjT7tBZA/2
+X-Google-Smtp-Source: AGHT+IFFLUatCbrLcMXVuav5X7tGY8ZmQkBrBn5N3BUtEsRTOKjsncHTzek04PM66AOZAh/JjzEGcw==
+X-Received: by 2002:a05:6808:9b6:b0:3c1:c9ad:7525 with SMTP id e22-20020a05680809b600b003c1c9ad7525mr703622oig.29.1709612584464;
+        Mon, 04 Mar 2024 20:23:04 -0800 (PST)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id x15-20020a056a00270f00b006e56d880015sm3050662pfv.140.2024.03.04.20.23.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Mar 2024 20:23:04 -0800 (PST)
+Message-ID: <e876e3c8-109d-4bc8-9916-05a4bc4ee9ac@gmail.com>
+Date: Tue, 5 Mar 2024 13:23:00 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SYCP282MB0461A3FB2A62030F63663583D3232@SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: Thorsten Blum <thorsten.blum@toblux.com>, Breno Leitao
+ <leitao@debian.org>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: Makefile: Add dependency to $(YNL_INDEX) for targets
+ other than htmldocs
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 04, 2024 at 09:56:07PM +0000, Moody Liu wrote:
-> The function name should be `_readgsbase_u64`.
+Commit f061c9f7d058 ("Documentation: Document each netlink family")
+added recipes for YAML -> RST conversion.
+Then commit 7da8bdbf8f5d ("docs: Makefile: Fix make cleandocs by
+deleting generated .rst files") made sure those converted .rst files
+are cleaned by "make cleandocs".
 
-Acked-by: Andi Kleen <ak@linux.intel.com>
+However, they took care of htmldocs build only.
+
+If one of other targets such as latexdocs or epubdocs is built
+without building htmldocs, missing .rst files can cause additional
+WARNINGs from sphinx-build as follow:
+
+    ./Documentation/userspace-api/netlink/specs.rst:18: WARNING: undefined label: 'specs'
+    ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/rt_link'
+    ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/tc'
+    ./Documentation/userspace-api/netlink/index.rst:21: WARNING: undefined label: 'specs'
+
+Add dependency to $(YNL_INDEX) for other targets and allow any targets
+to be built cleanly right after "make cleandocs".
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: stable@vger.kernel.org  # v6.7
+Cc: Thorsten Blum <thorsten.blum@toblux.com>
+Cc: Breno Leitao <leitao@debian.org>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: David S. Miller <davem@davemloft.net>
+---
+Hi,
+
+While the first offending commit went through the -net tree, 
+I'd like Jon to pick this up provided there is no objection from
+Jakub or davem.
+
+I know there are complaints against generating files under the
+documentation source tree (thread under [1]). 
+So this is a tentative workaround until someone comes up with
+a proper way to fix the fundamental issue.
+
+I wouldn't add Fixes tags.  Almost all the people care only of
+htmldocs...
+
+[1]: https://lore.kernel.org/linux-doc/874jevjgvo.fsf@intel.com/
+
+        Thanks, Akira
+---
+ Documentation/Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 4479910166fc..b68f8c816897 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -111,7 +111,9 @@ $(YNL_INDEX): $(YNL_RST_FILES)
+ $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
+ 	$(Q)$(YNL_TOOL) -i $< -o $@
+ 
+-htmldocs: $(YNL_INDEX)
++htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
++
++htmldocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+ 
+
+base-commit: a800c6f5b0573847722c5ec70e0ce5cde6ca13dd
+-- 
+2.34.1
+
