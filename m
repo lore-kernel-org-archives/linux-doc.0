@@ -1,212 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5ABA5A4C0;
-	Tue,  5 Mar 2024 12:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07EA8564B;
+	Tue,  5 Mar 2024 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709641780; cv=none; b=hfYNNUReNlZMXRZxX7n+9ff5ePUYIFOeRNJ8GMdEs3H9zzy+kyaZ3isQJxiQMRtBUHfCrhvUjQEX/uLDEdb0tMg8UJdHEWs0sKGCEOnAnFdjRJz2/EjNtMYAOt50jNj8GPDKNIne5VPU/POin1oodQSoLmnx7XedopnZKt6fwbU=
+	t=1709642378; cv=none; b=LvXV5nHkoqlkqhmSadSyhYyQ1ze3kjQ1Qa1kvqW5QchQGHZj8VEfG50Jh5YJJd8muBtEJwEZzndMY13xVppiqd7Y2gIIgAyvADyCEDXCa8vrBxhETahnwYQai9DAZWufl49FRyFpXGQ1WUUOGsDZZNF47ZFLqhpG2VCl2xNoHTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709641780; c=relaxed/simple;
-	bh=P93hlccw+xdxdbFmx+6Lr6WNHOyANq8FCYqtCUP40hE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZrRZobJVkqLI6tkAw6zoFQ1Er+LgswJYKbECr2TeydSJK4T3yADjX+fOdGgUbgsUGWQpIKoOocd9PCW9Moq+d8RRtt9DkjIRMU5vLZzfoulBJmm5/p4OF7U1ECFXd6RaWwlP1qdVefOxy6qb4zEexBOJzjkF+9dukApA8zwXY4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edE9W4ex; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709642378; c=relaxed/simple;
+	bh=ezLq/SOYCqGkMfTLNXZrH22S0sro4+1Jl1Dyq+wOc2M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JKnmGUD7+1l57jMFDZIY8y2DahvV16fpCiiE6hysvaZzyldbxi4Zpf9dj27zc4LWDOg4zwwYUEMMlz82hf4SoN5Mqqy+T/O5Ir9Hcm4OBN9N0uycxIgzO09lNGRFlRejZVYN4ia1LEgNVZ7MAjCt1vnR5XYHcFlcI5o/PETv7QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iBNBeAhD; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edE9W4ex"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE6CC43394;
-	Tue,  5 Mar 2024 12:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709641780;
-	bh=P93hlccw+xdxdbFmx+6Lr6WNHOyANq8FCYqtCUP40hE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=edE9W4exQ/mLyQoFZ0ecW6HlLDr9Z099WMeUuaFujQg2FZTZLAQnGDjK498JWa0ni
-	 hqFMO5hIGroOgoA/TTNGplduxItE+LvgFwOBWjD33xVKfmTFkJ5U+9CtOOpdfL7udr
-	 qhAc/itUetIkKuPj6Jv0+bNurWlOja/yk+vF05wSc8ytz4RcHmc2Kw2jU+9t5qdqtK
-	 2MmLJphfTq56uO+Iq2YwNgSXMY5Hs5aBypVWlDYoEFPocQlvJgPL/m9HUD+GamQVTE
-	 DFv6scJ4w1oMC0aHDm5eYXuKeZW4m+eUbOnkHeJ/XxbIduCTrPWiF//VLFhaMH4KXv
-	 NmAjytaBBw2hw==
-Date: Tue, 5 Mar 2024 14:29:35 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240305122935.GB36868@unreal>
-References: <cover.1709635535.git.leon@kernel.org>
- <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iBNBeAhD"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a44628725e3so709386866b.0;
+        Tue, 05 Mar 2024 04:39:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709642375; x=1710247175; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1yezJlEM16+CfY6EoOA0jjgo+Cql82JRNjKq4aNy4a4=;
+        b=iBNBeAhDNNviqHFnZP6bBTYqlBKnq+TOz2mOZ0pd9RNRFi65HvRRUxISiRHqOJK0h8
+         6eJ4VxsHx9I5KCxFnGp7ykbAJXgdlfWW+3VYPQFu+ZcOJfhv0/86JnxlW6yomKmBopqR
+         ygETol6gA17sIwybB0y22Qxi1s2wYFc7682fbo7mV03dVkMM8NwjQNHre+cmP2Gc6dYT
+         DXzgU1YxRFbCvHSR0OSV9OIMXDCOj6gfW8OlKUvylME5z6drQGhH40TW0SwCK96qNvXa
+         qQF0dE+A31PytTKKrYJSMVTd7NL/Y9KrL3FSR0o7rz2361iAlwo72/3maFCDauI172E/
+         K6pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709642375; x=1710247175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1yezJlEM16+CfY6EoOA0jjgo+Cql82JRNjKq4aNy4a4=;
+        b=T0Ba1zBSVFfFwtrkKn61w86DsMp3d+y+N+1UeOFSWaUC7YTqjzJLYdr19GOzUOQLbi
+         nYYeEnjJcm0fLyrT972C4zzSvFVGY/8ogRIzNSz8SYdfWbsThS96w9pjoDEB6TwOwc9Y
+         dxUnQ2tWuRhxZ8/8LwdXUQRw5Zy+6iHK8HLizcmUJNz9LQpUEUc5p55IE0lAV5FVhrM9
+         VavrbistpVkLSUxNh4JGczf6D8iuRGeWrVxPvM706tfoGOSKsKlolh34ot06aFIMuMMu
+         cw4pLgGAY27ujtHEMfs5K2U+Rl7agkXQJ6Z6WPS+gD36y8prtYYW4zs57rEHbqG3ETpR
+         /TEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGfJ6naZ79MlQ78Tu4UgQQpJtrZLlruJ+Md71h6jFqosGGCJnk6Bu4zLmHNvejkTv3+xLmu1mMQgLOx+DRszcFC7zoUMs81QlAMZwDQmb7UXiaivsohNZL+4Fh2cru7vsk2LLTCE/m7lqfS0b2yYzQtXAqHoirV/cxNXvAAX7fuoLJNhzDTH5U
+X-Gm-Message-State: AOJu0YzdAEb97xfrX2LnWTu5FXxlgLwVdoxjrddqYkLTyVmyQMVc2sNw
+	O1iiE1zEUCux/yV+ONr8IntHLD4sZk1xvRofnazKljYtB5PNb1ANkg7PZahADbZvqW3LXAm+koD
+	zK7AA2hEfpsGX98757QPS52vTTini5LvUrgw=
+X-Google-Smtp-Source: AGHT+IE9M+7eueWU9j7NIyeP0waYnHpZODoF/MgltiSqasKcB+g9ydSe32wCWJiPFKmICPWxFT6J4Wp1eHko7PeQSr8=
+X-Received: by 2002:a17:906:1517:b0:a45:4448:4376 with SMTP id
+ b23-20020a170906151700b00a4544484376mr3985527ejd.74.1709642374719; Tue, 05
+ Mar 2024 04:39:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com>
+References: <20240301134637.27880-1-lukas.bulwahn@gmail.com> <87plwbxon7.fsf@meer.lwn.net>
+In-Reply-To: <87plwbxon7.fsf@meer.lwn.net>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 5 Mar 2024 13:39:23 +0100
+Message-ID: <CAKXUXMypvMeiRGCXbX2ogJQ4KDBc6v-s7cH4t8Tk9=5NerBN1w@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Towards a re-organized submitting patches
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 05, 2024 at 12:05:23PM +0000, Robin Murphy wrote:
-> On 2024-03-05 11:18 am, Leon Romanovsky wrote:
-> > This is complimentary part to the proposed LSF/MM topic.
-> > https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
-> > 
-> > This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO and
-> > DMA patches are ready for review and inclusion, the NVMe patches are still in
-> > progress as they require agreement on API first.
-> > 
-> > Thanks
-> > 
-> > -------------------------------------------------------------------------------
-> > The DMA mapping operation performs two steps at one same time: allocates
-> > IOVA space and actually maps DMA pages to that space. This one shot
-> > operation works perfectly for non-complex scenarios, where callers use
-> > that DMA API in control path when they setup hardware.
-> > 
-> > However in more complex scenarios, when DMA mapping is needed in data
-> > path and especially when some sort of specific datatype is involved,
-> > such one shot approach has its drawbacks.
-> > 
-> > That approach pushes developers to introduce new DMA APIs for specific
-> > datatype. For example existing scatter-gather mapping functions, or
-> > latest Chuck's RFC series to add biovec related DMA mapping [1] and
-> > probably struct folio will need it too.
-> > 
-> > These advanced DMA mapping APIs are needed to calculate IOVA size to
-> > allocate it as one chunk and some sort of offset calculations to know
-> > which part of IOVA to map.
-> 
-> I don't follow this part at all - at *some* point, something must know a
-> range of memory addresses involved in a DMA transfer, so that's where it
-> should map that range for DMA. 
+On Sun, Mar 3, 2024 at 5:31=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wro=
+te:
+>
+> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+>
+> > Dear Jonathan,
+> >
+> > I wanted to clean up the development-process documentation. There is
+> > however no easy way to break the ice here:
+> >
+> > The elephant in the room is that there is some unclear relation between
+> > 5.Posting.rst, 6.Followthrough.rst and submitting-patches.rst.
+> > (Yes, I know each document has its own history...; but let us put the
+> > history aside for now.)
+>
+> FWIW, the objective of those two documents is quite different; one is a
+> high-level overview of how the development process as a whole works, the
+> other is a detailed guide to submitting work for consideration.
+>
 
-In all presented cases in this series, the overall DMA size is known in
-advance. In RDMA case, it is known when user registers the memory, in
-VFIO, when live migration is happening and in NVMe, when BIO is created.
+Yes, that _objective_ is clear when reading the documents.
+However, unfortunately, the detailed guide to submitting work for
+consideration in submitting-patches.rst really is not that much more
+detailed than what 5.Posting and 6.Followthrough already recommend.
+A lot of the "details" in submitting-patches.rst is then also just
+details on topics that are much more an explanation than actual
+recommendation for specific actions.
 
-So once we allocated IOVA, we will need to link ranges, which si the
-same as map but without IOVA allocation.
+Let me clean things up in submitting-patches, and then start a proper
+comparison.
 
-> Even in a badly-designed system where the
-> point it's most practical to make the mapping is further out and only knows
-> that DMA will touch some subset of a buffer, but doesn't know exactly what
-> subset yet, you'd usually just map the whole buffer. I don't see why the DMA
-> API would ever need to know about anything other than pages/PFNs and
-> dma_addr_ts (yes, it does also accept them being wrapped together in
-> scatterlists; yes, scatterlists are awful and it would be nice to replace
-> them with a better general DMA descriptor; that is a whole other subject of
-> its own).
+> > Submitting-patches.rst contains information largely put together from
+> > different initial starting points and is partly outdated due to common
+> > workflows with git format-patch and git send-email.
+>
+> You should have seen it before I thrashed it a few years back :)
+>
+> > For a simple experiment, I moved the larger parts on the tags
+> > (signed-off-by, co-developed-by, acked-by, reported-by, etc.) into a
+> > separate document and then ran the numbers on submitting-patches again:
+> >
+> >   4329 submitting-patches.rst
+> >
+> > Nowt, the size of submitting-patches is actually below Posting and
+> > Followthrough.
+>
+> I don't think we should be driven by word counts.  I do think that
+> moving a bunch of information on tags to its own document could make
+> sense.
+>
+> > So, the difficult task to reach a coherent process description is to se=
+e
+> > some relation between these documents and then go through the editorial
+> > changes. I have come up with this kind of vision:
+> >
+> > Phase 1: Clean up submitting patches
+> >
+> >   Topics/Statements that can be easily cleaned up first do not get in
+> >   the way (at least mentally) when trying to understand the next steps.
+> >
+> >   E.g., as an experiment I moved the details on tags into a separate
+> >   document.
+>
+> Fine.
+>
+> > Phase 2: Make submitting-patches have one clear temporal flow.
+> >
+> >   The top-level structure should basically be along the temporal order =
+of
+> >   things: Prepare a patch, Post a patch, Respond to review, Send rework=
+ed
+> >   patches, Be patient before resending
+>
+> This makes sense as well.  I wonder if splitting the document along some
+> of those lines might also be a good idea, with submitting-patches.rst
+> becoming a relatively short overview deferring details to the others.
+> This is one of the most important docs we have, and it's far too much
+> for people to engage with all at once.
+>
 
-This is exactly what was done here, we got rid of scatterlists.
+I understand that people nowadays do not read prose from top to
+bottom, as soon as it exceeds a certain length. So, for sure, we can
+consider splitting the current content into multiple pieces and add
+links between them. However, I also want to avoid that we have say 15
+documents of a hundred lines, and you are always jumping
+back-and-forth in your web browser while reading. I think the split is
+going to be into two or three documents if at all.
 
-> 
-> > Instead of teaching DMA to know these specific datatypes, let's separate
-> > existing DMA mapping routine to two steps and give an option to advanced
-> > callers (subsystems) perform all calculations internally in advance and
-> > map pages later when it is needed.
-> 
-> From a brief look, this is clearly an awkward reinvention of the IOMMU API.
-> If IOMMU-aware drivers/subsystems want to explicitly manage IOMMU address
-> spaces then they can and should use the IOMMU API. Perhaps there's room for
-> some quality-of-life additions to the IOMMU API to help with common usage
-> patterns, but the generic DMA mapping API is absolutely not the place for
-> it.
+I will do some experiments and suggest some splitting.
 
-DMA mapping gives nice abstraction from IOMMU, and allows us to have
-same flow for IOMMU and non-IOMMU flows without duplicating code, while
-you suggest to teach almost every part in the kernel to know about IOMMU.
+> > Phase 3: Merge the pieces of content from Posting and Followthrough int=
+o
+> > submitting patches if it adds something to that document.
+> >
+> >   When both documents roughly cover the topics of similar depth, we loo=
+k
+> >   fine-grained into how to construct the one document that has the best
+> >   from both documents.
+> >
+> > Phase 4: Remove Posting and Followthrough and simply replace it in the
+> > process description with submitting patches.
+>
+> In broad terms, this seems like a good direction to me.
+>
+> Again, let's remember the different purposes of these documents.  The
+> development-process document is an overall description of the process,
+> so it doesn't need the details.  But when you say:
+>
+> > Posting will not be missed.
+>
+> I don't entirely agree.  But I don't doubt it could be a fraction of
+> what it is now.
+>
 
-In this series, we changed RDMA, VFIO and NVMe, and in all cases we
-removed more code than added. From what I saw, VDPA and virito-blk will
-benefit from proposed API too.
+When I say "Posting will not be missed", I mean the name
+"5.Posting.rst" will not be missed, as the future submitting-patches,
+partially existent on my hard disk right now, includes the best of
+5.Posting.rst as it is now, namely the natural flow of the
+explanation, the good style of writing, being precise and concise and
+the ability to address all audiences with a suitable text, e.g.,
+newcomers and experienced kernel developers enjoy reading it. Some
+important information in 5.Posting.rst should really also be mentioned
+in submitting-patches.rst.
 
-Even in this RFC, where Chaitanya did partial job and didn't convert
-whole driver, the gain is pretty obvious:
-https://lore.kernel.org/linux-rdma/016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org/T/#u
+I think if submitting-patches.rst is structured and written well, the
+development process description can go from 4. Getting the code right
+to "5.Submitting patches" and the readers would not even notice that
+they once originated from very different sources and authors.
 
- drivers/nvme/host/pci.c | 220 ++++++++++++++++++++++++++++++++++++++++++++++----------------------------------------------------------------------------------------------------------------------------------------------------------------
- 1 file changed, 49 insertions(+), 171 deletions(-)
+> > So, here are some first changes to Phase 1 and Phase 2.
+>
+> At a first glance, these changes seem fine.  I think I'll hold them
+> until after the merge window so that others can think about what you're
+> up to, but I suspect there will be no reason not to apply this first set
+> then.
+>
+> Thanks for working on this material; it's some of the most important we
+> have and it definitely needs some attention.
+>
+
+I will continue working on it and see what I consider stable enough in
+moving around that it deserves to be posted to the mailing list. While
+working on the document, it is unfortunately a lot of temporary
+movement back and forth, or huge changes at once and it is a bit
+difficult to then extract the next natural change to propose, but I
+will see how I can present this best piece by piece.
 
 
-Thanks
-
-> 
-> Thanks,
-> Robin.
-> 
-> > In this series, three users are converted and each of such conversion
-> > presents different positive gain:
-> > 1. RDMA simplifies and speeds up its pagefault handling for
-> >     on-demand-paging (ODP) mode.
-> > 2. VFIO PCI live migration code saves huge chunk of memory.
-> > 3. NVMe PCI avoids intermediate SG table manipulation and operates
-> >     directly on BIOs.
-> > 
-> > Thanks
-> > 
-> > [1] https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
-> > 
-> > Chaitanya Kulkarni (2):
-> >    block: add dma_link_range() based API
-> >    nvme-pci: use blk_rq_dma_map() for NVMe SGL
-> > 
-> > Leon Romanovsky (14):
-> >    mm/hmm: let users to tag specific PFNs
-> >    dma-mapping: provide an interface to allocate IOVA
-> >    dma-mapping: provide callbacks to link/unlink pages to specific IOVA
-> >    iommu/dma: Provide an interface to allow preallocate IOVA
-> >    iommu/dma: Prepare map/unmap page functions to receive IOVA
-> >    iommu/dma: Implement link/unlink page callbacks
-> >    RDMA/umem: Preallocate and cache IOVA for UMEM ODP
-> >    RDMA/umem: Store ODP access mask information in PFN
-> >    RDMA/core: Separate DMA mapping to caching IOVA and page linkage
-> >    RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
-> >    vfio/mlx5: Explicitly use number of pages instead of allocated length
-> >    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
-> >    vfio/mlx5: Explicitly store page list
-> >    vfio/mlx5: Convert vfio to use DMA link API
-> > 
-> >   Documentation/core-api/dma-attributes.rst |   7 +
-> >   block/blk-merge.c                         | 156 ++++++++++++++
-> >   drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
-> >   drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
-> >   drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
-> >   drivers/iommu/dma-iommu.c                 | 129 ++++++++---
-> >   drivers/nvme/host/pci.c                   | 220 +++++--------------
-> >   drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
-> >   drivers/vfio/pci/mlx5/cmd.h               |  22 +-
-> >   drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
-> >   include/linux/blk-mq.h                    |   9 +
-> >   include/linux/dma-map-ops.h               |  13 ++
-> >   include/linux/dma-mapping.h               |  39 ++++
-> >   include/linux/hmm.h                       |   3 +
-> >   include/rdma/ib_umem_odp.h                |  22 +-
-> >   include/rdma/ib_verbs.h                   |  54 +++++
-> >   kernel/dma/debug.h                        |   2 +
-> >   kernel/dma/direct.h                       |   7 +-
-> >   kernel/dma/mapping.c                      |  91 ++++++++
-> >   mm/hmm.c                                  |  34 +--
-> >   20 files changed, 870 insertions(+), 605 deletions(-)
-> > 
+Lukas
