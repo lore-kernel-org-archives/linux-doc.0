@@ -1,100 +1,183 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443961EF01;
-	Tue,  5 Mar 2024 08:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394104CB4E;
+	Tue,  5 Mar 2024 08:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709627865; cv=none; b=UoHCXngdC1mt5z3X8c+R+YYY++ZgD1lARk4bLD1TUCi/KYtrILj+8D7TQEBR/xVveTK67qCSXGHFfokBApiiH6o0o6F7tro8brDPP+Icj9JrXBSKNsqkNF83eTjWPcKqtlkmycDoLrHDEJ87tTEWv2/jbnsR1DdZ1DGi5NFY9SA=
+	t=1709628140; cv=none; b=h+0luxEIpaPJseDzbk4hoVWqk574NMrbFXjY7XdLIe62IyrtSrw/obMFQ409b3SewnFXwTGks0Tibm8AkJUdmcNMFOSGVuKvJkTMoDw0URYmJaKdB7Ia7oRg4OfXkBZMRwNrzYPPH6TRHG/EkBDYaPpVMUD1yHN5S1YahO4gh1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709627865; c=relaxed/simple;
-	bh=FpAGb89Nhp9Tx4qmJbXKmvYtorSULzhPc0KcYtduHzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p4qo4LV62McUg4fmO60c2Z41ovpxy393+XZvUufM5OmianchbsWpeOBz0VjjJ7XmvulL0E+xJ2zS0JEVLRTqziPrdrkmCMPJt8Jv4pQdxWd3CznzLomEmEs+UTIIY5iSZtNbQURkpvG5yHXnv3XxrgX56AJNvw596kSqC0YmLhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=AgCIe+Wj; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1709628140; c=relaxed/simple;
+	bh=NmJCAuRJ199Nz8coLDr4s+3BbQ9AxZ5w+P+Jx63NVw4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=KKQ27b7rQWyv1YzcEjRRSKF6uIk9CsJMtCEOwknbNukNVyrM1TulLEWP42KquIABrfI7Xav2nPz1uy6eG/99XGdLDJny/KzmRSVmEC+C18PkeUKPVz84vtmGPpBcBj4I9WcuXUXy8jeOv6T5CYR9Nq/BoKEOwHw8tLXOFt6JpEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SrN0IcvG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cUrkj7qE; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="AgCIe+Wj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=slMU9fALR2FKtthS6g2GplC/gm7hOVa33LfK6FZeUCo=; b=AgCIe+WjIze4L7uAzJboSfBRRT
-	usMNSmG6kawNKWQU4sVBqXGsijtuyTw277G0py0wCeYSN2OursIgPUd0coX/zDD+5m6REIKWYlaeT
-	jlEVhn/pdBxpfTP+ByL5JnH27FTP5ySvZilSUV53SGlHppmiKC8aJYUP+CeXxbTw73AowLPY6jfRJ
-	RcWXv63v2MN5dAmo0XOLLQHSHgmzPN9UxUkz9vEkYDxLjD/9w5jmaXX/w/iRgeQjl+3zTCFEaOdBM
-	2oMhYqcryDBIIhuLuRSnlbtuq++Qtv8XC5Tz6UWWMGHXF2RjwGePu9YA7eWzZfWS/6QvUO4cYXR3t
-	DoIa3oeg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59010)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rhQIG-0006qe-1U;
-	Tue, 05 Mar 2024 08:37:00 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rhQIA-0005Gy-FG; Tue, 05 Mar 2024 08:36:54 +0000
-Date: Tue, 5 Mar 2024 08:36:54 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 08/13] ptp: Add phc source and helpers to
- register specific PTP clock or get information
-Message-ID: <ZebZpspMCqjLES/W@shell.armlinux.org.uk>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
- <20240226-feature_ptp_netnext-v9-8-455611549f21@bootlin.com>
- <20240304185734.5f1a476c@kernel.org>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SrN0IcvG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cUrkj7qE"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 242C720025A;
+	Tue,  5 Mar 2024 03:42:17 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 05 Mar 2024 03:42:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709628137; x=1709635337; bh=QeA3EPMJnw
+	t6NmNxY9VsOPm58VedM11auwf8kvd3l10=; b=SrN0IcvG+CPxJAPHYHVIf2JkQi
+	6aTKoGPcbuZZ+5LZpt4LV5ol9w0MZc8VMYPm3QDT41tKe1Zme80Xkas3iZkqGu9J
+	LTPWeQ+TvEW8x4RAL/4J1D+DIa+H5tSyYjMFrT4iYOV9kPTbgRY5B3Efv/NL0mqt
+	Sh5qihCFAmYE9z/QTckbjm7bpnkdE7ivuu018LlM12hdoIChh/aTF2CfCC+zTNNg
+	pWmFTJRKJgwCNAdhzgIYZAHUSyD9jd2lnbIGwavGslxLcsYVhab6FQ6scVAmndm9
+	hMb3+wijmaQdDbkVyhWGsnkzQWVJrNiXlLndvxBgJ1DuOG0An7zgcsKngtUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709628137; x=1709635337; bh=QeA3EPMJnwt6NmNxY9VsOPm58Ved
+	M11auwf8kvd3l10=; b=cUrkj7qER6QQIRnFKUiYlatAQ6/yN/ydi4yFtlZ9uhjS
+	WnNinuJoMczVcnGJU0rimQ2ZdK3O6eY+HYnVX9hFyRf7kjMXjkvV/cQmG+um5o4b
+	ENJHeVypTHbd+sOrT08zSgiit73d1Nl4JuEcXvthyJmpiOTrCwlZhCgDqepSPhgV
+	OJpMvS3cKimyU9P9MYHQMAid0av8Y5uDjTTX5EEJDRKHP7+0pBi94UyisQGx7hfH
+	nU409xIVBbJ6bcGpNKQItGs7wM3HkrH11fUt+iM/4VBFUhGEOQkvdH7G9mq7KPB4
+	MwtBYmps+wYULvq9bmvxLikKnCQB69nzHTI3tPLsoA==
+X-ME-Sender: <xms:59rmZXj1XBjvZwSrYxeBx8j1_jqi3bw7y54_kDvpY3ZSDIYdhngplA>
+    <xme:59rmZUBwtIZC6ilN9khiLUcbA2-QkOWWQp6FN9gou6hREYvUE8u0cHCSLe6Dyq1u2
+    4w97V8hRBQ0MfgeTtc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheekgdduvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:59rmZXGjDWqVGnJLCSgHG3LcDhp31ym5yhfHmOz3DkxYLj8W2aygig>
+    <xmx:59rmZUSJtVcRW7HmjnEA9PDWLnzxKhpw9WvZ47Ik0VWJ9MZ1_fO3TQ>
+    <xmx:59rmZUxOkjBpcRl6B-6KwBqKNgDbwLAcbzqjMgh3agbGc-NMjdXQJQ>
+    <xmx:6drmZYU71T9jFIxEdqIBdh47g3ojPXXfUrlQ1gCPYBk62M5eGYCJWqqJa6c>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 5045FB6008D; Tue,  5 Mar 2024 03:42:15 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240304185734.5f1a476c@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Message-Id: <a2d926be-695a-484b-b2b5-098da47e372e@app.fastmail.com>
+In-Reply-To: <20240305020153.2787423-13-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-13-almasrymina@google.com>
+Date: Tue, 05 Mar 2024 09:41:55 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mina Almasry" <almasrymina@google.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Helge Deller" <deller@gmx.de>, "Andreas Larsson" <andreas@gaisler.com>,
+ "Jesper Dangaard Brouer" <hawk@kernel.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Eduard Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>,
+ "John Fastabend" <john.fastabend@gmail.com>,
+ "KP Singh" <kpsingh@kernel.org>, "Stanislav Fomichev" <sdf@google.com>,
+ "Hao Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>,
+ "David Ahern" <dsahern@kernel.org>,
+ "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>,
+ shuah <shuah@kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pavel Begunkov" <asml.silence@gmail.com>, "David Wei" <dw@davidwei.uk>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ "Yunsheng Lin" <linyunsheng@huawei.com>,
+ "Shailend Chand" <shailend@google.com>,
+ "Harshitha Ramamurthy" <hramamurthy@google.com>,
+ "Shakeel Butt" <shakeelb@google.com>,
+ "Jeroen de Borst" <jeroendb@google.com>,
+ "Praveen Kaligineedi" <pkaligineedi@google.com>,
+ "Willem de Bruijn" <willemb@google.com>,
+ "Kaiyuan Zhang" <kaiyuanz@google.com>
+Subject: Re: [RFC PATCH net-next v6 12/15] tcp: RX path for devmem TCP
+Content-Type: text/plain
 
-On Mon, Mar 04, 2024 at 06:57:34PM -0800, Jakub Kicinski wrote:
-> On Mon, 26 Feb 2024 14:39:59 +0100 Kory Maincent wrote:
-> > Prepare for future hardware timestamp selection by adding source and
-> > corresponding pointers to ptp_clock structure. Additionally, introduce
-> > helpers for registering specific phydev or netdev PTP clocks, retrieving
-> > PTP clock information such as hwtstamp source or phydev/netdev pointers,
-> > and obtaining the ptp_clock structure from the phc index.
+On Tue, Mar 5, 2024, at 03:01, Mina Almasry wrote:
+> --- a/arch/alpha/include/uapi/asm/socket.h
+> +++ b/arch/alpha/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	79
+> +#define SO_DEVMEM_DMABUF	80
+> --- a/arch/mips/include/uapi/asm/socket.h
+> +++ b/arch/mips/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	79
+> +#define SO_DEVMEM_DMABUF	80
+> --- a/arch/parisc/include/uapi/asm/socket.h
+> +++ b/arch/parisc/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD		0x404B
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SO_DEVMEM_DMABUF	99
+> --- a/arch/sparc/include/uapi/asm/socket.h
+> +++ b/arch/sparc/include/uapi/asm/socket.h
+>  #define SO_PEERPIDFD             0x0056
+> +#define SO_DEVMEM_LINEAR         0x0058
+> +#define SO_DEVMEM_DMABUF         0x0059
+> --- a/include/uapi/asm-generic/socket.h
+> +++ b/include/uapi/asm-generic/socket.h
+> @@ -135,6 +135,11 @@
+>  #define SO_PEERPIDFD		77
+> +#define SO_DEVMEM_LINEAR	98
+> +#define SO_DEVMEM_DMABUF	99
+
+These look inconsistent. I can see how you picked the
+alpha and mips numbers, but how did you come up with
+the generic and parisc ones? Can you follow the existing
+scheme instead?
+
+> diff --git a/include/uapi/linux/uio.h b/include/uapi/linux/uio.h
+> index 059b1a9147f4..ad92e37699da 100644
+> --- a/include/uapi/linux/uio.h
+> +++ b/include/uapi/linux/uio.h
+> @@ -20,6 +20,16 @@ struct iovec
+>  	__kernel_size_t iov_len; /* Must be size_t (1003.1g) */
+>  };
 > 
-> Can we assume there's one PHC per netdev?
-> We both store the netdev/phydev info in the ptp clock
-> and ptp clock in the netdev. Is there a reason for that?
+> +struct dmabuf_cmsg {
+> +	__u64 frag_offset;	/* offset into the dmabuf where the frag starts.
+> +				 */
+> +	__u32 frag_size;	/* size of the frag. */
+> +	__u32 frag_token;	/* token representing this frag for
+> +				 * DEVMEM_DONTNEED.
+> +				 */
+> +	__u32  dmabuf_id;	/* dmabuf id this frag belongs to. */
+> +};
 
-No. In the case of mvpp2 + marvell PHY, the two PTP implementations are
-entirely separate.
+This structure requires a special compat handler to run
+x86-32 binaries on x86-64 because of the different alignment
+requirements. Any uapi-visible structures should be defined
+to avoid this and just have no holes in them. Maybe extend
+one of the __u32 members to __u64 or add another 32-bit padding field?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+       Arnd
