@@ -1,77 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAB91B950;
-	Tue,  5 Mar 2024 18:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F6717BCF;
+	Tue,  5 Mar 2024 18:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709661869; cv=none; b=eSDWaP1uZWbZ5SxhDTqAGbWMqA1P+7rccGLg8XWPdXcTwEJHOlH4UJ6CgF2FdqZHKgUOU25+S8NVVwT9rTTDQa/jwty1SDw7ADtAnvgASTEEIjfTNItgwMzfk1pMJRVt1Hae8AmsgceWxpYvLqW1AKhQO7Q3AfOR6w3DRgojGxM=
+	t=1709662047; cv=none; b=RIBaPlCQrPV3qXezh3FCWoIBlFghZ05qIMUTT6DaufOXfSdG9vhXL0DH4MmgWw3HpIUpDJJECc3YGKDhO7tLWV9L2+rJLne9hie3bwlhF5LVHTIZxDMqZ9gS/LULmSNumY0aVStAuibqxVG89zzcolb2OiBQPQL7cpMdapgVEHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709661869; c=relaxed/simple;
-	bh=8uBoflw7ylg6FwA/YZf/wgGJPgmGBD3bhaSObnhOsRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BdgfTVdOEUfFRZa+TbZ2Djj57YEExrN6nTitEHJgFOFLBN6KhDxTTLgcXE9g0VPvIWEQ8bIpy0YFHLwRD98aficC+Yh6pS1RvStZ41ztqm+1L0thXf6q7kc23ym9jkubpQnrlKm8phpVb6qr+Drve/2F7w7uuESjZsDcwT9vb5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uD+rzhRB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709662047; c=relaxed/simple;
+	bh=fRvH1A39coLysQaU+TJosea83wCh3mMgVlbTiDxoJ98=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HaQwHzE+jHW/ugC1YK8jfipRBiU8A4ClG02J1jWBoYhzLFVEQru+JXNHBD/zAna9ctAsF/s2zSZWneOl1dQPuTjJpm8bg/mlQ+LJ/zDGhvO2OhBnBmJWnDxXtzEhjuUmeeA1+mJss+ajpCnbwk0YzwH6mmBwLke1S4LMwQHP8mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=p2dBZ8Lc; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uD+rzhRB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4968C43390;
-	Tue,  5 Mar 2024 18:04:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709661868;
-	bh=8uBoflw7ylg6FwA/YZf/wgGJPgmGBD3bhaSObnhOsRs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uD+rzhRBR3WZRsGzIXZIPVQJnZzb6q6XALgHCnBmj2DvCfYQ7F4ewgG+YPHXxa/4u
-	 totVJc0mw9s8mQ6IpuaOyDciwZepaRg/MA1/KS75QfS9CZJcUSwJ70F6Aym4aoQW5h
-	 twn9tWsAX4FAga0kos0DAOwEtFc9TKbt+yWrhLzWAfaanQyt0teTLRIH3iTnYNNBTW
-	 ACoqVwWGYVxm0cw2ioVWkzSLGsh5X7GVXkmoJHO8DWQYGhvR8+/JRXl9jCzS/8NUWo
-	 d1aUreWkh8Mr1GEqeN+dsXGkiAOT2i8tE8Xbg1wYk7/wvy+lY9xZioq4zKQvPlfNuU
-	 b8FSYVWR4To/Q==
-Date: Tue, 5 Mar 2024 10:04:26 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 12/13] net: ethtool: tsinfo: Add support for
- hwtstamp provider and get/set hwtstamp config
-Message-ID: <20240305100426.5ed724f3@kernel.org>
-In-Reply-To: <20240305175253.764f041a@kmaincent-XPS-13-7390>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-12-455611549f21@bootlin.com>
-	<20240304192733.1e8e08cc@kernel.org>
-	<20240305175253.764f041a@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="p2dBZ8Lc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF8DB418C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1709662043; bh=nyMT7rStgBuYBzRKmK59qF223blmDdW15jaZoF38aRo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=p2dBZ8Lc8H+HbEHG1zfkxyu0zmQREynqVsaVx+w4XYQvPeB29ZRk/bNVCSy6xfhVI
+	 glaT7q/L8zzhDknyHqM2osy3F1CnbbyH6e1z+RDDheHZIpP44D/ugjWoV5OCbcRZ4s
+	 ULX/CmcRl4VwPaBeCYUmHRMV+uitORnqfcpVZeokoeJoxwM8EtHromj1LjuvUMH4gw
+	 ahLnUGFmyYX8dRDZqeiE5eNcr0wGa/xPzz0CVA8xiKVRn3w+cURJAihw89t7g+aCAy
+	 eMR6EzSyDQGWhxA8gGr48FbZGUwLLrl4U8mgM9cgGbUzIXtRZeBjw3ePDwLW25T4OJ
+	 nsV/E8jtLy+UQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EF8DB418C2;
+	Tue,  5 Mar 2024 18:07:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+Cc: Thorsten Blum <thorsten.blum@toblux.com>, Breno Leitao
+ <leitao@debian.org>, Jakub Kicinski <kuba@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Akira Yokosawa
+ <akiyks@gmail.com>
+Subject: Re: [PATCH] docs: Makefile: Add dependency to $(YNL_INDEX) for
+ targets other than htmldocs
+In-Reply-To: <e876e3c8-109d-4bc8-9916-05a4bc4ee9ac@gmail.com>
+References: <e876e3c8-109d-4bc8-9916-05a4bc4ee9ac@gmail.com>
+Date: Tue, 05 Mar 2024 11:07:22 -0700
+Message-ID: <878r2wo8md.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, 5 Mar 2024 17:52:53 +0100 K=C3=B6ry Maincent wrote:
-> > > +		/* Does the hwtstamp supported in the netdev topology */
-> > > +		if (mod) {
-> > > +			hwtstamp.ptp =3D ptp_clock_get_by_index(phc_index);   =20
-> >=20
-> > This just returns a pointer without any refcounting, right?
-> > What guarantees the ptp object doesn't disappear? =20
->=20
-> Could the ptp object disappears within rtnlock?
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-I believe so, yes.
+> Commit f061c9f7d058 ("Documentation: Document each netlink family")
+> added recipes for YAML -> RST conversion.
+> Then commit 7da8bdbf8f5d ("docs: Makefile: Fix make cleandocs by
+> deleting generated .rst files") made sure those converted .rst files
+> are cleaned by "make cleandocs".
+>
+> However, they took care of htmldocs build only.
+>
+> If one of other targets such as latexdocs or epubdocs is built
+> without building htmldocs, missing .rst files can cause additional
+> WARNINGs from sphinx-build as follow:
+>
+>     ./Documentation/userspace-api/netlink/specs.rst:18: WARNING: undefined label: 'specs'
+>     ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/rt_link'
+>     ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/tc'
+>     ./Documentation/userspace-api/netlink/index.rst:21: WARNING: undefined label: 'specs'
+>
+> Add dependency to $(YNL_INDEX) for other targets and allow any targets
+> to be built cleanly right after "make cleandocs".
+>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: stable@vger.kernel.org  # v6.7
+> Cc: Thorsten Blum <thorsten.blum@toblux.com>
+> Cc: Breno Leitao <leitao@debian.org>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: David S. Miller <davem@davemloft.net>
+> ---
+> Hi,
+>
+> While the first offending commit went through the -net tree, 
+> I'd like Jon to pick this up provided there is no objection from
+> Jakub or davem.
 
-> Maybe I should add refcounting.
+Applied, thanks.
+
+jon
