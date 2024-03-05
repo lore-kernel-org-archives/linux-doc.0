@@ -1,163 +1,157 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A41433AE
-	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 19:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A13618639
+	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 19:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709667497; cv=none; b=CJYa9EcqpJguraB2j+TuguMSZV/9tAydMDiNZfVDyLP8qRa1XLzF1Kk+b4v3wAnX5Y4OZcU2U91p9gJjNkM0qBFiiB4czg0jga6pZJNVU4SgrNMUsZ5fLnJhUeHHORKfmfTQMBIAZmhlEQE4o9HsZ4J3h2BLdOwFfnYGyHtslxE=
+	t=1709667532; cv=none; b=j64hzXeKAAZTOuGbUkd1aBaYIqxSmDYn6JV4sLDNsoIhg27GK/CbjcgsMIzrphEE3+uAiFxDt+Z2mcRDB+52NnPwLtqAKXciK+yu0+8eojNKeTwO6cybJR7bfnoCLxfB1o5ZBok/p1gpN0/bNhWisdr9VD3g4/9rsNHVlijuy2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709667497; c=relaxed/simple;
-	bh=yjCr221DADkA5bNqdiY3x3UI306XYd+UggCeyz1yRHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T5OvWFIrnmUbqjGQ/No8Uh1ToIK8YGh/xgbMmL8p3rps38uXHynFYbh05EDzTNboidT40AlQAVFdBE3TzQ4oMHTMfNB4+AEXoMs6ozAQapFY6vdHFZn32TEXRxcgH0p3hujUEZbI4fle9riAGThecblmL03vLn0XAVb6cBiuV1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dRdSLyFL; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1709667532; c=relaxed/simple;
+	bh=dbu7jPJNusoAIuT8pNXSfufXvY1iYoRgBC5JcoUfIfk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NwQ0N66lm4QgssVdgh0xQKR5NlZB0MwRwg4F7EDawC4G1bNKayUwp+Ykv8ghYz77XpOge9FDjvwmFInBu/oeke6RohmvBve6Nt2B8j6QAC/hRr+kpVyQCOoiCuyv/heZae+7fKC5W9o2iHbLAjJdChXUDvCUjrIWbK5UxoC6PRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FRcoz8Mb; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dRdSLyFL"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6e627596554so1902981b3a.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 11:38:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FRcoz8Mb"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a449c5411e1so596694066b.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 11:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709667495; x=1710272295; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HA7mlV83NfUZx2uZSPlTtkihc76ZZ9iwfT6eqOr1MbM=;
-        b=dRdSLyFLWUwFE7SkDpzX3lGrbbKJCXv7b25F3N1BSaoWCN4AMTYspJp8sArHg3f5/f
-         WEbQVWXoqKTUVQH5c8n+pQ+q4NY4tjOaLmXs9wCNZ+6wP/3zNegJnX6qwfjukMtDfwb1
-         Qa4yKG0JnV+CBMpQeyUVWCkjnij8/Jwo/AqC4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709667495; x=1710272295;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1709667529; x=1710272329; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HA7mlV83NfUZx2uZSPlTtkihc76ZZ9iwfT6eqOr1MbM=;
-        b=nVbIV+gAZQ0QgaO/HCUeFQZf5pkTSsrGZ9Iouwn1HcV2IKMLxxrIpB2p2RPsUoXywe
-         998awaLbTuI7UoOYQBGxnKhDdFpGSiazp/grID3WTMFotJMtLwkpsog8kZbmHF/DL2od
-         wsJiLkJWgdO1unwU1Fzdw6bTfzGkdjG4ASmZuuK75oWizNijUHeoB0WdzXBiZsECfrb8
-         qApCD4YL8IqThIMX8DAJXu0aEOkXoCDpPOS+njpyEQcFJwrxVfOoZZCkZS9wZM9Qc8Cg
-         botyWcQwOT/WYaRyjvBhnohvbWvWFvEWYNXwk9VKfy3GDqbygcekCvplZXLPp+bsXdM0
-         U+2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWNsbtkjkJ1e+LKWVuhU7slHHtTe4x59IKSy78dxZMgmyMOpH4VDbatlOD9+Q+3C3DYt69IEP2mFNJcvVGoR7jHwA+x3DnbqTLc
-X-Gm-Message-State: AOJu0YyWhaQ5+G+le1kHElvXwm8EJRVAp36uANo4NKNp4LwJgFZOIsnl
-	HkS+UE2Fa/jT72INEGx/SP/Qo0cVXE4ERhn1lpNiE0rxCN09MbO/OJm+w00Q+g==
-X-Google-Smtp-Source: AGHT+IHmm9bDdwsC5X6VFNK7Wqa2G5+ysPfNvANktTS1n2VdscWFowLK6SOVTNL9odXB+HtrCQCV2w==
-X-Received: by 2002:a05:6a20:d04e:b0:1a1:e41:979b with SMTP id hv14-20020a056a20d04e00b001a10e41979bmr3227567pzb.41.1709667494966;
-        Tue, 05 Mar 2024 11:38:14 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 11-20020a63104b000000b005d8e30897e4sm9348461pgq.69.2024.03.05.11.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 11:38:14 -0800 (PST)
-Date: Tue, 5 Mar 2024 11:38:13 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
-	kernel@collabora.com, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
-Message-ID: <202403051135.708135A8@keescook>
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <202403040943.9545EBE5@keescook>
- <20240305-attentat-robust-b0da8137b7df@brauner>
- <202403050134.784D787337@keescook>
- <20240305-kontakt-ticken-77fc8f02be1d@brauner>
- <202403050211.86A44769@keescook>
- <20240305-brotkrumen-vorbild-9709ce924d25@brauner>
- <202403051033.9527DD75@keescook>
- <45d98-65e77400-5-31aa8000@248840925>
+        bh=dbu7jPJNusoAIuT8pNXSfufXvY1iYoRgBC5JcoUfIfk=;
+        b=FRcoz8MbQeQDcV4GpXollhLmuyqntrRmwucMFDu5EmYMZ8nbOuOfvmIlvlgmVq1Qf4
+         c8lJN6BtQ/2TfFGDTo4HPiEpJzTWViGGaRilIyIcv/YXc0UkVYjdNrq+GnwgnSNZswFB
+         Pwg6nffta5e0uvgM3W0mPp9zxsYyvJlniRkpeGoe5zpcYBAQopGXC4Z+BTDR8JLdoEOD
+         V88jb3Ko2M9as9eI9Qr0iuz9SzXWQw5AjNC7hFnkfWYJw4EM1fEvnQS2lXdYIEDXZQnA
+         nY7tNeKRoWpelHmLrOxuSUqt3/up1X9b9cwQdhDzb5wYSPQ3D/F4hmnXwL7TSHyC3s1t
+         oqmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709667529; x=1710272329;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dbu7jPJNusoAIuT8pNXSfufXvY1iYoRgBC5JcoUfIfk=;
+        b=UCMJ40PjC9KEyarKua3VqE7jO5dIjucfK03fVQ0BUOuByd5jIjwkNTV5X00Ira9bmS
+         5x1jRo29icrjrYmynuJXsvICz8llvLkvzXJOPH563GE7DCJkcQD0CzXuLaOoGBWSOW4/
+         9UJx0tTENtdSfkRT0rXE+oFs/G7phxtKByZylF72Yd68Rh+I2lDfKfhTcsnWyal1GBTg
+         CfIRbNKSZQP47ATT9bo4bJ47zN8SLeX+/yHi/UuadmNv5klpdie+OgHAj6ZSUVM/99Cd
+         bt5D3PiXtl/ff1ctZQeOcmDw1hM6SeUDWA7JSW2gZ22x4ofwVmk3E2NCodqlbea0q9rw
+         0shA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnbX+GDrow2V9DmXKinAPcbaP0kVv38TqTsVZIXrd9ELtOh/bs0iRRSoDnwYqlmUd0SIDoK2ulPvkn4SzhdJus7/iA+hGGxEIc
+X-Gm-Message-State: AOJu0YwMuRoyWcR97LhOtitPvwPnCqfiqgLl9uKLKcRbaqE1Bn5+VRoV
+	1Qf5kzVyoVZ5ZIguHcxJKHM5h8QD+SZZPEcBu7sOgZJqG2FvgGakaquecc1Mx+FDKgTfp3YhwhN
+	dsdnhwRafYzFYKKo9FEqfz+xcY2r51wc4n+dJ
+X-Google-Smtp-Source: AGHT+IE9+/I3bSukMGSV69NWucyK49DrCDskm5u3bRNu62YrXsb5GYolXDQb6+2mnF70pbKLSkXCgPSxIq5NsfN3srs=
+X-Received: by 2002:a17:906:b790:b0:a45:b36c:55c7 with SMTP id
+ dt16-20020a170906b79000b00a45b36c55c7mr421516ejb.63.1709667528752; Tue, 05
+ Mar 2024 11:38:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <45d98-65e77400-5-31aa8000@248840925>
+References: <20240305020153.2787423-1-almasrymina@google.com> <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+In-Reply-To: <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 5 Mar 2024 11:38:37 -0800
+Message-ID: <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 05, 2024 at 07:34:34PM +0000, Adrian Ratiu wrote:
-> On Tuesday, March 05, 2024 20:37 EET, Kees Cook <keescook@chromium.org> wrote:
-> 
-> > On Tue, Mar 05, 2024 at 11:32:04AM +0100, Christian Brauner wrote:
-> > > On Tue, Mar 05, 2024 at 02:12:26AM -0800, Kees Cook wrote:
-> > > > On Tue, Mar 05, 2024 at 10:58:25AM +0100, Christian Brauner wrote:
-> > > > > Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
-> > > > > unconditionally it likely would implicitly. But I'm not familiar enough
-> > > > > with FOLL_FORCE to say for sure.
-> > > > 
-> > > > I should phrase the question better. :) Is the supervisor writing into
-> > > > read-only regions of the child process?
-> > > 
-> > > Hm... I suspect we don't. Let's take two concrete examples so you can
-> > > tell me.
-> > > 
-> > > Incus intercepts the sysinfo() syscall. It prepares a struct sysinfo
-> > > with cgroup aware values for the supervised process and then does:
-> > > 
-> > > unix.Pwrite(siov.memFd, &sysinfo, sizeof(struct sysinfo), seccomp_data.args[0]))
-> > > 
-> > > It also intercepts some bpf system calls attaching bpf programs for the
-> > > caller. If that fails we update the log buffer for the supervised
-> > > process:
-> > > 
-> > > union bpf_attr attr = {}, new_attr = {};
-> > > 
-> > > // read struct bpf_attr from mem_fd
-> > > ret = pread(mem_fd, &attr, attr_len, req->data.args[1]);
-> > > if (ret < 0)
-> > >         return -errno;
-> > > 
-> > > // Do stuff with attr. Stuff fails. Update log buffer for supervised process:
-> > > if ((new_attr.log_size) > 0 && (pwrite(mem_fd, new_attr.log_buf, new_attr.log_size, attr.log_buf) != new_attr.log_size))
-> > 
-> > This is almost certainly in writable memory (either stack or .data).
-> 
-> Mostly yes, but we can't be certain where it comes from, because
-> SECCOMP_IOCTL_NOTIF_RECV passes any addresses set by the
-> caller to the supervisor process.
-> 
-> It is a kind of "implementation defined" behavior, just like we
-> can't predict what the supervisor will do with the caller mem :)
-> 
-> > 
-> > > But I'm not sure if there are other use-cases that would require this.
-> > 
-> > Maybe this option needs to be per-process (like no_new_privs), and with
-> > a few access levels:
-> > 
-> > - as things are now
-> > - no FOLL_FORCE unless by ptracer
-> > - no writes unless by ptracer
-> > - no FOLL_FORCE ever
-> > - no writes ever
-> > - no reads unless by ptracer
-> > - no reads ever
-> > 
-> > Which feels more like 3 toggles: read, write, FOLL_FORCE. Each set to
-> > "DAC", "ptracer", and "none"?
-> 
-> I really like this approach because it provides a  mechanism
-> with maximum flexibility without imposing a specific policy.
-> 
-> What does DAC mean in this context? My mind jumps to
-> Digital to Analog Converter :)
+On Tue, Mar 5, 2024 at 4:54=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:
+>
+> On 2024/3/5 10:01, Mina Almasry wrote:
+>
+> ...
+>
+> >
+> > Perf - page-pool benchmark:
+> > ---------------------------
+> >
+> > bench_page_pool_simple.ko tests with and without these changes:
+> > https://pastebin.com/raw/ncHDwAbn
+> >
+> > AFAIK the number that really matters in the perf tests is the
+> > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> > cycles without the changes but there is some 1 cycle noise in some
+> > results.
+> >
+> > With the patches this regresses to 9 cycles with the changes but there
+> > is 1 cycle noise occasionally running this test repeatedly.
+> >
+> > Lastly I tried disable the static_branch_unlikely() in
+> > netmem_is_net_iov() check. To my surprise disabling the
+> > static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> > but the 1 cycle noise remains.
+> >
+>
+> The last sentence seems to be suggesting the above 1 ns regresses is caus=
+ed
+> by the static_branch_unlikely() checking?
 
-Ah yes, sorry, this is Discretionary Access Control (which is my
-short-hand for saying "basic file permissions"). But I guess that's kind
-of not really true since the open() access checks are doing a
-"ptrace-able" check in addition to the file perms check.
+Note it's not a 1ns regression, it's looks like maybe a 1 cycle
+regression (slightly less than 1ns if I'm reading the output of the
+test correctly):
 
-> Shall I give it a try in v3?
+# clean net-next
+time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+2.993 ns (step:0)
 
-Yeah, though maybe see if Mike or Jann chime in over the next few days?
+# with patches
+time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
+3.679 ns (step:0)
 
--Kees
+# with patches and with diff that disables static branching:
+time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+3.248 ns (step:0)
 
--- 
-Kees Cook
+I do see noise in the test results between run and run, and any
+regression (if any) is slightly obfuscated by the noise, so it's a bit
+hard to make confident statements. So far it looks like a ~0.25ns
+regression without static branch and about ~0.65ns with static branch.
+
+Honestly when I saw all 3 results were within some noise I did not
+investigate more, but if this looks concerning to you I can dig
+further. I likely need to gather a few test runs to filter out the
+noise and maybe investigate the assembly my compiler is generating to
+maybe narrow down what changes there.
+
+--=20
+Thanks,
+Mina
