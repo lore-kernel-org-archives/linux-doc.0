@@ -1,202 +1,178 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FF97CF1F;
-	Mon,  4 Mar 2024 23:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709595501; cv=none; b=Ri8zFkdXQyzjM3GnP5RQFTZPXhirT7DC+w7PNPQGamNeaDRAx3edWNo5SaL2N9IlbSYbCms5fzSBLZWuiesFpQ5E9H6HaoNMvOv3L3s1GguofS8IIs/AWv+emwySa4k4RbYbvEDLQneUPzKsHehR5+Yno5AJE2r6dp0fumwAXpw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709595501; c=relaxed/simple;
-	bh=bjapdOzSpG6/EEi9GeF2HdEhMLKu2TdtZOkHv8LOaro=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Esumc27XnIH2X4MOD/cvrSx4wImrdN0QAscpSa14LkvXgI+LXGkOWbhzTMlAUn6yOE3KIgnwXYifYQe4omj0GEg7uqxL6sEJvpdtDWeJodWCX3YI8oyHhW/4i/TKHxFncYP1uQ0yI422AHQmKuMDlBQC36VTc9O1pX5UU7YapNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YgBG4vkN; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CEE7FD;
+	Tue,  5 Mar 2024 00:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709597843; cv=fail; b=UTBCsn8YUflwx4UY6NQ4D/tt9JkMZ5zPng4p2n0OKERhCht8mPZUNB0QxlGPpbbQ5cKTir4EreaCp36per8aLzKBw39KLzx5qRFm7y0pX+Zx068r1tiLoJvR8LWjlO8J2JFyh1CV0Zoo72dlCsmIboWK2jwhS5JFZyeNKl2DeP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709597843; c=relaxed/simple;
+	bh=OrYmlrr5vrLLZ/oqJ5kYt47qEVY6kjWh8GGDAJsr0w4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Kidykim01JJa9CMPJ3EjBPEean5agRGD9MSRX2AhXEYwQoogPZ/TT4pWTXZL8cUvmO/GaRqn7kaCse4Sk65vFpzinzY9v6sCPGOdTN1psQ4VjUmxF0ui2un41g8HPWoZDtgdALYmHXOs1jpoilAAYLex6jUCim90sV1gLkhPyKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MgwU4/ga; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YgBG4vkN"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 424NSdCb005853;
-	Mon, 4 Mar 2024 23:37:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=uKjDd80FGy/SXXVWkcCr2
-	CwjDneS2/5OgR/fSz8cyMA=; b=YgBG4vkN7z+ndBrQN2oDjS0orZ/i3gPbP8Weu
-	nrwmrnVhXZumPT8H7vablWKclm+7KXfO9eIUBhMYjQiUmM1Y/2QOGR0tmz65hFns
-	w5QxnW+Gaz8vSIqjO5r+OsnyHpjecgr3n2CChPrAJPs9zqCqAfU00O1vFkYieTrK
-	A6u+JJ+IjLQc/5RxSGnuAS9MzDpAOlAYklXN/fHj1WqJgCKUGuUiZIywL4OorbnJ
-	/z8dKn416B+iZisK6J/sAcM+MC2ejJrsZiUcjVrewGKciKIrvIIcoLuWn5bZ9Wao
-	tgkxaTlmhR/9U5iLUwt3/CCWmGHuvv41uNwSImj+FGtQnKybw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wnjtbgr6q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 Mar 2024 23:37:52 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 424NbhGk018095
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 4 Mar 2024 23:37:43 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MgwU4/ga"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709597843; x=1741133843;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=OrYmlrr5vrLLZ/oqJ5kYt47qEVY6kjWh8GGDAJsr0w4=;
+  b=MgwU4/gamCHNVRqpVXDvJNX2Ad1ZjXCMJkc3tVgf2P6lF8iQRG44qt5M
+   G09if148VcjZqlNq83FoxRjjSfnsbQ+p+1jYEWJ/fnWH2sciCNWEAYTW+
+   JvVXF3YWoOzLJvQVKdIAqhu5+U950u5qV8AamAK/kpMoF34vt9O3Qgnj0
+   GIcCN4ZkC0uzaNtncspJAn2Vn/Gii5YtSzBvJ1GHRhhIdIoVQGMVvQ+CV
+   vKHBSXefk/8V/Ul1tSjrvCnVINcDOlaxm1jSJWZqSCh4tTXZqtBAQBhue
+   YEg/oAmYhzlO5eca4cXYC+vZJi07qzz9yDsJCiQLgaR8QAEmPiW2GawSv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11003"; a="7943628"
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="7943628"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 16:17:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,204,1705392000"; 
+   d="scan'208";a="9592458"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Mar 2024 16:17:20 -0800
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 16:17:20 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 4 Mar 2024 16:17:19 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 4 Mar 2024 16:17:19 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 4 Mar 2024 15:37:42 -0800
-Date: Mon, 4 Mar 2024 15:37:41 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Quentin Perret <qperret@google.com>
-CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-        Android KVM
-	<android-kvm@google.com>,
-        Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder
-	<elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni
-	<quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Philip Derrin
-	<quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu
-	<quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>,
-        Fuad Tabba <tabba@google.com>,
-        "Sean Christopherson" <seanjc@google.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map
- functions
-Message-ID: <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Quentin Perret <qperret@google.com>, 
-	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>, Android KVM <android-kvm@google.com>, 
-	Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder <elder@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Murali Nalajal <quic_mnalajal@quicinc.com>, 
-	Trilok Soni <quic_tsoni@quicinc.com>, Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
-	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
- <ZeXIWBLVWzVycm0r@google.com>
+ 15.1.2507.35; Mon, 4 Mar 2024 16:17:06 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ghGQfcKL33g00ZgIJsjNP3yxjpkDea+oUbQMjJ9DfqR3Vnp9JY93//UvNmSOSDGl+rnwx7sDvdS+TkZNDjzTKP3rhDwK8DTobgE73qpGdq0pGuqoOIsaFQMljcgsYWJ4dUirbgxaqZvmIxtB5cRXORWAak6vXySbAupy9e6lrhOUqqR7OJ37AqrsMRRkqSUQh19NK/S7d7iZK2UxXbCGyFVJx4+3nRITlyDkyvxJIBBEL/MKFwU6XuHgn6K2bHgalpHlxYmfyL9pTdCnEW5hedRpfbAqWd/33n1zC9pTs7PX9NnZBE2X3TuqAA4csYEfcSZniZLXnMSAcNzaBzGG/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OrYmlrr5vrLLZ/oqJ5kYt47qEVY6kjWh8GGDAJsr0w4=;
+ b=KVF5I9hd1bvMw+lRX/F3ztM28pfsjfUcimxXSD27Dy9OPKt+nvEdJ/y6OUHQ0kF3HlvGkw3nU+htxjXjBZHsQTYCqIw3qv5c4Evy9sX6ODfwynAgjMgs4RgUejDYA2JFI+wWz3LgzDOBRH8dBQ/5wKw8yknh5Ub4EeDOljnbybRmqjeDBbmHFYrz9X05R4kEpvrqKRggFRO365R4f35DGhsgN/QPzIjO9hCyiksWIYxSzrBJ3N6HgRFwSXBNQvUsGnH/rvFZON9InYGoAZGeUEvoU3nMP/xpejX44mcKtalHjiTwNXS3s7brTSSYXKDy/C5H0yN6Gjh90T2Iv60g1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CH3PR11MB8155.namprd11.prod.outlook.com (2603:10b6:610:164::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Tue, 5 Mar
+ 2024 00:17:04 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::d5ce:2b6c:458:3ca9]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::d5ce:2b6c:458:3ca9%7]) with mapi id 15.20.7362.019; Tue, 5 Mar 2024
+ 00:17:03 +0000
+From: "Luck, Tony" <tony.luck@intel.com>
+To: "Chatre, Reinette" <reinette.chatre@intel.com>, "Yu, Fenghua"
+	<fenghua.yu@intel.com>, Peter Newman <peternewman@google.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"x86@kernel.org" <x86@kernel.org>
+CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
+	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, Drew Fustini
+	<dfustini@baylibre.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>
+Subject: RE: [PATCH v4 1/2] x86/resctrl: Pass domain to target CPU
+Thread-Topic: [PATCH v4 1/2] x86/resctrl: Pass domain to target CPU
+Thread-Index: AQHaan2PyoBPXNeezkGw1htb4OlYn7EoPHyAgAASjmA=
+Date: Tue, 5 Mar 2024 00:17:03 +0000
+Message-ID: <SJ1PR11MB60839371908CDC17A01F2167FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20240228112215.8044-tony.luck@intel.com>
+ <20240228193717.8170-1-tony.luck@intel.com>
+ <12766261-26b2-4aa4-a735-c2380c4963fd@intel.com>
+In-Reply-To: <12766261-26b2-4aa4-a735-c2380c4963fd@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ1PR11MB6083:EE_|CH3PR11MB8155:EE_
+x-ms-office365-filtering-correlation-id: b5f41b1b-e566-4309-2d46-08dc3ca995c2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PoO1vnww6be/yIWcRPmCCZn2cp//YK6Wi5R0/UlDEg7S6926B4p/sUWmCL6+VukNuM//S63Fgoz5iILyl50H2+TzbZHtQXeOLMeCSaUJXD+Llb2fqdwFKk584NnYvl5bJ9dphRGJ313k7O4G3PVq3VVh7JQpKpXE+kK+fhhSTeOHOBS3L3cV1eRafDjMeWjCQFQ4RtALLjlWsSXS0SWIeOeCX7D1wMDuf/31xETZdTJ+cJwREMTnEuZbG0OmdUYykggnBrc7TnzVQNdp2bSxA7cj/gGUEyZw5dwLoa78oelyWxEcWhJ8E1ktCbSsWNYc+DX8ZFI7l+3iHK8ffyi5E3OByYQajVix1f7MTMxYAEb4HBgla7S8OJQVeJA/wtmsv1TubQ7zFWYDT4GLBjBSd+CWCDagnuvdMsTqFnrImSnrgQvIjfVTPwS9IBvFFGHjAGwo9QlrQoHIRSJkAnM4uykPNRHKGtcXyqHh9+3ZQfnUeTH9+1ZiBz7DiwvjeHlAnE18W4XFMR9BOtr9huWp48l9SDQ7BXGnza1LyUN/5TdHerXtZC4HMFBo0n720HSoVXfnWh+VTsqKnfz+LTI0+DB2zGqCYeg6BQcbNHoYvdiCyNC83LFcEb5X9c9R3wdDr+yATdRQ1JIw9VUTGenxljy+Q+Cn5P6gcW/H+atI93+MBlebT4po9CMU66i0hbB/scHbM+rS0nTyrmzwcwCIA5gjV2uOoEmzXI4rvtSE5TY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TXQ2Y2pEcmtBYjlIcWNBR3FaMm9lbUhDTEVXY0l4Q1hoSURVYlhpQTZKMW92?=
+ =?utf-8?B?Z29SYkdCOWtSZ0dqNldGR0xTeUorcEw2clFSbFdKa2lTMXU0ZWorSXFaR3oy?=
+ =?utf-8?B?d01iTFBIVDNuQThVblZQMXFoU2N5RmlVWTRVbE84NXZScE9uNGNNWE9oaUYy?=
+ =?utf-8?B?SEFYM3Y3VXNsRlBSL0Z5R0ZnTmo2T2s0RVoyS00xaktrVmo0SGJwQjg2dHFJ?=
+ =?utf-8?B?L2g4Y0gzbW53a25yV1o5bkNrRGtLczUzN1AzSE8yelF1K2hwYkFYc3poWWJ1?=
+ =?utf-8?B?UjJTZzBqdkl4RG5BUVFhYnpTbjd6d3kwVW42QzJNdWprWjRIVzh0S1hNK2dC?=
+ =?utf-8?B?enIrS012enVhdjQ5SzB5bEVZOTdUV2ZseW1HSklqNFVMY0cyaUVLVmFhRlhM?=
+ =?utf-8?B?cWNpZDloLzE3LzZEUGRUMk5SNVpnZ0VabHJZa1NMNDdyMjZtVnNteitXNXpI?=
+ =?utf-8?B?enc5WVJIL3psS3Q1T3hUbXptOE9UNXkxVnV5QlNpVWF1VlZLa0ZPcnJuUmxG?=
+ =?utf-8?B?VHJYUmlGcThsZENJdmVBLzB6TVRkMVNOTGN1TWJvRGI3UFdQWkdLeWNFVEY4?=
+ =?utf-8?B?eVArVjI2dTRha0xBVUZSTkVFTktObnlFUmpoRnY3RnBRMlZSdkN2TzVqSnMx?=
+ =?utf-8?B?a25zbEx2MytycGIwSTJUSXY2b0NYYlEveXVhdVd2RzlUVTVVWUJkZU5pRFdW?=
+ =?utf-8?B?Qnp3VmYxNUVqa28vWFlsVWNQbUJoaHBoVTlDaHIyTTFOMWhIUDNNWWhvWE5u?=
+ =?utf-8?B?WUdSV0FMajRocnFmWUl5VkR2SjZtOTU3ODFaUDhZbnBOM2Zrck5qZDdFOGV2?=
+ =?utf-8?B?Ym1pVVErMkdzWnhQblB4bUU2WDdtYXpYSjVURnhJajZVRGNSNVdEQnMrMWJu?=
+ =?utf-8?B?TGJ1S3ZOYnh4ellFZDBtdGJxM05Gb2ZibzRndS8xS0J5dmdtMTM3UXRsRHJP?=
+ =?utf-8?B?VkZvMGc3aTRNSjdkWXJvUTRtNndZbC91RllXc0NNdTZ4WnM2K3RmUTlpQkZC?=
+ =?utf-8?B?WC9WLzRObXFNVWJLOEF4RUlBUHJwY2huTFlteFFna2l2WjlVVWxPenhWSzJI?=
+ =?utf-8?B?aStkSUkxWHZtaUpBVFIzV2RmT1JBKzlwaUxmM2FVSkxkempmM3lOM3dhdmdE?=
+ =?utf-8?B?VjRMYkJ6OHgybEdyMGxQN3hLMWJrU0RGalB5bTBPNDA3dkxKMFR2OG1Eeno0?=
+ =?utf-8?B?Rm1DbCtJZUpjUlhsMndxU0ZwM3V3aVVENVkyQjMvYSt2ZUljOHpkek1iU3dV?=
+ =?utf-8?B?Qi84MVZNTElWRU1NblVvUkIrSlJpL29UR3BKZ2dUUWFwMXloK2hSbExrbTZC?=
+ =?utf-8?B?T0lKeFdqQms3emJwNlUvclNwYUQvZFdoeGlQZXpHNldVNW4wdDFTYzBKeGhY?=
+ =?utf-8?B?NVVuRHVubGFndW5IdEMvRG9TSDZza0FjRG1kcnRyRUtNRXpIcVd6dmhTcVY5?=
+ =?utf-8?B?N0tCc1lmeTIzblFWZG5BK0dKTHJDZ0xMdHpSSEpOYUs4SGpxVlVQNkxOSUlo?=
+ =?utf-8?B?NTRxd1lkdXZCUG81UlBjcmw1TzZTVjJqUFB0cyt2RW5PblF6elRTNHk4MCtu?=
+ =?utf-8?B?RjAzTHB4WENHUXJCQUlnZGVpTVVjcnY2dVZ3WG9yZ0tUSzRjMk05ODRVUlZK?=
+ =?utf-8?B?eFVMNm5lSE1uNUFVWkVjTnE5NFVnZjI3Q3d3WE1JNFVySGh1MmlWS1dqQWFk?=
+ =?utf-8?B?V0dvOVlKZEMwK1lSbGs5RDEyNWF3NDFBbFVxSnJoU2p3dE5DZGZzTVZkOFF1?=
+ =?utf-8?B?aDUwTmFxemIvZ0k1NGhsWDdJeG44M3FYbDJ5L1JuSXd5VFJmRndadDlxOEpY?=
+ =?utf-8?B?NUUvUzNXU3ZsZjNaS1RQRE9WWVArc0psQ2RVR0Y4VGRKdVRDZUNWVitrZVpM?=
+ =?utf-8?B?WERVMGNTY243TU54Q1g1bjJmRkgranIyYWpkZDBsK0szR1UwbWV4RHk1RUs3?=
+ =?utf-8?B?RGxyVGppSUJibFFwWjN0a3lSd0d0elNzcTFYeWJ1Nzh1K01JZU9FYTBPSVQ3?=
+ =?utf-8?B?Tlo0K21NM2p3akVRREpjbmFQVXJYVVRwSnJ6YTJHampIS2UzaVdCYkJHcjlD?=
+ =?utf-8?B?cHdKT0tQR0FobG02TUExbm9SVHdJWnFNVXJUNkhxRE1ISWJ6QjZrSENSSDd0?=
+ =?utf-8?Q?HCOzuu55wH384wbP9hfCR4gP2?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZeXIWBLVWzVycm0r@google.com>
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: sjPu5sIWWRGDh-oe0xUU5hU_E0NcZLdz
-X-Proofpoint-ORIG-GUID: sjPu5sIWWRGDh-oe0xUU5hU_E0NcZLdz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-04_18,2024-03-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 mlxscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403040182
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5f41b1b-e566-4309-2d46-08dc3ca995c2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2024 00:17:03.9192
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wXtNuQ1miGY9eBCeg/WZeponaUlXUxXtNxR/Tgs0PheAQROnPXMx76WmL7QPvcvPcOYpn3VuFy4KSvyTFz3eEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8155
+X-OriginatorOrg: intel.com
 
-On Mon, Mar 04, 2024 at 01:10:48PM +0000, Quentin Perret wrote:
-> On Friday 23 Feb 2024 at 16:37:23 (-0800), Elliot Berman wrote:
-> > On Thu, Feb 22, 2024 at 11:09:40PM -0800, Christoph Hellwig wrote:
-> > > On Thu, Feb 22, 2024 at 03:16:42PM -0800, Elliot Berman wrote:
-> > > > Firmware and hypervisor drivers can donate system heap memory to their
-> > > > respective firmware/hypervisor entities. Those drivers should unmap the
-> > > > pages from the kernel's logical map before doing so.
-> > > > 
-> > > > Export can_set_direct_map, set_direct_map_invalid_noflush, and
-> > > > set_direct_map_default_noflush.
-> > > 
-> > > Err, not they should not.  And not using such super low-level interfaces
-> > > from modular code.
-> > 
-> > Hi Cristoph,
-> >  
-> > We've observed a few times that Linux can unintentionally access a page
-> > we've unmapped from host's stage 2 page table via an unaligned load from
-> > an adjacent page. The stage 2 is managed by Gunyah. There are few
-> > scenarios where even though we allocate and own a page from buddy,
-> > someone else could try to access the page without going through the
-> > hypervisor driver. One such instance we know about is
-> > load_unaligned_zeropad() via pathlookup_at() [1].
-> >  
-> > load_unaligned_zeropad() could be called near the end of a page. If the
-> > next page isn't mapped by the kernel in the stage one page tables, then
-> > the access from to the unmapped page from load_unaligned_zeropad() will
-> > land in __do_kernel_fault(), call fixup_exception(), and fill the
-> > remainder of the load with zeroes. If the page in question is mapped in
-> > stage 1 but was unmapped from stage 2, then the access lands back in
-> > Linux in do_sea(), leading to a panic().
-> >  
-> > Our preference would be to add fixup_exception() to S2 PTW errors for
-> > two reasons:
-> > 1. It's cheaper to do performance wise: we've already manipulated S2
-> >    page table and prevent intentional access to the page because
-> >    pKVM/Gunyah drivers know that access to the page has been lost.
-> > 2. Page-granular S1 mappings only happen on arm64 with rodata=full.
-> >  
-> > In an off-list discussion with the Android pkvm folks, their preference
-> > was to have the pages unmapped from stage 1. I've gone with that
-> > approach to get started but welcome discussion on the best approach.
-> >  
-> > The Android (downstream) implementation of arm64 pkvm is currently
-> > implementing a hack where s2 ptw faults are given back to the host as s1
-> > ptw faults (i.e. __do_kernel_fault() gets called and not do_sea()) --
-> > allowing the kernel to fixup the exception.
-> >  
-> > arm64 pKVM will also face this issue when implementing guest_memfd or
-> > when donating more memory to the hyp for s2 page tables, etc. As far as
-> > I can tell, this isn't an issue for arm64 pKVM today because memory
-> > isn't being dynamically donated to the hypervisor.
-> 
-> FWIW pKVM already donates memory dynamically to the hypervisor, to store
-> e.g. guest VM metadata and page-tables, and we've never seen that
-> problem as far as I can recall.
-> 
-> A key difference is that pKVM injects a data abort back into the kernel
-> in case of a stage-2 fault, so the whole EXTABLE trick/hack in
-> load_unaligned_zeropad() should work fine out of the box.
-> 
-> As discussed offline, Gunyah injecting an SEA into the kernel is
-> questionable, but I understand that the architecture is a bit lacking in
-> this department, and that's probably the next best thing.
->
-> Could the Gunyah driver allocate from a CMA region instead? That would
-> surely simplify unmapping from EL1 stage-1 (similar to how drivers
-> usually donate memory to TZ).
-
-In my opinion, CMA is overly restrictive because we'd have to define the
-region up front and we don't know how much memory the virtual machines
-the user will want to launch.
-
-Thanks,
-Elliot
-
+PiA+ICsgICAgICAgICAgICAgICAgICAgY3B1ID0gY3B1bWFza19hbnkoJmQtPmNwdV9tYXNrKTsN
+Cj4gPg0KPg0KPiBjcHUgb25seSBuZWVkcyB0byBiZSBhc3NpZ25lZCBvbmNlLiBIb3cgYWJvdXQg
+aW5pdGlhbGl6aW5nIGNwdSB0bw0KPiBucl9jcHVfaWRzIGF0IHRoZSBzYW1lIHRpbWUgbXNyX3Bh
+cmFtLnJlcyBhbmQgbXNyX3BhcmFtLmRvbSBpcw0KPiBpbml0aWFsaXplZCBhbmQgb25seSBhc3Np
+Z24gaXQgd2hlbiBtc3JfcGFyYW0ucmVzIGlzIGFzc2lnbmVkPw0KPiBJIHRoaW5rIHRoYXQgd2ls
+bCBiZSBtb3JlIHJvYnVzdC4NCj4NCj4gSWYgeW91IGFncmVlIGFuZCBkbyB0aGlzIHRoZW4gcGxl
+YXNlIGZlZWwgZnJlZSB0byBhZGQ6DQo+IFJldmlld2VkLWJ5OiBSZWluZXR0ZSBDaGF0cmUgPHJl
+aW5ldHRlLmNoYXRyZUBpbnRlbC5jb20+DQoNClJlaW5ldHRlLA0KDQpJIGFncmVlLiBJJ2xsIG1v
+dmUgdGhlIGFzc2lnbm1lbnQgdG8gImNwdSIgb3V0c2lkZSB0aGUgQ0RQX05VTV9UWVBFUw0KbG9v
+cC4NCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQotVG9ueQ0KDQo=
