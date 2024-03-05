@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C53338FA7;
-	Tue,  5 Mar 2024 02:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D3D18046;
+	Tue,  5 Mar 2024 02:47:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709606451; cv=none; b=VgxrWWTUgMVoxkrv4hGEBj33D9t26oBvZqO1MN6IZ0GyUcNgMcUPqoURcvtW4zJtcCvcFIrwiatErscsIUeY8lgUi7paIi00xzTjXAJsTxsYEZte9wWjrobdawU7nEJY3DdGtoYaGZmU8C6XCBMbuZlGZJFN61wfeslo/KIpOXU=
+	t=1709606860; cv=none; b=U0Tl68XceqY7hDKz6EoJZdCa0k30ZWNCfZabSB+Dk3NYUs9Zq93tVOOGS96yPuxCsWJDQ6Q6KtgNs09+ZU1AdE90Qux+drMSsJgG70dhbsbsN79AbmHV7fm5lkwiu6gxTo1WFUtUmXZOqRWMGKvQ6pYdIAjtGxeSCrkyZCnMPTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709606451; c=relaxed/simple;
-	bh=CQzMKNCwVTjpr3SSD1NmN7SsJXn83hglz+/F6GSKw3Q=;
+	s=arc-20240116; t=1709606860; c=relaxed/simple;
+	bh=0T1Pf6i0U9jq7TnISrUd+TgQ25I5SY6Dtbz66ISnEuI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uiML74pgTHOWDWAJn65J5pezYZJbDGM996gyBa6Y/YSjwj7K95Ml6y2q0IttDxf/2++Yk+LfWSrXpu2qov6hCZGE0yqGFTFiFdtzDm9/i5UrMgnSJ7XHR4EZWvsVLRx9fDhzmE4ao67sOfoFGVwmDIfeg6lXD6O7diEvfkzntx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BM+i0cEA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cnOH8Js59H4lT7WCCpPZEK/7OTUQKKo3fBxgLyZ8GKBxNB6grnONegb5ysT97rVIcwV5Dgoh3vkGhtSHJtwWiSOfLK9Ea0rf3+iqo0lRDuEzrFp0M7fbk7QXJAVrdtUh6sC8MLueQfrEUKfC+MDeEJlNzqgnaL4+/Qu1O7frKHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NntN6rcQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BM+i0cEA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53716C433F1;
-	Tue,  5 Mar 2024 02:40:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NntN6rcQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBFCC433F1;
+	Tue,  5 Mar 2024 02:47:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709606450;
-	bh=CQzMKNCwVTjpr3SSD1NmN7SsJXn83hglz+/F6GSKw3Q=;
+	s=k20201202; t=1709606859;
+	bh=0T1Pf6i0U9jq7TnISrUd+TgQ25I5SY6Dtbz66ISnEuI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BM+i0cEAgMy8ZPWrCMe8NFXsg2Ndg/+9RJ4RICl2m7QwcbkSUTM8OVLs2rNiV8jDD
-	 q8312IGOEx/Io5NWkO9Q3ijsN/l71S9NUJso4ja/DCx3EtQR/stuQgSQaGZao/CvIA
-	 bz340722QkXYzabtrNwwvJA7DqWlsSjwyEDfPkUB+H0RdiTN2eBm8YglGYbtnFlTWc
-	 vo329/BB45dAeDOoLooX5f45PiR7HjAE+kKrP6vrOAVkD0QzUaxw4WaoGZ0k1xh61s
-	 EUXbGjI+EmHuKj6u0Ya14r6fEl2ws5OMJxUVkIQu4CTqYIWjhRaNI94tGtMTszWWKi
-	 de8IyeNdIHmMg==
-Date: Mon, 4 Mar 2024 18:40:48 -0800
+	b=NntN6rcQrBzH+ryrj/O7wjmTpVTbXFR6scbPvOAVGwp8pyy9wCL/Q6TM5UzuXim7R
+	 5RhzKsRZyp9/sauT3Z2R9Nxr4epg6SDfH3ysSmAQINHlhpRnlbJgdXG5s9m1eza7UZ
+	 5/IyXBss8WTcXet09VmIAO9AwChSJqrDtOq5L/bXyjXuRNJ0dtOg1aJhlpAbPqr3gL
+	 g4/pF0lWyUP3BamLZ1Dj5t9oh9nRw4T3ByM3+Y7DZzw5+uXxSQtgUe/OCaYeq/aNAV
+	 CN5R5HR5e6tx0IrwxN/BFSaU1c6EhD/mYqHJPzmi2O/VgCuicAOypi8XE2kqSE7QmR
+	 Ywu4vPc11BmJw==
+Date: Mon, 4 Mar 2024 18:47:37 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
@@ -45,12 +45,11 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
  <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
  <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 02/13] net: Make dev_get_hwtstamp_phylib
- accessible
-Message-ID: <20240304184048.1c1724fa@kernel.org>
-In-Reply-To: <20240226-feature_ptp_netnext-v9-2-455611549f21@bootlin.com>
+Subject: Re: [PATCH net-next v9 07/13] ptp: Move from simple ida to xarray
+Message-ID: <20240304184737.30cac57b@kernel.org>
+In-Reply-To: <20240226-feature_ptp_netnext-v9-7-455611549f21@bootlin.com>
 References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-2-455611549f21@bootlin.com>
+	<20240226-feature_ptp_netnext-v9-7-455611549f21@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,23 +59,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 26 Feb 2024 14:39:53 +0100 Kory Maincent wrote:
-> Make the dev_get_hwtstamp_phylib function accessible in prevision to use
-> it from ethtool to read the hwtstamp current configuration.
+On Mon, 26 Feb 2024 14:39:58 +0100 Kory Maincent wrote:
+> +static DEFINE_XARRAY_FLAGS(ptp_clocks_map, XA_FLAGS_LOCK_IRQ | XA_FLAGS_ALLOC);
 
-ethtool can't be a module, exports are only needed for code which ends
-up being called from modules. 
+Why _IRQ? anything on the fastpath hopefully has a pointer to the clock
+already, I'd hope. And we often reserve ID 0 as invalid.
 
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index f07c8374f29c..7f78aef73fe1 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -4005,6 +4005,8 @@ int generic_hwtstamp_set_lower(struct net_device *dev,
->  int dev_set_hwtstamp_phylib(struct net_device *dev,
->  			    struct kernel_hwtstamp_config *cfg,
->  			    struct netlink_ext_ack *extack);
-> +int dev_get_hwtstamp_phylib(struct net_device *dev,
-> +			    struct kernel_hwtstamp_config *cfg);
+IOW DEFINE_XARRAY_ALLOC1() ?
 
-since we don't expect modules to call this, how about we move dev_set*
-and the new declaration to net/core/dev.h ?
+BTW could be a standalone patch, Xarray conversion from IDA is an
+improvement in itself.
