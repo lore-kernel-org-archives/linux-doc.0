@@ -1,144 +1,139 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C22971756;
-	Tue,  5 Mar 2024 10:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D6D59B69;
+	Tue,  5 Mar 2024 10:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709633824; cv=none; b=Ovvm9ungjNDE2i2MSKTdXUhN/Xn6Ph65apPpqeLqekFHj2Kzv5sdhIq3Yd546Orx/EhVQKPKCDJ2oeeOw3mQbtdmDXQbYQa3IKB5C8tpvsSEFqgs2ZUmk7XuAYag9ZbczzSYHffQaLkBipi8PwbEXzbZiwTcT/NxS7dOwFUXCfI=
+	t=1709633894; cv=none; b=s58GNw2i9KvzYaiJfiuWXzg9IFKmxD0dHaCN51mq3jYiY7LpNpkSPW8KBjRTTuMOmr5/D+M7L3l8u3e3b+i9ut02n4DgDMrM2VaJrLXVOR0RMhLnifFc/J0d1zVQ9II4F1/8IbDwnVU1XydbUtmDfQa35ML5/Kckli8HYtd6a50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709633824; c=relaxed/simple;
-	bh=ScnhOlxqOqXKHeNtlmJscUOvM1RwyxtzC8+4oNY2t0M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YHoewUgu4LFjRQKpnxcMk0gVW8/z/0cFwh9ojv/+hflUDL7xoxGgzoUCGyOlNfcjc/wE5PWNU3cf4XJcZL7DHRbQXmkL1AbT8IAYNTt23prvYaISLbrjVBs/5sLH7ltvVuLYYyc6fX6WC4775Xkp8af8I9kpl9UcJxPEqQm+Rso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=gyHfXlzf; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="gyHfXlzf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1709633814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ScnhOlxqOqXKHeNtlmJscUOvM1RwyxtzC8+4oNY2t0M=;
-	b=gyHfXlzfeV7oeX4Z0Gh6LxaNFE6QK96VFIzjigpmrrVZ7WqArbmszHgF9puU2wdmZD1ILM
-	rYQBH3lbQw2dkIp7FMjvP1eioLsm5BRg6Zb/Zy0/Euz0MPS+CyWMCBgXiP71CGnzQA5tcg
-	TxWouUfeF0fkyGktmza3jbeFN/872Kg=
-Message-ID: <8d996c3d8238abf00882090caaa349bb5d3c26d3.camel@crapouillou.net>
-Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Nuno
-	=?ISO-8859-1?Q?S=E1?=
-	 <noname.nuno@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>, Vinod
- Koul <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
- <daniel@ffwll.ch>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-iio@vger.kernel.org,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org
-Date: Tue, 05 Mar 2024 11:16:52 +0100
-In-Reply-To: <20240305100742.00006a4c@Huawei.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	 <20240303174245.37efc0b0@jic23-huawei>
-	 <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
-	 <20240305100742.00006a4c@Huawei.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1709633894; c=relaxed/simple;
+	bh=9myxDhk4TNn/N489RdupuuwTHA5CKFuSgRTP3HfAFNg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nIuGp/d37zByJUrMjrUwjekSOB7Q/lcPFmKWIQF/VEZhbbP2s/N/PakXFJO+18k9jsCOuUjr50KwCOQRYfJh4AGD65SqTblUhGfIioAFAek7GEBhqy89UVplyfOB2Wkm524hfcdpN3hr5PITBdJX/8y//Zp8qSCGnjzhkBtZsxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D0DAE1FB;
+	Tue,  5 Mar 2024 02:18:47 -0800 (PST)
+Received: from mango.localdomain (unknown [10.57.11.67])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1C9B43F762;
+	Tue,  5 Mar 2024 02:18:08 -0800 (PST)
+From: Balint Dobszay <balint.dobszay@arm.com>
+To: op-tee@lists.trustedfirmware.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: jens.wiklander@linaro.org,
+	sumit.garg@linaro.org,
+	corbet@lwn.net,
+	balint.dobszay@arm.com,
+	sudeep.holla@arm.com,
+	rdunlap@infradead.org,
+	krzk@kernel.org,
+	gyorgy.szing@arm.com
+Subject: [PATCH v3 0/4] TEE driver for Trusted Services
+Date: Tue,  5 Mar 2024 11:17:41 +0100
+Message-Id: <20240305101745.213933-1-balint.dobszay@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Jonathan,
+This series introduces a TEE driver for Trusted Services [1].
 
-Le mardi 05 mars 2024 =C3=A0 10:07 +0000, Jonathan Cameron a =C3=A9crit=C2=
-=A0:
-> On Mon, 04 Mar 2024 08:59:47 +0100
-> Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
->=20
-> > On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
-> > > On Fri, 23 Feb 2024 13:13:58 +0100
-> > > Nuno Sa <nuno.sa@analog.com> wrote:
-> > > =C2=A0=20
-> > > > Hi Jonathan, likely you're wondering why I'm sending v7. Well,
-> > > > to be
-> > > > honest, we're hoping to get this merged this for the 6.9 merge
-> > > > window.
-> > > > Main reason is because the USB part is already in (so it would
-> > > > be nice
-> > > > to get the whole thing in). Moreover, the changes asked in v6
-> > > > were simple
-> > > > (even though I'm not quite sure in one of them) and Paul has no
-> > > > access to
-> > > > it's laptop so he can't send v7 himself. So he kind of
-> > > > said/asked for me to
-> > > > do it.=C2=A0=20
-> > >=20
-> > > So, we are cutting this very fine. If Linus hints strongly at an
-> > > rc8 maybe we
-> > > can sneak this in. However, I need an Ack from Vinod for the dma
-> > > engine
-> > > changes first.
-> > >=20
-> > > Also I'd love a final 'looks ok' comment from DMABUF folk (Ack
-> > > even better!)
-> > >=20
-> > > Seems that the other side got resolved in the USB gadget, but
-> > > last we heard
-> > > form
-> > > Daniel and Christian looks to have been back on v5. I'd like them
-> > > to confirm
-> > > they are fine with the changes made as a result.=20
-> > > =C2=A0=20
-> >=20
-> > I can ask Christian or Daniel for some acks but my feeling (I still
-> > need, at
-> > some point, to get really familiar with all of this) is that this
-> > should be
-> > pretty similar to the USB series (from a DMABUF point of view) as
-> > they are both
-> > importers.
-> >=20
-> > > I've been happy with the IIO parts for a few versions now but my
-> > > ability to
-> > > review
-> > > the DMABUF and DMA engine bits is limited.
-> > >=20
-> > > A realistic path to get this in is rc8 is happening, is all Acks
-> > > in place by
-> > > Wednesday,
-> > > I get apply it and hits Linux-next Thursday, Pull request to Greg
-> > > on Saturday
-> > > and Greg
-> > > is feeling particularly generous to take one on the day he
-> > > normally closes his
-> > > trees.
-> > > =C2=A0=20
-> >=20
-> > Well, it looks like we still have a shot. I'll try to see if Vinod
-> > is fine with
-> > the DMAENGINE stuff.
-> >=20
->=20
-> Sadly, looks like rc7 was at the end of a quiet week, so almost
-> certain to not
-> be an rc8 in the end. Let's aim to get this in at the start of the
-> next cycle
-> so we can build on it from there.
+Trusted Services is a TrustedFirmware.org project that provides a
+framework for developing and deploying device Root of Trust services in
+FF-A [2] Secure Partitions. The project hosts the reference
+implementation of Arm Platform Security Architecture [3] for Arm
+A-profile devices.
 
-And it looks like I'll need a V8 for the few things noted by Christian.
+The FF-A Secure Partitions are accessible through the FF-A driver in
+Linux. However, the FF-A driver doesn't have a user space interface so
+user space clients currently cannot access Trusted Services. The goal of
+this TEE driver is to bridge this gap and make Trusted Services
+functionality accessible from user space.
 
-Having it in 6.9 would have been great but having it eventually merged
-is all that matters - so I'm fine to have it queued for 6.10 instead.
+Changelog:
+v2[6] -> v3:
+  - Add patch "tee: Refactor TEE subsystem header files" from Sumit
+  - Remove unnecessary includes from core.c
+  - Remove the mutex from "struct ts_context_data" since the same
+    mechanism could be implemented by reusing the XArray's internal lock
+  - Rename tee_shm_pool_op_*_helper functions as suggested by Sumit
+  - Replace pr_* with dev_* as previously suggested by Krzysztof
 
-Cheers,
--Paul
+v1[5] -> v2:
+  - Refactor session handling to use XArray instead of IDR and linked
+    list (the linked list was redundant as pointed out by Jens, and IDR
+    is now deprecated in favor of XArray)
+  - Refactor tstee_probe() to not call tee_device_unregister() before
+    calling tee_device_register()
+  - Address comments from Krzysztof and Jens
+  - Address documentation comments from Randy
+  - Use module_ffa_driver() macro instead of separate module init / exit
+    functions
+  - Reformat max line length 100 -> 80
+
+RFC[4] -> v1:
+  - Add patch for moving pool_op helper functions to the TEE subsystem,
+    as suggested by Jens
+  - Address comments from Sumit, add patch for documentation
+
+[1] https://www.trustedfirmware.org/projects/trusted-services/
+[2] https://developer.arm.com/documentation/den0077/
+[3] https://www.arm.com/architecture/security-features/platform-security
+[4] https://lore.kernel.org/linux-arm-kernel/20230927152145.111777-1-balint.dobszay@arm.com/
+[5] https://lore.kernel.org/lkml/20240213145239.379875-1-balint.dobszay@arm.com/
+[6] https://lore.kernel.org/lkml/20240223095133.109046-1-balint.dobszay@arm.com/
+
+
+Balint Dobszay (3):
+  tee: optee: Move pool_op helper functions
+  tee: tstee: Add Trusted Services TEE driver
+  Documentation: tee: Add TS-TEE driver
+
+Sumit Garg (1):
+  tee: Refactor TEE subsystem header files
+
+ Documentation/tee/index.rst         |   1 +
+ Documentation/tee/ts-tee.rst        |  71 ++++
+ MAINTAINERS                         |   1 +
+ drivers/tee/Kconfig                 |   1 +
+ drivers/tee/Makefile                |   1 +
+ drivers/tee/amdtee/amdtee_private.h |   2 +-
+ drivers/tee/amdtee/call.c           |   2 +-
+ drivers/tee/amdtee/core.c           |   3 +-
+ drivers/tee/amdtee/shm_pool.c       |   2 +-
+ drivers/tee/optee/call.c            |   2 +-
+ drivers/tee/optee/core.c            |  66 +---
+ drivers/tee/optee/device.c          |   2 +-
+ drivers/tee/optee/ffa_abi.c         |   8 +-
+ drivers/tee/optee/notif.c           |   2 +-
+ drivers/tee/optee/optee_private.h   |  14 +-
+ drivers/tee/optee/rpc.c             |   2 +-
+ drivers/tee/optee/smc_abi.c         |  11 +-
+ drivers/tee/tee_core.c              |   2 +-
+ drivers/tee/tee_private.h           |  35 --
+ drivers/tee/tee_shm.c               |  66 +++-
+ drivers/tee/tee_shm_pool.c          |   2 +-
+ drivers/tee/tstee/Kconfig           |  11 +
+ drivers/tee/tstee/Makefile          |   3 +
+ drivers/tee/tstee/core.c            | 482 ++++++++++++++++++++++++++++
+ drivers/tee/tstee/tstee_private.h   |  92 ++++++
+ include/linux/tee_core.h            | 306 ++++++++++++++++++
+ include/linux/tee_drv.h             | 285 ++--------------
+ include/uapi/linux/tee.h            |   1 +
+ 28 files changed, 1087 insertions(+), 389 deletions(-)
+ create mode 100644 Documentation/tee/ts-tee.rst
+ create mode 100644 drivers/tee/tstee/Kconfig
+ create mode 100644 drivers/tee/tstee/Makefile
+ create mode 100644 drivers/tee/tstee/core.c
+ create mode 100644 drivers/tee/tstee/tstee_private.h
+ create mode 100644 include/linux/tee_core.h
+
+-- 
+2.34.1
+
