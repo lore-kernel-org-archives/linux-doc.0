@@ -1,186 +1,140 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F7C1DDF4;
-	Tue,  5 Mar 2024 10:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F9E1C6AD;
+	Tue,  5 Mar 2024 11:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709636171; cv=none; b=lnC2D1jWfZIBazvM0k3dhLGGcwcQ6clOCnR3ygiKLFsTTRkPx/DUM4uR2Kp983laJI6n1OGPkSU9+NPLSQriyMGtoJlnJa7ji+KWK+ojvfzxy5JdPFy4KqUPxKSzzZGHKF3UTONFNYyHWcnlfPR1XVmJ5V4cSdbSnAsWpI2HNoQ=
+	t=1709636608; cv=none; b=Pyrl6H2zxjTcrU+bL+W2Vy5+cq1mAIIqWYP1CPMFpTCnfhYreHr3T6Qu0bd3Mqwyth0wHR7F1xlqIX13MPuMJsym8tqGCIxA4gnJCjiQ3GkOcTjDahy5YzBUD0KMGde3/wy4N2U8VE3cDGi8/Vst7bOX5hEaMa1Hlo8PV0GVEyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709636171; c=relaxed/simple;
-	bh=6zTJKCs/LiRl+e1EgZBrXxHh0+0Q7evrHJ9ZMxfH5Qw=;
+	s=arc-20240116; t=1709636608; c=relaxed/simple;
+	bh=CWsbl+d48blGuvvq/hiJnHb8eCwdGeKP67OqIvqbKVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScVppITccDUweg2NJUuLhW+GgumIFP5efz211V1a7hXLRbVx65NtqGm21Zf7oNKXOUv2JOAWdlyuy0OXmHW8HhsGUs2cEsRopsiLJht9WEUuMm/H2adqHlqkStWgDvOihgNLp+p7JJNoQkAPtZ/rfVb59qUBNIcRE+uHBehdCtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sZhdRbGP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bsu6cyvk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hNE3TfRM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9RKvI0Ye; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=ot0DIbjPB4Aue9PVlYegehm+sEX+PIvaSejlrfuzk4+wiJLYiW5Nwz7nkDfy2zm/NARMjf6PhG/bcnmjdi7A3K+Xq4u3zgDUFJcrdISkwK/JxBIIv5pOWLjkLnR6ffSIyhZTgaK9yrdv6dZ4y+JZ1tcN+cPJ59cWeez3J9xN3F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvBaNGpK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sZhdRbGP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bsu6cyvk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hNE3TfRM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9RKvI0Ye"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id ECF26767C2;
-	Tue,  5 Mar 2024 10:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709636167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
-	b=sZhdRbGP11tYX1Hs1zl37OdKGHJCVJOfLFmA5cMKFT95KWhpxDBqtTxUbgy2Ky9F7rlvzz
-	EzL2Gy+/gTcqVSAs2NHjTJ+Hadx0vajC5AqROepMMTjEU2i/FhpR6VXPOoIOZHqVkelq6j
-	XsNB+KqSXtIsKRrREaC6gPn30Tp9kjA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709636167;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
-	b=Bsu6cyvkv+DgWW8aXCAdbl2VoyAnKfTMmlGRXcCTnBYZDjEmuG5PUeHmU4/zKt3ycseeC6
-	dPXqCSROq/+4dYBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1709636165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
-	b=hNE3TfRMSXwY63+QnZjvh1CAvBbxFEoGhWr2Ud282dTWjPHLGoBQQ1QEIDnsSIWOrdmqYu
-	50TNuZ3ovCIxcsHSThZPwiw/rNKntDNqL0/ssupLSv5PL+qLx6iN8ZvwMtQTiivncqR89k
-	Okbyz0cWTC7Cp6dndWFkp2uVH/l4Mjo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1709636165;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
-	b=9RKvI0YeQLL2//ciZ5iSbZZzt/QoYxvS3pyUmL0TmS/xQGGOxjO8iCBLB9V50A2rxLxOUq
-	JofBGjCPa2BaJaCw==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D0E4C13466;
-	Tue,  5 Mar 2024 10:56:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id nNeEMUX65mVoBwAAn2gu4w
-	(envelope-from <aporta@suse.de>); Tue, 05 Mar 2024 10:56:05 +0000
-Date: Tue, 5 Mar 2024 11:56:05 +0100
-From: Andrea della Porta <aporta@suse.de>
-To: Andrea della Porta <andrea.porta@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arm64: Add the arm64.no32bit_el0 command line option
-Message-ID: <Zeb6RX2wpBvuJiIZ@apocalypse>
-Mail-Followup-To: Andrea della Porta <andrea.porta@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20240207105847.7739-1-andrea.porta@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvBaNGpK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E302C433C7;
+	Tue,  5 Mar 2024 11:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709636607;
+	bh=CWsbl+d48blGuvvq/hiJnHb8eCwdGeKP67OqIvqbKVs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lvBaNGpKF8VbnuFraQMyOVDjcZgCgt9N6u7Ba5VZKyfQsdEyYA0cX5A/9SD8FaRZ3
+	 3XFOhrmT0dsEU6YRaOGcrBWYag06ujtBruRZtZck2CIInZN+Y6rtwkRausBuDEkkOq
+	 JThj5M/gYoFEYO3N4sKpl+6FCQ3mQnIRmBgNN3CFJypU9bkf+2RJvcTX6xW2yAHaNS
+	 PxiQK7rq4fA1xBsKfffbmSYlDrrR/5ze1oF6fWYhYH+Lc/CsLXr1D6cvtzcISCiol+
+	 lngTlZ1QjFCTrGXTrzjh79aPrBY9P2KY2sFxtOYfLlWqBmFoqfvISthONRAyM681sC
+	 kMc+Knqd67ITA==
+Date: Tue, 5 Mar 2024 12:03:21 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Kees Cook <keescook@chromium.org>, 
+	Matthew Denton <mpdenton@chromium.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
+	linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>, 
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <20240305-gremien-faucht-29973b61fb57@brauner>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
+ <20240304-zugute-abtragen-d499556390b3@brauner>
+ <202403040943.9545EBE5@keescook>
+ <20240305-attentat-robust-b0da8137b7df@brauner>
+ <202403050134.784D787337@keescook>
+ <20240305-kontakt-ticken-77fc8f02be1d@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240207105847.7739-1-andrea.porta@suse.com>
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hNE3TfRM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9RKvI0Ye
-X-Spamd-Result: default: False [3.29 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_SPAM(5.10)[100.00%];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_SEVEN(0.00)[7];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: 3.29
-X-Rspamd-Queue-Id: ECF26767C2
-X-Spam-Level: ***
-X-Spam-Flag: NO
-X-Spamd-Bar: +++
+In-Reply-To: <20240305-kontakt-ticken-77fc8f02be1d@brauner>
 
-On 11:58 Wed 07 Feb     , Andrea della Porta wrote:
-> Introducing the field 'el0' to the idreg-override for register
-> ID_AA64PFR0_EL1. This field is also aliased to the new kernel
-> command line option 'arm64.no32bit_el0' as a more recognizable
-> and mnemonic name to disable the execution of 32 bit userspace
-> applications (i.e. avoid Aarch32 execution state in EL0) from
-> kernel command line.
+On Tue, Mar 05, 2024 at 10:58:31AM +0100, Christian Brauner wrote:
+> On Tue, Mar 05, 2024 at 01:41:29AM -0800, Kees Cook wrote:
+> > On Tue, Mar 05, 2024 at 09:59:47AM +0100, Christian Brauner wrote:
+> > > > > Uhm, this will break the seccomp notifier, no? So you can't turn on
+> > > > > SECURITY_PROC_MEM_RESTRICT_WRITE when you want to use the seccomp
+> > > > > notifier to do system call interception and rewrite memory locations of
+> > > > > the calling task, no? Which is very much relied upon in various
+> > > > > container managers and possibly other security tools.
+> > > > > 
+> > > > > Which means that you can't turn this on in any of the regular distros.
+> > > > 
+> > > > FWIW, it's a run-time toggle, but yes, let's make sure this works
+> > > > correctly.
+> > > > 
+> > > > > So you need to either account for the calling task being a seccomp
+> > > > > supervisor for the task whose memory it is trying to access or you need
+> > > > > to provide a migration path by adding an api that let's caller's perform
+> > > > > these writes through the seccomp notifier.
+> > > > 
+> > > > How do seccomp supervisors that use USER_NOTIF do those kinds of
+> > > > memory writes currently? I thought they were actually using ptrace?
+> > > > Everything I'm familiar with is just using SECCOMP_IOCTL_NOTIF_ADDFD,
+> > > > and not doing fancy memory pokes.
+> > > 
+> > > For example, incus has a seccomp supervisor such that each container
+> > > gets it's own goroutine that is responsible for handling system call
+> > > interception.
+> > > 
+> > > If a container is started the container runtime connects to an AF_UNIX
+> > > socket to register with the seccomp supervisor. It stays connected until
+> > > it stops. Everytime a system call is performed that is registered in the
+> > > seccomp notifier filter the container runtime will send a AF_UNIX
+> > > message to the seccomp supervisor. This will include the following fds:
+> > > 
+> > > - the pidfd of the task that performed the system call (we should
+> > >   actually replace this with SO_PEERPIDFD now that we have that)
+> > > - the fd of the task's memory to /proc/<pid>/mem
+> > > 
+> > > The seccomp supervisor will then perform the system call interception
+> > > including the required memory reads and writes.
+> > 
+> > Okay, so the patch would very much break that. Some questions, though:
+> > - why not use process_vm_writev()?
 > 
-> Changes in V2:
-> - fixed the order of appearance of arm64.no32bit_el0 entry in
->   kernel-parameters.txt documentation.
+> Because it's inherently racy as I've explained in an earlier mail in
+> this thread. Opening /proc/<pid>/mem we can guard via:
 > 
-> Link: https://lore.kernel.org/r/ZVTleETzfFUchs77@apocalypse
-> Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 +++
->  arch/arm64/kernel/idreg-override.c              | 2 ++
->  2 files changed, 5 insertions(+)
+> // Assume we hold @pidfd for supervised process
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 65731b060e3f..fa7cdf2f4f3a 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -415,6 +415,9 @@
->  	arcrimi=	[HW,NET] ARCnet - "RIM I" (entirely mem-mapped) cards
->  			Format: <io>,<irq>,<nodeID>
->  
-> +	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
-> +			32 bit applications
-> +
->  	arm64.nobti	[ARM64] Unconditionally disable Branch Target
->  			Identification support
->  
-> diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
-> index e30fd9e32ef3..642cda19e42d 100644
-> --- a/arch/arm64/kernel/idreg-override.c
-> +++ b/arch/arm64/kernel/idreg-override.c
-> @@ -86,6 +86,7 @@ static const struct ftr_set_desc pfr0 __prel64_initconst = {
->  	.override	= &id_aa64pfr0_override,
->  	.fields		= {
->  	        FIELD("sve", ID_AA64PFR0_EL1_SVE_SHIFT, pfr0_sve_filter),
-> +		FIELD("el0", ID_AA64PFR0_EL1_EL0_SHIFT, NULL),
->  		{}
->  	},
->  };
-> @@ -197,6 +198,7 @@ static const struct {
->  	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
->  	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
->  	{ "nokaslr",			"arm64_sw.nokaslr=1" },
-> +	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=1" },
->  };
->  
->  static int __init parse_hexdigit(const char *p, u64 *v)
-> -- 
-> 2.41.0
+> int fd_mem = open("/proc/$pid/mem", O_RDWR);:
 > 
+> if (pidfd_send_signal(pidfd, 0, ...) == 0)
+>         write(fd_mem, ...);
+> 
+> But we can't exactly do:
+> 
+> process_vm_writev(pid, WRITE_TO_MEMORY, ...);
+> if (pidfd_send_signal(pidfd, 0, ...) == 0)
+>         write(fd_mem, ...);
+> 
+> That's always racy. The process might have been reaped before we even
+> call pidfd_send_signal() and we're writing to some random process
+> memory.
+> 
+> If we wanted to support this we'd need to implement a proposal I had a
+> while ago:
+> 
+> #define PROCESS_VM_RW_PIDFD (1 << 0)
+> 
+> process_vm_readv(pidfd,  ..., PROCESS_VM_RW_PIDFD);
+> process_vm_writev(pidfd, ..., PROCESS_VM_RW_PIDFD);
+> 
+> which is similar to what we did for waitid(pidfd, P_PIDFD, ...)
+> 
+> That would make it possible to use a pidfd instead of a pid in the two
+> system calls. Then we can get rid of the raciness and actually use those
+> system calls. As they are now, we can't.
 
-A gentle ping about this patch... any thoughts about it?
+What btw, is the Linux sandbox on Chromium doing? Did they finally move
+away from SECCOMP_RET_TRAP to SECCOMP_RET_USER_NOTIF? I see:
 
-Many thanks,
-Andrea
+https://issues.chromium.org/issues/40145101
+
+What ever became of this?
