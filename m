@@ -1,214 +1,190 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE70134A0;
-	Tue,  5 Mar 2024 16:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70D8DF5B;
+	Tue,  5 Mar 2024 17:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709657582; cv=none; b=nX/pRd0YFW+c9x/yrsaYGOBR4QrMinGPGo3wmDrNbz86xWfFHr19IKc/NrGYrwa36AuBFbvFe5O/F+lM9BlDV1HT/sKGxjpVhFnd1j7YUYo8yvTIzlRjbXTfqPKZtzQ/8+G38PYorYh6OZvQnc4oEvRldy+SugY4rGZ7oYyHN3s=
+	t=1709658182; cv=none; b=ZbbHYkWnC1XvwIw1/g9YTSutbrsbcU7uLxMi9lrYqo13qfhvfkVzeDedlKexNTQUo/VOeviwLrDcxssHbXRA+HwRJ6RaknFJUw/ZtabXY4zOhgD7LxvVySBC/9ULM+pDC0gUmud/b9N94C9U+flIWkJCU/T/PN40tJWSqSk5smU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709657582; c=relaxed/simple;
-	bh=wtYtDVJZiqM1pogoWHG3mgthzJAbRFC3EtRyyF4qw5w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kIXBHLtGwe1MrU17NfbLPYAnyZFyco9rN8njlaI7S97uUu46mGwHFGsMLPzHT1MijVXe/5KsW3mZ6tSAZ6pAZ5nhwy0bc3hVxPB7leIK0yw838wj9p3tgbmTQVfSub3HhAt+6Ft6x/QmvwwkLlIN3Z2hCY+3foP20v2hyZOrGP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CZbUipyX; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709658182; c=relaxed/simple;
+	bh=ojCQANAjYBZG0ygQ8b19OkNar0PVfA55/UxSz2wSlhA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/eCMM0GN0zdRVvGOImMB89g3dR9/U0IoGb4PBSV5y4BniIvFOdlepI0yunp7La7fArYQ0/Y5LBFMtp65em8atAC1hnshLXpF98y7wOqajyvMJpTSmrLX2q2OBkfESUmFJKv1NyBwQ5Sm7ye6wh1Ca74trCP8d6B2aZnPzuh340=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSmmtBeD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CZbUipyX"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 98E236000F;
-	Tue,  5 Mar 2024 16:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709657576;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r/DJ06AQj7j8kFaAT82/9WOuSylUEZa/XluKSMLVR2c=;
-	b=CZbUipyXh0uIDFs7UIuHYQbXhuzXMGFrVmVOGNvAhHvPowzAFnNVPDo2G/WiPUra5Kgq0s
-	nztEcaah9if87869LbLxZjfBOoc/e9AacgFZ5R3KbDRf2/uRkTrszDuq7Pc/SCVHJY91qd
-	0n7stiMeN+EqUFlWfmwXcV+p1ZcqcH49S3SyerF8mgpHzyT0H53xLK2/CDc97S3VsnFkVF
-	8CgFoaUyaUL8vVMw1/BchY9/KmgNwAGxqCUpGMjhKTkrvRjxZiQIMUVmc5fyekQ+tDeo9N
-	Kw1PXxCRBwrLfsb+MlxSCquvAMBv0NTv+drYyOmrEi5kK8fsL2ihc9QkXM1toQ==
-Date: Tue, 5 Mar 2024 17:52:53 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 12/13] net: ethtool: tsinfo: Add support for
- hwtstamp provider and get/set hwtstamp config
-Message-ID: <20240305175253.764f041a@kmaincent-XPS-13-7390>
-In-Reply-To: <20240304192733.1e8e08cc@kernel.org>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-12-455611549f21@bootlin.com>
-	<20240304192733.1e8e08cc@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSmmtBeD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10016C433F1;
+	Tue,  5 Mar 2024 17:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709658182;
+	bh=ojCQANAjYBZG0ygQ8b19OkNar0PVfA55/UxSz2wSlhA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSmmtBeDEMakkfa1ODU71ZTSLmsc/DoJTzjopXItAKLAiBMhT93DlgDK+5ibZRud5
+	 fwa98ZPN3/LZo7+zlG/b8JNkGckWBfHUV1Xr0HvcBdOBS1qnmYncMv/0gsDEf3wd2u
+	 Y3RmNermB9Xs3epNvE5apjAhkkGHnHTnISfyDKw+gZEKK01AzUirT/6ZnqPpXB2SBh
+	 yPezh8Wqk7J/t8LnzVGh/sI+T3Q5FK4AYYbe0+d1tfp4mb2DoIHbg8+mprPZjIndRo
+	 iZOc3rjn+eCJwgPe/3gUv/kggplO3wPfEgm6hh6Ljkx3OZerjJJRMlTgsJpVS3qOQN
+	 mPd4Ai1Gajgxw==
+Date: Tue, 5 Mar 2024 11:03:01 -0600
+From: "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: Christian Brauner <brauner@kernel.org>, Serge Hallyn <serge@hallyn.com>,
+	Paul Moore <paul@paul-moore.com>, Eric Paris <eparis@redhat.com>,
+	James Morris <jmorris@namei.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, audit@vger.kernel.org,
+	selinux@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-unionfs@vger.kernel.org
+Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+Message-ID: <ZedQRThbc60h+VoA@do-x1extreme>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+ <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
+ <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
+ <ZeXpbOsdRTbLsYe9@do-x1extreme>
+ <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+ <ZeX9MRhU/EGhHkCY@do-x1extreme>
+ <20240305-fachjargon-abmontieren-75b1d6c67a83@brauner>
+ <3098aef3e5f924e5717b4ba4a34817d9f22ec479.camel@huaweicloud.com>
+ <20240305-zyklisch-halluzinationen-98b782666cf8@brauner>
+ <133a912d05fb0790ab3672103a21a4f8bfb70405.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <133a912d05fb0790ab3672103a21a4f8bfb70405.camel@huaweicloud.com>
 
-On Mon, 4 Mar 2024 19:27:33 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Tue, Mar 05, 2024 at 05:35:11PM +0100, Roberto Sassu wrote:
+> On Tue, 2024-03-05 at 17:26 +0100, Christian Brauner wrote:
+> > On Tue, Mar 05, 2024 at 01:46:56PM +0100, Roberto Sassu wrote:
+> > > On Tue, 2024-03-05 at 10:12 +0100, Christian Brauner wrote:
+> > > > On Mon, Mar 04, 2024 at 10:56:17AM -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > > On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
+> > > > > > On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > > > > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
+> > > > > > > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wrote:
+> > > > > > > > > Use the vfs interfaces for fetching file capabilities for killpriv
+> > > > > > > > > checks and from get_vfs_caps_from_disk(). While there, update the
+> > > > > > > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is different
+> > > > > > > > > from vfs_get_fscaps_nosec().
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org>
+> > > > > > > > > ---
+> > > > > > > > >  security/commoncap.c | 30 +++++++++++++-----------------
+> > > > > > > > >  1 file changed, 13 insertions(+), 17 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/security/commoncap.c b/security/commoncap.c
+> > > > > > > > > index a0ff7e6092e0..751bb26a06a6 100644
+> > > > > > > > > --- a/security/commoncap.c
+> > > > > > > > > +++ b/security/commoncap.c
+> > > > > > > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
+> > > > > > > > >   */
+> > > > > > > > >  int cap_inode_need_killpriv(struct dentry *dentry)
+> > > > > > > > >  {
+> > > > > > > > > -	struct inode *inode = d_backing_inode(dentry);
+> > > > > > > > > +	struct vfs_caps caps;
+> > > > > > > > >  	int error;
+> > > > > > > > >  
+> > > > > > > > > -	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL, 0);
+> > > > > > > > > -	return error > 0;
+> > > > > > > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimportant */
+> > > > > > > > > +	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps);
+> > > > > > > > > +	return error == 0;
+> > > > > > > > >  }
+> > > > > > > > >  
+> > > > > > > > >  /**
+> > > > > > > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *idmap, struct dentry *dentry)
+> > > > > > > > >  {
+> > > > > > > > >  	int error;
+> > > > > > > > >  
+> > > > > > > > > -	error = __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
+> > > > > > > > > +	error = vfs_remove_fscaps_nosec(idmap, dentry);
+> > > > > > > > 
+> > > > > > > > Uhm, I see that the change is logically correct... but the original
+> > > > > > > > code was not correct, since the EVM post hook is not called (thus the
+> > > > > > > > HMAC is broken, or an xattr change is allowed on a portable signature
+> > > > > > > > which should be not).
+> > > > > > > > 
+> > > > > > > > For completeness, the xattr change on a portable signature should not
+> > > > > > > > happen in the first place, so cap_inode_killpriv() would not be called.
+> > > > > > > > However, since EVM allows same value change, we are here.
+> > > > > > > 
+> > > > > > > I really don't understand EVM that well and am pretty hesitant to try an
+> > > > > > > change any of the logic around it. But I'll hazard a thought: should EVM
+> > > > > > > have a inode_need_killpriv hook which returns an error in this
+> > > > > > > situation?
+> > > > > > 
+> > > > > > Uhm, I think it would not work without modifying
+> > > > > > security_inode_need_killpriv() and the hook definition.
+> > > > > > 
+> > > > > > Since cap_inode_need_killpriv() returns 1, the loop stops and EVM would
+> > > > > > not be invoked. We would need to continue the loop and let EVM know
+> > > > > > what is the current return value. Then EVM can reject the change.
+> > > > > > 
+> > > > > > An alternative way would be to detect that actually we are setting the
+> > > > > > same value for inode metadata, and maybe not returning 1 from
+> > > > > > cap_inode_need_killpriv().
+> > > > > > 
+> > > > > > I would prefer the second, since EVM allows same value change and we
+> > > > > > would have an exception if there are fscaps.
+> > > > > > 
+> > > > > > This solves only the case of portable signatures. We would need to
+> > > > > > change cap_inode_need_killpriv() anyway to update the HMAC for mutable
+> > > > > > files.
+> > > > > 
+> > > > > I see. In any case this sounds like a matter for a separate patch
+> > > > > series.
+> > > > 
+> > > > Agreed.
+> > > 
+> > > Christian, how realistic is that we don't kill priv if we are setting
+> > > the same owner?
+> > 
+> > Uhm, I would need to see the wider context of the proposed change. But
+> > iiuc then you would be comparing current and new fscaps and if they are
+> > identical you don't kill privs? I think that would work. But again, I
+> > would need to see the actual context/change to say something meaningful.
+> 
+> Ok, basically a software vendor can ship binaries with a signature over
+> file metadata, including UID/GID, etc.
+> 
+> A system can verify the signature through the public key of the
+> software vendor.
+> 
+> The problem is if someone (or even tar), executes chown on that binary,
+> fscaps are lost. Thus, signature verification will fail from now on.
+> 
+> EVM locks file metadata as soon as signature verification succeeds
+> (i.e. metadata are the same of those signed by the software vendor).
+> 
+> EVM locking works if someone is trying to set different metadata. But,
+> if I try to chown to the same owner as the one stored in the inode, EVM
+> allows it but the capability LSM removes security.capability, thus
+> invalidating the signature.
+> 
+> At least, it would be desirable that security.capability is not removed
+> when setting the same owner. If the owner is different, EVM will handle
+> that.
 
-> On Mon, 26 Feb 2024 14:40:03 +0100 Kory Maincent wrote:
-> > diff --git a/net/ethtool/common.c b/net/ethtool/common.c
-> > index b3f45c307301..37071929128a 100644
-> > --- a/net/ethtool/common.c
-> > +++ b/net/ethtool/common.c
-> > @@ -426,6 +426,7 @@ const char sof_timestamping_names[][ETH_GSTRING_LEN=
-] =3D {
-> >  	[const_ilog2(SOF_TIMESTAMPING_OPT_TX_SWHW)]  =3D "option-tx-swhw",
-> >  	[const_ilog2(SOF_TIMESTAMPING_BIND_PHC)]     =3D "bind-phc",
-> >  	[const_ilog2(SOF_TIMESTAMPING_OPT_ID_TCP)]   =3D "option-id-tcp",
-> > +	[const_ilog2(SOF_TIMESTAMPING_GHWTSTAMP)]    =3D "get-hwtstamp", =20
->=20
-> What is this new SOF_TIMESTAMPING_GHWTSTAMP? If there's=20
-> a good reason for it to exist it should be documented in
-> Documentation/networking/timestamping.rst
+When you say EVM "locks" file metadata, does that mean it prevents
+modification to file metadata?
 
-/o\ Sorry I totally forgot about documentation here!
-
-> > +const struct nla_policy ethnl_tsinfo_get_policy[ETHTOOL_A_TSINFO_MAX +=
- 1]
-> > =3D { [ETHTOOL_A_TSINFO_HEADER]		=3D
-> >  		NLA_POLICY_NESTED(ethnl_header_policy),
-> > +	[ETHTOOL_A_TSINFO_TIMESTAMPING] =3D { .type =3D NLA_NESTED },
-> > +	[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_NEST] =3D { .type =3D NLA_NESTED
-> > }, =20
->=20
-> link the policy by NLA_POLICY_NESTED() so that user space can inspect
-> the sub-layers via the control family.
-
-Ok thanks!
-
-> > +
-> > +	if (!hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX] ||
-> > +	    !hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_QUALIFIER])
-> > +		return -EINVAL; =20
->=20
-> NL_REQ_ATTR_CHECK()
-
-ok.
-
->=20
-> > +	ret =3D
-> > nla_get_u32(hwtst_tb[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX]);
-> > +	if (ret < 0)
-> > +		return -EINVAL; =20
->=20
-> How's the get_u32 going to return a negative value?
-> That's the purpose of this check?
-> The policy should contain the max expected value - NLA_POLICY_MAX().
-
-Right I will use more NLA_POLICY_* to check the values in next version.
-
-> >  		return ret;
-> > -	ret =3D __ethtool_get_ts_info(dev, &data->ts_info);
-> > +
-> > +	if (!netif_device_present(dev)) { =20
->=20
->  ethnl_ops_begin() checks for presence
-
-Ok thanks!
-
->=20
-> > +	if (req->hwtst.index !=3D -1) {
-> > +		struct hwtstamp_provider hwtstamp;
-> > +
-> > +		hwtstamp.ptp =3D ptp_clock_get_by_index(req->hwtst.index);
-> > +		if (!hwtstamp.ptp) {
-> > +			ret =3D -ENODEV;
-> > +			goto out;
-> > +		}
-> > +		hwtstamp.qualifier =3D req->hwtst.qualifier;
-> > +
-> > +		ret =3D ethtool_get_ts_info_by_phc(dev, &data->ts_info,
-> > +						 &hwtstamp);
-> > +	} else {
-> > +		ret =3D __ethtool_get_ts_info(dev, &data->ts_info); =20
->=20
-> Not sure I grok why we need 3 forms of getting the tstamp config.
->=20
-> Please make sure to always update
-> Documentation/networking/ethtool-netlink.rst
-> when extending ethtool-nl.
-
-Yes sorry I forgot!
-The three cases are:
-- get hwtstamp config like ioctl SIOCGHWTSTAMP
-- get tsinfo of the current hwtstamp
-- get tsinfo of a specific hwtstamp
-
-> > +	if (ts_info->phc_index >=3D 0) {
-> > +		/* _TSINFO_HWTSTAMP_PROVIDER_NEST */
-> > +		len +=3D nla_total_size(sizeof(u32) * 2); =20
->=20
-> That translates to two raw u32s into a single attribute.
-> Is that what you mean?
-
-Oh right that's not what I want. Thanks you!
-This is better:
-len +=3D 2 * nla_total_size(sizeof(u32));
-
-> > +	if (ts_info->phc_index >=3D 0) {
-> > +		ret =3D nla_put_u32(skb, ETHTOOL_A_TSINFO_PHC_INDEX,
-> > +				  ts_info->phc_index);
-> > +		if (ret)
-> > +			return -EMSGSIZE;
-> > +
-> > +		nest =3D nla_nest_start(skb,
-> > ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_NEST);
-> > +		if (!nest)
-> > +			return -EMSGSIZE;
-> > +
-> > +		ret =3D nla_put_u32(skb,
-> > +				  ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX,
-> > +				  ts_info->phc_index); =20
->=20
-> You can assume nla_put_u32 only returns EMSGSIZE, so doing:
->=20
-> if (nla_put_u32(....) ||
->     nla_put_u32(....))
-> 	return -EMSGSIZE;
->=20
-> is generally considered to be fine.
-
-Ok.
-
-> > +
-> > +		/* Does the hwtstamp supported in the netdev topology */
-> > +		if (mod) {
-> > +			hwtstamp.ptp =3D ptp_clock_get_by_index(phc_index); =20
->=20
-> This just returns a pointer without any refcounting, right?
-> What guarantees the ptp object doesn't disappear?
-
-Could the ptp object disappears within rtnlock?
-Maybe I should add refcounting.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+What about changes to file data? This will also result in removing
+fscaps xattrs. Does EVM also block changes to file data when signature
+verification succeeds?
