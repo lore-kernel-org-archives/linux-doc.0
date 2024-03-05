@@ -1,134 +1,86 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD7B1272B7;
-	Tue,  5 Mar 2024 15:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0948662F;
+	Tue,  5 Mar 2024 15:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709653114; cv=none; b=PBiVXoV3ooAzvIXipj11i9k7Cw9+fFzzqBr9UUGXxQDg9Ii6ccxKYTTUErNEgPX/L8hLe3u+f0BmJTScCP0FypeCOYuSGYECMaL6vlpLnyUvWhCfxcOilT8INl/hhby94sOd49Xfq5q9wZaVlXTJjX9B37gWEGgBi42URrLQ/qc=
+	t=1709653922; cv=none; b=Mthlzg0+4sEfDk8YvFYgVamTSh7Q+pajWz7+v3qbRiei7XRrPe95K2Wji8socdQt1oj1mtq+AgDuTwoB8sCoqYDgsp2xuFZrYn/tqZ2nQPg3jxeAX9BtjK6GohBibOd87ZOy2JT8OKBku2BscLBe5dPwkiRylX+YJv8PYKHY3bM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709653114; c=relaxed/simple;
-	bh=D5pJEtWFcbrQJzHq8eXEwOZZKupXoLaKjU5YgHvZuN0=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=oZW1f8N6kgYdlKsMNbwBfBXAvHWbcE7qUEa99LhNYjwY/pAZ69dj/jjwFSyWUOcvsbEp08MqghuZqVy2KkXtmgOOWapJAHq4Ib1vDnEKm1u+XhTLRmpn4MIez5BL9cMfbsIn+MwQlBY7WxxFAHojOWEMsznvj+zK0egc2iCH+Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id 6863737813B5;
-	Tue,  5 Mar 2024 15:38:30 +0000 (UTC)
-From: "Adrian Ratiu" <adrian.ratiu@collabora.com>
-In-Reply-To: <202403050134.784D787337@keescook>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <202403040943.9545EBE5@keescook>
- <20240305-attentat-robust-b0da8137b7df@brauner> <202403050134.784D787337@keescook>
-Date: Tue, 05 Mar 2024 15:38:30 +0000
-Cc: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, "Guenter Roeck" <groeck@chromium.org>, "Doug Anderson" <dianders@chromium.org>, "Jann Horn" <jannh@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Mike Frysinger" <vapier@chromium.org>
-To: "Kees Cook" <keescook@chromium.org>, vapier@chromium.org
+	s=arc-20240116; t=1709653922; c=relaxed/simple;
+	bh=pSqyVUiOhZxz9FIInEYMAmoXZWKPhnt0IQNLfQGtXOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyqkT9/OSIWgI6qYP/Z5nElVwgf3it2VvmtDIUUYDwUKrqSuy6rzQ/0f0r0dNVvNLYj8aomwtfMqROw93y+/JfdBbZ0yRpz1zMcUrBTzzNEkujCNbOidTHY8u6AVfTltr2a7guVcobezwQovA2Uv1tVHfryXDlNV1tCWmyQYfMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBoFlOhl; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBoFlOhl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB4CC433C7;
+	Tue,  5 Mar 2024 15:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709653921;
+	bh=pSqyVUiOhZxz9FIInEYMAmoXZWKPhnt0IQNLfQGtXOo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fBoFlOhlhaEkFpkwIhtzKscT84AMxoyIqH1ke1DoX3oTGvoYraBWWNLX9PB1wDsDX
+	 8/jrkloUt7VxJU24ln5/zi811lztKw0pkpRiqC5TgWE3Z3l2yBlrPTsMwI7n+JTnPL
+	 cIBn53riFq9sACKU+PDs51snnPNJif2TZriANWE8lPNacPlZ3ZEjjBSL+Ajm8tvqj0
+	 Xh39F7UKx8jqNW9DJE3CBRQ781zgONKaHkjALazRttLlPWK1iLUFRVRnO9bb0lDH+E
+	 AJgD1u7Xsepu7WvnlIDZLfAruLkrmiYG+GBGJiaH7MHjj517QXOLR7xfuwktrP6dWh
+	 5IQc8QXtatQIw==
+Date: Tue, 5 Mar 2024 08:51:56 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
+Message-ID: <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
+References: <cover.1709635535.git.leon@kernel.org>
+ <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <44043-65e73c80-15-1c4f8760@112682428>
-Subject: =?utf-8?q?Re=3A?= [PATCH v2] =?utf-8?q?proc=3A?= allow restricting 
- /proc/pid/mem writes
-User-Agent: SOGoMail 5.10.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
 
-On Tuesday, March 05, 2024 11:41 EET, Kees Cook <keescook@chromium.org>=
- wrote:
+On Tue, Mar 05, 2024 at 01:18:47PM +0200, Leon Romanovsky wrote:
+> @@ -236,7 +236,9 @@ struct nvme_iod {
+>  	unsigned int dma_len;	/* length of single DMA segment mapping */
+>  	dma_addr_t first_dma;
+>  	dma_addr_t meta_dma;
+> -	struct sg_table sgt;
+> +	struct dma_iova_attrs iova;
+> +	dma_addr_t dma_link_address[128];
+> +	u16 nr_dma_link_address;
+>  	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
+>  };
 
-> On Tue, Mar 05, 2024 at 09:59:47AM +0100, Christian Brauner wrote:
-> > > > Uhm, this will break the seccomp notifier, no? So you can't tur=
-n on
-> > > > SECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE when you want to use t=
-he seccomp
-> > > > notifier to do system call interception and rewrite memory loca=
-tions of
-> > > > the calling task, no? Which is very much relied upon in various
-> > > > container managers and possibly other security tools.
-> > > >=20
-> > > > Which means that you can't turn this on in any of the regular d=
-istros.
-> > >=20
-> > > FWIW, it's a run-time toggle, but yes, let's make sure this works
-> > > correctly.
-> > >=20
-> > > > So you need to either account for the calling task being a secc=
-omp
-> > > > supervisor for the task whose memory it is trying to access or =
-you need
-> > > > to provide a migration path by adding an api that let's caller'=
-s perform
-> > > > these writes through the seccomp notifier.
-> > >=20
-> > > How do seccomp supervisors that use USER=5FNOTIF do those kinds o=
-f
-> > > memory writes currently? I thought they were actually using ptrac=
-e?
-> > > Everything I'm familiar with is just using SECCOMP=5FIOCTL=5FNOTI=
-F=5FADDFD,
-> > > and not doing fancy memory pokes.
-> >=20
-> > For example, incus has a seccomp supervisor such that each containe=
-r
-> > gets it's own goroutine that is responsible for handling system cal=
-l
-> > interception.
-> >=20
-> > If a container is started the container runtime connects to an AF=5F=
-UNIX
-> > socket to register with the seccomp supervisor. It stays connected =
-until
-> > it stops. Everytime a system call is performed that is registered i=
-n the
-> > seccomp notifier filter the container runtime will send a AF=5FUNIX
-> > message to the seccomp supervisor. This will include the following =
-fds:
-> >=20
-> > - the pidfd of the task that performed the system call (we should
-> >   actually replace this with SO=5FPEERPIDFD now that we have that)
-> > - the fd of the task's memory to /proc/<pid>/mem
-> >=20
-> > The seccomp supervisor will then perform the system call intercepti=
-on
-> > including the required memory reads and writes.
->=20
-> Okay, so the patch would very much break that. Some questions, though=
-:
-> - why not use process=5Fvm=5Fwritev()?
-> - does the supervisor depend on FOLL=5FFORCE?
->=20
-> Perhaps is is sufficient to block the use of FOLL=5FFORCE?
->=20
-> I took a look at the Chrome OS exploit, and I =5Fthink=5F it is depen=
-ding
-> on the FOLL=5FFORCE behavior (it searches for a symbol to overwrite t=
-hat
-> if I'm following correctly is in a read-only region), but some of the
-> binaries don't include source code, so I couldn't easily see what was
-> being injected. Mike or Adrian can you confirm this?
-
-I can't speak for what is acceptable for ChromeOS security because=20
-I'm not part of that project, so I'll let Mike answer whether blocking
-writes is mandatory for them or blocking FOLL=5FFORCE is enough.
-
-From a design perspective, the question is whether to
-1. block writes and allow known good exceptions=20
-or
-2. allow writes and block known bad/exploitable exceptions.=20
-=20
-I am looking into reproducing and adding an exception for the
-container syscall intercept use-case raised by Christian, because
-I think it's easier to justify allowing known good exceptions from
-a security perspective.
-
-Otherwise I'm fine with both approaches.
-
-@Mike WDYT ?
-
+That's quite a lot of space to add to the iod. We preallocate one for
+every request, and there could be millions of them. 
