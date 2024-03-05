@@ -1,229 +1,403 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DAF9460;
-	Tue,  5 Mar 2024 20:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF47612BE8F
+	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 21:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709670471; cv=none; b=RNk3MZGfCagLKMvCCXf6ebrIkRL+ttgqa/yTbshnz8ok3hM+ErctVnM5h/UG92sScUaDQYc6hkBFNbeT4QD7NKKdlGmJ9mDuoxbp78hZc6v+kQmFgeJ6BRAn6Uo2J/JC9g3J66sb+is/s6cBq8R3B+pyz8gcCU89U9M9SFBNziU=
+	t=1709673447; cv=none; b=h3PQWAuIjf1DRjMrYCNI1XZd3DtxqY3YBeCSwXdsFhoFM+QVoMnUprDVU4LmXBQsQ5yO921IoM8sD2mLIy7BiC/87o8esjlFMVeZH8yxla0lATbzlry5HeLg+aljZ1PHB0qu+0e77YDYKF/CsPTn53VexhMR0bWHEFTyUglaV/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709670471; c=relaxed/simple;
-	bh=Xr9oBfPPQHohPI5vcI4x+FXnjsrGnKCCes36j3QkJK0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gH9yMyU/Yjg+9++3UKN7Xn/v/T5+oTe50LqxSA3jzn/LlSp3oHEIT2dfifgrMjXNxHmuVh6N7Zl92wYKGqnXzHLa9odIBpComy003CgzKke1KtRA3KutJWSsxAwVJM/eP3qCsJENqnL51WS+cLwUgOQWjQ6g/RAMACd59ATWGKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cjorv4qv; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709673447; c=relaxed/simple;
+	bh=Zzs14TQDrBLvAr1o9JtK6vm+FLEBbfjXCr1LPciToqM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cElf1pZQKWVly4IfPCLWGDYVVZAERmT4SzP5WKabyZxlBARIqHoublBE/ghLKMiXNXfB44+vvIpaac5nKE6mLczNsZkjWutLxWYVl5TkgAaHoCru7Y4crWpY51Id3qFqIeV206LdSYdAD9U2xpgb2i2SkN2MC016Ojp4AiEjEVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f+zkeIIL; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cjorv4qv"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 425Jjsqf001587;
-	Tue, 5 Mar 2024 20:27:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=deZGxOgFj6C42a+038Y+V
-	20pupkC+7ZBW4CX8heMvys=; b=cjorv4qvG6AfCja4RIPMfWrxTTbsbpSbBXWN1
-	nFS+Xl6HvsJhFRdbBiBJC79It0uO68Bv2gCrj9ERoFYQIi568BGTLk34MMulQ1Gd
-	m9A9TRduNCd8nD31HpcQSkDQZRL24zui+xacVMOklmk6YTqjaW3IgAr56qu9iO3q
-	4Dj8IuiTmS+2jEPFbuARJFT58pwEGgI2wDavbmbSIvFHbhWHUGGHvbwj21xyuKct
-	npBnva6ZZE0fmGxH6D4WGCdGYuXw3/wzd5b7SpMzMoSXxu5/pCu+Ez4svkxuU48K
-	APz3eftAk+a1rQjR3OkJsr8S8+i6/YnoGv3Ls52bMEcQbHjRg==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wp7ky0dyy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Mar 2024 20:27:13 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 425KR02L000781
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Mar 2024 20:27:00 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 5 Mar 2024 12:26:59 -0800
-Date: Tue, 5 Mar 2024 12:26:59 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Quentin Perret <qperret@google.com>
-CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-        Android KVM
-	<android-kvm@google.com>,
-        Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder
-	<elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni
-	<quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Philip Derrin
-	<quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu
-	<quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>,
-        Fuad Tabba <tabba@google.com>,
-        "Sean Christopherson" <seanjc@google.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map
- functions
-Message-ID: <20240305093131473-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Quentin Perret <qperret@google.com>, 
-	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>, Android KVM <android-kvm@google.com>, 
-	Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder <elder@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Murali Nalajal <quic_mnalajal@quicinc.com>, 
-	Trilok Soni <quic_tsoni@quicinc.com>, Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
-	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
- <ZeXIWBLVWzVycm0r@google.com>
- <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
- <Zec6shyjblcZvTG0@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f+zkeIIL"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a456ab934eeso24003066b.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 13:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709673443; x=1710278243; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LpvlKXjZceUyV7T13tDS41t/F1Xa1LPW/laeLkdBF1g=;
+        b=f+zkeIIL3MaYM5PZ+7iWNhbUPnElC1PozZSc3vG7/g0+xAiXtxTX0jGzm4OkukjKj+
+         Ewed6xKfesI0HEa5m7zQonRJ2pjlKxAUa8tBqiAUmr4RbgWi2/dbQKdauu2aIafD9DDi
+         Ghu9no2/qlPRW04bDfIx95FhJamSFgtmIL62MzhYo/wY9BAVKY4ctX4UJOFKGmUvD4B2
+         /dT+b0RVAl/VFXCxbdWtSXMiwW30ZHuxO/KNwghkR//2XF1E1t/OnGu0/kHEEYxV/ZFy
+         lYYuIyAgsMf7/qlF0Gb3IkvynzO+FN+vnrHlmF9kii3ZWz5hNnSh52TkqTYMD+AfZJnH
+         rP2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709673443; x=1710278243;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LpvlKXjZceUyV7T13tDS41t/F1Xa1LPW/laeLkdBF1g=;
+        b=QMdrRWKqVQoNu3x1bHvjWYiDt7t2Fpc1XdXDFQFrVFMbrPoqY74qrNgYtG1XNb2/uN
+         RS3gsTNS/CgjAHz/yDExGe0IQINv9laBBdwnVgU36dkpOZy46AM6s8N6urvnCkNGC5AE
+         708lEGmg0Cuqr8fsI+S8R62tuBheAk/F1Z48CrbIwsrTVBdeKmUFxWHrFx6DTjgv+tFN
+         2sJr25dORS+MPl8Iwupyg+n2n1mayUJcoBOC/TWAg2LsaYXP1+6M3MoARp845HKvXsXk
+         y8tw3kd3w+vaJCASEiEllFuLOE+KsaT+DBDQA89Yws584xHKXR7UMFtkTokQHDrGLpJz
+         YruQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7V2VIccQR+/BIBI5POFE4ogv+KafDp4bHMJjyXyGK7sRsrFblkAlEKkZdYqdvEWSMSAi0uoroxW6Eso34YJxyxnalDzNDH04F
+X-Gm-Message-State: AOJu0Yywc4pyiHYpLrfBGo2mdrI4Ri5ae+R5uShuDmXIuHdalpN0vPIn
+	20DzsrV8wH7RCNOLyeX+Mz3JFuEn14jSfcZfFgr3X8RnFPa/dpSE2bN/+a7jYMz1broGeB3kgYD
+	++Js741ue1v6OyKeSwqzvMMa2Z/Au9re1rNlz
+X-Google-Smtp-Source: AGHT+IHlC+vBw635Kt73+dsHbQtM7EL6jyFCQWoNIhJRg5JiyGmYfM2wu4YJxtfkn8eGdUtq4eym/8JfbCk0TV4RoFA=
+X-Received: by 2002:a17:906:3c17:b0:a43:86f3:b00b with SMTP id
+ h23-20020a1709063c1700b00a4386f3b00bmr8581734ejg.0.1709673442968; Tue, 05 Mar
+ 2024 13:17:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Zec6shyjblcZvTG0@google.com>
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: qwSyUPjprrQsN7DADiDyUa17FlX3g893
-X-Proofpoint-ORIG-GUID: qwSyUPjprrQsN7DADiDyUa17FlX3g893
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-05_17,2024-03-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- phishscore=0 malwarescore=0 bulkscore=0 adultscore=0 clxscore=1015
- mlxlogscore=999 lowpriorityscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403050163
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-6-almasrymina@google.com> <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
+In-Reply-To: <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 5 Mar 2024 13:17:08 -0800
+Message-ID: <CAHS8izM7GbvWHrH=h9q0oG0DMU649EjT1udNEW_8F-hGeC15EQ@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to netdevice
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 05, 2024 at 03:30:58PM +0000, Quentin Perret wrote:
-> On Monday 04 Mar 2024 at 15:37:41 (-0800), Elliot Berman wrote:
-> > On Mon, Mar 04, 2024 at 01:10:48PM +0000, Quentin Perret wrote:
-> > > On Friday 23 Feb 2024 at 16:37:23 (-0800), Elliot Berman wrote:
-> > > > On Thu, Feb 22, 2024 at 11:09:40PM -0800, Christoph Hellwig wrote:
-> > > > > On Thu, Feb 22, 2024 at 03:16:42PM -0800, Elliot Berman wrote:
-> > > > > > Firmware and hypervisor drivers can donate system heap memory to their
-> > > > > > respective firmware/hypervisor entities. Those drivers should unmap the
-> > > > > > pages from the kernel's logical map before doing so.
-> > > > > > 
-> > > > > > Export can_set_direct_map, set_direct_map_invalid_noflush, and
-> > > > > > set_direct_map_default_noflush.
-> > > > > 
-> > > > > Err, not they should not.  And not using such super low-level interfaces
-> > > > > from modular code.
-> > > > 
-> > > > Hi Cristoph,
-> > > >  
-> > > > We've observed a few times that Linux can unintentionally access a page
-> > > > we've unmapped from host's stage 2 page table via an unaligned load from
-> > > > an adjacent page. The stage 2 is managed by Gunyah. There are few
-> > > > scenarios where even though we allocate and own a page from buddy,
-> > > > someone else could try to access the page without going through the
-> > > > hypervisor driver. One such instance we know about is
-> > > > load_unaligned_zeropad() via pathlookup_at() [1].
-> > > >  
-> > > > load_unaligned_zeropad() could be called near the end of a page. If the
-> > > > next page isn't mapped by the kernel in the stage one page tables, then
-> > > > the access from to the unmapped page from load_unaligned_zeropad() will
-> > > > land in __do_kernel_fault(), call fixup_exception(), and fill the
-> > > > remainder of the load with zeroes. If the page in question is mapped in
-> > > > stage 1 but was unmapped from stage 2, then the access lands back in
-> > > > Linux in do_sea(), leading to a panic().
-> > > >  
-> > > > Our preference would be to add fixup_exception() to S2 PTW errors for
-> > > > two reasons:
-> > > > 1. It's cheaper to do performance wise: we've already manipulated S2
-> > > >    page table and prevent intentional access to the page because
-> > > >    pKVM/Gunyah drivers know that access to the page has been lost.
-> > > > 2. Page-granular S1 mappings only happen on arm64 with rodata=full.
-> > > >  
-> > > > In an off-list discussion with the Android pkvm folks, their preference
-> > > > was to have the pages unmapped from stage 1. I've gone with that
-> > > > approach to get started but welcome discussion on the best approach.
-> > > >  
-> > > > The Android (downstream) implementation of arm64 pkvm is currently
-> > > > implementing a hack where s2 ptw faults are given back to the host as s1
-> > > > ptw faults (i.e. __do_kernel_fault() gets called and not do_sea()) --
-> > > > allowing the kernel to fixup the exception.
-> > > >  
-> > > > arm64 pKVM will also face this issue when implementing guest_memfd or
-> > > > when donating more memory to the hyp for s2 page tables, etc. As far as
-> > > > I can tell, this isn't an issue for arm64 pKVM today because memory
-> > > > isn't being dynamically donated to the hypervisor.
-> > > 
-> > > FWIW pKVM already donates memory dynamically to the hypervisor, to store
-> > > e.g. guest VM metadata and page-tables, and we've never seen that
-> > > problem as far as I can recall.
-> > > 
-> > > A key difference is that pKVM injects a data abort back into the kernel
-> > > in case of a stage-2 fault, so the whole EXTABLE trick/hack in
-> > > load_unaligned_zeropad() should work fine out of the box.
-> > > 
-> > > As discussed offline, Gunyah injecting an SEA into the kernel is
-> > > questionable, but I understand that the architecture is a bit lacking in
-> > > this department, and that's probably the next best thing.
-> > >
-> > > Could the Gunyah driver allocate from a CMA region instead? That would
-> > > surely simplify unmapping from EL1 stage-1 (similar to how drivers
-> > > usually donate memory to TZ).
-> > 
-> > In my opinion, CMA is overly restrictive because we'd have to define the
-> > region up front and we don't know how much memory the virtual machines
-> > the user will want to launch.
-> 
-> I was thinking of using CMA to allocate pages needed to store guest
-> metadata and such at EL2, but not to back the actual guest pages
-> themselves. That still means overallocating somehow, but that should
-> hopefully be much smaller and be less of a problem?
+On Tue, Mar 5, 2024 at 4:55=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:
+>
+> On 2024/3/5 10:01, Mina Almasry wrote:
+>
+> ...
+>
+> >
+> > The netdev_dmabuf_binding struct is refcounted, and releases its
+> > resources only when all the refs are released.
+> >
+> > Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > RFC v6:
+> > - Validate rx queue index
+> > - Refactor new functions into devmem.c (Pavel)
+>
+> It seems odd that the functions or stucts in a file called devmem.c
+> are named after 'dmabuf' instead of 'devmem'.
+>
 
-Ah, I understood the context now. Yes, we might need to use CMA region
-when donating memory to Gunyah if we have to ensure the memory is
-unmapped from stage 1, since we wouldn't use guest_memfd for that.
+So my intention with this naming that devmem.c contains all the
+functions for all devmem tcp specific support. Currently the only
+devmem we support is dmabuf. In the future, other devmem may be
+supported and it can fit nicely in devmem.c. For example, if we want
+to extend devmem TCP to support NVMe devices, we need to add support
+for p2pdma, maybe, and we can add that support under the devmem.c
+umbrella rather than add new files.
 
-> 
-> For the actual guest pages, the gunyah variant of guestmem will have to
-> unmap the pages from the direct map itself, but I'd be personally happy
+But I can rename to dmabuf.c if there is strong objection to the current na=
+me.
 
-I still disagree that this is a Gunyah-specific problem. As far as we
-can tell, Arm doesn't specify how EL2 can tell EL1 its S2 page tables
-couldn't give a validation translation of the IPA from stage 1. IMO,
-downstream/Android pKVM is violating spec for ESR_EL1 by using the
-S1PTW bit (which is res0 for everyone except EL2 [1]) and this means
-that guests need to be pKVM-enlightened. If we are adding pKVM
-enlightment in the exception handlers, can we add Gunyah enlightment to
-handle the same?
+> >
+>
+> ...
+>
+> > diff --git a/include/net/netmem.h b/include/net/netmem.h
+> > index d8b810245c1d..72e932a1a948 100644
+> > --- a/include/net/netmem.h
+> > +++ b/include/net/netmem.h
+> > @@ -8,6 +8,16 @@
+> >  #ifndef _NET_NETMEM_H
+> >  #define _NET_NETMEM_H
+> >
+> > +#include <net/devmem.h>
+> > +
+> > +/* net_iov */
+> > +
+> > +struct net_iov {
+> > +     struct dmabuf_genpool_chunk_owner *owner;
+> > +};
+> > +
+> > +/* netmem */
+> > +
+> >  /**
+> >   * typedef netmem_ref - a nonexistent type marking a reference to gene=
+ric
+> >   * network memory.
+> > diff --git a/net/core/Makefile b/net/core/Makefile
+> > index 821aec06abf1..592f955c1241 100644
+> > --- a/net/core/Makefile
+> > +++ b/net/core/Makefile
+> > @@ -13,7 +13,7 @@ obj-y                    +=3D dev.o dev_addr_lists.o =
+dst.o netevent.o \
+> >                       neighbour.o rtnetlink.o utils.o link_watch.o filt=
+er.o \
+> >                       sock_diag.o dev_ioctl.o tso.o sock_reuseport.o \
+> >                       fib_notifier.o xdp.o flow_offload.o gro.o \
+> > -                     netdev-genl.o netdev-genl-gen.o gso.o
+> > +                     netdev-genl.o netdev-genl-gen.o gso.o devmem.o
+> >
+> >  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) +=3D dev_addr_lists_test.o
+> >
+> > diff --git a/net/core/dev.c b/net/core/dev.c
+> > index fe054cbd41e9..bbea1b252529 100644
+> > --- a/net/core/dev.c
+> > +++ b/net/core/dev.c
+> > @@ -155,6 +155,9 @@
+> >  #include <net/netdev_rx_queue.h>
+> >  #include <net/page_pool/types.h>
+> >  #include <net/page_pool/helpers.h>
+> > +#include <linux/genalloc.h>
+> > +#include <linux/dma-buf.h>
+> > +#include <net/devmem.h>
+> >
+> >  #include "dev.h"
+> >  #include "net-sysfs.h"
+> > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > new file mode 100644
+> > index 000000000000..779ad990971e
+> > --- /dev/null
+> > +++ b/net/core/devmem.c
+> > @@ -0,0 +1,293 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + *      Devmem TCP
+> > + *
+> > + *      Authors:     Mina Almasry <almasrymina@google.com>
+> > + *                   Willem de Bruijn <willemdebruijn.kernel@gmail.com=
+>
+> > + *                   Kaiyuan Zhang <kaiyuanz@google.com
+> > + */
+> > +
+> > +#include <linux/types.h>
+> > +#include <linux/mm.h>
+> > +#include <linux/netdevice.h>
+> > +#include <trace/events/page_pool.h>
+> > +#include <net/netdev_rx_queue.h>
+> > +#include <net/page_pool/types.h>
+> > +#include <net/page_pool/helpers.h>
+> > +#include <linux/genalloc.h>
+> > +#include <linux/dma-buf.h>
+> > +#include <net/devmem.h>
+> > +
+> > +/* Device memory support */
+> > +
+> > +#ifdef CONFIG_DMA_SHARED_BUFFER
+>
+> I still think it is worth adding its own config for devmem or dma-buf
+> for networking, thinking about the embeded system.
+>
 
+FWIW Willem did weigh on this previously and said he prefers to have
+it unguarded by a CONFIG, but I will submit to whatever the consensus
+here. It shouldn't be a huge deal to add a CONFIG technically
+speaking.
+
+> > +static void netdev_dmabuf_free_chunk_owner(struct gen_pool *genpool,
+> > +                                        struct gen_pool_chunk *chunk,
+> > +                                        void *not_used)
+>
+> It seems odd to still keep the netdev_ prefix as it is not really related
+> to netdev, perhaps use 'net_' or something better.
+>
+
+Yes, thanks for catching. I can change to net_devmem_ maybe or net_dmabuf_*=
+.
+
+> > +{
+> > +     struct dmabuf_genpool_chunk_owner *owner =3D chunk->owner;
+> > +
+> > +     kvfree(owner->niovs);
+> > +     kfree(owner);
+> > +}
+> > +
+> > +void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *bindin=
+g)
+> > +{
+> > +     size_t size, avail;
+> > +
+> > +     gen_pool_for_each_chunk(binding->chunk_pool,
+> > +                             netdev_dmabuf_free_chunk_owner, NULL);
+> > +
+> > +     size =3D gen_pool_size(binding->chunk_pool);
+> > +     avail =3D gen_pool_avail(binding->chunk_pool);
+> > +
+> > +     if (!WARN(size !=3D avail, "can't destroy genpool. size=3D%lu, av=
+ail=3D%lu",
+> > +               size, avail))
+> > +             gen_pool_destroy(binding->chunk_pool);
+> > +
+> > +     dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+> > +                              DMA_BIDIRECTIONAL);
+>
+> For now DMA_FROM_DEVICE seems enough as tx is not supported yet.
+>
+
+Yes, good catch. I suspect we want to reuse this code for TX path. But
+for now, I'll test with DMA_FROM_DEVICE and if I see no issues I'll
+apply this change.
+
+> > +     dma_buf_detach(binding->dmabuf, binding->attachment);
+> > +     dma_buf_put(binding->dmabuf);
+> > +     xa_destroy(&binding->bound_rxq_list);
+> > +     kfree(binding);
+> > +}
+> > +
+> > +static int netdev_restart_rx_queue(struct net_device *dev, int rxq_idx=
+)
+> > +{
+> > +     void *new_mem;
+> > +     void *old_mem;
+> > +     int err;
+> > +
+> > +     if (!dev || !dev->netdev_ops)
+> > +             return -EINVAL;
+> > +
+> > +     if (!dev->netdev_ops->ndo_queue_stop ||
+> > +         !dev->netdev_ops->ndo_queue_mem_free ||
+> > +         !dev->netdev_ops->ndo_queue_mem_alloc ||
+> > +         !dev->netdev_ops->ndo_queue_start)
+> > +             return -EOPNOTSUPP;
+> > +
+> > +     new_mem =3D dev->netdev_ops->ndo_queue_mem_alloc(dev, rxq_idx);
+> > +     if (!new_mem)
+> > +             return -ENOMEM;
+> > +
+> > +     err =3D dev->netdev_ops->ndo_queue_stop(dev, rxq_idx, &old_mem);
+> > +     if (err)
+> > +             goto err_free_new_mem;
+> > +
+> > +     err =3D dev->netdev_ops->ndo_queue_start(dev, rxq_idx, new_mem);
+> > +     if (err)
+> > +             goto err_start_queue;
+> > +
+> > +     dev->netdev_ops->ndo_queue_mem_free(dev, old_mem);
+> > +
+> > +     return 0;
+> > +
+> > +err_start_queue:
+> > +     dev->netdev_ops->ndo_queue_start(dev, rxq_idx, old_mem);
+>
+> It might worth mentioning why queue start with old_mem will always
+> success here as the return value seems to be ignored here.
+>
+
+So the old queue, we stopped it, and if we fail to bring up the new
+queue, then we want to start the old queue back up to get the queue
+back to a workable state.
+
+I don't see what we can do to recover if restarting the old queue
+fails. Seems like it should be a requirement that the driver tries as
+much as possible to keep the old queue restartable.
+
+I can improve this by at least logging or warning if restarting the
+old queue fails.
+
+> > +
+> > +err_free_new_mem:
+> > +     dev->netdev_ops->ndo_queue_mem_free(dev, new_mem);
+> > +
+> > +     return err;
+> > +}
+> > +
+> > +/* Protected by rtnl_lock() */
+> > +static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
+> > +
+> > +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
+> > +{
+> > +     struct netdev_rx_queue *rxq;
+> > +     unsigned long xa_idx;
+> > +     unsigned int rxq_idx;
+> > +
+> > +     if (!binding)
+> > +             return;
+> > +
+> > +     if (binding->list.next)
+> > +             list_del(&binding->list);
+>
+> The above does not seems to be a good pattern to delete a entry, is
+> there any reason having a checking before the list_del()? seems like
+> defensive programming?
+>
+
+I think I needed to apply this condition to handle the case where
+netdev_unbind_dmabuf() is called when binding->list is not initialized
+or is empty.
+
+netdev_nl_bind_rx_doit() will call unbind to free a partially
+allocated binding in error paths, so, netdev_unbind_dmabuf() may be
+called with a partially initialized binding. This is why we check for
+binding->list is initialized here and check that rxq->binding =3D=3D
+binding below. The main point is that netdev_unbind_dmabuf() may be
+asked to unbind a partially bound dmabuf due to error paths.
+
+Maybe a comment here will test this better. I will double confirm the
+check is needed for the error paths in netdev_nl_bind_rx_doit().
+
+> > +
+> > +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
+> > +             if (rxq->binding =3D=3D binding) {
+>
+> It seems like defensive programming here too?
+>
+> > +                     /* We hold the rtnl_lock while binding/unbinding
+> > +                      * dma-buf, so we can't race with another thread =
+that
+> > +                      * is also modifying this value. However, the dri=
+ver
+> > +                      * may read this config while it's creating its
+> > +                      * rx-queues. WRITE_ONCE() here to match the
+> > +                      * READ_ONCE() in the driver.
+> > +                      */
+> > +                     WRITE_ONCE(rxq->binding, NULL);
+> > +
+> > +                     rxq_idx =3D get_netdev_rx_queue_index(rxq);
+> > +
+> > +                     netdev_restart_rx_queue(binding->dev, rxq_idx);
+> > +             }
+> > +     }
+> > +
+> > +     xa_erase(&netdev_dmabuf_bindings, binding->id);
+> > +
+> > +     netdev_dmabuf_binding_put(binding);
+> > +}
+> > +
+>
+
+
+--=20
 Thanks,
-Elliot 
-
-[1]: https://developer.arm.com/documentation/ddi0601/2023-12/AArch64-Registers/ESR-EL1--Exception-Syndrome-Register--EL1-?lang=en#fieldset_0-24_0_16-7_7 
+Mina
