@@ -1,89 +1,165 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361A3548E6
-	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 10:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F4E5476B;
+	Tue,  5 Mar 2024 10:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709633549; cv=none; b=IGDcvLbSlOtSBugmX52HkaY8cTYoPaDuHb0NDMZMcadXBptdvef1QutbXnAFh26pA/B+G8hMCuP9BQ8kwXbpHUV0APfnHXK657gz1yEr1VBQpvg4kKTaKuT5nef/dznd1F4AAp8Ur1mc3u3EdTI7gSW3KBAhdfs7NxkCQWWX3UQ=
+	t=1709633735; cv=none; b=N7pv3xHpC2EspyqLWaMFjoqfpsZkzCGQmnIkb4p+HTKwLrwf7uvBvh81AwfhtZSCq0mSlhEqLUidzavmu8I8wWEjb9xsyl/+DpIZfHvi4ryMkSbRM06niK8vzuzyqt3f1AZ7Z1SGl0J60E3LuJialoqTMXrOsSrUAWlA2GhKq/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709633549; c=relaxed/simple;
-	bh=qX84Qr8Rjx3k1Qrrec1tOKVgxK5Rdtm5/Yv88GrB3xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0XVn1ECQ1M6tNqj9+rUZHZw4mA2dejL8kb0ykoryXx20JT3IexklV7/s+wfr6tJ9UYiRusU0LUY5GPmoYPhub6gEGOjKK/hysK+qywO3C4ldDzT8DIAp0In+eCOXbJ+nCurFT7BsYyT3F5F1tmMGyfMEUn4jZi0TVoFp5wITOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gT9lMjiE; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1709633735; c=relaxed/simple;
+	bh=NxhQVbYsKSwyvGgGk5qfaF5a/Y1wAzitab7stbdLKEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QoNraEXOZU8c3enAclUe38SUoPsmVeyq4xtHhL32fwOPN5BJDesUPc7U93hx4KIxbs/Mj8lxu8kYAarQ43ki+QoUDgr5nCnxBChVgBBHRMnwTLVt5pXa6apEUa2TN2xWKH8My7CHIEZEKpDnJ5TGoYJ5wia+4LNZNPzc44NfU/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dht2/Dpq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gT9lMjiE"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1dd178fc492so13819845ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 02:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709633547; x=1710238347; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=90GoPmdoNB7qy/Rz4aKAQpu8I3w30a6c5BBckmqB0YE=;
-        b=gT9lMjiETrAheaS14Ym8qIZ1UybbiLc8FoP+cq4pXprpgq/K3ae6Hyavcrr8ezOnEf
-         EwlHVc5SET4LNV4m+8tMcvR3Zo/b4atkP34fMI3c2vMsw4bzu4er7OssbexTHiQy/VDR
-         vW9HcMeHMi4+K2iC4Vwe57ZpMV6TfQjgCtOeM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709633547; x=1710238347;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=90GoPmdoNB7qy/Rz4aKAQpu8I3w30a6c5BBckmqB0YE=;
-        b=RJRaTmJnfs0KHNeRqIiYh8wxb77G4+PCkJ50g5PsefmiljlrtmUFr9nx0LhGXWPCYT
-         o/fTiO1zIaq19Qr87N3H8TaoXjgSJ9N2b4xuWuxR4szi9BKRtDHg0ZiZ1doMDxBEalAi
-         wrLolPknBFNSPVS2B9RqFO0kG2MjgpTdcfMy1AExqSjTY7VS8dBJHll49yTFc1wlaEJ6
-         7ob2pV/fIILibsYx2pIWBG67YZChn10faniJS+myyK8wV5F8lMnCEadq4daxpsUVsbY4
-         4PjD5i8+fKftQEUotFee8WlqrWqRFTmRymOTpYRSuhmC/n/QBqTCg79DCdrHHfpTb4qt
-         3MIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2zRCR/RV6lavMF4LH081z9UHC7iTyWhw00lRPhCJF+1mc4GiXRhaKUUnySga1KjcmlCwtf94b5xakV9Uh2pY3ErcGYp2nF+eN
-X-Gm-Message-State: AOJu0YwHrilJsEG3EFg1bfzOOpBreVwVhl1VPpuKn/Nq7H5HB+xOwM2x
-	HraSN3yt2+zijlqx0RW3+5V6qPFbftvIy5YmuJDYyC9lQpSQlmvh4kwg96DOXw==
-X-Google-Smtp-Source: AGHT+IHivF51UPX1N5OEzkfKJUGVPso4IRPc5xLAaCXRGUd0otijzh2wsjGTeXcfAY79j5YppLpA7g==
-X-Received: by 2002:a17:902:8a83:b0:1d7:2e86:fb2a with SMTP id p3-20020a1709028a8300b001d72e86fb2amr1109359plo.65.1709633547547;
-        Tue, 05 Mar 2024 02:12:27 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id mm12-20020a1709030a0c00b001dc96d1a662sm10134092plb.197.2024.03.05.02.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 02:12:26 -0800 (PST)
-Date: Tue, 5 Mar 2024 02:12:26 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	linux-fsdevel@vger.kernel.org, kernel@collabora.com,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dht2/Dpq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60B40C433C7;
+	Tue,  5 Mar 2024 10:15:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709633735;
+	bh=NxhQVbYsKSwyvGgGk5qfaF5a/Y1wAzitab7stbdLKEk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dht2/Dpq4PPEmsiwZonmgyZBoV9wxMtTHeSczSJDMWJ5eobUl70c2ZgWMQXg+WtEQ
+	 naNWBfwE6ikouY5FE0P1g8f1Q/OPTLNC/tepoMDKyBZSm20NDUTzv5dVNniqJsgdCg
+	 NkYzwGDGCV43oUjs6Dq+4Ptv0J1wh0lm0x4G/NF8JQrcHfCw9gdfZU4kVJxLK4nh7q
+	 N0RCDSkpk2BaEgalfmX3rzKWGGtuHYppmLwMgOEkpBLcy8p9qCa9tIFyZkJTIwtJYC
+	 lYccNUdQpF36PBZgvN07BPbvkh1X0ICzlejTffr1UDzXkF8B/dhK+TpjUw6/ELm9JI
+	 I8dxDOOUJz9QQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
-Message-ID: <202403050211.86A44769@keescook>
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <202403040943.9545EBE5@keescook>
- <20240305-attentat-robust-b0da8137b7df@brauner>
- <202403050134.784D787337@keescook>
- <20240305-kontakt-ticken-77fc8f02be1d@brauner>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: [RFC 00/16] Split IOMMU DMA mapping operation to two steps
+Date: Tue,  5 Mar 2024 12:15:10 +0200
+Message-ID: <cover.1709631800.git.leon@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305-kontakt-ticken-77fc8f02be1d@brauner>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 05, 2024 at 10:58:25AM +0100, Christian Brauner wrote:
-> Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
-> unconditionally it likely would implicitly. But I'm not familiar enough
-> with FOLL_FORCE to say for sure.
+This is complimentary part to the proposed LSF/MM topic.
+https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
 
-I should phrase the question better. :) Is the supervisor writing into
-read-only regions of the child process?
+This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO and
+DMA patches are ready for review and inclusion, the NVMe patches are still in
+progress as they require agreement on API first.
+
+Thanks
+
+-------------------------------------------------------------------------------
+The DMA mapping operation performs two steps at one same time: allocates
+IOVA space and actually maps DMA pages to that space. This one shot
+operation works perfectly for non-complex scenarios, where callers use
+that DMA API in control path when they setup hardware.
+
+However in more complex scenarios, when DMA mapping is needed in data
+path and especially when some sort of specific datatype is involved,
+such one shot approach has its drawbacks.
+
+That approach pushes developers to introduce new DMA APIs for specific
+datatype. For example existing scatter-gather mapping functions, or
+latest Chuck's RFC series to add biovec related DMA mapping [1] and
+probably struct folio will need it too.
+
+These advanced DMA mapping APIs are needed to calculate IOVA size to
+allocate it as one chunk and some sort of offset calculations to know
+which part of IOVA to map.
+
+Instead of teaching DMA to know these specific datatypes, let's separate
+existing DMA mapping routine to two steps and give an option to advanced
+callers (subsystems) perform all calculations internally in advance and
+map pages later when it is needed.
+
+In this series, three users are converted and each of such conversion
+presents different positive gain:
+1. RDMA simplifies and speeds up its pagefault handling for
+   on-demand-paging (ODP) mode.
+2. VFIO PCI live migration code saves huge chunk of memory.
+3. NVMe PCI avoids intermediate SG table manipulation and operates
+   directly on BIOs.
+
+Thanks
+
+[1] https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@klimt.1015granger.net
+
+Chaitanya Kulkarni (2):
+  block: add dma_link_range() based API
+  nvme-pci: use blk_rq_dma_map() for NVMe SGL
+
+Leon Romanovsky (14):
+  mm/hmm: let users to tag specific PFNs
+  dma-mapping: provide an interface to allocate IOVA
+  dma-mapping: provide callbacks to link/unlink pages to specific IOVA
+  iommu/dma: Provide an interface to allow preallocate IOVA
+  iommu/dma: Prepare map/unmap page functions to receive IOVA
+  iommu/dma: Implement link/unlink page callbacks
+  RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+  RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Explicitly store page list
+  vfio/mlx5: Convert vfio to use DMA link API
+
+ Documentation/core-api/dma-attributes.rst |   7 +
+ block/blk-merge.c                         | 156 ++++++++++++++
+ drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
+ drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
+ drivers/iommu/dma-iommu.c                 | 129 ++++++++---
+ drivers/nvme/host/pci.c                   | 220 +++++--------------
+ drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
+ drivers/vfio/pci/mlx5/cmd.h               |  22 +-
+ drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
+ include/linux/blk-mq.h                    |   9 +
+ include/linux/dma-map-ops.h               |  13 ++
+ include/linux/dma-mapping.h               |  39 ++++
+ include/linux/hmm.h                       |   3 +
+ include/rdma/ib_umem_odp.h                |  22 +-
+ include/rdma/ib_verbs.h                   |  54 +++++
+ kernel/dma/debug.h                        |   2 +
+ kernel/dma/direct.h                       |   7 +-
+ kernel/dma/mapping.c                      |  91 ++++++++
+ mm/hmm.c                                  |  34 +--
+ 20 files changed, 870 insertions(+), 605 deletions(-)
 
 -- 
-Kees Cook
+2.44.0
+
