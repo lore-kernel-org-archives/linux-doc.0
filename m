@@ -1,102 +1,89 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA1B5490B;
-	Tue,  5 Mar 2024 10:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361A3548E6
+	for <linux-doc@vger.kernel.org>; Tue,  5 Mar 2024 10:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709633437; cv=none; b=CQcfRCIsRRHbUW+5LE86GqfcbEeIPpxvE/ojkUGsuGt8AYLv/4izsGiORMCDOlHhsrcu1ZaqMfihQJaZmSR+2bM626rGpackSBGK4AngUyGkJbVA6Gn6EM4YcL7wPMX87ZeOk1f/ce1Za6EyhFBPThUapeKy7BW6EyiwfsVt9gk=
+	t=1709633549; cv=none; b=IGDcvLbSlOtSBugmX52HkaY8cTYoPaDuHb0NDMZMcadXBptdvef1QutbXnAFh26pA/B+G8hMCuP9BQ8kwXbpHUV0APfnHXK657gz1yEr1VBQpvg4kKTaKuT5nef/dznd1F4AAp8Ur1mc3u3EdTI7gSW3KBAhdfs7NxkCQWWX3UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709633437; c=relaxed/simple;
-	bh=OAVORbio8rX6MP7JstBR8elPmW+TfA86LMRUm++6e/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CwS1iRCbSRBF3Oo0KI3Kac00qjP+7TocyRj+PHhADgxNuIl3OEL0p02g58McVfnl4i+ZrIkOBs3umN/06df9322EzYQP1LrOt7vfMKtM/U+7b4RfGBqcj89AV2BUGl1o2rtFMetOHAA2jxg8WEHZabV1zLHB7FwRQBhSrinNWww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hb5413ee; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709633549; c=relaxed/simple;
+	bh=qX84Qr8Rjx3k1Qrrec1tOKVgxK5Rdtm5/Yv88GrB3xM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p0XVn1ECQ1M6tNqj9+rUZHZw4mA2dejL8kb0ykoryXx20JT3IexklV7/s+wfr6tJ9UYiRusU0LUY5GPmoYPhub6gEGOjKK/hysK+qywO3C4ldDzT8DIAp0In+eCOXbJ+nCurFT7BsYyT3F5F1tmMGyfMEUn4jZi0TVoFp5wITOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gT9lMjiE; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hb5413ee"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 956D76000A;
-	Tue,  5 Mar 2024 10:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709633426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OAVORbio8rX6MP7JstBR8elPmW+TfA86LMRUm++6e/M=;
-	b=Hb5413eedQK0YxQ1ILt65ybaUrNRAGNuplmwg//4ZQJjbbmG62g1t5GGVso/Et3lv2+wX4
-	8T8hKdXBDXCYIW/ac983hQYxrucOUJ8QMkLOGBBVAjHIhBhdkqxvOcQ38UCp2/xXZUnYwz
-	lgGee57RS1o0nFDWciYaCRsouSfckHadobj1iJOwElo6GhuMaQiSM9g8cpu84xSUT0ddm0
-	AnqLohvyJG4BeZkLMwXhTIVdcGM7l9sPzImFcCR1gv/W8i+qVguhLVBj6qqkzmuudSZo6M
-	1tD3t8hDMcZHuNuorgTOmH0R4WEB0MaHkhjY77/jxm3N1emWCFo7rHa1yoD6zg==
-Date: Tue, 5 Mar 2024 11:10:21 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 08/13] ptp: Add phc source and helpers to
- register specific PTP clock or get information
-Message-ID: <20240305111021.5c892d5a@kmaincent-XPS-13-7390>
-In-Reply-To: <ZebZpspMCqjLES/W@shell.armlinux.org.uk>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-8-455611549f21@bootlin.com>
-	<20240304185734.5f1a476c@kernel.org>
-	<ZebZpspMCqjLES/W@shell.armlinux.org.uk>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gT9lMjiE"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1dd178fc492so13819845ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 02:12:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709633547; x=1710238347; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=90GoPmdoNB7qy/Rz4aKAQpu8I3w30a6c5BBckmqB0YE=;
+        b=gT9lMjiETrAheaS14Ym8qIZ1UybbiLc8FoP+cq4pXprpgq/K3ae6Hyavcrr8ezOnEf
+         EwlHVc5SET4LNV4m+8tMcvR3Zo/b4atkP34fMI3c2vMsw4bzu4er7OssbexTHiQy/VDR
+         vW9HcMeHMi4+K2iC4Vwe57ZpMV6TfQjgCtOeM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709633547; x=1710238347;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=90GoPmdoNB7qy/Rz4aKAQpu8I3w30a6c5BBckmqB0YE=;
+        b=RJRaTmJnfs0KHNeRqIiYh8wxb77G4+PCkJ50g5PsefmiljlrtmUFr9nx0LhGXWPCYT
+         o/fTiO1zIaq19Qr87N3H8TaoXjgSJ9N2b4xuWuxR4szi9BKRtDHg0ZiZ1doMDxBEalAi
+         wrLolPknBFNSPVS2B9RqFO0kG2MjgpTdcfMy1AExqSjTY7VS8dBJHll49yTFc1wlaEJ6
+         7ob2pV/fIILibsYx2pIWBG67YZChn10faniJS+myyK8wV5F8lMnCEadq4daxpsUVsbY4
+         4PjD5i8+fKftQEUotFee8WlqrWqRFTmRymOTpYRSuhmC/n/QBqTCg79DCdrHHfpTb4qt
+         3MIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2zRCR/RV6lavMF4LH081z9UHC7iTyWhw00lRPhCJF+1mc4GiXRhaKUUnySga1KjcmlCwtf94b5xakV9Uh2pY3ErcGYp2nF+eN
+X-Gm-Message-State: AOJu0YwHrilJsEG3EFg1bfzOOpBreVwVhl1VPpuKn/Nq7H5HB+xOwM2x
+	HraSN3yt2+zijlqx0RW3+5V6qPFbftvIy5YmuJDYyC9lQpSQlmvh4kwg96DOXw==
+X-Google-Smtp-Source: AGHT+IHivF51UPX1N5OEzkfKJUGVPso4IRPc5xLAaCXRGUd0otijzh2wsjGTeXcfAY79j5YppLpA7g==
+X-Received: by 2002:a17:902:8a83:b0:1d7:2e86:fb2a with SMTP id p3-20020a1709028a8300b001d72e86fb2amr1109359plo.65.1709633547547;
+        Tue, 05 Mar 2024 02:12:27 -0800 (PST)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id mm12-20020a1709030a0c00b001dc96d1a662sm10134092plb.197.2024.03.05.02.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Mar 2024 02:12:26 -0800 (PST)
+Date: Tue, 5 Mar 2024 02:12:26 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
+	linux-fsdevel@vger.kernel.org, kernel@collabora.com,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <202403050211.86A44769@keescook>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
+ <20240304-zugute-abtragen-d499556390b3@brauner>
+ <202403040943.9545EBE5@keescook>
+ <20240305-attentat-robust-b0da8137b7df@brauner>
+ <202403050134.784D787337@keescook>
+ <20240305-kontakt-ticken-77fc8f02be1d@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240305-kontakt-ticken-77fc8f02be1d@brauner>
 
-On Tue, 5 Mar 2024 08:36:54 +0000
-"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+On Tue, Mar 05, 2024 at 10:58:25AM +0100, Christian Brauner wrote:
+> Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
+> unconditionally it likely would implicitly. But I'm not familiar enough
+> with FOLL_FORCE to say for sure.
 
-> On Mon, Mar 04, 2024 at 06:57:34PM -0800, Jakub Kicinski wrote:
-> > On Mon, 26 Feb 2024 14:39:59 +0100 Kory Maincent wrote: =20
-> > > Prepare for future hardware timestamp selection by adding source and
-> > > corresponding pointers to ptp_clock structure. Additionally, introduce
-> > > helpers for registering specific phydev or netdev PTP clocks, retriev=
-ing
-> > > PTP clock information such as hwtstamp source or phydev/netdev pointe=
-rs,
-> > > and obtaining the ptp_clock structure from the phc index. =20
-> >=20
-> > Can we assume there's one PHC per netdev?
-> > We both store the netdev/phydev info in the ptp clock
-> > and ptp clock in the netdev. Is there a reason for that? =20
->=20
-> No. In the case of mvpp2 + marvell PHY, the two PTP implementations are
-> entirely separate.
+I should phrase the question better. :) Is the supervisor writing into
+read-only regions of the child process?
 
-Yes the PTP clock can be independent from the netdev.
-We need to know which software layer register the PHC to be able to call its
-callbacks.
-
-My commit log is a bit small here. I will enhance it in the next version.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Kees Cook
