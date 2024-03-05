@@ -1,190 +1,105 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E84385645;
-	Tue,  5 Mar 2024 12:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B640B58AB6;
+	Tue,  5 Mar 2024 12:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709642856; cv=none; b=bzf8OapVC3z2cyY7VAuywh8t6N9y/XrLydBiWrmS2+e1QPpYGJy5Dbq/SlOVSPkrqMGcDe6q+ZfnR14LULsihepn8kz+uwX6Md2tdkJonHgyspu1v/wQDxZzzC+dIb57VgIaQ1Vx+hq8zeav4Cq50u7ef8vwdbZtCdninYv3TxU=
+	t=1709643292; cv=none; b=WNjjBZ0cH6it0nAGwU79vaNbgOi9IgmfHVlh6af3v3aCHN4v992VQYqgf3lvK7bpTDst+vTNF3hoBAmX4ELjdcfM4XftLv6apQ7aWlvEq6JJ8TOc43yrfWiT428Yt9KDGC0NQvF66FyUu5kpp9ZX+1DGAltRANgh1kBTUkJT9w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709642856; c=relaxed/simple;
-	bh=6hryqrJ72wzfly2rJ+FzgO0eAdOTeU5s0vIFIR7Onrc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TeIFCmUhOf92cHAkNRuyGsLMkB2LracKqlhPSkjNVd9OxfVcvAmMEOLzQAmPulVpXVndZ5AV/9zYHQVYuDZzSpxyIQSgZa5k6mCltrlPNQUpy+dfLufYMKdI4pe3DQTJ8wjMxTl8RvqsY7gZ8x/I5aC0RMYMOkcifA3u/fZE7u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4Tpw0v3nc2z9ybvS;
-	Tue,  5 Mar 2024 20:31:43 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id C0E871405A1;
-	Tue,  5 Mar 2024 20:47:16 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwC3YBlEFOdlb7rCAw--.65453S2;
-	Tue, 05 Mar 2024 13:47:16 +0100 (CET)
-Message-ID: <3098aef3e5f924e5717b4ba4a34817d9f22ec479.camel@huaweicloud.com>
-Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Christian Brauner <brauner@kernel.org>, "Seth Forshee (DigitalOcean)"
-	 <sforshee@kernel.org>
-Cc: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>, Eric
- Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Stephen Smalley
- <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,  Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jonathan Corbet
- <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein
- <amir73il@gmail.com>,  linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,  linux-security-module@vger.kernel.org,
- audit@vger.kernel.org,  selinux@vger.kernel.org,
- linux-integrity@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-unionfs@vger.kernel.org
-Date: Tue, 05 Mar 2024 13:46:56 +0100
-In-Reply-To: <20240305-fachjargon-abmontieren-75b1d6c67a83@brauner>
-References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
-	 <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
-	 <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
-	 <ZeXpbOsdRTbLsYe9@do-x1extreme>
-	 <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
-	 <ZeX9MRhU/EGhHkCY@do-x1extreme>
-	 <20240305-fachjargon-abmontieren-75b1d6c67a83@brauner>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1709643292; c=relaxed/simple;
+	bh=dBll0MMe1cd+COq57v39zRTivh0aNAY6WcRafFYM2J8=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=RvhzBhkAw8qz3BVDSHI+CLCGlmP1Keqk6FfQCNlG+VaX2YwffXxybJfgJ/yfzPC6eOz461gcPnvGDIjnvAXuHZqnFWZVf+GVHFUZ6DTchEhJkBQrxzDrM4f/kY3k9oFJ+B+toY0dxPizz5C2AWU1r/+uDSr8I/ND2nFNOl5PtPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4TpwVc6CY4zbcjb;
+	Tue,  5 Mar 2024 20:54:00 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id D491214037C;
+	Tue,  5 Mar 2024 20:54:42 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
+ 2024 20:54:42 +0800
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-alpha@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+	<linux-parisc@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+	<richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+	<James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+	<arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+	<martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+	<john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn
+	<willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+	<christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
+	<shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
+ Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+Date: Tue, 5 Mar 2024 20:54:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwC3YBlEFOdlb7rCAw--.65453S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAFWDWF4UJw13Kw1UXr4Dtwb_yoWrGFWDpF
-	W3GFnrKrs5Xr13Ar1xtr1UX3WFk3yfJF4UXFyDG3y0yr1qkr1fGr4fAry7uFy5ur18Kw1j
-	vF1jyFy3urs8A3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgANBF1jj5b+nwAAsN
+In-Reply-To: <20240305020153.2787423-1-almasrymina@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-On Tue, 2024-03-05 at 10:12 +0100, Christian Brauner wrote:
-> On Mon, Mar 04, 2024 at 10:56:17AM -0600, Seth Forshee (DigitalOcean) wro=
-te:
-> > On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
-> > > On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean) wrote:
-> > > > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
-> > > > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean) wr=
-ote:
-> > > > > > Use the vfs interfaces for fetching file capabilities for killp=
-riv
-> > > > > > checks and from get_vfs_caps_from_disk(). While there, update t=
-he
-> > > > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is dif=
-ferent
-> > > > > > from vfs_get_fscaps_nosec().
-> > > > > >=20
-> > > > > > Signed-off-by: Seth Forshee (DigitalOcean) <sforshee@kernel.org=
->
-> > > > > > ---
-> > > > > >  security/commoncap.c | 30 +++++++++++++-----------------
-> > > > > >  1 file changed, 13 insertions(+), 17 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/security/commoncap.c b/security/commoncap.c
-> > > > > > index a0ff7e6092e0..751bb26a06a6 100644
-> > > > > > --- a/security/commoncap.c
-> > > > > > +++ b/security/commoncap.c
-> > > > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
-> > > > > >   */
-> > > > > >  int cap_inode_need_killpriv(struct dentry *dentry)
-> > > > > >  {
-> > > > > > -	struct inode *inode =3D d_backing_inode(dentry);
-> > > > > > +	struct vfs_caps caps;
-> > > > > >  	int error;
-> > > > > > =20
-> > > > > > -	error =3D __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS, NULL=
-, 0);
-> > > > > > -	return error > 0;
-> > > > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is unimpo=
-rtant */
-> > > > > > +	error =3D vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry, &caps)=
-;
-> > > > > > +	return error =3D=3D 0;
-> > > > > >  }
-> > > > > > =20
-> > > > > >  /**
-> > > > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap *id=
-map, struct dentry *dentry)
-> > > > > >  {
-> > > > > >  	int error;
-> > > > > > =20
-> > > > > > -	error =3D __vfs_removexattr(idmap, dentry, XATTR_NAME_CAPS);
-> > > > > > +	error =3D vfs_remove_fscaps_nosec(idmap, dentry);
-> > > > >=20
-> > > > > Uhm, I see that the change is logically correct... but the origin=
-al
-> > > > > code was not correct, since the EVM post hook is not called (thus=
- the
-> > > > > HMAC is broken, or an xattr change is allowed on a portable signa=
-ture
-> > > > > which should be not).
-> > > > >=20
-> > > > > For completeness, the xattr change on a portable signature should=
- not
-> > > > > happen in the first place, so cap_inode_killpriv() would not be c=
-alled.
-> > > > > However, since EVM allows same value change, we are here.
-> > > >=20
-> > > > I really don't understand EVM that well and am pretty hesitant to t=
-ry an
-> > > > change any of the logic around it. But I'll hazard a thought: shoul=
-d EVM
-> > > > have a inode_need_killpriv hook which returns an error in this
-> > > > situation?
-> > >=20
-> > > Uhm, I think it would not work without modifying
-> > > security_inode_need_killpriv() and the hook definition.
-> > >=20
-> > > Since cap_inode_need_killpriv() returns 1, the loop stops and EVM wou=
-ld
-> > > not be invoked. We would need to continue the loop and let EVM know
-> > > what is the current return value. Then EVM can reject the change.
-> > >=20
-> > > An alternative way would be to detect that actually we are setting th=
-e
-> > > same value for inode metadata, and maybe not returning 1 from
-> > > cap_inode_need_killpriv().
-> > >=20
-> > > I would prefer the second, since EVM allows same value change and we
-> > > would have an exception if there are fscaps.
-> > >=20
-> > > This solves only the case of portable signatures. We would need to
-> > > change cap_inode_need_killpriv() anyway to update the HMAC for mutabl=
-e
-> > > files.
-> >=20
-> > I see. In any case this sounds like a matter for a separate patch
-> > series.
->=20
-> Agreed.
+On 2024/3/5 10:01, Mina Almasry wrote:
 
-Christian, how realistic is that we don't kill priv if we are setting
-the same owner?
+...
 
-Serge, would we be able to replace __vfs_removexattr() (or now
-vfs_get_fscaps_nosec()) with a security-equivalent alternative?
+> 
+> Perf - page-pool benchmark:
+> ---------------------------
+> 
+> bench_page_pool_simple.ko tests with and without these changes:
+> https://pastebin.com/raw/ncHDwAbn
+> 
+> AFAIK the number that really matters in the perf tests is the
+> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+> cycles without the changes but there is some 1 cycle noise in some
+> results.
+> 
+> With the patches this regresses to 9 cycles with the changes but there
+> is 1 cycle noise occasionally running this test repeatedly.
+> 
+> Lastly I tried disable the static_branch_unlikely() in
+> netmem_is_net_iov() check. To my surprise disabling the
+> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+> but the 1 cycle noise remains.
+> 
 
-Thanks
-
-Roberto
-
+The last sentence seems to be suggesting the above 1 ns regresses is caused
+by the static_branch_unlikely() checking?
