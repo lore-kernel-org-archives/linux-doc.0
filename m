@@ -1,139 +1,186 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8740B548E0;
-	Tue,  5 Mar 2024 10:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F7C1DDF4;
+	Tue,  5 Mar 2024 10:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709636022; cv=none; b=eCW8tTv6lmk5QekYsLTSNKtU8rQFqgdLyyRFXK5P+2rYIjvVPhgqdEZdqjpD+uMNm741+LIzennOLRbK6i7NdMxAopxi0KYe4N6Rw8jQnPZBJM59tfmrWZsCkDQIEGlXm4c39QwmD1NasqpXZ2HejDwsNhme+r/9po85/96WORE=
+	t=1709636171; cv=none; b=lnC2D1jWfZIBazvM0k3dhLGGcwcQ6clOCnR3ygiKLFsTTRkPx/DUM4uR2Kp983laJI6n1OGPkSU9+NPLSQriyMGtoJlnJa7ji+KWK+ojvfzxy5JdPFy4KqUPxKSzzZGHKF3UTONFNYyHWcnlfPR1XVmJ5V4cSdbSnAsWpI2HNoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709636022; c=relaxed/simple;
-	bh=+EDeY2yT2n/cIzmd+Fwdxy+Nb2MpMS4znvqdlwWBR9E=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vBdJ56HZ8BvsBfWJxDaXIP1dgczhpmLtC8Y0BdHKwres1lT+Sp8Ct0ZEKq7iQ9qucgh0yYLx09mV5PJ7/30ohcxRBXY6AuddXEnxGIeJx6bnLPxQ49zndK8e1KljPmOPDDtjbXYYn3mK7zWsteuN0jPc1o3wcsICSUFq7UXvhyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KvjwfHYP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709636171; c=relaxed/simple;
+	bh=6zTJKCs/LiRl+e1EgZBrXxHh0+0Q7evrHJ9ZMxfH5Qw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScVppITccDUweg2NJUuLhW+GgumIFP5efz211V1a7hXLRbVx65NtqGm21Zf7oNKXOUv2JOAWdlyuy0OXmHW8HhsGUs2cEsRopsiLJht9WEUuMm/H2adqHlqkStWgDvOihgNLp+p7JJNoQkAPtZ/rfVb59qUBNIcRE+uHBehdCtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sZhdRbGP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bsu6cyvk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hNE3TfRM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9RKvI0Ye; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KvjwfHYP"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4258cUul014068;
-	Tue, 5 Mar 2024 10:53:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=xiVexQtak33mp1KuoCuep
-	OlA2edRPR1tpbMxzI9BHVY=; b=KvjwfHYPrmlHqli1tRWm2GhLJEdakPWXjivsE
-	s427SYHZQ34BHDEjEZm5mCGI8GlvQvzkEb1C+srNBsR71fioWZylU1ve03x91M9h
-	Rq/gt0XeQB8UK9nlevn5SsVBd093VJT2OJK7k5lzNXZNoHoMEaonPb6+j6fRQgYZ
-	ki41oI46rgUTv2yYrrvAXm/Mecof47hWXSpEp0PP2NTeT58GvRqo2XaRKcWB1Vhi
-	ZFP2CeiiX88a60XZQ5tKkO7hjHVg4f17dKUaAGqt33SxKtmaFIbD6Yn0uh9IFKzA
-	AMsZKKRiy49Ua6wilU6IWKLHb+RTs9wQu1e0fliAPtmw1Z5gw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wp028892c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 05 Mar 2024 10:53:23 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 425ArMGH012399
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 5 Mar 2024 10:53:22 GMT
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 5 Mar 2024 02:53:14 -0800
-Date: Tue, 5 Mar 2024 16:23:12 +0530
-From: Pavan Kondeti <quic_pkondeti@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri
-	<quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu
-	<quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 01/35] docs: gunyah: Introduce Gunyah Hypervisor
-Message-ID: <6f98238d-25d9-4120-810a-4b8b19c1ef5d@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-1-1e9da6763d38@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sZhdRbGP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bsu6cyvk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hNE3TfRM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9RKvI0Ye"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ECF26767C2;
+	Tue,  5 Mar 2024 10:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709636167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
+	b=sZhdRbGP11tYX1Hs1zl37OdKGHJCVJOfLFmA5cMKFT95KWhpxDBqtTxUbgy2Ky9F7rlvzz
+	EzL2Gy+/gTcqVSAs2NHjTJ+Hadx0vajC5AqROepMMTjEU2i/FhpR6VXPOoIOZHqVkelq6j
+	XsNB+KqSXtIsKRrREaC6gPn30Tp9kjA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709636167;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
+	b=Bsu6cyvkv+DgWW8aXCAdbl2VoyAnKfTMmlGRXcCTnBYZDjEmuG5PUeHmU4/zKt3ycseeC6
+	dPXqCSROq/+4dYBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1709636165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
+	b=hNE3TfRMSXwY63+QnZjvh1CAvBbxFEoGhWr2Ud282dTWjPHLGoBQQ1QEIDnsSIWOrdmqYu
+	50TNuZ3ovCIxcsHSThZPwiw/rNKntDNqL0/ssupLSv5PL+qLx6iN8ZvwMtQTiivncqR89k
+	Okbyz0cWTC7Cp6dndWFkp2uVH/l4Mjo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1709636165;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FNpbwf/Kd2K6dwYnw6gac//GPVMgX+mgVMBZa1f57Q=;
+	b=9RKvI0YeQLL2//ciZ5iSbZZzt/QoYxvS3pyUmL0TmS/xQGGOxjO8iCBLB9V50A2rxLxOUq
+	JofBGjCPa2BaJaCw==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id D0E4C13466;
+	Tue,  5 Mar 2024 10:56:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id nNeEMUX65mVoBwAAn2gu4w
+	(envelope-from <aporta@suse.de>); Tue, 05 Mar 2024 10:56:05 +0000
+Date: Tue, 5 Mar 2024 11:56:05 +0100
+From: Andrea della Porta <aporta@suse.de>
+To: Andrea della Porta <andrea.porta@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: Add the arm64.no32bit_el0 command line option
+Message-ID: <Zeb6RX2wpBvuJiIZ@apocalypse>
+Mail-Followup-To: Andrea della Porta <andrea.porta@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20240207105847.7739-1-andrea.porta@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-1-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: WVHQJJ_TVjtAPqZKVZkx35bx7TCdrEtx
-X-Proofpoint-ORIG-GUID: WVHQJJ_TVjtAPqZKVZkx35bx7TCdrEtx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-05_08,2024-03-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=248 suspectscore=0 phishscore=0 spamscore=0
- malwarescore=0 mlxscore=0 clxscore=1011 bulkscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403050087
+In-Reply-To: <20240207105847.7739-1-andrea.porta@suse.com>
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hNE3TfRM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9RKvI0Ye
+X-Spamd-Result: default: False [3.29 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_SPAM(5.10)[100.00%];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.de:dkim];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 3.29
+X-Rspamd-Queue-Id: ECF26767C2
+X-Spam-Level: ***
+X-Spam-Flag: NO
+X-Spamd-Bar: +++
 
-On Thu, Feb 22, 2024 at 03:16:24PM -0800, Elliot Berman wrote:
-> Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
-> does not depend on any lower-privileged OS/kernel code for its core
-> functionality. This increases its security and can support a smaller
-> trusted computing based when compared to Type-2 hypervisors.
-
-%s/based/base
-
+On 11:58 Wed 07 Feb     , Andrea della Porta wrote:
+> Introducing the field 'el0' to the idreg-override for register
+> ID_AA64PFR0_EL1. This field is also aliased to the new kernel
+> command line option 'arm64.no32bit_el0' as a more recognizable
+> and mnemonic name to disable the execution of 32 bit userspace
+> applications (i.e. avoid Aarch32 execution state in EL0) from
+> kernel command line.
 > 
-> Add documentation describing the Gunyah hypervisor and the main
-> components of the Gunyah hypervisor which are of interest to Linux
-> virtualization development.
+> Changes in V2:
+> - fixed the order of appearance of arm64.no32bit_el0 entry in
+>   kernel-parameters.txt documentation.
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> +- Virtual platform:
+> Link: https://lore.kernel.org/r/ZVTleETzfFUchs77@apocalypse
+> Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 +++
+>  arch/arm64/kernel/idreg-override.c              | 2 ++
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 65731b060e3f..fa7cdf2f4f3a 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -415,6 +415,9 @@
+>  	arcrimi=	[HW,NET] ARCnet - "RIM I" (entirely mem-mapped) cards
+>  			Format: <io>,<irq>,<nodeID>
+>  
+> +	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
+> +			32 bit applications
 > +
-> +  Architectural devices such as interrupt controllers and CPU timers are
-> +  directly provided by the hypervisor as well as core virtual platform devices
-> +  and system APIs such as ARM PSCI.
-> +
-> +- Device Virtualization:
-> +
-> +  Para-virtualization of devices is supported using inter-VM communication and
-> +  virtio transport support. Select stage 2 faults by virtual machines that use
+>  	arm64.nobti	[ARM64] Unconditionally disable Branch Target
+>  			Identification support
+>  
+> diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
+> index e30fd9e32ef3..642cda19e42d 100644
+> --- a/arch/arm64/kernel/idreg-override.c
+> +++ b/arch/arm64/kernel/idreg-override.c
+> @@ -86,6 +86,7 @@ static const struct ftr_set_desc pfr0 __prel64_initconst = {
+>  	.override	= &id_aa64pfr0_override,
+>  	.fields		= {
+>  	        FIELD("sve", ID_AA64PFR0_EL1_SVE_SHIFT, pfr0_sve_filter),
+> +		FIELD("el0", ID_AA64PFR0_EL1_EL0_SHIFT, NULL),
+>  		{}
+>  	},
+>  };
+> @@ -197,6 +198,7 @@ static const struct {
+>  	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
+>  	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
+>  	{ "nokaslr",			"arm64_sw.nokaslr=1" },
+> +	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=1" },
+>  };
+>  
+>  static int __init parse_hexdigit(const char *p, u64 *v)
+> -- 
+> 2.41.0
+> 
 
-%s/Select/Selected
+A gentle ping about this patch... any thoughts about it?
 
-> +  proxy-scheduled vCPUs can be handled directly by Linux to provide Type-2
-> +  hypervisor style on-demand paging and/or device emulation.
-> +
-
-
-The doc patch looks good to me.
-
-Thanks,
-Pavan
+Many thanks,
+Andrea
