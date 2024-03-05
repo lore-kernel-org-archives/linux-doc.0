@@ -1,105 +1,134 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5FC1272D4;
-	Tue,  5 Mar 2024 15:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD7B1272B7;
+	Tue,  5 Mar 2024 15:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709652953; cv=none; b=upcb4InYVGT8qbNe6FuFciXIx/+Q0YENXqSIMf60CXk9s3h8AS6aplsOml7xbgKEn+3fl2PjK36G7yGn7uc3zrWEYIvD/VAXD3mSHhns4RryTpv3E0rzCQLp6GibVyhqU/IoL7dmKN6x0geMRkWW4D6qcAqORS+jR9CbySXiy1E=
+	t=1709653114; cv=none; b=PBiVXoV3ooAzvIXipj11i9k7Cw9+fFzzqBr9UUGXxQDg9Ii6ccxKYTTUErNEgPX/L8hLe3u+f0BmJTScCP0FypeCOYuSGYECMaL6vlpLnyUvWhCfxcOilT8INl/hhby94sOd49Xfq5q9wZaVlXTJjX9B37gWEGgBi42URrLQ/qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709652953; c=relaxed/simple;
-	bh=GF32o6mLZBCNxYK9qX7xyh4y+U6z2NwNaLAEw9sMSOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rOMuy47NTE6FMfHEJ7xBw3/wZWANDg5grKZbG5TmF6eAt0hM4jWu5RdYFCEHzQYrGpk6yG2ppGBIKEWER/hCDlKmzBX2Tbl/m7zK9/GSpiGyc7S8I/Vqyr+eRmjJfsCqI1h+k7/o1xZefyddG//4q9UYhZzotglkl3m6OXkcXMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pGe0d5y7; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pGe0d5y7"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D4F131C000A;
-	Tue,  5 Mar 2024 15:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709652949;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UT4WtSDtpTkd9ywhcIQhF34YAJjW4wWxhDNZEztSJaI=;
-	b=pGe0d5y7UjCFlV9NPpXyD4m/RlxLnktAQKpFS3GlAopanJah/TXlc255UxEHdZhxGLqmT5
-	l7EM70RaKM07/P0dPFK9WhDhPFSI9H7yLPoaEAFBIhD00RjNGfjqb0j7J3Zq3e87ZaI26B
-	vkFjcDl50WDQV1/C4brQA82WOS+0h8mnONjcf4ub1P55l9vAyVmGYbH/1OZIywf6IzprV+
-	2Ha/JPtKo/6dNYtHccgoCc+iUEQyIVVWrBBftlBbt1eu6DmlzwbET2yVEDSDtSgO2gzxvz
-	uJ+U9KhVsxS+cM/3zdvbAtzCK96a232Gscm9Us0lUExJop6tijk/LaV70ahQGA==
-Date: Tue, 5 Mar 2024 16:35:46 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 08/13] ptp: Add phc source and helpers to
- register specific PTP clock or get information
-Message-ID: <20240305163546.3b9f3ed9@kmaincent-XPS-13-7390>
-In-Reply-To: <20240305065939.2d419ff2@kernel.org>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-8-455611549f21@bootlin.com>
-	<20240304185734.5f1a476c@kernel.org>
-	<ZebZpspMCqjLES/W@shell.armlinux.org.uk>
-	<20240305111021.5c892d5a@kmaincent-XPS-13-7390>
-	<20240305065939.2d419ff2@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709653114; c=relaxed/simple;
+	bh=D5pJEtWFcbrQJzHq8eXEwOZZKupXoLaKjU5YgHvZuN0=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=oZW1f8N6kgYdlKsMNbwBfBXAvHWbcE7qUEa99LhNYjwY/pAZ69dj/jjwFSyWUOcvsbEp08MqghuZqVy2KkXtmgOOWapJAHq4Ib1vDnEKm1u+XhTLRmpn4MIez5BL9cMfbsIn+MwQlBY7WxxFAHojOWEMsznvj+zK0egc2iCH+Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 6863737813B5;
+	Tue,  5 Mar 2024 15:38:30 +0000 (UTC)
+From: "Adrian Ratiu" <adrian.ratiu@collabora.com>
+In-Reply-To: <202403050134.784D787337@keescook>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
+ <20240304-zugute-abtragen-d499556390b3@brauner>
+ <202403040943.9545EBE5@keescook>
+ <20240305-attentat-robust-b0da8137b7df@brauner> <202403050134.784D787337@keescook>
+Date: Tue, 05 Mar 2024 15:38:30 +0000
+Cc: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, "Guenter Roeck" <groeck@chromium.org>, "Doug Anderson" <dianders@chromium.org>, "Jann Horn" <jannh@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Mike Frysinger" <vapier@chromium.org>
+To: "Kees Cook" <keescook@chromium.org>, vapier@chromium.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Message-ID: <44043-65e73c80-15-1c4f8760@112682428>
+Subject: =?utf-8?q?Re=3A?= [PATCH v2] =?utf-8?q?proc=3A?= allow restricting 
+ /proc/pid/mem writes
+User-Agent: SOGoMail 5.10.0
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, 5 Mar 2024 06:59:39 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Tuesday, March 05, 2024 11:41 EET, Kees Cook <keescook@chromium.org>=
+ wrote:
 
-> On Tue, 5 Mar 2024 11:10:21 +0100 K=C3=B6ry Maincent wrote:
-> > > No. In the case of mvpp2 + marvell PHY, the two PTP implementations a=
-re
-> > > entirely separate.   =20
+> On Tue, Mar 05, 2024 at 09:59:47AM +0100, Christian Brauner wrote:
+> > > > Uhm, this will break the seccomp notifier, no? So you can't tur=
+n on
+> > > > SECURITY=5FPROC=5FMEM=5FRESTRICT=5FWRITE when you want to use t=
+he seccomp
+> > > > notifier to do system call interception and rewrite memory loca=
+tions of
+> > > > the calling task, no? Which is very much relied upon in various
+> > > > container managers and possibly other security tools.
+> > > >=20
+> > > > Which means that you can't turn this on in any of the regular d=
+istros.
+> > >=20
+> > > FWIW, it's a run-time toggle, but yes, let's make sure this works
+> > > correctly.
+> > >=20
+> > > > So you need to either account for the calling task being a secc=
+omp
+> > > > supervisor for the task whose memory it is trying to access or =
+you need
+> > > > to provide a migration path by adding an api that let's caller'=
+s perform
+> > > > these writes through the seccomp notifier.
+> > >=20
+> > > How do seccomp supervisors that use USER=5FNOTIF do those kinds o=
+f
+> > > memory writes currently? I thought they were actually using ptrac=
+e?
+> > > Everything I'm familiar with is just using SECCOMP=5FIOCTL=5FNOTI=
+F=5FADDFD,
+> > > and not doing fancy memory pokes.
 > >=20
-> > Yes the PTP clock can be independent from the netdev.
-> > We need to know which software layer register the PHC to be able to cal=
-l its
-> > callbacks.
+> > For example, incus has a seccomp supervisor such that each containe=
+r
+> > gets it's own goroutine that is responsible for handling system cal=
+l
+> > interception.
 > >=20
-> > My commit log is a bit small here. I will enhance it in the next versio=
-n. =20
+> > If a container is started the container runtime connects to an AF=5F=
+UNIX
+> > socket to register with the seccomp supervisor. It stays connected =
+until
+> > it stops. Everytime a system call is performed that is registered i=
+n the
+> > seccomp notifier filter the container runtime will send a AF=5FUNIX
+> > message to the seccomp supervisor. This will include the following =
+fds:
+> >=20
+> > - the pidfd of the task that performed the system call (we should
+> >   actually replace this with SO=5FPEERPIDFD now that we have that)
+> > - the fd of the task's memory to /proc/<pid>/mem
+> >=20
+> > The seccomp supervisor will then perform the system call intercepti=
+on
+> > including the required memory reads and writes.
 >=20
-> Still, wouldn't it be simpler to store all accessible PTP instances=20
-> in the netdev?
+> Okay, so the patch would very much break that. Some questions, though=
+:
+> - why not use process=5Fvm=5Fwritev()?
+> - does the supervisor depend on FOLL=5FFORCE?
+>=20
+> Perhaps is is sufficient to block the use of FOLL=5FFORCE?
+>=20
+> I took a look at the Chrome OS exploit, and I =5Fthink=5F it is depen=
+ding
+> on the FOLL=5FFORCE behavior (it searches for a symbol to overwrite t=
+hat
+> if I'm following correctly is in a read-only region), but some of the
+> binaries don't include source code, so I couldn't easily see what was
+> being injected. Mike or Adrian can you confirm this?
 
-You are talking about something like the phy topology but for the ptp?
+I can't speak for what is acceptable for ChromeOS security because=20
+I'm not part of that project, so I'll let Mike answer whether blocking
+writes is mandatory for them or blocking FOLL=5FFORCE is enough.
 
-Then when asking information on a PHC (tsinfo or hwtstamp config) from etht=
-ool
-we would have to look at the PHC topology of the netdev. This could work. N=
-ot
-sure it is much simpler, do you see other advantages that it could have?
+From a design perspective, the question is whether to
+1. block writes and allow known good exceptions=20
+or
+2. allow writes and block known bad/exploitable exceptions.=20
+=20
+I am looking into reproducing and adding an exception for the
+container syscall intercept use-case raised by Christian, because
+I think it's easier to justify allowing known good exceptions from
+a security perspective.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Otherwise I'm fine with both approaches.
+
+@Mike WDYT ?
+
