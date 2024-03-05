@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68346126F02;
-	Tue,  5 Mar 2024 15:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A54E126F2B;
+	Tue,  5 Mar 2024 15:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709651031; cv=none; b=gtJRKeVttmV1AvjmTnoT3tvG2HciSDoWw1CkRPMUdAJfTso/n0mFYXMXdJlUoSwoYybwMqq+eYh9YUpPPhc8NGQnxNJgVsG7bASugSBOjf+lbrHdzvOBLuHE7P8DEvXD5XDAj4Hps/k+9e37gOmwDmuL1eLlbT4Hm0idBFLVZwQ=
+	t=1709651125; cv=none; b=FFEiw0jR/1eID5pqFiHBJbo43qHC5MPw2l6Yr8TlKnin+BEAPfJeLQ0N+C8S9zAszsqjxo+KiG/yaqrdQZRnOKfSpghdJi9Vx/4vOPeQ0fCIhDZge75G7DQC86D+SmwBxIQaphCuZEJl27Oicn+0qNkleP0gtTg8DgKyKyqLnfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709651031; c=relaxed/simple;
-	bh=27+BJOW33H94LR/XIIVJMVaAXUoxZygcA3qpLGvJF24=;
+	s=arc-20240116; t=1709651125; c=relaxed/simple;
+	bh=oa8V2FuxjKUdYLS/9PBgK2zWedJ1BSk3Kddft+iXeSk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nNezikr7XiXXBy7cNonHVjFJjQBiJEJ0p9SJbl4XFXOQAkQQkEpvXLBab/UiMk6sg9Udp8h3s88P+2+7CAXdcTzPdj8QWWaFL2CDX6ZB2JZs5Yim1gu6heolqzL76uHxD/1lwBwKuouFaceQLB7ztQpzgGd4G6bBskcbHoGQDlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H25+wX40; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=n+irZE3FVed65Ht/7h/hQxcgY3qexm+Jt27ysJfsAGIOlF0i6YQ3lrZoWYeyYv1fJOT/Sj5Ndu19rdyn7nfh0W8W+Sj9TasEXO2ZhGNX7uYk7xCJGFqi20KIy5XyryvXJOouZQ6IDZfV4LYhBMnhoC8w8OTCBiVRAxg6p6xUyWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tIGLpqWB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H25+wX40"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F54C43394;
-	Tue,  5 Mar 2024 15:03:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tIGLpqWB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8926C43390;
+	Tue,  5 Mar 2024 15:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709651031;
-	bh=27+BJOW33H94LR/XIIVJMVaAXUoxZygcA3qpLGvJF24=;
+	s=k20201202; t=1709651124;
+	bh=oa8V2FuxjKUdYLS/9PBgK2zWedJ1BSk3Kddft+iXeSk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=H25+wX40QDVf7LQENEsoE+hzv6k+KxHFIJFJqewncfk3zIRbstB3rhpHi0ETdlw82
-	 VEdCuqG0OxjAK6RRCJJ3dkpfXpR2Y4r0s7+eDhee5mPTBhdAhMXhhobllARcOFzmK6
-	 1x4fjSBhTzY1OUUMu1jrrKWDm6yRWRd80z4mYzaSdsI+v0W63WpHbOcnBXPc6SbqFL
-	 mWchheN01FGp1BksphhLEZ3QRJPR+WULQHOUUcHXRTFPauqoKMbLS8DOsPwbkkfj/U
-	 KaRvyVlU+xGBOSlKIkEfmGJqSINj/MUjgm3tvYiSGJ2bw+bZ/E8eyKgvqZCGwU5Xxx
-	 CYn643lXYGh+g==
-Date: Tue, 5 Mar 2024 07:03:49 -0800
+	b=tIGLpqWBcZGxv1iogMEV+qDw/QkkvcaClKKhiDzWOnv7GMauxBTK8XJv9bPZ6LZd2
+	 umAJKCzddDP5rWWIcn6XBx6SPP5SyijmzJnNODgwpoYCE/bRYuz0tMRvOwmXoP0IyU
+	 F0XSpEdQE96l4ociEM+O/0N3IK5MR7W8u2/ujs0Blqf6d0HIpn6FteXMQ6WVWDduHX
+	 LTZB76xhIATOrWBZ56KtmnQrK/WnxeoDsIYiDRNjZM2H/oKreWwyBSG9Oh7aYzi+TF
+	 gu2rlqZgTFW5Ys/OjpiXctM0VYmHO4nlJdYxq1VWst/R22Toani3riWH/JlZFCkx27
+	 MulUdpVmKS+qg==
+Date: Tue, 5 Mar 2024 07:05:22 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
@@ -45,13 +45,15 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
  <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
  <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 07/13] ptp: Move from simple ida to xarray
-Message-ID: <20240305070349.5d1a8ff0@kernel.org>
-In-Reply-To: <20240305100259.006b3137@kmaincent-XPS-13-7390>
+Subject: Re: [PATCH net-next v9 02/13] net: Make dev_get_hwtstamp_phylib
+ accessible
+Message-ID: <20240305070522.7064e11a@kernel.org>
+In-Reply-To: <20240305110233.2aca99f7@kmaincent-XPS-13-7390>
 References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-7-455611549f21@bootlin.com>
-	<20240304184737.30cac57b@kernel.org>
-	<20240305100259.006b3137@kmaincent-XPS-13-7390>
+	<20240226-feature_ptp_netnext-v9-2-455611549f21@bootlin.com>
+	<20240304184048.1c1724fa@kernel.org>
+	<20240305105627.1d277a76@kmaincent-XPS-13-7390>
+	<20240305110233.2aca99f7@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,33 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 5 Mar 2024 10:02:59 +0100 K=C3=B6ry Maincent wrote:
-> On Mon, 4 Mar 2024 18:47:37 -0800
-> Jakub Kicinski <kuba@kernel.org> wrote:
->=20
-> > On Mon, 26 Feb 2024 14:39:58 +0100 Kory Maincent wrote: =20
-> > > +static DEFINE_XARRAY_FLAGS(ptp_clocks_map, XA_FLAGS_LOCK_IRQ |
-> > > XA_FLAGS_ALLOC);   =20
+On Tue, 5 Mar 2024 11:02:33 +0100 K=C3=B6ry Maincent wrote:
+> > > since we don't expect modules to call this, how about we move dev_set*
+> > > and the new declaration to net/core/dev.h ?   =20
 > >=20
-> > Why _IRQ? anything on the fastpath hopefully has a pointer to the clock
-> > already, I'd hope. And we often reserve ID 0 as invalid. =20
+> > Ok for me. =20
 >=20
-> To keep the same flag as IDA_INIT_FLAGS, I am not expert in xarray so I j=
-ust
-> keep it without questioning it. Do you think I should remove it?
+> I replied to quickly.
+> It seems this header in not include in ethtool part.=20
+> This would imply adding #include "../core/dev.h" in the tsinfo.c file.
+> Not sure this is what we want.
 
-Yes, I believe those defaults are just "to be safe".
-
-> ID 0 was valid for phc. IMHO makes it invalid is not a good idea, it
-> will change the phc id value for current board on the field.
-
-Ah, right, let's keep it then. We'll have to use -1 as invalid.
-
-> > BTW could be a standalone patch, Xarray conversion from IDA is an
-> > improvement in itself. =20
->=20
-> Indeed. Do you prefer this patch to be standalone?
-
-May be a personal preference but I do feel like sending general
-improvements separately from large new features makes the process=20
-more smooth.
+It's not amazing but I think that's better than putting internal stuff
+in netdevice.h. ethtool is separated from core for code organization,
+it's not really a separate entity, it controls very core things.
