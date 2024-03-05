@@ -1,100 +1,133 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9E4D9F9;
-	Tue,  5 Mar 2024 10:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C406535CF;
+	Tue,  5 Mar 2024 10:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709632967; cv=none; b=WcJj0KHWqKQd3Wu6PqYF1VD0G2h5aLkQWfe9VjUv2mKB4RvxWm5KLb1m8F8gsPY7b1IiL/GGaH5y+tasjajE27r3uQbsPA8O2mQfkd+gTwHRRdTXA0BjKEadj1Ip3MwyBszKKahcuyrm8VH+LG1vZAIH/UaBWTGSzOvWEU4R1Dg=
+	t=1709633276; cv=none; b=ur+c6La4pxIxuT/qWVCKmetxamRNTsrtlNBYihb7xDMlBFiE31ou+29q+7s1QbPjWVa5eqa2DqybeyIMiPfNvrO+IltgivAKZ3UwItps2xcfHxzjBe9yqi4dAgL3RMCYZ/IjJzXRXeAyxBCChGbf2fa53f/S0+qquxsIC/DqSps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709632967; c=relaxed/simple;
-	bh=D0vHsAJNAvotsrRPO6R/H2ATrWJBLX7q5KDT/CK6xHc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CM3BLAY4STbSB4pWrtpyy1MuOEQOXU0hz81HCLdsFW7jfW7PV0fLsHmDfH9NURUSDoiBWZSnSkmEzug8JVo6KeKCuLjYeq+841givfKyJLK+OiBBuBr/vDnWHCI948TJYKMzzC1UKg8KtKDTNOzsm7UE05veVCbGfXNMIGo6fLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VVi1O8qY; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VVi1O8qY"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 73A50FF80D;
-	Tue,  5 Mar 2024 10:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709632957;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yTaRrrhLCd6vyS/QfkqHI3GV6BwIOBGsPobf3wIDHq0=;
-	b=VVi1O8qYd5QxG5YleJVNsRGWGhyJrG2nWLJCm/HkgI2Ns2NYFG2iQh0cYziYqsrmMUHu0I
-	cgaMBRsfv5YvqfisZwq5Tei8FTxe6Zl0s9fCH9H6VPpPOjLdbw89p+9qfpOaxhONG0Pv7L
-	YDgWeY0I3MmCSQKMOvk07wo5ciZPR8nXXzOrtH+hIuVvvdqswZa7ERshUtrr2w0EodQt5P
-	RU/p/Zh/qb/Rb4RoJ6jxh0Nk+/Io904/tm/HAmHoKfZXwKigWpzqgpJpwj5e6AuFlw4fLr
-	aMpfNnNck5UUseFDRkBkqlM/Rc9Sa5MRa6EAoyPirTYyhT2Jdrj9KES9HLgDfA==
-Date: Tue, 5 Mar 2024 11:02:33 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v9 02/13] net: Make dev_get_hwtstamp_phylib
- accessible
-Message-ID: <20240305110233.2aca99f7@kmaincent-XPS-13-7390>
-In-Reply-To: <20240305105627.1d277a76@kmaincent-XPS-13-7390>
-References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
-	<20240226-feature_ptp_netnext-v9-2-455611549f21@bootlin.com>
-	<20240304184048.1c1724fa@kernel.org>
-	<20240305105627.1d277a76@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1709633276; c=relaxed/simple;
+	bh=NzEFmVQU/l4eibZVoBzFfR7429Ut+ICtLkRRq6L7/L4=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fU13feJdEr91jscxfwbYysMs8UadegzxKe/hpPYdbM9GLl9FpSDBNjNbwON6C0iJIJXfWQX/mAVll5deoZ8XSKLQQ6dXQih4jSnAMA4tBNI//O57QoLmVDyXvQjL5xQsSkWPX3ic984oLKh+99sdDepcrQGPZ108X59nkZrhU9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tprj416Hlz6D8rK;
+	Tue,  5 Mar 2024 18:02:48 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 593961404F5;
+	Tue,  5 Mar 2024 18:07:44 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
+ 2024 10:07:43 +0000
+Date: Tue, 5 Mar 2024 10:07:42 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+CC: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>, "Vinod
+ Koul" <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+	<christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
+	<paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
+	<Michael.Hennerich@analog.com>, <linux-doc@vger.kernel.org>,
+	<dmaengine@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
+Message-ID: <20240305100742.00006a4c@Huawei.com>
+In-Reply-To: <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
+References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
+	<20240303174245.37efc0b0@jic23-huawei>
+	<43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On Tue, 5 Mar 2024 10:56:27 +0100
-K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
+On Mon, 04 Mar 2024 08:59:47 +0100
+Nuno S=E1 <noname.nuno@gmail.com> wrote:
 
-> > > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> > > index f07c8374f29c..7f78aef73fe1 100644
-> > > --- a/include/linux/netdevice.h
-> > > +++ b/include/linux/netdevice.h
-> > > @@ -4005,6 +4005,8 @@ int generic_hwtstamp_set_lower(struct net_device
-> > > *dev, int dev_set_hwtstamp_phylib(struct net_device *dev,
-> > >  			    struct kernel_hwtstamp_config *cfg,
-> > >  			    struct netlink_ext_ack *extack);
-> > > +int dev_get_hwtstamp_phylib(struct net_device *dev,
-> > > +			    struct kernel_hwtstamp_config *cfg);   =20
+> On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
+> > On Fri, 23 Feb 2024 13:13:58 +0100
+> > Nuno Sa <nuno.sa@analog.com> wrote:
+> >  =20
+> > > Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
+> > > honest, we're hoping to get this merged this for the 6.9 merge window.
+> > > Main reason is because the USB part is already in (so it would be nice
+> > > to get the whole thing in). Moreover, the changes asked in v6 were si=
+mple
+> > > (even though I'm not quite sure in one of them) and Paul has no acces=
+s to
+> > > it's laptop so he can't send v7 himself. So he kind of said/asked for=
+ me to
+> > > do it. =20
 > >=20
-> > since we don't expect modules to call this, how about we move dev_set*
-> > and the new declaration to net/core/dev.h ? =20
+> > So, we are cutting this very fine. If Linus hints strongly at an rc8 ma=
+ybe we
+> > can sneak this in. However, I need an Ack from Vinod for the dma engine
+> > changes first.
+> >=20
+> > Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even bet=
+ter!)
+> >=20
+> > Seems that the other side got resolved in the USB gadget, but last we h=
+eard
+> > form
+> > Daniel and Christian looks to have been back on v5. I'd like them to co=
+nfirm
+> > they are fine with the changes made as a result.=20
+> >  =20
 >=20
-> Ok for me.
+> I can ask Christian or Daniel for some acks but my feeling (I still need,=
+ at
+> some point, to get really familiar with all of this) is that this should =
+be
+> pretty similar to the USB series (from a DMABUF point of view) as they ar=
+e both
+> importers.
+>=20
+> > I've been happy with the IIO parts for a few versions now but my abilit=
+y to
+> > review
+> > the DMABUF and DMA engine bits is limited.
+> >=20
+> > A realistic path to get this in is rc8 is happening, is all Acks in pla=
+ce by
+> > Wednesday,
+> > I get apply it and hits Linux-next Thursday, Pull request to Greg on Sa=
+turday
+> > and Greg
+> > is feeling particularly generous to take one on the day he normally clo=
+ses his
+> > trees.
+> >  =20
+>=20
+> Well, it looks like we still have a shot. I'll try to see if Vinod is fin=
+e with
+> the DMAENGINE stuff.
+>=20
 
-I replied to quickly.
-It seems this header in not include in ethtool part.=20
-This would imply adding #include "../core/dev.h" in the tsinfo.c file.
-Not sure this is what we want.
+Sadly, looks like rc7 was at the end of a quiet week, so almost certain to =
+not
+be an rc8 in the end. Let's aim to get this in at the start of the next cyc=
+le
+so we can build on it from there.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+
+Jonathan
+
+> - Nuno S=E1
+>=20
+>=20
+
