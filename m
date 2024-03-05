@@ -1,74 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129B17E777;
-	Tue,  5 Mar 2024 07:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD39D18E1D;
+	Tue,  5 Mar 2024 07:47:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709624823; cv=none; b=g/Eyp/cf+TEv2G/M5tfVKW77wzyItq1bIaasVpesEDMXcNSpXbTAwDYHUd2/OI4W18vwbVgQfQZAzaugqBJRhBOG+cPoqkwxpZBeVi1dMtGcSgxq9SrrPLbtDS3TCGDV9WaDSKErmG48EOSD6+atXsqs50MPd3n6itMkhN22g+k=
+	t=1709624869; cv=none; b=tarK3MOLWkCyAKe3KswvvT4+BSMaQuAxJJ77zml4blp8xGhfOllXFvw9tywB9sQLvzVm37iWQeX9Mm471X8LZmyK48S163ea7Ez4BOic5acHZ3G81IMqWLgA5tP8las/qRmGkrL2JoqTWxvr2aPJ4M+ZCzmAenlALWL6O0hvgm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709624823; c=relaxed/simple;
-	bh=FobFuYhuNWplU1QAMbJNX1qSizdU/tw2pWGX143mWxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PhdD6Uk0wy/PBBQM+yYNT8HEiBaXJCAH+Nam59BYLwTO1enAuIqROoje5gWVCIWXa+rI6UyW41ZGj1C75W+R/oE/gDT8ZHpLawZ9XCF6WI/YXsxaLramgjKdvzqCA+/PRtPmLq0GWBVqRwzsfTzzQC91cr68l5cGo3D2HfYHCmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ynDJrLZj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709624869; c=relaxed/simple;
+	bh=U89uh1DhfOTDkyC8oDCYbLAchYtQuvP7pwEZtO/ui6A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FDB+T2Z4jti8+a69aani5g1AyU+u/atlVVj4TV2eamLjdmuPm/BIotnkRxbjN+R+ejfk2MfKabiq/b/vFQeiVK+/PA/jFZkH2kOfBq+qYqi0ZQxsvdaL0SLYi8DgGQwdIY0A27mkKyNnk3/wVVwyXfnGMDBhtdxSYQVewZZzK/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZXSQS7ZW; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ynDJrLZj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A40DC433C7;
-	Tue,  5 Mar 2024 07:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1709624822;
-	bh=FobFuYhuNWplU1QAMbJNX1qSizdU/tw2pWGX143mWxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ynDJrLZjms+dg7Z2a6Bv9hu1aGzdCq7mtr+zTM4H31VmSMRMzcwuvBVqZ13Xx5Fbb
-	 CqJy5Gwf2BbZ9iKeIwWA3NJ7Gt1ZRFUV+8NMMB7gNL4KFLGMDDCGvkgl63vCDA7gau
-	 uAzC42zfqtcJaQZffs6h2GqaEgsuO65+THN1RbfA=
-Date: Tue, 5 Mar 2024 07:46:59 +0000
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
-	stable@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-	Kees Cook <keescook@chromium.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aditya Srivastava <yashsri421@gmail.com>, 1064035@bugs.debian.org
-Subject: Re: [regression 5.10.y] linux-doc builds: Global symbol "$args"
- requires explicit package name (did you forget to declare "my $args"?) at
- ./scripts/kernel-doc line 1236.
-Message-ID: <2024030538-upside-unbutton-fe39@gregkh>
-References: <ZeHKjjPGoyv_b2Tg@eldamar.lan>
- <877ciiw1yp.fsf@meer.lwn.net>
- <ZeYoZNJaZ4ejONTZ@eldamar.lan>
- <874jdlsqyy.fsf@meer.lwn.net>
- <ZeZAHnzlmZoAhkqW@eldamar.lan>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZXSQS7ZW"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc80d6004bso5167699276.0;
+        Mon, 04 Mar 2024 23:47:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709624867; x=1710229667; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UppqAarfwY+zIiaC2kTHlfDrH6S8pSlvdHIG4B7CkdE=;
+        b=ZXSQS7ZWKHbwxvvupsNVsEDIJoumAiBNJ49ReKGeHOLI9Zc0Fp5QdJytYWcm+wEQMu
+         tbpGFQAS27gfqpSsB/2Q2E8EwEPuSFbTiQ4G8sBqnKkpgCU1TTSDBtkR37mNH4+tdF2X
+         bIRaAjOTXIkssYHOh5LHe0ckTPVQFM0PhvMBnN4x7Cb5EJ5vw5utKrsecqd0+iwVqoNy
+         G8vAMeGFmfXg3abJ/YvMGWLfr4myrfhK5MaEfqL0cRmd4yXavQADbawNYpWppBr5EG7o
+         gbEvoQY8BF2Jj4jr7R+9LRQgYsp10RryQtRtjsI8Wl4JaUMQHx2YXaQOrYjNSHDErnAp
+         AXWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709624867; x=1710229667;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UppqAarfwY+zIiaC2kTHlfDrH6S8pSlvdHIG4B7CkdE=;
+        b=pwi9AzhvjSRksEE7j65gCUj9L+xtkPe/XY4wBQArTJuA+lvHSYD2m8lrrRgV1k9F58
+         +cqaXs2M+OpZ359llvdV3UNWxk/wPTD2azb/H8P7Ev2ukwbZ67QfJsbn6q2Jh2IwTX9w
+         aP1TEc+oWcDZdPfCny8/Oo2fljtgLufn1B/toCcZIQpI+IsCB0pYabMhyU7rUKp8R5uq
+         8CWiBdgjYk25gUyJpVOTTVlN3KUmsUoEfMelpIjEruZyyoezdxQXfz8d7apZq+BocnqK
+         ouIheTTI3LI/dMfPZ7+bPHWilP+zXJpiMOJ4CBmHK/yc6UL7nElbTUUlkzIHRqI9OwDc
+         0ZIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWBOHHVeSWm+Xgzmkb44m+RAplK3MpLOOc7ee5Ptd3fpqoWAV1iYFy8omnXKmqXdMY4XcPhbB4O8dMvs7+jGw7SXM+EToZy0bSTsMCyYLIa89hx4pYJAKD6QMqj56keqo3s0t5yOSELEWKQrT/eUItm+ctze3B/Lje93tqU6tg1
+X-Gm-Message-State: AOJu0YwNmoqsZ7Ls5inf4CTZkCKRMmZGY9F8jmR+vmSzwo+p7vWfOLYB
+	SL8Q/Fz6TQXaO8MM3xmHYZWX0buUhXphDJyOqQI0bZ1Jtv/XoAEYRjp1jZUE4Ne/DBTaxYsA17n
+	1j/EOOr/blROp/TaZt5Zlp78Bzlk=
+X-Google-Smtp-Source: AGHT+IHfZSuQQsq0Y6qpFsVyqy6sZNeaHlt0da7iEaRL5PP45J0iq/yS5BKZvfCWvC85In5QPT2Hm95+UNnJE//HDXM=
+X-Received: by 2002:a25:4a06:0:b0:dcf:2b44:f38d with SMTP id
+ x6-20020a254a06000000b00dcf2b44f38dmr9182681yba.49.1709624866673; Mon, 04 Mar
+ 2024 23:47:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZeZAHnzlmZoAhkqW@eldamar.lan>
+References: <20240212020403.1639030-1-hayatake396@gmail.com>
+ <CYYPR11MB8429FCD568EE2AF90AEE2CABBD5E2@CYYPR11MB8429.namprd11.prod.outlook.com>
+ <CADFiAc++edOb7-O6yCUgpAaonZ1sQdkrwwH8432D=e40g1CwoQ@mail.gmail.com> <CYYPR11MB84290126F884C2AB4F9AA5FBBD222@CYYPR11MB8429.namprd11.prod.outlook.com>
+In-Reply-To: <CYYPR11MB84290126F884C2AB4F9AA5FBBD222@CYYPR11MB8429.namprd11.prod.outlook.com>
+From: Takeru Hayasaka <hayatake396@gmail.com>
+Date: Tue, 5 Mar 2024 16:47:35 +0900
+Message-ID: <CADFiAcJtJWMqeiVRLyZQivYw2J5EBeMVjP+qeJfS9YeWokdX+Q@mail.gmail.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v8 1/2] ethtool: Add GTP RSS
+ hash options to ethtool.h
+To: "Pucha, HimasekharX Reddy" <himasekharx.reddy.pucha@intel.com>
+Cc: "Brandeburg, Jesse" <jesse.brandeburg@intel.com>, 
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"laforge@gnumonks.org" <laforge@gnumonks.org>, Marcin Szycik <marcin.szycik@linux.intel.com>, 
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"mailhol.vincent@wanadoo.fr" <mailhol.vincent@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 04, 2024 at 10:41:50PM +0100, Salvatore Bonaccorso wrote:
-> Hi,
-> 
-> On Mon, Mar 04, 2024 at 01:05:09PM -0700, Jonathan Corbet wrote:
-> > Salvatore Bonaccorso <carnil@debian.org> writes:
-> > 
-> > > Ok. In the sprit of the stable series rules we might try the later and
-> > > if it's not feasible pick the first variant?
-> > 
-> > Well, "the spirit of the stable series" is one of Greg's titles, and he
-> > said either was good...:)
-> 
-> here we go. Please let me know if you need anything changed in the
-> commit message to describe the situation better.
-> 
-> Greg, in the Fixes tag I added the 5.10.y commit as the issue is
-> specific to the 5.10.y series. Is this the correct form to note this?
+Hi Himasekhar Reddy-san
 
-Looks good, I'll queue this up after the next round of releases goes
-out, thanks for the patch!
+> After added the above v4 patch able to to see tab completion for flow-typ=
+e but not rx-flow-hash. Please find below logs.
 
-greg k-h
+Sorry. I submitted a code with the conditions reversed. I have
+resubmitted it, so could you please check it again?
+https://lore.kernel.org/all/20240305074350.533622-1-hayatake396@gmail.com/
+
+Takeru
+
+2024=E5=B9=B43=E6=9C=885=E6=97=A5(=E7=81=AB) 13:28 Pucha, HimasekharX Reddy=
+ <himasekharx.reddy.pucha@intel.com>:
+>
+> >-----Original Message-----
+> > From: Takeru Hayasaka <hayatake396@gmail.com>
+> > Sent: Tuesday, March 5, 2024 9:12 AM
+> > To: Pucha, HimasekharX Reddy <himasekharx.reddy.pucha@intel.com>
+> > Cc: Brandeburg, Jesse <jesse.brandeburg@intel.com>; Nguyen, Anthony L <=
+anthony.l.nguyen@intel.com>; David S. Miller <davem@davemloft.net>; Eric Du=
+mazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni =
+<pabeni@redhat.com>; Jonathan Corbet <corbet@lwn.net>; linux-doc@vger.kerne=
+l.org; vladimir.oltean@nxp.com; linux-kernel@vger.kernel.org; laforge@gnumo=
+nks.org; Marcin Szycik <marcin.szycik@linux.intel.com>; intel-wired-lan@lis=
+ts.osuosl.org; netdev@vger.kernel.org; mailhol.vincent@wanadoo.fr
+> > Subject: Re: [Intel-wired-lan] [PATCH net-next v8 1/2] ethtool: Add GTP=
+ RSS hash options to ethtool.h
+> >
+> > Hi Himasekhar Reddy-san
+> >
+> > > Functionality wise its working fine. But the ethtool part (tab comple=
+te doesn't show GTP)
+> >
+> > I forgot to add the tab completion feature! Thank you for the good
+> > points. I've added it again in this version's patch.
+> > https://lore.kernel.org/all/20240305033555.524741-1-hayatake396@gmail.c=
+om/
+> >
+> > Takeru
+> >
+>
+> After added the above v4 patch able to to see tab completion for flow-typ=
+e but not rx-flow-hash. Please find below logs.
+>
+> # ethtool -N eth4 rx-flow-hash
+> ah4    ah6    esp4   esp6   ether  sctp4  sctp6  tcp4   tcp6   udp4   udp=
+6
+> # ethtool -N eth4 rx-flow-hash
+> ah4    ah6    esp4   esp6   ether  sctp4  sctp6  tcp4   tcp6   udp4   udp=
+6
+> # ethtool -N eth4 flow-type
+> ah4     esp4    ether   gtpc4t  gtpc6t  gtpu4d  gtpu4u  gtpu6d  gtpu6u  i=
+p6     sctp6   tcp6    udp6
+> ah6     esp6    gtpc4   gtpc6   gtpu4   gtpu4e  gtpu6   gtpu6e  ip4     s=
+ctp4   tcp4    udp4
+>
