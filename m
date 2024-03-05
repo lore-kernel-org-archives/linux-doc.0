@@ -1,88 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB535733D;
-	Tue,  5 Mar 2024 10:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8740B548E0;
+	Tue,  5 Mar 2024 10:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709634731; cv=none; b=jzVmgHqvdYBWOWG7JErV5MuTjGX/mpJtEEDQ7L16GJ2Ol+aW1eJd/NkTSzeuLUosAfVGGZjY6G+PR94mgEd8T72iUGs0gKQffPmTN91No1cY48p/SdnjKjD7FENBPC+/IbEHptaDiy6qTv9gwwLrsBngFin7LpxvWz3nRu42Wb4=
+	t=1709636022; cv=none; b=eCW8tTv6lmk5QekYsLTSNKtU8rQFqgdLyyRFXK5P+2rYIjvVPhgqdEZdqjpD+uMNm741+LIzennOLRbK6i7NdMxAopxi0KYe4N6Rw8jQnPZBJM59tfmrWZsCkDQIEGlXm4c39QwmD1NasqpXZ2HejDwsNhme+r/9po85/96WORE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709634731; c=relaxed/simple;
-	bh=bT/P5l+f4khig/abXkPdAzw4QrPxZvOmunHaLy7aIfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GL4QPYCe4C+qc1YGJJO9fuDclC0lXpYSJr4p4lGy64bwhksnkMCwMf89YChJN9L45Lkiiw4JUh8hMPPXg3HRzh29TQ4MIjscfjd6uoEOkBr90rMtK1NufiDXjctc26M6k7I4zB962bjXGi2Rdu1WDB8nke0jQ+atVOxcIB42yng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4qmZ1kr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709636022; c=relaxed/simple;
+	bh=+EDeY2yT2n/cIzmd+Fwdxy+Nb2MpMS4znvqdlwWBR9E=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vBdJ56HZ8BvsBfWJxDaXIP1dgczhpmLtC8Y0BdHKwres1lT+Sp8Ct0ZEKq7iQ9qucgh0yYLx09mV5PJ7/30ohcxRBXY6AuddXEnxGIeJx6bnLPxQ49zndK8e1KljPmOPDDtjbXYYn3mK7zWsteuN0jPc1o3wcsICSUFq7UXvhyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KvjwfHYP; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4qmZ1kr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94AB8C433F1;
-	Tue,  5 Mar 2024 10:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709634729;
-	bh=bT/P5l+f4khig/abXkPdAzw4QrPxZvOmunHaLy7aIfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o4qmZ1kry8QF5u2cGGcJHGekJvO4LVp9gJLHiDMyZeKrrsHxru9kyszflA3PBqstS
-	 4g5BFDTk6xNNSSFDeYhH1sbYNg2SQgmN1RLWNNQ13/rGp1+Ga8wJ7K4/CrnjR4+Pkf
-	 HNlvApkNpiVxttOI+rZyV6s+131ljOWIaZpAtFHM2vk11vhhH4YE7CMqOvSlSTLk13
-	 bVw9CzxuvfyNZ/tTCsrARaNWO6RUOa7eQiENZ0CrdeZLImqb6QLgSY32bo8Gfv1ToT
-	 OwY3LokMeSo7FuwmGXDz2jYrOEfYXdwnLZ4Ea/5/V8N5xilm+ijVC1wJL0PIHbLUmx
-	 wZS029d7LJcgA==
-Date: Tue, 5 Mar 2024 11:32:04 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
-	linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>, 
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
-Message-ID: <20240305-brotkrumen-vorbild-9709ce924d25@brauner>
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <202403040943.9545EBE5@keescook>
- <20240305-attentat-robust-b0da8137b7df@brauner>
- <202403050134.784D787337@keescook>
- <20240305-kontakt-ticken-77fc8f02be1d@brauner>
- <202403050211.86A44769@keescook>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KvjwfHYP"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4258cUul014068;
+	Tue, 5 Mar 2024 10:53:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=xiVexQtak33mp1KuoCuep
+	OlA2edRPR1tpbMxzI9BHVY=; b=KvjwfHYPrmlHqli1tRWm2GhLJEdakPWXjivsE
+	s427SYHZQ34BHDEjEZm5mCGI8GlvQvzkEb1C+srNBsR71fioWZylU1ve03x91M9h
+	Rq/gt0XeQB8UK9nlevn5SsVBd093VJT2OJK7k5lzNXZNoHoMEaonPb6+j6fRQgYZ
+	ki41oI46rgUTv2yYrrvAXm/Mecof47hWXSpEp0PP2NTeT58GvRqo2XaRKcWB1Vhi
+	ZFP2CeiiX88a60XZQ5tKkO7hjHVg4f17dKUaAGqt33SxKtmaFIbD6Yn0uh9IFKzA
+	AMsZKKRiy49Ua6wilU6IWKLHb+RTs9wQu1e0fliAPtmw1Z5gw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wp028892c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Mar 2024 10:53:23 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 425ArMGH012399
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 5 Mar 2024 10:53:22 GMT
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 5 Mar 2024 02:53:14 -0800
+Date: Tue, 5 Mar 2024 16:23:12 +0530
+From: Pavan Kondeti <quic_pkondeti@quicinc.com>
+To: Elliot Berman <quic_eberman@quicinc.com>
+CC: Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri
+	<quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu
+	<quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Andrew
+ Morton" <akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v17 01/35] docs: gunyah: Introduce Gunyah Hypervisor
+Message-ID: <6f98238d-25d9-4120-810a-4b8b19c1ef5d@quicinc.com>
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-1-1e9da6763d38@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <202403050211.86A44769@keescook>
+In-Reply-To: <20240222-gunyah-v17-1-1e9da6763d38@quicinc.com>
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: WVHQJJ_TVjtAPqZKVZkx35bx7TCdrEtx
+X-Proofpoint-ORIG-GUID: WVHQJJ_TVjtAPqZKVZkx35bx7TCdrEtx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-05_08,2024-03-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=248 suspectscore=0 phishscore=0 spamscore=0
+ malwarescore=0 mlxscore=0 clxscore=1011 bulkscore=0 impostorscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403050087
 
-On Tue, Mar 05, 2024 at 02:12:26AM -0800, Kees Cook wrote:
-> On Tue, Mar 05, 2024 at 10:58:25AM +0100, Christian Brauner wrote:
-> > Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
-> > unconditionally it likely would implicitly. But I'm not familiar enough
-> > with FOLL_FORCE to say for sure.
+On Thu, Feb 22, 2024 at 03:16:24PM -0800, Elliot Berman wrote:
+> Gunyah is an open-source Type-1 hypervisor developed by Qualcomm. It
+> does not depend on any lower-privileged OS/kernel code for its core
+> functionality. This increases its security and can support a smaller
+> trusted computing based when compared to Type-2 hypervisors.
+
+%s/based/base
+
 > 
-> I should phrase the question better. :) Is the supervisor writing into
-> read-only regions of the child process?
+> Add documentation describing the Gunyah hypervisor and the main
+> components of the Gunyah hypervisor which are of interest to Linux
+> virtualization development.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> +- Virtual platform:
+> +
+> +  Architectural devices such as interrupt controllers and CPU timers are
+> +  directly provided by the hypervisor as well as core virtual platform devices
+> +  and system APIs such as ARM PSCI.
+> +
+> +- Device Virtualization:
+> +
+> +  Para-virtualization of devices is supported using inter-VM communication and
+> +  virtio transport support. Select stage 2 faults by virtual machines that use
 
-Hm... I suspect we don't. Let's take two concrete examples so you can
-tell me.
+%s/Select/Selected
 
-Incus intercepts the sysinfo() syscall. It prepares a struct sysinfo
-with cgroup aware values for the supervised process and then does:
+> +  proxy-scheduled vCPUs can be handled directly by Linux to provide Type-2
+> +  hypervisor style on-demand paging and/or device emulation.
+> +
 
-unix.Pwrite(siov.memFd, &sysinfo, sizeof(struct sysinfo), seccomp_data.args[0]))
 
-It also intercepts some bpf system calls attaching bpf programs for the
-caller. If that fails we update the log buffer for the supervised
-process:
+The doc patch looks good to me.
 
-union bpf_attr attr = {}, new_attr = {};
-
-// read struct bpf_attr from mem_fd
-ret = pread(mem_fd, &attr, attr_len, req->data.args[1]);
-if (ret < 0)
-        return -errno;
-
-// Do stuff with attr. Stuff fails. Update log buffer for supervised process:
-if ((new_attr.log_size) > 0 && (pwrite(mem_fd, new_attr.log_buf, new_attr.log_size, attr.log_buf) != new_attr.log_size))
-
-But I'm not sure if there are other use-cases that would require this.
+Thanks,
+Pavan
