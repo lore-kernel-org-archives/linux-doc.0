@@ -1,133 +1,102 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C406535CF;
-	Tue,  5 Mar 2024 10:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA1B5490B;
+	Tue,  5 Mar 2024 10:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709633276; cv=none; b=ur+c6La4pxIxuT/qWVCKmetxamRNTsrtlNBYihb7xDMlBFiE31ou+29q+7s1QbPjWVa5eqa2DqybeyIMiPfNvrO+IltgivAKZ3UwItps2xcfHxzjBe9yqi4dAgL3RMCYZ/IjJzXRXeAyxBCChGbf2fa53f/S0+qquxsIC/DqSps=
+	t=1709633437; cv=none; b=CQcfRCIsRRHbUW+5LE86GqfcbEeIPpxvE/ojkUGsuGt8AYLv/4izsGiORMCDOlHhsrcu1ZaqMfihQJaZmSR+2bM626rGpackSBGK4AngUyGkJbVA6Gn6EM4YcL7wPMX87ZeOk1f/ce1Za6EyhFBPThUapeKy7BW6EyiwfsVt9gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709633276; c=relaxed/simple;
-	bh=NzEFmVQU/l4eibZVoBzFfR7429Ut+ICtLkRRq6L7/L4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fU13feJdEr91jscxfwbYysMs8UadegzxKe/hpPYdbM9GLl9FpSDBNjNbwON6C0iJIJXfWQX/mAVll5deoZ8XSKLQQ6dXQih4jSnAMA4tBNI//O57QoLmVDyXvQjL5xQsSkWPX3ic984oLKh+99sdDepcrQGPZ108X59nkZrhU9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Tprj416Hlz6D8rK;
-	Tue,  5 Mar 2024 18:02:48 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 593961404F5;
-	Tue,  5 Mar 2024 18:07:44 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Tue, 5 Mar
- 2024 10:07:43 +0000
-Date: Tue, 5 Mar 2024 10:07:42 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-CC: Jonathan Cameron <jic23@kernel.org>, Nuno Sa <nuno.sa@analog.com>, "Vinod
- Koul" <vkoul@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Paul Cercueil
-	<paul@crapouillou.net>, Daniel Vetter <daniel@ffwll.ch>, Michael Hennerich
-	<Michael.Hennerich@analog.com>, <linux-doc@vger.kernel.org>,
-	<dmaengine@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v7 0/6] iio: new DMABUF based API
-Message-ID: <20240305100742.00006a4c@Huawei.com>
-In-Reply-To: <43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
-References: <20240223-iio-dmabuf-v7-0-78cfaad117b9@analog.com>
-	<20240303174245.37efc0b0@jic23-huawei>
-	<43787ce68f731b9267ee558c4c38d634acffe8b9.camel@gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1709633437; c=relaxed/simple;
+	bh=OAVORbio8rX6MP7JstBR8elPmW+TfA86LMRUm++6e/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CwS1iRCbSRBF3Oo0KI3Kac00qjP+7TocyRj+PHhADgxNuIl3OEL0p02g58McVfnl4i+ZrIkOBs3umN/06df9322EzYQP1LrOt7vfMKtM/U+7b4RfGBqcj89AV2BUGl1o2rtFMetOHAA2jxg8WEHZabV1zLHB7FwRQBhSrinNWww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hb5413ee; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hb5413ee"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 956D76000A;
+	Tue,  5 Mar 2024 10:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709633426;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAVORbio8rX6MP7JstBR8elPmW+TfA86LMRUm++6e/M=;
+	b=Hb5413eedQK0YxQ1ILt65ybaUrNRAGNuplmwg//4ZQJjbbmG62g1t5GGVso/Et3lv2+wX4
+	8T8hKdXBDXCYIW/ac983hQYxrucOUJ8QMkLOGBBVAjHIhBhdkqxvOcQ38UCp2/xXZUnYwz
+	lgGee57RS1o0nFDWciYaCRsouSfckHadobj1iJOwElo6GhuMaQiSM9g8cpu84xSUT0ddm0
+	AnqLohvyJG4BeZkLMwXhTIVdcGM7l9sPzImFcCR1gv/W8i+qVguhLVBj6qqkzmuudSZo6M
+	1tD3t8hDMcZHuNuorgTOmH0R4WEB0MaHkhjY77/jxm3N1emWCFo7rHa1yoD6zg==
+Date: Tue, 5 Mar 2024 11:10:21 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v9 08/13] ptp: Add phc source and helpers to
+ register specific PTP clock or get information
+Message-ID: <20240305111021.5c892d5a@kmaincent-XPS-13-7390>
+In-Reply-To: <ZebZpspMCqjLES/W@shell.armlinux.org.uk>
+References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
+	<20240226-feature_ptp_netnext-v9-8-455611549f21@bootlin.com>
+	<20240304185734.5f1a476c@kernel.org>
+	<ZebZpspMCqjLES/W@shell.armlinux.org.uk>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Mon, 04 Mar 2024 08:59:47 +0100
-Nuno S=E1 <noname.nuno@gmail.com> wrote:
+On Tue, 5 Mar 2024 08:36:54 +0000
+"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
 
-> On Sun, 2024-03-03 at 17:42 +0000, Jonathan Cameron wrote:
-> > On Fri, 23 Feb 2024 13:13:58 +0100
-> > Nuno Sa <nuno.sa@analog.com> wrote:
-> >  =20
-> > > Hi Jonathan, likely you're wondering why I'm sending v7. Well, to be
-> > > honest, we're hoping to get this merged this for the 6.9 merge window.
-> > > Main reason is because the USB part is already in (so it would be nice
-> > > to get the whole thing in). Moreover, the changes asked in v6 were si=
-mple
-> > > (even though I'm not quite sure in one of them) and Paul has no acces=
-s to
-> > > it's laptop so he can't send v7 himself. So he kind of said/asked for=
- me to
-> > > do it. =20
+> On Mon, Mar 04, 2024 at 06:57:34PM -0800, Jakub Kicinski wrote:
+> > On Mon, 26 Feb 2024 14:39:59 +0100 Kory Maincent wrote: =20
+> > > Prepare for future hardware timestamp selection by adding source and
+> > > corresponding pointers to ptp_clock structure. Additionally, introduce
+> > > helpers for registering specific phydev or netdev PTP clocks, retriev=
+ing
+> > > PTP clock information such as hwtstamp source or phydev/netdev pointe=
+rs,
+> > > and obtaining the ptp_clock structure from the phc index. =20
 > >=20
-> > So, we are cutting this very fine. If Linus hints strongly at an rc8 ma=
-ybe we
-> > can sneak this in. However, I need an Ack from Vinod for the dma engine
-> > changes first.
-> >=20
-> > Also I'd love a final 'looks ok' comment from DMABUF folk (Ack even bet=
-ter!)
-> >=20
-> > Seems that the other side got resolved in the USB gadget, but last we h=
-eard
-> > form
-> > Daniel and Christian looks to have been back on v5. I'd like them to co=
-nfirm
-> > they are fine with the changes made as a result.=20
-> >  =20
+> > Can we assume there's one PHC per netdev?
+> > We both store the netdev/phydev info in the ptp clock
+> > and ptp clock in the netdev. Is there a reason for that? =20
 >=20
-> I can ask Christian or Daniel for some acks but my feeling (I still need,=
- at
-> some point, to get really familiar with all of this) is that this should =
-be
-> pretty similar to the USB series (from a DMABUF point of view) as they ar=
-e both
-> importers.
->=20
-> > I've been happy with the IIO parts for a few versions now but my abilit=
-y to
-> > review
-> > the DMABUF and DMA engine bits is limited.
-> >=20
-> > A realistic path to get this in is rc8 is happening, is all Acks in pla=
-ce by
-> > Wednesday,
-> > I get apply it and hits Linux-next Thursday, Pull request to Greg on Sa=
-turday
-> > and Greg
-> > is feeling particularly generous to take one on the day he normally clo=
-ses his
-> > trees.
-> >  =20
->=20
-> Well, it looks like we still have a shot. I'll try to see if Vinod is fin=
-e with
-> the DMAENGINE stuff.
->=20
+> No. In the case of mvpp2 + marvell PHY, the two PTP implementations are
+> entirely separate.
 
-Sadly, looks like rc7 was at the end of a quiet week, so almost certain to =
-not
-be an rc8 in the end. Let's aim to get this in at the start of the next cyc=
-le
-so we can build on it from there.
+Yes the PTP clock can be independent from the netdev.
+We need to know which software layer register the PHC to be able to call its
+callbacks.
 
+My commit log is a bit small here. I will enhance it in the next version.
 
-Jonathan
-
-> - Nuno S=E1
->=20
->=20
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
