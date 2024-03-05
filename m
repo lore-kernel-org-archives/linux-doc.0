@@ -1,144 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B1350246;
-	Tue,  5 Mar 2024 09:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9E4D9F9;
+	Tue,  5 Mar 2024 10:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709632711; cv=none; b=CZm/byPVCrE7BAz9czEqel7T0PEV9pOn72RCAwPdgNx72Lq6MuvanT6jsnCsYc/WMTAz1GgiDtNEStQc5eJESl0Phh5N48HsrbDRQJzhWaZoMvIiOTuv9uRpBsJm83yz5O3/LwQ9sl0v5vaIRXY5E4VBfCNN580FhH7D+qVouJQ=
+	t=1709632967; cv=none; b=WcJj0KHWqKQd3Wu6PqYF1VD0G2h5aLkQWfe9VjUv2mKB4RvxWm5KLb1m8F8gsPY7b1IiL/GGaH5y+tasjajE27r3uQbsPA8O2mQfkd+gTwHRRdTXA0BjKEadj1Ip3MwyBszKKahcuyrm8VH+LG1vZAIH/UaBWTGSzOvWEU4R1Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709632711; c=relaxed/simple;
-	bh=/4mH6blz+OXbyiAZdJXapeZYAAHshdm8yjRhaiNohG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gp/aF+TASY7rqHsTMYY146WTc+ex4CyBR4AjTaBkNKT8OF/EIXK1D4NbujjPqzCGUu/muqOfw5FkDUjM3ghMx1rXx9+5qKjJWxYYphrGq+wSUozqsEbQ5DQrp2Nj9ipN/WsRc5I4WhTfqJr5T8ilmhMZES6e/9zJsosBJ2Rv+wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ambo0nUm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1709632967; c=relaxed/simple;
+	bh=D0vHsAJNAvotsrRPO6R/H2ATrWJBLX7q5KDT/CK6xHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CM3BLAY4STbSB4pWrtpyy1MuOEQOXU0hz81HCLdsFW7jfW7PV0fLsHmDfH9NURUSDoiBWZSnSkmEzug8JVo6KeKCuLjYeq+841givfKyJLK+OiBBuBr/vDnWHCI948TJYKMzzC1UKg8KtKDTNOzsm7UE05veVCbGfXNMIGo6fLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VVi1O8qY; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ambo0nUm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D4ECC433F1;
-	Tue,  5 Mar 2024 09:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709632711;
-	bh=/4mH6blz+OXbyiAZdJXapeZYAAHshdm8yjRhaiNohG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ambo0nUmKbxaZC2hyphDe3+VrmUQkQMnghESDL91tOcycm/8gzmlrBxbmyuP7owm5
-	 9YdNAqmjdAcc91XJxDV4+GSTpoMBy557B6lF1np0wFkis1b2oUxWzzblBu+PeJbVih
-	 D5UtafeVnQTOaeQnFhjMjm38EswV2h+tuACEpWbiVmiENBzotksuhpGJd6TZQvFwJH
-	 hevskSUIRUI/fA/8aYM6Mdwjoe4fmcKCgs/Ebu9xHYfOgc4U8Rm9CJLxAPnu9jkvSb
-	 Xld6fNHXfA5lIuwIetidOy9YqB3qUZiDx/ZN+bzC5WAfyXcAm7h8wruFJtRjicoy//
-	 ddcLizSRVMCxw==
-Date: Tue, 5 Mar 2024 10:58:25 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
-	linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>, 
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
-Message-ID: <20240305-kontakt-ticken-77fc8f02be1d@brauner>
-References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
- <20240304-zugute-abtragen-d499556390b3@brauner>
- <202403040943.9545EBE5@keescook>
- <20240305-attentat-robust-b0da8137b7df@brauner>
- <202403050134.784D787337@keescook>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VVi1O8qY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 73A50FF80D;
+	Tue,  5 Mar 2024 10:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1709632957;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yTaRrrhLCd6vyS/QfkqHI3GV6BwIOBGsPobf3wIDHq0=;
+	b=VVi1O8qYd5QxG5YleJVNsRGWGhyJrG2nWLJCm/HkgI2Ns2NYFG2iQh0cYziYqsrmMUHu0I
+	cgaMBRsfv5YvqfisZwq5Tei8FTxe6Zl0s9fCH9H6VPpPOjLdbw89p+9qfpOaxhONG0Pv7L
+	YDgWeY0I3MmCSQKMOvk07wo5ciZPR8nXXzOrtH+hIuVvvdqswZa7ERshUtrr2w0EodQt5P
+	RU/p/Zh/qb/Rb4RoJ6jxh0Nk+/Io904/tm/HAmHoKfZXwKigWpzqgpJpwj5e6AuFlw4fLr
+	aMpfNnNck5UUseFDRkBkqlM/Rc9Sa5MRa6EAoyPirTYyhT2Jdrj9KES9HLgDfA==
+Date: Tue, 5 Mar 2024 11:02:33 +0100
+From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v9 02/13] net: Make dev_get_hwtstamp_phylib
+ accessible
+Message-ID: <20240305110233.2aca99f7@kmaincent-XPS-13-7390>
+In-Reply-To: <20240305105627.1d277a76@kmaincent-XPS-13-7390>
+References: <20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com>
+	<20240226-feature_ptp_netnext-v9-2-455611549f21@bootlin.com>
+	<20240304184048.1c1724fa@kernel.org>
+	<20240305105627.1d277a76@kmaincent-XPS-13-7390>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202403050134.784D787337@keescook>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, Mar 05, 2024 at 01:41:29AM -0800, Kees Cook wrote:
-> On Tue, Mar 05, 2024 at 09:59:47AM +0100, Christian Brauner wrote:
-> > > > Uhm, this will break the seccomp notifier, no? So you can't turn on
-> > > > SECURITY_PROC_MEM_RESTRICT_WRITE when you want to use the seccomp
-> > > > notifier to do system call interception and rewrite memory locations of
-> > > > the calling task, no? Which is very much relied upon in various
-> > > > container managers and possibly other security tools.
-> > > > 
-> > > > Which means that you can't turn this on in any of the regular distros.
-> > > 
-> > > FWIW, it's a run-time toggle, but yes, let's make sure this works
-> > > correctly.
-> > > 
-> > > > So you need to either account for the calling task being a seccomp
-> > > > supervisor for the task whose memory it is trying to access or you need
-> > > > to provide a migration path by adding an api that let's caller's perform
-> > > > these writes through the seccomp notifier.
-> > > 
-> > > How do seccomp supervisors that use USER_NOTIF do those kinds of
-> > > memory writes currently? I thought they were actually using ptrace?
-> > > Everything I'm familiar with is just using SECCOMP_IOCTL_NOTIF_ADDFD,
-> > > and not doing fancy memory pokes.
-> > 
-> > For example, incus has a seccomp supervisor such that each container
-> > gets it's own goroutine that is responsible for handling system call
-> > interception.
-> > 
-> > If a container is started the container runtime connects to an AF_UNIX
-> > socket to register with the seccomp supervisor. It stays connected until
-> > it stops. Everytime a system call is performed that is registered in the
-> > seccomp notifier filter the container runtime will send a AF_UNIX
-> > message to the seccomp supervisor. This will include the following fds:
-> > 
-> > - the pidfd of the task that performed the system call (we should
-> >   actually replace this with SO_PEERPIDFD now that we have that)
-> > - the fd of the task's memory to /proc/<pid>/mem
-> > 
-> > The seccomp supervisor will then perform the system call interception
-> > including the required memory reads and writes.
-> 
-> Okay, so the patch would very much break that. Some questions, though:
-> - why not use process_vm_writev()?
+On Tue, 5 Mar 2024 10:56:27 +0100
+K=C3=B6ry Maincent <kory.maincent@bootlin.com> wrote:
 
-Because it's inherently racy as I've explained in an earlier mail in
-this thread. Opening /proc/<pid>/mem we can guard via:
+> > > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> > > index f07c8374f29c..7f78aef73fe1 100644
+> > > --- a/include/linux/netdevice.h
+> > > +++ b/include/linux/netdevice.h
+> > > @@ -4005,6 +4005,8 @@ int generic_hwtstamp_set_lower(struct net_device
+> > > *dev, int dev_set_hwtstamp_phylib(struct net_device *dev,
+> > >  			    struct kernel_hwtstamp_config *cfg,
+> > >  			    struct netlink_ext_ack *extack);
+> > > +int dev_get_hwtstamp_phylib(struct net_device *dev,
+> > > +			    struct kernel_hwtstamp_config *cfg);   =20
+> >=20
+> > since we don't expect modules to call this, how about we move dev_set*
+> > and the new declaration to net/core/dev.h ? =20
+>=20
+> Ok for me.
 
-// Assume we hold @pidfd for supervised process
+I replied to quickly.
+It seems this header in not include in ethtool part.=20
+This would imply adding #include "../core/dev.h" in the tsinfo.c file.
+Not sure this is what we want.
 
-int fd_mem = open("/proc/$pid/mem", O_RDWR);:
-
-if (pidfd_send_signal(pidfd, 0, ...) == 0)
-        write(fd_mem, ...);
-
-But we can't exactly do:
-
-process_vm_writev(pid, WRITE_TO_MEMORY, ...);
-if (pidfd_send_signal(pidfd, 0, ...) == 0)
-        write(fd_mem, ...);
-
-That's always racy. The process might have been reaped before we even
-call pidfd_send_signal() and we're writing to some random process
-memory.
-
-If we wanted to support this we'd need to implement a proposal I had a
-while ago:
-
-#define PROCESS_VM_RW_PIDFD (1 << 0)
-
-process_vm_readv(pidfd,  ..., PROCESS_VM_RW_PIDFD);
-process_vm_writev(pidfd, ..., PROCESS_VM_RW_PIDFD);
-
-which is similar to what we did for waitid(pidfd, P_PIDFD, ...)
-
-That would make it possible to use a pidfd instead of a pid in the two
-system calls. Then we can get rid of the raciness and actually use those
-system calls. As they are now, we can't.
-
-> - does the supervisor depend on FOLL_FORCE?
-
-Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
-unconditionally it likely would implicitly. But I'm not familiar enough
-with FOLL_FORCE to say for sure.
-
-> Perhaps is is sufficient to block the use of FOLL_FORCE?
-> 
-> I took a look at the Chrome OS exploit, and I _think_ it is depending
-> on the FOLL_FORCE behavior (it searches for a symbol to overwrite that
-> if I'm following correctly is in a read-only region), but some of the
-> binaries don't include source code, so I couldn't easily see what was
-> being injected. Mike or Adrian can you confirm this?
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
