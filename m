@@ -1,155 +1,96 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428E9131720;
-	Wed,  6 Mar 2024 13:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333327FBBB;
+	Wed,  6 Mar 2024 13:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709731629; cv=none; b=JlJHA03Auhrp7Mv/ONis8P1HJQmOwYNACdYJl2sEs4a/L/Oe1BcOKkOoehU/W2bAKJ01A47/HGWCVsaH3GUUEz1UORJuld+RM5nkXJ0fUbyV1cPCZ7hOyGc+3FyXHmpNsu82fNzUUgOiwPfuMy0DhnlgE9k3EO2WhhlLHXLmMBc=
+	t=1709732441; cv=none; b=auAO/aanD2p2VgTZFaG5FfWZr7GInESX0NdcTzppzRLBOSJJOw+A47SBAmVXHzL6wsXQHmGAnxGvCXTNUZCIVz9VhwGksrA4m0EnRx43rGFr79tIN4FwxTU2b0KYItg1MerS1ct5C2Si3o+RwYAEUjqCcJQmwvapSYekqBwfN6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709731629; c=relaxed/simple;
-	bh=+sPm+oKCXQGcQ9Lw/Yo0t+Ryp5HfmG552sHNArAQGDA=;
+	s=arc-20240116; t=1709732441; c=relaxed/simple;
+	bh=MI0+GrJQL4JofYsjp7q2Zgut3VuhGSL1qh3TWn5mGm4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOxlD7Pm6dkk2zwVgnZqDwbJKkfkwh1X+DKJD+kTfP8aFk6aw+zmX/GFeV7NI1Vkyb/cr/VjUVWFyaeqL7UM50NTB6YnOiKsyHCr0zLgQPo4WAu/Nk/JIQQHzwfy6fEVDE+w8F1ycB1vRM23RACGCYagY5CYctBIqfOsYu/xkgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6CNpEuN; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vp0y1A4XfHCj62Y/zrI7d/RTK7jHIgyPcx/PMFJzvIQareWsVANaH8jJOP/hQiweDkPQxgQ2mh2puD3USOPXfy1ztZFT/frBDD0ej/vqqwOBN2UeaCDDm4b2/o+qT1TcEyBDJbsr+yTLYvORu3Xx+um8KIGpkwj4yJbygQaBCKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pRmGogdB; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6CNpEuN"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dbd32cff0bso58555285ad.0;
-        Wed, 06 Mar 2024 05:27:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709731627; x=1710336427; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RiLQ/Gwlknvzeh2DwRC01mhrnxKX+BxC7evLtK7aSHk=;
-        b=O6CNpEuNynMXFhVrUVE+esfKEaZik87vlfFsj5rH0RWolbce4aRS6D0b8+U4mikLsY
-         S9khQXVsOOboQtUZZ8piRTUJ7sszbvuCBYnIWACGrC4tNkp0bLyIBufR7JTtBik+bkgQ
-         yt5e9fxc619wmlHXzqTSySZ3ppTLDFrSVRUNKr8oMX967VeGTjCL/zM2Cx/Ujw5XznL5
-         YCDp1kbZVK5E4beOrqwvy5M++lJZpCyMShFTnyZQzLSDqzoDGhwALLqdpXf6dibnjl26
-         zIRc5f96xs+jNkM++eSGzcPx/2Vz9RAH8qT91voAl5pGrR1Efd2A9pInUfCZcxaPuxYX
-         ReRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709731627; x=1710336427;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RiLQ/Gwlknvzeh2DwRC01mhrnxKX+BxC7evLtK7aSHk=;
-        b=EjbXUeFPV8ZWuzeg/uwVJIleZeQnHOUyz9oVdN3DMOgxY+mzlZhbbPAIQummlXCsvz
-         YSm5i7jTuvMKTSYpqs5VjIGpVMsjb7CJk4l7C5jFFnV1t7A1ez9+NvL3iyT49MIoEpIR
-         DvT6sApGiFTpTd4bLht3+NyPqUJbiCSCJWmJktzBN6m0iFCU2MtKukRnDQus+EkaZFqt
-         70+FzWREHyHSsimsTzLFL4bEfAPJ7ftkKH3fCcOGdAPWoPfZ74fHUe5/uyW7mqLUmUz6
-         OWn6NYOs3qt4l2R1z4P+lgjGZwR6RLpwHw7A1W1eTEtz4o/SONGWqCT5cenjjNOEpNMg
-         xnRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWU88h7W1eryUafyfnRcJvqY0Dt+7RfigxYUGzZOcJfZtmG5QLJBXlXiaUV6wWyt6+0zVL9V32uLjqeRqLDiBfmj1V9pNWsj3bTJsLq6zv3PHqnKmN7wlF5NnPY+GZ7U2k9+P2kQlBT
-X-Gm-Message-State: AOJu0YwuaLfWlTOOb2u63YqFIAODmRE05mf4u+mj95yJeeTve8rlIEoV
-	/jVx8EbwAvzRtbt6JCpqXcTZX9j4O4hxTjwGIEqMtzAOsbKxOBFK7MKSpANcDUo=
-X-Google-Smtp-Source: AGHT+IGbzpjggy4PP+k4v7TS6DtV6f8SDz9RQOR92oZBLAFBg7AXN3v+tlMA5JaLtbGxDD0Ip5wRKA==
-X-Received: by 2002:a17:903:1cf:b0:1db:fd4e:329f with SMTP id e15-20020a17090301cf00b001dbfd4e329fmr5516641plh.15.1709731627409;
-        Wed, 06 Mar 2024 05:27:07 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id k23-20020a170902ba9700b001da105d6a83sm12473865pls.224.2024.03.06.05.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 05:27:05 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id E12A918163A92; Wed,  6 Mar 2024 20:27:02 +0700 (WIB)
-Date: Wed, 6 Mar 2024 20:27:02 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Subject: Re: [PATCH v1] docs: verify/bisect: fixes, finetuning, and support
- for Arch
-Message-ID: <ZehvJv3fDZIPs9Kc@archie.me>
-References: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pRmGogdB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=91gSRt6gnV2LL9+GkPFyvaYfVwxeGuHq0ieaBFdOqeo=; b=pRmGogdBNBj+w6+DZ1iaWZrN6U
+	jeJRo+f6V1VFBHhsrak6FjUIsu5cyLZHJzLpQBMFyRSsxrkjUDQyWuDFCrNxwcHgjOZid+SL+NZRZ
+	W0XILwKDCskZBWTqs+vPdS708GrMhAvlOsJUwqjqKUrjhiJR+YPGZoJOUgve/sYXgxJQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rhrVv-009VFy-Py; Wed, 06 Mar 2024 14:40:55 +0100
+Date: Wed, 6 Mar 2024 14:40:55 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
+	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 02/12] net: ethernet: oa_tc6: implement
+ register write operation
+Message-ID: <43f49aff-ca74-4d10-a478-89ea7497ba83@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-3-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lazs5xFE0/5FrnVE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
+In-Reply-To: <20240306085017.21731-3-Parthiban.Veerasooran@microchip.com>
 
-
---lazs5xFE0/5FrnVE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Mar 06, 2024 at 10:21:12AM +0100, Thorsten Leemhuis wrote:
-> diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions=
-=2Erst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> index 54bde8bac95c67..58211840ac6ffb 100644
-> --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> @@ -192,8 +192,8 @@ will be considered the 'good' release and used to pre=
-pare the .config file.
-> =20
->         sudo rm -rf /lib/modules/6.0-rc1-local-gcafec0cacaca0
->         sudo kernel-install -v remove 6.0-rc1-local-gcafec0cacaca0
-> -       # * Note, if kernel-install is missing, you will have to
-> -       #   manually remove the kernel image and related files.
-> +       # * Note, on some distributions kernel-install is missing
-> +       #   or does only part of the job.
-
-Consult documentation of your distribution for how to manually install/remo=
-ve
-the kernel.
-
->  Install build requirements
->  --------------------------
-> @@ -1076,72 +1078,103 @@ about to build.
->  Here are a few examples what you typically need on some mainstream
->  distributions:
-> =20
-> +* Arch Linux and derivatives::
+> +config OA_TC6
+> +	tristate "OPEN Alliance TC6 10BASE-T1x MAC-PHY support"
+> +	depends on SPI
+> +	select PHYLIB
+> +	help
+> +	  This library implements OPEN Alliance TC6 10BASE-T1x MAC-PHY
+> +	  Serial Interface protocol for supporting 10BASE-T1x MAC-PHYs.
 > +
-> +    sudo pacman --needed -S bc binutils bison flex gcc git kmod libelf o=
-penssl \
-> +      pahole perl zlib ncurses qt6-base
+> +	  To know the implementation details, refer documentation in
+> +	  <file:Documentation/networking/oa-tc6-framework.rst>.
 > +
->  * Debian, Ubuntu, and derivatives::
-> =20
-> -    sudo apt install bc binutils bison dwarves flex gcc git make openssl=
- \
-> -      pahole perl-base libssl-dev libelf-dev
-> +    sudo apt install bc binutils bison dwarves flex gcc git kmod libelf-=
-dev \
-> +      libssl-dev make openssl pahole perl-base pkg-config zlib1g-dev \
-> +      libncurses-dev qt6-base-dev g++
-> =20
->  * Fedora and derivatives::
-> =20
-> -    sudo dnf install binutils /usr/include/{libelf.h,openssl/pkcs7.h} \
-> -      /usr/bin/{bc,bison,flex,gcc,git,openssl,make,perl,pahole}
-> +    sudo dnf install binutils \
-> +      /usr/bin/{bc,bison,flex,gcc,git,openssl,make,perl,pahole,rpmbuild}=
- \
-> +      /usr/include/{libelf.h,openssl/pkcs7.h,zlib.h,ncurses.h,qt6/QtGui/=
-QAction}
+> +	  This option is provided for the case where no in-kernel-tree modules
+> +	  require OA_TC6 functions, but a module built outside the kernel tree
+> +	  does. Such modules that use library OA_TC6 functions require M here.
 
-IMO qt packages are for people who wish to do xconfig instead of menuconfig
-or nconfig.
+We generally don't refer to out of tree modules. We know they exist,
+but we don't take any steps to support them, the internal APIs are not
+fixed etc. So i would drop this last paragraph.
 
-Thanks.
+> +static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+> +{
+> +	u8 *tx_buf = tc6->spi_ctrl_tx_buf;
+> +	u8 *rx_buf = tc6->spi_ctrl_rx_buf;
+> +
+> +	rx_buf += OA_TC6_CTRL_IGNORED_SIZE;
+> +
+> +	/* The echoed control write must match with the one that was
+> +	 * transmitted.
+> +	 */
+> +	if (memcmp(tx_buf, rx_buf, size - OA_TC6_CTRL_IGNORED_SIZE))
+> +		return -ENODEV;
+> +
 
---=20
-An old man doll... just what I always wanted! - Clara
+I think EPROTO or EIO would be better. The device might have crashed,
+burned and is gone, but isn't a bit flip on the SPI bus more likely?
 
---lazs5xFE0/5FrnVE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZehvHQAKCRD2uYlJVVFO
-o8QAAQDL2QAo686CyoAn0M4a/QzWk42pLsA/+Yxo1q8pRmmQ8gEA9v12OA9wft3g
-ear6xki6AjucstJTnmst30tNIF03OAo=
-=mmbI
------END PGP SIGNATURE-----
-
---lazs5xFE0/5FrnVE--
+       Andrew
