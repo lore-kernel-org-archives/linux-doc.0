@@ -1,379 +1,285 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A9223E48E;
-	Wed,  6 Mar 2024 12:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C00578B43;
+	Wed,  6 Mar 2024 12:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709728694; cv=none; b=YiY9wP3HKeIpJDgxbdci3mCiJVnxNPUjYfpgoZJdnPSy/6It7u7d+wZykNBNp666nKjHT/4SLEqb404SDPT5joL1O8goGSSX5rKYIP4WN/qKXuX6pw+L+2tHA7F+4FbTJhwROtr+8QI1z27xsgbmI/y2w1rn8wHCEj5ob5WEEPc=
+	t=1709729812; cv=none; b=J4roJNEK+d2i9VDfkv5w2Cl9m5ZE3qCcaQcdoG+B/3TQqPfcj8bd0pp4jD4N12RnghlIGUdZjH06sc0iDBWd0mRwO7e5DC9HlFVBnlJyLLIxWCUWgkLmtADoNHA3/VyA/g9/Zb+zvdrLB81lxBqesBccLzpca9/T2XfDkvvZkdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709728694; c=relaxed/simple;
-	bh=ZFawXI/ttd5h8nbrlHCh9gbaxPOBHPGNezO6lNgZuEE=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=terEYSESZmm1nrcuUbIgmL3np8RT68PEyD1DVPm9xzqTXzd2MpfNDpcYdZqGriQnM08plIzDUMWsh0j7Fc5Bz7dNofR43pDzmzy+SChmLrNtLuHG1CXBmJeIZZgX4orVSt7a7495RYVA0F969LxlmaiVYtdUqMaU/DhOxm1/tcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4TqX3C4WyXzSrCw;
-	Wed,  6 Mar 2024 20:35:51 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3A0C414011F;
-	Wed,  6 Mar 2024 20:38:07 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 6 Mar
- 2024 20:38:06 +0800
-Subject: Re: [RFC PATCH net-next v6 05/15] netdev: support binding dma-buf to
- netdevice
-To: Mina Almasry <almasrymina@google.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
-	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
-	<sparclinux@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
- Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
-	<ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
-	<James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
-	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
-	<arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
-	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
-	<martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
-	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
-	<john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
-	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn
-	<willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
-	<christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
-	<shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
- Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-6-almasrymina@google.com>
- <da42cea9-c169-599e-f087-d38c419e3dab@huawei.com>
- <CAHS8izM7GbvWHrH=h9q0oG0DMU649EjT1udNEW_8F-hGeC15EQ@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <aa892723-7396-998d-db06-166c28fba1e0@huawei.com>
-Date: Wed, 6 Mar 2024 20:38:06 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+	s=arc-20240116; t=1709729812; c=relaxed/simple;
+	bh=K+4T1t1fYlm3bHNZus2J5bKmrA/rIRHnPXRpNPk2kdw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ClrvxDjMcrWGGIPENGYL6WOX5YyNmrKdOWgzGVDHKfWcBQOfAx9zWqUPB6hhPZnyIwJmOZppyTFkYm+QhwN/vsPut8OsxUsfXRRwFblZ/3vBqQCZDgJTJD2zXZYDFiO87olzQIhWyJ7Bn/Qzs/ak2kDw0YTRelHiqPCsb+iXUEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Kv+721DW; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Kv+721DW"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 426CbNqQ023639;
+	Wed, 6 Mar 2024 12:56:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=TIC8QxWYz2/20GTl1RuwrLMGb//tdSoQQWTLa00LA50=;
+ b=Kv+721DWzkixjrNTWyEw8mweoVcjXE+6Ow3tv30mh1Mw9JWNTjzyH74F/Uzko94nRGX7
+ xUOoVgH0CSqA8TPCt0deAYmWzFX+xsLQ9Rj3Ur2vF3eEGOSaXw1XX4l6KiDIE4u0p3mb
+ ZiIkz+Xh3rrO8DW4QlInR4URU8SB04vu0mmc9Qs6SN6wfnSAI4gUoof+j+yygEqjDTNs
+ KCRoeTemlCQ/ogAHM2sC0bpsU4yWsN2oS/j8fGi5T91Lml7dtJ+z7ep6GTZFYXV4ClEO
+ YLXt0zm4rjT0qjUuVRHfFHhQwkMc0KfpSUkW9a8aQ0h4dxSylAnSLnPCujk69J1tc4F5 hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wprna0d00-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 12:56:17 +0000
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 426Csk1S010054;
+	Wed, 6 Mar 2024 12:56:16 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wprna0ct6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 12:56:16 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 426ChIah006073;
+	Wed, 6 Mar 2024 12:56:10 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wmeet6ygw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Mar 2024 12:56:10 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 426Cu7ox35783124
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 6 Mar 2024 12:56:09 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0501A58051;
+	Wed,  6 Mar 2024 12:56:07 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 807F65805A;
+	Wed,  6 Mar 2024 12:56:05 +0000 (GMT)
+Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.175.142])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  6 Mar 2024 12:56:05 +0000 (GMT)
+Message-ID: <da450fd44278913fda27542f6e9c0d26b0148829.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 24/25] commoncap: use vfs fscaps interfaces
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
+        Christian Brauner
+	 <brauner@kernel.org>,
+        "Seth Forshee (DigitalOcean)" <sforshee@kernel.org>
+Cc: Serge Hallyn <serge@hallyn.com>, Paul Moore <paul@paul-moore.com>,
+        Eric
+ Paris <eparis@redhat.com>, James Morris <jmorris@namei.org>,
+        Alexander Viro
+ <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        Stephen Smalley
+ <stephen.smalley.work@gmail.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Roberto Sassu
+ <roberto.sassu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Eric Snowberg <eric.snowberg@oracle.com>,
+        "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi
+ <miklos@szeredi.hu>,
+        Amir Goldstein <amir73il@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+        audit@vger.kernel.org, selinux@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-unionfs@vger.kernel.org
+Date: Wed, 06 Mar 2024 07:56:05 -0500
+In-Reply-To: <1217017cc1928842abfdb40a7fa50bad8ae5e99f.camel@huaweicloud.com>
+References: <20240221-idmap-fscap-refactor-v2-0-3039364623bd@kernel.org>
+	 <20240221-idmap-fscap-refactor-v2-24-3039364623bd@kernel.org>
+	 <dcbd9e7869d2fcce69546b53851d694b8ebad54e.camel@huaweicloud.com>
+	 <ZeXpbOsdRTbLsYe9@do-x1extreme>
+	 <a7124afa6bed2fcadcb66efa08e256828cd6f8ab.camel@huaweicloud.com>
+	 <ZeX9MRhU/EGhHkCY@do-x1extreme>
+	 <20240305-fachjargon-abmontieren-75b1d6c67a83@brauner>
+	 <3098aef3e5f924e5717b4ba4a34817d9f22ec479.camel@huaweicloud.com>
+	 <7058e2f93d16f910336a5380877b14a2e069ee9d.camel@huaweicloud.com>
+	 <10773e5b90ec9378cbc69fa9cfeb61a84273edc2.camel@linux.ibm.com>
+	 <1217017cc1928842abfdb40a7fa50bad8ae5e99f.camel@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-22.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: E5j-kc7WvevmTwvKk7T6_RIK4OIKy8vW
+X-Proofpoint-GUID: uSeR4qO7CSvtOXS7HNLBLLt_jgvGmJpS
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izM7GbvWHrH=h9q0oG0DMU649EjT1udNEW_8F-hGeC15EQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-06_08,2024-03-05_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403060104
 
-On 2024/3/6 5:17, Mina Almasry wrote:
-> On Tue, Mar 5, 2024 at 4:55 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>
->> On 2024/3/5 10:01, Mina Almasry wrote:
->>
->> ...
->>
->>>
->>> The netdev_dmabuf_binding struct is refcounted, and releases its
->>> resources only when all the refs are released.
->>>
->>> Signed-off-by: Willem de Bruijn <willemb@google.com>
->>> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
->>> Signed-off-by: Mina Almasry <almasrymina@google.com>
->>>
->>> ---
->>>
->>> RFC v6:
->>> - Validate rx queue index
->>> - Refactor new functions into devmem.c (Pavel)
->>
->> It seems odd that the functions or stucts in a file called devmem.c
->> are named after 'dmabuf' instead of 'devmem'.
->>
+On Wed, 2024-03-06 at 09:25 +0100, Roberto Sassu wrote:
+> On Tue, 2024-03-05 at 21:17 -0500, Mimi Zohar wrote:
+> > On Tue, 2024-03-05 at 18:11 +0100, Roberto Sassu wrote:
+> > > On Tue, 2024-03-05 at 13:46 +0100, Roberto Sassu wrote:
+> > > > On Tue, 2024-03-05 at 10:12 +0100, Christian Brauner wrote:
+> > > > > On Mon, Mar 04, 2024 at 10:56:17AM -0600, Seth Forshee (DigitalOcean)
+> > > > > wrote:
+> > > > > > On Mon, Mar 04, 2024 at 05:17:57PM +0100, Roberto Sassu wrote:
+> > > > > > > On Mon, 2024-03-04 at 09:31 -0600, Seth Forshee (DigitalOcean)
+> > > > > > > wrote:
+> > > > > > > > On Mon, Mar 04, 2024 at 11:19:54AM +0100, Roberto Sassu wrote:
+> > > > > > > > > On Wed, 2024-02-21 at 15:24 -0600, Seth Forshee (DigitalOcean)
+> > > > > > > > > wrote:
+> > > > > > > > > > Use the vfs interfaces for fetching file capabilities for
+> > > > > > > > > > killpriv
+> > > > > > > > > > checks and from get_vfs_caps_from_disk(). While there,
+> > > > > > > > > > update
+> > > > > > > > > > the
+> > > > > > > > > > kerneldoc for get_vfs_caps_from_disk() to explain how it is
+> > > > > > > > > > different
+> > > > > > > > > > from vfs_get_fscaps_nosec().
+> > > > > > > > > > 
+> > > > > > > > > > Signed-off-by: Seth Forshee (DigitalOcean) <
+> > > > > > > > > > sforshee@kernel.org>
+> > > > > > > > > > ---
+> > > > > > > > > >  security/commoncap.c | 30 +++++++++++++-----------------
+> > > > > > > > > >  1 file changed, 13 insertions(+), 17 deletions(-)
+> > > > > > > > > > 
+> > > > > > > > > > diff --git a/security/commoncap.c b/security/commoncap.c
+> > > > > > > > > > index a0ff7e6092e0..751bb26a06a6 100644
+> > > > > > > > > > --- a/security/commoncap.c
+> > > > > > > > > > +++ b/security/commoncap.c
+> > > > > > > > > > @@ -296,11 +296,12 @@ int cap_capset(struct cred *new,
+> > > > > > > > > >   */
+> > > > > > > > > >  int cap_inode_need_killpriv(struct dentry *dentry)
+> > > > > > > > > >  {
+> > > > > > > > > > -	struct inode *inode = d_backing_inode(dentry);
+> > > > > > > > > > +	struct vfs_caps caps;
+> > > > > > > > > >  	int error;
+> > > > > > > > > >  
+> > > > > > > > > > -	error = __vfs_getxattr(dentry, inode, XATTR_NAME_CAPS,
+> > > > > > > > > > NULL, 0);
+> > > > > > > > > > -	return error > 0;
+> > > > > > > > > > +	/* Use nop_mnt_idmap for no mapping here as mapping is
+> > > > > > > > > > unimportant */
+> > > > > > > > > > +	error = vfs_get_fscaps_nosec(&nop_mnt_idmap, dentry,
+> > > > > > > > > > &caps);
+> > > > > > > > > > +	return error == 0;
+> > > > > > > > > >  }
+> > > > > > > > > >  
+> > > > > > > > > >  /**
+> > > > > > > > > > @@ -323,7 +324,7 @@ int cap_inode_killpriv(struct mnt_idmap
+> > > > > > > > > > *idmap, struct dentry *dentry)
+> > > > > > > > > >  {
+> > > > > > > > > >  	int error;
+> > > > > > > > > >  
+> > > > > > > > > > -	error = __vfs_removexattr(idmap, dentry,
+> > > > > > > > > > XATTR_NAME_CAPS);
+> > > > > > > > > > +	error = vfs_remove_fscaps_nosec(idmap, dentry);
+> > > > > > > > > 
+> > > > > > > > > Uhm, I see that the change is logically correct... but the
+> > > > > > > > > original
+> > > > > > > > > code was not correct, since the EVM post hook is not called
+> > > > > > > > > (thus
+> > > > > > > > > the
+> > > > > > > > > HMAC is broken, or an xattr change is allowed on a portable
+> > > > > > > > > signature
+> > > > > > > > > which should be not).
+> > > > > > > > > 
+> > > > > > > > > For completeness, the xattr change on a portable signature
+> > > > > > > > > should
+> > > > > > > > > not
+> > > > > > > > > happen in the first place, so cap_inode_killpriv() would not
+> > > > > > > > > be
+> > > > > > > > > called.
+> > > > > > > > > However, since EVM allows same value change, we are here.
+> > > > > > > > 
+> > > > > > > > I really don't understand EVM that well and am pretty hesitant
+> > > > > > > > to
+> > > > > > > > try an
+> > > > > > > > change any of the logic around it. But I'll hazard a thought:
+> > > > > > > > should
+> > > > > > > > EVM
+> > > > > > > > have a inode_need_killpriv hook which returns an error in this
+> > > > > > > > situation?
+> > > > > > > 
+> > > > > > > Uhm, I think it would not work without modifying
+> > > > > > > security_inode_need_killpriv() and the hook definition.
+> > > > > > > 
+> > > > > > > Since cap_inode_need_killpriv() returns 1, the loop stops and EVM
+> > > > > > > would
+> > > > > > > not be invoked. We would need to continue the loop and let EVM
+> > > > > > > know
+> > > > > > > what is the current return value. Then EVM can reject the change.
+> > > > > > > 
+> > > > > > > An alternative way would be to detect that actually we are setting
+> > > > > > > the
+> > > > > > > same value for inode metadata, and maybe not returning 1 from
+> > > > > > > cap_inode_need_killpriv().
+> > > > > > > 
+> > > > > > > I would prefer the second, since EVM allows same value change and
+> > > > > > > we
+> > > > > > > would have an exception if there are fscaps.
+> > > > > > > 
+> > > > > > > This solves only the case of portable signatures. We would need to
+> > > > > > > change cap_inode_need_killpriv() anyway to update the HMAC for
+> > > > > > > mutable
+> > > > > > > files.
+> > > > > > 
+> > > > > > I see. In any case this sounds like a matter for a separate patch
+> > > > > > series.
+> > > > > 
+> > > > > Agreed.
+> > > > 
+> > > > Christian, how realistic is that we don't kill priv if we are setting
+> > > > the same owner?
+> > > > 
+> > > > Serge, would we be able to replace __vfs_removexattr() (or now
+> > > > vfs_get_fscaps_nosec()) with a security-equivalent alternative?
+> > > 
+> > > It seems it is not necessary.
+> > > 
+> > > security.capability removal occurs between evm_inode_setattr() and
+> > > evm_inode_post_setattr(), after the HMAC has been verified and before
+> > > the new HMAC is recalculated (without security.capability).
+> > > 
+> > > So, all good.
+> > > 
+> > > Christian, Seth, I pushed the kernel and the updated tests (all patches
+> > > are WIP):
+> > > 
+> > > https://github.com/robertosassu/linux/commits/evm-fscaps-v2/
+> > 
+> > Resetting the IMA status flag is insufficient.  The EVM status needs to be
+> > reset
+> > as well.  Stefan's "ima: re-evaluate file integrity on file metadata change"
+> > patch does something similar for overlay.
 > 
-> So my intention with this naming that devmem.c contains all the
-> functions for all devmem tcp specific support. Currently the only
-> devmem we support is dmabuf. In the future, other devmem may be
-> supported and it can fit nicely in devmem.c. For example, if we want
-> to extend devmem TCP to support NVMe devices, we need to add support
-> for p2pdma, maybe, and we can add that support under the devmem.c
-> umbrella rather than add new files.
-> 
-> But I can rename to dmabuf.c if there is strong objection to the current name.
+> Both the IMA and EVM status are reset. The IMA one is reset based on
+> the evm_revalidate_status() call, similarly to ACLs.
 
-Grepping 'dmabuf' seems to show that it may be common rename it to
-something as *_dmabuf.c.
-
-> 
->>>
->>
->> ...
->>
->>> diff --git a/include/net/netmem.h b/include/net/netmem.h
->>> index d8b810245c1d..72e932a1a948 100644
->>> --- a/include/net/netmem.h
->>> +++ b/include/net/netmem.h
->>> @@ -8,6 +8,16 @@
->>>  #ifndef _NET_NETMEM_H
->>>  #define _NET_NETMEM_H
->>>
->>> +#include <net/devmem.h>
->>> +
->>> +/* net_iov */
->>> +
->>> +struct net_iov {
->>> +     struct dmabuf_genpool_chunk_owner *owner;
->>> +};
->>> +
->>> +/* netmem */
->>> +
->>>  /**
->>>   * typedef netmem_ref - a nonexistent type marking a reference to generic
->>>   * network memory.
->>> diff --git a/net/core/Makefile b/net/core/Makefile
->>> index 821aec06abf1..592f955c1241 100644
->>> --- a/net/core/Makefile
->>> +++ b/net/core/Makefile
->>> @@ -13,7 +13,7 @@ obj-y                    += dev.o dev_addr_lists.o dst.o netevent.o \
->>>                       neighbour.o rtnetlink.o utils.o link_watch.o filter.o \
->>>                       sock_diag.o dev_ioctl.o tso.o sock_reuseport.o \
->>>                       fib_notifier.o xdp.o flow_offload.o gro.o \
->>> -                     netdev-genl.o netdev-genl-gen.o gso.o
->>> +                     netdev-genl.o netdev-genl-gen.o gso.o devmem.o
->>>
->>>  obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
->>>
->>> diff --git a/net/core/dev.c b/net/core/dev.c
->>> index fe054cbd41e9..bbea1b252529 100644
->>> --- a/net/core/dev.c
->>> +++ b/net/core/dev.c
->>> @@ -155,6 +155,9 @@
->>>  #include <net/netdev_rx_queue.h>
->>>  #include <net/page_pool/types.h>
->>>  #include <net/page_pool/helpers.h>
->>> +#include <linux/genalloc.h>
->>> +#include <linux/dma-buf.h>
->>> +#include <net/devmem.h>
->>>
->>>  #include "dev.h"
->>>  #include "net-sysfs.h"
->>> diff --git a/net/core/devmem.c b/net/core/devmem.c
->>> new file mode 100644
->>> index 000000000000..779ad990971e
->>> --- /dev/null
->>> +++ b/net/core/devmem.c
->>> @@ -0,0 +1,293 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +/*
->>> + *      Devmem TCP
->>> + *
->>> + *      Authors:     Mina Almasry <almasrymina@google.com>
->>> + *                   Willem de Bruijn <willemdebruijn.kernel@gmail.com>
->>> + *                   Kaiyuan Zhang <kaiyuanz@google.com
->>> + */
->>> +
->>> +#include <linux/types.h>
->>> +#include <linux/mm.h>
->>> +#include <linux/netdevice.h>
->>> +#include <trace/events/page_pool.h>
->>> +#include <net/netdev_rx_queue.h>
->>> +#include <net/page_pool/types.h>
->>> +#include <net/page_pool/helpers.h>
->>> +#include <linux/genalloc.h>
->>> +#include <linux/dma-buf.h>
->>> +#include <net/devmem.h>
->>> +
->>> +/* Device memory support */
->>> +
->>> +#ifdef CONFIG_DMA_SHARED_BUFFER
->>
->> I still think it is worth adding its own config for devmem or dma-buf
->> for networking, thinking about the embeded system.
->>
-> 
-> FWIW Willem did weigh on this previously and said he prefers to have
-> it unguarded by a CONFIG, but I will submit to whatever the consensus
-> here. It shouldn't be a huge deal to add a CONFIG technically
-> speaking.
-
-Grepping 'CONFIG_DMA_SHARED_BUFFER' show that the API user of dmabuf
-API does not seems to reuse the CONFIG_DMA_SHARED_BUFFER, instead they
-seem to define its own config, and select CONFIG_DMA_SHARED_BUFFER
-if necessary, it that any reason it is different here?
-
-> 
->>> +static void netdev_dmabuf_free_chunk_owner(struct gen_pool *genpool,
->>> +                                        struct gen_pool_chunk *chunk,
->>> +                                        void *not_used)
->>
->> It seems odd to still keep the netdev_ prefix as it is not really related
->> to netdev, perhaps use 'net_' or something better.
->>
-> 
-> Yes, thanks for catching. I can change to net_devmem_ maybe or net_dmabuf_*.
-
-FWIW, net_dmabuf_* seems like a better name technically.
+Agreed. Oh, evm_status is being reset in evm_inode_post_set_fscaps().
 
 > 
->>> +{
->>> +     struct dmabuf_genpool_chunk_owner *owner = chunk->owner;
->>> +
->>> +     kvfree(owner->niovs);
->>> +     kfree(owner);
->>> +}
->>> +
->>> +void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
->>> +{
->>> +     size_t size, avail;
->>> +
->>> +     gen_pool_for_each_chunk(binding->chunk_pool,
->>> +                             netdev_dmabuf_free_chunk_owner, NULL);
->>> +
->>> +     size = gen_pool_size(binding->chunk_pool);
->>> +     avail = gen_pool_avail(binding->chunk_pool);
->>> +
->>> +     if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
->>> +               size, avail))
->>> +             gen_pool_destroy(binding->chunk_pool);
->>> +
->>> +     dma_buf_unmap_attachment(binding->attachment, binding->sgt,
->>> +                              DMA_BIDIRECTIONAL);
->>
->> For now DMA_FROM_DEVICE seems enough as tx is not supported yet.
->>
 > 
-> Yes, good catch. I suspect we want to reuse this code for TX path. But
-> for now, I'll test with DMA_FROM_DEVICE and if I see no issues I'll
-> apply this change.
+> > https://lore.kernel.org/linux-integrity/20240223172513.4049959-8-stefanb@linux.ibm.com/
+> > 
+> > > https://github.com/robertosassu/ima-evm-utils/commits/evm-fscaps-v2/
+> > > 
+> > > 
+> > > The tests are passing:
+> > > 
+> > > https://github.com/robertosassu/ima-evm-utils/actions/runs/8159877004/job/22305521359
+> > > 
+> > > Roberto
+> > > 
+> > > 
 > 
->>> +     dma_buf_detach(binding->dmabuf, binding->attachment);
->>> +     dma_buf_put(binding->dmabuf);
->>> +     xa_destroy(&binding->bound_rxq_list);
->>> +     kfree(binding);
->>> +}
->>> +
->>> +static int netdev_restart_rx_queue(struct net_device *dev, int rxq_idx)
->>> +{
->>> +     void *new_mem;
->>> +     void *old_mem;
->>> +     int err;
->>> +
->>> +     if (!dev || !dev->netdev_ops)
->>> +             return -EINVAL;
->>> +
->>> +     if (!dev->netdev_ops->ndo_queue_stop ||
->>> +         !dev->netdev_ops->ndo_queue_mem_free ||
->>> +         !dev->netdev_ops->ndo_queue_mem_alloc ||
->>> +         !dev->netdev_ops->ndo_queue_start)
->>> +             return -EOPNOTSUPP;
->>> +
->>> +     new_mem = dev->netdev_ops->ndo_queue_mem_alloc(dev, rxq_idx);
->>> +     if (!new_mem)
->>> +             return -ENOMEM;
->>> +
->>> +     err = dev->netdev_ops->ndo_queue_stop(dev, rxq_idx, &old_mem);
->>> +     if (err)
->>> +             goto err_free_new_mem;
->>> +
->>> +     err = dev->netdev_ops->ndo_queue_start(dev, rxq_idx, new_mem);
->>> +     if (err)
->>> +             goto err_start_queue;
->>> +
->>> +     dev->netdev_ops->ndo_queue_mem_free(dev, old_mem);
->>> +
->>> +     return 0;
->>> +
->>> +err_start_queue:
->>> +     dev->netdev_ops->ndo_queue_start(dev, rxq_idx, old_mem);
->>
->> It might worth mentioning why queue start with old_mem will always
->> success here as the return value seems to be ignored here.
->>
 > 
-> So the old queue, we stopped it, and if we fail to bring up the new
-> queue, then we want to start the old queue back up to get the queue
-> back to a workable state.
-> 
-> I don't see what we can do to recover if restarting the old queue
-> fails. Seems like it should be a requirement that the driver tries as
-> much as possible to keep the old queue restartable.
-
-Is it possible that we may have the 'old_mem' leaking if the driver
-fails to restart the old queue? how does the driver handle the
-firmware cmd failure for ndo_queue_start()? it seems a little
-tricky to implement it.
-
-> 
-> I can improve this by at least logging or warning if restarting the
-> old queue fails.
-
-Also the semantics of the above function seems odd that it is not
-only restarting rx queue, but also freeing and allocating memory
-despite the name only suggests 'restart', I am a litte afraid that
-it may conflict with future usecae when user only need the
-'restart' part, perhaps rename it to a more appropriate name.
-
-> 
->>> +
->>> +err_free_new_mem:
->>> +     dev->netdev_ops->ndo_queue_mem_free(dev, new_mem);
->>> +
->>> +     return err;
->>> +}
->>> +
->>> +/* Protected by rtnl_lock() */
->>> +static DEFINE_XARRAY_FLAGS(netdev_dmabuf_bindings, XA_FLAGS_ALLOC1);
->>> +
->>> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
->>> +{
->>> +     struct netdev_rx_queue *rxq;
->>> +     unsigned long xa_idx;
->>> +     unsigned int rxq_idx;
->>> +
->>> +     if (!binding)
->>> +             return;
->>> +
->>> +     if (binding->list.next)
->>> +             list_del(&binding->list);
->>
->> The above does not seems to be a good pattern to delete a entry, is
->> there any reason having a checking before the list_del()? seems like
->> defensive programming?
->>
-> 
-> I think I needed to apply this condition to handle the case where
-> netdev_unbind_dmabuf() is called when binding->list is not initialized
-> or is empty.
-> 
-> netdev_nl_bind_rx_doit() will call unbind to free a partially
-> allocated binding in error paths, so, netdev_unbind_dmabuf() may be
-> called with a partially initialized binding. This is why we check for
-> binding->list is initialized here and check that rxq->binding ==
-> binding below. The main point is that netdev_unbind_dmabuf() may be
-> asked to unbind a partially bound dmabuf due to error paths.
-> 
-> Maybe a comment here will test this better. I will double confirm the
-> check is needed for the error paths in netdev_nl_bind_rx_doit().
-> 
->>> +
->>> +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
->>> +             if (rxq->binding == binding) {
->>
->> It seems like defensive programming here too?
->>
 
