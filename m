@@ -1,159 +1,133 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2128.outbound.protection.outlook.com [40.107.102.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68610137917
-	for <linux-doc@vger.kernel.org>; Wed,  6 Mar 2024 16:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709743894; cv=none; b=RELeEkIVTH8sppGKrL7LF2MNxxYf3vTkAawoIDZNR3Vjv0ntSjMYPjTZEliZz/mUyDXsPDrISUeqOQiCVXHEgCPVYztcgpqzUImf8qzVD9hsThk8DRqtLht2IP4XkLUjbduPbrVMGlzs5GvYwQ8BAJTGFRzGGDI6CQ3nvVkFlWw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709743894; c=relaxed/simple;
-	bh=2ZhRIiVOue9t1Wad+eKIOFn2M0PF3k+uzBlQG79ns5E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LjnVzv/TW3nWOr7n7NrZWq5ZriTE4i9cwPpLbkHyWw6ElTdvwoNWbhkDpPc1DiZw09sdKk/Fesijb1Q0DGgVHzHSE2gNAJeyAI/vpcTXW8CMoj0byA8eAtHo9GhHdA7PA9g/XBILQEh5hAxtaMcBykck+6y/5V09VQn41/y2/0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MgZ0KcAS; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E07137934;
+	Wed,  6 Mar 2024 17:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.128
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709744490; cv=fail; b=pP9z4O2E5oIGaAhTxouumRVTiINvUrOQMiUBXM01wvpraC5wqQ85/gvurzGPoVkrov/VrqAmr0tEO79JBSMm6wXmlyRZovWMA9pF+/16j+L+X4AeazZBiR2xg0udM6+2n4AG893xOC2wOIz6t7m9WUMgKnGh5WZA5PNjc1QsNP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709744490; c=relaxed/simple;
+	bh=Ra6N6q4oG6vHpEAKKsox0/acdqN4tHr4xLS2rag4Mas=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 Content-Type:MIME-Version; b=sAF2tpuQVAteNmANYw/54l/CO9W5hFER7YOBbYddqBgrtT3HhsK4uZA5+ISjDoIu7ldbIrJ8ao72dZXsEvOePTCfuGQ90uZ4j1r3gFapw36BkX6CI/MRt3QlBdDVDNz5gPFKLR22lKaYkhybu8J3Ym+FnnCavAwCdQZtuC0kT4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=rEveHPAU; arc=fail smtp.client-ip=40.107.102.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MgZ0KcAS"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-565b434f90aso10333664a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2024 08:51:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="rEveHPAU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ieGdzMHMNqg342y5XmcfYtQ3SIvgxu80JigMwy4GSU8FDt3lPgNVmAyMIF1bEE9DMGCiJwbHxwAM+5kfuB7spChxlRLzgLlMdyCr8ZaHDZAZVCSkgDHy8Pax/YioZ2X1pzEbt31Xw04II2XxUOBf5rTMx7Dec6yp3HxJdhlo7WjUSJS8MJbnE0eqFHKDY6Pb/ipD2zx4bkHuRF13YNYCTGvl4vZpG8oT3lf6TyI0s8axDMCZiNRpVn/49r98k51wJGe6AB4zzrrBQqCIftcysPA4t205noIj4HXDgOmffi6EiS1vDHGb7kbhqEz/py5Y15qN0PKH3Crkzk/od9D24A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KjbuVGNqtXSmQelKlggQSDCcT2qOekAHRrxy8Fb00VA=;
+ b=CuxZ9IqsUSgyUSttzIleVqKMOqCiBVO/y8VUWS7cbUsite98LKrW7ViV9asH9YtMkC8HZknVc1m0A/nqUqhdz3SIP82vCGdjkOCvmZwHEwnrVak2OdyXu1+VgQdz2heFL6aW8mSxBHCNBnfVIE3moswSm5lpM8uJKvB63pARItw/LLLzqxiRB7m7KJi94P1yGF0QFSsVKkXkJtncFObBjJB03WzMG3lKj1qSMuRKjlATBAyWNvW5fwi3mgijYmSgySNLi7/Ik0NrsKf1Hj63bZ/wJb10CNgZ6m1dcsCNxvBL+g3lIZA3PzDrmAZ/YnDNsGWnbpxcU3SoEUafVBIvkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709743891; x=1710348691; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
-        b=MgZ0KcAS7HSS77yVu7xyCeHAcaC/1SdsNfuOebsPKTi47ADSikIPFHFpMVlwAuM3Lq
-         ADh3B8tOCDjS8SO22bC5JH7v38MMF7sGik0mAt/5hJkVIW5AEQmXcFeW9oqhkFytK0rb
-         /Ww9ONL83z+QuBnnhMONLXuuoA7qgm3K0ZfBZvgkcOLzqswyIaukdbQhLb3YNczFfmmx
-         jgRR8h2ZQOpnYgWc7g+WCCi0m0f37F6bezegEtZlxh4cxVcQxJZp/udwbPuqUyp3aK1a
-         0D9N4f04odZmGIVAHEJ6AuB6otT/H7GV6nWXPid/olVyvuohW5SN+xe5wVd+/4rfcXAt
-         PowQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709743891; x=1710348691;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fAuNxTfS6x4OQHwyTAR2JW08hPHhuONnAVW1sMtWxI0=;
-        b=bmZ7r6R0CJeyHe1zprDCO9pGGcgTZ3Edo4sUdBhRWbvBOXc6hc/Gs/tKV3ggJWGfXT
-         H0YnFb0f9smk7sn5qYYaIBLZCbVKcQgXm/rb+dp3O5DJUwnOi4waNrdsLT18qUrG98cg
-         zueRBDRcCneoi2YegS9eTRNSYYN4TK9MndonTjVGOqAP4csrGnKN1rKK+cEyfV+Ig0r3
-         y51OJyIKX3EmpMWqrKuLMRXQPRn/kZFu/DpSNUuh/kYwYbECcYjaQwaEO+MDmxJjwlx3
-         5GYJg+N2ZWAWTDzkpNCmDqV7kaM9Q1dW4grP7P9DiduOc6MLGJIGHQxtbDJCP1SUr4fT
-         CuuA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4FDIHtP8RK5cyQPawLXDO7fy3GiSH0za3Ht4NH0OT6aCW7ZHQDTTahy3f2zmHBxP0/365NVkqTzDD9N1Bnv0FMpKJtplsGimp
-X-Gm-Message-State: AOJu0YzAQBXFs+sUXOkBCavEcqoyQq+6HmybLsAVzQmd8rGLnZhPR8CI
-	4oT9hlh98CPcAuLqrwx0A7x34zUiVnLs+hpYKez88VCzZrDrgqc9NzWcfIelTKN+FTDNQ9gb+L9
-	ntSzUyK3SQqg7n77gwvhsLJ/Ro0K8MGQ8PVXB
-X-Google-Smtp-Source: AGHT+IHrH3y3Ev3rFR65oa9/ga3T2bFvGKoWYUoW9uQPlR8wceBykqCSE0zANfpwXtxsNCt9XtLxrBXjLnroDNOKeBc=
-X-Received: by 2002:a17:906:fc01:b0:a43:f267:789f with SMTP id
- ov1-20020a170906fc0100b00a43f267789fmr10647282ejb.41.1709743890406; Wed, 06
- Mar 2024 08:51:30 -0800 (PST)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KjbuVGNqtXSmQelKlggQSDCcT2qOekAHRrxy8Fb00VA=;
+ b=rEveHPAUTIYzL4fI6sekLIVlznWolVVuPQNLe6QY+9b9nPDCgdpBVd7JgiX6gTR4TJNKuBbO0kfW5xT9U3j2rsmmz84rSvY1HtPwCgvc659VpGaVJh8cok/kd3AgxxHmqTL6OjtRSBwzjyB1gbUUYon3qn9jFg9QeSAl1IF/lng=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM6PR01MB5259.prod.exchangelabs.com (2603:10b6:5:68::27) by
+ BY3PR01MB6529.prod.exchangelabs.com (2603:10b6:a03:357::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7362.26; Wed, 6 Mar 2024 17:01:22 +0000
+Received: from DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::7ba2:4e8d:3bb:6e1b]) by DM6PR01MB5259.prod.exchangelabs.com
+ ([fe80::7ba2:4e8d:3bb:6e1b%6]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
+ 17:01:22 +0000
+Date: Wed, 6 Mar 2024 09:01:15 -0800 (PST)
+From: "Lameter, Christopher" <cl@os.amperecomputing.com>
+To: Eric Dumazet <edumazet@google.com>
+cc: Adam Li <adamli@os.amperecomputing.com>, corbet@lwn.net, 
+    davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+    willemb@google.com, yangtiezhu@loongson.cn, atenart@kernel.org, 
+    kuniyu@amazon.com, wuyun.abel@bytedance.com, leitao@debian.org, 
+    alexander@mihalicyn.com, dhowells@redhat.com, paulmck@kernel.org, 
+    joel.granados@gmail.com, urezki@gmail.com, joel@joelfernandes.org, 
+    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    netdev@vger.kernel.org, patches@amperecomputing.com, 
+    shijie@os.amperecomputing.com
+Subject: Re: [PATCH] net: make SK_MEMORY_PCPU_RESERV tunable
+In-Reply-To: <CANn89iJAKEUu_Fdh0OC-+BJ+iVY0D2y0nAakGLxWZ8TywDu=BA@mail.gmail.com>
+Message-ID: <11588267-c76d-f0ac-bf98-1875e07b58cb@os.amperecomputing.com>
+References: <20240226022452.20558-1-adamli@os.amperecomputing.com> <CANn89iLbA4_YdQrF+9Rmv2uVSb1HLhu0qXqCm923FCut1E78FA@mail.gmail.com> <a8de785f-8cc3-4075-a5f2-259e20222dcb@os.amperecomputing.com>
+ <CANn89iJAKEUu_Fdh0OC-+BJ+iVY0D2y0nAakGLxWZ8TywDu=BA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-ClientProxiedBy: CH5P220CA0012.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:610:1ef::24) To DM6PR01MB5259.prod.exchangelabs.com
+ (2603:10b6:5:68::27)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-10-almasrymina@google.com> <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
- <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com> <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
-In-Reply-To: <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 6 Mar 2024 08:51:18 -0800
-Message-ID: <CAHS8izMEJHWAHVjaKu9ZpeWRj1TwoLkmY5tCtDYxdDReBV8=Dw@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
- memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR01MB5259:EE_|BY3PR01MB6529:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ae15b9c-d280-42aa-1d35-08dc3dff0c80
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	tHU2SSD6WrI9VVxrr4cbGlmLXO6d0kOiXH1P0M9FX93Zzq8FlTssKNBmhXcFbr11AGByvH5AgdX/Z0un5yZgXFajRYepY9sn+8UjYD/XwzTlemS04uqI4zbKRPsI0dGUfVAFXSVcxEoh26uJoGwxkrpnBL6ZeGJbcji2Jvv0UT4zxqVUBtvyb2Lzo31xu8hF9M/YbKmzHb6tlmI0zXVG1dxXif9NUf9xeb9xQKeQnF/QpkLSf21J29Uim2aWkU3pES8XtFLZdXC0dv0TGku5nnhGRuKlXtOaElQRfEs5nqtzvN9weprlzXJppdz9hC/Q/oRNGRyhmtZ6pSyS7TlLcQdXB3GEEPePECnXdHD3Czsu6zmzdDqvS69V6kFNxizEPHPMB2sRsTXBrRAPSANDPNlOVxP0Z71kdOyI8P8fMkptp57eJ7sowE4H+bOje3Blb1YR90a3Z1f9wMK3hATLYSCrFw1X4zlbaWu5tbbNzPUUDwX+gawV3ROzx6ARPQHgj2loTj0BFv8nni3cuxJ8v7OSPlFcOWGa7Jb1LDMQR+Ts6Ol60YPbi4149vG7ZkyLAxKalqwjxNjQm3+E68TG/C8Kok1F6eMNY3n1kCI+JZYhFuiaiW2QKlcRQrjezA1QAD7uvo4XpcYOjbX62F5sM9t1Bn0i+UjTLV3qVXdfcl8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR01MB5259.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VQHNgdW/MZnGurdbN9+9dmKnVEseChomZAgpKXQPf8KNxW8eyDUoXRiutDK5?=
+ =?us-ascii?Q?UPjgz3eF1rBo0jpndhKnLkk2ziokh27/tBQNOSDWVzHw4YtIucAFQfOhwZfy?=
+ =?us-ascii?Q?X6qTYbJM4fwnSErZS0JaWNAug2ybORrhMiW1iWh0YATc6nl0PdEAW6qbG4PY?=
+ =?us-ascii?Q?4Tc31iuqtthWWrM0LwKG0mi7huYilu5TlXs+Zj9lAgMe6xItvXpGh1EaRdTH?=
+ =?us-ascii?Q?h/kvsRjSdhX4Fex0ryZam+/X/hh7qHKo7W++eyEYlj8/1w2+pCMDfbyzbPAI?=
+ =?us-ascii?Q?hR+ohBHNwL36trRBrisbiKKk/X+3u86k3uD/mZLmIV2ipL2/rIDndyxEhqAa?=
+ =?us-ascii?Q?GYj0ko8LEwaRyQ4Q1Usdg8Vvp63RuvOgBomoTiftmVwUTO3alefu9lCHcZbd?=
+ =?us-ascii?Q?sS9VIO2IHeYy5OKHSKNxNkhtUMjMvsB4Mpl3uu9Fy5u9NVBSgLWb4Q/zLqQq?=
+ =?us-ascii?Q?3KYwRZ9Mbf1IZZ0DLIV/CwvFgKcNhjgekNHrk3RUj+ye8co6aTgJ88SsmKmm?=
+ =?us-ascii?Q?LXn1+1oviQrhPXyXIgIapQvpI7Z4y0USDs6VxnjSt+xVzYDb+rvfGfA8+VMH?=
+ =?us-ascii?Q?g5RR9q24lkOLMlCnaEGrphYR8i4xpp9g2viN8Tdkm7uIgshmDURqFAKlvvfE?=
+ =?us-ascii?Q?tOaIJ51hAhqBUiqorbH8w8CO2aw4DQbiqbFVw2P4RY37VBcFvWAYB+Ay6Rgk?=
+ =?us-ascii?Q?R4tecu82Ydvxs9TRGZE2DYfUIaQuJvvveaMToJC4NXje1dbI7ZOTKIgvYCQm?=
+ =?us-ascii?Q?fB7Zb4/hmSguvIX6PUVT6QnxzbtGHAi7jAv/q7aR3wngPvx7u6YEQCEVjaGj?=
+ =?us-ascii?Q?sJS8pq1gES8T19T3FwJReCj+roLbDQJRziJnMoYzUt7UbMQ0Q4FQt0TLkc1w?=
+ =?us-ascii?Q?GMtfW5CUNvPyAvd/2HDWHI5VlGWWZBuRdy04qw0DM0mgTqk7JuPBNiJ0ZoRK?=
+ =?us-ascii?Q?rCtm7L8LS7SyFF6j21ONKGyodQcw2+6/71IwwkaCq4pyvvVQgmZuh0MvXfuR?=
+ =?us-ascii?Q?G39RmQsXTY5Q1xYDe6w7CqeiSBVTN1t7nngfw+tylJYylJDfPOcrUnwE6Vrx?=
+ =?us-ascii?Q?JQ3jN9UhonKOJSv4DW37cnaD6amB6YqE14anQpvdx3WMbAjm4em4TTbWD162?=
+ =?us-ascii?Q?FuCGLHuMbgpM92Al3v3Sv2jdiNGP9+SI8s5t+Pg4gmRSI3wyg7UDoNXKkRro?=
+ =?us-ascii?Q?oPGDuscgNYa1bPr4SUOQz+Px/m5i+5UJVtXJNhGrkdoqiXTE1M4yrk8osRHx?=
+ =?us-ascii?Q?9QjCCaUkavPiDPU4/1JGlhZ5W/4lscrS7Cj5uQdjnBXkZqGbhfT8Nlsg9wXJ?=
+ =?us-ascii?Q?EA90mtA4E3qv6qLXMFpcZosvhTwl2P/G8/nrrHFhT6rnU+CV9mnYll34FoWP?=
+ =?us-ascii?Q?TUzcD2R1apV/0aBml9FZc7U2PzAfs4ekUxlGGwZ8VBgWoYllR4zmXk5hrH5l?=
+ =?us-ascii?Q?SBacyBwPtqq0Utsn6tNr+i/fmP9aFJWkVUpkgh/BpRQpba6LfTt028ONpT9O?=
+ =?us-ascii?Q?XhTRUoMXPxe8fErnOdoVJWimHT2NqgxJezNxWP+HK3AnRW8majk8FKIoZtA/?=
+ =?us-ascii?Q?2uP+FPHCUaVzNDn4ZqJpMBZCX8IFcDMs/jWkfygikiVOIraox08t1rnWUZ0Z?=
+ =?us-ascii?Q?In6OoeQdKpMwTAP9OtG3mqs=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ae15b9c-d280-42aa-1d35-08dc3dff0c80
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR01MB5259.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2024 17:01:21.8783
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kdujYO1ws6lbP9hiNcveAYuVpJCbE3ilgxtlJqTJsUHXH1BiZsd6Xazpk2Y2Ehztqo5fEPv5rSmUPoReL0Rlb5XaIzN7Y9qNVg5zIlKENqk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY3PR01MB6529
 
-On Wed, Mar 6, 2024 at 6:59=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
-om> wrote:
->
-> On 3/6/24 02:42, Mina Almasry wrote:
-> > On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
-:
-> >>
-> >> On 2024-03-04 18:01, Mina Almasry wrote:
-> >>> +     if (pool->p.queue)
-> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
-> >>> +
-> >>> +     if (binding) {
-> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
-> >>> +             pool->mp_priv =3D binding;
-> >>> +     }
-> >>
-> >> This is specific to TCP devmem. For ZC Rx we will need something more
-> >> generic to let us pass our own memory provider backend down to the pag=
-e
-> >> pool.
-> >>
-> >> What about storing ops and priv void ptr in struct netdev_rx_queue
-> >> instead? Then we can both use it.
-> >
-> > Yes, this is dmabuf specific, I was thinking you'd define your own
-> > member of netdev_rx_queue, and then add something like this to
-> > page_pool_init:
->
-> That would be quite annoying, there are 3 expected users together
-> with huge pages, each would need a field and check all others are
-> disabled as you mentioned and so on. It should be cleaner to pass
-> a generic {pp_ops,pp_private} pair instead.
->
-> If header dependencies is a problem, you it can probably be
->
-> struct pp_provider_param {
->         struct pp_ops ops;
->         void *private;
-> };
->
-> # netdev_rx_queue.h
->
-> // definition is not included here
-> struct pp_provider_params;
->
-> struct netdev_rx_queue {
->         ...
->         struct pp_provider_params *pp_params;
-> };
->
+On Wed, 28 Feb 2024, Eric Dumazet wrote:
 
-Seems very reasonable, will do! Thanks!
+>> __sk_mem_raise_allocated() drops to 0.4%.
+>
+> I suspect some kind of flow/cpu steering issues then.
+> Also maybe SO_RESERVE_MEM would be better for this workload.
 
-> --
-> Pavel Begunkov
+This is via loopback. So there is a flow steering issue in the IP 
+stack?
 
-
-
---=20
-Thanks,
-Mina
