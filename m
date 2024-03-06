@@ -1,264 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 152A8131745;
-	Wed,  6 Mar 2024 14:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6BE7FBDC;
+	Wed,  6 Mar 2024 14:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709735501; cv=none; b=fTfDrAMKREGq2UpS77fkKC75yBp0hX1WaTzYc2x3cVpvpjGHuBVgWjLL0qw/DobIGRWL42LPh1XaeEKHUClXKO3S/w2rjD00ahL7gljLZHs2xvgwav1O65L1OP+XM0wb6/u5KIUzG8/ZDeUfIb1w599u7Ykm7MZJYxb/JFayvcc=
+	t=1709735616; cv=none; b=q97PFBI6ReOmQlg6l1dU/FDzmqnqKhycsmwuV6/YxYRH7LW031r8c7Q6MXl7WfAn7yDwNu/GT6EiTbPyX4zr3XFWZ1hnys/agyAvXTRNpn7QOgY+rUH71BNQghdjnXjgwbbDRfVuP2ZUuisCk8ZnkjIe0jp75N32TRsVtNjEcv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709735501; c=relaxed/simple;
-	bh=dbnHiZjb/P6UjDEKf3yalHtdTeFWkOkyikyrXGzM5Ro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aWHf0b8uL7v9lxyOs88qc7PkfHWGEBVu6URZeGS4uACVehu1XhjqugKv5ph1nsUQ7eJ0y6x16ENBCOMy8DYYnMOWm3PXHiQyQuicGjauDP9pWVWM4EHRheHKv9unOw2gIqKzo9AgmA6B5Cz6ZD3/sn2A4a6B66C3bzU3VeICiOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 340CB1FB;
-	Wed,  6 Mar 2024 06:32:15 -0800 (PST)
-Received: from [10.57.11.156] (unknown [10.57.11.156])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F5A23F762;
-	Wed,  6 Mar 2024 06:31:35 -0800 (PST)
-Message-ID: <61095f51-3d74-48e9-96b4-75da4645331e@arm.com>
-Date: Wed, 6 Mar 2024 14:31:47 +0000
+	s=arc-20240116; t=1709735616; c=relaxed/simple;
+	bh=WWXYolFOYwBAJ/CdfPd6/jJ5gcZIPqiPh9G+qpwJ/Rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmP20bLAEemw2jng5Dqo0A5A+tj6rOXTDNFhxtBV42PChWJzW3eh1WD6wHFjfPpm7FglW1gyDQCXDpCebvIERcDGfQHr2Rl/hNyXskQv+gRfy/GlBMaz51EZ+NStzLmSGmIUnd5htWymED6y6VIgmCjjns4UVxb8lOS/yim6MGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 378F068C4E; Wed,  6 Mar 2024 15:33:22 +0100 (CET)
+Date: Wed, 6 Mar 2024 15:33:21 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
+Message-ID: <20240306143321.GA19711@lst.de>
+References: <cover.1709635535.git.leon@kernel.org> <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org> <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/1] drm/panfrost: Replace fdinfo's profiling debugfs
- knob with sysfs
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- boris.brezillon@collabora.com, robh@kernel.org, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20240306015819.822128-1-adrian.larumbe@collabora.com>
- <20240306015819.822128-2-adrian.larumbe@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20240306015819.822128-2-adrian.larumbe@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zec_nAQn1Ft_ZTHH@kbusch-mbp.dhcp.thefacebook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 06/03/2024 01:56, Adrián Larumbe wrote:
-> Debugfs isn't always available in production builds that try to squeeze
-> every single byte out of the kernel image, but we still need a way to
-> toggle the timestamp and cycle counter registers so that jobs can be
-> profiled for fdinfo's drm engine and cycle calculations.
+On Tue, Mar 05, 2024 at 08:51:56AM -0700, Keith Busch wrote:
+> On Tue, Mar 05, 2024 at 01:18:47PM +0200, Leon Romanovsky wrote:
+> > @@ -236,7 +236,9 @@ struct nvme_iod {
+> >  	unsigned int dma_len;	/* length of single DMA segment mapping */
+> >  	dma_addr_t first_dma;
+> >  	dma_addr_t meta_dma;
+> > -	struct sg_table sgt;
+> > +	struct dma_iova_attrs iova;
+> > +	dma_addr_t dma_link_address[128];
+> > +	u16 nr_dma_link_address;
+> >  	union nvme_descriptor list[NVME_MAX_NR_ALLOCATIONS];
+> >  };
 > 
-> Drop the debugfs knob and replace it with a sysfs file that accomplishes
-> the same functionality, and document its ABI in a separate file.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> That's quite a lot of space to add to the iod. We preallocate one for
+> every request, and there could be millions of them. 
 
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-> ---
->  .../testing/sysfs-driver-panfrost-profiling   | 10 +++++
->  Documentation/gpu/panfrost.rst                |  9 ++++
->  drivers/gpu/drm/panfrost/Makefile             |  2 -
->  drivers/gpu/drm/panfrost/panfrost_debugfs.c   | 21 ----------
->  drivers/gpu/drm/panfrost/panfrost_debugfs.h   | 14 -------
->  drivers/gpu/drm/panfrost/panfrost_device.h    |  2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       | 41 ++++++++++++++++---
->  drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
->  8 files changed, 57 insertions(+), 44 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-panfrost-profiling
->  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.c
->  delete mode 100644 drivers/gpu/drm/panfrost/panfrost_debugfs.h
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-panfrost-profiling b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-> new file mode 100644
-> index 000000000000..1d8bb0978920
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-panfrost-profiling
-> @@ -0,0 +1,10 @@
-> +What:		/sys/bus/platform/drivers/panfrost/.../profiling
-> +Date:		February 2024
-> +KernelVersion:	6.8.0
-> +Contact:	Adrian Larumbe <adrian.larumbe@collabora.com>
-> +Description:
-> +		Get/set drm fdinfo's engine and cycles profiling status.
-> +		Valid values are:
-> +		0: Don't enable fdinfo job profiling sources.
-> +		1: Enable fdinfo job profiling sources, this enables both the GPU's
-> +		   timestamp and cycle counter registers.
-> \ No newline at end of file
-> diff --git a/Documentation/gpu/panfrost.rst b/Documentation/gpu/panfrost.rst
-> index b80e41f4b2c5..51ba375fd80d 100644
-> --- a/Documentation/gpu/panfrost.rst
-> +++ b/Documentation/gpu/panfrost.rst
-> @@ -38,3 +38,12 @@ the currently possible format options:
->  
->  Possible `drm-engine-` key names are: `fragment`, and  `vertex-tiler`.
->  `drm-curfreq-` values convey the current operating frequency for that engine.
-> +
-> +Users must bear in mind that engine and cycle sampling are disabled by default,
-> +because of power saving concerns. `fdinfo` users and benchmark applications which
-> +query the fdinfo file must make sure to toggle the job profiling status of the
-> +driver by writing into the appropriate sysfs node::
-> +
-> +    echo <N> > /sys/bus/platform/drivers/panfrost/[a-f0-9]*.gpu/profiling
-> +
-> +Where `N` is either `0` or `1`, depending on the desired enablement status.
-> diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
-> index 2c01c1e7523e..7da2b3f02ed9 100644
-> --- a/drivers/gpu/drm/panfrost/Makefile
-> +++ b/drivers/gpu/drm/panfrost/Makefile
-> @@ -12,6 +12,4 @@ panfrost-y := \
->  	panfrost_perfcnt.o \
->  	panfrost_dump.o
->  
-> -panfrost-$(CONFIG_DEBUG_FS) += panfrost_debugfs.o
-> -
->  obj-$(CONFIG_DRM_PANFROST) += panfrost.o
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.c b/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-> deleted file mode 100644
-> index 72d4286a6bf7..000000000000
-> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.c
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0
-> -/* Copyright 2023 Collabora ltd. */
-> -/* Copyright 2023 Amazon.com, Inc. or its affiliates. */
-> -
-> -#include <linux/debugfs.h>
-> -#include <linux/platform_device.h>
-> -#include <drm/drm_debugfs.h>
-> -#include <drm/drm_file.h>
-> -#include <drm/panfrost_drm.h>
-> -
-> -#include "panfrost_device.h"
-> -#include "panfrost_gpu.h"
-> -#include "panfrost_debugfs.h"
-> -
-> -void panfrost_debugfs_init(struct drm_minor *minor)
-> -{
-> -	struct drm_device *dev = minor->dev;
-> -	struct panfrost_device *pfdev = platform_get_drvdata(to_platform_device(dev->dev));
-> -
-> -	debugfs_create_atomic_t("profile", 0600, minor->debugfs_root, &pfdev->profile_mode);
-> -}
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_debugfs.h b/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-> deleted file mode 100644
-> index c5af5f35877f..000000000000
-> --- a/drivers/gpu/drm/panfrost/panfrost_debugfs.h
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * Copyright 2023 Collabora ltd.
-> - * Copyright 2023 Amazon.com, Inc. or its affiliates.
-> - */
-> -
-> -#ifndef PANFROST_DEBUGFS_H
-> -#define PANFROST_DEBUGFS_H
-> -
-> -#ifdef CONFIG_DEBUG_FS
-> -void panfrost_debugfs_init(struct drm_minor *minor);
-> -#endif
-> -
-> -#endif  /* PANFROST_DEBUGFS_H */
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
-> index 62f7e3527385..cffcb0ac7c11 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
-> @@ -130,7 +130,7 @@ struct panfrost_device {
->  	struct list_head scheduled_jobs;
->  
->  	struct panfrost_perfcnt *perfcnt;
-> -	atomic_t profile_mode;
-> +	bool profile_mode;
->  
->  	struct mutex sched_lock;
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index a926d71e8131..9696702800a4 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -20,7 +20,6 @@
->  #include "panfrost_job.h"
->  #include "panfrost_gpu.h"
->  #include "panfrost_perfcnt.h"
-> -#include "panfrost_debugfs.h"
->  
->  static bool unstable_ioctls;
->  module_param_unsafe(unstable_ioctls, bool, 0600);
-> @@ -600,10 +599,6 @@ static const struct drm_driver panfrost_drm_driver = {
->  
->  	.gem_create_object	= panfrost_gem_create_object,
->  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
-> -
-> -#ifdef CONFIG_DEBUG_FS
-> -	.debugfs_init		= panfrost_debugfs_init,
-> -#endif
->  };
->  
->  static int panfrost_probe(struct platform_device *pdev)
-> @@ -692,6 +687,41 @@ static void panfrost_remove(struct platform_device *pdev)
->  	drm_dev_put(ddev);
->  }
->  
-> +static ssize_t profiling_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
-> +
-> +	return sysfs_emit(buf, "%d\n", pfdev->profile_mode);
-> +}
-> +
-> +
-> +static ssize_t profiling_store(struct device *dev,
-> +			       struct device_attribute *attr,
-> +			       const char *buf, size_t len)
-> +{
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
-> +	bool value;
-> +	int err;
-> +
-> +	err = kstrtobool(buf, &value);
-> +	if (err)
-> +		return err;
-> +
-> +	pfdev->profile_mode = value;
-> +
-> +	return len;
-> +}
-> +
-> +static DEVICE_ATTR_RW(profiling);
-> +
-> +static struct attribute *panfrost_attrs[] = {
-> +	&dev_attr_profiling.attr,
-> +	NULL,
-> +};
-> +
-> +ATTRIBUTE_GROUPS(panfrost);
-> +
->  /*
->   * The OPP core wants the supply names to be NULL terminated, but we need the
->   * correct num_supplies value for regulator core. Hence, we NULL terminate here
-> @@ -789,6 +819,7 @@ static struct platform_driver panfrost_driver = {
->  		.name	= "panfrost",
->  		.pm	= pm_ptr(&panfrost_pm_ops),
->  		.of_match_table = dt_match,
-> +		.dev_groups = panfrost_groups,
->  	},
->  };
->  module_platform_driver(panfrost_driver);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 0c2dbf6ef2a5..a61ef0af9a4e 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -243,7 +243,7 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	subslot = panfrost_enqueue_job(pfdev, js, job);
->  	/* Don't queue the job if a reset is in progress */
->  	if (!atomic_read(&pfdev->reset.pending)) {
-> -		if (atomic_read(&pfdev->profile_mode)) {
-> +		if (pfdev->profile_mode) {
->  			panfrost_cycle_counter_get(pfdev);
->  			job->is_profiled = true;
->  			job->start_time = ktime_get();
-
+Yes.  And this whole proposal also seems clearly confused (not just
+because of the gazillion reposts) but because it mixes up the case
+where we can coalesce CPU regions into a single dma_addr_t range
+(iommu and maybe in the future swiotlb) and one where we need a
+dma_addr_t range per cpu range (direct misc cruft).
