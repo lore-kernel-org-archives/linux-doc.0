@@ -1,185 +1,102 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4612E68
-	for <linux-doc@vger.kernel.org>; Wed,  6 Mar 2024 02:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC388D52E;
+	Wed,  6 Mar 2024 03:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709693684; cv=none; b=VGg6E1ykCNObhOZgGlLoPyI2mgoKKRqhXQ4o+GHJBkWHSN+NhjskNETsXY3IA6+P71t6k9+s6hakWzwUWE3z32E6B1mMtBppAYIb0E5dAQKVsqXza8PNVFlUkkU0GNVVxJlm5Qf2jTbgF+ESVJuY07pphz7nVC15VH5oyXVrhDU=
+	t=1709694710; cv=none; b=e7gAA2mp1h44uW4vRBrcxUcGzalY6yL/r5z/1t79wMN1sRcW92RBO7s+gQ+etV4cui8NUhGqMd5cRnqPcV2gYK8AaWc0zJ8X7rStuATvWivWqUMhwODwWc0qG1++E2Mm0dKJaXKZnEAO7oB0m3jvENGxAjan3Um6YUFnGsqsByw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709693684; c=relaxed/simple;
-	bh=rCsQQP7xgQocqgJZyTCewEFa4pqWP3bm2r+qfnB/Kdw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nUdWlEFvgC5PBRO5jVcewTpnxXg4zYw/pHPy4UrrfCF8ez4ID89kjHY92kQ6BgqxBUSL58wI6Lcc+ITbqRSWTIEL3B0+8vj7T4bkQJRok3ILwKMOnlPHr1YR5PDKxQx3qsHB5uTJ//Crr2L7eG8q5db6gcbLtCA7V6kyh+aib28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FfspCDPZ; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709694710; c=relaxed/simple;
+	bh=58VcRiQTZSjcLPi8M729ux0GJeTmIkW30qWk/AP4e1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oBZoAD2l39hXzf+cAhGbCiIQ+KrqlriDlMfFNM0cdmY4K3Tgag4C3Pxh8fe/HNa8eOi/zZmE/2Yfo/LcinTpcN0FI9OBLpIM9ahqHQTHBBL8O2uWMLfjiHjBJxOkeIhnti+tvnPxFtbNf6xcgJqtBdn97IGD0m/FXblCMeItGSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fdpvnQAR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FfspCDPZ"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a441d7c6125so146665966b.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 Mar 2024 18:54:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709693681; x=1710298481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eS/C6JRe/LZxR5BB0/jvRViDTj3F8vBSe/WWRgNeFIA=;
-        b=FfspCDPZNW8S7Qf7wpydUp7nMkxbIvbEb4ID33aWUPwHOYvxyiL5+xjC/RGuYky5nJ
-         UXbu0gXQCFwnw50zF+4eh5urGT9USQAfcXkEasQoB328Tb8CE77MTWKT72cElYJh0wiU
-         E8M6JwS0IqClv/VPW882Nqjm33OxkixBNmv2B1WPXiL5arG8e00lOAa7AfTo3NB4z5xf
-         jcpIGJ9Llm7DNOCjp3Jw3H51L90Ew0/AcaBWuTDJDOQG4bdnCW1kNOzZmO/JeKseNhq8
-         VZCcpvUcpy7bLKHJluNjLXFu8vbMbxapQ9qoBZgzezbUe/OupdB7FZDjPG1+nCvQ0lcD
-         tgYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709693681; x=1710298481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eS/C6JRe/LZxR5BB0/jvRViDTj3F8vBSe/WWRgNeFIA=;
-        b=bnB1OwOUOvDETT3yFNkN83NJNT2RUnO2OnE4OCq3nddSzzH+N8zlQsMRmpfbvRyUgM
-         GGzcBsq2rB9gMzMdnYBe1IREM6Z8S4gbw40bl3cMw+KoBDq7gKUxYSJcRBVTAP7JJI5y
-         mLoj0tKIorOXjPlzAuIRqzdWkyLVSlJbYmnwiKcO6uRIIaGYFYgTXvDHGsiDnuY+KGz4
-         hNHJF1n0FHsBCZ/jd4pcRXnUjaRujfOcJjJ5xkhbQaU8PzlfJ78JlL5x7h3Q/tVzPCCC
-         iWD9xFXraqw9gJpwOO1/Otpv1DtnaBHaHkbHVHwv0x7uvxW5pbuRWtefjWlomKL9fvMN
-         JPvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVDPfZEBbR1djfGWR6P9ELEBGxNDfqtUb3UHq3T6/iDI8mSs6yvVjstSsbO230QeeobcukDfncAEhPeBbyo6ysW27BwADltn51z
-X-Gm-Message-State: AOJu0Yyud9+iKGU1nk2GrsYFbPM+C2OyoCnVpe9py3EU4hmlHovYQUR7
-	0oZWP7AQl/cZJYQ0AFOREv2k7iV/vl4f6CCYSvAUIeX2BzFm248W6CSd1NOqQvz0zPpYSpazfun
-	+wmVplCoVmEYo96xZpSLcDYNpD/iOGHLLDFZa
-X-Google-Smtp-Source: AGHT+IEBCHh5at8F+COR4cGDllSpD2J7JpR+ODcNFG7XI5qKLEW8CmG66IZiYQuqBlnDkixdz9i/+yCx3p+Y4GqdUM0=
-X-Received: by 2002:a17:906:4551:b0:a45:270e:3617 with SMTP id
- s17-20020a170906455100b00a45270e3617mr5771839ejq.27.1709693680497; Tue, 05
- Mar 2024 18:54:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fdpvnQAR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148D5C433C7;
+	Wed,  6 Mar 2024 03:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1709694709;
+	bh=58VcRiQTZSjcLPi8M729ux0GJeTmIkW30qWk/AP4e1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fdpvnQARNfitU21vgTyfY+H+5wuo7pw40AUwsQtqCaVkc0/Q/0fCjjYkWUvq71rOG
+	 wGV+iJAcygcCygBg6kyO4DsBEfmO8lphOXNk/e6T9ubfV/DdMG4VH603bvwyvIJLVm
+	 q5R4keJKMJyxNz2IzuidYB7ASuikYGGVkTIxBqMk=
+Date: Tue, 5 Mar 2024 22:11:46 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: "Chatre, Reinette" <reinette.chatre@intel.com>, 
+	"Yu, Fenghua" <fenghua.yu@intel.com>, Peter Newman <peternewman@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"x86@kernel.org" <x86@kernel.org>, Shaopeng Tan <tan.shaopeng@fujitsu.com>, 
+	James Morse <james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, 
+	Babu Moger <babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Drew Fustini <dfustini@baylibre.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: Cover-cover letter for two resctrl patch sets
+Message-ID: <20240305-amethyst-trogon-of-flowers-b732cd@lemur>
+References: <20240228112215.8044-tony.luck@intel.com>
+ <b11c545a-7bf4-403e-99cb-38db777fd8ab@intel.com>
+ <20240305-uppish-rare-beaver-f652ce@lemur>
+ <SJ1PR11MB608338D24D58E61B77B423F8FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-10-almasrymina@google.com> <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
- <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com> <6562b8b0-6cc0-4652-b746-75549801c002@davidwei.uk>
-In-Reply-To: <6562b8b0-6cc0-4652-b746-75549801c002@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 5 Mar 2024 18:54:28 -0800
-Message-ID: <CAHS8izOExbcxNSW8b5UUO=Y2se8ypZfaoyoviQvqR-WVZ=7s-g@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
- memory provider
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SJ1PR11MB608338D24D58E61B77B423F8FC222@SJ1PR11MB6083.namprd11.prod.outlook.com>
 
-On Tue, Mar 5, 2024 at 6:47=E2=80=AFPM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-03-05 18:42, Mina Almasry wrote:
-> > On Tue, Mar 5, 2024 at 6:28=E2=80=AFPM David Wei <dw@davidwei.uk> wrote=
-:
-> >>
-> >> On 2024-03-04 18:01, Mina Almasry wrote:
-> >>> +     if (pool->p.queue)
-> >>> +             binding =3D READ_ONCE(pool->p.queue->binding);
-> >>> +
-> >>> +     if (binding) {
-> >>> +             pool->mp_ops =3D &dmabuf_devmem_ops;
-> >>> +             pool->mp_priv =3D binding;
-> >>> +     }
-> >>
-> >> This is specific to TCP devmem. For ZC Rx we will need something more
-> >> generic to let us pass our own memory provider backend down to the pag=
-e
-> >> pool.
-> >>
-> >> What about storing ops and priv void ptr in struct netdev_rx_queue
-> >> instead? Then we can both use it.
-> >
-> > Yes, this is dmabuf specific, I was thinking you'd define your own
-> > member of netdev_rx_queue, and then add something like this to
-> > page_pool_init:
-> >
-> > +       if (pool->p.queue)
-> > +               io_uring_metadata =3D READ_ONCE(pool->p.queue->io_uring=
-_metadata);
-> > +
-> > +       /* We don't support rx-queues that are configured for both
-> > io_uring & dmabuf binding */
-> > +       BUG_ON(io_uring_metadata && binding);
-> > +
-> > +       if (io_uring_metadata) {
-> > +               pool->mp_ops =3D &io_uring_ops;
-> > +               pool->mp_priv =3D io_uring_metadata;
-> > +       }
-> >
-> > I.e., we share the pool->mp_ops and the pool->mp_priv but we don't
-> > really need to share the same netdev_rx_queue member. For me it's a
-> > dma-buf specific data structure (netdev_dmabuf_binding) and for you
-> > it's something else.
->
-> This adds size to struct netdev_rx_queue and requires checks on whether
-> both are set. There can be thousands of these structs at any one time so
-> if we don't need to add size unnecessarily then that would be best.
->
-> We can disambiguate by comparing &mp_ops and then cast the void ptr to
-> our impl specific objects.
->
-> What do you not like about this approach?
->
+On Tue, Mar 05, 2024 at 10:27:47PM +0000, Luck, Tony wrote:
+> 1) Because of significant rebase changes, I dropped all the Reviewed/Tested tags
+> from v15. But b4 seems to have noticed that part 5/8 wasn't changed at all since
+> v14, and picked up some (but not all) of the tags for that patch:
+> 
+>   ✓ [PATCH v15 5/8] x86/resctrl: Add node-scope to the options for feature scope
+>     + Reviewed-by: Peter Newman <peternewman@google.com> (✗ DKIM/google.com)
+>     + Reviewed-by: Reinette Chatre <reinette.chatre@intel.com> (✓ DKIM/intel.com)
+>     + Reviewed-by: Babu Moger <babu.moger@amd.com> (✓ DKIM/amd.com)
 
-I was thinking it leaks page_pool specifics into a generic struct
-unrelated to the page pool like netdev_rx_queue. My mental model is
-that the rx-queue just says that it's bound to a dma-buf/io_uring
-unaware of page_pool internals, and the page pool internals figure out
-what to do from there.
+This is a feature -- any trailers sent to a patch that hasn't changed between
+series will be applied to the new series. We don't apply this logic to any
+trailers sent to the cover letter, which is probably why you aren't seeing all
+the trailers show up.
 
-Currently netdev_rx_queue.h doesn't include net/page_pool/types.h for
-example because there is no dependency between netdev_rx_queue &
-page_pool, I think this change would add a dependency.
+> 2) My cover-cover letter created some linkage between the two patch series.
 
-But I concede it does not matter much AFAICT, I can certainly change
-the netdev_rx_queue to hold the mp_priv & mp_ops directly and include
-net/page_pool/types.h if you prefer that. I'll look into applying this
-change in the next iteration if there are no objections.
+That's not an expected situation, which is why b4 doesn't do the right thing,
+sorry.
 
-> >
-> > page_pool_init() probably needs to validate that the queue is
-> > configured for dma-buf or io_uring but not both. If it's configured
-> > for both then the user is doing something funky we shouldn't support.
-> >
-> > Perhaps I can make the intention clearer by renaming 'binding' to
-> > something more specific to dma-buf like queue->dmabuf_binding, to make
-> > it clear that this is the dma-buf binding and not some other binding
-> > like io_uring?
-> >
+> Trying to retrieve the 2-part v4 series with "git am" would pick up the 8-part
+> v15. Using an explicit "-v4" does work to pick up just the 2-part patch.
 
+Another option is to use --no-parent to break the thread at the cover letter
+of the series you want:
 
+    b4 am --no-parent 20240228112952.8090-tony.luck@intel.com
 
---=20
-Thanks,
-Mina
+This option exists for these exact situations when unrelated series show up in
+the same thread.
+> 3) That b4 am picks up Reinette's "if you make these changes" Reviewed by from:
+>   https://lore.kernel.org/all/12766261-26b2-4aa4-a735-c2380c4963fd@intel.com/
+> [though I can see why it did and realize that we'll need "b4GPT" to parse
+> surrounding text to figure out that it should skip that].
+
+Correct, we can't possibly do the right thing there, which is why the usual
+advise is not to give conditional trailers, or prepend them with a quote, a
+pipe, a dot, etc, e.g.:
+
+    If you fix these, then you can apply:
+    | Reviewed-by: ...
+
+> Should folks that offer a conditional tag mark that in the text somewhere to
+> let b4 know not to auto-pick?
+
+Using the above strategy effectively achieves the same result.
+
+Best regards,
+-K
