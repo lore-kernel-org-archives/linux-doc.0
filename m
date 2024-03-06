@@ -1,55 +1,55 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD214A4DB
-	for <linux-doc@vger.kernel.org>; Wed,  6 Mar 2024 18:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC5014AD14
+	for <linux-doc@vger.kernel.org>; Wed,  6 Mar 2024 18:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709749529; cv=none; b=IGOjNgcOTPW1hrdACyxby/iZnfmL5mDS6DMZodb4HM3Vnk467fhmJPZPt842Vxb/dP09LcCJW711CiaY6dGLpo1doPZnQS909uLsHv0JOo/M9tQyzGURb3OXhZdtwBnyrnN4TDq89ZZIPfHF+BLhQzOb4UxDOb06V73VYKS9Wj0=
+	t=1709749530; cv=none; b=LaEQXxgJBVjLxZ6xG0ZgM9kspFW6tv4uOPAMPguOigJ4FDbevteL3roQIJFZnu0uilmE8RsBHMlEb8muwvyey3wrLyewScfCW8lFb4HsukvL3en4EIAsegqNympMgNCGn1LJxLIdunWsBACWA0wnx4eoodIg6gT1GM1i3y7e8Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709749529; c=relaxed/simple;
-	bh=8gZDLXySUHS8SR1VChM+2ulcrAIJsKB6/fnzku3BZtI=;
+	s=arc-20240116; t=1709749530; c=relaxed/simple;
+	bh=U1GwlK71boTuxaedjljr6xYdZS31lmYH7mWe5hsF6dM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YttUbKfqedYVMWz+KOks125sLxZkcU52zaMq/j+b83FFZhq0VWAE2msNMqBaqSQ0asV5t8lKw5Nx5xwlSeov0/6ZyG9Tsbelkevw5F3mvjrON7V3hQxFVUOvHODWWrif8rDLwjUEMQ59HhFR8xDdoTC99uL+Go4wWXwtMjLlJNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=smWRj0Wn; arc=none smtp.client-ip=209.85.128.201
+	 To:Cc:Content-Type; b=IobX5TG5gxKsNUk5vs/r9E+DKsIlDEE/GoTXwSBCzog5RwS00TlCidZdS3nrTmiWEV/XgyrJSeDjwcxztlY4aqLgOyP0BDk5YgURogKldyoKk2ar9RGMCkEDzeB02Xqt8LAxU7OOKC0nEidh3iHKHnPeDk8Cq14pJUGH9Key9Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ztQ8s74p; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="smWRj0Wn"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-607838c0800so13134767b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2024 10:25:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ztQ8s74p"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-608dc99b401so718847b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2024 10:25:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709749526; x=1710354326; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1709749528; x=1710354328; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UytzFxvo2MN54m2UV3o6+O9sIke62l96NyrXCwye1Yc=;
-        b=smWRj0WnRrzh3JgstPGR1NfZ8PLBDC6e+a3FPdXTtVLMWSdVqToMlq8jR7umoPtouZ
-         qOyG8czagrdmNza2YH1Zd5c+0gnbyiRPq3zLbhLCdTfA+SaQRZikgZS4j6xqGrcl6uk2
-         41MVpE6mPOdozYq6m3cJhFcC52dPLTiKWY6KqqY1e5rT3s8TrIYeXEX4FLDjK9n4VHjk
-         sR/T6M1eCCaZNnZRSxc9LSTPhRyDUN00r/socdK4IKFwMye0YE4n51QBUrKOUYhtohsx
-         efZQnslQXFfgo+pwzEYaqUPUYM+aM06cPTzkOP4BFTqxGapuddAcQYv8hKV0fekgcuVp
-         OAsQ==
+        bh=EvAS1Tk9rG7Nm0pd+ehjWtNqiQusCGfZiqvBjL56bfE=;
+        b=ztQ8s74px1kDeg+gcvtoEzrESBbup+O1LZVsYcIPusGcNXa21SDoFJcxA3hDlEXSYd
+         rtkfKREnrt39R/F2CS6vFGgfX00yMQwU6+TqHOn/p3/cKIVQdzOy5XEv/nE3s8fcoVZ+
+         EYQYJY9/4d9wuyKR6ZpA4RKRuLglPHoGtnwiqmnUkvFlaAmp3pFpw2Xizo6cMumtlwLW
+         QWvXpQzx6ObCT72WW8bSGyyvGk7YDB2Nl/MaFtu24aRNcsXx1CVZ30oYxaZosB/VyPcd
+         Smy7RoH2CKLpa+U580tfOIo94b+trH0T6p6m2r9yx4tcAcT1LqMoQLxU1R6KBSEaP24j
+         bz6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709749526; x=1710354326;
+        d=1e100.net; s=20230601; t=1709749528; x=1710354328;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UytzFxvo2MN54m2UV3o6+O9sIke62l96NyrXCwye1Yc=;
-        b=nfb4xrApdI2MwbWyXsGE9FrC4Tr3zRLPlGh2JOjccaeRO0Y6DsLAkh0bVHhb6khFF5
-         3Y3MDu6FXcs1TCH95XiCOI/GEdR9FEeCe3qkRfeNEsfDd7JVGeCHPxscFinDi2eqBoeZ
-         UZjjYmgzs47L5Ox6tN4Nfi5ihvfCNIdULVd8QVZ0ZZ4J231XwaOCuY2j8wIzSUipwB+J
-         PLMAQK6d3uuxD2Q+Mf20Y89p/KoOLupTTEMmYiJlh2SwHarabvd9gy9K5kGTNpzEqelx
-         n2iNQ85zKjr4eJOp8dr9vUY8fkkFFj1kdBJNplrjRakNxuMsxck6FEevgoMu4c+19pQg
-         6gtw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsUqzsEZpccaC7gMzQqxd5OWxE6L/d6q3Aqzg3vaxSsqoCNIb/ZJ1/7ckSicDUPuRIbtpEK9jtOO6bUC3kBqhjvyDc+8eOWUbr
-X-Gm-Message-State: AOJu0YxB5+WFnvttp8EPUtHyVwqdReHSGMD0zbIHKXWlvRAqjQpBpGsI
-	XUI3SWVlDI/NLLPIaVXzioh4WX8F64FKe3/5lVU0x50FA00tfqpjDRRqb7psa1nfJcQWJRHxpe8
-	RGA==
-X-Google-Smtp-Source: AGHT+IELFceSPWFrUjgphXkqF3QF81hXppl+wz2Z5M52XUCNjOCO0HkPXUz6VhR3ZLtCxZs2Az+yJ39E678=
+        bh=EvAS1Tk9rG7Nm0pd+ehjWtNqiQusCGfZiqvBjL56bfE=;
+        b=sHYRqHC/EWSoZ/PfP6kbtPuEvn2kWbNWzNlGYkmmtrSJigwk4g80FVb8FvQfa43MLf
+         3182neHDJjXeK44ZA240zRi9DTvuusDtVTNBr29jCQEJH0VjiJrUNIbV+HiIRPr87eJ9
+         BVVDNC+k+AKaC+gorPlggxyriKPunEwfDsclUs4Z3EJYcPj1om9ZGnDpX1ThMTEzzLcK
+         EFN+SASj4Yuv2zVorMHach/1v8VNuS1ahotTUPNSm9akOvsC7fqn7eiPembNlt2BF8kc
+         Fn4s/GrYqbcGMB8s8VTkY9fGSjeMTIKKst4Hz74rz862PNyCtOoibNhxV1WoUJfHJg4b
+         iVVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjDOSjhmxlG+n7P41jKvhBquhIWw+6n3BP0s8UEpxQ+dhw3lPV37vEKArvR0j46z/col87iWPvM1ryFvpepY/xEUVjAW9RPbXn
+X-Gm-Message-State: AOJu0YwVbSXHmly8bJ3xmbzk4tz5B7L/dM/DL4LRFJKSntSSt0Co4CtZ
+	N+CLwHYXqSQ5oBwN78nZIDIsXeD0aXP1CcxfTkhspu6zPJwPJ0zA0uPth3Y3F/+Ms3XZZAyjtpA
+	FcA==
+X-Google-Smtp-Source: AGHT+IFQIptCkWW78zp6nNtKkGuc5SIQRmDLhLOqGJHxbi7rcmsMoDf48+EiK0QB4NL+su2PCoHiqX08ucE=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:85f0:e3db:db05:85e2])
- (user=surenb job=sendgmr) by 2002:a81:7948:0:b0:609:5bd8:de84 with SMTP id
- u69-20020a817948000000b006095bd8de84mr1217843ywc.0.1709749525732; Wed, 06 Mar
- 2024 10:25:25 -0800 (PST)
-Date: Wed,  6 Mar 2024 10:24:17 -0800
+ (user=surenb job=sendgmr) by 2002:a05:690c:fcd:b0:609:33af:cca8 with SMTP id
+ dg13-20020a05690c0fcd00b0060933afcca8mr4422200ywb.2.1709749527811; Wed, 06
+ Mar 2024 10:25:27 -0800 (PST)
+Date: Wed,  6 Mar 2024 10:24:18 -0800
 In-Reply-To: <20240306182440.2003814-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240306182440.2003814-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-Message-ID: <20240306182440.2003814-20-surenb@google.com>
-Subject: [PATCH v5 19/37] mm: create new codetag references during page splitting
+Message-ID: <20240306182440.2003814-21-surenb@google.com>
+Subject: [PATCH v5 20/37] mm: fix non-compound multi-order memory accounting
+ in __free_pages
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -90,77 +91,50 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-When a high-order page is split into smaller ones, each newly split
-page should get its codetag. After the split each split page will be
-referencing the original codetag. The codetag's "bytes" counter
-remains the same because the amount of allocated memory has not
-changed, however the "calls" counter gets increased to keep the
-counter correct when these individual pages get freed.
+When a non-compound multi-order page is freed, it is possible that a
+speculative reference keeps the page pinned. In this case we free all
+pages except for the first page, which will be freed later by the last
+put_page(). However put_page() ignores the order of the page being freed,
+treating it as a 0-order page. This creates a memory accounting imbalance
+because the pages freed in __free_pages() do not have their own alloc_tag
+and their memory was accounted to the first page. To fix this the first
+page should adjust its allocation size counter when "tail" pages are freed.
 
+Reported-by: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/alloc_tag.h   |  9 +++++++++
- include/linux/pgalloc_tag.h | 30 ++++++++++++++++++++++++++++++
- mm/huge_memory.c            |  2 ++
- mm/page_alloc.c             |  2 ++
- 4 files changed, 43 insertions(+)
+ include/linux/pgalloc_tag.h | 24 ++++++++++++++++++++++++
+ mm/page_alloc.c             | 11 ++++++++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-index 28c0005edae1..bc9b1b99a55b 100644
---- a/include/linux/alloc_tag.h
-+++ b/include/linux/alloc_tag.h
-@@ -106,6 +106,15 @@ static inline void __alloc_tag_ref_set(union codetag_ref *ref, struct alloc_tag
- 	this_cpu_inc(tag->counters->calls);
- }
- 
-+static inline void alloc_tag_ref_set(union codetag_ref *ref, struct alloc_tag *tag)
-+{
-+	alloc_tag_add_check(ref, tag);
-+	if (!ref || !tag)
-+		return;
-+
-+	__alloc_tag_ref_set(ref, tag);
-+}
-+
- static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag, size_t bytes)
- {
- 	alloc_tag_add_check(ref, tag);
 diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
-index b49ab955300f..9e6ad8e0e4aa 100644
+index 9e6ad8e0e4aa..59de43172cc2 100644
 --- a/include/linux/pgalloc_tag.h
 +++ b/include/linux/pgalloc_tag.h
-@@ -67,11 +67,41 @@ static inline void pgalloc_tag_sub(struct page *page, unsigned int order)
- 	}
+@@ -96,12 +96,36 @@ static inline void pgalloc_tag_split(struct page *page, unsigned int nr)
+ 	page_ext_put(page_ext);
  }
  
-+static inline void pgalloc_tag_split(struct page *page, unsigned int nr)
++static inline struct alloc_tag *pgalloc_tag_get(struct page *page)
 +{
-+	int i;
-+	struct page_ext *page_ext;
-+	union codetag_ref *ref;
-+	struct alloc_tag *tag;
++	struct alloc_tag *tag = NULL;
 +
-+	if (!mem_alloc_profiling_enabled())
-+		return;
++	if (mem_alloc_profiling_enabled()) {
++		union codetag_ref *ref = get_page_tag_ref(page);
 +
-+	page_ext = page_ext_get(page);
-+	if (unlikely(!page_ext))
-+		return;
-+
-+	ref = codetag_ref_from_page_ext(page_ext);
-+	if (!ref->ct)
-+		goto out;
-+
-+	tag = ct_to_alloc_tag(ref->ct);
-+	page_ext = page_ext_next(page_ext);
-+	for (i = 1; i < nr; i++) {
-+		/* Set new reference to point to the original tag */
-+		alloc_tag_ref_set(codetag_ref_from_page_ext(page_ext), tag);
-+		page_ext = page_ext_next(page_ext);
++		alloc_tag_sub_check(ref);
++		if (ref && ref->ct)
++			tag = ct_to_alloc_tag(ref->ct);
++		put_page_tag_ref(ref);
 +	}
-+out:
-+	page_ext_put(page_ext);
++
++	return tag;
++}
++
++static inline void pgalloc_tag_sub_bytes(struct alloc_tag *tag, unsigned int order)
++{
++	if (mem_alloc_profiling_enabled() && tag)
++		this_cpu_sub(tag->counters->bytes, PAGE_SIZE << order);
 +}
 +
  #else /* CONFIG_MEM_ALLOC_PROFILING */
@@ -168,50 +142,39 @@ index b49ab955300f..9e6ad8e0e4aa 100644
  static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
  				   unsigned int order) {}
  static inline void pgalloc_tag_sub(struct page *page, unsigned int order) {}
-+static inline void pgalloc_tag_split(struct page *page, unsigned int nr) {}
+ static inline void pgalloc_tag_split(struct page *page, unsigned int nr) {}
++static inline struct alloc_tag *pgalloc_tag_get(struct page *page) { return NULL; }
++static inline void pgalloc_tag_sub_bytes(struct alloc_tag *tag, unsigned int order) {}
  
  #endif /* CONFIG_MEM_ALLOC_PROFILING */
  
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index a81a09236c16..d596449b5bc8 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -38,6 +38,7 @@
- #include <linux/sched/sysctl.h>
- #include <linux/memory-tiers.h>
- #include <linux/compat.h>
-+#include <linux/pgalloc_tag.h>
- 
- #include <asm/tlb.h>
- #include <asm/pgalloc.h>
-@@ -2946,6 +2947,7 @@ static void __split_huge_page(struct page *page, struct list_head *list,
- 	/* Caller disabled irqs, so they are still disabled here */
- 
- 	split_page_owner(head, order, new_order);
-+	pgalloc_tag_split(head, 1 << order);
- 
- 	/* See comment in __split_huge_page_tail() */
- 	if (folio_test_anon(folio)) {
 diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index eb5cae9b967d..39dc4dcf14f5 100644
+index 39dc4dcf14f5..b402149a795f 100644
 --- a/mm/page_alloc.c
 +++ b/mm/page_alloc.c
-@@ -2663,6 +2663,7 @@ void split_page(struct page *page, unsigned int order)
- 	for (i = 1; i < (1 << order); i++)
- 		set_page_refcounted(page + i);
- 	split_page_owner(page, order, 0);
-+	pgalloc_tag_split(page, 1 << order);
- 	split_page_memcg(page, order, 0);
- }
- EXPORT_SYMBOL_GPL(split_page);
-@@ -4850,6 +4851,7 @@ static void *make_alloc_exact(unsigned long addr, unsigned int order,
- 		struct page *last = page + nr;
+@@ -4697,12 +4697,21 @@ void __free_pages(struct page *page, unsigned int order)
+ {
+ 	/* get PageHead before we drop reference */
+ 	int head = PageHead(page);
++	struct alloc_tag *tag = pgalloc_tag_get(page);
  
- 		split_page_owner(page, order, 0);
-+		pgalloc_tag_split(page, 1 << order);
- 		split_page_memcg(page, order, 0);
- 		while (page < --last)
- 			set_page_refcounted(last);
+ 	if (put_page_testzero(page))
+ 		free_the_page(page, order);
+ 	else if (!head)
+-		while (order-- > 0)
++		while (order-- > 0) {
+ 			free_the_page(page + (1 << order), order);
++			/*
++			 * non-compound multi-order page accounts all allocations
++			 * to the first page (just like compound one), therefore
++			 * we need to adjust the allocation size of the first
++			 * page as its order is ignored when put_page() frees it.
++			 */
++			pgalloc_tag_sub_bytes(tag, order);
++		}
+ }
+ EXPORT_SYMBOL(__free_pages);
+ 
 -- 
 2.44.0.278.ge034bb2e1d-goog
 
