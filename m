@@ -1,134 +1,158 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC6712FB31;
-	Wed,  6 Mar 2024 14:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464715B03B;
+	Wed,  6 Mar 2024 14:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709736268; cv=none; b=LopTb/fKh34Npc6RH+aVljXKQu9LKnQxIKOKMWoJbAU09CeBdkWJC7Q8EE3Ah8ZNrZ0zg8v7blR49lzR0EeNi9IZz0vIFniPstE1OEOiqcpBaS1oSrTOE1c7DWdjdbES98Ql6S8yqpFs8/ldkd50uJR7LWElMOXdb1KXA5EKAAQ=
+	t=1709737181; cv=none; b=exHvIKQEjOU/Anx+92tAruNGmEoXaQ9p05EYkUo1GnLmeCKugaeW+XEOuxJRgsuKErsFzI921N/vCrkGp9VOEWQaHg0QvphaIdJx48q94FG+H09FK2QuCF74R/xUvy51n4T+3uTVyj7/8llkXxXXcOYdRdyTJn2tWFs+JuT7Wz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709736268; c=relaxed/simple;
-	bh=Cg+/N+/d48kp+Bii6xwPc6Sv3b/fJs9pKZfyKHqumHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihvgbR0V/c/+G46kcT7Bcac8cuquZlRMadzCs1boqg+FblI1xFMXQnUOPOsjafPpPmu6fpSU/pgk80tmbucADUtbKT9gGPTp5fEwgKEw1CJaIz7PFpE6BXodGmpYwH5/ijMc+EDLE10issr+RjDPsHwhU8cfrbNF+/WouN1+KzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6727E68C4E; Wed,  6 Mar 2024 15:44:17 +0100 (CET)
-Date: Wed, 6 Mar 2024 15:44:16 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240306144416.GB19711@lst.de>
-References: <cover.1709635535.git.leon@kernel.org> <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal>
+	s=arc-20240116; t=1709737181; c=relaxed/simple;
+	bh=wWfmjk4jJc0azJs5MAtNsWXdDU8hGOFf9AsXbM5PzFE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O9HIK7KwUWCIBBvk2oQ4/bu4dLJ8eSjckAyDvqFfTJSlAnZAQj3WCCCEoapzCoGF1GTXEgZx7xVpLuYOEfbU5xoasLPctpm5RaDM6PeUfLGNSaNbM6Cu/SgkmVhr4feGrX+JXm0lPC0Dg9eMtKkqIglWhe53AzO6Li+1Jc1AaYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XjNVNX0r; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XjNVNX0r"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33d153254b7so4708756f8f.0;
+        Wed, 06 Mar 2024 06:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709737178; x=1710341978; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=k3KTBSf8CRlcIZfoKRwDp/o4UHKfshbIbaLHqnkKL/Q=;
+        b=XjNVNX0rLvgSbah451dBNV75h6uXG0ZSzZudNMr8hTabBjVjKCAM93NEiCStHOoiO2
+         VKDvgZ7Mh4tODw4Ei1m3tfOw+Eq4fnvrzWch5lACXDJt/wY34D+TNLirBgL6eLQ8EF66
+         neuWhiqg8HoepNaILTpG+sNNFeZCpI4620BGmxec6/srCDCbYnQgQsRMy5RJQueBWJal
+         9CHAa8TUf/+CijO7NF3taJwT/tUeMMi67czTFE1p3g3x8w1pAKQ9LvBu8jrKrydymE7k
+         24l8K5WFHlKSt1r6C7OcxDfHYRqflw5twj4VyE9NoZyS2KCVDZEN8VzDgo/SC2io5F96
+         JpDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709737178; x=1710341978;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k3KTBSf8CRlcIZfoKRwDp/o4UHKfshbIbaLHqnkKL/Q=;
+        b=QO/Bixoif5RCybFujEyiyjtfJLT12vAPp3c6aOhwdweXF9sMvA5fM8+XaMyWm1jHpB
+         xuna0K/5KRKUOBOokt9SmFLTU2CcPKY7V01J+VNANBUuV3DtvXjjsKmMEClz1ZcIq/T8
+         ucGBO6rZkKDgyul3NPVOYxyM24OZ5xUKN0tF45dS36+BkUN2T+Y33U1N//pKHEeDwcnl
+         fr9+dYVQX5BpPcYvuayWCU3ZEr2cqMXy7d+SHDcuJIJCVkXCpFrNgYjDoeYk0HSgu14Q
+         z70+GX/ifYbNQNzzwVKd+VMZoT4p+5e0EsJCCLrINScHRnBh6AzR6jiY6veloFmiCUnD
+         fRbw==
+X-Forwarded-Encrypted: i=1; AJvYcCW77HW/Q910jJXLnbJPA3p4ZUT/zTGFq5L7KuSvYaBeDODRUmtsnYHqhYGrI7fLBvCCd3W9jROaApfCr7Ic8LWNuLRb0V6VHU7FqCpSDwJyr+dZPZu9+hyCgFKuRcE3XFJLJRijwnXAxCpKHojQnFWUxiQzcnP0keGkOR61wj4tEkPyO1TE0aGQAKTNUbUrzhE5mprTob1BAhT5V/exiCE59j7ovgbD/ch7Wbk6gRAFOrdZlic/oGk4NGphyNOmPyPEkP7KLfp6LO8sMSllHF+1k447VV5SIPNJqbtUod7/9DuINK6BL2rX8u+DmiBixAlxghGXO09rwv8d0qmQlQdc59O4mL0/AMN1+YXlKoeUL6Ek8p8dcN+9AhbHl+9XjVOMUGjjEr2tybz7lu9nDoDSNhUP4XBVNBL6fsnEw2wwcvHKtOEK56KjfNpJS8//cFbsnOZfjkbWgiVmYVDlwaqXLcBiuD4R8YA4gyJU9w==
+X-Gm-Message-State: AOJu0YzgCutdh7CIapmyelX2J0pTMqFyhM17kcSRg7DwhE6oPEqesA3U
+	n0wE25iyRPdNhI2Oi0qkjTj4XuXY4TLSmaQItIDnvT6SKrkLuN7Z
+X-Google-Smtp-Source: AGHT+IFqyav+emKmFSd0bSOzFBUFGtQwTCEQWXrbswWn1syNw+koJNQ7CeSt912Wgj47JjnPQnfG0g==
+X-Received: by 2002:a5d:6b4a:0:b0:33e:1b80:ae95 with SMTP id x10-20020a5d6b4a000000b0033e1b80ae95mr10870719wrw.11.1709737178481;
+        Wed, 06 Mar 2024 06:59:38 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.233.174])
+        by smtp.gmail.com with ESMTPSA id f10-20020a5d58ea000000b0033d4cf751b2sm17698519wrd.33.2024.03.06.06.59.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 06:59:38 -0800 (PST)
+Message-ID: <b85b36bd-7082-47a5-bf46-50cff8eb60be@gmail.com>
+Date: Wed, 6 Mar 2024 14:58:38 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305122935.GB36868@unreal>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v6 09/15] memory-provider: dmabuf devmem
+ memory provider
+Content-Language: en-US
+To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-10-almasrymina@google.com>
+ <383c4870-167f-4123-bbf3-928db1463e01@davidwei.uk>
+ <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izP_PzDJVxycwZe_d_x10-SX4=Q-CWpKTjoOQ5dc2NSn3w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 05, 2024 at 02:29:35PM +0200, Leon Romanovsky wrote:
-> > > These advanced DMA mapping APIs are needed to calculate IOVA size to
-> > > allocate it as one chunk and some sort of offset calculations to know
-> > > which part of IOVA to map.
-> > 
-> > I don't follow this part at all - at *some* point, something must know a
-> > range of memory addresses involved in a DMA transfer, so that's where it
-> > should map that range for DMA. 
+On 3/6/24 02:42, Mina Almasry wrote:
+> On Tue, Mar 5, 2024 at 6:28 PM David Wei <dw@davidwei.uk> wrote:
+>>
+>> On 2024-03-04 18:01, Mina Almasry wrote:
+>>> +     if (pool->p.queue)
+>>> +             binding = READ_ONCE(pool->p.queue->binding);
+>>> +
+>>> +     if (binding) {
+>>> +             pool->mp_ops = &dmabuf_devmem_ops;
+>>> +             pool->mp_priv = binding;
+>>> +     }
+>>
+>> This is specific to TCP devmem. For ZC Rx we will need something more
+>> generic to let us pass our own memory provider backend down to the page
+>> pool.
+>>
+>> What about storing ops and priv void ptr in struct netdev_rx_queue
+>> instead? Then we can both use it.
 > 
-> In all presented cases in this series, the overall DMA size is known in
-> advance. In RDMA case, it is known when user registers the memory, in
-> VFIO, when live migration is happening and in NVMe, when BIO is created.
-> 
-> So once we allocated IOVA, we will need to link ranges, which si the
-> same as map but without IOVA allocation.
+> Yes, this is dmabuf specific, I was thinking you'd define your own
+> member of netdev_rx_queue, and then add something like this to
+> page_pool_init:
 
-But above you say:
+That would be quite annoying, there are 3 expected users together
+with huge pages, each would need a field and check all others are
+disabled as you mentioned and so on. It should be cleaner to pass
+a generic {pp_ops,pp_private} pair instead.
 
-"These advanced DMA mapping APIs are needed to calculate IOVA size to
-allocate it as one chunk and some sort of offset calculations to know
-which part of IOVA to map."
+If header dependencies is a problem, you it can probably be
 
-this suggests you need helpers to calculate the len and offset.  I
-can't see where that would ever make sense.  The total transfer
-size should just be passed in by the callers and be known, and
-there should be no offset.
+struct pp_provider_param {
+	struct pp_ops ops;
+	void *private;
+};
 
-> > > Instead of teaching DMA to know these specific datatypes, let's separate
-> > > existing DMA mapping routine to two steps and give an option to advanced
-> > > callers (subsystems) perform all calculations internally in advance and
-> > > map pages later when it is needed.
-> > 
-> > From a brief look, this is clearly an awkward reinvention of the IOMMU API.
-> > If IOMMU-aware drivers/subsystems want to explicitly manage IOMMU address
-> > spaces then they can and should use the IOMMU API. Perhaps there's room for
-> > some quality-of-life additions to the IOMMU API to help with common usage
-> > patterns, but the generic DMA mapping API is absolutely not the place for
-> > it.
-> 
-> DMA mapping gives nice abstraction from IOMMU, and allows us to have
-> same flow for IOMMU and non-IOMMU flows without duplicating code, while
-> you suggest to teach almost every part in the kernel to know about IOMMU.
+# netdev_rx_queue.h
 
-Except that the flows are fundamentally different for the "can coalesce"
-vs "can't coalesce" case.  In the former we have one dma_addr_t range,
-and in the latter as many as there are input vectors (this is ignoring
-the weird iommu merging case where we we coalesce some but not all
-segments, but I'd rather not have that in a new API).
+// definition is not included here
+struct pp_provider_params;
 
-So if we want to efficiently be able to handle these cases we need
-two APIs in the driver and a good framework to switch between them.
-Robins makes a point here that the iommu API handles the can coalesce
-case and he has a point as that's exactly how the IOMMU API works.
-I'd still prefer to wrap it with dma callers to handle things like
-swiotlb and maybe Xen grant tables and to avoid the type confusion
-between dma_addr_t and then untyped iova in the iommu layer, but
-having this layer or not is probably worth a discussion.
+struct netdev_rx_queue {
+	...
+	struct pp_provider_params *pp_params;
+};
 
-> 
-> In this series, we changed RDMA, VFIO and NVMe, and in all cases we
-> removed more code than added. From what I saw, VDPA and virito-blk will
-> benefit from proposed API too.
-> 
-> Even in this RFC, where Chaitanya did partial job and didn't convert
-> whole driver, the gain is pretty obvious:
-> https://lore.kernel.org/linux-rdma/016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org/T/#u
-> 
-
-I have no idea how that nvme patch is even supposed to work.  It removes
-the PRP path in nvme-pci, which not only is the most common I/O path
-but actually required for the admin queue as NVMe doesn't support
-SGLs for the admin queue.
-
+-- 
+Pavel Begunkov
