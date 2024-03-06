@@ -1,108 +1,107 @@
-Received: from bee.tesarici.cz (unknown [77.93.223.253])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4E85FB9C;
-	Wed,  6 Mar 2024 10:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.93.223.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5CB35D8E5;
+	Wed,  6 Mar 2024 10:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709720292; cv=none; b=nm56Z1YVPGWr15cbAbX5f+cfAVSuOh+zXXw1tC5l/np7/Ppk+hX2n2aFyWSlou4YXwflctW66NMyeD4SJhXLOagJ9U8RlVqOEqDvihvUKVTp7vOpEwxtCPurvQa/gfsTLoFjrPZXOnL8P+bFLkGhseSJmGY23z4fDT7Ex+gLqzc=
+	t=1709721119; cv=none; b=DL9LJcMA3lrKDJJhzJ0UIzrT/GZcsgGnTLBTq1aIJXo1u8GqwHINMyJruWmL3OOlvepTfzNUkqB+WQaGUFsym5KbwpAPKjYmChlKFhiikZEI/o7/9YNe3xekQNY7PByiMwEIjgRSoO/Nvg3QXQVLxW3aKJI4p+uZPxFpi79K03M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709720292; c=relaxed/simple;
-	bh=pNAiBPk3+b7TPFffKjUIflh60HluCNFIEoK2TZcYEHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i1bMKp0CgTlE80orCRAMAbrT6Brv1dBxn+tlEnhTeGmg7e4/4iOQYqoTlh08WyAY3U74M3hT2MEF69jQt0KzIeLgjLDphjsBdRkqOhjgEaIRYLPIQGNdkFD12wnZdUfQdd641NRuz04NtJAkZr0LNX8fI3LpmOc3tZfc5xTtzbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=xz9DwYt0; arc=none smtp.client-ip=77.93.223.253
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1709721119; c=relaxed/simple;
+	bh=V9dupUdmdDT6oqMU+vmjgEz0vS/DRI+SFGdX0PtriQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=loFToO6NXIfuxGBAkl+JOpq419XkiKQo/NAGC5FASkzqIE7JgWJN6IovV3/5wjJxfROpEQdefppWhflJUCDD3xJyUJ6EHJkvTnccyLPcHELHoJpSt55RCeE5sDaCdye519auo3rBsjEA5vx0NElllrpc8MMSfYJfLToq+cFq+Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpmesp3C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="xz9DwYt0"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id F1E351C8E6D;
-	Wed,  6 Mar 2024 11:18:06 +0100 (CET)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1709720287; bh=tZVIOy/Hp11PencpyFqREitSnYQ8zBVbq1ZDzko0Mso=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=xz9DwYt0kbyxrHiLd35ZroeRrU56YfxcIS95juX6a3sJNRGlr6hxomuN94ADEIfFX
-	 WfJqz/qBeBIQfsk1ZyHs44s+3QyXTorCgBk1ySC8IF6dwu2tSk5ndnsg9SYCvUmjZ/
-	 lmNmEoBgLnVOVz2oKUpdnsAEuNSIsI3ZUUtU0tn23DxVzgg+8PaJxgsABoq4RCQrZk
-	 fO7xfZJefPs+oAEkAkX4lmyTVtgw7CeUjwo0VgHL8LY0blH7U0kNTl5xpoFN1BnLcf
-	 hfunt4wOXlNUMV/VaJzF0GbvNeTB7fUsIyw0wAnaCgrT275zbfPhrDE7wtZPIrLNT6
-	 9K1sFTuFWF/IA==
-Date: Wed, 6 Mar 2024 11:18:05 +0100
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Jonathan Corbet <corbet@lwn.net>, regressions@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Bagas Sanjaya
- <bagasdotme@gmail.com>
-Subject: Re: [PATCH v1] docs: verify/bisect: fixes, finetuning, and support
- for Arch
-Message-ID: <20240306111805.382fd341@meshulam.tesarici.cz>
-In-Reply-To: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
-References: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpmesp3C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDC6AC433C7;
+	Wed,  6 Mar 2024 10:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709721119;
+	bh=V9dupUdmdDT6oqMU+vmjgEz0vS/DRI+SFGdX0PtriQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bpmesp3Cf3UOtm/WOXArUNMhwaWIE02nRlh4xtXs3Lh+cjLxTwDyVb9a7EvRli1OH
+	 V3yOaOwtcial4MmChZfRxrsm5JPUEFQq6KidAXXVD09QgVJ8RxrvaMAYAVfdx4VkrH
+	 01uPTpsgVgwNB3vv3U4JgFPhbAfJ4UgBVO93iaCx3vdYAmvjAKcX4IKOBno+pfFc3a
+	 MlI41Sof4sfd5ivtkmsxMdrD02aBRPp7ctv6JnaTC/ItG8SYJaaLIiTmUFJ2W0VQVE
+	 SapT+bLxNol8QCCptrm5K0aM4EzjhsOUcDw0rsD+19VyhhKgHSb/2a9uRbqDmlS0JO
+	 /figxLtEqJODQ==
+Date: Wed, 6 Mar 2024 11:31:53 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
+	linux-fsdevel@vger.kernel.org, kernel@collabora.com, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Guenter Roeck <groeck@chromium.org>, 
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v2] proc: allow restricting /proc/pid/mem writes
+Message-ID: <20240306-titan-gerade-6e3bbb057213@brauner>
+References: <20240301213442.198443-1-adrian.ratiu@collabora.com>
+ <20240304-zugute-abtragen-d499556390b3@brauner>
+ <202403040943.9545EBE5@keescook>
+ <20240305-attentat-robust-b0da8137b7df@brauner>
+ <202403050134.784D787337@keescook>
+ <20240305-kontakt-ticken-77fc8f02be1d@brauner>
+ <202403050211.86A44769@keescook>
+ <20240305-brotkrumen-vorbild-9709ce924d25@brauner>
+ <202403051033.9527DD75@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202403051033.9527DD75@keescook>
 
-On Wed,  6 Mar 2024 10:21:12 +0100
-Thorsten Leemhuis <linux@leemhuis.info> wrote:
+On Tue, Mar 05, 2024 at 10:37:20AM -0800, Kees Cook wrote:
+> On Tue, Mar 05, 2024 at 11:32:04AM +0100, Christian Brauner wrote:
+> > On Tue, Mar 05, 2024 at 02:12:26AM -0800, Kees Cook wrote:
+> > > On Tue, Mar 05, 2024 at 10:58:25AM +0100, Christian Brauner wrote:
+> > > > Since the write handler for /proc/<pid>/mem does raise FOLL_FORCE
+> > > > unconditionally it likely would implicitly. But I'm not familiar enough
+> > > > with FOLL_FORCE to say for sure.
+> > > 
+> > > I should phrase the question better. :) Is the supervisor writing into
+> > > read-only regions of the child process?
+> > 
+> > Hm... I suspect we don't. Let's take two concrete examples so you can
+> > tell me.
+> > 
+> > Incus intercepts the sysinfo() syscall. It prepares a struct sysinfo
+> > with cgroup aware values for the supervised process and then does:
+> > 
+> > unix.Pwrite(siov.memFd, &sysinfo, sizeof(struct sysinfo), seccomp_data.args[0]))
+> > 
+> > It also intercepts some bpf system calls attaching bpf programs for the
+> > caller. If that fails we update the log buffer for the supervised
+> > process:
+> > 
+> > union bpf_attr attr = {}, new_attr = {};
+> > 
+> > // read struct bpf_attr from mem_fd
+> > ret = pread(mem_fd, &attr, attr_len, req->data.args[1]);
+> > if (ret < 0)
+> >         return -errno;
+> > 
+> > // Do stuff with attr. Stuff fails. Update log buffer for supervised process:
+> > if ((new_attr.log_size) > 0 && (pwrite(mem_fd, new_attr.log_buf, new_attr.log_size, attr.log_buf) != new_attr.log_size))
+> 
+> This is almost certainly in writable memory (either stack or .data).
+> 
+> > But I'm not sure if there are other use-cases that would require this.
+> 
+> Maybe this option needs to be per-process (like no_new_privs), and with
+> a few access levels:
+> 
+> - as things are now
+> - no FOLL_FORCE unless by ptracer
+> - no writes unless by ptracer
+> - no FOLL_FORCE ever
+> - no writes ever
+> - no reads unless by ptracer
+> - no reads ever
 
-> Assorted changes for the recently added document.
-> 
-> Improvements:
-> 
-> * Add instructions for installing required software on Arch Linux.
-> 
-> Fixes:
-> 
-> * Move a 'git remote add -t master stable [...]' from a totally wrong
->   to the right place.
-> 
-> * Fix two anchors.
-> 
-> * Add two required packages to the openSUSE install instructions.
-> 
-> Fine tuning:
-> 
-> * Improve the reference section about downloading Linux mainline sources
->   to make it more obvious that those are alternatives.
-> 
-> * Include the full instructions for git bundles to ensure the remote
->   gets the right name; that way the text also works stand alone.
-> 
-> * Install ncurses and qt headers for use of menuconfig and xconfig by
->   default, but tell users that they are free to omit them.
-> 
-> * Mention ahead of time which version number are meant as example in
->   commands used during the step-by-step guide.
-> 
-> * Mention that 'kernel-install remove' might do a incomplete job.
-> 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
-> 
-> Lo! A quick note reg "mention ahead of time which version numbers are
-> meant as example in commands used during the step-by-step guide". I did
-> that, as I've seen someone following the guide without replacing the
-> version numbers, so pointing this out with a few words seemed wise. But
-> I'm not sure if the way I did it was the best; if someone has a better
-> idea how to do that, please let me know. Ciao, Thorsten
-
-
-If you want to make 100% sure that nobody can follow the guide blindly
-without replacing the version numbers, use e.g. 2.8...
-
-Then again, this could also confuse some other folks...
-
-The idea is probably not better.
-
-Petr T
+Doing it as a prctl() would be fine.
