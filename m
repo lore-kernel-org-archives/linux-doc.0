@@ -1,110 +1,99 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755C713E7C9;
-	Wed,  6 Mar 2024 19:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD67013BAF4;
+	Wed,  6 Mar 2024 19:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.121.71.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709754414; cv=none; b=nWg8KS12EZTRXZQDyQxCvY9DrnM2B8RBmKodNxJuXSbsMeEhREVR7omO5wkVy/yHRaeZREtxNnHofmQuG9mdTGOXKHvM2C86MtoEPs542QP8GAd6/HmvUPNHE85LQ+EyMDCWSD9FKi1Of2kGpHGI711TCRvlnaqdbh9vXQMSLC4=
+	t=1709754890; cv=none; b=tKjk5+aNBnFjGe/IRBTpYMR8U12zLHolQVyOkKYBXwjVPyJdrXn1Kw9GhVZie9YDqmekYZV2j6RFqn+LZIvystnLr9LxLW/dryDlg9S/6wk+q7eHprOov8Wf5abCGjFGYs59hl8OtfZM530Oo/mogy30vHHJ/0BWV1XMbULBJVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709754414; c=relaxed/simple;
-	bh=wUTa+nYvfPqqyd43TGJnbwD17Ps9aDuArvWOCzhqf6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CuIYuqHV5NTRY0ZrmmJkIjP4RvcfUIF4R0gsOUUDvxLtB05R0Etqbw9wFo6EjUNrgPStaUjsftZNEKuNZydZ0yeH0Cn0xAhZ9YY+gNiY1jKdwAIfWXB7GltqMRhd9zuD34NWkCFpc7QVP784dSeBtJY8tO5040kFfvi4pkIUIpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FK0egf06; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709754890; c=relaxed/simple;
+	bh=xI7TPdfaJh9c0jfLQMhlGytKcdh3yS9fkAl7t5GvxjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mQLjUGgg/Wdf8uZkN6mza3KL9FQGO7sooWn+4mSVa0lbF1MdaMpUVUK8MpV2AjKTy3KLXyLmrSvjqzuyep5YbI4lKBvE6Dr418lINr8IifsohQ6MVF0oqvgpirdLJvwlQZPFPlGzY00EVT6XGx2Zkq5p/PqhyJKSAGMUjiwLgkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=hHBK/PQJ; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=vsuUZWPA; arc=none smtp.client-ip=91.121.71.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FK0egf06"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1dc29f1956cso867995ad.0;
-        Wed, 06 Mar 2024 11:46:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709754412; x=1710359212; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wSGOkP6UKU31uWhJWy9bI2TO/pdNl9a82TrBlyBc6js=;
-        b=FK0egf06/tlGtlWO2VrfF0Q39I+VR3klIUXRatrf7EUTg4lG+gUCnQfwC2tn/YHez/
-         KRTqERJW1/xDwYtmP69OX/lvVSfs/SRknVmisI4VgHkAcgE5FV9NKQc2Tr13iGWQLSSS
-         azi2ImLDihKDUudsXJmtnDa0tal3aaffYxtWOgnl3mZUgmUURKoxu3Prfb1UDUm6soyJ
-         8onFqdmXCFespo/UaCvQUCjbFyFl3Dbb8aHdpMUVXDjL/oFFmAmxzRwCKJ1HSAbxFzCZ
-         FA4BLSTtus/LweWR4fA7WTXrV4wCU9BD/YdHXHAm9moox06bhYYidl9VpK5SJEcIwibj
-         v+GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709754412; x=1710359212;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wSGOkP6UKU31uWhJWy9bI2TO/pdNl9a82TrBlyBc6js=;
-        b=sr8qwdvEG+hAaPXJ4j2bfnAngYrvcjoESc48EUVnxjid8CnUR3IXmQgrGhcfgS6LBg
-         aqx83I/LDrZy14F3Mfh9opCktthB342VGPHGjKr74Agdk41p7rfT2IhWYTszC4hSyMu7
-         wV0ozT74q4aNxnPMLXNiJADCLnPkyVFCB0zRWqGxms82GiUbeeN5bY7mLvU8tWtfM3a8
-         3YRyT17Z5E2/BMLNt/R4iFMR97zKANQWfxZcu7VDJrxLqE1L9cm2a4wb6IoiQrHOXPCS
-         IPLgBFUd+dbY4AjNjloHoJNNi2zpF3C/9Cp8h/YUuFCPcUe0PtXxDl31JdFYlDB8jCBk
-         PLow==
-X-Forwarded-Encrypted: i=1; AJvYcCVxyFkW+hgbl3syS+bFddcTv4zgWTt/CmvYoyW41/SSS23Hou0pg7TvWbpkR9EGqr1fTC53dXykWbggs93LUGgaxGj3k+kHZT9qIDYG
-X-Gm-Message-State: AOJu0Ywp6n25UZ8xxGR5clLURWSLXsk1BXtxhwVbiITTQA2tn/d48ZKM
-	woLmXfVqvD6ypjboVFNH91SpA33H5stbT/0StmGeZ/FqYr6fTyrJsP8SzAqIyXU=
-X-Google-Smtp-Source: AGHT+IEjS1I6OLLAzByEfL8dzWTxJBG2nAxxy99Y2jRUZrkeNNwehA2uNYgnOdg/83joHtRSf03+cA==
-X-Received: by 2002:a17:902:db02:b0:1dc:90a7:660b with SMTP id m2-20020a170902db0200b001dc90a7660bmr7813671plx.9.1709754412131;
-        Wed, 06 Mar 2024 11:46:52 -0800 (PST)
-Received: from toolbox.iitism.net ([103.15.228.94])
-        by smtp.gmail.com with ESMTPSA id 12-20020a170902c20c00b001dbab519ce7sm12939928pll.212.2024.03.06.11.46.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 11:46:51 -0800 (PST)
-From: Ayush Singh <ayushdevel1325@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: Ayush Singh <ayushdevel1325@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	krzysztof.kozlowski@linaro.org,
-	corbet@lwn.net
-Subject: [PATCH] docs: w1: Remove w1_gpio_platform_data
-Date: Thu,  7 Mar 2024 01:16:26 +0530
-Message-ID: <20240306194629.356001-1-ayushdevel1325@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="hHBK/PQJ";
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="vsuUZWPA"
+Received: by nautica.notk.org (Postfix, from userid 108)
+	id 0720CC01A; Wed,  6 Mar 2024 20:54:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+	t=1709754886; bh=fo5mwjEgwLizlp9QJ9Xrr1GYd1WkhnXCPfwsqkjnlH8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hHBK/PQJ6plFEoNZ07LNp3KjQr3kjGSc+l87Sre6iLewUg7aC25NZ0elHEX7Z1TY8
+	 NQxteBQu8YqMByOFi0h/9cJa9TQmkBm2q3zF0koSBE7NexKJki1n2OFeSv8v4G1cyH
+	 yWZWxEa4Wcm+lVV9cPPJDeZSVUSycMJP9T3bmsxOC2dTyTBmrTjAYSIUpDQWZq+Aeh
+	 Rx3VZmiNx9kz2noPnFi5nKNFTHE/y52U9/rA+pWCkt3qhEoXGY6sPXcO6JIPRo0kMv
+	 jPRt+9wYAypYuwmJqUai627isiLz2MVzaXm0OLXnKZFC9M16AIA3erMMZDU3EnDfOF
+	 Iln8cAiwEbzOQ==
+X-Spam-Level: 
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by nautica.notk.org (Postfix) with ESMTPS id C86ADC009;
+	Wed,  6 Mar 2024 20:54:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+	t=1709754885; bh=fo5mwjEgwLizlp9QJ9Xrr1GYd1WkhnXCPfwsqkjnlH8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vsuUZWPACzLRO5Ug0FK4IbtulE0XQDChom7n/QBCf7YU4t6eXiGtillaPfH7aZenK
+	 93IWiVE5vunHl9hK1StXbTA+Od4LirUoFek+uPuRmQRm7nNs3S/zozag5+uQJhdJGy
+	 yaCKdtsdYJzk+dG49TU/JlUcdR05KJBaY8S8YTXauD2madD/eV+HcShUsFECWHnajB
+	 4QVaqsZ88yk9/VplhZ38QWoRvtRwO7LTuJBVOk/+uuLEHJEE0ojVEn8eYQzJDNf7uR
+	 0myW0GcwPO47DiqgbMvTWVsqGPfxFRFbu6qz6174H7Bd60yLECPfSw8MxDTcG3F3m3
+	 kUXM6FX3jL2BQ==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id b9697cf9;
+	Wed, 6 Mar 2024 19:54:36 +0000 (UTC)
+Date: Thu, 7 Mar 2024 04:54:21 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH v3 2/3] net/9p/usbg: Add new usb gadget function transport
+Message-ID: <ZejJ7W_yUMBtqi70@codewreck.org>
+References: <20240116-ml-topic-u9p-v3-0-c62a36eccda1@pengutronix.de>
+ <20240116-ml-topic-u9p-v3-2-c62a36eccda1@pengutronix.de>
+ <915890fa-e763-470a-a82b-eda97c47c0c8@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <915890fa-e763-470a-a82b-eda97c47c0c8@collabora.com>
 
-`linux/w1-gpio.h` was removed in a previous patch and should no longer be
-needed for using w1 gpio.
+Andrzej Pietrasiewicz wrote on Wed, Mar 06, 2024 at 04:18:54PM +0100:
+> Reading the earlier discussions on v1 and v2 I was somehow under the impression
+> that what you submitted here does not contain configfs support.
+> 
+> But once I started reading the code I realized it does.
+> 
+> It worked for me, both as a legacy gadget and when composed with configfs.
+> 
+> I noticed that when you stop the forwarder at the host side when 9pfs remains
+> mounted at the gadget side, umount hangs at the gadget side until the forwarder
+> is restarted. I know that once the host-side software dies, not much can be
+> done, however, unmounting a dead filesystem seems a reasonable thing to do
+> and the way usb9pfs worked for me it is not possible to unmount in this
+> situation. Any ideas on improving this?
 
-- Removal Patch: https://lore.kernel.org/all/cover.1701727212.git.u.kleine-koenig@pengutronix.de/
+If the trans_usbg code can detect the host device is gone it should mark
+client->status as Disconnected then wake up all pending requests
+(something like p9_conn_cancel in trans_fd.c)
 
-Signed-off-by: Ayush Singh <ayushdevel1325@gmail.com>
----
- Documentation/w1/masters/w1-gpio.rst | 6 ------
- 1 file changed, 6 deletions(-)
+Sorry I haven't found time to test/review either; I'd still be
+interested in running this in qemu for non-reg over using a real device
+so need to spend a few minutes figuring out the exact command line
+required.. I'll try to find some time this weekend
 
-diff --git a/Documentation/w1/masters/w1-gpio.rst b/Documentation/w1/masters/w1-gpio.rst
-index 15236605503b..5d7eebc291bb 100644
---- a/Documentation/w1/masters/w1-gpio.rst
-+++ b/Documentation/w1/masters/w1-gpio.rst
-@@ -20,7 +20,6 @@ Example (mach-at91)
- ::
- 
-   #include <linux/gpio/machine.h>
--  #include <linux/w1-gpio.h>
- 
-   static struct gpiod_lookup_table foo_w1_gpiod_table = {
- 	.dev_id = "w1-gpio",
-@@ -30,14 +29,9 @@ Example (mach-at91)
- 	},
-   };
- 
--  static struct w1_gpio_platform_data foo_w1_gpio_pdata = {
--	.ext_pullup_enable_pin	= -EINVAL,
--  };
--
-   static struct platform_device foo_w1_device = {
- 	.name			= "w1-gpio",
- 	.id			= -1,
--	.dev.platform_data	= &foo_w1_gpio_pdata,
-   };
- 
-   ...
 -- 
-2.44.0
-
+Dominique
