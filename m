@@ -1,99 +1,102 @@
-Received: from nautica.notk.org (nautica.notk.org [91.121.71.147])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD67013BAF4;
-	Wed,  6 Mar 2024 19:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.121.71.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8DD1B279;
+	Wed,  6 Mar 2024 21:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709754890; cv=none; b=tKjk5+aNBnFjGe/IRBTpYMR8U12zLHolQVyOkKYBXwjVPyJdrXn1Kw9GhVZie9YDqmekYZV2j6RFqn+LZIvystnLr9LxLW/dryDlg9S/6wk+q7eHprOov8Wf5abCGjFGYs59hl8OtfZM530Oo/mogy30vHHJ/0BWV1XMbULBJVU=
+	t=1709760823; cv=none; b=bzP9RwQW1HW17EMlk/vW2T5QdQ4eH6lbXDRo16K2hdCmZs/qsL97fEwJoQzDCOHUZoLz1TTHJ4tEZJBTAkRDNXd3oQNbcJDqkZEy7cURaoV/rgwaZoav2XbKr4uPyNbjmeV/cs95dlloygaeYbf7o3NV2fSxbl4kTQ1Txodb4bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709754890; c=relaxed/simple;
-	bh=xI7TPdfaJh9c0jfLQMhlGytKcdh3yS9fkAl7t5GvxjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mQLjUGgg/Wdf8uZkN6mza3KL9FQGO7sooWn+4mSVa0lbF1MdaMpUVUK8MpV2AjKTy3KLXyLmrSvjqzuyep5YbI4lKBvE6Dr418lINr8IifsohQ6MVF0oqvgpirdLJvwlQZPFPlGzY00EVT6XGx2Zkq5p/PqhyJKSAGMUjiwLgkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=hHBK/PQJ; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=vsuUZWPA; arc=none smtp.client-ip=91.121.71.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	s=arc-20240116; t=1709760823; c=relaxed/simple;
+	bh=WwtjLWIbHJ/TVHDFwIRnR16/fskHM4sGx3BEsNjsR0k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L5DVgRYPIUKpd6ygjtLlLv0nfp9Vf96X/EAQm5lHk/PUouSDjbgbIYPS98DovaMxzGtCodMDPtGrhqhpXR0fJP31tSZhDurTcLV2uoGTytoWTCjS+Sce4bd1depabYvrIde2qpy+Z7GvedR1IVWJO0TO38LkBkJPibMhYY5lu1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2OAHOQoK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="hHBK/PQJ";
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="vsuUZWPA"
-Received: by nautica.notk.org (Postfix, from userid 108)
-	id 0720CC01A; Wed,  6 Mar 2024 20:54:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1709754886; bh=fo5mwjEgwLizlp9QJ9Xrr1GYd1WkhnXCPfwsqkjnlH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hHBK/PQJ6plFEoNZ07LNp3KjQr3kjGSc+l87Sre6iLewUg7aC25NZ0elHEX7Z1TY8
-	 NQxteBQu8YqMByOFi0h/9cJa9TQmkBm2q3zF0koSBE7NexKJki1n2OFeSv8v4G1cyH
-	 yWZWxEa4Wcm+lVV9cPPJDeZSVUSycMJP9T3bmsxOC2dTyTBmrTjAYSIUpDQWZq+Aeh
-	 Rx3VZmiNx9kz2noPnFi5nKNFTHE/y52U9/rA+pWCkt3qhEoXGY6sPXcO6JIPRo0kMv
-	 jPRt+9wYAypYuwmJqUai627isiLz2MVzaXm0OLXnKZFC9M16AIA3erMMZDU3EnDfOF
-	 Iln8cAiwEbzOQ==
-X-Spam-Level: 
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by nautica.notk.org (Postfix) with ESMTPS id C86ADC009;
-	Wed,  6 Mar 2024 20:54:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
-	t=1709754885; bh=fo5mwjEgwLizlp9QJ9Xrr1GYd1WkhnXCPfwsqkjnlH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vsuUZWPACzLRO5Ug0FK4IbtulE0XQDChom7n/QBCf7YU4t6eXiGtillaPfH7aZenK
-	 93IWiVE5vunHl9hK1StXbTA+Od4LirUoFek+uPuRmQRm7nNs3S/zozag5+uQJhdJGy
-	 yaCKdtsdYJzk+dG49TU/JlUcdR05KJBaY8S8YTXauD2madD/eV+HcShUsFECWHnajB
-	 4QVaqsZ88yk9/VplhZ38QWoRvtRwO7LTuJBVOk/+uuLEHJEE0ojVEn8eYQzJDNf7uR
-	 0myW0GcwPO47DiqgbMvTWVsqGPfxFRFbu6qz6174H7Bd60yLECPfSw8MxDTcG3F3m3
-	 kUXM6FX3jL2BQ==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id b9697cf9;
-	Wed, 6 Mar 2024 19:54:36 +0000 (UTC)
-Date: Thu, 7 Mar 2024 04:54:21 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: Re: [PATCH v3 2/3] net/9p/usbg: Add new usb gadget function transport
-Message-ID: <ZejJ7W_yUMBtqi70@codewreck.org>
-References: <20240116-ml-topic-u9p-v3-0-c62a36eccda1@pengutronix.de>
- <20240116-ml-topic-u9p-v3-2-c62a36eccda1@pengutronix.de>
- <915890fa-e763-470a-a82b-eda97c47c0c8@collabora.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2OAHOQoK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=h3wE/+dLb1K+dVotenQ/b6hhlA2sOF3ioe/WmimHjKA=; b=2OAHOQoKOqw8hlNA4f06T0KCrN
+	dTTBxlVCqjjd0GJqMVfsooRGu/VhXSzO9q93yBI4zYwd9bXJPLrj/0AUXowB4OAVR3j4jeOOGeCi7
+	Ti30CGws98UnZktkTc0qlVcxMLOJt8bOddCyJmosb/gk1MS1oz1AGdJ/9Dk7abmG/5BeQm9KlWduA
+	6Y8BI4M6RvAeU91mSYM1dsafQMjSPk42OKX9NbhVhGyMqKp/8Ai57YHpCTFIaeTdhr3e+e8OrLKI+
+	2E2eqlhpF4Es5Lx4BFtsQxvA8fROA/b3KJi+8A63jTG4QJx6xORCtxutEg+LJ9zK7aIYgj3l96xC/
+	nK8cWlYw==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rhytP-00000001xO7-0Iyp;
+	Wed, 06 Mar 2024 21:33:39 +0000
+Message-ID: <b81edf65-45bd-4412-b373-16732a0d1abd@infradead.org>
+Date: Wed, 6 Mar 2024 13:33:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <915890fa-e763-470a-a82b-eda97c47c0c8@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: w1: Remove w1_gpio_platform_data
+Content-Language: en-US
+To: Ayush Singh <ayushdevel1325@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ corbet@lwn.net
+References: <20240306194629.356001-1-ayushdevel1325@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240306194629.356001-1-ayushdevel1325@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Andrzej Pietrasiewicz wrote on Wed, Mar 06, 2024 at 04:18:54PM +0100:
-> Reading the earlier discussions on v1 and v2 I was somehow under the impression
-> that what you submitted here does not contain configfs support.
-> 
-> But once I started reading the code I realized it does.
-> 
-> It worked for me, both as a legacy gadget and when composed with configfs.
-> 
-> I noticed that when you stop the forwarder at the host side when 9pfs remains
-> mounted at the gadget side, umount hangs at the gadget side until the forwarder
-> is restarted. I know that once the host-side software dies, not much can be
-> done, however, unmounting a dead filesystem seems a reasonable thing to do
-> and the way usb9pfs worked for me it is not possible to unmount in this
-> situation. Any ideas on improving this?
 
-If the trans_usbg code can detect the host device is gone it should mark
-client->status as Disconnected then wake up all pending requests
-(something like p9_conn_cancel in trans_fd.c)
 
-Sorry I haven't found time to test/review either; I'd still be
-interested in running this in qemu for non-reg over using a real device
-so need to spend a few minutes figuring out the exact command line
-required.. I'll try to find some time this weekend
+On 3/6/24 11:46, Ayush Singh wrote:
+> `linux/w1-gpio.h` was removed in a previous patch and should no longer be
+> needed for using w1 gpio.
+> 
+> - Removal Patch: https://lore.kernel.org/all/cover.1701727212.git.u.kleine-koenig@pengutronix.de/
+> 
+> Signed-off-by: Ayush Singh <ayushdevel1325@gmail.com>
+
+Possibly add:
+Fixes: 9c0a5b3f9e55 ("w1: gpio: Don't use platform data for driver data")
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  Documentation/w1/masters/w1-gpio.rst | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/Documentation/w1/masters/w1-gpio.rst b/Documentation/w1/masters/w1-gpio.rst
+> index 15236605503b..5d7eebc291bb 100644
+> --- a/Documentation/w1/masters/w1-gpio.rst
+> +++ b/Documentation/w1/masters/w1-gpio.rst
+> @@ -20,7 +20,6 @@ Example (mach-at91)
+>  ::
+>  
+>    #include <linux/gpio/machine.h>
+> -  #include <linux/w1-gpio.h>
+>  
+>    static struct gpiod_lookup_table foo_w1_gpiod_table = {
+>  	.dev_id = "w1-gpio",
+> @@ -30,14 +29,9 @@ Example (mach-at91)
+>  	},
+>    };
+>  
+> -  static struct w1_gpio_platform_data foo_w1_gpio_pdata = {
+> -	.ext_pullup_enable_pin	= -EINVAL,
+> -  };
+> -
+>    static struct platform_device foo_w1_device = {
+>  	.name			= "w1-gpio",
+>  	.id			= -1,
+> -	.dev.platform_data	= &foo_w1_gpio_pdata,
+>    };
+>  
+>    ...
 
 -- 
-Dominique
+#Randy
