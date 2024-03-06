@@ -1,118 +1,149 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397D61BDED;
-	Wed,  6 Mar 2024 22:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225A11BF40;
+	Wed,  6 Mar 2024 23:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709763249; cv=none; b=mC+aEtdKRir+ZDMz1hq3oZCbUBtXUvtTxfI8MUwzI7oXsiNMi5ppyZujBv5+2gFzDwkYG4rtUvKbvRRU2jMxWfyrLXHtKAOfRefN0sSvkP3MpuzGM6o2lGewIyuxg3Z+g/1NjjgcNyR/qYJCTVHy9Nuug1N0XSPyYdpd6P5MLYI=
+	t=1709766925; cv=none; b=OJe7bUka/Cuexzw661Iu/9J+REJrKAsUHNf1KHilGi1TMJDjJWLMEPQdrnpMm4LiJ+BBEDnlLdSVv6gyk5f0fgK566eeQBJS/X5lvenTes2fZqNs3JXS1W4/9BhtY+mZskL7qvTa/U74wOGLpoBlw/VLUjfoQIcurfDf+WBv7uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709763249; c=relaxed/simple;
-	bh=ZRvTmNRqpxW4X0oWSN8HCjjORJ85EhOCc8pC07Wc42M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XtvzMfmGPb582tq6+GSaAy0xjP92NKZXNl33U7hyI+RJtj/r15n1IYIjx3rgnSG5loT7ditnPUtSQJDsaYG+khEAMb1iFmOcxXPeM6Km2uWvytakyFx3QUv72mZMYlo9RXqrTxwektPvOmzsQl6Q/kb5N/gj9lwODhSdFJoiCPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id B087E68C4E; Wed,  6 Mar 2024 23:14:00 +0100 (CET)
-Date: Wed, 6 Mar 2024 23:14:00 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240306221400.GA8663@lst.de>
-References: <cover.1709635535.git.leon@kernel.org> <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal> <20240306144416.GB19711@lst.de> <20240306154328.GM9225@ziepe.ca> <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca>
+	s=arc-20240116; t=1709766925; c=relaxed/simple;
+	bh=hVYfvyWt2Y75bJeV4nbC5bLWMRIModbsxKyhoExAj58=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=l/2TqgkbrVdaXVPQOgYZitrjUWuHSyNDndS9yaCoxdnfirqgL60o779XFUUjTCbIGx7hsQVqWajiJzd6zq0J6iXrbr7x56TnF7F+1ZuJwx4/j+uIzFGQqVYgr4dAHDtG9fzIQ1jNJUz6CXWEzNvkxX91zG1kCHcCRO8IcknbeT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umFp+x8m; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umFp+x8m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E64C43390;
+	Wed,  6 Mar 2024 23:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709766923;
+	bh=hVYfvyWt2Y75bJeV4nbC5bLWMRIModbsxKyhoExAj58=;
+	h=From:Subject:Date:To:Cc:From;
+	b=umFp+x8mmmwKh5Ibc8r/84NYhN0tSs/nsPNty84UvAJBWEtJTRIFaejJb3lc/NiD3
+	 QfUJcTGPFKBGVeO+kYDZoszlqlGykYo0vjNc6kb5ri0NrAKMqfHYP19I72IZVkdgX3
+	 GTO2oquiM9bXn+u0QlXHnm4pI0DXuwRg+KnWTxH4GbCNYCekx2BzXWn820h9H6JNf1
+	 wfoZ7Mq11GH5R2OtpoNZkfHkAEhCzgVdooRR2cucuHRCkLxjcYVQYETp915gtRBzkt
+	 LHHeXrLR2J4okSCorIuIBHxsj9btnBzrsNAaP/PZf6/wwMZ5mVD6WITnCvEw3L+nEa
+	 Y0nNrtKtyQ6Dg==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v5 0/9] arm64: Support for 2023 DPISA extensions
+Date: Wed, 06 Mar 2024 23:14:45 +0000
+Message-Id: <20240306-arm64-2023-dpisa-v5-0-c568edc8ed7f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306174456.GO9225@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOX46GUC/23N0QrCIBTG8VcZXmfo8UxdV71HdOGma1JtQ0OK2
+ LvnoojYLv8fnN95kuiCd5HsiicJLvnohz5HuSlI05n+5Ki3uQkwEJwxQU24SqRzUjv6aCi0wkK
+ pUKJCks/G4Fp/f5OHY+7Ox9sQHu8Pic/rBwO5xBKnjGpUzNpKV3UN+7MLvbtsh3Ais5bgJ3COK
+ wJkARWUXFfYSqMXgvgJwMoVQWTB1k3dWC2VUe1CwK+AjAOsCJgFpaRjFWrJ7b8wTdMLoXy8Snc
+ BAAA=
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Dave Martin <Dave.Martin@arm.com>, kvmarm@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.13-dev-a684c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3927; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=hVYfvyWt2Y75bJeV4nbC5bLWMRIModbsxKyhoExAj58=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBl6PkAd6j3trVRH3TryRsMJsSJpFXc/h6DInBNgN/X
+ TYlUskaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZej5AAAKCRAk1otyXVSH0MLpB/
+ 9aYoLdvnNvFjJfLHpXdTOuk1B2GKeK5b+uPqY6LiTUy/oyqNPC91J9LRXOsbtJWz5I2oQ7+QKfp4+N
+ bmZC2JrSKSEFEV5towSsOQYLcFz78Rxnt4BBIVuAvFNcW/SR6Cn3vi5uU0nMsTNDwK/K+oPInuV4ch
+ s+gzWSwvmU+VNFIm087gKRMxfmkUMsc1YXD80UcPztVmP9+uXEzy3nzMMpootzpxiLeAiijMEsiI/u
+ hNeISZ66rUZ6ZcmlHjlwcS+UQg4vzGm2AQfpeJGC7UJa6r+rrKok/ZJLPwSXqymZTOvbGVIfb/V3vR
+ jPCEslf9X909MXtzw8dxKCI3OEb8J2
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, Mar 06, 2024 at 01:44:56PM -0400, Jason Gunthorpe wrote:
-> There is a list of interesting cases this has to cover:
-> 
->  1. Direct map. No dma_addr_t at unmap, multiple HW SGLs
->  2. IOMMU aligned map, no P2P. Only IOVA range at unmap, single HW SGLs
->  3. IOMMU aligned map, P2P. Only IOVA range at unmap, multiple HW SGLs
->  4. swiotlb single range. Only IOVA range at unmap, single HW SGL
->  5. swiotlb multi-range. All dma_addr_t's at unmap, multiple HW SGLs.
->  6. Unaligned IOMMU. Only IOVA range at unmap, multiple HW SGLs
-> 
-> I think we agree that 1 and 2 should be optimized highly as they are
-> the common case. That mainly means no dma_addr_t storage in either
+This series enables support for the data processing extensions in the
+newly released 2023 architecture, this is mainly support for 8 bit
+floating point formats.  Most of the extensions only introduce new
+instructions and therefore only require hwcaps but there is a new EL0
+visible control register FPMR used to control the 8 bit floating point
+formats, we need to manage traps for this and context switch it.
 
-I don't think you can do without dma_addr_t storage.  In most cases
-your can just store the dma_addr_t in the LE/BE encoded hardware
-SGL, so no extra storage should be needed though.
+Due to the very recently merged KVM changes for configuring guest
+features via ID register writes only being available in -next the
+support for guest state has been dropped for this version, the relevant
+KVM interfaces should all be there after the merge window so the code
+will be refreshed for the new interfaces then.
 
-> 3 is quite similar to 1, but it has the IOVA range at unmap.
+I've not added test coverage for ptrace, my plan is to add support to
+fp-ptrace (which is now merged so I'll update after the merge window).
 
-Can you explain what P2P case you mean?  The switch one with the
-bus address is indeed basically the same, just with potentioally a
-different offset, while the through host bridge case is the same
-as a normal iommu map.
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v5:
+- Rebase onto v6.8-rc3.
+- Use u64 rather than unsigned long for storing FPMR.
+- Temporarily drop KVM guest support due to issues with KVM being a
+  moving target.
+- Link to v4: https://lore.kernel.org/r/20240122-arm64-2023-dpisa-v4-0-776e094861df@kernel.org
 
-> 
-> 4 is basically the same as 2 from the driver's viewpoint
+Changes in v4:
+- Rebase onto v6.8-rc1.
+- Move KVM support to the end of the series.
+- Link to v3: https://lore.kernel.org/r/20231205-arm64-2023-dpisa-v3-0-dbcbcd867a7f@kernel.org
 
-I'd actually treat it the same as one.
+Changes in v3:
+- Rebase onto v6.7-rc3.
+- Hook up traps for FPMR in emulate-nested.c.
+- Link to v2: https://lore.kernel.org/r/20231114-arm64-2023-dpisa-v2-0-47251894f6a8@kernel.org
 
-> 5 is the slowest and has the most overhead.
+Changes in v2:
+- Rebase onto v6.7-rc1.
+- Link to v1: https://lore.kernel.org/r/20231026-arm64-2023-dpisa-v1-0-8470dd989bb2@kernel.org
 
-and 5 could be broken into multiple 4s at least for now.  Or do you
-have a different dfinition of range here?
+---
+Mark Brown (9):
+      arm64/cpufeature: Hook new identification registers up to cpufeature
+      arm64/fpsimd: Enable host kernel access to FPMR
+      arm64/fpsimd: Support FEAT_FPMR
+      arm64/signal: Add FPMR signal handling
+      arm64/ptrace: Expose FPMR via ptrace
+      arm64/hwcap: Define hwcaps for 2023 DPISA features
+      kselftest/arm64: Handle FPMR context in generic signal frame parser
+      kselftest/arm64: Add basic FPMR test
+      kselftest/arm64: Add 2023 DPISA hwcap test coverage
 
-> So are you thinking something more like a driver flow of:
-> 
->   .. extent IO and get # aligned pages and know if there is P2P ..
->   dma_init_io(state, num_pages, p2p_flag)
->   if (dma_io_single_range(state)) {
->        // #2, #4
->        for each io()
-> 	    dma_link_aligned_pages(state, io range)
->        hw_sgl = (state->iova, state->len)
->   } else {
+ Documentation/arch/arm64/elf_hwcaps.rst            |  49 +++++
+ arch/arm64/include/asm/cpu.h                       |   3 +
+ arch/arm64/include/asm/cpufeature.h                |   5 +
+ arch/arm64/include/asm/fpsimd.h                    |   2 +
+ arch/arm64/include/asm/hwcap.h                     |  15 ++
+ arch/arm64/include/asm/kvm_arm.h                   |   2 +-
+ arch/arm64/include/asm/kvm_host.h                  |   1 +
+ arch/arm64/include/asm/processor.h                 |   4 +
+ arch/arm64/include/uapi/asm/hwcap.h                |  15 ++
+ arch/arm64/include/uapi/asm/sigcontext.h           |   8 +
+ arch/arm64/kernel/cpufeature.c                     |  72 +++++++
+ arch/arm64/kernel/cpuinfo.c                        |  18 ++
+ arch/arm64/kernel/fpsimd.c                         |  13 ++
+ arch/arm64/kernel/ptrace.c                         |  42 ++++
+ arch/arm64/kernel/signal.c                         |  59 ++++++
+ arch/arm64/kvm/fpsimd.c                            |   1 +
+ arch/arm64/tools/cpucaps                           |   1 +
+ include/uapi/linux/elf.h                           |   1 +
+ tools/testing/selftests/arm64/abi/hwcap.c          | 217 +++++++++++++++++++++
+ tools/testing/selftests/arm64/signal/.gitignore    |   1 +
+ .../arm64/signal/testcases/fpmr_siginfo.c          |  82 ++++++++
+ .../selftests/arm64/signal/testcases/testcases.c   |   8 +
+ .../selftests/arm64/signal/testcases/testcases.h   |   1 +
+ 23 files changed, 619 insertions(+), 1 deletion(-)
+---
+base-commit: 54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
+change-id: 20231003-arm64-2023-dpisa-2f3d25746474
 
-I think what you have a dma_io_single_range should become before
-the dma_init_io.  If we know we can't coalesce it really just is a
-dma_map_{single,page,bvec} loop, no need for any extra state.
-
-And we're back to roughly the proposal I sent out years ago.
-
-> This is not quite what you said, we split the driver flow based on
-> needing 1 HW SGL vs need many HW SGL.
-
-That's at least what I intended to say, and I'm a little curious as what
-it came across.
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
