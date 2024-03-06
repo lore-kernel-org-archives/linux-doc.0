@@ -1,85 +1,155 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585487FBBB;
-	Wed,  6 Mar 2024 13:22:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428E9131720;
+	Wed,  6 Mar 2024 13:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709731377; cv=none; b=PwQNB1gTWCvEi3oYa8Sc6fwPmYq7zvjKRovqGJKcGrdlCMhSHbghsRsKFGO5yZui60K07qlN13cxIL2eOCzEAFiZkjGIuYiMG5lWWqS1E+4+1CF9xLrwyYEL5yN2przessVyRi6nb1O/APdhCVtYtnzKa7x3v8qVpIIKaWdpeTs=
+	t=1709731629; cv=none; b=JlJHA03Auhrp7Mv/ONis8P1HJQmOwYNACdYJl2sEs4a/L/Oe1BcOKkOoehU/W2bAKJ01A47/HGWCVsaH3GUUEz1UORJuld+RM5nkXJ0fUbyV1cPCZ7hOyGc+3FyXHmpNsu82fNzUUgOiwPfuMy0DhnlgE9k3EO2WhhlLHXLmMBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709731377; c=relaxed/simple;
-	bh=AiC9AW9SlEeYPoT4eBcY70QfneOuJXIcLXtUT44gtgQ=;
+	s=arc-20240116; t=1709731629; c=relaxed/simple;
+	bh=+sPm+oKCXQGcQ9Lw/Yo0t+Ryp5HfmG552sHNArAQGDA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PE6HhuHDBfTMUPm4/Jt598effEKXiIEkIKigfIXTnrKInXnwR2e/i13Qq/OQHtcYkWito6BQ3u3QQsZkO3bnZ8VVDoWo8CCbm6M66Ze6Qw5/f7hUgY9jIIFxaV1zvaprHCO7lr51UvTZ27WDVN3J2r8ltZs1E0/keOcylybqtlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nyCCt4HJ; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOxlD7Pm6dkk2zwVgnZqDwbJKkfkwh1X+DKJD+kTfP8aFk6aw+zmX/GFeV7NI1Vkyb/cr/VjUVWFyaeqL7UM50NTB6YnOiKsyHCr0zLgQPo4WAu/Nk/JIQQHzwfy6fEVDE+w8F1ycB1vRM23RACGCYagY5CYctBIqfOsYu/xkgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6CNpEuN; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nyCCt4HJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=CyliuXx5jnaQWNIcwxFiT//xnk7QUNFAbqcqIZ2t6/I=; b=ny
-	CCt4HJxGljBZAXdQf+XQ1u+xTvbL6XtnsqPRMNOu7SF3y1j/VD5gIlLAp9mAYVbNFXoxamtgHPCjt
-	sJiPEIB25kyJLDgtAw15fdQNKafWz6RDTdNJrVHb6ZKPMC143xqCn2VQ5H+SHvpnIwQl/GWsk/oW6
-	p+MO9H+n9vaZAC4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rhrEj-009VBP-II; Wed, 06 Mar 2024 14:23:09 +0100
-Date: Wed, 6 Mar 2024 14:23:09 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
-	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v3 01/12] Documentation: networking: add OPEN
- Alliance 10BASE-T1x MAC-PHY serial interface
-Message-ID: <a9c8a5b1-866e-4ade-ad07-af715042ec9c@lunn.ch>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-2-Parthiban.Veerasooran@microchip.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6CNpEuN"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dbd32cff0bso58555285ad.0;
+        Wed, 06 Mar 2024 05:27:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709731627; x=1710336427; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RiLQ/Gwlknvzeh2DwRC01mhrnxKX+BxC7evLtK7aSHk=;
+        b=O6CNpEuNynMXFhVrUVE+esfKEaZik87vlfFsj5rH0RWolbce4aRS6D0b8+U4mikLsY
+         S9khQXVsOOboQtUZZ8piRTUJ7sszbvuCBYnIWACGrC4tNkp0bLyIBufR7JTtBik+bkgQ
+         yt5e9fxc619wmlHXzqTSySZ3ppTLDFrSVRUNKr8oMX967VeGTjCL/zM2Cx/Ujw5XznL5
+         YCDp1kbZVK5E4beOrqwvy5M++lJZpCyMShFTnyZQzLSDqzoDGhwALLqdpXf6dibnjl26
+         zIRc5f96xs+jNkM++eSGzcPx/2Vz9RAH8qT91voAl5pGrR1Efd2A9pInUfCZcxaPuxYX
+         ReRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709731627; x=1710336427;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RiLQ/Gwlknvzeh2DwRC01mhrnxKX+BxC7evLtK7aSHk=;
+        b=EjbXUeFPV8ZWuzeg/uwVJIleZeQnHOUyz9oVdN3DMOgxY+mzlZhbbPAIQummlXCsvz
+         YSm5i7jTuvMKTSYpqs5VjIGpVMsjb7CJk4l7C5jFFnV1t7A1ez9+NvL3iyT49MIoEpIR
+         DvT6sApGiFTpTd4bLht3+NyPqUJbiCSCJWmJktzBN6m0iFCU2MtKukRnDQus+EkaZFqt
+         70+FzWREHyHSsimsTzLFL4bEfAPJ7ftkKH3fCcOGdAPWoPfZ74fHUe5/uyW7mqLUmUz6
+         OWn6NYOs3qt4l2R1z4P+lgjGZwR6RLpwHw7A1W1eTEtz4o/SONGWqCT5cenjjNOEpNMg
+         xnRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWU88h7W1eryUafyfnRcJvqY0Dt+7RfigxYUGzZOcJfZtmG5QLJBXlXiaUV6wWyt6+0zVL9V32uLjqeRqLDiBfmj1V9pNWsj3bTJsLq6zv3PHqnKmN7wlF5NnPY+GZ7U2k9+P2kQlBT
+X-Gm-Message-State: AOJu0YwuaLfWlTOOb2u63YqFIAODmRE05mf4u+mj95yJeeTve8rlIEoV
+	/jVx8EbwAvzRtbt6JCpqXcTZX9j4O4hxTjwGIEqMtzAOsbKxOBFK7MKSpANcDUo=
+X-Google-Smtp-Source: AGHT+IGbzpjggy4PP+k4v7TS6DtV6f8SDz9RQOR92oZBLAFBg7AXN3v+tlMA5JaLtbGxDD0Ip5wRKA==
+X-Received: by 2002:a17:903:1cf:b0:1db:fd4e:329f with SMTP id e15-20020a17090301cf00b001dbfd4e329fmr5516641plh.15.1709731627409;
+        Wed, 06 Mar 2024 05:27:07 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id k23-20020a170902ba9700b001da105d6a83sm12473865pls.224.2024.03.06.05.27.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 05:27:05 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id E12A918163A92; Wed,  6 Mar 2024 20:27:02 +0700 (WIB)
+Date: Wed, 6 Mar 2024 20:27:02 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v1] docs: verify/bisect: fixes, finetuning, and support
+ for Arch
+Message-ID: <ZehvJv3fDZIPs9Kc@archie.me>
+References: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lazs5xFE0/5FrnVE"
+Content-Disposition: inline
+In-Reply-To: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
+
+
+--lazs5xFE0/5FrnVE
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240306085017.21731-2-Parthiban.Veerasooran@microchip.com>
+Content-Transfer-Encoding: quoted-printable
 
-> +NORX (Bit 29) - No Receive flag. The SPI host may set this bit to prevent
-> +                the MAC-PHY from conveying RX data on the MISO for the
-> +		current chunk (DV = 0 in the footer), indicating that the
-> +		host would not process it. Typically, the SPI host should
-> +		set NORX = 0 indicating that it will accept and process
-> +		any receive frame data within the current chunk.
+On Wed, Mar 06, 2024 at 10:21:12AM +0100, Thorsten Leemhuis wrote:
+> diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions=
+=2Erst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> index 54bde8bac95c67..58211840ac6ffb 100644
+> --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+> @@ -192,8 +192,8 @@ will be considered the 'good' release and used to pre=
+pare the .config file.
+> =20
+>         sudo rm -rf /lib/modules/6.0-rc1-local-gcafec0cacaca0
+>         sudo kernel-install -v remove 6.0-rc1-local-gcafec0cacaca0
+> -       # * Note, if kernel-install is missing, you will have to
+> -       #   manually remove the kernel image and related files.
+> +       # * Note, on some distributions kernel-install is missing
+> +       #   or does only part of the job.
+
+Consult documentation of your distribution for how to manually install/remo=
+ve
+the kernel.
+
+>  Install build requirements
+>  --------------------------
+> @@ -1076,72 +1078,103 @@ about to build.
+>  Here are a few examples what you typically need on some mainstream
+>  distributions:
+> =20
+> +* Arch Linux and derivatives::
 > +
-> +RSVD (Bit 28..24) - Reserved: All reserved bits shall be ‘0’.
+> +    sudo pacman --needed -S bc binutils bison flex gcc git kmod libelf o=
+penssl \
+> +      pahole perl zlib ncurses qt6-base
 > +
-> +VS (Bit 23..22) - Vendor Specific. These bits are implementation specific.
-> +                  If the MAC-PHY does not implement these bits, the host
-> +		  shall set them to ‘0’.
-> +
-> +DV (Bit 21) - Data Valid flag. The SPI host uses this bit to indicate
-> +              whether the current chunk contains valid transmit frame data
-> +	      (DV = 1) or not (DV = 0). When ‘0’, the MAC-PHY ignores the
-> +	      chunk payload. Note that the receive path is unaffected by
-> +	      the setting of the DV bit in the data header.
+>  * Debian, Ubuntu, and derivatives::
+> =20
+> -    sudo apt install bc binutils bison dwarves flex gcc git make openssl=
+ \
+> -      pahole perl-base libssl-dev libelf-dev
+> +    sudo apt install bc binutils bison dwarves flex gcc git kmod libelf-=
+dev \
+> +      libssl-dev make openssl pahole perl-base pkg-config zlib1g-dev \
+> +      libncurses-dev qt6-base-dev g++
+> =20
+>  * Fedora and derivatives::
+> =20
+> -    sudo dnf install binutils /usr/include/{libelf.h,openssl/pkcs7.h} \
+> -      /usr/bin/{bc,bison,flex,gcc,git,openssl,make,perl,pahole}
+> +    sudo dnf install binutils \
+> +      /usr/bin/{bc,bison,flex,gcc,git,openssl,make,perl,pahole,rpmbuild}=
+ \
+> +      /usr/include/{libelf.h,openssl/pkcs7.h,zlib.h,ncurses.h,qt6/QtGui/=
+QAction}
 
-There is some odd indentation going on here. Maybe tab vs spaces?
+IMO qt packages are for people who wish to do xconfig instead of menuconfig
+or nconfig.
 
-Otherwise, this is nice documentation. Thanks.
+Thanks.
 
-	Andrew
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--lazs5xFE0/5FrnVE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZehvHQAKCRD2uYlJVVFO
+o8QAAQDL2QAo686CyoAn0M4a/QzWk42pLsA/+Yxo1q8pRmmQ8gEA9v12OA9wft3g
+ear6xki6AjucstJTnmst30tNIF03OAo=
+=mmbI
+-----END PGP SIGNATURE-----
+
+--lazs5xFE0/5FrnVE--
