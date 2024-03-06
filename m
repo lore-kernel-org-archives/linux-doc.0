@@ -1,140 +1,142 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276D95DF27
-	for <linux-doc@vger.kernel.org>; Wed,  6 Mar 2024 12:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E72878668;
+	Wed,  6 Mar 2024 12:37:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709726749; cv=none; b=Ri6j39UwO57ntO3vpYq7Vehrr1j702DJrJsOK1Vh7EHBqNBgLEW8WXEZFAll2h2RhgUzf7lDyqS6t1kpltsU6ZxUC3nfW8YGpBgzFNGC5txsMGlEcYm0AiPEVNN3jnThmLXfJGyyR3A24r7MWEsfuk/IpTM7gGZdU+RRAa8ijdg=
+	t=1709728667; cv=none; b=QpWkcgKPLc5Q1K5Vk5PO1NrQpp6hpoRlKWCD07ag9VSukTF2BFdyOhkI8znjGh5k8D50wHluq2C7xIQkuZgpMZAaMMdGnP3SLInIC0HzZ8cjE/afjJUh2jRfcay7J2Y8dAeq38TlSbkoomEQiTlUs1rPH9p7CDY+YtTJuU7lpKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709726749; c=relaxed/simple;
-	bh=G2h6GxpF5//h2blrI86hP/+PhlQEWBbGNRiIcqGjf/8=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mFuNQ7WRmb5tJmXYSbNchVtcvmwUfrGq1y/vAEPibP+PX0fV0dtsQVtKGdzlCqDmUFULUprD37Al2jIn+nnBYDXfx5mqY2XMqzcp7DonivgrwiXhHGgDP1qAHueIY8fKiMGKscgQdUfB1GDW3MJU4ICrNkc3+5CbBimvEAhjbf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fCgebXBY; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fCgebXBY"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a44e3176120so498569366b.1
-        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2024 04:05:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709726746; x=1710331546; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vQBd6ohf0amX1OsSt75FPx0/Dj4ojSvbJw4UdMmdjuQ=;
-        b=fCgebXBYJimHJMxp00O/23sjiuNFitpMjZsaJr+t6q6WsXMP4XPGS4Lz5IjYEjB7kN
-         c2DnCATa1OzElDPifJZjjvufaKVJfGOqdwNRU2CeOaZdYCWzzCMlsIQ8ajx1TuxKI+fQ
-         ev65ybWNwJUFOE3Yh24ECvFK24u4ebuM/duhXeVoKxLSjWXIkRn2cMx6QcMxGV8WEYpj
-         TS/nLoCvrcxajaNtl83q3/2ebk3YVBA3Dlc1+V/QTIr2CZXSkP9y1Rek5NtWM+kp9Au5
-         3qkdO2btEyrw5IdlG6zugk3VnzNKpr2CxlGi1yrL83W6XGhbIGsWdt+FQpdbtvjPhoMY
-         ZJkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709726746; x=1710331546;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vQBd6ohf0amX1OsSt75FPx0/Dj4ojSvbJw4UdMmdjuQ=;
-        b=CpKrdrddbOvxfQzORPpGLhnJQ3S540JdT67NyySob2c/Kydn++RIL6+dH6nEzsdDY4
-         KiRRfY9DJdRYsEKB6BIT3tWZWE94voDotUvosS+py0gxLES0q6QTzvye9APnUhRASR2m
-         lZJI4s2ZCoChq72iBpAqiA97E4kSzwInp3HKSBB27Wc1femDhAbd/qbH9MLNIDrCyLid
-         XMxYIdCFuUrYziGq9gjwW6qalEcnD+7zCk26UDFREFtU2uZPSh8A3q33WLW3jre6xgud
-         ao4Ocnm2UcxVuaxafhSEJ78UB2vAZfGWj98N6BPcrykqSh4dbx8leSziIL7oy6k+v6w9
-         p74A==
-X-Forwarded-Encrypted: i=1; AJvYcCXmbQEH/HSyMi2r2bqHupfZKoaeFzFobOnh0T104vV5GTrKGutaE3mXndtS6X7jhc3RtOUcagxZksAyohTMGvFokJaLhCFFkl8J
-X-Gm-Message-State: AOJu0Yz/lIpxS8Oq6QEcnHuvIHzVssXu7jo2ApBDYeL0Y4P4JuLobIbt
-	d+RDoyJbfAVMZsJuYpWQaKe6B8YQtPrhn0pwVjLntD4/Yl5CpZ311CwblaBT5A==
-X-Google-Smtp-Source: AGHT+IENvyQtE8JoTg5kWVbQtkdALMsWYIyvhW3MrnxD6N4yBhPGZfzqW1SSMI9IG01/r9t2iOYJ8Q==
-X-Received: by 2002:a17:906:b850:b0:a45:ad29:72e7 with SMTP id ga16-20020a170906b85000b00a45ad2972e7mr2827372ejb.36.1709726746372;
-        Wed, 06 Mar 2024 04:05:46 -0800 (PST)
-Received: from google.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
-        by smtp.gmail.com with ESMTPSA id h20-20020a170906591400b00a3d5efc65e0sm7072616ejq.91.2024.03.06.04.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 04:05:45 -0800 (PST)
-Date: Wed, 6 Mar 2024 12:05:38 +0000
-From: Quentin Perret <qperret@google.com>
-To: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-	Android KVM <android-kvm@google.com>,
-	Patrick Daly <quic_pdaly@quicinc.com>,
-	Alex Elder <elder@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Murali Nalajal <quic_mnalajal@quicinc.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-	Carl van Schaik <quic_cvanscha@quicinc.com>,
-	Philip Derrin <quic_pderrin@quicinc.com>,
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-Subject: Re: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct {un,}map
- functions
-Message-ID: <ZehcEqvC3Y9YytNi@google.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
- <ZeXIWBLVWzVycm0r@google.com>
- <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
- <Zec6shyjblcZvTG0@google.com>
- <20240305093131473-0800.eberman@hu-eberman-lv.qualcomm.com>
+	s=arc-20240116; t=1709728667; c=relaxed/simple;
+	bh=H4l2DgnqyQlVDiFExqxtFkBp3iqUS/pZqNwziWPDq4U=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=qvMqvTdAUXSIB5KZiE4NvSAoivIkCipYaC+PQnluYCyaSQFfZj7mHmv0ogADWIdAx9G7DoQ+Sf5SgOwTdfhJ2SUXriTHo1/EmwhOPFmmTlCTieztvSc0OrSVo19EYP0PiHliIuFL7FINh7PP/aWg/0RQrsT1fBmRydN9T0Ml+fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4TqX3L3NVrzNlbl;
+	Wed,  6 Mar 2024 20:35:58 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id ABDAC14011F;
+	Wed,  6 Mar 2024 20:37:36 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 6 Mar
+ 2024 20:37:36 +0800
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Mina Almasry <almasrymina@google.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-alpha@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+	<sparclinux@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <bpf@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Richard
+ Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
+	<ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+	<James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+	<hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+	<arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+	<daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+	<martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+	<song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+	<john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav Fomichev
+	<sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn
+	<willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
+	<christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand
+	<shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel
+ Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
+ Kaligineedi <pkaligineedi@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com>
+ <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <de633244-6d6e-f568-dc09-49b56abd0423@huawei.com>
+Date: Wed, 6 Mar 2024 20:37:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240305093131473-0800.eberman@hu-eberman-lv.qualcomm.com>
+In-Reply-To: <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-On Tuesday 05 Mar 2024 at 12:26:59 (-0800), Elliot Berman wrote:
-> I still disagree that this is a Gunyah-specific problem. As far as we
-> can tell, Arm doesn't specify how EL2 can tell EL1 its S2 page tables
-> couldn't give a validation translation of the IPA from stage 1. IMO,
-> downstream/Android pKVM is violating spec for ESR_EL1 by using the
-> S1PTW bit (which is res0 for everyone except EL2 [1]) and this means
-> that guests need to be pKVM-enlightened.
+On 2024/3/6 3:38, Mina Almasry wrote:
+> On Tue, Mar 5, 2024 at 4:54 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2024/3/5 10:01, Mina Almasry wrote:
+>>
+>> ...
+>>
+>>>
+>>> Perf - page-pool benchmark:
+>>> ---------------------------
+>>>
+>>> bench_page_pool_simple.ko tests with and without these changes:
+>>> https://pastebin.com/raw/ncHDwAbn
+>>>
+>>> AFAIK the number that really matters in the perf tests is the
+>>> 'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+>>> cycles without the changes but there is some 1 cycle noise in some
+>>> results.
+>>>
+>>> With the patches this regresses to 9 cycles with the changes but there
+>>> is 1 cycle noise occasionally running this test repeatedly.
+>>>
+>>> Lastly I tried disable the static_branch_unlikely() in
+>>> netmem_is_net_iov() check. To my surprise disabling the
+>>> static_branch_unlikely() check reduces the fast path back to 8 cycles,
+>>> but the 1 cycle noise remains.
+>>>
+>>
+>> The last sentence seems to be suggesting the above 1 ns regresses is caused
+>> by the static_branch_unlikely() checking?
+> 
+> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
+> regression (slightly less than 1ns if I'm reading the output of the
+> test correctly):
+> 
+> # clean net-next
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 2.993 ns (step:0)
+> 
+> # with patches
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
+> 3.679 ns (step:0)
+> 
+> # with patches and with diff that disables static branching:
 
-Not really, in pKVM we have a very clear distinction between host Linux
-and guests, and only the host needs to be enlightened. But luckily,
-since pKVM is part of Linux, this is pretty much an internal kernel
-thing, so we're very flexible and if the S1PTW trick ever conflicts
-with something else (e.g. NV) we can fairly easily switch to another
-approach. We can tolerate non-architectural tricks like that between
-pKVM and host Linux because that is not ABI, but we certainly can't do
-that for guests.
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 3.248 ns (step:0)
+> 
+> I do see noise in the test results between run and run, and any
+> regression (if any) is slightly obfuscated by the noise, so it's a bit
+> hard to make confident statements. So far it looks like a ~0.25ns
+> regression without static branch and about ~0.65ns with static branch.
+> 
+> Honestly when I saw all 3 results were within some noise I did not
+> investigate more, but if this looks concerning to you I can dig
+> further. I likely need to gather a few test runs to filter out the
+> noise and maybe investigate the assembly my compiler is generating to
+> maybe narrow down what changes there.
 
-> If we are adding pKVM
-> enlightment in the exception handlers, can we add Gunyah enlightment to
-> handle the same?
+Yes, that is confusing enough that need more investigation.
 
-If you mean extending the Linux SEA handler so it does what Gunyah
-wants, then I'm personally not supportive of that idea since the
-'contract' between Linux and Gunyah _is_ the architecture.
-
-The only ways I could see Gunyah delegate stage-2 fault handling to
-Linux cleanly is:
-
- - either talk to Arm to introduce a new ESR specifically for this,
-   which doesn't sound entirely crazy to me;
-
- - or have Gunyah and Linux negotiate in software the location of the
-   handlers. That probably means SDEI or equivalent which is a can of
-   worm in itself I presume, and I'm not sure how feasible it would be
-   for this handler to live in the Gunyah driver (that too probably
-   requires exporting kernel symbols we don't want to export).
-
-Thanks,
-Quentin
+> 
