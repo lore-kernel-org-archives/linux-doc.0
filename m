@@ -1,121 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C793812E1D2;
-	Thu,  7 Mar 2024 13:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B7712AAFD;
+	Thu,  7 Mar 2024 13:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709819481; cv=none; b=FW4Ff6VRXIET+PMMhIfhmKIy5e8YdmiRcoVy6flh6tHl3zXVmZdY2XBqW3BKPILzi/XqVp1wgmxLZo9IiUczmNyNsyClZebqvQmL134WeP6zDh3nx+DCj8VG/C32Tfmx2OgQT/QiKfjSsI16ZskjH9ilWGJKJBRtth5oyh3DOoI=
+	t=1709819657; cv=none; b=Llq56DuW0y8p9DakeTKHNt2vsj86AKMsI2fLw4cgw39qqyphbsJdBR97FMEEIbrH5msBEPYlLdhDrCVnyRol3CP71RPlrT3VzqoIByc284yypOD2AJWxay2oag0L3IH6Q2pTr3G/5jfrvEBwK/W0XHLf7dGNmAHoDyeQ0BHn5VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709819481; c=relaxed/simple;
-	bh=ygVU4Yd+yAg3WNCryrpv6ThnAM7OpsqhmDWwhxQC6j4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oHvMfiE2uSzFa1aFZkSZ54R3Eb3SsVuC0G7jD1Wz/6x+EsF1VA60MCWujdyQMUHhqXX7fMCPaWIJbC7bBIjQ7n8aZVypLFMuVZT2N2Ct8A4v+MZ+05l0c7QxtD7MYD3mTLhfUz5CWgHHB7lctTHeXxcXZ8qu/GwbFqt65UNU2XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ij369SYa; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1709819657; c=relaxed/simple;
+	bh=xTRxNjkQRztADLsXXcIwVC4pHrH+fmTNdy7G1M7KPEQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ulBs3P6RnAz38Iu4ElXDPrhqa1cNfBoo8sOsHYW+nTCv5mBZKskumpStYKc96IJjC4iRGdmozZERZ/Ii0KjmNP3SXuoN1luXfXB1/yNO4wSNarmL7gax3NALeK+BNew9/ywm/bIJpL7YMkJF6D3OnIMPeBgC6iAfMVFm91DA5VA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=owp2Ldkq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tADLiGKd; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ij369SYa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709819480; x=1741355480;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ygVU4Yd+yAg3WNCryrpv6ThnAM7OpsqhmDWwhxQC6j4=;
-  b=ij369SYaO2ccAUAy8iPLs2xhCRKvq1hFwXJ5u017Mu/wDXur2pibfFr3
-   IwD/uBauP8QgjIqzqjmXaPMLKxNCVKEwgq4J3dIV6YqenvSMpV+/wFisC
-   9b1x7aAi6by8AB583R5gIfnsfb5JYZ/8LDSrhDGob2OV5AWGzMPJPvKNO
-   jQdcciWQbCM9IFR0r3eW/lAIf8D0AYjrS1YOdoZmVyWzVHZwLblvUIEM+
-   sgQahTqhFDt3oUGbW5N31zWTRwlesT7iJf0YaCr1EW9wF1N7qy8EcQZzs
-   yeYpyxokneQMVhGCtXQCxYUsXDVRZnEQEAGSApOHWeSwkmvM2uNj8B5UU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="26960350"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="26960350"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2024 05:51:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11005"; a="937046160"
-X-IronPort-AV: E=Sophos;i="6.07,211,1708416000"; 
-   d="scan'208";a="937046160"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Mar 2024 05:51:12 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 052F23C0; Thu,  7 Mar 2024 15:51:10 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>
-Subject: [PATCH v1 1/3] ARM: pxa: spitz: Open code gpio_request_array()
-Date: Thu,  7 Mar 2024 15:49:03 +0200
-Message-ID: <20240307135109.3778316-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
-In-Reply-To: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
-References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="owp2Ldkq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tADLiGKd"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1709819654;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTRxNjkQRztADLsXXcIwVC4pHrH+fmTNdy7G1M7KPEQ=;
+	b=owp2Ldkq0Z9UJxgzqc1e8z3tI65iH4KAVOKUSgpEhqAyOG+i4aHHmZV2WqcvfsYRkEjH8F
+	mSrhbYKZ7canQZW/2m77nG+ElcRlO+byFwudHK41q7uPJte8D47wZgw0TyqTy6Uywb9eck
+	l8BGxuY4iqnB3vRX4MV9LBvmHvo6fD19mLJX2f38TE+vsMMjxSHwKTybMcNWPH/IN4uATy
+	LugVNMkjwNIcPF3N8wqU3wxNHN8EL7z+0NjogJbvBkwT00QlBOHtMq/22HfE4ZBLWlj2bh
+	/bkyumfvyWkaqTnf7JxMeGY5BDA7ENVcbFcRqHWcY51iK+fECV4tmJsy3frOEQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1709819654;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTRxNjkQRztADLsXXcIwVC4pHrH+fmTNdy7G1M7KPEQ=;
+	b=tADLiGKde9lgXfh3bTCJtRetuFwUxQT+/+zpkh2HPvB9wc6knbWZThtSgZePiqQEqTr5X9
+	BL+qBU91ZrPtKMBg==
+To: Sreenath Vijayan <sreenath.vijayan@sony.com>, pmladek@suse.com,
+ corbet@lwn.net, gregkh@linuxfoundation.org, jirislaby@kernel.org
+Cc: rdunlap@infradead.org, rostedt@goodmis.org, senozhatsky@chromium.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, taichi.shimoyashiki@sony.com,
+ daniel.palmer@sony.com, anandakumar.balasubramaniam@sony.com,
+ sreenath.vijayan@sony.com
+Subject: Re: [PATCH v5 1/2] printk: Add function to replay kernel log on
+ consoles
+In-Reply-To: <7ca188a59ef016c7730031c10f072d478434c04a.1709277332.git.sreenath.vijayan@sony.com>
+References: <cover.1709277332.git.sreenath.vijayan@sony.com>
+ <7ca188a59ef016c7730031c10f072d478434c04a.1709277332.git.sreenath.vijayan@sony.com>
+Date: Thu, 07 Mar 2024 14:59:36 +0106
+Message-ID: <87zfva87xb.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-In order to prerare for removal of gpio_request_array(), open code
-the latter. Note, we are not using gpio_request_one() as it's also
-deprecated, hence reducing legacy API usage to the very basic ones.
+On 2024-03-07, Sreenath Vijayan <sreenath.vijayan@sony.com> wrote:
+> Add a generic function console_replay_all() for replaying
+> the kernel log on consoles, in any context. It would allow
+> viewing the logs on an unresponsive terminal via sysrq.
+>
+> Reuse the existing code from console_flush_on_panic() for
+> resetting the sequence numbers, by introducing a new helper
+> function __console_rewind_all(). It is safe to be called
+> under console_lock().
+>
+> Try to acquire lock on the console subsystem without waiting.
+> If successful, reset the sequence number to oldest available
+> record on all consoles and call console_unlock() which will
+> automatically flush the messages to the consoles.
+>
+> Suggested-by: John Ogness <john.ogness@linutronix.de>
+> Suggested-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Sreenath Vijayan <sreenath.vijayan@sony.com>
+> Signed-off-by: Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- arch/arm/mach-pxa/spitz_pm.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
-
-diff --git a/arch/arm/mach-pxa/spitz_pm.c b/arch/arm/mach-pxa/spitz_pm.c
-index 8bc4ea51a0c1..03b4b347f11a 100644
---- a/arch/arm/mach-pxa/spitz_pm.c
-+++ b/arch/arm/mach-pxa/spitz_pm.c
-@@ -35,18 +35,20 @@
- 
- static int spitz_last_ac_status;
- 
--static struct gpio spitz_charger_gpios[] = {
--	{ SPITZ_GPIO_KEY_INT,	GPIOF_IN, "Keyboard Interrupt" },
--	{ SPITZ_GPIO_SYNC,	GPIOF_IN, "Sync" },
--	{ SPITZ_GPIO_AC_IN,     GPIOF_IN, "Charger Detection" },
--	{ SPITZ_GPIO_ADC_TEMP_ON, GPIOF_OUT_INIT_LOW, "ADC Temp On" },
--	{ SPITZ_GPIO_JK_B,	  GPIOF_OUT_INIT_LOW, "JK B" },
--	{ SPITZ_GPIO_CHRG_ON,	  GPIOF_OUT_INIT_LOW, "Charger On" },
--};
--
- static void spitz_charger_init(void)
- {
--	gpio_request_array(ARRAY_AND_SIZE(spitz_charger_gpios));
-+	gpio_request(SPITZ_GPIO_KEY_INT, "Keyboard Interrupt");
-+	gpio_direction_input(SPITZ_GPIO_KEY_INT);
-+	gpio_request(SPITZ_GPIO_SYNC, "Sync");
-+	gpio_direction_input(SPITZ_GPIO_SYNC);
-+	gpio_request(SPITZ_GPIO_AC_IN, "Charger Detection");
-+	gpio_direction_input(SPITZ_GPIO_AC_IN);
-+	gpio_request(SPITZ_GPIO_ADC_TEMP_ON, "ADC Temp On");
-+	gpio_direction_output(SPITZ_GPIO_ADC_TEMP_ON, 0);
-+	gpio_request(SPITZ_GPIO_JK_B, "JK B");
-+	gpio_direction_output(SPITZ_GPIO_JK_B, 0);
-+	gpio_request(SPITZ_GPIO_CHRG_ON, "Charger On");
-+	gpio_direction_output(SPITZ_GPIO_CHRG_ON, 0);
- }
- 
- static void spitz_measure_temp(int on)
--- 
-2.43.0.rc1.1.gbec44491f096
-
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
