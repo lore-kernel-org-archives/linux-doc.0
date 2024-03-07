@@ -1,115 +1,359 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB05F12F37A;
-	Thu,  7 Mar 2024 15:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B8012F380
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 15:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709825936; cv=none; b=QUIFxFGRChX0IxCgjq9PS5EFxVGTPEj1VaV5YyDm0xZFWvVlOui00hpBH4AvGISJWRfwoR/7z5DHYA3vLFccm/oB9nUH3ONAWijXsMu4g8tqsMb9+ta8DpOyofBXYKyJBQFkaQsbMm7jSNGzjziU8Soao+Zh2Q7uhMEIRlxOeKA=
+	t=1709825946; cv=none; b=pHn3JDlBVGxmbGlYPdcVG22sv/XypUtrkCBULgsdEIwjCk8kYYWnus3A8X+ybzFOoZwptxL9NM4fBrvq5ABuhvuS1gY2zD6vyEe8EqhSSxS6tjdspo7y9uM4qpEmvx1RSGeMy96CxaIt8lkFczGWcCRJYEoUfXyHRqOyZGUl9lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709825936; c=relaxed/simple;
-	bh=y1ObiYtxO11ksctXxgpQCWXCOTCYrYZUzMI+WXxNwtA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glfM4OBgFGxcLw9kzSFuIZdcrZ8nou/nG2cWO7sODw9zP1DmadGzVUnawCpTuIpC4GKjHLdN6cjGx2UHQxpCj6wsyfhnesmaGtoSQxehqEHNSmWZKA3Fa7wvzssJ54uoFVsH1V+AUUpWhatSZqCiIUGrM3mdBY9A8GBKNnWwsyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=L1RbCHBE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709825946; c=relaxed/simple;
+	bh=IV62wRS+0V/tcRym0O9De0pXvDw4wd9u16sdjZny0Q4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oyAtumHUn6hNjKmuKvjNXur4iAN8bQtYFwrqJpsAmtXIz4yYuf+zDaJIny2IaAT3e7IDx7e6ya5jpXnwSkFXy3jMSNqrw1fqr3yO8+PAGPYdanCyt0lRC6uqcurctc0Pk6sc/Who8sB2GLot1kYJrDcsXJZqQ8eXuR0SRB/h8tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at; spf=pass smtp.mailfrom=sigma-star.at; dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b=iNOhTOW5; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="L1RbCHBE"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 427AJPCO007423;
-	Thu, 7 Mar 2024 15:38:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:reply-to:references
-	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=MoAP9ssu
-	KYuGgJQgewrINN4vEpCqOT7eEkvS6m0NT50=; b=L1RbCHBEx2n39eTpPtSscm62
-	Cr2T6LUj2xbWePBDBxXeCwrk4z56TbOtDFAQSWfhjDqUVBO3zh8EmjOYEgefunnS
-	boiVqvCtg5Y22luHauGoyjFalcaAF0E7vU+PWKSYD3a1Pl2x13af0FxnwPHJspiN
-	96nDUYq2u5Cq+/+ZG6UnXZDmxtNqSdvQpaSeBxmQIqaZKgJHQTiBMD15jZrq3G/O
-	L2awBkCwBFY/QfLDlfB0/b3/QpRBZkv7yM6Ud2dwCC/3FzASGv5f6DzUhI0qzRph
-	9BCbF/3rMoPzhPpzvOHTWSahNcH/al9zN7THsqQ7+EbdplEVd/PCxE6HsVInZg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wqbqphe40-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 15:38:27 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 427FcPoJ031275
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 7 Mar 2024 15:38:25 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 7 Mar
- 2024 07:38:18 -0800
-Date: Thu, 7 Mar 2024 21:08:14 +0530
-From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 05/35] virt: gunyah: Add hypervisor driver
-Message-ID: <20240307153814.GB1695516@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-5-1e9da6763d38@quicinc.com>
+	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="iNOhTOW5"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5132010e5d1so1419338e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 07:39:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1709825942; x=1710430742; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aIYOtSQN/bCQ/a9glV1yH/nUGZgUAiWzbQCziwTbCgQ=;
+        b=iNOhTOW5jlVa0QP83L2Nri9G8GHFRCtWqrhpIk5WCFI6yPfNCk3dNIEhF1vpcbRdoO
+         /Kei2EQLTvZ7q9Zk5U3YDnNBYjzW4KPg/WNDV9a43l5zEFP+7obrcvyL9yM/yTS2dRon
+         RMZ1/Sw79Jp8lUo3inmlEQb/zNAVmg7hbLkgKJvL1bYzuuB+K+loiCzEOCJ7i/nyyszz
+         GkpJe7FmXg8fIJoCQDgkVOmgrERadcfPs8eSkbFori6gppmBK5U9QHzwyid3a/fqlIOm
+         B7H0qywwdx49ukggVr85ei93BFhBxJHRpiSlYj+xNdpbGHazoVbC1SuXaoqKPNkk+H6Q
+         R6Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709825942; x=1710430742;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aIYOtSQN/bCQ/a9glV1yH/nUGZgUAiWzbQCziwTbCgQ=;
+        b=rMZWEC0ft5coBxFmNmHUwMeKL3RE+dGJAK0W1dj30LKp7mN3R7l3wjv8vzpb4yRTPC
+         8V+J9+5Iw31Ibn9Bx01o5ERQCIk4d8UhNgCKWJlCX+YGuhEhtWjomGtWIOCoRbryUflc
+         2Q+ekBGBOolJArBF52oqRM58MjBUhHiGGX4HzrTQ36kt16ls4e8ZwN9lsW8DBnscAAeE
+         SCrBgaeE4y2r8KdVpPuPQnaYAZK36HQ95iOXd0dMyfVyMl3/xn2iFetHxBu2j85C/Y4Y
+         aQyX7MwyH1QjkTjo9ChhgesuUV4FUqwrslrnybSk0zFr0EqSnzsTv0Nawb0T/eJR/Fzt
+         C2SA==
+X-Forwarded-Encrypted: i=1; AJvYcCWD8wyb93t4czgnnMRTVxSZ0iIbBPIZW2p91+2wuIZ03qxPmkynCuZ7vvvoRShZmVbefUnWkuJmQuRHdM9XAZ2fSdnQzDEkkCbc
+X-Gm-Message-State: AOJu0YwDTRZd8dz4Adn+jtW6gtBgiD75GDbuzOafYM1Cj7UsBrNVvzyk
+	GwDQUvqGaQiBbKqd5noL36OComUxBx3fUPJd+rkf3+yeiwAZ9k4IhxleZiP/gpU=
+X-Google-Smtp-Source: AGHT+IFe+FRSCO/YKO4VYTP1z6XGh0jEwZ0lUnbFZlMkyv95U5Oer96oGFdK4Km5F2F6NHTc6MtIxg==
+X-Received: by 2002:a19:5511:0:b0:513:f34:f4c1 with SMTP id n17-20020a195511000000b005130f34f4c1mr1536319lfe.20.1709825941825;
+        Thu, 07 Mar 2024 07:39:01 -0800 (PST)
+Received: from localhost ([82.150.214.1])
+        by smtp.gmail.com with UTF8SMTPSA id w16-20020a170906185000b00a4551cc291esm4537212eje.40.2024.03.07.07.39.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Mar 2024 07:39:01 -0800 (PST)
+From: David Gstir <david@sigma-star.at>
+To: Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <jejb@linux.ibm.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>
+Cc: David Gstir <david@sigma-star.at>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+	David Howells <dhowells@redhat.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Tejun Heo <tj@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-security-module@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Subject: [PATCH v6 1/6] crypto: mxs-dcp: Add support for hardware-bound keys
+Date: Thu,  7 Mar 2024 16:38:28 +0100
+Message-ID: <20240307153842.80033-2-david@sigma-star.at>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240307153842.80033-1-david@sigma-star.at>
+References: <20240307153842.80033-1-david@sigma-star.at>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-5-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 85srYv7uMGpAtVWavehO1Bt0mjDSd0L5
-X-Proofpoint-GUID: 85srYv7uMGpAtVWavehO1Bt0mjDSd0L5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-07_08,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 bulkscore=0
- mlxlogscore=410 suspectscore=0 phishscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403070087
+Content-Transfer-Encoding: 8bit
 
-* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:28]:
+DCP (Data Co-Processor) is able to derive private keys for a fused
+random seed, which can be referenced by handle but not accessed by
+the CPU. Similarly, DCP is able to store arbitrary keys in four
+dedicated key slots located in its secure memory area (internal SRAM).
+These keys can be used to perform AES encryption.
 
-> Add driver to detect when running under Gunyah. It performs basic
-> identification hypercall and populates the platform bus for resource
-> manager to probe.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+Expose these derived keys and key slots through the crypto API via their
+handle. The main purpose is to add DCP-backed trusted keys. Other
+use cases are possible too (see similar existing paes implementations),
+but these should carefully be evaluated as e.g. enabling AF_ALG will
+give userspace full access to use keys. In scenarios with untrustworthy
+userspace, this will enable en-/decryption oracles.
 
-LGTM
+Co-developed-by: Richard Weinberger <richard@nod.at>
+Signed-off-by: Richard Weinberger <richard@nod.at>
+Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Signed-off-by: David Gstir <david@sigma-star.at>
+Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+---
+ drivers/crypto/mxs-dcp.c | 104 ++++++++++++++++++++++++++++++++++-----
+ include/soc/fsl/dcp.h    |  20 ++++++++
+ 2 files changed, 113 insertions(+), 11 deletions(-)
+ create mode 100644 include/soc/fsl/dcp.h
 
-Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+diff --git a/drivers/crypto/mxs-dcp.c b/drivers/crypto/mxs-dcp.c
+index 2b3ebe0db3a6..057d73c370b7 100644
+--- a/drivers/crypto/mxs-dcp.c
++++ b/drivers/crypto/mxs-dcp.c
+@@ -15,6 +15,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/stmp_device.h>
+ #include <linux/clk.h>
++#include <soc/fsl/dcp.h>
+ 
+ #include <crypto/aes.h>
+ #include <crypto/sha1.h>
+@@ -101,6 +102,7 @@ struct dcp_async_ctx {
+ 	struct crypto_skcipher		*fallback;
+ 	unsigned int			key_len;
+ 	uint8_t				key[AES_KEYSIZE_128];
++	bool				key_referenced;
+ };
+ 
+ struct dcp_aes_req_ctx {
+@@ -155,6 +157,7 @@ static struct dcp *global_sdcp;
+ #define MXS_DCP_CONTROL0_HASH_TERM		(1 << 13)
+ #define MXS_DCP_CONTROL0_HASH_INIT		(1 << 12)
+ #define MXS_DCP_CONTROL0_PAYLOAD_KEY		(1 << 11)
++#define MXS_DCP_CONTROL0_OTP_KEY		(1 << 10)
+ #define MXS_DCP_CONTROL0_CIPHER_ENCRYPT		(1 << 8)
+ #define MXS_DCP_CONTROL0_CIPHER_INIT		(1 << 9)
+ #define MXS_DCP_CONTROL0_ENABLE_HASH		(1 << 6)
+@@ -168,6 +171,8 @@ static struct dcp *global_sdcp;
+ #define MXS_DCP_CONTROL1_CIPHER_MODE_ECB	(0 << 4)
+ #define MXS_DCP_CONTROL1_CIPHER_SELECT_AES128	(0 << 0)
+ 
++#define MXS_DCP_CONTROL1_KEY_SELECT_SHIFT	8
++
+ static int mxs_dcp_start_dma(struct dcp_async_ctx *actx)
+ {
+ 	int dma_err;
+@@ -224,13 +229,16 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+ 	struct dcp *sdcp = global_sdcp;
+ 	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
+ 	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
++	bool key_referenced = actx->key_referenced;
+ 	int ret;
+ 
+-	key_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_key,
+-				  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
+-	ret = dma_mapping_error(sdcp->dev, key_phys);
+-	if (ret)
+-		return ret;
++	if (!key_referenced) {
++		key_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_key,
++					  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
++		ret = dma_mapping_error(sdcp->dev, key_phys);
++		if (ret)
++			return ret;
++	}
+ 
+ 	src_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_in_buf,
+ 				  DCP_BUF_SZ, DMA_TO_DEVICE);
+@@ -255,8 +263,12 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+ 		    MXS_DCP_CONTROL0_INTERRUPT |
+ 		    MXS_DCP_CONTROL0_ENABLE_CIPHER;
+ 
+-	/* Payload contains the key. */
+-	desc->control0 |= MXS_DCP_CONTROL0_PAYLOAD_KEY;
++	if (key_referenced)
++		/* Set OTP key bit to select the key via KEY_SELECT. */
++		desc->control0 |= MXS_DCP_CONTROL0_OTP_KEY;
++	else
++		/* Payload contains the key. */
++		desc->control0 |= MXS_DCP_CONTROL0_PAYLOAD_KEY;
+ 
+ 	if (rctx->enc)
+ 		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_ENCRYPT;
+@@ -270,6 +282,9 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+ 	else
+ 		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_CBC;
+ 
++	if (key_referenced)
++		desc->control1 |= sdcp->coh->aes_key[0] << MXS_DCP_CONTROL1_KEY_SELECT_SHIFT;
++
+ 	desc->next_cmd_addr = 0;
+ 	desc->source = src_phys;
+ 	desc->destination = dst_phys;
+@@ -284,9 +299,9 @@ static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+ err_dst:
+ 	dma_unmap_single(sdcp->dev, src_phys, DCP_BUF_SZ, DMA_TO_DEVICE);
+ err_src:
+-	dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
+-			 DMA_TO_DEVICE);
+-
++	if (!key_referenced)
++		dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
++				 DMA_TO_DEVICE);
+ 	return ret;
+ }
+ 
+@@ -453,7 +468,7 @@ static int mxs_dcp_aes_enqueue(struct skcipher_request *req, int enc, int ecb)
+ 	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
+ 	int ret;
+ 
+-	if (unlikely(actx->key_len != AES_KEYSIZE_128))
++	if (unlikely(actx->key_len != AES_KEYSIZE_128 && !actx->key_referenced))
+ 		return mxs_dcp_block_fallback(req, enc);
+ 
+ 	rctx->enc = enc;
+@@ -500,6 +515,7 @@ static int mxs_dcp_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
+ 	 * there can still be an operation in progress.
+ 	 */
+ 	actx->key_len = len;
++	actx->key_referenced = false;
+ 	if (len == AES_KEYSIZE_128) {
+ 		memcpy(actx->key, key, len);
+ 		return 0;
+@@ -516,6 +532,32 @@ static int mxs_dcp_aes_setkey(struct crypto_skcipher *tfm, const u8 *key,
+ 	return crypto_skcipher_setkey(actx->fallback, key, len);
+ }
+ 
++static int mxs_dcp_aes_setrefkey(struct crypto_skcipher *tfm, const u8 *key,
++				 unsigned int len)
++{
++	struct dcp_async_ctx *actx = crypto_skcipher_ctx(tfm);
++
++	if (len != DCP_PAES_KEYSIZE)
++		return -EINVAL;
++
++	switch (key[0]) {
++	case DCP_PAES_KEY_SLOT0:
++	case DCP_PAES_KEY_SLOT1:
++	case DCP_PAES_KEY_SLOT2:
++	case DCP_PAES_KEY_SLOT3:
++	case DCP_PAES_KEY_UNIQUE:
++	case DCP_PAES_KEY_OTP:
++		memcpy(actx->key, key, len);
++		actx->key_len = len;
++		actx->key_referenced = true;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int mxs_dcp_aes_fallback_init_tfm(struct crypto_skcipher *tfm)
+ {
+ 	const char *name = crypto_tfm_alg_name(crypto_skcipher_tfm(tfm));
+@@ -539,6 +581,13 @@ static void mxs_dcp_aes_fallback_exit_tfm(struct crypto_skcipher *tfm)
+ 	crypto_free_skcipher(actx->fallback);
+ }
+ 
++static int mxs_dcp_paes_init_tfm(struct crypto_skcipher *tfm)
++{
++	crypto_skcipher_set_reqsize(tfm, sizeof(struct dcp_aes_req_ctx));
++
++	return 0;
++}
++
+ /*
+  * Hashing (SHA1/SHA256)
+  */
+@@ -889,6 +938,39 @@ static struct skcipher_alg dcp_aes_algs[] = {
+ 		.ivsize			= AES_BLOCK_SIZE,
+ 		.init			= mxs_dcp_aes_fallback_init_tfm,
+ 		.exit			= mxs_dcp_aes_fallback_exit_tfm,
++	}, {
++		.base.cra_name		= "ecb(paes)",
++		.base.cra_driver_name	= "ecb-paes-dcp",
++		.base.cra_priority	= 401,
++		.base.cra_alignmask	= 15,
++		.base.cra_flags		= CRYPTO_ALG_ASYNC | CRYPTO_ALG_INTERNAL,
++		.base.cra_blocksize	= AES_BLOCK_SIZE,
++		.base.cra_ctxsize	= sizeof(struct dcp_async_ctx),
++		.base.cra_module	= THIS_MODULE,
++
++		.min_keysize		= DCP_PAES_KEYSIZE,
++		.max_keysize		= DCP_PAES_KEYSIZE,
++		.setkey			= mxs_dcp_aes_setrefkey,
++		.encrypt		= mxs_dcp_aes_ecb_encrypt,
++		.decrypt		= mxs_dcp_aes_ecb_decrypt,
++		.init			= mxs_dcp_paes_init_tfm,
++	}, {
++		.base.cra_name		= "cbc(paes)",
++		.base.cra_driver_name	= "cbc-paes-dcp",
++		.base.cra_priority	= 401,
++		.base.cra_alignmask	= 15,
++		.base.cra_flags		= CRYPTO_ALG_ASYNC | CRYPTO_ALG_INTERNAL,
++		.base.cra_blocksize	= AES_BLOCK_SIZE,
++		.base.cra_ctxsize	= sizeof(struct dcp_async_ctx),
++		.base.cra_module	= THIS_MODULE,
++
++		.min_keysize		= DCP_PAES_KEYSIZE,
++		.max_keysize		= DCP_PAES_KEYSIZE,
++		.setkey			= mxs_dcp_aes_setrefkey,
++		.encrypt		= mxs_dcp_aes_cbc_encrypt,
++		.decrypt		= mxs_dcp_aes_cbc_decrypt,
++		.ivsize			= AES_BLOCK_SIZE,
++		.init			= mxs_dcp_paes_init_tfm,
+ 	},
+ };
+ 
+diff --git a/include/soc/fsl/dcp.h b/include/soc/fsl/dcp.h
+new file mode 100644
+index 000000000000..3ec335d8ca8b
+--- /dev/null
++++ b/include/soc/fsl/dcp.h
+@@ -0,0 +1,20 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (C) 2021 sigma star gmbh
++ *
++ * Specifies paes key slot handles for NXP's DCP (Data Co-Processor) to be used
++ * with the crypto_skcipher_setkey().
++ */
++
++#ifndef MXS_DCP_H
++#define MXS_DCP_H
++
++#define DCP_PAES_KEYSIZE 1
++#define DCP_PAES_KEY_SLOT0 0x00
++#define DCP_PAES_KEY_SLOT1 0x01
++#define DCP_PAES_KEY_SLOT2 0x02
++#define DCP_PAES_KEY_SLOT3 0x03
++#define DCP_PAES_KEY_UNIQUE 0xfe
++#define DCP_PAES_KEY_OTP 0xff
++
++#endif /* MXS_DCP_H */
+-- 
+2.35.3
 
-- vatsa
