@@ -1,66 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA65F85644
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 10:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C0E125DC
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 10:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709808746; cv=none; b=TEL7odJs54Ho+H/erB4BtSCg708e3vtt/gP2qzNAdjJ7duseiG+XY7Brv27AyOmumnTKavlbrTSFbZnlFgGZh9TVeaUbdlYDTweyDU732lYpYMHSBoP82WPdO3fMHzAKQ6uh/l3tTYYqaBva3ZTiQ19Ydt68jxsBdJt1BA3RFSY=
+	t=1709808773; cv=none; b=WPPtp7SyTcJ3Np2lBnHhJqNG7zNU9JT0GvHHg38X7rvCa6XfMXhydmvTQ53m26yj0orB+1B1+1XpId6kGYEw8zdHJlcjMRlkplhRX0syXi09G2muSItLPg4eX5gQKCPt+DB5JgTEtqHRFFN2ztux04VP6m39d5A/WeQxakXGv5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709808746; c=relaxed/simple;
-	bh=8UOBs8aO/kTgyMHp6wLoVqSvUe8xn0ai/cATyleO8pA=;
+	s=arc-20240116; t=1709808773; c=relaxed/simple;
+	bh=KyQZT+N0lpw9sllRL2VmoZ7Lg94efnQL0qwXQw1V8UU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MTmhT9SlB/bwVQADA0oEPmmp9alEOsdhY3tlqdEWwr2VQw90x6tbrH9g63OSBMjZRL1BtT+hR9qGbQ/MY2xfp2qUiV9rU5UK66vA9tpzHVHzgXPuTIDbVnSZVOW8Pmbx/mikJeAUp7ynB+oyyDgZSjF5sEC7yUgXLamVnmDCcdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y+iNN6VE; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=ejSxKgQ0luMkGIaGZfleg1eH32qkZrohAiDegRHJXfBpDFJJ+/1uVCoOZVldUIylRgBX3PJ00RnXZreoDg1eHBDZkwGz4EsJBePiLjld0YK4ZmJox/wuh+yT99qKUfsMid4/ArAk5iVQjlyFwT7gCrPCVgpfaEGwvm6WLQpvYt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FwtrRaob; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y+iNN6VE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FwtrRaob"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709808743;
+	s=mimecast20190719; t=1709808770;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=t1lbZwtUExa5zCAHzjEb8QruKJQqDEzc7uaBj6FAG0U=;
-	b=Y+iNN6VEJNUEv8XkAc9921Qds7k55fj9nhQv8ZrBVdFSqxyIHdN64tK3xjXXMKbxYvRd4m
-	F6wIWpMCfecyvo412cN95qCc69XGFc6MmaKuzsmKUonjhnBomCJvCD/O1cN+JysK+K3ofM
-	VL0d9xywiHTXQYJHsex9vJUxR0eqv/8=
+	bh=3dy8wv7a9A9uM5290tiYpXeb7+f++SDQOcbdFzYNCNg=;
+	b=FwtrRaob5wRZ42Q+F3EZ4CAlUBXqg4H7ZEOm5tE4xxQPFIpVxRO/1nXta3smlordE925kq
+	rrspXMuYH5+fuoeUhVxOCU+h3gtdFE+7LgtAWX5I2JKjKFUFrQLOmTHw4sBdJc3SzPa62b
+	LYF0kA99JukbDiHNQ8XBsZ+3MlZdxQM=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-390-8N20TWoEOVeO3r9p8fECbg-1; Thu, 07 Mar 2024 05:52:20 -0500
-X-MC-Unique: 8N20TWoEOVeO3r9p8fECbg-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-33e6f9ce74dso37010f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 02:52:20 -0800 (PST)
+ us-mta-27-_vY8Riq1M2SCoyWcjBvGyw-1; Thu, 07 Mar 2024 05:52:49 -0500
+X-MC-Unique: _vY8Riq1M2SCoyWcjBvGyw-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-33d07c0825aso352740f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 02:52:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709808739; x=1710413539;
+        d=1e100.net; s=20230601; t=1709808768; x=1710413568;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
          :references:cc:to:content-language:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t1lbZwtUExa5zCAHzjEb8QruKJQqDEzc7uaBj6FAG0U=;
-        b=kGE3CZGmUSSwyDJCZSNL5t50FQ3u5/SUGn+4FsFYxSvucmvK+BOJCLVMqV6gPEsKxE
-         Rt5QDUxdgfpd5AxGHHsDBOdn1EizFL2xDzVKiRJa9vgYsS5GGruujfve9RWk8zIYkYno
-         PUzyWjOcL9uo93rhmfng58wrkHtxdgZtj6fFKjRW89eZUVVIUyDdoKAvNseP00D3M8MR
-         ixRT83FLMRwtR/Poo0sjHW30sORk/J4G0Gr9u8nTRSqSKMDzuCmZKqBw3zVkh3GBEYkR
-         N4XPTGDjkGEBkJFndLVJecLfN2E4CWY1HILxb7W6KRPgOgOYzNzVxrxeLEiY1eNWZzOm
-         8zOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXoZYgj/sz8dAfg581AROYCDzwc0qedOSViDrar0MFza2Do+Nu/nxlLjq8Hmqt4OFlqPbKcLCYArYcPGOsCsKf+mHxo8nOFCvdb
-X-Gm-Message-State: AOJu0YxMBRHS9hHEnjVRyABi5CpiGKfAQtkTJIOIXq0eQbToBYb5YxU1
-	gVrTHbsNZ5jrbK4+tLcYRX7pHuANZA3G2+QRdCi4Hgqg1TQuvwZjex34UkJ9v/V09qyzu4/k5V2
-	jJzs96QHBzsaziPBnHg5FeidGYYtXuRHF4MYz3Ixf0rZh5mvqWVlyF4Yq/w==
-X-Received: by 2002:a05:6000:1149:b0:33e:64f3:65a5 with SMTP id d9-20020a056000114900b0033e64f365a5mr859543wrx.52.1709808739343;
-        Thu, 07 Mar 2024 02:52:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFJh3+9NXoe+Qo4JMKp3+nHbsmiyELlTfMtntswBNzGDWOsJByVWEGlKIAahNZ3iA13xoM7+g==
-X-Received: by 2002:a05:6000:1149:b0:33e:64f3:65a5 with SMTP id d9-20020a056000114900b0033e64f365a5mr859517wrx.52.1709808738905;
-        Thu, 07 Mar 2024 02:52:18 -0800 (PST)
+        bh=3dy8wv7a9A9uM5290tiYpXeb7+f++SDQOcbdFzYNCNg=;
+        b=eOKZQ3sskVcjU/KewSvtJCDloe4bdZ2GMkbxjACV9FSyGOjQKkIBOAmN5zMV09luI4
+         fRasrcCj3GcpzB+iTE8QMp0lfj/JHUWtyph5Q7YIyuSTDE8LJ9Sd5ffFgUz7SWQhkVB/
+         G9tUM9Xkzdnw5u3m3dd37ZHUw/oPFhdf1ac92HpwKqAkocS2sK7MBwYzPWoeC4ESbqG2
+         JOnvldqFx57icE7GxkCrvHb2Lg/QolTmRF8ZhiKZ7qjJut/ExRVZ4z78nA0EdMEsTV13
+         ugY57Cd34YP4+cKZOzz27MH2SEBFzNtm8cKruDKX1zkZdH9kuWxa/+jOWbWud6F1Mcn5
+         iQ0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWEpvDBXunD/fTKC/SUkoMO9880gYWIJ5TePxkMOKGEVSh0yhu8qRAwuHoq77vpxOUaIHRS6KQko0eXdbXZa09f3kGOcHJfLr7z
+X-Gm-Message-State: AOJu0YyFnXkvvgeANBkCAd7TwynYK2wGi3yid/WSQ+s7x2nl9v/4Nk9q
+	lpk7iYC5Zp36v3l23t7fgvf/ihqhvXGyG5AVt9lhw/5mqifFCd+0hwe3FXsDbxGMbAEP3ddtAfF
+	eGzF6FWLuV3SbjWhxELvJJWeEEL0sWdAT9JlgScYezx8LBktHqLXnowCnpw==
+X-Received: by 2002:a5d:4903:0:b0:33d:f7d2:50e6 with SMTP id x3-20020a5d4903000000b0033df7d250e6mr12544965wrq.31.1709808768218;
+        Thu, 07 Mar 2024 02:52:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE8jpQpyzCk68e5npxY8ThskMdDUP+uwyOpIhAbwXRW3LkHaLIkRCfpBui6nrNJaRJTQ9VF4Q==
+X-Received: by 2002:a5d:4903:0:b0:33d:f7d2:50e6 with SMTP id x3-20020a5d4903000000b0033df7d250e6mr12544955wrq.31.1709808767798;
+        Thu, 07 Mar 2024 02:52:47 -0800 (PST)
 Received: from ?IPV6:2003:cb:c74d:6400:4867:4ed0:9726:a0c9? (p200300cbc74d640048674ed09726a0c9.dip0.t-ipconnect.de. [2003:cb:c74d:6400:4867:4ed0:9726:a0c9])
-        by smtp.gmail.com with ESMTPSA id r12-20020adff10c000000b0033de2f2a88dsm20096450wro.103.2024.03.07.02.52.17
+        by smtp.gmail.com with ESMTPSA id r12-20020adff10c000000b0033de2f2a88dsm20096450wro.103.2024.03.07.02.52.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 02:52:18 -0800 (PST)
-Message-ID: <d673247b-a67b-43e1-a947-18fdae5f0ea1@redhat.com>
-Date: Thu, 7 Mar 2024 11:52:17 +0100
+        Thu, 07 Mar 2024 02:52:47 -0800 (PST)
+Message-ID: <db29666a-32b8-4bf6-ab13-7de3b09b0da1@redhat.com>
+Date: Thu, 7 Mar 2024 11:52:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] [RFC] proc: pagemap: Expose whether a PTE is writable
+Subject: Re: [PATCH 2/2] [RFC] pagemap.rst: Document write bit
 Content-Language: en-US
 To: Richard Weinberger <richard@nod.at>, linux-mm@kvack.org
 Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -78,6 +78,7 @@ Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
  vbabka@suse.cz, akpm@linux-foundation.org, usama.anjum@collabora.com,
  corbet@lwn.net
 References: <20240306232339.29659-1-richard@nod.at>
+ <20240306232339.29659-2-richard@nod.at>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -124,74 +125,43 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240306232339.29659-1-richard@nod.at>
+In-Reply-To: <20240306232339.29659-2-richard@nod.at>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 07.03.24 00:23, Richard Weinberger wrote:
-> Is a PTE present and writable, bit 58 will be set.
-> This allows detecting CoW memory mappings and other mappings
-> where a write access will cause a page fault.
+> Bit 58 denotes that a PTE is writable.
+> The main use case is detecting CoW mappings.
 > 
-
-But why is that required? What is the target use case? (I did not get 
-the cover letter in my inbox)
-
-We're running slowly but steadily out of bits, so we better make wise 
-decisions.
-
-Also, consider: Architectures where the dirty/access bit is not HW 
-managed could indicate "writable" here although we *will* get a page 
-fault to set the page dirty/accessed.
-
-So best this can universally do is say "this PTE currently has write 
-permissions".
-
 > Signed-off-by: Richard Weinberger <richard@nod.at>
 > ---
->   fs/proc/task_mmu.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   Documentation/admin-guide/mm/pagemap.rst | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 3f78ebbb795f..7c7e0e954c02 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1341,6 +1341,7 @@ struct pagemapread {
->   #define PM_SOFT_DIRTY		BIT_ULL(55)
->   #define PM_MMAP_EXCLUSIVE	BIT_ULL(56)
->   #define PM_UFFD_WP		BIT_ULL(57)
-> +#define PM_WRITE		BIT_ULL(58)
->   #define PM_FILE			BIT_ULL(61)
->   #define PM_SWAP			BIT_ULL(62)
->   #define PM_PRESENT		BIT_ULL(63)
-> @@ -1417,6 +1418,8 @@ static pagemap_entry_t pte_to_pagemap_entry(struct pagemapread *pm,
->   			flags |= PM_SOFT_DIRTY;
->   		if (pte_uffd_wp(pte))
->   			flags |= PM_UFFD_WP;
-> +		if (pte_write(pte))
-> +			flags |= PM_WRITE;
->   	} else if (is_swap_pte(pte)) {
->   		swp_entry_t entry;
->   		if (pte_swp_soft_dirty(pte))
-> @@ -1483,6 +1486,8 @@ static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
->   				flags |= PM_SOFT_DIRTY;
->   			if (pmd_uffd_wp(pmd))
->   				flags |= PM_UFFD_WP;
-> +			if (pmd_write(pmd))
-> +				flags |= PM_WRITE;
->   			if (pm->show_pfn)
->   				frame = pmd_pfn(pmd) +
->   					((addr & ~PMD_MASK) >> PAGE_SHIFT);
-> @@ -1586,6 +1591,9 @@ static int pagemap_hugetlb_range(pte_t *ptep, unsigned long hmask,
->   		if (huge_pte_uffd_wp(pte))
->   			flags |= PM_UFFD_WP;
+> diff --git a/Documentation/admin-guide/mm/pagemap.rst b/Documentation/admin-guide/mm/pagemap.rst
+> index f5f065c67615..81ffe3601b96 100644
+> --- a/Documentation/admin-guide/mm/pagemap.rst
+> +++ b/Documentation/admin-guide/mm/pagemap.rst
+> @@ -21,7 +21,8 @@ There are four components to pagemap:
+>       * Bit  56    page exclusively mapped (since 4.2)
+>       * Bit  57    pte is uffd-wp write-protected (since 5.13) (see
+>         Documentation/admin-guide/mm/userfaultfd.rst)
+> -    * Bits 58-60 zero
+> +    * Bit  58    pte is writable (since 6.10)
+> +    * Bits 59-60 zero
+>       * Bit  61    page is file-page or shared-anon (since 3.5)
+>       * Bit  62    page swapped
+>       * Bit  63    page present
+> @@ -37,6 +38,11 @@ There are four components to pagemap:
+>      precisely which pages are mapped (or in swap) and comparing mapped
+>      pages between processes.
 >   
-> +		if (pte_write(pte))
-> +			flags |= PM_WRITE;
-> +
->   		flags |= PM_PRESENT;
->   		if (pm->show_pfn)
->   			frame = pte_pfn(pte) +
+> +   Bit 58 is useful to detect CoW mappings; however, it does not indicate
+> +   whether the page mapping is writable or not. If an anonymous mapping is
+> +   writable but the write bit is not set, it means that the next write access
+> +   will cause a page fault, and copy-on-write will happen.
+
+That is not true.
 
 -- 
 Cheers,
