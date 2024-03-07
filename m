@@ -1,208 +1,267 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBABE1BDDB;
-	Thu,  7 Mar 2024 16:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F157C12FF8B
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 16:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709829702; cv=none; b=jpejH92KV4ej8TL3qMdnhtRFEeG2MPYODip4zSncw76yhzmJBirAbrpxCRVh5yajKcBc7bFllisVCYF7a/qUC/lVFVLxUznl+beeHstOuf2IRfepd36rwhsLOCIAg9D+SIbHOJryW5/wwPSL+00w5wM3t9EX0nXbWtZkKebhioM=
+	t=1709830284; cv=none; b=bKtRhgCSyQxy8/wkvX2rNQ4gXV9gSpe3SddzDasAGpTFdmRSYuNuJjV1TBly3N+gr97rKqmomq9icsSB/BBd9ix1qX9HT+WcoXjyRgg31q9BtYAuJiJnP9xpngKhfF+H3+vtW9c4hSz23DDHulWGso35EYabQ83x3zQC3fE5M2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709829702; c=relaxed/simple;
-	bh=/1yv2voYazdhfYiCba0+H2ZUZDL9rA+8uY9mleYG4cw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKUlin+NxqXNM2HrOMwQj7QYI6nagz1VvYcddR1/RkOA21RaIJG31rLAJs0fOvKnGcSt6VztaBKU8mmfYgY1f/qjXyNR5VJZFODduYmt0TRwCOf4mPVXmiBBi3WbNWl0+7aD4swVazwrr4YAY2AtwxelSvmRkMA/7uhmmT2CRE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SUnav6ZE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709830284; c=relaxed/simple;
+	bh=oAlVnpZg9Cvtgh25NJi4Ni8v3PGC2OnHmgro+J0U4EQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cGlHtrI1qWXCdbTIl3cAln8e6T3EPCWAjNOUmIOkdD5YlFNQZ3PIyNP3/XDsgsV44QR6ZhOP/RUchrWIstWJljLfc9PsYlMnWRMpvntEI05myuPQBsjXZevpqEDhlctWlUw9nFfKz11dXca+LYLOo+TPv1IPj7YczguHackJ2w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EkztrEiL; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SUnav6ZE"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 427BrCPO009368;
-	Thu, 7 Mar 2024 16:41:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=IhCM9GWGGCh+z/XvnkdtX
-	dFWqYJpK598AUrSkFnXIWc=; b=SUnav6ZEvKO+0hU8fPqiO+h7HIIcnW36ev51o
-	UMXjUxg6jwvYKHiD464eS+HgPtJPuVQ8W4DtyRLPC9VGyA8vSOhOHXgK5eBBndH8
-	aFA4Bs8jC22Biq7i9PRP8uBJ7434r5UcuRfho+dpX0O+j27kpEQfumffg2m3ywTs
-	bFYHWe4j1L+tHsZkqqMAgjzmdz8v4L5XMJPRv13a0DdmQAZkjPkQD0pnHZp+kvVC
-	BFlYVRT4Z9/VNiuIYhAJY7H9rg1nfv6sMvHL3Hwuc0tYFkDX1w2xu4daMLYyP3AY
-	K2c429Gza+Xtj6KaQUqnot0p+tcGfOpoIatqoEl7pkkczIowQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wqd3d18vp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Mar 2024 16:41:17 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 427GfGZW010824
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 7 Mar 2024 16:41:16 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 7 Mar 2024 08:41:14 -0800
-Date: Thu, 7 Mar 2024 08:41:14 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: [PATCH v17 07/35] gunyah: rsc_mgr: Add resource manager RPC
- core
-Message-ID: <20240307083827092-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
-	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
-	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-7-1e9da6763d38@quicinc.com>
- <20240307153843.GC1695516@quicinc.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EkztrEiL"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-607c5679842so11531527b3.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 08:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1709830281; x=1710435081; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Yc7CaZYI+aOfiJp3dG8X2zo4+LoYMopU2pW1vALF2c=;
+        b=EkztrEiLLhIOUJAAYPUWgEaHi7EV5QB6yZwuWNupjVhqNS8TscCRjHMf6o1etvQsSh
+         wGyt4T2DH4dQg67h7AGYzeTzzY49AIXHRBjmggC74JwdlPnb31QZ6/SA10tM1amNyWPt
+         5s53/u3FO62hGqkq7eO6oMRbo5X/tr+Wk6s9LvTsdb05RmnaTLwWcq7OciJWa/2SLHvT
+         CLxY8mnK4ldNW5snCcUUacbwVrFfnkmgQ3hG+DIZwlq7rRyq9fYG8yxFcOtAhsTVmwFx
+         rCODHfjmwhAzTIeFtXx6JF3mm9jqBXHkhCm85LjrDPTYPMByKBubU0UFDP39ELBc3tXB
+         eKqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709830281; x=1710435081;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Yc7CaZYI+aOfiJp3dG8X2zo4+LoYMopU2pW1vALF2c=;
+        b=YwrDWkJk8M0EsuzjAde7QXJwYjABR7EeXE/9YTWSt1QNJEbgVnZuI4gMQYaUC+LyL8
+         Oq01ppsX3u6IqXDXjzkPviJbtHM8r/wpOqk7N0NHhF2eaiS6CqzcNh6rDEm3HdeviY00
+         69svjAcOiQURJA1WFJkIuEU+FK7hWuY+yw1IpvuKbfmVJnLjwnZ+QeY0J0vQxgEFnZgM
+         t3jBt2dG8hqir/wDmXYx3Cy3ONy2RVULlfTb9mXgSQOV2A2KXRc/UbvMFwOUwJy2d7kP
+         jlf8yfSe/iMz66ThWtaWYKUs19vLTMLkeXBoUIK9p2R/xykra+3YDXtH+Oe/93eemGee
+         UJYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRr9oQ7F5m/Z9osLcqkJS3exFOHTzEH0FTsrNdDgGaqukwEDoVBrTNur7vPqVIHsW4NVQz4Q15AuLJEr5lFaCjm0PV5mzfmTtQ
+X-Gm-Message-State: AOJu0YwHDisCZqYksE3CbQe5kCaVzgJIpn4aowqmTC7DqwuPgtf+YiRK
+	YYukqkSeOWXssTpsdvxte0CkN+hy0eFpItXk3wZKiAgT2uq3kgkqp01siMDqYgtmsx+ZokORU4+
+	gFZsEpoW41A5EYL/gidlCneBEsulSiqkTau1y
+X-Google-Smtp-Source: AGHT+IETO+uYsXBHUav01bdbNnbA53xxjR6usX/j/Y4xXR7KlOH6v3HVx5uc93IkxR9q2hK67467LC5KnM+ZNqEyIOk=
+X-Received: by 2002:a05:6902:160d:b0:dcf:56c3:336e with SMTP id
+ bw13-20020a056902160d00b00dcf56c3336emr17705298ybb.35.1709830280572; Thu, 07
+ Mar 2024 08:51:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240307153843.GC1695516@quicinc.com>
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 0-XBk_3tQgGP4ZavfFBD2TJdDBfBlRCf
-X-Proofpoint-GUID: 0-XBk_3tQgGP4ZavfFBD2TJdDBfBlRCf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-07_13,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 adultscore=0
- mlxscore=0 malwarescore=0 phishscore=0 bulkscore=0 spamscore=0
- impostorscore=0 lowpriorityscore=0 mlxlogscore=999 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403070114
+References: <20240306182440.2003814-1-surenb@google.com> <20240306182440.2003814-38-surenb@google.com>
+ <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
+In-Reply-To: <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 7 Mar 2024 16:51:08 +0000
+Message-ID: <CAJuCfpFN3BLsFOWB0huA==LVa2pNYdnf7bT_VXgDtPuJOxvWSQ@mail.gmail.com>
+Subject: Re: [PATCH v5 37/37] memprofiling: Documentation
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 07, 2024 at 09:08:43PM +0530, Srivatsa Vaddagiri wrote:
-> * Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:30]:
-> 
-> > The resource manager is a special virtual machine which is always
-> > running on a Gunyah system. It provides APIs for creating and destroying
-> > VMs, secure memory management, sharing/lending of memory between VMs,
-> > and setup of inter-VM communication. Calls to the resource manager are
-> > made via message queues.
-> > 
-> > This patch implements the basic probing and RPC mechanism to make those
-> > API calls. Request/response calls can be made with gh_rm_call.
-> > Drivers can also register to notifications pushed by RM via
-> > gh_rm_register_notifier
-> > 
-> > Specific API calls that resource manager supports will be implemented in
-> > subsequent patches.
-> > 
-> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> 
-> Left a minor comment below. LGTM otherwise.
-> 
-> Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-> 
-> > +static irqreturn_t gunyah_rm_rx(int irq, void *data)
-> > +{
-> > +	enum gunyah_error gunyah_error;
-> > +	struct gunyah_rm_rpc_hdr *hdr;
-> > +	struct gunyah_rm *rm = data;
-> > +	void *msg = &rm->recv_msg[0];
-> > +	size_t len;
-> > +	bool ready;
+On Thu, Mar 7, 2024 at 3:19=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
+ wrote:
+>
+> Hi,
+> This includes some editing suggestions and some doc build fixes.
+>
+>
+> On 3/6/24 10:24, Suren Baghdasaryan wrote:
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> >
+> > Provide documentation for memory allocation profiling.
+> >
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  Documentation/mm/allocation-profiling.rst | 91 +++++++++++++++++++++++
+> >  1 file changed, 91 insertions(+)
+> >  create mode 100644 Documentation/mm/allocation-profiling.rst
+> >
+> > diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/=
+mm/allocation-profiling.rst
+> > new file mode 100644
+> > index 000000000000..8a862c7d3aab
+> > --- /dev/null
+> > +++ b/Documentation/mm/allocation-profiling.rst
+> > @@ -0,0 +1,91 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
 > > +
-> > +	do {
-> > +		gunyah_error = gunyah_hypercall_msgq_recv(rm->rx_ghrsc.capid,
-> > +							  msg,
-> > +							  sizeof(rm->recv_msg),
-> > +							  &len, &ready);
-> > +		if (gunyah_error != GUNYAH_ERROR_OK) {
-> > +			if (gunyah_error != GUNYAH_ERROR_MSGQUEUE_EMPTY)
-> > +				dev_warn(rm->dev,
-> > +					 "Failed to receive data: %d\n",
-> > +					 gunyah_error);
-> > +			return IRQ_HANDLED;
-> > +		}
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > +MEMORY ALLOCATION PROFILING
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
 > > +
-> > +		if (len < sizeof(*hdr)) {
-> > +			dev_err_ratelimited(
-> > +				rm->dev,
-> > +				"Too small message received. size=%ld\n", len);
-> > +			continue;
-> 
-> In practice we should never hit this condition, in case we do encounter, do you
-> see a reason why continue is preferred over simply breaking the loop?
-> 
+> > +Low overhead (suitable for production) accounting of all memory alloca=
+tions,
+> > +tracked by file and line number.
+> > +
+> > +Usage:
+> > +kconfig options:
+> > + - CONFIG_MEM_ALLOC_PROFILING
+> > + - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
+> > + - CONFIG_MEM_ALLOC_PROFILING_DEBUG
+> > +   adds warnings for allocations that weren't accounted because of a
+> > +   missing annotation
+> > +
+> > +Boot parameter:
+> > +  sysctl.vm.mem_profiling=3D0|1|never
+> > +
+> > +  When set to "never", memory allocation profiling overheads is minimi=
+zed and it
+>
+>                                                       overhead is
+>
+> > +  cannot be enabled at runtime (sysctl becomes read-only).
+> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dy, default valu=
+e is "1".
+> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dn, default valu=
+e is "never".
+> > +
+> > +sysctl:
+> > +  /proc/sys/vm/mem_profiling
+> > +
+> > +Runtime info:
+> > +  /proc/allocinfo
+> > +
+> > +Example output:
+> > +  root@moria-kvm:~# sort -g /proc/allocinfo|tail|numfmt --to=3Diec
+> > +        2.8M    22648 fs/kernfs/dir.c:615 func:__kernfs_new_node
+> > +        3.8M      953 mm/memory.c:4214 func:alloc_anon_folio
+> > +        4.0M     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod] f=
+unc:ctagmod_start
+> > +        4.1M        4 net/netfilter/nf_conntrack_core.c:2567 func:nf_c=
+t_alloc_hashtable
+> > +        6.0M     1532 mm/filemap.c:1919 func:__filemap_get_folio
+> > +        8.8M     2785 kernel/fork.c:307 func:alloc_thread_stack_node
+> > +         13M      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
+> > +         14M     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
+> > +         15M     3656 mm/readahead.c:247 func:page_cache_ra_unbounded
+> > +         55M     4887 mm/slub.c:2259 func:alloc_slab_page
+> > +        122M    31168 mm/page_ext.c:270 func:alloc_page_ext
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Theory of operation
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Memory allocation profiling builds off of code tagging, which is a lib=
+rary for
+> > +declaring static structs (that typcially describe a file and line numb=
+er in
+>
+>                                   typically
+>
+> > +some way, hence code tagging) and then finding and operating on them a=
+t runtime
+>
+>                                                                         a=
+t runtime,
+>
+> > +- i.e. iterating over them to print them in debugfs/procfs.
+>
+>   i.e., iterating
+>
+> > +
+> > +To add accounting for an allocation call, we replace it with a macro
+> > +invocation, alloc_hooks(), that
+> > + - declares a code tag
+> > + - stashes a pointer to it in task_struct
+> > + - calls the real allocation function
+> > + - and finally, restores the task_struct alloc tag pointer to its prev=
+ious value.
+> > +
+> > +This allows for alloc_hooks() calls to be nested, with the most recent=
+ one
+> > +taking effect. This is important for allocations internal to the mm/ c=
+ode that
+> > +do not properly belong to the outer allocation context and should be c=
+ounted
+> > +separately: for example, slab object extension vectors, or when the sl=
+ab
+> > +allocates pages from the page allocator.
+> > +
+> > +Thus, proper usage requires determining which function in an allocatio=
+n call
+> > +stack should be tagged. There are many helper functions that essential=
+ly wrap
+> > +e.g. kmalloc() and do a little more work, then are called in multiple =
+places;
+> > +we'll generally want the accounting to happen in the callers of these =
+helpers,
+> > +not in the helpers themselves.
+> > +
+> > +To fix up a given helper, for example foo(), do the following:
+> > + - switch its allocation call to the _noprof() version, e.g. kmalloc_n=
+oprof()
+> > + - rename it to foo_noprof()
+> > + - define a macro version of foo() like so:
+> > +   #define foo(...) alloc_hooks(foo_noprof(__VA_ARGS__))
+> > +
+> > +It's also possible to stash a pointer to an alloc tag in your own data=
+ structures.
+> > +
+> > +Do this when you're implementing a generic data structure that does al=
+locations
+> > +"on behalf of" some other code - for example, the rhashtable code. Thi=
+s way,
+> > +instead of seeing a large line in /proc/allocinfo for rhashtable.c, we=
+ can
+> > +break it out by rhashtable type.
+> > +
+> > +To do so:
+> > + - Hook your data structure's init function, like any other allocation=
+ function
+>
+> maybe end the line above with a '.' like the following line.
+>
+> > + - Within your init function, use the convenience macro alloc_tag_reco=
+rd() to
+> > +   record alloc tag in your data structure.
+> > + - Then, use the following form for your allocations:
+> > +   alloc_hooks_tag(ht->your_saved_tag, kmalloc_noprof(...))
+>
+>
+> Finally, there are a number of documentation build warnings in this patch=
+.
+> I'm no ReST expert, but the attached patch fixes them for me.
 
-There might be more messages to read, which we would not otherwise read.
-Since those messages might be parseable, I'd rather try to recover than
-break communication with RM.
+Thanks Randy! I'll use your cleaned-up patch in the next submission.
+Cheers,
+Suren.
 
-As you mention, we should never encounter this condition. The guard is
-to avoid reading garbage values.
-
-> > +		}
-> > +
-> > +		hdr = msg;
-> > +		if (hdr->api != RM_RPC_API) {
-> > +			dev_err(rm->dev, "Unknown RM RPC API version: %x\n",
-> > +				hdr->api);
-> > +			return IRQ_HANDLED;
-> > +		}
-> > +
-> > +		switch (FIELD_GET(RM_RPC_TYPE_MASK, hdr->type)) {
-> > +		case RM_RPC_TYPE_NOTIF:
-> > +			gunyah_rm_process_notif(rm, msg, len);
-> > +			break;
-> > +		case RM_RPC_TYPE_REPLY:
-> > +			gunyah_rm_process_reply(rm, msg, len);
-> > +			break;
-> > +		case RM_RPC_TYPE_CONTINUATION:
-> > +			gunyah_rm_process_cont(rm, rm->active_rx_message, msg,
-> > +					       len);
-> > +			break;
-> > +		default:
-> > +			dev_err(rm->dev,
-> > +				"Invalid message type (%lu) received\n",
-> > +				FIELD_GET(RM_RPC_TYPE_MASK, hdr->type));
-> > +			return IRQ_HANDLED;
-> > +		}
-> > +	} while (ready);
-> > +
-> > +	return IRQ_HANDLED;
-> > +}
+>
+> --
+> #Randy
