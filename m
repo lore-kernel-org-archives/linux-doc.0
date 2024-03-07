@@ -1,208 +1,238 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED3063C8;
-	Wed,  6 Mar 2024 23:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.153.233
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709768734; cv=fail; b=hfzp34Uxby6gNacUIzGnLDNBRFmK1kMcpnIZG77NriJtotv2adTOlglOSZ8DLuw2lvykutDeT8uhGuXFl1sCn/Bq+I+ULaMR2J60aKdXQ1EDGPKJGLFk3amizelD6QJwq+ByxdSftiE0sYq/5uDhhhG8gsOeoYV9JASeQ9lBD9c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709768734; c=relaxed/simple;
-	bh=tE5OHsiFMsbLNYwzG4ej22HirXLHUdBuWSXLZ1mJGHY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cbCaR/mlnDNW/bsFilpYO9qQMGOJreR1qoTfa7w9Rz7QK08cfd7qFwMDzv3noxQNpham/dc9yu1U1bDHs9S/P19dzYs6ApJqdtviiheInSYZtfcMRoyL0DUAIXfPObJHa2gwyVArTtscQZ8Z7QkevO4sdU9J8VdKkbxjPFp8zXU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=jMphSLv8; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=avKLTLYi; arc=fail smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF7CEAF6
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 00:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709769643; cv=none; b=YzghW148vUEOXGvaYkrjujzgtAjB/AMagaR/2aBkwKZeH4K2zS2DolqILcIMyZYN5Dmh96GnhQ7e3vIi2xVIO8xcVm3vl49MHgPEfSTgFlhqMTuUewa/vH0UpeEAnsMB7bZYZmeX/Hy/EHN49rgqOXhF003kFz6ADhTBSNGh080=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709769643; c=relaxed/simple;
+	bh=T+UOSxEPBysqG32w+zMGX5xyeXuEl5alWxX1qNj0v48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lr4qMyjF7FdwZUWm2C4f15SIgzY+CdbCBPX49gq5ZBQxzT9iKAJzIfwRTadYtEXrz7rjau//bTIFSgjbuZO8M5KS2GLoubxGIyjk8rda6+Yi87N+TN6ScRNBu3nZPxJ6EQ17gc03MTCoW84jmp3AiStg+4i5KOYFgmLOTXZirAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=NsZTbDch; arc=none smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="jMphSLv8";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="avKLTLYi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1709768732; x=1741304732;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=tE5OHsiFMsbLNYwzG4ej22HirXLHUdBuWSXLZ1mJGHY=;
-  b=jMphSLv8DPVRiie2loBvu9iOsndqiazRzgTUmmtmJsi5dZOh6F+G9t45
-   F3/iPXhjRAgH1mZscRbrC0LQ2HrgkgSmSh6wCB69eEPXOSKknxx388fEa
-   4E6HQ349QSDdP5p3EVnfLfJNISxDrZppY5aS7ZOzIsQ3WLlivKV843Y+K
-   /OFxVJilwchyQvt0Bd1E0LpcxqhKJnO6fevBo/r2RGHvzsqzpAjgvkD88
-   5FAHdaZB53M//l5mnm29hvHXREGa0Kg7PeEh36QHPMx9mS8ZTVjfujapx
-   bOO4Pl0TEN/GDUII6F94Krca68YJICV3z9S/7xeCQLixq6XjDqjWOiQCo
-   w==;
-X-CSE-ConnectionGUID: zUgBQRS/RJ2NzHjj2oSmAQ==
-X-CSE-MsgGUID: FWPgOI+oRoiTcUu+rKvd6g==
-X-IronPort-AV: E=Sophos;i="6.06,209,1705388400"; 
-   d="scan'208";a="18967338"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Mar 2024 16:45:30 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Mar 2024 16:45:00 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Mar 2024 16:45:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LeGZf2uA+WP4zsv3YB9BMY15JetPRJ6VWSef3BDqzOQbJE4zE85EhPBwfXD23hcNudfBw/RE3nbKVm7rDOFNZudxGeYPMmagYoQ34WeR/rKw8YhhGI3DEoaRH5yK9IMceKZHla2bueVEnULOcrTosafrnVkiSZp4AQDh9m9bWOVaf+NdFlfTqyW7n4dV7yLWg4fpH+5OmYelEp4srRYzP9jTMhJ1wORkJUb6wHsTtZd2sy14a+AcgaH/KoJfR6ik3Ck3B3BEDOaxrsZBgvp61wNg1UY63QNpZLvHAo6kp/tF99kOUETe10T3hOJPaX21VZ/hPoMrtH0fooKyvxkmzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5D/pKyx4irqtNRremVdUAz26Ax5gi4d27bbf7dGJSw0=;
- b=M8dYgt0ajkiwMtU5ETGtXUAq/nKumIl/Ium4hb4BaAvmv7PUQZHIkN0jNzeYAIVsjTOR7Ez2Qc7GG87alJwDeGZU9fIrkwxqkJDN1esIrD6sg38g/YPIJx8wFRr8gnGx0L0v57FmEpbexw5JNWZvGGFPWrZV/oHRXUQy8LjeKqWkOy6FCt5InyyL9ibUCqyLJ8WGUSrthaxgJROMmfLS1YyHYUQtgS4i/r9ynywk6gsA/5MMeKtyhTiYUyF0Lxirlor6AxnGwL/K8V0+yV0chVwFoSkjk4w24eUOn+39aSqM2BYKnKIc/iME8hlx5A2m0wj9VEBCr8paRB+QHnOBkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5D/pKyx4irqtNRremVdUAz26Ax5gi4d27bbf7dGJSw0=;
- b=avKLTLYiA0sbHw0+ie0MpF5mBp6vQUbqt/XYiKLrGRCvG+M3EHh/7szuaO3ccJ+hYhVMIGL/CGWZgQdeARzTXAdd4madwFv+FG4LR9/waSsxKlJf9HRyJ9x/RM8uJc3HtXo1lxSoM9Wt1hFk5FN9KIrXHikamqdB/CfDUjh0zCuLTxzlYalmrmeqdugItHfsGwuoYdrjDb/rzXwsnePSGK3v0Kl6sKYBRVIaLGObAINcOZZo7vf9pykQkmXRFt+l2VhhqYmQ1HMDRl7ttrdTrlbWKVijcDWuefGjKBOie89QaCYim17NYDYyljdx/waIejlFKYnEONazcQ8J9EoTVA==
-Received: from BL0PR11MB2913.namprd11.prod.outlook.com (2603:10b6:208:79::29)
- by MN2PR11MB4598.namprd11.prod.outlook.com (2603:10b6:208:26f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Wed, 6 Mar
- 2024 23:44:58 +0000
-Received: from BL0PR11MB2913.namprd11.prod.outlook.com
- ([fe80::dc78:62a2:5ccf:6248]) by BL0PR11MB2913.namprd11.prod.outlook.com
- ([fe80::dc78:62a2:5ccf:6248%3]) with mapi id 15.20.7362.019; Wed, 6 Mar 2024
- 23:44:58 +0000
-From: <Woojung.Huh@microchip.com>
-To: <Parthiban.Veerasooran@microchip.com>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<horms@kernel.org>, <saeedm@nvidia.com>, <anthony.l.nguyen@intel.com>,
-	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <andrew@lunn.ch>,
-	<corbet@lwn.net>, <linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>
-CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
-	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
-	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>
-Subject: RE: [PATCH net-next v3 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Thread-Topic: [PATCH net-next v3 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Thread-Index: AQHab6OpOH9fv+fH6UiUBHGHSCgdN7ErYJiQ
-Date: Wed, 6 Mar 2024 23:44:58 +0000
-Message-ID: <BL0PR11MB29133BBDC826A8B79F59FEB1E7212@BL0PR11MB2913.namprd11.prod.outlook.com>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-12-Parthiban.Veerasooran@microchip.com>
-In-Reply-To: <20240306085017.21731-12-Parthiban.Veerasooran@microchip.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL0PR11MB2913:EE_|MN2PR11MB4598:EE_
-x-ms-office365-filtering-correlation-id: 1702a8b2-357e-4854-1489-08dc3e376f2d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +BjkhxTUZC71ACJAZBJbToXJThA18hDULbm+/MKtGv308OxDeaPbi2Jump8/IpCZwSm2oJUTWtq/MXv0tmLzsv2mJHQScEiVbnOHHr5BpzAAftPqyFcKzfJ1P+/GAYDvT2OGT7AWPOUxRDVUJEuvuU3iY1Nx6hIqUGjQ6s8l5n8BI6/te2EpW4FetwPq4ln+iZlxT67hXTppgAOMFD6PjZtEgEdndj7dvE0WKbQ+DznKXHSz1hxsgOMv2kZrQlGoe1euawVyoAstxUeZwsDswQcCn/tv1JYutbJEnO0cLVK0Qer/wVJr+hbNA8/TlgQ09llXW+Jm+F8dKH0hwKkJJqOFwqVSSf04MEY6QaKjang/wBFq2q55AXCWklzPt6ufyRbz2mcuT4qtaZDkaOuwv6zhbizOteUCnLU8aJdm8gLCboCmxmFL81mGExWFhuLjY1+GM+KBLgGnTUQ37FDJlXTqoAhPZdPqKxB755CUByinxl7UEoug+MrxU9+0Itj6Ao/MjIqdo8wOa7DU4CtZIXvb71lJJBCmIcG93hMNZI45/bGnSB7z53F4iQjGZeoqxZzECJ2LgaNL7bz+nNWHyRJJoca8dBR2HSgkVWb2GsAupvo3f89NbAM4qRYxh/nqTg6iALzn6r0zBguDuHIPYeQB41bX+Dhdgj9yZbew03ibZOibM3Br+7UGDrNpq1f6MQCFom3hjzetBKKbMPepuRw9ZI93Ri8xZQR+Z/CPP/M=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2913.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009)(921011);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pMJZZl0Gr/7q60cfczeb7Qh+CWNvv6mBs+jScAbHNV018mh4ekG1qZpwJIeU?=
- =?us-ascii?Q?kwCXjHuX3WHn8qY3/S+Km+t7ePvAWWupYdNvWC4A8wEg0ykO2rj/uposi12/?=
- =?us-ascii?Q?qCEu+CUadDMaWisc4zhy4Rhx5LrTwjJ5eRkonUVb6IiIiBTQ8KtPGCF8vLn6?=
- =?us-ascii?Q?X4SMMQ2djzRDwNNGX2coVeEX8SjwBQMoJiNNb/L/SleBS36oUWz1zrwYJ5mX?=
- =?us-ascii?Q?dY57Pb6eNKokAxMtX6h1UzPG3aaTE3qwy/wjZ5o6/UOclCypm+PLmml4F2oB?=
- =?us-ascii?Q?NXZotfzfqkaWN1RQHUJduxSs284TS92wo0bhIAViMjPXkRjPWSBWUeSIhNG5?=
- =?us-ascii?Q?Pcqs7GdwyQpIqEC7dt57WdVzahaFoNOQP6U5aJh15EtErst3uhLXK3tAjkVz?=
- =?us-ascii?Q?Ur9lIA1TbATbEAw9lFsUgYpiM8stDGHy8IS0HXYxUruxwlch9Di/U+/bJ+Jk?=
- =?us-ascii?Q?kJYC9gTCal606QnzddgUntmfw3i+ppufo/0yqaFUbFAKF4aLg0wdVT0EGAQN?=
- =?us-ascii?Q?QB7SOaTbqvL6KqZ/wZ/f84gpDFTds3RWCyGsXjMsR3EnS++VCM3EmUk+NdJw?=
- =?us-ascii?Q?Bdz07T+3e32+ehIqZCp48NCFPye+mO1aaS6xrCSdqAqunP5ukdvI2oiTv9DJ?=
- =?us-ascii?Q?pYRA0QQ+W41IkD7Z7D3oFIQr6sihJsim8/u70E4AlU7cpZOS1m6d4UMg91hB?=
- =?us-ascii?Q?p5k68zj+1Yq2lJgr10rJV+kYTWiI48guidur/GAQ0exJpvzGToST8OXqw23V?=
- =?us-ascii?Q?vHdoxWYswM23baSu+JRhjtzqCN16Vx0OSrsezwTw9lhhyZL14nUd5CfqGxQz?=
- =?us-ascii?Q?UyfaBKGm5iA/WIS3Tblzqyr3cp+xjL6urk3o6hiidxGu7lFpIr3t0VV+ssXY?=
- =?us-ascii?Q?maJbVmaaRnaWGjiCO7iPvUoCf+KR6+fPcT7tF+pDAom0Gx99MP5ti0ta54Iw?=
- =?us-ascii?Q?gPl+jZbIkc7gulZdOO2uzx8YQyWv01xZqAzUPIqhP1BwOxfkWpdBh3Hth/uK?=
- =?us-ascii?Q?jmati4Nb1zvoogD041NEfTNf/4Xyjs7No32N8j9mYUaeF+ASHQWRpJ3XZdya?=
- =?us-ascii?Q?x4sbS6x2gAdQh4s8aqftDWJtzzzJGlTO/IPMFq0Bx0XRR/beNXuOXKARJ4vn?=
- =?us-ascii?Q?yQTaabFMNJBqnkVkrxu4hgwVfiDUdRHco+BFFhKXxO22mBM40o14f/WqTKUB?=
- =?us-ascii?Q?4sL6Cc4yLKleSWnSY0NiSXJiugphIP6GHTllvNmauFWxszATNH13cGv/87m7?=
- =?us-ascii?Q?vOh6gjeJ/V4odsfjmSZjWJcnVQ/lrRLBryl/Qv5zZ01clU866QCg2/+TAsO7?=
- =?us-ascii?Q?RuNgUS+66xgdB0cZ/kytRMxVX/QX88pVgeV0V0KWUZJ8WCmg8QzB7B8vP6e/?=
- =?us-ascii?Q?tITw8/xrMjLg6HOdOR/7WTudY0kIaUakYkydhMHBp5DZw2hCXyh8cD3oUDzg?=
- =?us-ascii?Q?Y0NKy6foaZ4JEc8vHUnnXLo7kOG0p/UL+I84MTB3/rj5egXCYX9N0iamKaUN?=
- =?us-ascii?Q?sRCC0LhSO+b7aDa5+2RjLph1w6xkClcEGNZ5ydBYbRxDOaC0h0t0G4WgRXbk?=
- =?us-ascii?Q?YxMr7NbKr1E6amC4Mu/F5lDA38mgZ1Y1eT/0KUCO?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="NsZTbDch"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-220461b7597so91870fac.3
+        for <linux-doc@vger.kernel.org>; Wed, 06 Mar 2024 16:00:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1709769640; x=1710374440; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FnAsXY5W3o0aBO5Fh+OdY1VF737kiERo49tIrv2JTH0=;
+        b=NsZTbDch8wC6sasBCF6lPZ5a9uT85angZHr+9Fcg2WcIONOFUVqCOhLdLXs1QMz7CF
+         fE5abEuJwtMVWXIfwbGl6sLJjYaFCJE/RHiji6HDc612aQrRPtubOqHJ7+VeQTqhcdMG
+         olSzIPq/N6AveQDAZuE01G3P+jyn7GhvgYbEKBeOxD4nGA4Lo8n2G5SEEuvQQrwsK+pB
+         +71SwuD5SBmh4/TyqxZtgqyAYXS57Sz6JcJo+8l8v/ImU14NhWejMKtIJyueTeVb/daB
+         zwI/wp35dllpF/towcyd3qY1dKGx/hmqbLTOV33lwt/HV6/b2XtymYBw35wcpFsxxWM2
+         enhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709769640; x=1710374440;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnAsXY5W3o0aBO5Fh+OdY1VF737kiERo49tIrv2JTH0=;
+        b=b7AWM98ln12LnYEAyxECiNtzjRhBqGzMmo6eYNs2eM/xu9qqX/A0f0qubgMxJcHW7F
+         DQDOYQvDtWWnOjZJo9yO0sjD4i9v0kwtLZ7FVX1lP0D/e4kIzU/eWmEqDxEmsO4E4QmQ
+         jGwYDvdbD76wI75KVHilU53sJzUKpGRW1isma5XJw354iYMt9eFFdVCcgwBss2HmE23V
+         /54A05RGeQhfGMCJxbcVq1ehbp6J8dANAxBmqlbp9CWs5bXlFELV8KRCIbSwj/c7DOaq
+         H8R0RQUsgL9c5UPeUQ+MI8OxcJvqB9e19m+RftcnLr/uifmmo0ywSvLr0A7kn7+U9HR8
+         vifg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBrne3PV9LRAmIMYI1wuAq2Yv/tk1vr61tzuAWvPmR8OdxrfOVj8s//6xmK0yFzWbWE3rRG5UqxLxOBr/UQXjYiD5EE/0MNfyp
+X-Gm-Message-State: AOJu0YwhF0APpz3+FVlYgAXFz1fQdsBW+vB0LB0M2VNx68lniMWHffxk
+	VaHFRviZYC9zqZoTDL72VMzy4oyXZr7Xfhdtu1VXiHs0bLLzpd/zMQ7gY35TkW8=
+X-Google-Smtp-Source: AGHT+IGK0xl48nl3utXsBsT9cDlUym3mZ050RInjod+5qLAgYBHQgf3Jm+BxBWeRpDZbnqg1tP4wIQ==
+X-Received: by 2002:a05:6871:28e:b0:21e:dd7a:2d3e with SMTP id i14-20020a056871028e00b0021edd7a2d3emr6947112oae.22.1709769640012;
+        Wed, 06 Mar 2024 16:00:40 -0800 (PST)
+Received: from ziepe.ca ([12.97.180.36])
+        by smtp.gmail.com with ESMTPSA id vz3-20020a056871a40300b00220c6f7734esm2827969oab.35.2024.03.06.16.00.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 16:00:39 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1ri1Bc-002SqN-Sb;
+	Wed, 06 Mar 2024 20:00:36 -0400
+Date: Wed, 6 Mar 2024 20:00:36 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240307000036.GP9225@ziepe.ca>
+References: <cover.1709635535.git.leon@kernel.org>
+ <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com>
+ <20240305122935.GB36868@unreal>
+ <20240306144416.GB19711@lst.de>
+ <20240306154328.GM9225@ziepe.ca>
+ <20240306162022.GB28427@lst.de>
+ <20240306174456.GO9225@ziepe.ca>
+ <20240306221400.GA8663@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2913.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1702a8b2-357e-4854-1489-08dc3e376f2d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2024 23:44:58.8590
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FeRyZ77ZV57Hn244y1QBakrwHT8bbdcmsbf6FWKCA9U1MEzxA/DPH0guOHfkKF3bE2/aGl/jlfIaag+1Owgm2nYxRz0gwKNSNDX+30S+l+s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4598
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306221400.GA8663@lst.de>
 
-Hi Parthiban,
+On Wed, Mar 06, 2024 at 11:14:00PM +0100, Christoph Hellwig wrote:
+> On Wed, Mar 06, 2024 at 01:44:56PM -0400, Jason Gunthorpe wrote:
+> > There is a list of interesting cases this has to cover:
+> > 
+> >  1. Direct map. No dma_addr_t at unmap, multiple HW SGLs
+> >  2. IOMMU aligned map, no P2P. Only IOVA range at unmap, single HW SGLs
+> >  3. IOMMU aligned map, P2P. Only IOVA range at unmap, multiple HW SGLs
+> >  4. swiotlb single range. Only IOVA range at unmap, single HW SGL
+> >  5. swiotlb multi-range. All dma_addr_t's at unmap, multiple HW SGLs.
+> >  6. Unaligned IOMMU. Only IOVA range at unmap, multiple HW SGLs
+> > 
+> > I think we agree that 1 and 2 should be optimized highly as they are
+> > the common case. That mainly means no dma_addr_t storage in either
+> 
+> I don't think you can do without dma_addr_t storage.  In most cases
+> your can just store the dma_addr_t in the LE/BE encoded hardware
+> SGL, so no extra storage should be needed though.
 
-> diff --git a/drivers/net/ethernet/microchip/lan865x/lan865x.c
-> b/drivers/net/ethernet/microchip/lan865x/lan865x.c
-...
-> +static void lan865x_multicast_work_handler(struct work_struct *work)
-> +{
-> +	struct lan865x_priv *priv =3D container_of(work, struct lan865x_priv,
-> +						 multicast_work);
-> +	u32 regval =3D 0;
-> +
-> +	if (priv->netdev->flags & IFF_PROMISC) {
-> +		/* Enabling promiscuous mode */
-> +		regval |=3D MAC_NET_CFG_PROMISCUOUS_MODE;
-> +		regval &=3D (~MAC_NET_CFG_MULTICAST_MODE);
-> +		regval &=3D (~MAC_NET_CFG_UNICAST_MODE);
-> +	} else if (priv->netdev->flags & IFF_ALLMULTI) {
-> +		/* Enabling all multicast mode */
-> +		regval &=3D (~MAC_NET_CFG_PROMISCUOUS_MODE);
-> +		regval |=3D MAC_NET_CFG_MULTICAST_MODE;
-> +		regval &=3D (~MAC_NET_CFG_UNICAST_MODE);
-> +	} else if (!netdev_mc_empty(priv->netdev)) {
-> +		lan865x_set_specific_multicast_addr(priv->netdev);
-> +		regval &=3D (~MAC_NET_CFG_PROMISCUOUS_MODE);
-> +		regval &=3D (~MAC_NET_CFG_MULTICAST_MODE);
-> +		regval |=3D MAC_NET_CFG_UNICAST_MODE;
-> +	} else {
-> +		/* enabling local mac address only */
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_H_HASH,
-> +					  regval)) {
+RDMA (and often DRM too) generally doesn't work like that, the driver
+copies the page table into the device and then the only reason to have
+a dma_addr_t storage is to pass that to the dma unmap API. Optionally
+eliminating long term dma_addr_t storage would be a worthwhile memory
+savings for large long lived user space memory registrations.
 
-Your intention to write 0 into LAN865X_REG_MAC_H_HASH?
-If then, using 0 than regval makes more clear.
+> > 3 is quite similar to 1, but it has the IOVA range at unmap.
+> 
+> Can you explain what P2P case you mean?  The switch one with the
+> bus address is indeed basically the same, just with potentioally a
+> different offset, while the through host bridge case is the same
+> as a normal iommu map.
 
-> +			netdev_err(priv->netdev, "Failed to write reg_hashh");
-> +			return;
-> +		}
-> +		if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_L_HASH,
-> +					  regval)) {
+Yes, the bus address case. The IOMMU is turned on, ACS on a local
+switch is off.
 
-Same here.
+All pages go through the IOMMU in the normal way except P2P pages
+between devices on the same switch. (ie the dma_addr_t is CPU physical
+of the P2P plus an offset). RDMA must support a mixture of IOVA and
+P2P addresses in the same IO operation.
 
-> +			netdev_err(priv->netdev, "Failed to write reg_hashl");
-> +			return;
-> +		}
-> +	}
-> +	if (oa_tc6_write_register(priv->tc6, LAN865X_REG_MAC_NET_CFG,
-> regval))
-> +		netdev_err(priv->netdev,
-> +			   "Failed to enable promiscuous/multicast/normal mode");
-> +}
-> +
+I suppose it would make more sense to say it is similar to 6.
 
+> > 5 is the slowest and has the most overhead.
+> 
+> and 5 could be broken into multiple 4s at least for now.  Or do you
+> have a different dfinition of range here?
+
+I wrote the list as from a single IO operation perspective, so all but
+5 need to store a single IOVA range that could be stored in some
+simple non-dynamic memory along with whatever HW SGLs/etc are needed.
+
+The point of 5 being different is because the driver has to provide a
+dynamically sized list of dma_addr_t's as storage until unmap. 5 is
+the only case that requires that full list.
+
+So yes, 5 could be broken up into multiple IOs, but then the
+specialness of 5 is the driver must keep track of multiple IOs..
+
+> > So are you thinking something more like a driver flow of:
+> > 
+> >   .. extent IO and get # aligned pages and know if there is P2P ..
+> >   dma_init_io(state, num_pages, p2p_flag)
+> >   if (dma_io_single_range(state)) {
+> >        // #2, #4
+> >        for each io()
+> > 	    dma_link_aligned_pages(state, io range)
+> >        hw_sgl = (state->iova, state->len)
+> >   } else {
+> 
+> I think what you have a dma_io_single_range should become before
+> the dma_init_io.  If we know we can't coalesce it really just is a
+> dma_map_{single,page,bvec} loop, no need for any extra state.
+
+I imagine dma_io_single_range() to just check a flag in state.
+
+I still want to call dma_init_io() for the non-coalescing cases
+because all the flows, regardless of composition, should be about as
+fast as dma_map_sg is today.
+
+That means we need to always pre-allocate the IOVA in any case where
+the IOMMU might be active - even on a non-coalescing flow.
+
+IOW, dma_init_io() always pre-allocates IOVA if the iommu is going to
+be used and we can't just call today's dma_map_page() in a loop on the
+non-coalescing side and pay the overhead of Nx IOVA allocations.
+
+In large part this is for RDMA, were a single P2P page in a large
+multi-gigabyte user memory registration shouldn't drastically harm the
+registration performance by falling down to doing dma_map_page, and an
+IOVA allocation, on a 4k page by page basis.
+
+The other thing that got hand waved here is how does dma_init_io()
+know which of the 6 states we are looking at? I imagine we probably
+want to do something like:
+
+   struct dma_io_summarize summary = {};
+   for each io()
+        dma_io_summarize_range(&summary, io range)
+   dma_init_io(dev, &state, &summary);
+   if (state->single_range) {
+   } else {
+   }
+   dma_io_done_mapping(&state); <-- flush IOTLB once
+
+At least this way the DMA API still has some decent opportunity for
+abstraction and future growth using state to pass bits of information
+between the API family.
+
+There is some swiotlb complexity that needs something like this, a
+system with iommu can still fail to coalesce if the pages are
+encrypted and the device doesn't support DMA from encrypted pages. We
+need to check for P2P pages, encrypted memory pages, and who knows
+what else.
+
+> And we're back to roughly the proposal I sent out years ago.
+
+Well, all of this is roughly your original proposal, just with
+different optimization choices and some enhancement to also cover
+hmm_range_fault() users.
+
+Enhancing the single sgl case is not a big change, I think. It does
+seem simplifying for the driver to not have to coalesce SGLs to detect
+the single-SGL fast-path.
+
+> > This is not quite what you said, we split the driver flow based on
+> > needing 1 HW SGL vs need many HW SGL.
+> 
+> That's at least what I intended to say, and I'm a little curious as what
+> it came across.
+
+Ok, I was reading the discussion more about as alignment than single
+HW SGL, I think you ment alignment as implying coalescing behavior
+implying single HW SGL..
+
+Jason
