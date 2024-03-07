@@ -1,174 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFBDDDC9
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 11:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6A81292F3;
+	Thu,  7 Mar 2024 11:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709810424; cv=none; b=urYIhR6YU1yZLUGnfziWQaRtrZWYJIO1ZSU30mab69Popzc4X8ejpIl8L7PtbCzb9NfryVHFXgMFhfZuHHvSeYEO9p40aug2wSjK7bjNnIjZLOjGv976eGPp1Pl1ZhNnSuaDB/VvuoPs5is2mn/I7XfOJCJ0U/JzFnlf5mSpKhM=
+	t=1709812099; cv=none; b=LwCgzMd8NjG/KqllJX5hBR/BespSuPRmjnxLJWsBVxcAiHhbUwZz4DcWAEwtHh6FYsaV/LImnM6jSGNkxn+DVIrxoRo/pGrCcDAsJSFfEGJ2OxeOEWD7ASMBGdOw8zDc0NVz7WVFMvsXAC8XfuiuvJTYlLUbRoPJigTU0uALizU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709810424; c=relaxed/simple;
-	bh=fJBOKVWu3kgpC3Rdw5yG6kODOEKg/+upYsBKSvbp+6I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HEmp9YMmKkerDmtDVm60tWq1wu+uHnPlr/6hEfKb+GdwDadU3psdoEGNrnt4P6jzTUHTX+6mHU0XGDZkkGkN8fpGLjxaO5Y+0NvHFCEN6g7f7HH/8RtnYTeIGBDBIfaCfPkbZKZ2NkzxKu1ItVwRyY/pbQhcxLTnXhm6W1H/6Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M5/6jdEp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1709812099; c=relaxed/simple;
+	bh=+NFhUoHsm1k3teppr6MH5QMBv/O4fijuunYR0JJDBeE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ODBxksG+GVElrncZvE4wN7uHCGRaeFRTt+o8VD5Ho4TsI+Egl1JwoObSsy0fekObJH3RMnAkWL5eRDY1X6GB56Xd8z1wLp1fz4n1Vcqnk4EjtD71DgYCP3ZQ70ggzP/2FmOeoWtnzX9Pd2SoVbH61/X6FnM3nGUgv8VquUI28nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kxpcfwwc; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M5/6jdEp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709810421;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=T3S+gBBiGC+cC9yPoPCyuB6+zTSWw3v8rgYOSL8U7bE=;
-	b=M5/6jdEpZsLqqGx+VmtfeQI3j11WaJZKtowbsJDL3BaBzBwx4BFZuUqu1zM72ke+47g45Z
-	WDY2WjEgFwpAedOIBLi150inoAilD/Xv+HPixYYpPyhwbuV06XrDoche0sDuFCJEXgY021
-	oW611QmkGvklgMk2w+b/bmo5vCfmfvo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-RVNDJZGgPjGY5wQrRubquw-1; Thu, 07 Mar 2024 06:20:20 -0500
-X-MC-Unique: RVNDJZGgPjGY5wQrRubquw-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-412d433bba5so4543905e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 03:20:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709810419; x=1710415219;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T3S+gBBiGC+cC9yPoPCyuB6+zTSWw3v8rgYOSL8U7bE=;
-        b=UcFClKctka/D5tZfx0mm2+tJqz1T/fIz36MiiwPsVBbXM4jNfa6a+7x/9lPwfWcv8d
-         0QSkmQiu0p2CnI89JauqIzr2XWnAB1NKSfGynGhxCYHriDA3RoWWEOc/GlWiA1VzqYTb
-         y15nhBD6zp/kQU6woN+SBnw3bXKeqzcZ/Ther6LZc3LYMEtALJQS9hw0MlAV5FFnBa6m
-         6gkxmxoXAtrzkVsYv0hA9TuHjbMjZm2d2jn3cqslRIGCD3UZCpMJbK7+NsryeWIBTYGS
-         r6FF6/QDyO7K1YjT9L+3QhUHzU5Fcz5zFa1uz99iXDSCIPJ4FOcvJ4LQPYZscKlVmCSS
-         hP5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUKZ2QhVepcFRjf5pwcDI2U9aRpt8HsUYrlYMKwc3mpwLhetGEVRj38NtPe92UBeZOKasGw8KfqGvXe/sm5evqFDY9kXfIOpUmW
-X-Gm-Message-State: AOJu0YybCmaA5hq7qdIr9HpTBCSUFcWSLzYqPtEANTUt/AFJQN7Y0XWA
-	ceWm8S1zzUlYC1wrpumAM27E5fh+1XklUO2uhH89RAYvqZZEOxyOYPZnYwlJhvOrGzjA1in0/2Q
-	lneN2GwFcF5BO6PG38D3Ev9muabVsBvV7RtS4diH1VWQTbtejE23/aM0FIC7ObSU8Ig==
-X-Received: by 2002:a05:600c:34d4:b0:412:eddd:12ad with SMTP id d20-20020a05600c34d400b00412eddd12admr5559549wmq.33.1709810419383;
-        Thu, 07 Mar 2024 03:20:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH5DAdcAYEJic676KLzGOBvUMTYZ0gt2jHmHrLssTtgX9xQo7uLXszebrBAe+xRJuODn/1+lw==
-X-Received: by 2002:a05:600c:34d4:b0:412:eddd:12ad with SMTP id d20-20020a05600c34d400b00412eddd12admr5559532wmq.33.1709810418997;
-        Thu, 07 Mar 2024 03:20:18 -0800 (PST)
-Received: from ?IPV6:2003:cb:c74d:6400:4867:4ed0:9726:a0c9? (p200300cbc74d640048674ed09726a0c9.dip0.t-ipconnect.de. [2003:cb:c74d:6400:4867:4ed0:9726:a0c9])
-        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b0041312bdcd6fsm845702wmo.40.2024.03.07.03.20.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 03:20:18 -0800 (PST)
-Message-ID: <7d9321db-a3c1-4593-91fa-c7f97bd9eecd@redhat.com>
-Date: Thu, 7 Mar 2024 12:20:17 +0100
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kxpcfwwc"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94974419F6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1709811617; bh=FmaCOdSpzTDO+fx/nlS5kQLhsJEKyzgeV8XwYx9O5Fc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=kxpcfwwcWbrdGd+gN6hesYJ00BzxZIN9Ni6iL33tmTfDRi7nforCr+yM4PmygA/Z0
+	 8FppJ530gOgPnBZQN9X57tbfuJVWRLdbDHy6QzGHjzy3FkiKz24s9WgZHug6pgubOW
+	 ncUK9BvvNvoNHp5fE3/fQOMNcqP574GqGuEdj7cYrk7gYtzr8njPrEhdylyVGdgFZy
+	 6rd1AbtBpIzveaq+uNRyVqo4j3FuI9qk+NV5zgKdnU79ru/Rlc2koCDagbJep8kzM+
+	 HFASYKWAjDBgsy5GVu2bK3Rv+tidIEaRL1ZY6ezccAYAyqa9H7gOAM393IEOtyXGdn
+	 bINub1o2LTQ7w==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 94974419F6;
+	Thu,  7 Mar 2024 11:40:16 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, Petr
+ =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Subject: Re: [PATCH v1] docs: verify/bisect: fixes, finetuning, and support
+ for Arch
+In-Reply-To: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
+References: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
+Date: Thu, 07 Mar 2024 04:40:12 -0700
+Message-ID: <87o7bqjmn7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] [RFC] proc: pagemap: Expose whether a PTE is writable
-Content-Language: en-US
-To: Richard Weinberger <richard@nod.at>
-Cc: linux-mm <linux-mm@kvack.org>,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- upstream+pagemap@sigma-star.at, adobriyan@gmail.com,
- wangkefeng wang <wangkefeng.wang@huawei.com>,
- ryan roberts <ryan.roberts@arm.com>, hughd@google.com, peterx@redhat.com,
- avagin@google.com, lstoakes@gmail.com, vbabka <vbabka@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>,
- usama anjum <usama.anjum@collabora.com>, Jonathan Corbet <corbet@lwn.net>
-References: <20240306232339.29659-1-richard@nod.at>
- <d673247b-a67b-43e1-a947-18fdae5f0ea1@redhat.com>
- <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 07.03.24 12:10, Richard Weinberger wrote:
-> ----- Ursprüngliche Mail -----
->> Von: "David Hildenbrand" <david@redhat.com>
->> But why is that required? What is the target use case? (I did not get
->> the cover letter in my inbox)
->>
->> We're running slowly but steadily out of bits, so we better make wise
->> decisions.
->>
->> Also, consider: Architectures where the dirty/access bit is not HW
->> managed could indicate "writable" here although we *will* get a page
->> fault to set the page dirty/accessed.
-> 
-> I'm currently investigating why a real-time application faces unexpected
-> page faults. Page faults are usually fatal for real-time work loads because
-> the latency constraints are no longer met.
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-Are you concerned about any type of page fault, or are things like a 
-simple remapping of the same page from "read-only to writable" 
-acceptable? ("very minor fault")
+> Assorted changes for the recently added document.
+>
+> Improvements:
+>
+> * Add instructions for installing required software on Arch Linux.
+>
+> Fixes:
+>
+> * Move a 'git remote add -t master stable [...]' from a totally wrong
+>   to the right place.
+>
+> * Fix two anchors.
+>
+> * Add two required packages to the openSUSE install instructions.
+>
+> Fine tuning:
+>
+> * Improve the reference section about downloading Linux mainline sources
+>   to make it more obvious that those are alternatives.
+>
+> * Include the full instructions for git bundles to ensure the remote
+>   gets the right name; that way the text also works stand alone.
+>
+> * Install ncurses and qt headers for use of menuconfig and xconfig by
+>   default, but tell users that they are free to omit them.
+>
+> * Mention ahead of time which version number are meant as example in
+>   commands used during the step-by-step guide.
+>
+> * Mention that 'kernel-install remove' might do a incomplete job.
+>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>
+> Lo! A quick note reg "mention ahead of time which version numbers are
+> meant as example in commands used during the step-by-step guide". I did
+> that, as I've seen someone following the guide without replacing the
+> version numbers, so pointing this out with a few words seemed wise. But
+> I'm not sure if the way I did it was the best; if someone has a better
+> idea how to do that, please let me know. Ciao, Thorsten
+> ---
+>  .../verify-bugs-and-bisect-regressions.rst    | 135 +++++++++++-------
+>  1 file changed, 84 insertions(+), 51 deletions(-)
 
-> 
-> So, I wrote a small tool to inspect the memory mappings of a process to find
-> areas which are not correctly pre-faulted. While doing so I noticed that
-> there is currently no way to detect CoW mappings.
-> Exposing the writable property of a PTE seemed like a good start to me.
+No better ideas...I've applied this, thanks.
 
-Is it just about "detection" for debugging purposes or about "fixup" in 
-running applications?
-
-If it's the latter, MADV_POPULATE_WRITE might do what you want (in 
-writable mappings).
-
--- 
-Cheers,
-
-David / dhildenb
-
+jon
