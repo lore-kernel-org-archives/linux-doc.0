@@ -1,361 +1,149 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8746312FB02
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 16:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E931DA27;
+	Thu,  7 Mar 2024 16:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709828147; cv=none; b=Z6EKoS4o1hbmny0bMZsfJBCl8r+QByVNjtzXL0ng9zn0ivX9mnzqU1xqhhxROB6BKswalmk3OuOv7Z4fUel/C9eC6KKsYjxd7MXRMHeXY3J9z9O5MzP9wr22TfdYqY+0R2fLCUC2N1X+OXW6UYgqAU1jFY2Bj042GReuiRlRuUw=
+	t=1709829384; cv=none; b=FPHRU8kD853POyPLS3WsGWlRdfI8J1BUf6jmlOZNOUh/8iriOZitKhLfooVvF9W2ykhCl9NJZr06FOFRfJwyU8AidevY+e7ifA/DrVdVKx1/8EQ0inUv0r3e5dt8XFz9wWwdtVmYYWPcr3j9nuM4k3mD3ExivF+butVsEy+NFHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709828147; c=relaxed/simple;
-	bh=qJYnLCapEmT7Ajrz9ekftaJwc5Tg58ZuGzaIhu4UQeI=;
+	s=arc-20240116; t=1709829384; c=relaxed/simple;
+	bh=G4o8N1NeVBsGufGC9BwR+lthg1Y27nwFooGVezVt96g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIvMWxXQwuPVXm/TREktxyTfmvh0AoLy95RRdRNyDLVjw870ozaibwFNHenC7ZPhEtXVJpwiV2athnEfU171mWWH92jXdzaEj8yDSxIJnaA7/epxjfAGKuIyBr1xlOXWpOJhXWD4XvowSUIobcsnWGHuCz7J/FfIG/W0g74Nk8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1riGOo-00085I-8E; Thu, 07 Mar 2024 17:15:14 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1riGOn-004ybQ-4E; Thu, 07 Mar 2024 17:15:13 +0100
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1riGOn-006SBZ-04;
-	Thu, 07 Mar 2024 17:15:13 +0100
-Date: Thu, 7 Mar 2024 17:15:12 +0100
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Dan Vacura <w36195@motorola.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Jeff Vanhoof <qjv001@motorola.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/6] usb: dwc3: gadget: cancel requests instead of
- release after missed isoc
-Message-ID: <ZenoEJmne73BlCFI@pengutronix.de>
-References: <20221017205446.523796-1-w36195@motorola.com>
- <20221017205446.523796-3-w36195@motorola.com>
- <ZdaPLGTbsBo4F4pK@pengutronix.de>
- <20240222011955.7sida4udjlvrlue7@synopsys.com>
- <Zd5Nns91uXvTOAwd@pengutronix.de>
- <20240307015736.4dhcrzsli4dihym5@synopsys.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJPxf7Lo1gick0aXh7pec/+ZmhA514HJCmFKONE1gl7LuK5++0ph3DSnXn9BFkIjGFTNfhkVcDl3g4HgVMZkEhsiVCXHsyRzhyFPyTa/mNT16Sz7uvRcP35oB6Kr2dhm4KGtWO/pFc2UP36JwNPUoAGaiXOI5DSSLAALw1740XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Lq+WBg8R; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Lq+WBg8R"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=1WYZfDzwGAqJU8Hrdq+9kEkrNFrZ6KcxJBYTknjo620=; b=Lq
+	+WBg8Rw2WaS1YOsmUCo7vNALu8FOjy00Jh8uga9wQAeMe6/i+ZTIy1srpErzfiBiKhhqOVdN8UVrJ
+	trWMH+8NcVOiLGbBc6DVL4LADHT9bo/n10u+oNxCQYcS+S0jK13geL+Qs7wZ6+aaEQnNMz6G8EOjm
+	UjpjXfblZBSpIp4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1riGjV-009bQa-Ox; Thu, 07 Mar 2024 17:36:37 +0100
+Date: Thu, 7 Mar 2024 17:36:37 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
+ internal PHY initialization
+Message-ID: <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
+ <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
+ <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r33SlKd0DtSnqSFk"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240307015736.4dhcrzsli4dihym5@synopsys.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
 
+> >> +static int oa_tc6_mdiobus_register(struct oa_tc6 *tc6)
+> >> +{
+> >> +     int ret;
+> >> +
+> >> +     tc6->mdiobus = mdiobus_alloc();
+> >> +     if (!tc6->mdiobus) {
+> >> +             netdev_err(tc6->netdev, "MDIO bus alloc failed\n");
+> >> +             return -ENODEV;
+> >> +     }
+> >> +
+> >> +     tc6->mdiobus->priv = tc6;
+> >> +     tc6->mdiobus->read = oa_tc6_mdiobus_direct_read;
+> >> +     tc6->mdiobus->write = oa_tc6_mdiobus_direct_write;
+> > 
+> > This might get answered in later patches. PLCA registers are in C45
+> > address space, VEND1 if i remember correctly. You don't provide any
+> > C45 access methods here. Does TC6 specify that C45 over C22 must be
+> > implemented?
+> No the spec doesn't say anything like this. But, as C22 registers are 
+> mapped in the MMS 0, registers 0xD and 0xE can be used to access C45 
+> registers indirectly. That's why the driver implemented the above 
+> functions. I agree that indirect access is slower and requires more 
+> control commands than direct access. So implementing the direct access 
+> of C45 registers will overcome this issue.
 
---r33SlKd0DtSnqSFk
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is not just about performance. It is about compliance to the
+standard. The standard does not say anything about C45 over C22. So
+there is no reason to expect a PHY device to implement it. It might,
+but its optional.
 
-On Thu, Mar 07, 2024 at 01:57:44AM +0000, Thinh Nguyen wrote:
->On Tue, Feb 27, 2024, Michael Grzeschik wrote:
->> On Thu, Feb 22, 2024 at 01:20:04AM +0000, Thinh Nguyen wrote:
->> > On Thu, Feb 22, 2024, Michael Grzeschik wrote:
->> > > For #2: I found an issue in the handling of the completion of reques=
-ts in
->> > > the started list. When the interrupt handler is *explicitly* calling
->> > > stop_active_transfer if the overall event of the request was an miss=
-ed
->> > > event. This event value only represents the value of the request that
->> > > was actually triggering the interrupt.
->> > >
->> > > It also calls ep_cleanup_completed_requests and is iterating over the
->> > > started requests and will call giveback/complete functions of the
->> > > requests with the proper request status.
->> > >
->> > > So this will also catch missed requests in the queue. However, since
->> > > there might be, lets say 5 good requests and one missed request, what
->> > > will happen is, that each complete call for the first good requests =
-will
->> > > enqueue new requests into the started list and will also call the
->> > > updatecmd on that transfer that was already missed until the loop wi=
-ll
->> > > reach the one request with the MISSED status bit set.
->> > >
->> > > So in my opinion the patch from Jeff makes sense when adding the
->> > > following change aswell. With those both changes the underruns and
->> > > broken frames finally disappear. I am still unsure about the complete
->> > > solution about that, since with this the mentioned 5 good requests
->> > > will be cancelled aswell. So this is still a WIP status here.
->> > >
->> >
->> > When the dwc3 driver issues stop_active_transfer(), that means that the
->> > started_list is empty and there is an underrun.
->>
->> At this moment this is only the case when both, pending and started list
->> are empty. Or the interrupt event was EXDEV.
->>
->> The main problem is that the function
->> dwc3_gadget_ep_cleanup_completed_requests(dep, event, status); will
->> issue an complete for each started request, which on the other hand will
->> refill the pending list, and therefor after that refill the
->> stop_active_transfer is currently never hit.
->>
->> > It treats the incoming requests as staled. However, for UVC, they are
->> > still "good".
->>
->> Right, so in that case we can requeue them anyway. But this will have to
->> be done after the stop transfer cmd has finished.
->>
->> > I think you can just check if the started_list is empty before queuing
->> > new requests. If it is, perform stop_active_transfer() to reschedule t=
-he
->> > incoming requests. None of the newly queue requests will be released
->> > yet since they are in the pending_list.
->>
->> So that is basically exactly what my patch is doing. However in the case
->> of an underrun it is not safe to call dwc3_gadget_ep_cleanup_completed_r=
-equests
->> as jeff stated. So his underlying patch is really fixing an issue here.
->
->What I mean is to actively check for started list on every
->usb_ep_queue() call. Checking during
->dwc3_gadget_ep_cleanup_completed_requests() is already too late.
+> > The standard does say:
+> > 
+> > Vendor specific registers may be mapped into MMS 10 though MMS
+> > 15. When directly mapped, PHY vendor specific registers in MMD 30 or
+> > MMD 31 would be mapped into the vendor specific MMS 10 through MMS 15.
+> > 
+> > So i'm thinking you might need to provide C45 access, at least MMD 30,
+> > via MMS 10-15?
+> Thanks for this detailed comment. If understand you correctly by 
+> consolidating all your above explanations, the driver should provide C45 
+> access to the PHY vendor specific and PLCA registers (MMD 31). As per 
+> the specification, Table 6 describes the Register Memory Map Selector 
+> (MMS) Assignment. In this, MMS 4 maps the PHY vendor specific and PLCA 
+> registers. They are in the MMD 31 address space as per spec. They can be 
+> directly accessed using read_c45 and write_c45 functions in the mdio bus.
 
-I see.
+Yes. I think this is required to conform to the standard.
 
->>
->> > For UVC, perhaps you can introduce a new flag to usb_request called
->> > "ignore_queue_latency" or something equivalent. The dwc3 is already
->> > partially doing this for UVC. With this new flag, we can rework dwc3 to
->> > clearly separate the expected behavior from the function driver.
->>
->> I don't know why this "extra" flag is even necessary. The code example
->> is already working without that extra flag.
->
->The flag is for controller to determine what kinds of behavior the
->function driver expects. My intention is if this extra flag is not set,
->the dwc3 driver will not attempt to reshcedule isoc request at all (ie.
->no stop_active_transfer()).
+> In Microchip's MAC-PHY (LAN8650), PHY – Vendor Specific and PLCA 
+> Registers (MMD 31) mapped in the MMS 4 as per the table 6 in the spec.
+> There is no other PHY vendor specific registers are mapped in the MMS 10 
+> through 15. No idea whether any other vendor's MAC-PHY uses MMS 10 
+> through 15 to map PHY – Vendor Specific and PLCA Registers (MMD 31).
+> 
+> I have given the code below for the C45 access methods. Kindly check is 
+> this something you expected?
 
-Ok.
+The code got mangled by your mail client :-(
 
->>
->> Actually I even came up with an better solution. Additionally of checkin=
-g if
->> one of the requests in the started list was missed, we can activly check=
- if
->> the trb ring did run dry and if dwc3_gadget_endpoint_trbs_complete is
->> going to enqueue in to the empty trb ring.
->>
->> So my whole change looks like that:
->>
->> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
->> index efe6caf4d0e87..2c8047dcd1612 100644
->> --- a/drivers/usb/dwc3/core.h
->> +++ b/drivers/usb/dwc3/core.h
->> @@ -952,6 +952,7 @@ struct dwc3_request {
->>  #define DWC3_REQUEST_STATUS_DEQUEUED		3
->>  #define DWC3_REQUEST_STATUS_STALLED		4
->>  #define DWC3_REQUEST_STATUS_COMPLETED		5
->> +#define DWC3_REQUEST_STATUS_MISSED_ISOC		6
->>  #define DWC3_REQUEST_STATUS_UNKNOWN		-1
->>  	u8			epnum;
->> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->> index 858fe4c299b7a..a31f4d3502bd3 100644
->> --- a/drivers/usb/dwc3/gadget.c
->> +++ b/drivers/usb/dwc3/gadget.c
->> @@ -2057,6 +2057,9 @@ static void dwc3_gadget_ep_cleanup_cancelled_reque=
-sts(struct dwc3_ep *dep)
->>  		req =3D next_request(&dep->cancelled_list);
->>  		dwc3_gadget_ep_skip_trbs(dep, req);
->>  		switch (req->status) {
->> +		case 0:
->> +			dwc3_gadget_giveback(dep, req, 0);
->> +			break;
->>  		case DWC3_REQUEST_STATUS_DISCONNECTED:
->>  			dwc3_gadget_giveback(dep, req, -ESHUTDOWN);
->>  			break;
->> @@ -2066,6 +2069,9 @@ static void dwc3_gadget_ep_cleanup_cancelled_reque=
-sts(struct dwc3_ep *dep)
->>  		case DWC3_REQUEST_STATUS_STALLED:
->>  			dwc3_gadget_giveback(dep, req, -EPIPE);
->>  			break;
->> +		case DWC3_REQUEST_STATUS_MISSED_ISOC:
->> +			dwc3_gadget_giveback(dep, req, -EXDEV);
->> +			break;
->>  		default:
->>  			dev_err(dwc->dev, "request cancelled with wrong reason:%d\n", req->s=
-tatus);
->>  			dwc3_gadget_giveback(dep, req, -ECONNRESET);
->> @@ -3509,6 +3515,36 @@ static int dwc3_gadget_ep_cleanup_completed_reque=
-st(struct dwc3_ep *dep,
->>  	return ret;
->>  }
->> +static int dwc3_gadget_ep_check_missed_requests(struct dwc3_ep *dep)
->> +{
->> +	struct dwc3_request	*req;
->> +	struct dwc3_request	*tmp;
->> +	int ret =3D 0;
->> +
->> +	list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
->> +		struct dwc3_trb *trb;
->> +
->> +		trb =3D req->trb;
->> +		switch (DWC3_TRB_SIZE_TRBSTS(trb->size)) {
->> +		case DWC3_TRBSTS_MISSED_ISOC:
->> +			/* Isoc endpoint only */
->> +			ret =3D -EXDEV;
->> +			break;
->> +		case DWC3_TRB_STS_XFER_IN_PROG:
->> +			/* Applicable when End Transfer with ForceRM=3D0 */
->> +		case DWC3_TRBSTS_SETUP_PENDING:
->> +			/* Control endpoint only */
->> +		case DWC3_TRBSTS_OK:
->> +		default:
->> +			ret =3D 0;
->> +			break;
->> +		}
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->>  static void dwc3_gadget_ep_cleanup_completed_requests(struct dwc3_ep *d=
-ep,
->>  		const struct dwc3_event_depevt *event, int status)
->>  {
->> @@ -3565,22 +3601,51 @@ static bool dwc3_gadget_endpoint_trbs_complete(s=
-truct dwc3_ep *dep,
->>  {
->>  	struct dwc3		*dwc =3D dep->dwc;
->>  	bool			no_started_trb =3D true;
->> +	unsigned int		transfer_in_flight =3D 0;
->> +
->> +	/* It is possible that the interrupt thread was delayed by
->> +	 * scheduling in the system, and therefor the HW has already
->> +	 * run dry. In that case the last trb in the queue is already
->> +	 * handled by the hw. By checking the HWO bit we know to restart
->> +	 * the whole transfer. The condition to appear is more likelely
->> +	 * if not every trb has the IOC bit set and therefor does not
->> +	 * trigger the interrupt thread fewer.
->> +	 */
->> +	if (dep->number && usb_endpoint_xfer_isoc(dep->endpoint.desc)) {
->> +		struct dwc3_trb *trb;
->> -	dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
->> +		trb =3D dwc3_ep_prev_trb(dep, dep->trb_enqueue);
->> +		transfer_in_flight =3D trb->ctrl & DWC3_TRB_CTRL_HWO;
->> +	}
->> -	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
->> -		goto out;
->> +	if (status =3D=3D -EXDEV || !transfer_in_flight) {
->> +		struct dwc3_request *tmp;
->> +		struct dwc3_request *req;
->> -	if (!dep->endpoint.desc)
->> -		return no_started_trb;
->> +		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
->> +			dwc3_stop_active_transfer(dep, true, true);
->> -	if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
->> -		list_empty(&dep->started_list) &&
->> -		(list_empty(&dep->pending_list) || status =3D=3D -EXDEV))
+> --- Code starts ---
+> 
+> /* PHY – Vendor Specific and PLCA Registers (MMD 31) */ 
+> 
+> #define OA_TC6_PHY_VS_PLCA_REG_ADDR_BASE        0x40000
+> ,,,
+> 
+> static int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int 
+> devnum, int regnum)
+> { 
+> 
+>          struct oa_tc6 *tc6 = bus->priv; 
+> 
+>          u32 regval; 
+> 
+>          bool ret; 
+> 
+>  
+> 
+>          ret = oa_tc6_read_register(tc6, 
+> OA_TC6_PHY_VS_PLCA_REG_ADDR_BASE | regnum, &regval); 
 
-@[!!here!!]
+You appear to ignore devnum. I don't think you can do that. The core
+phylib code might try to access other MMDs, e.g. it might try to see
+if EEE is supported, by reading MDIO_MMD_PCS, MDIO_PCS_EEE_ABLE.
 
->> -		dwc3_stop_active_transfer(dep, true, true);
->> -	else if (dwc3_gadget_ep_should_continue(dep))
->> -		if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
->> -			no_started_trb =3D false;
->> +		list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
->> +			dwc3_gadget_move_cancelled_request(req,
->> +					(DWC3_TRB_SIZE_TRBSTS(req->trb->size) =3D=3D DWC3_TRBSTS_MISSED_IS=
-OC) ?
->> +					DWC3_REQUEST_STATUS_MISSED_ISOC : 0);
->> +		}
->> +	} else {
->> +		dwc3_gadget_ep_cleanup_completed_requests(dep, event, status);
->> +
->> +		if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
->> +			goto out;
->> +
->> +		if (!dep->endpoint.desc)
->> +			return no_started_trb;
->> +
->> +		if (usb_endpoint_xfer_isoc(dep->endpoint.desc) &&
->> +			list_empty(&dep->started_list) && list_empty(&dep->pending_list))
->> +			dwc3_stop_active_transfer(dep, true, true);
->> +		else if (dwc3_gadget_ep_should_continue(dep))
->> +			if (__dwc3_gadget_kick_transfer(dep) =3D=3D 0)
->> +				no_started_trb =3D false;
->> +	}
->>  out:
->>  	/*
->>
->> I will seperate the whole hunk into smaller changes and send an v1
->> the next days to review.
->>
-
-I finally send a v1 of my series.
-
-https://lore.kernel.org/linux-usb/20240307-dwc3-gadget-complete-irq-v1-0-4f=
-e9ac0ba2b7@pengutronix.de/
-
-For the rest of the discussion, I would like to move the conversation to
-the newly send series.
-
->No, we should not reschedule for every missed-isoc. We only want to
->target underrun condition.
-
-As you stated above, with reschedule what you mean is calling
-stop_transfer after a missed transfer was seen?
-
-If so, why is this condition in there already? (@[!!here!!])
-
-Michael
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---r33SlKd0DtSnqSFk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmXp6A4ACgkQC+njFXoe
-LGSWkA//ZQaQ+k1jx9KQsMAKpuYUdItk4XYUxoq//AzhMksEfL9bBjueJ4c1mT5P
-nY9y0wUWelHZPDz41LBMBN0vKaWQ/8tzu6Y/iW/OQM0BTQ8qxz9tbI1DoYGCbx7s
-SylqrBgkasGvCmQ2iWacq4kcIQhx7E34xTPf05epxh7qihtYZkwzc9HSyugxXFnl
-X0SPRKYjUD13dpaGGYYp04tBzzpKgXuXSBsDyqmQvbwAtB0aBTVlgYLfmioidKDo
-wuVozstMYjo0BNypLB1GqPqgrTaRDs+3rhSZcjO2pOlJpfsGrkKfvJ4gYDHjmyvM
-fbsLtKEdvRvDq7rxm1PINWN9VOW3zGhuOiyRAAaZGSe7yZMtyCn2kPF84q/vkz8W
-MfATuXJrWbqC1qCI+dXAl/vXUg65280atKgZFBlwl/d23KuMSYrdNwBJfxYs0KWQ
-axugdmcyLIb0uMtDkT1QXwnUNBGZz8wIMaD+JcTqU9CQUbNn7BuaDpBhQxGIaPiR
-cvwmQwIynhS24OgUX+2raI+S+5rvqjGipXbTkkTEvsxbB5j3dojy4J1dT7L4/G5q
-0Xapy2geNwYImilZpvqdxSQjjiSaLVHTuN/5d4RJxdGrf5gplkExXXZuYGYQ71Z5
-kCT9HoupuDvl1OlAVDm7H5PCFG1jL+Nl75XeKuMdqE15hnszRk0=
-=LLdF
------END PGP SIGNATURE-----
-
---r33SlKd0DtSnqSFk--
+	Andrew
