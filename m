@@ -1,61 +1,76 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C507D132494
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 18:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6C161;
+	Thu,  7 Mar 2024 18:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709835490; cv=none; b=NTT43Wh7H7vniakx1uCyHvDj9rNC3Sd2ayKwd2MP/2+Mq7FgbixSUt08TzGvA7j49+DOs40TmpUYDJeRxLCysbMmKwnmEMaU1vQ/OJg3X2If+Riw3806uRe+KJ1mn3x6DnEmXMfDD2iT37Al6CuzsQNSYkAY5NbkWK199LXnFEQ=
+	t=1709837212; cv=none; b=V/ARulZ/qpp6xHU32DgZD/FeT7fMZv4/ThyRP82MuiX0vl8KArm0TmVFIX02zdDW7bujkF7UVZJydY64QYMeVFlfM3QOMxdRJiVNm6bfAirHp/IAWg6rQ8ggVCYVuqt+qJweNVZn3Yg4DfaII+1txN7+z2U8DLKBJJF+jnsLoMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709835490; c=relaxed/simple;
-	bh=Gm1+12tqQKv7crZi1oC909n2tXEtrT/LTbYSqj5bPhw=;
+	s=arc-20240116; t=1709837212; c=relaxed/simple;
+	bh=6Te2Uqo38c5XDlKMUK1IPMvLZguublo+9oaHUlFD2eQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q3nlC2QFv+5fdvQWFHGZhhvof6ZfP2sW1InG81+bg3u7bWrmJNxEtj8UwKFuMQCXOhit9HVhf+qN9cPdX+v7VM1gq2FLnm1M/wTgrP2FMEEehoF7YscRq7lWBqQfDXzOAq19VslG622gY0QpCMPqG2BZoydtyX8SRM3SApcgIaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H5aOzJ+M; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=YWGCnwjTun2AxYRNhxZZUhjtUdr+/mINADEdvT2njS+YMp73sL0tzXOOqHfNtEAi6RSj1SsH0ev/iXDSwNTv0/PHwWLYQp3gOeg+e5avUCkVrioG3f6sihuNoErulwIKzRWvi6EMl6XYkUv2a2QRt9vj7k7js+bkv0gyXLEpPJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+RIhoxA; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H5aOzJ+M"
-Date: Thu, 7 Mar 2024 13:17:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1709835485;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iHaIxY/+BiJn46m1UxNdZN63kb5NNOFAVQARDvBki5g=;
-	b=H5aOzJ+MeszkUjW7Gdq8GIb9xZvvYFafE54Qajm1X53jP+9kSZaHykmws15lGZbxbVC4sP
-	xB+aj3bB+XZoL9vVS6ke4qTd3NSX0xuXSFczxjIN4xYv/lKG+5cGIuGnJ1kVWq3Q8k+XsG
-	i3YlKbhrl9zIpdvnTlhFtaDJQqe9fLg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, 
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
-	aliceryhl@google.com, rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v5 37/37] memprofiling: Documentation
-Message-ID: <hsyclfp3ketwzkebjjrucpb56gmalixdgl6uld3oym3rvssyar@fmjlbpdkrczv>
-References: <20240306182440.2003814-1-surenb@google.com>
- <20240306182440.2003814-38-surenb@google.com>
- <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+RIhoxA"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6e622b46f45so24525b3a.1;
+        Thu, 07 Mar 2024 10:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709837210; x=1710442010; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PcSPzX8M+QJFBTpk7kbACEk4HaTU8e+pItsUzx7AYC0=;
+        b=F+RIhoxALiezzkzuPBzVnTFEtpENgOIo5Yaa2lL5+Ot/fvOfOPKUlStHMVkDf+Qk3I
+         gP9aKReLZ0Tug3FsX0uFqtu6JpHm5n7fMv3FHzj/CAXvhWV2rHq0t15HmxFDIRnj9CGR
+         qfGkapIcRaZSVIKO/thOVyIj/nEEYDSALyu9EJpIlYJe1SIAIvl/DheNHO8Q/17VWNSl
+         soV2KO+YBMn1L2qwOa9oB0GVzyPO3HbChEf/3lZzoPAO+DD9lLPXu5O8Xe0bfyb3ptGb
+         US94DtIVnnx95nj8Sb014X8HR/EIpup9a4F1nYCLEpbgiJSHWqYPHeGTbhp5K1N6ad/k
+         jlPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709837210; x=1710442010;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PcSPzX8M+QJFBTpk7kbACEk4HaTU8e+pItsUzx7AYC0=;
+        b=LO4qQgF3P13/zRb6fVNLNdA+1BVaOw0Dc0MCT203tKCgCesDJlHd1fhCdI6kNzDA95
+         sjszbFqn3mhjlejoMrNORFaMah7JraC2ky4yeWqYuG4OMcyokChyJ2AHkli/QQL1mdlu
+         Jj4Fn/LRfKdN9rJxwhcdt8cL76UZPejW/cpHfd1uCsHbk2MNn7yIzDA8AdbXictr0Q7D
+         nuWjyDleM10dgWMk4QA2s9RBKk8SiGpbXnNRNSEQNeF3w/Og9KLRwxtNIs1+K8SdyOn8
+         Bz8MBiPXSDB+gO2yd6g1ocEbd8bGzn2S+kcpzpnh3rE/nabH7cS91oF9W9XXIqWn1qPv
+         2Cfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUojbpbs+pbUnnP92kw402ceyn7AILMFLMqtWVoSSWyFmtWRq45qGa5QoYe4acFyDiSWMvqi/ikNe+jEkeINfnKl5gPNiLfyWgsvWdHpUjoF/EN+c4xIY6Nd0pWKQW5cnNhVt0135libTqhONhZncxn9IDQou8Sc2ZKCKK3LPr1cr+qXGxLIlFgyZkSJ0LVqtPhAXJz5zgQEgU+PlhroDNUt//Bw31wBVHlbumMPuJwbdegT70vvXbnALmB
+X-Gm-Message-State: AOJu0YwwL0pPXqYzPhoxBwYYd3o3n8y2tj7oH9L/NaqlewC5N4KV9XMm
+	qa0wJOnq5x3oajx5kf23frFA+Xpv0wXd3CA/waehb8Lw95taKBJN
+X-Google-Smtp-Source: AGHT+IEBJSEWz2wy7Dv0K1kwfxrU/6G1C8RKBk1lDzsP1RDNJGc2mXNjfYg/byRXJBjvJK4Pk11AUg==
+X-Received: by 2002:a05:6a20:d48c:b0:1a1:4757:927e with SMTP id im12-20020a056a20d48c00b001a14757927emr10795472pzb.33.1709837209646;
+        Thu, 07 Mar 2024 10:46:49 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j20-20020a17090ae61400b0029b2eccd158sm1885043pjy.48.2024.03.07.10.46.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 10:46:48 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 7 Mar 2024 10:46:47 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: jdelvare@suse.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	joel@jms.id.au, andrew@codeconstruct.com.au, corbet@lwn.net,
+	u.kleine-koenig@pengutronix.de, p.zabel@pengutronix.de,
+	naresh.solanki@9elements.com, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+	BMC-SW@aspeedtech.com, patrick@stwcx.xyz,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v14 1/3] dt-bindings: hwmon: fan: Add fan binding to
+ schema
+Message-ID: <11ad14bd-bf25-4c07-b704-46a744071ead@roeck-us.net>
+References: <20240221104025.1306227-1-billy_tsai@aspeedtech.com>
+ <20240221104025.1306227-2-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,147 +79,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20240221104025.1306227-2-billy_tsai@aspeedtech.com>
 
-On Wed, Mar 06, 2024 at 07:18:57PM -0800, Randy Dunlap wrote:
-> Hi,
-> This includes some editing suggestions and some doc build fixes.
+On Wed, Feb 21, 2024 at 06:40:23PM +0800, Billy Tsai wrote:
+> From: Naresh Solanki <naresh.solanki@9elements.com>
 > 
+> Add common fan properties bindings to a schema.
 > 
-> On 3/6/24 10:24, Suren Baghdasaryan wrote:
-> > From: Kent Overstreet <kent.overstreet@linux.dev>
-> > 
-> > Provide documentation for memory allocation profiling.
-> > 
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  Documentation/mm/allocation-profiling.rst | 91 +++++++++++++++++++++++
-> >  1 file changed, 91 insertions(+)
-> >  create mode 100644 Documentation/mm/allocation-profiling.rst
-> > 
-> > diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/mm/allocation-profiling.rst
-> > new file mode 100644
-> > index 000000000000..8a862c7d3aab
-> > --- /dev/null
-> > +++ b/Documentation/mm/allocation-profiling.rst
-> > @@ -0,0 +1,91 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +===========================
-> > +MEMORY ALLOCATION PROFILING
-> > +===========================
-> > +
-> > +Low overhead (suitable for production) accounting of all memory allocations,
-> > +tracked by file and line number.
-> > +
-> > +Usage:
-> > +kconfig options:
-> > + - CONFIG_MEM_ALLOC_PROFILING
-> > + - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > + - CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> > +   adds warnings for allocations that weren't accounted because of a
-> > +   missing annotation
-> > +
-> > +Boot parameter:
-> > +  sysctl.vm.mem_profiling=0|1|never
-> > +
-> > +  When set to "never", memory allocation profiling overheads is minimized and it
+> Bindings for fan controllers can reference the common schema for the
+> fan
 > 
->                                                       overhead is
+> child nodes:
 > 
-> > +  cannot be enabled at runtime (sysctl becomes read-only).
-> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=y, default value is "1".
-> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=n, default value is "never".
-> > +
-> > +sysctl:
-> > +  /proc/sys/vm/mem_profiling
-> > +
-> > +Runtime info:
-> > +  /proc/allocinfo
-> > +
-> > +Example output:
-> > +  root@moria-kvm:~# sort -g /proc/allocinfo|tail|numfmt --to=iec
-> > +        2.8M    22648 fs/kernfs/dir.c:615 func:__kernfs_new_node
-> > +        3.8M      953 mm/memory.c:4214 func:alloc_anon_folio
-> > +        4.0M     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod] func:ctagmod_start
-> > +        4.1M        4 net/netfilter/nf_conntrack_core.c:2567 func:nf_ct_alloc_hashtable
-> > +        6.0M     1532 mm/filemap.c:1919 func:__filemap_get_folio
-> > +        8.8M     2785 kernel/fork.c:307 func:alloc_thread_stack_node
-> > +         13M      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
-> > +         14M     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
-> > +         15M     3656 mm/readahead.c:247 func:page_cache_ra_unbounded
-> > +         55M     4887 mm/slub.c:2259 func:alloc_slab_page
-> > +        122M    31168 mm/page_ext.c:270 func:alloc_page_ext
-> > +===================
-> > +Theory of operation
-> > +===================
-> > +
-> > +Memory allocation profiling builds off of code tagging, which is a library for
-> > +declaring static structs (that typcially describe a file and line number in
+>   patternProperties:
+>     "^fan@[0-2]":
+>       type: object
+>       $ref: fan-common.yaml#
+>       unevaluatedProperties: false
 > 
->                                   typically
-> 
-> > +some way, hence code tagging) and then finding and operating on them at runtime
-> 
->                                                                         at runtime,
-> 
-> > +- i.e. iterating over them to print them in debugfs/procfs.
-> 
->   i.e., iterating
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 
-i.e. latin id est, that is: grammatically my version is fine
+Applied to hwmon-next. There have been a couple of questions, specifically:
 
-> 
-> > +
-> > +To add accounting for an allocation call, we replace it with a macro
-> > +invocation, alloc_hooks(), that
-> > + - declares a code tag
-> > + - stashes a pointer to it in task_struct
-> > + - calls the real allocation function
-> > + - and finally, restores the task_struct alloc tag pointer to its previous value.
-> > +
-> > +This allows for alloc_hooks() calls to be nested, with the most recent one
-> > +taking effect. This is important for allocations internal to the mm/ code that
-> > +do not properly belong to the outer allocation context and should be counted
-> > +separately: for example, slab object extension vectors, or when the slab
-> > +allocates pages from the page allocator.
-> > +
-> > +Thus, proper usage requires determining which function in an allocation call
-> > +stack should be tagged. There are many helper functions that essentially wrap
-> > +e.g. kmalloc() and do a little more work, then are called in multiple places;
-> > +we'll generally want the accounting to happen in the callers of these helpers,
-> > +not in the helpers themselves.
-> > +
-> > +To fix up a given helper, for example foo(), do the following:
-> > + - switch its allocation call to the _noprof() version, e.g. kmalloc_noprof()
-> > + - rename it to foo_noprof()
-> > + - define a macro version of foo() like so:
-> > +   #define foo(...) alloc_hooks(foo_noprof(__VA_ARGS__))
-> > +
-> > +It's also possible to stash a pointer to an alloc tag in your own data structures.
-> > +
-> > +Do this when you're implementing a generic data structure that does allocations
-> > +"on behalf of" some other code - for example, the rhashtable code. This way,
-> > +instead of seeing a large line in /proc/allocinfo for rhashtable.c, we can
-> > +break it out by rhashtable type.
-> > +
-> > +To do so:
-> > + - Hook your data structure's init function, like any other allocation function
-> 
-> maybe end the line above with a '.' like the following line.
-> 
-> > + - Within your init function, use the convenience macro alloc_tag_record() to
-> > +   record alloc tag in your data structure.
-> > + - Then, use the following form for your allocations:
-> > +   alloc_hooks_tag(ht->your_saved_tag, kmalloc_noprof(...))
-> 
-> 
-> Finally, there are a number of documentation build warnings in this patch.
-> I'm no ReST expert, but the attached patch fixes them for me.
-> 
-> -- 
-> #Randy
+- min-rpm of 1000 seems low. Fans with higher minimum RPM
+  are known to exist.
+- A default value of '2' was suggested for pulses-per-revolution.
 
+Those questions can be addressed with subsequent patches if needed.
 
+Guenter
