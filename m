@@ -1,152 +1,178 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A2F12F5B4;
-	Thu,  7 Mar 2024 18:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D8513540B
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 18:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709837635; cv=none; b=JsylR96gfu1XgR2VV6vPeg/FUp2lAAD0Qq1c+H87V3P48scotFAXYtF3bbSQWRUcPyOwFdzElGOVLr48QIqV3vl3gv0M8OKYKRDuZXlNJQncByNsKBWircXz7XrBl2jXoeCI0S6lWwdOuUBSUQyWZ39f60xnXx1KVucOw75otOk=
+	t=1709837879; cv=none; b=DvZWqZ8BlqEHsyD15yjkcxtLZQkvQm6+2jrwwyf3W6lnhKDtck3O74qW+JtKKJmTQ3hLN8/A6RIp2B84xDKXkoKI8PrfyHXO+7EWGlfgMk4fMBKF7qR0krKbg/ZDBW7rbo5rCd4+jGDszqKxCBKUSsleTMlCDZzwlhG44bOukUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709837635; c=relaxed/simple;
-	bh=I2tvYxErnY2pyuvWilMIHBxfWpiRGMTRHoeRms2zXAw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DS+SPsl5tVXYUUe4AtlJpyQRwcdvdCQ3mirX5pXLu6a236usq93Dlv2Ztbp3W3U2h42o3Q6pmlIcIfY0p9KA0V/39D0oALUS6+sSIHOwpen5ULwVyyfqTmynCSVXO7wA7E4O4MO7K4T8KvfSSpVkRrd4CEHZiywpGE3c0IOq+Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mocsx9Xy; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709837879; c=relaxed/simple;
+	bh=CzF6084T1W8QScTELrsPCEiFI9xcIZio9lEkN5NITI8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zv9W3Wq0SK9FWmDZHH39mqlGyCT88iFNBKKmMrxrVhMh9DIj7XiyPk2QcGWXLMsK90RbWIaq+JRPeHicqbVKdfZBE2MzztiUcGleJKqx06dMVoSd2k2WSyp9GdTv4s36EaSqOMXMrpjH6PX9a+fJgugAYZ+hq6XfDHDNoHfrnZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tjuPC2XX; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mocsx9Xy"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1dbae7b8ff2so10537825ad.3;
-        Thu, 07 Mar 2024 10:53:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tjuPC2XX"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-428405a0205so33851cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 10:57:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709837633; x=1710442433; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=5NiY2BP4oG9jjepM9BzhKO7lbi6TQ2GmXagV5TbJb1k=;
-        b=mocsx9XyIrfKxj0NDB54Z55tG56Jaj05M91a5DvHYikygfNsBZH8Af4A8w4ew+Zaxa
-         JHia/okGNdWtwISCiYAXqEqr8r+vOeDWeUzyJLZ4gkiyLAE2ubQrhRWUAQKHrAgZeMaJ
-         a7jsJDLNh5jwxALrHPnrZGV/07Cs4lDXCwNRg+/DeDaYleJwl7k7OynVf6ayBEvKhaVg
-         CgGT1Y81mSgrkjoSGSc56wnxRbFnfmvxpxmds8caqtCrzpJZjclkfP74twi70MNbm9gU
-         uOfrL3r3MPbh2ne4bPDBm3trDq7WJsBFlZ2J4OBG7XixrkJEHbA3Cpc5xPNdxGWWdkcn
-         HoiQ==
+        d=google.com; s=20230601; t=1709837877; x=1710442677; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SZ7MjSCLcASwCBb5p6tcLsf8sPaCyROu84a0ZYjWmlU=;
+        b=tjuPC2XX8/pBScH3jFj2KtCF66S5JUk/s/5RbUvW9M4lvmGhPZQHh1wrvszHT6xt7h
+         RS3Bu/64Crz5v2VzbHyd9+Ovs2nGpGD8yh/e+iu+dCr4uN6gEi4JfUD9YCxwIbvvtZy+
+         H8pbzso2gi306neiQ5hmUIiUDKc7VrHFlCJ4f52U0WW4chnj7oNEDpGzn7Aq1dkFcovs
+         rIu6RydrSESZS7krgHLzLtIPD+IoUBIm0zeEBrD6fCGmdgvItWLIHkjbfktkNjbagnsZ
+         H+k8gab9Uiue4Mr+YKgAmW6+bCGTGOdChh+W4JZigsy5aKs7uaGZ117aVeiDnx41KzAB
+         zoWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709837633; x=1710442433;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5NiY2BP4oG9jjepM9BzhKO7lbi6TQ2GmXagV5TbJb1k=;
-        b=xQAi+odm7g0DqKRCaIv94beon5Goc3PdH5Fq4ehmHHg8ZetzTM2Jdgno814f8MBs4C
-         OIeLwz77+Qbn5idghRSZqr6+xWPHh7e8B41I3ulgYkftuhyyrisFsvGTCbiesp6ZyaCF
-         c30DdkkNraT1Mfvj0qEJQy8XGe9P+3UvoDOq5b+IcmzpA/jmYdrzOejNepDIVbWRKkeD
-         cf+3BnH48RJp+A+nxIu42tp1gWVofkvbyD7xonUckJDcjL530gLhfVDJlb/oKvcLdIuD
-         20RAZ0Tt28AUEVVQJWQt3hu+PU0KDOnPWFZRQaVnzlHRpHiq634RJt4F0olvcJzc4VmE
-         EnWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSP24YvPPHtjCGbFa2e0fVXwdLiamdc5/nnN5ahHB3UJ0HVlW7otE5+1+gJ0b+JzU4Sg7W/Q05nwoWNQXRsKkGlM0EM3xGG+dLZSU/NAvLUeDUNtatDgWak1nyfKFFa9u7Q9pjXWiZdzKCL0KYgs10NnNR/KVEp3DAGhGQKNeAa6iGWg==
-X-Gm-Message-State: AOJu0YzoH82O91hVQVyV4QsBF2jNgx81/FASV77fXUCCZY143yoCkKvo
-	DxygaDG9WxAbBcu0HtIQBNTkU/OKilAWEsSdxNlLjk8ReYYCOSYVjVcV6HhJ
-X-Google-Smtp-Source: AGHT+IHt2lanm3f3AMLshc+VhhymDRj3AfGXf4Wx4HCC8cXNf7N4oNAp2AEcNPcLaWighUa47dXLFg==
-X-Received: by 2002:a17:902:c081:b0:1dc:a282:365f with SMTP id j1-20020a170902c08100b001dca282365fmr8309404pld.40.1709837632852;
-        Thu, 07 Mar 2024 10:53:52 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id bi10-20020a170902bf0a00b001dc3c3be4adsm14863820plb.297.2024.03.07.10.53.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 10:53:52 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9c92dac2-2cec-4f66-a8e1-4c0ccd5a3d0e@roeck-us.net>
-Date: Thu, 7 Mar 2024 10:53:50 -0800
+        d=1e100.net; s=20230601; t=1709837877; x=1710442677;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SZ7MjSCLcASwCBb5p6tcLsf8sPaCyROu84a0ZYjWmlU=;
+        b=dofGKurmirCFr38b7QlJaJfJ+iCUnR0lfAWeIewbGhxSctHb7IocrBvuMRVA3t2ejt
+         yCP/pvAPa/32tlw6JrgZYyV7G3OsosZcNW5Y4cudmzvYfYn56QOMzH6agc0gL5ZRVNKI
+         xd5VUYtWPu6hzkO7q1wpY6y5uIHgj1byWpF6GvsBbYurkAReFrekgpltJsuvXrvDzZXT
+         yNdMWZBqrHmb+HtiG2IdWs8SFpfIGI/DIZpSaPu3cx0CRa5M7Yo6RFKiMiCaNgalvb9e
+         be/0ydMMJutI1zQwmQu5q+OKYI7I7mmk2/Xb65QAxgWl7DADJbHSmtZVUnmFD8yRtLWe
+         gEMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX+6nOQgF2TNUo7V01+n20ksnE0PHR5VuWlaPxeB3ByXox6RV4iGizGbnhAwzIqn2aazSydjFK96WDP6OPwYmCAyPItoHXdDmYT
+X-Gm-Message-State: AOJu0Yy4bbSIoaG/mRZhJ0+ZGGtONPaE80xdnDqNkPI37fC10xzIxRtH
+	DsRClJGg747xBb6Ie25f0SMszlSWOPKynOzsd2EG7S6zIUSeMqyrxr4PEZrEHMDjhXNp6Xr8/bm
+	DKsEe68JKI61x6G4xtwKt0ZMoyzHNXPVMWPyp
+X-Google-Smtp-Source: AGHT+IHCuoXMd9Xg14UB44fEmJvJ1GBMDqfoF1cqrnYO3BFbg1ZEayUCInc92PMjeRbI46b5djDN6F9LBOb1yQtbCnI=
+X-Received: by 2002:a05:622a:64c:b0:42f:a3c:2d47 with SMTP id
+ a12-20020a05622a064c00b0042f0a3c2d47mr452569qtb.8.1709837876988; Thu, 07 Mar
+ 2024 10:57:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: fan: Add fan binding to schema
-Content-Language: en-US
-To: baneric926@gmail.com, jdelvare@suse.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- openbmc@lists.ozlabs.org, kwliu@nuvoton.com, kcfeng0@nuvoton.com,
- DELPHINE_CHIU@wiwynn.com, Bonnie_Lo@wiwynn.com,
- naresh.solanki@9elements.com, billy_tsai@aspeedtech.com,
- Rob Herring <robh@kernel.org>
-References: <20240227005606.1107203-1-kcfeng0@nuvoton.com>
- <20240227005606.1107203-2-kcfeng0@nuvoton.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240227005606.1107203-2-kcfeng0@nuvoton.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231201005720.235639-1-babu.moger@amd.com> <cover.1705688538.git.babu.moger@amd.com>
+ <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com> <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
+ <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com> <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
+ <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com> <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
+ <32a588e2-7b09-4257-b838-4268583a724d@intel.com> <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
+ <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com> <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
+ <1738493b-3248-4c9e-82a8-1599a033440d@intel.com> <369ab28a-f3fa-4359-8e73-4dcf214c9b6e@amd.com>
+ <54687d59-d0e4-4fe7-b25f-dc1fead01ea1@intel.com> <11487a31-908e-d474-50c6-65617d417deb@amd.com>
+ <c73f444b-83a1-4e9a-95d3-54c5165ee782@intel.com> <55b545fd-2851-0d0f-ac37-ec59838fb4b4@amd.com>
+ <1f366890-d9ff-4ac4-9af9-1ea3128a87fc@intel.com> <41ca7504-c3fb-ddb6-e149-4ff82019d678@amd.com>
+In-Reply-To: <41ca7504-c3fb-ddb6-e149-4ff82019d678@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Thu, 7 Mar 2024 10:57:45 -0800
+Message-ID: <CALPaoCi=PCWr6U5zYtFPmyaFHU_iqZtZL-LaHC2mYxbETXk3ig@mail.gmail.com>
+Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: babu.moger@amd.com
+Cc: Reinette Chatre <reinette.chatre@intel.com>, James Morse <james.morse@arm.com>, corbet@lwn.net, 
+	fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/26/24 16:56, baneric926@gmail.com wrote:
-> From: Naresh Solanki <naresh.solanki@9elements.com>
-> 
-> Add common fan properties bindings to a schema.
-> 
-> Bindings for fan controllers can reference the common schema for the
-> fan
-> 
-> child nodes:
-> 
->    patternProperties:
->      "^fan@[0-2]":
->        type: object
->        $ref: fan-common.yaml#
->        unevaluatedProperties: false
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+Hi Babu,
 
-This patch (through its submission with the aspeed-g6 fan driver) is now in hwmon-next.
+On Mon, Mar 4, 2024 at 2:24=E2=80=AFPM Moger, Babu <bmoger@amd.com> wrote:
+> Based on our discussion, I am listing few examples here. Let me know if
+> I missed something.
+>
+>    mount  -t resctrl resctrl /sys/fs/resctrl/
+>
+> 1. Assign both local and total counters to default group on domain 0 and =
+1.
+>     $echo "//00=3Dlt;01=3Dlt" > /sys/fs/resctrl/info/L3_MON/mbm_assign_co=
+ntrol
+>
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>     //00=3Dlt;01=3Dlt
+>
+> 2. Assign a total event to mon group inside the default group for both
+> domain 0 and 1.
+>
+>     $mkdir /sys/fs/resctrl/mon_groups/mon_a
+>     $echo "/mon_a/00+t;01+t" >
+> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>     //00=3Dlt;01=3Dlt
+>     /mon_a/00=3Dt;01=3Dt
+>
+> 3. Assign a local event to non-default control mon group both domain 0
+> and 1.
+>     $mkdir /sys/fs/resctrl/ctrl_a
+>     $echo "/ctrl_a/00=3Dl;01=3Dl"  >
+> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>     //00=3Dlt;01=3Dlt
+>     /mon_a/00=3Dt;01=3Dt
+>     /ctrl_a/00=3Dl;01=3Dl
+>
+> 4. Assign a both counters to mon group inside another control
+> group(non-default).
+>     $mkdir /sys/fs/resctrl/ctrl_a/mon_ab/
+>     $echo "ctrl_a/mon_ab/00=3Dlt;01=3Dlt" >
+> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_contro
+>
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>     //00=3Dlt;01=3Dlt
+>     /mon_a/00=3Dt;01=3Dt
+>     /ctrl_a/00=3Dl;01=3Dl
+>     ctrl_a/mon_ab/00=3Dlt;01=3Dlt
+>
+> 5. Unassign a counter to mon group inside another control
+> group(non-default).
+>     $echo "ctrl_a/mon_ab/00-l;01-l" >
+> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
+>
+>    $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>    //00=3Dlt;01=3Dlt
+>    /mon_a/00=3Dt;01=3Dt
+>    /ctrl_a/00=3Dl;01=3Dl
+>    ctrl_a/mon_ab/00=3Dt;01=3Dt
+>
+> 6. Unassign all the counters on a specific group.
+>     $echo "ctrl_a/mon_ab/00=3D_" >
+> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
+>
+>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>     //00=3Dlt;01=3Dlt
+>     /mon_a/00=3Dt;01=3Dt
+>     /ctrl_a/00=3Dl;01=3Dl
+>     ctrl_a/mon_ab/00=3D_;01=3D_
 
-Please do not resend. Any updates should be submitted as follow-up patches.
+The use case I'm interested in is iterating 32 counters over 256
+groups[1]. If it's not possible to reassign 32 counters in a single
+write system call, with just one IPI per domain per batch reassignment
+operation, then I don't see any advantage over the original proposal
+with the assignment control file in every group directory. We already
+had fine-grained control placing assign/unassign nodes throughout the
+directory hierarchy, with the scope implicit in the directory
+location.
 
-Guenter
+The interface I proposed in [1] aims to reduce the per-domain IPIs by
+a factor of the number of counters, rather than sending off 2 rounds
+of IPIs to each domain for each monitoring group.
 
+-Peter
+
+[1] https://lore.kernel.org/lkml/CALPaoChhKJiMAueFtgCTc7ffO++S5DJCySmxqf9ZD=
+mhR9RQapw@mail.gmail.com/
