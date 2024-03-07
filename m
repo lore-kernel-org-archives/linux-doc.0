@@ -1,202 +1,177 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2084.outbound.protection.outlook.com [40.107.244.84])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65759138490;
-	Thu,  7 Mar 2024 20:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709842626; cv=fail; b=gPCErveNp7StJ2L4EuoV66lWCba+A53WzpVT1gpz8CN9014qsRTm2phC8zaM+Yr7+MPg9PTqOS4jsz0UmZgEAPxRvxVNxtR939BcBR98EzgwGkeBlIhBe90ZO9FxW5Az4GHBkmSjr4Qf6aXLKxevKnlW5Cg2hsusZWeeW0BDmms=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709842626; c=relaxed/simple;
-	bh=N0dw2X7PtpUeknagnShwyUDnAERJ4C9WRLCokOKKXRE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OknQGu3WVXJncQBpZNOfz31l8fFakeTxJ4d8nSR1/sW54bKAZRaWKRf08D8AfOPkuEX9dvIMDrc3K7jg2Fuq5oqwnbAAQmqkFvan7zyatYEbCUD0diddWeIppOjzyreZmFI9uEZRBNheSEYGgWxUSEOlTln/SEkUk9uORx1/bdU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=T7vZfY88; arc=fail smtp.client-ip=40.107.244.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9F7137C5A;
+	Thu,  7 Mar 2024 20:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709842680; cv=none; b=heFPavcxxNYeoi2CCILAuWJIDF5RQHu5Iz6VCFriKzOKVW7T4ppVzljJhUR1o1AsdNehAEUjIR3Lav/vsFkou45TphVejBSMHWJM6rONhvBKZHc8X5SJsG0IUb5P1ZpT32O3aIZyIJRzZ874KnKWBklP1KYJletDChZdEPFEYMQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709842680; c=relaxed/simple;
+	bh=r/8blkKqYPsCBkHFNYcQBtfslcTcKITOwPP4iW8Ofpk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Mime-Version; b=Znf96/L66RbkpV0JN6fC1k15+xADtZJeb2uExLYsT7aCvkVg0kfYsScfT3YYkBCiW7vQKONtQgsM4T0HX+XvI6HeDX7MJYmfRl0tOa3dbP/QwPHw8MRO80YpZ/shQfu+5m0mz4cp6MLNfCCEeoz5B7RyQn/K5p/eEHqofCqo4E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=q5E6ACEX; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="T7vZfY88"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YOlLTBwlMmZM4tvonNrG4XcUDT1W23QwizPhaTv2CY8wo5Oasq9VQEcpl/wt0zHlz7/wPG/+J4fDzs3cd+f7FX0aYlRgVa8iUrSWC3gtm0fU4aaf2Zg/VN5oRJocim9m6sE4U0M5cY4jLzwuyvgr3N1LgWwBxmzOGNVG7W2H2eGqi0GbtKsugx0tV1/qyTy3UjtaI4kRQf1es1yj5Mfo0KI9H6zLve+9zBsoOam3O7qGVTDUpXux8FWUda6kLOIfXxmfGooAFjkshE1G/kawmXia2QTy3KJaLMc1+pHebJZmhqyXYM5qd8xY9yGrFno/J4ghUxnsJHyHJJeaj1aaZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H7s4XicH8YeybJo/rrKc8QE6AxNj/Mk8kfuPkU5a3d4=;
- b=IKjhN5gFUR0DHlkjrgaH7yQgpWKqR92BeMLVMm0vu4Y9em7uEnDpj3XqIQPX6dQAiiFx5Nre0/oLKZLDksw3uzJ+MB5cHzCr82ZqGY6e4aA0dRJ1zGKsImjwDC9CAquI3qQl3Xm7eDRW0eQ+D3+LayJV8yTW3WooAFrIyO7C3p2+JtXQFdWpOY64E6cVuklc119gIJGew3CnXnNoO6iQzkRKg8fDhkGsv00UVDIHPkdljYyZZuAnPgLf29qW9N1Bt511u0aG8opjDTV/tyB91btIYnR8qVOJTCnwkj9IeY8LeunOZyCJqSLy8F/9aLQAG9eX0XiV7NouS56lAHjuGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H7s4XicH8YeybJo/rrKc8QE6AxNj/Mk8kfuPkU5a3d4=;
- b=T7vZfY88qG1ekaAHKYMl1ARmWm/WjwPhkWeH9sow4nrnHo87x0TY/1EQYIov9i24kMG8OLMsQJkZ5csT8e6/ERabWP2D+IJw1LPZ1J37Kh+Dfq07BWZ0iI5GKDQCpdbWKagiCCYi/Y2slVtBgOKOOCBHjxINkDKJHyluo2A8lgn1yVLCp03Fhhfd/2/2OFOaD68pNDFic+FSu8t2AeqWqM9X+/IrT9XnXAS1Z/kjYFtOVbCPHaJJeUfRvD172uiM2EQ0l12kXM4qGby8Juxp16c026mZi4xJdZK6DHrzuO3Kourh7geWlFX+1l+WkhbXsG2rOA6mc6XrJNizyouxjw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
- by CY8PR12MB7609.namprd12.prod.outlook.com (2603:10b6:930:99::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.26; Thu, 7 Mar
- 2024 20:17:01 +0000
-Received: from BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::3889:abf7:8a5e:cbbf]) by BY5PR12MB4130.namprd12.prod.outlook.com
- ([fe80::3889:abf7:8a5e:cbbf%5]) with mapi id 15.20.7362.024; Thu, 7 Mar 2024
- 20:17:01 +0000
-Message-ID: <72bbe76c-fcf9-47c2-b583-63d5ad77b3c3@nvidia.com>
-Date: Thu, 7 Mar 2024 12:15:54 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 37/37] memprofiling: Documentation
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>,
- Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
- mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com,
- penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
- nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
- rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
- yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
- hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
- ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
- ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, shakeelb@google.com,
- songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com,
- rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
- kernel-team@android.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-modules@vger.kernel.org,
- kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-References: <20240306182440.2003814-1-surenb@google.com>
- <20240306182440.2003814-38-surenb@google.com>
- <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
- <hsyclfp3ketwzkebjjrucpb56gmalixdgl6uld3oym3rvssyar@fmjlbpdkrczv>
- <f12e83ef-5881-4df8-87ae-86f8ca5a6ab4@infradead.org>
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <f12e83ef-5881-4df8-87ae-86f8ca5a6ab4@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PH7PR17CA0024.namprd17.prod.outlook.com
- (2603:10b6:510:324::21) To BY5PR12MB4130.namprd12.prod.outlook.com
- (2603:10b6:a03:20b::16)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="q5E6ACEX"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 427K2M8n024240;
+	Thu, 7 Mar 2024 20:17:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=ATyzSmY6hc2fJ6cvh377et3WJ2a2h5UtxL9G4l1VoRQ=;
+ b=q5E6ACEXgJ9n/+bofQ45jHmMpHLtkGhtLV0cst3vT5nIgTpSfYbZC6VKXl298Mkhw4oH
+ 2q6TLgx+QRApD6Md604BGN2ERxMxdWhdRQJATZUGA0hhIUQJk+phHBkWaoltLBtyGiLm
+ svcEdbXzyznlzg5MSUTW+7vIL0681EnCyKVSBn4gGaymIc1V5DMHgjEEKG+Sm0aDNo7B
+ 92IUOKvdI/GUzIEuTOrPB1OSxewib6zFEUmffkwDd2aHlImnQPOy3BzmUdgpwrsGRitw
+ PDips5I7zZgVWZWjs+yK+5vvJTu1Y7JauDFritrsEkgoQvkelKJEmaSE4xyumE9tLgDO FQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wqm8ur7j1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Mar 2024 20:17:11 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 427KEjdu026733;
+	Thu, 7 Mar 2024 20:17:10 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wqm8ur7gx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Mar 2024 20:17:10 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 427IDGK8006063;
+	Thu, 7 Mar 2024 20:17:09 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wmeetg72m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 07 Mar 2024 20:17:09 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 427KH69H31523288
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 7 Mar 2024 20:17:08 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7C44258064;
+	Thu,  7 Mar 2024 20:17:06 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D725258062;
+	Thu,  7 Mar 2024 20:17:03 +0000 (GMT)
+Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.133.222])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  7 Mar 2024 20:17:03 +0000 (GMT)
+Message-ID: <ed5df367582f0c5e212638a12204fd20fd8e46e5.camel@linux.ibm.com>
+Subject: Re: [RFC][PATCH 4/8] ima: Add digest_cache_measure and
+ digest_cache_appraise boot-time policies
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+        hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+        ppavlu@suse.com, petr.vorel@gmail.com, petrtesarik@huaweicloud.com,
+        mzerqung@0pointer.de, kgold@linux.ibm.com,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Date: Thu, 07 Mar 2024 15:17:03 -0500
+In-Reply-To: <20240214143525.2205481-5-roberto.sassu@huaweicloud.com>
+References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
+	 <20240214143525.2205481-5-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-23.el8_9) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|CY8PR12MB7609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 18c9a58d-89c8-40d6-9452-08dc3ee38c0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	X2EsV2IAe4FAnTQI+rB7lTLs7uoxGxby4zg3lV+Hh8RFantomVuzBAcyCRhg0rBaWddYxbEk/6WiwAw/V+6Lo7q0zdfSbYHrD5psu4u5J+szSWKwDZI2WwWPtm5FQcb81dEdOxg0XeqMmwDTrrOkg0jvSQfdrPGYnn6qrtWcZ9xv4dTy8X7VDnIKl0QUem4RzhettuoteOaOdtA+LFdCcF9aB3a12BULVDo1Rk7BRK46KDMtPEi2DpGm3RdfNhRZscZlpVqNr7Lh3Q4kqIHwhd3vC25BZ8Pme14RpXgnmF9VpujVjWK8xrZIrRwtwQ3MlUIKgveL6clVe6yNcr9uyByR2Oo1xQeqdpN8ztHaRe8SFg3wlp7es0QjHUKMylZeCjHPvKHWQ4kt51ddT25XIlAIitIxZIAj1PgU2RG3HKsJrbh/GPNu0vwc7r2VLmJaOlgoFHwGfHzzZ15Icija5pnClLOIYzmivK1vRYvhQncU4wfG18zg2jpVtAiUZXMeA6q54OPYDScfv7rSOMe3k7cfB7sbWV+JbxbmFdRNAezm2uXQoGceTVrgIZGslJQChI0krmJgWl3GQ02v3nDO/xaBcHbtljb++ww0UpSfG1qrgMMkwbWEC2xBQlj5TnXiN5fiA27s+atesxmbTFWaagY4PCp5zwx/lNh4qV1F+00=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RVRNRUhqNnlSbjJZUTlHbk9QQmVVNFppazFXemszWURWRVc2RHNHKzJWOFl6?=
- =?utf-8?B?dThTQ1lVUUdReGNyM01tb3JnWGJJNWp3Z3haTklXdmdDV09jaVVjM1VKaU5N?=
- =?utf-8?B?WU8wdzRCUWhWeGxMQ2UwMUdZSkd3MTV1dndNa3NRT0NEWWRla0U0b2I0Qm9w?=
- =?utf-8?B?Rnd2UkxreVBieEpjQ2xmWkpkeGc0T0hPZlZZb3JJU2xVem9LU1J6TVkyYmlj?=
- =?utf-8?B?SzVxQjkxQ3UwYmp1d0hDaVRiQlVDS3I2WFVYeVlMaFE1NkZtdWJVaEhJQUhZ?=
- =?utf-8?B?cHI1VTdGREZWOUFLMU9xZkowdUVIZHNkNDdYcThORlc5LzFjcjBXSURXOG43?=
- =?utf-8?B?ZnJEdzI2QzJLbG4vMHRIN0U5dWx4RlRBbW1YVkV0eFVVQmJONmk4ajFZU3RT?=
- =?utf-8?B?V2graFhEd3l1ODdGTlZPQUFqeSsvWkpCOVdoTzJMOU0wSzhVYXVRYXBuMWIw?=
- =?utf-8?B?cDIya1NDR0JQVWdzTFk4TFo2c3ZEOEJnazMvWmtJZEhPbmpORncwR1NOVU1m?=
- =?utf-8?B?U1FpUDBpVTIwMER5dFZJOGFudkpnNjFBbExMYnlTMzVEejJFZk81KzQzbTZP?=
- =?utf-8?B?U1d6MXNaYVEybFJYOGcwU215S2tMRmZLSEh1L1d2bWtHdmppMVh6RHhJT1hP?=
- =?utf-8?B?eWY1dGlWakQ5Q0xMK1l1Qm5XRGhiY0lnaTh6clp0Qk5vWk5SZlh4MVRwSVdY?=
- =?utf-8?B?d3BMc0lKMFd3Tkc3N2pZK2FjRDcxSTFnLzBacEdRWkRqTlBZZjByVWNjL3V3?=
- =?utf-8?B?b1JaT0wyZ0V6R0xuNE54VGdVcnVsaFpHYzlSTzRZdE4yRVRxbGxuaW9ZNGo2?=
- =?utf-8?B?OUJKbk1HdmNJblo4Q0JlMGNGWFE5VnN5anA1Tm1tWVg3Z2tOOXQ2N0Jrdlhs?=
- =?utf-8?B?Ty85blJiN2FqZWhZS2FqK0VZd3pTMEV2TzdsVzErZ3pUSEk5YzVjdnQzWkFk?=
- =?utf-8?B?eGZrY3NsL0ZQMVZWaGtEcHAxNjNvKy9TTlVRNWtzNi8zMWw1N2o5aTZLOVJK?=
- =?utf-8?B?N0grd29ReDRLbGlZbmwrQmZEYkZ2Tjl3STNwNjNsazJ6Vm1tOTh4MThGUVJE?=
- =?utf-8?B?S3ViQm9OOG1TcnF1dUhiQ0VtTDRiVlMyUFZoNDg4UUhhdFRPUC9sdlIxSUhU?=
- =?utf-8?B?NUJ4MXF5clNBMmxudmxkeldNdUM5NUpVQ2xwcTVnMEpJK1phQS9WUzI3VnFC?=
- =?utf-8?B?ampxRmpkak9tRFZRMWJMcGp0b2pKamw4VFNvMGVHTDVRS29PVm5HOHd1dnFJ?=
- =?utf-8?B?YjYxcGt4bmw3NCswY1Bqd0YvdTludDdka0tVY1VkaVdWMUpWRmRlYk5Ia3NG?=
- =?utf-8?B?dDMxVDFxaEtmUk43ZXg3S0x6QXlodWNhNkdCOUkxeDdNOTBHUVZsRDN1QnZo?=
- =?utf-8?B?RE1BOXlSNG92NjlUUW5waXh5UXdRbzc1c0JzUk5hK1o4alBVL2NGL2pUWnlX?=
- =?utf-8?B?bENSNHNmVldSTGx3NjI5NmJvWDdGUzVZbm5mVFpwRFZ4MEpsS2hhKy9KNTNT?=
- =?utf-8?B?ZkYvVU4reXFIWDgvVnUrdURBRmRhSEl6T09UaTJ5YmV1eDl1dzBIc3ZYMjM4?=
- =?utf-8?B?UXBnVjVZUm9xdmVYREFwRC9OaXdzZktDNmZpdEJzNHJQdFhzY0RDYU5hVU54?=
- =?utf-8?B?aGcrNm1ia3ZvK0xRRTFXTTNIajZXSFN4QTVpZWNZYk1hMlZpNTVNVXRrL3Iv?=
- =?utf-8?B?eVVuUGZCenZaK21VQVV1TnU2LzFsY245VEFwVEllQnZ5ZzVXRTRUV3pCRGhx?=
- =?utf-8?B?R3BhVnBYNUdLS1A4TkhlNklpTmpQVS94TldQZ0crUEpnOC9KTlRueG53ZHp2?=
- =?utf-8?B?Z0E1SjduZ3VqZ0tyTmxKYzAwTjRudmw4VlBzamhhaVYyQlFVUnhJczhENW5T?=
- =?utf-8?B?Q3RIaTBoVXAxNkNoS2FqbHpLblQ3TlBsNmt6VmFoYXNNdm9Fd0NreUoyeE15?=
- =?utf-8?B?YVlCcFcxeHROUUdSL05TSWhmQjhnY1ROeVN0dHZzVytpc3ZRRTNabHJHUFVD?=
- =?utf-8?B?Y0ltem1NVTBFSXRSQVR5UXM5NTlCWlcwdXlDQzQ1US8vR3pieFlIRFAxbVNn?=
- =?utf-8?B?Vk8zaXNsR3p3Y0xKZkpRandOdGVDNzlwRXVTV2MrYTNjbURadzdWRVorSGNQ?=
- =?utf-8?B?QTNNSGcwejI3MlpVaXhLQll4TGZFU0J3NzZTeWN3am04M3YxOVhBdmwweW02?=
- =?utf-8?B?amc9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18c9a58d-89c8-40d6-9452-08dc3ee38c0c
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2024 20:17:00.9231
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8aX9+cx62u2VWbPatFvmRIH0FEDGtvJ01V77+fNZobRLlIU/4l9yam0PDiX0zd2ehjS8vamskC4Is9iiR7oNtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7609
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: TfqGrkqKNzvW7VbgqMWaMNGsy172yF4L
+X-Proofpoint-ORIG-GUID: w_l64ZQrM3m9TfhqJDI21trE_EDpnMAA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-07_15,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 mlxlogscore=999 adultscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2403070142
 
-On 3/7/24 12:03, Randy Dunlap wrote:
-> On 3/7/24 10:17, Kent Overstreet wrote:
->> On Wed, Mar 06, 2024 at 07:18:57PM -0800, Randy Dunlap wrote:
-...
->>>> +- i.e. iterating over them to print them in debugfs/procfs.
->>>
->>>    i.e., iterating
->>
->> i.e. latin id est, that is: grammatically my version is fine
->>
+On Wed, 2024-02-14 at 15:35 +0100, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
 > 
-> Some of my web search hits say that a comma is required after "i.e.".
-> At least one of them says that it is optional.
-> And one says that it is not required in British English.
+> Specify the 'digest_cache_measure' boot-time policy with 'ima_policy=' in
+> the kernel command line
+
+The 'built-in' policies may be specified on the boot command line.  Please
+update Subject line, to user the term "built-in" as well as here.
+
+>  to add the following rule at the beginning of the
+> IMA policy, before other rules:
+
+Comments below...
+
 > 
-> But writing it with "that is":
+> measure func=DIGEST_LIST_CHECK pcr=12
 > 
+> which will measure digest lists into PCR 12 (or the value in
+> CONFIG_IMA_DIGEST_CACHE_MEASURE_PCR_IDX).
 > 
-> hence code tagging) and then finding and operating on them at runtime
-> - that is iterating over them to print them in debugfs/procfs.
+> 'digest_cache_measure' also adds 'digest_cache=content pcr=12' to the other
+> measure rules, if they have a compatible IMA hook. The PCR value still
+> comes from CONFIG_IMA_DIGEST_CACHE_MEASURE_PCR_IDX.
 > 
-> is not good IMO. But it's your document.
+> Specify 'digest_cache_appraise' to add the following rule at the beginning,
+> before other rules:
 > 
+> appraise func=DIGEST_LIST_CHECK appraise_type=imasig|modsig
+> 
+> which will appraise digest lists with IMA signatures or module-style
+> appended signatures.
+> 
+> 'digest_cache_appraise' also adds 'digest_cache=content' to the other
+> appraise rules, if they have a compatible IMA hook.
+> 
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 15 ++++++-
+>  security/integrity/ima/Kconfig                | 10 +++++
+>  security/integrity/ima/ima_policy.c           | 45 +++++++++++++++++++
+>  3 files changed, 69 insertions(+), 1 deletion(-)
 
-Technical writing often benefits from a small amount redundancy. Short
-sentences and repetition of terms are helpful to most readers. And this
-also stays out of the more advanced grammatical constructs, as a side
-effect.
+[...]
+ 
+> @@ -971,6 +1006,16 @@ void __init ima_init_policy(void)
+>  {
+>  	int build_appraise_entries, arch_entries;
+>  
+> +	/*
+> +	 * We need to load digest cache rules at the beginning, to avoid dont_
+> +	 * rules causing ours to not be reached.
+> +	 */
 
-So, for example, something *approximately* like this, see what you
-think:
+"lockdown" trusts IMA to measure and appraise kernel modules, if the rule
+exists.  Placing the digest_cache first breaks this trust.
 
-Memory allocation profiling is based upon code tagging. Code tagging is
-a library for declaring static structs (typically by associating a file
-and line number with a descriptive string), and then finding and
-operating on those structs at runtime. Memory allocation profiling's
-runtime operation is simply: print the structs via debugfs/procfs.
+From a trusted and secure boot perspective, the architecture specific policy
+rules should not be ignored. Putting the digest_cache before any other rules
+will limit others from being able to use digest_cache.
+
+Instead of putting the digest_cache_{measure,appraise} built-in policies first,
+skip loading the dont_measure_rules.
 
 
+Mimi
 
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+> +	if (ima_digest_cache_measure)
+> +		add_rules(&measure_digest_cache_rule, 1, IMA_DEFAULT_POLICY);
+> +
+> +	if (ima_digest_cache_appraise)
+> +		add_rules(&appraise_digest_cache_rule, 1, IMA_DEFAULT_POLICY);
+> +
+>  	/* if !ima_policy, we load NO default rules */
+>  	if (ima_policy)
+>  		add_rules(dont_measure_rules, ARRAY_SIZE(dont_measure_rules),
 
