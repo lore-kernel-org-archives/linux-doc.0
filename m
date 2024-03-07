@@ -1,85 +1,117 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4069C12C7EA;
-	Thu,  7 Mar 2024 13:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C903D12F371;
+	Thu,  7 Mar 2024 13:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709817857; cv=none; b=gNQnk/BInLVg/u/Rp1rNw8AEm+fMj83XR3wf/6Dr/eDCSJWz+DvaDXI35sU3XHsWDHk1PRx5obCHgkCfZwkUvMdR+D8ny5R6Yu+LGszyN+lEbaqE8K1ubD4M+MHDMT1gsReOB9GhTsOOtKCO3Z/jsb5OQ7YyBHjN9cKMuT98M90=
+	t=1709818569; cv=none; b=H+TaOwsKdv6txrvTWFx2gI71PcRGTEbehGoQEWuxc1WlDL7uO0OssIRAQEfVrUzp4mopb0FMJyoued3Q/8b0xOsy0kW7uIcaaKCJJQG8QXji69GrqXH5f1HYu/xPAX7kjhFRH5rEmOinQGeW/de4mXYBciodeqyWIn1CQP9s9QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709817857; c=relaxed/simple;
-	bh=K5VjnAhLqgcIrKuBmbdYdluHgmQTNkIbBXmGWTbBaDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V1rOXdkZaWdR54teLRsHV3Z2zLdpBF3kg+RAhRlaQeG1vs1A65tgij8R9lzGxtv8/GXMQRBDvLC1EKnULBMyVnTxLZ0t0s28eOtz5QZHtcknp35XZdG2w4I2cwdkrjNJGJSCPsRUfCPxd7a1NbxpVMfF76FZKL7NHjT8o/3v04E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nblXYr5c; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1709818569; c=relaxed/simple;
+	bh=kPd6mmXqJlgeS1LgIgTNMjfo5t5AhILJdmhpHy1uxyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=csmff/d9p4QDN8L6spf52w5NHxiyhEnoDdmRmOTn3+exFWEw+9m74L/jnwkTwVksn95N1IztF6rUEBYTrVIno5jdFNNlibZHW/bkn6W3kuA/BArvj6BZ/BxR/JxB7DLxiK11o/XNiUp4R0H/Mriv2H0U5BCCRiGliofStvaWURM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HfV2V92V; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nblXYr5c"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=pUbIJXM5q/s25N6bZHP6NwQ+8ibrrNHeuJIIUXveGVM=; b=nblXYr5cqdijK1j9uYJ8V5aytH
-	Wm8KwgVeGS2NgSlv9HDNnpu701KVqvKW30l9Ctoz2sT2ZjU5zut5XIMreSzf24xTXuZADDCOjTcQG
-	mfsKOJJjDqtq0vksRCI7PmUsD9Jw7yQBtm2J+KwabRrrjrwDVBkPwOgC0qSQiQzsxpjc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1riDjg-009aVk-T9; Thu, 07 Mar 2024 14:24:36 +0100
-Date: Thu, 7 Mar 2024 14:24:36 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v3 04/12] net: ethernet: oa_tc6: implement
- software reset
-Message-ID: <31a09423-276a-415b-a7b8-4aab04021a82@lunn.ch>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-5-Parthiban.Veerasooran@microchip.com>
- <4e56f5c2-3d5c-4dda-8a37-01c1dbce27d7@lunn.ch>
- <bff71d0b-49d0-4a4c-98c1-7df7056c4268@microchip.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HfV2V92V"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33e285a33bdso481740f8f.2;
+        Thu, 07 Mar 2024 05:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709818566; x=1710423366; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1KgEltFIoyV/v4bc8+VtNWH2xoTrTmJYgfHpGTY7mHA=;
+        b=HfV2V92VWS+D5YAJ5q7iIgpYNq7QvQ4I+igjFhiXH/BC0/sNu5l9hA1MsXwsmuu7Ci
+         BsnzDaM3ONTlcT2rBJQExZvSXj6XC3voEWsossA8VErjfVaTjXbE3ZOxhE7/Z4lRgznA
+         cAQ1B/olRhz0v+rhoabEf3F3nd5MLK5RqvZgFGZCARtot2blnbk5XzXCG5S3d5vHGB5x
+         hu3bKHk9S7YlJ63QW5xUJd5fLwBpOl9U3qyZ45FDRKFrHzFNolB+jShQNd9Gg9kITyAJ
+         KjoipMaDYU9OvxUY0WqeNmNyOG+E5fD56uWsBUMAxF/Vvvy+2g7hAqpJ5T2Oahc8R7Ob
+         rliw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709818566; x=1710423366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1KgEltFIoyV/v4bc8+VtNWH2xoTrTmJYgfHpGTY7mHA=;
+        b=nUHpETUfBTGiZgM6zU9dpe1QNM/I5cBReEwMawUO1G6sCkgBkFOdKsvtMDUTsQjPAx
+         w+Bi2v9qj3nDotrDCLTRIDmzvkZELDCFSImY1Xw3fIfccniJG3kSej4NsfyI2sQePOWx
+         8A831QURGRFXW9LR4orxcsN/lfpFF6sW1lRp9hSibKJEet5I5s21DZeeZEqIAM/e82Bq
+         nvlvItr7mgBqr2MJ9ubfJxhwpXgNUG2hvf5WxT1x9Ji1bcx2hvIL0RrE0WOaeoZsuK8D
+         /Oi0IriRbjMGkkwW/HOpdFazxIAtRkxO92F4KHFtqY+CFoAUCAcErNMcmfyXuTtKD6lu
+         WSBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyLGvbxAuhQ2IjzBUdakdFx+r4raHY83Hdau2GdBGe/DRJFsvcG1+GvqcFRhtl4TTYlqI/cgUkXRtUvH/WI8PkFWY1xe+c2a5BrAjBROZGThB+0QCYlhKxpndx+WjU0zjJgCVdNKh8Y2Cdc+CzMLIsidlT0q9Jg0sg6dl4IDfsf2LD3Di3x9utNNZ9Bg==
+X-Gm-Message-State: AOJu0YyHPCYXCcb+G38fXIVpe3o0ZXUPsPiBgec0/SBDoN2a/H4eG43N
+	9RWZz6ucL7rscYMCfxpJYZItUuNsG1IjVbnkx8xRt4qW+8AdjvzS
+X-Google-Smtp-Source: AGHT+IEqqBYmdNbWbOxi/AKixJKzkGPw9LEH2Z2epCP38cLi8XKLklPOQ0wvV6mb+hPFifQflYlB0Q==
+X-Received: by 2002:adf:ffd2:0:b0:33d:3abc:8a4a with SMTP id x18-20020adfffd2000000b0033d3abc8a4amr13749829wrs.62.1709818565701;
+        Thu, 07 Mar 2024 05:36:05 -0800 (PST)
+Received: from laptop.. ([62.23.155.154])
+        by smtp.gmail.com with ESMTPSA id bw1-20020a0560001f8100b0033db0c866f7sm20679901wrb.11.2024.03.07.05.36.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 05:36:05 -0800 (PST)
+From: Erwan Velu <erwanaliasr1@gmail.com>
+X-Google-Original-From: Erwan Velu <e.velu@criteo.com>
+To: 
+Cc: Erwan Velu <e.velu@criteo.com>,
+	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>,
+	Carlos Bilbao <carlos.bilbao@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] doc/arch/x86/amd/hsmp: Updating urls
+Date: Thu,  7 Mar 2024 14:35:59 +0100
+Message-ID: <20240307133601.103521-1-e.velu@criteo.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bff71d0b-49d0-4a4c-98c1-7df7056c4268@microchip.com>
+Content-Transfer-Encoding: 8bit
 
-> >> +static int oa_tc6_read_sw_reset_status(struct oa_tc6 *tc6)
-> >> +{
-> >> +     u32 regval;
-> >> +     int ret;
-> >> +
-> >> +     ret = oa_tc6_read_register(tc6, OA_TC6_REG_STATUS0, &regval);
-> >> +     if (ret)
-> >> +             return 0;
-> >> +
-> >> +     return regval;
-> > 
-> > The function name does not really fit what the function does. The
-> > function returns OA_TC6_REG_STATUS0. I assume it has more bits in it
-> > than just STATUS0_RESETC. So either this function should be called
-> > oa_tc6_read_status0, or you should mask regval with STATUS0_RESETC, so
-> > that it does actually return the sw reset status.
-> Ok, as we do the masking in the calling function readx_poll_timeout, as 
-> you suggested I will change the function name as oa_tc6_read_status0 in 
-> the next version.
+When reading this page, some links were broken.
+This commit updates links to get documentation actually pointing the
+intended content.
 
-O.K. And i think some of the later patches can them make use of this
-generic function.
+Signed-off-by: Erwan Velu <e.velu@criteo.com>
+---
+ Documentation/arch/x86/amd_hsmp.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-	Andrew
+diff --git a/Documentation/arch/x86/amd_hsmp.rst b/Documentation/arch/x86/amd_hsmp.rst
+index c92bfd55359f..1e499ecf5f4e 100644
+--- a/Documentation/arch/x86/amd_hsmp.rst
++++ b/Documentation/arch/x86/amd_hsmp.rst
+@@ -13,7 +13,8 @@ set of mailbox registers.
+ 
+ More details on the interface can be found in chapter
+ "7 Host System Management Port (HSMP)" of the family/model PPR
+-Eg: https://www.amd.com/system/files/TechDocs/55898_B1_pub_0.50.zip
++Eg: https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/55898_B1_pub_0_50.zip
++
+ 
+ HSMP interface is supported on EPYC server CPU models only.
+ 
+@@ -97,8 +98,8 @@ what happened. The transaction returns 0 on success.
+ 
+ More details on the interface and message definitions can be found in chapter
+ "7 Host System Management Port (HSMP)" of the respective family/model PPR
+-eg: https://www.amd.com/system/files/TechDocs/55898_B1_pub_0.50.zip
++eg: https://www.amd.com/content/dam/amd/en/documents/epyc-technical-docs/programmer-references/55898_B1_pub_0_50.zip
+ 
+ User space C-APIs are made available by linking against the esmi library,
+-which is provided by the E-SMS project https://developer.amd.com/e-sms/.
++which is provided by the E-SMS project https://www.amd.com/en/developer/e-sms.html.
+ See: https://github.com/amd/esmi_ib_library
+-- 
+2.44.0
+
