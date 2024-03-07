@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9676E1D699
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 11:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFBDDDC9
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 11:20:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709810146; cv=none; b=Zv6q3UjqSMwbdRku3aeQT/bx8EXI7k3YCZ4cyezqfin9dL/mtG1uM7Fpy1ak3QsI3Zi5alXRMsKZ3mokIctnXVBTIFxuPfVDYdGIZCHqE4yHXRCRzuvR1Lu6z2CNCM+RN+BuW+/Tvmuu8Yw+6nkolEC1oYMIsWmMzImBFfLq3gA=
+	t=1709810424; cv=none; b=urYIhR6YU1yZLUGnfziWQaRtrZWYJIO1ZSU30mab69Popzc4X8ejpIl8L7PtbCzb9NfryVHFXgMFhfZuHHvSeYEO9p40aug2wSjK7bjNnIjZLOjGv976eGPp1Pl1ZhNnSuaDB/VvuoPs5is2mn/I7XfOJCJ0U/JzFnlf5mSpKhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709810146; c=relaxed/simple;
-	bh=6EvlWT+S0R2V+54Ygt9FEE0KiWIaTf39AZarTMcYy8w=;
+	s=arc-20240116; t=1709810424; c=relaxed/simple;
+	bh=fJBOKVWu3kgpC3Rdw5yG6kODOEKg/+upYsBKSvbp+6I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YREN6rDcy1D6cVFMa5c01t4U+UY6LmMgJLX2xiPstMS/oM35EYIoWCrsNO+k77Sc6xZ/3uLBvVc1aNLcCcaM6iM5v7LWpvtCPJDCm1Kc64Lor/9jzZ6AdpLg7TUCvAJmSIdYvDrvf6eHgFgmcIL8mASnHrVpPib38Wx/khuBWK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=U2XOefEo; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=HEmp9YMmKkerDmtDVm60tWq1wu+uHnPlr/6hEfKb+GdwDadU3psdoEGNrnt4P6jzTUHTX+6mHU0XGDZkkGkN8fpGLjxaO5Y+0NvHFCEN6g7f7HH/8RtnYTeIGBDBIfaCfPkbZKZ2NkzxKu1ItVwRyY/pbQhcxLTnXhm6W1H/6Rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M5/6jdEp; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="U2XOefEo"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M5/6jdEp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709810143;
+	s=mimecast20190719; t=1709810421;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3BsOQTb/Qz/4Q0ul9t6TVhJi7UErvuV0EjOwbLcAigo=;
-	b=U2XOefEoAJN36Maccq3KPYqj3za2iqGD5Jdqh+sqipLVoUX8qDLy0qpYTbCruwvpYauQo0
-	0tljCLjdv7e8VCXJPBcuS+dcqvy9l38T0aB+9gpIHrpbEmdsV/rh89KJiJ6R01CAYjNE4i
-	tYYY/wFSM2OFnT2PvWUyPeQGA0xTWPk=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=T3S+gBBiGC+cC9yPoPCyuB6+zTSWw3v8rgYOSL8U7bE=;
+	b=M5/6jdEpZsLqqGx+VmtfeQI3j11WaJZKtowbsJDL3BaBzBwx4BFZuUqu1zM72ke+47g45Z
+	WDY2WjEgFwpAedOIBLi150inoAilD/Xv+HPixYYpPyhwbuV06XrDoche0sDuFCJEXgY021
+	oW611QmkGvklgMk2w+b/bmo5vCfmfvo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-338-YzbJTtueNcqiTzAu51dRmQ-1; Thu, 07 Mar 2024 06:15:42 -0500
-X-MC-Unique: YzbJTtueNcqiTzAu51dRmQ-1
-Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-5135a84b942so847082e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 03:15:41 -0800 (PST)
+ us-mta-638-RVNDJZGgPjGY5wQrRubquw-1; Thu, 07 Mar 2024 06:20:20 -0500
+X-MC-Unique: RVNDJZGgPjGY5wQrRubquw-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-412d433bba5so4543905e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 03:20:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709810140; x=1710414940;
+        d=1e100.net; s=20230601; t=1709810419; x=1710415219;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
          :references:cc:to:content-language:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3BsOQTb/Qz/4Q0ul9t6TVhJi7UErvuV0EjOwbLcAigo=;
-        b=TkjjzGqvO56HdHPDaWoUqdr4+Sb+Iq5Y5UKQzQwxyammfvyOcPeB4t+XCK8SsrTvhd
-         odCOlkRAY4fAZPMLAvzbUj5ZwP/pUnz0xFp9Ypyifx/2s6CTW7zOHQy/sfBr82ZKXxfC
-         pbXZeknTYzGvqMmvftce4BVSu2MCJ3fVY6gATtQtxY18BwI8D4nz4MOGnm6IIgfU4b38
-         lET5966uuVnozvZ3jKWtSlCevxBbTP2P7aLfGlK/7KhlaBULUlS6bzAuH6RNi7w5ihT6
-         pMk39WFNWq7NPOD1i4NoeAW1P+M8oVTz8Smb1wfQnv4WaIz67XBPUOUaWlaN53Gi3h/D
-         Ny/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWHNx9IXnsSIDT2fCrjjJSe/4CEJogpF0zH6Sl5lpS/k7eAs9w/uCja1g4Qpmi6Kr102TROiJl0jI32tmhqoo54EU/aDHS5LE1P
-X-Gm-Message-State: AOJu0YwEF3aMalzHPyillZRwFAWHk6sc0kILag8CmTnOlGfhT1RnyqXQ
-	aC5P9/X9goDUT+rXa0U3dc1xrfnbyVJjuGMEGM4YTlIqwsP/B4CqOBkNWfvevUo/wr0cNW+73gg
-	Y4hmIBg6oB4tGItNDVKvbcSnWKV2FZCLEzQLVvCcvjmqwNZuEhKRjSb7H7PulY5Y5zw==
-X-Received: by 2002:a19:c218:0:b0:513:def:9c8a with SMTP id l24-20020a19c218000000b005130def9c8amr1031571lfc.69.1709810140652;
-        Thu, 07 Mar 2024 03:15:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGWiBMQvQsZXYkZpJ9/0SH18KKFWyY/LrnFAr8l9+dL5bmDLAOBPSjdoNpD0tQxR3Xgz6dK4g==
-X-Received: by 2002:a19:c218:0:b0:513:def:9c8a with SMTP id l24-20020a19c218000000b005130def9c8amr1031548lfc.69.1709810140173;
-        Thu, 07 Mar 2024 03:15:40 -0800 (PST)
+        bh=T3S+gBBiGC+cC9yPoPCyuB6+zTSWw3v8rgYOSL8U7bE=;
+        b=UcFClKctka/D5tZfx0mm2+tJqz1T/fIz36MiiwPsVBbXM4jNfa6a+7x/9lPwfWcv8d
+         0QSkmQiu0p2CnI89JauqIzr2XWnAB1NKSfGynGhxCYHriDA3RoWWEOc/GlWiA1VzqYTb
+         y15nhBD6zp/kQU6woN+SBnw3bXKeqzcZ/Ther6LZc3LYMEtALJQS9hw0MlAV5FFnBa6m
+         6gkxmxoXAtrzkVsYv0hA9TuHjbMjZm2d2jn3cqslRIGCD3UZCpMJbK7+NsryeWIBTYGS
+         r6FF6/QDyO7K1YjT9L+3QhUHzU5Fcz5zFa1uz99iXDSCIPJ4FOcvJ4LQPYZscKlVmCSS
+         hP5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUKZ2QhVepcFRjf5pwcDI2U9aRpt8HsUYrlYMKwc3mpwLhetGEVRj38NtPe92UBeZOKasGw8KfqGvXe/sm5evqFDY9kXfIOpUmW
+X-Gm-Message-State: AOJu0YybCmaA5hq7qdIr9HpTBCSUFcWSLzYqPtEANTUt/AFJQN7Y0XWA
+	ceWm8S1zzUlYC1wrpumAM27E5fh+1XklUO2uhH89RAYvqZZEOxyOYPZnYwlJhvOrGzjA1in0/2Q
+	lneN2GwFcF5BO6PG38D3Ev9muabVsBvV7RtS4diH1VWQTbtejE23/aM0FIC7ObSU8Ig==
+X-Received: by 2002:a05:600c:34d4:b0:412:eddd:12ad with SMTP id d20-20020a05600c34d400b00412eddd12admr5559549wmq.33.1709810419383;
+        Thu, 07 Mar 2024 03:20:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH5DAdcAYEJic676KLzGOBvUMTYZ0gt2jHmHrLssTtgX9xQo7uLXszebrBAe+xRJuODn/1+lw==
+X-Received: by 2002:a05:600c:34d4:b0:412:eddd:12ad with SMTP id d20-20020a05600c34d400b00412eddd12admr5559532wmq.33.1709810418997;
+        Thu, 07 Mar 2024 03:20:18 -0800 (PST)
 Received: from ?IPV6:2003:cb:c74d:6400:4867:4ed0:9726:a0c9? (p200300cbc74d640048674ed09726a0c9.dip0.t-ipconnect.de. [2003:cb:c74d:6400:4867:4ed0:9726:a0c9])
-        by smtp.gmail.com with ESMTPSA id v12-20020a05600c470c00b00412b4dca795sm2376146wmo.7.2024.03.07.03.15.39
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b0041312bdcd6fsm845702wmo.40.2024.03.07.03.20.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 03:15:39 -0800 (PST)
-Message-ID: <9ebc9faf-0bb0-4409-b93a-5beddfc4929b@redhat.com>
-Date: Thu, 7 Mar 2024 12:15:38 +0100
+        Thu, 07 Mar 2024 03:20:18 -0800 (PST)
+Message-ID: <7d9321db-a3c1-4593-91fa-c7f97bd9eecd@redhat.com>
+Date: Thu, 7 Mar 2024 12:20:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] [RFC] pagemap.rst: Document write bit
+Subject: Re: [PATCH 1/2] [RFC] proc: pagemap: Expose whether a PTE is writable
 Content-Language: en-US
 To: Richard Weinberger <richard@nod.at>
 Cc: linux-mm <linux-mm@kvack.org>,
@@ -82,9 +82,8 @@ Cc: linux-mm <linux-mm@kvack.org>,
  Andrew Morton <akpm@linux-foundation.org>,
  usama anjum <usama.anjum@collabora.com>, Jonathan Corbet <corbet@lwn.net>
 References: <20240306232339.29659-1-richard@nod.at>
- <20240306232339.29659-2-richard@nod.at>
- <db29666a-32b8-4bf6-ab13-7de3b09b0da1@redhat.com>
- <861682210.23281.1709809857201.JavaMail.zimbra@nod.at>
+ <d673247b-a67b-43e1-a947-18fdae5f0ea1@redhat.com>
+ <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -131,33 +130,42 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <861682210.23281.1709809857201.JavaMail.zimbra@nod.at>
+In-Reply-To: <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 On 07.03.24 12:10, Richard Weinberger wrote:
 > ----- Ursprüngliche Mail -----
 >> Von: "David Hildenbrand" <david@redhat.com>
->> An: "richard" <richard@nod.at>, "linux-mm" <linux-mm@kvack.org>
->>> +   Bit 58 is useful to detect CoW mappings; however, it does not indicate
->>> +   whether the page mapping is writable or not. If an anonymous mapping is
->>> +   writable but the write bit is not set, it means that the next write access
->>> +   will cause a page fault, and copy-on-write will happen.
+>> But why is that required? What is the target use case? (I did not get
+>> the cover letter in my inbox)
 >>
->> That is not true.
+>> We're running slowly but steadily out of bits, so we better make wise
+>> decisions.
+>>
+>> Also, consider: Architectures where the dirty/access bit is not HW
+>> managed could indicate "writable" here although we *will* get a page
+>> fault to set the page dirty/accessed.
 > 
-> Can you please help me correct my obvious misunderstanding?
+> I'm currently investigating why a real-time application faces unexpected
+> page faults. Page faults are usually fatal for real-time work loads because
+> the latency constraints are no longer met.
 
-We'll perform a page copy of an anonymous page only if the page is not 
-detected as exclusive to the process.
+Are you concerned about any type of page fault, or are things like a 
+simple remapping of the same page from "read-only to writable" 
+acceptable? ("very minor fault")
 
-So a better description could be:
+> 
+> So, I wrote a small tool to inspect the memory mappings of a process to find
+> areas which are not correctly pre-faulted. While doing so I noticed that
+> there is currently no way to detect CoW mappings.
+> Exposing the writable property of a PTE seemed like a good start to me.
 
-"In an private mapping, having the writable bit clear can indicate that 
-next write access will result in copy-on-write during a page fault. Note 
-that exclusive anonymous pages can be mapped read-only, and they might 
-simply get remapped writable during the next write fault, avoiding a 
-page copy."
+Is it just about "detection" for debugging purposes or about "fixup" in 
+running applications?
+
+If it's the latter, MADV_POPULATE_WRITE might do what you want (in 
+writable mappings).
 
 -- 
 Cheers,
