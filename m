@@ -1,102 +1,105 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6A81292F3;
-	Thu,  7 Mar 2024 11:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691AE12AAF3;
+	Thu,  7 Mar 2024 11:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.201.40.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709812099; cv=none; b=LwCgzMd8NjG/KqllJX5hBR/BespSuPRmjnxLJWsBVxcAiHhbUwZz4DcWAEwtHh6FYsaV/LImnM6jSGNkxn+DVIrxoRo/pGrCcDAsJSFfEGJ2OxeOEWD7ASMBGdOw8zDc0NVz7WVFMvsXAC8XfuiuvJTYlLUbRoPJigTU0uALizU=
+	t=1709812273; cv=none; b=RkHPpsCHQyDahZjsGzTUPRaaamQ5v8ZPIq8PRWZyl0iVCg7x+Yb5tPhJ9iyAmEhQEc3Lz2Z+6NYX0XYEIHRZfDr/0vtmkCnSe6nH7xeCDCuY/GtaLmOitN93dKZEdTcYq9vfvF0gbEyAO1t2ymcfZmiGfxIUob3fHkcr4LUNeuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709812099; c=relaxed/simple;
-	bh=+NFhUoHsm1k3teppr6MH5QMBv/O4fijuunYR0JJDBeE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ODBxksG+GVElrncZvE4wN7uHCGRaeFRTt+o8VD5Ho4TsI+Egl1JwoObSsy0fekObJH3RMnAkWL5eRDY1X6GB56Xd8z1wLp1fz4n1Vcqnk4EjtD71DgYCP3ZQ70ggzP/2FmOeoWtnzX9Pd2SoVbH61/X6FnM3nGUgv8VquUI28nU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kxpcfwwc; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kxpcfwwc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 94974419F6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1709811617; bh=FmaCOdSpzTDO+fx/nlS5kQLhsJEKyzgeV8XwYx9O5Fc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=kxpcfwwcWbrdGd+gN6hesYJ00BzxZIN9Ni6iL33tmTfDRi7nforCr+yM4PmygA/Z0
-	 8FppJ530gOgPnBZQN9X57tbfuJVWRLdbDHy6QzGHjzy3FkiKz24s9WgZHug6pgubOW
-	 ncUK9BvvNvoNHp5fE3/fQOMNcqP574GqGuEdj7cYrk7gYtzr8njPrEhdylyVGdgFZy
-	 6rd1AbtBpIzveaq+uNRyVqo4j3FuI9qk+NV5zgKdnU79ru/Rlc2koCDagbJep8kzM+
-	 HFASYKWAjDBgsy5GVu2bK3Rv+tidIEaRL1ZY6ezccAYAyqa9H7gOAM393IEOtyXGdn
-	 bINub1o2LTQ7w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 94974419F6;
-	Thu,  7 Mar 2024 11:40:16 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, Petr
- =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-Subject: Re: [PATCH v1] docs: verify/bisect: fixes, finetuning, and support
- for Arch
-In-Reply-To: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
-References: <6592c9ef4244faa484b4113f088dbc1beca61015.1709716794.git.linux@leemhuis.info>
-Date: Thu, 07 Mar 2024 04:40:12 -0700
-Message-ID: <87o7bqjmn7.fsf@meer.lwn.net>
+	s=arc-20240116; t=1709812273; c=relaxed/simple;
+	bh=Zmu5uMIZDi7UNA1wCNOlWfc1y0uv4VP1QuGxQKiV3nw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=YEDSYFMdPfddg84lxETVyegVO7h4XZkRZVHMmFrH82aWHozXpdigenmZBwG27xnTyHh+Eo2lNx4x7QADwNz5Bd15dJAVjiEN3HUt5/SxTc2z2JIcsDllJmOal8d+5FG9cuNk2YVHsyD/NrnXTLRBtlu+4Js0tOlkNveKlOZxG9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=195.201.40.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 84821644CE90;
+	Thu,  7 Mar 2024 12:51:08 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id Tmxdw1VxKfDn; Thu,  7 Mar 2024 12:51:08 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id EB46A644CE95;
+	Thu,  7 Mar 2024 12:51:07 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id lkpkYE8omJqX; Thu,  7 Mar 2024 12:51:07 +0100 (CET)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id B2713644CE90;
+	Thu,  7 Mar 2024 12:51:07 +0100 (CET)
+Date: Thu, 7 Mar 2024 12:51:07 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-mm <linux-mm@kvack.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
+	upstream+pagemap <upstream+pagemap@sigma-star.at>, 
+	adobriyan <adobriyan@gmail.com>, 
+	wangkefeng wang <wangkefeng.wang@huawei.com>, 
+	ryan roberts <ryan.roberts@arm.com>, hughd <hughd@google.com>, 
+	peterx <peterx@redhat.com>, avagin <avagin@google.com>, 
+	lstoakes <lstoakes@gmail.com>, vbabka <vbabka@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	usama anjum <usama.anjum@collabora.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Message-ID: <1525238492.23321.1709812267495.JavaMail.zimbra@nod.at>
+In-Reply-To: <7d9321db-a3c1-4593-91fa-c7f97bd9eecd@redhat.com>
+References: <20240306232339.29659-1-richard@nod.at> <d673247b-a67b-43e1-a947-18fdae5f0ea1@redhat.com> <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at> <7d9321db-a3c1-4593-91fa-c7f97bd9eecd@redhat.com>
+Subject: Re: [PATCH 1/2] [RFC] proc: pagemap: Expose whether a PTE is
+ writable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: proc: pagemap: Expose whether a PTE is writable
+Thread-Index: Q0zWB5x1mF33ot5wjbCf6WpNKPSWOg==
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+----- Urspr=C3=BCngliche Mail -----
+> Von: "David Hildenbrand" <david@redhat.com>
+>> I'm currently investigating why a real-time application faces unexpected
+>> page faults. Page faults are usually fatal for real-time work loads beca=
+use
+>> the latency constraints are no longer met.
+>=20
+> Are you concerned about any type of page fault, or are things like a
+> simple remapping of the same page from "read-only to writable"
+> acceptable? ("very minor fault")
 
-> Assorted changes for the recently added document.
->
-> Improvements:
->
-> * Add instructions for installing required software on Arch Linux.
->
-> Fixes:
->
-> * Move a 'git remote add -t master stable [...]' from a totally wrong
->   to the right place.
->
-> * Fix two anchors.
->
-> * Add two required packages to the openSUSE install instructions.
->
-> Fine tuning:
->
-> * Improve the reference section about downloading Linux mainline sources
->   to make it more obvious that those are alternatives.
->
-> * Include the full instructions for git bundles to ensure the remote
->   gets the right name; that way the text also works stand alone.
->
-> * Install ncurses and qt headers for use of menuconfig and xconfig by
->   default, but tell users that they are free to omit them.
->
-> * Mention ahead of time which version number are meant as example in
->   commands used during the step-by-step guide.
->
-> * Mention that 'kernel-install remove' might do a incomplete job.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->
-> Lo! A quick note reg "mention ahead of time which version numbers are
-> meant as example in commands used during the step-by-step guide". I did
-> that, as I've seen someone following the guide without replacing the
-> version numbers, so pointing this out with a few words seemed wise. But
-> I'm not sure if the way I did it was the best; if someone has a better
-> idea how to do that, please let me know. Ciao, Thorsten
-> ---
->  .../verify-bugs-and-bisect-regressions.rst    | 135 +++++++++++-------
->  1 file changed, 84 insertions(+), 51 deletions(-)
+Any page fault has to be avoided.
+To give you more background, the real time application runs on Xenomai,
+a real time extension for Linux.
+Xenomai applies already many tweaks to the kernel to trigger pre-faulting o=
+f
+memory areas. But sometimes the application does not use the Xenomai API
+correctly or there is an bug in Xenomai it self.
+Currently I'm suspecting the latter.
+=20
+>>=20
+>> So, I wrote a small tool to inspect the memory mappings of a process to =
+find
+>> areas which are not correctly pre-faulted. While doing so I noticed that
+>> there is currently no way to detect CoW mappings.
+>> Exposing the writable property of a PTE seemed like a good start to me.
+>=20
+> Is it just about "detection" for debugging purposes or about "fixup" in
+> running applications?
 
-No better ideas...I've applied this, thanks.
+It's only about debugging. If an application fails a test I want to have
+a tool which tells me what memory mappings are wonky or could cause a fault
+at runtime.
 
-jon
+I fully understand that my use case is a corner case and anything but mainl=
+ine.
+While developing my debug tool I thought that improving the pagemap interfa=
+ce
+might help others too.
+
+Thanks,
+//richard
