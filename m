@@ -1,66 +1,66 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AB726AF5
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 11:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3E4128801
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 12:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709812774; cv=none; b=L3fNyQ/md2SNU+9aJ0wnJ4GeOQcr+LzkvjVBrwhHkoSUFoCd9Ajxx3j7L2U4ibJu8d0HzxPr+FQdGnsqg/y9enNi0I/EQraJ6EebKYi5OnaZ/tkHmm0V0C0LzwNZpufrJI4WOP2qu6KmpelwyswJdZBKnHJ2j8+YDmo7Wjni7Ns=
+	t=1709813376; cv=none; b=JCRYVgXimA2SSFTYa4pb9CpYO7OfinWQkAD3I28qpfChC9tQ8Loh0MeNJ/nfII3H/exXae9E5nl2G/EX4xN65RIJuCLYWwWhfQLK/QNAvfTvmtnVLBg6St5PsvWQZ26DyHPesxJjPVcWqGYfTAWTWmDhET1diOU0YHsXFwv/sFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709812774; c=relaxed/simple;
-	bh=bXPVBpVa/xMRQjXe4362MB2WfdcRM1DS9fqXBARxMVI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O4fik7XWzPR+YaPZCDQCPhOkAdG3oLm4KnvzGnIGG+xGn2geRhAe4nfHq9g/j5YWmLQquTfkmNkdQ0psAQ2PhWZnZ3rzfblykOlbD/lcBEC/D73WXvvtq0bIIjzufi+Wt4785kgf5Ufydjgt8xv4p/9D5i2QwUXB1Ss1I9UnjUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eWh2/TCT; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1709813376; c=relaxed/simple;
+	bh=ZcbSxQHa64styGyObPAmI3FZxXzS+Ei0HMj7rBDGJks=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=E8Xw4OMfkNgQbeQGu+n67SHq0C88w0L+Hb+VYzs+ms9E8/cITupW5WlcjLEODYlap1tz1uBR0mHmzUKU3sccCimwWwIE8iwaBd8BmDow0cvLrr243dEopyz5vx9bkBmf4GEZYOt+i4b7DT0wuhLGMVXiGGfbXjjBTcCTbuFZKVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BnR+GVP+; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eWh2/TCT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BnR+GVP+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1709812771;
+	s=mimecast20190719; t=1709813373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Kdw/5L27XnFbA2gsYgRxIjuL7n7AvpE36D6A5rWlIFA=;
-	b=eWh2/TCTQVt4Ufk3tjBWrQ8fO/GA7oyFhMpJGYC40PvuPpL82i0I75EZ/hlAdmjrT+umex
-	vGEf+NkmwBApuyhqojjkl9kDRd6wCFspZ6RkRj6PbiwurEeKAXfTpSVw4JhTYGgnLP5neD
-	RoWjsR9c5aMRcrhCWjvAVqXaZH3I79M=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=sobtdTCw6g7Ovv2LKnqxm7QgwpUgMPOLE+MVJRQS8vw=;
+	b=BnR+GVP+phvw/5f3xq/jOwMN1jIHX108mSYvN4lmwHYox+vaQu0VA5QXBqsdVX1Bq1FM73
+	DsSjhskbNu+rwWk8szokZvEra3UgQXO5djWsKUDUEAjODCnN1g2aJ+PujQUmSN9qr5RM1Y
+	CWTH4GTST860CEv4Re4bsTPAwLjYEm4=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-378-5VHhQ1yoOaaeCHCqgzofdg-1; Thu, 07 Mar 2024 06:59:30 -0500
-X-MC-Unique: 5VHhQ1yoOaaeCHCqgzofdg-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33e4397540bso421711f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 03:59:30 -0800 (PST)
+ us-mta-6-gc1jKJqrPZCI6w4g7GuT_Q-1; Thu, 07 Mar 2024 07:09:32 -0500
+X-MC-Unique: gc1jKJqrPZCI6w4g7GuT_Q-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2d2a5e2e7c3so5482851fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 04:09:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709812769; x=1710417569;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kdw/5L27XnFbA2gsYgRxIjuL7n7AvpE36D6A5rWlIFA=;
-        b=RgeAeaK3ZjNTacyNg1tnRjDACM8P84pIAMbykf1vDBGqgohYjilRGIyFL3htoSfmTd
-         /9xyQ9x4jI18GM6FUztcbXaPDDfQaUiPc6wDfUzObmC70uWy+wZdvhBmUDzgi4Gtwfel
-         /pyaLEN6WiEdJPeAtZqfWwLU+3oUVPT3T481t4ZYF6h08rfxUaKW1CE/mfSWnWavr9ZV
-         0iC7cl79SWSoMR8Ul8vNKMgoubZeJjUq9iNSj0Oz+B3ZOsKHQQxhYnabFvECy7j2i7Jr
-         I4RTmdgDnvmtTnsG1AqP1UpT7ShU4LzDKqHMZqnPkcUkOmVSFH1L4kyuZ62WjDOAlZz4
-         AZuA==
-X-Forwarded-Encrypted: i=1; AJvYcCV+rutZTvU7EmTOb3ZeNfGOwYKAfm06D+Y7tGTGNvsa1qb+kIgoJRF//c+Xgt9UmkXR1CiRUhYVhkIUf7EopefZaAJzc+TguU3B
-X-Gm-Message-State: AOJu0YwmRWIbvomQEI6FMFmOQjPQnfcbQ8IWRMH10EAwbrNUiJ8f4+Dr
-	ERX8RxlhHwZ+daoYbPXwcPgOdJ2D2RymRLxZ80tYdJcalsCbZajFu9ZzECy5+qpMEj52nyQqUbm
-	fyAO0rj5G0wX5EmDUS/TQRP2YXQHrxbh0geGi5ufDUQUSSGV7JKZqup3eWQ==
-X-Received: by 2002:adf:f64b:0:b0:33b:48ee:8a35 with SMTP id x11-20020adff64b000000b0033b48ee8a35mr13982942wrp.3.1709812769108;
-        Thu, 07 Mar 2024 03:59:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFe1mHWg+57F4YR52njO4WnxoFHWGNPGIEuRwB29whyVs6mDhp5+92zNtJq9mb/nt6fV0V66Q==
-X-Received: by 2002:adf:f64b:0:b0:33b:48ee:8a35 with SMTP id x11-20020adff64b000000b0033b48ee8a35mr13982922wrp.3.1709812768668;
-        Thu, 07 Mar 2024 03:59:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709813371; x=1710418171;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :references:cc:to:from:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sobtdTCw6g7Ovv2LKnqxm7QgwpUgMPOLE+MVJRQS8vw=;
+        b=cksNf7nRlrdHIfrSQ15lWcHRHSBob3YbFGgyQl5W/MIeUiRxLt5TtX/UNTZ/8XPXmO
+         oWpNbwl+/BhFLPxR8gB+BfkAJnV9gXNSAkT9QYmep/4VYfRqwuS5qKxGKsK4XOVrwxU8
+         WPE9Te3XBp3EHoN+2335zs7iQLdu/pwg9km/2KUolFGiaAcCmQ76Gc5Yed+wmS8m4e50
+         exRTCC5EKKcVgVJdo/WSjb/x43emycA27SY1Or7wRsbCC3HgtNCj2sRoAd4iHWehMBht
+         lNjP/p6PqPx9+jC5q/iATetkn6Y1r7p/n/GeuKPKOQIMtvxOPW5kScUG9KCE3Ms4AY/i
+         criw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEVs5IAc+G9LU+meY/jXcSLQizBkGvZBaVrDqSy2cf/Jv/T4sdkb+7jGsUZBxM4syPuBkhEjBNk4fZlkrMHI0AMbL4ClFfYj5r
+X-Gm-Message-State: AOJu0YxsBDZSTm6+/TyPpI+JsO6ym9UaV7G7M/gUVUAEcFGSLmZ+ZXLf
+	LGfYy803359skugSuPZoBmA/colatG1KNdkgOzgUHksQSy/GxAB6qgdt9+cfIOAM/spurRKt8qh
+	a8nPQO9DyT2eLDo0H2qkSTm/k9+oxU7UU98wZpiVZayRPpudUuqQhnJeHrA==
+X-Received: by 2002:a2e:a454:0:b0:2d3:f013:61d9 with SMTP id v20-20020a2ea454000000b002d3f01361d9mr1185961ljn.31.1709813371092;
+        Thu, 07 Mar 2024 04:09:31 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEGBqQrNg2/4YA5+A4tvNB+c5+9du3LnR6q5NsERUYIO5uu6WXY83AiEti24fQryCe6kaCZhA==
+X-Received: by 2002:a2e:a454:0:b0:2d3:f013:61d9 with SMTP id v20-20020a2ea454000000b002d3f01361d9mr1185932ljn.31.1709813370661;
+        Thu, 07 Mar 2024 04:09:30 -0800 (PST)
 Received: from ?IPV6:2003:cb:c74d:6400:4867:4ed0:9726:a0c9? (p200300cbc74d640048674ed09726a0c9.dip0.t-ipconnect.de. [2003:cb:c74d:6400:4867:4ed0:9726:a0c9])
-        by smtp.gmail.com with ESMTPSA id n6-20020a056000170600b0033e45930f35sm8541285wrc.6.2024.03.07.03.59.27
+        by smtp.gmail.com with ESMTPSA id r12-20020adfe68c000000b0033df5710fabsm20100194wrm.44.2024.03.07.04.09.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 03:59:28 -0800 (PST)
-Message-ID: <0644814b-869b-4694-bdb1-bab4e6186136@redhat.com>
-Date: Thu, 7 Mar 2024 12:59:26 +0100
+        Thu, 07 Mar 2024 04:09:30 -0800 (PST)
+Message-ID: <a73c78be-8cdc-4f0e-b72f-e5255c906a5f@redhat.com>
+Date: Thu, 7 Mar 2024 13:09:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,6 +70,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] [RFC] proc: pagemap: Expose whether a PTE is writable
 Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
 To: Richard Weinberger <richard@nod.at>
 Cc: linux-mm <linux-mm@kvack.org>,
  linux-fsdevel <linux-fsdevel@vger.kernel.org>,
@@ -87,7 +88,7 @@ References: <20240306232339.29659-1-richard@nod.at>
  <1058679077.23275.1709809843605.JavaMail.zimbra@nod.at>
  <7d9321db-a3c1-4593-91fa-c7f97bd9eecd@redhat.com>
  <1525238492.23321.1709812267495.JavaMail.zimbra@nod.at>
-From: David Hildenbrand <david@redhat.com>
+ <0644814b-869b-4694-bdb1-bab4e6186136@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -133,67 +134,74 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <1525238492.23321.1709812267495.JavaMail.zimbra@nod.at>
+In-Reply-To: <0644814b-869b-4694-bdb1-bab4e6186136@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 07.03.24 12:51, Richard Weinberger wrote:
-> ----- Ursprüngliche Mail -----
->> Von: "David Hildenbrand" <david@redhat.com>
->>> I'm currently investigating why a real-time application faces unexpected
->>> page faults. Page faults are usually fatal for real-time work loads because
->>> the latency constraints are no longer met.
->>
->> Are you concerned about any type of page fault, or are things like a
->> simple remapping of the same page from "read-only to writable"
->> acceptable? ("very minor fault")
-> 
-> Any page fault has to be avoided.
-> To give you more background, the real time application runs on Xenomai,
-> a real time extension for Linux.
-> Xenomai applies already many tweaks to the kernel to trigger pre-faulting of
-> memory areas. But sometimes the application does not use the Xenomai API
-> correctly or there is an bug in Xenomai it self.
-> Currently I'm suspecting the latter.
->   
-
-Thanks for the details!
-
+On 07.03.24 12:59, David Hildenbrand wrote:
+> On 07.03.24 12:51, Richard Weinberger wrote:
+>> ----- Ursprüngliche Mail -----
+>>> Von: "David Hildenbrand" <david@redhat.com>
+>>>> I'm currently investigating why a real-time application faces unexpected
+>>>> page faults. Page faults are usually fatal for real-time work loads because
+>>>> the latency constraints are no longer met.
 >>>
->>> So, I wrote a small tool to inspect the memory mappings of a process to find
->>> areas which are not correctly pre-faulted. While doing so I noticed that
->>> there is currently no way to detect CoW mappings.
->>> Exposing the writable property of a PTE seemed like a good start to me.
+>>> Are you concerned about any type of page fault, or are things like a
+>>> simple remapping of the same page from "read-only to writable"
+>>> acceptable? ("very minor fault")
 >>
->> Is it just about "detection" for debugging purposes or about "fixup" in
->> running applications?
+>> Any page fault has to be avoided.
+>> To give you more background, the real time application runs on Xenomai,
+>> a real time extension for Linux.
+>> Xenomai applies already many tweaks to the kernel to trigger pre-faulting of
+>> memory areas. But sometimes the application does not use the Xenomai API
+>> correctly or there is an bug in Xenomai it self.
+>> Currently I'm suspecting the latter.
+>>    
 > 
-> It's only about debugging. If an application fails a test I want to have
-> a tool which tells me what memory mappings are wonky or could cause a fault
-> at runtime.
-
-One destructive way to find out in a writable mapping if the page would 
-actually get remapped:
-
-a) Read the PFN of a virtual address using pagemap
-b) Write to the virtual address using /proc/pid/mem
-c) Read the PFN of a virtual address using pagemap to see if it changed
-
-If the application can be paused, you could read+write a single byte, 
-turning it non-destructive.
-
-But that would still "hide" the remap-writable-type faults.
-
+> Thanks for the details!
 > 
-> I fully understand that my use case is a corner case and anything but mainline.
-> While developing my debug tool I thought that improving the pagemap interface
-> might help others too.
+>>>>
+>>>> So, I wrote a small tool to inspect the memory mappings of a process to find
+>>>> areas which are not correctly pre-faulted. While doing so I noticed that
+>>>> there is currently no way to detect CoW mappings.
+>>>> Exposing the writable property of a PTE seemed like a good start to me.
+>>>
+>>> Is it just about "detection" for debugging purposes or about "fixup" in
+>>> running applications?
+>>
+>> It's only about debugging. If an application fails a test I want to have
+>> a tool which tells me what memory mappings are wonky or could cause a fault
+>> at runtime.
+> 
+> One destructive way to find out in a writable mapping if the page would
+> actually get remapped:
+> 
+> a) Read the PFN of a virtual address using pagemap
+> b) Write to the virtual address using /proc/pid/mem
+> c) Read the PFN of a virtual address using pagemap to see if it changed
+> 
+> If the application can be paused, you could read+write a single byte,
+> turning it non-destructive.
+> 
+> But that would still "hide" the remap-writable-type faults.
+> 
+>>
+>> I fully understand that my use case is a corner case and anything but mainline.
+>> While developing my debug tool I thought that improving the pagemap interface
+>> might help others too.
+> 
+> I'm fine with this (can be a helpful debugging tool for some other cases
+> as well, and IIRC we don't have another interface to introspect this),
+> as long as we properly document the corner case that there could still
+> be writefaults on some architectures when the page would not be
+> accessed/dirty yet.
+> 
 
-I'm fine with this (can be a helpful debugging tool for some other cases 
-as well, and IIRC we don't have another interface to introspect this), 
-as long as we properly document the corner case that there could still 
-be writefaults on some architectures when the page would not be 
-accessed/dirty yet.
+[and I just recall, there are some other corner cases. For example, 
+pages in a shadow stack can be pte_write(), but they can only be written 
+by HW indirectly when modifying the stack, and ordinary write access 
+would still fault]
 
 -- 
 Cheers,
