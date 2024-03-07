@@ -1,267 +1,152 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F157C12FF8B
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 16:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBF612DDBE;
+	Thu,  7 Mar 2024 17:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709830284; cv=none; b=bKtRhgCSyQxy8/wkvX2rNQ4gXV9gSpe3SddzDasAGpTFdmRSYuNuJjV1TBly3N+gr97rKqmomq9icsSB/BBd9ix1qX9HT+WcoXjyRgg31q9BtYAuJiJnP9xpngKhfF+H3+vtW9c4hSz23DDHulWGso35EYabQ83x3zQC3fE5M2c=
+	t=1709831321; cv=none; b=Dftxcn9d8SRIPH+AZFBAa3FMuTG39Wi/+v8KWyu/EMuSN2xcBsS+gmTxJ1VR0T0PhU6JngkQzYJKbf8OCQOwQM9pCNHZJ3Cy23qdDPxoMjd3a59kGErux7uDiW4DJ13UzzHeyMG5GA5OIetrCPy+QfM0d+PdqHHqmCcB6q/fmHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709830284; c=relaxed/simple;
-	bh=oAlVnpZg9Cvtgh25NJi4Ni8v3PGC2OnHmgro+J0U4EQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cGlHtrI1qWXCdbTIl3cAln8e6T3EPCWAjNOUmIOkdD5YlFNQZ3PIyNP3/XDsgsV44QR6ZhOP/RUchrWIstWJljLfc9PsYlMnWRMpvntEI05myuPQBsjXZevpqEDhlctWlUw9nFfKz11dXca+LYLOo+TPv1IPj7YczguHackJ2w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EkztrEiL; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709831321; c=relaxed/simple;
+	bh=JXl2uazT63Iyfp3B6864Ck7/1RQX0rkbSuPryxHAo0Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=loCZEV8HoQeUjiveMgdc/zVgZOmVfWvQzc1Ek3vV6/WIbl6WL99Ruebk+Rj0uvKtqHNneK7V43E+1WXHEkBQ6t8DV641PSXne9PAdRJQICzPvdGCj49uefx5gUNX4mYuM6WGR9tQVukS1GPWoWPxCEDI8rjTDjm2EfJ+qveDO1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KEWhWjVK; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EkztrEiL"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-607c5679842so11531527b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 08:51:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709830281; x=1710435081; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Yc7CaZYI+aOfiJp3dG8X2zo4+LoYMopU2pW1vALF2c=;
-        b=EkztrEiLLhIOUJAAYPUWgEaHi7EV5QB6yZwuWNupjVhqNS8TscCRjHMf6o1etvQsSh
-         wGyt4T2DH4dQg67h7AGYzeTzzY49AIXHRBjmggC74JwdlPnb31QZ6/SA10tM1amNyWPt
-         5s53/u3FO62hGqkq7eO6oMRbo5X/tr+Wk6s9LvTsdb05RmnaTLwWcq7OciJWa/2SLHvT
-         CLxY8mnK4ldNW5snCcUUacbwVrFfnkmgQ3hG+DIZwlq7rRyq9fYG8yxFcOtAhsTVmwFx
-         rCODHfjmwhAzTIeFtXx6JF3mm9jqBXHkhCm85LjrDPTYPMByKBubU0UFDP39ELBc3tXB
-         eKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709830281; x=1710435081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+Yc7CaZYI+aOfiJp3dG8X2zo4+LoYMopU2pW1vALF2c=;
-        b=YwrDWkJk8M0EsuzjAde7QXJwYjABR7EeXE/9YTWSt1QNJEbgVnZuI4gMQYaUC+LyL8
-         Oq01ppsX3u6IqXDXjzkPviJbtHM8r/wpOqk7N0NHhF2eaiS6CqzcNh6rDEm3HdeviY00
-         69svjAcOiQURJA1WFJkIuEU+FK7hWuY+yw1IpvuKbfmVJnLjwnZ+QeY0J0vQxgEFnZgM
-         t3jBt2dG8hqir/wDmXYx3Cy3ONy2RVULlfTb9mXgSQOV2A2KXRc/UbvMFwOUwJy2d7kP
-         jlf8yfSe/iMz66ThWtaWYKUs19vLTMLkeXBoUIK9p2R/xykra+3YDXtH+Oe/93eemGee
-         UJYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRr9oQ7F5m/Z9osLcqkJS3exFOHTzEH0FTsrNdDgGaqukwEDoVBrTNur7vPqVIHsW4NVQz4Q15AuLJEr5lFaCjm0PV5mzfmTtQ
-X-Gm-Message-State: AOJu0YwHDisCZqYksE3CbQe5kCaVzgJIpn4aowqmTC7DqwuPgtf+YiRK
-	YYukqkSeOWXssTpsdvxte0CkN+hy0eFpItXk3wZKiAgT2uq3kgkqp01siMDqYgtmsx+ZokORU4+
-	gFZsEpoW41A5EYL/gidlCneBEsulSiqkTau1y
-X-Google-Smtp-Source: AGHT+IETO+uYsXBHUav01bdbNnbA53xxjR6usX/j/Y4xXR7KlOH6v3HVx5uc93IkxR9q2hK67467LC5KnM+ZNqEyIOk=
-X-Received: by 2002:a05:6902:160d:b0:dcf:56c3:336e with SMTP id
- bw13-20020a056902160d00b00dcf56c3336emr17705298ybb.35.1709830280572; Thu, 07
- Mar 2024 08:51:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KEWhWjVK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=5k0dUR2rE2fxeaqvwbqJwiFlYYiMm6GdJ7apm0o5Iao=; b=KEWhWjVKEPumuzv+FC9Okoz2rs
+	sFQizONg4p1DYUBmD7SY/D7PHP2LWvDMYhY4s1W381ZZsl7MiX1oJHkBcEe/jjLKYhN7XBgv/tY6N
+	n24mGeuswskJ2SFIpb0Kc3GglnZXQM7ne/YzhuyCW6er60H3yukn3ZevfzRcTKofH2zk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1riHEi-009bZV-K1; Thu, 07 Mar 2024 18:08:52 +0100
+Date: Thu, 7 Mar 2024 18:08:52 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
+	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 08/12] net: ethernet: oa_tc6: implement
+ transmit path to transfer tx ethernet frames
+Message-ID: <208fb61b-4740-46bf-8c70-29ab59cbb965@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-9-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240306182440.2003814-1-surenb@google.com> <20240306182440.2003814-38-surenb@google.com>
- <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
-In-Reply-To: <10a95079-86e4-41bf-8e82-e387936c437d@infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 7 Mar 2024 16:51:08 +0000
-Message-ID: <CAJuCfpFN3BLsFOWB0huA==LVa2pNYdnf7bT_VXgDtPuJOxvWSQ@mail.gmail.com>
-Subject: Re: [PATCH v5 37/37] memprofiling: Documentation
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306085017.21731-9-Parthiban.Veerasooran@microchip.com>
 
-On Thu, Mar 7, 2024 at 3:19=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org>=
- wrote:
->
-> Hi,
-> This includes some editing suggestions and some doc build fixes.
->
->
-> On 3/6/24 10:24, Suren Baghdasaryan wrote:
-> > From: Kent Overstreet <kent.overstreet@linux.dev>
-> >
-> > Provide documentation for memory allocation profiling.
-> >
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  Documentation/mm/allocation-profiling.rst | 91 +++++++++++++++++++++++
-> >  1 file changed, 91 insertions(+)
-> >  create mode 100644 Documentation/mm/allocation-profiling.rst
-> >
-> > diff --git a/Documentation/mm/allocation-profiling.rst b/Documentation/=
-mm/allocation-profiling.rst
-> > new file mode 100644
-> > index 000000000000..8a862c7d3aab
-> > --- /dev/null
-> > +++ b/Documentation/mm/allocation-profiling.rst
-> > @@ -0,0 +1,91 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > +MEMORY ALLOCATION PROFILING
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> > +
-> > +Low overhead (suitable for production) accounting of all memory alloca=
-tions,
-> > +tracked by file and line number.
-> > +
-> > +Usage:
-> > +kconfig options:
-> > + - CONFIG_MEM_ALLOC_PROFILING
-> > + - CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > + - CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> > +   adds warnings for allocations that weren't accounted because of a
-> > +   missing annotation
-> > +
-> > +Boot parameter:
-> > +  sysctl.vm.mem_profiling=3D0|1|never
-> > +
-> > +  When set to "never", memory allocation profiling overheads is minimi=
-zed and it
->
->                                                       overhead is
->
-> > +  cannot be enabled at runtime (sysctl becomes read-only).
-> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dy, default valu=
-e is "1".
-> > +  When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dn, default valu=
-e is "never".
-> > +
-> > +sysctl:
-> > +  /proc/sys/vm/mem_profiling
-> > +
-> > +Runtime info:
-> > +  /proc/allocinfo
-> > +
-> > +Example output:
-> > +  root@moria-kvm:~# sort -g /proc/allocinfo|tail|numfmt --to=3Diec
-> > +        2.8M    22648 fs/kernfs/dir.c:615 func:__kernfs_new_node
-> > +        3.8M      953 mm/memory.c:4214 func:alloc_anon_folio
-> > +        4.0M     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod] f=
-unc:ctagmod_start
-> > +        4.1M        4 net/netfilter/nf_conntrack_core.c:2567 func:nf_c=
-t_alloc_hashtable
-> > +        6.0M     1532 mm/filemap.c:1919 func:__filemap_get_folio
-> > +        8.8M     2785 kernel/fork.c:307 func:alloc_thread_stack_node
-> > +         13M      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
-> > +         14M     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
-> > +         15M     3656 mm/readahead.c:247 func:page_cache_ra_unbounded
-> > +         55M     4887 mm/slub.c:2259 func:alloc_slab_page
-> > +        122M    31168 mm/page_ext.c:270 func:alloc_page_ext
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Theory of operation
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Memory allocation profiling builds off of code tagging, which is a lib=
-rary for
-> > +declaring static structs (that typcially describe a file and line numb=
-er in
->
->                                   typically
->
-> > +some way, hence code tagging) and then finding and operating on them a=
-t runtime
->
->                                                                         a=
-t runtime,
->
-> > +- i.e. iterating over them to print them in debugfs/procfs.
->
->   i.e., iterating
->
-> > +
-> > +To add accounting for an allocation call, we replace it with a macro
-> > +invocation, alloc_hooks(), that
-> > + - declares a code tag
-> > + - stashes a pointer to it in task_struct
-> > + - calls the real allocation function
-> > + - and finally, restores the task_struct alloc tag pointer to its prev=
-ious value.
-> > +
-> > +This allows for alloc_hooks() calls to be nested, with the most recent=
- one
-> > +taking effect. This is important for allocations internal to the mm/ c=
-ode that
-> > +do not properly belong to the outer allocation context and should be c=
-ounted
-> > +separately: for example, slab object extension vectors, or when the sl=
-ab
-> > +allocates pages from the page allocator.
-> > +
-> > +Thus, proper usage requires determining which function in an allocatio=
-n call
-> > +stack should be tagged. There are many helper functions that essential=
-ly wrap
-> > +e.g. kmalloc() and do a little more work, then are called in multiple =
-places;
-> > +we'll generally want the accounting to happen in the callers of these =
-helpers,
-> > +not in the helpers themselves.
-> > +
-> > +To fix up a given helper, for example foo(), do the following:
-> > + - switch its allocation call to the _noprof() version, e.g. kmalloc_n=
-oprof()
-> > + - rename it to foo_noprof()
-> > + - define a macro version of foo() like so:
-> > +   #define foo(...) alloc_hooks(foo_noprof(__VA_ARGS__))
-> > +
-> > +It's also possible to stash a pointer to an alloc tag in your own data=
- structures.
-> > +
-> > +Do this when you're implementing a generic data structure that does al=
-locations
-> > +"on behalf of" some other code - for example, the rhashtable code. Thi=
-s way,
-> > +instead of seeing a large line in /proc/allocinfo for rhashtable.c, we=
- can
-> > +break it out by rhashtable type.
-> > +
-> > +To do so:
-> > + - Hook your data structure's init function, like any other allocation=
- function
->
-> maybe end the line above with a '.' like the following line.
->
-> > + - Within your init function, use the convenience macro alloc_tag_reco=
-rd() to
-> > +   record alloc tag in your data structure.
-> > + - Then, use the following form for your allocations:
-> > +   alloc_hooks_tag(ht->your_saved_tag, kmalloc_noprof(...))
->
->
-> Finally, there are a number of documentation build warnings in this patch=
-.
-> I'm no ReST expert, but the attached patch fixes them for me.
+> @@ -55,6 +77,14 @@
+>  						(OA_TC6_CTRL_MAX_REGISTERS *\
+>  						OA_TC6_CTRL_REG_VALUE_SIZE) +\
+>  						OA_TC6_CTRL_IGNORED_SIZE)
+> +#define OA_TC6_CHUNK_PAYLOAD_SIZE		64
+> +#define OA_TC6_DATA_HEADER_SIZE			4
+> +#define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
+> +						OA_TC6_CHUNK_PAYLOAD_SIZE)
+> +#define OA_TC6_TX_SKB_QUEUE_SIZE		100
 
-Thanks Randy! I'll use your cleaned-up patch in the next submission.
-Cheers,
-Suren.
+So you keep up to 100 packets in a queue. If use assume typical MTU
+size packets, that is 1,238,400 bits. At 10Mbps, that is 120ms of
+traffic. That is quite a lot of latency when a high priority packet is
+added to the tail of the queue and needs to wait for all the other
+packets to be sent first.
 
->
-> --
-> #Randy
+Chunks are 64 bytes. So in practice, you only ever need two
+packets. You need to be able to fill a chunk with the final part of
+one packet, and the beginning of the next. So i would try using a much
+smaller queue size. That will allow Linux queue disciplines to give
+you the high priority packets first which you send with low latency.
+
+> +static void oa_tc6_add_tx_skb_to_spi_buf(struct oa_tc6 *tc6)
+> +{
+> +	enum oa_tc6_data_start_valid_info start_valid = OA_TC6_DATA_START_INVALID;
+> +	enum oa_tc6_data_end_valid_info end_valid = OA_TC6_DATA_END_INVALID;
+> +	__be32 *tx_buf = tc6->spi_data_tx_buf + tc6->spi_data_tx_buf_offset;
+> +	u16 remaining_length = tc6->tx_skb->len - tc6->tx_skb_offset;
+> +	u8 *tx_skb_data = tc6->tx_skb->data + tc6->tx_skb_offset;
+> +	u8 end_byte_offset = 0;
+> +	u16 length_to_copy;
+> +
+> +	/* Set start valid if the current tx chunk contains the start of the tx
+> +	 * ethernet frame.
+> +	 */
+> +	if (!tc6->tx_skb_offset)
+> +		start_valid = OA_TC6_DATA_START_VALID;
+> +
+> +	/* If the remaining tx skb length is more than the chunk payload size of
+> +	 * 64 bytes then copy only 64 bytes and leave the ongoing tx skb for
+> +	 * next tx chunk.
+> +	 */
+> +	length_to_copy = min_t(u16, remaining_length, OA_TC6_CHUNK_PAYLOAD_SIZE);
+> +
+> +	/* Copy the tx skb data to the tx chunk payload buffer */
+> +	memcpy(tx_buf + 1, tx_skb_data, length_to_copy);
+> +	tc6->tx_skb_offset += length_to_copy;
+
+You probably need a call to skb_linearize() somewhere. You assume the
+packet data is contiguous. It can in fact be split into multiple
+segments. skb_linearize() will convert it to a single buffer.
+
+> +static int oa_tc6_try_spi_transfer(struct oa_tc6 *tc6)
+> +{
+> +	int ret;
+> +
+> +	while (true) {
+> +		u16 spi_length = 0;
+> +
+> +		tc6->spi_data_tx_buf_offset = 0;
+> +
+> +		if (tc6->tx_skb || !skb_queue_empty(&tc6->tx_skb_q))
+> +			spi_length = oa_tc6_prepare_spi_tx_buf_for_tx_skbs(tc6);
+> +
+> +		if (spi_length == 0)
+> +			break;
+> +
+> +		ret = oa_tc6_spi_transfer(tc6, OA_TC6_DATA_HEADER, spi_length);
+> +		if (ret) {
+> +			netdev_err(tc6->netdev,
+> +				   "SPI data transfer failed. Restart the system: %d\n",
+> +				   ret);
+
+What does Restart the system mean?
+
+> +static int oa_tc6_spi_thread_handler(void *data)
+> +{
+> +	struct oa_tc6 *tc6 = data;
+> +	int ret;
+> +
+> +	while (likely(!kthread_should_stop())) {
+> +		/* This kthread will be waken up if there is a tx skb */
+> +		wait_event_interruptible(tc6->spi_wq,
+> +					 !skb_queue_empty(&tc6->tx_skb_q) ||
+> +					 kthread_should_stop());
+> +		ret = oa_tc6_try_spi_transfer(tc6);
+
+Shouldn't you check why you have been woken up? It seems more logical
+to test here for kthread_should_stop() rather than have
+oa_tc6_try_spi_transfer() handle there is not actually a packet to be
+sent.
+
+	Andrew
