@@ -1,167 +1,155 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2174E1DFC1;
-	Thu,  7 Mar 2024 15:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C1412E1FE
+	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 15:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709823918; cv=none; b=khZJ6v26ze6x/gyHQAtE9UYmuGAl4KlEHZmskMe44EHiAtEVnoChtuZiC/6DypaEEtt3e8a3aO+B7j4DUJNMfLdEtkVK+LF/Zs8VbZ2ruhltY00wnGTv1p6lsquI3QKMBSs4YTLmrWtbSHXX5357JQsozqNpTJt21YpY2DE5r20=
+	t=1709825712; cv=none; b=Ij2le6diMVb0YLohIIPzGERjmy8kTwxWtXCELGk8BLe7Gm65EIWJeRUgFxaCCnqIQcGPNIfIacyCNPfJJxEWLjHaet4SG9mruDASM171o6c38o4NPRDSo42jgh7n1IRMO/zSEFJjfzQUKtB84UM/9jxFZKXg8QhHxkPcoW37mos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709823918; c=relaxed/simple;
-	bh=KcbjcoK0enYuZVWxTVuA3A7m2RX5v0vJJmwup26L1hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m/rkZhNRVb1YBGtGjoMLGPnUT1c0Rj+JaQ5tUtYIilNOa7HeuU+hbxeWrUtSpmDd3PIpcHp/vEdcjIbiBRcQihPddW1qIBT6IEuz6VjZY09hX8kgm7Kua6fwUJ5wr/HmofeSyNnjP6jcDksuUNqh6T1e8h0cHA1Veojxx3vEd6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 6CF2168CFE; Thu,  7 Mar 2024 16:05:05 +0100 (CET)
-Date: Thu, 7 Mar 2024 16:05:05 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240307150505.GA28978@lst.de>
-References: <cover.1709635535.git.leon@kernel.org> <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal> <20240306144416.GB19711@lst.de> <20240306154328.GM9225@ziepe.ca> <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca>
+	s=arc-20240116; t=1709825712; c=relaxed/simple;
+	bh=zQBkiWXTggIKvHEMWEiGOum5TT7ceiwVi4duUGHOdgY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=J5TzLRbrdPno4U9ZwMv7mmo+NhQyLh391I3C+f3ZniOFU/8TkhiFgfsyBDeL2fyy+V+LcH2tOMszQbfCPBceAG7a/523iO6Aj4OMfplPGj5Phjusc9lES7096fzidOKfP13KbvRIMGwRr/Zc9BiQhGSQqDGs+X5PbqkrAyeuX1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at; spf=pass smtp.mailfrom=sigma-star.at; dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b=C7IrvgcW; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigma-star.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigma-star.at
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sigma-star.at header.i=@sigma-star.at header.b="C7IrvgcW"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a293f2280c7so180786666b.1
+        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 07:35:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sigma-star.at; s=google; t=1709825707; x=1710430507; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zQBkiWXTggIKvHEMWEiGOum5TT7ceiwVi4duUGHOdgY=;
+        b=C7IrvgcW9Fq549kj0yAYS+DQZPX5ld1mrhJKmAK3P4C/2aTbjK/Wl7nHzsGZkKmX91
+         GLWtaR8iD6jI9oDNqZ5xfQmSjLjhPTwcLrCz2Ya3JX4X76I0Tto+MU0goAmU0YRsWmoH
+         JfjWxvJ98TeOxvaj2e+MSVCL43mCMJUrCUueVbdLB2eeBtO9pjH6hsbeqfeesBYk0SK2
+         8Cx/xxo6v+MLtfrvsteShmNd9u6Gc7NVeLv/gz+4ozabc1QilcFPXP18rvRR6llJ+uRj
+         WFdZ8YWFweDFgDCZyc5UrCcmulc+ZtJV2UUYakh2Vuyjc+/j1F+JQ88YNzgKaPk3QUMN
+         K6gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709825707; x=1710430507;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zQBkiWXTggIKvHEMWEiGOum5TT7ceiwVi4duUGHOdgY=;
+        b=k3rk/szyeOqYm9hNEPkfUtMyzlW8VUjr7K5hiiLthuyApK3JyiF8uGhV3V3dqYd/S8
+         okCGXJMC6Mjwy9J38GHtU+c8pPGBHvQHf7UkKPiBZdiNdaJqI75nxNQy8yp/aAwCQj4S
+         mhkmD3gNWJJ+QGYVluBI86nVBi2R3D/5JDrUIipd50EzBBg79XqlZjToyfyp6ZEX64bQ
+         l2gSGKdghuer3CRuutam/RLaD57oRndxQn01HO54n7tsitRpHyM+89YBcnZfZY7tGYgR
+         ye7hRyu0fHAJQq66I7tjnHaEsbqwsc8msy3EKOZpNi1Ubb0WIlK9TVlSfkKcADjWD71e
+         Qzmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVEfnDMmQIhFDQ3ROM6sAeKhdbR1nIw1qyRQjfe5FYfYW1sNP3tL2V9I1sJVZv7taRw34hCFFYWuFGhOQyiZugjogYoeETuxV/B
+X-Gm-Message-State: AOJu0YyETbesn6V+YhavVzQcdaZKGoQjR4kYHvBvzzTXhWcJxRkWn9Xt
+	zmI/AQEiapopJ7+lvK96Kx+TZQ2vT2sdLiTv3ZoMkuDPXGHKty6G5GHn6KKDN+c=
+X-Google-Smtp-Source: AGHT+IFZFPN298xxejGvRyvzbp276Z/iMmAVyPkxVHpe9zUTmo8gWkPUve5gZl3bDKcFPppBDzmd1g==
+X-Received: by 2002:a17:906:6a89:b0:a45:902b:3cb0 with SMTP id p9-20020a1709066a8900b00a45902b3cb0mr6729129ejr.58.1709825706741;
+        Thu, 07 Mar 2024 07:35:06 -0800 (PST)
+Received: from smtpclient.apple ([82.150.214.1])
+        by smtp.gmail.com with ESMTPSA id lz19-20020a170906fb1300b00a45b7f9e822sm1973422ejb.118.2024.03.07.07.35.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 07 Mar 2024 07:35:06 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240307000036.GP9225@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.400.31\))
+Subject: Re: [PATCH v5 4/6] MAINTAINERS: add entry for DCP-based trusted keys
+From: David Gstir <david@sigma-star.at>
+In-Reply-To: <CZLBYPUU992Q.2PRCZBFNZYWY6@suppilovahvero>
+Date: Thu, 7 Mar 2024 16:34:53 +0100
+Cc: Mimi Zohar <zohar@linux.ibm.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+ David Howells <dhowells@redhat.com>,
+ Li Yang <leoyang.li@nxp.com>,
+ Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Tejun Heo <tj@kernel.org>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ linux-doc@vger.kernel.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+ "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org,
+ "linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2E9B3F32-B162-4C84-81AD-5713EB53A85D@sigma-star.at>
+References: <20231215110639.45522-1-david@sigma-star.at>
+ <20231215110639.45522-5-david@sigma-star.at>
+ <CZLBYPUU992Q.2PRCZBFNZYWY6@suppilovahvero>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+X-Mailer: Apple Mail (2.3774.400.31)
 
-On Wed, Mar 06, 2024 at 08:00:36PM -0400, Jason Gunthorpe wrote:
-> > 
-> > I don't think you can do without dma_addr_t storage.  In most cases
-> > your can just store the dma_addr_t in the LE/BE encoded hardware
-> > SGL, so no extra storage should be needed though.
-> 
-> RDMA (and often DRM too) generally doesn't work like that, the driver
-> copies the page table into the device and then the only reason to have
-> a dma_addr_t storage is to pass that to the dma unmap API. Optionally
-> eliminating long term dma_addr_t storage would be a worthwhile memory
-> savings for large long lived user space memory registrations.
+Jarkko,
 
-It's just kinda hard to do.  For aligned IOMMU mapping you'd only
-have one dma_addr_t mappings (or maybe a few if P2P regions are
-involved), so this probably doesn't matter.  For direct mappings
-you'd have a few, but maybe the better answer is to use THP
-more aggressively and reduce the number of segments.
+> On 04.03.2024, at 23:48, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>=20
+> On Fri Dec 15, 2023 at 1:06 PM EET, David Gstir wrote:
+>> This covers trusted keys backed by NXP's DCP (Data Co-Processor) chip
+>> found in smaller i.MX SoCs.
+>>=20
+>> Signed-off-by: David Gstir <david@sigma-star.at>
+>> ---
+>> MAINTAINERS | 9 +++++++++
+>> 1 file changed, 9 insertions(+)
+>>=20
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 90f13281d297..988d01226131 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -11647,6 +11647,15 @@ S: Maintained
+>> F: include/keys/trusted_caam.h
+>> F: security/keys/trusted-keys/trusted_caam.c
+>>=20
+>> +KEYS-TRUSTED-DCP
+>> +M: David Gstir <david@sigma-star.at>
+>> +R: sigma star Kernel Team <upstream+dcp@sigma-star.at>
+>> +L: linux-integrity@vger.kernel.org
+>> +L: keyrings@vger.kernel.org
+>> +S: Supported
+>> +F: include/keys/trusted_dcp.h
+>> +F: security/keys/trusted-keys/trusted_dcp.c
+>> +
+>> KEYS-TRUSTED-TEE
+>> M: Sumit Garg <sumit.garg@linaro.org>
+>> L: linux-integrity@vger.kernel.org
+>=20
+> Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+>=20
+> I can for sure put this. The code quality is *not* bad :-) However, =
+your
+> backing story really needs rework. It is otherwise impossible to
+> understand the code changes later on because amount of information is
+> vast, and you tend to forget details of stuff that you are not =
+actively
+> working on. That is why we care so deeply about them.
 
-> I wrote the list as from a single IO operation perspective, so all but
-> 5 need to store a single IOVA range that could be stored in some
-> simple non-dynamic memory along with whatever HW SGLs/etc are needed.
-> 
-> The point of 5 being different is because the driver has to provide a
-> dynamically sized list of dma_addr_t's as storage until unmap. 5 is
-> the only case that requires that full list.
+got it! :) I=E2=80=99ve tried to rework the commit messages as good as =
+possible
+for v6 and will send that series momentarily.
 
-No, all cases need to store one or more ranges.
-
-> > > So are you thinking something more like a driver flow of:
-> > > 
-> > >   .. extent IO and get # aligned pages and know if there is P2P ..
-> > >   dma_init_io(state, num_pages, p2p_flag)
-> > >   if (dma_io_single_range(state)) {
-> > >        // #2, #4
-> > >        for each io()
-> > > 	    dma_link_aligned_pages(state, io range)
-> > >        hw_sgl = (state->iova, state->len)
-> > >   } else {
-> > 
-> > I think what you have a dma_io_single_range should become before
-> > the dma_init_io.  If we know we can't coalesce it really just is a
-> > dma_map_{single,page,bvec} loop, no need for any extra state.
-> 
-> I imagine dma_io_single_range() to just check a flag in state.
-> 
-> I still want to call dma_init_io() for the non-coalescing cases
-> because all the flows, regardless of composition, should be about as
-> fast as dma_map_sg is today.
-
-If all flows includes multiple non-coalesced regions that just makes
-things very complicated, and that's exactly what I'd want to avoid.
-
-> That means we need to always pre-allocate the IOVA in any case where
-> the IOMMU might be active - even on a non-coalescing flow.
-> 
-> IOW, dma_init_io() always pre-allocates IOVA if the iommu is going to
-> be used and we can't just call today's dma_map_page() in a loop on the
-> non-coalescing side and pay the overhead of Nx IOVA allocations.
-> 
-> In large part this is for RDMA, were a single P2P page in a large
-> multi-gigabyte user memory registration shouldn't drastically harm the
-> registration performance by falling down to doing dma_map_page, and an
-> IOVA allocation, on a 4k page by page basis.
-
-But that P2P page needs to be handled very differently, as with it
-we can't actually use a single iova range.  So I'm not sure how that
-is even supposed to work.  If you have
-
- +-------+-----+-------+
- | local | P2P | local |
- +-------+-----+-------+
-
-you need at least 3 hw SGL entries, as the IOVA won't be contigous.
-
-> The other thing that got hand waved here is how does dma_init_io()
-> know which of the 6 states we are looking at? I imagine we probably
-> want to do something like:
-> 
->    struct dma_io_summarize summary = {};
->    for each io()
->         dma_io_summarize_range(&summary, io range)
->    dma_init_io(dev, &state, &summary);
->    if (state->single_range) {
->    } else {
->    }
->    dma_io_done_mapping(&state); <-- flush IOTLB once
-
-That's why I really just want 2 cases.  If the caller guarantees the
-range is coalescable and there is an IOMMU use the iommu-API like
-API, else just iter over map_single/page.
-
-> Enhancing the single sgl case is not a big change, I think. It does
-> seem simplifying for the driver to not have to coalesce SGLs to detect
-> the single-SGL fast-path.
-> 
-> > > This is not quite what you said, we split the driver flow based on
-> > > needing 1 HW SGL vs need many HW SGL.
-> > 
-> > That's at least what I intended to say, and I'm a little curious as what
-> > it came across.
-> 
-> Ok, I was reading the discussion more about as alignment than single
-> HW SGL, I think you ment alignment as implying coalescing behavior
-> implying single HW SGL..
-
-Yes.
+Thanks!
+- David=
