@@ -1,137 +1,106 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72C01C295;
-	Fri,  8 Mar 2024 16:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3E615D0;
+	Fri,  8 Mar 2024 17:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709916571; cv=none; b=GzBdn1IQXyzYqn6ErG7GRwTr+2VKV7HPJwYZgHM1g6llE4tjVuovQmya/5j7+ofYj1zMqje7vz4eiAWZEfUc0MpMSDbL1Ibhnj7NLTSPiXWO/tfmQK9K0QIIjPlEo8yxNzL4+frlqDWeJpeDOpEjh0Yl6srW0gOfsh6hOGqOX8c=
+	t=1709917276; cv=none; b=b+9K0LZWxST9I8HxMEQD3NUkyww1Gp/2c8VzArpgRkkPTW6nB1WKwORYlBCgcL99f2jSwmCm4US/zIRBLN4Vl4vGiMXp3ieI2xOvUK6a/kAYeKR6O+Zt61yzJkm6gW/ecUJ5gA3WSCTA7DxIL2p9igURxNyVAMVAPZfCOGGbs6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709916571; c=relaxed/simple;
-	bh=KzdKUekyi9rBF/gDC5z7G4GjeHKa0pomXxJxjC5D0Xc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dplyUU3oQ489ZG7EOUXb2fiNPGjdbyoe5PzKd8NYCCknNTHSWk6kYxj7XYZWVdGwpcUz55jWdkMBPWDwNbJHhposntsq9mj6JFIuvZ/VhYZsM/BOCqbKxcJXJk6HY0sSMUO2QEmwLUuOjUTrTUH1FIS4+BOhFOIXo8jNJHaSp1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id E414168BEB; Fri,  8 Mar 2024 17:49:20 +0100 (CET)
-Date: Fri, 8 Mar 2024 17:49:20 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
- steps
-Message-ID: <20240308164920.GA17991@lst.de>
-References: <47afacda-3023-4eb7-b227-5f725c3187c2@arm.com> <20240305122935.GB36868@unreal> <20240306144416.GB19711@lst.de> <20240306154328.GM9225@ziepe.ca> <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca>
+	s=arc-20240116; t=1709917276; c=relaxed/simple;
+	bh=5s4uVZYzL5xnUpS0cs0ZcugLLMwfYan+D4jDkzO05oI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F5yeBgfJBUpt2plQ6RABpe+qB0nYeW6sYW3gh+vcsrZAb/1TEz+n6rA4PEoz4R++trqZpT7ps0pC48ZEukXYfiVs+Vd/gP7ZcI479ZusZIjUIch4ojcPvfeC6fbN4H1LYC1c9KTxTuMvcy4mswmOXFpJXyZsBO6rnJajtTK2Jec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=mmd0bdG2; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="mmd0bdG2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1709917266;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=SFBKjiymmjn1Cc3fHZlhJhqjEETz/4Y5VvGtGcGIiE0=;
+	b=mmd0bdG2Y0uIyMvOaFFYjT8Bw1Stk2P0bT4cT5sR/e4CzY9Zm9IbFsvaT9Hfsr9jTrdlkv
+	hBs20kbmTnPHjoFINI/0dooDsZ/lEFTN/ma1tt030mEWOn3CDLI1ldB2WDsxQlMUagr13Y
+	jenhVg/B0/sIAM4we3ixpKlj8VvNc7Q=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v8 0/6] iio: new DMABUF based API
+Date: Fri,  8 Mar 2024 18:00:40 +0100
+Message-ID: <20240308170046.92899-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240307210116.GQ9225@ziepe.ca>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 07, 2024 at 05:01:16PM -0400, Jason Gunthorpe wrote:
-> > 
-> > It's just kinda hard to do.  For aligned IOMMU mapping you'd only
-> > have one dma_addr_t mappings (or maybe a few if P2P regions are
-> > involved), so this probably doesn't matter.  For direct mappings
-> > you'd have a few, but maybe the better answer is to use THP
-> > more aggressively and reduce the number of segments.
-> 
-> Right, those things have all been done. 100GB of huge pages is still
-> using a fair amount of memory for storing dma_addr_t's.
-> 
-> It is hard to do perfectly, but I think it is not so bad if we focus
-> on the direct only case and simple systems that can exclude swiotlb
-> early on.
+Hi Jonathan,
 
-Even with direct mappings only we still need to take care of
-cache synchronization.
+Here's the final(tm) version of the IIO DMABUF patchset.
 
-> > If all flows includes multiple non-coalesced regions that just makes
-> > things very complicated, and that's exactly what I'd want to avoid.
-> 
-> I don't see how to avoid it unless we say RDMA shouldn't use this API,
-> which is kind of the whole point from my perspective..
+This v8 fixes the remaining few issues that Christian reported.
 
-The DMA API callers really need to know what is P2P or not for
-various reasons.  And they should generally have that information
-available, either from pin_user_pages that needs to special case
-it or from the in-kernel I/O submitter that build it from P2P and
-normal memory.
+I also updated the documentation patch as there has been changes to
+index.rst.
 
-> Sure, 3 SGL entries is fine, that isn't what I'm pointing at
-> 
-> I'm saying that today if you give such a scatterlist to dma_map_sg()
-> it scans it and computes the IOVA space need, allocates one IOVA
-> space, then subdivides that single space up into the 3 HW SGLs you
-> show.
-> 
-> If you don't preserve that then we are calling, 4k at a time, a
-> dma_map_page() which is not anywhere close to the same outcome as what
-> dma_map_sg did. I may not get contiguous IOVA, I may not get 3 SGLs,
-> and we call into the IOVA allocator a huge number of times.
+This was based on next-20240308.
 
-Again, your callers must know what is a P2P region and what is not.
-I don't think it is a hard burdern to do mappings at that granularity,
-and we can encapsulate this in nice helpes for say the block layer
-and pin_user_pages callers to start.
+Changelog:
 
-> 
-> It needs to work following the same basic structure of dma_map_sg,
-> unfolding that logic into helpers so that the driver can provide
-> the data structure:
-> 
->  - Scan the io ranges and figure out how much IOVA needed
->    (dma_io_summarize_range)
+- [3/6]:
+    - Fix swapped fence direction
+    - Simplify fence wait mechanism
+    - Remove "Buffer closed with active transfers" print, as it was dead
+      code
+    - Un-export iio_buffer_dmabuf_{get,put}. They are not used anywhere
+      else so they can even be static.
+    - Prevent attaching already-attached DMABUFs
+- [6/6]:
+    Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated index.rst
+    whose format changed in iio/togreg.
 
-That is in general a function of the upper layer and not the DMA code.
+Cheers,
+-Paul
 
->  - Allocate the IOVA (dma_init_io)
+Paul Cercueil (6):
+  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+  iio: core: Add new DMABUF interface infrastructure
+  iio: buffer-dma: Enable support for DMABUFs
+  iio: buffer-dmaengine: Support new DMABUF based userspace API
+  Documentation: iio: Document high-speed DMABUF based API
 
-And this step is only needed for the iommu case.
+ Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+ Documentation/iio/index.rst                   |   1 +
+ drivers/dma/dma-axi-dmac.c                    |  40 ++
+ drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+ .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+ drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+ include/linux/dmaengine.h                     |  27 +
+ include/linux/iio/buffer-dma.h                |  31 ++
+ include/linux/iio/buffer_impl.h               |  30 ++
+ include/uapi/linux/iio/buffer.h               |  22 +
+ 10 files changed, 890 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
 
-> > That's why I really just want 2 cases.  If the caller guarantees the
-> > range is coalescable and there is an IOMMU use the iommu-API like
-> > API, else just iter over map_single/page.
-> 
-> But how does the caller even know if it is coalescable? Other than the
-> trivial case of a single CPU range, that is a complicated detail based
-> on what pages are inside the range combined with the capability of the
-> device doing DMA. I don't see a simple way for the caller to figure
-> this out. You need to sweep every page and collect some information on
-> it. The above is to abstract that detail.
-
-dma_get_merge_boundary already provides this information in terms
-of the device capabilities.  And given that the callers knows what
-is P2P and what is not we have all the information that is needed.
+-- 
+2.43.0
 
