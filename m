@@ -1,173 +1,72 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141BA3D55B
-	for <linux-doc@vger.kernel.org>; Thu,  7 Mar 2024 23:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F419163;
+	Fri,  8 Mar 2024 00:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709853279; cv=none; b=HnwO5CCyu/6Aw+2TaCNDUnVHDwgRvuNA98WLKdpA6f18VMB9XyhXc44wJ04xtRquJnIAEe8/oz1TEh7TYYZZqqfmO3FyYLw6a2i6BdZ7ckiE+ZAHaPzKxF5KkjCBmHW4WZQEvrvfnFVN4Gwpd8tbyss7U+nrRy9PlZzIddsV31M=
+	t=1709856870; cv=none; b=YWwzZ7Uwt9mdyTG6nENdi1hg6Yk0TVN084neXnwYKKkH89FWhsSz65NU8FUEtidAPtLTvBGGhF88ZWzOwuSFHDgKeiEWfxIjqAvTd3hl5saXZRfdXaSZreJE5VXOWxnGZPw4YhG1p83+8BIgRtJRZPsrNs4ReuuVLKET2NVGkRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709853279; c=relaxed/simple;
-	bh=QYJo+Yke5aJlMyfjbI6hljoXPME1FT1iFFjSRBsn6L0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q5X8JwCVdC5/vf7CAIrHSkJ3IZdzgT4fCjorxcaf4agRscz47HkFObXcWDjb4EEsCyynULa1YL5h5Q9ETmG6btc1G3sBCYXuB9YiJEkYTyTYQXhKD7n5qlft3fEC49FMMJs2PNfKCTzOGm6i5b43UoaDfRsjZQILPP69sEAGApE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W7GWCUzk; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709856870; c=relaxed/simple;
+	bh=ShKAOPsNeFSgfIJeAAMXbVN/XeGuL3Tf/iQlZyZXXPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zw0Qu4YuFNAPvmBP52Arx6iwV26vA7VJ5RWfmknSC7cVlBHDWqtDhpLIpIcvr9hFOjItpRf5kWI67qtlzvFpHJhyt8HC9qwHDVxxnfVrIOpx9F1SeF1NBz//NuoKk4NY/Hr8M+EUWUxSjlaJNirQLraG79B6Y4gvDBejSvn2gOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=roLdvQKS; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W7GWCUzk"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1dc744f54d0so86945ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 15:14:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709853277; x=1710458077; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yyHz5TUXyOD1YYJGciS81G7bMq+Rvo+w+wxmkrHlg0A=;
-        b=W7GWCUzk+UVIYp54fKN85Wp1THw35W0g/NPlls+rsl81STxGEIf6T3ipGRyVun7ri8
-         7dY1TnCnMY0tOwAmw3miaw8ZaaPCRMLfB9WhfB17MC9OqUFOyOhkhd56xZwFc5+G7Hkp
-         1QK09VqELjMQB25cX0rLCPKzOGQ1wQ3tA3b5XpfqML/3RxvMd0bnTRLLMlzIbzac2NDr
-         DJ7BhHaH3EnOOudDChlTGa/hTY4DPRknhZjZmvkCmj+Xs0xqwq2HAMgpTzm/Wvvu2F9U
-         rRWDBWMHBH9wlqJNucJHF8/2qcWBAe6VTH69ky3TsryNHBLijtmkWkSkcpRDPTlNaA97
-         RW2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709853277; x=1710458077;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yyHz5TUXyOD1YYJGciS81G7bMq+Rvo+w+wxmkrHlg0A=;
-        b=BxvSwgXmcrIgcLShNnCeGdaB5YsMpu3x4Q64kLMQeOyGYUCxNrDrSf8NPLYWlDhkRG
-         XYlBIZapFcDrv//LmeX10nA8tRRoEzw9X284JILenM3Y9Xf9euiIPaG0uIWKAXMTiUFX
-         fp4Kauqejf/iJkuzHTLvNli44NThQemska9k2G9M2mCW6qkjzIB8Roa22zCQxKuXeiFP
-         v3KuXMBRRyfpKMLFvrTt69Z9C0jiJXsF40GJog/Qlsss3fLveY9MvoVX2WykKAw6LAUr
-         LJygyMluIYa/JFMwq05f4Gfe+MkH8ohNad6zy4DpfL719h2aOJZQWP1nkqLadcDdJTee
-         kA4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUd1eUhQzFRB/qKb+LrmDamPtZqJnrukulmYdnsGvDOFtDxX+A3BuqYHukTcl6jiiEFDpO4DRY3SiiW5gla/G3N6n2uKFtNvjLj
-X-Gm-Message-State: AOJu0Yyt96z9S1c2DQGAVmrIAtWDOT7/lOcgWQby4oW17UIpAaggkkRh
-	g1yPxc4qaOrfnmxFZ6qBpeSMh/pZQZTjel8a9eGH1p4+5k2GbHBduRXSu5Wjf44rIgumyzrz77L
-	PtUyQJSkLeUqKi01+KdiBvIKsGwkr1p+bvIIJ
-X-Google-Smtp-Source: AGHT+IHmq5z9toYklx1GlpLQpMXFJGljcoilQ+NBPL1CrlBG4w85r1U+OFXGEhdm0PRb+dv/vG668caiuSxZqMoAiOE=
-X-Received: by 2002:a17:902:da8e:b0:1d9:907f:635a with SMTP id
- j14-20020a170902da8e00b001d9907f635amr349396plx.13.1709853277038; Thu, 07 Mar
- 2024 15:14:37 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="roLdvQKS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=pAdOU+6NWPhS48wWJ2Dtjr5NagG/2OqoNvOJ8IAErUo=; b=roLdvQKShZYIj48y3uP+XHXUvG
+	bvAU7PKYoUMK9TezAuxPqMs440C6Rvv284GSZOgip8UL0C1IiP4QMF6MlTGRpbcXsFsilfm7lerKm
+	7RdkBOKe8ih9a9tFVzovNeisBpd5nTz9DkC1oXqIhthguUh8dlhRtINBdO6V2S1H5Zag=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1riNsf-009fkW-OF; Fri, 08 Mar 2024 01:14:33 +0100
+Date: Fri, 8 Mar 2024 01:14:33 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
+	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 09/12] net: ethernet: oa_tc6: implement
+ receive path to receive rx ethernet frames
+Message-ID: <49f8b067-4e56-4e8f-97e0-bac314619b82@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-10-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201005720.235639-1-babu.moger@amd.com> <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com> <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com> <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com> <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
- <1738493b-3248-4c9e-82a8-1599a033440d@intel.com> <369ab28a-f3fa-4359-8e73-4dcf214c9b6e@amd.com>
- <54687d59-d0e4-4fe7-b25f-dc1fead01ea1@intel.com> <11487a31-908e-d474-50c6-65617d417deb@amd.com>
- <c73f444b-83a1-4e9a-95d3-54c5165ee782@intel.com> <55b545fd-2851-0d0f-ac37-ec59838fb4b4@amd.com>
- <1f366890-d9ff-4ac4-9af9-1ea3128a87fc@intel.com> <41ca7504-c3fb-ddb6-e149-4ff82019d678@amd.com>
- <CALPaoCi=PCWr6U5zYtFPmyaFHU_iqZtZL-LaHC2mYxbETXk3ig@mail.gmail.com>
- <1d3e8b68-28fa-419b-b129-0c39df34f718@intel.com> <CALPaoChJPkfrMgFDhtZqwK7O8=A71CKLzQjEMG6LbgB9RhdzvA@mail.gmail.com>
- <e90ce54c-a830-4ba5-8b28-aeef06705d01@intel.com>
-In-Reply-To: <e90ce54c-a830-4ba5-8b28-aeef06705d01@intel.com>
-From: Peter Newman <peternewman@google.com>
-Date: Thu, 7 Mar 2024 15:14:25 -0800
-Message-ID: <CALPaoChcJq5zoPchB2j0aM+nZpQe1xoo7w2QQUjtH+c58Yyxag@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: babu.moger@amd.com, James Morse <james.morse@arm.com>, corbet@lwn.net, 
-	fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
-	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
-	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
-	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
-	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
-	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, eranian@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306085017.21731-10-Parthiban.Veerasooran@microchip.com>
 
-Hi Reinette,
+> +static int oa_tc6_allocate_rx_skb(struct oa_tc6 *tc6)
+> +{
+> +	tc6->rx_skb = netdev_alloc_skb(tc6->netdev, tc6->netdev->mtu + ETH_HLEN +
+> +				       ETH_FCS_LEN + NET_IP_ALIGN);
+> +	if (!tc6->rx_skb) {
+> +		tc6->netdev->stats.rx_dropped++;
+> +		netdev_err(tc6->netdev, "Out of memory for rx'd frame");
 
-On Thu, Mar 7, 2024 at 2:53=E2=80=AFPM Reinette Chatre
-<reinette.chatre@intel.com> wrote:
->
-> Hi Peter,
->
-> On 3/7/2024 2:33 PM, Peter Newman wrote:
-> > Hi Reinette,
-> >
-> > On Thu, Mar 7, 2024 at 12:41=E2=80=AFPM Reinette Chatre
-> > <reinette.chatre@intel.com> wrote:
-> >> I understood the proposed interface appeared to focus on one use case
-> >> while the goal is to find an interface to support all requirements.
-> >> With this proposed interface it it possible to make large scale change=
-s
-> >> with a single sysfs write.
-> >
-> > Ok I see you requested[1] one such example earlier.
-> >
-> > From what I've read, is this what you had in mind of reassigning 32
-> > counters from the first 16 groups to the next?
-> >
-> > I had found that it's hard to get a single write() syscall out of a
-> > string containing newlines, so I'm using one explicit call:
->
-> Apologies but this is not clear to me, could you please elaborate?
->
-> If you are referring to testing via shell you can try ANSI-C Quoting like=
-:
->         echo -n $'c1/m1/00=3D_\nc2/m2/00=3D_\n'
+If that happens, it is not something which will fix itself quickly. So
+you are likely to spam the logs. The counter on its own is probably
+enough.
 
-The echo command uses buffered output through printf() and
-putchar()[1]. The behavior of the buffering seems to be a write() call
-after each newline, causing the kernel to see the request below as 32
-individual commands.
-
->
-> >
-> > write([mbm_assign_control fd],
-> > "/c1/m1/00=3D_;02=3D_;03=3D_;04=3D_;05=3D_;06=3D_;07=3D_;08=3D_;09=3D_;=
-10=3D_;11=3D_;12=3D_;13=3D_;14=3D_;15=3D_\n"
-> > "/c1/m2/00=3D_;01=3D_;02=3D_;03=3D_;04=3D_;05=3D_;06=3D_;07=3D_;08=3D_;=
-09=3D_;10=3D_;11=3D_;12=3D_;13=3D_;14=3D_;15=3D_\n"
-> > "/c1/m3/00=3D_;01=3D_;02=3D_;03=3D_;04=3D_;05=3D_;06=3D_;07=3D_;08=3D_;=
-09=3D_;10=3D_;11=3D_;12=3D_;13=3D_;14=3D_;15=3D_\n"
-> > [...]
-> > "/c1/m14/00=3D_;01=3D_;02=3D_;03=3D_;04=3D_;05=3D_;06=3D_;07=3D_;08=3D_=
-;09=3D_;10=3D_;11=3D_;12=3D_;13=3D_;14=3D_;15=3D_\n"
-> > "/c1/m15/00=3D_;01=3D_;02=3D_;03=3D_;04=3D_;05=3D_;06=3D_;07=3D_;08=3D_=
-;09=3D_;10=3D_;11=3D_;12=3D_;13=3D_;14=3D_;15=3D_\n"
-> > "/c1/m16/00=3Dlt;01=3Dlt;02=3Dlt;03=3Dlt;04=3Dlt;05=3Dlt;06=3Dlt;07=3Dl=
-t;08=3Dlt;09=3Dlt;10=3Dlt;11=3Dlt;12=3Dlt;13=3Dlt;14=3Dlt;15=3Dlt\n"
-> > "/c1/m17/00=3Dlt;01=3Dlt;02=3Dlt;03=3Dlt;04=3Dlt;05=3Dlt;06=3Dlt;07=3Dl=
-t;08=3Dlt;09=3Dlt;10=3Dlt;11=3Dlt;12=3Dlt;13=3Dlt;14=3Dlt;15=3Dlt\n"
-> > "/c1/m18/00=3Dlt;01=3Dlt;02=3Dlt;03=3Dlt;04=3Dlt;05=3Dlt;06=3Dlt;07=3Dl=
-t;08=3Dlt;09=3Dlt;10=3Dlt;11=3Dlt;12=3Dlt;13=3Dlt;14=3Dlt;15=3Dlt\n"
-> > [...]
-> > "/c1/m30/00=3Dlt;01=3Dlt;02=3Dlt;03=3Dlt;04=3Dlt;05=3Dlt;06=3Dlt;07=3Dl=
-t;08=3Dlt;09=3Dlt;10=3Dlt;11=3Dlt;12=3Dlt;13=3Dlt;14=3Dlt;15=3Dlt\n"
-> > "/c1/m31/00=3Dlt;01=3Dlt;02=3Dlt;03=3Dlt;04=3Dlt;05=3Dlt;06=3Dlt;07=3Dl=
-t;08=3Dlt;09=3Dlt;10=3Dlt;11=3Dlt;12=3Dlt;13=3Dlt;14=3Dlt;15=3Dlt\n",
-> > size);
->
-> (so far no "/" needed as prefix)
->
-> We could also consider some syntax to mean "all domains". For example,
-> if no domain given then it can mean "all domains"?
-> So, your example could possibly also be accomplished with a
->
->         c1/m1/=3D_\nc1/m2/=3D_\nc1/m3/=3D_\n [...] c1/m16/=3Dlt\nc1/m17/=
-=3Dlt\nc1/m18/=3D_\n [...]
->
-> Any thoughts?
-
-Yes, that would be helpful. The AMD implementations we use typically
-have 16 domains or more.
-
-Thanks!
--Peter
-
-[1] https://git.savannah.gnu.org/cgit/bash.git/tree/builtins/echo.def
+	Andrew
