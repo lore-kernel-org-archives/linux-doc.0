@@ -1,159 +1,195 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EC936132;
-	Fri,  8 Mar 2024 13:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB5563B8;
+	Fri,  8 Mar 2024 13:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709904781; cv=none; b=PZGsISfSOBWUyvaqiy0I+Fej3v4idHF8hAK7G7g/IoX4t8me+fE3rys0wmoUJezwta6E6UTmj6u3i8S21n0SoqvwBTX7e8yD+S+YghbAR70AV1E0tq5fffLfI+8NzYqdEuiYWAU/n/1KSzADMtmSnwSUQf5/bp1Gk8RFqoe0qS4=
+	t=1709905593; cv=none; b=H/DXXi6W1kTopeo/OxGe0chgLuNk9dqgvLrlQfG2MXdwL1ztygN+Q0POr9Lrcgxz9oaygGcLnXS285T8dZ0geL05m1D7l4H59oSe7/vpoGwdP7zVPnMsvNidBg9HjVptjDYphgxBF367qWt8hnEM+6eakRnrIURlk/DQbj3mGNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709904781; c=relaxed/simple;
-	bh=Vv/Jufa5OVNBfy5C9TR6DMNWeexhQbgcJrBdXPQc34M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LxjZ5Ep/ztX2rrIZ5hnauYLkHBNnsvCYd1u/T7VxTi3Gk3iCNxujbpCum2UYZH3Fx4wx/4rpttqPoxwArF32HT9WlFMxOIYcbtgXMg8QV/gg0FQE8tRENUjIDmi18YXfUO4zz0C7S5sBV0ImKG1pnYrVG7EgH8khlS+9kpz6Axs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2PV1xcV7; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1709905593; c=relaxed/simple;
+	bh=GBFwFYZ4ubg0U+FlRZQiIvGDvUpfu7Sbide83u/wP3Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Mime-Version; b=SaTM7Q802kzg1NtMzxOCoorY81LJoRLVvT5GrBwM3tEjOwJke1BB4KENO/xAOIPL8pDreil89LfNoqd4Efv8ilqW50XU1wbPkUh6nFRg8M7RE2ZE44Jgk7mB4lvm0dWPD4RYkPcl7znVrJ4vOjCJ6Q80FE51uWLcTEa2EdDjQJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=OR2v33ul; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2PV1xcV7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=XLhNZiOAtOVRkJtnzxKeO+RebX+VweC9Qi0gKqLYSug=; b=2P
-	V1xcV7e67+qNS5SLuC5sqbbw9rDlaK2j5FirbwEh1W6qRIWu1x6badEuka4IXZdSywzw2SKUs9+2P
-	DsBNlPo/f9QfW7v7AkNLkJ7q81VaZdsoviLrpbgxojk3QieSoy+8/gUI+xPrG1FPEEuVGClV3wi6r
-	EBff0q/VkXEAGmU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1riaLY-009lXx-Kv; Fri, 08 Mar 2024 14:33:12 +0100
-Date: Fri, 8 Mar 2024 14:33:12 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
- internal PHY initialization
-Message-ID: <8de7a4bb-a127-4771-97dd-038f08fcce9d@lunn.ch>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
- <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
- <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
- <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
- <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="OR2v33ul"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 428DCY5s003316;
+	Fri, 8 Mar 2024 13:45:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=Z9B5en3b/B8IE/ICyxvk/gv4UnKx7MFoXBu5looV+Ug=;
+ b=OR2v33ulhloADO1SAtdMFTTD7q/vlaVe6+dY/hXR/u0sBdpvl9ADuzQs8NjKs5nvvZdR
+ pIcsQlL+JCY6Z14zdlhX/SLzuTIXT6S+6NJBtkb5/F+OrA1R6RTM+MjYZyq8KZ06uw9l
+ 3dxC98FtZQuXsTTFE2k0nctELQZX0Da1WZb04YB+tAYmirWXjuy59twSPDckkASt2uKV
+ xvzMEo/HZzoSrenq+tVEKYHTVM51l5Y2dVGJe0YZQSV35FGJ1zZPf/KWiEf8dhEPsMWL
+ Ajiv1dAcnI1qzDQqwa4rcIYI+kBpa4Ze5b+YDUk5DOJeqC3GGteqkA+xiHBy98+AiL5j 8A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wr3brgjt0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Mar 2024 13:45:48 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 428Djkgk001146;
+	Fri, 8 Mar 2024 13:45:46 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wr3brgjhs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Mar 2024 13:45:46 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 428D1emU024185;
+	Fri, 8 Mar 2024 13:41:32 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3wpjwsqxrv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Mar 2024 13:41:32 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 428DfUma29819268
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 8 Mar 2024 13:41:32 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 112E45804B;
+	Fri,  8 Mar 2024 13:41:30 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D33EF58055;
+	Fri,  8 Mar 2024 13:41:27 +0000 (GMT)
+Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.150.204])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  8 Mar 2024 13:41:27 +0000 (GMT)
+Message-ID: <3e855b6c0892a00743758fc04bfb183cae2a42ef.camel@linux.ibm.com>
+Subject: Re: [RFC][PATCH 3/8] ima: Add digest_cache policy keyword
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+        hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+        ppavlu@suse.com, petr.vorel@gmail.com, petrtesarik@huaweicloud.com,
+        mzerqung@0pointer.de, kgold@linux.ibm.com,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Date: Fri, 08 Mar 2024 08:41:27 -0500
+In-Reply-To: <71c77bbef487ae3279f0c3f85785bd0c03a4ee8c.camel@huaweicloud.com>
+References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
+	 <20240214143525.2205481-4-roberto.sassu@huaweicloud.com>
+	 <031d4ff2bf0c04df5f4094989b94f7ce3e3e73f6.camel@linux.ibm.com>
+	 <71c77bbef487ae3279f0c3f85785bd0c03a4ee8c.camel@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-23.el8_9) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 9w5FCygre4tzblgPXK5_lhRgyHoU6pXT
+X-Proofpoint-GUID: RvHVb4juFytOgR1T2UgdrpVSMY45jGJS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-08_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 mlxscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403080110
 
-> Ok, as per the table 6 in the spec, PHY C45 registers are mapped in the 
-> MMS like below,
+On Fri, 2024-03-08 at 10:05 +0100, Roberto Sassu wrote:
+> On Thu, 2024-03-07 at 14:43 -0500, Mimi Zohar wrote:
+> > On Wed, 2024-02-14 at 15:35 +0100, Roberto Sassu wrote:
+> > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > > 
+> > > Add the 'digest_cache=' policy keyword, to enable the usage of digest
+> > > caches for specific IMA actions and purposes.
+> > > 
+> > > At the moment, it accepts only 'content' as value, as digest caches can be
+> > > only used only for measurement and appraisal of file content. In the
+> > > future, it might be possible to use them for file metadata too.
+> > 
+> > At least from this patch, it is unclear why 'digest_cache' requires an
+> > option.  
+> > The usage - measure, appraise - is based on 'action'.  From an IMA
+> > perspective,
+> > does the file content make a difference?  And if it did, then file 'data'
+> > would
+> > parallel file 'metadata'.
 > 
-> PHY – PCS Registers (MMD 3)  --->  MMS 2
-> PHY – PMA/PMD Registers (MMD 1)  --->   MMS 3
-> PHY – Vendor Specific and PLCA Registers (MMD 31)  --->  MMS 4
-> PHY – Auto-Negotiation Registers (MMD 7)  --->  MMS 5
-> PHY – Power Unit (MMD 13)  --->  MMS 6
+> I wanted to express the fact that digest caches, if available, can only
+> be used to appraise file data, if there is no metadata (similarly to
+> module-style appended signatures).
 > 
-> MMD 13 for PHY - Power Unit is not defined in the mdio.h. So in the 
-> below code I have defined it locally (MDIO_MMD_POWER_UNIT). May be 
-> needed to do this in the mdio.h file when coming to this patch.
+> That would prevent for example the scenario where appraisal of file
+> data is successful without having verified current metadata, and EVM
+> attaches to the file a valid HMAC on file close, based on the current
+> xattr value (trust at first use).
 
-Yes, please add it to mdio.h
-
-> /* PHY – Clause 45 registers memory map selector (MMS) as per table 6 in 
-> the OPEN Alliance specification.
->   */
-> #define OA_TC6_PHY_PCS_MMS2                     2       /* MMD 3 */
-> #define OA_TC6_PHY_PMA_PMD_MMS3                 3       /* MMD 1 */
-> #define OA_TC6_PHY_VS_PLCA_MMS4                 4       /* MMD 31 */
-> #define OA_TC6_PHY_AUTO_NEG_MMS5                5       /* MMD 7 */
-> #define OA_TC6_PHY_POWER_UNIT_MMS6              6       /* MMD 13 */
-> 
-> /* MDIO Manageable Device (MMD) for PHY Power Unit */
-> #define MDIO_MMD_POWER_UNIT                     13      /* PHY Power Unit */
-> 
-> static int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int 
-> devnum, int regnum)
-> { 
-> 
->          struct oa_tc6 *tc6 = bus->priv; 
-> 
->          u32 regval; 
-> 
->          bool ret; 
-> 
->          u32 mms; 
-> 
->  
-> 
->          if (devnum == MDIO_MMD_PCS) 
-> 
->                  mms = OA_TC6_PHY_PCS_MMS2; 
-> 
->          else if (devnum == MDIO_MMD_PMAPMD) 
-> 
->                  mms = OA_TC6_PHY_PMA_PMD_MMS3; 
-> 
->          else if (devnum == MDIO_MMD_VEND2) 
-> 
->                  mms = OA_TC6_PHY_VS_PLCA_MMS4; 
-> 
->          else if (devnum == MDIO_MMD_AN) 
-> 
->                  mms = OA_TC6_PHY_AUTO_NEG_MMS5; 
-> 
->          else if (devnum == MDIO_MMD_POWER_UNIT) 
-> 
->                  mms = OA_TC6_PHY_POWER_UNIT_MMS6; 
-
-I would probably use a switch statement.
+Correct. There's no requirement for 'security.ima' to exist to calculate the EVM
+HMAC.  Before using EVM HMAC, the filesystem needs to be properly labeled by
+walking the filesystem.  The HMAC is calculated based on the existing file
+metadata.  The first use is during a setup stage and subsequently for new files.
 
 > 
->          else 
+> An IMA rule with 'digest_cache=metadata' would take a different code
+> path. It would make IMA send to evm_verifyxattr() the calculated file
+> digest (since there is no security.ima), and let EVM calculate and
+> search the digest of file metadata in the digest cache.
+
+Ok.  So no 'security.evm' either, but a metadata digest cache.
+
+I understand the need to provide EVM with the file hash in this case, but as
+much as possible, IMA and EVM should be independent of each other.
+
 > 
->                  return -ENOTSUPP; 
-
-802.3 says:
-
-  If a device supports the MDIO interface it shall respond to all
-  possible register addresses for the device and return a value of
-  zero for undefined and unsupported registers. Writes to undefined
-  registers and read-only registers shall have no effect. The
-  operation of an MMD shall not be affected by writes to reserved and
-  unsupported register bits, and such register bits shall return a
-  value of zero when read.
-
-So maybe return 0. ENOTSUPP is wrong, that is an NFS only error
-code. The generic one is EOPNOTSUPP. I would say -EOPNOTSUPP is also
-O.K.
-
->          ret = oa_tc6_read_register(tc6, (mms << 16) | regnum, &regval); 
+> I didn't go that far yet, but this is more or less what I would like to
+> do, also based on my old implementation of the IMA Digest Lists
+> extension (which supports file metadata lookup).
 > 
->          if (ret) 
+> > Without having to pass around "digest_cache_mask" would simplify this patch.
 > 
->                  return -ENODEV; 
+> We need to pass it anyway, to let process_measurement() know that it
+> can use digest caches. Or we can make 'flags' in ima_iint_cache a u64,
+> and introduce new flags.
 
-oa_tc6_read_register() should return an error code, so return whatever
-is returns. Don't overwrite error codes. It makes it harder to track
-errors through the call stack.
+It's bad enough that the function parameters change when there's actual data. 
+Yes, please increase the size of 'flags' and introduce new flags.
 
-       Andrew
+thanks,
+
+Mimi
+
+> > > The 'digest_cache=' keyword can be specified for the subset of IMA hooks
+> > > listed in ima_digest_cache_func_allowed().
+> > > 
+> > > POLICY_CHECK has been excluded for measurement, because policy changes
+> > > must
+> > > be visible in the IMA measurement list. For appraisal, instead, it might
+> > > be
+> > > useful to load custom policies in the initial ram disk (no security.ima
+> > > xattr).
+> > > 
+> > > Add the digest_cache_mask member to the ima_rule_entry structure, and set
+> > > the flag IMA_DIGEST_CACHE_MEASURE_CONTENT if 'digest_cache=content' was
+> > > specified for a measure rule, IMA_DIGEST_CACHE_APPRAISE_CONTENT for an
+> > > appraise rule.
+> > > 
+> > > Propagate the mask down to ima_match_policy() and ima_get_action(), so
+> > > that
+> > > process_measurement() can make the final decision on whether or not digest
+> > > caches should be used to measure/appraise the file being evaluated.
+> > > 
+> > > Since using digest caches changes the meaning of the IMA measurement list,
+> > > which will include only digest lists and unknown files, enforce specifying
+> > > 'pcr=' with a non-standard value, when 'digest_cache=content' is specified
+> > > in a measure rule.
+> > > 
+> > > This removes the ambiguity on the meaning of the IMA measurement list.
+> > > 
+> > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > > 
 
