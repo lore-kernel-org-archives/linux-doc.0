@@ -1,173 +1,193 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BCD2C191;
-	Fri,  8 Mar 2024 19:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E3E5DF24
+	for <linux-doc@vger.kernel.org>; Fri,  8 Mar 2024 20:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709927746; cv=none; b=cdxc72L7nsTymoqEO/SiRQz9+8DDBlPt+t2/FtBCB/a6KG6B+56s5A/k0MDlCmarSkjMfISlPCOJP47OxQzKLTKWE16DVMI8I9fF96kRiZqK8urbvcEyS9C9eWB0rjLQk9KsmCCDbNUbxAEMJrwzFY7IN6JFmRs8RXI4phPQibs=
+	t=1709929426; cv=none; b=mYPLLGmbHnLy7OUfM4dUyBTqXX2j8Yc2mMioAyWS0V0GYxfd8SQDBYDim+ILIab/wBD0hX15t6Dl+/Hyxs7Rf8zW13yFnBiw8alB/HzpNmxOGVyEMHRYQlChWdukqMuGz1U7WOcCUQLwm/xOlCV6JGvJRhl8WlhY/UHQ7RQbpyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709927746; c=relaxed/simple;
-	bh=tnPTILfzWMATgYslzfwpu4T+3aF7xtrJICkZUDR6nu0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LngjkKAXmLGsjGDys95sOx0ZNVh4loLVQzxVHB37YiacLpZk0I6Iahkw2PUzj1HlqszJ4nmQskdPk+NG6OHIr0RVhhsKm4AW+6BVbXr61Z/NdStZ4mad5AtqZqsvctyS6Tl/f9DB6loJhh3i9q3HSVG/Wz2EJHlOGdoT2QwhBfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=d2dVYaLP; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709929426; c=relaxed/simple;
+	bh=rY0A8eHAZI5cB1A3V08JRigtUPLCemhE15iuR8N+mnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=idam/7DfJMbg+iuU1zmHx5FOVrUVb6G6F0mXKObI8ejheCVaoLzQzTL17wkqqlB14tF7AA30xCANSf7BukTInavK4JZUx+1S0wpEgxnws6tPeYN/xiqS0zfEvCYrhqzbFQL8nUF7R7z30GTg+BNNd2YhFiD1HJLSgAzGg2NAvsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JA++mUN6; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="d2dVYaLP"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 428EaM3a025654;
-	Fri, 8 Mar 2024 19:55:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=HYm7SjumDtT6XU7tM/etg
-	wnCfvR/pgbIRZpy4sQN8C0=; b=d2dVYaLPD8z2QEmEyrny5gf8A91PN+Mvwwi5w
-	ga3YnrmT9a0jjaWOxKC8pT2B27aMlBOg2E9QpAswY5YkRy1jtV1SYQhBRzGUYUSO
-	q2MoQISzH4+5trJUqMbg2tkwQgCRu2dVdem+3Zyzaunqbd8ZqyttEwx30UWxiaYd
-	Y0YZJXwp3nPeUsMEq0jMwrY3H0Addx338SsmsOyf7JVGyj9wLYCBGrU4VrcsFZao
-	AHZppHq1hTGixVbKkr65sNo677UqGnMMUFbdQwMHeI7033JkBkpCN9rokyEezzh0
-	BcubJRrBrPPH2WwrmDTe6qyb+15T5ox8NPMOZcPFkLZP2Ya2w==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wr1wj138e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Mar 2024 19:55:25 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 428JtOEZ001763
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 8 Mar 2024 19:55:24 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Fri, 8 Mar 2024 11:55:23 -0800
-Date: Fri, 8 Mar 2024 11:55:23 -0800
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Quentin Perret <qperret@google.com>
-CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
-        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
-        Android KVM
-	<android-kvm@google.com>,
-        Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder
-	<elder@linaro.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni
-	<quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Philip Derrin
-	<quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu
-	<quic_pheragu@quicinc.com>,
-        Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Dmitry
- Baryshkov" <dmitry.baryshkov@linaro.org>,
-        Fuad Tabba <tabba@google.com>,
-        "Sean Christopherson" <seanjc@google.com>,
-        Andrew Morton
-	<akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct
- {un,}map functions
-Message-ID: <20240308113215616-0800.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Quentin Perret <qperret@google.com>, 
-	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
-	Chris Goldsworthy <quic_cgoldswo@quicinc.com>, Android KVM <android-kvm@google.com>, 
-	Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder <elder@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Murali Nalajal <quic_mnalajal@quicinc.com>, 
-	Trilok Soni <quic_tsoni@quicinc.com>, Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
-	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
- <ZdhEtH7xzbzdhS2j@infradead.org>
- <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
- <ZeXIWBLVWzVycm0r@google.com>
- <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
- <Zec6shyjblcZvTG0@google.com>
- <20240305093131473-0800.eberman@hu-eberman-lv.qualcomm.com>
- <ZehcEqvC3Y9YytNi@google.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JA++mUN6"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5a14d7f0e66so1193371eaf.1
+        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2024 12:23:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1709929424; x=1710534224; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LwAnb64EwkeKmrTREui8emTN6ZYCNogBTHISie/yQU0=;
+        b=JA++mUN6qf41+Xed6p4Z+H5PhtGQNIDEvXPgdgaIPFZELSI7wqn38/PePhxy879qVa
+         dxvja0Op082DnEjyrhAwgqIGSwEe1Z+iiA76lNBYh7zWqTNBPdJd/EXg21KmLtPdqwWU
+         w1JBMNk8sOCzFjKW/t5qyzJ31cKXQri3BrrE2w52j0hnWoz1ZDuTE5reXXgGN44KF6ct
+         YvuLwUjssC4rdjcP9SM6lAVDhjlqcQD0DfQ3ugh7PgeY21/eqmaynXx0fy/OS0oA2srm
+         rrMAlpE+MeXB7kp7BX2B6EKe7DQosXXKGixCM/qaWs9swVugGCsuRGw4FDmVB+tOcNC6
+         E1ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709929424; x=1710534224;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LwAnb64EwkeKmrTREui8emTN6ZYCNogBTHISie/yQU0=;
+        b=c6SABptisXVWXCcD8XlBkxEtqrNuC5QmVlOrKaVaHPSxbfNZ72lsgK1OaRqndBbpUZ
+         QoktXKKFPOVfdjCrG7Z3QR++AkSaJUVsc2OzmIwlYe1AU5bRlqUrxNLOVzVaWn/7qdvY
+         uf5zmm0x5u4PM/8+FCXcqDKKxKcN0rS/tlQVh5+qtsAqPh7dxV3gw4qscBkB3OmDWVFA
+         H66puxo6C9fjNT5YhxsbwFEIPtfoT58+ZX4UBy1fBReBRhvY/ZLHrJy1d3NnFJVUtjco
+         qebUtBdf/Q8+ioplIY98l5iI4Id/B/NPCLxjWBscvcknldMyMGxMi5Ohb/hbhePgNgyo
+         +wfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPK9x9DSylOA+nDwdWMs2oEiX082nlgO6SmKPGS0NvVexuj21bGs8vYqJc+hdDS8m5OsTNDv6YchkcYt0Jccg2lRA2hbB2SwA4
+X-Gm-Message-State: AOJu0YxQipfSi4T0dkfeIZ/XrFZzBr1ajvC54jLWq5yig9klESHgkSDa
+	dQADX4IbUVZpwFXZW2tibHcm1UE44zWcA3fTb7fiiigEl4tDSUTLAOXiSGC1vyY=
+X-Google-Smtp-Source: AGHT+IF/qfykmuaRb5uNoRhqiqioiMWJKv2ds3n4ZiUYzIpQ3ydAyGQZJUUw4tTE2mYtsW4uV3seEQ==
+X-Received: by 2002:a4a:311e:0:b0:5a1:c4b6:bb76 with SMTP id k30-20020a4a311e000000b005a1c4b6bb76mr357202ooa.5.1709929424080;
+        Fri, 08 Mar 2024 12:23:44 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id p14-20020a056830130e00b006e513edb0e3sm18031otq.17.2024.03.08.12.23.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Mar 2024 12:23:43 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1rigko-007vqd-D8;
+	Fri, 08 Mar 2024 16:23:42 -0400
+Date: Fri, 8 Mar 2024 16:23:42 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240308202342.GZ9225@ziepe.ca>
+References: <20240305122935.GB36868@unreal>
+ <20240306144416.GB19711@lst.de>
+ <20240306154328.GM9225@ziepe.ca>
+ <20240306162022.GB28427@lst.de>
+ <20240306174456.GO9225@ziepe.ca>
+ <20240306221400.GA8663@lst.de>
+ <20240307000036.GP9225@ziepe.ca>
+ <20240307150505.GA28978@lst.de>
+ <20240307210116.GQ9225@ziepe.ca>
+ <20240308164920.GA17991@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZehcEqvC3Y9YytNi@google.com>
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CBoYWssXhH8RPoK4yG0CRdOyh2SPhfnf
-X-Proofpoint-GUID: CBoYWssXhH8RPoK4yG0CRdOyh2SPhfnf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-08_08,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 mlxlogscore=588 malwarescore=0
- suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403080156
+In-Reply-To: <20240308164920.GA17991@lst.de>
 
-On Wed, Mar 06, 2024 at 12:05:38PM +0000, Quentin Perret wrote:
-> On Tuesday 05 Mar 2024 at 12:26:59 (-0800), Elliot Berman wrote:
-> > I still disagree that this is a Gunyah-specific problem. As far as we
-> > can tell, Arm doesn't specify how EL2 can tell EL1 its S2 page tables
-> > couldn't give a validation translation of the IPA from stage 1. IMO,
-> > downstream/Android pKVM is violating spec for ESR_EL1 by using the
-> > S1PTW bit (which is res0 for everyone except EL2 [1]) and this means
-> > that guests need to be pKVM-enlightened.
+On Fri, Mar 08, 2024 at 05:49:20PM +0100, Christoph Hellwig wrote:
+> On Thu, Mar 07, 2024 at 05:01:16PM -0400, Jason Gunthorpe wrote:
+> > > 
+> > > It's just kinda hard to do.  For aligned IOMMU mapping you'd only
+> > > have one dma_addr_t mappings (or maybe a few if P2P regions are
+> > > involved), so this probably doesn't matter.  For direct mappings
+> > > you'd have a few, but maybe the better answer is to use THP
+> > > more aggressively and reduce the number of segments.
+> > 
+> > Right, those things have all been done. 100GB of huge pages is still
+> > using a fair amount of memory for storing dma_addr_t's.
+> > 
+> > It is hard to do perfectly, but I think it is not so bad if we focus
+> > on the direct only case and simple systems that can exclude swiotlb
+> > early on.
 > 
-> Not really, in pKVM we have a very clear distinction between host Linux
-> and guests, and only the host needs to be enlightened. But luckily,
-> since pKVM is part of Linux, this is pretty much an internal kernel
-> thing, so we're very flexible and if the S1PTW trick ever conflicts
-> with something else (e.g. NV) we can fairly easily switch to another
-> approach. We can tolerate non-architectural tricks like that between
-> pKVM and host Linux because that is not ABI, but we certainly can't do
-> that for guests.
+> Even with direct mappings only we still need to take care of
+> cache synchronization.
+
+Yes, we still have to unmap, but the unmap for cache synchronization
+doesn't need the dma_addr_t to flush the CPU cache.
+
+> > > If all flows includes multiple non-coalesced regions that just makes
+> > > things very complicated, and that's exactly what I'd want to avoid.
+> > 
+> > I don't see how to avoid it unless we say RDMA shouldn't use this API,
+> > which is kind of the whole point from my perspective..
 > 
-> > If we are adding pKVM
-> > enlightment in the exception handlers, can we add Gunyah enlightment to
-> > handle the same?
+> The DMA API callers really need to know what is P2P or not for
+> various reasons.  And they should generally have that information
+> available, either from pin_user_pages that needs to special case
+> it or from the in-kernel I/O submitter that build it from P2P and
+> normal memory.
+
+I think that is a BIO thing. RDMA just calls with FOLL_PCI_P2PDMA and
+shoves the resulting page list into in a scattertable. It never checks
+if any returned page is P2P - it has no reason to care. dma_map_sg()
+does all the work.
+
+That is the kind of abstraction I am coming to this problem with.
+
+You are looking at BIO where you already needed to split things up for
+other reasons, but I think that is a uniquely block thing that will
+not be shared in other subsystems.
+
+> > If you don't preserve that then we are calling, 4k at a time, a
+> > dma_map_page() which is not anywhere close to the same outcome as what
+> > dma_map_sg did. I may not get contiguous IOVA, I may not get 3 SGLs,
+> > and we call into the IOVA allocator a huge number of times.
 > 
-> If you mean extending the Linux SEA handler so it does what Gunyah
-> wants, then I'm personally not supportive of that idea since the
-> 'contract' between Linux and Gunyah _is_ the architecture.
+> Again, your callers must know what is a P2P region and what is not.
 
-Fair enough. We're building out more use cases where we want to allocate
-memory from buddy and donate it to some entity which unmaps it from
-Linux (some entity = Gunyah or Qualcomm firmware). Video DRM is an
-example we're working on. I imagine OP-TEE might eventually have
-use-cases as well since pKVM is doing same. David expressed concerns
-about exporting the direct unmap functions. What kind of
-framework/restrictions do we want to have instead? I don't think making
-drivers like Gunyah a builtin-only module [1] (even a refactored/small
-portion) is the best approach, but maybe that is what we want to do.
+I don't see this at all. We don't do this today in RDMA. There is no
+"P2P region".
 
-Thanks,
-Elliot
+> > > That's why I really just want 2 cases.  If the caller guarantees the
+> > > range is coalescable and there is an IOMMU use the iommu-API like
+> > > API, else just iter over map_single/page.
+> > 
+> > But how does the caller even know if it is coalescable? Other than the
+> > trivial case of a single CPU range, that is a complicated detail based
+> > on what pages are inside the range combined with the capability of the
+> > device doing DMA. I don't see a simple way for the caller to figure
+> > this out. You need to sweep every page and collect some information on
+> > it. The above is to abstract that detail.
+> 
+> dma_get_merge_boundary already provides this information in terms
+> of the device capabilities.  And given that the callers knows what
+> is P2P and what is not we have all the information that is needed.
 
-[1]: qcom_scm_assign_mem (d/firmware/qcom/qcom_scm.ko) is an example of
-a module that would have to become builtin as we upstream use cases that
-lend buddy-allocated memory to firmware
+Encrypted memory too.
 
+RDMA also doesn't call dma_get_merge_boundary(). It doesn't keep track
+of P2P regions. It doesn't break out encrypted memory. It has no
+purpose to do any of those things.
+
+You fundamentally cannot subdivide a memory registration.
+
+So we could artificially introduce the concept of limited coalescing
+into RDMA, dmabuf and others just to drive this new API - but really
+that feels much much worse than just making the DMA API still able to
+do IOMMU coalescing in more cases.
+
+Even if we did that, it will still be less efficient than today where
+we just call dma_map_sg() on the jumble of pages.
+
+Jason
