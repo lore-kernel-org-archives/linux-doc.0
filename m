@@ -1,201 +1,173 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055BA5B053
-	for <linux-doc@vger.kernel.org>; Fri,  8 Mar 2024 19:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BCD2C191;
+	Fri,  8 Mar 2024 19:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709927617; cv=none; b=TaXaQk508Usrqr2qxZhaUrZs+zS53EmrzEpMvTV65JPkBp8DS5lUn3t0noOkjF9Km8b4owrGooWWX1KosHR88EW+841NqUEOpUGG/GLbfJTRvoT0H/SHInEeBnJHGMUp8GTvwrMzEroAKPlrnA+SV8ah2LRaGbA3BM+GXrklExc=
+	t=1709927746; cv=none; b=cdxc72L7nsTymoqEO/SiRQz9+8DDBlPt+t2/FtBCB/a6KG6B+56s5A/k0MDlCmarSkjMfISlPCOJP47OxQzKLTKWE16DVMI8I9fF96kRiZqK8urbvcEyS9C9eWB0rjLQk9KsmCCDbNUbxAEMJrwzFY7IN6JFmRs8RXI4phPQibs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709927617; c=relaxed/simple;
-	bh=+JPchmRbdEWp2hPvsQ8mwR8SsWihb9svN/keL3PqCmM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mlUAmJri1kYI5CTY6evnqUhos91P01Ir0DgBSvPuPh4CHrlBoEuEiWfEsKQm4b+x8CNA577Bh6HCdYHR2X6RaRXXul33JTvxbOqLuDlGzEOitLf7CyxD5YILbKCpx4O0qpIZJDXqPXj8gXXAJ5LWrXgj95hvMEuWYyGSGRPpKR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FQIcIjit; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1709927746; c=relaxed/simple;
+	bh=tnPTILfzWMATgYslzfwpu4T+3aF7xtrJICkZUDR6nu0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LngjkKAXmLGsjGDys95sOx0ZNVh4loLVQzxVHB37YiacLpZk0I6Iahkw2PUzj1HlqszJ4nmQskdPk+NG6OHIr0RVhhsKm4AW+6BVbXr61Z/NdStZ4mad5AtqZqsvctyS6Tl/f9DB6loJhh3i9q3HSVG/Wz2EJHlOGdoT2QwhBfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=d2dVYaLP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FQIcIjit"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a45bdf6e9c2so301398166b.0
-        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2024 11:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709927613; x=1710532413; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pd2ZoV00c/hvjjV6TuUocydSDT4SN2a80zpBvuI43a4=;
-        b=FQIcIjitCXslDz2GbbUrP/Dl2A1fHjodIwfcVwX7edPGJjzUe6ft0Dzx4S5sFwe1Vh
-         g88zviT2eLf5PmHmjVJB2aNpgv9n3ocJvS72MSrLxPfMODNwXkIqGml7VkVhyDJXPZ65
-         MjMUs4Lqmk59C5q9pviF7lrr5HVfpNnp9VtqWc7ZvnuMI0EGx3Q5NM/4uZGay3xcEJFy
-         qYcxb+eRfAcYnwP/UVfmW9ErY4qC/DPOwckI+rRsS39kszwhkv8lEpCyJ9PUorpE+Wmk
-         8YbTN6+zdx0SrM+L7muhYuk5uJr4h+Hit4pCKYkJfFmlBE74LLcVw8ZHHf4d82NY4qR1
-         jV5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709927613; x=1710532413;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pd2ZoV00c/hvjjV6TuUocydSDT4SN2a80zpBvuI43a4=;
-        b=Ne97iSW+BdO/fwjglV7CZNVmJe+HYyMTCsVcJWotxjRe9xQ3bXltFbuylVlMYmwKlF
-         hnWavbjQCPvxFvwJrnB1mdTiPJKqr044UspgOLoWx5Elshs6Qmxql1GAySoDOqrmRk0B
-         7E59fvSTbB34OdY/AtbgvXeViGxY6kaqjdgWnCa75YBr5QK4NiRNMsdTch1bMc/8j29b
-         3wsUD76e4sYNAcHGP6FyX7asrtl3Tnl1/ahMZjkHyXfpR4Dr7fZ8zxKOqPCEFpw5eMWe
-         KwGFeaINSbwgImqwVex/LYRfevfFpvvGOST3ru2k4fxOoyLhf/guNmLrO+Fx0qngtUeY
-         3UXw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5DMbc8gcI0ACsFMRxIQmOgGh92WuEzkSPrLJeuqz24GbI8BJ8dCCNYuUY/Y2DkP266OcaErWdK0MwiR7BgyT8CSAcMdImbh69
-X-Gm-Message-State: AOJu0Yzb91E+CIWdOtEWScGgOyvwlRP3E0/NRC+Iq52NWAyPBOpK58Vz
-	0Y2FwCSwf1O/X30nNfjYSkFSwBIY4bt5I1MWWEaOFIOVReBRAp02IK7B5KzXDhaVup2q4WX6HSf
-	2lRhMBdGMzICW+fn6NuY7yz2CT23bV1Ij/YDL2YDoWDQ8zJ5rP0mt4vI=
-X-Google-Smtp-Source: AGHT+IGdfTizwHQnCpRk5GeSjOHjssHLcb+cVFlrr45NHBDRApEdAye6AN9i0+rO/lWinEjVvgcrkAuNBm/bbSNX5ic=
-X-Received: by 2002:a17:907:76d7:b0:a3e:9aa3:7024 with SMTP id
- kf23-20020a17090776d700b00a3e9aa37024mr57660ejc.34.1709927612751; Fri, 08 Mar
- 2024 11:53:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="d2dVYaLP"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 428EaM3a025654;
+	Fri, 8 Mar 2024 19:55:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=HYm7SjumDtT6XU7tM/etg
+	wnCfvR/pgbIRZpy4sQN8C0=; b=d2dVYaLPD8z2QEmEyrny5gf8A91PN+Mvwwi5w
+	ga3YnrmT9a0jjaWOxKC8pT2B27aMlBOg2E9QpAswY5YkRy1jtV1SYQhBRzGUYUSO
+	q2MoQISzH4+5trJUqMbg2tkwQgCRu2dVdem+3Zyzaunqbd8ZqyttEwx30UWxiaYd
+	Y0YZJXwp3nPeUsMEq0jMwrY3H0Addx338SsmsOyf7JVGyj9wLYCBGrU4VrcsFZao
+	AHZppHq1hTGixVbKkr65sNo677UqGnMMUFbdQwMHeI7033JkBkpCN9rokyEezzh0
+	BcubJRrBrPPH2WwrmDTe6qyb+15T5ox8NPMOZcPFkLZP2Ya2w==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wr1wj138e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 08 Mar 2024 19:55:25 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 428JtOEZ001763
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 8 Mar 2024 19:55:24 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Fri, 8 Mar 2024 11:55:23 -0800
+Date: Fri, 8 Mar 2024 11:55:23 -0800
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Quentin Perret <qperret@google.com>
+CC: Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>,
+        Chris Goldsworthy <quic_cgoldswo@quicinc.com>,
+        Android KVM
+	<android-kvm@google.com>,
+        Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder
+	<elder@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni
+	<quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Philip Derrin
+	<quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu
+	<quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+        Fuad Tabba <tabba@google.com>,
+        "Sean Christopherson" <seanjc@google.com>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: Re: Re: Re: Re: [PATCH v17 19/35] arch/mm: Export direct
+ {un,}map functions
+Message-ID: <20240308113215616-0800.eberman@hu-eberman-lv.qualcomm.com>
+Mail-Followup-To: Quentin Perret <qperret@google.com>, 
+	Christoph Hellwig <hch@infradead.org>, Will Deacon <will@kernel.org>, 
+	Chris Goldsworthy <quic_cgoldswo@quicinc.com>, Android KVM <android-kvm@google.com>, 
+	Patrick Daly <quic_pdaly@quicinc.com>, Alex Elder <elder@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Murali Nalajal <quic_mnalajal@quicinc.com>, 
+	Trilok Soni <quic_tsoni@quicinc.com>, Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
+	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
+	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-19-1e9da6763d38@quicinc.com>
+ <ZdhEtH7xzbzdhS2j@infradead.org>
+ <20240223071006483-0800.eberman@hu-eberman-lv.qualcomm.com>
+ <ZeXIWBLVWzVycm0r@google.com>
+ <20240304094828133-0800.eberman@hu-eberman-lv.qualcomm.com>
+ <Zec6shyjblcZvTG0@google.com>
+ <20240305093131473-0800.eberman@hu-eberman-lv.qualcomm.com>
+ <ZehcEqvC3Y9YytNi@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com> <15625bac-dfec-4c4e-a828-d11424f7aced@davidwei.uk>
-In-Reply-To: <15625bac-dfec-4c4e-a828-d11424f7aced@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Mar 2024 11:53:18 -0800
-Message-ID: <CAHS8izMC=q_DuR94i-NCKFVsW0JadX7NEbDfyT8PfG3tBwPv-Q@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZehcEqvC3Y9YytNi@google.com>
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: CBoYWssXhH8RPoK4yG0CRdOyh2SPhfnf
+X-Proofpoint-GUID: CBoYWssXhH8RPoK4yG0CRdOyh2SPhfnf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-08_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ mlxscore=0 priorityscore=1501 mlxlogscore=588 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403080156
 
-On Thu, Mar 7, 2024 at 8:57=E2=80=AFPM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-03-04 18:01, Mina Almasry wrote:
-> > From: Jakub Kicinski <kuba@kernel.org>
-> >
-> > The page providers which try to reuse the same pages will
-> > need to hold onto the ref, even if page gets released from
-> > the pool - as in releasing the page from the pp just transfers
-> > the "ownership" reference from pp to the provider, and provider
-> > will wait for other references to be gone before feeding this
-> > page back into the pool.
-> >
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >
-> > This is implemented by Jakub in his RFC:
-> > https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
-hat.com/T/
-> >
-> > I take no credit for the idea or implementation; I only added minor
-> > edits to make this workable with device memory TCP, and removed some
-> > hacky test code. This is a critical dependency of device memory TCP
-> > and thus I'm pulling it into this series to make it revewable and
-> > mergeable.
-> >
-> > RFC v3 -> v1
-> > - Removed unusued mem_provider. (Yunsheng).
-> > - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
-> >
-> > ---
-> >  include/net/page_pool/types.h | 12 ++++++++++
-> >  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
-> >  2 files changed, 50 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/include/net/page_pool/types.h b/include/net/page_pool/type=
-s.h
-> > index 5e43a08d3231..ffe5f31fb0da 100644
-> > --- a/include/net/page_pool/types.h
-> > +++ b/include/net/page_pool/types.h
-> > @@ -52,6 +52,7 @@ struct pp_alloc_cache {
-> >   * @dev:     device, for DMA pre-mapping purposes
-> >   * @netdev:  netdev this pool will serve (leave as NULL if none or mul=
-tiple)
-> >   * @napi:    NAPI which is the sole consumer of pages, otherwise NULL
-> > + * @queue:   struct netdev_rx_queue this page_pool is being created fo=
-r.
-> >   * @dma_dir: DMA mapping direction
-> >   * @max_len: max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
-> >   * @offset:  DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-> > @@ -64,6 +65,7 @@ struct page_pool_params {
-> >               int             nid;
-> >               struct device   *dev;
-> >               struct napi_struct *napi;
-> > +             struct netdev_rx_queue *queue;
-> >               enum dma_data_direction dma_dir;
-> >               unsigned int    max_len;
-> >               unsigned int    offset;
-> > @@ -126,6 +128,13 @@ struct page_pool_stats {
-> >  };
-> >  #endif
-> >
-> > +struct memory_provider_ops {
-> > +     int (*init)(struct page_pool *pool);
-> > +     void (*destroy)(struct page_pool *pool);
-> > +     struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> > +     bool (*release_page)(struct page_pool *pool, struct page *page);
-> > +};
->
-> Separate question as I try to adapt bnxt to this and your queue
-> configuration API.
->
-> How does GVE handle the need to allocate kernel pages for headers and
-> dmabuf for payloads?
->
-> Reading the code, struct gve_rx_ring is the main per-ring object with a
-> page pool. gve_queue_page_lists are filled with page pool netmem
-> allocations from the page pool in gve_alloc_queue_page_list(). Are these
-> strictly used for payloads only?
->
+On Wed, Mar 06, 2024 at 12:05:38PM +0000, Quentin Perret wrote:
+> On Tuesday 05 Mar 2024 at 12:26:59 (-0800), Elliot Berman wrote:
+> > I still disagree that this is a Gunyah-specific problem. As far as we
+> > can tell, Arm doesn't specify how EL2 can tell EL1 its S2 page tables
+> > couldn't give a validation translation of the IPA from stage 1. IMO,
+> > downstream/Android pKVM is violating spec for ESR_EL1 by using the
+> > S1PTW bit (which is res0 for everyone except EL2 [1]) and this means
+> > that guests need to be pKVM-enlightened.
+> 
+> Not really, in pKVM we have a very clear distinction between host Linux
+> and guests, and only the host needs to be enlightened. But luckily,
+> since pKVM is part of Linux, this is pretty much an internal kernel
+> thing, so we're very flexible and if the S1PTW trick ever conflicts
+> with something else (e.g. NV) we can fairly easily switch to another
+> approach. We can tolerate non-architectural tricks like that between
+> pKVM and host Linux because that is not ABI, but we certainly can't do
+> that for guests.
+> 
+> > If we are adding pKVM
+> > enlightment in the exception handlers, can we add Gunyah enlightment to
+> > handle the same?
+> 
+> If you mean extending the Linux SEA handler so it does what Gunyah
+> wants, then I'm personally not supportive of that idea since the
+> 'contract' between Linux and Gunyah _is_ the architecture.
 
-You're almost correct. We actually don't use the gve queue page lists
-for devmem TCP, that's an unrelated GVE feature/code path for low
-memory VMs. The code in effect is the !qpl code. In that code, for
-incoming RX packets we allocate a new or recycled netmem from the page
-pool in gve_alloc_page_dqo(). These buffers are used for payload only
-in the case where header split is enabled. In the case header split is
-disabled, these buffers are used for the entire incoming packet.
+Fair enough. We're building out more use cases where we want to allocate
+memory from buddy and donate it to some entity which unmaps it from
+Linux (some entity = Gunyah or Qualcomm firmware). Video DRM is an
+example we're working on. I imagine OP-TEE might eventually have
+use-cases as well since pKVM is doing same. David expressed concerns
+about exporting the direct unmap functions. What kind of
+framework/restrictions do we want to have instead? I don't think making
+drivers like Gunyah a builtin-only module [1] (even a refactored/small
+portion) is the best approach, but maybe that is what we want to do.
 
-> I found a struct gve_header_buf in both gve_rx_ring and struct
-> gve_per_rx_queue_mem_dpo. This is allocated in gve_rx_queue_mem_alloc()
-> using dma_alloc_coherent(). Is this where GVE stores headers?
->
-
-Yes, this is where GVE stores headers.
-
-> IOW, GVE only uses page pool to allocate memory for QPLs, and QPLs are
-> used by the device for split payloads. Is my understanding correct?
->
-
---=20
 Thanks,
-Mina
+Elliot
+
+[1]: qcom_scm_assign_mem (d/firmware/qcom/qcom_scm.ko) is an example of
+a module that would have to become builtin as we upstream use cases that
+lend buddy-allocated memory to firmware
+
