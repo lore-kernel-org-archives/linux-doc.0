@@ -1,116 +1,179 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDD115C0;
-	Fri,  8 Mar 2024 15:23:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E36524A;
+	Fri,  8 Mar 2024 15:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709911425; cv=none; b=ebjnSqVdpg6RtvmrOzVfFXIokDPH58wwF8WTkluEFPYRR63IMxyxG5GuB27eFLf3Xc29n/CsOQIU8udx8lHYLzBvnXo0uRULkSI1zeJ0OqQV+fcRjcftHRqn9gCtYGMIX5NTY3DrLNWCxklVtYg++p0y+/zSwzQ3S8aNuPkXTzM=
+	t=1709911589; cv=none; b=WFt1EwHHnrEFc/iS2aXfBEEmxn/n5EsJx4CbYdGDpDtMWUtrG1HhrE+eBfWgNBRYsbV87e0dZAWApHtlPSAB6pDm5OBovI+t3Frp1//CHkYPEcYrclcO0MCpIVkYJUJ6Ssu8nbl5qIhySHyy+p1DaZtyv99PAWtvdn9yKRtEpz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709911425; c=relaxed/simple;
-	bh=smFQqtDCLvrCK6zU35YKk9vivzb3zYgAYB2LYuAuGDE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pvrQ0Xu4nWlu+P/ME4DqMfkXhTzh3V70ChZXG636Sw8AF6pf2GRmSMDK8XfF97jP31UAulgzIOwPTiWSCRjy0uEXhl1TvsKgmnTiBYHzSqGJ8XZ2DTZYoyY3uJWnAvx1l6pD1YETMDLmSMqSjMoN5956/aRKQG84aq5ShhuSvt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZANEPlx; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1709911589; c=relaxed/simple;
+	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OHaM+zLstHYzv8ndpd5PZ3AOZ7V1zHrMlTAJXXM7IEuqtAuHFsl5W5ZIzxdbxjuZgthNHH2vnECwa6e3sZHzuX9cKQ69AgDWcA4KtJMtufKzPhdJtwEM/eRCEWuACvYmNF0AF6J/LGjBw6bngCMvytc4UW3599K9AUMpEfAmmac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CaJUNgBh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZANEPlx"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-29a61872f4eso1490952a91.2;
-        Fri, 08 Mar 2024 07:23:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709911424; x=1710516224; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bcBcmCbNUNK8QMRYlD0suSpFuYeDhzgpUC/IVV9/I8w=;
-        b=dZANEPlxwM5oPCBvysfsLEwt5BNASQmYvo5PvBmmGsOI0UnLaIxwoweL9P6HcyPFvD
-         dIvcarMHLLGKTwrwX9ysbLHqaypr+WoqFDdtx8/vF7IhIW3ZFwfijegrKLpMajWzpXfI
-         ISsSSJvPVm17jdRrvEDTbuGeoaX6SxUAZwi/gvwMt8GTe6ST5CyfW4RAHlAa2f0OjVHY
-         7I6PJXSq1M5pG1UEwxsjgfKMy3pvmWVsp137FG7NzkV4McQIZMdsdsf3HAvWfcSQPwCA
-         FA+EGg6mFMCV3iA94fY9KXnjdu3xq1MmKIO69AuVyPBMJ1rgwfKVrbHBU8IxUCz0jjdF
-         3oew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709911424; x=1710516224;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bcBcmCbNUNK8QMRYlD0suSpFuYeDhzgpUC/IVV9/I8w=;
-        b=m1zEzv8mmpofpKmxvVpDtIoN0TkV+k0thCTcH2XBbOy1eVwNaZ8hFTJOUzthKXRzuM
-         TU8gdo5LEXWUVfNuztImE2Fw80pm3Hpq+e1rDl9QPJuvMHKYbHmtr3gLMqmy4X110OG+
-         gJzRng4EDN9wnPuwNea7atLZ/g8G7JcuxP4OusoOX8g+cQ9RUKh85ccVkp1sa60SzxnX
-         DFfe7EV/tKtgIH0e2SccRbs+nHcpJlHUsMPDaJ71Kw4A+f6S85fODME+KAOp3Un0QGR9
-         uS/qdZZE2MUPR1GftTsSJ0KbzkLJQgiK6KA6MSKOX1RvK0jjUx5guERbH8tkXc9bUZuN
-         yaxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVaMoiBGTKQ5WlIYqVj3vXjZrqJGkFyTMfGkwnQJ5Eaz/vegg3IC3o6Hba9rMRCITih2W4OJwziEbKC3lkSwPXK+hAcU60AakJ4n408zdBi6CiHRLWQ5GQOjE+aToz3SLTeJGehLITWmtIhFXuTDYqJYlXRUawEpdQt5koV4YvNbvP6rhZqS/Qkh1xWGLnUWfnyYF8KP3gkh1nu4BaiimerkPgkf4DHHxB/riBjNv88IqO8Mfo9kpzXaxdfqNLfyV0Y4xNbSyDgL6b63mSR/DB6SDhFb/MO45SjJ2T27PHpyNRSciD8ilNYSerY4jZEN32Fw3+//nUbKGC7
-X-Gm-Message-State: AOJu0Yyc+eaKz47yYcEHXvrA3cMxcGFkwPQNL7dqbfVq8289YvnnaMZN
-	DZGv6i5zVPf/VOPV1FyGL+aH9qB7M+sZEyoG1KTXGuYeno3pOLNNR8Ki71MEtcAYPngOdNLsPKe
-	z9Gp+1MrqUcB9JquCKE2758yNhXc=
-X-Google-Smtp-Source: AGHT+IF9xXotb4fKJPIBJiGa5DZoshLJXVEv2bCNouhUyzFoUp1xvycg5pN3kRgz/qcs+lTDSybyD1fvb7+yeBualoQ=
-X-Received: by 2002:a17:90b:613:b0:29b:90d7:36dc with SMTP id
- gb19-20020a17090b061300b0029b90d736dcmr281082pjb.19.1709911423609; Fri, 08
- Mar 2024 07:23:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CaJUNgBh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709911586;
+	bh=6DC78vJKP4bef9pNZHj5COm941gdKspq9AeeVyGC8ws=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CaJUNgBhVBBtKwKyU1eg2qeTLTAf8PatkzvYxsSzvyA4grXZfATZBhUiGguaWJu6d
+	 LHPmLGHvUEufBNWvRQdnYEncKBpolIIR2dYfrpi//G14XSbZ8Q2hZfcvhiRvLloxpl
+	 oXbzqhgDrEMwPuCIsICgcX23J1+9CTl2Nq53sHR3TpBOjZ/z8o+lNx6QuTHr605xgd
+	 Z9AbY/se8B1vkywbenh2YOB28PxU+v5qtQRHQc9GvDEbu8zQEn51Zt0bw4lrwfpNFx
+	 uDudYrNoifqnjB7c03LXVgZrlUzq9XkFrY7e1h43Mo6aKLHp3SsA4lEKciC3N40c2z
+	 qz83sNCiXyYQw==
+Received: from eldfell (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id C084D3780B5F;
+	Fri,  8 Mar 2024 15:26:24 +0000 (UTC)
+Date: Fri, 8 Mar 2024 17:26:23 +0200
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+ <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Hans
+ Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime
+ Ripard <mripard@kernel.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v8 16/27] drm/connector: hdmi: Add Broadcast RGB
+ property
+Message-ID: <20240308172623.37663eb6.pekka.paalanen@collabora.com>
+In-Reply-To: <2599919.Lt9SDvczpP@steina-w>
+References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org>
+	<20240307-kms-hdmi-connector-state-v8-16-ef6a6f31964b@kernel.org>
+	<2599919.Lt9SDvczpP@steina-w>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240306182440.2003814-1-surenb@google.com> <20240306182440.2003814-25-surenb@google.com>
-In-Reply-To: <20240306182440.2003814-25-surenb@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 8 Mar 2024 16:23:30 +0100
-Message-ID: <CANiq72mUJ6Nv+tDFoGbRYJs8Nzw18peFU3U-2cnz9MViyiG5ow@mail.gmail.com>
-Subject: Re: [PATCH v5 24/37] rust: Add a rust helper for krealloc()
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/cnPglAFz2UjDZ1=A=78DBbG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 6, 2024 at 7:26=E2=80=AFPM Suren Baghdasaryan <surenb@google.co=
-m> wrote:
->
-> +void * __must_check rust_helper_krealloc(const void *objp, size_t new_si=
-ze,
-> +                                        gfp_t flags) __realloc_size(2)
+On Fri, 08 Mar 2024 12:26:14 +0100
+Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
 
-The `__realloc_size(2)` should be placed earlier, i.e. this triggers:
+> Hi Maxime,
+>=20
+> Am Donnerstag, 7. M=C3=A4rz 2024, 14:38:43 CET schrieb Maxime Ripard:
+> > The i915 driver has a property to force the RGB range of an HDMI output.
+> > The vc4 driver then implemented the same property with the same
+> > semantics. KWin has support for it, and a PR for mutter is also there to
+> > support it.
+> >=20
+> > Both drivers implementing the same property with the same semantics,
+> > plus the userspace having support for it, is proof enough that it's
+> > pretty much a de-facto standard now and we can provide helpers for it.
+> >=20
+> > Let's plumb it into the newly created HDMI connector.
+> >=20
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/kms-properties.csv      |  1 -
+> >  drivers/gpu/drm/drm_atomic.c              |  2 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c |  4 +-
+> >  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+> >  drivers/gpu/drm/drm_connector.c           | 88 +++++++++++++++++++++++=
+++++++++
+> >  include/drm/drm_connector.h               | 36 +++++++++++++
+> >  6 files changed, 133 insertions(+), 2 deletions(-)
 
-rust/helpers.c:162:20: error: GCC does not allow '__alloc_size__'
-attribute in this position on a function definition [-Wgcc-compat]
+...
 
-With that fixed:
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_conn=
+ector.c
+> > index 591d2d500f61..0272e1d05cc6 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -1210,10 +1210,33 @@ static const u32 dp_colorspaces =3D
+> >  	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
+> >  	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
+> >  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
+> > =20
+> > +static const struct drm_prop_enum_list broadcast_rgb_names[] =3D {
+> > +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
+> > +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
+> > +};
+> > +
+> > +/*
+> > + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDM=
+I connector RGB broadcast selection
+> > + * @broadcast_rgb: Broadcast RGB selection to compute name of
+> > + *
+> > + * Returns: the name of the Broadcast RGB selection, or NULL if the ty=
+pe
+> > + * is not valid.
+> > + */
+> > +const char *
+> > +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb =
+broadcast_rgb)
+> > +{
+> > +	if (broadcast_rgb > DRM_HDMI_BROADCAST_RGB_LIMITED) =20
+>=20
+> I don't know if this was brought up before. IMHO it's easier to read chec=
+king:
+>  if (broadcast_rgb > ARRAY_SIZE(broadcast_rgb_names)
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+You have an off-by-one bug in that suggestion. ;-)
 
-Cheers,
-Miguel
+
+Thanks,
+pq
+
+>=20
+> Best regards,
+> Alexander
+>=20
+> > +		return NULL;
+> > +
+> > +	return broadcast_rgb_names[broadcast_rgb].name;
+> > +}
+> > +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
+
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmXrLh8ACgkQI1/ltBGq
+qqdLBg//WajUtBqhYeUOZE3qGTS947fI7FHecuVL9+bEwFWN4IXJP/QP8I8lYHud
+AhB2e5IQ0KisC91nq8FnE6gL64X6lvW5+ezRUsqyezKl4tEXFxg99dhbVW2ozgD3
+9ZXWlyIldM989o3eGDBdAPRPWh9CUTWCQbhI/chyJ4GtpWpBnicbNf+sNnzOGUbw
+bGrP6vSL3PQVlV0GA95gvGKD8xvRwObQc3/qHHAaNTFvwXRbEi6y7rTkCB3OqzRT
+OoEfi2KzYHwsZ7p4My064ppTBH9+APe+FWBQEsxPLR3NVdwHArQLmT5Do9DnfS/9
+LWBLBUXms3fUr0DXzGPpCyUHFlMXJSoRQao/n2D64SNmLRBx1V++ktTf2TUpk2qr
+J1JCZ6gHXP/LYl/lVAkBXi++7wh//ytHmB8KHUINuRjxVHTedofibScVkAyx6h8P
+YO3Ykq00HrgtcePPgKdCrrYGmkXYp151NNq0h0OUsSuykMx3LzMSqneR0bjwPjOx
+5Mq7VT9gecqIsEMBLL3uTlgKAnBqbVH5r1HnbAVOgv/8b6SRoYUlTzfapCW9HVso
+akzQp9SLe6oiPiU66vlOT8M2cgUjgQlloPIdox885vMiWR4TfV3T0VS6wEpHrvWW
+RwjlgAyZaWXQ/2Al3lJGjp/DDZQ5ud7bfHxS6QnVS8Sl1eIdlGQ=
+=Nq7z
+-----END PGP SIGNATURE-----
+
+--Sig_/cnPglAFz2UjDZ1=A=78DBbG--
