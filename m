@@ -1,95 +1,77 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E45936132;
-	Fri,  8 Mar 2024 13:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16E83FBAD;
+	Fri,  8 Mar 2024 14:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709906074; cv=none; b=fZi61mHXFjCY883suy4HpHmlTnukK03C9hGwSXcxGk77WGFGif42ITtqFKZ3k7eK34IlefYgabJn5M6n9JlNsFvR+T18tNrm7Wk+zQvOJooS+kl4luhAXkdF5yrtz6pv0UUHxfWUXYAmx4nwvHgupg/BMbRbSY8IUNT+PhJ50EU=
+	t=1709907015; cv=none; b=Nu2btqkKXRHzRqiawqp1x2gBKeUk16JbP+xcFAKXkGVzfJN0TI95y3YlRcXMgfQpACogcczQ8+symLAReajep05OpzcjoBKzdb5JbLi1rcLp+WOU0DKce8iH9UMuAZDpfYhmSTncE7ly4FAOKcp2f+aKNNJ71yvn9X+7DG7P0nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709906074; c=relaxed/simple;
-	bh=aG3+CKOKqnEHD8zClL8ksocZPjrpA9A3lAGAuXz771A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nijpqiRRhEYbdZv22TCT2JvkTrC3KMNVEI/EUgeBkka+SUlZe6dajFn/VHwGY1nBb/uTEJgpPZcEmUS5Ren3tXI9/D0ojBSI/G6OS92Sb3rckI9I+VwiDLN6X8EaQJP3CaZHwnzlZmZFSWY680CrZ8fQK6+8o86+k1uUkLHbHSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UodPQ+YM; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1709907015; c=relaxed/simple;
+	bh=XLcTd1jrwQne/noRDe0myK0vDxF9rSMC3JA5FM14s5Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UmQyCi0QmMid/X4o5zjDfiHkf3INyKoWpO5N7tY5hmprYdS3gT2iMet7aAoRhSZchYdEeQWpvqkOaKYiLJgHsuagXy3RBs1DxNNQ0HcjPqRWtJb8NL8uVRELozLNZ3w1qFLVa+7oV9Uxio6kzMWy/+Flfd5JGoVvAttzpkHeLMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=OmocXzmt; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UodPQ+YM"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B17DE0002;
-	Fri,  8 Mar 2024 13:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709906069;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aG3+CKOKqnEHD8zClL8ksocZPjrpA9A3lAGAuXz771A=;
-	b=UodPQ+YMKvaHGMrbgD52PyzC/shaIII3K4mzJfXghCFjJAz3b/IFhvAThZwQXjyACBXHha
-	7PeNTGCYtLn/YiWLh8dUBvMAOTBmMgQSQtD1E2FONBy5M6OymFCrz/SUkLhqzMZP9pq+Su
-	iPZJ+iFlIc3JJrBRWbg/vYxR1s2Fa+iAUnTVBrdvKoT8YPstN8VwW9jTiQ2wnY0x66q1fq
-	0LMRLL2NA/p6hauDHdeu+hN1Egxg9GEmAL/fMW+dt2cwZWYN7kQVAhmxX9G36O3RwoApaN
-	adFQ1GcSTefB34p5Z2EXZNsvNV7jkVylsGWvZymQGshKMoj/k3rFfsceBxxJdw==
-Date: Fri, 8 Mar 2024 14:54:26 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 00/17] net: Add support for Power over
- Ethernet (PoE)
-Message-ID: <20240308145426.7eb4b043@kmaincent-XPS-13-7390>
-In-Reply-To: <CAM0EoM=Q3hdXSHNADKX=erJQJWT4Jz0XeAD8kMYHv_VGagvPQA@mail.gmail.com>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<CAM0EoM=Q3hdXSHNADKX=erJQJWT4Jz0XeAD8kMYHv_VGagvPQA@mail.gmail.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="OmocXzmt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1709907012;
+	bh=XLcTd1jrwQne/noRDe0myK0vDxF9rSMC3JA5FM14s5Q=;
+	h=From:Subject:Date:To:Cc:From;
+	b=OmocXzmtuGKY+YVyMZvclR1jb48vjlwF41USSTEdJsSx9zgIEX3w4MsuPZfGK2TXt
+	 ss5buoUhhjiOm+UBYN0NNkduKGVKxaIeunUgkMqOO3WMm5WjGR6aDisY+KHAnOMh9a
+	 JxMzU53UwYGYuXtNj3fTN7JSlYqzYIi5pGp0fSV5DHPf5BTO14ggmfDLdQyHypUSJG
+	 F6U0kzYP/PLLW3cCHk6OGM4FcfrwvQLl4MotECpr0n9xesTc+FQb9m5KYQd+rjosZM
+	 VwPG/YvKPXCApqTIKBcBP5TxN86SheBcDzPZ2DcTzyZYMfLVk3goKPAZQ5ahcR+DMo
+	 ZMei9xd32G2+w==
+Received: from [192.168.1.13] (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id A835C37820F1;
+	Fri,  8 Mar 2024 14:10:10 +0000 (UTC)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH 0/2] docs: *-regressions.rst: Tweaks to the commands
+Date: Fri, 08 Mar 2024 09:09:58 -0500
+Message-Id: <20240308-regzbot-fixes-v1-0-577a4fe16e12@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADYc62UC/x3LQQqAIBBA0avIrBPMJKKrRIvM0WZTMUZE4t0bW
+ j4+v0BGJswwqgKMN2U6dkHbKFi3ZU+oKYjBGutMZwbNmF5/XDrSg1m7brFDDM73tgV5TsY/yDL
+ NtX5iGZcqXwAAAA==
+To: Thorsten Leemhuis <linux@leemhuis.info>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, regressions@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ workflows@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.13.0
 
-On Tue, 27 Feb 2024 10:31:05 -0500
-Jamal Hadi Salim <jhs@mojatatu.com> wrote:
+A couple tweaks to the commands in the regression documentation to make
+them up-to-date and less confusing.
 
-> On Tue, Feb 27, 2024 at 9:43=E2=80=AFAM Kory Maincent <kory.maincent@boot=
-lin.com>
-> wrote:
-> >
-> > This patch series aims at adding support for PoE (Power over Ethernet),
-> > based on the already existing support for PoDL (Power over Data Line)
-> > implementation. In addition, it adds support for two specific PoE
-> > controller, the Microchip PD692x0 and the TI TPS23881.
-> >
-> > This patch series is sponsored by Dent Project
-> > <dentproject@linuxfoundation.org>. =20
->=20
-> Sorry, couldnt resist because it sounded like a commercial;-> And
-> likely i am out of touch. I am all for giving credit but does it have
-> to be explicitly called out as "this patch is sponsored by X"?
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+Nícolas F. R. A. Prado (2):
+      docs: *-regressions.rst: Use collon after regzbot introduced command
+      docs: handling-regressions.rst: Update regzbot command fixed-by to fix
 
-Hello Jamal,
+ Documentation/admin-guide/reporting-regressions.rst |  2 +-
+ Documentation/process/handling-regressions.rst      | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+---
+base-commit: 11afac187274a6177a7ac82997f8691c0f469e41
+change-id: 20240308-regzbot-fixes-43a28fd4b621
 
-I will remove the line and add it in the From field as suggested by Jakub.
-It seems to be the usual way to do it.
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
