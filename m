@@ -1,259 +1,193 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBE442C0B;
-	Fri,  8 Mar 2024 08:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709884876; cv=none; b=Wxx+PmAjqZFFzyiXWi2Ayl9MNVFz3MGlNQTWrJr5aGVDxLC5gnU3Nus7idyeph6z791+PwcF0OBSIPngBZIEELpJt2tn1XhXYf2Ybw4zPAyhjXigFKVqKlSxGEKPgGwVcKBhVDQ/GDWxasHyN5sqoFeA6Ed9RciM04Izh041Uok=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709884876; c=relaxed/simple;
-	bh=lH06gu41KGGdl2j7eC+BOEF+bIAi2G+B4a6FYWs1A1w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DWz33jrOkiNyo0VpT9/EO90IPCmw+X8//3y9q7CpRA8+rccUNT3vRdz9TDMXte5KdJmcczwBH9s5lB1NrKTuCt515HMWijezeqr9ukaBfZLS4GExhOCDWfLVF6rWPEVTNrT3+ly9N50RGIOVE9I4Dz7gxRZZ8gNb8gpJT0/HebE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TrdWB2Hb5z9xrp4;
-	Fri,  8 Mar 2024 15:45:26 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 4B26B140636;
-	Fri,  8 Mar 2024 16:01:09 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwAn0Rm0xeplYFzwAw--.20905S2;
-	Fri, 08 Mar 2024 09:01:08 +0100 (CET)
-Message-ID: <33b20e63a191672b8f974b929c79e30b2e38ae3f.camel@huaweicloud.com>
-Subject: Re: [RFC][PATCH 2/8] ima: Nest iint mutex for DIGEST_LIST_CHECK hook
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
- dmitry.kasatkin@gmail.com,  eric.snowberg@oracle.com, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
- wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
- hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
- dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
- petr.vorel@gmail.com,  petrtesarik@huaweicloud.com, mzerqung@0pointer.de,
- kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
-Date: Fri, 08 Mar 2024 09:00:48 +0100
-In-Reply-To: <2f2d07c33170b6ed06f72e927a0d31989bca7c85.camel@linux.ibm.com>
-References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
-	 <20240214143525.2205481-3-roberto.sassu@huaweicloud.com>
-	 <2f2d07c33170b6ed06f72e927a0d31989bca7c85.camel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7FF4EB47;
+	Fri,  8 Mar 2024 08:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.153.233
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709886338; cv=fail; b=mtQ3ut1nFSkFoZDVFypyVJUpCHmwWVnDPVDz3AeHAcJhicWowvqAEBnX7KbJ9wRhOpQlO/6nMv5sQkN+oOwzGbzBZjJN248q6/6W0TOPKW4kn9xtPSvFE2SMd9RZsTE6A1w/fTzDZK8dZlXlMT5TxFh5gXjsOAgA5QzOnB/r0MM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709886338; c=relaxed/simple;
+	bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=AFhx6MMjjbRUkilgUO8iaJk/N1r3F9eqdVNve59XJ1n7uTEs3WwSCHvDz0FF6fVqaaPdHOQ5aQKml8P4VWbpTFRogebzB8OnKdrFEa/hcYnPbow3xN8EicGd9svYDUMZqb9bs3WE5x06MFYLzLHyXa7jF970hWww1T5Q+iFtTjI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=w/q2ga8S; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=j812D+nW; arc=fail smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="w/q2ga8S";
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="j812D+nW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1709886337; x=1741422337;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
+  b=w/q2ga8S4ySKpaKT7wEu5OZ1XXodwZYMc2F9p2CFF6YdvY+zrTwQ+2vO
+   O5kpm9DQ9ZCXxWm43AxQJ5fPlOjbzQZgQfUBVaEG6ku3lqw4Wm83x39YS
+   EZvSWXjffFrCBrvj9Ef3Bcjt6EQYxl0zBaKr7crKYCvWjC0g4Bzb5AM4w
+   BrUxs0wDIO4giFdjRi21T7YldvxsET5YaFNjR30QIYAYwUBwhRNQBrZzj
+   rvCodGcUgAeYbqwm2MSzc3sP85oI4wR36h7iPF1K0fUIjF3XSTBOnoqlo
+   PkCSlONcsMNZpxVt+gX9BCwx5MCcKo/Scb5oj+vuydl48ICO+EumQnvEP
+   w==;
+X-CSE-ConnectionGUID: 6qwxoBUdTWWC1n+ryOguOA==
+X-CSE-MsgGUID: CI41py9JRh+9orWwvRFfVA==
+X-IronPort-AV: E=Sophos;i="6.07,108,1708412400"; 
+   d="scan'208";a="17394528"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Mar 2024 01:25:35 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 8 Mar 2024 01:25:31 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
+ by email.microchip.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 8 Mar 2024 01:25:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AqptIQYH9k4N+VIeZMZ0yrms8T3nFSeW1fKuqMfNWx6zeoiSUq1cXxb6pXozSdG0z7WHRUzv4dNvfqq2G6pTb3C9tTW1Dw6za4ImmnaPc+BM35FQ34qZDWl7nHpbxwriSCfRDgYQ1Se4aioWeQpiyggZPIsDdgeO3q9YWDtwDn2DK4QqZxUsv+6Xhwr4k877BsFQ7MBKJQjhUzupa3fXqDOWmderB26pbZuF3WvEZZAEDjj8ngQIaMbIReeSBJ/ANq1XjOJ1ZJ9SOZgaiK0jkOhtZL418TQRy2hSwXLmkzSFGm/oAFdO8NZh3S5irGDMgt6CCaKZM3g+WN0k6LuoGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
+ b=AorlslGneeyHi+bfrpPrVCW2sXzgZwdT+AQ9asCrcOGMsiLwCWu7FeTd+6irre13UtuxAUslvAu34GraBb12fGCdq+4bZZHzyJbIpcFV4lxTAN3raCt4RkKrqnR+wm2dSccL2aNV/2x3lUekvTMBntol5UfwUUEK1+cs9l8F/oPvoyWZ7s3spMZmT2+4CpaPSW5nOzU7R5MPTXRzBFVbGQM7b/mpl9cvsBqt0wy+gRaXlMxPIofVRxmTCjPfd/zkw7VZ48FcmL6gayZaXOI+Zu6R4lCs2Gc4yE4/HrmYuh5ncXyXW8aXphmSWqd5nONcp7MukA8Pay6ySBL988arOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
+ b=j812D+nWWQQFAhAkG/CCyae8iYvDjHss6ugPNmKVi3poAiBN6xMv0GyulXzKDaDEoHieG5t/s5GXiTuZIiF0AzRR9uRsXBho0Xo/Io0O3OJlMqATBK914CqDv7wwH3f22+Nuaz4bwJ7p7tOJWz5CNANWeS1DKrgwDu6req/HKwMrbKWtrg+IilWTBbxgx8FO5rIfcNdVYRHNmf2C5Oqg5FYreXSQPH8RTA5gcfyrbzW5w1RR253aRTP5ZvMPvstD3+2ZV3h/ey2kO7zzGXTah+OHn2hFV4J0iJqaj9snBehgI/NcW9dRY1e/oliIZV0y5+TrObVSrJuCq1foAfAnPA==
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
+ by CO1PR11MB4785.namprd11.prod.outlook.com (2603:10b6:303:6f::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.8; Fri, 8 Mar
+ 2024 08:25:28 +0000
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::f633:b9d4:f539:177d]) by SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::f633:b9d4:f539:177d%6]) with mapi id 15.20.7386.006; Fri, 8 Mar 2024
+ 08:25:28 +0000
+From: <Parthiban.Veerasooran@microchip.com>
+To: <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
+	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
+	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
+	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
+	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
+	<benjamin.bigler@bernformulastudent.ch>
+Subject: Re: [PATCH net-next v3 04/12] net: ethernet: oa_tc6: implement
+ software reset
+Thread-Topic: [PATCH net-next v3 04/12] net: ethernet: oa_tc6: implement
+ software reset
+Thread-Index: AQHab6OCD00I709j00WIKaDUtsZwCbErb26AgAB2hACAAGBgAIABPr2A
+Date: Fri, 8 Mar 2024 08:25:28 +0000
+Message-ID: <b3e2a595-437b-440d-ae22-da12570163c1@microchip.com>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-5-Parthiban.Veerasooran@microchip.com>
+ <4e56f5c2-3d5c-4dda-8a37-01c1dbce27d7@lunn.ch>
+ <bff71d0b-49d0-4a4c-98c1-7df7056c4268@microchip.com>
+ <31a09423-276a-415b-a7b8-4aab04021a82@lunn.ch>
+In-Reply-To: <31a09423-276a-415b-a7b8-4aab04021a82@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|CO1PR11MB4785:EE_
+x-ms-office365-filtering-correlation-id: 54a610ea-002b-46d8-6dab-08dc3f494fe6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: miVMqiW2sd7BvGRHqOTBLKW+2faIdByfA6twbbj4eO2+jjAW6bqYNDVtcow/D/AXlk2uqn7lc4jfc9t8BWXkoPZbikXXd2n9dZL+wRKRnPKrZg9gz53TydpKNhHdT8bWMgYjfYBV+ln+UUNTVZ4uorzfCbUHjRB7r6tKDjelA32QILQ8KYW8E8+O9e2+Ghxp+AotC7myLWXvCSVX0F05Bg2Q3uHuSDwXNPgRTRNPBn1QgCWBhuBJ94rWHtGFMF2uAuhnFBj1jHnzpHkWzE52oK5dUHXSGbe0AqrM6C5bm2GTL/GqiYLiQyKE4G/R6JLpJUIMf6ZMoJtkZEnWliQNbKH2FdFlh0V01Tc/XuZSJDyl48wsl4wtlmKuYx/XUU9JiZfFpludKGJqRTdbDm6DkJWh/ManofvXnabmN4w98zKDz2BVq0ZBtHDrZ3Yy8F6qAE8qcN7HY5CchMmL8+sRmgnHKTTLpb4CxDfWeLCxnfOkttb7+OADX2MBrV/D6hDuVSjavk8mvUwLZoickRUc/XTR9rCTYuvEkQnahaiuzssX3P/fjj0SNgrIaMba+XKMk36RfkDZNXCUgIBtclWEwhHXM3R/p5HtwO35MdkAJfrOylvekEhXrQSWD+ffzBv5U/rf+U6TN8FHdrCcmwGhBEizUy/yabwvIWgL80x+pflMd1jD8TgvcfmCwI9RzJG/6kGEmR5/cs1CawJ0SXmUag==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M3RuemFPdGRTVjFKMXZBekgrQ3R6VE9YdXJ3V0k0M0c0WEh1MXBiT3lKR3Rw?=
+ =?utf-8?B?bkYzbHBRSXZSNTIxOVBNY0NpTk15ejFwcnpHWmJvakhTeTFiN0xqVXFMNHB6?=
+ =?utf-8?B?NE1MUGQwTGFvTXo1cWhqQUdtOThVdE5HRGtqVkZtSGdITVFqU3ZJNkFrcW55?=
+ =?utf-8?B?aytmWmszclVQMTB6cWltL0hPckRzcjRJbm9xRDRYSnhUMWNBNm40c3g5YWl5?=
+ =?utf-8?B?bzdLdTlYUnZ5aDJkZkN0UjQzcGp2dE5veEh2ZzZVQXpKa2VGUGJNM1ZkeEs4?=
+ =?utf-8?B?UFZCa1Q5bzRsaVErdndIRC82OVM1ZEZqRjVnRENwT3F2S2piRHlIREJlck5S?=
+ =?utf-8?B?dStVQXppa3JPRjBWQ3pWZzZMZ09oOEUyNHdmdW5NSnBPNjFqelJIMDlpekRO?=
+ =?utf-8?B?OGR6bEhlckcyVXpULzVwdHE5MDhUQzdjN3luWllKOEpYRXVmMW1XTGM4UG84?=
+ =?utf-8?B?RmhwdHN3L0FvRHREWG9pMTZjWFJ6QjFGb3J6UklNdjJNM3NFYkdDNW44dHlG?=
+ =?utf-8?B?NGR0MmNUdXJxMnVYaTNpb3lHcEtOYUpSbDAvWEg1K1pCY0tPS2tIeitZK2gw?=
+ =?utf-8?B?REdWa1ZaQ2V1VS9TUndMM0ZjSmJBTGkvSGs2Ly91cUtGclpPK3ZyOGNnM2FX?=
+ =?utf-8?B?Y1ZWdzQ3WTZBSks1Unk5OVhZUDV1S3orMjlKU1pQeEsvRmZ3UEl4TFE5YUpv?=
+ =?utf-8?B?dmh2SVFKakpHVXFDNkF6SlEvQVZlNTltZHYzek5kZ0pqQjQrRE9YU0lxeE1x?=
+ =?utf-8?B?Y0hCZHF2S3NKMnF6Y0xJRlhtNkpRWW9jOHNKOW1WWDlYYWYrWThhY0V5cUZa?=
+ =?utf-8?B?TWxZY2ZxRFRaZ0l6a043eUFEWWtoNzhZWnRvRnIxNVV5M283NmJaTjZuL2pw?=
+ =?utf-8?B?Z1ZYNVZTc25zWWIwYy84R1JtalkzR2YvRzF4aEpHR0lsTUNSTUZOaHJ2bEJ2?=
+ =?utf-8?B?dzY4bjlUbGtJZmhMdzhuRlZ2RXdhYm5BR01iYmZaNW5sLzgyMTRJZUZ3OFFn?=
+ =?utf-8?B?RnAxWFhBM0JQbEdSVk5RRFc1dXMzb3JSQWpWeFJyRlRYOTZmejUxcmxWU0wy?=
+ =?utf-8?B?akRPVEtTVkhlZjZ3VVRWVlFNWXI3VTBHa25FNGh1L0c5bEx4UEJraDFwbENo?=
+ =?utf-8?B?UEswU20valFKc3NZclRqZFpGdUlPRnFkVmQ3NEU3eGVMcTZDMk5PR3BuL1BN?=
+ =?utf-8?B?OTJyaEVKZVBqQkVqUDFiRUJ0MWF6Y2VBeUdxQ0VFZGR3SWhzOXRoMENianY1?=
+ =?utf-8?B?WkdKb1FCRmY4cCs5TTc4cFMxd09meHI1a25yeWg5TlpJV3NqaXJBYk9zSFdm?=
+ =?utf-8?B?K056VVRjY1U4aks0Rkhnd2ZzZ2htaWNFMlg5Z0Fwb01NeHgyZFNtUy9kUCsr?=
+ =?utf-8?B?UFVldThMczIvMzd5T0U2aG45VmIvdFdxNjc1UTlUbDRYVVYrTFhQUzNCQXYv?=
+ =?utf-8?B?Nmd0eStHMzhjbHcwS09NbkFKNTNvSThWNUswekFiUGx3RkJieEFyRnNlWHp6?=
+ =?utf-8?B?cnd5REFqTS83eEdjVVR4Z2lIdEFwajE4eDd2eXhNR0Q5VElpRE91VGNrdmtW?=
+ =?utf-8?B?SGhCb0lid0h2OHVjcXFFRmtxMkM5WEcrZm5GL1RwQWhCdytla3Zxa25jc0lz?=
+ =?utf-8?B?MlhDc1hqeEx4cW1rYWh4bTZSOEtjazRYZGdiSUs5NisyOFEvM0hmQW0wKzVi?=
+ =?utf-8?B?Q3hjK0syN0h6NDJoTHh2VThENGlHRVRlRmFKRXVnS3l6U3RIRlVPbTZWakM3?=
+ =?utf-8?B?dG5BelI3WEY1cUU3dmhEbDQ4bjBvaTF5VW1TTVQvV2J4Q1NWUnBFM01QcENh?=
+ =?utf-8?B?K0Z4RFRQbTF2YzlUNm9rMitjdU9qMGJjVTVHQ2wrazNWRU9NV29EZkFvNWtZ?=
+ =?utf-8?B?SjliNFlSa2grbzgzT1BvWWlldzdVZ014SUZIRGlEcDU3UmxKeUlLSjlFMVdF?=
+ =?utf-8?B?cmdPRXdZZ09ma29vUis5S3RIQno2MXNyL0ZJOFhTL29pUHUzUUE5eDNJOFNw?=
+ =?utf-8?B?MEVsYzc4Qm9zUUV3VW1Zb0VCS1JpOTdsS1I4WVZBS2dqaEx6VVhWdmtZc2oy?=
+ =?utf-8?B?YUZGZncyUEc2Y2s1a2FaWDI4TmhhUndyUm9UMEpHV3V4MmdvelM1Nm5KRjUr?=
+ =?utf-8?B?SkJ3UkpMakd4RHdJdDlrYUx6SDg0VkJFeUhlV1pYM2lPU3FabjR3WWdKbmVR?=
+ =?utf-8?B?YWc9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <891B724EC20FCF43AB165A05E3730D05@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwAn0Rm0xeplYFzwAw--.20905S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtFyUJFy3KFW8KryfWr4kJFb_yoWxJF1rpF
-	Z7ta4UG398XFZrur4rtFZrZFyfKayqgFW8Gw45C3WvyF98Jr1rtFy8tr129Fy5CrW0k3WS
-	vr4jgws8u3WjyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73D
-	UUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAQBF1jj5ceLgAAsA
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54a610ea-002b-46d8-6dab-08dc3f494fe6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 08:25:28.5072
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ihEFuDqNDIvWLrgvQoZS2nf8x6dKHOl4QogEwEazNeVLsKC4FlBbNUmjv+nkBlyOZnYeEpTvgaQiYrb8Y3jJSpr2a7O5wPTlKNYV+Qca4S3Wm/gg2NI37s4HBqIMaP/H
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4785
 
-On Thu, 2024-03-07 at 14:42 -0500, Mimi Zohar wrote:
-> On Wed, 2024-02-14 at 15:35 +0100, Roberto Sassu wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >=20
-> > Invoking digest_cache_get() inside the iint->mutex critical region can
-> > cause deadlocks due to the fact that IMA can be recursively invoked for
-> > reading the digest list. The deadlock would occur if the digest_cache L=
-SM
-> > attempts to read the same inode that is already locked by IMA.
-> >=20
-> > However, since the digest_cache LSM makes sure that the above situation
-> > never happens, as it checks the inodes, it is safe to call
-> > digest_cache_get() inside the critical region and nest the iint->mutex
-> > when the DIGEST_LIST_CHECK hook is executed.
-> >=20
-> > Add a lockdep subclass to the iint->mutex, that is 0 if the IMA hook
-> > executed is not DIGEST_LIST_CHECK, and 1 when it is. Since lockdep allo=
-ws
-> > nesting with higher classes and subclasses, that effectively eliminates=
- the
-> > warning about the unsafe lock.
-> >=20
-> > Pass the new lockdep subclass (nested variable) from ima_inode_get() to
-> > ima_iint_init_always() and ima_iint_lockdep_annotate().
-> >=20
-> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > ---
-> >  security/integrity/ima/ima.h      |  2 +-
-> >  security/integrity/ima/ima_iint.c | 11 ++++++-----
-> >  security/integrity/ima/ima_main.c |  6 +++---
-> >  3 files changed, 10 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.=
-h
-> > index cea4517e73ab..c9140a57b591 100644
-> > --- a/security/integrity/ima/ima.h
-> > +++ b/security/integrity/ima/ima.h
-> > @@ -216,7 +216,7 @@ static inline void ima_inode_set_iint(const struct =
-inode
-> > *inode,
-> >  }
-> > =20
-> >  struct ima_iint_cache *ima_iint_find(struct inode *inode);
-> > -struct ima_iint_cache *ima_inode_get(struct inode *inode);
-> > +struct ima_iint_cache *ima_inode_get(struct inode *inode, bool nested)=
-;
-> >  void ima_inode_free(struct inode *inode);
-> >  void __init ima_iintcache_init(void);
-> > =20
-> > diff --git a/security/integrity/ima/ima_iint.c
-> > b/security/integrity/ima/ima_iint.c
-> > index e7c9c216c1c6..b4f476fae437 100644
-> > --- a/security/integrity/ima/ima_iint.c
-> > +++ b/security/integrity/ima/ima_iint.c
-> > @@ -41,7 +41,7 @@ struct ima_iint_cache *ima_iint_find(struct inode *in=
-ode)
-> >   * See ovl_lockdep_annotate_inode_mutex_key() for more details.
-> >   */
-> >  static inline void ima_iint_lockdep_annotate(struct ima_iint_cache *ii=
-nt,
-> > -					     struct inode *inode)
-> > +					     struct inode *inode, bool nested)
-> >  {
-> >  #ifdef CONFIG_LOCKDEP
-> >  	static struct lock_class_key ima_iint_mutex_key[IMA_MAX_NESTING];
->=20
->=20
-> "nested" is being pushed all the way down to here, perhaps I'm missing
-> something, but I don't see it being used in any of the patches.
-
-Must have gone away during a conflict resolution...
-
-That should have been:
-
-@@ -85,12 +85,13 @@ static inline void iint_lockdep_annotate(struct integri=
-ty_iint_cache *iint,
-        if (WARN_ON_ONCE(depth < 0 || depth >=3D IMA_MAX_NESTING))
-                depth =3D 0;
-=20
--       lockdep_set_class(&iint->mutex, &iint_mutex_key[depth]);
-+       lockdep_set_class_and_subclass(&iint->mutex, &iint_mutex_key[depth]=
-,
-+                                      nested);
- #endif
- }
-=20
- static void iint_init_always(struct integrity_iint_cache *iint,
--                            struct inode *inode)
-+                            struct inode *inode, bool nested)
- {
-        iint->ima_hash =3D NULL;
-        iint->version =3D 0;
-
-Thanks
-
-Roberto
-
-> Mimi
->=20
-> > @@ -56,7 +56,7 @@ static inline void ima_iint_lockdep_annotate(struct
-> > ima_iint_cache *iint,
-> >  }
-> > =20
-> >  static void ima_iint_init_always(struct ima_iint_cache *iint,
-> > -				 struct inode *inode)
-> > +				 struct inode *inode, bool nested)
-> >  {
-> >  	iint->ima_hash =3D NULL;
-> >  	iint->version =3D 0;
-> > @@ -69,7 +69,7 @@ static void ima_iint_init_always(struct ima_iint_cach=
-e
-> > *iint,
-> >  	iint->ima_creds_status =3D INTEGRITY_UNKNOWN;
-> >  	iint->measured_pcrs =3D 0;
-> >  	mutex_init(&iint->mutex);
-> > -	ima_iint_lockdep_annotate(iint, inode);
-> > +	ima_iint_lockdep_annotate(iint, inode, nested);
-> >  }
-> > =20
-> >  static void ima_iint_free(struct ima_iint_cache *iint)
-> > @@ -82,13 +82,14 @@ static void ima_iint_free(struct ima_iint_cache *ii=
-nt)
-> >  /**
-> >   * ima_inode_get - Find or allocate an iint associated with an inode
-> >   * @inode: Pointer to the inode
-> > + * @nested: Whether or not the iint->mutex lock can be nested
-> >   *
-> >   * Find an iint associated with an inode, and allocate a new one if no=
-t
-> > found.
-> >   * Caller must lock i_mutex.
-> >   *
-> >   * Return: An iint on success, NULL on error.
-> >   */
-> > -struct ima_iint_cache *ima_inode_get(struct inode *inode)
-> > +struct ima_iint_cache *ima_inode_get(struct inode *inode, bool nested)
-> >  {
-> >  	struct ima_iint_cache *iint;
-> > =20
-> > @@ -100,7 +101,7 @@ struct ima_iint_cache *ima_inode_get(struct inode *=
-inode)
-> >  	if (!iint)
-> >  		return NULL;
-> > =20
-> > -	ima_iint_init_always(iint, inode);
-> > +	ima_iint_init_always(iint, inode, nested);
-> > =20
-> >  	inode->i_flags |=3D S_IMA;
-> >  	ima_inode_set_iint(inode, iint);
-> > diff --git a/security/integrity/ima/ima_main.c
-> > b/security/integrity/ima/ima_main.c
-> > index 780627b0cde7..18285fc8ac07 100644
-> > --- a/security/integrity/ima/ima_main.c
-> > +++ b/security/integrity/ima/ima_main.c
-> > @@ -248,7 +248,7 @@ static int process_measurement(struct file *file, c=
-onst
-> > struct cred *cred,
-> >  	inode_lock(inode);
-> > =20
-> >  	if (action) {
-> > -		iint =3D ima_inode_get(inode);
-> > +		iint =3D ima_inode_get(inode, func =3D=3D DIGEST_LIST_CHECK);
-> >  		if (!iint)
-> >  			rc =3D -ENOMEM;
-> >  	}
-> > @@ -699,7 +699,7 @@ static void ima_post_create_tmpfile(struct mnt_idma=
-p
-> > *idmap,
-> >  		return;
-> > =20
-> >  	/* Nothing to do if we can't allocate memory */
-> > -	iint =3D ima_inode_get(inode);
-> > +	iint =3D ima_inode_get(inode, false);
-> >  	if (!iint)
-> >  		return;
-> > =20
-> > @@ -731,7 +731,7 @@ static void ima_post_path_mknod(struct mnt_idmap *i=
-dmap,
-> > struct dentry *dentry)
-> >  		return;
-> > =20
-> >  	/* Nothing to do if we can't allocate memory */
-> > -	iint =3D ima_inode_get(inode);
-> > +	iint =3D ima_inode_get(inode, false);
-> >  	if (!iint)
-> >  		return;
-> > =20
-
+SGkgQW5kcmV3LA0KDQpPbiAwNy8wMy8yNCA2OjU0IHBtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
+RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
+bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPj4+PiArc3RhdGljIGludCBv
+YV90YzZfcmVhZF9zd19yZXNldF9zdGF0dXMoc3RydWN0IG9hX3RjNiAqdGM2KQ0KPj4+PiArew0K
+Pj4+PiArICAgICB1MzIgcmVndmFsOw0KPj4+PiArICAgICBpbnQgcmV0Ow0KPj4+PiArDQo+Pj4+
+ICsgICAgIHJldCA9IG9hX3RjNl9yZWFkX3JlZ2lzdGVyKHRjNiwgT0FfVEM2X1JFR19TVEFUVVMw
+LCAmcmVndmFsKTsNCj4+Pj4gKyAgICAgaWYgKHJldCkNCj4+Pj4gKyAgICAgICAgICAgICByZXR1
+cm4gMDsNCj4+Pj4gKw0KPj4+PiArICAgICByZXR1cm4gcmVndmFsOw0KPj4+DQo+Pj4gVGhlIGZ1
+bmN0aW9uIG5hbWUgZG9lcyBub3QgcmVhbGx5IGZpdCB3aGF0IHRoZSBmdW5jdGlvbiBkb2VzLiBU
+aGUNCj4+PiBmdW5jdGlvbiByZXR1cm5zIE9BX1RDNl9SRUdfU1RBVFVTMC4gSSBhc3N1bWUgaXQg
+aGFzIG1vcmUgYml0cyBpbiBpdA0KPj4+IHRoYW4ganVzdCBTVEFUVVMwX1JFU0VUQy4gU28gZWl0
+aGVyIHRoaXMgZnVuY3Rpb24gc2hvdWxkIGJlIGNhbGxlZA0KPj4+IG9hX3RjNl9yZWFkX3N0YXR1
+czAsIG9yIHlvdSBzaG91bGQgbWFzayByZWd2YWwgd2l0aCBTVEFUVVMwX1JFU0VUQywgc28NCj4+
+PiB0aGF0IGl0IGRvZXMgYWN0dWFsbHkgcmV0dXJuIHRoZSBzdyByZXNldCBzdGF0dXMuDQo+PiBP
+aywgYXMgd2UgZG8gdGhlIG1hc2tpbmcgaW4gdGhlIGNhbGxpbmcgZnVuY3Rpb24gcmVhZHhfcG9s
+bF90aW1lb3V0LCBhcw0KPj4geW91IHN1Z2dlc3RlZCBJIHdpbGwgY2hhbmdlIHRoZSBmdW5jdGlv
+biBuYW1lIGFzIG9hX3RjNl9yZWFkX3N0YXR1czAgaW4NCj4+IHRoZSBuZXh0IHZlcnNpb24uDQo+
+IA0KPiBPLksuIEFuZCBpIHRoaW5rIHNvbWUgb2YgdGhlIGxhdGVyIHBhdGNoZXMgY2FuIHRoZW0g
+bWFrZSB1c2Ugb2YgdGhpcw0KPiBnZW5lcmljIGZ1bmN0aW9uLg0KWWVzLCBtaWdodCBiZSBoZWxw
+ZnVsLg0KDQpCZXN0IHJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KPiANCj4gICAgICAgICAgQW5kcmV3
+DQoNCg==
