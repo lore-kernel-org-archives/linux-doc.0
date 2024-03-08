@@ -1,305 +1,262 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1477A3308A
-	for <linux-doc@vger.kernel.org>; Fri,  8 Mar 2024 04:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709873875; cv=none; b=NH75aqeIWCRir3HOh10iXNqH2vlIxIyHKFnPsrJRg9Zxj1WwHHAr6HM1FA0JFfWcGkKc987SMfPYefQDNqmAFeULv60Frk2OijBpTy+0Z20tiVhqcU3jfLYrH/oWrFItQbuCC/6SUnjGInXfT+ZWPNzb8BpgURD6eKnpz0OKX2g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709873875; c=relaxed/simple;
-	bh=YHgLhGo9u/GaA4wjmsG1D7h2kk3KAbiuEeepwyKoTyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZgijX8kn8kU7Sp4reMtwlYU0Iu+NhGQ0GW9nBviZEjRUq54F7QTc0FIi+UhOljwvfobHq9nBgDTxcf1aq77lxTY83MZDnGoUqF6zgirXu/mWwzbhMZHb4nmDxQbSnHVjoLjSVEX8S0Ashrdl4NomE1/5MCctffGXPpKZCtXNRNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=WHOLKf9i; arc=none smtp.client-ip=209.85.161.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292812E65B;
+	Fri,  8 Mar 2024 05:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709875794; cv=fail; b=g7KWQrIEGD3YkKx+VbbPmzNFyruyyTftnMGjMv78xX+nqG89AXWJClJhc05YDs/GHyQOp7Z93meR/cjvg6dfHGmFxPD159LoVckOeumzApNNMZ2F4X6dB4MxqxpW+Td8Y6WxdUmOsX8vr+sZF6sA+qw3nd2euxA3FkxaBuUpNvo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709875794; c=relaxed/simple;
+	bh=mRCNYqq1ydpK77fKwNmuyVg/Oo+zbBNQ83b6meKnRwQ=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 Content-Type:MIME-Version; b=mSPFG+MmnKDOb7gXGKWFmFVgyZSBbax9X5/LLs4jVRXex17E21hGPQBEkECx17MFzBeZvs+xoIMseYJBI57ooKN6wu4OtoHR+aZWdFB9W7MqVs3o9VrIePvi1IHLSBmRmE/9YDQUS1wHacBOsNtXIHHBtXeSATNjYKF3aFeppGk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kCNOelpC; arc=fail smtp.client-ip=40.107.244.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="WHOLKf9i"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5a14d7f0e66so801280eaf.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 20:57:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1709873872; x=1710478672; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
-        b=WHOLKf9iGdgVvKTjQmxXbGWwIT9aW9o9hEq9U+lj49TYZ42wh7OW8mGicrRGPFBWec
-         GQXHXEEy7tPbKwC1FHg8zUZWXZfzhZPY7eTptlAxCYMCrZISnWijtPow38TPk+467WQI
-         C+SLrK5dNJPHk+1cx98faF71o72UvdNKhUddExLhLHqSlNl82akiFzavl0puT4+AmRFJ
-         Ec9bN9cNgCHYY85wXTpFf//96AeQfDdV8fpasYXN1atMrFSxm0GJhpfw8m5MlTIrmThy
-         aDpFbpiasRW10nZIRqfeXavPvZw0dJn5/4Gc7DZtaG5mAlYsF39ActGfINqVsFI27Zds
-         3LKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709873872; x=1710478672;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hd5eSIOo7us1LbsNzpdstrnvo/0BBPJxonyWDnWYOdI=;
-        b=Q4JKz/40s5CN/Ts7REJ2RDfOWpPRr/6W0FPr76j0TJEHGRnrhLpVAlWAstf5NYIlMX
-         Mclq4okZi49KiVvcbtLAcnHpzSC4++a7VvJR7StVEnvkHj3lcPGhehiaX45+AIvt10Vy
-         rth0Ww8z0hyePdudF0JlZ9/WGQSvbJcUFEtS2aDYbmjrhOcPutM7C6TELGNRhBXBRYMj
-         HMa2lDbGwNRH4o++X3tG4JhyvhwXvvDLElQVQMhaI++c625jKz2eGGF6MlbPQ3EBhtZs
-         3PFKKgGMePGmCsF6PZIS5mu8TUwV3lsylxXLhgW9MI6HIr9if61z6zWvBo8T0DBGp8KG
-         dAMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZnOi7nn+kNXM31x+vNdEODvxAfhEspXXi9CNobuY0BPv+7s/rBJvPVtkLGCWvHzzq4zIUmH1v4x9sgKBqSG3XhsNpbixaSgm+
-X-Gm-Message-State: AOJu0YwzcrZ74S9sVEKd1ItchSnpkOxBYfgbnTIRVwGxKOsXExp0SWkm
-	UcaWbk54SRKWSAGzVvzRf0iZDCa7cZrVUi5bgimnQ5J0mpclTysdA4K6SNfsuNM=
-X-Google-Smtp-Source: AGHT+IGD+SMzrtIqxos2BUylU1ihI6jHOpxBRUaDnHcmTxvqFG6hCKlO2aW2yjsKNPG+MnRLXz5+kA==
-X-Received: by 2002:a05:6358:70b:b0:176:40d5:2bd5 with SMTP id e11-20020a056358070b00b0017640d52bd5mr10614876rwj.6.1709873871879;
-        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
-Received: from [192.168.1.24] (71-212-18-124.tukw.qwest.net. [71.212.18.124])
-        by smtp.gmail.com with ESMTPSA id k76-20020a633d4f000000b005dc8702f0a9sm13477127pga.1.2024.03.07.20.57.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 20:57:51 -0800 (PST)
-Message-ID: <15625bac-dfec-4c4e-a828-d11424f7aced@davidwei.uk>
-Date: Thu, 7 Mar 2024 20:57:49 -0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kCNOelpC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iM2jW34g/m7oJp96DoNYcoIaefj1L/8ep/CLk7b3XadLhOH+xVme3DR+8744C5+SBl08UnYHfpl8x70+4e4TkZOLAta4lbGsGZA/fXU5dfCD+HYuN/Ilj1xLE2nkIrzG8bQv3VxSoED0tv0Igu+/VsZ6ATDfBW/EnnCF5m3nmbiUTUtpaUlGnX2wWz11XyLyDW2AFAH8LT2aO1wFhzjLx66b4kv9ohMziadJOyq2Vc1lZHIaZUlYYAjd+PaR3X94j7EhZ4m3gdxz458txjUoLZ95IW1VJybsBNpoCYdxSeChqC7CasNSveSWFCvCS5mNE17Xk9uBPeg71PGrkAZwpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=56fNPCYJBldnaNLAZyfoBGn7ImQAQT1/XDFwScOPy+A=;
+ b=AuL5E8KY6yiO5XoJ4sfsFTePosH4yhJC0epogUs1cuoGG1pc/U50FYbcic+ag1j1cD5uvhkuvdLkKbqLGGRpgX/31CVnt3dv9SEWW3xD2qEMqFmVvQc2B8z163zlD7IysvnFocZqmsdLZuVbTx0Vg6WOFaCDET8NVlILMqsF/08uMKcUZAZeo/jFukkOL55bJMUbpbveNkthbTwsYP2dNE3Dio2CDxG/gbaGZxlrRzsPRk7NPatmD1Fd2CGN+eMFfub05EgQbQjxpZAQB3T5xi4NQatzxvxod9FO/bNAa5IVWcBy9Ux1C8q61XzDN8ktgbxR/EpV2+gO31U+A6lp3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=56fNPCYJBldnaNLAZyfoBGn7ImQAQT1/XDFwScOPy+A=;
+ b=kCNOelpCDLYPPWRGdr/3j7RbngBXFIJIRwLtNDHJFqBH14nKLPfjSoNBtPrhTtAhK4xHiLLk6zlovXYLyhVZ1Un26f6iDQTMfUpGvOXre5cZDYkiu7H0ZiWVnJW3WnpU+aGJEgiemD8rp382yQZzyyHv8AaohrukL7FxH301XR+0sHzvP1j1SyOExyOfk9DlLM8VX6Rwv9q+ktsPt8FqRD4b97jC6AXh51V+ri/JU27dB29r3UjM5r+dHQq15Vhszvpx3makDbekeQDybjj6dtnnOvubinIkH6bIC3N2PeIxnZWlEUEKRsHI09YHI2o6/T0iRu+J5w0WDvIvJKFPtg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by SJ1PR12MB6172.namprd12.prod.outlook.com (2603:10b6:a03:459::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Fri, 8 Mar
+ 2024 05:29:49 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::459b:b6fe:a74c:5fbf]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::459b:b6fe:a74c:5fbf%6]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
+ 05:29:48 +0000
+References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
+ <20240223192658.45893-2-rrameshbabu@nvidia.com>
+ <abbff26c-c626-42ce-82a9-4dc983372de3@intel.com>
+ <875xyex10q.fsf@nvidia.com>
+ <a84df9ec-475d-4ffc-a975-a0911a57901e@intel.com>
+ <87il2evhtk.fsf@nvidia.com>
+ <ec969f62-a1bb-4287-a4eb-083201134bae@intel.com>
+ <87le6tvpq8.fsf@nvidia.com>
+ <d030d02d-150d-4337-a063-69da28049548@intel.com>
+User-agent: mu4e 1.10.8; emacs 28.2
+From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Saeed Mahameed <saeed@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan  Corbet <corbet@lwn.net>, Richard Cochran
+ <richardcochran@gmail.com>, Tariq  Toukan <tariqt@nvidia.com>, Gal
+ Pressman <gal@nvidia.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, Ahmed Zaki
+ <ahmed.zaki@intel.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Hangbin Liu <liuhangbin@gmail.com>, Paul  Greenwalt
+ <paul.greenwalt@intel.com>, Justin Stitt <justinstitt@google.com>, Randy
+ Dunlap <rdunlap@infradead.org>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Wojciech Drewek <wojciech.drewek@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Jiri Pirko <jiri@resnulli.us>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu
+ <joabreu@synopsys.com>, Dragos  Tatulea <dtatulea@nvidia.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC net-next v1 1/6] ethtool: add interface to read Tx
+ hardware timestamping statistics
+Date: Thu, 07 Mar 2024 21:09:18 -0800
+In-reply-to: <d030d02d-150d-4337-a063-69da28049548@intel.com>
+Message-ID: <87edcljnp0.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0175.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::30) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com>
-Content-Language: en-GB
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|SJ1PR12MB6172:EE_
+X-MS-Office365-Filtering-Correlation-Id: 94250a27-fe77-43d4-082f-08dc3f30c58b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	2rQhaPS/1DPGgg1SgeCunMolxf8tMfMg9MMubIbFkjXvLxon3tjKR3kAel0RjHJINZ8OFSsUYyntO4QiN9cfCOcFImBr16xqGN+Oh2uy2k2+g2cIzvQjJjCaq+db96vtVYI3cxf2oqdVbwJpn/SFTPcpDfuL5mKDv4PqZgJCYO+6Xdd5Wjp+Q9m1eZvsPeUXjymLKEfdxsKDXZtwQh7/0d5xi5QVPUWtHaYHSBLpBkKUYKcH5P2RgouIAQ57pozI7gFlqxTRkTtOPEslgYwGQ5vLI/hpRwVRsBi1v+TYZvRBmVUUcfsGpt8BCle233fPgBI1bAeKSWO3NRFDd2iFDPa12dk3GUt5Ua9LO9X4oqNmhESVmYoJslTH2YnHc5SrQBrjbeQx/umOsjc1S6bbI0DL8687YJgS6d18N91N77yKbRJoHgAr2jBqMNWBE1mUn+D33jNhtZolr/7odG51xgL4v0E/3CruSIx3BldNSkWzplbgsoEg8BkoffXWNSCf9VaKMZIvZMS7xsepkHHAcKHMBrPHJTo27V3d8ctCoe5DnAWfp1bSNe1KKX+bQPqCbE9oHhKmTdKjyeJYMxjUlRH5W5Cw7w+1xtE6Tecur4YSXPLuifLzWjHbLzbvK7W2L0VHLqzRMUe1zHhu1oYcpvRiMKZghJp8vIQYufEm6Qo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?BQIFm+P1PoQcVwfWoWDU2qeJe01rBH/mkGCYbq/mNt/DBv6SkvdYMNhmPC47?=
+ =?us-ascii?Q?M9c7hLp4seTGN1gVCNqQa3oPQfP/5MWnTu1Wh2mTiqXqXtfymB9bNuqO/tHr?=
+ =?us-ascii?Q?ZS88y6WFZG+rr84LpfXWuA3n6w7XWM/Gi5MNZHddvFN/b3zl88CjKkTnUEae?=
+ =?us-ascii?Q?QON8imCnoz5ywplpwbZYnCgMsP5MUZlAv8AkV2LSuAtz4UrHx/gyN7RHKEQg?=
+ =?us-ascii?Q?f/Sk2KZ+0YR+X3WttiJXOmksbctmI5MZu0LYhS/M9U/kcXxSTwNVFvipU1Kb?=
+ =?us-ascii?Q?iUv5vza7NI6qaOF3lO6mvSU9M2c+ypNLmeUpdDFkNYfYmOodyRb9B8jpzsYw?=
+ =?us-ascii?Q?q9ydG+CUq7QWexwjgGnDKHHZTk57LTfvQmZGuZmrp+0t+ujlgDZKGd34QqCW?=
+ =?us-ascii?Q?DKDKO1AyixP5gmAyoOoLm6GxzgQZAEmDgH8NxhWRmFuqH62rGW7aq9rmrviy?=
+ =?us-ascii?Q?3QUTyko6U6pEC3lkhX0XvBXL4LoyIOFvy4A8tVc+lckw7FipgpN/M5jQOdXj?=
+ =?us-ascii?Q?6nJhr5y5MKA7Uv9Ar2WZ54Ig2qxz4GIo6krEL/OOWyTj9stV4UHNQbPmxbrE?=
+ =?us-ascii?Q?MBHFRfhbe7IDuI1oNX5h5YwnjZCmXjzcsBuH0ztBg3ZlmLAvOh8QqD9GBU3a?=
+ =?us-ascii?Q?jE3b6KPj17qfLtVxSJ4Ej6C9qM2/QUth9JgKjDTWuq4ZgZYYGr8CLHox/vnS?=
+ =?us-ascii?Q?X4i/Ah0uwDuzyzSKdmyaKNetdgHqfcDBxYErIzRAyvsa50gsHNvZ+WJEo/Qn?=
+ =?us-ascii?Q?4xanBkUXlHdKgLITmCkx+h7dAvTb+6XaHUcUjTx5887DYHtv2sXkVN11hSdm?=
+ =?us-ascii?Q?WP63wnJkCR5TNw35MXZ9YJjCk1Ggvc3rKyzxWYOFSbJvEC5CbbQrdYj5l/Cf?=
+ =?us-ascii?Q?CUUlSCoKT7jXusOtB/QoCD+xG02C7H+Oqy0aL0lRyg70Y2PnFMlg/j2LiogJ?=
+ =?us-ascii?Q?/WG7s/Zd21+TQCkRioCQGIDlJDgAvKyoAE5unFSyDJVBhwZpC+8YZYM/dw2G?=
+ =?us-ascii?Q?5r15dWQbzy5rsARpxddMgSfSEfL/8g2gZ425Ha3BsUtfGbLKGNnOBIztJtNm?=
+ =?us-ascii?Q?r3NhNpjf2RZO97nR5XdxCq4WMde+mHdcJgh7Zi7Bj8k4LKk0fBLpre5pKLuj?=
+ =?us-ascii?Q?McFw7J1X2CIUXP7CuaHUZyLqVTuiBJr09zfN0nFZdMKJ2Q+Q0UNjwKKwHC6d?=
+ =?us-ascii?Q?HxhhmuqUr3zd3INpe1s6ToxepmEhDYYp941erRWEcP3HTpe2U89CduckCIY8?=
+ =?us-ascii?Q?+Y/xoZA5bP22L5kPJOqhxKKLjfg6Aajv/XRYi8kN5tVw/s6pBzv6KIoM9Ug5?=
+ =?us-ascii?Q?ASOk2ZvqdSwUC21X0yPEbBeDKTUxUHWNqSu2vZZxFm0qHYrFz+/pP6IziE3s?=
+ =?us-ascii?Q?A+70cz6YtcaAo1mvUqJ6XQ/NdbLudEPc9HDMoGdPMoHasBUx97JmNFkeXDih?=
+ =?us-ascii?Q?T+eKnYrfXKCH/V4sXf+YjYfjkI0WCPVjEIiEKhhYQKxWrsVNvlZNpYP0H1Md?=
+ =?us-ascii?Q?yrOAhgYZlm9NvwQMiPOYYtCEHoksXPZotDfORhfrAMOk6nTekGhxImlMBhMB?=
+ =?us-ascii?Q?0foQyUGGGeCcGyUPVFYuGFZdFe5zsIVUlMA05Ia3?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94250a27-fe77-43d4-082f-08dc3f30c58b
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 05:29:48.6638
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uWogxAT3KS50jz7dVqgaNzWcc9vbtQ8brME/8mt+MlkIlVKNJbasRpyZdTfrWUg3gtQCwRGtV0lGoBgCq7momA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6172
 
-On 2024-03-04 18:01, Mina Almasry wrote:
-> From: Jakub Kicinski <kuba@kernel.org>
-> 
-> The page providers which try to reuse the same pages will
-> need to hold onto the ref, even if page gets released from
-> the pool - as in releasing the page from the pp just transfers
-> the "ownership" reference from pp to the provider, and provider
-> will wait for other references to be gone before feeding this
-> page back into the pool.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> This is implemented by Jakub in his RFC:
-> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
-> 
-> I take no credit for the idea or implementation; I only added minor
-> edits to make this workable with device memory TCP, and removed some
-> hacky test code. This is a critical dependency of device memory TCP
-> and thus I'm pulling it into this series to make it revewable and
-> mergeable.
-> 
-> RFC v3 -> v1
-> - Removed unusued mem_provider. (Yunsheng).
-> - Replaced memory_provider & mp_priv with netdev_rx_queue (Jakub).
-> 
-> ---
->  include/net/page_pool/types.h | 12 ++++++++++
->  net/core/page_pool.c          | 43 +++++++++++++++++++++++++++++++----
->  2 files changed, 50 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index 5e43a08d3231..ffe5f31fb0da 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -52,6 +52,7 @@ struct pp_alloc_cache {
->   * @dev:	device, for DMA pre-mapping purposes
->   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
->   * @napi:	NAPI which is the sole consumer of pages, otherwise NULL
-> + * @queue:	struct netdev_rx_queue this page_pool is being created for.
->   * @dma_dir:	DMA mapping direction
->   * @max_len:	max DMA sync memory size for PP_FLAG_DMA_SYNC_DEV
->   * @offset:	DMA sync address offset for PP_FLAG_DMA_SYNC_DEV
-> @@ -64,6 +65,7 @@ struct page_pool_params {
->  		int		nid;
->  		struct device	*dev;
->  		struct napi_struct *napi;
-> +		struct netdev_rx_queue *queue;
->  		enum dma_data_direction dma_dir;
->  		unsigned int	max_len;
->  		unsigned int	offset;
-> @@ -126,6 +128,13 @@ struct page_pool_stats {
->  };
->  #endif
->  
-> +struct memory_provider_ops {
-> +	int (*init)(struct page_pool *pool);
-> +	void (*destroy)(struct page_pool *pool);
-> +	struct page *(*alloc_pages)(struct page_pool *pool, gfp_t gfp);
-> +	bool (*release_page)(struct page_pool *pool, struct page *page);
-> +};
 
-Separate question as I try to adapt bnxt to this and your queue
-configuration API.
+On Thu, 07 Mar, 2024 19:29:08 -0800 Jacob Keller <jacob.e.keller@intel.com> wrote:
+> On 3/7/2024 10:47 AM, Rahul Rameshbabu wrote:
+>> Hi Jacob,
+>> 
+>> On Mon, 26 Feb, 2024 11:54:49 -0800 Jacob Keller <jacob.e.keller@intel.com> wrote:
+>>> On 2/23/2024 3:43 PM, Rahul Rameshbabu wrote:
+>>>>
+>>>> On Fri, 23 Feb, 2024 14:48:51 -0800 Jacob Keller <jacob.e.keller@intel.com>
+>>>> wrote:
+>>>>> On 2/23/2024 2:21 PM, Rahul Rameshbabu wrote:
+>>>>>> Do you have any example of a case of skipping timestamp information that
+>>>>>> is not related to lack of delivery over time? I am wondering if this
+>>>>>> case is more like a hardware error or not. Or is it more like something
+>>>>>> along the lines of being busy/would impact line rate of timestamp
+>>>>>> information must be recorded?
+>>>>>>
+>>>>>
+>>>>> The main example for skipped is the event where all our slots are full
+>>>>> at point of timestamp request.
+>>>>
+>>>> This is what I was guessing as the main (if not only reason). For this
+>>>> specific reason, I think a general "busy" stats counter makes sense.
+>>>> mlx5 does not need this counter, but I can see a lot of other hw
+>>>> implementations needing this. (The skipped counter name obviously should
+>>>> be left only in the ice driver. Just felt "busy" was easy to understand
+>>>> for generalized counters.)
+>>>
+>>> Yea, I don't expect this would be required for all hardware but it seems
+>>> like a common approach if you have limited slots for Tx timestamps
+>>> available.
+>>>
+>> Sorry to bump this thread once more, but I had a question regarding the
+>> Intel driver in regards to this. Instead of having a busy case when all
+>> the slots are full, would it make sense to stop the netdev queues in
+>> this case, we actually do this in mlx5 (though keep in mind that we have
+>> a dedicated queue just for port/phy timestamping that we start/stop).
+>> 
+>> Maybe in your case, you can have a mix of HW timestamping and non-HW
+>> timestamping in the same queue, which is why you have a busy case?
+>> 
+>
+> We don't use a dedicated queue. The issue isn't queue capacity so much
+> as it is the number of slots in the PHY for where it can save the
+> timestamp data.
 
-How does GVE handle the need to allocate kernel pages for headers and
-dmabuf for payloads?
+In mlx5, we use a dedicated queue just for the purpose of HW
+timestamping because we actually do have a similar slot mechanism. We
+call it metadata. We have a limit of 256 entries. We steer PTP traffic
+specifically (though we will be changing this to any HW timestamped
+traffic with the work Kory is doing) to this queue by matching against
+the protocol and port. All other traffic goes to the normal queues that
+cannot consume the timestamping slots. When all the slots are occupied,
+we stop the timestamping queue rather than throwing some busy error.
 
-Reading the code, struct gve_rx_ring is the main per-ring object with a
-page pool. gve_queue_page_lists are filled with page pool netmem
-allocations from the page pool in gve_alloc_queue_page_list(). Are these
-strictly used for payloads only?
+>
+> In practice the most common application (ptp4l) synchronously waits for
+> timestamps, and only has one outstanding at a time. Likely due to
+> limitations with original hardware that only supported one outstanding
+> Tx timestamp.
+>
+>> Wanted to inquire about this before sending out a RFC v2.
+>
+> That's actually an interesting approach to change to a dedicated queue
+> which we could lock and start/stop it when the indexes are full. How
+> does that interact with the stack UDP and Ethernet stacks? Presumably
+> when you go to transmit, you'd need to pick a queue and if its stopped
+> you'd have to drop or tell the stack?
 
-I found a struct gve_header_buf in both gve_rx_ring and struct
-gve_per_rx_queue_mem_dpo. This is allocated in gve_rx_queue_mem_alloc()
-using dma_alloc_coherent(). Is this where GVE stores headers?
+Let me share a pointer in mlx5 for how we do the queue selection. Like I
+mentioned, we steer ptp traffic specifically, but we can change this to
+just steer any skb that indicates hw timestamping.
 
-IOW, GVE only uses page pool to allocate memory for QPLs, and QPLs are
-used by the device for split payloads. Is my understanding correct?
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.h?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n71
 
-> +
->  struct page_pool {
->  	struct page_pool_params_fast p;
->  
-> @@ -176,6 +185,9 @@ struct page_pool {
->  	 */
->  	struct ptr_ring ring;
->  
-> +	void *mp_priv;
-> +	const struct memory_provider_ops *mp_ops;
-> +
->  #ifdef CONFIG_PAGE_POOL_STATS
->  	/* recycle stats are per-cpu to avoid locking */
->  	struct page_pool_recycle_stats __percpu *recycle_stats;
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index d706fe5548df..8776fcad064a 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -25,6 +25,8 @@
->  
->  #include "page_pool_priv.h"
->  
-> +static DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
-> +
->  #define DEFER_TIME (msecs_to_jiffies(1000))
->  #define DEFER_WARN_INTERVAL (60 * HZ)
->  
-> @@ -177,6 +179,7 @@ static int page_pool_init(struct page_pool *pool,
->  			  int cpuid)
->  {
->  	unsigned int ring_qsize = 1024; /* Default */
-> +	int err;
->  
->  	memcpy(&pool->p, &params->fast, sizeof(pool->p));
->  	memcpy(&pool->slow, &params->slow, sizeof(pool->slow));
-> @@ -248,10 +251,25 @@ static int page_pool_init(struct page_pool *pool,
->  	/* Driver calling page_pool_create() also call page_pool_destroy() */
->  	refcount_set(&pool->user_cnt, 1);
->  
-> +	if (pool->mp_ops) {
-> +		err = pool->mp_ops->init(pool);
-> +		if (err) {
-> +			pr_warn("%s() mem-provider init failed %d\n",
-> +				__func__, err);
-> +			goto free_ptr_ring;
-> +		}
-> +
-> +		static_branch_inc(&page_pool_mem_providers);
-> +	}
-> +
->  	if (pool->p.flags & PP_FLAG_DMA_MAP)
->  		get_device(pool->p.dev);
->  
->  	return 0;
-> +
-> +free_ptr_ring:
-> +	ptr_ring_cleanup(&pool->ring, NULL);
-> +	return err;
->  }
->  
->  static void page_pool_uninit(struct page_pool *pool)
-> @@ -546,7 +564,10 @@ struct page *page_pool_alloc_pages(struct page_pool *pool, gfp_t gfp)
->  		return page;
->  
->  	/* Slow-path: cache empty, do real allocation */
-> -	page = __page_pool_alloc_pages_slow(pool, gfp);
-> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-> +		page = pool->mp_ops->alloc_pages(pool, gfp);
-> +	else
-> +		page = __page_pool_alloc_pages_slow(pool, gfp);
->  	return page;
->  }
->  EXPORT_SYMBOL(page_pool_alloc_pages);
-> @@ -603,10 +624,13 @@ void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
->  void page_pool_return_page(struct page_pool *pool, struct page *page)
->  {
->  	int count;
-> +	bool put;
->  
-> -	__page_pool_release_page_dma(pool, page);
-> -
-> -	page_pool_clear_pp_info(page);
-> +	put = true;
-> +	if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
-> +		put = pool->mp_ops->release_page(pool, page);
-> +	else
-> +		__page_pool_release_page_dma(pool, page);
->  
->  	/* This may be the last page returned, releasing the pool, so
->  	 * it is not safe to reference pool afterwards.
-> @@ -614,7 +638,10 @@ void page_pool_return_page(struct page_pool *pool, struct page *page)
->  	count = atomic_inc_return_relaxed(&pool->pages_state_release_cnt);
->  	trace_page_pool_state_release(pool, page, count);
->  
-> -	put_page(page);
-> +	if (put) {
-> +		page_pool_clear_pp_info(page);
-> +		put_page(page);
-> +	}
->  	/* An optimization would be to call __free_pages(page, pool->p.order)
->  	 * knowing page is not part of page-cache (thus avoiding a
->  	 * __page_cache_release() call).
-> @@ -884,6 +911,12 @@ static void __page_pool_destroy(struct page_pool *pool)
->  
->  	page_pool_unlist(pool);
->  	page_pool_uninit(pool);
-> +
-> +	if (pool->mp_ops) {
-> +		pool->mp_ops->destroy(pool);
-> +		static_branch_dec(&page_pool_mem_providers);
-> +	}
-> +
->  	kfree(pool);
->  }
->  
+Then, here is how we manage stopping and waking the queue (we tell the
+core stack about this so we do not have to drop traffic due to some kind
+of busy state because our metadata/slots are all consumed).
+
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n775
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n257
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n397
+
+>
+> I think I remember someone experimenting with returning NETDEV_TX_BUSY
+> when the slots were full, but in practice this caused a lot of issues.
+> None of the other devices we have with only a single slot (one set of
+> registers, ixgbe, i40e, igb, e1000) did that either.
+
+So we experimented that even with a single slot (we had reasons for
+testing this), the dedicated queue for timestamping worked out nicely. I
+really would suggest investigating this model since I think it might
+play out nicely for the Intel family.
+
+>
+> If this queue model behaves in a sane way (or if we can communicate
+> something similar by reporting back up the stack without needing a
+> dedicated queue?) that could be better than the current situation.
+
+I personally really like the dedicated queue in the device drivers, but
+if we want to instead model this slot management work in the core netdev
+stack, I do not think that is a bad endeavor either (when slots are
+full, hw timestamping traffic is held back till they become available).
+I do think the netif_tx_wake_queue/netif_tx_stop_queue + dedicated HW
+timestamping queue does work out nicely.
+
+Let me know your thoughts on this. If you think it's an interesting idea
+to explore, lets not add the busy counter now in this series. I already
+dropped the late counter. We can add the busy counter later on if you
+feel this model I have shared is not viable for Intel. I wanted to avoid
+introducing too many counters pre-emptively that might not actually be
+consumed widely. I had a thought that what you presented with slots is
+very similar to what we have with metadata in mlx5, so I thought that
+maybe handling the management of these slots in a different way with
+something like a dedicated queue for HW timestamping could make the
+design cleaner.
+
+--
+Thanks,
+
+Rahul Rameshbabu
