@@ -1,193 +1,210 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7FF4EB47;
-	Fri,  8 Mar 2024 08:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.153.233
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709886338; cv=fail; b=mtQ3ut1nFSkFoZDVFypyVJUpCHmwWVnDPVDz3AeHAcJhicWowvqAEBnX7KbJ9wRhOpQlO/6nMv5sQkN+oOwzGbzBZjJN248q6/6W0TOPKW4kn9xtPSvFE2SMd9RZsTE6A1w/fTzDZK8dZlXlMT5TxFh5gXjsOAgA5QzOnB/r0MM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709886338; c=relaxed/simple;
-	bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=AFhx6MMjjbRUkilgUO8iaJk/N1r3F9eqdVNve59XJ1n7uTEs3WwSCHvDz0FF6fVqaaPdHOQ5aQKml8P4VWbpTFRogebzB8OnKdrFEa/hcYnPbow3xN8EicGd9svYDUMZqb9bs3WE5x06MFYLzLHyXa7jF970hWww1T5Q+iFtTjI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=w/q2ga8S; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=j812D+nW; arc=fail smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C651CF8A;
+	Fri,  8 Mar 2024 08:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709887164; cv=none; b=vEypbsgkhzwMS1g+ZjVALamQE2W7V2+GDIYlYvKu8GACW8EBqJlyPAgEiXUiYqyKHry8k3whOEHmIgJE+VlaYE19/NJpMpBUry7bPQTtnl93P7tdrHHNc+9w7f8+JzneInKvI11gl0EIzA7mlK7aTYwdcKXD1zY1Su85Nw6XWcI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709887164; c=relaxed/simple;
+	bh=WlJwc0CXz289aYzNYoYl8BrBG4AN8UC5Lj2Bw7BYaSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ndwoX9xcIus2pvIy8r4KZoG6ZbgCXjy4oUuHdeCH8zoJr576AxhXxftwAbL6mme/goSEDi5lqM3n2Gv94Rr234sCpNyDiDaTYRymDQ83y/rOHiTtXQPiG3Gc85x46TeBBBzo3y5gEryUdHi1sp6pzOX8ulAi5t9YGTR+8lGMx34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=ij7r4yar; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="w/q2ga8S";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="j812D+nW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1709886337; x=1741422337;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
-  b=w/q2ga8S4ySKpaKT7wEu5OZ1XXodwZYMc2F9p2CFF6YdvY+zrTwQ+2vO
-   O5kpm9DQ9ZCXxWm43AxQJ5fPlOjbzQZgQfUBVaEG6ku3lqw4Wm83x39YS
-   EZvSWXjffFrCBrvj9Ef3Bcjt6EQYxl0zBaKr7crKYCvWjC0g4Bzb5AM4w
-   BrUxs0wDIO4giFdjRi21T7YldvxsET5YaFNjR30QIYAYwUBwhRNQBrZzj
-   rvCodGcUgAeYbqwm2MSzc3sP85oI4wR36h7iPF1K0fUIjF3XSTBOnoqlo
-   PkCSlONcsMNZpxVt+gX9BCwx5MCcKo/Scb5oj+vuydl48ICO+EumQnvEP
-   w==;
-X-CSE-ConnectionGUID: 6qwxoBUdTWWC1n+ryOguOA==
-X-CSE-MsgGUID: CI41py9JRh+9orWwvRFfVA==
-X-IronPort-AV: E=Sophos;i="6.07,108,1708412400"; 
-   d="scan'208";a="17394528"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Mar 2024 01:25:35 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Mar 2024 01:25:31 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 8 Mar 2024 01:25:31 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AqptIQYH9k4N+VIeZMZ0yrms8T3nFSeW1fKuqMfNWx6zeoiSUq1cXxb6pXozSdG0z7WHRUzv4dNvfqq2G6pTb3C9tTW1Dw6za4ImmnaPc+BM35FQ34qZDWl7nHpbxwriSCfRDgYQ1Se4aioWeQpiyggZPIsDdgeO3q9YWDtwDn2DK4QqZxUsv+6Xhwr4k877BsFQ7MBKJQjhUzupa3fXqDOWmderB26pbZuF3WvEZZAEDjj8ngQIaMbIReeSBJ/ANq1XjOJ1ZJ9SOZgaiK0jkOhtZL418TQRy2hSwXLmkzSFGm/oAFdO8NZh3S5irGDMgt6CCaKZM3g+WN0k6LuoGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
- b=AorlslGneeyHi+bfrpPrVCW2sXzgZwdT+AQ9asCrcOGMsiLwCWu7FeTd+6irre13UtuxAUslvAu34GraBb12fGCdq+4bZZHzyJbIpcFV4lxTAN3raCt4RkKrqnR+wm2dSccL2aNV/2x3lUekvTMBntol5UfwUUEK1+cs9l8F/oPvoyWZ7s3spMZmT2+4CpaPSW5nOzU7R5MPTXRzBFVbGQM7b/mpl9cvsBqt0wy+gRaXlMxPIofVRxmTCjPfd/zkw7VZ48FcmL6gayZaXOI+Zu6R4lCs2Gc4yE4/HrmYuh5ncXyXW8aXphmSWqd5nONcp7MukA8Pay6ySBL988arOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IfPpkZMrSED83C8LjvVSCXNCZ+DSEi6tSGEmw5n41Hw=;
- b=j812D+nWWQQFAhAkG/CCyae8iYvDjHss6ugPNmKVi3poAiBN6xMv0GyulXzKDaDEoHieG5t/s5GXiTuZIiF0AzRR9uRsXBho0Xo/Io0O3OJlMqATBK914CqDv7wwH3f22+Nuaz4bwJ7p7tOJWz5CNANWeS1DKrgwDu6req/HKwMrbKWtrg+IilWTBbxgx8FO5rIfcNdVYRHNmf2C5Oqg5FYreXSQPH8RTA5gcfyrbzW5w1RR253aRTP5ZvMPvstD3+2ZV3h/ey2kO7zzGXTah+OHn2hFV4J0iJqaj9snBehgI/NcW9dRY1e/oliIZV0y5+TrObVSrJuCq1foAfAnPA==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by CO1PR11MB4785.namprd11.prod.outlook.com (2603:10b6:303:6f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.8; Fri, 8 Mar
- 2024 08:25:28 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::f633:b9d4:f539:177d]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::f633:b9d4:f539:177d%6]) with mapi id 15.20.7386.006; Fri, 8 Mar 2024
- 08:25:28 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <andrew@lunn.ch>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
-	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
-	<benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v3 04/12] net: ethernet: oa_tc6: implement
- software reset
-Thread-Topic: [PATCH net-next v3 04/12] net: ethernet: oa_tc6: implement
- software reset
-Thread-Index: AQHab6OCD00I709j00WIKaDUtsZwCbErb26AgAB2hACAAGBgAIABPr2A
-Date: Fri, 8 Mar 2024 08:25:28 +0000
-Message-ID: <b3e2a595-437b-440d-ae22-da12570163c1@microchip.com>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-5-Parthiban.Veerasooran@microchip.com>
- <4e56f5c2-3d5c-4dda-8a37-01c1dbce27d7@lunn.ch>
- <bff71d0b-49d0-4a4c-98c1-7df7056c4268@microchip.com>
- <31a09423-276a-415b-a7b8-4aab04021a82@lunn.ch>
-In-Reply-To: <31a09423-276a-415b-a7b8-4aab04021a82@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|CO1PR11MB4785:EE_
-x-ms-office365-filtering-correlation-id: 54a610ea-002b-46d8-6dab-08dc3f494fe6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: miVMqiW2sd7BvGRHqOTBLKW+2faIdByfA6twbbj4eO2+jjAW6bqYNDVtcow/D/AXlk2uqn7lc4jfc9t8BWXkoPZbikXXd2n9dZL+wRKRnPKrZg9gz53TydpKNhHdT8bWMgYjfYBV+ln+UUNTVZ4uorzfCbUHjRB7r6tKDjelA32QILQ8KYW8E8+O9e2+Ghxp+AotC7myLWXvCSVX0F05Bg2Q3uHuSDwXNPgRTRNPBn1QgCWBhuBJ94rWHtGFMF2uAuhnFBj1jHnzpHkWzE52oK5dUHXSGbe0AqrM6C5bm2GTL/GqiYLiQyKE4G/R6JLpJUIMf6ZMoJtkZEnWliQNbKH2FdFlh0V01Tc/XuZSJDyl48wsl4wtlmKuYx/XUU9JiZfFpludKGJqRTdbDm6DkJWh/ManofvXnabmN4w98zKDz2BVq0ZBtHDrZ3Yy8F6qAE8qcN7HY5CchMmL8+sRmgnHKTTLpb4CxDfWeLCxnfOkttb7+OADX2MBrV/D6hDuVSjavk8mvUwLZoickRUc/XTR9rCTYuvEkQnahaiuzssX3P/fjj0SNgrIaMba+XKMk36RfkDZNXCUgIBtclWEwhHXM3R/p5HtwO35MdkAJfrOylvekEhXrQSWD+ffzBv5U/rf+U6TN8FHdrCcmwGhBEizUy/yabwvIWgL80x+pflMd1jD8TgvcfmCwI9RzJG/6kGEmR5/cs1CawJ0SXmUag==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M3RuemFPdGRTVjFKMXZBekgrQ3R6VE9YdXJ3V0k0M0c0WEh1MXBiT3lKR3Rw?=
- =?utf-8?B?bkYzbHBRSXZSNTIxOVBNY0NpTk15ejFwcnpHWmJvakhTeTFiN0xqVXFMNHB6?=
- =?utf-8?B?NE1MUGQwTGFvTXo1cWhqQUdtOThVdE5HRGtqVkZtSGdITVFqU3ZJNkFrcW55?=
- =?utf-8?B?aytmWmszclVQMTB6cWltL0hPckRzcjRJbm9xRDRYSnhUMWNBNm40c3g5YWl5?=
- =?utf-8?B?bzdLdTlYUnZ5aDJkZkN0UjQzcGp2dE5veEh2ZzZVQXpKa2VGUGJNM1ZkeEs4?=
- =?utf-8?B?UFZCa1Q5bzRsaVErdndIRC82OVM1ZEZqRjVnRENwT3F2S2piRHlIREJlck5S?=
- =?utf-8?B?dStVQXppa3JPRjBWQ3pWZzZMZ09oOEUyNHdmdW5NSnBPNjFqelJIMDlpekRO?=
- =?utf-8?B?OGR6bEhlckcyVXpULzVwdHE5MDhUQzdjN3luWllKOEpYRXVmMW1XTGM4UG84?=
- =?utf-8?B?RmhwdHN3L0FvRHREWG9pMTZjWFJ6QjFGb3J6UklNdjJNM3NFYkdDNW44dHlG?=
- =?utf-8?B?NGR0MmNUdXJxMnVYaTNpb3lHcEtOYUpSbDAvWEg1K1pCY0tPS2tIeitZK2gw?=
- =?utf-8?B?REdWa1ZaQ2V1VS9TUndMM0ZjSmJBTGkvSGs2Ly91cUtGclpPK3ZyOGNnM2FX?=
- =?utf-8?B?Y1ZWdzQ3WTZBSks1Unk5OVhZUDV1S3orMjlKU1pQeEsvRmZ3UEl4TFE5YUpv?=
- =?utf-8?B?dmh2SVFKakpHVXFDNkF6SlEvQVZlNTltZHYzek5kZ0pqQjQrRE9YU0lxeE1x?=
- =?utf-8?B?Y0hCZHF2S3NKMnF6Y0xJRlhtNkpRWW9jOHNKOW1WWDlYYWYrWThhY0V5cUZa?=
- =?utf-8?B?TWxZY2ZxRFRaZ0l6a043eUFEWWtoNzhZWnRvRnIxNVV5M283NmJaTjZuL2pw?=
- =?utf-8?B?Z1ZYNVZTc25zWWIwYy84R1JtalkzR2YvRzF4aEpHR0lsTUNSTUZOaHJ2bEJ2?=
- =?utf-8?B?dzY4bjlUbGtJZmhMdzhuRlZ2RXdhYm5BR01iYmZaNW5sLzgyMTRJZUZ3OFFn?=
- =?utf-8?B?RnAxWFhBM0JQbEdSVk5RRFc1dXMzb3JSQWpWeFJyRlRYOTZmejUxcmxWU0wy?=
- =?utf-8?B?akRPVEtTVkhlZjZ3VVRWVlFNWXI3VTBHa25FNGh1L0c5bEx4UEJraDFwbENo?=
- =?utf-8?B?UEswU20valFKc3NZclRqZFpGdUlPRnFkVmQ3NEU3eGVMcTZDMk5PR3BuL1BN?=
- =?utf-8?B?OTJyaEVKZVBqQkVqUDFiRUJ0MWF6Y2VBeUdxQ0VFZGR3SWhzOXRoMENianY1?=
- =?utf-8?B?WkdKb1FCRmY4cCs5TTc4cFMxd09meHI1a25yeWg5TlpJV3NqaXJBYk9zSFdm?=
- =?utf-8?B?K056VVRjY1U4aks0Rkhnd2ZzZ2htaWNFMlg5Z0Fwb01NeHgyZFNtUy9kUCsr?=
- =?utf-8?B?UFVldThMczIvMzd5T0U2aG45VmIvdFdxNjc1UTlUbDRYVVYrTFhQUzNCQXYv?=
- =?utf-8?B?Nmd0eStHMzhjbHcwS09NbkFKNTNvSThWNUswekFiUGx3RkJieEFyRnNlWHp6?=
- =?utf-8?B?cnd5REFqTS83eEdjVVR4Z2lIdEFwajE4eDd2eXhNR0Q5VElpRE91VGNrdmtW?=
- =?utf-8?B?SGhCb0lid0h2OHVjcXFFRmtxMkM5WEcrZm5GL1RwQWhCdytla3Zxa25jc0lz?=
- =?utf-8?B?MlhDc1hqeEx4cW1rYWh4bTZSOEtjazRYZGdiSUs5NisyOFEvM0hmQW0wKzVi?=
- =?utf-8?B?Q3hjK0syN0h6NDJoTHh2VThENGlHRVRlRmFKRXVnS3l6U3RIRlVPbTZWakM3?=
- =?utf-8?B?dG5BelI3WEY1cUU3dmhEbDQ4bjBvaTF5VW1TTVQvV2J4Q1NWUnBFM01QcENh?=
- =?utf-8?B?K0Z4RFRQbTF2YzlUNm9rMitjdU9qMGJjVTVHQ2wrazNWRU9NV29EZkFvNWtZ?=
- =?utf-8?B?SjliNFlSa2grbzgzT1BvWWlldzdVZ014SUZIRGlEcDU3UmxKeUlLSjlFMVdF?=
- =?utf-8?B?cmdPRXdZZ09ma29vUis5S3RIQno2MXNyL0ZJOFhTL29pUHUzUUE5eDNJOFNw?=
- =?utf-8?B?MEVsYzc4Qm9zUUV3VW1Zb0VCS1JpOTdsS1I4WVZBS2dqaEx6VVhWdmtZc2oy?=
- =?utf-8?B?YUZGZncyUEc2Y2s1a2FaWDI4TmhhUndyUm9UMEpHV3V4MmdvelM1Nm5KRjUr?=
- =?utf-8?B?SkJ3UkpMakd4RHdJdDlrYUx6SDg0VkJFeUhlV1pYM2lPU3FabjR3WWdKbmVR?=
- =?utf-8?B?YWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <891B724EC20FCF43AB165A05E3730D05@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="ij7r4yar"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1709887160; x=1741423160;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+0Zk9YrNAPHRCrDTW6MNWvjCjE1nDUbXvpf0eiRTAcI=;
+  b=ij7r4yarpxHsJVBLPIINqpv5h+1uaPTjFGfcNjkDD9kxgdKDQTmOUXCr
+   4Tmq5KjvMz8jYgSxandvKNdzS5lg9LMXEyd8EKDL/+nGpD0FQ5nVi/PG1
+   SSZOFDsQFu4gEAeBLNZju3/TLYU2Y6KJaGmBPyTEELKMbLgxOYnNx3HKC
+   GslvdLVQYqM4wClt1wtNa+1AiDN+QBSAJE1rru57GmMahH4bsDljs1bdO
+   Qktbn7abKU1kckGMVEXkx5HhjNClPmnl5bF48ZtcVs4eAl//8Fk4QGl3d
+   IUiXxVQ93rc5E5eUMqSox/GpxAlX83JkCv61TJWVVOad9tas/rlcEH9wV
+   g==;
+X-IronPort-AV: E=Sophos;i="6.07,109,1708383600"; 
+   d="scan'208";a="35803051"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 08 Mar 2024 09:39:17 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4074628007C;
+	Fri,  8 Mar 2024 09:39:17 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v8 05/27] drm/tests: Add output bpc tests
+Date: Fri, 08 Mar 2024 09:39:18 +0100
+Message-ID: <1788224.VLH7GnMWUR@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240307-kms-hdmi-connector-state-v8-5-ef6a6f31964b@kernel.org>
+References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-5-ef6a6f31964b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54a610ea-002b-46d8-6dab-08dc3f494fe6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 08:25:28.5072
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ihEFuDqNDIvWLrgvQoZS2nf8x6dKHOl4QogEwEazNeVLsKC4FlBbNUmjv+nkBlyOZnYeEpTvgaQiYrb8Y3jJSpr2a7O5wPTlKNYV+Qca4S3Wm/gg2NI37s4HBqIMaP/H
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4785
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-SGkgQW5kcmV3LA0KDQpPbiAwNy8wMy8yNCA2OjU0IHBtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
-RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
-bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPj4+PiArc3RhdGljIGludCBv
-YV90YzZfcmVhZF9zd19yZXNldF9zdGF0dXMoc3RydWN0IG9hX3RjNiAqdGM2KQ0KPj4+PiArew0K
-Pj4+PiArICAgICB1MzIgcmVndmFsOw0KPj4+PiArICAgICBpbnQgcmV0Ow0KPj4+PiArDQo+Pj4+
-ICsgICAgIHJldCA9IG9hX3RjNl9yZWFkX3JlZ2lzdGVyKHRjNiwgT0FfVEM2X1JFR19TVEFUVVMw
-LCAmcmVndmFsKTsNCj4+Pj4gKyAgICAgaWYgKHJldCkNCj4+Pj4gKyAgICAgICAgICAgICByZXR1
-cm4gMDsNCj4+Pj4gKw0KPj4+PiArICAgICByZXR1cm4gcmVndmFsOw0KPj4+DQo+Pj4gVGhlIGZ1
-bmN0aW9uIG5hbWUgZG9lcyBub3QgcmVhbGx5IGZpdCB3aGF0IHRoZSBmdW5jdGlvbiBkb2VzLiBU
-aGUNCj4+PiBmdW5jdGlvbiByZXR1cm5zIE9BX1RDNl9SRUdfU1RBVFVTMC4gSSBhc3N1bWUgaXQg
-aGFzIG1vcmUgYml0cyBpbiBpdA0KPj4+IHRoYW4ganVzdCBTVEFUVVMwX1JFU0VUQy4gU28gZWl0
-aGVyIHRoaXMgZnVuY3Rpb24gc2hvdWxkIGJlIGNhbGxlZA0KPj4+IG9hX3RjNl9yZWFkX3N0YXR1
-czAsIG9yIHlvdSBzaG91bGQgbWFzayByZWd2YWwgd2l0aCBTVEFUVVMwX1JFU0VUQywgc28NCj4+
-PiB0aGF0IGl0IGRvZXMgYWN0dWFsbHkgcmV0dXJuIHRoZSBzdyByZXNldCBzdGF0dXMuDQo+PiBP
-aywgYXMgd2UgZG8gdGhlIG1hc2tpbmcgaW4gdGhlIGNhbGxpbmcgZnVuY3Rpb24gcmVhZHhfcG9s
-bF90aW1lb3V0LCBhcw0KPj4geW91IHN1Z2dlc3RlZCBJIHdpbGwgY2hhbmdlIHRoZSBmdW5jdGlv
-biBuYW1lIGFzIG9hX3RjNl9yZWFkX3N0YXR1czAgaW4NCj4+IHRoZSBuZXh0IHZlcnNpb24uDQo+
-IA0KPiBPLksuIEFuZCBpIHRoaW5rIHNvbWUgb2YgdGhlIGxhdGVyIHBhdGNoZXMgY2FuIHRoZW0g
-bWFrZSB1c2Ugb2YgdGhpcw0KPiBnZW5lcmljIGZ1bmN0aW9uLg0KWWVzLCBtaWdodCBiZSBoZWxw
-ZnVsLg0KDQpCZXN0IHJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KPiANCj4gICAgICAgICAgQW5kcmV3
-DQoNCg==
+Hi Maxime,
+
+Am Donnerstag, 7. M=E4rz 2024, 14:38:32 CET schrieb Maxime Ripard:
+> Now that we're tracking the output bpc count in the connector state,
+> let's add a few tests to make sure it works as expected.
+>=20
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/tests/Makefile                     |   1 +
+>  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 436 +++++++++++++++=
+++++++
+>  drivers/gpu/drm/tests/drm_connector_test.c         | 140 +++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 106 +++++
+>  4 files changed, 683 insertions(+)
+>=20
+> [snip]
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tes=
+ts/drm_kunit_edid.h
+> new file mode 100644
+> index 000000000000..2bba316de064
+> --- /dev/null
+> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> @@ -0,0 +1,106 @@
+> +#ifndef DRM_KUNIT_EDID_H_
+> +#define DRM_KUNIT_EDID_H_
+> +
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 02 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
+> + *
+> + * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
+> + * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     Monochrome or grayscale display
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
+75000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.5000=
+00 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150=
+ MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x92
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.50=
+0000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: No Data
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     Maximum TMDS clock: 200 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] =3D {
+
+Shouldn't this be a static one? It's defined in a header.
+
+Best regards,
+Alexander
+
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x00, 0x00, 0xc4, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x41, 0x02, 0x03, 0x1b, 0x81,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x00, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0xd0
+> +};
+> +
+> +#endif // DRM_KUNIT_EDID_H_
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
