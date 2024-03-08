@@ -1,177 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2074.outbound.protection.outlook.com [40.107.94.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABDC23775;
-	Fri,  8 Mar 2024 03:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709869010; cv=none; b=KENJPlgkeWS8Jb60tO0RWZ0tYxJ/z0PNhGq5IdlPmZ+TRUwz+uwTs4Caog6Cq4D82bZSVNOlHHTAYQvQ6IlnByKtJgek8BQjrtr6btcfdlbbC56RIS05byoNcnjoAW0QDLdpZYESliC/uYjXssKGTc4mcZTs30JlMSwcCGYcesI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709869010; c=relaxed/simple;
-	bh=vAK5UsAi1mlbmfS8eyss1ed3F+nyC6FU4MtAV8GtcKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NXylPHmYZ32wBJvabKcfva9uq45q4jjmcJIspdhil3hJMZ99gSiA59f1g0xGFO92LjeQPJnh3gcLDyCe3K1pGNGUmVFCNBmZpMFwipB52v8ckwRoOCqmY1RvZpp1roXCnTTQ/g5Y07dWubhcMJ28ZsAVVJ0MuJ7f7RA6mCwlI00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rm4QdZGl; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5F92C68C;
+	Fri,  8 Mar 2024 03:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709869829; cv=fail; b=rJDdHt+I3NFSsd3x/MONQX7iaTnJb9UjempGfmCCgg/zULB/lHN9p8ego5/fWcdl24y5pmfgZp6QgyhdrRvUSvdTKhJxTiLOmXEKKl0Lxgcq4s/NpBSSWKfnWG2AH+IMcv3/Fqu9PkkHci7Dx0Mcgcjg7xBpz+24CwTYOYoDEYI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709869829; c=relaxed/simple;
+	bh=JWlG8zORL5l99pGjP60Vo0nAKLPvQn4aQo3ahR2LXNw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Q+AmR26T6wrM4foJgVrWspbS6vZFuBFp5Rt76igs+UE9CSMsurL3BgdGckqNIL9viZ6qbcQV++Pcd/LkhC0yr8XXeye0NuIvhHmzbkxSLGuxeLd2jl4VYNS9Y7briDL9vkCCQAuihSOexlQwLw9SHxSqXeIMYvf76wnVHtq4sxo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uP/LArgZ; arc=fail smtp.client-ip=40.107.94.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rm4QdZGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406A1C433F1;
-	Fri,  8 Mar 2024 03:36:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709869009;
-	bh=vAK5UsAi1mlbmfS8eyss1ed3F+nyC6FU4MtAV8GtcKY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Rm4QdZGlRLCr8AAepoUDwXNJRdT/41xTmy7pgW1hC/Vkc6H2ViLXJ61BdpMlwF47t
-	 wEiZLKsT0zHiG2vaTdBjyw8Yz2Jhir4s0t8rTTdInCx5QEDONETMnmxo2+grPUr68A
-	 1wYgYLcJoM+s4pjo+N3FD/kjR3CM/uidkwekXtRA1OmDZpHzegKXJooc6N/abyAZ/d
-	 GgwtlPgImcuZGYVCBU104HdirTzkdsXA7ah6zKSSw8gWaeFm3PGbV+wN0Ue2c0ZfvM
-	 o0hGEwYCGMHnOhPGoNDMRCNboOR4rsdMIGrUcszugDtYPt5QWmNqXKb6y1C9r+LSjB
-	 ENxvIiLB7g1Fg==
-Date: Thu, 7 Mar 2024 19:36:46 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
- Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
- <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
- Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
-Message-ID: <20240307193646.70ef5243@kernel.org>
-In-Reply-To: <CAHS8izPyxn2LsOsxL98WAHse21tq3i9MCp_Xn8AA8sx5iettNQ@mail.gmail.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
-	<20240305020153.2787423-2-almasrymina@google.com>
-	<20240307173039.00e6fbb7@kernel.org>
-	<CAHS8izPyxn2LsOsxL98WAHse21tq3i9MCp_Xn8AA8sx5iettNQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uP/LArgZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X+tZRE+8h8tBvNrg0ZAE1PX+ZHHfzYiZ8ffMtRuv+iDyalTNFvwSQOHLohpIfc0p3MaGxvnixSfaRFbAisTlk9Dy6+aeYoYDzQFn3Qdt3cgkS1nrCQUGmRZfpBpqvVMHkEY3g5SVgtBkG79Yi1IIHXOlqHH2vtcg4hFiOZYryp5TMNrcLQJ81cuKLCBe0OKXqGR5rKANS04stFfCoX6v/aUj76911NYj3IVztDvvxQWOpUkJNiktR6HAlCScScjT8uztTD0ZpsAP/GMj3QyBpvd3gGa+TeP1AS0vUinrf/UqnI7ZubzXSEfapM8qIzokAgjDakygWdly9UngWfzuig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JLFB66ptBouXdSaspxMTHd7p4FsvhBBWCodDG07VQNM=;
+ b=QJAYWSDE1X0Zx1vynDTFaHN7uUTnKrZpNY7DhiGRDCfSCkz1LDFeiWNciiFtWf6BCORm7XqW2ZoVfh/tNXkC3QhrOjV5WHLK8qKk+lgDZGH+N/eBKXwwaCmaDUDgYRVL0+KGHvCWWuhzQ2xTyxKKFfDyQnWEMuhssR3Sz8DrQebcDcf9X+WTRDFNRPZpDVS69jHWG9qMjeoXwIVWH0nvTW19iEWSisJ0t2wj3yn5k/lfw8ADcAa6RjnixLx2c+b0hyXSVWMbrHeak9q0848e84bMs5tD1UQpPLxRS20RXMZg7GRFQdqUmAx3+yqiUphiqArPaVbTBYuG9eZx5MOuGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JLFB66ptBouXdSaspxMTHd7p4FsvhBBWCodDG07VQNM=;
+ b=uP/LArgZ7H4fK4E6N4Wah0tz7UTIKhhr3aoMNMfmJ3jBWEdc88IBojmyFWlmUbrR3eeJ5P4lwgKHmgxd6oWsgeHCx2z0OtXFcnI+62E0O0psshHm2OkbJUQ7U5G/UFCkFu1bsvDopXnqXWytyevScM56ygMtf0+MAHSkiTRiq5I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM3PR12MB9287.namprd12.prod.outlook.com (2603:10b6:8:1ac::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.27; Fri, 8 Mar
+ 2024 03:50:25 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::873e:e31:6eff:36a4]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::873e:e31:6eff:36a4%5]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
+ 03:50:25 +0000
+Message-ID: <46065d68-8334-4b76-bc68-c2695e7b98de@amd.com>
+Date: Thu, 7 Mar 2024 21:50:21 -0600
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Peter Newman <peternewman@google.com>
+Cc: James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+ peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+ lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+ leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+ kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+ kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
+References: <20231201005720.235639-1-babu.moger@amd.com>
+ <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
+ <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
+ <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
+ <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
+ <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
+ <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
+ <1738493b-3248-4c9e-82a8-1599a033440d@intel.com>
+ <369ab28a-f3fa-4359-8e73-4dcf214c9b6e@amd.com>
+ <54687d59-d0e4-4fe7-b25f-dc1fead01ea1@intel.com>
+ <11487a31-908e-d474-50c6-65617d417deb@amd.com>
+ <c73f444b-83a1-4e9a-95d3-54c5165ee782@intel.com>
+ <55b545fd-2851-0d0f-ac37-ec59838fb4b4@amd.com>
+ <1f366890-d9ff-4ac4-9af9-1ea3128a87fc@intel.com>
+ <41ca7504-c3fb-ddb6-e149-4ff82019d678@amd.com>
+ <CALPaoCi=PCWr6U5zYtFPmyaFHU_iqZtZL-LaHC2mYxbETXk3ig@mail.gmail.com>
+ <1d3e8b68-28fa-419b-b129-0c39df34f718@intel.com>
+ <CALPaoChJPkfrMgFDhtZqwK7O8=A71CKLzQjEMG6LbgB9RhdzvA@mail.gmail.com>
+ <e90ce54c-a830-4ba5-8b28-aeef06705d01@intel.com>
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <e90ce54c-a830-4ba5-8b28-aeef06705d01@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7P222CA0008.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:124::12) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM3PR12MB9287:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ceb7943-1314-480b-7da2-08dc3f22e32c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	9Qbf+TvAMNXCLwvH6669FR8O/cSvBRoB6yTDcbjrpi4qPIseCINHPIJhrHpddpdP/eyCAM0MUjSk7Ajk55SBWKdVPE6mniRNl0umZxuV8ur3s0fxa/n85bL5RgsUAJMUuIp+klqMvLlgjU1FYQ7U3WyPTbFC9fwN4n46mWBSCr1Xh17e9Ov2i/+3n/xB7C3L4Ai/zgcsQl4MICyI4TEUWZSHDaqgSBEPBeixHguXg+pW3ChAeV3xyEW8qjbHa5hiLlQTrofk0je16wlxcgONEfO2qJoqLKwjzu9oLdnJo7wHA51pFDmr1RGve7FwG9q28527eJv01YypfKkmXNZ6xqSARGZZNq15VW6EcNvAJ8scDJEAOIxgZjEgrCzn1E+H57vQOD9X8An5wiRJxA0Giu6uz4CY3nJHdy49sBbJ8PCholtTh7ocnqw/wScjhLxiXy2RtdTgF3M/1IcMN/29ae/e3XHBOVmgz0vE7kcTKhYI5bu3MFgBFs5LNVNMsyuJZLkjmzpWDMRl2bPoN9RmmG+dXjLBpsFEEA6IlHf4ETrD0pyNCi0W8Lrm3tCFfnWpnmemhYQRhd4Y0E+IkOUb5RkpDO0T72XSMDYj3s6QjOQHbt6GA9MTyisqfQ/sWYGVTUWP5fC4BkGSuE7nZUvDktd+tnTTjGUX0taK9LpyZmU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a3VoZ3NmZnJxNE1KWWNSUThwSFVKaDRSSjNQamFMbmVFdlVacGZNVlhYM3Ey?=
+ =?utf-8?B?MGs1ZHRPWE1sMWc3VGdVa3UxQWVZTGl4THYvbG5GbUpuSUQxZS9wVktsQkJ5?=
+ =?utf-8?B?RUY4ZWEveVNFQnM5WXFrZVdPMytWKzRRM1BEWHMyY3RjZG83S1lRQjdSaHJI?=
+ =?utf-8?B?SVhQOWZFUGtuVnhLeEdxeUxSMFdaU0VBVmpCcE9KTlczMXlpKzIxYklEWm5h?=
+ =?utf-8?B?eDcrVEdMMzVnR3dIVWhnNDljQnV4TXU4UU1WVDJLWGkwTHFoS2l3c2hWMlVQ?=
+ =?utf-8?B?NnVhNXl3UTJnaGdtbzFXYXN4Ump4Yk5wd3RFWEl4SmZwVStTWmpWZXdFUFBq?=
+ =?utf-8?B?L1VzdjlHSTVWL2NNWGVJUStiTDc1aVJaSE1LVnlxR05FMkxxR3E0WWw0Skw2?=
+ =?utf-8?B?N0Vkdys5ZGRSUkVqVDFpbWhLNlozTjA0NkhTQWdOUjQ1SVhUR2FhTVU2dmxP?=
+ =?utf-8?B?aTNmRG5DajNIazRuQ0tpd2pPZmk3Wnlld2pVZmMrcHowVUtlTGo3MnN6ZXRN?=
+ =?utf-8?B?ck9ibUdLckJBc3MvbDFPL2FsQnhkenF1K1kzdDhLdFBVNUozWjVQUXRFYnFW?=
+ =?utf-8?B?NWJsRFQ0M2VXUU9QVjdpQlJ3Yy92U0dWVWV1WUZjVmRjOUdnTTFJc0lPSXM1?=
+ =?utf-8?B?Q0liOS9kVW8velZhbjlCcWZJZWZaK21wN09EM3BrRFRPSEFuS2RHQkdnU1Mz?=
+ =?utf-8?B?eUhmNDl1bFFrbkNDN2hDdFVobW9ITlZacHJRMCt0QmxCb09seUw5dFF4dHhx?=
+ =?utf-8?B?NWFkbFhNQ1pSalZRNTVhM0J6T01LYnRCcTRkR0ZJdHBnY1FZN0FMNWVsaGs2?=
+ =?utf-8?B?Z3JPYnhOeGV1ODdLVUJ3dkdWTEVsUi85S2ZnY21jVmQvQlZqM1VHUk13MTla?=
+ =?utf-8?B?NDJCNC9tdG9BM3JOQlcvWWZjMmV1UjcwUXY4Q2FWSzVtQjJLQllVcTEvN01C?=
+ =?utf-8?B?V2pXcUwxMDIyNWFEZ2QzdXNINWRlaTNmNWxtdGZpS2U3YVNxM1FTSWEzRU5S?=
+ =?utf-8?B?RmFRSjlyZ0NRTzBTT2tlUlFIUjFEdU9CdlAxUVJsMzJGYWRhZEJZTVR6Tzc4?=
+ =?utf-8?B?ejJvME1mOGRQSGY0bTY1ZVRqNFc2UC9sSVBxMXpMb0l3MytPNk10cVFwWWly?=
+ =?utf-8?B?TXNxWllYVnVNU2YxdXVPQTNwYUJNQUMvVlVxR2ZqMitxWDBVRzYxb1Q5byt2?=
+ =?utf-8?B?YXRpV1ZUaEgzdHp0OWZ3OG5IZXF6di9pWkh3a1hxQkdRSy9LdVkzSUJmcm15?=
+ =?utf-8?B?WjFFeExKcWt3a1FWeGNRYTdXSy9UYUVsTlJxUWplQjhGbXUxcUlSN3VGMmRI?=
+ =?utf-8?B?bnphQ2dNRTVJRDhpYk5wcW1vT2k5OVRRYUpWUytJdUJrVVZmUjI2WkZiNUhD?=
+ =?utf-8?B?VDA1dEJLRWRSblIxM2lPeFRmdFJqd2J6bTd5Snl6V3RoVkQxYlFDUEZvNnpW?=
+ =?utf-8?B?OW1RaUFVRHRMMzk0bzVRZis3dUhMRHBhVGJNbnpGaTNIWVZiNCtkcVd4eUhn?=
+ =?utf-8?B?cDFJRktzbWxmR2RIMXlNbDBxNlZqcG1rVEpidDNMdWRuMzdVSHl5MjZ5WVVM?=
+ =?utf-8?B?ZVRaUytzT0l6bXZBZDZOSGhCT0w0MitCQ1dVMERPcGNCKysvUnhMeTd3c3FX?=
+ =?utf-8?B?MXgxMVU3Q3k5bktldWV4Mmo0QWpTb01icTFaYktVSmJ4b003eFkvQnQ0TmxX?=
+ =?utf-8?B?elArdGxPamN1b0MzOUZrWlFYOThBRmo1eE51OXc2czlEcFF3OHFhR0EyQzJa?=
+ =?utf-8?B?Mko1UXdLZFY1OHJNTXJGU01VaDRUREJlY040M042anlPa3lwc1Bia2FONG9P?=
+ =?utf-8?B?R3dtV1E0OFZMWTlmVTJEb3FLSjQzbEluQ1hBRTR4WkNmSHpBOThCMjRtTUtS?=
+ =?utf-8?B?bXV3TjJla0NiL29waXJJNjlyR3lKRUlpYzhsTzU0MjVKWlUzNWk2MGxKTkky?=
+ =?utf-8?B?YUxWUkNxVGE2ZDdKbGRid3U4aElZMGJoRVRsQkZRRDRZRWFmcW9lLzFXdGgw?=
+ =?utf-8?B?RlRFSTYzLzUxZVhQNXZrUzB3TXkzbU1INWtCdlhjMFI4MnI3RnpCRFFKZmxn?=
+ =?utf-8?B?elowQVp2bE9YM01wMDdxTTAzOUxDNzJsL3JQKzRucUxnL1NoVEdKaVBQbjQ3?=
+ =?utf-8?Q?fZIs=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ceb7943-1314-480b-7da2-08dc3f22e32c
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 03:50:25.4550
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9QWDrb2qScjB7Kb3RIZuvU/gdwgppFq2+nDCQhYQvdE1Ab517FRaNVpuF8plHBsT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9287
 
-On Thu, 7 Mar 2024 18:08:24 -0800 Mina Almasry wrote:
-> On Thu, Mar 7, 2024 at 5:30=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
-rote:
-> > On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote: =20
-> > > + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
-> > > + *   Allocate memory for an RX queue. The memory returned in the for=
-m of
-> > > + *   a void * can be passed to ndo_queue_mem_free() for freeing or to
-> > > + *   ndo_queue_start to create an RX queue with this memory.
-> > > + *
-> > > + * void      (*ndo_queue_mem_free)(struct net_device *dev, void *);
-> > > + *   Free memory from an RX queue.
-> > > + *
-> > > + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
-> > > + *   Start an RX queue at the specified index.
-> > > + *
-> > > + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
-> > > + *   Stop the RX queue at the specified index.
-> > >   */
-> > >  struct net_device_ops {
-> > >       int                     (*ndo_init)(struct net_device *dev);
-> > > @@ -1679,6 +1693,16 @@ struct net_device_ops {
-> > >       int                     (*ndo_hwtstamp_set)(struct net_device *=
-dev,
-> > >                                                   struct kernel_hwtst=
-amp_config *kernel_config,
-> > >                                                   struct netlink_ext_=
-ack *extack);
-> > > +     void *                  (*ndo_queue_mem_alloc)(struct net_devic=
-e *dev,
-> > > +                                                    int idx);
-> > > +     void                    (*ndo_queue_mem_free)(struct net_device=
- *dev,
-> > > +                                                   void *queue_mem);
-> > > +     int                     (*ndo_queue_start)(struct net_device *d=
-ev,
-> > > +                                                int idx,
-> > > +                                                void *queue_mem);
-> > > +     int                     (*ndo_queue_stop)(struct net_device *de=
-v,
-> > > +                                               int idx,
-> > > +                                               void **out_queue_mem)=
-; =20
-> >
-> > The queue configuration object was quite an integral part of the design,
-> > I'm slightly worried that it's not here :) =20
->=20
-> That was a bit of a simplification I'm making since we just want to
-> restart the queue. I thought it was OK to define some minimal version
-> here and extend it later with configuration? Because in this context
-> all we really need is to restart the queue, yes?
+Hi Reinette/Peter,
 
-Right, I think it's perfectly fine for the time being.
-It works, and is internal to the kernel.
 
-> If extending with some configuration is a must please let me know what
-> configuration struct you're envisioning. Were you envisioning a stub?
-> Or some real configuration struct that we just don't use at the
-> moment? Or one that we use for this use case somehow?
+On 3/7/24 16:53, Reinette Chatre wrote:
+> Hi Peter,
+> 
+> On 3/7/2024 2:33 PM, Peter Newman wrote:
+>> Hi Reinette,
+>>
+>> On Thu, Mar 7, 2024 at 12:41 PM Reinette Chatre
+>> <reinette.chatre@intel.com> wrote:
+>>>
+>>> Hi Peter,
+>>>
+>>> On 3/7/2024 10:57 AM, Peter Newman wrote:
+>>>> Hi Babu,
+>>>>
+>>>> On Mon, Mar 4, 2024 at 2:24 PM Moger, Babu <bmoger@amd.com> wrote:
+>>>>> Based on our discussion, I am listing few examples here. Let me know if
+>>>>> I missed something.
+>>>>>
+>>>>>    mount  -t resctrl resctrl /sys/fs/resctrl/
+>>>>>
+>>>>> 1. Assign both local and total counters to default group on domain 0 and 1.
+>>>>>     $echo "//00=lt;01=lt" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>
+>>>>>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>     //00=lt;01=lt
+>>>>>
+>>>>> 2. Assign a total event to mon group inside the default group for both
+>>>>> domain 0 and 1.
+>>>>>
+>>>>>     $mkdir /sys/fs/resctrl/mon_groups/mon_a
+>>>>>     $echo "/mon_a/00+t;01+t" >
+>>>>> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>
+>>>>>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>     //00=lt;01=lt
+>>>>>     /mon_a/00=t;01=t
+>>>>>
+>>>>> 3. Assign a local event to non-default control mon group both domain 0
+>>>>> and 1.
+>>>>>     $mkdir /sys/fs/resctrl/ctrl_a
+>>>>>     $echo "/ctrl_a/00=l;01=l"  >
+>>>>> /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>
+>>>>>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>     //00=lt;01=lt
+>>>>>     /mon_a/00=t;01=t
+>>>>>     /ctrl_a/00=l;01=l
+>>>>>
+>>>>> 4. Assign a both counters to mon group inside another control
+>>>>> group(non-default).
+>>>>>     $mkdir /sys/fs/resctrl/ctrl_a/mon_ab/
+>>>>>     $echo "ctrl_a/mon_ab/00=lt;01=lt" >
+>>>>> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_contro
+>>>>>
+>>>>>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>     //00=lt;01=lt
+>>>>>     /mon_a/00=t;01=t
+>>>>>     /ctrl_a/00=l;01=l
+>>>>>     ctrl_a/mon_ab/00=lt;01=lt
+>>>>>
+>>>>> 5. Unassign a counter to mon group inside another control
+>>>>> group(non-default).
+>>>>>     $echo "ctrl_a/mon_ab/00-l;01-l" >
+>>>>> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
+>>>>>
+>>>>>    $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>    //00=lt;01=lt
+>>>>>    /mon_a/00=t;01=t
+>>>>>    /ctrl_a/00=l;01=l
+>>>>>    ctrl_a/mon_ab/00=t;01=t
+>>>>>
+>>>>> 6. Unassign all the counters on a specific group.
+>>>>>     $echo "ctrl_a/mon_ab/00=_" >
+>>>>> /sys/fs/resctrl/nfo/L3_MON/mbm_assign_control
+>>>>>
+>>>>>     $cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>>>>>     //00=lt;01=lt
+>>>>>     /mon_a/00=t;01=t
+>>>>>     /ctrl_a/00=l;01=l
+>>>>>     ctrl_a/mon_ab/00=_;01=_
+>>>>
+>>>> The use case I'm interested in is iterating 32 counters over 256
+>>>> groups[1]. If it's not possible to reassign 32 counters in a single
+>>>> write system call, with just one IPI per domain per batch reassignment
+>>>> operation, then I don't see any advantage over the original proposal
+>>>> with the assignment control file in every group directory. We already
+>>>> had fine-grained control placing assign/unassign nodes throughout the
+>>>> directory hierarchy, with the scope implicit in the directory
+>>>> location.
+>>>
+>>> The intent of this interface is to support modification of several
+>>> groups with a single write. These examples only show impact to a single
+>>> group at a time, but multiple groups can be modified by separating
+>>> configurations with a "\n". I believe Babu was planning to add some
+>>> of these examples in his next iteration since it is not obvious yet.
+>>>
+>>>>
+>>>> The interface I proposed in [1] aims to reduce the per-domain IPIs by
+>>>> a factor of the number of counters, rather than sending off 2 rounds
+>>>> of IPIs to each domain for each monitoring group.
+>>>
+>>> I understood the proposed interface appeared to focus on one use case
+>>> while the goal is to find an interface to support all requirements.
+>>> With this proposed interface it it possible to make large scale changes
+>>> with a single sysfs write.
+>>
+>> Ok I see you requested[1] one such example earlier.
+>>
+>> From what I've read, is this what you had in mind of reassigning 32
+>> counters from the first 16 groups to the next?
+>>
+>> I had found that it's hard to get a single write() syscall out of a
+>> string containing newlines, so I'm using one explicit call:
+> 
+> Apologies but this is not clear to me, could you please elaborate?
+> 
+> If you are referring to testing via shell you can try ANSI-C Quoting like:
+> 	echo -n $'c1/m1/00=_\nc2/m2/00=_\n'
+> 
+>>
+>> write([mbm_assign_control fd],
+>> "/c1/m1/00=_;02=_;03=_;04=_;05=_;06=_;07=_;08=_;09=_;10=_;11=_;12=_;13=_;14=_;15=_\n"
+>> "/c1/m2/00=_;01=_;02=_;03=_;04=_;05=_;06=_;07=_;08=_;09=_;10=_;11=_;12=_;13=_;14=_;15=_\n"
+>> "/c1/m3/00=_;01=_;02=_;03=_;04=_;05=_;06=_;07=_;08=_;09=_;10=_;11=_;12=_;13=_;14=_;15=_\n"
+>> [...]
+>> "/c1/m14/00=_;01=_;02=_;03=_;04=_;05=_;06=_;07=_;08=_;09=_;10=_;11=_;12=_;13=_;14=_;15=_\n"
+>> "/c1/m15/00=_;01=_;02=_;03=_;04=_;05=_;06=_;07=_;08=_;09=_;10=_;11=_;12=_;13=_;14=_;15=_\n"
+>> "/c1/m16/00=lt;01=lt;02=lt;03=lt;04=lt;05=lt;06=lt;07=lt;08=lt;09=lt;10=lt;11=lt;12=lt;13=lt;14=lt;15=lt\n"
+>> "/c1/m17/00=lt;01=lt;02=lt;03=lt;04=lt;05=lt;06=lt;07=lt;08=lt;09=lt;10=lt;11=lt;12=lt;13=lt;14=lt;15=lt\n"
+>> "/c1/m18/00=lt;01=lt;02=lt;03=lt;04=lt;05=lt;06=lt;07=lt;08=lt;09=lt;10=lt;11=lt;12=lt;13=lt;14=lt;15=lt\n"
+>> [...]
+>> "/c1/m30/00=lt;01=lt;02=lt;03=lt;04=lt;05=lt;06=lt;07=lt;08=lt;09=lt;10=lt;11=lt;12=lt;13=lt;14=lt;15=lt\n"
+>> "/c1/m31/00=lt;01=lt;02=lt;03=lt;04=lt;05=lt;06=lt;07=lt;08=lt;09=lt;10=lt;11=lt;12=lt;13=lt;14=lt;15=lt\n",
+>> size);
+> 
+> (so far no "/" needed as prefix)
+> 
+> We could also consider some syntax to mean "all domains". For example,
+> if no domain given then it can mean "all domains"?
 
-I had some ideas about storing the configuration as rules,
-instead of directly in struct netdev_rx_queue.
-E.g. default queue length =3D 2000, but for select queues you may
-want a different length.
-But application binding to a queue would always take precedence,=20
-so even if the ideas ever materialize there will be no uAPI change.
+Yea. Sound good to me. Will let you know if there are any troubles when I
+start working on it.
 
-> > Also we may want to rename
-> > the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
-> > and add these there?
-> >
-> > https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
->=20
-> Yeah, that sounds reasonable! Thanks! We could also keep the
-> netdev_stat_ops and add new netdev_queue_ops alongside them if you
-> prefer.
+I am also thinking about replacing the newline requirement for multiple
+groups. Domains separate by "," and groups separate by ";".
 
-Up to you, after some soul searching we renamed the uAPI to call these
-stats qstats, I just forgot to rename the op struct. But it doesn't
-matter much.
+Something like this..
 
-> > Very excited to hear that you made progress on this and ported GVE over=
-! =20
->=20
-> Actually, we're still discussing but it looks like my GVE queue API
-> implementation I proposed earlier may be a no-go. Likely someone from
-> the GVE team will follow up here with this piece, probably in a
-> separate series.
+"/c1/m1/00=_,01=_;/c1/m2/00=_,01=_;/c1/m3/00=lt,01=lt"
 
-Well, it's going to be ready when it's ready :)
-Speaking of things which can be merged independently,
-feel free to post patch 3, maybe it can make v6.9..
+Thoughts?
 
-> For now I'm carrying my POC for the GVE implementation out of tree
-> with the rest of the driver changes:
->=20
-> https://github.com/mina/linux/commit/501b734c80186545281e9edb1bf313f5a2d8=
-cbee
+> So, your example could possibly also be accomplished with a
+> 
+> 	c1/m1/=_\nc1/m2/=_\nc1/m3/=_\n [...] c1/m16/=lt\nc1/m17/=lt\nc1/m18/=_\n [...]
+> 
+> Any thoughts?
+> 
+> Reinette
+
+-- 
+Thanks
+Babu Moger
