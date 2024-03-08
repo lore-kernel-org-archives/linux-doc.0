@@ -1,183 +1,259 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375651009
-	for <linux-doc@vger.kernel.org>; Fri,  8 Mar 2024 07:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBE442C0B;
+	Fri,  8 Mar 2024 08:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709883718; cv=none; b=GWh5cUJTG4r7BExRsP8SBwEKrLGVLDsMhNdTqNCcW8yaKLAFJz3TpskrmNPqYy+PBX4tVhLiXKUdTl1ySK5dwsaLVFONEdbFn2nLrkP/6wnFs6vWTPgFGzWyKnqiYnreucWeueVwWNAu7KuTOMXfDFI/AIL6IbzyLP5BCPcktKU=
+	t=1709884876; cv=none; b=Wxx+PmAjqZFFzyiXWi2Ayl9MNVFz3MGlNQTWrJr5aGVDxLC5gnU3Nus7idyeph6z791+PwcF0OBSIPngBZIEELpJt2tn1XhXYf2Ybw4zPAyhjXigFKVqKlSxGEKPgGwVcKBhVDQ/GDWxasHyN5sqoFeA6Ed9RciM04Izh041Uok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709883718; c=relaxed/simple;
-	bh=RUrSSDfZdXdoOCuzohNQabrDvcuHQpxtAw5TtxJARBs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qyZgBQUzaQx9EFqZOHrvA8I487/UYq6BCf1uqZ9dpUa7nhOUjwmt0OFIOXgCAAPpTt9PQOUs3CxkKnwDPKt4nsYkxs4XlU2GnY0PmibeuNCLHxhEPIZy5PZgNRb5l6SuaNCze08mlQogYlwc4Lg40uSBHTYRSK8HlbO/zMSv/gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=F+C7LCsu; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="F+C7LCsu"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dc0e5b223eso3849215ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 07 Mar 2024 23:41:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1709883716; x=1710488516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZNrGqRWhmlII/lvHzTDBhDh7tBPvWjw26JA4CeTSJU8=;
-        b=F+C7LCsuNYyRHgaQhLhNXqNnMkyZWF7C0AsCGeVUTquol0R9sLX8qFy1xqjZCL1jeq
-         +GTlQjtRLQ3TtumB8VEtMQ2THJifRRMH11F49qfPXnFZCg/vQC/RRtn35jyBctuNPQMt
-         JwWHPJyPpM7fu+mRiOZr+IGp5+EC6MQM85twpCvR0GHk0xW26tYYRdUIi7f+Kz2ZGoE6
-         e3RQ8bPDDIh5+hdPhIy+JiNj0KtLVr6VNuTFWUG42s2rsK7WoxG7amPfOzx6E8rIpIhX
-         cKaiIEv2g4z+r+hlCTx2sV/jM9M6/73/SPaovXd3Xy0sJWhmqVmJ7R8XGwD3Rnnj5x0N
-         6Krg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709883716; x=1710488516;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZNrGqRWhmlII/lvHzTDBhDh7tBPvWjw26JA4CeTSJU8=;
-        b=Iw+RJyz4i5lcOoR37GfJladAEyLTpE5Wly/XJQEzJH4EslCy2Ef80EtxBnn6Q2yuII
-         n+cJfc/u2gH1lgCDGkMj/YGHsQbYb4RMwjl4UwaE1P/zvsM5OQmSMorWVpxp7mYSgQgt
-         tIviWm1IKcqVnnAIA8vJTceqhyW+YSYlhCqp7ernbtCEK3fussNlxLsHFOiqXIsrOir8
-         R4mW6T+LY5osUj0fEm7VwsS+zro13QT+anSPQ0nvMHGotCAHj4mqK6DvXiQ66jTzvgzw
-         kG9iiq5j8FOqhM29FzykCIpfLnQ77HwwezUA1sS/ZLjGd/BlZXWlwa27EKgrAWnF1xfB
-         1TJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdYyuKKcDfndhn1g+LloFb10S7ztSUknY0FPykTvIBNOvv09t7gphE0TvyLWmU+FFupma1vCBzQB8mxQNkZwHw7UR1ReSZAT2y
-X-Gm-Message-State: AOJu0YwcsuQFRLQLQYooilbT+YWMdN1RFBzI86/6NbmImYZdA2zhrzuC
-	0cytcxVpanhfnuDdVzTZO7+ViFjQ7KsNunklIS4HH7kSNy4vqN6aOwV3pkag3D4=
-X-Google-Smtp-Source: AGHT+IGCVOX2dS+oesgdXsRfCPAaxLMcC+YIAMryrPhNotPHSiHKpq4CgI2THzQSxRG8H3mqIrdXUw==
-X-Received: by 2002:a17:903:288:b0:1dc:418f:890b with SMTP id j8-20020a170903028800b001dc418f890bmr11319568plr.40.1709883716447;
-        Thu, 07 Mar 2024 23:41:56 -0800 (PST)
-Received: from seacloud.vm ([143.92.64.18])
-        by smtp.gmail.com with ESMTPSA id f6-20020a170902ce8600b001db45bae92dsm15769210plg.74.2024.03.07.23.41.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 23:41:56 -0800 (PST)
-From: Haifeng Xu <haifeng.xu@shopee.com>
-To: reinette.chatre@intel.com,
-	james.morse@arm.com
-Cc: fenghua.yu@intel.com,
-	babu.moger@amd.com,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	peternewman@google.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	Haifeng Xu <haifeng.xu@shopee.com>
-Subject: [PATCH v5 2/2] x86/resctrl: Add tracepoint for llc_occupancy tracking
-Date: Fri,  8 Mar 2024 15:41:32 +0800
-Message-Id: <20240308074132.409107-3-haifeng.xu@shopee.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240308074132.409107-1-haifeng.xu@shopee.com>
-References: <20240308074132.409107-1-haifeng.xu@shopee.com>
+	s=arc-20240116; t=1709884876; c=relaxed/simple;
+	bh=lH06gu41KGGdl2j7eC+BOEF+bIAi2G+B4a6FYWs1A1w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=DWz33jrOkiNyo0VpT9/EO90IPCmw+X8//3y9q7CpRA8+rccUNT3vRdz9TDMXte5KdJmcczwBH9s5lB1NrKTuCt515HMWijezeqr9ukaBfZLS4GExhOCDWfLVF6rWPEVTNrT3+ly9N50RGIOVE9I4Dz7gxRZZ8gNb8gpJT0/HebE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4TrdWB2Hb5z9xrp4;
+	Fri,  8 Mar 2024 15:45:26 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id 4B26B140636;
+	Fri,  8 Mar 2024 16:01:09 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwAn0Rm0xeplYFzwAw--.20905S2;
+	Fri, 08 Mar 2024 09:01:08 +0100 (CET)
+Message-ID: <33b20e63a191672b8f974b929c79e30b2e38ae3f.camel@huaweicloud.com>
+Subject: Re: [RFC][PATCH 2/8] ima: Nest iint mutex for DIGEST_LIST_CHECK hook
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
+ dmitry.kasatkin@gmail.com,  eric.snowberg@oracle.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+ hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+ dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
+ petr.vorel@gmail.com,  petrtesarik@huaweicloud.com, mzerqung@0pointer.de,
+ kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Fri, 08 Mar 2024 09:00:48 +0100
+In-Reply-To: <2f2d07c33170b6ed06f72e927a0d31989bca7c85.camel@linux.ibm.com>
+References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
+	 <20240214143525.2205481-3-roberto.sassu@huaweicloud.com>
+	 <2f2d07c33170b6ed06f72e927a0d31989bca7c85.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwAn0Rm0xeplYFzwAw--.20905S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFyUJFy3KFW8KryfWr4kJFb_yoWxJF1rpF
+	Z7ta4UG398XFZrur4rtFZrZFyfKayqgFW8Gw45C3WvyF98Jr1rtFy8tr129Fy5CrW0k3WS
+	vr4jgws8u3WjyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73D
+	UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAQBF1jj5ceLgAAsA
 
-In our production environment, after removing monitor groups, those unused
-RMIDs get stuck in the limbo list forever because their llc_occupancy are
-always larger than the threshold. But the unused RMIDs can be successfully
-freed by turning up the threshold.
+On Thu, 2024-03-07 at 14:42 -0500, Mimi Zohar wrote:
+> On Wed, 2024-02-14 at 15:35 +0100, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Invoking digest_cache_get() inside the iint->mutex critical region can
+> > cause deadlocks due to the fact that IMA can be recursively invoked for
+> > reading the digest list. The deadlock would occur if the digest_cache L=
+SM
+> > attempts to read the same inode that is already locked by IMA.
+> >=20
+> > However, since the digest_cache LSM makes sure that the above situation
+> > never happens, as it checks the inodes, it is safe to call
+> > digest_cache_get() inside the critical region and nest the iint->mutex
+> > when the DIGEST_LIST_CHECK hook is executed.
+> >=20
+> > Add a lockdep subclass to the iint->mutex, that is 0 if the IMA hook
+> > executed is not DIGEST_LIST_CHECK, and 1 when it is. Since lockdep allo=
+ws
+> > nesting with higher classes and subclasses, that effectively eliminates=
+ the
+> > warning about the unsafe lock.
+> >=20
+> > Pass the new lockdep subclass (nested variable) from ima_inode_get() to
+> > ima_iint_init_always() and ima_iint_lockdep_annotate().
+> >=20
+> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > ---
+> >  security/integrity/ima/ima.h      |  2 +-
+> >  security/integrity/ima/ima_iint.c | 11 ++++++-----
+> >  security/integrity/ima/ima_main.c |  6 +++---
+> >  3 files changed, 10 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.=
+h
+> > index cea4517e73ab..c9140a57b591 100644
+> > --- a/security/integrity/ima/ima.h
+> > +++ b/security/integrity/ima/ima.h
+> > @@ -216,7 +216,7 @@ static inline void ima_inode_set_iint(const struct =
+inode
+> > *inode,
+> >  }
+> > =20
+> >  struct ima_iint_cache *ima_iint_find(struct inode *inode);
+> > -struct ima_iint_cache *ima_inode_get(struct inode *inode);
+> > +struct ima_iint_cache *ima_inode_get(struct inode *inode, bool nested)=
+;
+> >  void ima_inode_free(struct inode *inode);
+> >  void __init ima_iintcache_init(void);
+> > =20
+> > diff --git a/security/integrity/ima/ima_iint.c
+> > b/security/integrity/ima/ima_iint.c
+> > index e7c9c216c1c6..b4f476fae437 100644
+> > --- a/security/integrity/ima/ima_iint.c
+> > +++ b/security/integrity/ima/ima_iint.c
+> > @@ -41,7 +41,7 @@ struct ima_iint_cache *ima_iint_find(struct inode *in=
+ode)
+> >   * See ovl_lockdep_annotate_inode_mutex_key() for more details.
+> >   */
+> >  static inline void ima_iint_lockdep_annotate(struct ima_iint_cache *ii=
+nt,
+> > -					     struct inode *inode)
+> > +					     struct inode *inode, bool nested)
+> >  {
+> >  #ifdef CONFIG_LOCKDEP
+> >  	static struct lock_class_key ima_iint_mutex_key[IMA_MAX_NESTING];
+>=20
+>=20
+> "nested" is being pushed all the way down to here, perhaps I'm missing
+> something, but I don't see it being used in any of the patches.
 
-In order to know how much the threshold should be, perf can be used to
-acquire the llc_occupancy of RMIDs in each rdt domain.
+Must have gone away during a conflict resolution...
 
-Instead of using perf tool to track llc_occupancy and filter the log
-manually, it is more convenient for users to use tracepoint to do this
-work. So add a new tracepoint that shows the llc_occupancy of busy RMIDs
-when scanning the limbo list.
+That should have been:
 
-Signed-off-by: Haifeng Xu <haifeng.xu@shopee.com>
-Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-Suggested-by: James Morse <james.morse@arm.com>
-Reviewed-by: James Morse <james.morse@arm.com>
----
- Documentation/arch/x86/resctrl.rst    |  8 ++++++++
- arch/x86/kernel/cpu/resctrl/monitor.c |  9 +++++++++
- arch/x86/kernel/cpu/resctrl/trace.h   | 16 ++++++++++++++++
- 3 files changed, 33 insertions(+)
+@@ -85,12 +85,13 @@ static inline void iint_lockdep_annotate(struct integri=
+ty_iint_cache *iint,
+        if (WARN_ON_ONCE(depth < 0 || depth >=3D IMA_MAX_NESTING))
+                depth =3D 0;
+=20
+-       lockdep_set_class(&iint->mutex, &iint_mutex_key[depth]);
++       lockdep_set_class_and_subclass(&iint->mutex, &iint_mutex_key[depth]=
+,
++                                      nested);
+ #endif
+ }
+=20
+ static void iint_init_always(struct integrity_iint_cache *iint,
+-                            struct inode *inode)
++                            struct inode *inode, bool nested)
+ {
+        iint->ima_hash =3D NULL;
+        iint->version =3D 0;
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index a6279df64a9d..dd3507dc765c 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -478,6 +478,14 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
- each bit represents 5% of the capacity of the cache. You could partition
- the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
- 
-+Tracepoint - mon_llc_occupancy_limbo
-+------------------------------------
-+This tracepoint gives you the precise occupancy values for a subset of RMID
-+that are not immediately available for allocation. This can't be relied on
-+to produce output every second, it may be necessary to attempt to create an
-+empty monitor group to force an update. Output may only be produced if creation
-+of a control or monitor group fails.
-+
- Memory bandwidth Allocation and monitoring
- ==========================================
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index c34a35ec0f03..60b6a29a9e29 100644
---- a/arch/x86/kernel/cpu/resctrl/monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -24,6 +24,7 @@
- #include <asm/resctrl.h>
- 
- #include "internal.h"
-+#include "trace.h"
- 
- /**
-  * struct rmid_entry - dirty tracking for all RMID.
-@@ -354,6 +355,14 @@ void __check_limbo(struct rdt_domain *d, bool force_free)
- 			rmid_dirty = true;
- 		} else {
- 			rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
-+
-+			/* x86's CLOSID and RMID are independent numbers, so the entry's
-+			 * closid is a invalid CLOSID. But on arm64, the RMID value isn't
-+			 * a unique number for each CLOSID. It's necessary to track both
-+			 * CLOSID and RMID because there may be dependencies between each
-+			 * other on some architectures.
-+			 */
-+			trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid, d->id, val);
- 		}
- 
- 		if (force_free || !rmid_dirty) {
-diff --git a/arch/x86/kernel/cpu/resctrl/trace.h b/arch/x86/kernel/cpu/resctrl/trace.h
-index ed5c66b8ab0b..b310b4985b94 100644
---- a/arch/x86/kernel/cpu/resctrl/trace.h
-+++ b/arch/x86/kernel/cpu/resctrl/trace.h
-@@ -35,6 +35,22 @@ TRACE_EVENT(pseudo_lock_l3,
- 	    TP_printk("hits=%llu miss=%llu",
- 		      __entry->l3_hits, __entry->l3_miss));
- 
-+TRACE_EVENT(mon_llc_occupancy_limbo,
-+	    TP_PROTO(u32 ctrl_hw_id, u32 mon_hw_id, int domain_id, u64 llc_occupancy_bytes),
-+	    TP_ARGS(ctrl_hw_id, mon_hw_id, domain_id, llc_occupancy_bytes),
-+	    TP_STRUCT__entry(__field(u32, ctrl_hw_id)
-+			     __field(u32, mon_hw_id)
-+			     __field(int, domain_id)
-+			     __field(u64, llc_occupancy_bytes)),
-+	    TP_fast_assign(__entry->ctrl_hw_id = ctrl_hw_id;
-+			   __entry->mon_hw_id = mon_hw_id;
-+			   __entry->domain_id = domain_id;
-+			   __entry->llc_occupancy_bytes = llc_occupancy_bytes;),
-+	    TP_printk("ctrl_hw_id=%u mon_hw_id=%u domain_d=%d llc_occupancy_bytes=%llu",
-+		      __entry->ctrl_hw_id, __entry->mon_hw_id, __entry->domain_id,
-+		      __entry->llc_occupancy_bytes)
-+	   );
-+
- #endif /* _TRACE_RESCTRL_H */
- 
- #undef TRACE_INCLUDE_PATH
--- 
-2.25.1
+Thanks
+
+Roberto
+
+> Mimi
+>=20
+> > @@ -56,7 +56,7 @@ static inline void ima_iint_lockdep_annotate(struct
+> > ima_iint_cache *iint,
+> >  }
+> > =20
+> >  static void ima_iint_init_always(struct ima_iint_cache *iint,
+> > -				 struct inode *inode)
+> > +				 struct inode *inode, bool nested)
+> >  {
+> >  	iint->ima_hash =3D NULL;
+> >  	iint->version =3D 0;
+> > @@ -69,7 +69,7 @@ static void ima_iint_init_always(struct ima_iint_cach=
+e
+> > *iint,
+> >  	iint->ima_creds_status =3D INTEGRITY_UNKNOWN;
+> >  	iint->measured_pcrs =3D 0;
+> >  	mutex_init(&iint->mutex);
+> > -	ima_iint_lockdep_annotate(iint, inode);
+> > +	ima_iint_lockdep_annotate(iint, inode, nested);
+> >  }
+> > =20
+> >  static void ima_iint_free(struct ima_iint_cache *iint)
+> > @@ -82,13 +82,14 @@ static void ima_iint_free(struct ima_iint_cache *ii=
+nt)
+> >  /**
+> >   * ima_inode_get - Find or allocate an iint associated with an inode
+> >   * @inode: Pointer to the inode
+> > + * @nested: Whether or not the iint->mutex lock can be nested
+> >   *
+> >   * Find an iint associated with an inode, and allocate a new one if no=
+t
+> > found.
+> >   * Caller must lock i_mutex.
+> >   *
+> >   * Return: An iint on success, NULL on error.
+> >   */
+> > -struct ima_iint_cache *ima_inode_get(struct inode *inode)
+> > +struct ima_iint_cache *ima_inode_get(struct inode *inode, bool nested)
+> >  {
+> >  	struct ima_iint_cache *iint;
+> > =20
+> > @@ -100,7 +101,7 @@ struct ima_iint_cache *ima_inode_get(struct inode *=
+inode)
+> >  	if (!iint)
+> >  		return NULL;
+> > =20
+> > -	ima_iint_init_always(iint, inode);
+> > +	ima_iint_init_always(iint, inode, nested);
+> > =20
+> >  	inode->i_flags |=3D S_IMA;
+> >  	ima_inode_set_iint(inode, iint);
+> > diff --git a/security/integrity/ima/ima_main.c
+> > b/security/integrity/ima/ima_main.c
+> > index 780627b0cde7..18285fc8ac07 100644
+> > --- a/security/integrity/ima/ima_main.c
+> > +++ b/security/integrity/ima/ima_main.c
+> > @@ -248,7 +248,7 @@ static int process_measurement(struct file *file, c=
+onst
+> > struct cred *cred,
+> >  	inode_lock(inode);
+> > =20
+> >  	if (action) {
+> > -		iint =3D ima_inode_get(inode);
+> > +		iint =3D ima_inode_get(inode, func =3D=3D DIGEST_LIST_CHECK);
+> >  		if (!iint)
+> >  			rc =3D -ENOMEM;
+> >  	}
+> > @@ -699,7 +699,7 @@ static void ima_post_create_tmpfile(struct mnt_idma=
+p
+> > *idmap,
+> >  		return;
+> > =20
+> >  	/* Nothing to do if we can't allocate memory */
+> > -	iint =3D ima_inode_get(inode);
+> > +	iint =3D ima_inode_get(inode, false);
+> >  	if (!iint)
+> >  		return;
+> > =20
+> > @@ -731,7 +731,7 @@ static void ima_post_path_mknod(struct mnt_idmap *i=
+dmap,
+> > struct dentry *dentry)
+> >  		return;
+> > =20
+> >  	/* Nothing to do if we can't allocate memory */
+> > -	iint =3D ima_inode_get(inode);
+> > +	iint =3D ima_inode_get(inode, false);
+> >  	if (!iint)
+> >  		return;
+> > =20
 
