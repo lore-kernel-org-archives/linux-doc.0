@@ -1,306 +1,117 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 177C0224CC;
-	Fri,  8 Mar 2024 01:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF4523748;
+	Fri,  8 Mar 2024 01:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709860469; cv=none; b=ljxcEZjygLX3RAMLBylzCfXoW1R1EiiHsc/hGyhY9ogpNjrBxOMeAG1eaS/qH+Oj0bti0t3yIwN73BeIVpupuKVnuYspU2niFfCc42lnDLeELHPE4aX5odvQq+NqGAeVTZWG+QdaYD4AaIsvybXsMcA3nHNaCmjY9TB8BU0bcVE=
+	t=1709861443; cv=none; b=acwvILkXcLHMUu0rcqAYldOMXb21DFHE2Q6OcwEuFaQeNd76YMSBoY0gzv4GLFngisTUnB2PMh4CM5iTT05LV0YeCdkjIxoc7gWuLyjQd5Ru2Fm4MAXvBYjKMrMDszZ1G0Ivv1ZysAQPeNgOJHX8vkEMzqV2f2EtnzTCj6u6QH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709860469; c=relaxed/simple;
-	bh=6DLoLRfIvnW++px44Y/21mjPNbxrYAB9FR08pnzPg/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qdGokzCMPlpO2DIAzvZKiwoCn7Nkc/gtPdYlPjYkIBTX6o2GI9z0v2p0aJ9uwcChlXteHFeqnfUaNgSrbmaLYtSo1p7hdm5puNuKXFWt7BQU6xzhGhCMiGxCS2/g29E+ZOAc/9iRs54ThoTrN/1XqyCvRRXMKiRqU83tjHEWS2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.109.198])
-	by gateway (Coremail) with SMTP id _____8BxyuhvZuplFiMWAA--.35104S3;
-	Fri, 08 Mar 2024 09:14:23 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.109.198])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx7c5qZuplEMpQAA--.18370S3;
-	Fri, 08 Mar 2024 09:14:19 +0800 (CST)
-Message-ID: <18a69517-9796-476b-973e-291319e121ce@loongson.cn>
-Date: Fri, 8 Mar 2024 09:14:16 +0800
+	s=arc-20240116; t=1709861443; c=relaxed/simple;
+	bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BUYzwCOWas4t/4pTxnKmSP76T6Pb26ePU3ArqJPJ23CzwBFvlyl4EjADLRoflsCUSV6SghsVn6Nf18MrvElfDi/41s15rTgcp2rZwjZk2xbyRzaGPGCedGSUHNvc4UfQozlkP45UYEvFdoHHrb4PR87jz6Lq47L/85nyHmYLeP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WuK2qD6w; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WuK2qD6w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AD44C433F1;
+	Fri,  8 Mar 2024 01:30:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709861442;
+	bh=pWLPfbMGjAqOMIxZXwrouf7NrYnQYoQSjURpmCc84iU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WuK2qD6wyzgEpkNGU94oUn6yHcPXxuUo3uJrLGDTiIGph4N/vCBqNc4nDv471KEn3
+	 sm7aoyIlj2FlbTUAzqmFeQZ3jZxx8uq02/lwxrUs6Fs5ne1P7sc9b+jogdt2cNh5om
+	 yy2pPOnMcP+HAkFrHyi8JDY6iodalicwb81v6rzeU0un9tw4HNH9vVQNofxBnlf4+6
+	 iDppG8XOmWfXjccjhAEBc5TroehEx0EzshUNRujMpMwMXGGAQ6kBNOJtKint9xVpy2
+	 SaraH4eSezKXfORbglRhjRO/jH8oAebaFTPdwegjG2bPLQMw9csoNK+YHGu0qpYXyY
+	 O/jGEtvZeHEeQ==
+Date: Thu, 7 Mar 2024 17:30:39 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, Martin KaFai
+ Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, Willem de Bruijn
+ <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
+ <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, David
+ Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
+Message-ID: <20240307173039.00e6fbb7@kernel.org>
+In-Reply-To: <20240305020153.2787423-2-almasrymina@google.com>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+	<20240305020153.2787423-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] gpiolib: legacy: Remove unused
- gpio_request_array() and gpio_free_array()
-Content-Language: en-US
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Hu Haowen <2023002089@link.tyut.edu.cn>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>
-References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
- <20240307135109.3778316-4-andriy.shevchenko@linux.intel.com>
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20240307135109.3778316-4-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Bx7c5qZuplEMpQAA--.18370S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxKFWfuw4xtry3uFy3Gr18CrX_yoW3Gr1fpF
-	sxtF4SyayUXa4DKryDJay7C3W7K39rXr13C3yak3yrZFn0y3sYvF4DtFy8XFyayrWkAF4x
-	JFZ5Wr98JFyqvFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2kKe7AKxVWUtVW8ZwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
-	XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
-	kF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-	MxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
-	0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
-	14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20x
-	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
-	JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUUU==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon,  4 Mar 2024 18:01:36 -0800 Mina Almasry wrote:
+> + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
+> + *	Allocate memory for an RX queue. The memory returned in the form of
+> + *	a void * can be passed to ndo_queue_mem_free() for freeing or to
+> + *	ndo_queue_start to create an RX queue with this memory.
+> + *
+> + * void	(*ndo_queue_mem_free)(struct net_device *dev, void *);
+> + *	Free memory from an RX queue.
+> + *
+> + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
+> + *	Start an RX queue at the specified index.
+> + *
+> + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
+> + *	Stop the RX queue at the specified index.
+>   */
+>  struct net_device_ops {
+>  	int			(*ndo_init)(struct net_device *dev);
+> @@ -1679,6 +1693,16 @@ struct net_device_ops {
+>  	int			(*ndo_hwtstamp_set)(struct net_device *dev,
+>  						    struct kernel_hwtstamp_config *kernel_config,
+>  						    struct netlink_ext_ack *extack);
+> +	void *			(*ndo_queue_mem_alloc)(struct net_device *dev,
+> +						       int idx);
+> +	void			(*ndo_queue_mem_free)(struct net_device *dev,
+> +						      void *queue_mem);
+> +	int			(*ndo_queue_start)(struct net_device *dev,
+> +						   int idx,
+> +						   void *queue_mem);
+> +	int			(*ndo_queue_stop)(struct net_device *dev,
+> +						  int idx,
+> +						  void **out_queue_mem);
 
-在 2024/3/7 21:49, Andy Shevchenko 写道:
-> No more users.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->   Documentation/driver-api/gpio/legacy.rst      | 16 --------
->   .../zh_CN/driver-api/gpio/legacy.rst          | 16 --------
+The queue configuration object was quite an integral part of the design,
+I'm slightly worried that it's not here :) Also we may want to rename
+the about-to-be-merged ops from netdev_stat_ops and netdev_queue_ops,
+and add these there?
 
-For Chinese:
+https://lore.kernel.org/all/20240306195509.1502746-2-kuba@kernel.org/
 
-
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-
-
-Thanks,
-
-Yanteng
-
->   Documentation/translations/zh_TW/gpio.txt     | 17 --------
->   drivers/gpio/gpiolib-legacy.c                 | 39 -------------------
->   include/linux/gpio.h                          | 15 -------
->   5 files changed, 103 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-> index b6505914791c..534dfe95d128 100644
-> --- a/Documentation/driver-api/gpio/legacy.rst
-> +++ b/Documentation/driver-api/gpio/legacy.rst
-> @@ -225,8 +225,6 @@ setup or driver probe/teardown code, so this is an easy constraint.)::
->                   gpio_request()
->   
->           ## 	gpio_request_one()
-> -        ##	gpio_request_array()
-> -        ## 	gpio_free_array()
->   
->                   gpio_free()
->   
-> @@ -295,14 +293,6 @@ are claimed, three additional calls are defined::
->   	 */
->   	int gpio_request_one(unsigned gpio, unsigned long flags, const char *label);
->   
-> -	/* request multiple GPIOs in a single call
-> -	 */
-> -	int gpio_request_array(struct gpio *array, size_t num);
-> -
-> -	/* release multiple GPIOs in a single call
-> -	 */
-> -	void gpio_free_array(struct gpio *array, size_t num);
-> -
->   where 'flags' is currently defined to specify the following properties:
->   
->   	* GPIOF_DIR_IN		- to configure direction as input
-> @@ -341,12 +331,6 @@ A typical example of usage::
->   	if (err)
->   		...
->   
-> -	err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -	if (err)
-> -		...
-> -
-> -	gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -
->   
->   GPIOs mapped to IRQs
->   --------------------
-> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> index aeccff777170..0faf042001d2 100644
-> --- a/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> +++ b/Documentation/translations/zh_CN/driver-api/gpio/legacy.rst
-> @@ -208,8 +208,6 @@ GPIO 值的命令需要等待其信息排到队首才发送命令，再获得其
->                   gpio_request()
->   
->           ## 	gpio_request_one()
-> -        ##	gpio_request_array()
-> -        ## 	gpio_free_array()
->   
->                   gpio_free()
->   
-> @@ -272,14 +270,6 @@ gpio_request()前将这类细节配置好，例如使用引脚控制子系统的
->   	 */
->   	int gpio_request_one(unsigned gpio, unsigned long flags, const char *label);
->   
-> -	/* 在单个函数中申请多个 GPIO
-> -	 */
-> -	int gpio_request_array(struct gpio *array, size_t num);
-> -
-> -	/* 在单个函数中释放多个 GPIO
-> -	 */
-> -	void gpio_free_array(struct gpio *array, size_t num);
-> -
->   这里 'flags' 当前定义可指定以下属性:
->   
->   	* GPIOF_DIR_IN		- 配置方向为输入
-> @@ -317,12 +307,6 @@ gpio_request()前将这类细节配置好，例如使用引脚控制子系统的
->   	if (err)
->   		...
->   
-> -	err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -	if (err)
-> -		...
-> -
-> -	gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -
->   
->   GPIO 映射到 IRQ
->   ----------------
-> diff --git a/Documentation/translations/zh_TW/gpio.txt b/Documentation/translations/zh_TW/gpio.txt
-> index b9b48012c62e..77d69d381316 100644
-> --- a/Documentation/translations/zh_TW/gpio.txt
-> +++ b/Documentation/translations/zh_TW/gpio.txt
-> @@ -215,13 +215,10 @@ GPIO 值的命令需要等待其信息排到隊首才發送命令，再獲得其
->   	gpio_request()
->   
->   ## 	gpio_request_one()
-> -##	gpio_request_array()
-> -## 	gpio_free_array()
->   
->   	gpio_free()
->   
->   
-> -
->   聲明和釋放 GPIO
->   ----------------------------
->   爲了有助於捕獲系統配置錯誤,定義了兩個函數。
-> @@ -278,14 +275,6 @@ gpio_request()前將這類細節配置好，例如使用 pinctrl 子系統的映
->   	 */
->   	int gpio_request_one(unsigned gpio, unsigned long flags, const char *label);
->   
-> -	/* 在單個函數中申請多個 GPIO
-> -	 */
-> -	int gpio_request_array(struct gpio *array, size_t num);
-> -
-> -	/* 在單個函數中釋放多個 GPIO
-> -	 */
-> -	void gpio_free_array(struct gpio *array, size_t num);
-> -
->   這裡 'flags' 當前定義可指定以下屬性:
->   
->   	* GPIOF_DIR_IN		- 配置方向爲輸入
-> @@ -323,12 +312,6 @@ gpio_request()前將這類細節配置好，例如使用 pinctrl 子系統的映
->   	if (err)
->   		...
->   
-> -	err = gpio_request_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -	if (err)
-> -		...
-> -
-> -	gpio_free_array(leds_gpios, ARRAY_SIZE(leds_gpios));
-> -
->   
->   GPIO 映射到 IRQ
->   --------------------
-> diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
-> index 3392e758d36f..5a9911ae9125 100644
-> --- a/drivers/gpio/gpiolib-legacy.c
-> +++ b/drivers/gpio/gpiolib-legacy.c
-> @@ -72,42 +72,3 @@ int gpio_request(unsigned gpio, const char *label)
->   	return gpiod_request(desc, label);
->   }
->   EXPORT_SYMBOL_GPL(gpio_request);
-> -
-> -/**
-> - * gpio_request_array - request multiple GPIOs in a single call
-> - * @array:	array of the 'struct gpio'
-> - * @num:	how many GPIOs in the array
-> - *
-> - * **DEPRECATED** This function is deprecated and must not be used in new code.
-> - */
-> -int gpio_request_array(const struct gpio *array, size_t num)
-> -{
-> -	int i, err;
-> -
-> -	for (i = 0; i < num; i++, array++) {
-> -		err = gpio_request_one(array->gpio, array->flags, array->label);
-> -		if (err)
-> -			goto err_free;
-> -	}
-> -	return 0;
-> -
-> -err_free:
-> -	while (i--)
-> -		gpio_free((--array)->gpio);
-> -	return err;
-> -}
-> -EXPORT_SYMBOL_GPL(gpio_request_array);
-> -
-> -/**
-> - * gpio_free_array - release multiple GPIOs in a single call
-> - * @array:	array of the 'struct gpio'
-> - * @num:	how many GPIOs in the array
-> - *
-> - * **DEPRECATED** This function is deprecated and must not be used in new code.
-> - */
-> -void gpio_free_array(const struct gpio *array, size_t num)
-> -{
-> -	while (num--)
-> -		gpio_free((array++)->gpio);
-> -}
-> -EXPORT_SYMBOL_GPL(gpio_free_array);
-> diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-> index f4e5406554bb..56ac7e7a2889 100644
-> --- a/include/linux/gpio.h
-> +++ b/include/linux/gpio.h
-> @@ -120,8 +120,6 @@ static inline int gpio_to_irq(unsigned gpio)
->   }
->   
->   int gpio_request_one(unsigned gpio, unsigned long flags, const char *label);
-> -int gpio_request_array(const struct gpio *array, size_t num);
-> -void gpio_free_array(const struct gpio *array, size_t num);
->   
->   /* CONFIG_GPIOLIB: bindings for managed devices that want to request gpios */
->   
-> @@ -152,11 +150,6 @@ static inline int gpio_request_one(unsigned gpio,
->   	return -ENOSYS;
->   }
->   
-> -static inline int gpio_request_array(const struct gpio *array, size_t num)
-> -{
-> -	return -ENOSYS;
-> -}
-> -
->   static inline void gpio_free(unsigned gpio)
->   {
->   	might_sleep();
-> @@ -165,14 +158,6 @@ static inline void gpio_free(unsigned gpio)
->   	WARN_ON(1);
->   }
->   
-> -static inline void gpio_free_array(const struct gpio *array, size_t num)
-> -{
-> -	might_sleep();
-> -
-> -	/* GPIO can never have been requested */
-> -	WARN_ON(1);
-> -}
-> -
->   static inline int gpio_direction_input(unsigned gpio)
->   {
->   	return -ENOSYS;
-
+Very excited to hear that you made progress on this and ported GVE over!
