@@ -1,173 +1,99 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from box.fidei.email (box.fidei.email [71.19.144.250])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C6F4879B;
-	Fri,  8 Mar 2024 17:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBD240861;
+	Fri,  8 Mar 2024 18:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=71.19.144.250
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709919354; cv=none; b=YcFAHfLMG0YDY4FY9r2YmzBy7E3KTAW5D39yl68zsN8vMarA+3myj8p98XFCfFnU2nUUrsrtfAhVqILlB679TccLmxuIBAtSy4beP8z7BV+lIguuYaAF3Y7EdosZWBTA2sjFa6X9Y7rwaUgwqlEsbMAEz4b5chOddjM86hJ7b3Y=
+	t=1709921013; cv=none; b=G1r77KxXls9oq/AlYRM+5uPp56cjvAygew242IsyWKVGkkCj5if0zpiy5pPyZ/xx3+NBhUICzsodyK8MhdfQXrmlUF7etYA3iKLyUQEZIqdvyTvlK6wccufqOKINn4819jb8G7P/zxocygF6rn4DPgctyiIW1V9nQDgWPfaftWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709919354; c=relaxed/simple;
-	bh=7iOr2ujvj+DFNXgSr9F6MR/Wl7/NyCpzmfzegr9vFkM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Mime-Version; b=T2IofUAeLcSjOrHpuSfFfEkHmKYbgt2H0TXFqC2RuFqH7KrwOv7vl3DRxmBktiItide3N3DgsrY5tIgV1s1b2AEWJlzE7YlkIQ39t5NtqmwQaUwxEhGM7MHXZ65qrWpOK+zc1Iw8QFbaRwq9G34/NajVa3z9yQJfXTQ29bc20kM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jiSNZR+G; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1709921013; c=relaxed/simple;
+	bh=EuXu1Rj/t3nXyqZ0d9qa9AlmDwk/Lpelh4oxbH03g4o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bWn2EYKIHmUKmcW7RsDW/SnUw4qRZu8LaAbqDbKIBQ8X2tBUq9W7zKSKdUjYeOn1tRrP/pQiENm1HXYH1K5FMNKIe28fmIKHwpA7vKOqFDqUyFQ1IsbIPnJVDJv2/fNYvE5VF4BxFf3s3cQl4wuYnVqs0Xh2CozNcKDxTK/07Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me; spf=pass smtp.mailfrom=dorminy.me; dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b=Aa7aJRt0; arc=none smtp.client-ip=71.19.144.250
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dorminy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jiSNZR+G"
-Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 428HO1Zu014026;
-	Fri, 8 Mar 2024 17:35:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=T1gt1AlMskl2ebgO4dM9LtD7IBD/suD1IXel1r9hyvs=;
- b=jiSNZR+G+ygiS+In7vjxlkQWiA2wv51loLHhFnw/yG/FetM4h73OJRmI7KfySQNHroLX
- kzq4mNTE76ZZPRJfeIQI1oDVoU836hBBv5UZiOKyJztvYkv9Gju+7VmcARfouCY6+nV3
- 75SeTEcPddfgOGsBhl8KNOa5QspgPX7Eu7THxWJrK9lETsGSf5NXUJ42shlTCZHTDmX8
- qYNM+qTPtY6AqCh0YRDBamgUyRYnwm+DYwErykX6c1qBgBVR54xlUw9IBgFtr1CZpyOC
- ZyDEVgInt8+oa0+uimlkj+rgC4QtByZwAjXfrOR5rB/GazsncpDN8XoeM7DwSmCWq+PQ gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wr67hs9r8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Mar 2024 17:35:12 +0000
-Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 428HTgrh026035;
-	Fri, 8 Mar 2024 17:35:11 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wr67hs9qt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Mar 2024 17:35:11 +0000
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 428G1W3h031530;
-	Fri, 8 Mar 2024 17:35:10 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wmgnknhk6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 08 Mar 2024 17:35:10 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 428HZ7jt46268786
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 8 Mar 2024 17:35:09 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 776F858060;
-	Fri,  8 Mar 2024 17:35:07 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 257AB5803F;
-	Fri,  8 Mar 2024 17:35:06 +0000 (GMT)
-Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.150.204])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  8 Mar 2024 17:35:06 +0000 (GMT)
-Message-ID: <ddb1c28356fb8a4dcca9bff6dc206802d7981bb8.camel@linux.ibm.com>
-Subject: Re: [RFC][PATCH 8/8] ima: Detect if digest cache changed since last
- measurement/appraisal
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
-        wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
-        hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
-        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
-        ppavlu@suse.com, petr.vorel@gmail.com, petrtesarik@huaweicloud.com,
-        mzerqung@0pointer.de, kgold@linux.ibm.com,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Date: Fri, 08 Mar 2024 12:35:05 -0500
-In-Reply-To: <20240214143525.2205481-9-roberto.sassu@huaweicloud.com>
-References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
-	 <20240214143525.2205481-9-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-23.el8_9) 
+	dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b="Aa7aJRt0"
+Received: from authenticated-user (box.fidei.email [71.19.144.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	by box.fidei.email (Postfix) with ESMTPSA id 3DFDA8256D;
+	Fri,  8 Mar 2024 13:03:25 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
+	t=1709921005; bh=EuXu1Rj/t3nXyqZ0d9qa9AlmDwk/Lpelh4oxbH03g4o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Aa7aJRt0Lk3Qyxeixja9uZwg2QFC89DX8YeoDHBuuzhmsWsX6q6EulIqQLWAjBQgZ
+	 TphNyrGY26Tcq/TjZd9OcZXQyocAnfaG6KgJZfUti51Ak1H9oRmET7cJRIyNrW1W8s
+	 Tkz50gjRYsYg4pGowVhCUenAR9Q+aRb+TEUV0dbPo7mVqVd0pfptNBzrfDCfvXmtJd
+	 5EM6EqztojHyIhqySN1cc7yUAoJ5ukskBNk5wzpd+Kc8xe4sgPQtDCbfsCfcnIKMic
+	 hKCHOJaCMrJl2YXd1UKKQAuHs6hmm2tUiYWflHz/KaopTachXaZh6dYIFPKF6cd1T3
+	 kElUoCwW3dUmg==
+From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+To: corbet@lwn.net,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	clm@meta.com,
+	dsterba@suse.com,
+	josef@toxicpanda.com
+Cc: jbacik@toxicpanda.com,
+	kernel-team@meta.com,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Subject: [PATCH 0/3] fiemap extension to add physical extent length
+Date: Fri,  8 Mar 2024 13:03:17 -0500
+Message-ID: <cover.1709918025.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IlDftZT5RuRbJ9On9uYeUGpCMuzzrfHq
-X-Proofpoint-ORIG-GUID: Uja9by0fkc-2TosWj1c5XHtG1riNKJR_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-08_08,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 suspectscore=0 clxscore=1015 spamscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2403080140
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Roberto,
+For many years, various btrfs users have written programs to discover
+the actual disk space used by files, using root-only interfaces.
+However, this information is a great fit for fiemap: it is inherently
+tied to extent information, all filesystems can use it, and the
+capabilities required for FIEMAP make sense for this additional
+information also.
 
-> b/security/integrity/ima/ima_main.c
-> index a66522a22cbc..e1b2f5737753 100644
-> --- a/security/integrity/ima/ima_main.c
-> +++ b/security/integrity/ima/ima_main.c
-> @@ -301,6 +301,15 @@ static int process_measurement(struct file *file, const
-> struct cred *cred,
->  		}
->  	}
->  
-> +	/* Check if digest cache changed since last measurement/appraisal. */
-> +	if (iint->digest_cache &&
-> +	    digest_cache_changed(inode, iint->digest_cache)) {
-> +		iint->flags &= ~IMA_DONE_MASK;
-> +		iint->measured_pcrs = 0;
-> +		digest_cache_put(iint->digest_cache);
-> +		iint->digest_cache = NULL;
-> +	}
-> +
->  	/* Determine if already appraised/measured based on bitmask
->  	 * (IMA_MEASURE, IMA_MEASURED, IMA_XXXX_APPRAISE, IMA_XXXX_APPRAISED,
->  	 *  IMA_AUDIT, IMA_AUDITED)
-> @@ -371,8 +380,15 @@ static int process_measurement(struct file *file, const
-> struct cred *cred,
->  	 * Since we allow IMA policy rules without func=, we have to enforce
->  	 * this restriction here.
->  	 */
-> -	if (rc == 0 && policy_mask && func != DIGEST_LIST_CHECK)
-> -		digest_cache = digest_cache_get(file_dentry(file));
-> +	if (rc == 0 && policy_mask && func != DIGEST_LIST_CHECK) {
-> +		if (!iint->digest_cache) {
-> +			/* Released by ima_iint_free(). */
-> +			digest_cache = digest_cache_get(file_dentry(file));
-> +			iint->digest_cache = digest_cache;
-> +		} else {
-> +			digest_cache = iint->digest_cache;
-> +		}
+Hence, this patchset adds physical extent length information to fiemap,
+and extends btrfs to return it.  This uses some of the reserved padding
+in the fiemap extent structure, so programs unaware of the new field
+will be unaffected by its presence.
 
-Simple cleanup:
-		if (!iint->digest_cache)
-			iint->digest_cache =digest_cache_get(file_dentry(file));
+This is based on next-20240307. I've tested the btrfs part of this with
+the standard btrfs testing matrix locally, and verified that the physical extent
+information returned there is correct, but I'm still waiting on more
+tests. Please let me know what you think of the general idea!
 
-		digest_cache = iint->digest_cache;
+Sweet Tea Dorminy (3):
+  fs: add physical_length field to fiemap extents
+  fs: update fiemap_fill_next_extent() signature
+  btrfs: fiemap: return extent physical size
 
-> +	}
->  
->  	if (digest_cache) {
->  		found = digest_cache_lookup(file_dentry(file), digest_cache,
-> @@ -386,8 +402,6 @@ static int process_measurement(struct file *file, const
-> struct cred *cred,
->  			if (verif_mask_ptr)
->  				allow_mask = policy_mask & *verif_mask_ptr;
->  		}
-> -
-> -		digest_cache_put(digest_cache);
+ Documentation/filesystems/fiemap.rst | 29 +++++++++----
+ fs/bcachefs/fs.c                     |  6 ++-
+ fs/btrfs/extent_io.c                 | 63 +++++++++++++++++-----------
+ fs/ext4/extents.c                    |  1 +
+ fs/f2fs/data.c                       |  8 ++--
+ fs/f2fs/inline.c                     |  3 +-
+ fs/ioctl.c                           |  8 ++--
+ fs/iomap/fiemap.c                    |  2 +-
+ fs/nilfs2/inode.c                    |  8 ++--
+ fs/ntfs3/frecord.c                   |  6 ++-
+ fs/ocfs2/extent_map.c                |  4 +-
+ fs/smb/client/smb2ops.c              |  1 +
+ include/linux/fiemap.h               |  2 +-
+ include/uapi/linux/fiemap.h          | 24 +++++++----
+ 14 files changed, 108 insertions(+), 57 deletions(-)
 
-Keeping a reference to the digest_cache list for each file in the iint cache
-until the file is re-accessed, might take a while to free.
 
-I'm wondering if it necessary to keep a reference to the digest_cache.  Or is it
-possible to just compare the existing iint->digest_cache pointer with the
-current digest_cache pointer?
-
-thanks,
-
-Mimi
-
->  	}
->  
->  	if (action & IMA_MEASURE)
+base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
+-- 
+2.44.0
 
