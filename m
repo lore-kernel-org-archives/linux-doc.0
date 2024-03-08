@@ -1,202 +1,340 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9B855E62;
-	Fri,  8 Mar 2024 10:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2586F54BF1;
+	Fri,  8 Mar 2024 11:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709894245; cv=none; b=lfOHHMa6kOsSkersil1tIiQT7NdzlnRh1SiNk+OJV8wwTGR0szrfzK6x/OPZTOdMUQzjUccSrkbpHN8QRjNMpqH2c9xgcfkPGnQkj/g7a05VTVTb+aFM2VaYYnkFULgvvaCmuv+4uylOwax+zH8vKXUiJ9fKhTU/Z354q3eM7io=
+	t=1709896311; cv=none; b=BAWak260KzwjkULEXqw+UMuwd1ZnNkjKdeoO3QVEQ/pH+Gbxgo2gjz8mk2gjjl42qBTCQNAyjI5HwlV2CwDdI+3b+YajaOmJNhm+WPjeVWG+uzrQInGbPPF3xK9IXg2okYHHxjFMFuSW1AmMmvPDD7Cg5urUV3KIOAwvDoUO+L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709894245; c=relaxed/simple;
-	bh=MDdQ3beQ1q4madF/M56EEmJ1IyDRizOjzaekKCVL1RY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BAWEHkyH6NN6O3IJr1jDPPoFZePJFKO37JbFYPggA0kksroZHxGzTT3uSRkRdw/U3jCnMeEkjIj3ECKVLe6P4DlnGFcvfZi9C0Ml3O981dEG2cpEbJxNOduB3u/HsUvYopE67hv11JFVtygNEZV8URQZNtM7up/ZW2rTqdYel8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Trhth3TbGz9xrN2;
-	Fri,  8 Mar 2024 18:17:32 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 59304140558;
-	Fri,  8 Mar 2024 18:37:09 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwBXTBVE6uplNCHyAw--.7639S2;
-	Fri, 08 Mar 2024 11:37:08 +0100 (CET)
-Message-ID: <e10207bd82ee13fb088f9efc12e10a5478b6926d.camel@huaweicloud.com>
-Subject: Re: [RFC][PATCH 4/8] ima: Add digest_cache_measure and
- digest_cache_appraise boot-time policies
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
- dmitry.kasatkin@gmail.com,  eric.snowberg@oracle.com, paul@paul-moore.com,
- jmorris@namei.org, serge@hallyn.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
- wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
- hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
- dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
- petr.vorel@gmail.com,  petrtesarik@huaweicloud.com, mzerqung@0pointer.de,
- kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
-Date: Fri, 08 Mar 2024 11:36:48 +0100
-In-Reply-To: <ed5df367582f0c5e212638a12204fd20fd8e46e5.camel@linux.ibm.com>
-References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
-	 <20240214143525.2205481-5-roberto.sassu@huaweicloud.com>
-	 <ed5df367582f0c5e212638a12204fd20fd8e46e5.camel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1709896311; c=relaxed/simple;
+	bh=5uFD+cqkULCleDfVJtHKcSPYIbJiDZQaxFTnxGYpT+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T+xj4X6DWhr+0jNHnf1U6n8WJD8/NQ5QJWd68GcAyxPI1g98NyCtPldPnwWG7MxaILJyBhCCP74hrH0JzgCSLb/Z3JBDZtr+YzphRE+fEUu5f/rvbFFjHEFJQ6NwOEdWbARNPC6Gs6qcwdASRoDgb78GZuVp11yyXanBSI+lORo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=URm8PUu3; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="URm8PUu3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1709896306; x=1741432306;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=NRg85ZaxTMjqUAF+JiNjdT6tgT0KjCL5hUNiV22oZyI=;
+  b=URm8PUu3qGpgozRLEqBWeVjtQpfiVIBIu+B3e4WsTAjzTqQR+r7JJCfl
+   7VuqgMqbgw+gsasIZ1juBbgmllcbW6AGoLnlx2WTxJm2iyycGEJI9HRjR
+   IkX2EXfBjxNQervKFUy4N5/84mjZmUqUJGbbFx0jU2F6fiNZZjrvluZCa
+   2wf3PI9qEOBY/XrDGqCiPT7aXjrmygFF2truEsfDAvo+hOglXAQ6p6hx8
+   2PEcl/nbqeWgiKg39x9n+D6/BYNIbtamHIfJBwEJ7asOoFl4eOEDU6nEK
+   /Vh0cPEiEMeb5jZqDPLENcr9BoubDgs1D6BnQjDP2rbb9h0C8o4yvVQCa
+   w==;
+X-IronPort-AV: E=Sophos;i="6.07,109,1708383600"; 
+   d="scan'208";a="35807296"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 08 Mar 2024 12:11:43 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 63B7428007C;
+	Fri,  8 Mar 2024 12:11:43 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v8 11/27] drm/tests: Add TDMS character rate connector state tests
+Date: Fri, 08 Mar 2024 12:11:44 +0100
+Message-ID: <1981993.usQuhbGJ8B@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20240307-kms-hdmi-connector-state-v8-11-ef6a6f31964b@kernel.org>
+References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-11-ef6a6f31964b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwBXTBVE6uplNCHyAw--.7639S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw43Ww45WFy3Gr4xKF45ZFb_yoWrCF43pa
-	yDCF1YkFWDur1fAw1ava18ur4Fy39agF43XayUJ345Ars5XFn2k3W8Aa45urWUZw48X3Z2
-	yF4UKr47W34DZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73D
-	UUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBF1jj5shHQABsC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Thu, 2024-03-07 at 15:17 -0500, Mimi Zohar wrote:
-> On Wed, 2024-02-14 at 15:35 +0100, Roberto Sassu wrote:
-> > From: Roberto Sassu <roberto.sassu@huawei.com>
-> >=20
-> > Specify the 'digest_cache_measure' boot-time policy with 'ima_policy=3D=
-' in
-> > the kernel command line
+Am Donnerstag, 7. M=E4rz 2024, 14:38:38 CET schrieb Maxime Ripard:
+> ********************
+> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
+ssen, dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten =
+Sie die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
+> Attention external email: Open attachments and links only if you know tha=
+t they are from a secure source and are safe. In doubt forward the email to=
+ the IT-Helpdesk to check it.
+> ********************
 >=20
-> The 'built-in' policies may be specified on the boot command line.  Pleas=
-e
-> update Subject line, to user the term "built-in" as well as here.
-
-Ok, will do.
-
-> >  to add the following rule at the beginning of the
-> > IMA policy, before other rules:
+> The previous patch stores in the connector state the expected TMDS
+> character rate matching the configuration of the HDMI connector. Let's
+> add a few tests to make sure it works as expected.
 >=20
-> Comments below...
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 166 ++++++++++++++++
+>  drivers/gpu/drm/tests/drm_kunit_edid.h             | 216 +++++++++++++++=
+++++++
+>  2 files changed, 382 insertions(+)
 >=20
-> >=20
-> > measure func=3DDIGEST_LIST_CHECK pcr=3D12
-> >=20
-> > which will measure digest lists into PCR 12 (or the value in
-> > CONFIG_IMA_DIGEST_CACHE_MEASURE_PCR_IDX).
-> >=20
-> > 'digest_cache_measure' also adds 'digest_cache=3Dcontent pcr=3D12' to t=
-he other
-> > measure rules, if they have a compatible IMA hook. The PCR value still
-> > comes from CONFIG_IMA_DIGEST_CACHE_MEASURE_PCR_IDX.
-> >=20
-> > Specify 'digest_cache_appraise' to add the following rule at the beginn=
-ing,
-> > before other rules:
-> >=20
-> > appraise func=3DDIGEST_LIST_CHECK appraise_type=3Dimasig|modsig
-> >=20
-> > which will appraise digest lists with IMA signatures or module-style
-> > appended signatures.
-> >=20
-> > 'digest_cache_appraise' also adds 'digest_cache=3Dcontent' to the other
-> > appraise rules, if they have a compatible IMA hook.
-> >=20
-> > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > ---
-> >  .../admin-guide/kernel-parameters.txt         | 15 ++++++-
-> >  security/integrity/ima/Kconfig                | 10 +++++
-> >  security/integrity/ima/ima_policy.c           | 45 +++++++++++++++++++
-> >  3 files changed, 69 insertions(+), 1 deletion(-)
->=20
-> [...]
+> [snip]
+>
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tes=
+ts/drm_kunit_edid.h
+> index 2bba316de064..24f3377ef0f0 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
+> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> @@ -101,6 +101,222 @@ const unsigned char test_edid_hdmi_1080p_rgb_max_20=
+0mhz[] =3D {
+>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>    0x00, 0x00, 0x00, 0xd0
+>  };
 > =20
-> > @@ -971,6 +1006,16 @@ void __init ima_init_policy(void)
-> >  {
-> >  	int build_appraise_entries, arch_entries;
-> > =20
-> > +	/*
-> > +	 * We need to load digest cache rules at the beginning, to avoid dont=
-_
-> > +	 * rules causing ours to not be reached.
-> > +	 */
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 1a 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7a
+> + *
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a8
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     Undefined display color type
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
+75000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.5000=
+00 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150=
+ MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x7a
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.50=
+0000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: Selectable (via AVI YQ)
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 200 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0xa8  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] =3D {
+
+Same as patch 5. This should be static.
+
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0xa8
+> +};
+> +
+> +/*
+> + * edid-decode (hex):
+> + *
+> + * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
+> + * 00 21 01 03 81 a0 5a 78 0a 00 00 00 00 00 00 00
+> + * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
+> + * 01 01 01 01 01 01 02 3a 80 18 71 38 2d 40 58 2c
+> + * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+> + * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+> + * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8a
+> + *
+> + * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> + * 00 12 34 78 44 20 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 8c
+> + *
+> + * ----------------
+> + *
+> + * Block 0, Base EDID:
+> + *   EDID Structure Version & Revision: 1.3
+> + *   Vendor & Product Identification:
+> + *     Manufacturer: LNX
+> + *     Model: 42
+> + *     Made in: 2023
+> + *   Basic Display Parameters & Features:
+> + *     Digital display
+> + *     DFP 1.x compatible TMDS
+> + *     Maximum image size: 160 cm x 90 cm
+> + *     Gamma: 2.20
+> + *     RGB color display
+> + *     First detailed timing is the preferred timing
+> + *   Color Characteristics:
+> + *     Red  : 0.0000, 0.0000
+> + *     Green: 0.0000, 0.0000
+> + *     Blue : 0.0000, 0.0000
+> + *     White: 0.0000, 0.0000
+> + *   Established Timings I & II:
+> + *     DMT 0x04:   640x480    59.940476 Hz   4:3     31.469 kHz     25.1=
+75000 MHz
+> + *   Standard Timings: none
+> + *   Detailed Timing Descriptors:
+> + *     DTD 1:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.5000=
+00 MHz (1600 mm x 900 mm)
+> + *                  Hfront   88 Hsync  44 Hback  148 Hpol P
+> + *                  Vfront    4 Vsync   5 Vback   36 Vpol P
+> + *     Display Product Name: 'Test EDID'
+> + *     Display Range Limits:
+> + *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150=
+ MHz
+> + *     Dummy Descriptor:
+> + *   Extension blocks: 1
+> + * Checksum: 0x8a
+> + *
+> + * ----------------
+> + *
+> + * Block 1, CTA-861 Extension Block:
+> + *   Revision: 3
+> + *   Underscans IT Video Formats by default
+> + *   Supports YCbCr 4:4:4
+> + *   Supports YCbCr 4:2:2
+> + *   Native detailed modes: 1
+> + *   Colorimetry Data Block:
+> + *     sRGB
+> + *   Video Data Block:
+> + *     VIC  16:  1920x1080   60.000000 Hz  16:9     67.500 kHz    148.50=
+0000 MHz
+> + *   Video Capability Data Block:
+> + *     YCbCr quantization: Selectable (via AVI YQ)
+> + *     RGB quantization: Selectable (via AVI Q)
+> + *     PT scan behavior: No Data
+> + *     IT scan behavior: Always Underscanned
+> + *     CE scan behavior: Always Underscanned
+> + *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+> + *     Source physical address: 1.2.3.4
+> + *     DC_48bit
+> + *     DC_36bit
+> + *     DC_30bit
+> + *     DC_Y444
+> + *     Maximum TMDS clock: 340 MHz
+> + *     Extended HDMI video details:
+> + * Checksum: 0x8c  Unused space in Extension Block: 100 bytes
+> + */
+> +const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] =3D {
+
+Same as patch 5. This should be static.
+
+Best regards,
+Alexander
+
+> +  0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+> +  0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> +  0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x3a, 0x80, 0x18, 0x71, 0x38,
+> +  0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+> +  0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+> +  0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+> +  0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+> +  0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x1b, 0xb1,
+> +  0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> +  0x00, 0x12, 0x34, 0x78, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +  0x00, 0x00, 0x00, 0x8c
+> +};
+> +
+>  #endif // DRM_KUNIT_EDID_H_
 >=20
-> "lockdown" trusts IMA to measure and appraise kernel modules, if the rule
-> exists.  Placing the digest_cache first breaks this trust.
-
-The new rules don't prevent other rules to be reached, since they are
-'do' and not 'don_t' rules.
-
-If the kernel reads a file with file ID READING_MODULE, that would
-still be matched by rules with 'func=3DMODULE_CHECK', even if there are
-rules with 'func=3DDIGEST_LIST_CHECK', which will be instead matched when
-there is a kernel read with file ID READING_DIGEST_LIST.
-
-We can talk about the rule modification. Speaking of appraising kernel
-modules, setting 'ima_policy=3Ddigest_cache_appraise' in the kernel
-command line would have the effect of changing:
-
-appraise func=3DMODULE_CHECK appraise_type=3Dimasig|modsig
-
-to:
-
-appraise func=3DDIGEST_LIST_CHECK appraise_type=3Dimasig|modsig
-appraise func=3DMODULE_CHECK appraise_type=3Dimasig|modsig digest_cache=3Dc=
-ontent
-
-The effect of this would be that, if the kernel does not have
-security.ima or an appended signature, appraisal will be still
-successful by verifying the signature (in the xattr or appended) of the
-digest list, and looking up the digest of the kernel module in that
-digest list.
-
-> From a trusted and secure boot perspective, the architecture specific pol=
-icy
-> rules should not be ignored.
-
-I'm still missing how the architecture-specific policy would be
-ignored.
-
-> Putting the digest_cache before any other rules
-> will limit others from being able to use digest_cache.
-
-Sorry, didn't understand.
-
-Let me just remark that measuring/appraising a digest list is a
-necessary condition for using the digest cache built from that digest
-list.
-
-Not doing that has the same effect of a negative digest lookup, even if
-that digest was in the digest list.
-
-> Instead of putting the digest_cache_{measure,appraise} built-in policies =
-first,
-> skip loading the dont_measure_rules.
-
-It does not seem a good idea. We still want to avoid
-measurements/appraisal in the pseudo filesystems.
-
-Roberto
-
-> Mimi
 >=20
-> > +	if (ima_digest_cache_measure)
-> > +		add_rules(&measure_digest_cache_rule, 1, IMA_DEFAULT_POLICY);
-> > +
-> > +	if (ima_digest_cache_appraise)
-> > +		add_rules(&appraise_digest_cache_rule, 1, IMA_DEFAULT_POLICY);
-> > +
-> >  	/* if !ima_policy, we load NO default rules */
-> >  	if (ima_policy)
-> >  		add_rules(dont_measure_rules, ARRAY_SIZE(dont_measure_rules),
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
