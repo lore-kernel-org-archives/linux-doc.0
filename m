@@ -1,262 +1,215 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2089.outbound.protection.outlook.com [40.107.244.89])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292812E65B;
-	Fri,  8 Mar 2024 05:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794502E3E4;
+	Fri,  8 Mar 2024 07:12:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.154.123
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709875794; cv=fail; b=g7KWQrIEGD3YkKx+VbbPmzNFyruyyTftnMGjMv78xX+nqG89AXWJClJhc05YDs/GHyQOp7Z93meR/cjvg6dfHGmFxPD159LoVckOeumzApNNMZ2F4X6dB4MxqxpW+Td8Y6WxdUmOsX8vr+sZF6sA+qw3nd2euxA3FkxaBuUpNvo=
+	t=1709881959; cv=fail; b=rYIl7OoyCL95FdjY4wMVePve7F2svDjBLbjCXLIauY/mUXfN2ZorilM4nDVx+hz0HuYbbRYhaxzaKavnwRWe/Pss9Jp8CVHhmatZgoLMG14e6vHt77e3oJ8fP88fPh2cy4LvvdY2oYTQSpf+iAPm7PUfAIYp0N9vdez2fGetYVI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709875794; c=relaxed/simple;
-	bh=mRCNYqq1ydpK77fKwNmuyVg/Oo+zbBNQ83b6meKnRwQ=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=mSPFG+MmnKDOb7gXGKWFmFVgyZSBbax9X5/LLs4jVRXex17E21hGPQBEkECx17MFzBeZvs+xoIMseYJBI57ooKN6wu4OtoHR+aZWdFB9W7MqVs3o9VrIePvi1IHLSBmRmE/9YDQUS1wHacBOsNtXIHHBtXeSATNjYKF3aFeppGk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kCNOelpC; arc=fail smtp.client-ip=40.107.244.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1709881959; c=relaxed/simple;
+	bh=Q9onVWUgxzOrYnrDj2JM6NnTwcw7d6dEgkJJxzgHzIo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Au+rnfU7F1Tf4XeDnBpOZXU9dCDMxIxixwmNLnvU/30/AMoEH4nXWPckjpXjykE+Ea8JpUjBbQYDLx+QRIrVwLg7YOMdVlvcpIaDA7GH8Pf3atF9t969o6WC1+Ur5h/FimiOgHN4b4f9upxAmeNtUj9kLluBqlZj8TCjZxLVSpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=jue+IQCv; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Ef0RA7+4; arc=fail smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kCNOelpC"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="jue+IQCv";
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Ef0RA7+4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1709881957; x=1741417957;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=Q9onVWUgxzOrYnrDj2JM6NnTwcw7d6dEgkJJxzgHzIo=;
+  b=jue+IQCvG/HBCbz31OivgSYCxJ6yU00O8OnIhkfNOJPpmJiMM7aIN3Q+
+   Cvgx3hdOu7gV7uek2f0dXGFVEiV/JNu1/Rg4M8XDOvf1NHbzYAs7kG82D
+   yEfj1RXsBC6gXCX5HCxGTtoOLm/FWfxWaHiALfRZpVPnDMzUpe+albpeJ
+   xGSe3KHhjwBHgxz7zIgQ6VMj4e7+iqRYqbvNoxlNERabaJtKMEJ6cG18k
+   +EugMwnFPlM4w4w8fMYqE7lIBYWYCLOz0CFWF1nNi+intta6QjqrJZ+Qg
+   56aYf3MqU/16S5yhv/XN6fYfNuMF4FBSiVd8BvFbhLwIVQwPAvQ4Fr7vl
+   A==;
+X-CSE-ConnectionGUID: SPiBj3hbRUu0v9NOP4wn5Q==
+X-CSE-MsgGUID: boyG+1BUQyKgB1vQcm2oWw==
+X-IronPort-AV: E=Sophos;i="6.07,108,1708412400"; 
+   d="scan'208";a="17925623"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 08 Mar 2024 00:12:34 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 8 Mar 2024 00:12:16 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
+ by email.microchip.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 8 Mar 2024 00:12:16 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iM2jW34g/m7oJp96DoNYcoIaefj1L/8ep/CLk7b3XadLhOH+xVme3DR+8744C5+SBl08UnYHfpl8x70+4e4TkZOLAta4lbGsGZA/fXU5dfCD+HYuN/Ilj1xLE2nkIrzG8bQv3VxSoED0tv0Igu+/VsZ6ATDfBW/EnnCF5m3nmbiUTUtpaUlGnX2wWz11XyLyDW2AFAH8LT2aO1wFhzjLx66b4kv9ohMziadJOyq2Vc1lZHIaZUlYYAjd+PaR3X94j7EhZ4m3gdxz458txjUoLZ95IW1VJybsBNpoCYdxSeChqC7CasNSveSWFCvCS5mNE17Xk9uBPeg71PGrkAZwpw==
+ b=ViSfHQvAOW+atbjw4aMnw6P8wR4JUDp1L0Rm2W8staGuC+iF1aEegPLICQ1o/Ja61eHMdh0ZuKfURRbkQBW1NmmZhZWmVNIDiFKZbxotQHqexrBsYlgnK4qSdLJQCAqBxnN4XXIZ8l1nZh8dLx123qy8IAf90mI3rxfbdQAevVRKT0k1c/G7CvLQPQ1P/X8XtoWyztfIwfJzMcNIlrF53kRExqfS+Q0RyvQoeKaAM/fAsPb2FgIqzYTUl5/J08qKTXc5Ea8GCi8ibFB8Gesci5AK0FEodQ9iL7A15KV8wt+DvG3s/IiyUS08dLktEVZEZyiEgBJEsTV3XpF1gs5Hbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=56fNPCYJBldnaNLAZyfoBGn7ImQAQT1/XDFwScOPy+A=;
- b=AuL5E8KY6yiO5XoJ4sfsFTePosH4yhJC0epogUs1cuoGG1pc/U50FYbcic+ag1j1cD5uvhkuvdLkKbqLGGRpgX/31CVnt3dv9SEWW3xD2qEMqFmVvQc2B8z163zlD7IysvnFocZqmsdLZuVbTx0Vg6WOFaCDET8NVlILMqsF/08uMKcUZAZeo/jFukkOL55bJMUbpbveNkthbTwsYP2dNE3Dio2CDxG/gbaGZxlrRzsPRk7NPatmD1Fd2CGN+eMFfub05EgQbQjxpZAQB3T5xi4NQatzxvxod9FO/bNAa5IVWcBy9Ux1C8q61XzDN8ktgbxR/EpV2+gO31U+A6lp3A==
+ bh=Q9onVWUgxzOrYnrDj2JM6NnTwcw7d6dEgkJJxzgHzIo=;
+ b=FatQz511LzXXApybiLAM66XqyyuPctpf/VrETWCTnKBeAfet6sR3zaG21/rK/l5QLdaxGgi2o6yIfhwDdCVVYIUwCLEOsvNV/nNEp9+p1MJjufmwV9Wv3e4S7K9jJIqXTdtDl21iFWguQr0GCHHL2Pu5/bJ6jrsAtuLixeGAjicZWEr4jddMIuXU4aZynZONapNL7qAg9oVVBrNsiRN0mJn1WT7gBb+2nXIS67uTgXLA1HQovJ/YrKgp8KP8pPXDvuWRW2es6uy5JenJ3gGup/Vw0uGf6BmhgFt8VWXRqcX9Y0+GvfPBd+0trl0AihNFHKSYsbcNN2D4HPXTiH0Fqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=56fNPCYJBldnaNLAZyfoBGn7ImQAQT1/XDFwScOPy+A=;
- b=kCNOelpCDLYPPWRGdr/3j7RbngBXFIJIRwLtNDHJFqBH14nKLPfjSoNBtPrhTtAhK4xHiLLk6zlovXYLyhVZ1Un26f6iDQTMfUpGvOXre5cZDYkiu7H0ZiWVnJW3WnpU+aGJEgiemD8rp382yQZzyyHv8AaohrukL7FxH301XR+0sHzvP1j1SyOExyOfk9DlLM8VX6Rwv9q+ktsPt8FqRD4b97jC6AXh51V+ri/JU27dB29r3UjM5r+dHQq15Vhszvpx3makDbekeQDybjj6dtnnOvubinIkH6bIC3N2PeIxnZWlEUEKRsHI09YHI2o6/T0iRu+J5w0WDvIvJKFPtg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by SJ1PR12MB6172.namprd12.prod.outlook.com (2603:10b6:a03:459::22) with
+ bh=Q9onVWUgxzOrYnrDj2JM6NnTwcw7d6dEgkJJxzgHzIo=;
+ b=Ef0RA7+4byDkb5MT033yjMyms5UuC4ZorIobDE4/Xnzh+mNr3Y94vOtTpDnGeAvh6HbJ2t1pl7B0WE+Wy9KaSqYI05tFAcG9Mjo0kKbsBhlDmCIbBd2FM9MFlx2/gvwZUtbPkVuVsAjZQ7Eg0mISFB+7JKJPtxD/zGkQUrw8ZyD6YdugW6Eyz85hCuTfyrgR5WLadFyAKyzyGGaTiNWc0bq8eLgCO3I7d+KCwZhN1UYpnLWBW86Yh+3fJXPGdt7pImMXFxDEbj7QdXRCgGVj252vb1M1T5N2MgLGCGm7e3SH3Xqw00WpzHgOrwEkVVRk9Rn77ySndA2TqRCel5AApA==
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
+ by CH3PR11MB8467.namprd11.prod.outlook.com (2603:10b6:610:1bd::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Fri, 8 Mar
- 2024 05:29:49 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf%6]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
- 05:29:48 +0000
-References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
- <20240223192658.45893-2-rrameshbabu@nvidia.com>
- <abbff26c-c626-42ce-82a9-4dc983372de3@intel.com>
- <875xyex10q.fsf@nvidia.com>
- <a84df9ec-475d-4ffc-a975-a0911a57901e@intel.com>
- <87il2evhtk.fsf@nvidia.com>
- <ec969f62-a1bb-4287-a4eb-083201134bae@intel.com>
- <87le6tvpq8.fsf@nvidia.com>
- <d030d02d-150d-4337-a063-69da28049548@intel.com>
-User-agent: mu4e 1.10.8; emacs 28.2
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Saeed Mahameed <saeed@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan  Corbet <corbet@lwn.net>, Richard Cochran
- <richardcochran@gmail.com>, Tariq  Toukan <tariqt@nvidia.com>, Gal
- Pressman <gal@nvidia.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, Ahmed Zaki
- <ahmed.zaki@intel.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- Hangbin Liu <liuhangbin@gmail.com>, Paul  Greenwalt
- <paul.greenwalt@intel.com>, Justin Stitt <justinstitt@google.com>, Randy
- Dunlap <rdunlap@infradead.org>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Kory Maincent
- <kory.maincent@bootlin.com>, Wojciech Drewek <wojciech.drewek@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Jiri Pirko <jiri@resnulli.us>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu
- <joabreu@synopsys.com>, Dragos  Tatulea <dtatulea@nvidia.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC net-next v1 1/6] ethtool: add interface to read Tx
- hardware timestamping statistics
-Date: Thu, 07 Mar 2024 21:09:18 -0800
-In-reply-to: <d030d02d-150d-4337-a063-69da28049548@intel.com>
-Message-ID: <87edcljnp0.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0175.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::30) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+ 2024 07:12:12 +0000
+Received: from SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::f633:b9d4:f539:177d]) by SA1PR11MB8278.namprd11.prod.outlook.com
+ ([fe80::f633:b9d4:f539:177d%6]) with mapi id 15.20.7386.006; Fri, 8 Mar 2024
+ 07:12:12 +0000
+From: <Parthiban.Veerasooran@microchip.com>
+To: <andrew@lunn.ch>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
+	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
+	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
+	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
+	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
+	<benjamin.bigler@bernformulastudent.ch>
+Subject: Re: [PATCH net-next v3 03/12] net: ethernet: oa_tc6: implement
+ register read operation
+Thread-Topic: [PATCH net-next v3 03/12] net: ethernet: oa_tc6: implement
+ register read operation
+Thread-Index: AQHab6N33BKSiButbU+b9vGzVOsXAbEraxEAgABw/QCAAGmdAIABKuyA
+Date: Fri, 8 Mar 2024 07:12:12 +0000
+Message-ID: <07d3d73b-c920-4503-ad6a-d59fb1b5458a@microchip.com>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-4-Parthiban.Veerasooran@microchip.com>
+ <48b65759-6e69-46ef-a2ed-857d04eadac8@lunn.ch>
+ <83e0b340-521e-4d60-90bb-92d2ca6f5abe@microchip.com>
+ <d2f254b9-7e7a-46ed-a979-00bdf92899ac@lunn.ch>
+In-Reply-To: <d2f254b9-7e7a-46ed-a979-00bdf92899ac@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|CH3PR11MB8467:EE_
+x-ms-office365-filtering-correlation-id: 88ccfb7d-8c0a-4372-aae9-08dc3f3f13ab
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KucZGWzI9WrzfoLNBLinTQ4vU4TO07VJMTSxcyppZ5n0AnUpJCUfmN+LqBE8/ObTfc8gV/QYcgY8x1W7khUjsWqCgRf15NjkECowGT47jwm3aMv8bokaKVlLiiy2L6SEbzrBG1KRaXLbdp3vVPDOHy3FDKDL8nzw7Pb+OKKGjDj6jSXG+hdlIzIya8H65UCpWfWkeUlk5fR2ZQuwPN0AcD+z22TqOJjbNG4A2jtqkxMfnKMZF/aHaOHqRFuFuoWwndUXosSJsx3Y2MOhuvpVZEUY/2bqo6ZwSnR7oQVB8QnJNjC+2FLhgNWMO5CVijrlA+fvik9J8rqMJKSJi8tsAqjIQbYFZKv3T477is6hiafV8wpYTmJceHsjrhlZ7+PFtCMJJYpIohAqEoukU+r3taHjD+SWcG9quEQjYUNeDOWZb4iriz5nr5SOQdcPLqo9VaPzCGwMEVuOFBG+32BSvTsE2xEkHsaEf//NJdvW+QOq5qyL/UWb0PoOPYlhagJJ212zAmB4lqVXtXq/7KUvvr1Ehxp9qSw6Yk8CFXgt+6OZmv193WAPPzH+r6FffpIeygfDlGbzZcLKsHyPIFmRU2AqLkgm6rmbsOd/S1Uniabji0ok09kyURMC+DnPle81U9akGSXALcD3Nxy0hp/ODlzzx6Pao7+3Tip979cw24YDDqRNSd811YCX7YHy8ALsh/xkVIsIenWCJBzuWGq9DpmPq1982mpBBFrrF47Glrw=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WEdTSEJHKzdJaDFqNGwwYTYxNGh4OEdXekVUYU4yVVJtNmFqYzRSM3FpZVdJ?=
+ =?utf-8?B?NDI3djRGd1lseGZvakh3ekZoa1c0YUNNcGFHR2dSVUhoMXZjbzZOK3NIOUIw?=
+ =?utf-8?B?eHpWaTdtNTlkZlo2YnNXWkM0UC9xNy9tV0tkdUZZVXlnNTRHYWhzeEFaeWU2?=
+ =?utf-8?B?dGJmeDlkano1YTJDU3daQkNpTTlPVVd5dnJsV2g0UkUrdnRSdkRlbEJPcE5l?=
+ =?utf-8?B?MlZqTE4rakIwSFpFL1BJaUFJR25vN2l1STBXdkthS09jbS9PcE5FQnJ4MU4x?=
+ =?utf-8?B?bWpGa29kNkhzTUFLL013akxOcVl1MTVQcmc0c0VocWdJbU9ZVXV6Ry9VVnRn?=
+ =?utf-8?B?WVJvaW9obFZpM1ZDUzdXQUU2QXJhMGhCRHpkc1FrUm9yOVpPUG5aazh0ckpi?=
+ =?utf-8?B?R0F4a0kvL2RBd05jM0JSclBFVGFKSGxkY1JBZWJ5Qk5mdjdxN1VsMlVaYkZE?=
+ =?utf-8?B?dVhPUkswZndmeXU0c1NBeS9jd01BRUVBZXIzTE9DWHpONHNENmlkMUdtY2F3?=
+ =?utf-8?B?VjZBUkN1anNJdnVKTzNzakNxVTV5VVNtbUREc2kxL0FHLy9pS3V1dURKQWFr?=
+ =?utf-8?B?RGRXUzN3cFo1Y1RQRVg1UzJNbDNqenFsbkt2Y0dBL1RMTnRsbTdLNElJM2FP?=
+ =?utf-8?B?NnJQKzg2Mk02OEFaS3p6TU92L2hZYlVuL252ZktFRFhXU1ZpblRyc0wxTmFp?=
+ =?utf-8?B?UWw2VmJoN212M3BneHRXWHdzelNkRGlvcDFXZWs3ZWdKcC9CKzluV1pZTzcy?=
+ =?utf-8?B?UVF1SHlGZ2hjWWFjOGE2WlNEMTk5TkFnUytDMGJLV3BOdlVteEpCbktvWStR?=
+ =?utf-8?B?VHFuZHhRVHNHai92d0o2WUZHT3pmUkhXN2NJT0tQdnJ4VE15SkNKZ1ZzeHZV?=
+ =?utf-8?B?QngzdHJJN2dxbjJ1SWNLaUhCUENvSXc3b0FDdC9KT29vRGVLd1JwdHVNMEdt?=
+ =?utf-8?B?bmVHZDJhZ3hxNW5mYWQ0dE5yaWtjWHlRcm5IekRneTFXWVNWajdDbnQxNEpN?=
+ =?utf-8?B?NDNETVM2TlJwQVdROFlwUStPQkZGQ2VNVjRlT3NIZDdmL1FvYkhWdlkwdE1q?=
+ =?utf-8?B?TXd1MFVMNGZGTEtJRnZBT1dISDQ4YnBISUVzbWFIVktUQWFyNVFuUFhQbTM0?=
+ =?utf-8?B?bUJKWmQvSkxzelZ2eVo1azc2YVFmazQxS1NMd2dWQ0R3NGdWNUZIWVpMdjlV?=
+ =?utf-8?B?a3c0QnFZNHV0aG8rU3lKSmxFaWJlTm1tenVqQlhIQ0doajFDMjE2WVB6SzNN?=
+ =?utf-8?B?Vk5SQ1g5bi9QalN2S3hiZWkwbk5MRlBpdk5BaTM1L0xvY0NBaENZbUdXZnZ6?=
+ =?utf-8?B?Skllayt0WHl3b0lRY3pBY1BFdGpFOEhNMUpKZkdqcEJWVUhMU1dGcmk4WWZk?=
+ =?utf-8?B?RDJBTThOSUhzcU5WbjdEdGtSU0FicHlMZkNaaE9Id3l4R3RXcTRMZVB0bGdm?=
+ =?utf-8?B?cy82aXJhdnNGcllFNFEyM1Y5M0s2SG5DOVdDUm5FbjdnUForVlJaVVVjMUFG?=
+ =?utf-8?B?enAyU0VOM0JtcTZTR0Z5bEJSQUliZFlBUDhzdVhIOFZHUzNNQnpjeWZQbHcx?=
+ =?utf-8?B?NWgrNWliRjRzTlV0NGIzRXAxYmxyTExvbGE5Wk82V1ZFRFRmaW9ucnB4SE01?=
+ =?utf-8?B?ZE91dWhqWlg4TWo4TlB0aTlvSVNudDhCTVNFSXI0T2VEN0JWWTF4Nml0aHRT?=
+ =?utf-8?B?N3hIQU51SlNxU013dGJySU9Rc09NdGRsYmJzV3NzRWlVZm9RWXlTYnFmYUdj?=
+ =?utf-8?B?Q1VCWCtjVDJIL0JFNmhhNWFoY1BFUnJpYmdTM1QzKzZobzg1UEN6d3ZSM2ZP?=
+ =?utf-8?B?UnN5STVEK0xzN2F2bURDcGJIbVk5VkVBSWVkNTlBeGEwc3dVYjNhVEhHY0Mv?=
+ =?utf-8?B?R096TXlzdXo3NEVGYWlTL0ExNjE4aUFJUjlLdmdPRDZLdzVySklwOXdtd2lo?=
+ =?utf-8?B?QitlSUpmSTVjWHp4eW41T20vdjJtckdGeHV1Ukh1cSsrOVZGbGhsUUU3MWg1?=
+ =?utf-8?B?WGNCUTEvRWxLUDBGcGdhdlQ1Z2R4NkJha1FySERUeEs3SE5ERmxwK0V1aThQ?=
+ =?utf-8?B?dnQvZHJUYWptTFhXTnlCQXpBREd0T2hrckY4Zjg4YnpCbzd0OTdlNkxnWEN1?=
+ =?utf-8?B?UVlkZ2JpMUdOcnRlL0tSZXlEelM5YjlibjBzTFdidGpzSU1GVytpY3pDcy9P?=
+ =?utf-8?B?RUE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C87D3FC4A62B1140BA43D6612E439CEE@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|SJ1PR12MB6172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 94250a27-fe77-43d4-082f-08dc3f30c58b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	2rQhaPS/1DPGgg1SgeCunMolxf8tMfMg9MMubIbFkjXvLxon3tjKR3kAel0RjHJINZ8OFSsUYyntO4QiN9cfCOcFImBr16xqGN+Oh2uy2k2+g2cIzvQjJjCaq+db96vtVYI3cxf2oqdVbwJpn/SFTPcpDfuL5mKDv4PqZgJCYO+6Xdd5Wjp+Q9m1eZvsPeUXjymLKEfdxsKDXZtwQh7/0d5xi5QVPUWtHaYHSBLpBkKUYKcH5P2RgouIAQ57pozI7gFlqxTRkTtOPEslgYwGQ5vLI/hpRwVRsBi1v+TYZvRBmVUUcfsGpt8BCle233fPgBI1bAeKSWO3NRFDd2iFDPa12dk3GUt5Ua9LO9X4oqNmhESVmYoJslTH2YnHc5SrQBrjbeQx/umOsjc1S6bbI0DL8687YJgS6d18N91N77yKbRJoHgAr2jBqMNWBE1mUn+D33jNhtZolr/7odG51xgL4v0E/3CruSIx3BldNSkWzplbgsoEg8BkoffXWNSCf9VaKMZIvZMS7xsepkHHAcKHMBrPHJTo27V3d8ctCoe5DnAWfp1bSNe1KKX+bQPqCbE9oHhKmTdKjyeJYMxjUlRH5W5Cw7w+1xtE6Tecur4YSXPLuifLzWjHbLzbvK7W2L0VHLqzRMUe1zHhu1oYcpvRiMKZghJp8vIQYufEm6Qo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BQIFm+P1PoQcVwfWoWDU2qeJe01rBH/mkGCYbq/mNt/DBv6SkvdYMNhmPC47?=
- =?us-ascii?Q?M9c7hLp4seTGN1gVCNqQa3oPQfP/5MWnTu1Wh2mTiqXqXtfymB9bNuqO/tHr?=
- =?us-ascii?Q?ZS88y6WFZG+rr84LpfXWuA3n6w7XWM/Gi5MNZHddvFN/b3zl88CjKkTnUEae?=
- =?us-ascii?Q?QON8imCnoz5ywplpwbZYnCgMsP5MUZlAv8AkV2LSuAtz4UrHx/gyN7RHKEQg?=
- =?us-ascii?Q?f/Sk2KZ+0YR+X3WttiJXOmksbctmI5MZu0LYhS/M9U/kcXxSTwNVFvipU1Kb?=
- =?us-ascii?Q?iUv5vza7NI6qaOF3lO6mvSU9M2c+ypNLmeUpdDFkNYfYmOodyRb9B8jpzsYw?=
- =?us-ascii?Q?q9ydG+CUq7QWexwjgGnDKHHZTk57LTfvQmZGuZmrp+0t+ujlgDZKGd34QqCW?=
- =?us-ascii?Q?DKDKO1AyixP5gmAyoOoLm6GxzgQZAEmDgH8NxhWRmFuqH62rGW7aq9rmrviy?=
- =?us-ascii?Q?3QUTyko6U6pEC3lkhX0XvBXL4LoyIOFvy4A8tVc+lckw7FipgpN/M5jQOdXj?=
- =?us-ascii?Q?6nJhr5y5MKA7Uv9Ar2WZ54Ig2qxz4GIo6krEL/OOWyTj9stV4UHNQbPmxbrE?=
- =?us-ascii?Q?MBHFRfhbe7IDuI1oNX5h5YwnjZCmXjzcsBuH0ztBg3ZlmLAvOh8QqD9GBU3a?=
- =?us-ascii?Q?jE3b6KPj17qfLtVxSJ4Ej6C9qM2/QUth9JgKjDTWuq4ZgZYYGr8CLHox/vnS?=
- =?us-ascii?Q?X4i/Ah0uwDuzyzSKdmyaKNetdgHqfcDBxYErIzRAyvsa50gsHNvZ+WJEo/Qn?=
- =?us-ascii?Q?4xanBkUXlHdKgLITmCkx+h7dAvTb+6XaHUcUjTx5887DYHtv2sXkVN11hSdm?=
- =?us-ascii?Q?WP63wnJkCR5TNw35MXZ9YJjCk1Ggvc3rKyzxWYOFSbJvEC5CbbQrdYj5l/Cf?=
- =?us-ascii?Q?CUUlSCoKT7jXusOtB/QoCD+xG02C7H+Oqy0aL0lRyg70Y2PnFMlg/j2LiogJ?=
- =?us-ascii?Q?/WG7s/Zd21+TQCkRioCQGIDlJDgAvKyoAE5unFSyDJVBhwZpC+8YZYM/dw2G?=
- =?us-ascii?Q?5r15dWQbzy5rsARpxddMgSfSEfL/8g2gZ425Ha3BsUtfGbLKGNnOBIztJtNm?=
- =?us-ascii?Q?r3NhNpjf2RZO97nR5XdxCq4WMde+mHdcJgh7Zi7Bj8k4LKk0fBLpre5pKLuj?=
- =?us-ascii?Q?McFw7J1X2CIUXP7CuaHUZyLqVTuiBJr09zfN0nFZdMKJ2Q+Q0UNjwKKwHC6d?=
- =?us-ascii?Q?HxhhmuqUr3zd3INpe1s6ToxepmEhDYYp941erRWEcP3HTpe2U89CduckCIY8?=
- =?us-ascii?Q?+Y/xoZA5bP22L5kPJOqhxKKLjfg6Aajv/XRYi8kN5tVw/s6pBzv6KIoM9Ug5?=
- =?us-ascii?Q?ASOk2ZvqdSwUC21X0yPEbBeDKTUxUHWNqSu2vZZxFm0qHYrFz+/pP6IziE3s?=
- =?us-ascii?Q?A+70cz6YtcaAo1mvUqJ6XQ/NdbLudEPc9HDMoGdPMoHasBUx97JmNFkeXDih?=
- =?us-ascii?Q?T+eKnYrfXKCH/V4sXf+YjYfjkI0WCPVjEIiEKhhYQKxWrsVNvlZNpYP0H1Md?=
- =?us-ascii?Q?yrOAhgYZlm9NvwQMiPOYYtCEHoksXPZotDfORhfrAMOk6nTekGhxImlMBhMB?=
- =?us-ascii?Q?0foQyUGGGeCcGyUPVFYuGFZdFe5zsIVUlMA05Ia3?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94250a27-fe77-43d4-082f-08dc3f30c58b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2024 05:29:48.6638
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88ccfb7d-8c0a-4372-aae9-08dc3f3f13ab
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 07:12:12.5160
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uWogxAT3KS50jz7dVqgaNzWcc9vbtQ8brME/8mt+MlkIlVKNJbasRpyZdTfrWUg3gtQCwRGtV0lGoBgCq7momA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6172
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9wlOgRFt5E8NHIm785ER85NHKmEGuZ5av3w3S2+O0YdxUHHe1xmgcg1VretEvyj13leWEGFc5DMYemwaVtAfabR+U+qRajp5dWKtgAJ3dRglVxPHPVV6Ps/7aHn7bOLA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8467
 
-
-On Thu, 07 Mar, 2024 19:29:08 -0800 Jacob Keller <jacob.e.keller@intel.com> wrote:
-> On 3/7/2024 10:47 AM, Rahul Rameshbabu wrote:
->> Hi Jacob,
->> 
->> On Mon, 26 Feb, 2024 11:54:49 -0800 Jacob Keller <jacob.e.keller@intel.com> wrote:
->>> On 2/23/2024 3:43 PM, Rahul Rameshbabu wrote:
->>>>
->>>> On Fri, 23 Feb, 2024 14:48:51 -0800 Jacob Keller <jacob.e.keller@intel.com>
->>>> wrote:
->>>>> On 2/23/2024 2:21 PM, Rahul Rameshbabu wrote:
->>>>>> Do you have any example of a case of skipping timestamp information that
->>>>>> is not related to lack of delivery over time? I am wondering if this
->>>>>> case is more like a hardware error or not. Or is it more like something
->>>>>> along the lines of being busy/would impact line rate of timestamp
->>>>>> information must be recorded?
->>>>>>
->>>>>
->>>>> The main example for skipped is the event where all our slots are full
->>>>> at point of timestamp request.
->>>>
->>>> This is what I was guessing as the main (if not only reason). For this
->>>> specific reason, I think a general "busy" stats counter makes sense.
->>>> mlx5 does not need this counter, but I can see a lot of other hw
->>>> implementations needing this. (The skipped counter name obviously should
->>>> be left only in the ice driver. Just felt "busy" was easy to understand
->>>> for generalized counters.)
->>>
->>> Yea, I don't expect this would be required for all hardware but it seems
->>> like a common approach if you have limited slots for Tx timestamps
->>> available.
->>>
->> Sorry to bump this thread once more, but I had a question regarding the
->> Intel driver in regards to this. Instead of having a busy case when all
->> the slots are full, would it make sense to stop the netdev queues in
->> this case, we actually do this in mlx5 (though keep in mind that we have
->> a dedicated queue just for port/phy timestamping that we start/stop).
->> 
->> Maybe in your case, you can have a mix of HW timestamping and non-HW
->> timestamping in the same queue, which is why you have a busy case?
->> 
->
-> We don't use a dedicated queue. The issue isn't queue capacity so much
-> as it is the number of slots in the PHY for where it can save the
-> timestamp data.
-
-In mlx5, we use a dedicated queue just for the purpose of HW
-timestamping because we actually do have a similar slot mechanism. We
-call it metadata. We have a limit of 256 entries. We steer PTP traffic
-specifically (though we will be changing this to any HW timestamped
-traffic with the work Kory is doing) to this queue by matching against
-the protocol and port. All other traffic goes to the normal queues that
-cannot consume the timestamping slots. When all the slots are occupied,
-we stop the timestamping queue rather than throwing some busy error.
-
->
-> In practice the most common application (ptp4l) synchronously waits for
-> timestamps, and only has one outstanding at a time. Likely due to
-> limitations with original hardware that only supported one outstanding
-> Tx timestamp.
->
->> Wanted to inquire about this before sending out a RFC v2.
->
-> That's actually an interesting approach to change to a dedicated queue
-> which we could lock and start/stop it when the indexes are full. How
-> does that interact with the stack UDP and Ethernet stacks? Presumably
-> when you go to transmit, you'd need to pick a queue and if its stopped
-> you'd have to drop or tell the stack?
-
-Let me share a pointer in mlx5 for how we do the queue selection. Like I
-mentioned, we steer ptp traffic specifically, but we can change this to
-just steer any skb that indicates hw timestamping.
-
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.h?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n71
-
-Then, here is how we manage stopping and waking the queue (we tell the
-core stack about this so we do not have to drop traffic due to some kind
-of busy state because our metadata/slots are all consumed).
-
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n775
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en/ptp.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n257
-* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c?id=3aaa8ce7a3350d95b241046ae2401103a4384ba2#n397
-
->
-> I think I remember someone experimenting with returning NETDEV_TX_BUSY
-> when the slots were full, but in practice this caused a lot of issues.
-> None of the other devices we have with only a single slot (one set of
-> registers, ixgbe, i40e, igb, e1000) did that either.
-
-So we experimented that even with a single slot (we had reasons for
-testing this), the dedicated queue for timestamping worked out nicely. I
-really would suggest investigating this model since I think it might
-play out nicely for the Intel family.
-
->
-> If this queue model behaves in a sane way (or if we can communicate
-> something similar by reporting back up the stack without needing a
-> dedicated queue?) that could be better than the current situation.
-
-I personally really like the dedicated queue in the device drivers, but
-if we want to instead model this slot management work in the core netdev
-stack, I do not think that is a bad endeavor either (when slots are
-full, hw timestamping traffic is held back till they become available).
-I do think the netif_tx_wake_queue/netif_tx_stop_queue + dedicated HW
-timestamping queue does work out nicely.
-
-Let me know your thoughts on this. If you think it's an interesting idea
-to explore, lets not add the busy counter now in this series. I already
-dropped the late counter. We can add the busy counter later on if you
-feel this model I have shared is not viable for Intel. I wanted to avoid
-introducing too many counters pre-emptively that might not actually be
-consumed widely. I had a thought that what you presented with slots is
-very similar to what we have with metadata in mlx5, so I thought that
-maybe handling the management of these slots in a different way with
-something like a dedicated queue for HW timestamping could make the
-design cleaner.
-
---
-Thanks,
-
-Rahul Rameshbabu
+SGkgQW5kcmV3LA0KDQpPbiAwNy8wMy8yNCA2OjUyIHBtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
+RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
+bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBPbiBUaHUsIE1hciAwNywg
+MjAyNCBhdCAwNzowNDoyMEFNICswMDAwLCBQYXJ0aGliYW4uVmVlcmFzb29yYW5AbWljcm9jaGlw
+LmNvbSB3cm90ZToNCj4+IEhpIEFuZHJldywNCj4+DQo+PiBPbiAwNy8wMy8yNCA1OjQ5IGFtLCBB
+bmRyZXcgTHVubiB3cm90ZToNCj4+PiBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGxpbmtz
+IG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUN
+Cj4+Pg0KPj4+PiAgICBlbnVtIG9hX3RjNl9yZWdpc3Rlcl9vcCB7DQo+Pj4+ICsgICAgIE9BX1RD
+Nl9DVFJMX1JFR19SRUFEID0gMCwNCj4+Pj4gICAgICAgICBPQV9UQzZfQ1RSTF9SRUdfV1JJVEUg
+PSAxLA0KPj4+PiAgICB9Ow0KPj4+DQo+Pj4gSSB0aG91Z2h0IGl0IGxvb2tlZCBhIGxpdHRsZSBv
+ZGQgd2hlbiB0aGUgZW51bSB3YXMgYWRkZWQgaW4gdGhlDQo+Pj4gcHJldmlvdXMgcGF0Y2ggd2l0
+aCB0aGUgZmlyc3QgdmFsdWUgb2YgMSwgYW5kIG9ubHkgb25lIHZhbHVlLiBOb3cgaXQNCj4+PiBt
+YWtlcyBtb3JlIHNlbnNlLg0KPj4gT2suDQo+Pj4NCj4+PiBUaGUgYWN0dWFsIHZhbHVlIGFwcGVh
+cnMgdG8gbm90IG1hdHRlcj8gSXQgaXMgYWx3YXlzDQo+Pj4NCj4+Pj4gKyAgICAgaWYgKHJlZ19v
+cCA9PSBPQV9UQzZfQ1RSTF9SRUdfV1JJVEUpDQo+Pj4NCj4+PiBTbyBpIHdvdWxkIGRyb3AgdGhl
+IG51bWJlcmluZywgYW5kIGxlYXZlIGl0IHRvIHRoZSBjb21waWxlci4gVGhlDQo+Pj4gcGF0Y2hl
+cyB3aWxsIHRoZW4gbG9vayBsZXNzIG9kZC4NCj4+ICJkcm9wIHRoZSBudW1iZXJpbmciLCBkbyB5
+b3UgcmVmZXIgdG8gdGhpcyBwYXRjaCBhbG9uZSBvciBwcmV2aW91cyBwYXRjaA0KPj4gYWxzbz8g
+SWYgaXQgaXMgZm9yIHRoaXMgcGF0Y2ggYWxvbmUgdGhlbiBpdCBtYWtlcyBzZW5zZSBhcyB0aGV5
+IGFyZQ0KPj4gZ29pbmcgdG8gYmUgMCBhbmQgMSBhbnl3YXkuIEJ1dCBpZiB3ZSBkcm9wIHRoZSBu
+dW1iZXJpbmcgaW4gdGhlIHByZXZpb3VzDQo+PiBwYXRjaCBpdCB3aWxsIGJlY29tZSAwIHdoaWNo
+IHdpbGwgY3JlYXRlIGFuIGlzc3VlIGluIHRoZSBiZWxvdyBsaW5lIGFzDQo+PiBpdCBuZWVkcyAx
+LA0KPj4NCj4+IEZJRUxEX1BSRVAoT0FfVEM2X0NUUkxfSEVBREVSX1dSSVRFLCByZWdfb3ApDQo+
+IA0KPiBUaGF0IGlzIHdoeSBpIGFza2VkOg0KPiANCj4+IFRoZSBhY3R1YWwgdmFsdWUgYXBwZWFy
+cyB0byBub3QgbWF0dGVyPyBJdCBpcyBhbHdheXMNCj4+DQo+PiArICAgICBpZiAocmVnX29wID09
+IE9BX1RDNl9DVFJMX1JFR19XUklURSkNCj4gDQo+IFNvIHRoZSBhY3R1YWwgdmFsdWUgZG9lcyBt
+YXR0ZXIsIHNvIGtlZXAgaXQgaW4gdGhlIHByZXZpb3VzIHBhdGNoLg0KPiBEb2VzIHRoZSB2YWx1
+ZSBvZiBPQV9UQzZfQ1RSTF9SRUdfUkVBRCBtYXR0ZXI/IElzIGl0IGFsc28gdXNlZCBpbg0KPiBG
+SUVMRF9QUkVQIGV0Yz8gSWYgbm90LCB0YWtpbmcgYXdheSB0aGUgPSAwIHdpbGwgZW1waGFzaXNl
+IHRoYXQNCj4gT0FfVEM2X0NUUkxfUkVHX1dSSVRFIGhhcyB0byBiZSAxLg0KU29ycnksIEkgaGF2
+ZSBkb25lIGEgbWlzdGFrZSBoZXJlIHRoYXQncyBjb25mdXNpbmcuIFRoZSBkZWZpbmUgbmFtZSAN
+Ck9BX1RDNl9DVFJMX0hFQURFUl9XUklURSBpbiB0aGUgRklFTERfUFJFUCBpcyBzdXBwb3NlZCB0
+byBiZSANCk9BX1RDNl9DVFJMX0hFQURFUl9XUklURV9OT1RfUkVBRC4gVGhpcyBiaXQgZmllbGQg
+aW4gdGhlIGNvbnRyb2wgY29tbWFuZCANCmhlYWRlciBkaWZmZXJlbnRpYXRlcyB0aGUgdHlwZSBv
+ZiBvcGVyYXRpb24uIElmIGl0IGlzIDAsIHRoZW4gcmVnaXN0ZXIgDQpyZWFkIGNvbW1hbmQgYW5k
+IGlmIGl0IGlzIDEsIHRoZW4gcmVnaXN0ZXIgd3JpdGUgY29tbWFuZC4gU28gcmVnb3AgaW4gDQp0
+aGUgRklFTERfUFJFUCBhY3R1YWxseSBzZXRzIHRoZSB0eXBlIG9mIG9wZXJhdGlvbi4NCg0KVGhl
+IHZhbHVlcyBvZiBib3RoIE9BX1RDNl9DVFJMX1JFR19SRUFEIGFuZCBPQV9UQzZfQ1RSTF9SRUdf
+V1JJVEUgYXJlIA0KbWF0dGVycyBoZXJlLiBTbyBsZXQncyBrZWVwIHRoZSBudW1iZXJpbmcgZm9y
+IGJvdGggYXMgaXQgaXMgbm93LiBCdXQgSSANCndpbGwgY2hhbmdlIHRoZSBiaXQgZmllbGQgZGVm
+aW5lIG5hbWUgYXMgDQpPQV9UQzZfQ1RSTF9IRUFERVJfV1JJVEVfTk9UX1JFQUQgaW4gdGhlIG5l
+eHQgdmVyc2lvbi4gSG9wZSB5b3UgYXJlIGZpbmUgDQp3aXRoIGl0Pw0KDQpCZXN0IHJlZ2FyZHMs
+DQpQYXJ0aGliYW4gVg0KPiANCj4gICAgICAgICAgQW5kcmV3DQo+IA0KDQo=
