@@ -1,322 +1,159 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD06E134A9;
-	Fri,  8 Mar 2024 12:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EC936132;
+	Fri,  8 Mar 2024 13:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709902034; cv=none; b=L+q2+lwh7qwh01xD3bmMHoWhuXxbnb5Z2xyAmF9bl/w0gXbM9vmLP9/Y6OSLudszB+fFyWt5bGaxLqGxPU3NlFO0F1Jsp/HH/8T2JL8Ad95voibMwqCjMqJiRSTOqRVYDYolA4aLyrwAEdZu/thZHnoa7CEL2KiKXivunLNSeOc=
+	t=1709904781; cv=none; b=PZGsISfSOBWUyvaqiy0I+Fej3v4idHF8hAK7G7g/IoX4t8me+fE3rys0wmoUJezwta6E6UTmj6u3i8S21n0SoqvwBTX7e8yD+S+YghbAR70AV1E0tq5fffLfI+8NzYqdEuiYWAU/n/1KSzADMtmSnwSUQf5/bp1Gk8RFqoe0qS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709902034; c=relaxed/simple;
-	bh=r0E8P3eS2fPLIZC/WXD3R6+t1g6tiVHRmSxOWR+UqQQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iWwLmMXFim/DoVIkVqLdd4fA/jA1T0roKAR56uLN4IzoNlItD1/b0ocGTgS/pz6wRAE/idvYtxLjdKQCgpg0o0PKSiCf+2xbV1pjWLaCec3e5WzlIAXl4htqQNMjcL7H3Sb9aO18ZEkZ0KadG9Fbe4fUMVTw9CrwnLkg6kTteu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=FYIJisH5; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1709904781; c=relaxed/simple;
+	bh=Vv/Jufa5OVNBfy5C9TR6DMNWeexhQbgcJrBdXPQc34M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LxjZ5Ep/ztX2rrIZ5hnauYLkHBNnsvCYd1u/T7VxTi3Gk3iCNxujbpCum2UYZH3Fx4wx/4rpttqPoxwArF32HT9WlFMxOIYcbtgXMg8QV/gg0FQE8tRENUjIDmi18YXfUO4zz0C7S5sBV0ImKG1pnYrVG7EgH8khlS+9kpz6Axs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2PV1xcV7; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="FYIJisH5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1709902031; x=1741438031;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OqWbJSFvT2mL6M2CdG7o1ku+JZOpcSiYXFT30Jidi48=;
-  b=FYIJisH5MAMvOfTvUKo6sGRO1TRwFnLZG1rICIT3dzM0LiSxlZFH2M7g
-   txptwNSKximNB3UsUcFYPJIspWpeTRywCFu0x5Inkfmcy45581cXJvI+A
-   OpXCIBIdyDanwFE6R11DSXsj1+ar95YDW3SScHDwRblClDbf+63O813zL
-   tqNTa2T17rP/cV93QwrqkhGOKMxIlAkcTMYMTVxuKeqefE7c1LQ6Yav8s
-   WdNG0/ADtfnl8OaJ/XiMPYmSlzTN+a+ThbMGGa61HjLcgK/oCwTEB5IvA
-   sGVjqUCkarnINsXVn88IXeO5Juo4rcT8dmqDgissViTMV1MWXjQhlABPL
-   g==;
-X-IronPort-AV: E=Sophos;i="6.07,109,1708383600"; 
-   d="scan'208";a="35809634"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 08 Mar 2024 13:47:07 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E1DF028007C;
-	Fri,  8 Mar 2024 13:47:06 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v8 20/27] drm/connector: hdmi: Add Infoframes generation
-Date: Fri, 08 Mar 2024 13:47:08 +0100
-Message-ID: <3612623.R56niFO833@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
-References: <20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org> <20240307-kms-hdmi-connector-state-v8-20-ef6a6f31964b@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2PV1xcV7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=XLhNZiOAtOVRkJtnzxKeO+RebX+VweC9Qi0gKqLYSug=; b=2P
+	V1xcV7e67+qNS5SLuC5sqbbw9rDlaK2j5FirbwEh1W6qRIWu1x6badEuka4IXZdSywzw2SKUs9+2P
+	DsBNlPo/f9QfW7v7AkNLkJ7q81VaZdsoviLrpbgxojk3QieSoy+8/gUI+xPrG1FPEEuVGClV3wi6r
+	EBff0q/VkXEAGmU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1riaLY-009lXx-Kv; Fri, 08 Mar 2024 14:33:12 +0100
+Date: Fri, 8 Mar 2024 14:33:12 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
+ internal PHY initialization
+Message-ID: <8de7a4bb-a127-4771-97dd-038f08fcce9d@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
+ <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
+ <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
+ <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
+ <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
 
-Hi Maxime,
+> Ok, as per the table 6 in the spec, PHY C45 registers are mapped in the 
+> MMS like below,
+> 
+> PHY – PCS Registers (MMD 3)  --->  MMS 2
+> PHY – PMA/PMD Registers (MMD 1)  --->   MMS 3
+> PHY – Vendor Specific and PLCA Registers (MMD 31)  --->  MMS 4
+> PHY – Auto-Negotiation Registers (MMD 7)  --->  MMS 5
+> PHY – Power Unit (MMD 13)  --->  MMS 6
+> 
+> MMD 13 for PHY - Power Unit is not defined in the mdio.h. So in the 
+> below code I have defined it locally (MDIO_MMD_POWER_UNIT). May be 
+> needed to do this in the mdio.h file when coming to this patch.
 
-Am Donnerstag, 7. M=E4rz 2024, 14:38:47 CET schrieb Maxime Ripard:
-> Infoframes in KMS is usually handled by a bunch of low-level helpers
-> that require quite some boilerplate for drivers. This leads to
-> discrepancies with how drivers generate them, and which are actually
-> sent.
->=20
-> Now that we have everything needed to generate them in the HDMI
-> connector state, we can generate them in our common logic so that
-> drivers can simply reuse what we precomputed.
->=20
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/Kconfig                            |   1 +
->  drivers/gpu/drm/drm_atomic_state_helper.c          | 327 +++++++++++++++=
-++++++
->  drivers/gpu/drm/drm_connector.c                    |  14 +
->  .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->  drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->  include/drm/drm_atomic_state_helper.h              |   8 +
->  include/drm/drm_connector.h                        | 133 +++++++++
->  7 files changed, 496 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 872edb47bb53..ad9c467e20ce 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->  	  If in doubt, say "N".
-> =20
->  config DRM_KMS_HELPER
->  	tristate
->  	depends on DRM
-> +	select DRM_DISPLAY_HDMI_HELPER
->  	help
->  	  CRTC helpers for KMS drivers.
-> =20
->  config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->          bool "Enable refcount backtrace history in the DP MST helpers"
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/=
-drm_atomic_state_helper.c
-> index e66272c0d006..46d9fd2ea8fa 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> [snip]
-> @@ -958,10 +1100,195 @@ int drm_atomic_helper_connector_hdmi_check(struct=
- drm_connector *connector,
-> =20
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_check);
-> =20
-> +#define HDMI_MAX_INFOFRAME_SIZE		29
-> +
-> +static int clear_device_infoframe(struct drm_connector *connector,
-> +				  enum hdmi_infoframe_type type)
-> +{
-> +	const struct drm_connector_hdmi_funcs *funcs =3D connector->hdmi.funcs;
-> +
-> +	if (!funcs || !funcs->clear_infoframe)
-> +		return 0;
-> +
-> +	return funcs->clear_infoframe(connector, type);
-> +}
-> +
-> +static int clear_infoframe(struct drm_connector *connector,
-> +			   struct drm_connector_hdmi_infoframe *conn_frame,
-> +			   struct drm_connector_hdmi_infoframe *old_frame)
-> +{
-> +	int ret;
-> +
-> +	ret =3D clear_device_infoframe(connector, old_frame->data.any.type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(old_frame, 0, sizeof(*old_frame));
-> +
-> +	return 0;
-> +}
-> +
-> +static int write_device_infoframe(struct drm_connector *connector,
-> +				  union hdmi_infoframe *frame)
-> +{
-> +	const struct drm_connector_hdmi_funcs *funcs =3D connector->hdmi.funcs;
-> +	u8 buffer[HDMI_MAX_INFOFRAME_SIZE];
-> +	int len;
-> +
-> +	if (!funcs || !funcs->write_infoframe)
-> +		return -ENOSYS;
-> +
-> +	len =3D hdmi_infoframe_pack(frame, buffer, sizeof(buffer));
-> +	if (len < 0)
-> +		return len;
-> +
-> +	return funcs->write_infoframe(connector, frame->any.type, buffer, len);
-> +}
-> +
-> +static int write_infoframe(struct drm_connector *connector,
-> +			   struct drm_connector_hdmi_infoframe *conn_frame,
-> +			   struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +	int ret;
-> +
-> +	ret =3D write_device_infoframe(connector, &new_frame->data);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (conn_frame)
-> +		memcpy(conn_frame, new_frame, sizeof(*conn_frame));
-> +
-> +	return 0;
-> +}
-> +
-> +static int write_or_clear_infoframe(struct drm_connector *connector,
-> +				    struct drm_connector_hdmi_infoframe *conn_frame,
-> +				    struct drm_connector_hdmi_infoframe *old_frame,
-> +				    struct drm_connector_hdmi_infoframe *new_frame)
-> +{
-> +	if (new_frame->set)
-> +		return write_infoframe(connector, conn_frame, new_frame);
-> +
-> +	if (old_frame->set && !new_frame->set)
-> +		return clear_infoframe(connector, conn_frame, old_frame);
-> +
-> +	return 0;
-> +}
-> +
-> +#define UPDATE_INFOFRAME(c, os, ns, i)				\
-> +	write_or_clear_infoframe(c,				\
-> +				 &(c)->hdmi.infoframes.i,	\
-> +				 &(os)->hdmi.infoframes.i,	\
-> +				 &(ns)->hdmi.infoframes.i)
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_infoframes - Update the Infof=
-rames
-> + * @connector: A pointer to the HDMI connector
-> + * @state: The HDMI connector state to generate the infoframe from
-> + *
-> + * This function is meant for HDMI connector drivers to write their
-> + * infoframes. It will typically be used in a
-> + * @drm_connector_helper_funcs.atomic_enable implementation.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connec=
-tor *connector,
-> +						       struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *old_state =3D
-> +		drm_atomic_get_old_connector_state(state, connector);
-> +	struct drm_connector_state *new_state =3D
-> +		drm_atomic_get_new_connector_state(state, connector);
-> +	struct drm_display_info *info =3D &connector->display_info;
-> +	int ret;
-> +
-> +	if (!info->is_hdmi)
-> +		return 0;
-> +
-> +	if (!info->has_hdmi_infoframe)
-> +		return 0;
-> +
-> +	mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, avi);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (connector->hdmi.infoframes.audio.set) {
-> +		ret =3D write_infoframe(connector,
-> +				      NULL,
-> +				      &connector->hdmi.infoframes.audio);
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, hdr_drm);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, spd);
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret =3D UPDATE_INFOFRAME(connector, old_state, new_state, hdmi);
-> +	if (ret)
-> +		goto out;
-> +
-> +out:
-> +	mutex_unlock(&connector->hdmi.infoframes.lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_infoframes);
-> +
-> +#undef UPDATE_INFOFRAME
-> +#undef UPDATE_INFOFRAME_TOGGLE
+Yes, please add it to mdio.h
 
-UPDATE_INFOFRAME_TOGGLE seems to never be defined.
+> /* PHY – Clause 45 registers memory map selector (MMS) as per table 6 in 
+> the OPEN Alliance specification.
+>   */
+> #define OA_TC6_PHY_PCS_MMS2                     2       /* MMD 3 */
+> #define OA_TC6_PHY_PMA_PMD_MMS3                 3       /* MMD 1 */
+> #define OA_TC6_PHY_VS_PLCA_MMS4                 4       /* MMD 31 */
+> #define OA_TC6_PHY_AUTO_NEG_MMS5                5       /* MMD 7 */
+> #define OA_TC6_PHY_POWER_UNIT_MMS6              6       /* MMD 13 */
+> 
+> /* MDIO Manageable Device (MMD) for PHY Power Unit */
+> #define MDIO_MMD_POWER_UNIT                     13      /* PHY Power Unit */
+> 
+> static int oa_tc6_mdiobus_read_c45(struct mii_bus *bus, int addr, int 
+> devnum, int regnum)
+> { 
+> 
+>          struct oa_tc6 *tc6 = bus->priv; 
+> 
+>          u32 regval; 
+> 
+>          bool ret; 
+> 
+>          u32 mms; 
+> 
+>  
+> 
+>          if (devnum == MDIO_MMD_PCS) 
+> 
+>                  mms = OA_TC6_PHY_PCS_MMS2; 
+> 
+>          else if (devnum == MDIO_MMD_PMAPMD) 
+> 
+>                  mms = OA_TC6_PHY_PMA_PMD_MMS3; 
+> 
+>          else if (devnum == MDIO_MMD_VEND2) 
+> 
+>                  mms = OA_TC6_PHY_VS_PLCA_MMS4; 
+> 
+>          else if (devnum == MDIO_MMD_AN) 
+> 
+>                  mms = OA_TC6_PHY_AUTO_NEG_MMS5; 
+> 
+>          else if (devnum == MDIO_MMD_POWER_UNIT) 
+> 
+>                  mms = OA_TC6_PHY_POWER_UNIT_MMS6; 
 
-Best regards,
-Alexadner
+I would probably use a switch statement.
 
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update_audio_infoframe - Update the =
-Audio Infoframe
-> + * @connector: A pointer to the HDMI connector
-> + * @frame: A pointer to the audio infoframe to write
-> + *
-> + * This function is meant for HDMI connector drivers to update their
-> + * audio infoframe. It will typically be used in one of the ALSA hooks
-> + * (most likely prepare).
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_update_audio_infoframe(struct drm_conne=
-ctor *connector,
-> +							struct hdmi_audio_infoframe *frame)
-> +{
-> +	struct drm_connector_hdmi_infoframe infoframe =3D {};
-> +	struct drm_display_info *info =3D &connector->display_info;
-> +	int ret;
-> +
-> +	if (!info->is_hdmi)
-> +		return 0;
-> +
-> +	if (!info->has_hdmi_infoframe)
-> +		return 0;
-> +
-> +	memcpy(&infoframe.data, frame, sizeof(infoframe.data));
-> +	infoframe.set =3D true;
-> +
-> +	mutex_lock(&connector->hdmi.infoframes.lock);
-> +
-> +	ret =3D write_infoframe(connector,
-> +			      &connector->hdmi.infoframes.audio,
-> +			      &infoframe);
-> +
-> +	mutex_unlock(&connector->hdmi.infoframes.lock);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update_audio_infoframe);
-> +
->  /**
->   * __drm_atomic_helper_connector_duplicate_state - copy atomic connector=
- state
->   * @connector: connector object
->   * @state: atomic connector state
->   *
-> [snip]
+> 
+>          else 
+> 
+>                  return -ENOTSUPP; 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+802.3 says:
 
+  If a device supports the MDIO interface it shall respond to all
+  possible register addresses for the device and return a value of
+  zero for undefined and unsupported registers. Writes to undefined
+  registers and read-only registers shall have no effect. The
+  operation of an MMD shall not be affected by writes to reserved and
+  unsupported register bits, and such register bits shall return a
+  value of zero when read.
+
+So maybe return 0. ENOTSUPP is wrong, that is an NFS only error
+code. The generic one is EOPNOTSUPP. I would say -EOPNOTSUPP is also
+O.K.
+
+>          ret = oa_tc6_read_register(tc6, (mms << 16) | regnum, &regval); 
+> 
+>          if (ret) 
+> 
+>                  return -ENODEV; 
+
+oa_tc6_read_register() should return an error code, so return whatever
+is returns. Don't overwrite error codes. It makes it harder to track
+errors through the call stack.
+
+       Andrew
 
