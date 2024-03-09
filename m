@@ -1,172 +1,109 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B8D627
-	for <linux-doc@vger.kernel.org>; Sat,  9 Mar 2024 00:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD24125CA
+	for <linux-doc@vger.kernel.org>; Sat,  9 Mar 2024 01:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709944074; cv=none; b=kcM/KwTuXT0GVKoSO1QY0mKvqP7rdyqMrnGVnvz1KuUm/jIT2POZMA/he/8ssipA30Yp8Mdh0mupmgy4l/sRLb+ZthnJhW7k26HKzdbxBF5e8MSH3X1IHZj5K5MLWsrEAEcLzQAAvkPQ+LZiCXITqZmzC7FWHBoLZvw4UILsLyA=
+	t=1709946871; cv=none; b=iCQwtOa1bxHtVRQLCe+isB9JyO8N+w8Nv68VnRD1QN4QKM/q/MAJt/+pH61X3DEVkTUy52s9+lQVI3Zp5xVhs8/aiGF6KU8P/yw84voxBfpjPiHg56mrXaRoyXy3vyo6YraPIKbXkMtaPjYiWXVly4YZd3XUDwu9oV/dK6ZmfiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709944074; c=relaxed/simple;
-	bh=UAHNOoQOfnXGU4ynjW3Di4sMLSMOx0hwkdhyKrO246c=;
+	s=arc-20240116; t=1709946871; c=relaxed/simple;
+	bh=PVSSW/TRZScbGAXptUtzNMhjOI0JAjP3o2LHf4YtFlE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OalosHGxl19xTSTElSYob9qiANfcAB8f07gsVIvcaUQo4Ue8mFx7VNgvR8QdzQx46HNUWr1hQG8E/rR7YLWYz6o08aA4EhT53xsFyjuw1x2UjZDvYiuFt3R5KgnpCX2luU0pW7e87WfpdqyKiwHAcoR6sxnezqC7+Hv//67M1SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cKLX+2Aa; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=ufZyJZWL/E8Tu+Y7TOfR3POfg4Z1BJh5pv5KpjavKrUSVf1zpgrfueCRsQhj7gboE1uXJEe071keJWfjo8BKsxyXIazCxWhtUFQuNi8Q3c1nYHIKPi9MuptStJezqSLmhJMOy0fcwYo4iAr22NnKANlIsb+M4ouifCYb4ZvvY18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Y1ZITEOE; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cKLX+2Aa"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a44d084bfe1so174813866b.1
-        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2024 16:27:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Y1ZITEOE"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-609408d4b31so27150827b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 08 Mar 2024 17:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1709944071; x=1710548871; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1709946868; x=1710551668; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EWYfh9XoJurOTi8J7CJKHaNZmYFNooi7e3RylW8C//Y=;
-        b=cKLX+2AaXAKsbJm0yJSoV5EfK47mkTHgBxnjzLm3Qi+mbVTJ0/35N0WYiav0SapGJM
-         cDyGrmHJrruoMoMLbe1jOUloQx5t4MAi4aNwOQY0tF21GKFBaIbyB/l1TEL/VySh/Mik
-         uhP1cbY/yn+43G6SGbVcuyZnEEPvvCMiXnZzryMRsh8Odw3H7pu5pO3+Xv/68hE6he8H
-         ZAR9cxuAP0O2ixXqz107LMaGDHHGH3a2etOdS48euG1nmkimVqQO91HOAsFYAgNUbZv7
-         gdlKD2Ge6lIpNV+E+cB7LDUcbiPqA15QcEwaIAxb+3xOnQn/QxOZXkzs8kwfH8dshzUL
-         sTKw==
+        bh=KPz2z6DvnJxq/mvZY2AzEM7nepXgQps0sd3FnWYy8AY=;
+        b=Y1ZITEOEQMcPGo0IG+gwiGch8CnQXfEH4HEZKP2VNMxLUEtC0/XKnlmtFb01oTOAoM
+         bUlhF//VTz39WdyQJ4aNxBCGDXS2HHz8fRKSaeXfnzQg/WmzaJdmlHo4tS+0cUaCQBMS
+         pUqke+3r86nVSAScKNFYk/sFgex4OoZh72SHtjI0gIV2MIR72aHwQcSQLpNqlG92Vp3L
+         cdKjHiDqA44uJNzOECaQdtY14Z5kBvXFj6Q7wfZWgwbuYjW9o3QX6cQSt3btbzM7Tak3
+         mE7eNvUokKYai8U35gAQ+n09p7inXwVrvXZLcL7JCci6k5+Q2SDk1+MZ8k25c8zXXXre
+         CZHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709944071; x=1710548871;
+        d=1e100.net; s=20230601; t=1709946868; x=1710551668;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EWYfh9XoJurOTi8J7CJKHaNZmYFNooi7e3RylW8C//Y=;
-        b=lkd8cpOXfHaAUPwqK8rUN7AsnfXnLV7eLhjUbcAwAO4OFcRGzWlttRqQYAQO1JfGf4
-         jg5s/Py6w/8PWsJ9IO4Rv+93xSXEZstzAchrl9Vih5GnYG7j+lH8PJEdydkHJHmEhayQ
-         cn63PCy9VueYWOr/ClOzZEfFSG1lKFUZtbA6MRxp4Vc8T8yUqOMtGSEGUM6Ko/3mQpAl
-         8CKMlUXNIMumn6nCuxB3MSJh1jdPdqPIUid66D7rWm2XfAPkGxMtKmyScM3vXHdyn09j
-         vLbEsII0r0If5eU9IDCsUxNLa6qmXGzTKuBY+riqFj96Dt67lb457j/WLTSGAV1334sH
-         qpWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsxUtpPs4NaDgtiefPcz9mcM4zJ61YGcibbcwI1dbTKimefUCgq3Mcjsq7cLbGfueh6MVSdzSKGVVBY6H7iYBKQP8c+oesNaEX
-X-Gm-Message-State: AOJu0YxCb3SIirkhDu3BvIr0eRBLAJVzyohi6/4O91nNEAWbzdRYsFaT
-	aI0gIiKTIPtssIMVn2+a/smsQBX8mH3EokW4yCCI1GcvsHZeUbH4V8/ECYzN/iSXCfusI+nCS91
-	zYJ2I8jnxd/Ewguy3w64NAFTpUs4LRdr+LT3/
-X-Google-Smtp-Source: AGHT+IESd1pHYOts43futyrxfMXx/f2edur2d17Kl0AlPQ1Jsil6uEMQ/KupG2jdYDiEzWeJ95HiQuXNh787lBIftRY=
-X-Received: by 2002:a17:906:3c56:b0:a45:b631:1045 with SMTP id
- i22-20020a1709063c5600b00a45b6311045mr133451ejg.21.1709944071018; Fri, 08 Mar
- 2024 16:27:51 -0800 (PST)
+        bh=KPz2z6DvnJxq/mvZY2AzEM7nepXgQps0sd3FnWYy8AY=;
+        b=tlV9uMAOtX532TlCHQWwzHtZsgCCUd/AM409PFOWvhDVj8x1w6CeH8kS0FgOcEpLTT
+         2qXPlO+boNOKJusPHKhX5YjxwOgrpMu+i4MLYMmfNvWXfkDscOUKIFSusC9PgQT8yBmb
+         WDVXPqBkO5v/F8tX/CqEoCk3YWwuvoiSt9jKkyIPoaSs8IWBF5SYiUboJxaKoWka07Xm
+         nSSCbCDssy4X+Oz6rAhf2kHgUjgAkW3TPcMtnwBZDzMwwbIABpuITg+bnuOsFMV2shPO
+         U2OuLlNr0Vf0RrJaWQobT1BJfPREnt/uJjDmQJQGqW0UVTnfAY03KLAW/f8RTovdGjB2
+         Y7xw==
+X-Forwarded-Encrypted: i=1; AJvYcCVaBpRw4ZiAM6GTbIm3nLiyiR3zzqNZ5FK5SdIuPC1ZO0xeezB5DYO2S29ikRbSNpbsHaDWz8ZA/3caJPVzJuwoJPHJksfdCyNg
+X-Gm-Message-State: AOJu0Yw/ToyEGitz0+bML4PbPu84mSM9q1neHaoXCJZcAgiiTOUwcnsM
+	d3XJh6XhWi62YlOMrYWAp1yGLL8/HGXX1YstXND/hhyHjgru1emRFAwylzgHCg4WsDBh7EbrsGV
+	MRce+lMYD+CFEmSF4cTN+hRQtiU/F3dpoj4tO
+X-Google-Smtp-Source: AGHT+IG/iVw0xp4cUGbrbuHW4JP6YIUG2WhfFnWUrnT+aZkEjbYKTgvQfRu4/7uLG7cpfDOqG4dr9VoK5RFcwZhesog=
+X-Received: by 2002:a25:b227:0:b0:dcd:1043:23c with SMTP id
+ i39-20020a25b227000000b00dcd1043023cmr780907ybj.1.1709946868255; Fri, 08 Mar
+ 2024 17:14:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-2-almasrymina@google.com> <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
-In-Reply-To: <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Mar 2024 16:27:39 -0800
-Message-ID: <CAHS8izPJbLSgvXn7pA6OQ89=dOCoXYYtTvM=7-0_MB2NxucazA@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
+References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Fri, 8 Mar 2024 20:14:17 -0500
+Message-ID: <CAHC9VhQ90Z9HbSJWxNoH20_b92m6_5QWJAJ9ZkSR_1PWUAvCsw@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 00/19] Integrity Policy Enforcement LSM (IPE)
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
+	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
+	snitzer@kernel.org, eparis@redhat.com, linux-doc@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org, 
+	dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 8, 2024 at 3:48=E2=80=AFPM David Wei <dw@davidwei.uk> wrote:
+On Wed, Mar 6, 2024 at 6:34=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> w=
+rote:
 >
-> On 2024-03-04 18:01, Mina Almasry wrote:
-> > This API enables the net stack to reset the queues used for devmem.
-> >
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >
-> > ---
-> >  include/linux/netdevice.h | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> > index c41019f34179..3105c586355d 100644
-> > --- a/include/linux/netdevice.h
-> > +++ b/include/linux/netdevice.h
-> > @@ -1435,6 +1435,20 @@ struct netdev_net_notifier {
-> >   *                      struct kernel_hwtstamp_config *kernel_config,
-> >   *                      struct netlink_ext_ack *extack);
-> >   *   Change the hardware timestamping parameters for NIC device.
-> > + *
-> > + * void *(*ndo_queue_mem_alloc)(struct net_device *dev, int idx);
-> > + *   Allocate memory for an RX queue. The memory returned in the form =
-of
-> > + *   a void * can be passed to ndo_queue_mem_free() for freeing or to
-> > + *   ndo_queue_start to create an RX queue with this memory.
-> > + *
-> > + * void      (*ndo_queue_mem_free)(struct net_device *dev, void *);
-> > + *   Free memory from an RX queue.
-> > + *
-> > + * int (*ndo_queue_start)(struct net_device *dev, int idx, void *);
-> > + *   Start an RX queue at the specified index.
-> > + *
-> > + * int (*ndo_queue_stop)(struct net_device *dev, int idx, void **);
-> > + *   Stop the RX queue at the specified index.
-> >   */
-> >  struct net_device_ops {
-> >       int                     (*ndo_init)(struct net_device *dev);
-> > @@ -1679,6 +1693,16 @@ struct net_device_ops {
-> >       int                     (*ndo_hwtstamp_set)(struct net_device *de=
-v,
-> >                                                   struct kernel_hwtstam=
-p_config *kernel_config,
-> >                                                   struct netlink_ext_ac=
-k *extack);
-> > +     void *                  (*ndo_queue_mem_alloc)(struct net_device =
-*dev,
-> > +                                                    int idx);
-> > +     void                    (*ndo_queue_mem_free)(struct net_device *=
-dev,
-> > +                                                   void *queue_mem);
-> > +     int                     (*ndo_queue_start)(struct net_device *dev=
-,
-> > +                                                int idx,
-> > +                                                void *queue_mem);
-> > +     int                     (*ndo_queue_stop)(struct net_device *dev,
-> > +                                               int idx,
-> > +                                               void **out_queue_mem);
-> >  };
+> Overview:
+> ---------
 >
-> I'm working to port bnxt over to using this API. What are your thoughts
-> on maybe pulling this out and use bnxt to drive it?
+> IPE is a Linux Security Module which takes a complimentary approach to
+> access control. Whereas existing mandatory access control mechanisms
+> base their decisions on labels and paths, IPE instead determines
+> whether or not an operation should be allowed based on immutable
+> security properties of the system component the operation is being
+> performed on.
 >
+> IPE itself does not mandate how the security property should be
+> evaluated, but relies on an extensible set of external property providers
+> to evaluate the component. IPE makes its decision based on reference
+> values for the selected properties, specified in the IPE policy.
+>
+> The reference values represent the value that the policy writer and the
+> local system administrator (based on the policy signature) trust for the
+> system to accomplish the desired tasks.
+>
+> One such provider is for example dm-verity, which is able to represent
+> the integrity property of a partition (its immutable state) with a digest=
+.
+>
+> IPE is compiled under CONFIG_SECURITY_IPE.
 
-Sure thing, go for it! Thanks!
-
-I think we've going to have someone from GVE working on this in
-parallel. I see no issue with us aligning on what the core-net ndos
-would look like and implementing those in parallel for both drivers.
-We're not currently planning to make any changes to the ndos besides
-applying Jakub's feedback from this thread. If you find a need to
-deviate from this, let us know and we'll work on staying in line with
-that. Thanks!
+All of this looks reasonable to me, I see there have been some minor
+spelling/grammar corrections made, but nothing too serious.  If we can
+get ACKs from the fsverity and device-mapper folks I can merge this
+once the upcoming merge window closes in a few weeks.
 
 --=20
-Thanks,
-Mina
+paul-moore.com
