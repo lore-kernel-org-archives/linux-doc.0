@@ -1,42 +1,66 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E43EC5
-	for <linux-doc@vger.kernel.org>; Sun, 10 Mar 2024 02:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E938480;
+	Sun, 10 Mar 2024 07:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710036085; cv=none; b=AWCn1NVYH3AiyIjoZTdT1/bl23sHrUThdIfccHxjzXK8zOUYJMZsvyrOAbLoBlHTshHWkiuf5xUMCnZaGvzUvRgS22XOzSIP6P32+4owJHNLQvFppEd6bIvggyN051fAQoUzhHEDlefFR1r47KGLgdbdmnCbW4p6YxHVtw1uwAQ=
+	t=1710055207; cv=none; b=VN0QpDMaaYRE7hnrYFgzrmYHP1FitE/NNT4JEwhDa/z6zZJVwL6ci2VXrMX8UNG+PFm7xHKtlKIAZAvf63dv2IQ7YtnWacu/dScsLbgbx8XRLXXSW+KONI22biIBPnXXsRuoq+as9tUpGGr224/9WeC46XqbBMIKxMrNPK8DtBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710036085; c=relaxed/simple;
-	bh=ssJchHlnGMDqlurjyy+LWluozNYp3GBtrSNRGHBk15o=;
+	s=arc-20240116; t=1710055207; c=relaxed/simple;
+	bh=3EhUpcpxd3ve1kIYZvxRqF4hsYotNnSxvjMRam9Xd/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y+kVvlMibPE2tkbDM+RKA20hgICKQ/yQW1siLc3ssQdK55PewTAuYXmefK/t3E3zejdOsAlSCjUUnMHeOZlrrZu2Y/AH1E9ViVCgoEaZ4k/uHJak4OCU9n71SDwJ3thRUJZbvUkL8Oa/7x6K8DBa2fnuRvPzgq86WI5prpPHvrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q9zWp2Hq; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=joV0jMnMzQCfR6nhLCmBCN4mu1mDoZOkL6V/JXFJjiTD9c+Iv0qwQXz6JX/peGcFMML44nNiaSlTQFWU+ofBcVdW4TbtWkvp/78epa+/6KNPrPoigCRO6/jm9Ict6dBnqJtiHVMZhjR6ECi+pDeSpdig8pU3TfXKf5OGCa+g0v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUKVWLmK; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q9zWp2Hq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=TBTK0/243VSlW+aXQ//YUwzYpvuWv/g62NI4uT41YLk=; b=q9zWp2Hq/SzxWiPPrjRnRNicWs
-	YVvH2DCkpaU6i8dE7fhwbr5YbbBRAXqhWR2muzJgEulHxq14jVMI4Gh4pvJ2Y0A5C+4NcYb+IFedA
-	yzSUDUDBPeghS6RIJkqQkJ2v5Y/FFIrosE60OeQ6ePc84t/p5t283aWxwvvOEbHGC/xR2Jd+JwLVQ
-	fU9CORnXEV5bDO2+UMudBJiFyb7c1ZEbAO0FEEBmlrzhE3oJqBJbuHjPYDurQ6kdDV3bVfT8cW3a0
-	gDavth8XYlmEQ2YcVo8A+I/4I+D7rZ5CwQnI1ZathQzg42jGYiB2MIgjjpquxI3P1Wl3PKGZaNTNB
-	0w/LDYMw==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rj8V0-0000000EwvS-05Hq;
-	Sun, 10 Mar 2024 02:01:14 +0000
-Date: Sun, 10 Mar 2024 02:01:13 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: jinyilong <longjinyii@outlook.com>
-Cc: alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next] Signed-off-by: jinyilong <longjinyii@outlook.com>
-Message-ID: <Ze0UaTVmhqw8AbQf@casper.infradead.org>
-References: <OSZP286MB23305246FD79A66606B3B35AC2252@OSZP286MB2330.JPNP286.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUKVWLmK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710055204; x=1741591204;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3EhUpcpxd3ve1kIYZvxRqF4hsYotNnSxvjMRam9Xd/0=;
+  b=BUKVWLmK/d0svGpQf+vH7oJmOzQYX6MAom3MC6VG2FOYQYISRLEw2bXl
+   RfGuqEtyUPHKjR7bKSoL1u31T7sldm+pFXjJhZAe22cecDMFT+Jvq6vZ2
+   am7a/pxVx2JEotF3Mprrw61C7Pm+jfDPJEI6sWMgC8kGiSWQZ9RxusIbs
+   JhO9a18gIG+W2sHxdL7U5y37/hlfCBvr3QTGr5Z2oQVO3MvwkncEhWrDF
+   mbb7WKBZSSlIrethhL3TzGuu/5pHTq/Awxe8XmCIX+RsQJIevoBpN9bvI
+   XwBDO6Og4ochFv0BfVdJ7uuGdxD07Wo2rTMbriO9QZ9mPsGppk5zDVcCl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="15376857"
+X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
+   d="scan'208";a="15376857"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 23:20:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
+   d="scan'208";a="10747039"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Mar 2024 23:19:59 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rjDTQ-00083D-2E;
+	Sun, 10 Mar 2024 07:19:56 +0000
+Date: Sun, 10 Mar 2024 15:19:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <202403101535.uRqo6AIt-lkp@intel.com>
+References: <20240308170046.92899-4-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,17 +69,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OSZP286MB23305246FD79A66606B3B35AC2252@OSZP286MB2330.JPNP286.PROD.OUTLOOK.COM>
+In-Reply-To: <20240308170046.92899-4-paul@crapouillou.net>
 
-On Sun, Mar 10, 2024 at 08:47:58AM +0800, jinyilong wrote:
-> docs/zh_CN: Added ioctl Chinese translation documentation
+Hi Paul,
 
-^^^ this line should have been in the Subject: line.
-The Signed-off-by line should not have been.  Please fix your script
-(this is the second malformed patch from you like this)
+kernel test robot noticed the following build warnings:
 
-> The content submitted this time:
-> Added ioctl to the translation/zh_CN/driver-api directory,
-> and modified the build and TODOLIST in index.rst
-> 
-> Signed-off-by: jinyilong <longjinyii@outlook.com>
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on vkoul-dmaengine/next lwn/docs-next linus/master v6.8-rc7 next-20240308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Add-API-function-dmaengine_prep_peripheral_dma_vec/20240309-010421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240308170046.92899-4-paul%40crapouillou.net
+patch subject: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
+config: i386-randconfig-062-20240309 (https://download.01.org/0day-ci/archive/20240310/202403101535.uRqo6AIt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403101535.uRqo6AIt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403101535.uRqo6AIt-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/industrialio-buffer.c:1765:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got int *user_req @@
+   drivers/iio/industrialio-buffer.c:1765:40: sparse:     expected void const [noderef] __user *from
+   drivers/iio/industrialio-buffer.c:1765:40: sparse:     got int *user_req
+>> drivers/iio/industrialio-buffer.c:1988:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected int *user_req @@     got void [noderef] __user *_arg @@
+   drivers/iio/industrialio-buffer.c:1988:53: sparse:     expected int *user_req
+   drivers/iio/industrialio-buffer.c:1988:53: sparse:     got void [noderef] __user *_arg
+   drivers/iio/industrialio-buffer.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +1765 drivers/iio/industrialio-buffer.c
+
+  1755	
+  1756	static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair *ib,
+  1757					    int *user_req, bool nonblock)
+  1758	{
+  1759		struct iio_buffer *buffer = ib->buffer;
+  1760		struct iio_dev *indio_dev = ib->indio_dev;
+  1761		struct iio_dmabuf_priv *priv;
+  1762		struct dma_buf *dmabuf;
+  1763		int dmabuf_fd, ret = -EPERM;
+  1764	
+> 1765		if (copy_from_user(&dmabuf_fd, user_req, sizeof(dmabuf_fd)))
+  1766			return -EFAULT;
+  1767	
+  1768		dmabuf = dma_buf_get(dmabuf_fd);
+  1769		if (IS_ERR(dmabuf))
+  1770			return PTR_ERR(dmabuf);
+  1771	
+  1772		mutex_lock(&buffer->dmabufs_mutex);
+  1773	
+  1774		list_for_each_entry(priv, &buffer->dmabufs, entry) {
+  1775			if (priv->attach->dev == indio_dev->dev.parent
+  1776			    && priv->attach->dmabuf == dmabuf) {
+  1777				list_del(&priv->entry);
+  1778	
+  1779				/* Unref the reference from iio_buffer_attach_dmabuf() */
+  1780				iio_buffer_dmabuf_put(priv->attach);
+  1781				ret = 0;
+  1782				break;
+  1783			}
+  1784		}
+  1785	
+  1786		mutex_unlock(&buffer->dmabufs_mutex);
+  1787		dma_buf_put(dmabuf);
+  1788	
+  1789		return ret;
+  1790	}
+  1791	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
