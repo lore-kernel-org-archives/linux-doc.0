@@ -1,149 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E938480;
-	Sun, 10 Mar 2024 07:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAEA6AC2;
+	Sun, 10 Mar 2024 07:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710055207; cv=none; b=VN0QpDMaaYRE7hnrYFgzrmYHP1FitE/NNT4JEwhDa/z6zZJVwL6ci2VXrMX8UNG+PFm7xHKtlKIAZAvf63dv2IQ7YtnWacu/dScsLbgbx8XRLXXSW+KONI22biIBPnXXsRuoq+as9tUpGGr224/9WeC46XqbBMIKxMrNPK8DtBE=
+	t=1710057482; cv=none; b=Ycfwn61LXv461sB5Gp97toRvkYtCMyC4areps75KxoCyJn4Wd4O9MFq424Z3VGpOpNAEPcTzlv4qI+01hdLKNdOQ5BnMnbtAj5FPLDbQojiyTtmfSYeDMzmrul7OqEHuRA4nkbFmY0nXqtSmQ0pmiHCkjLNPyF56/N1SrNWFJwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710055207; c=relaxed/simple;
-	bh=3EhUpcpxd3ve1kIYZvxRqF4hsYotNnSxvjMRam9Xd/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=joV0jMnMzQCfR6nhLCmBCN4mu1mDoZOkL6V/JXFJjiTD9c+Iv0qwQXz6JX/peGcFMML44nNiaSlTQFWU+ofBcVdW4TbtWkvp/78epa+/6KNPrPoigCRO6/jm9Ict6dBnqJtiHVMZhjR6ECi+pDeSpdig8pU3TfXKf5OGCa+g0v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUKVWLmK; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710057482; c=relaxed/simple;
+	bh=EG1HIoO3PlMXPYnZIQTO36mGj6DX1FjXlCXNwWpbrfA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OAdolDW8B4m+Mm2eyUPf5LLGQr93sIDGpveAg72UYeWxYsYbN/fIDq+lNhoYjSIAVjKOXR2jEuhRxs6uIY3zC5MwUsFSlJIISBM3bO3xrAvNSIN8KGvagoCJUC5dYRD8cHJrnMwoYHWPPfGYRByLIjuqvTrtUt06zeVWD4ujsXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=vZx/fdwD; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUKVWLmK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710055204; x=1741591204;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3EhUpcpxd3ve1kIYZvxRqF4hsYotNnSxvjMRam9Xd/0=;
-  b=BUKVWLmK/d0svGpQf+vH7oJmOzQYX6MAom3MC6VG2FOYQYISRLEw2bXl
-   RfGuqEtyUPHKjR7bKSoL1u31T7sldm+pFXjJhZAe22cecDMFT+Jvq6vZ2
-   am7a/pxVx2JEotF3Mprrw61C7Pm+jfDPJEI6sWMgC8kGiSWQZ9RxusIbs
-   JhO9a18gIG+W2sHxdL7U5y37/hlfCBvr3QTGr5Z2oQVO3MvwkncEhWrDF
-   mbb7WKBZSSlIrethhL3TzGuu/5pHTq/Awxe8XmCIX+RsQJIevoBpN9bvI
-   XwBDO6Og4ochFv0BfVdJ7uuGdxD07Wo2rTMbriO9QZ9mPsGppk5zDVcCl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11008"; a="15376857"
-X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="15376857"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2024 23:20:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,114,1708416000"; 
-   d="scan'208";a="10747039"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Mar 2024 23:19:59 -0800
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rjDTQ-00083D-2E;
-	Sun, 10 Mar 2024 07:19:56 +0000
-Date: Sun, 10 Mar 2024 15:19:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Cercueil <paul@crapouillou.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Nuno Sa <nuno.sa@analog.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <202403101535.uRqo6AIt-lkp@intel.com>
-References: <20240308170046.92899-4-paul@crapouillou.net>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="vZx/fdwD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=EG1HIoO3PlMXPYnZIQTO36mGj6DX1FjXlCXNwWpbrfA=; t=1710057479;
+	x=1710489479; b=vZx/fdwDwbDEV5edXp0n5BDCkqm1Q0NQl9zr60+y7C4C+4C9Ywdw7LHlrn/le
+	+lxyaM7rl7VcloS7oBjv7XRXaWKI/rVnDErPs9aCeT2UYrvbp6wwIsKVUt7fnNzGw4kbBVIrfE9Ik
+	64Aj9v5el9ezbpRHUvB4yKHt3Vrc75Ewt6AzxS8CkdqJzcJakrA/DzMVEVNlMS5+SHfuVqc48O5Wt
+	D3RPlKy8PjK2hQPxZjtT0dD3A0F+nuNAuj6CFfGCHvJpPswuZNVUCHHCTmG7Gn0jjeuL6d1V6EzE8
+	K1AkTVsQDWfe1X4E5paoChAxOp1Sa1VjBEdj+jvKZz3GlOnwrw==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rjE4C-0002mx-9V; Sun, 10 Mar 2024 08:57:56 +0100
+Message-ID: <cd766a41-4dfa-4f57-8af2-163023acbead@leemhuis.info>
+Date: Sun, 10 Mar 2024 08:57:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240308170046.92899-4-paul@crapouillou.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Fix typo in reporting-regressions.rst
+Content-Language: en-US, de-DE
+To: Chris Bainbridge <chris.bainbridge@gmail.com>
+Cc: regressions@lists.linux.dev, trivial@kernel.org,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <ZeoDMtLGIHvbavW2@debian.local>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <ZeoDMtLGIHvbavW2@debian.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1710057479;41ef0cfd;
+X-HE-SMSGID: 1rjE4C-0002mx-9V
 
-Hi Paul,
+[CCing Nícolas]
 
-kernel test robot noticed the following build warnings:
+On 07.03.24 19:10, Chris Bainbridge wrote:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on vkoul-dmaengine/next lwn/docs-next linus/master v6.8-rc7 next-20240308]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+First off: many thx for this, much appreciated!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Add-API-function-dmaengine_prep_peripheral_dma_vec/20240309-010421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20240308170046.92899-4-paul%40crapouillou.net
-patch subject: [PATCH v8 3/6] iio: core: Add new DMABUF interface infrastructure
-config: i386-randconfig-062-20240309 (https://download.01.org/0day-ci/archive/20240310/202403101535.uRqo6AIt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240310/202403101535.uRqo6AIt-lkp@intel.com/reproduce)
+> Append a ':' character to the first usage of "#regzbot introduced".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403101535.uRqo6AIt-lkp@intel.com/
+FWIW, that is obvious and not needed here; but having it in the subject
+would be good. The subject also does not really match the expected
+style. But let's ignore that for now due the aspect mentioned below.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/industrialio-buffer.c:1765:40: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got int *user_req @@
-   drivers/iio/industrialio-buffer.c:1765:40: sparse:     expected void const [noderef] __user *from
-   drivers/iio/industrialio-buffer.c:1765:40: sparse:     got int *user_req
->> drivers/iio/industrialio-buffer.c:1988:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected int *user_req @@     got void [noderef] __user *_arg @@
-   drivers/iio/industrialio-buffer.c:1988:53: sparse:     expected int *user_req
-   drivers/iio/industrialio-buffer.c:1988:53: sparse:     got void [noderef] __user *_arg
-   drivers/iio/industrialio-buffer.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+> According to the regzbot documentation, the ':' suffix is the correct
+> format, and, even if not strictly necessary, it is good to be
+> consistent.
 
-vim +1765 drivers/iio/industrialio-buffer.c
+Sadly a slightly tricky situation developed coincidentally: Nícolas not
+even 24 hours later send a patch that fixes this as well, but does so in
+a related document as well, which is wise:
+https://lore.kernel.org/all/20240308-regzbot-fixes-v1-1-577a4fe16e12@collabora.com/
 
-  1755	
-  1756	static int iio_buffer_detach_dmabuf(struct iio_dev_buffer_pair *ib,
-  1757					    int *user_req, bool nonblock)
-  1758	{
-  1759		struct iio_buffer *buffer = ib->buffer;
-  1760		struct iio_dev *indio_dev = ib->indio_dev;
-  1761		struct iio_dmabuf_priv *priv;
-  1762		struct dma_buf *dmabuf;
-  1763		int dmabuf_fd, ret = -EPERM;
-  1764	
-> 1765		if (copy_from_user(&dmabuf_fd, user_req, sizeof(dmabuf_fd)))
-  1766			return -EFAULT;
-  1767	
-  1768		dmabuf = dma_buf_get(dmabuf_fd);
-  1769		if (IS_ERR(dmabuf))
-  1770			return PTR_ERR(dmabuf);
-  1771	
-  1772		mutex_lock(&buffer->dmabufs_mutex);
-  1773	
-  1774		list_for_each_entry(priv, &buffer->dmabufs, entry) {
-  1775			if (priv->attach->dev == indio_dev->dev.parent
-  1776			    && priv->attach->dmabuf == dmabuf) {
-  1777				list_del(&priv->entry);
-  1778	
-  1779				/* Unref the reference from iio_buffer_attach_dmabuf() */
-  1780				iio_buffer_dmabuf_put(priv->attach);
-  1781				ret = 0;
-  1782				break;
-  1783			}
-  1784		}
-  1785	
-  1786		mutex_unlock(&buffer->dmabufs_mutex);
-  1787		dma_buf_put(dmabuf);
-  1788	
-  1789		return ret;
-  1790	}
-  1791	
+Which leads to the question: how much do you care that you patch makes
+it in? If you would like to have a fresh commit in the kernel (which is
+totally valid thing to want!) we definitely could improve your
+submission and then adjust Nícolas changes on top of it -- but if you
+don't care at all we could just directly take Nícolas patch.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ciao, Thorsten
