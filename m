@@ -1,87 +1,105 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EBC56B62;
-	Mon, 11 Mar 2024 19:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BAB52F82;
+	Mon, 11 Mar 2024 20:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710184460; cv=none; b=fq5szcaIYCkOxdbiAtM6AbVGnh77JJAW/AI0bVHLgOj7++AY59lEkpJFzDzIhJMyCe2osJXTuJZGy1x7Kw5Q9v+2GTml5zw6ppZxtvqEzTyBN2KO60SEz7r/jWCf3dj2kqd85Nlj9CkC3LTVyT3ohzPdsK9hocaD28X2ur+Qc6Y=
+	t=1710187648; cv=none; b=A5w1up8yzpky1u/PEFT8k6dnT6lHOVUmvkFEMgn+mOL5Pl03S4XRIoE+gVMxtD5Jcf2Cl1bOt/ScmOHJdARO/XLXceZFo/trIwv7IKVFVntnni+JKfLMzGtdGSWzbFgQwDi+q9vehOiyGdaxeOH7owDlIXyd6txnBSUs9UQDy9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710184460; c=relaxed/simple;
-	bh=JuZL7oM7lKhmmzj290jDyn9KcxNQoNasVDvwUuItmEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pzeONZvU/OSPaDCJvA6MXEeaiKK1LChNWx0oGlaaA5DObnZRohw/r5fUhpzaJ4WaYL2PoHhgDZipIMrsptneKCAonx73Kgv211stOt6C4BjclYG53Y1nos3dQ5tdKbKFRMTBZZtDYVdkFvn97+BpR5lY4VYceq3LLBuvt/vf4EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=g0t3iAwX; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1710187648; c=relaxed/simple;
+	bh=WBtBCCMn2JMwUS5VVGHL+yTt7qkPpG1ZJQA8yWr+M5w=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=bG6w2vd26Z3a9bPZd5Yu5/LbJz2G/MAXsAP21Sk5WRQrcYLPnk+seuRBTlaseyTIhE12Pi7Hn83Llf/p2S47pB6NkbeTrHANpPuFkxKyQP2rJfjrV5neu4W8eT8Vp+cHS9n7Tl1JUWl1JgIqFI+IofAwvqx+hSQdOIQWbbn2Zro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpKTJnaU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="g0t3iAwX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=FGf/tNhnC4YEzI6MSBG52sbqC4xqonb3q4yeuMw8Xfk=; b=g0t3iAwXXc+OmGjPUCKpaYYxEY
-	4e1HCDEJMWgdxdzxOzZscPKhQp6IelAcdS5lyKRoNlSGeNe7jNhCjBUrOq1epQ52eqUd4PdxP3jlv
-	0O3BSrwPC7rO9cdIrDh15mVdJOxXnJFotqy1g0XHugt5Z4VMAqYwOZk6ZKbXr72mlSTJ+TxhvTcWj
-	rXIIfVlpiXyBXyKp1BrzMhddv8jQdMi83CIZ4A6FHIMIwaNZuIH0cShfzQLoVfpP+fSmVpUgAEANf
-	EFjNG4jsJvWOP8zIkvc063waQdkX4PVR0olGY3pypVzFX7MIBJsQNJxWLz4mneduNbb6qYdjtBiqx
-	xnlhk1+w==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rjkqo-003cD8-2X;
-	Mon, 11 Mar 2024 13:58:18 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Peter Zijlstra <peterz@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2 04/31] ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
-Date: Mon, 11 Mar 2024 13:58:18 -0500
-Message-ID: <4875514.GXAFRqVoOG@camazotz>
-In-Reply-To: <20240219223833.95710-5-zfigura@codeweavers.com>
-References:
- <20240219223833.95710-1-zfigura@codeweavers.com>
- <20240219223833.95710-5-zfigura@codeweavers.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpKTJnaU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBBCC433F1;
+	Mon, 11 Mar 2024 20:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710187648;
+	bh=WBtBCCMn2JMwUS5VVGHL+yTt7qkPpG1ZJQA8yWr+M5w=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=qpKTJnaURjnr9qyMxxS06UflehxFUN6v0OqYQKl6DqRi1nweRVVV/ivK1D5TMqyUe
+	 Go3Ar0AuaK6I7kVk1CdNT9w1bSz26h92HPVVGtPkpGcCqw3VXKlZSK1lxVU3tFP1hu
+	 CBoQTBN7JDL2FRIWrHHc8Gu09GGXq5pYvbFPRFJBNc3GXeL54y441hKHV+TmCLqTo+
+	 ViEDNTStK3tlBuz3EG/eoeOvj52RkgMZD13LEiA/dOCeFD8J3qagtJUO2vFm6a2XWp
+	 ZugulwiUUCbthW5vQ8oE9hwGR+oRtQY9o46qnBscOszPbc5RGMAMEMqkv54kJKxdHs
+	 17b+JtrrT6lWg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 Mar 2024 22:07:19 +0200
+Message-Id: <CZR6X7KLX6NC.1BH2NHDTNL3C@kernel.org>
+Cc: "Mimi Zohar" <zohar@linux.ibm.com>, "James Bottomley"
+ <jejb@linux.ibm.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "David S.
+ Miller" <davem@davemloft.net>, "Shawn Guo" <shawnguo@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "kernel@pengutronix.de" <kernel@pengutronix.de>, "Fabio Estevam"
+ <festevam@gmail.com>, "NXP Linux Team" <linux-imx@nxp.com>, "Ahmad Fatoum"
+ <a.fatoum@pengutronix.de>, "sigma star Kernel Team"
+ <upstream+dcp@sigma-star.at>, "David Howells" <dhowells@redhat.com>, "Li
+ Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>, "James
+ Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, "Paul E.
+ McKenney" <paulmck@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
+ (Google)" <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+ "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
+ "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, "Richard Weinberger"
+ <richard@nod.at>, "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v6 3/6] KEYS: trusted: Introduce NXP DCP-backed trusted
+ keys
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "David Gstir" <david@sigma-star.at>
+X-Mailer: aerc 0.17.0
+References: <20240307153842.80033-1-david@sigma-star.at>
+ <20240307153842.80033-4-david@sigma-star.at>
+ <CZNRMR5YZPQO.1QBLW62A6S840@kernel.org>
+ <655221B7-634C-4493-A781-CF014DFFC8BF@sigma-star.at>
+In-Reply-To: <655221B7-634C-4493-A781-CF014DFFC8BF@sigma-star.at>
 
-On Monday, 19 February 2024 16:38:06 CDT Elizabeth Figura wrote:
-> +static struct ntsync_obj *get_obj(struct ntsync_device *dev, int fd)
-> +{
-> +	struct file *file = fget(fd);
-> +	struct ntsync_obj *obj;
-> +
-> +	if (file->f_op != &ntsync_obj_fops) {
-> +		fput(file);
-> +		return NULL;
-> +	}
+On Fri Mar 8, 2024 at 9:17 AM EET, David Gstir wrote:
+> Hi Jarkko,
+>
+> > On 07.03.2024, at 20:30, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> [...]
+>
+> >> +
+> >> +static int trusted_dcp_init(void)
+> >> +{
+> >> + int ret;
+> >> +
+> >> + if (use_otp_key)
+> >> + pr_info("Using DCP OTP key\n");
+> >> +
+> >> + ret =3D test_for_zero_key();
+> >> + if (ret) {
+> >> + pr_err("Test for zero'ed keys failed: %i\n", ret);
+> >=20
+> > I'm not sure whether this should err or warn.
+> >=20
+> > What sort of situations can cause the test the fail (e.g.
+> > adversary/interposer, bad configuration etc.).
+>
+> This occurs when the hardware is not in "secure mode". I.e. it=E2=80=99s =
+a bad configuration issue.
+> Once the board is properly configured, this will never trigger again.
+> Do you think a warning is better for this then?
 
-I just noticed during self-review that this fails to check the result of 
-fget() for NULL :-/
+Bad configuration is not unexpected configuration so it cannot possibly
+be an error situation as far as Linux is considered. So warning is=20
+appropriate here I'd figure.
 
-I'll fix this next revision.
-
-> +
-> +	obj = file->private_data;
-> +	if (obj->dev != dev) {
-> +		fput(file);
-> +		return NULL;
-> +	}
-> +
-> +	return obj;
-> +}
-
-
-
+BR, Jarkko
