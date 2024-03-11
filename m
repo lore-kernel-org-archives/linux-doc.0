@@ -1,206 +1,149 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89666138C
-	for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 01:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF029748E;
+	Mon, 11 Mar 2024 05:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710120571; cv=none; b=RKXDX/RiG3/G4b0A5x8DD4DM8nmTTO5qiB00d1hf9MGPV5yoZzNWeeyHkvDu9xVAdtFgDRecM0FBzfmyoLjZufPv/8MArn1DsaYPia4eEZFTGZHZ0zwWce8ECXQz6UpbL9ovzKAfouRINiaeRKo05Bv6+dbVkfR/INUwMoA7OJY=
+	t=1710135524; cv=none; b=dkdzyJXLZvLL1EUBYSXuDPXL75joQTYV0fj3vCf9NNSE2xBKyUkAYHXFEQmtximZv6XWYQ7c0d9kAY5r5Fm3FttJjQ3kzSSVTrLkACfH1ReK9AK0wF+OIci9WXr8bCVNY/DIXgw/Bc2zUr6Rj00rgS/BQkpX+1imQEVr6F8vS1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710120571; c=relaxed/simple;
-	bh=D+LFpG+DtzDxbDphPWqUCew6+zoXZ3tpB6Glycfh6Nk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gvxKlgAw8y8J/SZfDV4fnionUyWWt0pjv6uwG0e8FtTcYdHPO2r6jKjdHZZPCKnUyviFGN2i0ft8C33rKSwsvAa3KzoBPYOZyYeDns13PoulLHFotE5B0YVfuJdRysVi7eDMj+bYJHlAxQYaSR/oP4G2xg2UnA97NPKE8tNneYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=oJwkpIa/; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1710135524; c=relaxed/simple;
+	bh=JkYYh47/8McwjllgWCKNB4oAhTTgDeqPKIVJmU8Vpyo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NzHBjHrd6ZrgiSAvanbe0W8Q45Du5NNIQ+bKElQITSMJnzCyhrX0Iv0j8X1tn3Jv7Q4cgw7ls6f1cWL3oUSy7/363YqZH63J6XFDx7pBbBs/33iaXr+JgQ+3+CKQY759r8P9jhGiMK2vfzJ7FvALkIcYtRuIJ0X1axat6u8lZKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eEhbnREV; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="oJwkpIa/"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29bcc1c7cc4so886614a91.2
-        for <linux-doc@vger.kernel.org>; Sun, 10 Mar 2024 18:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1710120569; x=1710725369; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hOSvhcvJGLEL7J8lpsnrtr4vlODvqiYxIBXUcrpqgiE=;
-        b=oJwkpIa/JaeLhjrIWks53Om+l6/dU6iwMs7g49EmUUJ+VSI1Xb8P4kYR5OSg8VkCxa
-         OsH1pLNi/7I1wt+ONwazpnhtxlKTcUyIX4o3TmPta5al3YiKo/CckswdEf+Y4/2SMhJT
-         PCFAm7dcKUitb3ST1uN/tfEkezN41Q4WDReGFBUSlZRuK7cPWHuXShoG28zCbzrKljRV
-         32RvoqRvrLLuH5qjjWlRpMzospsyrFUUT+lzTeqexXj3u5HHW2o2UXZlgc7si4MnaHVW
-         6c1ZufnE/qo8IAOtLyDnGpMt9osoZ/HWzsTPIf0EsLmev9v9d+JhMma1a8zrFtZZDCAW
-         EsTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710120569; x=1710725369;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hOSvhcvJGLEL7J8lpsnrtr4vlODvqiYxIBXUcrpqgiE=;
-        b=OgsGeT/H8+lgVnlOgifcU5LpuVGMdT9EPsY8SvUAJMU//U3lpN+e0zjTkGLYKXVtDw
-         nwuzjEMD85uJKc93e5oCfYoalZD6hytJWAVYk6hahkci+D/wSLDl/rMyY84+KNV6BvdF
-         Fi7WbVDw28BEz7yLHBGfcC2BR3VfURfZTnqfH2//odjTh5YKlFkCUsJ24rmjRXMu+tAk
-         DIXSeRrU3/5iYhm5+OOwOuL+1TqIgUcAxlkRpLWPV0cz0DN4PsVaLW70XtAJ3PtAJ/GY
-         FcIDd0/GEb2FVxjgu9wiMQTIaMnq3SNy6b4/HQVS++/5B5M8rNqHzwWC814qtm0u+6su
-         ikgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJTDvtMXMU0jgI/n+aRbxiWSigONdBesHtBVMZ5i+Y8AS4Jy8/Um4P+MI/Tk61P4ht1jxcLJ9pMN+TKveYFu1cavAdw+N71TnL
-X-Gm-Message-State: AOJu0Ywo/KZ/KlGo4c52Q4ZDLeth0Sp66TKMtKPLYCQVdNfowYSJ0ugd
-	DXcOCCyZwEWIv7mbtp+iDj9DV01rSLxdvJMeO26GeV/ojTf78pLf70whNZ23RM0=
-X-Google-Smtp-Source: AGHT+IFdH2KMViIbM49wC4hqTijDXwXYely9IKxeBYRM5XJT/JRC71uwCtS4jPxQ9NJv+E+Vquza9g==
-X-Received: by 2002:a17:90b:e0e:b0:29b:ab0e:4f0a with SMTP id ge14-20020a17090b0e0e00b0029bab0e4f0amr3210258pjb.23.1710120568734;
-        Sun, 10 Mar 2024 18:29:28 -0700 (PDT)
-Received: from dread.disaster.area (pa49-179-47-118.pa.nsw.optusnet.com.au. [49.179.47.118])
-        by smtp.gmail.com with ESMTPSA id c3-20020a17090a490300b0029bb4712610sm3400554pjh.6.2024.03.10.18.29.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 18:29:28 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1rjUTl-000FPe-0k;
-	Mon, 11 Mar 2024 12:29:25 +1100
-Date: Mon, 11 Mar 2024 12:29:25 +1100
-From: Dave Chinner <david@fromorbit.com>
-To: John Groves <John@groves.net>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
-	john@jagalactic.com, Christoph Hellwig <hch@infradead.org>,
-	dave.hansen@linux.intel.com, gregory.price@memverge.com
-Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
-Message-ID: <Ze5edU3JbLEFwJOH@dread.disaster.area>
-References: <cover.1708709155.git.john@groves.net>
- <ZdkzJM6sze-p3EWP@bombadil.infradead.org>
- <cc2pabb3szzpm5jxxeku276csqu5vwqgzitkwevfluagx7akiv@h45faer5zpru>
- <Zdy0CGL6e0ri8LiC@bombadil.infradead.org>
- <w5cqtmdgqtjvbnrg5okdgmxe45vjg5evaxh6gg3gs6kwfqmn5p@wgakpqcumrbt>
- <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
- <mw4yhbmza4idassgbqeiti4ue7jq377ezxfrqrcbsbzsrmfiln@kn7qmqljvswl>
- <Zd/ovHqO/16PsUsp@dread.disaster.area>
- <5segby7xk6wbyblovpapdymiuvg63e5qarahc4pramhsqikx2x@y3zmih6mgs33>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eEhbnREV"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B5J5MF003578;
+	Mon, 11 Mar 2024 05:38:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:reply-to:references
+	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=ddYhWpZ6
+	UFYa7XqP0w1UUiujo7MlM6KsRadAKbQ22Rw=; b=eEhbnREV5Wa3zXvIJZx+lqnS
+	anX5OBKzDgYK8YL2a9FZsSpKCT+rvAk7E5B4fgcg50OjuQOWEKY7F7beXLUDB5K7
+	3dUgPq6x93l8cN/khCTxxdryGgFyKuy2qOIkr4RDAsa4nAzTTHY4nAbD6ZD1ayCF
+	qEtqsVESmgxfylmOleSjdphQc3BEW1l0ogVwllLgYEtmPei+TYlJg4lSA1yaoRnz
+	XxbFaWA/ddpvyTm94jLZEgOPt/N0SjetgA4mhW4LyODsq53ZmzQX0pIHkL6Lwr2n
+	5DqzbTNLj2M4HeD1PalYjXKTOV1+BvRhIcPdb3x93kIb9o62cOy/lWmDhLqywg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wresbtsmr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 05:38:19 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42B5cI2M007024
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 05:38:18 GMT
+Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 10 Mar
+ 2024 22:38:10 -0700
+Date: Mon, 11 Mar 2024 11:08:06 +0530
+From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+To: Elliot Berman <quic_eberman@quicinc.com>
+CC: Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik
+	<quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Andrew
+ Morton" <akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v17 12/35] virt: gunyah: Add resource tickets
+Message-ID: <20240311053806.GL440762@quicinc.com>
+Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-12-1e9da6763d38@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <5segby7xk6wbyblovpapdymiuvg63e5qarahc4pramhsqikx2x@y3zmih6mgs33>
+In-Reply-To: <20240222-gunyah-v17-12-1e9da6763d38@quicinc.com>
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ZEy7XYUtlKeA49q6fTfq0MIjfbi1DK-L
+X-Proofpoint-GUID: ZEy7XYUtlKeA49q6fTfq0MIjfbi1DK-L
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_02,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 clxscore=1011 malwarescore=0 spamscore=0 suspectscore=0
+ mlxlogscore=860 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403110041
 
-On Thu, Feb 29, 2024 at 08:52:48AM -0600, John Groves wrote:
-> On 24/02/29 01:15PM, Dave Chinner wrote:
-> > On Mon, Feb 26, 2024 at 08:05:58PM -0600, John Groves wrote:
-> > >    bw (  MiB/s): min= 5085, max=27367, per=100.00%, avg=14361.95, stdev=165.61, samples=719
-> > >    iops        : min= 2516, max=13670, avg=7160.17, stdev=82.88, samples=719
-> > >   lat (usec)   : 4=0.05%, 10=0.72%, 20=2.23%, 50=2.48%, 100=3.02%
-> > >   lat (usec)   : 250=1.54%, 500=2.37%, 750=1.34%, 1000=0.75%
-> > >   lat (msec)   : 2=3.20%, 4=43.10%, 10=23.05%, 20=14.81%, 50=1.25%
-> > 
-> > Most of the IO latencies are up round the 4-20ms marks. That seems
-> > kinda high for a 2MB IO. With a memcpy speed of 10GB/s, the 2MB
-> > should only take a couple of hundred microseconds. For Famfs, the
-> > latencies appear to be around 1-4ms.
-> > 
-> > So where's all that extra time coming from?
-> 
-> Below, you will see two runs with performance and latency distribution
-> about the same as famfs (the answer for that was --fallocate=native).
+* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:35]:
 
-Ah, that is exactly what I suspected, and was wanting profiles
-because that will show up in them clearly.
+> Gunyah doesn't process the label and that makes it
+> possible for userspace to create multiple resources with the same label.
 
-> > >   lat (msec)   : 100=0.08%
-> > >   cpu          : usr=10.18%, sys=0.79%, ctx=67227, majf=0, minf=38511
-> > 
-> > And why is system time reporting at almost zero instead of almost
-> > all the remaining cpu time (i.e. up at 80-90%)?
-> 
-> Something weird is going on with the cpu reporting. Sometimes sys=~0, but other times
-> it's about what you would expect. I suspect some sort of measurement error,
-> like maybe the method doesn't work with my cpu model? (I'm grasping, but with
-> a somewhat rational basis...)
-> 
-> I pasted two xfs runs below. The first has the wonky cpu sys value, and
-> the second looks about like what one would expect.
-> 
-> > 
-> > Can you run call-graph kernel profiles for XFS and famfs whilst
-> > running this workload so we have some insight into what is behaving
-> > differently here?
-> 
-> Can you point me to an example of how to do that?
+I think that description conflicts with what is implemented in this patch?
 
-perf record --call-graph ...
-pref report --call-graph ...
+int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
+				  struct gunyah_vm_resource_ticket *ticket)
+{
+	mutex_lock(&ghvm->resources_lock);
+	list_for_each_entry(iter, &ghvm->resource_tickets, vm_list) {
+		if (iter->resource_type == ticket->resource_type &&
+		    iter->label == ticket->label) {
+			ret = -EEXIST;
+			goto out;
+		}
+	}
 
 
-> I'd been thinking about the ~2x gap for a few days, and the most obvious
-> difference is famfs files must be preallocated (like fallocate, but works
-> a bit differently since allocation happens in user space). I just checked 
-> one of the xfs files, and it had maybe 80 extents (whereas the famfs 
-> files always have 1 extent here).
+//
 
-Which is about 4MB per extent. Extent size is not the problem for
-zero-seek-latency storage hardware, though.
+> @@ -134,6 +246,25 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
+>  	}
+>  	ghvm->vm_status = GUNYAH_RM_VM_STATUS_READY;
+>  
+> +	ret = gunyah_rm_get_hyp_resources(ghvm->rm, ghvm->vmid, &resources);
+> +	if (ret) {
+> +		dev_warn(ghvm->parent,
+> +			 "Failed to get hypervisor resources for VM: %d\n",
+> +			 ret);
+> +		goto err;
+> +	}
 
-Essentially what you are seeing is interleaving extent allocation
-between all the files because they are located in the same
-directory. The locality algorithm is trying to place the data
-extents close to the owner inode, but the indoes are also all close
-together because they are located in the same AG as the parent
-directory inode. Allocation concurrency is created by placing new
-directories in different allocation groups, so we end up with
-workloads in different directories being largely isolated from each
-other.
+Where do we free memory pointed by 'resources' ptr?
 
-However, that means when you are trying to write to many files in
-the same directory at the same time, they are largely all competing
-for the same AG lock to do block allocation during IO submission.
-That creates interleaving of write() sized extents between different
-files. We use speculative preallocation for buffered IO to avoid
-this, and for direct IO the application needs to use extent size hints
-or preallocation to avoid this contention based interleaving.
-
-IOWs, by using fallocate() to preallocate all the space there will
-be no allocation during IO submission and so the serialisation that
-occurs due to competing allocations just goes away...
-
-> FWIW I ran xfs with and without io_uring, and there was no apparent
-> difference (which makes sense to me because it's not block I/O).
-> 
-> The prior ~2x gap still seems like a lot of overhead for extent list 
-> mapping to memory, but adding --fallocate=native to the xfs test brought 
-> it into line with famfs:
-
-As I suspected. :)
-
-As for CPU usage accounting, the number of context switches says it
-all.
-
-"Bad":
-
->   cpu          : usr=15.48%, sys=1.17%, ctx=62654, majf=0, minf=22801
-
-"good":
-
->   cpu          : usr=14.43%, sys=78.18%, ctx=5272, majf=0, minf=15708
-
-I'd say that in the "bad" case most of the kernel work is being
-shuffled off to kernel threads to do the work and so it doesn't get
-accounted to the submission task.  In comparison, in the "good" case
-the work is being done in the submission thread and hence there's a
-lot fewer context switches and the system time is correctly
-accounted to the submission task.
-
-Perhaps an io_uring task accounting problem?
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+> +
+> +	for (i = 0, n = le32_to_cpu(resources->n_entries); i < n; i++) {
+> +		ghrsc = gunyah_rm_alloc_resource(ghvm->rm,
+> +						 &resources->entries[i]);
+> +		if (!ghrsc) {
+> +			ret = -ENOMEM;
+> +			goto err;
+> +		}
+> +
+> +		gunyah_vm_add_resource(ghvm, ghrsc);
+> +	}
