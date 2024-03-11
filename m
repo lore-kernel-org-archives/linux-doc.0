@@ -1,164 +1,166 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507961118B;
-	Mon, 11 Mar 2024 05:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E337214271;
+	Mon, 11 Mar 2024 09:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710135572; cv=none; b=d3N2ttZliWV+45+4xpI5JWIGGx/ycd/HcvEiGfAkol/ORwtvJl0hI8f5G9iB04tifSU5zVCHLbLPw8AXqBDRo34ShGEX5/ZwWnIIUSkhaceiPe+NnarrJPgXYPFzAhdJ5jP7QOCSohTzsj0A69QXR7uFOd+2S4g1h4KvWBSzxHw=
+	t=1710148357; cv=none; b=LqK2bGfPxqqJX+xmAFF2zhb1j/Q2CqwPAkiJlZbbJUtpZ9GClZEylLrzKGhjOauqV5MvzQadVPWgrWCN3MGqt4/4GPBk8hPZuJ78NOmI5Ney5buHw9mJLT5iaO2AxmZ1/tOcLq0OBM15YeRrKFZMKkL4PUEazQEAZMGSML7ydFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710135572; c=relaxed/simple;
-	bh=Ka56Z2TcjSC1k5aIslx4wiCYsvuC+7+F9E44sweIR+I=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChoDw6seYju4CmMTdx+blePUa9epCi5dThZTCqGsTYFrkBA0dhJptD5o68Af/DoZ5SM0uukZzU8pbcYWhc2jZxMWBBkh8s+/oOkljVePhfv61WPZc84WZ//aESwMZUTut6jnmYunvE97DvQ71u+1u+VPfd2fTXvWUB9Lxl2pomc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fEAv3/aM; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fEAv3/aM"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B4SW71008209;
-	Mon, 11 Mar 2024 05:39:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:reply-to:references
-	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=LmmM6Mle
-	Qg7vLFazyHImNbnBaOz3grFitf91olyQU6M=; b=fEAv3/aMWYtirJq0zXcH6ajx
-	/kugt7oM1cJHlSZFFqb+0tdx3T97wpaXwBbUanXlVd0IgS+grYfEk0Hg+Ky1EHMQ
-	xVWUXnVhXHf+L3uhiYPhxJBVy1fqIhoiqiXJlkZiFD4zGrjCOWFVRtRjTCawtama
-	RaAWyPiyvaGQ0OfbRI4qPMSPg2KVvb2dxYhqEWhK4vyhUzWcOI7ykwqjF5AyfjHe
-	dm007Y6/PMTGVyj903ZYKssWWn3uFOXJ3U7wh91WrOCBW4YyramNz7olKy3cSUUI
-	O0pA+duiisZo+Y4ErjTAoSS7bU0CcLbeZvQc61KEhfYuFiptnRyJd/oOUREaUg==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wss1gr81p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 05:39:17 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42B5dG9l024078
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 05:39:16 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Sun, 10 Mar
- 2024 22:39:08 -0700
-Date: Mon, 11 Mar 2024 11:09:05 +0530
-From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 11/35] virt: gunyah: Translate gh_rm_hyp_resource
- into gunyah_resource
-Message-ID: <20240311053905.GN440762@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
+	s=arc-20240116; t=1710148357; c=relaxed/simple;
+	bh=mwhr+GeZD2Fwv7OWp5evIy1WT7xupje/d5vp5keqrbc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MQ+TKucdRx86OLfFAqu3D2IKhm/CJ8Lh/AaD39If6WvSanNQA6Q9luK+47VC9ikyLBZW9KvsjdT7qmY85BN+0B85tUZyn5nT7BY2iT3WB/kB1SOGZazQDTwvBxp3Z/VCG9cr8dzvqBzetaCjzXDueKZWwj+6C/kbRyRwv2e8VnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4TtVy01X1Vz9y0kN;
+	Mon, 11 Mar 2024 16:56:40 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 1EEF5140ED8;
+	Mon, 11 Mar 2024 17:12:15 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwCHcibeyu5l0rgXBA--.16486S2;
+	Mon, 11 Mar 2024 10:12:14 +0100 (CET)
+Message-ID: <4bac45ced03f82c2f3775684368e22db5dafea11.camel@huaweicloud.com>
+Subject: Re: [RFC][PATCH 8/8] ima: Detect if digest cache changed since last
+ measurement/appraisal
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net,
+ dmitry.kasatkin@gmail.com,  eric.snowberg@oracle.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+ hch@lst.de,  mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+ dhowells@redhat.com,  jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com,
+ petr.vorel@gmail.com,  petrtesarik@huaweicloud.com, mzerqung@0pointer.de,
+ kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Date: Mon, 11 Mar 2024 10:11:54 +0100
+In-Reply-To: <ddb1c28356fb8a4dcca9bff6dc206802d7981bb8.camel@linux.ibm.com>
+References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
+	 <20240214143525.2205481-9-roberto.sassu@huaweicloud.com>
+	 <ddb1c28356fb8a4dcca9bff6dc206802d7981bb8.camel@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: V2xhelRylHxeRMVsunfbTeMlRPUvSRSA
-X-Proofpoint-GUID: V2xhelRylHxeRMVsunfbTeMlRPUvSRSA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-11_02,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=559
- phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403110041
+X-CM-TRANSID:GxC2BwCHcibeyu5l0rgXBA--.16486S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGF15ury7ArW3WF1rGw43GFg_yoW5XFW7pa
+	93CF1UKF4rZrW3G3W7Aa12vF18trZaqF4xua1Ygw1fArs5Xr9Yyw4rAw1UWry8Cr4UZanF
+	qw4Ygrs8Z3WDZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
+	c2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
+	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbJ73D
+	UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQATBF1jj5szTAABsC
 
-* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:34]:
+On Fri, 2024-03-08 at 12:35 -0500, Mimi Zohar wrote:
+> Hi Roberto,
+>=20
+> > b/security/integrity/ima/ima_main.c
+> > index a66522a22cbc..e1b2f5737753 100644
+> > --- a/security/integrity/ima/ima_main.c
+> > +++ b/security/integrity/ima/ima_main.c
+> > @@ -301,6 +301,15 @@ static int process_measurement(struct file *file, =
+const
+> > struct cred *cred,
+> >  		}
+> >  	}
+> > =20
+> > +	/* Check if digest cache changed since last measurement/appraisal. */
+> > +	if (iint->digest_cache &&
+> > +	    digest_cache_changed(inode, iint->digest_cache)) {
+> > +		iint->flags &=3D ~IMA_DONE_MASK;
+> > +		iint->measured_pcrs =3D 0;
+> > +		digest_cache_put(iint->digest_cache);
+> > +		iint->digest_cache =3D NULL;
+> > +	}
+> > +
+> >  	/* Determine if already appraised/measured based on bitmask
+> >  	 * (IMA_MEASURE, IMA_MEASURED, IMA_XXXX_APPRAISE, IMA_XXXX_APPRAISED,
+> >  	 *  IMA_AUDIT, IMA_AUDITED)
+> > @@ -371,8 +380,15 @@ static int process_measurement(struct file *file, =
+const
+> > struct cred *cred,
+> >  	 * Since we allow IMA policy rules without func=3D, we have to enforc=
+e
+> >  	 * this restriction here.
+> >  	 */
+> > -	if (rc =3D=3D 0 && policy_mask && func !=3D DIGEST_LIST_CHECK)
+> > -		digest_cache =3D digest_cache_get(file_dentry(file));
+> > +	if (rc =3D=3D 0 && policy_mask && func !=3D DIGEST_LIST_CHECK) {
+> > +		if (!iint->digest_cache) {
+> > +			/* Released by ima_iint_free(). */
+> > +			digest_cache =3D digest_cache_get(file_dentry(file));
+> > +			iint->digest_cache =3D digest_cache;
+> > +		} else {
+> > +			digest_cache =3D iint->digest_cache;
+> > +		}
+>=20
+> Simple cleanup:
+> 		if (!iint->digest_cache)
+> 			iint->digest_cache =3Ddigest_cache_get(file_dentry(file));
+>=20
+> 		digest_cache =3D iint->digest_cache;
 
-> When booting a Gunyah virtual machine, the host VM may gain capabilities
-> to interact with resources for the guest virtual machine. Examples of
-> such resources are vCPUs or message queues. To use those resources, we
-> need to translate the RM response into a gunyah_resource structure which
-> are useful to Linux drivers. Presently, Linux drivers need only to know
-> the type of resource, the capability ID, and an interrupt.
-> 
-> On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
-> ID number and always a SPI or extended SPI.
-> 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+Thanks.
 
-Minor nit below. LGTM otherwise
+> > +	}
+> > =20
+> >  	if (digest_cache) {
+> >  		found =3D digest_cache_lookup(file_dentry(file), digest_cache,
+> > @@ -386,8 +402,6 @@ static int process_measurement(struct file *file, c=
+onst
+> > struct cred *cred,
+> >  			if (verif_mask_ptr)
+> >  				allow_mask =3D policy_mask & *verif_mask_ptr;
+> >  		}
+> > -
+> > -		digest_cache_put(digest_cache);
+>=20
+> Keeping a reference to the digest_cache list for each file in the iint ca=
+che
+> until the file is re-accessed, might take a while to free.
 
-Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+Yes, that is the drawback...
 
-> +struct gunyah_resource *
-> +gunyah_rm_alloc_resource(struct gunyah_rm *rm,
-> +			 struct gunyah_rm_hyp_resource *hyp_resource)
-> +{
-> +	struct gunyah_resource *ghrsc;
-> +	int ret;
-> +
-> +	ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
-> +	if (!ghrsc)
-> +		return NULL;
-> +
-> +	ghrsc->type = hyp_resource->type;
-> +	ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
-> +	ghrsc->irq = IRQ_NOTCONNECTED;
-> +	ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
-> +	if (hyp_resource->virq) {
-> +		struct irq_fwspec fwspec;
-> +
-> +
-> +		fwspec.fwnode = rm->parent_fwnode;
-> +		ret = arch_gunyah_fill_irq_fwspec_params(le32_to_cpu(hyp_resource->virq), &fwspec);
-> +		if (ret) {
-> +			dev_err(rm->dev,
-> +				"Failed to translate interrupt for resource %d label: %d: %d\n",
-> +				ghrsc->type, ghrsc->rm_label, ret);
+> I'm wondering if it necessary to keep a reference to the digest_cache.  O=
+r is it
+> possible to just compare the existing iint->digest_cache pointer with the
+> current digest_cache pointer?
 
-Not bailing on error here appears wrong. Can you check?
+If the pointer value is the same, it does not guarantee that it is the
+same digest cache used for the previous verification. It might have
+been freed and reallocated.
 
-> +		}
-> +
-> +		ret = irq_create_fwspec_mapping(&fwspec);
-> +		if (ret < 0) {
-> +			dev_err(rm->dev,
-> +				"Failed to allocate interrupt for resource %d label: %d: %d\n",
-> +				ghrsc->type, ghrsc->rm_label, ret);
-> +			kfree(ghrsc);
-> +			return NULL;
-> +		}
-> +		ghrsc->irq = ret;
-> +	}
-> +
-> +	return ghrsc;
-> +}
+Maybe, if the digest_cache LSM is able to notify to IMA that the digest
+cache changed, so that IMA resets its flags in the integrity metadata,
+we would not need to pin it.
+
+Roberto
+
+> thanks,
+>=20
+> Mimi
+>=20
+> >  	}
+> > =20
+> >  	if (action & IMA_MEASURE)
+>=20
+
