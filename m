@@ -1,377 +1,264 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBAF4174A;
-	Mon, 11 Mar 2024 14:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6925D4087A;
+	Mon, 11 Mar 2024 14:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710168195; cv=none; b=Dlsj766YBMPivh+XWKPpNBU8qqkYLWZDLczIjhhcKEO5HvzmuIJztXV/d+h89g1wyu10Bw4QoTUDwpTT4sRrKbehEECE2mv7oVZdMJqeKqZ0aLJr2/4S2M28o14KjkVRm24BRf2tE6tllYRXigKkX3Kja0ffi9hD02np/yY/2qE=
+	t=1710168601; cv=none; b=lHqG0URM2mjrRZCOxIRmJUcyjSrchjb6Jr4X9QRLPQ+xtWs5LakFn/xIre9axwBovgUTDRjQ/UPI8DfahbnlRcxt5ItaTT5wKtH9OBXIHBW4TW2eSe3o9CDEdVmfyJdTnqn3+I4fAu1e5F8VlQNyTbPPUj+rJ4MzXfV66THRRw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710168195; c=relaxed/simple;
-	bh=2pVTHbPFDAj+SIeIHGyAcE5S11BpmIs+2eQRS+qWt1U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oLwY0t6n2kmxbEta9DNG0A+pep2f8JlfFeHsnHjZBER+NF7QFwwAJ7zrvoq3sp6urqSRhZR9SwBgbVeGe27QczjrCGqFEVXuJOfv+A0r4uy84eZYzVr1uA1fbr6ucT7BXJbmWF+neURi7mWLJcutsBYETIYEBsCPyPptsxU+G80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4TtdqN5nWhz9xrN0;
-	Mon, 11 Mar 2024 22:06:24 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 7A0B614064D;
-	Mon, 11 Mar 2024 22:26:13 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwBHPhd3FO9lMookBA--.19094S2;
-	Mon, 11 Mar 2024 15:26:12 +0100 (CET)
-Message-ID: <21597a6e143e4110d0103ef1421ac87fa98b7f32.camel@huaweicloud.com>
-Subject: Re: [RFC PATCH v14 01/19] security: add ipe lsm
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-  jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
- axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
- paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org,  linux-kernel@vger.kernel.org, Deven Bowers
- <deven.desai@linux.microsoft.com>
-Date: Mon, 11 Mar 2024 15:25:55 +0100
-In-Reply-To: <1709768084-22539-2-git-send-email-wufan@linux.microsoft.com>
-References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
-	 <1709768084-22539-2-git-send-email-wufan@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1710168601; c=relaxed/simple;
+	bh=e8CiAmgO0wiFEU0lpW/tjGGeuN/cX06JNqlOD4nCUz4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=msp2dAy0GVwwEz+PL8BrqMaOFBut5YWodpldbXAULcXBtUcBPIj61mFqLuP+SXTIrXg3u9gQNDalYItLv0tEBUlCK/0t0tPnglkx36KqMv67cAUTS0ppCSOlLOvJ0HytMws2f2pyacR5noXGSxc9sTK2TaNYoFpPM43R6utgNoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeetKhZI; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeetKhZI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69522C433F1;
+	Mon, 11 Mar 2024 14:50:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710168600;
+	bh=e8CiAmgO0wiFEU0lpW/tjGGeuN/cX06JNqlOD4nCUz4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=BeetKhZIY4nm4eBgX5z7dEcqOn5SKXPwFZ8+HxhcuJTzdi8rVPwhM1mlwoTVB43U6
+	 UWrTIYxVpn39uggxoYjtABtSMij908AaVIDWzUWv3VVTorb/YLkerBRLFqMK9/PGQD
+	 dQKT3sK0fC6ienEUbJMmrGM35KllOyF0oIUf0GVGE3736+yWxTU+lRl7bHO8LGJjOb
+	 0HTxZnaYMU4Nlag1aT1I14FwRXc8n5ylmhp+Xcfq6NH2kSSsFHDVY0J3CFKVsNwJW0
+	 Lmytb9jLJlUDS/ZXUzoxCXIWq/9x7+IMSNcDP8cv7UlBOcw195V2Z/GgCHnv2NgGCE
+	 /EFIFPVesSqbw==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v9 00/27] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Mon, 11 Mar 2024 15:49:28 +0100
+Message-Id: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:LxC2BwBHPhd3FO9lMookBA--.19094S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3WrW8Zw4DCw48GrW7Aw45GFg_yoWDJw48pF
-	4kKF4fGFsrXFy3Wrs3CF1xGF1Sg395Gry5CwsxWw1jyFn0vw10qr42kryUCF15XrsrArW8
-	K3ZF9w4a93Wqv3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkmb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6xAYrwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-	WxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
-	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUgEksDUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgATBF1jj5c3xAAAsA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPgZ72UC/43PwWrDMAwG4FcZPs/DlmzZ3mnvMXZwbbkNXRNIS
+ mCUvvvEYMtGwOwkfoQ+8d/UwvPAi3p+uKmZ12EZplFCenxQ5ZTHI+uhSlZgAE20Tp8viz7Vy6D
+ LNI5crtOsl2u+siZLIQamkCAoOT8Niyw/vuTVynj9B7JabbRx0XhXG5J3L2eeR35/muajehN1h
+ U1KYDoSiGRDQqi51hrqTsIfyRq0HQlFQogH0zI7zGEnuU2yEDuSE6kEMmB9REO8k/wmgQkdyYt
+ EHiPbVAndvh19S06+QUcikZo7lFpSSExtJ4VfEvSkIFJsLjcffCsMOyluEnbbRZG4UaaGNpE7/
+ JHu9/sn4DP42rcCAAA=
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8910; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=e8CiAmgO0wiFEU0lpW/tjGGeuN/cX06JNqlOD4nCUz4=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnvpVjMeR+XLTjslXWBOTAocu0L1t9fXBluzjdpvFS7+
+ rO1/9lLHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjI/VOMDL2rFy3evHGKraa7
+ XLJj0cPofNvd2T82h02TdpKe7RPHfZeR4dyG4LKNt2x8TT8VN/z4Mqs3eGoxk7qw8aVLX5nnxOd
+ 8YgQA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Wed, 2024-03-06 at 15:34 -0800, Fan Wu wrote:
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
->=20
-> Integrity Policy Enforcement (IPE) is an LSM that provides an
-> complimentary approach to Mandatory Access Control than existing LSMs
-> today.
->=20
-> Existing LSMs have centered around the concept of access to a resource
-> should be controlled by the current user's credentials. IPE's approach,
-> is that access to a resource should be controlled by the system's trust
-> of a current resource.
->=20
-> The basis of this approach is defining a global policy to specify which
-> resource can be trusted.
->=20
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> ---
-> v2:
->   + Split evaluation loop, access control hooks,
->     and evaluation loop from policy parser and userspace
->     interface to pass mailing list character limit
->=20
-> v3:
->   + Move ipe_load_properties to patch 04.
->   + Remove useless 0-initializations
->   + Prefix extern variables with ipe_
->   + Remove kernel module parameters, as these are
->     exposed through sysctls.
->   + Add more prose to the IPE base config option
->     help text.
->   + Use GFP_KERNEL for audit_log_start.
->   + Remove unnecessary caching system.
->   + Remove comments from headers
->   + Use rcu_access_pointer for rcu-pointer null check
->   + Remove usage of reqprot; use prot only.
->   + Move policy load and activation audit event to 03/12
->=20
-> v4:
->   + Remove sysctls in favor of securityfs nodes
->   + Re-add kernel module parameters, as these are now
->     exposed through securityfs.
->   + Refactor property audit loop to a separate function.
->=20
-> v5:
->   + fix minor grammatical errors
->   + do not group rule by curly-brace in audit record,
->     reconstruct the exact rule.
->=20
-> v6:
->   + No changes
->=20
-> v7:
->   + Further split lsm creation into a separate commit from the
->     evaluation loop and audit system, for easier review.
->=20
->   + Introduce the concept of an ipe_context, a scoped way to
->     introduce execution policies, used initially for allowing for
->     kunit tests in isolation.
->=20
-> v8:
->   + Follow lsmname_hook_name convention for lsm hooks.
->   + Move LSM blob accessors to ipe.c and mark LSM blobs as static.
->=20
-> v9:
->   + Remove ipe_context for simplification
->=20
-> v10:
->   + Add github url
->=20
-> v11:
->   + Correct github url
->   + Move ipe before bpf
->=20
-> v12:
->   + Switch to use lsm_id instead of string for lsm name
->=20
-> v13:
->   + No changes
->=20
-> v14:
->   + No changes
-> ---
->  MAINTAINERS              |  7 +++++++
->  include/uapi/linux/lsm.h |  1 +
->  security/Kconfig         | 11 ++++++-----
->  security/Makefile        |  1 +
->  security/ipe/Kconfig     | 17 +++++++++++++++++
->  security/ipe/Makefile    |  9 +++++++++
->  security/ipe/ipe.c       | 41 ++++++++++++++++++++++++++++++++++++++++
->  security/ipe/ipe.h       | 16 ++++++++++++++++
->  security/security.c      |  3 ++-
->  9 files changed, 100 insertions(+), 6 deletions(-)
->  create mode 100644 security/ipe/Kconfig
->  create mode 100644 security/ipe/Makefile
->  create mode 100644 security/ipe/ipe.c
->  create mode 100644 security/ipe/ipe.h
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 13158047f2af..8517011f88ff 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10650,6 +10650,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel=
-/git/zohar/linux-integrity.git
->  F:	security/integrity/
->  F:	security/integrity/ima/
-> =20
-> +INTEGRITY POLICY ENFORCEMENT (IPE)
-> +M:	Fan Wu <wufan@linux.microsoft.com>
-> +L:	linux-security-module@vger.kernel.org
-> +S:	Supported
-> +T:	git https://github.com/microsoft/ipe.git
-> +F:	security/ipe/
-> +
->  INTEL 810/815 FRAMEBUFFER DRIVER
->  M:	Antonino Daplas <adaplas@gmail.com>
->  L:	linux-fbdev@vger.kernel.org
-> diff --git a/include/uapi/linux/lsm.h b/include/uapi/linux/lsm.h
-> index f8aef9ade549..43e2fb32745a 100644
-> --- a/include/uapi/linux/lsm.h
-> +++ b/include/uapi/linux/lsm.h
-> @@ -62,6 +62,7 @@ struct lsm_ctx {
->  #define LSM_ID_LOCKDOWN		108
->  #define LSM_ID_BPF		109
->  #define LSM_ID_LANDLOCK		110
-> +#define LSM_ID_IPE		111
-> =20
->  /*
->   * LSM_ATTR_XXX definitions identify different LSM attributes
-> diff --git a/security/Kconfig b/security/Kconfig
-> index 52c9af08ad35..cc7adfbb6b96 100644
-> --- a/security/Kconfig
-> +++ b/security/Kconfig
-> @@ -194,6 +194,7 @@ source "security/yama/Kconfig"
->  source "security/safesetid/Kconfig"
->  source "security/lockdown/Kconfig"
->  source "security/landlock/Kconfig"
-> +source "security/ipe/Kconfig"
-> =20
->  source "security/integrity/Kconfig"
-> =20
-> @@ -233,11 +234,11 @@ endchoice
-> =20
->  config LSM
->  	string "Ordered list of enabled LSMs"
-> -	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,=
-apparmor,bpf" if DEFAULT_SECURITY_SMACK
-> -	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smac=
-k,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
-> -	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,bpf" if DEFAUL=
-T_SECURITY_TOMOYO
-> -	default "landlock,lockdown,yama,loadpin,safesetid,bpf" if DEFAULT_SECUR=
-ITY_DAC
-> -	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,=
-apparmor,bpf"
-> +	default "landlock,lockdown,yama,loadpin,safesetid,smack,selinux,tomoyo,=
-apparmor,ipe,bpf" if DEFAULT_SECURITY_SMACK
-> +	default "landlock,lockdown,yama,loadpin,safesetid,apparmor,selinux,smac=
-k,tomoyo,ipe,bpf" if DEFAULT_SECURITY_APPARMOR
-> +	default "landlock,lockdown,yama,loadpin,safesetid,tomoyo,ipe,bpf" if DE=
-FAULT_SECURITY_TOMOYO
-> +	default "landlock,lockdown,yama,loadpin,safesetid,ipe,bpf" if DEFAULT_S=
-ECURITY_DAC
-> +	default "landlock,lockdown,yama,loadpin,safesetid,selinux,smack,tomoyo,=
-apparmor,ipe,bpf"
->  	help
->  	  A comma-separated list of LSMs, in initialization order.
->  	  Any LSMs left off this list, except for those with order
-> diff --git a/security/Makefile b/security/Makefile
-> index 59f238490665..cc0982214b84 100644
-> --- a/security/Makefile
-> +++ b/security/Makefile
-> @@ -25,6 +25,7 @@ obj-$(CONFIG_SECURITY_LOCKDOWN_LSM)	+=3D lockdown/
->  obj-$(CONFIG_CGROUPS)			+=3D device_cgroup.o
->  obj-$(CONFIG_BPF_LSM)			+=3D bpf/
->  obj-$(CONFIG_SECURITY_LANDLOCK)		+=3D landlock/
-> +obj-$(CONFIG_SECURITY_IPE)		+=3D ipe/
-> =20
->  # Object integrity file lists
->  obj-$(CONFIG_INTEGRITY)			+=3D integrity/
-> diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-> new file mode 100644
-> index 000000000000..e4875fb04883
-> --- /dev/null
-> +++ b/security/ipe/Kconfig
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# Integrity Policy Enforcement (IPE) configuration
-> +#
-> +
-> +menuconfig SECURITY_IPE
-> +	bool "Integrity Policy Enforcement (IPE)"
-> +	depends on SECURITY && SECURITYFS
-> +	select PKCS7_MESSAGE_PARSER
-> +	select SYSTEM_DATA_VERIFICATION
-> +	help
-> +	  This option enables the Integrity Policy Enforcement LSM
-> +	  allowing users to define a policy to enforce a trust-based access
-> +	  control. A key feature of IPE is a customizable policy to allow
-> +	  admins to reconfigure trust requirements on the fly.
-> +
-> +	  If unsure, answer N.
-> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-> new file mode 100644
-> index 000000000000..f7a80d0f18f8
-> --- /dev/null
-> +++ b/security/ipe/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (C) Microsoft Corporation. All rights reserved.
-> +#
-> +# Makefile for building the IPE module as part of the kernel tree.
-> +#
-> +
-> +obj-$(CONFIG_SECURITY_IPE) +=3D \
-> +	ipe.o \
-> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-> new file mode 100644
-> index 000000000000..b013aed15e73
-> --- /dev/null
-> +++ b/security/ipe/ipe.c
-> @@ -0,0 +1,41 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +#include <uapi/linux/lsm.h>
-> +
-> +#include "ipe.h"
-> +
-> +static struct lsm_blob_sizes ipe_blobs __ro_after_init =3D {
-> +};
-> +
-> +static const struct lsm_id ipe_lsmid =3D {
-> +	.name =3D "ipe",
-> +	.id =3D LSM_ID_IPE,
-> +};
-> +
-> +static struct security_hook_list ipe_hooks[] __ro_after_init =3D {
-> +};
-> +
-> +/**
-> + * ipe_init - Entry point of IPE.
-> + *
-> + * This is called at LSM init, which happens occurs early during kernel
-> + * start up. During this phase, IPE registers its hooks and loads the
-> + * builtin boot policy.
-> + * Return:
-> + * * 0		- OK
-> + * * -ENOMEM	- Out of memory
-> + */
-> +static int __init ipe_init(void)
-> +{
-> +	security_add_hooks(ipe_hooks, ARRAY_SIZE(ipe_hooks), &ipe_lsmid);
-> +
-> +	return 0;
-> +}
-> +
-> +DEFINE_LSM(ipe) =3D {
-> +	.name =3D "ipe",
-> +	.init =3D ipe_init,
-> +	.blobs =3D &ipe_blobs,
-> +};
-> diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
-> new file mode 100644
-> index 000000000000..a1c68d0fc2e0
-> --- /dev/null
-> +++ b/security/ipe/ipe.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#ifndef _IPE_H
-> +#define _IPE_H
-> +
-> +#ifdef pr_fmt
-> +#undef pr_fmt
-> +#endif
-> +#define pr_fmt(fmt) "IPE: " fmt
-> +
-> +#include <linux/lsm_hooks.h>
-> +
-> +#endif /* _IPE_H */
-> diff --git a/security/security.c b/security/security.c
-> index 7035ee35a393..f168bc30a60d 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -51,7 +51,8 @@
->  	(IS_ENABLED(CONFIG_SECURITY_SAFESETID) ? 1 : 0) + \
->  	(IS_ENABLED(CONFIG_SECURITY_LOCKDOWN_LSM) ? 1 : 0) + \
->  	(IS_ENABLED(CONFIG_BPF_LSM) ? 1 : 0) + \
-> -	(IS_ENABLED(CONFIG_SECURITY_LANDLOCK) ? 1 : 0))
-> +	(IS_ENABLED(CONFIG_SECURITY_LANDLOCK) ? 1 : 0) + \
-> +	(IS_ENABLED(CONFIG_SECURITY_IPE) ? 1 : 0))
+Hi,
 
-Hi Fan
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-you would also need to update
-tools/testing/selftests/lsm/lsm_list_modules_test.c.
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-Roberto
-=20
->  /*
->   * These are descriptions of the reasons that can be passed to the
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
+
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
+
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v9:
+- Generate every infoframe but the HDMI vendor one if has_hdmi_infoframe
+  isn't set
+- Fix typos in the doc
+- Removed undef for inexisting macro
+- Improve the Broadcast RGB sanitation test
+- Make EDID bytes array const
+- Link to v8: https://lore.kernel.org/r/20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org
+
+Changes in v8:
+- Drop applied patches
+- Drop the YUV limited range mention in the Broadcast RGB documentation
+- Rephrase the vc4_dummy_plane removal commit log
+- Move infroframe mutex initialisation to the main drm_connector_init
+  function to make sure it's always initialised
+- Link to v7: https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+Changes in v7:
+- Rebased on top of current next
+- Only consider the Broadcast RGB property if the output format is RGB,
+  and use a limited range otherwise
+- Document the fact that Broadcast RGB only applies if the output format
+  is RGB
+- Add some test to make sure we always get a limited range if we have a
+  YCbCr output format.
+- Link to v6: https://lore.kernel.org/r/20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org
+
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (27):
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  663 +++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  265 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  110 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  143 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   80 +-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1944 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1059 ++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 +++++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  638 +------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  257 +++
+ 21 files changed, 5012 insertions(+), 768 deletions(-)
+---
+base-commit: 8df1ddb5bf11ab820ad991e164dab82c0960add9
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
