@@ -1,149 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7793BBCC;
-	Mon, 11 Mar 2024 12:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772013B79F;
+	Mon, 11 Mar 2024 12:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710159027; cv=none; b=lnksPT3VkwrTqh/h7AWuik7lUSFTWJtwwST2k/ArSR7b2rZoagGgJ/tnwlZwl/85w8T4ga/iPZ7PhGDoQiMhrb59+zzJfMtTbWfo2ecI8Su17uusMuV0CKLMb/5tCjgZzEhu4yqLeUO4+rSv+ifd3MU3x0YseDd3CPldm4pvEpY=
+	t=1710159654; cv=none; b=HvsQ6YtU9WBs2pwEoFN8m76uY1ltO8iMajwqlDb7aeNpnsDZCxd7vn458u8ocJhTvXXb9jg7m2eh1qInniLCcTHEtbeWSesIgedJ31ck9Y92RLmAneS/5dUJyen/yDWDDG1Bhsk0J8gltjyVFCC8V8V1XnnQAfmfVBtbbF4u/+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710159027; c=relaxed/simple;
-	bh=9qWXx17ikIntTOyse8M12B0v0qduGm1iZ4PJfXmIpkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nb5oxme09c4blzuI/XfiXBV7NLdQCb4hSGLV0CSWqYuwFppuDKSPBUaceBddp1FL12iz07oyY2SCXJq3LYNTpN4DBPS6VafL2CEUOoyVGT4sOeHV+embMy7M4kLbe/a7pMSgpIa/1iWcxJwYH6XeBZKWCjwNobfHngC2lDYiz04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dloQrcOn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710159654; c=relaxed/simple;
+	bh=lT6ed5D2J62Z0WKSMowg1OKClWI1/Su5wTS+SRzONWc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Mime-Version; b=FtrhXUYojvm6W+2b0Hq+UpOQb3ByK7CRI/vzigF8y8urKOxf+OGvEJhTMUrc5/yZdzioQcnRqYNxC2sK1Cd5vv2pGqP2PqOYrIzh2koNUWYHwFQ62Ej2LgQoJPkPKTXbJo19vAtnGF2i44s0XNggoaYk7JvbcPVClD26VUv2pOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jDJKrIIV; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dloQrcOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC2D8C433F1;
-	Mon, 11 Mar 2024 12:10:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710159027;
-	bh=9qWXx17ikIntTOyse8M12B0v0qduGm1iZ4PJfXmIpkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dloQrcOnr8miZHkrYFRdr5F7iIWOqYnML3SiUDjAyIRIfEp74WSTrMeaCuFPWn8N5
-	 oc9CoE+pbo01kVwBvHz7N0Ustnz8sE0pCzoFbo0pZ68bcsddndteBAcKlYBJrSGhla
-	 20AQ7DRDlEiPyjRrgeHvd1V/WjDmT6uUP/+bc1oBw35Y5ibYw1WL58XdPZW6HHn9nX
-	 mVSs54f6e/rIyvFTzqPvOwRtwbtfL/ZHWLp8S6RT2ghUBll8o1ve7N7z7WlxVe5/ai
-	 gmwF13/wOcomvgulTJJs/+uu1/ov805xXRDvQjNUGAb7ym4DF4p1TNZdmV2Ntn/cV4
-	 30AxntOEULiqA==
-Date: Mon, 11 Mar 2024 13:10:24 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sebastian Wick <sebastian.wick@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: Document requirements for driver-specific KMS props
- in new drivers
-Message-ID: <20240311-nostalgic-tungsten-warthog-c4c561@houat>
-References: <20240229202833.198691-1-sebastian.wick@redhat.com>
- <20240306-hulking-funky-fox-b9581b@houat>
- <20240306165009.GB11561@toolbox>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jDJKrIIV"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42BCCZUw010210;
+	Mon, 11 Mar 2024 12:20:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=lwhdy7sEmrfhsh15zlnWmnETxiy2rvRxB8qfY+77AyA=;
+ b=jDJKrIIV954ys97/Gd1GI8allhvbwWUwScaZum+7Cv+H+DbUMP2S2NzLUvUYngR/rjAp
+ 0oeI/PXvasP6NrZpe60kGv4971jF4k/gfAcpAsrw4G+kkF2X7f54Ef+NBLWU/oUCqfuA
+ r3Rqq3FqDaSzSAfFnBJkEk/osYtXGck6PQm1FpZhwZJ5C2Ns4DddoUa3AHfPLAguQy+W
+ nKTSrWwfRbwAuiJibbkiGY1HM1gKjclt+Hjj9HZAMWkcLXR7/ADjLOJSOvb0uY/J6ucO
+ B+IhEKSLrFO714V07rvnuRtadjprMpVPb8eIZ/emQCQMAicBKk35DEkj58jlfrdUFAgH bw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wt1rm853t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 12:20:02 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 42BCCajx010239;
+	Mon, 11 Mar 2024 12:20:02 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wt1rm8539-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 12:20:01 +0000
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42BBqlTd013459;
+	Mon, 11 Mar 2024 12:20:00 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ws4ak0228-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Mar 2024 12:20:00 +0000
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42BCJwtC46203286
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Mar 2024 12:20:00 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3D8F058043;
+	Mon, 11 Mar 2024 12:19:58 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D3E075805D;
+	Mon, 11 Mar 2024 12:19:56 +0000 (GMT)
+Received: from li-5cd3c5cc-21f9-11b2-a85c-a4381f30c2f3.ibm.com (unknown [9.61.133.174])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 11 Mar 2024 12:19:56 +0000 (GMT)
+Message-ID: <d923917cfd387cbf275eece78406f9ad07e6d0d3.camel@linux.ibm.com>
+Subject: Re: [RFC][PATCH 8/8] ima: Detect if digest cache changed since last
+ measurement/appraisal
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        wufan@linux.microsoft.com, pbrobinson@gmail.com, zbyszek@in.waw.pl,
+        hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, jannh@google.com,
+        dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com,
+        ppavlu@suse.com, petr.vorel@gmail.com, petrtesarik@huaweicloud.com,
+        mzerqung@0pointer.de, kgold@linux.ibm.com,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Date: Mon, 11 Mar 2024 08:19:56 -0400
+In-Reply-To: <4bac45ced03f82c2f3775684368e22db5dafea11.camel@huaweicloud.com>
+References: <20240214143525.2205481-1-roberto.sassu@huaweicloud.com>
+	 <20240214143525.2205481-9-roberto.sassu@huaweicloud.com>
+	 <ddb1c28356fb8a4dcca9bff6dc206802d7981bb8.camel@linux.ibm.com>
+	 <4bac45ced03f82c2f3775684368e22db5dafea11.camel@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-23.el8_9) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="axw6wumxavhxptqy"
-Content-Disposition: inline
-In-Reply-To: <20240306165009.GB11561@toolbox>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: OAzy5FfneaTDWaQX9emmkLnO7yIkUJIp
+X-Proofpoint-GUID: wjTTtUEvQirIKc1DyaeYRbb8qa3jMuEM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_08,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 lowpriorityscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 clxscore=1015 impostorscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403110092
 
+On Mon, 2024-03-11 at 10:11 +0100, Roberto Sassu wrote:
+> 
+> > > @@ -386,8 +402,6 @@ static int process_measurement(struct file *file,
+> > > const
+> > > struct cred *cred,
+> > >  			if (verif_mask_ptr)
+> > >  				allow_mask = policy_mask & *verif_mask_ptr;
+> > >  		}
+> > > -
+> > > -		digest_cache_put(digest_cache);
+> > 
+> > Keeping a reference to the digest_cache list for each file in the iint cache
+> > until the file is re-accessed, might take a while to free.
+> 
+> Yes, that is the drawback...
+> 
+> > I'm wondering if it necessary to keep a reference to the digest_cache.  Or
+> > is it
+> > possible to just compare the existing iint->digest_cache pointer with the
+> > current digest_cache pointer?
+> 
+> If the pointer value is the same, it does not guarantee that it is the
+> same digest cache used for the previous verification. It might have
+> been freed and reallocated.
 
---axw6wumxavhxptqy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agreed.
+> 
+> Maybe, if the digest_cache LSM is able to notify to IMA that the digest
+> cache changed, so that IMA resets its flags in the integrity metadata,
+> we would not need to pin it.
 
-Hi Sebastian,
+Yes, something similar to the "ima_lsm_policy_notifier".
 
-On Wed, Mar 06, 2024 at 05:50:09PM +0100, Sebastian Wick wrote:
-> On Wed, Mar 06, 2024 at 03:14:15PM +0100, Maxime Ripard wrote:
-> > On Thu, Feb 29, 2024 at 09:28:31PM +0100, Sebastian Wick wrote:
-> > > When extending support for a driver-specific KMS property to addition=
-al
-> > > drivers, we should apply all the requirements for new properties and
-> > > make sure the semantics are the same and documented.
-> > >=20
-> > > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
-> > > ---
-> > >  Documentation/gpu/drm-kms.rst | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-km=
-s.rst
-> > > index 13d3627d8bc0..afa10a28035f 100644
-> > > --- a/Documentation/gpu/drm-kms.rst
-> > > +++ b/Documentation/gpu/drm-kms.rst
-> > > @@ -496,6 +496,11 @@ addition to the one mentioned above:
-> > > =20
-> > >  * An IGT test must be submitted where reasonable.
-> > > =20
-> > > +For historical reasons, non-standard, driver-specific properties exi=
-st. If a KMS
-> > > +driver wants to add support for one of those properties, the require=
-ments for
-> > > +new properties apply where possible. Additionally, the documented be=
-havior must
-> > > +match the de facto semantics of the existing property to ensure comp=
-atibility.
-> > > +
-> >=20
-> > I'm conflicted about this one, really.
-> >=20
-> > On one hand, yeah, it's definitely reasonable and something we would
-> > want on the long run.
-> >=20
-> > But on the other hand, a driver getting its technical debt worked on for
-> > free by anyone but its developpers doesn't seem fair to me.
->=20
-> Most of the work would have to be done for a new property as well. The
-> only additional work is then documenting the de-facto semantics and
-> moving the existing driver-specific code to the core.
+Mimi
 
-Sure, I think part of the problem with the Broadcast RGB property was
-also that it hasn't been reviewed by anyone when it was submitted for
-vc4.
-
-> Would it help if we spell out that the developers of the driver-specific
-> property shall help with both tasks?
-
-Yes, that's a good idea, and we should probably require that the
-maintainers of the driver that first added that property ack the
-"standardization" work too.
-
-> > Also, I assume this is in reaction to the discussion we had on the
-> > Broadcast RGB property. We used in vc4 precisely because there was some
-> > userspace code to deal with it and we could just reuse it, and it was
-> > documented. So the requirements were met already.
->=20
-> It was not in drm core and the behavior was not documented properly at
-> least.
->=20
-> Either way, with Broadcast RGB we were already in a bad situation
-> because it was implemented by 2 drivers independently. This is what I
-> want to avoid in the first place. The cleanup afterwards (thank you!)
-> just exposed the problem.
-
-Actually, I just found out there's three, the third one not being
-compatible at all with the other two:
-https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/gma500/cdv_d=
-evice.c#L471
-
-I'll send a patch to figure that one out once the rest will be merged.
-
-Maxime
-
---axw6wumxavhxptqy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe70rwAKCRDj7w1vZxhR
-xQxYAP9q1SJBPEiMwDRctpVhP8hqW4wSqfU9lWtFR0RFBytb2QEAhtpGLd/0R/wf
-65kAq73rt4zUgIctaaBFIM6jbgbl4Qs=
-=V+zm
------END PGP SIGNATURE-----
-
---axw6wumxavhxptqy--
