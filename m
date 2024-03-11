@@ -1,189 +1,113 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2068.outbound.protection.outlook.com [40.107.101.68])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA1F41C92;
-	Mon, 11 Mar 2024 15:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710171645; cv=fail; b=XZwpR2Wv/A0OBjLZyHuh6HEuIq5oyq6Wh7ex7xrXd1k14J5MuUK1YJOYOQTQNhOilvxLuGuIGKxW9IKwTPA3Hmn+wJNF1yUd81essOYb4XeRGQZuf79HlvLYY84KWLD3eQnrHB3Iw1DDHqfYt6Hy0bSARdqWfh3JB2jA2Z53Mos=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710171645; c=relaxed/simple;
-	bh=vWqLhp+FLexoMjfDMJNXXUFkPVYWtw3uVWpGRNXKr9I=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Kvd7afdKZ/vmLZmqvbiMsNWzTUP/w8ZuTwRf42MDkphWiY9FiSDHiDyBtmwUw3MCujai5OjNEY5a6LsuvImPAlUioywf8b0u7WxTcF0aPJj/g9zo68gntlyAlwQ1MN3njrWJIe1lQnrbW2wVzbo5eQNGM+IhnGbKQ850RFt9wKo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MVZSyR6U; arc=fail smtp.client-ip=40.107.101.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F7A47F48
+	for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 15:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710172754; cv=none; b=n1e6tEKRiF7vZiD34l1cbocWgixn5qlbU06wqWyUfijqp1Uj+Jwh2Rc5HyvUT0zGKDk0M+isODl3I9bBCeAM/ZW5jx/SAS+d/UUeC/OzciQ7arIs1sKBwEF4Jbxwki99Or6i6N3o0JzSXujRBY3xWO7Z9h4CemRFOBoC77Ny7YY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710172754; c=relaxed/simple;
+	bh=18xX4OvWa+leBjLCZv7ewn4yGUE9xohPXWWIi7DpOLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Avc61VM/34ZsuCqjIzpyUJQggptVkupjBtAco9KuGlFdoe3jwogVwmqajXegsHBpjNAufz3yPpSY7WpVQVd5S13f9+8FDhltDeaeFzNoAx0kXvG8VyBZL5BeSdL7ZVS4Zf8wB20P3QJlTQwvwJJIY/RMOCM5rFL92rTUx6hJrDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZyueOB0D; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MVZSyR6U"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fZe7g6cMHugRe2yN71ClbPzzWgSYJhlas52lrfJotggxGvkbKHxBR6ahAaB1EYy3kF6gCN9gMU4UMwo4OStMyhzSWHkYqb3C5+Iax3AOZ3INJ/T3h+CDNiLpmuzcqsRR8pE0AtW6UNTXQf/i2BIZabGFEE6uIgVf38/Ng+8hhTX0uMIpVxKyBcRcUYulgXzpHvRBxDaDeeF1NpLaoFU2IqYHqmPWv0Loccu/1Int+lFiLFGcYFRRD/tr95yol5gWwI79wwGU64pBcGTozk6ZQMjv4KlhxwsVpgTES7r4Skr3O2qUUB5RWOp1+Gh0jlx012atMmn232lyD94EcRHRMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7mj7s/OOvsdZqaBwZ9jRfhxgkUvpihhdr6b/APsSgIs=;
- b=mJxymhN07fEvxL7DJm/M+O3RWOKQ6L0cWKlGueFufXrv44v0HedZDOmKp6gkS411OalDXNm9mtB+vbjdftnWDYos6bV95C63KY1qR/42cDbgTcd4SuqttzouMgld4KwSqwGl53e0CFNVDMnwqHkT7euQ5jfyb1gL+HjGlQcQGNuNAw2HOMpz2sVhp/DxmgO2NvBvMTq38zzYFHMPzUV5GUq8khxFri+HZNgEEX8E8UJ0JIPcI1y4J8zRpwhMEc+FbwuseQq+IOFZkSlzjQpz+5GoWZImT0t7A6VSGKDxbGCO6SLdA7RVDrkC2zSXZ1llHJ4sOsG2DbOcsW8TxEUv9w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7mj7s/OOvsdZqaBwZ9jRfhxgkUvpihhdr6b/APsSgIs=;
- b=MVZSyR6U8+7XRDlWP9ZRoSiD2pwk6a6TLK961txmI9L4F+TWRk5vepVRWA1qNkVb63vylJ6PrhSayYqUKPiSAskx5ue4bEu75xpr0/JHSJEwou3QPkHXbHqBQuyT7WpdYsT4IoG2Pnfv7jIIRIL39hYf2k7cqExb15sz4TrezFg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by LV3PR12MB9234.namprd12.prod.outlook.com (2603:10b6:408:1a0::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Mon, 11 Mar
- 2024 15:40:40 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::873e:e31:6eff:36a4]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::873e:e31:6eff:36a4%5]) with mapi id 15.20.7362.035; Mon, 11 Mar 2024
- 15:40:40 +0000
-Message-ID: <4b3418ed-751d-4e37-8d72-f2b4891eb714@amd.com>
-Date: Mon, 11 Mar 2024 10:40:35 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Reinette Chatre <reinette.chatre@intel.com>,
- James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <cover.1705688538.git.babu.moger@amd.com>
- <2f373abf-f0c0-4f5d-9e22-1039a40a57f0@arm.com>
- <474ebe02-2d24-4ce3-b26a-46c520efd453@amd.com>
- <b6bb6a59-67c2-47bc-b8d3-04cf8fd21219@intel.com>
- <3fe3f235-d8a6-453b-b69d-6b7f81c07ae1@amd.com>
- <9b94b97e-4a8c-415e-af7a-d3f832592cf9@intel.com>
- <1ae73c9a-cec4-4496-86c6-3ffcef7940d6@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
- <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR13CA0013.namprd13.prod.outlook.com
- (2603:10b6:806:21::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZyueOB0D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710172751;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0DaVe9UI/74uhr3vyv9Mr2EI8STk16ojBYtV0kWhR6s=;
+	b=ZyueOB0DVRKzhLQ0LIcB6gBLQLNRVJzoLmc8gJI4xgx0M/Ao/UrglS00EwuJDJ8eObMJ5Y
+	wWulOskQFsWGiWq4hE1E5FU6VbgSzliCds21H2UrRVKX/ZjGSCGnIIZNZ/dgUIMNT2YtSp
+	34avERJmQNiCQ9lTCOOUphrJgi4cvPo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-284-0fuM8aADNkiGlWdUvlqP6w-1; Mon, 11 Mar 2024 11:59:07 -0400
+X-MC-Unique: 0fuM8aADNkiGlWdUvlqP6w-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-33e80690477so1371103f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 08:59:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710172746; x=1710777546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0DaVe9UI/74uhr3vyv9Mr2EI8STk16ojBYtV0kWhR6s=;
+        b=ZKHQymD041ZYmlghDLC1WatST9e61arXwT4VP7b1XuP+TUdfZFsli611HVJCdlJ7md
+         5g+MQkKmbvPB4QPaROrPL12O2Xv5vKDxgouWL01bpRz3WCwj9YO794kWGi0o/hdeo98U
+         RZw5Int1akrhG8OEd+CqfTUVZwEcfOD+hcdU+2sda3bT+vYeJqAYbP4p8lvgtizdKBmO
+         jvIkY7qlPcL94mVdb9eWxN6nOCfJv7F5K3L0oG/FZ7BABrGqveRhUk+42JefMwh6/62n
+         gjFwzffPachQhmfGi2W+absL6UoRjCcGV4tFBFfwh9++y+2CwbyhbwCap/bTyELBW5kq
+         0KLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVanM/m2qyaboKW4jdJyQsF50JH94txktN5PVY/15dXxmsO3eDYk0He3EuM+Dxh+//DLhXfuGKeM0HqAUOvkzIestmZmkLb5Iwd
+X-Gm-Message-State: AOJu0YzMlc7xC+3EQRM0eA0Oy1zkEVNEdpF78Q4PrJUWfm/Hxiw55RJp
+	EoPi9jeEZ7iAkr5cPYKETHdDlGD6aI7+RRL5z+tqlHILckRHDq18sDSJX7PNAx0L7MV8XUsjGyS
+	OERprWJi4qQZ0KMDnrBa5DmrsJR79xo3tgsUHowuetbly6mDA9jElA3JPRw==
+X-Received: by 2002:a5d:5266:0:b0:33e:7bef:8ac9 with SMTP id l6-20020a5d5266000000b0033e7bef8ac9mr4426690wrc.42.1710172745909;
+        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAohlcaa5hCeO6/rNdnXeWXIrJX3SzsKOW0z/TCgQ3k78FXEykJ0N240bYuJJMlujXGYrRJg==
+X-Received: by 2002:a5d:5266:0:b0:33e:7bef:8ac9 with SMTP id l6-20020a5d5266000000b0033e7bef8ac9mr4426674wrc.42.1710172745566;
+        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
+Received: from toolbox.fritz.box ([2001:9e8:89a8:bc00:4f1a:435e:d5a8:5d5a])
+        by smtp.gmail.com with ESMTPSA id p12-20020adf9d8c000000b0033cf60e268fsm6774274wre.116.2024.03.11.08.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
+From: Sebastian Wick <sebastian.wick@redhat.com>
+To: 
+Cc: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: Document requirements for driver-specific KMS props in new drivers
+Date: Mon, 11 Mar 2024 16:58:58 +0100
+Message-ID: <20240311155904.323488-1-sebastian.wick@redhat.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|LV3PR12MB9234:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e6e9f04-887e-4f34-ffe9-08dc41e19a2e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	bCZ3WKeDYSFzQhfZKugiqP06gWVt+VDrdvk0qiUtbxHGD9VvYpKqMrulm2nAF7LESNSX7fbzhuH6smqH0qZocTtXNQ4D0ArYewGgc4MOYBs/Fccgj1sdi6S2y9YDXs/Y/GbprUuMVN5b/JBDgzCmItJxAXjj1mhXsuy6/rC9UxvBjRY5yHURGbvhCTuP1fukfjk4Qys6mx4aZMSsJLJez78FDfm5YEK71PsiQrfJ5YuC3+dZOeNQQyFY8hrF8zd/u9rVrRNMVb1yKqr9JniF+ncLjyLFBP0h6JqWav/EXH944V9nghQo+QGqIy9k1bZjIjGGDFdP1MhNhXEV5DSqlEK9GJ05vUe2KaqUdyfc2w73KP5Ah4xKn6GRZ3mc1rU0pmmBGaPfK5HVrwJcsHx0XVO58NvSM4+PJeEFMDXg2ECisLQuiW85N5oB1agzeHX3fFk3rGa4nGJ8BRrK4+bzFway2H68Um8KIqq/CdGojzZBDZd121M5ilg3C2Bzyf/I/6SJ7/Fh8IzfBIEStzYwZL4l0fnxHLU+QGe1s6lUVZZUk0yFy5zR3Wrsy8tNONMQ1rEPMcran5C1rxT/DsnoEj0dg5QZFWrNP5O8TyX8JnhlnziKFi6iSTCC6r6ma5Nh4e6DvXusqQQdpxfvg8Tl2ie42qQr43qU1oFp6tF6FN8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?S2pQNkcvN1B2SlE1WTJLcW1sQVhraTE1akdqbms2SzZKc0Rkam1UL1haeUk5?=
- =?utf-8?B?ckVHZG1lWmVWQkdSdi8yUk1XQkdkdFBic2lOalI2UGl0UXdRaCtiTHJNMDQ1?=
- =?utf-8?B?YVlVdFViRkhSL211eThwYUE3Wkd5SEloYWo5L1RrNFVlYm1tbXE4VVJCQ3Bm?=
- =?utf-8?B?R2NBQXVVNHZnSkxTQlpaOTY2dkNXOGh0T01iL0x0Y0h6UFNJczJVR05pT2Nz?=
- =?utf-8?B?akpQSkp5d0pYN0NxWmYvRzZ0M2FWSTNWRDdhU3FIQ0hPQkhjVUZ0SElyR0d4?=
- =?utf-8?B?czIvVXpENWtvSS8ycDc3Y0NzdEorbDZnSWg1cVZCL3grSU9oNWV3VndTWTVT?=
- =?utf-8?B?NzNPNHNyVzlnMzJJRmxWZEc0YkdwWFEzaWJHYmxLS1pwbFpVVzJCNWg2VEQ0?=
- =?utf-8?B?aVFVZThjNmZlelVDMTkyd0hxYkZvMDFIZFZlZERWSVc4Sm51L1JIUEhiUGVk?=
- =?utf-8?B?TlZxRzdXNUNiYytIYmZKNjFrSlpEOVV4OWMxUjdXOGxidHA0VFZkUnNrOEdv?=
- =?utf-8?B?a2hFdEhDSGxWaHpCMW04UUZWeEdGVk9YNjdUL09vUEprZnZuRUM0T1pCQ3R4?=
- =?utf-8?B?dmU3UlErVDlhOVlzdzBTWGRKUzg2Y1RWUFZMZUNqSUJVZFgrby9NMEZnaTA1?=
- =?utf-8?B?a1hEcDhZbHkwN3pNMXZJOVZoRGdZelZVeUxwRlBJR0hPNVBjby82ODM3SFZo?=
- =?utf-8?B?U2pBK2tNQzRyZmdMNUVuTklrK3Fxbmg1UjBDS2JLWkxOTTBoNUl2dnB5QjBN?=
- =?utf-8?B?N0NPdVpJazE1cjlyT0pINHF5Yzd6cTdvRnVjK3dicFJidTc1ZXpoREFoZEE5?=
- =?utf-8?B?Rzczb2dyS2pZRW93NWlocjhsZy8xQ0k4Rk5lT2E5cDFUU2tCWktGRDlMZzQw?=
- =?utf-8?B?VDM2Wm9MOFY2b0x5Ung4dkR1bElFUnArbEVHMWFzNjNNQ09jOVRaTTRkaTY4?=
- =?utf-8?B?VUIwRzBvek10dzgwUEhsN3MvVitwZ3lGNitjckJSNndYZ1ZSL2N3d2t4WlY2?=
- =?utf-8?B?b0tGSERmaFJqb0QyRUVBSHoyKzh4d0lSRlA3cUdjdWFoTkdoc1ZoMWpCS1hu?=
- =?utf-8?B?UG55SkpENW83M2hLZ05zbnl2SHFlbGdsMUVlWERRM3IrbStJc0JWVlE1emFO?=
- =?utf-8?B?VUdXTTAzaUVJVUR4VGtYNmNOYXFYUjI4SDV3aXpMWjRhWVRWcXNNejNmb3Jr?=
- =?utf-8?B?SXZMK2MxT2dyTjlnSVNKRURmU1hBNmlhdFRZWHZKVjlrM2NYcGsrZE0yTEtZ?=
- =?utf-8?B?eklBeEpIajB4WEd0MVJwMk80clpla0ZIQXRlQkFhVmNCTFYrRHRMNThvaU5x?=
- =?utf-8?B?YjVxOUE2VUpuYlVac3pXNERWcWVSNlpLWlV1cnM2YVVnSnNady9YQ0FCaml6?=
- =?utf-8?B?UTFpZ0ZyaVpEU0lYRmZsUXAyLzlzV2pLWGI2R3ZYWkh0VmJ6Mkw5YXhuN0Z5?=
- =?utf-8?B?L3ByRG9uemFPRjI1RnpQaXhTVXQ0L25yRXU4bGlYbGJzNEZRQUxlam5MdnlF?=
- =?utf-8?B?eVQyaGFQZTU4MFhuUG9DVXpHWGVjZGV5cW1mK0JITzBIM3RPVXNhRmEwL1hM?=
- =?utf-8?B?QnoreFM5anlLM0tQNWVjSXhiVDFPOFRVRXlURVhRWXJteUJzUFRteDBvNlN1?=
- =?utf-8?B?ZmV2ekkyVVBzdDVuZnI0ZlBRSnVDaGk3QUtrS2JrT1BEUUxEQ3N0bWR0UVVk?=
- =?utf-8?B?d2F5RzVENEdZVEpHVW5sYmRlS21wYTYxSW9HWXlQRUhveWFyZHVvTG5oc2FI?=
- =?utf-8?B?SFQ3YWJ2bUN4cG1wTDBLTHJNSmdzZFJ0VWEvS2lEZ1AzQTlnTEgrR3F5MEsy?=
- =?utf-8?B?S2NpME1sWmUrQ094djBDUVVRZDZucHBHc2VZRDNjdmNVUGRnWWd5emFRSG5C?=
- =?utf-8?B?K2MyelRNbER5RzhPTmQ1STduVThBZkhBMmI5VWZLMllEaFc1OUNJbFNTSXpL?=
- =?utf-8?B?K1ZUMHZsMWlLQlZjeHFnSkhNcHVDbmZuL0szZkttN0NFcm82TnpwcTVJSzlr?=
- =?utf-8?B?dHByZjNRZjBqOW9LbERlUEp0OGxxbTg2eWc3TEp6bGZaR2pWRmhYMmlDL3RB?=
- =?utf-8?B?VmN2aGxLNUFTYWN1UTJsRVJta1FLaVgzWTVVazVDZlNjeTlkaG5RZ1o3bkVw?=
- =?utf-8?Q?9BlY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e6e9f04-887e-4f34-ffe9-08dc41e19a2e
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 15:40:39.7615
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VLBCCBAgXfTE/qZXrONWiEC6neMSreNBr1tMO/DfBaht2HwwT3beOlHuKXaSJbdd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9234
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+When extending support for a driver-specific KMS property to additional
+drivers, we should apply all the requirements for new properties and
+make sure the semantics are the same and documented.
 
-On 2/27/24 17:50, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 2/27/2024 10:12 AM, Moger, Babu wrote:
->> On 2/26/24 15:20, Reinette Chatre wrote:
->>> On 2/26/2024 9:59 AM, Moger, Babu wrote:
->>>> On 2/23/24 16:21, Reinette Chatre wrote:
-> 
->>>>> Apart from the "default behavior" there are two options to consider ...
->>>>> (a) the "original" behavior(? I do not know what to call it) - this would be
->>>>>     where user space wants(?) to have the current non-ABMC behavior on an ABMC
->>>>>     system, where the previous "num_rmids" monitor groups can be created but
->>>>>     the counters are reset unpredictably ... should this still be supported
->>>>>     on ABMC systems though?
->>>>
->>>> I would say yes. For some reason user(hardware or software issues) is not
->>>> able to use ABMC mode, they have an option to go back to legacy mode.
->>>
->>> I see. Should this perhaps be protected behind the resctrl "debug" mount option?
->>
->> The debug option gives wrong impression. It is better to keep the option
->> open to enable the feature in normal mode.
-> 
-> You mentioned that it would only be needed when there are hardware or
-> software issues ... so debug does sound appropriate. Could you please give
-> an example of how debug option gives wrong impression? Why would you want
-> users to keep using "legacy" mode on an ABMC system?
+v2: devs of the driver which introduced property shall help and ack
 
-We may not be able to use "-o debug" option to enable "legacy_mbm".
-With debug option it will always go to legcay mbm even if ABMC is supported.
+Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+---
+ Documentation/gpu/drm-kms.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-For example when ABMC is supported, I cannot mount the resctrl with debug
-option to test ABMC.
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 13d3627d8bc0..b98b98359c90 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -496,6 +496,13 @@ addition to the one mentioned above:
+ 
+ * An IGT test must be submitted where reasonable.
+ 
++For historical reasons, non-standard, driver-specific properties exist. If a KMS
++driver wants to add support for one of those properties, the requirements for
++new properties apply where possible. Additionally, the documented behavior must
++match the de facto semantics of the existing property to ensure compatibility.
++Developers of the driver that first added the property should help with those
++tasks and must ACK the documented behavior if possible.
++
+ Property Types and Blob Property Support
+ ----------------------------------------
+ 
+-- 
+2.44.0
 
-I need to have a way to mount resctrl with ABMC and debug option. I can
-add "-o legacy_mbm" to enable lecacy_mbm.
-
-Thanks
-Babu
