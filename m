@@ -1,268 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8890844C9D;
-	Mon, 11 Mar 2024 14:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7C24642B;
+	Mon, 11 Mar 2024 14:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710168677; cv=none; b=fRqeNb7CfwLXDxoFkR/fDC8S65euzq+4RUIpLZlboSOS3JrMPcF2ZgWmrAwxw0K13ONYa/I7UBVpqMvabsSqj8nEZMbHWaupe4j/olAT0DG0aSUTbhJ+i0aKKcXfWMFdnK5av8Nm8WScjTIxmlWq32mtBmM+Tx8zPakpKg3lR5Y=
+	t=1710168820; cv=none; b=p3xPzi79tAZGUR19J+R2JPoIGasK5cSd3VCMqb5isNcbdTXWb3QhXzYTj7Yi6stATvdjgqhb5uxJ8TI7TTatLOC/ceevQ88qBGgEq2CH26Izr0cUSihMAd6TwTtRC3n8H9Bws1RbBH0cxU5gnUp2NJzzkw0HVlQBOQjn5dMOaD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710168677; c=relaxed/simple;
-	bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pYXQpSJQnBqVsfLYyvjiaXTRDN6nTB6528AgfyHdhJsYXAMXytSH05nhXHa62Rw4bZH3JfrwR4wsJsVrlDhicrVSSbNzSrqQuqGWGRzPsxJ9mrtPkbUniGCoCJV3ORGWEdV40YMm40glD61Or5U69VPN4XZAflJ+s8BYT18DL2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eqUQjXV0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eqUQjXV0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B5DFC433C7;
-	Mon, 11 Mar 2024 14:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710168677;
-	bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eqUQjXV0IugkqwEhFj8QGYP23P6JbSkGYcye3j9cFt+X4JutlKZFOm2FHnjEKrdGC
-	 QhvG9acVs0pMBxBofVjyq66CTl4horVTiJ6O/jTe0bVncjpoHAWpwTVJqxP1YTC9Y5
-	 9e4Fly8Fiy+okJCi60UK6cAtp6JLib4JX1Fntk6Y4lrmJPXuHJiI7mYEv2Sf5Z/9X/
-	 BrhCZuWUKoJeyvt+BlzB30HOh+8Vg2KbP5WxuN8+RZppAFWU2mawhMhi9Q14DR2N/R
-	 euNs3C6dbnkNHK4BzvmDxpGqYRGLfok+UMLsX/mxJjwZdrJnaGWdSItn/dxhGzf4qu
-	 6ntPpt9MzPQnw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 11 Mar 2024 15:49:55 +0100
-Subject: [PATCH v9 27/27] drm/sun4i: hdmi: Switch to HDMI connector
+	s=arc-20240116; t=1710168820; c=relaxed/simple;
+	bh=PMoGFhLyp3YjG8q6lz6vCYFDE3yIaeLIe7vPuylvNAw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BsvDsDcRJ5ToRTvEgMQS+IdySl2y8Z49HtkPEx1uEywdlrWw3jy4HlusOUXhYSCk2wzOVhJ1Wpw+sRtfjuap8p+oKdUn5Xi2DP9UmnrnRjm+zP6pGJhlaH48QwLzdsfVrwpEqxBN19Sin6CCZQKAz0unT5Qs7evk7wLRO8aeBWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4TtfQr6zsVz9xrMR;
+	Mon, 11 Mar 2024 22:33:40 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 4A127140496;
+	Mon, 11 Mar 2024 22:53:23 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwBnoCTVGu9l72MbBA--.32227S2;
+	Mon, 11 Mar 2024 15:53:22 +0100 (CET)
+Message-ID: <cff886eef84ced5b4dfac1be7572dc8d06b63792.camel@huaweicloud.com>
+Subject: Re: [RFC PATCH v14 05/19] initramfs|security: Add a security hook
+ to do_populate_rootfs()
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
+  jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+ axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+ paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org,  linux-kernel@vger.kernel.org
+Date: Mon, 11 Mar 2024 15:53:06 +0100
+In-Reply-To: <1709768084-22539-6-git-send-email-wufan@linux.microsoft.com>
+References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
+	 <1709768084-22539-6-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240311-kms-hdmi-connector-state-v9-27-d45890323344@kernel.org>
-References: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
-In-Reply-To: <20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7059; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ynm2eUkg4770MXlhVxVBYTFOvcdjKNlePExaCrKIcX0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKnvpUQ/if/P3bnG7tLBZce1Hh5s3VUgcUp3wZyrcW1fs
- xdUCgZZdpSyMIhxMciKKbLECJsviTs163UnG988mDmsTCBDGLg4BWAiNy0Y/tfWZkdce95wqu+B
- bYBh8O1O3d8nWt1l7h/NN+YplOpy6GH4X5EVd/ot/4L40Av7rHlXbKt/r823ePLzLw8boqL2rD7
- lyAUA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-CM-TRANSID:GxC2BwBnoCTVGu9l72MbBA--.32227S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxurWxWFW8urW7ury3CrWDXFb_yoW5Kw4DpF
+	Wq9F13GF4kAF47W3yvk3W7Ca1aq395K3W7JrWDu3W8tF1akrn2qr43Kryqkrs7WrW7Ca1I
+	qF4avrW3Cw1Dt3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFDGOUUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgATBF1jj5c4TAAAsH
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+On Wed, 2024-03-06 at 15:34 -0800, Fan Wu wrote:
+> This patch introduces a new hook to notify security system that the
+> content of initramfs has been unpacked into the rootfs.
+>=20
+> Upon receiving this notification, the security system can activate
+> a policy to allow only files that originated from the initramfs to
+> execute or load into kernel during the early stages of booting.
+>=20
+> This approach is crucial for minimizing the attack surface by
+> ensuring that only trusted files from the initramfs are operational
+> in the critical boot phase.
+>=20
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>=20
+> ---
+> v1-v11:
+>   + Not present
+>=20
+> v12:
+>   + Introduced
+>=20
+> v13:
+>   + Rename the hook name to initramfs_populated()
+>=20
+> v14:
+>   + No changes
+> ---
+>  include/linux/lsm_hook_defs.h |  2 ++
+>  include/linux/security.h      |  8 ++++++++
+>  init/initramfs.c              |  3 +++
+>  security/security.c           | 10 ++++++++++
+>  4 files changed, 23 insertions(+)
+>=20
+> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
+h
+> index 76458b6d53da..e0f50789a18f 100644
+> --- a/include/linux/lsm_hook_defs.h
+> +++ b/include/linux/lsm_hook_defs.h
+> @@ -425,3 +425,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct c=
+red *new)
+>  LSM_HOOK(int, 0, uring_sqpoll, void)
+>  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+>  #endif /* CONFIG_IO_URING */
+> +
+> +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+I don't know, but why there is no super_block as parameter?
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -34,34 +34,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -80,18 +74,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -140,11 +138,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -193,23 +192,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -251,10 +253,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -272,15 +279,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -635,14 +648,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
+And, wouldn't be better to rely on existing hooks to identify inodes in
+the initial ram disk?
 
--- 
-2.43.2
+(gdb) p *file->f_path.dentry->d_inode->i_sb->s_type
+$3 =3D {name =3D 0xffffffff826058a9 "rootfs"
+
+That could also help if you want to enforce action based on the
+filesystem name (and why not on the UUID too).
+
+Roberto
+
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index d0eb20f90b26..619e17e59532 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -2167,4 +2167,12 @@ static inline int security_uring_cmd(struct io_uri=
+ng_cmd *ioucmd)
+>  #endif /* CONFIG_SECURITY */
+>  #endif /* CONFIG_IO_URING */
+> =20
+> +#ifdef CONFIG_SECURITY
+> +extern void security_initramfs_populated(void);
+> +#else
+> +static inline void security_initramfs_populated(void)
+> +{
+> +}
+> +#endif /* CONFIG_SECURITY */
+> +
+>  #endif /* ! __LINUX_SECURITY_H */
+> diff --git a/init/initramfs.c b/init/initramfs.c
+> index 76deb48c38cb..140619a583ff 100644
+> --- a/init/initramfs.c
+> +++ b/init/initramfs.c
+> @@ -18,6 +18,7 @@
+>  #include <linux/init_syscalls.h>
+>  #include <linux/task_work.h>
+>  #include <linux/umh.h>
+> +#include <linux/security.h>
+> =20
+>  static __initdata bool csum_present;
+>  static __initdata u32 io_csum;
+> @@ -720,6 +721,8 @@ static void __init do_populate_rootfs(void *unused, a=
+sync_cookie_t cookie)
+>  #endif
+>  	}
+> =20
+> +	security_initramfs_populated();
+> +
+>  done:
+>  	/*
+>  	 * If the initrd region is overlapped with crashkernel reserved region,
+> diff --git a/security/security.c b/security/security.c
+> index f168bc30a60d..26c28db211fd 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -5619,3 +5619,13 @@ int security_uring_cmd(struct io_uring_cmd *ioucmd=
+)
+>  	return call_int_hook(uring_cmd, 0, ioucmd);
+>  }
+>  #endif /* CONFIG_IO_URING */
+> +
+> +/**
+> + * security_initramfs_populated() - Notify LSMs that initramfs has been =
+loaded
+> + *
+> + * Tells the LSMs the initramfs has been unpacked into the rootfs.
+> + */
+> +void security_initramfs_populated(void)
+> +{
+> +	call_void_hook(initramfs_populated);
+> +}
 
