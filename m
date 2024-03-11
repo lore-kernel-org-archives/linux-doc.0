@@ -1,184 +1,182 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B982F29A9;
-	Mon, 11 Mar 2024 17:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B767537E3;
+	Mon, 11 Mar 2024 17:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710177605; cv=none; b=UOfl0xrV3kMWaEmvEptsyW8+bAsOWTmVP2KZzVCs1BP1Ir+//ChaZVIoXHHSnbHpB6JUxZAhVr6MDyCPZagyqH6XXROvlxwIo0BnASU2JP07gTe+LYb8fLYq/LCAUbVpZ6PpNCqKM4Y6ap/YbQcrmXyknKlNI6a6NOT9SyhG9Gw=
+	t=1710180001; cv=none; b=SfzUEy21WwUOg/R44JGpJf+LNyeUeFCEbDpXFja7pHcC118Ie3grjwgEkY8QY2r2JzpT6+Tf8V55EANDjfaOa0FfugCCoxVFbd/mfuGcoXOS8+EU5JfTzoPRtSmnoe0ZD7GgDarYyXs9BPrf4PhKVT67LC3cOTApay51MzKTLTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710177605; c=relaxed/simple;
-	bh=m2TxzT08YQKjAbbryIv7/Hqm7X/KD6qpUKmSbGjWy5c=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OmVJdcSngHhCPPIpwkhTKy2tFcUCVJYC3Fj0bVpiNDgz/J6xRQVhlcHSNQZPra4xoGEaOaihQd2e4RB/PmYFlIRuZMU314oPSOl5pDvXOkYYywKMG9SwH+p3jOSBvDc/GWBO+KNaf450pq7t08U+caoZWGNKb0PY1qcreJA+Jpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LoNd7a1L; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1710180001; c=relaxed/simple;
+	bh=2c3lV2jTzoYOBHWiSD2R429XF1UT/AUT774OAIhD9X8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QcwXC5lyEoSZd5Maf3RdfscjqxkSQ/g1/N27L0f2D9mFUVtV2MEjVF7usR7aCJKTS0T4IKE55VW951XCBf7xTWtzYzLCnv0x4/wlYFzs9acsMbdnEqmY41f8vCTUNX0+DSXmghm3rwYoSJd0v0jh70+Tpt0PD7bEQ/MqBbQY6Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WyL2tVQD; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LoNd7a1L"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B7wlVJ015645;
-	Mon, 11 Mar 2024 17:19:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=WWyuMjMTY1FvQzmp5Vyly
-	D/JLzCDxHXDW87OYD0aoaA=; b=LoNd7a1LEfO5YPrzFNm3OGkbXryXJnqKK41ph
-	YeIxm/3KwN772o8oyPTkPH2Fb48/BiJx7/ueDPHYtVK3IEd3GFurQRL6OuW4tj4m
-	Ue3gkuS8Rh1niug38eQ8iC72+7qdwlW4Ndc4pAYUdfIedj5ADzKgG5uihULj7Yk5
-	KQd3ZVUTUZfaf7YfwyX2p9x9cMoWNYM9QM4a7GV+UpkoMvirpGp0rKuGZi/SDaL0
-	3B590DbveV5pQLEEryX2L05e1RYBZH+ab6WJykOznStL6TCSupfbdTHi/NyQYWnQ
-	2pPqOBVjCPDYy85wEgkU0KcqAt1XDT0EQWAHqf3JFEmLkceBg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wsv209rn5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 17:19:41 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42BHJeuC012055
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 17:19:40 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 11 Mar 2024 10:19:39 -0700
-Date: Mon, 11 Mar 2024 10:19:39 -0700
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: [PATCH v17 11/35] virt: gunyah: Translate gh_rm_hyp_resource
- into gunyah_resource
-Message-ID: <20240311101433139-0700.eberman@hu-eberman-lv.qualcomm.com>
-Mail-Followup-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
-	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
-	Carl van Schaik <quic_cvanscha@quicinc.com>, Philip Derrin <quic_pderrin@quicinc.com>, 
-	Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
- <20240311053905.GN440762@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WyL2tVQD"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-29bd4dfbf56so1228973a91.3;
+        Mon, 11 Mar 2024 10:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710179998; x=1710784798; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VwzG5Nm3k5sScApQNXJxPh63PgQB/wEWtXh54ZIc9U4=;
+        b=WyL2tVQDdnLp2RXaf9XmW3L95i8laY0WpA1CdpZc57wlJCJSiXFZPyKdR620TgqGPS
+         tWMXcm8klEg2eDW7dxeA2BOSdKdFgHZvL17t8CpUqmvCov5fu//whn/92vmjwHQSV2d6
+         yO6jTnwShrbycRXcGiJbe4WVm3OfrflxWg/pMH57cdA8tIWcLGbj/KXhNkm2/qgVLNiw
+         uvN2IQqN5Qdl5yQQDfq+TbaNgJ0GPtdlAsMTKm1RCqyRdvi9FTWaCS0gb7dpWMRNGXvC
+         McYqnpGzNz5hy5TVFElA9VDtvkBvmnoHNVmEQed/JGtvn8kViLHSmiPuMUEDRd5RBJyp
+         LlQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710179998; x=1710784798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VwzG5Nm3k5sScApQNXJxPh63PgQB/wEWtXh54ZIc9U4=;
+        b=I2XNp68b7/GznZyVXjTAZ5eq99FQFfMqhiz+P9qBXzN3/qdrJ2TM3xpQajsMDt+pdT
+         d86BwwgCaBI2f1OqP8spbAu+Rg91Zw81OfApDin5QIAskc/5b0gFooW5b3WH8q00VytC
+         zymrqlUN9ESkCvp22dwwDmL3MSTE2Q8odmxQIvyoV5sR/UX4klV6BKWTvTPM9kgJ1tJc
+         cLpctmMar/sq+MEYrSyLcneb6FniR3bjxfDMzbd6zEaj/RCuixa2g+wJqLRKlPjjQYrW
+         nIbQu63ifyfJGK3RQqDgSd5+hhg5iFSkk94QfMuPVOnE6zKUb0oUeSe/keSg8JvnIJM7
+         ghLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUlCkUh8Bx/MAYKrzXcLKJvpGc48FfCla9vA4DMgYqTtVwoFUlNtUw+MpamY5eOtY/z/wQxSQL52yAKyrNnnRCInvAf4VjGRf5Ip2E/J+uf8bbo8XYlrM5ynOM+4MCO8tEFgKK+u1Id
+X-Gm-Message-State: AOJu0YzcZhE1/GX/NZPh62ft1Us+RsrEndVGE8WkZPCUkdREaQypdE/o
+	bT9qbs9zJoO66cOSO8jdMVvLG84ZQWunpjn0FRmLLZCFeIPUrcpR
+X-Google-Smtp-Source: AGHT+IFKY6YUN4OMd42c8vr9KnFOMejKrxTjFewl0BixWINQ9UOKdO7REdZ3namD0GMu3pRqLoLQpQ==
+X-Received: by 2002:a17:90a:df82:b0:299:4269:b8c9 with SMTP id p2-20020a17090adf8200b002994269b8c9mr5500216pjv.26.1710179998530;
+        Mon, 11 Mar 2024 10:59:58 -0700 (PDT)
+Received: from gmail.com ([205.251.233.182])
+        by smtp.gmail.com with ESMTPSA id z24-20020a17090ab11800b0029bacd0f271sm5952429pjq.31.2024.03.11.10.59.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Mar 2024 10:59:56 -0700 (PDT)
+Sender: Matt Wilson <mswilson@gmail.com>
+Received: by gmail.com (sSMTP sendmail emulation); Mon, 11 Mar 2024 10:59:54 -0700
+Date: Mon, 11 Mar 2024 10:59:54 -0700
+From: Matt Wilson <msw@linux.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, cve@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	security@kernel.org, Kees Cook <keescook@chromium.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@denx.de>, John Haxby <john.haxby@oracle.com>,
+	Marcus Meissner <meissner@suse.de>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roxana Bradescu <roxabee@chromium.org>,
+	Solar Designer <solar@openwall.com>, Matt Wilson <msw@amazon.com>,
+	Matt Wilson <msw@linux.com>
+Subject: Re: [RFC PATCH 2/2] doc: distros: new document about assessing
+ security vulnerabilities
+Message-ID: <Ze9GmrqiW18GMkU6@uba002e82b7465e.ant.amazon.com>
+References: <20240311150054.2945210-1-vegard.nossum@oracle.com>
+ <20240311150054.2945210-2-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240311053905.GN440762@quicinc.com>
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: JI12OXthCOMKMmTkBgAekRJxQYN4-_Nj
-X-Proofpoint-ORIG-GUID: JI12OXthCOMKMmTkBgAekRJxQYN4-_Nj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-11_10,2024-03-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=695 spamscore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403110131
+In-Reply-To: <20240311150054.2945210-2-vegard.nossum@oracle.com>
 
-On Mon, Mar 11, 2024 at 11:09:05AM +0530, Srivatsa Vaddagiri wrote:
-> * Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:34]:
+On Mon, Mar 11, 2024 at 04:00:54PM +0100, Vegard Nossum wrote:
+> On February 13, kernel.org became a CVE Numbering Authority (CNA):
 > 
-> > When booting a Gunyah virtual machine, the host VM may gain capabilities
-> > to interact with resources for the guest virtual machine. Examples of
-> > such resources are vCPUs or message queues. To use those resources, we
-> > need to translate the RM response into a gunyah_resource structure which
-> > are useful to Linux drivers. Presently, Linux drivers need only to know
-> > the type of resource, the capability ID, and an interrupt.
-> > 
-> > On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
-> > ID number and always a SPI or extended SPI.
-> > 
-> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+>   https://www.cve.org/Media/News/item/news/2024/02/13/kernel-org-Added-as-CNA
 > 
-> Minor nit below. LGTM otherwise
+> The kernel.org CNA/CVE team does not provide any kind of assessment of
+> the allocated CVEs or patches. However, this is something that many
+> distributions want and need.
+>
+> Provide a new document that can be used as a guide when assessing
+> vulnerabilities. The hope is to have a common point of reference that
+> can standardize or harmonize the process and hopefully enable more
+> cross-distribution collaboration when it comes to assessing bugfixes.
 > 
-> Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+> We deliberately emphasize the difficulty of assessing security impact
+> in the wide variety of configurations and deployments.
 > 
-> > +struct gunyah_resource *
-> > +gunyah_rm_alloc_resource(struct gunyah_rm *rm,
-> > +			 struct gunyah_rm_hyp_resource *hyp_resource)
-> > +{
-> > +	struct gunyah_resource *ghrsc;
-> > +	int ret;
-> > +
-> > +	ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
-> > +	if (!ghrsc)
-> > +		return NULL;
-> > +
-> > +	ghrsc->type = hyp_resource->type;
-> > +	ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
-> > +	ghrsc->irq = IRQ_NOTCONNECTED;
-> > +	ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
-> > +	if (hyp_resource->virq) {
-> > +		struct irq_fwspec fwspec;
-> > +
-> > +
-> > +		fwspec.fwnode = rm->parent_fwnode;
-> > +		ret = arch_gunyah_fill_irq_fwspec_params(le32_to_cpu(hyp_resource->virq), &fwspec);
-> > +		if (ret) {
-> > +			dev_err(rm->dev,
-> > +				"Failed to translate interrupt for resource %d label: %d: %d\n",
-> > +				ghrsc->type, ghrsc->rm_label, ret);
-> 
-> Not bailing on error here appears wrong. Can you check?
-> 
+> Since what most distros probably ultimately want is a type of CVSS score,
+> the guide is written with that in mind. CVSS provides its own "contextual"
+> modifiers, but these are not accurate or nuanced enough to capture the
+> wide variety of kernel configurations and deployments. We therefore focus
+> on practical evaluation under different sets of assumptions.
 
-Ah, yes. I'll return ghrsc here. I think it's better than returning
-NULL because user of resource might be able to cope without the
-interrupt and can let us get a more helpful kernel log messages because
-the higher level VM function will complain.
+(sending from my msw@linux.com account to emphasize that I am speaking
+only for myself, not my current employer.)
 
-> > +		}
-> > +
-> > +		ret = irq_create_fwspec_mapping(&fwspec);
-> > +		if (ret < 0) {
-> > +			dev_err(rm->dev,
-> > +				"Failed to allocate interrupt for resource %d label: %d: %d\n",
-> > +				ghrsc->type, ghrsc->rm_label, ret);
-> > +			kfree(ghrsc);
-> > +			return NULL;
-> > +		}
-> > +		ghrsc->irq = ret;
-> > +	}
-> > +
-> > +	return ghrsc;
-> > +}
+I'm not sure that Linux distributions particularly *want* a CVSS base
+score for kernel CVEs. It is something that downstream _users_ of
+software have come to expect, especially those that operate under
+compliance regimes that suggest or require the use of CVSS in an
+enterprise's vulnerability management function.
+
+Those compliance regimes often suggest using CVSS scores as found in
+the NVD in search of an objective third party assessment of a
+vulnerability. Unfortunately the text of these regulations suggests
+that the base scores generated by the CVSS system, and found in the
+NVD, are a measure of "risk" rather than a contextless measure of
+"impact".
+
+There have been occurrences where a CVSSv3.1 score produced by a
+vendor of software are ignored when the score in the NVD is higher
+(often 9.8 due to NIST's standard practice in producing CVSS scores
+from "Incomplete Data" [1]). I don't know that harmonizing the
+practice of producing CVSSv3.1 base scores across Linux vendors will
+address the problem unless scores that are made available in the NVD
+match.
+
+But, stepping back for a moment I want to make sure that we are
+putting energy into a system that is fit for the Linux community's
+needs. CVSS lacks a strong scientific and statistical basis as an
+information capture and conveyance system. A study of the distribution
+of CVSSv3.1 base scores historically generated [2] shows that while
+the system was designed to resemble a normal distribution, in practice
+it is anything but.
+
+A guide that helps a practitioner evaluate the legitimate risks that
+may be present in a given version, configuration, and use case for the
+Linux kernel could be a very helpful thing. This guide is an excellent
+start for one! But as you rightly call out, CVSS is not a system that
+has an ability to capture all the nuance and context of software the
+likes of the Linux kernel, therefore the focus should be on practical
+evaluation under common use cases.
+
+> Create a new top-level (admittedly rather thin) "book" for information
+> for distros and place the document there as this document is not meant
+> for either developers or users.
+> 
+> See the rendered document at:
+> 
+>   https://vegard.github.io/linux/2024-03-11/security-assessment.html
+
+[...]
+
+> +
+> +CVEs and CVSS scores for the kernel
+> +===================================
+> +
+> +CVSS (`Common Vulnerability Scoring System <https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System>`_)
+> +is an open standard for vulnerability scoring and the system which is
+> +commonly used by Linux distributions and various industry and government
+> +bodies.
+> +
+> +We won't go into the details of CVSS here, except to give a guide on how
+> +it could be applied most effectively in the context of the kernel.
+
+If the guide has something to say about CVSS, I (speaking only for
+myself) would like for it to call out the hazards that the system
+presents. I am not convinced that CVSS can be applied effectively in
+the context of the kernel, and would rather this section call out all
+the reasons why it's a fool's errand to try.
+
+--msw
+
+[1] https://nvd.nist.gov/vuln-metrics/cvss
+[2] https://theoryof.predictable.software/articles/a-closer-look-at-cvss-scores/#the-distribution-of-actual-scores
