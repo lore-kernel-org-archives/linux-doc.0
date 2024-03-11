@@ -1,87 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D5B3B2BE;
-	Mon, 11 Mar 2024 12:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7793BBCC;
+	Mon, 11 Mar 2024 12:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710158452; cv=none; b=tNWR66tFIplzHiFG9qVkvZTAOjyTN6CLXDI/SBFARtC9q0UGqmsMOq0/haoEc4Q0m+0n6CeJqGm2vGi7yucq2Ku6WGKix01uSOjjZnPjhQ8Dee3HkTippQgb9Y6Vl04pfwlJcoU8AZpuh7syen7NRe8oelzwXjEW77cyssSRjxo=
+	t=1710159027; cv=none; b=lnksPT3VkwrTqh/h7AWuik7lUSFTWJtwwST2k/ArSR7b2rZoagGgJ/tnwlZwl/85w8T4ga/iPZ7PhGDoQiMhrb59+zzJfMtTbWfo2ecI8Su17uusMuV0CKLMb/5tCjgZzEhu4yqLeUO4+rSv+ifd3MU3x0YseDd3CPldm4pvEpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710158452; c=relaxed/simple;
-	bh=JkOFvAVwz2RAoKfuXnMx7Lun02+Nk3oUs8jAMl68RiQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HjOh0sfVzHLVmZ9lI66BbVoJzXaFX9GUhMDbM5OrFwjOr/ZJpB49KirO5SlQVGV7VEswHLn+reDzZuL5AnyadxmiBG7Y0Zpq9NIEWjta8QQnuhE1yhQmAmuDHn7sq/VCTYiBobAkw9zJtRQTYKgaY/aCZWYfMPdJ7Rbghl9pjg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0tinbnP; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710159027; c=relaxed/simple;
+	bh=9qWXx17ikIntTOyse8M12B0v0qduGm1iZ4PJfXmIpkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nb5oxme09c4blzuI/XfiXBV7NLdQCb4hSGLV0CSWqYuwFppuDKSPBUaceBddp1FL12iz07oyY2SCXJq3LYNTpN4DBPS6VafL2CEUOoyVGT4sOeHV+embMy7M4kLbe/a7pMSgpIa/1iWcxJwYH6XeBZKWCjwNobfHngC2lDYiz04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dloQrcOn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0tinbnP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710158451; x=1741694451;
-  h=from:to:cc:in-reply-to:references:subject:message-id:
-   date:mime-version:content-transfer-encoding;
-  bh=JkOFvAVwz2RAoKfuXnMx7Lun02+Nk3oUs8jAMl68RiQ=;
-  b=h0tinbnPw6v88EPuc4M/3+CxRHVrK3XOzGBEVjSLUxOfuzxa/OEi9G9q
-   HdwKZ1Y34N6s8bZSCfzyGUw+jcUeJmaeYs8s9pJ9vemZStJegfp0avXCN
-   bV8oa7fX9QJ1qU2VKj3IFCYGrzHKqLhiA43jBz+Aa69GEVFl22Wawb0F7
-   vE1ujZG1fXUoFNJZsYpuGyXkMTg1wF+mLBzKQ9WlDUBRkfSF2LJV0o69I
-   xzp8oP7Itg+raB0d4rdOYhsGVk6oddpdihAKoEgmCceRDDKwXZRF8F3z+
-   x1QDPUluVVwdc6CkMouXJZiJveBeYuqcsscZLb2JeKYcRgJWRze0iEGgs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11009"; a="15454309"
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="15454309"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 05:00:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,116,1708416000"; 
-   d="scan'208";a="11143784"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.201])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2024 05:00:46 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: Erwan Velu <erwanaliasr1@gmail.com>
-Cc: Erwan Velu <e.velu@criteo.com>, 
- Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, 
- Carlos Bilbao <carlos.bilbao@amd.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, 
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20240307133601.103521-1-e.velu@criteo.com>
-References: <20240307133601.103521-1-e.velu@criteo.com>
-Subject: Re: [PATCH] doc/arch/x86/amd/hsmp: Updating urls
-Message-Id: <171015844082.2407.9314247833035238689.b4-ty@linux.intel.com>
-Date: Mon, 11 Mar 2024 14:00:40 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dloQrcOn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC2D8C433F1;
+	Mon, 11 Mar 2024 12:10:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710159027;
+	bh=9qWXx17ikIntTOyse8M12B0v0qduGm1iZ4PJfXmIpkY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dloQrcOnr8miZHkrYFRdr5F7iIWOqYnML3SiUDjAyIRIfEp74WSTrMeaCuFPWn8N5
+	 oc9CoE+pbo01kVwBvHz7N0Ustnz8sE0pCzoFbo0pZ68bcsddndteBAcKlYBJrSGhla
+	 20AQ7DRDlEiPyjRrgeHvd1V/WjDmT6uUP/+bc1oBw35Y5ibYw1WL58XdPZW6HHn9nX
+	 mVSs54f6e/rIyvFTzqPvOwRtwbtfL/ZHWLp8S6RT2ghUBll8o1ve7N7z7WlxVe5/ai
+	 gmwF13/wOcomvgulTJJs/+uu1/ov805xXRDvQjNUGAb7ym4DF4p1TNZdmV2Ntn/cV4
+	 30AxntOEULiqA==
+Date: Mon, 11 Mar 2024 13:10:24 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: Document requirements for driver-specific KMS props
+ in new drivers
+Message-ID: <20240311-nostalgic-tungsten-warthog-c4c561@houat>
+References: <20240229202833.198691-1-sebastian.wick@redhat.com>
+ <20240306-hulking-funky-fox-b9581b@houat>
+ <20240306165009.GB11561@toolbox>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.3
-
-On Thu, 07 Mar 2024 14:35:59 +0100, Erwan Velu wrote:
-
-> When reading this page, some links were broken.
-> This commit updates links to get documentation actually pointing the
-> intended content.
-> 
-> 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="axw6wumxavhxptqy"
+Content-Disposition: inline
+In-Reply-To: <20240306165009.GB11561@toolbox>
 
 
-Thank you for your contribution, it has been applied to my local
-review-ilpo branch. Note it will show up in the public
-platform-drivers-x86/review-ilpo branch only once I've pushed my
-local branch there, which might take a while.
+--axw6wumxavhxptqy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The list of commits applied:
-[1/1] doc/arch/x86/amd/hsmp: Updating urls
-      commit: dfea6b10ed15aeec6456e704e08e45fc7c947a9d
+Hi Sebastian,
 
---
- i.
+On Wed, Mar 06, 2024 at 05:50:09PM +0100, Sebastian Wick wrote:
+> On Wed, Mar 06, 2024 at 03:14:15PM +0100, Maxime Ripard wrote:
+> > On Thu, Feb 29, 2024 at 09:28:31PM +0100, Sebastian Wick wrote:
+> > > When extending support for a driver-specific KMS property to addition=
+al
+> > > drivers, we should apply all the requirements for new properties and
+> > > make sure the semantics are the same and documented.
+> > >=20
+> > > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > > ---
+> > >  Documentation/gpu/drm-kms.rst | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-km=
+s.rst
+> > > index 13d3627d8bc0..afa10a28035f 100644
+> > > --- a/Documentation/gpu/drm-kms.rst
+> > > +++ b/Documentation/gpu/drm-kms.rst
+> > > @@ -496,6 +496,11 @@ addition to the one mentioned above:
+> > > =20
+> > >  * An IGT test must be submitted where reasonable.
+> > > =20
+> > > +For historical reasons, non-standard, driver-specific properties exi=
+st. If a KMS
+> > > +driver wants to add support for one of those properties, the require=
+ments for
+> > > +new properties apply where possible. Additionally, the documented be=
+havior must
+> > > +match the de facto semantics of the existing property to ensure comp=
+atibility.
+> > > +
+> >=20
+> > I'm conflicted about this one, really.
+> >=20
+> > On one hand, yeah, it's definitely reasonable and something we would
+> > want on the long run.
+> >=20
+> > But on the other hand, a driver getting its technical debt worked on for
+> > free by anyone but its developpers doesn't seem fair to me.
+>=20
+> Most of the work would have to be done for a new property as well. The
+> only additional work is then documenting the de-facto semantics and
+> moving the existing driver-specific code to the core.
 
+Sure, I think part of the problem with the Broadcast RGB property was
+also that it hasn't been reviewed by anyone when it was submitted for
+vc4.
+
+> Would it help if we spell out that the developers of the driver-specific
+> property shall help with both tasks?
+
+Yes, that's a good idea, and we should probably require that the
+maintainers of the driver that first added that property ack the
+"standardization" work too.
+
+> > Also, I assume this is in reaction to the discussion we had on the
+> > Broadcast RGB property. We used in vc4 precisely because there was some
+> > userspace code to deal with it and we could just reuse it, and it was
+> > documented. So the requirements were met already.
+>=20
+> It was not in drm core and the behavior was not documented properly at
+> least.
+>=20
+> Either way, with Broadcast RGB we were already in a bad situation
+> because it was implemented by 2 drivers independently. This is what I
+> want to avoid in the first place. The cleanup afterwards (thank you!)
+> just exposed the problem.
+
+Actually, I just found out there's three, the third one not being
+compatible at all with the other two:
+https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/gma500/cdv_d=
+evice.c#L471
+
+I'll send a patch to figure that one out once the rest will be merged.
+
+Maxime
+
+--axw6wumxavhxptqy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZe70rwAKCRDj7w1vZxhR
+xQxYAP9q1SJBPEiMwDRctpVhP8hqW4wSqfU9lWtFR0RFBytb2QEAhtpGLd/0R/wf
+65kAq73rt4zUgIctaaBFIM6jbgbl4Qs=
+=V+zm
+-----END PGP SIGNATURE-----
+
+--axw6wumxavhxptqy--
