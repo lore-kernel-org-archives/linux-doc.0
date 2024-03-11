@@ -1,46 +1,46 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00751482CF;
-	Mon, 11 Mar 2024 17:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B982F29A9;
+	Mon, 11 Mar 2024 17:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710177210; cv=none; b=RWZUTuWZK4/s3OvmmwFPIU1cVqdJvpQViq/buVtytu33ATdrz/GTthhtS2FsRJ4GDPVWaDBfkQ+jztnhL2g3lOWZwlKw5bw+aj5E8wfpHJngufPr5kIlg3PiwB3Fl2GIjN8L0Rp9h3RxRMerRLznTSn1/IlmpRvjACwR8EUJmg4=
+	t=1710177605; cv=none; b=UOfl0xrV3kMWaEmvEptsyW8+bAsOWTmVP2KZzVCs1BP1Ir+//ChaZVIoXHHSnbHpB6JUxZAhVr6MDyCPZagyqH6XXROvlxwIo0BnASU2JP07gTe+LYb8fLYq/LCAUbVpZ6PpNCqKM4Y6ap/YbQcrmXyknKlNI6a6NOT9SyhG9Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710177210; c=relaxed/simple;
-	bh=Lio1nhe7fciU4dYP74sWWd9SRcRxtgnQi2v2J158Cns=;
+	s=arc-20240116; t=1710177605; c=relaxed/simple;
+	bh=m2TxzT08YQKjAbbryIv7/Hqm7X/KD6qpUKmSbGjWy5c=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NzYRuvHC5+K+4hB29WbnYNt9AB/BZzcwToIqE4k/2beKrGccJWVBZE31lZarO9Vke0IHkrZvnFaBYTeheGVLVL+xVt550PsfyTM1vWEwvUCOYpYPYR2MWlEoA8csOxvrT7xQsWpB+AOnqRfuzape+VmRnzWIozY6tqyJqPBsz2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DzbyFf+3; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=OmVJdcSngHhCPPIpwkhTKy2tFcUCVJYC3Fj0bVpiNDgz/J6xRQVhlcHSNQZPra4xoGEaOaihQd2e4RB/PmYFlIRuZMU314oPSOl5pDvXOkYYywKMG9SwH+p3jOSBvDc/GWBO+KNaf450pq7t08U+caoZWGNKb0PY1qcreJA+Jpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LoNd7a1L; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DzbyFf+3"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B843Tq021082;
-	Mon, 11 Mar 2024 17:13:06 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LoNd7a1L"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42B7wlVJ015645;
+	Mon, 11 Mar 2024 17:19:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=7DHzIRWgki5+Z2bMSQr1Z
-	/xOHasR45VMniFM9OQZ32g=; b=DzbyFf+3sade/LZ+DwPXYUP3Wy+6HbL5wzLsa
-	W7SWXeCh0pGkls1m1g5FcoSbg6hJV/4T5D5vzgvdEz8eURmk2K5SmlA+ljbeJQ68
-	lJ6IdxSktqhOngmZTjIJbt9FafBMcHMenJY88ETrlwuxS7NhfQSFn4cz0KvPgMkU
-	2EjBrNiQinZpTk9jAimyNNbbbcHG/dCZeOfaYGFwaw2/5BQub8Hr4ZSNAFMzGqri
-	3aVbK9OwofFhoQ1qg4TEbOtdIaiSW7CJpq3EKtDIY5xT+c2+JfLkiRKq0DK4TPe/
-	BYlPR91IHrbZquAJhetDkvZsg2kFrOoT1u6zfL0edqWOFfIrA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wsx48shaw-1
+	:content-type:in-reply-to; s=qcppdkim1; bh=WWyuMjMTY1FvQzmp5Vyly
+	D/JLzCDxHXDW87OYD0aoaA=; b=LoNd7a1LEfO5YPrzFNm3OGkbXryXJnqKK41ph
+	YeIxm/3KwN772o8oyPTkPH2Fb48/BiJx7/ueDPHYtVK3IEd3GFurQRL6OuW4tj4m
+	Ue3gkuS8Rh1niug38eQ8iC72+7qdwlW4Ndc4pAYUdfIedj5ADzKgG5uihULj7Yk5
+	KQd3ZVUTUZfaf7YfwyX2p9x9cMoWNYM9QM4a7GV+UpkoMvirpGp0rKuGZi/SDaL0
+	3B590DbveV5pQLEEryX2L05e1RYBZH+ab6WJykOznStL6TCSupfbdTHi/NyQYWnQ
+	2pPqOBVjCPDYy85wEgkU0KcqAt1XDT0EQWAHqf3JFEmLkceBg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wsv209rn5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 17:13:05 +0000 (GMT)
+	Mon, 11 Mar 2024 17:19:41 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42BHD4Xt021914
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42BHJeuC012055
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Mar 2024 17:13:04 GMT
+	Mon, 11 Mar 2024 17:19:40 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 11 Mar 2024 10:13:03 -0700
-Date: Mon, 11 Mar 2024 10:13:03 -0700
+ 15.2.1118.40; Mon, 11 Mar 2024 10:19:39 -0700
+Date: Mon, 11 Mar 2024 10:19:39 -0700
 From: Elliot Berman <quic_eberman@quicinc.com>
 To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
 CC: Alex Elder <elder@linaro.org>,
@@ -71,8 +71,9 @@ CC: Alex Elder <elder@linaro.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: Re: [PATCH v17 12/35] virt: gunyah: Add resource tickets
-Message-ID: <20240311100247856-0700.eberman@hu-eberman-lv.qualcomm.com>
+Subject: Re: Re: [PATCH v17 11/35] virt: gunyah: Translate gh_rm_hyp_resource
+ into gunyah_resource
+Message-ID: <20240311101433139-0700.eberman@hu-eberman-lv.qualcomm.com>
 Mail-Followup-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>, 
 	Alex Elder <elder@linaro.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
 	Murali Nalajal <quic_mnalajal@quicinc.com>, Trilok Soni <quic_tsoni@quicinc.com>, 
@@ -87,8 +88,8 @@ Mail-Followup-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-mm@kvack.org
 References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-12-1e9da6763d38@quicinc.com>
- <20240311053806.GL440762@quicinc.com>
+ <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
+ <20240311053905.GN440762@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,85 +98,87 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240311053806.GL440762@quicinc.com>
+In-Reply-To: <20240311053905.GN440762@quicinc.com>
 X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 11wI3OtaIF1Dwa5d3RYzieDVyHwG5GVf
-X-Proofpoint-ORIG-GUID: 11wI3OtaIF1Dwa5d3RYzieDVyHwG5GVf
+X-Proofpoint-GUID: JI12OXthCOMKMmTkBgAekRJxQYN4-_Nj
+X-Proofpoint-ORIG-GUID: JI12OXthCOMKMmTkBgAekRJxQYN4-_Nj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-03-11_10,2024-03-11_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxlogscore=999
- spamscore=0 impostorscore=0 adultscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=695 spamscore=0 adultscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2403110131
 
-On Mon, Mar 11, 2024 at 11:08:06AM +0530, Srivatsa Vaddagiri wrote:
-> * Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:35]:
+On Mon, Mar 11, 2024 at 11:09:05AM +0530, Srivatsa Vaddagiri wrote:
+> * Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:34]:
 > 
-> > Gunyah doesn't process the label and that makes it
-> > possible for userspace to create multiple resources with the same label.
+> > When booting a Gunyah virtual machine, the host VM may gain capabilities
+> > to interact with resources for the guest virtual machine. Examples of
+> > such resources are vCPUs or message queues. To use those resources, we
+> > need to translate the RM response into a gunyah_resource structure which
+> > are useful to Linux drivers. Presently, Linux drivers need only to know
+> > the type of resource, the capability ID, and an interrupt.
+> > 
+> > On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
+> > ID number and always a SPI or extended SPI.
+> > 
+> > Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 > 
-> I think that description conflicts with what is implemented in this patch?
+> Minor nit below. LGTM otherwise
 > 
-> int gunyah_vm_add_resource_ticket(struct gunyah_vm *ghvm,
-> 				  struct gunyah_vm_resource_ticket *ticket)
-> {
-> 	mutex_lock(&ghvm->resources_lock);
-> 	list_for_each_entry(iter, &ghvm->resource_tickets, vm_list) {
-> 		if (iter->resource_type == ticket->resource_type &&
-> 		    iter->label == ticket->label) {
-> 			ret = -EEXIST;
-> 			goto out;
-> 		}
-> 	}
+> Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
 > 
-> 
-> //
-> 
-
-It's a justification for the next sentence in the commit text:
-
-    Resource ticket owners need to be prepared for populate to be called
-    multiple times if userspace created multiple resources with the same
-    label.
-
-
-VM manager can make sure that only one entity is going to receive the
-resources (the check above you highlighted), but I can't make sure that
-it's only going to exactly one resource. We don't currently have a
-scenario where we need/want multiple resources with the same label, we
-might have that in the future and I didn't want to add that restriction
-in common code.
-
-> > @@ -134,6 +246,25 @@ static int gunyah_vm_start(struct gunyah_vm *ghvm)
-> >  	}
-> >  	ghvm->vm_status = GUNYAH_RM_VM_STATUS_READY;
-> >  
-> > +	ret = gunyah_rm_get_hyp_resources(ghvm->rm, ghvm->vmid, &resources);
-> > +	if (ret) {
-> > +		dev_warn(ghvm->parent,
-> > +			 "Failed to get hypervisor resources for VM: %d\n",
-> > +			 ret);
-> > +		goto err;
-> > +	}
-> 
-> Where do we free memory pointed by 'resources' ptr?
-> 
-
-Ah, I meant to add the __free(kfree) annotation. I've added it.
-
+> > +struct gunyah_resource *
+> > +gunyah_rm_alloc_resource(struct gunyah_rm *rm,
+> > +			 struct gunyah_rm_hyp_resource *hyp_resource)
+> > +{
+> > +	struct gunyah_resource *ghrsc;
+> > +	int ret;
 > > +
-> > +	for (i = 0, n = le32_to_cpu(resources->n_entries); i < n; i++) {
-> > +		ghrsc = gunyah_rm_alloc_resource(ghvm->rm,
-> > +						 &resources->entries[i]);
-> > +		if (!ghrsc) {
-> > +			ret = -ENOMEM;
-> > +			goto err;
+> > +	ghrsc = kzalloc(sizeof(*ghrsc), GFP_KERNEL);
+> > +	if (!ghrsc)
+> > +		return NULL;
+> > +
+> > +	ghrsc->type = hyp_resource->type;
+> > +	ghrsc->capid = le64_to_cpu(hyp_resource->cap_id);
+> > +	ghrsc->irq = IRQ_NOTCONNECTED;
+> > +	ghrsc->rm_label = le32_to_cpu(hyp_resource->resource_label);
+> > +	if (hyp_resource->virq) {
+> > +		struct irq_fwspec fwspec;
+> > +
+> > +
+> > +		fwspec.fwnode = rm->parent_fwnode;
+> > +		ret = arch_gunyah_fill_irq_fwspec_params(le32_to_cpu(hyp_resource->virq), &fwspec);
+> > +		if (ret) {
+> > +			dev_err(rm->dev,
+> > +				"Failed to translate interrupt for resource %d label: %d: %d\n",
+> > +				ghrsc->type, ghrsc->rm_label, ret);
+> 
+> Not bailing on error here appears wrong. Can you check?
+> 
+
+Ah, yes. I'll return ghrsc here. I think it's better than returning
+NULL because user of resource might be able to cope without the
+interrupt and can let us get a more helpful kernel log messages because
+the higher level VM function will complain.
+
 > > +		}
 > > +
-> > +		gunyah_vm_add_resource(ghvm, ghrsc);
+> > +		ret = irq_create_fwspec_mapping(&fwspec);
+> > +		if (ret < 0) {
+> > +			dev_err(rm->dev,
+> > +				"Failed to allocate interrupt for resource %d label: %d: %d\n",
+> > +				ghrsc->type, ghrsc->rm_label, ret);
+> > +			kfree(ghrsc);
+> > +			return NULL;
+> > +		}
+> > +		ghrsc->irq = ret;
 > > +	}
+> > +
+> > +	return ghrsc;
+> > +}
