@@ -1,92 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AFA10E3;
-	Mon, 11 Mar 2024 01:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89666138C
+	for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 01:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710119559; cv=none; b=PBgRMeTH3eE3HtmcUB//hIJjJubSogc2ZVWGYicHaFdRfr4JpCr8oSIma+yrrc4k3iTqcWvCbOZfKiQAz4XTLWsRLULu/8IF89KufRfoRMuQnAJVeVZ/HigZ7dMO30F4pkO7+HAyZkVXb6srHVEdthmIlHfdTW19hkuwWcCjR/s=
+	t=1710120571; cv=none; b=RKXDX/RiG3/G4b0A5x8DD4DM8nmTTO5qiB00d1hf9MGPV5yoZzNWeeyHkvDu9xVAdtFgDRecM0FBzfmyoLjZufPv/8MArn1DsaYPia4eEZFTGZHZ0zwWce8ECXQz6UpbL9ovzKAfouRINiaeRKo05Bv6+dbVkfR/INUwMoA7OJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710119559; c=relaxed/simple;
-	bh=2z5jInwHvNUuGQ13fZ+9l+YxupANHQadDhz4Wpt4Yg4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TMaDHusuOG6qDO06CyVMw2Hohhh/ZhKvidGRBjK3tWhgbcrhVRNu+h6J1lyQKyY1Gtv3xjpCon9/qlyF3xj/BUe//bCqFTY3JBwEiB9/EsWSH/JPx0dyKhThdqGski8izbGoDMYdmvHCjJzeBpohVhWQkDWUxzeQhemEAii7L64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPm6Sx4E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710120571; c=relaxed/simple;
+	bh=D+LFpG+DtzDxbDphPWqUCew6+zoXZ3tpB6Glycfh6Nk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gvxKlgAw8y8J/SZfDV4fnionUyWWt0pjv6uwG0e8FtTcYdHPO2r6jKjdHZZPCKnUyviFGN2i0ft8C33rKSwsvAa3KzoBPYOZyYeDns13PoulLHFotE5B0YVfuJdRysVi7eDMj+bYJHlAxQYaSR/oP4G2xg2UnA97NPKE8tNneYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=oJwkpIa/; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPm6Sx4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76CBFC433C7;
-	Mon, 11 Mar 2024 01:12:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710119558;
-	bh=2z5jInwHvNUuGQ13fZ+9l+YxupANHQadDhz4Wpt4Yg4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cPm6Sx4E1EG59Iov80OXl2MFAXOcYsH6sW5GBiEeM0WcaeXdKWeKnjLgnzkJAJNUQ
-	 ZGzu+uinfXZiBrCQs/BnKum3xWBjuxiG2Jnz71jbsD0IMC436SUkVVtHUBc/15b5J5
-	 FlPk3Ywx0H9l5f6XBzTHnrtsVcxrCsUls2TXOjJDboqFM5zle++N9DatBuzt45gQv9
-	 A18j7hc9e2S5CULTkLup888zf+AZXZNNkNXEhSYF1+RpxOAoMtWrJsod25hXkO9GSU
-	 RHXZrgsBmlzTI8CgfJbqud+ntqAvcBQ37IkpFwFwxWMNfwcwgLu6iaf5Hgq8eaTHuq
-	 I4nNxU2JaTS7Q==
-Message-ID: <9bd5ff0c-2f56-4fa5-9a78-f3b8981c970f@kernel.org>
-Date: Sun, 10 Mar 2024 19:12:34 -0600
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="oJwkpIa/"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29bcc1c7cc4so886614a91.2
+        for <linux-doc@vger.kernel.org>; Sun, 10 Mar 2024 18:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1710120569; x=1710725369; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hOSvhcvJGLEL7J8lpsnrtr4vlODvqiYxIBXUcrpqgiE=;
+        b=oJwkpIa/JaeLhjrIWks53Om+l6/dU6iwMs7g49EmUUJ+VSI1Xb8P4kYR5OSg8VkCxa
+         OsH1pLNi/7I1wt+ONwazpnhtxlKTcUyIX4o3TmPta5al3YiKo/CckswdEf+Y4/2SMhJT
+         PCFAm7dcKUitb3ST1uN/tfEkezN41Q4WDReGFBUSlZRuK7cPWHuXShoG28zCbzrKljRV
+         32RvoqRvrLLuH5qjjWlRpMzospsyrFUUT+lzTeqexXj3u5HHW2o2UXZlgc7si4MnaHVW
+         6c1ZufnE/qo8IAOtLyDnGpMt9osoZ/HWzsTPIf0EsLmev9v9d+JhMma1a8zrFtZZDCAW
+         EsTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710120569; x=1710725369;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hOSvhcvJGLEL7J8lpsnrtr4vlODvqiYxIBXUcrpqgiE=;
+        b=OgsGeT/H8+lgVnlOgifcU5LpuVGMdT9EPsY8SvUAJMU//U3lpN+e0zjTkGLYKXVtDw
+         nwuzjEMD85uJKc93e5oCfYoalZD6hytJWAVYk6hahkci+D/wSLDl/rMyY84+KNV6BvdF
+         Fi7WbVDw28BEz7yLHBGfcC2BR3VfURfZTnqfH2//odjTh5YKlFkCUsJ24rmjRXMu+tAk
+         DIXSeRrU3/5iYhm5+OOwOuL+1TqIgUcAxlkRpLWPV0cz0DN4PsVaLW70XtAJ3PtAJ/GY
+         FcIDd0/GEb2FVxjgu9wiMQTIaMnq3SNy6b4/HQVS++/5B5M8rNqHzwWC814qtm0u+6su
+         ikgA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJTDvtMXMU0jgI/n+aRbxiWSigONdBesHtBVMZ5i+Y8AS4Jy8/Um4P+MI/Tk61P4ht1jxcLJ9pMN+TKveYFu1cavAdw+N71TnL
+X-Gm-Message-State: AOJu0Ywo/KZ/KlGo4c52Q4ZDLeth0Sp66TKMtKPLYCQVdNfowYSJ0ugd
+	DXcOCCyZwEWIv7mbtp+iDj9DV01rSLxdvJMeO26GeV/ojTf78pLf70whNZ23RM0=
+X-Google-Smtp-Source: AGHT+IFdH2KMViIbM49wC4hqTijDXwXYely9IKxeBYRM5XJT/JRC71uwCtS4jPxQ9NJv+E+Vquza9g==
+X-Received: by 2002:a17:90b:e0e:b0:29b:ab0e:4f0a with SMTP id ge14-20020a17090b0e0e00b0029bab0e4f0amr3210258pjb.23.1710120568734;
+        Sun, 10 Mar 2024 18:29:28 -0700 (PDT)
+Received: from dread.disaster.area (pa49-179-47-118.pa.nsw.optusnet.com.au. [49.179.47.118])
+        by smtp.gmail.com with ESMTPSA id c3-20020a17090a490300b0029bb4712610sm3400554pjh.6.2024.03.10.18.29.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Mar 2024 18:29:28 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1rjUTl-000FPe-0k;
+	Mon, 11 Mar 2024 12:29:25 +1100
+Date: Mon, 11 Mar 2024 12:29:25 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: John Groves <John@groves.net>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+	john@jagalactic.com, Christoph Hellwig <hch@infradead.org>,
+	dave.hansen@linux.intel.com, gregory.price@memverge.com
+Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
+Message-ID: <Ze5edU3JbLEFwJOH@dread.disaster.area>
+References: <cover.1708709155.git.john@groves.net>
+ <ZdkzJM6sze-p3EWP@bombadil.infradead.org>
+ <cc2pabb3szzpm5jxxeku276csqu5vwqgzitkwevfluagx7akiv@h45faer5zpru>
+ <Zdy0CGL6e0ri8LiC@bombadil.infradead.org>
+ <w5cqtmdgqtjvbnrg5okdgmxe45vjg5evaxh6gg3gs6kwfqmn5p@wgakpqcumrbt>
+ <CAB=NE6UvHSvTJJCq-YuBEZNo8F5Kg25aK+2im=V7DgEsTJ8wPg@mail.gmail.com>
+ <mw4yhbmza4idassgbqeiti4ue7jq377ezxfrqrcbsbzsrmfiln@kn7qmqljvswl>
+ <Zd/ovHqO/16PsUsp@dread.disaster.area>
+ <5segby7xk6wbyblovpapdymiuvg63e5qarahc4pramhsqikx2x@y3zmih6mgs33>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 01/15] queue_api: define queue api
-Content-Language: en-US
-To: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-2-almasrymina@google.com>
- <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <54891f27-555a-4ed1-b92f-668813c18c37@davidwei.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5segby7xk6wbyblovpapdymiuvg63e5qarahc4pramhsqikx2x@y3zmih6mgs33>
 
-On 3/8/24 4:47 PM, David Wei wrote:
+On Thu, Feb 29, 2024 at 08:52:48AM -0600, John Groves wrote:
+> On 24/02/29 01:15PM, Dave Chinner wrote:
+> > On Mon, Feb 26, 2024 at 08:05:58PM -0600, John Groves wrote:
+> > >    bw (  MiB/s): min= 5085, max=27367, per=100.00%, avg=14361.95, stdev=165.61, samples=719
+> > >    iops        : min= 2516, max=13670, avg=7160.17, stdev=82.88, samples=719
+> > >   lat (usec)   : 4=0.05%, 10=0.72%, 20=2.23%, 50=2.48%, 100=3.02%
+> > >   lat (usec)   : 250=1.54%, 500=2.37%, 750=1.34%, 1000=0.75%
+> > >   lat (msec)   : 2=3.20%, 4=43.10%, 10=23.05%, 20=14.81%, 50=1.25%
+> > 
+> > Most of the IO latencies are up round the 4-20ms marks. That seems
+> > kinda high for a 2MB IO. With a memcpy speed of 10GB/s, the 2MB
+> > should only take a couple of hundred microseconds. For Famfs, the
+> > latencies appear to be around 1-4ms.
+> > 
+> > So where's all that extra time coming from?
 > 
-> I'm working to port bnxt over to using this API. What are your thoughts
-> on maybe pulling this out and use bnxt to drive it?
+> Below, you will see two runs with performance and latency distribution
+> about the same as famfs (the answer for that was --fallocate=native).
+
+Ah, that is exactly what I suspected, and was wanting profiles
+because that will show up in them clearly.
+
+> > >   lat (msec)   : 100=0.08%
+> > >   cpu          : usr=10.18%, sys=0.79%, ctx=67227, majf=0, minf=38511
+> > 
+> > And why is system time reporting at almost zero instead of almost
+> > all the remaining cpu time (i.e. up at 80-90%)?
 > 
+> Something weird is going on with the cpu reporting. Sometimes sys=~0, but other times
+> it's about what you would expect. I suspect some sort of measurement error,
+> like maybe the method doesn't work with my cpu model? (I'm grasping, but with
+> a somewhat rational basis...)
+> 
+> I pasted two xfs runs below. The first has the wonky cpu sys value, and
+> the second looks about like what one would expect.
+> 
+> > 
+> > Can you run call-graph kernel profiles for XFS and famfs whilst
+> > running this workload so we have some insight into what is behaving
+> > differently here?
+> 
+> Can you point me to an example of how to do that?
 
-I would love to see a second nic implementation; this patch set and
-overall design is driven by GVE limitations.
+perf record --call-graph ...
+pref report --call-graph ...
 
+
+> I'd been thinking about the ~2x gap for a few days, and the most obvious
+> difference is famfs files must be preallocated (like fallocate, but works
+> a bit differently since allocation happens in user space). I just checked 
+> one of the xfs files, and it had maybe 80 extents (whereas the famfs 
+> files always have 1 extent here).
+
+Which is about 4MB per extent. Extent size is not the problem for
+zero-seek-latency storage hardware, though.
+
+Essentially what you are seeing is interleaving extent allocation
+between all the files because they are located in the same
+directory. The locality algorithm is trying to place the data
+extents close to the owner inode, but the indoes are also all close
+together because they are located in the same AG as the parent
+directory inode. Allocation concurrency is created by placing new
+directories in different allocation groups, so we end up with
+workloads in different directories being largely isolated from each
+other.
+
+However, that means when you are trying to write to many files in
+the same directory at the same time, they are largely all competing
+for the same AG lock to do block allocation during IO submission.
+That creates interleaving of write() sized extents between different
+files. We use speculative preallocation for buffered IO to avoid
+this, and for direct IO the application needs to use extent size hints
+or preallocation to avoid this contention based interleaving.
+
+IOWs, by using fallocate() to preallocate all the space there will
+be no allocation during IO submission and so the serialisation that
+occurs due to competing allocations just goes away...
+
+> FWIW I ran xfs with and without io_uring, and there was no apparent
+> difference (which makes sense to me because it's not block I/O).
+> 
+> The prior ~2x gap still seems like a lot of overhead for extent list 
+> mapping to memory, but adding --fallocate=native to the xfs test brought 
+> it into line with famfs:
+
+As I suspected. :)
+
+As for CPU usage accounting, the number of context switches says it
+all.
+
+"Bad":
+
+>   cpu          : usr=15.48%, sys=1.17%, ctx=62654, majf=0, minf=22801
+
+"good":
+
+>   cpu          : usr=14.43%, sys=78.18%, ctx=5272, majf=0, minf=15708
+
+I'd say that in the "bad" case most of the kernel work is being
+shuffled off to kernel threads to do the work and so it doesn't get
+accounted to the submission task.  In comparison, in the "good" case
+the work is being done in the submission thread and hence there's a
+lot fewer context switches and the system time is correctly
+accounted to the submission task.
+
+Perhaps an io_uring task accounting problem?
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
