@@ -1,188 +1,130 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7C24642B;
-	Mon, 11 Mar 2024 14:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20DA3FB9D;
+	Mon, 11 Mar 2024 15:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710168820; cv=none; b=p3xPzi79tAZGUR19J+R2JPoIGasK5cSd3VCMqb5isNcbdTXWb3QhXzYTj7Yi6stATvdjgqhb5uxJ8TI7TTatLOC/ceevQ88qBGgEq2CH26Izr0cUSihMAd6TwTtRC3n8H9Bws1RbBH0cxU5gnUp2NJzzkw0HVlQBOQjn5dMOaD8=
+	t=1710169353; cv=none; b=uTfjUjZ/vt4HiOY8pkjRHN9ZBkdK6t3cWCG42UVpCYKQWldf00zvHHc/++9q63SuHKzWGLdZocdTOQ3EkevZThEjSFf5IdtVpWvvPdyWzPShTrabHKWHuxLvOMO9PJN+ti+yM0E6CczL3IiX99rX3iakPh4+muLesHM2xegOHZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710168820; c=relaxed/simple;
-	bh=PMoGFhLyp3YjG8q6lz6vCYFDE3yIaeLIe7vPuylvNAw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BsvDsDcRJ5ToRTvEgMQS+IdySl2y8Z49HtkPEx1uEywdlrWw3jy4HlusOUXhYSCk2wzOVhJ1Wpw+sRtfjuap8p+oKdUn5Xi2DP9UmnrnRjm+zP6pGJhlaH48QwLzdsfVrwpEqxBN19Sin6CCZQKAz0unT5Qs7evk7wLRO8aeBWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4TtfQr6zsVz9xrMR;
-	Mon, 11 Mar 2024 22:33:40 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 4A127140496;
-	Mon, 11 Mar 2024 22:53:23 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwBnoCTVGu9l72MbBA--.32227S2;
-	Mon, 11 Mar 2024 15:53:22 +0100 (CET)
-Message-ID: <cff886eef84ced5b4dfac1be7572dc8d06b63792.camel@huaweicloud.com>
-Subject: Re: [RFC PATCH v14 05/19] initramfs|security: Add a security hook
- to do_populate_rootfs()
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-  jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
- axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
- paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
- linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org,  linux-kernel@vger.kernel.org
-Date: Mon, 11 Mar 2024 15:53:06 +0100
-In-Reply-To: <1709768084-22539-6-git-send-email-wufan@linux.microsoft.com>
-References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
-	 <1709768084-22539-6-git-send-email-wufan@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1710169353; c=relaxed/simple;
+	bh=0d1h+66LiZBG4l7r4vzhI6g9+f3v9VLhHMPpwzwCB1o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s66FxJnryOv9m+W2fQhe7hLlPi6o+ffIp6gbOtjdzR2fwFwwHWadjffdJK8WcZAJ6bMJXYgsGvXDG/DmV2jhSLPbf0pU7s5dlQTAqFjM0FCCowFtDFrvWWFPJWP22bO/vma6muYOB4kz8BhnxG5IYJL/ENJlDhfbh0T+vIWq1aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=azBS6ah4; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="azBS6ah4"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42BExtWO007122;
+	Mon, 11 Mar 2024 15:02:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=w/vL4sracDDYC8rXycaL7lPs9isu/fY8uteFKSY6cBI=;
+ b=azBS6ah4c2A62JuJ1hLEBxoWbAUvV/KdNh/9xEDGXurYC5Myvgb42D21hAsVaFRMbKhH
+ 7ZURIGEdigpD6y/s529MqmEY8wk62MbI/vrhcZG1ZjbGpbQg+XNDveneQS8hlWoPmdQG
+ karOwytWQJuTM2rLU7jqxmfL6rhCq875eKOZhKE7VieWtmVxF8CX9God1l3lsdfixq8w
+ vUGbasHbSCZtbW5Sr9Fj08ZUtFcU5YvS9qEtPuaFU3bFkeziK17SLODk8Rq/PzL8J1RB
+ kIX/vXQtEU50c/DrDEAPkMFk56oPUFU08eeHHiVJiJbyviET2EghgWFS6JVHJOt6UziR iQ== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3wre6ebhh8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Mar 2024 15:02:20 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 42BENe4T005252;
+	Mon, 11 Mar 2024 15:02:19 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3wre75ykya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Mar 2024 15:02:19 +0000
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 42BF2I3L000311;
+	Mon, 11 Mar 2024 15:02:18 GMT
+Received: from t460-2.nl.oracle.com (dhcp-10-175-49-173.vpn.oracle.com [10.175.49.173])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3wre75ykvn-1;
+	Mon, 11 Mar 2024 15:02:18 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Jonathan Corbet <corbet@lwn.net>, cve@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        security@kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [RFC PATCH 1/2] docs: automarkup: linkify CVSS: strings
+Date: Mon, 11 Mar 2024 16:00:53 +0100
+Message-Id: <20240311150054.2945210-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwBnoCTVGu9l72MbBA--.32227S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxurWxWFW8urW7ury3CrWDXFb_yoW5Kw4DpF
-	Wq9F13GF4kAF47W3yvk3W7Ca1aq395K3W7JrWDu3W8tF1akrn2qr43Kryqkrs7WrW7Ca1I
-	qF4avrW3Cw1Dt3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFDGOUUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgATBF1jj5c4TAAAsH
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-11_10,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ spamscore=0 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2403110113
+X-Proofpoint-GUID: J-vTCBCe52pbfRHix-D-QdTHimg_w6ft
+X-Proofpoint-ORIG-GUID: J-vTCBCe52pbfRHix-D-QdTHimg_w6ft
 
-On Wed, 2024-03-06 at 15:34 -0800, Fan Wu wrote:
-> This patch introduces a new hook to notify security system that the
-> content of initramfs has been unpacked into the rootfs.
->=20
-> Upon receiving this notification, the security system can activate
-> a policy to allow only files that originated from the initramfs to
-> execute or load into kernel during the early stages of booting.
->=20
-> This approach is crucial for minimizing the attack surface by
-> ensuring that only trusted files from the initramfs are operational
-> in the critical boot phase.
->=20
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->=20
-> ---
-> v1-v11:
->   + Not present
->=20
-> v12:
->   + Introduced
->=20
-> v13:
->   + Rename the hook name to initramfs_populated()
->=20
-> v14:
->   + No changes
-> ---
->  include/linux/lsm_hook_defs.h |  2 ++
->  include/linux/security.h      |  8 ++++++++
->  init/initramfs.c              |  3 +++
->  security/security.c           | 10 ++++++++++
->  4 files changed, 23 insertions(+)
->=20
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.=
-h
-> index 76458b6d53da..e0f50789a18f 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -425,3 +425,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct c=
-red *new)
->  LSM_HOOK(int, 0, uring_sqpoll, void)
->  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
->  #endif /* CONFIG_IO_URING */
-> +
-> +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
+CVSS vectors encode the results of a vulnerability analysis.
 
-I don't know, but why there is no super_block as parameter?
+When encountered in the documentation, create links to first.org which
+can be used to explain and explore the various vector components and
+their values.
 
-And, wouldn't be better to rely on existing hooks to identify inodes in
-the initial ram disk?
+Example:
 
-(gdb) p *file->f_path.dentry->d_inode->i_sb->s_type
-$3 =3D {name =3D 0xffffffff826058a9 "rootfs"
+- https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L/E:U/MPR:L
 
-That could also help if you want to enforce action based on the
-filesystem name (and why not on the UUID too).
+FIRST is the Forum of Incident Response and Security Teams, founded
+in 1990, and is partnered and supported by many well-known organizations.
 
-Roberto
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ Documentation/sphinx/automarkup.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index d0eb20f90b26..619e17e59532 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -2167,4 +2167,12 @@ static inline int security_uring_cmd(struct io_uri=
-ng_cmd *ioucmd)
->  #endif /* CONFIG_SECURITY */
->  #endif /* CONFIG_IO_URING */
-> =20
-> +#ifdef CONFIG_SECURITY
-> +extern void security_initramfs_populated(void);
-> +#else
-> +static inline void security_initramfs_populated(void)
-> +{
-> +}
-> +#endif /* CONFIG_SECURITY */
-> +
->  #endif /* ! __LINUX_SECURITY_H */
-> diff --git a/init/initramfs.c b/init/initramfs.c
-> index 76deb48c38cb..140619a583ff 100644
-> --- a/init/initramfs.c
-> +++ b/init/initramfs.c
-> @@ -18,6 +18,7 @@
->  #include <linux/init_syscalls.h>
->  #include <linux/task_work.h>
->  #include <linux/umh.h>
-> +#include <linux/security.h>
-> =20
->  static __initdata bool csum_present;
->  static __initdata u32 io_csum;
-> @@ -720,6 +721,8 @@ static void __init do_populate_rootfs(void *unused, a=
-sync_cookie_t cookie)
->  #endif
->  	}
-> =20
-> +	security_initramfs_populated();
-> +
->  done:
->  	/*
->  	 * If the initrd region is overlapped with crashkernel reserved region,
-> diff --git a/security/security.c b/security/security.c
-> index f168bc30a60d..26c28db211fd 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -5619,3 +5619,13 @@ int security_uring_cmd(struct io_uring_cmd *ioucmd=
-)
->  	return call_int_hook(uring_cmd, 0, ioucmd);
->  }
->  #endif /* CONFIG_IO_URING */
-> +
-> +/**
-> + * security_initramfs_populated() - Notify LSMs that initramfs has been =
-loaded
-> + *
-> + * Tells the LSMs the initramfs has been unpacked into the rootfs.
-> + */
-> +void security_initramfs_populated(void)
-> +{
-> +	call_void_hook(initramfs_populated);
-> +}
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index a413f8dd5115..8cf95a404bc8 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -76,6 +76,11 @@ c_namespace = ''
+ RE_git = re.compile(r'commit\s+(?P<rev>[0-9a-f]{12,40})(?:\s+\(".*?"\))?',
+     flags=re.IGNORECASE | re.DOTALL)
+ 
++#
++# CVSS score vectors
++#
++RE_cvss = re.compile(r'CVSS:(?P<ver>[0-9\.]+)(/[A-Z-]{1,3}:[A-Z])+')
++
+ def markup_refs(docname, app, node):
+     t = node.astext()
+     done = 0
+@@ -93,7 +98,8 @@ def markup_refs(docname, app, node):
+                            RE_union: markup_c_ref,
+                            RE_enum: markup_c_ref,
+                            RE_typedef: markup_c_ref,
+-                           RE_git: markup_git}
++                           RE_git: markup_git,
++                           RE_cvss: markup_cvss}
+ 
+     if sphinx.version_info[0] >= 3:
+         markup_func = markup_func_sphinx3
+@@ -290,6 +296,12 @@ def markup_git(docname, app, match):
+     return nodes.reference('', nodes.Text(text),
+         refuri=f'https://git.kernel.org/torvalds/c/{rev}')
+ 
++def markup_cvss(docname, app, match):
++    text = match.group(0)
++    ver = match.group('ver')
++    return nodes.reference('', nodes.Text(text),
++        refuri=f'https://www.first.org/cvss/calculator/{ver}#{text}')
++
+ def auto_markup(app, doctree, name):
+     global c_namespace
+     c_namespace = get_c_namespace(app, name)
+-- 
+2.34.1
 
