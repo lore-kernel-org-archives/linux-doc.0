@@ -1,84 +1,82 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727253D541;
-	Mon, 11 Mar 2024 12:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA30A2C698;
+	Mon, 11 Mar 2024 13:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710161026; cv=none; b=Nsn6j/MmsJJEeMwPxnEccJFUk2UHULgDpXQ8mJxhJcRwvVhHKb0387DViEBZi2boUuCMKz+obXQIOkqgHw3H0YTrYfzY2Q8q6BldmmXDmJcKwhpUjC4kP5qeG+xlvtYsrIDHxTmfC7djUiD6TTXhxgmzxnfUpku+EyB/2DF4LNY=
+	t=1710162020; cv=none; b=EJMDIxLMM/CUd6onBPd8iznaa9tnnZnS9GKaSwigtZL7re7ebgRkgSY1jjmlaG67UshaXFmyW2/45jL47VmKCB/yykKvMGvgU20sQP84+/0hHlJqKeNbeGKVzokRIRC1qjd8hDGQLcd91IcQNfUOrIQmmQ90QmOf6j5Nm68YDOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710161026; c=relaxed/simple;
-	bh=l3XxywG8Cph4XjI3vmwj8Au25JbGx2DDWeWBRs+Lg0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pAOZKz3FmrNVuFjC/Wwt8CAaWbPRYgjHRJowm/4Om7bEUHrKZuDlSM8fUCZFbZpW/JxtkTemKtjWd608o9XQpMuchCzTiL7gl2N4ugNxnLBMeTWVw8MR7/zChQMoSdz9a/sov9XcIV0LgFGaT6lTVYguYtdVNJkxWPI1tLmBJdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pR9xddsE; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1710162020; c=relaxed/simple;
+	bh=y+V+z4GfofolxfNywtHLsGFGEJpi+qtkcHOaShAT4g4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PqU35WV1x6nb2ylAuNxjQPgSMzwivO0I8ZZaJG/fvgOuACZNSysVEJV6yO60Lya8GHZq8cXyKCgFLK3nf33GL4b1shj3tx9/tGAcwmwgigacV4CKNzPJ60bTMsUQb7TZqjiQ2bS3Rye9dIVDKCZNu1LbRlOQJgMzHfYqLIUIPSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUlcf+++; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pR9xddsE"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6180E20007;
-	Mon, 11 Mar 2024 12:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1710161021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3WdRllC+4lLlADIaPY8taan0DZL+h6QiAMhVTksEvUA=;
-	b=pR9xddsEaAhrWr7HX2foEtMafnRuunLnZwstY9CJNFHHVV+AIqluUEE0zo9Vl2XptMnPbh
-	fYUQbrDmbvr0ZHC/kyl8SSYwymz1w+BvH1wXZfyljihIRaGeIm7T0CDZongzNz/sBn+SRH
-	fmcRwS6Z/lYxVHcNZsq/QE7Cv9mNEg1XsTg3+x3bSNr2nm5sTraSBHRyHGV5zG1tz2S2O+
-	kbW/H6OsQF5JeMQ0A7bbjKanWp+FGTNc5FzqOy4mRICJqndht4LC56Y5bA+7QmrxhxcyRN
-	inJXTMulNRZ8rzCynhSaJ9qzKxq2M13RYfJLjONqZNIqyTo9RrN3XhbLx+t05A==
-Date: Mon, 11 Mar 2024 13:43:38 +0100
-From: =?UTF-8?B?S8O2cnk=?= Maincent <kory.maincent@bootlin.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: ahmed.zaki@intel.com, aleksander.lobakin@intel.com,
- alexandre.torgue@foss.st.com, andrew@lunn.ch, corbet@lwn.net,
- davem@davemloft.net, dtatulea@nvidia.com, edumazet@google.com,
- gal@nvidia.com, hkallweit1@gmail.com, jacob.e.keller@intel.com,
- jiri@resnulli.us, joabreu@synopsys.com, justinstitt@google.com,
- kuba@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, liuhangbin@gmail.com,
- maxime.chevallier@bootlin.com, netdev@vger.kernel.org, pabeni@redhat.com,
- paul.greenwalt@intel.com, przemyslaw.kitszel@intel.com,
- rdunlap@infradead.org, richardcochran@gmail.com, saeed@kernel.org,
- tariqt@nvidia.com, vadim.fedorenko@linux.dev, vladimir.oltean@nxp.com,
- wojciech.drewek@intel.com
-Subject: Re: [PATCH RFC v2 5/6] tools: ynl: ethtool.py: Make tool invokable
- from any CWD
-Message-ID: <20240311134338.1dadbf7e@kmaincent-XPS-13-7390>
-In-Reply-To: <20240309084440.299358-6-rrameshbabu@nvidia.com>
-References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
-	<20240309084440.299358-1-rrameshbabu@nvidia.com>
-	<20240309084440.299358-6-rrameshbabu@nvidia.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUlcf+++"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4725acb539cso710575137.3;
+        Mon, 11 Mar 2024 06:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710162018; x=1710766818; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dNPdTSgihx6APB/qlGwE3GrdCHgKzF4oHFB8F2X6Bm8=;
+        b=WUlcf+++fvZn9Eofpr9v82Fj78eW4WKdvsdM/mkoHy1ZE8ulWIpKCh1FnWPKdaWt+J
+         NpMfd1kC9hP+vbko5zFtwfaLDT6ah9hzDnN8M+f1TSs9QiASQ1zXYWsT7jZF/HPgUe9C
+         /YBbYzR9grUd994//NTNC6PJAks0cHta5+ZUjwjUxROiavkI1cLCVRfWkT7a6TViZX1p
+         9/u7fE9mXYUSAsUN5/KoFdMwf0kkJgYR0Sp6tYgNgHAauzQPF6h1AInOBdbteRq2lEom
+         bfdl5hQ59yf3N7VTWuvBw4YGstfRHli5xlKfjfFF9ApcdyxFIBR9l4NNrWSuSWcDZh6z
+         BBqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710162018; x=1710766818;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dNPdTSgihx6APB/qlGwE3GrdCHgKzF4oHFB8F2X6Bm8=;
+        b=B0o07V8ZY9Wb2G2oDqmhQj2KV5+tpEVPPjPlSmeC10U2sHwilfuydwt2bdKI5yXpcu
+         SElf8RkNQcaHp2h75GCoAE5Yx/XQbHhwbEMYUb029kIco+OD31Q9wbzrsx+m6aX/hKi9
+         MlEaKkdjaWm3GcVYJIlhaBPtbV19Ia+4uWdi6IAX+ygEyNfmk4bAlqnYzweeJvGq0Jez
+         E5U2V0Q/tYO9c/z1K2x89y+PuDDOqqBzaEOlMZHyKR3P6rSpL/M8pAt1E0k2Zh/Y5O9v
+         KeuM46j5NXvu7RaWhCkiiVeRYFxTtK17zvK9149xxdxApawbpGXwof3mXgKNa6MVlkEF
+         FhWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW61noYUXZcHDZ/LYzsyeZNS4zDyhvzc17Nd+4NW/HhzcghlRynw8LoS4EZS/+0c2IAdh3Dytw021wnBe0NSdbwhGRXsnBVKpsZE43Eem/AUfDlI+XYQ4Rr6E7vrVu7vKCT7K/EQBoWs+ZQM/5U+BY+F4/wZZamI2R5w52EIaZ7zuEfToxLmen2DQ9iRg==
+X-Gm-Message-State: AOJu0Yx+YX0ZZqdnsGRU1NWFb6r9AjlEOvOH3EYQVxNxBKFB6PD0Rq7f
+	whcYD9nLDup70c//6gOKRBnKyIVotx9aTXmRgEcXNZvjogaWhmcO4PeQ+mYRwZEbTJfWs9esaDY
+	RS8wVPXdlkGaYdp3D1LgCq4GeYsk=
+X-Google-Smtp-Source: AGHT+IGgljW5afs/Bd9m728X19XoFuAy7J1zC7s4GAdWqIMWMm3E1GTQvPc8yXfBh/BEEpRh3w5qDky2FEwjJ9baG2o=
+X-Received: by 2002:a67:f885:0:b0:473:884:7854 with SMTP id
+ h5-20020a67f885000000b0047308847854mr3603685vso.25.1710162017595; Mon, 11 Mar
+ 2024 06:00:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+References: <20240307133601.103521-1-e.velu@criteo.com> <171015844082.2407.9314247833035238689.b4-ty@linux.intel.com>
+In-Reply-To: <171015844082.2407.9314247833035238689.b4-ty@linux.intel.com>
+From: Erwan Velu <erwanaliasr1@gmail.com>
+Date: Mon, 11 Mar 2024 14:00:06 +0100
+Message-ID: <CAL2JzuzSLnxNVqkZJzkmj7hhpSaVG1Odxy4H=sLO=fTXYBt6Dw@mail.gmail.com>
+Subject: Re: [PATCH] doc/arch/x86/amd/hsmp: Updating urls
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Erwan Velu <e.velu@criteo.com>, 
+	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>, Carlos Bilbao <carlos.bilbao@amd.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, platform-driver-x86@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat,  9 Mar 2024 00:44:39 -0800
-Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
+> Thank you for your contribution, it has been applied to my local
+> review-ilpo branch. Note it will show up in the public
+> platform-drivers-x86/review-ilpo branch only once I've pushed my
+> local branch there, which might take a while.
+>
+> The list of commits applied:
+> [1/1] doc/arch/x86/amd/hsmp: Updating urls
+>       commit: dfea6b10ed15aeec6456e704e08e45fc7c947a9d
 
-> ethtool.py depends on yml files in a specific location of the linux kernel
-> tree. Using relative lookup for those files means that ethtool.py would
-> need to be run under tools/net/ynl/. Lookup needed yml files without
-> depending on the current working directory that ethtool.py is invoked fro=
-m.
->=20
-> Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-
-You should send this patch standalone as it has no relevance to the series
-subject.
-
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thx for the merge & happy to contribute a bit to this wonderful project ;)
