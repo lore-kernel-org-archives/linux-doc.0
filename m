@@ -1,113 +1,273 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F7A47F48
-	for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 15:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5574503F;
+	Mon, 11 Mar 2024 15:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710172754; cv=none; b=n1e6tEKRiF7vZiD34l1cbocWgixn5qlbU06wqWyUfijqp1Uj+Jwh2Rc5HyvUT0zGKDk0M+isODl3I9bBCeAM/ZW5jx/SAS+d/UUeC/OzciQ7arIs1sKBwEF4Jbxwki99Or6i6N3o0JzSXujRBY3xWO7Z9h4CemRFOBoC77Ny7YY=
+	t=1710172793; cv=none; b=OdEW/Ps8GCTfIt4X2bmcZ4Yus8xU0jsvthwTFvkfZC5m+vABBs6mvRg9BE7sITRsVV5GRLjqlNbcy5/yluyS3Oz6lYBdlrZxJ2LxHAIUEpZ2z8NPdGVpVBaF1KOoM/j2GXuc4tGFjGdQkLmVhwgO7SU3WIZgSXouV2NS+FQEsbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710172754; c=relaxed/simple;
-	bh=18xX4OvWa+leBjLCZv7ewn4yGUE9xohPXWWIi7DpOLg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Avc61VM/34ZsuCqjIzpyUJQggptVkupjBtAco9KuGlFdoe3jwogVwmqajXegsHBpjNAufz3yPpSY7WpVQVd5S13f9+8FDhltDeaeFzNoAx0kXvG8VyBZL5BeSdL7ZVS4Zf8wB20P3QJlTQwvwJJIY/RMOCM5rFL92rTUx6hJrDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZyueOB0D; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1710172793; c=relaxed/simple;
+	bh=ZMxApj46SsIn/A/FYyzsDQTT5R6LSY4H8Sz+r/0c5ec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FQn2dG7XtBPsZ4EDbyBWoks10bak0JHBDlr+atiI5qF7ilEvvEL4GZutodoeRdXWzOZ92Vn0TMiz75+nlaTuXoX73lxlEKQF07oXarG9Oqa7PbkjQOUCcmZ+vhCQDRXYEvk7yYpTJBbKGQJXTMehKqqFmi0elqztLbb24qyK8VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ayo64gUb; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZyueOB0D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710172751;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=0DaVe9UI/74uhr3vyv9Mr2EI8STk16ojBYtV0kWhR6s=;
-	b=ZyueOB0DVRKzhLQ0LIcB6gBLQLNRVJzoLmc8gJI4xgx0M/Ao/UrglS00EwuJDJ8eObMJ5Y
-	wWulOskQFsWGiWq4hE1E5FU6VbgSzliCds21H2UrRVKX/ZjGSCGnIIZNZ/dgUIMNT2YtSp
-	34avERJmQNiCQ9lTCOOUphrJgi4cvPo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-284-0fuM8aADNkiGlWdUvlqP6w-1; Mon, 11 Mar 2024 11:59:07 -0400
-X-MC-Unique: 0fuM8aADNkiGlWdUvlqP6w-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-33e80690477so1371103f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 11 Mar 2024 08:59:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710172746; x=1710777546;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0DaVe9UI/74uhr3vyv9Mr2EI8STk16ojBYtV0kWhR6s=;
-        b=ZKHQymD041ZYmlghDLC1WatST9e61arXwT4VP7b1XuP+TUdfZFsli611HVJCdlJ7md
-         5g+MQkKmbvPB4QPaROrPL12O2Xv5vKDxgouWL01bpRz3WCwj9YO794kWGi0o/hdeo98U
-         RZw5Int1akrhG8OEd+CqfTUVZwEcfOD+hcdU+2sda3bT+vYeJqAYbP4p8lvgtizdKBmO
-         jvIkY7qlPcL94mVdb9eWxN6nOCfJv7F5K3L0oG/FZ7BABrGqveRhUk+42JefMwh6/62n
-         gjFwzffPachQhmfGi2W+absL6UoRjCcGV4tFBFfwh9++y+2CwbyhbwCap/bTyELBW5kq
-         0KLA==
-X-Forwarded-Encrypted: i=1; AJvYcCVanM/m2qyaboKW4jdJyQsF50JH94txktN5PVY/15dXxmsO3eDYk0He3EuM+Dxh+//DLhXfuGKeM0HqAUOvkzIestmZmkLb5Iwd
-X-Gm-Message-State: AOJu0YzMlc7xC+3EQRM0eA0Oy1zkEVNEdpF78Q4PrJUWfm/Hxiw55RJp
-	EoPi9jeEZ7iAkr5cPYKETHdDlGD6aI7+RRL5z+tqlHILckRHDq18sDSJX7PNAx0L7MV8XUsjGyS
-	OERprWJi4qQZ0KMDnrBa5DmrsJR79xo3tgsUHowuetbly6mDA9jElA3JPRw==
-X-Received: by 2002:a5d:5266:0:b0:33e:7bef:8ac9 with SMTP id l6-20020a5d5266000000b0033e7bef8ac9mr4426690wrc.42.1710172745909;
-        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHAohlcaa5hCeO6/rNdnXeWXIrJX3SzsKOW0z/TCgQ3k78FXEykJ0N240bYuJJMlujXGYrRJg==
-X-Received: by 2002:a5d:5266:0:b0:33e:7bef:8ac9 with SMTP id l6-20020a5d5266000000b0033e7bef8ac9mr4426674wrc.42.1710172745566;
-        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
-Received: from toolbox.fritz.box ([2001:9e8:89a8:bc00:4f1a:435e:d5a8:5d5a])
-        by smtp.gmail.com with ESMTPSA id p12-20020adf9d8c000000b0033cf60e268fsm6774274wre.116.2024.03.11.08.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 08:59:05 -0700 (PDT)
-From: Sebastian Wick <sebastian.wick@redhat.com>
-To: 
-Cc: David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm: Document requirements for driver-specific KMS props in new drivers
-Date: Mon, 11 Mar 2024 16:58:58 +0100
-Message-ID: <20240311155904.323488-1-sebastian.wick@redhat.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ayo64gUb"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61177418B9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1710172782; bh=ovGPDVXdpSFMq6eQyToO9ymTw7UrWGF9MGWubRqygzo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ayo64gUb2k+HtMvK3s5oBhb9cG/pfpmSE/pyQ8FA0ZezK0/ZraDaqL8ljUUyik+Hw
+	 GG5WFOFDMOZKkvBnCisJx8RGu2zWAv40X9VzQVat9AgRcWB4VsvPSaU7xziLMEQgwJ
+	 pZwC7JCUmySZzfLKCURU25DGPYDdsAeHM/CwhPuJiOHzFmbxqRWfKVpWHE2yq6vb7E
+	 NyCmllRjHQB9TdGC4EtvcDbrrWFGaSGgAECusm7Tw8OuhhfmZKX3JRJFRRrb6C6Ulh
+	 AO/ADy5UwP41ymVHeBNWqRnyVq4RfB2Qndzx/DM7N4Aq/OryrN2q0YjXtYuwqh9JxJ
+	 L8MVJ2QyCgmew==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 61177418B9;
+	Mon, 11 Mar 2024 15:59:41 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation for 6.9
+Date: Mon, 11 Mar 2024 09:59:37 -0600
+Message-ID: <87cys0hi8m.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-When extending support for a driver-specific KMS property to additional
-drivers, we should apply all the requirements for new properties and
-make sure the semantics are the same and documented.
+The following changes since commit b7b2ffc3ca59b06397550f96febe95f3f153eb1e:
 
-v2: devs of the driver which introduced property shall help and ack
+  docs: translations: use attribute to store current language (2024-02-21 13:41:37 -0700)
 
-Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
----
- Documentation/gpu/drm-kms.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+are available in the Git repository at:
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 13d3627d8bc0..b98b98359c90 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -496,6 +496,13 @@ addition to the one mentioned above:
- 
- * An IGT test must be submitted where reasonable.
- 
-+For historical reasons, non-standard, driver-specific properties exist. If a KMS
-+driver wants to add support for one of those properties, the requirements for
-+new properties apply where possible. Additionally, the documented behavior must
-+match the de facto semantics of the existing property to ensure compatibility.
-+Developers of the driver that first added the property should help with those
-+tasks and must ACK the documented behavior if possible.
-+
- Property Types and Blob Property Support
- ----------------------------------------
- 
--- 
-2.44.0
+  git://git.lwn.net/linux.git tags/docs-6.9
 
+for you to fetch changes up to 0c8e9b538ed7ecf4159b080ab0dafca3941c69db:
+
+  docs: verify/bisect: fixes, finetuning, and support for Arch (2024-03-07 04:19:43 -0700)
+
+----------------------------------------------------------------
+A moderately busy cycle for development this time around.
+
+- Some cleanup of the main index page for easier navigation
+
+- Rework some of the other top-level pages for better readability and, with
+  luck, fewer merge conflicts in the future.
+
+- Submit-checklist improvements, hopefully the first of many.
+
+- New Italian translations
+
+- A fair number of kernel-doc fixes and improvements.  We have also dropped
+  the recommendation to use an old version of Sphinx.
+
+- A new document from Thorsten on bisection
+
+...and lots of fixes and updates.
+
+Expect minor merge conflicts with the vfio, edac, and gpio-brgl trees,
+all of which are long since (and correctly) resolved in linux-next.
+
+----------------------------------------------------------------
+Abhishek Pandit-Subedi (1):
+      coding-style: Add guidance to prefer dev_dbg
+
+Akira Yokosawa (4):
+      docs: Restore "smart quotes" for quotes
+      docs: kerneldoc-preamble.sty: Remove code for Sphinx <2.4
+      docs: Move ja_JP/howto.rst to ja_JP/process/howto.rst
+      docs: Makefile: Add dependency to $(YNL_INDEX) for targets other than htmldocs
+
+Andrew Ballance (1):
+      docs: sphinx-pre-install fix-noto-sans-cjk on fedora
+
+Anna-Maria Behnsen (2):
+      drm/vram-helper: Fix 'multi-line' kernel-doc comments
+      scripts/kernel-doc: Do not process backslash lines in comments
+
+Carlos Bilbao (2):
+      docs: Correct formatting of title in admin-guide/index.rst
+      docs: Include simplified link titles in main index
+
+Christoph Anton Mitterer (1):
+      docs: proc.rst: comm: mention the included NUL
+
+Davide Benini (1):
+      doc:it_IT: add translation for I2C summary and protocol
+
+Federico Vaga (2):
+      doc:it_IT: first translation for locking/
+      doc:it_IT: remove unreferenced and not translated page
+
+Guilherme G. Piccoli (1):
+      docs: Document possible_cpus parameter
+
+Hunter Chasens (1):
+      docs: admin-guide: Update bootloader and installation instructions
+
+Jeffrey Hugo (1):
+      Documentation: embargoed-hardware-issues.rst: Fix Trilok's email
+
+Johannes Berg (1):
+      kernel-doc: handle #if in enums as well
+
+Jonathan Corbet (3):
+      docs: rework the driver-api top-level page
+      docs: rework the userspace-api top page
+      Merge branch 'docs-fixes' into docs-mw
+
+Juntong Deng (1):
+      kasan: Add documentation for CONFIG_KASAN_EXTRA_INFO
+
+Konstantin Ryabitsev (1):
+      Documentation: update mailing list addresses
+
+Krzysztof Kozlowski (1):
+      docs: maintainer: add existing SoC and netdev profiles
+
+Leo Yan (1):
+      Documentation: userspace-api: Document perf ring buffer mechanism
+
+Lu Dai (1):
+      docs/zh_CN: accurate translation of "function"
+
+Lukas Bulwahn (4):
+      doc:it_IT: fix a typo in the config name in RCU torture
+      docs: drop the version constraints for sphinx and dependencies
+      docs: submit-checklist: structure by category
+      docs: submit-checklist: use subheadings
+
+Michael Kelley (1):
+      docs: Fix subsystem APIs page so ungrouped entries have their own header
+
+Ran.Park (1):
+      Fixed case issue with 'fault-injection' in documentation
+
+Randy Dunlap (2):
+      kernel-doc: drop looking for "MACDOC"
+      doc-guide: kernel-doc: tell about object-like macros
+
+Sakari Ailus (1):
+      kernel-doc: Support arrays of pointers struct fields
+
+SeongJae Park (1):
+      MAINTAINERS: Set the field name for subsystem profile section
+
+Thorsten Blum (8):
+      Documentation: coding-style: Fix indentation in code-blocks
+      Documentation: coding-style: Update syntax highlighting for code-blocks
+      Documentation: multiple .rst files: Fix grammar and more consistent formatting
+      Documentation: admin-guide: tainted-kernels.rst: Add missing article and comma
+      README: Fix spelling/capitalization
+      docs: dev-tools: checkpatch.rst: Fix grammar
+      docs: scripts: sphinx-pre-install: Fix building docs with pyyaml package
+      docs: Makefile: Fix make cleandocs by deleting generated .rst files
+
+Thorsten Leemhuis (2):
+      docs: new text on bisecting which also covers bug validation
+      docs: verify/bisect: fixes, finetuning, and support for Arch
+
+Vegard Nossum (8):
+      docs: add blurb about target audience to maintainer-profile
+      scripts/kernel-doc: reindent
+      scripts/kernel-doc: add modeline for vim users
+      scripts/kernel-doc: simplify function printing
+      scripts/kernel-doc: separate out function signature
+      scripts/kernel-doc: simplify signature printing
+      doc: kerneldoc.py: fix indentation
+      docs: kernel_feat.py: fix build error for missing files
+
+Vincenzo Mezzela (1):
+      docs: staging: fix typo in docs
+
+ Documentation/ABI/testing/sysfs-bus-vdpa           |   10 +-
+ Documentation/Makefile                             |    5 +-
+ Documentation/RCU/torture.rst                      |    2 +-
+ Documentation/admin-guide/README.rst               |   69 +-
+ Documentation/admin-guide/index.rst                |    2 +
+ Documentation/admin-guide/kernel-parameters.txt    |    5 +
+ Documentation/admin-guide/tainted-kernels.rst      |    4 +-
+ .../verify-bugs-and-bisect-regressions.rst         | 1952 +++++++++++++++
+ Documentation/conf.py                              |    6 +-
+ Documentation/dev-tools/checkpatch.rst             |    4 +-
+ Documentation/dev-tools/kasan.rst                  |   21 +
+ Documentation/doc-guide/kernel-doc.rst             |   45 +
+ Documentation/doc-guide/maintainer-profile.rst     |    7 +
+ Documentation/doc-guide/sphinx.rst                 |   18 +-
+ Documentation/driver-api/index.rst                 |  169 +-
+ Documentation/fault-injection/index.rst            |    2 +-
+ Documentation/filesystems/proc.rst                 |    4 +-
+ Documentation/index.rst                            |   52 +-
+ .../maintainer/maintainer-entry-profile.rst        |    3 +
+ Documentation/networking/bridge.rst                |    2 +-
+ Documentation/process/changes.rst                  |    4 +-
+ Documentation/process/coding-style.rst             |   13 +-
+ .../process/embargoed-hardware-issues.rst          |    2 +-
+ Documentation/process/howto.rst                    |    4 +-
+ Documentation/process/researcher-guidelines.rst    |    2 +-
+ Documentation/process/submit-checklist.rst         |  161 +-
+ Documentation/sphinx/kerneldoc-preamble.sty        |    7 +-
+ Documentation/sphinx/kerneldoc.py                  |    6 +-
+ Documentation/sphinx/requirements.txt              |    7 +-
+ Documentation/staging/rpmsg.rst                    |    2 +-
+ Documentation/subsystem-apis.rst                   |    2 +
+ Documentation/translations/it_IT/RCU/index.rst     |   19 +
+ Documentation/translations/it_IT/RCU/torture.rst   |  369 +++
+ .../translations/it_IT/core-api/index.rst          |   12 +
+ .../translations/it_IT/i2c/i2c-protocol.rst        |   99 +
+ Documentation/translations/it_IT/i2c/index.rst     |   46 +
+ Documentation/translations/it_IT/i2c/summary.rst   |   64 +
+ Documentation/translations/it_IT/index.rst         |    2 +
+ Documentation/translations/it_IT/locking/index.rst |   20 +
+ .../translations/it_IT/locking/lockdep-design.rst  |  678 ++++++
+ .../translations/it_IT/locking/lockstat.rst        |  230 ++
+ .../translations/it_IT/locking/locktorture.rst     |  181 ++
+ .../translations/it_IT/locking/locktypes.rst       |  547 +++++
+ .../translations/it_IT/networking/netdev-FAQ.rst   |   13 -
+ .../translations/it_IT/process/coding-style.rst    |    6 +-
+ .../translations/it_IT/subsystem-apis.rst          |   47 +
+ Documentation/translations/ja_JP/index.rst         |    2 +-
+ .../translations/ja_JP/{ => process}/howto.rst     |    0
+ .../translations/sp_SP/process/coding-style.rst    |    6 +-
+ .../sp_SP/process/embargoed-hardware-issues.rst    |    2 +-
+ .../sp_SP/process/researcher-guidelines.rst        |    2 +-
+ .../translations/zh_CN/process/coding-style.rst    |    4 +-
+ .../zh_CN/process/embargoed-hardware-issues.rst    |    2 +-
+ .../zh_CN/userspace-api/accelerators/ocxl.rst      |    4 +-
+ .../translations/zh_TW/process/coding-style.rst    |    4 +-
+ .../zh_TW/process/embargoed-hardware-issues.rst    |    2 +-
+ Documentation/userspace-api/index.rst              |   47 +-
+ Documentation/userspace-api/perf_ring_buffer.rst   |  830 +++++++
+ MAINTAINERS                                        |    9 +-
+ README                                             |    2 +-
+ drivers/gpu/drm/drm_gem_vram_helper.c              |   44 +-
+ include/drm/drm_gem_vram_helper.h                  |   16 +-
+ scripts/kernel-doc                                 | 2531 ++++++++++----------
+ scripts/sphinx-pre-install                         |   32 +-
+ 64 files changed, 6857 insertions(+), 1607 deletions(-)
+ create mode 100644 Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
+ create mode 100644 Documentation/translations/it_IT/RCU/index.rst
+ create mode 100644 Documentation/translations/it_IT/RCU/torture.rst
+ create mode 100644 Documentation/translations/it_IT/i2c/i2c-protocol.rst
+ create mode 100644 Documentation/translations/it_IT/i2c/index.rst
+ create mode 100644 Documentation/translations/it_IT/i2c/summary.rst
+ create mode 100644 Documentation/translations/it_IT/locking/index.rst
+ create mode 100644 Documentation/translations/it_IT/locking/lockdep-design.rst
+ create mode 100644 Documentation/translations/it_IT/locking/lockstat.rst
+ create mode 100644 Documentation/translations/it_IT/locking/locktorture.rst
+ create mode 100644 Documentation/translations/it_IT/locking/locktypes.rst
+ delete mode 100644 Documentation/translations/it_IT/networking/netdev-FAQ.rst
+ create mode 100644 Documentation/translations/it_IT/subsystem-apis.rst
+ rename Documentation/translations/ja_JP/{ => process}/howto.rst (100%)
+ create mode 100644 Documentation/userspace-api/perf_ring_buffer.rst
