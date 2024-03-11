@@ -1,105 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BAB52F82;
-	Mon, 11 Mar 2024 20:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF4D56B9D;
+	Mon, 11 Mar 2024 22:00:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710187648; cv=none; b=A5w1up8yzpky1u/PEFT8k6dnT6lHOVUmvkFEMgn+mOL5Pl03S4XRIoE+gVMxtD5Jcf2Cl1bOt/ScmOHJdARO/XLXceZFo/trIwv7IKVFVntnni+JKfLMzGtdGSWzbFgQwDi+q9vehOiyGdaxeOH7owDlIXyd6txnBSUs9UQDy9A=
+	t=1710194435; cv=none; b=VLdpITIyFIXbf2wdtdSWMvImn5J2Dq+eNpFmGfVO5tJ+/f2H4WbJNAUSJZFVvANK+qKMEes+ZgBbgQy0NVKl0LdWP41Jsov3PPfgWHVA3xXoc7E1C4yhONnKbahf36SJM93pFfFtPmIRVjHNOn4Mc2BQiuWc4VnZ3xhqRqGDwok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710187648; c=relaxed/simple;
-	bh=WBtBCCMn2JMwUS5VVGHL+yTt7qkPpG1ZJQA8yWr+M5w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=bG6w2vd26Z3a9bPZd5Yu5/LbJz2G/MAXsAP21Sk5WRQrcYLPnk+seuRBTlaseyTIhE12Pi7Hn83Llf/p2S47pB6NkbeTrHANpPuFkxKyQP2rJfjrV5neu4W8eT8Vp+cHS9n7Tl1JUWl1JgIqFI+IofAwvqx+hSQdOIQWbbn2Zro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpKTJnaU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710194435; c=relaxed/simple;
+	bh=AvPE0MWkoiSBvXUofuuPo2NvsFXH3G0ZocpFpP/0V8U=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=LiqYmJ3/hT321In6vqlVhJQhIKMxBBRh4cYW0qlptzRCNq2imGae00Twopx6FE8A5rx+N36kW5A1JBIZmqXrai0hope3RqMjQfcrLJsBWp+1CXJErtPs7CWLyGiidBcwfL359jDHDZ6C8rJ4z0H5b5i8x37Y8Na1g05mbBL4vYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sTjaV4ln; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpKTJnaU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DBBCC433F1;
-	Mon, 11 Mar 2024 20:07:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sTjaV4ln"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 890EBC43394;
+	Mon, 11 Mar 2024 22:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710187648;
-	bh=WBtBCCMn2JMwUS5VVGHL+yTt7qkPpG1ZJQA8yWr+M5w=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=qpKTJnaURjnr9qyMxxS06UflehxFUN6v0OqYQKl6DqRi1nweRVVV/ivK1D5TMqyUe
-	 Go3Ar0AuaK6I7kVk1CdNT9w1bSz26h92HPVVGtPkpGcCqw3VXKlZSK1lxVU3tFP1hu
-	 CBoQTBN7JDL2FRIWrHHc8Gu09GGXq5pYvbFPRFJBNc3GXeL54y441hKHV+TmCLqTo+
-	 ViEDNTStK3tlBuz3EG/eoeOvj52RkgMZD13LEiA/dOCeFD8J3qagtJUO2vFm6a2XWp
-	 ZugulwiUUCbthW5vQ8oE9hwGR+oRtQY9o46qnBscOszPbc5RGMAMEMqkv54kJKxdHs
-	 17b+JtrrT6lWg==
+	s=k20201202; t=1710194434;
+	bh=AvPE0MWkoiSBvXUofuuPo2NvsFXH3G0ZocpFpP/0V8U=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=sTjaV4lnoZZdQpJanXFJGv7qQ4RSt1AeT7BEZrr/6OpYFVxZiRlJ1TuLHg9jhaggk
+	 XbnUx++51+30OqxW1mIOGyGYTHIu9wuPWhWFxouTIrmsqF8UyGRZHsdkitlbD2jrSr
+	 Hh3Qr9nyFqkXqdzWe5wy5gwGKnkZWjxnubFSK1oTbCfznLz7TvevfR6LOsO35CWize
+	 A+kzlHjmQvdbJvG4nfoWFAm2f+CZg8lHynNnq+yceBlZYvdPzSxljEdF3mQNMO60eT
+	 Mj/tPg0wf0HXQujK7R08q/7QB6ya/dcqn1CL8V1ZffHvORZKVqmObXlCTxp+FRQjBh
+	 OA7nIP5CA/K3Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6FAC5C395F1;
+	Mon, 11 Mar 2024 22:00:34 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 11 Mar 2024 22:07:19 +0200
-Message-Id: <CZR6X7KLX6NC.1BH2NHDTNL3C@kernel.org>
-Cc: "Mimi Zohar" <zohar@linux.ibm.com>, "James Bottomley"
- <jejb@linux.ibm.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "David S.
- Miller" <davem@davemloft.net>, "Shawn Guo" <shawnguo@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "NXP Linux Team" <linux-imx@nxp.com>, "Ahmad Fatoum"
- <a.fatoum@pengutronix.de>, "sigma star Kernel Team"
- <upstream+dcp@sigma-star.at>, "David Howells" <dhowells@redhat.com>, "Li
- Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>, "James
- Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, "Paul E.
- McKenney" <paulmck@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
- (Google)" <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
- "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>, "Richard Weinberger"
- <richard@nod.at>, "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
-Subject: Re: [PATCH v6 3/6] KEYS: trusted: Introduce NXP DCP-backed trusted
- keys
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "David Gstir" <david@sigma-star.at>
-X-Mailer: aerc 0.17.0
-References: <20240307153842.80033-1-david@sigma-star.at>
- <20240307153842.80033-4-david@sigma-star.at>
- <CZNRMR5YZPQO.1QBLW62A6S840@kernel.org>
- <655221B7-634C-4493-A781-CF014DFFC8BF@sigma-star.at>
-In-Reply-To: <655221B7-634C-4493-A781-CF014DFFC8BF@sigma-star.at>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4] net: netconsole: Add continuation line prefix to
+ userdata messages
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171019443445.9697.5244091581871121870.git-patchwork-notify@kernel.org>
+Date: Mon, 11 Mar 2024 22:00:34 +0000
+References: <20240308002525.248672-1-thepacketgeek@gmail.com>
+In-Reply-To: <20240308002525.248672-1-thepacketgeek@gmail.com>
+To: Matthew Wood <thepacketgeek@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, corbet@lwn.net, leitao@debian.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Fri Mar 8, 2024 at 9:17 AM EET, David Gstir wrote:
-> Hi Jarkko,
->
-> > On 07.03.2024, at 20:30, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu,  7 Mar 2024 16:25:24 -0800 you wrote:
+> Add a space (' ') prefix to every userdata line to match docs for
+> dev-kmsg. To account for this extra character in each userdata entry,
+> reduce userdata entry names (directory name) from 54 characters to 53.
+> 
+> According to the dev-kmsg docs, a space is used for subsequent lines to
+> mark them as continuation lines.
+> 
 > [...]
->
-> >> +
-> >> +static int trusted_dcp_init(void)
-> >> +{
-> >> + int ret;
-> >> +
-> >> + if (use_otp_key)
-> >> + pr_info("Using DCP OTP key\n");
-> >> +
-> >> + ret =3D test_for_zero_key();
-> >> + if (ret) {
-> >> + pr_err("Test for zero'ed keys failed: %i\n", ret);
-> >=20
-> > I'm not sure whether this should err or warn.
-> >=20
-> > What sort of situations can cause the test the fail (e.g.
-> > adversary/interposer, bad configuration etc.).
->
-> This occurs when the hardware is not in "secure mode". I.e. it=E2=80=99s =
-a bad configuration issue.
-> Once the board is properly configured, this will never trigger again.
-> Do you think a warning is better for this then?
 
-Bad configuration is not unexpected configuration so it cannot possibly
-be an error situation as far as Linux is considered. So warning is=20
-appropriate here I'd figure.
+Here is the summary with links:
+  - [net-next,v4] net: netconsole: Add continuation line prefix to userdata messages
+    https://git.kernel.org/netdev/net-next/c/2b3953585953
 
-BR, Jarkko
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
