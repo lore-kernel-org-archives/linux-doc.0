@@ -1,115 +1,94 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD77C139572;
-	Tue, 12 Mar 2024 19:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A081386B5
+	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 19:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710270531; cv=none; b=gVwQucksKi2ti9m4b1G/8jg99UIQUOiAGq+0Zz5cAZ4yNqV/dpQHrx2XtiQckSk/UUR3KxghhEYJWtRM44A0ASObDCMcWJVgri47qLnx+Kb3tY3uvI4QhY+vuTaKgUOmkaw6iHwwd4//YvEjhkQx9NPQyFoPytvn+5dAWn0+YtI=
+	t=1710270773; cv=none; b=bsZgVO0n2oZZpU7Q1lZuKxddAdbXRjgMWqXotb1z2d9k5sPfkSzehZcIwZ/Cq+qURWJSiM1AtH6dxc1IHOGt65pmtZBTpT0JiXI3lnl5SIIzBoRxydwt+L5RcUUqSvmWpPNXFMBbzCZHyfz7dfw2JIJM+Mdx1OpY3qdPG3bLozs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710270531; c=relaxed/simple;
-	bh=uJKJ5TT0DIQCG1G4MHwjHdZ45SeGQe6J4lJO/tq7XHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T/MMM1kx+1+uqgp/l+IbI3GgmVicURuCQtVRCPtttC5EjbpqiqvKqC0/st/cfm1eC4GnnJHPQqTHiIcBZwHmoXU0CVOUyyun5tVgaXLaUnln3O1eS4gwW3CV0eRtSAGJw6cqwbMio/LsU3kLufmhq6zVpDS4pevbN548xlZ5fNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=b2Vdkjqu; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1710270773; c=relaxed/simple;
+	bh=1Brj7Ha5+fbF32x3NFBv4yvdgHj7Tx/5MV5i9z3IqE0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HQ6s79B6jiJM+osWdQckJP02HebL88t+d4dZ1JTnBFgYbZ6mzRvxXJEvvQijJ50IMt07wM47dAb4AOON2vaozvZw2IODxOGOLexqXAE7rb9WLgbGuXgrNtIDPM/MLc/ulG6eTx9SuGpaLh+Gaa9UFnnySD0CaRKflD34DXTnWcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlgPOKyq; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="b2Vdkjqu"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5553320B74C0;
-	Tue, 12 Mar 2024 12:08:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5553320B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1710270529;
-	bh=cWEVzi9QVVsJQgWK0gb+VOtCy9uOsL8ujlhBGevuOmc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b2VdkjquI/gfoxlQSlcUlTggdkJsZmhj+zejliyOfxmDA1IOrPGJIPBk7VcPkVMUB
-	 Kyh93nFVzbfMhUQjOQDT3EaUahlKkrWKwFQp6K+Hi7CkcTBuyQ2kUmxR8pJHsthWBG
-	 VLEd4uSybXl6Rc41g4x6fT6CHtJAsnZ/gKNEuqzs=
-Message-ID: <746a5548-0e98-4953-9e71-16b881c63aa8@linux.microsoft.com>
-Date: Tue, 12 Mar 2024 12:08:49 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KlgPOKyq"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-60a5a11b59dso9901697b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 12:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710270770; x=1710875570; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qRLuvuRLRD2eLcvzdQSEvSRDyYr5UyjvEaAEWSq4BXk=;
+        b=KlgPOKyqE5F7i1IX+UtwVFY+Zv6x9cUMA+z/BjrYzDi2sCmlONe4LTAqzVZ+xMZVJ2
+         1oYfCXE0FO5+pDTuw75tq0GCjBEJrWOHLSVGByKkRCPS+l/WptUY7zSC1YOKiPulj47o
+         PHQGXBgYemfeniroVLlrEfoR+mMW7gwi5aQyBX5M3dxC3lxAXQObkytqjP8/FcmwcLLM
+         LIW1yUm9ODLENOUa7xmMqYQkCP+6xyJGaqp9KqRNlUeNzHYBwjeu+L16nh825ndLDrRs
+         TfUw82rrrq2AanRLMsMBMHnhni7GiyKzzIURBMqbmd8Gc15f+B3/c3ounVuhB7hgeaOV
+         wCjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710270770; x=1710875570;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qRLuvuRLRD2eLcvzdQSEvSRDyYr5UyjvEaAEWSq4BXk=;
+        b=mdiEkGYw/wjAIgRtYLQqgCkkRa7VylCJa404u18ekzycuOkzAy6HrlsONKTiW8qIK2
+         8yGFfeOWoKv6l82iIF4m6pYTWsEPdvrHjXvtBGhvIr0yTpnRS5rRkSVkdYXUuitANIUp
+         TO9thsbh7f+Z+kVqnkdKjYaTxFuummOEtR+1DiF1sS4Tv+8rNMRRnth2FIUBzEuOZ7ko
+         vBcYrHKvXTkRTQxN9sJ6UtW0FYcQHgpT2jxPeh8OAIEzWO3GUPmAktiZj9FCcmFBy6dA
+         1U7KM96SuN7kh1veh7ESybbr1FhNV48S1tM8HB/gA87x3g5R/Q07KQmuljgKVnwLNkcf
+         xg1g==
+X-Gm-Message-State: AOJu0YxxQPl8q6AMbz/iI3PG4VKYRCQ8YlbOmCVGvNK6T2p3bYp8GNAS
+	bHqOrlQk14Qx7co28TVVCIrfnVydlZWvUtnSDe8iP8y7pF1/deClA+ZlKx0/
+X-Google-Smtp-Source: AGHT+IEss7N2gsJ5Yf7mUE0aVs8HBFGYGCtzP6oSSLkM3qaS7UzNzEyp2vMuFNKHR/OehZl05brXwQ==
+X-Received: by 2002:a0d:f082:0:b0:60a:1d7d:c0de with SMTP id z124-20020a0df082000000b0060a1d7dc0demr378769ywe.16.1710270770042;
+        Tue, 12 Mar 2024 12:12:50 -0700 (PDT)
+Received: from localhost.localdomain ([64.234.79.138])
+        by smtp.gmail.com with ESMTPSA id d73-20020a814f4c000000b0060a03c196cdsm2023051ywb.63.2024.03.12.12.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 12:12:49 -0700 (PDT)
+From: Kendra Moore <kendra.j.moore3443@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Kendra Moore <kendra.j.moore3443@gmail.com>
+Subject: [PATCH] doc: Fix typo in admin-guide/cifs/introduction.rst
+Date: Tue, 12 Mar 2024 04:47:53 -0400
+Message-Id: <20240312084753.27122-1-kendra.j.moore3443@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v14 15/19] fsverity: consume builtin signature via LSM
- hook
-Content-Language: en-CA
-To: Casey Schaufler <casey@schaufler-ca.com>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
- <1709768084-22539-16-git-send-email-wufan@linux.microsoft.com>
- <20240312025712.GE1182@sol.localdomain>
- <20240312030712.GF1182@sol.localdomain>
- <51810153-eb6e-40f7-b5d0-5f72c2f4ee9b@linux.microsoft.com>
- <568fae5e-a6d4-4832-a1a1-ac3f4f93d650@schaufler-ca.com>
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <568fae5e-a6d4-4832-a1a1-ac3f4f93d650@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This patch corrects a spelling error specifically
+the word "supports" was misspelled "suppors".
 
+No functional changes are made by this patch; it
+only improves the accuracy and readability of the
+documentation.
 
-On 3/12/2024 11:51 AM, Casey Schaufler wrote:
-> On 3/12/2024 11:14 AM, Fan Wu wrote:
->>
->>
->> On 3/11/2024 8:07 PM, Eric Biggers wrote:
->>> On Mon, Mar 11, 2024 at 07:57:12PM -0700, Eric Biggers wrote:
->>>>
->>>> As I've said before, this commit message needs some work.  It
->>>> currently doesn't
->>>> say anything about what the patch actually does.
->>>>
->>>> BTW, please make sure you're Cc'ing the fsverity mailing list
->>>> (fsverity@lists.linux.dev), not fscrypt
->>>> (linux-fscrypt@vger.kernel.org).
->>>
->>> Also, I thought this patch was using a new LSM hook, but I now see
->>> that you're
->>> actually abusing the existing security_inode_setsecurity() LSM hook.
->>> Currently
->>> that hook is called when an xattr is set.  I don't see any precedent for
->>> overloading it for other purposes.  This seems problematic, as it
->>> means that a
->>> request to set an xattr with the name you chose
->>> ("fsverity.builtin-sig") will be
->>> interpreted by LSMs as the fsverity builtin signature.  A dedicated
->>> LSM hook may
->>> be necessary to avoid issues with overloading the existing xattr hook
->>> like this.
->>>
->>> - Eric
->>
->> Thanks for the suggestion. I found that using
->> security_inode_setsecurity() causes issues with SMACK's
->> inode_setsecurity() hook. I will crate a dedicated new hook like
->> security_inode_setsig() in the next version.
-> 
-> What is the issue you encountered with the Smack hook?
-> 
+Signed-off-by: Kendra Moore <kendra.j.moore3443@gmail.com>
+---
+ Documentation/admin-guide/cifs/introduction.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The current hook call for saving file signature will fail at 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/security/smack/smack_lsm.c#n2855 
-.
-
-The issue is file signature size is larger than SMK_LONGLABEL so if 
-SMACK is enabled the SMACK's hook will return -EINVAL, which prevents us 
-to use security_inode_setsecurity() to save file signature into security 
-blob.
-
-We could also make security_inode_setsecurity() more generic instead of 
-for xattr only, any suggestions?
-
--Fan
-
+diff --git a/Documentation/admin-guide/cifs/introduction.rst b/Documentation/admin-guide/cifs/introduction.rst
+index 53ea62906aa5..ffc6e2564dd5 100644
+--- a/Documentation/admin-guide/cifs/introduction.rst
++++ b/Documentation/admin-guide/cifs/introduction.rst
+@@ -28,7 +28,7 @@ Introduction
+   high performance safe distributed caching (leases/oplocks), optional packet
+   signing, large files, Unicode support and other internationalization
+   improvements. Since both Samba server and this filesystem client support the
+-  CIFS Unix extensions, and the Linux client also suppors SMB3 POSIX extensions,
++  CIFS Unix extensions, and the Linux client also supports SMB3 POSIX extensions,
+   the combination can provide a reasonable alternative to other network and
+   cluster file systems for fileserving in some Linux to Linux environments,
+   not just in Linux to Windows (or Linux to Mac) environments.
+-- 
+2.34.1
 
