@@ -1,119 +1,123 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BB0142630
-	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 19:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF37F1428ED
+	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 20:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710273431; cv=none; b=do966Ko+Ze+3zl3VA/hf2pKp0zTjjxLYl7IW64ZUNYPEPHlIZ8wzttiHlOoBI2M6s1rPhFK8VPctolrYsqd0EfbonTV2irbTdf6pXAX4azxIMBjr64LV7Vsf+PUItW9SCIzGr0+vdTWRkUkFh14GHM5EKxnP8apjWSetxGFYOBY=
+	t=1710274075; cv=none; b=nZJjO4lywsvgR/R9y/1XxGBuq1iZlz6FWZGzltzbmp1ys6fsspj3o/OYG9RW9D27k4Ek+8w/SzR4225xzdaIYJwpwwO/v+m65Zg6cACUIFZi3r5ADGL6cJvfob21s6PcwlF50jIarEzs55sTnC0wKbGYh8V5EbYt17j1GY4D6jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710273431; c=relaxed/simple;
-	bh=0aWGvxVmbgp4kFphrT5DgrMJEPHTfdbj9FAM43oX9JA=;
+	s=arc-20240116; t=1710274075; c=relaxed/simple;
+	bh=KK3vfTC21FfD3a3vNi4VaniP6dAy7ashn5OtgY1y6Kc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aCXbmmHJBTQXbwndShUxvw3G4P7RWDi74ut+/JKclantp9TtU9tja05xW0JOw8+OMa65q0rd8rYG3Ls/QJjPciWqJPCk8oqMZj5Wuveu4Cde7mPJRMNjh/0chJuWqrNvSf70pC9zkuqAOeJfrHI9c/oXLEzApEvI1685DRKD5Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=n9SkdvBC; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=YzZ1pUW4XY5q8YeI7P7GvAMCXCs1/KrBVJt9eNv7K8oVV84Vh3MUbzji5ABkhSPPX8FBgOo/CPZ9SsH9oGgDYhbRFcHx1yby1StaRxM8wVaEcIiGf050Vfg6nS13uY4pHNJZUgxcCNSBHIYX+h5dFoMol7T8e1fDeZmeAAPXQM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ElgnVr/3; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n9SkdvBC"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60a0599f647so3316977b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 12:57:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ElgnVr/3"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso215449276.0
+        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 13:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710273428; x=1710878228; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1710274073; x=1710878873; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wT+2mjCDEB2wrTUTyTKLuab+xNoniRJZtNtidsDDPI8=;
-        b=n9SkdvBCP29jpiwunTx9H1BR2Ml5UNn8v5otShFLYbK7JyH9MubPTv36E75no1LqDL
-         F087Nx5gd76hBnyWnz1RKILaph74iezHR8dfxhvrNyu4hW+OvUANcVGR85oF6szeI66p
-         LehTfrQIsekB3y0zSlUlFw+k4rC27MANhiDGq5MWUDj0v7p8X/r6xuB6IfOk+yaiotpi
-         6PNsdZ7oDH/REX+V59tRksPbBVobOBRxA5gTKm3fkVWKTVvVvhW6qkyHeDff6HIEDksZ
-         NyymvyrhhQDYaBGvJfqmaPS8cnXSuEknUF0Um/xxxhDbr2bvMvHMcAwmZuBE64EiPD4M
-         sflQ==
+        bh=dIM56byQCwYfF5RCflaFTltitkLV02ChrYWIQLMiS/Y=;
+        b=ElgnVr/3Q/zYk3p8cOr0srbGrwrn6SR+lC77XKGviNYk3F5Pp4ywOeBM4MexCiFGAb
+         K1JldP5PIG50cuVSCEjquhwrRdW1pHztVk5hQWrrQlPiOtHgMfw+F8fjjPybyawQHeKp
+         ZxyNdr8MI26Bj1AiSGBU6JkWMAFkvga9MPrGDq5CS+FiSwhZqZZb1peNgdyHRwBj1kM4
+         l9k3SECxSnTxmpzXoVifZzVrBdkUrGT+ZITUIt2GnyCZmREQM6Z7LYy6M4h0oHBRApMC
+         rXXmCc+zVuhcVCRcZsSBg/JWhX033y01J5x2vyxo0NS5vyCVyEcK20CHIOiuT6OGvjes
+         4Prg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710273428; x=1710878228;
+        d=1e100.net; s=20230601; t=1710274073; x=1710878873;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wT+2mjCDEB2wrTUTyTKLuab+xNoniRJZtNtidsDDPI8=;
-        b=TzhkAV8qnMn9tUCW+HT/MeqxCtSi/DzELHLAj25PSfsSAAnzv3VqyY3ts3YJZh3QI7
-         UzkeD0/cWSwCaTANJCIAukVy7fxZFeKvHerm33zG9COT4Tvo1/gXV9GYygxQ4vsSByxS
-         vNuSUwJ36+A309QzqHYhj1k6QsWUHktUfU1cohiou5BiMiPqU6ltW9CBlHC5m2gCSo/1
-         3dL9RBJ/9r9zu+WMdr7AvSot0AB35uYlG3SXByaRans2H/QpUj3M/Kei0YoONM+TwwTH
-         iDJOQ25HYyDYeq9KpGQMU6Q2mm5pXw5cdh78j/IowRYX2UJxv4hcNbw8UV5rUr4ywNEA
-         qlnw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFoJPTORM0l4AGYqd/5bSP5xtJDGbK6FYLjRUExVHPQY3NOqkZly9c3qV8ehTk7Z04SdgEf+PHXzd6fZzGjphYicRrV9v6HF3O
-X-Gm-Message-State: AOJu0YyKf4xr8k131XeE82xGQrO84rwIJ2At+gPaaEzAG6cS9+R51jxI
-	Pgi7ZLPNTDS5sOu9pz0fiqmg2WxmjFK0iVZiFK44+MugutaOsYlpR2dzWHRoh0BFJM3K8Zt9Mx0
-	eQAliOI5xiZt1Rz6JOA0DJ3ji1eXRCptkrCFl
-X-Google-Smtp-Source: AGHT+IFrpwFQf6DsD+MDcouIBUBxz7xm6ZVbTg/EsBFYmgBgqnN4d7DhlPhedvQ2z/xYUtX9OCTiPw5W4WvHfMsUOCA=
-X-Received: by 2002:a0d:e885:0:b0:60a:67fb:146 with SMTP id
- r127-20020a0de885000000b0060a67fb0146mr551414ywe.17.1710273427660; Tue, 12
- Mar 2024 12:57:07 -0700 (PDT)
+        bh=dIM56byQCwYfF5RCflaFTltitkLV02ChrYWIQLMiS/Y=;
+        b=Czqg/dI89YkfOUIsQ/hCUjyJwfwY50yVumzqH/WFN6KehTvhWdiQ6DICWTR8ravUXE
+         fNdLRiPmlKxkn0Aw1ADuy0Tkun+eU1YQw2W1t2ylMdgiWV7tUKMtni1t9u3Hkn7qF9sL
+         UA03Ndax03AxMrNeXj7gn6vhci/TQQQ/ROOovxHIa/kandUclb6BbB1e6IdI4rsrndCQ
+         QIbBtnXnUOcNM4iNw5Sc/SDNGxDXkXjnu1NS5s7kfttz1q5RR+j2jALuLz5HTAzzbwku
+         RaUUOOgM0wQU+BD0NzI6YrZhs2sg7Rf4SDqRWYMSY+3DLiuTbIKs7QjgIRqz8xX9ItZr
+         DqLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTdI/1ljBQIqHD3ig/9xXwI7wH6ctCpmMGwbXSjznIzU2iHnmslQ0se2Y9TvLA5OcrSNEaOYE/GX7V5gJgYN2cv1xv8pXaLDZu
+X-Gm-Message-State: AOJu0YxNz6WPtG2vwV9gjQ9ubvLGZJI9ezdqFDsxKDv8NN6Zyr/COLBC
+	Qp1YSGHtrdJJxiPgPxfBnwPMW/u3SQuPWHzUmHv1h+m6SeFbjdpmgd7Lxwn/69lEbMT936pt+J7
+	aKj+8+oJhlZsSWo9YU9wK/dzux73QR51IwR8w
+X-Google-Smtp-Source: AGHT+IFUO9loFBNfYwY2rilDGi4a1ZxrFKhf7gDp1B59xt2uvInDy15QqH6xxud+73LelILqgfwJCkTcRwHNX1HB0r4=
+X-Received: by 2002:a25:c714:0:b0:dcd:b806:7446 with SMTP id
+ w20-20020a25c714000000b00dcdb8067446mr396824ybe.1.1710274072732; Tue, 12 Mar
+ 2024 13:07:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-14-surenb@google.com>
- <a9ebb623-298d-4acf-bdd5-0025ccb70148@suse.cz> <ZfCdsbPgiARPHUkw@bombadil.infradead.org>
-In-Reply-To: <ZfCdsbPgiARPHUkw@bombadil.infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 12 Mar 2024 12:56:54 -0700
-Message-ID: <CAJuCfpErSnRK3TH-+keVF+2Vq-e1cSXrOcg8UAFke3btt2Y9+w@mail.gmail.com>
-Subject: Re: [PATCH v4 13/36] lib: prevent module unloading if memory is not freed
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
-	mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
-	liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
+References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
+ <1709768084-22539-16-git-send-email-wufan@linux.microsoft.com>
+ <20240312025712.GE1182@sol.localdomain> <20240312030712.GF1182@sol.localdomain>
+ <51810153-eb6e-40f7-b5d0-5f72c2f4ee9b@linux.microsoft.com>
+ <568fae5e-a6d4-4832-a1a1-ac3f4f93d650@schaufler-ca.com> <746a5548-0e98-4953-9e71-16b881c63aa8@linux.microsoft.com>
+In-Reply-To: <746a5548-0e98-4953-9e71-16b881c63aa8@linux.microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 12 Mar 2024 16:07:41 -0400
+Message-ID: <CAHC9VhTYoT-XrSp4h5QwT5tnzBS6NHG0XSQ=cKLueM0iM0DvJw@mail.gmail.com>
+Subject: Re: [RFC PATCH v14 15/19] fsverity: consume builtin signature via LSM hook
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: Casey Schaufler <casey@schaufler-ca.com>, Eric Biggers <ebiggers@kernel.org>, corbet@lwn.net, 
+	zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, 
+	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 12, 2024 at 11:23=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.or=
-g> wrote:
->
-> On Mon, Feb 26, 2024 at 05:58:40PM +0100, Vlastimil Babka wrote:
-> > On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> > > Skip freeing module's data section if there are non-zero allocation t=
-ags
-> > > because otherwise, once these allocations are freed, the access to th=
-eir
-> > > code tag would cause UAF.
-> > >
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >
-> > I know that module unloading was never considered really supported etc.
->
-> If its not supported then we should not have it on modules. Module
-> loading and unloading should just work, otherwise then this should not
-> work with modules and leave them in a zombie state.
+On Tue, Mar 12, 2024 at 3:08=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> =
+wrote:
+> We could also make security_inode_setsecurity() more generic instead of
+> for xattr only, any suggestions?
 
-I replied on the v5 thread here:
-https://lore.kernel.org/all/20240306182440.2003814-13-surenb@google.com/
-. Let's continue the discussion in that thread. Thanks!
+For the sake of simplicity, since security_inode_setsecurity() doesn't
+work, it probably makes more sense to create a new LSM hook rather
+than make significant changes to security_inode_setsecurity().
 
->
->   Luis
+I'm looking at the fsverity hook usage in this patch as well as the
+device-mapper hook usage in 13/19 with security_bdev_setsecurity() and
+I'm wondering if we could adopt a similar hook as we do with block
+devices:
+
+/* NOTE: these are just example values, more granularity would likely
+be needed */
+enum {
+  LSM_INTGR_DIGEST,
+  LSM_INTGR_SIG,
+} lsm_intgr_type;
+
+/**
+ * security_inode_integrity() - Set the inode's integrity data
+ * @inode: the inode
+ * @integrity_type: type of integrity, e.g. hash digest, signature, etc.
+ * @value: the integrity value
+ * @value: size of the integrity value
+ *
+ * Register a verified integrity measurement of an inode with the LSM.
+ *
+ * Return: Returns 0 on success, negative values on failure.
+ */
+int security_inode_integrity(struct inode *inode,
+                             enum lsm_intgr_type type,
+                             const void *value, size_t size)
+
+... if the above makes sense, I'd probably adjust
+security_bdev_setsecurity() both to have a similar name, e.g.
+/inode/bdev/, as well as to take a lsm_intgr_type enum instead of the
+character string ... unless we really need a character string for some
+reason, in which case use a character string in both places.
+
+--
+paul-moore.com
