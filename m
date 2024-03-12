@@ -1,83 +1,107 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8311386D1;
-	Tue, 12 Mar 2024 18:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F51273FC;
+	Tue, 12 Mar 2024 18:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710267268; cv=none; b=ii6o9wR6T65P0zZx966Y/WiySMhdoCoA7KxmgoB7GTtnGB1N+YrrPLAVdYGNwQPu2x6XKffh8p9ZPig73ta4iIpXSdUKEozS8Wnqr8kPB0LNamzHFAb0BEYmr8VzW/6P88G1OFSD0xGaMbz4v1TRugz/vVEVagC43Ys8q4YlL7M=
+	t=1710267767; cv=none; b=HNi6MpSe0LTqmjieTYAAj6xZG58OXg4fa1PncPyx4pnd4SgSBVJPz83x3XevVLLcj4idHIv4qTHL8qakNQk0TkbX3NsYSUCNLQDmRnXvepEk9MXAS0hRzTRdjiuMVk/MxQmvtQQ7Zn6fLfDOpgFzgcJYKCcKSU7/UUx4n8mQq7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710267268; c=relaxed/simple;
-	bh=+Nv8FE2GFtnryYnuFjMt1J6p/3YJi1lq7lWALWFCNLU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nbeMscGtO2pS7tzkLpR05Jywxs2MDt5HsSKG67uBqgrwl4Ehq6JI2wWw4RaDB7L/0N06tKjolxDsvWm5BnFVuqFNNSfjfZOGnla4KzcYtlp+fUT8bzOVP6ezKZn64lYFmp0zwAE9KUP+o4o3VMesMnkJzviG+NjUpqCVr96FRv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AwsfC1qr; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1710267767; c=relaxed/simple;
+	bh=YUc5IZWOe5T6YFtoM1+wQHxiKRB8D8X7e2HnId3ioaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q95rzI24UgbvRFo2ta4qFFRNTnERW1hCWn8X8dlJu1wAYDmos0ca+GbWVlDdSroYkSG2994xSUgP8ZOjLmuL6ZoUp+thO9rxVUpOWwQ5L0BlpsjmvQ37SSnbPtyNthsyPWJtRF8Gfhzt+uUWZrY133vIkybiyJYJ3Whbs6lHMK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QqGwtO3T; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AwsfC1qr"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4696020B74C0;
-	Tue, 12 Mar 2024 11:14:26 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4696020B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1710267266;
-	bh=7A1zrZAVHXKGttwPdOtLQCc2bRvvqSB12WrZItI5omI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AwsfC1qrQaxGBl/fdJD2faD0hl9FFmeBlCLlRgyTQvlkdWZDaVw25t2K6lGQPegFI
-	 ykP/qN5yTVNTrsLADx0NdOTg2ngKpt+eyntjyybMaNeHjRlIHLVMavUDIz0AnD7mpo
-	 jkZW9SEWeZfy1Nfhg8NaYxMEU0DhvLjCIcb3CkWY=
-Message-ID: <51810153-eb6e-40f7-b5d0-5f72c2f4ee9b@linux.microsoft.com>
-Date: Tue, 12 Mar 2024 11:14:26 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QqGwtO3T"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=dyIsdsMhrpRwB/lg1STothrgvq3zjNGfcwfAiy3Vmak=; b=QqGwtO3T5/xX63J1bb+PRK1e2Y
+	HCNI2/xOcbWZFosust02xhjQt3eLEU3w032AbMAKk5Q6Us/M2J5LhESewS88IykqWhlkGyIUup8qQ
+	eWnZym/zxsAPg6hPjXEpsxikgIGY6wWieBYp3/aMPXWS42WpM9BMOZODHKJR4rMZAbAc23ibPSQ2N
+	tsSpuc9c6pdvZ/fsZU2Zm+UXsZ15mWdicSuBqEX/ez9fyZ3EDtB8jGH03SSyDIrop2OtOfb2aEcT5
+	lAah57O7yF5dxZ/wVu6s+1BqyiE1TTE8BHL1uBVXRDvk+3wwqGHvEgsWdN+zXpv7A9F9QNQRmBwbu
+	3okmEohw==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rk6lQ-00000007648-3mVp;
+	Tue, 12 Mar 2024 18:22:12 +0000
+Date: Tue, 12 Mar 2024 11:22:12 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+	liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, masahiroy@kernel.org,
+	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com,
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+	kernel-team@android.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-modules@vger.kernel.org,
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v5 12/37] lib: prevent module unloading if memory is not
+ freed
+Message-ID: <ZfCdVI464EqeI9YP@bombadil.infradead.org>
+References: <20240306182440.2003814-1-surenb@google.com>
+ <20240306182440.2003814-13-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v14 15/19] fsverity: consume builtin signature via LSM
- hook
-Content-Language: en-CA
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1709768084-22539-1-git-send-email-wufan@linux.microsoft.com>
- <1709768084-22539-16-git-send-email-wufan@linux.microsoft.com>
- <20240312025712.GE1182@sol.localdomain>
- <20240312030712.GF1182@sol.localdomain>
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <20240312030712.GF1182@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306182440.2003814-13-surenb@google.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
+
+On Wed, Mar 06, 2024 at 10:24:10AM -0800, Suren Baghdasaryan wrote:
+> Skip freeing module's data section if there are non-zero allocation tags
+> because otherwise, once these allocations are freed, the access to their
+> code tag would cause UAF.
+
+So you just let them linger?
+
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
 
+>  /* Free a module, remove from lists, etc. */
+>  static void free_module(struct module *mod)
+>  {
+> +	bool unload_codetags;
+> +
+>  	trace_module_free(mod);
+>  
+> -	codetag_unload_module(mod);
+> +	unload_codetags = codetag_unload_module(mod);
+> +	if (!unload_codetags)
+> +		pr_warn("%s: memory allocation(s) from the module still alive, cannot unload cleanly\n",
+> +			mod->name);
+> +
 
-On 3/11/2024 8:07 PM, Eric Biggers wrote:
-> On Mon, Mar 11, 2024 at 07:57:12PM -0700, Eric Biggers wrote:
->>
->> As I've said before, this commit message needs some work.  It currently doesn't
->> say anything about what the patch actually does.
->>
->> BTW, please make sure you're Cc'ing the fsverity mailing list
->> (fsverity@lists.linux.dev), not fscrypt (linux-fscrypt@vger.kernel.org).
-> 
-> Also, I thought this patch was using a new LSM hook, but I now see that you're
-> actually abusing the existing security_inode_setsecurity() LSM hook.  Currently
-> that hook is called when an xattr is set.  I don't see any precedent for
-> overloading it for other purposes.  This seems problematic, as it means that a
-> request to set an xattr with the name you chose ("fsverity.builtin-sig") will be
-> interpreted by LSMs as the fsverity builtin signature.  A dedicated LSM hook may
-> be necessary to avoid issues with overloading the existing xattr hook like this.
-> 
-> - Eric
+Because this is not unwinding anything. Should'd we check if we can
+free all tags first, if we can't then we can't free the module. If we
+can then ensure we don't enter a state where we can't later?
 
-Thanks for the suggestion. I found that using 
-security_inode_setsecurity() causes issues with SMACK's 
-inode_setsecurity() hook. I will crate a dedicated new hook like 
-security_inode_setsig() in the next version.
-
--Fan
+  Luis
