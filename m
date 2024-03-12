@@ -1,108 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A40CAD53;
-	Tue, 12 Mar 2024 03:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE1E920304;
+	Tue, 12 Mar 2024 11:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710214516; cv=none; b=H2R9k2OTqaYe/h3V77ozBoe7VK/oiGIS943MXvQiGNfjypDX1D/mwYSjbh+UWzLgynMuBt/XtnP4tv8biodAuhHDg/16tbMAyHYrIKn6lvM2Guf2N/yQcw7cyuIg/9pI5bZ9zocJ3KUPnBk6XX6HSWP4WpR+oGmKV1aKSjG0jSI=
+	t=1710243380; cv=none; b=b4Zj/W2hJ9W03jtw95kTKg75f9McQvRQ+9pBz5X5eeeSKNnKtdfPGuWr28LgHjMqdFdffiWZ1aYyhk9N10Zew/xAk95FeETwCENQJtxKX5I329PFSAsyxA0BBarzbH7PQjVXdRFG38DC4txbhRcVRb/tg+untf3eMm2AP6cTmDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710214516; c=relaxed/simple;
-	bh=AUQ7xAWBTS5Ia7CJFyHPV3xL7WfXiWahy9TRf8nEfkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gVGSnO9lkKk8Bg19SClPFvTMkmMpEG2mvThwfJA0/7DWz2a4HJ1xmrg1pHX2S+5ENdcZackYPVUC2MmKn7cULenNWtRuEo+Zh9wYqAV1rwTRBifuMu8Kwv6VHl7Yp84/RRvKglM2J7EBAftcuaQQYamuaWHYJerF1zdoBQGT82Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCuLpwmg; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCuLpwmg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D088C433C7;
-	Tue, 12 Mar 2024 03:35:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710214516;
-	bh=AUQ7xAWBTS5Ia7CJFyHPV3xL7WfXiWahy9TRf8nEfkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BCuLpwmgvPExgGzXP91YpQQyZHNSwLE6gYj8a59LYvTDeg7NR7VjLrYJY+HfNVvm0
-	 /xaAi2Rt4p1UP+ij3ErLabhUyXs+22Uxm7fOuswqU4ZM/Dv/hxDm41XneOn0Ni/vKb
-	 qIP5JqQP1AQ4FuU6LE8sW1fMpkY/4Ztj12buxLdNeQlYD2Y3/CrDFqKxqCorKiZ5GK
-	 zTs98KPkFLoQzbIMBc4rX63WjWRkfwGhjILdEdslp2JTifMaja/icz7VXjrCOXJuia
-	 cz38SP1NQuot3QHtF0VKBC7TdzFZMg5XeT7af/DhaPOmkfleHa6PaHd6zBd+eMpbzo
-	 k1neHLj6jkruw==
-Date: Mon, 11 Mar 2024 20:35:13 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andreas Dilger <adilger@dilger.ca>
-Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>, corbet@lwn.net,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	linux-btrfs <linux-btrfs@vger.kernel.org>,
-	Chris Mason <clm@meta.com>, David Sterba <dsterba@suse.com>,
-	Josef Bacik <josef@toxicpanda.com>, jbacik@toxicpanda.com,
-	kernel-team@meta.com
-Subject: Re: [PATCH 1/3] add physical_length field to fiemap extents
-Message-ID: <20240312033513.GG1182@sol.localdomain>
-References: <cover.1709918025.git.sweettea-kernel@dorminy.me>
- <0b423d44538f3827a255f1f842b57b4a768b7629.1709918025.git.sweettea-kernel@dorminy.me>
- <D8407E1D-F188-4115-A963-9EFBB515C45D@dilger.ca>
+	s=arc-20240116; t=1710243380; c=relaxed/simple;
+	bh=TPg3Td+XLiyE8SiOwEwur+rbcT0GJ58OK6ENOzskB78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BsUZB7vdxKmuXJyU5ANpyD3EWLR+yKykEdEFKjTnhJh9/Cy+lmYkkCNiswBSUgsz66KYpqg7+SIE2zYwYoiImfEbz2JWa1ZslFuoLqVMATk1pDKR8kj1yyL8g7z78fCXqVmIdpPxDM/cKzmab9DvgasHFT6GX/Uwsolr0OqPYd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36FC51007;
+	Tue, 12 Mar 2024 04:36:54 -0700 (PDT)
+Received: from [10.37.129.2] (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 301233F762;
+	Tue, 12 Mar 2024 04:36:15 -0700 (PDT)
+From: Balint Dobszay <balint.dobszay@arm.com>
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ jens.wiklander@linaro.org, corbet@lwn.net, sudeep.holla@arm.com,
+ rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Subject: Re: [PATCH v3 0/4] TEE driver for Trusted Services
+Date: Tue, 12 Mar 2024 12:36:13 +0100
+X-Mailer: MailMate (1.14r5937)
+Message-ID: <173F2BEA-50F1-4339-A072-473ED7CC7DC9@arm.com>
+In-Reply-To: <CAFA6WYPNV5F3h=naCtg=fYr8zfB3rho+G1B6-rggLe_PkqvgnQ@mail.gmail.com>
+References: <20240305101745.213933-1-balint.dobszay@arm.com>
+ <CAFA6WYPNV5F3h=naCtg=fYr8zfB3rho+G1B6-rggLe_PkqvgnQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D8407E1D-F188-4115-A963-9EFBB515C45D@dilger.ca>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 11, 2024 at 06:22:02PM -0600, Andreas Dilger wrote:
-> On Mar 8, 2024, at 11:03 AM, Sweet Tea Dorminy <sweettea-kernel@dorminy.me> wrote:
-> > 
-> > Some filesystems support compressed extents which have a larger logical
-> > size than physical, and for those filesystems, it can be useful for
-> > userspace to know how much space those extents actually use. For
-> > instance, the compsize [1] tool for btrfs currently uses btrfs-internal,
-> > root-only ioctl to find the actual disk space used by a file; it would
-> > be better and more useful for this information to require fewer
-> > privileges and to be usable on more filesystems. Therefore, use one of
-> > the padding u64s in the fiemap extent structure to return the actual
-> > physical length; and, for now, return this as equal to the logical
-> > length.
-> 
-> Thank you for working on this patch.  Note that there was a patch from
-> David Sterba and a lengthy discussion about exactly this functionality
-> several years ago.  If you haven't already read the details, it would be
-> useful to do so. I think the thread had mostly come to good conclusions,
-> but the patch never made it into the kernel.
-> 
-> https://patchwork.ozlabs.org/project/linux-ext4/patch/4f8d5dc5b51a43efaf16c39398c23a6276e40a30.1386778303.git.dsterba@suse.cz/
-> 
-> One of those conclusions was that the kernel should always fill in the
-> fe_physical_length field in the returned extent, and set a flag:
-> 
-> #define FIEMAP_EXTENT_PHYS_LENGTH      0x00000010
-> 
-> to indicate to userspace that the physical length field is valid.
-> 
-> There should also be a separate flag for extents that are compressed:
-> 
-> #define FIEMAP_EXTENT_DATA_COMPRESSED  0x00000040
-> 
-> Rename fe_length to fe_logical_length and #define fe_length fe_logical_length
-> so that it is more clear which field is which in the data structure, but
-> does not break compatibility.
-> 
-> I think this patch gets most of this right, except the presence of the
-> flags to indicate the PHYS_LENGTH and DATA_COMPRESSED state in the extent.
-> 
-> Cheers, Andreas
+Hi Sumit,
 
-Thanks for resurrecting this.  Andreas's suggestions sound good to me.  And yes,
-please try to search for any past discussions on this topic.
+On 6 Mar 2024, at 11:40, Sumit Garg wrote:
 
-It may be a good idea to Cc the f2fs mailing list
-(linux-f2fs-devel@lists.sourceforge.net), since this will be useful for f2fs
-too, since f2fs supports compression.
+> Hi Balint,
+>
+> On Tue, 5 Mar 2024 at 15:48, Balint Dobszay <balint.dobszay@arm.com> wr=
+ote:
+>>
+>> This series introduces a TEE driver for Trusted Services [1].
+>>
+>> Trusted Services is a TrustedFirmware.org project that provides a
+>> framework for developing and deploying device Root of Trust services i=
+n
+>> FF-A [2] Secure Partitions. The project hosts the reference
+>> implementation of Arm Platform Security Architecture [3] for Arm
+>> A-profile devices.
+>>
+>> The FF-A Secure Partitions are accessible through the FF-A driver in
+>> Linux. However, the FF-A driver doesn't have a user space interface so=
 
-One use case is that this will make testing the combination of
-compression+encryption (e.g. as xfstest f2fs/002 tries to do) easier.
+>> user space clients currently cannot access Trusted Services. The goal =
+of
+>> this TEE driver is to bridge this gap and make Trusted Services
+>> functionality accessible from user space.
+>>
+>> Changelog:
+>> v2[6] -> v3:
+>>   - Add patch "tee: Refactor TEE subsystem header files" from Sumit
+>>   - Remove unnecessary includes from core.c
+>>   - Remove the mutex from "struct ts_context_data" since the same
+>>     mechanism could be implemented by reusing the XArray's internal lo=
+ck
+>>   - Rename tee_shm_pool_op_*_helper functions as suggested by Sumit
+>>   - Replace pr_* with dev_* as previously suggested by Krzysztof
+>>
+>
+> I will also suggest you to add a maintainer's entry for this new
+> Trusted Services TEE driver.
 
-- Eric
+Sure, will do. I plan to post v4 next week.
+
+Regards,
+Balint
+
+>> v1[5] -> v2:
+>>   - Refactor session handling to use XArray instead of IDR and linked
+>>     list (the linked list was redundant as pointed out by Jens, and ID=
+R
+>>     is now deprecated in favor of XArray)
+>>   - Refactor tstee_probe() to not call tee_device_unregister() before
+>>     calling tee_device_register()
+>>   - Address comments from Krzysztof and Jens
+>>   - Address documentation comments from Randy
+>>   - Use module_ffa_driver() macro instead of separate module init / ex=
+it
+>>     functions
+>>   - Reformat max line length 100 -> 80
+>>
+>> RFC[4] -> v1:
+>>   - Add patch for moving pool_op helper functions to the TEE subsystem=
+,
+>>     as suggested by Jens
+>>   - Address comments from Sumit, add patch for documentation
+>>
+>> [1] https://www.trustedfirmware.org/projects/trusted-services/
+>> [2] https://developer.arm.com/documentation/den0077/
+>> [3] https://www.arm.com/architecture/security-features/platform-securi=
+ty
+>> [4] https://lore.kernel.org/linux-arm-kernel/20230927152145.111777-1-b=
+alint.dobszay@arm.com/
+>> [5] https://lore.kernel.org/lkml/20240213145239.379875-1-balint.dobsza=
+y@arm.com/
+>> [6] https://lore.kernel.org/lkml/20240223095133.109046-1-balint.dobsza=
+y@arm.com/
+>>
+>>
+>> Balint Dobszay (3):
+>>   tee: optee: Move pool_op helper functions
+>>   tee: tstee: Add Trusted Services TEE driver
+>>   Documentation: tee: Add TS-TEE driver
+>>
+>> Sumit Garg (1):
+>>   tee: Refactor TEE subsystem header files
+>>
+>>  Documentation/tee/index.rst         |   1 +
+>>  Documentation/tee/ts-tee.rst        |  71 ++++
+>>  MAINTAINERS                         |   1 +
+>>  drivers/tee/Kconfig                 |   1 +
+>>  drivers/tee/Makefile                |   1 +
+>>  drivers/tee/amdtee/amdtee_private.h |   2 +-
+>>  drivers/tee/amdtee/call.c           |   2 +-
+>>  drivers/tee/amdtee/core.c           |   3 +-
+>>  drivers/tee/amdtee/shm_pool.c       |   2 +-
+>>  drivers/tee/optee/call.c            |   2 +-
+>>  drivers/tee/optee/core.c            |  66 +---
+>>  drivers/tee/optee/device.c          |   2 +-
+>>  drivers/tee/optee/ffa_abi.c         |   8 +-
+>>  drivers/tee/optee/notif.c           |   2 +-
+>>  drivers/tee/optee/optee_private.h   |  14 +-
+>>  drivers/tee/optee/rpc.c             |   2 +-
+>>  drivers/tee/optee/smc_abi.c         |  11 +-
+>>  drivers/tee/tee_core.c              |   2 +-
+>>  drivers/tee/tee_private.h           |  35 --
+>>  drivers/tee/tee_shm.c               |  66 +++-
+>>  drivers/tee/tee_shm_pool.c          |   2 +-
+>>  drivers/tee/tstee/Kconfig           |  11 +
+>>  drivers/tee/tstee/Makefile          |   3 +
+>>  drivers/tee/tstee/core.c            | 482 +++++++++++++++++++++++++++=
++
+>>  drivers/tee/tstee/tstee_private.h   |  92 ++++++
+>>  include/linux/tee_core.h            | 306 ++++++++++++++++++
+>>  include/linux/tee_drv.h             | 285 ++--------------
+>>  include/uapi/linux/tee.h            |   1 +
+>>  28 files changed, 1087 insertions(+), 389 deletions(-)
+>>  create mode 100644 Documentation/tee/ts-tee.rst
+>>  create mode 100644 drivers/tee/tstee/Kconfig
+>>  create mode 100644 drivers/tee/tstee/Makefile
+>>  create mode 100644 drivers/tee/tstee/core.c
+>>  create mode 100644 drivers/tee/tstee/tstee_private.h
+>>  create mode 100644 include/linux/tee_core.h
+>>
+>> --
+>> 2.34.1
+>>
