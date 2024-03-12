@@ -1,137 +1,119 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26B314290D
-	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 19:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BB0142630
+	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 19:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710272881; cv=none; b=keSaJqijPieqLcvcgPmuCO0+6oacJbZ5XbJtVPO987auSky8PJRfG9CGTEbtxm3k5umpwk1Fi9Ft2jN08/aBsJU1fKgTFwK8Hil0jZEuqMEBWBYZ4Sypt6kHX0HGz238KSQ7Mhd1MgSUPkinp+jFsW6Isvy1gzpFdFZ6DXtogP8=
+	t=1710273431; cv=none; b=do966Ko+Ze+3zl3VA/hf2pKp0zTjjxLYl7IW64ZUNYPEPHlIZ8wzttiHlOoBI2M6s1rPhFK8VPctolrYsqd0EfbonTV2irbTdf6pXAX4azxIMBjr64LV7Vsf+PUItW9SCIzGr0+vdTWRkUkFh14GHM5EKxnP8apjWSetxGFYOBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710272881; c=relaxed/simple;
-	bh=BFOeXqJe9VyECGMuWiCNLoTZwBpuu0T2u1Mq+P/cqDo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RdmffKgz/i4cKypxg1LnSK9sXHFNCLHI6wSwr3g9r4uY3fWJP3LZdOB6NnIjfVPSjle7/L96TxOv8bKr+M4E08ZFbeq+DrHP51h1HGkyy2J3hIjilMoCfPJL5Sghp+7q78p0fuvP+Fz/KRqnyDhboiFYCn5+pNTzlPa4ItTQm7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=3H5ZUf6R; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1710273431; c=relaxed/simple;
+	bh=0aWGvxVmbgp4kFphrT5DgrMJEPHTfdbj9FAM43oX9JA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aCXbmmHJBTQXbwndShUxvw3G4P7RWDi74ut+/JKclantp9TtU9tja05xW0JOw8+OMa65q0rd8rYG3Ls/QJjPciWqJPCk8oqMZj5Wuveu4Cde7mPJRMNjh/0chJuWqrNvSf70pC9zkuqAOeJfrHI9c/oXLEzApEvI1685DRKD5Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=n9SkdvBC; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="3H5ZUf6R"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5a22d940ff4so462292eaf.1
-        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 12:47:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n9SkdvBC"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60a0599f647so3316977b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 12:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1710272879; x=1710877679; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k4XSa/PSXORT4uTdUR+bw2OZtjIlaWQWlwg5OyZv4ig=;
-        b=3H5ZUf6RU1lQQGj/bvMwxqw2skT0BM2V1JAvhbJWo3pFIADpfHK69fFU3QwTjE//IH
-         RuTZZp/foAv6eTPyrIiWUJ4lrOAEBPHqNQzGdlMiwykUNBmlhKZ3KA3dJK/ZmcWdJ2W6
-         YcOFyt638PyoLlYPXWybdKbK0kwz5Hp5jJy8G8n9/kTwxNArZwGAZDDq4EJ+zmqt4jKj
-         odx7M6PcT/c/a2NOhu1ZFYYAIzhYQEyeCv0g34GmkI35rjkERxxsZqEH5yWPAV2rASRr
-         bEqAhKy2PGOux2RCXvKQQnpDHqiaeIygOlcOV4Ht2bayTsdH1c2JhrsQ/pRL/yYE4Gmz
-         3rJw==
+        d=google.com; s=20230601; t=1710273428; x=1710878228; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wT+2mjCDEB2wrTUTyTKLuab+xNoniRJZtNtidsDDPI8=;
+        b=n9SkdvBCP29jpiwunTx9H1BR2Ml5UNn8v5otShFLYbK7JyH9MubPTv36E75no1LqDL
+         F087Nx5gd76hBnyWnz1RKILaph74iezHR8dfxhvrNyu4hW+OvUANcVGR85oF6szeI66p
+         LehTfrQIsekB3y0zSlUlFw+k4rC27MANhiDGq5MWUDj0v7p8X/r6xuB6IfOk+yaiotpi
+         6PNsdZ7oDH/REX+V59tRksPbBVobOBRxA5gTKm3fkVWKTVvVvhW6qkyHeDff6HIEDksZ
+         NyymvyrhhQDYaBGvJfqmaPS8cnXSuEknUF0Um/xxxhDbr2bvMvHMcAwmZuBE64EiPD4M
+         sflQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710272879; x=1710877679;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1710273428; x=1710878228;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=k4XSa/PSXORT4uTdUR+bw2OZtjIlaWQWlwg5OyZv4ig=;
-        b=ue3czANrlfXTShz66YMq8cL71Aum7YtshJ10qYMIpJfHXSApxlE3ukvZo6idkskj1g
-         7QzFrE4F9BTE3RuvbYRbH6gzZcVzx9TbpkzrPfswhL0jvmylAxiSj3kIX5pcILJqNUr7
-         W1E7bs/zM/2jS2bk83BjraDtTSTsIsSbC40CAuSEoykW//O4/0fkmqYPpxDIhnlX6tMs
-         JsV7iXwjtE0Q6ad4QX9L7f8c20VQT3xyVHPkkfI57pk0lMvh46U67LpekKF5u4jRru7C
-         XPj0TsshkTciBKJLql+ECf2o6AjsfliPdJ0hB5kx73fTjOhODZUWK/08TzZjl6d9cUlZ
-         DkCg==
-X-Forwarded-Encrypted: i=1; AJvYcCXuQUd/6rFlLY7/M7StZBchWQ6lF6scMRnSXnEmt+K3diwYFQlO4Ob8ft9gdAtTtAlZDM5NL2dLJ0Lz6kEHas0JjnqGjPxoL0/W
-X-Gm-Message-State: AOJu0YwZaayytdj+1OFuED3/PwsuMj0Fmw/F/j1C4WOlgSUaE47uwTC0
-	M3Hd5WUNaJ/AQ0VEbSMIzbzS4FhIRXLdDwM/27V4ml9ZbHUXdW68lWS3NMAVhlo=
-X-Google-Smtp-Source: AGHT+IE+Yl3rd4VRKQ0Xgn0vLA0/IXGphbXEbzUjbknciDm6FUQ1nMtO8B6Nv0KNcv+QR9Td6lCSWw==
-X-Received: by 2002:a05:6359:5f9f:b0:17b:88c2:5c13 with SMTP id lh31-20020a0563595f9f00b0017b88c25c13mr12958442rwc.7.1710272878964;
-        Tue, 12 Mar 2024 12:47:58 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id z69-20020a633348000000b005dc884e9f5bsm6433495pgz.38.2024.03.12.12.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 12:47:58 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Tue, 12 Mar 2024 12:47:54 -0700
-Subject: [PATCH v12 4/4] cpumask: Add assign cpu
+        bh=wT+2mjCDEB2wrTUTyTKLuab+xNoniRJZtNtidsDDPI8=;
+        b=TzhkAV8qnMn9tUCW+HT/MeqxCtSi/DzELHLAj25PSfsSAAnzv3VqyY3ts3YJZh3QI7
+         UzkeD0/cWSwCaTANJCIAukVy7fxZFeKvHerm33zG9COT4Tvo1/gXV9GYygxQ4vsSByxS
+         vNuSUwJ36+A309QzqHYhj1k6QsWUHktUfU1cohiou5BiMiPqU6ltW9CBlHC5m2gCSo/1
+         3dL9RBJ/9r9zu+WMdr7AvSot0AB35uYlG3SXByaRans2H/QpUj3M/Kei0YoONM+TwwTH
+         iDJOQ25HYyDYeq9KpGQMU6Q2mm5pXw5cdh78j/IowRYX2UJxv4hcNbw8UV5rUr4ywNEA
+         qlnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXFoJPTORM0l4AGYqd/5bSP5xtJDGbK6FYLjRUExVHPQY3NOqkZly9c3qV8ehTk7Z04SdgEf+PHXzd6fZzGjphYicRrV9v6HF3O
+X-Gm-Message-State: AOJu0YyKf4xr8k131XeE82xGQrO84rwIJ2At+gPaaEzAG6cS9+R51jxI
+	Pgi7ZLPNTDS5sOu9pz0fiqmg2WxmjFK0iVZiFK44+MugutaOsYlpR2dzWHRoh0BFJM3K8Zt9Mx0
+	eQAliOI5xiZt1Rz6JOA0DJ3ji1eXRCptkrCFl
+X-Google-Smtp-Source: AGHT+IFrpwFQf6DsD+MDcouIBUBxz7xm6ZVbTg/EsBFYmgBgqnN4d7DhlPhedvQ2z/xYUtX9OCTiPw5W4WvHfMsUOCA=
+X-Received: by 2002:a0d:e885:0:b0:60a:67fb:146 with SMTP id
+ r127-20020a0de885000000b0060a67fb0146mr551414ywe.17.1710273427660; Tue, 12
+ Mar 2024 12:57:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240312-fencei-v12-4-0f340f004ce7@rivosinc.com>
-References: <20240312-fencei-v12-0-0f340f004ce7@rivosinc.com>
-In-Reply-To: <20240312-fencei-v12-0-0f340f004ce7@rivosinc.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, 
- =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
- Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland <samuel.holland@sifive.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1710272871; l=1746;
- i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=BFOeXqJe9VyECGMuWiCNLoTZwBpuu0T2u1Mq+P/cqDo=;
- b=dUaXZnD9VQ8vsLYsKXOkCevPuNYqjQqs4wBvroTCyGKXR0MwtTqi+kVmNS6cpmRfvj+9eBpTV
- UJ9TU9gIUSeDYCpY+ggkBt8sv4yB1OqY2YjqtfD0d/3rv858ooSwNYg
-X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
- pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-14-surenb@google.com>
+ <a9ebb623-298d-4acf-bdd5-0025ccb70148@suse.cz> <ZfCdsbPgiARPHUkw@bombadil.infradead.org>
+In-Reply-To: <ZfCdsbPgiARPHUkw@bombadil.infradead.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 12 Mar 2024 12:56:54 -0700
+Message-ID: <CAJuCfpErSnRK3TH-+keVF+2Vq-e1cSXrOcg8UAFke3btt2Y9+w@mail.gmail.com>
+Subject: Re: [PATCH v4 13/36] lib: prevent module unloading if memory is not freed
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
+	mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
+	liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, 
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
+	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
+	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Standardize an assign_cpu function for cpumasks.
+On Tue, Mar 12, 2024 at 11:23=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.or=
+g> wrote:
+>
+> On Mon, Feb 26, 2024 at 05:58:40PM +0100, Vlastimil Babka wrote:
+> > On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> > > Skip freeing module's data section if there are non-zero allocation t=
+ags
+> > > because otherwise, once these allocations are freed, the access to th=
+eir
+> > > code tag would cause UAF.
+> > >
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >
+> > I know that module unloading was never considered really supported etc.
+>
+> If its not supported then we should not have it on modules. Module
+> loading and unloading should just work, otherwise then this should not
+> work with modules and leave them in a zombie state.
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- arch/riscv/mm/cacheflush.c |  2 +-
- include/linux/cpumask.h    | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+I replied on the v5 thread here:
+https://lore.kernel.org/all/20240306182440.2003814-13-surenb@google.com/
+. Let's continue the discussion in that thread. Thanks!
 
-diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
-index 329b95529580..2e16ed19e957 100644
---- a/arch/riscv/mm/cacheflush.c
-+++ b/arch/riscv/mm/cacheflush.c
-@@ -234,7 +234,7 @@ int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
- 			stale_cpu = cpumask_test_cpu(smp_processor_id(), mask);
- 
- 			cpumask_setall(mask);
--			assign_bit(cpumask_check(smp_processor_id()), cpumask_bits(mask), stale_cpu);
-+			cpumask_assign_cpu(smp_processor_id(), mask, stale_cpu);
- 			break;
- 		default:
- 			return -EINVAL;
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index cfb545841a2c..1b85e09c4ba5 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -492,6 +492,22 @@ static __always_inline void __cpumask_clear_cpu(int cpu, struct cpumask *dstp)
- 	__clear_bit(cpumask_check(cpu), cpumask_bits(dstp));
- }
- 
-+/**
-+ * cpumask_assign_cpu - assign a cpu in a cpumask
-+ * @cpu: cpu number (< nr_cpu_ids)
-+ * @dstp: the cpumask pointer
-+ * @bool: the value to assign
-+ */
-+static __always_inline void cpumask_assign_cpu(int cpu, struct cpumask *dstp, bool value)
-+{
-+	assign_bit(cpumask_check(cpu), cpumask_bits(dstp), value);
-+}
-+
-+static __always_inline void __cpumask_assign_cpu(int cpu, struct cpumask *dstp, bool value)
-+{
-+	__assign_bit(cpumask_check(cpu), cpumask_bits(dstp), value);
-+}
-+
- /**
-  * cpumask_test_cpu - test for a cpu in a cpumask
-  * @cpu: cpu number (< nr_cpu_ids)
-
--- 
-2.43.2
-
+>
+>   Luis
