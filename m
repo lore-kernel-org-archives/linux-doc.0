@@ -1,186 +1,301 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2088.outbound.protection.outlook.com [40.107.101.88])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7CD79B91;
-	Tue, 12 Mar 2024 13:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710250236; cv=fail; b=ajStugiVEGpiMZEDu912bgambXHV6x9kYoQgyQXHSNzI/deBJ85y68VVVfFZ1I+kUGx/Jmqj6w+sAFmcTdxoAEKQp9pyYV4WEyZ+YLTPl8zAj6tBW4nmFbwMRFRa72eeQQT8Dsze9fBoYoh+BsxzR2355YEmBWx71SDWHkWFO4s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710250236; c=relaxed/simple;
-	bh=uKa4ySdzNc1cZ5h8Iwex/A/+EZ08ZUjZb1uh2Va7MH8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TzoAYiVtsEUWhNaFYzM4fUJSNMZ/v+cJVL1fMIbhr8YL1H1KWj4Kq0XqjUM6uU+sx92Uy+YaBNA9O1jPqvAf+CNgQL/Hh8FAWAXIxgblJ+rGXnObqT89Yw1L97sQo/Hv8mn8EmTmdNrzVgosTUvD+5PXmPjDGq1Lg15HnW+KPrc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=nzpdpbZC; arc=fail smtp.client-ip=40.107.101.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A43757307;
+	Tue, 12 Mar 2024 14:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710252011; cv=none; b=FlU03gRVGMhhvs+v7FGn2Pm5B1DGx61mlYqBBoK3ObI4nIPCz26mBzPBvV9kgBXKv05HDjeDm0FsaTTxKIMGoHK1n1zq++v+jE5KbHijpvZnjYHQg/YA3cMFIKo/j+DjQDoqhnxR9Y3AO+vsQwUeNFI9sGvAR68RWxCtpbT5IFY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710252011; c=relaxed/simple;
+	bh=ipiEa/4hYs81YL1NCON8A27cXU/Gl4GG4P1F97KPzxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QZ0kicoGyEPC5LzMroN6HjTHXdW4MpuE0DF8YuM2j1TUgcTtcpSXeC9noCGe/uIaKJiofkCEAh+/mf63IjxdLBbz7DRjY0ZOP0he59oC9T3CjF8ZYGADPUKadgAGdtnYkS7edtt4UUuBUiL32/cqGhpvTuVx/rvJwrSUrXd2rIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IZdFpZcg; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="nzpdpbZC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mp9QRQOw1hq5PsbSHWLh47/uVUtx3r9ioHvA/MKUgY9WdJg9fHl5EacAYGKax4ZPbPJ2E0xWYypOXt59TWjduuXwhu0amX2UVTIoHY2o1VmfO0CYUgvGtniQ8xBDZ6aLWzgskCVGI/6vYyC966X4Kb+efL0KK/1wcrh0YxsPrGfwdcw6RADsQ2Iw3V9bmknbmA4tlnVdgTsDFkumlcdcX81H/LGjjhrsRM7mguDvJx6WiyGpoIr+vHMFCsH7+N9GQtBOyyQqyw+uFr+QahGf+yTSzOrljITL3mzqf6Dgorc+iI1XzCFtvh5NpfD65DDY1U7+FyP6QqcHzyN1E2ORDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dQIkRgtMO98DMD2R864vzuS9HeYyFfC2IuP6wuMQduc=;
- b=dHhBYY0ybQk/tn7SzKCEftBL9In2HktywZle7xrtbKwnSKcIm8NVnNhOILE9h48/NGEoEEqNBHjYzwmqmhV/b9ogx0aLh+Mvk8QUT5lr/A1nRa0WYXZR8eW4EhtXsrQ7Ie9tdp2VagfO40pwTdYrMIYUnUW/T3ZZ3Tb51DfEbs+GkIy9rqt9U9auP3uWA/5KZMx7LCAe7J5NpGVXA4SabcXz3e+zMPhwFLArvSMcQbVh2CGqCSrG0fHcRkB9Z5pcUayrFf6qOk9Y+qFpiKyHTk2MNMV42J6JHc51WlOrWUaPKWEHxCzyFPejMMu0BWkNTHAnG1SPGYGoLDG8T+iEGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dQIkRgtMO98DMD2R864vzuS9HeYyFfC2IuP6wuMQduc=;
- b=nzpdpbZCaKKiMXkbRE6gs9x+lasLnFab2ibUMuIoNOKs63lkIFPPvUbgk4xHmJSFRfeElreuFRAi6oC+QodDJtU2z4HR7mqi6jNZXaKRwHsLWlxFeZ/0y/pmI30Vx/2z7U/UzXgJwR9zBmLkU0USQKxJ4vkwk5y6hKkuRLygeRc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA0PR12MB8715.namprd12.prod.outlook.com (2603:10b6:208:487::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.36; Tue, 12 Mar
- 2024 13:30:30 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::873e:e31:6eff:36a4]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::873e:e31:6eff:36a4%5]) with mapi id 15.20.7362.035; Tue, 12 Mar 2024
- 13:30:30 +0000
-Message-ID: <af8acdb7-8cc9-422a-a38d-8a4507ab11a1@amd.com>
-Date: Tue, 12 Mar 2024 08:30:24 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v2 00/17] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-Content-Language: en-US
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Peter Newman <peternewman@google.com>
-Cc: James Morse <james.morse@arm.com>, corbet@lwn.net, fenghua.yu@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com
-References: <20231201005720.235639-1-babu.moger@amd.com>
- <32a588e2-7b09-4257-b838-4268583a724d@intel.com>
- <088878bd-7533-492d-838c-6b39a93aad4d@amd.com>
- <9b20589b-6220-4ae7-bfc4-4a826b7114b1@intel.com>
- <5ddb7031-a828-4001-bfdf-5477cb85e9ed@amd.com>
- <1738493b-3248-4c9e-82a8-1599a033440d@intel.com>
- <369ab28a-f3fa-4359-8e73-4dcf214c9b6e@amd.com>
- <54687d59-d0e4-4fe7-b25f-dc1fead01ea1@intel.com>
- <11487a31-908e-d474-50c6-65617d417deb@amd.com>
- <c73f444b-83a1-4e9a-95d3-54c5165ee782@intel.com>
- <55b545fd-2851-0d0f-ac37-ec59838fb4b4@amd.com>
- <1f366890-d9ff-4ac4-9af9-1ea3128a87fc@intel.com>
- <41ca7504-c3fb-ddb6-e149-4ff82019d678@amd.com>
- <CALPaoCi=PCWr6U5zYtFPmyaFHU_iqZtZL-LaHC2mYxbETXk3ig@mail.gmail.com>
- <1d3e8b68-28fa-419b-b129-0c39df34f718@intel.com>
- <CALPaoChJPkfrMgFDhtZqwK7O8=A71CKLzQjEMG6LbgB9RhdzvA@mail.gmail.com>
- <e90ce54c-a830-4ba5-8b28-aeef06705d01@intel.com>
- <46065d68-8334-4b76-bc68-c2695e7b98de@amd.com>
- <ec15db92-24bb-46eb-963c-e872ff2ac9e3@intel.com>
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <ec15db92-24bb-46eb-963c-e872ff2ac9e3@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DM5PR08CA0029.namprd08.prod.outlook.com
- (2603:10b6:4:60::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IZdFpZcg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=J8D2/RR5NDsKyR9vPX1dyPBbhkzHwPA16hqD1lGKcas=; b=IZdFpZcgdL976bGkCAqTQtEsZw
+	2GlI7sGEbb2FlQqS2QGQFdqrNZbPc1kaMVficZRolMJQWOT1ONhRd5uhLjgFSKeEOMxiB60v3sJb7
+	S3Sz+yiJbMLi3Yb6JCRE7TAO5f768NJtXXn6HcDNXw1qcLJeQ1ZRDVcmub6IC3qrok5xdEK/YyNNz
+	FybEog/xU3jbJ1RFC8GozTBK8jbI/3jbkQyUI9BNfeZDowX33MXOnO40V3kbkFq7sXm5Xfp6HkiK+
+	pyk9y5a9AJ0PlYf3Yy1WPWPb77/vp+/+3wIH8hgvTfawnk7xCPoC0U/YT7/68BpkhC4IkQxHjG6N7
+	9F+myMdA==;
+Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rk2fh-000000039pS-126X;
+	Tue, 12 Mar 2024 14:00:01 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rk2fg-000000033N5-33PU;
+	Tue, 12 Mar 2024 14:00:00 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: linux-arm-kernel@lists.infradead.org,
+	kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Mostafa Saleh <smostafa@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: [RFC PATCH 1/2] KVM: arm64: Add PSCI SYSTEM_OFF2 function for hibernation
+Date: Tue, 12 Mar 2024 13:51:28 +0000
+Message-ID: <20240312135958.727765-2-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240312135958.727765-1-dwmw2@infradead.org>
+References: <20240312135958.727765-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA0PR12MB8715:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2dc0601b-0243-48a9-80b4-08dc429895ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	rnUUMfolqyQqALCgrChkEFSnApAZQ31sIJV4jsoujZaTzzs8btAeEvNjjjVl1DU/QOVhoqMtASiusyMxnlZMY9OONuYmGqmDG1oH7s33lUR2xoRQmafLmLCs/47aXqRdnULJ0olaKWR338zAsPqQQyzmYPk0kxNjCQDXVlc/18/2oOT+2rKuqfoUcIggPhe7vIiZS2tB82gF2UCFsFCg4Wb8bc5ngTX0HIs8iSTB/snStbOQ/CQKkKw5TBq8BCnrwydP4zCuRLoDNFtHp84mtKCcVhA2+6okvL527gFaOy+WW3q5kBk/Fh3VSnvOreYkpAIJ9vn8brL+i/56DKftzYHIu27r/UGDgQgtRCzvpv8lGIqMztBenp43WZS7EKgCFX6Zg4B/jnG0yyLl3DsmeqGqeuqiPvPPjmt1Kb1Ds6bOFAY0bdLR3J803LK16CgRZVFJippm5C0wwtXL8r0m6BWgnZad7tAWJGTzOpNwIEpjGqlhQWHLFJ2tmdS2EqHPZsJfpIsZ/UMVTGzVyWLPHNL3Q7zmCH9qFo3k1jxYwDCoLpHoOEyx0ON0GuHqPm49yUGGC3Q8OZO/VHmIsHJ2IcJO+tfKJjxY2CrD4wU7aQEA6FenaQ5QtR/tKbLNLtveUOe1cBgFm4WajYWqw9BrmPg650QUsnhpcEtcBcTgp10=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ejMyaWlsQ2FqdmhvaE1rQ25WblJZVzE5U0lrSVRWdlFheEdzMlk3NW1XYjZX?=
- =?utf-8?B?WitHRVAxNnJaeTZRYUh2R3NaWXZSK2pCTVk3ek1lUVhzNXo0M0ZBRDFGeWdM?=
- =?utf-8?B?V2FMdEZCd05qSjcybDQwcGFXc3piRjZzbk5hWGsydTdXSHFYSUM0eFkraldh?=
- =?utf-8?B?RjJEZjVyR25sdkJWdXpXaTN3Q01kTmxNTGlnNUdya0hYVk1PTW5Qem1mNXdJ?=
- =?utf-8?B?RDJETkdTZ1Y2WFFKSUxNQ1N1QmtNRWRyT3I1TXBPSEg4Nm11eXkyOEFETzVo?=
- =?utf-8?B?YTI4OGluMG52eDNPZ09DSXdDb24wR1ZySzNvOXY2N0ZOUytoMTBWRTNaWGti?=
- =?utf-8?B?OUZkYmhoamtCVklhWDU5d2dhVzVuQjI2ODB1RVgwV0ZYK1VDb3AwZVFldU9a?=
- =?utf-8?B?aXYzZTRrN0tPZVNnRFcvN2dLTk02a1dnM1lMbnE1dEdTZGJobEZzdlN6UjFq?=
- =?utf-8?B?SFk1K2hkQTFBNVZHUnZBNGpXY1RSY2UxVi96eDk2clJIZG1ETnZKb05GTmhx?=
- =?utf-8?B?bDMvOEQ3ZVA3OTVDOWFkVkhZODdvYnF0TmZXaVNzVUZaRGc2Qkl4aXpPSHpD?=
- =?utf-8?B?NU1XN3ZteEduMW43aU1pM3Q2NHFjR3hVd09BK3ZLNHRQWFE1OUZXcVVONy9m?=
- =?utf-8?B?VXpzNitlcmJySklGaGNQTnJVakhNeXZlYW5UWE9JeHRiS3VIVWQzVkFVSW1w?=
- =?utf-8?B?WEE1SjB4SzZHOUlqTWRvU090NFpMdmRNYm1xZ2pVblJQNXc3eTBKOUp3UlU5?=
- =?utf-8?B?d2c5RG9EK2dEYm9DTjB3QmxwclZ6aHVQOFNUMVpZLzJGd2ZHdnBWSkRZMXVP?=
- =?utf-8?B?dnVnU0NNNXRjMXphU0lBOTN4ajRDYVBxbUl6blJmYnJlcW1SVzl5enVscXpr?=
- =?utf-8?B?VU9NWkJVTGxKVUw5dDVFVk9OUllRcmhOamVWZUdSQWVYcnhBbCs3Mnh2ZnFt?=
- =?utf-8?B?TW1pSm52REdmaGNZelIwdUhoNC9zenNUUmVWRlNMOFdtTGFaRlkvMElqNWpL?=
- =?utf-8?B?KzFROTNQQlg3ZENpdzREa1VJTWlBWkhJSHFLRlFUM0N5VTd3VnFRWVk0RHA3?=
- =?utf-8?B?WWwzOEFVazRIS3B5UGZUR0llSlF4REt3enM5RE9mdUhzdHpqS2JzUzFTZW1v?=
- =?utf-8?B?bURsc29GZHRDWXhDR0lVa05oZUFIYzFwZ3orZFkzQUs1VjhuSWdFKzAzelA3?=
- =?utf-8?B?YnF3ZU5qNjBhR1BlZHNzcFBCaVdDTzVkL3lQVnJNbU94MlM4czk2VEVmdUlN?=
- =?utf-8?B?Nks0dTV3UUQzbWVNT3ZtaW9qZ3hNZ1JPZzlFM0tWaXpnOVN5dktOdEh2TVVZ?=
- =?utf-8?B?TUdpME5HclY2bXU4S0doRldmRVp0SGZTTkgxa2xuV2laK2JSbHhQUTZ6aGxO?=
- =?utf-8?B?THB2NHEzU0Zwd1BqUmttMkpVMlpxV0FjZnlEbnlpblNnL0Rub0RaUENqZmdT?=
- =?utf-8?B?R015OWhKUDJoeFpaVnJOYzgvOHcxSEg0N1dONVAwb2hHbFlWNGFpdUJSQmtD?=
- =?utf-8?B?STRGbFdOalNPVFBMbHBIN1lsVXhRM2Yxd240QUVuWnpPZEdRbEl4LzFtL0Za?=
- =?utf-8?B?MGdCR0Q1MmltbUhvd2RRemh2RXJGcDhieFlFWExDRjluN1RQZldrN0lGKzZp?=
- =?utf-8?B?Y08wSkE3eEZQYU03dVVTS3hYYS9FemRFTlZYeWlYbkR0ckRvbEIvV29la0Ux?=
- =?utf-8?B?VnlDL3JqVmRVZ1NzVXFHbCs4RVN6YXBLd1l1OFpBN1c0NytJOHBUMHV3K2hw?=
- =?utf-8?B?VEJPbGN0eDZaLytWaTJiTG11RlhpbG9xcFBEVTlSNWQzczRZQ29ydGpyM2Js?=
- =?utf-8?B?S0t1MmN3Y2EzN0NtWk5CUGZoUk1KaVFCL2lBWC9VVE5GblZsMnhKVFJaRCti?=
- =?utf-8?B?UnUwYndteElWVklkK000YVhLM1o0RzZvYTVpQTRRZnpQSjY5NnVvRXRHUjh2?=
- =?utf-8?B?azlkakpGS29pUEV6cGN5YURKT2pqVmVFbVlNb3VVTU9SVjF5MXo2aDY3bTlZ?=
- =?utf-8?B?VnI1bWYwNTFEd0xVT04wdzFaTThlT3VNcmduZjBEeCs5VnE1UkVSYXBnTDhw?=
- =?utf-8?B?OEpTNXdWRDRSdXZta21KYVRCSmZmekJGUDRJTXJrVmg2OEx3RDk1UUhhdzJK?=
- =?utf-8?Q?96LY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2dc0601b-0243-48a9-80b4-08dc429895ee
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 13:30:29.9193
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VDKt/H5sAsJ4MZa2Fhuxbk/6NYQfqsWIJtD0jUwE/aSp7OxQFGcJzzxQvTqS2bdy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8715
+Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-On 3/8/24 11:20, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 3/7/2024 7:50 PM, Moger, Babu wrote:
->> I am also thinking about replacing the newline requirement for multiple
->> groups. Domains separate by "," and groups separate by ";".
->>
->> Something like this..
->>
->> "/c1/m1/00=_,01=_;/c1/m2/00=_,01=_;/c1/m3/00=lt,01=lt"
->>
->> Thoughts?
->>
-> 
-> I would prefer that resctrl uses as consistent interface as possible
-> between the different files. There are a few files that already
-> take domains as input (schemata, mbm_total_bytes_config,
-> mbm_local_bytes_config) and they all separate domains by ";".
-> I thus find it most appropriate to stick with ";" between domains.
-> 
-> Regarding separation of groups, in schemata file for example it is
-> already custom to separate groups (resources in that case) with "\n".
-> 
+The PSCI v1.3 specification (alpha) adds support for a SYSTEM_OFF2 function
+which is analogous to ACPI S4 state. This will allow hosting environments
+to determine that a guest is hibernated rather than just powered off, and
+ensure that they preserve the virtual environment appropriately to allow
+the guest to resume safely (or bump the hardware_signature in the FACS to
+trigger a clean reboot instead).
 
-Ok. Sure.
+The beta version will be changed to say that PSCI_FEATURES returns a bit
+mask of the supported hibernate types, which is implemented here.
 
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ Documentation/virt/kvm/api.rst       | 11 +++++++++
+ arch/arm64/include/asm/kvm_host.h    |  2 ++
+ arch/arm64/include/uapi/asm/kvm.h    |  6 +++++
+ arch/arm64/kvm/arm.c                 |  5 ++++
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c |  2 ++
+ arch/arm64/kvm/psci.c                | 37 ++++++++++++++++++++++++++++
+ include/uapi/linux/kvm.h             |  1 +
+ include/uapi/linux/psci.h            |  5 ++++
+ 8 files changed, 69 insertions(+)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index bd93cafd3e4e..f5963c3770a5 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6761,6 +6761,10 @@ the first `ndata` items (possibly zero) of the data array are valid.
+    the guest issued a SYSTEM_RESET2 call according to v1.1 of the PSCI
+    specification.
+ 
++ - for arm64, data[0] is set to KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2
++   if the guest issued a SYSTEM_OFF2 call according to v1.3 of the PSCI
++   specification.
++
+  - for RISC-V, data[0] is set to the value of the second argument of the
+    ``sbi_system_reset`` call.
+ 
+@@ -6794,6 +6798,13 @@ either:
+  - Deny the guest request to suspend the VM. See ARM DEN0022D.b 5.19.2
+    "Caller responsibilities" for possible return values.
+ 
++Hibernation using the PSCI SYSTEM_OFF2 call is enabled with the
++KVM_CAP_ARM_SYSTEM_OFF2 VM capability. If a guest invokes the PSCI
++SYSTEM_OFF2 function, KVM will exit to userspace with the
++KVM_SYSTEM_EVENT_SHUTDOWN event type and with data[0] set to
++KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2. The only supported hibernate
++type for the SYSTEM_OFF2 function is HIBERNATE_OFF (0x0).
++
+ ::
+ 
+ 		/* KVM_EXIT_IOAPIC_EOI */
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 21c57b812569..d6da0eb1c236 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -274,6 +274,8 @@ struct kvm_arch {
+ #define KVM_ARCH_FLAG_TIMER_PPIS_IMMUTABLE		6
+ 	/* Initial ID reg values loaded */
+ #define KVM_ARCH_FLAG_ID_REGS_INITIALIZED		7
++	/* PSCI SYSTEM_OFF2 (hibernate) enabled for the guest */
++#define KVM_ARCH_FLAG_SYSTEM_OFF2_ENABLED		8
+ 	unsigned long flags;
+ 
+ 	/* VM-wide vCPU feature set */
+diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+index 964df31da975..66736ff04011 100644
+--- a/arch/arm64/include/uapi/asm/kvm.h
++++ b/arch/arm64/include/uapi/asm/kvm.h
+@@ -484,6 +484,12 @@ enum {
+  */
+ #define KVM_SYSTEM_EVENT_RESET_FLAG_PSCI_RESET2	(1ULL << 0)
+ 
++/*
++ * Shutdown caused by a PSCI v1.3 SYSTEM_OFF2 call.
++ * Valid only when the system event has a type of KVM_SYSTEM_EVENT_SHUTDOWN.
++ */
++#define KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2	(1ULL << 0)
++
+ /* run->fail_entry.hardware_entry_failure_reason codes. */
+ #define KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED	(1ULL << 0)
+ 
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index a25265aca432..1c58762272eb 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -98,6 +98,10 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 		r = 0;
+ 		set_bit(KVM_ARCH_FLAG_SYSTEM_SUSPEND_ENABLED, &kvm->arch.flags);
+ 		break;
++	case KVM_CAP_ARM_SYSTEM_OFF2:
++		r = 0;
++		set_bit(KVM_ARCH_FLAG_SYSTEM_OFF2_ENABLED, &kvm->arch.flags);
++		break;
+ 	case KVM_CAP_ARM_EAGER_SPLIT_CHUNK_SIZE:
+ 		new_cap = cap->args[0];
+ 
+@@ -238,6 +242,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_VCPU_ATTRIBUTES:
+ 	case KVM_CAP_PTP_KVM:
+ 	case KVM_CAP_ARM_SYSTEM_SUSPEND:
++	case KVM_CAP_ARM_SYSTEM_OFF2:
+ 	case KVM_CAP_IRQFD_RESAMPLE:
+ 	case KVM_CAP_COUNTER_OFFSET:
+ 		r = 1;
+diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+index d57bcb6ab94d..0d4bea0b9ca2 100644
+--- a/arch/arm64/kvm/hyp/nvhe/psci-relay.c
++++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+@@ -264,6 +264,8 @@ static unsigned long psci_1_0_handler(u64 func_id, struct kvm_cpu_context *host_
+ 	switch (func_id) {
+ 	case PSCI_1_0_FN_PSCI_FEATURES:
+ 	case PSCI_1_0_FN_SET_SUSPEND_MODE:
++	case PSCI_1_3_FN_SYSTEM_OFF2:
++	case PSCI_1_3_FN64_SYSTEM_OFF2:
+ 	case PSCI_1_1_FN64_SYSTEM_RESET2:
+ 		return psci_forward(host_ctxt);
+ 	case PSCI_1_0_FN64_SYSTEM_SUSPEND:
+diff --git a/arch/arm64/kvm/psci.c b/arch/arm64/kvm/psci.c
+index 1f69b667332b..59570eea8aa7 100644
+--- a/arch/arm64/kvm/psci.c
++++ b/arch/arm64/kvm/psci.c
+@@ -194,6 +194,12 @@ static void kvm_psci_system_off(struct kvm_vcpu *vcpu)
+ 	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_SHUTDOWN, 0);
+ }
+ 
++static void kvm_psci_system_off2(struct kvm_vcpu *vcpu)
++{
++	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_SHUTDOWN,
++				 KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2);
++}
++
+ static void kvm_psci_system_reset(struct kvm_vcpu *vcpu)
+ {
+ 	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_RESET, 0);
+@@ -353,6 +359,11 @@ static int kvm_psci_1_x_call(struct kvm_vcpu *vcpu, u32 minor)
+ 			if (test_bit(KVM_ARCH_FLAG_SYSTEM_SUSPEND_ENABLED, &kvm->arch.flags))
+ 				val = 0;
+ 			break;
++		case PSCI_1_3_FN_SYSTEM_OFF2:
++		case PSCI_1_3_FN64_SYSTEM_OFF2:
++			if (test_bit(KVM_ARCH_FLAG_SYSTEM_OFF2_ENABLED, &kvm->arch.flags))
++				val = 1UL << PSCI_1_3_HIBERNATE_TYPE_OFF;
++			break;
+ 		case PSCI_1_1_FN_SYSTEM_RESET2:
+ 		case PSCI_1_1_FN64_SYSTEM_RESET2:
+ 			if (minor >= 1)
+@@ -374,6 +385,32 @@ static int kvm_psci_1_x_call(struct kvm_vcpu *vcpu, u32 minor)
+ 			return 0;
+ 		}
+ 		break;
++	case PSCI_1_3_FN_SYSTEM_OFF2:
++		kvm_psci_narrow_to_32bit(vcpu);
++		fallthrough;
++	case PSCI_1_3_FN64_SYSTEM_OFF2:
++		if (!test_bit(KVM_ARCH_FLAG_SYSTEM_OFF2_ENABLED, &kvm->arch.flags))
++			break;
++
++		arg = smccc_get_arg1(vcpu);
++		if (arg != PSCI_1_3_HIBERNATE_TYPE_OFF) {
++			val = PSCI_RET_INVALID_PARAMS;
++			break;
++		}
++		kvm_psci_system_off2(vcpu);
++		/*
++		 * We shouldn't be going back to guest VCPU after
++		 * receiving SYSTEM_OFF2 request.
++		 *
++		 * If user space accidentally/deliberately resumes
++		 * guest VCPU after SYSTEM_OFF request then guest
++		 * VCPU should see internal failure from PSCI return
++		 * value. To achieve this, we preload r0 (or x0) with
++		 * PSCI return value INTERNAL_FAILURE.
++		 */
++		val = PSCI_RET_INTERNAL_FAILURE;
++		ret = 0;
++		break;
+ 	case PSCI_1_1_FN_SYSTEM_RESET2:
+ 		kvm_psci_narrow_to_32bit(vcpu);
+ 		fallthrough;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 2190adbe3002..caa3845b80d6 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -917,6 +917,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_MEMORY_ATTRIBUTES 233
+ #define KVM_CAP_GUEST_MEMFD 234
+ #define KVM_CAP_VM_TYPES 235
++#define KVM_CAP_ARM_SYSTEM_OFF2 236
+ 
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+diff --git a/include/uapi/linux/psci.h b/include/uapi/linux/psci.h
+index 42a40ad3fb62..f9a015ebe221 100644
+--- a/include/uapi/linux/psci.h
++++ b/include/uapi/linux/psci.h
+@@ -59,6 +59,7 @@
+ #define PSCI_1_1_FN_SYSTEM_RESET2		PSCI_0_2_FN(18)
+ #define PSCI_1_1_FN_MEM_PROTECT			PSCI_0_2_FN(19)
+ #define PSCI_1_1_FN_MEM_PROTECT_CHECK_RANGE	PSCI_0_2_FN(20)
++#define PSCI_1_3_FN_SYSTEM_OFF2			PSCI_0_2_FN(21)
+ 
+ #define PSCI_1_0_FN64_CPU_DEFAULT_SUSPEND	PSCI_0_2_FN64(12)
+ #define PSCI_1_0_FN64_NODE_HW_STATE		PSCI_0_2_FN64(13)
+@@ -68,6 +69,7 @@
+ 
+ #define PSCI_1_1_FN64_SYSTEM_RESET2		PSCI_0_2_FN64(18)
+ #define PSCI_1_1_FN64_MEM_PROTECT_CHECK_RANGE	PSCI_0_2_FN64(20)
++#define PSCI_1_3_FN64_SYSTEM_OFF2		PSCI_0_2_FN64(21)
+ 
+ /* PSCI v0.2 power state encoding for CPU_SUSPEND function */
+ #define PSCI_0_2_POWER_STATE_ID_MASK		0xffff
+@@ -100,6 +102,9 @@
+ #define PSCI_1_1_RESET_TYPE_SYSTEM_WARM_RESET	0
+ #define PSCI_1_1_RESET_TYPE_VENDOR_START	0x80000000U
+ 
++/* PSCI v1.3 hibernate type for SYSTEM_OFF2 */
++#define PSCI_1_3_HIBERNATE_TYPE_OFF		0
++
+ /* PSCI version decoding (independent of PSCI version) */
+ #define PSCI_VERSION_MAJOR_SHIFT		16
+ #define PSCI_VERSION_MINOR_MASK			\
 -- 
-Thanks
-Babu Moger
+2.44.0
+
