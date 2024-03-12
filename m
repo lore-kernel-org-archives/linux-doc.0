@@ -1,417 +1,862 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6448614264A
-	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 20:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914D6142907
+	for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 20:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710274322; cv=none; b=JjYTSZEiZIK44R1sGzSTDRIDbw5RKxL1TitcB3xRAeWgS7nUWWSV/1zLsehzEWuM1eQ/s9DH1UFBHOSr77oYwQ8YfDcsZjHDON1PZiYTfMusRGeRI82egKU9dIVBDESAdNDvxutj7CBveslM3ZIOsjSo65UcGTM/UomXnE3zOx0=
+	t=1710275168; cv=none; b=iNIM1XZwn32SjTLetJvp9B6z7G1g+++UYe5xKnX2hYMc397kAC+8PEj21yMFh3KSxOVlNnbC5w6Rqm/7b5djzV+WUNhk+vUbJuVnuL5bQBzhRIvyYrxQ7Aibq7p0i5Hj8SEJYlKJf0fCHSrh1Fbf0DWLKmnQqKH/BKBOfkkA//I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710274322; c=relaxed/simple;
-	bh=nOYhRCCNPiKdlVxM2Ai49zpqXWK8JdsC93Pj02mlD8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a3aPUrGKo5bPhGiVQS4H9AePnlU10aVrvZjHIzvT54dPwG2u3ZWVxqzbndEkIipjf1XLGeQUrO0IJLrYSGHe+n25eoekMd11rRJJyOTSyIoWzLWRdd8+2ucAW0arx352Pqz8SznSfqTWXRh809Nwg5UQ+gWElZVqruIj9kK2/Yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=Th5oIt5X; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1710275168; c=relaxed/simple;
+	bh=5inDsbkM50c/G3sT1CXlUxdkCWFCgpacidQC8QYYVgE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eue78df5Xq6HldkqFAYTYFlICwjS8cldonEBVbKvVb9cXYiCc6a5UScsWIFnKos9GAYRoabVE01TTLmxZgMl+ZDJxo4ZSBqsL11OKoQvGZf5bV9inu289/jbpyIk+gWa/Enqu930L8Qf0rVvoyrvTkHmQvHPegFgMnX2+wYdc6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BApKJEPF; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="Th5oIt5X"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7884a9a404fso328766185a.3
-        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 13:12:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BApKJEPF"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-42a029c8e76so2109291cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 12 Mar 2024 13:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1710274319; x=1710879119; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MnHHGL8Rk7CC2xf+iGr8uOaDj7elDk3WlKFGmrHlJpc=;
-        b=Th5oIt5XNP/mBP8LEsAZK616KTdHtOmcwiUuR6UpHibUnHd3dLwJDS7+Tx49ojYsa6
-         wcizfcUycBCLKRiluytqRtesGabKyne1YguzRaIefj9vSk8JyBoDpvupXB3m/Ik2anJW
-         eir3qoY0WiAGqdcBhE3IhupaGbpfDDoyRKk8QuW1IMVc4BNrxlOHVKl9ihqm8tT2ntl0
-         6JAcxvsYe7++xpp3F13sr7jsQqybQ4AM+29jq2jvpHUHzGQ+avOFxEqunB2U//GYu0Np
-         PFzj2xvT/L6ZDmzpDGOXyJJe2ZpJ3QiTrJnHFSyTK7//hpV1Afb2EVX/0qDboy4M957q
-         wVHg==
+        d=chromium.org; s=google; t=1710275163; x=1710879963; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3aiF4iciKkLoOS6dwxhTrGRujKDVelZkiyWWbnm9CjU=;
+        b=BApKJEPFhdDMx2t7oNmu3s2wcFfbA1x3NKRrv5p748/6g3tNUmmAffBrxD5r3l6A8y
+         C/RWeVf11Zw0TeO+brz7uNFhrf6YUNEx5I/mijmvmZRxSg5VcF6fIJWjOPme+38MTcwG
+         d1p8CsZV6IneFN6OYxjtHbMWmsJVYB1/hrzeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710274319; x=1710879119;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MnHHGL8Rk7CC2xf+iGr8uOaDj7elDk3WlKFGmrHlJpc=;
-        b=KcfY5VzfNc8Au9VUbhkxBw3rjs0E/EmnSXWi0JO/5eTLXTU66w6tcq8BvDE1i4ztqu
-         baegkGFY+pzP+4FFqIg4SjCDuxtH1uTI4jvhbatcXEKB7j+Rl4f/SfwFY9T52DjiP0Xb
-         i6fv0/oDvz5MkmnU2xW1wqkzDJjw3aQDh3hm9owMqajBPw4OdhzGkXv7cD+xh4a1aecO
-         BVTayJKYJRDzS1sikk02StjAbYYR5C+zBUkYK7ur++gGdFb6BQZJMeI0lGyxzNNRoTmz
-         xEXwS5ffWDsbiy4je1UR6D8Qg+CA+7BbB1ICs1hhXPaasZu+K3dura6V+9Fibpo7NTBk
-         momg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNn6HfSnDyqVI4lTCrDCCo0CDSstdtwUYO0OXSrRdoerq/Dvr20jfntZDVq1H4nrdiqXb11d/XsFAvW2pMen+EAC4g562pmdas
-X-Gm-Message-State: AOJu0YwvXjlMpF6e07rYezkQwFBoYx3cr9CExDhvpO7KL2I3mnmTahQg
-	1+9um9/n8J4Wsp980P9fVcSZ+7g1Ikil1QqiIjUCv0cMfufsuaeiKuG09Iwmos4=
-X-Google-Smtp-Source: AGHT+IHn+D2b3VFoUuC25A22wToCBAG5NyxdF+v1kIMRKU5wW8QZXDPLrob9xhKs09oUjOJN2QouMA==
-X-Received: by 2002:a05:620a:4888:b0:788:22c7:edd8 with SMTP id ea8-20020a05620a488800b0078822c7edd8mr13718199qkb.5.1710274319269;
-        Tue, 12 Mar 2024 13:11:59 -0700 (PDT)
-Received: from [100.64.0.1] ([170.85.8.176])
-        by smtp.gmail.com with ESMTPSA id a23-20020a05620a02f700b0078821519902sm3988608qko.20.2024.03.12.13.11.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 13:11:58 -0700 (PDT)
-Message-ID: <febde3f3-7df6-4c9a-a1b5-0fae92e018df@sifive.com>
-Date: Tue, 12 Mar 2024 15:11:57 -0500
+        d=1e100.net; s=20230601; t=1710275163; x=1710879963;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3aiF4iciKkLoOS6dwxhTrGRujKDVelZkiyWWbnm9CjU=;
+        b=YjczY/SXJ+PA6dsNluipJe8ymdHawhqhH4tCT2MH2YJLcdjxt7Epb+/lEL3y99LYQd
+         YMGTFWXbt9xGPnB2cH4XdX31aygmvn43mtyRBy66eKrY025Bux1mG+QgL+M6YBb51TBh
+         oPaMpLP905n7IQuMynEfJR1YeSusd3rHyiDf69DAKfb8pAAPzyl/cRUKtzDV7Ejc60Nb
+         rup5QSVJ235P/PwRiJgdifsTVLBg4hBrUokPL91mdSQ6EOGo1ObpgFJ4N4hl1f5YKVRE
+         YzgTAz4KdwFx0wrMTwRdVlJgaSbVSHCiOn6fCM6OX7YMjtvmuv+dK9cbYgfM2loSNXin
+         zIQw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+dbEw5fTzjobbk0DfjGhsxvkA5Tva4/y9LTqRgAlZ53NvmVlrUE/UGGr/k5DxHKrFpp6HSzwzVg+7MPnB23TOEKrDqhrvN20N
+X-Gm-Message-State: AOJu0YwcUizHCc4myK6WPCxC/bpIJtc46LrXTQFX/JyQTRro2pOriGuO
+	cgx7QSK8Aik7Jk9zwjQ5lpnSmQmfOfIwmJ0SxOl35nW9ahUO8F5W5n3ULJJNz/yvb8WyTElT2IS
+	V4ZBKG6qF94NuiluzOLKluYt5BU29GNAAOUtQ
+X-Google-Smtp-Source: AGHT+IF55f/Rc6wuOBOrS6xAB7tAOMk48MsSBXrT04HzQk7WihzzN+Qua8p/q59Mt2i1k9kbnjh92ehrr7sO34c1kmU=
+X-Received: by 2002:a05:6214:88e:b0:690:b7b3:76da with SMTP id
+ cz14-20020a056214088e00b00690b7b376damr5042015qvb.62.1710275163266; Tue, 12
+ Mar 2024 13:26:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/4] riscv: Include riscv_set_icache_flush_ctx prctl
-Content-Language: en-US
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Atish Patra <atishp@rivosinc.com>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Atish Patra <atishp@atishpatra.org>, Randy Dunlap <rdunlap@infradead.org>,
- Alexandre Ghiti <alex@ghiti.fr>
-References: <20240312-fencei-v12-0-0f340f004ce7@rivosinc.com>
- <20240312-fencei-v12-2-0f340f004ce7@rivosinc.com>
-From: Samuel Holland <samuel.holland@sifive.com>
-In-Reply-To: <20240312-fencei-v12-2-0f340f004ce7@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240202173034.221790-1-sjg@chromium.org> <20240202173034.221790-3-sjg@chromium.org>
+ <CAK7LNARBC-zPHWDzhkMj90UBVaxHs0PJ9wfUKLRGAHxzBx=Bqg@mail.gmail.com>
+ <CAFLszTiwxm_=eXnfta4HA9b1c=ektr3yMiJKVfHESWOdDR4WxA@mail.gmail.com> <CAK7LNAS5rdb_1ZPSdtWXevyS8+vG4EWY6HAs152qggdyRSFLwA@mail.gmail.com>
+In-Reply-To: <CAK7LNAS5rdb_1ZPSdtWXevyS8+vG4EWY6HAs152qggdyRSFLwA@mail.gmail.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 13 Mar 2024 09:25:51 +1300
+Message-ID: <CAFLszThvxRpahn+yJjJfY4UGmmYZdskno6kDcA+NVMQCzdCTkg@mail.gmail.com>
+Subject: Re: [PATCH v10 2/2] arm64: boot: Support Flat Image Tree
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-03-12 2:47 PM, Charlie Jenkins wrote:
-> Support new prctl with key PR_RISCV_SET_ICACHE_FLUSH_CTX to enable
-> optimization of cross modifying code. This prctl enables userspace code
-> to use icache flushing instructions such as fence.i with the guarantee
-> that the icache will continue to be clean after thread migration.
-> 
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
-> Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  arch/riscv/include/asm/mmu.h       |  2 +
->  arch/riscv/include/asm/processor.h | 10 ++++
->  arch/riscv/include/asm/switch_to.h | 23 ++++++++++
->  arch/riscv/mm/cacheflush.c         | 94 ++++++++++++++++++++++++++++++++++++++
->  arch/riscv/mm/context.c            | 17 +++++--
->  include/uapi/linux/prctl.h         |  6 +++
->  kernel/sys.c                       |  6 +++
->  7 files changed, 153 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
-> index 355504b37f8e..60be458e94da 100644
-> --- a/arch/riscv/include/asm/mmu.h
-> +++ b/arch/riscv/include/asm/mmu.h
-> @@ -19,6 +19,8 @@ typedef struct {
->  #ifdef CONFIG_SMP
->  	/* A local icache flush is needed before user execution can resume. */
->  	cpumask_t icache_stale_mask;
-> +	/* Force local icache flush on all migrations. */
-> +	bool force_icache_flush;
->  #endif
->  #ifdef CONFIG_BINFMT_ELF_FDPIC
->  	unsigned long exec_fdpic_loadmap;
-> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
-> index a8509cc31ab2..cca62013c3c0 100644
-> --- a/arch/riscv/include/asm/processor.h
-> +++ b/arch/riscv/include/asm/processor.h
-> @@ -69,6 +69,7 @@
->  #endif
->  
->  #ifndef __ASSEMBLY__
-> +#include <linux/cpumask.h>
->  
->  struct task_struct;
->  struct pt_regs;
-> @@ -123,6 +124,12 @@ struct thread_struct {
->  	struct __riscv_v_ext_state vstate;
->  	unsigned long align_ctl;
->  	struct __riscv_v_ext_state kernel_vstate;
-> +#ifdef CONFIG_SMP
-> +	/* Flush the icache on migration */
-> +	bool force_icache_flush;
-> +	/* A forced icache flush is not needed if migrating to the previous cpu. */
-> +	unsigned int prev_cpu;
-> +#endif
->  };
->  
->  /* Whitelist the fstate from the task_struct for hardened usercopy */
-> @@ -184,6 +191,9 @@ extern int set_unalign_ctl(struct task_struct *tsk, unsigned int val);
->  #define GET_UNALIGN_CTL(tsk, addr)	get_unalign_ctl((tsk), (addr))
->  #define SET_UNALIGN_CTL(tsk, val)	set_unalign_ctl((tsk), (val))
->  
-> +#define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)	riscv_set_icache_flush_ctx(arg1, arg2)
-> +extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long per_thread);
-> +
->  #endif /* __ASSEMBLY__ */
->  
->  #endif /* _ASM_RISCV_PROCESSOR_H */
-> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
-> index 7efdb0584d47..7594df37cc9f 100644
-> --- a/arch/riscv/include/asm/switch_to.h
-> +++ b/arch/riscv/include/asm/switch_to.h
-> @@ -8,6 +8,7 @@
->  
->  #include <linux/jump_label.h>
->  #include <linux/sched/task_stack.h>
-> +#include <linux/mm_types.h>
->  #include <asm/vector.h>
->  #include <asm/cpufeature.h>
->  #include <asm/processor.h>
-> @@ -72,14 +73,36 @@ static __always_inline bool has_fpu(void) { return false; }
->  extern struct task_struct *__switch_to(struct task_struct *,
->  				       struct task_struct *);
->  
-> +static inline bool switch_to_should_flush_icache(struct task_struct *task)
-> +{
-> +#ifdef CONFIG_SMP
-> +	bool stale_mm = task->mm && task->mm->context.force_icache_flush;
-> +	bool stale_thread = task->thread.force_icache_flush;
-> +	bool thread_migrated = smp_processor_id() != task->thread.prev_cpu;
-> +
-> +	return thread_migrated && (stale_mm || stale_thread);
-> +#else
-> +	return false;
-> +#endif
-> +}
-> +
-> +#ifdef CONFIG_SMP
-> +#define __set_prev_cpu(thread) ((thread).prev_cpu = smp_processor_id())
-> +#else
-> +#define __set_prev_cpu(thread)
-> +#endif
-> +
->  #define switch_to(prev, next, last)			\
->  do {							\
->  	struct task_struct *__prev = (prev);		\
->  	struct task_struct *__next = (next);		\
-> +	__set_prev_cpu(__prev->thread);			\
->  	if (has_fpu())					\
->  		__switch_to_fpu(__prev, __next);	\
->  	if (has_vector())					\
->  		__switch_to_vector(__prev, __next);	\
-> +	if (switch_to_should_flush_icache(__next))	\
-> +		local_flush_icache_all();		\
->  	((last) = __switch_to(__prev, __next));		\
->  } while (0)
->  
-> diff --git a/arch/riscv/mm/cacheflush.c b/arch/riscv/mm/cacheflush.c
-> index 55a34f2020a8..329b95529580 100644
-> --- a/arch/riscv/mm/cacheflush.c
-> +++ b/arch/riscv/mm/cacheflush.c
-> @@ -5,6 +5,7 @@
->  
->  #include <linux/acpi.h>
->  #include <linux/of.h>
-> +#include <linux/prctl.h>
->  #include <asm/acpi.h>
->  #include <asm/cacheflush.h>
->  
-> @@ -152,3 +153,96 @@ void __init riscv_init_cbo_blocksizes(void)
->  	if (cboz_block_size)
->  		riscv_cboz_block_size = cboz_block_size;
->  }
-> +
-> +/**
-> + * riscv_set_icache_flush_ctx() - Enable/disable icache flushing instructions in
-> + * userspace.
-> + * @ctx: Set the type of icache flushing instructions permitted/prohibited in
-> + *	 userspace. Supported values described below.
-> + *
-> + * Supported values for ctx:
-> + *
-> + * * %PR_RISCV_CTX_SW_FENCEI_ON: Allow fence.i in user space.
-> + *
-> + * * %PR_RISCV_CTX_SW_FENCEI_OFF: Disallow fence.i in user space. All threads in
-> + *   a process will be affected when ``scope == PR_RISCV_SCOPE_PER_PROCESS``.
-> + *   Therefore, caution must be taken; use this flag only when you can guarantee
-> + *   that no thread in the process will emit fence.i from this point onward.
-> + *
-> + * @scope: Set scope of where icache flushing instructions are allowed to be
-> + *	   emitted. Supported values described below.
-> + *
-> + * Supported values for scope:
-> + *
-> + * * %PR_RISCV_SCOPE_PER_PROCESS: Ensure the icache of any thread in this process
-> + *                               is coherent with instruction storage upon
-> + *                               migration.
-> + *
-> + * * %PR_RISCV_SCOPE_PER_THREAD: Ensure the icache of the current thread is
-> + *                              coherent with instruction storage upon
-> + *                              migration.
-> + *
-> + * When ``scope == PR_RISCV_SCOPE_PER_PROCESS``, all threads in the process are
-> + * permitted to emit icache flushing instructions. Whenever any thread in the
-> + * process is migrated, the corresponding hart's icache will be guaranteed to be
-> + * consistent with instruction storage. This does not enforce any guarantees
-> + * outside of migration. If a thread modifies an instruction that another thread
-> + * may attempt to execute, the other thread must still emit an icache flushing
-> + * instruction before attempting to execute the potentially modified
-> + * instruction. This must be performed by the user-space program.
-> + *
-> + * In per-thread context (eg. ``scope == PR_RISCV_SCOPE_PER_THREAD``) only the
-> + * thread calling this function is permitted to emit icache flushing
-> + * instructions. When the thread is migrated, the corresponding hart's icache
-> + * will be guaranteed to be consistent with instruction storage.
-> + *
-> + * On kernels configured without SMP, this function is a nop as migrations
-> + * across harts will not occur.
-> + */
-> +int riscv_set_icache_flush_ctx(unsigned long ctx, unsigned long scope)
-> +{
-> +#ifdef CONFIG_SMP
-> +	switch (ctx) {
-> +	case PR_RISCV_CTX_SW_FENCEI_ON:
-> +		switch (scope) {
-> +		case PR_RISCV_SCOPE_PER_PROCESS:
-> +			current->mm->context.force_icache_flush = true;
-> +			break;
-> +		case PR_RISCV_SCOPE_PER_THREAD:
-> +			current->thread.force_icache_flush = true;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case PR_RISCV_CTX_SW_FENCEI_OFF:
-> +		switch (scope) {
-> +		case PR_RISCV_SCOPE_PER_PROCESS:
-> +		case PR_RISCV_SCOPE_PER_THREAD:
-> +			bool stale_cpu;
-> +			cpumask_t *mask;
-> +
-> +			current->mm->context.force_icache_flush = false;
+Hi Masahiro,
 
-You still need (at least partially) separate logic for the two scopes, because
-now you're resetting the wrong flag here.
+On Mon, 11 Mar 2024 at 02:31, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Fri, Mar 8, 2024 at 12:55=E2=80=AFPM Simon Glass <sjg@chromium.org> wr=
+ote:
+> >
+> > Hi Masahiro,
+> >
+> > On Thu, 22 Feb 2024 at 01:38, Masahiro Yamada <masahiroy@kernel.org> wr=
+ote:
+> > >
+> > > On Sat, Feb 3, 2024 at 2:30=E2=80=AFAM Simon Glass <sjg@chromium.org>=
+ wrote:
+> > > >
+> > > > Add a script which produces a Flat Image Tree (FIT), a single file
+> > > > containing the built kernel and associated devicetree files.
+> > > > Compression defaults to gzip which gives a good balance of size and
+> > > > performance.
+> > > >
+> > > > The files compress from about 86MB to 24MB using this approach.
+> > > >
+> > > > The FIT can be used by bootloaders which support it, such as U-Boot
+> > > > and Linuxboot. It permits automatic selection of the correct
+> > > > devicetree, matching the compatible string of the running board wit=
+h
+> > > > the closest compatible string in the FIT. There is no need for
+> > > > filenames or other workarounds.
+> > > >
+> > > > Add a 'make image.fit' build target for arm64, as well.
+> > > >
+> > > > The FIT can be examined using 'dumpimage -l'.
+> > > >
+> > > > This uses the 'dtbs-list' file but processes only .dtb files, ignor=
+ing
+> > > > the overlay .dtbo files.
+> > > >
+> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > > > requires compression utilities for the algorithm being used. Suppor=
+ted
+> > > > compression options are the same as the Image.xxx files. Use
+> > > > FIT_COMPRESSION to select an algorithm other than gzip.
+> > > >
+> > > > While FIT supports a ramdisk / initrd, no attempt is made to suppor=
+t
+> > > > this here, since it must be built separately from the Linux build.
+> > > >
+> > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > ---
+> > > >
+> > > > Changes in v10:
+> > > > - Make use of dtbs-list file
+> > > > - Mention dtbs-list and FIT_COMPRESSION
+> > > > - Update copyright year
+> > > > - Update cover letter to take account of an applied patch
+> > > >
+> > > > Changes in v9:
+> > > > - Move the compression control into Makefile.lib
+> > > >
+> > > > Changes in v8:
+> > > > - Drop compatible string in FDT node
+> > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > - Turn compress part of the make_fit.py comment in to a sentence
+> > > > - Add two blank lines before parse_args() and setup_fit()
+> > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > - Add 'mkimage' details Documentation/process/changes.rst
+> > > > - Allow changing the compression used
+> > > > - Tweak cover letter since there is only one clean-up patch
+> > > >
+> > > > Changes in v7:
+> > > > - Add Image as a dependency of image.fit
+> > > > - Drop kbuild tag
+> > > > - Add dependency on dtbs
+> > > > - Drop unnecessary path separator for dtbs
+> > > > - Rebase to -next
+> > > >
+> > > > Changes in v5:
+> > > > - Drop patch previously applied
+> > > > - Correct compression rule which was broken in v4
+> > > >
+> > > > Changes in v4:
+> > > > - Use single quotes for UIMAGE_NAME
+> > > >
+> > > > Changes in v3:
+> > > > - Drop temporary file image.itk
+> > > > - Drop patch 'Use double quotes for image name'
+> > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > >
+> > > > Changes in v2:
+> > > > - Drop patch previously applied
+> > > > - Add .gitignore file
+> > > > - Move fit rule to Makefile.lib using an intermediate file
+> > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > - Pick up .dtb files separately from the kernel
+> > > > - Correct pylint too-many-args warning for write_kernel()
+> > > > - Include the kernel image in the file count
+> > > > - Add a pointer to the FIT spec and mention of its wide industry us=
+age
+> > > > - Mention the kernel version in the FIT description
+> > > >
+> > > >  Documentation/process/changes.rst |   9 +
+> > > >  MAINTAINERS                       |   7 +
+> > > >  arch/arm64/Makefile               |   7 +-
+> > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > >  scripts/Makefile.lib              |  16 ++
+> > > >  scripts/make_fit.py               | 298 ++++++++++++++++++++++++++=
+++++
+> > > >  7 files changed, 341 insertions(+), 3 deletions(-)
+> > > >  create mode 100755 scripts/make_fit.py
+> > > >
+> > > > diff --git a/Documentation/process/changes.rst b/Documentation/proc=
+ess/changes.rst
+> > > > index 50b3d1cb1115..a8110965e4e1 100644
+> > > > --- a/Documentation/process/changes.rst
+> > > > +++ b/Documentation/process/changes.rst
+> > > > @@ -62,6 +62,7 @@ Sphinx\ [#f1]_         2.4.4            sphinx-bu=
+ild --version
+> > > >  cpio                   any              cpio --version
+> > > >  GNU tar                1.28             tar --version
+> > > >  gtags (optional)       6.6.5            gtags --version
+> > > > +mkimage (optional)     2017.01          mkimage --version
+> > > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > > >
+> > > >  .. [#f1] Sphinx is needed only to build the Kernel documentation
+> > > > @@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6=
+.6.5 or later to generate
+> > > >  tag files through ``make gtags``.  This is due to its use of the g=
+tags
+> > > >  ``-C (--directory)`` flag.
+> > > >
+> > > > +mkimage
+> > > > +-------
+> > > > +
+> > > > +This tool is used when building a Flat Image Tree (FIT), commonly =
+used on ARM
+> > > > +platforms. The tool is available via the ``u-boot-tools`` package =
+or can be
+> > > > +built from the U-Boot source code. See the instructions at
+> > > > +https://docs.u-boot.org/en/latest/build/tools.html#building-tools-=
+for-linux
+> > > > +
+> > > >  System utilities
+> > > >  ****************
+> > > >
+> > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > index 61117c3afa80..10c2753d7bcc 100644
+> > > > --- a/MAINTAINERS
+> > > > +++ b/MAINTAINERS
+> > > > @@ -3026,6 +3026,13 @@ F:       drivers/mmc/host/sdhci-of-arasan.c
+> > > >  N:     zynq
+> > > >  N:     xilinx
+> > > >
+> > > > +ARM64 FIT SUPPORT
+> > > > +M:     Simon Glass <sjg@chromium.org>
+> > > > +L:     linux-arm-kernel@lists.infradead.org (moderated for non-sub=
+scribers)
+> > > > +S:     Maintained
+> > > > +F:     arch/arm64/boot/Makefile
+> > > > +F:     scripts/make_fit.py
+> > > > +
+> > > >  ARM64 PORT (AARCH64 ARCHITECTURE)
+> > > >  M:     Catalin Marinas <catalin.marinas@arm.com>
+> > > >  M:     Will Deacon <will@kernel.org>
+> > > > diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> > > > index 83cd2b7234b9..5de2b02f549a 100644
+> > > > --- a/arch/arm64/Makefile
+> > > > +++ b/arch/arm64/Makefile
+> > > > @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers=
+/firmware/efi/libstub/lib.a
+> > > >  # Default target when executing plain make
+> > > >  boot           :=3D arch/arm64/boot
+> > > >
+> > > > -BOOT_TARGETS   :=3D Image vmlinuz.efi
+> > > > +BOOT_TARGETS   :=3D Image vmlinuz.efi image.fit
+> > > >
+> > > >  PHONY +=3D $(BOOT_TARGETS)
+> > > >
+> > > > @@ -162,7 +162,9 @@ endif
+> > > >
+> > > >  all:   $(notdir $(KBUILD_IMAGE))
+> > > >
+> > > > -vmlinuz.efi: Image
+> > > > +image.fit: dtbs
+> > > > +
+> > > > +vmlinuz.efi image.fit: Image
+> > > >  $(BOOT_TARGETS): vmlinux
+> > > >         $(Q)$(MAKE) $(build)=3D$(boot) $(boot)/$@
+> > > >
+> > > > @@ -215,6 +217,7 @@ virtconfig:
+> > > >  define archhelp
+> > > >    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/b=
+oot/Image.gz)'
+> > > >    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)=
+/boot/Image)'
+> > > > +  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/imag=
+e.fit)'
+> > > >    echo  '  install       - Install uncompressed kernel'
+> > > >    echo  '  zinstall      - Install compressed kernel'
+> > > >    echo  '                  Install using (your) ~/bin/installkerne=
+l or'
+> > > > diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignor=
+e
+> > > > index af5dc61f8b43..abaae9de1bdd 100644
+> > > > --- a/arch/arm64/boot/.gitignore
+> > > > +++ b/arch/arm64/boot/.gitignore
+> > > > @@ -2,3 +2,4 @@
+> > > >  Image
+> > > >  Image.gz
+> > > >  vmlinuz*
+> > > > +image.fit
+> > > > diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
+> > > > index a5a787371117..ab21af82913e 100644
+> > > > --- a/arch/arm64/boot/Makefile
+> > > > +++ b/arch/arm64/boot/Makefile
+> > > > @@ -16,7 +16,8 @@
+> > > >
+> > > >  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R=
+ .comment -S
+> > > >
+> > > > -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.l=
+zo Image.zst
+> > > > +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.l=
+zo \
+> > > > +       Image.zst image.fit
+> > > >
+> > > >  $(obj)/Image: vmlinux FORCE
+> > > >         $(call if_changed,objcopy)
+> > > > @@ -39,6 +40,9 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
+> > > >  $(obj)/Image.zst: $(obj)/Image FORCE
+> > > >         $(call if_changed,zstd)
+> > > >
+> > > > +$(obj)/image.fit: $(obj)/Image FORCE
+> > > > +       $(call cmd,fit)
+> > >
+> > >
+> > >
+> > > The point for using dtbs-list is
+> > > to avoid rebuilding image.fit needlessly.
+> > >
+> > >
+> > > This should be:
+> > >
+> > > $(obj)/image.fit: $(obj)/Image $(obj)/dts/dtbs-list FORCE
+> > >         $(call if_changed,fit)
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +
+> > > >  EFI_ZBOOT_PAYLOAD      :=3D Image
+> > > >  EFI_ZBOOT_BFD_TARGET   :=3D elf64-littleaarch64
+> > > >  EFI_ZBOOT_MACH_TYPE    :=3D ARM64
+> > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > > index b35d39022a30..4efb5ad07fd7 100644
+> > > > --- a/scripts/Makefile.lib
+> > > > +++ b/scripts/Makefile.lib
+> > > > @@ -502,6 +502,22 @@ quiet_cmd_uimage =3D UIMAGE  $@
+> > > >                         -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR=
+) \
+> > > >                         -n '$(UIMAGE_NAME)' -d $< $@
+> > > >
+> > > > +# Flat Image Tree (FIT)
+> > > > +# This allows for packaging of a kernel and all devicetrees files,=
+ using
+> > > > +# compression.
+> > > > +# ----------------------------------------------------------------=
+-----------
+> > > > +
+> > > > +MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
+> > > > +
+> > > > +# Use this to override the compression algorithm
+> > > > +FIT_COMPRESSION ?=3D gzip
+> > > > +
+> > > > +quiet_cmd_fit =3D FIT     $@
+> > > > +      cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os lin=
+ux \
+> > > > +                       --name '$(UIMAGE_NAME)' \
+> > > > +                       --compress $(FIT_COMPRESSION) -k $< \
+> > > > +                       @arch/$(SRCARCH)/boot/dts/dtbs-list
+> > >
+> > >
+> > >
+> > >
+> > > cmd_fit =3D $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
+> > >                 --name '$(UIMAGE_NAME)' \
+> > >                 --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +
+> > > >  # XZ
+> > > >  # ----------------------------------------------------------------=
+-----------
+> > > >  # Use xzkern to compress the kernel image and xzmisc to compress o=
+ther things.
+> > > > diff --git a/scripts/make_fit.py b/scripts/make_fit.py
+> > > > new file mode 100755
+> > > > index 000000000000..69eee32960ae
+> > > > --- /dev/null
+> > > > +++ b/scripts/make_fit.py
+> > > > @@ -0,0 +1,298 @@
+> > > > +#!/usr/bin/env python3
+> > > > +# SPDX-License-Identifier: GPL-2.0+
+> > > > +#
+> > > > +# Copyright 2024 Google LLC
+> > > > +# Written by Simon Glass <sjg@chromium.org>
+> > > > +#
+> > > > +
+> > > > +"""Build a FIT containing a lot of devicetree files
+> > > > +
+> > > > +Usage:
+> > > > +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
+> > > > +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/=
+image.itk
+> > > > +        @arch/arm64/boot/dts/dtbs-list -E -c gzip
+> > > > +
+> > > > +Creates a FIT containing the supplied kernel and a set of devicetr=
+ee files,
+> > > > +either specified individually or listed in a file (with an '@' pre=
+fix). Files
+> > > > +which don't end in '.dtb' are silently ignored.
+> > >
+> > >
+> > > Why do you need to check the suffix?
+> > >
+> > >
+> > >
+> > > > +
+> > > > +Use -E to generate an external FIT (where the data is placed after=
+ the
+> > > > +FIT data structure). This allows parsing of the data without loadi=
+ng
+> > > > +the entire FIT.
+> > > > +
+> > > > +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
+> > > > +zstd algorithms.
+> > > > +
+> > > > +The resulting FIT can be booted by bootloaders which support FIT, =
+such
+> > > > +as U-Boot, Linuxboot, Tianocore, etc.
+> > > > +
+> > > > +Note that this tool does not yet support adding a ramdisk / initrd=
+.
+> > > > +"""
+> > > > +
+> > > > +import argparse
+> > > > +import collections
+> > > > +import os
+> > > > +import subprocess
+> > > > +import sys
+> > > > +import tempfile
+> > > > +import time
+> > > > +
+> > > > +import libfdt
+> > > > +
+> > > > +
+> > > > +# Tool extension and the name of the command-line tools
+> > > > +CompTool =3D collections.namedtuple('CompTool', 'ext,tools')
+> > > > +
+> > > > +COMP_TOOLS =3D {
+> > > > +    'bzip2': CompTool('.bz2', 'bzip2'),
+> > > > +    'gzip': CompTool('.gz', 'pigz,gzip'),
+> > > > +    'lz4': CompTool('.lz4', 'lz4'),
+> > > > +    'lzma': CompTool('.lzma', 'lzma'),
+> > > > +    'lzo': CompTool('.lzo', 'lzop'),
+> > > > +    'zstd': CompTool('.zstd', 'zstd'),
+> > > > +}
+> > > > +
+> > > > +
+> > > > +def parse_args():
+> > > > +    """Parse the program ArgumentParser
+> > > > +
+> > > > +    Returns:
+> > > > +        Namespace object containing the arguments
+> > > > +    """
+> > > > +    epilog =3D 'Build a FIT from a directory tree containing .dtb =
+files'
+> > > > +    parser =3D argparse.ArgumentParser(epilog=3Depilog)
+> > > > +    parser.add_argument('-A', '--arch', type=3Dstr, required=3DTru=
+e,
+> > > > +          help=3D'Specifies the architecture')
+> > > > +    parser.add_argument('-c', '--compress', type=3Dstr, default=3D=
+'none',
+> > > > +          help=3D'Specifies the compression')
+> > > > +    parser.add_argument('-E', '--external', action=3D'store_true',
+> > > > +          help=3D'Convert the FIT to use external data')
+> > > > +    parser.add_argument('-n', '--name', type=3Dstr, required=3DTru=
+e,
+> > > > +          help=3D'Specifies the name')
+> > > > +    parser.add_argument('-O', '--os', type=3Dstr, required=3DTrue,
+> > > > +          help=3D'Specifies the operating system')
+> > > > +    parser.add_argument('-f', '--fit', type=3Dstr, required=3DTrue=
+,
+> > > > +          help=3D'Specifies the output file (.fit)')
+> > >
+> > >
+> > >
+> > > I like -o (--output) to specify the output file.
+> > >
+> > >
+> > >
+> > >     parser.add_argument('-o', '--output', type=3Dstr, required=3DTrue=
+,
+> > >              help=3D'Specifies the output file (.fit)')
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +    parser.add_argument('-k', '--kernel', type=3Dstr, required=3DT=
+rue,
+> > > > +          help=3D'Specifies the (uncompressed) kernel input file (=
+.itk)')
+> > > > +    parser.add_argument('srcdir', type=3Dstr, nargs=3D'*',
+> > > > +          help=3D'Specifies the directory tree that contains .dtb =
+files')
+> > >
+> > >
+> > > srcdir?
+> > >
+> > > You changed the positional parameters to take dtb files.
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +
+> > > > +    return parser.parse_args()
+> > > > +
+> > > > +
+> > > > +def setup_fit(fsw, name):
+> > > > +    """Make a start on writing the FIT
+> > > > +
+> > > > +    Outputs the root properties and the 'images' node
+> > > > +
+> > > > +    Args:
+> > > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > > +        name (str): Name of kernel image
+> > > > +    """
+> > > > +    fsw.INC_SIZE =3D 65536
+> > > > +    fsw.finish_reservemap()
+> > > > +    fsw.begin_node('')
+> > > > +    fsw.property_string('description', f'{name} with devicetree se=
+t')
+> > > > +    fsw.property_u32('#address-cells', 1)
+> > > > +
+> > > > +    fsw.property_u32('timestamp', int(time.time()))
+> > > > +    fsw.begin_node('images')
+> > > > +
+> > > > +
+> > > > +def write_kernel(fsw, data, args):
+> > > > +    """Write out the kernel image
+> > > > +
+> > > > +    Writes a kernel node along with the required properties
+> > > > +
+> > > > +    Args:
+> > > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > > +        data (bytes): Data to write (possibly compressed)
+> > > > +        args (Namespace): Contains necessary strings:
+> > > > +            arch: FIT architecture, e.g. 'arm64'
+> > > > +            fit_os: Operating Systems, e.g. 'linux'
+> > > > +            name: Name of OS, e.g. 'Linux-6.6.0-rc7'
+> > > > +            compress: Compression algorithm to use, e.g. 'gzip'
+> > > > +    """
+> > > > +    with fsw.add_node('kernel'):
+> > > > +        fsw.property_string('description', args.name)
+> > > > +        fsw.property_string('type', 'kernel_noload')
+> > > > +        fsw.property_string('arch', args.arch)
+> > > > +        fsw.property_string('os', args.os)
+> > > > +        fsw.property_string('compression', args.compress)
+> > > > +        fsw.property('data', data)
+> > > > +        fsw.property_u32('load', 0)
+> > > > +        fsw.property_u32('entry', 0)
+> > > > +
+> > > > +
+> > > > +def finish_fit(fsw, entries):
+> > > > +    """Finish the FIT ready for use
+> > > > +
+> > > > +    Writes the /configurations node and subnodes
+> > > > +
+> > > > +    Args:
+> > > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > > +        entries (list of tuple): List of configurations:
+> > > > +            str: Description of model
+> > > > +            str: Compatible stringlist
+> > > > +    """
+> > > > +    fsw.end_node()
+> > > > +    seq =3D 0
+> > > > +    with fsw.add_node('configurations'):
+> > > > +        for model, compat in entries:
+> > > > +            seq +=3D 1
+> > > > +            with fsw.add_node(f'conf-{seq}'):
+> > > > +                fsw.property('compatible', bytes(compat))
+> > > > +                fsw.property_string('description', model)
+> > > > +                fsw.property_string('fdt', f'fdt-{seq}')
+> > > > +                fsw.property_string('kernel', 'kernel')
+> > > > +    fsw.end_node()
+> > > > +
+> > > > +
+> > > > +def compress_data(inf, compress):
+> > > > +    """Compress data using a selected algorithm
+> > > > +
+> > > > +    Args:
+> > > > +        inf (IOBase): Filename containing the data to compress
+> > > > +        compress (str): Compression algorithm, e.g. 'gzip'
+> > > > +
+> > > > +    Return:
+> > > > +        bytes: Compressed data
+> > > > +    """
+> > > > +    if compress =3D=3D 'none':
+> > > > +        return inf.read()
+> > > > +
+> > > > +    comp =3D COMP_TOOLS.get(compress)
+> > > > +    if not comp:
+> > > > +        raise ValueError(f"Unknown compression algorithm '{compres=
+s}'")
+> > > > +
+> > > > +    with tempfile.NamedTemporaryFile() as comp_fname:
+> > > > +        with open(comp_fname.name, 'wb') as outf:
+> > > > +            done =3D False
+> > > > +            for tool in comp.tools.split(','):
+> > > > +                try:
+> > > > +                    subprocess.call([tool, '-c'], stdin=3Dinf, std=
+out=3Doutf)
+> > > > +                    done =3D True
+> > > > +                    break
+> > > > +                except FileNotFoundError:
+> > > > +                    pass
+> > > > +            if not done:
+> > > > +                raise ValueError(f'Missing tool(s): {comp.tools}\n=
+')
+> > > > +            with open(comp_fname.name, 'rb') as compf:
+> > > > +                comp_data =3D compf.read()
+> > > > +    return comp_data
+> > > > +
+> > > > +
+> > > > +def output_dtb(fsw, seq, fname, arch, compress):
+> > > > +    """Write out a single devicetree to the FIT
+> > > > +
+> > > > +    Args:
+> > > > +        fsw (libfdt.FdtSw): Object to use for writing
+> > > > +        seq (int): Sequence number (1 for first)
+> > > > +        fmame (str): Filename containing the DTB
+> > > > +        arch: FIT architecture, e.g. 'arm64'
+> > > > +        compress (str): Compressed algorithm, e.g. 'gzip'
+> > > > +
+> > > > +    Returns:
+> > > > +        tuple:
+> > > > +            str: Model name
+> > > > +            bytes: Compatible stringlist
+> > > > +    """
+> > > > +    with fsw.add_node(f'fdt-{seq}'):
+> > > > +        # Get the compatible / model information
+> > > > +        with open(fname, 'rb') as inf:
+> > > > +            data =3D inf.read()
+> > > > +        fdt =3D libfdt.FdtRo(data)
+> > > > +        model =3D fdt.getprop(0, 'model').as_str()
+> > > > +        compat =3D fdt.getprop(0, 'compatible')
+> > > > +
+> > > > +        fsw.property_string('description', model)
+> > > > +        fsw.property_string('type', 'flat_dt')
+> > > > +        fsw.property_string('arch', arch)
+> > > > +        fsw.property_string('compression', compress)
+> > > > +        fsw.property('compatible', bytes(compat))
+> > > > +
+> > > > +        with open(fname, 'rb') as inf:
+> > > > +            compressed =3D compress_data(inf, compress)
+> > > > +        fsw.property('data', compressed)
+> > > > +    return model, compat
+> > > > +
+> > > > +
+> > > > +def build_fit(args):
+> > > > +    """Build the FIT from the provided files and arguments
+> > > > +
+> > > > +    Args:
+> > > > +        args (Namespace): Program arguments
+> > > > +
+> > > > +    Returns:
+> > > > +        tuple:
+> > > > +            bytes: FIT data
+> > > > +            int: Number of configurations generated
+> > > > +            size: Total uncompressed size of data
+> > > > +    """
+> > > > +    def add_file(fname):
+> > > > +        nonlocal seq, size
+> > > > +
+> > > > +        if os.path.splitext(fname)[1] =3D=3D '.dtb':
+> > > > +            seq +=3D 1
+> > > > +            size +=3D os.path.getsize(fname)
+> > > > +            model, compat =3D output_dtb(fsw, seq, fname, args.arc=
+h,
+> > > > +                                       args.compress)
+> > > > +            entries.append([model, compat])
+> > > > +            return True
+> > > > +
+> > > > +    seq =3D 0
+> > > > +    size =3D 0
+> > > > +    fsw =3D libfdt.FdtSw()
+> > > > +    setup_fit(fsw, args.name)
+> > > > +    entries =3D []
+> > > > +
+> > > > +    # Handle the kernel
+> > > > +    with open(args.kernel, 'rb') as inf:
+> > > > +        comp_data =3D compress_data(inf, args.compress)
+> > > > +    size +=3D os.path.getsize(args.kernel)
+> > > > +    write_kernel(fsw, comp_data, args)
+> > > > +
+> > > > +    for path in args.srcdir:
+> > > > +        # Handle a list of devicetree files
+> > > > +        if path.startswith('@'):
+> > > > +            with open(path[1:], 'r', encoding=3D'utf-8') as inf:
+> > > > +                for fname in inf.read().splitlines():
+> > > > +                    add_file(fname)
+> > >
+> > >
+> > >
+> > >
+> > > You missed the point of my suggestion.
+> > >
+> > >
+> > > I did not mean the "@file" syntax
+> > > specifically for containing the device trees.
+> > >
+> > >
+> > > It is common for tools to support the "@file" syntax
+> > > to avoid "Argument list too long" error.
+> > >
+> > >
+> > >
+> > > See "man ar", "man ld", etc. for example.
+> > >
+> > >
+> > >  @file
+> > >    Read command=E2=80=90line options from file. The options read are =
+inserted in
+> > >    place of the original @file option. If file does not exist, or can=
+not
+> > >    be read, then the option will be treated literally, and not remove=
+d.
+> > >
+> > >
+> > >
+> > >
+> > > It must be generic enough to contain any command line parameters.
+> > >
+> > >
+> > > And, you do not even implement it yourself because
+> > > it is just a matter of adding fromfile_prefix_chars=3D'@'
+> > >
+> > >
+> > > See the document.
+> > >
+> > >   https://docs.python.org/3/library/argparse.html#fromfile-prefix-cha=
+rs
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +        else:
+> > > > +            add_file(path)
+> > > > +
+> > > > +    finish_fit(fsw, entries)
+> > > > +
+> > > > +    # Include the kernel itself in the returned file count
+> > > > +    return fsw.as_fdt().as_bytearray(), seq + 1, size
+> > > > +
+> > > > +
+> > > > +def run_make_fit():
+> > > > +    """Run the tool's main logic"""
+> > > > +    args =3D parse_args()
+> > > > +
+> > > > +    out_data, count, size =3D build_fit(args)
+> > > > +    with open(args.fit, 'wb') as outf:
+> > > > +        outf.write(out_data)
+> > > > +
+> > > > +    ext_fit_size =3D None
+> > > > +    if args.external:
+> > > > +        mkimage =3D os.environ.get('MKIMAGE', 'mkimage')
+> > > > +        subprocess.check_call([mkimage, '-E', '-F', args.fit],
+> > > > +                              stdout=3Dsubprocess.DEVNULL)
+> > > > +
+> > > > +        with open(args.fit, 'rb') as inf:
+> > > > +            data =3D inf.read()
+> > > > +        ext_fit =3D libfdt.FdtRo(data)
+> > > > +        ext_fit_size =3D ext_fit.totalsize()
+> > >
+> > >
+> > >
+> > > I still do not understand why mkimage is needed.
+> > >
+> > >
+> > > When external data is used, you can insert "data-size"
+> > > and "data-offset" to the dt structure,
+> > > and at the same time, concatenate the payload data.
+> > > Finally, you can combine the two.
+> > > Is it complex to implement?
+> >
+> > Yes it is somewhat complex, since there are options like alignment and
+> > the like which are implemented in that tool.
+>
+>
+>
+> So, do you mean you need to pass
+> not only -E, -F but also more options to mkimage?
 
-> +
-> +			/*
-> +			 * Mark every other hart's icache as needing a flush for
-> +			 * this MM. Maintain the previous value of the current
-> +			 * cpu to handle the case when this function is called
-> +			 * concurrently on different harts.
-> +			 */
-> +			mask = &current->mm->context.icache_stale_mask;
-> +			stale_cpu = cpumask_test_cpu(smp_processor_id(), mask);
-> +
-> +			cpumask_setall(mask);
-> +			assign_bit(cpumask_check(smp_processor_id()), cpumask_bits(mask), stale_cpu);
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +#endif
-> +	return 0;
+Possibly, in the future, yes.
 
-I think I brought this up a couple of revisions ago (sorry for not mentioning it
-the last time), but you still need parameter validation for CONFIG_SMP=n. Yes,
-the call is currently a no-op for the combinations of ctx and scope defined so
-far, but if we ever add a new ctx (say, something for Zjid), it may need to do
-something on CONFIG_SMP=n, and older kernels will need to indicate that the new
-ctx is not supported.
+>
+>
+>
+> > Is there a problem with
+> > using the tool? After all, people are using it today and will be
+> > expecting this script to use it, I believe. If we start adding mkimage
+> > functionality here then we will have to maintain it in two places and
+> > worry about whether they are consistent. Also if we want to support
+> > signatures, etc. then it would be quite an undertaking to write all
+> > that code again in Python.
+>
+>
+> Not a problem, but I think it is unfortunate.
+> I thought this script would be a standalone,
+> self-contained tool to produce a FIT image.
 
-> +}
-> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
-> index 217fd4de6134..3e27e5c8c3c6 100644
-> --- a/arch/riscv/mm/context.c
-> +++ b/arch/riscv/mm/context.c
-> @@ -15,6 +15,7 @@
->  #include <asm/tlbflush.h>
->  #include <asm/cacheflush.h>
->  #include <asm/mmu_context.h>
-> +#include <asm/switch_to.h>
->  
->  #ifdef CONFIG_MMU
->  
-> @@ -297,21 +298,27 @@ static inline void set_mm(struct mm_struct *prev,
->   *
->   * The "cpu" argument must be the current local CPU number.
->   */
-> -static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu)
-> +static inline void flush_icache_deferred(struct mm_struct *mm, unsigned int cpu,
-> +					 struct task_struct *task)
->  {
->  #ifdef CONFIG_SMP
->  	cpumask_t *mask = &mm->context.icache_stale_mask;
->  
-> -	if (cpumask_test_cpu(cpu, mask)) {
-> +	if (cpumask_test_and_clear_cpu(cpu, mask)) {
->  		cpumask_clear_cpu(cpu, mask);
+Well it already requires pylibfdt. I am not keen on duplicating any
+more of the mkimage functionality here, particularly as the features
+tend to change and expand over time.
 
-Now that you only have one mask, this is clearing the same bit twice.
+>
+>
+>
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > > +
+> > > > +    comp_size =3D len(out_data)
+> > > > +    print(f'FIT size {comp_size:#x}/{comp_size / 1024 / 1024:.1f} =
+MB', end=3D'')
+> > > > +    if ext_fit_size:
+> > > > +        print(f', header {ext_fit_size:#x}/{ext_fit_size / 1024:.1=
+f} KB', end=3D'')
+> > > > +    print(f', {count} files, uncompressed {size / 1024 / 1024:.1f}=
+ MB')
+> > >
+> > >
+> > > Maybe, you can print this only when args.verbose =3D=3D True ?
+> >
+> > This and other comments seem OK to me and I will address them in v11.
+> >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > > At last, I still do not know how to distinguish the nodes
+> > > when the compatible strings are the same.
+> >
+> > It is like trying to distinguish two devices with the same compatible
+> > string. Really, it should not be done. If you would like me to change
+> > the script in some way, please suggest something.
+>
+>
+> I cannot suggest anything at this moment.
+>
+> I believe we need a way to distinguish two devices,
+> but I do not see any consensus.
+
+If you would like my opinion, it is that duplicate compatible strings
+are not distinguishable by design. It would be better to fix the
+source files.
 
 Regards,
-Samuel
-
-> +
->  		/*
->  		 * Ensure the remote hart's writes are visible to this hart.
->  		 * This pairs with a barrier in flush_icache_mm.
->  		 */
->  		smp_mb();
-> -		local_flush_icache_all();
-> -	}
->  
-> +		/*
-> +		 * If cache will be flushed in switch_to, no need to flush here.
-> +		 */
-> +		if (!(task && switch_to_should_flush_icache(task)))
-> +			local_flush_icache_all();
-> +	}
->  #endif
->  }
->  
-> @@ -332,5 +339,5 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
->  
->  	set_mm(prev, next, cpu);
->  
-> -	flush_icache_deferred(next, cpu);
-> +	flush_icache_deferred(next, cpu, task);
->  }
-> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-> index 370ed14b1ae0..524d546d697b 100644
-> --- a/include/uapi/linux/prctl.h
-> +++ b/include/uapi/linux/prctl.h
-> @@ -306,4 +306,10 @@ struct prctl_mm_map {
->  # define PR_RISCV_V_VSTATE_CTRL_NEXT_MASK	0xc
->  # define PR_RISCV_V_VSTATE_CTRL_MASK		0x1f
->  
-> +#define PR_RISCV_SET_ICACHE_FLUSH_CTX	71
-> +# define PR_RISCV_CTX_SW_FENCEI_ON	0
-> +# define PR_RISCV_CTX_SW_FENCEI_OFF	1
-> +# define PR_RISCV_SCOPE_PER_PROCESS	0
-> +# define PR_RISCV_SCOPE_PER_THREAD	1
-> +
->  #endif /* _LINUX_PRCTL_H */
-> diff --git a/kernel/sys.c b/kernel/sys.c
-> index e219fcfa112d..69afdd8b430f 100644
-> --- a/kernel/sys.c
-> +++ b/kernel/sys.c
-> @@ -146,6 +146,9 @@
->  #ifndef RISCV_V_GET_CONTROL
->  # define RISCV_V_GET_CONTROL()		(-EINVAL)
->  #endif
-> +#ifndef RISCV_SET_ICACHE_FLUSH_CTX
-> +# define RISCV_SET_ICACHE_FLUSH_CTX(a, b)	(-EINVAL)
-> +#endif
->  
->  /*
->   * this is where the system-wide overflow UID and GID are defined, for
-> @@ -2743,6 +2746,9 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->  	case PR_RISCV_V_GET_CONTROL:
->  		error = RISCV_V_GET_CONTROL();
->  		break;
-> +	case PR_RISCV_SET_ICACHE_FLUSH_CTX:
-> +		error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
-> +		break;
->  	default:
->  		error = -EINVAL;
->  		break;
-> 
-
+Simon
