@@ -1,85 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6388E5E066;
-	Wed, 13 Mar 2024 22:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32C05337E;
+	Wed, 13 Mar 2024 22:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710370010; cv=fail; b=cSqctTbXTdEoSqTRBc4R5m4p3nD/0MJuYZFtiem9nVL0cWtrEdV5tRhaUApcNcbdwHT2QA2xqxQyxrnRnaWN0/0hYhthJ85X1aZvw2waQoiSaIVQaj4O0UdALSDg/0rFpANZeOBScV8QQxExP1ZoDjcENUHMMNQuYjdkS7LeGD4=
+	t=1710370054; cv=fail; b=nIygmBTayFj40ylanenXJAVYdbpB6XxbmJQhzj53QAZCMAFnM3mAWTWrVZJwNA43qFF1yGMd5YsO6ukqa4byliPlxp2kqa+gvD5Har2fL0yaBaom3tHstlvV67B7+EsiERuyo7lRtHVAExJ/mmpQmROBqWdgBCGtQD9dbn1HTVo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710370010; c=relaxed/simple;
-	bh=LE0U3mRtz7Pyxf9yKVCxHcv7c5abDUe3BjwUCz4rBZY=;
+	s=arc-20240116; t=1710370054; c=relaxed/simple;
+	bh=1ENgm4a9b1uoKVBZpemjoxGKEGOezNzsAgOTzgNufes=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fvoOb2hF/UPa/qzK/ForHk3lyhoBgn5DDrphTeqWSWcLSGGlT+9S+i1pJnVtBuUtlUy4s7WX9yzDDK62Lb7a+5Vova3MeNWdXz1B31Lr9/9d4qmZAhhMyD0DjFKGW+AU2c/KLAFwcTgftfj1ZL8J93LJEyRtdLq0O7lCtliGOpU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7qoBznf; arc=fail smtp.client-ip=192.198.163.19
+	 Content-Type:MIME-Version; b=CB4VwMtHZU3OtjUzx9iLubd78Pjpc6qAtYndMCRT25iCnmEiiY4RZPyQRL2lQcPjyy6YFpth/Ifdenu2kLsd/OtT0zh38a06KcxTchbEmUwYivqp8QMFQu0l5mUQ624UeIsIc6n5bgEf2vY2sCdJjUuQ/YkMyQgWEniN4yOcf2Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlOBfDM1; arc=fail smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7qoBznf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlOBfDM1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710370008; x=1741906008;
+  t=1710370052; x=1741906052;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=LE0U3mRtz7Pyxf9yKVCxHcv7c5abDUe3BjwUCz4rBZY=;
-  b=M7qoBznfIFUo+KU2cBj51RUXHMiwYsIe7nkhSGESwz4whpsP36nLAi3+
-   aXPfDkwHDP+fskVQv6aGcK/pfZnhhXF/JaerJgAr00Fema5Ec34uvCzRF
-   u1fADooAEw5pR9yH7BZ3Da/sSaz1lBX1ANeEdTT2GWs8yD/CtVEdt3y75
-   2CjKUSdq+DjMHUzzIgforOYfUjwibUb9yRx150IrmWaJJzMaA5NY+X8vV
-   uFmmhJhra9uEQj2zn/ZgEiQA4hJ0BQ36SX2GTpHUuCBPq1jThMAdpRmfK
-   Chm548J6wzwGJwac5XoYxejJ4X1OKiV3WV6lkKtmQu57a6Tzn/qCE2Dw6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5021643"
+  bh=1ENgm4a9b1uoKVBZpemjoxGKEGOezNzsAgOTzgNufes=;
+  b=XlOBfDM1IF8LLHh5dPvHLDZoN1bM+bmfJTWlnbsVxkD0GCjtXZeq8IS+
+   o8Qwt2Mi/D61Si9AcKD6ZoEgHhi/tp1RTlxa6hYNcvuxpdXC3qUPI2xhR
+   ApKgfDdEui+oBWTcdTfP25OMB0Bd8CpOmSkYQYc6qE+T9wIvItVROSFNf
+   zgnw3pxSUJgmwRnoP3Atjckfp4BNxLxEIjIlp5LKr7mLeAaxtEKwmQ8lQ
+   VnDpXvczZ/LBTYxrD511xnHlfdnlrOU3IOl8LeVXx9KqfV5lkxyLwpUtc
+   M+Hoa50sWQZlVRQI7I/+XRekyplDd3t4f8T8YxdIQxnCVOKsdWrxicRmG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5293483"
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="5021643"
+   d="scan'208";a="5293483"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:46:47 -0700
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:47:31 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
-   d="scan'208";a="49527863"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Mar 2024 15:46:48 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+   d="scan'208";a="49527978"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Mar 2024 15:47:32 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 13 Mar 2024 15:46:47 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.1.2507.35; Wed, 13 Mar 2024 15:47:30 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 13 Mar 2024 15:46:46 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 13 Mar 2024 15:46:46 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Wed, 13 Mar 2024 15:47:30 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 13 Mar 2024 15:46:46 -0700
+ 15.1.2507.35; Wed, 13 Mar 2024 15:47:30 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aH1WUQsKdwrXqn7RJp6doZcofeN5QKmEkh99TNJFGNuj0IoqkFBRho+L0g8Ba6iQssmnh2MwEe+uzT9hCWGWR3mC72ap4rgLyKyTXk0m/epexDc/RkKZbMptM+jNSmOtkSHc4/2lLuZ6+5VOAbv8Oh1QQIaW1O8PCdgMDajcmJoPDVUeWXz24w2jtT551M3y2iLu9nICYCKoa91iDS5D8iVtXhA6BQF+P0dm7DN0qtMgf5QvthpwSf4T4hmq5wr7O1LpgidQebmgFD99FUnrhREazmSmeHqAnX76JU5rZS+ESNWVZUixik6YAR4yUjmGP34i6nZJ9ZkGtXpNSTUoNA==
+ b=GCYLZH9Q25nOanRmeH9FrOyTtwgEsvSSlEpWpXtBCT/ExGrkMpqoGXTn0dqt1o1R/ynn8vMVb7+14DnPyNvZ4Yz170WEs1brfNDhyOoNIG8U3sjAcNfNFgs7tdVL7V6S9gAMmQoqWt00JKVAQUdic3qnB78hPVN/QHlWyItZ4EBftMWs6ZNiC0Icyion7c5qHZrR/JqpntEavEUtfizmpryP1YeGxHz6MkyO1BRK+M4sOU1ObQpCL1tdZRTlLOnfYCumYvtKIprQogRpiTzSaIbGe0gfbSbysSr2Lrjov7LMJbuIGKIxgVA7KSWbGWLa7dB+vWQKISpEK2KKwHNRpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gU/celcJMICE1VsaQKOamxqui8C3lIMgAXs1oz+VSjs=;
- b=EbFjhvn3MCvYH+HzHdhL+PIjPOHeRWgtQ6GtG31YYDtPP64evnbpu23y3KSaipI99YZi6vId9R1PVYgcLB0o3ebKLMWno00OpYL8G06ughhuTjq1HUtRiFIBJalMoMnzlPsHvOUP1hzx7uaU8AXOSixwVcJ3TuJe3v29HI/F/szRv5MpJnwjckiW6tiHyUoBoChj1SLN1tzrpORqavnD939WXvTR6nA6c6fVjILgh2YC9sSQVkJUqfVHfEIUOP7tQTqZxRfuGR+NbMvGUqxF8zxvj4wqTbBnmHKeMjXqf07B9+trEIIEhHzb4gu22IVi+Ix73M3LG+vu4THKeAAB0Q==
+ bh=BrCTRKV5W60ZFwnEzje8ckU29DOzWZrQyc5HUFQlXy0=;
+ b=aYlzbXYeKTor72/+a7z0duKazdDDTqELxulYI+/Nh582SGDPDlSm1jzgpT7+XkZxXKap9SBHLW9KkGlpzprpBO4LTlRDaLlBGEhTrMrtkZt8SoMP7WCEDb53L6J7/YZIrVhDAIRts2yIfVX1XL3F3IgLnH4D3FjkYUyW1RqDfV0xDoiobv1OU73GbM6enm9y9JKzIttdP9opNWdefpzNd1pu8a+Ut7QTMr6w0LtTXA5/51oa/7rWYXE52Q6ru+A1nUmQuYIgcqHXskHj7vjgZ/qVj9VTuDvT93/inSKfLQTWMd2cng7Y0FhkTgQ0m0J4gw4cLAQlAVF6PUQaiFZF1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by CY5PR11MB6140.namprd11.prod.outlook.com (2603:10b6:930:28::11) with
+ by DM3PR11MB8683.namprd11.prod.outlook.com (2603:10b6:8:1ac::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.17; Wed, 13 Mar
- 2024 22:46:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.19; Wed, 13 Mar
+ 2024 22:47:27 +0000
 Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
  ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
  ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7386.015; Wed, 13 Mar 2024
- 22:46:37 +0000
-Message-ID: <f1fd3dbf-a4a3-419e-9092-ff7f9302c874@intel.com>
-Date: Wed, 13 Mar 2024 15:46:28 -0700
+ 22:47:27 +0000
+Message-ID: <c8822e06-a3df-4f05-8625-b2bb011887b7@intel.com>
+Date: Wed, 13 Mar 2024 15:47:26 -0700
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] x86/resctrl: Rename pseudo_lock_event.h to trace.h
+Subject: Re: [PATCH v5 2/2] x86/resctrl: Add tracepoint for llc_occupancy
+ tracking
 Content-Language: en-US
 To: Haifeng Xu <haifeng.xu@shopee.com>, <james.morse@arm.com>
 CC: <fenghua.yu@intel.com>, <babu.moger@amd.com>, <tglx@linutronix.de>,
@@ -87,9 +84,9 @@ CC: <fenghua.yu@intel.com>, <babu.moger@amd.com>, <tglx@linutronix.de>,
 	<hpa@zytor.com>, <peternewman@google.com>, <x86@kernel.org>,
 	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>
 References: <20240308074132.409107-1-haifeng.xu@shopee.com>
- <20240308074132.409107-2-haifeng.xu@shopee.com>
+ <20240308074132.409107-3-haifeng.xu@shopee.com>
 From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20240308074132.409107-2-haifeng.xu@shopee.com>
+In-Reply-To: <20240308074132.409107-3-haifeng.xu@shopee.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: MW3PR06CA0025.namprd06.prod.outlook.com
@@ -102,131 +99,187 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CY5PR11MB6140:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b29c1cd-db65-4a6d-d6f2-08dc43af7112
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM3PR11MB8683:EE_
+X-MS-Office365-Filtering-Correlation-Id: e42265e3-a84a-4489-c49f-08dc43af8eb3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: f3ufG1Mt8KpSL6LSH2ZRRmp6xdmXVlNSd5ZOKagC+KP8Oe09A5Tihik4/j25pO5fwe0Q7/CsTimEPo7Oem+RYd9ElkOQn35nr6gRkqDA8wtoyUxTMnzcjRZcSFn5KFtxzvWgeXqwR2m//YmVbGA43RintD6cYD7mHwODLWvVO/1mcfIgXczKBC/skq5Om1NNwEPvOmW6Gg6li+mdT3SEOTO7Rbf3l3sDlPYsTJFK7zLkOhs0HrAKbopHpcp1ofGLzECBvhXHYBdXsyADFVH+NNPgRxQ+PLK/c/eheQmAN/7DaxobZyKAdwYk6qGL17GW0DmWJT81sgPZ/cVuoossGJY0AoCmVJqfLkmNDqKYGPcpa9GVB0g+myvjaPPtm2IfCuFy/YBmt+7MlCusFX0ZIweekdJo+fD9Uzv6JlzxBW/F+e96zy9AvSwfP2IML640t8cCuBnurefgr8RwyZT3tLDEwo8/bDHqiY9CVdjMpOLUHmVD3qi/Qayqxx8EfzS+4LRhFFR3UUAmieq6fEf463ZBN+FX2vmMMeEVpkRH/5gPakY0Cvz8A7TGdRAc3KwAzA3fpbEsuhUO9av7vWx+8W7jZxCEXhSGvG22aL+i1lmYTT6m9+9nNk0io1qW//xsYfPEVd5gDBzgTI+iKoT1zBtC2AS9biotqJ9NrkMVvoo=
+X-Microsoft-Antispam-Message-Info: NtOrCecLlYI5pW1HnYHqtLl9aPC7z+KZQrTZKeHP/CPh0QiZipFLzWHYrBobQ7258ZvbBjc87q6LIlBCCXdeQat956jE8589GSivsF6seroUAbjbVPJcVrihKPryzk7ZX3uMApvXyZ1xdeQ4GE6RsN/nZd4CTm+gDFTZxCQHCZmaJTTS+Oh0MkATWhDntKmpKPjacsyfZl7bAs7rE8QXIrSEOiwN/g3s0xjGmJoWmyfutz1/QpbP6rEUYMf7v/Av0BvcDF87ULwKHB0J4eUh0w1Zvz1jpWhFHJukRX2257XKoNnk3PCBc9k4EZ2Pa05gDkLIFt8oWFzWEZRTh6AQtTGo355aJBaBTZszQTMDSNs2Z5xc6IdKX8dt9VhRKxKdmx551qFHnVIO8y3SN4uB7L9lQY9KhiFhUcJHNaMV7WetXOoYfol8hNqdkestv3jbkC+ETeYUFOTzKgH7+VLlfg0dZ5VeMeWoKdF1WPlxX92uIhqXng3T2UB5w/KKQWYZ1/L26EGvqV1t8HledrCuavNTh/n/ubgBH47tqmH5+zePsGenWCWxCM71lAmfuB6AkhM1yjHrp4217cTO6elroU4zp4pO8rs5GiMuFowu/S8xyw9qkM3ZK7xwMN7JyXfzNYjgkaurLw/pNf9zRBHG7kq8tWjSlmCVcO5FRlcoHhs=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkJ5VFJvb09UNnpsMHhleUpDdys2M2dLeDBsMkI3K21OQ0V6NENVWmd1UHNE?=
- =?utf-8?B?dWlPZ0U1V3VxckRCSjIzRE9TcUM4K28xR3FHUnV6bG52dnFNQ2NZWEs1bnFJ?=
- =?utf-8?B?MDdNNjlaakJPdG9JS21MZEw5c1RmdDlxUWRUNGFBYkhqY0hVNEl0ZGJydk5Q?=
- =?utf-8?B?aWowdTd2dHNBeVd1YUNtZWFEb3VUWUNheTBjRmp4bFFUR0FKUGR3UmhuM2tz?=
- =?utf-8?B?OTlGUW5ucXhhK05YYnpadXcvTzIrTVhwMG96dG91NVFiSHNETEx6b3FpQllR?=
- =?utf-8?B?VnUzbUxDNEFwRzdNcUZlbnJpYmp0UzR2N0oveENxSXFMZjgrOG1tRzFjWElI?=
- =?utf-8?B?MDFWbWw0L29PVVhJbDdFUWkwdG0xNWZzTURJbDY3c25nSnBJNmQ1d2VZZTk3?=
- =?utf-8?B?eTFyMzlZYzdMNGJNcysvNGhUVFdLL0ZuTUVSKzZFaitWWDVSZlNSeFJOZkh4?=
- =?utf-8?B?ZWZsdTRhYkh6Y0UyZFB3c3gzQjhUd0dIZHlyaHh4bExyeFVqS0pncWVTRFAz?=
- =?utf-8?B?MFdXRmFQY1N4c0VNd2tPSXp2cUM1MmVsSTd1VEUwaHQxWm4wTVNPSGdVZmhD?=
- =?utf-8?B?VnAxL0U1UkFKMHhaYU80cThneFlRbGxrZTVBL21lcml6M0NDQVowZlpLYkdI?=
- =?utf-8?B?ZWNOZ1N1Y3kxZlJmQXpveUtjR0Z3TGtPUWVaK3pKN1NSdDhHdFpnQXBRVkk1?=
- =?utf-8?B?SGcyS2RpcW9mOHVzM2Jwd1FOaExEc0sybnZHKzh5SjNQSlp3K3hFUjZjMzFv?=
- =?utf-8?B?ek9DZ3JjS1FTUE8yTjlBdWhMcm1ZSUR4N2RmZEcxWW4rb0wxS2F5WkNVMWVR?=
- =?utf-8?B?amZtNlJneDZnMFkvQkhCZCtTbWR4dnVTVEk4NmdpeFgxeXRsN3RxWnU1WG1Q?=
- =?utf-8?B?TVQrSFVKWkNvdzF3L1UwdnVUcU9uT1llS1dTdFVqYjJLZGdJbkJVL2l3c21t?=
- =?utf-8?B?MlorWFFyUHhXbXlIZUduWUdMbVlEU09MZFFNd25aSVFZZVRnRjFOTGtxcnd1?=
- =?utf-8?B?UGhnNGRncWx1OENlL1JkdTVJR3R3Zjh1SE8vRUhzemFjTWcwU0hzR1pNSkJy?=
- =?utf-8?B?NjU1ZHdYQUp1U1QzVDErNjhTUzJuemJ3TGR5azNPMjRHem9pb3BuSTQ4UXQz?=
- =?utf-8?B?S2Q4ekVUdW5yVzYrdmdRcWR6UHIyOTdDR1NiSm5FTUFxZjBvU1QycVplckFV?=
- =?utf-8?B?RzMzcW9NWEJFTStJZWNwcDA0VEVwaWFtRmtPazRFOHNrRmdaVUExUFF5M0Fx?=
- =?utf-8?B?ejFkYTh2VWRHOFJuN1YrMzNud3h2YUxteGNvekp0NjQ1eWZzaGg1dlNIUGx5?=
- =?utf-8?B?c2lqYmdOTXUyUTF1ejhMYkFLMkI4UnppR1YrbjN4blo2NWxOdVdQWUhNczdZ?=
- =?utf-8?B?QVg4TXBzVVNQU252WlIxSDQwc0tsZDR5NVN5VitkdENOWENEdFhzNmZFRGdS?=
- =?utf-8?B?Z2xyREt6WlViK2s4TllMYWttTC9EaHFndkJ1ZmdjZmhDZDdIdnRCckhoMWNr?=
- =?utf-8?B?dEZvekJ6VTBCNFpSZlBLS3FLUTFieitMWlNSclNlbnQ2b09HQnVGTWpOK3hF?=
- =?utf-8?B?SVhiZWo2WVA1R1V0dURkTGlwRDhweXhKb3Nnb1dBcXFCbzhNTXA4RjN2ZGpD?=
- =?utf-8?B?NUpjdXc4T1ppMnozU29IODRGSVYveEVBSFBRWDlFN2NSZGxLSDlaNGpEVkRG?=
- =?utf-8?B?M2ExMjUrZFRiRTNvRjduM0NlQzRSUG5WNzl3YTdEMFRwOHVLN2J0SEtSNHVt?=
- =?utf-8?B?WnFTc0lnNWVBb1ZRRStTL1owN0J2Y2NzWW1ERk8yRll2ejNVYWVYQ0ExM2tv?=
- =?utf-8?B?Y0FwMnBTRXVPN3RkRU1VUFg5d0h3cDNVclg3SVhDZWVDNnhsSVQvWHpMV2c3?=
- =?utf-8?B?MnR4eWpvS2NRMmhhaHEzOUczekVVa0JwWUdLYitBVDdmMnA4aGd5VHE5Yko1?=
- =?utf-8?B?L0puUzFoSWFYT1cyOXFlbHIvZ3ZzdTMrWk11dEZGRndPTFRuRUk3QmZ2VTg3?=
- =?utf-8?B?eXgyRGZrR0MybEFwQnN4aTdPSnlEVjF3dGwrcGc1UGhkSHhVeUJHck1uWG1F?=
- =?utf-8?B?bUx2aFR1cmtMTytzZUFLek9QYTZ2VzQyMUpzNlF2QkpWenJ5d242Ui9VZEd0?=
- =?utf-8?B?MkJ6NU9xRDNleXBVWWhIU0NwVVRhY3BqRXFBSVhzVTVQSU9oaWc3OTkvMk5L?=
- =?utf-8?B?cFE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b29c1cd-db65-4a6d-d6f2-08dc43af7112
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1lIZWFvRFdab2dNUXZCbVFyK3pNZkxDRlBrM25kZk1IRk5pdDBtR29FNDBG?=
+ =?utf-8?B?RnMwK0p4MFpVMXNzOEhEeisyWEZuaHd0WUk0UTBFSzhlenBZVE5PQmgyRFlM?=
+ =?utf-8?B?ZHBUNEFWWDQrK2VPKzlCUjJBWDMyV3N2RjR5Vk5NWlF4bk5ZTVdadGY3T29p?=
+ =?utf-8?B?R1ZJSWU3YUN1QmhpY1N5Tm44ckpPTWh5OEdmYVAyWWRid0E3NG16UnplSjNu?=
+ =?utf-8?B?bHN6TmM3TVQramFxK0FoYkRLVktqRytrZG9FVzJEMThiOXA0VmZwNUZyOFZo?=
+ =?utf-8?B?MW8xWmdZcjEyUTdja1hpbjQwMzErOXZ3dkdwN001V29TY25rN0syNVpPMWtZ?=
+ =?utf-8?B?cU5xSEh3dFhSODNub2I4eTNDY0hUUmF1NC9NUGNLNENZcFBQMWN2WHdZV1pr?=
+ =?utf-8?B?WEduL2hNS3hlbHlPWXJYbTJhcXV5V1l3ZnRBUjN3OERadE9UNTlYSXNCdVMw?=
+ =?utf-8?B?ZmJtdkU3SVNoVGdEQ3B0eEJOM0ZYTkt0UjdpdCs1VzI0NkFyeXJVMWtWc0Zx?=
+ =?utf-8?B?RHZ1SXdYQ0FJeDJ5d1l0bk1vQVlMZngvZW5VTkt2ZDV1SmJaMHp5ZnY1T1g2?=
+ =?utf-8?B?eTN4WUNGeUduaklHRFBCem9BdndUWWwreTk4RzNvQXRCTGJHaUM5S1V6OEdt?=
+ =?utf-8?B?SFYzWFZIWm93ajhyTXI0MUN1ZjdvUkxxRzdnNjlIeld1ZEkyTU5GdFJTSWli?=
+ =?utf-8?B?QmlwTmxqTE0xV3Y3K0JEdWJFVFpSNDF0UTYrcmYrZkZQWWNPMGRDWThaVVJQ?=
+ =?utf-8?B?TER1V3dadkptVWplU0QvY0YwNG1ndUhWMXArN21hTnJhWHNnSHA5M2l3Slhw?=
+ =?utf-8?B?Ti9TdFZZek9ieFFrbWUxTXc1YVc4VVpzQWFTd0RQNDk0Q2RRZ2JNYnd2YWZI?=
+ =?utf-8?B?L3RqOVZkZmZ0eVZpV2REQWdqZ2FLQXVHNlZESkkwUm8vYUpLSHA5Mlp5SHk2?=
+ =?utf-8?B?SHZzU1JsMlBodUU1cGwvamhMSFAxaEtKWlhGQ3hRRHIwbnU3aFF1MS9scjhB?=
+ =?utf-8?B?c1diM1VTU242aWw1OVdFQXh4QUt4ZGMxamJKbkxjT3RtZlBZRU9BRjIzU0kv?=
+ =?utf-8?B?SGNaWDE3WXZwZjRPT2tzdktEazJSNjkyOG5TQTlPVXlBWG5vU0tOTktyMDls?=
+ =?utf-8?B?UHRFenpmNkgrR2kvbHlXTE1kVHd6M3psM1EyNHZabU1GaDlnZ0V6ZG9GSUo5?=
+ =?utf-8?B?ZmFkbDg5Y0hLMDF1bWpLbWxWYnM2c1V5T3I2ay92dm9sc3d4N2NONk5oZEti?=
+ =?utf-8?B?Y3VMNEdMTitnTmNFYlpIYUw5VTZwZG0wR0UzQ3FGY0V6SnRCRlhVQy9GTXMv?=
+ =?utf-8?B?YnRHdmhJeTJYc09qQmJBM0lyOFRISXRGekU0cWEvMUZDaGdIKzVrM0loNUlN?=
+ =?utf-8?B?VkdaWVg0eERIQzJUSExycmx3NXZlK0hqSnNLVi9MQ2dESW56SUMyQ2xoaVRU?=
+ =?utf-8?B?SFJLSzljVDdWODJrYzJuT2NWR3ErYmFSak4vNjVlRUVnUlpPdEJIMkEyN0tN?=
+ =?utf-8?B?QUlrTGNnSDd3Tkx5SXhPV0o0VS83NzR6OG5zYXpXaktIQUZEbjRXR2hSNURE?=
+ =?utf-8?B?Mzg4UUk0TXl0VjFlOTFaZU9IVnQySmVBeTNETlBBcE45THluTWVlTldtT3BQ?=
+ =?utf-8?B?dEF0eHQ0QlJ2dkhYWncrL2xHQ3kzQ1VXdHVCN0RDdGFicUUyY0FQV2lSMENG?=
+ =?utf-8?B?aEl0K1VmZjBSS1BSU2VFZnpJbUFjSnFjYjRjUXpaeXFBc29lUUNCSUd6c3lH?=
+ =?utf-8?B?RGk5aFBkamc3S0dUaFRILzlaTHdBbjZJVTdaV2NWVC9kdjE3eDJVMVFCbzFC?=
+ =?utf-8?B?YWQrclk4UFJxS1VHOFJSbENITkZiY1c1Ukg0ZXBVc0wzdDV2UzZrZUppWHBu?=
+ =?utf-8?B?R0kvQzNlRFltQUFET3p0V2hwMm1xOEE2aW1pc1lXbnBxYVU5S01CRGs1eW15?=
+ =?utf-8?B?SzQ1eUNmajZNK0wyQ2p6OU5LaXhOS1JTdzVFbUw3VzV2QnYvWGRZRUpwTWlM?=
+ =?utf-8?B?VS9uQlc2S0l1dC9PMWFpRlovVURkK3JTUEwzdFdib3RScy8rdHdMZzV0KzUx?=
+ =?utf-8?B?QnBtSDRyaEFMN0Z3MXBDZlhFTE4wczlrdzZUYWpIa2srVnZTZTJBaWw0Qm5R?=
+ =?utf-8?B?TzRPZytWZWdTWXQ2RHpmNFJWUGEzVERZa3MyUFd3R3p2eVZuQTZORnBDZHpI?=
+ =?utf-8?B?Nmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e42265e3-a84a-4489-c49f-08dc43af8eb3
 X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 22:46:37.6964
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 22:47:27.3553
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KD/r2aGzWxTmXsb6WMJ5YICmW+Q71eO4nN5uCHArLSyenzS5citUAAWh6zNryfL1fxuc0m+EviTqnoipcgmW0eSwALuqsEw/jPClkt6nGJ0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6140
+X-MS-Exchange-CrossTenant-UserPrincipalName: HhbkxFypJG7QjnxNwQL9oj5LUnjuSNBhn61QURPadLFdUTst2yDTdA3M4bWePz7cvQVC3q/GzXdew6rjIoJabSnxdDLP265/5/14990xuBQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR11MB8683
 X-OriginatorOrg: intel.com
 
 Hi Haifeng,
 
 On 3/7/2024 11:41 PM, Haifeng Xu wrote:
-> Now only pseudo-locking part uses tracepoints to do event tracking, but
-> other parts of resctrl may need new tracepoints. It is unnecessary to
-> create separate header files and define CREATE_TRACE_POINTS in different
-> c files which fragments the resctrl tracing.
+> In our production environment, after removing monitor groups, those unused
+> RMIDs get stuck in the limbo list forever because their llc_occupancy are
+> always larger than the threshold. But the unused RMIDs can be successfully
+> freed by turning up the threshold.
 > 
-> Therefore, give the resctrl tracepoint header file a generic name to
-> support its use for tracepoints that are not specific to pseudo-locking.
+> In order to know how much the threshold should be, perf can be used to
+> acquire the llc_occupancy of RMIDs in each rdt domain.
 > 
-> No functional change.
+> Instead of using perf tool to track llc_occupancy and filter the log
+> manually, it is more convenient for users to use tracepoint to do this
+> work. So add a new tracepoint that shows the llc_occupancy of busy RMIDs
+> when scanning the limbo list.
 > 
 > Signed-off-by: Haifeng Xu <haifeng.xu@shopee.com>
 > Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> Suggested-by: James Morse <james.morse@arm.com>
+> Reviewed-by: James Morse <james.morse@arm.com>
 > ---
->  arch/x86/kernel/cpu/resctrl/pseudo_lock.c                   | 2 +-
->  .../x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
->  rename arch/x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} (88%)
+>  Documentation/arch/x86/resctrl.rst    |  8 ++++++++
+>  arch/x86/kernel/cpu/resctrl/monitor.c |  9 +++++++++
+>  arch/x86/kernel/cpu/resctrl/trace.h   | 16 ++++++++++++++++
+>  3 files changed, 33 insertions(+)
 > 
-> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-> index 884b88e25141..492c8e28c4ce 100644
-> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-> +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-> @@ -31,7 +31,7 @@
->  #include "internal.h"
+> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+> index a6279df64a9d..dd3507dc765c 100644
+> --- a/Documentation/arch/x86/resctrl.rst
+> +++ b/Documentation/arch/x86/resctrl.rst
+> @@ -478,6 +478,14 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
+>  each bit represents 5% of the capacity of the cache. You could partition
+>  the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
 >  
->  #define CREATE_TRACE_POINTS
-> -#include "pseudo_lock_event.h"
+> +Tracepoint - mon_llc_occupancy_limbo
+> +------------------------------------
+
+I think that the below paragraph would fit nicely as a new paragraph in the
+existing "max_threshold_occupancy - generic concepts" section. To support that
+just one change to text below ...
+
+> +This tracepoint gives you the precise occupancy values for a subset of RMID
+
+The mon_llc_occupancy_limbo tracepoint gives the precise occupancy in bytes
+for a subset of RMID ...
+
+> +that are not immediately available for allocation. This can't be relied on
+> +to produce output every second, it may be necessary to attempt to create an
+> +empty monitor group to force an update. Output may only be produced if creation
+> +of a control or monitor group fails.
+> +
+>  Memory bandwidth Allocation and monitoring
+>  ==========================================
+>  
+> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+> index c34a35ec0f03..60b6a29a9e29 100644
+> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+> @@ -24,6 +24,7 @@
+>  #include <asm/resctrl.h>
+>  
+>  #include "internal.h"
 > +#include "trace.h"
 >  
->  /*
->   * The bits needed to disable hardware prefetching varies based on the
-> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h b/arch/x86/kernel/cpu/resctrl/trace.h
-> similarity index 88%
-> rename from arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
-> rename to arch/x86/kernel/cpu/resctrl/trace.h
-> index 428ebbd4270b..ed5c66b8ab0b 100644
-> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+>  /**
+>   * struct rmid_entry - dirty tracking for all RMID.
+> @@ -354,6 +355,14 @@ void __check_limbo(struct rdt_domain *d, bool force_free)
+>  			rmid_dirty = true;
+>  		} else {
+>  			rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
+> +
+> +			/* x86's CLOSID and RMID are independent numbers, so the entry's
+> +			 * closid is a invalid CLOSID. But on arm64, the RMID value isn't
+> +			 * a unique number for each CLOSID. It's necessary to track both
+> +			 * CLOSID and RMID because there may be dependencies between each
+> +			 * other on some architectures.
+> +			 */
+
+Please watch for proper formatting of multi-line comment and consistent capitalization.
+I also think comment can be more accurate, for example:
+
+	/*
+	 * x86's CLOSID and RMID are independent numbers, so the entry's
+ 	 * CLOSID is an empty CLOSID (X86_RESCTRL_EMPTY_CLOSID). On Arm the
+	 * RMID (PMG) extends the CLOSID (PARTID) space with bits that aren't used
+	 * to select the configuration. It is thus necessary to track both
+	 * CLOSID and RMID because there may be dependencies between them
+	 * on some architectures.
+	 */
+
+> +			trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid, d->id, val);
+>  		}
+>  
+>  		if (force_free || !rmid_dirty) {
+> diff --git a/arch/x86/kernel/cpu/resctrl/trace.h b/arch/x86/kernel/cpu/resctrl/trace.h
+> index ed5c66b8ab0b..b310b4985b94 100644
+> --- a/arch/x86/kernel/cpu/resctrl/trace.h
 > +++ b/arch/x86/kernel/cpu/resctrl/trace.h
-> @@ -2,7 +2,7 @@
->  #undef TRACE_SYSTEM
->  #define TRACE_SYSTEM resctrl
->  
-> -#if !defined(_TRACE_PSEUDO_LOCK_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#if !defined(_TRACE_RESCTRL_H) || defined(TRACE_HEADER_MULTI_READ)
->  #define _TRACE_PSEUDO_LOCK_H
-
-The above #define should match the new name also.
-
->  
->  #include <linux/tracepoint.h>
-> @@ -35,9 +35,9 @@ TRACE_EVENT(pseudo_lock_l3,
+> @@ -35,6 +35,22 @@ TRACE_EVENT(pseudo_lock_l3,
 >  	    TP_printk("hits=%llu miss=%llu",
 >  		      __entry->l3_hits, __entry->l3_miss));
 >  
-> -#endif /* _TRACE_PSEUDO_LOCK_H */
-> +#endif /* _TRACE_RESCTRL_H */
+> +TRACE_EVENT(mon_llc_occupancy_limbo,
+> +	    TP_PROTO(u32 ctrl_hw_id, u32 mon_hw_id, int domain_id, u64 llc_occupancy_bytes),
+> +	    TP_ARGS(ctrl_hw_id, mon_hw_id, domain_id, llc_occupancy_bytes),
+> +	    TP_STRUCT__entry(__field(u32, ctrl_hw_id)
+> +			     __field(u32, mon_hw_id)
+> +			     __field(int, domain_id)
+> +			     __field(u64, llc_occupancy_bytes)),
+> +	    TP_fast_assign(__entry->ctrl_hw_id = ctrl_hw_id;
+> +			   __entry->mon_hw_id = mon_hw_id;
+> +			   __entry->domain_id = domain_id;
+> +			   __entry->llc_occupancy_bytes = llc_occupancy_bytes;),
+> +	    TP_printk("ctrl_hw_id=%u mon_hw_id=%u domain_d=%d llc_occupancy_bytes=%llu",
+
+domain_d -> domain_id
+
+> +		      __entry->ctrl_hw_id, __entry->mon_hw_id, __entry->domain_id,
+> +		      __entry->llc_occupancy_bytes)
+> +	   );
+> +
+>  #endif /* _TRACE_RESCTRL_H */
 >  
 >  #undef TRACE_INCLUDE_PATH
->  #define TRACE_INCLUDE_PATH .
-> -#define TRACE_INCLUDE_FILE pseudo_lock_event
-> +#define TRACE_INCLUDE_FILE trace
->  #include <trace/define_trace.h>
 
-The rest looks good.
-
-Thank you.
 
 Reinette
