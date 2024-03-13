@@ -1,200 +1,232 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCA459B4B;
-	Wed, 13 Mar 2024 22:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710369673; cv=none; b=mDwsu2WzuiNIZ0X8gXe/tG8EDQmuT4qaDsTJMAH4/aFziWzVvjj3EIRIy8c25sV1Xn5HXYvi9yCkt7RvP0kD7em7fDaeXs3V6gSK0tOxJafIW/pWpjYT0jrMTYeK/YD1UjdF2MIpzElmCFSdUYUTtIpRl5uxAN3FURfeurUqaIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710369673; c=relaxed/simple;
-	bh=0jL7KIMvDBg4emXkQf6LdByOLGy1PZ0pL0tPDWQUHoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dmZqpAsQzNLau1l8F1QUxmAveqRvtU5B+OmMWBHA7AaL3dHL3AZ/pkjfVTcoYLpd7As6u7mRacrsP9G/fnWN3Ur7FX0Bo8Xx2VritUILlBP4njDzHbIHEg7lxYwaXZ7zrU4ojwmjnucHov7xP28Rp74aJqdnp7u/ZxhICjUPPoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxiPxyz8; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6388E5E066;
+	Wed, 13 Mar 2024 22:46:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710370010; cv=fail; b=cSqctTbXTdEoSqTRBc4R5m4p3nD/0MJuYZFtiem9nVL0cWtrEdV5tRhaUApcNcbdwHT2QA2xqxQyxrnRnaWN0/0hYhthJ85X1aZvw2waQoiSaIVQaj4O0UdALSDg/0rFpANZeOBScV8QQxExP1ZoDjcENUHMMNQuYjdkS7LeGD4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710370010; c=relaxed/simple;
+	bh=LE0U3mRtz7Pyxf9yKVCxHcv7c5abDUe3BjwUCz4rBZY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=fvoOb2hF/UPa/qzK/ForHk3lyhoBgn5DDrphTeqWSWcLSGGlT+9S+i1pJnVtBuUtlUy4s7WX9yzDDK62Lb7a+5Vova3MeNWdXz1B31Lr9/9d4qmZAhhMyD0DjFKGW+AU2c/KLAFwcTgftfj1ZL8J93LJEyRtdLq0O7lCtliGOpU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7qoBznf; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxiPxyz8"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5a22d940ff4so140888eaf.1;
-        Wed, 13 Mar 2024 15:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710369670; x=1710974470; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7MBzirNfmo76QBr5qOvoXnZEVWevnRKqcoBk8cgRxYU=;
-        b=DxiPxyz8OzLawTCiFtM+WLx50xUXT17+Ktua9IVrzupBSnkJjpZAcVmXc2KPCndPmh
-         FjzO/1R1Qi8zlW8ODovLMoG6/QCyWujek+n5dI1FDSy7zTezELLW9bdIOmsGu1O1VyAI
-         QaLnuvwe4i6gOVXDqSGX4xZgkdnTkoseWwN0hm+OrlpNJ6LJRVWnFtbYipJtUXHIOdAk
-         4uxv1l8oZsN9JImtVentbAIGzNFadvxTwaT+636xVhBzFY43snOQ4Lyw2KLXUWw3+56e
-         eLw0buIEqA5crW5HtIcbbBBO1j7dPtsFL4ZJt3/bFkhzdTlWJaOwtFNK8OIfk5XtQ9Pp
-         SkAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710369670; x=1710974470;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7MBzirNfmo76QBr5qOvoXnZEVWevnRKqcoBk8cgRxYU=;
-        b=d2OXkU1p5sbn5TGaeApc5U10DFvYZ244L28wb+kFdawxT/uk3wzPpNldtOm/v23vUV
-         fvughlr1JsBSGRmcGsGqFWxfRyj2zspF+QGjvq4ONUtXpnVL8os8pbgR2/puxmiJQl9q
-         pEwxFS0m6W6ZW/C+TG8eG6mwhXB1aiueLU0uhvdlfB6W5Y2jmY3ZMvhp/Bs70vCvXo0b
-         LxYLgB3TSqgtg0Y65da9wnjIqw0vL2ymIx4Ogh3SymUZ+vg/DyEGheAFYXjN6xXKWgUn
-         LzmVnec+V7ctwviTvRJXNFh9tSonFBYZ/W9HQvYch9ilPh0aJsc+i/SehnDCqHki+4H4
-         dCag==
-X-Forwarded-Encrypted: i=1; AJvYcCXRPUpwvcqv58Ccga04M59FiriBFO1xQIaJMCUYn14kxBPkyUyuGY5nCRyaujagaDn5SYLX4cNK/4gOSlL8P9bLh7im03wRKMm3aE9RViLviQV3OCfNmFnz2U7BtGSqbOTwBZOZuHae
-X-Gm-Message-State: AOJu0YxoKzORGdHoSIGi/shD7eHLThvboGnpKVhksprRIcgPzEZrfl+Z
-	Oizxbtb76dDzvoIS+qry76fXOn6coYXLRgatvpNU7hagF6KAqEmk
-X-Google-Smtp-Source: AGHT+IEwvNLbh3af5pCHuOGkYTwhypXBkeRA2I1w9HnVOk7REW1MYNpEOwUf0zhcGTyMEtQD6ch59A==
-X-Received: by 2002:a05:6358:7f83:b0:17c:1b9b:bf46 with SMTP id c3-20020a0563587f8300b0017c1b9bbf46mr332036rwo.13.1710369670230;
-        Wed, 13 Mar 2024 15:41:10 -0700 (PDT)
-Received: from gmail.com ([15.248.7.57])
-        by smtp.gmail.com with ESMTPSA id p25-20020a635b19000000b005dc832ed816sm117883pgb.59.2024.03.13.15.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 15:41:09 -0700 (PDT)
-Sender: Matt Wilson <mswilson@gmail.com>
-Received: by gmail.com (sSMTP sendmail emulation); Wed, 13 Mar 2024 15:41:07 -0700
-Date: Wed, 13 Mar 2024 15:41:06 -0700
-From: Matt Wilson <msw@linux.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: Matt Wilson <msw@linux.com>, Jonathan Corbet <corbet@lwn.net>,
-	cve@kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, security@kernel.org,
-	Kees Cook <keescook@chromium.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Sasha Levin <sashal@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@denx.de>, John Haxby <john.haxby@oracle.com>,
-	Marcus Meissner <meissner@suse.de>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roxana Bradescu <roxabee@chromium.org>,
-	Solar Designer <solar@openwall.com>, Matt Wilson <msw@amazon.com>
-Subject: Re: [RFC PATCH 2/2] doc: distros: new document about assessing
- security vulnerabilities
-Message-ID: <20240313-goat-of-inescapable-prowess-4f22ad@carbon>
-References: <20240311150054.2945210-1-vegard.nossum@oracle.com>
- <20240311150054.2945210-2-vegard.nossum@oracle.com>
- <Ze9GmrqiW18GMkU6@uba002e82b7465e.ant.amazon.com>
- <aa7b1a88-f554-42c1-a874-a742e6614712@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7qoBznf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710370008; x=1741906008;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=LE0U3mRtz7Pyxf9yKVCxHcv7c5abDUe3BjwUCz4rBZY=;
+  b=M7qoBznfIFUo+KU2cBj51RUXHMiwYsIe7nkhSGESwz4whpsP36nLAi3+
+   aXPfDkwHDP+fskVQv6aGcK/pfZnhhXF/JaerJgAr00Fema5Ec34uvCzRF
+   u1fADooAEw5pR9yH7BZ3Da/sSaz1lBX1ANeEdTT2GWs8yD/CtVEdt3y75
+   2CjKUSdq+DjMHUzzIgforOYfUjwibUb9yRx150IrmWaJJzMaA5NY+X8vV
+   uFmmhJhra9uEQj2zn/ZgEiQA4hJ0BQ36SX2GTpHUuCBPq1jThMAdpRmfK
+   Chm548J6wzwGJwac5XoYxejJ4X1OKiV3WV6lkKtmQu57a6Tzn/qCE2Dw6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5021643"
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="5021643"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 15:46:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,123,1708416000"; 
+   d="scan'208";a="49527863"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Mar 2024 15:46:48 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 13 Mar 2024 15:46:47 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 13 Mar 2024 15:46:46 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 13 Mar 2024 15:46:46 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.41) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 13 Mar 2024 15:46:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aH1WUQsKdwrXqn7RJp6doZcofeN5QKmEkh99TNJFGNuj0IoqkFBRho+L0g8Ba6iQssmnh2MwEe+uzT9hCWGWR3mC72ap4rgLyKyTXk0m/epexDc/RkKZbMptM+jNSmOtkSHc4/2lLuZ6+5VOAbv8Oh1QQIaW1O8PCdgMDajcmJoPDVUeWXz24w2jtT551M3y2iLu9nICYCKoa91iDS5D8iVtXhA6BQF+P0dm7DN0qtMgf5QvthpwSf4T4hmq5wr7O1LpgidQebmgFD99FUnrhREazmSmeHqAnX76JU5rZS+ESNWVZUixik6YAR4yUjmGP34i6nZJ9ZkGtXpNSTUoNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gU/celcJMICE1VsaQKOamxqui8C3lIMgAXs1oz+VSjs=;
+ b=EbFjhvn3MCvYH+HzHdhL+PIjPOHeRWgtQ6GtG31YYDtPP64evnbpu23y3KSaipI99YZi6vId9R1PVYgcLB0o3ebKLMWno00OpYL8G06ughhuTjq1HUtRiFIBJalMoMnzlPsHvOUP1hzx7uaU8AXOSixwVcJ3TuJe3v29HI/F/szRv5MpJnwjckiW6tiHyUoBoChj1SLN1tzrpORqavnD939WXvTR6nA6c6fVjILgh2YC9sSQVkJUqfVHfEIUOP7tQTqZxRfuGR+NbMvGUqxF8zxvj4wqTbBnmHKeMjXqf07B9+trEIIEhHzb4gu22IVi+Ix73M3LG+vu4THKeAAB0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CY5PR11MB6140.namprd11.prod.outlook.com (2603:10b6:930:28::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.17; Wed, 13 Mar
+ 2024 22:46:37 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7386.015; Wed, 13 Mar 2024
+ 22:46:37 +0000
+Message-ID: <f1fd3dbf-a4a3-419e-9092-ff7f9302c874@intel.com>
+Date: Wed, 13 Mar 2024 15:46:28 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/2] x86/resctrl: Rename pseudo_lock_event.h to trace.h
+Content-Language: en-US
+To: Haifeng Xu <haifeng.xu@shopee.com>, <james.morse@arm.com>
+CC: <fenghua.yu@intel.com>, <babu.moger@amd.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <peternewman@google.com>, <x86@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+References: <20240308074132.409107-1-haifeng.xu@shopee.com>
+ <20240308074132.409107-2-haifeng.xu@shopee.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20240308074132.409107-2-haifeng.xu@shopee.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW3PR06CA0025.namprd06.prod.outlook.com
+ (2603:10b6:303:2a::30) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aa7b1a88-f554-42c1-a874-a742e6614712@oracle.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CY5PR11MB6140:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b29c1cd-db65-4a6d-d6f2-08dc43af7112
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: f3ufG1Mt8KpSL6LSH2ZRRmp6xdmXVlNSd5ZOKagC+KP8Oe09A5Tihik4/j25pO5fwe0Q7/CsTimEPo7Oem+RYd9ElkOQn35nr6gRkqDA8wtoyUxTMnzcjRZcSFn5KFtxzvWgeXqwR2m//YmVbGA43RintD6cYD7mHwODLWvVO/1mcfIgXczKBC/skq5Om1NNwEPvOmW6Gg6li+mdT3SEOTO7Rbf3l3sDlPYsTJFK7zLkOhs0HrAKbopHpcp1ofGLzECBvhXHYBdXsyADFVH+NNPgRxQ+PLK/c/eheQmAN/7DaxobZyKAdwYk6qGL17GW0DmWJT81sgPZ/cVuoossGJY0AoCmVJqfLkmNDqKYGPcpa9GVB0g+myvjaPPtm2IfCuFy/YBmt+7MlCusFX0ZIweekdJo+fD9Uzv6JlzxBW/F+e96zy9AvSwfP2IML640t8cCuBnurefgr8RwyZT3tLDEwo8/bDHqiY9CVdjMpOLUHmVD3qi/Qayqxx8EfzS+4LRhFFR3UUAmieq6fEf463ZBN+FX2vmMMeEVpkRH/5gPakY0Cvz8A7TGdRAc3KwAzA3fpbEsuhUO9av7vWx+8W7jZxCEXhSGvG22aL+i1lmYTT6m9+9nNk0io1qW//xsYfPEVd5gDBzgTI+iKoT1zBtC2AS9biotqJ9NrkMVvoo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QkJ5VFJvb09UNnpsMHhleUpDdys2M2dLeDBsMkI3K21OQ0V6NENVWmd1UHNE?=
+ =?utf-8?B?dWlPZ0U1V3VxckRCSjIzRE9TcUM4K28xR3FHUnV6bG52dnFNQ2NZWEs1bnFJ?=
+ =?utf-8?B?MDdNNjlaakJPdG9JS21MZEw5c1RmdDlxUWRUNGFBYkhqY0hVNEl0ZGJydk5Q?=
+ =?utf-8?B?aWowdTd2dHNBeVd1YUNtZWFEb3VUWUNheTBjRmp4bFFUR0FKUGR3UmhuM2tz?=
+ =?utf-8?B?OTlGUW5ucXhhK05YYnpadXcvTzIrTVhwMG96dG91NVFiSHNETEx6b3FpQllR?=
+ =?utf-8?B?VnUzbUxDNEFwRzdNcUZlbnJpYmp0UzR2N0oveENxSXFMZjgrOG1tRzFjWElI?=
+ =?utf-8?B?MDFWbWw0L29PVVhJbDdFUWkwdG0xNWZzTURJbDY3c25nSnBJNmQ1d2VZZTk3?=
+ =?utf-8?B?eTFyMzlZYzdMNGJNcysvNGhUVFdLL0ZuTUVSKzZFaitWWDVSZlNSeFJOZkh4?=
+ =?utf-8?B?ZWZsdTRhYkh6Y0UyZFB3c3gzQjhUd0dIZHlyaHh4bExyeFVqS0pncWVTRFAz?=
+ =?utf-8?B?MFdXRmFQY1N4c0VNd2tPSXp2cUM1MmVsSTd1VEUwaHQxWm4wTVNPSGdVZmhD?=
+ =?utf-8?B?VnAxL0U1UkFKMHhaYU80cThneFlRbGxrZTVBL21lcml6M0NDQVowZlpLYkdI?=
+ =?utf-8?B?ZWNOZ1N1Y3kxZlJmQXpveUtjR0Z3TGtPUWVaK3pKN1NSdDhHdFpnQXBRVkk1?=
+ =?utf-8?B?SGcyS2RpcW9mOHVzM2Jwd1FOaExEc0sybnZHKzh5SjNQSlp3K3hFUjZjMzFv?=
+ =?utf-8?B?ek9DZ3JjS1FTUE8yTjlBdWhMcm1ZSUR4N2RmZEcxWW4rb0wxS2F5WkNVMWVR?=
+ =?utf-8?B?amZtNlJneDZnMFkvQkhCZCtTbWR4dnVTVEk4NmdpeFgxeXRsN3RxWnU1WG1Q?=
+ =?utf-8?B?TVQrSFVKWkNvdzF3L1UwdnVUcU9uT1llS1dTdFVqYjJLZGdJbkJVL2l3c21t?=
+ =?utf-8?B?MlorWFFyUHhXbXlIZUduWUdMbVlEU09MZFFNd25aSVFZZVRnRjFOTGtxcnd1?=
+ =?utf-8?B?UGhnNGRncWx1OENlL1JkdTVJR3R3Zjh1SE8vRUhzemFjTWcwU0hzR1pNSkJy?=
+ =?utf-8?B?NjU1ZHdYQUp1U1QzVDErNjhTUzJuemJ3TGR5azNPMjRHem9pb3BuSTQ4UXQz?=
+ =?utf-8?B?S2Q4ekVUdW5yVzYrdmdRcWR6UHIyOTdDR1NiSm5FTUFxZjBvU1QycVplckFV?=
+ =?utf-8?B?RzMzcW9NWEJFTStJZWNwcDA0VEVwaWFtRmtPazRFOHNrRmdaVUExUFF5M0Fx?=
+ =?utf-8?B?ejFkYTh2VWRHOFJuN1YrMzNud3h2YUxteGNvekp0NjQ1eWZzaGg1dlNIUGx5?=
+ =?utf-8?B?c2lqYmdOTXUyUTF1ejhMYkFLMkI4UnppR1YrbjN4blo2NWxOdVdQWUhNczdZ?=
+ =?utf-8?B?QVg4TXBzVVNQU252WlIxSDQwc0tsZDR5NVN5VitkdENOWENEdFhzNmZFRGdS?=
+ =?utf-8?B?Z2xyREt6WlViK2s4TllMYWttTC9EaHFndkJ1ZmdjZmhDZDdIdnRCckhoMWNr?=
+ =?utf-8?B?dEZvekJ6VTBCNFpSZlBLS3FLUTFieitMWlNSclNlbnQ2b09HQnVGTWpOK3hF?=
+ =?utf-8?B?SVhiZWo2WVA1R1V0dURkTGlwRDhweXhKb3Nnb1dBcXFCbzhNTXA4RjN2ZGpD?=
+ =?utf-8?B?NUpjdXc4T1ppMnozU29IODRGSVYveEVBSFBRWDlFN2NSZGxLSDlaNGpEVkRG?=
+ =?utf-8?B?M2ExMjUrZFRiRTNvRjduM0NlQzRSUG5WNzl3YTdEMFRwOHVLN2J0SEtSNHVt?=
+ =?utf-8?B?WnFTc0lnNWVBb1ZRRStTL1owN0J2Y2NzWW1ERk8yRll2ejNVYWVYQ0ExM2tv?=
+ =?utf-8?B?Y0FwMnBTRXVPN3RkRU1VUFg5d0h3cDNVclg3SVhDZWVDNnhsSVQvWHpMV2c3?=
+ =?utf-8?B?MnR4eWpvS2NRMmhhaHEzOUczekVVa0JwWUdLYitBVDdmMnA4aGd5VHE5Yko1?=
+ =?utf-8?B?L0puUzFoSWFYT1cyOXFlbHIvZ3ZzdTMrWk11dEZGRndPTFRuRUk3QmZ2VTg3?=
+ =?utf-8?B?eXgyRGZrR0MybEFwQnN4aTdPSnlEVjF3dGwrcGc1UGhkSHhVeUJHck1uWG1F?=
+ =?utf-8?B?bUx2aFR1cmtMTytzZUFLek9QYTZ2VzQyMUpzNlF2QkpWenJ5d242Ui9VZEd0?=
+ =?utf-8?B?MkJ6NU9xRDNleXBVWWhIU0NwVVRhY3BqRXFBSVhzVTVQSU9oaWc3OTkvMk5L?=
+ =?utf-8?B?cFE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b29c1cd-db65-4a6d-d6f2-08dc43af7112
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 22:46:37.6964
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KD/r2aGzWxTmXsb6WMJ5YICmW+Q71eO4nN5uCHArLSyenzS5citUAAWh6zNryfL1fxuc0m+EviTqnoipcgmW0eSwALuqsEw/jPClkt6nGJ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6140
+X-OriginatorOrg: intel.com
 
-On Wed, Mar 13, 2024 at 02:11:00PM +0100, Vegard Nossum wrote:
+Hi Haifeng,
+
+On 3/7/2024 11:41 PM, Haifeng Xu wrote:
+> Now only pseudo-locking part uses tracepoints to do event tracking, but
+> other parts of resctrl may need new tracepoints. It is unnecessary to
+> create separate header files and define CREATE_TRACE_POINTS in different
+> c files which fragments the resctrl tracing.
 > 
-> On 11/03/2024 18:59, Matt Wilson wrote:
-> > There have been occurrences where a CVSSv3.1 score produced by a
-> > vendor of software are ignored when the score in the NVD is higher
-> > (often 9.8 due to NIST's standard practice in producing CVSS scores
-> > from "Incomplete Data" [1]). I don't know that harmonizing the
-> > practice of producing CVSSv3.1 base scores across Linux vendors will
-> > address the problem unless scores that are made available in the NVD
-> > match.
+> Therefore, give the resctrl tracepoint header file a generic name to
+> support its use for tracepoints that are not specific to pseudo-locking.
 > 
-> That link actually says they would use 10.0 for CVEs without enough
-> detail provided by the filer/CNA (as I understood it).
-
-Indeed, the web page says that it would be 10.0 in cases where there
-is no detail about the weakness. In practice, the score tends to come
-out as 9.8 because the base score vectors are more often
-   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
-and not
-   CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
-(which would be a 10.0 score)
-
-What's the key difference between 9.8 and 10.0 in the CVSSv3.1 system?
-Scope:Unchanged. In CVSSv4 such a weakness would likely be scored
-   CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N
-
-With a CVSS-B of 9.3 (Critical). What does any of this information
-tell a practitioner about what actions are warranted in light of the
-presence of a software weakness in their environment? Not much, from
-my personal perspective.
-
-> I wonder what their strategy would be for all of these new kernel CVEs
-> -- should we expect to see 10.0 or 9.8 for all of them, do you know? I
-> assume they do NOT have people to evaluate all these patches in detail.
-
-At present, and since mid-February, NIST is not enriching new CVEs
-that have been allocated with CVSS base scores or other additional
-data. Their website displays the following banner text:
-
-    NIST is currently working to establish a consortium to address
-    challenges in the NVD program and develop improved tools and
-    methods. You will temporarily see delays in analysis efforts
-    during this transition. We apologize for the inconvenience and ask
-    for your patience as we work to improve the NVD program.
-
-I expect the path forward will be a topic of discussion among
-attendees at the upcoming CVE/FIRST VulnCon 2024 & Annual CNA Summit [1].
-
-> > If the guide has something to say about CVSS, I (speaking only for
-> > myself) would like for it to call out the hazards that the system
-> > presents. I am not convinced that CVSS can be applied effectively in
-> > the context of the kernel, and would rather this section call out all
-> > the reasons why it's a fool's errand to try.
+> No functional change.
 > 
-> I also heard this concern privately from somebody else.
+> Signed-off-by: Haifeng Xu <haifeng.xu@shopee.com>
+> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> ---
+>  arch/x86/kernel/cpu/resctrl/pseudo_lock.c                   | 2 +-
+>  .../x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>  rename arch/x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} (88%)
 > 
-> I am considering replacing the CVSS part with something else. To be
-> honest, the part that really matters to reduce duplicated work for
-> distros is the reachability analysis (including the necessary conditions
-> to trigger the bug) and the potential outcomes of triggering the bug.
-> Once you have those, scoring for impact, risk, etc. can be done fairly
-> easily (at least more easily) in different systems and taking
-> distro-specific constraints (configuration, mitigations, etc.) into account.
+> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> index 884b88e25141..492c8e28c4ce 100644
+> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+> @@ -31,7 +31,7 @@
+>  #include "internal.h"
+>  
+>  #define CREATE_TRACE_POINTS
+> -#include "pseudo_lock_event.h"
+> +#include "trace.h"
+>  
+>  /*
+>   * The bits needed to disable hardware prefetching varies based on the
+> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h b/arch/x86/kernel/cpu/resctrl/trace.h
+> similarity index 88%
+> rename from arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+> rename to arch/x86/kernel/cpu/resctrl/trace.h
+> index 428ebbd4270b..ed5c66b8ab0b 100644
+> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
+> +++ b/arch/x86/kernel/cpu/resctrl/trace.h
+> @@ -2,7 +2,7 @@
+>  #undef TRACE_SYSTEM
+>  #define TRACE_SYSTEM resctrl
+>  
+> -#if !defined(_TRACE_PSEUDO_LOCK_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#if !defined(_TRACE_RESCTRL_H) || defined(TRACE_HEADER_MULTI_READ)
+>  #define _TRACE_PSEUDO_LOCK_H
 
-Distros are not the only downstream consumer of Linux with this
-need. Arguably the need is even greater for some consumer electronics
-applications that may not have the same over-the-air update
-capabilities as something like an Android phone. This is a frequently,
-and increasingly, discussed topic in Embedded Linux conferences. See,
-for example [2, 3].
+The above #define should match the new name also.
 
-I think that one coarse-grained "reachability" analysis is CONFIG_*
-based matching [4, 5], and that's something that not necessarily
-directly reusable across distros or other downstream users of Linux
-(as their Kconfigs aren't necessarily the same). But perhaps some
-community maintained tooling to automate that analysis would be
-useful.
+>  
+>  #include <linux/tracepoint.h>
+> @@ -35,9 +35,9 @@ TRACE_EVENT(pseudo_lock_l3,
+>  	    TP_printk("hits=%llu miss=%llu",
+>  		      __entry->l3_hits, __entry->l3_miss));
+>  
+> -#endif /* _TRACE_PSEUDO_LOCK_H */
+> +#endif /* _TRACE_RESCTRL_H */
+>  
+>  #undef TRACE_INCLUDE_PATH
+>  #define TRACE_INCLUDE_PATH .
+> -#define TRACE_INCLUDE_FILE pseudo_lock_event
+> +#define TRACE_INCLUDE_FILE trace
+>  #include <trace/define_trace.h>
 
-Many in the security community are rightly skeptical about
-"reachability analysis" given the possibility of constructing "weird
-machines" [6] from executable code that is present but not normally
-reached. But if you can confidently attest that the weakness is not
-present in a produced binary, you can safely say that the weakness is
-not a factor, and poses no legitimate security risk.
+The rest looks good.
 
-Your current draft security assessment guide says:
-> A distro may wish to start by checking whether the file(s) being
-> patched are even compiled into their kernel; if not, congrats!
-> You're not vulnerable and don't really need to carry out a more
-> detailed analysis.
+Thank you.
 
-One research group [7] found that in a study of 127 router firmware
-images 68% of all naïve version based CVE matches were false-positives
-that could be filtered out, mainly through determining that the code
-that contains a weakness was never compiled.
-
-I think this low hanging fruit is ripe for picking, and deserves some
-more content in a weakness assessment guide.
-
-(P.S., "weakness" is an intentional word choice)
-
---msw
-
-[1] https://www.first.org/conference/vulncon2024/
-[2] https://elinux.org/images/0/0a/Open-Source-CVE-Monitoring-and-Management-V3.pdf
-[3] https://www.timesys.com/security/evaluating-vulnerability-tools-embedded-linux-devices/
-[4] https://ossjapan2022.sched.com/event/1D14m/config-based-cve-matching-for-linux-kernel-takuma-kawai-miraxia-edge-technology-corporation
-[5] https://www.miraxia.com/en/engineers-blog/config-based-cve-matching-for-linux-kernel/
-[6] https://ieeexplore.ieee.org/document/8226852
-[7] https://arxiv.org/pdf/2209.05217.pdf
+Reinette
