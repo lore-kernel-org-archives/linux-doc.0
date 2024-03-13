@@ -1,115 +1,110 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCAC47773;
-	Wed, 13 Mar 2024 15:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D6C604B8;
+	Wed, 13 Mar 2024 18:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710344134; cv=none; b=UVMjz7pe/mdqJm9D4Xq3D6SVRs7ikZGWK0+aE9rZb1zsM+lATJMRsWLcpsoCUL8jdxRsFjdjpx0c4I3PAh5b8DhEWMXBKtjL9rG0xrPP/u+nQOtOxmkSim2yQJeqX2UAYBME9BcDmS3tJ1O/yh34bIfPqIOp1ll19sunnVZz6oM=
+	t=1710355953; cv=none; b=LFLPeifyX0vr8zpSPO3FDTWSsNW7RRR7XJLk5HbdRoid/RBMLAmtGSF/jfTkes5Gi6k3IynFxA9iNN/QSzKBZI6QR12oxpo7AA9sWhE35WUIlE/MHToVsSjUmH3E7EqSfAQiHlIvih7EuBhMdM1BAqcoTXxn4FyejLdprl9eJN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710344134; c=relaxed/simple;
-	bh=jOQp4CryTW9XagCDuR6uUkkHla07BH/PK6sB2sD9gbA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ARDc7POu4phEAToTs4f5nhPgOOYMtvkfn0dc9WgKLtDutanKygEAiaMG5SoJnovQm40djO8Afl4m8T/NfuW7XOqq5r2HAMIYCComGSysYGwZlSCCVmVNJQicozvnNLZ29+nsSZCWH2I/hOXSuZnO85WFgfyZy9y52Z/EPmBeHZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JsGryI05; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1710355953; c=relaxed/simple;
+	bh=uiOhDb2aI1GM9s1bqPmkWJ30LvgnRIJ1fB5938Y3rig=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SdqL64/DKRcJ2chCsNyn37DoptEYbBaQrIp2EKu05VYOj9BaE/9xA2a2a0et0CJFuKCgsh/WUi//4pibP5J4lTN1FrSBvqXzy3xGiqLDTVAxJlsRnE2GWs3L5vEgaoicaJ+3UVXAUf7EQ9nYRqscnyao292OOs1bGyNQS/uZ5L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LfllGhln; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JsGryI05"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42DAPHf3019208;
-	Wed, 13 Mar 2024 15:35:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:reply-to:references
-	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=d52KNA3q
-	0BZMEfgemsDgnZIe/xCWMrozSCni3qIL1PE=; b=JsGryI054YgtkJQmVj05IhF2
-	nNO2JpXzrj0y+U9pXCIWM5TGt057i8EktE24HO+6/jowwc+PDKQhfggTDYFlKegB
-	AZ8haHqr5iKoiONxG7KIpf0CNYmG2gFdKdDcam6LZ3nqPau6zS1rAQCvOv7H1jhQ
-	bhLRy3ys4L5Vy7ZnxhKSMazoGKtKIrUfX1L+sIBLHJLPA9jQFxGs/OwO6pTLXIAr
-	7Crnb83FayC3zxMA5dSwOWegVPyPSUVrEc2JvUv/ZYLxMJ9wRt49SJolH6tXSB1D
-	olR7vWQxGAXQVuhfTGhwc5OryOW7NAptdojYL2K0eL+yjgniwsXWPVZBNhImhw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wu815rys8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 15:35:16 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42DFZF03025574
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 15:35:15 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Mar
- 2024 08:35:07 -0700
-Date: Wed, 13 Mar 2024 21:05:03 +0530
-From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 16/35] gunyah: Add hypercalls for demand paging
-Message-ID: <20240313153503.GR440762@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-16-1e9da6763d38@quicinc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LfllGhln"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=w1PC9u+vdjtH+/OhAVuI9GgnMz4d8ZzYulX30ZT4Frs=; b=LfllGhln8mFk5kHvFr4qv6qvw8
+	3Hp//2EKrunOZrdPkG3WMnlzSNDRB1ZUZNXoLbdYy1A/FwSt04d+dzRBx9an783YtmcVD7oZOkk3w
+	Se2KWmjIDcj+BILbBgCDkufKBj2szXpX4YqfI9C3en1RPT31S3hV5uaXtvDcsWwiJ9szFrnj+aB7h
+	LQP0Ma7MPVK8JXLgr/0B1TnWcPbTjFrqnyrmo5PiRbhjkY6hG13y0x267TdnZYkpJGXhOZ3riwrO/
+	+qxO2AQ22ni4XY92Z0DkdTEOalDAloS+i6DZKxOyM0Cp/w5gPBXIbk4QvRC3ZJ4gHs3j/DvDpEjhG
+	eyKGfIow==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rkTiI-0000000BRE6-1pL4;
+	Wed, 13 Mar 2024 18:52:30 +0000
+Message-ID: <33aee996-8bc8-4063-86ee-e8ffff69000c@infradead.org>
+Date: Wed, 13 Mar 2024 11:52:29 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-16-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mFx73PGakvisSNip6iUaO2FFTWeGcFAO
-X-Proofpoint-ORIG-GUID: mFx73PGakvisSNip6iUaO2FFTWeGcFAO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_09,2024-03-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- adultscore=0 malwarescore=0 mlxlogscore=512 suspectscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403130117
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] docs: submitting-patches: divert focus from PATCH in
+ the subject line
+Content-Language: en-US
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240301134637.27880-1-lukas.bulwahn@gmail.com>
+ <20240301134637.27880-2-lukas.bulwahn@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240301134637.27880-2-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:39]:
+Hi--
 
-> Three hypercalls are needed to support demand paging.
-> In create page mappings for a virtual machine's address space, memory
-> must be moved to a memory extent that is allowed to be mapped into that
-> address space. Memory extents are Gunyah's implementation of access
-> control. Once the memory is moved to the proper memory extent, the
-> memory can be mapped into the VM's address space. Implement the
-> bindings to perform those hypercalls.
+On 3/1/24 05:46, Lukas Bulwahn wrote:
+> Submitting-patches is already assuming that git is used to prepare
+> patches. So, developers will use git format-patch and git send-email, and
+> this will take care that PATCH is usually in the subject line. Hence, the
+> 'include PATCH in the subject' does not deserve be an own section.
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> Move this note into 'the canonical patch format' section, where it
+> currently fits best.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  Documentation/process/submitting-patches.rst | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 66029999b587..2ec0c0d7d68f 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -384,16 +384,6 @@ patch or patch series which have not been modified in any way from the
+>  previous submission.
+>  
+>  
+> -Include PATCH in the subject
+> ------------------------------
+> -
+> -Due to high e-mail traffic to Linus, and to linux-kernel, it is common
+> -convention to prefix your subject line with [PATCH].  This lets Linus
+> -and other kernel developers more easily distinguish patches from other
+> -e-mail discussions.
+> -
+> -``git send-email`` will do this for you automatically.
+> -
+>  
+>  Sign your work - the Developer's Certificate of Origin
+>  ------------------------------------------------------
+> @@ -616,6 +606,10 @@ The canonical patch subject line is::
+>  
+>      Subject: [PATCH 001/123] subsystem: summary phrase
+>  
+> +Prefix your subject line with [PATCH]. This allows to distinguish patches
+> +from other e-mail discussions. ``git send-email`` will do this for you
+> +automatically.
 
-Reviewed-by: Srivatsa Vaddagiri <quic_svaddagiri@quicinc.com>
+Is this perhaps 'git format-patch' will do this for you automatically.
+?  I don't know, just asking.
+
+> +
+>  The canonical patch message body contains the following:
+>  
+>    - A ``from`` line specifying the patch author, followed by an empty
+
+thanks.
+-- 
+#Randy
