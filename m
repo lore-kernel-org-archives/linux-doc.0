@@ -1,79 +1,79 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBBE3E48C;
-	Wed, 13 Mar 2024 13:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43243FEF;
+	Wed, 13 Mar 2024 13:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710335507; cv=fail; b=o2v6SBbVNCNaiIkYv5DMG4SXrv+UoFbMcjZqoFv5IYfjdI/2ts7FoT9VWnfpYlRt+awX98H9b06HLaAyhLdeWZS+Jy6ita2RjAggU0yf/dKQxxFXdOyIW75/wv4XaUBU9ReGBqgaLPk9c59tZ1cL+W8tu7d2DP7XTKzUn8xJHoo=
+	t=1710335769; cv=fail; b=NIfYBrJW1kntFlZQAXtxd4+jnsec25By5syNiOb68C+59XEp/uFkmgDpeltxd4n/OSBulz68KZdTFym6sdvhcMQgZqsM5E8vu/+yjLCyaRc8G+nLs2XZGT3zgzxD2pHP55GlW7RRkCjOHzBG3biaNPb7YP8jf1uczWsW7P9CTCI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710335507; c=relaxed/simple;
-	bh=/ZlMigZiobWq2WjROeJ0U56DGOuqVvizv81b/u0hXVk=;
+	s=arc-20240116; t=1710335769; c=relaxed/simple;
+	bh=8QB6xqKQN96AtUBY+Bj5TwuGN4JmXe07niNN7HlCiGU=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Y7okhEDyWNffo6MKvFHaOPORwEG9Z/tmiPGKtXdQZckXlPRGKh5E2NQWagdQm4jyGbacpoQTlmri7444AvHXcNOl5V3Ky7XBApU1GXRYzU+t9wBMR6RuUPn4r/1OdoUbziQhr5DLRKTl8j6mDy6iJDbMQFL/8D3oC6MERZGLEog=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=mURp2qfu; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=hYEj6SR3; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=ak61WPm+G+obuLWG8h9/iUylORkeg6/QAhvgH9ppRyU3af3c1iN8BLFq0bxFOxI+FHB7O8L4F59Lu4glImQGnF3ZllGcQKly63ZHsDb2P3bBkMRa5zhkyqE1QhSgokQd1REXOweCc97KqCwUMJuKDi/t55IHQVoH4zO7/Wzwq5g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=QNfddu/R; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=oG+wYbJA; arc=fail smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mURp2qfu";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="hYEj6SR3"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42D8i7sp031169;
-	Wed, 13 Mar 2024 13:11:14 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QNfddu/R";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="oG+wYbJA"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42D8hqDx000608;
+	Wed, 13 Mar 2024 13:15:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=Vuv1TyEs4M3FeCwlF3M9IMJFdCilMBBjHBgI4CutJWo=;
- b=mURp2qfupP6IF3g9UpzoJQPNfyc/BDl6OFR4hTDjKTyKUIbBmrdamRWfFFH0cq+eUJM6
- 7e4ARHZ5NfviDNSA3VzVFklIE/KMgAx9Q77AGq+hQuHvyKTt6kc21uQDLKtK+qtYWhmB
- c7MdTxOMuYx5n27unSPGm26MUbC2w+1j7MF6rZEUIGY9ogp47+4hRoKF9hLUmjqIQjSn
- 4TpJxrxCcuODAcjL+7jtiqCPgzijAuS7QwI1fA6U9JcWBDOqK1uIe0l0T2HMRB/UHTWc
- T5MaMCCGA5wgr2bXmN3S3GyzxnLOSWjGgy2kG3NdDVUSUlhIGaNG9AOiTbMvJeM7hdtn rA== 
+ bh=OocjH/UXRbn9tqumm9R+l7LequATtlUUMuy8CyQBw0Q=;
+ b=QNfddu/R5WT3Kq8RSBdNuE6/1/5RtLuHgC4k91UYAHMV82z0hCjrL2mKcJzGH6IgYwUr
+ +ec58L7/Z6omBJvhDXB6ScSDuh2OvdhXVAOe7AnqsNAAvTWUWUr53s2v4X1HJs/05FwL
+ ISbioyopuDg6/OJfDXwd+rJ7edyALTWdE1ZAaU0W4X3pvT5MzRYa99KpzybRr13xBnM3
+ +TD2ZHka+qCgQJgbYVeRjz1L3KJJZtIsQ5JAlyD5wPw0BXtI744yCStP8lB/DjfXKnPN
+ BhcmTrlZFPgXbKIDxFuOebhRHHZ3rM85P5gEfKmX8B/n8uNX07m2LnHqq1Mu7OihAgRX 3Q== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3wrepd0sq6-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3wrftdh1hq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Mar 2024 13:11:13 +0000
+	Wed, 13 Mar 2024 13:15:31 +0000
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 42DCxWo8004775;
-	Wed, 13 Mar 2024 13:11:13 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2040.outbound.protection.outlook.com [104.47.74.40])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3wre791d5w-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 42DBtRbR004925;
+	Wed, 13 Mar 2024 13:15:30 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3wre791m5y-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Mar 2024 13:11:13 +0000
+	Wed, 13 Mar 2024 13:15:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MBzmKU2dCsd7ZFwnqE4qv/AMERtWq5uCf825DxSakDd3cD1RMKCrb/qjOGM8UnUaW2yI80SGnELRlQxv15f0z18uPUeZxTT9pa+AJiXsZmUiwyuOabzV7Z2geAU968Xnptq7ucZ+aJN2ckb6lNCraRsW+JvbdTsx0fv7ExMqHsZwwUE7Vf6/Cyhfwpo5oNe3Moava/ddhWAfi9Q2NDEQrkCn684gtOFRxP1plIYTRTl81SqawClQUmI9IRyJnv6ag7304q6IBEL8iFWjDg64dKS7dqkVFBibjikYAijl9jCdGFRYQHnd61K3C9cscEq7BQFCa2sjwwa23XLQZ4XWuQ==
+ b=Vx1S0epEfaBiR4sTYIAwaEiNe2F5NKkAoQUaJ9xEXeBzlk8sqJLS9Mfj/BiCVILjgwnGpgzz7lXyp2fsMpxAY7HHzPH504a6qP4UpoKQoxlwdyoZFpDNf6CKQ4XYLC2qXUuZdPgp+goWzdanj04Nd4ieCGH0/DFmdC8XLNc8RtRv46mL9uvUlpMZVXdJ8Now4OYFFM5ycJpWC6GjvwwJDofEYKX19axv8ZllxMltTQFOMDwVGHBpZ8bW5CLaZ7qQsDpz0/Qrsa79g2OHtum5jl4sjRaRbVXworcK5SxR2LgtEfQHUiholAmN4TNwFLNc+mYfVhwsGr/J4WgPJJriow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vuv1TyEs4M3FeCwlF3M9IMJFdCilMBBjHBgI4CutJWo=;
- b=MJRzJ0uuu5oKLmBsP8UXz+5nc3+0al4KNYuZfgI6RGBVQ5/mEdbR4PG4b5zgoPdiU1Gxa4TzogCXcRTHhpsw21p7idke0ydl5EuvOt0NRdQhTube+6M65HtbmqEbwgn2oW3w66T3CF1YlDOvcpHG98PuFRPA7gJo98qe3xPNBWISNAvjqDISaIspLNKrgo0r1GgYfdPNPAGW3+Ikc06++RSA1iK6zep4Gv9JFiBBgQZV9Z9hExH84hiPiEHZ1m+huVLgb0PcmKMAtgLovZ6DZu8D4WzJptE6htNJclAHpOSHUFsdVfTNCigk06K/WQG29fooytmScwUA7V0f0tVLBg==
+ bh=OocjH/UXRbn9tqumm9R+l7LequATtlUUMuy8CyQBw0Q=;
+ b=VjVRJ7wxf8/y9yX9mJGWFfWnQHcnRFfrpx+lc6ieAaVWeGxnJAhjqvysMZO9UCyOFcujDc3qS4WM6Pip57UqOo3kdMEgQOyr+zOYZ05QQ+3/8oCONXHSk15RRTERwpojcUSUcYv9nshFECUvum5P+NxUSFsa/qCKxo0KSCUFT33xhgy2CupR6/7WPPHNYHA2TYzeIXVpB6ilfYoIaLtwHpfms5OXfe1a2n47Tp7EhDSsksVWb5AhTz4x1HngtYRWrBxtiqeYAwmMva03fvog4B6wxjHvb32NbIKRluk+bWa/CY6fDZM0gav4VXgliHH6tkmWhuH4lPUwfYUdmYmpww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vuv1TyEs4M3FeCwlF3M9IMJFdCilMBBjHBgI4CutJWo=;
- b=hYEj6SR3Mu4ZTnBDQkBzLulMt/nbTUoERJJIOpnaHc/cK1h7LFc5edWDLM7kYKhV3Th3ZF8mnNKpU64MPqJPFlpKKp44JMydHwUPU3ZNpZi/cNynZG9cxcPvJLfacfTEcrRoEWLc5qICFG+P8uvDhCy7PLXFm4jDTad/PI4hF7E=
+ bh=OocjH/UXRbn9tqumm9R+l7LequATtlUUMuy8CyQBw0Q=;
+ b=oG+wYbJABjDQuMeSghgxDJSi0L9MgRDYOKb8pM16lZCV93QRDlLilLhWuIZMK6IPShuRgavBvyqkCWg4MzsEqj5lE3BIxndKxrZKG/JYhENGmWM5QfwMWZ2htB7GPND3YGeYdPVBKW3+KB2nbTzq0JurUDajBP2mb/3Sb4xBQJA=
 Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
- by SJ2PR10MB7670.namprd10.prod.outlook.com (2603:10b6:a03:53b::17) with
+ by SJ2PR10MB7558.namprd10.prod.outlook.com (2603:10b6:a03:549::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.26; Wed, 13 Mar
- 2024 13:11:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.20; Wed, 13 Mar
+ 2024 13:15:24 +0000
 Received: from PH0PR10MB5433.namprd10.prod.outlook.com
  ([fe80::c671:c95b:c99a:d9e]) by PH0PR10MB5433.namprd10.prod.outlook.com
  ([fe80::c671:c95b:c99a:d9e%5]) with mapi id 15.20.7386.017; Wed, 13 Mar 2024
- 13:11:10 +0000
-Message-ID: <aa7b1a88-f554-42c1-a874-a742e6614712@oracle.com>
-Date: Wed, 13 Mar 2024 14:11:00 +0100
+ 13:15:24 +0000
+Message-ID: <a755e7ca-7079-4ba7-94b6-d27dc162352e@oracle.com>
+Date: Wed, 13 Mar 2024 14:15:17 +0100
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 2/2] doc: distros: new document about assessing
  security vulnerabilities
 Content-Language: en-US
-To: Matt Wilson <msw@linux.com>
+To: Kees Cook <keescook@chromium.org>
 Cc: Jonathan Corbet <corbet@lwn.net>, cve@kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        security@kernel.org, Kees Cook <keescook@chromium.org>,
+        security@kernel.org,
         Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>,
@@ -84,7 +84,7 @@ Cc: Jonathan Corbet <corbet@lwn.net>, cve@kernel.org,
         Solar Designer <solar@openwall.com>, Matt Wilson <msw@amazon.com>
 References: <20240311150054.2945210-1-vegard.nossum@oracle.com>
  <20240311150054.2945210-2-vegard.nossum@oracle.com>
- <Ze9GmrqiW18GMkU6@uba002e82b7465e.ant.amazon.com>
+ <202403121515.A1DF92B3@keescook>
 From: Vegard Nossum <vegard.nossum@oracle.com>
 Autocrypt: addr=vegard.nossum@oracle.com; keydata=
  xsFNBE4DTU8BEADTtNncvO6rZdvTSILZHHhUnJr9Vd7N/MSx8U9z0UkAtrcgP6HPsVdsvHeU
@@ -128,11 +128,11 @@ Autocrypt: addr=vegard.nossum@oracle.com; keydata=
  pcH+LjiY61m43d8Rx+tqiUGJNUfXE/sEB+nkpL1PFWzdI1XZp4tlG6R7T9VLLf01SfeA2wgo
  9BLDRko6MK5UxPwoYDHpYiyzzAdO24dlfTphNxNcDfspLCgOW1IQ3kGoTghU7CwDtV44x4rA
  jtz7znL1XTlXp6YJQ/FWWIJfsyFvr01kTmv+/QpnAG5/iLJ+0upU1blkWmVwaEo82BU6MrS2 8A==
-In-Reply-To: <Ze9GmrqiW18GMkU6@uba002e82b7465e.ant.amazon.com>
+In-Reply-To: <202403121515.A1DF92B3@keescook>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P193CA0032.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:51::7) To PH0PR10MB5433.namprd10.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PAZP264CA0054.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:1fc::6) To PH0PR10MB5433.namprd10.prod.outlook.com
  (2603:10b6:510:e0::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -141,158 +141,622 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|SJ2PR10MB7670:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1896f5cb-b3dd-4904-136a-08dc435f0ce9
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5433:EE_|SJ2PR10MB7558:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11ff8488-b224-4958-a7ff-08dc435fa45f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	qTnVK9k8GFDKwDYaFB6OC5mf70tSPN81PHfyfnZu/5iZW7qUhGgvwoPRgXdiZyDQJ3PjHFfYrpzjGkV/gjWPid3C5X15J2b88/cNLtEGRmoS8gg6Lq9CyJl4dfEo7E1KyDqcPBiUgxh6/s9Kla+Zk3kmjByDmLXfrY4oJywIe8mDqBxZZ16rYfacX1zBamYLe2F5jS7R6YacB4UCd0w3TLA/UNKp7RNKHlCtJs0PV0Tybhtg5nGFpeI1UXZQwaZO9IMKaRI3m5FzRlTx+UKadSd/mR8+S85fcKwtKlYnV0dBpeCyoZL2oFzzQssPniXEHb0Mck+g8aOc2cFs4pJoA1ROZDyJWbOGHNqDOSIZneFnVkDwjeau3q8NXoWLgNKXSntYqsMSjLIGpq2gQXsDoa82o8UPYrCa6jcoMkNkcZHE9wwGZcFty2oIa91VJMnRRKGqiRgfMMU6e8LusSSJx57Gq5ED2bE/pXBVE6eyPXQdRHTBiVJDTpSnWrsUoQHzdHjkAgVBKsWAhs+uHh7aeheQOZ3Fg78dQoSmykCxqXskT+6b3sMvdOJaHYYYKrm/ETVWjuMXjKyI4AaRa0OO8zmIYRKfdIV6iVlJFdD5P98=
+	6fF1g5UT6k/bQnXn4EmSpVhJmRxGplNIOUjsmMb5wWlKoY9BOSs3RGk6HkpR0z3OJ0NWgULqmhvdhbk1XvEZ4g9UcFVSewlowSLgxYo6/7T9HuW6EIkhrtVo/oApI0Rj9y9YnmBHWNggiYj50B2ssgj8SOUBgWVtQAsvOwSUh4ZeeR8y0qaJF3aokY1K3SbS0OKIFR/G/eG6jTk/do6lKFnRIk5Nk72vtEJqkc3I2/H/swvl1ImCgD+DJL6p3CIChcCeLvsi2L42TLEpuAPVjbIPqdSAwYtd8O8LQ18eGiGA2IwwTs+dFHB8Lq8Pyk3lDBxbHzqI+VFMqI5LMKlUKm3pNkXxP3fWB+Vd6BHnp4oyuxU6wCRHcJxBVyOem36PExE6yUs7ZJKqiV2vjBrBYG0cmGp+FUmzBPszebCK2+RFZUVrwiN1lTPyCMjuuPhm57+Dih80Mg13CIMvvn1ClD63CcQAHphDi67MLPjEGo9BQvXfB6z+ThEwlQ7b5vdjncuf/ymHHsnXl/KQ2lVcWuYJrhyeKtgvk1TNfZ20C3QkYfDWzM6ufV0DMZTk3xkHEFLub4P+KB+CoSDaPlAl8e1SVADsQd3YmQ1i/l/VVfIraXFEDYeAHseO8QOu5Qrs
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?SXYyaE9Rb0RjWjNFOWhtaTB5eUNGaHVKMktVVGlSMlJaTUR0SW9haGNiYnhn?=
- =?utf-8?B?NnFUdzk1WmtOemNpL0k2VkFMZloxQnBPeTkxQklDc3cwMEM5UHZpUjV2TTlV?=
- =?utf-8?B?ZE94T1ZrU0Q4eFNOSW1LUWVmZmdYblFvWVpCNGk5bWpCSjdxZXRKanF1eXdW?=
- =?utf-8?B?SG9sQW1VbllNUFVtMXJFUTl0d0N2UThtanZqb1JSdmovWHk3ZjQzcThUN0R1?=
- =?utf-8?B?NmZnN2dNU0pxQWlzRDZ2c0lZL1U1RldXOHlXUkFmUXJiQVdVSlJ5ZnJzeHhT?=
- =?utf-8?B?WXFEeHEzdm1FNXVaOWNYRmtpY0JTWE1UNkVHMXJiR3J5NU9LRlhyRVFKbTJm?=
- =?utf-8?B?YXdpL0poYUNWaTdzSUdYU1ZXNHVDMDA4RGU0VmtzdUlwQi92WlVBUlFzeVV0?=
- =?utf-8?B?d05FQ3dhMURmUHJoVEYwcXpVNGFJY1h0d1YvcWhPSE5SLy9wTlRRYnQvWDJl?=
- =?utf-8?B?aVRnekVYTEJtUGR1c2o4cEJtUGYrRktISjJsdVFQbUxHVjJHUm8wa0RDbG5k?=
- =?utf-8?B?eEdzVlV6elE1d0JnekJoWFhGa1RjQjhxWG1acVZFMW9NTE5MK0hNU3hLeTRp?=
- =?utf-8?B?TkJOQjNRR2tKU2ZhelJRK2JkSXNtRWVVbzRvT2plQUtEZHlDUk1odVYwbDJV?=
- =?utf-8?B?NkMyKzMybFRXZDFGL3FReHQ2aXF2V29aYUxSUEtmbGFxNWE0WUlJbUFad1Z0?=
- =?utf-8?B?UmRhWWRUQXk5OUN6enhSQ2xmUVdhc1I5dmUzbUEvUytvSjNMb2RyRVFvRVdB?=
- =?utf-8?B?MXlMbDRyQm9RemxBaG9ZS200V0Q5WHBvYmJ3Vm52Y0tXZVJDRWNJbXZNRkN6?=
- =?utf-8?B?c0dEdTFwOGtUS1FHZzJuNDI2WkR5V2tJaE9jMEo2a0FxVk4zaXVSRWxiTk5G?=
- =?utf-8?B?bmpub2ZEU2NmS09EblBiN1ZxZWxlMDZ0dUpHUmp5QVBYWkdJaHpLTHFUMnFT?=
- =?utf-8?B?dlNTZmZGczlScWVqK2VHWXM0VVkzcFJ3S2dIVTluUk42TXA4MEpWb2g2YlBl?=
- =?utf-8?B?YVN5VmsrWGtSZVc1K2FKRWQzT1poL2pGeFdDVE5HYk5JWkFscVF5ei9CbHNo?=
- =?utf-8?B?aUpGQU9wNENJZ2doWWlZUEVFdi9VZm5PdElQQzUxcUVXSnVMbVh3RVd1bnA1?=
- =?utf-8?B?QkM3QUZyUWxuTm1aN1hRbUdqMkNTMXVqempQU3hoTGJZa2FhMkNEbGZSakth?=
- =?utf-8?B?MC94bkNsUWJCVmVVZk91V3d0KzlveHFERk5mbzFkU1dIQzF2VnJvS1FXaXZo?=
- =?utf-8?B?anpHUjhxaHJlcjZFWk9HcEpPQmRBcXIvUGVUUmxjdXh1azJ0ZGVVbFhqdXp6?=
- =?utf-8?B?cFF1eWk1NVViVUxjL1VEbTJzSEplbE5xSDJ0TE50ajZIbnVFMUQzeGcrTlRP?=
- =?utf-8?B?MmtHQ0Y5SDMvdWlZb3RMb2s3d21oMFltS0dXQXZMcUlXZ1hYbTdMRGpENERo?=
- =?utf-8?B?VHRCN1BSS1I4QU9QU3J6Ky96Vk9makhIdVBXWkpqL1U2cGNwMnFwUzNrcjI0?=
- =?utf-8?B?M055NUhEQ2RqRVptVzdqbkJpNlBvOWRnWkFDVUc1OTk1SERpZ3VhYUVtbUhF?=
- =?utf-8?B?T3hFU200MFJGTEw1T1hPSThtb3ZYTjNkVzZzdkZGbjh6bmpBRVJFczBhblQ4?=
- =?utf-8?B?TStkNW1xcnlRSnVybWs1VzFpcFMxSlYvdkxIalFPT0Fsa1lhUGpIYzdJN2VZ?=
- =?utf-8?B?TUdWMXI4UjRvNXFIWFljbUdjajNJc0xmbXI3emt5dWMxZW5PSnJzWVRYR1Bj?=
- =?utf-8?B?S3N2M2JyUTZwVVdkMzMyOGU5U1A2K0xxVFhua0NlQjMramZTR0wxUFNzTUIz?=
- =?utf-8?B?QUZsMVM4QXJyQU9qTkpIcUR3a3RBdTdzcldxRWFHWk82SkhuTFM2MjBZNExN?=
- =?utf-8?B?TmFGQ3ZQcW9SQ1M0OVl6TmdybE9ZeERPL1JhOVhNc3VkUFZ1L3JlQ1lYWXR1?=
- =?utf-8?B?emFpZnBoRXcyZGwvVW5uWTh2eHc2end2UndYVWlERVpEeW9jNkxqMUN4UmZC?=
- =?utf-8?B?TUsrbEthNzBrN0VKTjd6cm5TVmtIdEd4ckZ6Qk84K3RjL242YXRlQTM2TEUr?=
- =?utf-8?B?WjZZbEw3RjMrNFVwakVPd0FMeDJtQnAwUU9PTXhjYmpFZEZleW90RS9kRWhr?=
- =?utf-8?B?N2poY29PZ2RyN2VRVzFJVDgzd0swc0tvS0h2SW55Yk81NVlMVlhLOEpNY2Ix?=
- =?utf-8?B?TVE9PQ==?=
+	=?utf-8?B?WWtxY3lkNFBZU0t2M2o2c3dWMEZaUWxrOFE0SXQ2RndpcWlvVkt0M2VCWHhm?=
+ =?utf-8?B?YVFPSFRBUVpBQXJRYVZGT08wMERmcUcxQ2hkaFQwTzBFZEFHZk1iV2xFYmxo?=
+ =?utf-8?B?bi92T3VYTStUSUoyME9wdGNyWTkwa2E1bkNMd3JGYkROcXBMRS9GUWpyc3N4?=
+ =?utf-8?B?Yis2NGJKM1hzZGFTamhkQytPUnRVcGZJUnhockloN290NWtuaFcwZkZlTkMv?=
+ =?utf-8?B?VjJNblU4K0FodGpZYmllUGs3Z2tTWHhVaGtleXlvY0lscjJRUmdPZVV3Qkd0?=
+ =?utf-8?B?UjI0Qm1KOHd5aElJbW5jZ0dYQU03SzliUnMwMkZ1di9zTkZoaFhEbUE0T3FN?=
+ =?utf-8?B?U2pnbHE2ZXlqVkpXYm9ObldldHY5NllUdk80dlRqaHMwRDh1dzhZSkliS2k3?=
+ =?utf-8?B?NGJMVkl2ZVdDQkZ4VVJoQXRoUTZyaDR6MXYvMk1ZWFhhYUwxOVR5eGtMS0FE?=
+ =?utf-8?B?dVloZFFZekRPUTRkZVhyRUxKRjRlWlFMNkpyTEROVUoydUdSU1JqSjNvMmZO?=
+ =?utf-8?B?ZTFIMHk5b1VoNEtKY3lwT0NXeGVmbGM5VjJ2amczMmxBV2ZRK2h1TG1WM3ND?=
+ =?utf-8?B?NENEbll3VjBIKzBBdTJTdnFqOFpjMmQ3QU9LWUVhTnhsOTVvZThyVTFUdlMw?=
+ =?utf-8?B?U25iTVVpTTh0TTF3em1DQzJzNHd6R1FNUGhwL2w1aWtNeXMydmRzbnI2ZjZt?=
+ =?utf-8?B?YWZWTVQ0Ri85Tyt1eE1TM2pDSGtkL0FldzFHVy81Mng3ckNzUkNoK1dWbURT?=
+ =?utf-8?B?YzJXU1BJUjVkaGV0RW5FNFlnS1BiSjh2ZGgxeHBjS1IzTEg5bUtZWTJtRXQ3?=
+ =?utf-8?B?MTFMQjJDckNRd0t3cldqWjhZcmtIUzVwWFBnUSsvYXVEd3BEeUY3QWp2MUVD?=
+ =?utf-8?B?QnRzdlAxb1JLeFNBLzVlZHVNaEJCSWpyL2h3VE9iWEhFbDkwT2Z2SmpVQ0FI?=
+ =?utf-8?B?ZmVWU2dhdlh3RUkvTWJOUks3UzFEeElQT016OFVIcWtFcmFSSmNoZ2J2RDRH?=
+ =?utf-8?B?L0xRTlhHQnQvQ1krbkUweGt4MWFHN1R2SDd3bXIzTXB2VmVWdlZrdFNWTVVL?=
+ =?utf-8?B?eThLK24rVTc3ZmI5QlJEM2dsYWVxVDFyb2NFeDBZZjViaUFpbm9mQktmdEhD?=
+ =?utf-8?B?OGx6QU52QVVELzlSSng5VStXNmRxUktTK3ZHWHMvazMvVTd1bmFPNUxoQTFX?=
+ =?utf-8?B?TWx2NUtOOVpwWTNsTWQ0NHRmNDFHZkYxdlRiL25Gd1NBMkt4bFRUMDV4akFy?=
+ =?utf-8?B?UWJNa1FhcmswNDg4WUNnTi9NSW4xQTlCWERmcVhMVFVMUjI0eU9Ka0pCOG5y?=
+ =?utf-8?B?WVg1cGk2OXhGMFI3WWFaK29TMng3eS90ZzhQK2picE9Sb1laQithWmhsUE9u?=
+ =?utf-8?B?OWVyaDdtSExTSm9iK0RzQmw1VUVaL2YwYXk0QVZBQXJpZFJaUEhjMW9wUFEy?=
+ =?utf-8?B?NzB4UU1ZeE15SzBpR3JpdHYrSWljMXhEdWF3L0ZVRDY0akQwQ1BsQTQraSs5?=
+ =?utf-8?B?QlhwMWh2SngyZlhBSXhDNjJGZC9SaUpSTE1UUDJ3ZWRPakZxUEpkNzc1NDg2?=
+ =?utf-8?B?NkprL3VpUlJOZkljVDhCTThST0ZjUVdtd0MvSjJtMW1pQWs2SEhxRjFzeGk1?=
+ =?utf-8?B?SnZLUWI0V1V3QXhSN0lpeEdrNmJ2L0l3RlpWNTNBN1RvOHlwTUV2Y2dkOWtK?=
+ =?utf-8?B?ZEhtcnY0TFZUVEc4WVoxQk0rL2ZnSVI5YmFCMGw2MEtQZ1RUR2pCWEdldTFt?=
+ =?utf-8?B?VFR1dXVKUGd2aE1DUnM2NyswZHFwaW1uVU9zTkphRkhWelJiRHJXQkJLODVh?=
+ =?utf-8?B?N2ErU3hzZFZCV293bEo2c0xuNzdWTy9iakhUMjdqdmZoQ1NSVURNbVZvYy84?=
+ =?utf-8?B?L0lHR0ZGRFJkdFFkUUZBUmRocXM2ZEkzanhjbnNkMlk5MVNjdDIrbnZ0YjFU?=
+ =?utf-8?B?cXM4bnFEcDZ5U2FOOGlkeExuSG1GNnhSWU94RjFtVExidWR1enRJOHd0L3Ax?=
+ =?utf-8?B?TTRMeEFzbWxxT25qcEx0eVh5d3BNUGlqNTFUK2R4TFkrNlZ0LzkzOW1TdWRO?=
+ =?utf-8?B?WUtnbmt4UUVkZ20yYWlWcUxjd0VUMUpwL3J0V2ZvSU5YYnZ5MTBmTm12ckNu?=
+ =?utf-8?B?MndqYW1qM3pLSEViOG5tM0ZMN3NrZDJlOVowTThLRDRLOWNhNXcraEU2T21M?=
+ =?utf-8?B?UHc9PQ==?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	dFTknRzk9khi8Oo/iIRviOFoMH10j+t6CdWO6Qt7I5lZXoVpe56L4aghT6z9c+Eo0fXJZ1Du+itQDMazLgYCr8bv/JmLDe8l/SZdD92UZF571Nt0EYUrzfBPEYcULtqXwRxIL/rkfetzJH557p9NPYmxNIV5ej7KNm9akz6beHB6W3UWaUXZ/WBpBcN4YfAbroZfwrqUVL+N8y9nQ0Usn4IMFUztni8xrWJMv5qQmgQq88iR/tzSpME10lpn6LhVpKag4NFcp2FGRX/RCL6pa/+sBvGGZgonAVh6bp3HMfOJoccleUq3xjPAwG5OcKrH5TMRM1OLqWRaQCoXthAZzA+83/RrQtWVXcm7RseQikaDIiuTAaOXMLAKYAxdscjeVlkMrcdMN9mnW7BK34m1PjWM5xo77iWFVrwWnzXOXIdm003dJ2dUErInbrm4ClXuJG6gp7I2Ijlx5Fq7I5NnbE7vwKrVMEqdvOy7HD7AfqOYpYj4a+V9apDdQpuDuKqKz1Cz/QkbUB3ruWzY/J7rPPAaEVJFG7Xm3MwGlSNrpoPr9BVS/9RigX/I8T9qgxVZao7W+BCcWDkaBdA2UA+bvinfav+5MOXcUO7NIly05Y0=
+	xgqUV/CUDgSvBMHLBCYjcVop6BUDuBrmdtZVsuCu9nVNZLTe0851fKh6/Q0LVQrESmyf7dsIkQdatW/cGc/ZGaxVcxG17k7rvwBX+s0qsLHmP1I9DR92omI9X4GGFhvaHFGFYQAOEx9XSPzXX4hfyy5N6nOLG2Qdm2hD12KWNWjfaUbtMpCno5UpfW2zRw86eTK4kPva5Pm6uipbcuzExvd6eMGKU8QPTQh+vDUlmHKb4MNvcRkS55cOrzCVbxz8nzj3zmrqlAxGkyAcpyI4CurBDnhUQ4pqY7sEBU2bN2l9mr+58IkYO6JH1zgcKpGawZ0jzS1rJN9UGPQisDrf1buhc+Nhu2Kh7PuvuALQR1mEl/15ipz/YD2A0v5LTAJwKlIrvwM5U6LBH/cWSSOzLftv2jMnmHmFH/9osF7yp0gvDk1QCgM38Xyxn46huxzhyt+9XryzeF2D6GOJCAq3GZkfWFAQ/2aUWtZc/xOQDETKBr85ugEBYQC9wrLS4UGfDGDjx0yCGhtOarL1n6a+086vHttyHFc/wc/LEmBoad51j35fYMw9uImMdPbNd01C/h5+92aWBFhjewPb4pd7zwQY+0TPGVeufxSbb3ENfmg=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1896f5cb-b3dd-4904-136a-08dc435f0ce9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11ff8488-b224-4958-a7ff-08dc435fa45f
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 13:11:10.0082
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 13:15:24.1299
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kwFE+5C9CCH/K8W5xzunVL27DjjMkiC/zlza+3QL2TE2jaM/Zd+kSXnPjqfiSh8ImJlb0Fw5FzF0kB9J+YO5zjdD4aZVwE9ncpCU8nLvSZA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7670
+X-MS-Exchange-CrossTenant-UserPrincipalName: UiP6E4mwoy4ZCQSDSOLlxa6cd/0Wpjk0sPqJ+yheX7zMCqR4F8TpArGowclioBPEnsHmp8C7nEWzlvL/NGMyOzqwPg96PjP+RS14TaM4uTs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7558
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_07,2024-03-12_01,2023-05-22_02
+ definitions=2024-03-13_08,2024-03-12_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
  spamscore=0 suspectscore=0 bulkscore=0 adultscore=0 malwarescore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2403130098
-X-Proofpoint-ORIG-GUID: HtEKGq30_quelH1KEI33siRFYTj0dTht
-X-Proofpoint-GUID: HtEKGq30_quelH1KEI33siRFYTj0dTht
+ engine=8.12.0-2311290000 definitions=main-2403130099
+X-Proofpoint-ORIG-GUID: ktlNmrlHTFrl1igetccGVNYFHdv85dW2
+X-Proofpoint-GUID: ktlNmrlHTFrl1igetccGVNYFHdv85dW2
 
 
-On 11/03/2024 18:59, Matt Wilson wrote:
+On 12/03/2024 23:58, Kees Cook wrote:
 > On Mon, Mar 11, 2024 at 04:00:54PM +0100, Vegard Nossum wrote:
->> Since what most distros probably ultimately want is a type of CVSS score,
->> the guide is written with that in mind. CVSS provides its own "contextual"
->> modifiers, but these are not accurate or nuanced enough to capture the
->> wide variety of kernel configurations and deployments. We therefore focus
->> on practical evaluation under different sets of assumptions.
-> 
-> (sending from my msw@linux.com account to emphasize that I am speaking
-> only for myself, not my current employer.)
-> 
-> I'm not sure that Linux distributions particularly *want* a CVSS base
-> score for kernel CVEs. It is something that downstream _users_ of
-> software have come to expect, especially those that operate under
-> compliance regimes that suggest or require the use of CVSS in an
-> enterprise's vulnerability management function.
-
-Very true.
-
-> Those compliance regimes often suggest using CVSS scores as found in
-> the NVD in search of an objective third party assessment of a
-> vulnerability. Unfortunately the text of these regulations suggests
-> that the base scores generated by the CVSS system, and found in the
-> NVD, are a measure of "risk" rather than a contextless measure of
-> "impact".
-> 
-> There have been occurrences where a CVSSv3.1 score produced by a
-> vendor of software are ignored when the score in the NVD is higher
-> (often 9.8 due to NIST's standard practice in producing CVSS scores
-> from "Incomplete Data" [1]). I don't know that harmonizing the
-> practice of producing CVSSv3.1 base scores across Linux vendors will
-> address the problem unless scores that are made available in the NVD
-> match.
-
-That link actually says they would use 10.0 for CVEs without enough
-detail provided by the filer/CNA (as I understood it).
-
-I wonder what their strategy would be for all of these new kernel CVEs
--- should we expect to see 10.0 or 9.8 for all of them, do you know? I
-assume they do NOT have people to evaluate all these patches in detail.
-
-> But, stepping back for a moment I want to make sure that we are
-> putting energy into a system that is fit for the Linux community's
-> needs. CVSS lacks a strong scientific and statistical basis as an
-> information capture and conveyance system. A study of the distribution
-> of CVSSv3.1 base scores historically generated [2] shows that while
-> the system was designed to resemble a normal distribution, in practice
-> it is anything but.
-
-Yes, agreed.
-
-The article was interesting; thanks for that!
-
->> +CVEs and CVSS scores for the kernel
->> +===================================
+>> +==================================
+>> +Assessing security vulnerabilities
+>> +==================================
 >> +
->> +CVSS (`Common Vulnerability Scoring System <https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System>`_)
->> +is an open standard for vulnerability scoring and the system which is
->> +commonly used by Linux distributions and various industry and government
->> +bodies.
+>> +:Author: Vegard Nossum <vegard.nossum@oracle.com>
 >> +
->> +We won't go into the details of CVSS here, except to give a guide on how
->> +it could be applied most effectively in the context of the kernel.
+>> +This document is intended for distributions and others who want to assess
+>> +the severity of the bugs fixed by Linux kernel patches.
 > 
-> If the guide has something to say about CVSS, I (speaking only for
-> myself) would like for it to call out the hazards that the system
-> presents. I am not convinced that CVSS can be applied effectively in
-> the context of the kernel, and would rather this section call out all
-> the reasons why it's a fool's errand to try.
+> Perhaps add, "... when it is infeasible to track a stable Linux
+> release."
+> 
+>> +We could consider *everything* a security issue until proven otherwise, or we
+> 
+> Who is "we" here (and through-out)?
 
-I also heard this concern privately from somebody else.
+In this case a "general we", as in "One could consider...".
 
-I am considering replacing the CVSS part with something else. To be
-honest, the part that really matters to reduce duplicated work for
-distros is the reachability analysis (including the necessary conditions
-to trigger the bug) and the potential outcomes of triggering the bug.
-Once you have those, scoring for impact, risk, etc. can be done fairly
-easily (at least more easily) in different systems and taking
-distro-specific constraints (configuration, mitigations, etc.) into account.
+But in general the document was intended to represent a consensus of
+Linux distributors who need (for a variety of good and bad reasons) to
+know the security impact of what they are shipping. (Note: I'm aware
+that there isn't a consensus yet -- that's why this is an RFC and I'm
+actively trying to _build_ that consensus :-))
+
+>> +What is a vulnerability?
+>> +========================
+>> +
+>> +For the purposes of this document, we consider all bugfixes to be
+>> +potential vulnerabilities. This is because, as stated in
+
+(A kind of "academic we" here, though more referring to the general
+community of distributors who might stand behind such a document.)
+
+> 
+> The CVE definition makes a distinction here, instead calling a
+> software flaw with security considerations a "weakness" rather than
+> "vulnerability". I find "weakness" more in line with people's thinking
+> about attack chains.
+> 
+>> +Documentation/process/cve.rst, whether a bug is exploitable or not
+>> +depends highly on the context (threat model, platform/hardware,
+>> +kernel configuration, boot parameters, runtime configuration,
+>> +connected peripherals, etc.).
+> 
+> Exploitability is an even higher bar, and tends to be unable to
+> disprove.
+
+Agreed.
+
+>> +2. **Common configurations**: assuming kernel defaults, taking into
+>> +   account hardware prevalence, etc.
+> 
+> I'm not sure I'd call this "Common", I'd say "Kernel default configuration"
+> 
+>> +3. **Distro-specific configuration** and defaults: This assessment of a
+>> +   bugfix takes into account a specific kernel configuration and the
+>> +   distro's own assumptions about how the system is configured and
+>> +   intended to be used.
+> 
+> And this just "Distro default configuration".
+> 
+>> +4. **Specific use case** for a single user or deployment: Here we can make
+>> +   precise assumptions about what kernel features are in use and whether
+>> +   physical access is possible.
+> 
+> i.e. a configuration that differs from distro default.
+
+Will change these.
+
+>> +Latent vulnerabilities
+>> +----------------------
+>> +
+>> +It is worth mentioning the possibility of latent vulnerabilities:
+>> +These are code "defects" which technically cannot be exploited on any
+>> +current hardware, configuration, or scenario, but which should nevertheless
+>> +be fixed since they represent a possible future vulnerability if other
+>> +parts of the code change.
+> 
+> I take pedantic issue with "cannot be exploited". Again, "exploit" is a
+> high bar.
+
+I am here specifically talking about patches that aren't really fixing
+anything because the condition is provably never true; by definition,
+they cannot be exploited.
+
+Take the first example from the text below -- there is a NULL pointer
+check in the module_exit() that generates a compiler warning because the
+check happens after a dereference, but we really do know that the
+pointer can never be NULL in the first place by looking at the rest of
+the code.
+
+It is only a latent vulnerability because the rest of the code could
+conceivably be changed (in the future) in such a way that the NULL check
+actually matters, but this is not the case for the specific kernel
+version where the compiler warning was fixed.
+
+We cannot take all future potential changes into account when
+considering something a vulnerability, that would be madness. If I
+started submitting patches to add NULL checks everywhere in the kernel
+on account of "some other code may change to make this NULL check useful
+in the future" nobody would take that seriously. Those patches would not
+even get into the kernel and should not have CVEs assigned to them.
+
+Another example might be a patch changing a sprintf() into snprintf()
+(which is a nice cleanup, don't get me wrong!) even when we can clearly
+see that the buffer _is_ large enough to contain all possible printed
+strings.
+
+> Also, why should hardware limit this? If a "latent vulnerability"
+> becomes part of an attack chain on some future hardware, and we saw it
+> was a weakness at the time it landed it stable, it should have gotten
+> a CVE then, yes?
+
+Maybe...
+
+I think what I had in mind when writing this would not satisfy your "we
+saw it was a weakness" criterion.
+
+How about this as an example: We're reading a value out from some device
+register and using that to index an array. There isn't an explicit
+bounds check because the hardware never returns out-of-bounds values.
+Meanwhile, we also sometimes do lookups in the same array for values
+coming from userspace. A cleanup patch adds a helper function that does
+the lookup, with a check, and replaces both lookups with a call to the
+new helper function.
+
+The check is added as a byproduct of a cleanup, but we have no reason to
+believe future hardware is going to start returning invalid values.
+
+I don't think this should be considered a vulnerability, but I'm open to
+hearing more arguments.
+
+Note that I'm not saying distros should not take the patch (they
+should!), just that we should make a clear distinction between latent
+vulnerabilities and actual vulnerabilities.
+
+>> +An example of latent vulnerabilities is the failure to check the return
+>> +value of kmalloc() for small memory allocations: as of early 2024, these
+>> +are `well-known to never fail in practice <https://lwn.net/Articles/627419/>`_
+>> +and are thus not exploitable and not technically vulnerabilities. If this
+>> +rule were to change (because of changes to the memory allocator), then these
+>> +would become true vulnerabilities.
+> 
+> But for kernel prior to that, it IS an issue, yes? And what does "in
+> practice" mean? Does that include a system under attack that is being
+> actively manipulated?
+
+Depends on what you mean by "issue". I think we should apply patches
+adding missing NULL checks for all kmalloc()s.
+
+"in practice" means that we take into account the way the memory
+allocator is currently functioning (i.e.: small allocation requests
+cannot fail) as opposed to the common and more general assumption that
+any memory allocation request can fail at any time.
+
+With "system under attack", are you alluding to these requests possibly
+failing while under memory pressure? If that were the case then I agree
+this would not be a latent vulnerability but a real vulnerability. But
+that does not seem to be the case, see the linked LWN article for the
+discussion.
+
+>> +We recommend that a "worst-case scenario" assessment don't consider latent
+>> +vulnerabilities as actual vulnerabilities since this is a slippery slope
+> 
+> I wouldn't use the language "actual", but rather reword this from the
+> perspective of severity. Triage of severity is what is at issue, yes?
+
+By the definition of latent vulnerabilities given in this section, I
+would personally like to see CVE requests for such patches rejected as
+they are (again, by definition) not vulnerabilities.
+
+>> +where eventually all changes can be considered a vulnerability in some sense
+>> +or another; in that case, we've thrown the baby out with the bath water and
+>> +rendered assessment completely useless.
+> 
+> I don't find this to be true at all. Distro triage of kernel bug fixes
+> isn't binary: it'll always be severity based. Many will be 0, yes, but
+> it is up to the specific deployment to figure out where their cut line
+> is if they're not just taking all fixes.
+
+I don't think any distro wants to have CVEs for non-vulnerabilities as
+every CVE adds extra work -- and I'm not referring to triage work here.
+The triage needs to happen anyway; that's why the parts about latent
+vulnerabilities is here in the first place: to clearly distinguish these
+types of patches from actual vulnerabilities that are plausibly
+exploitable in some known configuration.
+
+Think of this whole section of the document as a shortcut to saying
+"this is not a vulnerability in current mainline or stable, no need for
+further analysis".
+
+Perhaps I didn't outline the next step of this process well enough, but
+what I had in mind was a shared list or repository of analyses where the
+individuals performing triage for distros could share their notes and
+cut down some of the duplicate work that is likely happening right now
+across distributions. We don't always have to agree (and we definitely
+don't need to have the same threshold for which fixes get deployed in
+practice), but it would help to try to make the determination as
+objective as possible, i.e. independent of factors like configuration.
+And analyses (such as information about reachability or assumed
+capabilities) are typically easier to verify than they are to perform in
+the first place, which is why cross-distro collaboration on this would
+be so useful, regardless of what the final impact/risk would be for any
+particular distro or user.
+
+I think it makes sense to draw a line between latent and actual
+vulnerabilities where that is possible.
+
+>> +Types of bugs
+>> +=============
+>> +
+>> +There are many ways to classify types of bugs into broad categories. Two
+>> +ways that we'll cover here are in terms of the outcome (i.e. what an
+>> +attacker could do in the worst case) and in terms of the source defect.
+> 
+> Before breaking this down into examples, I would start with a summary of
+> the more basic security impact categories: Confidentiality, Integrity,
+> and Availability, as mapping example back to these can be useful in
+> understanding what a bug is, or can be expanded to.
+
+I have tried to avoid going too deeply into "vulnerability theory" and
+keep it more practical/down-to-earth (a bit more about this below...)
+
+>> +
+>> +In terms of outcome:
+>> +
+>> +- **local DoS** (Denial of Service): a local user is able to crash the
+>> +  machine or make it unusable in some way
+>> +
+>> +- **remote DoS**: another machine on the network is able to crash the
+>> +  machine or make it unusable in some way
+>> +
+>> +- **local privilege escalation**: a local user is able to become root,
+>> +  gain capabilities, or more generally become another user with more
+>> +  privileges than the original user
+>> +
+>> +- **kernel code execution**: the attacker is able to run arbitrary code
+>> +  in a kernel context; this is largely equivalent to a privilege escalation
+>> +  to root
+> 
+> Yes, uid 0 and kernel context are distinct. I don't think I'd say
+> "largely equivalent" though. Perhaps "Note that root access in many
+> configurations is equivalent to kernel code execution".
+
+Fair enough.
+
+I guess in my mind, uid 0 means you can load modules (however, not true
+with lockdown enabled) or otherwise reach a bunch of code that usually
+isn't that well protected (including potential lockdown bypasses), which
+implicitly gives you kernel execution. I guess in a worst case scenario,
+lockdown is not enabled, which would make them the same.
+
+(And if you have kernel execution, uid 0 is trivial.)
+
+But I can use your phrasing instead.
+
+Do you think it's worth including the bit about lockdown or is that
+going into too much detail at this point? We could make it a separate
+section next to user namespaces (further down) as there are probably
+more details around it that would be interesting in the context of
+assessing security vulnerabilities.
+
+>> +- **information leak**: the attacker is able to obtain sensitive information
+> 
+> Instead of "leak", please use the less ambiguous word for this, which is
+> "exposure". The word "leak" is often confused with resource leaks. This
+> is especially true for language like "memory leak" (... is this content
+> exposure or resource drain?)
+
+Agreed, although "info leak" is VERY commonly used and in some sense
+probably less confusing for the intended audience of this document.
+Especially also given the definition that is given right after: "[...]
+obtain sensitive information [...]".
+
+What if I just changed it to: **information leak (exposure)** ?
+
+>> +  (secret keys, access to another user's memory or processes, etc.)
+>> +
+>> +- **kernel address leak**: a subset of information leaks; this can lead to
+>> +  KASLR bypass, usually just one step as part of an exploit chain.
+> 
+> Again, "exposure".
+> 
+>> +
+>> +In terms of source defect:
+> 
+> These are also very specific. Perhaps a summary of higher level issues:
+> Spatial safety, temporal safety, arithmetic safety, logic errors, etc.
+
+Again, I feel like this is going too much into a "technical-theoretical"
+direction and using the terms as they are commonly used in kernel
+development (and the kernel development community) helps us make the
+connection between what a patch describes and how the vulnerability is
+assessed.
+
+At least for me, as a non-native speaker of English, I have real trouble
+with the terms spatial and temporal; they don't have much to do with
+programming. I know what they mean, but I always have to stop and think
+about it. Maybe that's just me, though!
+
+That said, I was considering grouping some of these into a "memory
+safety" category, however I decided against it for a few reasons: merely
+reading uninitialized memory is a memory safety issue but depending on
+the context and how the value is used this could be an info leak or
+snowball into something worse (I mean, it is UB but we typically have an
+idea of the possible consequences by reading the code). Also, many
+people believe memory leaks are a memory safety issue, which they are not.
+
+What if we add something at the end, maybe with links to more complete
+reference material? (Do you have any?)
+
+>> +A useful rule of thumb is that anything that can cause invalid memory
+>> +dereferences is a potential privilege escalation bug.
+> 
+> Even an "unexpected" dereference. :)
+
+True.
+
+>> +To calculate a final CVSS score (value from 0 to 10), use a calculator
+>> +such as `<https://www.first.org/cvss/calculator/>`_ (also includes detailed
+>> +explanations of each metric and its possible values).
+> 
+> Why not NIST's website directly?
+
+The CVSS specifications are owned and managed by FIRST.Org, Inc. and the
+calculators were designed and developed by them.
+
+NIST operates NVD which merely makes use of CVSS. At least that's my
+understanding.
+
+>> +A distro may wish to start by checking whether the file(s) being patched
+>> +are even compiled into their kernel; if not, congrats! You're not vulnerable
+>> +and don't really need to carry out a more detailed analysis.
+>> +
+>> +For things like loadable modules (e.g. device drivers for obscure hardware)
+>> +and runtime parameters you might have a large segment of users who are not
+>> +vulnerable by default.
+> 
+> These 2 paragraphs seem more suited for the Reachability section?
+
+Good catch, that's where they came from :-)
+
+>> +Reachability analysis
+>> +=====================
+>> +
+>> +One of the most frequent tasks for evaluating a security issue will be to
+>> +figure out how the buggy code can be triggered. Usually this will mean
+>> +starting with the function(s) being patched and working backwards through
+>> +callers to figure out where the code is ultimately called from. Sometimes
+>> +this will be a system call, but may also be timer callbacks, workqueue
+>> +items, interrupt handlers, etc. Tools like `cscope <https://en.wikipedia.org/wiki/Cscope>`_
+>> +(or just plain ``git grep``) can be used to help untangle these callchains.
+> 
+> 
+> Before even this, is just simply looking at whether it was built,
+> whether it was shipped, if a CONFIG exposed the feature, etc.
+
+Yes.
+
+>> +Examples
+>> +========
+>> +
+>> +In the following examples, we give scores from a "worst case" context,
+> 
+> ...for an generic distro...
+> 
+>> +i.e. assuming the hardware/platform is in use, the driver is compiled
+>> +in, mitigations are disabled or otherwise ineffective, etc.
+>> +
+>> +**Commit 72d9b9747e78 ("ACPI: extlog: fix NULL pointer dereference check")**:
+>> +
+>> +  The first thing to notice is that the code here is in an ``__exit``
+>> +  function, meaning that it can only run when the module is unloaded
+>> +  (the ``mod->exit()`` call in the delete_module() system call) --
+>> +  inspecting this function reveals that it is restricted to processes
+>> +  with the ``CAP_SYS_MODULE`` capability, meaning you already need
+>> +  quite high privileges to trigger the bug.
+>> +
+>> +  The bug itself is that a pointer is dereferenced before it has been
+>> +  checked to be non-NULL. Without deeper analysis we can't really know
+>> +  whether it is even possible for the pointer to be NULL at this point,
+>> +  although the presence of a check is a good indication that it may be.
+>> +  By grepping for ``extlog_l1_addr``, we see that it is assigned in the
+>> +  corresponding module_init() function and moreover that the only way
+>> +  it can be NULL is if the module failed to load in the first place.
+>> +  Since module_exit() functions are not called on module_init() failure
+>> +  we can conclude that this is not a vulnerability.
+> 
+> Sounds right.
+
+Right, so I came across this while looking for examples, as this was
+assigned CVE-2023-52605:
+
+   https://lore.kernel.org/all/2024030647-CVE-2023-52605-292a@gregkh/
+
+This is where I think the distinction latent/actual vulnerability is
+useful: this is a latent vulnerability in the sense that if somebody
+were to change module_init() in such a way that extlog_l1_addr could be
+NULL, then the dereference/check ordering could be a local DOS by users
+with CAP_SYS_MODULE (yes -- admittedly an extremely contrived scenario,
+but admissible under worst case assumptions).
+
+>> +**Commit 27e56f59bab5 ("UBSAN: array-index-out-of-bounds in dtSplitRoot")**:
+>> +
+>> +  Right away we notice that this is a filesystem bug in jfs. There is a
+>> +  stack trace showing that the code is coming from the mkdirat() system
+>> +  call. This means you can likely trigger this as a regular user, given
+>> +  that a suitable jfs filesystem has been mounted. Since this is a bug
+>> +  found by syzkaller, we can follow the link in the changelog and find
+>> +  the reproducer. By looking at the reproducer we can see that it almost
+>> +  certainly mounts a corrupted filesystem image.
+>> +
+>> +  When filesystems are involved, the most common scenario is probably
+>> +  when a user has privileges to mount filesystem images in the context
+>> +  of a desktop environment that allows the logged-in user to mount
+>> +  attached USB drives, for example. In this case, physical access would
+>> +  also be necessary, which would make this Attack Vector **Physical**
+>> +  and User Interaction **Required**.
+>> +
+>> +  Another scenario is where a malicious filesystem image is passed to a
+>> +  legitimate user who then unwittingly mounts it and runs
+>> +  mkdir()/mkdirat() to trigger the bug. This would clearly be User
+>> +  Interaction **Required**, but it's not so clear what the Attack Vector
+>> +  would be -- let's call it **Physical**, which is the least severe of
+>> +  the options given to us by CVSS, even though it's not a true physical
+>> +  attack.
+> 
+> "let's call it" -> "For a distro that doesn't have tools that will mount
+> filesystem images"... I'm not sure if "Physical" is "worst case" :)
+
+Not sure I get this -- there is some kind of inversion of best/worst
+case here I think.
+
+The worst case analysis does not make distro-specific assumptions. What
+we know is that two system calls are necessary: mount() and mkdir() (or
+possibly some other filesystem-related system calls that would end up in
+the same vulnerable code). The question is: how do those calls get made?
+
+Anyway, I would welcome more thoughts on this specific bug because the
+lines are very blurred (at least in my mind) between what triggers the
+bug vs. what the attacker can do and actually does.
+
+If somebody gives you a USB stick with a shell script on it that removes
+your home directory when you run it, is that a vulnerability? At which
+point is it simply the user's fault for running unknown code? Is it a
+physical attack vector because the user's action was something physical,
+or was it the attacker's action of handing over the USB stick that was
+physical? Does auto-mounting play a part in the analysis?
+
+I'm sure you could model it mathematically with an adversarial model but
+we shouldn't have to invoke that whole machinery to do a best effort
+evaluation of a patch (though it could be interesting to include a
+summary of the results of such an extensive analysis for specific
+examples to gain a better intuition).
+
+>> +  This is an out-of-bounds memory access, so without doing a much deeper
+>> +  analysis we should assume it could potentially lead to privilege
+>> +  escalation, so Scope **Changed**, Confidentiality **High**, Integrity
+>> +  **High**, and Availability **High**.
+>> +
+>> +  Since regular users can't normally mount arbitrary filesystems, we can
+>> +  set Attack Complexity **High** and Privileges **Required**.
+> 
+> Why not? Many distros ship without automounters for inserted media. Some
+> docker tooling will mount filesystem images.
+
+You mean a regular, unprivileged user can get docker to call mount() on
+behalf of the user for JFS filesystems? That's a bit of unfortunate
+attack surface given that most filesystems are deliberately restricted
+to root because (as I'm sure you're aware) their implementations are not
+as hardened as one would hope for (latest LWN article on this topic for
+reference: https://lwn.net/Articles/951846/). I would honestly consider
+this a vulnerability in Docker and/or auto-mounters if the kernel is
+well known to not provide a guarantee against crafted filesystem images.
+Maybe it just needs to be documented explicitly?
+
+>> +  If we also set Exploit Code Maturity **Unproven**, we end up with the
+>> +  following CVSSv3.1 vector:
+>> +
+>> +  - CVSS:3.1/AV:P/AC:H/PR:H/UI:R/S:C/C:H/I:H/A:H/E:U (6.2 - Medium)
+>> +
+>> +  If this score seems high, keep in mind that this is a worst case
+>> +  scenario. In a more specific scenario, jfs might be disabled in the
+>> +  kernel config or there is no way for non-root users to mount any
+>> +  filesystem.
+> 
+> Your worst and mine are very different. ;)
+
+What is your worst? (Honest question! Learning from each other is very
+much also a goal here.)
+
+>> +**Commit b988b1bb0053 ("KVM: s390: fix setting of fpc register")**:
+>> +
+>> +  From the changelog: "corruption of the fpc register of the host process"
+>> +  and "the host process will incorrectly continue to run with the value
+>> +  that was supposed to be used for a guest cpu".
+>> +
+>> +  This makes it clear that a guest can partially take control of the
+>> +  host process (presumably the host process running the KVM), which would
+>> +  be a privilege escalation of sorts -- however, since this is corruption
+>> +  of floating-point registers and not a memory error, it is highly
+>> +  unlikely to be exploitable beyond DoS in practice (even then, it is
+>> +  questionable whether the DoS impacts anything beyond the KVM process
+>> +  itself).
+>> +
+>> +  Because an attack would be difficult to pull off, we propose Attack
+>> +  Complexity **High**, and because there isn't a clear or likely path to
+>> +  anything beyond DoS, we'll select Confidentiality **None**, Integrity
+>> +  **Low** and Availability **Low**.
+>> +
+>> +  We suggest the following CVSSv3.1 vector:
+>> +
+>> +  - CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L/E:U (3.7 - Low)
+> 
+> Though for many distros this issue will be a non-issue unless they ship
+> s390...
+
+True, I just didn't want to repeat the same line over and over again. Do
+you think it's necessary to repeat it again for this patch?
+
+Finally, I'll ask this very straightforwardly, as this seems to be your
+main objection: What is your reason for wanting to assign CVEs to
+non-vulnerabilities? I don't really understand the motivation for this.
+Some people still believe the whole CNA thing is an attempt to "burn
+down" the CVE ecosystem; maybe I'm naïve but I don't think that's
+actually the case. I also think you care enough about real security to
+see that this (burning it down by swamping it with non-issues) would be
+a mistake.
+
+My own reason for NOT wanting to assign CVEs to non-vulnerabilities is
+the fact that this makes a lot of people's jobs harder for no good
+reason. It also does not improve security. Distros will need to ship and
+evaluate these patches anyway; I see it more as a collaboration between
+the CNA/CVE team and distros to get the best possible quality and
+outcome of being a CNA as opposed to working against each other.
+
+Just to be clear: This document is not meant for CNA/CVE team to follow,
+although I would be happy if they found it useful too.
+
+In any case, thanks for the review. I will incorporate at least some of
+your feedback for a v2.
 
 
 Vegard
