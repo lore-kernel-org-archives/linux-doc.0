@@ -1,138 +1,92 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156091C6AB;
-	Wed, 13 Mar 2024 09:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358E41CF9C;
+	Wed, 13 Mar 2024 09:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710321722; cv=none; b=jhrrJYy05RbcjzoEPAfQnsMVcVyg+248mXM/EeXfqItg4n6c3ahZtlAI84hZCMX2BWmTiE/ExFETeRosPPNv7EHSaAXtsNBAK9H+8KkQnwFj5CF95RaD/Hi5H8jrR35kp2Urr46IJYNxjtJSIHjRvP8RKcX7Xc29n23al8Lpjnc=
+	t=1710321959; cv=none; b=H81HT1jiXEiKQHgXyja3jP2NBG3faIhFLPXz6oY9C0xqSHBAgGR91dq7vAUS9on4I1UXbTrwxcirXYkefmoQRw9tZfE5beEG3gjNc0G8Zd1SLuJdxJxNhCBUuUpEFky/vaPIhbaNyrdKxLf8lsS6CUFTMLkjDcCi3XLdbPyoyHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710321722; c=relaxed/simple;
-	bh=raw2+FfisWfJFT08qDnQBVO8iyFRrffzMxBYqyLrj7w=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4pYfN/S9osPJv3G94cXTjs/8TGav1drpeNVzX6g21QcQbedcYyvGSaX9C8eXo3bA1ESWgjrbUmyj5b9M3441cSDRVle8Q6X9opo64GVNtnRyQKfP9t6hD87mDYoooqlvngFSxrrJn8Y9UwQp9rMAi0U9LK+8hFOUEZm42Kx9NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dVGZ6Q/1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1710321959; c=relaxed/simple;
+	bh=nuuNnhUztY1VeLgDqpK+BdG+dofugFD2ZFhDbkIUnz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X/cRqs6vi6h1ji9Kws3TRZH+a9NsPo83zpS4B39E/v4NDiT/xRD3dGHeYa477rp96lmvk1BpNUYiDYEbjZ84bq3YOjmwID3NwPVsLh1vjCZgfThrfqaqxr7BsCs/L7SLc5hbc89CLZ2pKstV8Y8mzJnjzKxWq6THUcxBT0IZdqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mvls81XZ; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dVGZ6Q/1"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42D7jkRh028610;
-	Wed, 13 Mar 2024 09:21:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:reply-to:references
-	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=Ddp2qo1i
-	6qR7lu69JmjaNBMJT0pRYnEyFux1jrc2EUQ=; b=dVGZ6Q/1X8Ad5jO7soDJJuGP
-	wvxN5UQ/OqGTdYhRGp1s94c6TL3xTfQlCZHnzDjPquaMDlmo1cjFH9zoAfd5O0mi
-	ZCAwCPv6/l4uL3zZUC0TFhaJzOz6aZCyH8JZCjKGRFClyVSpQa4S5h37H0sIxDQ3
-	y+0XugGZIch4weB38Yb6CynlGuJjJIlSqa82KUQK3n/sZSW6kgWf64eznrQCwVU4
-	XoptEYBurXHAAl46fsjbuAm5Lvv2uJ+Uj1MvdKbRr6yjcwmSUKTBfjnR2QJdmORy
-	Mta5DQEtcJZXBeNIaigpWODaV8dUy/Jf75GjBWMMqlrz/RzYLN+hmER9jTWM/A==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wu81m06vv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 09:21:46 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42D9Lj6X002981
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 09:21:45 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 13 Mar
- 2024 02:21:38 -0700
-Date: Wed, 13 Mar 2024 14:51:33 +0530
-From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 15/35] virt: gunyah: Add proxy-scheduled vCPUs
-Message-ID: <20240313092133.GQ440762@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-15-1e9da6763d38@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mvls81XZ"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-1dd9b6098aeso25353355ad.0;
+        Wed, 13 Mar 2024 02:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710321957; x=1710926757; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v281MgKZ/S2TbnF8JlBP01h7nZDSIBIQX9blsdOTeM8=;
+        b=Mvls81XZEbafhrFfatphAu5uCOnAgduDo4S4JtjHxF4HOpFRZK+BkZGxCPleNIva1y
+         lZljS5r0JKmXyYajFIeoE0G80R3t93SpcqH+I+1qlk2++eDcq/vPBlBpHVnFkUlvLZ5W
+         uggypkN/IZl/1a5HAbtqK75JwljZXamQD7b0W8W29sP1WFeTfrEJZuJqsykBMzWxi4PC
+         shWHXKP9BuOGLOlUlRbsJXGkZMd7m9D5cIWXIhZnagMRsrGkQEsYdRSoCwHHgAYyc585
+         MV2xl2eg1CG/kAQXew3B9DYrLueXrScQZKkiENeNsLlYII11d0eJiy0ncKd0F263ECeE
+         G9ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710321957; x=1710926757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=v281MgKZ/S2TbnF8JlBP01h7nZDSIBIQX9blsdOTeM8=;
+        b=bkp2u/8PnjaQD7bwynueIiWBuOps78qYEgqLm0qUxQ7k1p/m2E/ZtkDDBUAoFZ5/3l
+         CXOyOPjScyq++e49UuqCqsKxd1FiUxDhDFshHaLho+h2/WhwB4uaO9Ux6vsMISiuvrOG
+         7mrnMMrObi2+f91Py49N1MX2X25kRUEFItdZq6oD+NHyvr3qHiFLd1A2+BqTXcTSN0aR
+         lfDCJISFo3lpPu2RtEZjeoEfW50LAgNEsb1LTFE/cdgv5/lwkfg+71cPvmdbuxetVHDY
+         Glulf2QPSUo8g28EOS7q/OnBwelzfPuHdU6I+IeWoiRMMoty7ModYrzYZ2LVANyyAUUe
+         9r5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXU4Xq9dz+1WD6++AIb8nYprsQl0vCS8gllbk8e32v8bmxJYNZ31ng1/8YgpyoHHglaM1WTnEKxsQD2AipXlib3WATfLFjrkOkm
+X-Gm-Message-State: AOJu0YzydDyGHlW3ob5UXNiFM5xR0DmCmP79KgkxDfi8hHQ+mDjPDpnb
+	xPDSMyBs72+Feircebh52Aee44/l+kpT8T/VDkqXQiBEnqohoFMN
+X-Google-Smtp-Source: AGHT+IH8bYqA1HygDsHchgAOn/iSNgOqlWpzkvUew0wvH8DWhJ1StLV2piMUegB/qk4uuZpGDzFYrg==
+X-Received: by 2002:a17:90a:a008:b0:29b:bbde:8f19 with SMTP id q8-20020a17090aa00800b0029bbbde8f19mr2600175pjp.33.1710321957347;
+        Wed, 13 Mar 2024 02:25:57 -0700 (PDT)
+Received: from u.localdomain (ns1006999.ip-51-81-155.us. [51.81.155.96])
+        by smtp.gmail.com with ESMTPSA id w62-20020a17090a6bc400b0029bb8e80fd9sm1028039pjj.39.2024.03.13.02.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 02:25:56 -0700 (PDT)
+From: Maki Hatano <maki.y.hatano@gmail.com>
+X-Google-Original-From: Maki Hatano <Maki.Y.Hatano@gmail.com>
+To: corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maki Hatano <Maki.Y.Hatano@gmail.com>
+Subject: [PATCH] README: Fix spelling
+Date: Wed, 13 Mar 2024 17:24:37 +0800
+Message-ID: <20240313092520.10906-1-Maki.Y.Hatano@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-15-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: Q94xi6VH8SfTFSLQi7xRGsS-lVQu-XnL
-X-Proofpoint-GUID: Q94xi6VH8SfTFSLQi7xRGsS-lVQu-XnL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-13_07,2024-03-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- priorityscore=1501 mlxlogscore=999 impostorscore=0 suspectscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403130068
+Content-Transfer-Encoding: 8bit
 
-* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:38]:
+- ReStructured Text should be exactly reStructuredText
+- "reStructuredText" is ONE word, not two! according to https://docutils.sourceforge.io/rst.html
+---
+ README | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Gunyah allows vCPUs that are configured as proxy-scheduled to be scheduled by
-> another virtual machine (host) that holds capabilities to those vCPUs with
-> suitable rights.
-> 
-> Gunyah also supports configuring regions of a proxy-scheduled VM's address
-> space to be virtualized by the host VM. This permits a host VMM to emulate MMIO
-> devices in the proxy-scheduled VM.
-> 
-> vCPUs are presented to the host as a Gunyah resource and represented to
-> userspace as a Gunyah VM function.
-> 
-> Creating the vcpu function on the VM will create a file descriptor that:
->  - can handle an ioctl to run the vCPU. When called, Gunyah will directly
->    context-switch to the selected vCPU and run it until one of the following
->    events occurs:
->     * the host vcpu's time slice ends
->     * the host vcpu receives an interrupt or would have been pre-empted
->       by the hypervisor
->     * a fault occurs in the proxy-scheduled vcpu
->     * a power management event, such as idle or cpu-off call in the vcpu
->  - can be mmap'd to share the gunyah_vcpu_run structure with userspace. This
->    allows the vcpu_run result codes to be accessed, and for arguments to
->    vcpu_run to be passed, e.g. for resuming the vcpu when handling certain fault
->    and exit cases.
-> 
-> Co-developed-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+diff --git a/README b/README
+index 026eff0b8e06..fd903645e6de 100644
+--- a/README
++++ b/README
+@@ -11,7 +11,7 @@ In order to build the documentation, use ``make htmldocs`` or
+     https://www.kernel.org/doc/html/latest/
+ 
+ There are various text files in the Documentation/ subdirectory,
+-several of them using the ReStructured Text markup notation.
++several of them using the reStructuredText markup notation.
+ 
+ Please read the Documentation/process/changes.rst file, as it contains the
+ requirements for building and running the kernel, and information about
+-- 
+2.43.0
 
-LGTM
-
-Reviewed-by: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-
-- vatsa
