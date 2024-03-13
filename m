@@ -1,84 +1,70 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C791171BA
-	for <linux-doc@vger.kernel.org>; Wed, 13 Mar 2024 07:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C245B168A4;
+	Wed, 13 Mar 2024 07:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710315576; cv=none; b=Qr5emN9cTrAN1flM2CO+jX82qWUaAA2MetEc439Vs9OgZjW5aGfUiumV+Gv8AZBt1TVxCXj5LYq62K1ZkiR1iUCeqz9PbKaDzQnXqX/VQIDSjn5Q8ar2cgqGarSpQMpipW/HIoDl/caYBLuDc86Re2ml+jDpX0ha4IdVut7lMmM=
+	t=1710316002; cv=none; b=oUwc19y3TeOYw6Yz20UJ6ZoIP+uXcMsbzyW3rFc+14q/EqC+z3e6ZBAyUhnjX7hnXXDRv78eXvD5qxy+tyS945obQrvRyft8oAUpn3uGRIpWXwWrepS/NalFAd5pU94H8JY3HF1uzD9kW9UdRJN2M9rFBRyT1kO4UBsQtsAY3LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710315576; c=relaxed/simple;
-	bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
+	s=arc-20240116; t=1710316002; c=relaxed/simple;
+	bh=Kr6b9zwRiK0qe/FQtkWwwcr3AdM/iJQ3Tm5R/ItJ+kI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kg1CT5xFYamhuNrGf+vdUpecgHEcgTiZ7K9NfxsoJKOgGaGWS5yK++mj9iZ98jERugx11QUc2A1h6UC3rhAR/8SzFxz7apvkHXd7utRYCgwYLXUNwSCcV4Z/4Qf6sNX+9LFfeLcVrApNLHcyFArIV65J+MeK/+wT8rZe1w9ym+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GdnaITHH; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZzzKYY6tdF986EFgY6aY8gXblb3HNNoadhdOnu2oRQ5GQ9fU95kmn5Xs/iuLlfcb5ow+69HBdBgG13Q+Y5CDGkDqQD9XYAsEvyIdKmKgQdDbjnwKAhvL51/P07Px3TStrYUAjGmUSIowENfClE/QrapjkFdF41UeguhEUW8PCRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhEelchk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GdnaITHH"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a4663b29334so1398366b.0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Mar 2024 00:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710315572; x=1710920372; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
-        b=GdnaITHHnDyTc59DrnY/aK1qBmW4s8v+1Wlo7OaXKXq57D0uGr0gsQX/ItX/BACBPM
-         mCpMOjziUb+3Mn5COgkXtUpoeoLEcXZCGTpgGjzVyLc+VMKae2PiFkxwSu99rRhGu5PL
-         h0DwhApPO9cJtQFK8IR03dSWBM+quu8+QvheMmkAeD9cyenRXDT5FzO/WA+ETkmUxyZa
-         SN1VD6WkfLXCEc+IYf4zf/JHE0Wo1vDZsy4xcu7u+lDW5Wu0D+wy0+1TtlvzrncNvHlr
-         tpridwRMpXbbySaNM/TBwn2tAXOaruwSht9ctgRneZZUslHQzUPXkKVV6MMDE1ceGHf3
-         4nnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710315572; x=1710920372;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AvANucvrZ/fsPo2yOI31iWo1FDKNiABMfD22ldNz5dc=;
-        b=HvKva2T7WsjQcg5aGCYIZHrhxFGLStcLEs7wM15Wa+wFvA5xJwrpyVdZJqPkNsGcC8
-         sZWG/sDT6+1z5xrNM+FdFYI2YuoldqcDFW79oOaTvZCHPlwZqU8Dhb+WIPrO6wfCIM1X
-         22ihmvdi37rSFj8q7KXQFJ80QnotNYK8fGU/ZQuzjbFUii/6loI85+BCRkGszaq1Iqoa
-         Ww/vg4ZPu2Owfv4fSveOrTm3KdYnZcVGuB7Jwni89NUlho3a52oaByE643Sl8FAoTc21
-         9txmrGzM0Cz7q6CUv8PgXKe5Wb4Et4qJCPtn8XFohU7Occ88REbcpn/f7YyTHk0+i/Px
-         mAJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV2eN3RCEhC5cGNAwyumymBvP7DBpay8a4LJeuYuR6sZRzqHVgQ0ZuucNNa5szK9qC2TrMgMR3BjFoWgrFZZWwBHptlhvmB/nT5
-X-Gm-Message-State: AOJu0Yxjy7G8JfGEvlf4XGQ60dIiG516SD2zVL9jPscJt+0ArpKTXayH
-	mqf69PVb/hjKvvSIGJyRJphItCrlOcyc88xvP6aXk1jVAGNVoW9z7RBBspBZFeM=
-X-Google-Smtp-Source: AGHT+IH38GneADkyKtRbEkb8+HLK5ZsZNpyhD22lE4uk6eUmiwmdHa00scLatPQEFNYx/T2Y2VkSUg==
-X-Received: by 2002:a17:906:2ccb:b0:a41:3e39:b918 with SMTP id r11-20020a1709062ccb00b00a413e39b918mr7484516ejr.24.1710315572226;
-        Wed, 13 Mar 2024 00:39:32 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id qx26-20020a170906fcda00b00a45a687b52asm4578781ejb.213.2024.03.13.00.39.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 00:39:31 -0700 (PDT)
-Date: Wed, 13 Mar 2024 10:39:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Kees Cook <keescook@chromium.org>,
-	Daniel Diaz <daniel.diaz@linaro.org>,
-	David Gow <davidgow@google.com>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhEelchk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F8EC433C7;
+	Wed, 13 Mar 2024 07:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710316001;
+	bh=Kr6b9zwRiK0qe/FQtkWwwcr3AdM/iJQ3Tm5R/ItJ+kI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LhEelchk241d2G+Q3NZ+eugtycNa64C11tlGZNDKxCvzTX75Q00BDeucxxI33dSuA
+	 4+eCRt8kMMEc5PKj3RKm6EMledYaAfqv5JZuQB7Y+lqGf4dv4bsr9x0TpKJG1q4wXj
+	 5wL8HqXvVMagJHMFg5lnkHWIqzUSGVvjZwviYWQ8IepvQMcWBnKkAG8KoyC2Qj/Dk9
+	 zhjs+9wAPOXEebb1i/MdTgpoDqE40AetcQZI0F5BBxVL9DwWbmHiXrd3y6wILhONqN
+	 9PPx8kGlpLaHCN3ApgnEaZsraA27U8tPpWQjwzmxyOAzAxTPkrSjUTlSjBaxCZCGej
+	 iazuJwD6oD4iQ==
+Date: Wed, 13 Mar 2024 09:46:36 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
-	netdev@lists.linux.dev
-Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
-Message-ID: <43ef4ef4-303b-45c6-aa50-3e0982c93bd7@moroto.mountain>
-References: <20240312170309.2546362-1-linux@roeck-us.net>
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240313074636.GV12921@unreal>
+References: <20240306174456.GO9225@ziepe.ca>
+ <20240306221400.GA8663@lst.de>
+ <20240307000036.GP9225@ziepe.ca>
+ <20240307150505.GA28978@lst.de>
+ <20240307210116.GQ9225@ziepe.ca>
+ <20240308164920.GA17991@lst.de>
+ <20240308202342.GZ9225@ziepe.ca>
+ <20240309161418.GA27113@lst.de>
+ <20240310093513.GB12921@unreal>
+ <20240312212844.GA3018@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,12 +73,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240312170309.2546362-1-linux@roeck-us.net>
+In-Reply-To: <20240312212844.GA3018@lst.de>
 
-Thanks!
+On Tue, Mar 12, 2024 at 10:28:44PM +0100, Christoph Hellwig wrote:
+> On Sun, Mar 10, 2024 at 11:35:13AM +0200, Leon Romanovsky wrote:
+> > And you will need to have a way to instruct that pin_user_pages() variant
+> > to continue anyway, because you asked for FOLL_PCI_P2PDMA. Without that
+> > force, you will have !FOLL_PCI_P2PDMA behaviour.
+> 
+> I don't understand what you mean.
 
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+Jason talked about the need to call to pin_user_pages(..., gup_flags | FOLL_PCI_P2PDMA, ...),
+but in your proposal this call won't be possible anymore.
 
-regards,
-dan carpenter
+> 
+> > When you say "simplify the overall interface", which interface do you mean?
+> 
+> Primarily the dma mapping interface.  Secondarily also everything around
+> it.
 
+OK, thanks
