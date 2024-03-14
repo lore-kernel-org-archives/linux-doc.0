@@ -1,81 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BCA6F53D;
-	Thu, 14 Mar 2024 12:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466415A11A;
+	Thu, 14 Mar 2024 13:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710419429; cv=none; b=CPHaz6x5CHQ8J27LkdBU+aXc9ma/aUQppHe5jU49jAcYlOoA8VvWdJcAS4LT7jIz61eyMwzTx9D4Hs5Nsc1RCnHSeDIbwm8ffAvBw8IUHK0VgGoy4heQEkHW//Bc94UhrzJnNZi1t8suqOKqe9V8cawE0fN3/nmkYQgCm8eFSUc=
+	t=1710422516; cv=none; b=qI+jU3o59Z1e2H4YiDxHelaF3nJqHCHiXzlCdsoTWrP9bEvjE83tq3/VKY5qCaZ9MQ5y3YijKVKQ8ql+NLltwiSHUkZgu+x7GlXkMrNZbFDaOEMnSvvH19CV16rBIFPE6qQncKYVbokIGIYLeXub3uFFy4PA7vYY5fthLQ0uLSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710419429; c=relaxed/simple;
-	bh=J2RgDspDz9zB2B0ZFrAgSC1an1n2rKhxw3KOCcNPe7Y=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OLjeCOGxUziMEdwzgvrFjEcPvqQmcOSQDOY34tBd/qrymKYKy36bHKLe+NoDktowWjt2xtXgyLvlwLBQOTJu96Ku+aoeOtyY6O40eeOwr0Qe080Aq40wTZMX9T7iNTeQk8ahNAUQ8uA3bmYmHWxSfLvtgrzBZCVHUYjI/Cjf7hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GekcRJPi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710422516; c=relaxed/simple;
+	bh=efNmoPB9xQTqqj1zcv7v1m8HPH9PXIJnJFCvFlBcJWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qoXkyOpgdPQbyipl0i027WfSxImvhqlwqIaBs+b1WXUBfmgvu0e1zcmTRSBs57FLnKoCKx0lbUNtugS7JoV5X6TzKx0TRZ4C18Tatdw+1XIR1eB8RMkGtc0MQqeERdVR0vAqNwUGbZ0KcE1sL/E9nev694zLqFfPuKatAmZdsvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItMcJgnr; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GekcRJPi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79286C433F1;
-	Thu, 14 Mar 2024 12:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710419428;
-	bh=J2RgDspDz9zB2B0ZFrAgSC1an1n2rKhxw3KOCcNPe7Y=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GekcRJPiaMgj7EkuWKYsLa2RAXOHqdf8JMlZdbxOBJ4cmNlY/ocbqOgPkKWTy1oDE
-	 BS7pyOCPKZcW0m4Pwmy91EAqg8Ax01D8JCJqcT7dArDxEk2JX8J9IXcjL2ybcyITpy
-	 cyNPiX81/vqnnUjXS5WN1eXwpPg05IyLPBmurdz9eRyFu1j0B05VbfIZzaSroDWizg
-	 azY+ctbNRA0faEhYedtahoHq2eVkveub3cQgiPnLH5/T6t6J0sJ+GOkEnOBl13xYxD
-	 5Pc36DJYy1CELgw3uR9/OTcwoKEl2C2IG3hZNOLtBxypF4BJ9kqiAkcV2hJ5a9sPNu
-	 1vwMs7MXL6wxQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6840FD95055;
-	Thu, 14 Mar 2024 12:30:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItMcJgnr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710422515; x=1741958515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=efNmoPB9xQTqqj1zcv7v1m8HPH9PXIJnJFCvFlBcJWk=;
+  b=ItMcJgnrQO7AOCeMJOV3eOtmjqhzUwj8JqQe5unxHuv4RoMTM0rXetHZ
+   2WGeo3RQ7IBJQsMlmEH4oIQ2kamaN0juaMPz/H2Qu+ZeqzNXhG40lWFl4
+   Kdv2+01T5OuVhakFg2cB7eV4QKAkYEILj6bgoRNPL5zqmTBC4HI2un1cS
+   AqdyVeqqqIhIuZ4V0ViylBLihljz/9RUQm+ZC+Eodz9AvFJBz/kx8qcRL
+   tgyrF84B6gGFhxjJLMj4DpnHjxGy0YwyHSrOJeVSXfKY1lO8shjxqpLHA
+   6O/Jy35Rx9rvSd6YB5+CTAfLdYPpqLtMA0HqV5H1uz7JK29zKMtJbjmvI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="5092509"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="5092509"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:21:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11012"; a="914460276"
+X-IronPort-AV: E=Sophos;i="6.07,125,1708416000"; 
+   d="scan'208";a="914460276"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 06:21:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rkl1n-0000000CWQ3-1pAU;
+	Thu, 14 Mar 2024 15:21:47 +0200
+Date: Thu, 14 Mar 2024 15:21:47 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Arnd Bergmann <arnd@arndb.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH v1 0/3] gpiolib: Get rid of
+ gpio_free_array()/gpio_request_array()
+Message-ID: <ZfL562yGPEwA3ZM7@smile.fi.intel.com>
+References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
+ <CACRpkda6bykOFY6gcZqRKLAnprUooZooQ_g7Rj_63da2akbwtA@mail.gmail.com>
+ <ZfGKkjxIT9AEd8dy@smile.fi.intel.com>
+ <CAMRc=McjYKCLGKk42SWdCy3Lc=B4B21WpS1kvx_d66itHKsQzQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: networking: fix indentation errors in
- multi-pf-netdev
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171041942842.26728.5742592401938580391.git-patchwork-notify@kernel.org>
-Date: Thu, 14 Mar 2024 12:30:28 +0000
-References: <20240313032329.3919036-1-kuba@kernel.org>
-In-Reply-To: <20240313032329.3919036-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, sfr@canb.auug.org.au, corbet@lwn.net,
- przemyslaw.kitszel@intel.com, tariqt@nvidia.com, saeedm@nvidia.com,
- linux-doc@vger.kernel.org
+In-Reply-To: <CAMRc=McjYKCLGKk42SWdCy3Lc=B4B21WpS1kvx_d66itHKsQzQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Tue, 12 Mar 2024 20:23:29 -0700 you wrote:
-> Stephen reports new warnings in the docs:
+On Wed, Mar 13, 2024 at 12:47:58PM +0100, Bartosz Golaszewski wrote:
+> On Wed, Mar 13, 2024 at 12:14 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Mar 07, 2024 at 03:36:18PM +0100, Linus Walleij wrote:
+> > > On Thu, Mar 7, 2024 at 2:51 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > >
+> > > > There are only two users left of the gpio_free_array()/gpio_request_array().
+> > > > Convert them to very basic legacy APIs (it requires much less work for
+> > > > now) and drop no more used gpio_free_array()/gpio_request_array().
+> > >
+> > > That's reasonable and makes the kernel a better place.
+> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > Thank you!
+> >
+> > Bart, do you want me to take it via my tree or you want to take directly?
 > 
-> Documentation/networking/multi-pf-netdev.rst:94: ERROR: Unexpected indentation.
-> Documentation/networking/multi-pf-netdev.rst:106: ERROR: Unexpected indentation.
-> 
-> Fixes: 77d9ec3f6c8c ("Documentation: networking: Add description for multi-pf netdev")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Link: https://lore.kernel.org/all/20240312153304.0ef1b78e@canb.auug.org.au/
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> 
-> [...]
+> We don't have Acks from the relevant arch maintainers yet.
 
-Here is the summary with links:
-  - [net] docs: networking: fix indentation errors in multi-pf-netdev
-    https://git.kernel.org/netdev/net/c/1c6368679979
+True. But I haven't noticed much maintainer's activity WRT PXA code.
+I dunno who can be the best to Ack these. Arnd?
 
-You are awesome, thank you!
+> I can pick it up but I won't do it before the end of the merge window anyway.
+
+Sure.
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+With Best Regards,
+Andy Shevchenko
 
 
