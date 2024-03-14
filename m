@@ -1,222 +1,227 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673B07351C;
-	Thu, 14 Mar 2024 17:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D23974BE0;
+	Thu, 14 Mar 2024 17:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710435963; cv=fail; b=QespXD0aVz5V77C91ZEZhsMX7/Wx5T+ve0iHYud3VcH/g1WQd3Lx/tOVTd4p/42K+dV4EYM6duSuRiKqSAq52IHiSqA43bHXfmjmFTE3kQnDcHKPLaRUMh+Ah9/0+qPuNtZtusUSzAdfePfTLTTBrX8tBpiaWHoqsmDxNKlVOtg=
+	t=1710438619; cv=fail; b=GM5T8Ub3ctwivtJVSOEp2rl2t3/VQ6TlZtZkp/QqNph/ltOAv4TUcIFTm4ZCAMVg73S5XSwbI8y+sqSK04c4vqoQLB0FlKQY+2DPZcbhGWo04cFMj3OPEfYFE92vTTD18svN05MwZZWOO3fRFnekXgX7Dsgrcxd+1HSRX9j7IDM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710435963; c=relaxed/simple;
-	bh=YPnnMNYYaIMouwvU1TpY5KYCqbze+NhetAtLsX+OZlY=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=APGoutOBdHzH+fNvef/Wy58u2z49uw7OE//oN+0B46jtXf7SWLykhQCiIjqSUwxyCX1L86KPuKLq8XdDHS+J7wn/MVzvukAizf4Amapd4gFE8zhIj0duR4koii5ln4JXidmtFUcuTWVQ6+8paqu+QSLxijhsM4FKHr+NPq+77dc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Y6KfIJrN; arc=fail smtp.client-ip=40.107.237.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1710438619; c=relaxed/simple;
+	bh=ad4tuo55fxbhUBJFWvfULseTsWrxwiyNsZHJZua87VE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=lYJZGwcgLO0eJOIopf7l5P4iRI5KyZ6VtXoE/BEp7m6RXQK6qtbJ5kfc8utsHTYOP1odFhzcWv5SG32qrnb1ruLHy6DucjqgT7UEHb5TBaDg52cm6SI45gG0Vl+4+yk2Ib0LcuPFR4+ulM8ncUBndCbp6aZfbgNEB8NtFnsUlls=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F66nx3EO; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y6KfIJrN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F66nx3EO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710438618; x=1741974618;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=ad4tuo55fxbhUBJFWvfULseTsWrxwiyNsZHJZua87VE=;
+  b=F66nx3EOibBMeNqT8ZiAbVIh3DbrWNco9h8/MFBC3+wBEW1D7LZey+ze
+   zkdSL5R2NbtNhL+CBG2/yWZ3vCGk8YMqtdBScnyLGs6I4RBT/W9c6hn+F
+   F+i4VHncABraO55CRrMe4iW85T8XgNixpuYkTqh7Wx0NqLgtRRDY6Pn3l
+   zlPcCuG78oGHxRPWHIs+3Z+1b6F3VJ5/6kVW4IBfs7WKCU5ZYXuUgQ8+t
+   Wb3nZ2gyfcno5oYRqzjhOVBHiaLbUaokkjFpSkfF+kKp/KkUsDEwrgnV9
+   DG6O3AxMXafpXy57iMsTcIhse/8FhxXsb4LuM+ArbSrfC9ruks55bTH0P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16676390"
+X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
+   d="scan'208";a="16676390"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 10:50:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
+   d="scan'208";a="35496767"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Mar 2024 10:50:15 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 14 Mar 2024 10:50:15 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 14 Mar 2024 10:50:14 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 14 Mar 2024 10:50:14 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 14 Mar 2024 10:50:13 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S9IFS0+UpLKHie9waF0QhSMAWZElqv5P1RuLzKWOLRHTN4+aN1vfov1CC/9e+j42mjKlzcJDEOokhDsMNiErnTpgpWNmM8WPI/Ej/nBy7FxUzwGZrdFSNng9GFDdR70s7sKI4pOKG0ab/Z7bPxMm2MVIq6bgLx+ml32N+nSfdMD/aZ3ujtVqUj9x6EU/ujrKg7EdWyE13hlKmpx2LzB/n8b6uQYF9eFT/5/zdDKcXM2YQXdF2xy222T+ZljRcXhQjknsY1Lyy5fJeIzhhOcyzx+B2Rf8TuVMCPxkZ+F9DDFrXXJvHhXJBhI+ZjI/21muGnrk5q5140U8/lWIP/1W4g==
+ b=UxT5FVfDkdZsJ+njewJXAfDredesEUM1f0YJW8Gyuma/60Y+qF814ahTq6UW399W1/6r8L7OjH35VyoZLr2zaSZHl9pEWRQlKUDksNBKJJT7W+Haw3aUJmclKgRMAyPQMxHadmdgU8nuFz+KLkMcU8NRx3CtccMlTCIMx892KG2K5W6qLDReri2YKS0yFrEITyxK3krZ5tZ9hfDiJq3o1320qLilaaox+iaaCuUrEjlDZycjRHoI3TNUy6SNNA+qiSKLREY3Jy95f9u2lr42+h3LM9QZsqLwwm2OQUoLUzIluKVWv66L+HXUQ/jL5OoxR0DDvvZpqZv9xbHH68A8Hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pREwHxAS7Q8wNFPjU5JGXzl/6uc8DyA1T++rmnUwTgU=;
- b=RKiAY7N+W+vohuzKX9uHMq76ELTLA01OxUxZFTUTje7wiSU15rV8vOtNd2bLzCrz1PBqdk6LefaOnU35jAlOu99+DITQYZZ/hsSLwgRNInTLEvGvXVq7SgZoGso6F8J+YY0iFMuhcXKuR2nV74C1Qe3zN3hroAL7MQ4tSe4MEdg2tOBYGAOzMvLHFGpuyMAt5G4LvAG8z/BRomcVfQJo/C0+0dmGIPOL03VHriZwnZm7AFMLMMFRrsRoi0AQj4pf8l85wbsmBZ/e1bpNW97VEP+3sas1cNEk8JzJ+UzpTVBOwNopDHa8S2psUZL0FYx4H55OT7GXfP1zwXmD3Irwpg==
+ bh=0s7USlX5PmbGv+2P5Pz5ggDEBqlblYiWbjEVQHsUaCw=;
+ b=njlrFEJgtoK27Jz5xl8rEbILP/hi466Io3A3IevStHczcpCR2VXOqloO2ecnu0JhJbXoxcr/c6oLKSRVoo5xHgul8vC7sd9rQ5H6cqtIWbw+BBOq+pnCKojTwuY85bIuickJsgJCL5+waYOJY2ZO4hqb6fAREipzxvdma8shXrarWyOYVo5RVFutS/mH+EJ8DDWwY5OX4iK586y9thbpwaUoK9+hoMH7XJ7/zFQI9f8uQo3QU99BfSkNWZmG7oq1tZwZsqJb/FVsD8iVs9TqNhDiJQ/Xl4hfzvUGE7YrJ+T+9wMngaG1FLQvWPR+cdGChZxqazWytlDNNclWnQu7nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pREwHxAS7Q8wNFPjU5JGXzl/6uc8DyA1T++rmnUwTgU=;
- b=Y6KfIJrNOK6s0ziVUnKVY8QHoDK2TJ23nMUpXcqnWhhSHp4Dyfxe3PtIT56Dvu0KKdV3wzq0ZtAl8g4GdTfTa+s7D+Ak6zwcBMx7kzuxoKqgbX/NVAcN4LDBzxY7dQlSYVNdYXK+23EEl+isbBQYwrUq+FXqbFGi2r0WfFF6xO/jho/8WGYAKI4/dqZFBxOMuWkIXlbplyyy1S/a4TtdiiRgP+WIIcIUNeV9P5ni6+2Sm+IgTKZJD8GmNMyjCc3rZGVD195JtpLKWMhDXw/U27MPdQDbrtRV29nzegQ+kexlPQDm14mGZrFNbpgRuzWeJdgEekelsRrhl8dUSsrnyw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by DM4PR12MB7573.namprd12.prod.outlook.com (2603:10b6:8:10f::22) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
+ by PH7PR11MB6980.namprd11.prod.outlook.com (2603:10b6:510:208::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.36; Thu, 14 Mar
- 2024 17:05:56 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf%6]) with mapi id 15.20.7386.017; Thu, 14 Mar 2024
- 17:05:56 +0000
-References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
- <20240309084440.299358-1-rrameshbabu@nvidia.com>
- <20240309084440.299358-2-rrameshbabu@nvidia.com>
- <20240312165346.14ec1941@kernel.org>
-User-agent: mu4e 1.10.8; emacs 28.2
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: ahmed.zaki@intel.com, aleksander.lobakin@intel.com,
- alexandre.torgue@foss.st.com, andrew@lunn.ch, corbet@lwn.net,
- davem@davemloft.net, dtatulea@nvidia.com, edumazet@google.com,
- gal@nvidia.com, hkallweit1@gmail.com, jacob.e.keller@intel.com,
- jiri@resnulli.us, joabreu@synopsys.com, justinstitt@google.com,
- kory.maincent@bootlin.com, leon@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, liuhangbin@gmail.com,
- maxime.chevallier@bootlin.com, netdev@vger.kernel.org, pabeni@redhat.com,
- paul.greenwalt@intel.com, przemyslaw.kitszel@intel.com,
- rdunlap@infradead.org, richardcochran@gmail.com, saeed@kernel.org,
- tariqt@nvidia.com, vadim.fedorenko@linux.dev, vladimir.oltean@nxp.com,
- wojciech.drewek@intel.com
-Subject: Re: [PATCH RFC v2 1/6] ethtool: add interface to read Tx hardware
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.18; Thu, 14 Mar
+ 2024 17:50:10 +0000
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::b383:e86d:874:245a]) by CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::b383:e86d:874:245a%5]) with mapi id 15.20.7386.017; Thu, 14 Mar 2024
+ 17:50:10 +0000
+From: "Keller, Jacob E" <jacob.e.keller@intel.com>
+To: Jakub Kicinski <kuba@kernel.org>, Rahul Rameshbabu
+	<rrameshbabu@nvidia.com>
+CC: "Zaki, Ahmed" <ahmed.zaki@intel.com>, "Lobakin, Aleksander"
+	<aleksander.lobakin@intel.com>, "alexandre.torgue@foss.st.com"
+	<alexandre.torgue@foss.st.com>, "andrew@lunn.ch" <andrew@lunn.ch>,
+	"corbet@lwn.net" <corbet@lwn.net>, "davem@davemloft.net"
+	<davem@davemloft.net>, "dtatulea@nvidia.com" <dtatulea@nvidia.com>,
+	"edumazet@google.com" <edumazet@google.com>, "gal@nvidia.com"
+	<gal@nvidia.com>, "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+	"jiri@resnulli.us" <jiri@resnulli.us>, "joabreu@synopsys.com"
+	<joabreu@synopsys.com>, "justinstitt@google.com" <justinstitt@google.com>,
+	"kory.maincent@bootlin.com" <kory.maincent@bootlin.com>, "leon@kernel.org"
+	<leon@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"liuhangbin@gmail.com" <liuhangbin@gmail.com>,
+	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "pabeni@redhat.com"
+	<pabeni@redhat.com>, "Greenwalt, Paul" <paul.greenwalt@intel.com>, "Kitszel,
+ Przemyslaw" <przemyslaw.kitszel@intel.com>, "rdunlap@infradead.org"
+	<rdunlap@infradead.org>, "richardcochran@gmail.com"
+	<richardcochran@gmail.com>, "saeed@kernel.org" <saeed@kernel.org>,
+	"tariqt@nvidia.com" <tariqt@nvidia.com>, "vadim.fedorenko@linux.dev"
+	<vadim.fedorenko@linux.dev>, "vladimir.oltean@nxp.com"
+	<vladimir.oltean@nxp.com>, "Drewek, Wojciech" <wojciech.drewek@intel.com>
+Subject: RE: [PATCH RFC v2 1/6] ethtool: add interface to read Tx hardware
  timestamping statistics
-Date: Thu, 14 Mar 2024 10:01:49 -0700
-In-reply-to: <20240312165346.14ec1941@kernel.org>
-Message-ID: <87v85ovj4d.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0206.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::31) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+Thread-Topic: [PATCH RFC v2 1/6] ethtool: add interface to read Tx hardware
+ timestamping statistics
+Thread-Index: AQHacf4WBtsLQqAxuESeM9XGdjpqArE0zQ4AgAGbY4CAAAQtgIAAAqmAgAAN34CAAQ7JQA==
+Date: Thu, 14 Mar 2024 17:50:10 +0000
+Message-ID: <CO1PR11MB50896031737DD807D071C34BD6292@CO1PR11MB5089.namprd11.prod.outlook.com>
+References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
+	<20240309084440.299358-1-rrameshbabu@nvidia.com>
+	<20240309084440.299358-2-rrameshbabu@nvidia.com>
+	<20240312165346.14ec1941@kernel.org>	<87le6lbqsa.fsf@nvidia.com>
+	<20240313174107.68ca4ff1@kernel.org>	<87h6h9bpm1.fsf@nvidia.com>
+ <20240313184017.794a2044@kernel.org>
+In-Reply-To: <20240313184017.794a2044@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO1PR11MB5089:EE_|PH7PR11MB6980:EE_
+x-ms-office365-filtering-correlation-id: 8b9f904f-2f72-44f4-84d8-08dc444f3164
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DgwjX8r/uZQmVhEXQJiuElltiKVtdaooq8jlNKccOjD1xNSTE4oPJG3WhE+AggVqNEllN/YTNDZ8pFT5ekrmGbGlbqOJetglejrIJNJaRhsvSewi++J74J4kz8EvcNM5f04KMmMRBe/Tj78h6aRDUuhngyWWcBu7vG0eWJ5PQ/mnFUs6JRhvePiLAf4DH1VxOwcKEJJ7HFqjEXKHDvVvFwOHEFOLWRKx56blMV7uwAxvNKeUe51WUG3jH5VtblIjlS1mphoPfyd/KtLEPaDMWiD7fLJjmSF6gPXubrbxGWK6H+E7TkCWjtkWuCRXcisxhBFMThO20G25YuyqXxzw8RxpPVl0yPxFOJneDfzpvdIVfzGVqLXlVwyxNaBmSgcQ8E2U+8yTt6UHaDoEbCOA7nsJWtkWUhagHMuqpQ6CDU9RJ0bcmJJkwDLCK6cJANS3qW/35aS/ov08KGRua0/aOHrJ+F8ayXX9pYZPrPbc17xYoqRuTBQytEkAKPTSmnVECTaDsqtSAA3fOQvw6mdNJN5K+E7M9QLuH7wfganuJ/PFNKhD7Hx17FyZUhKga/kX7KLqMDelzikQUa8CQ857kwS+pyqHUsNLOS+hOqHESB3u/0dFOm8M47G7EF22+1etD9DfgVwqY0sg2m/IO8Ey7qA6NW8tTpPmtUGnUJeIwzVDi5H0kqDCHNqqq0jnouVURBxg8hsa3tCv4E/RHSr1ug==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HrF9+XAgVEkf0f+4OtcDTtASar+oIpn5Ysf6VICPG+cbEUMtHPsoJ3knI9S3?=
+ =?us-ascii?Q?r2oajb2vpdo0m/wA7tvpq3YOs1B0Plu51nNAfLohZw1BIjel+8RsM/dVWmaz?=
+ =?us-ascii?Q?pY2m6RBfnZQRqA6KP9EmQ5vretTyN2n8pV7JZIso7M60OeZkhPqVuqI4XD/o?=
+ =?us-ascii?Q?funKsjNtvGmySdbDmZfrxaB0GW9ROMO+NDgXJMkYTcc9KyxELm3I01Jiw8pQ?=
+ =?us-ascii?Q?sbu8kzcPe0CmPE0AN9oafgFAqaIvThcbAVLbZ9l6JzuRvqF/sGwwec/9/8Oz?=
+ =?us-ascii?Q?5HAF/+oREH66GcCW/zlIRYsMGEVh8E9FzBVr0VAsFc5WyxjTUkkMeISA20yE?=
+ =?us-ascii?Q?YuRtWlyp8ceyERI5Ma9oQKBBQBXJGToGnryj9BT+IlT+DsETB954uqgVT21e?=
+ =?us-ascii?Q?R2+rfMnRVanoDH06+yEy40t/BybwKn2mfDOQQvPq5lKHJczOI+/vxuLyGwgd?=
+ =?us-ascii?Q?KgcTyjcsTl7CBCYynp5cVz+SsAnTD2BafemnGlIzcB4YTh4BLq51wGYWi9Cs?=
+ =?us-ascii?Q?0Bt8cWC6OF05CRc6A3gKRXC+Xq7EDPjNoV9fmT7PA75PdVv2oooMkqpYuQFx?=
+ =?us-ascii?Q?YJ8vqWwLMFMM5a7zO5GwduWjU8m0xY+W+B+1wI169YMU4Iz2PzaBj9vhLw0i?=
+ =?us-ascii?Q?uEG+ad15vzs2D288IEWyLiO3eWW03sNNxFb+yxxuZDqad+ldQfAhPfNv6t8e?=
+ =?us-ascii?Q?I7phCh8G0TVsS6GuxkQc2wR3ltimWAQ1LIBjO+P0pfBkKDMEnlukZH0fh9V6?=
+ =?us-ascii?Q?WTY6SE+pARm3TJu0t/+eFYDKPHBon9hjeSlpRELGE1qed6L8Rtm3iKzrxzTI?=
+ =?us-ascii?Q?QsWFu5MTJZ3i7YzL80n++AdeeZlg6BfLD3sC7wwI7HySAwz4dkWRHtCQa+Bk?=
+ =?us-ascii?Q?dSXA6esX24wij2NUkhsiS1aaSEEZSDkY8SYnuXIVy57kniLCoQ1xtbQoBEzR?=
+ =?us-ascii?Q?npR665oRc0SQVxNIb/vYnarugD5BilxCeQyU0lHcS8+ythYG53Or8KfwP2T7?=
+ =?us-ascii?Q?J0+Ny3v4yyeNXY9mVYsYywMi9GTza+3FQDp+oEnKeZ6dgTtBV4P0nZT+d50x?=
+ =?us-ascii?Q?Xlpf9zkgh535Ork7DQGr2WmtcQm6QZJ5OhnSTat3ETITnUG3wtkJq9yyQTU+?=
+ =?us-ascii?Q?ihlrt6iEIITwOSDiA7HK7Gplk8AAJWtMRM4U0lRsbnllNCmyKV37s2QdpxZZ?=
+ =?us-ascii?Q?NZpEIk00XUqWKoCgs0W2DRrNdbFGKtSZkqwxfHJKmS7QqHO5N5hrF5I76MTZ?=
+ =?us-ascii?Q?cZkCwaYu9i/6yag/7oFzKbptlLOSDDPpbpcjP8Di2mXAm6XVBlaV4qW5HOBK?=
+ =?us-ascii?Q?6pjkUTFh9SJr7HrgsxwYNCa0W3Cr5k63hzRuDyRRk7E6QalvaG4vnL6fn4PU?=
+ =?us-ascii?Q?2By7eV/k3KOasMyn79zGTNGMMsgJ4RMnV5G7P7JanUqZYL8m4mpnYGXmwOzo?=
+ =?us-ascii?Q?ZJpnvCIariVyUBcHb9/2ahDjZxHhn/8K4YOozJj0bp+FqcbiJRlqyNhUzccQ?=
+ =?us-ascii?Q?jULjRgFrEN7n9aLy9OWNjgG59ChkRTyupuxw1pDfc/UXIMa6vU/4adQUOIcA?=
+ =?us-ascii?Q?6Fl6TMl6JptnbNedotfEWe5o0BQeLGZ/5SVWKWkl?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DM4PR12MB7573:EE_
-X-MS-Office365-Filtering-Correlation-Id: a898300a-3c5a-4b34-4f77-08dc4449036b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	02ydfTkSYF19hICshItQ+HCqXVb5XiikBocXNJEX9QMYBlrK6lLaIWPrJZU9mR+5sh+NCbw7IHljSa8WctlfHzc0EKJVXrBNET7tR/PiDyZg67994st5Yl96DJYtF/g0GIe1E76Rdp2e/cPWxIpNSc7sj7I6Y5AOWpyOpPSc9c4trCoPxi25BC9RB0NawmS8ce3BhUrtrcZqxjDNR24yJ1as34BwaJIzwT7abn0hTLmtZFshvIWznwoweO0ydV1xcSqrk2H9cw2JVrTgArE2eHdJ6CPGHD5AlfwvH+JyGzgVCDZ2na0cx8ZQ5YQxXRHSuJvJl8kYa7cM9RzPrZ15rD+kfSVYws7kKm4PTXTSGclAh7MImdJsXMNBG0ctElCTdthDur0CQS2RextCHvyrdY0ZNsp9AhqNWwCC3Rhy90oyEs8DzZV/jfEUiqPsaFKUQYIl1g2L8hNxpNGeboMq6gZcQOitEUyz0wKtMSsOBZtmNEEO2q96/Q3bbS0Nx1zSCnUSnw0DRBIHgw/MWO0OTipTRR/aRh358jxid9xbg69H07WJqR+EqY7GAgZjmI4v1y4V/e9RMi4GxaX8Ib/i8/Tmc1maAUFNopu/NjG9PWYywERoATs4FlZ8KNCnsUGP2WiHBbmdWQeYV4gylEMeLEExWNpLWKf4PTjj++x8hEQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(7416005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VN2BFuPYaPmzoW5msA5UyyR+mH8awecrEc4jnI/mCQ1aycj/MJNGC3VqO7eO?=
- =?us-ascii?Q?o5SmJXjcQiPOyE/Q/827lTvwse/JMlYKAlvDAgogzQhXhKctyPNU8yLuqIG1?=
- =?us-ascii?Q?3vfHAYIY05MoW+n1FUfLEn19JVyzQkEU6Gg08+F/ccAMkLfx5+oV5GCm/CoS?=
- =?us-ascii?Q?hZPjsnqE3hZZDyD1b/Zz0zNZXKwP0e9jVZf4QcTLhzoN6yWis4AFLKgoEoqN?=
- =?us-ascii?Q?NAsLvjQ9Vpwe7gS8CMgOqK0GxT/ZGhwWJvVxPWGakA+bczoE4Yjg+jAmUYRy?=
- =?us-ascii?Q?E5wRk9ssPJ/uLAR6g0OfG4KXzIvO+R+/Z/Z49/ymBDxWwoglIJjD5TIM3aTd?=
- =?us-ascii?Q?fdH/iVoqnWCfxnhltNNRMBj91vW6nvE7/vK6ZgKakKpiYClJ3VhaEHKrCQiv?=
- =?us-ascii?Q?LwNAlp/3GtsD8dmLnzqB3i5a8HZft/OkmCjdUBzTv74BvZTTTNX5W5M9WkGR?=
- =?us-ascii?Q?7UU5OM2xy1ccqRs0HPSdEgGmv9hG95wkiPxJLMXlhLSyGr1wYgTVOWIWhAG6?=
- =?us-ascii?Q?8Zb0CMdjQ+SPUuzEnB98oDIDhp0m6b1QPLwrDklXH3fjawIA3XNruyPug7b7?=
- =?us-ascii?Q?355CcezobwXsjTv6aPmOsPP0HNB69KCyT27CNhoCluxBT+cPNa7N5imryKAd?=
- =?us-ascii?Q?hjRlSsJ0pxerGmfSfZ5epfpI5aaB8d9ENkeRARWQDZMqsbGttVfqdgKB/bJ/?=
- =?us-ascii?Q?NGKcP0kt7ALX1BjBC053RcNSdn9gOXky6EiWWtB3ymHpTEnMrJmOM3HT7FtS?=
- =?us-ascii?Q?rh9QfayxfZGxMPkLKR2mrbSr7uqEOaVWW8UHs64ltKxqrSUq3A/XvKKHXxBu?=
- =?us-ascii?Q?0N3DgGHbNA97FEpbNQfjZcHAiBCX+EktA0SueW1ffL9tuc9qQgNoffzpIl5Z?=
- =?us-ascii?Q?m7dv3PxfA8DQu/jpPQRyfT56k4f7dbMbdYMswHcQn6xAu1DNyzRVV1e4t7Ss?=
- =?us-ascii?Q?KBZdmyBQvvdffWgqx6RoXCowT+6e3fTh/1lXbUtPQe84Ic+PEl/wqR7gGDIp?=
- =?us-ascii?Q?uREb+Vi25uV1AUgCDG8uppFZlYun7v/lFu96ubFkpacEvD2oE+Bp0dkNraeE?=
- =?us-ascii?Q?rYbfzB1glBifNZqCSnNUyUX+8rwmGsGSOqndnxKj8AYa9e8kk4RELNLB6qvm?=
- =?us-ascii?Q?Zr4ZFqeC++iBjycrlSskUsX6/ZwXEWryMEJ22EyH0b8tGefFfSi18kNcER1q?=
- =?us-ascii?Q?+drp11f5s+08Qs2brRuqYbhU6TuUvJirREG8oB+eRopqGMs7yO1Onxws5m7/?=
- =?us-ascii?Q?9GR4+J/ni6LU/9H00zXrxi4JsBpWlQllgceAFkMn3AYOo4qQqugxHnmj6Tqs?=
- =?us-ascii?Q?vNPdIiHN2d0ptlmtHF7bmDcWgZ+eSUt82tf6no+IJO0w2aWAfhszSLvUvQTK?=
- =?us-ascii?Q?yl+jkEwesmKmvwdvZ/WPe2hegnArnjKNWZNmEwSbopXgGdAS3fhoKgA15wkO?=
- =?us-ascii?Q?Xrur/7E6mcx03xq8nfSAx/klBBbHtsejHvbj9ngErTfdBJ9zza4mwH4tqe8a?=
- =?us-ascii?Q?14PEPCdaeu5ZdIqkm7MxddqLtEKFi4qTQOWRUlcbc594G898+K+pjrx7JgDa?=
- =?us-ascii?Q?5CLEmXvl8pdnjdpV1zVOmz5q+mRDUvu402/ToULeGkcy3B227bcZvCh/FPq9?=
- =?us-ascii?Q?Bw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a898300a-3c5a-4b34-4f77-08dc4449036b
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2024 17:05:56.2661
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b9f904f-2f72-44f4-84d8-08dc444f3164
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2024 17:50:10.1211
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ipe8ROyK0zwhB4i4BZDoqkZcOvQhGXsx3exShxCaTgrfc0oTLBwBz/q5I+XAEPq4IqjZUNRHnecjmu22AC4fjg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7573
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 08nB/pgxQEjiK18Qxvuag09rMGHwCFmpeEuGayLt8QQ/LcfPpUVYcDMHKgWBqZxq7IP2mm87Sk/tka6RmhSSKe14tznoQgJ8hXExwbuAQyI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6980
+X-OriginatorOrg: intel.com
 
 
-On Tue, 12 Mar, 2024 16:53:46 -0700 Jakub Kicinski <kuba@kernel.org> wrote:
-> On Sat,  9 Mar 2024 00:44:35 -0800 Rahul Rameshbabu wrote:
->> Multiple network devices that support hardware timestamping appear to have
->> common behavior with regards to timestamp handling. Implement common Tx
->> hardware timestamping statistics in a tx_stats struct_group. Common Rx
->> hardware timestamping statistics can subsequently be implemented in a
->> rx_stats struct_group for ethtool_ts_stats.
->
->>  Documentation/netlink/specs/ethtool.yaml | 20 +++++++++
->>  include/linux/ethtool.h                  | 21 ++++++++++
->>  include/uapi/linux/ethtool_netlink.h     | 15 +++++++
->>  net/ethtool/tsinfo.c                     | 52 +++++++++++++++++++++++-
->>  4 files changed, 107 insertions(+), 1 deletion(-)
->
-> Feels like we should mention the new stats somehow in 
-> Documentation/networking/ethtool-netlink.rst
->
->> diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
->> index 197208f419dc..f99b003c78c0 100644
->> --- a/Documentation/netlink/specs/ethtool.yaml
->> +++ b/Documentation/netlink/specs/ethtool.yaml
->> @@ -559,6 +559,21 @@ attribute-sets:
->>        -
->>          name: tx-lpi-timer
->>          type: u32
->> +  -
->> +    name: ts-stat
->> +    attributes:
->> +      -
->> +        name: pad
->> +        type: pad
->
-> You can remove the pad entry, and...
->
 
-You need the pad to match with ETHTOOL_A_TS_STAT_PAD (which similar to
-other ethtool stats currently defined). Otherwise, you run into the
-following.... mm-stat and fec-stat are good examples.
+> -----Original Message-----
+> From: Jakub Kicinski <kuba@kernel.org>
+> Sent: Wednesday, March 13, 2024 6:40 PM
+> To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+> Cc: Zaki, Ahmed <ahmed.zaki@intel.com>; Lobakin, Aleksander
+> <aleksander.lobakin@intel.com>; alexandre.torgue@foss.st.com;
+> andrew@lunn.ch; corbet@lwn.net; davem@davemloft.net; dtatulea@nvidia.com;
+> edumazet@google.com; gal@nvidia.com; hkallweit1@gmail.com; Keller, Jacob =
+E
+> <jacob.e.keller@intel.com>; jiri@resnulli.us; joabreu@synopsys.com;
+> justinstitt@google.com; kory.maincent@bootlin.com; leon@kernel.org; linux=
+-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; liuhangbin@gmail.com;
+> maxime.chevallier@bootlin.com; netdev@vger.kernel.org; pabeni@redhat.com;
+> Greenwalt, Paul <paul.greenwalt@intel.com>; Kitszel, Przemyslaw
+> <przemyslaw.kitszel@intel.com>; rdunlap@infradead.org;
+> richardcochran@gmail.com; saeed@kernel.org; tariqt@nvidia.com;
+> vadim.fedorenko@linux.dev; vladimir.oltean@nxp.com; Drewek, Wojciech
+> <wojciech.drewek@intel.com>
+> Subject: Re: [PATCH RFC v2 1/6] ethtool: add interface to read Tx hardwar=
+e
+> timestamping statistics
+>=20
+> On Wed, 13 Mar 2024 17:50:39 -0700 Rahul Rameshbabu wrote:
+> > > Should we give some guidance to drivers which "ignore" time stamping
+> > > requests if they used up all the "slots"? Even if just temporary unti=
+l
+> > > they are fixed? Maybe we can add after all the fields something like:
+> > >
+> > >   For drivers which ignore further timestamping requests when there a=
+re
+> > >   too many in flight, the ignored requests are currently not counted =
+by
+> > >   any of the statistics.
+> >
+> > I was actually thinking it would be better to merge them into the error
+> > counter temporarily. Reason being is that in the case Intel notices tha=
+t
+> > their slots are full, they just drop traffic from my understanding
+> > today. If the error counters increment in that situation, it helps with
+> > the debug to a degree. EBUSY is an error in general.
+>=20
+> That works, too, let's recommend it (FWIW no preference whether
+> in the entry for @err or somewhere separately in the kdoc).
 
-  [root@binary-eater-vm-01 linux-ethtool-ts]# ./tools/net/ynl/ethtool.py --show-time-stamping mlx5_1
-  Traceback (most recent call last):
-    File "/root/linux-ethtool-ts/tools/net/ynl/lib/ynl.py", line 598, in _decode
-      attr_spec = attr_space.attrs_by_val[attr.type]
-                  ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
-  KeyError: 4
-
-  During handling of the above exception, another exception occurred:
-
-  Traceback (most recent call last):
-    File "/root/linux-ethtool-ts/./tools/net/ynl/ethtool.py", line 437, in <module>
-      main()
-    File "/root/linux-ethtool-ts/./tools/net/ynl/ethtool.py", line 333, in main
-      tsinfo = dumpit(ynl, args, 'tsinfo-get', req)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/root/linux-ethtool-ts/./tools/net/ynl/ethtool.py", line 91, in dumpit
-      reply = ynl.dump(op_name, { 'header': {} } | extra)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/root/linux-ethtool-ts/tools/net/ynl/lib/ynl.py", line 873, in dump
-      return self._op(method, vals, [], dump=True)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/root/linux-ethtool-ts/tools/net/ynl/lib/ynl.py", line 858, in _op
-      rsp_msg = self._decode(decoded.raw_attrs, op.attr_set.name)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/root/linux-ethtool-ts/tools/net/ynl/lib/ynl.py", line 607, in _decode
-      subdict = self._decode(NlAttrs(attr.raw), attr_spec['nested-attributes'], search_attrs)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    File "/root/linux-ethtool-ts/tools/net/ynl/lib/ynl.py", line 601, in _decode
-      raise Exception(f"Space '{space}' has no attribute with value '{attr.type}'")
-  Exception: Space 'ts-stat' has no attribute with value '4'
-
->> +enum {
->> +	ETHTOOL_A_TS_STAT_UNSPEC,
->> +	ETHTOOL_A_TS_STAT_PAD,
->> +
->> +	ETHTOOL_A_TS_STAT_TX_PKT,			/* array, u64 */
->> +	ETHTOOL_A_TS_STAT_TX_LOST,			/* array, u64 */
->> +	ETHTOOL_A_TS_STAT_TX_ERR,			/* array, u64 */
->
-> I don't think these are arrays.
->
->> +
->> +	/* add new constants above here */
->> +	__ETHTOOL_A_TS_STAT_CNT,
->> +	ETHTOOL_A_TS_STAT_MAX = (__ETHTOOL_A_TS_STAT_CNT - 1)
->> +
->> +};
-
---
-Thanks,
-
-Rahul Rameshbabu
+We don't drop traffic, we send the packets just fine.. We just never report=
+ a timestamp for them, since we don't program the hardware to capture that =
+timestamp.
