@@ -1,129 +1,173 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63CA5D8E1;
-	Thu, 14 Mar 2024 14:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 121985D75D;
+	Thu, 14 Mar 2024 15:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710427311; cv=none; b=p51c6XappAXUFw0mMX8iHFy0FccTpwcdrksmXdasehHlTSMNGcz2vjY9Gy+DCXATQUuJNfdKFr9E9XdwbB38C27l2S1PUhUcCoxHxeNVMtl/f3ewFuVboXjqqgGcYKV5X0pl2DZIvkrT/5k051YiWsEi7kjOutNKsKBD4XgMGQU=
+	t=1710428523; cv=none; b=PDus+Tk+YjYt94VplUXPnLdpIgsh1PR00zJB7cJYIkky44IOkhq2eRNOlboeV0eTrBWKbpeHP6KflkHApmxCz3e139rQBB5MOLkWoGYiJXZp40ZAVL3Zlc4wGdOGFWJBw5xQGHPpZXqrUu+2Zk34flzaojJYbcEpmp8KLoLSGL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710427311; c=relaxed/simple;
-	bh=xCKos6m+qO/1NTZ2a29UZtZ7oTOa927jk2hKnM8gv0E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lmN9ZPYANoArB/+hHIbIUDABjxcf7xK/ox0jDG/7BvbVZbMsHIrzFu+eMTPPQCucVmxYpgDL3mk/NAfG6LNZkmN5D+1c3mdkJVONg7B/eOVcWLdbuUZJ9ibwOIrL3Pitl+BfCWHU2yaTS2eQBu3PRnk7XjSw9l4M9vahlVVmMuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbMyShOX; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710428523; c=relaxed/simple;
+	bh=M6nhtT/evAJaEm9Lfp2nSLULi/q0+AGWGYq3q98wPSs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ExAEgEpP72s5xS3EpKsSRyFXbwaFE2ZgGcBINu6lPlw0SDWTzuOQFxEB4MIk4MgerUuv8/K/CCzaqipQmqD2tFbU+ZlgEI8qWZxjaSFCIjNgDa+/TrLJ7APqYJeoNsVVNws86dFg4JCiFGyUMtfMAVzy+02JTXgSOiM08QAh7d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRtU3Red; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbMyShOX"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-563c403719cso1378756a12.2;
-        Thu, 14 Mar 2024 07:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710427308; x=1711032108; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=75BC6XDlPW+OQKaG6vOoT6p3GK8R3Ey/ersuUXrKyEo=;
-        b=fbMyShOXCTunAT8LeozXoXpY+2OOlGdxywM9GiYMUAqEH5fJf7OR0STy0IWyxBnU3B
-         glV8wyotVMCKAhaVso9EXazg4CJioFKnoKx/0x1okFB5p/Isr1AyzURmq34ySitG495B
-         PY82a5WiyPUcRjO+O+vRvtV0XJgq57h1a3OewhawK/8d/f36RDB2p7t6UkfNOOZqCwbc
-         fhi7YQHwf/b3YCDWWWFKmfW9MCboExb0E+Ayh3S0blWS3ukY3jIGwGbgCweC0SzVSYms
-         2gtGD3ezOywukLcMhqkGDfBlEEF+e5UP5F3kGJM4WtEvOMK0+C5V5BGMtMWWRHBYYHNO
-         hIXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710427308; x=1711032108;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=75BC6XDlPW+OQKaG6vOoT6p3GK8R3Ey/ersuUXrKyEo=;
-        b=XU7XpGzsxOb672trzJuvDDpjVl66N5wTyhfyywGDoxXLf1a8dRtjdTYedumrdtkr6b
-         jmpv08jbxoDMBVdc14IRNHmoC33XykYSBhwAxq3fKLyiTfs0IjsZEht4PDH+Ki09QRfc
-         1jdxDAYouS+O/RylgMeiBH3myYdvm342+TZFsBUGOCVsChxyvE2Ri9P/Crh0XyZhpGFt
-         F1ZszsNlGxocA0HxEiivi1Kh0iYiAMgH94+eMvfflu3e0D5Rz3M0rPTk0ERYKhZ7k6nO
-         UURPOjC4rZh9jMRVOoIcRPhSlfk7eJhCcrI9tUU8M0y41TYrqeVo2LYMPqk8HKSLG7vg
-         pr4w==
-X-Forwarded-Encrypted: i=1; AJvYcCX3rR9imic7C26TrP0+Spc+0P4fFEEqVzVulXDv6JoctoaBP8ZI0im7BnnaUcS65L1DSwCmQm/GSNBOF/6VKsFd6+l14jYjRcuRYWW9vWNfpKJsAf9ebrUVozNozxNpWNwi/24DgI1X/H7iqfThjfCi6Bspb2BdSjUMyOQE7nzq45oVI1GkQ9ekbDGh
-X-Gm-Message-State: AOJu0Yz4Wx6iT86o1H+oh5NgarihfIrV9ejaaOFQh+q1oY2GaJLQ6+35
-	lRQ0lJqMbIPlFUYeKQ4+VprGLL31ruVggk/sJjIddZTfjHpNENuA
-X-Google-Smtp-Source: AGHT+IHTqh9aG/rjW5FKqqfRc5+QuUQ4b1bMVoiK7Wo1Vj9FaO/R3di1Xw0hvyjU7Xs0/dNC6/c/7w==
-X-Received: by 2002:aa7:d409:0:b0:568:9f10:7d33 with SMTP id z9-20020aa7d409000000b005689f107d33mr951979edq.42.1710427307921;
-        Thu, 14 Mar 2024 07:41:47 -0700 (PDT)
-Received: from localhost.localdomain ([213.55.225.17])
-        by smtp.gmail.com with ESMTPSA id fg3-20020a056402548300b005682f47aea7sm769570edb.94.2024.03.14.07.41.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 07:41:47 -0700 (PDT)
-From: Ali Zahraee <ahzahraee@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net
-Cc: Ali Zahraee <ahzahraee@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com
-Subject: [PATCH] Documentation: tracing: update format of sched_wakeup in example
-Date: Thu, 14 Mar 2024 15:41:36 +0100
-Message-Id: <20240314144136.19727-1-ahzahraee@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRtU3Red"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B709C433C7;
+	Thu, 14 Mar 2024 15:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710428522;
+	bh=M6nhtT/evAJaEm9Lfp2nSLULi/q0+AGWGYq3q98wPSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GRtU3RedkF+6bGv6rzD962qdrdCPt5XDgiXEplTNKVxkNx+BIuJnWhNCE1d7fglx6
+	 mD3/UhHdcLJkAegeGIp8aMtrgg1f0b/y3UcqWwJZgrDfVLPpuqICk/x/OHh10mfWf9
+	 9YsckKa2LEMMFO1+nFohOEHh+n7JxokMvrZ7AY1lPZ93C5+da+53H8uiN9lkIsn/mG
+	 PbIjyh8D25M/ryqLm3+qk7RRQZ75o0LR1Q14YeW1VbwFKaB6HUyEob0DHjjeglxh26
+	 cOsiuXf/CpzhFvKk1cwkdBdstXFvCjaK7r6v+TsM8RvqXnl/V2kmn1OvsPAOnwiReg
+	 I0c47dK/Lzi0A==
+Date: Thu, 14 Mar 2024 16:02:00 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+	linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, 
+	David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com, 
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
+	loongarch@lists.linux.dev, netdev@lists.linux.dev
+Subject: Re: [PATCH 00/14] Add support for suppressing warning backtraces
+Message-ID: <20240314-victorious-chupacabra-of-management-baa5c4@houat>
+References: <20240312170309.2546362-1-linux@roeck-us.net>
+ <CAMuHMdUkvagJVEfnhq=Nx2jnmdS0Ax+zy1CvyN0k7k1EwUpu+g@mail.gmail.com>
+ <6d9269c0-bd38-4965-a454-4358e0a182e3@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nbx7v4z25kdu2nok"
+Content-Disposition: inline
+In-Reply-To: <6d9269c0-bd38-4965-a454-4358e0a182e3@roeck-us.net>
 
-The format of the sched_wakeup event is used as an example in the
-documentation. But the given format is obsolete. This patch updates the
-format in the example to match the current format of this event.
 
-Signed-off-by: Ali Zahraee <ahzahraee@gmail.com>
----
- Documentation/trace/events.rst | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+--nbx7v4z25kdu2nok
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index 759907c20e75..65fe205c95e6 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -129,24 +129,25 @@ event::
- 	# cat /sys/kernel/tracing/events/sched/sched_wakeup/format
- 
- 	name: sched_wakeup
--	ID: 60
-+	ID: 70
- 	format:
- 		field:unsigned short common_type;	offset:0;	size:2;
-+                	signed:0;
- 		field:unsigned char common_flags;	offset:2;	size:1;
--		field:unsigned char common_preempt_count;	offset:3;	size:1;
--		field:int common_pid;	offset:4;	size:4;
--		field:int common_tgid;	offset:8;	size:4;
-+                	signed:0;
-+		field:unsigned char common_preempt_count;	offset:3;
-+                	size:1; signed:0;
-+		field:int common_pid;	offset:4;	size:4;	signed:1;
- 
--		field:char comm[TASK_COMM_LEN];	offset:12;	size:16;
--		field:pid_t pid;	offset:28;	size:4;
--		field:int prio;	offset:32;	size:4;
--		field:int success;	offset:36;	size:4;
--		field:int cpu;	offset:40;	size:4;
-+		field:char comm[16];	offset:8;	size:16;	signed:0;
-+		field:pid_t pid;	offset:24;	size:4;	signed:1;
-+		field:int prio;	offset:28;	size:4;	signed:1;
-+		field:int target_cpu;	offset:32;	size:4;	signed:1;
- 
--	print fmt: "task %s:%d [%d] success=%d [%03d]", REC->comm, REC->pid,
--		   REC->prio, REC->success, REC->cpu
-+	print fmt: "comm=%s pid=%d prio=%d target_cpu=%03d", REC->comm, REC->pid,
-+        	        REC->prio, REC->target_cpu
- 
--This event contains 10 fields, the first 5 common and the remaining 5
-+This event contains 8 fields, the first 4 common and the remaining 4
- event-specific.  All the fields for this event are numeric, except for
- 'comm' which is a string, a distinction important for event filtering.
- 
--- 
-2.34.1
+On Thu, Mar 14, 2024 at 07:37:13AM -0700, Guenter Roeck wrote:
+> On 3/14/24 06:36, Geert Uytterhoeven wrote:
+> > Hi G=C3=BCnter,
+> >=20
+> > On Tue, Mar 12, 2024 at 6:03=E2=80=AFPM Guenter Roeck <linux@roeck-us.n=
+et> wrote:
+> > > Some unit tests intentionally trigger warning backtraces by passing b=
+ad
+> > > parameters to kernel API functions. Such unit tests typically check t=
+he
+> > > return value from such calls, not the existence of the warning backtr=
+ace.
+> > >=20
+> > > Such intentionally generated warning backtraces are neither desirable
+> > > nor useful for a number of reasons.
+> > > - They can result in overlooked real problems.
+> > > - A warning that suddenly starts to show up in unit tests needs to be
+> > >    investigated and has to be marked to be ignored, for example by
+> > >    adjusting filter scripts. Such filters are ad-hoc because there is
+> > >    no real standard format for warnings. On top of that, such filter
+> > >    scripts would require constant maintenance.
+> > >=20
+> > > One option to address problem would be to add messages such as "expec=
+ted
+> > > warning backtraces start / end here" to the kernel log.  However, that
+> > > would again require filter scripts, it might result in missing real
+> > > problematic warning backtraces triggered while the test is running, a=
+nd
+> > > the irrelevant backtrace(s) would still clog the kernel log.
+> > >=20
+> > > Solve the problem by providing a means to identify and suppress speci=
+fic
+> > > warning backtraces while executing test code. Support suppressing mul=
+tiple
+> > > backtraces while at the same time limiting changes to generic code to=
+ the
+> > > absolute minimum. Architecture specific changes are kept at minimum by
+> > > retaining function names only if both CONFIG_DEBUG_BUGVERBOSE and
+> > > CONFIG_KUNIT are enabled.
+> > >=20
+> > > The first patch of the series introduces the necessary infrastructure.
+> > > The second patch introduces support for counting suppressed backtrace=
+s.
+> > > This capability is used in patch three to implement unit tests.
+> > > Patch four documents the new API.
+> > > The next two patches add support for suppressing backtraces in drm_re=
+ct
+> > > and dev_addr_lists unit tests. These patches are intended to serve as
+> > > examples for the use of the functionality introduced with this series.
+> > > The remaining patches implement the necessary changes for all
+> > > architectures with GENERIC_BUG support.
+> >=20
+> > Thanks for your series!
+> >=20
+> > I gave it a try on m68k, just running backtrace-suppression-test,
+> > and that seems to work fine.
+> >=20
+> > > Design note:
+> > >    Function pointers are only added to the __bug_table section if both
+> > >    CONFIG_KUNIT and CONFIG_DEBUG_BUGVERBOSE are enabled to avoid image
+> > >    size increases if CONFIG_KUNIT=3Dn. There would be some benefits to
+> > >    adding those pointers all the time (reduced complexity, ability to
+> > >    display function names in BUG/WARNING messages). That change, if
+> > >    desired, can be made later.
+> >=20
+> > Unfortunately this also increases kernel size in the CONFIG_KUNIT=3Dm
+> > case (ca. 80 KiB for atari_defconfig), making it less attractive to have
+> > kunit and all tests enabled as modules in my standard kernel.
+> >=20
+>=20
+> Good point. Indeed, it does. I wanted to avoid adding a configuration opt=
+ion,
+> but maybe I should add it after all. How about something like this ?
+>=20
+> +config KUNIT_SUPPRESS_BACKTRACE
+> +       bool "KUnit - Enable backtrace suppression"
+> +       default y
+> +       help
+> +         Enable backtrace suppression for KUnit. If enabled, backtraces
+> +         generated intentionally by KUnit tests can be suppressed. Disab=
+le
+> +         to reduce kernel image size if image size is more important than
+> +         suppression of backtraces generated by KUnit tests.
+> +
 
+How are tests using that API supposed to handle it then?
+
+Select the config option or put an ifdef?
+
+If the former, we end up in the same situation than without the symbol.
+If the latter, we end up in a similar situation than disabling KUNIT
+entirely, with some tests not being run which is just terrible.
+
+Maxime
+
+--nbx7v4z25kdu2nok
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZfMRZwAKCRDj7w1vZxhR
+xZe7AQCF0lwXl8k+ok+x1wLmfAsWf12MJtiFkJfF2M8fieBWywEA7IBXKWN1hKUp
+6rSvzAgaLFB/0eisZYO9FXDq5sROGw0=
+=qLwX
+-----END PGP SIGNATURE-----
+
+--nbx7v4z25kdu2nok--
