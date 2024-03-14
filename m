@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5141975817;
-	Thu, 14 Mar 2024 19:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24DF2BB13;
+	Thu, 14 Mar 2024 20:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710443210; cv=none; b=LMrhf1TvnCRe4skG/9/cMDLw7tkpE628tWo20Q9yhot9m2Gd404vNYjlA8HuHNpW9RN5h6H2oCGgenL+E6qpXzKE/8p+i1SoNM2LJppMjbbXwj6CyzgU8beNW1/aktzopFriYCezMRGVGJ2ys0nmhdFMBjHbKgl6LckTR95doRQ=
+	t=1710446679; cv=none; b=gfXuJqSF4m1ic20F35TpUv82wwhoMlR66rZTMM4RdTX+Y8L+j/8lsxwUZOy+jA4/Iscb9fI4jCaGY2AyJD9q1POPNbtGO+VrpUuCdHUMVP3iov9DHUZ5wl9Wq8KLKR08eAnOk874dB/wodPn1UQM9GT02T8L1yI88DOcuqvPBRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710443210; c=relaxed/simple;
-	bh=/kHdQkq4OzkGwuYzv5B3Opu/m2md+OM/9SG0MAC9LX4=;
+	s=arc-20240116; t=1710446679; c=relaxed/simple;
+	bh=6+H3BNBg7goP41I6XpJRXHjoIZj+IWMhxTJDdpJKB2k=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LT0CTaoivRdrbv2xNPprQqW4dXoMPSHhjR6wP5KxElh+njbPYEeGsrDmYENr3N7bmgf13PWjYcBxCRcrCkCzaiveh4mh2T0Fu5v8tNLUtXcm2K0iwa7vf9BNNx1RJ4d8FilIZfwWGP8v2b4twW5DJEZDZoSAH2gpaL5kHD0u5mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMrajfA9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DNIYzf4aAJxgZ1wSQvw3/Q0/+alWxb2DXKhK1rFiNTv5DMPXJK/9GSSBOibgnf2Zm4IyukAf4ZL9StrlwPttLvFn2esOP2i/WKXZFfAercjPi//HR9qLLC4lfzPSmgo5l7L++G/KVmX+0h9EsFB04ZfaQYuPRg7nk5mrpCmXJ8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yx6FUSzO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMrajfA9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB48C433C7;
-	Thu, 14 Mar 2024 19:06:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yx6FUSzO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A574C433F1;
+	Thu, 14 Mar 2024 20:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710443209;
-	bh=/kHdQkq4OzkGwuYzv5B3Opu/m2md+OM/9SG0MAC9LX4=;
+	s=k20201202; t=1710446678;
+	bh=6+H3BNBg7goP41I6XpJRXHjoIZj+IWMhxTJDdpJKB2k=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jMrajfA90/K1p0xZrGsb/s7fDYT32BDLUgU258wSQNLXKWdOY9rnXDt2+BZBIda9+
-	 HvchsNsUsKawokejMEZmlmaqwGq8LrEHfYpABtXmHOCh6fDxa1KnjPSdDxcSRlTvIC
-	 9A7K8xH+SvIFnJVi4SMFtRzyk8ekC+6ACwykKtikI8zj/F724JUTzLPB6NOVzxIiZU
-	 mHqhD9sJ9Sen3qP1RVP5TLXzOFSl0XwBQjUqDCTT55j8lvz+C+iPc6epysLs1ErByO
-	 QA57SOpZ6TKvDsSUI4Cvkkc3C27neo8rJn+ibhTUHt6KoHD50P/s23MyUBdDiTgOnh
-	 AGuVwTqUU5w4Q==
-Date: Thu, 14 Mar 2024 12:06:47 -0700
+	b=Yx6FUSzOlAskw3Vkd5I52H7snaL2XmmkpIcuD9W9M8ivz2Qyuj3b9bYZ3MMaqEh5/
+	 1FUDnqtEDJtdB4GHUzs1QB+zyAV5vPaDNNCbp0ZSnDZQ7xt1JnUOJ0u8tZvugwp5Re
+	 bjW/8vl5qS+zsSLGDFw1zX6vE7667w8B63XLLeE32gkc9R6OyTeGInLswLaDjPCDHR
+	 MDexE1+hFI1t6+1PYOx4Wm88nS/HhsgjG36t7V/tKNZ2CIVqe17hFpCuwSC6xbtQJG
+	 bdmaSf7ok3u5n0mT3lp1k/X8r99ipiVkYNXSZIXUc/C3KoIcCHupke1YwVFnV0cdAO
+	 ZDUVDNln0blhA==
+Date: Thu, 14 Mar 2024 13:04:36 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
 Cc: ahmed.zaki@intel.com, aleksander.lobakin@intel.com,
@@ -41,17 +41,16 @@ Cc: ahmed.zaki@intel.com, aleksander.lobakin@intel.com,
  rdunlap@infradead.org, richardcochran@gmail.com, saeed@kernel.org,
  tariqt@nvidia.com, vadim.fedorenko@linux.dev, vladimir.oltean@nxp.com,
  wojciech.drewek@intel.com
-Subject: Re: [PATCH RFC v2 1/6] ethtool: add interface to read Tx hardware
- timestamping statistics
-Message-ID: <20240314120647.58a07d94@kernel.org>
-In-Reply-To: <87jzm4vejp.fsf@nvidia.com>
+Subject: Re: [PATCH RFC v2 6/6] tools: ynl: ethtool.py: Output timestamping
+ statistics from tsinfo-get operation
+Message-ID: <20240314130436.1052c739@kernel.org>
+In-Reply-To: <20240313174707.38a71c84@kernel.org>
 References: <20240223192658.45893-1-rrameshbabu@nvidia.com>
 	<20240309084440.299358-1-rrameshbabu@nvidia.com>
-	<20240309084440.299358-2-rrameshbabu@nvidia.com>
-	<20240312165346.14ec1941@kernel.org>
-	<87v85ovj4d.fsf@nvidia.com>
-	<20240314105943.7bc6f2ef@kernel.org>
-	<87jzm4vejp.fsf@nvidia.com>
+	<20240309084440.299358-7-rrameshbabu@nvidia.com>
+	<20240312165544.75ced7e1@kernel.org>
+	<87plvxbqwy.fsf@nvidia.com>
+	<20240313174707.38a71c84@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,16 +60,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 14 Mar 2024 11:43:07 -0700 Rahul Rameshbabu wrote:
-> > I don't understand.
-> > Are you sure you changef the kernel to use uint, rebuilt and
-> > there is no ETHTOOL_A_TS_STAT_PAD anywhere, anymore?  
-> 
-> Sorry, I was not as clear as I could have been with my last reply. I did
-> leave ETHTOOL_A_TS_STAT_PAD in when I tested (intentionally). I was
-> trying to mimic other ethtool stats implementations, but you are saying
-> that in general there is no need for this padding (which I agree with)
-> and I can remove that unnecessary offset. It'll be different from the
-> existing stats, but I am ok with that.
+On Wed, 13 Mar 2024 17:47:07 -0700 Jakub Kicinski wrote:
+> +  -
+> +    name: header-flags
+> +    type: flags
+> +    entries: [ compact-bitset, omit-reply, stats ]
 
-Yes, the small divergence is fine - uint is pretty recent addition.
+Ah. Throw in an empty:
+
+	enum-name:
+
+into this, or change the uAPI so that an enum called
+ethtool_header_flags actually exists :)
+
+Otherwise make -C tools/net/ynl will break
