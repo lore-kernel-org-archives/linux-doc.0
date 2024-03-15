@@ -1,166 +1,104 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF31B763E4;
-	Thu, 14 Mar 2024 20:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06914323D;
+	Fri, 15 Mar 2024 03:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710449865; cv=none; b=Z6vxvILyVPabkfbz8PGZ/b9JTCRCtyBNwtaUYNfUTg2FEl92PEyQLGSGBhxP6bkuyzLcI79j54kcLsJKCYxfnAAiXTU1kqwJFH/ukxUaDJ6PE4Bj7FoFJV6vJGBe5PVB16lsKzrkm3nzXZQxKsMKNOMEuBVw0v/PAyCPOk/jMUo=
+	t=1710471816; cv=none; b=azultoN87e5dYIjxtEtb4HkGtUKDkfYiUw5vK/rvCPSKlTiJob8vU+Q0kBY2d4Uw6r7Vvueb+1OEQt+4QrRlAIETBOW4Q99/pYXD8hYxQeyCFoY03k+a4jeNu5c41bavDZQBFxlY+rYOc5srMgFVsH7EbPP+B+M6rD2bYXsB+7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710449865; c=relaxed/simple;
-	bh=i/In70euOucOu10Yn4mf9BZSNHDbmPI7QOVoNvr1wN0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=e/Nq4/TEwD36LnwfEosxO1zQ3fEEQQu2hvpwD77PaGFMO+LjfsxX6KHSBJKrSl2hr8ZP9fTazr4zEoVQFJx9K7VGDKH0ePaU0qZ+A0xzaLIyzQJX4fxAyyO8QWFpOS7978NHMkwWtjs7FpIBJE0UxqlhT9jTc6UZ5fB1u3YnI6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VypaMdDu; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1710471816; c=relaxed/simple;
+	bh=SPAiD+gNmMZ6VPPTpT74GlegJX+PLefRttBB2GafSFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JjoybK/NI9vGSkKO2j9fXI2g3i8NqY56J0IcN7IuAybjKeHXbG1MP1HkrvH1owWIuiw32sz3vRPRj1t9f/Spf6qxINasuheqAg7KntBIYd58vvIr5oY0pmoNhFIacLFawUw3gyYBV9VvQkZqawsH8iI1yKm+4ByS+uXAKONGWEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MBMOJdHJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VypaMdDu"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42EKFsjk019502;
-	Thu, 14 Mar 2024 20:57:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=i1RRwlY+GSx5CIfYwtnNU1qLUiFuXaO9rJ+b19a99LU=; b=Vy
-	paMdDuLHTBjsvksPD2BnAdKbsOB51/5Li48ozD40T3l6rwY/B8nOD1KgUDng+sO3
-	aiaKBQRFPLsVhYNNk1dD3NVvrA2h3AJs8i3LKGOkWHs91I3yKQS6k6Z8jXZAblbZ
-	XnWX+kdgFjWTEj1sUGMlzP5+TQP0c3Ei+sRSCMdmlMD2M6GgRkigVqaZfBYHLpCA
-	LC2sZrKu/v4LCyVOXaLBWxaJT/9sDaOofQ9xNSObmdPran5eK+ggiUNcp9u0YLSr
-	gibSEaPxQ/pBdwBRDjOk/FkIOuSn23Ab+UZLXeuggME+SClx8erC9dBqmnIQtUZu
-	mn4R55nTAKEDQkQ5LqJg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3wv81bg2qb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:57:21 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42EKvK31005345
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Mar 2024 20:57:20 GMT
-Received: from [10.71.112.106] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 14 Mar
- 2024 13:57:19 -0700
-Message-ID: <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
-Date: Thu, 14 Mar 2024 13:57:19 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MBMOJdHJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E17AC433F1;
+	Fri, 15 Mar 2024 03:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710471815;
+	bh=SPAiD+gNmMZ6VPPTpT74GlegJX+PLefRttBB2GafSFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MBMOJdHJiQ6QvqSDDofBdpjnYI2zM4M0e4xamcU0kd4tG92Yd0CG1BsOCp1ou871q
+	 K3ljP6OYBumQvQ4faTxJ+dg0aNmPqgqsXwOmIBTrLqabRXOwC9ReElSaD8Cenxw4EE
+	 Xavb/a6kBxkuJcZbanIK4NYSGZYfe+MdynlXRwMYsB2AEpkQ0XRo/eUImTq8mrfPkW
+	 RLEJt6xXh28LAkxu0SPTfDzAZh9wZlzBQEPThCJEsds5pmNYZ2DmwS8MxMAo2t8VOc
+	 WZYYpHxyzugKRrwrwF1GETF8e7RA39l5zsS5OB1B4nPrHn3+e4QtjsnYqrKyQZV3JO
+	 CrEN16YHXtdDg==
+Date: Thu, 14 Mar 2024 20:03:34 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: corbet@lwn.net, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	jack@suse.cz, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	clm@meta.com, dsterba@suse.com, josef@toxicpanda.com,
+	jbacik@toxicpanda.com, kernel-team@meta.com
+Subject: Re: [PATCH 0/3] fiemap extension to add physical extent length
+Message-ID: <20240315030334.GQ6184@frogsfrogsfrogs>
+References: <cover.1709918025.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.1
-Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
- offloading support
-Content-Language: en-US
-To: Albert Wang <albertccwang@google.com>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh+dt@kernel.org>,
-        <konrad.dybcio@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>
-References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
- <20240228013619.29758-21-quic_wcheng@quicinc.com>
- <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
- <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com>
- <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: hogKYBgJv_8ag5r84EkBXjMbinIFbgfn
-X-Proofpoint-ORIG-GUID: hogKYBgJv_8ag5r84EkBXjMbinIFbgfn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-14_13,2024-03-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2402120000 definitions=main-2403140161
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1709918025.git.sweettea-kernel@dorminy.me>
 
-Hi Albert
-
-On 3/14/2024 3:29 AM, Albert Wang wrote:
-> On Thu, Mar 14, 2024 at 3:18 AM Wesley Cheng <quic_wcheng@quicinc.com> wrote:
->>
->> Hi Albert,
->>
->> On 3/13/2024 1:03 AM, Albert Wang wrote:
->>> Hi Wesley,
->>>
->>> The suspend function `qc_usb_audio_offload_suspend()` looks to stop
->>> the traffic on the bus, so that the bus can be suspended. That allows
->>> the application processor(AP) to enter suspend. There is a subtle
->>> difference with our feature, which is to allow AP suspend with the
->>> Host and USB controller active to continue the audio offloading. We
->>> call this feature `allow AP suspend in playback`. So, I have some
->>> points to clarify with you:
->>
->> Yes, I'm aware of that feature also.
->>
->>> 1. Will the suspend flow `usb_audio_suspend() -->
->>> platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
->>> called when offloading is active?
->>
->> It can be.  This is why in our case, we are going to issue the
->> disconnect event to the audio DSP to stop the session if it is currently
->> in one.
->>
->>> 2. As my understanding, the suspend function is to allow AP suspend
->>> when the offloading is IDLE, but it won't allow AP suspend when in
->>> playback or capture. Please correct me if anything is wrong.
->>
->> As mentioned above, it will let apps go into PM suspend after forcing
->> the audio stream to be idle.  We won't block PM suspend entry.
->>
-> Right. Your design is to force the audio stream idle, or say, inform
-> the audio DSP
-> to stop the current offloading session first, then AP can go into PM
-> suspend as usual.
-> Then I can say the current design did not support the `allow AP
-> suspend in playback`
-> feature, right?
+On Fri, Mar 08, 2024 at 01:03:17PM -0500, Sweet Tea Dorminy wrote:
+> For many years, various btrfs users have written programs to discover
+> the actual disk space used by files, using root-only interfaces.
+> However, this information is a great fit for fiemap: it is inherently
+> tied to extent information, all filesystems can use it, and the
+> capabilities required for FIEMAP make sense for this additional
+> information also.
 > 
-
-Correct, this series does not cover this mechanism.
-
->> Yes, I saw that patch as well.  I'll take a look once this series lands
->> upstream.
+> Hence, this patchset adds physical extent length information to fiemap,
+> and extends btrfs to return it.  This uses some of the reserved padding
+> in the fiemap extent structure, so programs unaware of the new field
+> will be unaffected by its presence.
 > 
-> That patch is rejected and archived now. So we need to find another
-> approach to do
-> that, even based on your framework.
+> This is based on next-20240307. I've tested the btrfs part of this with
+> the standard btrfs testing matrix locally, and verified that the physical extent
+> information returned there is correct, but I'm still waiting on more
+> tests. Please let me know what you think of the general idea!
+
+Seems useful!  Any chance you'd be willing to pick up this old proposal
+to report the dev_t through iomap?  iirc the iomap wrappers for fiemap
+can export that pretty easily.
+
+https://lore.kernel.org/linux-fsdevel/20190211094306.fjr6gfehcstm7eqq@hades.usersys.redhat.com/
+
+(Not sure what we do for pmem filesystems)
+
+--D
+
+> Sweet Tea Dorminy (3):
+>   fs: add physical_length field to fiemap extents
+>   fs: update fiemap_fill_next_extent() signature
+>   btrfs: fiemap: return extent physical size
 > 
-
-We can discuss that offline and come up with an approach that is 
-reviewable by maintainers and the community.
-
-Thanks
-Wesley Cheng
-
-> Thanks,
-> Albert
+>  Documentation/filesystems/fiemap.rst | 29 +++++++++----
+>  fs/bcachefs/fs.c                     |  6 ++-
+>  fs/btrfs/extent_io.c                 | 63 +++++++++++++++++-----------
+>  fs/ext4/extents.c                    |  1 +
+>  fs/f2fs/data.c                       |  8 ++--
+>  fs/f2fs/inline.c                     |  3 +-
+>  fs/ioctl.c                           |  8 ++--
+>  fs/iomap/fiemap.c                    |  2 +-
+>  fs/nilfs2/inode.c                    |  8 ++--
+>  fs/ntfs3/frecord.c                   |  6 ++-
+>  fs/ocfs2/extent_map.c                |  4 +-
+>  fs/smb/client/smb2ops.c              |  1 +
+>  include/linux/fiemap.h               |  2 +-
+>  include/uapi/linux/fiemap.h          | 24 +++++++----
+>  14 files changed, 108 insertions(+), 57 deletions(-)
 > 
 > 
->>> 3. We would like to integrate the `allow AP suspend in playback`
->>> feature with your framework to become one upstream offload solution.
->>> Here is the patch:
->>> https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.1509961-1-guanyulin@google.com/
->>> .
->>
->> Yes, I saw that patch as well.  I'll take a look once this series lands
->> upstream.
->>
->> Thanks
->> Wesley Cheng
+> base-commit: 1843e16d2df9d98427ef8045589571749d627cf7
+> -- 
+> 2.44.0
+> 
+> 
