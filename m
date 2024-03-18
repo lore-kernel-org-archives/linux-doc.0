@@ -1,223 +1,204 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77ED2537E6
-	for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 16:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31491E48A;
+	Mon, 18 Mar 2024 16:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710778363; cv=none; b=rcGK+8Epv0P2nvdUyXXohUt/7vZO8xARL3AsVACrgKED90gAoNsol9Cb9JiR1lbjN9w0/fFmqxwvurQZd8GuiLHFCTnxZ/xfe/jiq0VmY4v4seTZq81tBwm7LmiP99NFQbo7Vuv8kl5UrbRZk8cz8U4C6MFsA7SBXQgz6S1clIQ=
+	t=1710779196; cv=none; b=jzlp1uIHYonI0Gy8aDNpwdwfwAGX0yNV4giaIM15PtJOJ/tlFEk+2IOwoAmakAKkSnLOaq1qP/iFNdSxJ7ocrJRjOB65f5EmBVULdr99g1d/GazTzOX1CRVHHvPiifTM9bJIqWItpLTzP1fUPHC23tHn2lMi4pLDiiuYhfd2lXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710778363; c=relaxed/simple;
-	bh=qWIWRdlhHxM2YpAOK/CdrCJzY7erfxdMa6eYTRm+3dw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aYzd0kEQeOyZPhtt1RFGdrPy4fs6uM/OErVighx/Wu8E0R84f06ZVMrgTRPwPXVHQ6z7Lb3dR/tXBcrhD31+b3H2xi2Ac1zRSs2JkhNylMbsxrlzsYP/V9RS1IuudwSBimm0tT3wJBqCERTlUtO9InGBc0YiGI4nKUcmNZ7H6RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RA8YGDjO; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1710779196; c=relaxed/simple;
+	bh=GzCQ0T/Oj7b3duahAg2sYzIQSmkigW9h7sVVYU92pVQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mIwEHQNn51a14ts+IWhKPog7TbJfsyctW6V/UmQtYNF5HQOvRIuMB/mJLDsVoZBSbWXcd0D54t9KijhwmAuRXEsfzUJRJxpIQ7tGXUkr+b178bLj5roUwenak+nFD3RJk2sAxKpg2YbOHk0Rxk7CEmbCrInP1X4wYTAAKN5rX7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTfmaIQo; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RA8YGDjO"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d485886545so73041481fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 09:12:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710778360; x=1711383160; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G9oKEy66iQx7fLJGG39Ko2q9eHHj3gCyG5CIVLyLT/E=;
-        b=RA8YGDjOJMIoNz4+OUKFaBLtLr8J8Ocy3rMUGM9RIPCwSeVxIrXz8ESllrm9zZnKZv
-         jUaKcL/KWDI1tcahpkZAivgU5Lnb5TKWVO4UEJBYS4UwujTq5EUmOkp1U4YnAeGLOV3x
-         IdH6xjopRgehIVTIF1ScHzIxeCFj4ydMoRIcMdqUTgdNSxuKut6Sq42HW19sigZJyX2m
-         6PW8nn3nzX1HFZjei1Ph5BacvvozHDkiG6yvljnzKlpPBKyjK3cTjZJc/h32DaxZ68r7
-         n6Lfd5EKULExqCx5yGzQBdG4XXYDljJ4VOZUUugssf51tG3vXHzEGq13zssSGuyNagda
-         9MWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710778360; x=1711383160;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G9oKEy66iQx7fLJGG39Ko2q9eHHj3gCyG5CIVLyLT/E=;
-        b=uBDMErdUxN7pYAde3GePOgdQjgj1ZGAYkArRJnj6ooeEqH8OO+P6ah9ZUnE73nt4JX
-         fNtNbzhmLo30mk2ASXzriLxHNHOxxTBKBatefxsoXcPTFW/xo40gKpTsw+ETL9K5GAmd
-         j31Y+Dhifw1YxizUerDo23xwRPJjAT6V0N0AItzsazoe9KGVcPsDpOPDN76CMEbly5d2
-         n7G008Yrx2j0Kj5IEJDYUfHUsgh5I3ZAN0d1UP0W/fRk9X7qBr+9FOSTdl3uvNZIVWEW
-         XFWtvKqKjBMeckBVWukriZOcMl6KPH2kfUWSIMGcS2Bjd/bAmrVbf3vxVUyukLpn4TBy
-         ZiaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXR8ai7uaWfJT+nRgEZF0xGVKCqIhxno9PcMi7kMAeOdbIk4e34RrKw5snAUnStyPXfXVOWsaDfY2sYOg6mQq7oRDR5cYZfl+ng
-X-Gm-Message-State: AOJu0YwYaOXm+RW7R1qJ/xLTatghck3fiiuN/nlWC9mJ434AT/xkus6Q
-	Wex8I4hBu819JmqM09TNXv4xee4sFi2pZoNRKf9pFFXRnI5UsEhEQsjhk6gW/yU=
-X-Google-Smtp-Source: AGHT+IHR94yES1pCaCbXUjgif8jE41k55vx1ZSsmjTkcDG0R6oz5GBnNbcczlwrVj1NsdRYJt7/t2w==
-X-Received: by 2002:a05:651c:337:b0:2d4:513d:7b34 with SMTP id b23-20020a05651c033700b002d4513d7b34mr4857648ljp.17.1710778359619;
-        Mon, 18 Mar 2024 09:12:39 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id e25-20020a170906845900b00a4652efd795sm5016635ejy.83.2024.03.18.09.12.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 09:12:39 -0700 (PDT)
-Message-ID: <04b39945-e4e1-43bd-83bf-0d7eb3730352@linaro.org>
-Date: Mon, 18 Mar 2024 17:12:37 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTfmaIQo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710779194; x=1742315194;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=GzCQ0T/Oj7b3duahAg2sYzIQSmkigW9h7sVVYU92pVQ=;
+  b=QTfmaIQok5XL/n5tIxlJLbTMym9IBInoTLY8VDliH6xutJTGnyGnvBIJ
+   4seTD7+sHes9kxjghZZmxvLm6jXHe2Hf0tAhBSV0jg1oMiRg1+j8kYcav
+   dHH4xY8iZnsYvHgvSutEwmmvb1jSug6X2Cm6DtoNzLhvuu3XX1t4CE0qw
+   KMzc1dJdlX/JIHMH3K/vM9GUdY39lWnTLOPmFI+iuNQfjDQD/3PRXuOcf
+   SBcHdxmvuzMbv97ML1cZV4bR3YIsUZOGHH3Bm0yO39DvT0GdM/+VYGlU6
+   e8YKo6CdAriwKGreALIV3taM1xMNyEWJmzgdYOM00El7760hn77CV0soT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="9375047"
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="9375047"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 09:26:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
+   d="scan'208";a="13406411"
+Received: from dnbrink1-mobl.amr.corp.intel.com ([10.213.185.27])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 09:26:33 -0700
+Message-ID: <f6487dcb03a31c35c272225197af87795df2a409.camel@linux.intel.com>
+Subject: Re: [PATCH] crypto: iaa: Fix some errors in IAA documentation
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: Jerry Snitselaar <jsnitsel@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Mon, 18 Mar 2024 11:26:31 -0500
+In-Reply-To: <jhpuhcengkgdpgyb7qsez4lugpa5nhjjn3zqehbcbrtr2xh5md@cc3vz7v2xzdu>
+References: <20240318064421.833348-1-jsnitsel@redhat.com>
+	 <jhpuhcengkgdpgyb7qsez4lugpa5nhjjn3zqehbcbrtr2xh5md@cc3vz7v2xzdu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
-Content-Language: en-US
-To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20240318112140.385244-1-radu.sabau@analog.com>
- <20240318112140.385244-3-radu.sabau@analog.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240318112140.385244-3-radu.sabau@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 18/03/2024 12:21, Radu Sabau wrote:
-> Add support for ADP1050 Digital Controller for Isolated Power Supplies
-> with PMBus interface Voltage, Current and Temperature Monitor.
-> 
+Hi Jerry,
 
-...
+On Mon, 2024-03-18 at 00:49 -0700, Jerry Snitselaar wrote:
+> On Sun, Mar 17, 2024 at 11:44:21PM -0700, Jerry Snitselaar wrote:
+> > This cleans up the following issues I ran into when trying to use
+> > the
+> > scripts and commands in the iaa-crypto.rst document.
+> >=20
+> > - Fix incorrect arguments being passed to accel-config
+> > =C2=A0 config-wq.
+> > =C2=A0=C2=A0=C2=A0 - Replace --device_name with --driver-name.
+> > =C2=A0=C2=A0=C2=A0 - Replace --driver_name with --driver-name.
+> > =C2=A0=C2=A0=C2=A0 - Replace --size with --wq-size.
+> > =C2=A0=C2=A0=C2=A0 - Add missing --priority argument.
+> > - Add missing accel-config config-engine command after the
+> > =C2=A0 config-wq commands.
+> > - Fix wq name passed to accel-config config-wq.
+> > - Add rmmod/modprobe of iaa_crypto to script that disables,
+> > =C2=A0 then enables all devices and workqueues to avoid enable-wq
+> > =C2=A0 failing with -EEXIST when trying to register to compression
+> > =C2=A0 algorithm.
+> > - Fix device name in cases where iaa was used instead of iax.
+> >=20
+> > Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-crypto@vger.kernel.org
+> > Cc: linux-doc@vger.kernel.org
+> > Signed-off-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> > ---
+> > =C2=A0.../driver-api/crypto/iaa/iaa-crypto.rst=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 22 ++++++++++++++-
+> > ----
+> > =C2=A01 file changed, 16 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > b/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > index de587cf9cbed..330d35df5f16 100644
+> > --- a/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > +++ b/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > @@ -179,7 +179,9 @@ has the old 'iax' device naming in place) ::
+> > =C2=A0
+> > =C2=A0=C2=A0 # configure wq1.0
+> > =C2=A0
+> > -=C2=A0 accel-config config-wq --group-id=3D0 --mode=3Ddedicated --
+> > type=3Dkernel --name=3D"iaa_crypto" --device_name=3D"crypto" iax1/wq1.0
+> > +=C2=A0 accel-config config-wq --group-id=3D0 --mode=3Ddedicated --
+> > type=3Dkernel --priority=3D10 --name=3D"iaa_crypto" --driver-
+> > name=3D"crypto" iax1/wq1.0
+> > +
+> > +=C2=A0 accel-config config-engine iax1/engine1.0 --group-id=3D0
+> > =C2=A0
+> > =C2=A0=C2=A0 # enable IAA device iax1
+> > =C2=A0
+> > @@ -536,12 +538,20 @@ The below script automatically does that::
+> > =C2=A0
+> > =C2=A0=C2=A0 echo "End Disable IAA"
+> > =C2=A0
+> > +=C2=A0 echo "Reload iaa_crypto module"
+> > +
+> > +=C2=A0 rmmod iaa_crypto
+> > +=C2=A0 modprobe iaa_crypto
+> > +
+> > +=C2=A0 echo "End Reload iaa_crypto module"
+> > +
+> > =C2=A0=C2=A0 #
+> > =C2=A0=C2=A0 # configure iaa wqs and devices
+> > =C2=A0=C2=A0 #
+> > =C2=A0=C2=A0 echo "Configure IAA"
+> > =C2=A0=C2=A0 for ((i =3D 1; i < ${num_iaa} * 2; i +=3D 2)); do
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config config-wq --group-id=3D0 -=
+-mode=3Ddedicated --
+> > size=3D128 --priority=3D10 --type=3Dkernel --name=3D"iaa_crypto" --
+> > driver_name=3D"crypto" iax${i}/wq${i}
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config config-wq --group-id=3D0 -=
+-mode=3Ddedicated --wq-
+> > size=3D128 --priority=3D10 --type=3Dkernel --name=3D"iaa_crypto" --driv=
+er-
+> > name=3D"crypto" iax${i}/wq${i}.0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config config-engine iax${i}/engi=
+ne${i}.0 --group-id=3D0
+> > =C2=A0=C2=A0 done
+> > =C2=A0
+> > =C2=A0=C2=A0 echo "End Configure IAA"
+> > @@ -552,10 +562,10 @@ The below script automatically does that::
+> > =C2=A0=C2=A0 echo "Enable IAA"
+> > =C2=A0
+> > =C2=A0=C2=A0 for ((i =3D 1; i < ${num_iaa} * 2; i +=3D 2)); do
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo enable iaa iaa${i}
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config enable-device iaa${i}
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo enable wq iaa${i}/wq${i}.0
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config enable-wq iaa${i}/wq${i}.0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo enable iaa iax${i}
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config enable-device iax${i}
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo enable wq iax${i}/wq${i}.0
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel-config enable-wq iax${i}/wq${i}.0
+> > =C2=A0=C2=A0 done
+> > =C2=A0
+> > =C2=A0=C2=A0 echo "End Enable IAA"
+> > --=20
+> > 2.41.0
+> >=20
+>=20
+> In addition to the above, the sections related to the modes seem
+> to be off to me.
+>=20
+> Legacy mode in the Intel IOMMU context is when the IOMMU does not
+> have
+> scalable mode enabled. If you pass intel_iommu=3Doff the Intel IOMMU
+> will not be initialized, and I think that would correspond to the No
+> IOMMU
+> mode instead of Legacy mode. The other suggestion for Legacy mode of
+> disabling VT-d in the BIOS would also be No IOMMU mode, but in
+> addition to the dma remapping units being disabled it would disable
+> interrupt remapping since the DMAR table would no longer be presented
+> to the OS by the BIOS.
+>=20
+> I think the modes should be:
+>=20
+> Scalable mode: intel_iommu=3Don,sm_on
+> Legacy mode: intel_iommu=3Don
+> No IOMMU mode: intel_iommu=3Doff (or VT-d disabled in BIOS)
+>=20
 
-> +static int adp1050_probe(struct i2c_client *client)
-> +{
-> +	u32 vin_scale_monitor, iin_scale_monitor;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter,
-> +				     I2C_FUNC_SMBUS_WRITE_WORD_DATA))
-> +		return -ENODEV;
-> +
-> +	/* Unlock CHIP's password in order to be able to read/write to it's
-> +	 * VIN_SCALE and IIN_SCALE registers.
-> +	*/
-> +	ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
-> +	if (ret < 0) {
-> +		dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+Yes, I think you're correct, those make more sense.
 
-Syntax is: return dev_err_probe(). Same in other places.
+> Since Intel IOMMU and scabale mode have config options that allow
+> them
+> to be enabled by default, there are different parameter variations
+> that would match the above cases. I don't know if they need to
+> be detailed here, or if it would just make it more confusing.
+>=20
 
-> +		return ret;
-> +	}
-> +
-> +	ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
-> +	if (ret < 0) {
-> +		dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
-> +		return ret;
-> +	}
-> +
-> +	/* If adi,vin-scale-monitor isn't set or is set to 0 means that the
-> +	 * VIN monitor isn't used, therefore 0 is used as scale in order
-> +	 * for the readings to return 0.
-> +	*/
+Personally, I think it would be useful to have them detailed and might
+lessen confusion for people setting things up and/or debugging a setup.
 
-Please use Linux coding style comments. /* and aligned */.
+Thanks,
 
+Tom
 
-> +	if (device_property_read_u32(&client->dev, "adi,vin-scale-monitor",
-> +				     &vin_scale_monitor))
-> +		vin_scale_monitor = 0;
-> +
-> +	/* If adi,iin-scale-monitor isn't set or is set to 0 means that the
-> +	 * IIN monitor isn't used, therefore 0 is used as scale in order
-> +	 * for the readings to return 0.
-> +	*/
-> +	if (device_property_read_u32(&client->dev, "adi,iin-scale-monitor",
-> +				     &iin_scale_monitor))
-> +		iin_scale_monitor = 0;
-> +
-> +	ret = i2c_smbus_write_word_data(client, ADP1050_VIN_SCALE_MONITOR,
-> +					vin_scale_monitor);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_write_word_data(client, ADP1050_IIN_SCALE_MONITOR,
-> +					iin_scale_monitor);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return pmbus_do_probe(client, &adp1050_info);
-> +}
-> +
-> +static const struct i2c_device_id adp1050_id[] = {
-> +	{"adp1050", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, adp1050_id);
-> +
-> +static const struct of_device_id adp1050_of_match[] = {
-> +	{ .compatible = "adi,adp1050"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, adp1050_of_match);
-> +
-> +static struct i2c_driver adp1050_driver = {
-> +	.driver = {
-> +		.name = "adp1050",
-> +		.of_match_table = of_match_ptr(adp1050_of_match),
-
-Drop of_match_ptr, you will have here warnings.
-
-> +	},
-> +	.probe = adp1050_probe,
-> +	.id_table = adp1050_id,
-> +};
-> +module_i2c_driver(adp1050_driver);
-> +
-> +MODULE_AUTHOR("Radu Sabau <radu.sabau@analog.com>");
-> +MODULE_DESCRIPTION("Analog Devices ADP1050 HWMON PMBus Driver");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS(PMBUS);
-
-Best regards,
-Krzysztof
+> Regards,
+> Jerry
+>=20
 
