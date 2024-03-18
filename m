@@ -1,143 +1,113 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCED51CD1D
-	for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 01:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5701E87E;
+	Mon, 18 Mar 2024 02:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710727152; cv=none; b=SWkAiFnO8wbmkjExhAGQpXTS8MONztq1mvj2ab913lqITE3ecp72KrkH/XRQ0lQAHAYFcSPck9BVmFZ2PJpaDPyiE/HHhpI6jVKH4VoPf6OPXrMhYWrHosfEQi9led8VCVf1I6bpcGNWmqHS1zVUo6Ac+zQPJwGbaydPdS+WZg0=
+	t=1710727384; cv=none; b=Mt8QUMmDUCeuERpl31klCv8Z3z2MpGXziKj32es2c4DvLZAd8aAXPYRsk7P/ZWh7SVTzG9IYzZ7sQtM+bdCGGYJN/BacN5XkLcdvhCyN9wszOZMEwH8ZDxBQ11yI/X90tfgMVIEs5gN2MTjehDZ02WXz1tUJA7ACkbeq75r9sfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710727152; c=relaxed/simple;
-	bh=FqUgQgxrfZtI2qk5V+CbuvudPfEzb8SHu5+APKjhAeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ic4tFSKcWd73kA0nrK5HZgr6A9Sn0Tj0bV2qDezHZ7SRtxgNihVMWvyDNkEcPqcGkhDHFGtZM6m4rXeL5vrmF1vFs7CBWU5jND9yVIzdQDRWOnO97bBjpP6vIVVBnBQ8MbKm04j3mV3uC7VqrpSOcK+VzgRXNZRh8UErTAhgenE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ff5Rlm0O; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1710727384; c=relaxed/simple;
+	bh=s2DTcYQv5t1E/AgG3AGAU+YYi9lLQeVvZlKV3Acyq9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3bmTEdiAyqp1q3XaGdbWkeJM3kHW5qwF7yN9BjkHqVGg/t7dHtsrpD7+yTCqM9P3FPHRtNpJJKCASiuEem/IqH6KTWcozmje7etvBacyIyaxpwI8sdKcQt1LKVivU/UqrsNMCCI0NgkVVXhO1bL1wlWJvt5T2JwbZCQ5+bh41I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cl4LJpQb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ff5Rlm0O"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-db3a09e96daso3122265276.3
-        for <linux-doc@vger.kernel.org>; Sun, 17 Mar 2024 18:59:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1710727149; x=1711331949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
-        b=ff5Rlm0OqJGTFufoNSAdBwVZgv7YQzDUK9LuTVsnWNeAxL5/lYtce8A5c+meoj3Obz
-         uqGggRKfDFZv/PGw4gSjeiFY4IeYNS+bzjThDxuKBKdBCmepGBkqQjkPw5dBgHQ8+Xsj
-         sbBqjbKUEDYtsoLeCJsyIz0qz3ZgGK4uJV7oN1ATAtVkXc5VQaW33doPJSa06C0Zdvwj
-         6JKSm4lwAVu6uEBacnUqjWkYDSa2SezmIIKE5ILy4z9ydb0MXrvDwuCGtltbZ5wNbzB4
-         n1/ovTasoLwc74tmSXWCVB1HimrCWeQVlnqVT2nbZeAn6eWRVNUMjKX/ZYD4J1K5qH0x
-         fzsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710727149; x=1711331949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
-        b=ddaIIt9BhsaRadqXATqtgcqotBf8sz6oMbAieFeDfcMYIdGEqlOblNtlG23dN6g8oL
-         98LOm0MVTl7tRQwYTvlwkDFVxiOETPrFT9Cpe3NnD/JPnwKoavTEEGFhrrkH4sRiPE/y
-         pF/3NRVMm3WhpIJgkj5l2A6hC4uznYr9NR9F4Kgp/Cxi47TEeZ6W9uKlgUIPFgK8GQB7
-         dGq/rN5qswkPiDmwwnL0Ih7uVqIjYc4yfU9fw3OQj6AVE0xa0SdbuADNXMYE8Ywudth+
-         Zxg9kfivlrPkQOL+mWGdJGXOg+mPkfvn4LyZ+f5b8hRwP9etWmnlip+PwGY1Wy00pfxx
-         3GiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtW6Cx5CqN8AgcJc9wmOGqFqaiaMXx0adNof0dk/bNRBIHiZdks8aa4BNG4MamCIjoZAX6N4zLwtcexz3ChVZ2IQOchJeRRvkc
-X-Gm-Message-State: AOJu0YyjMg+KVHpkfYu1MKpn55Vpb1zjL/f4Oi4rnrOKMiE3tcd0Mq6e
-	laxsjdbjbo9ne+11uh91M20LFUjw9mtxQyTFQerjrEqXTc9L8aU5yXbIFn/YbWJuG00WmQs4CPR
-	RvJ7fmb7Blnk+lrr4q/sISoZnvyf4mkTKVsW+
-X-Google-Smtp-Source: AGHT+IFvxqCFh/zzQZhmtHVeJ4wKXtt8mxhTmxAcg93TKyWxNqDHIDARX3X+xrhcmbPvVzgaKwOoMXL4saPB2bh9WMY=
-X-Received: by 2002:a25:abef:0:b0:dcc:e854:d454 with SMTP id
- v102-20020a25abef000000b00dcce854d454mr8541158ybi.14.1710727148753; Sun, 17
- Mar 2024 18:59:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cl4LJpQb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nzZSUZc1IlLbKe81oj0XpOImEHMN1QwfDar40WlDId8=; b=Cl4LJpQbj38gTTSZEQUZ+1vpu3
+	kfvxEgbVIrASKys6zjX6NXQRWu09Lgn3IV65yLbtH4dUG8GB1Yqrznlf5YYQk37UR4dpnqVOEhv1o
+	w2K5FOiZ3xKMvsyJFyxhLSnZwjPs1HCtxbr+tuF9JhbtLngwAWn7usG/oNe+6woPNU7cNjWJxlJqD
+	ln0QmERP5F9CIT9MIbbXqzH0GBZ4M10aRQSSRBzUQIDZ7/9+/IL2GfU9AJDXFI35koQIIJJU8jO3B
+	QMSHsOqDU3V3fvm5V+tc15IIGsSZnzBfpqlpQEctTDCEj3pPcRujHYO3Wr1dAgj7vx/NrDvJcf1hE
+	buU9lkcQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rm2Ky-00000006zOo-2Ad2;
+	Mon, 18 Mar 2024 02:02:53 +0000
+Date: Sun, 17 Mar 2024 19:02:52 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZfegzB341oNc_Ocz@infradead.org>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
- <1710560151-28904-6-git-send-email-wufan@linux.microsoft.com> <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
-In-Reply-To: <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 17 Mar 2024 21:58:58 -0400
-Message-ID: <CAHC9VhRsOp8-C+bEH+NnRrBu_NRjJongAXZu_P2+c_OkDBs9rw@mail.gmail.com>
-Subject: Re: [RFC PATCH v15 05/21] initramfs|security: Add a security hook to do_populate_rootfs()
-To: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
-	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240305020153.2787423-3-almasrymina@google.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Sun, Mar 17, 2024 at 8:29=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
-.com> wrote:
-> On 3/15/2024 8:35 PM, Fan Wu wrote:
-> > This patch introduces a new hook to notify security system that the
-> > content of initramfs has been unpacked into the rootfs.
-> >
-> > Upon receiving this notification, the security system can activate
-> > a policy to allow only files that originated from the initramfs to
-> > execute or load into kernel during the early stages of booting.
-> >
-> > This approach is crucial for minimizing the attack surface by
-> > ensuring that only trusted files from the initramfs are operational
-> > in the critical boot phase.
-> >
-> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> >
-> > ---
-> > v1-v11:
-> >   + Not present
-> >
-> > v12:
-> >   + Introduced
-> >
-> > v13:
-> >   + Rename the hook name to initramfs_populated()
-> >
-> > v14:
-> >   + No changes
-> >
-> > v15:
-> >   + No changes
-> > ---
-> >  include/linux/lsm_hook_defs.h |  2 ++
-> >  include/linux/security.h      |  8 ++++++++
-> >  init/initramfs.c              |  3 +++
-> >  security/security.c           | 10 ++++++++++
-> >  4 files changed, 23 insertions(+)
-> >
-> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_def=
-s.h
-> > index 334e00efbde4..7db99ae75651 100644
-> > --- a/include/linux/lsm_hook_defs.h
-> > +++ b/include/linux/lsm_hook_defs.h
-> > @@ -450,3 +450,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct=
- cred *new)
-> >  LSM_HOOK(int, 0, uring_sqpoll, void)
-> >  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
-> >  #endif /* CONFIG_IO_URING */
-> > +
-> > +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
->
-> This is an awfully expensive way to set a flag. Adding a LSM hook list
-> isn't free. Isn't there a way to capture this state change through one of
-> the mount hooks?
+On Mon, Mar 04, 2024 at 06:01:37PM -0800, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
+> 
+> The page providers which try to reuse the same pages will
+> need to hold onto the ref, even if page gets released from
+> the pool - as in releasing the page from the pp just transfers
+> the "ownership" reference from pp to the provider, and provider
+> will wait for other references to be gone before feeding this
+> page back into the pool.
 
-Unfortunately no, the initramfs isn't mounted like a traditional
-filesystem, it is "populated" by unpacking the cpio into the initramfs
-at early boot.  This LSM hook should be called exactly once during
-boot, and the performance impact should be minimal; I should also be
-wildly more performant than earlier revisions of this patchset that
-required grabbing a single spinlock on every file access.
+The word hook always rings a giant warning bell for me, and looking into
+this series I am concerned indeed.
 
-Of course if you have an idea on how this could be done
-differently/better I think we're all open to new ideas ...
+The only provider provided here is the dma-buf one, and that basically
+is the only sensible one for the documented design.  So instead of
+adding hooks that random proprietary crap can hook into, why not hard
+code the dma buf provide and just use a flag?  That'll also avoid
+expensive indirect calls.
 
---=20
-paul-moore.com
