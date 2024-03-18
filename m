@@ -1,211 +1,239 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2995554F9C;
-	Mon, 18 Mar 2024 17:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8C556447
+	for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 17:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710784454; cv=none; b=hkrNNtv1egvKqIZC9MOZiBeVMQbALz2ZGQ34ktqIeCHNGjaw8SiGS74bUfTA61qhdFtS/lB2Eo0ivzikvvdDnTVEjFSO31xscivgR5hb5rtF5KfW9dKCKmcXohkkW3/7ytSQCPoEvRWVtnQo6O+2RnxoepVWWBrM1sybkHm+z+o=
+	t=1710784736; cv=none; b=vBHWxVoseRYi5TZy47M4juXLMC346bXK40VXG9foyhbPjbc/6dkshc1MjTX7yDrs27JtFWiIl5Sqsh1OAHHVnAyxv4dDkAkW6KJMS5A+e6cigWiNKRZ5s1Puk+pqVd2sjfNUKzbT+ch0CyVwJv93XTRxEFjLufE2+JMpX2RI2pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710784454; c=relaxed/simple;
-	bh=Ib9BI1T1lsxXUvehRzfXQGsYYkucYMTJIaJcUY7lv/A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bT2XwFOvvnGKW3HgM9N5HznZUM59TU2Bw8v9/entER0aSYScHlF+kez9qpgoKe9fYKM5Te98oXzq9spcT5XzCEF4nKwMBneGxMe9BeXAQ/sA1DCkn7hI5Mw6DVUVGzuxRBS32SsUHOuEk0yanGGyfRVgBBorxs4kLWN1pO29vOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D3u/dvkl; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1710784736; c=relaxed/simple;
+	bh=M0lYPdq6gZvP9XA7abbEiFJfN+8f8N/2HWpURxOJKy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ped/aUJjHqX2ZNR/Q8odLcld9M96J1asGTAyTUBU6pUfIpC2L3Wz2SYnmMeDgPO9E9WCaG9b1acrzkwz3mlcIFhQDeJyNSMF7DZejbouyUkdjVXOTzW1m7KnUiwEu15fFhDa4Ooa/V15XapIiimKf9VFLIvXdkrGK11eI6opaYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CRDsZBeH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D3u/dvkl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Ib9BI1T1lsxXUvehRzfXQGsYYkucYMTJIaJcUY7lv/A=; b=D3u/dvklV2TzP286zx7fv3iQQt
-	Zi8NlHRGBqsr6ds1QMtlyWpxMyIpjYVxS/7O3A3yDbP4bMAj3PnTFiz9OHCZeYHSe8kB4xClraJD6
-	H6uRbP9AYGvzSTnSvTg5T39KjcfVDgtKsWN9m7YYpGw7cyaOWlnKjRUytjbuQ9R15TxwNQILe5okF
-	blfmQwQbKnnP1l56aM2g8zdgEMFzsSGKhIb4p4AvJQ3pAtwQRR+ntsCeiQZtqNdPb60yUiMR386Pm
-	x5NKJL2E33VSzXHi653cJ4wDgfinRczM2C6GuUfsQ8oVcBimQ4T1f1JCf3DLlkg5mIoFGn7NLSegX
-	lESMGkiQ==;
-Received: from [2001:8b0:10b:5:d467:67b2:6675:b6a9] (helo=u3832b3a9db3152.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmHBX-000000005O7-3eEk;
-	Mon, 18 Mar 2024 17:54:07 +0000
-Message-ID: <6a2107864d45bd6ac403c218d68bf97025eca971.camel@infradead.org>
-Subject: Re: [RFC PATCH v2 2/4] KVM: arm64: Add PSCI SYSTEM_OFF2 function
- for hibernation
-From: David Woodhouse <dwmw2@infradead.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, Paolo Bonzini
- <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Oliver Upton
- <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
- Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi
- <lpieralisi@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown
- <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, Mostafa Saleh
- <smostafa@google.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev,  linux-pm@vger.kernel.org
-Date: Mon, 18 Mar 2024 17:54:06 +0000
-In-Reply-To: <86v85jzbw8.wl-maz@kernel.org>
-References: <20240318164646.1010092-1-dwmw2@infradead.org>
-	 <20240318164646.1010092-3-dwmw2@infradead.org>
-	 <86v85jzbw8.wl-maz@kernel.org>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-U9c9R2psy5AGG4JS3AHu"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CRDsZBeH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710784733;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okOiWDrPolsdiUTKJz5kckyz9ECFo32ZFjUOlTarkZM=;
+	b=CRDsZBeH2Zwo1hHMRpfe97hr3aBGaq2jC+7DYatUVx90HYE/lPXUH8jHzdgq3Ouggxf4Ur
+	baGxJ/dpOS9VmnArtdQKMyTLJVBdTw3oeHGoQ/SJ6lKhkeSOdR6Tlh1VUB6wHD/cSL7zOi
+	Fq2jnReeZuvzWcWTS1/F63XkcQmdmSo=
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
+ [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-WPOg8R19MUCwUnnHounRBg-1; Mon, 18 Mar 2024 13:58:51 -0400
+X-MC-Unique: WPOg8R19MUCwUnnHounRBg-1
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-4766d96d6a0so333824137.2
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 10:58:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710784731; x=1711389531;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=okOiWDrPolsdiUTKJz5kckyz9ECFo32ZFjUOlTarkZM=;
+        b=e5Isr5QxaxOE02QszswwSR4eB7UZtG794UOQjsfd4GEk6Yr2fyIXcWjXoPzvf0KhlO
+         BMZisdXnGhRFhNP0GQE9xZxCi/1xD4bPPwEhXX9bUJ0X7qS8tpE/+E1c74HOAbZ1Nv4l
+         nqRQtk57lANLl39gJQqIJlcZVClNYrm9hBve09186dTOvQ19DSoXNFWumNYrJFjXShDM
+         UTv/rzJV3kz5/3hVQlPeSGQ/z3Brcm1iYjLbP2fYCPxFaMzb/IZIlq9Imm9TGrXtG0nQ
+         BCK0+/CZoicaP+RzT++07KKpAV+Oq6jSircsiCp7w6vURCNwk/CKHEh6I9iW3IVKpU/r
+         3Gug==
+X-Forwarded-Encrypted: i=1; AJvYcCXQvA34QONjt1jTZWp/vOi148EMB6uOTCeU6pjV6KXlBfyZlhwUyRPcSLAauzzEBxvZgu9ak+pURPt6gcRCqo3r8K4jDWkEKdQn
+X-Gm-Message-State: AOJu0Yz+ybEnJMJsIniuoaBD7Heo0LgCyoUBuDJE+A9rqkwD+0+5ocZY
+	1G10hn06EG1hCHSS/4Sto/0oHgqgYDEa+vXEhJ4kNrv8rPfsj09kKaxo1Fj2kWfU4DB/PFE92rJ
+	LdNWKszT7/lqDmGn2iYSiD27scEW3AuLcpK19IdT8QgVwi+DH1TjMWFu4zg==
+X-Received: by 2002:a05:6102:4c58:b0:474:c443:2fd6 with SMTP id jz24-20020a0561024c5800b00474c4432fd6mr36115vsb.10.1710784730974;
+        Mon, 18 Mar 2024 10:58:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFml4BWyqgb5yrN/Dv4NEnw0o0gvweGci2BQdvBDDj8fBXECnj4qB5vcGgeQidcdW+hW4V/Dg==
+X-Received: by 2002:a05:6102:4c58:b0:474:c443:2fd6 with SMTP id jz24-20020a0561024c5800b00474c4432fd6mr36096vsb.10.1710784730596;
+        Mon, 18 Mar 2024 10:58:50 -0700 (PDT)
+Received: from localhost (ip70-163-216-141.ph.ph.cox.net. [70.163.216.141])
+        by smtp.gmail.com with ESMTPSA id x8-20020a0c8e88000000b006915f47090dsm5423797qvb.68.2024.03.18.10.58.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Mar 2024 10:58:49 -0700 (PDT)
+Date: Mon, 18 Mar 2024 10:58:46 -0700
+From: Jerry Snitselaar <jsnitsel@redhat.com>
+To: Tom Zanussi <tom.zanussi@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] crypto: iaa: Fix some errors in IAA documentation
+Message-ID: <hdb2l73guzxz2ck5qbkvpmpfiez646t33ocfqawdgxrnemwrpp@izvr4k6b2jft>
+References: <20240318064421.833348-1-jsnitsel@redhat.com>
+ <jhpuhcengkgdpgyb7qsez4lugpa5nhjjn3zqehbcbrtr2xh5md@cc3vz7v2xzdu>
+ <f6487dcb03a31c35c272225197af87795df2a409.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f6487dcb03a31c35c272225197af87795df2a409.camel@linux.intel.com>
+
+On Mon, Mar 18, 2024 at 11:26:31AM -0500, Tom Zanussi wrote:
+> Hi Jerry,
+> 
+> On Mon, 2024-03-18 at 00:49 -0700, Jerry Snitselaar wrote:
+> > On Sun, Mar 17, 2024 at 11:44:21PM -0700, Jerry Snitselaar wrote:
+> > > This cleans up the following issues I ran into when trying to use
+> > > the
+> > > scripts and commands in the iaa-crypto.rst document.
+> > > 
+> > > - Fix incorrect arguments being passed to accel-config
+> > >   config-wq.
+> > >     - Replace --device_name with --driver-name.
+> > >     - Replace --driver_name with --driver-name.
+> > >     - Replace --size with --wq-size.
+> > >     - Add missing --priority argument.
+> > > - Add missing accel-config config-engine command after the
+> > >   config-wq commands.
+> > > - Fix wq name passed to accel-config config-wq.
+> > > - Add rmmod/modprobe of iaa_crypto to script that disables,
+> > >   then enables all devices and workqueues to avoid enable-wq
+> > >   failing with -EEXIST when trying to register to compression
+> > >   algorithm.
+> > > - Fix device name in cases where iaa was used instead of iax.
+> > > 
+> > > Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: linux-crypto@vger.kernel.org
+> > > Cc: linux-doc@vger.kernel.org
+> > > Signed-off-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> > > ---
+> > >  .../driver-api/crypto/iaa/iaa-crypto.rst      | 22 ++++++++++++++-
+> > > ----
+> > >  1 file changed, 16 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > > b/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > > index de587cf9cbed..330d35df5f16 100644
+> > > --- a/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > > +++ b/Documentation/driver-api/crypto/iaa/iaa-crypto.rst
+> > > @@ -179,7 +179,9 @@ has the old 'iax' device naming in place) ::
+> > >  
+> > >    # configure wq1.0
+> > >  
+> > > -  accel-config config-wq --group-id=0 --mode=dedicated --
+> > > type=kernel --name="iaa_crypto" --device_name="crypto" iax1/wq1.0
+> > > +  accel-config config-wq --group-id=0 --mode=dedicated --
+> > > type=kernel --priority=10 --name="iaa_crypto" --driver-
+> > > name="crypto" iax1/wq1.0
+> > > +
+> > > +  accel-config config-engine iax1/engine1.0 --group-id=0
+> > >  
+> > >    # enable IAA device iax1
+> > >  
+> > > @@ -536,12 +538,20 @@ The below script automatically does that::
+> > >  
+> > >    echo "End Disable IAA"
+> > >  
+> > > +  echo "Reload iaa_crypto module"
+> > > +
+> > > +  rmmod iaa_crypto
+> > > +  modprobe iaa_crypto
+> > > +
+> > > +  echo "End Reload iaa_crypto module"
+> > > +
+> > >    #
+> > >    # configure iaa wqs and devices
+> > >    #
+> > >    echo "Configure IAA"
+> > >    for ((i = 1; i < ${num_iaa} * 2; i += 2)); do
+> > > -      accel-config config-wq --group-id=0 --mode=dedicated --
+> > > size=128 --priority=10 --type=kernel --name="iaa_crypto" --
+> > > driver_name="crypto" iax${i}/wq${i}
+> > > +      accel-config config-wq --group-id=0 --mode=dedicated --wq-
+> > > size=128 --priority=10 --type=kernel --name="iaa_crypto" --driver-
+> > > name="crypto" iax${i}/wq${i}.0
+> > > +      accel-config config-engine iax${i}/engine${i}.0 --group-id=0
+> > >    done
+> > >  
+> > >    echo "End Configure IAA"
+> > > @@ -552,10 +562,10 @@ The below script automatically does that::
+> > >    echo "Enable IAA"
+> > >  
+> > >    for ((i = 1; i < ${num_iaa} * 2; i += 2)); do
+> > > -      echo enable iaa iaa${i}
+> > > -      accel-config enable-device iaa${i}
+> > > -      echo enable wq iaa${i}/wq${i}.0
+> > > -      accel-config enable-wq iaa${i}/wq${i}.0
+> > > +      echo enable iaa iax${i}
+> > > +      accel-config enable-device iax${i}
+> > > +      echo enable wq iax${i}/wq${i}.0
+> > > +      accel-config enable-wq iax${i}/wq${i}.0
+> > >    done
+> > >  
+> > >    echo "End Enable IAA"
+> > > -- 
+> > > 2.41.0
+> > > 
+> > 
+> > In addition to the above, the sections related to the modes seem
+> > to be off to me.
+> > 
+> > Legacy mode in the Intel IOMMU context is when the IOMMU does not
+> > have
+> > scalable mode enabled. If you pass intel_iommu=off the Intel IOMMU
+> > will not be initialized, and I think that would correspond to the No
+> > IOMMU
+> > mode instead of Legacy mode. The other suggestion for Legacy mode of
+> > disabling VT-d in the BIOS would also be No IOMMU mode, but in
+> > addition to the dma remapping units being disabled it would disable
+> > interrupt remapping since the DMAR table would no longer be presented
+> > to the OS by the BIOS.
+> > 
+> > I think the modes should be:
+> > 
+> > Scalable mode: intel_iommu=on,sm_on
+> > Legacy mode: intel_iommu=on
+> > No IOMMU mode: intel_iommu=off (or VT-d disabled in BIOS)
+> > 
+> 
+> Yes, I think you're correct, those make more sense.
+> 
+> > Since Intel IOMMU and scabale mode have config options that allow
+> > them
+> > to be enabled by default, there are different parameter variations
+> > that would match the above cases. I don't know if they need to
+> > be detailed here, or if it would just make it more confusing.
+> > 
+> 
+> Personally, I think it would be useful to have them detailed and might
+> lessen confusion for people setting things up and/or debugging a setup.
+> 
+> Thanks,
+> 
+> Tom
+
+Hi Tom,
+
+This is what I came up with last night for the kernel parameters when thinking about it:
 
 
---=-U9c9R2psy5AGG4JS3AHu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 2024-03-18 at 17:29 +0000, Marc Zyngier wrote:
->=20
-> Again, I really oppose this way of doing things. We already have an
-> infrastructure for selecting PSCI levels. You may not like it, but it
-> exists, and I'm not going entertain supporting yet another bike-shed
-> model. Adding an orthogonal cap for a feature that is specific to a
-> new PSCI version is just awful.
-
-Huh? This isn't a "new bike-shed model". This is a straight copy of
-what we *already* have for SYSTEM_RESET2.
-
-If I were bike-shedding, I wouldn't do separate caps for them; I'd have
-done it as a *bitmask* of the optional PSCI calls that should be
-enabled.
-
-The *mandatory* ones should obviously come from the PSCI version alone,
-but I can't see how that makes sense for the optional ones...
-
-> Please make PSCI 1.3 the only version of PSCI supporting suspend in a
-> non-optional way, and be done with it.
-
-SYSTEM_OFF2 is an *optional* feature in PSCI v1.3. As are
-CLEAR_INV_MEMREGION and CLEAR_INV_MEMREGION_ATTRIBUTES.
-
-Are you suggesting that enabling v1.3 should automatically enable *all*
-of the optional features that were defined in that version (and
-previous versions) of the spec?
+| mode \ default enable | intel_iommu + /sm + | intel_iommu + / sm - | intel_iommu - / sm +  | intel_iommu - / sm - |
+|-----------------------+---------------------+----------------------+-----------------------+----------------------|
+| Scalable Mode         | nothing             | intel_iommu=sm_on    | intel_iommu=on        | intel_iommu=on,sm_on |
+| Legacy Mode           | intel_iommu=sm_off  | nothing              | intel_iommu=on,sm_off | intel_iommu=on       |
+| No IOMMU Mode         | intel_iommu=off     | intel_iommu=off      | nothing               | nothing              |
 
 
---=-U9c9R2psy5AGG4JS3AHu
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwMzE4MTc1NDA2WjAvBgkqhkiG9w0BCQQxIgQgaampTAqp
-RcGkO9EmpNpbO9ZN7IAqu+y1/39AZxRjPIswgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAYizmqftUBmpCD3MqEWRE2WNJPZ/GigWGj
-j2yHIlIzsAXwhJTrJ4YnkZU0/gXLwupZvSvxPlkrdXxle2kohBDvd+/05bmPLHCCuIY+NbPqNd7z
-pmlqjQO07dNT61P463B2z1+m4g0N56Q08uM89IoZAw/aGvwYrwpEjiBSDtju8LH/GHee+cqULPGW
-jQp34B3nzwceRE1JwoEh+9PPYy6oAVIx89RJoK79KgURCFRsMwZGkwfNw+WLtlSq0ze82AoS4N2p
-l3kw8BvhXeRdAShAjAD07qKMYHbxGgziW9RWPyKENlgLndGI/lLPns7hDBHx1qdI5/1Fk3MhG108
-nvpiGavtVEIg2/saw5orNgpHwtXh3gx8F46JP+Dnqm3qrMxWGPGC4ZDkio/FAo6krUbkmdnPNfjJ
-yS0RHhPaxRRK/AQfeU7M5ZcHH6f2FZw7WgRnVp7/MLJEdo3DJ2n5OsAaRmgP3YrxwHXp7eFQelgb
-mOFIJh8SQqt6skqRsB+oCGcA8c5Tb4tJpqbZ8krAeioB9hK8BdexeJOIl2C+cuW5+6J89oLi6VAi
-XFlBDVPMLhqJ3yAjPk6KaW2BWt/iDXmKn3jWs9tEBKHwqWW+94dkQLQzKxjSayK4xuVIzROy7NmR
-WB94zq6Viyt6WvH9c2DYZU3APYEVo1T5IPEot7prCAAAAAAAAA==
+Regards,
+Jerry
 
 
---=-U9c9R2psy5AGG4JS3AHu--
+
+> 
+> > Regards,
+> > Jerry
+> > 
+> 
+
