@@ -1,98 +1,214 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CA3443AA3;
-	Mon, 18 Mar 2024 20:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1FF58239;
+	Mon, 18 Mar 2024 21:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710795506; cv=none; b=qkk7EF87iB6TKPXcS0KX/mtxUZv/FQMdMldPGmw0Nddc+vQTfpwlcuvb/E1qXr10xJIZVxZyj26xAqBkyK0OLidD2Fnob3yzdSWZ/zBf/TAfNP8fYFaVZzvBSQ8OSRwcDGqYS3mwhS2eqfJ9s858dGeKRDKN9jFznh2fzQl/lXQ=
+	t=1710797360; cv=none; b=oK3kJmx/ghIS81fsk+5LtD2g9ahADoMyYag+3SUKcRi5XziYQWYRfG3yZSb8IyUHitP1dtVyVWa9symXIuYv8us8RNenuE5ZapL3AyD50qbEVS5bmDWaGTHLnQsek17UczlscwK6HxqKawAqXRJ4DIPs14YIZFirI2bSZLA8Bwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710795506; c=relaxed/simple;
-	bh=iBeE7+uw1+a5Vgld1wKCLp+1aV7VFk9n2FjdtnYxOC8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G0nTymvf2sb3R/jblFnKttfCRmvQ+ZcOyf1hOgFOmVrSWVSAlIY4E9KowAPupOgrPUndqyYxkjtmzHNHiv0ZICy1fGSW7ggtFnFbDSZtP6kX7z7/qUvHtTid7uMFYghK99ZvaWKOCqJrif91pOFPYzen4xyY3Wu7y9nP4X6MDn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=onnCPRbH; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1710797360; c=relaxed/simple;
+	bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V9mp7eDy1lbIzXngqo+oxuQh4BRJFCuKj7wdjokIdI8P5mpm+S1GrcptUoHtmcyuX/vnvDlu2/eEDApjSBIVLIXnD97GiZJPOH1L1ETJSwtSwyEf6X4yNq1fkZ6ggyLqnfuKX5IdRCAj+LUSyTp9qC72RBajkr2RIkQF97QK+UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apKMhkWh; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="onnCPRbH"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E7B8820B74C0;
-	Mon, 18 Mar 2024 13:58:23 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E7B8820B74C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1710795504;
-	bh=VwjmcstDx+NgU9BBFPDxpbqSu2gppqDHoUWpsVz/Th0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=onnCPRbHf1Ctws2/MdDiXWRWVU/AtpyiqTCWaP9IGfzEKNsiBab2QiD70n2xNWdiE
-	 +iMmKlhUXXPx2YJll5Q9m9B6+1hqBB2jN6iRC/N/plU/BbpF12cOc5b4kBRfN/EhVJ
-	 FocQoZ2pW//0/MyUBBIDG10lyLap3A58o8x5R6ow=
-Message-ID: <02453956-46d0-40f4-9e20-1bb0808996bb@linux.microsoft.com>
-Date: Mon, 18 Mar 2024 13:58:23 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apKMhkWh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710797358; x=1742333358;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
+  b=apKMhkWhm5KPfgL0aEBaT1IJ0pzksQ2B85QimnwIeyfDpvyIvYQPAk3T
+   ROHS/d6mDGdKtewaKiq4uDs/HVaoSTHgT67ITcnvaQZrTm+/vyLZtKgia
+   tangrg6RxXKhw5zEr4w4HnLhnWxq/1Em4EJ+FNXm0ni6FbjEP0RkIo5m3
+   dZlLPYzE7weMhwlBe2deVSh8a2qHB0WWcZUa6JAU72boj0Hj2Y59FzuTz
+   RToU+y8x39czkJOF7U9POMYtqnDx6u/U9yZvQD+XgWiux5k7QJjejNZp+
+   aG28bODWz+KzLTWdA9fmrk3568jQQta9RmE5FM1fPzNhbp0fUx/WmRF5Q
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="9463214"
+X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
+   d="scan'208";a="9463214"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 14:29:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
+   d="scan'208";a="13623636"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Mar 2024 14:29:15 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rmKXg-000HFj-0V;
+	Mon, 18 Mar 2024 21:29:12 +0000
+Date: Tue, 19 Mar 2024 05:28:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+Message-ID: <202403190552.U4RHYvqc-lkp@intel.com>
+References: <20240318112140.385244-3-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v15 18/21] ipe: enable support for fs-verity as a
- trust provider
-Content-Language: en-CA
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
- Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- fsverity@lists.linux.dev, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
- <1710560151-28904-19-git-send-email-wufan@linux.microsoft.com>
- <20240318051703.GB63337@sol.localdomain>
- <53a067f80db2e53ae29dc811515ab51c6ef86aed.camel@huaweicloud.com>
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <53a067f80db2e53ae29dc811515ab51c6ef86aed.camel@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240318112140.385244-3-radu.sabau@analog.com>
+
+Hi Radu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.8 next-20240318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/dt-bindings-hwmon-pmbus-adp1050-add-bindings/20240318-202619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20240318112140.385244-3-radu.sabau%40analog.com
+patch subject: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403190552.U4RHYvqc-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/hwmon/pmbus/adp1050.c: In function 'adp1050_probe':
+>> drivers/hwmon/pmbus/adp1050.c:47:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             char *
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:14,
+                    from include/linux/i2c.h:13,
+                    from drivers/hwmon/pmbus/adp1050.c:9:
+   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+>> drivers/hwmon/pmbus/adp1050.c:47:17: error: too few arguments to function 'dev_err_probe'
+      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+         |                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:277:20: note: declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
+   drivers/hwmon/pmbus/adp1050.c:53:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
+      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             |
+         |                                             char *
+   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                                                            ~~~~^~~
+   drivers/hwmon/pmbus/adp1050.c:53:17: error: too few arguments to function 'dev_err_probe'
+      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+         |                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:277:20: note: declared here
+     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^~~~~~~~~~~~~
 
 
+vim +/dev_err_probe +47 drivers/hwmon/pmbus/adp1050.c
 
-On 3/18/2024 1:08 AM, Roberto Sassu wrote:
-> On Sun, 2024-03-17 at 22:17 -0700, Eric Biggers wrote:
->> On Fri, Mar 15, 2024 at 08:35:48PM -0700, Fan Wu wrote:
->>> +config IPE_PROP_FS_VERITY
->>> +	bool "Enable property for fs-verity files"
->>> +	depends on FS_VERITY && FS_VERITY_BUILTIN_SIGNATURES
->>> +	help
->>> +	  This option enables the usage of properties "fsverity_signature"
->>> +	  and "fsverity_digest". These properties evaluate to TRUE when
->>> +	  a file is fsverity enabled and with a signed digest
->>
->> Again: why would anyone care if there is a signature, if that signature is not
->> checked.
->>
->> I think you meant to write something like: "when a file is fsverity enabled and
->> has a valid builtin signature whose signing cert is in the .fs-verity keyring".
-> 
-> I was also thinking the same. I didn't follow the recent development
-> closely, but unless IPE locks somehow the .fs-verity keyring, the
-> property you suggested would not be immutable. Meaning that someone can
-> add/remove a key in that keyring, making the property true or false.
-> 
-> Roberto
+   > 9	#include <linux/i2c.h>
+    10	#include <linux/init.h>
+    11	#include <linux/kernel.h>
+    12	#include <linux/module.h>
+    13	#include <linux/of.h>
+    14	#include "pmbus.h"
+    15	
+    16	#define ADP1050_CHIP_PASSWORD		0xD7
+    17	
+    18	#define ADP1050_VIN_SCALE_MONITOR	0xD8
+    19	#define ADP1050_IIN_SCALE_MONITOR	0xD9
+    20	
+    21	static struct pmbus_driver_info adp1050_info = {
+    22		.pages = 1,
+    23		.format[PSC_VOLTAGE_IN] = linear,
+    24		.format[PSC_VOLTAGE_OUT] = linear,
+    25		.format[PSC_CURRENT_IN] = linear,
+    26		.format[PSC_TEMPERATURE] = linear,
+    27		.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+    28			| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
+    29			| PMBUS_HAVE_IIN | PMBUS_HAVE_TEMP
+    30			| PMBUS_HAVE_STATUS_TEMP,
+    31	};
+    32	
+    33	static int adp1050_probe(struct i2c_client *client)
+    34	{
+    35		u32 vin_scale_monitor, iin_scale_monitor;
+    36		int ret;
+    37	
+    38		if (!i2c_check_functionality(client->adapter,
+    39					     I2C_FUNC_SMBUS_WRITE_WORD_DATA))
+    40			return -ENODEV;
+    41	
+    42		/* Unlock CHIP's password in order to be able to read/write to it's
+    43		 * VIN_SCALE and IIN_SCALE registers.
+    44		*/
+    45		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    46		if (ret < 0) {
+  > 47			dev_err_probe(&client->dev, "Device can't be unlocked.\n");
+    48			return ret;
+    49		}
+    50	
+    51		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
+    52		if (ret < 0) {
+    53			dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
+    54			return ret;
+    55		}
+    56	
+    57		/* If adi,vin-scale-monitor isn't set or is set to 0 means that the
+    58		 * VIN monitor isn't used, therefore 0 is used as scale in order
+    59		 * for the readings to return 0.
+    60		*/
+    61		if (device_property_read_u32(&client->dev, "adi,vin-scale-monitor",
+    62					     &vin_scale_monitor))
+    63			vin_scale_monitor = 0;
+    64	
+    65		/* If adi,iin-scale-monitor isn't set or is set to 0 means that the
+    66		 * IIN monitor isn't used, therefore 0 is used as scale in order
+    67		 * for the readings to return 0.
+    68		*/
+    69		if (device_property_read_u32(&client->dev, "adi,iin-scale-monitor",
+    70					     &iin_scale_monitor))
+    71			iin_scale_monitor = 0;
+    72	
+    73		ret = i2c_smbus_write_word_data(client, ADP1050_VIN_SCALE_MONITOR,
+    74						vin_scale_monitor);
+    75		if (ret < 0)
+    76			return ret;
+    77	
+    78		ret = i2c_smbus_write_word_data(client, ADP1050_IIN_SCALE_MONITOR,
+    79						iin_scale_monitor);
+    80		if (ret < 0)
+    81			return ret;
+    82	
+    83		return pmbus_do_probe(client, &adp1050_info);
+    84	}
+    85	
 
-Yes, the .fs-verity keyring's mutability could affect the property's 
-immutability. However, we are not planing to "lock" the keyrings, but we 
-would like to use policies languages to express what certificate can be 
-trusted.
-
-For example, we can have a rule like this:
-
-#Certificate declaration
-CERTIFICATE=MyCertificate CertThumbprint=DummyThumbprint
-op=EXECUTE fsverity_signature=MyCertificate action=ALLOW
-
-This will be our immediate next work after the initial version is accepted.
-
--Fan
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
