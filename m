@@ -1,64 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1FF58239;
-	Mon, 18 Mar 2024 21:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAE45D8F7;
+	Mon, 18 Mar 2024 23:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710797360; cv=none; b=oK3kJmx/ghIS81fsk+5LtD2g9ahADoMyYag+3SUKcRi5XziYQWYRfG3yZSb8IyUHitP1dtVyVWa9symXIuYv8us8RNenuE5ZapL3AyD50qbEVS5bmDWaGTHLnQsek17UczlscwK6HxqKawAqXRJ4DIPs14YIZFirI2bSZLA8Bwg=
+	t=1710804139; cv=none; b=GJ+chdCpVJXfrmun+RkGBAP1Bk0mGiV1Ld4/l/HRHM3d0nahz7CioHd9s0ZD0JMhVr8rqv5O1xSdvZnm+qyWYnlpTq+CtVSksudUIWOY0cvcPT0xC+KFk3C+VurytszSGIkLbYXMSLLgY+a6CmJWHDujWt5T4DnOx04ahZCpn3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710797360; c=relaxed/simple;
-	bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
+	s=arc-20240116; t=1710804139; c=relaxed/simple;
+	bh=OotrFEDPSRJwIaQ3u4I4spUR/2JA32XkaDt3CDv0uYI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V9mp7eDy1lbIzXngqo+oxuQh4BRJFCuKj7wdjokIdI8P5mpm+S1GrcptUoHtmcyuX/vnvDlu2/eEDApjSBIVLIXnD97GiZJPOH1L1ETJSwtSwyEf6X4yNq1fkZ6ggyLqnfuKX5IdRCAj+LUSyTp9qC72RBajkr2RIkQF97QK+UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apKMhkWh; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NJL9goQph5P3RkehC1N4hNVHRhCzi+/T7bb4PCOgIXzEUjaKs6QCmz/8iEeyyRjaeD+QUVyyl8mtsdLTytQ+ki0PCbqVwMGdTenJtXDmeCliXCNf8nNmQ5ChmhqVLNVIAYO+WeUVdLBmoYux5TzUoAZ76dqWTN5xgwmr6A5fm20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U6+y+pDz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apKMhkWh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710797358; x=1742333358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gcIdQLeaNhnFtWxkw1Wh/QfYZrOV3Xkp/tjnkxtLVnQ=;
-  b=apKMhkWhm5KPfgL0aEBaT1IJ0pzksQ2B85QimnwIeyfDpvyIvYQPAk3T
-   ROHS/d6mDGdKtewaKiq4uDs/HVaoSTHgT67ITcnvaQZrTm+/vyLZtKgia
-   tangrg6RxXKhw5zEr4w4HnLhnWxq/1Em4EJ+FNXm0ni6FbjEP0RkIo5m3
-   dZlLPYzE7weMhwlBe2deVSh8a2qHB0WWcZUa6JAU72boj0Hj2Y59FzuTz
-   RToU+y8x39czkJOF7U9POMYtqnDx6u/U9yZvQD+XgWiux5k7QJjejNZp+
-   aG28bODWz+KzLTWdA9fmrk3568jQQta9RmE5FM1fPzNhbp0fUx/WmRF5Q
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="9463214"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="9463214"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 14:29:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
-   d="scan'208";a="13623636"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Mar 2024 14:29:15 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rmKXg-000HFj-0V;
-	Mon, 18 Mar 2024 21:29:12 +0000
-Date: Tue, 19 Mar 2024 05:28:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U6+y+pDz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uDe90oU4m7kN4U29sr7WiiZQguijp+pDgJnuhirb2IY=; b=U6+y+pDzUahdjxZCjK02oc3MY0
+	jhjQNaWdPtpOUHeAQn3kyAp1Po1UThO3kSBTS0teWqL0zaNN0wzcr72e45m1tQR/NW4bsv7t93qOT
+	GIR1OlIoM597ZA5zMZBj2SWx3tJ185eBo4+ML7+NeW/6K1AgDTfPrXGaUtrA+ZdHvzJmEb1PwQTzO
+	KULWQZwts+KWeJGFjz2q2fzDEgcxB2JtvZ0qOih3gfF3HP/3w1vzhGrKf/74FyIryuVzfnUgk7UUi
+	nQfEygnz+caLPMXacklKQz5u9pHLYoW2cHy2stoESVq/FTDny7iHJSIKT1RY9D4ew/odWIo0+n6Ce
+	6xUA3AMg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rmMJ0-0000000AWy1-0ZBd;
+	Mon, 18 Mar 2024 23:22:10 +0000
+Date: Mon, 18 Mar 2024 16:22:10 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: David Wei <dw@davidwei.uk>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
-Message-ID: <202403190552.U4RHYvqc-lkp@intel.com>
-References: <20240318112140.385244-3-radu.sabau@analog.com>
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZfjMopBl27-7asBc@infradead.org>
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com>
+ <ZfegzB341oNc_Ocz@infradead.org>
+ <b938514c-61cc-41e6-b592-1003b8deccae@davidwei.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,148 +91,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318112140.385244-3-radu.sabau@analog.com>
+In-Reply-To: <b938514c-61cc-41e6-b592-1003b8deccae@davidwei.uk>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Radu,
+On Sun, Mar 17, 2024 at 07:49:43PM -0700, David Wei wrote:
+> I'm working on a similar proposal for zero copy Rx but to host memory
+> and depend on this memory provider API.
 
-kernel test robot noticed the following build errors:
+How do you need a different provider for that vs just udmabuf?
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on robh/for-next linus/master v6.8 next-20240318]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Jakub also designed this API for hugepages too IIRC. Basically there's
+> going to be at least three fancy ways of providing pages (one of which
+> isn't actually pages, hence the merged netmem_t series) to drivers.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Radu-Sabau/dt-bindings-hwmon-pmbus-adp1050-add-bindings/20240318-202619
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20240318112140.385244-3-radu.sabau%40analog.com
-patch subject: [PATCH 2/2] hwmon: pmbus: adp1050 : Add driver support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190552.U4RHYvqc-lkp@intel.com/reproduce)
+How do hugepages different from a normal page allocation?  They should
+just a different ordered passed to the page allocator.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190552.U4RHYvqc-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/hwmon/pmbus/adp1050.c: In function 'adp1050_probe':
->> drivers/hwmon/pmbus/adp1050.c:47:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             char *
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/hwmon/pmbus/adp1050.c:9:
-   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
->> drivers/hwmon/pmbus/adp1050.c:47:17: error: too few arguments to function 'dev_err_probe'
-      47 |                 dev_err_probe(&client->dev, "Device can't be unlocked.\n");
-         |                 ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:277:20: note: declared here
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                    ^~~~~~~~~~~~~
-   drivers/hwmon/pmbus/adp1050.c:53:45: warning: passing argument 2 of 'dev_err_probe' makes integer from pointer without a cast [-Wint-conversion]
-      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             |
-         |                                             char *
-   include/linux/dev_printk.h:277:64: note: expected 'int' but argument is of type 'char *'
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                                                            ~~~~^~~
-   drivers/hwmon/pmbus/adp1050.c:53:17: error: too few arguments to function 'dev_err_probe'
-      53 |                 dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
-         |                 ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:277:20: note: declared here
-     277 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
-         |                    ^~~~~~~~~~~~~
-
-
-vim +/dev_err_probe +47 drivers/hwmon/pmbus/adp1050.c
-
-   > 9	#include <linux/i2c.h>
-    10	#include <linux/init.h>
-    11	#include <linux/kernel.h>
-    12	#include <linux/module.h>
-    13	#include <linux/of.h>
-    14	#include "pmbus.h"
-    15	
-    16	#define ADP1050_CHIP_PASSWORD		0xD7
-    17	
-    18	#define ADP1050_VIN_SCALE_MONITOR	0xD8
-    19	#define ADP1050_IIN_SCALE_MONITOR	0xD9
-    20	
-    21	static struct pmbus_driver_info adp1050_info = {
-    22		.pages = 1,
-    23		.format[PSC_VOLTAGE_IN] = linear,
-    24		.format[PSC_VOLTAGE_OUT] = linear,
-    25		.format[PSC_CURRENT_IN] = linear,
-    26		.format[PSC_TEMPERATURE] = linear,
-    27		.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-    28			| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-    29			| PMBUS_HAVE_IIN | PMBUS_HAVE_TEMP
-    30			| PMBUS_HAVE_STATUS_TEMP,
-    31	};
-    32	
-    33	static int adp1050_probe(struct i2c_client *client)
-    34	{
-    35		u32 vin_scale_monitor, iin_scale_monitor;
-    36		int ret;
-    37	
-    38		if (!i2c_check_functionality(client->adapter,
-    39					     I2C_FUNC_SMBUS_WRITE_WORD_DATA))
-    40			return -ENODEV;
-    41	
-    42		/* Unlock CHIP's password in order to be able to read/write to it's
-    43		 * VIN_SCALE and IIN_SCALE registers.
-    44		*/
-    45		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
-    46		if (ret < 0) {
-  > 47			dev_err_probe(&client->dev, "Device can't be unlocked.\n");
-    48			return ret;
-    49		}
-    50	
-    51		ret = i2c_smbus_write_word_data(client, ADP1050_CHIP_PASSWORD, 0xFFFF);
-    52		if (ret < 0) {
-    53			dev_err_probe(&client->dev, "Device couldn't be unlocked.\n");
-    54			return ret;
-    55		}
-    56	
-    57		/* If adi,vin-scale-monitor isn't set or is set to 0 means that the
-    58		 * VIN monitor isn't used, therefore 0 is used as scale in order
-    59		 * for the readings to return 0.
-    60		*/
-    61		if (device_property_read_u32(&client->dev, "adi,vin-scale-monitor",
-    62					     &vin_scale_monitor))
-    63			vin_scale_monitor = 0;
-    64	
-    65		/* If adi,iin-scale-monitor isn't set or is set to 0 means that the
-    66		 * IIN monitor isn't used, therefore 0 is used as scale in order
-    67		 * for the readings to return 0.
-    68		*/
-    69		if (device_property_read_u32(&client->dev, "adi,iin-scale-monitor",
-    70					     &iin_scale_monitor))
-    71			iin_scale_monitor = 0;
-    72	
-    73		ret = i2c_smbus_write_word_data(client, ADP1050_VIN_SCALE_MONITOR,
-    74						vin_scale_monitor);
-    75		if (ret < 0)
-    76			return ret;
-    77	
-    78		ret = i2c_smbus_write_word_data(client, ADP1050_IIN_SCALE_MONITOR,
-    79						iin_scale_monitor);
-    80		if (ret < 0)
-    81			return ret;
-    82	
-    83		return pmbus_do_probe(client, &adp1050_info);
-    84	}
-    85	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
