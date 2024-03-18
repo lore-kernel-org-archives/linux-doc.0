@@ -1,160 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834C455E67;
-	Mon, 18 Mar 2024 17:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B1055E67;
+	Mon, 18 Mar 2024 17:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710783196; cv=none; b=oXqF5lM1w6B2nJTWBr1FThUV3hH9bGSP6EHmJoM+nlu3r/sdufp4DCbFYsl6s0OPfcuScugR5TuQ9FvYQoFhFs9hXJzUkLD7/BkQReoMtgY3Nm+81ObI7ZUM2Fmyzd3tfQ2wEFinqMXMOEiPzDksnR9K73a66Kt//Q6M1gtxIEs=
+	t=1710783363; cv=none; b=iZN5sKyCKADnjzfjhJLMXrnxN4wfFqgfDPeBh7w4pES9Qb3B9oRAnWkL9UpD/f7gvww+kL05xkXpjcr3d5aJJzVRxhmAk/7iWx080+W9idsGLDZ8dhpE2H+7wtiQBJcy/2ncgOjrmjoW40t8ISNisyGYWQksCeujk1VNt5XEUKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710783196; c=relaxed/simple;
-	bh=1hmrVQaRTbW0zKlfKJKDoA4Vhe70kFEXF9wECjSBBb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XoEgLhVhOXogJxrCh9bokuXx52kjNg0/mb02qd7Of1TjOVnvjqF9niiy9HMUnnT9qt0yJ/TdstVP4cEbLS1IbsQgJljJZclDBzWqMvq71I9/x/Mjt9C2FnsqEkMtJwPBYvp3hJTAOWKVDKuw3jS2zIbQoVV8x5tqYNw1zxod3aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kts358Mh; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+	s=arc-20240116; t=1710783363; c=relaxed/simple;
+	bh=5lepVMjaegCUK0SIqSPdsEcjoX5wIILym+A9zxP7jxc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Cr9Nt3xcC/1nq5vi21XzUZBjMu1EnfFVxzbkn4zZ4nmLdseL2nJmWhBN6pWrIycYNX2f6i0O4M5KcsVcZ0dbUMfJaVbOOjPGnfgxtD2pniuhEcn+f5XZKX4+moXa6Xrwj2JkB7gz6Rrogwd+iISEo58pIOAOLhJGJL5iWQg7e+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXDphS0g; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kts358Mh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXDphS0g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710783194; x=1742319194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1hmrVQaRTbW0zKlfKJKDoA4Vhe70kFEXF9wECjSBBb8=;
-  b=Kts358Mh+MXtpqqwFfiFCEXsd9WHXzr1XBOhfEge+kDRvWVGNyfcHGnm
-   +wbInuOCvElY4m/DGNEq+A6xxC2V63X69e4tTCXPgh8QxB5JdRf/WK50/
-   mjNIe8o3SFBn72ZZROfutDiI/8UCvew95dUgsY7rIdWy+tKM7k4w37gUg
-   V1fsk/Uo2Knfxnum86v/1TVKumNlVEV1OfSRDKwui9YyEpceU+ghbIuZ/
-   sZTLYrXLPgJANg+TTpfHGupWC6UasmElGJ6Mmj7wQ/iBMjyPgsUPPqgZy
-   GJTgPMWH1zoUpUZxB50vFn3no6GQwz7Gy5LS0mQmPgem214BrT+dhW/xo
+  t=1710783361; x=1742319361;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=5lepVMjaegCUK0SIqSPdsEcjoX5wIILym+A9zxP7jxc=;
+  b=QXDphS0gn8kZy2b0NNK6mEpVPlXAAOx44iOU73Q1fMtVXX6euU3FFpN0
+   LRPtS9NUIlYtyzo/uFHiMMWVagUdBLjANRolZ05xgALaDM6tp8phMwkyQ
+   XPIgLOAsaFjE00btbzbicwuxWzZQG20+4GabZuZJc6tRW90++T5bxfo9h
+   75tdjvFYP027zR1383tOXiKNHoLadLjz1HkWDXLFUz9WR2NsJDRrye8E0
+   S1FgxkJPT2KRXZpChkImqTpSjJyYJaqpyYnXwtQtH6m4Jfd8s396V85qP
+   jRWDwpsmUAW23HfJC+Q4jmQBv9JDBpDQTp8uClyUdzuliGmb9TyS+b3iN
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5741750"
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="28092429"
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="5741750"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 10:33:13 -0700
+   d="scan'208";a="28092429"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 10:36:01 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,134,1708416000"; 
-   d="scan'208";a="13501548"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Mar 2024 10:33:09 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rmGrC-000H8N-1L;
-	Mon, 18 Mar 2024 17:33:06 +0000
-Date: Tue, 19 Mar 2024 01:32:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <andy.chiu@sifive.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Vincent Chen <vincent.chen@sifive.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Greentime Hu <greentime.hu@sifive.com>, Guo Ren <guoren@kernel.org>,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Joel Granados <j.granados@samsung.com>
-Subject: Re: [PATCH v3 7/7] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <202403190142.8MfCnioh-lkp@intel.com>
-References: <20240318-zve-detection-v3-7-e12d42107fa8@sifive.com>
+   d="scan'208";a="18016376"
+Received: from ahmedess-mobl.ger.corp.intel.com (HELO localhost) ([10.252.53.133])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 10:35:58 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>
+Subject: Re: stable docs.kernel.org links?
+In-Reply-To: <20240318170309.GA1187959@bhelgaas>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240318170309.GA1187959@bhelgaas>
+Date: Mon, 18 Mar 2024 19:35:55 +0200
+Message-ID: <87zfuvo32c.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318-zve-detection-v3-7-e12d42107fa8@sifive.com>
+Content-Type: text/plain
 
-Hi Andy,
+On Mon, 18 Mar 2024, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> When providing a URL to a bit of code, it's nice if the URL remains
+> useful indefinitely, e.g., this should work "forever" because it
+> includes a git tag:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/pci.c?id=v6.8#n1300
+>
+> Is there a similar "id=" mechanism for https://docs.kernel.org?  I
+> could use https://docs.kernel.org/core-api/genalloc.html, but the link
+> may become stale as docs get reorganized.
+>
+> I could link to the .rst file directly with the git tag, e.g.,
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/core-api/genalloc.rst?id=v6.8
+>
+> but of course that's not as nicely formatted.
 
-kernel test robot noticed the following build errors:
+This works, but I don't know if there are any guarantees that it keeps
+working:
 
-[auto build test ERROR on 099dbac6e90c620d8ce0bbf75bbdc94da1feb4fb]
+https://www.kernel.org/doc/html/v6.8/core-api/genalloc.html
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/riscv-vector-add-a-comment-when-calling-riscv_setup_vsize/20240318-184348
-base:   099dbac6e90c620d8ce0bbf75bbdc94da1feb4fb
-patch link:    https://lore.kernel.org/r/20240318-zve-detection-v3-7-e12d42107fa8%40sifive.com
-patch subject: [PATCH v3 7/7] riscv: vector: adjust minimum Vector requirement to ZVE32X
-config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20240319/202403190142.8MfCnioh-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240319/202403190142.8MfCnioh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403190142.8MfCnioh-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/riscv/kernel/process.c: In function 'arch_release_task_struct':
->> arch/riscv/kernel/process.c:181:24: error: 'ZVE32X' undeclared (first use in this function)
-     181 |         if (has_vector(ZVE32X))
-         |                        ^~~~~~
-   arch/riscv/kernel/process.c:181:24: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/kernel/process.c: In function 'copy_thread':
-   arch/riscv/kernel/process.c:228:24: error: 'ZVE32X' undeclared (first use in this function)
-     228 |         if (has_vector(ZVE32X))
-         |                        ^~~~~~
---
-   arch/riscv/kernel/signal.c: In function 'restore_sigcontext':
->> arch/riscv/kernel/signal.c:191:41: error: 'ZVE32X' undeclared (first use in this function)
-     191 |                         if (!has_vector(ZVE32X) || !riscv_v_vstate_query(regs) ||
-         |                                         ^~~~~~
-   arch/riscv/kernel/signal.c:191:41: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/kernel/signal.c: In function 'get_rt_frame_size':
-   arch/riscv/kernel/signal.c:213:24: error: 'ZVE32X' undeclared (first use in this function)
-     213 |         if (has_vector(ZVE32X)) {
-         |                        ^~~~~~
-   arch/riscv/kernel/signal.c: In function 'setup_sigcontext':
-   arch/riscv/kernel/signal.c:286:24: error: 'ZVE32X' undeclared (first use in this function)
-     286 |         if (has_vector(ZVE32X) && riscv_v_vstate_query(regs))
-         |                        ^~~~~~
---
-   arch/riscv/kernel/sys_hwprobe.c: In function 'hwprobe_isa_ext0':
->> arch/riscv/kernel/sys_hwprobe.c:72:24: error: 'v' undeclared (first use in this function)
-      72 |         if (has_vector(v))
-         |                        ^
-   arch/riscv/kernel/sys_hwprobe.c:72:24: note: each undeclared identifier is reported only once for each function it appears in
->> arch/riscv/kernel/sys_hwprobe.c:119:32: error: 'ZVE32X' undeclared (first use in this function)
-     119 |                 if (has_vector(ZVE32X)) {
-         |                                ^~~~~~
---
-   In file included from kernel/sched/core.c:78:
-   kernel/sched/core.c: In function 'context_switch':
->> arch/riscv/include/asm/switch_to.h:81:24: error: 'ZVE32X' undeclared (first use in this function)
-      81 |         if (has_vector(ZVE32X))                 \
-         |                        ^~~~~~
-   kernel/sched/core.c:5400:9: note: in expansion of macro 'switch_to'
-    5400 |         switch_to(prev, next, prev);
-         |         ^~~~~~~~~
-   arch/riscv/include/asm/switch_to.h:81:24: note: each undeclared identifier is reported only once for each function it appears in
-      81 |         if (has_vector(ZVE32X))                 \
-         |                        ^~~~~~
-   kernel/sched/core.c:5400:9: note: in expansion of macro 'switch_to'
-    5400 |         switch_to(prev, next, prev);
-         |         ^~~~~~~~~
+Cc: Konstantin
 
 
-vim +/ZVE32X +181 arch/riscv/kernel/process.c
+BR,
+Jani.
 
-   177	
-   178	void arch_release_task_struct(struct task_struct *tsk)
-   179	{
-   180		/* Free the vector context of datap. */
- > 181		if (has_vector(ZVE32X))
-   182			riscv_v_thread_free(tsk);
-   183	}
-   184	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jani Nikula, Intel
