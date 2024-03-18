@@ -1,148 +1,143 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF1210A34;
-	Mon, 18 Mar 2024 01:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCED51CD1D
+	for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 01:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710723776; cv=none; b=ZbO0V5my40AXe8aPhRFiEFpyUuUnSIw+eN6Orm5DTFvYLBSa5TUBzUSA9lXLu64ij32a0+7rBxkTAV048eDFwunUE7tCcKghh5BwLtfnILtaZxSXJKI2a6saLvAB+5BqQyMaU7mJ5fgV4ZrkB7Ol+UmyGIYBOm5V1340EBg6HPo=
+	t=1710727152; cv=none; b=SWkAiFnO8wbmkjExhAGQpXTS8MONztq1mvj2ab913lqITE3ecp72KrkH/XRQ0lQAHAYFcSPck9BVmFZ2PJpaDPyiE/HHhpI6jVKH4VoPf6OPXrMhYWrHosfEQi9led8VCVf1I6bpcGNWmqHS1zVUo6Ac+zQPJwGbaydPdS+WZg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710723776; c=relaxed/simple;
-	bh=HYnHpQ5WS0uOZQHvof4CAA2amkH1vlLsf73xj39b0HM=;
+	s=arc-20240116; t=1710727152; c=relaxed/simple;
+	bh=FqUgQgxrfZtI2qk5V+CbuvudPfEzb8SHu5+APKjhAeY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gpDfPqPVO+zo2WU3qYNHcQoQHdJiOJHD6cTS8YDxh/BZIrdUbwFERcTSKPAWvxlHonUI+MB96I7Q59hshOEv5MlwOl5SQbEwtaNpQp2i2j16puXHfFb4/5QvQaYudw+poarmfNYi5pHGSARm09A6l+7c9gQgwwlRV5rfhca9YTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cssq6esS; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Ic4tFSKcWd73kA0nrK5HZgr6A9Sn0Tj0bV2qDezHZ7SRtxgNihVMWvyDNkEcPqcGkhDHFGtZM6m4rXeL5vrmF1vFs7CBWU5jND9yVIzdQDRWOnO97bBjpP6vIVVBnBQ8MbKm04j3mV3uC7VqrpSOcK+VzgRXNZRh8UErTAhgenE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=ff5Rlm0O; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cssq6esS"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-366c26bd8cbso1547505ab.3;
-        Sun, 17 Mar 2024 18:02:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="ff5Rlm0O"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-db3a09e96daso3122265276.3
+        for <linux-doc@vger.kernel.org>; Sun, 17 Mar 2024 18:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710723773; x=1711328573; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1710727149; x=1711331949; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q057OV69lTu4ctPYW4hfEX8QoC9FK779RSSG++bu6xM=;
-        b=Cssq6esS1N+VWLMHk20uOXb+pF4jtsJwzHyLHWAxOvZseU/zbAa0OQtstXtgpAaw/Q
-         +/91SbV6dmANz8ekGQLb3X5mf6YsWCFtBoKSVRfA+C9yOlpnsfo6SGZWfFF4lnt7PNsn
-         JsUPMHz3gEYxDfp4/kmEGk+m7cLp0u+bTkKYeKA7Gagv3P9r3OdUSe1sFmg945Jkc8iu
-         wVbdG8VsO1h4j+SzjFRiRdjAvY/R6C629pv6c1wkIhr0JDVtb/0rZ/SCMY0xGOCCnlj9
-         vOcXyi7uVlHedbqRLOk8kOJQVpfW5fX5R4zs2NggdNIY6rW/40OHmlDzVLRbgkJOtG4F
-         hkLA==
+        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
+        b=ff5Rlm0OqJGTFufoNSAdBwVZgv7YQzDUK9LuTVsnWNeAxL5/lYtce8A5c+meoj3Obz
+         uqGggRKfDFZv/PGw4gSjeiFY4IeYNS+bzjThDxuKBKdBCmepGBkqQjkPw5dBgHQ8+Xsj
+         sbBqjbKUEDYtsoLeCJsyIz0qz3ZgGK4uJV7oN1ATAtVkXc5VQaW33doPJSa06C0Zdvwj
+         6JKSm4lwAVu6uEBacnUqjWkYDSa2SezmIIKE5ILy4z9ydb0MXrvDwuCGtltbZ5wNbzB4
+         n1/ovTasoLwc74tmSXWCVB1HimrCWeQVlnqVT2nbZeAn6eWRVNUMjKX/ZYD4J1K5qH0x
+         fzsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710723773; x=1711328573;
+        d=1e100.net; s=20230601; t=1710727149; x=1711331949;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=q057OV69lTu4ctPYW4hfEX8QoC9FK779RSSG++bu6xM=;
-        b=efKpc/EUZBCbDSqRG9w9DbwTFkMgY15BQFmIv9OwQyh49YumljynoHGD0qAAXBBts2
-         8tNjjAtQKLm07aJk/304cUbPCDaZBwQT63c/0MQ9XTSpRWLisfEkSXGXvXmfNQs7KtLQ
-         r54g31E+CgsrNV0FOvb1a9FjocU31ZPUHoQG24N/nS7tGjovNmw1/O0AG3luiYKnppMk
-         gp9PDx+ahEs/1KpLBLBUR4+5lc433Sfi2N6PAHrmQy694mfgMubonAYJHWal/7CCgHUj
-         e1jS+fBZalblhGw8HFY+A460H+G+zsCXYU5ZmYVa9FZdlHwFhVcMF4ES3g92cHJskmtP
-         UIYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJJaa083qH9Tafad2j/BYVtiEjWi/se37E32HSaq7P8zVvvihRu2d1O/6Y2j0YrHctOVc0wXhbQqTPhHVPxTqLFhTiGBWoIlwVYs2Q8i/SjsxvH3K0YOkYkxx9bEWIqyvzgjm8mTqCkJq2B6Pycw7jnK6PPM8/rU2rVAuZ4+0gouH6MTEhR2vM9+P+S8oyjTjE+AWwUVhINqDEcwiA80JJ
-X-Gm-Message-State: AOJu0YwZkQIhN3q/Q+oinJujzJW+VA6rBcGHXStD3xLJUUFduH7z+BHJ
-	NJB7s2xDrK2/AaORPsZ7Mb8RG6aCMf6LEsALVzex0+vrinvkb8zmPr3tcsTj3OoQlZGdxlYwF3a
-	drypsS4j0emVhbxNVM1+FGYIfiS4=
-X-Google-Smtp-Source: AGHT+IHgOcsuxrqW0t2XLKTOIxiWENVYN+gYwOfy3XkeKLpBv3+o5PftE+g10QYy+oHEGt9JsF/LRFsWvEdocg826T0=
-X-Received: by 2002:a05:6e02:11a5:b0:366:95be:fdc6 with SMTP id
- 5-20020a056e0211a500b0036695befdc6mr9347885ilj.28.1710723773618; Sun, 17 Mar
- 2024 18:02:53 -0700 (PDT)
+        bh=k+xmMKXEK467msfGN/zI+NTXm1eyrFZs4w/DgUrLeb0=;
+        b=ddaIIt9BhsaRadqXATqtgcqotBf8sz6oMbAieFeDfcMYIdGEqlOblNtlG23dN6g8oL
+         98LOm0MVTl7tRQwYTvlwkDFVxiOETPrFT9Cpe3NnD/JPnwKoavTEEGFhrrkH4sRiPE/y
+         pF/3NRVMm3WhpIJgkj5l2A6hC4uznYr9NR9F4Kgp/Cxi47TEeZ6W9uKlgUIPFgK8GQB7
+         dGq/rN5qswkPiDmwwnL0Ih7uVqIjYc4yfU9fw3OQj6AVE0xa0SdbuADNXMYE8Ywudth+
+         Zxg9kfivlrPkQOL+mWGdJGXOg+mPkfvn4LyZ+f5b8hRwP9etWmnlip+PwGY1Wy00pfxx
+         3GiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtW6Cx5CqN8AgcJc9wmOGqFqaiaMXx0adNof0dk/bNRBIHiZdks8aa4BNG4MamCIjoZAX6N4zLwtcexz3ChVZ2IQOchJeRRvkc
+X-Gm-Message-State: AOJu0YyjMg+KVHpkfYu1MKpn55Vpb1zjL/f4Oi4rnrOKMiE3tcd0Mq6e
+	laxsjdbjbo9ne+11uh91M20LFUjw9mtxQyTFQerjrEqXTc9L8aU5yXbIFn/YbWJuG00WmQs4CPR
+	RvJ7fmb7Blnk+lrr4q/sISoZnvyf4mkTKVsW+
+X-Google-Smtp-Source: AGHT+IFvxqCFh/zzQZhmtHVeJ4wKXtt8mxhTmxAcg93TKyWxNqDHIDARX3X+xrhcmbPvVzgaKwOoMXL4saPB2bh9WMY=
+X-Received: by 2002:a25:abef:0:b0:dcc:e854:d454 with SMTP id
+ v102-20020a25abef000000b00dcce854d454mr8541158ybi.14.1710727148753; Sun, 17
+ Mar 2024 18:59:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227005606.1107203-1-kcfeng0@nuvoton.com> <20240227005606.1107203-4-kcfeng0@nuvoton.com>
- <a90ed00c-f836-4fb6-8191-9974937e3eb7@hatter.bewilderbeest.net>
- <CALz278Zgfgob573vgWz4PgC7vb=i8xt3kC1hSjo_cQi00B0XAg@mail.gmail.com>
- <cd63bec7-01c6-466e-b772-3a3d3d90a7d5@hatter.bewilderbeest.net>
- <37e11daa-c24e-45b2-a22d-769693fd2038@roeck-us.net> <a93e2971-cafc-480b-b439-f42ed0838660@hatter.bewilderbeest.net>
-In-Reply-To: <a93e2971-cafc-480b-b439-f42ed0838660@hatter.bewilderbeest.net>
-From: Ban Feng <baneric926@gmail.com>
-Date: Mon, 18 Mar 2024 09:02:42 +0800
-Message-ID: <CALz278b7BeGoYunqh1Rs91N81sEnU_RDox3urqTb9CFX0ic5_g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] hwmon: Driver for Nuvoton NCT7363Y
-To: Zev Weiss <zev@bewilderbeest.net>
-Cc: Guenter Roeck <linux@roeck-us.net>, jdelvare@suse.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, corbet@lwn.net, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, kcfeng0@nuvoton.com, 
-	kwliu@nuvoton.com, openbmc@lists.ozlabs.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, DELPHINE_CHIU@wiwynn.com, 
-	naresh.solanki@9elements.com, billy_tsai@aspeedtech.com
+References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
+ <1710560151-28904-6-git-send-email-wufan@linux.microsoft.com> <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
+In-Reply-To: <43958767-32db-4c53-8408-8367cfc14d2f@schaufler-ca.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sun, 17 Mar 2024 21:58:58 -0400
+Message-ID: <CAHC9VhRsOp8-C+bEH+NnRrBu_NRjJongAXZu_P2+c_OkDBs9rw@mail.gmail.com>
+Subject: Re: [RFC PATCH v15 05/21] initramfs|security: Add a security hook to do_populate_rootfs()
+To: Casey Schaufler <casey@schaufler-ca.com>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-HI Guenter and Zev,
-
-If there's no concern about supporting nct7362 in nct7363 driver,
-I'll add it to the of_device_id and i2c_device_id table in v5.
-
-Thanks,
-Ban
-
-On Wed, Mar 13, 2024 at 8:21=E2=80=AFAM Zev Weiss <zev@bewilderbeest.net> w=
-rote:
->
-> On Tue, Mar 12, 2024 at 04:58:12PM PDT, Guenter Roeck wrote:
-> >On 3/12/24 16:18, Zev Weiss wrote:
-> >>On Wed, Mar 06, 2024 at 11:35:31PM PST, Ban Feng wrote:
-> >>>Hi Zev,
-> >>>
-> >>>On Sat, Mar 2, 2024 at 4:19=E2=80=AFPM Zev Weiss <zev@bewilderbeest.ne=
-t> wrote:
-> >>>>
-> >>>>On Mon, Feb 26, 2024 at 04:56:06PM PST, baneric926@gmail.com wrote:
-> >>>>>From: Ban Feng <kcfeng0@nuvoton.com>
-> >>>>>
-> >>>>>NCT7363Y is an I2C based hardware monitoring chip from Nuvoton.
-> >>>>>
-> >>>>>Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
-> >>>>>---
-> >>
-> >><snip>
-> >>
-> >>>>>+
-> >>>>>+static const struct of_device_id nct7363_of_match[] =3D {
-> >>>>>+      { .compatible =3D "nuvoton,nct7363" },
-> >>>>
-> >>>>As far as I can see from the code in this driver, it looks like this
-> >>>>driver should also be compatible with the nct7362; shall we add the I=
-D
-> >>>>table entry for it now?  (Though I only have a datasheet for the
-> >>>>nct7362, not the nct7363, so I don't know exactly how they differ.)
-> >>>
-> >>>As far as I know, the difference between these two ICs is 0x2A~0x2C
-> >>>Fading LED for 7362, and 0x2A Watchdog Timer for 7363.
-> >>>In my v1 patch, I indeed add the nct7362 to the ID table, however,
-> >>>this makes it more complicated and our datasheet isn't public yet.
-> >>>I think maybe supporting more chips will be done in the future, but no=
-t now.
-> >>>
-> >>
-> >>If the only differences are in features the driver doesn't utilize, I'm=
- not clear on how it adds any complexity.  As far as I'm aware, neither dat=
-asheet is public (NCT7363 nor NCT7362), so if we're going to have a public =
-driver for one, why not also do so for the other?  It's a single additional=
- line -- and furthermore, having made that change and tested it out, I can =
-report that the driver seems to work just fine on NCT7362 hardware as well.
-> >>
+On Sun, Mar 17, 2024 at 8:29=E2=80=AFPM Casey Schaufler <casey@schaufler-ca=
+.com> wrote:
+> On 3/15/2024 8:35 PM, Fan Wu wrote:
+> > This patch introduces a new hook to notify security system that the
+> > content of initramfs has been unpacked into the rootfs.
 > >
-> >"if we're going to have a public driver for one, why not also do so for =
-the other"
+> > Upon receiving this notification, the security system can activate
+> > a policy to allow only files that originated from the initramfs to
+> > execute or load into kernel during the early stages of booting.
 > >
-> >If you are trying to say that there should be two separate drivers, sorr=
-y, that
-> >would be absolutely unacceptable.
+> > This approach is crucial for minimizing the attack surface by
+> > ensuring that only trusted files from the initramfs are operational
+> > in the critical boot phase.
 > >
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >
+> > ---
+> > v1-v11:
+> >   + Not present
+> >
+> > v12:
+> >   + Introduced
+> >
+> > v13:
+> >   + Rename the hook name to initramfs_populated()
+> >
+> > v14:
+> >   + No changes
+> >
+> > v15:
+> >   + No changes
+> > ---
+> >  include/linux/lsm_hook_defs.h |  2 ++
+> >  include/linux/security.h      |  8 ++++++++
+> >  init/initramfs.c              |  3 +++
+> >  security/security.c           | 10 ++++++++++
+> >  4 files changed, 23 insertions(+)
+> >
+> > diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_def=
+s.h
+> > index 334e00efbde4..7db99ae75651 100644
+> > --- a/include/linux/lsm_hook_defs.h
+> > +++ b/include/linux/lsm_hook_defs.h
+> > @@ -450,3 +450,5 @@ LSM_HOOK(int, 0, uring_override_creds, const struct=
+ cred *new)
+> >  LSM_HOOK(int, 0, uring_sqpoll, void)
+> >  LSM_HOOK(int, 0, uring_cmd, struct io_uring_cmd *ioucmd)
+> >  #endif /* CONFIG_IO_URING */
+> > +
+> > +LSM_HOOK(void, LSM_RET_VOID, initramfs_populated, void)
 >
-> Sorry if that was unclear -- it was very much *not* my intent to suggest
-> adding a separate driver, merely that we make the nct7363 driver also
-> support the nct7362.
->
->
-> Zev
->
+> This is an awfully expensive way to set a flag. Adding a LSM hook list
+> isn't free. Isn't there a way to capture this state change through one of
+> the mount hooks?
+
+Unfortunately no, the initramfs isn't mounted like a traditional
+filesystem, it is "populated" by unpacking the cpio into the initramfs
+at early boot.  This LSM hook should be called exactly once during
+boot, and the performance impact should be minimal; I should also be
+wildly more performant than earlier revisions of this patchset that
+required grabbing a single spinlock on every file access.
+
+Of course if you have an idea on how this could be done
+differently/better I think we're all open to new ideas ...
+
+--=20
+paul-moore.com
