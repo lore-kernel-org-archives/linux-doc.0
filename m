@@ -1,115 +1,60 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CED38F96;
-	Mon, 18 Mar 2024 16:57:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4089954BC5;
+	Mon, 18 Mar 2024 17:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710781026; cv=none; b=DjQjDFMouAiTH5YkLGP1kjm7KDmk5svEcmyH5eZi3+B7KbmEioSByAGXXYp1ALGWt+O/d1vi+Al/HkqO0Y7bgaAJU0V5SxECMnGfVyNkztRuucDOI1CxSmCI2FKPUxBUzzIQqPxC3D+CXtv+d/dWtINy5/J+/XrZ3NvpjN+Wc8c=
+	t=1710781392; cv=none; b=B9c4LJznn6Gam0UsN9A7DSU/0IcgPSGYvyW+QGLvVfiGJmnkMdV6uOb9bY1f5n5cmuNse8evBB54wJhs1yIpfx2l19jJfP5nCLNmJ+ZXytkgnmAJ/cuumGOotl1WV+0DjAUwgeJT+sftew2CnBrmdclUTvKzFwAbyhjxwBbmL5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710781026; c=relaxed/simple;
-	bh=ACEAxDulSpAl5CvzyquQ2Fyq+IxD/YQAwg/steyISSE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ndzObaCQDTaGSwPNhdmGGW7AQREhcx3ArjXPx5tZhzc8oi9/e9cnacNRLfAOr/xTDuHte69TpcjQepyt5ozludsSmt8luFW7rb7e2b6MMsAz0By2ZevxRY7tRser+rNUhNRGoaKQf2sccEy48NaeUYEGSjLBCHpzqSQ0wXRfCLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2K3MjRQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710781392; c=relaxed/simple;
+	bh=ahv/nMASBvmUUedDJRMBuPb/ahJXPkedowOCrs8J8vI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=U7xwQRTS4qtFKXvntNo3u1J/h+b0VAc0oaG30PBf+sovpgphccWfZpNgVKrfR1MF+Ik8x6O2Ua3nQAJ/zfjxdtBEwy9yKB3me/lhCXfhOSXMUHMb/jyHXGyUFlW0w/Wjle527z+GHtmTBVchutnH0AO4RiaYuP+I0nbklURXneM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LfPJ9EI5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2K3MjRQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C825C433C7;
-	Mon, 18 Mar 2024 16:57:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LfPJ9EI5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9887EC433F1;
+	Mon, 18 Mar 2024 17:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710781026;
-	bh=ACEAxDulSpAl5CvzyquQ2Fyq+IxD/YQAwg/steyISSE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=K2K3MjRQsAxYRhiuVZoKeQjCmOY3DKwAf4XgxYpHVel83SYbS2T62gKVc2Le5iM5e
-	 vzNYzG+D+wdAX9lcqB1Os8yYkAg6QRNy4BPiaERel+qoX1rIkfIM9+1wyQrQjo0FR5
-	 UsRR/NNu/nUH/5v35Jufm5pFujLDlifp81HZ6Ny6MTJMhMAUJohyYQBj4efIFtL+AW
-	 am6l1hguWkRREYax8xvMGBKa8/osdsd1RKWMSueeJvVWMoFpXyEZDkIAhSFIMSg5fU
-	 xiSyDl0TPyBGJ7km8VX82BcORYsMu2xYP3SybVda+fYHDj1w040bUxp1ckQ8Qocr7D
-	 8xmowg1ahZkig==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1rmGII-00DKXR-L6;
-	Mon, 18 Mar 2024 16:57:02 +0000
-Date: Mon, 18 Mar 2024 16:57:02 +0000
-Message-ID: <86wmpzzdep.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	kvm@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Mostafa Saleh <smostafa@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Subject: Re: [RFC PATCH v2 0/4] arm64: Add PSCI v1.3 SYSTEM_OFF2 support for hibernation
-In-Reply-To: <20240318164646.1010092-1-dwmw2@infradead.org>
-References: <20240318164646.1010092-1-dwmw2@infradead.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20201202; t=1710781391;
+	bh=ahv/nMASBvmUUedDJRMBuPb/ahJXPkedowOCrs8J8vI=;
+	h=Date:From:To:Cc:Subject:From;
+	b=LfPJ9EI5CvadGkFLFbpD0AaNr/WugMmtnF4/HiuraXXl0CUzG0SGAHKbvYVLbTJQt
+	 6PjDgoTzUWYypGfhxgcheI0ZRJb4WtC3d3YzmcmtnOuaO2BSAakCD0SUnxS93uzgaZ
+	 bb2yoENZVL+DZn8bsMGN0qbdAvcQtK0h9Wow0x+RbQBEthVqMAsMCBNYVajKUivFoV
+	 /Ep98srzHxbziEEiJjM5Xz4SDkfD2hZed/dZWWU7bnf5z3hOiHY7wRrpgqo8w2x5fh
+	 eGeKZrPMx1AD0hYmdb++t8PBCTn5+WDm4mXgMP2y/r1THQrMnPPleuGZuOMEDa8L3h
+	 GM24vZ5XIH2vg==
+Date: Mon, 18 Mar 2024 12:03:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: stable docs.kernel.org links?
+Message-ID: <20240318170309.GA1187959@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: dwmw2@infradead.org, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, lpieralisi@kernel.org, rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz, dwmw@amazon.co.uk, smostafa@google.com, jean-philippe@linaro.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, linux-pm@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 18 Mar 2024 16:14:22 +0000,
-David Woodhouse <dwmw2@infradead.org> wrote:
-> 
-> The PSCI v1.3 spec (https://developer.arm.com/documentation/den0022, 
-> currently in Alpha state, hence 'RFC') adds support for a SYSTEM_OFF2 
-> function enabling a HIBERNATE_OFF state which is analogous to ACPI S4. 
-> This will allow hosting environments to determine that a guest is 
-> hibernated rather than just powered off, and ensure that they preserve 
-> the virtual environment appropriately to allow the guest to resume 
-> safely (or bump the hardware_signature in the FACS to trigger a clean 
-> reboot instead).
-> 
-> This adds support for it to KVM, exactly the same way as the existing 
-> support for SYSTEM_RESET2 as added in commits d43583b890e7 ("KVM: arm64: 
-> Expose PSCI SYSTEM_RESET2 call to the guest") and 34739fd95fab ("KVM: 
-> arm64: Indicate SYSTEM_RESET2 in kvm_run::system_event flags field").
-> 
-> Back then, KVM was unconditionally bumped to expose PSCI v1.1. This 
-> means that a kernel upgrade causes guest visible behaviour changes 
-> without any explicit opt-in from the VMM, which is... unconventional. In 
-> some cases, a PSCI update isn't just about new optional calls; PSCI v1.2 
-> for example adds a new permitted error return from the existing CPU_ON 
-> function.
-> 
-> There *is* a way for a VMM to opt *out* of newer PSCI versions... by 
-> setting a per-vCPU "special" register that actually ends up setting the 
-> PSCI version KVM-wide. Quite why this isn't just a simple KVM_CAP, I 
-> have no idea.
+When providing a URL to a bit of code, it's nice if the URL remains
+useful indefinitely, e.g., this should work "forever" because it
+includes a git tag:
 
-Because the expectations are that the VMM can blindly save/restore the
-guest's state, including the PSCI version, and restore that blindly.
-KVM CAPs are just a really bad design pattern for this sort of things.
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pci/pci.c?id=v6.8#n1300
 
-	M.
+Is there a similar "id=" mechanism for https://docs.kernel.org?  I
+could use https://docs.kernel.org/core-api/genalloc.html, but the link
+may become stale as docs get reorganized.
 
--- 
-Without deviation from the norm, progress is not possible.
+I could link to the .rst file directly with the git tag, e.g.,
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/core-api/genalloc.rst?id=v6.8
+
+but of course that's not as nicely formatted.
+
+Bjorn
