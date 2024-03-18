@@ -1,96 +1,84 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E082575A;
-	Mon, 18 Mar 2024 08:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581525624;
+	Mon, 18 Mar 2024 08:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710749328; cv=none; b=LSqThCEtWeP1VZjXGLIT5Gu3NDPH8hPF1jNi2fPYAA1NTVooIQZ4CKz+pn6PfMxUH+RDB3NzPZBOS1K9o0IYlJ5rzcZQkjWElp+7/U6Xb/UmWitDycJiwtHSRO9PE9Up0qHsHQycZ0junyIwu5ASHDTCPSAx1+AaA3jOtEZTwWw=
+	t=1710751134; cv=none; b=NdD3MGMTIw2ULXep0gYm+KRZSqf5Oa+mUlmv2ExaDuL9cC/ljsAUKHwNIVpDl7HsTlCi2TetSFGE8q+xhMVFNJBwA5mhBRJoCe84Een4uPK4Yfi8jcQLJbqatfl/64LTjAwl/UI79b5eXBS4i1VLAzyHTt6b5y4FkqGL6CSlF8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710749328; c=relaxed/simple;
-	bh=Ap9vH7z4CybKmdoIokhNZ07YCPHW29bDiI3auayIwt0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SdblmGshp0M17wgPn3LJmZ2GvN+WIyKEOhdfEqB87rEW/QsbsSBt20T+odibXsM7zkSR6rPTyXdmUx5XsKvWAx+9wPI6+d8d6WGvf8/zlQuoB18yTIAoBJP4yx/YLuWW1BlTZVLO2sSqwS20IY2B6BoBSxE1+CPX15KkmhSgows=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4Tyn681nmjz9xGWw;
-	Mon, 18 Mar 2024 15:48:32 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 965CB14059E;
-	Mon, 18 Mar 2024 16:08:28 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwAnEydu9vdl4iuCBA--.40027S2;
-	Mon, 18 Mar 2024 09:08:27 +0100 (CET)
-Message-ID: <53a067f80db2e53ae29dc811515ab51c6ef86aed.camel@huaweicloud.com>
-Subject: Re: [RFC PATCH v15 18/21] ipe: enable support for fs-verity as a
- trust provider
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Eric Biggers <ebiggers@kernel.org>, Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
- serge@hallyn.com,  tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org,  eparis@redhat.com, paul@paul-moore.com,
- linux-doc@vger.kernel.org,  linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org,  fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
- audit@vger.kernel.org, linux-kernel@vger.kernel.org, Deven Bowers
- <deven.desai@linux.microsoft.com>
-Date: Mon, 18 Mar 2024 09:08:10 +0100
-In-Reply-To: <20240318051703.GB63337@sol.localdomain>
-References: <1710560151-28904-1-git-send-email-wufan@linux.microsoft.com>
-	 <1710560151-28904-19-git-send-email-wufan@linux.microsoft.com>
-	 <20240318051703.GB63337@sol.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1710751134; c=relaxed/simple;
+	bh=Q1xjT+rtpxSXBeIBdH+RqFFAq8QdGlmiKD2Xuo4StNw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SorGz4ROGDK/OHOO4GLO07IOnte/7uGCtE3N5l2/6PZSrfCFRIU/cgXkcAJ0FKxYdLWjGWHVakCqqlta2Af19wGXJ/7bo3Hn91CgdL6L0jWX2kgm3qxFRpKjExH5E1RAgPiJbJ9WutD4rjSuTebzlF03bIsuDxDV2wZyHdVajiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=xDqpIbDD; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="xDqpIbDD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=oRQDdmgf9lAqQVGEv78ZqQtrkzdwgqSXfSY5t2nDCv8=; t=1710751131; x=1711183131;
+	 b=xDqpIbDDQLAfM14or5tvD1I8Z5aSOzqLI2mD58Sn8lc6kk5NXg5EcWgq+ef1sM/JKwcb9b7JhS
+	+oPxSKKs/IeEeYF5VwB2ZtQNARKKBjuJ0xACbIMyodCtO3NOmv7M99FKKqTPx0U/C1cYpY9r+RnJi
+	Dy8ISTyfJZlFi4cKHWZly2jAn5OP2JCMjRPMsGZ4MGpDyn7+9GRnvQ7geAV0wOZGZObTMh36/2nIh
+	xCjp/wRDgwJuZVeHIg9x94iSpuzC3+89sxyyfUmw5BCJUeCWkNSGdSWbF4bWfnwP4rHi5jUhmoqWL
+	461TOSMFW+ILTIQjopDgxrORrNVGVU236gi2w==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1rm8W0-00037E-63; Mon, 18 Mar 2024 09:38:40 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Petr=20Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
+Subject: [PATCH v1 0/4] docs: verify/bisect: install, tainting, and finetuning
+Date: Mon, 18 Mar 2024 09:38:35 +0100
+Message-ID: <cover.1710750972.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwAnEydu9vdl4iuCBA--.40027S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrur1xuFyfuFWDuFW8ZF4UCFg_yoWDXFX_ur
-	Z5A34kXryvvF42vanIyr1qyrZrGwnrKF1UZ34avr4Y9343ZFZ3WaykC34kuFy7Ja129rZI
-	9Fs8Zr1aqFWxujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb78YFVCjjxCrM7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267
-	AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
-	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0E
-	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-	k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY
-	1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU13rcDUUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAGBF1jj5t93gAAsK
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1710751131;f9e8a67c;
+X-HE-SMSGID: 1rm8W0-00037E-63
 
-On Sun, 2024-03-17 at 22:17 -0700, Eric Biggers wrote:
-> On Fri, Mar 15, 2024 at 08:35:48PM -0700, Fan Wu wrote:
-> > +config IPE_PROP_FS_VERITY
-> > +	bool "Enable property for fs-verity files"
-> > +	depends on FS_VERITY && FS_VERITY_BUILTIN_SIGNATURES
-> > +	help
-> > +	  This option enables the usage of properties "fsverity_signature"
-> > +	  and "fsverity_digest". These properties evaluate to TRUE when
-> > +	  a file is fsverity enabled and with a signed digest
->=20
-> Again: why would anyone care if there is a signature, if that signature i=
-s not
-> checked.
->=20
-> I think you meant to write something like: "when a file is fsverity enabl=
-ed and
-> has a valid builtin signature whose signing cert is in the .fs-verity key=
-ring".
+Here are a few small improvements for Documentation/admin-guide/
+verify-bugs-and-bisect-regressions.rst.
 
-I was also thinking the same. I didn't follow the recent development
-closely, but unless IPE locks somehow the .fs-verity keyring, the
-property you suggested would not be immutable. Meaning that someone can
-add/remove a key in that keyring, making the property true or false.
+* The "improve install instructions" aspects (link to distro docs, Arch
+  support) were brought up on the list and in a chat.
 
-Roberto
+* The "check tainted status" thing was something I had forgotten; I
+  noticed this aspect should likely be covered while doing some early
+  work to better align Documentation/admin-guide/reporting-issues.rst
+  with this text.
+
+* The rest are minor fixes for things. Many are things I noticed while
+  working on the above changes. Quite a few are also things Petr Tesařík
+  brought to my attention (many thx!).
+
+Ciao, Thorsten
+
+Thorsten Leemhuis (4):
+  docs: verify/bisect: improve install instructions
+  docs: verify/bisect: check taint flag
+  docs: verify/bisect: drop 'v' prefix, EOL aspect, and assorted fixes
+  docs: verify/bisect: remove a level of indenting
+
+ .../verify-bugs-and-bisect-regressions.rst    | 389 ++++++++++--------
+ 1 file changed, 211 insertions(+), 178 deletions(-)
+
+
+base-commit: 0c8e9b538ed7ecf4159b080ab0dafca3941c69db
+-- 
+2.44.0
 
