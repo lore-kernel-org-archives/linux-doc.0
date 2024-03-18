@@ -1,104 +1,111 @@
-Received: from new-mail.astralinux.ru (new-mail.astralinux.ru [51.250.53.244])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A498364A1;
-	Mon, 18 Mar 2024 11:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.250.53.244
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC252EAE0;
+	Mon, 18 Mar 2024 11:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710761292; cv=none; b=uAKCMi/8p7LOqa7Ih2+hutgVaS+BtiAhfLzpJnOSAshGjpvJgiugn11zFrdT5wMFv3ChVC7hns52WLoU2XpPAacopkU/Nd4t5lZ2Pjygk+CLaikVJxQcqNflQ4Mztjoxph5SyQLfnGmGr2iO3kzQjYUqY/3M8iF0+LJy3qS2NEU=
+	t=1710761778; cv=none; b=a7ZYVJz5PhFfxOVymglJcfkxtUxoqyyS9xvhBQChMDVttXpyqq/TcPHVFrmhQ8rCNm/oF0AY2QoQcXHkrIoH6UTpW3BVeZOLT/0HfIxrTrqSkIO/ueDR2JFfwhEgMA83nU1g7UC28PrcSPT94u+yoDNxGPIrKp/qH+LfjLBEy3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710761292; c=relaxed/simple;
-	bh=oYKwQDdxQkJOTTN7jCxBVyN1NhP10eC12ahYUEJkMDU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=li34hpfLptcan0lYONdYOr4v7H+eisR549+rFlxAkqrHZSLyHJ+0ZZ5upZSHye4LfwUwplwcA+zg7nWyZ2689cXkiapQMj7puY5C0DnSO82+GgkSq0ovdpPnvW50XyfKKfbB/nIaw2lX6bleWetY19iHfdQL/LIQBQEqxjBLT2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; arc=none smtp.client-ip=51.250.53.244
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
-Received: from localhost.localdomain (unknown [192.168.32.67])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4TyszK5nf9zyNX;
-	Mon, 18 Mar 2024 14:27:57 +0300 (MSK)
-From: Dmitry Mastykin <dmastykin@astralinux.ru>
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	thellstrom@vmware.com
-Cc: mastichi@gmail.com,
-	Dmitry Mastykin <dmastykin@astralinux.ru>
-Subject: docs: bug in "Krefs and RCU" example
-Date: Mon, 18 Mar 2024 14:27:44 +0300
-Message-Id: <20240318112744.12400-1-dmastykin@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
+	s=arc-20240116; t=1710761778; c=relaxed/simple;
+	bh=E37YPtRMQLajq0y7J+0i5Qyxqy8cnmFB2WeJKMX7wOA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EUoREGcXXuO9F1NsJBgPMLq82hs0g1kR4JnC1Dt0cv31joDSGRTrWbzJZYDkC003azo185IkNy3ImVKK18CicLW5tbnSEK9Z0m/xD0lmPo9NltFdRMDkGw+jajo/+d0z/asTHCjrUpJhfNqwmpMJKVGbIkpCDNvq/fR110dBEDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=AWvY+op5; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="AWvY+op5"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42IAjrru010689;
+	Mon, 18 Mar 2024 07:23:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding; s=DKIM; bh=dwNsCIszrSUBJV4E/OUlM450N
+	4H1ANqdvohbTLT71w0=; b=AWvY+op5ZUqSaHXwI8yVQKY6dwnv5VZZc2x81OF88
+	55K3BPZnYe2KAF8DMO3kA6EKGeSo4hqHCq/5iUCgeWO0JFm6cPD8GRhBYtPbwzKj
+	QcQpml/mIFwxUIjYdUXmG8IFuQ0CsQU0Aw0BBtMnjWovzNhcww5U8FNNeUXZhoMs
+	0j/fg46TAIns6CSPkOt//TyApo4+OetHL3rHcbht8FY5QXIaJHhwuXs9mK3QqUb1
+	bMxOxdsUxDXnudw+yug7wvlSJi4MvEg7Tzo8mk1FimjIIZYys9VK7KHAa/krdTjG
+	GxAg/3n+DFpydArKczY3roTz603Tt6+O7nfMwAaiQ1bnw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3wxecys6uq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Mar 2024 07:23:06 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 42IBN50P024981
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 18 Mar 2024 07:23:05 -0400
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Mon, 18 Mar 2024 07:23:04 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Mon, 18 Mar 2024 07:23:04 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Mon, 18 Mar 2024 07:23:04 -0400
+Received: from radu.ad.analog.com ([10.48.65.243])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 42IBMkMc030326;
+	Mon, 18 Mar 2024 07:22:48 -0400
+From: Radu Sabau <radu.sabau@analog.com>
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        "Rob
+ Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Delphine CC Chiu
+	<Delphine_CC_Chiu@Wiwynn.com>,
+        Radu Sabau <radu.sabau@analog.com>, <linux-hwmon@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+Subject: [PATCH 0/2] Add ADP1050 support
+Date: Mon, 18 Mar 2024 13:21:33 +0200
+Message-ID: <20240318112140.385244-1-radu.sabau@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-DrWeb-SpamScore: 0
-X-DrWeb-SpamState: legit
-X-DrWeb-SpamDetail: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgtddvucetufdoteggodetrfcurfhrohhfihhlvgemucfftfghgfeunecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepffhmihhtrhihucforghsthihkhhinhcuoegumhgrshhthihkihhnsegrshhtrhgrlhhinhhugidrrhhuqeenucggtffrrghtthgvrhhnpeeuhfeugfevvdeigeduleeuieetleeftdejieduffffkedtvdevhffghfffieelgeenucfkphepudelvddrudeikedrfedvrdeijeenucfrrghrrghmpehhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpihhnvghtpeduledvrdduieekrdefvddrieejmeegkedvledvpdhmrghilhhfrhhomhepughmrghsthihkhhinhesrghsthhrrghlihhnuhigrdhruhdpnhgspghrtghpthhtohepiedprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhvghllhhsthhrohhmsehvmhifrghrvgdrtghomhdprhgtphhtthhopehmrghsthhitghhihesghhmrghilhdrtghomhdprhgtphhtthhopegumhgrshhthihkihhnsegrshhtrhgrlhhinhhugidrrhhu
-X-DrWeb-SpamVersion: Vade Retro 01.423.251#02 AS+AV+AP Profile: DRWEB; Bailout: 300
-X-AntiVirus: Checked by Dr.Web [MailD: 11.1.19.2307031128, SE: 11.1.12.2210241838, Core engine: 7.00.62.01180, Virus records: 12516250, Updated: 2024-Mar-18 09:41:37 UTC]
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: sGQqd6QPndlgI_Ih23rwr4VEPoTV4TVR
+X-Proofpoint-GUID: sGQqd6QPndlgI_Ih23rwr4VEPoTV4TVR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-18_02,2024-03-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ mlxlogscore=876 spamscore=0 malwarescore=0 priorityscore=1501
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 mlxscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403180085
 
-Hello all,
-It seems there is a problem in "Krefs and RCU" example, that may cause
-a crash.
-I marked the place between two problem lines with "problem is here" comment.
-If list_del_rcu() will be called between these lines, and list will become
-empty, then q.next will not point to a valid struct my_data.
-entry->refcount will also be invalid.
-Instead, q.next must be read first, and then compared with q to check
-list's emptiness (for example like in list_for_each_entry_rcu macro).
+The ADP1050 is an advanced digital controller with a PMBus™
+interface targeting high density, high efficiency dc-to-dc power 
+conversion which can measure input/output voltages, input currents
+and temperature.
 
-Signed-off-by: Dmitry Mastykin <dmastykin@astralinux.ru>
+Radu Sabau (2):
+  dt-bindings: hwmon: pmbus: adp1050 : add bindings
+  hwmon: pmbus: adp1050 : Add driver support
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index c61eea6f1bf2..b76d71d9c9a0 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -274,44 +274,45 @@ return value. If you are sure (by already having a valid pointer) that
- kref_get_unless_zero() will return true, then use kref_get() instead.
- 
- Krefs and RCU
- =============
- 
- The function kref_get_unless_zero also makes it possible to use rcu
- locking for lookups in the above example::
- 
- 	struct my_data
- 	{
- 		struct rcu_head rhead;
- 		.
- 		struct kref refcount;
- 		.
- 		.
- 	};
- 
- 	static struct my_data *get_entry_rcu()
- 	{
- 		struct my_data *entry = NULL;
- 		rcu_read_lock();
- 		if (!list_empty(&q)) {
-+			// problem is here
- 			entry = container_of(q.next, struct my_data, link);
- 			if (!kref_get_unless_zero(&entry->refcount))
- 				entry = NULL;
- 		}
- 		rcu_read_unlock();
- 		return entry;
- 	}
- 
- 	static void release_entry_rcu(struct kref *ref)
- 	{
- 		struct my_data *entry = container_of(ref, struct my_data, refcount);
- 
- 		mutex_lock(&mutex);
- 		list_del_rcu(&entry->link);
- 		mutex_unlock(&mutex);
- 		kfree_rcu(entry, rhead);
- 	}
- 
- 	static void put_entry(struct my_data *entry)
- 	{
- 		kref_put(&entry->refcount, release_entry_rcu);
- 	}
+ .../bindings/hwmon/pmbus/adi,adp1050.yaml     |  65 ++++++++++
+ Documentation/hwmon/adp1050.rst               |  69 +++++++++++
+ Documentation/hwmon/index.rst                 |   1 +
+ MAINTAINERS                                   |   8 ++
+ drivers/hwmon/pmbus/Kconfig                   |  10 ++
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/adp1050.c                 | 111 ++++++++++++++++++
+ 7 files changed, 265 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/adi,adp1050.yaml
+ create mode 100644 Documentation/hwmon/adp1050.rst
+ create mode 100644 drivers/hwmon/pmbus/adp1050.c
+
+-- 
+2.34.1
+
