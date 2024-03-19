@@ -1,210 +1,110 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE8358230;
-	Tue, 19 Mar 2024 13:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1413FBB9;
+	Tue, 19 Mar 2024 13:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710853816; cv=none; b=khlPt2BJ9li+S5hAxHrKIOsCZraLLqEk62cureIPXpx4dq/Ifvp8bYt+LDe9Lriw4zbfwxe0yZeez0NeeJzbph2fAykZBqHsjW/A8MW+y6Hc3uIfvL2JSemWdKe8T+Dj0i2ZIIJsi2NWXldcej+ZHRSB0+qpEn5w/Vho0bcbz0s=
+	t=1710854383; cv=none; b=jVWqLblXaKqmOPntMsbVKGd3TFnSoYEef2W7ZKs6t0wxTXZviggtJTUGX8aSn93oH0+Tm9afdrFqJWlsaWwkle/gGggQIzsFd1MXUfCZLbvXCe8cejcM4TUW1lFc6ufyitESp3r128YP+8LjdjOnZdknDLOegg3Z5dmB0d1KrSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710853816; c=relaxed/simple;
-	bh=hJhgWkLohJdvACTnHkCzjlvaAU9vl52G+i074OtHDzA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e/3VYGxj44wXDaWDxeJwPpstliYd8qzOzrAyWfPadkQk6H9FDx3Fv+1Wgunb7az7ISFdHJf3AWjxZ51Ycx2YsM2DxtgQuKv1V6UagoNUTyiMYZinKWenof2tisDqjdSpE/LMmcb39PLWYlifgEoc9kLhEQYSRHDvUlONwWtONac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eeXJ04Y4; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1710854383; c=relaxed/simple;
+	bh=xGfGEg1NmOvDoMhIZ7MT4PvjgibSCw62ywA9sT5WeYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lheua8Y7GRwbF9TcW60lYV1rGc5Yr0+4j52RkDurCmpvs1RIKm2dQiZNVYAjvx3PO8mpW6JKbn4pu5iKvL1OLYnsOAJuXo0bPr8x9z1+xXv4JsGXyFaad0MlOZnMyKKMtvqgBZBpSviqUMDIRqdUdiatDj5bIk39/RtHjKvU9pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zx7C/jNz; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eeXJ04Y4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=YTLpMmpkNGuhvFQgvKQCItGbMWw/zhTL9LcZsBFvYlg=; b=eeXJ04Y4UGErDaAsaqfUJbLl4K
-	DUih3BS9hCsOyVYqkk7c9t9dIklm52DZm5P6xD57GpMiGVUoRi4pBTSH4jOi8aUa3viuJ9niE9Ej2
-	JC2LUuE2qmK6PqqUJo03dlv7wxIao/pLl02KvjoqhoPjrgemoR3FYESgeea3EgBBqMzVb0EtbpVJ5
-	gNwx1/F1bc0apsELDOBSl6CsayQladUWU/fR1h3laY0Tqzw2EwzeCP5iGP3atrColPgnrFeNRO4fx
-	dLSpKiTOLiwjBPn7jIJZIhoZv3aQo2y6vv8P571SOUSQ84q7hy1lDRiyhkBhstJfX823Pp9pInVfF
-	tTN96Ejw==;
-Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmZEA-0000000DDlx-1inm;
-	Tue, 19 Mar 2024 13:10:03 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmZE9-00000004PMy-0Gs2;
-	Tue, 19 Mar 2024 13:10:01 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: linux-arm-kernel@lists.infradead.org,
-	kvm@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Mostafa Saleh <smostafa@google.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Subject: [RFC PATCH v3 3/5] KVM: arm64: Add PSCI v1.3 SYSTEM_OFF2 function for hibernation
-Date: Tue, 19 Mar 2024 12:59:04 +0000
-Message-ID: <20240319130957.1050637-4-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240319130957.1050637-1-dwmw2@infradead.org>
-References: <20240319130957.1050637-1-dwmw2@infradead.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zx7C/jNz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=eM2s0jFpcVvcghsG7scph+n4U/V5mjD2JNZH/KutU6g=; b=zx7C/jNz9btddQyTivtDBwDUVR
+	wThOKRIKBW0/HQS2lbMkEAhKDJt9OMw4V/j17nNBI5cTJ2nlK+5rjQVEJSq927K8tiyb02nRnONh2
+	gJzRZloQ7xupKPMbHyvXAnmJcXxt6cBbfbvUb6uz/6HfS5htJAliKZNYaw/stjpVGFvw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rmZN9-00AhnS-Kf; Tue, 19 Mar 2024 14:19:19 +0100
+Date: Tue, 19 Mar 2024 14:19:19 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 08/12] net: ethernet: oa_tc6: implement
+ transmit path to transfer tx ethernet frames
+Message-ID: <96dd422f-0bf9-411d-8cc2-5755c1e60e27@lunn.ch>
+References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
+ <20240306085017.21731-9-Parthiban.Veerasooran@microchip.com>
+ <208fb61b-4740-46bf-8c70-29ab59cbb965@lunn.ch>
+ <f9d8a18c-b1fe-450c-a5ca-d91f96793a04@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f9d8a18c-b1fe-450c-a5ca-d91f96793a04@microchip.com>
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Tue, Mar 19, 2024 at 12:54:30PM +0000, Parthiban.Veerasooran@microchip.com wrote:
+> Hi Andrew,
+> 
+> On 07/03/24 10:38 pm, Andrew Lunn wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > 
+> >> @@ -55,6 +77,14 @@
+> >>                                                (OA_TC6_CTRL_MAX_REGISTERS *\
+> >>                                                OA_TC6_CTRL_REG_VALUE_SIZE) +\
+> >>                                                OA_TC6_CTRL_IGNORED_SIZE)
+> >> +#define OA_TC6_CHUNK_PAYLOAD_SIZE            64
+> >> +#define OA_TC6_DATA_HEADER_SIZE                      4
+> >> +#define OA_TC6_CHUNK_SIZE                    (OA_TC6_DATA_HEADER_SIZE +\
+> >> +                                             OA_TC6_CHUNK_PAYLOAD_SIZE)
+> >> +#define OA_TC6_TX_SKB_QUEUE_SIZE             100
+> > 
+> > So you keep up to 100 packets in a queue. If use assume typical MTU
+> > size packets, that is 1,238,400 bits. At 10Mbps, that is 120ms of
+> > traffic. That is quite a lot of latency when a high priority packet is
+> > added to the tail of the queue and needs to wait for all the other
+> > packets to be sent first.
+> > 
+> > Chunks are 64 bytes. So in practice, you only ever need two
+> > packets. You need to be able to fill a chunk with the final part of
+> > one packet, and the beginning of the next. So i would try using a much
+> > smaller queue size. That will allow Linux queue disciplines to give
+> > you the high priority packets first which you send with low latency.
+> Thanks for the detailed explanation. If I understand you correctly,
+> 
+> 1. The tx skb queue size (OA_TC6_TX_SKB_QUEUE_SIZE) should be 2 to avoid 
+> the latency when a high priority packet added.
+> 
+> 2. Need to implement the handling part of the below case,
+> In case if one packet ends in a chunk and that chunk still having some 
+> space left to accommodate some bytes from the next packet if available 
+> from network layer.
 
-The PSCI v1.3 specification (alpha) adds support for a SYSTEM_OFF2 function
-which is analogous to ACPI S4 state. This will allow hosting environments
-to determine that a guest is hibernated rather than just powered off, and
-ensure that they preserve the virtual environment appropriately to allow
-the guest to resume safely (or bump the hardware_signature in the FACS to
-trigger a clean reboot instead).
+This second part is clearly an optimisation. If you have lots of full
+MTU packets, 1514 bytes, they take around 24 chunks. Having the last
+chunk only 1/2 full does not waste too much bandwidth. But if you are
+carrying lots of small packets, say voice, 130 bytes, the wasted
+bandwidth starts to add up. But is there a use case for 10Mbps of
+small packets? I doubt it.
 
-The beta version will be changed to say that PSCI_FEATURES returns a bit
-mask of the supported hibernate types, which is implemented here.
+So if you don't have the ability to combine two packets into one
+chunk, i would do that later. Lets get the basics merged first, it can
+be optimised later.
 
-Although this new feature is inflicted unconditionally on unexpecting
-userspace, it ought to be mostly OK because it still results in the same
-KVM_SYSTEM_EVENT_SHUTDOWN event, just with a new flag which hopefully
-won't cause userspace to get unhappy.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- Documentation/virt/kvm/api.rst    | 11 +++++++++
- arch/arm64/include/uapi/asm/kvm.h |  6 +++++
- arch/arm64/kvm/psci.c             | 37 +++++++++++++++++++++++++++++++
- 3 files changed, 54 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 0b5a33ee71ee..ba4ddb13e253 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6761,6 +6761,10 @@ the first `ndata` items (possibly zero) of the data array are valid.
-    the guest issued a SYSTEM_RESET2 call according to v1.1 of the PSCI
-    specification.
- 
-+ - for arm64, data[0] is set to KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2
-+   if the guest issued a SYSTEM_OFF2 call according to v1.3 of the PSCI
-+   specification.
-+
-  - for RISC-V, data[0] is set to the value of the second argument of the
-    ``sbi_system_reset`` call.
- 
-@@ -6794,6 +6798,13 @@ either:
-  - Deny the guest request to suspend the VM. See ARM DEN0022D.b 5.19.2
-    "Caller responsibilities" for possible return values.
- 
-+Hibernation using the PSCI SYSTEM_OFF2 call is enabled when PSCI v1.3
-+is enabled. If a guest invokes the PSCI SYSTEM_OFF2 function, KVM will
-+exit to userspace with the KVM_SYSTEM_EVENT_SHUTDOWN event type and with
-+data[0] set to KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2. The only
-+supported hibernate type for the SYSTEM_OFF2 function is HIBERNATE_OFF
-+0x0).
-+
- ::
- 
- 		/* KVM_EXIT_IOAPIC_EOI */
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index 964df31da975..66736ff04011 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -484,6 +484,12 @@ enum {
-  */
- #define KVM_SYSTEM_EVENT_RESET_FLAG_PSCI_RESET2	(1ULL << 0)
- 
-+/*
-+ * Shutdown caused by a PSCI v1.3 SYSTEM_OFF2 call.
-+ * Valid only when the system event has a type of KVM_SYSTEM_EVENT_SHUTDOWN.
-+ */
-+#define KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2	(1ULL << 0)
-+
- /* run->fail_entry.hardware_entry_failure_reason codes. */
- #define KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED	(1ULL << 0)
- 
-diff --git a/arch/arm64/kvm/psci.c b/arch/arm64/kvm/psci.c
-index f689ef3f2f10..7acf07900c08 100644
---- a/arch/arm64/kvm/psci.c
-+++ b/arch/arm64/kvm/psci.c
-@@ -194,6 +194,12 @@ static void kvm_psci_system_off(struct kvm_vcpu *vcpu)
- 	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_SHUTDOWN, 0);
- }
- 
-+static void kvm_psci_system_off2(struct kvm_vcpu *vcpu)
-+{
-+	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_SHUTDOWN,
-+				 KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2);
-+}
-+
- static void kvm_psci_system_reset(struct kvm_vcpu *vcpu)
- {
- 	kvm_prepare_system_event(vcpu, KVM_SYSTEM_EVENT_RESET, 0);
-@@ -353,6 +359,11 @@ static int kvm_psci_1_x_call(struct kvm_vcpu *vcpu, u32 minor)
- 			if (test_bit(KVM_ARCH_FLAG_SYSTEM_SUSPEND_ENABLED, &kvm->arch.flags))
- 				val = 0;
- 			break;
-+		case PSCI_1_3_FN_SYSTEM_OFF2:
-+		case PSCI_1_3_FN64_SYSTEM_OFF2:
-+			if (minor >= 3)
-+				val = 1UL << PSCI_1_3_HIBERNATE_TYPE_OFF;
-+			break;
- 		case PSCI_1_1_FN_SYSTEM_RESET2:
- 		case PSCI_1_1_FN64_SYSTEM_RESET2:
- 			if (minor >= 1)
-@@ -374,6 +385,32 @@ static int kvm_psci_1_x_call(struct kvm_vcpu *vcpu, u32 minor)
- 			return 0;
- 		}
- 		break;
-+	case PSCI_1_3_FN_SYSTEM_OFF2:
-+		kvm_psci_narrow_to_32bit(vcpu);
-+		fallthrough;
-+	case PSCI_1_3_FN64_SYSTEM_OFF2:
-+		if (minor < 3)
-+			break;
-+
-+		arg = smccc_get_arg1(vcpu);
-+		if (arg != PSCI_1_3_HIBERNATE_TYPE_OFF) {
-+			val = PSCI_RET_INVALID_PARAMS;
-+			break;
-+		}
-+		kvm_psci_system_off2(vcpu);
-+		/*
-+		 * We shouldn't be going back to guest VCPU after
-+		 * receiving SYSTEM_OFF2 request.
-+		 *
-+		 * If user space accidentally/deliberately resumes
-+		 * guest VCPU after SYSTEM_OFF2 request then guest
-+		 * VCPU should see internal failure from PSCI return
-+		 * value. To achieve this, we preload r0 (or x0) with
-+		 * PSCI return value INTERNAL_FAILURE.
-+		 */
-+		val = PSCI_RET_INTERNAL_FAILURE;
-+		ret = 0;
-+		break;
- 	case PSCI_1_1_FN_SYSTEM_RESET2:
- 		kvm_psci_narrow_to_32bit(vcpu);
- 		fallthrough;
--- 
-2.44.0
-
+	Andrew
