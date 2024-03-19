@@ -1,82 +1,77 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490F624B33
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 15:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396BF651B4;
+	Tue, 19 Mar 2024 15:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710860919; cv=none; b=HBGYZZEGuHA4lyM4pBNZyPA6HmWEFfbjqwdvn1ZCElFoJJdGprQ5WFsBWOBQ1HF3Z2dj0w8ngyl3a67sNPNZVb0XLIKGO6ahm7KFwgJctsoCvVXahyYHDESuZ9J6vfhwu3HtsMxJEu2qEjHhrwn7oCSeGjr+otGlRlKjGcCV9YY=
+	t=1710862059; cv=none; b=h1eXTuGUz9tetBy2bolEnbFAyaD0kH/kWEOPNsvCKPucJHzEJ6BxKA7Ta9AtEv9Vgv5CrbJHNwkz03h71fDT+6k/VGMlgIOhpY7jO9xkw/P2iWJLdpmJOtn0YREezpEsGGs+kcneBPnoYplvEZZVUwxxPbd3JIN3Ui8FwLB8UoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710860919; c=relaxed/simple;
-	bh=sxZN2o95urbMPRfwNt4JUA4DiyRQ8wmJf5b6Ku3zJGQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XStg2uhL1zMU6NDMClYlnMmjt9GGl7PO4akyEqzD7eeNY8kIbhjFvIlkopDFwDDG5GUzVgybaK4j7AuyflaSBBw7aSTtzCLn9wWSKBk/k/OnFuC/GEpYrU7UvyJM1X6CcuIMRt6GjaDoBXZA/1jNDGCoVDYtkAOztOB34rLroEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vFVWE8mO; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1710862059; c=relaxed/simple;
+	bh=n5W6hY689G6fb/okE511uWTa1J8EvWhtvc736cSxTMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KsvTB3cvR9P4LNm1eHc0vWQGGLWUNm5U//oHDpSz3Maa5YQUKjj6AOHiBRL0tt9fUOdJa/aRd+mnzhG9fUfudY+b3I3jBQMJIGRaFbCwCRSEORqZWwgLkRskrZ0/vyz7Q0Yfaa8NBHKC7Phn2nGiHV9a+1VJmbvMIvyW4qZ975w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KcekTvEt; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vFVWE8mO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=P6ej6SicWvP76LY/cndAHkrsNLu3shgwHIWA+agxRJo=; b=vFVWE8mObA3NJsFATKbd6Tt09w
-	KDzEiSeajt1BBBGEQBgvTRirX3ExxaHdXeiASpcnuIskeus15adoCt7Nx71402/369HjtDBeHeCvM
-	dazWrIcHHnj7kIej6A9vL8fGEWnrOCiSgVYQaRnsDB8deGqSozb1gRuhHNhk7wi4m5KHdLFdEKHMY
-	dEedY4fVv0Eaf+vxct7+yI5ONG0gBvI9Drs7oZ1Mi4MQXXga4mAGKpbs9yHgTZfrxUsv57oJ5Gfet
-	anIsrcICndYslAuDqXerMfeVLaQ2WP+37OKPZxxH2YlFF/xfbfc1WBbY7dBEoDVrjg84u3cngbk8d
-	yqPHU0tw==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmb4u-0000000D5B4-2CrH;
-	Tue, 19 Mar 2024 15:08:36 +0000
-Message-ID: <2ca49f75-6ca6-4006-a332-554aa85399e2@infradead.org>
-Date: Tue, 19 Mar 2024 08:08:34 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KcekTvEt"
+Date: Tue, 19 Mar 2024 08:27:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1710862055;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qa04ZO95bEt6l7q9Fxc06bsvgy78kYNrNvf8c5ShOPs=;
+	b=KcekTvEt/t5Xe2qQEK6B2kzY2AtN522FVRzSdysknuqahexV4/+FizlLCfyW2sqsyMQssS
+	C7SxBUH1qDZ+BNsY2+Ac+AiN4DenSxwve3/MD0IOmMXvIT436tVvGNeCeBwsQoy64Pu4Dw
+	aBSi1dV7iJFz/+LOtQ1fqYbUqF3ryQU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Mostafa Saleh <smostafa@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v3 0/5] Add PSCI v1.3 SYSTEM_OFF2 support for
+ hibernation
+Message-ID: <Zfmu3wnFbIGQZD-j@linux.dev>
+References: <20240319130957.1050637-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Document Patch
-Content-Language: en-US
-To: Linem Davton <linemdavton@gmail.com>, linux-doc@vger.kernel.org
-Cc: trivial@kernel.org
-References: <CAHAQYrN7_0+gi2p=fYPpHHMdOk2jwx9cX+nbovynphU8zSAZ5Q@mail.gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAHAQYrN7_0+gi2p=fYPpHHMdOk2jwx9cX+nbovynphU8zSAZ5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319130957.1050637-1-dwmw2@infradead.org>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+On Tue, Mar 19, 2024 at 12:59:01PM +0000, David Woodhouse wrote:
+> David Woodhouse (5):
+>       firmware/psci: Add definitions for PSCI v1.3 specification (ALPHA)
+>       KVM: arm64: Add support for PSCI v1.2 and v1.3
+>       KVM: arm64: Add PSCI v1.3 SYSTEM_OFF2 function for hibernation
+>       KVM: arm64: nvhe: Pass through PSCI v1.3 SYSTEM_OFF2 call
+>       arm64: Use SYSTEM_OFF2 PSCI call to power off for hibernate
 
+If we're going down the route of having this PSCI call live in KVM, it
+really deserves a test. I think you can just pile on the existing
+psci_test selftest.
 
-On 3/19/24 05:11, Linem Davton wrote:
-> Added mailing list link - https://subspace.kernel.org/lists.linux.dev.html <https://subspace.kernel.org/lists.linux.dev.html>
->  
-> 2. Process.rst lists - http://vger.kernel.org/vger-lists.html <http://vger.kernel.org/vger-lists.html>, but the subscribe button on this uses older system i.e Majordomo.
-> 
-> Chapter 2 of "A guide to the Kernel Development Process" now has the susbspace link mentioned above and users are encouraged to subscribe via this link. 
-
-
-Please send patches inline instead of as an attachment.
-Since you are using gmail (which mangles inline text, ugh), you will probably need to use
-'git send-email'.
-
-Regarding the patch contents:
-
-The master list of vger lists and how to subscribe/unsubscribe them is at
-  https://vger.kernel.org
-
-which redirects to the URL to that used:
-  https://subspace.kernel.org/vger.kernel.org.html
-
-
-Also, no need to Cc: trivial@kernel.org. We don't use that email address
-to collect trivial patches any more. Just Cc: the Documentation maintainer instead.
-
-
-thanks.
 -- 
-#Randy
+Thanks,
+Oliver
