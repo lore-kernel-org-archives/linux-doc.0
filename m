@@ -1,59 +1,60 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D04157885
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 06:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D983850249
+	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 06:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829649; cv=none; b=YrEB4DL7JOujE2BPsV0eWYwzzt7SISCuGMS6FcPBQ7YYSGFXj5usloccTuMxBrOkBeImdnbk5ze67TMeh7v/kyVHGUAi28iCNIHNuKrunRz1Ox2truVh3FbijccMAifogSDj8LYNXwOY54r7d1r9NxbAYW9kttwbZWM3sa0V00s=
+	t=1710830323; cv=none; b=E8Vk8TYKXiuWi3dzZVnL+rKrMi33O//I0dd0MrPSmzSem//ozLvjSmrB2TYwo8+/PJkRRTfIRTi0sOZ2kkP5lgTQ2342xLYjgdKYlbuBY5qKLIjoV6wAcPAM8w/nZeEsp9kSrEW3GfCBZDaPdWmDgeWs4qzkN+lz3aBVL0Lnuxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829649; c=relaxed/simple;
-	bh=s9Npf4BnVmi7B3XVY1acshbD50GVpEXc7ci83JbHTts=;
+	s=arc-20240116; t=1710830323; c=relaxed/simple;
+	bh=bjT6FldSxgup/ReK7ge/QkZ76rWQH+EEryHgjYCignU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Xr1DK0VqJCC7HG+1nmvfnz9x65+baMigvES/DujWFvLiLLEo07EYLDnRWEoc6kJmkOQCs5NZetwRfbRHCMI0WP6BgkxeiSyK+na67Jckt9FK0q8pHkQGY3Lms4Xu+/+mMM8UEjefzouMpG4WyyIJKX5eYvBjR+QqCfpyJmYoA84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=C4b7QSIJ; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:Content-Type; b=UPH+3vpCIMNgPIMKGkd5TkcJ6inilaxXd1O2YYf4eaAjBTaONfiXgvlG/7LZfLzIEViW1nivGuLZ/O4+7wyt79zLwr+uWoi8bv5+gBxYOQ6CofoYNpHrrcLXS6O5NLwx+o0EWxBJIwMVLLlYwRm0i1JXXdn3+cOmydLm3dy8sDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=GHoB+bg1; arc=none smtp.client-ip=209.85.167.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="C4b7QSIJ"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1df01161b39so25380775ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 23:27:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="GHoB+bg1"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3bd4e6a7cb0so3213995b6e.3
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 23:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1710829647; x=1711434447; darn=vger.kernel.org;
+        d=shopee.com; s=shopee.com; t=1710830321; x=1711435121; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Oac/H665Upn99d/GW4a2mZh9auV+zuFrhXx9xokbC9M=;
-        b=C4b7QSIJ78Zs8OVIIjlKyBd+fwzTYS7foHjt+5R8NNGM46UJnrOTBPVGEuK2WnFhfi
-         j1nnMIov6ASNUVSI1lenVjQoCk5m/O84Qp0hWFM1yITHvGzt5itz0boYu6OWaE0uIlOk
-         pa7CYLYQyEtG6xA3TDWTUbxqxbJTmUHt3a2XhCHKcjE2ATd0te9VgXq31TR4vLFycWp0
-         xfu+/A1nr34dkcq8oVz3VEswVwNq6S8vK+zUGS3fTVUmUyF2yolBX5Wk8YAc5Ccy3bNp
-         FlUn1jxFrP5QvIJDompiBE2BA2S3I5+9hn44fCccNRSn26Xu0bZQ6+IUvZzZF0E/TAiI
-         DBOg==
+        bh=noN96cPMD1gNzMjOR5ipD8vWN+vnxx7o9SOW4Qr0LXY=;
+        b=GHoB+bg1KDyASOluwJojRwLE3+Uw2RTCn3+cW3f7tTs5PJYiVryr9Hkk/Prq3OAhwE
+         PKH3Li7OUujXGo4X2DuYl/cuFnwInrzARp0gdvIXhZWtaGALeokG5l9xLfQgyEroPCN8
+         aSHmJioPLDMvKqeu7fKsnbhtTtlAJogtZEkDLDe82Q8eoCHkC43q+E0/D9sXWV0D0XfQ
+         C1J+E7j1sv2PW0PCmUzg4Y9jCg5TxIZXRZPDrZonEzY7KP2uFOLxso7eSNde7JDFJP2K
+         HyB4IB82Xu85RyLxtTF1VA/RftkpY9wx34uFUeZ4AL58kC/o3c+fZ3NqDwE1qU/L/QOX
+         A55w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710829647; x=1711434447;
+        d=1e100.net; s=20230601; t=1710830321; x=1711435121;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Oac/H665Upn99d/GW4a2mZh9auV+zuFrhXx9xokbC9M=;
-        b=MeERfLROJAAI0kD/Cev2RXiv++Du/vWY79RnsDf3BnV06nwvCtGzVXQAEYt9bMPnqH
-         +zEt0/8GR95gCRNiLD81ztDTx+d0XBBLv1JOMpjKI/7g+QCKb9zD4Ir6fxijlC3BQz9L
-         8kjxXFQfXzuBsQjV2nHC64OPc9J63W01XKYvFJhyRjSJT15q2a/C/V83bN1m+ac/abKk
-         LU1+r6Fn2DXZooNlpF6JrFAOHSSbsH2FQYpvvZYPDyxitICZyvSs+WAn3FxZnl87sae9
-         nzGpJyLpwYIa8O1qmL44HzDdpVyiA/vgRRhzeBhbfzd0xIN2kzTYtIKGOMaF/vy8O0p3
-         ZcLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLGGx8Pt8O2T2nfXzcDfRj2GG+o5RbXZN+DVHJdC4r3xvX+iFoPj3nJMySYLwsijlEMrg0BIeozhQtPC+N7DL20SIUemL2oeIM
-X-Gm-Message-State: AOJu0YwqGDD0WffNCxgh6r53xCThdV3avFUOQbowWDrBtPtHoNK+JgAk
-	Fvli2uF36QqRKo7UxOIa+xt4oVMpwG/YxPQSK81ZdDAb8LsuB7rIAIJYG+zA0B0=
-X-Google-Smtp-Source: AGHT+IE+FTHrD+f7KT3cSLTSqyat6zpyuVkiZgNrpvtXJduzhveRWd079fxz4nWY4nbOn6e8qn9uUA==
-X-Received: by 2002:a17:902:f80f:b0:1dd:96ca:e1ae with SMTP id ix15-20020a170902f80f00b001dd96cae1aemr12208125plb.69.1710829647650;
-        Mon, 18 Mar 2024 23:27:27 -0700 (PDT)
+        bh=noN96cPMD1gNzMjOR5ipD8vWN+vnxx7o9SOW4Qr0LXY=;
+        b=VrudiiW67C1ENh1R1+Vr8th//iX8eydnPVqw6ko61Me8KQoiszpzZX3EkLAbhBYcR1
+         NuURSHk0rbJKGdsIRheiU62sh1ovexdw0f58agvFoVb/RjtjSBOfUPVn5RWiILjgZzDE
+         eS904SKJoEG2GRk3KSNjJ4EsJ/+L18Ij7Bfx2XJFaGBMUAKnpLUsO8DGsVQNdMIuDgqz
+         MN9UR5gZNSjVL6hGPo246gi8yIiDebAoUybwq8RiKiCcH7C33VT0A7EpqYBRrwP+Yvg3
+         TBJThyyee8RhOiPFh+mHNmE7TsCb8fk09vqrkoABvis4BmLC14DS41mFqQLefZBDOfYa
+         Iz6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWl+anrRj+2cG3oPYUfrrkpjGZtD8H2/iUfJg+xXyq+Bz1z7XTv34euFMCKe0peHeXlTNGp2E21dMHvleurwuXM/kq4tDz6tZKx
+X-Gm-Message-State: AOJu0YwUazHBXzsahXkepEuSxxIx44LuNcyEvBx2L8jOmCtLkGuOsu0a
+	Nkj+WgOVX4+l9tEZDnrDm7quCiNZ72pLmsZtSDPUR9z9rRVq88NOTLZmZ3G7oQOMhX7PwmaCXAS
+	b
+X-Google-Smtp-Source: AGHT+IHzsKZM4qFHtSVqwn9EIQkYsjUTmMcpte765e1uYWoCE9gzpp72gqxxi2N5iYkhz3XcJ9sFdQ==
+X-Received: by 2002:a05:6808:ec3:b0:3c2:4cb6:2c99 with SMTP id q3-20020a0568080ec300b003c24cb62c99mr17282795oiv.30.1710830320973;
+        Mon, 18 Mar 2024 23:38:40 -0700 (PDT)
 Received: from [10.54.24.74] (static-ip-148-99-134-202.rev.dyxnet.com. [202.134.99.148])
-        by smtp.gmail.com with ESMTPSA id m5-20020a170902db8500b001dd5b86d809sm10416953pld.279.2024.03.18.23.27.22
+        by smtp.gmail.com with ESMTPSA id q5-20020aa79825000000b006e053e98e1csm8935985pfl.136.2024.03.18.23.38.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 23:27:27 -0700 (PDT)
-Message-ID: <ed992a7f-7b1d-415d-8d90-1fbb8b619a8c@shopee.com>
-Date: Tue, 19 Mar 2024 14:27:20 +0800
+        Mon, 18 Mar 2024 23:38:40 -0700 (PDT)
+Message-ID: <4da41bfd-6949-4f85-bd1c-d1bd0acb9686@shopee.com>
+Date: Tue, 19 Mar 2024 14:38:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,94 +62,156 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] x86/resctrl: Rename pseudo_lock_event.h to trace.h
+Subject: Re: [PATCH v5 2/2] x86/resctrl: Add tracepoint for llc_occupancy
+ tracking
 To: Reinette Chatre <reinette.chatre@intel.com>, james.morse@arm.com
 Cc: fenghua.yu@intel.com, babu.moger@amd.com, tglx@linutronix.de,
  mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
  peternewman@google.com, x86@kernel.org, linux-kernel@vger.kernel.org,
  corbet@lwn.net, linux-doc@vger.kernel.org
 References: <20240308074132.409107-1-haifeng.xu@shopee.com>
- <20240308074132.409107-2-haifeng.xu@shopee.com>
- <f1fd3dbf-a4a3-419e-9092-ff7f9302c874@intel.com>
+ <20240308074132.409107-3-haifeng.xu@shopee.com>
+ <c8822e06-a3df-4f05-8625-b2bb011887b7@intel.com>
 From: Haifeng Xu <haifeng.xu@shopee.com>
-In-Reply-To: <f1fd3dbf-a4a3-419e-9092-ff7f9302c874@intel.com>
+In-Reply-To: <c8822e06-a3df-4f05-8625-b2bb011887b7@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2024/3/14 06:46, Reinette Chatre wrote:
+On 2024/3/14 06:47, Reinette Chatre wrote:
 > Hi Haifeng,
 > 
 > On 3/7/2024 11:41 PM, Haifeng Xu wrote:
->> Now only pseudo-locking part uses tracepoints to do event tracking, but
->> other parts of resctrl may need new tracepoints. It is unnecessary to
->> create separate header files and define CREATE_TRACE_POINTS in different
->> c files which fragments the resctrl tracing.
+>> In our production environment, after removing monitor groups, those unused
+>> RMIDs get stuck in the limbo list forever because their llc_occupancy are
+>> always larger than the threshold. But the unused RMIDs can be successfully
+>> freed by turning up the threshold.
 >>
->> Therefore, give the resctrl tracepoint header file a generic name to
->> support its use for tracepoints that are not specific to pseudo-locking.
+>> In order to know how much the threshold should be, perf can be used to
+>> acquire the llc_occupancy of RMIDs in each rdt domain.
 >>
->> No functional change.
+>> Instead of using perf tool to track llc_occupancy and filter the log
+>> manually, it is more convenient for users to use tracepoint to do this
+>> work. So add a new tracepoint that shows the llc_occupancy of busy RMIDs
+>> when scanning the limbo list.
 >>
 >> Signed-off-by: Haifeng Xu <haifeng.xu@shopee.com>
 >> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+>> Suggested-by: James Morse <james.morse@arm.com>
+>> Reviewed-by: James Morse <james.morse@arm.com>
 >> ---
->>  arch/x86/kernel/cpu/resctrl/pseudo_lock.c                   | 2 +-
->>  .../x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} | 6 +++---
->>  2 files changed, 4 insertions(+), 4 deletions(-)
->>  rename arch/x86/kernel/cpu/resctrl/{pseudo_lock_event.h => trace.h} (88%)
+>>  Documentation/arch/x86/resctrl.rst    |  8 ++++++++
+>>  arch/x86/kernel/cpu/resctrl/monitor.c |  9 +++++++++
+>>  arch/x86/kernel/cpu/resctrl/trace.h   | 16 ++++++++++++++++
+>>  3 files changed, 33 insertions(+)
 >>
->> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
->> index 884b88e25141..492c8e28c4ce 100644
->> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
->> +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
->> @@ -31,7 +31,7 @@
->>  #include "internal.h"
+>> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+>> index a6279df64a9d..dd3507dc765c 100644
+>> --- a/Documentation/arch/x86/resctrl.rst
+>> +++ b/Documentation/arch/x86/resctrl.rst
+>> @@ -478,6 +478,14 @@ if non-contiguous 1s value is supported. On a system with a 20-bit mask
+>>  each bit represents 5% of the capacity of the cache. You could partition
+>>  the cache into four equal parts with masks: 0x1f, 0x3e0, 0x7c00, 0xf8000.
 >>  
->>  #define CREATE_TRACE_POINTS
->> -#include "pseudo_lock_event.h"
+>> +Tracepoint - mon_llc_occupancy_limbo
+>> +------------------------------------
+> 
+> I think that the below paragraph would fit nicely as a new paragraph in the
+> existing "max_threshold_occupancy - generic concepts" section. To support that
+> just one change to text below ...
+> 
+>> +This tracepoint gives you the precise occupancy values for a subset of RMID
+> 
+> The mon_llc_occupancy_limbo tracepoint gives the precise occupancy in bytes
+> for a subset of RMID ...
+> 
+
+OK, I'll move the descriptions to "max_threshold_occupancy - generic concepts" section.
+
+>> +that are not immediately available for allocation. This can't be relied on
+>> +to produce output every second, it may be necessary to attempt to create an
+>> +empty monitor group to force an update. Output may only be produced if creation
+>> +of a control or monitor group fails.
+>> +
+>>  Memory bandwidth Allocation and monitoring
+>>  ==========================================
+>>  
+>> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> index c34a35ec0f03..60b6a29a9e29 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+>> @@ -24,6 +24,7 @@
+>>  #include <asm/resctrl.h>
+>>  
+>>  #include "internal.h"
 >> +#include "trace.h"
 >>  
->>  /*
->>   * The bits needed to disable hardware prefetching varies based on the
->> diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h b/arch/x86/kernel/cpu/resctrl/trace.h
->> similarity index 88%
->> rename from arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
->> rename to arch/x86/kernel/cpu/resctrl/trace.h
->> index 428ebbd4270b..ed5c66b8ab0b 100644
->> --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock_event.h
->> +++ b/arch/x86/kernel/cpu/resctrl/trace.h
->> @@ -2,7 +2,7 @@
->>  #undef TRACE_SYSTEM
->>  #define TRACE_SYSTEM resctrl
->>  
->> -#if !defined(_TRACE_PSEUDO_LOCK_H) || defined(TRACE_HEADER_MULTI_READ)
->> +#if !defined(_TRACE_RESCTRL_H) || defined(TRACE_HEADER_MULTI_READ)
->>  #define _TRACE_PSEUDO_LOCK_H
+>>  /**
+>>   * struct rmid_entry - dirty tracking for all RMID.
+>> @@ -354,6 +355,14 @@ void __check_limbo(struct rdt_domain *d, bool force_free)
+>>  			rmid_dirty = true;
+>>  		} else {
+>>  			rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
+>> +
+>> +			/* x86's CLOSID and RMID are independent numbers, so the entry's
+>> +			 * closid is a invalid CLOSID. But on arm64, the RMID value isn't
+>> +			 * a unique number for each CLOSID. It's necessary to track both
+>> +			 * CLOSID and RMID because there may be dependencies between each
+>> +			 * other on some architectures.
+>> +			 */
 > 
-> The above #define should match the new name also.
+> Please watch for proper formatting of multi-line comment and consistent capitalization.
+> I also think comment can be more accurate, for example:
+> 
+> 	/*
+> 	 * x86's CLOSID and RMID are independent numbers, so the entry's
+>  	 * CLOSID is an empty CLOSID (X86_RESCTRL_EMPTY_CLOSID). On Arm the
+> 	 * RMID (PMG) extends the CLOSID (PARTID) space with bits that aren't used
+> 	 * to select the configuration. It is thus necessary to track both
+> 	 * CLOSID and RMID because there may be dependencies between them
+> 	 * on some architectures.
+> 	 */
+> 
 
-Sorry, I forgot to replace it with 'RESCTRL' in this version.
-Thanks for pointing that out!
-> 
+Thanks for your suggestions!
+
+>> +			trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid, d->id, val);
+>>  		}
 >>  
->>  #include <linux/tracepoint.h>
->> @@ -35,9 +35,9 @@ TRACE_EVENT(pseudo_lock_l3,
+>>  		if (force_free || !rmid_dirty) {
+>> diff --git a/arch/x86/kernel/cpu/resctrl/trace.h b/arch/x86/kernel/cpu/resctrl/trace.h
+>> index ed5c66b8ab0b..b310b4985b94 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/trace.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/trace.h
+>> @@ -35,6 +35,22 @@ TRACE_EVENT(pseudo_lock_l3,
 >>  	    TP_printk("hits=%llu miss=%llu",
 >>  		      __entry->l3_hits, __entry->l3_miss));
 >>  
->> -#endif /* _TRACE_PSEUDO_LOCK_H */
->> +#endif /* _TRACE_RESCTRL_H */
+>> +TRACE_EVENT(mon_llc_occupancy_limbo,
+>> +	    TP_PROTO(u32 ctrl_hw_id, u32 mon_hw_id, int domain_id, u64 llc_occupancy_bytes),
+>> +	    TP_ARGS(ctrl_hw_id, mon_hw_id, domain_id, llc_occupancy_bytes),
+>> +	    TP_STRUCT__entry(__field(u32, ctrl_hw_id)
+>> +			     __field(u32, mon_hw_id)
+>> +			     __field(int, domain_id)
+>> +			     __field(u64, llc_occupancy_bytes)),
+>> +	    TP_fast_assign(__entry->ctrl_hw_id = ctrl_hw_id;
+>> +			   __entry->mon_hw_id = mon_hw_id;
+>> +			   __entry->domain_id = domain_id;
+>> +			   __entry->llc_occupancy_bytes = llc_occupancy_bytes;),
+>> +	    TP_printk("ctrl_hw_id=%u mon_hw_id=%u domain_d=%d llc_occupancy_bytes=%llu",
+> 
+> domain_d -> domain_id
+> 
+>> +		      __entry->ctrl_hw_id, __entry->mon_hw_id, __entry->domain_id,
+>> +		      __entry->llc_occupancy_bytes)
+>> +	   );
+>> +
+>>  #endif /* _TRACE_RESCTRL_H */
 >>  
 >>  #undef TRACE_INCLUDE_PATH
->>  #define TRACE_INCLUDE_PATH .
->> -#define TRACE_INCLUDE_FILE pseudo_lock_event
->> +#define TRACE_INCLUDE_FILE trace
->>  #include <trace/define_trace.h>
 > 
-> The rest looks good.
-> 
-> Thank you.
 > 
 > Reinette
+
+Thanks!
