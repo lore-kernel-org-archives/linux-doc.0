@@ -1,78 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BFF7E591;
-	Tue, 19 Mar 2024 13:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC1581729;
+	Tue, 19 Mar 2024 13:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710853635; cv=none; b=tBswZYjkHoIYLPexqvyGrs67ZQyWCh+PZODIj4LPluEJ4G5TGbNL9EQVoY9uPP7bBXx/w6JbtBpr875fkgmY75ql1WsWNMReI/RRL/mYMN9e/2bUGdfak4KttQTIVx1fy3grY+XivQOililn77/OT/3f3QB7ujaWLXiLvJP5eMo=
+	t=1710853814; cv=none; b=kyk85X/fnxzffwSka6OWoYaiFrcleMUJHw+EV8ARKFwo35vX/Q/lUrGImxtBBNzTAqg+PO21r+R/XAbL4pmjsb9xEdOcEnN0iKMHNNaFZ+/ydzqkCGunYylvgm05nNXfYejwwQzFHbeXlWDT7iJDESWeoYNC3kFElkA6W3ex8Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710853635; c=relaxed/simple;
-	bh=h5RpRwAivJEkMgOQGPSE31O4QbdHWmr5WM+YPfbxP60=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XF9FnYII9uAxAU5jSWoPSB751XohFzdZKF4zM0uKbSgPlXWkrFCc01Ct+EOEVTbhlG2T7rxH9KpV8nvibuvelYZIgA4bYQmIQH2B0WUVCMxkVBd2Zs+hrFm+c2rwu7YSQIPfg5WMpuu9npazxWfJyu3/cQRHrfNNODMd7POKX0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3t41Hbk; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1710853814; c=relaxed/simple;
+	bh=JVi4X3Yp8llR/EjNT7yP76NQ5cLtcJoGUEbvuYaKKYU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OHCCcA117+Q3lxvZhn3a2ESK1ksw4ZZx1LAPCeWcdw/RtVckMmPDqrQkxAo7UB2BItPnmTU6ZXZQxAUMqN2gmMtlrVIoAKFuF+aLtRRASK1UARHP5UTDRVhYInYECSkVyYm6rFt5jjs0tSSho8tXg5PuHZLgJ3T8wjKvH4WerpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RsrEOHmG; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3t41Hbk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710853634; x=1742389634;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=h5RpRwAivJEkMgOQGPSE31O4QbdHWmr5WM+YPfbxP60=;
-  b=M3t41Hbkzhuc/B4cIzSMoiD+DuUu5gIOLSOWj6Z/CDuPiAwCfh/ddUT4
-   ozSUhgisTPIkwNAUUBs9xlB5do8BDXviTVBr39RJFNgDOa/kiGH/lcHBL
-   AXRmSmYTdphPaKrDMHe37S5VtUPbuGFIpNNWCmrCs826CLDb1ReUcXVRY
-   EhiXrgFasjrS599QTWv2yHjg3LzeniqlTsUfr1K99FK4RqR2hYkhdszP6
-   7z2tQYpHw5ZNOcgGfuRfEb5vnS/mTulNy6ErMYLl3hMDj3sUIIkOsOw20
-   G1ydO7fXam9i/S89f/bVh3ODrdHLNNtpcw6umISXq/cTAOi0lwuQuUPuT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="5843148"
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="5843148"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 06:07:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
-   d="scan'208";a="44883266"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Mar 2024 06:07:06 -0700
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RsrEOHmG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=4Zpz2JcjWhGlazAgpId/FsjMBJt7sqHYOH/Rw/CmRqw=; b=RsrEOHmGYscdscCLy/l5STIE3U
+	9t5Uqfyswjc11nctCwx9zSrRCsx79QJJU/lCHr3HccMvvhfQVR671u2QSjBuf/ZhbLzZp/4M7jMZ/
+	J7QmlhJKZ8SrHE3UPX6wlwqHuUpB3rnqPOX7W9Qh4ga3a9e9lvFksk+oHv2bezWm0rkbWiyu29vFW
+	3DSn+4bucYlNPF7j2JM2PHEjqvXUlkDqgFeTudEpCG/sLeDxvKXwCDMaTtkwB86sfLizzxdnYxYGl
+	/J7z2RVej7ohygRk1W5ZOCAhSkjkifDKMY2/Cg+fS4h3UBsAMFITcf5lBJ+sShvy5o/iJAF+SoHFf
+	QyqHaS/g==;
+Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rmZE9-00000001zLU-26EJ;
+	Tue, 19 Mar 2024 13:10:01 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rmZE9-00000004PN2-0Uut;
+	Tue, 19 Mar 2024 13:10:01 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: linux-arm-kernel@lists.infradead.org,
+	kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Mostafa Saleh <smostafa@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
 	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com,
-	pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com,
-	subramanian.mohan@intel.com,
-	basavaraj.goudar@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v5 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Date: Tue, 19 Mar 2024 18:35:47 +0530
-Message-Id: <20240319130547.4195-12-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
-References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: [RFC PATCH v3 4/5] KVM: arm64: nvhe: Pass through PSCI v1.3 SYSTEM_OFF2 call
+Date: Tue, 19 Mar 2024 12:59:05 +0000
+Message-ID: <20240319130957.1050637-5-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240319130957.1050637-1-dwmw2@infradead.org>
+References: <20240319130957.1050637-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,30 +70,31 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+Pass through the SYSTEM_OFF2 function for hibernation, just like SYSTEM_OFF.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..b9b8c97a7840
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		March 2024
-+KernelVersion	6.9
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
+diff --git a/arch/arm64/kvm/hyp/nvhe/psci-relay.c b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+index d57bcb6ab94d..76c7643e7eff 100644
+--- a/arch/arm64/kvm/hyp/nvhe/psci-relay.c
++++ b/arch/arm64/kvm/hyp/nvhe/psci-relay.c
+@@ -265,6 +265,8 @@ static unsigned long psci_1_0_handler(u64 func_id, struct kvm_cpu_context *host_
+ 	case PSCI_1_0_FN_PSCI_FEATURES:
+ 	case PSCI_1_0_FN_SET_SUSPEND_MODE:
+ 	case PSCI_1_1_FN64_SYSTEM_RESET2:
++	case PSCI_1_3_FN_SYSTEM_OFF2:
++	case PSCI_1_3_FN64_SYSTEM_OFF2:
+ 		return psci_forward(host_ctxt);
+ 	case PSCI_1_0_FN64_SYSTEM_SUSPEND:
+ 		return psci_system_suspend(func_id, host_ctxt);
 -- 
-2.35.3
+2.44.0
 
