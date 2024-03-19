@@ -1,81 +1,86 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4321E536
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 07:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8EF5537E4;
+	Tue, 19 Mar 2024 08:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710834716; cv=none; b=qrPBo6XmQIKym4JHqUpXl9ak4sw4loxqtQodk1MsbiBMxtgpdtw9dyNkabwyM6yaz9rbKpCg3gS4DANrCEyBA5DrgH3x2K5HKy8wPTQ70KhavCZQqna6iQbqNWIjJPIJV7/O8z/e8JEiJbnPBLLPvPJkAJw0nDfW4a3xOZ1ur7Q=
+	t=1710835436; cv=none; b=lLpbG/r1KlsBsRl8GF3HScK+D1iPjvCktQUwbeEt3xGhci9Z4GiRJApUSzrzBR9yfKp6/aTyYGYnWhsJHYlRRFc2m9B7UOUZi0k4bnu+aVbbMOpvlRV7QalhPjWpnCWkBAGp3lqrncdNmj+hbVy67hscHAOfWmxNLctAi0orumA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710834716; c=relaxed/simple;
-	bh=lSfeep1U7kZiKnh/VWo5XzXS0PbcFSIkKzWgTrt0kLU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=quu1WqxEm8LkyrvbIrn1Ayj2ZdkyW4rs+AkMWMNBycns7ih7HjM3ArzgLR6/ZwTLXPt4VXxaomeMH4rA/hh24woUmwB2NV1On5qnIAwt6y6a8wm6ZxTswgnX2qgG4RzgpWzlxka34Vb92ulGSRNvPRMfEsNGUPQ0mo2ut8sVHck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Sx3vFLWV; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1710835436; c=relaxed/simple;
+	bh=5pMIwSL+oFaceFU0q+VQ+fxw61PUaymJCTKh5tTE8EM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ufFmRhevwMl345ve92GFkt44CTxKQhkK+Df6Z1Xc709zjsfcOgOLH/XrmBy43z+hd4uXVdScxnk8EZrRY3XbjI1NeJ7YcgtkXF4pISzcWbTIUPRo2rmofEeM8YdnNxYL2uGt1HpJK+fkQJoZh6XBwPQdgR0it3ohyO6a6Q84Ktw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E/EBz4TP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Sx3vFLWV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 642D245E37
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1710834707; bh=4XlkxCwPgAxV1cUEHciW6FPGkLTohi0JI8bKRxYm4aI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Sx3vFLWV0jBQ20m59iKh1xVEWLZ1JLdBP4ZWKQ2LRoSxEini9xxbKQI6ou2QG4BGv
-	 DrUho0li3OcNV0QfAqe6kwCeGxGogSQBpnIgKTimb08UUX0YQgBZrU8S4/Yb9OEFzG
-	 UcsU4qt3KIy1tlp41hlA2/MbchUwngGZ9isOjSMxMcY4TMtvmkOaTrNXUlUinOqJjr
-	 VEMLD+p+Und93rBNa2AGva0wYUCh5N9XuNYpjtj+f44nV4avBvXdKN6AJdC6Jvjrlr
-	 ktCNavVu4JQg+GhfNjQbxRPiCgZSTxQdD+Akeu3ICnaoWNl1e9tv5ilxr00RFgy8W4
-	 6nNNvoStDXSKw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 642D245E37;
-	Tue, 19 Mar 2024 07:51:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Weiji Wang <nebclllo0444@gmail.com>, linux-doc@vger.kernel.org
-Cc: Weiji Wang <nebclllo0444@gmail.com>
-Subject: Re: [PATCH] format shell command as code block
-In-Reply-To: <20240318140129.21986-1-nebclllo0444@gmail.com>
-References: <20240318140129.21986-1-nebclllo0444@gmail.com>
-Date: Tue, 19 Mar 2024 01:51:42 -0600
-Message-ID: <87le6e8xrl.fsf@meer.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E/EBz4TP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9AADC433F1;
+	Tue, 19 Mar 2024 08:03:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1710835436;
+	bh=5pMIwSL+oFaceFU0q+VQ+fxw61PUaymJCTKh5tTE8EM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E/EBz4TP05UV76e4ihRit4qedT8ItYeorbvPeugThFfi2vX7De3TcITjKglIRY95g
+	 pJ/Y5enNynI/uF0nTfb6yYOtekimQnUsV0TOLka5xF7KbGrOFd/ntpt2LkEtbaosGG
+	 Hdwbs8A4i7UQhNFQgQVinlNIVhnyLYoMgbvlwD6o=
+Date: Tue, 19 Mar 2024 09:01:32 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Marco Pagani <marpagan@redhat.com>, Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Alan Tull <atull@opensource.altera.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fpga@vger.kernel.org
+Subject: Re: [PATCH v6] fpga: manager: add owner module and take its refcount
+Message-ID: <2024031906-radish-handbrake-93b4@gregkh>
+References: <20240305192926.84886-1-marpagan@redhat.com>
+ <ZfkOvXslEjgU+fc1@yilunxu-OptiPlex-7050>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZfkOvXslEjgU+fc1@yilunxu-OptiPlex-7050>
 
-Weiji Wang <nebclllo0444@gmail.com> writes:
+On Tue, Mar 19, 2024 at 12:04:13PM +0800, Xu Yilun wrote:
+> On Tue, Mar 05, 2024 at 08:29:26PM +0100, Marco Pagani wrote:
+> > The current implementation of the fpga manager assumes that the low-level
+> > module registers a driver for the parent device and uses its owner pointer
+> > to take the module's refcount. This approach is problematic since it can
+> > lead to a null pointer dereference while attempting to get the manager if
+> > the parent device does not have a driver.
+> > 
+> > To address this problem, add a module owner pointer to the fpga_manager
+> > struct and use it to take the module's refcount. Modify the functions for
+> > registering the manager to take an additional owner module parameter and
+> > rename them to avoid conflicts. Use the old function names for helper
+> > macros that automatically set the module that registers the manager as the
+> > owner. This ensures compatibility with existing low-level control modules
+> > and reduces the chances of registering a manager without setting the owner.
+> > 
+> > Also, update the documentation to keep it consistent with the new interface
+> > for registering an fpga manager.
+> > 
+> > Other changes: opportunistically move put_device() from __fpga_mgr_get() to
+> > fpga_mgr_get() and of_fpga_mgr_get() to improve code clarity since the
+> > manager device is taken in these functions.
+> > 
+> > Fixes: 654ba4cc0f3e ("fpga manager: ensure lifetime with of_fpga_mgr_get")
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Suggested-by: Xu Yilun <yilun.xu@intel.com>
+> > Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> 
+> Acked-by: Xu Yilun <yilun.xu@intel.com>
+> 
+> Will apply to v6.9-rc1
 
-> This formats the last two shell commands in
-> Documentation/admin-guide/mm/zswap.rst as code blocks.
->
-> ---
->  Documentation/admin-guide/mm/zswap.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+It is way too late for -rc1, sorry, this needs to wait for the next
+release.
 
-The *idea* of the change is fine, but there are a couple of problems
-here.  I can't take a patch without a signed-off-by line, so you'll need
-to resubmit with that.
+thanks,
 
-> diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-> index b42132969..85612d705 100644
-> --- a/Documentation/admin-guide/mm/zswap.rst
-> +++ b/Documentation/admin-guide/mm/zswap.rst
-> @@ -155,7 +155,7 @@ Setting this parameter to 100 will disable the hysteresis.
->  
->  Some users cannot tolerate the swapping that comes with zswap store failures
->  and zswap writebacks. Swapping can be disabled entirely (without disabling
-> -zswap itself) on a cgroup-basis as follows:
-> +zswap itself) on a cgroup-basis as follows:::
->  
->  	echo 0 > /sys/fs/cgroup/<cgroup-name>/memory.zswap.writeback
-
-Why three colons?  "as follows::" will do what you want.
-
-Thanks,
-
-jon
+greg k-h
