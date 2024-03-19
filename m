@@ -1,42 +1,57 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99207BAFE;
-	Tue, 19 Mar 2024 03:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AF07BAFE;
+	Tue, 19 Mar 2024 04:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710819377; cv=none; b=gUPKws4DTb3N+jBFhcyyAHwtm340wHc+aYMCbqs7yCobMl9olmn7iQjHNbiL/qGLizpF4zAUOlzEo+EJX65K+PnANZTJ4AftVfF1252WbxPepol1Cxq9HA3lYpZh3KZdgUOB0waTC/jiG82l/2exLS4MA975M/7Fo2Fmd0KpJoo=
+	t=1710821330; cv=none; b=lmjY+FU+Gog3m7iFGFCWN1B0c3r647oDYaf11cQp8Hp/krBQD2eGMCvPFNNik+bOjR8Z2SQOoBkXpQ/ca3nVJvalYL1TAG9NVFgqKcEh2E22FcDTJKCOl1QiILgELjR78jR4aHOpXvnmKLRKkIfLXeWN4zONokBUOJn4/KPnQnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710819377; c=relaxed/simple;
-	bh=PIMd915W0emXrQYLUN+Za9tUakfwaMpNV5zYx8sLhHA=;
+	s=arc-20240116; t=1710821330; c=relaxed/simple;
+	bh=FXJUWaXDFajafiGH9N/Lk6GWxmCJ3Z1AE7/I+I2yb60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FyrubgR6t+K6OkGW/oBF5jodtM18l9dgjpwPZFGiZ9r0jne/yQL8EbFZ6CM0IaXlQ0mcQc5kq7+UwvFxwzDxnHwpPHFw4ncX8hotXf53nLvViZfO9MTfACtUNE4nFoqRqDwaAXTbJVfHg1yCpbFOShNIF0ga9ZHfdjPXYQ2b90s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dNVhPe6i; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=NvIjxc8rXTiMpXI7B+Y9NyA2w+X6oqaNYYn4uUShV1esia5gUKd8Ckzb9PoTeGovKy+P2YPyXcWawTKBCbejPdgC0SVwFAnowa5IBhnD/8mKXq7EJqj6sh9St7zutfM33ARA9AA5l3Br9KmOU0hyjHn+O8rdmeSavSLct6UuO0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgNWNKmY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dNVhPe6i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=W8KZHTSLAN0wl+H8+4zmrE83z+KBXbAgNIQBfal0lFw=; b=dNVhPe6iXVHQJXXI3coTifOxdJ
-	NRydG42UdVSGuxKv83JXqqiVImQDsX92tziT9nkeVrs4TXjtBa3X/gN18dDIq3Au6EoJbMJ0I25PX
-	A8pdFbYi2p5Xr1+P35UGoGR4hWILitD1+ScZQ5ombPP1SSjt1ojx8Gj8Ds3HD8hb8QYwfbI+Y/NGH
-	3o2eTL34Q2NyAXvc77rb6ZD1fchDHYsrYZ2clOrjgANSOyien2TOZg0AmUO1PIfaCzV7PmCFV4IH5
-	+wmIz0Rd7NZnRD/96zwYLmOJ2wOH2M2fzYSXSWz8hvX+VB2dWo+sRyP/3LGexJEHAtMkOiqCGEObN
-	Bv9b4BUA==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmQGo-000000013M1-3aIY;
-	Tue, 19 Mar 2024 03:36:10 +0000
-Date: Tue, 19 Mar 2024 03:36:10 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dmitry Mastykin <dmastykin@astralinux.ru>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thellstrom@vmware.com, mastichi@gmail.com
-Subject: Re: docs: bug in "Krefs and RCU" example
-Message-ID: <ZfkIKnu_xBQa59b4@casper.infradead.org>
-References: <20240318112744.12400-1-dmastykin@astralinux.ru>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgNWNKmY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710821329; x=1742357329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FXJUWaXDFajafiGH9N/Lk6GWxmCJ3Z1AE7/I+I2yb60=;
+  b=lgNWNKmYoIp55fPt+7/MkjjnnWqiSzq9u4msetrwfnjplwOamyhDZ3LW
+   kFt7u4C6G3UEfxjZZPN5dw5ltHy/hpfKoCJ0Pur25Ehx1ZX38wB8DSnhn
+   C3V5rneWXF5Jo1hL/WefwWdyVEPXrwZ3k6C6skMqN0F7+slKCls3jr9rk
+   F0wwGe2aeWRFLmOeKsOPuCw5Z7NhwMlNXLsm8kbaHEWNXX10GfpJgbi1o
+   OmkqwDcLNEFxvHeIcTs27+StkSABIUTNW+ldvdbMmRE8jJq1ppw2g6hTx
+   lyAFhdons97eAVSYpgfDRDgemzyZNesHxoUT/nnk3Nbcpdx9hPZP7tc0C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="31100354"
+X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
+   d="scan'208";a="31100354"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2024 21:08:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,135,1708416000"; 
+   d="scan'208";a="13566078"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2024 21:08:45 -0700
+Date: Tue, 19 Mar 2024 12:04:13 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fpga@vger.kernel.org
+Subject: Re: [PATCH v6] fpga: manager: add owner module and take its refcount
+Message-ID: <ZfkOvXslEjgU+fc1@yilunxu-OptiPlex-7050>
+References: <20240305192926.84886-1-marpagan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,19 +60,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318112744.12400-1-dmastykin@astralinux.ru>
+In-Reply-To: <20240305192926.84886-1-marpagan@redhat.com>
 
-On Mon, Mar 18, 2024 at 02:27:44PM +0300, Dmitry Mastykin wrote:
-> Hello all,
-> It seems there is a problem in "Krefs and RCU" example, that may cause
-> a crash.
-> I marked the place between two problem lines with "problem is here" comment.
-> If list_del_rcu() will be called between these lines, and list will become
-> empty, then q.next will not point to a valid struct my_data.
-> entry->refcount will also be invalid.
-> Instead, q.next must be read first, and then compared with q to check
-> list's emptiness (for example like in list_for_each_entry_rcu macro).
+On Tue, Mar 05, 2024 at 08:29:26PM +0100, Marco Pagani wrote:
+> The current implementation of the fpga manager assumes that the low-level
+> module registers a driver for the parent device and uses its owner pointer
+> to take the module's refcount. This approach is problematic since it can
+> lead to a null pointer dereference while attempting to get the manager if
+> the parent device does not have a driver.
+> 
+> To address this problem, add a module owner pointer to the fpga_manager
+> struct and use it to take the module's refcount. Modify the functions for
+> registering the manager to take an additional owner module parameter and
+> rename them to avoid conflicts. Use the old function names for helper
+> macros that automatically set the module that registers the manager as the
+> owner. This ensures compatibility with existing low-level control modules
+> and reduces the chances of registering a manager without setting the owner.
+> 
+> Also, update the documentation to keep it consistent with the new interface
+> for registering an fpga manager.
+> 
+> Other changes: opportunistically move put_device() from __fpga_mgr_get() to
+> fpga_mgr_get() and of_fpga_mgr_get() to improve code clarity since the
+> manager device is taken in these functions.
+> 
+> Fixes: 654ba4cc0f3e ("fpga manager: ensure lifetime with of_fpga_mgr_get")
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Suggested-by: Xu Yilun <yilun.xu@intel.com>
+> Signed-off-by: Marco Pagani <marpagan@redhat.com>
 
-I agree you've identified a problem, but there's no way we should apply
-this patch that adds "problem is here"!  Instead we should show the
-proper usage, which is a call to list_first_or_null_rcu().
+Acked-by: Xu Yilun <yilun.xu@intel.com>
+
+Will apply to v6.9-rc1
