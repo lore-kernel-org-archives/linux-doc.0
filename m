@@ -1,103 +1,172 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C021964CC9
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 02:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54751651B4
+	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 02:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710813905; cv=none; b=fjF6qkdzUH/sVkMQ2I1CMZq/ClnDJnav+z4kJz/XPQg0mb3nUbxuaPjU3T45hjRnH7LE6db6LivsjiRgj3gOEOSw1r/yPx47e8MFKFrvGDy8/4Q5Vfq1zuwQIlcark4vmuc704+nBedoP4TTuk82CSKGTeFSnscOSiiGT2coTNg=
+	t=1710815185; cv=none; b=AjgClVYArZNdYBs0KVpEzMNqaOwKBQUF2xHyr17wIch5LqbfMG/BCHVAJjRj88jW+0EOGNFMlEF4WJlRe9wXK8YRP+kMOsVW0q7gJTO4eHZLAbfhIp6YtQvuwj8CufcvncLhifFa+HAK8ZdbIcY9EdapSVBWFgVil2ZLdJjp0Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710813905; c=relaxed/simple;
-	bh=/EjKEmmC073iwKqI8NAC1v36l29m9mvpTdkkx5mYXao=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aiq8hWsnIxxeagY/W/9XWhvXj6nz664jGTMYb5nudxT0Tt/lIXsK6xXheaZRfnbJvflK9oEBftaUILAhwVLywVnKZtfCGm2NwRoBTThMK1UydeBhNdkp67CjfemlTYbd+SDaisNF78hBk/IWEoJGOAc0al27ZVa0a1Rk1N003/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XuXt62My; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1710815185; c=relaxed/simple;
+	bh=sggre/bwedm+SjhOnNs5oKMSJXt1Hx/MhvbnEbYdQRE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZJIn7nlB4Xr3aasn3ozpibIGKX7cwZp8cRdg6IKFTCIIEX+tQ6d3BgcGmLCT+sCoAz3qDpm2Bh22anoUszASsLncz5WvPessEPymH92ps61IDlnU42ZnCxL01yf65nZZ5XnXPfxfoj4GsgbQNbCMTsRLMUr+E8j98vc8HO4iWwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u+QpXFOH; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XuXt62My"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5dbd519bde6so3801177a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 19:05:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u+QpXFOH"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a46cc855600so197786766b.0
+        for <linux-doc@vger.kernel.org>; Mon, 18 Mar 2024 19:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710813903; x=1711418703; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/EjKEmmC073iwKqI8NAC1v36l29m9mvpTdkkx5mYXao=;
-        b=XuXt62My2+6LVMlbTTu5ObF8KUjpE4+epTu2q3GHOCm8BJ3AJLaEOD0h5vLWzklKOL
-         v5NBJwlk+X8Tymy1Drh+CmieIcnv7LifNtDcsbVwfpKci2BXyd1w1tvWzrnKSMxW2/1R
-         93GKLTIPIPeuSZz94b1rN7GvUWLPjpi+Ctm6yata4H2zIRyWg/yDs3KbFrGLqtwaFKUI
-         1vPRxP7KsLLT4Oz5VseYbqf288OcWrWK3YgqX3LumuWA9DjSAiNn7bIjyHNQBlCnCgV8
-         dymzCcLEdMlA8ikisog3dteRMgMn95119MXoW8jUCEc+Zk5ZHr6mWgV1kLmb2BG5yk5r
-         fDfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710813903; x=1711418703;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1710815182; x=1711419982; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/EjKEmmC073iwKqI8NAC1v36l29m9mvpTdkkx5mYXao=;
-        b=hnXO7qcAaqOfLRsHEjZSZhjpadJS3lI50Pddo2BhbglAOYQeo7BTNRmNn1mvSlhGZE
-         IKKDz3wTEHSzE+983R/lppm1THPevrZ3eawA89AyP2wp9mpVjcVMDI6PePBDpxYwEVCk
-         tbvmvCCPJ6BsS5KRe0A18/Ly+hNsQjLbUq1IHyUFbRUBXK7oNgOeDQZJuLZGTGzPvtny
-         2u+rm3pLno9DlEHOkpZeNI3S6K82t4SH5kTli8TdbPdb8sOksqByGpteiv3jpp7bVbOK
-         N3dYiOnfPNr0oe8B4CYljvLIqLilw6qJbRMZTXvRbVFEeptte6i2u4A3seiO8UuRsJYp
-         PzLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVROqP42McKtNkxgdB0k+s+EdA3s8swLMogRDw7X3XkueSIVYlW0dJDPwRUWbzT1X7fXlFV+5c/n8fjEWClDIw07lcgYHE8Nf9G
-X-Gm-Message-State: AOJu0YzxC7lh/KkiZZM0g6CI3DGloNPbbYgavVbVS75k2ERMtnIIZI0A
-	hHhexa2YYxkb4OWtc7risNzAMYUNsi01bEmVBjbcTxe2BxxTOp+VxcrlyxAhBuw=
-X-Google-Smtp-Source: AGHT+IEgbOwVrNUGScyShvUWIoqBlb0IIoiCPyatUnkYcdAZUkyQez/d/4boPEkWOTzFq6EDqrXLcA==
-X-Received: by 2002:a17:902:e841:b0:1de:e9b5:bb54 with SMTP id t1-20020a170902e84100b001dee9b5bb54mr1759104plg.34.1710813902828;
-        Mon, 18 Mar 2024 19:05:02 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id b12-20020a170902650c00b001dc96292774sm10209729plk.296.2024.03.18.19.05.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 19:05:02 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 3C57D1846B4A8; Tue, 19 Mar 2024 09:05:00 +0700 (WIB)
-Date: Tue, 19 Mar 2024 09:05:00 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Weiji Wang <nebclllo0444@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] format shell command as code block
-Message-ID: <ZfjyzP7ZDoAZU3cf@archie.me>
-References: <20240318140129.21986-1-nebclllo0444@gmail.com>
+        bh=9PVwebktWBWty2mBrf17cNCGtAzEMmWTbg3BNLwRbR4=;
+        b=u+QpXFOHxIIm2aA8ZtgDstbdEP0JytJobxygrcibELE2iSg42kVC3nIhORU+hQRdCR
+         g02IrjRD211Th2bTY7QgjIDz8/vvzyrWwbNp74QLJaFZFfbHDgcS2+5Tuoj0930kPNkf
+         c5x6ok0I/EMtikTXIe6THfEeU4JEvOhnoN+MkV1pV8QRt5gUoq42kfYXtxdB4JbDg8Mq
+         Ny7aNIrtG/saUzznCbyJGJp+gTdqkFow4k6LyzTqM8w2oRxnxSQ41Quu/jitkpJYs0uC
+         3GS4g2V6k/At4g57bbgqkF2rtgkVMB32SCqGrKB26kWQdo1HgPBZk0ytKK3VgS62qucq
+         Xqsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710815182; x=1711419982;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9PVwebktWBWty2mBrf17cNCGtAzEMmWTbg3BNLwRbR4=;
+        b=mXo+G6KdIvvCZSvO8sYoR4OLl278hzYAtHxntCrUIRJWFzN+Ccooit4XMZLDRg6oFA
+         JQ7+Cvy8gWKusKMhHDDaRFkqnqFy4P6nwWo+qMpblmZ995Qa63La6BGvIlym9R92kbW1
+         TFbiM9DmYCQZUt8tABG8daSRtBEvtH74yUdZEFsvFJzmOhgaYfDIoLMJKCDl0Y7myrKf
+         R4pmbqPGNrqraJuVAMZQNNkfSDa1Y6weEEXUcY5CD8GczLjM6K+pVxuxYRyfyh1dGXzR
+         tXI9Q4U9YwgKauaCO5RKEcckK7MibVSp8Xe3uoHlzy9NFefM7nWasBObt7IdrbbaOQI+
+         b7OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjbD/Asp29ffW7JlLMujGjo+Y6BxvTeqbLpFXRI1Ho2ZnYt8tg91NjommAPSOovUBPF0lS2DPkwpwxwFqc0uNbTJV38fmm4j5d
+X-Gm-Message-State: AOJu0YxkJd8FyLjoWs8LMyTjpGzn4Uh7JLYnimkMVFPpQN5bWCERTcUx
+	ExCYo+aVOWcqqkFelvDXPrub2YEo9M7BwXKe4JEAXhI4124THRFNGgjOtEFuS4nT6LQ/00pY+/V
+	S5kIoItNlqEejBL7rU5eElf0t9h40UWCIIfyX
+X-Google-Smtp-Source: AGHT+IFu9/5+j8r+Fb4pBtW95+Cl0mFkAx99vWRUt0Y35XyzFmr6MbTbI8DsVSvg5VsvJGnE/Mvw9QqpeiGeWfWctas=
+X-Received: by 2002:a17:906:81c9:b0:a46:6958:c415 with SMTP id
+ e9-20020a17090681c900b00a466958c415mr639887ejx.8.1710815181445; Mon, 18 Mar
+ 2024 19:26:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sWAUkYMT2Btntb0t"
-Content-Disposition: inline
-In-Reply-To: <20240318140129.21986-1-nebclllo0444@gmail.com>
-
-
---sWAUkYMT2Btntb0t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240228013619.29758-1-quic_wcheng@quicinc.com>
+ <20240228013619.29758-21-quic_wcheng@quicinc.com> <CANqn-rjTgHgzssxZiuwvTKzOS31wzjS4Y9G-XacZN4a7c82MaA@mail.gmail.com>
+ <d97f635f-053b-70a7-5ffe-a1ae273091d1@quicinc.com> <CANqn-ring2uf=A-F7VuRwnJ--n=FtFzSddCmR-=nfxCGcFAF2g@mail.gmail.com>
+ <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
+In-Reply-To: <0e9f0f2f-a404-3b76-3c52-9eca7594efa3@quicinc.com>
+From: Albert Wang <albertccwang@google.com>
+Date: Tue, 19 Mar 2024 10:26:08 +0800
+Message-ID: <CANqn-rjMcncjZv9YNZJOZgFo0_ro9hk=TBSFrY9RfhE1Mi13qw@mail.gmail.com>
+Subject: Re: [PATCH v18 20/41] ALSA: usb-audio: qcom: Introduce QC USB SND
+ offloading support
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz, 
+	conor+dt@kernel.org, corbet@lwn.net, lgirdwood@gmail.com, 
+	andersson@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, broonie@kernel.org, 
+	bgoswami@quicinc.com, tiwai@suse.com, robh+dt@kernel.org, 
+	konrad.dybcio@linaro.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 18, 2024 at 10:01:25PM +0800, Weiji Wang wrote:
-> This formats the last two shell commands in
-> Documentation/admin-guide/mm/zswap.rst as code blocks.
+> We can discuss that offline and come up with an approach that is
+> reviewable by maintainers and the community.
 
-Why?
+Sure, looking forward to working together with you!
 
-Also missing Signed-off-by.
+Thanks,
+Albert Wang
 
-Confused...
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---sWAUkYMT2Btntb0t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZfjyywAKCRD2uYlJVVFO
-ox94APkBWDONxYpGJzms0BVE/gPgJMpYl3fY1HYBlNme/HhjhQD/YNQV2MzAYHrR
-NjqT2ia6BdnANvOkJJ/N0GReD0L/Awc=
-=WdTL
------END PGP SIGNATURE-----
-
---sWAUkYMT2Btntb0t--
+On Fri, Mar 15, 2024 at 4:57=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.c=
+om> wrote:
+>
+> Hi Albert
+>
+> On 3/14/2024 3:29 AM, Albert Wang wrote:
+> > On Thu, Mar 14, 2024 at 3:18=E2=80=AFAM Wesley Cheng <quic_wcheng@quici=
+nc.com> wrote:
+> >>
+> >> Hi Albert,
+> >>
+> >> On 3/13/2024 1:03 AM, Albert Wang wrote:
+> >>> Hi Wesley,
+> >>>
+> >>> The suspend function `qc_usb_audio_offload_suspend()` looks to stop
+> >>> the traffic on the bus, so that the bus can be suspended. That allows
+> >>> the application processor(AP) to enter suspend. There is a subtle
+> >>> difference with our feature, which is to allow AP suspend with the
+> >>> Host and USB controller active to continue the audio offloading. We
+> >>> call this feature `allow AP suspend in playback`. So, I have some
+> >>> points to clarify with you:
+> >>
+> >> Yes, I'm aware of that feature also.
+> >>
+> >>> 1. Will the suspend flow `usb_audio_suspend() -->
+> >>> platform_ops->suspend_cb() --> qc_usb_audio_offload_suspend()` be
+> >>> called when offloading is active?
+> >>
+> >> It can be.  This is why in our case, we are going to issue the
+> >> disconnect event to the audio DSP to stop the session if it is current=
+ly
+> >> in one.
+> >>
+> >>> 2. As my understanding, the suspend function is to allow AP suspend
+> >>> when the offloading is IDLE, but it won't allow AP suspend when in
+> >>> playback or capture. Please correct me if anything is wrong.
+> >>
+> >> As mentioned above, it will let apps go into PM suspend after forcing
+> >> the audio stream to be idle.  We won't block PM suspend entry.
+> >>
+> > Right. Your design is to force the audio stream idle, or say, inform
+> > the audio DSP
+> > to stop the current offloading session first, then AP can go into PM
+> > suspend as usual.
+> > Then I can say the current design did not support the `allow AP
+> > suspend in playback`
+> > feature, right?
+> >
+>
+> Correct, this series does not cover this mechanism.
+>
+> >> Yes, I saw that patch as well.  I'll take a look once this series land=
+s
+> >> upstream.
+> >
+> > That patch is rejected and archived now. So we need to find another
+> > approach to do
+> > that, even based on your framework.
+> >
+>
+> We can discuss that offline and come up with an approach that is
+> reviewable by maintainers and the community.
+>
+> Thanks
+> Wesley Cheng
+>
+> > Thanks,
+> > Albert
+> >
+> >
+> >>> 3. We would like to integrate the `allow AP suspend in playback`
+> >>> feature with your framework to become one upstream offload solution.
+> >>> Here is the patch:
+> >>> https://patchwork.kernel.org/project/linux-pm/patch/20240223143833.15=
+09961-1-guanyulin@google.com/
+> >>> .
+> >>
+> >> Yes, I saw that patch as well.  I'll take a look once this series land=
+s
+> >> upstream.
+> >>
+> >> Thanks
+> >> Wesley Cheng
