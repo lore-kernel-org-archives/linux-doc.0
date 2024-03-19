@@ -1,295 +1,325 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6A42B9B9;
-	Tue, 19 Mar 2024 17:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D271B812
+	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 17:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710868492; cv=none; b=RALmjnxpZS4jeNmeR29KwoLB94Vk2B8FZ18egQbDuVTyksg0ZrIWeSsdMh9lmq3ueFj+aKUHSgQP/qK64GA8DfKD9FqKqxR/s2OcECdSHYzDZx0oakSleOplv6HFDeBxqdrstRqJX4NTV+kZV03qgrnbnpUZEFPz0OBTxXYqlbE=
+	t=1710868850; cv=none; b=udl7p/Qre6vk+2qGnStzU44IjsFnEJuXi3WJeXCIyJBr2kbEvbUwWOgWoF0DpxX9Csx7uz24wuqv9FPUsaXDSCO5U/WxY7H9yYm1rWLHM8Gfj/V1wYAZ96nEpq56PzeVMBFzswZMiCIURRPIV39N7cQjVGcUocVzo6aHQ+U1VH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710868492; c=relaxed/simple;
-	bh=hDk9Mo750zPE1EtaMn9fOqjCEMORtXsQsNeDSahlVBM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RYOXKc5CcQ3IZN3UbqjbK7ltjqZ1rmt/iO6k9Zzc+ize920qY8YIVXoWNnt92XPcWeJl3Lyy7SktbopTTWOegT/1zHYu6a6irsM7RsIpGXjuEAnuAVFIiBTdueBiPMnvk64YIQzw+LXhoaRYzmzyqi4mZm0QhFf4FmFfljDVf1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r55uRwZa; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1710868850; c=relaxed/simple;
+	bh=Vh9lCoaKMDmTBh3akSE8GiDLO339gYIbqJ18ntD/V64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RatohNdM8ZtWAKmEqhfvx1hUi/tit25vOtlSxGyNDNMSWLLgPpMC6OBExz0FPSoAYY7VF9biiEnVCUvGzE1BFAz3l7kK8UTd+4NSBSUlIomgZ9uXNoVZ8Xc46i7U5nvlBv8RhfzVvrkcNmkOPl7NG+DV6fNWA/rkhY4W5ydidxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YAu4SeUz; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r55uRwZa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WBYE/wzafOAJzHOlWpDQIPbHJQZwP/qZuwORmaeqhS8=; b=r55uRwZaiP9D5o5fE0TN8YfFcu
-	i8CnvacxYIURMEwJeDvII4LYSxpgrd5DN0fwWu0hppa1uGsIZ4pd7x1mzgIAQDcnEUWb0YMlsQ+xb
-	dh6MV39shXf1ItWG1pc9PlO3uvQkOfBE5xYJMhd3xBW/r/jQo6l/5owCBPKg7JLoMSAlVLAsCLnT1
-	yT4mq++ggbc5+0AK1Wla+rxaOx3rfWjfhlYz+5TYp9t1ir7lcZukL1wLaV774vPtR67I6Jr1SGvBT
-	hTrDIbVQ3QX3gEUz5djANfmqFASLFDw5uKJcf/IMvVQOBei24xx/lxbDQA+rmIhXGjD5e3LuQHeOz
-	C9W4hKRw==;
-Received: from [2001:8b0:10b:5:8879:b0f0:4282:ed8] (helo=u3832b3a9db3152.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rmd2y-00000002Nl7-1xB0;
-	Tue, 19 Mar 2024 17:14:44 +0000
-Message-ID: <9e7a6e0f9c290a4b84c5bcc8cf3d4aba3cae2be5.camel@infradead.org>
-Subject: Re: [RFC PATCH v3 0/5] Add PSCI v1.3 SYSTEM_OFF2 support for
- hibernation
-From: David Woodhouse <dwmw2@infradead.org>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, Paolo Bonzini
- <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier
- <maz@kernel.org>, James Morse <james.morse@arm.com>, Suzuki K Poulose
- <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, Catalin
- Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <len.brown@intel.com>,
- Pavel Machek <pavel@ucw.cz>, Mostafa Saleh <smostafa@google.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev,  linux-pm@vger.kernel.org
-Date: Tue, 19 Mar 2024 17:14:42 +0000
-In-Reply-To: <Zfmu3wnFbIGQZD-j@linux.dev>
-References: <20240319130957.1050637-1-dwmw2@infradead.org>
-	 <Zfmu3wnFbIGQZD-j@linux.dev>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-ESxQ4wr/Bj5uv3tykWrq"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YAu4SeUz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710868847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=8ztau3JQ36amubeJuz0wWTtDljNmlC67km863EzzBpM=;
+	b=YAu4SeUzOKEvQ74Oqe3K+qe0mhyNLjCWmwLc2460AW2My8osLelPQH4ISg337lady+EK6Y
+	xekvjiSfFM0ZwsJwC5gQH3DiFJd2mvk3407+xSduXtNjstw89mhENGm7kw7mWt9RJerte2
+	BgoKPDUUMIsxUKbdhA+uX37/TfytqqM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-203-kiFlMqs9PP6h6NJzLmOJ-w-1; Tue, 19 Mar 2024 13:20:45 -0400
+X-MC-Unique: kiFlMqs9PP6h6NJzLmOJ-w-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33ed22facfeso2323501f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 10:20:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710868840; x=1711473640;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8ztau3JQ36amubeJuz0wWTtDljNmlC67km863EzzBpM=;
+        b=SpZzbqa4UZNgctc2ow9QX59tq0RYPuYjYZY6InjH9bEEIBPAHDeCbGL+dE3obu6K/s
+         8TNfxY6ch+g+TYNnakLmuuILMI8Am96gWAG3+NoWiy/zpAeyDQLWpnDpHV23X4CFjlw6
+         SERIOAMpmoeX7nFc9DRPjpIlLOWlVa5xKNkWtal0YjqNzMyhsY+Dcr0d4LO3D+2ROKyI
+         HC/KJaA+SpUw2BGL1N2pPfYIEjYOhAZo3VYnt5oy8TRAVmM8Vr4vaI4OEgVhnFtoktx1
+         vgv8TvzLAmmGFke7wFzPFZoSyLUuiDLpE8cFmY13sPcICtF9AO7v6mEgHloof43BQFvL
+         zatg==
+X-Forwarded-Encrypted: i=1; AJvYcCVgI70g28LoS57xSIRO8Nhb+lLp4cNM/xdPaw+XXiM4+KdEtYroeoJZWT4yZollC4cacpCdDdRxUDb55tAkLRMNBLTF2jL/3E3l
+X-Gm-Message-State: AOJu0Yxq4qG/U8hUuLDpjPGVTlUIcyhE8TBPaPKg3aqlvm5WhCqIFpXe
+	NS0XHrGv/sLfurQAeZDmH1q7ljzqp6v2B8eC5Zw70SZYyeHNFfVrZq2jFbPBPorAglPlit7IgHx
+	XdFYx6PdGIQFIAHBCtGPOu4+pYnFr1jLsS1n/1IHYCJsBY33hSVt4by4a
+X-Received: by 2002:adf:f483:0:b0:33e:7f5c:a75c with SMTP id l3-20020adff483000000b0033e7f5ca75cmr10435296wro.47.1710868840692;
+        Tue, 19 Mar 2024 10:20:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFx2PQc7A0h2l5AD0StizMnjKmdjOFZhxuFssnLI/hnV0ZMoZOE2qNPVg/1en+Qbw0s7fX2rg==
+X-Received: by 2002:adf:f483:0:b0:33e:7f5c:a75c with SMTP id l3-20020adff483000000b0033e7f5ca75cmr10435275wro.47.1710868840241;
+        Tue, 19 Mar 2024 10:20:40 -0700 (PDT)
+Received: from klayman.redhat.com (net-2-34-30-89.cust.vodafonedsl.it. [2.34.30.89])
+        by smtp.gmail.com with ESMTPSA id g4-20020adfe404000000b0033dd2a7167fsm12804568wrm.29.2024.03.19.10.20.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 10:20:39 -0700 (PDT)
+From: Marco Pagani <marpagan@redhat.com>
+To: Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alan Tull <atull@opensource.altera.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Marco Pagani <marpagan@redhat.com>,
+	linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] fpga: bridge: add owner module and take its refcount
+Date: Tue, 19 Mar 2024 18:20:24 +0100
+Message-ID: <20240319172026.76142-1-marpagan@redhat.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 
+The current implementation of the fpga bridge assumes that the low-level
+module registers a driver for the parent device and uses its owner pointer
+to take the module's refcount. This approach is problematic since it can
+lead to a null pointer dereference while attempting to get the bridge if
+the parent device does not have a driver.
 
---=-ESxQ4wr/Bj5uv3tykWrq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To address this problem, add a module owner pointer to the fpga_bridge
+struct and use it to take the module's refcount. Modify the function for
+registering a bridge to take an additional owner module parameter and
+rename it to avoid conflicts. Use the old function name for a helper macro
+that automatically sets the module that registers the bridge as the owner.
+This ensures compatibility with existing low-level control modules and
+reduces the chances of registering a bridge without setting the owner.
 
-On Tue, 2024-03-19 at 08:27 -0700, Oliver Upton wrote:
-> If we're going down the route of having this PSCI call live in KVM, it
-> really deserves a test. I think you can just pile on the existing
-> psci_test selftest.
+Also, update the documentation to keep it consistent with the new interface
+for registering an fpga bridge.
 
-Added to
-https://git.infradead.org/users/dwmw2/linux.git/shortlog/refs/heads/psci-hi=
-bernate
-for next time.
+Other changes: opportunistically move put_device() from __fpga_bridge_get()
+to fpga_bridge_get() and of_fpga_bridge_get() to improve code clarity since
+the bridge device is taken in these functions.
 
-=46rom 8c72a78e6179bc8970edc66a85ab6bee26f581fb Mon Sep 17 00:00:00 2001
-From: David Woodhouse <dwmw@amazon.co.uk>
-Date: Tue, 19 Mar 2024 17:07:46 +0000
-Subject: [PATCH 4/8] KVM: selftests: Add test for PSCI SYSTEM_OFF2
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Fixes: 21aeda950c5f ("fpga: add fpga bridge framework")
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Xu Yilun <yilun.xu@intel.com>
+Signed-off-by: Marco Pagani <marpagan@redhat.com>
 ---
- .../testing/selftests/kvm/aarch64/psci_test.c | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/aarch64/psci_test.c b/tools/testin=
-g/selftests/kvm/aarch64/psci_test.c
-index 9b004905d1d3..1c1cf1580d70 100644
---- a/tools/testing/selftests/kvm/aarch64/psci_test.c
-+++ b/tools/testing/selftests/kvm/aarch64/psci_test.c
-@@ -54,6 +54,15 @@ static uint64_t psci_system_suspend(uint64_t entry_addr,=
- uint64_t context_id)
- 	return res.a0;
+v2:
+- Split out protection against races while taking the mod's refcount
+---
+ Documentation/driver-api/fpga/fpga-bridge.rst |  7 ++-
+ drivers/fpga/fpga-bridge.c                    | 57 ++++++++++---------
+ include/linux/fpga/fpga-bridge.h              | 10 +++-
+ 3 files changed, 43 insertions(+), 31 deletions(-)
+
+diff --git a/Documentation/driver-api/fpga/fpga-bridge.rst b/Documentation/driver-api/fpga/fpga-bridge.rst
+index 604208534095..d831d5ab6b0d 100644
+--- a/Documentation/driver-api/fpga/fpga-bridge.rst
++++ b/Documentation/driver-api/fpga/fpga-bridge.rst
+@@ -6,9 +6,12 @@ API to implement a new FPGA bridge
+ 
+ * struct fpga_bridge - The FPGA Bridge structure
+ * struct fpga_bridge_ops - Low level Bridge driver ops
+-* fpga_bridge_register() - Create and register a bridge
++* __fpga_bridge_register() - Create and register a bridge
+ * fpga_bridge_unregister() - Unregister a bridge
+ 
++The helper macro ``fpga_bridge_register()`` automatically sets
++the module that registers the bridge as the owner.
++
+ .. kernel-doc:: include/linux/fpga/fpga-bridge.h
+    :functions: fpga_bridge
+ 
+@@ -16,7 +19,7 @@ API to implement a new FPGA bridge
+    :functions: fpga_bridge_ops
+ 
+ .. kernel-doc:: drivers/fpga/fpga-bridge.c
+-   :functions: fpga_bridge_register
++   :functions: __fpga_bridge_register
+ 
+ .. kernel-doc:: drivers/fpga/fpga-bridge.c
+    :functions: fpga_bridge_unregister
+diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
+index 79c473b3c7c3..8ef395b49bf8 100644
+--- a/drivers/fpga/fpga-bridge.c
++++ b/drivers/fpga/fpga-bridge.c
+@@ -55,33 +55,26 @@ int fpga_bridge_disable(struct fpga_bridge *bridge)
  }
-=20
-+static uint64_t psci_system_off2(uint64_t type)
-+{
-+	struct arm_smccc_res res;
-+
-+	smccc_hvc(PSCI_1_3_FN64_SYSTEM_OFF2, type, 0, 0, 0, 0, 0, 0, &res);
-+
-+	return res.a0;
-+}
-+
- static uint64_t psci_features(uint32_t func_id)
+ EXPORT_SYMBOL_GPL(fpga_bridge_disable);
+ 
+-static struct fpga_bridge *__fpga_bridge_get(struct device *dev,
++static struct fpga_bridge *__fpga_bridge_get(struct device *bridge_dev,
+ 					     struct fpga_image_info *info)
  {
- 	struct arm_smccc_res res;
-@@ -188,11 +197,63 @@ static void host_test_system_suspend(void)
- 	kvm_vm_free(vm);
+ 	struct fpga_bridge *bridge;
+-	int ret = -ENODEV;
+ 
+-	bridge = to_fpga_bridge(dev);
++	bridge = to_fpga_bridge(bridge_dev);
+ 
+ 	bridge->info = info;
+ 
+-	if (!mutex_trylock(&bridge->mutex)) {
+-		ret = -EBUSY;
+-		goto err_dev;
+-	}
++	if (!mutex_trylock(&bridge->mutex))
++		return ERR_PTR(-EBUSY);
+ 
+-	if (!try_module_get(dev->parent->driver->owner))
+-		goto err_ll_mod;
++	if (!try_module_get(bridge->br_ops_owner)) {
++		mutex_unlock(&bridge->mutex);
++		return ERR_PTR(-ENODEV);
++	}
+ 
+ 	dev_dbg(&bridge->dev, "get\n");
+ 
+ 	return bridge;
+-
+-err_ll_mod:
+-	mutex_unlock(&bridge->mutex);
+-err_dev:
+-	put_device(dev);
+-	return ERR_PTR(ret);
  }
-=20
-+static void guest_test_system_off2(void)
-+{
-+	uint64_t ret;
-+
-+	/* assert that SYSTEM_OFF2 is discoverable */
-+	GUEST_ASSERT(psci_features(PSCI_1_3_FN_SYSTEM_OFF2) &
-+		     (1UL << PSCI_1_3_HIBERNATE_TYPE_OFF));
-+	GUEST_ASSERT(psci_features(PSCI_1_3_FN64_SYSTEM_OFF2) &
-+		     (1UL << PSCI_1_3_HIBERNATE_TYPE_OFF));
-+
-+	ret =3D psci_system_off2(PSCI_1_3_HIBERNATE_TYPE_OFF);
-+	GUEST_SYNC(ret);
-+}
-+
-+static void host_test_system_off2(void)
-+{
-+	struct kvm_vcpu *source, *target;
-+	uint64_t psci_version =3D 0;
-+	struct kvm_run *run;
-+	struct kvm_vm *vm;
-+
-+	vm =3D setup_vm(guest_test_system_off2, &source, &target);
-+	vcpu_get_reg(target, KVM_REG_ARM_PSCI_VERSION, &psci_version);
-+	TEST_ASSERT(psci_version >=3D PSCI_VERSION(0, 2),
-+		    "Unexpected PSCI version %lu.%lu",
-+		    PSCI_VERSION_MAJOR(psci_version),
-+		    PSCI_VERSION_MINOR(psci_version));
-+
-+	if (psci_version < PSCI_VERSION(1,3))
-+		goto skip;
-+
-+	vcpu_power_off(target);
-+	run =3D source->run;
-+
-+	enter_guest(source);
-+
-+	TEST_ASSERT_KVM_EXIT_REASON(source, KVM_EXIT_SYSTEM_EVENT);
-+	TEST_ASSERT(run->system_event.type =3D=3D KVM_SYSTEM_EVENT_SHUTDOWN,
-+		    "Unhandled system event: %u (expected: %u)",
-+		    run->system_event.type, KVM_SYSTEM_EVENT_SHUTDOWN);
-+	TEST_ASSERT(run->system_event.ndata >=3D 1,
-+		    "Unexpected amount of system event data: %u (expected, >=3D 1)",
-+		    run->system_event.ndata);
-+	TEST_ASSERT(run->system_event.data[0] & KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PS=
-CI_OFF2,
-+		    "PSCI_OFF2 flag not set. Flags %llu (expected %llu)",
-+		    run->system_event.data[0], KVM_SYSTEM_EVENT_SHUTDOWN_FLAG_PSCI_OFF2)=
-;
-+
-+ skip:
-+	kvm_vm_free(vm);
-+}
-+
- int main(void)
+ 
+ /**
+@@ -98,13 +91,18 @@ static struct fpga_bridge *__fpga_bridge_get(struct device *dev,
+ struct fpga_bridge *of_fpga_bridge_get(struct device_node *np,
+ 				       struct fpga_image_info *info)
  {
- 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_SYSTEM_SUSPEND));
-=20
- 	host_test_cpu_on();
- 	host_test_system_suspend();
-+	host_test_system_off2();
- 	return 0;
+-	struct device *dev;
++	struct fpga_bridge *bridge;
++	struct device *bridge_dev;
+ 
+-	dev = class_find_device_by_of_node(&fpga_bridge_class, np);
+-	if (!dev)
++	bridge_dev = class_find_device_by_of_node(&fpga_bridge_class, np);
++	if (!bridge_dev)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	return __fpga_bridge_get(dev, info);
++	bridge = __fpga_bridge_get(bridge_dev, info);
++	if (IS_ERR(bridge))
++		put_device(bridge_dev);
++
++	return bridge;
  }
---=20
-2.34.1
+ EXPORT_SYMBOL_GPL(of_fpga_bridge_get);
+ 
+@@ -125,6 +123,7 @@ static int fpga_bridge_dev_match(struct device *dev, const void *data)
+ struct fpga_bridge *fpga_bridge_get(struct device *dev,
+ 				    struct fpga_image_info *info)
+ {
++	struct fpga_bridge *bridge;
+ 	struct device *bridge_dev;
+ 
+ 	bridge_dev = class_find_device(&fpga_bridge_class, NULL, dev,
+@@ -132,7 +131,11 @@ struct fpga_bridge *fpga_bridge_get(struct device *dev,
+ 	if (!bridge_dev)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	return __fpga_bridge_get(bridge_dev, info);
++	bridge = __fpga_bridge_get(bridge_dev, info);
++	if (IS_ERR(bridge))
++		put_device(bridge_dev);
++
++	return bridge;
+ }
+ EXPORT_SYMBOL_GPL(fpga_bridge_get);
+ 
+@@ -146,7 +149,7 @@ void fpga_bridge_put(struct fpga_bridge *bridge)
+ 	dev_dbg(&bridge->dev, "put\n");
+ 
+ 	bridge->info = NULL;
+-	module_put(bridge->dev.parent->driver->owner);
++	module_put(bridge->br_ops_owner);
+ 	mutex_unlock(&bridge->mutex);
+ 	put_device(&bridge->dev);
+ }
+@@ -316,18 +319,19 @@ static struct attribute *fpga_bridge_attrs[] = {
+ ATTRIBUTE_GROUPS(fpga_bridge);
+ 
+ /**
+- * fpga_bridge_register - create and register an FPGA Bridge device
++ * __fpga_bridge_register - create and register an FPGA Bridge device
+  * @parent:	FPGA bridge device from pdev
+  * @name:	FPGA bridge name
+  * @br_ops:	pointer to structure of fpga bridge ops
+  * @priv:	FPGA bridge private data
++ * @owner:	owner module containing the br_ops
+  *
+  * Return: struct fpga_bridge pointer or ERR_PTR()
+  */
+ struct fpga_bridge *
+-fpga_bridge_register(struct device *parent, const char *name,
+-		     const struct fpga_bridge_ops *br_ops,
+-		     void *priv)
++__fpga_bridge_register(struct device *parent, const char *name,
++		       const struct fpga_bridge_ops *br_ops,
++		       void *priv, struct module *owner)
+ {
+ 	struct fpga_bridge *bridge;
+ 	int id, ret;
+@@ -357,6 +361,7 @@ fpga_bridge_register(struct device *parent, const char *name,
+ 
+ 	bridge->name = name;
+ 	bridge->br_ops = br_ops;
++	bridge->br_ops_owner = owner;
+ 	bridge->priv = priv;
+ 
+ 	bridge->dev.groups = br_ops->groups;
+@@ -386,7 +391,7 @@ fpga_bridge_register(struct device *parent, const char *name,
+ 
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL_GPL(fpga_bridge_register);
++EXPORT_SYMBOL_GPL(__fpga_bridge_register);
+ 
+ /**
+  * fpga_bridge_unregister - unregister an FPGA bridge
+diff --git a/include/linux/fpga/fpga-bridge.h b/include/linux/fpga/fpga-bridge.h
+index 223da48a6d18..94c4edd047e5 100644
+--- a/include/linux/fpga/fpga-bridge.h
++++ b/include/linux/fpga/fpga-bridge.h
+@@ -45,6 +45,7 @@ struct fpga_bridge_info {
+  * @dev: FPGA bridge device
+  * @mutex: enforces exclusive reference to bridge
+  * @br_ops: pointer to struct of FPGA bridge ops
++ * @br_ops_owner: module containing the br_ops
+  * @info: fpga image specific information
+  * @node: FPGA bridge list node
+  * @priv: low level driver private date
+@@ -54,6 +55,7 @@ struct fpga_bridge {
+ 	struct device dev;
+ 	struct mutex mutex; /* for exclusive reference to bridge */
+ 	const struct fpga_bridge_ops *br_ops;
++	struct module *br_ops_owner;
+ 	struct fpga_image_info *info;
+ 	struct list_head node;
+ 	void *priv;
+@@ -79,10 +81,12 @@ int of_fpga_bridge_get_to_list(struct device_node *np,
+ 			       struct fpga_image_info *info,
+ 			       struct list_head *bridge_list);
+ 
++#define fpga_bridge_register(parent, name, br_ops, priv) \
++	__fpga_bridge_register(parent, name, br_ops, priv, THIS_MODULE)
+ struct fpga_bridge *
+-fpga_bridge_register(struct device *parent, const char *name,
+-		     const struct fpga_bridge_ops *br_ops,
+-		     void *priv);
++__fpga_bridge_register(struct device *parent, const char *name,
++		       const struct fpga_bridge_ops *br_ops, void *priv,
++		       struct module *owner);
+ void fpga_bridge_unregister(struct fpga_bridge *br);
+ 
+ #endif /* _LINUX_FPGA_BRIDGE_H */
 
+base-commit: b1a91ca25f15b6d7b311de4465854a5981dee3d3
+-- 
+2.44.0
 
-
-
---=-ESxQ4wr/Bj5uv3tykWrq
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwMzE5MTcxNDQyWjAvBgkqhkiG9w0BCQQxIgQgK8pwQQq/
-fB5IQBWRX8FPzasqsUlv1KMUwu98H2jCzzcwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAUkqpQjrPFJj1+aRm8aSjKQ9SnPsyLaxNQ
-m/9dZ2iXE5TFKeXYo1tRiANO1tIgbOgWsCR8HkVDMtxmsiL2GYDWZcdlZPlpd8L0KUpvsWWDqaIF
-pmyLJ1tAMEU29RWA7Mfu2dWlHt1LDz3FARdR158Nny+SED2Dy11ZPN9S2sPOKyFgQiQA/qjLWMHh
-m7ZLPu1jB0An1C4tRYbCJP0sE9BRyRmT6x6q8bFl2VSB0L373wz8W8lfogQdxNEdJj3D7knF4sbV
-MuDzeWKCZH8bh5TGTRsdytETjxiH1BiOLts7VLeJc0g1k2UjEOFsVYHsTAiPNQTswNTw+aOy6cO1
-qH1C5mYuJ8+4SJBItnulZlSCeddwl8E+76qkBHZjJbVZKtNK/sM0WYU8kDsyuJzJunijkzVV1rxa
-/JshaBJXKvkI5RggBBPpmNj5YLmAD2nsxVMK5RzZ+lcQP4rP38u00uEy/aCLKYI7Uix1zEWdzInp
-HrbLZObbwES9Fg3UyCDMrAYpESCtO5LPjmmK27wInc4yAy/nQx2s3EJ+EDZTW8rPx3E1uMjG4HaK
-cpcDNwzdwZRdzYa/ckzHyQIatdXbmDA+rftiIEfhbMQG4vpB3LtPj25YW9auXBIvGO495lg8l4qB
-N5HGk6H2IArvNhb6qRHrWMjThI+0VZsDRA20k2qSQwAAAAAAAA==
-
-
---=-ESxQ4wr/Bj5uv3tykWrq--
