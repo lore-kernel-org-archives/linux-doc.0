@@ -1,185 +1,176 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AB624B23
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 17:54:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FBF23772;
+	Tue, 19 Mar 2024 17:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710870870; cv=none; b=SecAq32GzHTSy3vzhOxCBoq6LJ4HVCzW4fhh6jsiMSvymATEg8rjM59MtmjVnivFkD1iOU+aw68rfnW+nsZWWQlwDkQsy6YNy4W8KAPssRECY3kjBv56U1ILSbE7S4SQmokN0fHZ9cTJ84Hkfgh5Sl9QcXoFkjqPRNZCWoBenSg=
+	t=1710871173; cv=none; b=XPBu+9l34rycGohF9UJoHUL5JM/NL0tXzBJfLysCuu+BJPaNrMUeaOuUEZ7F3I1Gv9D6wS/8wwe+r1122y7yaE4GeysYLLgOfzQLaO2k48EgHtnx7Zmnu9XGBdzkfu6QKFOw6XrKhaVwgaa+MlCWDrXY97J03AOOx6lxpV3UBlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710870870; c=relaxed/simple;
-	bh=Ao9hwGJl4g/w2wap7dwa291kK0JPcDjzl89BAK46zVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rlcqCx4Z6NjIOcR2RdkzbZwJaLmG/XKopeq+Auo9ht3wIKFSh6zed9sX9iR9pUeftQG9bWCvXObaTMxQWCaREHPUt8+Sd/q5I8324fgtKu+LHSdfrBcnTPYzr7HeRIecDfVwWoEkmVjPPKt5xU6WHHNVc2w6w9DbnB3MND4jTDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=fiSQBkCC; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1710871173; c=relaxed/simple;
+	bh=CStYVCbwa3SM09u8mdWsii9+sW18CUi2oA9JWjwq60I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tn2ijbSuyZ3fEpptQ8ZW87gn1916S0P6ezpDiKZaVHEH7e0QGA9EZHMVkLGHy9yzD3FtpiEN5zHPq+gNpxuQeGIrSkIsgc/It/AXNOZ0EN6IflwOUZhUwzBm0/IocV/NadtB/n0f+m/iTcM7JE0Ok81xnT+xLd5gJvpeZCJz++g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUIVV/qi; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fiSQBkCC"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3c38f4e18eeso1113414b6e.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 10:54:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUIVV/qi"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6dc8b280155so3749894a34.0;
+        Tue, 19 Mar 2024 10:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1710870867; x=1711475667; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=D7H3WfkclcieHpBg89GTkZxaS3r7II1qq9xezXi0hVM=;
-        b=fiSQBkCCoYVMvJ7hKOIWrIUIQtWnudcxCwuRJ3SDAmfcoUJ3LKW/OSOt0XJv0ppBom
-         r1b7EUVzGEU34UNgXl0Xub2wg6VFMC2Ly8xIcAY78NHYVcXijpAahLq3KrnWiEfepI+P
-         K3bumXlIk6qPY69qQGjZxTur6D4Xb2RFW85NT0G9m4KZ2ko8G/knkqvxD72SooihwK+Z
-         WaMPr00ehDA2unHvbCRW9HCn68HsloTpQ5rMYa4Uyj9mIfkuCzQfSnPQejaSEhgNZfAo
-         vO51olQglynGFY2d82cFKRUtHCtTWvMs7dccTYup7df0Q48rdZL147340AdvneF3HcRw
-         D7dA==
+        d=gmail.com; s=20230601; t=1710871171; x=1711475971; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=KUviNEGEqF0+oL+GaKig6+TM+nN7wBAl9E2p2JkHJnc=;
+        b=HUIVV/qia2xbYtLa3Z6JwHhZo5QFlw8r2m0B30ltLbZ9WrccfI1xqymmd2SEqYPYcx
+         mP4GJVqtCIcThsdm+GVL313k/PvlaFTnS93bYwP0NdkY5WTRRUrMxKNoC08fcsba37Sv
+         00voRVE6+Uz7WDdOLoSfR4nUOlrgUk0amAxWnbcmv0IQM9Ulst3V838NtjbnabG0TWql
+         GhNizf/PepVErk/Qo1a/qNCE54+O9aMw9x0xy3ReL/F4hE+NYy8G3cVZn0PYh0u2Vo7q
+         tROn/v4GGjVy3SuKSiZQLDbpgNe+Ki18cffSnToeBdyDEB1fNBUOLV9QvRzww/XuDpdS
+         3MnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710870867; x=1711475667;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D7H3WfkclcieHpBg89GTkZxaS3r7II1qq9xezXi0hVM=;
-        b=e0tx0TzA3hhPR/Ag2rDuNvXoRda4Lvj8k+MBuPL8V7Arf6ruyqCmyIUuacyPyCjJOI
-         j/j5A4x3bqQrG0NDrnCtglVlYCpo+behDVTw9d5h5G6VFt4F4FwRRfN13TfjY/v8KmtV
-         MhIpo04Y6vC9zcmqmJDle5jQ2Ap6pttrcmRHWLiDe0GM2+RYyXF4o9+LkweUqNFRMhMO
-         SDqK86UnoDu4ve1P90c3bNig1Uc0xw+xoy52MWuXVtY6aWq99Gh9/B/fcIcneHV+WgRp
-         bpPA5DVDqfgXBBz0XMqKR0VHkrE/I8CJ/QC7YFRgT2RQJQFsEqs5k5Lrne6VN++LUb4T
-         IpXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsMCpo1ysKGywMVaNZN7ArR/iCCIf+tT45ej5lvRag8GhsHfmyoz+79wDpwv2TQB/T64A//zrBu/6EPDaUhTEe+xa8ZxjDffWs
-X-Gm-Message-State: AOJu0YzMLbXovMd2jJnGCqYhB4X6LiIey0+QZ75F6qFG004kSfA+UxI8
-	7fdvpv8a89elOuZztTw2DIXQ0fuOH1Jv+clrGEUFHdGwJXnvcpJHZPIBxNt03GQ=
-X-Google-Smtp-Source: AGHT+IFEKHu8FJxVRb4YxsELWM46dNSxNuN3njm0tBeD+R+fEyp1j8c0yaDa2gTZMCaYT5fxKBzgBQ==
-X-Received: by 2002:a05:6870:d20e:b0:222:99cb:2215 with SMTP id g14-20020a056870d20e00b0022299cb2215mr3580439oac.28.1710870867581;
-        Tue, 19 Mar 2024 10:54:27 -0700 (PDT)
-Received: from ziepe.ca ([12.97.180.36])
-        by smtp.gmail.com with ESMTPSA id gh11-20020a056638698b00b00477716fcbb8sm2429986jab.40.2024.03.19.10.54.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 10:54:26 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1rmbVk-001elO-4L;
-	Tue, 19 Mar 2024 12:36:20 -0300
-Date: Tue, 19 Mar 2024 12:36:20 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240319153620.GB66976@ziepe.ca>
-References: <20240306154328.GM9225@ziepe.ca>
- <20240306162022.GB28427@lst.de>
- <20240306174456.GO9225@ziepe.ca>
- <20240306221400.GA8663@lst.de>
- <20240307000036.GP9225@ziepe.ca>
- <20240307150505.GA28978@lst.de>
- <20240307210116.GQ9225@ziepe.ca>
- <20240308164920.GA17991@lst.de>
- <20240308202342.GZ9225@ziepe.ca>
- <20240309161418.GA27113@lst.de>
+        d=1e100.net; s=20230601; t=1710871171; x=1711475971;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KUviNEGEqF0+oL+GaKig6+TM+nN7wBAl9E2p2JkHJnc=;
+        b=VC0Un3LE0dJLeSgxDOcGhmnCQgJw3yHJ6TDTUixZbKXb7MRoEIQp2x40w77QSFhWWh
+         pj0pu6y1bV95P4/l1qXtvPK6BnLc0h9n7zlztSgjES5+GFXzDytda/PkqlTzFjMungiX
+         ymBqx8ZH7gp1RqbDB0qKupVLSwbxEcH2kKMsk/toeJ/SQylo15STMHKJbKJ4F28BQklW
+         7u/4ZpPKE66so39XPm/+mUXyYFlNiliFxV5pgO304W6NQ428olkfJTLPSFEo3BxEiUlP
+         8Rf84x1VDj98mjjNszTjTT5JpsXFuRMvrozRG/PpT3U9OaVldn/LDjJP+Y94L35B+q2w
+         dEvA==
+X-Forwarded-Encrypted: i=1; AJvYcCV+Qb9p8CQRKfk/digwioltrw1TW3tZQE8MMJThr/UaEylxWoIAI8fyggTjgyo9TzVSxOvwhnN1CL/I1lsCvRxHGW0lLE3KKtES2u0peIa3i1xP48ZwSRmYKb0SO2I5YWwJSo6yaeL7
+X-Gm-Message-State: AOJu0Ywx6Cc9R9xaYeoPJV7hSaz0rDA1ifB12ZZCsEjSq5IVcm5XrpnR
+	LlPMiI7IICrlW3ULf8+73zRGQIDAbvf1kiVHgmE2N48oCmNWYJ9+gEpFNlHLPU6Nn173ISqSGM0
+	ttTUykHyWGbdkg2iEr35jp/wRENc=
+X-Google-Smtp-Source: AGHT+IE+RutNEX3M+HIkQNfNpI+FwvPVtCZ/xwoKMyDLGVXTUIL9sN4LxDcYmpdBxbiguwrC/QknDAQHtY/D1IrFkj0=
+X-Received: by 2002:a05:6870:b529:b0:221:a08b:5fd7 with SMTP id
+ v41-20020a056870b52900b00221a08b5fd7mr14676195oap.59.1710871170790; Tue, 19
+ Mar 2024 10:59:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240309161418.GA27113@lst.de>
+References: <20240301141800.30218-1-lukas.bulwahn@gmail.com>
+ <m21q8732wo.fsf@gmail.com> <41f28393-0211-4448-8add-ad3c55d02210@oracle.com> <CAD4GDZzjc6=-Gzw23tRgCDE7=AxsenXqpD+qnh6gj1+MYYU2fA@mail.gmail.com>
+In-Reply-To: <CAD4GDZzjc6=-Gzw23tRgCDE7=AxsenXqpD+qnh6gj1+MYYU2fA@mail.gmail.com>
+From: Donald Hunter <donald.hunter@gmail.com>
+Date: Tue, 19 Mar 2024 17:59:19 +0000
+Message-ID: <CAD4GDZyABi3wjKY4SUV804OyBDBaC=Ckz5b0GZ34JmCX8S6V_g@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: drop the version constraints for sphinx and dependencies
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Akira Yokosawa <akiyks@gmail.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Mar 09, 2024 at 05:14:18PM +0100, Christoph Hellwig wrote:
-> On Fri, Mar 08, 2024 at 04:23:42PM -0400, Jason Gunthorpe wrote:
-> > > The DMA API callers really need to know what is P2P or not for
-> > > various reasons.  And they should generally have that information
-> > > available, either from pin_user_pages that needs to special case
-> > > it or from the in-kernel I/O submitter that build it from P2P and
-> > > normal memory.
-> > 
-> > I think that is a BIO thing. RDMA just calls with FOLL_PCI_P2PDMA and
-> > shoves the resulting page list into in a scattertable. It never checks
-> > if any returned page is P2P - it has no reason to care. dma_map_sg()
-> > does all the work.
-> 
-> Right now it does, but that's not really a good interface.  If we have
-> a pin_user_pages variant that only pins until the next relevant P2P
-> boundary and tells you about we can significantly simplify the overall
-> interface.
+On Mon, 18 Mar 2024 at 17:10, Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> On Mon, 18 Mar 2024 at 16:54, Vegard Nossum <vegard.nossum@oracle.com> wrote:
+> >
+> > > % time make htmldocs
+> > > ...
+> > > real  9m0.533s
+> > > user  15m38.397s
+> > > sys   1m0.907s
+> >
+> > Was this running 'make cleandocs' (or otherwise removing the output
+> > directory) in between? Sphinx is known to be slower if you already have
+>
+> Yes, times were after 'make cleandocs'.
+>
+> > an output directory with existing-but-obsolete data, I believe this is
+> > the case even when switching from one Sphinx version to another. Akira
+> > also wrote about the 7.x performance:
+> >
+> > https://lore.kernel.org/linux-doc/6e4b66fe-dbb3-4149-ac7e-8ae333d6fc9d@gmail.com/
+>
+> Having looked at the Sphinx code, it doesn't surprise me that
+> incremental builds can have worse performance. There's probably going
+> to be some speedups to be found when we go looking for them.
 
-Sorry for the delay, I was away..
+Following up on this, Symbol.clear_doc(docname) does a linear walk of
+symbols which impacts incremental builds. The implementation of
+clear_doc() looks broken in other ways which I think would further
+worsen the incremental build performance.
 
-I kind of understand your thinking on the DMA side, but I don't see
-how this is good for users of the API beyond BIO.
+Incremental builds also seem to do far more work than I'd expect. A
+single modified .rst file is quick to build but a handful of modified
+.rst files seems to trigger a far larger rebuild. That would be worth
+investigating too.
 
-How will this make RDMA better? We have one MR, the MR has pages, the
-HW doesn't care about the SW distinction of p2p, swiotlb, direct,
-encrypted, iommu, etc. It needs to create one HW page list for
-whatever user VA range was given.
+> > > I have an experimental fix that uses a dict for lookups. With the fix, I
+> > > consistently get times in the sub 5 minute range:
+> >
+> > Fantastic!
 
-Or worse, whatever thing is inside a DMABUF from a DRM
-driver. DMABUF's can have a (dynamic!) mixture of P2P and regular
-AFAIK based on the GPU's migration behavior.
+I pushed my performance changes to GitHub if you want to try them out:
 
-Or triple worse, ODP can dynamically change on a page by page basis
-the type depending on what hmm_range_fault() returns.
+https://github.com/donaldh/sphinx/tree/c-domain-speedup
 
-So I take it as a requirement that RDMA MUST make single MR's out of a
-hodgepodge of page types. RDMA MRs cannot be split. Multiple MR's are
-not a functional replacement for a single MR.
+I noticed that write performance (the second phase of sphinx-build) is
+quite slow and doesn't really benefit from multi processing with -j
+nn. It turns out that the bulk of the write work is done in the main
+process and only the eventual writing is farmed out to forked
+processes. I experimented with pushing more work out to the forked
+processes (diff below) and it gives a significant speedup at the cost
+of breaking index generation. It might be a  viable enhancement if
+indexing can be fixed thru persisting the indices from the
+sub-processes and merging them in the main process.
 
-Go back to the start of what are we trying to do here:
- 1) Make a DMA API that can support hmm_range_fault() users in a
-    sensible and performant way
- 2) Make a DMA API that can support RDMA MR's backed by DMABUF's, and
-    user VA's without restriction
- 3) Allow to remove scatterlist from BIO paths
- 4) Provide a DMABUF API that is not scatterlist that can feed into
-    the new DMA API - again supporting DMABUF's hodgepodge of types.
+With the below patch, this is the build time I get:
 
-I'd like to do all of these things. I know 3 is your highest priority,
-but it is my lowest :)
+% time make htmldocs SPHINXOPTS=-j12
+...
+real 1m58.988s
+user 9m57.817s
+sys 0m49.411s
 
-So, if the new API can only do uniformity I immediately loose #1 -
-hmm_range_fault() can't guarentee anything, so it looses the IOVA
-optimization that Leon's patches illustrate.
+Note that I get better performance with -j12 than -jauto which auto
+detects 24 cores.
 
-For uniformity #2 probably needs multiple DMA API "transactions". This
-is doable, but it is less performant than one "transaction".
+diff --git a/sphinx/builders/__init__.py b/sphinx/builders/__init__.py
+index 6afb5d4cc44d..6b203799390e 100644
+--- a/sphinx/builders/__init__.py
++++ b/sphinx/builders/__init__.py
+@@ -581,9 +581,11 @@ class Builder:
+                 self.write_doc(docname, doctree)
 
-#3 is perfectly happy because BIO already creates uniformity
+     def _write_parallel(self, docnames: Sequence[str], nproc: int) -> None:
+-        def write_process(docs: list[tuple[str, nodes.document]]) -> None:
++        def write_process(docs: list[str]) -> None:
+             self.app.phase = BuildPhase.WRITING
+-            for docname, doctree in docs:
++            for docname in docs:
++                doctree = self.env.get_and_resolve_doctree(docname, self)
++                self.write_doc_serialized(docname, doctree)
+                 self.write_doc(docname, doctree)
 
-#4 is like #2, there is not guarenteed uniformity inside DMABUF so
-every DMABUF importer needs to take some complexity to deal with
-it. There are many DMABUF importers so this feels like a poor API
-abstraction if we force everyone there to take on complexity.
+         # warm up caches/compile templates using the first document
+@@ -596,6 +598,7 @@ class Builder:
 
-So I'm just not seeing why this would be better. I think Leon's series
-shows the cost of non-uniformity support is actually pretty
-small. Still, we could do better, if the caller can optionally
-indicate it knows it has uniformity then that can be optimized futher.
+         tasks = ParallelTasks(nproc)
+         chunks = make_chunks(docnames, nproc)
++        logger.info(f"_write_parallel: {len(chunks)} chunks")
 
-I'd like to find something that works well for all of the above, and I
-think abstracting non-uniformity at the API level is important for the
-above reasons.
+         # create a status_iterator to step progressbar after writing a document
+         # (see: ``on_chunk_done()`` function)
+@@ -607,12 +610,7 @@ class Builder:
 
-Can we tweak what Leon has done to keep the hmm_range_fault support
-and non-uniformity for RDMA but add a uniformity optimized flow for
-BIO?
+         self.app.phase = BuildPhase.RESOLVING
+         for chunk in chunks:
+-            arg = []
+-            for docname in chunk:
+-                doctree = self.env.get_and_resolve_doctree(docname, self)
+-                self.write_doc_serialized(docname, doctree)
+-                arg.append((docname, doctree))
+-            tasks.add_task(write_process, arg, on_chunk_done)
++            tasks.add_task(write_process, chunk, on_chunk_done)
 
-Jason
+         # make sure all threads have finished
+         tasks.join()
