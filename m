@@ -1,109 +1,110 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F652657B8
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 15:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4CD1F608
+	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 15:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710862573; cv=none; b=P65KukIwDHPL8MeTdrT5FVqwun9PGAfP8Faiu68Ab+0JZjAJPFLM9IxQxm/kfN7Ne5rhDmCtIAI8dhpS+MLKdPY/ftLcGpCV4M/2XwZrNtPSnUzNzXh5e4Y6yqAxPUT0y/Tfy1upUcF5iIka1PWY4Yy5s6JN1s8g4LbbxUxFmRM=
+	t=1710862643; cv=none; b=KBtR5QQFxhJkIGGcuy4Kec1WfmI0FIgdS9wu4rfflu8GfRz14xqGhN66uql2VXTERLJuyDopE7Y7J29sLeCoJaqfBWhHp0P3de/5SWCnvx6TNQcWRc6UK8WT4sPS+X/TZOJo5Qs648sgDsKBdnrunpvQ6f8DXWsntpBjQCprQo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710862573; c=relaxed/simple;
-	bh=evXLw/ER1O/WAyPO8SELAcnS1lMZtXHdsbrDNdBK37o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/tzqgMozNXlxXc3jFMtLYVvRSPe1XPBvU4zUC7Vn5ZyZlJ3BhEVZYgdrHzCMceJuJKzwfayEKu8ashCgFjDq8/UQpG2bFz7KSjCUg7tx+hng5pvNiZnM9kKKDCFK1xZuHNrxgosvlgBuxmqqZDNt717+o9jL+MXiQKHrNOgT0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=HSlj6oIm; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1710862643; c=relaxed/simple;
+	bh=+e6PBZtRSqbzUmJZl60CInLWws2zKLQtfjPL0GbBqFg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MhZ1zdr+t13EzXw22RLII57e+21JoW08cTR5qI7ADLguRZ+7KvB7cQs9GGzrhEimpTeOcwdSGnaHXeW6QQb4MV8YsWBrpQI2pPK5XlBD6FcpMGR3qZfA19IZXZAfGqusSNjJpaF0Wa55bS+I3KgTvbRR6DGBFHVZAlOechTK7tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=l2VoOtie; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="HSlj6oIm"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5586764bd0aso1350525a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 08:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1710862570; x=1711467370; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oMRrzjOPzthVrfn6KYAeeCpTeFZ11+LfDjNaDwcFwcY=;
-        b=HSlj6oImhLeo1ZDYD3cWCqweHgBg3RcWVApqKG5REuwU5pUfUkcnzUgnj/uQ/cUcHQ
-         S7Ols5Gxz1mPpsOCZh89CwNHyyiQHf/QjQqdSoDJaeVae/YMDW/DR2XR6NR1lGKCpuYZ
-         se6LinJxWEvFgHvEDIMgWcKroPa3ZtFZEfSOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710862570; x=1711467370;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oMRrzjOPzthVrfn6KYAeeCpTeFZ11+LfDjNaDwcFwcY=;
-        b=MM64ggLHqT5mSTBKg1nceRJJKGau98t7keFuA/VABMnHgswXYUZWd62mUOyClt1dvf
-         O2TieWXtKLYGTgYcmUttsyQ3BzRm2/KA8GVO8xmQ5s78dbqdmcyoGakbnGzmL2dvXor8
-         MD2gnfPA6IjIc+JmdheGzperxsAUd5jO3ygd9TKxsIAHxBrr/bhpXZvJWDQkZaf6DG2V
-         sRR4vLPr+aS42e0g/5XHqvOaRmQfiqoe7uXjmbhojylug9TDZRufyjpsVEY4Z6PMV336
-         38SlNv4jFw7Z2f/wGvWoEboOBiLacqIXzRGkq3aufS0oZZtTg2S3XZcTu8rh3gXUPiez
-         NVFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkFp94XWKvrLuriIgQXkLI+YR2AiRmyFMqvXxWKwmXDp11LZbk+6rk+Y1FxjyqVrA4nYDI4TJCjpSvgosXfREpB5Mn06OpFmtC
-X-Gm-Message-State: AOJu0YylVfJ8aci9/y26lov92dCC+hO+K35yEKrnVwxX2YsJPMU+4sWM
-	xDPdxdYHzQY/OjTeojpZwG4tLqQW6qZu+73EemWNIs3QJzbEJ6mDAlgmqiEt+jc=
-X-Google-Smtp-Source: AGHT+IGqka02G9xZBUIJYUnMVsGDttJH1Lg5gp0y4iikQkmbEHNnKV4dqr/YUk062oXDQf+NP19rXg==
-X-Received: by 2002:a05:6402:388b:b0:568:a65c:7aff with SMTP id fd11-20020a056402388b00b00568a65c7affmr1747003edb.4.1710862569608;
-        Tue, 19 Mar 2024 08:36:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f23-20020a170906049700b00a3efa4e033asm6220139eja.151.2024.03.19.08.36.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 08:36:08 -0700 (PDT)
-Date: Tue, 19 Mar 2024 16:36:06 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm: Document requirements for driver-specific KMS
- props in new drivers
-Message-ID: <Zfmw5qjlQmiWRDIV@phenom.ffwll.local>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	David Airlie <airlied@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240311155904.323488-1-sebastian.wick@redhat.com>
- <20240314-portable-pragmatic-weasel-7dd91e@houat>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="l2VoOtie"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=dQNmjKEd+HmiqnzhMp2b9iKRUTkrgtmaxcqZKPjppLo=; b=l2VoOtie94b0ykFOCTqX2T/zhx
+	3/RwCqhU7lan5mWnxlNOTLS8rXirdKz64j3qe3ZAEo75MDfXIsB4UeS9TK0I/zpcAx0VnwgJ87c/j
+	Eh7ZEKxBKg1VIXJnDPWjwHGQ+kp7EDjwtr6SadYo8qWfze0Wa2utWo3jtX0E9nfH3w7EjsnC+75HN
+	qQXlnd4Xswuaq/LIQVquXK2UvnDsmCFetHGHlpOP20/jORBw0eSQyQKulX1BG0HdAZxPgs3QufKmm
+	jGmj0lRj8HMpBABrB7ePOn3NFCbQBTZnC3syFe/yWvfkPqmO5bhQ/WkxKtg6ijhft1gKxsfl3Oh7K
+	CKASUt8g==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rmbWh-0000000DBIV-2sQg;
+	Tue, 19 Mar 2024 15:37:19 +0000
+Message-ID: <945e7341-1fc1-44c0-b2a7-9f8c8340668a@infradead.org>
+Date: Tue, 19 Mar 2024 08:37:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240314-portable-pragmatic-weasel-7dd91e@houat>
-X-Operating-System: Linux phenom 6.6.11-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: Document Patch
+Content-Language: en-US
+To: Linem Davton <linemdavton@gmail.com>, linux-doc@vger.kernel.org
+Cc: corbet@lwn.net
+References: <CAHAQYrN7_0+gi2p=fYPpHHMdOk2jwx9cX+nbovynphU8zSAZ5Q@mail.gmail.com>
+ <2ca49f75-6ca6-4006-a332-554aa85399e2@infradead.org>
+ <CAHAQYrMc2c6aQH3fuhHY2zkjd6b0oUHr5O7ykRHFkzFwDivT4w@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAHAQYrMc2c6aQH3fuhHY2zkjd6b0oUHr5O7ykRHFkzFwDivT4w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 14, 2024 at 11:20:09AM +0100, Maxime Ripard wrote:
-> On Mon, Mar 11, 2024 at 04:58:58PM +0100, Sebastian Wick wrote:
-> > When extending support for a driver-specific KMS property to additional
-> > drivers, we should apply all the requirements for new properties and
-> > make sure the semantics are the same and documented.
-> > 
-> > v2: devs of the driver which introduced property shall help and ack
-> > 
-> > Signed-off-by: Sebastian Wick <sebastian.wick@redhat.com>
+Hi,
+
+On 3/19/24 08:30, Linem Davton wrote:
+> Hey Randy,
+>> Please send patches inline instead of as an attachment.
+> Since you are using gmail (which mangles inline text, ugh), you will
+> probably need to use
+> 'git send-email'.
 > 
-> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Thanks for the info.
 > 
-> We probably want to have Dave or Sima ack on that one too
+>> Regarding the patch contents:
+>> The master list of over lists and how to subscribe/unsubscribe them is at
+>> https://vger.kernel.org
+>> which redirects to the URL to that used:
+>  >https://subspace.kernel.org/vger.kernel.org.html
+> 
+> The https://vger.kernel.org leads nowhere, since the site is HTTP only
+> and the modern browser doesn't redirect you, some clients have "https"
+> only enabled which does not even allow the HTTP://vger.kernel.org.
+> Thus I decided to add
+> "https://subspace.kernel.org/vger.kernel.org.html", as it works and
+> has a better use experience as what users see is what they get.
 
-Yeah that's a good idea and defacto how we handled this - additional users
-of anything (whether library or uapi or whatever) get to clean up an
-existing mess if it's too bad. But for uapi it's good to be really
-explicit and document that.
+OK, I didn't check all of that.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> One question - Does no team use trivial@kernel.org, or is it just the
+> documentation team? If so, I will patch the corresponding document.
 
-Cheers, Sima
+Nobody uses trivial@kernel.org any more.
+
+> Signed-off-by: Linem Davton <linemdavton@gmail.com>
+> ---
+>  Documentation/process/2.Process.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/process/2.Process.rst
+> b/Documentation/process/2.Process.rst
+> index 613a01da4717..8d8fff825590 100644
+> --- a/Documentation/process/2.Process.rst
+> +++ b/Documentation/process/2.Process.rst
+> @@ -397,6 +397,11 @@ be found at:
+> 
+>   http://vger.kernel.org/vger-lists.html
+> 
+> +To subscribe or unsubscribe to lists, please visit:
+> +
+> +  https://subspace.kernel.org/vger.kernel.org.html
+> +
+> +and use the "sub/unsub" links next to the list you want.
+>  There are lists hosted elsewhere, though; a number of them are at
+>  redhat.com/mailman/listinfo.
+> 
+
+thanks.
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+#Randy
