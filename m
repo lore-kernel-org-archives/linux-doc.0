@@ -1,325 +1,202 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D271B812
-	for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 17:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710868850; cv=none; b=udl7p/Qre6vk+2qGnStzU44IjsFnEJuXi3WJeXCIyJBr2kbEvbUwWOgWoF0DpxX9Csx7uz24wuqv9FPUsaXDSCO5U/WxY7H9yYm1rWLHM8Gfj/V1wYAZ96nEpq56PzeVMBFzswZMiCIURRPIV39N7cQjVGcUocVzo6aHQ+U1VH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710868850; c=relaxed/simple;
-	bh=Vh9lCoaKMDmTBh3akSE8GiDLO339gYIbqJ18ntD/V64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RatohNdM8ZtWAKmEqhfvx1hUi/tit25vOtlSxGyNDNMSWLLgPpMC6OBExz0FPSoAYY7VF9biiEnVCUvGzE1BFAz3l7kK8UTd+4NSBSUlIomgZ9uXNoVZ8Xc46i7U5nvlBv8RhfzVvrkcNmkOPl7NG+DV6fNWA/rkhY4W5ydidxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YAu4SeUz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774AA2BAE7;
+	Tue, 19 Mar 2024 17:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710870604; cv=fail; b=ZFJI0+f+Bv8HzAaRhcPIjc7P/DT/Cmt+gM2ukT0n8kc595oC1JPP/rlaDCvYKWql7DVoFCAHro82S4jIdmBJrfL6LEYIABi5M5DZmv6+RXAgnEJV1PLzifBnueY7d6Ar7PtdK2aZfdKRntEWc3MsmtLJoPoAldWkGSZSE9ZTWkI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710870604; c=relaxed/simple;
+	bh=C0ZWY8hLIGtthJBHz0nfbwuVM1uuVi6QhJNc6EkNAvk=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=FLo6kRwpGwFsSGEnlETkFMddvok8bZndyO1/+m7LgwtU1OH0AYyPEhT46BdFFK/SXOCM0fbZ4HChnZ2HkYc0YB3K2uwM2Wa3GwEq7g+gA+Pac9yKz4WGCzfC28IFj3PnHCC50AMYnH2u/sVgSYm/OSeBCfFYasRedxd6kb3gv7Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyguHsNU; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YAu4SeUz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710868847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=8ztau3JQ36amubeJuz0wWTtDljNmlC67km863EzzBpM=;
-	b=YAu4SeUzOKEvQ74Oqe3K+qe0mhyNLjCWmwLc2460AW2My8osLelPQH4ISg337lady+EK6Y
-	xekvjiSfFM0ZwsJwC5gQH3DiFJd2mvk3407+xSduXtNjstw89mhENGm7kw7mWt9RJerte2
-	BgoKPDUUMIsxUKbdhA+uX37/TfytqqM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-203-kiFlMqs9PP6h6NJzLmOJ-w-1; Tue, 19 Mar 2024 13:20:45 -0400
-X-MC-Unique: kiFlMqs9PP6h6NJzLmOJ-w-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-33ed22facfeso2323501f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 19 Mar 2024 10:20:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710868840; x=1711473640;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8ztau3JQ36amubeJuz0wWTtDljNmlC67km863EzzBpM=;
-        b=SpZzbqa4UZNgctc2ow9QX59tq0RYPuYjYZY6InjH9bEEIBPAHDeCbGL+dE3obu6K/s
-         8TNfxY6ch+g+TYNnakLmuuILMI8Am96gWAG3+NoWiy/zpAeyDQLWpnDpHV23X4CFjlw6
-         SERIOAMpmoeX7nFc9DRPjpIlLOWlVa5xKNkWtal0YjqNzMyhsY+Dcr0d4LO3D+2ROKyI
-         HC/KJaA+SpUw2BGL1N2pPfYIEjYOhAZo3VYnt5oy8TRAVmM8Vr4vaI4OEgVhnFtoktx1
-         vgv8TvzLAmmGFke7wFzPFZoSyLUuiDLpE8cFmY13sPcICtF9AO7v6mEgHloof43BQFvL
-         zatg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgI70g28LoS57xSIRO8Nhb+lLp4cNM/xdPaw+XXiM4+KdEtYroeoJZWT4yZollC4cacpCdDdRxUDb55tAkLRMNBLTF2jL/3E3l
-X-Gm-Message-State: AOJu0Yxq4qG/U8hUuLDpjPGVTlUIcyhE8TBPaPKg3aqlvm5WhCqIFpXe
-	NS0XHrGv/sLfurQAeZDmH1q7ljzqp6v2B8eC5Zw70SZYyeHNFfVrZq2jFbPBPorAglPlit7IgHx
-	XdFYx6PdGIQFIAHBCtGPOu4+pYnFr1jLsS1n/1IHYCJsBY33hSVt4by4a
-X-Received: by 2002:adf:f483:0:b0:33e:7f5c:a75c with SMTP id l3-20020adff483000000b0033e7f5ca75cmr10435296wro.47.1710868840692;
-        Tue, 19 Mar 2024 10:20:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFx2PQc7A0h2l5AD0StizMnjKmdjOFZhxuFssnLI/hnV0ZMoZOE2qNPVg/1en+Qbw0s7fX2rg==
-X-Received: by 2002:adf:f483:0:b0:33e:7f5c:a75c with SMTP id l3-20020adff483000000b0033e7f5ca75cmr10435275wro.47.1710868840241;
-        Tue, 19 Mar 2024 10:20:40 -0700 (PDT)
-Received: from klayman.redhat.com (net-2-34-30-89.cust.vodafonedsl.it. [2.34.30.89])
-        by smtp.gmail.com with ESMTPSA id g4-20020adfe404000000b0033dd2a7167fsm12804568wrm.29.2024.03.19.10.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 10:20:39 -0700 (PDT)
-From: Marco Pagani <marpagan@redhat.com>
-To: Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alan Tull <atull@opensource.altera.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Marco Pagani <marpagan@redhat.com>,
-	linux-fpga@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fpga: bridge: add owner module and take its refcount
-Date: Tue, 19 Mar 2024 18:20:24 +0100
-Message-ID: <20240319172026.76142-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyguHsNU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710870602; x=1742406602;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=C0ZWY8hLIGtthJBHz0nfbwuVM1uuVi6QhJNc6EkNAvk=;
+  b=hyguHsNU//WJ0l1cwyoRsNWIAzAWFH1NOEgqgG8Cm5F7aJSvbjDMPumV
+   mNYDkV5Zo6hF+DYZn8KjNHwloeKdN/7YOZ4pYNVQBaDqDqxBoz/IC/yc0
+   C8AVgTMKdemzTgpqPsiJlGPV/yuFWhwef+st1FLj61Xb6//YIae+Ze9VN
+   C7pt8bFAsdklOWmRAGE7lL0sjhB77gsVwbqf6nl8T52Ea9p7Eq8QQPYq5
+   TEra4/VnxvJWtsqeOcQU3HjB7+Xbh854v9AbashlndM7FKa8WkWg3ubJ+
+   L0f9450OjjpjWoZLeRasXRZquW0m4a1xnQru8oYeOSSA4ZUZEiX9qwr9w
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5598970"
+X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
+   d="scan'208";a="5598970"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 10:50:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,137,1708416000"; 
+   d="scan'208";a="44977990"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Mar 2024 10:50:01 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 19 Mar 2024 10:50:00 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 19 Mar 2024 10:50:00 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 19 Mar 2024 10:50:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HeKkFQnT2C7wweza8HEJuY6gLb4ZlhTOG5Ee5HcCku6pDgXlRhD6Slw6bWMA/oL+iINanbkyUXTz5QtW/WPflGF0FqsIJKV/+bn6ZtBvlAO4v6/+i4K/m4K5en+1AJ5opvoZEUur6MQox1J2ByRRAr1GHhi+SZx7Ezu0prmlnuiRZUx8mUPWOSA3TAzzW7pgCzxBvoCkZ1UcsHOtFTtc01WZpZdoUnZDEpoADbDqQIqVA62zA54gYJCQLLJK8j01zZSp08K5wHRnhNMDa3q2EXoaADwZ0NOM6VCUsdygBXlQNY7qapwKlKZ/EVGAjGCv5jBE2+q6egEe48pdOcIDfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j1m+decvGXBpzatD085/HTgadW57Ahl3Z9qvhyFCavY=;
+ b=JePFZRjIJ8MZVK5B8tHcxrnxwEnjW1nqVYjoQAVhyGOVzyESrOnjM8yHI1dejW4D9fCpI3XMj4oSwmhToBzmBAa/gyOb7AuH4TUX8tSEt/WTsVaPH/bYGG/EFgPBKNY4CZ56YMNMYTHMURqaVXurEI7pMyenVZz65ojI4zrIHgmCeSwVfW4YPo4XKMGzunu2WE0qEYRptB1LS2fq2HkITC+mDv8klN1YwthaBzNpsbxd6n5T8MTijyhE//cl/UYK1NFNam7zK1Y+cJRLCIKYdF89yGIpU4vFBQ3bwN7Iyncn2JBtQ7cJGwiJkSb52mpG1ZwOq7fvEJ0G2y1gu5Mlqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by CY5PR11MB6113.namprd11.prod.outlook.com (2603:10b6:930:2e::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.12; Tue, 19 Mar
+ 2024 17:49:58 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7409.009; Tue, 19 Mar 2024
+ 17:49:57 +0000
+Message-ID: <2833663a-ffcf-4c47-99ba-741772ae32d8@intel.com>
+Date: Tue, 19 Mar 2024 10:49:54 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 1/9] x86/resctrl: Prepare for new domain scope
+Content-Language: en-US
+To: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
+ Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, <x86@kernel.org>
+CC: Shaopeng Tan <tan.shaopeng@fujitsu.com>, James Morse
+	<james.morse@arm.com>, Jamie Iles <quic_jiles@quicinc.com>, Babu Moger
+	<babu.moger@amd.com>, Randy Dunlap <rdunlap@infradead.org>, Drew Fustini
+	<dfustini@baylibre.com>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <patches@lists.linux.dev>
+References: <20240312214247.91772-1-tony.luck@intel.com>
+ <20240312214247.91772-2-tony.luck@intel.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20240312214247.91772-2-tony.luck@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0133.namprd04.prod.outlook.com
+ (2603:10b6:303:84::18) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|CY5PR11MB6113:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e215b78-90a1-42fe-2e91-08dc483cfe0e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wUeVf1ud7ZvotM/AeqFj5Lds2dEtYu9N1qbIQL503VDSO9TDlI0bDU8l9szs/RkBQ7DXrQNfbNfh4dcjCayo2jFMEJdDWSGp9ZfcpT0zi2yFg105PUcjm+J23JtdTBW9OBTGD9wRSpVbfO50shxDCVHH6kBNXqnG3JBA3kI8tLuJnqymMS9odgUoGIo2+WEZsDyTc01E2u31UjLC1gwA9ZHF2DS7UpZat7nMxptdSJCw8WEAnPkTKGS8iz1/i3Ld+/3HRJl6jtbLNrj+9WdS4zZBSrjhvxqlLRsczNK/R8lOT1oAczVTVC/o20HvQl+evCk0sW/VtagU3FnITw/hAerZ5KPZObRn8EE9jp5wzrltPnZu0qkesAIzE82ZFVYol3uzpB59LVgPZOH0DhvrjhdAvVRXg65xJvWCzhL0AYIqvw7+YwIPOaRvBmn/fszUfb8+4dNGxvUKSj/LRNBulLi6O/P5pZVGqst4UT8kcduXfztDNfh0USvw+cvFoNMSzOaySUoOSOzULYx9EbP16fHT6UXqQjFX9uQ95pGQb2x2LeD+vjt20D6M7juIy6cQAu2D953gWCt5cF+8DqhplX6qtHwJoGCjhYcQ5Wsr5zTTj/qnZcayjvYXph2he4CNb6RYlssSN4Vs98bHSf65QPIEXvYUhJikYypKk+vfQx0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RENDa0NKQy9zOFhDMS9KTDVzWVZjWVZvdnd3UXZ2Wk00VUlEc0lNZVBGemtC?=
+ =?utf-8?B?QVNVZWk1T2w1UXYzaEltZE1uRDd3TmJTQnhRdUJSaVhTSk8rMlJEWm5MZ1JF?=
+ =?utf-8?B?TndEc2VrdGJxZkg1dHVnVU9zU2dEV2RJM0VtN3hBQmU2QlNIcEdJS0hsbG14?=
+ =?utf-8?B?ZWw0SVlIdkVuY0RFS1NoY2Q4UXo3YlJQSjB3TEgrRzUrWFJnWlJrS2paQUts?=
+ =?utf-8?B?NDVMaGwxWGE2N3k4KytUdnNkY0txRmhod0w5NVlMS3lUVU5HemI2NXVXTXBq?=
+ =?utf-8?B?UXpiTExVNmI5ckpHWmhXL1hNZDN1Q0lPRCtUZUdXcElWYXBPWi9FMk9KYkZF?=
+ =?utf-8?B?TFB4SXF4aEc1Y1VDbWY3VE1taTB6WWthbHBNcmJmTCt4Rk1VYklBSjk1NHlT?=
+ =?utf-8?B?RW80Y3Bid2JLTVVrTjNqdXFvekJiZTRqTzlMMzhWSlYxVVd3YXIyT1lhbnJP?=
+ =?utf-8?B?d2dWSUtJWHdnQnZTWFBTaC9pTHZWaGdWOVMzZmV1V2FnZkg1NndLOUFIbzlo?=
+ =?utf-8?B?MjBxeWEzTzVFc0xseXZnUDVreTVNYVByU0dSdldXQnpFYStTY0srMnBpSnZz?=
+ =?utf-8?B?dHVKb1lHbFg5SlRFa0h1cExyRU5xQUZGdmxyK2t3bERFYVhhUGdjUmRrYTdu?=
+ =?utf-8?B?c3VNTzhnbHJybmcwQk1VWEFtUkV2NGdvTlh4TDFEZzB4NjZqTUFtUUhSa2pt?=
+ =?utf-8?B?Rk9kWkNDVVlFSHQ2R2p0NXJjN0ZMYW05MHBOTURrbUg2ZDdvQStvb2dFNWFv?=
+ =?utf-8?B?TThwcjRmMHc3cm5rRTdNc2ZDbHdCOWZXWno0UUx5SFkyMDZrT1BhRHJFRzVV?=
+ =?utf-8?B?eGJZQWI0WmlqUGdSYzZwNUJwYW9zUzNSLzVzYk1FVjQwQjZ1MjNidkpJd0lL?=
+ =?utf-8?B?SjROb1REOWdmTnlVak13MXQzV2crTEN4b1dPQjNsVjVFSHFSUDlaMGFSQzMx?=
+ =?utf-8?B?eko3L0dUUHc1dkFmbklWVkEybXZ6UWtOc1pnUU1uQ0FWVkNxRWs4dTFrN2ln?=
+ =?utf-8?B?VjVWN0pHWlgwQTk0dWJ1RGhCYWtpYVRVOXZ1OHNEbnVlU29DTzVMSG44MFBi?=
+ =?utf-8?B?M3JXWW8ydXEraWNDUFlQcGR3R0NxZkpRdE9QcXFFemlPendmNmJSNCs5NzNO?=
+ =?utf-8?B?dWd0SlA1UURFcG5vSVRra3lnbDlqMHZBcTZna3hMeUxaM3F5WnlzYmhVdDFw?=
+ =?utf-8?B?Y3RVb3dKMG9QbzEzWVVQNFJCZ2QvdVpTWXUzakljNmhpZS9VYlFWYkNqMVR4?=
+ =?utf-8?B?TFlJUU5FMTB0TG4rWWFVVnhNZ2xLYWVsRGI4aHk2b3FDT3ZPU0VKRmNTNHdu?=
+ =?utf-8?B?Q2szdGp6K0Noa1V3UUxqM3E5MUl5L2p1VjdqMUU4UnE5TTBjVG9wNEZFZ21o?=
+ =?utf-8?B?NnE3QUZJYVRwYjA4WjhKdU9ad3BmN3o5MzhVcS9oMTQxNjJ4c2ZjQUQ2c0Mr?=
+ =?utf-8?B?WmNHL2R5QXRlYlJOOWF0aExZVldIbHhIdU1QejlNTkNpcGVKaTFJVkgvZnZ6?=
+ =?utf-8?B?cUFzVE5xU1o1eGdoaXBuQnNFYTk5c1dHLzNjRmE2c0JqbDEyeitCN2huVS9z?=
+ =?utf-8?B?WUFFL1AxQWJ5Q1FleEZDVHB4RGc5ZWpoWlJPZEV6RUd1d1hWQjFsYzlmdHJX?=
+ =?utf-8?B?RU01RTJSSjI4dFhoZXN6emFuTHE4SkE2U2p4b2JjZW5qclc0SzBWcjVUUUVD?=
+ =?utf-8?B?LzBkcTRzM0traW00dlRpZ29Rczk1MDBsR1loVi9SbDVma3ZNK0tBK041OWtJ?=
+ =?utf-8?B?WC82dUdtbnFjemFlb0VTaHNUL200QklOUzlkeUNRbWFJRzBqM0hxODZ2Ky9m?=
+ =?utf-8?B?eHJEdGJOL2oxTHdTS05jU0s0Y3RvTVBlYVpPTjE5R0hCcFl1VWFTZUkrWG84?=
+ =?utf-8?B?NG9ENERlYnJWQUpiVkZxb3FKYk83Njl2Tk5Zalo3UnFhNitEYnE5aS9kM05p?=
+ =?utf-8?B?a1YrV2dIL1h6TExyVjE4QW5DbVZDMWJ6TlJreEd4KzFxNjJjZTQ0ekJ5aVBl?=
+ =?utf-8?B?emtLeUk2QytQSFUydTJSN1Y2SWM4UmY5ZmlNeUt5aEIyVFFaSlpSVHZLWUZr?=
+ =?utf-8?B?NUFNclpyMFlKM2pqbHE0TEdJdjRtdmhGMFR3cFdZZ2JrWFFvaU02SXBrVHh3?=
+ =?utf-8?B?UWpjVTdjZkhrSUdnTXRQOExsQmpRT3VjVzhCczlTSDMwRFk2VmhRNnRLdkFu?=
+ =?utf-8?B?TWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e215b78-90a1-42fe-2e91-08dc483cfe0e
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2024 17:49:57.8984
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /Q5UwtdHNhOB9RvGPPJLgVyKHJbZ4PmIKJ1rpw798lguivPTa2oRr4iPlacD/3pSq5GRFyla1CdAzQxpeykJIvSNBNzP/fzbJuJQmqQXQfg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6113
+X-OriginatorOrg: intel.com
 
-The current implementation of the fpga bridge assumes that the low-level
-module registers a driver for the parent device and uses its owner pointer
-to take the module's refcount. This approach is problematic since it can
-lead to a null pointer dereference while attempting to get the bridge if
-the parent device does not have a driver.
+Hi Tony,
 
-To address this problem, add a module owner pointer to the fpga_bridge
-struct and use it to take the module's refcount. Modify the function for
-registering a bridge to take an additional owner module parameter and
-rename it to avoid conflicts. Use the old function name for a helper macro
-that automatically sets the module that registers the bridge as the owner.
-This ensures compatibility with existing low-level control modules and
-reduces the chances of registering a bridge without setting the owner.
+On 3/12/2024 2:42 PM, Tony Luck wrote:
 
-Also, update the documentation to keep it consistent with the new interface
-for registering an fpga bridge.
+...
 
-Other changes: opportunistically move put_device() from __fpga_bridge_get()
-to fpga_bridge_get() and of_fpga_bridge_get() to improve code clarity since
-the bridge device is taken in these functions.
+> @@ -392,9 +392,6 @@ struct rdt_domain *rdt_find_domain(struct rdt_resource *r, int id,
+>  	struct rdt_domain *d;
+>  	struct list_head *l;
+>  
+> -	if (id < 0)
+> -		return ERR_PTR(-ENODEV);
+> -
 
-Fixes: 21aeda950c5f ("fpga: add fpga bridge framework")
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Xu Yilun <yilun.xu@intel.com>
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
----
+With this snippet rdt_find_domain() no longer returns ERR_PTR() ...
 
-v2:
-- Split out protection against races while taking the mod's refcount
----
- Documentation/driver-api/fpga/fpga-bridge.rst |  7 ++-
- drivers/fpga/fpga-bridge.c                    | 57 ++++++++++---------
- include/linux/fpga/fpga-bridge.h              | 10 +++-
- 3 files changed, 43 insertions(+), 31 deletions(-)
+>  	list_for_each(l, &r->domains) {
+>  		d = list_entry(l, struct rdt_domain, list);
+>  		/* When id is found, return its domain. */
 
-diff --git a/Documentation/driver-api/fpga/fpga-bridge.rst b/Documentation/driver-api/fpga/fpga-bridge.rst
-index 604208534095..d831d5ab6b0d 100644
---- a/Documentation/driver-api/fpga/fpga-bridge.rst
-+++ b/Documentation/driver-api/fpga/fpga-bridge.rst
-@@ -6,9 +6,12 @@ API to implement a new FPGA bridge
- 
- * struct fpga_bridge - The FPGA Bridge structure
- * struct fpga_bridge_ops - Low level Bridge driver ops
--* fpga_bridge_register() - Create and register a bridge
-+* __fpga_bridge_register() - Create and register a bridge
- * fpga_bridge_unregister() - Unregister a bridge
- 
-+The helper macro ``fpga_bridge_register()`` automatically sets
-+the module that registers the bridge as the owner.
-+
- .. kernel-doc:: include/linux/fpga/fpga-bridge.h
-    :functions: fpga_bridge
- 
-@@ -16,7 +19,7 @@ API to implement a new FPGA bridge
-    :functions: fpga_bridge_ops
- 
- .. kernel-doc:: drivers/fpga/fpga-bridge.c
--   :functions: fpga_bridge_register
-+   :functions: __fpga_bridge_register
- 
- .. kernel-doc:: drivers/fpga/fpga-bridge.c
-    :functions: fpga_bridge_unregister
-diff --git a/drivers/fpga/fpga-bridge.c b/drivers/fpga/fpga-bridge.c
-index 79c473b3c7c3..8ef395b49bf8 100644
---- a/drivers/fpga/fpga-bridge.c
-+++ b/drivers/fpga/fpga-bridge.c
-@@ -55,33 +55,26 @@ int fpga_bridge_disable(struct fpga_bridge *bridge)
- }
- EXPORT_SYMBOL_GPL(fpga_bridge_disable);
- 
--static struct fpga_bridge *__fpga_bridge_get(struct device *dev,
-+static struct fpga_bridge *__fpga_bridge_get(struct device *bridge_dev,
- 					     struct fpga_image_info *info)
- {
- 	struct fpga_bridge *bridge;
--	int ret = -ENODEV;
- 
--	bridge = to_fpga_bridge(dev);
-+	bridge = to_fpga_bridge(bridge_dev);
- 
- 	bridge->info = info;
- 
--	if (!mutex_trylock(&bridge->mutex)) {
--		ret = -EBUSY;
--		goto err_dev;
--	}
-+	if (!mutex_trylock(&bridge->mutex))
-+		return ERR_PTR(-EBUSY);
- 
--	if (!try_module_get(dev->parent->driver->owner))
--		goto err_ll_mod;
-+	if (!try_module_get(bridge->br_ops_owner)) {
-+		mutex_unlock(&bridge->mutex);
-+		return ERR_PTR(-ENODEV);
-+	}
- 
- 	dev_dbg(&bridge->dev, "get\n");
- 
- 	return bridge;
--
--err_ll_mod:
--	mutex_unlock(&bridge->mutex);
--err_dev:
--	put_device(dev);
--	return ERR_PTR(ret);
- }
- 
- /**
-@@ -98,13 +91,18 @@ static struct fpga_bridge *__fpga_bridge_get(struct device *dev,
- struct fpga_bridge *of_fpga_bridge_get(struct device_node *np,
- 				       struct fpga_image_info *info)
- {
--	struct device *dev;
-+	struct fpga_bridge *bridge;
-+	struct device *bridge_dev;
- 
--	dev = class_find_device_by_of_node(&fpga_bridge_class, np);
--	if (!dev)
-+	bridge_dev = class_find_device_by_of_node(&fpga_bridge_class, np);
-+	if (!bridge_dev)
- 		return ERR_PTR(-ENODEV);
- 
--	return __fpga_bridge_get(dev, info);
-+	bridge = __fpga_bridge_get(bridge_dev, info);
-+	if (IS_ERR(bridge))
-+		put_device(bridge_dev);
-+
-+	return bridge;
- }
- EXPORT_SYMBOL_GPL(of_fpga_bridge_get);
- 
-@@ -125,6 +123,7 @@ static int fpga_bridge_dev_match(struct device *dev, const void *data)
- struct fpga_bridge *fpga_bridge_get(struct device *dev,
- 				    struct fpga_image_info *info)
- {
-+	struct fpga_bridge *bridge;
- 	struct device *bridge_dev;
- 
- 	bridge_dev = class_find_device(&fpga_bridge_class, NULL, dev,
-@@ -132,7 +131,11 @@ struct fpga_bridge *fpga_bridge_get(struct device *dev,
- 	if (!bridge_dev)
- 		return ERR_PTR(-ENODEV);
- 
--	return __fpga_bridge_get(bridge_dev, info);
-+	bridge = __fpga_bridge_get(bridge_dev, info);
-+	if (IS_ERR(bridge))
-+		put_device(bridge_dev);
-+
-+	return bridge;
- }
- EXPORT_SYMBOL_GPL(fpga_bridge_get);
- 
-@@ -146,7 +149,7 @@ void fpga_bridge_put(struct fpga_bridge *bridge)
- 	dev_dbg(&bridge->dev, "put\n");
- 
- 	bridge->info = NULL;
--	module_put(bridge->dev.parent->driver->owner);
-+	module_put(bridge->br_ops_owner);
- 	mutex_unlock(&bridge->mutex);
- 	put_device(&bridge->dev);
- }
-@@ -316,18 +319,19 @@ static struct attribute *fpga_bridge_attrs[] = {
- ATTRIBUTE_GROUPS(fpga_bridge);
- 
- /**
-- * fpga_bridge_register - create and register an FPGA Bridge device
-+ * __fpga_bridge_register - create and register an FPGA Bridge device
-  * @parent:	FPGA bridge device from pdev
-  * @name:	FPGA bridge name
-  * @br_ops:	pointer to structure of fpga bridge ops
-  * @priv:	FPGA bridge private data
-+ * @owner:	owner module containing the br_ops
-  *
-  * Return: struct fpga_bridge pointer or ERR_PTR()
-  */
- struct fpga_bridge *
--fpga_bridge_register(struct device *parent, const char *name,
--		     const struct fpga_bridge_ops *br_ops,
--		     void *priv)
-+__fpga_bridge_register(struct device *parent, const char *name,
-+		       const struct fpga_bridge_ops *br_ops,
-+		       void *priv, struct module *owner)
- {
- 	struct fpga_bridge *bridge;
- 	int id, ret;
-@@ -357,6 +361,7 @@ fpga_bridge_register(struct device *parent, const char *name,
- 
- 	bridge->name = name;
- 	bridge->br_ops = br_ops;
-+	bridge->br_ops_owner = owner;
- 	bridge->priv = priv;
- 
- 	bridge->dev.groups = br_ops->groups;
-@@ -386,7 +391,7 @@ fpga_bridge_register(struct device *parent, const char *name,
- 
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(fpga_bridge_register);
-+EXPORT_SYMBOL_GPL(__fpga_bridge_register);
- 
- /**
-  * fpga_bridge_unregister - unregister an FPGA bridge
-diff --git a/include/linux/fpga/fpga-bridge.h b/include/linux/fpga/fpga-bridge.h
-index 223da48a6d18..94c4edd047e5 100644
---- a/include/linux/fpga/fpga-bridge.h
-+++ b/include/linux/fpga/fpga-bridge.h
-@@ -45,6 +45,7 @@ struct fpga_bridge_info {
-  * @dev: FPGA bridge device
-  * @mutex: enforces exclusive reference to bridge
-  * @br_ops: pointer to struct of FPGA bridge ops
-+ * @br_ops_owner: module containing the br_ops
-  * @info: fpga image specific information
-  * @node: FPGA bridge list node
-  * @priv: low level driver private date
-@@ -54,6 +55,7 @@ struct fpga_bridge {
- 	struct device dev;
- 	struct mutex mutex; /* for exclusive reference to bridge */
- 	const struct fpga_bridge_ops *br_ops;
-+	struct module *br_ops_owner;
- 	struct fpga_image_info *info;
- 	struct list_head node;
- 	void *priv;
-@@ -79,10 +81,12 @@ int of_fpga_bridge_get_to_list(struct device_node *np,
- 			       struct fpga_image_info *info,
- 			       struct list_head *bridge_list);
- 
-+#define fpga_bridge_register(parent, name, br_ops, priv) \
-+	__fpga_bridge_register(parent, name, br_ops, priv, THIS_MODULE)
- struct fpga_bridge *
--fpga_bridge_register(struct device *parent, const char *name,
--		     const struct fpga_bridge_ops *br_ops,
--		     void *priv);
-+__fpga_bridge_register(struct device *parent, const char *name,
-+		       const struct fpga_bridge_ops *br_ops, void *priv,
-+		       struct module *owner);
- void fpga_bridge_unregister(struct fpga_bridge *br);
- 
- #endif /* _LINUX_FPGA_BRIDGE_H */
 
-base-commit: b1a91ca25f15b6d7b311de4465854a5981dee3d3
--- 
-2.44.0
+...
 
+
+> @@ -507,6 +517,12 @@ static void domain_add_cpu(int cpu, struct rdt_resource *r)
+>  
+>  	lockdep_assert_held(&domain_list_lock);
+>  
+> +	if (id < 0) {
+> +		pr_warn_once("Can't find domain id for CPU:%d scope:%d for resource %s\n",
+> +			     cpu, r->scope, r->name);
+> +		return;
+> +	}
+> +
+>  	d = rdt_find_domain(r, id, &add_pos);
+>  	if (IS_ERR(d)) {
+
+... but there is a lingering IS_ERR() check here. I wanted to confirm that I missed
+this in v13 but this looked differently in that version and seems to have
+sneaked in since then.
+
+Reinette
