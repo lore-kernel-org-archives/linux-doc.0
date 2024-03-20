@@ -1,94 +1,94 @@
-Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415BB2DF7D;
-	Wed, 20 Mar 2024 08:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77F8101E8;
+	Wed, 20 Mar 2024 08:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710922694; cv=none; b=nTftO7V3ZBKI36QVXvEGYTHk3eZKCPpX/UdSzxuJllt9ePBQpDKGklgwp7481d7HuSikCthSoD3hL/u6x6m5E0xT9N63mjCHiF6a8I7YTGLbEKKHWyaR28ObCJ5Rk2IALJWw2FuJBUloim/T3RQaBJC7ndYAfPrUY23DrqRizks=
+	t=1710923324; cv=none; b=mP+rjU8eXFLkZ3PIRENSQgpk8Mmft8SPu4cTYFp3AcRdNCFEPG9/AT9dBMDqrWZSKnINDEgCQQuRFKJ1zulwBEout/J8e6q3eoLWlXUJDjDJstyy0h1PahiS2w1TcYd5Yg/bVEiVS2s96cPeBUV9l/jklPpeAAyTGCeu4z+88Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710922694; c=relaxed/simple;
-	bh=60sKjZFMDkIGBZ34PBAlSHbXPnG2diZASmVrBzUBnok=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NvsK+x7n3Llla4xM6zMmvLz9pjBx+LW8Z+cIvt+E0CcrBap2cWTw9TfxCBW/VgRBVysNb55ZVvUOj+8tyEiIPG3SN1FStM2RVxyhnrlkBBu7GpTXgM/m6Lep6j91AjpecglGg+Dmtn/nMs4HZU+nh42tJRqJb9dLw/2eSVcUq2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.93.142])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4V01gH1LT4z4f3kK1;
-	Wed, 20 Mar 2024 16:18:03 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id 1085A1A0172;
-	Wed, 20 Mar 2024 16:18:07 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.175.101.6])
-	by APP3 (Coremail) with SMTP id _Ch0CgDnpZ29m_plVnGcHQ--.12753S2;
-	Wed, 20 Mar 2024 16:18:06 +0800 (CST)
-From: Kemeng Shi <shikemeng@huaweicloud.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com,
-	corbet@lwn.net
-Cc: linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: kunit: correct KUNIT_VERY_SLOW to KUNIT_SPEED_VERY_SLOW
-Date: Thu, 21 Mar 2024 01:14:24 +0800
-Message-Id: <20240320171424.6536-1-shikemeng@huaweicloud.com>
-X-Mailer: git-send-email 2.30.0
+	s=arc-20240116; t=1710923324; c=relaxed/simple;
+	bh=BWNgmr1UI8Ez2Yk8JxGhv2jILFoV7E237Mqwin2G1xU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=hausd+UiYuHv5zj3MO1oKJcxcj9MmB8HjeZhHTURzzK62v7C6JdVhjwTU5YAiw0KTxhLoAPcf45rfVnkFQ6GnQgwxfLbSGYAlqOxubsE7fNBchFVpJ8f431dBqzJ9jeeO4/Xy6Cr/UcovTvCOJFC/PEtmyAbEois4CoGHoquSBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+rqknd1; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+rqknd1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49DB8C433F1;
+	Wed, 20 Mar 2024 08:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710923324;
+	bh=BWNgmr1UI8Ez2Yk8JxGhv2jILFoV7E237Mqwin2G1xU=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=Z+rqknd11Xq+RxpQ3lOa2Uc20j2piizrSxUqNkCmdP1FQ39nD+481V0wtS5iKppBt
+	 dhwwp+ZhJKG90Z7IQFnHeG7lKyvY56576olFr+46vsI3SBRIE3fafp6AS7fneglF8l
+	 pEd+7SjXv8owZkIWAuebthTIB0bmCwtSGLN1itKiNkN8l8DaPkrqchOS/F8OE3nH7Q
+	 wJYYPVpRX7L/78U68unPdvDX8prEnKpuR7XXUVHzHn20sdQtl+wGK5mFrfdRLZJtto
+	 mZHoJKW9S3zezgO/5IIN2p3bK6WAyc69ODlVC/LLzP2RNdqhHxuXwaM+jMyGnpzyVI
+	 drRgIQTjnw8qA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_Ch0CgDnpZ29m_plVnGcHQ--.12753S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jry5Zry3XFyDtr4kArWxCrg_yoWDtFXEva
-	4rZFn3CFW3tr9aqr4jyF1SyFn3GFW8Cr48Wr4DKF98Cr1SyasrKFyDJ3sF9r1Uur1S9a4f
-	tan7ur1jvwn7AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l87I20VAvwVAaII0Ic2I_JFv_Gryl8c
-	AvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq
-	3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gc
-	CE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxI
-	r21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87
-	Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IY
-	c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
-	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
-	0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
-	vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
-	jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jIGQDUUUUU=
-X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 20 Mar 2024 10:28:38 +0200
+Message-Id: <CZYFP5S04YTK.23AJMKWQWVCR8@kernel.org>
+To: "Paul Moore" <paul@paul-moore.com>, "Fan Wu"
+ <wufan@linux.microsoft.com>, <corbet@lwn.net>, <zohar@linux.ibm.com>,
+ <jmorris@namei.org>, <serge@hallyn.com>, <tytso@mit.edu>,
+ <ebiggers@kernel.org>, <axboe@kernel.dk>, <agk@redhat.com>,
+ <snitzer@kernel.org>, <eparis@redhat.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
+ <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
+ <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC v15 12/21] security: add
+ security_bdev_setintegrity() hook
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+X-Mailer: aerc 0.15.2
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
+ <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
+In-Reply-To: <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
 
-There is no KUNIT_VERY_SLOW, I guess we mean KUNIT_SPEED_VERY_SLOW.
+On Wed Mar 20, 2024 at 1:00 AM EET, Paul Moore wrote:
+> On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> >=20
+> > This patch introduces a new hook to save block device's integrity
+> > data. For example, for dm-verity, LSMs can use this hook to save
+> > the roothash signature of a dm-verity into the security blob,
+> > and LSMs can make access decisions based on the data inside
+> > the signature, like the signer certificate.
+> >=20
+> > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >=20
+> > --
+> > v1-v14:
+> >   + Not present
+> >=20
+> > v15:
+> >   + Introduced
+> >=20
+> > ---
+> >  include/linux/lsm_hook_defs.h |  2 ++
+> >  include/linux/security.h      | 14 ++++++++++++++
+> >  security/security.c           | 28 ++++++++++++++++++++++++++++
+> >  3 files changed, 44 insertions(+)
+>
+> I'm not sure why you made this a separate patch, help?  If there is
+> no significant reason why this is separate, please squash it together
+> with patch 11/21.
 
-Signed-off-by: Kemeng Shi <shikemeng@huaweicloud.com>
----
- Documentation/dev-tools/kunit/running_tips.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Off-topic: it is weird to have *RFC* patch set at v15.
 
-diff --git a/Documentation/dev-tools/kunit/running_tips.rst b/Documentation/dev-tools/kunit/running_tips.rst
-index bd689db6fdd2..482f598d141c 100644
---- a/Documentation/dev-tools/kunit/running_tips.rst
-+++ b/Documentation/dev-tools/kunit/running_tips.rst
-@@ -294,7 +294,7 @@ macro to define the test case instead of ``KUNIT_CASE(test_name)``.
- .. code-block:: c
- 
- 	static const struct kunit_attributes example_attr = {
--		.speed = KUNIT_VERY_SLOW,
-+		.speed = KUNIT_SPEED_VERY_SLOW,
- 	};
- 
- 	static struct kunit_case example_test_cases[] = {
-@@ -311,7 +311,7 @@ suite definition.
- .. code-block:: c
- 
- 	static const struct kunit_attributes example_attr = {
--		.speed = KUNIT_VERY_SLOW,
-+		.speed = KUNIT_SPEED_VERY_SLOW,
- 	};
- 
- 	static struct kunit_suite example_test_suite = {
--- 
-2.30.0
+RFC by de-facto is something that can be safely ignored if you don't
+have bandwidth. 15 versions of anything that can be safely ignored
+is by definition spamming :-) I mean just conceptually.
 
+So does the RFC still hold or what the heck is going on with this one?
+
+Haven't followed for some time now...
+
+BR, Jarkko
