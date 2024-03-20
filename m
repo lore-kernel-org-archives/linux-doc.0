@@ -1,107 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D6754BE0;
-	Wed, 20 Mar 2024 00:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71C77F9CC;
+	Wed, 20 Mar 2024 00:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710892834; cv=none; b=f3au/1kTXF3Q7zOvowzL5xlzCEbkSaO0KBVO6/FCcFRnrgyhm3vP35Orxg2TWePdg8nyd5bVng8sF52iSJ1n8S3FULYWkwmRuSWOlbpRO1KFrRHjlXjac7M4GSJIyzgtC8IBgoZf86CRUKPf5hK2c2aECzw3qI5RhXh285QQ6B0=
+	t=1710893836; cv=none; b=m8hb8j4fevTjUSIYcjMGChVx6NrZS2siFkvIBjewOOysoso1i3HaaH61OnTulYH4BizC9I/TWjOXIG6F6hfFaViVio39gGWvOwGzO14VW0iZ8mkgr7ZUA8GrNq8QQoPo+H0YgNAWlb6Rpr2BfIFasBDVGticM7Tf4oUBG+U2mq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710892834; c=relaxed/simple;
-	bh=8Hvra+wPx1zlBKmPjY7x+ZfpSU/X0yd68kwaWXPKPD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTBVtYxzGmDPXl0ZvaoPP8ir/L9ETxJuX5nU5cF4QcBg9W9z9auoQ9gfhZZxAcTKzWvtXebMAzSBWmw9FE91D3irSsIdXdAYEau3XWJVxkHzROkU006WNLBUzQJeHMYC4lKTY3ktNhk3X1pu8SRzh77fvN46la1+pYHxQX/LJ+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmUIK+uj; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1710893836; c=relaxed/simple;
+	bh=VdoFpvA7x+42mN3b3PxvQ8HMy1WtS/Ev7hI1DtopmG4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MwuOduDyn/5gzphPkOSyG5Lk/rb20o3Xb0IHNRBsQLQM2SWa81p+m2NWEqsue5mxEbcHc+ktnmQpnYzNgYW0HtKa2YiFZr11SxXpZPHAjH1ceB4dZ+8Cyq2JCO+YCNbWP9s7ntaxd2Wnz1zKG95FguTSmXTn5UoTZqUnFlxffU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIZVGkWp; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmUIK+uj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710892832; x=1742428832;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8Hvra+wPx1zlBKmPjY7x+ZfpSU/X0yd68kwaWXPKPD0=;
-  b=DmUIK+ujv0gK72LMZDD8Fm183Tem5WLQrDOTB5HozQXbnuLzZs89iqvD
-   xMpQ1JR6E71RKbK2Vu0khgdVL7VOmRtYB8gj2kqHGXS3RaTHC9n4XLYTR
-   Ul/PPfZCFLsACVB/Ugstwj9kCFYCpU0eUNvwxdk9JhUEiR/MIUe0hdnvX
-   Ai+jlhNIkLBEjgSAlKduMML5+1w/HyWTPy5kOrcX9wDvoQ+RBCyhN6wWF
-   9GL1avFEWD4vmJA1Ra9efn4QkGn/c4zCXXTEX8noNbeuGZFfNakJ7rqgu
-   kwI8gq4POlZujLB41sGpE/mRVMPji2LIihJZqBD/5Bcl4hoeXPPEhtVuN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11018"; a="5972292"
-X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="5972292"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 17:00:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,138,1708416000"; 
-   d="scan'208";a="18698006"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by orviesa005.jf.intel.com with ESMTP; 19 Mar 2024 17:00:27 -0700
-Date: Wed, 20 Mar 2024 07:55:55 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Marco Pagani <marpagan@redhat.com>, Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Alan Tull <atull@opensource.altera.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fpga@vger.kernel.org
-Subject: Re: [PATCH v6] fpga: manager: add owner module and take its refcount
-Message-ID: <ZfomC4W8f6id5gRa@yilunxu-OptiPlex-7050>
-References: <20240305192926.84886-1-marpagan@redhat.com>
- <ZfkOvXslEjgU+fc1@yilunxu-OptiPlex-7050>
- <2024031906-radish-handbrake-93b4@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIZVGkWp"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e6b6e000a4so345489b3a.0;
+        Tue, 19 Mar 2024 17:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710893834; x=1711498634; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ewnx+qqOLD+CDSGBLXyslpAmGrwWU9vAAEvXADtuxMQ=;
+        b=DIZVGkWp6myshvcxlhIBjdUs2mQ3jLq9S3/a+dfR3Zk3N6AJQpAMHwpmZ5kvmFQbD7
+         iOp9FyZZoH/JluqsFg0FFOxT7fPDJNJ5VplRTEdxI+iatb7TJ2sbQSq/bo/rVB6bf06/
+         XbvlGV4fx4AVZOQRMHrqN1OP3R+oxyEwiCwj8hd4IXx8dTZh0BKbSUIBnYhugc7nd59d
+         3EQqq28gHF8K+LL10AAEnUFM+fo7kBeaXU9vkBDhD1kswkwxoEHEZya8nJ5b3GSPWL86
+         x0PkoenLl5KRaJb/CKN1oDakiNEOuwU25piMnJp9DZrpPFENWJGPOoSuldjXtmvPQSaF
+         /HYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710893834; x=1711498634;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ewnx+qqOLD+CDSGBLXyslpAmGrwWU9vAAEvXADtuxMQ=;
+        b=ceDAKej0ovsckX0N/tjQoRAQXXckV/uyJklK11fMPj7/2RX/F/auX+yT3TYGn1QKKn
+         Qua1v/HpME4bvdTNVX6wYpsj1dFR6ZM1fLd5D1lHScH1RvioNByFeCNmVMTIv3s1KYJx
+         T2Sa24nPwUc9+cvmCOyKul9dO5cGwAIr1WfHVARDc6SIHu14mPEmhTAa8hFQOBtwARse
+         I15ZCccTlW+MQTunTH/iTT87mbKQs1Z+nk2oOpmKwUc6h5fwl7zY/+IVJkEU5qRQQk8t
+         qmjveL3FFaPSXBYiXSPf35c/psjrqv/i1oqyTpNaoMOl4q8DIMObBLx+sjqp7dyJkBCh
+         xNKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUq2Oa8yYG4ydkghkfCeahhhc/q6+cy63m67i+QFH5oarFvE/lgiz19OhQEAu2ZQNSK4nDhTNDOE8KaW/S+/I3P5nSC49Z2GQIEhxUdjRgeGsyd18dAm9C0kX8jnYqBIiDPPJ2+
+X-Gm-Message-State: AOJu0YxMaMjS0N0ZheAzodvvIcfNw0SXSghPlJjRSyxi4DEdxlhevVGv
+	DsUhJsJ/svR/HIYFViDht2re4ReVb2O0m/+kF+Ps/BREWL1l7OA4
+X-Google-Smtp-Source: AGHT+IFkw8SANeE+hvamksbiwMcerGQRkxwrCnaGIK3IcsW/cgQhZrncfPk6XuMbaMzseVpwBi9mkw==
+X-Received: by 2002:a05:6a21:150c:b0:1a3:53ee:ce07 with SMTP id nq12-20020a056a21150c00b001a353eece07mr1240313pzb.28.1710893833766;
+        Tue, 19 Mar 2024 17:17:13 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id ks11-20020a056a004b8b00b006e647059cccsm10357007pfb.33.2024.03.19.17.17.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 17:17:13 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: corbet@lwn.net,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Barry Song <v-songbaohua@oppo.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Zankel <chris@zankel.net>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH] Documentation: coding-style: ask function-like macros to evaluate parameters
+Date: Wed, 20 Mar 2024 13:16:56 +1300
+Message-Id: <20240320001656.10075-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024031906-radish-handbrake-93b4@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 19, 2024 at 09:01:32AM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Mar 19, 2024 at 12:04:13PM +0800, Xu Yilun wrote:
-> > On Tue, Mar 05, 2024 at 08:29:26PM +0100, Marco Pagani wrote:
-> > > The current implementation of the fpga manager assumes that the low-level
-> > > module registers a driver for the parent device and uses its owner pointer
-> > > to take the module's refcount. This approach is problematic since it can
-> > > lead to a null pointer dereference while attempting to get the manager if
-> > > the parent device does not have a driver.
-> > > 
-> > > To address this problem, add a module owner pointer to the fpga_manager
-> > > struct and use it to take the module's refcount. Modify the functions for
-> > > registering the manager to take an additional owner module parameter and
-> > > rename them to avoid conflicts. Use the old function names for helper
-> > > macros that automatically set the module that registers the manager as the
-> > > owner. This ensures compatibility with existing low-level control modules
-> > > and reduces the chances of registering a manager without setting the owner.
-> > > 
-> > > Also, update the documentation to keep it consistent with the new interface
-> > > for registering an fpga manager.
-> > > 
-> > > Other changes: opportunistically move put_device() from __fpga_mgr_get() to
-> > > fpga_mgr_get() and of_fpga_mgr_get() to improve code clarity since the
-> > > manager device is taken in these functions.
-> > > 
-> > > Fixes: 654ba4cc0f3e ("fpga manager: ensure lifetime with of_fpga_mgr_get")
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Suggested-by: Xu Yilun <yilun.xu@intel.com>
-> > > Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> > 
-> > Acked-by: Xu Yilun <yilun.xu@intel.com>
-> > 
-> > Will apply to v6.9-rc1
-> 
-> It is way too late for -rc1, sorry, this needs to wait for the next
-> release.
+From: Barry Song <v-songbaohua@oppo.com>
 
-You're right. I'm sorry, I mean I will apply when v6.9-rc1 comes.
+Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
+sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
+and loongarch,
+   In file included from crypto/scompress.c:12:
+   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
+      76 |                 struct page *page;
+         |                              ^~~~
+   crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused-variable]
+     174 |                         struct page *dst_page = sg_page(req->dst);
+         |
 
-> 
-> thanks,
-> 
-> greg k-h
+The reason is that flush_dcache_page() is implemented as a noop
+macro on these platforms as below,
+
+ #define flush_dcache_page(page) do { } while (0)
+
+The driver code, for itself, seems be quite innocent and placing
+maybe_unused seems pointless,
+
+ struct page *dst_page = sg_page(req->dst);
+
+ for (i = 0; i < nr_pages; i++)
+ 	flush_dcache_page(dst_page + i);
+
+And it should be independent of architectural implementation
+differences.
+
+Let's have a guidance in codingstyle to ask for the evaluation
+of parameters.
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Chris Zankel <chris@zankel.net>
+Cc: Huacai Chen <chenhuacai@loongson.cn>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
+Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+---
+ Documentation/process/coding-style.rst | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 9c7cf7347394..8065747fddff 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -827,6 +827,13 @@ Macros with multiple statements should be enclosed in a do - while block:
+ 				do_this(b, c);		\
+ 		} while (0)
+ 
++Function-like macros should evaluate their parameters, for unused parameters,
++cast them to void:
++
++.. code-block:: c
++
++	#define macrofun(a) do { (void) (a); } while (0)
++
+ Things to avoid when using macros:
+ 
+ 1) macros that affect control flow:
+-- 
+2.34.1
+
