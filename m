@@ -1,72 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB9A54F8A;
-	Wed, 20 Mar 2024 16:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAFA55792;
+	Wed, 20 Mar 2024 16:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710950986; cv=none; b=R0dvnXXKh0o4QjF3nCUWWR1X2jpSMj58i0qqQmZP6D3/npJi2JZ7zlb/CX/d8wMd9VZDdjUNaHGblWCmxR29VErjbPFORrhmfj6a38BWEqlJNjG7smd5/skvbW9VGHpz5PkoPVu4twYEqTlc1r5W4BcTrHqsKsq/M+3/ptfl9oU=
+	t=1710951393; cv=none; b=eNMOFRqo6eF+apXO/iEtiQn941+4tXAAG2cgY5zqlG4JAZtQ5ciyMK8ZnUtlssof7GbQ1ap+zo9PVodkr+IwORac4SjN1+1BX+g7NvFKTuGtZKclxxEg0BeA7vVGFjq9kn5TELEdJOV6a+4NwYPm7YkOxGckyt3zVlwrXz4EaKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710950986; c=relaxed/simple;
-	bh=eElWcB41AoBcrw2W6dId5StcFH42yYRYig91JzcJ8qQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rBzG1FyVKkI+je9YiT7nIQo4tSdwUUzd2XtiQSZnyUE3gBZy5IB5WiOMgq1GoLiOZjMI+KKIaz0nvhVZcShVV+2f817KrOp51+V/2sHhCcSyNi/WxGwiMXJPGcW53I2/RSteJR8e3QwgkfiwEqprYXux5H0bgHSoU9W6IyJRzbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rmqTMWnG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710951393; c=relaxed/simple;
+	bh=0RvBV5HPHCypiG8/1C2bPVwFxUctq8TGU6kkO100MJQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZzuUDm/HAHDIn5uiIQ2sJNNb2GZVn3HZRsEIiOpYkXVe1Kc+DlDRPQ+PGCDROcq+cf9hw0TR+ffhfjHu7pSPRhxiLB1HtOrAvApNz+nvo09n9BE8vawMSH2iGMTknmFjNkQM/HchQZ6rp1uWWE1x9IKAaEPf82NQNcgCyQtQFLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Yas7dPUI; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rmqTMWnG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69B65C433C7;
-	Wed, 20 Mar 2024 16:09:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710950985;
-	bh=eElWcB41AoBcrw2W6dId5StcFH42yYRYig91JzcJ8qQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rmqTMWnG3wf+0ACqT2qYY6cOhL1XEakoZB3MoiZ6kCRTdM7wPGnZqlDbki7KZReX+
-	 fXNgYPhCRdxxCYkU59i4ZvQCWluxF2XtKaQKParMSlFiKrMCrVsqEATGOOaN9Sb1sy
-	 e+hPcjWbB7oVy3CEFEc9SYharoPVcQ5UII1NQMX71rxBVyvSLhMsPLqjNfS/jXUH6A
-	 5V3tkZ85nbAufQUswK8ZDlE5t00rJ/XuqYv9mQUZx6EMstW5wVsbDShcyUl8IXvqUh
-	 tQN90NgT7fmBMrki+OnsQ7owNSN1U9yM0TUUyw0Z8LFt9URqOcCvnYzUfxB0Frpibm
-	 bZpSuSGHSVuEw==
-Date: Wed, 20 Mar 2024 16:09:38 +0000
-From: Simon Horman <horms@kernel.org>
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com, christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com, davem@davemloft.net,
-	alexandre.torgue@foss.st.com, joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com, pandith.n@intel.com,
-	mallikarjunappa.sangannavar@intel.com, subramanian.mohan@intel.com,
-	basavaraj.goudar@intel.com, thejesh.reddy.t.r@intel.com
-Subject: Re: [PATCH v5 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Message-ID: <20240320160938.GV185808@kernel.org>
-References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
- <20240319130547.4195-12-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Yas7dPUI"
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42KG0ATk020257;
+	Wed, 20 Mar 2024 16:16:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=HfuSXD61T3jEkncOiw8gApr3+P2Z8+cmNdGxNiRWng0=;
+ b=Yas7dPUI7lofd074WfRo3wi04lnUOmlek1xutDTWtXuumYq7/0q4W/wuhxUeBJIA+Ime
+ F50/+zSAVt87cOCp19vpzy9iU/4M41QrBQ1wY9GYeR5dNGsgCuXyayqYkCEesPlY9Qj0
+ hP5TWJFESbXp9NPtaFNdLPP35suFIRFkG2CYUn2BbREmVcmpmLlbeVN/6rk+pBhxyunM
+ nJyfNbxgjwNtOF7mhf6NdJ8Z9VBh93VvaQcansoUehkl8hc7NUcws+dC0HAPmpgjpcl+
+ ZumydteDpUz7MfBt0bToYqif3oIV9qoyNPL0SsP+SK0Phd/FF+H6b0bba5gLW3jNtPc+ Wg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x008rgg24-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 16:16:05 +0000
+Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 42KGG5rQ012184;
+	Wed, 20 Mar 2024 16:16:05 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3x008rgg21-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 16:16:05 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42KE9wci017231;
+	Wed, 20 Mar 2024 16:16:04 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3wwnrtfhps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Mar 2024 16:16:04 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42KGG1Vd40174240
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 20 Mar 2024 16:16:03 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C0F795805B;
+	Wed, 20 Mar 2024 16:15:59 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BE40F58065;
+	Wed, 20 Mar 2024 16:15:58 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 20 Mar 2024 16:15:58 +0000 (GMT)
+Message-ID: <afc9471c-1c28-4384-82c1-29464ca1fb1f@linux.ibm.com>
+Date: Wed, 20 Mar 2024 12:15:56 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: tpm_tis
+Content-Language: en-US
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+        "Daniel P . Smith" <dpsmith@apertussolutions.com>,
+        Lino Sanfilippo <l.sanfilippo@kunbus.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Peter Huewe <peterhuewe@gmx.de>,
+        James Bottomley <James.Bottomley@HansenPartnership.com>,
+        Alexander Steffen <Alexander.Steffen@infineon.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+References: <20240320085601.40450-1-jarkko@kernel.org>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20240320085601.40450-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: G6cDu7hnCJlnPlQMBwAxaYs3jmZHVtef
+X-Proofpoint-GUID: 0WxVBd-OTimkKLLzsWkImZ5r7x7NwVMt
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240319130547.4195-12-lakshmi.sowjanya.d@intel.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-20_10,2024-03-18_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ phishscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2403140000
+ definitions=main-2403200130
 
-On Tue, Mar 19, 2024 at 06:35:47PM +0530, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+
+
+On 3/20/24 04:56, Jarkko Sakkinen wrote:
+> Based recent discussions on LKML, provide preliminary bits of tpm_tis_core
+> dependent drivers. Includes only bare essentials but can be extended later
+> on case by case. This way some people may even want to read it later on.
 > 
-> Document sysfs interface for Intel Timed I/O PPS driver.
-> 
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> CC: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Cc: Lino Sanfilippo <l.sanfilippo@kunbus.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Peter Huewe <peterhuewe@gmx.de>
+> Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+> Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
 > ---
->  Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
->  1 file changed, 7 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+> v2:
+> - Fixed errors reported by Randy:
+>    https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@infradead.org/
+> - Improved the text a bit to have a better presentation.
+> ---
+>   Documentation/security/tpm/index.rst   |  1 +
+>   Documentation/security/tpm/tpm_tis.rst | 30 ++++++++++++++++++++++++++
+>   2 files changed, 31 insertions(+)
+>   create mode 100644 Documentation/security/tpm/tpm_tis.rst
+> 
+> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+> index fc40e9f23c85..f27a17f60a96 100644
+> --- a/Documentation/security/tpm/index.rst
+> +++ b/Documentation/security/tpm/index.rst
+> @@ -5,6 +5,7 @@ Trusted Platform Module documentation
+>   .. toctree::
+>   
+>      tpm_event_log
+> +   tpm_tis
+>      tpm_vtpm_proxy
+>      xen-tpmfront
+>      tpm_ftpm_tee
+> diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/security/tpm/tpm_tis.rst
+> new file mode 100644
+> index 000000000000..b331813b3c45
+> --- /dev/null
+> +++ b/Documentation/security/tpm/tpm_tis.rst
+> @@ -0,0 +1,30 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================
+> +TPM FIFO interface Driver
+> +=========================
+> +
+> +FIFO (First-In-First-Out) is the name of the hardware interface used by the
 
-Hi Lakshmi,
+FIFO is the type. I am surprised you call it a 'name'. I would say TIS 
+is the 'name'.
 
-Please consider adding this new file to the
-PPS SUPPORT section in the MAINTAINERS file.
+> +tpm_tis_core dependent drivers. The prefix "tis" comes from the TPM Interface
+
+tis is a tla -- a three letter *acronym*. You aren't using it as a 'prefix'.
+
+> +Specification, which is the hardware interface specification for TPM 1.x chips.
+
+It's also available for TPM2.
+
+> +
+> +Communication is based on a 5 KiB buffer shared by the TPM chip through a
+
+I thought it was typically 4 KiB.
+
+> +hardware bus or memory map, depending on the physical wiring. The buffer is
+> +further split into five equal-size buffers, which provide equivalent sets of
+
+equal-sized MMIO regions?
+
+> +registers for communication between the CPU and TPM. These communication
+> +endpoints are called localities in the TCG terminology.
+> +
+> +When the kernel wants to send commands to the TPM chip, it first reserves
+> +locality 0 by setting the requestUse bit in the TPM_ACCESS register. The bit is
+> +cleared by the chip when the access is granted. Once it completes its
+> +communication, the kernel writes the TPM_ACCESS.activeLocality bit. This
+> +informs the chip that the locality has been relinquished.
+> +
+> +Pending localities are served in order by the chip in descending order, one at
+> +a time:
+
+I think I know what pending localities are because I have worked with 
+this device but I am not sure whether the user can deduce this from the 
+paragraph above. Also, why this particular detail when the driver only 
+uses locality 0 and nobody is competing about access to localities?
+
+> +
+> +- Locality 0 has the lowest priority.
+> +- Locality 5 has the highest priority.
+> +
+> +Further information on the purpose and meaning of the localities can be found
+> +in section 3.2 of the TCG PC Client Platform TPM Profile Specification.
