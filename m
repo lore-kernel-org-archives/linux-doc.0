@@ -1,223 +1,361 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ADB4F1E5;
-	Wed, 20 Mar 2024 16:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710952065; cv=fail; b=ne7qvuE94TJXe6iJYmYLvkBogefvRzj3X+z8If9m7rTN6f0qcPtQsSp4/iwuu+2MX808bDnBND5ICpIuKeMdDedZS0atJ/3JRq8gquf2bTLcb0y0DyWytLeG6uhSunaI5qwFkzvOyeSV4OI6hc8E3mqRI28Oy14Q20bkFpDD5ew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710952065; c=relaxed/simple;
-	bh=7oJW7wmSBP7VEPEGNdfoKGZOzoAtRbDbWbcfnTjyaWI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AMXEL+BnL72TR3OE8/qFOkR7tKg6yCnDZSbBqk1iRsdvA10/229a6D5lt9cLo0an8Sj5t/vOSdHVSuS3/TlnMENPToyMQS3tsv/lJXGdLpgambsNkiSSMTJrOgMa6wIUZ3pvOxM27uy5lSBXoW2CJNt9ae7GnjMoI2+0f+fq5m4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0RU/nwe; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC686A34E
+	for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2024 17:23:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1710955412; cv=none; b=RGmhmw751oY3azJ4ijpt41bdffYPx7E3a730DP/aZtNamajGKfUxGx7r7kcuETHEb52NC4VtDZvLWOztDoTKrSyfhH9tnpzsAMPiifMtsFIN1UM/A/7XwADsWErEXmqgEqqNHkI54S6wNrqPkmTM41ep3vrRSjTVs6erLtnwKfI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1710955412; c=relaxed/simple;
+	bh=OktSo1wzw1/Tkeb7gXpxEk9VZSpYD0XVPWVaHlIfXLc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cMyJqGVs1mYGyBEfXturdMZKmu+Huv7QOg+LqmKGoQHDQu2BUILd+3P9k1EzAbwfq780g41l1W7n2QvHkUboEWpJ0bRYHaM1zShHtJcehUCNW1Z+RPUTTFNAd0FdI75l86iGWLseY/Ud2A5pTNSZ022Ozge9i2J11/SIqzG8sy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=H15/vG7q; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0RU/nwe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710952063; x=1742488063;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=7oJW7wmSBP7VEPEGNdfoKGZOzoAtRbDbWbcfnTjyaWI=;
-  b=I0RU/nweDVvzOkffiSz45xdcU9/HcoCGQL5GSuY/yvQbJd7z6GUTHq1f
-   CnELX2hoZDdWYfIRCEnWw2PoJ3v8IlSxoLtcRztiTxJfzmQqmf2q6W0FV
-   Fw4Ok1GKDRcB+aKw1tuDAmUoPabq9oFtx65ZAhtHmdIsd3frVfJ9uXjeg
-   I5vvvPyiM4QEQqJcwc9KtxcPYsxTOOpfhCnX15l53b5xuAXpo9gIMQ7hS
-   4r8VBqZJgyejKJ7h/Lu8xxtw4BYlgxVhEoFrTQYLlNq6VqX7Xfkv918Uc
-   HzubdQN9IRh2aDyHzPjzrBw/27SCf2gW2BgVZNSmnqfUNxZj2U7al67ka
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="16528261"
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="16528261"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2024 09:27:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,140,1708416000"; 
-   d="scan'208";a="45185519"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Mar 2024 09:27:42 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 20 Mar 2024 09:27:42 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 20 Mar 2024 09:27:42 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 20 Mar 2024 09:27:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R/B85G+CpUpej8cIPZmp07SfuAzny3f4KZmH/4FJhnkUdIH8hN0UqPmzV5jwQnFvY+jXvyuejMF4hgtfuJJd8oPPP1fr7ojbBXOb4T9A7tdCrdQTVidmxdWOOF9/OJCkY0WNJ2FjTkKRo3/pCmT3hEeH3o71MbKAYLMsks39GG6wzAQpwiRB9NItPQYKXn0rXZ/33U0suV+QW0wsqjHTrgiaYAwN0F3Tu10+Z4Td4/rb3+UbdR5QZjmMhDv7KAyrnUFOlTDukeiarItE5IGhSQjnYh2HVQo4OBcOKs0xEe8FAvxH7oEU1DCwhESCJGd52r93osZsoudBwDO401EwcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PM4lFCIQuo6g9sxtdaGh0IpSL34Fqv7a3pOiGxX7ELo=;
- b=TzrI0/anenObfvwQJDC4LISykm6OpWyixJzb0VB7jXWBjvPltKJ5ZHui3pkp99QL23y/13f7JtRKijImZLTMLPlXWiJ9SYuDWXgHEHlTrr6DYV2DBZxX6n9rwt1at0RAn0seUC7/55W2k/K9SNccFuAFNGGoniVBcP1Jv3WjsUogmgovmijpojYDBvUcC1ZGLHDpyO6/ep6eacdpDCrmfMpPxG5hDJLTz/KT1tmEpE3NylJECnLaHtUM24hQ/Vcxlp4AAZo0EeLsuiKFnVZpMPSIaH+JR6xAaGaw9ZB3ukiLOKaioQvjbQGSXf68l2n0/zbERHBPFaNDYlyMhu94Jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
- by PH7PR11MB7570.namprd11.prod.outlook.com (2603:10b6:510:27a::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.9; Wed, 20 Mar
- 2024 16:27:39 +0000
-Received: from MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::6440:4b82:c32c:9eb7]) by MN0PR11MB6231.namprd11.prod.outlook.com
- ([fe80::6440:4b82:c32c:9eb7%5]) with mapi id 15.20.7409.010; Wed, 20 Mar 2024
- 16:27:39 +0000
-Date: Wed, 20 Mar 2024 17:27:24 +0100
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-CC: Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
- Newman" <peternewman@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, <x86@kernel.org>, Shaopeng Tan
-	<tan.shaopeng@fujitsu.com>, James Morse <james.morse@arm.com>, Jamie Iles
-	<quic_jiles@quicinc.com>, Babu Moger <babu.moger@amd.com>, Randy Dunlap
-	<rdunlap@infradead.org>, Drew Fustini <dfustini@baylibre.com>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v16 0/9] Add support for Sub-NUMA cluster (SNC) systems
-Message-ID: <uk4k6ayim6yfcquwl7wwc6mrfta23suefid2t7pxldlsm7zs2f@4yw6hm2m4z6p>
-References: <20240312214247.91772-1-tony.luck@intel.com>
- <8ee6f553-16c0-4097-b5d8-af1598d1b85a@intel.com>
- <5vnrboxpkrriiqcbwrxtbextu6pduqjfchlvsdn5nwe7lr7vou@dngffvu7a5fh>
- <7656a3fe-56d2-4a9f-9dfd-6f2666f38110@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7656a3fe-56d2-4a9f-9dfd-6f2666f38110@intel.com>
-X-ClientProxiedBy: MI1P293CA0008.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:2::11) To MN0PR11MB6231.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::15)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="H15/vG7q"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dd02fb9a31cso6070705276.3
+        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2024 10:23:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1710955408; x=1711560208; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zL+b5IqSmT+yiak0XO4i+W4JtR/sEZzsL6gRjLnV0bw=;
+        b=H15/vG7qa1BJl+WAVEBXvPDOZEyqOItjukuwuyfXqo45SrRqeRnCg+c/A9XcU4Igx5
+         Xia2L1XUdWfzbAqia0bi1F6JzvRrdP4YcyjOSucD2Pw5f4ItzGdTCHwTD9Lxnb0VdPMw
+         Yty+rprYSuGl6HQeUSPdzVCEUY69UtLgXPtnuTRiq2qk0Fiywr/EtuF22UumK05cilb+
+         eC+TbJBGBnp3yOt3bvTCL3knu6x1qxMysTgBXS3MMR4/Ai8LbaslK+XCUp6sDFL7paBL
+         2Cz51FJIspcDZv28d83d0ZysY5dd2mXEFMWz0LFi2BWVn92abrHHwnteqQkEDpl1Vr1q
+         1kSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710955408; x=1711560208;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zL+b5IqSmT+yiak0XO4i+W4JtR/sEZzsL6gRjLnV0bw=;
+        b=B0zIIOVb8QAoVssIf5fPKTqQK/DkeYbBJWjIpWrAI6TUbDRuqGtNZTTgJeSPNh9uUY
+         6jsIDsoA4WTIi6VaQWY9uNUoIdAUx6FCOAM3DGDgYzEPNgGnvOKqHeT59gVs/Iut2aU9
+         5dByZ4EFR9jJYqs0526PpQE1kyaPhkyGCnYXaygoAq2e0FVZmInJfFllysRXL126wuLD
+         pHfsumdZMdvqPqjz1manlkW1jWmBWLNIkvD7kSPDXHCKgPbg6jsrVcJ7HgwFhK5FiUwS
+         TUMzpw/t95bFrsZExRvhXGHPo0HzGPjQx4vl1XBSA4nKwE5CR0AMFq8hMNHtfF44IcHV
+         bRcw==
+X-Forwarded-Encrypted: i=1; AJvYcCXkS7TUKgnwLo1STMNPibfIVFzouHPudJ7bWbegxOvJZgN2bgvafH9M6DmjqyeybRlKbpAVZa6lh1Fn0w8CIze6na9lE/7Xr8ls
+X-Gm-Message-State: AOJu0YxZRT8EdRtzO9YDEeXq7LNsMoIbCqIQsKyW5HWtHAX6HUxUR16R
+	3kdcbW/L9ndlSpjff63m1joxeFagXPxyNz/FE6VW9BO4JRQYJDgn45IDWoZd+mfdai4V+TkDcgz
+	ODeJHrptyn6R8p4jyZ3NObA4/hks/WXFBcGmm
+X-Google-Smtp-Source: AGHT+IGisQjCjQt12sXnN9Jt9UbAiCVuocXkhWkDVU4b8Sz//Q1jqxXIMt0rNAmfp/Y8hIDNuFGtuTe2UbVFtwFiUv0=
+X-Received: by 2002:a25:6fc5:0:b0:dd1:2f58:292b with SMTP id
+ k188-20020a256fc5000000b00dd12f58292bmr13153934ybc.9.1710955408153; Wed, 20
+ Mar 2024 10:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|PH7PR11MB7570:EE_
-X-MS-Office365-Filtering-Correlation-Id: be0b40f4-692d-4c54-4c23-08dc48faa901
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j0w5d2ipkwkXyTCEC2d47decupuisCM3Wj1KEaDQAZ6Cv7IGxB2ZI6yQgdFKqJcSe3Thc7a+dGvHMRh/VlSaKKZgqwMT8DJ4EtdDfXfDZblVe8nOPSL3eJF87YwbuTnsQ1ZTIf8XRzrnD3RRtvpp6plGR16CKpfa/wmURwNVWZh5XMwkyJz9vMpakUGhMU/oHIbexvuozmNH++6jD0+j+ZcwMZn3smeSVlHOsYuBDEURGioHwagH2QgWDSlbX2m15mboU/NLqDvJ8iJm7cLUgfR+YIchcsemBXsOeH7aAdpS8DV8/38bmOO72g0/gL45wiLzlkR4baPkJvupzKxzfd5melaRGytf9oU79qCAzyVRIXBg4A1OG/fTRAElRhXnWX6lrykE83UcggX86WtN1YxQg9A+ninbhey296IU3QVZs7sXLLqogXXfNAtAbJcmnTTtFcCh44GhqVUsZkO9aXCe4gvWPwntIPZifRnglXsWkUw0Kua5vaJ0F1uKhiITGi0h8S4dIdQjOutaLsqKKEi2nt4ZoS41GxOUyNJiUJAJttdT2V6qhqHYs23mYI5tSivr3buxb7f6XeKm++zHnwjl6Ev82YbCVnmdA5P3Xd7e09i9rsfkb4TUgFO7Bm+c
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?MHfLslfJGds7LeCQtBpEhv/XUNKDjUwd0Nqinph0/5PoxyrJmDrPVtQhkt?=
- =?iso-8859-1?Q?ix56hRxIVs2R7h0etSJ39MqnjY+a4PUxWsDXHwM4T2Gge9GzNZ4Fm9rz63?=
- =?iso-8859-1?Q?UEqlzeLeS9S94gldi0gINC9WhP8b3GE2Ood1N2Z4QUMXHYPhWdh0pDu9yS?=
- =?iso-8859-1?Q?QL03mpDkfajyDES8xG2IC5cfCFxkwUPBV38cHQV2sxl55tKixu3GbNl5zf?=
- =?iso-8859-1?Q?ImfDHhqetXNqHJC7ICkT71bBuX6woWwnfU8JlZ0jyDRmGCKkynYuyPF3OC?=
- =?iso-8859-1?Q?79TyOSleyoirzenI5EBlTwyNHrC3xHB5mD8+Jb/N6AgC7Le7TGM/u/58lZ?=
- =?iso-8859-1?Q?3Z4Xa6X0C4Zk8Gqi5M9GM65IY9jMY4139poGr7KX1CLdI4Zshn10LLOakj?=
- =?iso-8859-1?Q?cX7VauWTgX4hQ2UZ+pRF34vvpKTXiUu23MZ8oQKpr1ep/NYIBwFV2TzSWV?=
- =?iso-8859-1?Q?WtmJBardWcKRUhwyT3maWG/sm/cNRUPFUTjyUfWek0+md4zaeKxfVkOTQ8?=
- =?iso-8859-1?Q?2D/YXc9dLs9N7S25B+RZ8Wq/7xtiZ4nHAoFq8oTLe9rvKcB7laxZTvvJcq?=
- =?iso-8859-1?Q?+1Isl6hG1Gpjw1wkMnu4iPD4tFkFsB/hc8YFOC0XFpeNPo+bVhGSjn+QEt?=
- =?iso-8859-1?Q?k/hW1ySbnX7ALOaDb4LsL9UERy3VypNkcwrrajF9nAdISkPG6KDVerLSzy?=
- =?iso-8859-1?Q?XNDwIBD2YJDIuOh6oWLVA4Iad0zqs37Kyzk6EEouP3RYBTaceJK9RPG9Qf?=
- =?iso-8859-1?Q?xdXPm5asakccuWhsapwD0p71BRlrf7j4NF14c+OKz4AGFjNvDwK5YIBd/I?=
- =?iso-8859-1?Q?HWfe6FKXM4RruUmC331i0ZFzNUZQ6bApqY42A0rRt/g4iWtIJkExq88VpK?=
- =?iso-8859-1?Q?SHWNfvIoLiTWujXuwWAiuC67SWDjhcySlpzZUYBwAcqXRRj7sUfetiGy5y?=
- =?iso-8859-1?Q?4z+Iy6yR1MDy7k5uMR7rVcxnafrUnoVxT/QomSvMQ4EWiO/qTruLXhr2cE?=
- =?iso-8859-1?Q?wYu2Ac53WKN6W8BXsuFcKFlj7N1SAmB7lTVtN4Pq/EtpxJaDvh+6zAZuKK?=
- =?iso-8859-1?Q?R/6rYZZaXCCm9/+bLPIpt1SYbcDUSIIRq93y16kb0ABwXc52t3Vd1bSY15?=
- =?iso-8859-1?Q?Vyr11IDjDhNvGc7WO8ylvlAbQmTTFRklEBgrrev2GG7zHt8jBdv51hpP3+?=
- =?iso-8859-1?Q?TO4rEo9WWix5zDDd/xKgHyBly/sS+XqYTUdjucBYdNdqhmZL2K43ZJtByt?=
- =?iso-8859-1?Q?FwxqX8FrW/GSYPAKgbUllOk6K9mg0vDIl9mPO0IS4oeyY19hTHo8qWUnkt?=
- =?iso-8859-1?Q?yfeaP++Noz4XrRSv4d6i05gEkjVKDHvriLCN6rPQnYSz7dMquGntwdzN2j?=
- =?iso-8859-1?Q?XxCUuhiqtdGIGOfGaSEkAHB1oGefqRy43v10/tPQKhIKOq2MZtHBhrqEsg?=
- =?iso-8859-1?Q?v2bgRIln67/up73Suq8d4+bq8vne4NsBnXMi7nVFUGkDrwe98wCRG+n0VA?=
- =?iso-8859-1?Q?VTwQuawExR3DCbnBbokDiintk03sQ+V3O5SMYqetHB1T22MqiP4oCMw0Cm?=
- =?iso-8859-1?Q?mgcOOYt/0IemRiwtgbvBPeEuM1Cs0ph3/z1PYz9mJ39niuOceUVzL7Yv2o?=
- =?iso-8859-1?Q?shNO0WG94Mv9w7HMNgv5PijoCs8/wB5eWDSOERTUODb6ga3bIuus66HQnt?=
- =?iso-8859-1?Q?dY0qrSJsaOFIyBaTBiU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: be0b40f4-692d-4c54-4c23-08dc48faa901
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2024 16:27:39.6518
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b+drX+V9rhDM5B//jjAHlhJB18Ob11xV3vEl/2aPfyTVYGRkwKeffWBs4c+djaT7gA/JpxYB+x76Pu7dPIqxbtibS3tKh6kS/iUQlU9xtEM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7570
-X-OriginatorOrg: intel.com
+References: <1710560151-28904-15-git-send-email-wufan@linux.microsoft.com>
+ <657b73a0cf531fd4291a0f780d2fcf78@paul-moore.com> <ZfpHxkmRy0oqxZVF@redhat.com>
+In-Reply-To: <ZfpHxkmRy0oqxZVF@redhat.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 20 Mar 2024 13:23:17 -0400
+Message-ID: <CAHC9VhTkpSa665tesTEs8gBjaD3ahUMATGMXuGy+-unt7WL-UQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v15 14/21] dm verity: consume root hash digest and
+ signature data via LSM hook
+To: Mike Snitzer <snitzer@kernel.org>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
+	axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org, 
+	linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-block@vger.kernel.org, 
+	dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-03-20 at 08:50:51 -0700, Reinette Chatre wrote:
->Hi Maciej,
+On Tue, Mar 19, 2024 at 10:19=E2=80=AFPM Mike Snitzer <snitzer@kernel.org> =
+wrote:
+> On Tue, Mar 19 2024 at  7:00P -0400,
+> Paul Moore <paul@paul-moore.com> wrote:
+> > On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> > >
+> > > dm-verity provides a strong guarantee of a block device's integrity. =
+As
+> > > a generic way to check the integrity of a block device, it provides
+> > > those integrity guarantees to its higher layers, including the filesy=
+stem
+> > > level.
+> > >
+> > > An LSM that control access to a resource on the system based on the
+> > > available integrity claims can use this transitive property of
+> > > dm-verity, by querying the underlying block_device of a particular
+> > > file.
+> > >
+> > > The digest and signature information need to be stored in the block
+> > > device to fulfill the next requirement of authorization via LSM polic=
+y.
+> > > This will enable the LSM to perform revocation of devices that are st=
+ill
+> > > mounted, prohibiting execution of files that are no longer authorized
+> > > by the LSM in question.
+> > >
+> > > This patch adds two security hook calls in dm-verity to save the
+> > > dm-verity roothash and the roothash signature to the block device's
+> > > LSM blobs. The hook calls are depended on CONFIG_IPE_PROP_DM_VERITY,
+> > > which will be introduced in the next commit.
+> > >
+> > > Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> > > Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> > > ---
+> > > v2:
+> > >   + No Changes
+> > >
+> > > v3:
+> > >   + No changes
+> > >
+> > > v4:
+> > >   + No changes
+> > >
+> > > v5:
+> > >   + No changes
+> > >
+> > > v6:
+> > >   + Fix an improper cleanup that can result in
+> > >     a leak
+> > >
+> > > v7:
+> > >   + Squash patch 08/12, 10/12 to [11/16]
+> > >   + Use part0 for block_device, to retrieve the block_device, when
+> > >     calling security_bdev_setsecurity
+> > >
+> > > v8:
+> > >   + Undo squash of 08/12, 10/12 - separating drivers/md/ from
+> > >     security/ & block/
+> > >   + Use common-audit function for dmverity_signature.
+> > >   + Change implementation for storing the dm-verity digest to use the
+> > >     newly introduced dm_verity_digest structure introduced in patch
+> > >     14/20.
+> > >   + Create new structure, dm_verity_digest, containing digest algorit=
+hm,
+> > >     size, and digest itself to pass to the LSM layer. V7 was missing =
+the
+> > >     algorithm.
+> > >   + Create an associated public header containing this new structure =
+and
+> > >     the key values for the LSM hook, specific to dm-verity.
+> > >   + Additional information added to commit, discussing the layering o=
+f
+> > >     the changes and how the information passed will be used.
+> > >
+> > > v9:
+> > >   + No changes
+> > >
+> > > v10:
+> > >   + No changes
+> > >
+> > > v11:
+> > >   + Add an optional field to save signature
+> > >   + Move the security hook call to the new finalize hook
+> > >
+> > > v12:
+> > >   + No changes
+> > >
+> > > v13:
+> > >   + No changes
+> > >
+> > > v14:
+> > >   + Correct code format
+> > >   + Remove unnecessary header and switch to dm_disk()
+> > >
+> > > v15:
+> > >   + Refactor security_bdev_setsecurity() to security_bdev_setintegrit=
+y()
+> > >   + Remove unnecessary headers
+> > > ---
+> > >  drivers/md/dm-verity-target.c | 73 +++++++++++++++++++++++++++++++++=
+++
+> > >  drivers/md/dm-verity.h        |  6 +++
+> > >  include/linux/dm-verity.h     | 12 ++++++
+> > >  include/linux/security.h      |  2 +
+> > >  4 files changed, 93 insertions(+)
+> > >  create mode 100644 include/linux/dm-verity.h
+> > >
+> > > diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-tar=
+get.c
+> > > index bb5da66da4c1..e94cc6a755d5 100644
+> > > --- a/drivers/md/dm-verity-target.c
+> > > +++ b/drivers/md/dm-verity-target.c
+> > > @@ -22,6 +22,8 @@
+> > >  #include <linux/scatterlist.h>
+> > >  #include <linux/string.h>
+> > >  #include <linux/jump_label.h>
+> > > +#include <linux/security.h>
+> > > +#include <linux/dm-verity.h>
+> > >
+> > >  #define DM_MSG_PREFIX                      "verity"
+> > >
+> > > @@ -1017,6 +1019,38 @@ static void verity_io_hints(struct dm_target *=
+ti, struct queue_limits *limits)
+> > >     blk_limits_io_min(limits, limits->logical_block_size);
+> > >  }
+> > >
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +
+> > > +static int verity_init_sig(struct dm_verity *v, const void *sig,
+> > > +                      size_t sig_size)
+> > > +{
+> > > +   v->sig_size =3D sig_size;
+> > > +   v->root_digest_sig =3D kmalloc(v->sig_size, GFP_KERNEL);
+> > > +   if (!v->root_digest)
+> > > +           return -ENOMEM;
+> >
+> > Either you meant to copy @sig into @v->root_digest_sig and forgot to
+> > add the code for that, or we don't need to include @sig as a parameter
+> > to this function.  I'm guessing it is the former as it wouldn't make
+> > sense to even have dm_verity::root_digest_sig if we weren't stashing
+> > it here.
+> >
+> > I'd also suggest looking at kmemdup() instead of a kmalloc()/memcpy()
+> > combo.
+> >
+> > > +   return 0;
+> > > +}
+> > > +
+> > > +static void verity_free_sig(struct dm_verity *v)
+> > > +{
+> > > +   kfree(v->root_digest_sig);
+> > > +}
+> > > +#else
+> > > +
+> > > +static inline int verity_init_sig(struct dm_verity *v, const void *s=
+ig,
+> > > +                             size_t sig_size)
+> > > +{
+> > > +   return 0;
+> > > +}
+> > > +
+> > > +static inline void verity_free_sig(struct dm_verity *v)
+> > > +{
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> >
+> > It's been a while since I looked at this patch in the patchset, so
+> > maybe I'm missing something, but in general we don't want CONFIG_XXX
+> > checks in the kernel, outside of security/, that are specific to a
+> > particular LSM (what happens when multiple LSMs need this?).  Please
+> > use CONFIG_SECURITY instead.
+> >
+> > >  static void verity_dtr(struct dm_target *ti)
+> > >  {
+> > >     struct dm_verity *v =3D ti->private;
+> > > @@ -1035,6 +1069,7 @@ static void verity_dtr(struct dm_target *ti)
+> > >     kfree(v->salt);
+> > >     kfree(v->root_digest);
+> > >     kfree(v->zero_digest);
+> > > +   verity_free_sig(v);
+> > >
+> > >     if (v->tfm)
+> > >             crypto_free_ahash(v->tfm);
+> > > @@ -1434,6 +1469,13 @@ static int verity_ctr(struct dm_target *ti, un=
+signed int argc, char **argv)
+> > >             ti->error =3D "Root hash verification failed";
+> > >             goto bad;
+> > >     }
+> > > +
+> > > +   r =3D verity_init_sig(v, verify_args.sig, verify_args.sig_size);
+> > > +   if (r < 0) {
+> > > +           ti->error =3D "Cannot allocate root digest signature";
+> > > +           goto bad;
+> > > +   }
+> > > +
+> > >     v->hash_per_block_bits =3D
+> > >             __fls((1 << v->hash_dev_block_bits) / v->digest_size);
+> > >
+> > > @@ -1584,6 +1626,34 @@ int dm_verity_get_root_digest(struct dm_target=
+ *ti, u8 **root_digest, unsigned i
+> > >     return 0;
+> > >  }
+> > >
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +
+> > > +static int verity_finalize(struct dm_target *ti)
+> > > +{
+> > > +   struct block_device *bdev;
+> > > +   struct dm_verity_digest root_digest;
+> > > +   struct dm_verity *v;
+> > > +   int r;
+> > > +
+> > > +   v =3D ti->private;
+> > > +   bdev =3D dm_disk(dm_table_get_md(ti->table))->part0;
+> > > +   root_digest.digest =3D v->root_digest;
+> > > +   root_digest.digest_len =3D v->digest_size;
+> > > +   root_digest.alg =3D v->alg_name;
+> > > +
+> > > +   r =3D security_bdev_setintegrity(bdev, LSM_INTGR_DMV_ROOTHASH, &r=
+oot_digest,
+> > > +                                  sizeof(root_digest));
+> > > +   if (r)
+> > > +           return r;
+> > > +
+> > > +   return security_bdev_setintegrity(bdev,
+> > > +                                     LSM_INTGR_DMV_SIG,
+> > > +                                     v->root_digest_sig,
+> > > +                                     v->sig_size);
+> >
+> > What happens if the second call fails, should we clear the
+> > LSM_INTGR_DMV_ROOTHASH state in the LSM?
+> >
+> > > +}
+> > > +
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> >
+> > See my comments about CONFIG_SECURITY above.  In fact, I would suggest
+> > moving this up into that part of the file so you only need one #ifdef
+> > block relating to CONFIG_SECURITY.
+> >
+> > I would also recommend making a dummy function so we can get rid of
+> > the conditional compilation in @verity_target below.  For example:
+> >
+> >   #ifdef CONFIG_SECURITY
+> >   static int verity_finalize(struct dm_target *ti)
+> >   {
+> >     /* real implementation */
+> >   }
+> >   #else
+> >   static int verity_finalize(struct dm_target *ti)
+> >   {
+> >     return 0;
+> >   }
+> >   #endif /* CONFIG_SECURITY */
+> >
+> > >  static struct target_type verity_target =3D {
+> > >     .name           =3D "verity",
+> > >     .features       =3D DM_TARGET_SINGLETON | DM_TARGET_IMMUTABLE,
+> > > @@ -1596,6 +1666,9 @@ static struct target_type verity_target =3D {
+> > >     .prepare_ioctl  =3D verity_prepare_ioctl,
+> > >     .iterate_devices =3D verity_iterate_devices,
+> > >     .io_hints       =3D verity_io_hints,
+> > > +#ifdef CONFIG_IPE_PROP_DM_VERITY
+> > > +   .finalize       =3D verity_finalize,
+> > > +#endif /* CONFIG_IPE_PROP_DM_VERITY */
+> > >  };
+> > >  module_dm(verity);
+> >
+> > If you create a dummy verity_finalize() function like above you can
+> > get rid of the #ifdef checks.
 >
->On 3/20/2024 8:21 AM, Maciej Wieczor-Retman wrote:
->> Hi Reinette,
->> 
->> On 2024-03-19 at 10:51:14 -0700, Reinette Chatre wrote:
->>> What remains is the user interface that continues to gather opinions [3]. These new
->>> discussions were prompted by user space needing a way to determine if resctrl supports
->>> SNC. This started by using the "size" file but thinking about it more user space could
->>> also look at whether the number of L3 control domains are different from the number
->>> of L3 monitoring domains? I am adding Maciej for his opinion (please also include him
->>> in future versions of this series). 
->> 
->> By this do you mean comparing the contents of main "schemata" file with the
->> number of mon_L3_* files?
->
->(assuming you mean mon_L3_* directories)
->
->Yes, the "schemata" file can be used. There is also the "bit_usage" file in
->the info directory that indicates how many control domains there are.
+> Think it is better to leave it as-is, to avoid calling the .finalize
+> hook if it isn't actually needed.
 
-I just did a test on my IceLake server that has SNC enabled and you're right.
-This can indicate kernel support for SNC. It also seems more reliable in
-determining the ratio of nodes per socket (since the ratio of cpus per
-cache/node can potentially fail with offline cpus).
+Fair enough, my personal preference is to minimize Kconfig conditional
+code flow changes such as this, but I understand your point of view
+and device-mapper is your code after all.
 
->Do you think doing so also falls into the "not obvious text parsing and size
->comparison" category?
+I believe the other issues still need to be addressed, but other than
+that are you generally okay with the new "finalize" hook approach?
 
-Ideally [1] seems just the most user friendly in my opinion. Comparing schemata
-with mon_L3_* directories feels like a good next solution though.
-
->>> Apart from the user space requirement to know if SNC is supported by resctrl there
->>> is also the interface with which user space obtains the monitoring data.
->>> James highlighted [1] that the interface used in this series uses existing files to
->>> represent different content, and can thus be considered as "broken". It is not obvious
->>> to me how to "fix" this. Should we continue to explore interfaces like [2] that
->>> attempts to add SNC support into resctrl or should the message continue to be
->>> that SNC "plays havoc with the RDT monitoring features" and users wanting to use
->>> SNC and RDT at the same time are expected to adapt to the peculiar interface ...
->>> or is the preference that after this series "SNC and RDT are compatible" and
->>> thus presented with an intuitive interface?
->> 
->> I kind of liked this idea [1]. Hiding SNC related information behind some not
->> obvious text parsing and size comparisons might eliminate any ease of use for
->> userspace applications. But I agree with you [2] that it's hard to predict the
->> future for this interface and any potential problems with setting up this
->> file structure.
->
->Thanks to you for trying this out from user space side and highlighting the
->difficulty trying to do so.
-
-I suppose it wasn't that difficult in execution but it required a lot of
-thinking about what is a reliable way for checking kernel support, what can fail
-in checking the ratio of nodes to sockets etc. Maybe once we have this figured
-out all it will take is a good documentation and userspace applications won't
-have a hard time with SNC.
-
->
->Reinette
->
-
-[1] https://lore.kernel.org/all/SJ1PR11MB608309F47C00F964E16205D6FC2D2@SJ1PR11MB6083.namprd11.prod.outlook.com/
-[2] https://lore.kernel.org/all/7f15a700-f23a-48f9-b335-13ea1735ad84@intel.com/
-
--- 
-Kind regards
-Maciej Wieczór-Retman
+--=20
+paul-moore.com
