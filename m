@@ -1,63 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0495285C58;
-	Wed, 20 Mar 2024 23:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C55F11E87E;
+	Wed, 20 Mar 2024 23:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710976285; cv=none; b=Mwi5/NNVFIlxwO7xEDKmEqdlYxnYmtY57q9APCh+3LrKppweK8XgpRckPzl+OtmJmQVbbVcJPr6CEGwiAcp6zz74PQikuDZTOIyCUcPcKwjJkEZc+LluX/daIy96q8i1UJILpu5Zdo0/A8xqgBExEZkBU0avoVPm7IKO0y8dX+0=
+	t=1710977925; cv=none; b=t/FofJQhtX0KhjAKYeTnhF/sx9heQCRfSmNXepYtiipBKadYhCdQSYgWuIOXfX9+rr4cMMhRctwRVchT4n6iu9atyqySkdW5YuCMKpfEarTNOwmxi1nxqxQ/7sxSnv6KKPTV/CMbFNNuw+fPIa8sWshCIDxy4pFzSXoIP5rJ5Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710976285; c=relaxed/simple;
-	bh=hY4R2hNqre5PaNjUAc298/E8unbBIQeHIEpQ+oypxew=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=HByfVB0fPYGJ45wu64bCaSpxo9Cq5gCVZGd1T6564U1Q3yUTdzwOq6db+q5mHORCOEuQkM40ooSbhQDNT3lVYb8vlo+Vaz3HAUQ6w6k4+KmLLJOtqnVqAcZTgR/k6cL7LtbbMDhvvlMtoBhAXRMrNx1b7ofEKCnLtUs+eQcGkIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaQvzNn8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710977925; c=relaxed/simple;
+	bh=+2SWIsd88ucu5ws7uxhQnlemEmeUg8lx9NbQy9iP82Q=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=HWV4J5J48mTD8iVJIndjQZWp5OPZVSYE7+HVafEvI3AK8+FND6Ws0thuMUXRMlgrvZdODYBJ4kClL9Tdr3W5qrRK3SfsI/8f+oH5rWu6nrDKNKw6LKkPZ8r+I3eZAnAKFg0fyiuxcmxbid3pnpbaPWljPL0Dm2dghmMXVRokFhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=g+JfZlv5; arc=none smtp.client-ip=220.197.31.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaQvzNn8"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CE4CFC433C7;
-	Wed, 20 Mar 2024 23:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710976284;
-	bh=hY4R2hNqre5PaNjUAc298/E8unbBIQeHIEpQ+oypxew=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=HaQvzNn8hz2CXt/IATufi39kZQ7zhlpBbMI8SZv/0ppxf6syTmTbpXP9EZD2m8urW
-	 XCI941yu/oSrePaSYnbKU6JYbM4mWeNdKyy1OdopDft179Eoo7XlV66gcrRk+c1nNh
-	 XlbvYtL7FvpiVcp9EmR01YFilbH03tbmAbLhyXaUswvl7Q9V3gltf7oHCCe+DqQLP8
-	 oSMP04gpCSDrgmiUarE0QvJ1bljjTxYqxwxQDRayFgE0iu7Z/2I/6M5SfX14U2Iys+
-	 rwHgRDGf+ZoqvDCTxHKRGh4c2raGMcE6o+fBWUHBaGvEzghvgbsfy5RG0qhmQJ6fo4
-	 5guVKD6O7OEZQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C5C54D84BB1;
-	Wed, 20 Mar 2024 23:11:24 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 6.9
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87v85h5hwo.fsf@meer.lwn.net>
-References: <87v85h5hwo.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87v85h5hwo.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.9-2
-X-PR-Tracked-Commit-Id: b8cfda5c9065cd619a97c17da081cbfab3b1e756
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: dba89d1b81df749711645bdc201ed67223f35830
-Message-Id: <171097628480.20612.10225980927857358809.pr-tracker-bot@kernel.org>
-Date: Wed, 20 Mar 2024 23:11:24 +0000
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="g+JfZlv5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=Content-Type:From:Mime-Version:Subject:Date:
+	Message-Id; bh=NJNvmjRg6+oJD+f8rosyW4DUgth/EkIgF8KUF7RekOg=; b=g
+	+JfZlv5pCw6ae43XDwcHmzR4d1lHl9pvpTQMsm/WZKERzH+NIsNImOSiXpm874dC
+	/VMHqVTcE3m8EeA1J4Yjy9UUK46cBsAfUT+mN9ytXs+zgIDZTwkyxGNJ09QY2o95
+	kGbaV+VzJ03oaiCxpnz2mK1Jk7VQNuQRIeYw4+idAA=
+Received: from smtpclient.apple (unknown [119.143.49.21])
+	by gzga-smtp-mta-g1-5 (Coremail) with SMTP id _____wD3Py80c_tl2DLlAA--.33361S2;
+	Thu, 21 Mar 2024 07:37:26 +0800 (CST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Meiyong Yu <meiyong.yu@126.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to evaluate parameters
+Date: Thu, 21 Mar 2024 07:37:14 +0800
+Message-Id: <EFB48F08-F0B5-47C0-8C47-00A542344AC9@126.com>
+References: <20240320001656.10075-1-21cnbao@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Chris Zankel <chris@zankel.net>,
+ Huacai Chen <chenhuacai@loongson.cn>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Guenter Roeck <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
+In-Reply-To: <20240320001656.10075-1-21cnbao@gmail.com>
+To: Barry Song <21cnbao@gmail.com>
+X-Mailer: iPhone Mail (21E219)
+X-CM-TRANSID:_____wD3Py80c_tl2DLlAA--.33361S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFWrur45Xr1DtrW3Zw15XFb_yoW5Gr1xpF
+	Z8JF47Xa18XFyUArnrJ392yFyxJrWrCFW3Wrsxtry5uF43A3Z2gry3tr15uan7Ar409ay7
+	ua12krsruFyayrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bbiSdUUUUU=
+X-CM-SenderInfo: 5phl501qjo53a6rslhhfrp/1tbijh2nhmVLZvJUWgABsH
 
-The pull request you sent on Wed, 20 Mar 2024 04:14:47 -0600:
 
-> git://git.lwn.net/linux.git tags/docs-6.9-2
+> On Mar 20, 2024, at 08:17, Barry Song <21cnbao@gmail.com> wrote:
+>=20
+> =EF=BB=BFFrom: Barry Song <v-songbaohua@oppo.com>
+>=20
+> Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
+> sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
+> and loongarch,
+>   In file included from crypto/scompress.c:12:
+>   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+>   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not=
+ used [-Wunused-but-set-variable]
+>      76 |                 struct page *page;
+>         |                              ^~~~
+>   crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+>>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused=
+-variable]
+>     174 |                         struct page *dst_page =3D sg_page(req->d=
+st);
+>         |
+>=20
+> The reason is that flush_dcache_page() is implemented as a noop
+> macro on these platforms as below,
+>=20
+> #define flush_dcache_page(page) do { } while (0)
+>=20
+> The driver code, for itself, seems be quite innocent and placing
+> maybe_unused seems pointless,
+>=20
+> struct page *dst_page =3D sg_page(req->dst);
+>=20
+> for (i =3D 0; i < nr_pages; i++)
+>    flush_dcache_page(dst_page + i);
+>=20
+> And it should be independent of architectural implementation
+> differences.
+>=20
+> Let's have a guidance in codingstyle to ask for the evaluation
+> of parameters.
+>=20
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Chris Zankel <chris@zankel.net>
+> Cc: Huacai Chen <chenhuacai@loongson.cn>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
+> Documentation/process/coding-style.rst | 7 +++++++
+> 1 file changed, 7 insertions(+)
+>=20
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/proces=
+s/coding-style.rst
+> index 9c7cf7347394..8065747fddff 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -827,6 +827,13 @@ Macros with multiple statements should be enclosed in=
+ a do - while block:
+>                do_this(b, c);        \
+>        } while (0)
+>=20
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/dba89d1b81df749711645bdc201ed67223f35830
 
-Thank you!
+> +Function-like macros should evaluate their parameters, for unused paramet=
+ers,
+I do not support this point, if the parameter is unused, why not to remove i=
+t.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+about the warning,  is  tool misreport,  the tool must make better
+
+> +cast them to void:
+> +
+> +.. code-block:: c
+> +
+> +    #define macrofun(a) do { (void) (a); } while (0)
+> +
+> Things to avoid when using macros:
+>=20
+> 1) macros that affect control flow:
+> --
+> 2.34.1
+>=20
+
