@@ -1,90 +1,158 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B476A35D;
-	Wed, 20 Mar 2024 17:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2B86A010;
+	Wed, 20 Mar 2024 18:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710957578; cv=none; b=njIDGH/KXkQAWF6FeKdymSsboG+YQCFbkB1RURdA9/4Lte+ygkOLzvhx8hkcWiRpIQ/CdIMLrllyM7p/1/w8QL6NihLy6gkrIFw1NKvMWGlQ9i0Epdj1wTH28QxGy6HCzMPWVAjzPXjsHzQYBlUJVqT43piNU4QDzfZopFYwr/Q=
+	t=1710960530; cv=none; b=Mp+kS9aqUt1qZUi9Y5FSk4MBFKRaYBNq4RveJs6NE0GqEpmg/jQdp3aM6ZeHWA2c5uPROVysy1a8v0WcZpEPJn2Fr3KYdDNj1trUo6YPsnDs+hG/KHpI49zXCkdiVOEiZ6uhpDRphjODqimSiyTtsyDuWJgKIJyE9JVeqJ2uB24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710957578; c=relaxed/simple;
-	bh=CKsxIN3qnQZvRKwtdHbydmzJ6EscP69AwdsUvQtKlXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jm/Hp5c++Q2XZ2CLSTl6TfoYMYKqHgSl7nVWIn53oC5kH/I51J9/LiHMgNS847lzul/01o3cxt7ZE2uerOy1yppE37U/1WLNgBvrR/epUD+09mORR2YTVMgapi69aRfVcXpC6a+icYxqW9PG5M5ZQaVsjxceMKLH1JBTDm9ESJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SL+4NNsQ; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1710960530; c=relaxed/simple;
+	bh=tFJOpb0JvoYIf7/Tb9EQ8IlbJJno9k0nno8TrWoX04Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oat1Rq/3kuXM8zxhVcXb+/E0ZNh1oBK27EkkXSTxqEFbgYoKiA1ZUunKU/vtGmyERs5oveZHCDQ9Y7jRQg0wqqYJtkhI1EzEhtq6EY+K9JXv4/POY18fX//jUE7L0sqqwmzss9bkut43AkAEQA8WirXpxe0AuHrmdqTb/U6ZOwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MD8kXSbR; arc=none smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SL+4NNsQ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dee27acf7aso225835ad.2;
-        Wed, 20 Mar 2024 10:59:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MD8kXSbR"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4739b6ddc94so16549137.0;
+        Wed, 20 Mar 2024 11:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710957576; x=1711562376; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5wO2woPFTP1dqOwxqifq7A1+P/J5nu7I1BzhjZG4OLA=;
-        b=SL+4NNsQZezagXpskHooqekAKzM2m0HKEeF738wL3CGaLSBVxpVJmV22nr/oNBG4be
-         Y2v55kkWYV7l9IkSLhQARrNhfDDT85cc1jEossOQTRmLdGCaFsVx2iLiEthIpFi9QW2T
-         JJ0SuyFzSE1aAwOVhnZzLB99ONnA9lW/IYGuwk2wo0NTTnjEGhYLbVjnve+FeIbMz21N
-         FRR9qu96ZDM488cWIUsqE9vEvcgH957nutDmiySLsY5u+KX0qeGAvMZpUbXXsTqlPe5A
-         NEKXa4qcV5Dj7lp1pkvdEnjMb60R9gWI0hR+HoVt36gbuY/zcaQXopvUoyfX95mSojnz
-         z2Gg==
+        d=gmail.com; s=20230601; t=1710960528; x=1711565328; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C3kc8hzKgebH+x6vGwYL+8FHBw8RQ3nELQdeZk5vZEA=;
+        b=MD8kXSbRL7KfUEPUqYik4hN498aH7h6N4z7V6TNXQg1KFzu1qDT7VEm5lIW8WpD+LB
+         lPzdFWGsY/43kzmgZAkGu3GISR06lqVDhNjBANSQXvF3NAyfv9ph7vFiIhqdcZtShM98
+         XXLhmEuGEoKufOascVK8SrwgxX/6CiMAEKmtjgdrPh5+tErvPIBlsZ5gEtLVm1FS4x53
+         uQl7VF6Z/u9sASLUIhGyCPMyYzrG7OwIccWKmYhnv4pnHBxot66RPnTyth8uoOgt1e7q
+         fXGgRW+h2AlHjevjfnteIDRElJGmXEGBZsfMA8GDZXV4Tnb7HHtgPjednxyNGUdDvfG1
+         mm8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710957576; x=1711562376;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1710960528; x=1711565328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5wO2woPFTP1dqOwxqifq7A1+P/J5nu7I1BzhjZG4OLA=;
-        b=tA1SsZ8ySI79k3L8QW+axBfmGHzd+WzcZ9ySlux8hXzF4bcJchZuaeiNB/Xi55DL9m
-         U9D9f8vGa0PniT0k6iPg0KAF9jK0QlhW1367M6Aw5r+x8INl2FwMWyfLTsAP8w4Y/y0R
-         F1InNHAiHTJ4FmPAk1/gIvF0Wv5Xivk69/x5oE138nhrEye6KLkWpbe3eVqnNgn8PFj7
-         qabis9HhIJhdUWYQflAir+bQprVD1DlwokLP3I9dwFe+/eDeX2dfiGr8UmdY3nH4hIrX
-         flQZ877DKiNnqGg24ZdRT8xB8XCD6ZMU1+n69328vjM5u+lD7++m9XWciQJa57wYRuX7
-         Iu8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWmOGnI0yzmHoa+ajupYXYPsdnlGViSls+jhuh73j62h+XEwv10T286FCiaWKDFbT31wZU3DB6LzF08SeekrChkZDEnu0qVNoXXxShJZbrcCGxuwC+xKJuK31WLtFSMjA5K6BI+OcI2
-X-Gm-Message-State: AOJu0YwVA6d/Pcl0bggugWVzUZvJT5xalIqS6i2k1417WCGVOjhmY+ti
-	3TggbKNfblLer/PHaoLvrP8RaRfZLwNnMvlaeH4QBbhAGDQQRz2mBSi81Txt
-X-Google-Smtp-Source: AGHT+IGhYmOXoAM/t0PVekkv1InO9r3UvXpth7X3ywfYPJ4Zg110QlCcJBzYVhNKmD9WzksHZbtDDw==
-X-Received: by 2002:a17:903:192:b0:1e0:3347:5bf with SMTP id z18-20020a170903019200b001e0334705bfmr3566800plg.37.1710957576013;
-        Wed, 20 Mar 2024 10:59:36 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t15-20020a170902e84f00b001e00d9680cesm7921669plg.130.2024.03.20.10.59.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 10:59:35 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 20 Mar 2024 10:59:34 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Ober <dober6023@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jdelvare@suse.com, corbet@lwn.net,
-	dober@lenovo.com, mpearson@lenovo.com
-Subject: Re: [PATCH v4] hwmon:Add EC Chip driver for Lenovo ThinkStation
- motherboards
-Message-ID: <f748574c-93cf-48ec-8e88-44d5b35fb107@roeck-us.net>
-References: <20240315115810.15816-1-dober6023@gmail.com>
+        bh=C3kc8hzKgebH+x6vGwYL+8FHBw8RQ3nELQdeZk5vZEA=;
+        b=YoLSuZjb3BInM4yva/i0Lju4EdT8uJLVtr/9Rug3hvi6/LJAIga0H/s/2IcTo+nwAk
+         1BhxFTDwMTN5KtuvnbbAxHRNbxq7FvnoV7XjOBWWDwGg9cvatHEAKiva3DQmAuR94chI
+         jtMKdI+A7FBxrBBq5btkYzWePbGfBTVAQCExAzwqhsRmA+8PQKX90jHVmmVGGZ47B7Vg
+         dIFbK219z59H4ay0/wiGDCnQzQIC77npx/2sY3COkEtIW7YB3WoBiGjRnscHpEuusJVI
+         4xL6zq5Cvkb5ZeNALxqzpDs4lISlWQsilcbRfrULzdOmEbVEsQa0QvWhdde4Q0EMmYr+
+         dqWA==
+X-Forwarded-Encrypted: i=1; AJvYcCUELNLuzLYaBAdbTx/5VZUcEVjw30dboEnR1E7i+SWOd2ihA2sxGEQHLjyP07zY9VXsRkH6fzJBRykPJdiR1IIv/ZBaDKSRxmRrzVnRbblAVHkfC86igo0CocnrHfZPQLxN2+hAdzu+Z/cYAco8mco/2a/ydR6QiKxHb5rMi1zWXgze
+X-Gm-Message-State: AOJu0YzWNQWZOC8ECVSRoKNRG3ktf0qoFOrdpBI15b08MtCrlX4g1g0j
+	Wuw5TRXi2tIJqm2mFANQF8Db/Cxuqb/pPFhX1Gnifr6upYdTD22fcm2h3oypQNwytVV7zSOqhCD
+	iCE3oVwPOSqMlxtk1qxOoqH10VutZqBw+bpw=
+X-Google-Smtp-Source: AGHT+IHHMBzJxvqxFSVFgSTPKSJn7ba2A2kXEEjNVmqdH0a0PCDskoseFwovKGJtH7rif3zQaet5AETl1OVj1yNlRL4=
+X-Received: by 2002:a05:6102:4c10:b0:476:76d8:49b with SMTP id
+ jy16-20020a0561024c1000b0047676d8049bmr9593457vsb.11.1710960527098; Wed, 20
+ Mar 2024 11:48:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240315115810.15816-1-dober6023@gmail.com>
+References: <20240320001656.10075-1-21cnbao@gmail.com> <20240320124207.0c127947@canb.auug.org.au>
+ <CAGsJ_4zpXwVEhsdffoZVBVWiwT4Lw2qEMrW-X92ib=kv=9Yx9g@mail.gmail.com> <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
+In-Reply-To: <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
+From: Barry Song <21cnbao@gmail.com>
+Date: Thu, 21 Mar 2024 07:48:36 +1300
+Message-ID: <CAGsJ_4y+1HovQ52HPis8NBDqp4-fiGRwehX+NH0New0HoEU5GQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to
+ evaluate parameters
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, corbet@lwn.net, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Barry Song <v-songbaohua@oppo.com>, Chris Zankel <chris@zankel.net>, 
+	Huacai Chen <chenhuacai@loongson.cn>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Guenter Roeck <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 15, 2024 at 07:58:10AM -0400, David Ober wrote:
-> This addition adds in the ability for the system to scan
-> the EC chip in the Lenovo ThinkStation systems to get the
-> current fan RPM speeds the Maximum speed value for each
-> fan also provides the CPU, DIMM other thermal statuses
-> 
-> Signed-off-by: David Ober <dober@lenovo.com>
-> Signed-off-by: David Ober <dober6023@gmail.com>
+On Thu, Mar 21, 2024 at 4:49=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Wed, 20 Mar 2024 16:24:30 +1300 Barry Song <21cnbao@gmail.com> wrote:
+>
+> > Hi Stephen,
+> > Thanks for reviewing.
+> >
+> > On Wed, Mar 20, 2024 at 2:42=E2=80=AFPM Stephen Rothwell <sfr@canb.auug=
+.org.au> wrote:
+> > >
+> > > Hi Barry,
+> > >
+> > > On Wed, 20 Mar 2024 13:16:56 +1300 Barry Song <21cnbao@gmail.com> wro=
+te:
+> > > >
+> > > > diff --git a/Documentation/process/coding-style.rst b/Documentation=
+/process/coding-style.rst
+> > > > index 9c7cf7347394..8065747fddff 100644
+> > > > --- a/Documentation/process/coding-style.rst
+> > > > +++ b/Documentation/process/coding-style.rst
+> > > > @@ -827,6 +827,13 @@ Macros with multiple statements should be encl=
+osed in a do - while block:
+> > > >                               do_this(b, c);          \
+> > > >               } while (0)
+> > > >
+> > > > +Function-like macros should evaluate their parameters, for unused =
+parameters,
+> > > > +cast them to void:
+> > > > +
+> > > > +.. code-block:: c
+> > > > +
+> > > > +     #define macrofun(a) do { (void) (a); } while (0)
+> > > > +
+> > >
+> > > Maybe add some comment about using a static inline function for these
+> > > simple versions instead, if at all possible, (it is suggested just
+> > > above this section) since that will still type check arguments.
+> >
+> > right, what about adding the below section together with the above (voi=
+d) cast?
+> >
+> > +Another approach could involve utilizing a static inline function to r=
+eplace
+> > +the macro.:
+> > +
+> > +.. code-block:: c
+> > +
+> > +       static inline void fun(struct foo *foo)
+> > +       {
+> > +       }
+> > +
+>
+> Stronger than that please.  Just tell people not to use macros in such
+> situations.  Always code it in C.
 
-Applied to hwmon-next.
+While I appreciate the consistency of always using "static inline"
+instead of macros,
+I've noticed numerous instances of (void) macros throughout the kernel.
 
-Please note that I'll push the branch after the commit window closed.
+arch/arm64/include/asm/cpuidle.h:#define arm_cpuidle_save_irq_context(c) (v=
+oid)c
+arch/arm64/include/asm/cpuidle.h:#define
+arm_cpuidle_restore_irq_context(c) (void)c
+arch/loongarch/include/asm/io.h:#define iounmap(addr) ((void)(addr))
+arch/mips/include/asm/cop2.h:#define cop2_save(r) do { (void)(r); } while (=
+0)
+arch/mips/include/asm/cop2.h:#define cop2_restore(r) do { (void)(r); } whil=
+e (0)
+arch/mips/include/asm/cop2.h:#define cop2_save(r) do { (void)(r); } while (=
+0)
+arch/mips/include/asm/cop2.h:#define cop2_restore(r) do { (void)(r); } whil=
+e (0)
+....
 
-Thanks,
-Guenter
+I'm uncertain whether people would find it disconcerting if they completely
+deviate from the current approach.
+
+If you believe it won't pose an issue, I can proceed with v3 to eliminate
+the first option, casting to (void).
+
+Thanks
+Barry
