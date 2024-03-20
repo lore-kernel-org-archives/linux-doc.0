@@ -1,143 +1,94 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (unknown [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB96029409
-	for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2024 07:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415BB2DF7D;
+	Wed, 20 Mar 2024 08:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710921338; cv=none; b=SPMnhjrDm0N+WI/8BWivlKPIkn8JLdZcZD4NcvKlXtUyJ8jqvZuoB+Vq/k7ylIAEVVFtyx8cI5TMqM08zFIazclZ7r7TI7pEntuUkx7/p/Qww3rIbO4RZUcP2+rkPszXwPZTOYBMA/3NUZG1DpvAMe4afXmQtNU+p7C67JRsHjE=
+	t=1710922694; cv=none; b=nTftO7V3ZBKI36QVXvEGYTHk3eZKCPpX/UdSzxuJllt9ePBQpDKGklgwp7481d7HuSikCthSoD3hL/u6x6m5E0xT9N63mjCHiF6a8I7YTGLbEKKHWyaR28ObCJ5Rk2IALJWw2FuJBUloim/T3RQaBJC7ndYAfPrUY23DrqRizks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710921338; c=relaxed/simple;
-	bh=1UIMis0Wk+v7MixU9IoZPauAcxNAWI1r8UEBwplLUlg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VSswCuO2U42U4xsrwEyTAhMdSiDrs0UOzULAiD9qFBV6N9dRxpESgK/tSc6Ndo9AKFJUC+nX3MdOY+9leXCR+XD/toaZAZAl7AHu6Ay/0JY0pqxeiFfZoyG3aEtX0TCsMKaEoH1krEdGVD2d50Kbsj2+K4zpPwfSgIAxIIBkC58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c+TpGuQ+; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c+TpGuQ+"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-56845954ffeso8570741a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 20 Mar 2024 00:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710921335; x=1711526135; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=iP0euefPN+2hjNXAMEHorYJCyorOt339RNmkf/fpLlQ=;
-        b=c+TpGuQ+6qaaP/li20GqmpeynzFci319++OpMfM38zyNjg9o6G3kS4ieEuVL28e2KP
-         XOZVDuIZGtz4Rc31Rx6AMq9E9AdrFDKC+oqzBGM1vjyjlue6caME8PkUfvLfz90FUDtj
-         N5ed7NV0uKRXFwBSKDqu868xMlJZb/fD289C1e5Nnzaqn3J007CrZRKlpoqj4Z3/1EOO
-         lf8isG2j9ax9VmUMoW44DnFQ1kEy/hY/22hNMdWV8gZvwRd9ij9YwoA4eSITSpVyTaWm
-         mFh/m4EvyoN8gj1iok7/ukz0Sx0QxacHgDgEFn/vz45iP3BaaLFSdm5jP2GWVUJ+we5r
-         x27A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710921335; x=1711526135;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iP0euefPN+2hjNXAMEHorYJCyorOt339RNmkf/fpLlQ=;
-        b=q4Mxk99BeoXvJp1IFEpSt6lUjDetpJoxTCmdcX83ezNsKlJIXAv4RRnZ3t0WTqu8Yu
-         PYZXNtEpjCZMjvH4n9GwL0DB2HRMNcL5WT0QMPobdNoW95BAf04xlrz4h0SN7nxlacz4
-         LGkg9mOJjqDgTw7nS+keuJY/cl+kxYSAqmreKNGRW5leWW47g7rs7QFMSg3HTvAdaEuk
-         o2s7H6kUl2AY64qyxeQ3YKm8ZFfRikte2zBNw2GvKrKTQVzOQ+PobPIWR6nCYyRArnhq
-         wG2kSh+9qiwCgqHLt46K2I3Og4l1cJh2S7+VFXlym/PbLfhg9Rn9mBjbW2EW1JoUPIff
-         06fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrrHC1uDiXXIvav+MoOn27i1yRNd93a9Pz+LHs/FBji51Q/RkMEr7Fk5sz3n9AisG/+PFULUEtthZ747/F/rTT9I8jVhg6oSZT
-X-Gm-Message-State: AOJu0Yzrkj2du4TDnQq7WoigxS0oke9DewVNP2pYRkXSSYvHoin6fusC
-	LMG6nzyqcTJ8gRxFhsiLP9ZGzGTQH4NV7IRkXXEvoiwGRztv57uDGVJ5o/gU424=
-X-Google-Smtp-Source: AGHT+IGwx2x3yazXAQNa7/GHiIgbRfhHy0J8Z9hNU1GKJJCtTjOU8829ViHgEAZ7TmagxKxutiNfyA==
-X-Received: by 2002:a05:6402:500e:b0:566:4dc1:522c with SMTP id p14-20020a056402500e00b005664dc1522cmr3792127eda.15.1710921335055;
-        Wed, 20 Mar 2024 00:55:35 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id d14-20020a056402400e00b0056bb1b017besm348981eda.23.2024.03.20.00.55.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 00:55:34 -0700 (PDT)
-Message-ID: <19d9bd34-2114-462b-b1a4-aebb65ac8c27@linaro.org>
-Date: Wed, 20 Mar 2024 08:55:32 +0100
+	s=arc-20240116; t=1710922694; c=relaxed/simple;
+	bh=60sKjZFMDkIGBZ34PBAlSHbXPnG2diZASmVrBzUBnok=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NvsK+x7n3Llla4xM6zMmvLz9pjBx+LW8Z+cIvt+E0CcrBap2cWTw9TfxCBW/VgRBVysNb55ZVvUOj+8tyEiIPG3SN1FStM2RVxyhnrlkBBu7GpTXgM/m6Lep6j91AjpecglGg+Dmtn/nMs4HZU+nh42tJRqJb9dLw/2eSVcUq2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4V01gH1LT4z4f3kK1;
+	Wed, 20 Mar 2024 16:18:03 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id 1085A1A0172;
+	Wed, 20 Mar 2024 16:18:07 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.101.6])
+	by APP3 (Coremail) with SMTP id _Ch0CgDnpZ29m_plVnGcHQ--.12753S2;
+	Wed, 20 Mar 2024 16:18:06 +0800 (CST)
+From: Kemeng Shi <shikemeng@huaweicloud.com>
+To: brendan.higgins@linux.dev,
+	davidgow@google.com,
+	rmoar@google.com,
+	corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kunit: correct KUNIT_VERY_SLOW to KUNIT_SPEED_VERY_SLOW
+Date: Thu, 21 Mar 2024 01:14:24 +0800
+Message-Id: <20240320171424.6536-1-shikemeng@huaweicloud.com>
+X-Mailer: git-send-email 2.30.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: adp1050 : add bindings
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-References: <20240319113213.19083-1-radu.sabau@analog.com>
- <35acf78b-1a0d-49d4-b9a2-4b946508f32b@linaro.org>
- <SA1PR03MB649924961A6062A30AA47A6CF72C2@SA1PR03MB6499.namprd03.prod.outlook.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <SA1PR03MB649924961A6062A30AA47A6CF72C2@SA1PR03MB6499.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_Ch0CgDnpZ29m_plVnGcHQ--.12753S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jry5Zry3XFyDtr4kArWxCrg_yoWDtFXEva
+	4rZFn3CFW3tr9aqr4jyF1SyFn3GFW8Cr48Wr4DKF98Cr1SyasrKFyDJ3sF9r1Uur1S9a4f
+	tan7ur1jvwn7AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb28YFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l87I20VAvwVAaII0Ic2I_JFv_Gryl8c
+	AvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq
+	3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gc
+	CE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxI
+	r21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87
+	Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IY
+	c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+	026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+	0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
+	vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+	jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jIGQDUUUUU=
+X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
 
-On 19/03/2024 13:47, Sabau, Radu bogdan wrote:
->>
->> Thank you.
-> 
-> Indeed I forgot to address few comments regarding dt-bindings
-> and I am very sorry for that, will make sure to address them
-> in the next patch.
+There is no KUNIT_VERY_SLOW, I guess we mean KUNIT_SPEED_VERY_SLOW.
 
-Please also confirm, e.g. paste results, of binding testing.
+Signed-off-by: Kemeng Shi <shikemeng@huaweicloud.com>
+---
+ Documentation/dev-tools/kunit/running_tips.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/dev-tools/kunit/running_tips.rst b/Documentation/dev-tools/kunit/running_tips.rst
+index bd689db6fdd2..482f598d141c 100644
+--- a/Documentation/dev-tools/kunit/running_tips.rst
++++ b/Documentation/dev-tools/kunit/running_tips.rst
+@@ -294,7 +294,7 @@ macro to define the test case instead of ``KUNIT_CASE(test_name)``.
+ .. code-block:: c
+ 
+ 	static const struct kunit_attributes example_attr = {
+-		.speed = KUNIT_VERY_SLOW,
++		.speed = KUNIT_SPEED_VERY_SLOW,
+ 	};
+ 
+ 	static struct kunit_case example_test_cases[] = {
+@@ -311,7 +311,7 @@ suite definition.
+ .. code-block:: c
+ 
+ 	static const struct kunit_attributes example_attr = {
+-		.speed = KUNIT_VERY_SLOW,
++		.speed = KUNIT_SPEED_VERY_SLOW,
+ 	};
+ 
+ 	static struct kunit_suite example_test_suite = {
+-- 
+2.30.0
 
