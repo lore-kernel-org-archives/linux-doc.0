@@ -1,58 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D733FB93;
-	Wed, 20 Mar 2024 11:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD33FBA3;
+	Wed, 20 Mar 2024 11:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710933396; cv=none; b=S6Y8urwzZ7kKU945Y5y36FmEfeu/yTGoFuex5F5BJMKPGosKej9WqvmWzAT+GQ2Nc07OcK+5xDvNTrCEpf3wFV9oA0w9uqRYSwUGne7NYk3YRXHingPrSLBBfMyGgAuM9LUlY7JdF/pnUVNAqIgpwpFIVysdzfTUsq0AaFW2VVI=
+	t=1710933821; cv=none; b=tVay2u5krvbJsmeUA6dhHKRbYOh14OEQyA3r4DM0FgFAsoKkSy659OlYqpyrdPHqsceC82JtpievKb1TUNbQwtcgjm8R9kLOIg/ish0d1WrOE47U44PUc6Rh4t7H8tQlIT4fls19cdRtVRhq28jfw+H55Ixef9xUngDg2QKLTCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710933396; c=relaxed/simple;
-	bh=3GWao16JQPEam6Tw7RDDRtOVJEBf3YCZKTTgrhUbwj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKZWOFkftXG4FzajkP/jBfjkKetbHvd46CfA6jWMkHCUE6djfTfTCStpbui6X0flplR3Jf9qKiR83TkGJJCWYH4kABgnWbeEp5VdI6uhn170KIl1xuXyF7PaWkYdnrYM4SBExC9vOsENbuvnEyZzHolUFLRpieunim0NiA2IO4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/9E9ASe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1710933821; c=relaxed/simple;
+	bh=0aPMYZqS1U/faF5yL5h5SYsSJK/wGQpWX/DtVL7hT4Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sXScvIj/GXTYot5E0rwnK1//GGNen4NXtVfjoUeBbtbJGCSlddf806uGx+rh5Id53tfVc+/N7ys+3vc87SM9PuBCGkHjsgGIoCkbrjE7NW9T4/NN7zLqRFrvuv7FML23YIY0XvvoKZl7auninnsBrVsoJdwxbYwFvMuVxqIKIYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KvlwfhtK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5S4OJ0Bq; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/9E9ASe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927B3C433C7;
-	Wed, 20 Mar 2024 11:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710933395;
-	bh=3GWao16JQPEam6Tw7RDDRtOVJEBf3YCZKTTgrhUbwj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A/9E9ASeX2YKwy65WAwaSyMzYAQfqaHlfYMoJPRNRy7w1xO6artqIz5QegmfaMa3Z
-	 ZstAUCdTLMSjcOg12nrTblNJ6wpMsNps2ShFqEWjM4Q8ZcewGF8RJhUXfLrSopLS24
-	 RxmrdxOE9DktW6Sng8pkvyJc5Pu/Ojvnt4rT8Ip+F3L0XHsC6PzFmRDk+yL3yEYA/2
-	 81jUPqwLZFmrluaYcpD5hljNq5jgzdkW4Hd6s+6wlZzXUKdDAehjshGhePrpwKo4Uk
-	 HPxvei9l+zwAbl7i+w+I8ZXElK9Cj+wD6GqMqHBlyfDojurUIgUgbBrlcM7npMsu4I
-	 pi8xXOqYmRbtg==
-Date: Wed, 20 Mar 2024 11:16:31 +0000
-From: Simon Horman <horms@kernel.org>
-To: Shannon Nelson <shannon.nelson@amd.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
-	edumazet@google.com, pabeni@redhat.com, corbet@lwn.net,
-	bagasdotme@gmail.com, linux-doc@vger.kernel.org,
-	brett.creeley@amd.com, drivers@pensando.io
-Subject: Re: [PATCH v2 net] ionic: update documentation for XDP support
-Message-ID: <20240320111631.GQ185808@kernel.org>
-References: <20240319163534.38796-1-shannon.nelson@amd.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KvlwfhtK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5S4OJ0Bq"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710933818;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aTym/nC5xD61zbRK5hpctTKsJawMwlPvb8OVQ2E/Od4=;
+	b=KvlwfhtKxgD4GRV4La6sGDGFZr+2/2uQrcTfqM3vprppbQRBkL/TLG6IXU/hXtuEdKTRWU
+	8j62Nfc078Ao9H36UHuTIm9El2GoZ0LbJ4UnXyyIh2KtBC0/qwC14k1SmTqRP/f177mK7B
+	DlIuApaSsLAFcCx09fnG5xqcxZf/lewP6w/aPQFYdFLQkKbMHzXVPSVQTwD4g380A5a0nR
+	bohRu65iUTWfJXh2G9qDlxCeLHYbtn/1RxX6elSI50rVI25EjfOaq1jApa+jCL4PJS35ME
+	6FOW71TXq+emFfTlbaT2VVOyWI/HQuDjjudpJRADjjmMZ+Gw/YNJKYhb0SCrew==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710933818;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aTym/nC5xD61zbRK5hpctTKsJawMwlPvb8OVQ2E/Od4=;
+	b=5S4OJ0Bqq8GLmgf1t47z3Wr7Pn74Q0Z8hp6uTTCi/CglQBez4Y7PgP+9Y8m7R18/ZWh6QO
+	7N63F1Og9OVrh6Aw==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+ subramanian.mohan@intel.com, basavaraj.goudar@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v5 01/11] x86/tsc: Add base clock properties in
+ clocksource structure
+In-Reply-To: <20240319130547.4195-2-lakshmi.sowjanya.d@intel.com>
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+ <20240319130547.4195-2-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 20 Mar 2024 12:23:37 +0100
+Message-ID: <875xxhi1ty.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240319163534.38796-1-shannon.nelson@amd.com>
+Content-Type: text/plain
 
-On Tue, Mar 19, 2024 at 09:35:34AM -0700, Shannon Nelson wrote:
-> Add information to our documentation for the XDP features
-> and related ethtool stats.
-> 
-> While we're here, we also add the missing timestamp stats.
-> 
-> Signed-off-by: Shannon Nelson <shannon.nelson@amd.com>
+On Tue, Mar 19 2024 at 18:35, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> Add base clock hardware abstraction in clocksource structure.
+>
+> Add clocksource ID for x86 ART(Always Running Timer).
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+This change log tells the WHAT but not the WHY. You have to add context
+and explanation WHY this change is required and why it makes sense.
 
+Also I think this should be ordered differently:
+
+  1) Add the clocksource_base struct and provide the infrastructure in
+     get_device_system_crosststamp()
+
+  2) Make TSC/ART use it
+
+  3) Add the realtime muck
+
+Thanks,
+
+        tglx
