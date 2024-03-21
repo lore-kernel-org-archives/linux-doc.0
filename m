@@ -1,236 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF9986AC6;
-	Thu, 21 Mar 2024 15:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC47820304;
+	Thu, 21 Mar 2024 15:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711035265; cv=none; b=LtdV7mixDNRh6ETsglc/BI9FeFYbldAn5g/OajPBoQIWDn1c8PkpGCkxomkxQMXOv8INZh35UeWKE9LYxNJEwBpQkSBZYyUissQnc03N4SSDuiCP86c5FZBk/v+UBgrtRNQ5gdOzKhlSIXmyhI6GwVY6ntDsryiwOoowzfccO3Q=
+	t=1711035457; cv=none; b=Hw0E6Ik623041jnwXDlnyoWG1D0YhC78sSG4ZBfgDspr4fmQc5G1jP5zTZcu8GA9gQEegV97pXCRFvoHVtk1GV8ENYkyXeDd6ljLOe4SDTyOYK97QPQJbuW4sxBbhgo4vm01ptk6wc/fINfkU22ztuLxrgqPEBbIkNMoWVEvy5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711035265; c=relaxed/simple;
-	bh=NHdYAaxvtVR1hgs4LTAu4brIdcf4tG0DdKMRKvsq9hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RzN2sDX9bYDEUO755gEFJGdERhRkvD4RA/6vpJabOYIxWSTWqUT6Hn6Y+ebgydkj8Y72f7HDZsZ3Fa6Omf35sMp4QTjn7VLpBnCxcJpvwhxnZxO0cJ9u7YPua+g1/46UiboqfezA4bj1/wnO3fr6S2SURjTakh5xDY1NTYL1oiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGHL3Xkv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711035457; c=relaxed/simple;
+	bh=dOYNT79qk9MioScuYTUeX2HdGhASPtDv2e6R6SOo5sY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qZtc94NvBufW6hbNoMSyE/2QyzmNPNOy3sxAJkeLPqq1F2MVs6mA3eI73D4H3XbQy63GcVOrt1Q0T3aImsQOGJLVtkZkyPXCFLkdc942efdFQsYcO3KKIGxm7RkmK0q7TqiKNcJgmX4pT7y4nWUOP0YlYW/EphEO96TmmbLXEaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fn34fFjB; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGHL3Xkv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADCDC433F1;
-	Thu, 21 Mar 2024 15:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711035265;
-	bh=NHdYAaxvtVR1hgs4LTAu4brIdcf4tG0DdKMRKvsq9hc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nGHL3XkvR3+D5mCUGkXbXVSrM8ykvghnJNr89wu3Cs4z0DG7wcnfRUG7FqEzl63cb
-	 IAsqbwoEcEhKfp/XHuzkO6jww0XfkgnKx6N3837tG1/I3hmqKzQLS3Sxs0OBwhqlb1
-	 KAOFGyZ4EUO7iaFSVfmVmUIUYphDcRdIJasOuhtuUygx0qkGZOJvDV8RPQq9UjLkny
-	 6X5wZ+AJtJxzUS/uz1TVUJJDFH1RtY9Qv8m5WOy021xqn8CkceiCR1GBiOClIj7UeG
-	 RXRYZFff7LtoCTsU4k1iQ5jcpqndflp22xL1g+9twCKaaa+Xe+cyWcZkoPTVvHb6rG
-	 nQSEabUZen2Sg==
-Date: Thu, 21 Mar 2024 15:34:17 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Parthiban.Veerasooran@microchip.com
-Cc: krzysztof.kozlowski@linaro.org, andrew@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v3 12/12] dt-bindings: net: add Microchip's
- LAN865X 10BASE-T1S MACPHY
-Message-ID: <20240321-upcountry-finless-b0e9b1ab4deb@spud>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-13-Parthiban.Veerasooran@microchip.com>
- <20240306-spree-islamist-957acf0ee368@spud>
- <4c5968a3-c043-45fc-8fff-2a9eaa6de341@lunn.ch>
- <20240306-ripeness-dimple-e360a031ccde@spud>
- <05a9a7ee-e4f0-443e-9c8a-8ee649a11448@microchip.com>
- <2f384a54-74a0-4a75-a325-8985257b5d66@linaro.org>
- <ba37c212-fb98-407d-9bee-6d14801754d9@microchip.com>
- <96493beb-afbf-42f2-88f0-ad645422ecdb@linaro.org>
- <1735add6-4a6a-452b-bf26-1cf19c95493e@microchip.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fn34fFjB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711035455; x=1742571455;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=dOYNT79qk9MioScuYTUeX2HdGhASPtDv2e6R6SOo5sY=;
+  b=fn34fFjBSysEoOYzC/1lg9cepJpzRuM9UnvlNaj6tMDXAZsk9qdzmAXD
+   z6VFFCKV0cINwQHr0Vt9XT0a5rMiH24Y+IHB7hiFzZTheyN1pJ4Wg597r
+   KidatMgLdYNTi1eoqXTjaajBB/3/Ra/rxsyyCzg+xDUPtpz8OqGtsWWiT
+   xl2Mstl812EDxeYPo/Or4ulGIr/4gQbPsFOSoEW+eID4ugKZVJYYAEMsF
+   tFZXI4F0VCl6oMeOIfD3Ef5LXVsTxWkJgJcWI4sMXrucODylAolodCZ8g
+   aU3cBPNVi0i14sdJ4bco+WWkgbPKbQ/mcCaidskSAHMpkt3zGZh20lJ5+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9836963"
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
+   d="scan'208";a="9836963"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 08:37:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
+   d="scan'208";a="15198266"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 08:37:30 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>, airlied@gmail.com,
+ daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net, javier.carrasco.cruz@gmail.com,
+ skhan@linuxfoundation.org
+Cc: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Fix duplicate C declaration warnings
+In-Reply-To: <20240321115738.51188-1-amogh.linux.kernel.dev@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240321115738.51188-1-amogh.linux.kernel.dev@gmail.com>
+Date: Thu, 21 Mar 2024 17:37:25 +0200
+Message-ID: <871q83mw96.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Hkhej6qqS7FQuj9S"
-Content-Disposition: inline
-In-Reply-To: <1735add6-4a6a-452b-bf26-1cf19c95493e@microchip.com>
+Content-Type: text/plain
+
+On Thu, 21 Mar 2024, Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com> wrote:
+> Fix the duplicate C declaration warnings found on
+> Documentation/gpu/drm-kms.rst that was found by
+> compiling htmldocs
+
+Please paste the warnings here.
+
+BR,
+Jani.
 
 
---Hkhej6qqS7FQuj9S
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>
+> Signed-off-by: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
+> ---
+>  Documentation/gpu/drm-kms.rst | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 13d3627d8bc0..a4145f391e43 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -357,9 +357,6 @@ Format Functions Reference
+>  .. kernel-doc:: include/drm/drm_fourcc.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
+> -   :export:
+> -
+>  .. _kms_dumb_buffer_objects:
+>  
+>  Dumb Buffer Objects
+> @@ -458,9 +455,6 @@ KMS Locking
+>  .. kernel-doc:: include/drm/drm_modeset_lock.h
+>     :internal:
+>  
+> -.. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+> -   :export:
+> -
+>  KMS Properties
+>  ==============
 
-On Thu, Mar 21, 2024 at 12:00:56PM +0000, Parthiban.Veerasooran@microchip.c=
-om wrote:
-> Hi Krzysztof,
->=20
-> On 21/03/24 2:10 pm, Krzysztof Kozlowski wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
-> >=20
-> > On 21/03/2024 09:38, Parthiban.Veerasooran@microchip.com wrote:
-> >> Hi Krzysztof,
-> >>
-> >> On 20/03/24 3:23 pm, Krzysztof Kozlowski wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you kno=
-w the content is safe
-> >>>
-> >>> On 20/03/2024 09:40, Parthiban.Veerasooran@microchip.com wrote:
-> >>>> Hi Conor & Andrew,
-> >>>>
-> >>>> Please find my reply below by consolidating other two emails comments
-> >>>> related to this.
-> >>>>
-> >>>> On 07/03/24 12:31 am, Conor Dooley wrote:
-> >>>>> On Wed, Mar 06, 2024 at 07:48:57PM +0100, Andrew Lunn wrote:
-> >>>>>>>> +description:
-> >>>>>>>> +  The LAN8650/1 combines a Media Access Controller (MAC) and an=
- Ethernet
-> >>>>>>>> +  PHY to enable 10BASE=E2=80=91T1S networks. The Ethernet Media=
- Access Controller
-> >>>>>>>> +  (MAC) module implements a 10 Mbps half duplex Ethernet MAC, c=
-ompatible
-> >>>>>>>> +  with the IEEE 802.3 standard and a 10BASE-T1S physical layer =
-transceiver
-> >>>>>>>> +  integrated into the LAN8650/1. The communication between the =
-Host and
-> >>>>>>>> +  the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x MACP=
-HY Serial
-> >>>>>>>> +  Interface (TC6).
-> >>>>>>>> +
-> >>>>>>>> +allOf:
-> >>>>>>>> +  - $ref: ethernet-controller.yaml#
-> >>>>>>>> +
-> >>>>>>>> +properties:
-> >>>>>>>> +  compatible:
-> >>>>>>>> +    oneOf:
-> >>>>>>>> +      - items:
-> >>>>>>>> +          - const: microchip,lan8650
-> >>>>>>>> +          - const: microchip,lan8651
-> >>>>>>> The order here is wrong, lan8561 needs to come before the fallbac=
-k of
-> >>>>>>> lan8650.
-> >>>>>> I don't think it is a fallback. There are two devices, and hence t=
-wo
-> >>>>>> different compatibles. So i suspect the -items: is wrong here?
-> >>>>> It'd just be a two entry enum then, but I did take a quick look at =
-the
-> >>>>> driver earlier and saw:
-> >>>>> +static const struct of_device_id lan865x_dt_ids[] =3D {
-> >>>>> +    { .compatible =3D "microchip,lan8650" },
-> >>>>> +    { .compatible =3D "microchip,lan8651" },
-> >>>>> +    { /* Sentinel */ }
-> >>>>> +};
-> >>>>>
-> >>>>> That, along with no other of_device_is_compatible() type operations
-> >>>>> made me think that having a fallback actually was suitable.
-> >>>>>
-> >>>>> You cropped it out, but the patch had:
-> >>>>>> +  compatible:
-> >>>>>> +    oneOf:
-> >>>>>> +      - items:
-> >>>>>> +          - const: microchip,lan8650
-> >>>>>> +          - const: microchip,lan8651
-> >>>>>> +      - enum:
-> >>>>>> +          - microchip,lan8650
-> >>>>> So it doesn't appear to be an accidental items in place of an enum,
-> >>>>> since the other compatible is in another enum.
-> >>>> As per Andrew's comment in another email, both LAN8650 and LAN8651 a=
-re
-> >>>> two different variants but they both share almost all characteristics
-> >>>> except one thing that is LAN8651 has "Single 3.3V supply with integr=
-ated
-> >>>> 1.8V regulator" which doesn't have anything to do with driver. That's
-> >>>
-> >>> So why this is not reflected in your driver? Why didn't you address t=
-hat
-> >>> part, but ignored?
-> >> No, it is not ignored. This difference is specific to hardware and the=
-re
-> >> is no configuration/setting to be done from driver.
-> >>>
-> >>>> why I have kept them as fallback as Conor said in this email. Hope y=
-ou
-> >>>> all OK with this.
-> >>>
-> >>> Did you read the feedback? Your response is not solving here anything.
-> >>> How 8650 can be used twice? Please point me to DTS showing both usage=
-s.
-> >> May be I have a misunderstanding here. Let's clarify it.
-> >>
-> >> LAN8650 and LAN8651 both are two different variants but both implements
-> >> same functionality. The only difference is LAN8651 has "Single 3.3V
-> >> supply with integrated" where LAN8650 doesn't have this. This is
-> >> hardware specific difference and there is no configuration/setting to =
-be
-> >> done in the driver specific to this difference in the LAN8651. So
-> >> basically the driver can support for both variants without any
-> >> additional settings.
-> >>
-> >> LAN8650: https://www.microchip.com/en-us/product/lan8650
-> >> LAN8651: https://www.microchip.com/en-us/product/lan8651
-> >>
-> >> The below link shows the difference between them,
-> >> https://www.microchip.com/en-us/product-comparison.lan8650.lan8651
-> >>
-> >> With the above details, I would change the microchip,lan865x.yaml with
-> >> the below details.
-> >>
-> >> compatible:
-> >>     enum:
-> >>       - microchip,lan8650
-> >>       - microchip,lan8651
-> >>
-> >> And in the lan865x.c, I would remove the below line because
-> >> .compatible =3D "microchip,lan8650" already supports for LAN8651 as we=
-ll.
-> >>
-> >> .compatible =3D "microchip,lan8651"
-> >>
-> >> Let me know your opinion on this proposal? or do you have any
-> >> misunderstanding here?
-> >=20
-> > It's still wrong. Upstream your DTS and then test it. You will
-> > immediately see that it does not work. So first make it working, then
-> > send code to review.
-> Sorry for the inconvenience. I did the below changes in my=20
-> microchip,lan865x.yaml file and executed dt_binding_check. It=20
-> successfully created the microchip,lan865x.example.dts without any=20
-> errors. Herewith I have attached the updated microchip,lan865x.yaml file=
-=20
-> and the generated microchip,lan865x.example.dts file for your reference.
->=20
-> properties:
->    compatible:
->      oneOf:
->        - items:
->            - const: microchip,lan8651
->            - const: microchip,lan8650
-
-No, this is not right either. You need to also allow the lan8650 on its
-own. All you had to do with the original items list was flip the order
-of the lan8650 and lan8651.
-
---Hkhej6qqS7FQuj9S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfxTaAAKCRB4tDGHoIJi
-0pn7APwPC0i09RDDMqIEPSfbO956debgSpLA0amibHHjDDzYXwD+Lt2CLi8me13G
-AKnDr07DjFN0MT6eFRZNd48M/6ZVDwA=
-=920K
------END PGP SIGNATURE-----
-
---Hkhej6qqS7FQuj9S--
+-- 
+Jani Nikula, Intel
