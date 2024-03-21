@@ -1,101 +1,81 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4991136678
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 22:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EE11860
+	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 22:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711059459; cv=none; b=SvHR3JzaklMjr/C8TvzbUBxvP8cLQOICJE7V2wd6w5U4cdjvvBmFJkI91tXh/FVRxDSOhP9qw4ufqoK5drHmLO+NVcPyqyvna5r4KufD5Ke8afRwFmCyXCKT618LSZF6Gbpsljiet+003x7LS0w5yw1a4x8ZzUYF1qGfvzzXle0=
+	t=1711060377; cv=none; b=LX4Txuoh2j3XCefvsduTAWJZePB9QCClrrQKfq6zLnUZjUcmEHlVROgVwQ2xVbpyTULFlYowabIvRJ/36HCgg5Tc4cOWxe8A0QSQhGsHa19rnkAVyFmt8FFxbxGBdG/yM7xY+R/AzlzKE+0XzadWqZNNmiN2H8dBqIalbUye4OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711059459; c=relaxed/simple;
-	bh=48MDU/nc47hzkUWjchZtFQewyGLXSQIKOvEvF3GhbhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PcPW0pGRk9wZ18wDHC+oLVoFDvKKx7jh06ieztPruME/13UjfOqkvEVT8DTxPOKGZBLuJPo1wYBowXtvhnswZwy99LPR4adIyKphIAOqbYrc7FpU1rxf53TCpUfe0MWOVfC1hnyHp7ddsmgel+L3eDx55GxawgfAOz5L+TvDERQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FZysDbxQ; arc=none smtp.client-ip=95.215.58.185
+	s=arc-20240116; t=1711060377; c=relaxed/simple;
+	bh=LDByoXQP6mgfnNEdlwk8vFKwzCc7LziPCgnb5onUzqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=au4D2N7waWaVpngahEDQp5dVnjhvpmJSNHgbZJOcacC7KGaiOnj/g0Ex/q6NUrkMYDsjtxs63dshq06EErsI1kfsTTQr1Sk0TVwhuXYfhZ5t++hhlEC8XPTtpJtd3fj/QIAdT4f6WV9cTT12UCoZ54wEjH/8V04lNinxUFvxt+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L9TjzxIn; arc=none smtp.client-ip=95.215.58.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FZysDbxQ"
-Date: Thu, 21 Mar 2024 18:17:24 -0400
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L9TjzxIn"
+Message-ID: <a757ab17-e6ca-48f0-ac15-3bd97a4b542e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711059455;
+	t=1711060373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Avwu9Obvo7iLXBxmizf/EO08qQLthSdSW59GBeW8H+I=;
-	b=FZysDbxQhjIXqR1pi+xqtUgFMzj7/eEwMfqFXVNrKP4hKoq2eMyg+mr0CCyz9L7KqFOgHR
-	p5O/ufNLq1uDGvJZh6zage2q2y2AKKbqhiaE8rWYbulPbyHbczbhEbHNktWz0RHQl+5yfX
-	htak4lBJXiAjgjdWctvpqD6B01G3FgE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, 
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH v6 05/37] fs: Convert alloc_inode_sb() to a macro
-Message-ID: <bliyhrwtskv5xhg3rxxszouxntrhnm3nxhcmrmdwwk4iyx5wdo@vodd22dbtn75>
-References: <20240321163705.3067592-1-surenb@google.com>
- <20240321163705.3067592-6-surenb@google.com>
- <20240321133147.6d05af5744f9d4da88234fb4@linux-foundation.org>
- <gnqztvimdnvz2hcepdh3o3dpg4cmvlkug4sl7ns5vd4lm7hmao@dpstjnacdubq>
- <20240321150908.48283ba55a6c786dee273ec3@linux-foundation.org>
+	bh=y/Lr4E9a605vheRZplDHsft6Dy8a9yDcfkpMMdUcuvw=;
+	b=L9TjzxInk/TWB9VgFgEsXwG/f8FNriy5FvYadItSTwGcAzvoA12wkLZQ4HgoyF2dDba9Jg
+	9uJgbyLizdtOIowlXJswVABXh0SqjoMlBM65MuohRBtPLZryPEFL5UivhGX4b6j/OLwY4o
+	zRhmZjc9BKnN5wdOGT6U55vpnnWFvWQ=
+Date: Fri, 22 Mar 2024 06:32:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240321150908.48283ba55a6c786dee273ec3@linux-foundation.org>
+Subject: Re: [v10,03/27] drm/connector: hdmi: Create an HDMI sub-state
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On Thu, Mar 21, 2024 at 03:09:08PM -0700, Andrew Morton wrote:
-> On Thu, 21 Mar 2024 17:15:39 -0400 Kent Overstreet <kent.overstreet@linux.dev> wrote:
-> 
-> > On Thu, Mar 21, 2024 at 01:31:47PM -0700, Andrew Morton wrote:
-> > > On Thu, 21 Mar 2024 09:36:27 -0700 Suren Baghdasaryan <surenb@google.com> wrote:
-> > > 
-> > > > From: Kent Overstreet <kent.overstreet@linux.dev>
-> > > > 
-> > > > We're introducing alloc tagging, which tracks memory allocations by
-> > > > callsite. Converting alloc_inode_sb() to a macro means allocations will
-> > > > be tracked by its caller, which is a bit more useful.
-> > > 
-> > > I'd have thought that there would be many similar
-> > > inlines-which-allocate-memory.  Such as, I dunno, jbd2_alloc_inode(). 
-> > > Do we have to go converting things to macros as people report
-> > > misleading or less useful results, or is there some more general
-> > > solution to this?
-> > 
-> > No, this is just what we have to do.
-> 
-> Well, this is something we strike in other contexts - kallsyms gives us
-> an inlined function and it's rarely what we wanted.
-> 
-> I think kallsyms has all the data which is needed to fix this - how
-> hard can it be to figure out that a particular function address lies
-> within an outer function?  I haven't looked...
+Hi,
 
-This is different, though - even if a function is inlined in multiple
-places there's only going to be one instance of a static var defined
-within that function.
+
+On 2024/3/21 23:28, Maxime Ripard wrote:
+> The next features we will need to share across drivers will need to
+> store some parameters for drivers to use, such as the selected output
+> format.
+>
+> Let's create a new connector sub-state dedicated to HDMI controllers,
+> that will eventually store everything we need.
+>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+-- 
+Best regards,
+Sui
+
