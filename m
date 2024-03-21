@@ -1,302 +1,176 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A584A5A;
-	Thu, 21 Mar 2024 14:23:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9B58232;
+	Thu, 21 Mar 2024 14:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711031018; cv=none; b=Wsu16IL+7jMSM/myokwDGpWTG0WKX0dfmZm4EG8iSuWCjtaUETU6vjAl2KdLE2AKobD80fhSALSz5lfq4+X2DppoMfvkoP0sPhRrOHlR7+O0znn/ufV7tzHk/QxFwmBSwSG9AXZHX4rPRhZPsG2cRd6dgzQUlq75OSu5EM1XcZ8=
+	t=1711032806; cv=none; b=qhnUqNgDztqkKxIOgjobSlv9FmSqD8aFN3LLp4KZQcOaCF0vSsVeZ7WPZmnq35C/SFHyc+aPv0yB9stBxqUCdrkH37q3p8sxxmzuhz1Q1zfPNRlthWTZX5x+c0Olm4iC7EEd6lNXSibc23ywE7v+s4ZhkqUUeZpbx/+vl/qWezk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711031018; c=relaxed/simple;
-	bh=nGkGs5ryBM471WTCb43oATbjR2IaxOijUgYBT9ZzCcU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JCeTLYeRi1PFBSDd2y3CnIAI8rI9pfOS1cMJ7yMSQZmww0gqDYpIq0XnRLhCG0fWn9kLaU3nPmTy9kTMBCo6P2/Vt5uQN0DXwG6yMd+5L9//hlNFbyne2Elil+JrJv0sRPVxn8Gum3AhdP7dqIfPVQ3znvO/ivhs42Qnxt2D5oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=NEfu+0nD; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1711032806; c=relaxed/simple;
+	bh=xrAps+kQb2l8QaGn7Q6eCI50hbOHvxC5cKDHNy6xTB4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=la2+WOKCeVTqiB9laHJY+86CtaBZeqdDFefQk5kbEx50VqUmWXIrjf7B2NFIt+ULAFbCEVmTfUacFnHoozzaEQz8uc3uoHCpSgpTBVJbNqhYZuccqUPJW6Pfel4zzkijkvlBj/7wRAWBNO28B8D7lPbrqgnr0m1auWrBa7GS34g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Bo1mXDrd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=72pv6KOl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="NEfu+0nD"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42LE0GWw026366;
-	Thu, 21 Mar 2024 10:23:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	from:to:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=DKIM;
-	 bh=mUogf9dJImYn0s/zY5hOmCaBu9Xosz5HP/VfaOzKGiA=; b=NEfu+0nDKE46
-	GzLBuhCq91tQ53qsM1RsaKrb/FmJTMB9jxnXZ9GjWTg8O5Z1+6pfZ2taIx6TEFJZ
-	d2IiIejBd9YztfbxeZ26hUxWg/ZaGBn40fxF3+fyKZDlksgojvD/xmwuBWJ9IotS
-	rJnM3stSNNlizcRJhzR60+8dkZ27nAF+RNMdA9ODnp5Hies7AJTpMVOB6Sjf4fBP
-	yHXA5vqpz7UHEqh4rpeX00r7CXi59qDt0iIkoIxdfCUlk3fZHD3CCFPaeNnYxT6h
-	YID16a1etPMO/+oBOv8J8Z/mRAxTlzF+YfilpMGKQxcIhk2mwe+AJlb123yN2dPP
-	/6GNKR9ZnQ==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3wwragu0p2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Mar 2024 10:23:20 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 42LENJQV034192
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 21 Mar 2024 10:23:19 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Thu, 21 Mar
- 2024 10:23:18 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Thu, 21 Mar 2024 10:23:18 -0400
-Received: from radu.ad.analog.com ([10.48.65.243])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 42LEMqp9014288;
-	Thu, 21 Mar 2024 10:23:11 -0400
-From: Radu Sabau <radu.sabau@analog.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Delphine CC Chiu
-	<Delphine_CC_Chiu@Wiwynn.com>,
-        Radu Sabau <radu.sabau@analog.com>, <linux-hwmon@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-i2c@vger.kernel.org>
-Subject: [PATCH v4 2/2] hwmon: pmbus: adp1050: Add driver support
-Date: Thu, 21 Mar 2024 16:21:43 +0200
-Message-ID: <20240321142201.10330-2-radu.sabau@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240321142201.10330-1-radu.sabau@analog.com>
-References: <20240321142201.10330-1-radu.sabau@analog.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Bo1mXDrd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="72pv6KOl"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1711032802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2r4kmlwH724Y4qI43//rL/0kpwyX9e5Eqqy+Tzlxna4=;
+	b=Bo1mXDrdv9XN9ZfmeP7xgJh41zMLO8nOEsx6Tq0pqTkcVSOjDALigxXRNqQR8I0ICkjnfE
+	jKO/rVkdvlpkv5QW3DdVSUE4ZpI6JNA5PUc3upt94pt9Nne/B2u264SiabjnUjwD2L0TvP
+	nviHQ1omFuOg+DMG4rX7W/RNABhShvvJfJ6ph9bQLYwJbxU4c3B+hFv6o3gbZL6IO1et4L
+	Ea2A6wYiuyQJAU+QkrkR+1uaIIBGH4tu9wPipDWhkzBy9amAzqt4KSNAnaeYkgXyRKtEan
+	ZKOg7m+zHEJ3/7TT611E4X5nrcCwVRrIumMmrk9MKxUMp7ci7AOVlnh1U81J0g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1711032802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2r4kmlwH724Y4qI43//rL/0kpwyX9e5Eqqy+Tzlxna4=;
+	b=72pv6KOlbz95mP5aFQ19r1gYUoZf8dUWfzAVreSPhDIR2yaW8/hAvL1hmsHdgv1+EU9W0K
+	esvYdHhzFZEGnZDg==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, mallikarjunappa.sangannavar@intel.com,
+ subramanian.mohan@intel.com, basavaraj.goudar@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v5 02/11] timekeeping: Add function to convert realtime
+ to base clock
+In-Reply-To: <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+References: <20240319130547.4195-1-lakshmi.sowjanya.d@intel.com>
+ <20240319130547.4195-3-lakshmi.sowjanya.d@intel.com>
+Date: Thu, 21 Mar 2024 15:53:22 +0100
+Message-ID: <87le6bhc0t.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: 0p4IBYcAxUj-x9bIzEZJDGVjemGPvAzM
-X-Proofpoint-ORIG-GUID: 0p4IBYcAxUj-x9bIzEZJDGVjemGPvAzM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-21_10,2024-03-18_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
- suspectscore=0 spamscore=0 adultscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403140001 definitions=main-2403210102
+Content-Type: text/plain
 
-Add support for ADP1050 Digital Controller for Isolated Power Supplies
-with PMBus interface Voltage, Current and Temperature Monitor.
+On Tue, Mar 19 2024 at 18:35, lakshmi.sowjanya.d@intel.com wrote:
+> +bool ktime_real_to_base_clock(ktime_t treal, enum clocksource_ids base_id, u64 *cycles)
+> +{
+> +	struct timekeeper *tk = &tk_core.timekeeper;
+> +	unsigned int seq;
+> +	u64 delta;
+> +
+> +	do {
+> +		seq = read_seqcount_begin(&tk_core.seq);
+> +		delta = (u64)treal - tk->tkr_mono.base_real;
+> +		if (delta > tk->tkr_mono.clock->max_idle_ns)
+> +			return false;
 
-The ADP1050 implements several features to enable a robust
-system of parallel and redundant operation for customers who
-require high availability. The device can measure voltage,
-current and temperature that can be used in different
-techniques to identify and safely shut down an erroneous
-power supply in parallel operation mode.
+I don't think this cutoff is valid. There is no guarantee that this is
+linear unless:
 
-Signed-off-by: Radu Sabau <radu.sabau@analog.com>
----
-v4:
- *No change.
-v3:
- *No change.
-v2:
- *Remove mandatory chip unlocking from the probe function, as it is
-  a bit extreme.
- *Remove iin_scale and vin_scale set in the probe function since it makes no
-  sense to force-override it (the user may use the chip's default or even
-  change it himself after the probe).
----
- Documentation/hwmon/adp1050.rst | 65 +++++++++++++++++++++++++++++++++
- Documentation/hwmon/index.rst   |  1 +
- drivers/hwmon/pmbus/Kconfig     | 10 +++++
- drivers/hwmon/pmbus/Makefile    |  1 +
- drivers/hwmon/pmbus/adp1050.c   | 58 +++++++++++++++++++++++++++++
- 5 files changed, 135 insertions(+)
- create mode 100644 Documentation/hwmon/adp1050.rst
- create mode 100644 drivers/hwmon/pmbus/adp1050.c
+       Treal[last timekeeper update] <= treal < Treal[next timekeeper update]
 
-diff --git a/Documentation/hwmon/adp1050.rst b/Documentation/hwmon/adp1050.rst
-new file mode 100644
-index 000000000000..3281b096a53c
---- /dev/null
-+++ b/Documentation/hwmon/adp1050.rst
-@@ -0,0 +1,65 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver adp1050
-+=====================
-+
-+Supported chips:
-+
-+  * Analog Devices ADP1050
-+
-+    Prefix: 'adp1050'
-+
-+    Addresses scanned: I2C 0x70 - 0x77
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-
-+sheets/ADP1050.pdf
-+
-+Authors:
-+
-+  - Radu Sabau <radu.sabau@analog.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supprts hardware monitoring for Analog Devices ADP1050 Digital
-+Controller for Isolated Power Supply with PMBus interface.
-+
-+The ADP1050 is an advanced digital controller with a PMBus™
-+interface targeting high density, high efficiency dc-to-dc power
-+conversion used to monitor system temperatures, voltages and currents.
-+Through the PMBus interface, the device can monitor input/output voltages,
-+input current and temperature.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not auto-detect devices. You will have to instantiate
-+the devices explicitly.
-+Please see Documentation/i2c/instantiating-devices.rst for details.
-+
-+Platform data support
-+---------------------
-+
-+The driver supports standard PMBus driver platform data.
-+
-+Sysfs Attributes
-+----------------
-+
-+================= ========================================
-+in1_label         "vin"
-+in1_input         Measured input voltage
-+in1_alarm	  Input voltage alarm
-+in2_label	  "vout1"
-+in2_input	  Measured output voltage
-+in2_crit	  Critical maximum output voltage
-+in2_crit_alarm    Output voltage high alarm
-+in2_lcrit	  Critical minimum output voltage
-+in2_lcrit_alarm	  Output voltage critical low alarm
-+curr1_label	  "iin"
-+curr1_input	  Measured input current.
-+curr1_alarm	  Input current alarm
-+temp1_input       Measured temperature
-+temp1_crit	  Critical high temperature
-+temp1_crit_alarm  Chip temperature critical high alarm
-+================= ========================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 1ca7a4fe1f8f..9a4fd576e6f6 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -33,6 +33,7 @@ Hardware Monitoring Kernel Drivers
-    adm1266
-    adm1275
-    adm9240
-+   adp1050
-    ads7828
-    adt7410
-    adt7411
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 557ae0c414b0..38e794d83cc3 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -57,6 +57,16 @@ config SENSORS_ADM1275
- 	  This driver can also be built as a module. If so, the module will
- 	  be called adm1275.
- 
-+config SENSORS_ADP1050
-+	tristate "Analog Devices ADP1050 digital controller for Power Supplies"
-+	help
-+	  If you say yes here you get hardware monitoring support for Analog
-+	  Devices ADP1050 digital controller for isolated power supply with
-+	  PMBus interface.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called adp1050.
-+
- config SENSORS_BEL_PFE
- 	tristate "Bel PFE Compatible Power Supplies"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index f14ecf03ad77..95a8dea5e5ed 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
- obj-$(CONFIG_SENSORS_ACBEL_FSG032) += acbel-fsg032.o
- obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
- obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
-+obj-$(CONFIG_SENSORS_ADP1050)	+= adp1050.o
- obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
- obj-$(CONFIG_SENSORS_BPA_RS600)	+= bpa-rs600.o
- obj-$(CONFIG_SENSORS_DELTA_AHE50DC_FAN) += delta-ahe50dc-fan.o
-diff --git a/drivers/hwmon/pmbus/adp1050.c b/drivers/hwmon/pmbus/adp1050.c
-new file mode 100644
-index 000000000000..0a49bea8e13b
---- /dev/null
-+++ b/drivers/hwmon/pmbus/adp1050.c
-@@ -0,0 +1,58 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Hardware monitoring driver for Analog Devices ADP1050
-+ *
-+ * Copyright (C) 2024 Analog Devices, Inc.
-+ */
-+#include <linux/bits.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include "pmbus.h"
-+
-+static struct pmbus_driver_info adp1050_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_IN] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-+		| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-+		| PMBUS_HAVE_IIN | PMBUS_HAVE_TEMP
-+		| PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static int adp1050_probe(struct i2c_client *client)
-+{
-+	return pmbus_do_probe(client, &adp1050_info);
-+}
-+
-+static const struct i2c_device_id adp1050_id[] = {
-+	{"adp1050", 0},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(i2c, adp1050_id);
-+
-+static const struct of_device_id adp1050_of_match[] = {
-+	{ .compatible = "adi,adp1050"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, adp1050_of_match);
-+
-+static struct i2c_driver adp1050_driver = {
-+	.driver = {
-+		.name = "adp1050",
-+		.of_match_table = adp1050_of_match,
-+	},
-+	.probe = adp1050_probe,
-+	.id_table = adp1050_id,
-+};
-+module_i2c_driver(adp1050_driver);
-+
-+MODULE_AUTHOR("Radu Sabau <radu.sabau@analog.com>");
-+MODULE_DESCRIPTION("Analog Devices ADP1050 HWMON PMBus Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(PMBUS);
--- 
-2.34.1
+Look at the dance in get_device_system_crosststamp() and
+adjust_historical_crosststamp() to see why.
 
+> +		*cycles = tk->tkr_mono.cycle_last + convert_ns_to_cs(delta);
+> +		if (!convert_cs_to_base(cycles, base_id))
+> +			return false;
+> +	} while (read_seqcount_retry(&tk_core.seq, seq));
+> +
+> +	return true;
+> +}
+> +EXPORT_SYMBOL_GPL(ktime_real_to_base_clock);
+
+Looking at the usage site:
+
+> +static bool pps_generate_next_pulse(struct pps_tio *tio, ktime_t expires)
+> +{
+> +	u64 art;
+> +
+> +	if (!ktime_real_to_base_clock(expires, CSID_X86_ART, &art)) {
+> +		pps_tio_disable(tio);
+
+I'm pretty sure this can happen when there is sufficient delay between
+the check for (now - expires < SAFE_TIME_NS) and the delta computation
+in ktime_real_to_base_clock() if there is a timerkeeper update
+interleaving which brings tkr_mono.base_real in front of expires.
+
+Is that intentional and correct?
+
+If so, then it's inconsistent with the behaviour of the hrtimer
+callback:
+
+> +		return false;
+> +	}
+> +
+> +	pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
+> +	return true;
+> +}
+> +
+> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
+> +{
+> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
+> +	ktime_t expires, now;
+> +
+> +	guard(spinlock)(&tio->lock);
+> +
+> +	expires = hrtimer_get_expires(timer);
+> +	now = ktime_get_real();
+> +
+> +	if (now - expires < SAFE_TIME_NS) {
+> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
+> +			return HRTIMER_NORESTART;
+> +	}
+
+This safe guard does not care about time being set. I'm not familiar
+with the PPS logic, but is it expected that the pulse pattern will be
+like this:
+
+         
+
+    ---|-----|-----|-----|----------------->
+       P     P  ^        P
+                |
+        clock_settime(CLOCK_REALTIME, now - 2 seconds)         
+        
+        Obviously the pulse gap will be as big as the time is set
+        backwards, which might be way more than 2 seconds.
+        
+
+    ---|-----|-----|-----|----------------->
+       P     P  ^  P     P
+                |
+        clock_settime(CLOCK_REALTIME, now + 2 seconds)         
+
+I don't see anything in this code which cares about CLOCK_REALTIME being
+set via clock_settime() or adjtimex().
+
+Aside of that I have a question about how the TIO hardware treats this
+case:
+
+   ktime_real_to_base_clock(expires, &art);
+
+-> GAP which makes @art get into the past
+
+   pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
+
+Will the hardware ignore that already expired value or just emit a pulse
+immediately? In the latter case the pulse will be at a random point in
+time, which does not sound correct.
+
+Thanks,
+
+        tglx
