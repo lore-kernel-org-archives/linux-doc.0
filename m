@@ -1,55 +1,55 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01876132C39
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 17:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAC3B66F
+	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 17:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711041584; cv=none; b=nDUhRjkuRgv+Z+w0D+XM5SAkt7Z406fUP9sjX2ywD6/DhjP0TG6VgtIoHnbvoD22grQzX0NDuCh1LRZ5ohGVIOLLdkjrwOi81Yai2WM6ou3lb83FUuZBT6AcWyjTebR7MzRNJrc2I8/UTLbbccZmPdVbYm3Zg/+wRuG7ex/l+xI=
+	t=1711041782; cv=none; b=gr0fWxwqip/Cyt9roqbdqOAQR75AmsDHazK33z6Qwt/7MBfp9BV/wKbdBftNTcwLvmIXvU9SqfZYEVRTHZisrJCmU5yDshXrdlOrLd2B9zUVGsqpWrFugL/Pud5ttuFwtd6uo7v3OL7FC/2e5eDm17MEnd1nO1+/MphX8UOYF7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711041584; c=relaxed/simple;
-	bh=H+LJEeBQNsEayEy62NES0fpvH5c8qtUySXf9WjZsL7Q=;
+	s=arc-20240116; t=1711041782; c=relaxed/simple;
+	bh=Bla6ImeaxPC0l/wXS4fIkd5VYa4ZJlHCrM9gFW+aZB8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X3KhFWBor90fCq7HUoSC6AD7/DnNeiTYuoeo+k6aql/9ZEsbP2B8NbfXs7Qt2nglC8MI+8kZpigoGWBvHYXdhKsMmq6d+Abm32z2G+1RuC3lwUcbuEskfnCbrG2gsrVX1ZXrdEFUNPnkKJNR6zbGyQWFAHM5qlZ3I8WW7ed92lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wQGswcMD; arc=none smtp.client-ip=209.85.219.171
+	 To:Cc:Content-Type; b=rEgkROXOUwDYVODeQqh9frxNa2BIwjoo/4riyrUvRQw5RvIyiYZ9En7zkeCk3/MO0rF4ICgLOOIG14POdQqssFZtmNvBKnAftPRPU4eGHO8UMwb3en8uddD/y3nLhybSnnYRgV2sLL87llBQ4RRfea2LD4h2GF1bj+tkNAmVrho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wp4O/Vn1; arc=none smtp.client-ip=209.85.219.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wQGswcMD"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcc73148611so1351009276.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 10:19:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wp4O/Vn1"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc73148611so1355139276.3
+        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 10:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711041581; x=1711646381; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1711041778; x=1711646578; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tqvfQSGh+Xzm8qjoxKwBWCT5Q1J0hViT+VZ+PA5jO/g=;
-        b=wQGswcMDuplyRs8fUGwaOmGwqP4mg/LWEXFC8ArimCNwJDM+AN5v9S0xWnckBn0jk8
-         UxqKp7QvM/RCvybCB0nL8IghAOSh6pPPc5flnZHOxIi3oS0qIFM/vX/GhEOZmV0vKSqf
-         mIgHHK4zqQdRHGVqjgW7FF2HNkdsg8yHHp50lmbqURSFPylRlmaCEvgqJNAWffpiiJbU
-         8X52om8QSE2Sm1Q3lQD0PE3FHALTwhYilwJ0SK6BLYDJrwvFestuWd7Un0QefYLohj2j
-         PXDnP/+iBba3Y7kqD0gRUqnetLQaKGYWxaCyZsYmmazdgsNKXt5CQVg2pgOCfz5lWphV
-         r/LQ==
+        bh=w4sCto2weX/tSraSWS0s5CjzL8cyi2xaSDvgaVtTzPM=;
+        b=Wp4O/Vn1x+NjMVoyH1hqeGz5tXez/gLF44IpWIScGFPlcJyu5RJ7vJiJU/gQPl/4Dn
+         htaniwwXNzQB2aWwR4yMm/3f9OHS4M1G8T1ih8wSy7E8R98XYDyIdy1jTczSEl4g7Tki
+         2K3rqQo1QM00/qrcEl7zDLRPvvZs4YkH89pwYltNrD0UKP1BKGxtDCd05YExk5woVyxA
+         Kybp7/HSuoE9rKnv0dGGk54Y1+pnsiL0uYJR4mXC9UMEnzzDuoTz/6cp8K1CpYa0qZHa
+         p639zE4maeZirBKWuTl3ZpCOmTXcQPxMrIlmbNfQbca/Zm3qv+NrJ2T9roplqehch6lG
+         fW6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711041581; x=1711646381;
+        d=1e100.net; s=20230601; t=1711041778; x=1711646578;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tqvfQSGh+Xzm8qjoxKwBWCT5Q1J0hViT+VZ+PA5jO/g=;
-        b=S1kAi4fZEXts2Yv+GlpSjFLsZ7mp1zgdeZ4vSdHM7NKPWJHhei2RPEk2C3hJ/E8/uv
-         dAPENa4XR2nvPAW8qjkOtwOpvkr3a0LSx8jso/FqI8NvHIUu3Nvd8m6MiFuoQe+YUuUe
-         ptwGOiJc3fu/vKu2RnvCDA7jyR84a80m3OnzN3sc2hKPjSLQXx7JfNFGQ7Tae7YG2nyV
-         MvoC7CbtS9/TOp/OVZd423N7dZLbL2orFX7cPWR16T/nTy01SoELSGd8ztEYs9iGJLoR
-         BiD1qdylhwTRCYo9WLz8SYE4etg3a2O/y6hpI0iGsNaY4EFr2HYYFXoD85XwlmEDJRQd
-         vP+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUlQd5XxbxcpmMEtnVu2/s1AiDCF8SJskdsPKyqgKNqyNoh+Ub61F26rbBF6ovIMxuWVQ2CF+ztMuq95W8GunYiYXUmsHWTBXSq
-X-Gm-Message-State: AOJu0Yy7vBxHaWqIfJ0lJdebON2y5rxsEXMDLWMI0oRHszuuVHVPjdpX
-	lQuUjGEkwUT8fer71Uv3Rn1SfaDl0kC1jqgZNODM73HbHOAdDeXK4MTeheS1lC0aEBPyQK0ws6z
-	n10oOe/5S6YMiPWfMdFlKDYvR8jK2JR5+e0b2
-X-Google-Smtp-Source: AGHT+IFQSVcpwYKqTi4u5vLJp+bH/Ul0qxjQJHN69s16T75E6/ejSMbPrhKw6oCEZl5ggVcRzfP6qAeH1y6UeIwfGAA=
-X-Received: by 2002:a25:dc4a:0:b0:dcd:4e54:9420 with SMTP id
- y71-20020a25dc4a000000b00dcd4e549420mr19795790ybe.5.1711041580565; Thu, 21
- Mar 2024 10:19:40 -0700 (PDT)
+        bh=w4sCto2weX/tSraSWS0s5CjzL8cyi2xaSDvgaVtTzPM=;
+        b=xJCTMoL4Y0Dv7X1XRUUannuTJHHVS1PEhWwXGjGDpivkjrRrrt6fzrD3Jv8/HIuc7M
+         YgsZfLxWgpgFrL010dCpctPZ5MREi1ey32+w6do1DWWPkI2ABiRvg/sSxARQu6XSw5fv
+         dSvksEcjArz3UWdJUcaFKu35Ijvix6612VjUKeLQ+mwWSrukQlfy/LJBTRo9MINnbkbZ
+         rTMsahSaqX3FyfqnrUFReU7GmnLvwH5XZQOAsgYbo6J9sOt7oq9fWD9yj1yRViHG2Us4
+         aYiSbfJiaHyVFxRJfCHPcL6aVAkUGXTsGh1rOBM2XsSut+3NoR9ZHg4FUgYuScmTv4xb
+         m02w==
+X-Forwarded-Encrypted: i=1; AJvYcCUfWEyVxNUVWsSWzmJoIpx+UhV/nKBgRLHRqE34Th5VKE1AYlS5j0Kc+wH9zQGf9EhdcvNMxwDeHxRIMrr9JJz8JDguTiQozFY4
+X-Gm-Message-State: AOJu0YxA6yiX9IzSJeNwvo8yhyPYtXxTo4dZB25Pd7arBH+JRI9EF+Ex
+	fhUDP67iIU0i/XHuR6CXMCztaVnpBaHcAmUmiCXEEbyTDGtu67eY8/5Whe1C/mrudIw9QUFQRit
+	r2GCnizY/OEsfo30Xj5t8YiU4L9Pbe8m92qI1
+X-Google-Smtp-Source: AGHT+IEchVac4khjBai8ZMUeOEG+pay6R0DITToEq3FetB5+Bz6Fx0tQ3dmiDUpIWg8REeoZLlH/6+Ca7JUBqPCCrBc=
+X-Received: by 2002:a25:3607:0:b0:dcc:323e:e1a4 with SMTP id
+ d7-20020a253607000000b00dcc323ee1a4mr19870609yba.6.1711041777566; Thu, 21 Mar
+ 2024 10:22:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,10 +58,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240321163705.3067592-1-surenb@google.com> <20240321163705.3067592-21-surenb@google.com>
  <Zfxk9aFhF7O_-T3c@casper.infradead.org> <ZfxohXDDCx-_cJYa@casper.infradead.org>
-In-Reply-To: <ZfxohXDDCx-_cJYa@casper.infradead.org>
+ <CAJuCfpHjfKYNyGeALZzwJ1k_AKOm_qcgKkx5zR+X6eyWmsZTLw@mail.gmail.com>
+In-Reply-To: <CAJuCfpHjfKYNyGeALZzwJ1k_AKOm_qcgKkx5zR+X6eyWmsZTLw@mail.gmail.com>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 21 Mar 2024 10:19:28 -0700
-Message-ID: <CAJuCfpHjfKYNyGeALZzwJ1k_AKOm_qcgKkx5zR+X6eyWmsZTLw@mail.gmail.com>
+Date: Thu, 21 Mar 2024 10:22:46 -0700
+Message-ID: <CAJuCfpGeep=4CqW+z4K=hXf2A6V3aWZLi_XSeEuEz1v=S7qKnw@mail.gmail.com>
 Subject: Re: [PATCH v6 20/37] mm: fix non-compound multi-order memory
  accounting in __free_pages
 To: Matthew Wilcox <willy@infradead.org>
@@ -93,58 +94,69 @@ Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 21, 2024 at 10:04=E2=80=AFAM Matthew Wilcox <willy@infradead.or=
-g> wrote:
+On Thu, Mar 21, 2024 at 10:19=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
+com> wrote:
 >
-> On Thu, Mar 21, 2024 at 04:48:53PM +0000, Matthew Wilcox wrote:
-> > On Thu, Mar 21, 2024 at 09:36:42AM -0700, Suren Baghdasaryan wrote:
-> > > +++ b/mm/page_alloc.c
-> > > @@ -4700,12 +4700,15 @@ void __free_pages(struct page *page, unsigned=
- int order)
-> > >  {
-> > >     /* get PageHead before we drop reference */
-> > >     int head =3D PageHead(page);
-> > > +   struct alloc_tag *tag =3D pgalloc_tag_get(page);
+> On Thu, Mar 21, 2024 at 10:04=E2=80=AFAM Matthew Wilcox <willy@infradead.=
+org> wrote:
+> >
+> > On Thu, Mar 21, 2024 at 04:48:53PM +0000, Matthew Wilcox wrote:
+> > > On Thu, Mar 21, 2024 at 09:36:42AM -0700, Suren Baghdasaryan wrote:
+> > > > +++ b/mm/page_alloc.c
+> > > > @@ -4700,12 +4700,15 @@ void __free_pages(struct page *page, unsign=
+ed int order)
+> > > >  {
+> > > >     /* get PageHead before we drop reference */
+> > > >     int head =3D PageHead(page);
+> > > > +   struct alloc_tag *tag =3D pgalloc_tag_get(page);
+> > > >
+> > > >     if (put_page_testzero(page))
+> > > >             free_the_page(page, order);
+> > > > -   else if (!head)
+> > > > +   else if (!head) {
+> > > > +           pgalloc_tag_sub_pages(tag, (1 << order) - 1);
+> > > >             while (order-- > 0)
+> > > >                     free_the_page(page + (1 << order), order);
+> > > > +   }
 > > >
-> > >     if (put_page_testzero(page))
-> > >             free_the_page(page, order);
-> > > -   else if (!head)
-> > > +   else if (!head) {
-> > > +           pgalloc_tag_sub_pages(tag, (1 << order) - 1);
-> > >             while (order-- > 0)
-> > >                     free_the_page(page + (1 << order), order);
-> > > +   }
+> > > Why do you need these new functions instead of just:
+> > >
+> > > +     else if (!head) {
+> > > +             pgalloc_tag_sub(page, (1 << order) - 1);
+> > >               while (order-- > 0)
+> > >                       free_the_page(page + (1 << order), order);
+> > > +     }
 > >
-> > Why do you need these new functions instead of just:
-> >
-> > +     else if (!head) {
-> > +             pgalloc_tag_sub(page, (1 << order) - 1);
-> >               while (order-- > 0)
-> >                       free_the_page(page + (1 << order), order);
-> > +     }
->
-> Actually, I'm not sure this is safe (I don't fully understand codetags,
-> so it may be safe).  What can happen is that the put_page() can come in
-> before the pgalloc_tag_sub(), and then that page can be allocated again.
-> Will that cause confusion?
+> > Actually, I'm not sure this is safe (I don't fully understand codetags,
+> > so it may be safe).  What can happen is that the put_page() can come in
+> > before the pgalloc_tag_sub(), and then that page can be allocated again=
+.
+> > Will that cause confusion?
 
-So, there are two reasons I unfortunately can't reuse pgalloc_tag_sub():
-
-1. We need to subtract `bytes` counter from the codetag but not the
-`calls` counter, otherwise the final accounting will be incorrect.
-This is because we effectively allocated multiple pages with one call
-but freeing them with separate calls here. pgalloc_tag_sub_pages()
-subtracts bytes but keeps calls counter the same. I mentioned this in
-here: https://lore.kernel.org/all/CAJuCfpEgh1OiYNE_uKG-BqW2x97sOL9+AaTX4Jct=
-3=3DWHzAv+kg@mail.gmail.com/
-2. The codetag object itself is stable, it's created at build time.
-The exception is when we unload modules and the codetag section gets
-freed but during module unloading we check that all module codetags
-are not referenced anymore and we prevent unloading this section if
-any of them are still referenced (should not normally happen). That
-said, the reference to the codetag (in this case from the page_ext)
-might change from under us and we have to make sure it's valid. We
-ensure that here by getting the codetag itself with pgalloc_tag_get()
-*before* calling put_page_testzero(), which ensures its stability.
+I indirectly answered your question in the reason #2 but to be clear,
+we obtain codetag before we do put_page() here, therefore it's valid.
+If another page is allocated and it points to the same codetag, then
+it will operate on the same codetag per-cpu counters and that should
+not be a problem.
 
 >
+> So, there are two reasons I unfortunately can't reuse pgalloc_tag_sub():
+>
+> 1. We need to subtract `bytes` counter from the codetag but not the
+> `calls` counter, otherwise the final accounting will be incorrect.
+> This is because we effectively allocated multiple pages with one call
+> but freeing them with separate calls here. pgalloc_tag_sub_pages()
+> subtracts bytes but keeps calls counter the same. I mentioned this in
+> here: https://lore.kernel.org/all/CAJuCfpEgh1OiYNE_uKG-BqW2x97sOL9+AaTX4J=
+ct3=3DWHzAv+kg@mail.gmail.com/
+> 2. The codetag object itself is stable, it's created at build time.
+> The exception is when we unload modules and the codetag section gets
+> freed but during module unloading we check that all module codetags
+> are not referenced anymore and we prevent unloading this section if
+> any of them are still referenced (should not normally happen). That
+> said, the reference to the codetag (in this case from the page_ext)
+> might change from under us and we have to make sure it's valid. We
+> ensure that here by getting the codetag itself with pgalloc_tag_get()
+> *before* calling put_page_testzero(), which ensures its stability.
+>
+> >
