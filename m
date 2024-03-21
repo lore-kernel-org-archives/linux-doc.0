@@ -1,55 +1,55 @@
 Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7604A13A248
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5394131E21
+	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039079; cv=none; b=WSRYQnoxThSCEm87E9BDJU3s/1wBt7DCo8sYa/PmHZgB/nw/EnmSDsQluqEsMcuG08fHea1WR5MkxjdUlJUh6CSkdzDPddvYOcBkXl04A0J3KRAuHCtufSSdeSdqL4UsR4Df6wXWdtsths7ri1OGhdOXeYN/wfAB4KxXdkt2LN0=
+	t=1711039080; cv=none; b=i1oUucQBP5V2Fwgp+g4HhlxhceB4YqK5Jj9eDpPuon0ZlVTz9P3PNCqsE67C/TzvL+6RwagkHQkV9756jSKwjc2XCdbrH4HLaA1wSnGrcaCCmI+sG+Z64pEmxWgyaW/xXcZQ0EDDEqI2MVIwH2eYji2u5BCBzoSuFaACDdda58k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039079; c=relaxed/simple;
-	bh=45odmARV+wc28Eekx3IQDiinIolT4AjrR5ZRCYWG43k=;
+	s=arc-20240116; t=1711039080; c=relaxed/simple;
+	bh=VIDk2cVbRQo+R3GXDZfOMDAjJplBMheLQJqibMpEc1M=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YoMpCk90B90LJSsYc5GO5Y17Wtz9pysA3Ay9N6+TYZu1fx0KzDhG50ZlsZo/bTCSQNvwXk/alQfo7hRqi9A2cNfa2mSY89/Y0cc1mjs4aKo+73e/UgXWxXboy5vQKUl6PyadZ29wS5LiXx+l/f9uxWkclIAQpIWsOzf/vv4wmU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cOTqi4yy; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=OJJ0hAu+oJkg+YmzRSjx5u+BWEpZzmVsQjmEWsZXj0Vh6W3WnfM9LzmH4nzJB/FlLs8VZq+OOJP7P8Mh+K9b32M3cqseqyn8doo2lOYJ/l1Q/N0Uzx4Y79kAPdehVteR8AwkYTFw4qMRX1Ps4rYCbAvoZ4/bqu1ttNR0BY7hr6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mMKvJqkp; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cOTqi4yy"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dd933a044baso2906012276.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:37:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mMKvJqkp"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6ceade361so2070466276.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711039075; x=1711643875; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1711039078; x=1711643878; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l0NoLpdPXZUI9jv+GBaFWeUdE0u/LS8GwKny2YwhxYE=;
-        b=cOTqi4yylo1zItYupYq6hXU2zieV6q3fZ3ea2brMbILJ2SctQRXF+CwEZ5+vdnJMR4
-         bbh7kYFQRPRQe7HzVkQrX7kqcmM99+OnbjERN9ySp9XhC3x9LIjgATXEeZCHwda33nyc
-         b+K75gh8TGW6jjZRjZYsaaL4hID16biGpNyI9JWyVeYUdwjFg9fH6XW+V9sV7UORqy4K
-         wPKWMIODTWcjBT6TYBQJGwIwX+20H83N9U9PqpAPmtbAvkpUuzW1O/wTEhlDl900CetJ
-         28zihKo/PGXBUSFNRN/K+4cFg87QOFfyhA3qjc3Yq4QN/3thsbUz1rEa5HxMvRvfzXPZ
-         Ma1w==
+        bh=pOwNrbZCC43nJVxac3Uw9hAvg9K+bdh2+QxQ9H95ZLk=;
+        b=mMKvJqkpx+BxEFkB+ronKenJxDdaREe/2vrpXzy7kUolfgwtphLhl7upFBWXJgOGKD
+         ET/wnDXR8VIh7gHqkyCNAINrSbv+KqXm/Aht6yrAToaA+GA0GS74iFyvLLjUIkeIXJfJ
+         CM+LsHs2yKxlzZIxAdm0mGbLRdfI0anLSVx133eqXnpLGQ11LMyrY4YsNhbJ8q1Ott53
+         /Pe6CJBbvGmDATOjPlROJonKfccUz96JNytry813mTDa7MfRWmZjmYsqd5xf5jhFTudo
+         /rYN3XSKkkYN9zOyNLP+i/Undni0XRNtwQ0PQP9JCJHRA4UaklfwKVrCYu3bC1P778Vc
+         +Zzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711039075; x=1711643875;
+        d=1e100.net; s=20230601; t=1711039078; x=1711643878;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l0NoLpdPXZUI9jv+GBaFWeUdE0u/LS8GwKny2YwhxYE=;
-        b=nnCm63FiGTfgiTjXJttW9N9sb8wJJUpyrf/T8XmXPWe4VhKHtazv18nvRkPJFOmI+x
-         ui6ip6z/dy9BZoKGo+0AKUaj1BP7MKdqPEezbZm2fqfANFQDrnwcy0cq0BXbwzPqaMSK
-         G1r9fs1JE3RLSXW5X2aA0Pl3YAdoFnipBVky2qvazkcSDvK8pA3VIbiQRj3LfQAEJgRw
-         qSNyhMBs8ud3IEMYolqLaAD5t2VZLoZMB6Dos+DIGi88LC/ku8U1pvLMck+wEdRwfmIa
-         yWfGlUrm3IsABz7YndqlxvCGTfedKmRx2bnvzQ3LH4Zygse8SFNiaYe7qBxO3D9RpfQr
-         HCoA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+fh+wXH0Bslck902aLyt4zs0gaqaIcy+OK4fqRwMa4fa3hJf09tYUnQ+hgjZGmQtqAmiPkuCRyD9lxUIxsNcoUc7OwBpnNtzq
-X-Gm-Message-State: AOJu0YzHTympZDcHT6fgjdNM0BjpfKefdsIJ6N/6EtMaf5S9Czkbg7s1
-	UONbU3E3ufR7mmM4MHnJWKYoMphOe/zBAnyCKHOnUFJv+tXAJWkcfxhSzJf+qhoUvTf0GaEs300
-	KnQ==
-X-Google-Smtp-Source: AGHT+IEretF+q2ZgfU/nK2U7IsM8qgxzJOcM6j0PHFTxTRvud7ewavgn/Hqbg7folhUnncWwNi0CsjWDS2Y=
+        bh=pOwNrbZCC43nJVxac3Uw9hAvg9K+bdh2+QxQ9H95ZLk=;
+        b=SM4iXrDjt7Dp9/wg4nxAo9AzEeTof57f/kTpVcBphuSPCJPN9J5PQQ2f8KrgKlQNsE
+         IpWLVKeBTqzflDnFotT/hTYb3BQJVKxd6V7WY/5IZFOe5fyc/F+YqSrwI4wM8XOo9Hgq
+         HOyQgrsOMzV4VgajebNleI4cDPX5gjqGAl4IsuFeNSEP4NKCnM6szK8vtQso6LRtPUl2
+         UDc5EL2JkFU1gx8pvMl8mLMQjHq6lTV8LkV12WcIZy2PVpuyE4Y9BxdVbYtGlz0dzFZL
+         w+O30YD9L3ovLgaNlpbMEm+sRiNSGa9IwceeAfuVFiHTef/P3pnQpQO7OZMQZ4YRiyWN
+         Ix5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU1O1D5VvV/UFpsf8U1GU2EuOeAaFo1qFO7LcDcT5Vt564Nv9j3eexW82B/oJWcSe1ACSnLE7nZSFfy7WLSZQv/Lu/aakYiLNLY
+X-Gm-Message-State: AOJu0Yxcew9/7nJdB/EGvSmd0zGe6FsRRiSmYQBsns5JyxA40bEPT5R/
+	7y+x0HIt/tYjwqnCLNwj8Mej7TBlsFcUhoKguacxJ/6RD1JVjVIsVMNYp8pHJf+CYCAi5+X7Tta
+	b8A==
+X-Google-Smtp-Source: AGHT+IEW+wzJaTFBqhE05AsZZeHucxp+/bXHicD4m92IkMS+am09AVJUNTX8XqOhkKHJop6Lzvm1ThHm3tA=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:a489:6433:be5d:e639])
- (user=surenb job=sendgmr) by 2002:a25:ce51:0:b0:dc7:4ca0:cbf0 with SMTP id
- x78-20020a25ce51000000b00dc74ca0cbf0mr607569ybe.3.1711039075564; Thu, 21 Mar
- 2024 09:37:55 -0700 (PDT)
-Date: Thu, 21 Mar 2024 09:36:43 -0700
+ (user=surenb job=sendgmr) by 2002:a05:6902:1004:b0:dc7:5aad:8965 with SMTP id
+ w4-20020a056902100400b00dc75aad8965mr5894352ybt.0.1711039077542; Thu, 21 Mar
+ 2024 09:37:57 -0700 (PDT)
+Date: Thu, 21 Mar 2024 09:36:44 -0700
 In-Reply-To: <20240321163705.3067592-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240321163705.3067592-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.291.gc1ea87d7ee-goog
-Message-ID: <20240321163705.3067592-22-surenb@google.com>
-Subject: [PATCH v6 21/37] mm/page_ext: enable early_page_ext when CONFIG_MEM_ALLOC_PROFILING_DEBUG=y
+Message-ID: <20240321163705.3067592-23-surenb@google.com>
+Subject: [PATCH v6 22/37] lib: add codetag reference into slabobj_ext
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -90,45 +90,47 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-For all page allocations to be tagged, page_ext has to be initialized
-before the first page allocation. Early tasks allocate their stacks
-using page allocator before alloc_node_page_ext() initializes page_ext
-area, unless early_page_ext is enabled. Therefore these allocations will
-generate a warning when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled.
-Enable early_page_ext whenever CONFIG_MEM_ALLOC_PROFILING_DEBUG=y to
-ensure page_ext initialization prior to any page allocation. This will
-have all the negative effects associated with early_page_ext, such as
-possible longer boot time, therefore we enable it only when debugging
-with CONFIG_MEM_ALLOC_PROFILING_DEBUG enabled and not universally for
-CONFIG_MEM_ALLOC_PROFILING.
+To store code tag for every slab object, a codetag reference is embedded
+into slabobj_ext when CONFIG_MEM_ALLOC_PROFILING=y.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/page_ext.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ include/linux/memcontrol.h | 5 +++++
+ lib/Kconfig.debug          | 1 +
+ 2 files changed, 6 insertions(+)
 
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 3c58fe8a24df..e7d8f1a5589e 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -95,7 +95,16 @@ unsigned long page_ext_size;
- 
- static unsigned long total_usage;
- 
-+#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
-+/*
-+ * To ensure correct allocation tagging for pages, page_ext should be available
-+ * before the first page allocation. Otherwise early task stacks will be
-+ * allocated before page_ext initialization and missing tags will be flagged.
-+ */
-+bool early_page_ext __meminitdata = true;
-+#else
- bool early_page_ext __meminitdata;
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 12afc2647cf0..24a6df30be49 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -1653,7 +1653,12 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
+  * if MEMCG_DATA_OBJEXTS is set.
+  */
+ struct slabobj_ext {
++#ifdef CONFIG_MEMCG_KMEM
+ 	struct obj_cgroup *objcg;
 +#endif
- static int __init setup_early_page_ext(char *str)
- {
- 	early_page_ext = true;
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++	union codetag_ref ref;
++#endif
+ } __aligned(8);
+ 
+ static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index ca2c466056d5..dd44118e7337 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -979,6 +979,7 @@ config MEM_ALLOC_PROFILING
+ 	depends on !DEBUG_FORCE_WEAK_PER_CPU
+ 	select CODE_TAGGING
+ 	select PAGE_EXTENSION
++	select SLAB_OBJ_EXT
+ 	help
+ 	  Track allocation source code and record total allocation size
+ 	  initiated at that code location. The mechanism can be used to track
 -- 
 2.44.0.291.gc1ea87d7ee-goog
 
