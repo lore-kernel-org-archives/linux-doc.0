@@ -1,111 +1,191 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20715A934;
-	Thu, 21 Mar 2024 16:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C0E12CD9B;
+	Thu, 21 Mar 2024 16:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711037730; cv=none; b=eB5Xdb9hzMHLn0Lt2iyXTCg1D9r51olHEnsvNDEdfK9DZ0w6eu5t0w7OS7Po03tL0nLOFWZH8QxS26W6COaYDQr7CtA1WSaWB6VTfhKbodC8rvwjvWSCiIaaU3W5Ppf8q37j3aHiALryuyU1ipVzKkm2j8u6og9JNDUhoQOKTR8=
+	t=1711038303; cv=none; b=sPm+KHmszoEWvc5X1CyH77CExdIvPeCnA98ub2ETEAF2MajF/N5UO9HE7QIG9dQHHL1uOp/dlwdUdsrbLFlv67T/8jhIIN2iTUwYCZjqKCOYGxSXQ7ESOW0Jq32yQ/WxB3qr6a72iYDuc+OU/J4xzfOGg4HcN2lkVk+t1JpE7f8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711037730; c=relaxed/simple;
-	bh=uw1fUO1KkmlnLMpuvD4Agl5GA1mZui2h2+xJbDsq49M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ug72Mj8gDb+Gj3F6fdnGilnxXHsm0i9cXjtOwU1v+Q1eruouXDPddyU+acYY8DGp4Zzl4GonrjnZ7BOE1weswWBjmZnBdID1zDq4FI3dHw03TJRYY+We1z71lWoIw+4i00ckGj40x2k9RrteYVi+NKhtEhhE4AXn2O6UdOGlA80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JVQmafOY; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711038303; c=relaxed/simple;
+	bh=Ld70etnbStLyDEyVmPvZO269q61/zWvdOuEcLXgGsW8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=itFkpbLLyG1kokG0Rz54dXjvL3nEA7FfikWZGV2zXlcgMBS7ZMvyLPQDSSH8ISVdZLQ+zj6kyEb6s05XLp5lVjw9+v8UeKeO/JbjRrv7aku/qz/LNwJjUyuNj6pJPZpgNTd8FVnZpq37zeQcB+qeXMS0dZH77gx81Y19GM99w3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itLbL/oc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JVQmafOY"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 01D6640005;
-	Thu, 21 Mar 2024 16:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711037726;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ss8gXzP5nhwWey64bCP2DtTV4v6oGXUHUEc5COfyiuA=;
-	b=JVQmafOYYWEykWC9frbdpTxxpEAxB6Fmsi4emB05jKPNrdIr0NnFWYXegP8Lg++svK4vVb
-	0xWtbphUl+JSSrsM/LE/p1I9PFg8ZnZHVJqQCVxqyHjKiJmyvJ9x+GsevTt7FHkCypQjkm
-	UYJbkFFOqwd/1dTM2ynNbkYtL3xiECxySYsjaIOE/joy4/3L2xefVz+e0p6zOHkAfs0ooe
-	RxnCnDPCaP9RsU5eYpNAwzaPJgPwYC3EgMxndB4EwJanto9AWvYtH3C5GcrecWgN1I0oKB
-	oqPpnTi//xPyrWpQMV8pUbhP6e3CPIwE745aCszXMVlRB2OoZPY+Obb8xBtw2g==
-Date: Thu, 21 Mar 2024 17:15:24 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240321171524.0b04bfcc@kmaincent-XPS-13-7390>
-In-Reply-To: <ZeWi90H-B4XeSkFs@pengutronix.de>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
-	<ZeObuKHkPN3tiWz_@pengutronix.de>
-	<20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
-	<ZeWi90H-B4XeSkFs@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itLbL/oc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F8EC433F1;
+	Thu, 21 Mar 2024 16:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711038302;
+	bh=Ld70etnbStLyDEyVmPvZO269q61/zWvdOuEcLXgGsW8=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=itLbL/ocioQSW2qzSRv9JP/IKWnYOiPZfdyiqJm+1JNxt+OOVdI11NUEo636NtlS2
+	 lJjWnOFC5QCgiKfeU6LV8CoT884600fk7mK/z3gzpfW4Shyhuii7T1x85/ZanqyFNS
+	 1t9XbfDDbYlLLaEzCszoUgx8DDj7hlWzZXOeIHQTeJz9v2CqV87gyXnNrfVy22BudT
+	 pkoF7fISqQsD9bCdScCT2aFbxCG6cXQpoyp/t1HWE4wzpWZVBApa0tX4+AXe1b8fo1
+	 B0CDHiwlTT3JIJ/oWGgFR4O6Z0/yWlBrpeL3xTKLLtBqw2bxo1Umi8Y61cJFBJ/6Xr
+	 dPTWa+pbgUXww==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 18:24:58 +0200
+Message-Id: <CZZKGEUSMI8F.CKFDVBIF1S4R@kernel.org>
+To: "Stefan Berger" <stefanb@linux.ibm.com>,
+ <linux-integrity@vger.kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Daniel P . Smith"
+ <dpsmith@apertussolutions.com>, "Lino Sanfilippo"
+ <l.sanfilippo@kunbus.com>, "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Huewe"
+ <peterhuewe@gmx.de>, "James Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Alexander Steffen"
+ <Alexander.Steffen@infineon.com>, <keyrings@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Randy Dunlap"
+ <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation: tpm_tis
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240320085601.40450-1-jarkko@kernel.org>
+ <afc9471c-1c28-4384-82c1-29464ca1fb1f@linux.ibm.com>
+ <CZZJQR121P7H.3QS68A6320S32@kernel.org>
+ <d957dbd3-4975-48d7-abc5-1a01c0959ea3@linux.ibm.com>
+In-Reply-To: <d957dbd3-4975-48d7-abc5-1a01c0959ea3@linux.ibm.com>
 
-Hello Oleksij,
-
-On Mon, 4 Mar 2024 11:31:19 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-
-> >   =20
-> > > Should be tested, but if, instead of "vin-supply", we will use
-> > > "pse-supply" it will make most part of pse_regulator.c obsolete. =20
+On Thu Mar 21, 2024 at 6:09 PM EET, Stefan Berger wrote:
+>
+>
+> On 3/21/24 11:51, Jarkko Sakkinen wrote:
+> > On Wed Mar 20, 2024 at 6:15 PM EET, Stefan Berger wrote:
+> >>
+> >>
+> >> On 3/20/24 04:56, Jarkko Sakkinen wrote:
+> >>> Based recent discussions on LKML, provide preliminary bits of tpm_tis=
+_core
+> >>> dependent drivers. Includes only bare essentials but can be extended =
+later
+> >>> on case by case. This way some people may even want to read it later =
+on.
+> >>>
+> >>> Cc: Jonathan Corbet <corbet@lwn.net>
+> >>> CC: Daniel P. Smith <dpsmith@apertussolutions.com>
+> >>> Cc: Lino Sanfilippo <l.sanfilippo@kunbus.com>
+> >>> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> >>> Cc: Peter Huewe <peterhuewe@gmx.de>
+> >>> Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+> >>> Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
+> >>> Cc: keyrings@vger.kernel.org
+> >>> Cc: linux-doc@vger.kernel.org
+> >>> Cc: linux-kernel@vger.kernel.org
+> >>> Cc: linux-integrity@vger.kernel.org
+> >>> Cc: Randy Dunlap <rdunlap@infradead.org>
+> >>> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> >>> ---
+> >>> v2:
+> >>> - Fixed errors reported by Randy:
+> >>>     https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@=
+infradead.org/
+> >>> - Improved the text a bit to have a better presentation.
+> >>> ---
+> >>>    Documentation/security/tpm/index.rst   |  1 +
+> >>>    Documentation/security/tpm/tpm_tis.rst | 30 ++++++++++++++++++++++=
+++++
+> >>>    2 files changed, 31 insertions(+)
+> >>>    create mode 100644 Documentation/security/tpm/tpm_tis.rst
+> >>>
+> >>> diff --git a/Documentation/security/tpm/index.rst b/Documentation/sec=
+urity/tpm/index.rst
+> >>> index fc40e9f23c85..f27a17f60a96 100644
+> >>> --- a/Documentation/security/tpm/index.rst
+> >>> +++ b/Documentation/security/tpm/index.rst
+> >>> @@ -5,6 +5,7 @@ Trusted Platform Module documentation
+> >>>    .. toctree::
+> >>>   =20
+> >>>       tpm_event_log
+> >>> +   tpm_tis
+> >>>       tpm_vtpm_proxy
+> >>>       xen-tpmfront
+> >>>       tpm_ftpm_tee
+> >>> diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/s=
+ecurity/tpm/tpm_tis.rst
+> >>> new file mode 100644
+> >>> index 000000000000..b331813b3c45
+> >>> --- /dev/null
+> >>> +++ b/Documentation/security/tpm/tpm_tis.rst
+> >>> @@ -0,0 +1,30 @@
+> >>> +.. SPDX-License-Identifier: GPL-2.0
+> >>> +
+> >>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> >>> +TPM FIFO interface Driver
+> >>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> >>> +
+> >>> +FIFO (First-In-First-Out) is the name of the hardware interface used=
+ by the
+> >>
+> >> FIFO is the type. I am surprised you call it a 'name'. I would say TIS
+> >> is the 'name'.
 > >=20
-> > Don't know, if it is done at the pse-pi node level it may not break
-> > pse_regulator.c. Not sure about it. =20
->=20
-> me too. Before your patch set, the regulator topology for PoDL PSE was
-> following:
-> power-source
->   fixed-regulator
->      PoDL_PSE-consumer
->=20
-> Now it will be:
-> power-source
->   fixed-regulator
->      PoDL_PSE-consumer
->        PSE-PI-provider
->          PSE-PI-consumer
->=20
-> By porting porting PSE framework to regulator, probably it make sense to
-> remove two levels of regulators?
-> power-source
->   fixed-regulator
->      PSE-PI-consumer
+> > It's what the official specification calls it [1].
+> >=20
+> >=20
+> >>
+> >>> +tpm_tis_core dependent drivers. The prefix "tis" comes from the TPM =
+Interface
+> >>
+> >> tis is a tla -- a three letter *acronym*. You aren't using it as a 'pr=
+efix'.
+> >=20
+> > I don't know what "tla" means.
+> >=20
+> >>
+> >>> +Specification, which is the hardware interface specification for TPM=
+ 1.x chips.
+> >>
+> >> It's also available for TPM2.
+> >  =20
+> > Yes, but TIS is the name used by the legacy specification.
+>
+>
+> The point is that TIS is not just a TPM 1.x interface but also used for=
+=20
+> TPM 2.
 
-Sorry, I forgot to reply about this.
-This is specific to pse_regulator driver. Could we tackle this change in an=
-other
-patch series when the current patch series got applied?
-Also I don't have the hardware to test it.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+FIFO interface is what is  used in the spec so I'll stick to that.
+
+> >=20
+> >>
+> >>> +
+> >>> +Communication is based on a 5 KiB buffer shared by the TPM chip thro=
+ugh a
+> >>
+> >> I thought it was typically 4 KiB.
+> >=20
+> > You are basing this on table 9 in [1]?
+>
+> Yes. See below.
+>
+> >=20
+> >>
+> >>> +hardware bus or memory map, depending on the physical wiring. The bu=
+ffer is
+> >>> +further split into five equal-size buffers, which provide equivalent=
+ sets of
+>
+> If you are referring to the MMIO region between 0xfed4 0000 and 0xfed4=20
+> 4fff as a buffer then you are talking about a **20kb** MMIO region=20
+> (0x5000) that is **split** into equal-sized MMIO regions, each having=20
+> 4kb (0x1000). Yes, that's the 4kb then but there that one is no 5kb=20
+> 'further split into five equal-sized buffers' of presumably 1kb each.=20
+> Each locality has a 0x1000 sized MMIO region.
+
+Oops, true! I'll fix this part thanks, had a blind spot :-)
+
+Will fix for v3.
+
+BR, Jarkko
