@@ -1,162 +1,121 @@
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAC3B66F
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 17:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3FD79E0;
+	Thu, 21 Mar 2024 17:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711041782; cv=none; b=gr0fWxwqip/Cyt9roqbdqOAQR75AmsDHazK33z6Qwt/7MBfp9BV/wKbdBftNTcwLvmIXvU9SqfZYEVRTHZisrJCmU5yDshXrdlOrLd2B9zUVGsqpWrFugL/Pud5ttuFwtd6uo7v3OL7FC/2e5eDm17MEnd1nO1+/MphX8UOYF7Y=
+	t=1711041927; cv=none; b=MDqT6UoiLqk/wN1WQ1KdpMdhqihyZOGCtNURRbC83n2Q3vmmL6QofefPZPh+UFGJ2E+WeZmF/031n0ALV9+x7uLZSvQrxzkw7GcTlXSNGbN0XNCaOw8RBERjEbWcJ/Oa01qlvBdKpU+947CK04FYlvaS4f62VO/amVhSjM2hp4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711041782; c=relaxed/simple;
-	bh=Bla6ImeaxPC0l/wXS4fIkd5VYa4ZJlHCrM9gFW+aZB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rEgkROXOUwDYVODeQqh9frxNa2BIwjoo/4riyrUvRQw5RvIyiYZ9En7zkeCk3/MO0rF4ICgLOOIG14POdQqssFZtmNvBKnAftPRPU4eGHO8UMwb3en8uddD/y3nLhybSnnYRgV2sLL87llBQ4RRfea2LD4h2GF1bj+tkNAmVrho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wp4O/Vn1; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1711041927; c=relaxed/simple;
+	bh=iNXaAGwm6iS6DNKISF6dlrJY5wNVKnpnm8REwy4rDho=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=ZlrxG4ckuZ8goLtQ3Em9Yp1/x2MZLfQKcZBNJJRM1Mb3vNory2jOJCXysSu0vJiZhxeJA0sblwHWyEal53rf1STgifO0GY5glb7rHOIhY0wEzcByhjLfmSBat936BVoHSNLC+bg6+vk5KVlv6Cm5OI7VSc+5oY2gGUDKiB9Amaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQevDAax; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wp4O/Vn1"
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dcc73148611so1355139276.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 10:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711041778; x=1711646578; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w4sCto2weX/tSraSWS0s5CjzL8cyi2xaSDvgaVtTzPM=;
-        b=Wp4O/Vn1x+NjMVoyH1hqeGz5tXez/gLF44IpWIScGFPlcJyu5RJ7vJiJU/gQPl/4Dn
-         htaniwwXNzQB2aWwR4yMm/3f9OHS4M1G8T1ih8wSy7E8R98XYDyIdy1jTczSEl4g7Tki
-         2K3rqQo1QM00/qrcEl7zDLRPvvZs4YkH89pwYltNrD0UKP1BKGxtDCd05YExk5woVyxA
-         Kybp7/HSuoE9rKnv0dGGk54Y1+pnsiL0uYJR4mXC9UMEnzzDuoTz/6cp8K1CpYa0qZHa
-         p639zE4maeZirBKWuTl3ZpCOmTXcQPxMrIlmbNfQbca/Zm3qv+NrJ2T9roplqehch6lG
-         fW6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711041778; x=1711646578;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w4sCto2weX/tSraSWS0s5CjzL8cyi2xaSDvgaVtTzPM=;
-        b=xJCTMoL4Y0Dv7X1XRUUannuTJHHVS1PEhWwXGjGDpivkjrRrrt6fzrD3Jv8/HIuc7M
-         YgsZfLxWgpgFrL010dCpctPZ5MREi1ey32+w6do1DWWPkI2ABiRvg/sSxARQu6XSw5fv
-         dSvksEcjArz3UWdJUcaFKu35Ijvix6612VjUKeLQ+mwWSrukQlfy/LJBTRo9MINnbkbZ
-         rTMsahSaqX3FyfqnrUFReU7GmnLvwH5XZQOAsgYbo6J9sOt7oq9fWD9yj1yRViHG2Us4
-         aYiSbfJiaHyVFxRJfCHPcL6aVAkUGXTsGh1rOBM2XsSut+3NoR9ZHg4FUgYuScmTv4xb
-         m02w==
-X-Forwarded-Encrypted: i=1; AJvYcCUfWEyVxNUVWsSWzmJoIpx+UhV/nKBgRLHRqE34Th5VKE1AYlS5j0Kc+wH9zQGf9EhdcvNMxwDeHxRIMrr9JJz8JDguTiQozFY4
-X-Gm-Message-State: AOJu0YxA6yiX9IzSJeNwvo8yhyPYtXxTo4dZB25Pd7arBH+JRI9EF+Ex
-	fhUDP67iIU0i/XHuR6CXMCztaVnpBaHcAmUmiCXEEbyTDGtu67eY8/5Whe1C/mrudIw9QUFQRit
-	r2GCnizY/OEsfo30Xj5t8YiU4L9Pbe8m92qI1
-X-Google-Smtp-Source: AGHT+IEchVac4khjBai8ZMUeOEG+pay6R0DITToEq3FetB5+Bz6Fx0tQ3dmiDUpIWg8REeoZLlH/6+Ca7JUBqPCCrBc=
-X-Received: by 2002:a25:3607:0:b0:dcc:323e:e1a4 with SMTP id
- d7-20020a253607000000b00dcc323ee1a4mr19870609yba.6.1711041777566; Thu, 21 Mar
- 2024 10:22:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQevDAax"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073E2C433C7;
+	Thu, 21 Mar 2024 17:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711041927;
+	bh=iNXaAGwm6iS6DNKISF6dlrJY5wNVKnpnm8REwy4rDho=;
+	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+	b=uQevDAaxSvs1weuPxAVtTq79oE8xNAAlm00KgUZtg+SF0ZCpdazoYqldu4ms40wTI
+	 KdBcq8uWAD47/rKzsT59SMSEtZvXIWGj+5CJdnbpCRBT7JEP/03D/qAdLGr6V1WR1O
+	 tKmQl20Xe9j84FJNztEGGULdS8/DLACS1ZZirVT9+YuBlMkeNH6yshOtZFYcoGOQ7c
+	 I87pEcsouNJ2soJeKDqyYmUarFAbdb9NjQvdlnXKq82l4NPh+I1KSlj5wGFMn4Ze0w
+	 1SfpgXrWpNJ2W3SvSXv2vZ0wLvpr77vGmkJjpJhw4mdXecJniydVNE2PwYSrO+l75f
+	 cX/eY3iu0uHhg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240321163705.3067592-1-surenb@google.com> <20240321163705.3067592-21-surenb@google.com>
- <Zfxk9aFhF7O_-T3c@casper.infradead.org> <ZfxohXDDCx-_cJYa@casper.infradead.org>
- <CAJuCfpHjfKYNyGeALZzwJ1k_AKOm_qcgKkx5zR+X6eyWmsZTLw@mail.gmail.com>
-In-Reply-To: <CAJuCfpHjfKYNyGeALZzwJ1k_AKOm_qcgKkx5zR+X6eyWmsZTLw@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 21 Mar 2024 10:22:46 -0700
-Message-ID: <CAJuCfpGeep=4CqW+z4K=hXf2A6V3aWZLi_XSeEuEz1v=S7qKnw@mail.gmail.com>
-Subject: Re: [PATCH v6 20/37] mm: fix non-compound multi-order memory
- accounting in __free_pages
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 19:25:21 +0200
+Message-Id: <CZZLQN9CUN2E.5PNZ0C2JHP42@kernel.org>
+To: "Fan Wu" <wufan@linux.microsoft.com>, "Paul Moore"
+ <paul@paul-moore.com>, <corbet@lwn.net>, <zohar@linux.ibm.com>,
+ <jmorris@namei.org>, <serge@hallyn.com>, <tytso@mit.edu>,
+ <ebiggers@kernel.org>, <axboe@kernel.dk>, <agk@redhat.com>,
+ <snitzer@kernel.org>, <eparis@redhat.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
+ <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
+ <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC v15 12/21] security: add
+ security_bdev_setintegrity() hook
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <1710560151-28904-13-git-send-email-wufan@linux.microsoft.com>
+ <f5cf9d285bd5f09bbc3f79b0800d37fc@paul-moore.com>
+ <CZYFP5S04YTK.23AJMKWQWVCR8@kernel.org>
+ <CZYFR8LEEQB1.8C0J9KCTF8CB@kernel.org>
+ <a69805c7-7b8a-44ee-9b32-f9314b5a9763@linux.microsoft.com>
+In-Reply-To: <a69805c7-7b8a-44ee-9b32-f9314b5a9763@linux.microsoft.com>
 
-On Thu, Mar 21, 2024 at 10:19=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
-com> wrote:
+On Wed Mar 20, 2024 at 10:31 PM EET, Fan Wu wrote:
 >
-> On Thu, Mar 21, 2024 at 10:04=E2=80=AFAM Matthew Wilcox <willy@infradead.=
-org> wrote:
-> >
-> > On Thu, Mar 21, 2024 at 04:48:53PM +0000, Matthew Wilcox wrote:
-> > > On Thu, Mar 21, 2024 at 09:36:42AM -0700, Suren Baghdasaryan wrote:
-> > > > +++ b/mm/page_alloc.c
-> > > > @@ -4700,12 +4700,15 @@ void __free_pages(struct page *page, unsign=
-ed int order)
-> > > >  {
-> > > >     /* get PageHead before we drop reference */
-> > > >     int head =3D PageHead(page);
-> > > > +   struct alloc_tag *tag =3D pgalloc_tag_get(page);
-> > > >
-> > > >     if (put_page_testzero(page))
-> > > >             free_the_page(page, order);
-> > > > -   else if (!head)
-> > > > +   else if (!head) {
-> > > > +           pgalloc_tag_sub_pages(tag, (1 << order) - 1);
-> > > >             while (order-- > 0)
-> > > >                     free_the_page(page + (1 << order), order);
-> > > > +   }
-> > >
-> > > Why do you need these new functions instead of just:
-> > >
-> > > +     else if (!head) {
-> > > +             pgalloc_tag_sub(page, (1 << order) - 1);
-> > >               while (order-- > 0)
-> > >                       free_the_page(page + (1 << order), order);
-> > > +     }
-> >
-> > Actually, I'm not sure this is safe (I don't fully understand codetags,
-> > so it may be safe).  What can happen is that the put_page() can come in
-> > before the pgalloc_tag_sub(), and then that page can be allocated again=
-.
-> > Will that cause confusion?
+>
+> On 3/20/2024 1:31 AM, Jarkko Sakkinen wrote:
+> > On Wed Mar 20, 2024 at 10:28 AM EET, Jarkko Sakkinen wrote:
+> >> On Wed Mar 20, 2024 at 1:00 AM EET, Paul Moore wrote:
+> >>> On Mar 15, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> >>>>
+> >>>> This patch introduces a new hook to save block device's integrity
+> >>>> data. For example, for dm-verity, LSMs can use this hook to save
+> >>>> the roothash signature of a dm-verity into the security blob,
+> >>>> and LSMs can make access decisions based on the data inside
+> >>>> the signature, like the signer certificate.
+> >>>>
+> >>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> >>>>
+> >>>> --
+> >>>> v1-v14:
+> >>>>    + Not present
+> >>>>
+> >>>> v15:
+> >>>>    + Introduced
+> >>>>
+> >>>> ---
+> >>>>   include/linux/lsm_hook_defs.h |  2 ++
+> >>>>   include/linux/security.h      | 14 ++++++++++++++
+> >>>>   security/security.c           | 28 ++++++++++++++++++++++++++++
+> >>>>   3 files changed, 44 insertions(+)
+> >>>
+> >>> I'm not sure why you made this a separate patch, help?  If there is
+> >>> no significant reason why this is separate, please squash it together
+> >>> with patch 11/21.
+> >>
+> >> Off-topic: it is weird to have *RFC* patch set at v15.
+> >>
+> >> RFC by de-facto is something that can be safely ignored if you don't
+> >> have bandwidth. 15 versions of anything that can be safely ignored
+> >> is by definition spamming :-) I mean just conceptually.
+> >>
+> >> So does the RFC still hold or what the heck is going on with this one?
+> >>
+> >> Haven't followed for some time now...
+> >=20
+> > I mean if this RFC trend continues I'll just put auto-filter for this
+> > thread to put straight to the bin.  There's enough non-RFC patch sets
+> > to review.
+> >=20
+> > BR, Jarkko
+>
+> Sorry about the confusion with the RFC tag =E2=80=93 I wasn't fully aware=
+ of its=20
+> conventional meaning and how it's perceived in terms of importance and=20
+> urgency. Point taken, and I'll make sure to remove the RFC tag for=20
+> future submissions. Definitely not my intention to clog up the workflow=
+=20
+> or seem like I'm spamming.
 
-I indirectly answered your question in the reason #2 but to be clear,
-we obtain codetag before we do put_page() here, therefore it's valid.
-If another page is allocated and it points to the same codetag, then
-it will operate on the same codetag per-cpu counters and that should
-not be a problem.
+OK cool! Just wanted to point this out also because it already looks
+good enough not to be considered as RFC in my eyes :-) If you keep RFC
+it is by definition "look into if you have the bandwidth but please
+do not take this to mainline". No means to nitpick here...
 
->
-> So, there are two reasons I unfortunately can't reuse pgalloc_tag_sub():
->
-> 1. We need to subtract `bytes` counter from the codetag but not the
-> `calls` counter, otherwise the final accounting will be incorrect.
-> This is because we effectively allocated multiple pages with one call
-> but freeing them with separate calls here. pgalloc_tag_sub_pages()
-> subtracts bytes but keeps calls counter the same. I mentioned this in
-> here: https://lore.kernel.org/all/CAJuCfpEgh1OiYNE_uKG-BqW2x97sOL9+AaTX4J=
-ct3=3DWHzAv+kg@mail.gmail.com/
-> 2. The codetag object itself is stable, it's created at build time.
-> The exception is when we unload modules and the codetag section gets
-> freed but during module unloading we check that all module codetags
-> are not referenced anymore and we prevent unloading this section if
-> any of them are still referenced (should not normally happen). That
-> said, the reference to the codetag (in this case from the page_ext)
-> might change from under us and we have to make sure it's valid. We
-> ensure that here by getting the codetag itself with pgalloc_tag_get()
-> *before* calling put_page_testzero(), which ensures its stability.
->
-> >
+BR, Jarkko
