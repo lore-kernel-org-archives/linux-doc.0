@@ -1,81 +1,115 @@
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EE11860
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 22:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD498F41;
+	Thu, 21 Mar 2024 22:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711060377; cv=none; b=LX4Txuoh2j3XCefvsduTAWJZePB9QCClrrQKfq6zLnUZjUcmEHlVROgVwQ2xVbpyTULFlYowabIvRJ/36HCgg5Tc4cOWxe8A0QSQhGsHa19rnkAVyFmt8FFxbxGBdG/yM7xY+R/AzlzKE+0XzadWqZNNmiN2H8dBqIalbUye4OQ=
+	t=1711060765; cv=none; b=HW/jKfpcOAIwjGqwFBlCdQx0BsBs7/VFCA6mxzyeSMxYBlsNgRYE0v0jasIxqhTp92QCJLoZHdmt+MflhJNdr7dyUJJTmEYrTpySGSg4OBSam5INugG/nEBsvra6bxZLHVie6p+4zPbPTBpIO2mnF5xv6Ax8RmlOO+LhJ82GHF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711060377; c=relaxed/simple;
-	bh=LDByoXQP6mgfnNEdlwk8vFKwzCc7LziPCgnb5onUzqw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=au4D2N7waWaVpngahEDQp5dVnjhvpmJSNHgbZJOcacC7KGaiOnj/g0Ex/q6NUrkMYDsjtxs63dshq06EErsI1kfsTTQr1Sk0TVwhuXYfhZ5t++hhlEC8XPTtpJtd3fj/QIAdT4f6WV9cTT12UCoZ54wEjH/8V04lNinxUFvxt+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L9TjzxIn; arc=none smtp.client-ip=95.215.58.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L9TjzxIn"
-Message-ID: <a757ab17-e6ca-48f0-ac15-3bd97a4b542e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711060373;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/Lr4E9a605vheRZplDHsft6Dy8a9yDcfkpMMdUcuvw=;
-	b=L9TjzxInk/TWB9VgFgEsXwG/f8FNriy5FvYadItSTwGcAzvoA12wkLZQ4HgoyF2dDba9Jg
-	9uJgbyLizdtOIowlXJswVABXh0SqjoMlBM65MuohRBtPLZryPEFL5UivhGX4b6j/OLwY4o
-	zRhmZjc9BKnN5wdOGT6U55vpnnWFvWQ=
-Date: Fri, 22 Mar 2024 06:32:42 +0800
+	s=arc-20240116; t=1711060765; c=relaxed/simple;
+	bh=jl9wIcbi+M6xIcqdg2/AXtdvAbhe18vrLYJvJlJmxKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqTDSMff75xPBCKjlj+IVhW5VSR7NWsmwYkDlNc8FJM647YMnXS+RMEYvbjPIRSvGDMo+I3lbpv/TtS76b9h1QpO90WP/tBRk8oiuND6VpG/HqUxlLznvRuKNCxyXztTU9cJEStVOjstpMWLSOCTKJx77FOugCHMaT8i6umNul0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 879B968BEB; Thu, 21 Mar 2024 23:39:11 +0100 (CET)
+Date: Thu, 21 Mar 2024 23:39:10 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+ steps
+Message-ID: <20240321223910.GA22663@lst.de>
+References: <20240306162022.GB28427@lst.de> <20240306174456.GO9225@ziepe.ca> <20240306221400.GA8663@lst.de> <20240307000036.GP9225@ziepe.ca> <20240307150505.GA28978@lst.de> <20240307210116.GQ9225@ziepe.ca> <20240308164920.GA17991@lst.de> <20240308202342.GZ9225@ziepe.ca> <20240309161418.GA27113@lst.de> <20240319153620.GB66976@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [v10,03/27] drm/connector: hdmi: Create an HDMI sub-state
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240321-kms-hdmi-connector-state-v10-3-e6c178361898@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240319153620.GB66976@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi,
+On Tue, Mar 19, 2024 at 12:36:20PM -0300, Jason Gunthorpe wrote:
+> I kind of understand your thinking on the DMA side, but I don't see
+> how this is good for users of the API beyond BIO.
+> 
+> How will this make RDMA better? We have one MR, the MR has pages, the
+> HW doesn't care about the SW distinction of p2p, swiotlb, direct,
+> encrypted, iommu, etc. It needs to create one HW page list for
+> whatever user VA range was given.
 
+Well, the hardware (as in the PCIe card) never cares.  But the setup
+path for the IOMMU does, and something in the OS needs to know about
+it.  So unless we want to stash away a 'is this P2P' flag in every
+page / SG entry / bvec, or a do a lookup to find that out for each
+of them we need to manage chunks at these boundaries.  And that's
+what I'm proposing.
 
-On 2024/3/21 23:28, Maxime Ripard wrote:
-> The next features we will need to share across drivers will need to
-> store some parameters for drivers to use, such as the selected output
-> format.
->
-> Let's create a new connector sub-state dedicated to HDMI controllers,
-> that will eventually store everything we need.
->
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> Or worse, whatever thing is inside a DMABUF from a DRM
+> driver. DMABUF's can have a (dynamic!) mixture of P2P and regular
+> AFAIK based on the GPU's migration behavior.
 
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+And that's fine.  We just need to track it efficiently.
 
--- 
-Best regards,
-Sui
+> 
+> Or triple worse, ODP can dynamically change on a page by page basis
+> the type depending on what hmm_range_fault() returns.
+
+Same.  If this changes all the time you need to track it.  And we
+should find a way to shared the code if we have multiple users for it.
+
+But most DMA API consumers will never see P2P, and when they see it
+it will be static.  So don't build the DMA API to automically do
+the (not exactly super cheap) checks and add complexity for it.
+
+> So I take it as a requirement that RDMA MUST make single MR's out of a
+> hodgepodge of page types. RDMA MRs cannot be split. Multiple MR's are
+> not a functional replacement for a single MR.
+
+But MRs consolidate multiple dma addresses anyway.
+
+> Go back to the start of what are we trying to do here:
+>  1) Make a DMA API that can support hmm_range_fault() users in a
+>     sensible and performant way
+>  2) Make a DMA API that can support RDMA MR's backed by DMABUF's, and
+>     user VA's without restriction
+>  3) Allow to remove scatterlist from BIO paths
+>  4) Provide a DMABUF API that is not scatterlist that can feed into
+>     the new DMA API - again supporting DMABUF's hodgepodge of types.
+> 
+> I'd like to do all of these things. I know 3 is your highest priority,
+> but it is my lowest :)
+
+Well, 3 an 4.  And 3 is not just limited to bio, but all the other
+pointless scatterlist uses.
 
