@@ -1,152 +1,76 @@
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.6])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 828556FBF;
-	Thu, 21 Mar 2024 04:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.6
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E411170B;
+	Thu, 21 Mar 2024 04:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710995992; cv=none; b=h8vwEZKP+rjX/bmFkI+vptKI0oVS6g5v/f1ha+lsiCLnBkcf+LD7qqIO2P18QNhucr6BwLR7kxGE8zXrobborQwTBJKolUSQ3LPn9oJeYtr2Jy0iUnfsLWKpGX/hHRBgKjAYTCd3q0E66SBjcHdBjd97yxD58Q9cHdBhwKgLxrM=
+	t=1710996028; cv=none; b=fu/lmQ+4V/6y/r6msaaRFFUKdQcMDR6g9u2PJZG5MvkD203d2PvlWAJ0BDx2FBPAbP5TpgSwNeQWpt+l8HtOyQJBw1ah/x+ud1EK2mvVTDRQtO9b0I1HceviT9dkzMEUHj32ILiF/+bdB6zLbbWUUpwel1POqve6wJLStWyn4rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710995992; c=relaxed/simple;
-	bh=bXH3LTZQb0BcQowVSX+dlyGGDO6k3bqGTWcs3BYwsMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NdYZRGO7LhFILG4Dns5GLvjwMXolnNKHwXTsddkxO56T73yqJYxUkJ8ppasFPQGmPDQCIB6uurNPcy3o+29/26A6OLcZK4SZy6ta3TZ7K+zRgLuZCWhSEPh0YmNP4whr/GEqEpsV8Is//IrKTaXytar5u+QXQEXdzaPY7k16ye4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=N3++ZyRR; arc=none smtp.client-ip=220.197.31.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
+	s=arc-20240116; t=1710996028; c=relaxed/simple;
+	bh=uA9xvKenq6yzo4uiIv9CvYKDW+9ns9ESg8gM94/FWnQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=EXvwCMjrE5VYxahi0tu4ItcZ520R9Z7smurynji3OnjhRaBxuAvPwUmK2UOP8nl6TCBtjcODW1fIG91qID1x1pyVDseBYOf6lZnTQyZGhcnl2Z18DkJ1h2BmxiKOPBUG+SD2MzBmXQ8GmIhNigneJAoh3V24ZDBs7QfD9NXTLNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kh2h7OyI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="N3++ZyRR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
-	Content-Type; bh=TG/kojo4MfR9m2ePLKKNRYbP9JmFRG/HMKZR9UCfC9s=;
-	b=N3++ZyRRTyMlHyQkyMQiBet3n/ePSBCvlu2eJHmX4Hgsak+IepfElFKTQ+SeGH
-	01gUuO5A6fJkfrTngIEA6jW1vUqg5vAl1R7qJhHd5TyqX9igokEe10u7VfJXdRis
-	EOKdhXVgCHTCf9UBygMj5iRz+sRBDfbwqN/as43Hq/C/c=
-Received: from [192.168.101.252] (unknown [14.21.70.188])
-	by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wDXvx3NuftlxJ7sAA--.37307S2;
-	Thu, 21 Mar 2024 12:38:37 +0800 (CST)
-Message-ID: <7bdc4d24-adfd-4a8c-b824-6833149f5636@126.com>
-Date: Thu, 21 Mar 2024 12:38:36 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kh2h7OyI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 159B6C43390;
+	Thu, 21 Mar 2024 04:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710996028;
+	bh=uA9xvKenq6yzo4uiIv9CvYKDW+9ns9ESg8gM94/FWnQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=kh2h7OyIodoxf8k66YguqbUr1lpsUxqidO7QB3LDXnWBH3bcQt6PWMtmlsqaRPIXl
+	 +vQW2lX/KgLyhS/ARALe8hb8cF7IQV7d78zUAGZ8UTEulPWgx7yqL81wMOMtCfmHZM
+	 60skzxE6YCub9ww/ZnW5jVtl7MuSSxEJEZfHWUKXm4coVKGJjTDuPHBY226mROyNCz
+	 Azz6TKE3jZBE/QVPyUkVyfXobBIdYfaz6ma/o+BUoqi3G0xZ4DrZVW1wQpQ2h61C2N
+	 UAjPFBlwD2XhoJ9G6fp3Sk0Ag5lQJ7TlHLeTelgTGWahreUEpdKFLR5PGwmDPm8qFm
+	 W6YufAou9QsUw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id F0AECD982FC;
+	Thu, 21 Mar 2024 04:40:27 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to
- evaluate parameters
-To: Barry Song <21cnbao@gmail.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Zankel <chris@zankel.net>,
- Huacai Chen <chenhuacai@loongson.cn>,
- Herbert Xu <herbert@gondor.apana.org.au>, Guenter Roeck
- <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
-References: <20240320001656.10075-1-21cnbao@gmail.com>
- <EFB48F08-F0B5-47C0-8C47-00A542344AC9@126.com>
- <CAGsJ_4xJsqOO-NXs3OWVA47vcK-zUpcrMxCbnY7x5khRH0dnxA@mail.gmail.com>
-From: Meiyong Yu <meiyong.yu@126.com>
-In-Reply-To: <CAGsJ_4xJsqOO-NXs3OWVA47vcK-zUpcrMxCbnY7x5khRH0dnxA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXvx3NuftlxJ7sAA--.37307S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJF4UCFWUZr4UJFWxXrWUurg_yoW5uw18pF
-	W5JF42qa1kXryUAr1qvw1SyFy7trW5CFW7WrsxtryUuFs0yFn3Kr47tr15uFs7Ar48CayU
-	ua1jg3sxuFyayaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jtVysUUUUU=
-X-CM-SenderInfo: 5phl501qjo53a6rslhhfrp/1tbijhKohmVLZvaPiwAAsI
+Subject: Re: [PATCH v2 net] ionic: update documentation for XDP support
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171099602798.26207.6141228760505625495.git-patchwork-notify@kernel.org>
+Date: Thu, 21 Mar 2024 04:40:27 +0000
+References: <20240319163534.38796-1-shannon.nelson@amd.com>
+In-Reply-To: <20240319163534.38796-1-shannon.nelson@amd.com>
+To: Shannon Nelson <shannon.nelson@amd.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+ edumazet@google.com, pabeni@redhat.com, corbet@lwn.net, bagasdotme@gmail.com,
+ linux-doc@vger.kernel.org, brett.creeley@amd.com, drivers@pensando.io
 
+Hello:
 
-在 2024/3/21 8:11, Barry Song 写道:
-> On Thu, Mar 21, 2024 at 12:39 PM Meiyong Yu <meiyong.yu@126.com> wrote:
->>
->>> On Mar 20, 2024, at 08:17, Barry Song <21cnbao@gmail.com> wrote:
->>>
->>> ﻿From: Barry Song <v-songbaohua@oppo.com>
->>>
->>> Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
->>> sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
->>> and loongarch,
->>>    In file included from crypto/scompress.c:12:
->>>    include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
->>>    include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
->>>       76 |                 struct page *page;
->>>          |                              ^~~~
->>>    crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
->>>>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunused-variable]
->>>      174 |                         struct page *dst_page = sg_page(req->dst);
->>>          |
->>>
->>> The reason is that flush_dcache_page() is implemented as a noop
->>> macro on these platforms as below,
->>>
->>> #define flush_dcache_page(page) do { } while (0)
->>>
->>> The driver code, for itself, seems be quite innocent and placing
->>> maybe_unused seems pointless,
->>>
->>> struct page *dst_page = sg_page(req->dst);
->>>
->>> for (i = 0; i < nr_pages; i++)
->>>     flush_dcache_page(dst_page + i);
->>>
->>> And it should be independent of architectural implementation
->>> differences.
->>>
->>> Let's have a guidance in codingstyle to ask for the evaluation
->>> of parameters.
->>>
->>> Cc: Andrew Morton <akpm@linux-foundation.org>
->>> Cc: Chris Zankel <chris@zankel.net>
->>> Cc: Huacai Chen <chenhuacai@loongson.cn>
->>> Cc: Herbert Xu <herbert@gondor.apana.org.au>
->>> Cc: Guenter Roeck <linux@roeck-us.net>
->>> Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
->>> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
->>> ---
->>> Documentation/process/coding-style.rst | 7 +++++++
->>> 1 file changed, 7 insertions(+)
->>>
->>> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
->>> index 9c7cf7347394..8065747fddff 100644
->>> --- a/Documentation/process/coding-style.rst
->>> +++ b/Documentation/process/coding-style.rst
->>> @@ -827,6 +827,13 @@ Macros with multiple statements should be enclosed in a do - while block:
->>>                 do_this(b, c);        \
->>>         } while (0)
->>>
->>
->>> +Function-like macros should evaluate their parameters, for unused parameters,
->> I do not support this point, if the parameter is unused, why not to remove it.
->>
-> Linux boasts support for numerous architectures, striving for
-> independence in its
-> drivers and core code implementation across these architectures. Consequently,
-> certain architectures may utilize parameters for the same APIs, while others may
-> not.
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-So the probem is  designed api is not reasonable,  it use not essential 
-paramter,
+On Tue, 19 Mar 2024 09:35:34 -0700 you wrote:
+> Add information to our documentation for the XDP features
+> and related ethtool stats.
+> 
+> While we're here, we also add the missing timestamp stats.
+> 
+> Signed-off-by: Shannon Nelson <shannon.nelson@amd.com>
+> 
+> [...]
 
-you can change the api, but not avoid it.
+Here is the summary with links:
+  - [v2,net] ionic: update documentation for XDP support
+    https://git.kernel.org/netdev/net/c/f7bf0ec1e73d
 
-Anthor question, why you do not use the parameter, if not use it,  will 
-trigger function/feature dismiss problem ?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
->> about the warning,  is  tool misreport,  the tool must make better
->>
-> no. This is not the case.
->
->>> +cast them to void:
->>> +
->>> +.. code-block:: c
->>> +
->>> +    #define macrofun(a) do { (void) (a); } while (0)
->>> +
->>> Things to avoid when using macros:
->>>
->>> 1) macros that affect control flow:
->>> --
->>> 2.34.1
->>>
->>
 
