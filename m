@@ -1,120 +1,279 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F73285277;
-	Thu, 21 Mar 2024 14:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE868624F;
+	Thu, 21 Mar 2024 15:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711032962; cv=none; b=AW1oVUxDi6krKlpqK+JWB13jzsvSBK+p8mN9SthOnWWOjIwGtA+E5WwYM8AM/+vQiW8pUmlDDJqc5MVqiNNBNUzd9//NL06UEalaKfJ4fMteAYUjMekG5J764qiPlD/VhVumFjhSvMKzVP3D/azqI5520rLtWKeA0b/GtE1LIso=
+	t=1711034966; cv=none; b=nu5zw5BSXkM/Yoad+2YDw/0lLdkMwPusH9PSbshln8wNzA0NW3jxxg8aMET+QJxfEXB9N/U/Ghea3PrFekpo+kV5dYoizqX5DPClFx3NARvyZq3WjVEGOwpVpy8mq8M7Z3mirMZZMBRXbryCT0/bN/F9rcSZTFDqIIZ2RPZHYYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711032962; c=relaxed/simple;
-	bh=YIvwI/ubALPTOjiASGYwPfTxbIpOyTtWPsq7rVi4Ouk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jPhau35rarxUC0koxxlr82lfG5vqQIn82GuvWt//5YI1QI2O/x4zxyYl9HRdZgdQlUd/i05xGcPbe1DM27dDPG/V11utmYIPOs3wuyWpUhkwSd+A8NM6GJFbvml0NaBwzsH9kvgp50pKBki0eHEumpuQ+pOihtlFTks/aueAxHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IJnomz2X; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1711034966; c=relaxed/simple;
+	bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZJG3o6X9Ruk3sygC4LUQBLaIsH+XQqXGSbnqLxrBmzejlHScaxrlzWSh6evwKR64zG+Y7aFbd0Qkm4dvU4YeAxVOE5cf6Z19SlzQuUlm7LzqC2fZSjHuKvRLc3ZJZeiFcqQ5KmOC7hJIE72dzySmqMRifq+Q6wKkmKFfg+w9ECg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALr9eIGz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IJnomz2X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Pt7JRhzkFkAG/rLFiDKcpKdOtFvAnzfioukjLqTNjvk=; b=IJnomz2XUUqpjVlE/eptJzumLf
-	P1RunKY09PLsVPwOLQY8l7/bVMnvQZrGO24zM/XTCZ9XFM+tjyfDrTmD4UdfW8iKrSNTTYNj+zSj0
-	rIJSIYlqPS3vYmQVM2a0g2OdekyvSpdRJeTPrrhYQdeBAeChTm2owHAqkistbR4Bsw/7/UuoQMxZ2
-	hlAC9+ZT2KHJl0bw0S2Sl5cwLCa5A0/1hP2HU/ggrBEnb25VxhTa5Rtgk0gpTtAZKVb8xEu6DJmPo
-	og1yi4YLO8ugbJMwXMZIEsGdngVubBVWYUWdhwnj0OQZSEvou/19bcHRox+g4nV5mqhcm8nlgkgeJ
-	oBzyPgKA==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnJpl-00000003MZx-1k70;
-	Thu, 21 Mar 2024 14:55:57 +0000
-Message-ID: <51d825a3-46a7-42eb-a413-4beb37b7656d@infradead.org>
-Date: Thu, 21 Mar 2024 07:55:56 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALr9eIGz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25367C433F1;
+	Thu, 21 Mar 2024 15:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711034966;
+	bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ALr9eIGziUwPlxCH820QT7e6XLKtwlm4vlc96HP45r7+l55sUTkhC3dRZ0wnZRhwD
+	 YG4jbIY/IEvjI17CK+xo0p7ibeEwLIEBKIdBbT4X9xJEd9fMALfQmycvOAfVIjVwa1
+	 /Ih5X3INPHtQ8qBMj6/RMGv0XVecfmjwL6+9/0e9stWTbbXUmBuJ7ONdwuHJFe2Bst
+	 vyiq0KeXClLUxLCUPI32mOeSd9YdR0qH7g363dZxIHk3zbuecHqgX7Ow4EcUFx2ub6
+	 LE5wUNfqHfe7cqUg/IGk2vbUY9mIbuoR74fhX1KtbyG4efOriCs98s98pgoSP5ZVvE
+	 X035DVJcLNzJw==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v10 00/27] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Thu, 21 Mar 2024 16:28:56 +0100
+Message-Id: <20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched/doc: Update documentation for base_slice_ns and
- CONFIG_HZ relation
-Content-Language: en-US
-To: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>,
- linux-doc@vger.kernel.org
-Cc: corbet@lwn.net, mingo@kernel.org, linux-kernel@vger.kernel.org
-References: <20240320173815.927637-2-mchauras@linux.ibm.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240320173815.927637-2-mchauras@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADhS/GUC/43SzWrDMAwA4FcpPs/Dlvy7095j7ODachu6JpCEw
+ Ch994nBlg6D2UnIQp8Q1k0sNA+0iJfDTcy0DcswjZxo9XQQ+ZzGE8mh8IMABaiCNvJyXeS5XAe
+ Zp3GkvE6zXNa0knTa+eDJ+QhecPt5WLj4+U1vmsPbP5BNSyWVCcqaUtFZ83qheaSP52k+iXdWN
+ 9ilCKojAUvaR4SSSim+NBL+Slqh7kjIEkI4qprIYPKNZHZJQ+hIhqXsnQJtAypHjWR3CZTvSJY
+ lZzGQjsWhabdzP5LhadCRHEvVHHPJ0UdytZH8gwQ9ybMUqknVelszQSOFXcLudoElqi65ijo6c
+ 2yk+CDp3t9FloqxISoERPP3nu73+xdMs2UrAgMAAA==
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9524; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=7UZpvMPwefZ1GONv3l4zyTLEZXpqSbSuzllTcldKH5s=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKl/ghz/5i2672/x+FPyQe4MSZnvc8RL/zTU9214znLpx
+ 8Imzd/GHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZhINTfDf+93dv2GT/fXnHjh
+ cTLXi+PGw/gDu27+i62r7T27YO/zqB6G/xmepvN+vpw4q2jHsczLDcWP5366YPiyiqHsF2tB6Ga
+ zckYA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
 Hi,
 
-On 3/20/24 10:38, Mukesh Kumar Chaurasiya wrote:
-> The tunable base_slice_ns is dependent on CONFIG_HZ (i.e. TICK_NSEC)
-> for any significant performance improvement. The reason being the
-> scheduler tick is not frequent enough to force preemption when
-> base_slice expires in case of
-> 
->            base_slice_ns < TICK_NSEC
-> 
-> The below data is of stress-ng
-> Number of CPU: 1
-> Stressor threads: 4
-> Time: 30sec
-> 
-> On CONFIG_HZ=1000
-> 
-> | base_slice | avg-run (msec) | context-switches |
-> | ---------- | -------------- | ---------------- |
-> | 3ms        | 2.914          | 10342            |
-> | 6ms        | 4.857          | 6196             |
-> | 9ms        | 6.754          | 4482             |
-> | 12ms       | 7.872          | 3802             |
-> | 22ms       | 11.294         | 2710             |
-> | 32ms       | 13.425         | 2284             |
-> 
-> On CONFIG_HZ=100
-> 
-> | base_slice | avg-run (msec) | context-switches |
-> | ---------- | -------------- | ---------------- |
-> | 3ms        | 9.144          | 3337             |
-> | 6ms        | 9.113          | 3301             |
-> | 9ms        | 8.991          | 3315             |
-> | 12ms       | 12.935         | 2328             |
-> | 22ms       | 16.031         | 1915             |
-> | 32ms       | 18.608         | 1622             |
-> 
-> base_slice: the value of base_slice in ms
-> avg-run (msec): average time of the stressor threads got on cpu before
-> it got preempted
-> context-switches: number of context switches for the stress-ng process
-> 
-> Signed-off-by: Mukesh Kumar Chaurasiya <mchauras@linux.ibm.com>
-> ---
->  Documentation/scheduler/sched-design-CFS.rst | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-> index 6cffffe26500..82985d675554 100644
-> --- a/Documentation/scheduler/sched-design-CFS.rst
-> +++ b/Documentation/scheduler/sched-design-CFS.rst
-> @@ -100,6 +100,9 @@ which can be used to tune the scheduler from "desktop" (i.e., low latencies) to
->  "server" (i.e., good batching) workloads.  It defaults to a setting suitable
->  for desktop workloads.  SCHED_BATCH is handled by the CFS scheduler module too.
->  
-> +In case the CONFIG_HZ leads to base_slice_ns < TICK_NSEC. The settings of
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-                                                  TICK_NSEC, the {setting, value}
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
 
-> +base_slice_ns will have little to no impact on the workloads.
-> +
->  Due to its design, the CFS scheduler is not prone to any of the "attacks" that
->  exist today against the heuristics of the stock scheduler: fiftyp.c, thud.c,
->  chew.c, ring-test.c, massive_intr.c all work fine and do not impact
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
 
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
+
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v10:
+- Drop the YUV422 fallback, and adjust the tests accordingly
+- Fix HDMI infoframe handling
+- Remove the infoframe copy in drm_connector
+- Add a TODO that drm_hdmi_avi_infoframe_quant_range() only works for
+  RGB
+- Add a TODO for the YUV420 selection
+- Fix a few bugs in vc4
+- Change the logging from driver to KMS for the helpers
+- Drop UPDATE_INFOFRAME macro
+- Add infoframe code logging
+- Document the selection of 8bpc for VIC1
+- Rename state to conn_state where relevant
+- Link to v9: https://lore.kernel.org/r/20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org
+
+Changes in v9:
+- Generate every infoframe but the HDMI vendor one if has_hdmi_infoframe
+  isn't set
+- Fix typos in the doc
+- Removed undef for inexisting macro
+- Improve the Broadcast RGB sanitation test
+- Make EDID bytes array const
+- Link to v8: https://lore.kernel.org/r/20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org
+
+Changes in v8:
+- Drop applied patches
+- Drop the YUV limited range mention in the Broadcast RGB documentation
+- Rephrase the vc4_dummy_plane removal commit log
+- Move infroframe mutex initialisation to the main drm_connector_init
+  function to make sure it's always initialised
+- Link to v7: https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+Changes in v7:
+- Rebased on top of current next
+- Only consider the Broadcast RGB property if the output format is RGB,
+  and use a limited range otherwise
+- Document the fact that Broadcast RGB only applies if the output format
+  is RGB
+- Add some test to make sure we always get a limited range if we have a
+  YCbCr output format.
+- Link to v6: https://lore.kernel.org/r/20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org
+
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
+---
+Maxime Ripard (27):
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/connector: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Switch to HDMI connector
+
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |  690 ++++++++
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  265 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  152 ++
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  143 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   80 +-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ .../gpu/drm/tests/drm_atomic_state_helper_test.c   | 1736 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1059 +++++++++++-
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  643 +-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/drm_atomic_state_helper.h              |   12 +
+ include/drm/drm_connector.h                        |  233 +++
+ 21 files changed, 4853 insertions(+), 769 deletions(-)
+---
+base-commit: 43d95569d4f1651692d6e84af890692232b7b891
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
 -- 
-#Randy
+Maxime Ripard <mripard@kernel.org>
+
