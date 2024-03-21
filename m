@@ -1,107 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B3057876;
-	Thu, 21 Mar 2024 11:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA7658235;
+	Thu, 21 Mar 2024 11:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711019725; cv=none; b=Ugyqc220A4wHKvHISFxyZwuYxV+0LPw1t+QdtssKZeeZ9s3/avzi4Buwi9UeFHPafGIDTPZ42C7OGrAo/s7WxCCjLUh9Jb0nngelbjbSWFnNyRTxrW+b2azImKpLxHzcx89UMeaWtdzu5vLwvwHPEpINx19+Im/Bqn5NSoXzwR0=
+	t=1711020497; cv=none; b=oVQz+uHkGNfppaRu05q6MidQBSBbxxJz2pO0YRsFy0plucDvXwHSt1PLycoz4EO/fk8pShMnRHbkCTfBfjqqJWyfTuDjks9YrqlFHHIBb9rqL4PmaJvYaZZL/3UB9kmKAGxa4ya46Mw6wxTTBC/wvVggpQkepgYvGXdRWKj9IXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711019725; c=relaxed/simple;
-	bh=fKCUlACMfauRrP+F9j+WWaw7J65ipX56Y+2OPskcuIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g5Wt7hXpLyg4AK7YrV7CF91KGYYl6PiwtdgSG5eXiebhmjKG4abgV+a7+dmk+TmPBaQc36+UhMxWu2txicZzCPS9i383v5NZWmThtBR1AI537ncnLmj3ywYJapJv14987+gcY3sQvKB/Vah1yPF9fJwNyGCRk5PcKxwyhyd/82Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJsfjmQM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711020497; c=relaxed/simple;
+	bh=w7BnE4I59f3wITcEro53uED3diG2JipzaV86wYEBpig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aTe3Mb1CnIw+Kcsm1ZTesbe9UgaVCSV6mFKSURKVaN7ikwRsmgOnqxJNUyl6m0YtrRetaCOCPEZ/Kh561CTposO9VDpYhItpBVi//eB48B0pWqt0clfD/cM+bJbtVTf5Cwr6a3xxIjSJMZLWEys7Gx1vYtmootExowEmEIF2Pew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bjAF72Lx; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJsfjmQM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28672C433C7;
-	Thu, 21 Mar 2024 11:15:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711019724;
-	bh=fKCUlACMfauRrP+F9j+WWaw7J65ipX56Y+2OPskcuIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hJsfjmQMYsqYM2STf6PHk9l9mwna+NQDtgI3v0Ibiskx4u7M1XEVLrhAkisLOeYjs
-	 EL7WaCVymVCvjo8gmI8jDdD6307vPwQn1BR7njvrBS2lAsAkwUN2xkaNq70OPH7MPa
-	 Ipecd8WnyZ946t1umDdKs0tNC9BSSLmikEYNvdCaMp91pvcoV6c3xbPfVRuSudCb38
-	 X+Z4XT47rmt+HgjanyfjCNga03FnMgZWn63gTivoA6NR969jFi1gkjqD/S7L3pzIDV
-	 MUsr2ZLGcC4zVFbcr5Yaqs04Ri8NFtriU6Lv444ddUbXB94xALaNCtfLoJdJKS4sG5
-	 3ORzfIETF0y1A==
-Date: Thu, 21 Mar 2024 11:15:18 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Barry Song <21cnbao@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>, corbet@lwn.net,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>,
-	Chris Zankel <chris@zankel.net>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to
- evaluate parameters
-Message-ID: <fb744859-ba2a-41c9-bcfa-4ea1cb8c036a@sirena.org.uk>
-References: <20240320001656.10075-1-21cnbao@gmail.com>
- <20240320124207.0c127947@canb.auug.org.au>
- <CAGsJ_4zpXwVEhsdffoZVBVWiwT4Lw2qEMrW-X92ib=kv=9Yx9g@mail.gmail.com>
- <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
- <CAGsJ_4y+1HovQ52HPis8NBDqp4-fiGRwehX+NH0New0HoEU5GQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjAF72Lx"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6e6ee9e3cffso566618b3a.1;
+        Thu, 21 Mar 2024 04:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711020496; x=1711625296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yzjq/94BD2kg6IEXQY/xyl0j4YLV5g7AivSa/+JXGNg=;
+        b=bjAF72LxeA8GCLYnAxhPZdJMEECJtXURMT2sPHKow3yVKse0Lb6WCJvYt/xVhjfwCY
+         ui/QioSg+55bfkOIgLXEIaF4HYVphxspcfgFEbKQF/K14kKQmEbgICvvZYfr1RtdVm71
+         kJKjKbfr297WQv+kIvfuWphvNEGefFbxlLR7AIXvqM111UHYX7vgS5XOpsJ2weNguw1T
+         lWy9iBzdFEHypmZq5333JdwTFiXwktcRgxQVK1GWhtfYDkQ6FHn95OWuZfGg6/78RE10
+         Y3lKaqSDOe+KeLMirRNnu3veoJHkBnmAujsoUR/4+Ozi0c70Nn68PnwmAyq+R/9bCNzC
+         xLkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711020496; x=1711625296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yzjq/94BD2kg6IEXQY/xyl0j4YLV5g7AivSa/+JXGNg=;
+        b=hZGONZ6za0sbtJ9t94u0BDbz1sawm2JbkGi1vQCLIlXMYVffZ3VAR50E44nqbY5A7n
+         tmQfKJWU9weYZfPBykYXwiNxTtQ3DcgwQwQCsJGwT8tkBFVQ3DkuqsPNPWRttLQAvdMb
+         Zz8k9wo2xtukMgA9usesip3NPuptbuITReq2+kMudgPBr4rXENkILkl9h+4ppd9IAh45
+         J8XrdZIpJai4NlpG3Ad4ZwaxiJRY8WgboivJdDN+jvZ5v1GnH/ve2KHoOF9DMvMBs1Lj
+         SYH0HAq1eyk4Rp9Dp2+iHTNfen9KdXvE9fWvaxfxOwaMRmS6jbr3MUHOh2Om97VZCeqB
+         l9Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCXN0fbtjb02+tK+h7BoeUEfMPxowUtqye6MSvSWB2kKtOWnssfmd1lEuLihzUGL2sTJvjtixjfp4fHzGDSaHiu2d1JC3Gd9drzOY6Pl3bCjM5dQ/U9kpdYY3aM0N9W57NFDiLoHYRKXOxhEZffGKnku2bK1ogbKsY05292/h3/BcsHiEEWVXlgcdPGC
+X-Gm-Message-State: AOJu0YzMsrm+XTSv+of3mex25IKAxrZYLDp4ELU0fehZeRTpfYx5ZYTX
+	jt8XOVMjxZ8G0aIFiOFWTee5h8t0m5C7bUGW+k2l6DZNJq8pWbFD
+X-Google-Smtp-Source: AGHT+IFJCj7qVL7+FrjW2hamZ7lK04kKaGLMrwyVH/1I7+T7NQbG5x3hWhvnTiIibpDrn9Yfk4XjIw==
+X-Received: by 2002:a05:6a00:2d82:b0:6ea:7ba2:5003 with SMTP id fb2-20020a056a002d8200b006ea7ba25003mr309328pfb.13.1711020495715;
+        Thu, 21 Mar 2024 04:28:15 -0700 (PDT)
+Received: from sarat-Dell-G16-7630.. ([2405:201:c003:406c:91c7:e7bc:a440:5af9])
+        by smtp.gmail.com with ESMTPSA id n10-20020aa7984a000000b006ea7833e52esm589484pfq.128.2024.03.21.04.28.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 04:28:15 -0700 (PDT)
+From: Sarat Mandava <mandavasarat@gmail.com>
+To: mathieu.desnoyers@efficios.com,
+	corbet@lwn.net,
+	mhiramat@kernel.org,
+	rostedt@goodmis.org
+Cc: Sarat Mandava <mandavasarat@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shuah@kernel.org,
+	javier.carrasco.cruz@gmail.com
+Subject: [PATCH] trace doc: Minor grammatical correction
+Date: Thu, 21 Mar 2024 16:57:57 +0530
+Message-Id: <20240321112757.17502-1-mandavasarat@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TAcSmNRE4p6o+wUy"
-Content-Disposition: inline
-In-Reply-To: <CAGsJ_4y+1HovQ52HPis8NBDqp4-fiGRwehX+NH0New0HoEU5GQ@mail.gmail.com>
-X-Cookie: MIT:
+Content-Transfer-Encoding: 8bit
 
+Use the correct relative pronoun.
 
---TAcSmNRE4p6o+wUy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Sarat Mandava <mandavasarat@gmail.com>
+---
+ Documentation/trace/tracepoints.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, Mar 21, 2024 at 07:48:36AM +1300, Barry Song wrote:
-> On Thu, Mar 21, 2024 at 4:49=E2=80=AFAM Andrew Morton <akpm@linux-foundat=
-ion.org> wrote:
+diff --git a/Documentation/trace/tracepoints.rst b/Documentation/trace/tracepoints.rst
+index 0cb8d9ca3d60..decabcc77b56 100644
+--- a/Documentation/trace/tracepoints.rst
++++ b/Documentation/trace/tracepoints.rst
+@@ -27,7 +27,7 @@ the tracepoint site).
+ 
+ You can put tracepoints at important locations in the code. They are
+ lightweight hooks that can pass an arbitrary number of parameters,
+-which prototypes are described in a tracepoint declaration placed in a
++whose prototypes are described in a tracepoint declaration placed in a
+ header file.
+ 
+ They can be used for tracing and performance accounting.
+-- 
+2.34.1
 
-> > Stronger than that please.  Just tell people not to use macros in such
-> > situations.  Always code it in C.
-
-> While I appreciate the consistency of always using "static inline"
-> instead of macros,
-> I've noticed numerous instances of (void) macros throughout the kernel.
-
-=2E..
-
-> I'm uncertain whether people would find it disconcerting if they complete=
-ly
-> deviate from the current approach.
-
-> If you believe it won't pose an issue, I can proceed with v3 to eliminate
-> the first option, casting to (void).
-
-It might be worth adding a note somewhere in the file that talks about
-how the coding style document is convering the current state of the art
-but some files might older and not following the current style.  This
-isn't going to be the only thing where there'll be issues like this.
-
---TAcSmNRE4p6o+wUy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX8FsYACgkQJNaLcl1U
-h9AMfwf9HeqraXnXYAw78tCMuY0c1TL2y4BWC0+oKGPXHbxTF9LV17xmodaBRTBp
-LglMvk9nR02owGQSdhqz3csnWWQp2/Qg47UkSNOl//Vplk5wCBujNtA0+ojtD9oD
-zf0VRykp1ifuYu5TMA12dAGZlJlYuKbjzWIlGRZiAJgCxsOTnfMSrzYHVjiQB7cH
-gnUBrUCHyGCFikMLUOdPPERN+XrUxClfIQiv80gF7BM5iDoD8F1bqgNSbl/+7xpE
-a8V5Kf98YMGCeGhCfc7hbnqJS58027LhgY5c/JbuavBZl8kL+HvkoMtdjyK0ZXoU
-8VjGqD2egSNvzVZjxxI20l49UlaCoA==
-=ic4b
------END PGP SIGNATURE-----
-
---TAcSmNRE4p6o+wUy--
