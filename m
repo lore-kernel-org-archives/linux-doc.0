@@ -1,106 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC47820304;
-	Thu, 21 Mar 2024 15:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3943A86261;
+	Thu, 21 Mar 2024 15:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711035457; cv=none; b=Hw0E6Ik623041jnwXDlnyoWG1D0YhC78sSG4ZBfgDspr4fmQc5G1jP5zTZcu8GA9gQEegV97pXCRFvoHVtk1GV8ENYkyXeDd6ljLOe4SDTyOYK97QPQJbuW4sxBbhgo4vm01ptk6wc/fINfkU22ztuLxrgqPEBbIkNMoWVEvy5U=
+	t=1711036292; cv=none; b=WRr9AmUdOTy8ihuRex2HnvYHqKzOYJAkMohMpjYECjmJDhYjkWZ67La6uH8v1RYT7YqY6DVjlZlb1g5O0VJWl89byQYpoCOp3dPAbOI0DSZq0XfmyKOzkcudO3CMItDKOhmAxVREcdTSA5o8TZGpbEOPtOchudv09uiNBDNrxCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711035457; c=relaxed/simple;
-	bh=dOYNT79qk9MioScuYTUeX2HdGhASPtDv2e6R6SOo5sY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qZtc94NvBufW6hbNoMSyE/2QyzmNPNOy3sxAJkeLPqq1F2MVs6mA3eI73D4H3XbQy63GcVOrt1Q0T3aImsQOGJLVtkZkyPXCFLkdc942efdFQsYcO3KKIGxm7RkmK0q7TqiKNcJgmX4pT7y4nWUOP0YlYW/EphEO96TmmbLXEaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fn34fFjB; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711036292; c=relaxed/simple;
+	bh=L+ezlLpknXEsEQmDMvyoEjsnzgAHFu4Z1IjpCnTiL2E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=iVuZsTPaUAqNBtm/gV6JSFlCUuk418eZZGdfa+ShRurWbee2QawJGA8o9TyisGfaHP3RFQikbNY3TUKFlwMJYVuay/0QwDLyo6rBVAsvUL4yxk7bnaCubesgKcHnIJ/dA0SIA7HSN9DZYwShtQvZA7XMPS9p+CGnnkZ5sxXIDcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AlfcfTh0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fn34fFjB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711035455; x=1742571455;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=dOYNT79qk9MioScuYTUeX2HdGhASPtDv2e6R6SOo5sY=;
-  b=fn34fFjBSysEoOYzC/1lg9cepJpzRuM9UnvlNaj6tMDXAZsk9qdzmAXD
-   z6VFFCKV0cINwQHr0Vt9XT0a5rMiH24Y+IHB7hiFzZTheyN1pJ4Wg597r
-   KidatMgLdYNTi1eoqXTjaajBB/3/Ra/rxsyyCzg+xDUPtpz8OqGtsWWiT
-   xl2Mstl812EDxeYPo/Or4ulGIr/4gQbPsFOSoEW+eID4ugKZVJYYAEMsF
-   tFZXI4F0VCl6oMeOIfD3Ef5LXVsTxWkJgJcWI4sMXrucODylAolodCZ8g
-   aU3cBPNVi0i14sdJ4bco+WWkgbPKbQ/mcCaidskSAHMpkt3zGZh20lJ5+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="9836963"
-X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="9836963"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 08:37:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="15198266"
-Received: from unknown (HELO localhost) ([10.237.66.160])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 08:37:30 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>, airlied@gmail.com,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net, javier.carrasco.cruz@gmail.com,
- skhan@linuxfoundation.org
-Cc: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Fix duplicate C declaration warnings
-In-Reply-To: <20240321115738.51188-1-amogh.linux.kernel.dev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240321115738.51188-1-amogh.linux.kernel.dev@gmail.com>
-Date: Thu, 21 Mar 2024 17:37:25 +0200
-Message-ID: <871q83mw96.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AlfcfTh0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27AA9C433F1;
+	Thu, 21 Mar 2024 15:51:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711036291;
+	bh=L+ezlLpknXEsEQmDMvyoEjsnzgAHFu4Z1IjpCnTiL2E=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=AlfcfTh01ISixGjDcDgIRSwydLeh5ZF8jX8uFZzxsIRZZi6Ktg07imY+eCoGmUOVx
+	 MNTP7MtIERvRNFTLQ9TvOSkDDD0q/gufWcvtgBvVkFIWeVWFJIHLX2FNUf5+Ji6N1L
+	 zWxJIqlrOO4Af0/F1R9S0W63/ZwAfUbmTtdf8WMXlq/UKMTOyvdQLDliUbNbm0FXNq
+	 x17Bl3oDr0H/7RnuMRMsHWuyt/Bwfu4ZXRl7RchcMmB7j8JTF9tBAnai71o/qiTb4h
+	 fe0F9PAED4RhS96LpR3seCSdmqDR/tR+EVjPDSuJ0l23kv9aBg2NTpkoedObt1EVCv
+	 I2RTaokxbIORg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 21 Mar 2024 17:51:27 +0200
+Message-Id: <CZZJQR121P7H.3QS68A6320S32@kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Daniel P . Smith"
+ <dpsmith@apertussolutions.com>, "Lino Sanfilippo"
+ <l.sanfilippo@kunbus.com>, "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Huewe"
+ <peterhuewe@gmx.de>, "James Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Alexander Steffen"
+ <Alexander.Steffen@infineon.com>, <keyrings@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Randy Dunlap"
+ <rdunlap@infradead.org>
+Subject: Re: [PATCH v2] Documentation: tpm_tis
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Stefan Berger" <stefanb@linux.ibm.com>,
+ <linux-integrity@vger.kernel.org>
+X-Mailer: aerc 0.17.0
+References: <20240320085601.40450-1-jarkko@kernel.org>
+ <afc9471c-1c28-4384-82c1-29464ca1fb1f@linux.ibm.com>
+In-Reply-To: <afc9471c-1c28-4384-82c1-29464ca1fb1f@linux.ibm.com>
 
-On Thu, 21 Mar 2024, Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com> wrote:
-> Fix the duplicate C declaration warnings found on
-> Documentation/gpu/drm-kms.rst that was found by
-> compiling htmldocs
+On Wed Mar 20, 2024 at 6:15 PM EET, Stefan Berger wrote:
+>
+>
+> On 3/20/24 04:56, Jarkko Sakkinen wrote:
+> > Based recent discussions on LKML, provide preliminary bits of tpm_tis_c=
+ore
+> > dependent drivers. Includes only bare essentials but can be extended la=
+ter
+> > on case by case. This way some people may even want to read it later on=
+.
+> >=20
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > CC: Daniel P. Smith <dpsmith@apertussolutions.com>
+> > Cc: Lino Sanfilippo <l.sanfilippo@kunbus.com>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Peter Huewe <peterhuewe@gmx.de>
+> > Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+> > Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
+> > Cc: keyrings@vger.kernel.org
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-integrity@vger.kernel.org
+> > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> > ---
+> > v2:
+> > - Fixed errors reported by Randy:
+> >    https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@inf=
+radead.org/
+> > - Improved the text a bit to have a better presentation.
+> > ---
+> >   Documentation/security/tpm/index.rst   |  1 +
+> >   Documentation/security/tpm/tpm_tis.rst | 30 +++++++++++++++++++++++++=
++
+> >   2 files changed, 31 insertions(+)
+> >   create mode 100644 Documentation/security/tpm/tpm_tis.rst
+> >=20
+> > diff --git a/Documentation/security/tpm/index.rst b/Documentation/secur=
+ity/tpm/index.rst
+> > index fc40e9f23c85..f27a17f60a96 100644
+> > --- a/Documentation/security/tpm/index.rst
+> > +++ b/Documentation/security/tpm/index.rst
+> > @@ -5,6 +5,7 @@ Trusted Platform Module documentation
+> >   .. toctree::
+> >  =20
+> >      tpm_event_log
+> > +   tpm_tis
+> >      tpm_vtpm_proxy
+> >      xen-tpmfront
+> >      tpm_ftpm_tee
+> > diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/sec=
+urity/tpm/tpm_tis.rst
+> > new file mode 100644
+> > index 000000000000..b331813b3c45
+> > --- /dev/null
+> > +++ b/Documentation/security/tpm/tpm_tis.rst
+> > @@ -0,0 +1,30 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +TPM FIFO interface Driver
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> > +
+> > +FIFO (First-In-First-Out) is the name of the hardware interface used b=
+y the
+>
+> FIFO is the type. I am surprised you call it a 'name'. I would say TIS=20
+> is the 'name'.
 
-Please paste the warnings here.
-
-BR,
-Jani.
+It's what the official specification calls it [1].
 
 
 >
-> Signed-off-by: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
-> ---
->  Documentation/gpu/drm-kms.rst | 6 ------
->  1 file changed, 6 deletions(-)
+> > +tpm_tis_core dependent drivers. The prefix "tis" comes from the TPM In=
+terface
 >
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 13d3627d8bc0..a4145f391e43 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -357,9 +357,6 @@ Format Functions Reference
->  .. kernel-doc:: include/drm/drm_fourcc.h
->     :internal:
->  
-> -.. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
-> -   :export:
-> -
->  .. _kms_dumb_buffer_objects:
->  
->  Dumb Buffer Objects
-> @@ -458,9 +455,6 @@ KMS Locking
->  .. kernel-doc:: include/drm/drm_modeset_lock.h
->     :internal:
->  
-> -.. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
-> -   :export:
-> -
->  KMS Properties
->  ==============
+> tis is a tla -- a three letter *acronym*. You aren't using it as a 'prefi=
+x'.
 
--- 
-Jani Nikula, Intel
+I don't know what "tla" means.
+
+>
+> > +Specification, which is the hardware interface specification for TPM 1=
+.x chips.
+>
+> It's also available for TPM2.
+=20
+Yes, but TIS is the name used by the legacy specification.
+
+>
+> > +
+> > +Communication is based on a 5 KiB buffer shared by the TPM chip throug=
+h a
+>
+> I thought it was typically 4 KiB.
+
+You are basing this on table 9 in [1]?
+
+>
+> > +hardware bus or memory map, depending on the physical wiring. The buff=
+er is
+> > +further split into five equal-size buffers, which provide equivalent s=
+ets of
+>
+> equal-sized MMIO regions?
+
+I'm not sure what spec you are referring to but [1] defines also other
+communication paths.
+
+>
+> > +registers for communication between the CPU and TPM. These communicati=
+on
+> > +endpoints are called localities in the TCG terminology.
+> > +
+> > +When the kernel wants to send commands to the TPM chip, it first reser=
+ves
+> > +locality 0 by setting the requestUse bit in the TPM_ACCESS register. T=
+he bit is
+> > +cleared by the chip when the access is granted. Once it completes its
+> > +communication, the kernel writes the TPM_ACCESS.activeLocality bit. Th=
+is
+> > +informs the chip that the locality has been relinquished.
+> > +
+> > +Pending localities are served in order by the chip in descending order=
+, one at
+> > +a time:
+>
+> I think I know what pending localities are because I have worked with=20
+> this device but I am not sure whether the user can deduce this from the=
+=20
+> paragraph above. Also, why this particular detail when the driver only=20
+> uses locality 0 and nobody is competing about access to localities?
+
+This is pretty good summary that is IMHO somewhat useful.
+
+You are welcome to contribute to the documentation but it has to start
+from something.
+
+>
+> > +
+> > +- Locality 0 has the lowest priority.
+> > +- Locality 5 has the highest priority.
+> > +
+> > +Further information on the purpose and meaning of the localities can b=
+e found
+> > +in section 3.2 of the TCG PC Client Platform TPM Profile Specification=
+.
+o
+
+
+[1] https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profi=
+le-ptp-specification/
+
+BR, Jarkko
