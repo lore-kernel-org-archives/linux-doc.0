@@ -1,55 +1,55 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BCFD12C814
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B731332B0
+	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039039; cv=none; b=LHBOCNHzhG+ExemZqsqSkkZQC+6ua4Ks3UrmBAUCvLwABU5Ph/ECS+S8pdqIEE6dPdlm0eY5Sfe5TaEoV7UrLR19vHkO6KfbyVgMRmuMI8E+F7NYvwDrDOim0dzV1sVj/a1Ez78UAe8PYXK0vTyCVzFf07csp2gtW7sn8oPkWFk=
+	t=1711039042; cv=none; b=EugxqK8mBh6+AGXW/r0szxQKrkw8U2bEyxaRhXIYbqxVkpQKfcUNWc9R4YniwUMvG7MjuFJ8Z12MYSCUppWRAwf8LYFVGqbo3nYvQjcFdxmOMihTiOHO/3yxTwCcJtJ6L98rZPDK9gqWJZPMZ8IqmlMoBJNnthHuLGBwAvK7WX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039039; c=relaxed/simple;
-	bh=HDNKqGkk/azPcTtEhJHN+gpMAx3GoPDUVnE3EYb5Lwg=;
+	s=arc-20240116; t=1711039042; c=relaxed/simple;
+	bh=ir6xyZtmAUC+Ybm5fW49pWbbkzfCfz5BPQNom35E7HQ=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=elqMevOeMZMA5mcCr2BQm5R06hOosCTKzu9PIb/GQb7PexmCCD6p6CwOP/ocsyhUI3NPkQyQ/m+7hD9CikubqKD5m+TVOaBLjWNIyOs9YHMa4cgnuz+wwshhPvNmrrDNj6yGAtMFHN+5zhc0F1km+z3yrw4kd/TJgzSR9n7x9HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wWAs86Pz; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=B/Rhl3nbwdY/qxATW/cvZoCI4CPCYImHu1aGcB+ptxjhSYxrliEaCkBz9r25AaTQgk9kYe6fDuEFCMClup7XLAX0J/dYvqgPtXyGdKprYtbsFBVNGvSWJ59ap08phTDnmQR1y3fURV3X/MWCP2b0rapjRqwlINUIHYQUbpb9wuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M97DhcGW; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWAs86Pz"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-60a54004e9fso21446157b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:37:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M97DhcGW"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dcc05887ee9so1692381276.1
+        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711039037; x=1711643837; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1711039039; x=1711643839; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cRKfaiB6dOVHxpZUYVy57amQHTHiIgtHPVa28h/bxKY=;
-        b=wWAs86Pzoa7/o4uO9DUaKalp5/lqsafBptAizETSwrwxG543E6aMELKTNZSJkOAIe0
-         bRt0Sx5bIrvo0fEeZIMOi/WnS3w8QvJt+cukgQ97dy2sUMu/2XvrkrSPB3wxcsHWECwJ
-         gXSz591epccQDT13TSfHCWEmVtILtlUzWaK6lofLdZtFD76e6xRP7kFw62KtCG/PeU3h
-         vCzqp4N2MCFbRN6fJ/OGzaUN0Z+fXQRfoKah+oG2oqXKYQLTWQzgy3lkLXpiFckDQa+N
-         mwKOtfm5DRQgGMMMcGfaLNoBA9YRBfqKZZyBJ0++lPTsszo1wJOPkxqU9dNzI9czQynf
-         t+dg==
+        bh=FcsF8xuW3B4rJ7bvWaC3URPqDGHFVTOJU/Md9c+vki8=;
+        b=M97DhcGW8hPCwutq/KjsElSFPJnWXH/25nt2pMe8zJPNVhhFUTwq6282ZNUp3MIMIf
+         ud9EZrXxH5mpYspVXQaHAkvufZYzu7iAL8y3m1T1clfrO1mHw7DXuDG3S+0/9rAtql90
+         2AjFb4iLI0tKvfe+2U3EIjHIEhtDFIrFowoLpxNCPGQV5hYtfhc8jGDE3XxhD4oXVu6R
+         cI3Vp/jnnZVuCg9ZWBOeAhp8IGzgCCo7HUf/GeuXN7py9MY51z2w0RJ7YrX4bxvMlIqu
+         6tHlyxNugquJvYPmKOAXkbCwr3CPMWqLXJ5kvBR6BER8iN9VXJk49w4t041PFILta3Ew
+         KOLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711039037; x=1711643837;
+        d=1e100.net; s=20230601; t=1711039039; x=1711643839;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cRKfaiB6dOVHxpZUYVy57amQHTHiIgtHPVa28h/bxKY=;
-        b=BpMvrYEa9NQULg4pHEgRgfVyLTSEToqyviTJDrEmfeRTrexOPEG1bBwzF8JGeyrMfg
-         Zo5/9XN7ErS/xhIeR+S0OwNgD7mlN26kRXDg7tbm5If8SsQ1kuVW3du/Wa0Pc5PckHli
-         L2TT/FY9IY6ebc6tGTO3ih4Bhp+sOSm/ck1ZEg1gu4Djpw4JLg2A7jG7HCmt1DTnnJ2E
-         EnS95L9Hfg6l7R7Z6sVwzCWJJ0foQZbm2sXgE2/NYKcYkK6kcJUkyiLddzpgyzQDryMk
-         d1dKN8DA6r7+NW5EtAxl1bT7Iiu45Spl3XjkwOlN2pKPZsJX//k/e/ABRFTERSSIDl69
-         ooAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoY9RAmAFuSap6BY3qA3z3V43pmuyDmTx5F2+t2R599ls+N55iSe5xVT/9w6mt/L+wsE4C90NJKuJGURoDASJ7GWyXfYCr4gQ1
-X-Gm-Message-State: AOJu0YycDRJ/Pg2K7CWIPC5HD2cYSFbI/cG5KufRA9le+ZFrzHg+2u18
-	BbpxfPWEnl56OPfYOh3K03rr2abKPQAJ49u5df7TKWXar31k+2K+CEvTUp0LyXn5ytrAHaAc6a4
-	3pg==
-X-Google-Smtp-Source: AGHT+IFYgw5ohbM2qs9qWLSKEHVv/3K2+6lhzKzCxOpGXwJ9EG3Fd8M+K30yKZwcBlNXdCTg4+rc5Suy1A8=
+        bh=FcsF8xuW3B4rJ7bvWaC3URPqDGHFVTOJU/Md9c+vki8=;
+        b=HwhN4ZqqyLa70VOu+37GRS+BcVWzhOPuQsdgRMF87l1Zgt1tVDyb/acn+itwM+pq8j
+         +tjLN65K2kG99mrOg0+wj/10U38YRtnEaHpMd2U+oA4Sc6pj/zv5cV9f5OWPFpDqo5LE
+         gLXEj/9oEz3BP9YNadLCB7afZrg+4W78J1JtHn94utRdIX5yHtt3XzYSb3aExWzmE+3G
+         5UEuFwxhOnkDIhDO54+Qw0CxOa+tNAW7cfDaoK/jU9+qBBHcxiQCoSduKUMQ555sXV8Z
+         ZHJMZTaO6hmOZQw1TBU1Jlsw5qcIlFyCFOEErMG7Go+Hnx+IksJbbD2aZoWJM+4CI7LA
+         X70w==
+X-Forwarded-Encrypted: i=1; AJvYcCUW7VnxOvfKPLJWilvO04ebkBNT72UwwkN8/odEFT8IOhF7L82xRiR1j0mMpfBHp7YBTjAaT0kn5c2jhTPdjDnAWV5kHVYJ9B8+
+X-Gm-Message-State: AOJu0YwnOokFzLyVcIUKpVkguLrnuLH5SktSBAFS6tfyoCSz7pgo5DkS
+	jq/34KUt7Cc6nnXQLO8rDubPw/v0JoyDR6gqM9yJU2OyuZZuCHe2cs1JZr3wYG0GEuIjkEF1vF3
+	Zkg==
+X-Google-Smtp-Source: AGHT+IGrkFj5aE/qI6dA3cr3f2zIJD/myHIxBhs84G4EmxlJsslBgaCO9HAP/2XOVSrMpqDkAxdrZ+lOSbY=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:a489:6433:be5d:e639])
- (user=surenb job=sendgmr) by 2002:a05:690c:f88:b0:610:f11e:9d24 with SMTP id
- df8-20020a05690c0f8800b00610f11e9d24mr1686171ywb.4.1711039036599; Thu, 21 Mar
- 2024 09:37:16 -0700 (PDT)
-Date: Thu, 21 Mar 2024 09:36:25 -0700
+ (user=surenb job=sendgmr) by 2002:a05:6902:1207:b0:dc6:b982:cfa2 with SMTP id
+ s7-20020a056902120700b00dc6b982cfa2mr1182860ybu.8.1711039038760; Thu, 21 Mar
+ 2024 09:37:18 -0700 (PDT)
+Date: Thu, 21 Mar 2024 09:36:26 -0700
 In-Reply-To: <20240321163705.3067592-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240321163705.3067592-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.291.gc1ea87d7ee-goog
-Message-ID: <20240321163705.3067592-4-surenb@google.com>
-Subject: [PATCH v6 03/37] mm/slub: Mark slab_free_freelist_hook() __always_inline
+Message-ID: <20240321163705.3067592-5-surenb@google.com>
+Subject: [PATCH v6 04/37] scripts/kallysms: Always include __start and __stop symbols
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -92,35 +92,49 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-It seems we need to be more forceful with the compiler on this one.
-This is done for performance reasons only.
+These symbols are used to denote section boundaries: by always including
+them we can unify loading sections from modules with loading built-in
+sections, which leads to some significant cleanup.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slub.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/kallsyms.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/mm/slub.c b/mm/slub.c
-index 1bb2a93cf7b6..bc9f40889834 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -2106,9 +2106,9 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
- 	return !kasan_slab_free(s, x, init);
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 653b92f6d4c8..47978efe4797 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -204,6 +204,11 @@ static int symbol_in_range(const struct sym_entry *s,
+ 	return 0;
  }
  
--static inline bool slab_free_freelist_hook(struct kmem_cache *s,
--					   void **head, void **tail,
--					   int *cnt)
-+static __fastpath_inline
-+bool slab_free_freelist_hook(struct kmem_cache *s, void **head, void **tail,
-+			     int *cnt)
++static bool string_starts_with(const char *s, const char *prefix)
++{
++	return strncmp(s, prefix, strlen(prefix)) == 0;
++}
++
+ static int symbol_valid(const struct sym_entry *s)
  {
- 
- 	void *object;
+ 	const char *name = sym_name(s);
+@@ -211,6 +216,14 @@ static int symbol_valid(const struct sym_entry *s)
+ 	/* if --all-symbols is not specified, then symbols outside the text
+ 	 * and inittext sections are discarded */
+ 	if (!all_symbols) {
++		/*
++		 * Symbols starting with __start and __stop are used to denote
++		 * section boundaries, and should always be included:
++		 */
++		if (string_starts_with(name, "__start_") ||
++		    string_starts_with(name, "__stop_"))
++			return 1;
++
+ 		if (symbol_in_range(s, text_ranges,
+ 				    ARRAY_SIZE(text_ranges)) == 0)
+ 			return 0;
 -- 
 2.44.0.291.gc1ea87d7ee-goog
 
