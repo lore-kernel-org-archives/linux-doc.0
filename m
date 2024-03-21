@@ -1,55 +1,55 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5394131E21
-	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:37:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1192B132C1A
+	for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 16:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711039080; cv=none; b=i1oUucQBP5V2Fwgp+g4HhlxhceB4YqK5Jj9eDpPuon0ZlVTz9P3PNCqsE67C/TzvL+6RwagkHQkV9756jSKwjc2XCdbrH4HLaA1wSnGrcaCCmI+sG+Z64pEmxWgyaW/xXcZQ0EDDEqI2MVIwH2eYji2u5BCBzoSuFaACDdda58k=
+	t=1711039084; cv=none; b=EXPaPYvrY226s5EiEhzdJw3BmNya8eeeqfZ+0dbrQPHGG4kRy0+Bgm6OfH5EajpjIavnfnuYRa0XdVbJNzTyRwZbpup837mMlzhXXrddc2QbqE6ONDU50G8ZLA1HOPuZnWPUDnBdFFvLiFBOI8dYPYQ1FnzsbX11IFjAdqVjePE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711039080; c=relaxed/simple;
-	bh=VIDk2cVbRQo+R3GXDZfOMDAjJplBMheLQJqibMpEc1M=;
+	s=arc-20240116; t=1711039084; c=relaxed/simple;
+	bh=GMoeKKgr6ForvCg3pCNgoGVRhZa/k6YjjT689wI9LjU=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OJJ0hAu+oJkg+YmzRSjx5u+BWEpZzmVsQjmEWsZXj0Vh6W3WnfM9LzmH4nzJB/FlLs8VZq+OOJP7P8Mh+K9b32M3cqseqyn8doo2lOYJ/l1Q/N0Uzx4Y79kAPdehVteR8AwkYTFw4qMRX1Ps4rYCbAvoZ4/bqu1ttNR0BY7hr6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mMKvJqkp; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=Ew5vZladz0LhHJGa6ENwtRC2SGSySJjt9l9fV3x228yEEX6AYzpoU7rvQ7MELAZd+bw985Z/aGAM5ZgXeNR0RLh2zPXAePwrARptKFkmZ2c8u4dxhPEvF5UKZ9ishQ8ADe+XcngfY2IlyKX9DaF2DoblwKt9XrZeTU2pPjRaDdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GYz/1lmV; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mMKvJqkp"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6ceade361so2070466276.0
-        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:37:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GYz/1lmV"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dd0ae66422fso2413454276.0
+        for <linux-doc@vger.kernel.org>; Thu, 21 Mar 2024 09:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711039078; x=1711643878; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1711039080; x=1711643880; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pOwNrbZCC43nJVxac3Uw9hAvg9K+bdh2+QxQ9H95ZLk=;
-        b=mMKvJqkpx+BxEFkB+ronKenJxDdaREe/2vrpXzy7kUolfgwtphLhl7upFBWXJgOGKD
-         ET/wnDXR8VIh7gHqkyCNAINrSbv+KqXm/Aht6yrAToaA+GA0GS74iFyvLLjUIkeIXJfJ
-         CM+LsHs2yKxlzZIxAdm0mGbLRdfI0anLSVx133eqXnpLGQ11LMyrY4YsNhbJ8q1Ott53
-         /Pe6CJBbvGmDATOjPlROJonKfccUz96JNytry813mTDa7MfRWmZjmYsqd5xf5jhFTudo
-         /rYN3XSKkkYN9zOyNLP+i/Undni0XRNtwQ0PQP9JCJHRA4UaklfwKVrCYu3bC1P778Vc
-         +Zzw==
+        bh=qDb8iz8I8QS6d+rOBOAu9Y4ek6cz/wlqKmX9e9H3T5g=;
+        b=GYz/1lmVMk8aUi02+B95MjtDSjZXmFMDcwn7+9fDDSk0bueWyNzvB6uRJlnPGW+30L
+         lNWp/t6t6ilh8CnjyaqClEDXJ3EVJPs40b3TbVMM3+NerYl+b5WrNNPCTPE5WsoPI4W+
+         i+rXscCfD639qoXaVjTPiQBZyovE5VdiTtiUon0jMxxXegZ20CNty8GAVbjottvMUqhs
+         rE48ueKG6WAWCYu9Kj4NPVjMfTMeMOzMhcQ42TGmIPQUmb7fpRXJQ6iU3BTD/HichLyB
+         /ogzvvDvjrMaR9mSR5bwa6cgL3QjIOLOJQoA+tu7NycJCOTB9MN1zlBi/CcYJm4t1n2a
+         61/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711039078; x=1711643878;
+        d=1e100.net; s=20230601; t=1711039080; x=1711643880;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pOwNrbZCC43nJVxac3Uw9hAvg9K+bdh2+QxQ9H95ZLk=;
-        b=SM4iXrDjt7Dp9/wg4nxAo9AzEeTof57f/kTpVcBphuSPCJPN9J5PQQ2f8KrgKlQNsE
-         IpWLVKeBTqzflDnFotT/hTYb3BQJVKxd6V7WY/5IZFOe5fyc/F+YqSrwI4wM8XOo9Hgq
-         HOyQgrsOMzV4VgajebNleI4cDPX5gjqGAl4IsuFeNSEP4NKCnM6szK8vtQso6LRtPUl2
-         UDc5EL2JkFU1gx8pvMl8mLMQjHq6lTV8LkV12WcIZy2PVpuyE4Y9BxdVbYtGlz0dzFZL
-         w+O30YD9L3ovLgaNlpbMEm+sRiNSGa9IwceeAfuVFiHTef/P3pnQpQO7OZMQZ4YRiyWN
-         Ix5w==
-X-Forwarded-Encrypted: i=1; AJvYcCU1O1D5VvV/UFpsf8U1GU2EuOeAaFo1qFO7LcDcT5Vt564Nv9j3eexW82B/oJWcSe1ACSnLE7nZSFfy7WLSZQv/Lu/aakYiLNLY
-X-Gm-Message-State: AOJu0Yxcew9/7nJdB/EGvSmd0zGe6FsRRiSmYQBsns5JyxA40bEPT5R/
-	7y+x0HIt/tYjwqnCLNwj8Mej7TBlsFcUhoKguacxJ/6RD1JVjVIsVMNYp8pHJf+CYCAi5+X7Tta
-	b8A==
-X-Google-Smtp-Source: AGHT+IEW+wzJaTFBqhE05AsZZeHucxp+/bXHicD4m92IkMS+am09AVJUNTX8XqOhkKHJop6Lzvm1ThHm3tA=
+        bh=qDb8iz8I8QS6d+rOBOAu9Y4ek6cz/wlqKmX9e9H3T5g=;
+        b=vcQ9U2J+vAo601HHyK+QhJMBJNpjNuRSFvLAieRZE+7SO1csqUz+c/hGmVuZYVvsRX
+         SlEbW1MT6i3+WFwQ9jI2eMpHx46nxCV0bHp+KjIFTiNWOvn5IMC3zdVUCKDjUPLGVGpo
+         EjK40spRPWEngf4uk9uEflQtvaNMN8cu7bOHJPYKoxtqgWUqSarNkBHDl9F4CGXwxemL
+         N2KKjT0ksmluYRi7G8k9Tf/gfAoIy6UugGUv6mHpRizTbNZDWYfYyubC9gTxYOZAfhOu
+         TbZtDG6iI1NhRgRhCfMeP2edYapLQ1WhJn6y/zUxw871BipXyJM2H2gwNBx3rvo7c8lz
+         bgrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVstCSHCVSA78vWGQRMo0uKRM0En9SxfGzyE6UpkdQ4kU3fCRkpIK22+ywQgq5Ih/DGOu16DD+YSzatHeWwJBUz5TF69J5oeM9f
+X-Gm-Message-State: AOJu0YxNRxUg1AHY7e0nr31epm0DZl59wfaR3UxIUK8ucHLF5cW35i9R
+	x90VzR/DWNbTEiRWa+JXiR4jx5zNOPRm4kNDCqm1loO1/05xo9RVjYGiAtbWBrYFbPL+3CSsUEe
+	gdQ==
+X-Google-Smtp-Source: AGHT+IHDeZBFlJ0NtCqkUUNT0gfkHkrQ10cEoA8CJOTWwHwDSwKuqC04Vl0uLsTIeS1kWMwDWt3A7ZdyM4A=
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:a489:6433:be5d:e639])
- (user=surenb job=sendgmr) by 2002:a05:6902:1004:b0:dc7:5aad:8965 with SMTP id
- w4-20020a056902100400b00dc75aad8965mr5894352ybt.0.1711039077542; Thu, 21 Mar
- 2024 09:37:57 -0700 (PDT)
-Date: Thu, 21 Mar 2024 09:36:44 -0700
+ (user=surenb job=sendgmr) by 2002:a05:6902:1604:b0:dd9:2782:d1c6 with SMTP id
+ bw4-20020a056902160400b00dd92782d1c6mr9210ybb.1.1711039079759; Thu, 21 Mar
+ 2024 09:37:59 -0700 (PDT)
+Date: Thu, 21 Mar 2024 09:36:45 -0700
 In-Reply-To: <20240321163705.3067592-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240321163705.3067592-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.291.gc1ea87d7ee-goog
-Message-ID: <20240321163705.3067592-23-surenb@google.com>
-Subject: [PATCH v6 22/37] lib: add codetag reference into slabobj_ext
+Message-ID: <20240321163705.3067592-24-surenb@google.com>
+Subject: [PATCH v6 23/37] mm/slab: add allocation accounting into slab
+ allocation and free paths
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -90,47 +91,167 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-To store code tag for every slab object, a codetag reference is embedded
-into slabobj_ext when CONFIG_MEM_ALLOC_PROFILING=y.
+Account slab allocations using codetag reference embedded into slabobj_ext.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/memcontrol.h | 5 +++++
- lib/Kconfig.debug          | 1 +
- 2 files changed, 6 insertions(+)
+ mm/slub.c | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 95 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 12afc2647cf0..24a6df30be49 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1653,7 +1653,12 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
-  * if MEMCG_DATA_OBJEXTS is set.
-  */
- struct slabobj_ext {
-+#ifdef CONFIG_MEMCG_KMEM
- 	struct obj_cgroup *objcg;
-+#endif
+diff --git a/mm/slub.c b/mm/slub.c
+index 666dcc3b8a26..5840ab963319 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -1932,7 +1932,68 @@ static inline void free_slab_obj_exts(struct slab *slab)
+ 	kfree(obj_exts);
+ 	slab->obj_exts = 0;
+ }
++
++static inline bool need_slab_obj_ext(void)
++{
++	if (mem_alloc_profiling_enabled())
++		return true;
++
++	/*
++	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
++	 * inside memcg_slab_post_alloc_hook. No other users for now.
++	 */
++	return false;
++}
++
++static inline struct slabobj_ext *
++prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
++{
++	struct slab *slab;
++
++	if (!p)
++		return NULL;
++
++	if (s->flags & SLAB_NO_OBJ_EXT)
++		return NULL;
++
++	if (flags & __GFP_NO_OBJ_EXT)
++		return NULL;
++
++	slab = virt_to_slab(p);
++	if (!slab_obj_exts(slab) &&
++	    WARN(alloc_slab_obj_exts(slab, s, flags, false),
++		 "%s, %s: Failed to create slab extension vector!\n",
++		 __func__, s->name))
++		return NULL;
++
++	return slab_obj_exts(slab) + obj_to_index(s, slab, p);
++}
++
++static inline void
++alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab, void **p,
++			     int objects)
++{
 +#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	union codetag_ref ref;
++	struct slabobj_ext *obj_exts;
++	int i;
++
++	if (!mem_alloc_profiling_enabled())
++		return;
++
++	obj_exts = slab_obj_exts(slab);
++	if (!obj_exts)
++		return;
++
++	for (i = 0; i < objects; i++) {
++		unsigned int off = obj_to_index(s, slab, p[i]);
++
++		alloc_tag_sub(&obj_exts[off].ref, s->size);
++	}
 +#endif
- } __aligned(8);
++}
++
+ #else /* CONFIG_SLAB_OBJ_EXT */
++
+ static int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+ 			       gfp_t gfp, bool new_slab)
+ {
+@@ -1942,6 +2003,24 @@ static int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+ static inline void free_slab_obj_exts(struct slab *slab)
+ {
+ }
++
++static inline bool need_slab_obj_ext(void)
++{
++	return false;
++}
++
++static inline struct slabobj_ext *
++prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
++{
++	return NULL;
++}
++
++static inline void
++alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab, void **p,
++			     int objects)
++{
++}
++
+ #endif /* CONFIG_SLAB_OBJ_EXT */
  
- static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index ca2c466056d5..dd44118e7337 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -979,6 +979,7 @@ config MEM_ALLOC_PROFILING
- 	depends on !DEBUG_FORCE_WEAK_PER_CPU
- 	select CODE_TAGGING
- 	select PAGE_EXTENSION
-+	select SLAB_OBJ_EXT
- 	help
- 	  Track allocation source code and record total allocation size
- 	  initiated at that code location. The mechanism can be used to track
+ #ifdef CONFIG_MEMCG_KMEM
+@@ -2370,7 +2449,7 @@ static __always_inline void account_slab(struct slab *slab, int order,
+ static __always_inline void unaccount_slab(struct slab *slab, int order,
+ 					   struct kmem_cache *s)
+ {
+-	if (memcg_kmem_online())
++	if (memcg_kmem_online() || need_slab_obj_ext())
+ 		free_slab_obj_exts(slab);
+ 
+ 	mod_node_page_state(slab_pgdat(slab), cache_vmstat_idx(s),
+@@ -3823,6 +3902,7 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
+ 			  unsigned int orig_size)
+ {
+ 	unsigned int zero_size = s->object_size;
++	struct slabobj_ext *obj_exts;
+ 	bool kasan_init = init;
+ 	size_t i;
+ 	gfp_t init_flags = flags & gfp_allowed_mask;
+@@ -3865,6 +3945,18 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
+ 		kmemleak_alloc_recursive(p[i], s->object_size, 1,
+ 					 s->flags, init_flags);
+ 		kmsan_slab_alloc(s, p[i], init_flags);
++		if (need_slab_obj_ext()) {
++			obj_exts = prepare_slab_obj_exts_hook(s, flags, p[i]);
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++			/*
++			 * Currently obj_exts is used only for allocation profiling.
++			 * If other users appear then mem_alloc_profiling_enabled()
++			 * check should be added before alloc_tag_add().
++			 */
++			if (likely(obj_exts))
++				alloc_tag_add(&obj_exts->ref, current->alloc_tag, s->size);
++#endif
++		}
+ 	}
+ 
+ 	memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
+@@ -4339,6 +4431,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+ 	       unsigned long addr)
+ {
+ 	memcg_slab_free_hook(s, slab, &object, 1);
++	alloc_tagging_slab_free_hook(s, slab, &object, 1);
+ 
+ 	if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
+ 		do_slab_free(s, slab, object, object, 1, addr);
+@@ -4349,6 +4442,7 @@ void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
+ 		    void *tail, void **p, int cnt, unsigned long addr)
+ {
+ 	memcg_slab_free_hook(s, slab, p, cnt);
++	alloc_tagging_slab_free_hook(s, slab, p, cnt);
+ 	/*
+ 	 * With KASAN enabled slab_free_freelist_hook modifies the freelist
+ 	 * to remove objects, whose reuse must be delayed.
 -- 
 2.44.0.291.gc1ea87d7ee-goog
 
