@@ -1,119 +1,148 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFA3847B;
-	Thu, 21 Mar 2024 19:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA03134CF8;
+	Thu, 21 Mar 2024 20:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711050159; cv=none; b=rPQbGGK55221dpV3nSwjzZ+N1p+VYEaZIkMwqBt07o9whe78conXNMLaMP/vuYNTM5xo6aZxOl4C80HRjbOcjXzu+ncOdhzVBkc0o1wX0R1WCuen6TOVWTceB9bAaex1yvudQugMI66wNT9HoI5GO6PpDE3xQMvzwNK0jd0biWw=
+	t=1711052993; cv=none; b=i/O+OP1xI/BHmlDIfKMuQQG3UlqfDL6g4m0tQu+41yVmpv76ZJxgUqZ02DJE78GmUncWcfv0JmIHGe3QNtjFLxMeqdk/QJ1TCcfhnS0+l4iAAei9P6dlNlHO/bPiOaQVgv0p0hLFS7VUC2r//dcANkZ/2ZPmHVXfTGSzHZfVKUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711050159; c=relaxed/simple;
-	bh=YSAribocTF+rrupZDIuD87XtJLJvbUFIofeJ1GmRNqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DWdZx3+b6LOD4MmuA0BvOR7aPAVUuBwCX5E1UuY5nX0yPbA5Mb3Pz1JhQOjhe5D7A7yIrtItXfw4huR/R/w451llO6EGb/+kDDzW+jzCcFroVAHo893CbVBjV3jTPCX04spsU3O49b/Jp6xoPDlVtke1Ody2fclCXtLAAv+mSzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ASDidFR+; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1711052993; c=relaxed/simple;
+	bh=2wXA6Ael6yWaRfU8iCscuDKtn9ua3SRp6qM1HO4Qv5I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jzDBxUMMoRO/gXZto+K5SkhKOj7wVM557A66TtWxMyHW17fKVARa8nUbdnFDghkh4hnZR/gUsZYHn7069WopLU5KY0GbOcZiCJlfmE8hqwbQJmzJHWmaNoExxE28ep0S5SVSt9X6QnPVceYdI0Yy1K/pXZPDKLbNpMcDHhMs4QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X3eqR5Br; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ASDidFR+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=CSMqwDKzbAF07LEj16Y/SY3uynIQ3ZDCh9oahh4/HcU=; b=ASDidFR+i4iYNluQP0rJyHKR+9
-	MA14ki1enjp3yP1hOvsRmysiDbELxsPMxXQPk/M+1NUURfmZQeOIdKIC6kU22hynxmMBBalxTl2Ey
-	TIbTKUAN37DFqIZgesWvog5zZdyXU42VxFl9IVicM6sVxLXhb7QCeU7Rkh1xS1LqxN8E=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rnOIw-00Au4Q-Dp; Thu, 21 Mar 2024 20:42:22 +0100
-Date: Thu, 21 Mar 2024 20:42:22 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-Cc: "Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
-	Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
-	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
-	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v3 08/12] net: ethernet: oa_tc6: implement
- transmit path to transfer tx ethernet frames
-Message-ID: <f9ded7f6-7f7d-4564-8b06-e73e603ef927@lunn.ch>
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-9-Parthiban.Veerasooran@microchip.com>
- <208fb61b-4740-46bf-8c70-29ab59cbb965@lunn.ch>
- <f9d8a18c-b1fe-450c-a5ca-d91f96793a04@microchip.com>
- <96dd422f-0bf9-411d-8cc2-5755c1e60e27@lunn.ch>
- <53b090b1-d7bb-4a81-9f0b-9979db8dec59@microchip.com>
- <BYAPR02MB5958A04EF61FF6B7512CE7EE83322@BYAPR02MB5958.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X3eqR5Br"
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-7e09ba2ac02so703682241.1;
+        Thu, 21 Mar 2024 13:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711052991; x=1711657791; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dvUundGT9VWuWy9NB7xPMf/jJU0G9U18//kTI/zsuts=;
+        b=X3eqR5Br4QqLd5fqP4NQjCJrPpM4Dz7mZJRZM3Sowr6Aa0LrZbkOoRLuUXmL5bbvYe
+         8y6WNEMAknK0bqv+P0Wp7+KB5x/EV2GPB0hYQZU/iT7n8br5gotV6GNFj1TksmgozCZB
+         GhhiHTMEqd9CXlXADrOtFc02Fm67ZEmiLgwN/KWUuSPGrbuYEVkoOsdlDcDq1P2HKx4I
+         BAxSItGGhxhQqxmhyCDqiwHtMVR6aPF9ISbqA4+8wquzHLqanXpQCQMoi02MS0bBKiuM
+         QyVD7N+zNOfQGpt926RNZUyK4cOevt3D6L8dlmUWfWZrAI5JB+PPC9JjRgm/OKJdsW5I
+         u5Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711052991; x=1711657791;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dvUundGT9VWuWy9NB7xPMf/jJU0G9U18//kTI/zsuts=;
+        b=mAFV29ihD1sYzO747klMC8eJv2Bcx5L6gqPQKvHgKlOCvNWkypib5yb0u/xRM3N34I
+         yFeOx67aDXG1oJlhU1mpUIqpiwkZadQl3KcGaaTc7sg0d1qZXnP0X5cUYHMUyfR8710f
+         Oy9hm5Kzajzvug03EbvrfoOO9i9nQ/y8vAtSKUifyQjNz3s5fENWUm7Wwg/gKrCGBe0d
+         o97XCP7wjHuBFhHOHh/h39n7MwTOf8Oq8vBDZmm040Ik/OV6B6KIGSI3GDS147KIbnyS
+         /XKhAgDSwb7deqRA0iyf+cCzjDWP5VEsZIGutro1j77/f1CKFItVzK3HcqBkIdQz7ULG
+         3flw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTRy2VFHpWN7an/aaM6RvqpoAgAUCu0ksS2LkNGMPTVF4OB0OdU2nziaVh1Dh/Q2MSr0OTecEEd7ZeSMWE5UofFF3FiWD7wOy628CrZ9xgoEs7+MYklc06rTWLB1KWxoVnszdIYiKmxU/hbFU/d3o88NciWSaB93qymccW/44U9miI
+X-Gm-Message-State: AOJu0YwszI1IIYvmrq6FF7i3K2C+TZCGzSm/WeVQLmdlKEoJRfrf6q3K
+	6XD//FxZ7Wi0a3rlA0Ik/DKStOkNQkyhh4uPqFrtbl6uIb3kxvdIHVE9mlrBIDv398O3bPawGmf
+	nd6XAyqtpC0BOFfIurs7nz3EE53g=
+X-Google-Smtp-Source: AGHT+IFxi6JHUIyJzT2arpPtcGKNs+NYm5EYrmCqaoSsqXkLiIcrFBpnt91X3QkQIltUoU3uOAf1GVaoWrpkEKbh5NY=
+X-Received: by 2002:a05:6102:dd4:b0:476:b885:4c0 with SMTP id
+ e20-20020a0561020dd400b00476b88504c0mr810811vst.23.1711052991024; Thu, 21 Mar
+ 2024 13:29:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR02MB5958A04EF61FF6B7512CE7EE83322@BYAPR02MB5958.namprd02.prod.outlook.com>
+References: <20240320001656.10075-1-21cnbao@gmail.com> <20240320124207.0c127947@canb.auug.org.au>
+ <CAGsJ_4zpXwVEhsdffoZVBVWiwT4Lw2qEMrW-X92ib=kv=9Yx9g@mail.gmail.com>
+ <20240320084919.8e18adb418347feed6bfc8ae@linux-foundation.org>
+ <CAGsJ_4y+1HovQ52HPis8NBDqp4-fiGRwehX+NH0New0HoEU5GQ@mail.gmail.com> <fb744859-ba2a-41c9-bcfa-4ea1cb8c036a@sirena.org.uk>
+In-Reply-To: <fb744859-ba2a-41c9-bcfa-4ea1cb8c036a@sirena.org.uk>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 22 Mar 2024 09:29:39 +1300
+Message-ID: <CAGsJ_4xSj7i-3Y+ALBh8coa=-6CGx19Zh=CPFGJq9hv4MDZZ=Q@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: coding-style: ask function-like macros to
+ evaluate parameters
+To: Mark Brown <broonie@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, corbet@lwn.net, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Barry Song <v-songbaohua@oppo.com>, Chris Zankel <chris@zankel.net>, 
+	Huacai Chen <chenhuacai@loongson.cn>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Guenter Roeck <linux@roeck-us.net>, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > > This second part is clearly an optimisation. If you have lots of full
-> > > MTU packets, 1514 bytes, they take around 24 chunks. Having the last
-> > > chunk only 1/2 full does not waste too much bandwidth. But if you are
-> > > carrying lots of small packets, say voice, 130 bytes, the wasted
-> > > bandwidth starts to add up. But is there a use case for 10Mbps of
-> > > small packets? I doubt it.
-> > Yes, for sure there is a possibility to get into this scenario and the protocol also
-> > supports that. But as proposed by you below, let's implement it as part of
-> > optimization later.
-> > >
-> > > So if you don't have the ability to combine two packets into one
-> > > chunk, i would do that later. Lets get the basics merged first, it can
-> > > be optimised later.
-> > Yes, I agree with this proposal to get the basic version merged first.
-> 
-> While latency is important, so is using the available bandwidth efficiently. Here is a suggestion.  We know that the tx credit available basically tells us,
-> how many chunks could be transmitted without overflow. Instead of stopping the netif queue based on number of skbs queued, why not stop the queue based on
-> number of bytes accumulated? Basically, at any given point of time, we enqueue the tx_skb_q until we are have enough bytes to cross the threshold of (tc6->tc_credit * OA_TC6_CHUNK_PAYLOAD_SIZE).
-> This way, during the next transmit, we could utilize the whole available credits. Bandwidth utilization between bigger frames and smaller frames would be not be vastly different.
+On Fri, Mar 22, 2024 at 12:15=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
+ote:
+>
+> On Thu, Mar 21, 2024 at 07:48:36AM +1300, Barry Song wrote:
+> > On Thu, Mar 21, 2024 at 4:49=E2=80=AFAM Andrew Morton <akpm@linux-found=
+ation.org> wrote:
+>
+> > > Stronger than that please.  Just tell people not to use macros in suc=
+h
+> > > situations.  Always code it in C.
+>
+> > While I appreciate the consistency of always using "static inline"
+> > instead of macros,
+> > I've noticed numerous instances of (void) macros throughout the kernel.
+>
+> ...
+>
+> > I'm uncertain whether people would find it disconcerting if they comple=
+tely
+> > deviate from the current approach.
+>
+> > If you believe it won't pose an issue, I can proceed with v3 to elimina=
+te
+> > the first option, casting to (void).
+>
+> It might be worth adding a note somewhere in the file that talks about
+> how the coding style document is convering the current state of the art
+> but some files might older and not following the current style.  This
+> isn't going to be the only thing where there'll be issues like this.
 
-Please configure your email client to wrap emails at around 70
-characters.
 
-tc_credit is 5 bits. So it is a maximum of 32.
+I'm not entirely sure where to add the comment, but at least I can address
+this specific case by rewriting it as follows:
 
-A 1514 frame takes around 24 chunks. So you only need two full size
-frames to consume all your possible credit.
+diff --git a/Documentation/process/coding-style.rst
+b/Documentation/process/coding-style.rst
+index 9c7cf7347394..791d333a57fd 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -827,6 +827,22 @@ Macros with multiple statements should be
+enclosed in a do - while block:
+                                do_this(b, c);          \
+                } while (0)
 
-If you happen to have smaller voice packets, say 130 bytes, you need
-three chunks to send it. So you might want to have 10 such packets on
-hand in order to make use of all your credit. But if you have 10 voice
-packets to send in a burst, your voice quality is going to be bad,
-they should be 10ms to 20ms apart, not in a burst...
++Function-like macros with unused parameters should be replaced by static
++inline functions to avoid the issue of unused variables:
++
++.. code-block:: c
++
++       static inline void fun(struct foo *foo)
++       {
++       }
++
++For historical reasons, many files still use the cast to (void) to evaluat=
+e
++parameters, but this method is not recommended:
++
++.. code-block:: c
++
++       #define macrofun(foo) do { (void) (foo); } while (0)
++
+ Things to avoid when using macros:
 
-I don't like the original idea of having lots of packets in a transmit
-queue. But having 1/2 dozen should not be an issue.
+ 1) macros that affect control flow:
 
-In general, we prefer things to be simple. We can then optimise later,
-and use benchmarks to show the optimisations really do bring a benefit
-to justify the added complexity.
 
-   Andrew
+Mark, Andrew,
+Does it make sense to you?
+
+Thanks
+Barry
