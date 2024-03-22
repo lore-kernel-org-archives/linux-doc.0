@@ -1,115 +1,96 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E68B3EA69;
-	Fri, 22 Mar 2024 14:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A8D47F42
+	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 14:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711117360; cv=none; b=J9R+mNwep1S3rlYk04HWB4UqJ8Xci2CitcTz+Slj9zOGq+KMNBiweedDGuVx3NX2rOWQdzvDPiJ0WT3njprJu8oIEYN9e5BSp91TymmbtQmiTPdElOzOOSjcWdnUulJY81PFwqBivqdwZqd7Sosc32wa3hQk+2yI35YeIB7xKcA=
+	t=1711117839; cv=none; b=NMIFVuvrAh0s6VgAdee1pwRr0xy+DexLVHZlOASJ4/fscfJ6o7XfBJRHDiJQbGOF9IfTgXguqeKBKFHE0sfEUxYohpFBYYpG6+5nUlzrVDJLBfC1X+o9yNAhjIpqeYgXUdlqbaPb3Q85fofaeHnXaVgmB6p6MskotaD4z1e7Jw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711117360; c=relaxed/simple;
-	bh=BR0WlKret8eILef1rpRsE7FbijXE68ZU4YU5Orzxgn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HQJdsga4Zb/5E3+ZY9ch1XNSXLdyhoajkbwR4z7Nl2VKhWuvFtTC+wQZkJrcE88/xhuLGM8u0COkE2pUhN2gTu0R1mIl5jHtf38fbyI/21URXsyfwfolyINZJTfovGD5tyfAK4oiq4dI3lOYbyf6CnCLRVjIM2gpds5E4vDCZjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YahQzIVQ; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711117839; c=relaxed/simple;
+	bh=ckkugpHgNe8GIeIYxkb7EhPuXOw/jTJIfXFSmMpb8YI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=igo+doRLDkJeF1Bvx9PVRmAgmDQXgCVEq5UNun2yqkBoxYy0Cye0B715whOWc/aNSgGUk2AYeP9PrHBIsfaEsgH3z7YkS1e08LC6Qr3KtfzCzE/Tcf61jfHW5CcVfdUR2ldmliq+ULM80RgSOHpvqOyodnx8F1cUw4JmJW72vsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vb2tIA0m; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YahQzIVQ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2B31AE0004;
-	Fri, 22 Mar 2024 14:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711117349;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vb2tIA0m"
+Message-ID: <fe4ea866-5485-4041-9a06-5441c429b150@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711117835;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SH1XRhULQIs8JPRuZsRMbAGpvto0OH+vLr70bNJGEho=;
-	b=YahQzIVQq0jJ1ScOJhQ/K+EwS4rg6H7JA024lGZUDBFPIlgbkqTCFwDO5ePCgG+fjLWptk
-	Es6WkS2daYPgFJsTy9CiAkveBWPlcPHZApIlp6nlAepa1ykZHJWcsb6GE9jRaEMcj4A6bE
-	2xNxzOT6ZuruAE8/uWn/8MuIHYlhHUDq9gWgVKBZb2tjg9nJnULQdy/nJnGFz+ULMhcyiD
-	C5wdMigkNMVqYqwwHGK6KUsrwnq6HtYYzLhIwt2HQw0xH+TbTmm+tZng3Q6FY6+TpHOLmt
-	b+gsW6jyAQhDTC9Mi6bP4ureTAOgB3GiqQpiXRVNptdmT02lrzTQ1RlB/DoTuQ==
-Date: Fri, 22 Mar 2024 15:22:26 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240322152226.7de347a6@kmaincent-XPS-13-7390>
-In-Reply-To: <Zf2QsfsxcPoCq_SC@pengutronix.de>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
-	<ZeObuKHkPN3tiWz_@pengutronix.de>
-	<20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
-	<ZeWi90H-B4XeSkFs@pengutronix.de>
-	<20240321171524.0b04bfcc@kmaincent-XPS-13-7390>
-	<ZfxjosqPMo0ECBmx@pengutronix.de>
-	<20240322113950.27d35376@kmaincent-XPS-13-7390>
-	<Zf2QsfsxcPoCq_SC@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	bh=IllocFnwNiXVGU+HouNFbx0kAsYD151iYbY5EqUrK60=;
+	b=vb2tIA0mE3RjQRmFtwRGeRNWtPVle8xwPuGz3k0mXmPbxA9+rb6RH0etsFkHhWQAK0DPpa
+	g5mehHDk0VOcMpylaYKuk/GPkLTeV+eLrTyDxbPhCe5wLBDOUZZwHJnSVNO/KTYtRNTvk5
+	0YVP778XwUltNtoGBLyTwJ0FFHUEiCo=
+Date: Fri, 22 Mar 2024 22:30:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+ <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+ <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
+ <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 22 Mar 2024 15:07:45 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+Hi,
 
-> Hay Kory,
->=20
-> On Fri, Mar 22, 2024 at 11:39:50AM +0100, Kory Maincent wrote:
-> > Hello Oleksij,
-> >=20
-> > On Thu, 21 Mar 2024 17:43:14 +0100
-> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> >  =20
-> > > On Thu, Mar 21, 2024 at 05:15:24PM +0100, Kory Maincent wrote: =20
-> > > > Hello Oleksij,
-> > > > Sorry, I forgot to reply about this.
-> > > > This is specific to pse_regulator driver. Could we tackle this chan=
-ge in
-> > > > another patch series when the current patch series got applied?
-> > > > Also I don't have the hardware to test it.   =20
-> > >=20
-> > > ACK, no problem. =20
-> >=20
-> > I have a question unrelated to this.
-> > Why do you add refcount on the pse_control struct?
-> > The pse control is related to the RJ45 port. Each port is exclusively
-> > related to one pse control.
-> > Shouldn't we return an error in case of two get of the same pse control
-> > index? Do you see use cases where a pse control could be get two times?=
- =20
->=20
-> I assume, any instance which need coordinate PSE behavior with own action=
-s.
-> For example - PHY will probably need to coordinate PHY state with PSE PD
-> classification process.
 
-Indeed, I was focused on devicetree and didn't thought of coordination
-between PHY and PSE. Thanks for your reply.
+On 2024/3/22 20:31, Maxime Ripard wrote:
+> On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
+>> Hi,
+>>
+>>
+>> On 2024/3/22 18:31, Maxime Ripard wrote:
+>>> Which default config are you talking about? This compiles fine with all
+>>> drm-misc defconfig, x86 defconfig and allmodconfig.
+>> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_display_helper.ko
+>> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_atomic_state_helper.c.
+>> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore drm_kms_helper.ko
+>> is dependent on drm_display_helper.ko implicitly. So we probably should select it.
+> Right. I was asking which config are you using to generate that build error
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+
+I'm using the arch/riscv/configs/defconfig, with the following module de-selected.
+
+CONFIG_DRM_RADEON
+CONFIG_DRM_NOUVEAU
+CONFIG_DRM_SUN4I
+
+  
+
+> Maxime
+
+-- 
+Best regards,
+Sui
+
