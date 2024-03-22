@@ -1,99 +1,133 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817B73DB9A;
-	Fri, 22 Mar 2024 10:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402933A8C3;
+	Fri, 22 Mar 2024 10:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711104000; cv=none; b=OHAZRQxnYbzDjTX9PT8q20rnLMIYfxCT//iBNNOr/QIAP4ZIIJ6yBPfeWsbZ+cu76deS0pc/7I7kHJcOtcni5S48TeHSLmmv9+Tt3LebWAxHIXAxG6eaqB5p2oAdS885YFGoNZxqb7acnW9FARnGczHRUVF+lWJaKUia0/vs3lc=
+	t=1711105077; cv=none; b=kiYAeBajcl0+COacI37SCfAzJuSO/sExnr6/NS0TIzOR7x4lWjLZF3DgRqeAxMI13s+nketMQEAjsBww3evZ11gK5r8PR4Ql0B0nbNyl5x5TTng4DUE5LPDUP/9jf7QFFd8NEzUprFGOXp7qA97WA7iXUygnOUOIwI5tdBrvcQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711104000; c=relaxed/simple;
-	bh=mbCfCKEKkGI+oF9DOo3BjBASMhgsvFpxmE1dYl1oeYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eElb8GaMfu/RYLfQegyjhO0wbM8yjwXjSNZURHOxfWAZg6E5RVRw+DOisxNBAxe/WLp95n06htke/CXF1YDvvnLiy93F/XcocercOxm80YI6jmRGlw+mB/Zt3N5xCRyMKIe0pewKzlGx3jvJWOGf7tuOivFZLcoagUp3ge5wr+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Abs65TWj; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711105077; c=relaxed/simple;
+	bh=nlaETEiIGQ2eTWX7oKqL74fXDifhnhPwROBUgVdqU3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qR09vVzUWbZdfHI8b67Ac3vvGYH4rAnv/jDQ9gNosnczA+1C6vI1aEAfXaU07HXugamapBzSYwhEm9f+M4lAOfXxEv7IK6cYkY0QKXx/lArV9J8eIMIYVvND2k9qODH+LoYmoGx9jNKpbdT0+2PqZCcGnefjYD3EpHiqCj2AmAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WpA6X1Lo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Abs65TWj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8BA7040009;
-	Fri, 22 Mar 2024 10:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711103993;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mbCfCKEKkGI+oF9DOo3BjBASMhgsvFpxmE1dYl1oeYo=;
-	b=Abs65TWjIPymsT85gW9nGnQpgIGr9KiT9Gv2MVsg/9VrWqqW8BgIoe5JtB+BFcqEm2mik+
-	9LxLqoBDweMoBwKelRyPlawVI+DJyg2CkGUOt8mS6QeAa/EX8yQEL49hWTTipnwQaSh1CH
-	+DyQnuXdKUbP4sprV3J+U3wOf0rPVkeN3I+gl2Lt/4bpz6R1gRfJOZBKM5+ALsELMvhZSg
-	V7umSn7hZY/d9mtHhC4rqI4Js8rwcydFkG86LbGaTEJAOBJu5eJjgByGWZB8yD/nj2Ggzc
-	dxKOQ9VU/Bauu1rL0pg3AHLvTE8ZYypx6layXd6CGjdo2x5ZCJRWOfUmuTXNtg==
-Date: Fri, 22 Mar 2024 11:39:50 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Mark Brown <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v5 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240322113950.27d35376@kmaincent-XPS-13-7390>
-In-Reply-To: <ZfxjosqPMo0ECBmx@pengutronix.de>
-References: <20240227-feature_poe-v5-0-28f0aa48246d@bootlin.com>
-	<20240227-feature_poe-v5-13-28f0aa48246d@bootlin.com>
-	<ZeObuKHkPN3tiWz_@pengutronix.de>
-	<20240304102708.5bb5d95c@kmaincent-XPS-13-7390>
-	<ZeWi90H-B4XeSkFs@pengutronix.de>
-	<20240321171524.0b04bfcc@kmaincent-XPS-13-7390>
-	<ZfxjosqPMo0ECBmx@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WpA6X1Lo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45857C433F1;
+	Fri, 22 Mar 2024 10:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711105076;
+	bh=nlaETEiIGQ2eTWX7oKqL74fXDifhnhPwROBUgVdqU3c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WpA6X1LoXT1snLrEBUrv47M4O+WPR1M1LSXUKZTKa7BviiI5MfgnUuEJ6uLymJngV
+	 SvMs2KzBEf1XJrTAdpCwLwLzsvO6rZP4C/Mup2j5bb50a7peYF5b9rigdIigmfJTCw
+	 x22flsf8LNzqlu2TPnGKoHlzRXcnvy7/kbFaAzWZj1PY2xlXBDWtIiKQ5LpjhGFWGb
+	 zDPPY1CKcX0T1MKMmwwyc+j6Oy/g+LisuATN6Lqd7NeaeWrYlv6xV9DLxeC+JMwXwj
+	 F9oaSkOyNOe5SCtc35wwS5an8ku2gHo6udRMm55JpxeArLi6VkFSW/wVgqvm4BFlVs
+	 5spXkcfvxXDNQ==
+Date: Fri, 22 Mar 2024 11:57:53 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
+Message-ID: <20240322-petite-fabulous-bustard-b168ec@houat>
+References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
+ <87sf0iliyh.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jkqjvw553wk4yfqo"
+Content-Disposition: inline
+In-Reply-To: <87sf0iliyh.fsf@intel.com>
+
+
+--jkqjvw553wk4yfqo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
 
-Hello Oleksij,
-
-On Thu, 21 Mar 2024 17:43:14 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-
-> On Thu, Mar 21, 2024 at 05:15:24PM +0100, Kory Maincent wrote:
-> > Hello Oleksij,
-> > Sorry, I forgot to reply about this.
-> > This is specific to pse_regulator driver. Could we tackle this change in
-> > another patch series when the current patch series got applied?
-> > Also I don't have the hardware to test it. =20
+On Fri, Mar 22, 2024 at 11:22:14AM +0200, Jani Nikula wrote:
+> On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+> > Hi,
+> >
+> >
+> > On 2024/3/21 23:29, Maxime Ripard wrote:
+> >> Infoframes in KMS is usually handled by a bunch of low-level helpers
+> >> that require quite some boilerplate for drivers. This leads to
+> >> discrepancies with how drivers generate them, and which are actually
+> >> sent.
+> >>
+> >> Now that we have everything needed to generate them in the HDMI
+> >> connector state, we can generate them in our common logic so that
+> >> drivers can simply reuse what we precomputed.
+> >>
+> >> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> >> ---
+> >>   drivers/gpu/drm/Kconfig                            |   1 +
+> >>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++=
+++++++++++
+> >>   drivers/gpu/drm/drm_connector.c                    |  14 +
+> >>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+> >>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+> >>   include/drm/drm_atomic_state_helper.h              |   8 +
+> >>   include/drm/drm_connector.h                        | 109 +++++++
+> >>   7 files changed, 483 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> >> index 16029435b750..3d3193c7aa5f 100644
+> >> --- a/drivers/gpu/drm/Kconfig
+> >> +++ b/drivers/gpu/drm/Kconfig
+> >> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+> >>   	  If in doubt, say "N".
+> >>  =20
+> >>   config DRM_KMS_HELPER
+> >>   	tristate
+> >>   	depends on DRM
+> >> +	select DRM_DISPLAY_HDMI_HELPER
+> >
+> > Should we select DRM_DISPLAY_HELPER here? Otherwise there will have som=
+e compile error
+> > emerged with default config.
 >=20
-> ACK, no problem.
+> Can we stop abusing select instead of adding more selects to paper over
+> the issues?
+>=20
+> Use select only for non-visible symbols (no prompts anywhere) and for
+> symbols with no dependencies.
 
-I have a question unrelated to this.
-Why do you add refcount on the pse_control struct?
-The pse control is related to the RJ45 port. Each port is exclusively relat=
-ed
-to one pse control.
-Shouldn't we return an error in case of two get of the same pse control ind=
-ex?
-Do you see use cases where a pse control could be get two times?
+I don't really have an opinion there, but it looks like all the other
+helpers Kconfig symbols are using select everywhere, and I don't really
+see how we could turn them into visible symbols with depends on without
+breaking a number of defconfig.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Could you expand a bit what you have in mind here?
+
+Maxime
+
+--jkqjvw553wk4yfqo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZf1kMQAKCRDj7w1vZxhR
+xc/HAQDR4BAgJekMdSngCGLSGAIwvYKEqlQRiRUN6fMwNgtn8AD/ZP+T1gMMLHE4
+j3QwJraA/yFE8keMCRsPbgZVFnq1UQk=
+=gyOa
+-----END PGP SIGNATURE-----
+
+--jkqjvw553wk4yfqo--
