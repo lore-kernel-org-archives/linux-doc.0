@@ -1,89 +1,105 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B065C53E35;
-	Fri, 22 Mar 2024 15:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8652A55C26;
+	Fri, 22 Mar 2024 16:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711122508; cv=none; b=m+UMU7n1SLHgYKIS0tsTZqznQI4y/aEQ95Hre66DHCS231sxDaMENAxyGesabGWG7p27850BOzyYwLXc31FIQriicxmT4XV1bcJXj8wXl37ERtenfoA06F+LaU5gKF4oitGO5rlIHizmRo23b77iXulXNbRlgdHYkwXvVsKugHY=
+	t=1711123336; cv=none; b=KWu4diiDc996oYNK0XhntUbwrSlXfLlp7CoyNHgtz3xLRO10EnK69PcnFO8J5R9grl097zzEG/otSD3d1t2kR4Xo0PA62zYcDW24M+f53TGLyOrJui/vOf6rlhLH6iM/fLMCyvxYhKOJ/4n770j6ZFa8vvRz0w8B/IA87CtBt4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711122508; c=relaxed/simple;
-	bh=jAV3wG65mVIM9sN+DM5zCoOHpnvAHQ0i29dSaE4H518=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LKcZ578kJKVxOHkjETjniWDvtbHODZw/mNGqc8uIEuep0VT0Jez7hcK5J9j9HjGnvtjg3swBXHDBvmbA/Y4AVqyNgNFSSy0rvfSWR93g+FqmlMgvb5/SEEHfvF9BfrPaOzmQV7AlilOrXcHDhoA8LJ171VPnA3JoA4qhb9V/YEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4V1RYR1YfSz1GClV;
-	Fri, 22 Mar 2024 23:47:55 +0800 (CST)
-Received: from kwepemd500012.china.huawei.com (unknown [7.221.188.25])
-	by mail.maildlp.com (Postfix) with ESMTPS id D7F271400CF;
-	Fri, 22 Mar 2024 23:48:20 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemd500012.china.huawei.com
- (7.221.188.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.28; Fri, 22 Mar
- 2024 23:48:20 +0800
-From: Li Zetao <lizetao1@huawei.com>
-To: <richard@nod.at>, <chengzhihao1@huawei.com>, <corbet@lwn.net>,
-	<kent.overstreet@linux.dev>, <agruenba@redhat.com>
-CC: <lizetao1@huawei.com>, <linux-mtd@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH v2 4/5] ubifs: Support accessing ACLs through inode_operations
-Date: Fri, 22 Mar 2024 23:48:11 +0800
-Message-ID: <20240322154812.215369-5-lizetao1@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240322154812.215369-1-lizetao1@huawei.com>
-References: <20240322154812.215369-1-lizetao1@huawei.com>
+	s=arc-20240116; t=1711123336; c=relaxed/simple;
+	bh=aoF4dmwFvyElelkcyMu8PBXHligJrfzMuWeep9NvMbE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o++SgCsi1gVOqrHHhuslc+4blCyIZ/pJESI3B9ed5GLVh8AqZeJEGSP84Y/EpayIofmsSgbimmEmUWEouizamzLhBxcqfFCjKRhs4TKX0BaalchySLSq9kzQPvYXjCWPiBvXDN6kKImCMSa6I6Fg9VTqKM2DHcAEoeL+e2AFdx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jmV2lbD8; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jmV2lbD8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029EEC43390;
+	Fri, 22 Mar 2024 16:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711123336;
+	bh=aoF4dmwFvyElelkcyMu8PBXHligJrfzMuWeep9NvMbE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jmV2lbD8c9m4XS0wNhC398FxSmiqjv7s7Bi+bn9P468s7vuNLU2ruoJ3MPBccLCWs
+	 rgwR/pvDFZf1bWj6jd0Dhd4gZ+9bGE3/APLKNs/Iz9t5EVO+9zTe7NInnlSLFwKNSZ
+	 2W8bmvrhS3UOcgseDjzYAtGUKnv56maI6uA8aFjAG2gdnlMhDvIwIH4t4hM/J6SJzU
+	 r/BuncZ/jwB6zYWPobFYoj5YxFXNaz7o1HU+Ndw1WKVgcghEDT7KTWf77RYOFGopG3
+	 QJC8nmcK+OiFRLvPxkAuADC7fJND5aBOwvL6kB9t1Cb8eXSZLedn73exd+6T3u8RJ0
+	 lp62WtpQCKA6Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1rnhLR-00EYDl-8X;
+	Fri, 22 Mar 2024 16:02:13 +0000
+Date: Fri, 22 Mar 2024 16:02:12 +0000
+Message-ID: <86jzluz24b.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	kvm@vger.kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Mostafa Saleh <smostafa@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v3 5/5] arm64: Use SYSTEM_OFF2 PSCI call to power off for hibernate
+In-Reply-To: <20240319130957.1050637-6-dwmw2@infradead.org>
+References: <20240319130957.1050637-1-dwmw2@infradead.org>
+	<20240319130957.1050637-6-dwmw2@infradead.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemd500012.china.huawei.com (7.221.188.25)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: dwmw2@infradead.org, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, lpieralisi@kernel.org, rafael@kernel.org, len.brown@intel.com, pavel@ucw.cz, dwmw@amazon.co.uk, smostafa@google.com, jean-philippe@linaro.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, linux-pm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Register the get/set interfaces to the inode operations whilch
-allows access to the ACL through the vfs layer.
+On Tue, 19 Mar 2024 12:59:06 +0000,
+David Woodhouse <dwmw2@infradead.org> wrote:
 
-Signed-off-by: Li Zetao <lizetao1@huawei.com>
----
-v1 -> v2: There are no changes to this patch.
-v1: https://lore.kernel.org/all/20240319161646.2153867-4-lizetao1@huawei.com/
+[...]
 
- fs/ubifs/dir.c  | 2 ++
- fs/ubifs/file.c | 2 ++
- 2 files changed, 4 insertions(+)
+> +static void __init psci_init_system_off2(void)
+> +{
+> +	int ret;
+> +
+> +	ret = psci_features(PSCI_FN_NATIVE(1_3, SYSTEM_OFF2));
+> +
+> +	if (ret != PSCI_RET_NOT_SUPPORTED)
+> +		psci_system_off2_supported = true;
 
-diff --git a/fs/ubifs/dir.c b/fs/ubifs/dir.c
-index 243dfb478984..145ada316a46 100644
---- a/fs/ubifs/dir.c
-+++ b/fs/ubifs/dir.c
-@@ -1730,6 +1730,8 @@ const struct inode_operations ubifs_dir_inode_operations = {
- 	.setattr     = ubifs_setattr,
- 	.getattr     = ubifs_getattr,
- 	.listxattr   = ubifs_listxattr,
-+	.get_inode_acl = ubifs_get_inode_acl,
-+	.set_acl     = ubifs_set_acl,
- 	.update_time = ubifs_update_time,
- 	.tmpfile     = ubifs_tmpfile,
- 	.fileattr_get = ubifs_fileattr_get,
-diff --git a/fs/ubifs/file.c b/fs/ubifs/file.c
-index 808a2ded4f8c..ba428af0a235 100644
---- a/fs/ubifs/file.c
-+++ b/fs/ubifs/file.c
-@@ -1664,6 +1664,8 @@ const struct inode_operations ubifs_file_inode_operations = {
- 	.setattr     = ubifs_setattr,
- 	.getattr     = ubifs_getattr,
- 	.listxattr   = ubifs_listxattr,
-+	.get_inode_acl = ubifs_get_inode_acl,
-+	.set_acl      = ubifs_set_acl,
- 	.update_time = ubifs_update_time,
- 	.fileattr_get = ubifs_fileattr_get,
- 	.fileattr_set = ubifs_fileattr_set,
+It'd be worth considering the (slightly broken) case where SYSTEM_OFF2
+is supported, but HIBERNATE_OFF is not set in the response, as the
+spec doesn't say that this bit is mandatory (it seems legal to
+implement SYSTEM_OFF2 without any hibernate type, making it similar to
+SYSTEM_OFF).
+
+Thanks,
+
+	M.
+
 -- 
-2.34.1
-
+Without deviation from the norm, progress is not possible.
