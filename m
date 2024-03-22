@@ -1,210 +1,151 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FBD47793;
-	Fri, 22 Mar 2024 17:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6E65FBB0
+	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 17:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711128817; cv=none; b=Q6bN/t/qArh5crq+1x/EXTowaEHnSxjLntVm029A0zrPy91OFBayYtOwI3tkmHq4qAOnh/CDJBdK+M5xzeodI8FBqHBZLxAT5mxz7wwaERFTXWWI7HxRlXt12zEq5EUhEavVTOcxXJn+PqMX2veEcbzRj6JLiqOBKhcF+QxYgJI=
+	t=1711129243; cv=none; b=IeVZhc8JEtS3no9/YEGb3s1X6mUb0UfIdTOF2JStSR1ZR2yPQ14pZtcEp9RFTtcJz05hTkR9XNaDDFHf8zSkPlBPArJPcL0+SEjga+FPreFTw5Ez6umnpSfSGPkmkxJpWVIRSLrF9PXYhE/YiYywrsABZFxtmFExg3rTHPudHmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711128817; c=relaxed/simple;
-	bh=q7JrrZOo5+hDRmBzvN6hqsChrFOx8TL6QdxH1nPbXi0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UIFHwWitNLhGwzaJmE8fPWOCACMK1AGHTBBeI3M0iTlLuH18lTaN6RgvYmq2hxNmPpnheVQixCtEZe7QewSoIwZbhMtBzip5FBSx1pN88yDpO5x1r38bDiFrLsGKPz5stTDY6gsteWAQyOq8UtSJwLGXu2kBQsyktAWWtLIEKp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hDV+Gsar; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1711129243; c=relaxed/simple;
+	bh=7T0QYgj6Z0QWJ7WZghtr6Q0zZ77ROAwtyZEJQAtnJrY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A8FI7NXMr68e7sdpmDWAJjuCRtjZsOMfTE0XEMO4dxd9CCgsQ82NGEYJ/s+HsMqTIwr088rcABgZDsipBdcJFM+TtnDvhQpfEFVe10PMIth0+RdkXPs8Zt/h/Abfd8HwVanliuTqm1eRlajeoyPkSApL1xgCO+cGxGaKKJSypbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NuAiMh/M; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hDV+Gsar"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=q7JrrZOo5+hDRmBzvN6hqsChrFOx8TL6QdxH1nPbXi0=; b=hDV+GsarAMswANiPSzZVSI6aya
-	3ZGnTr9/kRt8YK+k5u7fXM1I9HxHEyvYkPrjveia29W/ffSUzXlOI2O2hJ4NMZ9DDyiqzxy0cMxop
-	eevJS3SbIidU4rhMhe5Fl8gBQBT+HAL1/SerEAbZWc+o1xKVOBUr3uIq/sKO91CJZ6FRbWf+Rdzdx
-	JHGGRvxATaAEOGD13Ywo/wTtWVdLZFWwF61Dn+7xozDrcplLtBORsSV1xQd5jdY96G5/a+slvU38C
-	48A3syXLzPpDftPk/xdWIJBVpwMXyA9KOnFWJ+daVeWtyNvLK8aabiQdgIW3TkL/8yCFeZmGHXVph
-	OGfOtF4w==;
-Received: from [2001:8b0:10b:5:244c:6ee0:3d43:8a85] (helo=u3832b3a9db3152.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rnili-00000009uux-0lzX;
-	Fri, 22 Mar 2024 17:33:26 +0000
-Message-ID: <66fd33e9d113669cdeb46a008bd69acff1d1aa74.camel@infradead.org>
-Subject: Re: [RFC PATCH v3 0/5] Add PSCI v1.3 SYSTEM_OFF2 support for
- hibernation
-From: David Woodhouse <dwmw2@infradead.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>, 
- linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, Paolo Bonzini
- <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, James Morse
- <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui
- Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Lorenzo
- Pieralisi <lpieralisi@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, Mostafa Saleh
- <smostafa@google.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev,  linux-pm@vger.kernel.org
-Date: Fri, 22 Mar 2024 17:33:25 +0000
-In-Reply-To: <86frwiz1rs.wl-maz@kernel.org>
-References: <20240319130957.1050637-1-dwmw2@infradead.org>
-	 <Zfmu3wnFbIGQZD-j@linux.dev>
-	 <9e7a6e0f9c290a4b84c5bcc8cf3d4aba3cae2be5.camel@infradead.org>
-	 <Zfnpj2FShq05QZpf@linux.dev>
-	 <248ec30e7b5c8a42d184f029c1cc9b664656b356.camel@infradead.org>
-	 <86frwiz1rs.wl-maz@kernel.org>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-4348LFrQyy97fOemnDcW"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NuAiMh/M"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a4715d4c2cbso283679366b.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 10:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711129239; x=1711734039; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7YM4J2ObtCNq8IqrJeUkrlLZCafy3cmXh0Ri66R+dm4=;
+        b=NuAiMh/MosGpuJph6/CXhnqgtnF7qTB4wgozIjMxlP7xwIMTBUkxGp7jiLeBJeNUA8
+         uf3RbWvwApbMZFE+1zAiSE/rUFH1AmO4Inn/LeR4eLLIyJhCb6kAZF5e/IqWygoVbAS0
+         YNddRISS5xPN/6moDsAN0RJLCFP7BYfwoyTBXRz81dPr4VwAGpuAx4kKX1ddy3i+i8J0
+         GW8CtvhZyNMxHOAbds+zU9+r9Ux6hPYEAFI7Xi+I0b4x9bRWTLPNpPCI2wo9BHwHpm54
+         90xv2NndkuSs6tCPxxNLMeQMMbA9UkVREUUY00h8sSJNFZUydz03W+30nass1/Zv6OwQ
+         wtCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711129239; x=1711734039;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7YM4J2ObtCNq8IqrJeUkrlLZCafy3cmXh0Ri66R+dm4=;
+        b=bNU8ibFET75ru1b0l6AcZfgfLcTvsjYIkRcKaoWAKpW38BpUhpc56useCzMYD5RPrH
+         3Ja6S5Qn+X6XFB/JIVGJcNd4VrKFbgLrSnNaN1ci8LSXZsx0TvLmI0+0KAg76prJbcD4
+         A4KKs3rRn0ROsGDMW4JXIgxSqu34uDAWOJ0P+xcKEamTj6ptWgM5FVi287tjx1MvIjbS
+         8Wagb/TV4vzrY6E3q7Bsiq3rzyH+7xmA9OIHRZGtOrJtQUMeaAHGqLxWPnCkUsPYWFt6
+         ltIZqxGy/CfjT0d2K69YQwdEzmzETi6iQwjk2MtSy5TAXI3G2BiDFXMFuERQRlRHoVqj
+         Wn2g==
+X-Forwarded-Encrypted: i=1; AJvYcCXyBxEFQeqya4dAkrKNLOU+AyiDRSYijuJz/dtnEDe7SaDVNFeR4xL3/DaJvIQVFAYfiJMMR2U9GqtZuH8Z/XxG/3GiNXb6YM8g
+X-Gm-Message-State: AOJu0YwhfT3QfzrpamJ5qGRa+gHMApQqlMM+980LV5+rPFAAWTiQ/zE/
+	xYwJ4DJhiL97qXpr96vt4pI/9Gv4kovBm5ernP4bbOvPkdFdQ4yzcOcUFiVl6JOQ8E3uwnOMT2b
+	AhC3rvmculATRX9AVtnfzQTmTqdWrA01ICO8pWN5KKrLq6NprLzfFqvA=
+X-Google-Smtp-Source: AGHT+IH25NX6qQBoFnVnA4psBCYCRYBaiXOTPUtbfU8ggcYNeDelzQNuP6wH36Jj0kmkf8kYIMZ+vwfa54Dm4tCqR3s=
+X-Received: by 2002:a17:906:c2d4:b0:a46:befa:f0b0 with SMTP id
+ ch20-20020a170906c2d400b00a46befaf0b0mr293662ejb.45.1711129238808; Fri, 22
+ Mar 2024 10:40:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-4348LFrQyy97fOemnDcW
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <20240305020153.2787423-3-almasrymina@google.com> <ZfegzB341oNc_Ocz@infradead.org>
+ <b938514c-61cc-41e6-b592-1003b8deccae@davidwei.uk> <ZfjMopBl27-7asBc@infradead.org>
+In-Reply-To: <ZfjMopBl27-7asBc@infradead.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 22 Mar 2024 10:40:26 -0700
+Message-ID: <CAHS8izMT1Smz6UWu2uwAQRqgZPU7jTfS3GKiA_sDw9KLqoP-JA@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>
+Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2024-03-22 at 16:09 +0000, Marc Zyngier wrote:
->=20
-> > Marc, I think I've also addressed your feedback? Is there anything else
-> > to do other than wait for the spec to be published?
->=20
-> Other than the couple of minor nits I mentioned in replies to the
-> individual patches, this looks good to me.
+Hi Christoph,
 
-I believe I've handled all that. And also Sudeep's implicit nudge to
-use BIT() instead of manually shifting (1<<PSCI_1_3_HIBERNATE_TYPE_OFF).
+Sorry for the late reply, I've been out for a few days.
 
-Rebased onto 6.8 and pushed to
-https://git.infradead.org/users/dwmw2/linux.git/shortlog/refs/heads/psci-hi=
-bernate-6.8
+On Mon, Mar 18, 2024 at 4:22=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
+g> wrote:
+>
+> On Sun, Mar 17, 2024 at 07:49:43PM -0700, David Wei wrote:
+> > I'm working on a similar proposal for zero copy Rx but to host memory
+> > and depend on this memory provider API.
+>
+> How do you need a different provider for that vs just udmabuf?
+>
 
-> > Shall I post a v4 with PSCI v1.3 as default and the self-test? Would
-> > you apply that into a branch ready for merging when the spec is ready,
-> > or should I just wait and repost it all then?
->=20
-> I think this can wait for the final spec. I assume that you are
-> directly tracking this anyway, so we don't need to poll for the spec
-> update.
+This was discussed on the io_uring ZC RFC in one of the earliest RFCs.
+Here is a link to Pavel's response:
 
-Indeed, will post again when the spec is published. Thanks.
+https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.2801438=
+-6-almasrymina@google.com/#25589471
 
---=-4348LFrQyy97fOemnDcW
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+The UAPI of wrapping io_uring memory into a udmabuf just to use it
+with devmem TCP only for the user to have to unwrap it is undesirable
+to him.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwMzIyMTczMzI1WjAvBgkqhkiG9w0BCQQxIgQgr30gcu5A
-XM04pBs2LzfEtzWH1hHwcK89alPrbvcB+T0wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAGlSyjJ73U0nQa8i6tMFLpOZoMe5NiUhcg
-BUceMEQ9CLMTuBKNmV+ILAvQWLQngvwJ7ksICWqqr/8PFYDyqk6WpbmmThq3pEQvpJP6Ra2PcU8B
-26SRfTI9pJgZg3Gz/bChL9lIiTvACYEYo+wtsMAAfwEX4LT613Ch0NNnqFInPcoWY8y/LyvySwwv
-6aT1WsP5/i3hOMJny4EFU2GexDHO7TWDi2Kt0Q2f+trd57S8HV4r3oc8rUFF8AGpC+X3uXySY+bB
-89xQC/oaiJ6FrkO2cA30Jvkcu7qZYmT3J54WiNTkL2tvkbbi4w2hPmhMI7Ok+fKAbBmpAuQl1JgY
-FHWekwUtV6q1KXn9CjV95izX//fsBXqlFUlCM0xqpBfxjcN70QlqMSZVBNTuM2dCFWulJcDsObnU
-2F8bHCRyM4l/3m96Hj6629KkWfUdVV5lu7B/Iec2GU1WVsyHmyqTl54lkCuv8z9a/t21jYcLZBPL
-t+N5IxsVoMiS47NcH+wt+hnacRRcnoae4Q9iBpxl+BkOLLtyJXmJ0m8JIiF2T5Ni2RKDqRicbRWg
-JKqNzzP6STvxK5YuyMVvwX+kFES1ebPDq5JS3ueYdbNRJsMbj5PRjQ/3XXcqt5cJ9y4EcdT6pIXW
-Sfpzyr+DcM+y1nyIaOXwm9QEi3ruQQiJiuqETUQQaQAAAAAAAA==
+> > Jakub also designed this API for hugepages too IIRC. Basically there's
+> > going to be at least three fancy ways of providing pages (one of which
+> > isn't actually pages, hence the merged netmem_t series) to drivers.
+>
+> How do hugepages different from a normal page allocation?  They should
+> just a different ordered passed to the page allocator.
+>
 
+Yes, that's more-or-less what's what the hugepage memory provider
+Jakub proposed does. The memory provider would allocate a hugepage and
+hold a reference to it. Then when the page_pool needs a page, it would
+allocate a PAGE_SIZE page from said hugepage region and provide it to
+the page_pool, and the pool back to the driver. This allows the
+hugepages to work without the page_pool and driver to be hugepage
+aware and to insert huge page specific processing in it.
 
---=-4348LFrQyy97fOemnDcW--
+Other designs for this hugepage use case are possible, I'm just
+describing Jakub's idea for it as a potential use-case for these
+hooks. For example technically the page_pool at the moment does
+support non-0 order allocations, but most drivers simply set the order
+to 0 and use the page pool only for PAGE_SIZE allocations. An
+alternative design could be to use this support in the page pool, but
+that requires every driver to adopt this rather than a core networking
+change that can apply transparently (to a large extent) to all
+page_pool drivers.
+
+--=20
+Thanks,
+Mina
