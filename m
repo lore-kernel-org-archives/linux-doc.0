@@ -1,144 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0CF1C68E;
-	Fri, 22 Mar 2024 09:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F755208D6;
+	Fri, 22 Mar 2024 09:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711099375; cv=none; b=CjHlMblr8ECUXpQrX+uFnUL1u/8mfx47rjwUBlkAcoEDsVXKIdv0fyNIUe+2LlVXtt86+dE7yZlRCrZRviO2m/sF0sgQBdOT1GWZfywn1fyftYVLbCJCG2oyAekt1VNwa8DmGCRnzd60NX3G4ctjXccKXgOaRmdhKHXwsfUX1pU=
+	t=1711099619; cv=none; b=aF7uEZews+CnU8khpZI0RRDSWPKr4MLlgnsne8lGIDpNK3s+99mg9bbngAohR+osaWSZVJsJxaQuH/Fq5wLPJxm7EV/6XwRzBBTuHYOHnSMD5XBuR2IJ4zGS8SSY66t2ls3nsDvPrAK8Mqa0buMO9c3dcohYTjisowGovrzAbfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711099375; c=relaxed/simple;
-	bh=dqz+Usb0C8ozA80PCCBjHib9D3xaFY8srzv1b7krGc4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZDKJILkExpjDsv/u0xbdloXf3d5XdeISfDF2ee2tk/RtLh3ie2XZZwP/Gs24tAfGzAlJP4kTADffqiSgBhrMYTlpZlDffI6Ue0CFz8VFInJxj0pBQlpXWeWbSeTiE2UCLFLb1LQPyW8j/RKso6HYCFVvJi2CcpsiNI8KcGdfih4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JiY11Ppm; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711099619; c=relaxed/simple;
+	bh=Cm+91d8Ptgu0+GJYYynZrF7rW9pWZCvIsLct+865r5Y=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=Sx4w20LAsCQGfKz3fiDzdJsxHPjEt2UNafxPqeUQBYNPcHV+l2LGa+lzHS1EbzFjWGzTPwkq+VGWeRmfaO20FUcW5Mcj6ZdTHSQbvONvlP4UP97bJGkOq5dDoqRlAvGyNlgxp1gc5BHXJoXUkn1eJNjB4Q/0V+4INF62uCIxoPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3/mnXy7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JiY11Ppm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711099374; x=1742635374;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=dqz+Usb0C8ozA80PCCBjHib9D3xaFY8srzv1b7krGc4=;
-  b=JiY11PpmRXeQtvNPar3Agx67K4bpmkUg8NX8/ucBvUx0fYTw79VN/bx5
-   SA0hPJFJA5EnzDumliH3VjvNNsQTZiGTk+Wt2PXIpUZAKNeExixYvnpED
-   IiJD9SO/H09V2GjQkDqnFZP77oP+YwhPoJbS59M57JauZpbbxjEi8rYMm
-   xJNELC0mJ9JjSmQw4vVmaNvXd/fcYktz44VT2jm0ZVV1NOTD9b5cGFI3q
-   3CzfJ9qvYCDcb63sczzVkmSK/N+R3kbj90AR+J1NJ5XJkAjcdTRcHUJu5
-   /fYauQvJ1uz7vl5MspuHOWAlBV/zoxdzWYDyVYERmYXjAKtvgiCSidHqz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="31575278"
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="31575278"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:22:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
-   d="scan'208";a="19508193"
-Received: from ghoshsu1-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.6])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:22:19 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Sui Jingfeng <sui.jingfeng@linux.dev>, Maxime Ripard
- <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang
- <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick
- <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-In-Reply-To: <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
- <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
-Date: Fri, 22 Mar 2024 11:22:14 +0200
-Message-ID: <87sf0iliyh.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3/mnXy7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2CAC433F1;
+	Fri, 22 Mar 2024 09:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711099618;
+	bh=Cm+91d8Ptgu0+GJYYynZrF7rW9pWZCvIsLct+865r5Y=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=R3/mnXy7nVsWaYfz5SB558XK4JcwbyRuE7QS9LUh1jq2UeMD3xyDUJwSfOujrhOK0
+	 DmXVRvyW0xFvMCSdNOmZAJCMPSS7ttw4aN6njF1zhSJrhsfNjExIlepvAdRNpkCLIh
+	 R5psas0Y0jbbmwXrDidOz61umSluAW15F80wfiRnw0/iqGRdp7k0xLS7pc7K4CMyge
+	 ypoo4WSWcQri9VUca57kZllvfUwUDCfFzjEDEtUNAwMFcJ8awRND3RX74vET+WNzWd
+	 pfdjVwG0KkSghwaBu2VRXpJfJ+qtBVZIAnc4Omnz7Iqnts3i9Pwu9gnLT4eILQyK3G
+	 pPPVy+4JZ2PcA==
+Date: Fri, 22 Mar 2024 04:26:57 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-
-On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
-> Hi,
->
->
-> On 2024/3/21 23:29, Maxime Ripard wrote:
->> Infoframes in KMS is usually handled by a bunch of low-level helpers
->> that require quite some boilerplate for drivers. This leads to
->> discrepancies with how drivers generate them, and which are actually
->> sent.
->>
->> Now that we have everything needed to generate them in the HDMI
->> connector state, we can generate them in our common logic so that
->> drivers can simply reuse what we precomputed.
->>
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
->> ---
->>   drivers/gpu/drm/Kconfig                            |   1 +
->>   drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
->>   drivers/gpu/drm/drm_connector.c                    |  14 +
->>   .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
->>   drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
->>   include/drm/drm_atomic_state_helper.h              |   8 +
->>   include/drm/drm_connector.h                        | 109 +++++++
->>   7 files changed, 483 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index 16029435b750..3d3193c7aa5f 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
->>   	  If in doubt, say "N".
->>   
->>   config DRM_KMS_HELPER
->>   	tristate
->>   	depends on DRM
->> +	select DRM_DISPLAY_HDMI_HELPER
->
-> Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
-> emerged with default config.
-
-Can we stop abusing select instead of adding more selects to paper over
-the issues?
-
-Use select only for non-visible symbols (no prompts anywhere) and for
-symbols with no dependencies.
+From: Rob Herring <robh@kernel.org>
+To: baneric926@gmail.com
+Cc: linux-hwmon@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+ robh+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, linux@roeck-us.net, 
+ jdelvare@suse.com, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
+ Paul Menzel <pmenzel@molgen.mpg.de>, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Bonnie_Lo@wiwynn.com, linux-doc@vger.kernel.org, 
+ DELPHINE_CHIU@wiwynn.com, openbmc@lists.ozlabs.org
+In-Reply-To: <20240322081158.4106326-2-kcfeng0@nuvoton.com>
+References: <20240322081158.4106326-1-kcfeng0@nuvoton.com>
+ <20240322081158.4106326-2-kcfeng0@nuvoton.com>
+Message-Id: <171109961635.307786.7810067768607811171.robh@kernel.org>
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add NCT7363Y documentation
 
 
-BR,
-Jani.
+On Fri, 22 Mar 2024 16:11:57 +0800, baneric926@gmail.com wrote:
+> From: Ban Feng <kcfeng0@nuvoton.com>
+> 
+> Add bindings for the Nuvoton NCT7363Y Fan Controller
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+> ---
+>  .../bindings/hwmon/nuvoton,nct7363.yaml       | 66 +++++++++++++++++++
+>  MAINTAINERS                                   |  6 ++
+>  2 files changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
->
->
-> : drivers/gpu/drm/drm_atomic_state_helper.o: in function `drm_atomic_helper_connector_hdmi_check':
-> drm_atomic_state_helper.c:(.text+0x15e4): undefined reference to `drm_hdmi_avi_infoframe_colorimetry'
-> : drm_atomic_state_helper.c:(.text+0x15f0): undefined reference to `drm_hdmi_avi_infoframe_bars'
-> : drm_atomic_state_helper.c:(.text+0x1638): undefined reference to `drm_hdmi_infoframe_set_hdr_metadata'
-> make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
->
-> make[1]: *** [/home/suijingfeng/UpStream/drm-tip/Makefile:1162: vmlinux] Error 2
->
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:240: __sub-make] Error 2
->
->>   	help
->>   	  CRTC helpers for KMS drivers.
->>   
->>   config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->>           bool "Enable refcount backtrace history in the DP MST helpers"
+yamllint warnings/errors:
 
--- 
-Jani Nikula, Intel
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml:
+Error in referenced schema matching $id: http://devicetree.org/schemas/hwmon/fan-common.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: False schema does not allow {'pwms': [[1, 0, 50000]], 'tach-ch': ['']}
+	from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7363.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: Unevaluated properties are not allowed ('pwms', 'tach-ch' were unexpected)
+	from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7363.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: False schema does not allow {'pwms': [[1, 1, 50000]], 'tach-ch': b'\x01'}
+	from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7363.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: Unevaluated properties are not allowed ('pwms', 'tach-ch' were unexpected)
+	from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7363.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.example.dtb: fan-1: tach-ch: b'\x01' is not of type 'object', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240322081158.4106326-2-kcfeng0@nuvoton.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
