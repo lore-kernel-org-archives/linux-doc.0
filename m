@@ -1,157 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590322F844;
-	Fri, 22 Mar 2024 12:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BE645C0B;
+	Fri, 22 Mar 2024 13:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711110950; cv=none; b=GBP633D0mUZBXJU15Rmcqqhx/W2pjsmbXvAv0HZGaztR27kFnDhBXzmDfrIuCNFIuhWoSk/5ZT+Cq5wiroukp3q6gmcAf7gX3xWXHWPeb5tiVpd+gid3H8FAAc7RyjSFkFNwdDXQeDcll6lkW9kILu2xjkaSbLihLVSFoN1tDUo=
+	t=1711112500; cv=none; b=S08zRE7F6/Tb3fV5YZxxWpufmpgbDLpu4fHasKQyRZXkhuNgdUYGdpJIbY/x3DnLQc+6c/4TXkBLSpcm/HDmyiYWvjk/QkoWWCqcRxYT+heLkjq5wu3wNeCPo0MLMfUxX3O5G5zshDYch10twaxkDGGlbkNiscCtnY5HByB0HUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711110950; c=relaxed/simple;
-	bh=DIU/riHW7d/Q828EtRoJMXqE8kp8ZnSjYwedK5XPRbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W7C3pUp6GAb9CYmMtAcJX3YTiXoXZGay86lpN+DotnckeUPvFCOobBi56peNtzZK6xovrxfd8sK07z+M5KyI8cGQAsXSr6RF4gCm7DJ/pVAd9tncs98ynRovyFLyM6hx368SXdS7trCr1RZ4oN5BJ/ltgZjGmngm0evi5df0cCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/P+vTaH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711112500; c=relaxed/simple;
+	bh=57Gnr1GDblaUtJoGzA33y6XntCYgqswvqSuwFA+G2xk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Znt/q8EBx93x2EBI4V6DW4BMfgtBgvgDZ83hxttve0Huyn7DMHFYmvQul1zLcEZCCfFN8sXA4px0dp0lpw/eRvvKxnhvrgfc5k+qTx4RB6NPnpvaJNFpAtTa0LmEw56Vn5ireWofUOyjD87P7uCY4DHfb0dhTfkCUS0SwhUA4Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=GmDq6eJD; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/P+vTaH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AF17C433F1;
-	Fri, 22 Mar 2024 12:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711110949;
-	bh=DIU/riHW7d/Q828EtRoJMXqE8kp8ZnSjYwedK5XPRbA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=u/P+vTaHBL1Qwg9rMUybG08tJuaCL6vcumDRR7PHiRZWZa0Ku+VsguA6Jz/oYwY/Y
-	 qNNIoY2JogVZ1Ih34hgni6rT+X0sJF9I3IoX44804pCZ7LbSe3umt2A5+eqqmmLAiM
-	 AUmjdLAmJGbLoBKHalDymv2gFjrcc/2aEUdPpgJpY2wEqv2Rq7FOxNtzSv0t8bS7cC
-	 AncIoFdtkl1HZmLT46qeG+GrUD80IwC58ceIku1ALmyCFxfPw6P6JRGyzbAMvlCjWC
-	 97XsAbbG1AQeTTAN6L4XZNUyXSmtZnEbDSZ33HwDvGBjmNtvCJ428TANpIUMF1rXwd
-	 Z9ItmEWNNiCQQ==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-integrity@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Daniel P . Smith" <dpsmith@apertussolutions.com>,
-	Lino Sanfilippo <l.sanfilippo@kunbus.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Alexander Steffen <Alexander.Steffen@infineon.com>,
-	keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	netdev@vger.kernel.org (open list:PTP HARDWARE CLOCK SUPPORT:Keyword:(?:\b|_)ptp(?:\b|_))
-Subject: [PATCH v4] Documentation: tpm_tis
-Date: Fri, 22 Mar 2024 14:35:36 +0200
-Message-ID: <20240322123542.24158-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="GmDq6eJD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1711112449; x=1711717249; i=markus.elfring@web.de;
+	bh=j5W+zIrNrwXHwy8i6ouAXhosP3kZXQBL5lb5KfWqjAo=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=GmDq6eJDYgPPVb3quJwNngmgZIfK/mGylkG8DG1tBwkw+EOXza0QNOpkNTdHHw6q
+	 m2NrpRltTR/uuy4AT30Z3Zxy/8TtUwRwrNDkw7jUOGABVmzFe5YUj9/CbIvTCKyEm
+	 UbFWmOzF8t1sBIKMzWbsemMVu/xeKmHK35wlOSQ/3ktdfrTTNOgYXkiFnR3TtJSOI
+	 veliHEpzy4pXcnUhWlWPLRdxl+hnGbzrN9MEKhaLo1OmPNibdQLvX4yTLgDLwyzL+
+	 freHk7CPcsYWKtrJPdpJjYrcZuMTfp2hHHh6zV9bf2H6376kQ0ADmRgtsrHosvuQp
+	 RwUIAHpaWm3asve6Ag==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MgRMB-1r6vNe1ovH-00ht8U; Fri, 22
+ Mar 2024 14:00:49 +0100
+Message-ID: <8a1adff2-eb83-4dec-b8d0-1e523245de65@web.de>
+Date: Fri, 22 Mar 2024 14:00:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Dan Williams <dan.j.williams@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Lukas Wunner <lukas.wunner@intel.com>
+References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
+Subject: Re: [PATCH] cleanup: Add usage and style documentation
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UkSGC+4qo1n4XxoQDl15NnuOy58e3sPzB2i6UlqqDfSfdW9U9JQ
+ 35gaoqp9m504/U5DfPHcqvKGeGm3kKpN378SPB3hEpNClCey/Yrbp1tFLLlJH3hMWbSufs3
+ ayuqzVHb0ioFxaqpyaaPMkJvuT7nZwJiYsRptUuE3FAmNDk8oRMghoIKKQSVXVGn0gDMGFH
+ EJQ8MfXNN+4Q01lcJzLpQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:sDd5Oswr9wg=;oUpHLGsbXWg5ca5bC8NBGfysCrf
+ DFv6hUPq8S4H/XwQpwPiQuK4HLa3C2XsqohEPgF8DqzZ2fDNQxfq5ZjtnTiRXOh+cIfSx0si5
+ I8p6NBAwC4kK18ez+vuj4QBiYZaedbKGinfljFLez8lz3PFDPoXvsJZ9FhWQUIY8x0KLDejZj
+ 9SYVMpL7Hy2KSi85kGlwTXLj+OwNqHVdoBcZHVwXjiXUQLCFI9WqvY3zmPxKgYC3x1ql/1DeO
+ 6iXHJ4zA7rzyBFgnZwFhA+sloNmWRsp7UQr5yT9HUFot1v3W//MS9grpfZoKs17jL7RM+7mqq
+ VTJczbJTQY5/TS/miewAlPcLmi2qur+NZtXsdGMrOLgkpNuuwpVW5CylSlyQHwxHAl5OQSC0n
+ hE/yVcRxZ+iIH1RMl6m9TNwEBvd1uvg4XvMbDaxPCLLbSQjp62otI96yLupwQNyHkvyOFlH6m
+ 0kCUa+/bWDP8a8C72EV5qelNJEE3zux7FKyL6bWbZVjo6zs8T3HP0h9fmKjtnBSms3Jp6Lpui
+ QmlqSE+Rae1sJUDalnx1KDcXNGI+N1D/aGvmytshJ1PgS4VRXj/hwjyrINOLgkGHuD7LuSscy
+ jDoL363DGW2A1q5YWiEPzqKg0W7zBMepvkloBNElY5oIHN/GZNqfAVf5dhTyXqhWtbLLpbnHc
+ 4f98L+PSD4h17gPOZusT1LB3gQCsD+MYLkKzIOfkNOTMpkpqoIccy7Xu8ao+FYHduF5742Ut/
+ roZZ91Y7fK8Bk2rKmukct+SBsyqR+6lB8+CB5nRb7ybqmJXj0S33GNNL8NMNtwh15WRT74dZ9
+ ak5aJWDVHTUL0WWtPbmSRaM3uFSuKvoFJUegBWNPntwQk=
 
-Based recent discussions on LKML, provide preliminary bits of tpm_tis_core
-dependent drivers. Includes only bare essentials but can be extended later
-on case by case. This way some people may even want to read it later on.
+=E2=80=A6
+> +++ b/include/linux/cleanup.h
+> @@ -4,6 +4,118 @@
+>
+>  #include <linux/compiler.h>
+>
+> +/**
+> + * DOC: scope-based cleanup helpers
+> + *
+> + * The "goto error" pattern is notorious for introducing =E2=80=A6
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-CC: Daniel P. Smith <dpsmith@apertussolutions.com>
-Cc: Lino Sanfilippo <l.sanfilippo@kunbus.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Peter Huewe <peterhuewe@gmx.de>
-Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
-Cc: keyrings@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
-v4:
-- Extended the text to address some of Stefan's concerns with v2.
-- Had to unfortunately remove Randy's reviewed-by because of this, given
-  the amount of text added.
-v3:
-- Fixed incorrect buffer size:
-  https://lore.kernel.org/linux-integrity/d957dbd3-4975-48d7-abc5-1a01c0959ea3@linux.ibm.com/
-v2:
-- Fixed errors reported by Randy:
-  https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@infradead.org/
-- Improved the text a bit to have a better presentation.
----
- Documentation/security/tpm/index.rst   |  1 +
- Documentation/security/tpm/tpm_tis.rst | 46 ++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm_tis.rst
+Will any other label become more helpful for this description approach?
 
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index fc40e9f23c85..f27a17f60a96 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -5,6 +5,7 @@ Trusted Platform Module documentation
- .. toctree::
- 
-    tpm_event_log
-+   tpm_tis
-    tpm_vtpm_proxy
-    xen-tpmfront
-    tpm_ftpm_tee
-diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/security/tpm/tpm_tis.rst
-new file mode 100644
-index 000000000000..b448ea3db71d
---- /dev/null
-+++ b/Documentation/security/tpm/tpm_tis.rst
-@@ -0,0 +1,46 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================
-+TPM FIFO interface driver
-+=========================
-+
-+TCG PTP Specification defines two interface types: FIFO and CRB. The former is
-+based on sequenced read and write operations,  and the latter is based on a
-+buffer containing the full command or response.
-+
-+FIFO (First-In-First-Out) interface is used by the tpm_tis_core dependent
-+drivers. Originally Linux had only a driver called tpm_tis, which covered
-+memory mapped (aka MMIO) interface but it was later on extended to cover other
-+physical interfaces supported by the TCG standard.
-+
-+For legacy compliance the original MMIO driver is called tpm_tis and the
-+framework for FIFO drivers is named as tpm_tis_core. The postfix "tis" in
-+tpm_tis comes from the TPM Interface Specification, which is the hardware
-+interface specification for TPM 1.x chips.
-+
-+Communication is based on a 20 KiB buffer shared by the TPM chip through a
-+hardware bus or memory map, depending on the physical wiring. The buffer is
-+further split into five equal-size 4 KiB buffers, which provide equivalent
-+sets of registers for communication between the CPU and TPM. These
-+communication endpoints are called localities in the TCG terminology.
-+
-+When the kernel wants to send commands to the TPM chip, it first reserves
-+locality 0 by setting the requestUse bit in the TPM_ACCESS register. The bit is
-+cleared by the chip when the access is granted. Once it completes its
-+communication, the kernel writes the TPM_ACCESS.activeLocality bit. This
-+informs the chip that the locality has been relinquished.
-+
-+Pending localities are served in order by the chip in descending order, one at
-+a time:
-+
-+- Locality 0 has the lowest priority.
-+- Locality 5 has the highest priority.
-+
-+Further information on the purpose and meaning of the localities can be found
-+in section 3.2 of the TCG PC Client Platform TPM Profile Specification.
-+
-+References
-+==========
-+
-+TCG PC Client Platform TPM Profile (PTP) Specification
-+https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
--- 
-2.43.0
 
+> + * this tedium and can aid in maintaining FILO (first in last out)
+             =E2=AC=86
+Would an other word be more appropriate here?
+
+
+
+> + * contraindicates a pattern like the following:
+
+I would prefer an other wording approach.
+
+
+> + *	struct pci_dev *dev __free(pci_dev_put) =3D NULL;
+
+Programmers got used to null pointer initialisations.
+
+
+> + * In this case @dev is declared in x-mas tree style in a preamble
+> + * declaration block. That is problematic because it destroys the
+> + * compiler's ability to infer proper unwind order.
+
+Can capabilities be clarified better for the applied compilers?
+
+
+>                                                      If other cleanup
+> + * helpers appeared in such a function that depended on @dev being live
+> + * to complete their unwind then using the "struct obj_type *obj
+> + * __free(...) =3D NULL" style is an anti-pattern that potentially caus=
+es
+> + * a use-after-free bug.
+
+I suggest to reconsider such a development concern in more detail.
+
+
+> + *	struct pci_dev *dev __free(pci_dev_put) =3D
+> + *		pci_get_slot(parent, PCI_DEVFN(0, 0));
+> + *
+> + * ...which implies that declaring variables in mid-function scope is
+> + * not only allowed, but expected.
+
+* Is there a need to separate the ellipsis from the subsequent word
+  by a space character?
+
+* You propose a variable definition without specifying extra curly bracket=
+s
+  (for another compound statement / code block).
+  This can work only if an appropriate pointer is returned by the called f=
+unction.
+
+* The involved identifiers can occasionally get longer.
+  Further code layout challenges would need corresponding clarifications.
+  How will the handling of line length concerns evolve?
+
+* I suggest to take another look also at the transformation pattern
+  =E2=80=9CReduce Scope of Variable=E2=80=9D.
+  https://refactoring.com/catalog/reduceScopeOfVariable.html
+
+
+> + * Conversions of existing code to use cleanup helpers should convert
+> + * all resources so that no "goto" unwind statements remain. If not all
+> + * resources are amenable to cleanup then additional refactoring is
+> + * needed to build helper functions, or the function is simply not a
+> + * good candidate for conversion.
+
+* How do you think about to specify any more resource cleanup functions
+  for growing usage of =E2=80=9Csmart pointers=E2=80=9D?
+
+* Would you like to extend the specification of function pairs for
+  improved applications of guard variants?
+
+
+Regards,
+Markus
