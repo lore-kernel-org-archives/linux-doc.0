@@ -1,33 +1,33 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from out-187.mta0.migadu.com (out-187.mta0.migadu.com [91.218.175.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1003B3E48C
-	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 11:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7543EA71
+	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 11:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711106054; cv=none; b=h9mYG3sq3vvL2uGIjgOm0k5EfyGarikr6pgV6+/mq3UK83XonVzbnHnClkMTETOr0MFQ91yqEcUmL5waKmTQfmLD45tRkvevSfqfafg/sSlVHm3e/byV/9bubGrXYQvWmF32CBtT97PwHboLj40rBesxb2QULhH7YVpON6Qivsc=
+	t=1711106910; cv=none; b=PM0rvbXnY4RFY08sj2+/lQTJFVXo0KN4gmvjdloHIVVwAtCskETEyD4hUgVOwRn7TZJblOnfabv7yUKKVocy4xTc98qLFuhRpK0Tq42a32ghKjC25O+FelwCEvpLjBUK6AuPR7y/VJC5Obh4d7ousXn9DwVknizTnpKYhk5V5Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711106054; c=relaxed/simple;
-	bh=tkJLb78IpSWKlzmyY6iLRqU/Rj0xLSo5bXptuiYm8e8=;
+	s=arc-20240116; t=1711106910; c=relaxed/simple;
+	bh=CknH/9xSPoJ1WEhhL4MAsXBaxhXJfc/14SdBokj/AFE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MqGzpDcKpsLoPSw49giKLv9TNub2ekSRuZfPtwHrbDIVc+ujfjNcII2V3Q+ekXqalXkGCrTZXpwYsQBDr74d+I4HxISpV4m2KRUCcdcIIZou6F2caByPMmwYJorKQ0ezZpSJZNJFZd3tM3v+l9m5Hx8b239w6zZGepwR6vjNWBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PtMU3Q0c; arc=none smtp.client-ip=95.215.58.189
+	 In-Reply-To:Content-Type; b=N8FQSM9YOYanlxxmvDIGvMQS2WprTpPpQ99WDbSiB2AXnvKsE9yTAA+BlmW65eWg4D+FKJpPNh3mCBUsQB0XBkxmAbEjaHS1v5E9UIkZQi/3IzYLopv0URIwSPZQOVK+NMjc7kqlfpM0g6lY8AEcok+mqR+uxJ7L4HRewjdOMlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IIB1jlFb; arc=none smtp.client-ip=91.218.175.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PtMU3Q0c"
-Message-ID: <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IIB1jlFb"
+Message-ID: <6ea523f5-2628-4269-9194-dfb6bf07f4db@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711106049;
+	t=1711106904;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KVrZlsfAwR9SjnoRF84YRfe9+qscAKx0nrI06ciuH9c=;
-	b=PtMU3Q0cvYRQSQ6fk18jXYKy3ve8Mbjtd9mf2dz9UKl4mud33fmF/ENJr/CzbKp7d26ZdJ
-	qnW8UuW8jmd28bzqyVNqHsB/S1TGAzHgUsi87OOXbPjUVf47Fmw3yuw3Hz7U2xntYvHIe/
-	rbWZnZjx0V3TfxXvN0Eekge4UzQtCP4=
-Date: Fri, 22 Mar 2024 19:13:54 +0800
+	bh=uNC0CCmpYhCcH8TuokVlW8ASQZ45O/eH5PrkVa66tCA=;
+	b=IIB1jlFbZEqqghgVkJSf3iJOkGODQW2yz0EtVMKFmrmwi5YI2/k1T2ZNs9yLzICh1yGzfQ
+	b1OTU/sKMALlLoLwIIS9N1aYn9LrVET8//z8YRlHr6aB6o3zKvgaSyCkjkTc47+pKf+/tF
+	FzT2awU6tMmBerhJCJI7vciw4oeFL34=
+Date: Fri, 22 Mar 2024 19:28:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,15 +35,16 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
  Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
  <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  Sebastian Wick <sebastian.wick@redhat.com>,
  =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
@@ -51,11 +52,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
- <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
- <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+ <07125064-2a78-4515-bb48-655f2aec140f@linux.dev> <87sf0iliyh.fsf@intel.com>
+Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
+In-Reply-To: <87sf0iliyh.fsf@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -63,15 +64,63 @@ X-Migadu-Flow: FLOW_OUT
 Hi,
 
 
-On 2024/3/22 18:31, Maxime Ripard wrote:
-> Which default config are you talking about? This compiles fine with all
-> drm-misc defconfig, x86 defconfig and allmodconfig.
+On 2024/3/22 17:22, Jani Nikula wrote:
+> On Fri, 22 Mar 2024, Sui Jingfeng <sui.jingfeng@linux.dev> wrote:
+>> Hi,
+>>
+>>
+>> On 2024/3/21 23:29, Maxime Ripard wrote:
+>>> Infoframes in KMS is usually handled by a bunch of low-level helpers
+>>> that require quite some boilerplate for drivers. This leads to
+>>> discrepancies with how drivers generate them, and which are actually
+>>> sent.
+>>>
+>>> Now that we have everything needed to generate them in the HDMI
+>>> connector state, we can generate them in our common logic so that
+>>> drivers can simply reuse what we precomputed.
+>>>
+>>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>>> ---
+>>>    drivers/gpu/drm/Kconfig                            |   1 +
+>>>    drivers/gpu/drm/drm_atomic_state_helper.c          | 338 +++++++++++++++++++++
+>>>    drivers/gpu/drm/drm_connector.c                    |  14 +
+>>>    .../gpu/drm/tests/drm_atomic_state_helper_test.c   |   1 +
+>>>    drivers/gpu/drm/tests/drm_connector_test.c         |  12 +
+>>>    include/drm/drm_atomic_state_helper.h              |   8 +
+>>>    include/drm/drm_connector.h                        | 109 +++++++
+>>>    7 files changed, 483 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>>> index 16029435b750..3d3193c7aa5f 100644
+>>> --- a/drivers/gpu/drm/Kconfig
+>>> +++ b/drivers/gpu/drm/Kconfig
+>>> @@ -97,10 +97,11 @@ config DRM_KUNIT_TEST
+>>>    	  If in doubt, say "N".
+>>>    
+>>>    config DRM_KMS_HELPER
+>>>    	tristate
+>>>    	depends on DRM
+>>> +	select DRM_DISPLAY_HDMI_HELPER
+>> Should we select DRM_DISPLAY_HELPER here? Otherwise there will have some compile error
+>> emerged with default config.
+> Can we stop abusing select instead of adding more selects to paper over
+> the issues?
+>
+> Use select only for non-visible symbols (no prompts anywhere) and for
+> symbols with no dependencies.
 
-The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_display_helper.ko
-kernel module, it get called from hdmi_generate_avi_infoframe() in drm_atomic_state_helper.c.
-While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore drm_kms_helper.ko
-is dependent on drm_display_helper.ko implicitly. So we probably should select it.
 
+OK, fine.
+
+You probably want to tell us a concrete method, then we will follow.
+But I guess that is up to Maxime will adopt it or not. Probably need
+some discussion then.
+
+
+>
+> BR,
+> Jani.
+>
 
 
 -- 
