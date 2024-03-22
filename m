@@ -1,96 +1,100 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A8D47F42
-	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 14:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88221482F3;
+	Fri, 22 Mar 2024 14:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711117839; cv=none; b=NMIFVuvrAh0s6VgAdee1pwRr0xy+DexLVHZlOASJ4/fscfJ6o7XfBJRHDiJQbGOF9IfTgXguqeKBKFHE0sfEUxYohpFBYYpG6+5nUlzrVDJLBfC1X+o9yNAhjIpqeYgXUdlqbaPb3Q85fofaeHnXaVgmB6p6MskotaD4z1e7Jw4=
+	t=1711117991; cv=none; b=MtCdfrE7dGVm66msihMKg/OV4QnBqfN8wXfjGgqRqmi8g9ctN5oyhzX4ExHOEB8XEJY9xqQhJabyKOLZTD50eJUbO6Y+Of+nvWqFfc07qIozffi36EMZNWfGRoOPLWTWK+iLTpKpyJR6biSd34yFnQ/KYgtAk0PzSvuEWvttNqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711117839; c=relaxed/simple;
-	bh=ckkugpHgNe8GIeIYxkb7EhPuXOw/jTJIfXFSmMpb8YI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=igo+doRLDkJeF1Bvx9PVRmAgmDQXgCVEq5UNun2yqkBoxYy0Cye0B715whOWc/aNSgGUk2AYeP9PrHBIsfaEsgH3z7YkS1e08LC6Qr3KtfzCzE/Tcf61jfHW5CcVfdUR2ldmliq+ULM80RgSOHpvqOyodnx8F1cUw4JmJW72vsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vb2tIA0m; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1711117991; c=relaxed/simple;
+	bh=4YU5WJf3WfMHlYPfI4XCeU2I+hTiZpRkSk8J5jLQ3es=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rSVlg/gMx1Rq5g8pCj/pMVHIxvy5VIjTuHRvpZSwwcg9+0tk9QLKqyhBcssuFOEwaW+oYqp1j8m4ip3RjiMrlZBqmbXd9Pv9rzZXSyv4XV9scTBefPLTQsXG0+/KrhVyvD1jkDvcclu9euzaMbOK6tcuvMDN1sarOQduDdz82Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKGBb7CV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vb2tIA0m"
-Message-ID: <fe4ea866-5485-4041-9a06-5441c429b150@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1711117835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IllocFnwNiXVGU+HouNFbx0kAsYD151iYbY5EqUrK60=;
-	b=vb2tIA0mE3RjQRmFtwRGeRNWtPVle8xwPuGz3k0mXmPbxA9+rb6RH0etsFkHhWQAK0DPpa
-	g5mehHDk0VOcMpylaYKuk/GPkLTeV+eLrTyDxbPhCe5wLBDOUZZwHJnSVNO/KTYtRNTvk5
-	0YVP778XwUltNtoGBLyTwJ0FFHUEiCo=
-Date: Fri, 22 Mar 2024 22:30:20 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKGBb7CV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B10EDC433C7;
+	Fri, 22 Mar 2024 14:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711117990;
+	bh=4YU5WJf3WfMHlYPfI4XCeU2I+hTiZpRkSk8J5jLQ3es=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cKGBb7CVwSNfseamU9SLwfCBi1CD8fJAzWGocTw3UXL9kktHcbKcThy5pmURa2GiI
+	 odwd+u+Hl4JTOP62AIuwq6GzhX/8nz8tSsklYm+mA9wQjZ7Ocdf8WhSa/pLHW7P68S
+	 0nC8rurOXdVmiqOMcrAPu8Q6jdpB7UyxSrJAKsokzr9ytv2WA8z4elkS1wK3J5LIv3
+	 n69SpoUwx+TqT0gA5kubjfSNZN31zKGVsdor3xECKvKSWMCOuLqsyqZMtsf48GCTsZ
+	 OYv94CzFu5tG7ySnSF3bz5LFz7p8CndkkemKf7Ulvh8HGj4aR2WmoYsodkT58fbS55
+	 ZhdDZNleEmIjg==
+Date: Fri, 22 Mar 2024 14:33:03 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Barry Song <21cnbao@gmail.com>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com, linux-kernel@vger.kernel.org,
+	Barry Song <v-songbaohua@oppo.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Zankel <chris@zankel.net>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH v3 1/2] Documentation: coding-style: ask function-like
+ macros to evaluate parameters
+Message-ID: <7d965b3a-c857-4498-aea9-5a3ad8ad5b76@sirena.org.uk>
+References: <20240322084937.66018-1-21cnbao@gmail.com>
+ <20240322084937.66018-2-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [v10,20/27] drm/connector: hdmi: Add Infoframes generation
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sebastian Wick <sebastian.wick@redhat.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20240321-kms-hdmi-connector-state-v10-20-e6c178361898@kernel.org>
- <07125064-2a78-4515-bb48-655f2aec140f@linux.dev>
- <20240322-loose-resourceful-bullmastiff-92cfaf@houat>
- <7835e928-7d09-446e-91dd-13a0fa549bc2@linux.dev>
- <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20240322-steadfast-tanuki-from-mars-b5ea5f@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-
-Hi,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="F/USLqwBIaw6nYmg"
+Content-Disposition: inline
+In-Reply-To: <20240322084937.66018-2-21cnbao@gmail.com>
+X-Cookie: No passes accepted for this engagement.
 
 
-On 2024/3/22 20:31, Maxime Ripard wrote:
-> On Fri, Mar 22, 2024 at 07:13:54PM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->>
->> On 2024/3/22 18:31, Maxime Ripard wrote:
->>> Which default config are you talking about? This compiles fine with all
->>> drm-misc defconfig, x86 defconfig and allmodconfig.
->> The drm_hdmi_avi_infoframe_colorimetry() function is belong to the drm_display_helper.ko
->> kernel module, it get called from hdmi_generate_avi_infoframe() in drm_atomic_state_helper.c.
->> While drm_atomic_state_helper.c belongs to drm_kms_helper.ko. Therefore drm_kms_helper.ko
->> is dependent on drm_display_helper.ko implicitly. So we probably should select it.
-> Right. I was asking which config are you using to generate that build error
+--F/USLqwBIaw6nYmg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Mar 22, 2024 at 09:49:36PM +1300, Barry Song wrote:
 
-I'm using the arch/riscv/configs/defconfig, with the following module de-selected.
+> The driver code, for itself, seems be quite innocent and placing
+> maybe_unused seems pointless,
+>=20
+>  struct page *dst_page =3D sg_page(req->dst);
+>=20
+>  for (i =3D 0; i < nr_pages; i++)
+>  	flush_dcache_page(dst_page + i);
+>=20
+> And it should be independent of architectural implementation
+> differences.
+>=20
+> Let's provide guidance on coding style for requesting parameter
+> evaluation or proposing the migration to a static inline
+> function.
 
-CONFIG_DRM_RADEON
-CONFIG_DRM_NOUVEAU
-CONFIG_DRM_SUN4I
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-  
+--F/USLqwBIaw6nYmg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Maxime
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Best regards,
-Sui
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmX9lp4ACgkQJNaLcl1U
+h9D/3Qf+OAmGX1LtgvGmlxtBTyB3f+RqYVcaN+eDJ5mmGb/PBXtUHrCWMIjdJV1T
+alW4pNoJlPHSip3U7gjDx/VVEkHpBMD6wl3aoTYn+1iiG+8fwxu5WRYWptGwx3ux
+NULjEcNjGxzdVH6RBC/9KiOEU3WyWMBRDlNzA78mngM8JDDOephB6Z8OEYbz53A7
+PQGn3ogxV5WvhEYmJw402pzierGbewLnmiPTJhhdp81l+kIGFKtuxch8Ucde+tzw
+qU2EgbM7OVuXj3LVw/aDPjyYJwZhwXUVuV+TB1MVqog4dqkbon6UgPonc2PPwTnO
+EOFhcKG422l9nhl/Iig/3i1DVCAVZw==
+=i5nb
+-----END PGP SIGNATURE-----
 
+--F/USLqwBIaw6nYmg--
