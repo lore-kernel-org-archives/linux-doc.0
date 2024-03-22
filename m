@@ -1,57 +1,57 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87438061F
-	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 21:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFB180C0C
+	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 21:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711144345; cv=none; b=ipUN2aP7+gKowFeZ4hsjfarNjjBD5VogA30wHYytc1ixgfH18aMb38KzmXsrcCseoPE8N9INkCeExf0eXRxjoyM8VRWuGIjO0bw6pt1yjzkLbKbcEQmh58vkstd/wASEzs58l21tp4XZ39nmMp9hitbVg0P2Q5VJ0EWG04mMZvM=
+	t=1711144347; cv=none; b=U/It/CydfywxhLJ61hB3AxVGG6aNfnngCYd+q0xJd9ILvZILVV8hsNiRuAlyxIV5si3/N08WAU+OeO+w/7kw4CJ39HvwsfJ1f1dsIdo3aN0cYfVFlL5Kn14sh7VCVfT3VXjGyLn4/4JLHUfetmi/PjUHekAz+a/FXE3uAMFyeJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711144345; c=relaxed/simple;
-	bh=jYLrs9FzuD/uXocxQfXfUA+/zRjYUAxdEYngmXiXnyE=;
+	s=arc-20240116; t=1711144347; c=relaxed/simple;
+	bh=05yOjqGVHPu+OFaxcjpZYk3lFnQvrC2NngC+2ZecgJI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jQxX5/8Nb1DMNMaJVUyQdJjoACfXwKDoOXS1+/2AQYIW6Y3419ier+hXDKRxhSBgm6Nc5TOWwg6n5ArPEJ/PjIjqMjY1gnfAbWQ4emgd/HrvJJq3YuzxmyDXFn5QMJzAWLY/Jx/GXlAhEPSOJHH2EYmB+VN7HnkltqKUyw16Kv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=qGfcP3pd; arc=none smtp.client-ip=209.85.167.182
+	 MIME-Version:Content-Type; b=HaKC0u9Jo0ujQvJm7j3ZDEHI2C/kEQHB4eU/fxUpo4sOn+zKOI/vtqew9zjHzPiubE2Tz26WTamh2izUtcqEkHJPSWrWZoH9VtSBnVlC2nDdSEPGLLyL4xmd1jyv9w1HaGoZM75p6RMrFxLca9Sba4AaBoAnmmGu1cSw+kq5eZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=grXDyUPk; arc=none smtp.client-ip=209.85.167.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="qGfcP3pd"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3bd72353d9fso1464911b6e.3
-        for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 14:52:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="grXDyUPk"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3c3a4101721so1585522b6e.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 14:52:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711144342; x=1711749142; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711144343; x=1711749143; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8CLFi25Vmi0M7L3CTPnrBRviDBPZHtDLMk3xJ3WKq50=;
-        b=qGfcP3pdGzPbVUM6MX5aqub9ODSGWjOLNM7B90eT6jj40PCXGffzYtRh7LmMlMt+gS
-         LrU+2kJVL0khCEJny/iBdM8z8MoR9ctF3u/+LHxoUgG5UCMrdvQpBjKngOn045MpbNJY
-         RF0I6T64nkxW8KlnjLrF6hlLhrThUTvQTQVcRJV8eaSFTbCuXtWmxUX2jr5TVp10qJdB
-         UFOoRgC1ShAAfqmgfM3ENcfuEI3QhYlGGCPuWHUZlZw3Kx+4tls6MS/VX9Z73QcTKMm9
-         N9m+nDKPv6mloQ8/RMh09ushB/QNIf7kjIaDEovWRs2wqCsJAYe5rlAGGCEKtDwBcIYZ
-         AbQg==
+        bh=dxA/Vj3a1BgHptKDUbOtB0zHeYp5zxSd/aJ7ZP3EJ40=;
+        b=grXDyUPk3uH8va4jmUwKxaBBVHbCBSF/L9XPnc3ylreDYg/oqWsDqLzoMLk4GCc5yn
+         zobKSHQF0k65s6WayqE+ERAWVZilVkli07BwyHfvSmMH7ifdEAyKRQTwTlIbqXBk+wGf
+         N1oF87RCGZvMHwgAkEB0OIngjv617ks91SYjod015Z9lPyRVFrgZd6Mnvt5xoLL9pZ0B
+         9oWyQ9sox0BfU9LjJwGdtepsTxE/lLCwRNcfilgmRUiQMOCzJPhii/js4ugsJ0bRynjm
+         Ipcuv75TuFcW5ADB71KDA6g9v5ycAPmAStDO/cn+VbjwBbZVW5EzeDTjD2SwALAKoJd0
+         5m2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711144342; x=1711749142;
+        d=1e100.net; s=20230601; t=1711144343; x=1711749143;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8CLFi25Vmi0M7L3CTPnrBRviDBPZHtDLMk3xJ3WKq50=;
-        b=cTsYAynRSaqeWbmXPUCAx/numYvjx+v1H981VCh9XsQjJOvoRIyF3V3zwJS8eLL5OD
-         jyf+2lK245Byv8naAtobxGqKYCFp5L8K5IRpEwJOSr4qOr9pOU/ZylOznRD2y0YgeCUn
-         DzkGPfSA8D2Jv078d7xTn6BVaDBfsqdjEwa1tfCZ6QtNRfHLx5ng2ywbhC5tklXuSoJl
-         7jfi59REGx85xbEFVKz2/NHPW8FZS/M/nC8QereFVn+uHats5/vU4Hpb07x4Du779iC6
-         mMCO/m+1TH5MDjuMH/bAkByPAEBoIhtsInBxMBvFmAYlEOF6Ywa1R5ci8iCcumYzpLpz
-         5Niw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiE16BQbIczmiWOolLg7YxheSw+0zG+24Uj6ip6rnt7YGB/pIhgmTrxZOyZJNeMS96yWy2LMNO6SmWvTduQagRLxyHS2eR9tNH
-X-Gm-Message-State: AOJu0YyA6TSQncaJH/kGq+0yyhhWKRKUuK9Ngd6Gsm1bNRCC8bsEJFoK
-	NaCgXCjGpMTvf696ZnuYM0RCxXA212Xf2ra3mDcXarOp9+srE4NNRA6mhbybJnk=
-X-Google-Smtp-Source: AGHT+IEhahZJfwf604IZtu7lbi/ax/6vF+wMAUo1Iyn5jinQ4p2xQd4Vs3Su3pPg/PcBO2WOIiErLw==
-X-Received: by 2002:a05:6808:3c98:b0:3c3:9949:b457 with SMTP id gs24-20020a0568083c9800b003c39949b457mr1256083oib.22.1711144342078;
+        bh=dxA/Vj3a1BgHptKDUbOtB0zHeYp5zxSd/aJ7ZP3EJ40=;
+        b=wtO9wjzvQlGxT+CfjhxYrH5kvq62VaFKCFkneGFEeAhJNe22R9BHo/ovMpAKpqyN0W
+         xAAeNw4BvhTs/x7srrWiMs0I/WnXKXQ2P23b8pJqStOYAj0mJSHYvYb0EM+joNpFFHX/
+         cX+EJ+a3Ns3yKxvb37rdhI3VTzOpngqj/dEz2TBtLhWq7xEouO+j0jwHOERzjhtWCQC1
+         ZIn2YboKIrnWddd4v+3erdObB8f7J1HytNHDnTS00Rr1ktn8C66S+wAa4hg9Y8KAyc/T
+         M7AhqVGlep3G5Kr7xIAH4vb51sZUVsFFcvznm2tRDaugdBolizptAs7OXUFUKQLR3Oj5
+         ELAA==
+X-Forwarded-Encrypted: i=1; AJvYcCUzwY95p3yQDjxx4LHhAwhZ72TwJEX01O+WsfEmudcx4xduf+YRAA4vrwciBo6RTXqaoau5Pht8K4/MRg+CegXiGGKt3w+b3cwt
+X-Gm-Message-State: AOJu0YyuihqdLBZR9dySvDm3LPgd8ILfhGFsNbzTWRP3jbWdD7zhmYnt
+	X4DGHlWWI67DGXRA9X/vmN3cNApzFXNI/xF3q3uFC6mxuPCBICRUGpyhKn4bb/A=
+X-Google-Smtp-Source: AGHT+IF9jLEGsmmVZyjG76/9Vg4P6LNP2wulUQuXmR2Xd3nKIeY6vq9I6/k9tkbh4klRzwi7oAO5gQ==
+X-Received: by 2002:a05:6808:2395:b0:3c2:d5a:2733 with SMTP id bp21-20020a056808239500b003c20d5a2733mr1114677oib.52.1711144342985;
         Fri, 22 Mar 2024 14:52:22 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id x20-20020a544014000000b003c37b3571d3sm88254oie.8.2024.03.22.14.52.21
+        by smtp.gmail.com with ESMTPSA id x20-20020a544014000000b003c37b3571d3sm88254oie.8.2024.03.22.14.52.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 14:52:21 -0700 (PDT)
+        Fri, 22 Mar 2024 14:52:22 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: David Lechner <dlechner@baylibre.com>,
@@ -61,9 +61,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-doc@vger.kernel.org,
 	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] MAINTAINERS: add Documentation/iio/ to IIO subsystem
-Date: Fri, 22 Mar 2024 16:52:13 -0500
-Message-ID: <20240322-mainline-ad7944-doc-v2-1-0923d35d5596@baylibre.com>
+Subject: [PATCH v2 2/2] docs: iio: new docs for ad7944 driver
+Date: Fri, 22 Mar 2024 16:52:14 -0500
+Message-ID: <20240322-mainline-ad7944-doc-v2-2-0923d35d5596@baylibre.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240322-mainline-ad7944-doc-v2-0-0923d35d5596@baylibre.com>
 References: <20240322-mainline-ad7944-doc-v2-0-0923d35d5596@baylibre.com>
@@ -77,26 +77,175 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-Patches touching the IIO subsystem documentation should also be sent to
-the IIO mailing list.
+This adds a new page to document how to use the ad7944 ADC driver.
 
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/iio/ad7944.rst | 130 +++++++++++++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst  |   1 +
+ MAINTAINERS                  |   1 +
+ 3 files changed, 132 insertions(+)
 
+diff --git a/Documentation/iio/ad7944.rst b/Documentation/iio/ad7944.rst
+new file mode 100644
+index 000000000000..f418ab1288ae
+--- /dev/null
++++ b/Documentation/iio/ad7944.rst
+@@ -0,0 +1,130 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++=============
++AD7944 driver
++=============
++
++ADC driver for Analog Devices Inc. AD7944 and similar devices. The module name
++is ``ad7944``.
++
++
++Supported devices
++=================
++
++The following chips are supported by this driver:
++
++* `AD7944 <https://www.analog.com/AD7944>`_
++* `AD7985 <https://www.analog.com/AD7985>`_
++* `AD7986 <https://www.analog.com/AD7986>`_
++
++
++Supported features
++==================
++
++SPI wiring modes
++----------------
++
++The driver currently supports two of the many possible SPI wiring configurations.
++
++CS mode, 3-wire, without busy indicator
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++.. code-block::
++
++                                         +-------------+
++                    +--------------------| CS          |
++                    v                    |             |
++    VIO   +--------------------+         |     HOST    |
++     |    |        CNV         |         |             |
++     +--->| SDI   AD7944   SDO |-------->| SDI         |
++          |        SCK         |         |             |
++          +--------------------+         |             |
++                    ^                    |             |
++                    +--------------------| SCLK        |
++                                         +-------------+
++
++To select this mode in the device tree, set the ``adi,spi-mode`` property to
++``"single"`` and omit the ``cnv-gpios`` property.
++
++CS mode, 4-wire, without busy indicator
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++.. code-block::
++
++                                         +-------------+
++     +-----------------------------------| CS          |
++     |                                   |             |
++     |              +--------------------| GPIO        |
++     |              v                    |             |
++     |    +--------------------+         |     HOST    |
++     |    |        CNV         |         |             |
++     +--->| SDI   AD7944   SDO |-------->| SDI         |
++          |        SCK         |         |             |
++          +--------------------+         |             |
++                    ^                    |             |
++                    +--------------------| SCLK        |
++                                         +-------------+
++
++To select this mode in the device tree, omit the ``adi,spi-mode`` property and
++provide the ``cnv-gpios`` property.
++
++Reference voltage
++-----------------
++
++All 3 possible reference voltage sources are supported:
++
++- Internal reference
++- External 1.2V reference and internal buffer
++- External reference
++
++The source is determined by the device tree. If ``ref-supply`` is present, then
++the external reference is used. If ``refin-supply`` is present, then the internal
++buffer is used. If neither is present, then the internal reference is used.
++
++Unimplemented features
++----------------------
++
++- ``BUSY`` indication
++- ``TURBO`` mode
++- Daisy chain mode
++
++
++Device attributes
++=================
++
++There are two types of ADCs in this family, pseudo-differential and fully
++differential. The channel name is different depending on the type of ADC.
++
++Pseudo-differential ADCs
++------------------------
++
++AD7944 and AD7985 are pseudo-differential ADCs and have the following attributes:
++
+++---------------------------------------+--------------------------------------------------------------+
++| Attribute                             | Description                                                  |
+++=======================================+==============================================================+
++| ``in_voltage0_raw``                   | Raw ADC voltage value (*IN+* referenced to ground sense).    |
+++---------------------------------------+--------------------------------------------------------------+
++| ``in_voltage0_scale``                 | Scale factor to convert raw value to mV.                     |
+++---------------------------------------+--------------------------------------------------------------+
++
++Fully-differential ADCs
++-----------------------
++
++AD7986 is a fully-differential ADC and has the following attributes:
++
+++---------------------------------------+--------------------------------------------------------------+
++| Attribute                             | Description                                                  |
+++=======================================+==============================================================+
++| ``in_voltage0-voltage1_raw``          | Raw ADC voltage value (*IN+* - *IN-*).                       |
+++---------------------------------------+--------------------------------------------------------------+
++| ``in_voltage0-voltage1_scale``        | Scale factor to convert raw value to mV.                     |
+++---------------------------------------+--------------------------------------------------------------+
++
++
++Device buffers
++==============
++
++This driver supports IIO triggered buffers.
++
++See :doc:`iio_devbuf` for more information.
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index 30b09eefe75e..fb6f9d743211 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -16,6 +16,7 @@ Industrial I/O Kernel Drivers
+ .. toctree::
+    :maxdepth: 1
+ 
++   ad7944
+    adis16475
+    bno055
+    ep93xx_adc
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7b1a6f2d0c9c..fb2377bad376 100644
+index fb2377bad376..40813d9ec38f 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -10466,6 +10466,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
- F:	Documentation/ABI/testing/configfs-iio*
- F:	Documentation/ABI/testing/sysfs-bus-iio*
- F:	Documentation/devicetree/bindings/iio/
-+F:	Documentation/iio/
- F:	drivers/iio/
- F:	drivers/staging/iio/
- F:	include/dt-bindings/iio/
+@@ -448,6 +448,7 @@ R:	David Lechner <dlechner@baylibre.com>
+ S:	Supported
+ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ad7944.yaml
++F:	Documentation/iio/ad7944.rst
+ F:	drivers/iio/adc/ad7944.c
+ 
+ ADAFRUIT MINI I2C GAMEPAD
 
 -- 
 2.43.2
