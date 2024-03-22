@@ -1,151 +1,124 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AUS01-ME3-obe.outbound.protection.outlook.com (mail-me3aus01olkn2174.outbound.protection.outlook.com [40.92.63.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6E65FBB0
-	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 17:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711129243; cv=none; b=IeVZhc8JEtS3no9/YEGb3s1X6mUb0UfIdTOF2JStSR1ZR2yPQ14pZtcEp9RFTtcJz05hTkR9XNaDDFHf8zSkPlBPArJPcL0+SEjga+FPreFTw5Ez6umnpSfSGPkmkxJpWVIRSLrF9PXYhE/YiYywrsABZFxtmFExg3rTHPudHmc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711129243; c=relaxed/simple;
-	bh=7T0QYgj6Z0QWJ7WZghtr6Q0zZ77ROAwtyZEJQAtnJrY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A8FI7NXMr68e7sdpmDWAJjuCRtjZsOMfTE0XEMO4dxd9CCgsQ82NGEYJ/s+HsMqTIwr088rcABgZDsipBdcJFM+TtnDvhQpfEFVe10PMIth0+RdkXPs8Zt/h/Abfd8HwVanliuTqm1eRlajeoyPkSApL1xgCO+cGxGaKKJSypbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NuAiMh/M; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A20459B5F
+	for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 17:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.63.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711129530; cv=fail; b=r0S48cQOEowbQbWJ6TwcXHtYDANySYxMiKIQRk3+Zq46cgIXSVw7NrxEeiOEFHXgUsX/9OPZK65z5WrGtKTMRkkYw8dEyfEtaftBECbVl6VhHA3PlBeHwh3MKENTS1EPntTT3Q5h4CJ1SOr1KQn0+E9GB18OdMgSK6wZUoMCmEw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711129530; c=relaxed/simple;
+	bh=DJE6SgIFOYmznfUYyTjEfwPdjSoP29mlqI7BDLVllwM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hCZKuoH8kUV1LjfARffziQS/VUsHVOo+fgnuis1GYOLzRFiK56LUphw1vBF7HyihPE5ng5dxZXIDXWrT/sv/iMeYc6E+HxU0IiB12bs+woJCoBHb6N7ehr63ZMHmNMGy0EA5P0LF/I/P++Xe5AxAKyAVpAKERhFhpmLpd3AL3XU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=C3B5gyiv; arc=fail smtp.client-ip=40.92.63.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NuAiMh/M"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a4715d4c2cbso283679366b.1
-        for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 10:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711129239; x=1711734039; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7YM4J2ObtCNq8IqrJeUkrlLZCafy3cmXh0Ri66R+dm4=;
-        b=NuAiMh/MosGpuJph6/CXhnqgtnF7qTB4wgozIjMxlP7xwIMTBUkxGp7jiLeBJeNUA8
-         uf3RbWvwApbMZFE+1zAiSE/rUFH1AmO4Inn/LeR4eLLIyJhCb6kAZF5e/IqWygoVbAS0
-         YNddRISS5xPN/6moDsAN0RJLCFP7BYfwoyTBXRz81dPr4VwAGpuAx4kKX1ddy3i+i8J0
-         GW8CtvhZyNMxHOAbds+zU9+r9Ux6hPYEAFI7Xi+I0b4x9bRWTLPNpPCI2wo9BHwHpm54
-         90xv2NndkuSs6tCPxxNLMeQMMbA9UkVREUUY00h8sSJNFZUydz03W+30nass1/Zv6OwQ
-         wtCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711129239; x=1711734039;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7YM4J2ObtCNq8IqrJeUkrlLZCafy3cmXh0Ri66R+dm4=;
-        b=bNU8ibFET75ru1b0l6AcZfgfLcTvsjYIkRcKaoWAKpW38BpUhpc56useCzMYD5RPrH
-         3Ja6S5Qn+X6XFB/JIVGJcNd4VrKFbgLrSnNaN1ci8LSXZsx0TvLmI0+0KAg76prJbcD4
-         A4KKs3rRn0ROsGDMW4JXIgxSqu34uDAWOJ0P+xcKEamTj6ptWgM5FVi287tjx1MvIjbS
-         8Wagb/TV4vzrY6E3q7Bsiq3rzyH+7xmA9OIHRZGtOrJtQUMeaAHGqLxWPnCkUsPYWFt6
-         ltIZqxGy/CfjT0d2K69YQwdEzmzETi6iQwjk2MtSy5TAXI3G2BiDFXMFuERQRlRHoVqj
-         Wn2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXyBxEFQeqya4dAkrKNLOU+AyiDRSYijuJz/dtnEDe7SaDVNFeR4xL3/DaJvIQVFAYfiJMMR2U9GqtZuH8Z/XxG/3GiNXb6YM8g
-X-Gm-Message-State: AOJu0YwhfT3QfzrpamJ5qGRa+gHMApQqlMM+980LV5+rPFAAWTiQ/zE/
-	xYwJ4DJhiL97qXpr96vt4pI/9Gv4kovBm5ernP4bbOvPkdFdQ4yzcOcUFiVl6JOQ8E3uwnOMT2b
-	AhC3rvmculATRX9AVtnfzQTmTqdWrA01ICO8pWN5KKrLq6NprLzfFqvA=
-X-Google-Smtp-Source: AGHT+IH25NX6qQBoFnVnA4psBCYCRYBaiXOTPUtbfU8ggcYNeDelzQNuP6wH36Jj0kmkf8kYIMZ+vwfa54Dm4tCqR3s=
-X-Received: by 2002:a17:906:c2d4:b0:a46:befa:f0b0 with SMTP id
- ch20-20020a170906c2d400b00a46befaf0b0mr293662ejb.45.1711129238808; Fri, 22
- Mar 2024 10:40:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="C3B5gyiv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UGut3ja9S/NPBv8jYBfQ4r05/ibZC1TIjzPKfdlnkzosA/dq8zFuMQvvC5nVjo6DhfHKBmCTWPwprxTWeqozjZP96Dq0V33xDlJ85QZbA+NyTqhfiaFFFehbIqjBJ+kjZA7eblbRn8ksZKohd+A+hASrwj7WHJwbHooJf4yoAuYy27vZOuQvQGHJ4h+jRkwlM1CiuOAq9kNe8Jt6rMEaZt5mH6lXgKkBNRoSzILFmMWxpNAA/LStmypqHkIsrIAGv47hLKYAmTDwpJphrZ7YTsmE7rTa+NVvu80lTQfDE5oembmPvFNRbCQojqQZyzobnsYlDYI2eDbTNMOUQlnCbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DJE6SgIFOYmznfUYyTjEfwPdjSoP29mlqI7BDLVllwM=;
+ b=Oy47ei3tgHOEqqqHT7l6eg0xejopJ6ZzVq/f4a+fEZ0acGDIUmClM5vSXnBlINX84p0QcMuY+6+uHYXN3cXTggkt9jvQNRZRKSKancqJQ8nrdDgRjubDoh6ZMbn04IBIjwbU3eVF5hqBIZzDyAmYZ93W9kMlY87pgiir1f7CXKsIGWETsVg09bMus7yUHC1K6yEcBzcCDKcp+Os5K21uNgwafOiYmmT+iks843zNt99KZsXEYBPLhZ8COiBrmVWUezAbsSJ/y9VXEmUSL6lLuEKnwqz74Ecg2bPTeuwZY+10I4GKxrdq7UukYZ2UyYQxMfQT7L5RObSzS1VwsH4S3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DJE6SgIFOYmznfUYyTjEfwPdjSoP29mlqI7BDLVllwM=;
+ b=C3B5gyiv6tVqop2+a78E48GreZEDIgtlsZYMzPLHIdMKqePY3QGOBN5tQ5Arsd0nE3Rr19Q55HEuEGbyvgY1w7zPkgsype7tKBf5lBVEBpAXtQ5XOP5/8JcGTYMr8Fb0wFAgCAOgTOZzeTU7ewK4aQ5ph1HF7TL6yKMcYCRu/Is3xsDIRkImTZp+7yS9OZALhl4TqNaqzb8eWilmXHdwUSFYHkgyOojlLgxZjPdJGIYmbBCBYb6G8+MWFMrtbtF2NeRTEkLRAZlenUvM6KRttXWtYJIsoo2h37+T41TJyOmZyH8DLdKtyUHiAVFIzljr667O3Jq277BI5FiQM1ANug==
+Received: from SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:88::12) by
+ SY5P282MB4539.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:26c::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7386.30; Fri, 22 Mar 2024 17:45:24 +0000
+Received: from SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::eec7:3528:ae72:1ccc]) by SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM
+ ([fe80::eec7:3528:ae72:1ccc%5]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
+ 17:45:24 +0000
+From: Moody Liu <mooodyhunter@outlook.com>
+To: Andi Kleen <ak@linux.intel.com>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "x86@kernel.org"
+	<x86@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>
+Subject: Re: [PATCH] docs: x86_64: fix a typo in fsgs.rst
+Thread-Topic: [PATCH] docs: x86_64: fix a typo in fsgs.rst
+Thread-Index: AQHabn7MQ4gREm5SBUS3us9DBWcaf7EogxgAgBuxooA=
+Date: Fri, 22 Mar 2024 17:45:24 +0000
+Message-ID: <88c6021b-d63a-4207-87be-47ea2aa9e3f2@outlook.com>
+References:
+ <SYCP282MB0461A3FB2A62030F63663583D3232@SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM>
+ <ZeaWJsPVhUrXwBT5@tassilo>
+In-Reply-To: <ZeaWJsPVhUrXwBT5@tassilo>
+Accept-Language: en-US, en-GB, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-imapappendstamp: SY5P282MB4760.AUSP282.PROD.OUTLOOK.COM
+ (15.20.7430.000)
+user-agent: Mozilla Thunderbird
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [hzFkyAljYcmKMsAL72q32qKhcx8CiPj6]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SYCP282MB0461:EE_|SY5P282MB4539:EE_
+x-ms-office365-filtering-correlation-id: 82c062f2-ea57-4502-e42c-08dc4a97da42
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ hVseMvH4lb+t2uNSxNT4gEaU6W0fEoluLyJ4T5tO3UDpKmI523JGNcwLiYSjifPQt9GMlEJHSWI4t42ErHrLnBstZJlPRapCDv60z4RabsxgOGum2wkzOryHnEwWF4gXzfStSyD7c6Iod0c/WOqNaOP5NFHNm3fesB51uQFM4Lcku6BT+xk6MW0Ek2XKHD5bm9XTcYys50IaOvA3ZIMHl30MVT1Z4CE3hMQw10twU8iy7HkA8hCay1wcPBvD2eSpmrYO2C37K17Zjoz1GUFkOnfGRqCH5K1QKiEKnl8AcShsYl4CsswHNi1J+iTDwLagM2IgnEv6KnpysqgUKHz1lTBtGSrv4fak0ZHhOnO4UZ5oNZF71evFUzhMKSSYgG61njXTZVSeJEG5zfKugZYIH1sPhyvnpMBjPl9w8B4kChMYJEI1zDFGs+24GEXnOngU+IyouxhmThwq55gLKwL2586hkVHRXOl3JfjtwtWVK/R/Q+h4tyiGOwwk/t7kWKPKoDC8NsxWZ+5AeSxRdXxYbCFlHOzp1UF2SdURymtm2R6mic+KKDY0ntfI2HLcXuz+
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?ziezspdZ80EK6eMrS98JglzofiTlN2GJ6kNiJI1VVzA04Zn91jx0gGACes?=
+ =?iso-8859-1?Q?eJHkLrM+OWDzb7BmGNde5uK5eqiGZnCWx7ujZWd/qPOnrIK+BVkC+JRZ7u?=
+ =?iso-8859-1?Q?snlSCaDIoxPwEuvTJPqJIvrErgtKGhUpt+chmhmcZCU5x6rZjhMVxytk+h?=
+ =?iso-8859-1?Q?WsPHP0JncmcvEcx15uKjdGsZ+Mr8hz+W/y3UC0lPWvNnqjvcbYOoTzPFXd?=
+ =?iso-8859-1?Q?mWP9RoLGoKoWVc8uJCiay+EkBGYJWhl57pgFl4JTJcrmcI0VkCgWqB9U+M?=
+ =?iso-8859-1?Q?0FvTreABob8Tl8SluqFNjfZgVCszxpPZcB0bXkRhD2UrQ20vNY24S/qCSR?=
+ =?iso-8859-1?Q?yQc6f7vid9alK1WiZGlmZEkpXQBsRa7s2IDsIDvtQdD32CsP9wBsmNqfAp?=
+ =?iso-8859-1?Q?wRxVu3iN0Ty8Nn8uSChpnB/A4bXsgFA5TjCtjG97fjTDT1WDpvzszuCKbH?=
+ =?iso-8859-1?Q?ZFi4j6usUIJ02XCgOlwMChZxNq7Oaya1Zb2ge3VlMg0b39BIGVQLA5YjHa?=
+ =?iso-8859-1?Q?ZFEAx2ZxTGGAhpAfC930QCJnIw1WCsfNU1RWYrrjd0qX3KnPY2Tvdo09fh?=
+ =?iso-8859-1?Q?NqO99mL5rOnlNW79ssgWONNzT+7DGQgYCpHxqeRZ1tcg7tEJFaQGskqc26?=
+ =?iso-8859-1?Q?CkOoeQNZnN6x6Ig+IOuRxi5FoYCSdS9Uqgs5RCMzmdU8AstLsJanCN6i/l?=
+ =?iso-8859-1?Q?Y8UH2kCFxoXsmN2GBIMcpUzVZ0mQeSysTCOe6O4rtL/iwFOnHcMOzsW4pE?=
+ =?iso-8859-1?Q?jCG0ITLtqvvVhzGPkGA8rzsjgywc4VJ99BEIACWyljDd9LpXrvHWiakm/S?=
+ =?iso-8859-1?Q?vvJx+bSdCd6gs3sKfFawozeVRc/HKcBTUiGeR777PDp1f9+qPmpA9rBPUj?=
+ =?iso-8859-1?Q?6tvata2hXTsD2BgSb8cwYE550ovVj8UHAimkKmOxN5Ftt9ztE/ZUyjFCIU?=
+ =?iso-8859-1?Q?I7x5f0LBLzoQG86AFr3NinyFPI6AULiDnVNCq6Kizh35iqeWLQdYANggef?=
+ =?iso-8859-1?Q?MyNHIH4sxsja9/K+Ax+3bd6sMk3+2Y69+Ct5sSQ6KpSgjrfhjeMlz4MV3c?=
+ =?iso-8859-1?Q?rp+mbp23M7qhDDnxSpo7cK8rEVesT0oKg7B5EYrIT24gjjX4cOD/MkXtt6?=
+ =?iso-8859-1?Q?0hAOM+D4u/fyCxNPfRmDlQab5EhB8etG2rfeRpFl4EvRamJryM26UxlEAS?=
+ =?iso-8859-1?Q?mekowsyhHLLW9ErdPZIQk7iSDCjvgRXBX/0Tm92Psb039+ZEECYcv1yvdq?=
+ =?iso-8859-1?Q?ac/ONw6eseJ/ZtyXkv8EVrj4PyeJs6DQ7KUSUK8gw=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID:
+ <C21A469FFC63BC449793E1A23056648A@sct-15-20-4755-11-msonline-outlook-746f3.templateTenant>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305020153.2787423-1-almasrymina@google.com>
- <20240305020153.2787423-3-almasrymina@google.com> <ZfegzB341oNc_Ocz@infradead.org>
- <b938514c-61cc-41e6-b592-1003b8deccae@davidwei.uk> <ZfjMopBl27-7asBc@infradead.org>
-In-Reply-To: <ZfjMopBl27-7asBc@infradead.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 22 Mar 2024 10:40:26 -0700
-Message-ID: <CAHS8izMT1Smz6UWu2uwAQRqgZPU7jTfS3GKiA_sDw9KLqoP-JA@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next v6 02/15] net: page_pool: create hooks for
- custom page providers
-To: Christoph Hellwig <hch@infradead.org>
-Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SYCP282MB0461.AUSP282.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82c062f2-ea57-4502-e42c-08dc4a97da42
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Mar 2024 17:45:24.1579
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY5P282MB4539
 
-Hi Christoph,
-
-Sorry for the late reply, I've been out for a few days.
-
-On Mon, Mar 18, 2024 at 4:22=E2=80=AFPM Christoph Hellwig <hch@infradead.or=
-g> wrote:
->
-> On Sun, Mar 17, 2024 at 07:49:43PM -0700, David Wei wrote:
-> > I'm working on a similar proposal for zero copy Rx but to host memory
-> > and depend on this memory provider API.
->
-> How do you need a different provider for that vs just udmabuf?
->
-
-This was discussed on the io_uring ZC RFC in one of the earliest RFCs.
-Here is a link to Pavel's response:
-
-https://patchwork.kernel.org/project/netdevbpf/patch/20231106024413.2801438=
--6-almasrymina@google.com/#25589471
-
-The UAPI of wrapping io_uring memory into a udmabuf just to use it
-with devmem TCP only for the user to have to unwrap it is undesirable
-to him.
-
-> > Jakub also designed this API for hugepages too IIRC. Basically there's
-> > going to be at least three fancy ways of providing pages (one of which
-> > isn't actually pages, hence the merged netmem_t series) to drivers.
->
-> How do hugepages different from a normal page allocation?  They should
-> just a different ordered passed to the page allocator.
->
-
-Yes, that's more-or-less what's what the hugepage memory provider
-Jakub proposed does. The memory provider would allocate a hugepage and
-hold a reference to it. Then when the page_pool needs a page, it would
-allocate a PAGE_SIZE page from said hugepage region and provide it to
-the page_pool, and the pool back to the driver. This allows the
-hugepages to work without the page_pool and driver to be hugepage
-aware and to insert huge page specific processing in it.
-
-Other designs for this hugepage use case are possible, I'm just
-describing Jakub's idea for it as a potential use-case for these
-hooks. For example technically the page_pool at the moment does
-support non-0 order allocations, but most drivers simply set the order
-to 0 and use the page pool only for PAGE_SIZE allocations. An
-alternative design could be to use this support in the page pool, but
-that requires every driver to adopt this rather than a core networking
-change that can apply transparently (to a large extent) to all
-page_pool drivers.
-
---=20
-Thanks,
-Mina
+On 3/5/24 03:48, Andi Kleen wrote:=0A=
+> On Mon, Mar 04, 2024 at 09:56:07PM +0000, Moody Liu wrote:=0A=
+>> The function name should be `_readgsbase_u64`.=0A=
+> Acked-by: Andi Kleen <ak@linux.intel.com>=0A=
+=0A=
+I'm wondering when can this tiny patch be merged.=0A=
+=0A=
