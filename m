@@ -1,71 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5D718E20;
-	Sat, 23 Mar 2024 18:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBCB23BF;
+	Sat, 23 Mar 2024 18:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711218346; cv=none; b=XIfZiErwla++J4Cmu2f2/BVlVQ+Fj3W/ynFIgzILdVoXz5h78s03oEJYfp9zGQeLwN6MyznY5ZzKP3cqiJi8kgRCxT54k+X96gdMdN4kqmDh2sab4KjzbYIHRGWCUJkFVQLJ7qnyVQk8+vmrSOWi+kAU3/XobDcWmr2uf8tM4Mg=
+	t=1711219004; cv=none; b=iJSHc2dB3xyXKc+phRXMxTJloYFR+I4nnWCa8gJEr91vCAPM0epon2YKCexnbPL09wqnpNw4TVNAaz9uKTD76cIFMTer7YlWmZt4ESQP32FkwLSd/uaWa32ClJcYElPDP4snuKPFf0n0OaOhFh7KXncrUqpApLyGsntESlmUhNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711218346; c=relaxed/simple;
-	bh=liGVbDAsKW05xQZWyPF9ufbQ+IFVrk7BJ/aTDcom11U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=AJOgTjQp858BmBD1pLaE//LxrYjGOR78BmPg810Rr6ue2svUZ3rGIm1k40jb0iRjBsoaQLG255935aaA08dv5EtF+WMCU59sPggMgqYJLLz72hnci22lJRJOQHfmyLeuKscRTuaCMLptXNAf4W6qz+NIASijQ1Sa8nnI6DR2QKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rK/ZlfD0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711219004; c=relaxed/simple;
+	bh=HM5zQmEX8Cyws1CvVcKCjSQ2/yfz5SMsIZulXcYzZWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FZNFe0mJPXfCAIOpm9BzK4ZL+P5AzqG1lC3OzIK2HD3BYNRgS3aPz1ecC4J4Fi0Xix3mqQiVRQcf3RfMNpEynhYoIcxsG7wSwU0kR6o+EATeIyriMHXNReJMGGEsNvRDv4ldudGV9Wvu/JrktreWUKqmhAMOdheeaTTHfkPTRY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7euYnb+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rK/ZlfD0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92B5FC433C7;
-	Sat, 23 Mar 2024 18:25:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7euYnb+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50ADEC433C7;
+	Sat, 23 Mar 2024 18:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711218346;
-	bh=liGVbDAsKW05xQZWyPF9ufbQ+IFVrk7BJ/aTDcom11U=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=rK/ZlfD0NtDP2c/9by3JyZldEIeJRBqiSvSPA07dDtJmp7nTfB3z7xyhKXqx7Ja5U
-	 0HEDoU3tsXF1p+GZyypFyn619zT1zPV1yd9jO9TdNKK21z4PJdsinV393Qi0GoNtNs
-	 NBvHvTkiM2jus72h0Dytd6TXoQ5VthzqBu+QbxxwJ8q8/YUgRwgZ7Lk3jRob8LTuG6
-	 ycISZFbAu7W1A6D73SAxKR/nr3gkpJvAljLBnYw4+zS4XuBBq3BdekudEi5j82BQ3U
-	 LVHh/LUf1T/a4t7tnrQK3gPYDX95watSDP0TI+m4s+jQJa1q6Q+XQn4TTiBE6luHDN
-	 uprcW2KcupLyQ==
+	s=k20201202; t=1711219003;
+	bh=HM5zQmEX8Cyws1CvVcKCjSQ2/yfz5SMsIZulXcYzZWE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q7euYnb+DIfEHAFmpOeYb0oCz2v8PKBJLTtl612ohAey4kR2X7Fzu3LKjStT2TUhl
+	 r3o+3eQO6RoecBHp/9WRI6yvrItb7Ho+dS2SbE76UYwHc4UlJQo0IGGFJk0wRwwucu
+	 psYLDoj0lFDvRVBsKepuDWA8NCB4aQf6UxnLI0pO7Yd348/YfCRTidD4XHB+zEYDFr
+	 0HOQ0Z/NkHMFZx76SxZjd36GdGmIFD8Ndmg/uCdq3aOTSM1K+EwPPlOuL5yhu3TtUo
+	 OndU5o3FF3ZLjy6Hh85qC+IeSNyNSfM4LdNBrMb3cvIngNr887DMXadqTZDivWwTrs
+	 R6cT7axrtW1mA==
+Date: Sat, 23 Mar 2024 18:36:30 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] docs: iio: new docs for ad7944 driver
+Message-ID: <20240323183630.6aafce66@jic23-huawei>
+In-Reply-To: <20240322-mainline-ad7944-doc-v2-0-0923d35d5596@baylibre.com>
+References: <20240322-mainline-ad7944-doc-v2-0-0923d35d5596@baylibre.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 23 Mar 2024 20:25:41 +0200
-Message-Id: <D01C9XMYRA1M.N94CPODMQSXS@kernel.org>
-Cc: <linux-integrity@vger.kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Daniel P . Smith" <dpsmith@apertussolutions.com>, "Lino Sanfilippo"
- <l.sanfilippo@kunbus.com>, "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Huewe"
- <peterhuewe@gmx.de>, "James Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Alexander Steffen"
- <Alexander.Steffen@infineon.com>, <keyrings@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Richard Cochran" <richardcochran@gmail.com>,
- "open list:PTP HARDWARE CLOCK SUPPORT:Keyword:(?:b|_)ptp(?:b|_)"
- <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4] Documentation: tpm_tis
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Jakub Kicinski" <kuba@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240322123542.24158-1-jarkko@kernel.org>
- <20240322155233.30422299@kernel.org>
-In-Reply-To: <20240322155233.30422299@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat Mar 23, 2024 at 12:52 AM EET, Jakub Kicinski wrote:
-> On Fri, 22 Mar 2024 14:35:36 +0200 Jarkko Sakkinen wrote:
-> > +TCG PTP Specification defines two interface types: FIFO and CRB. The f=
-ormer is
->
-> Could be worth spelling out the PTP part here, I'm guessing
-> get_maintainer made you CC netdev because it thought it stands
-> for Precision Time Protocol. And one has to read till the end
-> to see:
->
-> > +TCG PC Client Platform TPM Profile (PTP) Specification
+On Fri, 22 Mar 2024 16:52:12 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Thanks! Good remark.
+> Adding documentation for the recently applied ad7944 driver.
+> 
+> Note: this also covers the features added in [1] that hasn't been
+> applied yet.
+> 
+> [1]: https://lore.kernel.org/linux-iio/20240311-mainline-ad7944-3-wire-mode-v1-1-8e8199efa1f7@baylibre.com/
+> 
+> Also updating the MAINTAINERS file to catch iio documentation since this
+> seems to have been overlooked.
+> 
+There goes deniability :)
 
-BR, Jarkko
+Applied to the togreg-normal branch of iio.git.
+
+Thanks,
+
+Jonathan
+
+> ---
+> Changes in v2:
+> - Removed some paragraphs that would be redundant for most drivers,
+>   e.g. most of the buffer section.
+> - Link to v1: https://lore.kernel.org/r/20240313-mainline-ad7944-doc-v1-0-7860416726e4@baylibre.com
+> 
+> ---
+> David Lechner (2):
+>       MAINTAINERS: add Documentation/iio/ to IIO subsystem
+>       docs: iio: new docs for ad7944 driver
+> 
+>  Documentation/iio/ad7944.rst | 130 +++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/iio/index.rst  |   1 +
+>  MAINTAINERS                  |   2 +
+>  3 files changed, 133 insertions(+)
+> ---
+> base-commit: bbafdb305d6b00934cc09a90ec1bb659d43e5171
+> change-id: 20240313-mainline-ad7944-doc-285b47ed6d35
+
