@@ -1,245 +1,233 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1D97F;
-	Sat, 23 Mar 2024 00:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3E17F;
+	Sat, 23 Mar 2024 00:39:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711153065; cv=fail; b=l6N679660/yPs/NK/tmgebF7a6v9D3F67a7FqP33bJvIL3ozfYhLXrD1aiA6TdtwqI1ZVx2m6NSHGOfcPmWo676uFCqOhS6nOvpvPyofnMWGR8iWuYkg8jQGO+Ds5ul2NVLY4yM+eXc7mhleJ3s41WeUJIdxpHJwj8l19moiwuw=
+	t=1711154394; cv=pass; b=QbXIaI/40W7fUFS/0MBp2O+PWcQus29K8Vqt+qmtxz/zX1QnCvsCMnjxHq58QaMOsy4sz94UgXQ6UuAb3rKUbn4F0B6G3d782Y7acILRsPagB2TfX/43yZYDe7tkcd/1wSPArEzgwDE+2ZOidGsc8KoeNh+A7eLtgvVHorPhdiU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711153065; c=relaxed/simple;
-	bh=ZtKBLB8eDt+56ui+BCwpdNRuGUSDSpmBGV7gu0tr00I=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=V1z52il2ky/qq/K6Wi5AATTH6KR+GuHXaB0I0LFjs7m3pB+tyNjQKI0w6vh3DHZoJTxqT9EDVVTkYA8Bn7hp3nZlo9L/jkXmFxtVMsuJo2vC3oJi0rln95u7t/1BL2QCPfu/GvP7rj2kpkx80VhX4PC9hh/JzXNBaO3t3C26Lt0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7RJa3zi; arc=fail smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711154394; c=relaxed/simple;
+	bh=IZQstQMtLD3a/Oiu8dc2nBD7fX2kaYx9Q+6x+U1Cem4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kcd4x5diRSUeF26buqQf0rS4/ZoQMVaPHjIQZiI/aueMUplLzSf5gA8AUvQmBdyRKTF/9q6iyEA1hhNzlsD18YiYGpKETvZ4KJZCQbdb5e3dfcYPIPiu9SdGNNuwDLFwzSVkamEt4RhuN7sylSdMJk3VJLrYShRNpaCV7q4XEUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=EIcEU6Es; arc=pass smtp.client-ip=136.143.188.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7RJa3zi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711153063; x=1742689063;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=ZtKBLB8eDt+56ui+BCwpdNRuGUSDSpmBGV7gu0tr00I=;
-  b=i7RJa3ziKO0kZkWoPUKg/UT9KK6ihSVQ4B8tqX+NaZGQDhDqC8VoDCYV
-   NfRCkPj5z6hbFZ+CCNdnos3TAW5AS8qFWTkumVB5+uv6Clp61cVARJptD
-   dEtdd6eNPwoVVNe00iXqQKx5ar+lFmDNLniQtgjclqClzeml55bSlfGR3
-   Hkw30dQoqBGpW4AexNVrI9WRIX9TRlEZ63dbFGVTo3dvPhUjLnRqnEuwS
-   2/n2SXgYd4yID3/oaVma2tycbWenbnw0QY3r3P/cY3/Jluf7lgD+9+P8x
-   ZbwpvMkzuHDholewkqIdn4rpmCRqSqNgZ2BoxLvarnb5vgRWRSBb1hXa9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11021"; a="23711927"
-X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="23711927"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 17:17:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,147,1708416000"; 
-   d="scan'208";a="14979845"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Mar 2024 17:17:41 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 22 Mar 2024 17:17:40 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 22 Mar 2024 17:17:40 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 22 Mar 2024 17:17:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j33H9dQlOjAS0QcFSdwhNg553lGt+pKTgXtaIzIb1z92wBgt8YVg9RRWNtHvNJDcnFPXH/NTGn87K0Z488EHRx1qaWSKZQ2pjtjngcy1WwJmENyfP+xfPPovKBGIlQG9ktWycrjWWGy1oIzRJ/ASXiWaSFpjtC9XKNIaLuGZhtvR2fjAFPvP3OSpTKmX9+ON0rh0rJLhnWbo8tWGgRO3YED6/CJYOtr7HnS2r6W/5bPAMlFWQUdY1eN+Opa+ccmYTl6PlstbyBrZHq4FR2JCAn1NHS0SSbu3hmpcPu06Zc7QotZce715oGAuefPlXE3dqfaQ9dmUPT6HX3K51r7ajw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mz1vWrpD4d194oHM88iKgenwnNhcpFXCvnaMHbRYmK0=;
- b=DY1sRC9DiTGaApnno6W3HFbQ/3JaZRDbgsT+QhlI0Ch+uMiB/Q6J4yXFxpL/Ryq1TrEMDnmyyt93vbFswTLLKXQe2iaQYmAMQJCBtPNM4AQk6JIfNp8SL6T/KJNHYpuNtCnmF5vUtYJrvU+ku99pEApYdeWBnamQpnJYfiHAZt9c3ojA3Zvern2AynEIseVwkWyVLBf78UQ3prL90+/iuN654nfD/l5Q7lZdsGXtKdVn+WqnAr6LBVmWiUOiLARjWLSdHic3ICTjY6qgUdOBFXiHoAr5S+y8czYSBv05vG/VthyFc9i3A9zkuoEOkQzluunRtdsnImEmSDU1BjOV9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by CY5PR11MB6318.namprd11.prod.outlook.com (2603:10b6:930:3e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Sat, 23 Mar
- 2024 00:17:33 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71%4]) with mapi id 15.20.7409.023; Sat, 23 Mar 2024
- 00:17:33 +0000
-Date: Fri, 22 Mar 2024 17:17:30 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>, "Williams, Dan J"
-	<dan.j.williams@intel.com>, "peterz@infradead.org" <peterz@infradead.org>,
-	"torvalds@linux-foundation.org" <torvalds@linux-foundation.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>, "Weiny, Ira" <ira.weiny@intel.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>, "Brandeburg, Jesse"
-	<jesse.brandeburg@intel.com>, Ilpo =?iso-8859-1?Q?J=E4rvinen?=
-	<ilpo.jarvinen@linux.intel.com>, "Wunner, Lukas" <lukas.wunner@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH] cleanup: Add usage and style documentation
-Message-ID: <65fe1f9aadf51_2690d2948f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
- <BN9PR11MB52764D455B465E7C69F3A4C38C312@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52764D455B465E7C69F3A4C38C312@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: MW3PR06CA0007.namprd06.prod.outlook.com
- (2603:10b6:303:2a::12) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="EIcEU6Es"
+ARC-Seal: i=1; a=rsa-sha256; t=1711154373; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=B9pYW7lj4Z+uzq8AVE59XgvOsa93f9twCyqtyoFPlzSbLQPHcEob7aJcECp3iXUZRB+gx+eTI0F/XAp+65/19mCrLmqKJlgNlP8Sd9p+FKSon3Kj0DZVO/vICX5U7+LpY3vKC1kULzQIw0a4FYiVLpbD/xJvCMF44D8am++9DrM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1711154373; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=v374hk794r7O7dlfZ3++1YAoZDq+f+3n63wl9EofYp0=; 
+	b=K0RIUa0w8z+L0nW6SB3OHj2yC5QBPYG/c+AvaetYekQR+KKTKgSkeUtN7TqkinP9qLrMXVBdEpzpnX1BJ6AT8IVg69nKGT+8o12634DBBbmlDcTWhzdAlDemFA8A0MgENa9cPTEQQZvYbhZG5y9ErkKTcFjma7yj8/peHxfcibk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=apertussolutions.com;
+	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+	dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1711154373;
+	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=v374hk794r7O7dlfZ3++1YAoZDq+f+3n63wl9EofYp0=;
+	b=EIcEU6EsHgfVe0rfIb7aY73zggM+qzonYfbN78n82ngAO+DUOJuVyhWeWYtBS07/
+	iP4EjUNBQp4jcl9eiDeP2Azf84Y/FPWdUqYTC5iyt1/X1O1Zgz1qRr63rW4qjEp1le7
+	MtfAscIcWCZ/54N5Jr/5fFY/nzrWG8ZIWWWSVK/Y=
+Received: from [10.10.1.138] (static-72-81-132-2.bltmmd.fios.verizon.net [72.81.132.2]) by mx.zohomail.com
+	with SMTPS id 1711154370859958.6393373374815; Fri, 22 Mar 2024 17:39:30 -0700 (PDT)
+Message-ID: <5a494de5-b004-440c-bcdf-7bdfa3a8c508@apertussolutions.com>
+Date: Fri, 22 Mar 2024 20:39:28 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|CY5PR11MB6318:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd26b5bc-b00d-48ec-7b9c-08dc4acea2ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1kkJPu+aPTg9sSzNiXXw99/wMNfnLUyCBa4ZKdhBCZzZueeejeWuNHSvXwq+b1WBt+rYoD1eYAG60bILSznYV5UNwXKgS3pKWcgxPf/FqtQHiIXM1JfkQTlPH32Zep2/8MWJ/fztol8zK6eM4H8eltgoJLl9X7aeHTyEV6U3m83R/0DQ0u5Zy9iZFB9VHalaU7RJLU7uKGc4b2yblooax4M5nJ0ehP3tyI+PXGmvOQH1JCmtNYEwKJ/IBDzSeZIBembQ2qV/bRjQmWFq1dmGvsMbjqU42AUqf1Dm9fC78LyY8pTKeaoLfrtUiikT/9r6UCtjMbQGNY5Bzvivi75hR3NYH8iAJNwi2fMGREvbK7/6tuGavILIeMlpdMlwt+0xM/w4JolpwvGt7syDkDu2SIvDFqbuzo1tWEkymw4XxvCKwYa5EH/S60tRjSjPFcl8PwLAQzh1lK9/MCDe+GTCUixP0mSoBI1izzhK+Y4u0t/6ibu9MITD5SrnTUJjNCIP7EQQg1zL/U13PbN5quwUOyUDcUbwfvbzgPKT89oYn0pw9ZjEoO1wDEg1pWeBsaiEAMFUHQqAWVx3XmLcN++SnllgYbkrzfhV55uWjidRembbhYuagfSig+t66S3FaSDmqGxnGJPZf7s1wg8UTFN3KlnJIr2DpVVlBVEsUfLOsNU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005)(7416005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d1hyCasr4EK7bzOhmW4yHiNseQqqhtt21cuq9nEY5P1SdyyuMX/kZU9Csuci?=
- =?us-ascii?Q?QNsUo86EzEMvkIPYW+4/zOykrgHhTbCcknCjd0wniZ8FT98vhS6afsft+B0d?=
- =?us-ascii?Q?PyIlUA/kUJFDsu3G80ftV/JTa/dbxvl17u9tHSPKGy+seaeKvyUt5xdHLf6E?=
- =?us-ascii?Q?B8Dp3nJgXmCu5R/nmxJfRVDQhhMr+TywrK3wpjerWzMlh6bVpkXxpPeVV/NJ?=
- =?us-ascii?Q?/QQcxvHKpwnEMmGSZZvxgjVCu0K5OosfZxY5ACAvtJIwFYbn1+6jFSW7a7dk?=
- =?us-ascii?Q?2/3cyDqlbPj+zvQ1i9mvnfJoGBsVwDCWBRoTGFeBgXUWID6C8y7GrYpuSssM?=
- =?us-ascii?Q?/azQ9lo7ielaarlUL8EEPT4PkKY56Eh27HlFEeUlhYDZeMoFx+101QNBWkHh?=
- =?us-ascii?Q?cuhdTlOd0fBpwrZY09f79qoIkURKAenahOK4+5FDcmK8K9fF3raLNzMQ8imZ?=
- =?us-ascii?Q?49Yf+9PE3Id3K7Yb6y1RbT6qVI4x25CGKbOaI/bTfR5blkjQGL4rJF59o3U4?=
- =?us-ascii?Q?/GX2WraKfn+lASP8UXhiwtbunPme36jdeKZF8jThKLqpOCkQroFzTizMMzTN?=
- =?us-ascii?Q?I88fqvvo+bqDmu3fnXJL6KQJ6kbqMOjI4uHxyUo/dZ4zIo5Wu6KR4S83JBZM?=
- =?us-ascii?Q?teTXrNygrDSx0k59+ULeIzF1/Y8/UTM2zZBHy8M+E6+f5c3pGa/y8sFT2vMz?=
- =?us-ascii?Q?dU1rr+xyNRFlg6aAPdu4jILsx5iE8Rhd8DSzxHYW7VqiiELTrlNkhdIaLhRx?=
- =?us-ascii?Q?qAe9iYUSo1Fqi7NnOdRBjf5gRQ2U5is9ia7eQfg6N+8CaodXwmCL1ggWiFwh?=
- =?us-ascii?Q?uyqopswZ+8KlIvd+nxzQL/i2RfoEbWJk0nmIY4Den+oIGZOcjAJk03oGT9g7?=
- =?us-ascii?Q?/kjCm4671MdqIHsM+gDihpWLQKZjcH4fLLjSyKD9YOqngDVJIyRu+LxEetJs?=
- =?us-ascii?Q?mbBjt+WW86AHeQ6Lq951fZFSmcr1CZSyzpVdQJ9lmDXlIWg5DeiUb6MDvY5g?=
- =?us-ascii?Q?iIUY4x5yFzyAWf9jf1QvFI7NLSCCKh1vE1yazHYSxFMV31/Jo3qAPt6cfhSk?=
- =?us-ascii?Q?cii4q9oDrPEV03Vy1hF8W0nPNBzsaFG4lck+jQnFoiKL9LoTPgzdwTnv24uh?=
- =?us-ascii?Q?WvHYKPddanSEpzDA9UaV6n8LtMzSVjajI2PGz9rhd9foIkAa08QRkuYre/oE?=
- =?us-ascii?Q?SMTwVf2cRI7cImoHGrtbuc94IYo9hNL7G9K69T/P29ZDWiIYM8kIEeF9ZLjt?=
- =?us-ascii?Q?IyLsZSLO7fKV2hiDMb0a/Hv+AxkIMXp+sEAqQO3TVGvqRTe6b5BAdor6iz/F?=
- =?us-ascii?Q?n7eTUKtXiGRio+IIhgGUuBzFknMlBr0CFMMzgEa6zvUNcnf4BUzNmAmkT+Vp?=
- =?us-ascii?Q?93VV54ATgy8+e67cB5GIqIpzsko+KDD43/4eqGsYCEaemniyjqpHwN4UjlZR?=
- =?us-ascii?Q?4kfKD7nJkEBqwoLDChDl4j9RA73vbJEQFjxBgd+MbsMNBGCvVT3JRuJI/aBs?=
- =?us-ascii?Q?g5ezdO6eQYF12LmzL4eXta6/razr1KagE4anl230Evsav9dDgMiS7IH+kXTI?=
- =?us-ascii?Q?vhEmWZxYQc5ItQ9LUXfDV/Q96sjsIOoF1FXzRQ+7HC1Xika2N6ELzA6/U5Ok?=
- =?us-ascii?Q?rA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd26b5bc-b00d-48ec-7b9c-08dc4acea2ac
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2024 00:17:33.4774
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /q8ltKH0m/4ReaGxOUZJcvt3T2or3nvpweWH0fr5N2I70NKnefb5FHA7y5bY02sQhBqDSJQ3k0PvFwVBw8eCOuaIMf+mnrAgeEoiqMO0WA0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6318
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] Documentation: tpm_tis
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Lino Sanfilippo <l.sanfilippo@kunbus.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Peter Huewe <peterhuewe@gmx.de>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Alexander Steffen <Alexander.Steffen@infineon.com>,
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Richard Cochran <richardcochran@gmail.com>,
+ "open list:PTP HARDWARE CLOCK SUPPORT:Keyword:(?:b|_)ptp(?:b|_)"
+ <netdev@vger.kernel.org>
+References: <20240322123542.24158-1-jarkko@kernel.org>
+Content-Language: en-US
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Autocrypt: addr=dpsmith@apertussolutions.com; keydata=
+ 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
+In-Reply-To: <20240322123542.24158-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Tian, Kevin wrote:
-> > From: Dan Williams <dan.j.williams@intel.com>
-> > Sent: Thursday, March 21, 2024 6:05 AM
-> > + *
-> > + * Note that unwind order is dictated by declaration order. That
-> > + * contraindicates a pattern like the following:
-> > + *
-> > + * .. code-block:: c
-> > + *
-> > + *	int num, ret = 0;
-> > + *	struct pci_dev *bridge = ctrl->pcie->port;
-> > + *	struct pci_bus *parent = bridge->subordinate;
-> > + *	struct pci_dev *dev __free(pci_dev_put) = NULL;
-> > + *
-> > + *	pci_lock_rescan_remove();
-> > + *
-> > + *	dev = pci_get_slot(parent, PCI_DEVFN(0, 0));
-> > + *
-> > + * In this case @dev is declared in x-mas tree style in a preamble
-> > + * declaration block. That is problematic because it destroys the
-> > + * compiler's ability to infer proper unwind order. If other cleanup
-> > + * helpers appeared in such a function that depended on @dev being live
-> > + * to complete their unwind then using the "struct obj_type *obj
-> > + * __free(...) = NULL" style is an anti-pattern that potentially causes
-> > + * a use-after-free bug. Instead, the expectation is this conversion:
-> > + *
+Hi Jarkko,
+
+On 3/22/24 08:35, Jarkko Sakkinen wrote:
+> Based recent discussions on LKML, provide preliminary bits of tpm_tis_core
+> dependent drivers. Includes only bare essentials but can be extended later
+> on case by case. This way some people may even want to read it later on.
 > 
-> an example of dependent cleanup helpers might be helpful to
-> better understand this expectation?
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> CC: Daniel P. Smith <dpsmith@apertussolutions.com>
+> Cc: Lino Sanfilippo <l.sanfilippo@kunbus.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Peter Huewe <peterhuewe@gmx.de>
+> Cc: James Bottomley <James.Bottomley@HansenPartnership.com>
+> Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+> v4:
+> - Extended the text to address some of Stefan's concerns with v2.
+> - Had to unfortunately remove Randy's reviewed-by because of this, given
+>    the amount of text added.
+> v3:
+> - Fixed incorrect buffer size:
+>    https://lore.kernel.org/linux-integrity/d957dbd3-4975-48d7-abc5-1a01c0959ea3@linux.ibm.com/
+> v2:
+> - Fixed errors reported by Randy:
+>    https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@infradead.org/
+> - Improved the text a bit to have a better presentation.
+> ---
+>   Documentation/security/tpm/index.rst   |  1 +
+>   Documentation/security/tpm/tpm_tis.rst | 46 ++++++++++++++++++++++++++
+>   2 files changed, 47 insertions(+)
+>   create mode 100644 Documentation/security/tpm/tpm_tis.rst
+> 
+> diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+> index fc40e9f23c85..f27a17f60a96 100644
+> --- a/Documentation/security/tpm/index.rst
+> +++ b/Documentation/security/tpm/index.rst
+> @@ -5,6 +5,7 @@ Trusted Platform Module documentation
+>   .. toctree::
+>   
+>      tpm_event_log
+> +   tpm_tis
+>      tpm_vtpm_proxy
+>      xen-tpmfront
+>      tpm_ftpm_tee
+> diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/security/tpm/tpm_tis.rst
+> new file mode 100644
+> index 000000000000..b448ea3db71d
+> --- /dev/null
+> +++ b/Documentation/security/tpm/tpm_tis.rst
+> @@ -0,0 +1,46 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=========================
+> +TPM FIFO interface driver
+> +=========================
+> +
+> +TCG PTP Specification defines two interface types: FIFO and CRB. The former is
 
-The simplest example I can think of to show the danger of the
-"__free(...) = NULL" causing cleanup inter-dependency problems is the
-following:
+I believe in the spec, the authors were specific to classify these as 
+software interfaces. Not sure if you would want to carry that 
+distinction into this document.
 
----
-LIST_HEAD(list);
-DEFINE_MUTEX(lock);
+> +based on sequenced read and write operations,  and the latter is based on a
+> +buffer containing the full command or response.
+> +
+> +FIFO (First-In-First-Out) interface is used by the tpm_tis_core dependent
+> +drivers. Originally Linux had only a driver called tpm_tis, which covered
+> +memory mapped (aka MMIO) interface but it was later on extended to cover other
+> +physical interfaces supported by the TCG standard.
 
-struct object {
-        struct list_head node;
-};
+Would it be worth clarifying here that one of those interfaces is 
+defined in the Mobile TPM specification, which also refers to its 
+interface as the CRB interface. In the past, this has caused great 
+confusion when working with individuals from the embedded community, 
+e.g., Arm. The Mobile TPM CRB interface, which can also be found being 
+used by some generations of AMD fTPM, is a doorbell style interface 
+using general-purpose memory. I would also point out that the Mobile TPM 
+CRB interface does not provide for the concept of localities.
 
-static struct object *alloc_add(void)
-{
-        struct object *obj;
+In relation to the MMIO backed interfaces, I have heard comment that the 
+software interfaces were not meant to require the physical interface be 
+MMIO. In fact, in section 9.2, "Hardware Implementation of a TPM in a PC 
+Client Platform", there is a comment about Locality 4 registers being 
+accessible via an implementation specific mechanism other than MMIO. 
+Additionally, there were some discussions about clarifying the PTP on 
+how the software interfaces might be expected to work for a 
+general-purpose memory backed implementation.
 
-        lockdep_assert_held(&lock);
-        obj = kfree(sizeof(*obj), GFP_KERNEL);
-        if (obj) {
-                LIST_HEAD_INIT(&obj->node);
-		list_add(obj->node, &list):
-	}
-        return obj;
-}
+> +For legacy compliance the original MMIO driver is called tpm_tis and the
+> +framework for FIFO drivers is named as tpm_tis_core. The postfix "tis" in
+> +tpm_tis comes from the TPM Interface Specification, which is the hardware
+> +interface specification for TPM 1.x chips.
+> +
+> +Communication is based on a 20 KiB buffer shared by the TPM chip through a
+> +hardware bus or memory map, depending on the physical wiring. The buffer is
+> +further split into five equal-size 4 KiB buffers, which provide equivalent
+> +sets of registers for communication between the CPU and TPM. These
+> +communication endpoints are called localities in the TCG terminology.
+> +
+> +When the kernel wants to send commands to the TPM chip, it first reserves
+> +locality 0 by setting the requestUse bit in the TPM_ACCESS register. The bit is
+> +cleared by the chip when the access is granted. Once it completes its
+> +communication, the kernel writes the TPM_ACCESS.activeLocality bit. This
+> +informs the chip that the locality has been relinquished.
+> +
+> +Pending localities are served in order by the chip in descending order, one at
+> +a time:
 
-static void remove_free(struct object *obj)
-{
-        lockdep_assert_held(&lock);
-        list_del(&obj->node);
-        kfree(obj);
-}
+I think I get what you are trying to say, but I find the wording here 
+could be a bit misleading. Instead of saying they are served in order, I 
+would suggest saying something to the extent that: there are five 
+localities, more than one can be requested at a time, but only one will 
+ever be active. Selection priority when multiple requests are pending is 
+detailed in the Informative comment on locality priority in Section 
+6.2.1, "TPM Locality Levels".
 
-DEFINE_FREE(remove_free, struct object *, if (_T) remove_free(_T))
-static int init(void)
-{
-        struct object *obj __free(remove_free) = NULL;
-        int err;
+> +- Locality 0 has the lowest priority.
+> +- Locality 5 has the highest priority.
 
-        guard(mutex)(lock);
-        obj = alloc_add();
+Do you mean Locality 4?
 
-        if (!obj)
-                return -ENOMEM;
-
-        err = other_init(obj);
-        if (err)
-                return err; // remove_free() called without the lock!!
-
-        no_free_ptr(obj);
-        return 0;
-}
----
-
-The fix for this bug is to replace the "__free(...) = NULL" pattern and
-move the assignment to the declaration.
-
-        guard(mutex)(lock);
-        struct object *obj __free(remove_free) = alloc_add();
-
-...so the compiler can observe LIFO order on the unwind. Yes, no one
-should write code like this, all of the init should happen before
-assigning to a list, but hopefully it illustrates the point.
+> +Further information on the purpose and meaning of the localities can be found
+> +in section 3.2 of the TCG PC Client Platform TPM Profile Specification.
+> +
+> +References
+> +==========
+> +
+> +TCG PC Client Platform TPM Profile (PTP) Specification
+> +https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
