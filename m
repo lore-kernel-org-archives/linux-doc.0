@@ -1,113 +1,92 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B6817583
-	for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 13:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83CD3EA95;
+	Sat, 23 Mar 2024 14:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711198962; cv=none; b=LSEDXWycsbd+GDOWAYwrw2J9R7T/Ta8T3+Ufh7JEY8XWJDwD9iqcf1LlIfnAbyZBv3RZM6qJZ59O0VP+Y72q2HezWeA+tPaSe2KRU47em92IChDtA/t+8Lqz2wKfx5v5nLqUDxk8T4SxazmpSR5q1Ya/QyN6GyiXAB8TmCwPDXs=
+	t=1711203604; cv=none; b=ESc+NXW4xj1g3sS1iRjr9M0htT1BVHBa2t+pxAtxREStZug7kCVlp0TElwp0KP19UqX0yNR6LVTsiAYpge9LWatrJZSBq2AvZOFoJMW86w869zgiW/f7k4T7vYROJSeKZaJG/KDf5eJ437GLpfqzIjnyz+z8HVoj2DPHUJFxmfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711198962; c=relaxed/simple;
-	bh=T7Mgu+MLzqWjzpi1LxLlvfVpGSX814PLr418pafoqeA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L/cmspts7F8EDpk4X4x5u/hFlgD3bUP1zcbn+PkfUMn/WTamzwv5a3IvOuHUSvylW9s4UZMPGNmQlX6bLfSq5cuX+RZylx05PG8kTjuY3Y9Be1IWigEhoRS5w4STSgXDaefRM0l39432wtcewXZftwB4XHxUjI2c61Jt5lQ1w3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=01f+S3IU; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
+	s=arc-20240116; t=1711203604; c=relaxed/simple;
+	bh=Odel/QiBIaTQFUVDy02JJed2eXeOkq8KerMxV/ifmLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rutJNwZLXArErufNsgT0UE/3wYyRQX/B7qB+etJXW3+n7vn6LmoLP53RC9NYXD7ausx1CrQUG+Bo0BlglsfHEqriiLqk9Olb2wmM4adPy/C4Htj9HwadVou2a68kEHyUc3xUm0pFditwimC6KDkoJVFqCEfQLuePFPQohr8yV3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T928AADj; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="01f+S3IU"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-56b8e4f38a2so3851742a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 06:02:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T928AADj"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6e6c0098328so2131438b3a.3;
+        Sat, 23 Mar 2024 07:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1711198958; x=1711803758; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4AhIBO4PzLNRqcsQH2WrtOdVm/lP2EH+zIIytq3CL4s=;
-        b=01f+S3IUtYd/meYR3cu6U5xgGx7ePaekBjSrNvPs81V2H4P11JfeO4891SoJLCCWNF
-         BeaLwMkEdV0fGMbaI3ix8i/UZiLysAGlFbwwYibShb5zirE1IpcMFEEvIXfHfYbqIkjU
-         FVyKv04AC9H9wiEde7zhuJE78QsmCYqeEa/ygeOtgbIOYrvg6O89Y7VqIiDbenuYfvuL
-         rTxGEcKAB/7fRqB+ujPRSvVOER7+z8jb2+6HSPjUYS76vO6soAL5SsM40wk3BXc0zU/I
-         JLyM/6UwoGyNuGPU7idX3yGSoV/xFen84GEktx1Vql2AC4ilzxvreJMtxXsfZg4oqfYq
-         FOGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711198958; x=1711803758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1711203602; x=1711808402; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4AhIBO4PzLNRqcsQH2WrtOdVm/lP2EH+zIIytq3CL4s=;
-        b=DbITZKrKxqYaffokE9est7pmhQidxYB0muEE9QSzoP6B9ywyitNJ2/EIMbnQLaJxZR
-         MGDN46jBNWP1Ky6x2UCgnpPM4xvTnqqFKlQxzlTx7EwXJD06pi1fnggdzEd6ebglCizg
-         Z0+Gp8oa3o7LNHJYF6Z7srigkYOXebfL9HZ0qleNVFrwlgjCl+5xl9f3OFkWRE3pqh34
-         cVsk6+8a/kVkyI0z2rMmZSGHMzChdegH1COhjvv/rTgNcp7vVOl/by25KCYOhZzCSsoC
-         t9umd9h9Y9KN0rOfTg74I9LsF0end4N7n5CEzEnPLrzel5wMzDMYtQQ9VzP9SoZhrU49
-         GgEQ==
-X-Gm-Message-State: AOJu0YytXYbMFnKSV893fz0vT716ta2hneVg94UuK0+6m3QJqSnaKHYc
-	KG4BKrdjPOZYe29Q6Voe+C6Vp7T7RX8RDEdlqjSg8jRXLuN8FGy0fYDyaXRW4gQ=
-X-Google-Smtp-Source: AGHT+IEJcwa9KRylcPbZWBjipR/pVElG6lPBbsxJgzVNd0Q1WdTXThMSTUZVkDL1aExm6EkwUEZ2eQ==
-X-Received: by 2002:a50:8706:0:b0:566:1952:694c with SMTP id i6-20020a508706000000b005661952694cmr1382283edb.20.1711198958348;
-        Sat, 23 Mar 2024 06:02:38 -0700 (PDT)
-Received: from fedora.fritz.box (aftr-82-135-80-212.dynamic.mnet-online.de. [82.135.80.212])
-        by smtp.gmail.com with ESMTPSA id v17-20020aa7d9d1000000b00569aed32c32sm865385eds.75.2024.03.23.06.02.37
+        bh=FBgidFTZUdGcNuWAj9zpgPNJm0S7mU0UHzL1FgVlCM0=;
+        b=T928AADjPGXvKN6TXxcVABWmOeMh9CwsPTaxaRVklNqEqNjizobmilJT6CVNL03JsT
+         IYQRa2s+N1rNwM7N7Ab5zneTHuQDZWLIJvtCXeWBwt3ZEMaZrakhWGn1W4/3Zp0WuVug
+         YEtvtFBT8vJCTIEzUGd5oNDU8vtL3N7M30tWJa2knkimezZ/oAIFA2nTnEQQNKiVp8dy
+         Q1LK1zphpA9ec3uRJLVBN/l6yHrKO0ch+P/4YZ/+788sS2Hc+38dzbINxX1uY5ZgqyXz
+         usCq+loS+59OlDAP5iyObcu1G+OjkH6UwWC4jrRo6W4uWcRNL+3U04chSIfD87frfST9
+         Nb8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711203602; x=1711808402;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FBgidFTZUdGcNuWAj9zpgPNJm0S7mU0UHzL1FgVlCM0=;
+        b=vluvuiCTHZJjLBnOZBMAqGBN+z7kAXZmZ+qpoBaus1JoWTCftsiG2vrnRlVBPCXoxP
+         J993TOcYeQ8fhPTY7i/IABvG9ZHPYWYs2B380sJYlsACKToCwmujyzSi+5FCq1Fkrh2q
+         1rNSftsDPa5MQCx5cukUCqU3NwLlMSNERvNU+Jdo/EJqCtQWRiFiMxPINORVm2er+hoq
+         ix9mJTAmLS9NAkt2MTmHed2hXjcy1CItGEwcKdtxhn2/jvl/K7jw1oY9SugIDaF3GvoY
+         AarCPO3OpuJBzuqDKghtBMzNHXNTVQD3xQorSLYdUjce1ZLRGHBLmkMk6D4Ys4D8Xb0d
+         V4Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCWg8dEYd5aT2Nu+k4wni6QiY3kE6yovLkf+uYjHqKnAiw0piH8fdruVwyf83DDj3nQPXkbfABxXxG24Qo7hWG95I9odECeDrBFXvb+lfKDM4FaJowbca5HY1oWqDtcFKdnw21lYkAFDXCyIKGB8yLBNW+UqTWFhCMhg+82tAqnmoCUx3aULZfgMehEL7kT4RyJGds22usBNbepZzwhcXo0h/uAonf+0FOwtPBvEdbspg0Re1yrIrQEcvd9D
+X-Gm-Message-State: AOJu0Yybu+HD/MDZGMOKLMXKbKAtHjWBTIv0cALm1gDCiE53YLNx0Wrn
+	6Ob+8oNpF1IIv1/W38v40DBu3RA4XyeJ+oJHPIbheGsO29uJuRcr
+X-Google-Smtp-Source: AGHT+IFE4g4pSxlSN6LvnEn2z8HNI/vPhm+7+3/q+6Kl17LuocSiq18gMq4AaLc1Hqw8I998qpbc6Q==
+X-Received: by 2002:a05:6a00:b46:b0:6e6:b778:fb4f with SMTP id p6-20020a056a000b4600b006e6b778fb4fmr2901193pfo.26.1711203602171;
+        Sat, 23 Mar 2024 07:20:02 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z3-20020aa79903000000b006e6b4613de1sm1418943pff.104.2024.03.23.07.20.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Mar 2024 06:02:37 -0700 (PDT)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] scripts: sphinx-pre-install: Add pyyaml hint to other distros
-Date: Sat, 23 Mar 2024 13:58:38 +0100
-Message-ID: <20240323125837.2022-2-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.44.0
+        Sat, 23 Mar 2024 07:20:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 23 Mar 2024 07:20:00 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Radu Sabau <radu.sabau@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: pmbus: adp1050: add bindings
+Message-ID: <01bfd466-4828-476d-8e7e-45f656392ec0@roeck-us.net>
+References: <20240321142201.10330-1-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240321142201.10330-1-radu.sabau@analog.com>
 
-Extend commit 84b4cc8189f2 ("docs: scripts: sphinx-pre-install: Fix
-building docs with pyyaml package") and add pyyaml as an optional
-package to Mageia, ArchLinux, and Gentoo.
+On Thu, Mar 21, 2024 at 04:21:42PM +0200, Radu Sabau wrote:
+> Add dt-bindings for adp1050 digital controller for isolated power supply
+> with pmbus interface voltage, current and temperature monitor.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-The Python module pyyaml is required to build the docs, but it is only
-listed in Documentation/sphinx/requirements.txt and is therefore missing
-when Sphinx is installed as a package and not via pip/pypi.
+Applied to hwmon-next.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- scripts/sphinx-pre-install | 3 +++
- 1 file changed, 3 insertions(+)
+Please note that the branch will be pushed after the commit window closed.
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 4c781617ffe6..d4f05216ca23 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -514,6 +514,7 @@ sub give_mageia_hints()
- {
- 	my %map = (
- 		"python-sphinx"		=> "python3-sphinx",
-+		"yaml"			=> "python3-yaml",
- 		"virtualenv"		=> "python3-virtualenv",
- 		"dot"			=> "graphviz",
- 		"convert"		=> "ImageMagick",
-@@ -557,6 +558,7 @@ sub give_mageia_hints()
- sub give_arch_linux_hints()
- {
- 	my %map = (
-+		"yaml"			=> "python-yaml",
- 		"virtualenv"		=> "python-virtualenv",
- 		"dot"			=> "graphviz",
- 		"convert"		=> "imagemagick",
-@@ -587,6 +589,7 @@ sub give_arch_linux_hints()
- sub give_gentoo_hints()
- {
- 	my %map = (
-+		"yaml"			=> "dev-python/pyyaml",
- 		"virtualenv"		=> "dev-python/virtualenv",
- 		"dot"			=> "media-gfx/graphviz",
- 		"convert"		=> "media-gfx/imagemagick",
--- 
-2.44.0
-
+Thanks,
+Guenter
