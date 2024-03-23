@@ -1,99 +1,135 @@
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C552AD1A;
-	Sat, 23 Mar 2024 14:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE26E8BE5
+	for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 14:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711203673; cv=none; b=sXfogq3zIcrxfbxUBv+42jYIXBGiiw3xWldnFlj9Sd+Gd3QDTLkHASsVICA3JXlnf/LtxoJfeaL+lKJpiEY8qJIRPHm5L5aFdRKrgsjzUmomXvPftBgUjdXjYCZdN7772pJoqomph72f6GyPcCOk+g9q+nlYcoI6H8xvZ3iBX7Y=
+	t=1711205769; cv=none; b=O1gJKyQD8GmXkijpm7b0dJCKEoZOu0dYH8YAdWkr9GYqJHh58ubzCTbuvtwzFnHThP5sWIDav7+wThXcm2Jzx1r5NE+ggvFZoNrNJRCtWjc/ywFotKc+9MaZcJiIHQhG8hHQzbYrdxu/3FxiQ0lzo3yhPDTpd5TD+DivLNLReh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711203673; c=relaxed/simple;
-	bh=LQSM7yKhUlOQk85flm8Fe9F1E4PUvVnlh+Dz78622r4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ti+QYMvyX85iVI73/3NhHECfJ8zt4Cn+kGTTkT2aLk9xR2n2Cfd1HDX3aZLegKiaf8vNfD80d/YetJF0IOPbjG2mGR0/GlVO2nr2YFjo+9K2MGv7xvaQyBKM/Up+vwzRLOWx2jJPM6eCiz8ZSMQz5ae0R/BE7UZZXkJFvknCjYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDYfbwsg; arc=none smtp.client-ip=209.85.166.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711205769; c=relaxed/simple;
+	bh=YGl2EnH/HgHB56L78E5cgN0zjjxULHdiYJ/KZbLDXos=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NSAIq0md498G6kpAu4zz3wy4otwCsAGbvU61FrsauiUCMIjl/U31XpTFr/LBwPKpVO1wrhyk/48djy/xNhQBFjELF0YctWVDR+tSeBrYKcAWOWeIqoLTqOxfXIpGBUKMss1XhT1o1NVRY1SfJP9/uzWel7j1qcax3OOjyW2Ci6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=L424DxKF; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDYfbwsg"
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-366a4bcb2a8so14261125ab.3;
-        Sat, 23 Mar 2024 07:21:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711203671; x=1711808471; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/RHXM9mG48Bs/22v7l3z5kWBGbxkBAHgIQXpP0ZgZIM=;
-        b=cDYfbwsgM3K+UfwT268jvHLNnofC/AtU0lKzwj2nWeq3jk9thmG5ktw0AvSlLVQ9vl
-         hnObjGsLqwSLXQ/R0sdDDcLzV+VN9V+BAC8iuGf81lYuDW4m6/aZRJPIUoE5dUBtkCl9
-         Qa6Nq3mWNMZtAWZYrDi3j6gOV5Kml9Ix7DkgsaU43+mxSHnyLiaEPPY2sEeVIKnSCJ2G
-         c2CRiJCwSWi792ywmeywhDq40X71G8++lRzfi8cBWZhPbxeoU6tzIe92k4sFlPGmv43d
-         xBVAtFl5zExYh7p55fbEsak4zk7Vv/MdCz7flzB6dK7dyj6EWO5QrvNa3NUDNmGPsWT8
-         K9Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711203671; x=1711808471;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/RHXM9mG48Bs/22v7l3z5kWBGbxkBAHgIQXpP0ZgZIM=;
-        b=NKWs+piPW1DL+edy+rhfBNngMjuiU9+poWpKNF41Hwguo0dAZtLPJLUPk9gT4Ad0Bo
-         GTO11pFkwtZkbk2BZN/xAOBPuqk2fwLsu9bg6HtwGPaI5c2R1iEbbN/+cozTR/1K5x0D
-         MAE8DkHL/l1uUJKkUFEiEsKfMdHtYAdTu0Ok6jwIMMmYnSKLJ7ZjqLZhd0ovIqAmu5tH
-         QjHow/UZB6KlVo+QDA8VJ3yrCRpj3CggPuv/enPGwV+kW7Nfc7eGLQADmDcxw+Kxi3qs
-         dnPi50mcoCD135JcEL+SeRT4IzwTYV1vCJZ0dfwBJpDoP7bNbSPfPHsxIyQ92fbsb2/y
-         2YvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXf7hSQhlPasNj1fpIkH67p201fdBil6b2/3XDk/3TBygCCmycS2nKdw7ln4zOopYHTaATW1qouTGjD/cScZ0x88+nNzXxyFkJJwZoKwHpvZjlClPUEstkWBxQX7MSUkXXh5v4320JtffeWrk4Zrhb4NUcA48Qxo7iJ403v96RbbHnjcETk1Oks1z7GpF9gmNoUHgHpl6rsPu5WLRC8b+n76iNEMvTtkFQ48Do/nnA/w4fKHZP69N/wZwu2
-X-Gm-Message-State: AOJu0YwoTOOwEyrg6XbI9W28IXU8sPOAh4QQ4soHyXzldgtl5fptPVoM
-	7DbHRJQbVMeCqnht7RGJJUDlNCEc2QLprxMH8H5/Awkx+SFept2s
-X-Google-Smtp-Source: AGHT+IGieyMNvkHptTNnBXY0vmfynM/4kqD++PFKUn1PsQP6D4hnpbLYIB/4XTAvfD3Ocv6HP44nNg==
-X-Received: by 2002:a92:c6ca:0:b0:366:43bd:f0f5 with SMTP id v10-20020a92c6ca000000b0036643bdf0f5mr2611079ilm.17.1711203671333;
-        Sat, 23 Mar 2024 07:21:11 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d12-20020a631d4c000000b005dcaa45d87esm3203575pgm.42.2024.03.23.07.21.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Mar 2024 07:21:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sat, 23 Mar 2024 07:21:10 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Radu Sabau <radu.sabau@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] hwmon: pmbus: adp1050: Add driver support
-Message-ID: <884ad5e7-3cac-4589-a509-a7bb63545824@roeck-us.net>
-References: <20240321142201.10330-1-radu.sabau@analog.com>
- <20240321142201.10330-2-radu.sabau@analog.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="L424DxKF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=a3icl55x6+ifXw2HDBRuPpys/mdNOjsws8THqdskrU8=; b=L424DxKF7yRTs6Eigkv/fr+xe4
+	IWvt3WuIvstdn/nAElULod+jo0KbPzskmqhGNmwX+0AI/GlbK/8w0eamPcOhRJN36FlKRkm9jA9+T
+	ZZUxFuzFQaDcbcxF17nTLMoCZ5aykHZEu2WnXPoQVbZpzqk/a3B4K5VEy/z0lBavJWXGIqAw6ii4t
+	j2BEtq5BJ21jXWdz9qrgIml1JbpZD3xjdNTN2i7wwAOg240pZPgB5kVhqn/Ze8UH0JkmQeRp6hDG/
+	sJqY3fxMNiah5YA+wZ4jv0cbX+DdiBmJPpDJJWWAThqjqBEZxVjNk5dxQA3dO/VzABnF5PE92v4+2
+	wgWvxlig==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ro2mo-0000000Aapw-0Qk6;
+	Sat, 23 Mar 2024 14:55:58 +0000
+Message-ID: <b6235333-5142-468f-9f59-4454ca8531e7@infradead.org>
+Date: Sat, 23 Mar 2024 07:55:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240321142201.10330-2-radu.sabau@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Detect variable fonts and suggest removing them
+Content-Language: en-US
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, =?UTF-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
+ =?UTF-8?B?0Yc=?= <relect@bk.ru>
+References: <20240323120204.155678-1-akiyks@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240323120204.155678-1-akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 21, 2024 at 04:21:43PM +0200, Radu Sabau wrote:
-> Add support for ADP1050 Digital Controller for Isolated Power Supplies
-> with PMBus interface Voltage, Current and Temperature Monitor.
+Hi Akira,
+
+On 3/23/24 05:02, Akira Yokosawa wrote:
+> xelatex doesn't understand variable font format.  Recent deployment
+> of variable Noto CJK fonts in Fedora and openSUSE tumbleweed breaks
+> builds of translations.pdf.
 > 
-> The ADP1050 implements several features to enable a robust
-> system of parallel and redundant operation for customers who
-> require high availability. The device can measure voltage,
-> current and temperature that can be used in different
-> techniques to identify and safely shut down an erroneous
-> power supply in parallel operation mode.
+> To help developers work around the build error, add a script for
+> checking existence of variable form of those fonts and emitting
+> suggestions.  Invoke it in the error path of "make pdfdocs" so that it
+> is activated only when PDF build actually fails.
 > 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Reported-by: Jonathan Corbet <corbet@lwn.net>
+> Link: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
+> Reported-by: "Иван Иванович" <relect@bk.ru>
+> Link: https://lore.kernel.org/linux-doc/1708585803.600323099@f111.i.mail.ru/
+> ---
 
-Applied to hwmon-next.
+[snip]
 
-Please note that the branch will be pushed after the commit window closed.
+> ---
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/Makefile          |  2 +-
+>  MAINTAINERS                     |  1 +
+>  scripts/check-variable-fonts.sh | 30 ++++++++++++++++++++++++++++++
+>  3 files changed, 32 insertions(+), 1 deletion(-)
+>  create mode 100755 scripts/check-variable-fonts.sh
+> 
 
-Thanks,
-Guenter
+I don't have much to say about the patch except that it seems like a good idea...
+
+However, some of the terminology could be improved IMO.
+E.g., "variable type" or "variable font" should be something like
+variable-width font or proportionally-spaced font.
+
+"static ones" should be something like fixed-space fonts or monospaced fonts.
+
+Unless I just completely don't understand the uses of "variable" and "static" here.
+
+> diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.sh
+> new file mode 100755
+> index 000000000000..775800edb9fc
+> --- /dev/null
+> +++ b/scripts/check-variable-fonts.sh
+> @@ -0,0 +1,30 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# For "make pdfdocs", recent trend of deploying variable type of
+> +# "Noto Sans CJK" and "Noto Serif CJK" fonts breaks xelatex, which does
+> +# not understand variable fonts.
+> +#
+> +# It is hard to distinguish variable fonts from static ones in the preamble
+> +# of LaTeX source code.  Instead, this script is invoked in the error path
+> +# of "make pdfdocs" and emit suggestions if such font files are found.
+> +#
+> +# Assumption:
+> +# File names are not changed from those of upstream Noto CJK fonts:
+> +#     https://github.com/notofonts/noto-cjk/
+> +
+> +vffonts=`fc-list -b | grep -i noto | grep -i cjk | grep -F -i -e "-vf" | \
+> +	 sort | uniq | sed -e 's/\tfile:/  file:/' | sed -e 's/(s)$//'`
+> +
+> +if [ "x$vffonts" != "x" ] ; then
+> +	echo "====================================================================="
+> +	echo "Detected variable form of Noto CJK fonts incompatible with xelatex:"
+> +	echo "$vffonts"
+> +	echo "If you need CJK contents in PDF, remove them and install static ones."
+> +	echo "Otherwise, get rid of texlive-xecjk."
+> +	echo "====================================================================="
+> +fi
+> +
+> +# As this script is invoked from Makefile's error path, always error exit
+> +# even if no variable font is detected.
+> +exit 1
+> 
+> base-commit: b8cfda5c9065cd619a97c17da081cbfab3b1e756
+
+Thanks.
+-- 
+#Randy
