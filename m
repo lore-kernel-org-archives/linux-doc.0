@@ -1,171 +1,205 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9659910957
-	for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 10:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3CE13FF2
+	for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 12:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711189491; cv=none; b=mUUOkjNIrt6KGjHR8zFk7Pvx5ZitGDyEg/+RCIIK3jcnemU8tJfnsjyys2JwiRfbdyNHuChftR3jO7R5zBbuYdZxOGzvzFu+nhdX1W5HfQDxwXJ8THNR+nySrcnBlvycdGxhHYvJeF5I+RCW9vHI7io0tDvVJJ22lj2gJhuhJqE=
+	t=1711195406; cv=none; b=hPLIreoTiuCWOpnCcwz2Ydk1pdjFx69sboZbOkorQzj/3rRo2OOpUHln2AULmKwMpzY4W/mLuVXLeRDGwSveDsGRfuFb8GbS0Yyl9/Bglb7Ifj44U1pMAefAnmH4ijp8i1T/I4iWiVO5fEnXgi5kpt+gCyIhCuWoiMLBOTZs8Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711189491; c=relaxed/simple;
-	bh=EI4E2QPRZgdV+VYaFBNzKDcDkTtZXfPdSLG/1fRvzgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WIX6Y6EBzVrB7A9/CSwOxcNgLeux6NmbmB3yJuPdWcYABtFfLZBK/mkuMRCUFYr3f04+sFOLXXSX4ycHx9RUcNdE09jfr5xQlhjXhr/xIAXvHyzzMDo7+W/uSmYO4sAfyjWpmBhatS0vNkGegrgd/r9P+lK/x2TwPKidYV3tJKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rr6zboSE; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711195406; c=relaxed/simple;
+	bh=U7DF/BiQH8ysBXlOA74BtHZhqBAj2ETOQtOOuI0V2LA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l4gap3q3ybiJxBHg7zdkTe5g7WTjG4hoBFy5h96y3HFOP0WidXjMyYLOyChWbdPIYeEAQI3wRGwHxTB9PLelXbOXaP6eY/zeRYPWLvR0zes1H3UVxLqdDdwlMToVr1J1JBGdZtQ5Kpr+2Hltwv558AGrM3jQ8EX8iQ8XpvfDs88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4fMmeD+; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rr6zboSE"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a47385a4379so182777466b.0
-        for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 03:24:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4fMmeD+"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1e08512cd8dso16886725ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 05:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711189488; x=1711794288; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=27eV0IsdHyW0CoX0dFZS8tHIPLcqxbkMkWnidM0bXYY=;
-        b=Rr6zboSE1nIuDsfatICRiiIPJO4Ee+sWRlIJ5ADV5K42zoubzLAnIUThu8iXReixF0
-         tK+Arq7OizleFgWZbO4gW8qKjDeLvP56RyyQ8DUdi7Ls/21vWx8oh9fPGySmva2FFIq+
-         SY4FEIq/Y2GphMCN7z2tnvyvv3h6Y8Ca9HOZraGiN2b/qHDeK5oCQnFvsv6I5c9ya4Cu
-         WKA7ajFRlGrixM/z+SQ+ijSFlGefLlhSqE6d5XJ8JPlFcOuzddZB1dFr77My5d4+DSX4
-         mGY1RFM4Gcud9VkpMB8zKoHs3+h3MKjTpfLYhEvBA4OFsL6+2E9CDb2t+cSseqoUilgR
-         FvKg==
+        d=gmail.com; s=20230601; t=1711195404; x=1711800204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iG2S6hnaZZB0DcuHU7npFKATYKyKOr1oSiW1i6GT3Sw=;
+        b=Z4fMmeD+YCIHy81RbhTQHdrrh4cgwaveVSMoif341PCaYlCpIH5TA0fK2PT4Yymj8e
+         iTQqsFp9WpK0siv9UkZFTcOG+AMgGYu4n1XQFe9kwjZggu8ofbpslXxiTe9BC5c7MsfI
+         QDwgJh9/uzVmidH04p+f3mnFHVAQGbmlMlus8ck5FVylstIw0VRERLheOGgh4wsP+hhX
+         JekLETpLzK8Bxrb86CGX9QuwVx57dWdenMuC36In+yxkW+9rrM8voJf2BhdJWYkQ2vl+
+         v7Noi7aaHcPosYQ7r/61UVcl4ajrZx/FrgIfx4JXMEoJNJDWf+EYECufFOAADMTEUiee
+         sv0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711189488; x=1711794288;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=27eV0IsdHyW0CoX0dFZS8tHIPLcqxbkMkWnidM0bXYY=;
-        b=mesyblAZDSOHQVwVinT7y8wZQQbzjMWR0Krc+TLsuHapj5hNimOhXXkf8HPcYWGiw9
-         pbO58ezI8FaT9QVMLQl5txUa5YmTq1DLyd5RmthL5wVF1hOPosQcNFrg7zAsCbiQVuPc
-         TGAHVBSMJwu/exeX71sX9/JxqtvvH2/O+2BHjM1D4uSwNEbU8WxTtfC9XBskNreiXF9V
-         sg9nCgBbEH9SK0OrOnv2dij/5UIZpH6CJyarn6nNrLwIt9ZiK9HYpTVXXdcX11CKI8hu
-         w6DfePnUlH8z9W9x1L0l8OJ98uHj+0ZmSypMWdMO/4GWfufr2cHjlSQMBlQ6mO4LDTQN
-         zbLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXbzdUqGxQDoBy8CNi6phXkYqEIYuZbp8s11SCx+4aT2qxUEgwmKpIyR3eN+zOPEi/HlRGbWq2UOAFhKRWOur/tTppy7xC4Kv/z
-X-Gm-Message-State: AOJu0YyCtSQmMV2Xl73BiwFq6Vx0PJaaxPTeqiTtTfKv52wEoaVqzPSf
-	tc3e8q86me8xgCPanlK5e+x2sX41zshKrX8TvplnaGWS1MAza6359EFlBPgowCBMhlQqUuGc6s/
-	x
-X-Google-Smtp-Source: AGHT+IElMB+eq0Nqv/BFxyyEAHz5MAomDs2zRpTTQQ7d1Mgzoga3P3xV4zoLW3fiI2kzGmV2lirrNg==
-X-Received: by 2002:a17:907:7d8b:b0:a46:d04b:66e7 with SMTP id oz11-20020a1709077d8b00b00a46d04b66e7mr1340567ejc.25.1711189487936;
-        Sat, 23 Mar 2024 03:24:47 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id m19-20020a1709060d9300b00a45c9945251sm753897eji.192.2024.03.23.03.24.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Mar 2024 03:24:47 -0700 (PDT)
-Message-ID: <703de50e-f271-4e65-bda4-85b1835afa6e@linaro.org>
-Date: Sat, 23 Mar 2024 11:24:44 +0100
+        d=1e100.net; s=20230601; t=1711195404; x=1711800204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iG2S6hnaZZB0DcuHU7npFKATYKyKOr1oSiW1i6GT3Sw=;
+        b=TBs/kKW794616z1wfLOuftjWEDS7yDR2DulsBWTQdygh6faMsfqte/b89RABk6Zint
+         NtlKV70s2iVyws35ruOHyo4+/LRV/PpF8X2hFU2UvUedmIgx2h50T7OO/0OAaB95oGGb
+         WtaoaoY0F/t2w39LKq5M/85ov0qTfeZd0hJbyZvA0imCzCmQdHJ/cV0Qko89G1Jpneea
+         GfjV+KxowCWjZB6fUfSkDYp8QRPl/5lfdf7rcJsgretK5i8VWAYfaIaHXSMthV16cdZl
+         rudmKyh8Bt2x8a8be1L/Regz3OnNJX+RiXB8VPNK29bErswL0O7IjF4tnMbUPd+5Mo2S
+         X4FA==
+X-Gm-Message-State: AOJu0YyZavhO3qVkzuUzqDhsKRDNzT2T1nqDFyA/A3rBZZqK+treyqDB
+	sInAWUyaxUbXVTPtYbceL84XzrxfDnnH46Bi4BgEVhuw9oNKLZXX
+X-Google-Smtp-Source: AGHT+IEkkWxm8BJKGgjzrk3YNUNOHyKjLj20yGz+++YuHmSL5tt8Kv/ZYEmdb4hn9raW1HbJiTK5sw==
+X-Received: by 2002:a17:903:11c3:b0:1e0:99ec:95a5 with SMTP id q3-20020a17090311c300b001e099ec95a5mr2894798plh.26.1711195404278;
+        Sat, 23 Mar 2024 05:03:24 -0700 (PDT)
+Received: from ubuntu-2204.. (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id e4-20020a17090301c400b001dee4a22c2bsm1435080plh.34.2024.03.23.05.03.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Mar 2024 05:03:24 -0700 (PDT)
+From: Akira Yokosawa <akiyks@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>,
+	=?UTF-8?q?=D0=98=D0=B2=D0=B0=D0=BD=20=D0=98=D0=B2=D0=B0=D0=BD=D0=BE=D0=B2=D0=B8=D1=87?= <relect@bk.ru>
+Subject: [PATCH] docs: Detect variable fonts and suggest removing them
+Date: Sat, 23 Mar 2024 21:02:04 +0900
+Message-Id: <20240323120204.155678-1-akiyks@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 12/12] dt-bindings: net: add Microchip's
- LAN865X 10BASE-T1S MACPHY
-To: Parthiban.Veerasooran@microchip.com, conor@kernel.org
-Cc: andrew@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
- anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
- ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
- vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
- Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
- Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
- benjamin.bigler@bernformulastudent.ch
-References: <20240306085017.21731-1-Parthiban.Veerasooran@microchip.com>
- <20240306085017.21731-13-Parthiban.Veerasooran@microchip.com>
- <20240306-spree-islamist-957acf0ee368@spud>
- <4c5968a3-c043-45fc-8fff-2a9eaa6de341@lunn.ch>
- <20240306-ripeness-dimple-e360a031ccde@spud>
- <05a9a7ee-e4f0-443e-9c8a-8ee649a11448@microchip.com>
- <2f384a54-74a0-4a75-a325-8985257b5d66@linaro.org>
- <ba37c212-fb98-407d-9bee-6d14801754d9@microchip.com>
- <96493beb-afbf-42f2-88f0-ad645422ecdb@linaro.org>
- <1735add6-4a6a-452b-bf26-1cf19c95493e@microchip.com>
- <20240321-upcountry-finless-b0e9b1ab4deb@spud>
- <13a28ba3-2da4-428c-8091-25e75c6c11e8@microchip.com>
- <d41a53bd-ea1e-476a-a18c-ed51dbac0a98@linaro.org>
- <b3c5d217-a5e3-4957-884c-02e8c10aba9d@microchip.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <b3c5d217-a5e3-4957-884c-02e8c10aba9d@microchip.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 22/03/2024 09:28, Parthiban.Veerasooran@microchip.com wrote:
->>>
->>>         - const: microchip,lan8650
->>>
->>>         - items:
->>>
->>>             - const: microchip,lan8651
->>>
->>>             - const: microchip,lan8650
->>>
->>> Executed dt_binding_check with the above update and it was successful.
->>> Hope this is OK?
+xelatex doesn't understand variable font format.  Recent deployment
+of variable Noto CJK fonts in Fedora and openSUSE tumbleweed breaks
+builds of translations.pdf.
+
+To help developers work around the build error, add a script for
+checking existence of variable form of those fonts and emitting
+suggestions.  Invoke it in the error path of "make pdfdocs" so that it
+is activated only when PDF build actually fails.
+
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Reported-by: Jonathan Corbet <corbet@lwn.net>
+Link: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
+Reported-by: "Иван Иванович" <relect@bk.ru>
+Link: https://lore.kernel.org/linux-doc/1708585803.600323099@f111.i.mail.ru/
+---
+This is not in line with Jon's suggestion of tweaking sphinx-pre-install
+and/or kerneldoc-preamble.sty [1].
+
+[1]: https://lore.kernel.org/r/87o7ccpcob.fsf@meer.lwn.net/
+
+It would be ideal if kerneldoc-preamble.sty can be taught about the
+way to detect the existence of variable fonts and to skip CJK contents.
+However, it seems that it would add overly complex code for choosing
+fonts by file names with meticulous options to select CJK variant (SC,
+TC, KR, or JP) to use.  Furthermore, as location and names of font files
+can be different among distro packages, keeping portability of the preamble
+is impossible in practice.
+
+As for sphinx-pre-install, even if variable "Noto CJK" fonts are found,
+they don't matter for non-CJK PDFs.  Emitting warning every time would
+be noisy.
+
+Therefore, as a minimal approach, to help developers find a way forward,
+giving suggestions after the fact sounds like a reasonable approach to me,
+at least for the time being.
+
+Jon, you said in [1]:
+
+>> What does
 >>
->> This is the third time you ask us. None of the previous cases were
->> actually tested. Maybe this one was, maybe not. I assume the latter.
+>>     fc-list | grep NotoSansCJK-VF.ttc
 >>
->> First, test your code.
-> As I mentioned in the previous email itself, I tested this case and the 
-> previous case both in my RPI 4 setup before replying to the comment. The 
+>> say?
+>
+> No output at all, even though I had google-noto-sans-cjk-vf-fonts
+> installed.
 
-I don't understand how one can test bindings and DTS on RPI 4. Testing
-is with dt_bindings_check and dtbs_check.
+So I'm wondering if scripts/check-variable-font.sh in this patch emits
+useful suggestions.  Could you give it a try?
 
+  - Install google-noto-sans-cjk-vf-fonts
+  - Install google-noto-serif-cjk-vf-fonts
+  - What does "sh scripts/check-variable-font.sh" say?
+  - Run "make cleandocs; make SPHINXDIRS=translations pdfdocs".
+    Do you see the suggestion after the build error?
+  - Uninstall above 2 font packages.
+  - What does "sh scripts/check-variable-font.sh" say now?
+  - Run "make cleandocs; make SPHINXDIRS=translations pdfdocs" again.
+    Does it complete successfully?
 
+        Thanks, Akira
+---
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/Makefile          |  2 +-
+ MAINTAINERS                     |  1 +
+ scripts/check-variable-fonts.sh | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100755 scripts/check-variable-fonts.sh
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index b68f8c816897..e7ff288bfd15 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -154,7 +154,7 @@ else # HAVE_PDFLATEX
+ pdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), \
+-	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit; \
++	   $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || sh $(srctree)/scripts/check-variable-fonts.sh || exit; \
+ 	   mkdir -p $(BUILDDIR)/$(var)/pdf; \
+ 	   mv $(subst .tex,.pdf,$(wildcard $(BUILDDIR)/$(var)/latex/*.tex)) $(BUILDDIR)/$(var)/pdf/; \
+ 	)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 741d9142b343..3858416a2d67 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6346,6 +6346,7 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
++F:	scripts/check-variable-font.sh
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/kernel-doc
+ F:	scripts/sphinx-pre-install
+diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.sh
+new file mode 100755
+index 000000000000..775800edb9fc
+--- /dev/null
++++ b/scripts/check-variable-fonts.sh
+@@ -0,0 +1,30 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# For "make pdfdocs", recent trend of deploying variable type of
++# "Noto Sans CJK" and "Noto Serif CJK" fonts breaks xelatex, which does
++# not understand variable fonts.
++#
++# It is hard to distinguish variable fonts from static ones in the preamble
++# of LaTeX source code.  Instead, this script is invoked in the error path
++# of "make pdfdocs" and emit suggestions if such font files are found.
++#
++# Assumption:
++# File names are not changed from those of upstream Noto CJK fonts:
++#     https://github.com/notofonts/noto-cjk/
++
++vffonts=`fc-list -b | grep -i noto | grep -i cjk | grep -F -i -e "-vf" | \
++	 sort | uniq | sed -e 's/\tfile:/  file:/' | sed -e 's/(s)$//'`
++
++if [ "x$vffonts" != "x" ] ; then
++	echo "====================================================================="
++	echo "Detected variable form of Noto CJK fonts incompatible with xelatex:"
++	echo "$vffonts"
++	echo "If you need CJK contents in PDF, remove them and install static ones."
++	echo "Otherwise, get rid of texlive-xecjk."
++	echo "====================================================================="
++fi
++
++# As this script is invoked from Makefile's error path, always error exit
++# even if no variable font is detected.
++exit 1
+
+base-commit: b8cfda5c9065cd619a97c17da081cbfab3b1e756
+-- 
+2.34.1
 
