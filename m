@@ -1,130 +1,124 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CAB3E470;
-	Sat, 23 Mar 2024 16:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AB763D;
+	Sat, 23 Mar 2024 18:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711211518; cv=none; b=NdiIZoTRBsHH5BiTfmGw0NCoA37lBtZVYJ0AINPe4Ulw+VmVsz3gfaIJgio2PPEp1qKEI5Ocoirdj2Ctw5/o/EjikqOdyfOrWLCI1jUyYkad722AL4Pex+KCGSvYEhR6ZB4vSK1544w4ixn1XXh9gB1Df44sVinnpegrMQ1SMqM=
+	t=1711216915; cv=none; b=TC3EgJPtIFpr0kkNSsUI30Ctr5nCkERm+HAYYlwf15YMCN69wGR6WIB+CLx39+1WF9kxzCiRKCexBeguZiVKil/my7fBQA8ldOXNi9p1G8jemDDG67ucp+1NWhCUaGvPTy3SIQmstsxIJS8q4jHi/ZuIRUAq3vHaCTvYvTiE2Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711211518; c=relaxed/simple;
-	bh=hYR21Vffkaz1yzdbwEsh41c3XSN5q8lBLdIhHpY99Ss=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KakV96U6JB1pqKyoaGq6YyGl1Dt34Af0h1rFjTVJesbGLTDAa9f/LB9rdEj2AwE0lQo8NyfB/1NtNlC42XepVK9L65VKza5VcmJgUkPtvY1mAy22XBbbIr0bhCbeNU/XJxzJVviQyDq0NzAEPMSLMQiLx3wBtTs41DjbjskvRFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5ucRF8H; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711216915; c=relaxed/simple;
+	bh=QVrfyERZB/O2NaoOaw/v0iV9cdqwocK7uYeLZ2eGZcI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=u2LbysP78WDoMWOtYjYkUfDzzNH+/VSDlw8g/fUfB6IT6lDncBVLNcTriurq0ZkU2bQkP6nyXbq1Iicu5oRmiMY9BenYi5XxIG8f8IaChYkRmEh0UJIAT84FDjsn+RePru3xppgJy7FZ0jgm2SQ+LY7NJ5ZnceOC90yApevl3IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=iqUrlb+e; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5ucRF8H"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-368480eb81bso13734645ab.0;
-        Sat, 23 Mar 2024 09:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711211516; x=1711816316; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
-        b=A5ucRF8HbpjyIkTPwA2YN9ldHLORC4hoS+iSAFQ1pg2bsqejFOV1egxWYii87BOChF
-         DhEwWmuw9Dxs6rB+rBrdZ4slxxNdCQ91vPd3SNUlIUFvXdKNgpKQefFrNvjY4Z+5LD+G
-         yKu6u47T4Y79k0Ln3oreWqsWWxAOiNW8WxrKlZ1kLKUb1gutjt1vzmSkbPdCMrIcfiyN
-         /ws0/mRV/A/ZoWhm7FjqdymCCRDkN9I/La38BanswyRyxGSa7WI1rB0hJEijcAe6qvWJ
-         4JNiAtE3AjpeONmF+NPTv8NvkFri/gmvDWJx+TVCo+x2S/4JK96lbFu89nXSDjAnAaUR
-         3e/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711211516; x=1711816316;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
-        b=dwRheZDqhraCrEjJcZGyOTc9UDfsQ128DXLxINL6vZiS8fcb11gt25lay9UG03rnVM
-         OKH9H8BFEpJkYt69nZNoXBrDxOaBKJUVjYbGn6TU/MF5zwv2jBtSK5MpE5a2/levaGM7
-         qbZhhIwcnOpWYAzWreSJOn4bo/9y9m2p6wytdWTIg+6hYUNV2DtcwSHPUlcfc3q7aEcg
-         IyIZT1jnTGAKylHy0QQYvHwwkS6WazaL2WefkG8s5ENz4kqKl7U54SaR0reOzc219C1L
-         nygekpgd62yfADP4SdzoYTaNGN50JqptEAfVFAdU6TNz55cj9y3dsP0fIVDhZt19JV2+
-         /owg==
-X-Forwarded-Encrypted: i=1; AJvYcCXaslDdahoLDJIzD8c5/oWlh5TBM/ZzKG1ZUkSg+TrGdgww/GvkLGAIG0VR2izMCMhgmWEoRxWSjBFPpabX5qgmZAXsOCrKFHGmCOr7Fxdxv59meYZCo0QTyOLpRpm3bkFqlKJzgeez
-X-Gm-Message-State: AOJu0Yxmv5EbVfksG4L7gBasG6SS1hGp7oBrVWoCbFZUZP6+CNKrc5JP
-	YQ5eXxaNBzUOJzY3gX+BOws+T0F4xZFdEdjPZua9ipUywu1eNqZL
-X-Google-Smtp-Source: AGHT+IHkLe8WthnCTg9DUJIoNT1vufkGawGIt/PJEEGR7qpZOXaS/myb/s/E7Y1IUAeXIdmR9S0dOw==
-X-Received: by 2002:a92:ca8d:0:b0:368:85c6:6bd1 with SMTP id t13-20020a92ca8d000000b0036885c66bd1mr832046ilo.10.1711211516495;
-        Sat, 23 Mar 2024 09:31:56 -0700 (PDT)
-Received: from amogh-desk-mint.Dlink ([119.82.122.244])
-        by smtp.gmail.com with ESMTPSA id v62-20020a632f41000000b005cf450e91d2sm2970106pgv.52.2024.03.23.09.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Mar 2024 09:31:56 -0700 (PDT)
-From: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
-To: airlied@gmail.com,
-	daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	corbet@lwn.net,
-	javier.carrasco.cruz@gmail.com,
-	skhan@linuxfoundation.org
-Cc: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Fix duplicate C declaration warnings
-Date: Sat, 23 Mar 2024 22:01:47 +0530
-Message-ID: <20240323163148.23497-1-amogh.linux.kernel.dev@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="iqUrlb+e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1711216868; x=1711821668; i=markus.elfring@web.de;
+	bh=PyL2Ioh4vlALFYGvyjWWeKkUOfZjj8evfoP8akboAlw=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=iqUrlb+eCxD5v3QWSGMGSn0sg84vRhtzyJ14IT2t7CKw2G+CREDGrIQ8SprUgNaa
+	 qwyEKTb10wlKWY2R74C2Qr4t4B81khDw7Wvb7KRVFH97aJSitVK40ZYIERFJgX8TU
+	 kBVb7EhbklERu95cuaUo3s6xac3NmzN8U7SerzDJaEeynueSvCGPV0CSDESu3V31o
+	 tpjJpKZxZR1VORFde0mRn/viCvKxnqsC8MqrTZFPDpA4gp17NLR+g1jTovYdhzpQc
+	 rXtuydO1w20NWNKzwcpZiP7ACBbbbYuzHN9C5T6GAHpBo+IlO14tWPvBpwOYcbJPx
+	 Rlp+mSnxwFSJsQ+x0g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1N3Xnj-1qnudT2Rxz-00zEZM; Sat, 23
+ Mar 2024 19:01:08 +0100
+Message-ID: <f3849725-b7b3-4edc-8220-aabeb79b8151@web.de>
+Date: Sat, 23 Mar 2024 19:01:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Dan Williams <dan.j.williams@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Kevin Tian <kevin.tian@intel.com>,
+ Lukas Wunner <lukas.wunner@intel.com>
+References: <65fe1f9aadf51_2690d2948f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Subject: RE: [PATCH] cleanup: Add usage and style documentation
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <65fe1f9aadf51_2690d2948f@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:SmyqD010p0uwXhTqLFAT+MKBEAIrDaiCEBHBDDR0wyTqCIJfaTN
+ hhkOvtxDEjq2pESON3LwSrVFy/5Xu2I1SsB7NG4o5ftJB7ZkZLH4LOzUVFD0uKqtgGFZMFr
+ 8q5118J4thJ7hf5Y4Ub/QAmDfKjWBmU7udNDS7aLl6uVpMKyT8deDvoU3/NxrKA63mmdodS
+ skuSI80wdZBvkcGZVUEnw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:dUActWliC4w=;hdeZqY0mxakffsHlGyutv6l/x6V
+ 34T0aoeci1Pufl8ZUt98g5j4kqBglt7/6+xJLX20BZCxEPRVEyxgJOi6+vYlCX71SLR5DbsZV
+ kxtYuforeNfBXZR5B8/IlwPock3+ibJXaH8Rjr9GScuAZA1ua+N/cfgy7K2lZHZ7Z02vYHvrC
+ yQoXjLj93PxQGx3a/iHgoqpVkoGtMNl96sgYQK/cP4o1AKetq/43EUfZGheTq5rlryNYtK/aZ
+ byIESvgr2hfz0z6YzqJ7cejyvDMJGoqDYWYs6rMCERlsxiupcXmxpHEiRiXdAntXoGZsAN7vL
+ Ru+rIYBspjysvIeO/lxC0BnDKN4/ITZEygYocFdgxLCapf0Z1PqzpzRrB2rrt6rR0WO1R7wCG
+ BfBTs6bb3NYSBo2dOrewns61D3jj1VuAjop9G4bWRiu7IQ0kLkIeObE8Q5gGlx0+5aJsp3Gpu
+ KDlcASUKWOoo64SjR02m24SJICe5AS+7COIN3+xmM6s/EdsCWwngMUmOaguzq59TF3Q6a0drh
+ n5Z0/7IISQ2F9Tu/FkbziUvZT253ScXShp/JR9AAJ0r0AY6894x2HXkuSpcKQZxXiSVrH9pbY
+ vKfg5PSUUakfb019YxzC2bTQlFDOD5QRWxIQxTE6VGrIVFNbD4E3lBLk/6w60rBWVY+DbKilv
+ 4k6FGjglKA5vGIFNCrP85/rAA3yPIeTumJWOiAEJAAv2gwrSwB2evs6ZFWlA2u1dUigQIykgf
+ VuxVrYjlCypDlzqFSFPp0kwKucI1g43CGhcAGZZNmq8E/8RenBET09I+XJvko4X6V3AQch++o
+ Xn7twrHuWGHtQ+rOvu6glL7ivS+wJ/1BgNqA83P6JjDoI=
 
-Fix duplicate C declaration warnings at
-Documentation/gpu/drm-kms.rst that was found by
-compiling htmldocs
+> DEFINE_FREE(remove_free, struct object *, if (_T) remove_free(_T))
+> static int init(void)
+> {
+>         struct object *obj __free(remove_free) =3D NULL;
+>         int err;
+>
+>         guard(mutex)(lock);
+>         obj =3D alloc_add();
+>
+>         if (!obj)
+>                 return -ENOMEM;
+>
+>         err =3D other_init(obj);
+>         if (err)
+>                 return err; // remove_free() called without the lock!!
+>
+>         no_free_ptr(obj);
+>         return 0;
+> }
 
-/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
-kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C
-declaration, also defined at gpu/drm-kms:39.
-Declaration is '.. c:function:: const struct drm_format_info *
-drm_format_info (u32 format)'.
-/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
-kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C
-declaration, also defined at gpu/drm-kms:49.
-Declaration is '.. c:function:: int drm_modeset_lock (struct
-drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
+You demonstrated an improvable lock granularity and a questionable combina=
+tion
+of variable scopes.
 
-Signed-off-by: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
----
 
-changes in v2
-- add warnings found after compilation
-- fix grammar in commit description
+> The fix for this bug is to replace the "__free(...) =3D NULL" pattern an=
+d
+> move the assignment to the declaration.
+>
+>         guard(mutex)(lock);
+>         struct object *obj __free(remove_free) =3D alloc_add();
 
----
- Documentation/gpu/drm-kms.rst | 6 ------
- 1 file changed, 6 deletions(-)
+How do you think about to describe such a source code transformation
+as a conversion of a variable assignment to a variable definition
+at the place of a resource allocation?
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 13d3627d8bc0..a4145f391e43 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -357,9 +357,6 @@ Format Functions Reference
- .. kernel-doc:: include/drm/drm_fourcc.h
-    :internal:
- 
--.. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
--   :export:
--
- .. _kms_dumb_buffer_objects:
- 
- Dumb Buffer Objects
-@@ -458,9 +455,6 @@ KMS Locking
- .. kernel-doc:: include/drm/drm_modeset_lock.h
-    :internal:
- 
--.. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
--   :export:
--
- KMS Properties
- ==============
- 
--- 
-2.44.0
+Would you like to increase the collaboration with the macros =E2=80=9CDEFI=
+NE_CLASS=E2=80=9D and =E2=80=9CCLASS=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.8.1/source/include/linux/cleanup.h#L82
 
+Regards,
+Markus
