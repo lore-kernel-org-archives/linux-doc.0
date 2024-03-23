@@ -1,69 +1,65 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA243B193;
-	Sat, 23 Mar 2024 20:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC509523C;
+	Sat, 23 Mar 2024 23:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711226704; cv=none; b=ZdtjH6pTLex0wwViFEvNBBF6gzMYuZV3sv8j+OCv25kV6wUVQWsS6u63hNIRaTNrQFmyn90Ey0Mwtv9XNDuWO/aDepGX5PhKwomUdkLbahl3u+ooQJ3YUDbVz6yE4+SY6pRWukTsuBZkbQ1/rpvCylE780cvEcGMJVyesOdJjuE=
+	t=1711235837; cv=none; b=Aks6kEuL2saqWcpnY239OjtMB+ibwz6am8BfiJAZPxIP7varlCfnYVBEZqTF++TefT+DRzFC9WHhk8jQ09+IYC/Z25EjA34/BlHHadMejX797HFLmSP+3djT4mc6oPKUG1Q0gKNQzcV3xVQq5uFSd6Ro/h2YxKIlXT38cSg7FL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711226704; c=relaxed/simple;
-	bh=e0it6zWyRhUl6CsgJZa+SyAT+lNOfGgzSfE1aPkratA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJ13mYhpNf//Uki1y0EyrkjnW+zU5CJDy4PvGlBrJAs1BmT5K3LMYn9itMlN24zFDaGSAezq0BEiiAMN2GzfbYFqIQVYh/b7bkrfCMdIVxMyu3vbJEfQS/+gNuqpy8IstvdNUBLNdO9ckjjRCKVfUcJaCKHyf7WykrgvoQaKQnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=j3jyiCkY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="j3jyiCkY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=YFrRirU/iGoOz+WkYBm22sZJCyVBMxy3NWhi3BHjlxI=; b=j3jyiCkYeVm21Mh9hQY0bv7GqD
-	jEgGvIQHy2fWJLA6ZluG4W/weDDBi9B8V5N7CZxs2BYM8uzl4uyj8l2YijTzlnOPttgzGJRziKJOs
-	ipMr1xCEtMu0UZ1AquCdnWFHS7S+UceILDAcL/JxV9+z8u+z7dqsaZ8pOjwVElU0Liu96LtcCaIqk
-	SrNkzAIrNAO9tv9qIHfq2tR7VYSdpmBvkt8DPSRqzPE7XUsa6Wi9d8Kx8DbboD/9TUa/3vZr1EWAO
-	HAoNVWxM3O8Le3JUdYknjEjVjFDWVMPv4mcboIpUjX8tAitrEU5rmDj+13YJMz/VLNAMGpqT04UZu
-	+MSWst4Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ro8EY-0000000CWEi-0837;
-	Sat, 23 Mar 2024 20:44:54 +0000
-Date: Sat, 23 Mar 2024 20:44:53 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, torvalds@linux-foundation.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Lukas Wunner <lukas.wunner@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] cleanup: Add usage and style documentation
-Message-ID: <Zf8_RYHW7QmCzl2-@casper.infradead.org>
-References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
- <20240322090630.GA40102@noisy.programming.kicks-ass.net>
- <65fdd7ae82934_4a98a29429@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+	s=arc-20240116; t=1711235837; c=relaxed/simple;
+	bh=tQV3luiGuHVFjRtP9OLC3m2pIMUgpw3uWFJOcbLDuc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oV/6e2yHgVPZ7/N+LNzxZUIf0VUi507GOxEZj/f8U42z0fsMTL4+Wb0EAvNxpbgokcENHf40yVmjw83PA/1MmQ4M98YFIif1i6YxfuypX81qE1NMk3ulpESHaDOASaBYv7wYbpLXIyY50RkG/yBaLDSgALklFqcIhvwHLpMelzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id EF3BF72C8CC;
+	Sun, 24 Mar 2024 02:17:07 +0300 (MSK)
+Received: from beacon.altlinux.org (unknown [193.43.10.9])
+	by imap.altlinux.org (Postfix) with ESMTPSA id E06BB36D071C;
+	Sun, 24 Mar 2024 02:17:07 +0300 (MSK)
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	"Steven Rostedt (Red Hat)" <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Vitaly Chikunov <vt@altlinux.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] tracing: Fix documentation on tp_printk cmdline option
+Date: Sun, 24 Mar 2024 02:17:04 +0300
+Message-ID: <20240323231704.1217926-1-vt@altlinux.org>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65fdd7ae82934_4a98a29429@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 22, 2024 at 12:10:38PM -0700, Dan Williams wrote:
-> Peter Zijlstra wrote:
-> > So I despise all that RST stuff. It makes what should be trivially
-> > readable text into a trainwreck. We're coders, we use text editors to
-> > read comments.
-> 
-> Ok, I will rip out the RST stuff and just make this a standalone comment.
+kernel-parameters.txt incorrectly states that workings of
+kernel.tracepoint_printk sysctl depends on "tracepoint_printk kernel
+cmdline option", this is a bit misleading for new users since the actual
+cmdline option name is tp_printk.
 
-I would rather you ignored Peter's persistent whining about RST and
-kept the formatting.
+Fixes: 0daa2302968c ("tracing: Add tp_printk cmdline to have tracepoints go to printk()")
+Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bb884c14b2f6..623fce7d5fcd 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6599,7 +6599,7 @@
+ 			To turn off having tracepoints sent to printk,
+ 			 echo 0 > /proc/sys/kernel/tracepoint_printk
+ 			Note, echoing 1 into this file without the
+-			tracepoint_printk kernel cmdline option has no effect.
++			tp_printk kernel cmdline option has no effect.
+ 
+ 			The tp_printk_stop_on_boot (see below) can also be used
+ 			to stop the printing of events to console at
+-- 
+2.42.1
+
