@@ -1,63 +1,70 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F886523A
-	for <linux-doc@vger.kernel.org>; Sat, 23 Mar 2024 06:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B812C9475;
+	Sat, 23 Mar 2024 08:11:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711174947; cv=none; b=fQbsdlZnh+lwbW5tjQQRrUksG4nk+ezsex8nwWpjFAmiCnAI7qBwfcq6FpU6IkRdcG5czW3OGrNFmlf+IjApuRy67Idp7P2kAsZpwjFHLWOoyq5Lf+CNy2kcoIbUYQnyITc4xPHMpUQW1bm+5cEfWTtflQ5w3ectOJT3+ckHbIg=
+	t=1711181521; cv=none; b=E0bZbZRwllaDcfXxT1tKrO4t+gx9AyDHHlKi6xAdaOKbpQURZmOHAEkhcrk3dby/SOyUP4HxwNrpvH14LWTErhuOhFsJwpjfbN4CkNIq8LDdbs7XGJ27CC62e5hm0c/Z7fOdixCA71g3Al6J6WQv1o7a/uSaOcoxLrmXkMAO4E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711174947; c=relaxed/simple;
-	bh=FxwFeU46JDBpQaN8L6/1kLVRQYz1ndBpn3eXE2YomPw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fc5mAxWDevMHUIG823dQ1doT4o9yiEf8Gjo6wd4VARtvKp4DAO6l24EIaTK69k8pHG+TEWrM0gZ4B/7qshdrSWBOGJz0Z02V2lyDTwz/fLMrmIJJiE9V6fzjLSItNc2eKlwZCcNF/YZ0eCTsvd0dEz2sJSuBRvpxJUPjhD1eZkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cfi4LWoJ; arc=none smtp.client-ip=209.85.208.65
+	s=arc-20240116; t=1711181521; c=relaxed/simple;
+	bh=JMwKzzdKGu9tiwjUXIyxuCZpE3rZs/L8B0k/jGFBlRc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=grfEmH35vuXycuYLvFPNLmwBXjKX/kruX6b7CDmaHndGk5ps6ez+9XEMvwAa+L6fklcZMvIXdtcsvwixC9nzWC/NUge5+mle/jxEw2b5LSfD8OtjnhGT6deCncVI2aaKMhj7RywnYbP+IcYDQCN0pGqZ58lEZ+NXb8FyTlD4GWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XasEWQne; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfi4LWoJ"
-Received: by mail-ed1-f65.google.com with SMTP id 4fb4d7f45d1cf-56bf5104ce2so583890a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Mar 2024 23:22:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XasEWQne"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e88e4c8500so2021649b3a.2;
+        Sat, 23 Mar 2024 01:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711174944; x=1711779744; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1711181519; x=1711786319; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7MjMJYaqaSQ+F/7yeB0R6TUmO4GaH0a6w4KALJXpsnE=;
-        b=cfi4LWoJCkVqUvZZ/M+zIU7RW37yOMCDStjkS8Ep/fJZImfCmhZXUNDcqR3ZtQXoWx
-         Un1/n9NSDV3pZNgjjo6reWtZQRkcR0R/t+9gLfjz9F89yDZGm9AM9AOEinnXw9fJQeFU
-         aPGIdaQ2aGjFZBT1xNWhOXQMvPYC2cab14cGQyQADriX+kZ8QEKyxQon77J8ufH2tXz7
-         M1fN5LXhE5AAK2qCpHTOO8BWD4yFLOR0P/D0uDw7b4pejdMUOBv/HbMPBVsgkRFFslF1
-         jjFrND7fXpXER8Nl0R/MYp2IivkoGpqhoAFRF7Qmjg8CDRK4NvYp9G5yyMg/FApS5k51
-         2dig==
+        bh=jBwYZ0KKBPOHeG9usQo7hTvvne/fVMxf6Cxd7oHuSmg=;
+        b=XasEWQnebBrbLIL53HfmNLANGxKnWywc5RcEMnHvbuNsB1Sk4MdhHb2SswFyrEhodR
+         FQ0LthsrkuNsft4Xh1Ux5N2r8PeCCA0aATwG0cLSESMecKK1zv9F6zIem5aDmC409m3x
+         zhcPCA2qlCCSef2RFf/KcXqhhtYUAKedcXXaPlWBW7WxbxA6x/t/+k2zrxEmhIhYK264
+         HYEh1lQVLDfeQJ/vwsyKlBuiq0UA7NqINVd0Y96wS0Faa+HUJGUeKBxBh3XcA0yEOFLD
+         FAdp1gmwMyWPbvHWfGJyB14qhUbpDY5/6FB4YpaN1f86EAN+eYvONy3Tx3f+BkW2sVAl
+         +u6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711174944; x=1711779744;
+        d=1e100.net; s=20230601; t=1711181519; x=1711786319;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7MjMJYaqaSQ+F/7yeB0R6TUmO4GaH0a6w4KALJXpsnE=;
-        b=OnNiFfBiWrJU4PfWOQkRE50BpjflR/tFI+naO1eYvTtiqTsaJ4K1soMUuR/OC3ws2a
-         qbzqMgVl6PT+zNk6lHcEn9EyeghG70gwU5PfR0Dh/H2J90sCoLF95gB2v19+5WZxH54F
-         x5ooSXxJUEkjNIVl8z6cjs8801vuHNglq+zw/8RfC+C06R0LyiyWyYE03jUmQtMgk67B
-         hsmz8/fyKM1q1TF49aCncPk/ZIwNpNLsWkokxtWC0HV3hinV94aEAGK0SYY7x8pga5e6
-         CovY+hUCbJfbkVo3Q/yxZDMHhmL4HvX/fp6YzeOAWDv4vQ7naXfNDVA5VUOx3mmkOMuA
-         qzMg==
-X-Gm-Message-State: AOJu0YwRIljmnnmKB7Mp+LiLbpTpwBIiqQ2rGXoOIW6Woy0pTz9jWPIL
-	sYf8EE6PLPIFhG8raE5YG3iqwqIwHRKDtGH4FBpQgTq09ojIWaNc
-X-Google-Smtp-Source: AGHT+IFHoEVv1TQLnteiDarPHVbvp8UmuvhqW+Kr3+frPChNjQGWpBy2wWGBTNeKllpHvGgiWd7eNg==
-X-Received: by 2002:a50:cdde:0:b0:568:ac53:83f9 with SMTP id h30-20020a50cdde000000b00568ac5383f9mr1013740edj.7.1711174943483;
-        Fri, 22 Mar 2024 23:22:23 -0700 (PDT)
-Received: from u.localdomain (ns31597299.ip-146-59-111.eu. [146.59.111.137])
-        by smtp.gmail.com with ESMTPSA id r10-20020a508d8a000000b0056ba017ca7fsm540218edh.87.2024.03.22.23.22.21
+        bh=jBwYZ0KKBPOHeG9usQo7hTvvne/fVMxf6Cxd7oHuSmg=;
+        b=BvUWZpiv1eJbMRFEMBnaEUbWFw0DUvxytYhvUqsLymcZiLFE8Yo4BAzf0bUNSpvnmp
+         oGlXbUjyoCw7oTyQpL7FRPUvxnw6IIewkbh0O/PtbdxNVwH36bxPAJlBAGVq3xd1/ceT
+         +m6NGPrQ8u3a89h+xiMOK1v9R122mzDwaxpXa0GtcCcX9vIUpD0SawhPnatfVfcaEtsI
+         a6DJ+of7QJAQm4VfLI2uU1HnRqUeOrpW+PtP3OqHbglBR2F+xQNw3LYMGpJtZafs58r4
+         BUfwHrx7j61EO+RN/+5THM6qbYSH40jRkTvH6i+AafVEoY0CzrUZFrnicRU8lBiv3MPa
+         0+/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXxDvCvo9xXAzGDwcGQMAXkwZ8UWQ/jvDero4ja2Zg4wTDv/p+RBK8eVEQQP7bEZbPNXzVKMzfMrQOhTQEUQDv5CC21KwOOosZ/8AlFwf6UDPLPmE9bPX3mToWjJzK3VmBT
+X-Gm-Message-State: AOJu0Ywr7jMfdKrgh/7e/UHR2Wj+eZ2izkd8udnmeRENGVhZsYjZaIvX
+	vpE9J2tVVP2whKu+6N6eiofDzh6A5Ur2XwFh2wbycTL3W4ANmizH
+X-Google-Smtp-Source: AGHT+IEP+Fr0MNTTZdqJx3m+s+xZm/uW9BUfei/BUKpia/QAwq+U0bC1UvjPhIQ3sUINcpVE5aGcxw==
+X-Received: by 2002:a05:6a00:3d06:b0:6e6:b155:b9a3 with SMTP id lo6-20020a056a003d0600b006e6b155b9a3mr1996721pfb.11.1711181518914;
+        Sat, 23 Mar 2024 01:11:58 -0700 (PDT)
+Received: from bharathsm-Virtual-Machine.. ([131.107.147.61])
+        by smtp.googlemail.com with ESMTPSA id m5-20020a62f205000000b006ea810ceaf0sm912452pfh.217.2024.03.23.01.11.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 23:22:23 -0700 (PDT)
-From: Maki Hatano <maki.y.hatano@gmail.com>
-X-Google-Original-From: Maki Hatano <Maki.Y.Hatano@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	Maki Hatano <Maki.Y.Hatano@gmail.com>
-Subject: [PATCH] doc: fix spelling about ReStructured Text
-Date: Sat, 23 Mar 2024 14:21:12 +0800
-Message-ID: <20240323062141.14863-1-Maki.Y.Hatano@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 23 Mar 2024 01:11:58 -0700 (PDT)
+From: Bharath SM <bharathsm.hsk@gmail.com>
+X-Google-Original-From: Bharath SM <bharathsm@microsoft.com>
+To: davem@davemloft.net,
+	dhowells@redhat.com,
+	edumazet@google.com,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	corbet@lwn.net,
+	pabeni@redhat.com
+Cc: Bharath SM <bharathsm@microsoft.com>
+Subject: [PATCH] dns_resolver: correct sysfs path name in dns resolver documentation
+Date: Sat, 23 Mar 2024 13:41:40 +0530
+Message-Id: <20240323081140.41558-1-bharathsm@microsoft.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,52 +73,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- ReStructured Text should be exactly reStructuredText
-- "reStructuredText" is ONE word, not two! according to https://docutils.sourceforge.io/rst.html
+Fix an incorrect sysfs path in dns resolver documentation
 
-Signed-off-by: Maki Hatano <Maki.Y.Hatano@gmail.com>
+Signed-off-by: Bharath SM <bharathsm@microsoft.com>
 ---
- Documentation/doc-guide/parse-headers.rst  | 2 +-
- Documentation/index.rst                    | 2 +-
- Documentation/translations/it_IT/index.rst | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/networking/dns_resolver.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/doc-guide/parse-headers.rst b/Documentation/doc-guide/parse-headers.rst
-index 5da0046f7059..204b025f1349 100644
---- a/Documentation/doc-guide/parse-headers.rst
-+++ b/Documentation/doc-guide/parse-headers.rst
-@@ -61,7 +61,7 @@ DESCRIPTION
- ***********
+diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
+index add4d59a99a5..99bf72a6ed45 100644
+--- a/Documentation/networking/dns_resolver.rst
++++ b/Documentation/networking/dns_resolver.rst
+@@ -152,4 +152,4 @@ Debugging
+ Debugging messages can be turned on dynamically by writing a 1 into the
+ following file::
  
- 
--Convert a C header or source file (C_FILE), into a ReStructured Text
-+Convert a C header or source file (C_FILE), into a reStructuredText
- included via ..parsed-literal block with cross-references for the
- documentation files that describe the API. It accepts an optional
- EXCEPTIONS_FILE with describes what elements will be either ignored or
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index 5298611e00ee..f9f525f4c0dd 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -107,7 +107,7 @@ Other documentation
- 
- There are several unsorted documents that don't seem to fit on other parts
- of the documentation body, or may require some adjustments and/or conversion
--to ReStructured Text format, or are simply too old.
-+to reStructuredText format, or are simply too old.
- 
- .. toctree::
-    :maxdepth: 1
-diff --git a/Documentation/translations/it_IT/index.rst b/Documentation/translations/it_IT/index.rst
-index 70ccd23b2cde..9220f65e30d1 100644
---- a/Documentation/translations/it_IT/index.rst
-+++ b/Documentation/translations/it_IT/index.rst
-@@ -132,4 +132,4 @@ Documentazione varia
- 
- Ci sono documenti che sono difficili da inserire nell'attuale organizzazione
- della documentazione; altri hanno bisogno di essere migliorati e/o convertiti
--nel formato *ReStructured Text*; altri sono semplicamente troppo vecchi.
-+nel formato *reStructuredText*; altri sono semplicamente troppo vecchi.
+-	/sys/module/dnsresolver/parameters/debug
++	/sys/module/dns_resolver/parameters/debug
 -- 
-2.43.0
+2.34.1
 
