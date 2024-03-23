@@ -1,77 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5F545BF3;
-	Sat, 23 Mar 2024 16:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FFE1E497;
+	Sat, 23 Mar 2024 16:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711211401; cv=none; b=BGtqG7bTvUofOxbO6oIv/9HSkhza6zKxGUTDJswgbaj0z6Dtqo4SWt258G3EuGT39NKoKk53YC9V4eEKwBlPf2oZe2UfrnPgChtQK8akT9cGtLN3VmX2URI2RZhK9y5x+2Ckt7Q79Jeb9jHcAXSy8ZIQQ3e23k2vr4Jdtn+gXpU=
+	t=1711211421; cv=none; b=L26HX2Sb0x1Fy5xNL4bb/cC4LcE+/ZNgQ75PlFenQv8A33Og86sxjgdUG878NfetyFvmolRskq8G+xYvSJvJP5I/quF/0YwWiw0tj5gE3+DdCVKhuCtF+iK7z2BAS80Mm/NELbDY8oRnzIBB+IqTQNFofpZVjeMqTWRM19ccwEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711211401; c=relaxed/simple;
-	bh=0zNODIjquihCQsfOJOZQfa/hkNYmPJ81y3LTC3osk1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BmqVW/EqmXyBjXRT+Ij1KEUUumZDYw95qX2kCPL3o6YoAUy2lwbDzjHg1NYBq3Z+5h7B2LihPNhIszujMpa39qxBaIS6TPYQXnkDLk2NIoLSpDI9vuhN4l9XuJPgS3f17evWmncisIh2456C274UF9zI1oYnGx/6/eaC+9cXIOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFVhEDm0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711211421; c=relaxed/simple;
+	bh=hYR21Vffkaz1yzdbwEsh41c3XSN5q8lBLdIhHpY99Ss=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C6bb3Y3uLq+QXcvYa1waLl3ij2BVv+PCMhT9fNxlPl2l+ofqsCvGLDUObu/ywYSbfeCA55LSPbdgDArA9L54qXpGoUBedhy0lF0NQ1qheOXuhhrnbeuCiXw/vmR4TeH5TyBQkZDRv1EFaT517PgeUOCtbEtpjxwBPoxf7fLAEQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3B0B22M; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFVhEDm0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A8BBC433F1;
-	Sat, 23 Mar 2024 16:29:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711211400;
-	bh=0zNODIjquihCQsfOJOZQfa/hkNYmPJ81y3LTC3osk1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SFVhEDm0dQ3ZgK3LNq7A1ywjh8hL0004p1ZReXgz67P7XitkMu08tLmyMO91xKakr
-	 SYXbaihEC6GvKlm2vhYDb/CejnZtP3zK3tZUFzglxR0AKPDUXPXHSP7ZmeOqV1AaWF
-	 XxkpKb6dK+QWg3Bpuqe/uLKBaQ6VhIDH0/hYT0elgVxq0OTABEXuD+ev4ovFP+1Dw+
-	 54X5J6c4GcJCfWIzl3n/AMED1fNG2ZHPelz40pNwAxHQ9nNLsgvYxOtbwBgjQr4IdF
-	 XMH91a6MqQERkOqPOVp7AaaHUP2PjOc++hS1/hWGjJrSjXKtRqBPl6AYEGC4Pt4p4x
-	 7u2nL9NofaN9w==
-Date: Sat, 23 Mar 2024 16:29:56 +0000
-From: Simon Horman <horms@kernel.org>
-To: Bharath SM <bharathsm.hsk@gmail.com>
-Cc: davem@davemloft.net, dhowells@redhat.com, edumazet@google.com,
-	kuba@kernel.org, linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	corbet@lwn.net, pabeni@redhat.com,
-	Bharath SM <bharathsm@microsoft.com>
-Subject: Re: [PATCH] dns_resolver: correct sysfs path name in dns resolver
- documentation
-Message-ID: <20240323162956.GB403975@kernel.org>
-References: <20240323081140.41558-1-bharathsm@microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3B0B22M"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29dee60302fso2858015a91.1;
+        Sat, 23 Mar 2024 09:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711211419; x=1711816219; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
+        b=h3B0B22MKAAStbt5KEzPSDTej4qTFmgTkX5eE5cN+UfF3Fc8lZoom0gdHLc9Xvx9OJ
+         U/Fj6tYKo/7+cBPcI+0Wk/HLIvxfSsP4auDzZ4kYManLO337zin4sYLdIr/sL0fLx0wM
+         MBvL9raWnvygmKpkmWmrwnCcFIJX7GFR6hSTWoL2cAv1JWt/EDXdEDwY/TVCNcFmtlJE
+         x190+iSbhobgBKqghCO2A5tRExi4sYyXYxU8gM+Hzip4rdjsRWICbGgzPHMjnEo3j4Mz
+         RknehuzVA1Dg0YwS8ocWSp6bAFWO2ZvWQLT+tZG+ZMH/16+rRPMcP5ssSqfIBCRSwbE9
+         r9dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711211419; x=1711816219;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+gNAzOlZksAWrrk/Sn0MY4Ibq+h1gY4sUBMqWqGyMMg=;
+        b=PDwgriNj1/K/a6iX6bbKsGduwg3/QFwtVVdQFtLsbYsGFoQRVCgo0VD1Ik0mEtDAH1
+         /RTFRRDj3CIOA38jY3FUUn9wmraeUPYJAPe2GTD4pfjsFnRpX7OSpp9Ft+x56olH9hBJ
+         KSm1Z2QSbWcHGvHEXqokf7wVKZEE3tXJoDntnxLCkZH6ZR29RTouwh+G4sqkY7sWATI4
+         lptX20RC8UvfJvFUrelkD4KT7/4Bd9+IA3/X3QCtUZlXZq+jtUtH4MxQuXvbbdeSqxnl
+         1Vki0R6bVYcCZTdMDJ9TMWIQzJ42Nw4xaxcKFaXfOiLh8v+ZTqZbGW3rLUtt3WsVqlxN
+         RdjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVR2Yi8kLeTDIr89JnCpmlJGpwAq2T3HGPMHk9e1X9vuxfirk7D5I+R2eQboTZ2NSuSCshagYPABrjwUtK53XyVpgI4vjFto2jFNhtszuiISTyEZvLozUFX7kf35rcLUtEtqgw7t0ul
+X-Gm-Message-State: AOJu0YzLJou7WijIbYD5vYhdFIFaeNWottoZCOU3HWxosEe1b0qPLjBV
+	JSzS9k8AIadrTM7mzV3epHbRG+4+mFey7CbvODcDOU97PtuHmUsi
+X-Google-Smtp-Source: AGHT+IHY/kpeHfsUu5DENuSNIPbMTQ4vvhND/e4pVt6OYw2ZnQmNlXiz2hcdANGxYrwIMKN9d4YuxA==
+X-Received: by 2002:a17:90a:778c:b0:29b:fb23:863e with SMTP id v12-20020a17090a778c00b0029bfb23863emr3009742pjk.17.1711211419567;
+        Sat, 23 Mar 2024 09:30:19 -0700 (PDT)
+Received: from amogh-desk-mint.Dlink ([119.82.122.244])
+        by smtp.gmail.com with ESMTPSA id si14-20020a17090b528e00b002a05c42476csm322228pjb.10.2024.03.23.09.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Mar 2024 09:30:19 -0700 (PDT)
+From: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
+To: airlied@gmail.com,
+	daniel@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	corbet@lwn.net,
+	javier.carrasco.cruz@gmail.com,
+	skhan@linuxfoundation.org
+Cc: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Fix duplicate C declaration warnings
+Date: Sat, 23 Mar 2024 22:00:09 +0530
+Message-ID: <20240323163012.23263-1-amogh.linux.kernel.dev@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240323081140.41558-1-bharathsm@microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 23, 2024 at 01:41:40PM +0530, Bharath SM wrote:
-> Fix an incorrect sysfs path in dns resolver documentation
-> 
-> Signed-off-by: Bharath SM <bharathsm@microsoft.com>
+Fix duplicate C declaration warnings at
+Documentation/gpu/drm-kms.rst that was found by
+compiling htmldocs
 
-Hi,
+/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
+kms:360: ./drivers/gpu/drm/drm_fourcc.c:344: WARNING: Duplicate C
+declaration, also defined at gpu/drm-kms:39.
+Declaration is '.. c:function:: const struct drm_format_info *
+drm_format_info (u32 format)'.
+/home/amogh/Linux_Kernel_Workspace/linux-next/Documentation/gpu/drm-
+kms:461: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C
+declaration, also defined at gpu/drm-kms:49.
+Declaration is '.. c:function:: int drm_modeset_lock (struct
+drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
 
-There is another instance of "dnsresolver" in the same file.
-Should it also be changed?
+Signed-off-by: Amogh Cheluvaraj <amogh.linux.kernel.dev@gmail.com>
+---
 
-> ---
->  Documentation/networking/dns_resolver.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
-> index add4d59a99a5..99bf72a6ed45 100644
-> --- a/Documentation/networking/dns_resolver.rst
-> +++ b/Documentation/networking/dns_resolver.rst
-> @@ -152,4 +152,4 @@ Debugging
->  Debugging messages can be turned on dynamically by writing a 1 into the
->  following file::
->  
-> -	/sys/module/dnsresolver/parameters/debug
-> +	/sys/module/dns_resolver/parameters/debug
-> -- 
-> 2.34.1
-> 
-> 
+changes in v2
+- add warnings found after compilation
+- fix grammar in commit description
+
+---
+ Documentation/gpu/drm-kms.rst | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index 13d3627d8bc0..a4145f391e43 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -357,9 +357,6 @@ Format Functions Reference
+ .. kernel-doc:: include/drm/drm_fourcc.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
+-   :export:
+-
+ .. _kms_dumb_buffer_objects:
+ 
+ Dumb Buffer Objects
+@@ -458,9 +455,6 @@ KMS Locking
+ .. kernel-doc:: include/drm/drm_modeset_lock.h
+    :internal:
+ 
+-.. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+-   :export:
+-
+ KMS Properties
+ ==============
+ 
+-- 
+2.44.0
+
