@@ -1,110 +1,88 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1371168B9;
-	Sun, 24 Mar 2024 10:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF3E33F9;
+	Sun, 24 Mar 2024 10:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711277090; cv=none; b=Hw6jbgOlE7EuzcWRjrQFtDpgwU1M7tw0fV7y+IlU1l03ItjglGS0Zv1Nr0izcYD94qqQx2Endb+pMMjnSytebFRxc6+JsSTMhEFXHBjJfPLeZmBwxenxP598zLekt8VtyC0Di+vS8qLGUbNcnhyhELzbwkVsLKOvkftIlCexnr8=
+	t=1711277302; cv=none; b=gdPUYnD8rTUfWhuk+cu23t3p0u1qADx8C0cfVKHCT0pe1cZ3Bgw9chq4bWwVxGnRkd4SYt+goGqnLgZep40XAWN4qKfET6ZW56VjHkJXAB/zJMW6RglYfKLOPXFnDi0ld0MTYDS0gMBdsR8wQN6c6rwok72LnHTgt/sMd+QAy0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711277090; c=relaxed/simple;
-	bh=S1wpI9klpsRv3/xn9IOtLB90qUCVGwcVR9ubrbo8/5A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TxO+fRMPRl+TipXEPDTTh2Gv8R8RiSG/E/XqRqQS1L/sJpDkMeeps0MBMMD41rpYkCI3u6vYr2R18+OtRpg1x+ZndXH3iHjSloS53t0KDuHubmpGi6JWGjJ7jzaJM96Ntyy/h4LyIIADUE2v/R/zsL7Q74gjjVQHTIcud74URh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHQD8Ubd; arc=none smtp.client-ip=209.85.161.46
+	s=arc-20240116; t=1711277302; c=relaxed/simple;
+	bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tbum8MWnB1jum9guJPmmQz3BnV/ph0iyy1FTi/GHHZL3LwCUtv/MvyhzrKqhulwGX2jL04mepABROdDDyxIFbzVxCW/pCo3q9e4TSu3ONUSEli8rgXB5WuLOtN07scU3OYErVI76yC6oUHYL/jD91KG2Ya8XM4exj0cTZlW6YLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=enStB04y; arc=none smtp.client-ip=209.85.219.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHQD8Ubd"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5a4f7a648dbso1910878eaf.3;
-        Sun, 24 Mar 2024 03:44:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="enStB04y"
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dd045349d42so2933954276.2;
+        Sun, 24 Mar 2024 03:48:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711277088; x=1711881888; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1711277300; x=1711882100; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iN15Fo9StLIXiwdIBsGn+8ehMC1YqdEwLXN2vdHz6oI=;
-        b=DHQD8UbdEjeNqNPv8nuR6AaAQD8ITHxGhU6RH3pDAhJ2ZPfkNmBTpPJr4szU7jiJWL
-         USPazQM87zl7cz7U6+qri4XzEgOexBm4GX7KUjbKA5ue+dZIz2W7iSbyVrPnrUTk4kpa
-         CHdRAKvvHrF5PbPy30zMX9greaGAMYcl+sNzB1fZKyAdxtXl8jmf+WsXfTs1omGWALzl
-         ipdL2pVZTHBiaKoTKHYa9+tIMgpnpu3Q1CZ5stF1VkxdVMNmtX2a9oTLhobDZa1+cH12
-         stLjcY3COQRRULZ2mDeANjrnMve0QCj5+0ktyoz/j3nKqWRiTlMjGhmw3fa1EdvR75r7
-         Oj0Q==
+        bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
+        b=enStB04yvcuzejw/Ith278YcA/j/bpdaWlI6mBwzLc/thtmdpssSIN4pHAT20ovZdg
+         nkEZoGzuvZm/0AYt194LuFgwSRetqfQiI6CzkTdq3+Jq8n7HRh1KK9sEnmtZ2Qy2W50p
+         AHJ3auRMlnnz8wrjIvD7Di0BYs6Jbg+nmbzO44OdC+ZgDb1rsFooZaFGNbVuapURMVxj
+         L8y77aoI/Wli0WuzN1zg0mttvmOReRT1JjjB9emyLkBT0inDAcxvRQOGpDnJrybAIUnQ
+         FvFNxAxaEvwjIR/o1mYByNmYEIoH4HiYCCFLWxYGUVz4ZkBxQkrUm8mNPXiAJfexTBCn
+         lkxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711277088; x=1711881888;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1711277300; x=1711882100;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iN15Fo9StLIXiwdIBsGn+8ehMC1YqdEwLXN2vdHz6oI=;
-        b=HS9j0zwCVuQ7CFjDPK6jU5I7sP9sBqO5J2ACmXEZi+jXRaOJFCB39Rsb9dxWekTQnF
-         fOISIv4ux+bTDMb5oY4bHrMY3maHXlYyk44VkoAOUxmzOrC2gP1gzk9zNKsWrdrvPA3I
-         +QWApTQLDQg11n5rZFflyo3cS1v4BnBIqNtlkiOGUOZNBCz7hq1VFH2utNLgNQEswgzm
-         U/UAPsAD6y+MhoDgJnLAlHgEFZV65k/opV+EBE3PBZhlwxfbXNS2Tw5qWRfttiqcjoli
-         /u7Y8wQBK3qUla1QrCYg5QQk31c2mLhz3cKdcLQueje+SRb0FGfdGwyKpZO1bS5lMD/4
-         xG0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVkpjwxtRXLaW8BZsy/6WHvTHZKg24kz0ZExu8RB2tl7avDrURXE154TehB43+l/uSStfY5dDRSvykLSYDdHvJS8TjwVBbvKWRj38JL1PSrax6ibhTOsq25yzf0f3+C/YgA
-X-Gm-Message-State: AOJu0YxiDdjCYaGp0ymVfggRRWExewV5AcMv+1EWCVtq6FIUwa0FXwhM
-	Rk+ucJsqpT29tiaUhKua1bSkwISnbtQktrYkINwEzeyjpoWoIdRL
-X-Google-Smtp-Source: AGHT+IF4NfWcl3ZIDVk7DsBxVoJeO36pCuARlrLsKW8XAYuYMoGbOZ9pz2p7B0qDEWEvmeGzvMDxQw==
-X-Received: by 2002:a05:6358:2490:b0:17f:5821:9a9c with SMTP id m16-20020a056358249000b0017f58219a9cmr5590457rwc.4.1711277087827;
-        Sun, 24 Mar 2024 03:44:47 -0700 (PDT)
-Received: from bharathsm-Virtual-Machine.. ([131.107.8.61])
-        by smtp.googlemail.com with ESMTPSA id cv2-20020a17090afd0200b0029fe0b8859fsm5669255pjb.1.2024.03.24.03.44.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 03:44:47 -0700 (PDT)
-From: Bharath SM <bharathsm.hsk@gmail.com>
-X-Google-Original-From: Bharath SM <bharathsm@microsoft.com>
-To: davem@davemloft.net,
-	dhowells@redhat.com,
-	edumazet@google.com,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	corbet@lwn.net,
-	pabeni@redhat.com,
-	horms@kernel.org
-Cc: Bharath SM <bharathsm@microsoft.com>
-Subject: [PATCH v2] dns_resolver: correct module name in dns resolver documentation
-Date: Sun, 24 Mar 2024 16:13:38 +0530
-Message-Id: <20240324104338.44083-1-bharathsm@microsoft.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240323081140.41558-1-bharathsm@microsoft.com>
-References: <20240323081140.41558-1-bharathsm@microsoft.com>
+        bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
+        b=Rv/4zKr6+uPMp+urXzRnbh6ExHRXhHIIQWORzIxW4rMMyAvNit2wOesEA4iLJKxhMl
+         aC/Aa7atP2Ys9In86ruft3IBnadxIda03k4wyTSnJjBv7kEG/SnhUx3xKd/g3QFuGfX/
+         2o2kLAo5GSc/RtolZcrt4WhuayKlsnnA5b4AK/NwZhFzqbDu5FFpGkfdImBL0ltOkKyn
+         NSw3b2oSvdD/G6xSkSGXCDtc9t5qJiSBpIwJk0eYqw4tlvM0yriO9lOZ+fJTcoewdpWp
+         daCgOldTNyDW3vFzP+hkfDI5SWJPZZGNN8Fu2WeblwgZ8jIKDtgv8bJzoS9gTXiVmKkc
+         oyMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXeoB8tpNhHjbNVyMoJcyRgYjQBh+tish9xYjXC7NAeE46bMVQPpH+pUXUkvUIW/fLzZgNuPise6KsHSkfUxbop6F6GW0RTeCGSAtlR3vfwUlajJT2NHQQfuPBAw7mIf7mD
+X-Gm-Message-State: AOJu0YyznUjVplz2PlJgVuXxml+NhOVo0a7txNOIQ5BtbLRMhFNIr5pw
+	JUr/WBxEZdMMbk7/S8U5GeLXwYaxyG9yW0/tufv/VnVK6B5ThMYy6I2XyUYyjSxC3SPcHPskRLm
+	Ahvp657aP7mCe7unsoBal69vm2T8=
+X-Google-Smtp-Source: AGHT+IF5yv/TglCYht0GlEF3g1XXh2NNxCAUT6E0SrECu43ZqSZ/Uc4PZ00ezMcI3cm7SJ0+6UrTwLP/iBanEvXshDo=
+X-Received: by 2002:a5b:8c8:0:b0:dcc:56b6:6606 with SMTP id
+ w8-20020a5b08c8000000b00dcc56b66606mr2659553ybq.40.1711277300256; Sun, 24 Mar
+ 2024 03:48:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240323081140.41558-1-bharathsm@microsoft.com> <20240323162956.GB403975@kernel.org>
+In-Reply-To: <20240323162956.GB403975@kernel.org>
+From: Bharath SM <bharathsm.hsk@gmail.com>
+Date: Sun, 24 Mar 2024 16:18:09 +0530
+Message-ID: <CAGypqWxS=0RjYHgjovyS=us2YCpOedT4Mt3pLkkhVmK8UsVbmg@mail.gmail.com>
+Subject: Re: [PATCH] dns_resolver: correct sysfs path name in dns resolver documentation
+To: Simon Horman <horms@kernel.org>
+Cc: davem@davemloft.net, dhowells@redhat.com, edumazet@google.com, 
+	kuba@kernel.org, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	corbet@lwn.net, pabeni@redhat.com, Bharath SM <bharathsm@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix an incorrect module name and sysfs path in dns resolver
-documentation.
+On Sat, Mar 23, 2024 at 10:00=E2=80=AFPM Simon Horman <horms@kernel.org> wr=
+ote:
+>
+> On Sat, Mar 23, 2024 at 01:41:40PM +0530, Bharath SM wrote:
+> > Fix an incorrect sysfs path in dns resolver documentation
+> >
+> > Signed-off-by: Bharath SM <bharathsm@microsoft.com>
+>
+> Hi,
+>
+> There is another instance of "dnsresolver" in the same file.
+> Should it also be changed?
+>
 
-Signed-off-by: Bharath SM <bharathsm@microsoft.com>
----
- Documentation/networking/dns_resolver.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
-index add4d59a99a5..c0364f7070af 100644
---- a/Documentation/networking/dns_resolver.rst
-+++ b/Documentation/networking/dns_resolver.rst
-@@ -118,7 +118,7 @@ Keys of dns_resolver type can be read from userspace using keyctl_read() or
- Mechanism
- =========
- 
--The dnsresolver module registers a key type called "dns_resolver".  Keys of
-+The dns_resolver module registers a key type called "dns_resolver".  Keys of
- this type are used to transport and cache DNS lookup results from userspace.
- 
- When dns_query() is invoked, it calls request_key() to search the local
-@@ -152,4 +152,4 @@ Debugging
- Debugging messages can be turned on dynamically by writing a 1 into the
- following file::
- 
--	/sys/module/dnsresolver/parameters/debug
-+	/sys/module/dns_resolver/parameters/debug
--- 
-2.34.1
-
+Thanks for suggestion,
+sent updated patch with subject "[PATCH v2] dns_resolver: correct
+module name in dns resolver documentation"
