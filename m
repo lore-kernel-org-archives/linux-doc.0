@@ -1,88 +1,112 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF3E33F9;
-	Sun, 24 Mar 2024 10:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA87F9;
+	Sun, 24 Mar 2024 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711277302; cv=none; b=gdPUYnD8rTUfWhuk+cu23t3p0u1qADx8C0cfVKHCT0pe1cZ3Bgw9chq4bWwVxGnRkd4SYt+goGqnLgZep40XAWN4qKfET6ZW56VjHkJXAB/zJMW6RglYfKLOPXFnDi0ld0MTYDS0gMBdsR8wQN6c6rwok72LnHTgt/sMd+QAy0g=
+	t=1711278648; cv=none; b=WN9EB/GJiNR7G+U+fG3aqB7VeFb6UpIduVmbQMMclvj1Nd3Pii1o284Y/b4CkgK2i8BIdNRoTDlIxd1IETwitwPx6+kYrbvsm2MTnO2E6uN1D7n8Chf4kFntUIZL19+UK90nMs4QQn10Gwuse7Jg/iSWO8Z4zCJUtroqS2Fev+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711277302; c=relaxed/simple;
-	bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tbum8MWnB1jum9guJPmmQz3BnV/ph0iyy1FTi/GHHZL3LwCUtv/MvyhzrKqhulwGX2jL04mepABROdDDyxIFbzVxCW/pCo3q9e4TSu3ONUSEli8rgXB5WuLOtN07scU3OYErVI76yC6oUHYL/jD91KG2Ya8XM4exj0cTZlW6YLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=enStB04y; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711278648; c=relaxed/simple;
+	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AzLipZMaqjkBBHaCv0ODOKvQJJ5H+6LYx9MfbDUEAUAgvwO+jvo/98cf8urchR5Vra7X5kG6ynKN3XsK3BO3SYZE0GYvQZ33v4wAAamXgqMsIB2AGOdDCEj57Cd1rXvv0mvRt6aB52rl6Bl5r5Qwbc92zhafuAqj8yL/H+dUoxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdOmj8Ip; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="enStB04y"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dd045349d42so2933954276.2;
-        Sun, 24 Mar 2024 03:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711277300; x=1711882100; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
-        b=enStB04yvcuzejw/Ith278YcA/j/bpdaWlI6mBwzLc/thtmdpssSIN4pHAT20ovZdg
-         nkEZoGzuvZm/0AYt194LuFgwSRetqfQiI6CzkTdq3+Jq8n7HRh1KK9sEnmtZ2Qy2W50p
-         AHJ3auRMlnnz8wrjIvD7Di0BYs6Jbg+nmbzO44OdC+ZgDb1rsFooZaFGNbVuapURMVxj
-         L8y77aoI/Wli0WuzN1zg0mttvmOReRT1JjjB9emyLkBT0inDAcxvRQOGpDnJrybAIUnQ
-         FvFNxAxaEvwjIR/o1mYByNmYEIoH4HiYCCFLWxYGUVz4ZkBxQkrUm8mNPXiAJfexTBCn
-         lkxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711277300; x=1711882100;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v7QorXHTy8eSgnn8vNcv3KmQZBNZocGHbaM1CnLhWGw=;
-        b=Rv/4zKr6+uPMp+urXzRnbh6ExHRXhHIIQWORzIxW4rMMyAvNit2wOesEA4iLJKxhMl
-         aC/Aa7atP2Ys9In86ruft3IBnadxIda03k4wyTSnJjBv7kEG/SnhUx3xKd/g3QFuGfX/
-         2o2kLAo5GSc/RtolZcrt4WhuayKlsnnA5b4AK/NwZhFzqbDu5FFpGkfdImBL0ltOkKyn
-         NSw3b2oSvdD/G6xSkSGXCDtc9t5qJiSBpIwJk0eYqw4tlvM0yriO9lOZ+fJTcoewdpWp
-         daCgOldTNyDW3vFzP+hkfDI5SWJPZZGNN8Fu2WeblwgZ8jIKDtgv8bJzoS9gTXiVmKkc
-         oyMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXeoB8tpNhHjbNVyMoJcyRgYjQBh+tish9xYjXC7NAeE46bMVQPpH+pUXUkvUIW/fLzZgNuPise6KsHSkfUxbop6F6GW0RTeCGSAtlR3vfwUlajJT2NHQQfuPBAw7mIf7mD
-X-Gm-Message-State: AOJu0YyznUjVplz2PlJgVuXxml+NhOVo0a7txNOIQ5BtbLRMhFNIr5pw
-	JUr/WBxEZdMMbk7/S8U5GeLXwYaxyG9yW0/tufv/VnVK6B5ThMYy6I2XyUYyjSxC3SPcHPskRLm
-	Ahvp657aP7mCe7unsoBal69vm2T8=
-X-Google-Smtp-Source: AGHT+IF5yv/TglCYht0GlEF3g1XXh2NNxCAUT6E0SrECu43ZqSZ/Uc4PZ00ezMcI3cm7SJ0+6UrTwLP/iBanEvXshDo=
-X-Received: by 2002:a5b:8c8:0:b0:dcc:56b6:6606 with SMTP id
- w8-20020a5b08c8000000b00dcc56b66606mr2659553ybq.40.1711277300256; Sun, 24 Mar
- 2024 03:48:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdOmj8Ip"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070DBC433C7;
+	Sun, 24 Mar 2024 11:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711278647;
+	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qdOmj8IpSvL3J1HmB8y+mew6CrhOA5NEiJ+Rg96N5Ypb0+1f6aHFpehOcU8yMYb1T
+	 K+47LI2WbRdPyAtvyY5X9mIQEBr9Pt+UpiFubwh09VFW0BMVCFaSPhauvft+3QF0ta
+	 9/ZFA5SCCUitIIwkoOTDD3W2+ivaUkMR2V7NgvG6xR2tqP65XaCWCFY2JQRU4TtM4S
+	 CxIYu4u5VRpCBy2i5e+K5CELBbNGfgrL6KbZOWBh2Yn5WZRVpuU8qauoXFqQga+Ucl
+	 Z5wWRlAxqQv/w5DNHX2WaHoSzjmRBN42Kzg//5BJDZT4VmaLFknBalJp5xjyeSY43z
+	 TLSSlAUd1MY9w==
+Date: Sun, 24 Mar 2024 11:10:29 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
+ Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
+ <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 0/6] iio: new DMABUF based API
+Message-ID: <20240324111029.3c57b885@jic23-huawei>
+In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240323081140.41558-1-bharathsm@microsoft.com> <20240323162956.GB403975@kernel.org>
-In-Reply-To: <20240323162956.GB403975@kernel.org>
-From: Bharath SM <bharathsm.hsk@gmail.com>
-Date: Sun, 24 Mar 2024 16:18:09 +0530
-Message-ID: <CAGypqWxS=0RjYHgjovyS=us2YCpOedT4Mt3pLkkhVmK8UsVbmg@mail.gmail.com>
-Subject: Re: [PATCH] dns_resolver: correct sysfs path name in dns resolver documentation
-To: Simon Horman <horms@kernel.org>
-Cc: davem@davemloft.net, dhowells@redhat.com, edumazet@google.com, 
-	kuba@kernel.org, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	corbet@lwn.net, pabeni@redhat.com, Bharath SM <bharathsm@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 23, 2024 at 10:00=E2=80=AFPM Simon Horman <horms@kernel.org> wr=
-ote:
->
-> On Sat, Mar 23, 2024 at 01:41:40PM +0530, Bharath SM wrote:
-> > Fix an incorrect sysfs path in dns resolver documentation
-> >
-> > Signed-off-by: Bharath SM <bharathsm@microsoft.com>
->
-> Hi,
->
-> There is another instance of "dnsresolver" in the same file.
-> Should it also be changed?
->
+On Sun, 10 Mar 2024 13:48:29 +0100
+Paul Cercueil <paul@crapouillou.net> wrote:
 
-Thanks for suggestion,
-sent updated patch with subject "[PATCH v2] dns_resolver: correct
-module name in dns resolver documentation"
+> Hi Jonathan,
+> 
+> Here's the final-er version of the IIO DMABUF patchset.
+> 
+> This v9 fixes the few issues reported by the kernel bot.
+> 
+> This was based on next-20240308.
+> 
+> Changelog:
+> 
+> - [3/6]:
+>     - Select DMA_SHARED_BUFFER in Kconfig
+>     - Remove useless forward declaration of 'iio_dma_fence'
+>     - Import DMA-BUF namespace
+>     - Add missing __user tag to iio_buffer_detach_dmabuf() argument
+
+Merge window is coming to an end, and whilst we obviously have
+plenty of time left in this cycle, I would like to get this queued
+up fairly early so any issues can shake out and the various series
+that will build on this can progress.
+
+Hopefully Paul has addressed all remaining comments.
+So I'm looking for RB or Ack for DMABUF and dmaengine parts from
+respective reviewers/maintainers.
+
+Thanks
+
+Jonathan
+
+> 
+> Cheers,
+> -Paul
+> 
+> Paul Cercueil (6):
+>   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+>   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+>   iio: core: Add new DMABUF interface infrastructure
+>   iio: buffer-dma: Enable support for DMABUFs
+>   iio: buffer-dmaengine: Support new DMABUF based userspace API
+>   Documentation: iio: Document high-speed DMABUF based API
+> 
+>  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
+>  Documentation/iio/index.rst                   |   1 +
+>  drivers/dma/dma-axi-dmac.c                    |  40 ++
+>  drivers/iio/Kconfig                           |   1 +
+>  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
+>  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
+>  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
+>  include/linux/dmaengine.h                     |  27 +
+>  include/linux/iio/buffer-dma.h                |  31 ++
+>  include/linux/iio/buffer_impl.h               |  30 ++
+>  include/uapi/linux/iio/buffer.h               |  22 +
+>  11 files changed, 891 insertions(+), 17 deletions(-)
+>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+> 
+
