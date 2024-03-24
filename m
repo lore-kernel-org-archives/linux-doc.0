@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAB663B;
-	Sun, 24 Mar 2024 00:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099F5399
+	for <linux-doc@vger.kernel.org>; Sun, 24 Mar 2024 00:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711240196; cv=none; b=NwXJ0iHrzWiUgHQULzUx/ze3ZX0FK2JziIP+uWOX7TZOvUEpwDB/s0xDnmk0cq6Y3PPOnD7/2h0tJ1PZJk3XA4oHwLy+jKasQfa7Qmrg+rbaVOLV6uL4EnLR3ptksMOYVhubT4wuybZJ51Xhh4FtpbMd/56SB/amxKkgs/aOFFc=
+	t=1711240489; cv=none; b=LqgyMgXM4+K7nm1ZCEkjJ3AfoHydl1XeNbXdubxU7cYpweoKvX+/4MgqfPL5dX3NYqcRnF+uMHPgDby+I2iG0OE5ph7JB1u4NWMEXjB2q6xeoELwTkCIYwfPk90jc2fafCOpXGy7uO/Kvl/AcE7KvccAHQV+YQYEq3BqnBY0ypE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711240196; c=relaxed/simple;
-	bh=hGA0pjESfcbSCju3TJsdHOFR1tokO3qHUenTDCHAAC4=;
+	s=arc-20240116; t=1711240489; c=relaxed/simple;
+	bh=btrYz8Wb645K5J5p6UAsm9DaLcXfeRxWzN199AXJPw0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PsOyzeZOJlZY7e3YbU6hVrcdSwyUXLMHXoWHxWlDC2U7zKaqhO6wD1ScZ+BljbRRgKxGVG621uxswSucGQu/X7xa/r+LiTLFAujbEa6Nd2JUBubf9iERobNRIDd2NxKpuYnw3FLHcbVO901aJUwaDgsZ+ml7LGn/SLGl7wLJuXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=glYVI1+v; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=tUJ7UNVHS+uJMqCfreeDnoNaKpCEETxMKEnt/wHqftjg/lhaBdJPHEv3UHrJv5WL90ZeULcJyW0rFn79pccYat8E1QMtlRcw/JgW35Oxrwsv6KtEkkjAr1JPBlL29uqc+dVhs51hyRdgJ+Wnu1iB9BEWO2o17RIHEWzOxNNCsc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vAidbKLh; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="glYVI1+v"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vAidbKLh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=utodYAxgZ6ASqBLu4FhUWyXcojcCXmq+kx0E9Y88w7s=; b=glYVI1+vBRKw99jYBcJe2Nckm5
-	wF28eI7xrGwdTSXBvmUjc2YEs1BcOTuUClUrYQUZL0bpF7VfZ+tJplhnWVEdboi9eRhTGQhFroNkn
-	r9NjTcghnBAq7mOdszxAB7tdEwYajqlAf35NegF1xaoFHoLX00AsinSVpvMGDc2+tEXhgXlyzm5O5
-	ARyHbdNEwD1evurglCPZQAfCzaGWKH/DcbGgdxSJz/ley6IAx3xn4u8me9YUgXIDWLfwCcMsuAylc
-	RhN6FU2LgnLxOsNvJfhSixYIUTGnot+TrKcHDL2XxHx7YlWTbLKvaZ0RhlhQ26Gbur7DB0i66Ax/Z
-	c56TZtZw==;
+	bh=8Tmc8pzJ+Rf3vdw5rjf5lXxUEO83Tr3Fv58n04W5S38=; b=vAidbKLh86IsQKi2L6MtGutywn
+	B8CE7dvepRR36bQclA6SSsIE9WnAbHVwfVfpgOVUTPWiwYDfOn67y+fr9BqBJmAKR3fhuTjPawPRZ
+	gXmeEZmQFih4ESyU9gPp4gZWoTks0mYhxhtdhDoyOMQAg7ePXhMBrTQnaHTJN6E/HuKUJprcDR2HD
+	V+DPQJWwj8eQWVaa62/ur/a7uq9O1MNK47nuLwm2xTqV2azCQgwCNxSF53K0yfD6PpGQsWt3OcD8a
+	ZwNnAAP5uVBspdXwHT9ePAzBogsSgOGZKDDCuZ7t5ZkSALZmosCbYpkyngZX5uhc8DNJLl/xduD9t
+	MG74J0cw==;
 Received: from [50.53.2.121] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1roBkD-0000000BTCn-3Emz;
-	Sun, 24 Mar 2024 00:29:49 +0000
-Message-ID: <4a81b4cc-90fd-415d-83c1-fe0f0ca7cac9@infradead.org>
-Date: Sat, 23 Mar 2024 17:29:42 -0700
+	id 1roBoz-0000000BTXK-021Z;
+	Sun, 24 Mar 2024 00:34:45 +0000
+Message-ID: <d91ec85c-6a44-4b4a-bfe4-b8ad8fa95c01@infradead.org>
+Date: Sat, 23 Mar 2024 17:34:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,50 +39,58 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tracing: Fix documentation on tp_printk cmdline option
+Subject: Re: [PATCH] docs: Detect variable fonts and suggest removing them
 Content-Language: en-US
-To: Vitaly Chikunov <vt@altlinux.org>, Thomas Gleixner <tglx@linutronix.de>,
- "Steven Rostedt (Red Hat)" <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-References: <20240323231704.1217926-1-vt@altlinux.org>
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, =?UTF-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
+ =?UTF-8?B?0Yc=?= <relect@bk.ru>
+References: <20240323120204.155678-1-akiyks@gmail.com>
+ <b6235333-5142-468f-9f59-4454ca8531e7@infradead.org>
+ <8361afd6-ac80-4d56-9620-961a7a16cfa7@gmail.com>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240323231704.1217926-1-vt@altlinux.org>
+In-Reply-To: <8361afd6-ac80-4d56-9620-961a7a16cfa7@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
-
-On 3/23/24 16:17, Vitaly Chikunov wrote:
-> kernel-parameters.txt incorrectly states that workings of
-> kernel.tracepoint_printk sysctl depends on "tracepoint_printk kernel
-> cmdline option", this is a bit misleading for new users since the actual
-> cmdline option name is tp_printk.
+>>> ---
+>>> Cc: linux-doc@vger.kernel.org
+>>> ---
+>>>  Documentation/Makefile          |  2 +-
+>>>  MAINTAINERS                     |  1 +
+>>>  scripts/check-variable-fonts.sh | 30 ++++++++++++++++++++++++++++++
+>>>  3 files changed, 32 insertions(+), 1 deletion(-)
+>>>  create mode 100755 scripts/check-variable-fonts.sh
+>>>
+>>
+>> I don't have much to say about the patch except that it seems like a good idea...
+>>
+>> However, some of the terminology could be improved IMO.
+>> E.g., "variable type" or "variable font" should be something like
+>> variable-width font or proportionally-spaced font.
 > 
-> Fixes: 0daa2302968c ("tracing: Add tp_printk cmdline to have tracepoints go to printk()")
-> Signed-off-by: Vitaly Chikunov <vt@altlinux.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Good point.
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index bb884c14b2f6..623fce7d5fcd 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6599,7 +6599,7 @@
->  			To turn off having tracepoints sent to printk,
->  			 echo 0 > /proc/sys/kernel/tracepoint_printk
->  			Note, echoing 1 into this file without the
-> -			tracepoint_printk kernel cmdline option has no effect.
-> +			tp_printk kernel cmdline option has no effect.
->  
->  			The tp_printk_stop_on_boot (see below) can also be used
->  			to stop the printing of events to console at
+> I need to be more careful in using terms rarely found in kernel development.
+> 
+> In this case, "variable font" means "font file which employs the OpenType
+> font variations technology".
+> 
+> There is a Wikipedia page at: https://en.wikipedia.org/wiki/Variable_font
+> 
+
+Ah, I see. Thank you.
+
+>>
+>> "static ones" should be something like fixed-space fonts or monospaced fonts.
+>>
+>> Unless I just completely don't understand the uses of "variable" and "static" here.
+> 
+> "static" here means "non-variable".
+> 
+> I'll expand the changelog a bit in v2 with your comments in mind.
+> 
+>         Thanks, Akira
 
 -- 
 #Randy
