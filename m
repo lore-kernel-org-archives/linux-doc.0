@@ -1,112 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.61.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EA87F9;
-	Sun, 24 Mar 2024 11:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B11C175A9;
+	Sun, 24 Mar 2024 12:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.61.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711278648; cv=none; b=WN9EB/GJiNR7G+U+fG3aqB7VeFb6UpIduVmbQMMclvj1Nd3Pii1o284Y/b4CkgK2i8BIdNRoTDlIxd1IETwitwPx6+kYrbvsm2MTnO2E6uN1D7n8Chf4kFntUIZL19+UK90nMs4QQn10Gwuse7Jg/iSWO8Z4zCJUtroqS2Fev+I=
+	t=1711281853; cv=none; b=KfLYKXnPmDA0xlAnOSbaDd9rDmn8N3oEPzXcjXvjl1qkfZQ8cKoxfmtIeg5XEwjxd9U8i3EBUdWuVM4D3iiG9HnRXF+RvGvpXiy5IZE9dOeBVdiD8VCgbrXQFFGhnKoJg4pg3uQrQMfRW2Y+5KfiBf1nckFsJ5SJVk7mdZbLViU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711278648; c=relaxed/simple;
-	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AzLipZMaqjkBBHaCv0ODOKvQJJ5H+6LYx9MfbDUEAUAgvwO+jvo/98cf8urchR5Vra7X5kG6ynKN3XsK3BO3SYZE0GYvQZ33v4wAAamXgqMsIB2AGOdDCEj57Cd1rXvv0mvRt6aB52rl6Bl5r5Qwbc92zhafuAqj8yL/H+dUoxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdOmj8Ip; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711281853; c=relaxed/simple;
+	bh=a7LNXZGyhTHnJdRFDQFiEyndGv76THAe6Z6KbddtEB4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hUV1VTKcTJM8FmrknEIFXQMK+5nbWsifMl5rtgxhAzv/hm8o899d0ZH0BpB1pMJ3UmU+ixnbYFpeZPSxwTxX8WsMxuGmX2LklAV5NswuyAFEQcIMMtcv5xUdzjh5mlPocVerkxRZSgCDSTk1uTmCAAVRS+aEmR6TsV09pez6qRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bigler.one; spf=pass smtp.mailfrom=bigler.one; dkim=pass (2048-bit key) header.d=bigler.one header.i=@bigler.one header.b=Bbvs2KiV; arc=none smtp.client-ip=188.68.61.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bigler.one
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bigler.one
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdOmj8Ip"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 070DBC433C7;
-	Sun, 24 Mar 2024 11:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711278647;
-	bh=SliL9lrMTLlb02DVUsEIoBH8kLWyicIpi30CBkLACAo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qdOmj8IpSvL3J1HmB8y+mew6CrhOA5NEiJ+Rg96N5Ypb0+1f6aHFpehOcU8yMYb1T
-	 K+47LI2WbRdPyAtvyY5X9mIQEBr9Pt+UpiFubwh09VFW0BMVCFaSPhauvft+3QF0ta
-	 9/ZFA5SCCUitIIwkoOTDD3W2+ivaUkMR2V7NgvG6xR2tqP65XaCWCFY2JQRU4TtM4S
-	 CxIYu4u5VRpCBy2i5e+K5CELBbNGfgrL6KbZOWBh2Yn5WZRVpuU8qauoXFqQga+Ucl
-	 Z5wWRlAxqQv/w5DNHX2WaHoSzjmRBN42Kzg//5BJDZT4VmaLFknBalJp5xjyeSY43z
-	 TLSSlAUd1MY9w==
-Date: Sun, 24 Mar 2024 11:10:29 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan
- Corbet <corbet@lwn.net>, Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul
- <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
- <nuno.sa@analog.com>, Michael Hennerich <michael.hennerich@analog.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v9 0/6] iio: new DMABUF based API
-Message-ID: <20240324111029.3c57b885@jic23-huawei>
-In-Reply-To: <20240310124836.31863-1-paul@crapouillou.net>
-References: <20240310124836.31863-1-paul@crapouillou.net>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=bigler.one header.i=@bigler.one header.b="Bbvs2KiV"
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4V2ZJZ0JBpz810r;
+	Sun, 24 Mar 2024 12:55:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bigler.one; s=key2;
+	t=1711281342; bh=a7LNXZGyhTHnJdRFDQFiEyndGv76THAe6Z6KbddtEB4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Bbvs2KiVc2rRfF8yA37KDFw+fEJ3kIEcife3kStcavleVNza/wVp/sjF6LfNkHRCa
+	 7fCe8KE6MyFhZb8N+hvmKpCemytQZBLq/rCSeK/mYI0lHNOMYqK2DtvPNYXc4Knp3N
+	 TpvlNy8mPlWq2Fk2Z/a8IPzNJUYbm42rhOdEVLziH5+K6lp0lEk5l9zgdSQFT0NN3Q
+	 12/vpyqxzR5Qp0V9T1DThtnY0erF3ysnThWAvcnmtFEw2sglSMNfqck71MvmZRnWSQ
+	 j8sPdxmLlJNFQW/3puTq48Udt8oZ+1jhQIh7IQ+HrEeDamoOaI3HJrlwQ5opFjE1UF
+	 +QDVIsxdRoIgw==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4V2ZJY700fz810G;
+	Sun, 24 Mar 2024 12:55:41 +0100 (CET)
+Received: from mx2fc6.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4V2ZJW4Rp1z8sb7;
+	Sun, 24 Mar 2024 12:55:39 +0100 (CET)
+Received: from [192.168.1.24] (xdsl-188-155-38-242.adslplus.ch [188.155.38.242])
+	by mx2fc6.netcup.net (Postfix) with ESMTPSA id 5B868405C9;
+	Sun, 24 Mar 2024 12:55:34 +0100 (CET)
+Authentication-Results: mx2fc6;
+        spf=pass (sender IP is 188.155.38.242) smtp.mailfrom=benjamin@bigler.one smtp.helo=[192.168.1.24]
+Received-SPF: pass (mx2fc6: connection is authenticated)
+Message-ID: <ea86159bb555336ae21311770e3a1a6374092e64.camel@bigler.one>
+Subject: Re: [PATCH net-next v2 0/9] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+From: Benjamin Bigler <benjamin@bigler.one>
+To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ horatiu.vultur@microchip.com, Woojung.Huh@microchip.com,
+ Nicolas.Ferre@microchip.com, UNGLinuxDriver@microchip.com,
+ Thorsten.Kummermehr@microchip.com, davem@davemloft.net,
+ edumazet@google.com,  kuba@kernel.org, pabeni@redhat.com,
+ robh+dt@kernel.org,  krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, corbet@lwn.net,  steen.hegelund@microchip.com,
+ rdunlap@infradead.org, horms@kernel.org,  casper.casan@gmail.com,
+ andrew@lunn.ch
+Date: Sun, 24 Mar 2024 12:55:34 +0100
+In-Reply-To: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+References: <20231023154649.45931-1-Parthiban.Veerasooran@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <171128133508.28970.8297446260616691683@mx2fc6.netcup.net>
+X-Rspamd-Queue-Id: 5B868405C9
+X-Rspamd-Server: rspamd-worker-8404
+X-NC-CID: v2WY1NJuJOavqDS6N+mo2HKZCu2cke6cX3NwrAx0Pn64kxU=
 
-On Sun, 10 Mar 2024 13:48:29 +0100
-Paul Cercueil <paul@crapouillou.net> wrote:
+Hi Parthiban
 
-> Hi Jonathan,
-> 
-> Here's the final-er version of the IIO DMABUF patchset.
-> 
-> This v9 fixes the few issues reported by the kernel bot.
-> 
-> This was based on next-20240308.
-> 
-> Changelog:
-> 
-> - [3/6]:
->     - Select DMA_SHARED_BUFFER in Kconfig
->     - Remove useless forward declaration of 'iio_dma_fence'
->     - Import DMA-BUF namespace
->     - Add missing __user tag to iio_buffer_detach_dmabuf() argument
+I hope I send this in the right context as it is not related to just one pa=
+tch or
+some specific code.
 
-Merge window is coming to an end, and whilst we obviously have
-plenty of time left in this cycle, I would like to get this queued
-up fairly early so any issues can shake out and the various series
-that will build on this can progress.
+I conducted UDP load testing using three i.MX8MM boards in conjunction with=
+ the
+LAN8651. The setup involved one board functioning as a server, which is jus=
+t
+echoing back received data, while the remaining two boards acted as clients=
+,
+sending UDP packets of different sizes in various bursts to the server.
+Due to hardware constraints, the SPI bus speed was limited to 15 MHz, which=
+ might
+have influenced the results.
 
-Hopefully Paul has addressed all remaining comments.
-So I'm looking for RB or Ack for DMABUF and dmaengine parts from
-respective reviewers/maintainers.
+During the tests I experienced some issues:
 
-Thanks
+- The boards just start receiving after first sending something (ping anoth=
+er board).
+  Some measurements showed that the irq stays asserted after init. This mak=
+es sense
+  as far as I understand the chapter 7.7 of the specification, the irq is d=
+easserted
+  on reception of the first data header following CSn being asserted. As a =
+workaround
+  I trigger the thread at the end of oa_tc6_init.
 
-Jonathan
+- If there is a lot of traffic, the receive buffer overflow error spams the=
+ log.
 
-> 
-> Cheers,
-> -Paul
-> 
-> Paul Cercueil (6):
->   dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->   dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->   iio: core: Add new DMABUF interface infrastructure
->   iio: buffer-dma: Enable support for DMABUFs
->   iio: buffer-dmaengine: Support new DMABUF based userspace API
->   Documentation: iio: Document high-speed DMABUF based API
-> 
->  Documentation/iio/iio_dmabuf_api.rst          |  54 ++
->  Documentation/iio/index.rst                   |   1 +
->  drivers/dma/dma-axi-dmac.c                    |  40 ++
->  drivers/iio/Kconfig                           |   1 +
->  drivers/iio/buffer/industrialio-buffer-dma.c  | 181 ++++++-
->  .../buffer/industrialio-buffer-dmaengine.c    |  59 ++-
->  drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
->  include/linux/dmaengine.h                     |  27 +
->  include/linux/iio/buffer-dma.h                |  31 ++
->  include/linux/iio/buffer_impl.h               |  30 ++
->  include/uapi/linux/iio/buffer.h               |  22 +
->  11 files changed, 891 insertions(+), 17 deletions(-)
->  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
-> 
+- If there is a lot of traffic, I got various kernel panics in oa_tc6_updat=
+e_rx_skb.
+  Mostly because more data to rx_skb is added than allocated and sometimes =
+because
+  rx_skb is null in oa_tc6_update_rx_skb or oa_tc6_prcs_rx_frame_end. Some =
+debugging
+  with a logic analyzer showed that the chip is not behave correctly. There=
+ is more
+  bytes between start_valid and end_valid than there should be. Also there
+  seems to be 2 end_valid without a start_valid between. What is common is =
+that the incorrect
+  frame starts in a chunk where end_valid and start_valid is set.
+  In my opinion its a problem in the chip (maybe related to the errata in t=
+he next point)
+  but the driver should be resilent and just drop the packet and not cause =
+a kernel panic.
+
+- Sometimes the chip stops working. It always asserts the irq but there is =
+no data (rca=3D0)
+  and also exst is not active. I found out that there is an errata (DS80001=
+075) point s3
+  that explains this. I set the ZARFE bit in CONFIG0. This also fixes the p=
+oint above.
+  The driver now works since about 2.5 weeks with various load with just on=
+e loss of frame
+  error where I had to reboot the system after about 4 days.
+
+Is there a reason why you removed the netdev watchdog which was active in v=
+2?
+
+Thanks,
+Benjamin Bigler
 
