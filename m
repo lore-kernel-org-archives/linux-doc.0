@@ -1,99 +1,110 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF32C7F9;
-	Sun, 24 Mar 2024 09:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1371168B9;
+	Sun, 24 Mar 2024 10:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711271349; cv=none; b=dJNPf6XnVKOZiIyGgnLGE0QnPGj7V9+fc+cg+DZgyvGoYbt/b/5XOfui3htLapFn7Z7wvP3A36hV+DJ41Wi8/U15Ktrho6hWWPHt+weu7go1W6iFtJKh82gCMUIIhxc+Ko1Ho7k4gFPz76B/r6h+n0tALE9wBJ8+sCQ8FKNGUNA=
+	t=1711277090; cv=none; b=Hw6jbgOlE7EuzcWRjrQFtDpgwU1M7tw0fV7y+IlU1l03ItjglGS0Zv1Nr0izcYD94qqQx2Endb+pMMjnSytebFRxc6+JsSTMhEFXHBjJfPLeZmBwxenxP598zLekt8VtyC0Di+vS8qLGUbNcnhyhELzbwkVsLKOvkftIlCexnr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711271349; c=relaxed/simple;
-	bh=+Rf2sP5k+yxgykPJQTji8BK3SG1Mw51mUBOFY6xa+nY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GIfjxYXVuYdPbyjwaMiw+UAO9cCBEt7rN9YxtoTHbIyaSUDACxGGNV6riA6GizQ3UwHe+2lrAlM2UHaZTOts1t5YLo4x+oX3Q8G3Vs05b41v/cj02vT1pRnQhPJeUQcZy3Sp6OFZg7fH4x9tmbYtuMD63f6l2syCqzxz8ylpZU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=adm0li5a; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1711277090; c=relaxed/simple;
+	bh=S1wpI9klpsRv3/xn9IOtLB90qUCVGwcVR9ubrbo8/5A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TxO+fRMPRl+TipXEPDTTh2Gv8R8RiSG/E/XqRqQS1L/sJpDkMeeps0MBMMD41rpYkCI3u6vYr2R18+OtRpg1x+ZndXH3iHjSloS53t0KDuHubmpGi6JWGjJ7jzaJM96Ntyy/h4LyIIADUE2v/R/zsL7Q74gjjVQHTIcud74URh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHQD8Ubd; arc=none smtp.client-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="adm0li5a"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E312045E37
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1711271338; bh=Rhs1loPtFsL5EIYRvgUlHECbLqphkffPY0MFBefhNnc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=adm0li5aTWzfRI45SrW1qaWvHcYmJES1k9KLkhfBn+k6H1bKCODAOPjQeWqjo2sbn
-	 vn1Kyx1r0cb3ltOQOYjyRCbuV7T/XOj/pSOf1/NHMvPz/JwL4cVNjxvHTi0vUrIsqx
-	 YGfGTw/J3vEH6VO2QVX95J7k/8doGX+/83MwcxkkJzvkTPScr0CpwgpmbHdI2U9tRY
-	 7i0rNY436KnSCKp5D1xe9O5g0I/F4cjiQx4WYHSfFSsLMDX/eX52eBiJV+RTqV314R
-	 +7KiRI77xecl64M37DOcsgh+HmPCauxpSvG6ZVsyJqY0cNQ+6y9ShK6wrFSslfusjd
-	 2uWTC0kJI/H+w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E312045E37;
-	Sun, 24 Mar 2024 09:08:57 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox
- <willy@infradead.org>, Dan Williams <dan.j.williams@intel.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, torvalds@linux-foundation.org,
- Bjorn Helgaas <bhelgaas@google.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Ilpo =?utf-8?Q?J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas.wunner@intel.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] cleanup: Add usage and style documentation
-In-Reply-To: <65ff7a88e93fb_2690d29429@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
- <20240322090630.GA40102@noisy.programming.kicks-ass.net>
- <65fdd7ae82934_4a98a29429@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <Zf8_RYHW7QmCzl2-@casper.infradead.org>
- <65ff7a88e93fb_2690d29429@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Date: Sun, 24 Mar 2024 03:08:54 -0600
-Message-ID: <871q802dzt.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHQD8Ubd"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5a4f7a648dbso1910878eaf.3;
+        Sun, 24 Mar 2024 03:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711277088; x=1711881888; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iN15Fo9StLIXiwdIBsGn+8ehMC1YqdEwLXN2vdHz6oI=;
+        b=DHQD8UbdEjeNqNPv8nuR6AaAQD8ITHxGhU6RH3pDAhJ2ZPfkNmBTpPJr4szU7jiJWL
+         USPazQM87zl7cz7U6+qri4XzEgOexBm4GX7KUjbKA5ue+dZIz2W7iSbyVrPnrUTk4kpa
+         CHdRAKvvHrF5PbPy30zMX9greaGAMYcl+sNzB1fZKyAdxtXl8jmf+WsXfTs1omGWALzl
+         ipdL2pVZTHBiaKoTKHYa9+tIMgpnpu3Q1CZ5stF1VkxdVMNmtX2a9oTLhobDZa1+cH12
+         stLjcY3COQRRULZ2mDeANjrnMve0QCj5+0ktyoz/j3nKqWRiTlMjGhmw3fa1EdvR75r7
+         Oj0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711277088; x=1711881888;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iN15Fo9StLIXiwdIBsGn+8ehMC1YqdEwLXN2vdHz6oI=;
+        b=HS9j0zwCVuQ7CFjDPK6jU5I7sP9sBqO5J2ACmXEZi+jXRaOJFCB39Rsb9dxWekTQnF
+         fOISIv4ux+bTDMb5oY4bHrMY3maHXlYyk44VkoAOUxmzOrC2gP1gzk9zNKsWrdrvPA3I
+         +QWApTQLDQg11n5rZFflyo3cS1v4BnBIqNtlkiOGUOZNBCz7hq1VFH2utNLgNQEswgzm
+         U/UAPsAD6y+MhoDgJnLAlHgEFZV65k/opV+EBE3PBZhlwxfbXNS2Tw5qWRfttiqcjoli
+         /u7Y8wQBK3qUla1QrCYg5QQk31c2mLhz3cKdcLQueje+SRb0FGfdGwyKpZO1bS5lMD/4
+         xG0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVkpjwxtRXLaW8BZsy/6WHvTHZKg24kz0ZExu8RB2tl7avDrURXE154TehB43+l/uSStfY5dDRSvykLSYDdHvJS8TjwVBbvKWRj38JL1PSrax6ibhTOsq25yzf0f3+C/YgA
+X-Gm-Message-State: AOJu0YxiDdjCYaGp0ymVfggRRWExewV5AcMv+1EWCVtq6FIUwa0FXwhM
+	Rk+ucJsqpT29tiaUhKua1bSkwISnbtQktrYkINwEzeyjpoWoIdRL
+X-Google-Smtp-Source: AGHT+IF4NfWcl3ZIDVk7DsBxVoJeO36pCuARlrLsKW8XAYuYMoGbOZ9pz2p7B0qDEWEvmeGzvMDxQw==
+X-Received: by 2002:a05:6358:2490:b0:17f:5821:9a9c with SMTP id m16-20020a056358249000b0017f58219a9cmr5590457rwc.4.1711277087827;
+        Sun, 24 Mar 2024 03:44:47 -0700 (PDT)
+Received: from bharathsm-Virtual-Machine.. ([131.107.8.61])
+        by smtp.googlemail.com with ESMTPSA id cv2-20020a17090afd0200b0029fe0b8859fsm5669255pjb.1.2024.03.24.03.44.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Mar 2024 03:44:47 -0700 (PDT)
+From: Bharath SM <bharathsm.hsk@gmail.com>
+X-Google-Original-From: Bharath SM <bharathsm@microsoft.com>
+To: davem@davemloft.net,
+	dhowells@redhat.com,
+	edumazet@google.com,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	corbet@lwn.net,
+	pabeni@redhat.com,
+	horms@kernel.org
+Cc: Bharath SM <bharathsm@microsoft.com>
+Subject: [PATCH v2] dns_resolver: correct module name in dns resolver documentation
+Date: Sun, 24 Mar 2024 16:13:38 +0530
+Message-Id: <20240324104338.44083-1-bharathsm@microsoft.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240323081140.41558-1-bharathsm@microsoft.com>
+References: <20240323081140.41558-1-bharathsm@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Dan Williams <dan.j.williams@intel.com> writes:
+Fix an incorrect module name and sysfs path in dns resolver
+documentation.
 
-> Matthew Wilcox wrote:
->> On Fri, Mar 22, 2024 at 12:10:38PM -0700, Dan Williams wrote:
->> > Peter Zijlstra wrote:
->> > > So I despise all that RST stuff. It makes what should be trivially
->> > > readable text into a trainwreck. We're coders, we use text editors to
->> > > read comments.
->> > 
->> > Ok, I will rip out the RST stuff and just make this a standalone comment.
->> 
->> I would rather you ignored Peter's persistent whining about RST and
->> kept the formatting.
+Signed-off-by: Bharath SM <bharathsm@microsoft.com>
+---
+ Documentation/networking/dns_resolver.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Dealing with that is definitely the least pleasant part of trying to
-maintain docs...
+diff --git a/Documentation/networking/dns_resolver.rst b/Documentation/networking/dns_resolver.rst
+index add4d59a99a5..c0364f7070af 100644
+--- a/Documentation/networking/dns_resolver.rst
++++ b/Documentation/networking/dns_resolver.rst
+@@ -118,7 +118,7 @@ Keys of dns_resolver type can be read from userspace using keyctl_read() or
+ Mechanism
+ =========
+ 
+-The dnsresolver module registers a key type called "dns_resolver".  Keys of
++The dns_resolver module registers a key type called "dns_resolver".  Keys of
+ this type are used to transport and cache DNS lookup results from userspace.
+ 
+ When dns_query() is invoked, it calls request_key() to search the local
+@@ -152,4 +152,4 @@ Debugging
+ Debugging messages can be turned on dynamically by writing a 1 into the
+ following file::
+ 
+-	/sys/module/dnsresolver/parameters/debug
++	/sys/module/dns_resolver/parameters/debug
+-- 
+2.34.1
 
-> Hmm, how about split the difference and teach scripts/kernel-doc to treat
-> Peter's preferred markup for a C code example as a synonym, i.e.
-> effectively a search and replace of a line with only:
->
-> 	Ex.
->
-> ...with:
->
-> 	.. code-block:: c
->
-> ...within a kernel-doc DOC: section?
-
-I'm not convinced that "Ex." is a clearer or more readable syntax, and
-I'd prefer to avoid adding to the regex hell that kernel-doc already is
-or adding more special syntax of our own.  How about, as Lukas
-suggested, just using the "::" notation?  You get a nice literal block,
-albeit without the syntax highlighting -- a worthwhile tradeoff, IMO.
-
-Thanks,
-
-jon
