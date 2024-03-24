@@ -1,109 +1,110 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from ms-10.1blu.de (ms-10.1blu.de [178.254.4.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3279B17C8;
-	Sun, 24 Mar 2024 03:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AF82CA4;
+	Sun, 24 Mar 2024 06:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.254.4.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711252468; cv=none; b=MlZLK+8+P+d0huvuCk4uK09YXO26CpfaP5MY1KK9ffvheIHFVrTXFy7iMN0cN9y3ukoAT3EasZNnvKU6xzBDb+3nO5Ktg7BGqjgyyTv2ckcCpyKngjkRtcV3hwwVmrgH30p0l7s12xgrh0BuMX8xp/qjb55n2+zyPmpmlA9YjBo=
+	t=1711260030; cv=none; b=tmMuFPu3jKr1hzn/j4PZdc7Ns37W1LEoPwBaV3nVEpfd6FS1CgEnmsZROkTfF/YC38FGBJT2fEu6WOk7Mq1i7pD8amsJmygCEBmLsARxvI+n3pYg0t5gXkftsrcucvL4dMO0sGqbS0n+kf5Vt/wr2BRH+i86C1lVx2Ri+psU5ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711252468; c=relaxed/simple;
-	bh=ayNdQuVZRkPZpCePlEJE3PJTt5J3o7h2x+1Z4CfsE4U=;
-	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
-	 In-Reply-To:Content-Type; b=QeL6JuE6E5SO2JCTOpLx6Yb1EmBpu0zw45XcT22DGOry3tTPlj1FvA738A288ul2Yx6bZ4yLXmVoOh2BbloHtykxTQVnhx1IKc+A6qymKF991cI1QVU2P62R54h/vmC17n/aHakHHfzZkjRQo+vUyxOhF8ynP+TUVXE9FgMhKNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4V2MZ402H8z1R7KD;
-	Sun, 24 Mar 2024 11:51:40 +0800 (CST)
-Received: from dggpeml500018.china.huawei.com (unknown [7.185.36.186])
-	by mail.maildlp.com (Postfix) with ESMTPS id 05E561A016C;
-	Sun, 24 Mar 2024 11:54:17 +0800 (CST)
-Received: from [10.67.111.186] (10.67.111.186) by
- dggpeml500018.china.huawei.com (7.185.36.186) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 24 Mar 2024 11:54:16 +0800
-Message-ID: <df37e340-211a-66c0-2383-f07e287bea8d@huawei.com>
-Date: Sun, 24 Mar 2024 11:54:16 +0800
+	s=arc-20240116; t=1711260030; c=relaxed/simple;
+	bh=s8cMKpHaAcyyuLqkjUj7usrzSAx6MOM0pJf8hD0ogvY=;
+	h=From:Subject:To:Cc:Message-ID:Date:MIME-Version:Content-Type; b=GgkkGPcQ8O182MWwChXj+IcKX05Sr+hrHYYbrD5OJ1pqBWDVJkiCmvJGTKplWQgD29mKd6dtI21BH0a7LtiJX3BcZ/R8a+KhHCFdyxl48iZMqmon1jxrnEooeVwhbhqcmJ2Gpx/CINuMdMqFwk0lYrxnxszpsKbf7hUBNjEj+fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jsigle.com; spf=pass smtp.mailfrom=jsigle.com; arc=none smtp.client-ip=178.254.4.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jsigle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jsigle.com
+Received: from [87.102.202.253] (helo=[192.168.1.64])
+	by ms-10.1blu.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <joerg.sigle@jsigle.com>)
+	id 1roGKA-001UXd-CP;
+	Sun, 24 Mar 2024 06:23:14 +0100
+From: "Joerg M. Sigle" <joerg.sigle@jsigle.com>
+Subject: Patch [001/001] Documentation: Correct small errors in recently added
+ info on CPU vulnerabilities
+Openpgp: preference=signencrypt
+Autocrypt: addr=joerg.sigle@jsigle.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8PuOAKC9roFUBE+MA3ttuTAdqMIxhIo1cw==
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Message-ID: <ba47d363-28e8-b470-7752-b684e3d05250@jsigle.com>
+Date: Sun, 24 Mar 2024 06:23:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-To: <corbet@lwn.net>
-CC: <chrubis@suse.cz>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <mingo@kernel.org>, <zhangqiao22@huawei.com>
-References: <875xy8p5tt.fsf@meer.lwn.net>
-Subject: Re: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
-From: Zhang Qiao <zhangqiao22@huawei.com>
-In-Reply-To: <875xy8p5tt.fsf@meer.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpeml500018.china.huawei.com (7.185.36.186)
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE-1901
+Content-Transfer-Encoding: 7bit
+X-Con-Id: 102464
+X-Con-U: 0-joergsigle
 
-hi, Jonathan,
+From: Joerg-Michael Sigle <joerg.sigle@jsigle.com>
 
-在 2024/3/24 10:47, Zhang Qiao 写道:
->
-> Zhang Qiao <zhangqiao22@huawei.com> writes:
->
->> RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
->> we should document this sched feature.
->>
->> Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
->> ---
->>  Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->>
->> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
->> index d685609ed3d7..4d8eceb71f5e 100644
->> --- a/Documentation/scheduler/sched-rt-group.rst
->> +++ b/Documentation/scheduler/sched-rt-group.rst
->> @@ -12,6 +12,7 @@ Real-Time group scheduling
->>       2.1 System-wide settings
->>       2.2 Default behaviour
->>       2.3 Basis for grouping tasks
->> +     2.4 RT_RUNTIME_SHARE sched feature
->>     3. Future plans
->>
->>
->> @@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
->>
->>     \Sum_{i} runtime_{i} <= global_runtime
->>
->> +2.4 RT_RUNTIME_SHARE sched feature
->> +----------------------------
->> +
->> +RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
->> +out of its own rt-runtime.
->> +
->> +With this feature enabled, a rt-task probably hits 100% cpu usage and starves
->> +per-cpu tasks like kworkers, as a result, it may hang up the whole system.
->> +Therefore, in order to avoid such exception, recommand to disable this feature
->> +by default unless you really know what you're up to.
->
-> So this doesn't appear to have been picked up by anybody...should I
-> carry it in docs, or is there some other reason why it hasn't gone in?
->
+In file     Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+the words   Guest can infer guest from other guests
+should be   Guests can infer data from other guests
 
-I'm not exactly sure why it wasn't added in docs before.
+Found in 15.5.152, this may affect all kernel versions with the same documentation file.
+The error came as part of commit 8974eb588283b7d44a7c91fa09fcbaf380339f3a in the master branch.
 
-In my opinion, the RT_RUNTIME_SHARE sched features and sched_rt_period_us/sched_rt_runtime_us
-parameters are both important parameters of rt bandwidth,it will affect the quota of rt tasks,
-and improper configuration may cause the system hang up. So I think it's necessary to add it
-in Documentation/scheduler/sched-rt-group.rst.
+Signed-off-by: Joerg-Michael Sigle <joerg.sigle@jsigle.com>
 
-Thanks,
+---
 
-Qiao.
+The corrected text is in section "Attack scenarios", example 4; also visible in the 2nd diff output in:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=8974eb588283b7d44a7c91fa09fcbaf380339f3a
 
-> Thanks,
->
-> jon
-> .
->
+I'm submitting this patch to you as you're referenced in that patch
+or shown by scripts/get_maintainer.pl -f Documentation/admin-guide/hw-vuln/
+Hope this is ok and useful. Thanks & kind regards, Joerg
+
+
+# diff -ru a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst
+--- a/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst        2024-03-15 19:30:36.000000000 +0100
++++ b/Documentation/admin-guide/hw-vuln/gather_data_sampling.rst        2024-03-24 06:07:51.847427462 +0100
+@@ -32,7 +32,7 @@
+        Non-enclaves can infer SGX enclave data
+        Userspace can infer kernel data
+        Guests can infer data from hosts
+-       Guest can infer guest from other guests
++       Guests can infer data from other guests
+        Users can infer data from other users
+
+ Because of this, it is important to ensure that the mitigation stays enabled in
