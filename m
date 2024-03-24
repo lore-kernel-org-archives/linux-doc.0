@@ -1,87 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2464D81E;
-	Sun, 24 Mar 2024 02:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3279B17C8;
+	Sun, 24 Mar 2024 03:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711246483; cv=none; b=dKN3vc6aYyRMFRGtImvbk4vt6GzFLQACYyFHMCorlkMqMLrMBIAW5XowM3Jl2VG7QdxwYrFASpDz7Pi4DRqL4sL+23Xc7pGgNxI6KWicgNFfp5/njxMEm9V0+5+lX8j0/bGqWmnlNnhiliWSyBTgVMXhDSmzieK2rfdD9whP3Hg=
+	t=1711252468; cv=none; b=MlZLK+8+P+d0huvuCk4uK09YXO26CpfaP5MY1KK9ffvheIHFVrTXFy7iMN0cN9y3ukoAT3EasZNnvKU6xzBDb+3nO5Ktg7BGqjgyyTv2ckcCpyKngjkRtcV3hwwVmrgH30p0l7s12xgrh0BuMX8xp/qjb55n2+zyPmpmlA9YjBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711246483; c=relaxed/simple;
-	bh=4i4BgjkutHOyxQNBbaoCLs26rtfvwXtsWOZ6p4wy4TA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=CUP/7swT3ngGLTsqr23LDxt25j+WMjXUJJtMsTCRiUw495DQnykwp7gL7d5VJd/K1aIHo1isfSNEtqsVLVpN6/xZE8LkzX8Al6Ay0KJFELrGKFiFbSEcd/CQxuQaQXh30G51jU1YBhf7Y+6m9hCD+heR2wLC2ho1+WisZA4Nrqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bc96guzj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bc96guzj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 775F5C433C7;
-	Sun, 24 Mar 2024 02:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711246482;
-	bh=4i4BgjkutHOyxQNBbaoCLs26rtfvwXtsWOZ6p4wy4TA=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=bc96guzjjAsYjbVDO+YyU4yBxKS1Ck/FggYXeZl8u1pK2+3HPIawKkdEbN36ROUbo
-	 YGU2GFGInWBVOFdVyTJDlTNuPrT91E2pX0y8TTX5xnRHSV1A2rGBDLgITEGDb6EiET
-	 wklKd4ULsv3bZNePrujdNvd4G2Vx5803sOW97gUJScFhMUFpIgssAC4dNUUO0Tp1aF
-	 GtbitDPA26U/a3WdxcbNexfQ7CTjKAAmZDh2VQrgE/XbQ4YlIrIGoYqu6b8sGLATfJ
-	 PHf6jQPq5JDl9H80ylo0VTLYIomQobjwN5p8oi7muAzHeSmYpvR+SGyrtFS4BmO5p+
-	 7ITEHSUQTNmcg==
+	s=arc-20240116; t=1711252468; c=relaxed/simple;
+	bh=ayNdQuVZRkPZpCePlEJE3PJTt5J3o7h2x+1Z4CfsE4U=;
+	h=Message-ID:Date:MIME-Version:To:CC:References:Subject:From:
+	 In-Reply-To:Content-Type; b=QeL6JuE6E5SO2JCTOpLx6Yb1EmBpu0zw45XcT22DGOry3tTPlj1FvA738A288ul2Yx6bZ4yLXmVoOh2BbloHtykxTQVnhx1IKc+A6qymKF991cI1QVU2P62R54h/vmC17n/aHakHHfzZkjRQo+vUyxOhF8ynP+TUVXE9FgMhKNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4V2MZ402H8z1R7KD;
+	Sun, 24 Mar 2024 11:51:40 +0800 (CST)
+Received: from dggpeml500018.china.huawei.com (unknown [7.185.36.186])
+	by mail.maildlp.com (Postfix) with ESMTPS id 05E561A016C;
+	Sun, 24 Mar 2024 11:54:17 +0800 (CST)
+Received: from [10.67.111.186] (10.67.111.186) by
+ dggpeml500018.china.huawei.com (7.185.36.186) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Sun, 24 Mar 2024 11:54:16 +0800
+Message-ID: <df37e340-211a-66c0-2383-f07e287bea8d@huawei.com>
+Date: Sun, 24 Mar 2024 11:54:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 24 Mar 2024 04:14:36 +0200
-Message-Id: <D01M8YKG5ZG0.287OTMCUU2KP5@kernel.org>
-Subject: Re: [PATCH v4] Documentation: tpm_tis
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Jarkko Sakkinen" <jarkko@kernel.org>, "Daniel P. Smith"
- <dpsmith@apertussolutions.com>, <linux-integrity@vger.kernel.org>
-Cc: "Jonathan Corbet" <corbet@lwn.net>, "Lino Sanfilippo"
- <l.sanfilippo@kunbus.com>, "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Huewe"
- <peterhuewe@gmx.de>, "James Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Alexander Steffen"
- <Alexander.Steffen@infineon.com>, <keyrings@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Richard Cochran" <richardcochran@gmail.com>,
- "open list:PTP HARDWARE CLOCK SUPPORT:Keyword:(?:b|_)ptp(?:b|_)"
- <netdev@vger.kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240322123542.24158-1-jarkko@kernel.org>
- <5a494de5-b004-440c-bcdf-7bdfa3a8c508@apertussolutions.com>
- <D01CLI2TC5SZ.1A48PDHM5F3UA@kernel.org>
-In-Reply-To: <D01CLI2TC5SZ.1A48PDHM5F3UA@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+To: <corbet@lwn.net>
+CC: <chrubis@suse.cz>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <mingo@kernel.org>, <zhangqiao22@huawei.com>
+References: <875xy8p5tt.fsf@meer.lwn.net>
+Subject: Re: [PATCH] sched/Documentation: Add RT_RUNTIME_SHARE documentation
+From: Zhang Qiao <zhangqiao22@huawei.com>
+In-Reply-To: <875xy8p5tt.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500018.china.huawei.com (7.185.36.186)
 
-On Sat Mar 23, 2024 at 8:40 PM EET, Jarkko Sakkinen wrote:
-> > Would it be worth clarifying here that one of those interfaces is=20
-> > defined in the Mobile TPM specification, which also refers to its=20
-> > interface as the CRB interface. In the past, this has caused great=20
-> > confusion when working with individuals from the embedded community,=20
-> > e.g., Arm. The Mobile TPM CRB interface, which can also be found being=
-=20
-> > used by some generations of AMD fTPM, is a doorbell style interface=20
-> > using general-purpose memory. I would also point out that the Mobile TP=
-M=20
-> > CRB interface does not provide for the concept of localities.
+hi, Jonathan,
+
+在 2024/3/24 10:47, Zhang Qiao 写道:
 >
-> I don't necessarily disagree but it is out of scope for this. I'm not
-> sure tho why "mobile" CRB would ever need that sort of separate
-> dicussion.
+> Zhang Qiao <zhangqiao22@huawei.com> writes:
 >
-> Some CRB implementations have localities some don't, and also fTPM
-> implementations on x86 vary, no need to state that separately for
-> mobile.
+>> RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
+>> we should document this sched feature.
+>>
+>> Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+>> ---
+>>  Documentation/scheduler/sched-rt-group.rst | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
+>>
+>> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
+>> index d685609ed3d7..4d8eceb71f5e 100644
+>> --- a/Documentation/scheduler/sched-rt-group.rst
+>> +++ b/Documentation/scheduler/sched-rt-group.rst
+>> @@ -12,6 +12,7 @@ Real-Time group scheduling
+>>       2.1 System-wide settings
+>>       2.2 Default behaviour
+>>       2.3 Basis for grouping tasks
+>> +     2.4 RT_RUNTIME_SHARE sched feature
+>>     3. Future plans
+>>
+>>
+>> @@ -146,6 +147,16 @@ For now, this can be simplified to just the following (but see Future plans):
+>>
+>>     \Sum_{i} runtime_{i} <= global_runtime
+>>
+>> +2.4 RT_RUNTIME_SHARE sched feature
+>> +----------------------------
+>> +
+>> +RT_RUNTIME_SHARE allows a cpu borrows rt-runtime from other cpus if it runs
+>> +out of its own rt-runtime.
+>> +
+>> +With this feature enabled, a rt-task probably hits 100% cpu usage and starves
+>> +per-cpu tasks like kworkers, as a result, it may hang up the whole system.
+>> +Therefore, in order to avoid such exception, recommand to disable this feature
+>> +by default unless you really know what you're up to.
+>
+> So this doesn't appear to have been picked up by anybody...should I
+> carry it in docs, or is there some other reason why it hasn't gone in?
+>
 
-I.e. the variance exist but it is not "mobile" specific.
+I'm not exactly sure why it wasn't added in docs before.
 
-E.g. when I developed tpm_crb in 2014 at that time Intel PTT only
-had a single locality (AFAIK later multiple localities were added
-to support TXT).
+In my opinion, the RT_RUNTIME_SHARE sched features and sched_rt_period_us/sched_rt_runtime_us
+parameters are both important parameters of rt bandwidth,it will affect the quota of rt tasks,
+and improper configuration may cause the system hang up. So I think it's necessary to add it
+in Documentation/scheduler/sched-rt-group.rst.
 
-In all cases this tpm_crb discussion is not really part of tpm_tis
-discussion.
+Thanks,
 
-BR, Jarkko
+Qiao.
+
+> Thanks,
+>
+> jon
+> .
+>
