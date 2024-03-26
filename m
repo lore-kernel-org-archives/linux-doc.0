@@ -1,225 +1,164 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3F9132C23
-	for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 07:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117CB4F88C
+	for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 09:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711439499; cv=none; b=TECxt2MmwGy0PQxWV6Gm2nfN5qk+sA0MLuwoCIcLtHybZKfx4zkDjpFm3PAksBiEeEqopaE7CPVPP6A3PAVLRPCero0ChHZkeGj7YSBfbCYSvw1CBECMbl7bg16hPIm87qewgVt7sYjDAFK8bbOrehtYlRBCOA2lFdQQtrNtEcw=
+	t=1711444585; cv=none; b=MZFoFAJD0kLjF1d+qcBqCnAVMIF+sFiwTG6R59JrsaIQr07dZ2vL9ie6xEXGJgbntFrOUgkXJix6ZPv+o2mAPAYyKqNF3HVnqqDPTBVh3dyD+hl9t0/kLoxACP6BzZfF4Ls0IX/7jKZONDboIgMGG+9QUYtNLPVSGt2+GIgTf6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711439499; c=relaxed/simple;
-	bh=qQOLO5yzYREaf6V5UZ46t3ExCwuenEVvpk1QDbdYz28=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJ2gR4Sjws94MZweiTSbZ4OM+SIraWk8aIQZ9f6gWOkmmuT08RQE67Zk/k5wdA/zpStRCcI2bXypqLevlkX3L1JegDZ6WMGXrewXc1RI4u4rFXZTMSpnbpIbgMBjAFzNV1FEQBW1MIn80zIVjCR6uikhlnYYZ4yUCgkTmAcw3Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AoR/K3A9; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1711444585; c=relaxed/simple;
+	bh=MK7HHUtMiaa9A53g7A9QIOnjiYLOXvRotsPfgJa1LLs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y0oIQ4JIrmkWklteb/lBb31oASJodJSJmEZnziZ5R6gr+e3JgltQLz6+5rKPxbvwp7g3hu7qDDuCgNxPVq5lilwkqlTeQDLr/pAHYw7b2WiVzSTRKj8wlaVVBDD7V0ZBuakCq9waqEv0OEbJOftWSJozpYYow4aI1de2qKvzq4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FToa3iYj; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AoR/K3A9"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcc80d6004bso5109628276.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 00:51:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FToa3iYj"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-414903d249aso1036855e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 02:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711439495; x=1712044295; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=shklYWkLA2oyBqnlJsmv6lUxL/P85ZOYE2ckd/gba5w=;
-        b=AoR/K3A9wZgTr/H35zji2Ryw+JLZD17t8Szk3uZ0qBgeAWIMB4NN/BJPJl3JEUN120
-         JR/dFikYMYTHog58UqZeWY3abyXSZUyAQhcJeeiKJpnr/q3iy4u2x+ZiWRmiFXTuY4d0
-         +wc6Q4UTQkI1gwn3NZpEbigkgcPaUHuCPwDkFXgLpseEsrvifg9T5Hl2k2OELRZjb6IO
-         7HhpJaXTkfsKZer7xANqdvBDRaIHRAYTWZTqNzDY69XWEL0E6/FXTCmnffr7tHBlV5uz
-         EdplvUVUqmH07En2kwV6V3HDpPDo4hp6r0Czwxmv6qUgkvmaDs7Irw3eU/uoAoJFXx2u
-         w+jQ==
+        d=linaro.org; s=google; t=1711444580; x=1712049380; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QcCk2kfNGvdaBITkM75nEhX5qGXp7x44gB568VCUt38=;
+        b=FToa3iYj8JRQTmy1rpESbBA7faZXvO04UFhRCPB/VRuCcNHsSbZXfVj+77rghPv6jV
+         qUEjI3W8Ea9exwRmtaXZSBnxsPZt5QmGSslG0XVOZmf08BnNrvuD46cl9jbtRYV0eJdk
+         lnzPQoPYJiQ9xYZ4OJQLrzdTaqgLZ+n9jGiV6+QT6xxrZ9X0TMJb/8fICqn/MGzAHd7u
+         E5di2fyrCFSdEqRNOTdTKz6P2+gh1Ao0PTpBTr5lhCKmca+n1GAUS5JRKeQZMHhLpP1+
+         3IDiAOKPo+kbD2H3oqFOrXNidlZzhQiqibvLkfsG1qsg8RAP9nkyp7R+Tsf/432IJb06
+         J+ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711439495; x=1712044295;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=shklYWkLA2oyBqnlJsmv6lUxL/P85ZOYE2ckd/gba5w=;
-        b=AgKID6/voCyiOTYN3ZyMzUc7RfYAKAQtKJEKWBs5EqKxTyyYR2WU4ZbXFmdUFrD7wt
-         YwwO4lQaZg/QO2Ix9M00W1ii4CRdorBMPd8A3Da8nSb3ny2poYPbmw3sYyhDPLh++Ejn
-         BHntjGLB6tYPW7Tp9Lju+9HupPhF2rO15RWEIQEQmNf+sw0V+jXL1MD5yuawqdiC2k+L
-         iKybQZNj1nTbi+v4dMXQFGZ6KGyyEx/wIT+A2lmPlomecA4MMdUuWOlcR+pN1lhLCkVf
-         RZPH/dSwdFsEYeXVvUh2qn+rBNUflF3s/fNIiuGzolBlFVtOztz0vKPhfmCFaKolDuo1
-         PYTA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFTnEG3bubbghU50mdMq28HhBunFURyd5Q3smRKMWfF0yTWt6Pwlafz33p2VbSTSpWb1JKxfX1e7sbWk2pGwaAkOxKcA7AEwIJ
-X-Gm-Message-State: AOJu0YwDerQD7vXl8mBGIfK0C7oihw1gU+88B0VGz7/SCJC2xo4BbIac
-	Ul622hX8McNdgUmgG7SD4xTpokXtRjlvKRrdOKNz96CR26WNbZb5YPE7oEVpPydMguGtmSEkTvn
-	ApgCzMklHeqlq1VM8AGRQ8sms5z50gJPRav/u
-X-Google-Smtp-Source: AGHT+IEnVh4+gbIjqfTqnNSb1ESniynB5/g+eF5Tlrl382kaRHENtFyyuE83hIP6W791lwHTf2P908O7iGBHbxnvUiU=
-X-Received: by 2002:a5b:181:0:b0:dce:2e9:a637 with SMTP id r1-20020a5b0181000000b00dce02e9a637mr7603025ybl.20.1711439494844;
- Tue, 26 Mar 2024 00:51:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711444580; x=1712049380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QcCk2kfNGvdaBITkM75nEhX5qGXp7x44gB568VCUt38=;
+        b=tTZG80+1KzqtDLDnc/OXx+kZDEQaWN878oOlNSTnjlej6/T6TdDH5dvrBl23OS6Jsw
+         +nb25Gzb2iWb302YSBeIjBzikLZxhn1CqhjUnde6jqGuct9PYMhB5N24czGqBFn67iZn
+         LuOFMB05+Wxz6cV0ES8SmASSuc9icRY4d/YYMfdHgOFWRCB9lL8LPRI0Gr7NOD1a3JC4
+         jLSm4c74c68S63HQ3BruAyRvZFqkYUj+bEagY3Xi9jkU0awkmFSLqAyQbH7R84vt7DNZ
+         0Tj1QBqn/tez1CsTMNLubIS1OxzH5S5YCWZET4XzfHghGlV/I6y1/J1hvU87WwnCEYkw
+         TPRw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmUsVvvzFRyw5EeElh4Vk+1ZuORoH6/YZC/dYlZ0hyjiE4NbFO/JSOwx/Dy4xwCGrLX2+34K4vik96GsC66fzsA05RKSqphomv
+X-Gm-Message-State: AOJu0YwTEOL608l6RoH6FNBEN0hz1daH5WXreb4J9esNjWQkAjfIMOC6
+	ED2zIsRfKgTrIM2V0WCYXdse1oy4qJoVT7FSwqBvJfRkvAXii/jkS9/whoD6Inc=
+X-Google-Smtp-Source: AGHT+IHPIOfByqNHi3u6ysUFuyRgD6rr0wqWolqBcmXXpi2X6rqRrQrQay0Z+FRtQsOrVs94hogLgg==
+X-Received: by 2002:adf:f3c9:0:b0:33e:7f51:c2fa with SMTP id g9-20020adff3c9000000b0033e7f51c2famr6482511wrp.47.1711444580402;
+        Tue, 26 Mar 2024 02:16:20 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:f:6020:e6b6:c92e:43ff:71d7])
+        by smtp.gmail.com with ESMTPSA id m15-20020adffe4f000000b0033e5c54d0d9sm11647606wrs.38.2024.03.26.02.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 02:16:19 -0700 (PDT)
+From: Vincent Guittot <vincent.guittot@linaro.org>
+To: linux@armlinux.org.uk,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	sudeep.holla@arm.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	bristot@redhat.com,
+	vschneid@redhat.com,
+	lukasz.luba@arm.com,
+	rui.zhang@intel.com,
+	mhiramat@kernel.org,
+	daniel.lezcano@linaro.org,
+	amit.kachhap@gmail.com,
+	corbet@lwn.net,
+	gregkh@linuxfoundation.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Subject: [PATCH v6 0/5] Rework system pressure interface to the scheduler
+Date: Tue, 26 Mar 2024 10:16:11 +0100
+Message-Id: <20240326091616.3696851-1-vincent.guittot@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJuCfpGiuCnMFtViD0xsoaLVO_gJddBQ1NpL6TpnsfN8z5P6fA@mail.gmail.com>
- <20240325182007.233780-1-sj@kernel.org>
-In-Reply-To: <20240325182007.233780-1-sj@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 26 Mar 2024 00:51:21 -0700
-Message-ID: <CAJuCfpGwLRBWKegYq5XY++fCPWO4mpzrhifw9QGvzJ5Uf9S4jw@mail.gmail.com>
-Subject: Re: [PATCH v6 30/37] mm: vmalloc: Enable memory allocation profiling
-To: SeongJae Park <sj@kernel.org>
-Cc: vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
-	liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, 
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, 
-	jhubbard@nvidia.com, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
-	paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com, 
-	yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
-	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
-	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
-	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 25, 2024 at 11:20=E2=80=AFAM SeongJae Park <sj@kernel.org> wrot=
-e:
->
-> On Mon, 25 Mar 2024 10:59:01 -0700 Suren Baghdasaryan <surenb@google.com>=
- wrote:
->
-> > On Mon, Mar 25, 2024 at 10:49=E2=80=AFAM SeongJae Park <sj@kernel.org> =
-wrote:
-> > >
-> > > On Mon, 25 Mar 2024 14:56:01 +0000 Suren Baghdasaryan <surenb@google.=
-com> wrote:
-> > >
-> > > > On Sat, Mar 23, 2024 at 6:05=E2=80=AFPM SeongJae Park <sj@kernel.or=
-g> wrote:
-> > > > >
-> > > > > Hi Suren and Kent,
-> > > > >
-> > > > > On Thu, 21 Mar 2024 09:36:52 -0700 Suren Baghdasaryan <surenb@goo=
-gle.com> wrote:
-> > > > >
-> > > > > > From: Kent Overstreet <kent.overstreet@linux.dev>
-> > > > > >
-> > > > > > This wrapps all external vmalloc allocation functions with the
-> > > > > > alloc_hooks() wrapper, and switches internal allocations to _no=
-prof
-> > > > > > variants where appropriate, for the new memory allocation profi=
-ling
-> > > > > > feature.
-> > > > >
-> > > > > I just noticed latest mm-unstable fails running kunit on my machi=
-ne as below.
-> > > > > 'git-bisect' says this is the first commit of the failure.
-> > > > >
-> > > > >     $ ./tools/testing/kunit/kunit.py run --build_dir ../kunit.out=
-/
-> > > > >     [10:59:53] Configuring KUnit Kernel ...
-> > > > >     [10:59:53] Building KUnit Kernel ...
-> > > > >     Populating config with:
-> > > > >     $ make ARCH=3Dum O=3D../kunit.out/ olddefconfig
-> > > > >     Building with:
-> > > > >     $ make ARCH=3Dum O=3D../kunit.out/ --jobs=3D36
-> > > > >     ERROR:root:/usr/bin/ld: arch/um/os-Linux/main.o: in function =
-`__wrap_malloc':
-> > > > >     main.c:(.text+0x10b): undefined reference to `vmalloc'
-> > > > >     collect2: error: ld returned 1 exit status
-> > > > >
-> > > > > Haven't looked into the code yet, but reporting first.  May I ask=
- your idea?
-> > > >
-> > > > Hi SeongJae,
-> > > > Looks like we missed adding "#include <linux/vmalloc.h>" inside
-> > > > arch/um/os-Linux/main.c in this patch:
-> > > > https://lore.kernel.org/all/20240321163705.3067592-2-surenb@google.=
-com/.
-> > > > I'll be posing fixes for all 0-day issues found over the weekend an=
-d
-> > > > will include a fix for this. In the meantime, to work around it you
-> > > > can add that include yourself. Please let me know if the issue stil=
-l
-> > > > persists after doing that.
-> > >
-> > > Thank you, Suren.  The change made the error message disappears.  How=
-ever, it
-> > > introduced another one.
-> >
-> > Ok, let me investigate and I'll try to get a fix for it today evening.
->
-> Thank you for this kind reply.  Nonetheless, this is not blocking some re=
-al
-> thing from me.  So, no rush.  Plese take your time :)
+Following the consolidation and cleanup of CPU capacity in [1], this serie
+reworks how the scheduler gets the pressures on CPUs. We need to take into
+account all pressures applied by cpufreq on the compute capacity of a CPU
+for dozens of ms or more and not only cpufreq cooling device or HW
+mitigiations. We split the pressure applied on CPU's capacity in 2 parts:
+- one from cpufreq and freq_qos
+- one from HW high freq mitigiation.
 
-I posted a fix here:
-https://lore.kernel.org/all/20240326073750.726636-1-surenb@google.com/
-Please let me know if this resolves the issue.
-Thanks,
-Suren.
+The next step will be to add a dedicated interface for long standing
+capping of the CPU capacity (i.e. for seconds or more) like the
+scaling_max_freq of cpufreq sysfs. The latter is already taken into
+account by this serie but as a temporary pressure which is not always the
+best choice when we know that it will happen for seconds or more.
 
->
->
-> Thanks,
-> SJ
->
-> > Thanks,
-> > Suren.
-> >
-> > >
-> > >     $ git diff
-> > >     diff --git a/arch/um/os-Linux/main.c b/arch/um/os-Linux/main.c
-> > >     index c8a42ecbd7a2..8fe274e9f3a4 100644
-> > >     --- a/arch/um/os-Linux/main.c
-> > >     +++ b/arch/um/os-Linux/main.c
-> > >     @@ -16,6 +16,7 @@
-> > >      #include <kern_util.h>
-> > >      #include <os.h>
-> > >      #include <um_malloc.h>
-> > >     +#include <linux/vmalloc.h>
-> > >
-> > >      #define PGD_BOUND (4 * 1024 * 1024)
-> > >      #define STACKSIZE (8 * 1024 * 1024)
-> > >     $
-> > >     $ ./tools/testing/kunit/kunit.py run --build_dir ../kunit.out/
-> > >     [10:43:13] Configuring KUnit Kernel ...
-> > >     [10:43:13] Building KUnit Kernel ...
-> > >     Populating config with:
-> > >     $ make ARCH=3Dum O=3D../kunit.out/ olddefconfig
-> > >     Building with:
-> > >     $ make ARCH=3Dum O=3D../kunit.out/ --jobs=3D36
-> > >     ERROR:root:In file included from .../arch/um/kernel/asm-offsets.c=
-:1:
-> > >     .../arch/x86/um/shared/sysdep/kernel-offsets.h:9:6: warning: no p=
-revious prototype for =E2=80=98foo=E2=80=99 [-Wmissing-prototypes]
-> > >         9 | void foo(void)
-> > >           |      ^~~
-> > >     In file included from .../include/linux/alloc_tag.h:8,
-> > >                      from .../include/linux/vmalloc.h:5,
-> > >                      from .../arch/um/os-Linux/main.c:19:
-> > >     .../include/linux/bug.h:5:10: fatal error: asm/bug.h: No such fil=
-e or directory
-> > >         5 | #include <asm/bug.h>
-> > >           |          ^~~~~~~~~~~
-> > >     compilation terminated.
-> > >
-> > >
-> > > Thanks,
-> > > SJ
-> > >
-> > > [...]
-> >
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+[1] https://lore.kernel.org/lkml/20231211104855.558096-1-vincent.guittot@linaro.org/
+
+Change since v5:
+- Rebase to fix a conflict in include/linux/cpufreq.h
+- Add few more tested and reviewed tags
+
+Change since v4:
+- Add READ_ONCE() in cpufreq_get_pressure()
+- Add ack and reviewed tags
+
+Change since v3:
+- Fix uninitialized variables in cpufreq_update_pressure()
+
+Change since v2:
+- Rework cpufreq_update_pressure()
+
+Change since v1:
+- Use struct cpufreq_policy as parameter of cpufreq_update_pressure()
+- Fix typos and comments
+- Make sched_thermal_decay_shift boot param as deprecated
+
+Vincent Guittot (5):
+  cpufreq: Add a cpufreq pressure feedback for the scheduler
+  sched: Take cpufreq feedback into account
+  thermal/cpufreq: Remove arch_update_thermal_pressure()
+  sched: Rename arch_update_thermal_pressure into
+    arch_update_hw_pressure
+  sched/pelt: Remove shift of thermal clock
+
+ .../admin-guide/kernel-parameters.txt         |  1 +
+ arch/arm/include/asm/topology.h               |  6 +-
+ arch/arm64/include/asm/topology.h             |  6 +-
+ drivers/base/arch_topology.c                  | 26 ++++----
+ drivers/cpufreq/cpufreq.c                     | 36 +++++++++++
+ drivers/cpufreq/qcom-cpufreq-hw.c             |  4 +-
+ drivers/thermal/cpufreq_cooling.c             |  3 -
+ include/linux/arch_topology.h                 |  8 +--
+ include/linux/cpufreq.h                       | 10 +++
+ include/linux/sched/topology.h                |  8 +--
+ .../{thermal_pressure.h => hw_pressure.h}     | 14 ++---
+ include/trace/events/sched.h                  |  2 +-
+ init/Kconfig                                  | 12 ++--
+ kernel/sched/core.c                           |  8 +--
+ kernel/sched/fair.c                           | 63 +++++++++----------
+ kernel/sched/pelt.c                           | 18 +++---
+ kernel/sched/pelt.h                           | 16 ++---
+ kernel/sched/sched.h                          | 22 +------
+ 18 files changed, 144 insertions(+), 119 deletions(-)
+ rename include/trace/events/{thermal_pressure.h => hw_pressure.h} (55%)
+
+-- 
+2.34.1
+
