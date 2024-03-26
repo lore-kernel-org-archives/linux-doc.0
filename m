@@ -1,489 +1,324 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3045D7353D;
-	Tue, 26 Mar 2024 12:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D1270CC8;
+	Tue, 26 Mar 2024 12:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711455714; cv=none; b=LpoEEmELVfbs8hmHsykHLmlgLxtG/GqCZW4/l0/R+2oaRjVwQaszoZTrZqiiD8KiB9Sln5U7LojjdhUk7opikS8P3biONDBiHdS3Mx1zYDcK/rWRkBUTdOKPmHAuivi7wWOq+EZdF+gu1cx+6GVCbXOcNdZq1aXSXfvWou8Wzhc=
+	t=1711457078; cv=none; b=TuWwnEaHlOLM2QYxtH6hsFFhoDnEJZGFfF2uxsizq2PDXaQ8b+F/2Vqp+tm/JMMkBn9gNScBr49t0rfHIlcrLn6Dpow+euldWKAoxURD4mBy9/xrPeglfSzTFh+14Z7dZYLvjc5iEJ0tqFXNq2LHHa0uRa2CbMKYUOKeyszWJJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711455714; c=relaxed/simple;
-	bh=EHkf9zQWVCrbVg6RwIVH/RCrzMkzsLSJ3BgNHt7DwEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jEsEfF5VkefC90vizBIUo/RXzLH7XPhGu5e3hI/qrIvJ+BGbeJKwr4febSzMAPpwFwh1vfmiRr6zMmqTgxtLLIRsFZYHcolOS+moK4v5+KN0dfHyrYIxrIfdJTGwLYBkfYva/qHbtEXGCOEkD4sUNcVMxI+dcbLvP53Lx46928M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=iWCNxYR9; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1711457078; c=relaxed/simple;
+	bh=yLArL6EzQjD6rN2Aj7zC8Mt5ZkKc5FSEg4+GU5NkICA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HCGM17o6QARkk9vcfsT/xIrZ/4fyG0wV68REtlRA6Fijvp81snzIQuldlJ0Bc2IXCiitzFP2VzzWYveF01ZCIHzww4aRMpwXVULXzcpxV6AmzAkqBXtBSmcXKbK+hYrXT+WuqpN0GikHCCjEU7yQpVFb+0bX+pNEeFBoGLUyiBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFsccjEm; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="iWCNxYR9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=0a6ZAtmG9oBatBg6HcOJ39ldrKzI8Q1aQrDOAdAsTkk=; t=1711455711;
-	x=1711887711; b=iWCNxYR9oPOW9HR3MkZZD7Xn3E678fdLZk4EZT/IEhoeZmIQzLcn8+9ywkyBP
-	xluzHrbchHEBci5XYrbwoj/ekSnF6+HXWWYl589yyTbDD2vsxz1Mp+lRWvkBDX9idMNY0dShDl1DC
-	izPP0lJw1M+iVzeeW037APoFyhVAfo47TYDwP2rrz0BxbnPsWDt/JRGxn1DE39Y8z4BNGK05zh2tc
-	Oe2yRjAaUupA8CaQVijAgieoQ9XMUwdIPyVwksHUdo68A/tnZZyd6X/gBimEtuuTA0vLOdFFwGauT
-	ORP0dOPHkMPJp/TILBS9BvzXb1UUb6elC4E0XpX6ZsW7zOr+uw==;
-Received: from [77.20.141.166] (helo=truhe.fritz.box); authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	id 1rp5oH-0000kc-Fh; Tue, 26 Mar 2024 13:21:45 +0100
-From: Thorsten Leemhuis <linux@leemhuis.info>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: regressions@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFsccjEm"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e0025ef1efso34355785ad.1;
+        Tue, 26 Mar 2024 05:44:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711457076; x=1712061876; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=irHeV37wUtDsPRRRODv8UUmG2Zg8XlgC92IuTPtkaec=;
+        b=mFsccjEmwRu211kiElKhVA9XlYBwVZOTslsRvfV2/r04fDiLbbzfDCJyx9LcQebwzK
+         WlZHrX13u5j+IH65Wr/IYxtHZUqTnxaJp7m7mjoXNWYEW7HV7sBokb6i5HcUnGgsG9zs
+         dqxeLTLxoPVcVitsfawd1BQ11HQ5pVDIKxl3+tdF9XQvYKHg4dgflomtZnT3RiNxc00D
+         JSOOrnzpOe6n3SsGuCxorzZt4Cjaz7bUy9Lw1rE2kJQKLt3U/GaCQyHbUQxNRHedSc6d
+         Q6MwemXw/yTLuutBuBPIn+EkryaKR9K5n7InmXS7aZ4mNglblWxJdveH7kfecVC/+p8X
+         OxPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711457076; x=1712061876;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=irHeV37wUtDsPRRRODv8UUmG2Zg8XlgC92IuTPtkaec=;
+        b=Y8veOaSVYIEZyLFd/uB0s/A4QqDoMsOk1VX/i2zf9+nd0HUTS11fQ67FnYlMmEWGXX
+         q42TDDrmBKoBQT6/sWjLTO7lLlNqojLd3iJvOtqnGSdU4DtJtWCcYRq0nx32uhxJQ+KE
+         JJKsIxPCSnFpr2zPH1y6/8wUcA14oC4AxaRIJu57H3o55IijUbLPXbRC12GDkY/aBLqf
+         2SgqoloLzVCGEc46CQJoCjkb8Ql6VY9H1bjm6PoDKZ9U+gQqUgwVlFqZ3zjt8k2OitRu
+         w2fCIwe0pZXG+kOV511Z5liR350hnD6fQ2RKD7NeLLiB5u4zP5OT10CuVEbHAUSxlu71
+         7TMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVfWSlaiqM1TiZdynYEfpxSluIjcP+qn0dGwB0xZXflQM4+5KxwF4utxAAXeVGTmhby3Qx2G6S2iRl6Qny5ejE+jUHQFiRDeFCa
+X-Gm-Message-State: AOJu0YzTSxWK0p6kjfZ79iCpHptfB1FKcpJ2K9AJ5mSblRMpYyqPjT+3
+	F38TVO95bxmSeOrE3xgyXtfq/1EPubO2poWAjlBrNa2kwR17X0re
+X-Google-Smtp-Source: AGHT+IEFweVLORfj1rODrrHJga/1xZoO6FFBb47XP0V2dYd+NOJUisWY/6da1T7IjWI+gEr4PfKiIg==
+X-Received: by 2002:a17:902:b20d:b0:1e0:a1c2:2697 with SMTP id t13-20020a170902b20d00b001e0a1c22697mr800912plr.22.1711457076002;
+        Tue, 26 Mar 2024 05:44:36 -0700 (PDT)
+Received: from localhost ([2402:d0c0:11:86::1])
+        by smtp.gmail.com with ESMTPSA id k20-20020a63f014000000b005d8b89bbf20sm7364102pgh.63.2024.03.26.05.44.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 05:44:35 -0700 (PDT)
+From: Alan Huang <mmpgouride@gmail.com>
+To: paulmck@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joel@joelfernandes.org,
+	josh@joshtriplett.org,
+	boqun.feng@gmail.com,
+	rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	qiang.zhang1211@gmail.com,
+	corbet@lwn.net
+Cc: rcu@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [RFC PATCH v1 1/2] docs: reporting-issue: rework the detailed guide
-Date: Tue, 26 Mar 2024 13:21:28 +0100
-Message-ID: <ac847c1c539d5f2c3d55ab363a5038ce6d303424.1711455295.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1711455295.git.linux@leemhuis.info>
-References: <cover.1711455295.git.linux@leemhuis.info>
+	Alan Huang <mmpgouride@gmail.com>
+Subject: [PATCH v4] docs/RCU: Bring back smp_wmb()
+Date: Tue, 26 Mar 2024 12:44:31 +0000
+Message-Id: <20240326124431.77430-1-mmpgouride@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1711455711;c092b3a9;
-X-HE-SMSGID: 1rp5oH-0000kc-Fh
 
-Rework the detailed step-by-step guide for various reasons:
+The objects are allocated with SLAB_TYPESAFE_BY_RCU, and there is
+n->next = first within hlist_add_head_rcu() before rcu_assign_pointer(),
+which modifies obj->obj_node.next. We need to make sure obj->key is
+updated before obj->obj_node.next and obj->refcnt, atomic_set_release
+is not enough to provide the required memory barrier.
 
-* Simplify the search with the help of lore.kernel.org/all/, which did
-  not exist when the text was written.
+In addition, the example was broken as noted by Paul[1], this patch
+also fixes the broken example and includes wording to explain how the
+the back-pointer[2] works.
 
-* Make use of the recently added document
-  Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst,
-  which covers many steps this text partly covered way better.
+[1] https://lore.kernel.org/all/9eaf506f-cc14-4da6-9efc-057c0c3e56b0@paulmck-laptop/
+[2] https://lore.kernel.org/all/02a84e4b-a322-4c43-ad9d-1832ce277c2f@paulmck-laptop/
 
-* The 'quickly report a stable regression to the stable team' approach
-  hardly worked out: most of the time the regression was not known yet.
-  Try a different approach using the regressions list.
-
-* Reports about stable/longterm regressions most of the time were
-  greeted with a brief reply along the lines of 'Is mainline affected as
-  well?'; this is needed to determine who is responsible, so we might as
-  well make the reporter check that before sending the report (which
-  verify-bugs-and-bisect-regressions.rst already tells them to do, too).
-
-* A lot of fine tuning after seeing what people were struggling with.
-
-FIXME: adjust the entries in the reference section to match these
-changes.
-
-Not-signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+Signed-off-by: Alan Huang <mmpgouride@gmail.com>
 ---
- .../admin-guide/reporting-issues.rst          | 391 ++++++++++--------
- 1 file changed, 210 insertions(+), 181 deletions(-)
+Paul, apologies for the long delay :)
 
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 2fd5a030235ad0..e6083946c146e8 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -48,187 +48,216 @@ Once the report is out, answer any questions that come up and help where you
- can. That includes keeping the ball rolling by occasionally retesting with newer
- releases and sending a status update afterwards.
+Changelog:
+ V3 -> V4: Fixes the broken example.
+           Add wording to explain how the back-pointer works.
+           Remove the _ONCE added before since the access happens after
+           we get the reference of the object.
+
+ V2 -> V3: Use compute_slot to detect whether the object has been
+           moved. Remove the broken lockless_lookup, use macro instead.
+
+ v1 -> v2: Use _ONCE to protect obj->key.
+
+ Documentation/RCU/rculist_nulls.rst | 149 +++++++++++++++++++++-------
+ 1 file changed, 113 insertions(+), 36 deletions(-)
+
+diff --git a/Documentation/RCU/rculist_nulls.rst b/Documentation/RCU/rculist_nulls.rst
+index 21e40fcc08de..ee1f2458e07e 100644
+--- a/Documentation/RCU/rculist_nulls.rst
++++ b/Documentation/RCU/rculist_nulls.rst
+@@ -34,54 +34,54 @@ objects, which is having below type.
  
--Step-by-step guide how to report issues to the kernel maintainers
--=================================================================
--
--The above TL;DR outlines roughly how to report issues to the Linux kernel
--developers. It might be all that's needed for people already familiar with
--reporting issues to Free/Libre & Open Source Software (FLOSS) projects. For
--everyone else there is this section. It is more detailed and uses a
--step-by-step approach. It still tries to be brief for readability and leaves
--out a lot of details; those are described below the step-by-step guide in a
--reference section, which explains each of the steps in more detail.
--
--Note: this section covers a few more aspects than the TL;DR and does things in
--a slightly different order. That's in your interest, to make sure you notice
--early if an issue that looks like a Linux kernel problem is actually caused by
--something else. These steps thus help to ensure the time you invest in this
--process won't feel wasted in the end:
--
-- * Are you facing an issue with a Linux kernel a hardware or software vendor
--   provided? Then in almost all cases you are better off to stop reading this
--   document and reporting the issue to your vendor instead, unless you are
--   willing to install the latest Linux version yourself. Be aware the latter
--   will often be needed anyway to hunt down and fix issues.
--
-- * Perform a rough search for existing reports with your favorite internet
--   search engine; additionally, check the archives of the `Linux Kernel Mailing
--   List (LKML) <https://lore.kernel.org/lkml/>`_. If you find matching reports,
--   join the discussion instead of sending a new one.
--
-- * See if the issue you are dealing with qualifies as regression, security
--   issue, or a really severe problem: those are 'issues of high priority' that
--   need special handling in some steps that are about to follow.
--
-- * Make sure it's not the kernel's surroundings that are causing the issue
--   you face.
--
-- * Create a fresh backup and put system repair and restore tools at hand.
--
-- * Ensure your system does not enhance its kernels by building additional
--   kernel modules on-the-fly, which solutions like DKMS might be doing locally
--   without your knowledge.
--
-- * Check if your kernel was 'tainted' when the issue occurred, as the event
--   that made the kernel set this flag might be causing the issue you face.
--
-- * Write down coarsely how to reproduce the issue. If you deal with multiple
--   issues at once, create separate notes for each of them and make sure they
--   work independently on a freshly booted system. That's needed, as each issue
--   needs to get reported to the kernel developers separately, unless they are
--   strongly entangled.
--
-- * If you are facing a regression within a stable or longterm version line
--   (say something broke when updating from 5.10.4 to 5.10.5), scroll down to
--   'Dealing with regressions within a stable and longterm kernel line'.
--
-- * Locate the driver or kernel subsystem that seems to be causing the issue.
--   Find out how and where its developers expect reports. Note: most of the
--   time this won't be bugzilla.kernel.org, as issues typically need to be sent
--   by mail to a maintainer and a public mailing list.
--
-- * Search the archives of the bug tracker or mailing list in question
--   thoroughly for reports that might match your issue. If you find anything,
--   join the discussion instead of sending a new report.
--
--After these preparations you'll now enter the main part:
--
-- * Unless you are already running the latest 'mainline' Linux kernel, better
--   go and install it for the reporting process. Testing and reporting with
--   the latest 'stable' Linux can be an acceptable alternative in some
--   situations; during the merge window that actually might be even the best
--   approach, but in that development phase it can be an even better idea to
--   suspend your efforts for a few days anyway. Whatever version you choose,
--   ideally use a 'vanilla' build. Ignoring these advices will dramatically
--   increase the risk your report will be rejected or ignored.
--
-- * Ensure the kernel you just installed does not 'taint' itself when
--   running.
--
-- * Reproduce the issue with the kernel you just installed. If it doesn't show
--   up there, scroll down to the instructions for issues only happening with
--   stable and longterm kernels.
--
-- * Optimize your notes: try to find and write the most straightforward way to
--   reproduce your issue. Make sure the end result has all the important
--   details, and at the same time is easy to read and understand for others
--   that hear about it for the first time. And if you learned something in this
--   process, consider searching again for existing reports about the issue.
--
-- * If your failure involves a 'panic', 'Oops', 'warning', or 'BUG', consider
--   decoding the kernel log to find the line of code that triggered the error.
--
-- * If your problem is a regression, try to narrow down when the issue was
--   introduced as much as possible.
--
-- * Start to compile the report by writing a detailed description about the
--   issue. Always mention a few things: the latest kernel version you installed
--   for reproducing, the Linux Distribution used, and your notes on how to
--   reproduce the issue. Ideally, make the kernel's build configuration
--   (.config) and the output from ``dmesg`` available somewhere on the net and
--   link to it. Include or upload all other information that might be relevant,
--   like the output/screenshot of an Oops or the output from ``lspci``. Once
--   you wrote this main part, insert a normal length paragraph on top of it
--   outlining the issue and the impact quickly. On top of this add one sentence
--   that briefly describes the problem and gets people to read on. Now give the
--   thing a descriptive title or subject that yet again is shorter. Then you're
--   ready to send or file the report like the MAINTAINERS file told you, unless
--   you are dealing with one of those 'issues of high priority': they need
--   special care which is explained in 'Special handling for high priority
--   issues' below.
--
-- * Wait for reactions and keep the thing rolling until you can accept the
--   outcome in one way or the other. Thus react publicly and in a timely manner
--   to any inquiries. Test proposed fixes. Do proactive testing: retest with at
--   least every first release candidate (RC) of a new mainline version and
--   report your results. Send friendly reminders if things stall. And try to
--   help yourself, if you don't get any help or if it's unsatisfying.
--
--
--Reporting regressions within a stable and longterm kernel line
----------------------------------------------------------------
--
--This subsection is for you, if you followed above process and got sent here at
--the point about regression within a stable or longterm kernel version line. You
--face one of those if something breaks when updating from 5.10.4 to 5.10.5 (a
--switch from 5.9.15 to 5.10.5 does not qualify). The developers want to fix such
--regressions as quickly as possible, hence there is a streamlined process to
--report them:
--
-- * Check if the kernel developers still maintain the Linux kernel version
--   line you care about: go to the  `front page of kernel.org
--   <https://kernel.org/>`_ and make sure it mentions
--   the latest release of the particular version line without an '[EOL]' tag.
--
-- * Check the archives of the `Linux stable mailing list
--   <https://lore.kernel.org/stable/>`_ for existing reports.
--
-- * Install the latest release from the particular version line as a vanilla
--   kernel. Ensure this kernel is not tainted and still shows the problem, as
--   the issue might have already been fixed there. If you first noticed the
--   problem with a vendor kernel, check a vanilla build of the last version
--   known to work performs fine as well.
--
-- * Send a short problem report to the Linux stable mailing list
--   (stable@vger.kernel.org) and CC the Linux regressions mailing list
--   (regressions@lists.linux.dev); if you suspect the cause in a particular
--   subsystem, CC its maintainer and its mailing list. Roughly describe the
--   issue and ideally explain how to reproduce it. Mention the first version
--   that shows the problem and the last version that's working fine. Then
--   wait for further instructions.
--
--The reference section below explains each of these steps in more detail.
--
--
--Reporting issues only occurring in older kernel version lines
---------------------------------------------------------------
--
--This subsection is for you, if you tried the latest mainline kernel as outlined
--above, but failed to reproduce your issue there; at the same time you want to
--see the issue fixed in a still supported stable or longterm series or vendor
--kernels regularly rebased on those. If that the case, follow these steps:
--
-- * Prepare yourself for the possibility that going through the next few steps
--   might not get the issue solved in older releases: the fix might be too big
--   or risky to get backported there.
--
-- * Perform the first three steps in the section "Dealing with regressions
--   within a stable and longterm kernel line" above.
--
-- * Search the Linux kernel version control system for the change that fixed
--   the issue in mainline, as its commit message might tell you if the fix is
--   scheduled for backporting already. If you don't find anything that way,
--   search the appropriate mailing lists for posts that discuss such an issue
--   or peer-review possible fixes; then check the discussions if the fix was
--   deemed unsuitable for backporting. If backporting was not considered at
--   all, join the newest discussion, asking if it's in the cards.
--
-- * One of the former steps should lead to a solution. If that doesn't work
--   out, ask the maintainers for the subsystem that seems to be causing the
--   issue for advice; CC the mailing list for the particular subsystem as well
--   as the stable mailing list.
--
--The reference section below explains each of these steps in more detail.
-+The detailed step-by-step guide on reporting Linux kernel issues
-+================================================================
-+
-+The short guide above might be all needed for people already familiar
-+with reporting issues to Free/Libre & Open Source Software projects. For
-+everyone else there is this more detailed step-by-step guide. It still tries to
-+be brief and leaves a lot of details occasionally relevant to a reference
-+section, which holds additional information for almost all of the steps.
-+
-+Note: this step-by-step guide covers more aspects than the short guide above and
-+does things in a slightly different order; that is done in the reader's interest,
-+to make sure you notice early on when  on the wrong track.
-+
-+* Be aware you must have or install a fresh vanilla mainline kernel for
-+  reporting; you furthermore must remove any software that builds or relies on
-+  externally developed kernel modules possibly installed. There is also a decent
-+  chance you will have to build a patched kernel yourself to help resolve the
-+  issue.
-+
-+  In case that sounds do demanding to you, better report the issue to the vendor
-+  who built your kernel (usually your Linux distributor or hardware manufacturer).
-+
-+* Skim the output of ``journalctl -k`` for any indicators of problems that might
-+  lead to your bug.
-+
-+* Check if the kernel was already 'tainted' when the issue first occurred: the
-+  event that led to this flag being set might cause your issue, even if it looks
-+  totally unrelated.
-+
-+* Consider some glitch in your kernel's environment makes it misbehave -- like
-+  a hardware defect, a mis-configured system firmware, an overclocked component,
-+  a broken initramfs, an inconsistent file system, broken firmware files,
-+  a pre-release compiler, or a malfunctioning/misconfigured Linux distribution.
-+
-+* If you deal with multiple issues at once, process them separately from now on.
-+  If there is even a small chance they are related, briefly mention the other
-+  issues in each of the reports later, ideally while linking to the others.
-+
-+* Search for fixes and earlier reports referring to an issue like yours. Start
-+  by checking `lore <https://lore.kernel.org/all/>`_. Then perform a general
-+  internet search. Consult :ref:`MAINTAINERS <maintainers>` to determine where
-+  developers of the affected code expect bugs to be submitted to; if in a doubt,
-+  use your best guess to determine the driver or kernel subsystem. If its
-+  developers have a dedicated mailing list not archived on lore, search its
-+  archives; when they are among the few that uses one of
-+  various bug trackers, search it as well. Note, bugzilla.kernel.org
-+  is the right place to file bugs only for a small percentage of the kernel; if
-+  you submit bugs for other code there it most likely will be ignored.
-+
-+  If you find fixes, try them. If you find matching reports, evaluate whatever
-+  is wiser: joining the discussion or reporting the problem anew. In the latter
-+  case mention and link to the related report you found; after you submit it,
-+  add a note to the related report along the lines of 'I have a problem that
-+  might be the same or related, for details see <link_to_your_report>'.
-+
-+* Are you facing a regression? One still occurring with a less than two
-+  (ideally: one) weeks old kernel from the affected series? A kernel that is
-+  vanilla or close to it? Then send a brief (one or two short paragraphs) email
-+  to <regressions@lists.linux.dev> asking if the problem is known already.
-+  Consider proceeding with this guide immediately to confine the problem and
-+  report it properly; definitely do so, if you don't receive any helpful
-+  answer within three days.
-+
-+* Evaluate if the issue you are dealing with qualifies as regression, security
-+  issue, or a really severe problem: those need special handling in some of the
-+  following steps.
-+
-+* Write down coarsely how to reproduce the issue on a freshly booted system.
-+
-+* Verify the bug and potentially bisect any regression as described in
-+  Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst;
-+  alternatively handle the tasks it covers on your own:
-+
-+  * Verify the bug occurs with an up-to-date kernel. For regressions within a
-+    still supported stable or longterm series this means the latest release from
-+    that series. In all other cases, this means a mainline release, pre-release, or
-+    snapshot ideally less than one week old and two at maximum; the latest release
-+    from the newest stable series might work as well, especially if the series
-+    is based on a mainline version released in the past two weeks.
-+
-+  * In case of a regression, consider bisecting it. If it is one within a stable
-+    or longterm series, you must verify if current mainline is affected as well.
-+
-+  * All kernels used for verifying and reporting bugs must be free of externally
-+    developed modules (like Nvidia's graphics drivers, OpenZFS, or VirtualBox's
-+    host drivers). The kernels also should be built from pristine (aka 'vanilla')
-+    Linux sources, but lightly patched might work, too. The kernels furthermore
-+    should not be 'tainted' when the issue occurs.
-+
-+  Note, don't skip this step or take its demands lightheartedly, as there is a
-+  decent chance your report otherwise will be ignored or welcomed brusquely.
-+
-+* If you learned anything new about the bug while following this guide so far,
-+  consider searching once more for earlier reports and fixes.
-+
-+* Were you unable to reproduce a bug with a current mainline kernel you want to
-+  see fixed in a stable or longterm series? A bug that is not a regression? Then
-+  move over to ‘Resolving non-regressions only occurring in stable or longterm
-+  kernels’.
-+
-+* Optional: if your failure involves a 'panic', 'Oops', 'warning', or 'BUG',
-+  ideally decode the included stack trace.
-+
-+* Prepare the report by writing a detailed description of the issue.
-+
-+  Always mention the Linux distribution and the kernel version used for the
-+  verification; also include your notes on how to reproduce the issue. If your
-+  failure involves a 'panic', 'Oops', 'warning', or 'BUG', include a copy or
-+  photo of it.
-+
-+  Most of the time you also want to describe relevant aspects of your
-+  environment, like the machine's model name, the relevant hardware components,
-+  or the version of related userspace drivers. Often you want to also save the
-+  output of ``journalctl -k`` to a file you later attach to your report or
-+  upload somewhere and link to.
-+
-+  If there other aspects about the environment likely are relevant, attach or
-+  upload & link detailed information about is as well, like the output from
-+  commands as ``lsblk``, ``lspci``, ``lsusb.py`` and
-+  ``grep -s '' /sys/class/dmi/id/*``.
-+
-+  If anything in the attached or linked files is certainly relevant, ensure
-+  to copy that part to the body of the report to make it easily accessible.
-+  Furthermore make sure to not overload the report with many or huge
-+  attachments: developers will ask for additional data when needed.
-+
-+  Ensure both the subject and the first sentence of the report outlines the core
-+  of the problem and gets people interested enough to read on.
-+
-+  When finished, review and optimize the report once more to make it as
-+  straightforward as possible and the core of the problem easy to grasp.
-+
-+* Submit your report in the appropriate way, which depends on the outcome of the
-+  verification:
-+
-+  * In case you deal with a security issue, follow the instructions in
-+    Documentation/process/security-bugs.rst.
-+
-+  * Are you facing a regression within a stable or longterm kernel series you
-+    were unable to reproduce with a fresh mainline kernel? Then report it by
-+    email to the stable team while CCing the regressions lists (To:
-+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-+    Sasha Levin <sashal@kernel.org>; CC: stable@vger.kernel.org,
-+    regressions@lists.linux.dev).
-+
-+  * In all other cases, submit the report as specified in MAINTAINERS. In case
-+    of a regression you have to report by mail, CC the regressions list
-+    (regressions@lists.linux.dev); when you know the culprit, also CC everyone
-+    in its 'Signed-off-by' chain. In case of a regression you had to file in a
-+    bug tracker, write a short heads-up email with a link to the report to the
-+    list and everyone that signed the patch off, if the culprit is known.
-+
-+    Did you send the brief inquiry about a regression mentioned earlier? Then in
-+    both of these cases keep it involved: either send your report as a reply to
-+    the earlier inquiry while adding relevant recipients or send a quick note
-+    with a link to the proper report.
-+
-+* Wait for reactions and keep the ball rolling until you can accept the outcome
-+  in one way or the other. That among others means:
-+
-+  * React publicly and in a timely manner to any inquiries.
-+
-+  * Try to quickly test proposed fixes.
-+
-+  * Perform proactive testing: retest with at least every first release
-+    candidate (e.g. -rc1) of a new mainline version and report your findings in
-+    a reply to your report.
-+
-+  * If things stall for more than three or four weeks, check if that happened
-+    due to an inadequate report of yours; if not, send a friendly inquiry.
-+
-+  * Be aware that nobody is obliged to help you, unless it is a recent
-+    regression, a security issue, or a really severe problem; hence try to help
-+    yourself, if you don't receive any or only unsatisfying help.
-+
-+Resolving non-regressions only occurring in stable or longterm kernels
-+----------------------------------------------------------------------
-+
-+Are you facing an issue in a still supported stable or longterm series you were
-+unable to reproduce with a fresh mainline kernel? An issue that is also not a
-+regression and still happens in the series latest release? In that case follow
-+these steps:
-+
-+* Prepare yourself for the possibility that trying to resolve the issue resolved
-+  in the affected stable or longterm series might not work out: the fix might be
-+  too big or risky to include there.
-+
-+* Search Linux' mainline Git repository or lore for the change that resolved the
-+  issue; when unsuccessful, consider using a bisection to find it. Then check
-+  the description of the fix for a 'stable tag', e.g, a line like
-+  'Cc: <stable@vger.kernel.org>':
-+
-+ * In case there is such a tag the change is already scheduled for backporting.
-+   Usually it will be picked up within two or three weeks after being merged to
-+   mainline. Note, a version number after the tag might limit backporting to a
-+   series that is newer than the one you care for; plans to backport a change
-+   sometimes are also discarded. In such cases search lore or contact the
-+   involved developers for details, but you likely are out of luck.
-+
-+ * If there was no stable tag, search the mailing list archives if backporting
-+   nevertheless is in the works. If not, search for the review of the fix and
-+   check if backporting to stable and longterm kernels is planned or was
-+   rejected. If it's neither, send a reply asking the developers if backporting
-+   to the series is an option. Note, they might greenlight it, but unwilling to
-+   handle the job themselves -- in that case consider testing and submitting the
-+   fix and everything it depends on as explained in
-+   Documentation/process/stable-kernel-rules.rst.
-+
-+ In case you have trouble locating the fix or the discussion about it, consider
-+ asking the maintainers and developers of the affected subsystem for advice.
+ ::
  
++  object *obj;
++  struct hlist_node *pos, *next;
++  slot = compute_slot(key);
++  head = &table[slot];
+   begin:
+   rcu_read_lock();
+-  obj = lockless_lookup(key);
+-  if (obj) {
++  obj_for_each_entry_rcu(obj, pos, head, next) {
+     if (!try_get_ref(obj)) { // might fail for free objects
+       rcu_read_unlock();
+       goto begin;
+     }
+     /*
+-    * Because a writer could delete object, and a writer could
+-    * reuse these object before the RCU grace period, we
+-    * must check key after getting the reference on object
+-    */
+-    if (obj->key != key) { // not the object we expected
++     * Because a writer could delete object, and a writer could
++     * reuse these object before the RCU grace period, we must check
++     * whether this object has been moved. The smp_wmb() in insertion
++     * algorithm and the smp_rmb() in obj_for_each_entry_rcu() ensure
++     * that if we read the new 'obj->obj_node.next' value, we will also
++     * read the new 'obj->key'.
++     */
++    if (compute_slot(obj->key) != slot) {
+       put_ref(obj);
+       rcu_read_unlock();
+       goto begin;
+     }
++    if (obj->key != key) // not the object we expected
++      put_ref(obj);
++    else
++      goto out;
+   }
++  out:
+   rcu_read_unlock();
  
- Reference section: Reporting issues to the kernel maintainers
+-Beware that lockless_lookup(key) cannot use traditional hlist_for_each_entry_rcu()
++Beware that obj_for_each_entry_rcu() cannot use traditional hlist_for_each_entry_rcu()
+ but a version with an additional memory barrier (smp_rmb())
+ 
+ ::
+ 
+-  lockless_lookup(key)
+-  {
+-    struct hlist_node *node, *next;
+-    for (pos = rcu_dereference((head)->first);
+-         pos && ({ next = pos->next; smp_rmb(); prefetch(next); 1; }) &&
+-         ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
+-         pos = rcu_dereference(next))
+-      if (obj->key == key)
+-        return obj;
+-    return NULL;
+-  }
++  for (pos = rcu_dereference((head)->first);
++       pos && ({ next = READ_ONCE(pos->next); smp_rmb(); prefetch(next); 1; }) &&
++       ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
++       pos = rcu_dereference(next))
+ 
+ And note the traditional hlist_for_each_entry_rcu() misses this smp_rmb()::
+ 
+-  struct hlist_node *node;
+   for (pos = rcu_dereference((head)->first);
+        pos && ({ prefetch(pos->next); 1; }) &&
+        ({ obj = hlist_entry(pos, typeof(*obj), obj_node); 1; });
+        pos = rcu_dereference(pos->next))
+-    if (obj->key == key)
+-      return obj;
+-  return NULL;
+ 
+ Quoting Corey Minyard::
+ 
+@@ -112,7 +112,12 @@ detect the fact that it missed following items in original chain.
+   obj = kmem_cache_alloc(...);
+   lock_chain(); // typically a spin_lock()
+   obj->key = key;
+-  atomic_set_release(&obj->refcnt, 1); // key before refcnt
++  /*
++   * We need to make sure obj->key is updated before obj->obj_node.next
++   * and obj->refcnt.
++   */
++  smp_wmb();
++  atomic_set(&obj->refcnt, 1);
+   hlist_add_head_rcu(&obj->obj_node, list);
+   unlock_chain(); // typically a spin_unlock()
+ 
+@@ -140,7 +145,7 @@ very very fast (before the end of RCU grace period)
+ Avoiding extra smp_rmb()
+ ========================
+ 
+-With hlist_nulls we can avoid extra smp_rmb() in lockless_lookup().
++With hlist_nulls we can avoid extra smp_rmb() in obj_for_each_entry_rcu().
+ 
+ For example, if we choose to store the slot number as the 'nulls'
+ end-of-list marker for each slot of the hash table, we can detect
+@@ -165,18 +170,14 @@ Note that using hlist_nulls means the type of 'obj_node' field of
+   begin:
+   rcu_read_lock();
+   hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
+-    if (obj->key == key) {
+-      if (!try_get_ref(obj)) { // might fail for free objects
+-	rcu_read_unlock();
+-        goto begin;
+-      }
+-      if (obj->key != key) { // not the object we expected
+-        put_ref(obj);
+-	rcu_read_unlock();
+-        goto begin;
+-      }
+-      goto out;
++    if (!try_get_ref(obj)) { // might fail for free objects
++      rcu_read_unlock();
++      goto begin;
+     }
++    if (obj->key != key) // not the object we expected
++      put_ref(obj);
++    else
++      goto out;
+   }
+ 
+   // If the nulls value we got at the end of this lookup is
+@@ -213,3 +214,79 @@ hlist_add_head_rcu().
+    */
+   hlist_nulls_add_head_rcu(&obj->obj_node, list);
+   unlock_chain(); // typically a spin_unlock()
++
++
++
++--------------------------------------------------------------------------
++
++Using Back-pointer
++==================
++
++It is possible to detect a move mid-list, which can reduce the search time.
++To achieve this, we store a back-pointer in every element that points to the
++head of its chain. It is worth noting that we can also utilize 'compute_slot'
++to detect this, which involves a tradeoff between time and space.
++
++::
++
++  struct object {
++    struct hlist_nulls_node obj_node;
++    strcut hlist_nulls_head *backptr;
++    atomic_t refcnt;
++    unsigned int key;
++  };
++
++
++1) lookup algorithm
++-------------------
++
++::
++
++  head = &table[slot];
++  begin:
++  rcu_read_lock();
++  hlist_nulls_for_each_entry_rcu(obj, node, head, obj_node) {
++    if (!try_get_ref(obj)) { // might fail for free objects
++      rcu_read_unlock();
++      goto begin;
++    }
++    if (obj->backptr != head) { // object is moved
++      put_ref(obj);
++      rcu_read_unlock();
++      goto begin;
++    }
++    if (obj->key != key) // not the object we expected
++      put_ref(obj);
++    else
++      goto out;
++  }
++
++  if (get_nulls_value(node) != slot) {
++    put_ref(obj);
++    rcu_read_unlock();
++    goto begin;
++  }
++  obj = NULL;
++
++  out:
++  rcu_read_unlock();
++
++2) Insert algorithm
++-------------------
++
++::
++
++  /*
++   * Please note that new inserts are done at the head of list,
++   * not in the middle or end.
++   */
++  obj = kmem_cache_alloc(cachep);
++  lock_chain(); // typically a spin_lock()
++  obj->key = key;
++  obj->backptr = list;
++  atomic_set_release(&obj->refcnt, 1); // key and backptr before refcnt
++  /*
++   * insert obj in RCU way (readers might be traversing chain)
++   */
++  hlist_nulls_add_head_rcu(&obj->obj_node, list);
++  unlock_chain(); // typically a spin_unlock()
+\ No newline at end of file
 -- 
-2.44.0
+2.34.1
 
