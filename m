@@ -1,291 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DFB6E2AB;
-	Mon, 25 Mar 2024 22:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE63B139E
+	for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 00:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711407467; cv=none; b=h5eiP/rThgO25nmrA3h7Wl47dIuxI/s1wgZDWf1h8zqwPRCw4kHpOacmEmFGquRzfRxNaHMefAo3lUhTP3SNyzSaZiAIeMG8q3wlGdlJ+ooTTcNXCp83zF8X204mYd3Pxqv6HFzUhVBnQNEBWXC+TNvRazK1Ph1qGcz7QeA6ybI=
+	t=1711412910; cv=none; b=I2jkg9S07YJ5/102VGc5aH/5yrBWvPF50bLkDtDaNtecanDkSnE/EOpMoL3ngxCWFHrCc7ouUsc3ugYxgROXW4J7toqEXb7jlPWTjRm9c4iqI8HfPQVVAz9dafXC8XVAjKfZBOZWwutxKU2uawqaOgOquAnxqy3bKJDXld53BjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711407467; c=relaxed/simple;
-	bh=XI2t2jo9o+wsz6b5gBsR5OP8VWlf5kU9qzxkADoRJws=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cDoKoSgWkYPO3Lg8L27pA6mPKeMqmbH1QOxxPUKhsdg1su3THBkMYKLKQsAqI9B5wlqO0Njh8esKkNsboPFU9s5uLsUQYuncm2c6eKQHGGqB5j8nPUHi7X0whOoJRWuSUPbItIOHm2n4Ryl6x2Iyj8EF75b6TnqpgWUQWw4gcG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BzpgxMWW; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711412910; c=relaxed/simple;
+	bh=q9rJFj0LGRVbIR7Im5V+4jATTEQF0xUdYxt97RfhsCY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GzGoyV5/DaCDkrm0GGn1IvRReRZXsrk56w0mH9i4hMugu6i4dO/Qhfp51fIikKxxMpz2S+9qoO2+6dXYBqfXV1deYVMst+1DqpbxJGCciRjf73Hr3XvWuTbxk/PapWieN1WJJI0sSs7kCZ6Q/jNk37Gylgw9gmWJduseLm+DAFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jwc72MJc; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BzpgxMWW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711407465; x=1742943465;
-  h=subject:from:to:cc:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XI2t2jo9o+wsz6b5gBsR5OP8VWlf5kU9qzxkADoRJws=;
-  b=BzpgxMWWU+0KxEyCWXF6/++BSd9fsiL4KyE2VKVU5v4HJiZK77n6rG4H
-   zzS7hHbKGqIhHntOMYw4Tsod81dJZ3Z/ewF1DF7ut3AjpyX6/Sq6/rUjM
-   PMc5M37rbF1abS3zdIbhGOEZ+15eO0FD2G/LAKGMXqKN6a/hC7ntFAA3c
-   JpMWtdk0ULGKtEuu5ZknDYYDoRgZDBAd2gQgHLuFA51wQUOsEYILxcY+r
-   uwq53do5p+Y5HYM3Dj11raqlxQbFPb6qDV0LQhd8ZWc2F5HniVO8rOq86
-   YuYYdUZpd4iLhh0UgYX0zhUfDDphI1bM8gjqPO3CoV1J2OlGa9xF27LiT
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="16980397"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="16980397"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:57:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,154,1708416000"; 
-   d="scan'208";a="15853427"
-Received: from sbista-mobl.amr.corp.intel.com (HELO dwillia2-xfh.jf.intel.com) ([10.209.58.57])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2024 15:57:43 -0700
-Subject: [PATCH v2] cleanup: Add usage and style documentation
-From: Dan Williams <dan.j.williams@intel.com>
-To: peterz@infradead.org, torvalds@linux-foundation.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- Ilpo =?utf-8?b?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
- Lukas Wunner <lukas@wunner.de>, Jonathan Corbet <corbet@lwn.net>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-doc@vger.kernel.org
-Date: Mon, 25 Mar 2024 15:57:42 -0700
-Message-ID: <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
-In-Reply-To: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
-References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
-User-Agent: StGit/0.18-3-g996c
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jwc72MJc"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-515a68d45faso2408301e87.3
+        for <linux-doc@vger.kernel.org>; Mon, 25 Mar 2024 17:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711412906; x=1712017706; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
+        b=jwc72MJcbOv3kNXMWOzcqkprlIA0kzQenPVePAM+2MCIOWNpyQlr6Bod5r9PGyvAtH
+         W6MB0rm6nc8gi1c90MEweCLFgqrpGJGagH8d9WJ+/WPLaNmtIo9qwAX7olhxp7p1+eyd
+         DcyyHKRIsnQpuHfXC265pgCXIuHYOQ18/yzNq9b12LEYr0kPYRM0GpIGdh8sOyaD9+kR
+         qvdPyYoNIACwyhXeSLQae4+A4idpRdC3nULounqP9EtnB1V1RPwCNZ4w4UvOv+JUb4FC
+         0pIfwgms3iFSJGJuud3CMLeDpCdI+yUp2mJeizZI7bwQ90Mb/sYG+eprzKPZ3MZUedo+
+         6zIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711412906; x=1712017706;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6AS6qRiVlQsc1+zZ8NlPzKQQkZa8BexCVQalpdaPfxc=;
+        b=BDSkuvmPjU6vIXITa1Ocq5mGwyYL4YsifJbsT+TWRP4zPjS8w9ZeWsIKd/vvCxmY2B
+         iPH65R69DgNUPzy+gk6rbXhBM8tjZElr4vrJADzD5PDBQ7pqNSpPBh7daiX2u11rcmfg
+         cmlwsKVxNggjcEww9uAnxwD4+fKz0lsYnxAkZ3v9H/Jp4B6yJJd8dB1bmqc4qtT3dRTk
+         qwjuVrs8qFaPOAgfpdzjL4/UDASuKc0lXwo7FJ3IOFtw2LLJLwFPoA+32pSF/6gPj7GA
+         PNx/j1z0PqnMaZU3gAIp9hLAAmjaRBfNUlGTj/mORhxa6K64x9GUZa08/clvOWEhJ3iQ
+         1PQA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUFczaLnT5QaWY0SgONifO44mRzuRWx5jR4J712KK/8woDAauBafJrOBjJKIOY4bBljsqN7dF7d3gXftRN670xJhc+VCOzm4pL
+X-Gm-Message-State: AOJu0Yz2h/4uDq1DqT2aMCb//5nI0a2BOr9xTZR+u24I0Mux70m782j0
+	1jxeaMo+C9Zw6K0BErQ0LAB3wrm//xl9ywblP6UZIgcpdNP3l7N4S5PbRgreZPVZll/JdC5dcVq
+	I/myOgKC16xjq/Pb2pDnsdIw11zq0Yf3c87cD
+X-Google-Smtp-Source: AGHT+IF9aQZZlm3m7qhQmoIyJ6RkPwr/Dop+uoHu7fO/1Q5QVzyOPH34BhQ7Hc1bMJCfX+wA5X9L6ZhSH1TjcEziOMA=
+X-Received: by 2002:a05:6512:456:b0:513:2b35:2520 with SMTP id
+ y22-20020a056512045600b005132b352520mr5371798lfk.58.1711412905481; Mon, 25
+ Mar 2024 17:28:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20240305020153.2787423-1-almasrymina@google.com>
+ <6208950d-6453-e797-7fc3-1dcf15b49dbe@huawei.com> <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+In-Reply-To: <CAHS8izMwTRyqUS0iRtErfAqDVsXRia5Ajx9PRK3vcfo8utJoUA@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 25 Mar 2024 17:28:12 -0700
+Message-ID: <CAHS8izPR+SioMKNv3=2ajK=GGOE26BTaxOMykHJfjttqYjx1wQ@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v6 00/15] Device Memory TCP
+To: Yunsheng Lin <linyunsheng@huawei.com>, YiFei Zhu <zhuyifei@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When proposing that PCI grow some new cleanup helpers for pci_dev_put()
-and pci_dev_{lock,unlock} [1], Bjorn had some fundamental questions
-about expectations and best practices. Upon reviewing an updated
-changelog with those details he recommended adding them to documentation
-in the header file itself.
+On Tue, Mar 5, 2024 at 11:38=E2=80=AFAM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> On Tue, Mar 5, 2024 at 4:54=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.c=
+om> wrote:
+> >
+> > On 2024/3/5 10:01, Mina Almasry wrote:
+> >
+> > ...
+> >
+> > >
+> > > Perf - page-pool benchmark:
+> > > ---------------------------
+> > >
+> > > bench_page_pool_simple.ko tests with and without these changes:
+> > > https://pastebin.com/raw/ncHDwAbn
+> > >
+> > > AFAIK the number that really matters in the perf tests is the
+> > > 'tasklet_page_pool01_fast_path Per elem'. This one measures at about =
+8
+> > > cycles without the changes but there is some 1 cycle noise in some
+> > > results.
+> > >
+> > > With the patches this regresses to 9 cycles with the changes but ther=
+e
+> > > is 1 cycle noise occasionally running this test repeatedly.
+> > >
+> > > Lastly I tried disable the static_branch_unlikely() in
+> > > netmem_is_net_iov() check. To my surprise disabling the
+> > > static_branch_unlikely() check reduces the fast path back to 8 cycles=
+,
+> > > but the 1 cycle noise remains.
+> > >
+> >
+> > The last sentence seems to be suggesting the above 1 ns regresses is ca=
+used
+> > by the static_branch_unlikely() checking?
+>
+> Note it's not a 1ns regression, it's looks like maybe a 1 cycle
+> regression (slightly less than 1ns if I'm reading the output of the
+> test correctly):
+>
+> # clean net-next
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 2.993 ns (step:0)
+>
+> # with patches
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 9 cycles(tsc)
+> 3.679 ns (step:0)
+>
+> # with patches and with diff that disables static branching:
+> time_bench: Type:tasklet_page_pool01_fast_path Per elem: 8 cycles(tsc)
+> 3.248 ns (step:0)
+>
+> I do see noise in the test results between run and run, and any
+> regression (if any) is slightly obfuscated by the noise, so it's a bit
+> hard to make confident statements. So far it looks like a ~0.25ns
+> regression without static branch and about ~0.65ns with static branch.
+>
+> Honestly when I saw all 3 results were within some noise I did not
+> investigate more, but if this looks concerning to you I can dig
+> further. I likely need to gather a few test runs to filter out the
+> noise and maybe investigate the assembly my compiler is generating to
+> maybe narrow down what changes there.
+>
 
-Add that documentation and link it into the rendering for
-Documentation/core-api/.
+I did some more investigation here to gather more data to filter out
+the noise, and recorded the summary here:
 
-Link: http://lore.kernel.org/r/20240104183218.GA1820872@bhelgaas [1]
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>
-Cc: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Cc: Lukas Wunner <lukas@wunner.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Dan Williams <dan.j.williams@intel.com>
----
-Changes since v1:
-* drop RST markup for C-syntax highlighting in examples, use the simpler
-  "::" annotation (Peter, Lukas, Jon)
-* fixup ordering of core-api sections (Matthew)
-* describe ordering as LIFO (Bjorn)
-* wait to talk about DEFINE_GUARD() until after DEFINE_FREE() section
-  (Bjorn)
-* clarify the "definition order matters" concern (Bjorn)
-* drop statistics for goto patterns in source, "TMI" (Bjorn)
-* include example of order dependent cleanups helpers (Kevin, Bjorn)
+https://pastebin.com/raw/v5dYRg8L
 
- Documentation/core-api/cleanup.rst |    8 ++
- Documentation/core-api/index.rst   |    1 
- include/linux/cleanup.h            |  151 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 160 insertions(+)
- create mode 100644 Documentation/core-api/cleanup.rst
+Long story short, the page_pool benchmark results are consistent with
+some outlier noise results that I'm discounting here. Currently
+page_pool fast path is at 8 cycles
 
-diff --git a/Documentation/core-api/cleanup.rst b/Documentation/core-api/cleanup.rst
-new file mode 100644
-index 000000000000..527eb2f8ec6e
---- /dev/null
-+++ b/Documentation/core-api/cleanup.rst
-@@ -0,0 +1,8 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Scope-based Cleanup Helpers
-+===========================
-+
-+.. kernel-doc:: include/linux/cleanup.h
-+   :doc: scope-based cleanup helpers
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 7a3a08d81f11..2d2b3719567e 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -35,6 +35,7 @@ Library functionality that is used throughout the kernel.
- 
-    kobject
-    kref
-+   cleanup
-    assoc_array
-    xarray
-    maple_tree
-diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
-index c2d09bc4f976..8ef2d91c2cbf 100644
---- a/include/linux/cleanup.h
-+++ b/include/linux/cleanup.h
-@@ -4,6 +4,157 @@
- 
- #include <linux/compiler.h>
- 
-+/**
-+ * DOC: scope-based cleanup helpers
-+ *
-+ * The "goto error" pattern is notorious for introducing subtle resource
-+ * leaks. It is tedious and error prone to add new resource acquisition
-+ * constraints into code paths that already have several unwind
-+ * conditions. The "cleanup" helpers enable the compiler to help with
-+ * this tedium and can aid in maintaining FILO (first in last out)
-+ * unwind ordering to avoid unintentional leaks.
-+ *
-+ * As drivers make up the majority of the kernel code base, here is an
-+ * example of using these helpers to clean up PCI drivers. The target of
-+ * the cleanups are occasions where a goto is used to unwind a device
-+ * reference (pci_dev_put()), or unlock the device (pci_dev_unlock())
-+ * before returning.
-+ *
-+ * The DEFINE_FREE() macro can arrange for PCI device references to be
-+ * dropped when the associated variable goes out of scope:
-+ *
-+ * ::
-+ *
-+ *	DEFINE_FREE(pci_dev_put, struct pci_dev *, if (_T) pci_dev_put(_T))
-+ *	...
-+ *	struct pci_dev *dev __free(pci_dev_put) =
-+ *		pci_get_slot(parent, PCI_DEVFN(0, 0));
-+ *
-+ * The above will automatically call pci_dev_put() if @dev is non-NULL
-+ * when @dev goes out of scope (automatic variable scope). If a function
-+ * wants to invoke pci_dev_put() on error, but return @dev (i.e. without
-+ * freeing it) on success, it can do:
-+ *
-+ * ::
-+ *
-+ *	return no_free_ptr(dev);
-+ *
-+ * ...or:
-+ *
-+ * ::
-+ *
-+ *	return_ptr(dev);
-+ *
-+ * The DEFINE_GUARD() macro can arrange for the PCI device lock to be
-+ * dropped when the scope where guard() is invoked ends:
-+ *
-+ * ::
-+ *
-+ *	DEFINE_GUARD(pci_dev, struct pci_dev *, pci_dev_lock(_T), pci_dev_unlock(_T))
-+ *	...
-+ *	guard(pci_dev)(dev);
-+ *
-+ *
-+ * The lifetime of the lock obtained by the guard() helper follows the
-+ * scope of automatic variable declaration. Take the following example:
-+ *
-+ * ::
-+ *
-+ *	func(...)
-+ *	{
-+ *		if (...) {
-+ *			...
-+ *			guard(pci_dev)(dev); // pci_dev_lock() invoked here
-+ *			...
-+ *		} // <- implied pci_dev_unlock() triggered here
-+ *	}
-+ *
-+ * Observe the lock is held for the remainder of the "if ()" block not
-+ * the remainder of "func()".
-+ *
-+ * Now, when a function uses both __free() and guard(), or multiple
-+ * instances of __free(), the LIFO order of variable definition order
-+ * matters. GCC documentation says:
-+ *
-+ * "When multiple variables in the same scope have cleanup attributes,
-+ * at exit from the scope their associated cleanup functions are run in
-+ * reverse order of definition (last defined, first cleanup)."
-+ *
-+ * When the unwind order matters it requires that variables be defined
-+ * mid-function scope rather than at the top of the file.  Take the
-+ * following example and notice the bug highlighted by "!!":
-+ *
-+ * ::
-+ *
-+ *	LIST_HEAD(list);
-+ *	DEFINE_MUTEX(lock);
-+ *
-+ *	struct object {
-+ *	        struct list_head node;
-+ *	};
-+ *
-+ *	static struct object *alloc_add(void)
-+ *	{
-+ *	        struct object *obj;
-+ *
-+ *	        lockdep_assert_held(&lock);
-+ *	        obj = kfree(sizeof(*obj), GFP_KERNEL);
-+ *	        if (obj) {
-+ *	                LIST_HEAD_INIT(&obj->node);
-+ *	                list_add(obj->node, &list):
-+ *	        }
-+ *	        return obj;
-+ *	}
-+ *
-+ *	static void remove_free(struct object *obj)
-+ *	{
-+ *	        lockdep_assert_held(&lock);
-+ *	        list_del(&obj->node);
-+ *	        kfree(obj);
-+ *	}
-+ *
-+ *	DEFINE_FREE(remove_free, struct object *, if (_T) remove_free(_T))
-+ *	static int init(void)
-+ *	{
-+ *	        struct object *obj __free(remove_free) = NULL;
-+ *	        int err;
-+ *
-+ *	        guard(mutex)(&lock);
-+ *	        obj = alloc_add();
-+ *
-+ *	        if (!obj)
-+ *	                return -ENOMEM;
-+ *
-+ *	        err = other_init(obj);
-+ *	        if (err)
-+ *	                return err; // remove_free() called without the lock!!
-+ *
-+ *	        no_free_ptr(obj);
-+ *	        return 0;
-+ *	}
-+ *
-+ * That bug is fixed by changing init() to call guard() and define +
-+ * initialize @obj in this order:
-+ *
-+ * ::
-+ *
-+ *	guard(mutex)(&lock);
-+ *	struct object *obj __free(remove_free) = alloc_add();
-+ *
-+ * Given that the "__free(...) = NULL" pattern for variables defined at
-+ * the top of the function poses this potential interdependency problem
-+ * the recommendation is to always define and assign variables in one
-+ * statement and not group variable definitions at the top of the
-+ * function when __free() is used.
-+ *
-+ * Lastly, given that the benefit of cleanup helpers is removal of
-+ * "goto", and that the "goto" statement can jump between scopes, the
-+ * expectation is that usage of "goto" and cleanup helpers is never
-+ * mixed in the same function. I.e. for a given routine, convert all
-+ * resources that need a "goto" cleanup to scope-based cleanup, or
-+ * convert none of them.
-+ */
-+
- /*
-  * DEFINE_FREE(name, type, free):
-  *	simple helper macro that defines the required wrapper for a __free()
+[ 2115.724510] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 8 cycles(tsc) 3.187 ns (step:0) - (measurement period
+time:0.031870585 sec time_interval:31870585) - (invoke count:10000000
+tsc_interval:86043192)
 
+and with this patch series it degrades to 10 cycles, or about a 0.7ns
+degradation or so:
+
+[  498.226127] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 10 cycles(tsc) 3.944 ns (step:0) - (measurement period
+time:0.039442539 sec time_interval:39442539) - (invoke count:10000000
+tsc_interval:106485268)
+
+I took the time to dig into where the degradation comes from, and to
+my surprise we can shave off 1 cycle in perf by removing the
+static_branch_unlikely check in netmem_is_net_iov() like so:
+
+diff --git a/include/net/netmem.h b/include/net/netmem.h
+index fe354d11a421..2b4310ac1115 100644
+--- a/include/net/netmem.h
++++ b/include/net/netmem.h
+@@ -122,8 +122,7 @@ typedef unsigned long __bitwise netmem_ref;
+ static inline bool netmem_is_net_iov(const netmem_ref netmem)
+ {
+ #ifdef CONFIG_PAGE_POOL
+-       return static_branch_unlikely(&page_pool_mem_providers) &&
+-              (__force unsigned long)netmem & NET_IOV;
++       return (__force unsigned long)netmem & NET_IOV;
+ #else
+        return false;
+ #endif
+
+With this change, the fast path is 9 cycles, only  a 1 cycle (~0.35ns)
+regression:
+
+[  199.184429] time_bench: Type:tasklet_page_pool01_fast_path Per
+elem: 9 cycles(tsc) 3.552 ns (step:0) - (measurement period
+time:0.035524013 sec time_interval:35524013) - (invoke count:10000000
+tsc_interval:95907775)
+
+I did some digging with YiFei on why the static_branch_unlikely
+appears to be causing a 1 cycle regression, but could not get an
+answer that makes sense. The # of instructions in
+page_pool_return_page() with the static_branch_unlikely and without is
+about the same in the compiled .o file, and my understanding is that
+static_branch will cause code re-writing anyway so looking at the
+compiled code may not be representative.
+
+Worthy of note is that I get ~95% line rate of devmem TCP regardless
+of the static_branch_unlikely() or not, so impact of the static_branch
+is not large enough to be measurable end-to-end. I'm thinking I want
+to drop the static_branch_unlikely() in the next RFC since it doesn't
+improve the end-to-end throughput number and is resulting in a
+measurable improvement in the page pool benchmark.
+
+--=20
+Thanks,
+Mina
