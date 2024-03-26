@@ -1,81 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B9958139;
-	Tue, 26 Mar 2024 10:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1956BB39;
+	Tue, 26 Mar 2024 11:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711447751; cv=none; b=MIHdTmg85cohkzHw9F0PrwSoB35q8JX8puCMZnWOHHl1A2QHZ7E6GMCjFNAMQYKbsoZEd4Wld340La+DXJ+lnh74Oo6F+f0LccIhg7lVrSv+QiIpwZ8scQ7Yx84e8MmVSKsPXXzJ2flxSmjkUf06at3hsNpRbuoZ3+ty7aaWgVs=
+	t=1711453536; cv=none; b=EivnGhLowGfWdWE1MdBQ0hj3io9wf3wjHLDr8vPboaCo4+uXJy5Lby4koE9hhEsW8uHVtvwuQhT9G/i2+OtQU9diDmLreb8l850wmmyvVcKsffadyR90uy0fDBqyeoMfWJAhnohyrmxxtLc57XSIQoKSLr4ytVevmu7O6KwQsbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711447751; c=relaxed/simple;
-	bh=CSdOMSrem4e0F7hLbZ0M1Pb/vKICK+GZjqbyvHBGcws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XR3tJoxiQomE4LEIDoKxe8rbXIpH1N3fkalZQ+B4IwjgV0BgTPP2MBDmq3geHd7Uz4He8vRlKr7S9l307vmw/ZRWs/cmMOyVrn9FSX5jwZKN1z5RPgYByxQDXh52Vmg7KSsBmcJGhXRZiFGQKWg/Ow90L/+gJW8KygElo7WPOCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEF682F4;
-	Tue, 26 Mar 2024 03:09:39 -0700 (PDT)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9B5B3F64C;
-	Tue, 26 Mar 2024 03:09:04 -0700 (PDT)
-Date: Tue, 26 Mar 2024 10:09:02 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Balint Dobszay <balint.dobszay@arm.com>
-Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	jens.wiklander@linaro.org, sumit.garg@linaro.org, corbet@lwn.net,
-	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com,
-	Sudeep Holla <sudeep.holla@arm.com>
-Subject: Re: [PATCH v4 5/5] MAINTAINERS: tee: tstee: Add entry
-Message-ID: <ZgKevs_YQYAhx98U@bogus>
-References: <20240325151105.135667-1-balint.dobszay@arm.com>
- <20240325151105.135667-6-balint.dobszay@arm.com>
+	s=arc-20240116; t=1711453536; c=relaxed/simple;
+	bh=HlNlH0D6rEhsgNqoAFKCIqa0DgA4RkOgomD4hxEXSF0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Li+VoPzkAaRifJlqytZEGzsFUUE+z2e0nzNokncGfTiV6suiL3F/oEtOhQg2jHOBuM1a2dAWzM+Nwrys0ik1vOycIeNrmTLEz9TFb0gv8ttgG4Si+YQQ+Ml+q1jyNMPODTAXZbJ8M63ev3qkiPDHWvPQGbDJdCz1hCy6Y4H93t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Xtmal4w9; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Xtmal4w9"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42QBj0PP084354;
+	Tue, 26 Mar 2024 06:45:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1711453500;
+	bh=8ZZ+yXIpR+DpKAp94YWkD4hzM6wEtAwz6qiljaPQzLk=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=Xtmal4w9ngjiPLDraY0Ol5a9OjksXRTI4jUeVpLnXIJWtQzp5MUEOnaFPyP9JMsuH
+	 KIPbH48Alj4mFYtw1/Bhg1AMlkDXC8T2pH83HYFTtJhw3Yfc/WWrgbP2AraSh10vug
+	 aGGynT8kau7iyOXGB7WcwifzRZW2qjm5vry341fA=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42QBj08Y001858
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 26 Mar 2024 06:45:00 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 26
+ Mar 2024 06:45:00 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 26 Mar 2024 06:45:00 -0500
+Received: from localhost (dhruva.dhcp.ti.com [172.24.227.68])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42QBixZd053809;
+	Tue, 26 Mar 2024 06:44:59 -0500
+Date: Tue, 26 Mar 2024 17:14:58 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+CC: <linux@armlinux.org.uk>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <sudeep.holla@arm.com>, <rafael@kernel.org>, <viresh.kumar@linaro.org>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mingo@redhat.com>, <peterz@infradead.org>,
+        <juri.lelli@redhat.com>, <dietmar.eggemann@arm.com>,
+        <rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+        <bristot@redhat.com>, <vschneid@redhat.com>, <lukasz.luba@arm.com>,
+        <rui.zhang@intel.com>, <mhiramat@kernel.org>,
+        <daniel.lezcano@linaro.org>, <amit.kachhap@gmail.com>,
+        <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Qais Yousef <qyousef@layalina.io>
+Subject: Re: [PATCH v6 1/5] cpufreq: Add a cpufreq pressure feedback for the
+ scheduler
+Message-ID: <20240326114458.dfcvpodoihk5tlmz@dhruva>
+References: <20240326091616.3696851-1-vincent.guittot@linaro.org>
+ <20240326091616.3696851-2-vincent.guittot@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240325151105.135667-6-balint.dobszay@arm.com>
+In-Reply-To: <20240326091616.3696851-2-vincent.guittot@linaro.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Mon, Mar 25, 2024 at 04:11:05PM +0100, Balint Dobszay wrote:
-> Create an entry for the newly added Trusted Services TEE driver, with
-> Sudeep and myself as maintainers.
->
+Hi,
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
-
-> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
+On Mar 26, 2024 at 10:16:12 +0100, Vincent Guittot wrote:
+> Provide to the scheduler a feedback about the temporary max available
+> capacity. Unlike arch_update_thermal_pressure, this doesn't need to be
+> filtered as the pressure will happen for dozens ms or more.
+> 
+> Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+> Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Reviewed-by: Qais Yousef <qyousef@layalina.io>
+> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+> Tested-by: Lukasz Luba <lukasz.luba@arm.com>
 > ---
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index fd221a7d4d1c..eaa89feabd25 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22470,6 +22470,15 @@ F:	Documentation/ABI/testing/configfs-tsm
->  F:	drivers/virt/coco/tsm.c
->  F:	include/linux/tsm.h
->  
-> +TRUSTED SERVICES TEE DRIVER
-> +M:	Balint Dobszay <balint.dobszay@arm.com>
-> +M:	Sudeep Holla <sudeep.holla@arm.com>
-> +L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> +L:	trusted-services@lists.trustedfirmware.org
-> +S:	Maintained
-> +F:	Documentation/tee/ts-tee.rst
-> +F:	drivers/tee/tstee/
-> +
->  TTY LAYER AND SERIAL DRIVERS
->  M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->  M:	Jiri Slaby <jirislaby@kernel.org>
-> -- 
-> 2.34.1
-> 
+
+LGTM,
+
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
 
 -- 
-Regards,
-Sudeep
+Best regards,
+Dhruva
