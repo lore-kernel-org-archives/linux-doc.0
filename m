@@ -1,285 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8102A13D2AE;
-	Tue, 26 Mar 2024 15:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711467710; cv=none; b=fJdt2xqBs85JaZlVc5nIQfnYpj5CsI98wBLSm/DauKolpvNq/lyE53uxelTWE/jnbuAFX6SEkoC7RCVSS1oOoaTBac6sM7G0ZDBnqN08XBDaFMcXMNCKGJofPpy5Xy8FQhAqXR8taq2932FFQnfnhHbgORU+jjPvYXYtF0y3hJI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711467710; c=relaxed/simple;
-	bh=eEPyi+V16nvjclf/voEHwBjK6nhE99gO0L+a8Zgq6s8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YEUts65tf1RvghWBYh4pA2jp5qz7BdgNU6pb0sgxdUFyA8jqOU/lbogaAAd9cs5h/PkHxj+LBofeluvqVEEaALEWHK2a2YhMFYepbY/lWGKuxRDhkgFkMUWmZdjMi5K29sxdDNPkjmPrC8B3ITq6IhGHbLjmY6c+L62uTW+EL2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvkRMQFi; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591DB611E;
+	Tue, 26 Mar 2024 16:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711471913; cv=fail; b=qEekUFq4wf1XTgdzU4oH9S/eV0Hul7yd6DAG0/hdOT/fHIxMqXL9IUQS4RmQQbD1lklJkexCeQJElpdCqlgPRSasRuQt+/xbFFNm3NnSWEl9Ga2gT26v/wMt6CLWv4Pl5FG7pGdfeAeuQ8Lh41/bQKUo2zuI1njh7EWgSC5dfLE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711471913; c=relaxed/simple;
+	bh=D8o/Du9/cL71WBQa9Xt6oAnn+Hrp5jkyJVTE9ddBU0w=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gDyYYrcI06peobD5fMBp+dNNJKIEtl2dTWGJBNAcfo5atC1/OkXS2eyk7bMAUwzjKQt2BSxFhPCJzLtn7vdrdCgMzJ30s3G/KkUxAhARE1HsIlVx9qZsaQp0scKEgTRq+8iF6QQtpr/U2BPDXPeOP+on7H4szZvomAhTbjaMyH4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhJmZNK6; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvkRMQFi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F34DC433A6;
-	Tue, 26 Mar 2024 15:41:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711467710;
-	bh=eEPyi+V16nvjclf/voEHwBjK6nhE99gO0L+a8Zgq6s8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=GvkRMQFiHwFzKh2AQ4HF9NwxGf42EmeP10qJhE9fSfLZoPo/M1TDnnSG4aCCuOXIY
-	 GjYWtBcfrTD8W5xutJZO0dx0LdBdqgW0BBBmvkIeLRPrN9n7pH8SYZH4qPrETJ4/6y
-	 kwOTyBla1t5fBC+7cGQCajFURIHTkcZUuc/THrprcaWLKG7fZS73qN7mnVguARs8Fh
-	 O6QByO79Gs5Oi4ts0P6Ktj5JMS+LCzAtp6DxPyHQ9ho3daHBRa05zxgU9sR0jk8FY2
-	 ZJRu5Zq/tORlvyoRDUD8TeCtrXw3BHzpw3mlpU24dw09xYjTC3iNxyoPqhiGLZTLn8
-	 L3bGJeIhbaY1w==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 26 Mar 2024 16:40:32 +0100
-Subject: [PATCH v11 28/28] drm/sun4i: hdmi: Switch to HDMI connector
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhJmZNK6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711471913; x=1743007913;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=D8o/Du9/cL71WBQa9Xt6oAnn+Hrp5jkyJVTE9ddBU0w=;
+  b=EhJmZNK6wDdsf46L3uiUnpowRb2yNQ16RDc9UbPhvOAFjMtAJLGXEwAy
+   XLwSqQ/XGsVIAi/NPWWFPJTibbpfoR3QvprOEPi+PiKTmbm+181TMzYm+
+   OGbPA8/wTzMk/XJFCri49XVfj5TCfe2aTx+x3MUfS+hf+SrleRNBZslPF
+   IB/8+Deyb+lMqsasmJX9PiXRX1SCjKlIVFsOeL/bpn/6ddK5N81SeuG4d
+   ird3n2j0mJWXMJksBsZSzILfPjjNKcEcApoFRADN4zHG6uhr5hJ4RYTtZ
+   9RAXeE7APubiqdPkCkwx3NSE1cmWhVIA63VMuhP0LyAco8UjeU1mGCBhC
+   A==;
+X-CSE-ConnectionGUID: lk8V/X7BSweqQslC1UgKeg==
+X-CSE-MsgGUID: mSj/p83rS+GjQhLAAwVVIw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17680090"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="17680090"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:51:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="20566636"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Mar 2024 09:51:51 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 09:51:50 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 09:51:50 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 26 Mar 2024 09:51:50 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Mar 2024 09:51:49 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CkNQbOFEyvBStyERZRoNTrvVY6DXbyhsdJhVlo/h/+//V/f8dm+g5l2JnNGjyoBniuLaBb1FxDNbpJH/pZlJR61RxncForjm0ABTCdlJ56mt2SE7cwGQ+o/w90T7tn6XZ98DXpZ6Ll3ldOWYCSXw2voQRvvcMcMgE7ksDp5DCHk0KqPJB+jjH/mQLM/F2N7lHhgVZgOCR5hpXKfc2fSRyDLuVJh4DZnqboaUKBqh4uI8TTpEKvBtIjE0wl/8TjyMMa+55VdS7ucN1OjPhXN8NVRlSj97J/PfXOlbfnucQEfhFYpbx2qUZ5Dd8jcmqzFJ44JSKEsz/QdDNfYBqnRCFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=35AaHKTdhj7eAacatmkcJjnDuTL1JZjHb88E8imxl1A=;
+ b=obB0iBAeKMPHNSf0xPOvtGMG5nHEe0NVg3KVoO+MJknDO7QeP2wLXL2BNHsyupTcOnpXDeRMiHGrysB8SMxlCufPNNMIBDVvP5lnWv/bMkkoLYJSGkfvJzQEa4nDcpr3gUwC8vfw69D/7qipMp7r7LBQfU7QUVV/xJ4tVjff6Yyyi0jdj5+rRupWRUqfGSe4l0/4sT5Z57n5lUhweXW6bQ3y1TbvJk+ORUCJchOSaKDSGetL0TlC2rrevzKYz9uVQKV8kq6gM5S+btttfxQ4xkXOTFUK5tYSmRf5Wi3fsQIk+qPCABYrK8zYA237wbQqXUIbvGXEjOqo0Dk0dpfRVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by DS7PR11MB6062.namprd11.prod.outlook.com (2603:10b6:8:75::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Tue, 26 Mar
+ 2024 16:51:47 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::82fd:75df:40d7:ed71]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::82fd:75df:40d7:ed71%4]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
+ 16:51:47 +0000
+Date: Tue, 26 Mar 2024 09:51:45 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>,
+	<peterz@infradead.org>, <torvalds@linux-foundation.org>
+CC: Bjorn Helgaas <bhelgaas@google.com>, Ira Weiny <ira.weiny@intel.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Jesse Brandeburg
+	<jesse.brandeburg@intel.com>, Ilpo =?iso-8859-1?Q?J=E4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>,
+	<linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<gregkh@linuxfoundation.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] cleanup: Add usage and style documentation
+Message-ID: <6602fd2119101_4a98a29474@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
+ <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
+ <8734sd0zwf.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <8734sd0zwf.fsf@meer.lwn.net>
+X-ClientProxiedBy: MW4PR03CA0345.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::20) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-kms-hdmi-connector-state-v11-28-c5680ffcf261@kernel.org>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
-In-Reply-To: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
- Sebastian Wick <sebastian.wick@redhat.com>, 
- =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
- Sui Jingfeng <sui.jingfeng@linux.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7646; i=mripard@kernel.org;
- h=from:subject:message-id; bh=eEPyi+V16nvjclf/voEHwBjK6nhE99gO0L+a8Zgq6s8=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlMb7ILio8drGsKCTFha87fIJGU/9d2/4rVpVv2Lqvb9
- fVYeuT5jqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjARjhLG+ropWyb0PJ7/deHO
- XUJ/fz6MXya5NfpWbMj0x7F3P0dMX2k2LU5o8tS66sbouB/J3D2sNowNuzmt9gQnXYrgn8//s90
- +Ren1qmW3JhpE105myFL8erehtaf/Xe6H+vJjHme3fo5P0c8DAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DS7PR11MB6062:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gLiwp3/95KPeZK0bT4B8CYqkClmHk1sQuMQybzbKn3nyW8r2wdv7F2t6I/T+VYe9UtO7Zuj3fiEJKtj4p1ly13BQ01oKmd/hpTDMs+lSNZwJbWhY4xNqwxt52yuNBFN/zzRGdBqashOnEB1SsDxBvfEVICcqJgC3LAi1XZWszYoGFUcdAvZD3ZkpzX+Cy7Wu1/f78DjxcRSz0Cmc4VHsmw39VYdXVqkJCaarElA/s7JzRg308R0uRiM6nvGRC9WOctVmpPdi/GPSdgTJXcAJ3qJNF2RpH/vOOug807C2RO0Q+2M+OgDwdBfYd7TPItbgoAGu41lmM4oWXfTTboIVVZnPnCqj5+LWtjGxtfDQ3KURCNtKp6wLoeH7hEcHxl+SJ0IA9shYThCxo8UU8X412eod74/OctjK42Uq0zYVwLROnC7rU9+RQT0+1kaI9H+KIw5hn3Xl11pJZ7GhLWla5HzBZUVri0YjD1FEwscb7i2Yr22CrlZFihLDR9DIrRFzV8HfQ9YRqAhOCMbAOIUL+3+PlVTqQYnel0f5//ltvJCTeF8bVH0DW1954zcMuIG8LgDQTnbN9Uhon4lAbcGPbdRYUbW1L8hYD1eex0kjeK6mGoB7YiKe9pV4h3blNHaIRBmlTW97zybxMRygvO55IFItUUqetRt75+MDfl5HSBc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O7wva1KGfZ/IzUbYWqeTkEKrHkuFuj8AHIvQf8Z4mLQ0CVDK51Dqq6ZiCNl1?=
+ =?us-ascii?Q?qsdZyJbE4AWJyMOnNcBALEcmNzZh8MD6ijHycx2NSC47k5nBcFLoKNw9oAiz?=
+ =?us-ascii?Q?umn/Xxm03jiOa0j7CKDlx3wr+c7LHh2tsW0IIn7m5mLRCdsGvS1XzmVp7wr1?=
+ =?us-ascii?Q?w2Q/AXwyc5sMX1X6CUt7rDhfprbAvxjVvybuoGQ6NlVVfWLN/W0jRpjc7+b0?=
+ =?us-ascii?Q?ZgvYwYvfCPiIU1IwpEsNO+Tfiu4EZDTx6sOHMUWfhuGZSz6HO5ObFAlq8ZbY?=
+ =?us-ascii?Q?a3EBQL9lAOOiioIqtnkYuZ0VRM4xZXvHr/icZe6vU4kJJfGRYpwWqKErVq7U?=
+ =?us-ascii?Q?4sS3U3D4XcYZ0w5sdiZcNqepx90HoypjRVBC5bJ5JuRPh9VDM38ENcPi1+a0?=
+ =?us-ascii?Q?+kWBqD+zaPx6TN9a+dmIosbXqSxGqqA72V746P1nkK7pfabqDE6HFcEp2p05?=
+ =?us-ascii?Q?bf7faPR5/ri8OaVP230zUcksG0hJ2+uM+eB1/zOqtzC/bxQFozg3n1tYYKQ2?=
+ =?us-ascii?Q?M9YkApfpnxtAbMqz5RVlpjggT7YAqoqGDBzyjWjRFc/CfeRiAz7QZqmWXTBZ?=
+ =?us-ascii?Q?mpGeHEBu4UwRD8P22oiIUfe8QhVYtNEzcTjOVaaOKRdtFFn4dSkagefb2WgR?=
+ =?us-ascii?Q?ybUaA1ikOwVadFD7WdDsB8nrAohZW9cdaEMVXqcrvQNuiOAGVrE7hREqqOxd?=
+ =?us-ascii?Q?MHXWR8yHoK9Z9dqsN0SZJQiHp7e+d2JAyu+j+mPgrbf43Rf1E6cAmmCh9A7+?=
+ =?us-ascii?Q?kqFwKLCWEpCpaXP8ck7jMTpPTVFvmipYKpThkIEXioUQM8IgZbDGcdbpUSlx?=
+ =?us-ascii?Q?na5FZTTyxxrPtof8ZoqS4HSpJERhpkFDf3jNXb9OLxQ/4owg5kB/tpvkcy52?=
+ =?us-ascii?Q?w1yhGpQibiw06+/C9a7SFUs7OnINe0gz3+z2haVFYM3V6CiOq4PskpUGINdf?=
+ =?us-ascii?Q?rmkyySTIq54sEiL2N0lqpC1NYqd8zTxARKYEtNYwvrx2CV7JoyDvvekxfW4V?=
+ =?us-ascii?Q?AYkdzVtnWGNL82/TKxcDyrfwCYjfA1aN9pWaQvrZ4AZ9yk+yR1KURua8nx1Z?=
+ =?us-ascii?Q?lQTUN3xHW1L4MptcFk1+zev3S6ezn1Z5+d+LzvFMKow9AZoJpnzdMeu9g/qC?=
+ =?us-ascii?Q?6aOlYH1s4WVEXC6/6j6j9kp57Z7JcNjpuWYM9BGf4n5IKr7Rqra7EPFyHvsJ?=
+ =?us-ascii?Q?DeseHM9s6U+RuW/n2v1nlunwDbc42zqzviyTcUDeCTDsAaZRZUGSIv2ex0Q+?=
+ =?us-ascii?Q?JH5VSDkLQaWtulnFwcoiUVKL3zLgiRYZeQreJc4Q1pvhK3tw/NieJb4RaTts?=
+ =?us-ascii?Q?YVDoeaGEtU9jytLdTQTfIMbX1sWFgYKwEvd1BanMfXdur7m1oj0Qk8AnulLM?=
+ =?us-ascii?Q?13mB3csQv8vybRAF6HDRHtRjJA6r38MJl8gglCtUYwt1hlSs93NyHkSchY09?=
+ =?us-ascii?Q?2414ny3qBuqcEFE5yL+BtN5lnLBW3a7ca2Nas3qov/IPU57TSAJRoarBM/7j?=
+ =?us-ascii?Q?TxOCDmGWgMoDia4910obEhq8BU4hwPEgzgBpdKxyXLyMCFOi/lpoZ6Tqmv9H?=
+ =?us-ascii?Q?0uQsXlGnBv440POfP7ys4UlQEYRSNmiLkdsdCBn0/tq9jRG8qeiYlDhhKM1W?=
+ =?us-ascii?Q?3g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3d47697-5f05-44dd-7017-08dc4db50699
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 16:51:47.6793
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ew/2mQjSRFVSdU8vZgGUjTePpZdfgWE+Fw4eZO2djCvba7kp4/vyikNgwEmnS7giVfL18rWdmUMq3jfWS+5hxMgnKe5quxi9o/v+VU+/Dhg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6062
+X-OriginatorOrg: intel.com
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+Jonathan Corbet wrote:
+> One little nit...
+> 
+> Dan Williams <dan.j.williams@intel.com> writes:
+> 
+> > + * The DEFINE_FREE() macro can arrange for PCI device references to be
+> > + * dropped when the associated variable goes out of scope:
+> > + *
+> > + * ::
+> > + *
+> 
+> This can be written a bit more concisely as:
+> 
+>  ...goes out of scope::
+> 
+> without the separate "::" line, reducing the markup noise a bit more.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/Kconfig          |  1 +
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 2 files changed, 52 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 4741d9f6544c..cef3af4bd3a6 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -16,10 +16,11 @@ config DRM_SUN4I
- if DRM_SUN4I
- 
- config DRM_SUN4I_HDMI
- 	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
- 	depends on ARM || COMPILE_TEST
-+	depends on DRM_HDMI_STATE_HELPER
- 	default DRM_SUN4I
- 	help
- 	  Choose this option if you have an Allwinner A10/A10s/A20/A31
- 	  SoC with an HDMI controller.
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2d1880c61b50..7ac085aa0a35 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -35,34 +35,28 @@
- 	container_of_const(e, struct sun4i_hdmi, encoder)
- 
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- 			       struct drm_atomic_state *state)
- {
-@@ -81,18 +75,22 @@ static void sun4i_hdmi_disable(struct drm_encoder *encoder,
- static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 			      struct drm_atomic_state *state)
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
- 	       hdmi->base + SUN4I_HDMI_UNKNOWN_REG);
- 
-@@ -141,11 +139,12 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	writel(val, hdmi->base + SUN4I_HDMI_VID_TIMING_POL_REG);
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
- 
- 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
-@@ -194,23 +193,26 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	struct drm_crtc_state *crtc_state = crtc->state;
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
- 	return 0;
- }
- 
- static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
- {
- 	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-@@ -252,10 +254,15 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
- 	.get_modes	= sun4i_hdmi_get_modes,
- };
-@@ -273,15 +280,21 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	}
- 
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
- 
- #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
-@@ -636,14 +649,23 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	       hdmi->base + SUN4I_HDMI_CEC);
- #endif
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
- 		goto err_cleanup_connector;
- 	}
-
--- 
-2.44.0
-
+Oh, nice! Today I learned...
