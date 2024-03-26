@@ -1,101 +1,182 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AA8A95B
-	for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 17:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711474740; cv=none; b=klA5UvUn2hW7Ww+vFNwtv14afdRjW9aZIVVTsROXtPfRrHbmYrFQucGuFnw36gg9mlAEEo9aoalTAGoEPsnzZ/7VrpLe8QjL76p44uQomwUHaj6RyXWYIT229bWzMv0qNCZCNifaXD8k7cYXhCL9qPf8fW9Qwu0kq9w/T2BqS5c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711474740; c=relaxed/simple;
-	bh=RkMqsqMl/8pbtsdTRymHWUTrdO2uDbYpPaYDtVtHmxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zg/b+4rn3Y8g2e4YRg+sgFnlaqTkXrfMYGT0vze+ddjqW2UyVjmwmNwUnXtnlVnvw/xkID5xtWYeVDAlh/RaP3oIvVM87rdyye7F9Bszvsxb+obTlXsvVdC2j/r+WKogSpJrXMLf0eQxR8mPNKpSIlRrTjgrD4IgOmmXZlHfvNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y/P5DeFy; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE44C1F94D;
+	Tue, 26 Mar 2024 17:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711475404; cv=fail; b=dCvbgF1m8H2P2plSDqxmfFrIuNRW8nlIgSJlZwXUrTbzAwoYkz+pFm/I3X97iXGQr4QTcYI7zjIKrZb2yT0CBUf4z/4PspHA+i/CW6etoUrqqUpqIcywwbQJS23aQkOEh/jg45lPi/01iiDDKospQKHj5hlyVLVFV8WoE5ZjG0g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711475404; c=relaxed/simple;
+	bh=4svh+RFKEhDaPDI07ZX5meCuwYI6/tLK0wMGTPB2QlM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=hTpIXgGdh2mlKvW5FtM84VtQrTa5LfwLGxiHw2fHzqeyPwyXdnUFBmavCCq+tfNFVyztdoIpbTyZ0j+ketteXQYaMEDMcqBqVLO2swpiCkDHUXhqp/HxxnDiqrtnh/OILc/dtngvpPfFkOh2j3jJO8oPZLV4jz9xq01X/zRG1Os=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igTYoeg3; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y/P5DeFy"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-414925ba76eso1454075e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 10:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711474737; x=1712079537; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uyyvz7Zn89bx8n+axjIp24t+La/hYrrfvCgqBrWX/A8=;
-        b=Y/P5DeFy8GH5343J+iMYluazh+elG8YnfwjA2Y0C58aOhgZHtSnkzBrYNaRYP35wNg
-         AjEFgArJJR0mAXr+gTFrLZOUAeuiaRsSrvvXB+8bJKibOzrQdwWer8oAsrVfvecdWWvR
-         FIf5JvtB3YC4Rz7f+zIh38cFMqudZ6aXMerWnMlDU/vYhpIz80zqaC6//+0GznpBUSCB
-         FVJdF8zpdmTiYLmbNPoIx7zaqpljD23VxO7YmRmklcA9OSI0yB3mMPo/Wpg2hWQFXioK
-         UaS8K6pSY4gZr5OkeeuvH1dVFd42BGvhukpTSEdjShCH+oTYNr1qQr7LJhs/lImzeuBf
-         ywlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711474737; x=1712079537;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Uyyvz7Zn89bx8n+axjIp24t+La/hYrrfvCgqBrWX/A8=;
-        b=V2idgq0As+yFXg5oM/CAccxsIH1HELrGyf7qkmf67YPjvPnFV6sk+8J0BQjPcmx3XZ
-         kQyNyYR4zupg0lSwDSZ5p8qkWpfaP5cZOmBP9fVz/5mf0QtF8y61VS5PkBvtUwjbB2wn
-         /4BK1iAhfNc4GvX4QyntAtG5xwcDp4WARtNXgB51aVvFgIHugCRWq0ZtdOWYg7L+xD2z
-         hyQufDb7AGrxaWOZ1g86GdWUUNssND/+9bf8biiZU1hgkfLBgFTmSkTsazEMEHEmcbLJ
-         4QAwkCpYPMaTsytkZ7RHfm0cn2Iaig/iWklJ4Rz8zIPJixJYzFiLW8vv0Hk82cXDV25W
-         1rog==
-X-Forwarded-Encrypted: i=1; AJvYcCXJdw9fnyxM8rn2gvT0RzLr6RbXod5iWe/eLRCBOnB5hVkOK++YO2djBe0EiqQ6cVzCrFqBK0yPds3OYlO6yExHShcPXSncQWxt
-X-Gm-Message-State: AOJu0Yye7200932VPmo5ZBGoa40atzGWqTdtGLc04Z3R5hbe1sIY1cXg
-	Dsb26kGi+UvSS/54qgW2nHgNso0T26qe21Q27ZyBZy+3u+59QKSN
-X-Google-Smtp-Source: AGHT+IFAeRMk+NjG06BaUY+yyhqW0dMINIDS8n56vUPGK+XLr/gGyZXgMVBQJ8tAA8+WzAZSJZnkcg==
-X-Received: by 2002:a05:600c:4506:b0:414:924b:a279 with SMTP id t6-20020a05600c450600b00414924ba279mr400032wmo.18.1711474737405;
-        Tue, 26 Mar 2024 10:38:57 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:e486:aac9:8397:25ce])
-        by smtp.gmail.com with ESMTPSA id l21-20020a05600c4f1500b004148ab95c36sm5652969wmq.41.2024.03.26.10.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 10:38:57 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: donald.hunter@redhat.com,
-	Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH docs-next v1] docs: Fix bitfield handling in kernel-doc
-Date: Tue, 26 Mar 2024 17:38:25 +0000
-Message-ID: <20240326173825.99190-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igTYoeg3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711475403; x=1743011403;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=4svh+RFKEhDaPDI07ZX5meCuwYI6/tLK0wMGTPB2QlM=;
+  b=igTYoeg37LoOXNiqyuqFEVHXVGsTniYWfdLaXNBa/v3T7Nh4soHI5rwb
+   qJzCRjyGv/ojpHHOkKK++s+wk0A9xrtDx7uYQtgKsFW1QvjVLB0uWnJW7
+   /T987Wg2dhmeeA70NhxlsSx9OsWoj8LdifyRqKBZqhWuE/COS8KdjsHX1
+   w40H7XYmldpho3y/V5fvboAQzY0iZ1INSO+G74tdsAdMWgSw/962l9zfn
+   p5NZxThBEUbGy23sgaZQe8EoZgVCGaW1HLjb0QXkB5uqLlbHj4QVFlKMB
+   Iv7oiHzTMTnmL/d7/DlLSl0ymO22LXcwDU4d1MRzheu/Owxbuu/D3+ECr
+   g==;
+X-CSE-ConnectionGUID: QHyV5AdtTdyS9r2j/ayXcA==
+X-CSE-MsgGUID: OOM9RffjTDO1dwUSK5Yqhg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6676803"
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="6676803"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 10:50:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,156,1708416000"; 
+   d="scan'208";a="16683147"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Mar 2024 10:50:02 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 10:50:01 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 10:50:01 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 26 Mar 2024 10:50:01 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Mar 2024 10:50:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NxMeXpaC2EZuHJ6e5f3JVWWa3fZpbzLzL8patWDxeic3/lPk9Voffv9TP3+cMiF8O4x0fWOmU02R0RhS+UqOyYCSNe8Zgnlv7eES5xPOSfDZw+cuGG0VQMpCVxLrPZ3Qj4quqGbKZ3hMDCTVSJKYdV2lMusaNI4+XH7BXCrhDHK3BvaTnJD96Ihr4sRllQRPfzrnSRKmScjJieAo/Leg2VDsfWMKMJo3RNHkfgdreNF1K1quNclE5Gx9uv+OMzqrfiTAWeYCFYOt2FRFzB+Hd4McG9Cgb6+144wbHPgUdTfd0L0duSOVpLMNqimorlowRIJVFjP2HC4D3Za6pWQCUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X5Exa5qEpMMD/KikgXzektXUbYnUa70WoS8DF4iZaPk=;
+ b=SOAruFQLgmDfQq/P6RBpn1u8OXLr1ArBRBnoGf/oxLnwpi7wXpmgeksF4z8ynSrcmTV/JMwUd9Jqp8K/cUkzVaijEvUiZd2k4NPbgolVuU/o9Yx+tRW3qqqJROPx4sjnu1kIkQx/+j2vruDZvry5o2aXiq5+BLPIoyjo+4GHxY6k5ZeBvB1wcmJh8jxVl2Wiq/0p530RgtZhTt1KMAMe7ObY2PpF7vDLSVuCaxL94s9CoULZgSIvDyKDF+jTSsbPdV7k0hNwsMGt6r/bSfQ6Lk4suTmu8ZcD1LIWtduE3ihep/fxw9hyoyeG0G5uRq+lhiKCChW9dOAFp4N9SaGTFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by IA1PR11MB7776.namprd11.prod.outlook.com (2603:10b6:208:3f9::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Tue, 26 Mar
+ 2024 17:49:57 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::82fd:75df:40d7:ed71]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::82fd:75df:40d7:ed71%4]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
+ 17:49:56 +0000
+Date: Tue, 26 Mar 2024 10:49:53 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, <peterz@infradead.org>,
+	<torvalds@linux-foundation.org>
+CC: Bjorn Helgaas <bhelgaas@google.com>, Ira Weiny <ira.weiny@intel.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Jesse Brandeburg
+	<jesse.brandeburg@intel.com>, Ilpo =?iso-8859-1?Q?J=E4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>, "Jonathan
+ Corbet" <corbet@lwn.net>, <linux-pci@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2] cleanup: Add usage and style documentation
+Message-ID: <66030ac1e78fd_4a98a29415@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
+ <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
+X-ClientProxiedBy: MW4PR04CA0249.namprd04.prod.outlook.com
+ (2603:10b6:303:88::14) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|IA1PR11MB7776:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WG2xiGtIV4WZecIe60wBJY0HmEWJEd/EEd5q1zY5p9K6tHVBizy5O+EPp3n64GuAfzu6ELF9e9Yd7R59o7iKxODKHU9Gq4dAGtGrbsN7WP7OHnESyloumi78A2LdtHE1Oz9NutCQ7HIqnutrPsb1ufyEcBQeGY65blL8ahJx5GtpBh/afoKwk6x1jnyg1D23c2BpXQ1hpHkCSH5a4SD62LkdCgJS2MLqm2vt9+cMqEaarmf5YobycaXoXvkx1OKqDPx6KKIikgzUpltQc4+8X75lTfnC1WVz4n0n2J8wMDomNzt7rYBmITHbNEWvC7dBtJLs+gK5TMG1PGGnypVIv3xJ58QLUcHxd935EJFvPB+PCBl+VPoDcH0F7MjLikpHiD0kq/LqBhSU7AfQDccF5oQqO2wRc8pDZswVe7z+zNX4YcGCN90FQdLl4VcIGaYKO4OHvGT/4ITBYCErxWaAlTMeXNcHs5oE0hZedquN7Xf8gCynPCE9StxGZg8vxeVCrpxTjWGJ1jAwt5Atvb24rWxqlVRe3rK1uaDmX0TcsbZ5bOq4I75fM8U1WIWxZ3P/9idjYDQxdU/vUKtqM7KKXiCLp0pmeTzIm6tzztHdIzdfD1AFvkcdVKbkPmFR6NDN7ff71qeGriG8zSnESGb9HIniv9vYDWAJT8O/fIdFPiU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(7416005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+5wbbaNK3IJOmvKGHkNKc4mxxhcoV2KFdM3R04XK7WoESydSX45+QMATQ10l?=
+ =?us-ascii?Q?+lBsJfFS86N7nFthp5/BPKmrn4Eu6RCSRmNmFo7VKUfg9RHomZEGBcOjcgNC?=
+ =?us-ascii?Q?Syxc+euLlgq/s9m8tIeTOXcJOaYLidsPSzFG4GOwC3MApl0Fd8fOudriVOUz?=
+ =?us-ascii?Q?7mtiiblaSGD0YIyxtlS5YszyEeTMYBAZ5OjfUGyPmLPHQWF9C2CTGreuL2le?=
+ =?us-ascii?Q?npYJJbTV4+OemqcrlHwRmfF/gfqAWonXo0OILLWDT+e6XT/bs9nKULjREkho?=
+ =?us-ascii?Q?jeh3orb4SosCEPl1+4omCh1zAxN2xrnGaxw5pqbh3cl0djV+gwPdtvt6ckD0?=
+ =?us-ascii?Q?q38XVlOx+TGolXEUh3z0lzrLVkE9VJWvRKeUll4en6QrTvK0QTHXBjnljDA3?=
+ =?us-ascii?Q?2RP4g6o1i9ON5sNaUjcjgqWC5gszDGtIJtk40W0djOnKJVEVEHkYSKI09h3f?=
+ =?us-ascii?Q?MUfcDjMkE+zJHLSflqJRM6XBEfWZkau/VIWDCZ4HU8PT2aojxiNRnin3yh9X?=
+ =?us-ascii?Q?9bwKipUswxP28k861qsZk0dHbmdopvmrHAQbn9KqirDUj3zhbVpEay9gfZNc?=
+ =?us-ascii?Q?5wl8SIQtSEYp0V8K6WJ2byYAIiowrocM4BlyLdw6/UjNp156dXriwSKmwbW1?=
+ =?us-ascii?Q?4KmwFXexM6RPvmv2yw6NFfuZB0yTGntFGo5auF38Pys/0YfipOYkN0HyMNc+?=
+ =?us-ascii?Q?6JPsWOvoQeyJem33oiwRaPakPJdHHAwy7p3eOa64amwH57PO2RD3UM2EStOr?=
+ =?us-ascii?Q?dEvofz4cijZakTPUhATG+UM89xTKljhDydejtRUMg69PT4r8qLb2gxm1w68p?=
+ =?us-ascii?Q?nH48pqFNhWcXFWscidpDVrf9UFC4Fs271F3SgG+gdon+FxTY0q+EtZypMB1p?=
+ =?us-ascii?Q?+Cc6d8qEs/W+0+Ja/O0ztCdxb3Rs6KGdZvxnmsPYeH7BqBHg9OndNiFCFnva?=
+ =?us-ascii?Q?iBqQ+5e8Md0OkkW1JGY2xz3A5CbKd7Vg/7A5Q5Hiy7g2CauMEnjswnlQ6w25?=
+ =?us-ascii?Q?lmEhytKAAaODzV9nmWKG1dUNLe9InKhaLX898hiRNHxYO4BJLcHfHtngDi0R?=
+ =?us-ascii?Q?n4OR8JptYpx/ItNFCuNZJYEj3ATmx3UV5FChxQ//CuHj/eA2eq0NzKi5Y/EL?=
+ =?us-ascii?Q?XJZGKShESqKOgva4w/fC3GhX7rGGYBEGuumzQPHV66WP5m5TymXUOPkmX5Fl?=
+ =?us-ascii?Q?SNd3tTsRYuBuDnPLuiLZph0DR6WHlT8B48rH2GdWRPDDjcifi98Xls2b77m2?=
+ =?us-ascii?Q?/8+tleKzrf4GUz061Gx5Jsr44Kj15N9q4lUPCL7DEdHP+Nt3TfQwIMYl6+Ev?=
+ =?us-ascii?Q?OW+j5fYpjeJzQ987PA+yTHP4X6asuVukY7AHGL8QLg4OpJvU/6W7dL26QUTY?=
+ =?us-ascii?Q?rKqWCYu4ht1bAwTEkuxlrT+a11AuqjbpGuqpbWazAlteRt3iLPRZc2PW8IUP?=
+ =?us-ascii?Q?UdrgTmxUI+Pzx5wZMLjh3kE556vPqfrP11aQDnbOnmHpKlqL+onPSE6Uqsie?=
+ =?us-ascii?Q?1hO9qdOwR8muT8YGAQ0GcrHGA3n8hI9eAAVaqleSS8KJGfSkpUog93O4SQ1J?=
+ =?us-ascii?Q?o3CkSY8Ma3ppc1vQ7Pj6CdGGwcLRFmY3kWLuSzrBUNu3cCsrVQAhNOj++Nnh?=
+ =?us-ascii?Q?ag=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c7b82d6-3e8d-4939-b3f8-08dc4dbd2637
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 17:49:56.7299
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mYQk/NcuLwChcvJHuTQCcicWxOYj2Ia+m3Z9AIPnrJvNdxXVPF9gAXSZbTgzpTKb+ZqXnN35lBFdq9jMbZDZXEg+45fBG3AdYdD9ksIutAI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7776
+X-OriginatorOrg: intel.com
 
-kernel-doc doesn't handle bitfields that are specified with symbolic
-name, e.g. u32 cs_index_mask : SPI_CS_CNT_MAX
+Dan Williams wrote:
+[..]
+> diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
+> index c2d09bc4f976..8ef2d91c2cbf 100644
+> --- a/include/linux/cleanup.h
+> +++ b/include/linux/cleanup.h
+[..]
+> + * When the unwind order matters it requires that variables be defined
+> + * mid-function scope rather than at the top of the file.  Take the
+> + * following example and notice the bug highlighted by "!!":
+> + *
+> + * ::
+> + *
+> + *	LIST_HEAD(list);
+> + *	DEFINE_MUTEX(lock);
+> + *
+> + *	struct object {
+> + *	        struct list_head node;
+> + *	};
+> + *
+> + *	static struct object *alloc_add(void)
+> + *	{
+> + *	        struct object *obj;
+> + *
+> + *	        lockdep_assert_held(&lock);
+> + *	        obj = kfree(sizeof(*obj), GFP_KERNEL);
 
-This results in the following warnings when running `make htmldocs`:
-
-include/linux/spi/spi.h:246: warning: Function parameter or struct member 'cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_device'
-include/linux/spi/spi.h:246: warning: Excess struct member 'cs_index_mask' description in 'spi_device'
-
-Update the regexp for bitfields to accept all word chars, not just
-digits.
-
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 967f1abb0edb..cb1be22afc65 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1541,7 +1541,7 @@ sub create_parameterlist($$$$) {
-                     save_struct_actual($2);
- 
-                     push_parameter($2, "$type $1", $arg, $file, $declaration_name);
--                } elsif ($param =~ m/(.*?):(\d+)/) {
-+                } elsif ($param =~ m/(.*?):(\w+)/) {
-                     if ($type ne "") { # skip unnamed bit-fields
-                         save_struct_actual($1);
-                         push_parameter($1, "$type:$2", $arg, $file, $declaration_name)
--- 
-2.44.0
-
+This should be kzalloc(), and I should note that this example is of the
+UNTESTED variety.
