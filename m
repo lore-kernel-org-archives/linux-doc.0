@@ -1,76 +1,132 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9357513CC79;
-	Tue, 26 Mar 2024 15:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0113C811;
+	Tue, 26 Mar 2024 15:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711467346; cv=none; b=lj1NjNFTwp/rl3h56yQPzoq/wLOVJaQajz56cEWo7H55sGz1zgmxlG5DncP1KHZgb855TwPdnmfq2kzz+Tak6Txv+bYEb18IIH4x/iCKSArvTbQbNvVhz3gyvcFlH0Q7T8nXm7kPdPr7jxPuJUoLYKhkoDmXydv4C3JAX+m9Prg=
+	t=1711467570; cv=none; b=NJEZKcOXEcaDAeo8ii3NKjTGKW1LqngaGlrxBIgn8L2Qj3p4uHVxkTX4lOEdbRSvTtMocrkYymNjqguBRfC3pG/HwKFtyK94Yl44gn2uk+VR3jiQnV1HyQGsOSkRU55H8dijHFzazozQ9YKM5jIaTDdMN8jJV88iUYC/jbP/Jp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711467346; c=relaxed/simple;
-	bh=cpbePfHGBKTWOTvvus/3XrPd8U/PqtNlq98UXTNxgtc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gehvnzHc4+1qTVJV6wuqwzyjonQabq7jTaDii8oRNZF7ACvUNaTYbZR2LozeQt8pcD7KAQmxGbiRIggJ9qlG1Ks55FJjbcLiWRBNGViDZmLf+ZTT1qo8JVkdKQYot+TH6WHmpZOvXAyUDOQ/boofeao4Hw7qUUYrl9vjqBHXlDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FFvn4P5i; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1711467570; c=relaxed/simple;
+	bh=9rqG/D6nJZt9xV642EDHpT17xx73w2B042VnTlDF79Q=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=EKfAZLmZ9mbE8fhVoHs/YTv0/yP4Fdg1m9o8K+LJ+dXILTVyh49CHjXc8rAxxePg6q8gGPIV+eb8FuuGd/vIMm1REnKPuYHTAcVpO+zKQ2SgXe66ACgS11FrPPUE9tDe+89DcNzgu6KGnQ7eXKv5VUU3BT6d9o7MFYPy2TnvabM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K784zjZM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FFvn4P5i"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3B44047AA3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1711467336; bh=cpbePfHGBKTWOTvvus/3XrPd8U/PqtNlq98UXTNxgtc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FFvn4P5iUGFV/C84IYrDeszQ3l4X72UHM7BHMKC4XcgtG2N2QFnXn6xdz0VAqxRNV
-	 Emf24AR4aL0OrPrXsmrgJ6afMPpl3nOT6W+g4eCOIq1Zb49xxCQfd0ZPOR7F+HeUsB
-	 cszy1ZEszzufBkmfeD58hXM6Y1PQwAVM8L/JbuH3uljqBmQG1i/t4fu4czw9AASV1+
-	 tP3xaIaLK7HMDBQYt7UYjixP6/QkqTyb1P82r4FZdhCFrnxysGhznSXe++ZIzncHOp
-	 HhyJBHmAYmO5JH6rjBTuz2Y8F0E14H4E6waBB9ouTuV6DyZbC4z0RnJ11jbDgu4k23
-	 9uOORglGwpt9w==
-Received: from localhost (unknown [205.220.129.20])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3B44047AA3;
-	Tue, 26 Mar 2024 15:35:35 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dan Williams <dan.j.williams@intel.com>, peterz@infradead.org,
- torvalds@linux-foundation.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Ilpo =?utf-8?Q?J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] cleanup: Add usage and style documentation
-In-Reply-To: <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
-References: <171097196970.1011049.9726486429680041876.stgit@dwillia2-xfh.jf.intel.com>
- <171140738438.1574931.15717256954707430472.stgit@dwillia2-xfh.jf.intel.com>
-Date: Tue, 26 Mar 2024 09:35:28 -0600
-Message-ID: <8734sd0zwf.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K784zjZM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A5FC433F1;
+	Tue, 26 Mar 2024 15:39:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711467569;
+	bh=9rqG/D6nJZt9xV642EDHpT17xx73w2B042VnTlDF79Q=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=K784zjZMCJ6ZkKOl/E9Uu9VbJN9Yh6iAbY5bErnZlt5SdvFlaG5ouyiBfeR4p0MCw
+	 Fr0oWD41SDT96GwQBnNXPifTtQsjMOOZ2TwtzYkdaO9EIBM2EQIMfifwueBXexvscX
+	 5RxRpdGjmo82Jp3DTAVyjd6QOaO3sqcsiWMB8FkmNdTToa6eek5XwoOfB20m/N6yKT
+	 JAPUnGYCto3cUrhUXFUEVsAP3tEnvKNhqfff5yXwZVjQxQjyQOOklVyfwwP57FjC6v
+	 quQCD9xj+Z3SKpdVJVYsQ5KoNOA53+wQZ2nM5E0XA+fKqsyYNbQPt0srQwIL7+cn46
+	 AXSV/7rLpi9Qw==
+Date: Tue, 26 Mar 2024 10:39:28 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+From: Rob Herring <robh@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: devicetree@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Dent Project <dentproject@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Russell King <linux@armlinux.org.uk>, Conor Dooley <conor+dt@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russ Weight <russ.weight@linux.dev>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, Paolo Abeni <pabeni@redhat.com>, 
+ Mark Brown <broonie@kernel.org>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Eric Dumazet <edumazet@google.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, linux-kernel@vger.kernel.org
+In-Reply-To: <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
+Message-Id: <171146756753.2253156.218733720090104400.robh@kernel.org>
+Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add
+ another way of describing several PSE PIs
 
-One little nit...
 
-Dan Williams <dan.j.williams@intel.com> writes:
+On Tue, 26 Mar 2024 15:04:48 +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> PSE PI setup may encompass multiple PSE controllers or auxiliary circuits
+> that collectively manage power delivery to one Ethernet port.
+> Such configurations might support a range of PoE standards and require
+> the capability to dynamically configure power delivery based on the
+> operational mode (e.g., PoE2 versus PoE4) or specific requirements of
+> connected devices. In these instances, a dedicated PSE PI node becomes
+> essential for accurately documenting the system architecture. This node
+> would serve to detail the interactions between different PSE controllers,
+> the support for various PoE modes, and any additional logic required to
+> coordinate power delivery across the network infrastructure.
+> 
+> The old usage of "#pse-cells" is unsuficient as it carries only the PSE PI
+> index information.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
+> 
+> Changes in v3:
+> - New patch
+> 
+> Changes in v4:
+> - Remove $def
+> - Fix pairset-names item list
+> - Upgrade few properties description
+> - Update the commit message
+> 
+> Changes in v5:
+> - Fix yamllint error.
+> - Replace underscore by dash in properties names.
+> - Add polarity-supported property.
+> 
+> Changes in v6:
+> - Reorder the pairset pinout table documentation to shrink the lines size.
+> - Remove pairset and polarity as required fields.
+> - Add vpwr-supply regulator supply.
+> ---
+>  .../bindings/net/pse-pd/pse-controller.yaml        | 102 ++++++++++++++++++++-
+>  1 file changed, 99 insertions(+), 3 deletions(-)
+> 
 
-> + * The DEFINE_FREE() macro can arrange for PCI device references to be
-> + * dropped when the associated variable goes out of scope:
-> + *
-> + * ::
-> + *
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-This can be written a bit more concisely as:
+yamllint warnings/errors:
 
- ...goes out of scope::
+dtschema/dtc warnings/errors:
 
-without the separate "::" line, reducing the markup noise a bit more.
 
-Thanks,
+doc reference errors (make refcheckdocs):
+Warning: Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml references a file that doesn't exist: Documentation/networking/pse-pd/pse-pi.rst
+Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml: Documentation/networking/pse-pd/pse-pi.rst
 
-jon
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
