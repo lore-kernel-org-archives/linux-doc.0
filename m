@@ -1,403 +1,159 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117734A32;
-	Wed, 27 Mar 2024 00:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289C61B7E9
+	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 01:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711499954; cv=none; b=RyNI8OalWyDoyfUjo0kIUXgczQGimrc0oD3whX6gXwOaFcLUDFiA+T9lEPLsqz4eiNDamNq3mJt8Id1MHt2cELDp8Vg0aQh+0jH3z4H0CiAOoLJMhw66d0EThgdlQR+MtTSddaWL2i0efwOKIKAZe3QoNJ1NJ3QdSpTCX94563g=
+	t=1711503379; cv=none; b=ma2axK1/0t6GutQhmJxoffeRx5Npzj997a+b7tUIAYGT4a4u7vK5y+EEyeGmh7qrz3UVjkoKLMtOpFd2grBs+LWH/l9mB43bWUYMDD8wwh8PKMWrHFNoplEDwaZMwXjYiUszRfhzI7evpYqsdxeOgH1O2TxRULa533on9/Flqiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711499954; c=relaxed/simple;
-	bh=lM4O1qCIEDxEUxFxG3e/eyhm3l0cH5kZrKl+PEHoY9Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fngoa88N03vZE7ce5DMrjGKw69hgi4Zz0rvaLy8FVUr/agF2UjgLiemiolU8pmaHXRu9cFoX0fh2RpWfmXyZWvStfzLP00IjTB8q1MmXLfoEHeTCCtqLTAPX9FkZ+HzvtAgyaD0f0mvs9eN/GHOIufp9S6JoCuO7CF4zrwBxhS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R829kLYe; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1711503379; c=relaxed/simple;
+	bh=ECemb7/KX8BGFyghPRdr8JHojkYBtQzWD/1aRhBEX7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GSH5ACsxaongvr9TY7j8tN9sJ6Z/UmxJMO+v4EnIHMaV5Q851AEwxYxBZn2W/X6o1lvxSy8kflJ220HlP69LTvoUQ7L3v4WI6WR2qw0N+74u/zEdVaP9UBNGxh9VFS16eO27Bilfly4x0wqbz4ZAWVeKMN1eW8ZQrHW29D5pUOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a3Vcsn3I; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R829kLYe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=kP7WIHOLdzRBQLDrSBJg7izGME+taO/PS6KcXmTaXmA=; b=R829kLYeWxuVRhP3F0l8AK+syA
-	QEH63rPSjU6cE1tUB9vjg/Zru7XGKlHCkGm8UnDZX0WWN4TnXIdlJ0WCiZCc+zozmDKQaebeG8Otb
-	gyunQb5eOnepRvGutL7gjpRAwHFlsqdcqclVFqMr0vyZtopr7+xwWtqWjgaV+MjqFp3U22BjiB+yN
-	hrpvRXIBaXs6tGlDTkTeW+IsWa74VNkZ1lsNunvW7tDimQkfGk1/En8lmoBA8qAVdcqWFJak4HC1p
-	Ae3ZKaz7OrrcZMT5MuKSGX2sdsKSw7PSfpqxR0fKH0RYWoRot45laQOJq0wpX92gC9AGw0DJ8tZEp
-	qhN43EZQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpHJc-00000006zwt-3DsR;
-	Wed, 27 Mar 2024 00:38:52 +0000
-Message-ID: <b448a180-b43d-435d-9444-60b1163deeed@infradead.org>
-Date: Tue, 26 Mar 2024 17:38:47 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a3Vcsn3I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711503376;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=iYPTOunHLd/Diy0hNlVVbA0CQwtG77CQYjtLHeiLuNo=;
+	b=a3Vcsn3IuXOb7EfQw9qO9vcpx3cN8XzdNQJcbi1x2nZnzz0GoHU7CyFUQ1yLPvLCWVM37j
+	HaEYX564naueVb52ArTskcHipf3HF30xQNQd9USg/D1SBYnDw8F20qoV4PigtdPfkj48hv
+	tzbmZQI4FHDRrL394RtpCPdb5znq+BM=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-694-2UW3C1AWPF6-pPJxZMCaKA-1; Tue, 26 Mar 2024 21:36:14 -0400
+X-MC-Unique: 2UW3C1AWPF6-pPJxZMCaKA-1
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-69695434a2aso20525186d6.3
+        for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 18:36:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711503374; x=1712108174;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iYPTOunHLd/Diy0hNlVVbA0CQwtG77CQYjtLHeiLuNo=;
+        b=Q4ouD2E1Cz0F7uQMIXt17o2aMQVvL5Yaz4vGm/Nq+OApafxb+SS7t1D3H26IC10MHs
+         Loy6UaukzJLs1yt/ixTFhoD/fJ7kwkt5wpL5D8a6YgLAcBdDR1tbYAaeGFrb8Dp2VyHF
+         6vRwTsXv0Fk41V4hz6rfa2gLzBZcmsIgwXIDVtgJFYNK78bz+aEvG6TNs1pU6oCNLPpx
+         MNenFJ8Y0NB+5AN6Z5bUqfowesKxAXND5ZkKHH9A/3NrAqewRKhzsjiOBJ5Q9SQHc6uM
+         0EPfK3CG195MvFCtTxQCbusT2u3wc1Z2mMmQfBAAo/5yYkvurZfdFic9S0Nl1vgjZLr3
+         4TAg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4huSrbpTYR7CikFiHCGCR8Jvy+3xl9cjBI7LIyim2MypmtGTZ0UYV/Oos/ee6SL154SvpO0nduMH/8wEzPJwY6DVMxzFURTaV
+X-Gm-Message-State: AOJu0YwvMa6WzvwS9iuBbNcKT7+esLOnEdDSt5nzyYlwBHvpk+nMfClK
+	IO1vZlB6gUR46t8YZA7j+n2a+wKPx2N3JfZCM1JLzTk7DaxMw+MSq+lWMeNRaw7k7XqBel55lJ1
+	pn3A5dZzWIpVqLfz1vnD2DE8O8BcRFLDR8wmi0pdkGsrUUgCIhAPcmEkvPw==
+X-Received: by 2002:a05:6214:e6c:b0:690:b3a3:2261 with SMTP id jz12-20020a0562140e6c00b00690b3a32261mr2857119qvb.53.1711503374032;
+        Tue, 26 Mar 2024 18:36:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHhUP8icqSJJoJYHIjBdnpMjQxvYXH/YAk6xTmiVd4FaN0LmOOpbpBO3pJH1Xwh2Qag7NMJiA==
+X-Received: by 2002:a05:6214:e6c:b0:690:b3a3:2261 with SMTP id jz12-20020a0562140e6c00b00690b3a32261mr2857103qvb.53.1711503373718;
+        Tue, 26 Mar 2024 18:36:13 -0700 (PDT)
+Received: from LeoBras.redhat.com ([2804:1b3:a801:90ea:8d3f:e47:b819:941d])
+        by smtp.gmail.com with ESMTPSA id x11-20020ad4458b000000b00696a47179a1sm819669qvu.14.2024.03.26.18.36.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 18:36:12 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: Helen Koike <helen.koike@collabora.com>,
+	Leonardo Bras <leobras@redhat.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v1 1/1] gitlab-ci: Let project define runner using environment variables
+Date: Tue, 26 Mar 2024 22:30:54 -0300
+Message-ID: <20240327013055.139494-2-leobras@redhat.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v7 13/14] net: add devmem TCP documentation
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
- Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240326225048.785801-1-almasrymina@google.com>
- <20240326225048.785801-14-almasrymina@google.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240326225048.785801-14-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Currently it's not possible to select which runner will handle a pipeline
+without changing the codebase.
 
-On 3/26/24 15:50, Mina Almasry wrote:
-> Add documentation outlining the usage and details of devmem TCP.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> v7:
-> - Applied docs suggestions (Jakub).
-> 
-> v2:
-> 
-> - Missing spdx (simon)
-> - add to index.rst (simon)
-> 
-> ---
->  Documentation/networking/devmem.rst | 256 ++++++++++++++++++++++++++++
->  Documentation/networking/index.rst  |   1 +
->  2 files changed, 257 insertions(+)
->  create mode 100644 Documentation/networking/devmem.rst
-> 
-> diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
-> new file mode 100644
-> index 000000000000..b0899e8e9e83
-> --- /dev/null
-> +++ b/Documentation/networking/devmem.rst
-> @@ -0,0 +1,256 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================
-> +Device Memory TCP
-> +=================
-> +
-> +
-> +Intro
-> +=====
-> +
-> +Device memory TCP (devmem TCP) enables receiving data directly into device
-> +memory (dmabuf). The feature is currently implemented for TCP sockets.
-> +
-> +
-> +Opportunity
-> +-----------
-> +
-> +A large number of data transfers have device memory as the source and/or
-> +destination. Accelerators drastically increased the prevalence of such
-> +transfers.  Some examples include:
-> +
-> +- Distributed training, where ML accelerators, such as GPUs on different hosts,
-> +  exchange data.
-> +
-> +- Distributed raw block storage applications transfer large amounts of data with
-> +  remote SSDs, much of this data does not require host processing.
+Add CI_TAGS environment variable, which can be used to select a runner
+either from a commit message, or directly from Gitlab interface.
 
-            SSDs. Much
+Also add Documentation for this variable.
 
-> +
-> +Typically the Device-to-Device data transfers the network are implemented as the
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+---
 
-                                                 in the network
-?
+This patch goes on top on a previous patchset sent by Helen:
+https://lore.kernel.org/all/20240228225527.1052240-1-helen.koike@collabora.com/
 
-> +following low level operations: Device-to-Host copy, Host-to-Host network
+With this patch I could run CI with gitlab.com runners, by setting
+CI_TAGS=saas-linux-medium-amd64 
 
-             low-level
+The result of this pipeline can be seen in:
+https://gitlab.com/linux-kernel/linux/-/pipelines/1228999646
 
-> +transfer, and Host-to-Device copy.
-> +
-> +The flow involving host copies is suboptimal, especially for bulk data transfers,
-> +and can put significant strains on system resources such as host memory
-> +bandwidth and PCIe bandwidth.
-> +
-> +Devmem TCP optimizes this use case by implementing socket APIs that enable
-> +the user to receive incoming network packets directly into device memory.
-> +
-> +Packet payloads go directly from the NIC to device memory.
-> +
-> +Packet headers go to host memory and are processed by the TCP/IP stack
-> +normally. The NIC must support header split to achieve this.
-> +
-> +Advantages:
-> +
-> +- Alleviate host memory bandwidth pressure, compared to existing
-> +  network-transfer + device-copy semantics.
-> +
-> +- Alleviate PCIe bandwidth pressure, by limiting data transfer to the lowest
-> +  level of the PCIe tree, compared to traditional path which sends data through
+ Documentation/ci/gitlab-ci/gitlab-ci.rst | 5 +++++
+ ci/gitlab-ci/yml/gitlab-ci.yml           | 2 ++
+ 2 files changed, 7 insertions(+)
 
-                                      to the
-
-> +  the root complex.
-> +
-> +
-> +More Info
-> +---------
-> +
-> +  slides, video
-> +    https://netdevconf.org/0x17/sessions/talk/device-memory-tcp.html
-> +
-> +  patchset
-> +    [RFC PATCH v6 00/12] Device Memory TCP
-> +    https://lore.kernel.org/netdev/20240305020153.2787423-1-almasrymina@google.com/
-> +
-> +
-> +Interface
-> +=========
-> +
-> +Example
-> +-------
-> +
-> +tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
-> +the RX path of this API.
-> +
-> +NIC Setup
-> +---------
-> +
-> +Header split, flow steering, & RSS are required features for devmem TCP.
-> +
-> +Header split is used to split incoming packets into a header buffer in host
-> +memory, and a payload buffer in device memory.
-> +
-> +Flow steering & RSS are used to ensure that only flows targeting devmem land on> +RX queue bound to devmem.
-
-   an RX queue
-?
-
-> +
-> +Enable header split & flow steering::
-> +
-> +	# enable header split
-> +	ethtool -G eth1 tcp-data-split on
-> +
-> +
-> +	# enable flow steering
-> +	ethtool -K eth1 ntuple on
-> +
-> +Configure RSS to steer all traffic away from the target RX queue (queue 15 in
-> +this example)::
-> +
-> +	ethtool --set-rxfh-indir eth1 equal 15
-> +
-> +
-> +The user must bind a dmabuf to any number of RX queues on a given NIC using
-> +netlink API::
-
-   the netlink API::
-
-> +
-> +	/* Bind dmabuf to NIC RX queue 15 */
-> +	struct netdev_queue *queues;
-> +	queues = malloc(sizeof(*queues) * 1);
-> +
-> +	queues[0]._present.type = 1;
-> +	queues[0]._present.idx = 1;
-> +	queues[0].type = NETDEV_RX_QUEUE_TYPE_RX;
-> +	queues[0].idx = 15;
-> +
-> +	*ys = ynl_sock_create(&ynl_netdev_family, &yerr);
-> +
-> +	req = netdev_bind_rx_req_alloc();
-> +	netdev_bind_rx_req_set_ifindex(req, 1 /* ifindex */);
-> +	netdev_bind_rx_req_set_dmabuf_fd(req, dmabuf_fd);
-> +	__netdev_bind_rx_req_set_queues(req, queues, n_queue_index);
-> +
-> +	rsp = netdev_bind_rx(*ys, req);
-> +
-> +	dmabuf_id = rsp->dmabuf_id;
-> +
-> +
-> +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
-> +that has been bound.
-> +
-> +Socket Setup
-> +------------
-> +
-> +The socket must be flow steering to the dmabuf bound RX queue::
-
-                      flow steered
-?
-
-> +
-> +	ethtool -N eth1 flow-type tcp4 ... queue 15,
-> +
-> +
-> +Receiving data
-> +--------------
-> +
-> +The user application must signal to the kernel that it is capable of receiving
-> +devmem data by passing the MSG_SOCK_DEVMEM flag to recvmsg::
-> +
-> +	ret = recvmsg(fd, &msg, MSG_SOCK_DEVMEM);
-> +
-> +Applications that do not specify the MSG_SOCK_DEVMEM flag will receive an EFAULT
-> +on devmem data.
-> +
-> +Devmem data is received directly into the dmabuf bound to the NIC in 'NIC
-> +Setup', and the kernel signals such to the user via the SCM_DEVMEM_* cmsgs::
-> +
-> +		for (cm = CMSG_FIRSTHDR(&msg); cm; cm = CMSG_NXTHDR(&msg, cm)) {
-> +			if (cm->cmsg_level != SOL_SOCKET ||
-> +				(cm->cmsg_type != SCM_DEVMEM_DMABUF &&
-> +				 cm->cmsg_type != SCM_DEVMEM_LINEAR))
-> +				continue;
-> +
-> +			dmabuf_cmsg = (struct dmabuf_cmsg *)CMSG_DATA(cm);
-> +
-> +			if (cm->cmsg_type == SCM_DEVMEM_DMABUF) {
-> +				/* Frag landed in dmabuf.
-> +				 *
-> +				 * dmabuf_cmsg->dmabuf_id is the dmabuf the
-> +				 * frag landed on.
-> +				 *
-> +				 * dmabuf_cmsg->frag_offset is the offset into
-> +				 * the dmabuf where the frag starts.
-> +				 *
-> +				 * dmabuf_cmsg->frag_size is the size of the
-> +				 * frag.
-> +				 *
-> +				 * dmabuf_cmsg->frag_token is a token used to
-> +				 * refer to this frag for later freeing.
-> +				 */
-> +
-> +				struct dmabuf_token token;
-> +				token.token_start = dmabuf_cmsg->frag_token;
-> +				token.token_count = 1;
-> +				continue;
-> +			}
-> +
-> +			if (cm->cmsg_type == SCM_DEVMEM_LINEAR)
-> +				/* Frag landed in linear buffer.
-> +				 *
-> +				 * dmabuf_cmsg->frag_size is the size of the
-> +				 * frag.
-> +				 */
-> +				continue;
-> +
-> +		}
-> +
-> +Applications may receive 2 cmsgs:
-> +
-> +- SCM_DEVMEM_DMABUF: this indicates the fragment landed in the dmabuf indicated
-> +  by dmabuf_id.
-> +
-> +- SCM_DEVMEM_LINEAR: this indicates the fragment landed in the linear buffer.
-> +  This typically happens when the NIC is unable to split the packet at the
-> +  header boundary, such that part (or all) of the payload landed in host
-> +  memory.
-> +
-> +Applications may receive no SO_DEVMEM_* cmsgs. That indicates non-devmem,
-> +regular TCP data that landed on an RX queue not bound to a dmabuf.
-> +
-> +
-> +Freeing frags
-> +-------------
-> +
-> +Frags received via SCM_DEVMEM_DMABUF are pinned by the kernel while the user
-> +processes the frag. The user must return the frag to the kernel via
-> +SO_DEVMEM_DONTNEED::
-> +
-> +	ret = setsockopt(client_fd, SOL_SOCKET, SO_DEVMEM_DONTNEED, &token,
-> +			 sizeof(token));
-> +
-> +The user must ensure the tokens are returned to the kernel in a timely manner.
-> +Failure to do so will exhaust the limited dmabuf that is bound to the RX queue
-> +and will lead to packet drops.
-> +
-> +
-> +Implementation & Caveats
-> +========================
-> +
-> +Unreadable skbs
-> +---------------
-> +
-> +Devmem payloads are inaccessible to the kernel processing the packets. This
-> +results in a few quirks for payloads of devmem skbs:
-> +
-> +- Loopback is not functional. Loopback relies on copying the payload, which is
-> +  not possible with devmem skbs.
-> +
-> +- Software checksum calculation fails.
-> +
-> +- TCP Dump and bpf can't access devmem packet payloads.
-> +
-> +
-> +Testing
-> +=======
-> +
-> +More realistic example code can be found in the kernel source under
-> +tools/testing/selftests/net/ncdevmem.c
-> +
-> +ncdevmem is a devmem TCP netcat. It works very similarly to netcat, but
-> +receives data directly into a udmabuf.
-> +
-> +To run ncdevmem, you need to run it a server on the machine under test, and you
-
-                                    it on a server
-
-> +need to run netcat on a peer to provide the TX data.
-> +
-> +ncdevmem has a validation mode as well that expects a repeating pattern of
-> +incoming data and validates it as such::
-> +
-> +	# On server:
-> +	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-> +		 -p 5201 -v 7
-> +
-> +	# On client:
-> +	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-> +		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
-
-
+diff --git a/Documentation/ci/gitlab-ci/gitlab-ci.rst b/Documentation/ci/gitlab-ci/gitlab-ci.rst
+index 4f7ef03cca95..18360da835bd 100644
+--- a/Documentation/ci/gitlab-ci/gitlab-ci.rst
++++ b/Documentation/ci/gitlab-ci/gitlab-ci.rst
+@@ -304,20 +304,25 @@ Description of Each Variable
+ **KCI_CHECKPATCH_OPTIONS**
+     Used in `checkpatch.pl "$KCI_CHECKPATCH_OPTIONS"` (see checkpatch
+     documentation). It is commonly used with the --ignore flag to suppress
+     specific warnings generated by checkpatch.pl. It can also be defined in the
+     commit message, since it is evaluated in run time.
+ 
+ **KCI_PATCH_SERIES_SIZE**
+     Used to define the size of the patch series, see `job: checkpatch` section
+     above. It is evaluated in run time, and can be set in the commit message.
+ 
++**CI_TAGS**
++    Used to help choose which runner will deal with the current pipeline.
++    If using Gitlab.com runners, set saas-linux-medium-amd64 or a better runner
++    so there is enough resources to build & commit the base image.
++
+ .. _triggering-pipelines-from-command-line:
+ 
+ Triggering Pipelines from Command Line
+ --------------------------------------
+ 
+ Pipelines can be triggered from the command line with custom variables using the
+ `GitLab CLI tool <https://docs.gitlab.com/ee/editor_extensions/gitlab_cli>`_.
+ 
+ Example:
+ 
+diff --git a/ci/gitlab-ci/yml/gitlab-ci.yml b/ci/gitlab-ci/yml/gitlab-ci.yml
+index 57b9c0290471..359b7715e3ab 100644
+--- a/ci/gitlab-ci/yml/gitlab-ci.yml
++++ b/ci/gitlab-ci/yml/gitlab-ci.yml
+@@ -33,20 +33,22 @@ workflow:
+     - if: $FORCE_CI == 'true'
+ 
+ variables:
+   FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where to look for cached images
+     # ccache builds in gitlab-runner to speed up builds
+   SMATCH_DB_DIR: /smatch/smatch_data
+   # exit code of bash script on `script` will be the exit code of the job
+   FF_USE_NEW_BASH_EVAL_STRATEGY: "true"
+ 
+ default:
++  tags:
++    - $CI_TAGS
+   artifacts:
+     paths:
+       - artifacts/
+     when: always
+ 
+ include:
+   - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/ci-fairy.yml'
+   - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/debian.yml'
+ 
+   - ci/gitlab-ci/yml/kernel-combinations.yml
 -- 
-#Randy
+2.44.0
+
