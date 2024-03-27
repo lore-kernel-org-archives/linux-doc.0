@@ -1,151 +1,202 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C842512F5B4;
-	Wed, 27 Mar 2024 14:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711550714; cv=none; b=LW+Ge+8EVItjxYnYmiR+kRXajXm8zSlOC2+dHYVEqQCl95jHJ52TAYHxn9q/HCt0JOnj+J9mAzEhjtrPD4MfcAT2Ktu6ONSTHMJzlXObqzWwzZUYm7xepNgjAAoJQFYV15OhwCWCyvHnxrnagUO+x8Vjuv9GO58wgCpF20vKeSA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711550714; c=relaxed/simple;
-	bh=G6ZV58zkX33Obd5w85Utc6DxXzyUWVj1uIRJ4W5Xwao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MoRm/Y3zK99feljTAilGfv8Ri0R77HspDOGW7/Xf7wgbIjAM1+Foevr1nZeJPtaerjO0q6oRLEhONDAu9v4I+KKoui04h4i4ZFDepJJL6JV/Qloj9i/eWKhN9hBvtR4hONW5XwuPFYO0rfmK8tDWQlZ9tLiGqE2VC0CLyM7Bilw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhsGwOJZ; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045E4130481
+	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 14:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711550750; cv=fail; b=PfCwdC11hClueIvGpz0eeKkYqMkBrDEBEsNZw/PhzJKtVk681ap50jqmtfkM/GyTCtm03TBH8Gv5lQS0kgbKardjrOTLTeiLqKiGb151UfbPQAZ5jtC9BOanmw2jBNQeKs09qj1icprCrayzKu0jMnbcxRtt9UcgeYIoSeOJdFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711550750; c=relaxed/simple;
+	bh=/r09anTNOTtTmOW6nUZ5b54gPyKK9cw7TRGJsgfcvxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JonpOsKLLPd1+9x4sG3oP1AFMTf2K2X6TNrS0Qz2TgNHcsOR5wd2cMbYBe+SP3PuQ5AfzDw260mfNkqAGfn4rV4+udXZfmeuxwICaWGCYS74b3TGqTLPfYD0Koy5wFGAQhp+A00YZUWE3aWPpn3xYClg6Kh7YGasQC78QeeXgO8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CgQcGqw4; arc=fail smtp.client-ip=40.107.244.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhsGwOJZ"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-22215ccbafeso3298504fac.0;
-        Wed, 27 Mar 2024 07:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711550712; x=1712155512; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wnV36qdnlfNuyZS7uSndjgNOhrMaNYjde0YXgs5g7cc=;
-        b=NhsGwOJZZl0/rznnBHHcNZa0YZ13i6Gv9Gn7nBNeNZza0f/HhWwi0h/jR6sqGuQvBc
-         GeAv6hR2bzjK21dRRXXn8oEP+gfaIGK7YGF/igjAvOrF0EW+pOxe2RI+rJDYP0lcT0y7
-         Fg4inW0KPMB3DYJ0Eoz8+jaBxqdH5tS27PJOk/YVs160S3W/FFSsqoAtQUG6irc/pQr4
-         HirGACH2qIKUtqRqewAdZyke/odSN1jHLz8AWU63KOPvFFpT+JoAlUf6NfgeTHNXFBw2
-         qKdjXpnV/vOf+Dlc0TnP0Z/dkIFF6boHHSe9Pdp7aWOawBxkKoatEgPv+oRbyy20D6IH
-         waHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711550712; x=1712155512;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wnV36qdnlfNuyZS7uSndjgNOhrMaNYjde0YXgs5g7cc=;
-        b=TBRNdOxfK+gRImUVP0oZoxIVj/2yw0lTpGvpU5mm+132IzdjOEomTajsZHdNj3U3wq
-         EzkEea+pRGVc58EiCdy8CQAeXVAGzh/P8r6VMLpIungR8cwVqIXKc9gnuYX35MGpo3n1
-         rgmCePygHUL7U/dEc62HZrNPJbFrd8Q1uxE8IAzcM1evIBdDU+4mJkuS6XNhdUSQzDZG
-         asXYko5XecXkUW75bO8EAyITXlng3TQI8YzBmsgzTF4QoJBi7WT6GAmwQCOu+WqDxOZh
-         gPtAHQFkrfXxd/ZhmhJ2q34UsDKn7IRIK2ypVTWlayeEsoTryiEqcCfBByHuXmO5FX/U
-         bSwg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9sU77PNN2GgWVq0TUZM8hX0oLdkArts42L/gkHVyJbRcFCJbdlnjb9V3U8w+zdQCv6LtinoZ42Jko4IMW+lKQPRrvLg/Z0xfQImmriFBgoOZIiW4TcWoSJrKpM67dpU003B3GxcRJv2T9p5WvU7rKoWbIBJmFX+WvTzgNym5b
-X-Gm-Message-State: AOJu0YxaaXM27uL4k86P68LSawqkZPoojyhRtg+9MrKUJfi5miWfVX3B
-	dlxunCTtvOd4NJbNpf1uJaIWM7c/X/teNdsC708LrneWV0XF2eYLZ0DLYUTj
-X-Google-Smtp-Source: AGHT+IEkWkV4lUpvnsYu7XLudbEd8vmyWcxUpYjFmWonSSskQrRN0x5sPtw6hSk+bBCwA8ltYgeINQ==
-X-Received: by 2002:a05:6870:1c8:b0:229:f61d:7e52 with SMTP id n8-20020a05687001c800b00229f61d7e52mr6908575oad.34.1711550711899;
-        Wed, 27 Mar 2024 07:45:11 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id fj11-20020a056a003a0b00b006eab7ca005esm3808785pfb.18.2024.03.27.07.45.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 07:45:11 -0700 (PDT)
-Message-ID: <8ce05c2d-eb0d-4c30-8e1e-eaf22528779e@gmail.com>
-Date: Wed, 27 Mar 2024 23:45:07 +0900
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CgQcGqw4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A+pCWtva8zMwdlB3wRytKi1MUDAGavMKSROmkcmmSzmnpMiXNQrdgZZTRFRJJ0VmHc1qYBZS7gj1GDs0W2fM15+soE8qHC/8AfPz2e+ui1LgDFZDYH5ZbtiCjagKqM6qUWRFa55YZ/wZLWYCeS+V2BjOmqsRQWpw7xVvVY+a1k/wq58kitpImYHfknsEyBWAdcAneAUR2r3fC4HPxM7PPzUk45csWrHcbwdyRHUm6neSFQwRUnsLeENY511llFYEB425X8UA8OE9h8C2hoi7/+Jn6StkcJW0zV32ORUwzKav3TlIJJzN7chamJN1jj27fKo2fc7Z2cL1OeCWyu6clw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q3C8A2Q4nkOmHQzEBwik36Mc9iYPMcOMlBNXuzUGSgY=;
+ b=h3iYapKTldGsOVuAashMI54CGlEic9piKHy6g2CCf89WHP4jfOaO4bQS1tNohO2ijLhVp6FruUu6sOTHPNNNsLNH06H6p/JrAoMKHrBOkvsrK2t/1YTXVdQg/ZXtyX/Zf/uJX7sAfa6jHAcd2cDDiilohJd6jjvoBayRtcIZSJ7EHSRtxcM8C35A+34Tb920ifVcDf2V+s6BBEm4dcgAkcHVUUazULKylXqIAM1ByNM2qEilkomIeGwlOhchZSSycm83uVt8hQDiSZVkD3LUHCKBrDqA8XSDTDdziZ95qvpABTIZTrXZ0BSXbxa2FYwxaWyWu9zrRiFZgXXHizKLLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q3C8A2Q4nkOmHQzEBwik36Mc9iYPMcOMlBNXuzUGSgY=;
+ b=CgQcGqw4cFSn39Zfp8zswLxswKhbxTbhFBL5WooNrpws7553LOOzkVPFKZqJQXMo02f9ZpAQizMBfxZNP0RVTTYo0DJZx97IkztlhHQFzQhQP8EET8seqYVK+aYEJ0tzDNQVgbQ4hU6wZSfA8VFajf2YujUdU+8Gfn19OLhYkjPu8Ltr5v2SagvC3mE3a9giAPfDp5DF2aAKW7s8kB0Q17DLAoPGakAXIfOwI6BXNqC70nn3egVudlEMYm2xBkNRAlcDstoocSBHUBDbtsBB+5tcmiQjQIrPgFsjq+ZlbZXBtYUaDkVrZBCDXvvmfP71K48lAMG7Mad6wzuCMcbUvQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB5744.namprd12.prod.outlook.com (2603:10b6:8:73::18) by
+ CH0PR12MB8580.namprd12.prod.outlook.com (2603:10b6:610:192::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.32; Wed, 27 Mar 2024 14:45:45 +0000
+Received: from DS7PR12MB5744.namprd12.prod.outlook.com
+ ([fe80::dc5c:2cf1:d5f5:9753]) by DS7PR12MB5744.namprd12.prod.outlook.com
+ ([fe80::dc5c:2cf1:d5f5:9753%6]) with mapi id 15.20.7409.031; Wed, 27 Mar 2024
+ 14:45:45 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, willy@infradead.org,
+ Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
+ David Hildenbrand <david@redhat.com>, Oscar Salvador <osalvador@suse.de>,
+ Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Baolin Wang <baolin.wang@linux.alibaba.com>
+Subject: Re: [PATCH 2/6] mm: memory_hotplug: use more folio in
+ do_migrate_range()
+Date: Wed, 27 Mar 2024 10:45:42 -0400
+X-Mailer: MailMate (1.14r6028)
+Message-ID: <01BB19DC-3807-4954-A04A-55518301B6BA@nvidia.com>
+In-Reply-To: <20240327141034.3712697-3-wangkefeng.wang@huawei.com>
+References: <20240327141034.3712697-1-wangkefeng.wang@huawei.com>
+ <20240327141034.3712697-3-wangkefeng.wang@huawei.com>
+Content-Type: multipart/signed;
+ boundary="=_MailMate_8846AEFD-544C-45A3-BB14-BB4D5F4ECDB4_=";
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+X-ClientProxiedBy: BL1PR13CA0062.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::7) To DS7PR12MB5744.namprd12.prod.outlook.com
+ (2603:10b6:8:73::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: FAILED: Patch "docs: Makefile: Add dependency to $(YNL_INDEX) for
- targets other than htmldocs" failed to apply to 6.7-stable tree
-To: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
-Cc: Thorsten Blum <thorsten.blum@toblux.com>, Breno Leitao
- <leitao@debian.org>, Jakub Kicinski <kuba@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240327120842.2826444-1-sashal@kernel.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240327120842.2826444-1-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB5744:EE_|CH0PR12MB8580:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c0a0ada-73b6-40ce-274a-08dc4e6c957e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	WTnSR8Nj2sgE0ZvmiBjhTK96C5SrAcNlnwHTLjVmGTHo+NuyJS3RwqyXAOaCLSZ6TksG2AR0aOaKJD4P1KQp44du9JjI+rv0092zvLEIfKv41kVXEB03glEKZMh9RuIxPyRyseUiU04wGcMrT+haZTCMKPa52E6whJ+w5jG6kiAR+kotIVu7TV1SSFTw6gC3b+T/3Ejae4VvbKmAR9UD0oNwbAd5PATCtb7BPlq5OTmGbzMomEb/LfPqPQ9D4wCVQrEuqot6S/NzDKcb0OhjgSRNd9jmCI6axAOoCNA23GMNWUKX3R2Zvr6S/0+xtCv0j4kruRkc7b+UDzGIl4jP1O7CNc0NRwpx2yPQKW1QV2POfEw5Twhfg3G4dYHrF/z06LPnBJGIqLKiWDToq/epI+Y5nVlyS+ZR2P+NiZyApwRdW84Auj7nydQwQbP5i7k9RmagRHlU4jyi9sYDcnzRM9qXE4234DGm5Im9qb0iCXOcU0ZplFnyu3tW9U7OtFNg9u0XM2hxDJrG5v3Z7eamqdRTxM6EYj6zEQMTQLpInDqUGy6d51ZcNIHgWvNfZHzuPq9dXbpxYXBPExytLwzqTqxOMP1owJckRYe8q6hxvMBiSotCZyzJ751OEjnlhmKHTU6+p8mOEDUCyZ38Ca5EIw9CDGHVsSqXfUkyWdWbxmw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB5744.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?D4w+KPP3Nc5pp+YeVakWMVeOJkzTGtwS8vZqmKmSykevWKp30nq1NJ7LeaLC?=
+ =?us-ascii?Q?9/4DiXl9NUGnQeBnLHojdAq5TnPBrBFS8+thKHkyDnRAsz//lNsCw1RAZyLq?=
+ =?us-ascii?Q?68iTCSDhFGJDbB+BzFHE5Q7b2LHltakFzRLCVsQ1giu5dhllVL8UX5jpV+lh?=
+ =?us-ascii?Q?B7vvteA75ZBYXjt3EnXcrvSp0xkJ1cmi8UpD18yWetFLAJMXlaxWcay/xkqf?=
+ =?us-ascii?Q?ocC5PrlTsMLZnQAYY78fC2dWbtPDer7trIkbaQ0btvh04CgMglvbqMardsiB?=
+ =?us-ascii?Q?Kj6sSGWXxXRtj1givSKMo3KOWv/p/QiPiHmGeNEYBCu7x0nyqCLYx3217y7g?=
+ =?us-ascii?Q?wpyxfm/4CLhyPqY93s50sPcgMRsr5KbBJhi+I9S6LWLCjR8roFsED5LhUODf?=
+ =?us-ascii?Q?0bBiEB888sZjG+Dj6n4g5V/R0g7iPQjmbj4EYYjLr99OaQTsuP5TLMDl4N9r?=
+ =?us-ascii?Q?RtnoxEJK+qNFyBbMouBVeoyIkDz09KqxJ9wT3f+CxZTqWvSAPumCDbQgSPXE?=
+ =?us-ascii?Q?oWhcrbxRFyjlvBJ4DnBqWM1WgGCtWrjrOZq7KuThMdWcTllZ6YAd2dXAuvhP?=
+ =?us-ascii?Q?8CV6lJRuExLJURHIXDZe4jf8LyffD48x56hIj8hHLsVTaoneRX+pUm11TRUX?=
+ =?us-ascii?Q?QftP673KT/+svWhKrvdEl7MQ/kDj9qr5cgKk4g0jIRaebcnfhuBYESpYEssr?=
+ =?us-ascii?Q?oNmquSXJIPCbW6+FPmfHRYkXVgX8QLY2uVdhRNlZD2NrazJrwK0SMkDSU0pE?=
+ =?us-ascii?Q?NOMfOS9hDjEdIQdgF7Ife31As8KzVWbN+ygXqy5K93aPLBrQj6kRQ+FF+91k?=
+ =?us-ascii?Q?VGLJQl0o8ygpB/bo+H0NLQ29fIJg8ltxhzuYn6fOVJLA/bBfPkJx7epktCLe?=
+ =?us-ascii?Q?NQi7LOjauEs7e7a7gaqFMamft0wVVjMEehe1DKxcxQJrCvgrWO+TWAIcdbNP?=
+ =?us-ascii?Q?DUQEou0CrbASMUZEL6l81+f+8huKo9w5qIXys+ZPesdRoM/BOh9U5TvAeVVa?=
+ =?us-ascii?Q?jeui7yCnMjyGvD8+RCmWRSlHRqw5Fg+tTVHqswypk6MoBrfecImucfQEs6BM?=
+ =?us-ascii?Q?FJQGpPPdcdE5T3D2WTrA9zg3QC+ljSlSXj7gGY/0AjQnxz7/l4Fx6bkALehO?=
+ =?us-ascii?Q?mVVUDEEYYEIeLWr3soQ2PrD7rK7mVfNg2rMymrl9jOtLgvq+wuirrQMvmRMu?=
+ =?us-ascii?Q?Hfg3DamxQ1/+s/DPx53viTA3ZcQMrcvhFnsVN73S0X9vBgRGryRki3AetUrF?=
+ =?us-ascii?Q?yP4IOVUxkp+XVPgScce0NBkwka/BGNLxb5AcLYHGi+1wSVcjmEAp2kZ6rdOh?=
+ =?us-ascii?Q?2gtUandkgfr4MEUkY9RnxR3n+vNbs01KWjldr5mJDjNz4bEp85cyF0NXCLaN?=
+ =?us-ascii?Q?N6JhFFvbeQ8xKVPyzwewP4xlSa8VOHHdZvgGGu//xCR1+1C0e85B2wJCVcm7?=
+ =?us-ascii?Q?gRkeqSX0L07NQLNuoVGW33DK8pDSefcUJxbWoqd8oYpTP85QThh4aj5uXOyV?=
+ =?us-ascii?Q?gvojCd+fSkuh39kCFaIG+HfSX6VLfofs1ebVF7vL/91odkqDV//HAhVHLHKd?=
+ =?us-ascii?Q?lXzLf9SFfNCIRSZNv7X+F1pF5bgzTpJYzL4PiTlH?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c0a0ada-73b6-40ce-274a-08dc4e6c957e
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB5744.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 14:45:45.2307
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BIghuvn+nkFuE7jzthcB3tgSfFe3QsBNPR9eEcUz/o4EgK5Lc1nsC6qgeGIkU4qg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8580
 
-On Wed, 27 Mar 2024 08:08:42 -0400, Sasha Levin wrote:
-> The patch below does not apply to the 6.7-stable tree.
-> If someone wants it applied there, or to any other stable or longterm
-> tree, then please email the backport, including the original git commit
-> id to <stable@vger.kernel.org>.
-> 
-> Thanks,
-> Sasha
-> 
-> ------------------ original commit in Linus's tree ------------------
-> 
-> From a304fa1d10fcb974c117d391e5b4d34c2baa9a62 Mon Sep 17 00:00:00 2001
-> From: Akira Yokosawa <akiyks@gmail.com>
-> Date: Tue, 5 Mar 2024 13:23:00 +0900
-> Subject: [PATCH] docs: Makefile: Add dependency to $(YNL_INDEX) for targets
->  other than htmldocs
-> 
-> Commit f061c9f7d058 ("Documentation: Document each netlink family")
-> added recipes for YAML -> RST conversion.
-> Then commit 7da8bdbf8f5d ("docs: Makefile: Fix make cleandocs by
-> deleting generated .rst files") made sure those converted .rst files
-> are cleaned by "make cleandocs".
-> 
-> However, they took care of htmldocs build only.
-> 
-> If one of other targets such as latexdocs or epubdocs is built
-> without building htmldocs, missing .rst files can cause additional
-> WARNINGs from sphinx-build as follow:
-> 
->     ./Documentation/userspace-api/netlink/specs.rst:18: WARNING: undefined label: 'specs'
->     ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/rt_link'
->     ./Documentation/userspace-api/netlink/netlink-raw.rst:64: WARNING: unknown document: '../../networking/netlink_spec/tc'
->     ./Documentation/userspace-api/netlink/index.rst:21: WARNING: undefined label: 'specs'
-> 
-> Add dependency to $(YNL_INDEX) for other targets and allow any targets
-> to be built cleanly right after "make cleandocs".
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: stable@vger.kernel.org  # v6.7
+--=_MailMate_8846AEFD-544C-45A3-BB14-BB4D5F4ECDB4_=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-My bad.
+On 27 Mar 2024, at 10:10, Kefeng Wang wrote:
 
-This should have been "# v6.8".
-No need of backport.  Sorry for making the noise.
-
-        Regards, Akira
-
-> Cc: Thorsten Blum <thorsten.blum@toblux.com>
-> Cc: Breno Leitao <leitao@debian.org>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Reviwed-by: Breno Leitao <leitao@debian.org>
-> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-> Message-ID: <e876e3c8-109d-4bc8-9916-05a4bc4ee9ac@gmail.com>
-> ---
->  Documentation/Makefile | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 4479910166fc1..b68f8c816897b 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -111,7 +111,9 @@ $(YNL_INDEX): $(YNL_RST_FILES)
->  $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
->  	$(Q)$(YNL_TOOL) -i $< -o $@
->  
-> -htmldocs: $(YNL_INDEX)
-> +htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
-> +
-> +htmldocs:
->  	@$(srctree)/scripts/sphinx-pre-install --version-check
->  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,html,$(var),,$(var)))
+> With isolate_movable_folio() and folio_isolate_lru(), let's use
+> more folio in do_migrate_range() to save compound_head() calls.
 >
+> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+> ---
+>  mm/memory_hotplug.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index a444e2d7dd2b..bd207772c619 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -1774,14 +1774,14 @@ static int scan_movable_pages(unsigned long sta=
+rt, unsigned long end,
+>
+>  static void do_migrate_range(unsigned long start_pfn, unsigned long en=
+d_pfn)
+>  {
+> +	struct folio *folio;
+>  	unsigned long pfn;
+> -	struct page *page, *head;
+>  	LIST_HEAD(source);
+>  	static DEFINE_RATELIMIT_STATE(migrate_rs, DEFAULT_RATELIMIT_INTERVAL,=
 
+>  				      DEFAULT_RATELIMIT_BURST);
+>
+>  	for (pfn =3D start_pfn; pfn < end_pfn; pfn++) {
+> -		struct folio *folio;
+> +		struct page *page, *head;
+
+You could get rid of head too. It is only used to calculate next pfn,
+so pfn =3D folio_to_pfn(folio) + folio_nr_pages(folio) - 1 would work.
+
+And the PageHuge(page) and PageTransHuge(page) can be simplified, since
+their pfn calculations are the same. Something like:
+
+if (folio_test_large(folio)) {
+	pfn =3D folio_to_pfn(folio) + folio_nr_pages(folio) - 1;
+	if (folio_test_hugetlb(folio)) {
+		isolate_hugetlb(folio, &source);
+		continue;
+	}
+}
+
+
+
+--
+Best Regards,
+Yan, Zi
+
+--=_MailMate_8846AEFD-544C-45A3-BB14-BB4D5F4ECDB4_=
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename=signature.asc
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJDBAEBCgAtFiEE6rR4j8RuQ2XmaZol4n+egRQHKFQFAmYEMRcPHHppeUBudmlk
+aWEuY29tAAoJEOJ/noEUByhUYioP/im7+78vWoZsO5Zj+6Xvk1jOKMtflZvU28up
++0/AOaL1DtwXwBmatX/iMEsp56DF8aE0Lq8GUh2ypCTwj8kZgW7abJbE6q1mXMAi
+wfg2swDzGM1s+3vhJV16xdaf7nMwIJvCgeFX2rL5z7c0SXBYnSyvZ9JBoZRMYoZ5
+X7nCGBg7mwoDK6SYG/tZFGBSPI+e4MGd+5ip9wXnADzFFRFP/9soIVv6j1sZvivc
+aLmvc2/12m0WogHnUlWztmg2aRJzDx9jc0W8rqF6UkMShQ58ZSX5ttxCFGqALYl8
++zUwbelaqtYobnxqFgtxIMvLk8H1AtgJrpDvlb9zQBvdxqis0RzxIV45aLweVi4p
+umA+L44ykJVr8YX4chtyGQ8OvxzOgfWoA4GbsHkD6qz1S6uBunte0O9UlMVi8Y0G
+pobd36Y2zb++jfB5HZeRbOlec/mFQHj8HbMW+mHo0lQqq3UePDC1UNWjcrss6z8M
+nOJA3fRbZhZpwGq8kuHNJbIVpgbXAZpvOsOOM3UZOjfVpYWxR654f0FEBz3h7c0b
+RWi3RIiWQE/+nI0to12Jii/Bjl6TFtA54HXU7xMe1ZHT30Y/CltXuEbJk/ERfoxs
+oUsOWnK8pokI/qNW+5XZ+0BIi1u5pklh7vTzWkXxvlxHw9xGbev/AVaaBCezDkM5
+Xem38M6+
+=0XNw
+-----END PGP SIGNATURE-----
+
+--=_MailMate_8846AEFD-544C-45A3-BB14-BB4D5F4ECDB4_=--
