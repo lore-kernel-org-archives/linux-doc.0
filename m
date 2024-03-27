@@ -1,203 +1,149 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E2B12C80B
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 14:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746A313790B;
+	Wed, 27 Mar 2024 14:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711550212; cv=none; b=rnxxt9ZDGBHgncvdlK2cVY81qSI6IHCLk7sV3kgP/zEIaukI3dZVldfOJVw/oDMgGzcEXzllLohBU/rHB91Wn/YAaE50zB5VRbRdHUnESRD6abYyzkXEaPMjPVp0SFRVmTiVojrcqbCmPEs4i3qgVt0adXhFLriVMHDqwGWRpbk=
+	t=1711550679; cv=none; b=cn/hcHkdh5wc55iITmiodCFijCa7SesZRSDLdNPW8MNp+auiR8HW1Vgm6y97e/a7TUwRKdfnSym79W9Muml26cTMOz89cXMQJJYh2o2H1BWHrAqU0mBOEIeSNJwTltAJgbQXiF1ncb/8WUHLixc398gj4EWJIzsQE2b6BIjDBfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711550212; c=relaxed/simple;
-	bh=G/bmYftSW8RpdjE2Zu6JwyE59Vmeguq3tECqXoFRuKY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DLNU0VW8SaLzKVpehw3WOgsJg8vcPgqBef0ZdVA8FDkh+T1Yf4VDlnqkbUiYUJzSdR6hFfyPEBwF10fHvcPEd03gh1mUCco65OsmmVimyaEVIvxqgUTHD05Svi9gwrpxzRrpfTXACJ4QKXQ7G1lyWy3aQIv6WPlKhXrVgioOy+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4V4Tk16CLmzRjng;
-	Wed, 27 Mar 2024 22:35:53 +0800 (CST)
-Received: from dggpemm100001.china.huawei.com (unknown [7.185.36.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id C248C140258;
-	Wed, 27 Mar 2024 22:36:45 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 27 Mar 2024 22:36:45 +0800
-Message-ID: <d1164a72-ef63-40e6-93fe-4a9149c832cd@huawei.com>
-Date: Wed, 27 Mar 2024 22:36:44 +0800
+	s=arc-20240116; t=1711550679; c=relaxed/simple;
+	bh=YSLGb1GXTxnIIfhyIvC9GwAUZFGWgRDDFdTmlm4yRqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gmwhrf900JhTTQN1zSkGKjQRNbgZQabbTMWBm7xvYb2pLemNXTe7ppt4PmTtXuhAWDoakSAGlZB5g3swHlDiezNxFpnMG9sr6N9UjWCeV3cui9n26RuHm3WNJRSB5GthLIHajxb5Gzbn1+cbg5w02i7ylHw5LoSFtjs4VWxsGos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HaYZUqiJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HaYZUqiJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 463CDC433C7;
+	Wed, 27 Mar 2024 14:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711550679;
+	bh=YSLGb1GXTxnIIfhyIvC9GwAUZFGWgRDDFdTmlm4yRqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HaYZUqiJa07VEuOX2hUbqIVTlZ8o22sLnSNBmDvYGZReqgO3lSbCQK9Or5zp1KJbR
+	 JvGvc2ZghpWxbzW5dcHWLkdtr9WPLtyBcYNZCtzYkZ0aehioYwzIa2QQF4Onnok8FB
+	 Wc4M/AdTqe1cmI5ouLQdACNeTQWP2vIBDKBtvzYFRBk3qaqst4TyhFgm3+FAsIAsGT
+	 mP0xgnOjCX2lX877lT3Jl7cBjQZe+yHaVUg+5xWuYNjiWEBCoNJyKr1tugz+G9vCSC
+	 fo6IjfObk8UjT+1n6kvF1dQ0obJmvxfW9gBCQkbrMpth/5YtLWt0cnhdydB5wLkqq1
+	 8N6oSbYrk2HYQ==
+Date: Wed, 27 Mar 2024 14:44:31 +0000
+From: Simon Horman <horms@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Kees Cook <keescook@chromium.org>,
+	Daniel Diaz <daniel.diaz@linaro.org>,
+	David Gow <davidgow@google.com>,
+	Arthur Grillo <arthurgrillo@riseup.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
+ backtraces
+Message-ID: <20240327144431.GL403975@kernel.org>
+References: <20240325175248.1499046-1-linux@roeck-us.net>
+ <20240325175248.1499046-13-linux@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] mm: migrate: add isolate_movable_folio()
-Content-Language: en-US
-To: Zi Yan <ziy@nvidia.com>
-CC: Andrew Morton <akpm@linux-foundation.org>, <willy@infradead.org>, Miaohe
- Lin <linmiaohe@huawei.com>, Naoya Horiguchi <naoya.horiguchi@nec.com>, David
- Hildenbrand <david@redhat.com>, Oscar Salvador <osalvador@suse.de>, Hugh
- Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>
-References: <20240327141034.3712697-1-wangkefeng.wang@huawei.com>
- <20240327141034.3712697-2-wangkefeng.wang@huawei.com>
- <C3A86B80-49BB-4E2A-A230-9EB5FA2B4A40@nvidia.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <C3A86B80-49BB-4E2A-A230-9EB5FA2B4A40@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm100001.china.huawei.com (7.185.36.93)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240325175248.1499046-13-linux@roeck-us.net>
 
+On Mon, Mar 25, 2024 at 10:52:46AM -0700, Guenter Roeck wrote:
+> Add name of functions triggering warning backtraces to the __bug_table
+> object section to enable support for suppressing WARNING backtraces.
+> 
+> To limit image size impact, the pointer to the function name is only added
+> to the __bug_table section if both CONFIG_KUNIT_SUPPRESS_BACKTRACE and
+> CONFIG_DEBUG_BUGVERBOSE are enabled. Otherwise, the __func__ assembly
+> parameter is replaced with a (dummy) NULL parameter to avoid an image size
+> increase due to unused __func__ entries (this is necessary because __func__
+> is not a define but a virtual variable).
+> 
+> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+> - Rebased to v6.9-rc1
+> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
+> - Introduced KUNIT_SUPPRESS_BACKTRACE configuration option
+> 
+>  arch/sh/include/asm/bug.h | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/sh/include/asm/bug.h b/arch/sh/include/asm/bug.h
+> index 05a485c4fabc..470ce6567d20 100644
+> --- a/arch/sh/include/asm/bug.h
+> +++ b/arch/sh/include/asm/bug.h
+> @@ -24,21 +24,36 @@
+>   * The offending file and line are encoded in the __bug_table section.
+>   */
+>  #ifdef CONFIG_DEBUG_BUGVERBOSE
+> +
+> +#ifdef CONFIG_KUNIT_SUPPRESS_BACKTRACE
+> +# define HAVE_BUG_FUNCTION
+> +# define __BUG_FUNC_PTR	"\t.long %O2\n"
+> +#else
+> +# define __BUG_FUNC_PTR
+> +#endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
+> +
 
+Hi Guenter,
 
-On 2024/3/27 22:29, Zi Yan wrote:
-> On 27 Mar 2024, at 10:10, Kefeng Wang wrote:
-> 
->> Like isolate_lru_page(), make isolate_movable_page() as a wrapper
->> around isolate_lru_folio(), since isolate_movable_page() always
->> fails on a tail page, add a warn for tail page and return immediately.
->>
->> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
->> ---
->>   include/linux/migrate.h |  3 +++
->>   mm/migrate.c            | 41 +++++++++++++++++++++++------------------
->>   2 files changed, 26 insertions(+), 18 deletions(-)
->>
->> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
->> index f9d92482d117..a6c38ee7246a 100644
->> --- a/include/linux/migrate.h
->> +++ b/include/linux/migrate.h
->> @@ -70,6 +70,7 @@ int migrate_pages(struct list_head *l, new_folio_t new, free_folio_t free,
->>   		  unsigned int *ret_succeeded);
->>   struct folio *alloc_migration_target(struct folio *src, unsigned long private);
->>   bool isolate_movable_page(struct page *page, isolate_mode_t mode);
->> +bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode);
->>
->>   int migrate_huge_page_move_mapping(struct address_space *mapping,
->>   		struct folio *dst, struct folio *src);
->> @@ -91,6 +92,8 @@ static inline struct folio *alloc_migration_target(struct folio *src,
->>   	{ return NULL; }
->>   static inline bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   	{ return false; }
->> +static inline bool isolate_movable_folio(struct page *page, isolate_mode_t mode)
->> +	{ return false; }
->>
->>   static inline int migrate_huge_page_move_mapping(struct address_space *mapping,
->>   				  struct folio *dst, struct folio *src)
->> diff --git a/mm/migrate.c b/mm/migrate.c
->> index 2228ca681afb..b2195b6ff32c 100644
->> --- a/mm/migrate.c
->> +++ b/mm/migrate.c
->> @@ -57,31 +57,29 @@
->>
->>   #include "internal.h"
->>
->> -bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->> +bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode)
->>   {
->> -	struct folio *folio = folio_get_nontail_page(page);
->>   	const struct movable_operations *mops;
->>
->>   	/*
->> -	 * Avoid burning cycles with pages that are yet under __free_pages(),
->> +	 * Avoid burning cycles with folios that are yet under __free_pages(),
->>   	 * or just got freed under us.
->>   	 *
->> -	 * In case we 'win' a race for a movable page being freed under us and
->> +	 * In case we 'win' a race for a movable folio being freed under us and
->>   	 * raise its refcount preventing __free_pages() from doing its job
->> -	 * the put_page() at the end of this block will take care of
->> -	 * release this page, thus avoiding a nasty leakage.
->> +	 * the folio_put() at the end of this block will take care of
->> +	 * release this folio, thus avoiding a nasty leakage.
->>   	 */
->> -	if (!folio)
->> -		goto out;
->> +	folio_get(folio);
-> 
-> You need folio_try_get() instead. Since folio_get_nontail_page() calls
-> get_page_unless_zero() first.
-Oh, indeed, will fix.
-> 
->>
->>   	if (unlikely(folio_test_slab(folio)))
->>   		goto out_putfolio;
->>   	/* Pairs with smp_wmb() in slab freeing, e.g. SLUB's __free_slab() */
->>   	smp_rmb();
->>   	/*
->> -	 * Check movable flag before taking the page lock because
->> -	 * we use non-atomic bitops on newly allocated page flags so
->> -	 * unconditionally grabbing the lock ruins page's owner side.
->> +	 * Check movable flag before taking the folio lock because
->> +	 * we use non-atomic bitops on newly allocated folio flags so
->> +	 * unconditionally grabbing the lock ruins folio's owner side.
->>   	 */
->>   	if (unlikely(!__folio_test_movable(folio)))
->>   		goto out_putfolio;
->> @@ -91,13 +89,13 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   		goto out_putfolio;
->>
->>   	/*
->> -	 * As movable pages are not isolated from LRU lists, concurrent
->> -	 * compaction threads can race against page migration functions
->> -	 * as well as race against the releasing a page.
->> +	 * As movable folios are not isolated from LRU lists, concurrent
->> +	 * compaction threads can race against folio migration functions
->> +	 * as well as race against the releasing a folio.
->>   	 *
->> -	 * In order to avoid having an already isolated movable page
->> +	 * In order to avoid having an already isolated movable folio
->>   	 * being (wrongly) re-isolated while it is under migration,
->> -	 * or to avoid attempting to isolate pages being released,
->> +	 * or to avoid attempting to isolate folios being released,
->>   	 * lets be sure we have the page lock
->>   	 * before proceeding with the movable page isolation steps.
->>   	 */
->> @@ -113,7 +111,7 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   	if (!mops->isolate_page(&folio->page, mode))
->>   		goto out_no_isolated;
->>
->> -	/* Driver shouldn't use PG_isolated bit of page->flags */
->> +	/* Driver shouldn't use PG_isolated bit of folio->flags */
->>   	WARN_ON_ONCE(folio_test_isolated(folio));
->>   	folio_set_isolated(folio);
->>   	folio_unlock(folio);
->> @@ -124,10 +122,17 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->>   	folio_unlock(folio);
->>   out_putfolio:
->>   	folio_put(folio);
->> -out:
->>   	return false;
->>   }
->>
->> +bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->> +{
->> +	if (WARN_RATELIMIT(PageTail(page), "trying to isolate tail page"))
->> +		return false;
-> 
-> Why bother adding a warning here? There was no warning before. Also,
-> after this series, isolate_movable_page() will be gone.
+a minor nit from my side: this change results in a Kernel doc warning.
 
-I copy from isolate_lru_page(), but as you said, it seems useless, will 
-remove it.
+     .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
 
-Thanks.
-> 
->> +
->> +	return isolate_movable_folio((struct folio *)page, mode);
->> +}
->> +
->>   static void putback_movable_folio(struct folio *folio)
->>   {
->>   	const struct movable_operations *mops = folio_movable_ops(folio);
->> -- 
->> 2.27.0
-> 
-> 
-> --
-> Best Regards,
-> Yan, Zi
+Perhaps either the new code should be placed above the Kernel doc,
+or scripts/kernel-doc should be enhanced?
+
+>  #define _EMIT_BUG_ENTRY				\
+>  	"\t.pushsection __bug_table,\"aw\"\n"	\
+>  	"2:\t.long 1b, %O1\n"			\
+> -	"\t.short %O2, %O3\n"			\
+> -	"\t.org 2b+%O4\n"			\
+> +	__BUG_FUNC_PTR				\
+> +	"\t.short %O3, %O4\n"			\
+> +	"\t.org 2b+%O5\n"			\
+>  	"\t.popsection\n"
+>  #else
+>  #define _EMIT_BUG_ENTRY				\
+>  	"\t.pushsection __bug_table,\"aw\"\n"	\
+>  	"2:\t.long 1b\n"			\
+> -	"\t.short %O3\n"			\
+> -	"\t.org 2b+%O4\n"			\
+> +	"\t.short %O4\n"			\
+> +	"\t.org 2b+%O5\n"			\
+>  	"\t.popsection\n"
+>  #endif
+>  
+> +#ifdef HAVE_BUG_FUNCTION
+> +# define __BUG_FUNC	__func__
+> +#else
+> +# define __BUG_FUNC	NULL
+> +#endif
+> +
+>  #define BUG()						\
+>  do {							\
+>  	__asm__ __volatile__ (				\
+
+...
