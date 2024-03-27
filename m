@@ -1,87 +1,100 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830BC17545;
-	Wed, 27 Mar 2024 03:25:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D30C36B;
+	Wed, 27 Mar 2024 04:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711509916; cv=none; b=HUF+kZWIQU1g4E5gOrPu0ixxQt3ugiYCG8boS+DpG2H7VqRHN5S82FClvZef3QQgkDul7fRxWGtGfWWz+t3p/4ghVUNhRqr+5pLewDgV7kGUQpnb6Rymulv3ysLQNk34fYm0x7/baT+FXX7DeRJAn5kcYm+1t4f7T4CUvMvuFlc=
+	t=1711513830; cv=none; b=bEY7LFb79UKBE54aaK8mfR7MVcQQoZG001ZJbih8q5nr4OlAUeAU3TtLFI4kqYYBN7RrHeod/ou+T0Gy/RLWPEJtikjOImxU1ysscCvb0BdvCxlfC4CI8jbBmNsu5z9eKkrmOYhNlIGxRnRB7LJvAO90F2l4jUAe0F6RlSzwyGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711509916; c=relaxed/simple;
-	bh=Ajy7EClEZNT2l5jOz2HI8KHPxT0cshu9vXiK2kZRlto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ReRtvfXj3NavgzydWCWY9EQm3+1BbJM7IeHD+3lUltRhxsgoK6lLJCqyalPq8uSc5A+A+hwgbgbkDuXI/CsovsDzYs3+jpI4ZIqTDnXYT1hZDkpss0r96Uzx2l2y6x6R1xVlClUM+GyAMq1iuoyFiWJECAGqRSZxJt45b4I2CA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CvKbObme; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1711513830; c=relaxed/simple;
+	bh=nDWTZJr52CDhdBEGdA1dMU8t28mf3eBIn0+2tXdHsrM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s09PJKFg0wt5pB4oB6xMb/WNLamO9t1UM4dS+5C4p8kDg30rz76PY6NrSlB6sxjHwCUzNYwpUa8ZUs0BdLEuuEMyr2Q3W+B5TzfdPLBdU+6DEs466Vnx75b6ZFM4USRmWya/9iys4qEZhZxE8NgD2lXT+LyLGVTQgsGYO+dRjQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vRU0lzol; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CvKbObme"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vRU0lzol"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RlEUjYz6ln8uzzOTkIlgn9vdiC3nQ/IHmLuBP8wka2o=; b=CvKbObmeyBqqOPthjS/+uTpYG7
-	eoUDBQh9S0XUeVkTmqvfA2KU9S2jl1TZ0d/qfo5XKxsxRNNeBlTMQ9ds6skxSEv80Xd12pe1JfdEb
-	wBCa1azgkkM7zTLqgfjH1rCC5601LmPSODTJbeICFjKQWfDpMNA114PK6p2Yu5WOCMl603JqhWXFP
-	GAqIFx5AGDyS+2+gnJcmPNdFornkVnc81GPJerRi2bQih5+8inhCt2YgTrhOsNBiT38nwzY62TPlz
-	+Ui6qV0zTYT8lAxb8f7sCnUN35mUg/q0e5NBUGjmRCTIeFKN0D3jcStJA97Y0rx4kDHTcdjGvCFZw
-	x40o0e+w==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpJtt-00000002v5K-0VmM;
-	Wed, 27 Mar 2024 03:24:29 +0000
-Date: Wed, 27 Mar 2024 03:24:28 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	mgorman@suse.de, dave@stgolabs.net, liam.howlett@oracle.com,
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net,
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, peterx@redhat.com, david@redhat.com,
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com,
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-	paulmck@kernel.org, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-	ndesaulniers@google.com, vvvvvv@google.com,
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
-	elver@google.com, dvyukov@google.com, songmuchun@bytedance.com,
-	jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com,
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v6 14/37] lib: introduce support for page allocation
- tagging
-Message-ID: <ZgORbAY5F0MWgX5K@casper.infradead.org>
-References: <20240321163705.3067592-1-surenb@google.com>
- <20240321163705.3067592-15-surenb@google.com>
- <ZgI9Iejn6DanJZ-9@casper.infradead.org>
- <CAJuCfpGvviA5H1Em=ymd8Yqz_UoBVGFOst_wbaA6AwGkvffPHg@mail.gmail.com>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=fKaXAOy4zrHCHrk6cr69a+Oj1pHgwDYN2mzGRu5zIRc=; b=vRU0lzolD9NgpOEadMLe3oTiMK
+	JM/5OuitsTe68PHW2/EPsV2d0Je0eaeo8qm9R+9OLulvQbE2aVdVteyh7BoIuydbvB2isKPx6X8G9
+	mY710oD/MitXP1eqTkH9QdYW0sHS+o2jRE9TQJFeCb2+MXik3VbihUnx2Fx7pg4/fbBPvg725nVJO
+	q2xu+N6yc/k9QTXNwmkm/R/1PScZJAXkTK9mAA5pm7BS9AMRoITxI505T2V9fW+3o2hg0viDH5FYZ
+	7PYcyyzQSPIk0pDSPBm4oq5IMxQ3TedvCUgI3X3MXOQx2xT+Lf5OYTF+FiR9/ccQqmlrS96x0290O
+	JqMcrVkw==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpKvg-00000007QL9-1WFX;
+	Wed, 27 Mar 2024 04:30:24 +0000
+Message-ID: <bb16f178-15e1-4111-8bb1-b4ca8c5739cc@infradead.org>
+Date: Tue, 26 Mar 2024 21:30:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpGvviA5H1Em=ymd8Yqz_UoBVGFOst_wbaA6AwGkvffPHg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] Documentation fixes for memory allocation profiling
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: sfr@canb.auug.org.au, kent.overstreet@linux.dev, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240326231453.1206227-1-surenb@google.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240326231453.1206227-1-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 25, 2024 at 11:23:25PM -0700, Suren Baghdasaryan wrote:
-> Ah, good eye! We probably didn't include page_ext.h before and then
-> when we did I missed removing these declarations. I'll post a fixup.
-> Thanks!
 
-Andrew's taken a patch from me to remove these two declarations as
-part of marking them const.  No patch needed from you, just needed to
-check there was no reason to have them.
+
+On 3/26/24 16:14, Suren Baghdasaryan wrote:
+> With the introduction of [1] kernel-doc can handle _noprof function names. 
+> This patchset changes back _noprof documentation changes introduced in
+> memory allocation profiling patchset [2].
+> Changes are split into several patches, each undoing changes in a specific
+> patch from the original patchset so that it's easy to squash the fix into
+> the initial patch if Andrew wants to do that.
+> Changes apply cleanly over mm-unstable and are tested with [1] applied.
+> 
+> [1] https://lore.kernel.org/all/20240326054149.2121-1-rdunlap@infradead.org/
+> [2] https://lore.kernel.org/all/20240321163705.3067592-1-surenb@google.com/
+> 
+> Suren Baghdasaryan (6):
+>   Documentation: rhashtable: undo _noprof additions in the documentation
+>   Documentation: mm: undo _noprof additions in the documentation
+>   Documentation: mempool: undo _noprof additions in the documentation
+>   Documentation: mm: vmalloc: undo _noprof additions in the
+>     documentation
+>   Documentation: mm: percpu: undo _noprof additions in the documentation
+>   Documentation: mm/slab: undo _noprof additions in the documentation
+> 
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+>  lib/rhashtable.c |  6 +++---
+>  mm/mempolicy.c   |  6 +++---
+>  mm/mempool.c     |  2 +-
+>  mm/nommu.c       |  8 ++++----
+>  mm/page_alloc.c  |  8 ++++----
+>  mm/percpu.c      |  2 +-
+>  mm/slub.c        |  2 +-
+>  mm/util.c        | 10 +++++-----
+>  mm/vmalloc.c     | 14 +++++++-------
+>  9 files changed, 29 insertions(+), 29 deletions(-)
+> 
+> 
+> base-commit: 4aaccadb5c04dd4d4519c8762a38010a32d904a3
+> prerequisite-patch-id: 1c2be401fcd818b167ef7d506a2fb87fea230835
+> prerequisite-patch-id: d3c1b90bc5ee32295962c5d30bd79dfb6eb774c3
+> prerequisite-patch-id: 25e37766c40250d564a0c198e2af01a9aae33c92
+> prerequisite-patch-id: ed3859d70637371a854c212aa08db8f28edbede4
+
+-- 
+#Randy
