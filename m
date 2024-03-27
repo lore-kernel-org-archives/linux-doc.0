@@ -1,275 +1,129 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2509A152535
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 20:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35DEE15358E
+	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 23:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711569724; cv=none; b=Bf+RFHbWxRJcgQuY9hI5Es/NNKhfWtZ9yrqlFYyuzUJTijXbWvsLjyLLK3nnet1I9LlALkqMwegOEYveo+ytAlsCCZ6dAUnptowEIuTE7syVPg+9xrltxxomNs4B/mXmV1xdh/NncUIOoIlXszAmxPtc+K0+gmQxEEX9dckUidc=
+	t=1711581546; cv=none; b=pAePs1fGUtYwVxi/RW4NfvWQkSGA6xWheLsYm7jeAX5CnjyVIE6cBaIpgNLmT8LQOq/xGlLU2xa708D8T2JxVAOgNIu052qnYT/FrGr0rPyH3fKtp0emnBf9PN0yLX7AB9Oj7UAabMvepxAVQ9Asc1ZIWXwVmambOSepvQPAm5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711569724; c=relaxed/simple;
-	bh=QLBKpB2PdEIlr9xigaUhM4g6brQYbruPNgjVNrPpBbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tC8F81FWQ0Z6OJfMtNCqROBmd5U4tGvi6nt8JG1l3u5ZY+hJnoobs9SQb/uHHKLF8DHxVOX9HzR1E46jbNkW2/ha/9gKA7wxIHJBaEPtQdnNy4FGZWLb7p4Nldv50jMgmDXENOmUDU7Bzd98Qv9qZ5Wp+qL0nm05Tyt+v/onU14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=SutroOOg; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1711581546; c=relaxed/simple;
+	bh=Oin5ojSwy2humzjzfHVDPNnW4ZK/nwUgFx0t+HKuAB4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lhRLWYlFGQJY9HvA8uiCL26q0NUyikUhUqvn6jukHdyOIvBP78fNmUXqfwfYJcCaWe1GxP8LarRM0MBPzdTGm0hUEA/Qz/q7nblhto9Vgc55AZD2MmJdkIP6+Nbn4LMTdz5o68Asd1uJ7bB3OqMM9VwvRyRahCrK7sXKPyx7AXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=0ABVGfHH; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="SutroOOg"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dee27acf7aso1597785ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 13:02:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="0ABVGfHH"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-22215ccbafeso260658fac.0
+        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 16:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1711569720; x=1712174520; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ypWDQztlaUl0OBgzt8wXnA3vBiMMRAqmq7IofZwnoZI=;
-        b=SutroOOgsWUjLRWtW+s1mpI8bDaUmvBGvBLrC6uYtK2I3RGCdfjB7KHSTJNHqMEOdw
-         84ZJ0S+XCA7EbWglhGjG0xmQxaWCvdYuXc+CNOI8w2e2btS5kZPGC5J5x1HA3qOcJMdj
-         jftXmsvnpmzuQwQ/lrzBLOxBkhagYjVUScxosVKeEM8AuduUs2ayZaUjowEzrVDInu5Z
-         ti/fgQSC37rxrxRnjFEU5HgR4AC9p8Qi4XMg3kvtptUsMh9WBfi0kdmyh2NnLFfyO6ei
-         Xdbp5rFQhQefWjsCxR/Xlup6Bg5k6k74y/pZTWMSIn7B0x5IjP0BI2eOTA+bUtYFxU4d
-         1Bqg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581542; x=1712186342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
+        b=0ABVGfHHvyHnYF5hd1OqQl1iZYDFAsoTAnFoz9PQIRq/QP3Nn5kLjbP9koIqKf69et
+         BhjAm6OlMQkGbOryPs6WYrzUeqNPdYbOf0WbFbT99DvCHlwQDRnLpG8lyNXp42l778Bp
+         I3+i+Rap1zbQuxQ+uLiaD6XlVBJ6BJBonKyRM9jZSc3k8WtzomIlXGCJq44eSDRHvDgQ
+         uzXz4NaYW3l0S7fReJSm0W/iYRV7pbWxmgIKYRXJjt3ADDYsLxMoRTM84X1yD6zxRBPW
+         T7YI6wmOxIBqyTAcJlFCBcB4MRMdK4VNOZJM+FW3by4lx/R8/6VNoNblqlBuPCAB48/i
+         OdjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711569720; x=1712174520;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ypWDQztlaUl0OBgzt8wXnA3vBiMMRAqmq7IofZwnoZI=;
-        b=iVz+2HbRhsYEVnWdeI9ooROu50CZ5FBvaCiqCaohdmyCa3smrpkOMGRspsI23SBUrI
-         xQnW8CNPgCjcSQXw0cr8V9l8cy6L3I6hrsZNP4zhdMR+EWfgmVlD9UK5Rlb6WiKhHfFb
-         AIii7WzG2xCP+bCMCTNjSnwp0B17pgK8AYMiXwLfu8I7/buC70Vyc8/Jar1X1E7kIK5A
-         AdSkwbmoyhDgVjk+jlcfFXSf2jesjtxFwMaX7M/tnN1pmxqkLC3vfLogZrcZ5qGmVmP4
-         ca6oSk5Gl2IDuXC3vA4GzuhsC9epM3+yr2o1RhMdonOMFY0hYi5fPK5x2V1Zm1z0gu53
-         vpUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEf2mHiRdIZOwNxPCQ0wIUvwGmKNQ3TeuX5ylkH7U462UQ/uqBLqXzxZt+bIj+zFXZU6PslwkdRuPgOdG2C6jbyx0zvzWTYY/j
-X-Gm-Message-State: AOJu0YxYS3kMUbu7gavdBldmvyhaqERgP0hGlaciD8AZKjXgnV4PZwbE
-	QMtASykSp6i/QmbLpIQDBD721PEv3B4NECYHdYO6qbJ5Cc3UMQgUWQgTJWUW0ek=
-X-Google-Smtp-Source: AGHT+IG/guZZUh1z8VBs2UBKbikNm/ct62HN1I/AjguyoIM/V4kgoDEmkJWsd5kFsvUg8c6UkAoepg==
-X-Received: by 2002:a17:903:1251:b0:1e0:f366:13e5 with SMTP id u17-20020a170903125100b001e0f36613e5mr876644plh.61.1711569720448;
-        Wed, 27 Mar 2024 13:02:00 -0700 (PDT)
-Received: from sw06.internal.sifive.com ([4.53.31.132])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170902e5c400b001dd0d0d26a4sm9446459plf.147.2024.03.27.13.01.59
+        d=1e100.net; s=20230601; t=1711581542; x=1712186342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pNmxlM+zWytQQYi7ZtjQVmkQiumnd7DNMgYQxgBRWM8=;
+        b=nd7Y1nWi+dwantE6G1FQBhi4wuEx6TUCeIOEk/xgUsO1qcaC2N4EV7JDcCWdFoy38s
+         zfBbpGnsjHMHOd6IOQYw9PB83epTEAcOvRhH8Q0rVKmpyltjzb++e20HvX84kMB/5apJ
+         T8phiE1mFTAQ/az+POBZ9CmAnuRk1vBdy+Gw/ZFptxaRx3XL0yi/1LkCeeUDv1qONBdR
+         TFDcuxA0S7W/XpAxEeQ1sPNt9vSUdwESFA5oor8PMCOrR9J8JaOzx04LbEkJllSdflV9
+         3sndJmio4U35KYaIgOj+v3+jeIXfmEQN2NuS5bkxsHqLPSleQad46XV48TWl48f1e2Ar
+         eeDA==
+X-Forwarded-Encrypted: i=1; AJvYcCXP+0otncBou0APcvoqBmncQoiEbjSxeMDMKxfJBTpEGgVb74548J9hEoFMdOZ20Nsnniv61GHE8bKLyxlE7bjgiuICg+8ZTaqx
+X-Gm-Message-State: AOJu0YxqOhrflEP+GQibRNfOr+QOe7TE6mo3UKtF2JOK6B9jvdgBWZdN
+	e0VWBOzkxK//HrLA58tHk/6g/hqYkTz3F7gck8G8dURN5BGAnB0VGFyGa2ngPsY=
+X-Google-Smtp-Source: AGHT+IH0jcJOIn91SYG/gvmxB532Ey13hS1+uAizEDZdhgZnM4KKp+HBnfwPVKzM9sb2VsY2xY892g==
+X-Received: by 2002:a05:6871:2b2a:b0:22a:55bd:a048 with SMTP id dr42-20020a0568712b2a00b0022a55bda048mr1167094oac.5.1711581542433;
+        Wed, 27 Mar 2024 16:19:02 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 13:02:00 -0700 (PDT)
-From: Samuel Holland <samuel.holland@sifive.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	x86@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org,
-	Christoph Hellwig <hch@lst.de>,
-	loongarch@lists.linux.dev,
-	amd-gfx@lists.freedesktop.org,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Will Deacon <will@kernel.org>,
+        Wed, 27 Mar 2024 16:19:01 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>,
 	linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH v3 01/14] arch: Add ARCH_HAS_KERNEL_FPU_SUPPORT
-Date: Wed, 27 Mar 2024 13:00:32 -0700
-Message-ID: <20240327200157.1097089-2-samuel.holland@sifive.com>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240327200157.1097089-1-samuel.holland@sifive.com>
-References: <20240327200157.1097089-1-samuel.holland@sifive.com>
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-input@vger.kernel.org
+Subject: [PATCH RFC 0/7] regulator: new APIs for voltage reference supplies
+Date: Wed, 27 Mar 2024 18:18:49 -0500
+Message-ID: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+X-Mailer: git-send-email 2.43.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-Several architectures provide an API to enable the FPU and run
-floating-point SIMD code in kernel space. However, the function names,
-header locations, and semantics are inconsistent across architectures,
-and FPU support may be gated behind other Kconfig options.
+In the IIO subsystem, we noticed a pattern in many drivers where we need
+to get, enable and get the voltage of a supply that provides a reference
+voltage. In these cases, we only need the voltage and not a handle to
+the regulator. Another common pattern is for chips to have an internal
+reference voltage that is used when an external reference is not
+available. There are also a few drivers outside of IIO that do the same.
 
-Provide a standard way for architectures to declare that kernel space
-FPU support is available. Architectures selecting this option must
-implement what is currently the most common API (kernel_fpu_begin() and
-kernel_fpu_end(), plus a new function kernel_fpu_available()) and
-provide the appropriate CFLAGS for compiling floating-point C code.
+So we would like to propose a couple of new regulator consumer APIs to
+handle these specific cases to avoid repeating the same boilerplate code
+in multiple drivers.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+As an example of how these functions are used, I have included a few
+patches to consumer drivers. But to avoid a giant patch bomb, I have
+omitted the iio/adc and iio/dac patches I have prepared from this
+series. I will send those separately but these will add 12 more users
+of devm_regulator_get_enable_get_voltage() and 24 more users of
+devm_regulator_get_optional_enable_get_voltage(). In total, this will
+eliminate nearly 1000 lines of similar code.
+
 ---
+David Lechner (7):
+      regulator: devres: add APIs for reference supplies
+      hwmon: (adc128d818) Use devm_regulator_get_optional_enable_get_voltage()
+      hwmon: (da9052) Use devm_regulator_get_enable_get_voltage()
+      iio: addac: ad74115: Use devm_regulator_get_enable_get_voltage()
+      iio: frequency: admv1013: Use devm_regulator_get_enable_get_voltage()
+      staging: iio: impedance-analyzer: admv1013: Use devm_regulator_get_enable_get_voltage()
+      Input: mpr121: Use devm_regulator_get_enable_get_voltage()
 
-(no changes since v2)
-
-Changes in v2:
- - Add documentation explaining the built-time and runtime APIs
- - Add a linux/fpu.h header for generic isolation enforcement
-
- Documentation/core-api/floating-point.rst | 78 +++++++++++++++++++++++
- Documentation/core-api/index.rst          |  1 +
- Makefile                                  |  5 ++
- arch/Kconfig                              |  6 ++
- include/linux/fpu.h                       | 12 ++++
- 5 files changed, 102 insertions(+)
- create mode 100644 Documentation/core-api/floating-point.rst
- create mode 100644 include/linux/fpu.h
-
-diff --git a/Documentation/core-api/floating-point.rst b/Documentation/core-api/floating-point.rst
-new file mode 100644
-index 000000000000..a8d0d4b05052
---- /dev/null
-+++ b/Documentation/core-api/floating-point.rst
-@@ -0,0 +1,78 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+Floating-point API
-+==================
-+
-+Kernel code is normally prohibited from using floating-point (FP) registers or
-+instructions, including the C float and double data types. This rule reduces
-+system call overhead, because the kernel does not need to save and restore the
-+userspace floating-point register state.
-+
-+However, occasionally drivers or library functions may need to include FP code.
-+This is supported by isolating the functions containing FP code to a separate
-+translation unit (a separate source file), and saving/restoring the FP register
-+state around calls to those functions. This creates "critical sections" of
-+floating-point usage.
-+
-+The reason for this isolation is to prevent the compiler from generating code
-+touching the FP registers outside these critical sections. Compilers sometimes
-+use FP registers to optimize inlined ``memcpy`` or variable assignment, as
-+floating-point registers may be wider than general-purpose registers.
-+
-+Usability of floating-point code within the kernel is architecture-specific.
-+Additionally, because a single kernel may be configured to support platforms
-+both with and without a floating-point unit, FPU availability must be checked
-+both at build time and at run time.
-+
-+Several architectures implement the generic kernel floating-point API from
-+``linux/fpu.h``, as described below. Some other architectures implement their
-+own unique APIs, which are documented separately.
-+
-+Build-time API
-+--------------
-+
-+Floating-point code may be built if the option ``ARCH_HAS_KERNEL_FPU_SUPPORT``
-+is enabled. For C code, such code must be placed in a separate file, and that
-+file must have its compilation flags adjusted using the following pattern::
-+
-+    CFLAGS_foo.o += $(CC_FLAGS_FPU)
-+    CFLAGS_REMOVE_foo.o += $(CC_FLAGS_NO_FPU)
-+
-+Architectures are expected to define one or both of these variables in their
-+top-level Makefile as needed. For example::
-+
-+    CC_FLAGS_FPU := -mhard-float
-+
-+or::
-+
-+    CC_FLAGS_NO_FPU := -msoft-float
-+
-+Normal kernel code is assumed to use the equivalent of ``CC_FLAGS_NO_FPU``.
-+
-+Runtime API
-+-----------
-+
-+The runtime API is provided in ``linux/fpu.h``. This header cannot be included
-+from files implementing FP code (those with their compilation flags adjusted as
-+above). Instead, it must be included when defining the FP critical sections.
-+
-+.. c:function:: bool kernel_fpu_available( void )
-+
-+        This function reports if floating-point code can be used on this CPU or
-+        platform. The value returned by this function is not expected to change
-+        at runtime, so it only needs to be called once, not before every
-+        critical section.
-+
-+.. c:function:: void kernel_fpu_begin( void )
-+                void kernel_fpu_end( void )
-+
-+        These functions create a floating-point critical section. It is only
-+        valid to call ``kernel_fpu_begin()`` after a previous call to
-+        ``kernel_fpu_available()`` returned ``true``. These functions are only
-+        guaranteed to be callable from (preemptible or non-preemptible) process
-+        context.
-+
-+        Preemption may be disabled inside critical sections, so their size
-+        should be minimized. They are *not* required to be reentrant. If the
-+        caller expects to nest critical sections, it must implement its own
-+        reference counting.
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index 7a3a08d81f11..974beccd671f 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -48,6 +48,7 @@ Library functionality that is used throughout the kernel.
-    errseq
-    wrappers/atomic_t
-    wrappers/atomic_bitops
-+   floating-point
- 
- Low level entry and exit
- ========================
-diff --git a/Makefile b/Makefile
-index 763b6792d3d5..710f65e4249d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -964,6 +964,11 @@ KBUILD_CFLAGS	+= $(CC_FLAGS_CFI)
- export CC_FLAGS_CFI
- endif
- 
-+# Architectures can define flags to add/remove for floating-point support
-+CC_FLAGS_FPU	+= -D_LINUX_FPU_COMPILATION_UNIT
-+export CC_FLAGS_FPU
-+export CC_FLAGS_NO_FPU
-+
- ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
- # Set the minimal function alignment. Use the newer GCC option
- # -fmin-function-alignment if it is available, or fall back to -falign-funtions.
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 9f066785bb71..8e34b3acf73d 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -1569,6 +1569,12 @@ config ARCH_HAS_NONLEAF_PMD_YOUNG
- 	  address translations. Page table walkers that clear the accessed bit
- 	  may use this capability to reduce their search space.
- 
-+config ARCH_HAS_KERNEL_FPU_SUPPORT
-+	bool
-+	help
-+	  Architectures that select this option can run floating-point code in
-+	  the kernel, as described in Documentation/core-api/floating-point.rst.
-+
- source "kernel/gcov/Kconfig"
- 
- source "scripts/gcc-plugins/Kconfig"
-diff --git a/include/linux/fpu.h b/include/linux/fpu.h
-new file mode 100644
-index 000000000000..2fb63e22913b
---- /dev/null
-+++ b/include/linux/fpu.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _LINUX_FPU_H
-+#define _LINUX_FPU_H
-+
-+#ifdef _LINUX_FPU_COMPILATION_UNIT
-+#error FP code must be compiled separately. See Documentation/core-api/floating-point.rst.
-+#endif
-+
-+#include <asm/fpu.h>
-+
-+#endif
--- 
-2.43.1
-
+ Documentation/driver-api/driver-model/devres.rst |  2 +
+ drivers/hwmon/adc128d818.c                       | 55 +++++-----------
+ drivers/hwmon/da9052-hwmon.c                     | 33 ++--------
+ drivers/iio/addac/ad74115.c                      | 28 +-------
+ drivers/iio/frequency/admv1013.c                 | 37 +++--------
+ drivers/input/keyboard/mpr121_touchkey.c         | 45 +------------
+ drivers/regulator/devres.c                       | 83 ++++++++++++++++++++++++
+ drivers/staging/iio/impedance-analyzer/ad5933.c  | 24 +------
+ include/linux/regulator/consumer.h               | 14 ++++
+ 9 files changed, 138 insertions(+), 183 deletions(-)
+---
+base-commit: c5b2db5859957150ac6ed305ab41a4a92ca40cfb
+change-id: 20240326-regulator-get-enable-get-votlage-5dedf40ff338
