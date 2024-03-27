@@ -1,71 +1,43 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8645227
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 18:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0339B14D44C;
+	Wed, 27 Mar 2024 19:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711565987; cv=none; b=PbkcG3Ou6Kqe9y0ah3Sz9XscnPl3mcSj/V7L1ZGOAKzmqlTgXQTa7epB5KIREg2H+e92KpvJ5D1XJ5qgUUREfcSH1FVVdRCmTuDh2Va/bMDLVr40ePUZcnnJxtV7xnXreZWN1/mB5lrpI7AUo7y7D1OTvzmOkgYeKo0jSo0lKMU=
+	t=1711567975; cv=none; b=r6+cV0zTk26hLdkCRZQQjJdEl9oxfCmzofbhrZfDiKnD0AGeF7qoNw248sTvZwsVVTl7YZcC5Ov2sOsnjc3xZwQcn83FqwEgU0c5LcR2hx8qe+4qIiBhw/JZsmr8DJvp5uR4+vVFVih/5qfEmhwtm9SiBbF11nzWRJCCSHS9ZLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711565987; c=relaxed/simple;
-	bh=8azF4n3xlloF/pn5jVHl9ZV/Oqp4SHxr24aeZEXOldY=;
+	s=arc-20240116; t=1711567975; c=relaxed/simple;
+	bh=Os7YZZRCGSP4NjzbD4f0fGXEJhfQIiP7fALw+P57UKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pjeyTrFOLd2Qxywo+AbQ2EkI0shPvzYFlzW/Edb6rYFTrbm5ceUgqBGRshDIvlEhhsMHOgF+mM6uTuv1+bljVgICbXbFJPbMJTHZdIQfvmjif8WdvZfT1NolrPwM5eBOXlfL1+7gfbwpyubvF1GgJF8wE8oU3cChMTDIEMvGU0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8iaonBF; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WycLI3TJK+caqmKuaIgU3n5MiA5Yb+bo6HGYiE13cUmqoJznbvtuUBa6qpHldO+cG8ieoMzrvuD+WTPHQU0tn+xCBkchz4GNn6YhtmA4abvBWIThglFYyU7COW1yK2/NlNzJkLDXMCPffuIeYDWnhNeVb+eaHjgW5ISKqA39Nw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VR1KKxmk; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8iaonBF"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1dde26f7e1dso1617345ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 11:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711565985; x=1712170785; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WZVffBVXWhCz9qmiNGNujqYZrrrvTpbqG3lC0K8t/00=;
-        b=H8iaonBFZDq31QLNLb6LpwSxT7RpiOGm/esaou4Zx+B0t1lHLsU+SHKjD/MQ+fld3B
-         fJWu0xF11Scva7JDB9l4i+RhqBOVoMd876MWoOfTnhXhR6qPfxU/FNfun2yVj6+HVoEm
-         HYLl+RE+7jsDSCtBZDd4v4KYA7Q5O1ym68pQQy+TOzhn6gLOhFZ/jyEk/fWZif6BJWzk
-         0/8bII6PYArP+2pmkek+H+wzIb+ng3oTq0JoLJc2BBCNAhcnBwrLivNv2XWWDOi8KAG4
-         GMRP9ey4gIprHIjPDveVPHLyXtaHQ8h1cq8hBRbTxCr8yaBDA+tFCpWAEQ74ic3qUKs3
-         7LmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711565985; x=1712170785;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WZVffBVXWhCz9qmiNGNujqYZrrrvTpbqG3lC0K8t/00=;
-        b=emsorDZ/2aEgiHCMqKvhdCtQhfU2eBy7JPKQfrweq2g63Cp+/SwcJUt9y3ygUdpmK5
-         Vh6xDBasvxTuZ8dK7P6JUwHR24DkSadI4f+cU4ZuBV1sIjExE2l1BoL+OYFRlS0dScp8
-         NSFE0hTxuHWLsz1ryvg+xWUQxtvAiRrFVslymptCHPe+dCCDAA69dVuX5hig4afGahGL
-         vkAZDwJJo1egA4CrwHRtwkPVA7SKZpXE4895vAwYB2B7761vXIfXkI19DJ8HEstKiMLc
-         uOGD3g6mjwouYF8WXOw/jpiD3+8qoTzE63JaXWh1dmcKZUrBP/dmFjmeuEsjYObNqZNs
-         gLLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGHZCUWmXaPwVIkDH4BmLUg9Rv+fpgTqJIhp5ijVBdJqhWG9WdMzzcC2+F7Co3NKXvW2hECom1R5gSohg9+oI/vKBoxiZ6QEyi
-X-Gm-Message-State: AOJu0YyGfTILyABmxHOd7+Oem2UNf0Fdaran5XJaBHzoDLtUBV7B1ObH
-	UIFKXrf6AiFB1yaZu7DKlSUo7vd3ZQ48fBTNhKCR+Y2C0ZO4xcIU
-X-Google-Smtp-Source: AGHT+IEu6NRI4665V4QqT6JA1rNlK78B4RLmJGkjGvCHnkxb52MYIdkHZPWroH0KpiziXvS65ZMbWA==
-X-Received: by 2002:a17:903:186:b0:1e0:b562:b229 with SMTP id z6-20020a170903018600b001e0b562b229mr634154plg.47.1711565984939;
-        Wed, 27 Mar 2024 11:59:44 -0700 (PDT)
-Received: from fedora (c-73-170-51-167.hsd1.ca.comcast.net. [73.170.51.167])
-        by smtp.gmail.com with ESMTPSA id p12-20020a170902eacc00b001dc3c3be4adsm9357305pld.297.2024.03.27.11.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 11:59:44 -0700 (PDT)
-Date: Wed, 27 Mar 2024 11:59:42 -0700
-From: Vishal Moola <vishal.moola@gmail.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, willy@infradead.org,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	Baolin Wang <baolin.wang@linux.alibaba.com>
-Subject: Re: [PATCH 1/6] mm: migrate: add isolate_movable_folio()
-Message-ID: <ZgRsntOMz0R2LdqJ@fedora>
-References: <20240327141034.3712697-1-wangkefeng.wang@huawei.com>
- <20240327141034.3712697-2-wangkefeng.wang@huawei.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VR1KKxmk"
+Date: Wed, 27 Mar 2024 12:32:35 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1711567970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mi9KgqnvD5sPg3g6jo5E4/Llgztv5BH5/sWBg8KHfpg=;
+	b=VR1KKxmkjQkIMfImy9P99BjJ4ecW68Lw3mfy/CS/1QGjwScdYy+A6UxK7ZjDErYMJXLc21
+	OduELkySTh20Qf+KpmUBagXs2zBwT5O9lEI79ZSuFzfN5tlicCtVt/7c9xGIBuqjwb0Z4q
+	AhgOd9M7ko10JPNJRH9u1JV9HqwqQ0k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Russ Weight <russ.weight@linux.dev>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>, linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] fpga: region: add owner module and take its refcount
+Message-ID: <20240327193235.rsusnknmouknjgyg@4VRSMR2-DT.corp.robot.car>
+References: <20240327160022.202934-1-marpagan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,138 +46,220 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327141034.3712697-2-wangkefeng.wang@huawei.com>
+In-Reply-To: <20240327160022.202934-1-marpagan@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Mar 27, 2024 at 10:10:29PM +0800, Kefeng Wang wrote:
-> Like isolate_lru_page(), make isolate_movable_page() as a wrapper
-> around isolate_lru_folio(), since isolate_movable_page() always
-> fails on a tail page, add a warn for tail page and return immediately.
->
-> Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
-> ---
->  include/linux/migrate.h |  3 +++
->  mm/migrate.c            | 41 +++++++++++++++++++++++------------------
->  2 files changed, 26 insertions(+), 18 deletions(-)
+
+On Wed, Mar 27, 2024 at 05:00:20PM +0100, Marco Pagani wrote:
+> The current implementation of the fpga region assumes that the low-level
+> module registers a driver for the parent device and uses its owner pointer
+> to take the module's refcount. This approach is problematic since it can
+> lead to a null pointer dereference while attempting to get the region
+> during programming if the parent device does not have a driver.
 > 
-> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> index f9d92482d117..a6c38ee7246a 100644
-> --- a/include/linux/migrate.h
-> +++ b/include/linux/migrate.h
-> @@ -70,6 +70,7 @@ int migrate_pages(struct list_head *l, new_folio_t new, free_folio_t free,
->  		  unsigned int *ret_succeeded);
->  struct folio *alloc_migration_target(struct folio *src, unsigned long private);
->  bool isolate_movable_page(struct page *page, isolate_mode_t mode);
-> +bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode);
->  
->  int migrate_huge_page_move_mapping(struct address_space *mapping,
->  		struct folio *dst, struct folio *src);
-> @@ -91,6 +92,8 @@ static inline struct folio *alloc_migration_target(struct folio *src,
->  	{ return NULL; }
->  static inline bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->  	{ return false; }
-> +static inline bool isolate_movable_folio(struct page *page, isolate_mode_t mode)
-> +	{ return false; }
+> To address this problem, add a module owner pointer to the fpga_region
+> struct and use it to take the module's refcount. Modify the functions for
+> registering a region to take an additional owner module parameter and
+> rename them to avoid conflicts. Use the old function names for helper
+> macros that automatically set the module that registers the region as the
+> owner. This ensures compatibility with existing low-level control modules
+> and reduces the chances of registering a region without setting the owner.
+> 
+> Also, update the documentation to keep it consistent with the new interface
+> for registering an fpga region.
+> 
+> Other changes: unlock the mutex before calling put_device() in
+> fpga_region_put() to avoid potential use after release issues.
+> 
+> Fixes: 0fa20cdfcc1f ("fpga: fpga-region: device tree control for FPGA")
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Suggested-by: Xu Yilun <yilun.xu@intel.com>
 
-Wrong argument here.
+Reviewed-by: Russ Weight <russ.weight@linux.dev>
 
+> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> ---
+> 
+> v2:
+> - Fixed typo in the documentation sets -> set
+> - Renamed owner pointer get_br_owner -> br_owner
+> ---
+>  Documentation/driver-api/fpga/fpga-region.rst | 13 ++++++----
+>  drivers/fpga/fpga-region.c                    | 26 +++++++++++--------
+>  include/linux/fpga/fpga-region.h              | 13 +++++++---
+>  3 files changed, 33 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+> index dc55d60a0b4a..77190a5ef330 100644
+> --- a/Documentation/driver-api/fpga/fpga-region.rst
+> +++ b/Documentation/driver-api/fpga/fpga-region.rst
+> @@ -46,13 +46,16 @@ API to add a new FPGA region
+>  ----------------------------
 >  
->  static inline int migrate_huge_page_move_mapping(struct address_space *mapping,
->  				  struct folio *dst, struct folio *src)
-> diff --git a/mm/migrate.c b/mm/migrate.c
-> index 2228ca681afb..b2195b6ff32c 100644
-> --- a/mm/migrate.c
-> +++ b/mm/migrate.c
-> @@ -57,31 +57,29 @@
+>  * struct fpga_region - The FPGA region struct
+> -* struct fpga_region_info - Parameter structure for fpga_region_register_full()
+> -* fpga_region_register_full() -  Create and register an FPGA region using the
+> +* struct fpga_region_info - Parameter structure for __fpga_region_register_full()
+> +* __fpga_region_register_full() -  Create and register an FPGA region using the
+>    fpga_region_info structure to provide the full flexibility of options
+> -* fpga_region_register() -  Create and register an FPGA region using standard
+> +* __fpga_region_register() -  Create and register an FPGA region using standard
+>    arguments
+>  * fpga_region_unregister() -  Unregister an FPGA region
 >  
->  #include "internal.h"
+> +Helper macros ``fpga_region_register()`` and ``fpga_region_register_full()``
+> +automatically set the module that registers the FPGA region as the owner.
+> +
+>  The FPGA region's probe function will need to get a reference to the FPGA
+>  Manager it will be using to do the programming.  This usually would happen
+>  during the region's probe function.
+> @@ -82,10 +85,10 @@ following APIs to handle building or tearing down that list.
+>     :functions: fpga_region_info
 >  
-> -bool isolate_movable_page(struct page *page, isolate_mode_t mode)
-> +bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode)
->  {
-> -	struct folio *folio = folio_get_nontail_page(page);
->  	const struct movable_operations *mops;
+>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> -   :functions: fpga_region_register_full
+> +   :functions: __fpga_region_register
 >  
->  	/*
-> -	 * Avoid burning cycles with pages that are yet under __free_pages(),
-> +	 * Avoid burning cycles with folios that are yet under __free_pages(),
->  	 * or just got freed under us.
->  	 *
-> -	 * In case we 'win' a race for a movable page being freed under us and
-> +	 * In case we 'win' a race for a movable folio being freed under us and
->  	 * raise its refcount preventing __free_pages() from doing its job
-> -	 * the put_page() at the end of this block will take care of
-> -	 * release this page, thus avoiding a nasty leakage.
-> +	 * the folio_put() at the end of this block will take care of
-> +	 * release this folio, thus avoiding a nasty leakage.
->  	 */
-> -	if (!folio)
-> -		goto out;
-> +	folio_get(folio);
+>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> -   :functions: fpga_region_register
+> +   :functions: __fpga_region_register_full
 >  
->  	if (unlikely(folio_test_slab(folio)))
->  		goto out_putfolio;
->  	/* Pairs with smp_wmb() in slab freeing, e.g. SLUB's __free_slab() */
->  	smp_rmb();
->  	/*
-> -	 * Check movable flag before taking the page lock because
-> -	 * we use non-atomic bitops on newly allocated page flags so
-> -	 * unconditionally grabbing the lock ruins page's owner side.
-> +	 * Check movable flag before taking the folio lock because
-> +	 * we use non-atomic bitops on newly allocated folio flags so
-> +	 * unconditionally grabbing the lock ruins folio's owner side.
->  	 */
->  	if (unlikely(!__folio_test_movable(folio)))
->  		goto out_putfolio;
-> @@ -91,13 +89,13 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->  		goto out_putfolio;
+>  .. kernel-doc:: drivers/fpga/fpga-region.c
+>     :functions: fpga_region_unregister
+> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
+> index b364a929425c..1beb7415c2dc 100644
+> --- a/drivers/fpga/fpga-region.c
+> +++ b/drivers/fpga/fpga-region.c
+> @@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
+>  	}
 >  
->  	/*
-> -	 * As movable pages are not isolated from LRU lists, concurrent
-> -	 * compaction threads can race against page migration functions
-> -	 * as well as race against the releasing a page.
-> +	 * As movable folios are not isolated from LRU lists, concurrent
-> +	 * compaction threads can race against folio migration functions
-> +	 * as well as race against the releasing a folio.
->  	 *
-> -	 * In order to avoid having an already isolated movable page
-> +	 * In order to avoid having an already isolated movable folio
->  	 * being (wrongly) re-isolated while it is under migration,
-> -	 * or to avoid attempting to isolate pages being released,
-> +	 * or to avoid attempting to isolate folios being released,
->  	 * lets be sure we have the page lock
->  	 * before proceeding with the movable page isolation steps.
->  	 */
-> @@ -113,7 +111,7 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->  	if (!mops->isolate_page(&folio->page, mode))
->  		goto out_no_isolated;
+>  	get_device(dev);
+> -	if (!try_module_get(dev->parent->driver->owner)) {
+> +	if (!try_module_get(region->br_owner)) {
+>  		put_device(dev);
+>  		mutex_unlock(&region->mutex);
+>  		return ERR_PTR(-ENODEV);
+> @@ -75,9 +75,9 @@ static void fpga_region_put(struct fpga_region *region)
 >  
-> -	/* Driver shouldn't use PG_isolated bit of page->flags */
-> +	/* Driver shouldn't use PG_isolated bit of folio->flags */
->  	WARN_ON_ONCE(folio_test_isolated(folio));
->  	folio_set_isolated(folio);
->  	folio_unlock(folio);
-> @@ -124,10 +122,17 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
->  	folio_unlock(folio);
->  out_putfolio:
->  	folio_put(folio);
-> -out:
->  	return false;
+>  	dev_dbg(dev, "put\n");
+>  
+> -	module_put(dev->parent->driver->owner);
+> -	put_device(dev);
+> +	module_put(region->br_owner);
+>  	mutex_unlock(&region->mutex);
+> +	put_device(dev);
 >  }
 >  
-> +bool isolate_movable_page(struct page *page, isolate_mode_t mode)
-> +{
-> +	if (WARN_RATELIMIT(PageTail(page), "trying to isolate tail page"))
-> +		return false;
-
-This warning doesn't make sense. As of now, we still isolate_movable_page()
-to be able to take in a tail page, we just don't want to operate on it.
-
-> +	return isolate_movable_folio((struct folio *)page, mode);
-> +}
-> +
->  static void putback_movable_folio(struct folio *folio)
+>  /**
+> @@ -181,14 +181,16 @@ static struct attribute *fpga_region_attrs[] = {
+>  ATTRIBUTE_GROUPS(fpga_region);
+>  
+>  /**
+> - * fpga_region_register_full - create and register an FPGA Region device
+> + * __fpga_region_register_full - create and register an FPGA Region device
+>   * @parent: device parent
+>   * @info: parameters for FPGA Region
+> + * @owner: owner module containing the get_bridges function
+>   *
+>   * Return: struct fpga_region or ERR_PTR()
+>   */
+>  struct fpga_region *
+> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
+> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+> +			    struct module *owner)
 >  {
->  	const struct movable_operations *mops = folio_movable_ops(folio);
+>  	struct fpga_region *region;
+>  	int id, ret = 0;
+> @@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>  	region->compat_id = info->compat_id;
+>  	region->priv = info->priv;
+>  	region->get_bridges = info->get_bridges;
+> +	region->br_owner = owner;
+>  
+>  	mutex_init(&region->mutex);
+>  	INIT_LIST_HEAD(&region->bridge_list);
+> @@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>  
+>  	return ERR_PTR(ret);
+>  }
+> -EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> +EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+>  
+>  /**
+> - * fpga_region_register - create and register an FPGA Region device
+> + * __fpga_region_register - create and register an FPGA Region device
+>   * @parent: device parent
+>   * @mgr: manager that programs this region
+>   * @get_bridges: optional function to get bridges to a list
+> + * @owner: owner module containing get_bridges function
+>   *
+>   * This simple version of the register function should be sufficient for most users.
+>   * The fpga_region_register_full() function is available for users that need to
+> @@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+>   * Return: struct fpga_region or ERR_PTR()
+>   */
+>  struct fpga_region *
+> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> -		     int (*get_bridges)(struct fpga_region *))
+> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> +		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+>  {
+>  	struct fpga_region_info info = { 0 };
+>  
+>  	info.mgr = mgr;
+>  	info.get_bridges = get_bridges;
+>  
+> -	return fpga_region_register_full(parent, &info);
+> +	return __fpga_region_register_full(parent, &info, owner);
+>  }
+> -EXPORT_SYMBOL_GPL(fpga_region_register);
+> +EXPORT_SYMBOL_GPL(__fpga_region_register);
+>  
+>  /**
+>   * fpga_region_unregister - unregister an FPGA region
+> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+> index 9d4d32909340..d175babc3d68 100644
+> --- a/include/linux/fpga/fpga-region.h
+> +++ b/include/linux/fpga/fpga-region.h
+> @@ -36,6 +36,7 @@ struct fpga_region_info {
+>   * @mgr: FPGA manager
+>   * @info: FPGA image info
+>   * @compat_id: FPGA region id for compatibility check.
+> + * @br_owner: module containing the get_bridges function
+>   * @priv: private data
+>   * @get_bridges: optional function to get bridges to a list
+>   */
+> @@ -46,6 +47,7 @@ struct fpga_region {
+>  	struct fpga_manager *mgr;
+>  	struct fpga_image_info *info;
+>  	struct fpga_compat_id *compat_id;
+> +	struct module *br_owner;
+>  	void *priv;
+>  	int (*get_bridges)(struct fpga_region *region);
+>  };
+> @@ -58,12 +60,17 @@ fpga_region_class_find(struct device *start, const void *data,
+>  
+>  int fpga_region_program_fpga(struct fpga_region *region);
+>  
+> +#define fpga_region_register_full(parent, info) \
+> +	__fpga_region_register_full(parent, info, THIS_MODULE)
+>  struct fpga_region *
+> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info);
+> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+> +			    struct module *owner);
+>  
+> +#define fpga_region_register(parent, mgr, get_bridges) \
+> +	__fpga_region_register(parent, mgr, get_bridges, THIS_MODULE)
+>  struct fpga_region *
+> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> -		     int (*get_bridges)(struct fpga_region *));
+> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> +		       int (*get_bridges)(struct fpga_region *), struct module *owner);
+>  void fpga_region_unregister(struct fpga_region *region);
+>  
+>  #endif /* _FPGA_REGION_H */
+> 
+> base-commit: b1a91ca25f15b6d7b311de4465854a5981dee3d3
 > -- 
-> 2.27.0
+> 2.44.0
 > 
