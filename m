@@ -1,24 +1,24 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4266D13AD33
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 14:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CC413B287
+	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 14:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711548801; cv=none; b=AvJSBpETuSqTedqVpdp+n85vcFw6F2py5z8OfxiKa/VNB8wK7jeWXnORbumt1f3eDShkc4Wmn+soz+4Qyf+IC2nh1OYVHA3yBB7kaKqExPRA2urDwKOFQVNlRFGUbkaNV1zbM6SoGIEt0RZx12rBFNPom6gvG7PnWZGlg1sAldI=
+	t=1711548801; cv=none; b=dg2ns8c7qx/6/Rt6csILDhvSKCERANI60ik9fgRilljlGq40Fn9FBtVsC3b3SWeMleLa+QJiVSEZNsHI5Clg+SmVjOZ7YJvRmbvB3aL/7c/s3uqKkikuI516yDJsPeP8Oqac9HSGCOIo1NZbljBEkPG5eBEytf8uHwy3bgOnV90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711548801; c=relaxed/simple;
-	bh=OLv9R835lIm/WraYEbxnz+gfbM3Qn3jwGxgTFn2hLHM=;
+	bh=C0O8cqnwr7e9mdBCrrtfWDNaHOdsCLKcyVNfA4+izSA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TdhOEVwywHF5si2b2ctgY0lrNMw7BdyPPFOMLcEoACUc4ij0uyo0KQroCsrX/rukbbk6BbbfnHFPwSQl3U7CWvCA0jJdbVTmDzC4cMo+W45zpwri8zE5fmF28k7gpiHW/VkJ3KidCztnu/sWLJ0pddSZDvgfSdLV5yS1vba7/tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
+	 MIME-Version:Content-Type; b=a5uMJjyj4PzBsp+rb48hXW3/hLURltyGNM4lyTqcATiT1kcR6WserMtXSEf/NoOPvKcXJ44cGR/b0RrzeBrA5dR/w/8u0S3XWiTVL1ZwwYv4W9c9xw4pfEX7AwNa8icPqYW/8OX9eLKqHOQ1bOZ0J2e+YHi8RBWr4KH/1T+Z4Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4V4TBx4Zvzz1wnZy;
-	Wed, 27 Mar 2024 22:12:25 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4V4T8q6jGWz29dPD;
+	Wed, 27 Mar 2024 22:10:35 +0800 (CST)
 Received: from dggpemm100001.china.huawei.com (unknown [7.185.36.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id 08C27140259;
+	by mail.maildlp.com (Postfix) with ESMTPS id 9C5C71A0172;
 	Wed, 27 Mar 2024 22:13:15 +0800 (CST)
 Received: from localhost.localdomain (10.175.112.125) by
  dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
@@ -32,9 +32,9 @@ CC: <willy@infradead.org>, Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi
 	<hughd@google.com>, Jonathan Corbet <corbet@lwn.net>, <linux-mm@kvack.org>,
 	<linux-doc@vger.kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH 1/6] mm: migrate: add isolate_movable_folio()
-Date: Wed, 27 Mar 2024 22:10:29 +0800
-Message-ID: <20240327141034.3712697-2-wangkefeng.wang@huawei.com>
+Subject: [PATCH 2/6] mm: memory_hotplug: use more folio in do_migrate_range()
+Date: Wed, 27 Mar 2024 22:10:30 +0800
+Message-ID: <20240327141034.3712697-3-wangkefeng.wang@huawei.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20240327141034.3712697-1-wangkefeng.wang@huawei.com>
 References: <20240327141034.3712697-1-wangkefeng.wang@huawei.com>
@@ -49,129 +49,94 @@ Content-Type: text/plain
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm100001.china.huawei.com (7.185.36.93)
 
-Like isolate_lru_page(), make isolate_movable_page() as a wrapper
-around isolate_lru_folio(), since isolate_movable_page() always
-fails on a tail page, add a warn for tail page and return immediately.
+With isolate_movable_folio() and folio_isolate_lru(), let's use
+more folio in do_migrate_range() to save compound_head() calls.
 
 Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
 ---
- include/linux/migrate.h |  3 +++
- mm/migrate.c            | 41 +++++++++++++++++++++++------------------
- 2 files changed, 26 insertions(+), 18 deletions(-)
+ mm/memory_hotplug.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-index f9d92482d117..a6c38ee7246a 100644
---- a/include/linux/migrate.h
-+++ b/include/linux/migrate.h
-@@ -70,6 +70,7 @@ int migrate_pages(struct list_head *l, new_folio_t new, free_folio_t free,
- 		  unsigned int *ret_succeeded);
- struct folio *alloc_migration_target(struct folio *src, unsigned long private);
- bool isolate_movable_page(struct page *page, isolate_mode_t mode);
-+bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode);
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index a444e2d7dd2b..bd207772c619 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1774,14 +1774,14 @@ static int scan_movable_pages(unsigned long start, unsigned long end,
  
- int migrate_huge_page_move_mapping(struct address_space *mapping,
- 		struct folio *dst, struct folio *src);
-@@ -91,6 +92,8 @@ static inline struct folio *alloc_migration_target(struct folio *src,
- 	{ return NULL; }
- static inline bool isolate_movable_page(struct page *page, isolate_mode_t mode)
- 	{ return false; }
-+static inline bool isolate_movable_folio(struct page *page, isolate_mode_t mode)
-+	{ return false; }
- 
- static inline int migrate_huge_page_move_mapping(struct address_space *mapping,
- 				  struct folio *dst, struct folio *src)
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 2228ca681afb..b2195b6ff32c 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -57,31 +57,29 @@
- 
- #include "internal.h"
- 
--bool isolate_movable_page(struct page *page, isolate_mode_t mode)
-+bool isolate_movable_folio(struct folio *folio, isolate_mode_t mode)
+ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
  {
--	struct folio *folio = folio_get_nontail_page(page);
- 	const struct movable_operations *mops;
++	struct folio *folio;
+ 	unsigned long pfn;
+-	struct page *page, *head;
+ 	LIST_HEAD(source);
+ 	static DEFINE_RATELIMIT_STATE(migrate_rs, DEFAULT_RATELIMIT_INTERVAL,
+ 				      DEFAULT_RATELIMIT_BURST);
  
- 	/*
--	 * Avoid burning cycles with pages that are yet under __free_pages(),
-+	 * Avoid burning cycles with folios that are yet under __free_pages(),
- 	 * or just got freed under us.
- 	 *
--	 * In case we 'win' a race for a movable page being freed under us and
-+	 * In case we 'win' a race for a movable folio being freed under us and
- 	 * raise its refcount preventing __free_pages() from doing its job
--	 * the put_page() at the end of this block will take care of
--	 * release this page, thus avoiding a nasty leakage.
-+	 * the folio_put() at the end of this block will take care of
-+	 * release this folio, thus avoiding a nasty leakage.
- 	 */
--	if (!folio)
--		goto out;
-+	folio_get(folio);
+ 	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
+-		struct folio *folio;
++		struct page *page, *head;
+ 		bool isolated;
  
- 	if (unlikely(folio_test_slab(folio)))
- 		goto out_putfolio;
- 	/* Pairs with smp_wmb() in slab freeing, e.g. SLUB's __free_slab() */
- 	smp_rmb();
- 	/*
--	 * Check movable flag before taking the page lock because
--	 * we use non-atomic bitops on newly allocated page flags so
--	 * unconditionally grabbing the lock ruins page's owner side.
-+	 * Check movable flag before taking the folio lock because
-+	 * we use non-atomic bitops on newly allocated folio flags so
-+	 * unconditionally grabbing the lock ruins folio's owner side.
- 	 */
- 	if (unlikely(!__folio_test_movable(folio)))
- 		goto out_putfolio;
-@@ -91,13 +89,13 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
- 		goto out_putfolio;
+ 		if (!pfn_valid(pfn))
+@@ -1818,15 +1818,15 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		 * We can skip free pages. And we can deal with pages on
+ 		 * LRU and non-lru movable pages.
+ 		 */
+-		if (PageLRU(page))
+-			isolated = isolate_lru_page(page);
++		if (folio_test_lru(folio))
++			isolated = folio_isolate_lru(folio);
+ 		else
+-			isolated = isolate_movable_page(page, ISOLATE_UNEVICTABLE);
++			isolated = isolate_movable_folio(folio, ISOLATE_UNEVICTABLE);
+ 		if (isolated) {
+-			list_add_tail(&page->lru, &source);
+-			if (!__PageMovable(page))
+-				inc_node_page_state(page, NR_ISOLATED_ANON +
+-						    page_is_file_lru(page));
++			list_add_tail(&folio->lru, &source);
++			if (!__folio_test_movable(folio))
++				node_stat_add_folio(folio, NR_ISOLATED_ANON +
++						    folio_is_file_lru(folio));
  
- 	/*
--	 * As movable pages are not isolated from LRU lists, concurrent
--	 * compaction threads can race against page migration functions
--	 * as well as race against the releasing a page.
-+	 * As movable folios are not isolated from LRU lists, concurrent
-+	 * compaction threads can race against folio migration functions
-+	 * as well as race against the releasing a folio.
- 	 *
--	 * In order to avoid having an already isolated movable page
-+	 * In order to avoid having an already isolated movable folio
- 	 * being (wrongly) re-isolated while it is under migration,
--	 * or to avoid attempting to isolate pages being released,
-+	 * or to avoid attempting to isolate folios being released,
- 	 * lets be sure we have the page lock
- 	 * before proceeding with the movable page isolation steps.
- 	 */
-@@ -113,7 +111,7 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
- 	if (!mops->isolate_page(&folio->page, mode))
- 		goto out_no_isolated;
+ 		} else {
+ 			if (__ratelimit(&migrate_rs)) {
+@@ -1834,7 +1834,7 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 				dump_page(page, "isolation failed");
+ 			}
+ 		}
+-		put_page(page);
++		folio_put(folio);
+ 	}
+ 	if (!list_empty(&source)) {
+ 		nodemask_t nmask = node_states[N_MEMORY];
+@@ -1846,9 +1846,9 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
  
--	/* Driver shouldn't use PG_isolated bit of page->flags */
-+	/* Driver shouldn't use PG_isolated bit of folio->flags */
- 	WARN_ON_ONCE(folio_test_isolated(folio));
- 	folio_set_isolated(folio);
- 	folio_unlock(folio);
-@@ -124,10 +122,17 @@ bool isolate_movable_page(struct page *page, isolate_mode_t mode)
- 	folio_unlock(folio);
- out_putfolio:
- 	folio_put(folio);
--out:
- 	return false;
- }
+ 		/*
+ 		 * We have checked that migration range is on a single zone so
+-		 * we can use the nid of the first page to all the others.
++		 * we can use the nid of the first folio to all the others.
+ 		 */
+-		mtc.nid = page_to_nid(list_first_entry(&source, struct page, lru));
++		mtc.nid = folio_nid(list_first_entry(&source, struct folio, lru));
  
-+bool isolate_movable_page(struct page *page, isolate_mode_t mode)
-+{
-+	if (WARN_RATELIMIT(PageTail(page), "trying to isolate tail page"))
-+		return false;
-+
-+	return isolate_movable_folio((struct folio *)page, mode);
-+}
-+
- static void putback_movable_folio(struct folio *folio)
- {
- 	const struct movable_operations *mops = folio_movable_ops(folio);
+ 		/*
+ 		 * try to allocate from a different node but reuse this node
+@@ -1861,11 +1861,11 @@ static void do_migrate_range(unsigned long start_pfn, unsigned long end_pfn)
+ 		ret = migrate_pages(&source, alloc_migration_target, NULL,
+ 			(unsigned long)&mtc, MIGRATE_SYNC, MR_MEMORY_HOTPLUG, NULL);
+ 		if (ret) {
+-			list_for_each_entry(page, &source, lru) {
++			list_for_each_entry(folio, &source, lru) {
+ 				if (__ratelimit(&migrate_rs)) {
+ 					pr_warn("migrating pfn %lx failed ret:%d\n",
+-						page_to_pfn(page), ret);
+-					dump_page(page, "migration failure");
++						folio_pfn(folio), ret);
++					dump_page(&folio->page, "migration failure");
+ 				}
+ 			}
+ 			putback_movable_pages(&source);
 -- 
 2.27.0
 
