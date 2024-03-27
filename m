@@ -1,187 +1,96 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C88149DF5
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 17:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F78512EBCB;
+	Wed, 27 Mar 2024 17:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711559714; cv=none; b=ae6twbTHMJhVC7QxXH6ToLzjpQ978AWFc20Nh+iNQSs3vmKpaO00YJGhYGrRhM09SbZ1O7xfmzUvVsar3K90VCJqs/BrhpLfqsv4t18VY2D2wJtXUmV9wvMMRkHmnQrqroNUCOAn1Zd1kcsBsg/Rvx+QLxj0CAbKmpxnckIXRDA=
+	t=1711560051; cv=none; b=JMnerh7PW5kZ5bQbIO7yFyZmwAqyTr41VnGRoHdZu2Q1/90iiY0bI6ahqTnNmuc9S+BqBS3IgY0OHOPbmQU7YrW9uDSXXXAoCv6zhk8MQjBkW70OlQfJwx4k/kT2tYDPs70l+EgVZSIOqjuMmgqBTVLmixe2oj2jUeSk3Bi6w0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711559714; c=relaxed/simple;
-	bh=9tnsRuZ5G7QjnwFgOQWvg/3sPZordPoR8Q1151meHlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iRxpodjs9FHlNVB1G9+NB5uWyq0DGLBI64TllqhpAITJM69nbifm71lULbsQyUYoH+QPlBz4lURRq91TtbVlAifIb7jZ/3Bv/2fJgiEocWNVLXhSgm30pGNW8oQlSk24rg70cQZEu5oF3gNW+Zrv0ryduFXuVJmhNVSV55NdsHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=VBiKMhfk; arc=none smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1711560051; c=relaxed/simple;
+	bh=a6Udgf42vnEB6zwutozKuZVR31bDOnmw+Hx2Bu4TQks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VYP1aNKd3oT4WDM22M2hFp7UpKsgKTpz2FyxP6WvpyFHvTTI9TIC4LY2PJm71dOYytPK/EewwnpMAFXou1AdUQjapROXmQQRGQsedWFkt1Zxe6KwLlmmE7Z2CBXoy2qFKPZc0k9UExy8ZRzPm1W050SsZk2Et3vJfMX4YF6sjt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q576/TIX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="VBiKMhfk"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c3d70191c7so59334b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 10:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1711559712; x=1712164512; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MyfMHWP1Z5kFosJnJ/cLT9vrDNlc6F3RpHcMzwkJjx8=;
-        b=VBiKMhfksZs2FoL+Oen+l4viEArx3fv0CeCL4ZN0MJMYAEWw8lwwAI62tJyGtfypKG
-         YStnUcuL47P28tZ74VCODBd3XogFpKIFt2I1H5LDhwe8Pn2Odk4i6oMy7YlDpsAYlPTO
-         D75ZkxizvkQm1VAXcB2fxNhtHu0Ea13T1ePeFq0wZgDd35QrbJ5cZ4EqSMqDWXsCsUKe
-         11keU8SaMEgPeXAJlgGV0Cwn/tcHEdWQrseBmSzdTwvVXScPcjnQ2SynNChB5RzD6Ijn
-         l1H2JUkGBxblVgZMs3yehBRxo1htITSlBHmahaCPeTld9P1JuWPi+Bj/28xi93o39xkl
-         5ohg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711559712; x=1712164512;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MyfMHWP1Z5kFosJnJ/cLT9vrDNlc6F3RpHcMzwkJjx8=;
-        b=DypsNBtNtE0CnMyeJh1xgj0xa7pWJD8vBrb2qscVnTToBPRczDvVU4Gcs/oWZMeXhs
-         KnLtMcQgPnrqmBC51AHe9T4Eb6nnJuYSOm3xzGc4BjHworg8YFd6Ic3/LOqVNwxzQDus
-         YQU9+PgPhoyyKcnApECOPFqY9//YCrPALb6g1hS6q5e+6iM7tTXh2LbYhAUTicqGcj3W
-         6ccPMQVat3BLXfwlXnUEcG6uwy+iFBD4ek8wEzMvOv9w6jdr5br6v4hfGAYm8BbzG6Mj
-         1SQuT3OWlrlr2/FZWP29RLdEqDQiJLhk8pJgFSAjbxC3zbKIaPAtptEgFcn+uhZ/iU8B
-         pIrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXKgUTdAoJiLKSBtvLRQo3Pz/JnsaEhM06z8bVjgwlJsAdLVu8Ye3LwhctwTY428Ez7VyDluF9jQJTK/7z+dKRrkZIq7vboMbyd
-X-Gm-Message-State: AOJu0Yx2qAihpiif/TDILYmodU91Z/1viuw38vlF4EXSh1d0Y01Vb8AP
-	w8h/zguXxgb/B4GUFJAiXglJ3fswzxAfoL/rZMd/kvagktMXcpacGc7rrke/gHQ=
-X-Google-Smtp-Source: AGHT+IGQ+Fbz7qR1SW5qNkJYopwwdBYDjEYKQNSO/4NiABanB9dU3kXOL1kwvcUdEQ/e1ORbwkUJTQ==
-X-Received: by 2002:a05:6808:64b:b0:3c3:d56d:a5dd with SMTP id z11-20020a056808064b00b003c3d56da5ddmr357972oih.18.1711559712027;
-        Wed, 27 Mar 2024 10:15:12 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id kd9-20020a056214400900b00696b117a325sm499925qvb.108.2024.03.27.10.14.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 10:14:48 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1rpWr2-005ajV-OE;
-	Wed, 27 Mar 2024 14:14:24 -0300
-Date: Wed, 27 Mar 2024 14:14:24 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240327171424.GI8419@ziepe.ca>
-References: <20240307000036.GP9225@ziepe.ca>
- <20240307150505.GA28978@lst.de>
- <20240307210116.GQ9225@ziepe.ca>
- <20240308164920.GA17991@lst.de>
- <20240308202342.GZ9225@ziepe.ca>
- <20240309161418.GA27113@lst.de>
- <20240319153620.GB66976@ziepe.ca>
- <20240321223910.GA22663@lst.de>
- <20240322184330.GL66976@ziepe.ca>
- <20240324232215.GC20765@lst.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q576/TIX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51F14C433F1;
+	Wed, 27 Mar 2024 17:20:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711560050;
+	bh=a6Udgf42vnEB6zwutozKuZVR31bDOnmw+Hx2Bu4TQks=;
+	h=From:Date:Subject:To:Cc:From;
+	b=q576/TIXTO3JUdh4xlDOcDue+1lD9EMifI3kCEYsWFSkhRSOkqYKV2bNFZfkLtHee
+	 5vx6E9Oze9g9FRwSGJUt7DcKcYtCIKDBCcEjgAgQmkQDir3p/o6pHrssR+YaT84FXf
+	 BbQAEGLTRfiI+DPQHGIzcVruyiGGb5mCbAhl9wh73B+tADD1kKjHozpsfBaxP3GYKU
+	 021UiDq/d7jQJd3SVZskaszm9zoF7fGDUfI8SUeOG9YAsk337MtwqZFH3Sahxw7OoC
+	 DHbKZiKEgP5wMSrbhbp7lJJUcGq7cpLZZMYV6PCPN5+gbqfOp8CNt+AZ47dMOUUUyV
+	 t44Qde8rMBAnA==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Wed, 27 Mar 2024 10:20:36 -0700
+Subject: [PATCH] Documentation/llvm: Note s390 LLVM=1 support with LLVM
+ 18.1.0 and newer
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240324232215.GC20765@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240327-llvm-docs-s390-llvm-1-v1-1-56ad95d2bc27@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAGNVBGYC/yXMTQqAIBBA4avErBtQC6WuEi0kpxroDwciEO+e1
+ PJbvJdAKDIJ9FWCSDcLn0eBriuYVn8shByKwSjTqsY43LZ7x3BOgtJ06qdGqztvjQ6+tQ5Ke0W
+ a+fm+w5jzCz/L8gJnAAAA
+To: masahiroy@kernel.org
+Cc: ndesaulniers@google.com, morbo@google.com, justinstitt@google.com, 
+ nicolas@fjasle.eu, corbet@lwn.net, llvm@lists.linux.dev, 
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+ patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1412; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=a6Udgf42vnEB6zwutozKuZVR31bDOnmw+Hx2Bu4TQks=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDGksoUV/57nNtpi9ebP9u+8Le3UvioiKNbxTYYu+4D39t
+ b7AfXm2jlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRXQsY/udN3+KzfSNDt1lr
+ tarvGwWJ41PZmoJ6Qs/7T3zruXGfyzqG//X/hLfsmBL0ZaX8cYtNR+f4FdZ6enTryyxfqu57qO1
+ wPzsA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Mon, Mar 25, 2024 at 12:22:15AM +0100, Christoph Hellwig wrote:
-> On Fri, Mar 22, 2024 at 03:43:30PM -0300, Jason Gunthorpe wrote:
-> > If we are going to make caller provided uniformity a requirement, lets
-> > imagine a formal memory type idea to help keep this a little
-> > abstracted?
-> > 
-> >  DMA_MEMORY_TYPE_NORMAL
-> >  DMA_MEMORY_TYPE_P2P_NOT_ACS
-> >  DMA_MEMORY_TYPE_ENCRYPTED
-> >  DMA_MEMORY_TYPE_BOUNCE_BUFFER  // ??
-> > 
-> > Then maybe the driver flow looks like:
-> > 
-> > 	if (transaction.memory_type == DMA_MEMORY_TYPE_NORMAL && dma_api_has_iommu(dev)) {
-> 
-> Add a nice helper to make this somewhat readable, but yes.
-> 
-> > 	} else if (transaction.memory_type == DMA_MEMORY_TYPE_P2P_NOT_ACS) {
-> > 		num_hwsgls = transcation.num_sgls;
-> > 		for_each_range(transaction, range) {
-> > 			hwsgl[i].addr = dma_api_p2p_not_acs_map(range.start_physical, range.length, p2p_memory_provider);
-> > 			hwsgl[i].len = range.size;
-> > 		}
-> > 	} else {
-> > 		/* Must be DMA_MEMORY_TYPE_NORMAL, DMA_MEMORY_TYPE_ENCRYPTED, DMA_MEMORY_TYPE_BOUNCE_BUFFER? */
-> > 		num_hwsgls = transcation.num_sgls;
-> > 		for_each_range(transaction, range) {
-> > 			hwsgl[i].addr = dma_api_map_cpu_page(range.start_page, range.length);
-> > 			hwsgl[i].len = range.size;
-> > 		}
-> >
-> 
-> And these two are really the same except that we call a different map
-> helper underneath.  So I think as far as the driver is concerned
-> they should be the same, the DMA API just needs to key off the
-> memory tap.
+As of the first s390 pull request during the 6.9 merge window,
+commit 691632f0e869 ("Merge tag 's390-6.9-1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux"), s390 can be
+built with LLVM=1 when using LLVM 18.1.0, which is the first version
+that has SystemZ support implemented in ld.lld and llvm-objcopy.
 
-Yeah.. If the caller is going to have compute the memory type of the
-range then lets pass it to the helper
+Update the supported architectures table in the Kbuild LLVM
+documentation to note this explicitly to make it more discoverable by
+users and other developers. Additionally, this brings s390 in line with
+the rest of the architectures in the table, which all support LLVM=1.
 
-dma_api_map_memory_type(transaction.memory_type, range.start_page, range.length);
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ Documentation/kbuild/llvm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Then we can just hide all the differences under the API without doing
-duplicated work.
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index b1d97fafddcf..bb5c44f8bd1c 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -178,7 +178,7 @@ yet. Bug reports are always welcome at the issue tracker below!
+      - ``LLVM=1``
+    * - s390
+      - Maintained
+-     - ``CC=clang``
++     - ``LLVM=1`` (LLVM >= 18.1.0), ``CC=clang`` (LLVM < 18.1.0)
+    * - um (User Mode)
+      - Maintained
+      - ``LLVM=1``
 
-Function names need some work ...
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240327-llvm-docs-s390-llvm-1-619a621da467
 
-> > > > So I take it as a requirement that RDMA MUST make single MR's out of a
-> > > > hodgepodge of page types. RDMA MRs cannot be split. Multiple MR's are
-> > > > not a functional replacement for a single MR.
-> > > 
-> > > But MRs consolidate multiple dma addresses anyway.
-> > 
-> > I'm not sure I understand this?
-> 
-> The RDMA MRs take a a list of PFNish address, (or SGLs with the
-> enhanced MRs from Mellanox) and give you back a single rkey/lkey.
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
-Yes, that is the desire.
- 
-> > To go back to my main thesis - I would like a high performance low
-> > level DMA API that is capable enough that it could implement
-> > scatterlist dma_map_sg() and thus also implement any future
-> > scatterlist_v2, bio, hmm_range_fault or any other thing we come up
-> > with on top of it. This is broadly what I thought we agreed to at LSF
-> > last year.
-> 
-> I think the biggest underlying problem of the scatterlist based
-> DMA implementation for IOMMUs is that it's trying to handle to much,
-> that is magic coalescing even if the segments boundaries don't align
-> with the IOMMU page size.  If we can get rid of that misfeature I
-> think we'd greatly simply the API and implementation.
-
-Yeah, that stuff is not easy at all and takes extra computation to
-figure out. I always assumed it was there for block...
-
-Leon & Chaitanya will make a RFC v2 along these lines, lets see how it
-goes.
-
-Thanks,
-Jason
