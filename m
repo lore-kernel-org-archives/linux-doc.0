@@ -1,291 +1,187 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC1A12F5B2
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 16:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C88149DF5
+	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 17:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711555308; cv=none; b=LbiXerOotZwL+55VRkVooKTV9O4TtfSJO2G+2HzTPAcS6ZS2xyMenqDDNrJPVq7cgL7UBAnunFky8XiUNdBLUo2Sk2aCKZ6eGidPMGqKtjx6O6D/2cc+CVnT+dCLKoGoP1josXP9e/i8vpnHDVbzgQHnLOIk0oZvEfYg57d+40Y=
+	t=1711559714; cv=none; b=ae6twbTHMJhVC7QxXH6ToLzjpQ978AWFc20Nh+iNQSs3vmKpaO00YJGhYGrRhM09SbZ1O7xfmzUvVsar3K90VCJqs/BrhpLfqsv4t18VY2D2wJtXUmV9wvMMRkHmnQrqroNUCOAn1Zd1kcsBsg/Rvx+QLxj0CAbKmpxnckIXRDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711555308; c=relaxed/simple;
-	bh=sCzNGZzazf+KJukAXuHWhrhnZJ5Xtoa9qDS9guDzCUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PMS86020isDAVZ0vvIJv4/mNsVYbXu9bqKeu9U4t6J3J8ZSXF2LaAaIm8JUQfPgU/NPvE48slLPd+c0wEu68YOtmViCXO6JNiPsaPcdFXI2DUHlSuSdul83AtUTW3tuRBOM1RkcuMhm4bpevdwVbhleqB4lgcUVizL7pj1bxs64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cb96jY4f; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711559714; c=relaxed/simple;
+	bh=9tnsRuZ5G7QjnwFgOQWvg/3sPZordPoR8Q1151meHlI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iRxpodjs9FHlNVB1G9+NB5uWyq0DGLBI64TllqhpAITJM69nbifm71lULbsQyUYoH+QPlBz4lURRq91TtbVlAifIb7jZ/3Bv/2fJgiEocWNVLXhSgm30pGNW8oQlSk24rg70cQZEu5oF3gNW+Zrv0ryduFXuVJmhNVSV55NdsHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=VBiKMhfk; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cb96jY4f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711555304;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sV/lZgwkhea3I+lgwlHmyuTZ7NXsG6CjPnVg+nnNBQ8=;
-	b=cb96jY4fLWHzY+GVMZec0xKRqvvvuyhZhBR7SSQm5DOxhOJuxJPuGRtvk6KQE4ggHwV+iH
-	MG8xNShlpggahuxospxkBSW0D7WPASDROq1snsRm6fo2WVUOzCWCfOz07/51TqsHfeIwmI
-	V2MxlpNaqa9nMNw9HiR2EWlukzj6CnQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-637-hEP_WjaXNxqHr-8cWLk1cw-1; Wed, 27 Mar 2024 12:01:43 -0400
-X-MC-Unique: hEP_WjaXNxqHr-8cWLk1cw-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3418f237c0bso3514307f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 09:01:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="VBiKMhfk"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3c3d70191c7so59334b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 10:15:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1711559712; x=1712164512; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MyfMHWP1Z5kFosJnJ/cLT9vrDNlc6F3RpHcMzwkJjx8=;
+        b=VBiKMhfksZs2FoL+Oen+l4viEArx3fv0CeCL4ZN0MJMYAEWw8lwwAI62tJyGtfypKG
+         YStnUcuL47P28tZ74VCODBd3XogFpKIFt2I1H5LDhwe8Pn2Odk4i6oMy7YlDpsAYlPTO
+         D75ZkxizvkQm1VAXcB2fxNhtHu0Ea13T1ePeFq0wZgDd35QrbJ5cZ4EqSMqDWXsCsUKe
+         11keU8SaMEgPeXAJlgGV0Cwn/tcHEdWQrseBmSzdTwvVXScPcjnQ2SynNChB5RzD6Ijn
+         l1H2JUkGBxblVgZMs3yehBRxo1htITSlBHmahaCPeTld9P1JuWPi+Bj/28xi93o39xkl
+         5ohg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711555301; x=1712160101;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sV/lZgwkhea3I+lgwlHmyuTZ7NXsG6CjPnVg+nnNBQ8=;
-        b=Bdrf7O+R+yu3xWoEVPvhnfFECf9Upw/AodHJFBmyqE6BzSoYI+QIRy+DfMZ8v2Q1AV
-         IjmeysIgOIxnVv+XSPDV1mo0CdTxiSNDQJxMkoKGPHRLWx5PlICeNGz/xKk/nUSS93dY
-         7DYxc3LD8v6oVGuYh4ORj7x01RTUy9p4qkp2/e+lLJhndYIYutvT5wPJUcn/QvVcnrkw
-         R4CxtFsvE9rn60Wg4TMaJfLGpoASd/lfrFrxyG58ZioefP36tgGlow+iGb0VoD1drjXN
-         XK3PUWEOKdPS1ukavoVBFTNcZyuYYFWp3eUMKcPIRbdoBYJldyyCqQA1//wG0wduK5Ys
-         B2DA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/xINMWV8nQACEYS2uCK86p0XR6G/9LTOfT7UBNiOk8U+09/wlnN8ywBu2z1NtlRrwTBFrPkh+XZKBE0FUbQIv76ZOZeeKS+hc
-X-Gm-Message-State: AOJu0Yz7quUm2s+RAUuGt9lpX14OKqTsNTXteV2lPth9fvbyDpmcJbEG
-	1v5Tybo0M96rLFoDsyjyXkudoO30PTHl0sEiMKwyrg3OW/ThxFJHYUAY5cTISX/bvpufwiVsmTy
-	UzoIJNIrS1fYYKedJ2qNhVk4weGOl5fW1069ShQePUrBNnT7y/bF1Avmw
-X-Received: by 2002:a05:6000:188a:b0:33e:8b95:b351 with SMTP id a10-20020a056000188a00b0033e8b95b351mr325959wri.9.1711555301593;
-        Wed, 27 Mar 2024 09:01:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFMHzSy070bVLduzjetNQIXt6kHnR1+LnSFRxpL9zxKrA3nP/E66ofJjxLjiEBU6orzyjofKw==
-X-Received: by 2002:a05:6000:188a:b0:33e:8b95:b351 with SMTP id a10-20020a056000188a00b0033e8b95b351mr325938wri.9.1711555301136;
-        Wed, 27 Mar 2024 09:01:41 -0700 (PDT)
-Received: from klayman.redhat.com (net-2-34-30-89.cust.vodafonedsl.it. [2.34.30.89])
-        by smtp.gmail.com with ESMTPSA id x3-20020adfcc03000000b0033e41e1ad93sm15114709wrh.57.2024.03.27.09.01.39
+        d=1e100.net; s=20230601; t=1711559712; x=1712164512;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MyfMHWP1Z5kFosJnJ/cLT9vrDNlc6F3RpHcMzwkJjx8=;
+        b=DypsNBtNtE0CnMyeJh1xgj0xa7pWJD8vBrb2qscVnTToBPRczDvVU4Gcs/oWZMeXhs
+         KnLtMcQgPnrqmBC51AHe9T4Eb6nnJuYSOm3xzGc4BjHworg8YFd6Ic3/LOqVNwxzQDus
+         YQU9+PgPhoyyKcnApECOPFqY9//YCrPALb6g1hS6q5e+6iM7tTXh2LbYhAUTicqGcj3W
+         6ccPMQVat3BLXfwlXnUEcG6uwy+iFBD4ek8wEzMvOv9w6jdr5br6v4hfGAYm8BbzG6Mj
+         1SQuT3OWlrlr2/FZWP29RLdEqDQiJLhk8pJgFSAjbxC3zbKIaPAtptEgFcn+uhZ/iU8B
+         pIrg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKgUTdAoJiLKSBtvLRQo3Pz/JnsaEhM06z8bVjgwlJsAdLVu8Ye3LwhctwTY428Ez7VyDluF9jQJTK/7z+dKRrkZIq7vboMbyd
+X-Gm-Message-State: AOJu0Yx2qAihpiif/TDILYmodU91Z/1viuw38vlF4EXSh1d0Y01Vb8AP
+	w8h/zguXxgb/B4GUFJAiXglJ3fswzxAfoL/rZMd/kvagktMXcpacGc7rrke/gHQ=
+X-Google-Smtp-Source: AGHT+IGQ+Fbz7qR1SW5qNkJYopwwdBYDjEYKQNSO/4NiABanB9dU3kXOL1kwvcUdEQ/e1ORbwkUJTQ==
+X-Received: by 2002:a05:6808:64b:b0:3c3:d56d:a5dd with SMTP id z11-20020a056808064b00b003c3d56da5ddmr357972oih.18.1711559712027;
+        Wed, 27 Mar 2024 10:15:12 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id kd9-20020a056214400900b00696b117a325sm499925qvb.108.2024.03.27.10.14.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 09:01:40 -0700 (PDT)
-From: Marco Pagani <marpagan@redhat.com>
-To: Moritz Fischer <mdf@kernel.org>,
-	Wu Hao <hao.wu@intel.com>,
-	Xu Yilun <yilun.xu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Tull <atull@opensource.altera.com>
-Cc: Marco Pagani <marpagan@redhat.com>,
-	linux-fpga@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fpga: region: add owner module and take its refcount
-Date: Wed, 27 Mar 2024 17:00:20 +0100
-Message-ID: <20240327160022.202934-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.44.0
+        Wed, 27 Mar 2024 10:14:48 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1rpWr2-005ajV-OE;
+	Wed, 27 Mar 2024 14:14:24 -0300
+Date: Wed, 27 Mar 2024 14:14:24 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>,
+	Dan Williams <dan.j.williams@intel.com>,
+	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+Message-ID: <20240327171424.GI8419@ziepe.ca>
+References: <20240307000036.GP9225@ziepe.ca>
+ <20240307150505.GA28978@lst.de>
+ <20240307210116.GQ9225@ziepe.ca>
+ <20240308164920.GA17991@lst.de>
+ <20240308202342.GZ9225@ziepe.ca>
+ <20240309161418.GA27113@lst.de>
+ <20240319153620.GB66976@ziepe.ca>
+ <20240321223910.GA22663@lst.de>
+ <20240322184330.GL66976@ziepe.ca>
+ <20240324232215.GC20765@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240324232215.GC20765@lst.de>
 
-The current implementation of the fpga region assumes that the low-level
-module registers a driver for the parent device and uses its owner pointer
-to take the module's refcount. This approach is problematic since it can
-lead to a null pointer dereference while attempting to get the region
-during programming if the parent device does not have a driver.
+On Mon, Mar 25, 2024 at 12:22:15AM +0100, Christoph Hellwig wrote:
+> On Fri, Mar 22, 2024 at 03:43:30PM -0300, Jason Gunthorpe wrote:
+> > If we are going to make caller provided uniformity a requirement, lets
+> > imagine a formal memory type idea to help keep this a little
+> > abstracted?
+> > 
+> >  DMA_MEMORY_TYPE_NORMAL
+> >  DMA_MEMORY_TYPE_P2P_NOT_ACS
+> >  DMA_MEMORY_TYPE_ENCRYPTED
+> >  DMA_MEMORY_TYPE_BOUNCE_BUFFER  // ??
+> > 
+> > Then maybe the driver flow looks like:
+> > 
+> > 	if (transaction.memory_type == DMA_MEMORY_TYPE_NORMAL && dma_api_has_iommu(dev)) {
+> 
+> Add a nice helper to make this somewhat readable, but yes.
+> 
+> > 	} else if (transaction.memory_type == DMA_MEMORY_TYPE_P2P_NOT_ACS) {
+> > 		num_hwsgls = transcation.num_sgls;
+> > 		for_each_range(transaction, range) {
+> > 			hwsgl[i].addr = dma_api_p2p_not_acs_map(range.start_physical, range.length, p2p_memory_provider);
+> > 			hwsgl[i].len = range.size;
+> > 		}
+> > 	} else {
+> > 		/* Must be DMA_MEMORY_TYPE_NORMAL, DMA_MEMORY_TYPE_ENCRYPTED, DMA_MEMORY_TYPE_BOUNCE_BUFFER? */
+> > 		num_hwsgls = transcation.num_sgls;
+> > 		for_each_range(transaction, range) {
+> > 			hwsgl[i].addr = dma_api_map_cpu_page(range.start_page, range.length);
+> > 			hwsgl[i].len = range.size;
+> > 		}
+> >
+> 
+> And these two are really the same except that we call a different map
+> helper underneath.  So I think as far as the driver is concerned
+> they should be the same, the DMA API just needs to key off the
+> memory tap.
 
-To address this problem, add a module owner pointer to the fpga_region
-struct and use it to take the module's refcount. Modify the functions for
-registering a region to take an additional owner module parameter and
-rename them to avoid conflicts. Use the old function names for helper
-macros that automatically set the module that registers the region as the
-owner. This ensures compatibility with existing low-level control modules
-and reduces the chances of registering a region without setting the owner.
+Yeah.. If the caller is going to have compute the memory type of the
+range then lets pass it to the helper
 
-Also, update the documentation to keep it consistent with the new interface
-for registering an fpga region.
+dma_api_map_memory_type(transaction.memory_type, range.start_page, range.length);
 
-Other changes: unlock the mutex before calling put_device() in
-fpga_region_put() to avoid potential use after release issues.
+Then we can just hide all the differences under the API without doing
+duplicated work.
 
-Fixes: 0fa20cdfcc1f ("fpga: fpga-region: device tree control for FPGA")
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Suggested-by: Xu Yilun <yilun.xu@intel.com>
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
----
+Function names need some work ...
 
-v2:
-- Fixed typo in the documentation sets -> set
-- Renamed owner pointer get_br_owner -> br_owner
----
- Documentation/driver-api/fpga/fpga-region.rst | 13 ++++++----
- drivers/fpga/fpga-region.c                    | 26 +++++++++++--------
- include/linux/fpga/fpga-region.h              | 13 +++++++---
- 3 files changed, 33 insertions(+), 19 deletions(-)
+> > > > So I take it as a requirement that RDMA MUST make single MR's out of a
+> > > > hodgepodge of page types. RDMA MRs cannot be split. Multiple MR's are
+> > > > not a functional replacement for a single MR.
+> > > 
+> > > But MRs consolidate multiple dma addresses anyway.
+> > 
+> > I'm not sure I understand this?
+> 
+> The RDMA MRs take a a list of PFNish address, (or SGLs with the
+> enhanced MRs from Mellanox) and give you back a single rkey/lkey.
 
-diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
-index dc55d60a0b4a..77190a5ef330 100644
---- a/Documentation/driver-api/fpga/fpga-region.rst
-+++ b/Documentation/driver-api/fpga/fpga-region.rst
-@@ -46,13 +46,16 @@ API to add a new FPGA region
- ----------------------------
+Yes, that is the desire.
  
- * struct fpga_region - The FPGA region struct
--* struct fpga_region_info - Parameter structure for fpga_region_register_full()
--* fpga_region_register_full() -  Create and register an FPGA region using the
-+* struct fpga_region_info - Parameter structure for __fpga_region_register_full()
-+* __fpga_region_register_full() -  Create and register an FPGA region using the
-   fpga_region_info structure to provide the full flexibility of options
--* fpga_region_register() -  Create and register an FPGA region using standard
-+* __fpga_region_register() -  Create and register an FPGA region using standard
-   arguments
- * fpga_region_unregister() -  Unregister an FPGA region
- 
-+Helper macros ``fpga_region_register()`` and ``fpga_region_register_full()``
-+automatically set the module that registers the FPGA region as the owner.
-+
- The FPGA region's probe function will need to get a reference to the FPGA
- Manager it will be using to do the programming.  This usually would happen
- during the region's probe function.
-@@ -82,10 +85,10 @@ following APIs to handle building or tearing down that list.
-    :functions: fpga_region_info
- 
- .. kernel-doc:: drivers/fpga/fpga-region.c
--   :functions: fpga_region_register_full
-+   :functions: __fpga_region_register
- 
- .. kernel-doc:: drivers/fpga/fpga-region.c
--   :functions: fpga_region_register
-+   :functions: __fpga_region_register_full
- 
- .. kernel-doc:: drivers/fpga/fpga-region.c
-    :functions: fpga_region_unregister
-diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
-index b364a929425c..1beb7415c2dc 100644
---- a/drivers/fpga/fpga-region.c
-+++ b/drivers/fpga/fpga-region.c
-@@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
- 	}
- 
- 	get_device(dev);
--	if (!try_module_get(dev->parent->driver->owner)) {
-+	if (!try_module_get(region->br_owner)) {
- 		put_device(dev);
- 		mutex_unlock(&region->mutex);
- 		return ERR_PTR(-ENODEV);
-@@ -75,9 +75,9 @@ static void fpga_region_put(struct fpga_region *region)
- 
- 	dev_dbg(dev, "put\n");
- 
--	module_put(dev->parent->driver->owner);
--	put_device(dev);
-+	module_put(region->br_owner);
- 	mutex_unlock(&region->mutex);
-+	put_device(dev);
- }
- 
- /**
-@@ -181,14 +181,16 @@ static struct attribute *fpga_region_attrs[] = {
- ATTRIBUTE_GROUPS(fpga_region);
- 
- /**
-- * fpga_region_register_full - create and register an FPGA Region device
-+ * __fpga_region_register_full - create and register an FPGA Region device
-  * @parent: device parent
-  * @info: parameters for FPGA Region
-+ * @owner: owner module containing the get_bridges function
-  *
-  * Return: struct fpga_region or ERR_PTR()
-  */
- struct fpga_region *
--fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
-+__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
-+			    struct module *owner)
- {
- 	struct fpga_region *region;
- 	int id, ret = 0;
-@@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
- 	region->compat_id = info->compat_id;
- 	region->priv = info->priv;
- 	region->get_bridges = info->get_bridges;
-+	region->br_owner = owner;
- 
- 	mutex_init(&region->mutex);
- 	INIT_LIST_HEAD(&region->bridge_list);
-@@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
- 
- 	return ERR_PTR(ret);
- }
--EXPORT_SYMBOL_GPL(fpga_region_register_full);
-+EXPORT_SYMBOL_GPL(__fpga_region_register_full);
- 
- /**
-- * fpga_region_register - create and register an FPGA Region device
-+ * __fpga_region_register - create and register an FPGA Region device
-  * @parent: device parent
-  * @mgr: manager that programs this region
-  * @get_bridges: optional function to get bridges to a list
-+ * @owner: owner module containing get_bridges function
-  *
-  * This simple version of the register function should be sufficient for most users.
-  * The fpga_region_register_full() function is available for users that need to
-@@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
-  * Return: struct fpga_region or ERR_PTR()
-  */
- struct fpga_region *
--fpga_region_register(struct device *parent, struct fpga_manager *mgr,
--		     int (*get_bridges)(struct fpga_region *))
-+__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
-+		       int (*get_bridges)(struct fpga_region *), struct module *owner)
- {
- 	struct fpga_region_info info = { 0 };
- 
- 	info.mgr = mgr;
- 	info.get_bridges = get_bridges;
- 
--	return fpga_region_register_full(parent, &info);
-+	return __fpga_region_register_full(parent, &info, owner);
- }
--EXPORT_SYMBOL_GPL(fpga_region_register);
-+EXPORT_SYMBOL_GPL(__fpga_region_register);
- 
- /**
-  * fpga_region_unregister - unregister an FPGA region
-diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
-index 9d4d32909340..d175babc3d68 100644
---- a/include/linux/fpga/fpga-region.h
-+++ b/include/linux/fpga/fpga-region.h
-@@ -36,6 +36,7 @@ struct fpga_region_info {
-  * @mgr: FPGA manager
-  * @info: FPGA image info
-  * @compat_id: FPGA region id for compatibility check.
-+ * @br_owner: module containing the get_bridges function
-  * @priv: private data
-  * @get_bridges: optional function to get bridges to a list
-  */
-@@ -46,6 +47,7 @@ struct fpga_region {
- 	struct fpga_manager *mgr;
- 	struct fpga_image_info *info;
- 	struct fpga_compat_id *compat_id;
-+	struct module *br_owner;
- 	void *priv;
- 	int (*get_bridges)(struct fpga_region *region);
- };
-@@ -58,12 +60,17 @@ fpga_region_class_find(struct device *start, const void *data,
- 
- int fpga_region_program_fpga(struct fpga_region *region);
- 
-+#define fpga_region_register_full(parent, info) \
-+	__fpga_region_register_full(parent, info, THIS_MODULE)
- struct fpga_region *
--fpga_region_register_full(struct device *parent, const struct fpga_region_info *info);
-+__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
-+			    struct module *owner);
- 
-+#define fpga_region_register(parent, mgr, get_bridges) \
-+	__fpga_region_register(parent, mgr, get_bridges, THIS_MODULE)
- struct fpga_region *
--fpga_region_register(struct device *parent, struct fpga_manager *mgr,
--		     int (*get_bridges)(struct fpga_region *));
-+__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
-+		       int (*get_bridges)(struct fpga_region *), struct module *owner);
- void fpga_region_unregister(struct fpga_region *region);
- 
- #endif /* _FPGA_REGION_H */
+> > To go back to my main thesis - I would like a high performance low
+> > level DMA API that is capable enough that it could implement
+> > scatterlist dma_map_sg() and thus also implement any future
+> > scatterlist_v2, bio, hmm_range_fault or any other thing we come up
+> > with on top of it. This is broadly what I thought we agreed to at LSF
+> > last year.
+> 
+> I think the biggest underlying problem of the scatterlist based
+> DMA implementation for IOMMUs is that it's trying to handle to much,
+> that is magic coalescing even if the segments boundaries don't align
+> with the IOMMU page size.  If we can get rid of that misfeature I
+> think we'd greatly simply the API and implementation.
 
-base-commit: b1a91ca25f15b6d7b311de4465854a5981dee3d3
--- 
-2.44.0
+Yeah, that stuff is not easy at all and takes extra computation to
+figure out. I always assumed it was there for block...
 
+Leon & Chaitanya will make a RFC v2 along these lines, lets see how it
+goes.
+
+Thanks,
+Jason
