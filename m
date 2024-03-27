@@ -1,159 +1,87 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289C61B7E9
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 01:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830BC17545;
+	Wed, 27 Mar 2024 03:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711503379; cv=none; b=ma2axK1/0t6GutQhmJxoffeRx5Npzj997a+b7tUIAYGT4a4u7vK5y+EEyeGmh7qrz3UVjkoKLMtOpFd2grBs+LWH/l9mB43bWUYMDD8wwh8PKMWrHFNoplEDwaZMwXjYiUszRfhzI7evpYqsdxeOgH1O2TxRULa533on9/Flqiw=
+	t=1711509916; cv=none; b=HUF+kZWIQU1g4E5gOrPu0ixxQt3ugiYCG8boS+DpG2H7VqRHN5S82FClvZef3QQgkDul7fRxWGtGfWWz+t3p/4ghVUNhRqr+5pLewDgV7kGUQpnb6Rymulv3ysLQNk34fYm0x7/baT+FXX7DeRJAn5kcYm+1t4f7T4CUvMvuFlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711503379; c=relaxed/simple;
-	bh=ECemb7/KX8BGFyghPRdr8JHojkYBtQzWD/1aRhBEX7Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GSH5ACsxaongvr9TY7j8tN9sJ6Z/UmxJMO+v4EnIHMaV5Q851AEwxYxBZn2W/X6o1lvxSy8kflJ220HlP69LTvoUQ7L3v4WI6WR2qw0N+74u/zEdVaP9UBNGxh9VFS16eO27Bilfly4x0wqbz4ZAWVeKMN1eW8ZQrHW29D5pUOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a3Vcsn3I; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711509916; c=relaxed/simple;
+	bh=Ajy7EClEZNT2l5jOz2HI8KHPxT0cshu9vXiK2kZRlto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ReRtvfXj3NavgzydWCWY9EQm3+1BbJM7IeHD+3lUltRhxsgoK6lLJCqyalPq8uSc5A+A+hwgbgbkDuXI/CsovsDzYs3+jpI4ZIqTDnXYT1hZDkpss0r96Uzx2l2y6x6R1xVlClUM+GyAMq1iuoyFiWJECAGqRSZxJt45b4I2CA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CvKbObme; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a3Vcsn3I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711503376;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iYPTOunHLd/Diy0hNlVVbA0CQwtG77CQYjtLHeiLuNo=;
-	b=a3Vcsn3IuXOb7EfQw9qO9vcpx3cN8XzdNQJcbi1x2nZnzz0GoHU7CyFUQ1yLPvLCWVM37j
-	HaEYX564naueVb52ArTskcHipf3HF30xQNQd9USg/D1SBYnDw8F20qoV4PigtdPfkj48hv
-	tzbmZQI4FHDRrL394RtpCPdb5znq+BM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-2UW3C1AWPF6-pPJxZMCaKA-1; Tue, 26 Mar 2024 21:36:14 -0400
-X-MC-Unique: 2UW3C1AWPF6-pPJxZMCaKA-1
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-69695434a2aso20525186d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 26 Mar 2024 18:36:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711503374; x=1712108174;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iYPTOunHLd/Diy0hNlVVbA0CQwtG77CQYjtLHeiLuNo=;
-        b=Q4ouD2E1Cz0F7uQMIXt17o2aMQVvL5Yaz4vGm/Nq+OApafxb+SS7t1D3H26IC10MHs
-         Loy6UaukzJLs1yt/ixTFhoD/fJ7kwkt5wpL5D8a6YgLAcBdDR1tbYAaeGFrb8Dp2VyHF
-         6vRwTsXv0Fk41V4hz6rfa2gLzBZcmsIgwXIDVtgJFYNK78bz+aEvG6TNs1pU6oCNLPpx
-         MNenFJ8Y0NB+5AN6Z5bUqfowesKxAXND5ZkKHH9A/3NrAqewRKhzsjiOBJ5Q9SQHc6uM
-         0EPfK3CG195MvFCtTxQCbusT2u3wc1Z2mMmQfBAAo/5yYkvurZfdFic9S0Nl1vgjZLr3
-         4TAg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4huSrbpTYR7CikFiHCGCR8Jvy+3xl9cjBI7LIyim2MypmtGTZ0UYV/Oos/ee6SL154SvpO0nduMH/8wEzPJwY6DVMxzFURTaV
-X-Gm-Message-State: AOJu0YwvMa6WzvwS9iuBbNcKT7+esLOnEdDSt5nzyYlwBHvpk+nMfClK
-	IO1vZlB6gUR46t8YZA7j+n2a+wKPx2N3JfZCM1JLzTk7DaxMw+MSq+lWMeNRaw7k7XqBel55lJ1
-	pn3A5dZzWIpVqLfz1vnD2DE8O8BcRFLDR8wmi0pdkGsrUUgCIhAPcmEkvPw==
-X-Received: by 2002:a05:6214:e6c:b0:690:b3a3:2261 with SMTP id jz12-20020a0562140e6c00b00690b3a32261mr2857119qvb.53.1711503374032;
-        Tue, 26 Mar 2024 18:36:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHhUP8icqSJJoJYHIjBdnpMjQxvYXH/YAk6xTmiVd4FaN0LmOOpbpBO3pJH1Xwh2Qag7NMJiA==
-X-Received: by 2002:a05:6214:e6c:b0:690:b3a3:2261 with SMTP id jz12-20020a0562140e6c00b00690b3a32261mr2857103qvb.53.1711503373718;
-        Tue, 26 Mar 2024 18:36:13 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:1b3:a801:90ea:8d3f:e47:b819:941d])
-        by smtp.gmail.com with ESMTPSA id x11-20020ad4458b000000b00696a47179a1sm819669qvu.14.2024.03.26.18.36.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 18:36:12 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: Helen Koike <helen.koike@collabora.com>,
-	Leonardo Bras <leobras@redhat.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v1 1/1] gitlab-ci: Let project define runner using environment variables
-Date: Tue, 26 Mar 2024 22:30:54 -0300
-Message-ID: <20240327013055.139494-2-leobras@redhat.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CvKbObme"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=RlEUjYz6ln8uzzOTkIlgn9vdiC3nQ/IHmLuBP8wka2o=; b=CvKbObmeyBqqOPthjS/+uTpYG7
+	eoUDBQh9S0XUeVkTmqvfA2KU9S2jl1TZ0d/qfo5XKxsxRNNeBlTMQ9ds6skxSEv80Xd12pe1JfdEb
+	wBCa1azgkkM7zTLqgfjH1rCC5601LmPSODTJbeICFjKQWfDpMNA114PK6p2Yu5WOCMl603JqhWXFP
+	GAqIFx5AGDyS+2+gnJcmPNdFornkVnc81GPJerRi2bQih5+8inhCt2YgTrhOsNBiT38nwzY62TPlz
+	+Ui6qV0zTYT8lAxb8f7sCnUN35mUg/q0e5NBUGjmRCTIeFKN0D3jcStJA97Y0rx4kDHTcdjGvCFZw
+	x40o0e+w==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpJtt-00000002v5K-0VmM;
+	Wed, 27 Mar 2024 03:24:29 +0000
+Date: Wed, 27 Mar 2024 03:24:28 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+	mgorman@suse.de, dave@stgolabs.net, liam.howlett@oracle.com,
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net,
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, peterx@redhat.com, david@redhat.com,
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, songmuchun@bytedance.com,
+	jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v6 14/37] lib: introduce support for page allocation
+ tagging
+Message-ID: <ZgORbAY5F0MWgX5K@casper.infradead.org>
+References: <20240321163705.3067592-1-surenb@google.com>
+ <20240321163705.3067592-15-surenb@google.com>
+ <ZgI9Iejn6DanJZ-9@casper.infradead.org>
+ <CAJuCfpGvviA5H1Em=ymd8Yqz_UoBVGFOst_wbaA6AwGkvffPHg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpGvviA5H1Em=ymd8Yqz_UoBVGFOst_wbaA6AwGkvffPHg@mail.gmail.com>
 
-Currently it's not possible to select which runner will handle a pipeline
-without changing the codebase.
+On Mon, Mar 25, 2024 at 11:23:25PM -0700, Suren Baghdasaryan wrote:
+> Ah, good eye! We probably didn't include page_ext.h before and then
+> when we did I missed removing these declarations. I'll post a fixup.
+> Thanks!
 
-Add CI_TAGS environment variable, which can be used to select a runner
-either from a commit message, or directly from Gitlab interface.
-
-Also add Documentation for this variable.
-
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
-
-This patch goes on top on a previous patchset sent by Helen:
-https://lore.kernel.org/all/20240228225527.1052240-1-helen.koike@collabora.com/
-
-With this patch I could run CI with gitlab.com runners, by setting
-CI_TAGS=saas-linux-medium-amd64 
-
-The result of this pipeline can be seen in:
-https://gitlab.com/linux-kernel/linux/-/pipelines/1228999646
-
- Documentation/ci/gitlab-ci/gitlab-ci.rst | 5 +++++
- ci/gitlab-ci/yml/gitlab-ci.yml           | 2 ++
- 2 files changed, 7 insertions(+)
-
-diff --git a/Documentation/ci/gitlab-ci/gitlab-ci.rst b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-index 4f7ef03cca95..18360da835bd 100644
---- a/Documentation/ci/gitlab-ci/gitlab-ci.rst
-+++ b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-@@ -304,20 +304,25 @@ Description of Each Variable
- **KCI_CHECKPATCH_OPTIONS**
-     Used in `checkpatch.pl "$KCI_CHECKPATCH_OPTIONS"` (see checkpatch
-     documentation). It is commonly used with the --ignore flag to suppress
-     specific warnings generated by checkpatch.pl. It can also be defined in the
-     commit message, since it is evaluated in run time.
- 
- **KCI_PATCH_SERIES_SIZE**
-     Used to define the size of the patch series, see `job: checkpatch` section
-     above. It is evaluated in run time, and can be set in the commit message.
- 
-+**CI_TAGS**
-+    Used to help choose which runner will deal with the current pipeline.
-+    If using Gitlab.com runners, set saas-linux-medium-amd64 or a better runner
-+    so there is enough resources to build & commit the base image.
-+
- .. _triggering-pipelines-from-command-line:
- 
- Triggering Pipelines from Command Line
- --------------------------------------
- 
- Pipelines can be triggered from the command line with custom variables using the
- `GitLab CLI tool <https://docs.gitlab.com/ee/editor_extensions/gitlab_cli>`_.
- 
- Example:
- 
-diff --git a/ci/gitlab-ci/yml/gitlab-ci.yml b/ci/gitlab-ci/yml/gitlab-ci.yml
-index 57b9c0290471..359b7715e3ab 100644
---- a/ci/gitlab-ci/yml/gitlab-ci.yml
-+++ b/ci/gitlab-ci/yml/gitlab-ci.yml
-@@ -33,20 +33,22 @@ workflow:
-     - if: $FORCE_CI == 'true'
- 
- variables:
-   FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where to look for cached images
-     # ccache builds in gitlab-runner to speed up builds
-   SMATCH_DB_DIR: /smatch/smatch_data
-   # exit code of bash script on `script` will be the exit code of the job
-   FF_USE_NEW_BASH_EVAL_STRATEGY: "true"
- 
- default:
-+  tags:
-+    - $CI_TAGS
-   artifacts:
-     paths:
-       - artifacts/
-     when: always
- 
- include:
-   - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/ci-fairy.yml'
-   - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/debian.yml'
- 
-   - ci/gitlab-ci/yml/kernel-combinations.yml
--- 
-2.44.0
-
+Andrew's taken a patch from me to remove these two declarations as
+part of marking them const.  No patch needed from you, just needed to
+check there was no reason to have them.
