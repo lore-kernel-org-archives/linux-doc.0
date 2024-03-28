@@ -1,173 +1,112 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1191F154C1A
-	for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 23:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4313C0B;
+	Thu, 28 Mar 2024 01:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711581554; cv=none; b=A7GF1LnMzpvGHbDeAupWCaOrVnEDuvrGFaoLX6FJzVhRwGJn1bblJM8JcDbdYxOeCpBfRrVkwfFlVYnNY1szuQHch9LsOEp4kzQZP6tZPXhYhvDxyYrm3kJf3IiRPnwyv1weGEQAaOfVz7vP8UrmbrNficJIB9XV48SIh2rpJqE=
+	t=1711589032; cv=none; b=NIVn2s3JbRubycKwpjMChlosp0V+FtMADlGC6O+QCKhrqGPXeliIHMwbKSbLIpC9Sv9JqpCXTaUzqKy383h2aQCIldhYRgUjl956egMIxI4mI8maUorr+PYi+9OxBJqPDdzwbIcDjQQnuB7rb9aZuePU1HEaEgSgoSFTRx+LYwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711581554; c=relaxed/simple;
-	bh=h9SozZx07F/ieSA3Tkw6/3vSYWM+YqSBRP3PPQIUB78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hHN1+cir6c4J+HK7F+4KAhsBta4arsF4ldmVRJ36BM3bJYt0EQy4pJeGHCM6tG3iagFMaKxWuSxodfpkdODVTvfdI7hBUEEi3gaSR0wZexQdwDtJFVzTnVFTFcu0t7vpELGSSGlarFhZBMzErWg5ze+/+wVIpTJH0ks5OM36Q9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eAqfAphT; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1711589032; c=relaxed/simple;
+	bh=T0T9YUccKe5ykxrxiRSJ6xLuvwRieLVLUQyXUW6FCUY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l4edyFiYwxe/9U9FX53TG8Yo0OsGbXXriGDc8Ib/DmXHYt5FnGvy9GmyPYUtmxfspltmYTjS4Qw9LqLsbhtZz/gX0VtUBR96DJC3kdeUpPfnpvE3f2xKAXVjRl4ARTdsCVW61Y7Q1i1OUNvEDoNj07T2SK9PL9d9tRo/cnFMC+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=sYYo2Cnb; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eAqfAphT"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-222c0572eedso234003fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 27 Mar 2024 16:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711581550; x=1712186350; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
-        b=eAqfAphTCe5xMLO7IDsfaBpiCj4b/x+7v8ccb8ODULuM2G7hkEN25kFJncN2sx/fvG
-         QqUtlTjU4y695H2BTg3WTXcN767DuqbeSF6kh71SM1I0HU3UoyK8Q8jlsJwuNGAUdaqX
-         v3y9v/LDcuEfFDJ4KrGbQzJPSwxGrC0/1sCznd7hZFChgt5v4WDZzdU2UoIMUeDGcrs/
-         PvpmycHNdqEKepsxWgg5WbEUrtho04hZf5xJ9rtPoZYW5V2jgvQTNy3hKTKqqAXl9uw2
-         AZCTB49zFOmtYTVDnDYwbARUFzNRGtTcij9x4iAXUwJ5fZatOfL/jouVCMKin9BmsZnq
-         WBCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711581550; x=1712186350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CJZsj0mH5Na8/6xZVfDNraoADX8hsL14D7DbLT7TMPI=;
-        b=KD1fqguRXn+69csuSexsLb6pnX6jC2zPZt+Urkq3kY2w4Gbh+FQeEj29u2M/hYwihW
-         2mYT+ORUXspHT4Xo8/I9SFFpQNB6L+kzxHzpF+2bkR49KsKKoOIMq7NgWq9HlIm+bGpS
-         UQg3t+e1fQubfV911YoIDGF0yJdINGskLAqp8s0xZ9emevUHTURitkYPVODsLSzHeOvG
-         b7Ksh186zenosLnNYolROShoDjej9VQsLHe6G38frd/wBwIHZMO+xX7RRTkX83yyYpoJ
-         IrIFXE4SbJUHHJxdWZwgm8x/1OlPnaEWbE5xf4Jz+D40XBPbkcSATInVYRhi8yW/JOJW
-         1CoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUuJ1v1oOKS6mNoXSDDaqthpn1OpqdWPrFACReQd5Dj+oM4aYD7U5EiVfli2UIilTaR6gMlGd8XLV4QAgDPZLwQY1rSFv1xEB7H
-X-Gm-Message-State: AOJu0YwprGG7GsYKtND/rr8xSiAolUXFGaJphiWQgF8cM4glUU44nb1D
-	+NQgn2Dvk60X39HETWH1T+3lFNT3qlsR+8x2h2oLzNgOBs+uwIOOk7H91fPZtJI=
-X-Google-Smtp-Source: AGHT+IFF6sA3ju+9mCH35rHh1zhgVOle14esmb64OwmiwIjcccCZ+Gff/k0HvFE6jlRCad9wpwZTGw==
-X-Received: by 2002:a05:6871:3a14:b0:221:9013:d783 with SMTP id pu20-20020a0568713a1400b002219013d783mr1213589oac.34.1711581550253;
-        Wed, 27 Mar 2024 16:19:10 -0700 (PDT)
-Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id js3-20020a056870bac300b0022a0519183csm81381oab.2.2024.03.27.16.19.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 16:19:09 -0700 (PDT)
-From: David Lechner <dlechner@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>,
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="sYYo2Cnb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1711589019; x=1712193819; i=w_armin@gmx.de;
+	bh=r/peN7AGjQutxOUwkE2P5/6QxGbI63sh41gzdDoKsO0=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=sYYo2CnbaRKXq2r73+imMB0pQvK1qdl9u3+yK57ZZ5Iztz8KlK+mpbo7FNs1FDyv
+	 xMiBCwCwUSMarCJfCAmd7DZv3CQRM7OJ8YTNkZyNCz9eXs244GVILBBkkgC4bkz0w
+	 5RkP8YQsMEFT4wEYl3RHoMtsn387PMOyRAC5SjpFxGRTAt2LbXTbZA7V2amNuCkvh
+	 IlQCeANRmlfgck6vL/w4mEmtUMRizGmVfoVkBDBRIrwbutlQKBkPiiDdkunmMJzcT
+	 MC/rfM2dMs0hIkzvL75TvCfc0hOe4rnN/SYmhs036X+qEvtVaUAmw0uRZjWMtt/PD
+	 ZZPAhsZHFgyBtq2dCA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1M6UZv-1rwYN943HF-006sgJ; Thu, 28 Mar 2024 02:23:39 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: corbet@lwn.net,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-input@vger.kernel.org
-Subject: [PATCH RFC 7/7] Input: mpr121: Use devm_regulator_get_enable_get_voltage()
-Date: Wed, 27 Mar 2024 18:18:56 -0500
-Message-ID: <20240327-regulator-get-enable-get-votlage-v1-7-5f4517faa059@baylibre.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] platform/x86: wmi: Mark simple WMI drivers as legacy-free
+Date: Thu, 28 Mar 2024 02:23:33 +0100
+Message-Id: <20240328012336.145612-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.12.4
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yC2vVWcihw+Nuk8DKQKmxXdwbrFyFLV7FIp1sxxDiQCIrgF0qFK
+ wBhWyK+m4gdeZ/HJBolj+PHKbOX1WKbN78gWBq0B3DlNx4TMJKMd5aiv8X5gnCBpV9cE9BT
+ gJ7aVAJuZEjxb4f+AbW+9WLQT4eYPfRtOKHah8Dv1WfgFP23oAegW2XxZwmAkJCMsD3PO9p
+ icB6aYDCexZ+MadwUmf3A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:iwDdzcEEZO0=;D9eUlUbAWlGlnijVtbOo4cbm+5q
+ Whv1Ima8PmkdwvNV16SoIyIMuUAzQLqWeKx9NiQpwKg5e4kjSBDicSn3VyS2lgOs0quo6VQVL
+ RO6ed5u6YMD2pDFOlh8MPAFWroO7GDsXSK06E6ssK67GXz5B9/WjEnEUm2M+7k5zQnA4eynJe
+ Pd5OLJ/MLMymefPz6CeEWBM+97dyYmwDpiBIPKgIXatOmeaKMeev7oFUXdwKVi2Aq6DpHavao
+ nK4/WgLqHzfcIMooeHuLZTa9y57Scei06+xBqdTzaEOz6sI500i5Q6m3UqX/jNSOjmjYof3CG
+ 80ifpKCLcqsNt6T4YItxB1qBhsxhK/jsqWRE59UGCYu4uR5+DYGFbZ/lZ0gQoJ+E4MqQh8bIB
+ xTX84f4NIz00JxAuz1o4azJKDwMm1bTy5nRhnljxhcSVftNxiBfIpvYpswG489uluITexUxpA
+ N25OaArHnX+4SP5BwNitlqhT2CKI0AwoeDUSaIAuBr3PM9YEP8pViXolBmlQAqJ57mLI8rVTD
+ Ba6LPksi7xgMT0YX+s0mnj+Ou6KAy7AZNePBnyGGB6tBjpX4vFThrgyesz/H9a0Jdsp3AX9Vm
+ 3A/9aptnP1SI45d0DCFkvvUbREKSJUGj8LG6aetLszFAIUolr5ptvRhByVwD9sejwak5gzAEU
+ /ynpxVPC9+ZWJ4jPqOQ/It/qZYPRNZgziqfOmuVNpj+GEmG6IJlKOco8qJyErsA6gLjX+EMP3
+ BxyTTpPki8Bml7VjqLcyZzqW1muydgLUYz/oY/1P4eFpk8i4jGxcyW9am8JM7WDqj7MG4c3UF
+ esQyLV2lbHn9fFDhdaQ3k7b9dAx7dIj9kiKljTqzoCMto=
 
-We can reduce boilerplate code by using
-devm_regulator_get_enable_get_voltage().
+The inspur_platform_profile driver and the xiaomi-wmi driver both
+meet the requirements for modern WMI drivers, as they both do not
+use the legacy GUID-based interface and can be safely instantiated
+multiple times.
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
----
- drivers/input/keyboard/mpr121_touchkey.c | 45 +++-----------------------------
- 1 file changed, 3 insertions(+), 42 deletions(-)
+Mark them both as legacy-free using the no_singleton flag.
 
-diff --git a/drivers/input/keyboard/mpr121_touchkey.c b/drivers/input/keyboard/mpr121_touchkey.c
-index d434753afab1..c59e7451f3cd 100644
---- a/drivers/input/keyboard/mpr121_touchkey.c
-+++ b/drivers/input/keyboard/mpr121_touchkey.c
-@@ -82,42 +82,6 @@ static const struct mpr121_init_register init_reg_table[] = {
- 	{ AUTO_CONFIG_CTRL_ADDR, 0x0b },
+Compile-tested only.
+
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ drivers/platform/x86/inspur_platform_profile.c | 1 +
+ drivers/platform/x86/xiaomi-wmi.c              | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/platform/x86/inspur_platform_profile.c b/drivers/plat=
+form/x86/inspur_platform_profile.c
+index 743705bddda3..8440defa6788 100644
+=2D-- a/drivers/platform/x86/inspur_platform_profile.c
++++ b/drivers/platform/x86/inspur_platform_profile.c
+@@ -207,6 +207,7 @@ static struct wmi_driver inspur_wmi_driver =3D {
+ 	.id_table =3D inspur_wmi_id_table,
+ 	.probe =3D inspur_wmi_probe,
+ 	.remove =3D inspur_wmi_remove,
++	.no_singleton =3D true,
  };
- 
--static void mpr121_vdd_supply_disable(void *data)
--{
--	struct regulator *vdd_supply = data;
--
--	regulator_disable(vdd_supply);
--}
--
--static struct regulator *mpr121_vdd_supply_init(struct device *dev)
--{
--	struct regulator *vdd_supply;
--	int err;
--
--	vdd_supply = devm_regulator_get(dev, "vdd");
--	if (IS_ERR(vdd_supply)) {
--		dev_err(dev, "failed to get vdd regulator: %ld\n",
--			PTR_ERR(vdd_supply));
--		return vdd_supply;
--	}
--
--	err = regulator_enable(vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to enable vdd regulator: %d\n", err);
--		return ERR_PTR(err);
--	}
--
--	err = devm_add_action_or_reset(dev, mpr121_vdd_supply_disable,
--				       vdd_supply);
--	if (err) {
--		dev_err(dev, "failed to add disable regulator action: %d\n",
--			err);
--		return ERR_PTR(err);
--	}
--
--	return vdd_supply;
--}
--
- static void mpr_touchkey_report(struct input_dev *dev)
- {
- 	struct mpr121_touchkey *mpr121 = input_get_drvdata(dev);
-@@ -233,7 +197,6 @@ static int mpr121_phys_init(struct mpr121_touchkey *mpr121,
- static int mpr_touchkey_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct regulator *vdd_supply;
- 	int vdd_uv;
- 	struct mpr121_touchkey *mpr121;
- 	struct input_dev *input_dev;
-@@ -241,11 +204,9 @@ static int mpr_touchkey_probe(struct i2c_client *client)
- 	int error;
- 	int i;
- 
--	vdd_supply = mpr121_vdd_supply_init(dev);
--	if (IS_ERR(vdd_supply))
--		return PTR_ERR(vdd_supply);
--
--	vdd_uv = regulator_get_voltage(vdd_supply);
-+	vdd_uv = devm_regulator_get_enable_get_voltage(dev, "vdd");
-+	if (vdd_uv < 0)
-+		return vdd_uv;
- 
- 	mpr121 = devm_kzalloc(dev, sizeof(*mpr121), GFP_KERNEL);
- 	if (!mpr121)
 
--- 
-2.43.2
+ module_wmi_driver(inspur_wmi_driver);
+diff --git a/drivers/platform/x86/xiaomi-wmi.c b/drivers/platform/x86/xiao=
+mi-wmi.c
+index 54a2546bb93b..1f5f108d87c0 100644
+=2D-- a/drivers/platform/x86/xiaomi-wmi.c
++++ b/drivers/platform/x86/xiaomi-wmi.c
+@@ -83,6 +83,7 @@ static struct wmi_driver xiaomi_wmi_driver =3D {
+ 	.id_table =3D xiaomi_wmi_id_table,
+ 	.probe =3D xiaomi_wmi_probe,
+ 	.notify =3D xiaomi_wmi_notify,
++	.no_singleton =3D true,
+ };
+ module_wmi_driver(xiaomi_wmi_driver);
+
+=2D-
+2.39.2
 
