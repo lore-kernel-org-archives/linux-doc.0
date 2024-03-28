@@ -1,33 +1,34 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B872B53818;
-	Thu, 28 Mar 2024 10:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36618847C;
+	Thu, 28 Mar 2024 11:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711622418; cv=none; b=TAuL2LiXoBXucvNhEyn5iQ7MBg2mP4aeHmtGP/TzsYTKd3jz3KoLWrgzyT/ZVjm+nO6QSmhLgyfkGwx56poLs1SHorWcehSBmmP2UtjxAVFe6ZETS932tyJ+rnqapvFyaaR1tqFUd9U0HrdvN2MYxypTiG08zyrTZljTN5E+vHA=
+	t=1711626974; cv=none; b=TGgFlCx9NJGL+img0OIEEk5v170sC+hE4zsVnBV5q+FTcAtPl37/tQw26gW+XMYCEx8VjMzP8dWfpb0o4FDeWLJyDghc0MkeZDHUPCbwDsfubXsob3xE3EtEVgIRNjc6fEb/iPt8jWKPiZc0KYT5gM/xsj449YJyGzPpFg3qCRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711622418; c=relaxed/simple;
-	bh=PFuuAQ7UAQDLr/XGux3xSP9ZSukNKrAk400GL4pCeaI=;
+	s=arc-20240116; t=1711626974; c=relaxed/simple;
+	bh=HJeDevFss7ftGKoBs7GBo8wdqcUpCcQWRd0Z0rC7J60=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ly40ZBRCKkE9RqDoshebxLl+hrPQjZSclpv2/0xDuJb3pofasKUyNz0N8qzcON+sgCLfcHm8Q/1pddv06I0B2nPGowjaoFUal9aqx+uEE1hzxul4hmtTtEQ0eH7cUjTTBN3MB+uyCuTSMPfRVbG9qIAsBxqthQmsBerjENk0igI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnQC3/xR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mn6w5A28VhTorBL5FGglh1hinmWPM7bArSHsA/JGAOL+tJN2UG4QZFuppyNGwX7kIsAd6MbTc1/F4IcxP6ioX77dgqmkbe+x6XRKcfR2Sv2vJf+g6C/XjXMfN4f676kPqqdhGyuAlUGSpEJ44rGjfBc6bhBvpEyZGK82PEFx0Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=38NP34lc; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnQC3/xR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5A1C43390;
-	Thu, 28 Mar 2024 10:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711622418;
-	bh=PFuuAQ7UAQDLr/XGux3xSP9ZSukNKrAk400GL4pCeaI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jnQC3/xRFP0QVRTUNeZoU1I3y8WHjbeIbClQXTonCmY0HLKChE2JxhC2ZI9JRCgfA
-	 NsA6JUXigjuchixlHKDNcyFGz2h3qHBDpNK9DAJH0sobRXcnBUhjHot8kJeLULLZfS
-	 QTGKC2O1nCFR9+NpZOlVU20eRPehWrlyvtgpewgsZOhwTLYckAp/CXSZYnIP8ttyEf
-	 N1oViVVNkjowwegTIg86IwVEnnzzNj04FUM01Vsve/wE6zDEfAZvDGaFqDBCfpi84S
-	 v0xHNCGlLZAHHhPnYRS0eBiHgv9n7z30A2d7fCmNG19ev5aZMWXgXd8M2DG7V/eN2n
-	 9PuxhiYvhX5lA==
-Date: Thu, 28 Mar 2024 10:40:11 +0000
-From: Simon Horman <horms@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="38NP34lc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=h07olpqTWWJnF5ca3/Hz06zgL23i68HGqWz1fSaO55k=; b=38NP34lcVYqYrxp0jp2ticTsJL
+	ObXLl0cK8LOGyLO96nkCDesLhiIeENEwBsZtDv0wswHEAgPd29yL74QUkzzX1SSRjz3EOdkcgDZsO
+	D3abpWAbUNeh4oCeXqjSSBBrg3oaEkWs72kDvDCAwKodFq2gC9TowM68HBB5AxdhSzqY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rpoME-00BUYx-Ca; Thu, 28 Mar 2024 12:55:46 +0100
+Date: Thu, 28 Mar 2024 12:55:46 +0100
+From: Andrew Lunn <andrew@lunn.ch>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -42,18 +43,18 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Oleksij Rempel <o.rempel@pengutronix.de>,
 	Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Frank Rowand <frowand.list@gmail.com>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
 	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 10/17] net: pse-pd: Add support for PSE PIs
-Message-ID: <20240328104011.GY403975@kernel.org>
+Subject: Re: [PATCH net-next v6 01/17] MAINTAINERS: net: Add Oleksij to
+ pse-pd maintainers
+Message-ID: <a5ebd46c-80e4-4063-82e1-bcbb1accffbe@lunn.ch>
 References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
- <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
- <20240328103322.GX403975@kernel.org>
+ <20240326-feature_poe-v6-1-c1011b6ea1cb@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,55 +63,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240328103322.GX403975@kernel.org>
+In-Reply-To: <20240326-feature_poe-v6-1-c1011b6ea1cb@bootlin.com>
 
-On Thu, Mar 28, 2024 at 10:33:22AM +0000, Simon Horman wrote:
-> On Tue, Mar 26, 2024 at 03:04:47PM +0100, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+On Tue, Mar 26, 2024 at 03:04:38PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Oleksij was the first to add support for pse-pd net subsystem.
+> Add himself to the maintainers seems logical.
+> 
+> Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-...
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-> > diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-> 
-> ...
-> 
-> > @@ -73,11 +103,11 @@ struct pse_control;
-> >   * @pse_control_head: head of internal list of requested PSE controls
-> >   * @dev: corresponding driver model device struct
-> >   * @of_pse_n_cells: number of cells in PSE line specifiers
-> > - * @of_xlate: translation function to translate from specifier as found in the
-> > - *            device tree to id as given to the PSE control ops
-> >   * @nr_lines: number of PSE controls in this controller device
-> >   * @lock: Mutex for serialization access to the PSE controller
-> >   * @types: types of the PSE controller
-> > + * @pi: table of PSE PIs described in this controller device
-> > + * @of_legacy: flag set if the pse_pis devicetree node is not used
-> 
-> nit: it looks line the documentation didn't keep up with the
->      structure during development: @no_of_pse_pi should be
->      documented instead of @of_legacy.
-
-There seem to be some similar minor problems in
-[PATCH net-next v6 13/17] net: pse-pd: Use regulator framework within PSE framework
-
-./scripts/kernel-doc -none is your friend here.
-
-> 
-> >   */
-> >  struct pse_controller_dev {
-> >  	const struct pse_controller_ops *ops;
-> > @@ -86,11 +116,11 @@ struct pse_controller_dev {
-> >  	struct list_head pse_control_head;
-> >  	struct device *dev;
-> >  	int of_pse_n_cells;
-> > -	int (*of_xlate)(struct pse_controller_dev *pcdev,
-> > -			const struct of_phandle_args *pse_spec);
-> >  	unsigned int nr_lines;
-> >  	struct mutex lock;
-> >  	enum ethtool_pse_types types;
-> > +	struct pse_pi *pi;
-> > +	bool no_of_pse_pi;
-> >  };
-> 
-> ...
-> 
+    Andrew
