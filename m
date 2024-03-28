@@ -1,323 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED541EA6E;
-	Thu, 28 Mar 2024 18:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A884313957B
+	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 18:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711651832; cv=none; b=Zi8uWS7BWxLc0HCxrOq145XDgALBns4lEyQRu4Abpl4JdNoxKNNcbf1M2OmB2dPix+OhN5qo7Hiubji0tObTYhDwtRPZ5gV6NODpQVF+LXMYVTAzICL9JhqDrprEUsc0GU8TIqX1TipSU2x2F0ouy4xJUeRK04yD0vkj6lnuSjo=
+	t=1711652142; cv=none; b=G917kszO3+QCKbqn9A1s2VuKoEfNmukJkEPxcr/A3EcD1OlqhxQ2NURNUBKMZXrZcpPz81l2sB8Dqs3TdpIjVOejIZLcp7E+5QohZc6BTP2ciljVpMxJ/ROk89UhjjxRnJgUgq3vTSF5UjVnGHfA4o3sX2Vo4sEXb8OPwro6/EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711651832; c=relaxed/simple;
-	bh=v47lKJs0Ij31Lu1i4dgbBcc3S1l62Crepl3XB+i3pHk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=OOlmDNKpth6b4s8+inbdjDHMSTVjFfQ67ETTMUJjzT06QcusntklTSoy+Nd+13XfsMG1tCk4lPT0t/sXyM27NJh+YbguTUZWzBJW1xp3ZtxfpwsbeHt1MVGLS1JrQwgsQZywh819Wdj1VqF0m6SCxJUhU29ZjvZ7GDobUKr6hWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtN5bh02; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711652142; c=relaxed/simple;
+	bh=HEIIl0JSGFr4znc+2rNtcx7sc7JVm8rdL5u1IoWR8YY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Bv0jP7KjBfdCCe0xLgzz1Qb7WmJhxigHnAYhG0wzekxhYXRerwqX/z5pjXTeOKM8jkhXvqH6yXqDb89aUiontNuTdtQ58DXNOCv+ktR4POvZxw3c6UFMkcW88r96bT8pIt4I+ef+Ogog6zUlfdFz5kdZMHCNYmid9QUnbKrcycI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3Hb+XRtA; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtN5bh02"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 194FDC433C7;
-	Thu, 28 Mar 2024 18:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711651830;
-	bh=v47lKJs0Ij31Lu1i4dgbBcc3S1l62Crepl3XB+i3pHk=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=TtN5bh02FrPTKu9xC+1yTpzkaJuCahZccbAaMqgtJLIA3L/JGfowwOAoz6eY9Gt/x
-	 j1t/iJmTlhFZ1ebfpkyR3pulVZIqn25ghMzitDejpq8Idf0aMvh0Zmf6cj6ZY6YXZ5
-	 ma9ykqNCCMRrXr2gq1XRpJRV01XLbXeelLym1+jgU+w/uijmzzEP/uXsCLOFFOg6W7
-	 tub1teDBLgpxXzl8GHvd2BMBsywEkaQlU5tBGkJLoZB+7TJYYveRZoYTSTFsDk2bQh
-	 CN1sJqsJJU0vzPmplUKnRJ+7KCuz4BXg24vZsWJ/Vt8JjbhDiH0UI4+ZqGdguKTHpk
-	 xih3Pa+YcDsog==
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3Hb+XRtA"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a46cd9e7fcaso169587366b.1
+        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 11:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711652137; x=1712256937; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/g0QRd03Q47daRFmOpf216fDEljWTmtj0CWrlO2PgGk=;
+        b=3Hb+XRtAwkk/pUajFr4adIyn143CbCRNoz4ccLHfrEILcL2DaBXJgRzVn523BzxLIW
+         SlDsWRkY+EJzn2phJnhfdGUCWGAvqjRRUGpDhhYGc1RNFKvj/UyIS7tkAOCH+GizezUH
+         Q0FuDIQFk8w+YBWsFoGc95yI0VQehrHpVm5ak6CuvmCt385vHaWYrhRKrFUKfdJsGTeB
+         qjacse03vJTO4H8UVvu3cHA5lqIMt4Q66SXYjFAUjlDi4xTf5nX+vPn0qoxB2hlZGkpP
+         OyarGDeASq0f0xuzTDKXTVNFper3pHEuTcUZWfOaMk7T36Dq65PrYfaQJq9DJkWzpwds
+         x+AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711652137; x=1712256937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/g0QRd03Q47daRFmOpf216fDEljWTmtj0CWrlO2PgGk=;
+        b=QnnwgjB4JRBisUI4akB9ryf80C697XEJG0mUTi3WeN4Z/zoLMacfK1BW+AqiXjdC1E
+         AxmP6OVaY2Tdlqncc4Q0iOqP9jJ3jXmLZmR6ZUvKuVoe64Wga86vIcy7kwInEYN/R9eN
+         j/kBNLFjeML6lol7cH/scYLueTBJVbwv5rW1dmX4dWhQ6g3Yt7lqbUqhZPRNQzCXbj5a
+         J8NQibF+e7cme6YIoNB4IEtMJEndytmFdD2tQJqf5JbbNV4YfmdfqA/+vM0w0kPTI8Td
+         cw43G+1MI4mC7B8g92mKs9hycqZvkFDU7+46gdIuywW4Guw7Axr5tD6MjEU5caVyT5Xg
+         JkOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSiBXwHmSSQbPrgk1rIMbLQIEVVgEls0VcVnsTNUOFuTFpdpy5lodr37R+uVk1Vi5Z6uFcBEQO64HWHvv2RIXbs+Gc3M1SOPj0
+X-Gm-Message-State: AOJu0Yz4DwHAK0oGXU4M3s1xZSzI7QvpYI7C0ISChY4y3Qg3q1SenE4W
+	+I5OviVDB7yj1hf1wIP4pR6mvj2IPrMqrTm8wzg8dxnkQbs1s6RRNEYlmWGD2Dg99HKpylk2MkU
+	5F/p3oMqjQZQp4XghZldJWpII2DSvw5CXgm30
+X-Google-Smtp-Source: AGHT+IFT7BjTbnc4go6zIYPcPdx3xb2qgp8zmitrga5SNdEeKiv/hX6FeRXvUPA8/BgWnl2x89qqbJVYumySJ8ZZV8Y=
+X-Received: by 2002:a17:907:7898:b0:a4e:eb1:9a3d with SMTP id
+ ku24-20020a170907789800b00a4e0eb19a3dmr85852ejc.68.1711652136773; Thu, 28 Mar
+ 2024 11:55:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20240326225048.785801-1-almasrymina@google.com>
+ <20240326225048.785801-5-almasrymina@google.com> <20240328182812.GJ651713@kernel.org>
+In-Reply-To: <20240328182812.GJ651713@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 28 Mar 2024 11:55:23 -0700
+Message-ID: <CAHS8izMZuRwQZsL7PQdoRcrgeh6rEa7n1NMhbm-aZMes2QHVzg@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next v7 04/14] netdev: support binding dma-buf to netdevice
+To: Simon Horman <horms@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 Mar 2024 20:50:22 +0200
-Message-Id: <D05LXJUT7T5Z.39FGAGHVQ6HZH@kernel.org>
-Cc: "Mimi Zohar" <zohar@linux.ibm.com>, "James Bottomley"
- <jejb@linux.ibm.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "David S.
- Miller" <davem@davemloft.net>, "Shawn Guo" <shawnguo@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "NXP Linux Team" <linux-imx@nxp.com>, "Ahmad Fatoum"
- <a.fatoum@pengutronix.de>, "sigma star Kernel Team"
- <upstream+dcp@sigma-star.at>, "David Howells" <dhowells@redhat.com>, "Li
- Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>, "James
- Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, "Paul E.
- McKenney" <paulmck@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>, "Rafael J. Wysocki"
- <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
- (Google)" <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
- "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>, "Richard Weinberger"
- <richard@nod.at>, "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
-Subject: Re: [PATCH v7 6/6] docs: trusted-encrypted: add DCP as new trust
- source
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Jarkko Sakkinen" <jarkko@kernel.org>, "David Gstir"
- <david@sigma-star.at>
-X-Mailer: aerc 0.17.0
-References: <20240327082454.13729-1-david@sigma-star.at>
- <20240327082454.13729-7-david@sigma-star.at>
- <D04N9E61QWYB.3IPEEGVPY6V8L@kernel.org>
- <A3831544-E47C-4AEB-9963-536F0B1EE8FD@sigma-star.at>
- <D05LV2A6J8X7.11895O5TC10TS@kernel.org>
-In-Reply-To: <D05LV2A6J8X7.11895O5TC10TS@kernel.org>
 
-On Thu Mar 28, 2024 at 8:47 PM EET, Jarkko Sakkinen wrote:
-> On Thu Mar 28, 2024 at 10:05 AM EET, David Gstir wrote:
-> > Jarkko,
-> >
-> > > On 27.03.2024, at 16:40, Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > >=20
-> > > On Wed Mar 27, 2024 at 10:24 AM EET, David Gstir wrote:
-> > >> Update the documentation for trusted and encrypted KEYS with DCP as =
-new
-> > >> trust source:
-> > >>=20
-> > >> - Describe security properties of DCP trust source
-> > >> - Describe key usage
-> > >> - Document blob format
-> > >>=20
-> > >> Co-developed-by: Richard Weinberger <richard@nod.at>
-> > >> Signed-off-by: Richard Weinberger <richard@nod.at>
-> > >> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star=
-.at>
-> > >> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.a=
-t>
-> > >> Signed-off-by: David Gstir <david@sigma-star.at>
-> > >> ---
-> > >> .../security/keys/trusted-encrypted.rst       | 85 +++++++++++++++++=
-++
-> > >> 1 file changed, 85 insertions(+)
-> > >>=20
-> > >> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Doc=
-umentation/security/keys/trusted-encrypted.rst
-> > >> index e989b9802f92..81fb3540bb20 100644
-> > >> --- a/Documentation/security/keys/trusted-encrypted.rst
-> > >> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> > >> @@ -42,6 +42,14 @@ safe.
-> > >>          randomly generated and fused into each SoC at manufacturing=
- time.
-> > >>          Otherwise, a common fixed test key is used instead.
-> > >>=20
-> > >> +     (4) DCP (Data Co-Processor: crypto accelerator of various i.MX=
- SoCs)
-> > >> +
-> > >> +         Rooted to a one-time programmable key (OTP) that is genera=
-lly burnt
-> > >> +         in the on-chip fuses and is accessible to the DCP encrypti=
-on engine only.
-> > >> +         DCP provides two keys that can be used as root of trust: t=
-he OTP key
-> > >> +         and the UNIQUE key. Default is to use the UNIQUE key, but =
-selecting
-> > >> +         the OTP key can be done via a module parameter (dcp_use_ot=
-p_key).
-> > >> +
-> > >>   *  Execution isolation
-> > >>=20
-> > >>      (1) TPM
-> > >> @@ -57,6 +65,12 @@ safe.
-> > >>=20
-> > >>          Fixed set of operations running in isolated execution envir=
-onment.
-> > >>=20
-> > >> +     (4) DCP
-> > >> +
-> > >> +         Fixed set of cryptographic operations running in isolated =
-execution
-> > >> +         environment. Only basic blob key encryption is executed th=
-ere.
-> > >> +         The actual key sealing/unsealing is done on main processor=
-/kernel space.
-> > >> +
-> > >>   * Optional binding to platform integrity state
-> > >>=20
-> > >>      (1) TPM
-> > >> @@ -79,6 +93,11 @@ safe.
-> > >>          Relies on the High Assurance Boot (HAB) mechanism of NXP So=
-Cs
-> > >>          for platform integrity.
-> > >>=20
-> > >> +     (4) DCP
-> > >> +
-> > >> +         Relies on Secure/Trusted boot process (called HAB by vendo=
-r) for
-> > >> +         platform integrity.
-> > >> +
-> > >>   *  Interfaces and APIs
-> > >>=20
-> > >>      (1) TPM
-> > >> @@ -94,6 +113,11 @@ safe.
-> > >>=20
-> > >>          Interface is specific to silicon vendor.
-> > >>=20
-> > >> +     (4) DCP
-> > >> +
-> > >> +         Vendor-specific API that is implemented as part of the DCP=
- crypto driver in
-> > >> +         ``drivers/crypto/mxs-dcp.c``.
-> > >> +
-> > >>   *  Threat model
-> > >>=20
-> > >>      The strength and appropriateness of a particular trust source f=
-or a given
-> > >> @@ -129,6 +153,13 @@ selected trust source:
-> > >>      CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the d=
-evice
-> > >>      is probed.
-> > >>=20
-> > >> +  *  DCP (Data Co-Processor: crypto accelerator of various i.MX SoC=
-s)
-> > >> +
-> > >> +     The DCP hardware device itself does not provide a dedicated RN=
-G interface,
-> > >> +     so the kernel default RNG is used. SoCs with DCP like the i.MX=
-6ULL do have
-> > >> +     a dedicated hardware RNG that is independent from DCP which ca=
-n be enabled
-> > >> +     to back the kernel RNG.
-> > >> +
-> > >> Users may override this by specifying ``trusted.rng=3Dkernel`` on th=
-e kernel
-> > >> command-line to override the used RNG with the kernel's random numbe=
-r pool.
-> > >>=20
-> > >> @@ -231,6 +262,19 @@ Usage::
-> > >> CAAM-specific format.  The key length for new keys is always in byte=
-s.
-> > >> Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
-> > >>=20
-> > >> +Trusted Keys usage: DCP
-> > >> +-----------------------
-> > >> +
-> > >> +Usage::
-> > >> +
-> > >> +    keyctl add trusted name "new keylen" ring
-> > >> +    keyctl add trusted name "load hex_blob" ring
-> > >> +    keyctl print keyid
-> > >> +
-> > >> +"keyctl print" returns an ASCII hex copy of the sealed key, which i=
-s in format
-> > >> +specific to this DCP key-blob implementation.  The key length for n=
-ew keys is
-> > >> +always in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bit=
-s).
-> > >> +
-> > >> Encrypted Keys usage
-> > >> --------------------
-> > >>=20
-> > >> @@ -426,3 +470,44 @@ string length.
-> > >> privkey is the binary representation of TPM2B_PUBLIC excluding the
-> > >> initial TPM2B header which can be reconstructed from the ASN.1 octed
-> > >> string length.
-> > >> +
-> > >> +DCP Blob Format
-> > >> +---------------
-> > >> +
-> > >> +The Data Co-Processor (DCP) provides hardware-bound AES keys using =
-its
-> > >> +AES encryption engine only. It does not provide direct key sealing/=
-unsealing.
-> > >> +To make DCP hardware encryption keys usable as trust source, we def=
-ine
-> > >> +our own custom format that uses a hardware-bound key to secure the =
-sealing
-> > >> +key stored in the key blob.
-> > >> +
-> > >> +Whenever a new trusted key using DCP is generated, we generate a ra=
-ndom 128-bit
-> > >> +blob encryption key (BEK) and 128-bit nonce. The BEK and nonce are =
-used to
-> > >> +encrypt the trusted key payload using AES-128-GCM.
-> > >> +
-> > >> +The BEK itself is encrypted using the hardware-bound key using the =
-DCP's AES
-> > >> +encryption engine with AES-128-ECB. The encrypted BEK, generated no=
-nce,
-> > >> +BEK-encrypted payload and authentication tag make up the blob forma=
-t together
-> > >> +with a version number, payload length and authentication tag::
-> > >> +
-> > >> +    /*
-> > >> +     * struct dcp_blob_fmt - DCP BLOB format.
-> > >> +     *
-> > >> +     * @fmt_version: Format version, currently being %1
-> > >> +     * @blob_key: Random AES 128 key which is used to encrypt @payl=
-oad,
-> > >> +     *            @blob_key itself is encrypted with OTP or UNIQUE =
-device key in
-> > >> +     *            AES-128-ECB mode by DCP.
-> > >> +     * @nonce: Random nonce used for @payload encryption.
-> > >> +     * @payload_len: Length of the plain text @payload.
-> > >> +     * @payload: The payload itself, encrypted using AES-128-GCM an=
-d @blob_key,
-> > >> +     *           GCM auth tag of size AES_BLOCK_SIZE is attached at=
- the end of it.
-> > >> +     *
-> > >> +     * The total size of a DCP BLOB is sizeof(struct dcp_blob_fmt) =
-+ @payload_len +
-> > >> +     * AES_BLOCK_SIZE.
-> > >> +     */
-> > >> +    struct dcp_blob_fmt {
-> > >> +            __u8 fmt_version;
-> > >> +            __u8 blob_key[AES_KEYSIZE_128];
-> > >> +            __u8 nonce[AES_KEYSIZE_128];
-> > >> +            __le32 payload_len;
-> > >> +            __u8 payload[];
-> > >> +    } __packed;
-> > >=20
-> > > I'm thinking here given that you need to replicate the same thing tha=
-t
-> > > is in the source files. E.g. Documentation/gpu/i915.rst.
-> > >=20
-> > > The rationale would so many sources so maybe it would make sense to
-> > > maintain this in the source code.
-> > >=20
-> > > Also this documents how to generally insert documentation inline:
-> > > https://docs.kernel.org/doc-guide/kernel-doc.html
-> > >=20
-> > > I.e. I'm feeling that this is good time to improve scalability so tha=
-t
-> > > documentation will keep up to date. Also then backend specific patche=
-s
-> > > mostly go to their subdirectories and not to Documentation/ subtree
-> > > (or that would be more rare case).
-> > >=20
-> > > So a good chance to do more than just a new backend for the benefit
-> > > of the trusted keys subsystem :-)
-> > >=20
-> > > Also, later on if something is changed e.g. in the above struct you
-> > > don't have to do matching update to the documentation so it will save
-> > > time too (over time).
-> >
-> > sound good! I=E2=80=99ll maintain the blob format documentation to the =
-source and insert=20
-> > a reference in the documentation. Thanks for pointing that out!
-> >
-> > Is there anything else I can improve for this patchset? I=E2=80=99d lik=
-e to include that in v8
-> > too and make it the last iteration of this patchset.
+On Thu, Mar 28, 2024 at 11:28=E2=80=AFAM Simon Horman <horms@kernel.org> wr=
+ote:
 >
-> Yeah, I don't enforce you to convert all the existing work to this
-> model, but we could use this as a reference for that work.
+> On Tue, Mar 26, 2024 at 03:50:35PM -0700, Mina Almasry wrote:
+> > Add a netdev_dmabuf_binding struct which represents the
+> > dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
+> > rx queues on the netdevice. On the binding, the dma_buf_attach
+> > & dma_buf_map_attachment will occur. The entries in the sg_table from
+> > mapping will be inserted into a genpool to make it ready
+> > for allocation.
+> >
+> > The chunks in the genpool are owned by a dmabuf_chunk_owner struct whic=
+h
+> > holds the dma-buf offset of the base of the chunk and the dma_addr of
+> > the chunk. Both are needed to use allocations that come from this chunk=
+.
+> >
+> > We create a new type that represents an allocation from the genpool:
+> > net_iov. We setup the net_iov allocation size in the
+> > genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
+> > allocated by the page pool and given to the drivers.
+> >
+> > The user can unbind the dmabuf from the netdevice by closing the netlin=
+k
+> > socket that established the binding. We do this so that the binding is
+> > automatically unbound even if the userspace process crashes.
+> >
+> > The binding and unbinding leaves an indicator in struct netdev_rx_queue
+> > that the given queue is bound, but the binding doesn't take effect unti=
+l
+> > the driver actually reconfigures its queues, and re-initializes its pag=
+e
+> > pool.
+> >
+> > The netdev_dmabuf_binding struct is refcounted, and releases its
+> > resources only when all the refs are released.
+> >
+> > Signed-off-by: Willem de Bruijn <willemb@google.com>
+> > Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
+> ...
+>
+> > +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_id=
+x,
+> > +                                 struct net_devmem_dmabuf_binding *bin=
+ding)
+> > +{
+> > +     struct netdev_rx_queue *rxq;
+> > +     u32 xa_idx;
+> > +     int err;
+> > +
+> > +     if (rxq_idx >=3D dev->num_rx_queues)
+> > +             return -ERANGE;
+> > +
+> > +     rxq =3D __netif_get_rx_queue(dev, rxq_idx);
+> > +     if (rxq->mp_params.mp_priv)
+> > +             return -EEXIST;
+> > +
+> > +     err =3D xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit=
+_32b,
+> > +                    GFP_KERNEL);
+> > +     if (err)
+> > +             return err;
+> > +
+> > +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we c=
+an't
+> > +      * race with another thread that is also modifying this value. Ho=
+wever,
+> > +      * the driver may read this config while it's creating its * rx-q=
+ueues.
+> > +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
+> > +      */
+> > +     WRITE_ONCE(rxq->mp_params.mp_ops, &dmabuf_devmem_ops);
+>
+> Hi Mina,
+>
+> This causes a build failure because mabuf_devmem_ops is not added until a
+> subsequent patch in this series.
+>
 
-I mean that way documentation update will become more natural part of
-the code update and less frustrating to do which usually encourages
-to document stuff better and also later on tweak and improve it.
+My apologies. I do notice the failure in patchwork now. I'll do a
+patch by patch build for the next iteration.
 
-So yeah I feel that GPU documentation in kernel is doing lot's of things
-right, and other subsystems should follow. I.e. it is good reference
-model for trusted keys documentation, and said I'm cool with realizing
-this for only this new key type :-) Otherwise, finishing this patch set
-will torture for you and also for me if it tries to fix everything.
+> > +     WRITE_ONCE(rxq->mp_params.mp_priv, binding);
+> > +
+> > +     err =3D net_devmem_restart_rx_queue(dev, rxq_idx);
+> > +     if (err)
+> > +             goto err_xa_erase;
+> > +
+> > +     return 0;
+> > +
+> > +err_xa_erase:
+> > +     WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
+> > +     WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
+> > +     xa_erase(&binding->bound_rxq_list, xa_idx);
+> > +
+> > +     return err;
+> > +}
+>
+> ...
 
-BR, Jarkko
+
+
+--=20
+Thanks,
+Mina
