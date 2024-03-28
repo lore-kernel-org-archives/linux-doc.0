@@ -1,31 +1,40 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AE27FBB9
-	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 12:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1B17E767;
+	Thu, 28 Mar 2024 13:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711630622; cv=none; b=DgotwKjrBWJPzww8N1UOZJttK82weLQfg01nYRUx/QZA1DEw73Z2fjDw+DzuZUCV7hPqQF1ZA333VBwk7IHyKlAPqdKKJZ1YU2Ep4LbNFumT7Q2Pv+PMOMgH04jIv19J03a46NNf8JM8qgq/nv4WYnuCUROw+KcFEjJVgrw1bTg=
+	t=1711631828; cv=none; b=YhbPRGkqH6rzdZuEnkRYljxE1L+Kfdh00GWfcX+d42im+7O0eQMuGzX0JBNcnW9h4XsAvFMkWldDTIwAUgNBu7COFpD8iGPqj23DThNF93WlRczs4v2zv313xYjuIc014lh42FP1+zjMss3KvxWkURJtIMblbJO4vOdopEgfl4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711630622; c=relaxed/simple;
-	bh=7Fc2f2taPu8F/E1+eeZWRcLoS6XcYuD22fmjyeCfJiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Eiqk1vJ3fnYMxB4tYOcdNHprO0X5uFt72fZTO34unqse7olcKSq7JKVDRQjNUClGgWhExII4e2kxp0aKXkhMHwVNurAMebgBMSJBbKs+3/EyPDy5A+Ew0crHyxT8OfHRm7B0WgiGLUVkFSR1/AQ2AeEFTuZrPQDuyZRr1TdmEOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4V53SK2XWbz1wnbZ;
-	Thu, 28 Mar 2024 20:56:01 +0800 (CST)
-Received: from dggpemm100001.china.huawei.com (unknown [7.185.36.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2706F1A016C;
-	Thu, 28 Mar 2024 20:56:51 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 28 Mar 2024 20:56:50 +0800
-Message-ID: <52f333be-9370-4865-b0fb-5ca6825ef39a@huawei.com>
-Date: Thu, 28 Mar 2024 20:56:49 +0800
+	s=arc-20240116; t=1711631828; c=relaxed/simple;
+	bh=lFcer5cRuCHvRqbG9870yYLfTMMeSNIr8kl344emETU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V+KiKxaQKZhMGm5eNoPCU9qidhXUDDeP8UIWWsjtHjaKN0MO0+9xuzLgpsQGzmh052ez1o3Y4MuL7+41Jo6LxPRlNlAgQBRWn9SFuQ25CXHTchFNrEWYoGwAv4pVzjexV531DR/Jvet3tVRkanTYxf/Zf+gJWFJGc4Ot3KAJzMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=o6lBdpeh; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="o6lBdpeh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1711631825;
+	bh=lFcer5cRuCHvRqbG9870yYLfTMMeSNIr8kl344emETU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o6lBdpehY4+0IlVQF14iOGGVI/6vTUidQn2ngxmgZGPwYqMsSANmzdbX5tG8qUuTI
+	 nPEEhxhhVpQsrwAhFi+k6Lq7ZeUICcs/paZ66e6clYtcRw3R566RfvTuo122X/o3zH
+	 1xOdxBPtuWOzJHP4sra+M0wcdiDyj0CtJlmOQsQNG5Ec/9eFpmAkpcTQ+Fd2MQksqX
+	 J2VhQq7NgYeoBcAv4InrpKAQfN1KDp02nFoZGv5vtTHBAdvh1oNYPY3dwCZo6KgdWN
+	 wirtwe9KReNYY0gvP9mwHiSFqDz46IXnMwG7I6W9hDCBkA+NmUj2gi/5PA+ipTkI6U
+	 PR8TTUgkw05Ag==
+Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: koike)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BE8433780629;
+	Thu, 28 Mar 2024 13:17:03 +0000 (UTC)
+Message-ID: <c0cc12e6-4f71-449c-b614-a8fbfb4aaa80@collabora.com>
+Date: Thu, 28 Mar 2024 10:17:00 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,63 +42,115 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] mm: remove isolate_lru_page()
+Subject: Re: [PATCH v1 1/1] gitlab-ci: Let project define runner using
+ environment variables
+To: Leonardo Bras <leobras@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240327013055.139494-2-leobras@redhat.com>
 Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Andrew Morton
-	<akpm@linux-foundation.org>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, Linux Memory
- Management List <linux-mm@kvack.org>, <willy@infradead.org>, Miaohe Lin
-	<linmiaohe@huawei.com>, Naoya Horiguchi <naoya.horiguchi@nec.com>, David
- Hildenbrand <david@redhat.com>, Oscar Salvador <osalvador@suse.de>, Zi Yan
-	<ziy@nvidia.com>, Hugh Dickins <hughd@google.com>, Jonathan Corbet
-	<corbet@lwn.net>, <linux-doc@vger.kernel.org>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>
-References: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
- <202403282057.pIA3kJoz-lkp@intel.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <202403282057.pIA3kJoz-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Helen Koike <helen.koike@collabora.com>
+In-Reply-To: <20240327013055.139494-2-leobras@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm100001.china.huawei.com (7.185.36.93)
+
+Hi Leonardo,
+
+Thanks for the patch.
+
+On 26/03/2024 22:30, Leonardo Bras wrote:
+> Currently it's not possible to select which runner will handle a pipeline
+> without changing the codebase.
+> 
+> Add CI_TAGS environment variable, which can be used to select a runner
+> either from a commit message, or directly from Gitlab interface.
+> 
+> Also add Documentation for this variable.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+> 
+> This patch goes on top on a previous patchset sent by Helen:
+> https://lore.kernel.org/all/20240228225527.1052240-1-helen.koike@collabora.com/
+> 
+> With this patch I could run CI with gitlab.com runners, by setting
+> CI_TAGS=saas-linux-medium-amd64
+> 
+> The result of this pipeline can be seen in:
+> https://gitlab.com/linux-kernel/linux/-/pipelines/1228999646
+> 
+>   Documentation/ci/gitlab-ci/gitlab-ci.rst | 5 +++++
+>   ci/gitlab-ci/yml/gitlab-ci.yml           | 2 ++
+>   2 files changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/ci/gitlab-ci/gitlab-ci.rst b/Documentation/ci/gitlab-ci/gitlab-ci.rst
+> index 4f7ef03cca95..18360da835bd 100644
+> --- a/Documentation/ci/gitlab-ci/gitlab-ci.rst
+> +++ b/Documentation/ci/gitlab-ci/gitlab-ci.rst
+> @@ -304,20 +304,25 @@ Description of Each Variable
+>   **KCI_CHECKPATCH_OPTIONS**
+>       Used in `checkpatch.pl "$KCI_CHECKPATCH_OPTIONS"` (see checkpatch
+>       documentation). It is commonly used with the --ignore flag to suppress
+>       specific warnings generated by checkpatch.pl. It can also be defined in the
+>       commit message, since it is evaluated in run time.
+>   
+>   **KCI_PATCH_SERIES_SIZE**
+>       Used to define the size of the patch series, see `job: checkpatch` section
+>       above. It is evaluated in run time, and can be set in the commit message.
+>   
+> +**CI_TAGS**
+
+I would just s/CI/KCI , I'm using KCI_prefix for those that are defined 
+by us, since gitlab already uses CI_ prefix.
 
 
+We will also need a way to specify tags per job at some point 
+KCI_TAGS_$JOB_NAME or something, but this can be added later.
 
-On 2024/3/28 20:22, kernel test robot wrote:
-> Hi Kefeng,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on linus/master]
-> [also build test ERROR on v6.9-rc1]
-> [cannot apply to akpm-mm/mm-everything next-20240328]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-migrate-add-isolate_movable_folio/20240327-221513
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20240327141034.3712697-4-wangkefeng.wang%40huawei.com
-> patch subject: [PATCH 3/6] mm: remove isolate_lru_page()
-> config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240328/202403282057.pIA3kJoz-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282057.pIA3kJoz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403282057.pIA3kJoz-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-This changed locally, but missing this when rebase on new branch, will fix.
-> 
->>> mm/migrate_device.c:388:9: error: call to undeclared function 'isolate_lru_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       388 |                         if (!isolate_lru_page(page)) {
->           |                              ^
->     mm/migrate_device.c:388:9: note: did you mean '__isolate_free_page'?
->     mm/internal.h:487:12: note: '__isolate_free_page' declared here
->       487 | extern int __isolate_free_page(struct page *page, unsigned int order);
->           |            ^
->     1 error generated.
-> 
-> 
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+I'll add on top of my tree for now, so we can prepare v2 with this change.
+
+Thanks
+Helen
+
+> +    Used to help choose which runner will deal with the current pipeline.
+> +    If using Gitlab.com runners, set saas-linux-medium-amd64 or a better runner
+> +    so there is enough resources to build & commit the base image.
+> +
+>   .. _triggering-pipelines-from-command-line:
+>   
+>   Triggering Pipelines from Command Line
+>   --------------------------------------
+>   
+>   Pipelines can be triggered from the command line with custom variables using the
+>   `GitLab CLI tool <https://docs.gitlab.com/ee/editor_extensions/gitlab_cli>`_.
+>   
+>   Example:
+>   
+> diff --git a/ci/gitlab-ci/yml/gitlab-ci.yml b/ci/gitlab-ci/yml/gitlab-ci.yml
+> index 57b9c0290471..359b7715e3ab 100644
+> --- a/ci/gitlab-ci/yml/gitlab-ci.yml
+> +++ b/ci/gitlab-ci/yml/gitlab-ci.yml
+> @@ -33,20 +33,22 @@ workflow:
+>       - if: $FORCE_CI == 'true'
+>   
+>   variables:
+>     FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where to look for cached images
+>       # ccache builds in gitlab-runner to speed up builds
+>     SMATCH_DB_DIR: /smatch/smatch_data
+>     # exit code of bash script on `script` will be the exit code of the job
+>     FF_USE_NEW_BASH_EVAL_STRATEGY: "true"
+>   
+>   default:
+> +  tags:
+> +    - $CI_TAGS
+>     artifacts:
+>       paths:
+>         - artifacts/
+>       when: always
+>   
+>   include:
+>     - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/ci-fairy.yml'
+>     - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/debian.yml'
+>   
+>     - ci/gitlab-ci/yml/kernel-combinations.yml
