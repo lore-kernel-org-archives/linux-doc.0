@@ -1,28 +1,28 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91131386A3;
-	Thu, 28 Mar 2024 20:17:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E6413A3E5;
+	Thu, 28 Mar 2024 20:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711657057; cv=none; b=HCyqT5DFolKgszgjraMQggcQW31mjcewCdgEPsYtZghNEhnLKv3MnGXGuBmqBQw3xHZsTIMP3Xx0SwLyvWxto6tPIN1GcgoyknZOFjhJ8UcoshX5D5wLxOAHkh4kCwVQXmBb8B1+CSPEQE1iFvQju60drmvzTVllbyzuiox8gdA=
+	t=1711657058; cv=none; b=KRdTTL4PYOllVjOZpENRqe8esENtpDGhfGxr6NM0KZtFLXX0L4676PcCpc+WRNGilMg1q+/UVbYloScj7uCTHLCsM81rd6MDlh7qHgFRIgia8/i3mDFx1VhrB/WFI/01pjpDTCyON+GvtdYnesnjEJpvJc9rAV0lXS3HjkxbZ5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711657057; c=relaxed/simple;
-	bh=8Wkj6APgowOM1wCYwpFj64MBNrIKEgRwdw3icE38+Y8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=qgSqAkJK7A+uVoB0Aj2Qh00W46RXX7hGpR5zFepf51tYX3wEzoijYpmZzEBY3Z/jiuiOGAg+5rxZ4vp1v6auf7bz9FzuL0OnS23nq8CIXnOAvuk/toCFPnW6JocGtNVg4ShsfTxw9CZgZ1jhqBez+e681rWR18cANNuthElfedk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=X4/19zvb; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1711657058; c=relaxed/simple;
+	bh=ERtVd4c+JTIOe6n+GNIMs+hsdgt4u+Qnlx/zLKgYdg4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=lWG0vSBU/sUDDbU7lOzrSYHz5HWY/F+dt2vU+S/OR9FEn0uw/vyo4a5aFRvcs71I503xoflmprCcA++H9KDc3wfB9GSm7vcfK5PqClcdRUgp6M5Q/VJPyLMrT7SF4EpcwZlUTjZ76PIjnuztXR64AEhvJ3dQXwBreOfskwGeC4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RJFz0xO3; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="X4/19zvb"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RJFz0xO3"
 Received: by linux.microsoft.com (Postfix, from userid 1052)
-	id 44D5A20E6F61; Thu, 28 Mar 2024 13:17:28 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 44D5A20E6F61
+	id C0DCE20E6F25; Thu, 28 Mar 2024 13:17:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C0DCE20E6F25
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1711657049;
-	bh=dUH87E40NrkSioYizP3cef7n/LxfQy39zSmAnjbWbeg=;
+	s=default; t=1711657048;
+	bh=/WSEDQnY3jfJtaJ7pIJVTHdQDsHKQKIwG6cPA6bswW0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X4/19zvbS1QHZiOwRguyh0mnDOMxnwtxqh+K8spjotNxTe81quYgpaSIVb7qlu1/g
-	 IofoxD7cKR91OhnX4Ur5zK6QVJjJX55hofb+X4TmTJHPhmoZg6W3m0WTAgFE1HsT8m
-	 alQDzQkeFoPcwuRTwFEwWyUjqjKS1RlG2pds7adc=
+	b=RJFz0xO3799FtV64Fbre1NHLaTFroEek5MySWwH9cB/KNkrd0exsjaaNRUjAXfIOb
+	 6Bua2oxhn5/hZw8TDz9rymv3YhKbuvlw3umChV8ecpnBo7rh3Eq111LdtnaSMj6WxT
+	 cKatK9/Z8/CLVFEw4waA0d6eRmSOvKxnKk3vbtkI=
 From: Fan Wu <wufan@linux.microsoft.com>
 To: corbet@lwn.net,
 	zohar@linux.ibm.com,
@@ -44,9 +44,9 @@ Cc: linux-doc@vger.kernel.org,
 	audit@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Fan Wu <wufan@linux.microsoft.com>
-Subject: [PATCH v16 15/20] security: add security_inode_setintegrity() hook
-Date: Thu, 28 Mar 2024 13:17:22 -0700
-Message-Id: <1711657047-10526-16-git-send-email-wufan@linux.microsoft.com>
+Subject: [PATCH v16 07/20] security: add new securityfs delete function
+Date: Thu, 28 Mar 2024 13:17:14 -0700
+Message-Id: <1711657047-10526-8-git-send-email-wufan@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
 References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
@@ -56,101 +56,98 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-This patch introduces a new hook to save inode's integrity
-data. For example, for fsverity enabled files, LSMs can use this hook to
-save the verified fsverity builtin signature into the inode's security
-blob, and LSMs can make access decisions based on the data inside
-the signature, like the signer certificate.
+When deleting a directory in the security file system, the existing
+securityfs_remove requires the directory to be empty, otherwise
+it will do nothing. This leads to a potential risk that the security
+file system might be in an unclean state when the intended deletion
+did not happen.
 
+This commit introduces a new function securityfs_recursive_remove
+to recursively delete a directory without leaving an unclean state.
+
+Co-developed-by: Christian Brauner (Microsoft) <brauner@kernel.org>
 Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
---
-v1-v14:
+---
+v1-v8:
   + Not present
 
-v15:
+v9:
   + Introduced
 
-v16:
-  + Switch to call_int_hook()
----
- include/linux/lsm_hook_defs.h |  2 ++
- include/linux/security.h      | 10 ++++++++++
- security/security.c           | 20 ++++++++++++++++++++
- 3 files changed, 32 insertions(+)
+v10:
+  + No changes
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index b391a7f13053..6f746dfdb28b 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -177,6 +177,8 @@ LSM_HOOK(int, 0, inode_listsecurity, struct inode *inode, char *buffer,
- LSM_HOOK(void, LSM_RET_VOID, inode_getsecid, struct inode *inode, u32 *secid)
- LSM_HOOK(int, 0, inode_copy_up, struct dentry *src, struct cred **new)
- LSM_HOOK(int, -EOPNOTSUPP, inode_copy_up_xattr, const char *name)
-+LSM_HOOK(int, 0, inode_setintegrity, struct inode *inode,
-+	 enum lsm_integrity_type type, const void *value, size_t size)
- LSM_HOOK(int, 0, kernfs_init_security, struct kernfs_node *kn_dir,
- 	 struct kernfs_node *kn)
- LSM_HOOK(int, 0, file_permission, struct file *file, int mask)
+v11:
+  + Fix code style issues
+
+v12:
+  + No changes
+
+v13:
+  + No changes
+
+v14:
+  + No changes
+
+v15:
+  + No changes
+
+v16:
+  + No changes
+---
+ include/linux/security.h |  1 +
+ security/inode.c         | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+
 diff --git a/include/linux/security.h b/include/linux/security.h
-index 26b422059f54..22612058b903 100644
+index 14fff542f2e3..f35af7b6cfba 100644
 --- a/include/linux/security.h
 +++ b/include/linux/security.h
-@@ -404,6 +404,9 @@ int security_inode_listsecurity(struct inode *inode, char *buffer, size_t buffer
- void security_inode_getsecid(struct inode *inode, u32 *secid);
- int security_inode_copy_up(struct dentry *src, struct cred **new);
- int security_inode_copy_up_xattr(const char *name);
-+int security_inode_setintegrity(struct inode *inode,
-+				enum lsm_integrity_type type, const void *value,
-+				size_t size);
- int security_kernfs_init_security(struct kernfs_node *kn_dir,
- 				  struct kernfs_node *kn);
- int security_file_permission(struct file *file, int mask);
-@@ -1020,6 +1023,13 @@ static inline int security_inode_copy_up(struct dentry *src, struct cred **new)
- 	return 0;
- }
+@@ -2089,6 +2089,7 @@ struct dentry *securityfs_create_symlink(const char *name,
+ 					 const char *target,
+ 					 const struct inode_operations *iops);
+ extern void securityfs_remove(struct dentry *dentry);
++extern void securityfs_recursive_remove(struct dentry *dentry);
  
-+static inline int security_inode_setintegrity(struct inode *inode,
-+					      enum lsm_integrity_type, type,
-+					      const void *value, size_t size)
+ #else /* CONFIG_SECURITYFS */
+ 
+diff --git a/security/inode.c b/security/inode.c
+index 9e7cde913667..f21847badb7d 100644
+--- a/security/inode.c
++++ b/security/inode.c
+@@ -313,6 +313,31 @@ void securityfs_remove(struct dentry *dentry)
+ }
+ EXPORT_SYMBOL_GPL(securityfs_remove);
+ 
++static void remove_one(struct dentry *victim)
 +{
-+	return 0;
++	simple_release_fs(&mount, &mount_count);
 +}
 +
- static inline int security_kernfs_init_security(struct kernfs_node *kn_dir,
- 						struct kernfs_node *kn)
- {
-diff --git a/security/security.c b/security/security.c
-index 8f462d82bd8b..629f31710975 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -2681,6 +2681,26 @@ int security_inode_copy_up_xattr(const char *name)
- }
- EXPORT_SYMBOL(security_inode_copy_up_xattr);
- 
 +/**
-+ * security_inode_setintegrity() - Set the inode's integrity data
-+ * @inode: inode
-+ * @type: type of integrity, e.g. hash digest, signature, etc
-+ * @value: the integrity value
-+ * @size: size of the integrity value
++ * securityfs_recursive_remove - recursively removes a file or directory
 + *
-+ * Register a verified integrity measurement of a inode with LSMs.
-+ * LSMs should free the previously saved data if @value is NULL.
++ * @dentry: a pointer to a the dentry of the file or directory to be removed.
 + *
-+ * Return: Returns 0 on success, negative values on failure.
++ * This function recursively removes a file or directory in securityfs that was
++ * previously created with a call to another securityfs function (like
++ * securityfs_create_file() or variants thereof.)
 + */
-+int security_inode_setintegrity(struct inode *inode,
-+				enum lsm_integrity_type type, const void *value,
-+				size_t size)
++void securityfs_recursive_remove(struct dentry *dentry)
 +{
-+	return call_int_hook(inode_setintegrity, inode, type, value, size);
-+}
-+EXPORT_SYMBOL(security_inode_setintegrity);
++	if (IS_ERR_OR_NULL(dentry))
++		return;
 +
- /**
-  * security_kernfs_init_security() - Init LSM context for a kernfs node
-  * @kn_dir: parent kernfs node
++	simple_pin_fs(&fs_type, &mount, &mount_count);
++	simple_recursive_removal(dentry, remove_one);
++	simple_release_fs(&mount, &mount_count);
++}
++EXPORT_SYMBOL_GPL(securityfs_recursive_remove);
++
+ #ifdef CONFIG_SECURITY
+ static struct dentry *lsm_dentry;
+ static ssize_t lsm_read(struct file *filp, char __user *buf, size_t count,
 -- 
 2.44.0
 
