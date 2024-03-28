@@ -1,125 +1,159 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473054BCB;
-	Thu, 28 Mar 2024 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3628512FB3B;
+	Thu, 28 Mar 2024 16:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711641754; cv=none; b=eXALzYfKFCxDqvXJSSQraWvzRWOyFjnlUB7Gn5BW8Fx3Jltyq6jfruaEvjXrojJr7/XHq0HRlkWtUVv4LeKTMhgcaNp6dusRT1KRJFa9eWtzemPN8gSyOqFllKYzmZ1v2nqn/AcLr51vOj47RoDeMxDsQhYaPCTM/XX7KGyHtAg=
+	t=1711642681; cv=none; b=MjIfBF3FbZGVXWU5jmBvS0r4kvSyOJ+R1IyYhWVWdWhkTKJxOli+2fmD9sMTWoOCdSri5DZOIoWu98OaM/ciM/qEOxiGEffHyeWzprWbXin5LQA51o6rnW58CNElGGJkcqT1KgzYvDqueonT56bij+nOc07rBS+sZKprFYTAmog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711641754; c=relaxed/simple;
-	bh=Yd+L1QfQn5v6eTEbWUAT4ptod70oCMTDA08xBm0v75s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Kl3PRF8QCGlqI6cB2JA+Ov1ylCrwVvgBD88513BUcMEooKUz4Yf+eKHPavg3VsvoSYSQXG2PFVbl0J1gg8kw/3SkzRMhm6mvvQsXb8wYoKBSL7SCJEgjhzMpF0ISxzdEVJzczJf+P7AvNuxTB002Eg7FND4zFSdIyOly7cqzByg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kolvcEWX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1711642681; c=relaxed/simple;
+	bh=CUt5KfeP+l5yUe9HnF3DHAzsNYXwbmVH7ufJpBD+/Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u4qRlAZj/Zr3FM8/D6PUIoM/1Vepce1d9YHU8W98v+WKlDjnSwzq2FVfMeSQJJdxbWsFWltcKe502tsfJzQE6O5TAV0G7CoAdCeHHPtaxShnSv+ksdcOap3/3IA0D7rYaOLZOnkDCs3WnktI1AY8hWb6nSGga8rdaPsSUedhzC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=J7yL1gUo; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kolvcEWX"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42SCMHpM029979;
-	Thu, 28 Mar 2024 16:01:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=wA0aGtF7pfUFgVF+PxkYWrv7TedUijbGDdENsyX5AgQ=; b=ko
-	lvcEWXQ+cSONt0QrNcfGX2I+aipfJmjAd57F/9FXL58aSPra8zcFgdKuJ8Z21nTf
-	ketEXxlSqpWo/WTx8e6RQBE/QMU5yOl669saggIdbDUEgDNm6L9uOihE5R82qHol
-	4WBMkxyD/udJAO90PQFnWvtkkOy5uge61LkeZ2rS8h3pF5+tvy5LBYWhZtN1QbQx
-	48HxQbhUanOh9lgq07HjOlbT4z01aSyxxY4PnXgTbbWSW4x/sQmWJMdfw4XSrMfA
-	Bt49OwX7tVVhm5icQppKo8Sipn3byK8GsRH+Sj7Fj+ajxM9ka3huOx9w/PWw6juH
-	OEiCUmsnV7KLexfHeBMg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x54r61f2v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 Mar 2024 16:01:36 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42SG1Z4S019666
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 28 Mar 2024 16:01:35 GMT
-Received: from [10.110.124.221] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 28 Mar
- 2024 09:01:34 -0700
-Message-ID: <09fe8f18-7f68-4d5d-89e4-68c1e5487b05@quicinc.com>
-Date: Thu, 28 Mar 2024 09:01:33 -0700
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="J7yL1gUo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=7mAyGOzTn2Y/okweEUHaGbm55gJwqANfs4q2cLyLvHU=; b=J7yL1gUohhm9vn127Rxrx6UJFQ
+	RdbnX4GBzGg8Ios3r1ooX3nLAV15QTHr3PDOr8NFkYRR4NkyXcUNKHI9rMRFhfQ1YrfKggoSqEO4y
+	aqPlMuKnbCOonQOiztV/DZUOTr6yCrldw6Kii8wBujpWu2b2QqnjPdhYNLUdTbHxSqG0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rpsRj-00BWOM-N0; Thu, 28 Mar 2024 17:17:43 +0100
+Date: Thu, 28 Mar 2024 17:17:43 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 17/17] net: pse-pd: Add TI TPS23881 PSE
+ controller driver
+Message-ID: <0cc9923f-2907-471e-81b0-2ca01a6e8c79@lunn.ch>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-17-c1011b6ea1cb@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] scripts: checkpatch: check unused parameters for
- function-like macro
-Content-Language: en-US
-To: Barry Song <21cnbao@gmail.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>
-CC: <apw@canonical.com>, <broonie@kernel.org>, <chenhuacai@loongson.cn>,
-        <chris@zankel.net>, <corbet@lwn.net>, <dwaipayanray1@gmail.com>,
-        <herbert@gondor.apana.org.au>, <joe@perches.com>,
-        <linux-kernel@vger.kernel.org>, <linux@roeck-us.net>,
-        <lukas.bulwahn@gmail.com>, <mac.xxn@outlook.com>,
-        <sfr@canb.auug.org.au>, <v-songbaohua@oppo.com>,
-        <workflows@vger.kernel.org>, Max Filippov
-	<jcmvbkbc@gmail.com>
-References: <20240328022136.5789-1-21cnbao@gmail.com>
- <20240328022136.5789-3-21cnbao@gmail.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20240328022136.5789-3-21cnbao@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Uyx3T4g92k3IzsT8Y3tgT1r8_KiCbe2B
-X-Proofpoint-ORIG-GUID: Uyx3T4g92k3IzsT8Y3tgT1r8_KiCbe2B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-28_15,2024-03-28_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- priorityscore=1501 clxscore=1011 lowpriorityscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403280108
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326-feature_poe-v6-17-c1011b6ea1cb@bootlin.com>
 
-On 3/27/2024 7:21 PM, Barry Song wrote:
-> From: Xining Xu <mac.xxn@outlook.com>
-> 
-> If function-like macros do not utilize a parameter, it might result in a
-> build warning.  In our coding style guidelines, we advocate for utilizing
-> static inline functions to replace such macros.  This patch verifies
-> compliance with the new rule.
-> 
-> For a macro such as the one below,
-> 
->  #define test(a) do { } while (0)
-> 
-> The test result is as follows.
-> 
->  ERROR: Parameter 'a' is not used in function-like macro, please use static
->  inline instead
->  #21: FILE: mm/init-mm.c:20:
->  +#define test(a) do { } while (0)
-> 
->  total: 1 errors, 0 warnings, 8 lines checked
-> 
-> Signed-off-by: Xining Xu <mac.xxn@outlook.com>
+> +static int
+> +tps23881_get_unused_chan(struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS],
+> +			 int port_cnt)
+> +{
+> +	bool used;
+> +	int i, j;
+> +
+> +	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
+> +		used = false;
+> +
+> +		for (j = 0; j < port_cnt; j++) {
+> +			if (port_matrix[j].hw_chan[0] == i) {
+> +				used = true;
+> +				break;
+> +			}
+> +
+> +			if (port_matrix[j].is_4p &&
+> +			    port_matrix[j].hw_chan[1] == i) {
+> +				used = true;
+> +				break;
+> +			}
+> +		}
+> +
+> +		if (!used)
+> +			return i;
+> +	}
+> +
+> +	return -1;
 
-if you are re-posting somebody else's work you need to add your own Signed-off-by
+nitpick: Return -ENODEV.
 
-> Tested-by: Barry Song <v-songbaohua@oppo.com>
-> Cc: Chris Zankel <chris@zankel.net>
-> Cc: Huacai Chen <chenhuacai@loongson.cn>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Andy Whitcroft <apw@canonical.com>
-> Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> Cc: Joe Perches <joe@perches.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
+> +	while (cnt_4ch_grp1 < 4) {
+> +		ret = tps23881_get_unused_chan(tmp_port_matrix, port_cnt);
+> +		if (ret < 0) {
+> +			pr_err("tps23881: port matrix issue, no chan available\n");
+> +			return -ENODEV;
 
+and then just returns ret.
+
+> +static int
+> +tps23881_set_ports_conf(struct tps23881_priv *priv,
+> +			struct tps23881_port_matrix port_matrix[TPS23881_MAX_CHANS])
+> +{
+> +	struct i2c_client *client = priv->client;
+> +	int i, ret;
+> +	u16 val;
+> +
+> +	/* Set operating mode */
+> +	ret = i2c_smbus_write_word_data(client, TPS23881_REG_OP_MODE, 0xaaaa);
+
+Could you add some #defines here? This is semiauto i think?
+
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Disable DC disconnect */
+> +	ret = i2c_smbus_write_word_data(client, TPS23881_REG_DIS_EN, 0x0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Set port power allocation */
+> +	val = 0;
+> +	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
+> +		if (!port_matrix[i].exist)
+> +			continue;
+> +
+> +		if (port_matrix[i].is_4p)
+> +			val |= 0xf << ((port_matrix[i].lgcl_chan[0] / 2) * 4);
+> +		else
+> +			val |= 0x3 << ((port_matrix[i].lgcl_chan[0] / 2) * 4);
+> +	}
+> +	ret = i2c_smbus_write_word_data(client, TPS23881_REG_PORT_POWER, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Enable detection and classification */
+> +	val = 0;
+> +	for (i = 0; i < TPS23881_MAX_CHANS; i++) {
+> +		if (!port_matrix[i].exist)
+> +			continue;
+> +
+> +		val |= BIT(port_matrix[i].lgcl_chan[0]) |
+> +		       BIT(port_matrix[i].lgcl_chan[0] + 4);
+> +		if (port_matrix[i].is_4p)
+> +			val |= BIT(port_matrix[i].lgcl_chan[1]) |
+> +			       BIT(port_matrix[i].lgcl_chan[1] + 4);
+> +	}
+> +	ret = i2c_smbus_write_word_data(client, TPS23881_REG_DET_CLA_EN, 0xffff);
+
+This looks odd. You calculate val, and then don't use it?
+
+     Andrew
