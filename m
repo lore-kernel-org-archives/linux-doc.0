@@ -1,104 +1,139 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B0881AB1
-	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 14:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D7812A157;
+	Thu, 28 Mar 2024 14:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711635616; cv=none; b=pf06pk4mdGxlQ7gpfhN7BYS3o4z/6ikA44FIIc6MkJ/qaVb0pW2T/Nno+UKh+HGXxHdPqMU3pXfpG6Il8zPQEcI9+XA4X+ph0+c0rq46cGXFZVhKIShAOjWLCl//+VZHsFzkFAq+e1+46hEWsDoq0zvlxDU+D44gCVDyrIgDRBQ=
+	t=1711635657; cv=none; b=q/3+jeD74MQleA3o3sijF7enck89dOvvjLY/tMMrBNbszuox5SM7JSMJL8Yz7Tjw8dxLrXNfDJcCUzgLFvuh1r/pmnka0LRS+VAi/ZgBCDGzgHhW70btKhAUuN5xWl/F9D8t5OyxE0beIGVjSl9NAGHlZM7arQxmk2a3MoJ7FVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711635616; c=relaxed/simple;
-	bh=YHZ2qDQtrHJ7X6uQMFA19oqP0aMOKlutpOAK5TIojS8=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=XozSt8QiSXCcFvn/CtUo3b1sWnNtWbueIYimXmEpEZDqn+kwOg19DcP16c9axgsIBvTqZXRRkc1k56rotEf2Mfg8QgqF/nrhnDzs/b2emRbSN3lvfDqhffDD0GjrWWc2UnQxxqIeNMu8t6PT9J4bRi8txJJQfyJ1LB8k+qr24OY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VJn6ShWU; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1711635657; c=relaxed/simple;
+	bh=/mzKcAcVee2eDwo7xSaEAAot3AENIEbBi8tazumkqxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=olpUBa1c1kLdSWQ8mRcwmQ3J3qxhuPwDPoWRsjwlHP0M0oJMZNyRr91BlsjIHwy2RqEf+LSc6Oj6UvK3bQ2xnApOnWyd75Rz/C+WhzGdZgw04zWYyZvIh1SHHSarHSFN+Set+aFarCGTP0spkXhUorJTho2M9m1lVdF2rwA7WqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZGw97JH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VJn6ShWU"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dd933a044baso2532184276.0
-        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 07:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711635613; x=1712240413; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ywi9W0+VrdEwTHjF11TkVgGoMgKOQYfnHN16lHNeHLA=;
-        b=VJn6ShWUsDGhgwyIAESpUvN+73/Tm07JGNVBcPqPRuzcYaop7wLxMq4rM1gBWQaIII
-         gs5guBZyrHpywU6wcTzoDAAXFK/rJI4mQD/0rdyMm5eGnOX749TQEXwQAMJDrSHjxZPT
-         E5VcsEMzLrxJuAsb9dT9sXeFU8qUS8CbRB/DQSTG5Yug5fT3sq+OPfmjD4RrT5Ptcd8d
-         yvblBrnSq01YUNvrbkUceMqUDB9IviJCEgFRpSelBNwFrXGIvSCUMiC5gyxld2HpIqmf
-         po8axAGEANyVb5maOSTLXJKjGjQfHB74EgLGyL5oOQ3meWfCBk7KZI9oMxCHEJ8Ik1xm
-         MZcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711635613; x=1712240413;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ywi9W0+VrdEwTHjF11TkVgGoMgKOQYfnHN16lHNeHLA=;
-        b=ptQOP1dFQHj9ingydsPh7OP2PYqPr6aL1OZH+BTwXtjNKjuCvCSMLIS2M/TGnscpSO
-         ZDMDW2nsgeKWmdexON0gOmnw9NWoogJQqyll1jmeLjLMNa13Y4GQG8yfPooCSr7HA56y
-         G7shL5poG5Fo8e2nMhzcZHozevlJOFCh2a/n2q+Aa6ArM8xqh/o74cNTkU84K5JzxEwu
-         AAOyOnRE7LqFJQCdZbr4j6V3n+RD/WZgihav2XXUphFz/hiJ5C2XAoS2RJZjLxOihNb8
-         YAQVC2LS7ifN1qcLlZHN7WcBtklSmu+dc4vs1RPe011jJxdwdzEL/XENsPoMHvH9tidb
-         u5pw==
-X-Forwarded-Encrypted: i=1; AJvYcCWafbUBx2598l3wWuaRwcOR8KcRhrTJX9MgRgFcZzfspwIravMu3Fsn7lzjelgWbi9ONoy1oUUB9iVNc75qRFCBh0kuVb5xICpq
-X-Gm-Message-State: AOJu0YzBLBVRAF38toLwrLdZYDkl2bOjpCNrfL6FtHuc4fK5DVh2iunk
-	JJ8u0DvndMa1Tef69Gu5qgRDzHoGc02bdS33VVkChXyhQrESR9Fr5BCr3W5J7OThwH/c5M2IWfb
-	WO9wiakLaXQ==
-X-Google-Smtp-Source: AGHT+IF5T/UC/ZI+sJghdQaQT7RB77mNf5c73vZHpF2Z2msrfpy5Y10FafAMAzCctl95KssMUBsd0WjxxlFQSA==
-X-Received: from beeg.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:11db])
- (user=jackmanb job=sendgmr) by 2002:a05:6902:1507:b0:dbd:ee44:8908 with SMTP
- id q7-20020a056902150700b00dbdee448908mr759573ybu.0.1711635612898; Thu, 28
- Mar 2024 07:20:12 -0700 (PDT)
-Date: Thu, 28 Mar 2024 14:20:04 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZGw97JH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07FAC433F1;
+	Thu, 28 Mar 2024 14:20:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711635656;
+	bh=/mzKcAcVee2eDwo7xSaEAAot3AENIEbBi8tazumkqxw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=iZGw97JHpv2rPipXEAsc3DpK4QsdoAqKyqoFPu3f9fMs2GYquXDrM9QwWUGKem+Gv
+	 teYRiV8pcY3RtLVO4rIVxoHtSK5G0WdW8tujyxd/nZtKoKO/utXKpkiE2cFTSTmgn0
+	 nVXtrG4+iH4CGFQ6RM/tR/H9YwlpktlfW2cwJyendK1+V2Z20gGF3ysd1y0MOZLD/r
+	 pW1XLdPX9cbT6edtiZY1CFDMkw/M4HMLCOh6dXJjWfN5WTR6mYquAJLbP5pSz+/a1Y
+	 RZjt+8VyzXSHGxhhRB8q8UHLz4s8G5MapjJL84wBv6Kcfyp35NXjbxTDTCIOD+ub1R
+	 uDzbZk7mzN6XA==
+Date: Thu, 28 Mar 2024 14:20:38 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>, Guenter
+ Roeck <linux@roeck-us.net>, Support Opensource
+ <support.opensource@diasemi.com>, Cosmin Tanislav
+ <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 3/7] hwmon: (da9052) Use
+ devm_regulator_get_enable_get_voltage()
+Message-ID: <20240328142038.33ad68bc@jic23-huawei>
+In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	<20240327-regulator-get-enable-get-votlage-v1-3-5f4517faa059@baylibre.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.44.0.396.g6e790dbe36-goog
-Message-ID: <20240328142004.2144568-1-jackmanb@google.com>
-Subject: [PATCH] Documentation: kunit: Clarify test filter format
-From: Brendan Jackman <jackmanb@google.com>
-To: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Brendan Higgins <brendan.higgins@linux.dev>, davidgow@google.com, rmoar@google.com, 
-	corbet@lwn.net, Brendan Jackman <jackmanb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-It seems obvious once you know, but at first I didn't realise that the
-suite name is part of this format. Document it and add example.
+On Wed, 27 Mar 2024 18:18:52 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
----
- Documentation/dev-tools/kunit/run_wrapper.rst | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> We can reduce boilerplate code by using
+> devm_regulator_get_enable_get_voltage().
+> 
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 19ddf5e07013..e75a5fc05814 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -156,13 +156,20 @@ Filtering tests
- ===============
- 
- By passing a bash style glob filter to the ``exec`` or ``run``
--commands, we can run a subset of the tests built into a kernel . For
-+commands, we can run a subset of the tests built into a kernel,
-+identified by a string like ``$suite_name.$test_name``. For
- example: if we only want to run KUnit resource tests, use:
- 
- .. code-block::
- 
- 	./tools/testing/kunit/kunit.py run 'kunit-resource*'
- 
-+Or to run just one specific test from that suite:
-+
-+.. code-block::
-+
-+	./tools/testing/kunit/kunit.py run 'kunit-resource-test.kunit_resource_test_init_resources'
-+
- This uses the standard glob format with wildcard characters.
- 
- .. _kunit-on-qemu:
--- 
-2.44.0.396.g6e790dbe36-goog
+A few comments inline, but nothing substantial.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> ---
+>  drivers/hwmon/da9052-hwmon.c | 33 +++++++--------------------------
+>  1 file changed, 7 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
+> index 2bd7ae8100d7..70e7bc72e980 100644
+> --- a/drivers/hwmon/da9052-hwmon.c
+> +++ b/drivers/hwmon/da9052-hwmon.c
+> @@ -26,7 +26,6 @@ struct da9052_hwmon {
+>  	struct mutex		hwmon_lock;
+>  	bool			tsi_as_adc;
+>  	int			tsiref_mv;
+> -	struct regulator	*tsiref;
+>  	struct completion	tsidone;
+>  };
+>  
+> @@ -414,32 +413,19 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+>  		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
+>  
+>  	if (hwmon->tsi_as_adc) {
+> -		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
+> -		if (IS_ERR(hwmon->tsiref)) {
+> -			err = PTR_ERR(hwmon->tsiref);
+> -			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
+> +		err = devm_regulator_get_enable_get_voltage(pdev->dev.parent,
+> +							    "tsiref");
+> +		if (err < 0)
+>  			return err;
+> -		}
+> -
+> -		err = regulator_enable(hwmon->tsiref);
+> -		if (err)
+> -			return err;
+> -
+> -		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
+> -		if (hwmon->tsiref_mv < 0) {
+> -			err = hwmon->tsiref_mv;
+> -			goto exit_regulator;
+> -		}
+>  
+>  		/* convert from microvolt (DT) to millivolt (hwmon) */
+> -		hwmon->tsiref_mv /= 1000;
+> +		hwmon->tsiref_mv = err / 1000;
+>
+
+Using a variable called err for a good value is a bit ugly but fair enough if that
+is precedence in this driver.
+
+>  }
+> @@ -483,10 +466,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
+>  {
+>  	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
+>  
+> -	if (hwmon->tsi_as_adc) {
+> +	if (hwmon->tsi_as_adc)
+>  		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
+Superficially looks like devm_da9052_request_irq could be added that
+uses devm_request_threaded_irq() to allow dropping this remaining handling.
+
+Thanks,
+
+Jonathan
+
+> -		regulator_disable(hwmon->tsiref);
+> -	}
+>  }
+>  
+>  static struct platform_driver da9052_hwmon_driver = {
+> 
 
