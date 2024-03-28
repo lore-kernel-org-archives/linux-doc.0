@@ -1,298 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F2512F385;
-	Thu, 28 Mar 2024 20:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7568541A80;
+	Thu, 28 Mar 2024 21:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711658970; cv=none; b=He3irxTyMO5MPHcsvw/Q9+M1n6zHAa6USN5HKSa+Dip1zSGwv+VjciD7xGgKlpX46wnI1Dp+CRzLb/2Ob/0BcOCcF4PtjEJZNnhuMMqo0ZL3PdHIC87/WdXUSQUHNDa3+MrbXBH1es2Kzv5QNuOuI9XeIP9+FUjxJNJzgELYYH8=
+	t=1711661058; cv=none; b=JFNG1uXQix7OLp5fS7me8U5KdD+wta1YNAmfNqhtvcs/JT8WY8dh9/ibu96k1pziRgzl8VlzsJT69ODV0gjvplqJKJLsIjg1pixNf8fDlM8oyGnYFk5DSbVsjCC/zKQtRphbLE3oErPHWWreUusZfwRAcdoeExsGTMQPKruH5g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711658970; c=relaxed/simple;
-	bh=3XCMYkBoPq+Idec9DAdMOiIFbT5SeMUB/mlilzXLUWc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=BYWeYBRkvkREDsSX7iQRInSJF7FogM4ScvDHqg/b+96g72T3zYCsUrRed5E9PIf3LnkORVYia9aduwFHFA2eHVLH6RgEludsttyQiBq2W2UIL2GVZ+rMDVzRhG0U80ssrNjf4VmAWQwmii8BrAF+VERSP5/PkarzGbrL4BIC9Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTOECzv/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711661058; c=relaxed/simple;
+	bh=kfkZvWjF9vS6giOrKTL+yJfHs6neOrDFR/i/hESEEHw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dCCVaSbeV1T46MQyVFnMTvll0EYUlTvIWM6d8vZoSV57CQB89m7DVpeBWNQe1Q/L3VxFXzzIbMXOEBD2Xb7iroSxzWcnSc3D8NROpqVSGO+haklKnFAa/Znn7wfGOhO2Dzt+lTUQqw+/wafZ9THEFIfCUfPw6Agm0kwhTrw7L54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1yOaccN; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTOECzv/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED608C433C7;
-	Thu, 28 Mar 2024 20:49:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711658970;
-	bh=3XCMYkBoPq+Idec9DAdMOiIFbT5SeMUB/mlilzXLUWc=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=bTOECzv/yf0h6rScIKYBe0I8AjSUM5shZNlXeItcF4aAaYsC4mWjd/EZ7t4lpuebD
-	 RsUqXkYo89zrkJQzmK7yr+Jdkfj2F9q4zKHo4JwwFjujLJiltFtCCrDde041g9RWiL
-	 c8cFnFVKhx9IZqspbIuJClC2UcTi0uunh7vb894Vo7y7bX8fqZaDf5YXjVtsxQhpBw
-	 ogON2hGHCYWpoMGiFGfoSIbBKX5gdQ+iYtY5e/fAanEZkm5ElbYy7DzOcOe5oZ2LYA
-	 zxSak7P6qMYl52azITVkbiaBsvT5VMuvhh/CV8ec8qjTucu8LDiPms5LYSRoSJNHVd
-	 9n281ruKCwDIQ==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1yOaccN"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4d8c5cc6d58so284116e0c.3;
+        Thu, 28 Mar 2024 14:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711661055; x=1712265855; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4FDBCSehTgYY3B2vfvWYcnP5cnNaGJ+D90cjGDdfwFA=;
+        b=Q1yOaccNq5N0dIatm9i/in3Bev5+CB3FwSApRtGGjBq6jDqGGh4usoCvgTZuxLE0Wx
+         0yW1BmvfkCH7p4Bx9arnmYd2DwaQVsp7jKK0Cz6jtkZRCXIBRv7fhZhX30h5ydfEOnio
+         vEyLEA76XKjXAreXBj6bROyaGtel8ON5Zvq1wgVeSllUhM7IThgCCHOyOKxp43btTAP6
+         49NtVsWzN/RxABxdge9EPAkbxfozOO4hbsU+YHbLepBz+G9JpEy6tnXo3eDS1SluoaDA
+         9ny6gXaHGtNobTy/KVk1mqxd4p7aOof+8R5SSEGcAJUpIujFKGlmZnmUssUOi25jsuiQ
+         M3+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711661055; x=1712265855;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4FDBCSehTgYY3B2vfvWYcnP5cnNaGJ+D90cjGDdfwFA=;
+        b=e6XH+dCg4HdcdphoWaOtUiwygNlU2wH7y71ocg49Ce4y7s9ohUgw/0CiR1RyaAtlJo
+         6Jiy5fH7+YgxSzqc3BX2Y05XRV4QzS38Wxl0KXdrPtdUCiM7GP9bICAnQsSLI2t/O/U9
+         4DuKcoGMd0xPxF8HufRgihAfy/KprfctNC25F2TQYcDVsi/W9TTiCTV8ZYALNBJ1WjVy
+         V8cP9BfYg4fVyQWA7eshcSNm8W2t6Cp3pmKBvS7s4163LL3oA+BG/db6+9LFt3hitMoh
+         iAVXw3fIJK0RH8A8eUWlCGL7Bh++6HPk6lz5INmuSISgYkt8SiYqyl3lWGzGH592VMxk
+         z3xA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh+ZZbB7ep6yixv4ta5BMjaQZbsbPoeGwfTio9MPNxAYjPvSIPWaWef4RHkKPsIroq/5iJE8RtekKOYsh0L7JNVhm0WetaZbInBVG3RUlj208nTwsTTTsE6QCb/o1iV+8gAr3ytxx8Z+iUdJUbC8lEcNX1A3NALDWuJWH08VjkRgly
+X-Gm-Message-State: AOJu0Yw/LmCEeA0vmkILTp2BvKlVjYQNUic4GY+xpmLmOjfe5hKp9160
+	6bL3JIEY0ztKKiuY/3Z7uBA5K7RUmk7ZJsRg5vMGuCxmkCNgnMpPhyrwUjfsKVjTWTp8ovpb2k7
+	xoorKUYykzn/znGhvsDD4meaLsMM=
+X-Google-Smtp-Source: AGHT+IHI9LPrHISpciJu/XlMdQvlSNBZDSu7uaIpD9fPoUAzVQaNERNBJHyC/9jYZxDonlPN16YfLYb+mIXvXQMoJZQ=
+X-Received: by 2002:a05:6122:499a:b0:4d3:b326:5ae8 with SMTP id
+ ex26-20020a056122499a00b004d3b3265ae8mr568500vkb.14.1711661055324; Thu, 28
+ Mar 2024 14:24:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20240328022136.5789-1-21cnbao@gmail.com> <20240328022136.5789-3-21cnbao@gmail.com>
+ <09fe8f18-7f68-4d5d-89e4-68c1e5487b05@quicinc.com>
+In-Reply-To: <09fe8f18-7f68-4d5d-89e4-68c1e5487b05@quicinc.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Fri, 29 Mar 2024 10:24:03 +1300
+Message-ID: <CAGsJ_4wb+koAGiK0FnW-ChO3E7iuzvjKXiF_6V_tkopaZ5D_qA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] scripts: checkpatch: check unused parameters for
+ function-like macro
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Cc: akpm@linux-foundation.org, linux-doc@vger.kernel.org, apw@canonical.com, 
+	broonie@kernel.org, chenhuacai@loongson.cn, chris@zankel.net, corbet@lwn.net, 
+	dwaipayanray1@gmail.com, herbert@gondor.apana.org.au, joe@perches.com, 
+	linux-kernel@vger.kernel.org, linux@roeck-us.net, lukas.bulwahn@gmail.com, 
+	mac.xxn@outlook.com, sfr@canb.auug.org.au, v-songbaohua@oppo.com, 
+	workflows@vger.kernel.org, Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 28 Mar 2024 22:49:24 +0200
-Message-Id: <D05OGOTS265U.1AKOJIR5TQJBF@kernel.org>
-Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
- <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
- <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Deven Bowers"
- <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v16 03/20] ipe: add evaluation loop
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Fan Wu" <wufan@linux.microsoft.com>, <corbet@lwn.net>,
- <zohar@linux.ibm.com>, <jmorris@namei.org>, <serge@hallyn.com>,
- <tytso@mit.edu>, <ebiggers@kernel.org>, <axboe@kernel.dk>,
- <agk@redhat.com>, <snitzer@kernel.org>, <eparis@redhat.com>,
- <paul@paul-moore.com>
-X-Mailer: aerc 0.17.0
-References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
- <1711657047-10526-4-git-send-email-wufan@linux.microsoft.com>
-In-Reply-To: <1711657047-10526-4-git-send-email-wufan@linux.microsoft.com>
 
-On Thu Mar 28, 2024 at 10:17 PM EET, Fan Wu wrote:
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
+On Fri, Mar 29, 2024 at 5:01=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
+.com> wrote:
 >
-> IPE must have a centralized function to evaluate incoming callers
-> against IPE's policy. This iteration of the policy for against the rules
-> for that specific caller is known as the evaluation loop.
+> On 3/27/2024 7:21 PM, Barry Song wrote:
+> > From: Xining Xu <mac.xxn@outlook.com>
+> >
+> > If function-like macros do not utilize a parameter, it might result in =
+a
+> > build warning.  In our coding style guidelines, we advocate for utilizi=
+ng
+> > static inline functions to replace such macros.  This patch verifies
+> > compliance with the new rule.
+> >
+> > For a macro such as the one below,
+> >
+> >  #define test(a) do { } while (0)
+> >
+> > The test result is as follows.
+> >
+> >  ERROR: Parameter 'a' is not used in function-like macro, please use st=
+atic
+> >  inline instead
+> >  #21: FILE: mm/init-mm.c:20:
+> >  +#define test(a) do { } while (0)
+> >
+> >  total: 1 errors, 0 warnings, 8 lines checked
+> >
+> > Signed-off-by: Xining Xu <mac.xxn@outlook.com>
 >
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->
-> ---
-> v2:
-> + Split evaluation loop, access control hooks, and evaluation loop from p=
-olicy parser and userspace interface to pass mailing list character limit
->
-> v3:
-> + Move ipe_load_properties to patch 04.
-> + Remove useless 0-initializations Prefix extern variables with ipe_
-> + Remove kernel module parameters, as these are exposed through sysctls.
-> + Add more prose to the IPE base config option help text.
-> + Use GFP_KERNEL for audit_log_start.
-> + Remove unnecessary caching system.
-> + Remove comments from headers
-> + Use rcu_access_pointer for rcu-pointer null check
-> + Remove usage of reqprot; use prot only.
-> +Move policy load and activation audit event to 03/12
->
-> v4:
-> + Remove sysctls in favor of securityfs nodes
-> + Re-add kernel module parameters, as these are now exposed through secur=
-ityfs.
-> + Refactor property audit loop to a separate function.
->
-> v5:
-> + fix minor grammatical errors
-> + do not group rule by curly-brace in audit record,
-> + reconstruct the exact rule.
->
-> v6:
-> + No changes
->
-> v7:
-> + Further split lsm creation into a separate commit from the evaluation l=
-oop and audit system, for easier review.
-> + Propagating changes to support the new ipe_context structure in the eva=
-luation loop.
->
-> v8:
-> + Remove ipe_hook enumeration; hooks can be correlated via syscall record=
-.
->
-> v9:
-> + Remove ipe_context related code and simplify the evaluation loop.
->
-> v10:
-> + Split eval part and boot_verified part
->
-> v11:
-> + Fix code style issues
->
-> v12:
-> + Correct an rcu_read_unlock usage
-> + Add a WARN to unknown op during evaluation
->
-> v13:
-> + No changes
->
-> v14:
-> + No changes
->
-> v15:
-> + No changes
->
-> v16:
-> + No changes
-> ---
->  security/ipe/Makefile |   1 +
->  security/ipe/eval.c   | 100 ++++++++++++++++++++++++++++++++++++++++++
->  security/ipe/eval.h   |  24 ++++++++++
->  3 files changed, 125 insertions(+)
->  create mode 100644 security/ipe/eval.c
->  create mode 100644 security/ipe/eval.h
->
-> diff --git a/security/ipe/Makefile b/security/ipe/Makefile
-> index c09aec4904f2..57fe922cf1fc 100644
-> --- a/security/ipe/Makefile
-> +++ b/security/ipe/Makefile
-> @@ -6,6 +6,7 @@
->  #
-> =20
->  obj-$(CONFIG_SECURITY_IPE) +=3D \
-> +	eval.o \
->  	ipe.o \
->  	policy.o \
->  	policy_parser.o \
-> diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-> new file mode 100644
-> index 000000000000..af56815ed0fa
-> --- /dev/null
-> +++ b/security/ipe/eval.c
-> @@ -0,0 +1,100 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#include <linux/fs.h>
-> +#include <linux/types.h>
-> +#include <linux/slab.h>
-> +#include <linux/file.h>
-> +#include <linux/sched.h>
-> +#include <linux/rcupdate.h>
-> +
-> +#include "ipe.h"
-> +#include "eval.h"
-> +#include "policy.h"
-> +
-> +struct ipe_policy __rcu *ipe_active_policy;
-> +
-> +/**
-> + * evaluate_property - Analyze @ctx against a property.
-> + * @ctx: Supplies a pointer to the context to be evaluated.
-> + * @p: Supplies a pointer to the property to be evaluated.
-> + *
-> + * Return:
-> + * * true	- The current @ctx match the @p
-> + * * false	- The current @ctx doesn't match the @p
-> + */
-> +static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
-> +			      struct ipe_prop *p)
+> if you are re-posting somebody else's work you need to add your own Signe=
+d-off-by
 
-What a descriptive name (not)
+Ok. Jeff, I will do it in the new version and obviously Joe still has
+some remaining
+comments to be addressed by Xining.
 
-Also short descriptino tells absolute nothing relevant (as good as it
-did not exist at all).
-
-It would be also senseful to carry the prefix.
-
-
-> +{
-> +	return false;
-> +}
-> +
-> +/**
-> + * ipe_evaluate_event - Analyze @ctx against the current active policy.
-> + * @ctx: Supplies a pointer to the context to be evaluated.
-> + *
-> + * This is the loop where all policy evaluation happens against IPE poli=
-cy.
-> + *
-> + * Return:
-> + * * 0		- OK
-> + * * -EACCES	- @ctx did not pass evaluation.
-> + * * !0		- Error
-> + */
-> +int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
-> +{
-> +	bool match =3D false;
-> +	enum ipe_action_type action;
-> +	struct ipe_policy *pol =3D NULL;
-> +	const struct ipe_rule *rule =3D NULL;
-> +	const struct ipe_op_table *rules =3D NULL;
-> +	struct ipe_prop *prop =3D NULL;
-> +
-> +	rcu_read_lock();
-> +
-> +	pol =3D rcu_dereference(ipe_active_policy);
-> +	if (!pol) {
-> +		rcu_read_unlock();
-> +		return 0;
-> +	}
-> +
-> +	if (ctx->op =3D=3D IPE_OP_INVALID) {
-> +		if (pol->parsed->global_default_action =3D=3D IPE_ACTION_DENY) {
-> +			rcu_read_unlock();
-> +			return -EACCES;
-> +		}
-> +		if (pol->parsed->global_default_action =3D=3D IPE_ACTION_INVALID)
-> +			WARN(1, "no default rule set for unknown op, ALLOW it");
-> +		rcu_read_unlock();
-> +		return 0;
-> +	}
-> +
-> +	rules =3D &pol->parsed->rules[ctx->op];
-> +
-> +	list_for_each_entry(rule, &rules->rules, next) {
-> +		match =3D true;
-> +
-> +		list_for_each_entry(prop, &rule->props, next) {
-> +			match =3D evaluate_property(ctx, prop);
-> +			if (!match)
-> +				break;
-> +		}
-> +
-> +		if (match)
-> +			break;
-> +	}
-> +
-> +	if (match)
-> +		action =3D rule->action;
-> +	else if (rules->default_action !=3D IPE_ACTION_INVALID)
-> +		action =3D rules->default_action;
-> +	else
-> +		action =3D pol->parsed->global_default_action;
-> +
-> +	rcu_read_unlock();
-> +	if (action =3D=3D IPE_ACTION_DENY)
-> +		return -EACCES;
-> +
-> +	return 0;
-> +}
-> diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-> new file mode 100644
-> index 000000000000..6b434515968f
-> --- /dev/null
-> +++ b/security/ipe/eval.h
-> @@ -0,0 +1,24 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) Microsoft Corporation. All rights reserved.
-> + */
-> +
-> +#ifndef _IPE_EVAL_H
-> +#define _IPE_EVAL_H
-> +
-> +#include <linux/file.h>
-> +#include <linux/types.h>
-> +
-> +#include "policy.h"
-> +
-> +extern struct ipe_policy __rcu *ipe_active_policy;
-> +
-> +struct ipe_eval_ctx {
-> +	enum ipe_op_type op;
-> +
-> +	const struct file *file;
-> +};
-> +
-> +int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
-> +
-> +#endif /* _IPE_EVAL_H */
-
-BR, Jarkko
+>
+> > Tested-by: Barry Song <v-songbaohua@oppo.com>
+> > Cc: Chris Zankel <chris@zankel.net>
+> > Cc: Huacai Chen <chenhuacai@loongson.cn>
+> > Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Mark Brown <broonie@kernel.org>
+> > Cc: Andy Whitcroft <apw@canonical.com>
+> > Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > Cc: Joe Perches <joe@perches.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Cc: Max Filippov <jcmvbkbc@gmail.com>
+>
