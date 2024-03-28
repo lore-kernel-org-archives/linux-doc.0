@@ -1,158 +1,260 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D314D1E49E;
-	Thu, 28 Mar 2024 06:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D228E3DABF3;
+	Thu, 28 Mar 2024 06:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711607013; cv=none; b=D1hzqOd2O+dZmyZvB+P7RKa6f60lFi1MIE6OmMKL0slqNPtpd9njDCp1ouNHYy2wDi7BD4HQlvf0u2xOwf21bwjec2sXhlgf6ZQfhIS0nJKqb+/IObG+Jo+kDDMhulustwsJD3teYihAJQg7WCz5mJSj1eX0Af4iwtJZD55gjZ8=
+	t=1711607540; cv=none; b=Y8pWIRWG6Gi3e2IojGwL966ZgtdBC7BdBGpNXWeZijBe3PkdC0Pu5D/0bT2t9g8tIWe9XQGUrJk6aEaZR5lQkYyqG6hQCZ+5DOhJr8vXA6u1WPW6SgUvJlpfmuhH6Q8JAlhpDHxyQBsWUkoRL6lSCFrFHUrtDDJyTzlinJd0mL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711607013; c=relaxed/simple;
-	bh=XxzwleAMl7kfTQ9nHbAuAtK+mGXYz1Wmw7p/PQbLjFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fc3xzg2H1ErcUS7cvvsY0/tNMlK9dUgl8Xs8H28Pj0IqD1VhrhbRVKEG+kWSG6nfD8VoDnQV73F3J95k8uDFPf8RlZngrbQsqRv4hnBX4FyK9yImjvO1IQMhdvyeP1GIhf9246KItcncDkHGQ6AutkcrviOUt1VlimjdX+I+WwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UaMOCYL2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711607540; c=relaxed/simple;
+	bh=OsUBSm2i90tYUGXnZ3vAuOySBFQ46NgGqeHUyIxU3nQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=skADVyiJ0OTf4ffmRU3IFv3rZYNalAENMBQcZkydTXZP5wJXjQOXBv1YFZ6xOfKvK7eGWPgBNidXYgVaJG+4IyLM2PCmO9qFokG9i4cS759or+rMhPjNmfZACkE6D9vruY273H+qZIMiKuP0xOF62ZEY1GggBMGmNMi3GwxKpTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=APQaEMhI; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UaMOCYL2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FCCC433C7;
-	Thu, 28 Mar 2024 06:23:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711607012;
-	bh=XxzwleAMl7kfTQ9nHbAuAtK+mGXYz1Wmw7p/PQbLjFk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UaMOCYL2JBDXma+19hgTY26MKMIj3SGutMo27LVkiQTdoRJZCdyPZe9k2FfGyrbXB
-	 JjuRTcQIbA70r4j5bNrEHLf2awD4kLSn0hA6tKtMZSmcCsgDdUS/LUom+HDg36W3mA
-	 qGKOgcsv9S65vTROxRDbsGAo3z/AK9UxKHNkQibOremkn+PMOOVuiW2v7jddpMs8jZ
-	 YL4cB65gz2SJ3/SfoAd6+OolbK4oXpDnVGmCIUrztpkbAX/HaNFncaa05m8/IRXEwL
-	 nhtTGTgNj5wxbRBcjrfJM5B3yNhWDui6NEl+WMYVBrthGsYsX+GNQgEeMLGN4dvBg3
-	 Ire/MFkuR/2wA==
-Date: Thu, 28 Mar 2024 11:53:16 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Nuno Sa <nuno.sa@analog.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
- dmaengine_prep_peripheral_dma_vec()
-Message-ID: <ZgUM1LFEWs3lwoAU@matsya>
-References: <20240310124836.31863-1-paul@crapouillou.net>
- <20240310124836.31863-2-paul@crapouillou.net>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="APQaEMhI"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42S6Vsvt005438;
+	Thu, 28 Mar 2024 01:31:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1711607514;
+	bh=Varq16AyuV7edMRW5MfI/bQ6PPPGyf6i7eSGtxy4ZrE=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=APQaEMhIoLf4rMvSDeZRunKMvqhSfek4X1vgLnOpxQkxBX2w9f2twjYzCO5OIa3yr
+	 h1IcKqzx1SGbb3PjQgybikYTrWn7O85/rXo04xl2+mVtpyO5Z9q4idMrXIEoiM+BLw
+	 vvB1nKUReDDI91QtZjqRdVrZ+uo26kwOxFr/KGEI=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42S6VsZ4110661
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 28 Mar 2024 01:31:54 -0500
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 28
+ Mar 2024 01:31:53 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 28 Mar 2024 01:31:53 -0500
+Received: from localhost (dhruva.dhcp.ti.com [172.24.227.68])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42S6VqYf002366;
+	Thu, 28 Mar 2024 01:31:53 -0500
+Date: Thu, 28 Mar 2024 12:01:52 +0530
+From: Dhruva Gole <d-gole@ti.com>
+To: Tony Lindgren <tony@atomide.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby
+	<jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Petr Mladek
+	<pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+        John Ogness
+	<john.ogness@linutronix.de>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>,
+        Ilpo =?utf-8?B?SsOkcnZpbmVu?=
+	<ilpo.jarvinen@linux.intel.com>,
+        Johan Hovold <johan@kernel.org>,
+        Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>,
+        Vignesh Raghavendra
+	<vigneshr@ti.com>, <linux-kernel@vger.kernel.org>,
+        <linux-serial@vger.kernel.org>, Sebastian Reichel <sre@kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 4/7] serial: core: Add support for DEVNAME:0.0 style
+ naming for kernel console
+Message-ID: <20240328063152.bjkdtdsu42cqbgf3@dhruva>
+References: <20240327110021.59793-1-tony@atomide.com>
+ <20240327110021.59793-5-tony@atomide.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240310124836.31863-2-paul@crapouillou.net>
+In-Reply-To: <20240327110021.59793-5-tony@atomide.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On 10-03-24, 13:48, Paul Cercueil wrote:
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
+Hi,
+
+On Mar 27, 2024 at 12:59:38 +0200, Tony Lindgren wrote:
+> We can now add hardware based addressing for serial ports. Starting with
+> commit 84a9582fd203 ("serial: core: Start managing serial controllers to
+> enable runtime PM"), and all the related fixes to this commit, the serial
+> core now knows to which serial port controller the ports are connected.
 > 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
+> The serial ports can be addressed with DEVNAME:0.0 style naming. The names
+> are something like 00:04:0.0 for a serial port on qemu, and something like
+> 2800000.serial:0.0 on platform device using systems like ARM64 for example.
 > 
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
+> The DEVNAME is the unique serial port hardware controller device name, AKA
+> the name for port->dev. The 0.0 are the serial core controller id and port
+> id.
 > 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> Typically 0.0 are used for each controller and port instance unless the
+> serial port hardware controller has multiple controllers or ports.
 > 
+> Using DEVNAME:0.0 style naming actually solves two long term issues for
+> addressing the serial ports:
+> 
+> 1. According to Andy Shevchenko, using DEVNAME:0.0 style naming fixes an
+>    issue where depending on the BIOS settings, the kernel serial port ttyS
+>    instance number may change if HSUART is enabled
+> 
+> 2. Device tree using architectures no longer necessarily need to specify
+>    aliases to find a specific serial port, and we can just allocate the
+
+This is GOOD!
+
+>    ttyS instance numbers dynamically in whatever probe order
+> 
+> To do this, let's match the hardware addressing style console name to
+> the character device name used, and add a preferred console using the
+> character device name.
+> 
+> Note that when using console=DEVNAME:0.0 style kernel command line, the
+> 8250 serial console gets enabled later compared to using console=ttyS
+> naming for ISA ports. This is because the serial port DEVNAME to character
+> device mapping is not known until the serial driver probe time. If used
+> together with earlycon, this issue is avoided.
+> 
+> Signed-off-by: Tony Lindgren <tony@atomide.com>
 > ---
-> v3: New patch
+>  drivers/tty/serial/serial_base.h     | 16 +++++++
+>  drivers/tty/serial/serial_base_bus.c | 66 ++++++++++++++++++++++++++++
+>  drivers/tty/serial/serial_core.c     |  4 ++
+>  3 files changed, 86 insertions(+)
 > 
-> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
->     'dma_vec'.
->     Note that at some point we will need to support cyclic transfers
->     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
->     parameter to the function?
-> 
-> v7:
->   - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
->   - Added a new flag parameter to the function as agreed between Paul
->     and Vinod. I renamed the first parameter to prep_flags as it's supposed to
->     be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
->     can grow but I was thinking in just having a bool cyclic parameter (as the
->     first intention of the flags is to support cyclic transfers) but ended up
->     "respecting" the previously agreed approach.
-> ---
->  include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 752dbde4cec1..856df8cd9a4e 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
->  	struct data_chunk sgl[];
->  };
+> diff --git a/drivers/tty/serial/serial_base.h b/drivers/tty/serial/serial_base.h
+> --- a/drivers/tty/serial/serial_base.h
+> +++ b/drivers/tty/serial/serial_base.h
+> @@ -45,3 +45,19 @@ void serial_ctrl_unregister_port(struct uart_driver *drv, struct uart_port *port
 >  
-> +/**
-> + * struct dma_vec - DMA vector
-> + * @addr: Bus address of the start of the vector
-> + * @len: Length in bytes of the DMA vector
-> + */
-> +struct dma_vec {
-> +	dma_addr_t addr;
-> +	size_t len;
-> +};
+>  int serial_core_register_port(struct uart_driver *drv, struct uart_port *port);
+>  void serial_core_unregister_port(struct uart_driver *drv, struct uart_port *port);
 > +
->  /**
->   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
->   *  control completion, and communicate status.
-> @@ -910,6 +920,10 @@ struct dma_device {
->  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
->  		struct dma_chan *chan, unsigned long flags);
+> +#ifdef CONFIG_SERIAL_CORE_CONSOLE
+> +
+> +int serial_base_add_preferred_console(struct uart_driver *drv,
+> +				      struct uart_port *port);
+> +
+> +#else
+> +
+> +static inline
+> +int serial_base_add_preferred_console(struct uart_driver *drv,
+> +				      struct uart_port *port)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif
+> diff --git a/drivers/tty/serial/serial_base_bus.c b/drivers/tty/serial/serial_base_bus.c
+> --- a/drivers/tty/serial/serial_base_bus.c
+> +++ b/drivers/tty/serial/serial_base_bus.c
+> @@ -8,6 +8,7 @@
+>   * The serial core bus manages the serial core controller instances.
+>   */
 >  
-> +	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
-> +		struct dma_chan *chan, const struct dma_vec *vecs,
-> +		size_t nents, enum dma_transfer_direction direction,
-> +		unsigned long prep_flags, unsigned long flags);
->  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
->  		struct dma_chan *chan, struct scatterlist *sgl,
->  		unsigned int sg_len, enum dma_transfer_direction direction,
-> @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
->  						  dir, flags, NULL);
+> +#include <linux/cleanup.h>
+>  #include <linux/container_of.h>
+>  #include <linux/device.h>
+>  #include <linux/idr.h>
+> @@ -204,6 +205,71 @@ void serial_base_port_device_remove(struct serial_port_device *port_dev)
+>  	put_device(&port_dev->dev);
 >  }
 >  
-> +static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
-> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
-> +	enum dma_transfer_direction dir, unsigned long prep_flags,
-> +	unsigned long flags)
-> +{
-> +	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
-> +		return NULL;
+> +#ifdef CONFIG_SERIAL_CORE_CONSOLE
 > +
-> +	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
-> +							    dir, prep_flags,
-> +							    flags);
-> +}
+> +static int serial_base_add_one_prefcon(const char *match, const char *dev_name,
+> +				       int port_id)
+> +{
+> +	int ret;
+> +
+> +	ret = add_preferred_console_match(match, dev_name, port_id);
+> +	if (ret == -ENOENT)
+> +		return 0;
+> +
+> +	return ret;
 
-API looks good to me, thanks
-Few nits though:
-- Can we add kernel-doc for this new API please
-- Also update the documentation adding this new api
-- Lastly, we seem to have two flags, I know you have added a comment but
-  I dont seem to recall the discussion (looked at old threads for clue
-  as well), can you please remind me why we need both? And in your case,
-  what is the intended usage of these flags, i would prefer single
-  clean one...
+Can we do this instead?
+return (ret == -ENOENT ? 0 : ret);
+
+> +}
+> +
+> +static int serial_base_add_prefcon(const char *name, int idx)
+> +{
+> +	const char *char_match __free(kfree) = NULL;
+> +
+> +	/* Handle the traditional character device name style console=ttyS0 */
+> +	char_match = kasprintf(GFP_KERNEL, "%s%i", name, idx);
+> +	if (!char_match)
+> +		return -ENOMEM;
+> +
+> +	return serial_base_add_one_prefcon(char_match, name, idx);
+> +}
+> +
+> +/**
+> + * serial_base_add_preferred_console - Adds a preferred console
+> + * @drv: Serial port device driver
+> + * @port: Serial port instance
+> + *
+> + * Tries to add a preferred console for a serial port if specified in the
+> + * kernel command line. Supports both the traditional character device such
+> + * as console=ttyS0, and a hardware addressing based console=DEVNAME:0.0
+> + * style name.
+> + *
+> + * Translates the kernel command line option using a hardware based addressing
+> + * console=DEVNAME:0.0 to the serial port character device such as ttyS0.
+> + * Cannot be called early for ISA ports, depends on struct device.
+> + *
+> + * Note that duplicates are ignored by add_preferred_console().
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int serial_base_add_preferred_console(struct uart_driver *drv,
+> +				      struct uart_port *port)
+> +{
+> +	const char *port_match __free(kfree) = NULL;
+> +	int ret;
+> +
+> +	ret = serial_base_add_prefcon(drv->dev_name, port->line);
+> +	if (ret)
+> +		return ret;
+> +
+> +	port_match = kasprintf(GFP_KERNEL, "%s:%i.%i", dev_name(port->dev),
+> +			       port->ctrl_id, port->port_id);
+> +	if (!port_match)
+> +		return -ENOMEM;
+> +
+> +	/* Translate a hardware addressing style console=DEVNAME:0.0 */
+> +	return serial_base_add_one_prefcon(port_match, drv->dev_name, port->line);
+> +}
+> +
+> +#endif
+> +
+>  static int serial_base_init(void)
+>  {
+>  	int ret;
+> diff --git a/drivers/tty/serial/serial_core.c b/drivers/tty/serial/serial_core.c
+> --- a/drivers/tty/serial/serial_core.c
+> +++ b/drivers/tty/serial/serial_core.c
+> @@ -3407,6 +3407,10 @@ int serial_core_register_port(struct uart_driver *drv, struct uart_port *port)
+>  	if (ret)
+>  		goto err_unregister_ctrl_dev;
+>  
+> +	ret = serial_base_add_preferred_console(drv, port);
+> +	if (ret)
+> +		goto err_unregister_port_dev;
+> +
+
+Looks okay otherwise,
+Reviewed-by: Dhruva Gole <d-gole@ti.com>
 
 -- 
-~Vinod
+Best regards,
+Dhruva
