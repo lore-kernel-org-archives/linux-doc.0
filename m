@@ -1,156 +1,124 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1B17E767;
-	Thu, 28 Mar 2024 13:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7737E7BAE7;
+	Thu, 28 Mar 2024 13:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711631828; cv=none; b=YhbPRGkqH6rzdZuEnkRYljxE1L+Kfdh00GWfcX+d42im+7O0eQMuGzX0JBNcnW9h4XsAvFMkWldDTIwAUgNBu7COFpD8iGPqj23DThNF93WlRczs4v2zv313xYjuIc014lh42FP1+zjMss3KvxWkURJtIMblbJO4vOdopEgfl4I=
+	t=1711633463; cv=none; b=RM7d5wl3IbklrUTe8PuAWDXcgkxWuk7gxllhKMlvSWhInWZhHUzIVeK+ooQ8RTS2Nt8ROG2HMlizXM2VjEdSL8QTlIi/suHdyeQ/QuTsREO37iMSezgABuULtc7r9HifCCsG7Nkd+hb840VIObeZxruqGOvTkq7BAmzBbO5JKjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711631828; c=relaxed/simple;
-	bh=lFcer5cRuCHvRqbG9870yYLfTMMeSNIr8kl344emETU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V+KiKxaQKZhMGm5eNoPCU9qidhXUDDeP8UIWWsjtHjaKN0MO0+9xuzLgpsQGzmh052ez1o3Y4MuL7+41Jo6LxPRlNlAgQBRWn9SFuQ25CXHTchFNrEWYoGwAv4pVzjexV531DR/Jvet3tVRkanTYxf/Zf+gJWFJGc4Ot3KAJzMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=o6lBdpeh; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1711633463; c=relaxed/simple;
+	bh=1Zt/GNPnr+5CkPkwpfsrDaDy69KR996nG4gXgRgk1IE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bnk+gCF453imatwkGnkZEAA750+3/NQFdB63W6/usu1exejji33FhmBl+QiXCYkBsgyksgsAl6DB5Ehg0eASb20vrQIJhr5XXzBImKeFv9t0gAh/uBekiXADQs2I55gV3A6rT23zZlopLCYb8DBy+BEVV7IvER5SHD2O2+hGTVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m79MW81C; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="o6lBdpeh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711631825;
-	bh=lFcer5cRuCHvRqbG9870yYLfTMMeSNIr8kl344emETU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o6lBdpehY4+0IlVQF14iOGGVI/6vTUidQn2ngxmgZGPwYqMsSANmzdbX5tG8qUuTI
-	 nPEEhxhhVpQsrwAhFi+k6Lq7ZeUICcs/paZ66e6clYtcRw3R566RfvTuo122X/o3zH
-	 1xOdxBPtuWOzJHP4sra+M0wcdiDyj0CtJlmOQsQNG5Ec/9eFpmAkpcTQ+Fd2MQksqX
-	 J2VhQq7NgYeoBcAv4InrpKAQfN1KDp02nFoZGv5vtTHBAdvh1oNYPY3dwCZo6KgdWN
-	 wirtwe9KReNYY0gvP9mwHiSFqDz46IXnMwG7I6W9hDCBkA+NmUj2gi/5PA+ipTkI6U
-	 PR8TTUgkw05Ag==
-Received: from [100.95.196.25] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: koike)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BE8433780629;
-	Thu, 28 Mar 2024 13:17:03 +0000 (UTC)
-Message-ID: <c0cc12e6-4f71-449c-b614-a8fbfb4aaa80@collabora.com>
-Date: Thu, 28 Mar 2024 10:17:00 -0300
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m79MW81C"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B70B40006;
+	Thu, 28 Mar 2024 13:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711633452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PfNHoYf2InNiPGVC9qzo7631eEUXZGyrHux3q5scrBc=;
+	b=m79MW81COP1lStBzobUR/lbuPqe9Bta+GahxCqAPDJXqf6xKNvnwn6EHCJ+KIAHGsH74uq
+	n9ThN05SXJKK1w0GaN4WMkycD04/4b0dc9i/UKqgGHrle44cw9y5QwpLhMfkU4gEqCSXP0
+	ovVwtrPlnNVkR/JbR5V6vUcUfLqr+cias6g2pvNy6Cmt0z/A+Gah+z1Ntvw1X/uJ2adcxW
+	UAf68E5WwOzt0y242sjZreyBhpeL60aEnSnKIcmYzgMqdPuoCEXPjoSEBUZbazgthzCiuN
+	s5QdjnM2IuZymwUcS7W3HwkywqmjdisEzikegeNV+CvX8UkVecYgXtChPPFLBw==
+Date: Thu, 28 Mar 2024 14:43:37 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 10/17] net: pse-pd: Add support for PSE PIs
+Message-ID: <20240328144337.4456e596@kmaincent-XPS-13-7390>
+In-Reply-To: <f3bafb50-406b-444a-8411-5ddae8d84c31@lunn.ch>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+	<20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
+	<f3bafb50-406b-444a-8411-5ddae8d84c31@lunn.ch>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] gitlab-ci: Let project define runner using
- environment variables
-To: Leonardo Bras <leobras@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240327013055.139494-2-leobras@redhat.com>
-Content-Language: en-US
-From: Helen Koike <helen.koike@collabora.com>
-In-Reply-To: <20240327013055.139494-2-leobras@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Leonardo,
+On Thu, 28 Mar 2024 13:24:00 +0100
+Andrew Lunn <andrew@lunn.ch> wrote:
 
-Thanks for the patch.
+> > +.. code-block::
+> > +
+> > +         +-------------+
+> > +         |    PSE PI   |
+> > + 8  -----+                             +-------------+
+> > + 7  -----+                    Rail 1   |
+> > + 6  -----+------+----------------------+
+> > + 5  -----+      |                      |
+> > + 4  -----+     /              Rail 2   |  PSE 1
+> > + 3  -----+----?          +-------------+
+> > + 2  -----+----+---------?              |
+> > + 1  -----+---?                         +-------------+
+> > +         |
+> > +         +-------------+ =20
+>=20
+> Is ? a standard markup character? I don't remember seeing it used like
+> this before.
 
-On 26/03/2024 22:30, Leonardo Bras wrote:
-> Currently it's not possible to select which runner will handle a pipeline
-> without changing the codebase.
-> 
-> Add CI_TAGS environment variable, which can be used to select a runner
-> either from a commit message, or directly from Gitlab interface.
-> 
-> Also add Documentation for this variable.
-> 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> ---
-> 
-> This patch goes on top on a previous patchset sent by Helen:
-> https://lore.kernel.org/all/20240228225527.1052240-1-helen.koike@collabora.com/
-> 
-> With this patch I could run CI with gitlab.com runners, by setting
-> CI_TAGS=saas-linux-medium-amd64
-> 
-> The result of this pipeline can be seen in:
-> https://gitlab.com/linux-kernel/linux/-/pipelines/1228999646
-> 
->   Documentation/ci/gitlab-ci/gitlab-ci.rst | 5 +++++
->   ci/gitlab-ci/yml/gitlab-ci.yml           | 2 ++
->   2 files changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/ci/gitlab-ci/gitlab-ci.rst b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-> index 4f7ef03cca95..18360da835bd 100644
-> --- a/Documentation/ci/gitlab-ci/gitlab-ci.rst
-> +++ b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-> @@ -304,20 +304,25 @@ Description of Each Variable
->   **KCI_CHECKPATCH_OPTIONS**
->       Used in `checkpatch.pl "$KCI_CHECKPATCH_OPTIONS"` (see checkpatch
->       documentation). It is commonly used with the --ignore flag to suppress
->       specific warnings generated by checkpatch.pl. It can also be defined in the
->       commit message, since it is evaluated in run time.
->   
->   **KCI_PATCH_SERIES_SIZE**
->       Used to define the size of the patch series, see `job: checkpatch` section
->       above. It is evaluated in run time, and can be set in the commit message.
->   
-> +**CI_TAGS**
+It seems the Documentation copy-pasted from Oleksij mail bring me few weird
+characters.
+I will fix it.
 
-I would just s/CI/KCI , I'm using KCI_prefix for those that are defined 
-by us, since gitlab already uses CI_ prefix.
+> > +static int of_load_single_pse_pi_pairset(struct device_node *node,
+> > +					 struct pse_pi *pi,
+> > +					 int pairset_num)
+> > +{
+> > +	struct device_node *pairset_np;
+> > +	const char *name;
+> > +	int ret;
+> > +
+> > +	ret =3D of_property_read_string_index(node, "pairset-names",
+> > +					    pairset_num, &name);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	if (!strcmp(name, "alternative-a")) {
+> > +		pi->pairset[pairset_num].pinout =3D ALTERNATIVE_A;
+> > +	} else if (!strcmp(name, "alternative-b")) {
+> > +		pi->pairset[pairset_num].pinout =3D ALTERNATIVE_B;
+> > +	} else {
+> > +		pr_err("pse: wrong pairset-names value %s\n", name);
+> > +		return -EINVAL; =20
+>=20
+> Maybe include the node path in the error message? For a 24 port
+> switch, it will help find a typo in one of the ports. I would do this
+> for all error messages in this code.
 
+Ok, I will.
+Thanks for your review!
 
-We will also need a way to specify tags per job at some point 
-KCI_TAGS_$JOB_NAME or something, but this can be added later.
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-I'll add on top of my tree for now, so we can prepare v2 with this change.
-
-Thanks
-Helen
-
-> +    Used to help choose which runner will deal with the current pipeline.
-> +    If using Gitlab.com runners, set saas-linux-medium-amd64 or a better runner
-> +    so there is enough resources to build & commit the base image.
-> +
->   .. _triggering-pipelines-from-command-line:
->   
->   Triggering Pipelines from Command Line
->   --------------------------------------
->   
->   Pipelines can be triggered from the command line with custom variables using the
->   `GitLab CLI tool <https://docs.gitlab.com/ee/editor_extensions/gitlab_cli>`_.
->   
->   Example:
->   
-> diff --git a/ci/gitlab-ci/yml/gitlab-ci.yml b/ci/gitlab-ci/yml/gitlab-ci.yml
-> index 57b9c0290471..359b7715e3ab 100644
-> --- a/ci/gitlab-ci/yml/gitlab-ci.yml
-> +++ b/ci/gitlab-ci/yml/gitlab-ci.yml
-> @@ -33,20 +33,22 @@ workflow:
->       - if: $FORCE_CI == 'true'
->   
->   variables:
->     FDO_UPSTREAM_REPO: helen.fornazier/linux   # The repo where to look for cached images
->       # ccache builds in gitlab-runner to speed up builds
->     SMATCH_DB_DIR: /smatch/smatch_data
->     # exit code of bash script on `script` will be the exit code of the job
->     FF_USE_NEW_BASH_EVAL_STRATEGY: "true"
->   
->   default:
-> +  tags:
-> +    - $CI_TAGS
->     artifacts:
->       paths:
->         - artifacts/
->       when: always
->   
->   include:
->     - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/ci-fairy.yml'
->     - remote: 'https://gitlab.freedesktop.org/freedesktop/ci-templates/-/raw/16bc29078de5e0a067ff84a1a199a3760d3b3811/templates/debian.yml'
->   
->     - ci/gitlab-ci/yml/kernel-combinations.yml
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
