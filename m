@@ -1,177 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A81136E29;
-	Thu, 28 Mar 2024 18:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A481132809;
+	Thu, 28 Mar 2024 18:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711650506; cv=none; b=RWO+xypqnhY/5wo8iMzBkWKfk6+UGu83i7eq9FW3GlMpBdO9qopL/d19xWWSKdC9Lhq+INg+3hSdKkSvoFmFvoHugE4jiJrYGk8NY4JHCB/uNxhAz/+mqAxCINg4NjCVqWQtR2I0zzgpwfezrLU5OdGc8GOnv0xBXR88AfBJW+0=
+	t=1711651465; cv=none; b=E1aPwSEldYuNd3/vVEi+8SLKyy0in9kaiXIcpLZ6jSnqtWYTP9IMeWU8hIC63qQIVUTmTEEmeM+cbdh3JIvAKB3+cVOgqFzWHif0qdJ/iLOHOBvA6e0+cF3qcqiwM2+gU7ZYZrAD8wbbHvAFXWqLPXpxID8TlYC/h+fOQq9khkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711650506; c=relaxed/simple;
-	bh=fCpsuqpXPx6EiIEqbV6/oK+Mco4Eg3WQcaCu8FFYxmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szC01qJIyRbhFpJ2EdWWwRN8BTvKblSusZFXnbGqVAt9h9OFgkWngQ4p+w2eGOUCY3feMg5MP4zH4njT8c1LYGmNiAIa3Fu3UR5j066mxjzIUIpkwm6IucL8beqWx3rzRqGNz9tpBXr5tkJrYmpwPpMhjzpiTDf6fx/X2PtbAec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/yG/doR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711651465; c=relaxed/simple;
+	bh=4jJArD811RJcc+gAYwImLmK4dy10KhWADxTR/PrA1zM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=R8rPdthdh6+2z5v83g4mjecPNqCLENad0IBzFz+9MGkrJ7Wm3qUregmWTKd6+aXfHV7HCTHGBn0OK8AkcLwwthghwMRzuCsVCF1cTBSi1OVhF3hJ+i+84Jz9QWWu9daRkgxhJjXrL5NpSJiAmK19uZVAifsc86ar2+a3HB8ddVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dNj/cwYG; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/yG/doR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E27A2C433F1;
-	Thu, 28 Mar 2024 18:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711650505;
-	bh=fCpsuqpXPx6EiIEqbV6/oK+Mco4Eg3WQcaCu8FFYxmE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d/yG/doRGyXpqxmVEGZRl29Gx01ZBHRqsLyBFhmaT8mmf44tImPwfhWbq/+onqqYQ
-	 Mk7belOYYdf/oaQElpAohzTOcmJEhrO4/oBdC872X4+PkuC19MXZYEObKWc8b1DXht
-	 E4JJM33unaXbObP+98zU5UfutVyF0MSVFb61PFWrUjcxtA1CoRmOrTxZIvLd/2j5Xc
-	 i2AR4w5A19X/edVUb5L7inWvNDxXBn2PViw3xzrRFzrBAWN5Ov77wY7xaniySz8nzx
-	 dj+p8Y9PBq0IYtN+jR1hn0KR4MgR7mupP9oDLO77XhK2IZq0VluR8c5zcvoWCrB8P2
-	 oprZ6oa0nyp9A==
-Date: Thu, 28 Mar 2024 18:28:12 +0000
-From: Simon Horman <horms@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [RFC PATCH net-next v7 04/14] netdev: support binding dma-buf to
- netdevice
-Message-ID: <20240328182812.GJ651713@kernel.org>
-References: <20240326225048.785801-1-almasrymina@google.com>
- <20240326225048.785801-5-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dNj/cwYG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=pNOqZu7GfLqkG1YD8n5bDGZjW6EBZpWpPfAiqoLn+l8=; b=dNj/cwYGeF+fb2AjBYQ/MksH0I
+	un/I9R3xvMEzCrV8z3J8u4V77TQiei3wek5rXFQqwOJ/h+cQm2tjNgihrWyh5c679hFtlcsv4cwvG
+	KvVzJ7rZNryfrhF1OS+03U1K8BMV7vmMzK7DtoSQIsqShYMw+cCNC7ehKdWCNvfW/XkGX4eptK1fr
+	RhYXbH/S8thnw+Te3nWY0CUP7o7Ii5Ks0tHns11+ldcLAeeMV8SnOgxFMJH7DnK7/GjcuQcykruck
+	atgUk75340wpH91FGuDsnxdnc73c0i3v8pdeRWbh59DRMJD5p+bCz5WwXAVmlVA8oHACsiRMcIUv6
+	rlT8y3pw==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rpujb-0000000FECU-2AdZ;
+	Thu, 28 Mar 2024 18:44:19 +0000
+Message-ID: <b52825eb-ba5e-4caf-b68e-9a632180876f@infradead.org>
+Date: Thu, 28 Mar 2024 11:44:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240326225048.785801-5-almasrymina@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] docs: dma: correct dma_set_mask() sample code
+Content-Language: en-US
+To: Frank Li <Frank.Li@nxp.com>, imx@lists.linux.dev,
+ linux-pci@vger.kernel.org, dmaengine@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Li Zhijian <lizhijian@fujitsu.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20240328154827.809286-1-Frank.Li@nxp.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240328154827.809286-1-Frank.Li@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 26, 2024 at 03:50:35PM -0700, Mina Almasry wrote:
-> Add a netdev_dmabuf_binding struct which represents the
-> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
-> rx queues on the netdevice. On the binding, the dma_buf_attach
-> & dma_buf_map_attachment will occur. The entries in the sg_table from
-> mapping will be inserted into a genpool to make it ready
-> for allocation.
+Hi,
+
+I have some text corrections. No idea if the updates
+are correct or not.
+
+
+On 3/28/24 08:48, Frank Li wrote:
+> There are bunch of codes in driver like
 > 
-> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
-> holds the dma-buf offset of the base of the chunk and the dma_addr of
-> the chunk. Both are needed to use allocations that come from this chunk.
+>        if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+>                dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32))
 > 
-> We create a new type that represents an allocation from the genpool:
-> net_iov. We setup the net_iov allocation size in the
-> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
-> allocated by the page pool and given to the drivers.
+> Actaully it is wrong because if dma_set_mask_and_coherent(64) failure,
+
+  Actually                                                      fails,
+
+> dma_set_mask_and_coherent(32) will be failure by the same reason.
+
+                                will fail for the same reason.
+
 > 
-> The user can unbind the dmabuf from the netdevice by closing the netlink
-> socket that established the binding. We do this so that the binding is
-> automatically unbound even if the userspace process crashes.
+> And dma_set_mask_and_coherent(64) never return failure.
+
+                                          returns failure.
+
 > 
-> The binding and unbinding leaves an indicator in struct netdev_rx_queue
-> that the given queue is bound, but the binding doesn't take effect until
-> the driver actually reconfigures its queues, and re-initializes its page
-> pool.
+> According to defination of dma_set_mask(), it indicate the width of address
+
+            to the definition                   indicates
+
+> that device DMA can access. If it can access 64bit address, it must access
+
+                                               64-bit
+
+> 32bit address inherently. So only need set biggest address width.
+
+  32-bit
+
 > 
-> The netdev_dmabuf_binding struct is refcounted, and releases its
-> resources only when all the refs are released.
+> See below code fragment:
 > 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> dma_set_mask(mask)
+> {
+> 	mask = (dma_addr_t)mask;
+> 
+> 	if (!dev->dma_mask || !dma_supported(dev, mask))
+> 		return -EIO;
+> 
+> 	arch_dma_set_mask(dev, mask);
+> 	*dev->dma_mask = mask;
+> 	return 0;
+> }
+> 
+> dma_supported() will call dma_direct_supported or iommux's dma_supported
+> call back function.
+> 
+> int dma_direct_supported(struct device *dev, u64 mask)
+> {
+> 	u64 min_mask = (max_pfn - 1) << PAGE_SHIFT;
+> 
+> 	/*
+> 	 * Because 32-bit DMA masks are so common we expect every architecture
+> 	 * to be able to satisfy them - either by not supporting more physical
+> 	 * memory, or by providing a ZONE_DMA32.  If neither is the case, the
+> 	 * architecture needs to use an IOMMU instead of the direct mapping.
+> 	 */
+> 	if (mask >= DMA_BIT_MASK(32))
+> 		return 1;
+> 
+> 	...
+> }
+> 
+> The iommux's dma_supported() actual means iommu require devices's minimized
 
-...
+                               actually           requires
+or just drop "actual"
 
-> +int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> +				    struct net_devmem_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	u32 xa_idx;
-> +	int err;
-> +
-> +	if (rxq_idx >= dev->num_rx_queues)
-> +		return -ERANGE;
-> +
-> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
-> +	if (rxq->mp_params.mp_priv)
-> +		return -EEXIST;
-> +
-> +	err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
-> +		       GFP_KERNEL);
-> +	if (err)
-> +		return err;
-> +
-> +	/* We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
-> +	 * race with another thread that is also modifying this value. However,
-> +	 * the driver may read this config while it's creating its * rx-queues.
-> +	 * WRITE_ONCE() here to match the READ_ONCE() in the driver.
-> +	 */
-> +	WRITE_ONCE(rxq->mp_params.mp_ops, &dmabuf_devmem_ops);
+> dma capatiblity.
 
-Hi Mina,
+      capability.
 
-This causes a build failure because mabuf_devmem_ops is not added until a
-subsequent patch in this series.
+> 
+> An example:
+> 
+> static int sba_dma_supported( struct device *dev, u64 mask)()
+> {
+> 	...
+> 	 * check if mask is >= than the current max IO Virt Address
+>          * The max IO Virt address will *always* < 30 bits.
+>          */
+>         return((int)(mask >= (ioc->ibase - 1 +
+>                         (ioc->pdir_size / sizeof(u64) * IOVP_SIZE) )));
+> 	...
+> }
+> 
+> 1 means supported. 0 means unsupported.
+> 
+> Correct document to make it more clear and provide correct sample code.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  Documentation/core-api/dma-api-howto.rst | 24 ++++++++++++++++++++++--
+>  1 file changed, 22 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/core-api/dma-api-howto.rst b/Documentation/core-api/dma-api-howto.rst
+> index e8a55f9d61dbc..7871d3b906104 100644
+> --- a/Documentation/core-api/dma-api-howto.rst
+> +++ b/Documentation/core-api/dma-api-howto.rst
+> @@ -203,13 +203,33 @@ setting the DMA mask fails.  In this manner, if a user of your driver reports
+>  that performance is bad or that the device is not even detected, you can ask
+>  them for the kernel messages to find out exactly why.
+>  
+> -The standard 64-bit addressing device would do something like this::
+> +The 24-bit addressing device would do something like this::
+>  
+> -	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64))) {
+> +	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(24))) {
+>  		dev_warn(dev, "mydev: No suitable DMA available\n");
+>  		goto ignore_this_device;
+>  	}
+>  
+> +The standard 64-bit addressing device would do something like this::
+> +
+> +	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64))
 
-> +	WRITE_ONCE(rxq->mp_params.mp_priv, binding);
-> +
-> +	err = net_devmem_restart_rx_queue(dev, rxq_idx);
-> +	if (err)
-> +		goto err_xa_erase;
-> +
-> +	return 0;
-> +
-> +err_xa_erase:
-> +	WRITE_ONCE(rxq->mp_params.mp_ops, NULL);
-> +	WRITE_ONCE(rxq->mp_params.mp_priv, NULL);
-> +	xa_erase(&binding->bound_rxq_list, xa_idx);
-> +
-> +	return err;
-> +}
+                                                        ;
 
-...
+> +
+> +dma_set_mask_and_coherence never return fail when DMA_BIT_MASK(64). Typical
+
+   dma_set_mask_and_coherent        returns failure when DMA_BIT_MASK(64) <does what?>. Typical
+?
+
+> +error code like::
+> +
+> +	/* Wrong code */
+> +	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32))
+
+                                                                ;
+
+> +
+> +dma_set_mask_and_coherence() will never return failure when bigger then 32.
+
+   dma_set_mask_and_coherent()
+
+> +So typical code like::
+> +
+> +	/* Recommented code */
+
+           Recommended
+
+> +	if (support_64bit)
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+> +	else
+> +		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+> +
+>  If the device only supports 32-bit addressing for descriptors in the
+>  coherent allocations, but supports full 64-bits for streaming mappings
+>  it would look like this::
+
+-- 
+#Randy
