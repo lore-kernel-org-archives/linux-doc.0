@@ -1,252 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960363DAC13;
-	Thu, 28 Mar 2024 15:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F57B12FB27
+	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 15:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711640244; cv=none; b=qk0NCfKT63/39eXJAslyUFDZ1pS1uCB9+AvzMeokNMpOHfdGW3PoA3B77glwjUgZjFzPi1Hmfn7SOKX5gueckl1jME231qRqABlbWK8JhC1GAY2jc0cd1W+745Dy9PlMboUU1I19XJ738tIuvurtfCrzhRPJ4jqFhYkyQ2CXTPI=
+	t=1711640362; cv=none; b=rZZWqTbhIUfHh+tsWEbeR6kRRydMyjO61pezniFo0YNFvJA4kEPSDi/1soW11lYPWKaCfbh6OSb8Yn7x5gIrOXMjNyUtC7gNpwBPoybu3wauQbldSqOFmG+V5qfW9O4T+lPHQ1EVMH1t8C+aEgbImakfkJzQ74XnOahqRAJK6Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711640244; c=relaxed/simple;
-	bh=M1/MI7ctmoanaJzMS8Vaa21avZdB8bKDRkpxkpFOS8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=duoNiSJMi4Nd9lcUzIxdRVE/TJsg961wOyhOq7mmyWhSiEOyeMxslBhYxXUvP0avr54munlknbN2pdP2Upqiz5OtKNfVA16WVe/Lbx5UaqbNRF3kcEDqUXnFbQ7DrkpU8jG/EDl6CUhewvs0/X/Gs+Q+r/o3DgdUEEisoP8objw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE36FC433F1;
-	Thu, 28 Mar 2024 15:37:20 +0000 (UTC)
-Date: Thu, 28 Mar 2024 11:40:04 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Yi-De Wu <yi-de.wu@mediatek.com>
-Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>, Ze-Yu Wang
- <ze-yu.wang@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Catalin Marinas
- <catalin.marinas@arm.com>, Wihl Deacon <will@kernel.org>, "Masami
- Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Richard Cochran
- <richardcochran@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-trace-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, David Bradil <dbrazdil@google.com>,
- Trilok Soni <quic_tsoni@quicinc.com>, Jade Shih <jades.shih@mediatek.com>,
- Ivan Tseng <ivan.tseng@mediatek.com>, My Chuang <my.chuang@mediatek.com>,
- Shawn Hsiao <shawn.hsiao@mediatek.com>, PeiLun Suei
- <peilun.suei@mediatek.com>, Liju Chen <liju-clr.chen@mediatek.com>, "Willix
- Yeh" <chi-shen.yeh@mediatek.com>, Kevenny Hsieh
- <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v8 19/20] virt: geniezone: Add tracing support for hyp
- call and vcpu exit_reason
-Message-ID: <20240328114004.5793230a@gandalf.local.home>
-In-Reply-To: <20231228105147.13752-20-yi-de.wu@mediatek.com>
-References: <20231228105147.13752-1-yi-de.wu@mediatek.com>
-	<20231228105147.13752-20-yi-de.wu@mediatek.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1711640362; c=relaxed/simple;
+	bh=G1iRW2zHIY2/EiULrJ1nqfVUKDfTimjQj7b8q3dHoFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rIDmEyNGI82Y+27KVdKTKAGTsHDr76NqBxPJggvlYBfMTX+F+VzS3H4RNmNaAfJOy/Zt3wtFfrUa7ZjoT9r3J8APpP7Y9jruUXR5OS63VFnjM7yxJio1o9AMmB/aM/XHPRbWtUW/XoI+uSNCN/a+sI4LSHYqxJgVeumNrq3j+6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yiXFFCxU; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yiXFFCxU"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ea80de0e97so827733b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 08:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711640358; x=1712245158; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mPjQD/vT8EW8FIsS5EhEUvjw7Yq2DPw74odbleQjQC0=;
+        b=yiXFFCxUidOur1Yje4vLUgh6HPAPLTa0A8Jr+L02ErZCnLUGyA5cbWRfLbW2anYSXf
+         OBw4ySIQT0uhUbGcSG01jSnXmA99UGDz+ieVFtksloTDysGebITCGl5U79aib5tRot4U
+         R4S1ExbeBqVsmWInB4bb8zRKX9QyP7Ax6Eh5Ma6rjz8KpZ8v4vKS3+LuOQnifxodUaJY
+         zzOk4VHwBPO7tnFwFYmLG1MzB7aHaa3xKXAwElEJjPQS4p0yDYFN/Ey+1PpWehd8HZdj
+         vYgMf7EihG/MeLThCAKSbALwA7sdiXDqthcdvgmkCW/VSJ7MQdHCJb7IT9nDNTdo6+e8
+         nNWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711640358; x=1712245158;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPjQD/vT8EW8FIsS5EhEUvjw7Yq2DPw74odbleQjQC0=;
+        b=Evz5Z3hK50TV3ntmKRjoYJoc6BWY9C74fa6B/jV+ZzBNSrvScaugNkF1l9J+2Lk5Xv
+         lu6JHbwHNU+09ePE1c7Dl/QtCVTAwnvOhALRuAQU181EON49cVdD6Wm4ivalh/41kS6C
+         xZjCfyYh9yUVut7VubpzVgKOvYxANvLmKc9Hk3GlaxlZApbuDRVIfjGfwAkczo2PiPE4
+         nNWcJJnZbutU16QYL6viyaE8mx2mcuOTEauZPOPVTp1ivnLThJ7IHGMCAevO7wMLaHx4
+         dXIjYQxuPEAuaWn7lX1J43XKkxEygFtV4ziQUznqR9mULPmOnkkad3mRVEPNs3snsl7B
+         nJ+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUPQc4KKYUSlRWFTQw2r4svIhgiIrjJACALnFmQVkBfmrurA92Lm5EiSQyZR5bOptlmhMkKG/d+ImbAJPNzbOVqoaRNUSf99eCb
+X-Gm-Message-State: AOJu0YzGwIR3u0tlOdP1axVADdEnAhKxU8hWc+IdFkS86MiYrimCzFaz
+	D+3Ax6kJcvuR3WyX5mBbU7EmfHyfpvuX8pKjN1QJpMryz7TBBAf4Zvktc45Cmyg=
+X-Google-Smtp-Source: AGHT+IGhUQYINGDQ7hWfiGCoXweY10vLCz/e/x+HjJ8dVvYs43ivIcKXZCgoqnZGIv+19J3DIwIpug==
+X-Received: by 2002:a05:6a00:a12:b0:6ea:92a7:fb82 with SMTP id p18-20020a056a000a1200b006ea92a7fb82mr3800870pfh.27.1711640357806;
+        Thu, 28 Mar 2024 08:39:17 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:ff63:c57b:4625:b68c])
+        by smtp.gmail.com with ESMTPSA id e2-20020aa798c2000000b006ea923678a6sm1505830pfm.137.2024.03.28.08.39.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 08:39:17 -0700 (PDT)
+Date: Thu, 28 Mar 2024 09:39:10 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gonglei <arei.gonglei@huawei.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 19/22] rpmsg: virtio: drop owner assignment
+Message-ID: <ZgWPHntosUk+5qac@p14s>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-19-0feffab77d99@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327-module-owner-virtio-v1-19-0feffab77d99@linaro.org>
 
-On Thu, 28 Dec 2023 18:51:46 +0800
-Yi-De Wu <yi-de.wu@mediatek.com> wrote:
-
-> Add tracepoints for hypervisor calls and VCPU exit reasons in GenieZone
-> driver. It aids performance debugging by providing more information
-> about hypervisor operations and VCPU behavior.
+On Wed, Mar 27, 2024 at 01:41:12PM +0100, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
 > 
-> Command Usage:
-> echo geniezone:* >> /sys/kernel/tracing/set_event
-> echo 1 > /sys/kernel/tracing/tracing_on
-> echo 0 > /sys/kernel/tracing/tracing_on
-> cat /sys/kernel/tracing/trace
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
-> For example:
-> crosvm_vcpu0-4838 [004] ..... 76053.536034: mtk_hypcall_enter: id=0xbb001005
-> crosvm_vcpu0-4838 [004] ..... 76053.540039: mtk_hypcall_leave: id=0xbb001005 invalid=0
-> crosvm_vcpu0-4838 [004] ..... 76053.540040: mtk_vcpu_exit: vcpu exit_reason=0x92920003
-
-Cleaning out patchwork, I noticed this patch.
-
-You can make the above more informative by having it output:
-
- crosvm_vcpu0-4838 [004] ..... 76053.540040: mtk_vcpu_exit: vcpu exit_reason=IRQ
-
-
-> 
-> This example tracks a hypervisor function call by an ID (`0xbb001005`)
-> from initiation to termination, which is supported (invalid=0). A vCPU
-> exit is triggered by an Interrupt Request (IRQ) (exit reason: 0x92920003).
-> 
-> /* VM exit reason */
-> enum {
-> 	GZVM_EXIT_UNKNOWN = 0x92920000,
-> 	GZVM_EXIT_MMIO = 0x92920001,
-> 	GZVM_EXIT_HYPERCALL = 0x92920002,
-> 	GZVM_EXIT_IRQ = 0x92920003,
-> 	GZVM_EXIT_EXCEPTION = 0x92920004,
-> 	GZVM_EXIT_DEBUG = 0x92920005,
-> 	GZVM_EXIT_FAIL_ENTRY = 0x92920006,
-> 	GZVM_EXIT_INTERNAL_ERROR = 0x92920007,
-> 	GZVM_EXIT_SYSTEM_EVENT = 0x92920008,
-> 	GZVM_EXIT_SHUTDOWN = 0x92920009,
-> 	GZVM_EXIT_GZ = 0x9292000a,
-> };
-> 
-> Signed-off-by: Liju-clr Chen <liju-clr.chen@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
 > ---
->  arch/arm64/geniezone/vm.c          |  5 +++
->  drivers/virt/geniezone/gzvm_vcpu.c |  3 ++
->  include/trace/events/geniezone.h   | 54 ++++++++++++++++++++++++++++++
->  3 files changed, 62 insertions(+)
->  create mode 100644 include/trace/events/geniezone.h
 > 
-> diff --git a/arch/arm64/geniezone/vm.c b/arch/arm64/geniezone/vm.c
-> index a9d264bbb3b1..5667643251b5 100644
-> --- a/arch/arm64/geniezone/vm.c
-> +++ b/arch/arm64/geniezone/vm.c
-> @@ -7,6 +7,8 @@
->  #include <linux/err.h>
->  #include <linux/uaccess.h>
->  
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/geniezone.h>
->  #include <linux/gzvm.h>
->  #include <linux/gzvm_drv.h>
->  #include "gzvm_arch_common.h"
-> @@ -33,7 +35,10 @@ int gzvm_hypcall_wrapper(unsigned long a0, unsigned long a1,
->  			 unsigned long a6, unsigned long a7,
->  			 struct arm_smccc_res *res)
->  {
-> +	trace_mtk_hypcall_enter(a0);
->  	arm_smccc_hvc(a0, a1, a2, a3, a4, a5, a6, a7, res);
-> +	trace_mtk_hypcall_leave(a0, (res->a0 != ERR_NOT_SUPPORTED) ? 0 : 1);
-> +
->  	return gzvm_err_to_errno(res->a0);
->  }
->  
-> diff --git a/drivers/virt/geniezone/gzvm_vcpu.c b/drivers/virt/geniezone/gzvm_vcpu.c
-> index 86c690749277..138ec064596b 100644
-> --- a/drivers/virt/geniezone/gzvm_vcpu.c
-> +++ b/drivers/virt/geniezone/gzvm_vcpu.c
-> @@ -10,6 +10,8 @@
->  #include <linux/mm.h>
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
-> +
-> +#include <trace/events/geniezone.h>
->  #include <linux/gzvm_drv.h>
->  
->  /* maximum size needed for holding an integer */
-> @@ -103,6 +105,7 @@ static long gzvm_vcpu_run(struct gzvm_vcpu *vcpu, void __user *argp)
->  
->  	while (!need_userspace && !signal_pending(current)) {
->  		gzvm_arch_vcpu_run(vcpu, &exit_reason);
-> +		trace_mtk_vcpu_exit(exit_reason);
->  
->  		switch (exit_reason) {
->  		case GZVM_EXIT_MMIO:
-> diff --git a/include/trace/events/geniezone.h b/include/trace/events/geniezone.h
-> new file mode 100644
-> index 000000000000..1fa44f9c4b3c
-> --- /dev/null
-> +++ b/include/trace/events/geniezone.h
-> @@ -0,0 +1,54 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2023 MediaTek Inc.
-> + */
-> +
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM geniezone
-> +
-> +#define _TRACE_GENIEZONE_H
-> +
-> +#include <linux/tracepoint.h>
+> Depends on the first patch.
+> ---
+>  drivers/rpmsg/virtio_rpmsg_bus.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
+> index 1062939c3264..e9e8c1f7829f 100644
+> --- a/drivers/rpmsg/virtio_rpmsg_bus.c
+> +++ b/drivers/rpmsg/virtio_rpmsg_bus.c
+> @@ -1053,7 +1053,6 @@ static struct virtio_driver virtio_ipc_driver = {
+>  	.feature_table	= features,
+>  	.feature_table_size = ARRAY_SIZE(features),
+>  	.driver.name	= KBUILD_MODNAME,
+> -	.driver.owner	= THIS_MODULE,
+>  	.id_table	= id_table,
+>  	.probe		= rpmsg_probe,
+>  	.remove		= rpmsg_remove,
 
-#define GZVM_EXIT_REASONS	\
-	EM(UNKNOWN)		\
-	EM(MMIO)		\
-	EM(HYPERCALL)		\
-	EM(IRQ)			\
-	EM(EXCEPTION)		\
-	EM(DEBUG)		\
-	EM(FAIL_ENTRY)		\
-	EM(INTERNAL_ERROR)	\
-	EM(SYSTEM_EVENT)	\
-	EM(SHUTDOWN)		\
-	EMe(GZ)
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-#undef EM
-#undef EMe
-#define EM(a) TRACE_DEFINE_ENUM(GZVM_EXIT_##a);
-#define EMe(a) TRACE_DEFINE_ENUM(GZVM_EXIT_##a);
-
-GZVM_EXIT_REASONS
-
-#undef EM
-#undef EMe
-
-#define EM(a)       { GZVM_EXIT_##a, #a },
-#define EMe(a)      { GZVM_EXIT_##a, #a }
-
-> +
-> +TRACE_EVENT(mtk_hypcall_enter,
-> +	    TP_PROTO(unsigned long id),
-> +
-> +	    TP_ARGS(id),
-> +
-> +	    TP_STRUCT__entry(__field(unsigned long, id)),
-> +
-> +	    TP_fast_assign(__entry->id = id;),
-> +
-> +	    TP_printk("id=0x%lx", __entry->id)
-> +);
-> +
-> +TRACE_EVENT(mtk_hypcall_leave,
-> +	    TP_PROTO(unsigned long id, unsigned long invalid),
-> +
-> +	    TP_ARGS(id, invalid),
-> +
-> +	    TP_STRUCT__entry(__field(unsigned long, id)
-> +			     __field(unsigned long, invalid)
-> +	    ),
-> +
-> +	    TP_fast_assign(__entry->id = id;
-> +			   __entry->invalid = invalid;
-> +	    ),
-> +
-> +	    TP_printk("id=0x%lx invalid=%lu", __entry->id, __entry->invalid)
-> +);
-> +
-> +TRACE_EVENT(mtk_vcpu_exit,
-> +	    TP_PROTO(unsigned long exit_reason),
-> +
-> +	    TP_ARGS(exit_reason),
-> +
-> +	    TP_STRUCT__entry(__field(unsigned long, exit_reason)),
-> +
-> +	    TP_fast_assign(__entry->exit_reason = exit_reason;),
-> +
-> +	    TP_printk("vcpu exit_reason=0x%lx", __entry->exit_reason)
-
-	    TP_printk("vcpu exit_reason=0x%lx",
-		__print_symbolic(__entry->exit_reason, GZVM_EXIT_REASONS))
-
-
-And instead of having the cryptic enum values printed, you will have human
-readable reasons.
-
--- Steve
-
-
-> +);
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-
+> 
+> -- 
+> 2.34.1
+> 
