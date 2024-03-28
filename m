@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F2F7F485;
-	Thu, 28 Mar 2024 12:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12E36AC0;
+	Thu, 28 Mar 2024 12:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711628659; cv=none; b=HMinkxwEPBcXU1gVL0bi9eo6o64hrA51Fc2WOT3easX0c+Gd3l60t9oGPufXcB3fa5swCy2bao7fjF1sGGsmx3u9Xru1N7MNH0L+BETiXYPfTXlcpE15QKtaPpMzpnEJSXZR0BgZVVdTaXyBO8nfWVcTAGAu+6wEcRWrl18U3nM=
+	t=1711629084; cv=none; b=RKR+Xug5e/9es2W6QNyeeHsehQPZwTHp2LQShbIwVPcRWK8uyDA0InRQZIZMTC7KnfAxw5EYXQTQWkRHCLZM3lOEfeZP02k8Vp/pHUhe5O59NcVy7EXcrz4bL1g4SOnhMG40pVg5e5N9N4M2lafKdOG+FLrbL8CRKils+mifdIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711628659; c=relaxed/simple;
-	bh=+KCpP6QH6INCKmhY3rhkXinCYArDLnJgU17pzm7N1sM=;
+	s=arc-20240116; t=1711629084; c=relaxed/simple;
+	bh=olEwNUHU8Es3c7i2wR9R6RW1M4yAYUSI1YmaXDThgXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VNpbRZhDoQ6LcwddvRm++hGPNBTDwn0Ct9l91p75f6K1SaRN34V844ato4/h+BpagLPd2JxBeuKlwo6p+bTnFTTyiSOc3svdZEXgINMo0U6vs0T99IAOjZfVtQtSr7LC/TSrrBRHgpSdhEHWb4qeu/ycVvxBLglJ8/nkq9GkSIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cgii5U/Z; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9x+p+li/xQfB7Eqa8U7AChvMBDeJpBMSrBwete+j3eH6wKBeuXHdV9FAF/d0TDSZddp5XzYH6vZFrvOQKTHwDE9j46a34o+c58lkzLRnWJx6Q8R5cWBOKtmbA7b9d099oEjv1TIIi1OJg9gwEtceAlJlEm2CYwgezLIQmRZ0aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=x1AejCY/; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cgii5U/Z"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="x1AejCY/"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8unRPUJ/5NLXOy2GV/8QQoMtBxlZYcDA0JkZRYJPSXM=; b=cgii5U/Zdj30Vfz4+zeTdE+LAO
-	Wceqxp0Y0bklH/H+HFEbAhSOhK2yWdOTmvX32t8UmGpSJt1/nccyQcBHCZ5/PtoRNu2W0zBDiFgBS
-	uZ6w8TsaVbd2TYRFQVJeVLfxqWZ9cohtpMU1DECoc1qdqcn2V7Lkq74uvf9RJ7ltp+f4=;
+	bh=3K9+fUzqHNKuVE49NIFsoNm4LPPEQ0miuf9p4SueIoU=; b=x1AejCY/iaLYOJuSBK+K6mDmGy
+	3nrU15a5Xb1JTEFBw+IyKQSC9dXWPEbMI11Ae06rP1xpvhcE8iCcirSx2K179rTSvZX04wRY39yLd
+	eyUvLXo/8HJCLV/7giSH+Os3nJ/UNUgWaaZJwLhhG5TzqGBaKX6+ahVDD8flBV9P9Mb4=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rponY-00BUi7-46; Thu, 28 Mar 2024 13:24:00 +0100
-Date: Thu, 28 Mar 2024 13:24:00 +0100
+	id 1rpouQ-00BUms-VV; Thu, 28 Mar 2024 13:31:06 +0100
+Date: Thu, 28 Mar 2024 13:31:06 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -50,10 +50,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
 	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 10/17] net: pse-pd: Add support for PSE PIs
-Message-ID: <f3bafb50-406b-444a-8411-5ddae8d84c31@lunn.ch>
+Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <2d325acb-fc35-4ca3-80f2-ac88359578fd@lunn.ch>
 References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
- <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,62 +63,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
+In-Reply-To: <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
 
-> +.. code-block::
-> +
-> +         +-------------+
-> +         |    PSE PI   |
-> + 8  -----+                             +-------------+
-> + 7  -----+                    Rail 1   |
-> + 6  -----+------+----------------------+
-> + 5  -----+      |                      |
-> + 4  -----+     /              Rail 2   |  PSE 1
-> + 3  -----+----?          +-------------+
-> + 2  -----+----+---------?              |
-> + 1  -----+---?                         +-------------+
-> +         |
-> +         +-------------+
+> +          pairsets:
+> +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> +            description:
+> +              List of phandles, each pointing to the power supply for the
+> +              corresponding pairset named in 'pairset-names'. This property
+> +              aligns with IEEE 802.3-2022, Section 33.2.3 and 145.2.4.
+> +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Table 145\u20133)
+> +              |-----------|---------------|---------------|---------------|---------------|
+> +              | Conductor | Alternative A | Alternative A | Alternative B | Alternative B |
+> +              |           |    (MDI-X)    |     (MDI)     |      (X)      |      (S)      |
+> +              |-----------|---------------|---------------|---------------|---------------|
+> +              | 1         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
+> +              | 2         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
+> +              | 3         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
+> +              | 4         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
+> +              | 5         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
+> +              | 6         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
+> +              | 7         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
+> +              | 8         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
 
-Is ? a standard markup character? I don't remember seeing it used like
-this before.
+Is it possible to avoid \u encoding? Ideally this documentation should
+be understandable without having to render it using a toolset. I just
+want to use less(1).
 
-Maybe offset the connection for pins 1 and 2 from that of 3. I mean:
+Or is this a email problem? Has something converted your UTF-8 file to
+this \u notation?
 
-> + 4  -----+     /              Rail 2   |  PSE 1
-> + 3  -----+----?          +-------------+
-> + 2  -----+--------+-----?              |
-> + 1  -----+-------?                     +-------------+
-
-You version is a little ambiguous, pins 1, 2 & 3 could be
-interconnected at the +.  The text does however make it clear they are
-not, but i don't see any harm in making the diagram clearer.
-
-> +static int of_load_single_pse_pi_pairset(struct device_node *node,
-> +					 struct pse_pi *pi,
-> +					 int pairset_num)
-> +{
-> +	struct device_node *pairset_np;
-> +	const char *name;
-> +	int ret;
-> +
-> +	ret = of_property_read_string_index(node, "pairset-names",
-> +					    pairset_num, &name);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!strcmp(name, "alternative-a")) {
-> +		pi->pairset[pairset_num].pinout = ALTERNATIVE_A;
-> +	} else if (!strcmp(name, "alternative-b")) {
-> +		pi->pairset[pairset_num].pinout = ALTERNATIVE_B;
-> +	} else {
-> +		pr_err("pse: wrong pairset-names value %s\n", name);
-> +		return -EINVAL;
-
-Maybe include the node path in the error message? For a 24 port
-switch, it will help find a typo in one of the ports. I would do this
-for all error messages in this code.
-
-Please add my Reviewed-by on the next version.
-
-       Andrew
+     Andrew
