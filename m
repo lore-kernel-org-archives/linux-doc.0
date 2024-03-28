@@ -1,131 +1,180 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB64376E5;
-	Thu, 28 Mar 2024 09:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4072561D;
+	Thu, 28 Mar 2024 10:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711619873; cv=none; b=dcpHmJuaEC4XaXHXZqub0z+3NF7dva4/btbVy3mI5Qyg+Pzqy3PMpM6qIK4fNQU5PBiZ2hyfldHqHtVG8CQ2JnuHAYmNbax4fQvZswcUMgAR71QIK8J80iaV/RzwiyrugxYnJgRovUUf4bbJEZJT0ICjKCXJZ48LczUriJ4M5xM=
+	t=1711622010; cv=none; b=RFMFQ5c9A6m1TdCAufv8wbnluR8IjZfchL0kDWQaoGb6U86vcGAnpjxzQ+zyWoiUgSLdbjPCYeoJjAx4t3tYqglHQwXrRQVHbIdcJ92gypCYWNYnHxmQFH8nUCj/rHZRTts3GuPgSihFZIHBLoMh8BFAxhX89OweblwFCfFBcmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711619873; c=relaxed/simple;
-	bh=VfjOP9sNdYzTZcnGwVYgxZE+kwKdHl8h61ANJqp0Foc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t5/47agdWp5menBmcOWJltQFNXVjcoiz6pCdNVt3CUCPiAX/MJ7uMVAVxoz46C5TNdf+Q9JkNlsf7l+MzlyCR0Xr1D+EURLnLr2lTvfLVRI5Gc4ekbxSPh9j1UpC52WU6RCL33pZolj24tCSmi3WRGoNVH7uSrpCS0Ux0PMx7XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf04.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id C45471C1348;
-	Thu, 28 Mar 2024 09:57:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 734022002D;
-	Thu, 28 Mar 2024 09:57:36 +0000 (UTC)
-Message-ID: <ef2c96e40bcf777535c9ff2405e4dc5b3138b27e.camel@perches.com>
-Subject: Re: [PATCH v4 2/2] scripts: checkpatch: check unused parameters for
- function-like macro
-From: Joe Perches <joe@perches.com>
-To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org, 
-	linux-doc@vger.kernel.org
-Cc: apw@canonical.com, broonie@kernel.org, chenhuacai@loongson.cn, 
- chris@zankel.net, corbet@lwn.net, dwaipayanray1@gmail.com, 
- herbert@gondor.apana.org.au, linux-kernel@vger.kernel.org,
- linux@roeck-us.net,  lukas.bulwahn@gmail.com, mac.xxn@outlook.com,
- sfr@canb.auug.org.au,  v-songbaohua@oppo.com, workflows@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>
-Date: Thu, 28 Mar 2024 02:57:35 -0700
-In-Reply-To: <20240328022136.5789-3-21cnbao@gmail.com>
-References: <20240328022136.5789-1-21cnbao@gmail.com>
-	 <20240328022136.5789-3-21cnbao@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1711622010; c=relaxed/simple;
+	bh=iU1tUXhCDwyIc1WbR0eWG2uv/PUO2eklfA03DFfPGIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKoNzmXcRY6LFDJHN8Q3TBaYl1WFqmy+OH9Wx5EJLmqxnrngDtB7+aGwoSuA2gBEafmi4NPuIvMqFTYAz9dMhYnk/cXOWHx+l/XmpqjiWv46p6h9G5atgbPmFBQIS+RlYpqHAD0eKkJevJDf+wjd3PLAbbE/xFzPrvG+YuJpB6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZD/g23Ny; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZD/g23Ny"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFA3C433F1;
+	Thu, 28 Mar 2024 10:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711622009;
+	bh=iU1tUXhCDwyIc1WbR0eWG2uv/PUO2eklfA03DFfPGIA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZD/g23NyMfnrDXqG9nJ1YMij3C0sSLv35lOLM6I9BSJqsUT1hiiQARxtBH9p4W0Y8
+	 lZDNdqc3LZiWPsO0cjNC7pnKr+Xqrl3k1Iz8COAOHsXzy3CSDuPpVcUVvPxwJRf6TK
+	 1utgva25c83ZOhTWXEmEhXUcKIFKR3i1RdNQRSLnq9eew7CAwx/eXKSSSTNZVLGZIC
+	 cPYP+5y/+gLNIVN+mAfHD6OoVfPo2SZVcNeWPNC02XTBC9UAVMxjVh63OnAXqOJqkA
+	 0D9ooBcZ7VJHzgYyQK7yLksLvjfR96ZtgUyPElsmjRNdRYA6g6jb4DNgUqixVSN762
+	 QkJoOvn5zIdKg==
+Date: Thu, 28 Mar 2024 10:33:22 +0000
+From: Simon Horman <horms@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 10/17] net: pse-pd: Add support for PSE PIs
+Message-ID: <20240328103322.GX403975@kernel.org>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 734022002D
-X-Rspamd-Server: rspamout08
-X-Stat-Signature: 7riserhy3yknb9m7sgmq6fti4q81xd8p
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+g2gqFrn5/7Zkoo0gSWx2LTXg0VwuKnyU=
-X-HE-Tag: 1711619856-999954
-X-HE-Meta: U2FsdGVkX1/xm2Wdm2oMCUMZ0DkhhGweQNTy8N67yxZaCTWJszs1ZErjTWTfmdVB4tZImk178Kb47yNJ1X4bZ2fvC2kWIycpsMIGfvkozPOruh5kXUgNl6yZXt7Fi5QlHOXoWGgoeFXJNjfgDA9bzcCQHN1gPGbSTVvZsCiIonSzwUwrOMpBxR7MKQ2WhvJdZWVSdV144V8/jhP+0rmIlUfvaPmxV15dm9LWKY3am0ckGHPzumvDereLovNuDt87Mx6oQ0eg6U4wzT6viHNqiQUnx57GlGtqXmKIyyxnQYw6h+RJuMHqDXsl0dHBK9WoUqVURbGXq4cihhQg9LK9OnJHkxppVoF9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
 
-On Thu, 2024-03-28 at 15:21 +1300, Barry Song wrote:
-> From: Xining Xu <mac.xxn@outlook.com>
->=20
-> If function-like macros do not utilize a parameter, it might result in a
-> build warning.  In our coding style guidelines, we advocate for utilizing
-> static inline functions to replace such macros.  This patch verifies
-> compliance with the new rule.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -6109,6 +6109,36 @@ sub process {
->  				WARN("TRAILING_SEMICOLON",
->  				     "macros should not use a trailing semicolon\n" . "$herectx");
->  			}
-> +
-> +			# match "\s*" rather than "\s+" after the balanced parens, as macro d=
-efinition with arguments
-> +			# is not required to have whitespace after arguments
-> +			if ($dstat =3D~ /^\+\s*#\s*define\s+$Ident$balanced_parens\s*(\S+.*)(=
-\/[\/*].*)?/) {
+On Tue, Mar 26, 2024 at 03:04:47PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> The Power Sourcing Equipment Power Interface (PSE PI) plays a pivotal role
+> in the architecture of Power over Ethernet (PoE) systems. It is essentially
+> a blueprint that outlines how one or multiple power sources are connected
+> to the eight-pin modular jack, commonly known as the Ethernet RJ45 port.
+> This connection scheme is crucial for enabling the delivery of power
+> alongside data over Ethernet cables.
+> 
+> This patch adds support for getting the PSE controller node through PSE PI
+> device subnode.
+> 
+> This supports adds a way to get the PSE PI id from the pse_pi devicetree
+> subnode of a PSE controller node simply by reading the reg property.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-I think '(\/[\/*].*)?' doesn't do what you expect
-perhaps '(\/[\/\*].*)?'
-though I don't know why this should be capture group
+Hi Kory,
 
-> +				my $params =3D $1 || "";
+Some minor documentation nits from my side.
 
+> diff --git a/Documentation/networking/pse-pd/pse-pi.rst b/Documentation/networking/pse-pd/pse-pi.rst
 
-> +				my $body =3D $2 || "";
+...
 
-Should never get the || "" as the 2nd capture group is not optional
+> +Table 145\u20133\u2014PSE Pinout Alternatives
+> +-----------------------------------
 
-> +
-> +			    # get the individual params
-> +				$params =3D~ tr/()//d;
-> +				# remove leading and trailing whitespace
-> +				$params =3D~ s/^\s+|\s+$//g;
-> +
-> +				$ctx =3D~ s/\n*$//;
-> +				my $cnt =3D statement_rawlines($ctx);
-> +				my $herectx =3D get_stat_here($linenr, $cnt, $here);
-> +
-> +				if ($params ne "") {
+When running make htmldocs I see the following warning:
 
-probably unnecessary
+Table 145\u20133\u2014PSE Pinout Alternatives
 
-> +					my @paramList =3D split /,\s*/, $params;
+And the header is rendered as:
 
-please use split() with parentheses
+Table 145u20133u2014PSE Pinout Alternatives
 
-> +					foreach my $param(@paramList) {
+I'm assuming my version of Sphinx doesn't understand the use
+of escape sequences for unicode characters here.
 
-maybe
-				foreach my $param (split(/,/, $params) {
-					$param =3D trim($param);
-					next if ($param =3D~ /\.\.\.$/);
+I have observed this with (I assume this is the relevant command):
 
-> +						if ($param =3D~ /\.\.\.$/) {
-> +							# if the param name ends with "...", skip the check
-> +							next;
-> +						}
-> +						if ($body !~ /\b$param\b/) {
-> +							WARN("UNUSED_PARAM_IN_MACRO",
-> +								"Parameter '$param' is not used in function-like macro\n" . "$he=
-rectx");
-> +						}
-> +					}
+$ sphinx-build --version
+sphinx-build 7.2.6
 
-It seems this logic is a bit redundant to existing
-code and might be better added in the block that starts
+$ sphinx-build --version
+sphinx-build 6.2.1
 
-(line 6026)
-# check if any macro arguments are reused (ignore '...' and 'type')
+...
 
-as that already does each param in a #define and
-ignores ... and type
+> diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
 
+...
+
+>  /**
+> - * of_pse_zero_xlate - dummy function for controllers with one only control
+> - * @pcdev: a pointer to the PSE controller device
+> - * @pse_spec: PSE line specifier as found in the device tree
+> - *
+> - * This static translation function is used by default if of_xlate in
+> - * :c:type:`pse_controller_dev` is not set. It is useful for all PSE
+> - * controllers with #pse-cells = <0>.
+> + * of_load_pse_pi_pairset - load PSE PI pairsets pinout and polarity
+
+nit: of_load_pse_pi_pairsets
+
+> + * @node: a pointer of the device node
+> + * @pi: a pointer of the PSE PI to fill
+> + * @npairsets: the number of pairsets (1 or 2) used by the PI
+>   */
+> -static int of_pse_zero_xlate(struct pse_controller_dev *pcdev,
+> -			     const struct of_phandle_args *pse_spec)
+> +static int of_load_pse_pi_pairsets(struct device_node *node,
+> +				   struct pse_pi *pi,
+> +				   int npairsets)
+
+...
+
+> diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+
+...
+
+> @@ -73,11 +103,11 @@ struct pse_control;
+>   * @pse_control_head: head of internal list of requested PSE controls
+>   * @dev: corresponding driver model device struct
+>   * @of_pse_n_cells: number of cells in PSE line specifiers
+> - * @of_xlate: translation function to translate from specifier as found in the
+> - *            device tree to id as given to the PSE control ops
+>   * @nr_lines: number of PSE controls in this controller device
+>   * @lock: Mutex for serialization access to the PSE controller
+>   * @types: types of the PSE controller
+> + * @pi: table of PSE PIs described in this controller device
+> + * @of_legacy: flag set if the pse_pis devicetree node is not used
+
+nit: it looks line the documentation didn't keep up with the
+     structure during development: @no_of_pse_pi should be
+     documented instead of @of_legacy.
+
+>   */
+>  struct pse_controller_dev {
+>  	const struct pse_controller_ops *ops;
+> @@ -86,11 +116,11 @@ struct pse_controller_dev {
+>  	struct list_head pse_control_head;
+>  	struct device *dev;
+>  	int of_pse_n_cells;
+> -	int (*of_xlate)(struct pse_controller_dev *pcdev,
+> -			const struct of_phandle_args *pse_spec);
+>  	unsigned int nr_lines;
+>  	struct mutex lock;
+>  	enum ethtool_pse_types types;
+> +	struct pse_pi *pi;
+> +	bool no_of_pse_pi;
+>  };
+
+...
