@@ -1,163 +1,287 @@
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80F0137C3E;
-	Thu, 28 Mar 2024 19:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01AF3137C3A;
+	Thu, 28 Mar 2024 20:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711655078; cv=none; b=oOm38+3oJxHkKhjUnvnEo1MtKRzJEEJnDYSevpZhc1IAWIhLHHGZnDhsQsj5niA+Kf6eSDr786ZSt6nLI8Wix6kbMkoSNd+95Wc542cm3Hzij8M2KCQ4jtXEN6T6UcuzcU8NHPkw+kgUjk+2yUCZgr9mAw/iYOhgSSHRa61eMyU=
+	t=1711657051; cv=none; b=AijotCgx+62IE9DAKaATqdHXWimx6kxAVVTN6ebGqaoBhtJ2Yvqpc/OrgkwG9NlXGNwhFEdrg/lSU0bw54Jp3KqiK/aiiE9nD0e6/sF9H6jb5UdLeX30XFlKB1sdClvhcixruTym83qAslkjn6/f+XRKq2QSd73zjcWPPTP0jSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711655078; c=relaxed/simple;
-	bh=K1GshZCfbLKa6QEHPkRv6RV6iSYP1FmBNTplfgXrwRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YDLppYuYLn5zF+VjhEbGnlt9l40WeVtl6BexDIGN/hgyGQ2Xp+ZaoECxFpPEeIwhQTe7eP1luYQ9yXgyhsVcpDZCVE7j1UCXAYpztvofsYigHJ8Df86a7h2quN7hsqCLTpPcDsjLU98gOcSE9qm6RK7EE4CB8uZ7QW9WMEVsvsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=Vwd+3EBA; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
+	s=arc-20240116; t=1711657051; c=relaxed/simple;
+	bh=N3e8QlGTtZbhSlXaxfGJBmnefjZ9rPmhgCLP5Bu5Xis=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=pCrZ1bvRNuA6bMuVrD+A4hTchf2Xx1aPEaHD46+sA9Inu3Ofw/JBXxW8D1Dc1r27S1RU4poeiVoRvT45XDM9XpISoPR1omZO1v53lYT/54K6Ow41tnUNzoO5sDJw0mWcdFkkJ4t0jkDHkIWYABwoskBA1SzNRtr0xJOS+v8Cteg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OwGALAT3; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="Vwd+3EBA"
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1711655063; x=1712955063;
-	bh=SnM7FC2DV6SmTr/+TJk4/tBoa35oRJnbmKF8S0q/IRc=;
-	h=From:MIME-Version;
-	b=Vwd+3EBAZ/mDwrOKBWG9VDnVkViRYluHBIs7aYXObErJx4I2CJQVLPc9B18YIxVkr
-	 2YrcA1FIM7oKmhM+c5dq5mVHqP0BZi0LGCdSGNY6kCQYEb4xDEUyI+3SsRpNH+eR7S
-	 i65sP7wNSQE04pz8qfJKpPQcVlllyOR5huRqhV7W7x3jNypF+f8RpXJBu+guXyPlON
-	 5ZbTxP+WgSAPa1Pg4YXaGlJxIJCJTD+flJRa/m7Gskh6ouSiaItJFPmBrDe7sn85f9
-	 KKghS1Pg39RlqTgJNEfH28UbbIXNab6cTQSnBQsvqRmumo6Q6013AmNMoPgCN0I8eK
-	 k6tpoprO7O+zg==
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 42SJiLdV074688
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Thu, 28 Mar 2024 20:44:22 +0100 (CET)
-	(envelope-from balejk@matfyz.cz)
-From: Karel Balej <balejk@matfyz.cz>
-To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>,
-        regressions@lists.linux.dev, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Cc: balejk@matfyz.cz
-Subject: [PATCH 2/2] docs: handling-regressions.rst: clarify that "Closes:" tags work too
-Date: Thu, 28 Mar 2024 20:29:16 +0100
-Message-ID: <20240328194342.11760-3-balejk@matfyz.cz>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240328194342.11760-1-balejk@matfyz.cz>
-References: <20240328194342.11760-1-balejk@matfyz.cz>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OwGALAT3"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id 84C2120E6F0C; Thu, 28 Mar 2024 13:17:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 84C2120E6F0C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1711657048;
+	bh=zuRFpZurjYgprda+7yAHdNj9/B8yBGh0qKCSHCy2DOw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OwGALAT3g3Tn4tp9y8PYsyYcr1VtQ7vyjNt39f28nznVTMUyagsiuZv/aLLnEXWIO
+	 jJ5IBGaSg7InntcEcomkCJXDgl1/qHd1wKQlY1Xm/6Xi8y0VaQ3iHGy0BzV3IyFnbx
+	 bR2CdKU9UHI1WjsiGDO3symo00X07pVX/H9BMSA0=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	zohar@linux.ibm.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	tytso@mit.edu,
+	ebiggers@kernel.org,
+	axboe@kernel.dk,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	eparis@redhat.com,
+	paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	audit@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [PATCH v16 03/20] ipe: add evaluation loop
+Date: Thu, 28 Mar 2024 13:17:10 -0700
+Message-Id: <1711657047-10526-4-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
+References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The regressions handling manual claims that regzbot associates patches
-fixing an issue with the report based on the occurrence of the
-appropriate "Link:" trailers. It reasons that this does not add any
-burden on the maintainers/bug fix authors as this is already mandated by
-the "Submitting patches" guide. In fact however, the guide encourages
-using "Link:" tags for related discussions or issues which the patch
-fixes only partially, recommending "Closes:" for full resolutions.
+From: Deven Bowers <deven.desai@linux.microsoft.com>
 
-Despite it not being mentioned anywhere in the "Handling regressions"
-guide, regzbot does in fact take the "Closes:" tags into account and
-seems to in fact treat them fully equivalently to "Link:" tags.
+IPE must have a centralized function to evaluate incoming callers
+against IPE's policy. This iteration of the policy for against the rules
+for that specific caller is known as the evaluation loop.
 
-Clarify this in the regressions handling guide by always mentioning both
-of the tags.
+Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
-Signed-off-by: Karel Balej <balejk@matfyz.cz>
 ---
- .../process/handling-regressions.rst          | 30 ++++++++++---------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+v2:
++ Split evaluation loop, access control hooks, and evaluation loop from policy parser and userspace interface to pass mailing list character limit
 
-diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-index 49ba1410cfce..b9f8c8aa5936 100644
---- a/Documentation/process/handling-regressions.rst
-+++ b/Documentation/process/handling-regressions.rst
-@@ -40,9 +40,9 @@ The important bits (aka "The TL;DR")
-        #regzbot from: Some N. Ice Human <some.human@example.com>
-        #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
+v3:
++ Move ipe_load_properties to patch 04.
++ Remove useless 0-initializations Prefix extern variables with ipe_
++ Remove kernel module parameters, as these are exposed through sysctls.
++ Add more prose to the IPE base config option help text.
++ Use GFP_KERNEL for audit_log_start.
++ Remove unnecessary caching system.
++ Remove comments from headers
++ Use rcu_access_pointer for rcu-pointer null check
++ Remove usage of reqprot; use prot only.
++Move policy load and activation audit event to 03/12
+
+v4:
++ Remove sysctls in favor of securityfs nodes
++ Re-add kernel module parameters, as these are now exposed through securityfs.
++ Refactor property audit loop to a separate function.
+
+v5:
++ fix minor grammatical errors
++ do not group rule by curly-brace in audit record,
++ reconstruct the exact rule.
+
+v6:
++ No changes
+
+v7:
++ Further split lsm creation into a separate commit from the evaluation loop and audit system, for easier review.
++ Propagating changes to support the new ipe_context structure in the evaluation loop.
+
+v8:
++ Remove ipe_hook enumeration; hooks can be correlated via syscall record.
+
+v9:
++ Remove ipe_context related code and simplify the evaluation loop.
+
+v10:
++ Split eval part and boot_verified part
+
+v11:
++ Fix code style issues
+
+v12:
++ Correct an rcu_read_unlock usage
++ Add a WARN to unknown op during evaluation
+
+v13:
++ No changes
+
+v14:
++ No changes
+
+v15:
++ No changes
+
+v16:
++ No changes
+---
+ security/ipe/Makefile |   1 +
+ security/ipe/eval.c   | 100 ++++++++++++++++++++++++++++++++++++++++++
+ security/ipe/eval.h   |  24 ++++++++++
+ 3 files changed, 125 insertions(+)
+ create mode 100644 security/ipe/eval.c
+ create mode 100644 security/ipe/eval.h
+
+diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+index c09aec4904f2..57fe922cf1fc 100644
+--- a/security/ipe/Makefile
++++ b/security/ipe/Makefile
+@@ -6,6 +6,7 @@
+ #
  
--#. When submitting fixes for regressions, add "Link:" tags to the patch
--   description pointing to all places where the issue was reported, as
--   mandated by Documentation/process/submitting-patches.rst and
-+#. When submitting fixes for regressions, add "Closes:" (or "Link:") tags to
-+   the patch description pointing to all places where the issue was reported,
-+   as mandated by Documentation/process/submitting-patches.rst and
-    :ref:`Documentation/process/5.Posting.rst <development_posting>`.
- 
- #. Try to fix regressions quickly once the culprit has been identified; fixes
-@@ -91,8 +91,8 @@ When doing either, consider making the Linux kernel regression tracking bot
-    Note the caret (^) before the "introduced": it tells regzbot to treat the
-    parent mail (the one you reply to) as the initial report for the regression
-    you want to see tracked; that's important, as regzbot will later look out
--   for patches with "Link:" tags pointing to the report in the archives on
--   lore.kernel.org.
-+   for patches with "Closes:" or "Link:" tags pointing to the report in the
-+   archives on lore.kernel.org.
- 
-  * When forwarding a regressions reported to a bug tracker, include a paragraph
-    with these regzbot commands::
-@@ -102,7 +102,8 @@ When doing either, consider making the Linux kernel regression tracking bot
-        #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
- 
-    Regzbot will then automatically associate patches with the report that
--   contain "Link:" tags pointing to your mail or the mentioned ticket.
-+   contain "Closes:" or "Link:" tags pointing to your mail or the mentioned
-+   ticket.
- 
- What's important when fixing regressions
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -112,7 +113,8 @@ remember to do what Documentation/process/submitting-patches.rst,
- :ref:`Documentation/process/5.Posting.rst <development_posting>`, and
- Documentation/process/stable-kernel-rules.rst already explain in more detail:
- 
-- * Point to all places where the issue was reported using "Link:" tags::
-+ * Point to all places where the issue was reported using "Closes:" or "Link:"
-+   tags::
- 
-        Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
-        Link: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
-@@ -126,8 +128,8 @@ All this is expected from you and important when it comes to regression, as
- these tags are of great value for everyone (you included) that might be looking
- into the issue weeks, months, or years later. These tags are also crucial for
- tools and scripts used by other kernel developers or Linux distributions; one of
--these tools is regzbot, which heavily relies on the "Link:" tags to associate
--reports for regression with changes resolving them.
-+these tools is regzbot, which heavily relies on the "Closes:" and "Link:" tags
-+to associate reports for regression with changes resolving them.
- 
- Expectations and best practices for fixing regressions
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -326,9 +328,9 @@ How does regression tracking work with regzbot?
- 
- The bot watches for replies to reports of tracked regressions. Additionally,
- it's looking out for posted or committed patches referencing such reports
--with "Link:" tags; replies to such patch postings are tracked as well.
--Combined this data provides good insights into the current state of the fixing
--process.
-+with "Closes:" or "Link:" tags; replies to such patch postings are tracked as
-+well. Combined this data provides good insights into the current state of the
-+fixing process.
- 
- Regzbot tries to do its job with as little overhead as possible for both
- reporters and developers. In fact, only reporters are burdened with an extra
-@@ -338,8 +340,8 @@ take care of that using ``#regzbot ^introduced``.
- 
- For developers there normally is no extra work involved, they just need to make
- sure to do something that was expected long before regzbot came to light: add
--"Link:" tags to the patch description pointing to all reports about the issue
--fixed.
-+"Closes:" (or "Link:") tags to the patch description pointing to all reports
-+about the issue fixed.
- 
- Do I have to use regzbot?
- ~~~~~~~~~~~~~~~~~~~~~~~~~
+ obj-$(CONFIG_SECURITY_IPE) += \
++	eval.o \
+ 	ipe.o \
+ 	policy.o \
+ 	policy_parser.o \
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+new file mode 100644
+index 000000000000..af56815ed0fa
+--- /dev/null
++++ b/security/ipe/eval.c
+@@ -0,0 +1,100 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#include <linux/fs.h>
++#include <linux/types.h>
++#include <linux/slab.h>
++#include <linux/file.h>
++#include <linux/sched.h>
++#include <linux/rcupdate.h>
++
++#include "ipe.h"
++#include "eval.h"
++#include "policy.h"
++
++struct ipe_policy __rcu *ipe_active_policy;
++
++/**
++ * evaluate_property - Analyze @ctx against a property.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ * @p: Supplies a pointer to the property to be evaluated.
++ *
++ * Return:
++ * * true	- The current @ctx match the @p
++ * * false	- The current @ctx doesn't match the @p
++ */
++static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
++			      struct ipe_prop *p)
++{
++	return false;
++}
++
++/**
++ * ipe_evaluate_event - Analyze @ctx against the current active policy.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ *
++ * This is the loop where all policy evaluation happens against IPE policy.
++ *
++ * Return:
++ * * 0		- OK
++ * * -EACCES	- @ctx did not pass evaluation.
++ * * !0		- Error
++ */
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
++{
++	bool match = false;
++	enum ipe_action_type action;
++	struct ipe_policy *pol = NULL;
++	const struct ipe_rule *rule = NULL;
++	const struct ipe_op_table *rules = NULL;
++	struct ipe_prop *prop = NULL;
++
++	rcu_read_lock();
++
++	pol = rcu_dereference(ipe_active_policy);
++	if (!pol) {
++		rcu_read_unlock();
++		return 0;
++	}
++
++	if (ctx->op == IPE_OP_INVALID) {
++		if (pol->parsed->global_default_action == IPE_ACTION_DENY) {
++			rcu_read_unlock();
++			return -EACCES;
++		}
++		if (pol->parsed->global_default_action == IPE_ACTION_INVALID)
++			WARN(1, "no default rule set for unknown op, ALLOW it");
++		rcu_read_unlock();
++		return 0;
++	}
++
++	rules = &pol->parsed->rules[ctx->op];
++
++	list_for_each_entry(rule, &rules->rules, next) {
++		match = true;
++
++		list_for_each_entry(prop, &rule->props, next) {
++			match = evaluate_property(ctx, prop);
++			if (!match)
++				break;
++		}
++
++		if (match)
++			break;
++	}
++
++	if (match)
++		action = rule->action;
++	else if (rules->default_action != IPE_ACTION_INVALID)
++		action = rules->default_action;
++	else
++		action = pol->parsed->global_default_action;
++
++	rcu_read_unlock();
++	if (action == IPE_ACTION_DENY)
++		return -EACCES;
++
++	return 0;
++}
+diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+new file mode 100644
+index 000000000000..6b434515968f
+--- /dev/null
++++ b/security/ipe/eval.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) Microsoft Corporation. All rights reserved.
++ */
++
++#ifndef _IPE_EVAL_H
++#define _IPE_EVAL_H
++
++#include <linux/file.h>
++#include <linux/types.h>
++
++#include "policy.h"
++
++extern struct ipe_policy __rcu *ipe_active_policy;
++
++struct ipe_eval_ctx {
++	enum ipe_op_type op;
++
++	const struct file *file;
++};
++
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
++
++#endif /* _IPE_EVAL_H */
 -- 
 2.44.0
 
