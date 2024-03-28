@@ -1,194 +1,252 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788B32C92
-	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 15:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960363DAC13;
+	Thu, 28 Mar 2024 15:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711640059; cv=none; b=hLEen5beTp9asSObN45oimUs5Np0TBCkh0xueAdSLQBYQv0TZlEE1em43n8iGNH5qX5tLyKbu2Uiq0op2EIyMDJ9t+2re91eslL2sa9++8glkhQEiFeQ6L/j+8w3TJXposHWygwAIjYBuaKdTtl9+o2K6QbGmbPXYAolj5VzYy4=
+	t=1711640244; cv=none; b=qk0NCfKT63/39eXJAslyUFDZ1pS1uCB9+AvzMeokNMpOHfdGW3PoA3B77glwjUgZjFzPi1Hmfn7SOKX5gueckl1jME231qRqABlbWK8JhC1GAY2jc0cd1W+745Dy9PlMboUU1I19XJ738tIuvurtfCrzhRPJ4jqFhYkyQ2CXTPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711640059; c=relaxed/simple;
-	bh=pq4rM/jkC3pLBCbfs311M7bBO4YHyOpwr1F4hhSa1Qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AzhMT2p4li0XPoi7Wo3O6H5692RLaRjAZ9YpFJ0mTbiSbiSBcfRjbmi6xbDwexITjGRLCRAWEuhI4a5KRPOGK9So3gWEVqi2mEZd4FqaIbvAO/Knma/N24pysww8UvOzi7a/us8qrE3+2K/htjNfYjkLLYJF6oRnbcWEjDxOCo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gi66aJaQ; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gi66aJaQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711640056; x=1743176056;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pq4rM/jkC3pLBCbfs311M7bBO4YHyOpwr1F4hhSa1Qg=;
-  b=Gi66aJaQrSbRLpySAbsFkrva2zv2/EwVdfk63Z+ZzJLggeDJNffhmS5p
-   kdNmXxa/zIWgawEJySMEc1PGieyHcZuWh9OzqLG5huMvEZzyDmBZEONk8
-   h4N+junR946kfE+mMyARCMfdFZrJnBio1Ma5mzqJQOECgywP8RrTA/Au4
-   eNox0xWy75AY4WP2/o4TG4Mr7uI9ggn6N9xp1Ul2chkSkJb8w300/DS34
-   wHde1pZzbNtzEGHLrFFfDXkwRtRDAF9VszkqOftbReQbdyd3R1L4/k5ra
-   g9hyeLxdmBH+thoy5ZWFNSRmbELTk24yhz04B4Pms43ezxjaouMbvYl05
-   g==;
-X-CSE-ConnectionGUID: Jj7COS0UTHW5nEkADTXTEQ==
-X-CSE-MsgGUID: iLVYK/ykSwa+6eXcpPiqNg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="24249781"
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="24249781"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 08:34:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="17080090"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Mar 2024 08:34:12 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rprlZ-0002Gs-2T;
-	Thu, 28 Mar 2024 15:34:09 +0000
-Date: Thu, 28 Mar 2024 23:33:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	willy@infradead.org, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 3/6] mm: remove isolate_lru_page()
-Message-ID: <202403282357.bFSsmYuH-lkp@intel.com>
-References: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
+	s=arc-20240116; t=1711640244; c=relaxed/simple;
+	bh=M1/MI7ctmoanaJzMS8Vaa21avZdB8bKDRkpxkpFOS8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=duoNiSJMi4Nd9lcUzIxdRVE/TJsg961wOyhOq7mmyWhSiEOyeMxslBhYxXUvP0avr54munlknbN2pdP2Upqiz5OtKNfVA16WVe/Lbx5UaqbNRF3kcEDqUXnFbQ7DrkpU8jG/EDl6CUhewvs0/X/Gs+Q+r/o3DgdUEEisoP8objw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE36FC433F1;
+	Thu, 28 Mar 2024 15:37:20 +0000 (UTC)
+Date: Thu, 28 Mar 2024 11:40:04 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Yi-De Wu <yi-de.wu@mediatek.com>
+Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>, Ze-Yu Wang
+ <ze-yu.wang@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Catalin Marinas
+ <catalin.marinas@arm.com>, Wihl Deacon <will@kernel.org>, "Masami
+ Hiramatsu" <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Richard Cochran
+ <richardcochran@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-trace-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, David Bradil <dbrazdil@google.com>,
+ Trilok Soni <quic_tsoni@quicinc.com>, Jade Shih <jades.shih@mediatek.com>,
+ Ivan Tseng <ivan.tseng@mediatek.com>, My Chuang <my.chuang@mediatek.com>,
+ Shawn Hsiao <shawn.hsiao@mediatek.com>, PeiLun Suei
+ <peilun.suei@mediatek.com>, Liju Chen <liju-clr.chen@mediatek.com>, "Willix
+ Yeh" <chi-shen.yeh@mediatek.com>, Kevenny Hsieh
+ <kevenny.hsieh@mediatek.com>
+Subject: Re: [PATCH v8 19/20] virt: geniezone: Add tracing support for hyp
+ call and vcpu exit_reason
+Message-ID: <20240328114004.5793230a@gandalf.local.home>
+In-Reply-To: <20231228105147.13752-20-yi-de.wu@mediatek.com>
+References: <20231228105147.13752-1-yi-de.wu@mediatek.com>
+	<20231228105147.13752-20-yi-de.wu@mediatek.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Kefeng,
+On Thu, 28 Dec 2023 18:51:46 +0800
+Yi-De Wu <yi-de.wu@mediatek.com> wrote:
 
-kernel test robot noticed the following build errors:
+> Add tracepoints for hypervisor calls and VCPU exit reasons in GenieZone
+> driver. It aids performance debugging by providing more information
+> about hypervisor operations and VCPU behavior.
+> 
+> Command Usage:
+> echo geniezone:* >> /sys/kernel/tracing/set_event
+> echo 1 > /sys/kernel/tracing/tracing_on
+> echo 0 > /sys/kernel/tracing/tracing_on
+> cat /sys/kernel/tracing/trace
+> 
+> For example:
+> crosvm_vcpu0-4838 [004] ..... 76053.536034: mtk_hypcall_enter: id=0xbb001005
+> crosvm_vcpu0-4838 [004] ..... 76053.540039: mtk_hypcall_leave: id=0xbb001005 invalid=0
+> crosvm_vcpu0-4838 [004] ..... 76053.540040: mtk_vcpu_exit: vcpu exit_reason=0x92920003
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc1]
-[cannot apply to akpm-mm/mm-everything next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Cleaning out patchwork, I noticed this patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-migrate-add-isolate_movable_folio/20240327-221513
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240327141034.3712697-4-wangkefeng.wang%40huawei.com
-patch subject: [PATCH 3/6] mm: remove isolate_lru_page()
-config: x86_64-randconfig-013-20240328 (https://download.01.org/0day-ci/archive/20240328/202403282357.bFSsmYuH-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282357.bFSsmYuH-lkp@intel.com/reproduce)
+You can make the above more informative by having it output:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403282357.bFSsmYuH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/migrate_device.c: In function 'migrate_device_unmap':
->> mm/migrate_device.c:388:9: error: implicit declaration of function 'isolate_lru_page' [-Werror=implicit-function-declaration]
-     388 |    if (!isolate_lru_page(page)) {
-         |         ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+ crosvm_vcpu0-4838 [004] ..... 76053.540040: mtk_vcpu_exit: vcpu exit_reason=IRQ
 
 
-vim +/isolate_lru_page +388 mm/migrate_device.c
+> 
+> This example tracks a hypervisor function call by an ID (`0xbb001005`)
+> from initiation to termination, which is supported (invalid=0). A vCPU
+> exit is triggered by an Interrupt Request (IRQ) (exit reason: 0x92920003).
+> 
+> /* VM exit reason */
+> enum {
+> 	GZVM_EXIT_UNKNOWN = 0x92920000,
+> 	GZVM_EXIT_MMIO = 0x92920001,
+> 	GZVM_EXIT_HYPERCALL = 0x92920002,
+> 	GZVM_EXIT_IRQ = 0x92920003,
+> 	GZVM_EXIT_EXCEPTION = 0x92920004,
+> 	GZVM_EXIT_DEBUG = 0x92920005,
+> 	GZVM_EXIT_FAIL_ENTRY = 0x92920006,
+> 	GZVM_EXIT_INTERNAL_ERROR = 0x92920007,
+> 	GZVM_EXIT_SYSTEM_EVENT = 0x92920008,
+> 	GZVM_EXIT_SHUTDOWN = 0x92920009,
+> 	GZVM_EXIT_GZ = 0x9292000a,
+> };
+> 
+> Signed-off-by: Liju-clr Chen <liju-clr.chen@mediatek.com>
+> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> ---
+>  arch/arm64/geniezone/vm.c          |  5 +++
+>  drivers/virt/geniezone/gzvm_vcpu.c |  3 ++
+>  include/trace/events/geniezone.h   | 54 ++++++++++++++++++++++++++++++
+>  3 files changed, 62 insertions(+)
+>  create mode 100644 include/trace/events/geniezone.h
+> 
+> diff --git a/arch/arm64/geniezone/vm.c b/arch/arm64/geniezone/vm.c
+> index a9d264bbb3b1..5667643251b5 100644
+> --- a/arch/arm64/geniezone/vm.c
+> +++ b/arch/arm64/geniezone/vm.c
+> @@ -7,6 +7,8 @@
+>  #include <linux/err.h>
+>  #include <linux/uaccess.h>
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/geniezone.h>
+>  #include <linux/gzvm.h>
+>  #include <linux/gzvm_drv.h>
+>  #include "gzvm_arch_common.h"
+> @@ -33,7 +35,10 @@ int gzvm_hypcall_wrapper(unsigned long a0, unsigned long a1,
+>  			 unsigned long a6, unsigned long a7,
+>  			 struct arm_smccc_res *res)
+>  {
+> +	trace_mtk_hypcall_enter(a0);
+>  	arm_smccc_hvc(a0, a1, a2, a3, a4, a5, a6, a7, res);
+> +	trace_mtk_hypcall_leave(a0, (res->a0 != ERR_NOT_SUPPORTED) ? 0 : 1);
+> +
+>  	return gzvm_err_to_errno(res->a0);
+>  }
+>  
+> diff --git a/drivers/virt/geniezone/gzvm_vcpu.c b/drivers/virt/geniezone/gzvm_vcpu.c
+> index 86c690749277..138ec064596b 100644
+> --- a/drivers/virt/geniezone/gzvm_vcpu.c
+> +++ b/drivers/virt/geniezone/gzvm_vcpu.c
+> @@ -10,6 +10,8 @@
+>  #include <linux/mm.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/slab.h>
+> +
+> +#include <trace/events/geniezone.h>
+>  #include <linux/gzvm_drv.h>
+>  
+>  /* maximum size needed for holding an integer */
+> @@ -103,6 +105,7 @@ static long gzvm_vcpu_run(struct gzvm_vcpu *vcpu, void __user *argp)
+>  
+>  	while (!need_userspace && !signal_pending(current)) {
+>  		gzvm_arch_vcpu_run(vcpu, &exit_reason);
+> +		trace_mtk_vcpu_exit(exit_reason);
+>  
+>  		switch (exit_reason) {
+>  		case GZVM_EXIT_MMIO:
+> diff --git a/include/trace/events/geniezone.h b/include/trace/events/geniezone.h
+> new file mode 100644
+> index 000000000000..1fa44f9c4b3c
+> --- /dev/null
+> +++ b/include/trace/events/geniezone.h
+> @@ -0,0 +1,54 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2023 MediaTek Inc.
+> + */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM geniezone
+> +
+> +#define _TRACE_GENIEZONE_H
+> +
+> +#include <linux/tracepoint.h>
 
-76cbbead253ddc Christoph Hellwig       2022-02-16  355  
-76cbbead253ddc Christoph Hellwig       2022-02-16  356  /*
-44af0b45d58d7b Alistair Popple         2022-11-11  357   * Unmaps pages for migration. Returns number of source pfns marked as
-44af0b45d58d7b Alistair Popple         2022-11-11  358   * migrating.
-76cbbead253ddc Christoph Hellwig       2022-02-16  359   */
-241f6885965683 Alistair Popple         2022-09-28  360  static unsigned long migrate_device_unmap(unsigned long *src_pfns,
-241f6885965683 Alistair Popple         2022-09-28  361  					  unsigned long npages,
-241f6885965683 Alistair Popple         2022-09-28  362  					  struct page *fault_page)
-76cbbead253ddc Christoph Hellwig       2022-02-16  363  {
-76cbbead253ddc Christoph Hellwig       2022-02-16  364  	unsigned long i, restore = 0;
-76cbbead253ddc Christoph Hellwig       2022-02-16  365  	bool allow_drain = true;
-241f6885965683 Alistair Popple         2022-09-28  366  	unsigned long unmapped = 0;
-76cbbead253ddc Christoph Hellwig       2022-02-16  367  
-76cbbead253ddc Christoph Hellwig       2022-02-16  368  	lru_add_drain();
-76cbbead253ddc Christoph Hellwig       2022-02-16  369  
-76cbbead253ddc Christoph Hellwig       2022-02-16  370  	for (i = 0; i < npages; i++) {
-241f6885965683 Alistair Popple         2022-09-28  371  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  372) 		struct folio *folio;
-76cbbead253ddc Christoph Hellwig       2022-02-16  373  
-44af0b45d58d7b Alistair Popple         2022-11-11  374  		if (!page) {
-44af0b45d58d7b Alistair Popple         2022-11-11  375  			if (src_pfns[i] & MIGRATE_PFN_MIGRATE)
-44af0b45d58d7b Alistair Popple         2022-11-11  376  				unmapped++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  377  			continue;
-44af0b45d58d7b Alistair Popple         2022-11-11  378  		}
-76cbbead253ddc Christoph Hellwig       2022-02-16  379  
-76cbbead253ddc Christoph Hellwig       2022-02-16  380  		/* ZONE_DEVICE pages are not on LRU */
-76cbbead253ddc Christoph Hellwig       2022-02-16  381  		if (!is_zone_device_page(page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  382  			if (!PageLRU(page) && allow_drain) {
-1fec6890bf2247 Matthew Wilcox (Oracle  2023-06-21  383) 				/* Drain CPU's lru cache */
-76cbbead253ddc Christoph Hellwig       2022-02-16  384  				lru_add_drain_all();
-76cbbead253ddc Christoph Hellwig       2022-02-16  385  				allow_drain = false;
-76cbbead253ddc Christoph Hellwig       2022-02-16  386  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  387  
-f7f9c00dfafffd Baolin Wang             2023-02-15 @388  			if (!isolate_lru_page(page)) {
-241f6885965683 Alistair Popple         2022-09-28  389  				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-76cbbead253ddc Christoph Hellwig       2022-02-16  390  				restore++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  391  				continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  392  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  393  
-76cbbead253ddc Christoph Hellwig       2022-02-16  394  			/* Drop the reference we took in collect */
-76cbbead253ddc Christoph Hellwig       2022-02-16  395  			put_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  396  		}
-76cbbead253ddc Christoph Hellwig       2022-02-16  397  
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  398) 		folio = page_folio(page);
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  399) 		if (folio_mapped(folio))
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  400) 			try_to_migrate(folio, 0);
-76cbbead253ddc Christoph Hellwig       2022-02-16  401  
-16ce101db85db6 Alistair Popple         2022-09-28  402  		if (page_mapped(page) ||
-241f6885965683 Alistair Popple         2022-09-28  403  		    !migrate_vma_check_page(page, fault_page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  404  			if (!is_zone_device_page(page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  405  				get_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  406  				putback_lru_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  407  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  408  
-241f6885965683 Alistair Popple         2022-09-28  409  			src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-76cbbead253ddc Christoph Hellwig       2022-02-16  410  			restore++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  411  			continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  412  		}
-241f6885965683 Alistair Popple         2022-09-28  413  
-241f6885965683 Alistair Popple         2022-09-28  414  		unmapped++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  415  	}
-76cbbead253ddc Christoph Hellwig       2022-02-16  416  
-76cbbead253ddc Christoph Hellwig       2022-02-16  417  	for (i = 0; i < npages && restore; i++) {
-241f6885965683 Alistair Popple         2022-09-28  418  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  419) 		struct folio *folio;
-76cbbead253ddc Christoph Hellwig       2022-02-16  420  
-241f6885965683 Alistair Popple         2022-09-28  421  		if (!page || (src_pfns[i] & MIGRATE_PFN_MIGRATE))
-76cbbead253ddc Christoph Hellwig       2022-02-16  422  			continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  423  
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  424) 		folio = page_folio(page);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  425) 		remove_migration_ptes(folio, folio, false);
-76cbbead253ddc Christoph Hellwig       2022-02-16  426  
-241f6885965683 Alistair Popple         2022-09-28  427  		src_pfns[i] = 0;
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  428) 		folio_unlock(folio);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  429) 		folio_put(folio);
-76cbbead253ddc Christoph Hellwig       2022-02-16  430  		restore--;
-76cbbead253ddc Christoph Hellwig       2022-02-16  431  	}
-241f6885965683 Alistair Popple         2022-09-28  432  
-241f6885965683 Alistair Popple         2022-09-28  433  	return unmapped;
-241f6885965683 Alistair Popple         2022-09-28  434  }
-241f6885965683 Alistair Popple         2022-09-28  435  
+#define GZVM_EXIT_REASONS	\
+	EM(UNKNOWN)		\
+	EM(MMIO)		\
+	EM(HYPERCALL)		\
+	EM(IRQ)			\
+	EM(EXCEPTION)		\
+	EM(DEBUG)		\
+	EM(FAIL_ENTRY)		\
+	EM(INTERNAL_ERROR)	\
+	EM(SYSTEM_EVENT)	\
+	EM(SHUTDOWN)		\
+	EMe(GZ)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#undef EM
+#undef EMe
+#define EM(a) TRACE_DEFINE_ENUM(GZVM_EXIT_##a);
+#define EMe(a) TRACE_DEFINE_ENUM(GZVM_EXIT_##a);
+
+GZVM_EXIT_REASONS
+
+#undef EM
+#undef EMe
+
+#define EM(a)       { GZVM_EXIT_##a, #a },
+#define EMe(a)      { GZVM_EXIT_##a, #a }
+
+> +
+> +TRACE_EVENT(mtk_hypcall_enter,
+> +	    TP_PROTO(unsigned long id),
+> +
+> +	    TP_ARGS(id),
+> +
+> +	    TP_STRUCT__entry(__field(unsigned long, id)),
+> +
+> +	    TP_fast_assign(__entry->id = id;),
+> +
+> +	    TP_printk("id=0x%lx", __entry->id)
+> +);
+> +
+> +TRACE_EVENT(mtk_hypcall_leave,
+> +	    TP_PROTO(unsigned long id, unsigned long invalid),
+> +
+> +	    TP_ARGS(id, invalid),
+> +
+> +	    TP_STRUCT__entry(__field(unsigned long, id)
+> +			     __field(unsigned long, invalid)
+> +	    ),
+> +
+> +	    TP_fast_assign(__entry->id = id;
+> +			   __entry->invalid = invalid;
+> +	    ),
+> +
+> +	    TP_printk("id=0x%lx invalid=%lu", __entry->id, __entry->invalid)
+> +);
+> +
+> +TRACE_EVENT(mtk_vcpu_exit,
+> +	    TP_PROTO(unsigned long exit_reason),
+> +
+> +	    TP_ARGS(exit_reason),
+> +
+> +	    TP_STRUCT__entry(__field(unsigned long, exit_reason)),
+> +
+> +	    TP_fast_assign(__entry->exit_reason = exit_reason;),
+> +
+> +	    TP_printk("vcpu exit_reason=0x%lx", __entry->exit_reason)
+
+	    TP_printk("vcpu exit_reason=0x%lx",
+		__print_symbolic(__entry->exit_reason, GZVM_EXIT_REASONS))
+
+
+And instead of having the cryptic enum values printed, you will have human
+readable reasons.
+
+-- Steve
+
+
+> +);
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+
