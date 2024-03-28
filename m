@@ -1,68 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FF43B78D
-	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 16:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB3C130E4F;
+	Thu, 28 Mar 2024 18:03:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711645102; cv=none; b=BSanjmB10dyEgWJHpNrmvvr2kYO4nAKsKS+/XfoyV8/d6/LleyOZLnj4aIJNfcFD8iZD5X91ng8HHvVd6a5l0GgSdPAAQF4YSKpS6CbeLBhCbnsf5yIb2RAvTmTWMRUkrTUTodcz1VASEImfNYLMkWCMnFeSUOtIFp/rXNQV0iw=
+	t=1711649008; cv=none; b=dyU/VtFhpOR92I+0KQCg0Wd0yrLoGh2OZ2Lh00BbRBDRqACe/k59VwlWrynUaPg4SnDoUD1tikfow0TEBMWka4EjP02Vy7OVsmtpoGqxker0EpIr5b6mUeg+ycnzxkIKLeVMqKp95SxELjQoK1+H7EDwo6+mjny2i4QuRp3cLaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711645102; c=relaxed/simple;
-	bh=Le6/APmdRErlI8fvbN7RxrMby23r/eqTtrfxMeOFxKY=;
+	s=arc-20240116; t=1711649008; c=relaxed/simple;
+	bh=vB1K3UeOU2FvgT3cwFX6bIQzHZMdAnkhCLXgIqkAx/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V98p0prDblsn20m67+Z74Oet4Cqg8V1ErNywr02WV1nRARqvwnS0SZBUQ6viBPx8iGngh820dKbolD22jWp0n+CnEtB6iqbwNxJuFxtBO9/fkEcb3exBC2lckRKJVFvOwUhxaMf/eBVtTLfayoaiimJ+xL8fIZeOd3Qm2tFu7yw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2qs3Rs8; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FbOw8XRr/uUoq1XyqT92TUGozdvUVjvrI5qDf8CSs/PkJstqeMw8gbiLTUn17hUIN02+6QKPlxBInFaumPLuEGpynWD4XGzWn2eedcUdjhsjoh3/NcQQ+mkiQWONBiTQaqkN4yBOHP6PFJORKq5BHeSIOp6OMFuxxF/qLu3Uki8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBYe1IuR; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2qs3Rs8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711645100; x=1743181100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Le6/APmdRErlI8fvbN7RxrMby23r/eqTtrfxMeOFxKY=;
-  b=l2qs3Rs87PFcveECJ9FEgLdsnh0I185szzf2PKL9B4YPQZf+Y1yb3RHz
-   NtSP5rPVcjSE8FmZKZ7png0XexrWAMspn+26Tijkqx+VxBpsEtqiTyURq
-   Agt7CieA+yrYdz3jdJf9NClJvh3h+w+MvZWyFTTXg2QaC3EIdi/rl0wOO
-   zfk0mxy/KWhFlrxFS4NvZNTG1KjPLEvOPBbiswnhHYswxSYvA1Kpc4E9S
-   4QRkfdIq3H/vnl2Y4sufHYP4qzuhfJsXwYR+JnenAX7ugkoeAstd45IaR
-   nGpxUTsAgb35LRvzCTK0aeLTbqhToc8yG7O6EogR67TnP5GKsMe3eFv+1
-   g==;
-X-CSE-ConnectionGUID: yJmZ4DJIQ+yUo4dAgiGqlA==
-X-CSE-MsgGUID: dQowRUtlTJODw42gsCJuhw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="24261543"
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="24261543"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 09:58:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="21175078"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Mar 2024 09:58:16 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpt4w-0002Mo-0X;
-	Thu, 28 Mar 2024 16:58:14 +0000
-Date: Fri, 29 Mar 2024 00:57:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	willy@infradead.org, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 5/6] mm: memory-failure: use isolate_movable_folio() in
- mf_isolate_folio()
-Message-ID: <202403290000.hSRD3CAB-lkp@intel.com>
-References: <20240327141034.3712697-6-wangkefeng.wang@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBYe1IuR"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e0189323b4so8952565ad.1;
+        Thu, 28 Mar 2024 11:03:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711649007; x=1712253807; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=olSW0jWLIrC4vxY5yG21bb3i0NkpMQDJhW3rhvvrLzQ=;
+        b=KBYe1IuROmE5QJaTzVoQaJKqamXjGV+ZoaZINvIedkFJbRxlJ/mqbvTh1ZCwQBq6J1
+         eKgQi72FgBtA+MbOS8NsYACPBaML3XrszURM3eL0UO5e/wdMVGt08t3GlpbuAOeOZWf0
+         tDGJRAJ2AVVIXJRaEiXZSr84rInmQxtYktX3PwhcB/JZBtcdFbtvpo3T6jRGxibfvlhK
+         cFKiNTiS6OPpNAnwdgx3MXVP8CSCGlmr3HV16Tklx/ta0wHX3bs5h0xkYPkYVsY0tTOa
+         1ebnNtjiXgUf47ieun1IFa8/11CCqgQphZaj1ixRo7tCtCxQ7JdUWJ+Z9CxDe8A2PFDX
+         NnGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711649007; x=1712253807;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=olSW0jWLIrC4vxY5yG21bb3i0NkpMQDJhW3rhvvrLzQ=;
+        b=Q8eoUXFNkIT4je707nOq0ez1AeV82JMetCUtwr6XaE3onEdyS3/+oZq6VOn/Kj2YWQ
+         xzNkRLBc5i2uKjtY/VcdXnWlFgfdPlSiWSXFFbSxZNFsJZuLCIyfDCIkyd79D1Stbe2d
+         VMcxSSSE9stv3Pz0kGh29B31l63G6HPjkxcNT8JhCwN/lcpihg32fPe5UNl07dcU+7km
+         mgWqqcJh2X079ppDFEjdEgLU97UH/qAjSQsOIni0wuVLACbDl7WhaaQID8NGSWcO7Jc4
+         eUtv0uYYbGAd2TJI5ehIgxOoC6soAAkLyL+aMHdpObWQHVBXr8VSUUctUJzuLsCzL1g8
+         Ez2g==
+X-Forwarded-Encrypted: i=1; AJvYcCXbzyQaPcO3Lp3AuGE2/093BgYKWEpochKA3214kbHkafMshD4X211+Hgfzssu96/UGsLvulQbPrmJe7vcHvqlhbTUAo3sq8E+THOOFIP6gcARjyT778rs3iISrKiZjerTXlkLQ3R5RBZG3nqFDULBhMXzQ5LLsa4z00mgqSGXlRGV7xnek4ijsGPOwnJnpsQiANsiBDI3L7NsS7ATIqb9oyWAwYB8F0Eh+0O0D9jNpjj+KiCp/vXVLGIZAug==
+X-Gm-Message-State: AOJu0Yz26g/twb8fwv3x9KV41Zi/J4WF6cgovgebK6LknKetP8h/rbrM
+	t/u9bUMTv93778apXMkl56rwXYISdKOK0402OzNrcxhmCnOLW8ZY
+X-Google-Smtp-Source: AGHT+IEkQsFT2CQ41glFYLpP1d3wFQ1n1mHU48V+X330fVWYW26kggF6SGZ6JUFwxozMX9FKu+ROTw==
+X-Received: by 2002:a17:902:ef48:b0:1e0:e2b1:7395 with SMTP id e8-20020a170902ef4800b001e0e2b17395mr283743plx.14.1711649006562;
+        Thu, 28 Mar 2024 11:03:26 -0700 (PDT)
+Received: from google.com ([2620:15c:9d:2:493e:82a3:49f9:d88])
+        by smtp.gmail.com with ESMTPSA id mm8-20020a1709030a0800b001e12013ae07sm1901205plb.231.2024.03.28.11.03.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 11:03:26 -0700 (PDT)
+Date: Thu, 28 Mar 2024 11:03:23 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
+ supplies
+Message-ID: <ZgWw66OpLnLPdCn-@google.com>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+ <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,85 +80,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327141034.3712697-6-wangkefeng.wang@huawei.com>
+In-Reply-To: <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
 
-Hi Kefeng,
+On Wed, Mar 27, 2024 at 06:18:50PM -0500, David Lechner wrote:
+> A common use case for regulators is to supply a reference voltage to an
+> analog input or output device. This adds two new devres APIs to get,
+> enable, and get the voltage in a single call. This allows eliminating
+> boilerplate code in drivers that use reference supplies in this way.
+> 
+> devm_regulator_get_enable_get_voltage() is intended for cases where the
+> supply is required to provide an external reference voltage.
+> 
+> devm_regulator_get_optional_enable_get_voltage() is intended for cases
+> where the supply is optional and device typically uses an internal
+> reference voltage if the supply is not available.
 
-kernel test robot noticed the following build errors:
+So because we decided that we could not have devm_regulator_enable()
+because of (IMO) contrived example of someone totally mixing up the devm
+and non-devm APIs we now have to make more and more devm- variants
+simply because we do not have access to the regulator structure with
+devm_regulator_get_enable() and so all normal APIs are not available.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc1]
-[cannot apply to akpm-mm/mm-everything next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is quite bad honestly. Mark, could we please reverse this
+shortsighted decision and have normal devm_regulator_enable() operating
+on a regulator?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-migrate-add-isolate_movable_folio/20240327-221513
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240327141034.3712697-6-wangkefeng.wang%40huawei.com
-patch subject: [PATCH 5/6] mm: memory-failure: use isolate_movable_folio() in mf_isolate_folio()
-config: parisc-randconfig-r051-20240328 (https://download.01.org/0day-ci/archive/20240329/202403290000.hSRD3CAB-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403290000.hSRD3CAB-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403290000.hSRD3CAB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/memory-failure.c: In function 'mf_isolate_folio':
->> mm/memory-failure.c:2631:58: error: passing argument 1 of 'isolate_movable_folio' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2631 |                         isolated = isolate_movable_folio(folio,
-         |                                                          ^~~~~
-         |                                                          |
-         |                                                          struct folio *
-   In file included from mm/memory-failure.c:51:
-   include/linux/migrate.h:98:55: note: expected 'struct page *' but argument is of type 'struct folio *'
-      98 | static inline bool isolate_movable_folio(struct page *page, isolate_mode_t mode)
-         |                                          ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/isolate_movable_folio +2631 mm/memory-failure.c
-
-  2618	
-  2619	static bool mf_isolate_folio(struct folio *folio, struct list_head *pagelist)
-  2620	{
-  2621		bool isolated = false;
-  2622	
-  2623		if (folio_test_hugetlb(folio)) {
-  2624			isolated = isolate_hugetlb(folio, pagelist);
-  2625		} else {
-  2626			bool lru = !__folio_test_movable(folio);
-  2627	
-  2628			if (lru)
-  2629				isolated = folio_isolate_lru(folio);
-  2630			else
-> 2631				isolated = isolate_movable_folio(folio,
-  2632								 ISOLATE_UNEVICTABLE);
-  2633	
-  2634			if (isolated) {
-  2635				list_add(&folio->lru, pagelist);
-  2636				if (lru)
-  2637					node_stat_add_folio(folio, NR_ISOLATED_ANON +
-  2638							    folio_is_file_lru(folio));
-  2639			}
-  2640		}
-  2641	
-  2642		/*
-  2643		 * If we succeed to isolate the folio, we grabbed another refcount on
-  2644		 * the folio, so we can safely drop the one we got from get_any_page().
-  2645		 * If we failed to isolate the folio, it means that we cannot go further
-  2646		 * and we will return an error, so drop the reference we got from
-  2647		 * get_any_page() as well.
-  2648		 */
-  2649		folio_put(folio);
-  2650		return isolated;
-  2651	}
-  2652	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry
