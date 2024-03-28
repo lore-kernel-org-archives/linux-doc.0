@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8754A7E563
-	for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 12:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F2F7F485;
+	Thu, 28 Mar 2024 12:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711628594; cv=none; b=QNDB98u5RQB+KvrVwXUaB41ObS56KM8HLeZsAIA5TrJW6C/5nE8G+8MCrIzLNWRSK8M5KdQo5UO7YieEgfcPpwje0ipr0ZznLJQlAuPgYxY2vFpsWZRKr3ij/yH/ZKrUGGPEyJYdGJtk+b0ic9bnl/H6Vy1Cwb7pY4VOnQ8zJUw=
+	t=1711628659; cv=none; b=HMinkxwEPBcXU1gVL0bi9eo6o64hrA51Fc2WOT3easX0c+Gd3l60t9oGPufXcB3fa5swCy2bao7fjF1sGGsmx3u9Xru1N7MNH0L+BETiXYPfTXlcpE15QKtaPpMzpnEJSXZR0BgZVVdTaXyBO8nfWVcTAGAu+6wEcRWrl18U3nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711628594; c=relaxed/simple;
-	bh=JEhiiRTLLEIu0YXBiT+GjKvOjk74kHjaz+CkzcNLmhk=;
+	s=arc-20240116; t=1711628659; c=relaxed/simple;
+	bh=+KCpP6QH6INCKmhY3rhkXinCYArDLnJgU17pzm7N1sM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+rmXmjfB8BJdR2dgfXlDrQBVPI7dL8cSr5psaTKaJWdYOC9HvfuBKyf0TvxOGeKArVKgGqfbbbpQHpY/41TJbnVGcfpjtNK405iqFJudqn9cA0mniuhERQKyMW3fL8Dqx5vTQiP9XXNgc3hKsUr4w4qklGmFfNFbsICUFdAruE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWeT3677; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VNpbRZhDoQ6LcwddvRm++hGPNBTDwn0Ct9l91p75f6K1SaRN34V844ato4/h+BpagLPd2JxBeuKlwo6p+bTnFTTyiSOc3svdZEXgINMo0U6vs0T99IAOjZfVtQtSr7LC/TSrrBRHgpSdhEHWb4qeu/ycVvxBLglJ8/nkq9GkSIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=cgii5U/Z; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWeT3677"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711628592; x=1743164592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JEhiiRTLLEIu0YXBiT+GjKvOjk74kHjaz+CkzcNLmhk=;
-  b=RWeT3677DVJB0aCVAb2AOedhsswse+tsYl8JQT7DF5V0M3wkxCRdv015
-   1071iEnBzDJzEbQgmuGlHGiZ9Z2SsoSzcYEHPQXIQMHn1MM2SYtQglgUq
-   70LpQvmwfaF6xSLo07YLnYUTjibw/3Nob3WJPie/wBOXcZm/MiOi4aGSp
-   otdKfSrmR3FXIvSFZbpnj7oBMT309nkbvhPJ9uqrU4Ze5XfBYVabssMId
-   Vrbn73dxjYQfzoxVoVL4GHbfQt16BH3ubmVvTqn0H4qdphFbdEWwNWeg2
-   2neF+xIlqnir1WYTV9USJq039vy3/lCi3Dgo6U7eOftUqDFxkGC/OO1RB
-   Q==;
-X-CSE-ConnectionGUID: h9lvTUO6Rf2Gk5AMf++m5A==
-X-CSE-MsgGUID: UJK63GWUR3aicgHPbcP2Jg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11026"; a="10571700"
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="10571700"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 05:23:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,161,1708416000"; 
-   d="scan'208";a="21287656"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Mar 2024 05:23:07 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rpome-000282-2s;
-	Thu, 28 Mar 2024 12:23:04 +0000
-Date: Thu, 28 Mar 2024 20:22:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	willy@infradead.org, Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	David Hildenbrand <david@redhat.com>,
-	Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 3/6] mm: remove isolate_lru_page()
-Message-ID: <202403282057.pIA3kJoz-lkp@intel.com>
-References: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="cgii5U/Z"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=8unRPUJ/5NLXOy2GV/8QQoMtBxlZYcDA0JkZRYJPSXM=; b=cgii5U/Zdj30Vfz4+zeTdE+LAO
+	Wceqxp0Y0bklH/H+HFEbAhSOhK2yWdOTmvX32t8UmGpSJt1/nccyQcBHCZ5/PtoRNu2W0zBDiFgBS
+	uZ6w8TsaVbd2TYRFQVJeVLfxqWZ9cohtpMU1DECoc1qdqcn2V7Lkq74uvf9RJ7ltp+f4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rponY-00BUi7-46; Thu, 28 Mar 2024 13:24:00 +0100
+Date: Thu, 28 Mar 2024 13:24:00 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 10/17] net: pse-pd: Add support for PSE PIs
+Message-ID: <f3bafb50-406b-444a-8411-5ddae8d84c31@lunn.ch>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,128 +62,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327141034.3712697-4-wangkefeng.wang@huawei.com>
+In-Reply-To: <20240326-feature_poe-v6-10-c1011b6ea1cb@bootlin.com>
 
-Hi Kefeng,
+> +.. code-block::
+> +
+> +         +-------------+
+> +         |    PSE PI   |
+> + 8  -----+                             +-------------+
+> + 7  -----+                    Rail 1   |
+> + 6  -----+------+----------------------+
+> + 5  -----+      |                      |
+> + 4  -----+     /              Rail 2   |  PSE 1
+> + 3  -----+----?          +-------------+
+> + 2  -----+----+---------?              |
+> + 1  -----+---?                         +-------------+
+> +         |
+> +         +-------------+
 
-kernel test robot noticed the following build errors:
+Is ? a standard markup character? I don't remember seeing it used like
+this before.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.9-rc1]
-[cannot apply to akpm-mm/mm-everything next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Maybe offset the connection for pins 1 and 2 from that of 3. I mean:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-migrate-add-isolate_movable_folio/20240327-221513
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240327141034.3712697-4-wangkefeng.wang%40huawei.com
-patch subject: [PATCH 3/6] mm: remove isolate_lru_page()
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20240328/202403282057.pIA3kJoz-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240328/202403282057.pIA3kJoz-lkp@intel.com/reproduce)
+> + 4  -----+     /              Rail 2   |  PSE 1
+> + 3  -----+----?          +-------------+
+> + 2  -----+--------+-----?              |
+> + 1  -----+-------?                     +-------------+
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403282057.pIA3kJoz-lkp@intel.com/
+You version is a little ambiguous, pins 1, 2 & 3 could be
+interconnected at the +.  The text does however make it clear they are
+not, but i don't see any harm in making the diagram clearer.
 
-All errors (new ones prefixed by >>):
+> +static int of_load_single_pse_pi_pairset(struct device_node *node,
+> +					 struct pse_pi *pi,
+> +					 int pairset_num)
+> +{
+> +	struct device_node *pairset_np;
+> +	const char *name;
+> +	int ret;
+> +
+> +	ret = of_property_read_string_index(node, "pairset-names",
+> +					    pairset_num, &name);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!strcmp(name, "alternative-a")) {
+> +		pi->pairset[pairset_num].pinout = ALTERNATIVE_A;
+> +	} else if (!strcmp(name, "alternative-b")) {
+> +		pi->pairset[pairset_num].pinout = ALTERNATIVE_B;
+> +	} else {
+> +		pr_err("pse: wrong pairset-names value %s\n", name);
+> +		return -EINVAL;
 
->> mm/migrate_device.c:388:9: error: call to undeclared function 'isolate_lru_page'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     388 |                         if (!isolate_lru_page(page)) {
-         |                              ^
-   mm/migrate_device.c:388:9: note: did you mean '__isolate_free_page'?
-   mm/internal.h:487:12: note: '__isolate_free_page' declared here
-     487 | extern int __isolate_free_page(struct page *page, unsigned int order);
-         |            ^
-   1 error generated.
+Maybe include the node path in the error message? For a 24 port
+switch, it will help find a typo in one of the ports. I would do this
+for all error messages in this code.
 
+Please add my Reviewed-by on the next version.
 
-vim +/isolate_lru_page +388 mm/migrate_device.c
-
-76cbbead253ddc Christoph Hellwig       2022-02-16  355  
-76cbbead253ddc Christoph Hellwig       2022-02-16  356  /*
-44af0b45d58d7b Alistair Popple         2022-11-11  357   * Unmaps pages for migration. Returns number of source pfns marked as
-44af0b45d58d7b Alistair Popple         2022-11-11  358   * migrating.
-76cbbead253ddc Christoph Hellwig       2022-02-16  359   */
-241f6885965683 Alistair Popple         2022-09-28  360  static unsigned long migrate_device_unmap(unsigned long *src_pfns,
-241f6885965683 Alistair Popple         2022-09-28  361  					  unsigned long npages,
-241f6885965683 Alistair Popple         2022-09-28  362  					  struct page *fault_page)
-76cbbead253ddc Christoph Hellwig       2022-02-16  363  {
-76cbbead253ddc Christoph Hellwig       2022-02-16  364  	unsigned long i, restore = 0;
-76cbbead253ddc Christoph Hellwig       2022-02-16  365  	bool allow_drain = true;
-241f6885965683 Alistair Popple         2022-09-28  366  	unsigned long unmapped = 0;
-76cbbead253ddc Christoph Hellwig       2022-02-16  367  
-76cbbead253ddc Christoph Hellwig       2022-02-16  368  	lru_add_drain();
-76cbbead253ddc Christoph Hellwig       2022-02-16  369  
-76cbbead253ddc Christoph Hellwig       2022-02-16  370  	for (i = 0; i < npages; i++) {
-241f6885965683 Alistair Popple         2022-09-28  371  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  372) 		struct folio *folio;
-76cbbead253ddc Christoph Hellwig       2022-02-16  373  
-44af0b45d58d7b Alistair Popple         2022-11-11  374  		if (!page) {
-44af0b45d58d7b Alistair Popple         2022-11-11  375  			if (src_pfns[i] & MIGRATE_PFN_MIGRATE)
-44af0b45d58d7b Alistair Popple         2022-11-11  376  				unmapped++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  377  			continue;
-44af0b45d58d7b Alistair Popple         2022-11-11  378  		}
-76cbbead253ddc Christoph Hellwig       2022-02-16  379  
-76cbbead253ddc Christoph Hellwig       2022-02-16  380  		/* ZONE_DEVICE pages are not on LRU */
-76cbbead253ddc Christoph Hellwig       2022-02-16  381  		if (!is_zone_device_page(page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  382  			if (!PageLRU(page) && allow_drain) {
-1fec6890bf2247 Matthew Wilcox (Oracle  2023-06-21  383) 				/* Drain CPU's lru cache */
-76cbbead253ddc Christoph Hellwig       2022-02-16  384  				lru_add_drain_all();
-76cbbead253ddc Christoph Hellwig       2022-02-16  385  				allow_drain = false;
-76cbbead253ddc Christoph Hellwig       2022-02-16  386  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  387  
-f7f9c00dfafffd Baolin Wang             2023-02-15 @388  			if (!isolate_lru_page(page)) {
-241f6885965683 Alistair Popple         2022-09-28  389  				src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-76cbbead253ddc Christoph Hellwig       2022-02-16  390  				restore++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  391  				continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  392  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  393  
-76cbbead253ddc Christoph Hellwig       2022-02-16  394  			/* Drop the reference we took in collect */
-76cbbead253ddc Christoph Hellwig       2022-02-16  395  			put_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  396  		}
-76cbbead253ddc Christoph Hellwig       2022-02-16  397  
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  398) 		folio = page_folio(page);
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  399) 		if (folio_mapped(folio))
-4b8554c527f3cf Matthew Wilcox (Oracle  2022-01-28  400) 			try_to_migrate(folio, 0);
-76cbbead253ddc Christoph Hellwig       2022-02-16  401  
-16ce101db85db6 Alistair Popple         2022-09-28  402  		if (page_mapped(page) ||
-241f6885965683 Alistair Popple         2022-09-28  403  		    !migrate_vma_check_page(page, fault_page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  404  			if (!is_zone_device_page(page)) {
-76cbbead253ddc Christoph Hellwig       2022-02-16  405  				get_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  406  				putback_lru_page(page);
-76cbbead253ddc Christoph Hellwig       2022-02-16  407  			}
-76cbbead253ddc Christoph Hellwig       2022-02-16  408  
-241f6885965683 Alistair Popple         2022-09-28  409  			src_pfns[i] &= ~MIGRATE_PFN_MIGRATE;
-76cbbead253ddc Christoph Hellwig       2022-02-16  410  			restore++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  411  			continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  412  		}
-241f6885965683 Alistair Popple         2022-09-28  413  
-241f6885965683 Alistair Popple         2022-09-28  414  		unmapped++;
-76cbbead253ddc Christoph Hellwig       2022-02-16  415  	}
-76cbbead253ddc Christoph Hellwig       2022-02-16  416  
-76cbbead253ddc Christoph Hellwig       2022-02-16  417  	for (i = 0; i < npages && restore; i++) {
-241f6885965683 Alistair Popple         2022-09-28  418  		struct page *page = migrate_pfn_to_page(src_pfns[i]);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  419) 		struct folio *folio;
-76cbbead253ddc Christoph Hellwig       2022-02-16  420  
-241f6885965683 Alistair Popple         2022-09-28  421  		if (!page || (src_pfns[i] & MIGRATE_PFN_MIGRATE))
-76cbbead253ddc Christoph Hellwig       2022-02-16  422  			continue;
-76cbbead253ddc Christoph Hellwig       2022-02-16  423  
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  424) 		folio = page_folio(page);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  425) 		remove_migration_ptes(folio, folio, false);
-76cbbead253ddc Christoph Hellwig       2022-02-16  426  
-241f6885965683 Alistair Popple         2022-09-28  427  		src_pfns[i] = 0;
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  428) 		folio_unlock(folio);
-4eecb8b9163df8 Matthew Wilcox (Oracle  2022-01-28  429) 		folio_put(folio);
-76cbbead253ddc Christoph Hellwig       2022-02-16  430  		restore--;
-76cbbead253ddc Christoph Hellwig       2022-02-16  431  	}
-241f6885965683 Alistair Popple         2022-09-28  432  
-241f6885965683 Alistair Popple         2022-09-28  433  	return unmapped;
-241f6885965683 Alistair Popple         2022-09-28  434  }
-241f6885965683 Alistair Popple         2022-09-28  435  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       Andrew
