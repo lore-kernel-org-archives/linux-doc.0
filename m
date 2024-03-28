@@ -1,102 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FD7131753;
-	Thu, 28 Mar 2024 20:25:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456FC1849;
+	Thu, 28 Mar 2024 20:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711657538; cv=none; b=saKR8OaYPInnj1sJ9UPLDcBlK8O0z0gGtNV3wFc1QhDR95u5K/Ev76XHeBjhIRDWseFWsT/3pj11aHuwHEmLf/qDcgsQL6TbgIkLNkyjmC+5DE6avzaLPCTdWSHbh8N+ZvWUTmNwPI9ehUwGRjQY3TtT0+N+jKScya5BR9wacQ8=
+	t=1711658176; cv=none; b=SXDhEzuI9PTq8gTz712+aOk8miOo2/gpMBpDU98rOYDyTfoOoxOfg4xOYwDdGd7E3xYn/fxf/6z2EKlFLTkfU0IYVGvXxmDRFPnxLzkGoao1KOzXNZsmF0VpQstn24HyDrNKm8HVaL04reYbprsRS1yLINCJowB0xV4N2ZBpWOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711657538; c=relaxed/simple;
-	bh=uLKGKHPYrINSKa7Ua6spfB0BXJ6X0qB7dFs0VLn6mow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4iS6f6Kjldz3b+i1lu8OAa5SlOX5rW5lmyxGV3yCIH0D+v93AtY6HnRNONgozS0beXM3QK4Nooy+1Ih7LXMUS273CTdRFodAfgvdOi/HVsnR6B13t4y6gWM2r7Eu0a5ZASX7nrXPCsXS47HxPkONpoZ5eC6kVhKXhnEOvHVNM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4o2OmxM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711658176; c=relaxed/simple;
+	bh=SsY0lErYnKoP8ZzYMd9Gd75kk+sED7eEk6p0jqXABP8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=X1NQHlx19rXTe7I59j+tIIWv2I2YFV1/WfinL53Bpmky+R6Nxj6VzS5hWagFwGajAc7OQXfkCCFjTpcudCpJtoUb/W2JTlA52UzbuqQzrrRoEVhvXlOS5o1gBhSToGAWfekVW2aYL9PC+zTSy8mw4zemOzWdEWHsyg76AxKXxpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRJtWg8p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4o2OmxM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9170DC433C7;
-	Thu, 28 Mar 2024 20:25:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRJtWg8p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1D3C433F1;
+	Thu, 28 Mar 2024 20:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711657538;
-	bh=uLKGKHPYrINSKa7Ua6spfB0BXJ6X0qB7dFs0VLn6mow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t4o2OmxM8QuDeLAfom5BUyuBUVPZQG+XUENdNqCrWf07mov+v/xlV3wpyjbONMYDd
-	 sGoVZ38a/ieAYoupou2K+k5BRDOnBTQ+SPIpR/ppuYHARZZ6Audan+8E4Lf4FZyBf0
-	 PgWKq7ZjWxvvyF+capA8hj21Hr98wmYkppg+SnWoNOZAtpli/EcTWznfsfGLimjwqJ
-	 m7xsdVlS8Tb/Hfu2/3row7LEvRsal45iPQt0+WATTwhQmRJcLwSkh2hYLAcIcjKDhc
-	 tYv1DOIpwVq1E6uwFjmWifRtZeHDyw44mCmSDDehBV/XienNpptDe2MeKJfBOfFR3O
-	 P2FVvkRBPDE9A==
-Date: Thu, 28 Mar 2024 20:25:31 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
- <20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
- <ZgWw66OpLnLPdCn-@google.com>
- <043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
- <ZgXQcGlMiewRzki5@google.com>
+	s=k20201202; t=1711658175;
+	bh=SsY0lErYnKoP8ZzYMd9Gd75kk+sED7eEk6p0jqXABP8=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=iRJtWg8plLpE36aezR0aiTBqaMV7IPIeoxz1iKvE0BwrZ2uagndDaOO349iknA8Jq
+	 TQ4+DMAZbkIJaio4SyKIRbbqgKj2JfP1TwqoD9UKxKT4PYNMeG4fN94S3wqX7sfxJ/
+	 i6Ku7lini1Pt/Ud7oZ5L1gX4+KnqteCffeObvEDPLEubIvdv6JVKNFdBZTJaE/4dyM
+	 rLdj5nXUG1mxTwYHG4+0LloleAJ9OvTzxV51o+BQsek63Z97E3IuKHQyHLkm5SPGHL
+	 t2n/O8grNx9cMVkzPwCdHsOnxi9gc3n8JlhYbxW6fT4e6u9D5Gsvyv1LOj6+F2zxZA
+	 w6bbtrGAOsfBA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5fDUEvDFvOkj++3z"
-Content-Disposition: inline
-In-Reply-To: <ZgXQcGlMiewRzki5@google.com>
-X-Cookie: Yes, but which self do you want to be?
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 Mar 2024 22:36:09 +0200
+Message-Id: <D05O6JVMMZY7.5ZUBAPJH22FC@kernel.org>
+Cc: <linux-doc@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-security-module@vger.kernel.org>, <fsverity@lists.linux.dev>,
+ <linux-block@vger.kernel.org>, <dm-devel@lists.linux.dev>,
+ <audit@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v16 00/20] Integrity Policy Enforcement LSM (IPE)
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Fan Wu" <wufan@linux.microsoft.com>, <corbet@lwn.net>,
+ <zohar@linux.ibm.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+ <tytso@mit.edu>, <ebiggers@kernel.org>, <axboe@kernel.dk>,
+ <agk@redhat.com>, <snitzer@kernel.org>, <eparis@redhat.com>,
+ <paul@paul-moore.com>
+X-Mailer: aerc 0.17.0
+References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
 
+On Thu Mar 28, 2024 at 10:17 PM EET, Fan Wu wrote:
+> Overview:
+> ---------
 
---5fDUEvDFvOkj++3z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+s/://
 
-On Thu, Mar 28, 2024 at 01:17:52PM -0700, Dmitry Torokhov wrote:
-> On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:
+It is already a heading.
 
-> > I don't follow what you're saying here?  What normal APIs are not
-> > available?  AFAICT this has nothing to do with a devm enable, it's a
-> > combined operation which reports the voltage for the regulator if one is
-> > available which would still be being added even if it used a devm
-> > enable.
+>
+> IPE is a Linux Security Module which takes a complimentary approach to
+ =20
+  Integrity Policy Enforcement (IPE) is a ...
 
-> You can not do devm_regulator_get_enable() and then call
-> regulator_get_voltage(), you need a new combined API.
+> access control. Whereas existing mandatory access control mechanisms
+> base their decisions on labels and paths, IPE instead determines
+> whether or not an operation should be allowed based on immutable
+> security properties of the system component the operation is being
+> performed on.
 
-I think the theory here is that there are so many instances of this
-reference voltage pattern that it's useful to have a helper for that
-reason alone.
+What is "a immutable property of the system component", or even,
+what is "a immutable property" and what is "a system component".
 
---5fDUEvDFvOkj++3z
-Content-Type: application/pgp-signature; name="signature.asc"
+These should be defined per context of use as there is no unambiguous
+definitions of these "properties".
 
------BEGIN PGP SIGNATURE-----
+So can you add a paragraph before this defining these concepts?
+Otherwise, it would be pretty hard to review any of this.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYF0jsACgkQJNaLcl1U
-h9CUrgf/XPKWYWqhNVXtXDECIbF2IgErrGFkL54cu8EWxC/OrJPMdGnZV8lQmK0D
-+pOV7o7CYYYtYG5K4brvdgqgAyK0COk55E0N4Y8PCtLIhnLmCNr+WsWP2RXlmwB+
-m/K9zfyav3r6ZyKE0xZOeBderEAOixJCFQkJN/ssppyjeC2RAbOVmIcA3kpni8Vp
-ONJFpdvniqYsk7lhetuSbn3NcfQefcWn0KKq2B0ZsgS1fWN70/ccR3cKhlZVfN1u
-oG3zp4KlquAT/eTI+FGiqc3N2zVTON/tjEZEZMEldMsuZ3Oegyr75QIulXVqPtQq
-G1AjkHGXsSDsNt5PERnu3xYz6F/XHQ==
-=GRYZ
------END PGP SIGNATURE-----
+I.e. I have to make my own imaginary definitions of them and possibly
+make completely false conclusions what was meant.
 
---5fDUEvDFvOkj++3z--
+/Jarkko
