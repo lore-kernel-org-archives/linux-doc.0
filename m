@@ -1,86 +1,174 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C87E13B795;
-	Thu, 28 Mar 2024 22:11:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94263848E;
+	Fri, 29 Mar 2024 00:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711663875; cv=none; b=gYDnPeRwWDAiw010+aaNRme+hUw9d48G4cccWYVNA0UN2lk8KNw/J606svMds958LXcCelqUTE0TID9y/T53FrllDTumrisQFY2YjRFl1iNUNK7nkdtDTFGxzHjNe6Vqdwbgj+q9kUQNyouB+1wUYuyvBXLZzuJFU3m+B+u4pQU=
+	t=1711670801; cv=none; b=F2lRU7565InSRk4T2LLLF5TrpYsZAD+IEIotpwgfhSzpAq8a20DcAep3OkEaGfaKdByxv40TmxXM5nKpaFOMq9+sjPHXTpk9x8pHezU3G82pYsVe9E0ZkXeB1aW9ZeL6DayJQ7PBHifx/1NHrz9U1o3pX/gj6BkUQPOGwYr5g7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711663875; c=relaxed/simple;
-	bh=JVuXWZU7ypGWL4ciDE6dFgx2siJQMrXVakqC0WXbnd0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WjeDCmuy1zQEgYuBc0cmLt/E+KI2gpzycBQwmosnnTAi1GhqDTKRxyMBaBVgIdj5LgyPaMP4UK4C2itEHA0ipl6v8GxdaIBpg23DCtvsyP8WeEGWkGgoV7m+6ziOAZVXgdApHJGz+vp7swO6jKbWcA/5IzPtklv4RE9Ral8R39o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NbJm49eL; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1711670801; c=relaxed/simple;
+	bh=FzJOOSC9UUHrWRcI7UAQtasAek/KIUNP0SrrKFAkeFc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MxjVzwDNas763sNtJphWWvesjtR9+fVsxfQuQjjpRb0G4WzMTpKrKoL5AzARs4yhaDFgVbjRAvFxsTFADlFeCcSiqwh1wID+kCl9V9HEgZ1O0tuhc/W1OrCn/7zVLvhBRah8nF7EJzaN4jfS8vihAdWk9BHhBqigBxtAZKH8Tqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=UTGF2oDZ; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NbJm49eL"
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="UTGF2oDZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=HnoWopqeEhgUSDrAxtnUhuDZR8QdjUiaKbpLIYgV22M=; b=NbJm49eLsaBJIDmaaGUPIwTP6s
-	RdCdHdp9gJrWgLOyWIaGiU2iEa3h0mDLeFNu8MpWBCcjIt+F1mBI8g082Y+IpFySLM/hEsNJi6SK1
-	JBk39TG18J9OCNVQporM5qOQ71kG0TDUjkZcnc4dAvsUfuM70hJvQAllMyhnggYK0MKVKGnTD8s/J
-	pwz0gob9RjN5DyrV1KCIE79TcNpQT0Fn18OWvlWWNJjye4FkmJFqE0E/qDklUsVta8jWE3bO374Mz
-	wFZ7SPWQCxzZ1K0xUYogPf2vhybumDglajK78Iq4x/BmSLLRdWq0eNniSqEvN8UThtFfomA7d21P3
-	PMZSsxhQ==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rpxxf-0000000Fs9X-3pVK;
-	Thu, 28 Mar 2024 22:11:04 +0000
-Message-ID: <cde3dc6e-ca77-445e-a4b7-fc21a934999a@infradead.org>
-Date: Thu, 28 Mar 2024 15:11:03 -0700
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=mD7kGOKMw9/SgIhNijECJqDpS2n0gwPnb6QPtQ/fOO8=; b=UTGF2oDZOhIkkgh87OdtdhXG1o
+	heC5A0Tys4ntMBRUWQ/sTY82dGFtYsZocFceSUnRgDlFisswDVKCZ7Hlxbr31xWdwyH2hNBpVlmob
+	vP96GIamREoJ1v2iYcAZXEXMRpYJGpJZoy6v8CC9cib14LXVN7gsXdKqz1URDlVTp2wYtHdBASiCO
+	/SwF3q8ZkfUifGhXC6Y7oa4AJNKetIvJIIyoUGvBV+6x/rZvUbT1m2nBFbVaDEDD2a9TEYQ/egP4g
+	2GeXhrdJYI5o2HKue+S/L47iz8SDZw/3SzySlAoo+GbuQ4JTu4XwlQ1Yy3lPjRhOYlHHUwm5BjaVm
+	2+egTshw==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rpzlV-000iik-1q;
+	Thu, 28 Mar 2024 19:06:37 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH v3 27/30] selftests: ntsync: Add some tests for wakeup signaling via alerts.
+Date: Thu, 28 Mar 2024 19:06:18 -0500
+Message-ID: <20240329000621.148791-28-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329000621.148791-1-zfigura@codeweavers.com>
+References: <20240329000621.148791-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 01/20] security: add ipe lsm
-Content-Language: en-US
-To: Jarkko Sakkinen <jarkko@kernel.org>, Fan Wu <wufan@linux.microsoft.com>,
- corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org,
- Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
- <1711657047-10526-2-git-send-email-wufan@linux.microsoft.com>
- <D05ODONHFJ9O.3VG0HLFPA1OB0@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <D05ODONHFJ9O.3VG0HLFPA1OB0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Expand the alert tests to cover alerting a thread mid-wait, to test that the
+relevant scheduling logic works correctly.
 
+Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+---
+ .../testing/selftests/drivers/ntsync/ntsync.c | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-On 3/28/24 13:45, Jarkko Sakkinen wrote:
->> +/**
->> + * ipe_init - Entry point of IPE.
->> + *
->> + * This is called at LSM init, which happens occurs early during kernel
->> + * start up. During this phase, IPE registers its hooks and loads the
->> + * builtin boot policy.
->> + * Return:
->> + * * 0		- OK
->> + * * -ENOMEM	- Out of memory
-> Just a suggestion:
-> 
-> * 0:		OK
-> * -ENOMEM:	Out of memory (OOM)
-> 
-> Rationale being more readable (less convoluted).
-> 
-> And also sort of symmetrical how parameters are formatted in kdoc.
-
-It needs the " * *" to make a formatted list in the generated output.
-Otherwise the use of '- or ':' as a separator doesn't matter AFAIK.
-
+diff --git a/tools/testing/selftests/drivers/ntsync/ntsync.c b/tools/testing/selftests/drivers/ntsync/ntsync.c
+index 5465a16d38b3..968874d7e325 100644
+--- a/tools/testing/selftests/drivers/ntsync/ntsync.c
++++ b/tools/testing/selftests/drivers/ntsync/ntsync.c
+@@ -1113,9 +1113,12 @@ TEST(wake_all)
+ TEST(alert_any)
+ {
+ 	struct ntsync_event_args event_args = {0};
++	struct ntsync_wait_args wait_args = {0};
+ 	struct ntsync_sem_args sem_args = {0};
+ 	__u32 index, count, signaled;
++	struct wait_args thread_args;
+ 	int objs[2], fd, ret;
++	pthread_t thread;
+ 
+ 	fd = open("/dev/ntsync", O_CLOEXEC | O_RDONLY);
+ 	ASSERT_LE(0, fd);
+@@ -1163,6 +1166,34 @@ TEST(alert_any)
+ 	EXPECT_EQ(0, ret);
+ 	EXPECT_EQ(2, index);
+ 
++	/* test wakeup via alert */
++
++	ret = ioctl(event_args.event, NTSYNC_IOC_EVENT_RESET, &signaled);
++	EXPECT_EQ(0, ret);
++
++	wait_args.timeout = get_abs_timeout(1000);
++	wait_args.objs = (uintptr_t)objs;
++	wait_args.count = 2;
++	wait_args.owner = 123;
++	wait_args.index = 0xdeadbeef;
++	wait_args.alert = event_args.event;
++	thread_args.fd = fd;
++	thread_args.args = &wait_args;
++	thread_args.request = NTSYNC_IOC_WAIT_ANY;
++	ret = pthread_create(&thread, NULL, wait_thread, &thread_args);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(ETIMEDOUT, ret);
++
++	ret = ioctl(event_args.event, NTSYNC_IOC_EVENT_SET, &signaled);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, thread_args.ret);
++	EXPECT_EQ(2, wait_args.index);
++
+ 	close(event_args.event);
+ 
+ 	/* test with an auto-reset event */
+@@ -1199,9 +1230,12 @@ TEST(alert_any)
+ TEST(alert_all)
+ {
+ 	struct ntsync_event_args event_args = {0};
++	struct ntsync_wait_args wait_args = {0};
+ 	struct ntsync_sem_args sem_args = {0};
++	struct wait_args thread_args;
+ 	__u32 index, count, signaled;
+ 	int objs[2], fd, ret;
++	pthread_t thread;
+ 
+ 	fd = open("/dev/ntsync", O_CLOEXEC | O_RDONLY);
+ 	ASSERT_LE(0, fd);
+@@ -1235,6 +1269,34 @@ TEST(alert_all)
+ 	EXPECT_EQ(0, ret);
+ 	EXPECT_EQ(2, index);
+ 
++	/* test wakeup via alert */
++
++	ret = ioctl(event_args.event, NTSYNC_IOC_EVENT_RESET, &signaled);
++	EXPECT_EQ(0, ret);
++
++	wait_args.timeout = get_abs_timeout(1000);
++	wait_args.objs = (uintptr_t)objs;
++	wait_args.count = 2;
++	wait_args.owner = 123;
++	wait_args.index = 0xdeadbeef;
++	wait_args.alert = event_args.event;
++	thread_args.fd = fd;
++	thread_args.args = &wait_args;
++	thread_args.request = NTSYNC_IOC_WAIT_ALL;
++	ret = pthread_create(&thread, NULL, wait_thread, &thread_args);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(ETIMEDOUT, ret);
++
++	ret = ioctl(event_args.event, NTSYNC_IOC_EVENT_SET, &signaled);
++	EXPECT_EQ(0, ret);
++
++	ret = wait_for_thread(thread, 100);
++	EXPECT_EQ(0, ret);
++	EXPECT_EQ(0, thread_args.ret);
++	EXPECT_EQ(2, wait_args.index);
++
+ 	close(event_args.event);
+ 
+ 	/* test with an auto-reset event */
 -- 
-#Randy
+2.43.0
+
