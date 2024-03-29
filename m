@@ -1,64 +1,100 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AA1433A2
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 14:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6F8592B
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 15:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711724337; cv=none; b=qfSYRBRRdkT3fzZjIZg7XOCQNA6uyHMHYdrsWwOXJ4o3bbjo1nA0x88xPNDgupewvF9JyB3PO4RwHVWgntOCSnFXyYO5+2Blm4zkO5Y3GfmCoOz6MJqKIP9pClm1xeDG8DQif05DmA/6zHM1IwuUfZ5lPQdGR8+ctj73mBxMEmM=
+	t=1711724423; cv=none; b=b0G99rVfuVuhwbNPZTkNpaPUX8ghXl/OiVr8VYlVoESWV6ljAwNF86eO7eCqPrcPSZ0/nprzdIOK6TLws7QMPBuwRLluSGNqSNshvzoT7vkPK8IDOJ0al6XLr8feNs0GFislror+jaRe1PWYy0SmkORB6M2eMST/cmzpPDC2I3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711724337; c=relaxed/simple;
-	bh=geovNEP5MoET5yINcoihxHzec9j09GdKEPkibD/seNU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KrtcDKcNs3HUcZiKEp9BVXqiKP8echuC56P/NKRKeDedGS4+Od7U5FLfFy0a62JQmnodAtYy8ovJ3j79XXIn4itMpZTGMRa5N2BGFTFp2r/caUKT1+Bvq3KlY0oi/XTirm6mdOMPDyM2b2zUpbXUgKC2Db4t3UcFsfeKlEZr3+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oGwej0xP; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1711724423; c=relaxed/simple;
+	bh=jMpNQKRWDUdzryttmXi4dEOmsQgDWDME5biDB077Xis=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IfRgQV34g/DFWcTsaCFObCg5VXAtb3o7dmfPaWTdR4VYKpi/W6juQUNjgG9raOXCTAN3hoUnhxF1dZVw5d/Fc6HYCnaJ0shdpW4IMjqI7FOD4ZPdI9z6Fo6H0/aB7g5DvqcKcrhpAiV0eANveSDSey7gqFQiDAR9DQUnRd6qK+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iU4E6c6D; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oGwej0xP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8B73847C2E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1711724335; bh=JtJWAtudri2o05DhCZSgWrRB7y0KMghC4ku01Lioz+o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oGwej0xP0ZqDShdEoJX/CUI6oGEn1EQAJkfahOxSukv0o9GEHCcNr46OPKg8kpoV/
-	 ACVTdyh9lGXzpB6ZSpfs5GnNZhEe3+eXqKpzvxcL45NCt34xNRgesermNXlY3M+1PH
-	 XyHBCHp5ljP9b/NwG+9yuXIAcqbsoNKL5GVLv9w8uRFV1GgMORDOjs0ihm89Nyxc6e
-	 wdskbP1ja+MArTH7+MkAPpGSg9lbcLSov74OvnsPMB4FlU95+dOGWnBNj722yAmwGT
-	 d6PgTvtK06xXftQWpZ65rP8J01d5PkgexdxS9CIc1ygikZuVXcWlFdUdQeJM8AMoAx
-	 bTC7P7b/sQttw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8B73847C2E;
-	Fri, 29 Mar 2024 14:58:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Weiji Wang <nebclllo0444@gmail.com>, linux-doc@vger.kernel.org
-Cc: Weiji Wang <nebclllo0444@gmail.com>
-Subject: Re: [PATCH] docs: zswap: fix shell command format
-In-Reply-To: <20240319114253.2647-1-nebclllo0444@gmail.com>
-References: <20240319114253.2647-1-nebclllo0444@gmail.com>
-Date: Fri, 29 Mar 2024 08:58:54 -0600
-Message-ID: <8734s95bkh.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iU4E6c6D"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1df01161b39so18367505ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 08:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711724421; x=1712329221; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FI1KiUhHXfgrStw/rzFg//9e4c9Dj7OUlbiTZNSAB3k=;
+        b=iU4E6c6DC98TLF8hPPIvnXE4X1tzIHlTzb3tlLZ9L7AJc9SZisSOKPLxExJ9DTEi6h
+         w8HHOVHuDdXbIHiAJ57w9pS8ICBFnDCMTEt0YC23JfPj8ijcQYYgvZT4SxP4c33miRbH
+         cmhKCKa0pwKDQ7WfgS/xZ80vWQGGkpdCVwWaPUam04TU4LY5f7LI/LW6OKj3X90vjo1g
+         MVOdGS0fGrWTg12VewqcjT5OwwelJArmdtBWisLW/XzcS0MWEGzwDeGm6C9oauV13MMU
+         fujms9p+aBjXQsE5IyhaFw1Xkyyma72F05YfEJsUsOoyyxXj1Eq2mWsp/eRcX03pYTZv
+         zsrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711724421; x=1712329221;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FI1KiUhHXfgrStw/rzFg//9e4c9Dj7OUlbiTZNSAB3k=;
+        b=Hs0+o2OWI2fOtBlu6sAXons8RXowypU7tLuYVSS1DS/uVMrpx0kao6k49wh8RyaaNr
+         YnOs8Dt29VOvtbqJrwqBEl4VrOX89aE17AFYav6TjD/w6xzHvjaZ7pt52n0UgRjuJlf7
+         2sGp/N2yZysut8jQHaKCJxNhpwudoijB01b1Bfq369MOKlr6i2as9moHv8+WFuYBfeIE
+         +duODsvZknpjUSg3kkmQyl0hgMnzrDqD0U8dizsMpmvBeQ7i/rpPTOFM1WiFDVLtQvcD
+         xTlOosHfeLCMpGu2k4S2rAdLuA/rha5KAznSotbapowkiplQQzaERQ60O682z61EvFaR
+         rOCw==
+X-Gm-Message-State: AOJu0Yx5zJUURHATLCJxxkxRGRgEm6u/b6Y85QaS5LirtkBXq7vB0SVC
+	5T9uHP4sNHuaaILlHlj0537UXh3BYTxHl96DSM25MObwhnyLYY7lAjME4HyG
+X-Google-Smtp-Source: AGHT+IEfVFqPXzyqbSyK9IT1I/ne4TLaqmyc4S1A6tfQZRPa5eZpPDpRPMQND9KFW1hngEg5wxbbXQ==
+X-Received: by 2002:a17:902:6f02:b0:1dd:d0b0:ca86 with SMTP id w2-20020a1709026f0200b001ddd0b0ca86mr2494074plk.59.1711724420873;
+        Fri, 29 Mar 2024 08:00:20 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id kz6-20020a170902f9c600b001dc30f148f7sm3575099plb.243.2024.03.29.08.00.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Mar 2024 08:00:20 -0700 (PDT)
+Message-ID: <d3b7f05f-f9e4-4b52-9dfa-efa11513fb2d@gmail.com>
+Date: Sat, 30 Mar 2024 00:00:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Detect variable fonts and suggest removing them
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, =?UTF-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
+ =?UTF-8?B?0Yc=?= <relect@bk.ru>, Akira Yokosawa <akiyks@gmail.com>
+References: <20240323120204.155678-1-akiyks@gmail.com>
+ <87jzll5cmt.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87jzll5cmt.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Weiji Wang <nebclllo0444@gmail.com> writes:
+On Fri, 29 Mar 2024 08:35:54 -0600, Jonathan Corbet wrote:
+...
+> 
+> The problem with this is: removing those fonts breaks other things.  I
+> ended up putting them back onto my system after, as I recall, Emacs
+> stopped displaying non-ASCII text correctly (or at all).
 
-> Format the shell commands as code block to keep the documentation in the
-> same style
-> Fixes: 501a06fe8e4c ("zswap: memcontrol: implement zswap writeback disabling")
-> Fixes: b5ba474f3f51 ("zswap: shrink zswap pool based on memory pressure")
-> Signed-off-by: Weiji Wang <nebclllo0444@gmail.com>
-> ---
->  Documentation/admin-guide/mm/zswap.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+That's something I was worrying about.
 
-Applied, thanks.
+>                                                           So we may be
+> giving advice that some users come to regret having followed.
+> 
+> As a result, I'm really not sure what the best thing to do here is.
 
-jon
+I've been experimenting a per-user fontconfig trick for denylisting
+those "variable fonts" for "make pdfdocs" only.  Looks like there is
+hoping.
+
+Let me submit a v2 with that trick listed as the safest option in
+a week or so.
+
+        Thanks, Akira
+
+> 
+> jon
+
