@@ -1,120 +1,142 @@
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87817142E82
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93D155A4D
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 13:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711715773; cv=none; b=tajjTYpagp5mfeq67gMXqdBTDNSL7chVqa92rpd1sCjlk2q34ZJs3Kw1NajH2TbckgqsEP/gCY3GUu5nngi3UjqFK6Q4TOZ2zAp9rNlYU8Q/TPPQOydxx6k6CgeRD2DuahhMr7lcleVw6DHAy7+/VxukFuFrbEa9CHS0ModZT4Y=
+	t=1711718928; cv=none; b=c5BOpQfDQlGjkP9lqI7oVJCXb20ny6+r3Wm7vw37LAtleLTp4n+Qrml5xqzCJpnezcYdjrrW20O6SRhNuZ7vxojslsbBAKZLPL3iSiCeL7OZuMz1c4DBH5Z8x/LzfqY+DbMkmrIubRXpOe9R2bJtaSdmX/F2DHkAGP8gEVfERLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711715773; c=relaxed/simple;
-	bh=WqAHVDbRSQlXSs3fhY+o+tngUEP/W8dgzeNBIhNbb1k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=cdcJRtu0O0u6JKLrwu8HQ5sJDR0vs7nYl4siMr99QqO3IlzPv6urFEdxeqms23/fNb68nuUZ1sn/SWBjxRGH7rfUY7awXOyykkB6tTA00JDUv7bXqFp5aDP4TZ7nusYxQkJR7KI8foR7x+k0Gdx78dkvlQV5fa5GxgULafllHBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by xavier.telenet-ops.be with bizsmtp
-	id 4cc82C0050SSLxL01cc8x9; Fri, 29 Mar 2024 13:36:09 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rqBSR-005D9J-5k;
-	Fri, 29 Mar 2024 13:36:08 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rqBSq-0020YW-5y;
-	Fri, 29 Mar 2024 13:36:08 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] docs/zh: Fix Cc, Co-developed-by, and Signed-off-by tags
-Date: Fri, 29 Mar 2024 13:35:29 +0100
-Message-Id: <22892a8ab5c17d7121ef5b85f7d18d8b1f41e434.1711715655.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1711718928; c=relaxed/simple;
+	bh=zlmV0sBDPPllGZWjPqa2/c1/r7nXDK5/rzJZO9Fvals=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNkiKSmVcUX3LzM/M/gXutIODe2p7l/iUNCPHAD4yZPK0yU7plm3Ss5KNc7xYhVz4rhlRtrWeqqudOcZz9ZGYyeSPrmSYhe8LzT384gMZqFcjhx7spC70owmbz6pOu4RxbsDoIk3HjU6QjyV0gI8bQ+BXbobr2wXs7JFNgcKLc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S+quUCH2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S+quUCH2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711718925;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
+	b=S+quUCH2AVxFUWI8ays1z6iM+Jv8/SFTHHrSHQlfFqY75RoKW4avjNvcu3du+1S28VWYEj
+	/2skUku1lsFTy5vJvLtCxHro+YOneDB2/zI1Nj/maKWxzLToftr3Jr5hxWRIDcnk4/br97
+	8QHTinJ3InCcd4o9FJad6wjPWpjJ/QE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-w9WQ4Q7HNgm0O4jnmr0wAg-1; Fri, 29 Mar 2024 09:28:40 -0400
+X-MC-Unique: w9WQ4Q7HNgm0O4jnmr0wAg-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33ecc0f0c95so1042532f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 06:28:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711718915; x=1712323715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
+        b=Tt8D3MUot0bTvjYDXVgIdEgc8c5jQkM9F6RyEaJ7HpiVoyVy0D3Q3rWV4F7c+H40hm
+         FnfSZxgIHqtnyqrG+6ZdMLIG75e8ZOi5PxH0/lRMMZmCfy9sTpVkP0k3ufmbBShlH7Mf
+         yiGi7b1bbs3IKIULblIis38y/BnNe2P1VynGyexj1BI8ZopwpOR1K4M6qsiWyvX6sbj+
+         JVAmGlRz9o1vfuASiAlhsJwQ+RPEuOrCF+DuZkH517s3IqEtN1/4TTdqDP3jXcGtgl6W
+         yuQAIIiYugPiz04kO2bt1EWxiKu5FyV2rmUMU65ac+4LyQLtDiaGCWFQnFKXEuswFRY2
+         T6jw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+4jjXDCQOl7gTDW1g2Xa5wUIwZaFTxvVm84LtglyoMc+CZcNDbXjp8b/b4v/JxbBm4WGtzySSXgrJdSEVQckaQbYuby8ugvjF
+X-Gm-Message-State: AOJu0Yx7Sx+o5+55doVTrl20QoyPfPpZWVabgOInaHMzHggrElg4Sm1a
+	wvJdzRwycyZJq+JELWjczJlrWrpczAm57Zu4V+sMtJJWyzvsxYKBYAkXQZ/7g9pQuZDtAyvReEQ
+	fLnDt8RRmWK9woNARQJdrn0VZIIOnxn2wQ0cRGOrfNCd8cQrTXZWDqsaILw==
+X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405098wrz.55.1711718915576;
+        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0y693U6Mrafzyu7YFm6f17FVsvRLIAvGL111PeLg9URymVxfxN4rrw7+XNw571qiaGR1ycw==
+X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405040wrz.55.1711718915211;
+        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-12-25-33.business.telecomitalia.it. [87.12.25.33])
+        by smtp.gmail.com with ESMTPSA id e11-20020a056000194b00b00341c6b53358sm4171063wry.66.2024.03.29.06.28.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Mar 2024 06:28:34 -0700 (PDT)
+Date: Fri, 29 Mar 2024 14:28:27 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <vireshk@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, Kalle Valo <kvalo@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
+	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	v9fs@lists.linux.dev, kvm@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/22] virtio: store owner from modules with
+ register_virtio_driver()
+Message-ID: <e2xy5kjdctpitcrev2byqc5gcwntvsd6pfutrvp3l2kfe3llgs@l2xp5opj7xu2>
+References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
+ <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
+ <oaoiehcpkjs3wrhc22pwx676pompxml2z5dcq32a6fvsyntonw@hnohrbbp6wpm>
+ <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
 
-The updates from commit ae67ee6c5e1d5b6a ("docs: fix Co-Developed-by
-docs") in v5.0 were never applied to the Chinese translations.
-In addition:
-  - "Cc" used wrong case,
-  - "Co-developed-by" lacked a dash,
-  - "Signed-off-by" was misspelled.
+On Fri, Mar 29, 2024 at 01:07:31PM +0100, Krzysztof Kozlowski wrote:
+>On 29/03/2024 12:42, Stefano Garzarella wrote:
+>>> };
+>>>
+>>> -int register_virtio_driver(struct virtio_driver *driver)
+>>> +int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
+>>> {
+>>> 	/* Catch this early. */
+>>> 	BUG_ON(driver->feature_table_size && !driver->feature_table);
+>>> 	driver->driver.bus = &virtio_bus;
+>>> +	driver->driver.owner = owner;
+>>> +
+>>
+>> `.driver.name =  KBUILD_MODNAME` also seems very common, should we put
+>> that in the macro as well?
+>
+>This is a bit different thing. Every driver is expected to set owner to
+>itself (THIS_MODULE), but is every driver name KBUILD_MODNAME?
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../translations/zh_CN/process/submitting-patches.rst     | 8 ++++----
- .../translations/zh_TW/process/submitting-patches.rst     | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+Nope, IIUC we have 2 exceptions:
+- drivers/firmware/arm_scmi/virtio.c
+- arch/um/drivers/virt-pci.c
 
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index f8978f02057c164c..7864107e60a85c58 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -333,10 +333,10 @@ Linus 和其他的内核开发者需要阅读和评论你提交的改动。对
- 未参与其开发。签署链应当反映补丁传播到维护者并最终传播到Linus所经过的 **真实**
- 路径，首个签署指明单个作者的主要作者身份。
- 
--何时使用Acked-by:，CC:，和Co-Developed by:
-+何时使用Acked-by:，Cc:，和Co-developed-by:
- ------------------------------------------
- 
--Singed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
-+Signed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
- 
- 如果一个人没有直接参与补丁的准备或处理，但希望表示并记录他们对补丁的批准/赞成，
- 那么他们可以要求在补丁的变更日志中添加一个Acked-by:。
-@@ -358,8 +358,8 @@ Acked-by：不一定表示对整个补丁的确认。例如，如果一个补丁
- Co-developed-by: 声明补丁是由多个开发人员共同创建的；当几个人在一个补丁上工
- 作时，它用于给出共同作者（除了From:所给出的作者之外）。因为Co-developed-by:
- 表示作者身份，所以每个Co-developed-by:必须紧跟在相关合作作者的签署之后。标准
--签署程序要求Singed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
--过From:还是Co-developed-by:表明。值得注意的是，最后一个Singed-off-by:必须是
-+签署程序要求Signed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
-+过From:还是Co-developed-by:表明。值得注意的是，最后一个Signed-off-by:必须是
- 提交补丁的开发人员。
- 
- 注意，如果From:作者也是电子邮件标题的From:行中列出的人，则From:标签是可选的。
-diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
-index 99fa0f2fe6f414e1..f12f2f193f855cfb 100644
---- a/Documentation/translations/zh_TW/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
-@@ -334,10 +334,10 @@ Linus 和其他的內核開發者需要閱讀和評論你提交的改動。對
- 未參與其開發。簽署鏈應當反映補丁傳播到維護者並最終傳播到Linus所經過的 **真實**
- 路徑，首個簽署指明單個作者的主要作者身份。
- 
--何時使用Acked-by:，CC:，和Co-Developed by:
-+何時使用Acked-by:，Cc:，和Co-developed-by:
- ------------------------------------------
- 
--Singed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
-+Signed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
- 
- 如果一個人沒有直接參與補丁的準備或處理，但希望表示並記錄他們對補丁的批准/贊成，
- 那麼他們可以要求在補丁的變更日誌中添加一個Acked-by:。
-@@ -359,8 +359,8 @@ Acked-by：不一定表示對整個補丁的確認。例如，如果一個補丁
- Co-developed-by: 聲明補丁是由多個開發人員共同創建的；當幾個人在一個補丁上工
- 作時，它用於給出共同作者（除了From:所給出的作者之外）。因爲Co-developed-by:
- 表示作者身份，所以每個Co-developed-by:必須緊跟在相關合作作者的簽署之後。標準
--簽署程序要求Singed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
--過From:還是Co-developed-by:表明。值得注意的是，最後一個Singed-off-by:必須是
-+簽署程序要求Signed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
-+過From:還是Co-developed-by:表明。值得注意的是，最後一個Signed-off-by:必須是
- 提交補丁的開發人員。
- 
- 注意，如果From:作者也是電子郵件標題的From:行中列出的人，則From:標籤是可選的。
--- 
-2.34.1
+>Remember that this overrides whatever driver actually put there.
+
+They can call __register_virtio_driver() where we can add the `name`
+parameter. That said, I don't have a strong opinion, we can leave it
+as it is.
+
+Thanks,
+Stefano
 
