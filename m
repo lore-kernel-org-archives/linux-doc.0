@@ -1,100 +1,97 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C6F8592B
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 15:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F791C0DF0;
+	Fri, 29 Mar 2024 15:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711724423; cv=none; b=b0G99rVfuVuhwbNPZTkNpaPUX8ghXl/OiVr8VYlVoESWV6ljAwNF86eO7eCqPrcPSZ0/nprzdIOK6TLws7QMPBuwRLluSGNqSNshvzoT7vkPK8IDOJ0al6XLr8feNs0GFislror+jaRe1PWYy0SmkORB6M2eMST/cmzpPDC2I3k=
+	t=1711724694; cv=none; b=IlZH3657twegKr73ekRtNroEIRjp/1k7GwLGw9jDr3HWg0c3fzZPi0Hk8HVAO9npYi+gM1oqkar4Jqncwk04Lo9yxTPWdLnyivvUv7sOblI1dfaM2r+sRPGRvigYC9Wr4928LedyudjEvB/zg7Mc1CK1BW/Y+XmLNBcZmljXk48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711724423; c=relaxed/simple;
-	bh=jMpNQKRWDUdzryttmXi4dEOmsQgDWDME5biDB077Xis=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IfRgQV34g/DFWcTsaCFObCg5VXAtb3o7dmfPaWTdR4VYKpi/W6juQUNjgG9raOXCTAN3hoUnhxF1dZVw5d/Fc6HYCnaJ0shdpW4IMjqI7FOD4ZPdI9z6Fo6H0/aB7g5DvqcKcrhpAiV0eANveSDSey7gqFQiDAR9DQUnRd6qK+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iU4E6c6D; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711724694; c=relaxed/simple;
+	bh=QPr73epDnfNI9hRAKDsQGY9i3JJUvUIidZoLlIKWyZk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jtu/NgmqF5wDafDcNp5CmDOBcNoQ4+VzsxcGLz9eYF/Kk9EWoiTVaioN44VxcRfWBuJxCaBZniy6IjxMt5c0RgFdWLTvgqaCVQn/xZ5tMCA25u0wvmVROgetk78RoLty5IOhB/CxRNeRuuJ/mjxVdR1zW1PoTOc1fYojQBTbOng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LsNdJ1Lt; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iU4E6c6D"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1df01161b39so18367505ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 08:00:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711724421; x=1712329221; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FI1KiUhHXfgrStw/rzFg//9e4c9Dj7OUlbiTZNSAB3k=;
-        b=iU4E6c6DC98TLF8hPPIvnXE4X1tzIHlTzb3tlLZ9L7AJc9SZisSOKPLxExJ9DTEi6h
-         w8HHOVHuDdXbIHiAJ57w9pS8ICBFnDCMTEt0YC23JfPj8ijcQYYgvZT4SxP4c33miRbH
-         cmhKCKa0pwKDQ7WfgS/xZ80vWQGGkpdCVwWaPUam04TU4LY5f7LI/LW6OKj3X90vjo1g
-         MVOdGS0fGrWTg12VewqcjT5OwwelJArmdtBWisLW/XzcS0MWEGzwDeGm6C9oauV13MMU
-         fujms9p+aBjXQsE5IyhaFw1Xkyyma72F05YfEJsUsOoyyxXj1Eq2mWsp/eRcX03pYTZv
-         zsrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711724421; x=1712329221;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FI1KiUhHXfgrStw/rzFg//9e4c9Dj7OUlbiTZNSAB3k=;
-        b=Hs0+o2OWI2fOtBlu6sAXons8RXowypU7tLuYVSS1DS/uVMrpx0kao6k49wh8RyaaNr
-         YnOs8Dt29VOvtbqJrwqBEl4VrOX89aE17AFYav6TjD/w6xzHvjaZ7pt52n0UgRjuJlf7
-         2sGp/N2yZysut8jQHaKCJxNhpwudoijB01b1Bfq369MOKlr6i2as9moHv8+WFuYBfeIE
-         +duODsvZknpjUSg3kkmQyl0hgMnzrDqD0U8dizsMpmvBeQ7i/rpPTOFM1WiFDVLtQvcD
-         xTlOosHfeLCMpGu2k4S2rAdLuA/rha5KAznSotbapowkiplQQzaERQ60O682z61EvFaR
-         rOCw==
-X-Gm-Message-State: AOJu0Yx5zJUURHATLCJxxkxRGRgEm6u/b6Y85QaS5LirtkBXq7vB0SVC
-	5T9uHP4sNHuaaILlHlj0537UXh3BYTxHl96DSM25MObwhnyLYY7lAjME4HyG
-X-Google-Smtp-Source: AGHT+IEfVFqPXzyqbSyK9IT1I/ne4TLaqmyc4S1A6tfQZRPa5eZpPDpRPMQND9KFW1hngEg5wxbbXQ==
-X-Received: by 2002:a17:902:6f02:b0:1dd:d0b0:ca86 with SMTP id w2-20020a1709026f0200b001ddd0b0ca86mr2494074plk.59.1711724420873;
-        Fri, 29 Mar 2024 08:00:20 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id kz6-20020a170902f9c600b001dc30f148f7sm3575099plb.243.2024.03.29.08.00.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Mar 2024 08:00:20 -0700 (PDT)
-Message-ID: <d3b7f05f-f9e4-4b52-9dfa-efa11513fb2d@gmail.com>
-Date: Sat, 30 Mar 2024 00:00:16 +0900
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LsNdJ1Lt"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FD9560007;
+	Fri, 29 Mar 2024 15:04:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711724684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QPr73epDnfNI9hRAKDsQGY9i3JJUvUIidZoLlIKWyZk=;
+	b=LsNdJ1Lt0oJ9z0mqz6TlbRI8l1mbDgKIJ5zzl1ossv03wcL9woRWFh0Gs6Y9IS6u8yP+Px
+	feUGQi6RcodKm4JuX4SmPB6VcliyuE8qbxiqqaIHt3T59gAu2qHrmZ8rsGWDECrKXCecX4
+	VDS/Cs+qOCwzdBYXDm4frT8frQL1XzXx3xsMYhvop37l58/1Ler289gm9xR+nPBn+ZPAhY
+	I08bFEm98VVZuCNWibrS/bcgr+Y+tzdLCAz6IJQG6ok0viZfUfY60mGt1R+8jjseSb432x
+	E/FLe3PPXfkaBmFlgNtS+QIckH/IyKpmto5Y6MPAUPKBXNLYMlmzdSNGZHPgXw==
+Date: Fri, 29 Mar 2024 16:04:42 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
+ <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 13/17] net: pse-pd: Use regulator framework
+ within PSE framework
+Message-ID: <20240329160442.0333a117@kmaincent-XPS-13-7390>
+In-Reply-To: <20240326-feature_poe-v6-13-c1011b6ea1cb@bootlin.com>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+	<20240326-feature_poe-v6-13-c1011b6ea1cb@bootlin.com>
+Organization: bootlin
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: Detect variable fonts and suggest removing them
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, =?UTF-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
- =?UTF-8?B?0Yc=?= <relect@bk.ru>, Akira Yokosawa <akiyks@gmail.com>
-References: <20240323120204.155678-1-akiyks@gmail.com>
- <87jzll5cmt.fsf@meer.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87jzll5cmt.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, 29 Mar 2024 08:35:54 -0600, Jonathan Corbet wrote:
-...
-> 
-> The problem with this is: removing those fonts breaks other things.  I
-> ended up putting them back onto my system after, as I recall, Emacs
-> stopped displaying non-ASCII text correctly (or at all).
+On Tue, 26 Mar 2024 15:04:50 +0100
+Kory Maincent <kory.maincent@bootlin.com> wrote:
 
-That's something I was worrying about.
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+>=20
+> Integrate the regulator framework to the PSE framework for enhanced
+> access to features such as voltage, power measurement, and limits, which
+> are akin to regulators. Additionally, PSE features like port priorities
+> could potentially enhance the regulator framework. Note that this
+> integration introduces some implementation complexity, including wrapper
+> callbacks, but the potential benefits make it worthwhile.
+>=20
+> Regulator are using enable counter with specific behavior.
+> Two calls to regulator_disable will trigger kernel warnings.
+> If the counter exceeds one, regulator_disable call won't disable the
+> PSE PI. These behavior isn't suitable for PSE control.
+> Added a boolean 'enabled' state to prevent multiple calls to
+> regulator_enable/disable. These calls will only be called from PSE
+> framework as it won't have any regulator children, therefore no mutex are
+> needed to safeguards this boolean.
+>=20
+> regulator_get needs the consumer device pointer. Use PSE as regulator
+> provider and consumer device until we have RJ45 ports represented in
+> the Kernel.
 
->                                                           So we may be
-> giving advice that some users come to regret having followed.
-> 
-> As a result, I'm really not sure what the best thing to do here is.
+Oleksij, could you verify this patch does not break pse_regulator driver?
 
-I've been experimenting a per-user fontconfig trick for denylisting
-those "variable fonts" for "make pdfdocs" only.  Looks like there is
-hoping.
-
-Let me submit a v2 with that trick listed as the safest option in
-a week or so.
-
-        Thanks, Akira
-
-> 
-> jon
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
