@@ -1,258 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF7F2C861;
-	Fri, 29 Mar 2024 16:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711730239; cv=fail; b=uubpJlRlTDRl8u8m2JkmrtU9kwBBcYL0mL+hH11DrC0WnD+kcXx3e9Bbk83rlx+w4RP0Pld2yJaKJzjDR8NHC2Gbf/SjSmmoTNKUVB3FKhkcFh4hWfXvMSnUsC3HS9lR7NOF+KHkQLvGua2bIh6aUamLaNXJHad3qJnDYzpTKhU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711730239; c=relaxed/simple;
-	bh=7MfFRh6Sq9kFy1WiwyE+DeKFlERNevGTN5nAtTFxaA4=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Oh8LbuxCitqT6oRIv9qNKH8S9e6a4X0q+IgQb4hC1YmZu1YDIhWAE9nt8yt9eM4ZpaIU7zdT6Di5axPdO5Gh2iP3mxfWViFblKO5frjDmL8l26A9QDYHHhS9Puwya2WExb6Lz0fRwjRSEk96K7SsuhEmvIcz3uDaFqVW+6GMuHo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8rqrXgu; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F51482E9
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 17:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711734489; cv=none; b=bt5qrltRbBkBC2id+suxm72+MPFLNXIGHGKvu5waUE2iogO/TMzK2OcxCUeTanjpo/JUDnm8TGqLpI5ibLpSJIhRbIOT++10FMvEPDUHL0XNgng+83VqMVkj2jrUPeGJY/BNkz/Y3GQzIg6UxJbTGVnF0q82cW3Dwh9XwfIuqWY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711734489; c=relaxed/simple;
+	bh=973ZqU4LV/o8oIgHaoOlO0jC2gNX0j0wWK0Yc79NMGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MAN4qKffL7F4btu6fW49nxs5WkI8FVIJYLgNmQ61bMhuRsYpcLdi6D0QnsidVWPHU5mQkgk2JcurkDMURiFEEOWv9jBFrBtnKb5cCE6HhIiGcX0qst14mgMEnRPCEsc7214lbV+h+SzGJs5pIpNMD9Ip68523s1SMzNiWkS3HoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jl3wMsN8; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8rqrXgu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711730238; x=1743266238;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=7MfFRh6Sq9kFy1WiwyE+DeKFlERNevGTN5nAtTFxaA4=;
-  b=c8rqrXguBu6jo5OVfiK8+LISgZj5D6r2yfCdmRRJfJlJYcCgr4DBzrzg
-   +UpGAlB2S2vQjQSK+geago02e1uAGC5LRUDBNkyTXT2VG+xxyz1nQaDzb
-   4PLJ2KvMHZ+Cf6uEIfMkYV1CqJ0zqOH/dV0wGu75uyr/p8GnHFUwbA+Mq
-   gieLj6C0uITGn/Y5eS8mGJU8oBp3pHp2VAq9wQzr2L0Z27fIX5id2vqUK
-   ZvOX0AtIwnxbVremEz2jJUV3hlh564Wt1wjWQYQp3yzd16XiUNZAKQt0V
-   mdKchmC0naRcYbO6q/j0uCtyhcxaEZJezKxcQC/vJV3M+fB5XT5pFfCP2
-   Q==;
-X-CSE-ConnectionGUID: g4dkGtrnTF6jvcViF7YM1g==
-X-CSE-MsgGUID: UTB17yvPQEe0W5a3dIMVjQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="18070775"
-X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
-   d="scan'208";a="18070775"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 09:37:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
-   d="scan'208";a="17097107"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 29 Mar 2024 09:37:17 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Mar 2024 09:37:16 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Mar 2024 09:37:16 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 29 Mar 2024 09:37:16 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 29 Mar 2024 09:37:16 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GQvEtzwZezwbU1UYUlhBDB39FXgi/5b1qO2v5fHOdFh4En0of302JjeSKI3hIr0NuzJKm/hT92KzOEs0iE2lwJz5F6Rq3CBSj9fnzrRRaSBd99ow3i79pfDwlqmfv2gmmBROSM9/umQP2XeKl0E91n4PckRKn+X1RrD3EUkmGJe1xQIFnmbmzxxvBzxzMicKkGuzD27sYPbv04EeFitTa4MfidK/qULvIvkc7XaghzKeVCj68Aqyb0Z46wuvE4S7XqUAMYAHlw1kITnfdpXtdfa27S+8zcI6laWfTzs1xGPIYjBzPfNlhN6J/GBEblvRkXOhaY8M6vxTtUz7jveqtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pTEgMxeQbaFhxlvBmSbdvtttnVBaUGYQkqod0cViD4M=;
- b=Ppchthofuf9sQ6IgSxpp0KkS1qp8/XT5Rw8y0ROP5FKwslTImScl8dXEt0MUTPZrtDIvuMdojPNX8IVOX6I+Tn+mIlOOAjmvNkiYR/nsi39r1HeYZzpTYJenWqbMxMWfeY/EIznbPNo+Vb0SA+TVe6W1+ERXMOm2KphroYL/AB6mG+xhcSWcGhkMNa7oT5aOFbsMx/dtuwFhSepem3qhLNppaCyR70J4TF2XIQz7ts954AMIuAz/bnlJkjQCvrmk6suJH0LqykESud3JAIFm+O9keKEOs2skzSjEb725wQ65tpO8QugF2VF+42b8HWxXb0mh9N+x/+eDtvlwopfxIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by PH8PR11MB7991.namprd11.prod.outlook.com (2603:10b6:510:25a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.41; Fri, 29 Mar
- 2024 16:37:14 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7409.031; Fri, 29 Mar 2024
- 16:37:14 +0000
-Message-ID: <cf59f587-9ca2-4f0d-b412-69b559acbabb@intel.com>
-Date: Fri, 29 Mar 2024 09:37:12 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/x86: Document resctrl bandwidth control
- units are MiB
-To: Tony Luck <tony.luck@intel.com>
-CC: <linux-doc@vger.kernel.org>, Fenghua Yu <fenghua.yu@intel.com>, "Peter
- Newman" <peternewman@google.com>, James Morse <james.morse@arm.com>, "Babu
- Moger" <babu.moger@amd.com>, Drew Fustini <dfustini@baylibre.com>,
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>, <patches@lists.linux.dev>
-References: <20240322182016.196544-1-tony.luck@intel.com>
- <56a93ec2-dc01-49be-b917-5134f5794062@intel.com>
- <Zgbe2FFwyHMmmsyM@agluck-desk3>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <Zgbe2FFwyHMmmsyM@agluck-desk3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0046.namprd04.prod.outlook.com
- (2603:10b6:303:6a::21) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jl3wMsN8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1711734485;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=x3/DpX6QupEcauZLwMrHtNsSzaJ+r7G/yL5hqFelshU=;
+	b=Jl3wMsN83VMoP+fM6a5mr8gY5mNAw9s60rVrgyxkm50wyY4U+wacQ3/+caIFIEVR6oYc/I
+	7fWf1dGDWtf+T6npwWxjdEzDeBr9tXXB5zqJLLJyBLb0XiC9hcxxfe3VJebKtTC+hXHMDS
+	jgs24roMXyfiVlGqWstK/ttdcmzuUwo=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-616-E-keonxsPkqkAeh2roTUKg-1; Fri, 29 Mar 2024 13:48:04 -0400
+X-MC-Unique: E-keonxsPkqkAeh2roTUKg-1
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6966412d4dbso29435066d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 10:48:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711734483; x=1712339283;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x3/DpX6QupEcauZLwMrHtNsSzaJ+r7G/yL5hqFelshU=;
+        b=j27Q7vK5AAnq2kc0CWAbIEscR9iVbSlPuTootKCdcfFeATv2WvAuCiOYELX4OklOyF
+         i4Nnt/X3uc4SPjCiStJ1GbmU7A1AX/vsgNmCKHWuY9va/40lTBAMRosk+QuYkcdlGvPt
+         isaq9A++gUBJ27BMiWAQosahREDB2kgiap4gbkLAGIjekb3LGJjRDq7qOiYbSNiZV82G
+         EGxGAwSRafCBF/kw2NOtT0hAXh0o206Or2p+4Y1V0geF+4jp30GpYvxueCkB/bjSZTKE
+         YpfBizS2pvfG34P4Vzx3kwJC/+ao6oXSK4eHylVlBQhuol2U+C7oywSeCLaDPijBgRI6
+         WN3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWyqanHNDUZkDDSxEm0uShi7NH6vxttxFWpOaNmjmKKRTmb1C0kzbWzoyGS2CrJfZp8GtKPXWEbmDRwkhC5itoFn7a1E6dPPqrL
+X-Gm-Message-State: AOJu0YzxyJxraCrRahRNYrJKFM/LUkpdelNupKXp9z+hhtJYHIOHgN+0
+	0An3ogghK0wsy8PomTv5WksaAA+J/Jk42EuMsWGM8mHlQTt/KUH1G76D1skxQStWy5DXYsEHT6G
+	rPJ7TgkNW1oTyfJbBawl/cuh48upzRWVHsv+x1EbjxJ1mcD+3ORDNisG3
+X-Received: by 2002:ad4:448e:0:b0:696:2efd:ab27 with SMTP id m14-20020ad4448e000000b006962efdab27mr4627636qvt.16.1711734483543;
+        Fri, 29 Mar 2024 10:48:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGhaiRy9L/U2xYhifLOYfnfKwxe0YwCfdSfzeXDDjXLH0sS5Tk3kEF+w/OyhpGNxfkxPKmm1w==
+X-Received: by 2002:ad4:448e:0:b0:696:2efd:ab27 with SMTP id m14-20020ad4448e000000b006962efdab27mr4627617qvt.16.1711734483240;
+        Fri, 29 Mar 2024 10:48:03 -0700 (PDT)
+Received: from klayman.redhat.com (net-2-34-30-89.cust.vodafonedsl.it. [2.34.30.89])
+        by smtp.gmail.com with ESMTPSA id kk15-20020a056214508f00b00692bd4905c9sm1850291qvb.15.2024.03.29.10.48.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Mar 2024 10:48:02 -0700 (PDT)
+From: Marco Pagani <marpagan@redhat.com>
+To: Moritz Fischer <mdf@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>
+Cc: Marco Pagani <marpagan@redhat.com>,
+	Russ Weight <russ.weight@linux.dev>,
+	linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] fpga: region: add owner module and take its refcount
+Date: Fri, 29 Mar 2024 18:47:28 +0100
+Message-ID: <20240329174729.248144-1-marpagan@redhat.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH8PR11MB7991:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2QM1hDjFFCHQvl1lh2Dp+8jPBuJUiYZ5JGjtGISZW9F+e0mI+Xl52jBbVC4iQXv8Aq6Plm3eES788HqbrLbWbYfwZcTWT7RLuITa89eYqLNV4wQYL1E/55QXX7IUIF+2dYlFtvPPPerWni6sd1UvS4Ft8wBPYHbVWLpegasiDpF6jOLnFOuzo+N7rdMzSdSitMVd3XjaQERnsIexkfHEvXRUajTZYcA1l+2EogizFksLLf/rfHKHQp+zyUhvAk+Mi9YF5QVmM0rlK3bDaEJHHhWAVVyhFF/v33SbdWTkDI5vmaAjy78DbYQewmFIKL4sM/6l8q7PXcKMSvRG+l3GHG5xNRKSOnS12LknFEI1xMzPEac+/h7N95Ep39FsnH7ApLACwUViKyYsBCYV/z5WXMDQkToWTdrQKmasLovaooS40P7G6hKKEJYLsJ3CVbcjsG8b/WSeQcGlE4AgFOTyzQqQ6v51pWLdqq6ggdB3I5We1emesSUWaqyClFBf9KchcN95+7idkA/cBou9kEnJAJQHZoe5sR5BlJBnqmNdI9hVJi9QV5Ckcw0+jaYI70lwM27Ly7grzxl3iQNtkQXmjoSsU+bQSN/ZA87E6bNnushnHb1Nm9i43qkIdt16d+qR
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzZYUDdSMVJXNUpWSXU1b0JrOXhRckNXcVllRGM1UnhGVFpQOUhwQlpBckRW?=
- =?utf-8?B?R0VZRnNKR3lnaTBsNVJwYlRvS25EUXBLK3VmRVQ4SWZyTjh2Uno4cVY3YkZl?=
- =?utf-8?B?MlNVVXZITHE4OFU4U2xET21qZ0wyRFU2U29aMzVIME9oNHhHVzIvd2o1blhx?=
- =?utf-8?B?SThNb01CTnZnVHVPU0JYN0Z0cDVKMzJnbS9pWGVwOFdldUh1a2lOSzJXOUkv?=
- =?utf-8?B?R1hXRjdqR3lWbnNqNWdCWnlBZlVGN3AyR1FDVWJTOWxhODgrdHdRSURIOGll?=
- =?utf-8?B?ZVBOTmwvTlFPUDlwbnR6VjZ3bnlZUG10NWM2SmRENXl2MEtyODJheEt0YnF2?=
- =?utf-8?B?TnFTZzlWZGxaZlFpWmlRZTdDMFFpbnk3OHJxN1NsZVZ4VE8ycDQyaHJXdW1P?=
- =?utf-8?B?NkdGMGxZRkhGNC9qWGtoazVVRmxLYjVsb3JHKzVmYjlsb3VrcU9WckFJdjNq?=
- =?utf-8?B?cDZGczBUOVZucFZjTlpQUklReWdlaFFqaXNPNk1vNTVwQi9hRW9yd1l6bDly?=
- =?utf-8?B?N1VFNXRWcWZ6RlNMM0VTcFdVUHJ6c2NUUXRhcGhXNnNIaCt1R3RxUkt2dzlH?=
- =?utf-8?B?M1VUZDRoQ2JYZ0VMREJhK3d1U09LZEpmS3FUVHdrV2hJNUwxTThIRWdXcEpN?=
- =?utf-8?B?b1h3Y2ptR0t5S3dqdlArUGFmRCtzRUdEaE1VRlJLZGlCUlZvSWYxTlNMaFVt?=
- =?utf-8?B?KzdOOHV1L2RRa0RFVVFPR3UweVYxdk5VRnlML0VNd2R6ZzFCcEJpdm5BNklY?=
- =?utf-8?B?eGN1ZjltT1VRUzkydlp4bFhISDV5ZFdDeExSWnZGWHRWbzZTT05Bb2UvZjZJ?=
- =?utf-8?B?L0IwVjlRNG8zZWFkVGFKWWFkeElEci9paC9vT2RndHlnSTYrcTRVMURVa0pk?=
- =?utf-8?B?TWJyQ2ZWZ1M5Y1FuN2N2KzY1enRvRlZPV3ZoUlNDT1FRVWFJRmt3ZFdSYTBF?=
- =?utf-8?B?NWUvcmd5bWdjbXpybG1PcHliZGZwLzFjcE0xaEkrall3eHBoc1lpVEU0akV2?=
- =?utf-8?B?eFp0S0pqcWRDR3laNlBSME03cEFhdG9WUXNmcVNhSFEzSEVkTm1UVUF4cTkz?=
- =?utf-8?B?L25zeVNwUUZrRU1QcDVkL1JxV2gySEphTngydkxIZ3NGMVJzOW5jdnVSUkUw?=
- =?utf-8?B?NUVtMGdZWDgzZnB1enJzTmNlRnRFYjFEeWNRNGtwVm90cVhySHZrMis3SVl1?=
- =?utf-8?B?MkFOOXlCMFRhRVdTRWZtTlFFV3JtYWpOcVgxZWkyaG8zM2tpM0FkT0syT0NI?=
- =?utf-8?B?WXU5citQeFhOdmh5NzdzdU9MUFo5ZE5IanhDdXRyeFNRTVRYTVNpS3RzUi9D?=
- =?utf-8?B?SFVoaC9GMktWVGFQRzlReUg1WjcyRVhaa3VaL3psZXlHK1dXVHpIQ2YraDd2?=
- =?utf-8?B?K0YwcjB0ZHRJMUpPSUxhcnE3T3dxTXlidUZRMlZSUEV3Zzc1RWFKMDlmelV0?=
- =?utf-8?B?cWRCVWxramF5ck4zWkJwU25jdmxSTG1sMUpHUjFRYmpZZHJDcjRmemI0OXcz?=
- =?utf-8?B?THQ4OThzUVFkUmdEU2hzQ1lFT0VVcUNBS1lyMGVxU3o4UmNhZ1Avb3Rac0VD?=
- =?utf-8?B?S2FzbFNGTDJmY2NBYnBZaGJWTlNmcStmR3U1dzJ3NlE0MTQ1djlwbHZnai9q?=
- =?utf-8?B?S0N3aVVDNk84TG44UG1Panp4OFdOS3ZVSkw2QUNHNUMxV0ZnNHpocnd4aU9Z?=
- =?utf-8?B?aTNmRVlkM1FGcUZ6SzNUWnV4NTNGS3pDeUFXMVZQS093N1YvcmZGK0I3Rk45?=
- =?utf-8?B?SldoZ3dWcVk2dXZZczF0bVEyMEJoSkJFY3VLYkhnbDJZQkc0UTNNM29pa2x6?=
- =?utf-8?B?eEIxaVFYNEF3akE1dEkvd3B6cXczZ092eFY4NmpQY1Q4YXYxK3dUZU1GcEVm?=
- =?utf-8?B?YUdjME8raHFVSU5sQ3EwczR6aVUyU3NEQlRNTlJmeWl4TWhMTzNFdkdSdjRF?=
- =?utf-8?B?Nk9LQnh5TS96Y1F3YVoyUjB5Q2tUOGx3NU9MWUR4eXJCVVdxek1USitTMUhQ?=
- =?utf-8?B?Z01vSmZqendiRDNVclpPSmQrOXpuRUFsWHZhVHR2NE5YVDRqYUpDME1qT25L?=
- =?utf-8?B?bWxwQmF1MldHRnNTZ3F2N21CSUZFL2NUb3graHNpSXNhcUtwSjBGNDBJeDdR?=
- =?utf-8?B?bzVxa2JnNUx1SjRBV3haaTlNdkxxbktZVW5FZ3NUZmhiWklOa1N3YTNKUU1N?=
- =?utf-8?B?Rmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0214e82-ec9a-4dd5-b2d8-08dc500e7d68
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 16:37:14.4824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oYnZnSHBZjQXoipLZsQyfjCBQ37OJ5c2TlpJZqeIH45qswqF7o7ac5HUaGWVZNznqxD0bV91GhCvkNcwlsycT58JuFpqP8aOgOiUT/dfP+M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7991
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-Hi Tony,
+The current implementation of the fpga region assumes that the low-level
+module registers a driver for the parent device and uses its owner pointer
+to take the module's refcount. This approach is problematic since it can
+lead to a null pointer dereference while attempting to get the region
+during programming if the parent device does not have a driver.
 
-On 3/29/2024 8:31 AM, Tony Luck wrote:
-> On Thu, Mar 28, 2024 at 06:01:33PM -0700, Reinette Chatre wrote:
->> Hi Tony,
->>
->> On 3/22/2024 11:20 AM, Tony Luck wrote:
->>> The memory bandwidth software controller uses 2^20 units rather than
->>> 10^6. See mbm_bw_count() which computes bandwidth using the "SZ_1M"
->>> Linux define for 0x00100000.
->>>
->>> Update the documentation to use MiB when describing this feature.
->>> It's too late to fix the mount option "mba_MBps" as that is now an
->>> established user interface.
->>
->> I see that this is merged already but I do not think this is correct.
-> 
-> I was surprised that Ingo merged it without giving folks a chance to
-> comment.
-> 
->> Shouldn't the implementation be fixed instead? Looking at the implementation
->> the intent appears to be clear that the goal is to have bandwidth be
->> MBps .... that is when looking from documentation to the define
->> (MBA_MAX_MBPS) to the comments of the function you reference above
->> mbm_bw_count(). For example, "...and delta bandwidth in MBps ..."
->> and "...maintain values in MBps..."
-> 
-> Difficult to be sure of intent. But in general when people talk about
-> "megabytes" in the context of memory they mean 2^20. Storage capacity
-> on computers was originally in 2^20 units until the marketing teams
-> at disk drive manufacturers realized they could print numbers 4.8% bigger
-> on their products by using SI unit 10^6 Mega prefix (rising to 7.3% with
-> Giga and 10% with Tera).
+To address this problem, add a module owner pointer to the fpga_region
+struct and use it to take the module's refcount. Modify the functions for
+registering a region to take an additional owner module parameter and
+rename them to avoid conflicts. Use the old function names for helper
+macros that automatically set the module that registers the region as the
+owner. This ensures compatibility with existing low-level control modules
+and reduces the chances of registering a region without setting the owner.
 
-This is not so obvious to me. I hear what you are saying about storage
-capacity but the topic here is memory bandwidth and here I find the custom
-to be that MB/s means 10^6 bytes per second. That is looking from how DDR
-bandwidth is documented to how benchmarks like
-https://github.com/intel/memory-bandwidth-benchmarks report the data, to
-what wikipedia says in https://en.wikipedia.org/wiki/Memory_bandwidth.
+Also, update the documentation to keep it consistent with the new interface
+for registering an fpga region.
 
-I also took a sample of what the perf side of things may look like
-and, for example, when looking at;
-tools/perf/pmu-events/arch/x86/sapphirerapids/spr-metrics.json
-I understand that the custom for bandwidth is MB/s. For example:
+Other changes: unlock the mutex before calling put_device() in
+fpga_region_put() to avoid potential use after release issues.
 
-    {
-        "BriefDescription": "DDR memory read bandwidth (MB/sec)",
-        "MetricExpr": "UNC_M_CAS_COUNT.RD * 64 / 1e6 / duration_time",
-        "MetricName": "memory_bandwidth_read",
-        "ScaleUnit": "1MB/s"
-    },
+Fixes: 0fa20cdfcc1f ("fpga: fpga-region: device tree control for FPGA")
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Suggested-by: Xu Yilun <yilun.xu@intel.com>
+Reviewed-by: Russ Weight <russ.weight@linux.dev>
+Signed-off-by: Marco Pagani <marpagan@redhat.com>
+---
 
-> 
-> It is clear that the code uses 2^20 as it converts from bytes using
-> a right shift by 20.
+v3:
+- Add reviewed-by Russ Weight
+v2:
+- Fixed typo in the documentation sets -> set
+- Renamed owner pointer get_br_owner -> br_owner
+---
+ Documentation/driver-api/fpga/fpga-region.rst | 13 ++++++----
+ drivers/fpga/fpga-region.c                    | 26 +++++++++++--------
+ include/linux/fpga/fpga-region.h              | 13 +++++++---
+ 3 files changed, 33 insertions(+), 19 deletions(-)
 
-Right. This appears to be a bug.
+diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+index dc55d60a0b4a..77190a5ef330 100644
+--- a/Documentation/driver-api/fpga/fpga-region.rst
++++ b/Documentation/driver-api/fpga/fpga-region.rst
+@@ -46,13 +46,16 @@ API to add a new FPGA region
+ ----------------------------
+ 
+ * struct fpga_region - The FPGA region struct
+-* struct fpga_region_info - Parameter structure for fpga_region_register_full()
+-* fpga_region_register_full() -  Create and register an FPGA region using the
++* struct fpga_region_info - Parameter structure for __fpga_region_register_full()
++* __fpga_region_register_full() -  Create and register an FPGA region using the
+   fpga_region_info structure to provide the full flexibility of options
+-* fpga_region_register() -  Create and register an FPGA region using standard
++* __fpga_region_register() -  Create and register an FPGA region using standard
+   arguments
+ * fpga_region_unregister() -  Unregister an FPGA region
+ 
++Helper macros ``fpga_region_register()`` and ``fpga_region_register_full()``
++automatically set the module that registers the FPGA region as the owner.
++
+ The FPGA region's probe function will need to get a reference to the FPGA
+ Manager it will be using to do the programming.  This usually would happen
+ during the region's probe function.
+@@ -82,10 +85,10 @@ following APIs to handle building or tearing down that list.
+    :functions: fpga_region_info
+ 
+ .. kernel-doc:: drivers/fpga/fpga-region.c
+-   :functions: fpga_region_register_full
++   :functions: __fpga_region_register
+ 
+ .. kernel-doc:: drivers/fpga/fpga-region.c
+-   :functions: fpga_region_register
++   :functions: __fpga_region_register_full
+ 
+ .. kernel-doc:: drivers/fpga/fpga-region.c
+    :functions: fpga_region_unregister
+diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
+index b364a929425c..1beb7415c2dc 100644
+--- a/drivers/fpga/fpga-region.c
++++ b/drivers/fpga/fpga-region.c
+@@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
+ 	}
+ 
+ 	get_device(dev);
+-	if (!try_module_get(dev->parent->driver->owner)) {
++	if (!try_module_get(region->br_owner)) {
+ 		put_device(dev);
+ 		mutex_unlock(&region->mutex);
+ 		return ERR_PTR(-ENODEV);
+@@ -75,9 +75,9 @@ static void fpga_region_put(struct fpga_region *region)
+ 
+ 	dev_dbg(dev, "put\n");
+ 
+-	module_put(dev->parent->driver->owner);
+-	put_device(dev);
++	module_put(region->br_owner);
+ 	mutex_unlock(&region->mutex);
++	put_device(dev);
+ }
+ 
+ /**
+@@ -181,14 +181,16 @@ static struct attribute *fpga_region_attrs[] = {
+ ATTRIBUTE_GROUPS(fpga_region);
+ 
+ /**
+- * fpga_region_register_full - create and register an FPGA Region device
++ * __fpga_region_register_full - create and register an FPGA Region device
+  * @parent: device parent
+  * @info: parameters for FPGA Region
++ * @owner: owner module containing the get_bridges function
+  *
+  * Return: struct fpga_region or ERR_PTR()
+  */
+ struct fpga_region *
+-fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
++__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
++			    struct module *owner)
+ {
+ 	struct fpga_region *region;
+ 	int id, ret = 0;
+@@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+ 	region->compat_id = info->compat_id;
+ 	region->priv = info->priv;
+ 	region->get_bridges = info->get_bridges;
++	region->br_owner = owner;
+ 
+ 	mutex_init(&region->mutex);
+ 	INIT_LIST_HEAD(&region->bridge_list);
+@@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+ 
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL_GPL(fpga_region_register_full);
++EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+ 
+ /**
+- * fpga_region_register - create and register an FPGA Region device
++ * __fpga_region_register - create and register an FPGA Region device
+  * @parent: device parent
+  * @mgr: manager that programs this region
+  * @get_bridges: optional function to get bridges to a list
++ * @owner: owner module containing get_bridges function
+  *
+  * This simple version of the register function should be sufficient for most users.
+  * The fpga_region_register_full() function is available for users that need to
+@@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+  * Return: struct fpga_region or ERR_PTR()
+  */
+ struct fpga_region *
+-fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+-		     int (*get_bridges)(struct fpga_region *))
++__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
++		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+ {
+ 	struct fpga_region_info info = { 0 };
+ 
+ 	info.mgr = mgr;
+ 	info.get_bridges = get_bridges;
+ 
+-	return fpga_region_register_full(parent, &info);
++	return __fpga_region_register_full(parent, &info, owner);
+ }
+-EXPORT_SYMBOL_GPL(fpga_region_register);
++EXPORT_SYMBOL_GPL(__fpga_region_register);
+ 
+ /**
+  * fpga_region_unregister - unregister an FPGA region
+diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+index 9d4d32909340..d175babc3d68 100644
+--- a/include/linux/fpga/fpga-region.h
++++ b/include/linux/fpga/fpga-region.h
+@@ -36,6 +36,7 @@ struct fpga_region_info {
+  * @mgr: FPGA manager
+  * @info: FPGA image info
+  * @compat_id: FPGA region id for compatibility check.
++ * @br_owner: module containing the get_bridges function
+  * @priv: private data
+  * @get_bridges: optional function to get bridges to a list
+  */
+@@ -46,6 +47,7 @@ struct fpga_region {
+ 	struct fpga_manager *mgr;
+ 	struct fpga_image_info *info;
+ 	struct fpga_compat_id *compat_id;
++	struct module *br_owner;
+ 	void *priv;
+ 	int (*get_bridges)(struct fpga_region *region);
+ };
+@@ -58,12 +60,17 @@ fpga_region_class_find(struct device *start, const void *data,
+ 
+ int fpga_region_program_fpga(struct fpga_region *region);
+ 
++#define fpga_region_register_full(parent, info) \
++	__fpga_region_register_full(parent, info, THIS_MODULE)
+ struct fpga_region *
+-fpga_region_register_full(struct device *parent, const struct fpga_region_info *info);
++__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
++			    struct module *owner);
+ 
++#define fpga_region_register(parent, mgr, get_bridges) \
++	__fpga_region_register(parent, mgr, get_bridges, THIS_MODULE)
+ struct fpga_region *
+-fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+-		     int (*get_bridges)(struct fpga_region *));
++__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
++		       int (*get_bridges)(struct fpga_region *), struct module *owner);
+ void fpga_region_unregister(struct fpga_region *region);
+ 
+ #endif /* _FPGA_REGION_H */
 
-> 
-> Fixing the code would change the legacy API. Folks with a schemata
-> file that sets a limit of 5000 MB/s would find their applications
-> throttled by an addtional 4.8% on upgrading to a kernel with this
-> "fix".
+base-commit: b1a91ca25f15b6d7b311de4465854a5981dee3d3
+-- 
+2.44.0
 
-Wouldn't this be the right thing to do though? If the user sets a limit
-of 5000MB/s then I believe the expectation is that it should not exceed
-that bandwidth.
-
->> To me this change creates significant confusion since it now contradicts
->> with the source code and comments I reference above. Not to mention the
->> discrepancy with user documentation.
->>
->> If you believe that this should be MiB then should the
->> source and comments not also be changed to reflect that? Or alternatively,
->> why not just fix mbm_bw_count() to support the documentation and what
->> it appears to be intended to do. If users have been using the interface
->> expecting MBps then this seems more like a needed bugfix than 
->> a needed documentation change.
-> 
-> I agree that the comments need to be fixed. I will spin up a patch.
-
-It is not just the comments but the constants and variables also. All point
-to MBps.
-
-Also note that there remain several examples in the resctrl doc (see
-section "Memory bandwidth Allocation and monitoring") that continue to
-use GB/s. Are you really proposing that all should be changed to GiB/s?
-
-In addition to all above this change would fragment resctrl even more
-with AMD's memory bandwidth control clearly being in GB/s.
-
-I continue to find this change to be the source of confusion and diverges
-resctrl from the custom.
-
-Reinette
