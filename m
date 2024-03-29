@@ -1,117 +1,206 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4C11755B
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 05:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C240D3A267
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 07:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711689352; cv=none; b=g0P16WyU4cI+GCslpukQos86KPyJmIOsl/dikmwujfabycimoaGm9ttocvBxXZHYmTP+7xTGjkLR4T381YvJqHW3GjoxM2PKIWquuULjOlFKoDrnTsCfRZiyXKlQOJkBLTDfRVCKQYin07UboXLtFuV0poZ75pXV8sT8jKnYCTc=
+	t=1711697085; cv=none; b=ivfaT2mXHxRfYBslhLTNkoAznNTByv/5CsMwQDFvDQu268rOcaKKytgE7ZKooaG72WvFPFrzcmzckksVHa4rqbhWsnHkqwPp+tyavqGN5aMrH9KJS48EVwmfaARr8hfE6v1AtG/f3A4fGe5LzbXsd4TN5L9eNfv6xthrBtcIKmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711689352; c=relaxed/simple;
-	bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VTeJisg+X+5b5E7NVGquYkND5MLNyOAEkAXo7xbxiq/zavcBrDXnHMzEdE4D7GD3dvGWDYFF+oa3EFHW7ripmU9+LmpI5Bq4D9tM3CWTQ0vxieF3tqZIearh/0VAxUEwCbMJyAcamJ1GT4z0uEtgiTw6JAO+ZFp9RCYloxeSM0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jpvfRixe; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1711697085; c=relaxed/simple;
+	bh=cDdC7qSNGUzpG6UlyjsDWPh/KILcYk93sgCXZ4m0Ofk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A9VkjnLmpragxEM2Mgi4CdeBR070/+sqwa88Rl2gkTIbh8+qD78yiv4mVgBh3pe9DcVXerfBbemzvWp0JMX688XpL9oVBHNxtKH2roPAer/KeAHNHOsh/Y7koONGvi82YTXrxZ6Tr63Ie6equr1WWbUUyTrW5I4PPk9VJLi2QdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=YLcJkY4U; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jpvfRixe"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a057b6601so18025667b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 22:15:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="YLcJkY4U"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5d8b519e438so1258829a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 00:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1711689350; x=1712294150; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
-        b=jpvfRixeJ1lib6rBDNJy3VtVIMgHg7aEwv2m+DZQBf+is6lPnAGqroYCRFzmYeAv8s
-         fE7KKFwXFJnuedXoGUse6o2OxYHgP2U7iZc5cNFuO9AS8hsTaIO+wxv9nNouQYOzkZv1
-         4m7eF2IRCQprDUkTJMIki+D9bYD9yFsMPGZ2IOJKU0Odcn5BwTM7ecViqJnt5D1zN6vr
-         LUXAXolN7Rkdo/9Ioldd8ai797kBcHGSLpsVhN+Yi6vvHaTBFhcLrTpWev0qy6DssQ3U
-         Qw3jWLgprqRsAT3ZyQTgp3h7VVUFsA0XRLMKltM5ar2fv/3OEXtQ6dsk54QxMG4mwa5b
-         OxnA==
+        d=sifive.com; s=google; t=1711697083; x=1712301883; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+9VxbCTgzZ80UmziOWsKJFOvNNy0Qw1c5wWNUXcCD38=;
+        b=YLcJkY4UcCZP2Sv7cyrOxbTbDPiTmg3zQVnqI9tkG4F+uEK1D/dYZcqHhcgX3Hg2Cc
+         +YfiLQflU/vKxMN+a33TY9/5/G6wGUbip/bp/1SjWWIS0CfIIuqfRMZF4lhYgwPwKYiH
+         6bwEfF2E6Pt3JyUXXAztgl0UkZf2kfE2etbYfMJBjE5Xr/N/7zHjyvJQzEFQ19s6VP+7
+         hdLI5JHjBMCr6FluhOwvhfXhlqs6cUSgbyFaceBYrPg7vndZIVpMhi2+q9Bhj7x2H1MB
+         La2W+rN/qL9Boc2DQOU6HXWjz9H/pCdRmOzGq3/HV3x8pqqbkO9263ySIy8AOvMn0Nz3
+         0SxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711689350; x=1712294150;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
-        b=mluCoBSxNB8rqLNr6b+cCaZjZbCMfPnxNcEYMD0z8n0zROGELaFFoybWUlhE5/waRu
-         kCamro3Jwaw8dGU+UELaI5nDiehl4ZTL7lekLNpvfGiiVfCsfYnH3f6rmi8EmqRdMnHw
-         d5qT9X/tkhltsndco+rXN7iD3IoxhHSvGXCKED2PeqSJd4sLB0AuVd+SRPolxVEwT9Gs
-         DCOQMQ8YC6tab2SGbpxjsiMcZGA5+dkxwN/J1uK6iM+T2Sxg3ueeYNJzldJBzuK59oYO
-         MO6JoRPXUiENjMlkrwS+jOVgTPuHAOioorNrXl5AGzF9ybTKEXjGLFtZqsJ7PWnM26VX
-         1GEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXOB3VEoDb0zr8Mf3HfETDpjCEGWBH6Rm1gSFW1cIgnYgPxZrCNm3jEc5HWLbZ780hHcxZTtsbLl166IJ3kXMh6BApAcEKHEDJW
-X-Gm-Message-State: AOJu0YwgLp3fWQaDElJBqx43h6IXCckb4WWyvfnHJ3pnQ9h7kC614HOs
-	kaUAO6YSN2izmaCiUAlq7h7wVbcRgHUOxOAZxS+KMuQpiH3GGb3wVwDC+GkqCfk/m7RIRcgwNWW
-	N0rJXzzBAJcZYEUzOa6CduGxlEfXrNPAqfvpNag==
-X-Google-Smtp-Source: AGHT+IEKGRQwrWyCqxzJ0SB08UytfQ1UABftg33xsS/BUh/oR9gt6JPV6v/mkEdtL2mGt8izQHtaPErdxwMk9zmhQVo=
-X-Received: by 2002:a0d:f184:0:b0:608:5dfc:1336 with SMTP id
- a126-20020a0df184000000b006085dfc1336mr1323243ywf.39.1711689349755; Thu, 28
- Mar 2024 22:15:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711697083; x=1712301883;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+9VxbCTgzZ80UmziOWsKJFOvNNy0Qw1c5wWNUXcCD38=;
+        b=XgyHMO8MAax4DUUA6LzEUih8QUb5bKt0T9hAKlmi6CmGpsFFW1OLRZuFGM73sW4Vgc
+         dWrusgXbFDCb0WUCNVgWXGo9eWM+B1DVp1yD7n8w8hi82GGDjQo+p7Eyy1DbKA7A8ez1
+         hcYn7ccqEaGGoC5ss0z5a8oRrpkMu97QFtgZ8gYk0MzHwUnNtTL63AZ4iILcXi+7RRtJ
+         hfub5nL9JilGoPd3Ydi/hnaqfO/iIgb3IFnSw2HL5ojGSYSqJjZjT9wgifZeCzld3WUu
+         rkqQgsvBdpALzPG2HpNSBPT9VhW+LrHN1K2VWVyl8YPNNY8MqDPOppQikf8N2VA58Sis
+         dP4A==
+X-Forwarded-Encrypted: i=1; AJvYcCW4s9txgSd07p4ZVLzZSArXaQrkX1AH/OOgRRKIKI0ujXRWc3YIER0WKA3y1QA11FpNh3Ib+uxfxmMpPmFkEbBYGIVm5yAZzEYh
+X-Gm-Message-State: AOJu0Yysbtmx69PCnjHzP4c0Z8kYcUjnMxbSc9tt4NHpEegQ7RqTXKyG
+	W3X1GQMr3iDsshw2MMh1kjy82OSAOhSM60y/plXNd92wpYJ5o3XI7Emu85qkSMY=
+X-Google-Smtp-Source: AGHT+IEb5QR4f0wxokXnCFueIg3e5DUC8zxXcfXICifgdBJpQrnHEBOFNWDHzDiuuKhBOVbgthprFw==
+X-Received: by 2002:a05:6a20:ce4d:b0:1a3:c460:1a4f with SMTP id id13-20020a056a20ce4d00b001a3c4601a4fmr1590367pzb.59.1711697083202;
+        Fri, 29 Mar 2024 00:24:43 -0700 (PDT)
+Received: from sw06.internal.sifive.com ([4.53.31.132])
+        by smtp.gmail.com with ESMTPSA id b8-20020a17090a010800b0029ddac03effsm4971798pjb.11.2024.03.29.00.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Mar 2024 00:24:42 -0700 (PDT)
+From: Samuel Holland <samuel.holland@sifive.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	x86@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	Christoph Hellwig <hch@lst.de>,
+	loongarch@lists.linux.dev,
+	amd-gfx@lists.freedesktop.org,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH v4 00/15] Unified cross-architecture kernel-mode FPU API
+Date: Fri, 29 Mar 2024 00:18:15 -0700
+Message-ID: <20240329072441.591471-1-samuel.holland@sifive.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240329044459.3990638-1-debug@rivosinc.com> <20240329044459.3990638-12-debug@rivosinc.com>
-In-Reply-To: <20240329044459.3990638-12-debug@rivosinc.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 28 Mar 2024 22:15:40 -0700
-Message-ID: <CAKC1njTheY9+gRFgiWaA8fG5hiOFXqESz7eGDbhHhDZC7Kignw@mail.gmail.com>
-Subject: Re: [PATCH v2 11/27] riscv mmu: teach pte_mkwrite to manufacture
- shadow stack PTEs
-To: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com, broonie@kernel.org, 
-	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org, 
-	ajones@ventanamicro.com, conor.dooley@microchip.com, cleger@rivosinc.com, 
-	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com, 
-	alexghiti@rivosinc.com, samuel.holland@sifive.com, conor@kernel.org, 
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc: corbet@lwn.net, tech-j-ext@lists.risc-v.org, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de, 
-	ebiederm@xmission.com, Liam.Howlett@oracle.com, vbabka@suse.cz, 
-	lstoakes@gmail.com, shuah@kernel.org, brauner@kernel.org, 
-	andy.chiu@sifive.com, jerry.shih@sifive.com, hankuan.chen@sifive.com, 
-	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com, 
-	charlie@rivosinc.com, apatel@ventanamicro.com, mchitale@ventanamicro.com, 
-	dbarboza@ventanamicro.com, sameo@rivosinc.com, shikemeng@huaweicloud.com, 
-	willy@infradead.org, vincent.chen@sifive.com, guoren@kernel.org, 
-	samitolvanen@google.com, songshuaishuai@tinylab.org, gerg@kernel.org, 
-	heiko@sntech.de, bhe@redhat.com, jeeheng.sia@starfivetech.com, 
-	cyy@cyyself.name, maskray@google.com, ancientmodern4@gmail.com, 
-	mathis.salmen@matsal.de, cuiyunhui@bytedance.com, bgray@linux.ibm.com, 
-	mpe@ellerman.id.au, baruch@tkos.co.il, alx@kernel.org, david@redhat.com, 
-	catalin.marinas@arm.com, revest@chromium.org, josh@joshtriplett.org, 
-	shr@devkernel.io, deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org, 
-	jhubbard@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 28, 2024 at 9:46=E2=80=AFPM Deepak Gupta <debug@rivosinc.com> w=
-rote:
->
-> pte_mkwrite creates PTEs with WRITE encodings for underlying arch. Underl=
-ying
-> arch can have two types of writeable mappings. One that can be written us=
-ing
-> regular store instructions. Another one that can only be written using sp=
-ecialized
-> store instructions (like shadow stack stores). pte_mkwrite can select wri=
-te PTE
-> encoding based on VMA range.
->
-> On riscv, presence of only VM_WRITE in vma->vm_flags means it's a shadow =
-stack.
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->
-> rebase with a30f0ca0fa31cdb2ac3d24b7b5be9e3ae75f4175
->
-hmm.. Note to self:
-Missed removing this lingering commit message. Will remove it in the
-next version.
+This series unifies the kernel-mode FPU API across several architectures
+by wrapping the existing functions (where needed) in consistently-named
+functions placed in a consistent header location, with mostly the same
+semantics: they can be called from preemptible or non-preemptible task
+context, and are not assumed to be reentrant. Architectures are also
+expected to provide CFLAGS adjustments for compiling FPU-dependent code.
+For the moment, SIMD/vector units are out of scope for this common API.
+
+This allows us to remove the ifdeffery and duplicated Makefile logic at
+each FPU user. It then implements the common API on RISC-V, and converts
+a couple of users to the new API: the AMDGPU DRM driver, and the FPU
+self test.
+
+The underlying goal of this series is to allow using newer AMD GPUs
+(e.g. Navi) on RISC-V boards such as SiFive's HiFive Unmatched. Those
+GPUs need CONFIG_DRM_AMD_DC_FP to initialize, which requires kernel-mode
+FPU support.
+
+Previous versions:
+v3: https://lore.kernel.org/linux-kernel/20240327200157.1097089-1-samuel.holland@sifive.com/
+v2: https://lore.kernel.org/linux-kernel/20231228014220.3562640-1-samuel.holland@sifive.com/
+v1: https://lore.kernel.org/linux-kernel/20231208055501.2916202-1-samuel.holland@sifive.com/
+v0: https://lore.kernel.org/linux-kernel/20231122030621.3759313-1-samuel.holland@sifive.com/
+
+Changes in v4:
+ - Add missed CFLAGS changes for recov_neon_inner.c
+   (fixes arm build failures)
+ - Fix x86 include guard issue (fixes x86 build failures)
+
+Changes in v3:
+ - Rebase on v6.9-rc1
+ - Limit riscv ARCH_HAS_KERNEL_FPU_SUPPORT to 64BIT
+
+Changes in v2:
+ - Add documentation explaining the built-time and runtime APIs
+ - Add a linux/fpu.h header for generic isolation enforcement
+ - Remove file name from header comment
+ - Clean up arch/arm64/lib/Makefile, like for arch/arm
+ - Remove RISC-V architecture-specific preprocessor check
+ - Split altivec removal to a separate patch
+ - Use linux/fpu.h instead of asm/fpu.h in consumers
+ - Declare test_fpu() in a header
+
+Michael Ellerman (1):
+  drm/amd/display: Only use hard-float, not altivec on powerpc
+
+Samuel Holland (14):
+  arch: Add ARCH_HAS_KERNEL_FPU_SUPPORT
+  ARM: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+  ARM: crypto: Use CC_FLAGS_FPU for NEON CFLAGS
+  arm64: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+  arm64: crypto: Use CC_FLAGS_FPU for NEON CFLAGS
+  lib/raid6: Use CC_FLAGS_FPU for NEON CFLAGS
+  LoongArch: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+  powerpc: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+  x86/fpu: Fix asm/fpu/types.h include guard
+  x86: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+  riscv: Add support for kernel-mode FPU
+  drm/amd/display: Use ARCH_HAS_KERNEL_FPU_SUPPORT
+  selftests/fpu: Move FP code to a separate translation unit
+  selftests/fpu: Allow building on other architectures
+
+ Documentation/core-api/floating-point.rst     | 78 +++++++++++++++++++
+ Documentation/core-api/index.rst              |  1 +
+ Makefile                                      |  5 ++
+ arch/Kconfig                                  |  6 ++
+ arch/arm/Kconfig                              |  1 +
+ arch/arm/Makefile                             |  7 ++
+ arch/arm/include/asm/fpu.h                    | 15 ++++
+ arch/arm/lib/Makefile                         |  3 +-
+ arch/arm64/Kconfig                            |  1 +
+ arch/arm64/Makefile                           |  9 ++-
+ arch/arm64/include/asm/fpu.h                  | 15 ++++
+ arch/arm64/lib/Makefile                       |  6 +-
+ arch/loongarch/Kconfig                        |  1 +
+ arch/loongarch/Makefile                       |  5 +-
+ arch/loongarch/include/asm/fpu.h              |  1 +
+ arch/powerpc/Kconfig                          |  1 +
+ arch/powerpc/Makefile                         |  5 +-
+ arch/powerpc/include/asm/fpu.h                | 28 +++++++
+ arch/riscv/Kconfig                            |  1 +
+ arch/riscv/Makefile                           |  3 +
+ arch/riscv/include/asm/fpu.h                  | 16 ++++
+ arch/riscv/kernel/Makefile                    |  1 +
+ arch/riscv/kernel/kernel_mode_fpu.c           | 28 +++++++
+ arch/x86/Kconfig                              |  1 +
+ arch/x86/Makefile                             | 20 +++++
+ arch/x86/include/asm/fpu.h                    | 13 ++++
+ arch/x86/include/asm/fpu/types.h              |  6 +-
+ drivers/gpu/drm/amd/display/Kconfig           |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 35 +--------
+ drivers/gpu/drm/amd/display/dc/dml/Makefile   | 36 +--------
+ drivers/gpu/drm/amd/display/dc/dml2/Makefile  | 36 +--------
+ include/linux/fpu.h                           | 12 +++
+ lib/Kconfig.debug                             |  2 +-
+ lib/Makefile                                  | 26 +------
+ lib/raid6/Makefile                            | 33 +++-----
+ lib/test_fpu.h                                |  8 ++
+ lib/{test_fpu.c => test_fpu_glue.c}           | 37 ++-------
+ lib/test_fpu_impl.c                           | 37 +++++++++
+ 38 files changed, 348 insertions(+), 193 deletions(-)
+ create mode 100644 Documentation/core-api/floating-point.rst
+ create mode 100644 arch/arm/include/asm/fpu.h
+ create mode 100644 arch/arm64/include/asm/fpu.h
+ create mode 100644 arch/powerpc/include/asm/fpu.h
+ create mode 100644 arch/riscv/include/asm/fpu.h
+ create mode 100644 arch/riscv/kernel/kernel_mode_fpu.c
+ create mode 100644 arch/x86/include/asm/fpu.h
+ create mode 100644 include/linux/fpu.h
+ create mode 100644 lib/test_fpu.h
+ rename lib/{test_fpu.c => test_fpu_glue.c} (71%)
+ create mode 100644 lib/test_fpu_impl.c
+
+-- 
+2.44.0
+
