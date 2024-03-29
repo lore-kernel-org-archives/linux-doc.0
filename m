@@ -1,235 +1,176 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E2645BEA;
-	Fri, 29 Mar 2024 00:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EA1F9F5;
+	Fri, 29 Mar 2024 00:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711671874; cv=none; b=pYrNVCx60NUpcc3qpLTTWDt7ntBUeZky4ctVzk/enMKb/Rk6LABhRM7dFQSz6LV0Rqa2LMlExA07gW8jmWSXo9C0N5vSYAaeV2KUzxLkSsN1tDUZkG8SToAzM8ibHA2AUIkDGzOxPTnGtHRMRpgy/exjF/iW6GueCjQG8l1YQcE=
+	t=1711672004; cv=none; b=Z0xqDqJYhEkkyB9tOO4bXox/VUhvky5ObUWtITD8lksW6pgkPmOrRxsJMANX6QkxhHdUPueilB7SZi+yo3FyT6Tlg9WVJxnkBsvBkhWbLWxVFYkV44vMTtJ0iZTev7VWz9XYLc0+JVd8gGTLqACSCkjGriOtyFPzSV3JZPm5aZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711671874; c=relaxed/simple;
-	bh=9ihBRMpiHQhkPYAPhP6leKAoNlUNK9bdUrh4kk8Ix68=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r+cJbCQVsG1AFrTE8eCc607OfYziMNZ272rA7fd7mxxQdoq2oWvP9v0GRh2SpNMR+509Mox6fijoIGtO5vZy0KVckW+LFq0fS/0wPVQnMQyJ9zJYwYwobbVhFeMpxy0dUAfchM3VpbGyztWpXxU9rAWJfhBbwVBqX5pQHi+jn0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=jQlnrsvs; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1711672004; c=relaxed/simple;
+	bh=/RyTmpEs6u/P4fbexE9k22xTGTCu+7WJCN5jpKzGScE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ja0+OnShoxiDzLhXA/03c/rQIbouwsx9gdd+Fy3wEPVaa6uWn3F1Fg/t8uuucWDKvgTykNAd1OTZDYMdIbJF/aAvCrl4lYdKxpVVPodNN3XiBntVq5WtqYyOE1jdWADduenfLyHVNyC5yzDRkfuGZz4oAMKKpGSxejLCyaLUj0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=hAqQAUfQ; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="jQlnrsvs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=KRZHO1gJof8/b+BzEpcQJP2YApEy9WwqoBIjH+ybMhM=; b=jQlnrsvstC4B3PpHgv5wPhWEry
-	No5Arg6dh9c+UC0zOSUCRRfiejpUKkuORXSeTef2bSNSVe2M68ARIU9tFwIxy7oekwZS0UnTZL2ZA
-	b6wLJdmr6rwhUd15aIXYKJBgMFdOXPfrggprNeGsxC2957yVHqIq6Tn3wBawbt7asXag+IFAybitP
-	l1GT3hXjh9Q8K3wegSODmaWnZZZ4FOnsrwjjyF2YqlRLikPPJl4K5NW7T3nDybl8YI11tfDlArVNT
-	g0LltODv7SUl7smvrpS3zZyB/dp102fYWeP5J0cPpoZx2y8WN63+tU5SghGCeZkPgThRmbg7vDWe8
-	ldNC6ryw==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rpzlL-000iik-2H;
-	Thu, 28 Mar 2024 19:06:27 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Elizabeth Figura <zfigura@codeweavers.com>
-Subject: [PATCH v3 00/30] NT synchronization primitive driver
-Date: Thu, 28 Mar 2024 19:05:51 -0500
-Message-ID: <20240329000621.148791-1-zfigura@codeweavers.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="hAqQAUfQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1711671991; x=1712276791; i=w_armin@gmx.de;
+	bh=hH9tb/ABgMBjmS58aLfFbzUo9NffBHa2IJqSYOGE9QE=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=hAqQAUfQh8/He0hCcxMPrvi/OLwfmKiZn1QDqkAcwRUeYxLhda2W3FvbVes60iun
+	 vz9CKchqmePbEMqnrXH2njVu5N9YpdVv2uFFxpGeHXRsvgDX0HsWMWn26QPfBiW4B
+	 oyRJ9eARbOOl+UgpHghhQcQwIpABN3gzm+pNlgaWDRhiFKscY+eujgnolpsNKm/iT
+	 mmc+97EhASOPObhSdTPHjPZ744wepl3RDgt5aD3ai/OAoU6Ry7+Wc7cbBCUEGtfc2
+	 R+mraBp9g4BrgYhA2xrpbb8fCjPg94mVCw+2raomyInHvlrifX9IK0RzKKSW7g9Qt
+	 3Y1xzW7c0F/vhU4HcA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MFsZ3-1s44QC2sd5-00HRsm; Fri, 29
+ Mar 2024 01:26:31 +0100
+Message-ID: <3e41e132-98b9-496d-987f-6838289926b6@gmx.de>
+Date: Fri, 29 Mar 2024 01:26:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] platform/x86: xiaomi-wmi: Fix race condition when
+ reporting key events
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240328012336.145612-1-W_Armin@gmx.de>
+ <20240328012336.145612-2-W_Armin@gmx.de>
+ <b82ded95-d599-4ef7-b984-ac4d8a5c2370@linux.intel.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <b82ded95-d599-4ef7-b984-ac4d8a5c2370@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:bvn4eBut9GPNTsu7g3IOMs00gYVqoM8iXVOzxQC20UlpStf8ATf
+ OjZx97NzIvW38hCxN+OFCdi1zqGPc6KRVOor/1pYPuXokswLGpySVRZcIPuwKGKxAJqOBqH
+ Hi+TkISNWRfBea4Pwrb1m+2tY2jyYx4pikx7UUtBOlgJTpNuGK/3ye/2x3+Zqs7n0M1NdCQ
+ lYWYGiFK6sJdKQg1b79mw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GVUMHmdiY4Y=;rsjU+U4UG60bsDxcEsJbQ4VpeSj
+ prrDNQB1FoJNNWvmX+udk6qVn8WFxVxVrrD5igsZ6XpiMhzpG569xlSW6F+rcVRSb1Efas9C9
+ uyo+au1cecDbHqjpj5OdN8jdHbPbh+tpJaiJ0Vk5DaCdmzEuXQHJQ80oiO9GlHPV7uqy/LEP5
+ sR08m/Af97SlkcJsTJ8QZ+1PhvdjBfut5ao/Kfs6Kjy6zhYiqQstq4poySLTNIwrzyQJtIV/I
+ b1S2EPumMcLLtKpwi1vc4U0xeHjKc23epg42RGyick3d+yMecb5/YTm21Pmton439HzjI1MgC
+ Ar3fdCLyW4TsQuxft5A7S/69SAcmeSr1NXujIQsL1AawOVmqT4/el/ncJbdNhiMa2HgstT2pv
+ 9P0ACIlYOtprqXLY7F2sGdf0yXQI+DNhljl+3Taoo/fyNz7n3xEQr/kFOcuydXwcCXt36rz04
+ rD/i9laElSe7kUB2a2e2ssbUreocCzDibwNnesaOVPS2zaIuvOQWDnWWqn3HC9q5Uf4nN+gvW
+ ABcnEi1aGo4UUTVJNldnpnkS5qNxDBD9cQqDd/aMYCDWIbTUqd6tln6EK7pFnJgsU3PZGQSFp
+ kLpbkoAyCXnvgdvSuv0fbZ0awSA5sCyStYRnIfmw+akW2Y6SyDe+v5BIYk52g9B9kEMJgNDBO
+ boy4XXjr3+LxN2AuLNkV2Po/FEJYpyl+h9D2Wh0F2MewxzcIxjbgJaAYwmnZOeSLjSWWRJEY+
+ l7AHkylKvBT8PrwpJkYGTWhjJnCh3K0VZAQz3vinWz79D/Xd1rmByd56uGCQNeVeMBvCGVOMl
+ 2FZJD3tWpyWqB8iHn6HNSzldv7KY4cMyD+WWbQMN01T28=
 
-This patch series introduces a new char misc driver, /dev/ntsync, which is used
-to implement Windows NT synchronization primitives.
+Am 28.03.24 um 03:58 schrieb Kuppuswamy Sathyanarayanan:
 
-== Background ==
+> On 3/27/24 6:23 PM, Armin Wolf wrote:
+>> Multiple WMI events can be received concurrently, so multiple instances
+>> of xiaomi_wmi_notify() can be active at the same time. Since the input
+>> device is shared between those handlers, the key input sequence can be
+>> disturbed.
+> Since locking is needed for all notify related calls in all WMI drivers,
+> is there a generic way to add this support in WMI core driver? Like
+> defining some common function which will hold the lock and call
+> driver specific notify handler? I am just thinking aloud.. If it is not
+> feasible, then it is fine.
 
-The Wine project emulates the Windows API in user space. One particular part of
-that API, namely the NT synchronization primitives, have historically been
-implemented via RPC to a dedicated "kernel" process. However, more recent
-applications use these APIs more strenuously, and the overhead of RPC has become
-a bottleneck.
+Hi,
 
-The NT synchronization APIs are too complex to implement on top of existing
-primitives without sacrificing correctness. Certain operations, such as
-NtPulseEvent() or the "wait-for-all" mode of NtWaitForMultipleObjects(), require
-direct control over the underlying wait queue, and implementing a wait queue
-sufficiently robust for Wine in user space is not possible. This proposed
-driver, therefore, implements the problematic interfaces directly in the Linux
-kernel.
+actually, not all notify-related calls need locking. It just so happens that
+input drivers must protect their key sequence, other WMI drivers might not need
+to use any locking at all.
 
-This driver was presented at Linux Plumbers Conference 2023. For those further
-interested in the history of synchronization in Wine and past attempts to solve
-this problem in user space, a recording of the presentation can be viewed here:
+I would prefer if the WMI driver does the locking, so it can be optimized for
+each WMI driver.
 
-    https://www.youtube.com/watch?v=NjU4nyWyhU8
+Thanks,
+Armin Wolf
 
-
-== Performance ==
-
-The gain in performance varies wildly depending on the application in question
-and the user's hardware. For some games NT synchronization is not a bottleneck
-and no change can be observed, but for others frame rate improvements of 50 to
-150 percent are not atypical. The following table lists frame rate measurements
-from a variety of games on a variety of hardware, taken by users Dmitry
-Skvortsov, FuzzyQuils, OnMars, and myself:
-
-Game                            Upstream        ntsync          improvement
-===========================================================================
-Anger Foot                       69              99              43%
-Call of Juarez                   99.8           224.1           125%
-Dirt 3                          110.6           860.7           678%
-Forza Horizon 5                 108             160              48%
-Lara Croft: Temple of Osiris    141             326             131%
-Metro 2033                      164.4           199.2            21%
-Resident Evil 2                  26              77             196%
-The Crew                         26              51              96%
-Tiny Tina's Wonderlands         130             360             177%
-Total War Saga: Troy            109             146              34%
-===========================================================================
-
-
-== Patches ==
-
-The intended semantics of the patches are broadly intended to match those of the
-corresponding Windows functions. For those not already familiar with the Windows
-functions (or their undocumented behaviour), patch 31/31 provides a detailed
-specification, and individual patches also include a brief description of the
-API they are implementing.
-
-The patches making use of this driver in Wine can be retrieved or browsed here:
-
-    https://repo.or.cz/wine/zf.git/shortlog/refs/heads/ntsync5
-
-
-== Implementation ==
-
-Some aspects of the implementation may deserve particular comment:
-
-* In the interest of performance, each object is governed only by a single
-  spinlock. However, NTSYNC_IOC_WAIT_ALL requires that the state of multiple
-  objects be changed as a single atomic operation. In order to achieve this, we
-  first take a device-wide lock ("wait_all_lock") any time we are going to lock
-  more than one object at a time.
-
-  The maximum number of objects that can be used in a vectored wait, and
-  therefore the maximum that can be locked simultaneously, is 64. This number is
-  NT's own limit.
-
-  The acquisition of multiple spinlocks will degrade performance. This is a
-  conscious choice, however. Wait-for-all is known to be a very rare operation
-  in practice, especially with counts that approach the maximum, and it is the
-  intent of the ntsync driver to optimize wait-for-any at the expense of
-  wait-for-all as much as possible.
-
-* NT mutexes are tied to their threads on an OS level, and the kernel includes
-  builtin support for "robust" mutexes. In order to keep the ntsync driver
-  self-contained and avoid touching more code than necessary, it does not hook
-  into task exit nor use pids.
-
-  Instead, the user space emulator is expected to manage thread IDs and pass
-  them as an argument to any relevant functions; this is the "owner" field of
-  ntsync_wait_args and ntsync_mutex_args.
-
-  When the emulator detects that a thread dies, it should therefore call
-  NTSYNC_IOC_MUTEX_KILL on any open mutexes.
-
-* ntsync is module-capable mostly because there was nothing preventing it, and
-  because it aided development. It is not a hard requirement, though.
-
-
-== Previous versions ==
-
-Changes from v2:
-
-* Check the result of fget() for NULL.
-
-* Squash patch 31 (introducing the NTSYNC_WAIT_REALTIME flag) into patch 4, per
-  Arnd Bergmann.
-
-* Use atomic_try_cmpxchg() instead of atomic_cmpxchg(), per off-list review from
-  Uros Bizjak.
-
-* Link to v2: https://lore.kernel.org/lkml/20240219223833.95710-1-zfigura@codeweavers.com/
-* Link to v1: https://lore.kernel.org/lkml/20240214233645.9273-1-zfigura@codeweavers.com/
-* Link to RFC v2: https://lore.kernel.org/lkml/20240131021356.10322-1-zfigura@codeweavers.com/
-* Link to RFC v1: https://lore.kernel.org/lkml/20240124004028.16826-1-zfigura@codeweavers.com/
-
-Elizabeth Figura (30):
-  ntsync: Introduce the ntsync driver and character device.
-  ntsync: Introduce NTSYNC_IOC_CREATE_SEM.
-  ntsync: Introduce NTSYNC_IOC_SEM_POST.
-  ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
-  ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
-  ntsync: Introduce NTSYNC_IOC_CREATE_MUTEX.
-  ntsync: Introduce NTSYNC_IOC_MUTEX_UNLOCK.
-  ntsync: Introduce NTSYNC_IOC_MUTEX_KILL.
-  ntsync: Introduce NTSYNC_IOC_CREATE_EVENT.
-  ntsync: Introduce NTSYNC_IOC_EVENT_SET.
-  ntsync: Introduce NTSYNC_IOC_EVENT_RESET.
-  ntsync: Introduce NTSYNC_IOC_EVENT_PULSE.
-  ntsync: Introduce NTSYNC_IOC_SEM_READ.
-  ntsync: Introduce NTSYNC_IOC_MUTEX_READ.
-  ntsync: Introduce NTSYNC_IOC_EVENT_READ.
-  ntsync: Introduce alertable waits.
-  selftests: ntsync: Add some tests for semaphore state.
-  selftests: ntsync: Add some tests for mutex state.
-  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ANY.
-  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ALL.
-  selftests: ntsync: Add some tests for wakeup signaling with
-    WINESYNC_IOC_WAIT_ANY.
-  selftests: ntsync: Add some tests for wakeup signaling with
-    WINESYNC_IOC_WAIT_ALL.
-  selftests: ntsync: Add some tests for manual-reset event state.
-  selftests: ntsync: Add some tests for auto-reset event state.
-  selftests: ntsync: Add some tests for wakeup signaling with events.
-  selftests: ntsync: Add tests for alertable waits.
-  selftests: ntsync: Add some tests for wakeup signaling via alerts.
-  selftests: ntsync: Add a stress test for contended waits.
-  maintainers: Add an entry for ntsync.
-  docs: ntsync: Add documentation for the ntsync uAPI.
-
- Documentation/userspace-api/index.rst         |    1 +
- .../userspace-api/ioctl/ioctl-number.rst      |    2 +
- Documentation/userspace-api/ntsync.rst        |  399 +++++
- MAINTAINERS                                   |    9 +
- drivers/misc/Kconfig                          |   11 +
- drivers/misc/Makefile                         |    1 +
- drivers/misc/ntsync.c                         | 1166 ++++++++++++++
- include/uapi/linux/ntsync.h                   |   62 +
- tools/testing/selftests/Makefile              |    1 +
- .../testing/selftests/drivers/ntsync/Makefile |    8 +
- tools/testing/selftests/drivers/ntsync/config |    1 +
- .../testing/selftests/drivers/ntsync/ntsync.c | 1407 +++++++++++++++++
- 12 files changed, 3068 insertions(+)
- create mode 100644 Documentation/userspace-api/ntsync.rst
- create mode 100644 drivers/misc/ntsync.c
- create mode 100644 include/uapi/linux/ntsync.h
- create mode 100644 tools/testing/selftests/drivers/ntsync/Makefile
- create mode 100644 tools/testing/selftests/drivers/ntsync/config
- create mode 100644 tools/testing/selftests/drivers/ntsync/ntsync.c
-
-
-base-commit: 4cece764965020c22cff7665b18a012006359095
--- 
-2.43.0
-
+>> Fix this by protecting the key input sequence with a mutex.
+>>
+>> Compile-tested only.
+>>
+>> Fixes: edb73f4f0247 ("platform/x86: wmi: add Xiaomi WMI key driver")
+>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>> ---
+>>   drivers/platform/x86/xiaomi-wmi.c | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/xiaomi-wmi.c b/drivers/platform/x86/xiaomi-wmi.c
+>> index 1f5f108d87c0..7efbdc111803 100644
+>> --- a/drivers/platform/x86/xiaomi-wmi.c
+>> +++ b/drivers/platform/x86/xiaomi-wmi.c
+>> @@ -2,8 +2,10 @@
+>>   /* WMI driver for Xiaomi Laptops */
+>>
+>>   #include <linux/acpi.h>
+>> +#include <linux/device.h>
+>>   #include <linux/input.h>
+>>   #include <linux/module.h>
+>> +#include <linux/mutex.h>
+>>   #include <linux/wmi.h>
+>>
+>>   #include <uapi/linux/input-event-codes.h>
+>> @@ -20,12 +22,21 @@
+>>
+>>   struct xiaomi_wmi {
+>>   	struct input_dev *input_dev;
+>> +	struct mutex key_lock;	/* Protects the key event sequence */
+>>   	unsigned int key_code;
+>>   };
+>>
+>> +static void xiaomi_mutex_destroy(void *data)
+>> +{
+>> +	struct mutex *lock = data;
+>> +
+>> +	mutex_destroy(lock);
+>> +}
+>> +
+>>   static int xiaomi_wmi_probe(struct wmi_device *wdev, const void *context)
+>>   {
+>>   	struct xiaomi_wmi *data;
+>> +	int ret;
+>>
+>>   	if (wdev == NULL || context == NULL)
+>>   		return -EINVAL;
+>> @@ -35,6 +46,11 @@ static int xiaomi_wmi_probe(struct wmi_device *wdev, const void *context)
+>>   		return -ENOMEM;
+>>   	dev_set_drvdata(&wdev->dev, data);
+>>
+>> +	mutex_init(&data->key_lock);
+>> +	ret = devm_add_action_or_reset(&wdev->dev, xiaomi_mutex_destroy, &data->key_lock);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>>   	data->input_dev = devm_input_allocate_device(&wdev->dev);
+>>   	if (data->input_dev == NULL)
+>>   		return -ENOMEM;
+>> @@ -59,10 +75,12 @@ static void xiaomi_wmi_notify(struct wmi_device *wdev, union acpi_object *dummy)
+>>   	if (data == NULL)
+>>   		return;
+>>
+>> +	mutex_lock(&data->key_lock);
+>>   	input_report_key(data->input_dev, data->key_code, 1);
+>>   	input_sync(data->input_dev);
+>>   	input_report_key(data->input_dev, data->key_code, 0);
+>>   	input_sync(data->input_dev);
+>> +	mutex_unlock(&data->key_lock);
+>>   }
+>>
+>>   static const struct wmi_device_id xiaomi_wmi_id_table[] = {
+>> --
+>> 2.39.2
+>>
+>>
