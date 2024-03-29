@@ -1,142 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD93D155A4D
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 13:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFF8149C5F
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 14:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711718928; cv=none; b=c5BOpQfDQlGjkP9lqI7oVJCXb20ny6+r3Wm7vw37LAtleLTp4n+Qrml5xqzCJpnezcYdjrrW20O6SRhNuZ7vxojslsbBAKZLPL3iSiCeL7OZuMz1c4DBH5Z8x/LzfqY+DbMkmrIubRXpOe9R2bJtaSdmX/F2DHkAGP8gEVfERLA=
+	t=1711722968; cv=none; b=ewbA+Eo3nQvWWCsRDfj0D8ceGT2nlUvMU8Xphsrsd9K246rcHZqlk29ZZ6b0U4qt4ACXD0RMGbgkxbRtmL4L1TIvNjlCa9hkyMtvPJ6LZm5nBh2kYJF6wHZVaVUTIItj1rRhU3PEBHWYJ8knV+mVTkwkkNkyiXkZQktyaoMrfWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711718928; c=relaxed/simple;
-	bh=zlmV0sBDPPllGZWjPqa2/c1/r7nXDK5/rzJZO9Fvals=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LNkiKSmVcUX3LzM/M/gXutIODe2p7l/iUNCPHAD4yZPK0yU7plm3Ss5KNc7xYhVz4rhlRtrWeqqudOcZz9ZGYyeSPrmSYhe8LzT384gMZqFcjhx7spC70owmbz6pOu4RxbsDoIk3HjU6QjyV0gI8bQ+BXbobr2wXs7JFNgcKLc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S+quUCH2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1711722968; c=relaxed/simple;
+	bh=dFxLaHGnqHS7YMEF+Lr6TBMOkUNGxHgPAgNmCT3tHfU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AAxMV240ktdP1FbVXsc+89vobCttmfY7yiwWtS0rxjfTuIb3BAz8H/adil1VS7zQpvcmFFb2kPdGBuQiquyQkHDKzYv/9HvEqgXA1cm6BSME+sNMdLw3z5oSjM1XSQ7zOGY+h8Ioh0/1lNQsx8D26RmLYGlrqysrQVOPifOWcdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eKIiW+sD; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S+quUCH2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1711718925;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
-	b=S+quUCH2AVxFUWI8ays1z6iM+Jv8/SFTHHrSHQlfFqY75RoKW4avjNvcu3du+1S28VWYEj
-	/2skUku1lsFTy5vJvLtCxHro+YOneDB2/zI1Nj/maKWxzLToftr3Jr5hxWRIDcnk4/br97
-	8QHTinJ3InCcd4o9FJad6wjPWpjJ/QE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-w9WQ4Q7HNgm0O4jnmr0wAg-1; Fri, 29 Mar 2024 09:28:40 -0400
-X-MC-Unique: w9WQ4Q7HNgm0O4jnmr0wAg-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-33ecc0f0c95so1042532f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 06:28:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711718915; x=1712323715;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9b2+syugljaMrrOP++3j3QqL3+aM8ytb7iOaLk3Q4wQ=;
-        b=Tt8D3MUot0bTvjYDXVgIdEgc8c5jQkM9F6RyEaJ7HpiVoyVy0D3Q3rWV4F7c+H40hm
-         FnfSZxgIHqtnyqrG+6ZdMLIG75e8ZOi5PxH0/lRMMZmCfy9sTpVkP0k3ufmbBShlH7Mf
-         yiGi7b1bbs3IKIULblIis38y/BnNe2P1VynGyexj1BI8ZopwpOR1K4M6qsiWyvX6sbj+
-         JVAmGlRz9o1vfuASiAlhsJwQ+RPEuOrCF+DuZkH517s3IqEtN1/4TTdqDP3jXcGtgl6W
-         yuQAIIiYugPiz04kO2bt1EWxiKu5FyV2rmUMU65ac+4LyQLtDiaGCWFQnFKXEuswFRY2
-         T6jw==
-X-Forwarded-Encrypted: i=1; AJvYcCV+4jjXDCQOl7gTDW1g2Xa5wUIwZaFTxvVm84LtglyoMc+CZcNDbXjp8b/b4v/JxbBm4WGtzySSXgrJdSEVQckaQbYuby8ugvjF
-X-Gm-Message-State: AOJu0Yx7Sx+o5+55doVTrl20QoyPfPpZWVabgOInaHMzHggrElg4Sm1a
-	wvJdzRwycyZJq+JELWjczJlrWrpczAm57Zu4V+sMtJJWyzvsxYKBYAkXQZ/7g9pQuZDtAyvReEQ
-	fLnDt8RRmWK9woNARQJdrn0VZIIOnxn2wQ0cRGOrfNCd8cQrTXZWDqsaILw==
-X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405098wrz.55.1711718915576;
-        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0y693U6Mrafzyu7YFm6f17FVsvRLIAvGL111PeLg9URymVxfxN4rrw7+XNw571qiaGR1ycw==
-X-Received: by 2002:a05:6000:258:b0:343:3e54:6208 with SMTP id m24-20020a056000025800b003433e546208mr405040wrz.55.1711718915211;
-        Fri, 29 Mar 2024 06:28:35 -0700 (PDT)
-Received: from sgarzare-redhat (host-87-12-25-33.business.telecomitalia.it. [87.12.25.33])
-        by smtp.gmail.com with ESMTPSA id e11-20020a056000194b00b00341c6b53358sm4171063wry.66.2024.03.29.06.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 06:28:34 -0700 (PDT)
-Date: Fri, 29 Mar 2024 14:28:27 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
-	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
-	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <vireshk@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel <joro@8bytes.org>, Alexander Graf <graf@amazon.com>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, Kalle Valo <kvalo@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, "Martin K. Petersen" <martin.petersen@oracle.com>, 
-	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	virtualization@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	v9fs@lists.linux.dev, kvm@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/22] virtio: store owner from modules with
- register_virtio_driver()
-Message-ID: <e2xy5kjdctpitcrev2byqc5gcwntvsd6pfutrvp3l2kfe3llgs@l2xp5opj7xu2>
-References: <20240327-module-owner-virtio-v1-0-0feffab77d99@linaro.org>
- <20240327-module-owner-virtio-v1-1-0feffab77d99@linaro.org>
- <oaoiehcpkjs3wrhc22pwx676pompxml2z5dcq32a6fvsyntonw@hnohrbbp6wpm>
- <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eKIiW+sD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EDE1F45E3F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1711722955; bh=3e6NtER+4j7ul8uFWXiSKK1i1m6r60RknFn8Vy1nDow=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=eKIiW+sDBdbo0Xdr0m8S4cyQewjYKIbYhdN96txSJHT3quc9JWFsC+QlQpYvy61gD
+	 u4iv1srhwTm216pUOcN44GCb4au1IhUGOhbmY/ryZsbynZCgoJqmSChkJxqmiPgIBj
+	 +Hb0OiaRc/S0NH5B1cfotSe6iTlT2XMwRzRI6ZGpp+s5stU9yo1b0aEe0q5onktjwF
+	 4amToHG1elktSUpuUARZRZFjP/WbrNVJgfZwqkYwmseeLUaW+BudDG7UQN/qmXuAQX
+	 oa5O55XC+iwyxSmtANtRyyLQA0i70HGdPWFC+uks3S0c8Q9hXA2VVpvMi3SajWQSUW
+	 t8CMgSAuvlrNw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id EDE1F45E3F;
+	Fri, 29 Mar 2024 14:35:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+ =?utf-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0LjRhw==?= <relect@bk.ru>
+Subject: Re: [PATCH] docs: Detect variable fonts and suggest removing them
+In-Reply-To: <20240323120204.155678-1-akiyks@gmail.com>
+References: <20240323120204.155678-1-akiyks@gmail.com>
+Date: Fri, 29 Mar 2024 08:35:54 -0600
+Message-ID: <87jzll5cmt.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <d01cc73e-a365-4ce8-a25f-780ea45bc581@linaro.org>
+Content-Type: text/plain
 
-On Fri, Mar 29, 2024 at 01:07:31PM +0100, Krzysztof Kozlowski wrote:
->On 29/03/2024 12:42, Stefano Garzarella wrote:
->>> };
->>>
->>> -int register_virtio_driver(struct virtio_driver *driver)
->>> +int __register_virtio_driver(struct virtio_driver *driver, struct module *owner)
->>> {
->>> 	/* Catch this early. */
->>> 	BUG_ON(driver->feature_table_size && !driver->feature_table);
->>> 	driver->driver.bus = &virtio_bus;
->>> +	driver->driver.owner = owner;
->>> +
->>
->> `.driver.name =  KBUILD_MODNAME` also seems very common, should we put
->> that in the macro as well?
+Akira Yokosawa <akiyks@gmail.com> writes:
+
+> xelatex doesn't understand variable font format.  Recent deployment
+> of variable Noto CJK fonts in Fedora and openSUSE tumbleweed breaks
+> builds of translations.pdf.
 >
->This is a bit different thing. Every driver is expected to set owner to
->itself (THIS_MODULE), but is every driver name KBUILD_MODNAME?
+> To help developers work around the build error, add a script for
+> checking existence of variable form of those fonts and emitting
+> suggestions.  Invoke it in the error path of "make pdfdocs" so that it
+> is activated only when PDF build actually fails.
 
-Nope, IIUC we have 2 exceptions:
-- drivers/firmware/arm_scmi/virtio.c
-- arch/um/drivers/virt-pci.c
+[Back after three weeks far from home...]
 
->Remember that this overrides whatever driver actually put there.
+The problem with this is: removing those fonts breaks other things.  I
+ended up putting them back onto my system after, as I recall, Emacs
+stopped displaying non-ASCII text correctly (or at all).  So we may be
+giving advice that some users come to regret having followed.
 
-They can call __register_virtio_driver() where we can add the `name`
-parameter. That said, I don't have a strong opinion, we can leave it
-as it is.
+As a result, I'm really not sure what the best thing to do here is.
 
-Thanks,
-Stefano
-
+jon
