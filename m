@@ -1,102 +1,64 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4051811182;
-	Fri, 29 Mar 2024 14:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AA1433A2
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 14:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711724223; cv=none; b=gXp3zlRMUqkH/2PDGYjWA938/qYdLIw1+2IxhQxNlt2HWYJLO/jU665OsnQyAHvBhqiWk7a+iL0+nLIDYdaVz1cfjC3d1R0O4axdSAfglTd6YDBnq1Qsgboh27EbBDP+v+F8SKYDJiwirUAu/BPQijywNth+M8JD0zWzlegrsI4=
+	t=1711724337; cv=none; b=qfSYRBRRdkT3fzZjIZg7XOCQNA6uyHMHYdrsWwOXJ4o3bbjo1nA0x88xPNDgupewvF9JyB3PO4RwHVWgntOCSnFXyYO5+2Blm4zkO5Y3GfmCoOz6MJqKIP9pClm1xeDG8DQif05DmA/6zHM1IwuUfZ5lPQdGR8+ctj73mBxMEmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711724223; c=relaxed/simple;
-	bh=yj+WaMPcDC4PmfXN0UoEz2VQHz+OShndoiecKuggxIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WZZwbJypHJ90HcynK/LyTNRtNNwAOtfc0qP98AP1/f5Aokqcgf2LK6ysTeFSGET2z5LR+riWYwiJXnpc07dQtwFA37NHlXn8Db0/x+VL/TQhmk7XZ9f84Wn71e8hZpGZRh8Z8wkkD75uxWfj5Sw3ZQRrWGESzX/Ba9s0kO0uH1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hsLKCdEz; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711724337; c=relaxed/simple;
+	bh=geovNEP5MoET5yINcoihxHzec9j09GdKEPkibD/seNU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KrtcDKcNs3HUcZiKEp9BVXqiKP8echuC56P/NKRKeDedGS4+Od7U5FLfFy0a62JQmnodAtYy8ovJ3j79XXIn4itMpZTGMRa5N2BGFTFp2r/caUKT1+Bvq3KlY0oi/XTirm6mdOMPDyM2b2zUpbXUgKC2Db4t3UcFsfeKlEZr3+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oGwej0xP; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hsLKCdEz"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 677A5FF807;
-	Fri, 29 Mar 2024 14:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711724219;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mTj4FeukY1YJcV4SBWzPdB8d+BFYvBZVOFx5d16Wyso=;
-	b=hsLKCdEzurQ82WXwjX3trgShtaiIxve5JRIeTgufUAUg96HSmVjf3GLNFOw2wJ8GvgvaSd
-	b0mU4AoOQLevyKJnFqcOsGkDwk08wrNu63+mVz99bKlMk8VS5EZie5FX+ZDSnZ0arG9dwB
-	phQl/UrHgMwqjuSCgEittZC/OxKtBOzfRthhfl62A+kobnJUR5DBEVOg5Zq1ZDoIh/zdar
-	R1lmEA7QFAOTC/gCtAhhUnSAokZ/Hohztelg5K57xIXzWrFQqEQZfOefK5pqKjZpEq0W0g
-	Xv8KYUT/ikok1azhPDUxITboub1F2nE/5s1kZ4HMFqmQHrp2n9vwPDf9XO+FRw==
-Date: Fri, 29 Mar 2024 15:56:57 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 17/17] net: pse-pd: Add TI TPS23881 PSE
- controller driver
-Message-ID: <20240329155657.7939ac4b@kmaincent-XPS-13-7390>
-In-Reply-To: <6bbc6b86-3947-4679-ac0b-fde50129d0f6@lunn.ch>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
-	<20240326-feature_poe-v6-17-c1011b6ea1cb@bootlin.com>
-	<6bbc6b86-3947-4679-ac0b-fde50129d0f6@lunn.ch>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oGwej0xP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8B73847C2E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1711724335; bh=JtJWAtudri2o05DhCZSgWrRB7y0KMghC4ku01Lioz+o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=oGwej0xP0ZqDShdEoJX/CUI6oGEn1EQAJkfahOxSukv0o9GEHCcNr46OPKg8kpoV/
+	 ACVTdyh9lGXzpB6ZSpfs5GnNZhEe3+eXqKpzvxcL45NCt34xNRgesermNXlY3M+1PH
+	 XyHBCHp5ljP9b/NwG+9yuXIAcqbsoNKL5GVLv9w8uRFV1GgMORDOjs0ihm89Nyxc6e
+	 wdskbP1ja+MArTH7+MkAPpGSg9lbcLSov74OvnsPMB4FlU95+dOGWnBNj722yAmwGT
+	 d6PgTvtK06xXftQWpZ65rP8J01d5PkgexdxS9CIc1ygikZuVXcWlFdUdQeJM8AMoAx
+	 bTC7P7b/sQttw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8B73847C2E;
+	Fri, 29 Mar 2024 14:58:55 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Weiji Wang <nebclllo0444@gmail.com>, linux-doc@vger.kernel.org
+Cc: Weiji Wang <nebclllo0444@gmail.com>
+Subject: Re: [PATCH] docs: zswap: fix shell command format
+In-Reply-To: <20240319114253.2647-1-nebclllo0444@gmail.com>
+References: <20240319114253.2647-1-nebclllo0444@gmail.com>
+Date: Fri, 29 Mar 2024 08:58:54 -0600
+Message-ID: <8734s95bkh.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-On Thu, 28 Mar 2024 17:24:17 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
+Weiji Wang <nebclllo0444@gmail.com> writes:
 
-> > +static int tps23881_flash_fw_part(struct i2c_client *client,
-> > +				  const char *fw_name,
-> > +				  const struct tps23881_fw_conf *fw_conf) =20
->=20
-> Does the device actually have flash? Or is this just downloading to
-> SRAM?
+> Format the shell commands as code block to keep the documentation in the
+> same style
+> Fixes: 501a06fe8e4c ("zswap: memcontrol: implement zswap writeback disabling")
+> Fixes: b5ba474f3f51 ("zswap: shrink zswap pool based on memory pressure")
+> Signed-off-by: Weiji Wang <nebclllo0444@gmail.com>
+> ---
+>  Documentation/admin-guide/mm/zswap.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-It is downloading to SRAM.
+Applied, thanks.
 
->=20
-> > +{
-> > +	const struct firmware *fw =3D NULL;
-> > +	int i, ret;
-> > +
-> > +	ret =3D request_firmware(&fw, fw_name, &client->dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	dev_info(&client->dev, "Flashing %s\n", fw_name); =20
->=20
-> If this is a one-time thing whenever there is a new firmware version
-> dropped into /lib/firmware, this would be O.K. However, if this
-> happens every boot, i would use dev_dbg().
-
-Ok I will change to dev_dbg then.
-Thanks!
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+jon
