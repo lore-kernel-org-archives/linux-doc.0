@@ -1,125 +1,117 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A2B10942
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 05:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4C11755B
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 05:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711689201; cv=none; b=F357oeGind+0VJQAVFJs5Q/4qV1mN8Fb/XpWU4qSoP/d5y61DYEUFlhvK+tFM70SKzyWKId6HWEGaGhQYHMt2UlWesiUtov7Sl3sUJ5XPHyw1T4cWsEX59mzgYOJ++tk3wpU+rZLvEmnp8I7xtUzJzDP6Th0egZpuRKAl3wj+C8=
+	t=1711689352; cv=none; b=g0P16WyU4cI+GCslpukQos86KPyJmIOsl/dikmwujfabycimoaGm9ttocvBxXZHYmTP+7xTGjkLR4T381YvJqHW3GjoxM2PKIWquuULjOlFKoDrnTsCfRZiyXKlQOJkBLTDfRVCKQYin07UboXLtFuV0poZ75pXV8sT8jKnYCTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711689201; c=relaxed/simple;
-	bh=8Fkz6BkRQSRCyX3LV97sDuqjWeqMtrS+J4i9MTg0akY=;
+	s=arc-20240116; t=1711689352; c=relaxed/simple;
+	bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bev+luJHqi/ODmie6GBKAvZz1qLNJzeP+VXvpRKk35/YftAfjHVJQhmZf52BQAj1Sf1tXfkJRh4gaA465t2O7L7bFGXemqr8mrfgr1AFmhxSQ9eUq3vyqAKBOjJHJeEbdMYBkGpoug2G5BulowYa2WIQhUcf/UCvwFNNMrdDp0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=F1YDiwD5; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=VTeJisg+X+5b5E7NVGquYkND5MLNyOAEkAXo7xbxiq/zavcBrDXnHMzEdE4D7GD3dvGWDYFF+oa3EFHW7ripmU9+LmpI5Bq4D9tM3CWTQ0vxieF3tqZIearh/0VAxUEwCbMJyAcamJ1GT4z0uEtgiTw6JAO+ZFp9RCYloxeSM0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jpvfRixe; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="F1YDiwD5"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a046c5262so16783327b3.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 22:13:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jpvfRixe"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a057b6601so18025667b3.2
+        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 22:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1711689199; x=1712293999; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PEpiqzPowyn+Jm6DRSZLkzq3QJrNEIFqLCLs1kU8rzI=;
-        b=F1YDiwD5lxQGc3plCn7FJpGpj5r3ljpV2a1rdi0KO8yixWvEh4woADJCeL4SQKTBN3
-         BdSxEIgct6O3/iT/uxd6qxpzoFS7d+qQWp3VmZ1dQqLZcUHOCVPf9S8Y2yuTLzDaAise
-         fKZO+yIRRXsDkYggUYWTKsfzafW7j7pWJtDHdd2kg7A5QV93iEiGWtJFcddzbStuG/D6
-         ZkYcvZDRfatHOSmpfyFVMvgnGLhrvaGOJKh9RZflNxwUXzTOLblozvq2XJ9pnw2AZiPU
-         Q6Y83eDNN/IkNJbsUNi3kYxolP2pLDSE0Nqwqrs5iTjdjp/85Od8I+InbsP59FIDbV6h
-         74mQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1711689350; x=1712294150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
+        b=jpvfRixeJ1lib6rBDNJy3VtVIMgHg7aEwv2m+DZQBf+is6lPnAGqroYCRFzmYeAv8s
+         fE7KKFwXFJnuedXoGUse6o2OxYHgP2U7iZc5cNFuO9AS8hsTaIO+wxv9nNouQYOzkZv1
+         4m7eF2IRCQprDUkTJMIki+D9bYD9yFsMPGZ2IOJKU0Odcn5BwTM7ecViqJnt5D1zN6vr
+         LUXAXolN7Rkdo/9Ioldd8ai797kBcHGSLpsVhN+Yi6vvHaTBFhcLrTpWev0qy6DssQ3U
+         Qw3jWLgprqRsAT3ZyQTgp3h7VVUFsA0XRLMKltM5ar2fv/3OEXtQ6dsk54QxMG4mwa5b
+         OxnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711689199; x=1712293999;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PEpiqzPowyn+Jm6DRSZLkzq3QJrNEIFqLCLs1kU8rzI=;
-        b=pMLTXjoQUc6vKRNSJAZIAzlHc8Sgdjy/tQHWN6Mlm4oKYDq2i/a3A7VjY05E8lHgQO
-         QXpuVCvmbnBsKd8VVdAj/O9zQ9OaDAMxUpNPCgwIKGpWEsnL9RFYoz7Y/jr2ptpP89Qg
-         49bHPhO1s2+jfoNV5fS1ArFy+FXHuNDw1wBCytnygPEg6tV2C+TQMhX5yjPToRm/vhFS
-         IDbyYHRVlcVCUDm562ChN8U941Hb71jYVg+OB7qX0oL0d4/4D9vxkcKSCjgpMiBEj/RY
-         s2n+hkRGK0Aohz+Ip2FAipeqMIINlioWBLgIgGZ40yf+5yLeZ26ZOYO9/kVmpLnzHWfd
-         0Svg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPSaoLEzSWn7PBkPWesllON5LOgh6NplVATKKedvNuWnRb2TES88yvEEM/mCu0Jt5RVV64j+eAjZYr+4NLFi/mZzGN/wsHSFSf
-X-Gm-Message-State: AOJu0Yzc2YeRyi4GG7iCQiS36yiKel9JeO4Kg68FQYF9cfLFTfg/E7G/
-	MexUB19yAr38pU365eXlO9qxvjnRqcsh38Ybw8GOLcqj2FYVGt4iVKYbCtOOCBBIprd0X8eOZVW
-	LOCJQKbe6O0vQ8WICm0nKF74d709iXzWxc6ZTSQ==
-X-Google-Smtp-Source: AGHT+IGLN1PwyHLJ6g5mp0jviCkkSbilJ2aTqCWRuUmI56Q5uig7YiHN4eVYWaPbzCmiulMFdD5ghgamQ1GUIWIMF2U=
-X-Received: by 2002:a0d:d78f:0:b0:610:e46c:18f6 with SMTP id
- z137-20020a0dd78f000000b00610e46c18f6mr1641447ywd.17.1711689198756; Thu, 28
- Mar 2024 22:13:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711689350; x=1712294150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SA5bcVE32KgGG5TtTqzFEWB8zyElCwHL0lTeALGfaJE=;
+        b=mluCoBSxNB8rqLNr6b+cCaZjZbCMfPnxNcEYMD0z8n0zROGELaFFoybWUlhE5/waRu
+         kCamro3Jwaw8dGU+UELaI5nDiehl4ZTL7lekLNpvfGiiVfCsfYnH3f6rmi8EmqRdMnHw
+         d5qT9X/tkhltsndco+rXN7iD3IoxhHSvGXCKED2PeqSJd4sLB0AuVd+SRPolxVEwT9Gs
+         DCOQMQ8YC6tab2SGbpxjsiMcZGA5+dkxwN/J1uK6iM+T2Sxg3ueeYNJzldJBzuK59oYO
+         MO6JoRPXUiENjMlkrwS+jOVgTPuHAOioorNrXl5AGzF9ybTKEXjGLFtZqsJ7PWnM26VX
+         1GEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOB3VEoDb0zr8Mf3HfETDpjCEGWBH6Rm1gSFW1cIgnYgPxZrCNm3jEc5HWLbZ780hHcxZTtsbLl166IJ3kXMh6BApAcEKHEDJW
+X-Gm-Message-State: AOJu0YwgLp3fWQaDElJBqx43h6IXCckb4WWyvfnHJ3pnQ9h7kC614HOs
+	kaUAO6YSN2izmaCiUAlq7h7wVbcRgHUOxOAZxS+KMuQpiH3GGb3wVwDC+GkqCfk/m7RIRcgwNWW
+	N0rJXzzBAJcZYEUzOa6CduGxlEfXrNPAqfvpNag==
+X-Google-Smtp-Source: AGHT+IEKGRQwrWyCqxzJ0SB08UytfQ1UABftg33xsS/BUh/oR9gt6JPV6v/mkEdtL2mGt8izQHtaPErdxwMk9zmhQVo=
+X-Received: by 2002:a0d:f184:0:b0:608:5dfc:1336 with SMTP id
+ a126-20020a0df184000000b006085dfc1336mr1323243ywf.39.1711689349755; Thu, 28
+ Mar 2024 22:15:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240329044459.3990638-1-debug@rivosinc.com> <20240329044459.3990638-5-debug@rivosinc.com>
- <e7b0aea6-c03b-4e8b-872a-8f0299ed6467@app.fastmail.com>
-In-Reply-To: <e7b0aea6-c03b-4e8b-872a-8f0299ed6467@app.fastmail.com>
+References: <20240329044459.3990638-1-debug@rivosinc.com> <20240329044459.3990638-12-debug@rivosinc.com>
+In-Reply-To: <20240329044459.3990638-12-debug@rivosinc.com>
 From: Deepak Gupta <debug@rivosinc.com>
-Date: Thu, 28 Mar 2024 22:13:09 -0700
-Message-ID: <CAKC1njRaqW9S4moZ-GuCmRw2YO3S_uYO_byNVYarB2yFcn9zMw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/27] riscv: zicfiss/zicfilp enumeration
-To: "Stefan O'Rear" <sorear@fastmail.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Rick P Edgecombe <rick.p.edgecombe@intel.com>, 
-	Mark Brown <broonie@kernel.org>, Szabolcs Nagy <Szabolcs.Nagy@arm.com>, 
-	"kito.cheng@sifive.com" <kito.cheng@sifive.com>, Kees Cook <keescook@chromium.org>, 
-	Andrew Jones <ajones@ventanamicro.com>, Conor Dooley <conor.dooley@microchip.com>, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Atish Patra <atishp@atishpatra.org>, Alexandre Ghiti <alex@ghiti.fr>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Samuel Holland <samuel.holland@sifive.com>, palmer@sifive.com, 
-	Conor Dooley <conor@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mm@kvack.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	tech-j-ext@lists.risc-v.org, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, oleg@redhat.com, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	"Eric W. Biederman" <ebiederm@xmission.com>, Liam.Howlett@oracle.com, vbabka@suse.cz, 
-	lstoakes@gmail.com, shuah@kernel.org, Christian Brauner <brauner@kernel.org>, 
-	Andy Chiu <andy.chiu@sifive.com>, jerry.shih@sifive.com, hankuan.chen@sifive.com, 
-	greentime.hu@sifive.com, Evan Green <evan@rivosinc.com>, 
-	Xiao Wang <xiao.w.wang@intel.com>, Charlie Jenkins <charlie@rivosinc.com>, 
-	Anup Patel <apatel@ventanamicro.com>, mchitale@ventanamicro.com, 
-	dbarboza@ventanamicro.com, Samuel Ortiz <sameo@rivosinc.com>, shikemeng@huaweicloud.com, 
-	willy@infradead.org, Vincent Chen <vincent.chen@sifive.com>, guoren <guoren@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, songshuaishuai@tinylab.org, 
-	Greg Ungerer <gerg@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Baoquan He <bhe@redhat.com>, 
-	Sia Jee Heng <jeeheng.sia@starfivetech.com>, Yangyu Chen <cyy@cyyself.name>, maskray@google.com, 
-	ancientmodern4@gmail.com, mathis.salmen@matsal.de, 
-	yunhui cui <cuiyunhui@bytedance.com>, bgray@linux.ibm.com, mpe@ellerman.id.au, 
-	baruch@tkos.co.il, Alejandro Colomar <alx@kernel.org>, David Hildenbrand <david@redhat.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, revest@chromium.org, josh@joshtriplett.org, 
+Date: Thu, 28 Mar 2024 22:15:40 -0700
+Message-ID: <CAKC1njTheY9+gRFgiWaA8fG5hiOFXqESz7eGDbhHhDZC7Kignw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/27] riscv mmu: teach pte_mkwrite to manufacture
+ shadow stack PTEs
+To: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com, broonie@kernel.org, 
+	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org, 
+	ajones@ventanamicro.com, conor.dooley@microchip.com, cleger@rivosinc.com, 
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com, 
+	alexghiti@rivosinc.com, samuel.holland@sifive.com, conor@kernel.org, 
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: corbet@lwn.net, tech-j-ext@lists.risc-v.org, palmer@dabbelt.com, 
+	aou@eecs.berkeley.edu, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	oleg@redhat.com, akpm@linux-foundation.org, arnd@arndb.de, 
+	ebiederm@xmission.com, Liam.Howlett@oracle.com, vbabka@suse.cz, 
+	lstoakes@gmail.com, shuah@kernel.org, brauner@kernel.org, 
+	andy.chiu@sifive.com, jerry.shih@sifive.com, hankuan.chen@sifive.com, 
+	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com, 
+	charlie@rivosinc.com, apatel@ventanamicro.com, mchitale@ventanamicro.com, 
+	dbarboza@ventanamicro.com, sameo@rivosinc.com, shikemeng@huaweicloud.com, 
+	willy@infradead.org, vincent.chen@sifive.com, guoren@kernel.org, 
+	samitolvanen@google.com, songshuaishuai@tinylab.org, gerg@kernel.org, 
+	heiko@sntech.de, bhe@redhat.com, jeeheng.sia@starfivetech.com, 
+	cyy@cyyself.name, maskray@google.com, ancientmodern4@gmail.com, 
+	mathis.salmen@matsal.de, cuiyunhui@bytedance.com, bgray@linux.ibm.com, 
+	mpe@ellerman.id.au, baruch@tkos.co.il, alx@kernel.org, david@redhat.com, 
+	catalin.marinas@arm.com, revest@chromium.org, josh@joshtriplett.org, 
 	shr@devkernel.io, deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org, 
 	jhubbard@nvidia.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > +        - const: zicfilp
-> > +          description:
-> > +            The standard Zicfilp extension for enforcing forward edge
-> > control-flow
-> > +            integrity as ratified in commit 0036ff2 of riscv-cfi.
-> > +
-> > +        - const: zicfiss
-> > +          description:
-> > +            The standard Zicfiss extension for enforcing backward edge
-> > control-flow
-> > +            integrity as ratified in commit 0036ff2 of riscv-cfi.
-> > +
+On Thu, Mar 28, 2024 at 9:46=E2=80=AFPM Deepak Gupta <debug@rivosinc.com> w=
+rote:
 >
-> Neither of these extensions is currently ratified (the public review
-> period started 15 hours ago) and the git hashes are unlikely to be
-> correct for the ratified version.
-
-Noted will fix the text in the next series.
-
+> pte_mkwrite creates PTEs with WRITE encodings for underlying arch. Underl=
+ying
+> arch can have two types of writeable mappings. One that can be written us=
+ing
+> regular store instructions. Another one that can only be written using sp=
+ecialized
+> store instructions (like shadow stack stores). pte_mkwrite can select wri=
+te PTE
+> encoding based on VMA range.
 >
-> -s
+> On riscv, presence of only VM_WRITE in vma->vm_flags means it's a shadow =
+stack.
 >
-> >          - const: zicntr
-> >            description:
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>
+> rebase with a30f0ca0fa31cdb2ac3d24b7b5be9e3ae75f4175
+>
+hmm.. Note to self:
+Missed removing this lingering commit message. Will remove it in the
+next version.
