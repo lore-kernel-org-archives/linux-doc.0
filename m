@@ -1,97 +1,131 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F791C0DF0;
-	Fri, 29 Mar 2024 15:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF14FBF3;
+	Fri, 29 Mar 2024 15:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711724694; cv=none; b=IlZH3657twegKr73ekRtNroEIRjp/1k7GwLGw9jDr3HWg0c3fzZPi0Hk8HVAO9npYi+gM1oqkar4Jqncwk04Lo9yxTPWdLnyivvUv7sOblI1dfaM2r+sRPGRvigYC9Wr4928LedyudjEvB/zg7Mc1CK1BW/Y+XmLNBcZmljXk48=
+	t=1711726299; cv=none; b=RaPPLXqa/8aw4fUn6Y/QdKGNarCA22JFQGn1mc13WzYl9OyFex7XD2JYPNt3SM1b2thHdfksCU8EXJHMqYLgTPTFMWEIJ+COBb4bxNZHVViO2ehS4P55ghB6LcNCiNiSwk9yAEDaRvsWjHYlsC83NVnRcI+ZAbLpGuEsyuM+TGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711724694; c=relaxed/simple;
-	bh=QPr73epDnfNI9hRAKDsQGY9i3JJUvUIidZoLlIKWyZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jtu/NgmqF5wDafDcNp5CmDOBcNoQ4+VzsxcGLz9eYF/Kk9EWoiTVaioN44VxcRfWBuJxCaBZniy6IjxMt5c0RgFdWLTvgqaCVQn/xZ5tMCA25u0wvmVROgetk78RoLty5IOhB/CxRNeRuuJ/mjxVdR1zW1PoTOc1fYojQBTbOng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LsNdJ1Lt; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1711726299; c=relaxed/simple;
+	bh=o5wvscSbfKEAAlh6310IOTAWfM+GCnb8Nb2D8Svvj1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WUD+21DqHx0yYNXlJheN3Xy8qJjEMrPYVdsH14isxzDEUO00IDAP5SkYUPVEPuKbVi8ufLhLfccWAUwoHJqH2uaXyvLdsI8hkKjexA7n3OSFZe2Gtl69pqhAQp7jW1SFFkt5mzjcRTpg3bocIY/ZpR6JKKJ4IbpW8Dygpl0HZtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KG7nAZHV; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LsNdJ1Lt"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FD9560007;
-	Fri, 29 Mar 2024 15:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711724684;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QPr73epDnfNI9hRAKDsQGY9i3JJUvUIidZoLlIKWyZk=;
-	b=LsNdJ1Lt0oJ9z0mqz6TlbRI8l1mbDgKIJ5zzl1ossv03wcL9woRWFh0Gs6Y9IS6u8yP+Px
-	feUGQi6RcodKm4JuX4SmPB6VcliyuE8qbxiqqaIHt3T59gAu2qHrmZ8rsGWDECrKXCecX4
-	VDS/Cs+qOCwzdBYXDm4frT8frQL1XzXx3xsMYhvop37l58/1Ler289gm9xR+nPBn+ZPAhY
-	I08bFEm98VVZuCNWibrS/bcgr+Y+tzdLCAz6IJQG6ok0viZfUfY60mGt1R+8jjseSb432x
-	E/FLe3PPXfkaBmFlgNtS+QIckH/IyKpmto5Y6MPAUPKBXNLYMlmzdSNGZHPgXw==
-Date: Fri, 29 Mar 2024 16:04:42 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 13/17] net: pse-pd: Use regulator framework
- within PSE framework
-Message-ID: <20240329160442.0333a117@kmaincent-XPS-13-7390>
-In-Reply-To: <20240326-feature_poe-v6-13-c1011b6ea1cb@bootlin.com>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
-	<20240326-feature_poe-v6-13-c1011b6ea1cb@bootlin.com>
-Organization: bootlin
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KG7nAZHV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711726298; x=1743262298;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o5wvscSbfKEAAlh6310IOTAWfM+GCnb8Nb2D8Svvj1c=;
+  b=KG7nAZHVSFxRPLY8Qs7DvYuzLkil4enE2onSTw4x+yYFXWDXPL8NwnDV
+   21NpDjJGLPgJ9jDEgKpEj/ON03EzQFOTOjVWcpTRw+3BaWNyAWx0E+o2d
+   YW8JFwyI6TxFLK2AnwIgaFBo8XmRHOJXqEJ1CnlscHY7F/QjzYYPFlQUr
+   nis0vzYST340tc8Pe+pkRq1nQWNDR06yxfSMcaZITyQzYVbUyj5VpZU6r
+   3A1SbdD1UZWpS4OnwORyYTPZEjaOidqpNeIX1afFR8y6bxt8Ro3X9M6UW
+   ceE7Ql6SazCgZbTersDKvhe/1m9W/O4fdenGOhbVAKf+teoQY07L4uRhE
+   Q==;
+X-CSE-ConnectionGUID: hT58j8j1ThiYpHD1PlogdQ==
+X-CSE-MsgGUID: eWMqijdAShe7JQTaWfWoHg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="10730117"
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="10730117"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 08:31:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,165,1708416000"; 
+   d="scan'208";a="16972603"
+Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.105])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 08:31:37 -0700
+Date: Fri, 29 Mar 2024 08:31:36 -0700
+From: Tony Luck <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: linux-doc@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+	Peter Newman <peternewman@google.com>,
+	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>,
+	Drew Fustini <dfustini@baylibre.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH] Documentation/x86: Document resctrl bandwidth control
+ units are MiB
+Message-ID: <Zgbe2FFwyHMmmsyM@agluck-desk3>
+References: <20240322182016.196544-1-tony.luck@intel.com>
+ <56a93ec2-dc01-49be-b917-5134f5794062@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <56a93ec2-dc01-49be-b917-5134f5794062@intel.com>
 
-On Tue, 26 Mar 2024 15:04:50 +0100
-Kory Maincent <kory.maincent@bootlin.com> wrote:
+On Thu, Mar 28, 2024 at 06:01:33PM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 3/22/2024 11:20 AM, Tony Luck wrote:
+> > The memory bandwidth software controller uses 2^20 units rather than
+> > 10^6. See mbm_bw_count() which computes bandwidth using the "SZ_1M"
+> > Linux define for 0x00100000.
+> > 
+> > Update the documentation to use MiB when describing this feature.
+> > It's too late to fix the mount option "mba_MBps" as that is now an
+> > established user interface.
+> 
+> I see that this is merged already but I do not think this is correct.
 
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> Integrate the regulator framework to the PSE framework for enhanced
-> access to features such as voltage, power measurement, and limits, which
-> are akin to regulators. Additionally, PSE features like port priorities
-> could potentially enhance the regulator framework. Note that this
-> integration introduces some implementation complexity, including wrapper
-> callbacks, but the potential benefits make it worthwhile.
->=20
-> Regulator are using enable counter with specific behavior.
-> Two calls to regulator_disable will trigger kernel warnings.
-> If the counter exceeds one, regulator_disable call won't disable the
-> PSE PI. These behavior isn't suitable for PSE control.
-> Added a boolean 'enabled' state to prevent multiple calls to
-> regulator_enable/disable. These calls will only be called from PSE
-> framework as it won't have any regulator children, therefore no mutex are
-> needed to safeguards this boolean.
->=20
-> regulator_get needs the consumer device pointer. Use PSE as regulator
-> provider and consumer device until we have RJ45 ports represented in
-> the Kernel.
+I was surprised that Ingo merged it without giving folks a chance to
+comment.
 
-Oleksij, could you verify this patch does not break pse_regulator driver?
+> Shouldn't the implementation be fixed instead? Looking at the implementation
+> the intent appears to be clear that the goal is to have bandwidth be
+> MBps .... that is when looking from documentation to the define
+> (MBA_MAX_MBPS) to the comments of the function you reference above
+> mbm_bw_count(). For example, "...and delta bandwidth in MBps ..."
+> and "...maintain values in MBps..."
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Difficult to be sure of intent. But in general when people talk about
+"megabytes" in the context of memory they mean 2^20. Storage capacity
+on computers was originally in 2^20 units until the marketing teams
+at disk drive manufacturers realized they could print numbers 4.8% bigger
+on their products by using SI unit 10^6 Mega prefix (rising to 7.3% with
+Giga and 10% with Tera).
+
+It is clear that the code uses 2^20 as it converts from bytes using
+a right shift by 20.
+
+Fixing the code would change the legacy API. Folks with a schemata
+file that sets a limit of 5000 MB/s would find their applications
+throttled by an addtional 4.8% on upgrading to a kernel with this
+"fix".
+
+> To me this change creates significant confusion since it now contradicts
+> with the source code and comments I reference above. Not to mention the
+> discrepancy with user documentation.
+> 
+> If you believe that this should be MiB then should the
+> source and comments not also be changed to reflect that? Or alternatively,
+> why not just fix mbm_bw_count() to support the documentation and what
+> it appears to be intended to do. If users have been using the interface
+> expecting MBps then this seems more like a needed bugfix than 
+> a needed documentation change.
+
+I agree that the comments need to be fixed. I will spin up a patch.
+
+> Finally, if you make documentation changes, please do build the
+> documentation afterwards. This change introduces a warning:
+> 
+> Memory bandwidth Allocation specified in MiBps
+> ---------------------------------------------
+> .../linux/Documentation/arch/x86/resctrl.rst:583: WARNING: Title underline too short.
+
+My bad. Ingo has already applied a fix to TIP x86/urgent. I assume that
+will be merged to Linus soon.
+
+https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=x86/urgent&id=91491e5fb09624116950f9f2e1767a42e1da786
+
+-Tony
