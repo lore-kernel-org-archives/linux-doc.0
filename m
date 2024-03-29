@@ -1,142 +1,105 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B234640852;
-	Fri, 29 Mar 2024 07:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E0F3C082;
+	Fri, 29 Mar 2024 10:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711697187; cv=none; b=hw6Eis9ddJb9IwD2cv+WrzkxEgnn3ggAGYt54NetTIUX2no+Qrv0lhTaC+E5WVBzbiJIvjMpiaLQysG1JxwHd770r0LyUJHdm1b/q8aDwKBYYlSxZoRZslPS3kXXSgQ5MgGh57+kr4yI6ZvJX+kDedmgKjv3cgW5fKfFcadPR2I=
+	t=1711706482; cv=none; b=BWV7miicVzruPdxI6biGdR6Mok5nKj66bgjl2qlQywFzUtfJmYmKEU8+vzcUmV5jxjNCAIiJcUktYOCUYbQ9kz32cxMXlfpUxUYGi7fPtVTvcTkjyz2PgUHBIkaUx5craQx/zo583UcnY8BayGHTbGwXnmQW5YkAtzbVQZkPHCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711697187; c=relaxed/simple;
-	bh=bInZpQe27T+FP7otvnqd8TxPV4Zh13QdnbFoeMPgJnc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eENRMVkbYq0Ozk126qilqOn8vnqfbV0JoR/eKYpsdKXVETtdecyS5UKOqPO2VsixeRY8cHbpY3eohIsJcaUAL0650rRGo3ZD6Ky4pa1pBOc1DO8djG6pkN3YaZLCtmRqcOv45EDzuuHsmkBVbYlLSmYaXF/XLFhSY51t1mbEMJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=q9KYzPmV; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1711706482; c=relaxed/simple;
+	bh=wtkFSyk+K3WBxG1FeJmsvrusngXPw6by46g/7b7BKLI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ALEr4F48bVtHOOjCbjQNmvZ6kL6dimoN6cXSW7nfl32yfeRaVnUTmajAPpI1QqPLo8kgu9osmVIv1iwrwBkLej8EfBNqPa6VOtyNSRcdrEqytHGdIT1MKzI416hURwSUxXLy+NwvFFPTKsc0HNpgCGzMqjQvOqSaiIDe59CzbwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pGsQ80ZZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="q9KYzPmV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1711697184; x=1743233184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bInZpQe27T+FP7otvnqd8TxPV4Zh13QdnbFoeMPgJnc=;
-  b=q9KYzPmVJjrJ6tgXYfLM0nykx+0MF85Rv9lRi5SK4IlswgbmhkfvpkU1
-   McZnx1IyjywhW5dOhKUiDz/GYTG5lhKOpC8z/eLroZ2E3dNbOdE4dc0Sx
-   CoQYB1SdH2Uud/yTiymvOP7RFYNJkYnOWMq9kpmSTTTz1obfHZI/eeWhL
-   kndenZr2p7+q6SLDRTRiSav3rYwG2B8fTT8xWvhCQfj9Yr5NrRZORoGDm
-   axA2QjRMetVFd7MbTexiRrdvy3hwf5j8IFtHXTN5d8Fnz1CaJaKV+OGOD
-   kLrwA7mokw6PLG5tkRX9l5VAMPE8t22/nfeLGPiJZsp6kDMAQZ5Lv2HUh
-   Q==;
-X-CSE-ConnectionGUID: 15IXURycT2uyFkZ6j12usw==
-X-CSE-MsgGUID: 3NX0TeF6T2SxAshBbDmoVA==
-X-IronPort-AV: E=Sophos;i="6.07,164,1708412400"; 
-   d="asc'?scan'208";a="18569006"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 29 Mar 2024 00:26:21 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 29 Mar 2024 00:25:57 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 29 Mar 2024 00:25:45 -0700
-Date: Fri, 29 Mar 2024 07:24:57 +0000
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Deepak Gupta <debug@rivosinc.com>
-CC: <paul.walmsley@sifive.com>, <rick.p.edgecombe@intel.com>,
-	<broonie@kernel.org>, <Szabolcs.Nagy@arm.com>, <kito.cheng@sifive.com>,
-	<keescook@chromium.org>, <ajones@ventanamicro.com>, <cleger@rivosinc.com>,
-	<atishp@atishpatra.org>, <alex@ghiti.fr>, <bjorn@rivosinc.com>,
-	<alexghiti@rivosinc.com>, <samuel.holland@sifive.com>, <palmer@sifive.com>,
-	<conor@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-mm@kvack.org>,
-	<linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<corbet@lwn.net>, <tech-j-ext@lists.risc-v.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <oleg@redhat.com>,
-	<akpm@linux-foundation.org>, <arnd@arndb.de>, <ebiederm@xmission.com>,
-	<Liam.Howlett@oracle.com>, <vbabka@suse.cz>, <lstoakes@gmail.com>,
-	<shuah@kernel.org>, <brauner@kernel.org>, <andy.chiu@sifive.com>,
-	<jerry.shih@sifive.com>, <hankuan.chen@sifive.com>,
-	<greentime.hu@sifive.com>, <evan@rivosinc.com>, <xiao.w.wang@intel.com>,
-	<charlie@rivosinc.com>, <apatel@ventanamicro.com>,
-	<mchitale@ventanamicro.com>, <dbarboza@ventanamicro.com>,
-	<sameo@rivosinc.com>, <shikemeng@huaweicloud.com>, <willy@infradead.org>,
-	<vincent.chen@sifive.com>, <guoren@kernel.org>, <samitolvanen@google.com>,
-	<songshuaishuai@tinylab.org>, <gerg@kernel.org>, <heiko@sntech.de>,
-	<bhe@redhat.com>, <jeeheng.sia@starfivetech.com>, <cyy@cyyself.name>,
-	<maskray@google.com>, <ancientmodern4@gmail.com>, <mathis.salmen@matsal.de>,
-	<cuiyunhui@bytedance.com>, <bgray@linux.ibm.com>, <mpe@ellerman.id.au>,
-	<baruch@tkos.co.il>, <alx@kernel.org>, <david@redhat.com>,
-	<catalin.marinas@arm.com>, <revest@chromium.org>, <josh@joshtriplett.org>,
-	<shr@devkernel.io>, <deller@gmx.de>, <omosnace@redhat.com>,
-	<ojeda@kernel.org>, <jhubbard@nvidia.com>
-Subject: Re: [PATCH v2 04/27] riscv: zicfiss/zicfilp enumeration
-Message-ID: <20240329-condition-morse-c3d02720853a@wendy>
-References: <20240329044459.3990638-1-debug@rivosinc.com>
- <20240329044459.3990638-5-debug@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pGsQ80ZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C40BC43394;
+	Fri, 29 Mar 2024 10:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711706482;
+	bh=wtkFSyk+K3WBxG1FeJmsvrusngXPw6by46g/7b7BKLI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pGsQ80ZZbtGykk+0fbrIAgYKNCBNgrkzmTnOeDZmQkrCBdnOAbtTrH9/h4NSdJqyz
+	 BUM/Q1Nl/JMYidMRduLpOztT1IzhnSBqXjfivuWWcM4Yg7GBsbTOABvql3zHM+ZgOg
+	 QPYtB1WmN+JyYJZUkPUFGuhTRBvgQrkQKZYM05RCxGzABiT6huIRKhTe/m6Gcv2/o/
+	 Te2QOKMKTnMYcIZ6OpIhZYXIXoQvSkdzPA1SFrRaAo4YI7DP1OVuVfdNLi4jsbtc26
+	 Xzjhkei05eubnx10JyYUVqPSYdJ/wUq7qQSKb67NSBDv5+uTSNCoFFj3bVKFKIosgY
+	 bJe1Hw21TS3QA==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-515a86daf09so2286417e87.3;
+        Fri, 29 Mar 2024 03:01:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUQzDWW+HDTHKKVcZ++t1Zz/H+YDI6Wzit/T85gbNr+p04MFoHb6pyqZ3FzzS7vBHTHeKdPQ0ZBJLJ5l2kI70v4iYwgaRt94pO8CMmPuDchyLD5kfW2gxSkxHPa1vuG2A/Vuc33PChtXHnkVhrvireynIEcZUh2oDaK6gKqKxHvQIY/yQry0cLyJJdu09gQKTkMk6eLA1I+yHJQQBC+wc6K
+X-Gm-Message-State: AOJu0Yzl1o0uA3JvjU7WwIdxKROhUBhwFn2kh3o/xobnpWaAD+pBRPrv
+	fNrC7v7FOJ1PpuVTWhpS5u9Xnwsyg0ZSAH8Os9IlSX581+zZiLXUbkXL0tYtORVtHzEndVL6ON4
+	0VfTMeVnZhJQDIhZYLQcqa5nJn2U=
+X-Google-Smtp-Source: AGHT+IGwq8VV/L7M9VNMtYwfwPRGoYQfJ7HoQQfg1LXajsktZsxTgzQvygnKXtTF0R+0JRi3MpiO3uzFYVWULY1hCtg=
+X-Received: by 2002:a19:c20e:0:b0:515:c00d:7766 with SMTP id
+ l14-20020a19c20e000000b00515c00d7766mr1323587lfc.54.1711706480893; Fri, 29
+ Mar 2024 03:01:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kiXl0dlDZ9ZIiu8P"
-Content-Disposition: inline
-In-Reply-To: <20240329044459.3990638-5-debug@rivosinc.com>
-
---kiXl0dlDZ9ZIiu8P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240329032836.141899-1-sjg@chromium.org> <20240329032836.141899-3-sjg@chromium.org>
+In-Reply-To: <20240329032836.141899-3-sjg@chromium.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 29 Mar 2024 19:00:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQWYvysMd8WjTj4+hh7ajL_1tV5rh1=BTgjc5OrMH6FiA@mail.gmail.com>
+Message-ID: <CAK7LNAQWYvysMd8WjTj4+hh7ajL_1tV5rh1=BTgjc5OrMH6FiA@mail.gmail.com>
+Subject: Re: [PATCH v12 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 28, 2024 at 09:44:36PM -0700, Deepak Gupta wrote:
-> Adds description in dt-bindings (extensions.yaml)
->=20
-> This patch adds support for detecting zicfiss and zicfilp. zicfiss and zi=
-cfilp
-> stands for unprivleged integer spec extension for shadow stack and branch
-> tracking on indirect branches, respectively.
->=20
-> This patch looks for zicfiss and zicfilp in device tree and accordinlgy l=
-ights
-> up bit in cpu feature bitmap. Furthermore this patch adds detection utili=
-ty
-> functions to return whether shadow stack or landing pads are supported by
-> cpu.
->=20
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+On Fri, Mar 29, 2024 at 12:29=E2=80=AFPM Simon Glass <sjg@chromium.org> wro=
+te:
+>
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
+>
+> The files compress from about 86MB to 24MB using this approach.
+>
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+>
+> Add a 'make image.fit' build target for arm64, as well.
+>
+> The FIT can be examined using 'dumpimage -l'.
+>
+> This uses the 'dtbs-list' file but processes only .dtb files, ignoring
+> the overlay .dtbo files.
+>
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. Use
+> FIT_COMPRESSION to select an algorithm other than gzip.
+>
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+>
+> Signed-off-by: Simon Glass <sjg@chromium.org>
 > ---
+>
+> Changes in v12:
+> - Avoid showing FIT message if V=3D0
 
->  .../devicetree/bindings/riscv/extensions.yaml       | 10 ++++++++++
 
-Checkpatch should have told you that bindings changes need to be in
-separate patches.
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks,
-Conor.
 
->  arch/riscv/include/asm/cpufeature.h                 | 13 +++++++++++++
->  arch/riscv/include/asm/hwcap.h                      |  2 ++
->  arch/riscv/include/asm/processor.h                  |  1 +
->  arch/riscv/kernel/cpufeature.c                      |  2 ++
-
---kiXl0dlDZ9ZIiu8P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgZsvgAKCRB4tDGHoIJi
-0iYTAQD/x2jCSMw3PvwFsNJ6v7adg+YdWitg5NvBburVYvIikAEA0Qu7dWdDtcJk
-H0K8lWXiWqqumgSgXhcWgk/Gp2U1igQ=
-=0twh
------END PGP SIGNATURE-----
-
---kiXl0dlDZ9ZIiu8P--
+--=20
+Best Regards
+Masahiro Yamada
