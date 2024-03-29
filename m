@@ -1,198 +1,459 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2070.outbound.protection.outlook.com [40.107.100.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6746A92F;
-	Fri, 29 Mar 2024 01:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1651119A;
+	Fri, 29 Mar 2024 01:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711674111; cv=fail; b=spZnvjXKVxKQMMbtCuNN7kY3SUHvWR7pbL9DUauGJ/d1Zh/PhtWeHkgafS+WLtjco32ED+2ezIwHt261SOU27qMEewDWWL84I6w+Vk0Vs9DbLmLadMW/o7H4jdnbEa+H+IsE0SWpK0iojNR3yJdrHY+Fs23F+s3rkakP9lmJrsc=
+	t=1711674424; cv=fail; b=aqHY8ZvJ3CVkJEFoG2A2Rt0UKJJvxzUecgAQ4AJLROpAud+pu7aDDEuopw6lHS9cxMmj9ijDv1deZ23SyGdt2FadfruVE5L9AqiZytR0Zcs60kXN56IDW7ZN07iVBPkrzXCwUX6o8w/avdoUSgEqdSS5esFP6bKvw/0sP1T9oYg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711674111; c=relaxed/simple;
-	bh=JpGSVaxTdfucNAXMncj/SI+ZXI3/NfFtMRIBiqwMbK0=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=hCgz64AxYvN6roIG8yn8wolZtnChjBcmBTX+YVIzjBPlUi5R030WFFw9zMCV3sUYhE+AVqklXfCF9G/zVTBWk9N9adnU2tECM+ney7yfkmsT/wAT4zFQQFlseEOpWwXXrjlrEYmuEQOHPi9WV1nhkHS88dIg4rDrVUFoiYFTQsk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eq9XhPyu; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711674424; c=relaxed/simple;
+	bh=Gq65pshimEBBZMyM5geBxVL0DbkPb/pIJnMFwp1KhHA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=O+/Uf/SnKvQK9QqXRupEhfetpICJ86l/od0wLHOnjreMvPAJDDjUTNFYbBqTooV49GsHG1ZJfmKJzEq6iLDLYhhXofGWlHvrgmQOdJt6jFk56wFiqvN2f7YgMgJZlQ53wiIeM8pPNNuUtL1U7X6pf3PxYlWKKjvt1h8mZQrz858=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=brya0Iq7; arc=fail smtp.client-ip=40.107.100.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eq9XhPyu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711674110; x=1743210110;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JpGSVaxTdfucNAXMncj/SI+ZXI3/NfFtMRIBiqwMbK0=;
-  b=eq9XhPyuAuiqC+5DX1zrZnh5UFvZy1DC0lyN6sWHPogE6egwBGXToLHX
-   KbE3PzHsZiLp0K3GqD6X+inTnz3Ful0sDUdOqTKtulRao8aDa151UGA5W
-   AF3hhz/DJvIrrjF8VfpvdaGcsyeK05njJnIQwdL4tYbPA7LfW4fjCfclF
-   dVGIvoEMZm6Rjv9diPY1ZI57UEKqa/TQ/w7jSKbEg5bW5ggrAvjBK/Anx
-   1P92XtHlF2ZH7nixv5776dzOG+UfCieqcBCrgDh2psxgtQzp0m3jZN7U1
-   EDRiJqSJ/fW0/6TGZSBjFHwjSUQglkLYZbxj1l7UBT+vmGSDIN1inNlD4
-   g==;
-X-CSE-ConnectionGUID: DTeDCt9hTvmh/MEvfuz3vA==
-X-CSE-MsgGUID: Kk1mNhvtSD62r34CQHI6VQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="6755631"
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="6755631"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 18:01:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="39984175"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Mar 2024 18:01:49 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 28 Mar 2024 18:01:48 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 28 Mar 2024 18:01:48 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 28 Mar 2024 18:01:48 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 28 Mar 2024 18:01:37 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="brya0Iq7"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mGkUOf/809C24pFkhBi0XfqrllEEJCY+JTf97RBAE0xYQ6OraI4L44CJfcIneA/FQODy6gKqa+tGSRaxGruk9MAX9B3iVa2yaw+JSi1rERoyTJvGHUy981CYVgG9/Xw+bnv+WAKW9ClhbKwWv7Fks0MVH1/y3cTmU9AptoYUzpK7VJ+QJO4oFJ6tw4VxcSv3m73eIEnTz/cRb2FNLQZtZMeqP/oaf51SF4iFhCV9Ut1kFLxoSWBljW5CH482//t+79oxF8Kavlzy7H8fyDBVeR7Y+7S/eFHOENyl6ZqZa9F/UwPgJr+M76nffL7UNQPxfKgiVy9mWlUfIV6jzmzPIA==
+ b=Rha/h0HP4PiQpnv2zf/tlQJlL0BRu9ILeQ9thmmmhGM9uZuL3yB77IPGRmD/tKoZwwUYdrat17HXOQTYqO5Ewjo+LsFC7zAQ5ndIYhgRG38uaK59fyQf7FfqFjv7Npl4MFRsPikPqi6tT1vBJE9kn5/QK/5qv3O1vPZG2zlltYO7A3ri7qRp4/N96DtkrnjtWhBevZPV00GZy+lI0LPENNtC+ooEPmtFfTwYGzbUEuabwLnMLI+5lGcMb3W5ElW32yIfLmy9vKVQusaeVfalQUnohqml5Obyj3sdcs2NtaQvptg1j6bvBZMWp5HGWkb8dktH4Hs8NdEFZ/vKBZG9wg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g0Jlymicad04FIHG7PPbz2MhAsuruWXK1JVT1gqPCTk=;
- b=oQk0El4t3sHw5Lx25e36U/tu4OpGc8uFOrqegmkEic4Q4ANrUczWgCUNOYCU+5/gHq3/CyU82sVvnYkaDkaB2RUpU9HlBCHOGtNsLUTp+5/dykQLryFRwc9hfHL4AurhZruSsc9EMFFAckXhDo5WXM29M7Ln02/yU5iC/eNWx48HiwiOlDJTpCNjHaYUBC1nKKxWugcvBhH5p/SSaQ9tzHpVDiSKtGDovJtu76VcuNhxa/RcIlPyOj6x53QeT3RKthcUsltLnsyBaydMjBQocM+6AXLlqIZXugXhR+DfO3OEtMXk1BQv6Z39k00wF45n2hbQSBwUVzZtyMUZlZ40aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by MW4PR11MB5892.namprd11.prod.outlook.com (2603:10b6:303:16a::16) with
+ bh=fsTL1V9OcWCk0b9w7v1taAmhT60s9uugYHr67DSFi9Y=;
+ b=iv3ARUCMOvCO9e4OtuAqLCeTJzGFHsOtCMKZUoy78uMQm1+/F4E/UXTWFr6E3UJ3SUUF+KyqczFmCsNzZ9V6TJKdZZB6vib39IeesZ883heYUNFTNl/922W4ZU0UZyPtAXhZ9WB3Wgz86lKkF304F923cupgrJolWMUEp7RtxbCz0M+68eB0KdXEDagUfgwPeLsGoG5isz8pLI/jx1g6EtO/rWYYC0VWjc4FN8RbCpRJrMjH0qLhfN7ylg/Uw+4VTv+3XmAHjHW+8KiYGuPs+GAWW8phnm4MX2SbmJ4E/l3mt+OF21hBMMhRCChIHX5JneufMtDkJB9k3GAtsIXusQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fsTL1V9OcWCk0b9w7v1taAmhT60s9uugYHr67DSFi9Y=;
+ b=brya0Iq7vles0j9G8jQDh1IzjU9mevOPNnuNQVshlJul6+koOx0sZ1rx0rK6oervCCaZOqc0EAyXpnTPkBc95dpjpv9VWWu0KOGn4Cp6irm/KVPRvGlJIWCeYZJO4nrM9lyE6XSLALwbCWhHandQW3uQZ+ybp/LtkAD7zqFO22A=
+Received: from PH1PEPF00013308.namprd07.prod.outlook.com (2603:10b6:518:1::15)
+ by DS7PR12MB6310.namprd12.prod.outlook.com (2603:10b6:8:95::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Fri, 29 Mar
- 2024 01:01:36 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7409.031; Fri, 29 Mar 2024
- 01:01:36 +0000
-Message-ID: <56a93ec2-dc01-49be-b917-5134f5794062@intel.com>
-Date: Thu, 28 Mar 2024 18:01:33 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/x86: Document resctrl bandwidth control
- units are MiB
-To: Tony Luck <tony.luck@intel.com>, <linux-doc@vger.kernel.org>
-CC: Fenghua Yu <fenghua.yu@intel.com>, Peter Newman <peternewman@google.com>,
-	James Morse <james.morse@arm.com>, Babu Moger <babu.moger@amd.com>, "Drew
- Fustini" <dfustini@baylibre.com>, <x86@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <patches@lists.linux.dev>
-References: <20240322182016.196544-1-tony.luck@intel.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20240322182016.196544-1-tony.luck@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR02CA0025.namprd02.prod.outlook.com
- (2603:10b6:303:16d::11) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Fri, 29 Mar
+ 2024 01:06:58 +0000
+Received: from CY4PEPF0000FCC4.namprd03.prod.outlook.com
+ (2a01:111:f403:f910::) by PH1PEPF00013308.outlook.office365.com
+ (2603:1036:903:47::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
+ Transport; Fri, 29 Mar 2024 01:06:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000FCC4.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7409.10 via Frontend Transport; Fri, 29 Mar 2024 01:06:57 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Thu, 28 Mar
+ 2024 20:06:56 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <fenghua.yu@intel.com>, <reinette.chatre@intel.com>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
+	<yanjiewtw@gmail.com>, <babu.moger@amd.com>, <kim.phillips@amd.com>,
+	<lukas.bulwahn@gmail.com>, <seanjc@google.com>, <jmattson@google.com>,
+	<leitao@debian.org>, <jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
+	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
+	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
+	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
+	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<eranian@google.com>, <james.morse@arm.com>
+Subject: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable Bandwidth Monitoring Counters (ABMC)
+Date: Thu, 28 Mar 2024 20:06:33 -0500
+Message-ID: <cover.1711674410.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|MW4PR11MB5892:EE_
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC4:EE_|DS7PR12MB6310:EE_
+X-MS-Office365-Filtering-Correlation-Id: d111f20f-952f-4302-35a1-08dc4f8c883c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uLifrCgRYwSXwx9KC00Dx4lDvUVscOLMBcGoZHomueY7oukP9IBRsvnR64LhbR6VKOTmdktFCUWi0r/hOYuwZf1SmuOkpnb+eZImZfKjeL2zsinOAApVhpnK6H3lyaNUujKuPtjTYH0D+RmL75IGboEz3tZF8EEjQUBF0yf6kz2N96C12Sy9Bvned+ulEB+i9Q9lXvdC+1ej9gnjmXgM37vhqAiDvLnUI9F7xuKrXUGnb6P3v70JovzXjbyxEIs9eOfmktV7fmG/CEFMpad9dGFlBldfk1RLHAO2xbIb3liiT0tTCK0mk7RZjHPw0f23GIh4H/V1J8dYyZxRJRMAK6m11JROCWw0G96fJGIH/XYDgKeGL0o0HNr9GcKiX8nhENrEzYLnL4RDhUYl4IrYaObkeq/Hu12mDJW9NGY5z5YbJCH5rvin4BzZYOH/z/N8et73prz02wEv1U8lVhFCuouWOG34ByhGkhnawPAAg3hai1jbj0nn/eFEJBijadNVo9msyI9WMJCcRdOqliRDwLR1Te8zr6dA+q3N+9OtlqUWheA1JNKh6hCwHt1JqxRgaZH5T6pjlufMbxIBCGzhh+Z/VZrav5YTgWJsdALtf1c8evU/Wa2/QNGWVLE30FSgjfmQ7TZpC1FU/Ux14WmGcM0mR9A0SHvQWJmZnl3X/Vs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXVkZUVjdm1BbWp5SHNqcXZWK0FYTUhiOURwSG9WSGpPWk1BRnNWOEx3Yzhw?=
- =?utf-8?B?a3RoUFVoc0tNcmZtb0FmR1hlY2JPYUZSSHZvNmhiTkE5eEJXRkpNNDZLZ3lo?=
- =?utf-8?B?akJ1NW5tYXh4d3loWHI1MU9TcFkrN3dXV24zeTc3eWRncUxqWTdydTU1WjBa?=
- =?utf-8?B?dUJGYUJ5RUN2UGx0N2JqclNyb1FIUXRPdFh5UEZ6M25DWDV5YWtxYW9TQjQz?=
- =?utf-8?B?aTMrbWVlQk90UmhrWnhGZytkbnZTbVh3bVVtU1RsMFh0ZWN3NitrcGkyUXRC?=
- =?utf-8?B?aWJyUkVuUGwyYTRmaGdNNzV2aVdCVXc1Y1ViT3VWQ2RRNzNyTDhJbGpRNzZI?=
- =?utf-8?B?NFdyZDJsTml6Tk1FZHI1WXV3eHBRbWwxMHIwZDVvVE9zdG1JWFpwMnlweGJq?=
- =?utf-8?B?ZEUvNHFqUWMxWWNPOFhQVWI3UWh5a29sajBnMTZzaUlEY0FBQk04Z0FYVWFU?=
- =?utf-8?B?Yi9IdU04Rzk4M2RXSmV2bFdNY0Z1eU1VMlB4MklXekNqQkh4ejJUdVc2NWc5?=
- =?utf-8?B?ZFJzczVqTGNXdE12S3loWUhvRUpGMUg2YmZxR3VoRlN0Q1ZCaEc1Yytyc2Nu?=
- =?utf-8?B?c1RjWXREUHRLd0lNdytneHFYSmNTYzJDMUJNV0U5bmRDMEpBTGdEVnVoZ2N3?=
- =?utf-8?B?cWN4SUNYRjI4bVo2b1NGU3JnMkIzME05eHE3MU5IOTZMb1hTQkNCRklnODNN?=
- =?utf-8?B?YUxSYk9SOVdFYkEvenp0YkZQMWx5MlBYbDNtMDV5MFNxYUZrN2NJT0ZrVjBS?=
- =?utf-8?B?YWFkdldJeTJ4aHVmMG9KejJjWEJDRnRYcHgwYjNyWnhpV2Y4SVVUZUdqNGZt?=
- =?utf-8?B?bkVKbGl3RXlQSk5jN0JwbWN4b1ZHM3RScEw1SHZ6S3RSbjNIUVJFN0U1OE1i?=
- =?utf-8?B?MHdOQkM3djB1MGkra2pEdThINmU3Mi9CWVAvUXo1ejhPRnZ6eUVNNk44akNv?=
- =?utf-8?B?SzRrajRaNDlwOWhzS25hbGQrUWNXN0E2dnMzT09GRm1OVllQT0M5ODJtRU5k?=
- =?utf-8?B?T1REbjZ3OHAwYnZZTXZmNFVwUzJxeU9WVVBFeFJoTnpBejVjRWlvNmEyMFVo?=
- =?utf-8?B?KzhvZzRWR3NVVm1wUmorWld2Sk9SdUpOenE0UlI4cTdDMCtqWGYvVEdxYTNX?=
- =?utf-8?B?N09mTVBMNUdxWGUxYW1xclYyblBDVG42V1JGaUZYWlY1Uy80WGRTakFwMm9G?=
- =?utf-8?B?NDNTNzhkS0xtMFVnSFIrb1pWZDBDUlhPOE9TMEdxREU2NExwbDV4bkVTZWNk?=
- =?utf-8?B?UlgrQXgwV0NEUDY1RFc2T3N2M3Y1MysxMDN5WTRMTGM2SXdzdnl5MFFWc082?=
- =?utf-8?B?elQrQ1RLc1h5MnRoTUw4RkM0a2NFK1RTaEdhOG5WU3VhRW5lNy9RcXdVQmo5?=
- =?utf-8?B?MFFRY3hteXZSSnlpTG5RWHFsbkprOWJrR0dRVFRac0NrQkcvc3MyVU55U0xk?=
- =?utf-8?B?V3hmQXJxbi9NZmdub3B4QzUzSTAvTDAyYjdLZkdFUkNFSzdJaXExcGljZDBV?=
- =?utf-8?B?dHpiNXpQNUZmQm40T1VBWlJBQzNGLzRWbS9OdVgxZkZwdW1MK1ZIbWpXdm1S?=
- =?utf-8?B?M0E1M2pRay9Ea2NwQ1I5WGFOMTlzTThvQ0FkUm9VRnpiVC93T1F2TVR6Z3JR?=
- =?utf-8?B?Q0FxYUdWMHNDWEpoVzIyWEVZMnFxQVBVOWF3czZNN2VOQjJxdDZ0NnpVMWtH?=
- =?utf-8?B?eGEzQXE3WlNadzFJNXdDdDBrR29aK3ZOZ1FzeDhwTThKUXFTQ2wrWFNmZVlC?=
- =?utf-8?B?VUk2OGlraU1lQWFIN005bFJTWG5Kc3ZTQTMybHI4NU5BUVJwK1hzQjFpZTB1?=
- =?utf-8?B?WVFENU93RnV5TXB5L0hCd0xJaTZyZ0VFc2JkbGNMWHVTZ2dtQnJ4MUhGenJF?=
- =?utf-8?B?V09BZGdxT1hoYWtMY1BLaWpOUG5NYjE2YnBzdUFzOUhRVndWNlEvblBBdWZ4?=
- =?utf-8?B?SG1vZmhheVZVTVBZMGdtSTVUT3dmdzVEbXpjMWdNTjRKUE95K2VpcVBmSm56?=
- =?utf-8?B?Wm9mdGI0WkZLSnZ6RVhXUEZQanRRdVJ3R0N1eU9OTHJNKzZFTS9yVkFSeWZh?=
- =?utf-8?B?MnU3SW5RY1V6OVFFU3VQZUN2enhSVUNkdnJFRVNQZHIrWlJkbEtxdHZNR0tp?=
- =?utf-8?B?Q3J3ZU52bFhaNi9QWWt1NERSWlRwcnpWNVVUNHpMQmZKS0NhK2xJdU51Q1NL?=
- =?utf-8?B?M3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a78bfada-5f46-412d-e693-08dc4f8bc853
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 01:01:36.0772
+X-Microsoft-Antispam-Message-Info:
+	h/0yCCPfojHTEZeP2f/aYGd0397a5+izGr8WmBBJHML8kVL9GsE+PIJNT5DdF4aJ5HZxhEiSIYZJl71gzNrxA/qkstqZxE3ICKL20I4YpUERDzTllQYHXh5CnV6wSCCnFRKvzaRBUSYrxmywt/uKuy9+PYVG9I78p03P4ayv3YjjcViGGUPb5fREwz7GQJvOhUQG3sDJanShROlJY+eGTtZPQx5ldy+dc0f/J64H/j+oINxxxFyJ41xsDpTaskw8Jr7SDbuPHFoEVqpLMExWV/IekHoA5y/i378RVB2/CXAFvxRtjLZ/SZ/RQ5HtoNS+V7dDaHloHF8yqPIoOXFx/RekRN66N6fG6TUpT6rz5zEG/qz9dYz2kfqSFnqy395VuRLwd3DsSqNou7BDPWvX5XL5bIGSF0XPZQezHHbTDE0YyShHFIc4fKUF7nq4Ld9+qYc6te8y6RE8UUWhI+f1Tn5kLrz1SR85gciuJVDZVM9yICR+u0ODA/3TFxG/YZe9WjgTVo2R3Juh+ZiqUNDWlAE9m/6Hn8/3Zjri0GqoHDxp4gil7OdiIb7d0Gf/Y+BCW1/n8swg3nwMwnXxA3lSt+o+iIL8JI8mBRRGEIgAGj4xs0stKpEG8MDTiS64s61NQP76pYQ5Y0IrES9jc0C7JArcOBg+m97cw+voBFMrFZ6bVPMRuS1I8HCJTFkWmBEVkrqRaKP6XljOxDwTvU+7yQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(1800799015)(36860700004)(82310400014)(7416005)(376005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 01:06:57.8180
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WTBfKV5izHaPMaxbxLoFM72ldAegq63kEhK/tSNrgiG8XNNMztuT9nvQQ66JooZWo8YTCoLsjHCrmSCYf6v3GP/33gLUnKoDXuyrDhKA3CI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5892
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d111f20f-952f-4302-35a1-08dc4f8c883c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000FCC4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6310
 
-Hi Tony,
 
-On 3/22/2024 11:20 AM, Tony Luck wrote:
-> The memory bandwidth software controller uses 2^20 units rather than
-> 10^6. See mbm_bw_count() which computes bandwidth using the "SZ_1M"
-> Linux define for 0x00100000.
-> 
-> Update the documentation to use MiB when describing this feature.
-> It's too late to fix the mount option "mba_MBps" as that is now an
-> established user interface.
+This series adds the support for Assignable Bandwidth Monitoring Counters
+(ABMC). It is also called QoS RMID Pinning feature
 
-I see that this is merged already but I do not think this is correct.
-Shouldn't the implementation be fixed instead? Looking at the implementation
-the intent appears to be clear that the goal is to have bandwidth be
-MBps .... that is when looking from documentation to the define
-(MBA_MAX_MBPS) to the comments of the function you reference above
-mbm_bw_count(). For example, "...and delta bandwidth in MBps ..."
-and "...maintain values in MBps..."
+The feature details are documented in the  APM listed below [1].
+[1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+Monitoring (ABMC). The documentation is available at
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
-To me this change creates significant confusion since it now contradicts
-with the source code and comments I reference above. Not to mention the
-discrepancy with user documentation.
+The patches are based on top of commit
+cd80c2c94699913f9334414189487ff3f93cf0b5 (tip/master)
 
-If you believe that this should be MiB then should the
-source and comments not also be changed to reflect that? Or alternatively,
-why not just fix mbm_bw_count() to support the documentation and what
-it appears to be intended to do. If users have been using the interface
-expecting MBps then this seems more like a needed bugfix than 
-a needed documentation change.
+# Introduction
 
-Finally, if you make documentation changes, please do build the
-documentation afterwards. This change introduces a warning:
+AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
+feature only guarantees that RMIDs currently assigned to a processor will
+be tracked by hardware. The counters of any other RMIDs which are no longer
+being tracked will be reset to zero. The MBM event counters return
+"Unavailable" for the RMIDs that are not active.
+    
+Users can create 256 or more monitor groups. But there can be only limited
+number of groups that can give guaranteed monitoring numbers. With ever
+changing configurations there is no way to definitely know which of these
+groups will be active for certain point of time. Users do not have the
+option to monitor a group or set of groups for certain period of time
+without worrying about RMID being reset in between.
+    
+The ABMC feature provides an option to the user to assign an RMID to the
+hardware counter and monitor the bandwidth for a longer duration.
+The assigned RMID will be active until the user unassigns it manually.
+There is no need to worry about counters being reset during this period.
+Additionally, the user can specify a bitmask identifying the specific
+bandwidth types from the given source to track with the counter.
 
-Memory bandwidth Allocation specified in MiBps
----------------------------------------------
-.../linux/Documentation/arch/x86/resctrl.rst:583: WARNING: Title underline too short.
+Without ABMC enabled, monitoring will work in current mode without
+assignment option.
 
-Reinette
+# Linux Implementation
+
+Linux resctrl subsystem provides the interface to count maximum of two
+memory bandwidth events per group, from a combination of available total
+and local events. Keeping the current interface, users can assign a maximum
+of 2 ABMC counters per group. User will also have the option to assign only
+one counter to the group. If the system runs out of assignable ABMC
+counters, kernel will display an error. Users need to unassign an already
+assigned counter to make space for new assignments.
+
+
+# Examples
+
+a. Check if ABMC support is available
+	#mount -t resctrl resctrl /sys/fs/resctrl/
+
+	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign
+	[abmc] 
+	legacy_mbm
+
+	Linux kernel detected ABMC feature and it is enabled.
+
+b. Check how many ABMC counters are available. 
+
+	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_cntrs 
+	32
+
+c. Create few resctrl groups.
+
+	# mkdir /sys/fs/resctrl/mon_groups/default_mon1
+	# mkdir /sys/fs/resctrl/non_defult_group
+	# mkdir /sys/fs/resctrl/non_defult_group/mon_groups/non_default_mon1
+
+d. This series adds a new interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+   to list and modify the group's assignment states.
+
+   The list follows the following format:
+
+       * Default CTRL_MON group:
+               "//<domain_id>=<assignment_flags>"
+
+       * Non-default CTRL_MON group:
+               "<CTRL_MON group>//<domain_id>=<assignment_flags>"
+
+       * Child MON group of default CTRL_MON group:
+               "/<MON group>/<domain_id>=<assignment_flags>"
+
+       * Child MON group of non-default CTRL_MON group:
+               "<CTRL_MON group>/<MON group>/<domain_id>=<assignment_flags>"
+
+       Assignment flags can be one of the following:
+
+        t  MBM total event is assigned
+        l  MBM local event is assigned
+        tl Both total and local MBM events are assigned
+        _  None of the MBM events are assigned
+
+	Examples:
+
+	# cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control 
+	non_defult_group//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+	non_defult_group/non_default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+	//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+	/default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+
+	There are four groups and all the groups have local and total event assigned.
+
+	"//" - This is a default CONTROL MON group
+
+	"non_defult_group//" - This is non default CONTROL MON group
+
+	"/default_mon1/"  - This is Child MON group of the defult group
+
+	"non_defult_group/non_default_mon1/" - This is child MON group of the non default group
+
+	=tl means both total and local events are assigned.
+
+e. Update the group assignment states using the interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control.
+
+	The write format is similar to the above list format with addition of
+	op-code for the assignment operation.
+
+        * Default CTRL_MON group:
+                "//<domain_id><op-code><assignment_flags>"
+
+        * Non-default CTRL_MON group:
+                "<CTRL_MON group>//<domain_id><op-code><assignment_flags>"
+
+        * Child MON group of default CTRL_MON group:
+                "/<MON group>/<domain_id><op-code><assignment_flags>"
+
+        * Child MON group of non-default CTRL_MON group:
+                "<CTRL_MON group>/<MON group>/<domain_id><op-code><assignment_flags>"
+
+       Op-code can be one of the following:
+
+        = Update the assignment to match the flags
+        + Assign a new state
+        - Unassign a new state
+        _ Unassign all the states
+
+
+        Initial group status:
+
+        # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+        non_default_ctrl_mon_grp//0=tl;1=tl;
+        non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
+        //0=tl;1=tl;
+        /child_default_mon_grp/0=tl;1=tl;
+
+
+        To update the default group to assign only total event.
+        # echo "//0=t" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+
+        Assignment status after the update:
+        # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+        non_default_ctrl_mon_grp//0=tl;1=tl;
+        non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
+        //0=t;1=t;
+        /child_default_mon_grp/0=tl;1=tl;
+
+        To update the MON group child_default_mon_grp to remove local event:
+        # echo "/child_default_mon_grp/0-l" > /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+
+        Assignment status after the update:
+        # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+        //0=t;1=t;
+        /child_default_mon_grp/0=t;1=t;
+        non_default_ctrl_mon_grp//0=tl;1=tl;
+        non_default_ctrl_mon_grp/child_non_default_mon_grp/0=tl;1=tl;
+
+        To update the MON group non_default_ctrl_mon_grp/child_non_default_mon_grp to
+        remove both local and total events:
+        # echo "non_default_ctrl_mon_grp/child_non_default_mon_grp/0_" >
+                      /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+
+        Assignment status after the update:
+        # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+        //0=t;1=t;
+        /child_default_mon_grp/0=t;1=t;
+        non_default_ctrl_mon_grp//0=tl;1=tl;
+        non_default_ctrl_mon_grp/child_non_default_mon_grp/0=_;1=_;
+
+	
+f. Read the event mbm_total_bytes and mbm_local_bytes of the default group.
+   There is no change in reading the evetns with ABMC. If the event is unassigned
+   when reading, then the read will come back as Unavailable.
+	
+	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+	779247936
+	# cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes 
+	765207488
+	
+g. Users will have the option to go back to legacy_mbm mode if required.
+   This can be done using the following command.
+
+	# echo "legacy_mbm" > /sys/fs/resctrl/info/L3_MON/mbm_assign
+	# cat /sys/fs/resctrl/info/L3_MON/mbm_assign
+        abmc
+        [legacy_mbm]
+
+	
+h. Check the bandwidth configuration for the group. Note that bandwidth
+   configuration has a domain scope. Total event defaults to 0x7F (to
+   count all the events) and local event defaults to 0x15 (to count all
+   the local numa events). The event bitmap decoding is available at
+   https://www.kernel.org/doc/Documentation/x86/resctrl.rst
+   in section "mbm_total_bytes_config", "mbm_local_bytes_config":
+	
+	#cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+	0=0x7f;1=0x7f
+	
+	#cat /sys/fs/resctrl/info/L3_MON/mbm_local_bytes_config 
+	0=0x15;1=0x15
+	
+j. Change the bandwidth source for domain 0 for the total event to count only reads.
+   Note that this change effects total events on the domain 0.
+	
+	#echo 0=0x33 > /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+	#cat /sys/fs/resctrl/info/L3_MON/mbm_total_bytes_config 
+	0=0x33;1=0x7F
+	
+k. Now read the total event again. The mbm_total_bytes should display
+   only the read events.
+	
+	#cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+	314101
+	
+l. Unmount the resctrl
+	 
+	#umount /sys/fs/resctrl/
+
+---
+v3:
+   This series adds the support for global assignment mode discussed in
+   the thread. https://lore.kernel.org/lkml/20231201005720.235639-1-babu.moger@amd.com/
+   Removed the individual assignment mode and included the global assignment interface.
+   Added following interface files.
+   a. /sys/fs/resctrl/info/L3_MON/mbm_assign
+      Used for displaying the current assignment mode and switch between
+      ABMC and legacy mode.
+   b. /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+      Used for lising the groups assignment mode and modify the assignment states.
+   c. Most of the changes are related to the new interface.
+   d. Addressed the comments from Reinette, James and Peter.
+   e. Hope I have addressed most of the major feedbacks discussed. If I missed
+      something then it is not intentional. Please feel free to comment.
+   f. Sending this as an RFC as per Reinette's comment. So, this is still open
+      for discussion.
+
+v2:
+   a. Major change is the way ABMC is enabled. Earlier, user needed to remount
+      with -o abmc to enable ABMC feature. Removed that option now.
+      Now users can enable ABMC by "$echo 1 to /sys/fs/resctrl/info/L3_MON/mbm_assign_enable".
+     
+   b. Added new word 21 to x86/cpufeatures.h.
+
+   c. Display unsupported if user attempts to read the events when ABMC is enabled
+      and event is not assigned.
+
+   d. Display monitor_state as "Unsupported" when ABMC is disabled.
+  
+   e. Text updates and rebase to latest tip tree (as of Jan 18).
+ 
+   f. This series is still work in progress. I am yet to hear from ARM developers. 
+
+v2:
+  https://lore.kernel.org/lkml/20231201005720.235639-1-babu.moger@amd.com/
+
+v1 :
+   https://lore.kernel.org/lkml/20231201005720.235639-1-babu.moger@amd.com/
+
+
+Babu Moger (17):
+  x86/resctrl: Add support for Assignable Bandwidth Monitoring Counters
+    (ABMC)
+  x86/resctrl: Add ABMC feature in the command line options
+  x86/resctrl: Detect Assignable Bandwidth Monitoring feature details
+  x86/resctrl: Introduce resctrl_file_fflags_init
+  x86/resctrl: Introduce the interface to display the assignment state
+  x86/resctrl: Introduce interface to display number of ABMC counters
+  x86/resctrl: Add support to enable/disable ABMC feature
+  x86/resctrl: Initialize assignable counters bitmap
+  x86/resctrl: Introduce assign state for the mon group
+  x86/resctrl: Add data structures for ABMC assignment
+  x86/resctrl: Introduce mbm_total_cfg and mbm_local_cfg
+  x86/resctrl: Add the functionality to assign the RMID
+  x86/resctrl: Add the functionality to unassign the RMID
+  x86/resctrl: Enable ABMC by default on resctrl mount
+  x86/resctrl: Introduce the interface switch between ABMC and
+    legacy_mbm
+  x86/resctrl: Introduce interface to list assignment states of all the
+    groups
+  x86/resctrl: Introduce interface to modify assignment states of the
+    groups
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/arch/x86/resctrl.rst            | 144 ++++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   2 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   3 +
+ arch/x86/kernel/cpu/resctrl/core.c            |  25 +-
+ arch/x86/kernel/cpu/resctrl/internal.h        |  56 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c         |  24 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 714 +++++++++++++++++-
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ include/linux/resctrl.h                       |  12 +
+ 11 files changed, 964 insertions(+), 20 deletions(-)
+
+-- 
+2.34.1
+
+
+Babu Moger (17):
+  x86/resctrl: Add support for Assignable Bandwidth Monitoring Counters
+    (ABMC)
+  x86/resctrl: Add ABMC feature in the command line options
+  x86/resctrl: Detect Assignable Bandwidth Monitoring feature details
+  x86/resctrl: Introduce resctrl_file_fflags_init
+  x86/resctrl: Introduce the interface to display the assignment state
+  x86/resctrl: Introduce interface to display number of ABMC counters
+  x86/resctrl: Add support to enable/disable ABMC feature
+  x86/resctrl: Initialize assignable counters bitmap
+  x86/resctrl: Introduce assign state for the mon group
+  x86/resctrl: Add data structures for ABMC assignment
+  x86/resctrl: Introduce mbm_total_cfg and mbm_local_cfg
+  x86/resctrl: Add the functionality to assign the RMID
+  x86/resctrl: Add the functionality to unassign the RMID
+  x86/resctrl: Enable ABMC by default on resctrl mount
+  x86/resctrl: Introduce the interface switch between ABMC and
+    legacy_mbm
+  x86/resctrl: Introduce interface to list assignment states of all the
+    groups
+  x86/resctrl: Introduce interface to modify assignment states of the
+    groups
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/arch/x86/resctrl.rst            | 144 ++++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   2 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   3 +
+ arch/x86/kernel/cpu/resctrl/core.c            |  25 +-
+ arch/x86/kernel/cpu/resctrl/internal.h        |  56 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c         |  24 +-
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 714 +++++++++++++++++-
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ include/linux/resctrl.h                       |  12 +
+ 11 files changed, 964 insertions(+), 20 deletions(-)
+
+-- 
+2.34.1
+
