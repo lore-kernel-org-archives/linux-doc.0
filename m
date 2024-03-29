@@ -1,75 +1,138 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D9E3B19D
-	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 03:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42AA1DDD6
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 04:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711682972; cv=none; b=rPPsLRzPgtXB58HguyAzsuqrEs3uYVT9PiBdyCx/CPvfOmzm65Sa1Zywpu+mcFRkLz07t1ONAS00m0DgXfQW+ydKwYAqk3B+kESeHkrjFZGq76nb/23iaRW8Is/2M6m8jLLdyz+9l0P5O9z/sLDL7MXYzAycmSklqVjufl+L90M=
+	t=1711687511; cv=none; b=RRI9bLwrhP+RjcmZmIzhQ2TCzic7cV3QLCK4UUCOV3xreJmB6sHEQrqKWT8MPvq/0AvmhRyVDYNirB8bEOOCjmksnrz3wGgBypySipRd9/kC+PlBJ2kuiFi9xZ0+2hH0uosdlT+3UKivQkQe6BcbBDkH0EMRx+4pc7030cJAJJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711682972; c=relaxed/simple;
-	bh=38SqsARSldGwn4vMuhU0nndL4xSsxRc4WyifRZivzeM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=huVed8ctiT4XFlyyNrkmblWdZ9lFnso+6M4sJBvW2BGGi4ZVJqjlAxajw00Q4llEfvLKMZlZ5Kbtf+55gh9zHxv666tXGKkJBDlebiKJ7SS02pPldqePqRLTlVlVvGFyQoDs1i4gfSpeMXPGBgNewZIHT83InZNEr+7rPSguBnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=C7KrOyDy; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1711687511; c=relaxed/simple;
+	bh=i95L3JKkoDlPbWapUWUu3TGU34mpk6ghqmrMaoYNLzw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jaRoJoP6CH3m15jIovStQYpWj7XuP/mAJ9TlId3Pd+ia0neyc8NiI+NunOGaOIMuhvIBNuBDCWEMlB9zTKkQLKura5W5nH9IVtoRJmyVSx0WZMqpBHZReRtvURwdiLBA0gVg6vcWfou2zvheXoCex6dZDXbpjGKb/a0FNCYuYcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=OX+BqqpZ; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C7KrOyDy"
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7d0262036afso77856139f.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 20:29:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="OX+BqqpZ"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-229b7ada9e8so715731fac.0
+        for <linux-doc@vger.kernel.org>; Thu, 28 Mar 2024 21:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1711682969; x=1712287769; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uFRT2ilMn7VkiRLLhnJawFJ1/PDTpXke+vVcnGlj418=;
-        b=C7KrOyDyADqpJdheQbtnAEWuJqsTWYdtB7aBfMVVrRosYYCaWG+zvSBUUvkkOvlkAl
-         y3VRxYhd5VXajLgDEinJp/rbgy1of9zSyj6WaIP0zAe3y6qawUPibE5tvadZRZFpPfHw
-         A0QOCbLSFI2eBn3uJHhpuaTf5JeKitfYbXZYs=
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1711687508; x=1712292308; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EqtDO42QHAr23qi0CzfGPQCsTN5H+bnmkZbW5sqZyb4=;
+        b=OX+BqqpZUkkhXf5R01Zp8Z4aPAqzqMT8LTX19+Ca2lH1JU54Y+U0cvZl/D3piKU6Hm
+         AXMZgTzR0FUMzphKswotw/SAn9RJo1IIUR7pel3RVTVmsj3ShBnTlHEN0WaW1TQ2zL5A
+         T+800iXRioHnz+Df6OI/vIl52mF+/nXQ5UVqUhPXjbu4TquPi+58CUYB3q/z/hG+r1aY
+         zuLdpH9iJxFXxBsbrAi6wk3r/DwYUPE2ZzuCXHf1Oyff/Bm4UXLPRF/iyN8vU8zxr5Mo
+         DJ09WrlWQCNq3rgfN3mfhtnPlPIuYej6s4FdR0fI91vGQ5z550CdlgRHnJKhwbLvFof+
+         76Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711682969; x=1712287769;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uFRT2ilMn7VkiRLLhnJawFJ1/PDTpXke+vVcnGlj418=;
-        b=Ea5veMk4bF9Ab6RUzaQwYXH//sVXn0pxyiH6+n4xJhuEYYxM1WWZTCMgeH1iq8+jiz
-         7KDN5WeI6tZ06pKoOfUI+1Ea5QZrnehdycmmgK1TVm3Nqg97pe6mSiGA5ErSUjB11vE5
-         u9IXjXkTDA5Nkm9n+DUDpjr9VA0bQlYOXeb2ORmkYlFEQnQQrzE4HpjSh5aWBToCUHDz
-         rx1am0tC/v3TToQ4lOg9gC30lDhcj3tgj3SRtwF2J5ljCUup9cqC1kLoLCWIR3WA54/1
-         U1wnUhkomApkvC6FRo6oYOxnH9DW3jQwhvxI9EdnKrDtm1NNEodRoIKCxEy8Jr9yDz0Q
-         R8BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXJDJ4EPPrT7/lgbPpSJvYh8LBwHWRwTSlBbQIOl1Zx+6QQquoVGlTjNzJI5HlbEZXoLJ7N+jz/S62+zAcVVNfsCVX6MNqwpgyM
-X-Gm-Message-State: AOJu0Yx0Dmd1Ei9zFjn/kgrV7noqUypeCPfENWyD6qi2mwIf64gzbsBw
-	C75mXtM4XSQNHVrnue4hK+2YKqpMPF1pCZRQscjNl8reTyNDYoE5VMbdkfyixg==
-X-Google-Smtp-Source: AGHT+IEeo94C7AQMFJplhBzkjNRt33yqHOxtZ1MeCGIBj2s4gaFkOZ3aa2eOOvvl+k2AMM/C5KzbJQ==
-X-Received: by 2002:a05:6e02:1d9a:b0:366:a611:f7c0 with SMTP id h26-20020a056e021d9a00b00366a611f7c0mr1099425ila.0.1711682969509;
-        Thu, 28 Mar 2024 20:29:29 -0700 (PDT)
-Received: from chromium.org ([75.104.105.200])
-        by smtp.gmail.com with ESMTPSA id l7-20020a056e021aa700b003685b574968sm815717ilv.51.2024.03.28.20.29.15
+        d=1e100.net; s=20230601; t=1711687508; x=1712292308;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EqtDO42QHAr23qi0CzfGPQCsTN5H+bnmkZbW5sqZyb4=;
+        b=INPiCElbbUQQ3gtcn5khpo85aa+s554hsMMG1oZOOCoURi5fKMQAvgQf2dVJonHQp0
+         Y88KvsVAjW1MtOChnp3vnVRSMuGRpNnyixx6pdBrEQCwYVxzCl1NdVzqo85EkjoTb61H
+         bqjywjXKsMgVRlHGxH310/NfsZXyKkg6CsqqRHoTS7I+b34WedvmD49MLcURVdHICt6k
+         15qr75OCXgHkysnBCn6lG1jUBZF3utPXvRO6qHi4n4AlgrT/WerDyNZ7uigvFyaYDv31
+         v1WdcYa5Hcy8weteNdDCigzrYubYkaaRhUOwcfpDa4F4OwPO2ZudYr1ze0WkhlHZNZTO
+         SrWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU61zvhCd4eflMfJyATufctFa4CgnsN6duO83kMVxiI6/ChSMfElH1ZVFhs0X8Yf+/TYcav3D/S93PeeOLZ9CKqUVjmuOuCfoIq
+X-Gm-Message-State: AOJu0YwS2dhbHw49+7T/KbwTzgu45Oj3gq9U7nsi7S8ihWgRtbKKKfKW
+	82LIHhYLiRvxTsrNJc+J48t3M7nSoEMHyWhgGydPbQSQbn15wpdz9FqKRcpOlb4=
+X-Google-Smtp-Source: AGHT+IGk8Phd46dcfosR9Oo5hXv/PvR5tBNwvT90McPidSgaKVOwDwxJqZMjb6jIVw0g1/5CoCMZaA==
+X-Received: by 2002:a05:6870:328a:b0:22a:f03:8259 with SMTP id q10-20020a056870328a00b0022a0f038259mr1171868oac.41.1711687507664;
+        Thu, 28 Mar 2024 21:45:07 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id i18-20020aa78b52000000b006ea7e972947sm2217120pfd.130.2024.03.28.21.45.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Mar 2024 20:29:29 -0700 (PDT)
-From: Simon Glass <sjg@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Simon Glass <sjg@chromium.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>,
-	Will Deacon <will@kernel.org>,
+        Thu, 28 Mar 2024 21:45:07 -0700 (PDT)
+From: Deepak Gupta <debug@rivosinc.com>
+To: paul.walmsley@sifive.com,
+	rick.p.edgecombe@intel.com,
+	broonie@kernel.org,
+	Szabolcs.Nagy@arm.com,
+	kito.cheng@sifive.com,
+	keescook@chromium.org,
+	ajones@ventanamicro.com,
+	conor.dooley@microchip.com,
+	cleger@rivosinc.com,
+	atishp@atishpatra.org,
+	alex@ghiti.fr,
+	bjorn@rivosinc.com,
+	alexghiti@rivosinc.com,
+	samuel.holland@sifive.com,
+	palmer@sifive.com,
+	conor@kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v12 2/2] arm64: boot: Support Flat Image Tree
-Date: Fri, 29 Mar 2024 16:28:36 +1300
-Message-Id: <20240329032836.141899-3-sjg@chromium.org>
+	devicetree@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: corbet@lwn.net,
+	tech-j-ext@lists.risc-v.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	oleg@redhat.com,
+	akpm@linux-foundation.org,
+	arnd@arndb.de,
+	ebiederm@xmission.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	lstoakes@gmail.com,
+	shuah@kernel.org,
+	brauner@kernel.org,
+	debug@rivosinc.com,
+	andy.chiu@sifive.com,
+	jerry.shih@sifive.com,
+	hankuan.chen@sifive.com,
+	greentime.hu@sifive.com,
+	evan@rivosinc.com,
+	xiao.w.wang@intel.com,
+	charlie@rivosinc.com,
+	apatel@ventanamicro.com,
+	mchitale@ventanamicro.com,
+	dbarboza@ventanamicro.com,
+	sameo@rivosinc.com,
+	shikemeng@huaweicloud.com,
+	willy@infradead.org,
+	vincent.chen@sifive.com,
+	guoren@kernel.org,
+	samitolvanen@google.com,
+	songshuaishuai@tinylab.org,
+	gerg@kernel.org,
+	heiko@sntech.de,
+	bhe@redhat.com,
+	jeeheng.sia@starfivetech.com,
+	cyy@cyyself.name,
+	maskray@google.com,
+	ancientmodern4@gmail.com,
+	mathis.salmen@matsal.de,
+	cuiyunhui@bytedance.com,
+	bgray@linux.ibm.com,
+	mpe@ellerman.id.au,
+	baruch@tkos.co.il,
+	alx@kernel.org,
+	david@redhat.com,
+	catalin.marinas@arm.com,
+	revest@chromium.org,
+	josh@joshtriplett.org,
+	shr@devkernel.io,
+	deller@gmx.de,
+	omosnace@redhat.com,
+	ojeda@kernel.org,
+	jhubbard@nvidia.com
+Subject: [PATCH v2 00/27] riscv control-flow integrity for usermode
+Date: Thu, 28 Mar 2024 21:44:32 -0700
+Message-Id: <20240329044459.3990638-1-debug@rivosinc.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240329032836.141899-1-sjg@chromium.org>
-References: <20240329032836.141899-1-sjg@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,544 +141,180 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a script which produces a Flat Image Tree (FIT), a single file
-containing the built kernel and associated devicetree files.
-Compression defaults to gzip which gives a good balance of size and
-performance.
+I had sent RFC patchset early this year (January) [7] to enable CPU assisted
+control-flow integrity for usermode on riscv. Since then I've been able to do
+more testing of the changes. As part of testing effort, compiled a rootfs with
+shadow stack and landing pad enabled (libraries and binaries) and booted to
+shell. As part of long running tests, I have been able to run some spec 2006
+benchmarks [8] (here link is provided only for list of benchmarks that were
+tested for long running tests, excel sheet provided here actually is for some
+static stats like code size growth on spec binaries). Thus converting from RFC
+to regular patchset.
 
-The files compress from about 86MB to 24MB using this approach.
+Securing control-flow integrity for usermode requires following
 
-The FIT can be used by bootloaders which support it, such as U-Boot
-and Linuxboot. It permits automatic selection of the correct
-devicetree, matching the compatible string of the running board with
-the closest compatible string in the FIT. There is no need for
-filenames or other workarounds.
+    - Securing forward control flow : All callsites must reach
+      reach a target that they actually intend to reach.
 
-Add a 'make image.fit' build target for arm64, as well.
+    - Securing backward control flow : All function returns must
+      return to location where they were called from.
 
-The FIT can be examined using 'dumpimage -l'.
+This patch series use riscv cpu extension `zicfilp` [2] to secure forward
+control flow and `zicfiss` [2] to secure backward control flow. `zicfilp`
+enforces that all indirect calls or jmps must land on a landing pad instr
+and label embedded in landing pad instr must match a value programmed in
+`x7` register (at callsite via compiler). `zicfiss` introduces shadow stack
+which can only be writeable via shadow stack instructions (sspush and
+ssamoswap) and thus can't be tampered with via inadvertent stores. More
+details about extension can be read from [2] and there are details in
+documentation as well (in this patch series).
 
-This uses the 'dtbs-list' file but processes only .dtb files, ignoring
-the overlay .dtbo files.
+Using config `CONFIG_RISCV_USER_CFI`, kernel support for riscv control flow
+integrity for user mode programs can be compiled in the kernel.
 
-This features requires pylibfdt (use 'pip install libfdt'). It also
-requires compression utilities for the algorithm being used. Supported
-compression options are the same as the Image.xxx files. Use
-FIT_COMPRESSION to select an algorithm other than gzip.
+Enabling of control flow integrity for user programs is left to user runtime
+(specifically expected from dynamic loader). There has been a lot of earlier
+discussion on the enabling topic around x86 shadow stack enabling [3, 4, 5] and
+overall consensus had been to let dynamic loader (or usermode) to decide for
+enabling the feature.
 
-While FIT supports a ramdisk / initrd, no attempt is made to support
-this here, since it must be built separately from the Linux build.
+This patch series introduces arch agnostic `prctls` to enable shadow stack
+and indirect branch tracking. And implements them on riscv. arm64 is expected
+to implement shadow stack part of these arch agnostic `prctls` [6]
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
+Changes since last time
+***********************
 
-Changes in v12:
-- Avoid showing FIT message if V=0
+Spec changes
+------------
+- Forward cfi spec has become much simpler. `lpad` instruction is pseudo for
+  `auipc rd, <20bit_imm>`. `lpad` checks x7 against 20bit embedded in instr.
+  Thus label width is 20bit.
 
-Changes in v11:
-- Use dtbslist file in image.fit rule
-- Update cmd_fit rule as per Masahiro
-- Don't mention ignoring files without a .dtb prefix
-- Use argparse fromfile_prefix_chars feature
-- Add a -v option and use it for output (with make V=1)
-- rename srcdir to dtbs
-- Use -o for the output file instead of -f
+- Shadow stack management instructions are reduced to
+    sspush - to push x1/x5 on shadow stack
+    sspopchk - pops from shadow stack and comapres with x1/x5.
+    ssamoswap - atomically swap value on shadow stack.
+    rdssp - reads current shadow stack pointer
 
-Changes in v10:
-- Make use of dtbs-list file
-- Mention dtbs-list and FIT_COMPRESSION
-- Update copyright year
-- Update cover letter to take account of an applied patch
+- Shadow stack accesses on readonly memory always raise AMO/store page fault.
+  `sspopchk` is load but if underlying page is readonly, it'll raise a store
+  page fault. It simplifies hardware and kernel for COW handling for shadow
+  stack pages.
 
-Changes in v9:
-- Move the compression control into Makefile.lib
+- riscv defines a new exception type `software check exception` and control flow
+  violations raise software check exception.
 
-Changes in v8:
-- Drop compatible string in FDT node
-- Correct sorting of MAINTAINERS to before ARM64 PORT
-- Turn compress part of the make_fit.py comment in to a sentence
-- Add two blank lines before parse_args() and setup_fit()
-- Use 'image.fit: dtbs' instead of BUILD_DTBS var
-- Use '$(<D)/dts' instead of '$(dir $<)dts'
-- Add 'mkimage' details Documentation/process/changes.rst
-- Allow changing the compression used
-- Tweak cover letter since there is only one clean-up patch
+- enabling controls for shadow stack and landing are in xenvcfg CSR and controls
+  lower privilege mode enabling. As an example senvcfg controls enabling for U and
+  menvcfg controls enabling for S mode.
 
-Changes in v7:
-- Add Image as a dependency of image.fit
-- Drop kbuild tag
-- Add dependency on dtbs
-- Drop unnecessary path separator for dtbs
-- Rebase to -next
+core mm shadow stack enabling
+-----------------------------
+Shadow stack for x86 usermode are now in mainline and thus this patch
+series builds on top of that for arch-agnostic mm related changes. Big
+thanks and shout out to Rick Edgecombe for that.
 
-Changes in v5:
-- Drop patch previously applied
-- Correct compression rule which was broken in v4
+selftests
+---------
+Created some minimal selftests to test the patch series.
 
-Changes in v4:
-- Use single quotes for UIMAGE_NAME
 
-Changes in v3:
-- Drop temporary file image.itk
-- Drop patch 'Use double quotes for image name'
-- Drop double quotes in use of UIMAGE_NAME
-- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-- Avoid hard-coding "arm64" for the DT architecture
+[1] - https://lore.kernel.org/lkml/20230213045351.3945824-1-debug@rivosinc.com/
+[2] - https://github.com/riscv/riscv-cfi
+[3] - https://lore.kernel.org/lkml/ZWHcBq0bJ+15eeKs@finisterre.sirena.org.uk/T/#mb121cd8b33d564e64234595a0ec52211479cf474
+[4] - https://lore.kernel.org/all/20220130211838.8382-1-rick.p.edgecombe@intel.com/
+[5] - https://lore.kernel.org/lkml/CAHk-=wgP5mk3poVeejw16Asbid0ghDt4okHnWaWKLBkRhQntRA@mail.gmail.com/
+[6] - https://lore.kernel.org/linux-mm/20231122-arm64-gcs-v7-2-201c483bd775@kernel.org/
+[7] - https://lore.kernel.org/lkml/20240125062739.1339782-1-debug@rivosinc.com/
+[8] - https://docs.google.com/spreadsheets/d/1_cHGH4ctNVvFRiS7hW9dEGKtXLAJ3aX4Z_iTSa3Tw2U/edit#gid=0
 
-Changes in v2:
-- Drop patch previously applied
-- Add .gitignore file
-- Move fit rule to Makefile.lib using an intermediate file
-- Drop dependency on CONFIG_EFI_ZBOOT
-- Pick up .dtb files separately from the kernel
-- Correct pylint too-many-args warning for write_kernel()
-- Include the kernel image in the file count
-- Add a pointer to the FIT spec and mention of its wide industry usage
-- Mention the kernel version in the FIT description
+Deepak Gupta (26):
+  riscv: envcfg save and restore on task switching
+  riscv: define default value for envcfg
+  riscv/Kconfig: enable HAVE_EXIT_THREAD for riscv
+  riscv: zicfiss/zicfilp enumeration
+  riscv: zicfiss/zicfilp extension csr and bit definitions
+  riscv: usercfi state for task and save/restore of CSR_SSP on trap
+    entry/exit
+  mm: Define VM_SHADOW_STACK for RISC-V
+  mm: abstract shadow stack vma behind `arch_is_shadow_stack`
+  riscv/mm : ensure PROT_WRITE leads to VM_READ | VM_WRITE
+  riscv mm: manufacture shadow stack pte
+  riscv mmu: teach pte_mkwrite to manufacture shadow stack PTEs
+  riscv mmu: write protect and shadow stack
+  riscv/mm: Implement map_shadow_stack() syscall
+  riscv/shstk: If needed allocate a new shadow stack on clone
+  prctl: arch-agnostic prtcl for indirect branch tracking
+  riscv: Implements arch agnostic shadow stack prctls
+  riscv: Implements arch argnostic indirect branch tracking prctls
+  riscv/kernel: update __show_regs to print shadow stack register
+  riscv/traps: Introduce software check exception
+  riscv sigcontext: adding cfi state field in sigcontext
+  riscv signal: Save and restore of shadow stack for signal
+  riscv/ptrace: riscv cfi status and state via ptrace and in core files
+  riscv: create a config for shadow stack and landing pad instr support
+  riscv: Documentation for landing pad / indirect branch tracking
+  riscv: Documentation for shadow stack on riscv
+  kselftest/riscv: kselftest for user mode cfi
 
- Documentation/process/changes.rst |   9 +
- MAINTAINERS                       |   7 +
- arch/arm64/Makefile               |   7 +-
- arch/arm64/boot/.gitignore        |   1 +
- arch/arm64/boot/Makefile          |   6 +-
- scripts/Makefile.lib              |  16 ++
- scripts/make_fit.py               | 290 ++++++++++++++++++++++++++++++
- 7 files changed, 333 insertions(+), 3 deletions(-)
- create mode 100755 scripts/make_fit.py
+Mark Brown (1):
+  prctl: arch-agnostic prctl for shadow stack
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 7ef8de58f7f8..3a39395bd9d3 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -62,6 +62,7 @@ Sphinx\ [#f1]_         2.4.4            sphinx-build --version
- cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
-+mkimage (optional)     2017.01          mkimage --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
- tag files through ``make gtags``.  This is due to its use of the gtags
- ``-C (--directory)`` flag.
- 
-+mkimage
-+-------
-+
-+This tool is used when building a Flat Image Tree (FIT), commonly used on ARM
-+platforms. The tool is available via the ``u-boot-tools`` package or can be
-+built from the U-Boot source code. See the instructions at
-+https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
-+
- System utilities
- ****************
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d36c19c1bf81..d28089145ca8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3079,6 +3079,13 @@ F:	drivers/mmc/host/sdhci-of-arasan.c
- N:	zynq
- N:	xilinx
- 
-+ARM64 FIT SUPPORT
-+M:	Simon Glass <sjg@chromium.org>
-+L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	arch/arm64/boot/Makefile
-+F:	scripts/make_fit.py
-+
- ARM64 PORT (AARCH64 ARCHITECTURE)
- M:	Catalin Marinas <catalin.marinas@arm.com>
- M:	Will Deacon <will@kernel.org>
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 1217d97998ac..b8b1d4f4a572 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -154,7 +154,7 @@ libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
- # Default target when executing plain make
- boot		:= arch/arm64/boot
- 
--BOOT_TARGETS	:= Image vmlinuz.efi
-+BOOT_TARGETS	:= Image vmlinuz.efi image.fit
- 
- PHONY += $(BOOT_TARGETS)
- 
-@@ -166,7 +166,9 @@ endif
- 
- all:	$(notdir $(KBUILD_IMAGE))
- 
--vmlinuz.efi: Image
-+image.fit: dtbs
-+
-+vmlinuz.efi image.fit: Image
- $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
-@@ -219,6 +221,7 @@ virtconfig:
- define archhelp
-   echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Image.gz)'
-   echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/Image)'
-+  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fit)'
-   echo  '  install       - Install uncompressed kernel'
-   echo  '  zinstall      - Install compressed kernel'
-   echo  '                  Install using (your) ~/bin/installkernel or'
-diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
-index af5dc61f8b43..abaae9de1bdd 100644
---- a/arch/arm64/boot/.gitignore
-+++ b/arch/arm64/boot/.gitignore
-@@ -2,3 +2,4 @@
- Image
- Image.gz
- vmlinuz*
-+image.fit
-diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-index a5a787371117..607a67a649c4 100644
---- a/arch/arm64/boot/Makefile
-+++ b/arch/arm64/boot/Makefile
-@@ -16,7 +16,8 @@
- 
- OBJCOPYFLAGS_Image :=-O binary -R .note -R .note.gnu.build-id -R .comment -S
- 
--targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo Image.zst
-+targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-+	Image.zst image.fit
- 
- $(obj)/Image: vmlinux FORCE
- 	$(call if_changed,objcopy)
-@@ -39,6 +40,9 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
- $(obj)/Image.zst: $(obj)/Image FORCE
- 	$(call if_changed,zstd)
- 
-+$(obj)/image.fit: $(obj)/Image $(obj)/dts/dtbs-list FORCE
-+	$(call if_changed,fit)
-+
- EFI_ZBOOT_PAYLOAD	:= Image
- EFI_ZBOOT_BFD_TARGET	:= elf64-littleaarch64
- EFI_ZBOOT_MACH_TYPE	:= ARM64
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 743edb09f9c7..1ca2d9982031 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -504,6 +504,22 @@ quiet_cmd_uimage = UIMAGE  $@
- 			-a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
- 			-n '$(UIMAGE_NAME)' -d $< $@
- 
-+# Flat Image Tree (FIT)
-+# This allows for packaging of a kernel and all devicetrees files, using
-+# compression.
-+# ---------------------------------------------------------------------------
-+
-+MAKE_FIT := $(srctree)/scripts/make_fit.py
-+
-+# Use this to override the compression algorithm
-+FIT_COMPRESSION ?= gzip
-+
-+quiet_cmd_fit = FIT     $@
-+      cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-+		--name '$(UIMAGE_NAME)' \
-+		$(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
-+		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-+
- # XZ
- # ---------------------------------------------------------------------------
- # Use xzkern or xzkern_with_size to compress the kernel image and xzmisc to
-diff --git a/scripts/make_fit.py b/scripts/make_fit.py
-new file mode 100755
-index 000000000000..3de90c5a094b
---- /dev/null
-+++ b/scripts/make_fit.py
-@@ -0,0 +1,290 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Copyright 2024 Google LLC
-+# Written by Simon Glass <sjg@chromium.org>
-+#
-+
-+"""Build a FIT containing a lot of devicetree files
-+
-+Usage:
-+    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
-+        -o arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
-+        @arch/arm64/boot/dts/dtbs-list -E -c gzip
-+
-+Creates a FIT containing the supplied kernel and a set of devicetree files,
-+either specified individually or listed in a file (with an '@' prefix).
-+
-+Use -E to generate an external FIT (where the data is placed after the
-+FIT data structure). This allows parsing of the data without loading
-+the entire FIT.
-+
-+Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
-+zstd algorithms.
-+
-+The resulting FIT can be booted by bootloaders which support FIT, such
-+as U-Boot, Linuxboot, Tianocore, etc.
-+
-+Note that this tool does not yet support adding a ramdisk / initrd.
-+"""
-+
-+import argparse
-+import collections
-+import os
-+import subprocess
-+import sys
-+import tempfile
-+import time
-+
-+import libfdt
-+
-+
-+# Tool extension and the name of the command-line tools
-+CompTool = collections.namedtuple('CompTool', 'ext,tools')
-+
-+COMP_TOOLS = {
-+    'bzip2': CompTool('.bz2', 'bzip2'),
-+    'gzip': CompTool('.gz', 'pigz,gzip'),
-+    'lz4': CompTool('.lz4', 'lz4'),
-+    'lzma': CompTool('.lzma', 'lzma'),
-+    'lzo': CompTool('.lzo', 'lzop'),
-+    'zstd': CompTool('.zstd', 'zstd'),
-+}
-+
-+
-+def parse_args():
-+    """Parse the program ArgumentParser
-+
-+    Returns:
-+        Namespace object containing the arguments
-+    """
-+    epilog = 'Build a FIT from a directory tree containing .dtb files'
-+    parser = argparse.ArgumentParser(epilog=epilog, fromfile_prefix_chars='@')
-+    parser.add_argument('-A', '--arch', type=str, required=True,
-+          help='Specifies the architecture')
-+    parser.add_argument('-c', '--compress', type=str, default='none',
-+          help='Specifies the compression')
-+    parser.add_argument('-E', '--external', action='store_true',
-+          help='Convert the FIT to use external data')
-+    parser.add_argument('-n', '--name', type=str, required=True,
-+          help='Specifies the name')
-+    parser.add_argument('-o', '--output', type=str, required=True,
-+          help='Specifies the output file (.fit)')
-+    parser.add_argument('-O', '--os', type=str, required=True,
-+          help='Specifies the operating system')
-+    parser.add_argument('-k', '--kernel', type=str, required=True,
-+          help='Specifies the (uncompressed) kernel input file (.itk)')
-+    parser.add_argument('-v', '--verbose', action='store_true',
-+                        help='Enable verbose output')
-+    parser.add_argument('dtbs', type=str, nargs='*',
-+          help='Specifies the devicetree files to process')
-+
-+    return parser.parse_args()
-+
-+
-+def setup_fit(fsw, name):
-+    """Make a start on writing the FIT
-+
-+    Outputs the root properties and the 'images' node
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        name (str): Name of kernel image
-+    """
-+    fsw.INC_SIZE = 65536
-+    fsw.finish_reservemap()
-+    fsw.begin_node('')
-+    fsw.property_string('description', f'{name} with devicetree set')
-+    fsw.property_u32('#address-cells', 1)
-+
-+    fsw.property_u32('timestamp', int(time.time()))
-+    fsw.begin_node('images')
-+
-+
-+def write_kernel(fsw, data, args):
-+    """Write out the kernel image
-+
-+    Writes a kernel node along with the required properties
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        data (bytes): Data to write (possibly compressed)
-+        args (Namespace): Contains necessary strings:
-+            arch: FIT architecture, e.g. 'arm64'
-+            fit_os: Operating Systems, e.g. 'linux'
-+            name: Name of OS, e.g. 'Linux-6.6.0-rc7'
-+            compress: Compression algorithm to use, e.g. 'gzip'
-+    """
-+    with fsw.add_node('kernel'):
-+        fsw.property_string('description', args.name)
-+        fsw.property_string('type', 'kernel_noload')
-+        fsw.property_string('arch', args.arch)
-+        fsw.property_string('os', args.os)
-+        fsw.property_string('compression', args.compress)
-+        fsw.property('data', data)
-+        fsw.property_u32('load', 0)
-+        fsw.property_u32('entry', 0)
-+
-+
-+def finish_fit(fsw, entries):
-+    """Finish the FIT ready for use
-+
-+    Writes the /configurations node and subnodes
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        entries (list of tuple): List of configurations:
-+            str: Description of model
-+            str: Compatible stringlist
-+    """
-+    fsw.end_node()
-+    seq = 0
-+    with fsw.add_node('configurations'):
-+        for model, compat in entries:
-+            seq += 1
-+            with fsw.add_node(f'conf-{seq}'):
-+                fsw.property('compatible', bytes(compat))
-+                fsw.property_string('description', model)
-+                fsw.property_string('fdt', f'fdt-{seq}')
-+                fsw.property_string('kernel', 'kernel')
-+    fsw.end_node()
-+
-+
-+def compress_data(inf, compress):
-+    """Compress data using a selected algorithm
-+
-+    Args:
-+        inf (IOBase): Filename containing the data to compress
-+        compress (str): Compression algorithm, e.g. 'gzip'
-+
-+    Return:
-+        bytes: Compressed data
-+    """
-+    if compress == 'none':
-+        return inf.read()
-+
-+    comp = COMP_TOOLS.get(compress)
-+    if not comp:
-+        raise ValueError(f"Unknown compression algorithm '{compress}'")
-+
-+    with tempfile.NamedTemporaryFile() as comp_fname:
-+        with open(comp_fname.name, 'wb') as outf:
-+            done = False
-+            for tool in comp.tools.split(','):
-+                try:
-+                    subprocess.call([tool, '-c'], stdin=inf, stdout=outf)
-+                    done = True
-+                    break
-+                except FileNotFoundError:
-+                    pass
-+            if not done:
-+                raise ValueError(f'Missing tool(s): {comp.tools}\n')
-+            with open(comp_fname.name, 'rb') as compf:
-+                comp_data = compf.read()
-+    return comp_data
-+
-+
-+def output_dtb(fsw, seq, fname, arch, compress):
-+    """Write out a single devicetree to the FIT
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        seq (int): Sequence number (1 for first)
-+        fmame (str): Filename containing the DTB
-+        arch: FIT architecture, e.g. 'arm64'
-+        compress (str): Compressed algorithm, e.g. 'gzip'
-+
-+    Returns:
-+        tuple:
-+            str: Model name
-+            bytes: Compatible stringlist
-+    """
-+    with fsw.add_node(f'fdt-{seq}'):
-+        # Get the compatible / model information
-+        with open(fname, 'rb') as inf:
-+            data = inf.read()
-+        fdt = libfdt.FdtRo(data)
-+        model = fdt.getprop(0, 'model').as_str()
-+        compat = fdt.getprop(0, 'compatible')
-+
-+        fsw.property_string('description', model)
-+        fsw.property_string('type', 'flat_dt')
-+        fsw.property_string('arch', arch)
-+        fsw.property_string('compression', compress)
-+        fsw.property('compatible', bytes(compat))
-+
-+        with open(fname, 'rb') as inf:
-+            compressed = compress_data(inf, compress)
-+        fsw.property('data', compressed)
-+    return model, compat
-+
-+
-+def build_fit(args):
-+    """Build the FIT from the provided files and arguments
-+
-+    Args:
-+        args (Namespace): Program arguments
-+
-+    Returns:
-+        tuple:
-+            bytes: FIT data
-+            int: Number of configurations generated
-+            size: Total uncompressed size of data
-+    """
-+    seq = 0
-+    size = 0
-+    fsw = libfdt.FdtSw()
-+    setup_fit(fsw, args.name)
-+    entries = []
-+
-+    # Handle the kernel
-+    with open(args.kernel, 'rb') as inf:
-+        comp_data = compress_data(inf, args.compress)
-+    size += os.path.getsize(args.kernel)
-+    write_kernel(fsw, comp_data, args)
-+
-+    for fname in args.dtbs:
-+        # Ignore overlay (.dtbo) files
-+        if os.path.splitext(fname)[1] == '.dtb':
-+            seq += 1
-+            size += os.path.getsize(fname)
-+            model, compat = output_dtb(fsw, seq, fname, args.arch, args.compress)
-+            entries.append([model, compat])
-+
-+    finish_fit(fsw, entries)
-+
-+    # Include the kernel itself in the returned file count
-+    return fsw.as_fdt().as_bytearray(), seq + 1, size
-+
-+
-+def run_make_fit():
-+    """Run the tool's main logic"""
-+    args = parse_args()
-+
-+    out_data, count, size = build_fit(args)
-+    with open(args.output, 'wb') as outf:
-+        outf.write(out_data)
-+
-+    ext_fit_size = None
-+    if args.external:
-+        mkimage = os.environ.get('MKIMAGE', 'mkimage')
-+        subprocess.check_call([mkimage, '-E', '-F', args.output],
-+                              stdout=subprocess.DEVNULL)
-+
-+        with open(args.output, 'rb') as inf:
-+            data = inf.read()
-+        ext_fit = libfdt.FdtRo(data)
-+        ext_fit_size = ext_fit.totalsize()
-+
-+    if args.verbose:
-+        comp_size = len(out_data)
-+        print(f'FIT size {comp_size:#x}/{comp_size / 1024 / 1024:.1f} MB',
-+              end='')
-+        if ext_fit_size:
-+            print(f', header {ext_fit_size:#x}/{ext_fit_size / 1024:.1f} KB',
-+                  end='')
-+        print(f', {count} files, uncompressed {size / 1024 / 1024:.1f} MB')
-+
-+
-+if __name__ == "__main__":
-+    sys.exit(run_make_fit())
+ Documentation/arch/riscv/zicfilp.rst          | 104 ++++
+ Documentation/arch/riscv/zicfiss.rst          | 169 ++++++
+ .../devicetree/bindings/riscv/extensions.yaml |  10 +
+ arch/riscv/Kconfig                            |  19 +
+ arch/riscv/include/asm/asm-prototypes.h       |   1 +
+ arch/riscv/include/asm/cpufeature.h           |  13 +
+ arch/riscv/include/asm/csr.h                  |  18 +
+ arch/riscv/include/asm/hwcap.h                |   2 +
+ arch/riscv/include/asm/mman.h                 |  24 +
+ arch/riscv/include/asm/pgtable.h              |  32 +-
+ arch/riscv/include/asm/processor.h            |   2 +
+ arch/riscv/include/asm/switch_to.h            |  10 +
+ arch/riscv/include/asm/thread_info.h          |   4 +
+ arch/riscv/include/asm/usercfi.h              | 118 ++++
+ arch/riscv/include/uapi/asm/ptrace.h          |  18 +
+ arch/riscv/include/uapi/asm/sigcontext.h      |   5 +
+ arch/riscv/kernel/Makefile                    |   2 +
+ arch/riscv/kernel/asm-offsets.c               |   4 +
+ arch/riscv/kernel/cpufeature.c                |   2 +
+ arch/riscv/kernel/entry.S                     |  29 +
+ arch/riscv/kernel/process.c                   |  35 +-
+ arch/riscv/kernel/ptrace.c                    |  83 +++
+ arch/riscv/kernel/signal.c                    |  45 ++
+ arch/riscv/kernel/sys_riscv.c                 |  11 +
+ arch/riscv/kernel/traps.c                     |  38 ++
+ arch/riscv/kernel/usercfi.c                   | 510 ++++++++++++++++++
+ arch/riscv/mm/init.c                          |   2 +-
+ arch/riscv/mm/pgtable.c                       |  21 +
+ include/linux/mm.h                            |  35 +-
+ include/uapi/asm-generic/mman.h               |   1 +
+ include/uapi/linux/elf.h                      |   1 +
+ include/uapi/linux/prctl.h                    |  49 ++
+ kernel/sys.c                                  |  60 +++
+ mm/gup.c                                      |   5 +-
+ mm/internal.h                                 |   2 +-
+ mm/mmap.c                                     |   1 +
+ tools/testing/selftests/riscv/Makefile        |   2 +-
+ tools/testing/selftests/riscv/cfi/Makefile    |  10 +
+ .../testing/selftests/riscv/cfi/cfi_rv_test.h |  85 +++
+ .../selftests/riscv/cfi/riscv_cfi_test.c      |  91 ++++
+ .../testing/selftests/riscv/cfi/shadowstack.c | 376 +++++++++++++
+ .../testing/selftests/riscv/cfi/shadowstack.h |  39 ++
+ 42 files changed, 2077 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/arch/riscv/zicfilp.rst
+ create mode 100644 Documentation/arch/riscv/zicfiss.rst
+ create mode 100644 arch/riscv/include/asm/mman.h
+ create mode 100644 arch/riscv/include/asm/usercfi.h
+ create mode 100644 arch/riscv/kernel/usercfi.c
+ create mode 100644 tools/testing/selftests/riscv/cfi/Makefile
+ create mode 100644 tools/testing/selftests/riscv/cfi/cfi_rv_test.h
+ create mode 100644 tools/testing/selftests/riscv/cfi/riscv_cfi_test.c
+ create mode 100644 tools/testing/selftests/riscv/cfi/shadowstack.c
+ create mode 100644 tools/testing/selftests/riscv/cfi/shadowstack.h
+
 -- 
-2.34.1
+2.43.2
 
