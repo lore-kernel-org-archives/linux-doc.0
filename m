@@ -1,131 +1,101 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322D41FBA;
-	Fri, 29 Mar 2024 15:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9971EB2D
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 15:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711726810; cv=none; b=HdL6QUR0uK57/gTcFmuwvsxwp7Is231eNnIyOK3oJoSeiErgq7txZMZXkemJ706h/3MmF23TBwrqyhDa9y9T797U3gTA7l+PYCyGN3Vb9GQ6TMhG45bwnPk+c/GXRpXpOdQ5QM7Yl7gPnUD9NcZZiU/zvvniuIML2PnCNLTipfo=
+	t=1711727975; cv=none; b=uEX1gkjm3hVwHrU+O5tTAoFqSw/zaj8atACyetwiqXfLFm9XDBw4KxO3dQI0ym+oocAt4qtIXg9/VDPh6Zy3i41B2A+MFJKm3LNwTudEwQF6petnKuUxMACS0k8J/UpaVVykK6t+aEwP3uHNTrTP+wZGpeCAguJc016n4RcqxZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711726810; c=relaxed/simple;
-	bh=XCgoZLnAXnGDp3scNF5htnbob5J7JStC8D45eQoM9R4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oCDryKTCwNBa1XESY+HXrS2fCn9Ozuiym1DVVy5CR6Vvze0hKrsJPXVEBXqEViTLFl7Ah4vNuiXZkU1sw6aoJwNBYy/7swRzdJ6OJ4/g2oFdS5u6stGkcvDtlZvAxMIncnK4B4wXmzWtYqljaYhhZLEz+CdqsKwIqq45swgykpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUnOUR7H; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711727975; c=relaxed/simple;
+	bh=Ci0lmB/10DSKLkii5x5y0PFZw2+TFkPRy6S1JnliA3o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HfNZGkjmKrG55yE+5Dp+aGc/CVqLRdeR6Ik/9WNLqEIVEKyUgPIq18ns+NjBB5edMfhdjHrvKK1y0WTOr8y2PZybf2NCif1mBxARvC6yAioDEUl84VanqqbLtyQ5jy+SwKTFlWZp54ZonH0NBB/6Xh8E7UQxRWXqfdCailv6+Mo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lvMtKqGN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUnOUR7H"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-53fa455cd94so1519286a12.2;
-        Fri, 29 Mar 2024 08:40:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711726808; x=1712331608; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
-        b=MUnOUR7HY6vwYa92neIZHYGUvH5I1dF1Bo7/9/nYC/METJ1LcvRfTJ3UrdSMmUe6FC
-         gOsAAcZI5fuMBtnYd1XYteTpD7iilDnzNJGQCDkjNtdSbNtsjQ+H+tT/p1giGio6N6XG
-         c/fOoWgNLNBTXbnefO75MQyI51dLo+b1SVQJb2BkA3/hB5pZIlony882eQZu9ZFNh0ep
-         33bUFemjBqO3ZNk+x0tiQjkOnJ9fcXv2MQdOFypkFGG4FahpdXL6b/Vj7wCz/gfVSbTO
-         MJv/wJzO/jQ7Kdcxmde4Pb9pySSflIuFcgkUN32tfKWGxoR+Pm6mK6F5SJkvChQwYmRp
-         iBRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711726808; x=1712331608;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iN31wd2vCkiTGMz1OBtEaB4JW8VyiA1XbISlyEebr3E=;
-        b=UZeXNTugUFF7ZLvxjcEC/t4b+REmywz0B1oaHxSC/FPLuIS2hcg1pnvyr0iY283ORN
-         J5yEbOt82e+srx1WEoeZxx18mHADhxIVjqxIVbQNtO4YiNF84vQOwZMaHanx1QVhiyzi
-         30wGweoNPXMcu+4ZWuBv3tB2/AoFu/tSpvKnPAWTc7R6lGG+QXfoQhPIQ7qjxKDGkZ/v
-         ZJQajuGvmLhkcxFBNd/VvXMN8OomN4lQ8AYg3AZRV7z5QGBJz9SzBiYDR89eJ0i3NxkZ
-         b5QdJT8wzr3pwABneBZST1fjtCVvHVrB0uBTt6LeVO0XZJ6PaIXbQAQEZLISaKtvJJrU
-         M9VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJOnvfqDstoGNWqya9c2CpvRlfeBuOGCz4oaW4BjNSstCi+JbsgNWSWKPkJTvDezGHP1l1yt3hbnjRuFMnFnP+ODAPa9B0KTgUzCTR4wBP509TYdlj1Yoc63C0gBx0PyATOTXRoU50jgTOCW5LOyzh02XO+PpOPZrzO6aKzu2WEDkkG11VeaYfUts4cuOCmJsj3BdXu8Ah9dTKuzXBAT0pXxXfErO3rzYezy4btqFL9YZzGWecZIDTEK13C8CLPsUfnn+9dXWOLXiWYAyrOYsmXUR2uml0icj4IJpVvUdrtlcQ8t8eBsSlQqEEb3VDGg==
-X-Gm-Message-State: AOJu0Yzacj+0ODnB61m4DFEwTd9U4g+aPd/faEYvzFALoBq7a3kkjEky
-	RWWg6gr0dcatrVIFarTUu05/TalspZjQ1+zHRsDZleqZmcPuyvLR
-X-Google-Smtp-Source: AGHT+IF0O7HII5MYlv2g0E+BHBSm5qRGKAR+0KxI+xwk6+g8c7fXn65jtKX0C7ci+tZdnr/ge20LGw==
-X-Received: by 2002:a05:6a20:3c90:b0:1a5:6bfb:76de with SMTP id b16-20020a056a203c9000b001a56bfb76demr2694088pzj.2.1711726808383;
-        Fri, 29 Mar 2024 08:40:08 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id m9-20020a170902db0900b001dd578121d4sm3581907plx.204.2024.03.29.08.40.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 08:40:07 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 29 Mar 2024 08:40:05 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Simon Horman <horms@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kees Cook <keescook@chromium.org>,
-	Daniel Diaz <daniel.diaz@linaro.org>,
-	David Gow <davidgow@google.com>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
-	netdev@vger.kernel.org,
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: Re: [PATCH v2 12/14] sh: Add support for suppressing warning
- backtraces
-Message-ID: <d7663e19-74d5-478d-becc-0a080075e7d6@roeck-us.net>
-References: <20240325175248.1499046-1-linux@roeck-us.net>
- <20240325175248.1499046-13-linux@roeck-us.net>
- <20240327144431.GL403975@kernel.org>
- <320aacc6-b7e5-4c3d-948e-d0743ab26c5d@roeck-us.net>
- <20240327193920.GV403975@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lvMtKqGN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=2NxBU6JZNOPlIw9j0Dbh+sip5syxK+gQdin/omQT/UM=; b=lvMtKqGNIgdywaeh1MMiqN0tC1
+	j9DRPVA4ThbOr/0TOm87iBKtoCHy2XxZxqSCKoUfMNxEHVEG+2C/qc11DqJqoqld98WlJEzl8oX64
+	F2OWkRTD4HcP3dtgsJqfiN0Aku3K/PhpWYjBFbCQeI3hqvsQWDXDZ8uyU6yrHHdOidI1no/C6qwGt
+	GJqgVH9Zbirsxj9BXLc/IQmo04Bz76YcP9mAzs7mK5tWBYrijOK9P6BnS3aemsvoOsnlqjBUNBGh0
+	TbC/DEctwIgJxLVmXWkwGMVicnFlNtGzMXtQlF93SWPTK767N0JyRkffcmpN3rVk18EU/7Avt0Fb3
+	Xr3jsZ8A==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rqEdg-00000001ENX-2Yvf;
+	Fri, 29 Mar 2024 15:59:32 +0000
+Message-ID: <83f6f9ae-c383-44a4-bdcb-7267f528a562@infradead.org>
+Date: Fri, 29 Mar 2024 08:59:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327193920.GV403975@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH docs-next v1] docs: Fix bitfield handling in kernel-doc
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, Donald Hunter
+ <donald.hunter@gmail.com>, linux-doc@vger.kernel.org
+Cc: donald.hunter@redhat.com
+References: <20240326173825.99190-1-donald.hunter@gmail.com>
+ <87frw95bxx.fsf@meer.lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87frw95bxx.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 27, 2024 at 07:39:20PM +0000, Simon Horman wrote:
-[ ... ]
-> > > 
-> > > Hi Guenter,
-> > > 
-> > > a minor nit from my side: this change results in a Kernel doc warning.
-> > > 
-> > >       .../bug.h:29: warning: expecting prototype for _EMIT_BUG_ENTRY(). Prototype was for HAVE_BUG_FUNCTION() instead
-> > > 
-> > > Perhaps either the new code should be placed above the Kernel doc,
-> > > or scripts/kernel-doc should be enhanced?
-> > > 
-> > 
-> > Thanks a lot for the feedback.
-> > 
-> > The definition block needs to be inside CONFIG_DEBUG_BUGVERBOSE,
-> > so it would be a bit odd to move it above the documentation
-> > just to make kerneldoc happy. I am not really sure that to do
-> > about it.
+
+
+On 3/29/24 07:50, Jonathan Corbet wrote:
+> Donald Hunter <donald.hunter@gmail.com> writes:
 > 
-> FWIIW, I agree that would be odd.
-> But perhaps the #ifdef could also move above the Kernel doc?
-> Maybe not a great idea, but the best one I've had so far.
+>> kernel-doc doesn't handle bitfields that are specified with symbolic
+>> name, e.g. u32 cs_index_mask : SPI_CS_CNT_MAX
+>>
+>> This results in the following warnings when running `make htmldocs`:
+>>
+>> include/linux/spi/spi.h:246: warning: Function parameter or struct member 'cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_device'
+>> include/linux/spi/spi.h:246: warning: Excess struct member 'cs_index_mask' description in 'spi_device'
+>>
+>> Update the regexp for bitfields to accept all word chars, not just
+>> digits.
+>>
+>> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+>> ---
+>>  scripts/kernel-doc | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>> index 967f1abb0edb..cb1be22afc65 100755
+>> --- a/scripts/kernel-doc
+>> +++ b/scripts/kernel-doc
+>> @@ -1541,7 +1541,7 @@ sub create_parameterlist($$$$) {
+>>                      save_struct_actual($2);
+>>  
+>>                      push_parameter($2, "$type $1", $arg, $file, $declaration_name);
+>> -                } elsif ($param =~ m/(.*?):(\d+)/) {
+>> +                } elsif ($param =~ m/(.*?):(\w+)/) {
+>>                      if ($type ne "") { # skip unnamed bit-fields
 > 
+> This patch changes this warning:
+> 
+>   ./include/linux/spi/spi.h:778: warning: Function parameter or struct member 'last_cs_index_mask:SPI_CS_CNT_MAX' not described in 'spi_controller'
+> 
+> to:
+> 
+>   ./include/linux/spi/spi.h:778: warning: Function parameter or struct member 'last_cs_index_mask' not described in 'spi_controller'
+> 
+> We might get a grumble from Stephen on that, but so be it, it's a step
+> in the right direction, anyway.
 
-I did that for the next version of the patch series. It is a bit more
-clumsy, so I left it as separate patch on top of this patch. I'd
-still like to get input from others before making the change final.
+I have submitted a patch for that one (new warning).
 
-Thanks,
-Guenter
+-- 
+#Randy
