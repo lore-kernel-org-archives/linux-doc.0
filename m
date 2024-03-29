@@ -1,119 +1,120 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA136849C;
-	Fri, 29 Mar 2024 22:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AB813DDDD
+	for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 23:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711752574; cv=none; b=lsfeT/09HbSBU7HHeb/VfZm10SqeljgP3Zdfwumy/tsTIkoCn79hnVn/h3MY+QQx4ifs703OWbvS4Y4BFLjTNENZfpjl1RY5qfK48XRqpK1XlurcOFIgw7Ua1CP1jnPBh6uYzfCEJR03FgZupcqPXLJJaZ+BgLljzdWsBFd3cUk=
+	t=1711753332; cv=none; b=fL2NjSET0IIldZxB1tfeyCvLrlGZbSuD/TVf+Ra1OEVnb4LblorJVlIiSoDN6atk4leA+pWK6tKq/AJ9TNzITS+uZ9iMuFdC+z5zQ8Bfxx7/Br24moHG2IoEeqKTJYL0LfSmb15Lkpylw4OQbsHyVBmT2b4uy6nUMxeqGjOzEFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711752574; c=relaxed/simple;
-	bh=NUfPh5D3dQMIcCtz1EhdkcsFvsIQ6wVm83hQ6WfxnOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GUQ9SK26n4OQ2Kt5cTp+sE0PZzVwEgz5keINWrxuybjfFWjkYxjw402Jj+fPE4VTHfzW0pM6/31wuMXbYWjOIXxwbElg0898TMcrkTsScF0wunMLiAdK2Dr/T7keIG5dOjb3IVsKRP+EIgcXjY80cKDmtrdfsrjwh+oHzFUbX5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=IpcGOe+G; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	s=arc-20240116; t=1711753332; c=relaxed/simple;
+	bh=LOlGtRD+I7SxnGyG4Qt3HDXxX82VHSKBErkCCIDULUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I79VwkvHiWCqRsyuy+cBb0GCBUz9b1hMfg2aU/WHElcq4rXrkn7pRr18WaYecWgHNcr7Qf8Uc7zySWPZk5uPPzrQdSyTaT/cLX6wtDLF6x7+tQdmGhQmdOCqDclDN9AR33TDcu1+UIY4iPd1rTGjm60Naqq6jp/4dI+PjIoWG9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xH2DVphr; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="IpcGOe+G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1711752564;
-	bh=y7/nbXFQZJjv1BJM3ikZ+A5q8QAGzIbRDpWbIYDsgHQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IpcGOe+GKsUbsctsTABGZXj/TkRvnlkwMfabjWCTE+oMxrYOc1CzrHlBgK/CNM65+
-	 wLB76ZWrRTCpcKHKDXef5XQTfYXlu4dZwkZU+QjiN2buY7TNbxGGQc3+pCHsNZx82F
-	 BGnsu3KOBh2FhylnAMqiKghTzFvuGBx+YBTVON+zzRWIzov3zXobuxBBJts8w2lyT4
-	 spF8geDua8Vxt0My4r3TMvLV0ML6ee8gjCR8gqFpweFP+KE7skh3bIHzmlABtGGzah
-	 Il9MDLY1SpF2zwe9RuS6KfJZ4hqeNrdKrkCy4NiaTYio7pMczJnc9qVav5yoJqTQXh
-	 +w7lOE3MLJ+BA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4V5wZW0VRVz4wcn;
-	Sat, 30 Mar 2024 09:49:22 +1100 (AEDT)
-Date: Sat, 30 Mar 2024 09:49:19 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew
- Morton <akpm@linux-foundation.org>, Kent Overstreet
- <kent.overstreet@linux.dev>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: Re: linux-next: build warnings after merge of the mm tree
-Message-ID: <20240330094919.61e7c7b8@canb.auug.org.au>
-In-Reply-To: <CAJuCfpHZGkL9urkZaVmO_o0ujpr-moDGYiBES1iRy2dh8g-t8w@mail.gmail.com>
-References: <20240325123603.1bdd6588@canb.auug.org.au>
-	<CAJuCfpH4Ee00hM9+B7=mi5Dwjrhov8vUK-KwPuoO3wsD7iJSAQ@mail.gmail.com>
-	<5e1321ca-0d46-4e9d-a6e5-0560d99f65ff@infradead.org>
-	<CAJuCfpFTOz8cNiJFiCU5tMM1u5L=wXRsXqxUhN9g-R0u77CyZw@mail.gmail.com>
-	<20240328153947.3871cfdf@canb.auug.org.au>
-	<20240328154427.3e926d21@canb.auug.org.au>
-	<CAJuCfpHZGkL9urkZaVmO_o0ujpr-moDGYiBES1iRy2dh8g-t8w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xH2DVphr"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso2258637276.2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Mar 2024 16:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1711753329; x=1712358129; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Igo4IUryPSmylrRgjB3Hg+wV547xWuDnOMCE0dxBkog=;
+        b=xH2DVphr1RMNlDIJ9mBeQGwyWsjq38aan7YKMGLjdGZmWLib+NUcXRhdWCuWcI5HNT
+         ZGSu6qeN3z19TBtIG88HLzizhGEGS4PxQ51+JLM/YwwJXGouZnJyJuq4lvq7Z2MG5skq
+         8PNjSfd64nLcFrrkoBdfFtXVMbGfTOwTKfe1LnHOlqZAbzh6Nr8FvBS7hA6sAQi+D9l6
+         X7ypNHm6mByX1xw7L5Yp99s8BA02l8eXliPXtVq11Z9TReDOWJonEJ6yAlUJlnTj1aGq
+         blbeUtROK2MV+hjJcQG6j7j5wjUqaC8iT8Fhdelvjs+2+cDwIzJaol8pS+VCnvtRqU8C
+         ifcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711753329; x=1712358129;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Igo4IUryPSmylrRgjB3Hg+wV547xWuDnOMCE0dxBkog=;
+        b=mbllUM97CdP9IZqtgxsJJxAnc2EuGD8KtT0j/ZDmjHNvxeR4ia51YL5zj6M/V1PKa1
+         Twa9AVcCaDzf8WIz7M/rTEdPzgHqkqkXBSAvUAPt5/EgL+MmoF0GA+2RLTbDUFR4AVq6
+         LivUrV6LUbDey4/efkrbzaFKBJzWTa6sm+sJiPOt0V5f7t5MDF1DMWWc8vSUoIylx++6
+         SCzYBGQnC9NSGOsNXwdjtFvc9pIXn4JdVxcRhppXzSgt9SAW5yUSxISj7S9u3gSlAWJh
+         6MQUQV/NwWcFP33GazjWly4SUTOXGVigaZ9b55qGAG/r7TX14+ugKBPbvlXTwgUwreV4
+         K8Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCXSTtffKldjsTdfdV9CpPqPtv4J6D+JZqtIaZeSZ0e4UL7/b0C1dYY20e5afRGar+JOuXZaYbDapSmy2oJ8Vr+Y7a1ta641r4D2
+X-Gm-Message-State: AOJu0YwaSebCV/GLLGbC/wX0U2kORuXl7frNqI3+VrMklqH1BtLMNQrw
+	vK0JF1utpkZkDAK1U+Gw8H+ambGBCIsPf00eWPtKbgLmOwef5j+IDG70ITDg8BUT/9SwUDXUJ1g
+	dtnsmdQGrnM6Ky0hovIB1DH1RarwgqUTy10+g
+X-Google-Smtp-Source: AGHT+IEMWCPE7scOrb6eChbQBr0BQCWxKMukJUVs0Rndtpuxp6EowEceQGuHZdmJhEbFeclclOJgjloq4Q7FYUj0s8k=
+X-Received: by 2002:a25:8b88:0:b0:dc7:140:8c0c with SMTP id
+ j8-20020a258b88000000b00dc701408c0cmr3746406ybl.23.1711753329011; Fri, 29 Mar
+ 2024 16:02:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/FA9pyRN8FXVoQi2ztbbKi3I";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/FA9pyRN8FXVoQi2ztbbKi3I
-Content-Type: text/plain; charset=US-ASCII
+References: <20240325123603.1bdd6588@canb.auug.org.au> <CAJuCfpH4Ee00hM9+B7=mi5Dwjrhov8vUK-KwPuoO3wsD7iJSAQ@mail.gmail.com>
+ <5e1321ca-0d46-4e9d-a6e5-0560d99f65ff@infradead.org> <CAJuCfpFTOz8cNiJFiCU5tMM1u5L=wXRsXqxUhN9g-R0u77CyZw@mail.gmail.com>
+ <20240328153947.3871cfdf@canb.auug.org.au> <20240328154427.3e926d21@canb.auug.org.au>
+ <CAJuCfpHZGkL9urkZaVmO_o0ujpr-moDGYiBES1iRy2dh8g-t8w@mail.gmail.com> <20240330094919.61e7c7b8@canb.auug.org.au>
+In-Reply-To: <20240330094919.61e7c7b8@canb.auug.org.au>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 29 Mar 2024 16:01:56 -0700
+Message-ID: <CAJuCfpHVSn-wAogkYxuLTewFXKNpVwfDGAqshe1Ff5b7BNteqg@mail.gmail.com>
+Subject: Re: linux-next: build warnings after merge of the mm tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Randy Dunlap <rdunlap@infradead.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Suren,
-
-On Wed, 27 Mar 2024 22:35:56 -0700 Suren Baghdasaryan <surenb@google.com> w=
-rote:
+On Fri, Mar 29, 2024 at 3:49=E2=80=AFPM Stephen Rothwell <sfr@canb.auug.org=
+.au> wrote:
 >
-> https://lore.kernel.org/all/20240327044649.9199-1-rdunlap@infradead.org/
-> which seems to not yet been pulled into mm-unstable should fix the
-> following warnings:
->=20
-> include/linux/slab.h:730: warning: Function parameter or struct member
-> '_n' not described in 'kcalloc'
-> include/linux/slab.h:730: warning: Function parameter or struct member
-> '_size' not described in 'kcalloc'
-> include/linux/slab.h:730: warning: Function parameter or struct member
-> '_flags' not described in 'kcalloc'
-> include/linux/slab.h:730: warning: Excess function parameter 'n'
-> description in 'kcalloc'
-> include/linux/slab.h:730: warning: Excess function parameter 'size'
-> description in 'kcalloc'
-> include/linux/slab.h:730: warning: Excess function parameter 'flags'
-> description in 'kcalloc'
->=20
-> And https://lore.kernel.org/all/20240326054149.2121-1-rdunlap@infradead.o=
-rg/
-> should handle the _noprof warnings. I can see this patch in
-> mm-unstable and running "make htmldocs" in mm-unstable does not show
-> the _noprof warnings anymore. Please let me know if I should try some
-> other command to reproduce these.
+> Hi Suren,
+>
+> On Wed, 27 Mar 2024 22:35:56 -0700 Suren Baghdasaryan <surenb@google.com>=
+ wrote:
+> >
+> > https://lore.kernel.org/all/20240327044649.9199-1-rdunlap@infradead.org=
+/
+> > which seems to not yet been pulled into mm-unstable should fix the
+> > following warnings:
+> >
+> > include/linux/slab.h:730: warning: Function parameter or struct member
+> > '_n' not described in 'kcalloc'
+> > include/linux/slab.h:730: warning: Function parameter or struct member
+> > '_size' not described in 'kcalloc'
+> > include/linux/slab.h:730: warning: Function parameter or struct member
+> > '_flags' not described in 'kcalloc'
+> > include/linux/slab.h:730: warning: Excess function parameter 'n'
+> > description in 'kcalloc'
+> > include/linux/slab.h:730: warning: Excess function parameter 'size'
+> > description in 'kcalloc'
+> > include/linux/slab.h:730: warning: Excess function parameter 'flags'
+> > description in 'kcalloc'
+> >
+> > And https://lore.kernel.org/all/20240326054149.2121-1-rdunlap@infradead=
+.org/
+> > should handle the _noprof warnings. I can see this patch in
+> > mm-unstable and running "make htmldocs" in mm-unstable does not show
+> > the _noprof warnings anymore. Please let me know if I should try some
+> > other command to reproduce these.
+>
+> Those patches entered the mm tree after I had merge it on Thursday.  It
+> should all be good on Tuesday.
 
-Those patches entered the mm tree after I had merge it on Thursday.  It
-should all be good on Tuesday.
+Perfect. I'll ignore similar reports with _noprof prototype warnings until =
+then.
+Thank you!
 
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/FA9pyRN8FXVoQi2ztbbKi3I
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYHRW8ACgkQAVBC80lX
-0Gxgvwf/cbqAEXHY0h2qgDEQcCMgXVslA1NPf257L3zgOuCHyXMcmL3hwwPEURq1
-K1XwRlmeeSAkz98+F4yZ8Jmorf1B6XDmYGOW/4LibXX4lN3wMsAiECWJurB1nyZs
-AgvztLSdVJTrW+nkydmT8ekFlIyK2xUQkwHNtr5iJ97DH6nPaLUeIqyWVaVkOGpt
-atD9CE3J3dC1UYzSvH7ipdEOoxeSc4FQFDGRGvdSJ8witGnAq6HDrMYcZEmMkotp
-r504oKZTeFwD0XI9nzSBSHnfzml23a/gUSwHDzxIi9TK88tPBpmS+v7ioH13luyL
-n2VZEAicwEyUWC1ASZewuk3BY0fEhA==
-=2moH
------END PGP SIGNATURE-----
-
---Sig_/FA9pyRN8FXVoQi2ztbbKi3I--
+>
+> --
+> Cheers,
+> Stephen Rothwell
