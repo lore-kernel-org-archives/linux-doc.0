@@ -1,453 +1,443 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2095.outbound.protection.outlook.com [40.107.237.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4699D13BAD1;
-	Fri, 29 Mar 2024 20:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711743514; cv=none; b=j2hUMl9NyGzSDJP9D+OX7+sbNQl02uJeOwLiIYfS7ZIoMaBPLsqmW/jyWFUtGqZN4jPEzBxKaNM7IowzhVMslqTg+//xfLymH6hV62MaIaGnIgOuOii5e9xzwtIRkH5HWMjNpof2iW7QWN7Tcw8zkKXKTjtgqP9CWAgXF8imcAQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711743514; c=relaxed/simple;
-	bh=M1bVLI2QVrqN4cSmcZhh5HNh6nWGHhPJEonGQgPvO00=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Q8XWirNIrCY/iG2sgaBNL9z10ipPNp8KvMULAgzBLiQ3oxYnUsFdhW++cX5jhVlGbpdAUnZG20D2pnBZ2mgswRNCJhh4m1A3AuXfmG60vYtoGDkDdiVVeJcQA7IKbu/UkeUEIi7tV7upwlWyDD7BLzxzw0IOs1hlQVJFBV1BUWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L2zt8eif; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157B128DCA;
+	Fri, 29 Mar 2024 22:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711752070; cv=fail; b=iT73yaJATXPF6TexZMUEAV2/sxEWzNiLK5TUnvPX0Cy2E14qbaNwPyBNeqaglJ//Jx+6uFKjnxeQq+z+nMgdQg7F1U37PDX1ZUB+DIlOCzOGWxC06t1YWT90Ew/eW+Rh3ApI8I72qztLjrFodKVarmzb+wwckGDk0XXy7Qh/CJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711752070; c=relaxed/simple;
+	bh=+qwRVQtAUFwc+mzfaMAXarOygq0dR3IZtuet68K/Fyc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=G29ZIU+yv38ZuTtXNi+N8C9Zhwjmp44eIvzsKJgCft7KwIkeThqwQKY9NS8L4PwEr46ODNkpxKhj/5OKv8BT1YCNoJfs/awO/a9KJkRV+vJZaAlNqOJlgGXBdjfLBdz3f3I2QS98P/ZBr6R+qHJydYb7baxyGFy6LT11pI9R0o0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QMl5bUwl; arc=fail smtp.client-ip=40.107.237.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L2zt8eif"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1711743510;
-	bh=M1bVLI2QVrqN4cSmcZhh5HNh6nWGHhPJEonGQgPvO00=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=L2zt8eif9xbOYilCC0YsH5YJqm0E16o6ScfkTW8PJ/tzy1yVnA9m7MIrFJkygElI4
-	 9hCl+N3ah/v40+3Yx+05eCqrFqcX/Awpvn4TAeuhHQOQ+2N0rNKzn/gOCGMxoZr/Gq
-	 DF/h2vk8S2rZYUfUNjluciLLrYgJv+amN4UxvGROCmzTJmOZ+DVJJnw3K4pPOUc4TY
-	 i/xNMJah3fDLREZOStrAZWyACogXW5CaWGDtRv5u0TLiGFA9n0LpoIpiTsYcr08Jxl
-	 b7svNLTCyPu+7BoeuNWz0Bky0Jlr+lhnkzgi3pd6Fh/OFrM5fTlRMzBRvyWIRIa/JA
-	 +luzgRZU3AZeg==
-Received: from [100.113.15.66] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: usama.anjum)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 9C34B3780C21;
-	Fri, 29 Mar 2024 20:18:23 +0000 (UTC)
-Message-ID: <42ca1da5-445b-47ca-a952-444eaa921360@collabora.com>
-Date: Sat, 30 Mar 2024 01:18:54 +0500
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QMl5bUwl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BkkM76oyZTz2Q2LpBR6pBvhemX3+VK0fBLimXRngfvWCLdPfuoYo/vDDc9RbYD4UJCpFX6s1jEACDTyMlHtRFRtONzRJPjfA5pmccOwplO8CEa6s0ovxM9Hl35Er48H48WBDOpZd1uPtQB3DDta7kBsPc3EIceVFUm/Gm1wTOx55QotP37QBX1KD8mX4WMa0LZynfQjnkStLhLnWXcdQwsSPer6kiUjqteQovSGXfh7YMRVKbeMRw21NQro0Qy+gQ/LA6DPgby5/cQICN4eDyYN95UrX4YKucYI2oBsPICG3c8q8kvw9fCtKbZwnr1grISQQtUC1KNVzYdiMagOGFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lm2yVCaf9RoiDruxpEx206c6phucY5FX3RMdmFeXZ9k=;
+ b=RDOAGF7+Ik4xDCrKfFjYUaCEgFCp8rPLEoyGEJGfpLOXNIa7YWeEWzZ1VotCI/ZUgTSOVN6QiqcPcDBe5GBx9DmXLKN4YMa19/hFyoPmXJz6oq65UWNMaTUYLl0AXj/clPXTRfxyopcl4hYjwIcO71g4dftgFJvWksN77W1OGtqxvf8pbLNnC0Zgx3QmEOw2m5F4R8LYVLl/bBFar8vjgNGERX4KUT1jJPql2hneEZv8TzpArkgEtYh2C0+YAbEHtbkVjmyx76VGDNFvy3BkIlL1Pl871ZsykDD0NONy0TJd+zaD5o2zx4yCgWb8Y8juLnwrKvehR4dlgdslxCuzqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lm2yVCaf9RoiDruxpEx206c6phucY5FX3RMdmFeXZ9k=;
+ b=QMl5bUwlMCq6WdH4tCDHxZVKXNBku4/gXeVQ0tOLa0L6+pc48BPHNHT7qZrod8KvPGtXue3FRb7oTQXlMpourqiZouj8qHTvXYQHCn2cmmywW2ROkv52VRi3CV/u471+HApu4l8pEYs1PhJ1Ycjjvse/PRcpKPKO/VLPR5Dq27w=
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com (2603:10b6:8:95::17) by
+ SJ1PR12MB6217.namprd12.prod.outlook.com (2603:10b6:a03:458::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7409.33; Fri, 29 Mar 2024 22:41:02 +0000
+Received: from DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::b286:7d11:bee0:2d37]) by DS7PR12MB6263.namprd12.prod.outlook.com
+ ([fe80::b286:7d11:bee0:2d37%4]) with mapi id 15.20.7409.039; Fri, 29 Mar 2024
+ 22:41:02 +0000
+Message-ID: <8d543a15-af62-4403-b2e0-3b395edfe9e4@amd.com>
+Date: Fri, 29 Mar 2024 17:38:52 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 04/15] x86: Secure Launch Resource Table header file
+To: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org
+Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20240214221847.2066632-1-ross.philipson@oracle.com>
+ <20240214221847.2066632-5-ross.philipson@oracle.com>
+Content-Language: en-US
+From: Kim Phillips <kim.phillips@amd.com>
+Organization: AMD
+In-Reply-To: <20240214221847.2066632-5-ross.philipson@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN1PR12CA0079.namprd12.prod.outlook.com
+ (2603:10b6:802:21::14) To DS7PR12MB6263.namprd12.prod.outlook.com
+ (2603:10b6:8:95::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>, seanjc@google.com,
- pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org,
- ravi.v.shankar@intel.com, xin@zytor.com
-Subject: Re: [PATCH v2 25/25] KVM: selftests: Add fred exception tests
-To: Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-26-xin3.li@intel.com>
-Content-Language: en-US
-From: Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <20240207172646.3981-26-xin3.li@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6263:EE_|SJ1PR12MB6217:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Hkl8K+NUU2xWpYzCX8iWlZCRIWfimJSM5pZ+gyjCjEOSL9P3Rn9yyjmZPpvXl3BxjwRv/Cuh5ARzlvVKIDJQNknQ+d9K98CwpJ6AG1WgKw8W/W1P4HYReUgaauK+aeb3mU2y61lAnHTQ3UutFp9RR5La01iCOkdNx7tX7tHj64Xn2m0lZdu4aahAw7jDi8kiVarGCtHi1SYN93JWcJeGfur9hrKFPBXEq5qyZe2qrUjzW1RBkE0EU1dA20+IEQacqFdX2s9hq/KatEZz5elGbJ2HvS67b239PYcUDEuXxQD7QK3UMILH8ejMlh2k2rRZmnLykNRbEuw7fCSlAT1OwinM80debtnCjVK+99ISveNjFJ0rqFqcc7Z1SKr49EbuiI/pSO2qOrPXjIoMi0LOM38OU4IDG+QzFFHpfVfu85RQg4dvDdMW2HpVnpQzwlwK5OAJhZ/ox3f/OhAizj7rmhbmSY527shjIkG3d6wbLA7LKaUdzB/8JZPGalCjvDkLwH1OmNE8fsgsIy/RSZpf127efi7ROacRLZCh6SJPGWdyuT4UkObzNajAtVe7PDGRWLhPpXCpCYFawvQEJIX0VT3//a/59t0c7N7YZghjEOrjaxif3qE6/rjtvCOKfdwGKU9p5gNTL1MSzSYO/V1ZmMdyRHtgaN+HY7oYjlH9QKA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6263.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WHlDbnV5TnB2SlVNYjVRbUlLRUh0eEVBZkkxMlg5dmMvRDJLRGZ6cXV3Qngr?=
+ =?utf-8?B?aWhIdTNkVHUwQThydWlDU081WGd5TUF5U2ZoamVIcWx4UHJxTVJzLzNXd0xw?=
+ =?utf-8?B?MmdVUkx4OFJRNW9TUllwOXY1WlZIcDdubEwzWmY5WlZ6WUpOK0RlRE9ocjhD?=
+ =?utf-8?B?K0RhWll1eHlLOE0vMVhHNU5pVTlDUkZCK04xemlheFZGbDVONlVodmZvVjg4?=
+ =?utf-8?B?UEZRS09TYkUzN0hIL0hidVBjdjV6RWYwZE1oT1VPVGJmd2Q2bGZmaHMzdUlx?=
+ =?utf-8?B?V1d2UUxYNzRlTkliMTVqd3B1VldjOGJVTDZxZG5KNC9yUk5KSXFYSGlXSUNH?=
+ =?utf-8?B?anFvN21Xam5zYjZqeEZlc2NaQkJZV0hWOTVzT1ZMaUppejdNYlErNWlyM00y?=
+ =?utf-8?B?dE9BU0x6dUpycWUxUERQTTA0cEF4bzEwczIyYzFaT05GV3NHS1d3SHo4aExQ?=
+ =?utf-8?B?TG5CSkNJTS9URC94YlAxbHRkRW5oSXRpZENrQnJ6V0RrbTBBU0RDSmY4N2dm?=
+ =?utf-8?B?RkQwN3dtK3M4V3JYdlFVM2RSdFJja3NEVFQ4ZTMvTFZvMm9KcisxZk83QVJU?=
+ =?utf-8?B?b1NQOG5naURkeWNjeFlwaWtObytydytpT0xpMDlZd2V4cnpVNHR0OVlETmtn?=
+ =?utf-8?B?TDhETUxicVJSTW1OdUpiQ1BCZ2FMUVczUFhDSW1UeXNZbnR6ZDVBS0NtM0JH?=
+ =?utf-8?B?MzFUeGt5SUM2YnRwOXp2WDI2WW93TEdoMytIS1RyN2N1QXk0RitHaWtIZXZw?=
+ =?utf-8?B?QTRLcVZzUlFtRG1JSE56VFhjY2dFZEhuUDUvK0pOeC9vYVpVaUN0YTh5Nm9E?=
+ =?utf-8?B?RUs5TDQyWTc2RmlDM0NkTks2ZTZIU1ZWMFNER05XOGh0amxYbTRZUjhlWlcy?=
+ =?utf-8?B?aWh4eDZlMGNETTRSVFF4dU5BMDJZMW9hdk9NZzhVdDNtck9ncWdGYWNyaDJl?=
+ =?utf-8?B?ZXlIY0V0V05ibHBBTnAwOTVNQmFrai9KNDFyUlA5bzhPQ1ptT2UyL3dIUk4w?=
+ =?utf-8?B?WWhxa01Mb21pTk5iQ3NvMmxvSHBqald4dng2WXdkTUZEenptUTNVenV6VFVa?=
+ =?utf-8?B?M3NkM2RTRS9tTEFEZFVxdHpQMVc5RlpncnhZRnB0SXJNUmlLRTFZQlA3Z1BQ?=
+ =?utf-8?B?ZnF3UDN0Um1NR0h2cVZGdWIwUTEvdjkyVEUrSCswL01PdTZWSEhpeG1EKzBt?=
+ =?utf-8?B?UGtBY1lhckVQaWhRK0dZSVpuMXlnMmtxSHAyZ0p0bzdyakJHQzlWNjVyalY4?=
+ =?utf-8?B?Nk1rUzc2Z0cydFl4elJnOEJreEhKY1dYd2h2R1R1djJzc0FEUVU2U05UYzhM?=
+ =?utf-8?B?UG1pKzRiK2RLNHIzbFA1aGJGaDlRanVZZlFIVkViVzZlMWFpcFUvZ0t5UVlO?=
+ =?utf-8?B?ZnBwcW1qQ0RRK0tHcTdFQjM2d2t6MWxYajJtYkNjSlQwODFHSWhTcUhwOENP?=
+ =?utf-8?B?Q1VGc2VvNWd0cjYwd0p5VXl4bmFsRFBrOTYrellCOG4yWkNrTi9YdkNlVUpp?=
+ =?utf-8?B?ZS9Dekp2KzB4ak4rQktURzNpT0FkaC82bFlxK1F1VjV4QTdyajh4Qlp3UGd0?=
+ =?utf-8?B?MWIvUEtydWhzS0VBMExSY1AvZDkvYzNyOGVudUNITExPcHI4RERSUHh0RHBT?=
+ =?utf-8?B?Y2MvSjBBclFXNnNDZ0g5QjhSRTJTb1gvOUxkRFczRWpMc29iQWF3QzN0Rzcv?=
+ =?utf-8?B?OXdFa2N2OEFaOU84eXZMZ1pOTUljM0tpbDJKOWxsR1h1OE1pRWpTeTMxVU42?=
+ =?utf-8?B?RmRwRnhydzVCTEl6a2ZIWmxkTzBSUjBnbDRtbXZVSTVKT0crK1huN1dLMTFu?=
+ =?utf-8?B?ZEo4UzlaRmErOFRDUVNTWVQybUhGelhhNjdwZTM0c0NGeDF0ZVdBZmgrWDd5?=
+ =?utf-8?B?ZnRKNXpsSTR0NkdZZkxPTWRRTmFJRGRyc0oxT1hOVWJpR3hRM0FzSS8vS0Fi?=
+ =?utf-8?B?RzJiZ2xCUTM4dmcrWWJ5NG1xZCtTOXRKNVFXWm1GREZGdlJYbkh4M3c2ckk5?=
+ =?utf-8?B?MGxIQnJuYXJpbmQ5THFCTjZqUzkyTEtpbjF0K3hvdk5teWVNMXJJbHNoLzdN?=
+ =?utf-8?B?ZnFvU0t0YVlnUnJuUzBDVUVWZ3JKWFZGQVFUQVF3NFAyeVlyaEFNRTdxcll4?=
+ =?utf-8?Q?zvdhYQzh59VITtzKjJgRMSRq2?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fcf4d61-e37a-4595-254c-08dc50414fbf
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6263.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2024 22:41:02.2410
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ilGgkrAbN/QGxCRDsFAVzxGCrnuii09s15bGN/0TY5T4fJ/decyRW+CsMzueQ3DxrQoL7F9fC4wqSyBOwuyPuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6217
 
-On 2/7/24 10:26 PM, Xin Li wrote:
-> Add tests for FRED event data and VMX nested-exception.
-> 
-> FRED is designed to save a complete event context in its stack frame,
-> e.g., FRED saves the faulting linear address of a #PF into a 64-bit
-> event data field defined in FRED stack frame.  As such, FRED VMX adds
-> event data handling during VMX transitions.
-> 
-> Besides, FRED introduces event stack levels to dispatch an event handler
-> onto a stack baesd on current stack level and stack levels defined in
-> IA32_FRED_STKLVLS MSR for each exception vector.  VMX nested-exception
-> support ensures a correct event stack level is chosen when a VM entry
-> injects a nested exception, which is regarded as occurred in ring 0.
-> 
-> To fully test the underlying FRED VMX code, this test should be run one
-> more round with EPT disabled to inject page faults as nested exceptions.
-> 
-> Originally-by: Shan Kang <shan.kang@intel.com>
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-Thank you for the new test patch. We have been trying to ensure TAP
-conformance for tests which cannot be achieved if new tests aren't using
-TAP already. Please make your test TAP compliant.
+Hi Ross,
 
+On 2/14/24 4:18 PM, Ross Philipson wrote:
+> Introduce the Secure Launch Resource Table which forms the formal
+> interface between the pre and post launch code.
+> 
+> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 > ---
->  tools/testing/selftests/kvm/Makefile          |   1 +
->  .../selftests/kvm/include/x86_64/processor.h  |  32 ++
->  .../testing/selftests/kvm/x86_64/fred_test.c  | 297 ++++++++++++++++++
-Add generated binary object to .gitignore.
+>   include/linux/slr_table.h | 270 ++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 270 insertions(+)
+>   create mode 100644 include/linux/slr_table.h
 
->  3 files changed, 330 insertions(+)
->  create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
-> 
-> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-> index 492e937fab00..eaac13a605f2 100644
-> --- a/tools/testing/selftests/kvm/Makefile
-> +++ b/tools/testing/selftests/kvm/Makefile
-> @@ -67,6 +67,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
->  TEST_GEN_PROGS_x86_64 += x86_64/exit_on_emulation_failure_test
->  TEST_GEN_PROGS_x86_64 += x86_64/fix_hypercall_test
->  TEST_GEN_PROGS_x86_64 += x86_64/hwcr_msr_test
-> +TEST_GEN_PROGS_x86_64 += x86_64/fred_test
->  TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
->  TEST_GEN_PROGS_x86_64 += x86_64/hyperv_cpuid
->  TEST_GEN_PROGS_x86_64 += x86_64/hyperv_evmcs
-> diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-> index bc5cd8628a20..ef7aaab790e0 100644
-> --- a/tools/testing/selftests/kvm/include/x86_64/processor.h
-> +++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-> @@ -1275,4 +1275,36 @@ void virt_map_level(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
->  #define PFERR_GUEST_PAGE_MASK	BIT_ULL(PFERR_GUEST_PAGE_BIT)
->  #define PFERR_IMPLICIT_ACCESS	BIT_ULL(PFERR_IMPLICIT_ACCESS_BIT)
->  
-> +/*
-> + * FRED related data structures and functions
-> + */
-> +
-> +#define FRED_SSX_NMI		BIT_ULL(18)
-> +
-> +struct fred_stack {
-> +	u64 r15;
-> +	u64 r14;
-> +	u64 r13;
-> +	u64 r12;
-> +	u64 bp;
-> +	u64 bx;
-> +	u64 r11;
-> +	u64 r10;
-> +	u64 r9;
-> +	u64 r8;
-> +	u64 ax;
-> +	u64 cx;
-> +	u64 dx;
-> +	u64 si;
-> +	u64 di;
-> +	u64 error_code;
-> +	u64 ip;
-> +	u64 csx;
-> +	u64 flags;
-> +	u64 sp;
-> +	u64 ssx;
-> +	u64 event_data;
-> +	u64 reserved;
-> +};
-> +
->  #endif /* SELFTEST_KVM_PROCESSOR_H */
-> diff --git a/tools/testing/selftests/kvm/x86_64/fred_test.c b/tools/testing/selftests/kvm/x86_64/fred_test.c
+> diff --git a/include/linux/slr_table.h b/include/linux/slr_table.h
 > new file mode 100644
-> index 000000000000..412afa919568
+> index 000000000000..42020988233a
 > --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86_64/fred_test.c
-> @@ -0,0 +1,297 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/include/linux/slr_table.h
+> @@ -0,0 +1,270 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
 > +/*
-> + * FRED nested exception tests
+> + * Secure Launch Resource Table
 > + *
-> + * Copyright (C) 2023, Intel, Inc.
+> + * Copyright (c) 2023, Oracle and/or its affiliates.
 > + */
-> +#define _GNU_SOURCE /* for program_invocation_short_name */
-> +#include <fcntl.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/ioctl.h>
-> +#include <asm/msr-index.h>
 > +
-> +#include "apic.h"
-> +#include "kvm_util.h"
-> +#include "test_util.h"
-> +#include "guest_modes.h"
-> +#include "processor.h"
+> +#ifndef _LINUX_SLR_TABLE_H
+> +#define _LINUX_SLR_TABLE_H
 > +
-> +#define IRQ_VECTOR 0xAA
+> +/* Put this in efi.h if it becomes a standard */
+> +#define SLR_TABLE_GUID				EFI_GUID(0x877a9b2a, 0x0385, 0x45d1, 0xa0, 0x34, 0x9d, 0xac, 0x9c, 0x9e, 0x56, 0x5f)
 > +
-> +#define FRED_STKLVL(v,l)		(_AT(unsigned long, l) << (2 * (v)))
-> +#define FRED_CONFIG_ENTRYPOINT(p)	_AT(unsigned long, (p))
+> +/* SLR table header values */
+> +#define SLR_TABLE_MAGIC		0x4452544d
+> +#define SLR_TABLE_REVISION	1
 > +
-> +/* This address is already mapped in guest page table. */
-> +#define FRED_VALID_RSP			0x8000
+> +/* Current revisions for the policy and UEFI config */
+> +#define SLR_POLICY_REVISION		1
+> +#define SLR_UEFI_CONFIG_REVISION	1
+> +
+> +/* SLR defined architectures */
+> +#define SLR_INTEL_TXT		1
+> +#define SLR_AMD_SKINIT		2
+> +
+> +/* SLR defined bootloaders */
+> +#define SLR_BOOTLOADER_INVALID	0
+> +#define SLR_BOOTLOADER_GRUB	1
+> +
+> +/* Log formats */
+> +#define SLR_DRTM_TPM12_LOG	1
+> +#define SLR_DRTM_TPM20_LOG	2
+> +
+> +/* DRTM Policy Entry Flags */
+> +#define SLR_POLICY_FLAG_MEASURED	0x1
+> +#define SLR_POLICY_IMPLICIT_SIZE	0x2
+> +
+> +/* Array Lengths */
+> +#define TPM_EVENT_INFO_LENGTH		32
+> +#define TXT_VARIABLE_MTRRS_LENGTH	32
+> +
+> +/* Tags */
+> +#define SLR_ENTRY_INVALID	0x0000
+> +#define SLR_ENTRY_DL_INFO	0x0001
+> +#define SLR_ENTRY_LOG_INFO	0x0002
+> +#define SLR_ENTRY_ENTRY_POLICY	0x0003
+> +#define SLR_ENTRY_INTEL_INFO	0x0004
+> +#define SLR_ENTRY_AMD_INFO	0x0005
+> +#define SLR_ENTRY_ARM_INFO	0x0006
+> +#define SLR_ENTRY_UEFI_INFO	0x0007
+> +#define SLR_ENTRY_UEFI_CONFIG	0x0008
+> +#define SLR_ENTRY_END		0xffff
+> +
+> +/* Entity Types */
+> +#define SLR_ET_UNSPECIFIED	0x0000
+> +#define SLR_ET_SLRT		0x0001
+> +#define SLR_ET_BOOT_PARAMS	0x0002
+> +#define SLR_ET_SETUP_DATA	0x0003
+> +#define SLR_ET_CMDLINE		0x0004
+> +#define SLR_ET_UEFI_MEMMAP	0x0005
+> +#define SLR_ET_RAMDISK		0x0006
+> +#define SLR_ET_TXT_OS2MLE	0x0010
+> +#define SLR_ET_UNUSED		0xffff
+> +
+> +#ifndef __ASSEMBLY__
 > +
 > +/*
-> + * The following addresses are not yet mapped in both EPT and guest page
-> + * tables at the beginning.  As a result, it causes an EPT violation VM
-> + * exit with an original guest #PF to access any of them for the first
-> + * time.
-> + *
-> + * Use these addresses as guest FRED RSP0 to generate nested #PFs to test
-> + * if event data are properly virtualized.
+> + * Primary SLR Table Header
 > + */
-> +static unsigned long fred_invalid_rsp[4] = {
-> +	0x0,
-> +	0xf0000000,
-> +	0xe0000000,
-> +	0xd0000000,
-> +};
-> +
-> +extern char asm_user_nop[];
-> +extern char asm_user_ud[];
-> +extern char asm_done_fault[];
-> +
-> +extern void asm_test_fault(int test);
+> +struct slr_table {
+> +	u32 magic;
+> +	u16 revision;
+> +	u16 architecture;
+> +	u32 size;
+> +	u32 max_size;
+
+Do these need to have their endianness specified with, e.g., __le32?
+
+> +	/* entries[] */
+
+Instead of the above line, a legit 'entries' can be enabled using:
+
+DECLARE_FLEX_ARRAY(struct slr_entry_hdr, entries);
+
+> +} __packed;
+
+You'd have to move this above struct slr_table which would need it:
+
+> +/*
+> + * Common SLRT Table Header
+> + */
+> +struct slr_entry_hdr {
+> +	u16 tag;
+> +	u16 size;
+> +} __packed;
 > +
 > +/*
-> + * user level code for triggering faults.
+> + * Boot loader context
 > + */
-> +asm(".pushsection .text\n"
-> +    ".align 4096\n"
+> +struct slr_bl_context {
+> +	u16 bootloader;
+> +	u16 reserved;
+> +	u64 context;
+> +} __packed;
 > +
-> +    ".type asm_user_nop, @function\n"
-> +    "asm_user_nop:\n"
-> +    "1: .byte 0x90\n"
-> +    "jmp 1b\n"
+> +/*
+> + * DRTM Dynamic Launch Configuration
+> + */
+> +struct slr_entry_dl_info {
+> +	struct slr_entry_hdr hdr;
+> +	struct slr_bl_context bl_context;
+> +	u64 dl_handler;
+> +	u64 dce_base;
+> +	u32 dce_size;
+> +	u64 dlme_entry;
+> +} __packed;
 > +
-> +    ".fill asm_user_ud - ., 1, 0xcc\n"
+> +/*
+> + * TPM Log Information
+> + */
+> +struct slr_entry_log_info {
+> +	struct slr_entry_hdr hdr;
+> +	u16 format;
+> +	u16 reserved;
+> +	u64 addr;
+> +	u32 size;
+> +} __packed;
 > +
-> +    ".type asm_user_ud, @function\n"
-> +    ".org asm_user_nop + 16\n"
-> +    "asm_user_ud:\n"
-> +    /* Trigger a #UD */
-> +    "ud2\n"
+> +/*
+> + * DRTM Measurement Policy
+> + */
+> +struct slr_entry_policy {
+> +	struct slr_entry_hdr hdr;
+> +	u16 revision;
+> +	u16 nr_entries;
+> +	/* policy_entries[] */
+> +} __packed;
 > +
-> +    ".align 4096, 0xcc\n"
-> +    ".popsection");
+> +/*
+> + * DRTM Measurement Entry
+> + */
+> +struct slr_policy_entry {
+> +	u16 pcr;
+> +	u16 entity_type;
+> +	u16 flags;
+> +	u16 reserved;
+> +	u64 entity;
+> +	u64 size;
+> +	char evt_info[TPM_EVENT_INFO_LENGTH];
+> +} __packed;
 > +
-> +/* Send current stack level and #PF address */
-> +#define GUEST_SYNC_CSL_FA(__stage, __pf_address)		\
-> +	GUEST_SYNC_ARGS(__stage, __pf_address, 0, 0, 0)
+> +/*
+> + * Secure Launch defined MTRR saving structures
+> + */
+> +struct slr_txt_mtrr_pair {
+> +	u64 mtrr_physbase;
+> +	u64 mtrr_physmask;
+> +} __packed;
 > +
-> +void fred_entry_from_user(struct fred_stack *stack)
+> +struct slr_txt_mtrr_state {
+> +	u64 default_mem_type;
+> +	u64 mtrr_vcnt;
+> +	struct slr_txt_mtrr_pair mtrr_pair[TXT_VARIABLE_MTRRS_LENGTH];
+> +} __packed;
+> +
+> +/*
+> + * Intel TXT Info table
+> + */
+> +struct slr_entry_intel_info {
+> +	struct slr_entry_hdr hdr;
+> +	u64 saved_misc_enable_msr;
+> +	struct slr_txt_mtrr_state saved_bsp_mtrrs;
+> +} __packed;
+> +
+> +/*
+> + * AMD SKINIT Info table
+> + */
+> +struct slr_entry_amd_info {
+> +	struct slr_entry_hdr hdr;
+> +} __packed;
+> +
+> +/*
+> + * ARM DRTM Info table
+> + */
+> +struct slr_entry_arm_info {
+> +	struct slr_entry_hdr hdr;
+> +} __packed;
+
+Shouldn't these three structs be added as part of their
+separate per-vendor enablement patches?
+
+> +struct slr_entry_uefi_config {
+> +	struct slr_entry_hdr hdr;
+> +	u16 revision;
+> +	u16 nr_entries;
+> +	/* uefi_cfg_entries[] */
+> +} __packed;
+> +
+> +struct slr_uefi_cfg_entry {
+> +	u16 pcr;
+> +	u16 reserved;
+> +	u64 cfg; /* address or value */
+> +	u32 size;
+> +	char evt_info[TPM_EVENT_INFO_LENGTH];
+> +} __packed;
+> +
+> +static inline void *slr_end_of_entrys(struct slr_table *table)
 > +{
-> +	u32 current_stack_level = rdmsr(MSR_IA32_FRED_CONFIG) & 0x3;
-> +
-> +	GUEST_SYNC_CSL_FA(current_stack_level, stack->event_data);
-> +
-> +	/* Do NOT go back to user level, continue the next test instead */
-> +	stack->ssx = 0x18;
-> +	stack->csx = 0x10;
-> +	stack->ip = (u64)&asm_done_fault;
+> +	return (((void *)table) + table->size);
 > +}
 > +
-> +void fred_entry_from_kernel(struct fred_stack *stack)
+> +static inline struct slr_entry_hdr *
+> +slr_next_entry(struct slr_table *table,
+> +	       struct slr_entry_hdr *curr)
 > +{
-> +	/*
-> +	 * Keep NMI blocked to delay the delivery of the next NMI until
-> +	 * returning to user level.
-> +	 * */
-> +	stack->ssx &= ~FRED_SSX_NMI;
+> +	struct slr_entry_hdr *next = (struct slr_entry_hdr *)
+> +				((u8 *)curr + curr->size);
+> +
+> +	if ((void *)next >= slr_end_of_entrys(table))
+> +		return NULL;
+> +	if (next->tag == SLR_ENTRY_END)
+> +		return NULL;
+> +
+> +	return next;
 > +}
 > +
-> +#define PUSH_REGS	\
-> +	"push %rdi\n"	\
-> +	"push %rsi\n"	\
-> +	"push %rdx\n"	\
-> +	"push %rcx\n"	\
-> +	"push %rax\n"	\
-> +	"push %r8\n"	\
-> +	"push %r9\n"	\
-> +	"push %r10\n"	\
-> +	"push %r11\n"	\
-> +	"push %rbx\n"	\
-> +	"push %rbp\n"	\
-> +	"push %r12\n"	\
-> +	"push %r13\n"	\
-> +	"push %r14\n"	\
-> +	"push %r15\n"
-> +
-> +#define POP_REGS	\
-> +	"pop %r15\n"	\
-> +	"pop %r14\n"	\
-> +	"pop %r13\n"	\
-> +	"pop %r12\n"	\
-> +	"pop %rbp\n"	\
-> +	"pop %rbx\n"	\
-> +	"pop %r11\n"	\
-> +	"pop %r10\n"	\
-> +	"pop %r9\n"	\
-> +	"pop %r8\n"	\
-> +	"pop %rax\n"	\
-> +	"pop %rcx\n"	\
-> +	"pop %rdx\n"	\
-> +	"pop %rsi\n"	\
-> +	"pop %rdi\n"
-> +
-> +/*
-> + * FRED entry points.
-> + */
-> +asm(".pushsection .text\n"
-> +    ".type asm_fred_entrypoint_user, @function\n"
-> +    ".align 4096\n"
-> +    "asm_fred_entrypoint_user:\n"
-> +    "endbr64\n"
-> +    PUSH_REGS
-> +    "movq %rsp, %rdi\n"
-> +    "call fred_entry_from_user\n"
-> +    POP_REGS
-> +    /* Do NOT go back to user level, continue the next test instead */
-> +    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
-> +
-> +    ".fill asm_fred_entrypoint_kernel - ., 1, 0xcc\n"
-> +
-> +    ".type asm_fred_entrypoint_kernel, @function\n"
-> +    ".org asm_fred_entrypoint_user + 256\n"
-> +    "asm_fred_entrypoint_kernel:\n"
-> +    "endbr64\n"
-> +    PUSH_REGS
-> +    "movq %rsp, %rdi\n"
-> +    "call fred_entry_from_kernel\n"
-> +    POP_REGS
-> +    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
-> +    ".align 4096, 0xcc\n"
-> +    ".popsection");
-> +
-> +extern char asm_fred_entrypoint_user[];
-> +
-> +/*
-> + * Prepare a FRED stack frame for ERETU to return to user level code,
-> + * nop or ud2.
-> + *
-> + * Because FRED RSP0 is deliberately not mapped in guest page table,
-> + * the delivery of interrupt/NMI or #UD from ring 3 causes a nested
-> + * #PF, which is then delivered on FRED RSPx (x is 1, 2 or 3,
-> + * determinated by MSR FRED_STKLVL[PF_VECTOR]).
-> + */
-> +asm(".pushsection .text\n"
-> +    ".type asm_test_fault, @function\n"
-> +    ".align 4096\n"
-> +    "asm_test_fault:\n"
-> +    "endbr64\n"
-> +    "push %rbp\n"
-> +    "mov %rsp, %rbp\n"
-> +    "and $(~0x3f), %rsp\n"
-> +    "push $0\n"
-> +    "push $0\n"
-> +    "mov $0x2b, %rax\n"
-> +    /* Unblock NMI */
-> +    "bts $18, %rax\n"
-> +    /* Set long mode bit */
-> +    "bts $57, %rax\n"
-> +    "push %rax\n"
-> +    /* No stack required for the FRED user level test code */
-> +    "push $0\n"
-> +    "pushf\n"
-> +    "pop %rax\n"
-> +    /* Allow external interrupts */
-> +    "bts $9, %rax\n"
-> +    "push %rax\n"
-> +    "mov $0x33, %rax\n"
-> +    "push %rax\n"
-> +    "cmp $0, %edi\n"
-> +    "jne 1f\n"
-> +    "lea asm_user_nop(%rip), %rax\n"
-> +    "jmp 2f\n"
-> +    "1: lea asm_user_ud(%rip), %rax\n"
-> +    "2: push %rax\n"
-> +    "push $0\n"
-> +    /* ERETU to user level code to allow event delivery immediately */
-> +    ".byte 0xf3,0x0f,0x01,0xca\n"
-> +    "asm_done_fault:\n"
-> +    "mov %rbp, %rsp\n"
-> +    "pop %rbp\n"
-> +    "ret\n"
-> +    ".align 4096, 0xcc\n"
-> +    ".popsection");
-> +
-> +/*
-> + * To fully test the underlying FRED VMX code, this test should be run one
-> + * more round with EPT disabled to inject page faults as nested exceptions.
-> + */
-> +static void guest_code(void)
+> +static inline struct slr_entry_hdr *
+> +slr_next_entry_by_tag(struct slr_table *table,
+> +		      struct slr_entry_hdr *entry,
+> +		      u16 tag)
 > +{
-> +	wrmsr(MSR_IA32_FRED_CONFIG,
-> +	      FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
+> +	if (!entry) /* Start from the beginning */
+> +		entry = (struct slr_entry_hdr *)(((u8 *)table) + sizeof(*table));
+
+Back to the 'entries', the above line can now be made more readable:
+
+entry = table->entries;
+
+That's just one example, this flex array simplification can be made
+in other structs in this series, too.
+
+Cheers,
+
+Kim
+
 > +
-> +	wrmsr(MSR_IA32_FRED_RSP1, FRED_VALID_RSP);
-> +	wrmsr(MSR_IA32_FRED_RSP2, FRED_VALID_RSP);
-> +	wrmsr(MSR_IA32_FRED_RSP3, FRED_VALID_RSP);
+> +	for ( ; ; ) {
+> +		if (entry->tag == tag)
+> +			return entry;
 > +
-> +	/* Enable FRED */
-> +	set_cr4(get_cr4() | X86_CR4_FRED);
-> +
-> +	x2apic_enable();
-> +
-> +	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 1));
-> +	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[1]);
-> +	/* 1: ud2 to generate #UD */
-> +	asm_test_fault(1);
-> +
-> +	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 2));
-> +	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[2]);
-> +	asm volatile("cli");
-> +	/* Create a pending interrupt on current vCPU */
-> +	x2apic_write_reg(APIC_ICR, APIC_DEST_SELF | APIC_INT_ASSERT |
-> +			 APIC_DM_FIXED | IRQ_VECTOR);
-> +	/* Return to ring 3 */
-> +	asm_test_fault(0);
-> +	x2apic_write_reg(APIC_EOI, 0);
-> +
-> +	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 3));
-> +	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[3]);
-> +	/*
-> +	 * The first NMI is just to have NMI blocked in ring 0, because
-> +	 * fred_entry_from_kernel() deliberately clears the NMI bit in
-> +	 * FRED stack frame.
-> +	 */
-> +	x2apic_write_reg(APIC_ICR, APIC_DEST_SELF | APIC_INT_ASSERT |
-> +			 APIC_DM_NMI | NMI_VECTOR);
-> +	/* The second NMI will be delivered after returning to ring 3 */
-> +	x2apic_write_reg(APIC_ICR, APIC_DEST_SELF | APIC_INT_ASSERT |
-> +			 APIC_DM_NMI | NMI_VECTOR);
-> +	/* Return to ring 3 */
-> +	asm_test_fault(0);
-> +
-> +	GUEST_DONE();
-> +}
-> +
-> +int main(int argc, char *argv[])
-> +{
-> +	struct kvm_vcpu *vcpu;
-> +	struct kvm_vm *vm;
-> +	struct ucall uc;
-> +	uint64_t expected_current_stack_level = 1;
-> +
-> +	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_FRED));
-> +
-> +	vm = __vm_create_with_vcpus(VM_SHAPE(VM_MODE_PXXV48_4K_USER), 1, 0,
-> +				    guest_code, &vcpu);
-> +
-> +	while (true) {
-> +		uint64_t r;
-> +
-> +		vcpu_run(vcpu);
-> +
-> +		r = get_ucall(vcpu, &uc);
-> +
-> +		if (r == UCALL_DONE)
-> +			break;
-> +
-> +		if (r == UCALL_SYNC) {
-> +			TEST_ASSERT((uc.args[1] == expected_current_stack_level) &&
-> +				    (uc.args[2] == fred_invalid_rsp[expected_current_stack_level] - 1),
-> +				    "Incorrect stack level %lx and #PF address %lx\n",
-> +				    uc.args[1], uc.args[2]);
-> +			expected_current_stack_level++;
-> +		}
+> +		entry = slr_next_entry(table, entry);
+> +		if (!entry)
+> +			return NULL;
 > +	}
 > +
-> +	kvm_vm_free(vm);
+> +	return NULL;
+> +}
+> +
+> +static inline int
+> +slr_add_entry(struct slr_table *table,
+> +	      struct slr_entry_hdr *entry)
+> +{
+> +	struct slr_entry_hdr *end;
+> +
+> +	if ((table->size + entry->size) > table->max_size)
+> +		return -1;
+> +
+> +	memcpy((u8 *)table + table->size - sizeof(*end), entry, entry->size);
+> +	table->size += entry->size;
+> +
+> +	end  = (struct slr_entry_hdr *)((u8 *)table + table->size - sizeof(*end));
+> +	end->tag = SLR_ENTRY_END;
+> +	end->size = sizeof(*end);
+> +
 > +	return 0;
 > +}
-
--- 
-BR,
-Muhammad Usama Anjum
+> +
+> +static inline void
+> +slr_init_table(struct slr_table *slrt, u16 architecture, u32 max_size)
+> +{
+> +	struct slr_entry_hdr *end;
+> +
+> +	slrt->magic = SLR_TABLE_MAGIC;
+> +	slrt->revision = SLR_TABLE_REVISION;
+> +	slrt->architecture = architecture;
+> +	slrt->size = sizeof(*slrt) + sizeof(*end);
+> +	slrt->max_size = max_size;
+> +	end = (struct slr_entry_hdr *)((u8 *)slrt + sizeof(*slrt));
+> +	end->tag = SLR_ENTRY_END;
+> +	end->size = sizeof(*end);
+> +}
+> +
+> +#endif /* !__ASSEMBLY */
+> +
+> +#endif /* _LINUX_SLR_TABLE_H */
