@@ -1,88 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m17249.xmail.ntesmail.com (mail-m17249.xmail.ntesmail.com [45.195.17.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C471C0DEF;
-	Sat, 30 Mar 2024 16:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C3B2B2DD;
+	Sat, 30 Mar 2024 16:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.17.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711814583; cv=none; b=rMZoabn8Pvy3/WtUdRbXOs+8zhGhQA/RSXa5wUkSA3iw1DvTYO9EY+NNqa1Wx0J3HqWF5YckGDm4wgss6j+NFPSS+h2w7/3MwxRaHtPm46fwYWoA2M9vcjv7RiYywjOJeA2PPwtFU3Jjo6+UcMWmpI2/vKlM6JAhG42vlE2l1E8=
+	t=1711816584; cv=none; b=mEg4Xw1+iJQIDNpSHf6+lrVlyHHAwRj0XpJcf6Wj0SumMxZRLZ/pLZBKQRIy91Y1xe+Gh50wzdJ8ZWRX0XPCuZ2prqox3A+IlpepEM83tjGjRJv74ZcXtyDDG4i7CyqNJ7mgQ0bJbGiu5vJKayHi9F13hKtDsT3s3d9VWfbOhT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711814583; c=relaxed/simple;
-	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oSjZgNoXUwlQZ3YIF8tDweDnZY/Z/rNXWQJ5FcFyikeipYs3JsisERVBm3/F9Va4IIvMVanmNwvhVfWch71gxoE4t+7TK0zWmfxIjYOGzg3UiQd/71sx7Rrl7ayJ5u9VNjIzwYzVLzPa3BaF3TlyatDDkSUvddPYtRwYewVszGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJSGLSLA; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJSGLSLA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8FA4C43390;
-	Sat, 30 Mar 2024 16:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711814583;
-	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tJSGLSLAib4ZkmpSDD8pBKfDUosNtVmyEkJK8+xeWQ2RVi+l2/uiyFl+ZHsK26w2U
-	 sg/JDS8+wJ4obfWX5+RA0jLYrKoWy/69TMOHt8NNbHMZtVMkHNn1Z2pUxdRFSzdJkK
-	 vVA8ONMxBpcbAY/3IuiPJx1zA6f8BCOpWj8nrAz3O+sVZhjJ1CMT8KqZOmnp24ZXko
-	 Ujh4f2a5wNvRBBuguv9c7t/Xs5Fiut1pLT5B13kgANH6zi0BgtXTQNJ97kcxjmQnJ2
-	 QkbJ2xinb1NCih5rlauTuDtUaTWelA9jhVrKB8k9/dY3YxvINFjmR3JcJTHfGgX5Kh
-	 MtPcc26yM2Pmw==
-Date: Sat, 30 Mar 2024 16:02:46 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, David Lechner
- <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, Liam Girdwood
- <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
- <linux@roeck-us.net>, Support Opensource <support.opensource@diasemi.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-input@vger.kernel.org
-Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
- supplies
-Message-ID: <20240330160246.6b74bd3b@jic23-huawei>
-In-Reply-To: <8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
-References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
-	<20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
-	<ZgWw66OpLnLPdCn-@google.com>
-	<043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
-	<ZgXQcGlMiewRzki5@google.com>
-	<8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1711816584; c=relaxed/simple;
+	bh=SZqUiQo5OKj8nmtGbzQ4Ypg3gkJp96clS4Euxj5TXIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pmQebZM3cqLdupl+YFvQ9ie4BzakMCg3uoY0K+VY/xJQHABRrhxZPDrhxJ74NqNdivS1oWOJ/0bYEHQFNSWTCtB1RCW4Z6EyvPo0s5Jb8WztFbWh1/81GpQSIjRheuOSzrhP845c+ACoxj+zuJAqhySyEMXSXyMg89uvsmcJuvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn; spf=pass smtp.mailfrom=link.tyut.edu.cn; arc=none smtp.client-ip=45.195.17.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=link.tyut.edu.cn
+Received: from [IPV6:2409:8a0c:26d:73c0:9b07:dfee:fd9c:bf7b] (unknown [IPV6:2409:8a0c:26d:73c0:9b07:dfee:fd9c:bf7b])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 1EDD892010B;
+	Sun, 31 Mar 2024 00:35:56 +0800 (CST)
+Message-ID: <c4cbd8f8-01cc-4be6-b469-31173bffb952@link.tyut.edu.cn>
+Date: Sun, 31 Mar 2024 00:35:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh: Fix Cc, Co-developed-by, and Signed-off-by tags
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <22892a8ab5c17d7121ef5b85f7d18d8b1f41e434.1711715655.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Hu Haowen <2023002089@link.tyut.edu.cn>
+In-Reply-To: <22892a8ab5c17d7121ef5b85f7d18d8b1f41e434.1711715655.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSUoaVkhJGUIYHUlPGh8eGVUTARMWGhIXJBQOD1
+	lXWRgSC1lBWUlPS0JBQxpLGEFJTR9BTEgYS0FCGUtMQR8dHh5BHR9CGEEZHUwZWVdZFhoPEhUdFF
+	lBWU9LSFVKTUNMTE9VSktLVUpCS0tZBg++
+X-HM-Tid: 0a8e9037bf9403a1kunm1edd892010b
+X-HM-MType: 10
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAw6Oio4ODMUTjgaF0oqEE06
+	I0tPFDxVSlVKTEpKQ0pNTk5NQklMVTMWGhIXVUlLSUhLS0lLQ0I7FxIVEFUPAg4PVR4fDlUYFUVZ
+	V1kSC1lBWUlPS0JBQxpLGEFJTR9BTEgYS0FCGUtMQR8dHh5BHR9CGEEZHUwZWVdZCAFZQU1NSko3
+	Bg++
 
-On Thu, 28 Mar 2024 20:25:31 +0000
-Mark Brown <broonie@kernel.org> wrote:
 
-> On Thu, Mar 28, 2024 at 01:17:52PM -0700, Dmitry Torokhov wrote:
-> > On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:  
-> 
-> > > I don't follow what you're saying here?  What normal APIs are not
-> > > available?  AFAICT this has nothing to do with a devm enable, it's a
-> > > combined operation which reports the voltage for the regulator if one is
-> > > available which would still be being added even if it used a devm
-> > > enable.  
-> 
-> > You can not do devm_regulator_get_enable() and then call
-> > regulator_get_voltage(), you need a new combined API.  
-> 
-> I think the theory here is that there are so many instances of this
-> reference voltage pattern that it's useful to have a helper for that
-> reason alone.
+在 2024/3/29 20:35, Geert Uytterhoeven 写道:
+> The updates from commit ae67ee6c5e1d5b6a ("docs: fix Co-Developed-by
+> docs") in v5.0 were never applied to the Chinese translations.
+> In addition:
+>    - "Cc" used wrong case,
+>    - "Co-developed-by" lacked a dash,
+>    - "Signed-off-by" was misspelled.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>   .../translations/zh_CN/process/submitting-patches.rst     | 8 ++++----
+>   .../translations/zh_TW/process/submitting-patches.rst     | 8 ++++----
+>   2 files changed, 8 insertions(+), 8 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+> index f8978f02057c164c..7864107e60a85c58 100644
+> --- a/Documentation/translations/zh_CN/process/submitting-patches.rst
+> +++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+> @@ -333,10 +333,10 @@ Linus 和其他的内核开发者需要阅读和评论你提交的改动。对
+>   未参与其开发。签署链应当反映补丁传播到维护者并最终传播到Linus所经过的 **真实**
+>   路径，首个签署指明单个作者的主要作者身份。
+>   
+> -何时使用Acked-by:，CC:，和Co-Developed by:
+> +何时使用Acked-by:，Cc:，和Co-developed-by:
+>   ------------------------------------------
+>   
+> -Singed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
+> +Signed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
+>   
+>   如果一个人没有直接参与补丁的准备或处理，但希望表示并记录他们对补丁的批准/赞成，
+>   那么他们可以要求在补丁的变更日志中添加一个Acked-by:。
+> @@ -358,8 +358,8 @@ Acked-by：不一定表示对整个补丁的确认。例如，如果一个补丁
+>   Co-developed-by: 声明补丁是由多个开发人员共同创建的；当几个人在一个补丁上工
+>   作时，它用于给出共同作者（除了From:所给出的作者之外）。因为Co-developed-by:
+>   表示作者身份，所以每个Co-developed-by:必须紧跟在相关合作作者的签署之后。标准
+> -签署程序要求Singed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
+> -过From:还是Co-developed-by:表明。值得注意的是，最后一个Singed-off-by:必须是
+> +签署程序要求Signed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
+> +过From:还是Co-developed-by:表明。值得注意的是，最后一个Signed-off-by:必须是
+>   提交补丁的开发人员。
+>   
+>   注意，如果From:作者也是电子邮件标题的From:行中列出的人，则From:标签是可选的。
+> diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+> index 99fa0f2fe6f414e1..f12f2f193f855cfb 100644
+> --- a/Documentation/translations/zh_TW/process/submitting-patches.rst
+> +++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+> @@ -334,10 +334,10 @@ Linus 和其他的內核開發者需要閱讀和評論你提交的改動。對
+>   未參與其開發。簽署鏈應當反映補丁傳播到維護者並最終傳播到Linus所經過的 **真實**
+>   路徑，首個簽署指明單個作者的主要作者身份。
+>   
+> -何時使用Acked-by:，CC:，和Co-Developed by:
+> +何時使用Acked-by:，Cc:，和Co-developed-by:
+>   ------------------------------------------
+>   
+> -Singed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
+> +Signed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
+>   
+>   如果一個人沒有直接參與補丁的準備或處理，但希望表示並記錄他們對補丁的批准/贊成，
+>   那麼他們可以要求在補丁的變更日誌中添加一個Acked-by:。
+> @@ -359,8 +359,8 @@ Acked-by：不一定表示對整個補丁的確認。例如，如果一個補丁
+>   Co-developed-by: 聲明補丁是由多個開發人員共同創建的；當幾個人在一個補丁上工
+>   作時，它用於給出共同作者（除了From:所給出的作者之外）。因爲Co-developed-by:
+>   表示作者身份，所以每個Co-developed-by:必須緊跟在相關合作作者的簽署之後。標準
+> -簽署程序要求Singed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
+> -過From:還是Co-developed-by:表明。值得注意的是，最後一個Singed-off-by:必須是
+> +簽署程序要求Signed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
+> +過From:還是Co-developed-by:表明。值得注意的是，最後一個Signed-off-by:必須是
+>   提交補丁的開發人員。
+>   
+>   注意，如果From:作者也是電子郵件標題的From:行中列出的人，則From:標籤是可選的。
 
-Exactly that - this is just adding a convenience function to
-remove boilerplate.  -20ish lines of cut and paste code per
-driver. 
+Reviewed-by: Hu Haowen <2023002089@link.tyut.edu.cn>
 
-Jonathan
 
+Thanks,
+
+Hu Haowen
 
