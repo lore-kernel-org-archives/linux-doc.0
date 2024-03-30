@@ -1,85 +1,88 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8311C0DEF;
-	Sat, 30 Mar 2024 14:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C471C0DEF;
+	Sat, 30 Mar 2024 16:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711810403; cv=none; b=VrO6J8Hi+SBymX6+G5k3Ud8x7blzHf4q7Un8U6HDTfCcAzT4feZ1IAepX0YzqrNRbWaj6sVRlwcJW0hQh2XaqpefkR4Sl2gkocyv4v1p3KRon1liM9mPgLHk8XrtVDkI9/lTyxhV5mKiovFXgO/D2P2uamXtEBKUKCzDezwG5NM=
+	t=1711814583; cv=none; b=rMZoabn8Pvy3/WtUdRbXOs+8zhGhQA/RSXa5wUkSA3iw1DvTYO9EY+NNqa1Wx0J3HqWF5YckGDm4wgss6j+NFPSS+h2w7/3MwxRaHtPm46fwYWoA2M9vcjv7RiYywjOJeA2PPwtFU3Jjo6+UcMWmpI2/vKlM6JAhG42vlE2l1E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711810403; c=relaxed/simple;
-	bh=gJx0oB7ZzuoCNKkwsr1UzGLJ3CRfFELmHureG9uOYGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oDelDfSdHTx21mIJ0hem715uqMg/JEbBvu+QI/n4j2Dk5mc8GbK+VtSdOJISO50a39BBZcXcTZecoAszKR55fvrHsgPXRjIkkmjNpNVTs/51Np0JtRcq77T52D8q+mY13M2OFNo9qBat6UJf/PFGufjBrguPYjOpPuK3LA1Ni/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=AgKIFxWL; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1711814583; c=relaxed/simple;
+	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oSjZgNoXUwlQZ3YIF8tDweDnZY/Z/rNXWQJ5FcFyikeipYs3JsisERVBm3/F9Va4IIvMVanmNwvhVfWch71gxoE4t+7TK0zWmfxIjYOGzg3UiQd/71sx7Rrl7ayJ5u9VNjIzwYzVLzPa3BaF3TlyatDDkSUvddPYtRwYewVszGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tJSGLSLA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="AgKIFxWL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=caGVOX2RZ69c4hjscPFCuCKDrFK7z35V6qvgjgO6mvs=; b=AgKIFxWLgU4PMlGPkeuWts4Sdx
-	C1uk2GClcr5WI35QPJ/c+zppgblTWKdov5NwQ4Y/rlf4kRO+pXEefeYiuH/9vvqcMMhtsW5bKoOSc
-	ptiP23T99yvkYQ4yFYT1LkW6GjFn1aaNnXMQ/2LbdTSWKkldN1777vtFbSTbTQ5A4V60=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rqa4f-00Bj1W-9i; Sat, 30 Mar 2024 15:52:49 +0100
-Date: Sat, 30 Mar 2024 15:52:49 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 17/17] net: pse-pd: Add TI TPS23881 PSE
- controller driver
-Message-ID: <8186fea6-c1f4-403b-b717-83c1dd3ad826@lunn.ch>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
- <20240326-feature_poe-v6-17-c1011b6ea1cb@bootlin.com>
- <6bbc6b86-3947-4679-ac0b-fde50129d0f6@lunn.ch>
- <20240329155657.7939ac4b@kmaincent-XPS-13-7390>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tJSGLSLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8FA4C43390;
+	Sat, 30 Mar 2024 16:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711814583;
+	bh=UluV6B2CNyYDGwjho9wujbbGinHQfPzIlXhBRj5/jwM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tJSGLSLAib4ZkmpSDD8pBKfDUosNtVmyEkJK8+xeWQ2RVi+l2/uiyFl+ZHsK26w2U
+	 sg/JDS8+wJ4obfWX5+RA0jLYrKoWy/69TMOHt8NNbHMZtVMkHNn1Z2pUxdRFSzdJkK
+	 vVA8ONMxBpcbAY/3IuiPJx1zA6f8BCOpWj8nrAz3O+sVZhjJ1CMT8KqZOmnp24ZXko
+	 Ujh4f2a5wNvRBBuguv9c7t/Xs5Fiut1pLT5B13kgANH6zi0BgtXTQNJ97kcxjmQnJ2
+	 QkbJ2xinb1NCih5rlauTuDtUaTWelA9jhVrKB8k9/dY3YxvINFjmR3JcJTHfGgX5Kh
+	 MtPcc26yM2Pmw==
+Date: Sat, 30 Mar 2024 16:02:46 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, David Lechner
+ <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, Guenter Roeck
+ <linux@roeck-us.net>, Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH RFC 1/7] regulator: devres: add APIs for reference
+ supplies
+Message-ID: <20240330160246.6b74bd3b@jic23-huawei>
+In-Reply-To: <8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
+References: <20240327-regulator-get-enable-get-votlage-v1-0-5f4517faa059@baylibre.com>
+	<20240327-regulator-get-enable-get-votlage-v1-1-5f4517faa059@baylibre.com>
+	<ZgWw66OpLnLPdCn-@google.com>
+	<043b347b-2652-4ffb-a8e0-954a89899ade@sirena.org.uk>
+	<ZgXQcGlMiewRzki5@google.com>
+	<8d98fab7-d73b-45c5-a46a-ace57907d25b@sirena.org.uk>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240329155657.7939ac4b@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 29, 2024 at 03:56:57PM +0100, Kory Maincent wrote:
-> On Thu, 28 Mar 2024 17:24:17 +0100
-> Andrew Lunn <andrew@lunn.ch> wrote:
+On Thu, 28 Mar 2024 20:25:31 +0000
+Mark Brown <broonie@kernel.org> wrote:
+
+> On Thu, Mar 28, 2024 at 01:17:52PM -0700, Dmitry Torokhov wrote:
+> > On Thu, Mar 28, 2024 at 06:18:32PM +0000, Mark Brown wrote:  
 > 
-> > > +static int tps23881_flash_fw_part(struct i2c_client *client,
-> > > +				  const char *fw_name,
-> > > +				  const struct tps23881_fw_conf *fw_conf)  
-> > 
-> > Does the device actually have flash? Or is this just downloading to
-> > SRAM?
+> > > I don't follow what you're saying here?  What normal APIs are not
+> > > available?  AFAICT this has nothing to do with a devm enable, it's a
+> > > combined operation which reports the voltage for the regulator if one is
+> > > available which would still be being added even if it used a devm
+> > > enable.  
 > 
-> It is downloading to SRAM.
+> > You can not do devm_regulator_get_enable() and then call
+> > regulator_get_voltage(), you need a new combined API.  
+> 
+> I think the theory here is that there are so many instances of this
+> reference voltage pattern that it's useful to have a helper for that
+> reason alone.
 
-So maybe rename these functions.
+Exactly that - this is just adding a convenience function to
+remove boilerplate.  -20ish lines of cut and paste code per
+driver. 
 
-	Andrew
+Jonathan
+
+
