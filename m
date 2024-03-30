@@ -1,157 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B112CCA3;
-	Sat, 30 Mar 2024 11:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8782EFC17;
+	Sat, 30 Mar 2024 13:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711797997; cv=none; b=PUBkQ27gGc2aGk8Zzd3czdf0V6Z7eAsneCCXKL3c3xemURSreGB1z+kRWaEYxMkLNq/RDCYz5Y0gK4vvrVvwGU5UN0wgK8qaojpgw4sonwlfGF6yflQ3lvneb1Njhweri6Libj2ZWbcKn55V7rAMlqG8NFAIa99oeZ7wD+1PJI4=
+	t=1711804198; cv=none; b=msGf8CqcdmNeggNMg/HufFCOaYLKDCEWxuH3O/HYKutQkZ8dqKrJKxFTgIAbVfUpzXHxMzCrVvvB60xEHZcVAXZOTIhF344HXeNyftmdq2n3pWpWXTEQD1MKM4ENdiTmmtUT6NrFUm2FDeB4w0fPsSRDoH50rHOJx1oPPXHiP08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711797997; c=relaxed/simple;
-	bh=Uuar7vsbKm5w+9KCxDbjk3gAMAqKDjuJHWplhv29qXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xkj5phfoeaSkUIc2YPi6siLuKQ7Zm1cs7iQpbpxaVGGajB9AxX7GBiFQhagItppygAS7OAE6on/CIcjCIiAL1hRECmLnMXwrVg69qh67CwNzukMMTN0SOCbMNWJ8FetHILIDreU0GWwQ9f0qYhMrp/HGsVHrT8n85EJcWji8JYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FWMHsTVH; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711804198; c=relaxed/simple;
+	bh=c8vGuGwO3AQu+ZaWNspJpBlAkE/1kfO3BpTmIYNdLVY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=koWJdVTSseW/8e2uUM6ICEAmEyd8jACBtp+FVrlMFBK4bjfLXSxLUwl17iJ6Q4/WRy5upZmg4uUPcdR3iidAA5Q0z4E9KQVg020dzp93l+0LaapYMKDoZ36p6gZU8MMaC/WJGpnWCimgg2DXlN+dcSfwVsBkkKDHygzf4/shaF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=k7ZkZ0kL; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=k7ZkZ0kL; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FWMHsTVH"
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="k7ZkZ0kL";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="k7ZkZ0kL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711797996; x=1743333996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Uuar7vsbKm5w+9KCxDbjk3gAMAqKDjuJHWplhv29qXw=;
-  b=FWMHsTVHj63smiHTVTzR3ag8bTxbgbACbWXXQg+pVoiwu4xZUQBIs18/
-   V0xFpFNmYIZB1C1aPNrpIr57WB84tZRhoBT4HrI1HbnTMIMak1xGFG2Lq
-   z0hmJ/6TlFxzIL2y6KEhAZJDMqG3sShdkXpZFjYrKsh0YrDdYuGkHYVcW
-   yrTu0rOCXjjJ7zKnRNbdnTV41JBgOoVg5gKDIMdNacYkw6IQ+nQviQVnL
-   1r0QYzI3XWS7gEQRkiwbLB4uv20QJeumYoOE/fsMGhJkfU72t0c8zqm2U
-   QnYqQqQ77Vqa0yxOVDUNZPK5Rn3Cx63k6Msl0X0ZMxL0fvnNVoNXwk2ok
-   w==;
-X-CSE-ConnectionGUID: oB1hdDnZTa2vMWmYDbu7Yw==
-X-CSE-MsgGUID: M5g1nIT4TUWXDXNFjMqthA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11028"; a="29456970"
-X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="29456970"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 04:26:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,166,1708416000"; 
-   d="scan'208";a="48409144"
-Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Mar 2024 04:26:28 -0700
-Received: from kbuild by be39aa325d23 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rqWqw-0004CM-1b;
-	Sat, 30 Mar 2024 11:26:26 +0000
-Date: Sat, 30 Mar 2024 19:26:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu,
-	ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>,
-	Fan Wu <wufan@linux.microsoft.com>
-Subject: Re: [PATCH v16 11/20] block|security: add LSM blob to block_device
-Message-ID: <202403301936.l8vO4jha-lkp@intel.com>
-References: <1711657047-10526-12-git-send-email-wufan@linux.microsoft.com>
+	d=hansenpartnership.com; s=20151216; t=1711804194;
+	bh=c8vGuGwO3AQu+ZaWNspJpBlAkE/1kfO3BpTmIYNdLVY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=k7ZkZ0kLppSHzm1nkkO3q6EXCLJvU15p7Y4lbbnMyqVOXBCvW0tp296hLlQGhA2Mb
+	 jSg9QmE2PwlaiJmeLeshYuQjGJ5h+N6dpUEvCH6roKM76amz8+xqYcj29OBdCFvdGG
+	 PkR0QzcjCtuLmBPEQNJv3VQRXqxYHYtYx1SC/Grg=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id F01A11280C22;
+	Sat, 30 Mar 2024 09:09:54 -0400 (EDT)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id xc_84SD9HvHL; Sat, 30 Mar 2024 09:09:54 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1711804194;
+	bh=c8vGuGwO3AQu+ZaWNspJpBlAkE/1kfO3BpTmIYNdLVY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=k7ZkZ0kLppSHzm1nkkO3q6EXCLJvU15p7Y4lbbnMyqVOXBCvW0tp296hLlQGhA2Mb
+	 jSg9QmE2PwlaiJmeLeshYuQjGJ5h+N6dpUEvCH6roKM76amz8+xqYcj29OBdCFvdGG
+	 PkR0QzcjCtuLmBPEQNJv3VQRXqxYHYtYx1SC/Grg=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id EB8D31280A41;
+	Sat, 30 Mar 2024 09:09:53 -0400 (EDT)
+Message-ID: <087bbfcf95c9014ee8f87d482773244f0833b892.camel@HansenPartnership.com>
+Subject: Re: [PATCH] KEYS: Add ECDH support
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Eric Biggers <ebiggers@kernel.org>, Zhang Yiqun
+ <zhangyiqun@phytium.com.cn>
+Cc: dhowells@redhat.com, jarkko@kernel.org, corbet@lwn.net, 
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org
+Date: Sat, 30 Mar 2024 09:09:51 -0400
+In-Reply-To: <20240330070436.GA2116@sol.localdomain>
+References: <20240330065506.3146-1-zhangyiqun@phytium.com.cn>
+	 <20240330070436.GA2116@sol.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1711657047-10526-12-git-send-email-wufan@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Fan,
+On Sat, 2024-03-30 at 00:04 -0700, Eric Biggers wrote:
+> [+Cc linux-crypto]
+> 
+> On Sat, Mar 30, 2024 at 02:55:06PM +0800, Zhang Yiqun wrote:
+> > This patch is to introduce ECDH into keyctl syscall for
+> > userspace usage, containing public key generation and
+> > shared secret computation.
+> > 
+> > It is mainly based on dh code, so it has the same condition
+> > to the input which only user keys is supported. The output
+> > result is storing into the buffer with the provided length.
+> > 
+> > Signed-off-by: Zhang Yiqun <zhangyiqun@phytium.com.cn>
+> > ---
+> >  Documentation/security/keys/core.rst |  62 ++++++
+> >  include/linux/compat.h               |   4 +
+> >  include/uapi/linux/keyctl.h          |  11 +
+> >  security/keys/Kconfig                |  12 +
+> >  security/keys/Makefile               |   2 +
+> >  security/keys/compat_ecdh.c          |  50 +++++
+> >  security/keys/ecdh.c                 | 318
+> > +++++++++++++++++++++++++++
+> >  security/keys/internal.h             |  44 ++++
+> >  security/keys/keyctl.c               |  10 +
+> >  9 files changed, 513 insertions(+)
+> >  create mode 100644 security/keys/compat_ecdh.c
+> >  create mode 100644 security/keys/ecdh.c
+> 
+> Nacked-by: Eric Biggers <ebiggers@google.com>
+> 
+> The existing KEYCTL_PKEY_*, KEYCTL_DH_COMPUTE, and AF_ALG are causing
+> enough problems.  We do not need any more UAPIs like this.  They are
+> hard to maintain, break often, not properly documented, increase the
+> kernel's attack surface, and what they do is better done in
+> userspace.
 
-kernel test robot noticed the following build errors:
+Actually that's not entirely true.  There is a use case for keys which
+is where you'd like to harden unwrapped key handling and don't have the
+ability to use a device.  The kernel provides a harder exfiltration
+environment than user space, so there is a use case for getting the
+kernel to handle operations on unwrapped keys for the protection it
+affords the crytpographic key material.
 
-[auto build test ERROR on device-mapper-dm/for-next]
-[also build test ERROR on axboe-block/for-next lwn/docs-next linus/master v6.9-rc1 next-20240328]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+For instance there are people who use the kernel keyring to replace
+ssh-agent and thus *reduce* the attack surface they have for storing
+ssh keys:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Wu/security-add-ipe-lsm/20240329-042339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/1711657047-10526-12-git-send-email-wufan%40linux.microsoft.com
-patch subject: [PATCH v16 11/20] block|security: add LSM blob to block_device
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20240330/202403301936.l8vO4jha-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240330/202403301936.l8vO4jha-lkp@intel.com/reproduce)
+https://blog.cloudflare.com/the-linux-kernel-key-retention-service-and-why-you-should-use-it-in-your-next-application/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202403301936.l8vO4jha-lkp@intel.com/
+The same thing could be done with gpg keys or the gnome keyring.
 
-All errors (new ones prefixed by >>):
+> Please refer to the recent thread
+> https://lore.kernel.org/linux-crypto/CZSHRUIJ4RKL.34T4EASV5DNJM@matfyz.cz/T/#u
+> where these issues were discussed in detail.
 
-   In file included from fs/nfs/blocklayout/blocklayout.c:41:
-   In file included from fs/nfs/blocklayout/../pnfs.h:34:
-   In file included from include/linux/nfs_fs.h:32:
-   In file included from include/linux/sunrpc/clnt.h:29:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:101:
-   In file included from include/linux/tcp.h:19:
-   In file included from include/net/sock.h:46:
-   In file included from include/linux/netdevice.h:45:
-   In file included from include/uapi/linux/neighbour.h:6:
-   In file included from include/linux/netlink.h:9:
-   In file included from include/net/scm.h:9:
->> include/linux/security.h:1506:36: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-    1506 |                                              enum lsm_integrity_type, type,
-         |                                                                       ^
-         |                                                                       int
-   include/linux/security.h:1506:34: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1506 |                                              enum lsm_integrity_type, type,
-         |                                                                     ^
-   fs/nfs/blocklayout/blocklayout.c:384:9: warning: variable 'count' set but not used [-Wunused-but-set-variable]
-     384 |         size_t count = header->args.count;
-         |                ^
-   2 warnings and 1 error generated.
---
-   In file included from fs/nfs/blocklayout/dev.c:8:
-   In file included from include/linux/nfs_fs.h:32:
-   In file included from include/linux/sunrpc/clnt.h:29:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:101:
-   In file included from include/linux/tcp.h:19:
-   In file included from include/net/sock.h:46:
-   In file included from include/linux/netdevice.h:45:
-   In file included from include/uapi/linux/neighbour.h:6:
-   In file included from include/linux/netlink.h:9:
-   In file included from include/net/scm.h:9:
->> include/linux/security.h:1506:36: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-    1506 |                                              enum lsm_integrity_type, type,
-         |                                                                       ^
-         |                                                                       int
-   include/linux/security.h:1506:34: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1506 |                                              enum lsm_integrity_type, type,
-         |                                                                     ^
-   1 warning and 1 error generated.
+This thread was talking about using the kernel for handling the
+algorithms themselves (which is probably best done in userspace) and
+didn't address using the kernel to harden the key protection
+environment.
 
+James
 
-vim +/int +1506 include/linux/security.h
-
-  1504	
-  1505	static inline int security_bdev_setintegrity(struct block_device *bdev,
-> 1506						     enum lsm_integrity_type, type,
-  1507						     const void *value, size_t size)
-  1508	{
-  1509		return 0;
-  1510	}
-  1511	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
