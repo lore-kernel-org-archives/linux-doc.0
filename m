@@ -1,24 +1,38 @@
-Received: from mail-m17249.xmail.ntesmail.com (mail-m17249.xmail.ntesmail.com [45.195.17.249])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C3B2B2DD;
-	Sat, 30 Mar 2024 16:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.17.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E19E1D526;
+	Sat, 30 Mar 2024 20:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711816584; cv=none; b=mEg4Xw1+iJQIDNpSHf6+lrVlyHHAwRj0XpJcf6Wj0SumMxZRLZ/pLZBKQRIy91Y1xe+Gh50wzdJ8ZWRX0XPCuZ2prqox3A+IlpepEM83tjGjRJv74ZcXtyDDG4i7CyqNJ7mgQ0bJbGiu5vJKayHi9F13hKtDsT3s3d9VWfbOhT8=
+	t=1711830275; cv=none; b=eUNw9/t8jomHLQY+ByTYf5xK2CC+N5DFG1ciOUkaHQSN3oHQ8cDJj453n16/YK3CYYpiKQuMWsO2mrVyAU/7DjdKdN5KQ6C5LkszXt8DhNobzXgbimHdi2OrBCXdLvp58aToKKaP9ZIGqalDnefi1vClD8TSQ4PuCXMXj63I5hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711816584; c=relaxed/simple;
-	bh=SZqUiQo5OKj8nmtGbzQ4Ypg3gkJp96clS4Euxj5TXIs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pmQebZM3cqLdupl+YFvQ9ie4BzakMCg3uoY0K+VY/xJQHABRrhxZPDrhxJ74NqNdivS1oWOJ/0bYEHQFNSWTCtB1RCW4Z6EyvPo0s5Jb8WztFbWh1/81GpQSIjRheuOSzrhP845c+ACoxj+zuJAqhySyEMXSXyMg89uvsmcJuvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn; spf=pass smtp.mailfrom=link.tyut.edu.cn; arc=none smtp.client-ip=45.195.17.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=link.tyut.edu.cn
-Received: from [IPV6:2409:8a0c:26d:73c0:9b07:dfee:fd9c:bf7b] (unknown [IPV6:2409:8a0c:26d:73c0:9b07:dfee:fd9c:bf7b])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 1EDD892010B;
-	Sun, 31 Mar 2024 00:35:56 +0800 (CST)
-Message-ID: <c4cbd8f8-01cc-4be6-b469-31173bffb952@link.tyut.edu.cn>
-Date: Sun, 31 Mar 2024 00:35:55 +0800
+	s=arc-20240116; t=1711830275; c=relaxed/simple;
+	bh=M16AfNwVtHLamlKfg4jcGI9WG/ubtRtUfORvJHjJ5FU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Vm4JqjVbHJSVd0lGE7+cb5Pi7cGmrX7MjL/A1iPE1NeHIK1xmB4B76kPPrxRrODZuC7yQCj3AgXDKQzt6gDhtFhQu2LzO2JNF/G8S3RiOWzyzfFqDcstXNtmHnNjyeDHJ/BPpYb4RDhMU2NyEBnt7EXCFP3mxfkq+1+C1oki3cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=AIy+ZxUC; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="AIy+ZxUC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1711830223; x=1712435023; i=markus.elfring@web.de;
+	bh=xD66JK+hqN9SH3xlHXfYDDN5LPeXo+dtKMtHomPeaEY=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=AIy+ZxUC0CLGbcs6pcIqpMBskcukgJmUGw/JQT80eCuslFW/+y12OZcZKf9TAEWS
+	 uQDTwF9WtIKHU3EODgCJOTb4AU5R/hHisA+j8LzG6Yn9LAbwT0ZUAI/QbTd7EF6Mq
+	 l+T0ZMKKS/L3MVt1PnFmVd08dvH7ny9CZeVIi5TSH99clVpvn7HwTde/eBs5IOoh+
+	 SspCYD6zgJzCs3YmKIklaY1w3/KfzsOKNHO789tpms7kb/3WnqlNqxLGalhMuL2pw
+	 xVu4QBvwxdgiQ4lKl/DYIZXBoYitB3PgUKhtUKCasrwtYEJDrWh+hE0bUqk7pqHFG
+	 tbjDGw7V2W10zZ03vg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MvKXb-1shnxP3vjF-00r3T9; Sat, 30
+ Mar 2024 21:23:43 +0100
+Message-ID: <5e16b656-514d-4598-8397-f2f8f87a05da@web.de>
+Date: Sat, 30 Mar 2024 21:23:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -26,104 +40,171 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh: Fix Cc, Co-developed-by, and Signed-off-by tags
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Alex Shi
- <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <22892a8ab5c17d7121ef5b85f7d18d8b1f41e434.1711715655.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Hu Haowen <2023002089@link.tyut.edu.cn>
-In-Reply-To: <22892a8ab5c17d7121ef5b85f7d18d8b1f41e434.1711715655.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSUoaVkhJGUIYHUlPGh8eGVUTARMWGhIXJBQOD1
-	lXWRgSC1lBWUlPS0JBQxpLGEFJTR9BTEgYS0FCGUtMQR8dHh5BHR9CGEEZHUwZWVdZFhoPEhUdFF
-	lBWU9LSFVKTUNMTE9VSktLVUpCS0tZBg++
-X-HM-Tid: 0a8e9037bf9403a1kunm1edd892010b
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAw6Oio4ODMUTjgaF0oqEE06
-	I0tPFDxVSlVKTEpKQ0pNTk5NQklMVTMWGhIXVUlLSUhLS0lLQ0I7FxIVEFUPAg4PVR4fDlUYFUVZ
-	V1kSC1lBWUlPS0JBQxpLGEFJTR9BTEgYS0FCGUtMQR8dHh5BHR9CGEEZHUwZWVdZCAFZQU1NSko3
-	Bg++
+To: Dan Williams <dan.j.williams@intel.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Kevin Tian <kevin.tian@intel.com>,
+ Lukas Wunner <lukas.wunner@intel.com>, Matthew Wilcox <willy@infradead.org>
+References: <171175585714.2192972.12661675876300167762.stgit@dwillia2-xfh.jf.intel.com>
+Subject: Re: [PATCH v3] cleanup: Add usage and style documentation
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <171175585714.2192972.12661675876300167762.stgit@dwillia2-xfh.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:A8x+osJ1x64brIJRIo7QxmPu5vvARRUGvvpAeHdMnO5chqB/QhQ
+ aNVVt7u12+tBjtiZoU9Y4y75cAwp36FHJjTHZ1kIlqCZhz6DKKoZWFTzZA9aw9TaD5/qWPC
+ JtsYkWJWB9Wy28b+yM87ZuVTLmoZ4jim98urOpEPbAnyM8zEKIXI2f+pmlzKnXop3lxOeIG
+ WqJGKeaUnD5tCklzxJQ/g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:c3ByjP073ec=;b8eZMOdHdutDRG+pLemxHPk62KZ
+ WOZYvMZGY9r3JlPVIcjLpUvSQTnqruI9AYPXED40MdNFnEEoP6HbZP6zD3ZQprxOePU5YbXzN
+ Tdjl3Z+xzrWTiBvwG6vrawgrXQsaRXZ2yKwr2y9TyK0sgHkogKo2nCjmxwk65F40RxYb/DFTA
+ bac3C5wnwkXkF3OMqLUsvyl57L553Y7U5I20/6GZA4HoJ0H0SQtS+/W8vJP4gMdbKjmKuFlv2
+ nj+768FSfqoIdFNV7Wv5MUZo8BwiBbBCXHJWKDfSo1sis97zu/GLQa8ynrltRwGqPx1+GUnO0
+ jRj+tvgq4ljtqj4TlKPXyWRXS2Dgkbmm7KUNqvMb/wzcdYKKxxYNJWMMzre/XPpfeQtCdXyIw
+ 8g/fkMkE8YjpAjEEdbvZq3nW3JugIk4FZaBRn2UiLLR0V3CfTkYIXb2kzyTyluQZznt9mG+Zg
+ KiOLoZVyvRCMZf7+00xIS3Sb2+CzJSc8NMNzjrc/VOBv0pSXGsYTToMI97fsfq6a2iaVnIqG1
+ Fqj1ThAg8pcMzArUjNZ2pJQ+hq1AHLyFG3w1kMGlWSQyz5LtYtzh5NmgRRp4E+z0iYEPmX2iZ
+ KJxpyPzdFghdNTMytQLlKq8LdPhJXQ9WjkoIv9kvzQcci81FfKNwy4hcsI9rTbxwdGYeEY4gC
+ FC38rZsvRDNinUtS5wlIWDl++XSUwisC1aaimvtumdLX5QZFK5DYfVBgD9gldr7B8O4t6os62
+ kb8PJXokGEGZ5YCeEJvXZDECpoOtRdC/b0mSM9XtzMIhCoXAZJ/BBC9TRuhO5POiTik04fXJH
+ UrMBIHLwwCQkJTDEGMiXRKll+FkZ8+PDkzh1vLQrHC4y4=
+
+> Changes since v2:
+> * remove the unnecessary newlines around code examples further reducing
+>   the visual interruption of RST metadata (Jon)
+> * Fix a missing FILO=3D>LIFO conversion
+> * Fix a bug in the example
+
+I find such improvements nice.
 
 
-在 2024/3/29 20:35, Geert Uytterhoeven 写道:
-> The updates from commit ae67ee6c5e1d5b6a ("docs: fix Co-Developed-by
-> docs") in v5.0 were never applied to the Chinese translations.
-> In addition:
->    - "Cc" used wrong case,
->    - "Co-developed-by" lacked a dash,
->    - "Signed-off-by" was misspelled.
+> * Collect Jonathan's reviewed-by
+
+How good does this action fit to the event that you pointed issues out als=
+o yourself?
+
+
+> Review has been quiet on this thread for a few days so I think is the
+> final rev.
+
+I got an other impression.
+
+
+> Let me know if anything else to fix up.
+
+I would appreciate if further patch review comments can get more attention=
+.
+
+
+=E2=80=A6
+> +++ b/include/linux/cleanup.h
+> @@ -4,6 +4,142 @@
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   .../translations/zh_CN/process/submitting-patches.rst     | 8 ++++----
->   .../translations/zh_TW/process/submitting-patches.rst     | 8 ++++----
->   2 files changed, 8 insertions(+), 8 deletions(-)
+>  #include <linux/compiler.h>
 >
-> diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> index f8978f02057c164c..7864107e60a85c58 100644
-> --- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-> +++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-> @@ -333,10 +333,10 @@ Linus 和其他的内核开发者需要阅读和评论你提交的改动。对
->   未参与其开发。签署链应当反映补丁传播到维护者并最终传播到Linus所经过的 **真实**
->   路径，首个签署指明单个作者的主要作者身份。
->   
-> -何时使用Acked-by:，CC:，和Co-Developed by:
-> +何时使用Acked-by:，Cc:，和Co-developed-by:
->   ------------------------------------------
->   
-> -Singed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
-> +Signed-off-by: 标签表示签名者参与了补丁的开发，或者他/她在补丁的传递路径中。
->   
->   如果一个人没有直接参与补丁的准备或处理，但希望表示并记录他们对补丁的批准/赞成，
->   那么他们可以要求在补丁的变更日志中添加一个Acked-by:。
-> @@ -358,8 +358,8 @@ Acked-by：不一定表示对整个补丁的确认。例如，如果一个补丁
->   Co-developed-by: 声明补丁是由多个开发人员共同创建的；当几个人在一个补丁上工
->   作时，它用于给出共同作者（除了From:所给出的作者之外）。因为Co-developed-by:
->   表示作者身份，所以每个Co-developed-by:必须紧跟在相关合作作者的签署之后。标准
-> -签署程序要求Singed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
-> -过From:还是Co-developed-by:表明。值得注意的是，最后一个Singed-off-by:必须是
-> +签署程序要求Signed-off-by:标签的顺序应尽可能反映补丁的时间历史，无论作者是通
-> +过From:还是Co-developed-by:表明。值得注意的是，最后一个Signed-off-by:必须是
->   提交补丁的开发人员。
->   
->   注意，如果From:作者也是电子邮件标题的From:行中列出的人，则From:标签是可选的。
-> diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
-> index 99fa0f2fe6f414e1..f12f2f193f855cfb 100644
-> --- a/Documentation/translations/zh_TW/process/submitting-patches.rst
-> +++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
-> @@ -334,10 +334,10 @@ Linus 和其他的內核開發者需要閱讀和評論你提交的改動。對
->   未參與其開發。簽署鏈應當反映補丁傳播到維護者並最終傳播到Linus所經過的 **真實**
->   路徑，首個簽署指明單個作者的主要作者身份。
->   
-> -何時使用Acked-by:，CC:，和Co-Developed by:
-> +何時使用Acked-by:，Cc:，和Co-developed-by:
->   ------------------------------------------
->   
-> -Singed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
-> +Signed-off-by: 標籤表示簽名者參與了補丁的開發，或者他/她在補丁的傳遞路徑中。
->   
->   如果一個人沒有直接參與補丁的準備或處理，但希望表示並記錄他們對補丁的批准/贊成，
->   那麼他們可以要求在補丁的變更日誌中添加一個Acked-by:。
-> @@ -359,8 +359,8 @@ Acked-by：不一定表示對整個補丁的確認。例如，如果一個補丁
->   Co-developed-by: 聲明補丁是由多個開發人員共同創建的；當幾個人在一個補丁上工
->   作時，它用於給出共同作者（除了From:所給出的作者之外）。因爲Co-developed-by:
->   表示作者身份，所以每個Co-developed-by:必須緊跟在相關合作作者的簽署之後。標準
-> -簽署程序要求Singed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
-> -過From:還是Co-developed-by:表明。值得注意的是，最後一個Singed-off-by:必須是
-> +簽署程序要求Signed-off-by:標籤的順序應儘可能反映補丁的時間歷史，無論作者是通
-> +過From:還是Co-developed-by:表明。值得注意的是，最後一個Signed-off-by:必須是
->   提交補丁的開發人員。
->   
->   注意，如果From:作者也是電子郵件標題的From:行中列出的人，則From:標籤是可選的。
+> +/**
+> + * DOC: scope-based cleanup helpers
+> + *
+> + * The "goto error" pattern is notorious for introducing =E2=80=A6
 
-Reviewed-by: Hu Haowen <2023002089@link.tyut.edu.cn>
+Will any other label become more helpful for this description approach?
 
 
-Thanks,
+> + * this tedium =E2=80=A6
 
-Hu Haowen
+Would an other wording be more appropriate here?
 
+
+
+
+> + *                                                       =E2=80=A6 If a=
+ function
+> + * wants to invoke pci_dev_put() on error, but return @dev (i.e. withou=
+t
+> + * freeing it) on success, it can do:
+> + *
+> + * ::
+> + *
+> + *	return no_free_ptr(dev);
+> + *
+> + * ...or:
+> + *
+> + * ::
+> + *
+> + *	return_ptr(dev);
+=E2=80=A6
+
+Would this macro call be preferred as a succinct specification
+(so that only the shorter one should be mentioned here)?
+https://elixir.bootlin.com/linux/v6.8.2/source/include/linux/cleanup.h#L78
+
+
+> + * Observe the lock is held for the remainder of the "if ()" block not
+> + * the remainder of "func()".
+
+I suggest to add a word in this sentence.
+
+* Observe the lock is held for the remainder of the "if ()" block
+* (and not the remainder of "func()").
+
+
+> + * That bug is fixed by changing init() to call guard() and define +
+> + * initialize @obj in this order::
+> + *
+> + *	guard(mutex)(&lock);
+> + *	struct object *obj __free(remove_free) =3D alloc_add();
+
+It is helpful to point such a design possibility and preference out.
+
+But I imagine that the abstraction level should be raised another bit.
+It seems that the mentioned variable definition should be achieved by
+calling the macro =E2=80=9CCLASS=E2=80=9D instead for =E2=80=9Can instance=
+ of the named class=E2=80=9D.
+Thus the macro =E2=80=9CDEFINE_CLASS=E2=80=9D should also be called before=
+ accordingly.
+https://elixir.bootlin.com/linux/v6.8.2/source/include/linux/cleanup.h#L82
+
+
+> + * the top of the function poses this potential interdependency problem
+
+I suggest to add a comma at the end of this line.
+
+
+> + * the recommendation is to always define and assign variables in one
+> + * statement and not group variable definitions at the top of the
+> + * function when __free() is used.
+
+I became curious how code layout guidance will evolve further also
+according to such an advice.
+
+
+> + * Lastly, given that the benefit of cleanup helpers is removal of
+> + * "goto", and that the "goto" statement can jump between scopes, the
+> + * expectation is that usage of "goto" and cleanup helpers is never
+> + * mixed in the same function. I.e. for a given routine, convert all
+> + * resources that need a "goto" cleanup to scope-based cleanup, or
+> + * convert none of them.
+
+Can the word wrapping become nicer another bit?
+
+* Lastly, given that the benefit of cleanup helpers is removal of "goto",
+* and that the "goto" statement can jump between scopes,
+* the expectation is that usage of "goto" and cleanup helpers is never
+* mixed in the same function. I.e. for a given routine, convert all
+* resources that need a "goto" cleanup to scope-based cleanup,
+* or convert none of them.
+
+
+Regards,
+Markus
