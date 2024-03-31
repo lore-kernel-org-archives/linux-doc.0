@@ -1,195 +1,129 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9AA6DD1D
-	for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 09:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F5A1C33;
+	Sun, 31 Mar 2024 10:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711875825; cv=none; b=lwAncOXGwKqS2SfrtLVAIoz7nfUjgBhACPuIQ30hEZ50USNVmm6S8uYXX/8uiTCyf1U6YsN6TZ8KIJUYq/gmnnwUqf+LXxD8jEOPbiOcstqUeKQhb01RIu6h3mLaf3vplQL7dmDm98TuN2askc+ezP+gODDvzBO7qvdv89VU9Ns=
+	t=1711879249; cv=none; b=MYHpxZ2baLuuXk7FsGlgbEwUH+HAuPp9bbi7hbv7x/XUpDh68/74rZxiXEynQFIh5DFhLLVg7jnwKxSwlGUG/evRsjqJLt77mQT62Ch2KdJkgqGzpLqyJnC2eZxZ1JASoSAeRivoog4wQ2A1txbOaYZg1mf/v5qEWW7P60L9ur0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711875825; c=relaxed/simple;
-	bh=+GUX9N7KTWqDazQlkr4dOjvGUXRVNVbAjc11ZWEUXfM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=j8fNQ7f+9lMEYwQCxTQHrtFbyn7ZGXTQNtKi9O0oXgEp8yZPvJ0jWfNttcnrFl8mmPFceeiYc+ocSvFFRiowEVguLRwTv2o1fD+FCMR+I0mIRcW3R0bGH/pGgmo08Cs+eeOWVrogRl/qjLpOdxK7mIgtv6d8QtjB0vflBBaCD3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UT4ERiH6; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1711879249; c=relaxed/simple;
+	bh=8ZlEK5607Jk4tOKuXpJJJZbQBuqSIL7N3MY76VqKGds=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tQq5PggapuYJ0UGG0JZQAfZD4QGTMlk6ZJqtF5xLRvsC/wnVcyqPLprYzKCbsnvIrdAwTZUM29Zy62dABUkYeSYjBkSczJ8FvIZZT32HoGhsz3k4bZMoUz0hsi/dTBecJdH/jy0v0T/I0jd9cP65b1yiAqJAjewNCzHSD86q830=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KmMMF4Fq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UT4ERiH6"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-513e134f73aso4128464e87.2
-        for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 02:03:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1711875821; x=1712480621; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=enqKlhrqJxOY+Eg7jfBUlxt+b2cgWgCVyMnuUniyPjo=;
-        b=UT4ERiH6Acl0kCe3NDuaNz4AOWi5uiNlFubfWdqc0qZ9GCrlER04mO4bgwdeoOt+4B
-         CLCgJXhBSjTp5BhSbDMW95V6f1aC4OanknHTkuaG2YDy7APn2DshXJSh7LxfgZZxt/dG
-         28FyOMFQw46OxtYUcGoXKLtcodK/8oSrU6yjKdIIs1MHYKvtrF89vZ3neK/dhMdK/pA6
-         fdz0uN1WOAV6m1NjuLvPw3OLaPQHPbxnxvBdeGkIe6RIbiSnDGe+L6DfA0bR6JLHMe5o
-         xE7YSJX+ix5hy5AUo+6zsVcoR22BagvDIrSm1jX2bit+AR8mURBzpG8qwrSTxAs5mE3M
-         qj+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711875821; x=1712480621;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=enqKlhrqJxOY+Eg7jfBUlxt+b2cgWgCVyMnuUniyPjo=;
-        b=Pjasy/PgR1nKI5LSlvQaqNfEpPLO1xqFuI7mrMOgKwGN3ITJUJUNkflsiNdfYYG+6r
-         c4YgI3v0beT4ML1SAD7VQ7b8gx+nCBLBLXzqIfbXw/VabpDUtUNJrEIBJryVljrmxlN+
-         jP7IDpDv963+hW9k0WYA0nppA4oBYKzQxEnROWJWEClhzWmVLl2jzzGlLgbnIMw/sfAE
-         U04N9G+qvF8pJiD1B8IJK00PLYTB9MMN5hAaTvzAZWtihTe86IIrjTTqHtTJmJFMnRMk
-         oImIlE8n7ezEL5P8hcpRFYKrZnPTMGlqvEyd3u3xwh5v2YONGHEAdUnLqt5bNr7xsAPa
-         USVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/ZBuI4ZtR9DA9IcU78zoF+691nWmABJPRlC8sUyju2iatzc+hbIpARqIh+W+BhWZoJq4aF1hPstUui/sf3fkcvjB0L9mcn6cf
-X-Gm-Message-State: AOJu0YzwihG9Z7PQ4D2LM5LRgTJlSk59ypMDxuGwOScRvZ8zrZbTusl+
-	OvWXpe0l/qe9TQdZ9gTQcvGVA2vxnxY/fkID7hYoPkU83hq6K+UVwT2qINVLzm4=
-X-Google-Smtp-Source: AGHT+IEFl+fHjFxKCqXr1wfcw/tZ0o11CMu7VI22034XxsfuzUlS3bN1GEeMhfM4+5PMbXFTPtYY+Q==
-X-Received: by 2002:a19:ac03:0:b0:516:a213:46d2 with SMTP id g3-20020a19ac03000000b00516a21346d2mr1775370lfc.69.1711875820967;
-        Sun, 31 Mar 2024 02:03:40 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id cp12-20020a170902e78c00b001e245c5afbfsm92671plb.155.2024.03.31.02.03.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Mar 2024 02:03:40 -0700 (PDT)
-Message-ID: <a2d3cdef-ed4e-41f0-b0d9-801c781f9512@suse.com>
-Date: Sun, 31 Mar 2024 19:33:32 +1030
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KmMMF4Fq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61394C433F1;
+	Sun, 31 Mar 2024 10:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711879248;
+	bh=8ZlEK5607Jk4tOKuXpJJJZbQBuqSIL7N3MY76VqKGds=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KmMMF4FqWijFeM4Mc1d+9Ubdwa3TgkbMdi6eJ6RH0MAB8zu2AokIMtuynk9zHpst7
+	 sjaOhpoiX/WY/rN5CHXvjADJSyWPVAk6E29IYeTIpMKQgGbS0bjQEdOxCPRzZrHqRo
+	 4I61gRbw7wBV0302LHrINBbf1Qu8jogvvPA2OPYB5Rda+tdjSWwlpUrBL94xa7zCyT
+	 sxQ3fdtYh4Ed+8k8UoLlhy5wUCDdk+g9Ee0f7ZkPcpfN1U2bUQTJtR0mIKbmN2Yu8J
+	 cWc12qcfmDEeapF4GLr3ETEj5czb7hk7mGI/Lk19OgAijibq+r+28/DKr5RV5kcQ3E
+	 ZsOTd8Sgq5fug==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1rqrzY-00013r-IH;
+	Sun, 31 Mar 2024 11:00:45 +0100
+Date: Sun, 31 Mar 2024 11:00:41 +0100
+Message-ID: <87msqesoty.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Dave Martin <Dave.Martin@arm.com>,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 1/5] KVM: arm64: Share all userspace hardened thread data with the hypervisor
+In-Reply-To: <20240329-arm64-2023-dpisa-v6-1-ba42db6c27f3@kernel.org>
+References: <20240329-arm64-2023-dpisa-v6-0-ba42db6c27f3@kernel.org>
+	<20240329-arm64-2023-dpisa-v6-1-ba42db6c27f3@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] btrfs: fiemap: return extent physical size
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
- Jonathan Corbet <corbet@lwn.net>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-doc@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, kernel-team@meta.com
-References: <cover.1711588701.git.sweettea-kernel@dorminy.me>
- <93686d5c4467befe12f76e4921bfc20a13a74e2d.1711588701.git.sweettea-kernel@dorminy.me>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
- Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
- p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
- ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
- dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
- RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
- rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
- 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
- bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
- AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
- ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
-In-Reply-To: <93686d5c4467befe12f76e4921bfc20a13a74e2d.1711588701.git.sweettea-kernel@dorminy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Dave.Martin@arm.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-
-
-在 2024/3/28 11:52, Sweet Tea Dorminy 写道:
-> Now that fiemap allows returning extent physical size, make btrfs return
-> the appropriate extent's actual disk size.
+On Fri, 29 Mar 2024 00:13:42 +0000,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-[...]
-> @@ -3221,7 +3239,9 @@ int extent_fiemap(struct btrfs_inode *inode, struct fiemap_extent_info *fieinfo,
->   
->   			ret = emit_fiemap_extent(fieinfo, &cache, key.offset,
->   						 disk_bytenr + extent_offset,
-> -						 extent_len, flags);
-> +						 extent_len,
-> +						 disk_size - extent_offset,
+> As part of the lazy FPSIMD state transitioning done by the hypervisor we
+> currently share the userpsace FPSIMD state in thread->uw.fpsimd_state with
+> the host. Since this struct is non-extensible userspace ABI we have to keep
 
-This means, we will emit a entry that uses the end to the physical 
-extent end.
+Using the same representation is just pure convenience, and nothing
+requires us to use the it in the kernel/hypervisor.
 
-Considering a file layout like this:
+> the definition as is but the addition of FPMR in the 2023 dpISA means that
+> we will want to share more storage with the host. To facilitate this
+> refactor the current code to share the entire thread->uw rather than just
+> the one field.
 
-	item 6 key (257 EXTENT_DATA 0) itemoff 15816 itemsize 53
-		generation 7 type 1 (regular)
-		extent data disk byte 13631488 nr 65536
-		extent data offset 0 nr 4096 ram 65536
-		extent compression 0 (none)
-	item 7 key (257 EXTENT_DATA 4096) itemoff 15763 itemsize 53
-		generation 8 type 1 (regular)
-		extent data disk byte 13697024 nr 4096
-		extent data offset 0 nr 4096 ram 4096
-		extent compression 0 (none)
-	item 8 key (257 EXTENT_DATA 8192) itemoff 15710 itemsize 53
-		generation 7 type 1 (regular)
-		extent data disk byte 13631488 nr 65536
-		extent data offset 8192 nr 57344 ram 65536
-		extent compression 0 (none)
+So this increase the required sharing with EL2 from 528 bytes to
+560. Not a huge deal, but definitely moving in the wrong direction. Is
+there any plans to add more stuff to this structure that wouldn't be
+*directly* relevant to the hypervisor?
 
-For fiemap, we would got something like this:
+> 
+> The large number of references to fpsimd_state make it very inconvenient
+> to add an additional wrapper struct.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/kvm_host.h       |  3 ++-
+>  arch/arm64/include/asm/processor.h      |  2 +-
+>  arch/arm64/kvm/fpsimd.c                 | 13 ++++++-------
+>  arch/arm64/kvm/hyp/include/hyp/switch.h |  2 +-
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c      |  4 ++--
+>  5 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 9e8a496fb284..8a251f0da900 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -27,6 +27,7 @@
+>  #include <asm/fpsimd.h>
+>  #include <asm/kvm.h>
+>  #include <asm/kvm_asm.h>
+> +#include <asm/processor.h>
+>  #include <asm/vncr_mapping.h>
+>  
+>  #define __KVM_HAVE_ARCH_INTC_INITIALIZED
+> @@ -640,7 +641,7 @@ struct kvm_vcpu_arch {
+>  	struct kvm_guest_debug_arch vcpu_debug_state;
+>  	struct kvm_guest_debug_arch external_debug_state;
+>  
+> -	struct user_fpsimd_state *host_fpsimd_state;	/* hyp VA */
+> +	struct thread_struct_uw *host_uw;	/* hyp VA */
+>  	struct task_struct *parent_task;
 
-fileoff 0, logical len 4k, phy 13631488, phy len 64K
-fileoff 4k, logical len 4k, phy 13697024, phy len 4k
-fileoff 8k, logical len 56k, phy 13631488 + 8k, phylen 56k
+Well, this is going away, and you know it.
 
-[HOW TO CALCULATE WASTED SPACE IN USER SPACE]
-My concern is on the first entry. It indicates that we have wasted 60K 
-(phy len is 64K, while logical len is only 4K)
+	M.
 
-But that information is not correct, as in reality we only wasted 4K, 
-the remaining 56K is still referred by file range [8K, 64K).
-
-Do you mean that user space program should maintain a mapping of each 
-utilized physical range, and when handling the reported file range [8K, 
-64K), the user space program should find that the physical range covers 
-with one existing extent, and do calculation correctly?
-
-[COMPRESSION REPRESENTATION]
-The biggest problem other than the complexity in user space is the 
-handling of compressed extents.
-
-Should we return the physical bytenr (disk_bytenr of file extent item) 
-directly or with the extent offset added?
-Either way it doesn't look consistent to me, compared to non-compressed 
-extents.
-
-[ALTERNATIVE FORMAT]
-The other alternative would be following the btrfs ondisk format, 
-providing a unique physical bytenr for any file extent, then the 
-offset/referred length inside the uncompressed extent.
-
-That would handle compressed and regular extents more consistent, and a 
-little easier for user space tool to handle (really just a tiny bit 
-easier, no range overlap check needed), but more complex to represent, 
-and I'm not sure if any other filesystem would be happy to accept the 
-extra members they don't care.
-
-Thanks,
-Qu
-
-> +						 flags);
->   		}
->   
->   		if (ret < 0) {
-> @@ -3259,7 +3279,7 @@ int extent_fiemap(struct btrfs_inode *inode, struct fiemap_extent_info *fieinfo,
->   		prev_extent_end = range_end;
->   	}
->   
-> -	if (cache.cached && cache.offset + cache.len >= last_extent_end) {
-> +	if (cache.cached && cache.offset + cache.log_len >= last_extent_end) {
->   		const u64 i_size = i_size_read(&inode->vfs_inode);
->   
->   		if (prev_extent_end < i_size) {
+-- 
+Without deviation from the norm, progress is not possible.
