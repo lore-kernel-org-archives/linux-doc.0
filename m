@@ -1,120 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC6A42AA8;
-	Sun, 31 Mar 2024 15:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CCF1E531;
+	Sun, 31 Mar 2024 15:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711899863; cv=none; b=QJXUM2iB5zjRRPQ3m5vNs93AnQ8PinYcFREE606oAKvIJ/dzvq6RE855c4ROgiN0vSOX94JTQpcQ9EcPKhviTy6DBjnNt1Nlt7BfwclXCWn+bICz5mc47SomPZ60rjGeaehQvmECyxufuJlE7QllMVT/jMzp1FkN/8ny6qGwQaQ=
+	t=1711900457; cv=none; b=fKj0zSdq1Fj4YEXbFCrCjeTp5LMDZz0GCLaD34UC/bnb6txP1rwzO4BBsTv8KUsH4OR416adoEIH/Dtxlk9HjqU6qOxAAKi9mTU4vRBswzNDo/IRzg0dJwQemzkfk2DMha14HeCjow4NrDwpRtPh8hwQi0FbRj1iSg8abKaqFyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711899863; c=relaxed/simple;
-	bh=q1Npa18Wizh6/4uiTHvbZ8rFvZTNTBODkLJ1YPWT1FI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=evdSzpTNmhegsmF57kJlJ7jtwxlMCgotPQzvg8uuYsDSOsmc0YCx7HWWdSIsWNpuK4VpqWS1XVvM+NzWOU7EcNrrIFHYFNItFekNjDnMf3D5hdfc+7aKViSORyjOkYt0Wn0O4IwFBaax24QXvZw/LFob3AUINobr8GVwYMjUOFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ph86thnc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ph86thnc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC13C433F1;
-	Sun, 31 Mar 2024 15:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711899863;
-	bh=q1Npa18Wizh6/4uiTHvbZ8rFvZTNTBODkLJ1YPWT1FI=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
-	b=Ph86thnclnSfEqHvIDP9jW7oEn3M6Lhdxx/k4DYJc8TGRfTpg5gDW8aCOXmVWR3b1
-	 dvZFTWq6k6S+n3NoIo9/ewowefwouVuUH2Lsrmdi4QKxB8E31QMbQ1QMw1cpOSV9nM
-	 ETH7HoScRTcq6diU12g5ql8AcaCmZfgcoQV6igmkNEwDYc0lizCHC56/knbFZHxdMk
-	 e2Oj5J5c5u+P9wIqZX7/OdA6DT+/vbp2b6Fo4FcC9Bk+bq8TNBx9A32Z2wDD/HjyBm
-	 0J8Hhj1caIReMGxz54trt7au1YJFRul/wTev7lFnctxi7lcOMOLcqbabQPZZS/ZOGO
-	 VAnx17AKB9RnA==
+	s=arc-20240116; t=1711900457; c=relaxed/simple;
+	bh=Uc1KW8hGMIQWMXsj9q7n3Os7KrFYC2VKY3GqwMRyHGw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gcfYs3YO68pl6vLX4J28WJ6ZsevJDtuZBRlj7WtTyRLLBk7GIe8xlf6TEGzHY5+53k3lta0JCgFhaZAzBU+Vjj9jUfdDonQ7DuzaAeV8yTNDyIS+geLPLgALTl5ZPUI4qAJeu2rznCGjY45rVyoSwvcC+gntP3hDOn4I4Pm5P3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 7CA7A120179;
+	Sun, 31 Mar 2024 15:54:06 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 500E818;
+	Sun, 31 Mar 2024 15:54:01 +0000 (UTC)
+Message-ID: <dbe8ea1a6a3b599a00eeb8ba0254fde785a500b9.camel@perches.com>
+Subject: Re: [PATCH v4 2/2] scripts: checkpatch: check unused parameters for
+ function-like macro
+From: Joe Perches <joe@perches.com>
+To: Mac Xu <mac.xxn@outlook.com>, Barry Song <21cnbao@gmail.com>, 
+	"akpm@linux-foundation.org"
+	 <akpm@linux-foundation.org>, "linux-doc@vger.kernel.org"
+	 <linux-doc@vger.kernel.org>
+Cc: "apw@canonical.com" <apw@canonical.com>, "broonie@kernel.org"
+ <broonie@kernel.org>, "chenhuacai@loongson.cn" <chenhuacai@loongson.cn>, 
+ "chris@zankel.net" <chris@zankel.net>, "corbet@lwn.net" <corbet@lwn.net>, 
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,  "lukas.bulwahn@gmail.com"
+ <lukas.bulwahn@gmail.com>, "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>, 
+ "v-songbaohua@oppo.com" <v-songbaohua@oppo.com>,
+ "workflows@vger.kernel.org" <workflows@vger.kernel.org>,  Max Filippov
+ <jcmvbkbc@gmail.com>
+Date: Sun, 31 Mar 2024 08:54:00 -0700
+In-Reply-To: <MN0PR20MB4717810B82175CC594A9F285F3382@MN0PR20MB4717.namprd20.prod.outlook.com>
+References: <20240328022136.5789-1-21cnbao@gmail.com>
+	 <20240328022136.5789-3-21cnbao@gmail.com>
+	 <ef2c96e40bcf777535c9ff2405e4dc5b3138b27e.camel@perches.com>
+	 <MN0PR20MB4717810B82175CC594A9F285F3382@MN0PR20MB4717.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 31 Mar 2024 18:44:19 +0300
-Message-Id: <D081UQF5758Q.3TO9YN0PEQ0O1@kernel.org>
-To: "James Bottomley" <James.Bottomley@HansenPartnership.com>, "Eric
- Biggers" <ebiggers@kernel.org>, "Zhang Yiqun" <zhangyiqun@phytium.com.cn>
-Cc: <dhowells@redhat.com>, <corbet@lwn.net>, <keyrings@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH] KEYS: Add ECDH support
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <20240330065506.3146-1-zhangyiqun@phytium.com.cn>
- <20240330070436.GA2116@sol.localdomain>
- <087bbfcf95c9014ee8f87d482773244f0833b892.camel@HansenPartnership.com>
-In-Reply-To: <087bbfcf95c9014ee8f87d482773244f0833b892.camel@HansenPartnership.com>
+MIME-Version: 1.0
+X-Stat-Signature: uh6mfa15t5g7ucfaa49qh8ezswwjjfa6
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 500E818
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/5kpa60OO0mgDP7ujpRGtlQZspuLjxAzI=
+X-HE-Tag: 1711900441-273597
+X-HE-Meta: U2FsdGVkX1908fgJHnjrmlQdMn0+SlRyYy9HNNP+vxv3r8Dv6hY3i1jH2e/PW52vPDrGBkukRRP34YWAi41zHWzF2+JzgJwH+a5kY5/BTZCqJos60SwH3/8lneEFYkA3EYsSONF8Zx2ofUys7sq61qWoGu2oZ2eKumioqAz4U97aeIgt60V0cfoZWWoh2jZV41pbc6cWG4r6RnmQsE6ye440giOES4u0TaPzhiXX9Cg+lpIoAB2w142cfkPG3ZVRvESF98G7mWSmU0QgX2X5G8YmGuW2oILSgnxZA4+ud6j4We2iuxpeh76MBM83uHqCCFZzG8Y/nRZdE58QFAJibP3yRQ2NWtTm
 
-On Sat Mar 30, 2024 at 3:09 PM EET, James Bottomley wrote:
-> On Sat, 2024-03-30 at 00:04 -0700, Eric Biggers wrote:
-> > [+Cc linux-crypto]
-> >=20
-> > On Sat, Mar 30, 2024 at 02:55:06PM +0800, Zhang Yiqun wrote:
-> > > This patch is to introduce ECDH into keyctl syscall for
-> > > userspace usage, containing public key generation and
-> > > shared secret computation.
+On Sun, 2024-03-31 at 13:46 +0000, Mac Xu wrote:
+> > On Thu, 2024-03-28 at 15:21 +1300, Barry Song wrote:
+> > > From: Xining Xu <mac.xxn@outlook.com>
 > > >=20
-> > > It is mainly based on dh code, so it has the same condition
-> > > to the input which only user keys is supported. The output
-> > > result is storing into the buffer with the provided length.
-> > >=20
-> > > Signed-off-by: Zhang Yiqun <zhangyiqun@phytium.com.cn>
-> > > ---
-> > > =C2=A0Documentation/security/keys/core.rst |=C2=A0 62 ++++++
-> > > =C2=A0include/linux/compat.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +
-> > > =C2=A0include/uapi/linux/keyctl.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 11 +
-> > > =C2=A0security/keys/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +
-> > > =C2=A0security/keys/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
-> > > =C2=A0security/keys/compat_ecdh.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 50 +++++
-> > > =C2=A0security/keys/ecdh.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 318
-> > > +++++++++++++++++++++++++++
-> > > =C2=A0security/keys/internal.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 44 ++++
-> > > =C2=A0security/keys/keyctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +
-> > > =C2=A09 files changed, 513 insertions(+)
-> > > =C2=A0create mode 100644 security/keys/compat_ecdh.c
-> > > =C2=A0create mode 100644 security/keys/ecdh.c
+> > > If function-like macros do not utilize a parameter, it might result i=
+n a
+> > > build warning.  In our coding style guidelines, we advocate for utili=
+zing
+> > > static inline functions to replace such macros.  This patch verifies
+> > > compliance with the new rule.
+> > []
+> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+>=20
+[]
+> > It seems this logic is a bit redundant to existing
+> > code and might be better added in the block that starts
 > >=20
-> > Nacked-by: Eric Biggers <ebiggers@google.com>
+> > (line 6026)
+> > # check if any macro arguments are reused (ignore '...' and 'type')
 > >=20
-> > The existing KEYCTL_PKEY_*, KEYCTL_DH_COMPUTE, and AF_ALG are causing
-> > enough problems.=C2=A0 We do not need any more UAPIs like this.=C2=A0 T=
-hey are
-> > hard to maintain, break often, not properly documented, increase the
-> > kernel's attack surface, and what they do is better done in
-> > userspace.
->
-> Actually that's not entirely true.  There is a use case for keys which
-> is where you'd like to harden unwrapped key handling and don't have the
-> ability to use a device.  The kernel provides a harder exfiltration
-> environment than user space, so there is a use case for getting the
-> kernel to handle operations on unwrapped keys for the protection it
-> affords the crytpographic key material.
->
-> For instance there are people who use the kernel keyring to replace
-> ssh-agent and thus *reduce* the attack surface they have for storing
-> ssh keys:
->
-> https://blog.cloudflare.com/the-linux-kernel-key-retention-service-and-wh=
-y-you-should-use-it-in-your-next-application/
->
-> The same thing could be done with gpg keys or the gnome keyring.
+> > as that already does each param in a #define and
+> > ignores ... and type
+>=20
+> Hi Joe,
+>=20
+> Thank you for your comments with insights, as you said, code block of lin=
+e 6026 is a better place to=20
+> place this new logic, as it already handles the logic I'd wanted like ext=
+racting, splitting and trimming=20
+> the arguments, excluding the trailing comments etc.
+>=20
+> By placing the logic in the new place, code duplicates are reduced.
+>=20
+> Here's my new code (inserted from line 6044):
+> +# check if this is an unused argument
+> +        if ($define_stmt !~ /\b$arg\b/) {
+> +                WARN("UNUSED_ARG_IN_MACRO",
 
-Eric has a correct standing given that the commit message does not have
-motivation part at all.=20
+Perhaps
+					WARN("MACRO_ARG_UNUSED",
+			...
 
-With a description of the problem that this patch is supposed to solve
-this would be more meaningful to review.
+to better match the others above it in the block:
 
-BR, Jarkko
+					CHK("MACRO_ARG_REUSE",
+and
+					CHK("MACRO_ARG_PRECEDENCE",
+
+Other than that trivial bit, seems ok.
+
