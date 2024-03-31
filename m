@@ -1,168 +1,195 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2A21494B7
-	for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 08:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9AA6DD1D
+	for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 09:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711874786; cv=none; b=ftjQBdCi8Rc8D3fD7JL3MIOr/WafxYG6DBVAZ33vtyEjFitVCv/2Xx59Tq/2yKmF+j4rmolv7s+hPY42LwoEVk/lDPWmVFchbNwQBAZkmSqBfiUV4wHTr3BAx60bjGGZ08Lm/htxNK9AOQUHnX1Zpd5sm3hIrobC+kFuq4j6qEg=
+	t=1711875825; cv=none; b=lwAncOXGwKqS2SfrtLVAIoz7nfUjgBhACPuIQ30hEZ50USNVmm6S8uYXX/8uiTCyf1U6YsN6TZ8KIJUYq/gmnnwUqf+LXxD8jEOPbiOcstqUeKQhb01RIu6h3mLaf3vplQL7dmDm98TuN2askc+ezP+gODDvzBO7qvdv89VU9Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711874786; c=relaxed/simple;
-	bh=ZZgxTq79++b7HHq30K3VBjFNBWdk1QKSfVGAvnwx7/U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MnI/kANxCRCgOuTwCP9ieKh5E32qNm7RCOS9hatsIupcKYPNnkEyN32OrXMQsNvprwNFRYvWvN/909YxaLLkocCkC3nxXkk9V8H0SCkCGwXbFo/RUQQWudxW7/ZgdNDB17lM7tHecLVWznZZHckKsAFfZ+A1ZintuLyiFDlYk4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hjtn5Hln; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711875825; c=relaxed/simple;
+	bh=+GUX9N7KTWqDazQlkr4dOjvGUXRVNVbAjc11ZWEUXfM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=j8fNQ7f+9lMEYwQCxTQHrtFbyn7ZGXTQNtKi9O0oXgEp8yZPvJ0jWfNttcnrFl8mmPFceeiYc+ocSvFFRiowEVguLRwTv2o1fD+FCMR+I0mIRcW3R0bGH/pGgmo08Cs+eeOWVrogRl/qjLpOdxK7mIgtv6d8QtjB0vflBBaCD3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UT4ERiH6; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hjtn5Hln"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-341c7c8adf3so2221849f8f.0
-        for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 01:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UT4ERiH6"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-513e134f73aso4128464e87.2
+        for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 02:03:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711874782; x=1712479582; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PUGaKwdvwMokLlZR31UQgBcIJ2q0krEU+yZMO7QbwcI=;
-        b=Hjtn5Hlnes+w/e3w0eIr7nTTgSvMkDmZzsGAWeX3YC3DfaOpgP2PPknWKtAJoy6EE/
-         qmCDP91IjqyT+WUq1JbCAoWyjT8nVHhBFmWdVgk0Fe56zIGX0EzaY4w5JojZUz8eOTSq
-         bbVl2PykGm/CmM9SBKHHXHVZBsO5HZaZIDO33uuEaZufu9xJt7GORX5VUBtdXMbrqC/X
-         Y0LErKvrlsDnwUy4CqDF8HF1dE5RNaIEwnyl3cbuOSSMg4B0PyOU51qtlo5YuSt6FLLf
-         MToJ2Fztixc0ZZyl+McVdkXLITXzwverL2iGuRWtvyoEjfDLYSgIL5jdI6FpwhSg6kGH
-         kWPg==
+        d=suse.com; s=google; t=1711875821; x=1712480621; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=enqKlhrqJxOY+Eg7jfBUlxt+b2cgWgCVyMnuUniyPjo=;
+        b=UT4ERiH6Acl0kCe3NDuaNz4AOWi5uiNlFubfWdqc0qZ9GCrlER04mO4bgwdeoOt+4B
+         CLCgJXhBSjTp5BhSbDMW95V6f1aC4OanknHTkuaG2YDy7APn2DshXJSh7LxfgZZxt/dG
+         28FyOMFQw46OxtYUcGoXKLtcodK/8oSrU6yjKdIIs1MHYKvtrF89vZ3neK/dhMdK/pA6
+         fdz0uN1WOAV6m1NjuLvPw3OLaPQHPbxnxvBdeGkIe6RIbiSnDGe+L6DfA0bR6JLHMe5o
+         xE7YSJX+ix5hy5AUo+6zsVcoR22BagvDIrSm1jX2bit+AR8mURBzpG8qwrSTxAs5mE3M
+         qj+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711874782; x=1712479582;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PUGaKwdvwMokLlZR31UQgBcIJ2q0krEU+yZMO7QbwcI=;
-        b=Y1cau+5prrf8Sv0+RDFYgUhfraN0x6YSdF/YguQSGoeZ+I3Eqbqt1Eok3piA9uAPmf
-         zaWGBGsKyguda2QJpWpPv8CbiDCgfSaUbY6NejZEJODsFDO6g8Hc42JrWe/G9DI/00QX
-         57ROr30shHz1dxVxawBGvhdhxI9g+7MDXW2q9wazCdcLCUxX9iwOPwC/WLxSRuZL3tdf
-         cd0BlJF2qSavznzkXFH4kCIAvGboj8V7MUhhS7XESm1JxsQvGsxDy4gkpzHJrmuTExTL
-         hU3uTQ7xhIHdKwmaGTAT3ErEV8DVjLSXTyYc0a7KdTWooJKozgemzbVfZIKDipvOBEda
-         +t8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUbvZxfMNZRGfOU8IKRrafnwsSJtyBZoA+8dhGtdANoWLWDs53dlAC4KNFoe7McgENnt8ef4pVDDG/LAKppKmVrftCxUVZQugPs
-X-Gm-Message-State: AOJu0Yzh3VZg8nG+4hXJHq77kIef0VTfJRj6pfRzqYrhesOX7ZVj+et8
-	HMiMB7wHEet4WH7vGfRwC+TNmrw6gfVkp3qeeAcxYu4ZBNJDTf3pRmm8ZrLOBE8=
-X-Google-Smtp-Source: AGHT+IF7MARc7H4ZqzG7wJkQ89qaWtgYzIyVWgX/basw0DoDqcekmy5aXwgVIVD/A5uDZbyMRmIPWA==
-X-Received: by 2002:adf:f88f:0:b0:341:d2f9:494c with SMTP id u15-20020adff88f000000b00341d2f9494cmr3575737wrp.55.1711874782419;
-        Sun, 31 Mar 2024 01:46:22 -0700 (PDT)
-Received: from [127.0.1.1] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id k17-20020adff5d1000000b00341b7388dafsm8436003wrp.77.2024.03.31.01.46.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Mar 2024 01:46:21 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Sun, 31 Mar 2024 10:44:12 +0200
-Subject: [PATCH v2 25/25] sound: virtio: drop owner assignment
+        d=1e100.net; s=20230601; t=1711875821; x=1712480621;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=enqKlhrqJxOY+Eg7jfBUlxt+b2cgWgCVyMnuUniyPjo=;
+        b=Pjasy/PgR1nKI5LSlvQaqNfEpPLO1xqFuI7mrMOgKwGN3ITJUJUNkflsiNdfYYG+6r
+         c4YgI3v0beT4ML1SAD7VQ7b8gx+nCBLBLXzqIfbXw/VabpDUtUNJrEIBJryVljrmxlN+
+         jP7IDpDv963+hW9k0WYA0nppA4oBYKzQxEnROWJWEClhzWmVLl2jzzGlLgbnIMw/sfAE
+         U04N9G+qvF8pJiD1B8IJK00PLYTB9MMN5hAaTvzAZWtihTe86IIrjTTqHtTJmJFMnRMk
+         oImIlE8n7ezEL5P8hcpRFYKrZnPTMGlqvEyd3u3xwh5v2YONGHEAdUnLqt5bNr7xsAPa
+         USVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/ZBuI4ZtR9DA9IcU78zoF+691nWmABJPRlC8sUyju2iatzc+hbIpARqIh+W+BhWZoJq4aF1hPstUui/sf3fkcvjB0L9mcn6cf
+X-Gm-Message-State: AOJu0YzwihG9Z7PQ4D2LM5LRgTJlSk59ypMDxuGwOScRvZ8zrZbTusl+
+	OvWXpe0l/qe9TQdZ9gTQcvGVA2vxnxY/fkID7hYoPkU83hq6K+UVwT2qINVLzm4=
+X-Google-Smtp-Source: AGHT+IEFl+fHjFxKCqXr1wfcw/tZ0o11CMu7VI22034XxsfuzUlS3bN1GEeMhfM4+5PMbXFTPtYY+Q==
+X-Received: by 2002:a19:ac03:0:b0:516:a213:46d2 with SMTP id g3-20020a19ac03000000b00516a21346d2mr1775370lfc.69.1711875820967;
+        Sun, 31 Mar 2024 02:03:40 -0700 (PDT)
+Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
+        by smtp.gmail.com with ESMTPSA id cp12-20020a170902e78c00b001e245c5afbfsm92671plb.155.2024.03.31.02.03.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 Mar 2024 02:03:40 -0700 (PDT)
+Message-ID: <a2d3cdef-ed4e-41f0-b0d9-801c781f9512@suse.com>
+Date: Sun, 31 Mar 2024 19:33:32 +1030
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240331-module-owner-virtio-v2-25-98f04bfaf46a@linaro.org>
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
-In-Reply-To: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Richard Weinberger <richard@nod.at>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Olivia Mackall <olivia@selenic.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>, 
- Sudeep Holla <sudeep.holla@arm.com>, 
- Cristian Marussi <cristian.marussi@arm.com>, 
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Daniel Vetter <daniel@ffwll.ch>, 
- Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, 
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- "James E.J. Bottomley" <jejb@linux.ibm.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org, 
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev, 
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=719;
- i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=ZZgxTq79++b7HHq30K3VBjFNBWdk1QKSfVGAvnwx7/U=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBmCSJm5t8lRjxPTys8b+WU0OKgg1LgcvzKJ4xNt
- n3OV06BuwyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZgkiZgAKCRDBN2bmhouD
- 13W/D/oDYwucjXt0Tt8Y0Uy9LmGcrAbjofc6FyMbOg5ZcMm5e3+WVCaJvH1GzuMW7eKutG1NKq4
- SG+22VBevobbwXkTrzQkvyrydccLRDbeWLWm+HJad5tojpoFvW83SYI4iPlD0b266lNVIdzpKjz
- hcUgfDLubJvg2WN81urFjglAG74SusSyGpct+7+xypg9xUvAMj+j+vblD6MiYvdlR7YTT07NpVb
- CnsXjptZ5D0mdqdAp/yyZAVgxH8IatToMVp+zeRzRlVPHc8mepyeo/z9irAjfvJMoh/GGv0t6Gr
- 6lHVgN1q09NOsaKCBvZgBc1M3JNDSEvRjO4LMT7dAINa97EQdIp9+8ZpNqqX0RQXYDulXZIS5+F
- Fi4LuIifmxFvnLlK3XGafTiE+izB6Av3JwLIwcg0Q9VTwxzmWeoDKL9c1o0P/bZ5TzBsp8cO5Az
- EQrw4GwFCAMD7jfVzip/IzS25Sgb5lVDNqj2sWyi5R9/l0bzGoRd8h0nMUo0h60LV8+UQNG4Qn2
- Z5ijAWCJJVA4mNoA3tp1IfoltFnoxAy+WhGYLKaLo80DfbVnlQAHuwY8P4oIqsfEalA2ZTmhTBx
- qz3zO+FBApnCfqIytRnVYYYjPxsP+kbjFVJOBhR1fGzSU1/is2cPkZduK341zXENT6nHwkNDVK4
- VB34pc8fk3aFIrA==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
- fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] btrfs: fiemap: return extent physical size
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+ Jonathan Corbet <corbet@lwn.net>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ linux-doc@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+References: <cover.1711588701.git.sweettea-kernel@dorminy.me>
+ <93686d5c4467befe12f76e4921bfc20a13a74e2d.1711588701.git.sweettea-kernel@dorminy.me>
+Content-Language: en-US
+From: Qu Wenruo <wqu@suse.com>
+Autocrypt: addr=wqu@suse.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
+ FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
+ Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
+ p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
+ ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
+ dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
+ RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
+ rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
+ Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
+ E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
+ vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
+ g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
+ AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
+ rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
+ 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
+ bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
+ AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
+ ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
+In-Reply-To: <93686d5c4467befe12f76e4921bfc20a13a74e2d.1711588701.git.sweettea-kernel@dorminy.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-virtio core already sets the .owner, so driver does not need to.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
----
+在 2024/3/28 11:52, Sweet Tea Dorminy 写道:
+> Now that fiemap allows returning extent physical size, make btrfs return
+> the appropriate extent's actual disk size.
+> 
+> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+[...]
+> @@ -3221,7 +3239,9 @@ int extent_fiemap(struct btrfs_inode *inode, struct fiemap_extent_info *fieinfo,
+>   
+>   			ret = emit_fiemap_extent(fieinfo, &cache, key.offset,
+>   						 disk_bytenr + extent_offset,
+> -						 extent_len, flags);
+> +						 extent_len,
+> +						 disk_size - extent_offset,
 
-Depends on the first patch.
----
- sound/virtio/virtio_card.c | 1 -
- 1 file changed, 1 deletion(-)
+This means, we will emit a entry that uses the end to the physical 
+extent end.
 
-diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-index 2da20c625247..7805daea0102 100644
---- a/sound/virtio/virtio_card.c
-+++ b/sound/virtio/virtio_card.c
-@@ -438,7 +438,6 @@ static unsigned int features[] = {
- 
- static struct virtio_driver virtsnd_driver = {
- 	.driver.name = KBUILD_MODNAME,
--	.driver.owner = THIS_MODULE,
- 	.id_table = id_table,
- 	.feature_table = features,
- 	.feature_table_size = ARRAY_SIZE(features),
+Considering a file layout like this:
 
--- 
-2.34.1
+	item 6 key (257 EXTENT_DATA 0) itemoff 15816 itemsize 53
+		generation 7 type 1 (regular)
+		extent data disk byte 13631488 nr 65536
+		extent data offset 0 nr 4096 ram 65536
+		extent compression 0 (none)
+	item 7 key (257 EXTENT_DATA 4096) itemoff 15763 itemsize 53
+		generation 8 type 1 (regular)
+		extent data disk byte 13697024 nr 4096
+		extent data offset 0 nr 4096 ram 4096
+		extent compression 0 (none)
+	item 8 key (257 EXTENT_DATA 8192) itemoff 15710 itemsize 53
+		generation 7 type 1 (regular)
+		extent data disk byte 13631488 nr 65536
+		extent data offset 8192 nr 57344 ram 65536
+		extent compression 0 (none)
 
+For fiemap, we would got something like this:
+
+fileoff 0, logical len 4k, phy 13631488, phy len 64K
+fileoff 4k, logical len 4k, phy 13697024, phy len 4k
+fileoff 8k, logical len 56k, phy 13631488 + 8k, phylen 56k
+
+[HOW TO CALCULATE WASTED SPACE IN USER SPACE]
+My concern is on the first entry. It indicates that we have wasted 60K 
+(phy len is 64K, while logical len is only 4K)
+
+But that information is not correct, as in reality we only wasted 4K, 
+the remaining 56K is still referred by file range [8K, 64K).
+
+Do you mean that user space program should maintain a mapping of each 
+utilized physical range, and when handling the reported file range [8K, 
+64K), the user space program should find that the physical range covers 
+with one existing extent, and do calculation correctly?
+
+[COMPRESSION REPRESENTATION]
+The biggest problem other than the complexity in user space is the 
+handling of compressed extents.
+
+Should we return the physical bytenr (disk_bytenr of file extent item) 
+directly or with the extent offset added?
+Either way it doesn't look consistent to me, compared to non-compressed 
+extents.
+
+[ALTERNATIVE FORMAT]
+The other alternative would be following the btrfs ondisk format, 
+providing a unique physical bytenr for any file extent, then the 
+offset/referred length inside the uncompressed extent.
+
+That would handle compressed and regular extents more consistent, and a 
+little easier for user space tool to handle (really just a tiny bit 
+easier, no range overlap check needed), but more complex to represent, 
+and I'm not sure if any other filesystem would be happy to accept the 
+extra members they don't care.
+
+Thanks,
+Qu
+
+> +						 flags);
+>   		}
+>   
+>   		if (ret < 0) {
+> @@ -3259,7 +3279,7 @@ int extent_fiemap(struct btrfs_inode *inode, struct fiemap_extent_info *fieinfo,
+>   		prev_extent_end = range_end;
+>   	}
+>   
+> -	if (cache.cached && cache.offset + cache.len >= last_extent_end) {
+> +	if (cache.cached && cache.offset + cache.log_len >= last_extent_end) {
+>   		const u64 i_size = i_size_read(&inode->vfs_inode);
+>   
+>   		if (prev_extent_end < i_size) {
