@@ -1,138 +1,171 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9D0FC08;
-	Mon,  1 Apr 2024 08:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711960748; cv=none; b=R0VKFJUYfluRdOjLilZV6fhNDlBwhNpy9B5MXynYxi/APeN7ztA/aqlzHBxknYANKZSoSuNIgP+buEGnNd/oNojf/nNzMToMDRWnURFNK0XOOs/JR/JiUej8HhvdiivKv3eOEanNnZLzGMoyALn2c6mjeS6lJc8BO5kGHvnnfA0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711960748; c=relaxed/simple;
-	bh=1Tn1esD1kJcJI+TkMvadUmF0KzwOA5IFTcW+3nhhjFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=uXMO5wdGcCnQh6n1d4guxIhwVMP8SlO3POhRBc6Vbv9HEKnUUtACCA6NKCqJzvhC7K0Ve7o/+NEZD0tokMgaXTjIPGPwAPAsqwOXqr0r+G+bI5o+i5TUr8NRpXbKcpRroG9RF0lS2kNwL35DwYViHc5nks7wgmHH70ci6VzsYac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=JOyiWYWB; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5A6FC08;
+	Mon,  1 Apr 2024 09:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711962368; cv=fail; b=HjwaqLst8Se+dqOK6O6w0I/APkYfMrCWwE95DHK6yI5cJAVDDlsuDjbIg/uw6mH+ZGGs1kM8PSHFA1MnrJIRIY8ph5cFJJJtpPx3EFJZbBl5EmqhBz2po6kvwxYB/mJypJXd2Qt4c0zNbmXvQPNxxn0M2nkwCALotUcijg9gkYc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711962368; c=relaxed/simple;
+	bh=3RQhNvI/a+/G/CNiwQT9BUomL9k1rJaJNPucEigaXKg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ewfoB2nRVVMTawHjyG7s9txowPSJN/B8BYp1wYUxI+Mx/gCq77K9+msOKzhQVcj046b8KrwDPofnjycXAYBRp3n55GVcdDgFStn+DQJLbW0s50cV2LpbojFSO2/p5r6CL5TKVfGGdkdVT7yg44i/8Kuh9aNp6DI3o0uc2oromKs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sO5llBTk; arc=fail smtp.client-ip=40.107.243.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="JOyiWYWB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=BjGaJFLrLvMVQq06MTRerBRTLWVUItjpux/8jwfcOwI=; t=1711960745;
-	x=1712392745; b=JOyiWYWBuh/2oVTIpol+iSbaGT0B0vCD+LqVqsra6DeRg+j3M9t4Ld2OhkYny
-	M5HqF+eOW1TMtjNUydKDO6gItTIRmpnV5LIuiaByOkwoasvttdshAuxYmEjeGS8/wqjj/3ihIEsTr
-	ijG9cToFSxHcXqGnUQDHom58AHah1tSJUz3bretCDSY2gk1YvVpJYRGMubg5yQQJROTtxhUMcZkHz
-	Kzvr9pxdRrIDKOu472H4Qu1qSdlOKcfD1rO4nMcctGT9+RGAw0sYOpKKE8cGsnDVxbBG8A/e7YPBE
-	nHyzI53EK0bZMdSHWR5WhnH3SiX5DYacTZE6sZ1v7c/TOWDx3g==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rrDBt-0007A8-17; Mon, 01 Apr 2024 10:38:53 +0200
-Message-ID: <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
-Date: Mon, 1 Apr 2024 10:38:52 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sO5llBTk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gye/UyrHBLGuWAm8dlLaXzs3TnDU50g9W2dYCrRmG37ytBX6m6SEL8gXDz7UHHCsVplylwe/w3GWBElcIk8vmiwUOL4t3z8MkIJp4E0WiaPm1iKLospljMrdIj4dA1UTVIwF2m9NRZ8yzAkoY67NP2zf4bv5vjzXKyWUIATtBXE7e02HGR66q1TwrpTuDIt2dyHYbfwhmM/Tg6WUjreDecpxxfamX6niePpNzQ74ejKZuPvzvgceH8+0dntLIhblVF8XLiI+rFxvqGjX0h6K8Z3VPRk8ZdhjaAdhbV78504Upmbuy1x7+5PM258efoq6i1USN+cl6km+TGInEidlGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rjwbf5IO4kJkSBaQDg53aNMfV/fKVVhUlHFeOxuF4AQ=;
+ b=lQKrXOGbq/lDYvVsDrCQz+Mm4Uz3ElRhSfKB2HWGRDCDob+QgLNMgqvbFVTWl/KTzF5oFRTHiGHCKeodICpDxSB3644ef4HLaFoC8UfHvC/Jfuoq74dRhKanAA1wVThiwpNO9O/VQqbTxiLD4iG1z8ypguxphI9OTZ6181bopF8HQ93YXV5RrbaXtPBFMgVigFe8n6YNcbdccgpqur2OdLBsVXDZbWhbepBVbHVaJ2Z8XVEb4xciN5Zsk3hdjGlLBZzDEs12vxU4PHnEQ+DLV9AX4D4GsHKipAGzMFtt9Lg+KiKFhwfX04fIGqPSYDC0HTssadUs2Jqrx88YZn6eLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rjwbf5IO4kJkSBaQDg53aNMfV/fKVVhUlHFeOxuF4AQ=;
+ b=sO5llBTkQ+uzMDIA045xcDrSstEDnfv0VBLtpgiSJLClKOmuLJnz+NY3ZfLl94bvLIvzXyxbtIdz/UgJrWPeqHuH/4dcIIiIqVyTHZczuqiTujB9BWuRiqje/qOUg8l/sIuwLV7ix3qeLY3l4/fSBm+TLr+RuqsirKIjfXI33t+V3jZPt83q8MA6NIsMwKaTou/0OFvVmO2hz3rMOsK/dYpiH/4pWIsiUFkYAf8aaHBE6f/Yk9YCbKMi9JKiSj886YHHFsqU89yu7vc+W6YnmBky4+c4WjNqjaIQd0KIaulQwIDGZK9/MHqvs8RJC/HVfY8DFa16vG6hFp6ifmTXCA==
+Received: from SJ0PR03CA0387.namprd03.prod.outlook.com (2603:10b6:a03:3a1::32)
+ by MW6PR12MB8898.namprd12.prod.outlook.com (2603:10b6:303:246::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 1 Apr
+ 2024 09:06:03 +0000
+Received: from SJ1PEPF00001CDC.namprd05.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::6) by SJ0PR03CA0387.outlook.office365.com
+ (2603:10b6:a03:3a1::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.43 via Frontend
+ Transport; Mon, 1 Apr 2024 09:06:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF00001CDC.mail.protection.outlook.com (10.167.242.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Mon, 1 Apr 2024 09:06:03 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Mon, 1 Apr 2024
+ 02:05:50 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.230.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Mon, 1 Apr 2024 02:05:48 -0700
+From: Parav Pandit <parav@nvidia.com>
+To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <corbet@lwn.net>
+CC: <saeedm@nvidia.com>, <leon@kernel.org>, <jiri@resnulli.us>,
+	<shayd@nvidia.com>, <danielj@nvidia.com>, <dchumak@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Parav Pandit
+	<parav@nvidia.com>
+Subject: [net-next 0/2] devlink: Add port function attribute for IO EQs
+Date: Mon, 1 Apr 2024 12:05:29 +0300
+Message-ID: <20240401090531.574575-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: handling-regressions.rst: clarify that
- "Closes:" tags work too
-To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
- regressions@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-References: <20240328194342.11760-1-balejk@matfyz.cz>
- <20240328194342.11760-3-balejk@matfyz.cz>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <20240328194342.11760-3-balejk@matfyz.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1711960745;94e34c62;
-X-HE-SMSGID: 1rrDBt-0007A8-17
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDC:EE_|MW6PR12MB8898:EE_
+X-MS-Office365-Filtering-Correlation-Id: d675bd8a-b0f6-4350-0455-08dc522af4fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	UeEj6/IwRd0Z1xjNR0UzVUSaTHOL7hInLFwUHYTQ+oJJiM/gfYye/LoRAd5/UE2nPQYHNB+J35cP2jevOti8qqgVgG7NyeILhKbHlvHwkerqLaiBOMGzI5RjJ37TLZahZd6E5M2/TBN6iBcVsb6l6kpaCeM5PlI05yaCRt9Z9ny7GiccgGRfV/ca34Y0Wy9AjBlL3UzyvWetOkTwSPaYxGfFKgV1o7OMHvXQHsBWiU1G4opeB9G2ujgA1GSbBcqwOn0UCQe/ltoEyTdVtJdPZi0ux4kQ+DzBj7WFl4ECUvskBoPOB9lRhQMwfTfrY8ooZ9V8Df69AaH25owtY001DdpnSWxeSs2f2nAx18L/DN4WXBpRgj0j5e1oZApsmdgiFwveoj92/tUoOVfNeETEtk3O6p+89Y8HnAI0hOSr/T5Hivx+RRsdBCIDBRzyi3XhKbUwgqu3ER/Dp7IG0M1BAzP7US+p1jcRBiis/mP1P9vjwbOQBl/P8vg9xn0Braq52jI/3eY+mTD+RkpNd8v0T4HX1w63KJRb8cUwg8cNSEc7O81J7cSncfUQNL2qYMPs2atr5sGRrAhEYLieTtyaLrTSyN4q9ZSqMQecMrh0NFd2B9HTgs/PM3qattlC7bnoYkm7+b88dxZP45L2VE6wnxLXWEWJxHCc8yTyeYmPBYs2Lt3ZZym3zBB6JcpT2H2Mto/hOgsSgLfAUHsrP5z5SwKNSK2FWYs4Xexgfn/YWdpg/g2IVfw9VFzFvzD4K2EQ
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(7416005)(376005)(82310400014)(36860700004)(1800799015);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2024 09:06:03.0557
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d675bd8a-b0f6-4350-0455-08dc522af4fb
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CDC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8898
 
-On 28.03.24 20:29, Karel Balej wrote:
-> The regressions handling manual claims that regzbot associates patches
-> fixing an issue with the report based on the occurrence of the
-> appropriate "Link:" trailers. It reasons that this does not add any
-> burden on the maintainers/bug fix authors as this is already mandated by
-> the "Submitting patches" guide. In fact however, the guide encourages
-> using "Link:" tags for related discussions or issues which the patch
-> fixes only partially, recommending "Closes:" for full resolutions.
-> 
-> Despite it not being mentioned anywhere in the "Handling regressions"
-> guide, regzbot does in fact take the "Closes:" tags into account and
-> seems to in fact treat them fully equivalently to "Link:" tags.
-> 
-> Clarify this in the regressions handling guide by always mentioning both
-> of the tags.
+Currently, PCI SFs and VFs use IO event queues to deliver netdev per
+channel events. The number of netdev channels is a function of IO
+event queues. In the second scenario of an RDMA device, the
+completion vectors are also a function of IO event queues. Currently, an
+administrator on the hypervisor has no means to provision the number
+of IO event queues for the SF device or the VF device. Device/firmware
+determines some arbitrary value for these IO event queues. Due to this,
+the SF netdev channels are unpredictable, and consequently, the
+performance is too.
 
-Many thx for this and the other patch. I had planned to do something
-like this myself, but never got around to.
+This short series introduces a new port function attribute: max_io_eqs.
+The goal is to provide administrators at the hypervisor level with the
+ability to provision the maximum number of IO event queues for a
+function. This gives the control to the administrator to provision
+right number of IO event queues and have predictable performance.
 
-There is just one thing that makes me slightly unhappy: this tells
-readers that they can use both, but leaves the question "what's the
-difference" respectively "in which situation should I use one or the
-other" unanswered.
+Examples of when an administrator provisions (set) maximum number of
+IO event queues when using switchdev mode:
 
-To answer that question: in a ideal world developers would use "Closes:"
-when a change resolves an issue, and "Link" when it's somehow related to
-a report, but not resolving the problem.
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 10
 
-But we don't live in that world and I wonder if we ever reach that point
-where regzbot could act accordingly. Nevertheless I'd say it would be
-wise to write the docs towards that ideal world. E.g.: tell developers
-to uses 'Closes:', but in some places briefly hint that "'Link:' works
-for now, too".
+  $ devlink port function set pci/0000:06:00.0/1 max_io_eqs 20
 
-I also find the patch description a bit verbose; and it would be good to
-turn the text upside down: first outline what the patch, then maybe
-describe the "why".
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 20
 
-Ciao, Thorsten
+This sets the corresponding maximum IO event queues of the function
+before it is enumerated. Thus, when the VF/SF driver reads the
+capability from the device, it sees the value provisioned by the
+hypervisor. The driver is then able to configure the number of channels
+for the net device, as well as the number of completion vectors
+for the RDMA device. The device/firmware also honors the provisioned
+value, hence any VF/SF driver attempting to create IO EQs
+beyond provisioned value results in an error.
+
+With above setting now, the administrator is able to achieve the 2x
+performance on SFs with 20 channels. In second example when SF was
+provisioned for a container with 2 cpus, the administrator provisioned only
+2 IO event queues, thereby saving device resources.
+
+With the above settings now in place, the administrator achieved 2x
+performance with the SF device with 20 channels. In the second example,
+when the SF was provisioned for a container with 2 CPUs, the administrator
+provisioned only 2 IO event queues, thereby saving device resources.
+
+Parav Pandit (2):
+  devlink: Support setting max_io_eqs
+  mlx5/core: Support max_io_eqs for a function
+
+ .../networking/devlink/devlink-port.rst       | 25 +++++
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  2 +
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
+ .../mellanox/mlx5/core/eswitch_offloads.c     | 94 +++++++++++++++++++
+ include/net/devlink.h                         | 14 +++
+ include/uapi/linux/devlink.h                  |  1 +
+ net/devlink/port.c                            | 52 ++++++++++
+ 7 files changed, 195 insertions(+)
+
+-- 
+2.26.2
+
