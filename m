@@ -1,135 +1,183 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0F68C10
-	for <linux-doc@vger.kernel.org>; Mon,  1 Apr 2024 05:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561038F51;
+	Mon,  1 Apr 2024 06:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711948656; cv=none; b=W+clSIli9cgxwfKtm2/PG5MxYk9LYcuU2Dcc2FBa9MOBtIBYk+y/RrxcMO3VwSYnKnKyyU7m8cwzH1juLBbaUhtuSbQ1F1ZaA0f4ew4JcsFkmbC3pspVqzybhVBWeXEAe2PvynvYLXBsejVfWMVAXH7cAHD6U6oWzEzaf+0P3qY=
+	t=1711952463; cv=none; b=No6DpMZGw0PTg0rQQgPwyL9Ujdtj4az6M7bUlfFiwXjUnfqn59y2YTDfDA8iNSvvXKTS0BUooZh+LeXjuaptpGDXhuNe99kywwvrV46zTdtq6sfcA5PrHZPSWyjxIk5+esvzQp44boweiTc702qzDAM72z0FNdZB+slyfDe2Yn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711948656; c=relaxed/simple;
-	bh=tBglxvlDUeCZXU4OkTWfXJTuUNjdjT468JtqkKvyze8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YDbmCC9aQdB5q6aw/7PB2JrRCWqlsPpAIl1ilO8oTs/4/WtqkRyLj+Dn9labSqOEAwZ1/ywdh8m+VK/xqWcrulSz5U6L1c2N56rHrR6zxJqud+L9b8FL4jilfDoIRs6rfWjRSCbv4qXrGel0NEDIrj91MfRzxynMl/8ZUoCWQ5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eo93+2kQ; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1711952463; c=relaxed/simple;
+	bh=Lf2dD3nRXEM3QKLcinOUWGrZNiSWMEAx6xFjKwZTZuA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Unz5nQdftBROxN6QED9JnyIp85lCOsC3x2mGAcGHHyaYD3DwqX+5dexMVNEZO/QtLX0r7ScnR5NDH7FeVmHT/gB+WhkhZRM+bYEUb6dGjK1fCO7dKWdRjo+iZ9AvN8vXHGeCyqaKaayMAOp7VnDRzolYSnr/cfK5YP2mWkQ0zQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV5u/VTT; arc=none smtp.client-ip=209.85.166.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eo93+2kQ"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-515a97846b5so3880054e87.2
-        for <linux-doc@vger.kernel.org>; Sun, 31 Mar 2024 22:17:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV5u/VTT"
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7cc77e74b5cso175448239f.2;
+        Sun, 31 Mar 2024 23:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711948652; x=1712553452; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cOj27ZZTllvPcuA8dCQrQVFTBK3f2AC/nEUUJ3KrkZY=;
-        b=eo93+2kQtOjwj4VoyAZppsLLX11hY+nTWnj4nc5z45OXZGdRs45L4fDq6qoCHExTk9
-         OhqEelZDErc0Z1ky61klV9H2OunI8/VPZtyo4A3C/3moik9WiKhhxtJrZOftYGfIaZix
-         nnDUQ9gMjNDWzXSXLAFfSRogBARjncAwTZggoy5mhYVn4AaepzVOLiFnvE6QI9ZsTBd6
-         ZKeq9N3GHgZkoVRy+E3KA1aZ3VbJC+qGZKO20JHLamF7kjC8FBpoMLB8mzNpsT9yA7xe
-         ArsEN6jxFSSqudOsmQJb5/qvAcogtwptdEl/HZsCNye4k9aoxKfya1OGqA+7ZNjb4lE8
-         uvgg==
+        d=gmail.com; s=20230601; t=1711952461; x=1712557261; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iMMohnAWMK6m3tG9gNhC20ZEygwyJguxL99B9xnGWG8=;
+        b=AV5u/VTTWJYcGIO3YwSyLj1AmfLeIQHcSePw9JK0F57Eorjp/XW5t9AP30djqEZ+UV
+         AG0sYnkkcD1iLRP/JSgHE2h1cMHWlmYWN1o2Fg4bB2lCBapiZfzz+5Wztmx/l3h7CFcc
+         u2eS6VI+yKDeckF/u1Ekm/u755SlTA7ZYuTuf83qNtKeaDCwEEOUVsxmIH1YI2A1ak5I
+         PEAYxcpq6xBQbAkKyJ2tiRH89ywRwpNEWveZgqxNrqei9QIwjIFK27Nsfmq96zeH3E5P
+         wvewsFOMraFQSWbvlQXj7Gz1mBRyAakknOwvo12cHbUyl0Q0H0QBE7EZcnElKh07oWYP
+         PljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711948652; x=1712553452;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cOj27ZZTllvPcuA8dCQrQVFTBK3f2AC/nEUUJ3KrkZY=;
-        b=U6kvRspLAdHl1JuzlUMowLH6XW8tj189CTuGYen1z827hO2BPgNXK1Nt7nC9hUIWxT
-         vkO1hG2hneouSvGgu/mr+Q4e9MGQZ76Zw1wztR0a2cjV3vGw17seoJE4N4K3WZlCjYT2
-         BxHyp8aUaZWsnbKastMEPzdzD95xYN7i6lxtlz+700X7mx9VdocIqznNWd2BgwJE7NoL
-         Cwv5Vcv6Iq8iWNjv4Rvq9s3t/clJKJdytlcQnu7tC+ywUkLJEByll6XMlUTfXVJERSp2
-         sOFM6ToNvyMTFp6kCSMBCJAJVNHauGvPVMBfEL4XKa9g4sbyijuVVr1/kgc9UN8cWI/Q
-         4F1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWOAJ8SOzhcQ+YWKPA6BOIFMrYeMreWZLVaPO6Q4RLDtUPRW3fLwlfJs3MqN7+FI783numyFfRuFCxMoEiqI5cU807BYb1o3+uO
-X-Gm-Message-State: AOJu0YxV7MDVdfDfKCvulWu3BFJ3cfoAgeqSICUwpiJlLae1NpspsJRG
-	gS2YH36qZRaUHGxT6cxfQjceSuC+8bbSIgttgTdkehmxKkplcwxfYW0B0bCiMpg=
-X-Google-Smtp-Source: AGHT+IG3yOIWJMlaa6+5jb3PNL7kJftD0rwMRnODCA6mYOj73UqdrbvoQaH734IsVUARtuD+e2Vc6A==
-X-Received: by 2002:ac2:5f86:0:b0:513:cb7a:7cf7 with SMTP id r6-20020ac25f86000000b00513cb7a7cf7mr5147397lfe.63.1711948652453;
-        Sun, 31 Mar 2024 22:17:32 -0700 (PDT)
-Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id x12-20020a056512078c00b00513e4086815sm1324342lfr.162.2024.03.31.22.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Mar 2024 22:17:32 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 01 Apr 2024 08:17:03 +0300
-Subject: [PATCH] docs: submitting-patches: describe additional tags
+        d=1e100.net; s=20230601; t=1711952461; x=1712557261;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iMMohnAWMK6m3tG9gNhC20ZEygwyJguxL99B9xnGWG8=;
+        b=MTDxLaA2EVZy5e5bcSb+T5UJbR5ei4WaLNWG4DcqW7PmPyY5dwuBB4OS4fiQYhnYNy
+         Qz27vIjvxcz+HRQoQiAJaSPR71Zl99sxPM5c88JDT+MEIKUA1/r1Wf0yTu+b+v+8GicR
+         n4iJgYWidTwWsFHdGPV4WVmU6x4gFFC8GkGjV3wrSLJgN54Fnr+pF5BZhD8CwF0DuKZr
+         WiFcl87AYO8ziu75AsCJ9QAeddzJw50YVARh7Ac/NQEPH0UthmTaNuhIUbC3oFMxhuLJ
+         verNUzTGvnxJ82mYcBGRA49ChG1yc9ux4O0REHlP67k4Ng3rgaoMoHunI5ZdG6Rv4cQb
+         2zxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUny0raQFzsM8ZIcau0rbJ12NOPOlT/DXpnUGh6SEd33FoWbDwxWFad54ANBnocbRokdQu/Q7qZ9lPqxNCywDKf3lWZEklheWUcQDN5M2zE6rBCv+ATtTW+ynf1SnGAhPkFbDzB0N+UUJrJlqSY8BJPaWCLR0LiVN7rrGw/Fa/qevY+qkSwONUYoRONr0/sD51bTWK3gBUDPruedupwxPh1
+X-Gm-Message-State: AOJu0YytMbKv/InyIrF31TqP71yzcGSLXH5Z3LtBonfqyczc0QHdP4pp
+	ZIthghVLvzVdDBZ0qPHjVzjN5ssyvwXvpYy6dMr6SGnzlY1ihzCci1VQwvQasavrcome6ZxVEsj
+	m3ynYfkgBYeTUA36LUdIGDG1WNYc=
+X-Google-Smtp-Source: AGHT+IGqrP3UbKuIe1tD2jwC4HaMuI/kdKXkvDhRJ+AWyQfCT0kCIFRqJPOXLpW67XqZ5jBlSE9DEP3cTjA6OoqADbE=
+X-Received: by 2002:a5d:8986:0:b0:7cf:1c5c:681e with SMTP id
+ m6-20020a5d8986000000b007cf1c5c681emr10205960iol.17.1711952461453; Sun, 31
+ Mar 2024 23:21:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAE5DCmYC/x2M0QpAQBQFf0X32dZaG+VX5OGyZ7kldFdS8u82j
- 1Mz81CCChJ1xUOKS5LsW4aqLGhaeJthJGQmZ5233laGQ5AzS7yaU1lWaDJubBsfa3gGKJeHIsr
- 9X/vhfT8zfY/GZQAAAA==
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2220;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=tBglxvlDUeCZXU4OkTWfXJTuUNjdjT468JtqkKvyze8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmCkNrIW2CbJPlEIiAtlkvjFoDoy+gKdyBxndam
- HItDuxWtu2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZgpDawAKCRCLPIo+Aiko
- 1cHiCACqii0cJWQpxMm9UTq68xxNtctI48gh9Ma5qGRTEvzCaub8Jg/6AwxCbwDtbmBiwpkMZcT
- ASQ58aPDcqe7ctxXTxSYljbaUh3cy+FCcG+86/dc2FR0HCpTyMOZQFrIVA0M0b0zgW7uF7c914G
- tEfWr1/yPCrhb+JWD5ux9xB+rVYFAsLyt2a0UIL2lrJjHVKW20G6TGYMzyEVX+U4atm1ZoELVUX
- hxYXFrfoeZN9c8MBtGm1m71q017FYwV3JDEO77BVoDy79vzZiH1eGAFXJPgG3ebnCUau2KJbfan
- waSyQntx3ReP50HhuOh0sLRhVsQyWt9kFsUs1NyvKYLS1pBZ
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+References: <20240322081158.4106326-1-kcfeng0@nuvoton.com> <20240322081158.4106326-2-kcfeng0@nuvoton.com>
+ <171109961635.307786.7810067768607811171.robh@kernel.org> <22fcad13-dd9b-4e9a-90aa-d20fb78e6a0d@roeck-us.net>
+ <e1102a00-0c94-4d35-8de2-1173ee417bdc@linaro.org>
+In-Reply-To: <e1102a00-0c94-4d35-8de2-1173ee417bdc@linaro.org>
+From: Ban Feng <baneric926@gmail.com>
+Date: Mon, 1 Apr 2024 14:20:50 +0800
+Message-ID: <CALz278ZdvJhtDhBaKMg_nP+sS0HQVvAjidKAGkeqG8Cu4ftb+Q@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add NCT7363Y documentation
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, linux-hwmon@vger.kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org, 
+	corbet@lwn.net, jdelvare@suse.com, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
+	Paul Menzel <pmenzel@molgen.mpg.de>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Bonnie_Lo@wiwynn.com, linux-doc@vger.kernel.org, 
+	DELPHINE_CHIU@wiwynn.com, openbmc@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Described tags do not fully cover development needs. For example the LKP
-robot insists on using Reported-by: tag, but that's not fully correct.
-The robot reports an issue with the patch, not the issue that is being
-fixed by the patch. Describe additional tags to be used while submitting
-patches.
+Hi Krzysztof,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 66029999b587..3a24d90fa385 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
- Reviewed-by:, instead, indicates that the patch has been reviewed and found
- acceptable according to the Reviewer's Statement:
- 
-+Additional tags to be used while submitting patches
-+---------------------------------------------------
-+
-+The tags described previously do not always cover the needs of the development
-+process.
-+
-+For example, if the kernel test robot reports an issue in the patch, the robot
-+insists that the next version of the patch gets the Reported-by: and Closes:
-+tags.  While the Closes: tag can be considered correct in such a case, the
-+Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
-+issue that is being fixed by the patch, but instead it has reported an issue
-+with the patch. To be more precise you may use the Improved-thanks-to: tag for
-+the next version of the patch.
-+
-+Another frequent case is when you want to express gratitude to the colleagues,
-+who helped to improve the patch, but neither the Co-developed-by: nor
-+Suggested-by: tags are appropriate. In such case you might prefer to use
-+Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
-+
- Reviewer's statement of oversight
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
-
----
-base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
-change-id: 20240401-additional-trailers-2b764f3e4aee
+Thanks for your support.
 
 Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Ban
 
+On Tue, Mar 26, 2024 at 2:29=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 25/03/2024 18:09, Guenter Roeck wrote:
+> > On 3/22/24 02:26, Rob Herring wrote:
+> >>
+> >> On Fri, 22 Mar 2024 16:11:57 +0800, baneric926@gmail.com wrote:
+> >>> From: Ban Feng <kcfeng0@nuvoton.com>
+> >>>
+> >>> Add bindings for the Nuvoton NCT7363Y Fan Controller
+> >>>
+> >>> Reviewed-by: Rob Herring <robh@kernel.org>
+> >>> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> >>> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
+> >>> ---
+> >>>   .../bindings/hwmon/nuvoton,nct7363.yaml       | 66 ++++++++++++++++=
++++
+> >>>   MAINTAINERS                                   |  6 ++
+> >>>   2 files changed, 72 insertions(+)
+> >>>   create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,=
+nct7363.yaml
+> >>>
+> >>
+> >> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_che=
+ck'
+> >> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> >>
+> >> yamllint warnings/errors:
+> >>
+> >> dtschema/dtc warnings/errors:
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.yaml:
+> >> Error in referenced schema matching $id: http://devicetree.org/schemas=
+/hwmon/fan-common.yaml
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: False schema does not=
+ allow {'pwms': [[1, 0, 50000]], 'tach-ch': ['']}
+> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
+363.yaml#
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: Unevaluated propertie=
+s are not allowed ('pwms', 'tach-ch' were unexpected)
+> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
+363.yaml#
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: False schema does not=
+ allow {'pwms': [[1, 1, 50000]], 'tach-ch': b'\x01'}
+> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
+363.yaml#
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: Unevaluated propertie=
+s are not allowed ('pwms', 'tach-ch' were unexpected)
+> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
+363.yaml#
+> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
+s/hwmon/nuvoton,nct7363.example.dtb: fan-1: tach-ch: b'\x01' is not of type=
+ 'object', 'array', 'boolean', 'null'
+> >>      from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+> >>
+> >> doc reference errors (make refcheckdocs):
+> >>
+> >> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202=
+40322081158.4106326-2-kcfeng0@nuvoton.com
+> >>
+> >> The base for the series is generally the latest rc1. A different depen=
+dency
+> >> should be noted in *this* patch.
+> >>
+> >> If you already ran 'make dt_binding_check' and didn't see the above
+> >> error(s), then make sure 'yamllint' is installed and dt-schema is up t=
+o
+> >> date:
+> >>
+> >> pip3 install dtschema --upgrade
+> >>
+> >> Please check and re-submit after running the above command yourself. N=
+ote
+> >> that DT_SCHEMA_FILES can be set to your schema file to speed up checki=
+ng
+> >> your schema. However, it must be unset to test all examples with your =
+schema.
+> >>
+> >
+> > I am a bit puzzled by this one. The patch has a Reviewed-by: tag from R=
+ob,
+> > but then Rob's bot complains about errors. hat am I missing ?
+>
+> The warning is a result of missing fan-common.yaml in the tree used as a
+> base.
+>
+> I checked now and I don't see warnings on next or v6.9-rc1, so it is
+> safe for you to apply it.
+>
+> For the record:
+>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> Best regards,
+> Krzysztof
+>
