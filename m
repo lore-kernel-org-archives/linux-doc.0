@@ -1,183 +1,138 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561038F51;
-	Mon,  1 Apr 2024 06:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9D0FC08;
+	Mon,  1 Apr 2024 08:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711952463; cv=none; b=No6DpMZGw0PTg0rQQgPwyL9Ujdtj4az6M7bUlfFiwXjUnfqn59y2YTDfDA8iNSvvXKTS0BUooZh+LeXjuaptpGDXhuNe99kywwvrV46zTdtq6sfcA5PrHZPSWyjxIk5+esvzQp44boweiTc702qzDAM72z0FNdZB+slyfDe2Yn4=
+	t=1711960748; cv=none; b=R0VKFJUYfluRdOjLilZV6fhNDlBwhNpy9B5MXynYxi/APeN7ztA/aqlzHBxknYANKZSoSuNIgP+buEGnNd/oNojf/nNzMToMDRWnURFNK0XOOs/JR/JiUej8HhvdiivKv3eOEanNnZLzGMoyALn2c6mjeS6lJc8BO5kGHvnnfA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711952463; c=relaxed/simple;
-	bh=Lf2dD3nRXEM3QKLcinOUWGrZNiSWMEAx6xFjKwZTZuA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Unz5nQdftBROxN6QED9JnyIp85lCOsC3x2mGAcGHHyaYD3DwqX+5dexMVNEZO/QtLX0r7ScnR5NDH7FeVmHT/gB+WhkhZRM+bYEUb6dGjK1fCO7dKWdRjo+iZ9AvN8vXHGeCyqaKaayMAOp7VnDRzolYSnr/cfK5YP2mWkQ0zQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV5u/VTT; arc=none smtp.client-ip=209.85.166.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1711960748; c=relaxed/simple;
+	bh=1Tn1esD1kJcJI+TkMvadUmF0KzwOA5IFTcW+3nhhjFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=uXMO5wdGcCnQh6n1d4guxIhwVMP8SlO3POhRBc6Vbv9HEKnUUtACCA6NKCqJzvhC7K0Ve7o/+NEZD0tokMgaXTjIPGPwAPAsqwOXqr0r+G+bI5o+i5TUr8NRpXbKcpRroG9RF0lS2kNwL35DwYViHc5nks7wgmHH70ci6VzsYac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=JOyiWYWB; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV5u/VTT"
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7cc77e74b5cso175448239f.2;
-        Sun, 31 Mar 2024 23:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711952461; x=1712557261; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iMMohnAWMK6m3tG9gNhC20ZEygwyJguxL99B9xnGWG8=;
-        b=AV5u/VTTWJYcGIO3YwSyLj1AmfLeIQHcSePw9JK0F57Eorjp/XW5t9AP30djqEZ+UV
-         AG0sYnkkcD1iLRP/JSgHE2h1cMHWlmYWN1o2Fg4bB2lCBapiZfzz+5Wztmx/l3h7CFcc
-         u2eS6VI+yKDeckF/u1Ekm/u755SlTA7ZYuTuf83qNtKeaDCwEEOUVsxmIH1YI2A1ak5I
-         PEAYxcpq6xBQbAkKyJ2tiRH89ywRwpNEWveZgqxNrqei9QIwjIFK27Nsfmq96zeH3E5P
-         wvewsFOMraFQSWbvlQXj7Gz1mBRyAakknOwvo12cHbUyl0Q0H0QBE7EZcnElKh07oWYP
-         PljA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711952461; x=1712557261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iMMohnAWMK6m3tG9gNhC20ZEygwyJguxL99B9xnGWG8=;
-        b=MTDxLaA2EVZy5e5bcSb+T5UJbR5ei4WaLNWG4DcqW7PmPyY5dwuBB4OS4fiQYhnYNy
-         Qz27vIjvxcz+HRQoQiAJaSPR71Zl99sxPM5c88JDT+MEIKUA1/r1Wf0yTu+b+v+8GicR
-         n4iJgYWidTwWsFHdGPV4WVmU6x4gFFC8GkGjV3wrSLJgN54Fnr+pF5BZhD8CwF0DuKZr
-         WiFcl87AYO8ziu75AsCJ9QAeddzJw50YVARh7Ac/NQEPH0UthmTaNuhIUbC3oFMxhuLJ
-         verNUzTGvnxJ82mYcBGRA49ChG1yc9ux4O0REHlP67k4Ng3rgaoMoHunI5ZdG6Rv4cQb
-         2zxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUny0raQFzsM8ZIcau0rbJ12NOPOlT/DXpnUGh6SEd33FoWbDwxWFad54ANBnocbRokdQu/Q7qZ9lPqxNCywDKf3lWZEklheWUcQDN5M2zE6rBCv+ATtTW+ynf1SnGAhPkFbDzB0N+UUJrJlqSY8BJPaWCLR0LiVN7rrGw/Fa/qevY+qkSwONUYoRONr0/sD51bTWK3gBUDPruedupwxPh1
-X-Gm-Message-State: AOJu0YytMbKv/InyIrF31TqP71yzcGSLXH5Z3LtBonfqyczc0QHdP4pp
-	ZIthghVLvzVdDBZ0qPHjVzjN5ssyvwXvpYy6dMr6SGnzlY1ihzCci1VQwvQasavrcome6ZxVEsj
-	m3ynYfkgBYeTUA36LUdIGDG1WNYc=
-X-Google-Smtp-Source: AGHT+IGqrP3UbKuIe1tD2jwC4HaMuI/kdKXkvDhRJ+AWyQfCT0kCIFRqJPOXLpW67XqZ5jBlSE9DEP3cTjA6OoqADbE=
-X-Received: by 2002:a5d:8986:0:b0:7cf:1c5c:681e with SMTP id
- m6-20020a5d8986000000b007cf1c5c681emr10205960iol.17.1711952461453; Sun, 31
- Mar 2024 23:21:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="JOyiWYWB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=BjGaJFLrLvMVQq06MTRerBRTLWVUItjpux/8jwfcOwI=; t=1711960745;
+	x=1712392745; b=JOyiWYWBuh/2oVTIpol+iSbaGT0B0vCD+LqVqsra6DeRg+j3M9t4Ld2OhkYny
+	M5HqF+eOW1TMtjNUydKDO6gItTIRmpnV5LIuiaByOkwoasvttdshAuxYmEjeGS8/wqjj/3ihIEsTr
+	ijG9cToFSxHcXqGnUQDHom58AHah1tSJUz3bretCDSY2gk1YvVpJYRGMubg5yQQJROTtxhUMcZkHz
+	Kzvr9pxdRrIDKOu472H4Qu1qSdlOKcfD1rO4nMcctGT9+RGAw0sYOpKKE8cGsnDVxbBG8A/e7YPBE
+	nHyzI53EK0bZMdSHWR5WhnH3SiX5DYacTZE6sZ1v7c/TOWDx3g==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rrDBt-0007A8-17; Mon, 01 Apr 2024 10:38:53 +0200
+Message-ID: <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
+Date: Mon, 1 Apr 2024 10:38:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322081158.4106326-1-kcfeng0@nuvoton.com> <20240322081158.4106326-2-kcfeng0@nuvoton.com>
- <171109961635.307786.7810067768607811171.robh@kernel.org> <22fcad13-dd9b-4e9a-90aa-d20fb78e6a0d@roeck-us.net>
- <e1102a00-0c94-4d35-8de2-1173ee417bdc@linaro.org>
-In-Reply-To: <e1102a00-0c94-4d35-8de2-1173ee417bdc@linaro.org>
-From: Ban Feng <baneric926@gmail.com>
-Date: Mon, 1 Apr 2024 14:20:50 +0800
-Message-ID: <CALz278ZdvJhtDhBaKMg_nP+sS0HQVvAjidKAGkeqG8Cu4ftb+Q@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: hwmon: Add NCT7363Y documentation
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, linux-hwmon@vger.kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org, 
-	corbet@lwn.net, jdelvare@suse.com, kwliu@nuvoton.com, kcfeng0@nuvoton.com, 
-	Paul Menzel <pmenzel@molgen.mpg.de>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, Bonnie_Lo@wiwynn.com, linux-doc@vger.kernel.org, 
-	DELPHINE_CHIU@wiwynn.com, openbmc@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: handling-regressions.rst: clarify that
+ "Closes:" tags work too
+To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
+ regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+References: <20240328194342.11760-1-balejk@matfyz.cz>
+ <20240328194342.11760-3-balejk@matfyz.cz>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 n7RI
+In-Reply-To: <20240328194342.11760-3-balejk@matfyz.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1711960745;94e34c62;
+X-HE-SMSGID: 1rrDBt-0007A8-17
 
-Hi Krzysztof,
+On 28.03.24 20:29, Karel Balej wrote:
+> The regressions handling manual claims that regzbot associates patches
+> fixing an issue with the report based on the occurrence of the
+> appropriate "Link:" trailers. It reasons that this does not add any
+> burden on the maintainers/bug fix authors as this is already mandated by
+> the "Submitting patches" guide. In fact however, the guide encourages
+> using "Link:" tags for related discussions or issues which the patch
+> fixes only partially, recommending "Closes:" for full resolutions.
+> 
+> Despite it not being mentioned anywhere in the "Handling regressions"
+> guide, regzbot does in fact take the "Closes:" tags into account and
+> seems to in fact treat them fully equivalently to "Link:" tags.
+> 
+> Clarify this in the regressions handling guide by always mentioning both
+> of the tags.
 
-Thanks for your support.
+Many thx for this and the other patch. I had planned to do something
+like this myself, but never got around to.
 
-Best regards,
-Ban
+There is just one thing that makes me slightly unhappy: this tells
+readers that they can use both, but leaves the question "what's the
+difference" respectively "in which situation should I use one or the
+other" unanswered.
 
-On Tue, Mar 26, 2024 at 2:29=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 25/03/2024 18:09, Guenter Roeck wrote:
-> > On 3/22/24 02:26, Rob Herring wrote:
-> >>
-> >> On Fri, 22 Mar 2024 16:11:57 +0800, baneric926@gmail.com wrote:
-> >>> From: Ban Feng <kcfeng0@nuvoton.com>
-> >>>
-> >>> Add bindings for the Nuvoton NCT7363Y Fan Controller
-> >>>
-> >>> Reviewed-by: Rob Herring <robh@kernel.org>
-> >>> Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> >>> Signed-off-by: Ban Feng <kcfeng0@nuvoton.com>
-> >>> ---
-> >>>   .../bindings/hwmon/nuvoton,nct7363.yaml       | 66 ++++++++++++++++=
-+++
-> >>>   MAINTAINERS                                   |  6 ++
-> >>>   2 files changed, 72 insertions(+)
-> >>>   create mode 100644 Documentation/devicetree/bindings/hwmon/nuvoton,=
-nct7363.yaml
-> >>>
-> >>
-> >> My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_che=
-ck'
-> >> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> >>
-> >> yamllint warnings/errors:
-> >>
-> >> dtschema/dtc warnings/errors:
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.yaml:
-> >> Error in referenced schema matching $id: http://devicetree.org/schemas=
-/hwmon/fan-common.yaml
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: False schema does not=
- allow {'pwms': [[1, 0, 50000]], 'tach-ch': ['']}
-> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
-363.yaml#
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-0: Unevaluated propertie=
-s are not allowed ('pwms', 'tach-ch' were unexpected)
-> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
-363.yaml#
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: False schema does not=
- allow {'pwms': [[1, 1, 50000]], 'tach-ch': b'\x01'}
-> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
-363.yaml#
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.example.dtb: hwmon@22: fan-1: Unevaluated propertie=
-s are not allowed ('pwms', 'tach-ch' were unexpected)
-> >>      from schema $id: http://devicetree.org/schemas/hwmon/nuvoton,nct7=
-363.yaml#
-> >> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/binding=
-s/hwmon/nuvoton,nct7363.example.dtb: fan-1: tach-ch: b'\x01' is not of type=
- 'object', 'array', 'boolean', 'null'
-> >>      from schema $id: http://devicetree.org/schemas/dt-core.yaml#
-> >>
-> >> doc reference errors (make refcheckdocs):
-> >>
-> >> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/202=
-40322081158.4106326-2-kcfeng0@nuvoton.com
-> >>
-> >> The base for the series is generally the latest rc1. A different depen=
-dency
-> >> should be noted in *this* patch.
-> >>
-> >> If you already ran 'make dt_binding_check' and didn't see the above
-> >> error(s), then make sure 'yamllint' is installed and dt-schema is up t=
-o
-> >> date:
-> >>
-> >> pip3 install dtschema --upgrade
-> >>
-> >> Please check and re-submit after running the above command yourself. N=
-ote
-> >> that DT_SCHEMA_FILES can be set to your schema file to speed up checki=
-ng
-> >> your schema. However, it must be unset to test all examples with your =
-schema.
-> >>
-> >
-> > I am a bit puzzled by this one. The patch has a Reviewed-by: tag from R=
-ob,
-> > but then Rob's bot complains about errors. hat am I missing ?
->
-> The warning is a result of missing fan-common.yaml in the tree used as a
-> base.
->
-> I checked now and I don't see warnings on next or v6.9-rc1, so it is
-> safe for you to apply it.
->
-> For the record:
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> Best regards,
-> Krzysztof
->
+To answer that question: in a ideal world developers would use "Closes:"
+when a change resolves an issue, and "Link" when it's somehow related to
+a report, but not resolving the problem.
+
+But we don't live in that world and I wonder if we ever reach that point
+where regzbot could act accordingly. Nevertheless I'd say it would be
+wise to write the docs towards that ideal world. E.g.: tell developers
+to uses 'Closes:', but in some places briefly hint that "'Link:' works
+for now, too".
+
+I also find the patch description a bit verbose; and it would be good to
+turn the text upside down: first outline what the patch, then maybe
+describe the "why".
+
+Ciao, Thorsten
