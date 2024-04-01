@@ -1,349 +1,93 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31650DDCD
-	for <linux-doc@vger.kernel.org>; Mon,  1 Apr 2024 09:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423BB1078F;
+	Mon,  1 Apr 2024 09:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711963052; cv=none; b=aunPSO9+8hqW5Tzgozc/JNLMFEeJC8vuIpBXQlTfgwfN3sRNZs0fyGh7qPdEQC4z8fm1wcLHAZ4FHa8zJIMsntL1RdFoYgH0r6F+B/Otzr97nVsjXcvciLEWq+ox2FHs3JV7cPxMaOi8LL7hyKlYvw51V9r6tVywy1Q054WKiT8=
+	t=1711963791; cv=none; b=O3Wy3Jw17AosbOzpy+3OPsUmk1X4MxhdwHHuth1aPf4SgY1twWv4WOHOsjllbgKKkIiKpa2irjj7qOAm38mJPUrks/vpwJDKwxt8YAiQobuU38puh15AlZtDssnlxKeRglKNcxQv5wNR0LBzPaU6Pa70D8MIEC8i+vOU6s5nnYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711963052; c=relaxed/simple;
-	bh=tyRxuZuaH/jI0a8yAKG6MK2lKPT95+aEnVC9T4bLOPg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QjqWS9oiFrYtc3Nn6dy9yYs0pWalL1FnbCidxwHK2yByom5hKvHdgrPuDlO40JgPUJcHWVoTv8KYMVBQGH0RZjDBr+vGH5C01Rme6hmEQkKFrREFcTL8PxokFDcxRLLEADpAhLcX+pu6cR8eAJB8uQtiNZF2o7+B4u3Sv0a1CEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=fDMzrQID; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1711963791; c=relaxed/simple;
+	bh=09g0KmPnWZwZMKemwLr3J6sPGr0aiE4KawaGx/CSgP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VmqCgiuqGzaZwH9W9+ne13khjPBlR6a8BIPxVtVV+PhXWa4JHHQkeqjtcc9YjX1whPXLTiX779AKVS+ceYFKb/GyQg2CU/cXHPYkaWhq2ahRHGyoHO/wjAQyOYSrP2digMCI81l71fyUfwCrEZAe+GLDNBHGIK4DMscERscH9jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=DgyR/oiv; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="fDMzrQID"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d700beb60bso68471411fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 01 Apr 2024 02:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1711963047; x=1712567847; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FhMorzx0MPE1xMB1ELL5LdI1ucnNnaKAJ0OGVANzu5w=;
-        b=fDMzrQIDF/FhPTncjd7bXabxR0GGcZryqIKKBaxJtITxJaf+ak1RielHtmUCUCz2WL
-         jG4CZL05bSKMR7sRGGqquHydiqDXZJEMIPWMBzC6TRyG1gTi45gPbUeP5cQzXDQdev3v
-         5Gcr2Ea6BHICtKfLKJKhgcAkSV3V3sxqfRl50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711963047; x=1712567847;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FhMorzx0MPE1xMB1ELL5LdI1ucnNnaKAJ0OGVANzu5w=;
-        b=pfYRVBAoHoOkdswSA4FRszIDSsMiOjui4D6EMQFBHknal0gcfct++DzwPacujPo3mj
-         GswJqyhQr4xZUFeKRgnWxAtAYulVeNXflNONdyd+lSabLmOTyFk3LLtYVckmuikwvLni
-         wfrrqZ4Brb2TWZjwE/LwDkIn7hQPLUZfpt2FFa85ARdYjMmzNXzMCsVK+tI+2hcoFoa4
-         3Ai+BYJ3oEnMg72m1A707+CdX3XoK/VRWZj23mGrugfOyYkf1Hbdsb1D/cqgm/rHfKoP
-         KiYU7O/cyy9iwb4WGUrRFj7cyQsiLdLNRFiHYENhMmJBS+f0TOU/6ycTTM2DdfyCIGGa
-         /w+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUSyBvV+7GkWWzLYma/MHKysNrQq5p5tLgv80bzWx7PGyFX9hXyrZyyVZ/0ZmlJsjA1vltGWQJCDcmk8p2rINQI/wj71z5Cm0vt
-X-Gm-Message-State: AOJu0YxaGgtPS7daIo6tkA9qhDkIymeaDLPGmLOGEBFLyeID+NyVVhfE
-	JoGeaqUcbST6dVqxh1RR3CW36eBo7C33qxgaSsXIk8Tv1im8cG+us+hCAovL9X70uYDayVWtreJ
-	FAMY7+kMlB6wRKCNBFPvfs/1UZMsqPqGKiotH
-X-Google-Smtp-Source: AGHT+IFNDGRqdsgXpKkTsrsBXOs0zhB6Vye936XG1Ja/v5Uz4XVNqCIxSj4nHBJcBIY6HhvGG++5DWlSJxvbiJXs/+M=
-X-Received: by 2002:a2e:911a:0:b0:2d4:714b:4c5d with SMTP id
- m26-20020a2e911a000000b002d4714b4c5dmr6556468ljg.44.1711963047242; Mon, 01
- Apr 2024 02:17:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="DgyR/oiv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=FlOrEzhCm16iYgRyEXQCmmA+7J5gJqSSHdF+G2C/KxQ=; t=1711963789; x=1712395789;
+	 b=DgyR/oivVBwSo9if94e4sQugcbSrBnmLO2fA5m9PLc2fli7QXhNt1vGtPRJj6+1zShjdDFyoT+
+	vEnHpQGJaCdwzYBRysUW7q0plxB52bUS2BrofNlMS4DXcyV5iSUc87IyoqopoYAeC/pEUTr780Wsj
+	QWNwRQ9O6HZavsHq/Hi/6wUj6YjqA/zcgsBnO+dsN7P62UuZAgICEUQpPSNgNzeuyasBfbJyYgtqG
+	+jXE82sXKr/JuX5GOGCH2wkDS6hjBZaTSe2k8Vzcw++eAleSbuihXuXqlJoIBOdaXePNQ3gjn3E8I
+	aA6nTafhBpEsXzT0W+oCi0zXN9ejLwhcKDaAg==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1rrDz6-0001Lq-M4; Mon, 01 Apr 2024 11:29:44 +0200
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	=?UTF-8?q?Petr=20Tesa=C5=99=C3=ADk?= <petr@tesarici.cz>
+Subject: [PATCH v1 0/3] docs: verify/bisect: fine tuning, testing fixes, and using a build host
+Date: Mon,  1 Apr 2024 11:29:40 +0200
+Message-ID: <cover.1711963460.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240401090531.574575-1-parav@nvidia.com> <20240401090531.574575-3-parav@nvidia.com>
-In-Reply-To: <20240401090531.574575-3-parav@nvidia.com>
-From: Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>
-Date: Mon, 1 Apr 2024 14:47:15 +0530
-Message-ID: <CAH-L+nOY0A41GBrKw03a1ZLpkppGOKAfYb8VacQ=VyTUzsWdkQ@mail.gmail.com>
-Subject: Re: [net-next 2/2] mlx5/core: Support max_io_eqs for a function
-To: Parav Pandit <parav@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, saeedm@nvidia.com, 
-	leon@kernel.org, jiri@resnulli.us, shayd@nvidia.com, danielj@nvidia.com, 
-	dchumak@nvidia.com, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	Jiri Pirko <jiri@nvidia.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000536236061505757b"
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1711963789;9169144f;
+X-HE-SMSGID: 1rrDz6-0001Lq-M4
 
---000000000000536236061505757b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+A quick series with various improvements for
+Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
 
-On Mon, Apr 1, 2024 at 2:36=E2=80=AFPM Parav Pandit <parav@nvidia.com> wrot=
-e:
->
-> Implement get and set for the maximum IO event queues for SF and VF.
-> This enables administrator on the hypervisor to control the maximum
-> IO event queues which are typically used to derive the maximum and
-> default number of net device channels or rdma device completion vectors.
->
-> Signed-off-by: Parav Pandit <parav@nvidia.com>
-> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-> ---
->  .../mellanox/mlx5/core/esw/devlink_port.c     |  2 +
->  .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
->  .../mellanox/mlx5/core/eswitch_offloads.c     | 94 +++++++++++++++++++
->  3 files changed, 103 insertions(+)
->
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c b=
-/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> index d8e739cbcbce..76d1ed93c773 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> @@ -98,6 +98,8 @@ static const struct devlink_port_ops mlx5_esw_pf_vf_dl_=
-port_ops =3D {
->         .port_fn_ipsec_packet_get =3D mlx5_devlink_port_fn_ipsec_packet_g=
-et,
->         .port_fn_ipsec_packet_set =3D mlx5_devlink_port_fn_ipsec_packet_s=
-et,
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +       .port_fn_max_io_eqs_get =3D mlx5_devlink_port_fn_max_io_eqs_get,
-> +       .port_fn_max_io_eqs_set =3D mlx5_devlink_port_fn_max_io_eqs_set,
->  };
->
->  static void mlx5_esw_offloads_sf_devlink_port_attrs_set(struct mlx5_eswi=
-tch *esw,
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h b/drivers/=
-net/ethernet/mellanox/mlx5/core/eswitch.h
-> index 349e28a6dd8d..50ce1ea20dd4 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-> @@ -573,6 +573,13 @@ int mlx5_devlink_port_fn_ipsec_packet_get(struct dev=
-link_port *port, bool *is_en
->  int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port, boo=
-l enable,
->                                           struct netlink_ext_ack *extack)=
-;
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +int mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port,
-> +                                       u32 *max_io_eqs,
-> +                                       struct netlink_ext_ack *extack);
-> +int mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port,
-> +                                       u32 max_io_eqs,
-> +                                       struct netlink_ext_ack *extack);
-> +
->  void *mlx5_eswitch_get_uplink_priv(struct mlx5_eswitch *esw, u8 rep_type=
-);
->
->  int __mlx5_eswitch_set_vport_vlan(struct mlx5_eswitch *esw,
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b=
-/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> index baaae628b0a0..9d9a06a25cac 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> @@ -66,6 +66,8 @@
->
->  #define MLX5_ESW_FT_OFFLOADS_DROP_RULE (1)
->
-> +#define MLX5_ESW_MAX_CTRL_EQS 4
-> +
->  static struct esw_vport_tbl_namespace mlx5_esw_vport_tbl_mirror_ns =3D {
->         .max_fte =3D MLX5_ESW_VPORT_TBL_SIZE,
->         .max_num_groups =3D MLX5_ESW_VPORT_TBL_NUM_GROUPS,
-> @@ -4557,3 +4559,95 @@ int mlx5_devlink_port_fn_ipsec_packet_set(struct d=
-evlink_port *port,
->         return err;
->  }
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +
-> +int mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port, u32 *=
-max_io_eqs,
-> +                                       struct netlink_ext_ack *extack)
-> +{
-> +       struct mlx5_eswitch *esw =3D mlx5_devlink_eswitch_nocheck_get(por=
-t->devlink);
-> +       struct mlx5_vport *vport =3D mlx5_devlink_port_vport_get(port);
-> +       int query_out_sz =3D MLX5_ST_SZ_BYTES(query_hca_cap_out);
-> +       u16 vport_num =3D vport->vport;
-> +       void *query_ctx;
-> +       void *hca_caps;
-> +       u32 max_eqs;
-> +       int err;
-> +
-> +       if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
-> +               NL_SET_ERR_MSG_MOD(extack, "Device doesn't support VHCA m=
-anagement");
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       query_ctx =3D kzalloc(query_out_sz, GFP_KERNEL);
-> +       if (!query_ctx)
-> +               return -ENOMEM;
-> +
-> +       mutex_lock(&esw->state_lock);
-> +       err =3D mlx5_vport_get_other_func_cap(esw->dev, vport_num, query_=
-ctx,
-> +                                           MLX5_CAP_GENERAL);
-> +       if (err) {
-> +               NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
-> +               goto out;
-> +       }
-> +
-> +       hca_caps =3D MLX5_ADDR_OF(query_hca_cap_out, query_ctx, capabilit=
-y);
-> +       max_eqs =3D MLX5_GET(cmd_hca_cap, hca_caps, max_num_eqs);
-> +       if (max_eqs < MLX5_ESW_MAX_CTRL_EQS)
-> +               *max_io_eqs =3D 0;
-> +       else
-> +               *max_io_eqs =3D max_eqs - MLX5_ESW_MAX_CTRL_EQS;
-> +out:
-[Kalesh]: Missing " kfree(query_ctx);" here?
-> +       mutex_unlock(&esw->state_lock);
-> +       return 0;
-[Kalesh] "return err;" to propagate the error back to the caller?
-> +}
-> +
-> +int mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port, u32 m=
-ax_io_eqs,
-> +                                       struct netlink_ext_ack *extack)
-> +{
-> +       struct mlx5_eswitch *esw =3D mlx5_devlink_eswitch_nocheck_get(por=
-t->devlink);
-> +       struct mlx5_vport *vport =3D mlx5_devlink_port_vport_get(port);
-> +       int query_out_sz =3D MLX5_ST_SZ_BYTES(query_hca_cap_out);
-> +       u16 vport_num =3D vport->vport;
-> +       u16 max_eqs =3D max_io_eqs + MLX5_ESW_MAX_CTRL_EQS;
-> +       void *query_ctx;
-> +       void *hca_caps;
-> +       int err;
-> +
-> +       if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
-> +               NL_SET_ERR_MSG_MOD(extack, "Device doesn't support VHCA m=
-anagement");
-> +               return -EOPNOTSUPP;
-> +       }
-> +
-> +       if (max_io_eqs + MLX5_ESW_MAX_CTRL_EQS > USHRT_MAX) {
-> +               NL_SET_ERR_MSG_MOD(extack, "Supplied value out of range")=
-;
-> +               return -EINVAL;
-> +       }
-> +
-> +       mutex_lock(&esw->state_lock);
-> +
-> +       query_ctx =3D kzalloc(query_out_sz, GFP_KERNEL);
-> +       if (!query_ctx) {
-> +               err =3D -ENOMEM;
-> +               goto out;
-> +       }
-> +
-> +       err =3D mlx5_vport_get_other_func_cap(esw->dev, vport_num, query_=
-ctx,
-> +                                           MLX5_CAP_GENERAL);
-> +       if (err) {
-> +               NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
-> +               goto out_free;
-> +       }
-> +
-> +       hca_caps =3D MLX5_ADDR_OF(query_hca_cap_out, query_ctx, capabilit=
-y);
-> +       MLX5_SET(cmd_hca_cap, hca_caps, max_num_eqs, max_eqs);
-> +
-> +       err =3D mlx5_vport_set_other_func_cap(esw->dev, hca_caps, vport_n=
-um,
-> +                                           MLX5_SET_HCA_CAP_OP_MOD_GENER=
-AL_DEVICE);
-> +       if (err)
-> +               NL_SET_ERR_MSG_MOD(extack, "Failed setting HCA roce cap")=
-;
-> +
-> +out_free:
-> +       kfree(query_ctx);
-> +out:
-> +       mutex_unlock(&esw->state_lock);
-> +       return err;
-> +}
-> --
-> 2.26.2
->
->
+* The first patch contains various fixes and some fine tuning.
+
+* The second adds a few instructions for later testing of reverts,
+  fixes, or newer versions. This was already hinted at; but during some
+  early work on Documentation/admin-guide/reporting-issues.rst to better
+  reconcile the two it seemed wise to cover this properly here.
+
+* The third patch briefly outlines how to build kernels on a different
+  host; it came into being after a second user within one week asked for
+  this. That also allowed the text to briefly cover cross-compilation.
+---
+
+Hi! While at it let me mention one more thing unrelated to the changes
+where I'm unsure if the current approach by the text was a wise choice:
+
+* Should the document tell users to avoid mainline during merge windows?
+
+Some input from the community on this would be splendid.
+
+Ciao, Thorsten
+
+P.S.: Not totally sure, but I think this should go into 6.9 as this is
+a new document; but I can split this up if the two latter patches better
+should go into -next.
+
+Thorsten Leemhuis (3):
+  docs: verify/bisect: git switch; proper headlines; various fixes;
+  docs: verify/bisect: explain testing reverts, patches and newer code
+  docs: verify/bisect: describe how to use a build host
+
+ .../verify-bugs-and-bisect-regressions.rst    | 469 +++++++++++++-----
+ 1 file changed, 344 insertions(+), 125 deletions(-)
 
 
---=20
-Regards,
-Kalesh A P
+base-commit: b8cfda5c9065cd619a97c17da081cbfab3b1e756
+-- 
+2.44.0
 
---000000000000536236061505757b
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBWowggRSoAMCAQICDDfBRQmwNSI92mit0zANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAwODI5NTZaFw0yNTA5MTAwODI5NTZaMIGi
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xHzAdBgNVBAMTFkthbGVzaCBBbmFra3VyIFB1cmF5aWwxMjAw
-BgkqhkiG9w0BCQEWI2thbGVzaC1hbmFra3VyLnB1cmF5aWxAYnJvYWRjb20uY29tMIIBIjANBgkq
-hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxnv1Reaeezfr6NEmg3xZlh4cz9m7QCN13+j4z1scrX+b
-JfnV8xITT5yvwdQv3R3p7nzD/t29lTRWK3wjodUd2nImo6vBaH3JbDwleIjIWhDXLNZ4u7WIXYwx
-aQ8lYCdKXRsHXgGPY0+zSx9ddpqHZJlHwcvas3oKnQN9WgzZtsM7A8SJefWkNvkcOtef6bL8Ew+3
-FBfXmtsPL9I2vita8gkYzunj9Nu2IM+MnsP7V/+Coy/yZDtFJHp30hDnYGzuOhJchDF9/eASvE8T
-T1xqJODKM9xn5xXB1qezadfdgUs8k8QAYyP/oVBafF9uqDudL6otcBnziyDBQdFCuAQN7wIDAQAB
-o4IB5DCCAeAwDgYDVR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZC
-aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJj
-YTIwMjAuY3J0MEEGCCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3Iz
-cGVyc29uYWxzaWduMmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcC
-ARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNV
-HR8EQjBAMD6gPKA6hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNp
-Z24yY2EyMDIwLmNybDAuBgNVHREEJzAlgSNrYWxlc2gtYW5ha2t1ci5wdXJheWlsQGJyb2FkY29t
-LmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGP
-zzAdBgNVHQ4EFgQUI3+tdStI+ABRGSqksMsiCmO9uDAwDQYJKoZIhvcNAQELBQADggEBAGfe1o9b
-4wUud0FMjb/FNdc433meL15npjdYWUeioHdlCGB5UvEaMGu71QysfoDOfUNeyO9YKp0h0fm7clvo
-cBqeWe4CPv9TQbmLEtXKdEpj5kFZBGmav69mGTlu1A9KDQW3y0CDzCPG2Fdm4s73PnkwvemRk9E2
-u9/kcZ8KWVeS+xq+XZ78kGTKQ6Wii3dMK/EHQhnDfidadoN/n+x2ySC8yyDNvy81BocnblQzvbuB
-a30CvRuhokNO6Jzh7ZFtjKVMzYas3oo6HXgA+slRszMu4pc+fRPO41FHjeDM76e6P5OnthhnD+NY
-x6xokUN65DN1bn2MkeNs0nQpizDqd0QxggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25h
-bFNpZ24gMiBDQSAyMDIwAgw3wUUJsDUiPdpordMwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
-AQkEMSIEIBr+DwGEhf2mEP1sbWVt57pjG5ChuZ7udhINsVTBrdCRMBgGCSqGSIb3DQEJAzELBgkq
-hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDQwMTA5MTcyN1owaQYJKoZIhvcNAQkPMVwwWjAL
-BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
-9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCUs/wwTrsT
-vDJ5wZXkb+f4U6kulIZoK6OQlX/g5unI5etD9RB3iFPChwUMcHMV2wt9fCPZCWSC76zRlFOzNlj2
-GQ8NBGqEcWB/yR4ggw/GTB5B1nUMhMZQEoOng0/vmAkRjnhp+KL63X7Ls9SYCmcrUo0sA99z2qGl
-naUM0VQP3UVITWWAGZgViXzdSX/e04OkZBQQjXPVhxPAQoaB105lKyw6xP/JAD9EwgBkpcR6pGHk
-vy/gXRDJ8cM8vOprAff4luOgoqIr1l572zfCN4g6zMuOdQ1LA5zgLAdg2tpirMf4APE30NV/Y99/
-ln1V7IHfEBGTTRnGQLmvWCYa4A1S
---000000000000536236061505757b--
