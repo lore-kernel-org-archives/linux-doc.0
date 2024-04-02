@@ -1,25 +1,25 @@
 Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id A04694CB4A;
-	Tue,  2 Apr 2024 11:27:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with SMTP id B40914CB4A;
+	Tue,  2 Apr 2024 11:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712057232; cv=none; b=pPmllmuMTbwl9s5JoPEuYJY7Y/CE3stDBApKiQaweBc8Li8KSxNGxgC8UIkeyb58ZaE1GIhoEoryJEkAKPdwmitR3bwYurgbtmxh7N/61b8o1ARNuQ+xWIh7Uju2HBbP5XKUz7usWdM5eK1+FY8/p3cfZ5m5uAenNthjpdS5UWA=
+	t=1712057373; cv=none; b=LnzZ1vAF0DdhMI6HxJ+CmsRHhi4kSTOS+AaIRvBZlSHTmGbVJcfF24gHDVIM7Z1jYPriUzYEJF+iV2HagMFvnebvXoPds7rSIsAcH/LgwivIbSB6lg3JShPAA40GidRfwGPbdFAI+H75docvY3t6i2/Qq/BvXHDwlIJfT9bvmX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712057232; c=relaxed/simple;
-	bh=Z50/tzj5KXaW5FqNbjgiT/MlV+E4o0YKBuzY4ut0BbI=;
+	s=arc-20240116; t=1712057373; c=relaxed/simple;
+	bh=IDwFw33UJOLLRNA0nIg6tMumyxRK6Hn6ZouhIx51qYk=;
 	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=UOR27Gw+UERjiauZkugthMXrRRiv7jbbf3lkrcRaRdyRpMuLpQirxtovrMlxlyED3/jtToclNOuCf8BRd8yRyxm4933bxkwU6MVRUxi8/8I/QzW6g8NloIZTUKk+GKhcevYUKUTnUhjgSgGubqrbuUw2WO3B8W3C1P9B8XDX9VE=
+	 Content-Disposition:In-Reply-To; b=bUZ/71FAeCePRnS5Se4Wx1UY6lXb1HUGhrks79Iz11V3Ytz4yvnKpOXHIXBH2i7fQMwuS9BKIbq2vF5/jiw2IjyRkJl+1ANCQnMkoRzgkd2IpG9urrh3Gwn57WQiTIrc2vvS6HWOb2iyFWXFfnSVtdLF/RiQeWGIYBkoHpNKazI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; arc=none smtp.client-ip=111.202.70.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Received: from mail.didiglobal.com (unknown [10.79.65.12])
-	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id B30B718097DE83;
-	Tue,  2 Apr 2024 19:27:06 +0800 (CST)
+	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 9F92B18097DE94;
+	Tue,  2 Apr 2024 19:29:28 +0800 (CST)
 Received: from didi-ThinkCentre-M930t-N000 (10.79.64.101) by
  ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 2 Apr 2024 19:27:06 +0800
-Date: Tue, 2 Apr 2024 19:27:00 +0800
+ 15.1.2507.35; Tue, 2 Apr 2024 19:29:28 +0800
+Date: Tue, 2 Apr 2024 19:29:22 +0800
 X-MD-Sfrom: tiozhang@didiglobal.com
 X-MD-SrcIP: 10.79.65.12
 From: Tio Zhang <tiozhang@didiglobal.com>
@@ -30,8 +30,9 @@ CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
 	<dietmar.eggemann@arm.com>, <bsegall@google.com>, <mgorman@suse.de>,
 	<bristot@redhat.com>, <vschneid@redhat.com>, <tiozhang@didiglobal.com>,
 	<zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>, <fuyuanli@didiglobal.com>
-Subject: [PATCH 2/3] delayacct: get delay of SOFTIRQ
-Message-ID: <20240402112700.GA18519@didi-ThinkCentre-M930t-N000>
+Subject: [PATCH 3/3] delayacct/taskstats: make soft_delay available in
+ taskstats
+Message-ID: <20240402112922.GA18945@didi-ThinkCentre-M930t-N000>
 Mail-Followup-To: mingo@redhat.com, peterz@infradead.org,
 	juri.lelli@redhat.com, vincent.guittot@linaro.org,
 	rostedt@goodmis.org, bsingharora@gmail.com, corbet@lwn.net,
@@ -48,138 +49,144 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240402112415.GA17946@didi-ThinkCentre-M930t-N000>
+In-Reply-To: <20240402112700.GA18519@didi-ThinkCentre-M930t-N000>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-ClientProxiedBy: ZJY01-PUBMBX-01.didichuxing.com (10.79.64.32) To
  ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12)
 
-This patch makes SOFTIRQ time accounted by "irqtime.total_soft" in use
-by adding soft_delay accounts for Delay accounting.
+Also update a new version of tools/accounting/getdelays.c.
+
+	# ./getdelays -t 4600 -d
+	print delayacct stats ON
+	TGID	4600
+	
+	CPU             count     real total  virtual total    delay total  delay average
+                 	3973    10700014780    10698803222   312345815813         78.617ms
+	IO              count    delay total  delay average
+                    	0              0              0.000ms
+	SWAP            count    delay total  delay average
+                    	0              0              0.000ms
+	RECLAIM         count    delay total  delay average
+                    	0              0              0.000ms
+	THRASHING       count    delay total  delay average
+                    	0              0              0.000ms
+	COMPACT         count    delay total  delay average
+                    	0              0              0.000ms
+	WPCOPY          count    delay total  delay average
+                   	40         266859             0.007ms
+	IRQ             count    delay total  delay average
+                	13450    17756373906          1.320ms
+	SOFTIRQ         count    delay total  delay average
 
 Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
 ---
- include/linux/delayacct.h | 11 +++++++----
- kernel/delayacct.c        |  5 +++--
- kernel/sched/core.c       |  6 ++++--
- kernel/sched/sched.h      |  1 +
- 4 files changed, 15 insertions(+), 8 deletions(-)
+ Documentation/accounting/delay-accounting.rst | 5 ++++-
+ include/uapi/linux/taskstats.h                | 6 +++++-
+ kernel/delayacct.c                            | 3 +++
+ tools/accounting/getdelays.c                  | 8 +++++++-
+ 4 files changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/delayacct.h b/include/linux/delayacct.h
-index 6639f48dac36..bf1d45fcb505 100644
---- a/include/linux/delayacct.h
-+++ b/include/linux/delayacct.h
-@@ -49,12 +49,14 @@ struct task_delay_info {
- 	u64 wpcopy_delay;	/* wait for write-protect copy */
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index f61c01fc376e..babff410a39d 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -17,6 +17,7 @@ e) thrashing
+ f) direct compact
+ g) write-protect copy
+ h) IRQ/SOFTIRQ
++i) SOFTIRQ
  
- 	u64 irq_delay;	/* wait for IRQ/SOFTIRQ */
-+	u64 soft_delay;	/* wait for SOFTIRQ */
+ and makes these statistics available to userspace through
+ the taskstats interface.
+@@ -50,7 +51,7 @@ this structure. See
+ for a description of the fields pertaining to delay accounting.
+ It will generally be in the form of counters returning the cumulative
+ delay seen for cpu, sync block I/O, swapin, memory reclaim, thrash page
+-cache, direct compact, write-protect copy, IRQ/SOFTIRQ etc.
++cache, direct compact, write-protect copy, IRQ/SOFTIRQ, SOFTIRQ etc.
  
- 	u32 freepages_count;	/* total count of memory reclaim */
- 	u32 thrashing_count;	/* total count of thrash waits */
- 	u32 compact_count;	/* total count of memory compact */
- 	u32 wpcopy_count;	/* total count of write-protect copy */
- 	u32 irq_count;	/* total count of IRQ/SOFTIRQ */
-+	u32 soft_count;	/* total count of SOFTIRQ */
+ Taking the difference of two successive readings of a given
+ counter (say cpu_delay_total) for a task will give the delay
+@@ -123,6 +124,8 @@ Get sum of delays, since system boot, for all pids with tgid 5::
+                        0              0          0.000ms
+ 	IRQ             count    delay total  delay average
+                        0              0          0.000ms
++	SOFTIRQ         count    delay total  delay average
++                       0              0          0.000ms
+ 
+ Get IO accounting for pid 1, it works only with -p::
+ 
+diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
+index b50b2eb257a0..5412c4d6734d 100644
+--- a/include/uapi/linux/taskstats.h
++++ b/include/uapi/linux/taskstats.h
+@@ -34,7 +34,7 @@
+  */
+ 
+ 
+-#define TASKSTATS_VERSION	14
++#define TASKSTATS_VERSION	15
+ #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
+ 					 * in linux/sched.h */
+ 
+@@ -202,6 +202,10 @@ struct taskstats {
+ 	/* v14: Delay waiting for IRQ/SOFTIRQ */
+ 	__u64    irq_count;
+ 	__u64    irq_delay_total;
++
++	/* v15: Delay waiting for SOFTIRQ */
++	__u64    soft_count;
++	__u64    soft_delay_total;
  };
- #endif
  
-@@ -84,7 +86,7 @@ extern void __delayacct_compact_start(void);
- extern void __delayacct_compact_end(void);
- extern void __delayacct_wpcopy_start(void);
- extern void __delayacct_wpcopy_end(void);
--extern void __delayacct_irq(struct task_struct *task, u32 delta);
-+extern void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft);
  
- static inline void delayacct_tsk_init(struct task_struct *tsk)
- {
-@@ -219,13 +221,14 @@ static inline void delayacct_wpcopy_end(void)
- 		__delayacct_wpcopy_end();
- }
- 
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta,
-+					u32 delta_soft)
- {
- 	if (!static_branch_unlikely(&delayacct_key))
- 		return;
- 
- 	if (task->delays)
--		__delayacct_irq(task, delta);
-+		__delayacct_irq(task, delta, delta_soft);
- }
- 
- #else
-@@ -266,7 +269,7 @@ static inline void delayacct_wpcopy_start(void)
- {}
- static inline void delayacct_wpcopy_end(void)
- {}
--static inline void delayacct_irq(struct task_struct *task, u32 delta)
-+static inline void delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {}
- 
- #endif /* CONFIG_TASK_DELAY_ACCT */
 diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 6f0c358e73d8..8517f1c1df88 100644
+index 8517f1c1df88..39d9430d723f 100644
 --- a/kernel/delayacct.c
 +++ b/kernel/delayacct.c
-@@ -278,13 +278,14 @@ void __delayacct_wpcopy_end(void)
- 		      &current->delays->wpcopy_count);
+@@ -181,6 +181,8 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+ 	d->wpcopy_delay_total = (tmp < d->wpcopy_delay_total) ? 0 : tmp;
+ 	tmp = d->irq_delay_total + tsk->delays->irq_delay;
+ 	d->irq_delay_total = (tmp < d->irq_delay_total) ? 0 : tmp;
++	tmp = d->soft_delay_total + tsk->delays->soft_delay;
++	d->soft_delay_total = (tmp < d->soft_delay_total) ? 0 : tmp;
+ 	d->blkio_count += tsk->delays->blkio_count;
+ 	d->swapin_count += tsk->delays->swapin_count;
+ 	d->freepages_count += tsk->delays->freepages_count;
+@@ -188,6 +190,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
+ 	d->compact_count += tsk->delays->compact_count;
+ 	d->wpcopy_count += tsk->delays->wpcopy_count;
+ 	d->irq_count += tsk->delays->irq_count;
++	d->soft_count += tsk->delays->soft_count;
+ 	raw_spin_unlock_irqrestore(&tsk->delays->lock, flags);
+ 
+ 	return 0;
+diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
+index 1334214546d7..6e4e032e93c4 100644
+--- a/tools/accounting/getdelays.c
++++ b/tools/accounting/getdelays.c
+@@ -210,6 +210,8 @@ static void print_delayacct(struct taskstats *t)
+ 	       "WPCOPY   %12s%15s%15s\n"
+ 	       "      %15llu%15llu%15.3fms\n"
+ 	       "IRQ   %15s%15s%15s\n"
++	       "      %15llu%15llu%15.3fms\n"
++	       "SOFTIRQ  %12s%15s%15s\n"
+ 	       "      %15llu%15llu%15.3fms\n",
+ 	       "count", "real total", "virtual total",
+ 	       "delay total", "delay average",
+@@ -245,7 +247,11 @@ static void print_delayacct(struct taskstats *t)
+ 	       "count", "delay total", "delay average",
+ 	       (unsigned long long)t->irq_count,
+ 	       (unsigned long long)t->irq_delay_total,
+-	       average_ms((double)t->irq_delay_total, t->irq_count));
++	       average_ms((double)t->irq_delay_total, t->irq_count),
++	       "count", "delay total", "delay average",
++	       (unsigned long long)t->soft_count,
++	       (unsigned long long)t->soft_delay_total,
++	       average_ms((double)t->soft_delay_total, t->soft_count));
  }
  
--void __delayacct_irq(struct task_struct *task, u32 delta)
-+void __delayacct_irq(struct task_struct *task, u32 delta, u32 delta_soft)
- {
- 	unsigned long flags;
- 
- 	raw_spin_lock_irqsave(&task->delays->lock, flags);
- 	task->delays->irq_delay += delta;
- 	task->delays->irq_count++;
-+	task->delays->soft_delay += delta_soft;
-+	task->delays->soft_count++;
- 	raw_spin_unlock_irqrestore(&task->delays->lock, flags);
- }
--
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 9116bcc90346..2f5fd775b47b 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -698,10 +698,11 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
-  * In theory, the compile should just see 0 here, and optimize out the call
-  * to sched_rt_avg_update. But I don't trust it...
-  */
--	s64 __maybe_unused steal = 0, irq_delta = 0;
-+	s64 __maybe_unused steal = 0, irq_delta = 0, soft_delta = 0;
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-+	soft_delta = irq_time_read_soft(cpu_of(rq)) - rq->prev_soft_time;
- 
- 	/*
- 	 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-@@ -722,9 +723,10 @@ static void update_rq_clock_task(struct rq *rq, s64 delta)
- 		irq_delta = delta;
- 
- 	rq->prev_irq_time += irq_delta;
-+	rq->prev_soft_time += soft_delta;
- 	delta -= irq_delta;
- 	psi_account_irqtime(rq->curr, irq_delta);
--	delayacct_irq(rq->curr, irq_delta);
-+	delayacct_irq(rq->curr, irq_delta, soft_delta);
- #endif
- #ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
- 	if (static_key_false((&paravirt_steal_rq_enabled))) {
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index f479c61b84b5..abf96ad9c301 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -1105,6 +1105,7 @@ struct rq {
- 
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- 	u64			prev_irq_time;
-+	u64			prev_soft_time;
- #endif
- #ifdef CONFIG_PARAVIRT
- 	u64			prev_steal_time;
+ static void task_context_switch_counts(struct taskstats *t)
 -- 
 2.17.1
 
