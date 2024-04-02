@@ -1,87 +1,105 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FF23839A;
-	Tue,  2 Apr 2024 07:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5303A535D9
+	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 08:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712042184; cv=none; b=ii5reXlyQrlszFBiZfEWz8BwgChpNcmVXx1+phDQrjZ8BzwTJUK7Ex5L6YtBrPp669wwMG14FnW5mtsy09Rd+9xDnZwbNwvPCZ8ypsT+rSrLlt4aFPKu4Il1M8K1OrbolyCRbuzZ/MxLYEH+e7nyhSFhFAs8QpC2N/59w27oy7g=
+	t=1712047856; cv=none; b=C6Ig/6N7BLGu/PKMh8TxQy9AjRJlsD0orJ3cKef/Bko5GGSxxwiRtR3IhSSuqBLWuYXJgYhRsrACux67iErFTt2EVS37VATbzCZrCc/hdEkeTjxOjKtvzfw16yl7asvExngu0yAM+eohby7p0VrWMWQgay/bZib+UlxTxUuaty0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712042184; c=relaxed/simple;
-	bh=RDW+zwDa2CBhzAKEQWv7lUSIpXm7MGCiMSp3c7znYCA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=SOH2d4nDPfLyD1NkbNtetL26YtqHVUa7iaRdInvwLdgecnJ+ScohcQtJUwrjG8mDFWkJGTI+vuap/o6xIQBvaXpa2u+QqtPMNmfsbKA1BpW5ElkLzhsS6U736Uz27k28hdyY+fepUDHjsChyXE0oUuUsoKA7Q08tHbRe9Hwkc7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=klVBU1LA; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1712047856; c=relaxed/simple;
+	bh=d56KSz8sH4cc/CJcFH4xN0gZ6zRS/QTrszJ0H2z6WYU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZkMYqntmR/xXKrDsYofab8npI/LQLxsjKzLALJaLt6v9nDohvPbXxmU0MJ5rBHJZtRrRgnoKkf9AU3IiifZHhKaOamhdFDyuIFT0ew9IK6vG/BjJ90J0MdR2wZGywi1iZsmPqQ0a9zr6me9cmk19Rb3rK/2o43QMKzyzmhdT3gM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=fZ+Mu4f8; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="klVBU1LA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1712042138; x=1712646938; i=markus.elfring@web.de;
-	bh=RDW+zwDa2CBhzAKEQWv7lUSIpXm7MGCiMSp3c7znYCA=;
-	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
-	 In-Reply-To;
-	b=klVBU1LApA5mIHVuMI6quyFsihVv8LzhIcTfdvNXNyI9zDmW9vvyrSPapEuB31IJ
-	 3+gzlmAlKl7UOwV4Ub4j6QZPuQuXEuLDhPpr8bJDsxdJ+c2cnpjGinpA5H6lMfztU
-	 k663VM4upYOUdgzzPS3zBaY8KspXEFYk5XpVufKyOECOz7J8iPfEDlvGBVO8HHrtC
-	 Z097LNP96ylALTvHfvh2x/cY6fQVwHGHAXNEFunpxRYIUJJQZkXXLBNbOBcVW1GPb
-	 EcAKmE3etEOIyz1vs44vj1tNlrGo+UXmPmFhb8wvgvevnSEdimWMCqKhHRjzB+3nG
-	 egtEextJn6dr5IgNcQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MFrxr-1s2nB70qQZ-00HLVA; Tue, 02
- Apr 2024 09:15:38 +0200
-Message-ID: <e4776c82-e255-4eab-b6c4-8087e02f384f@web.de>
-Date: Tue, 2 Apr 2024 09:15:17 +0200
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="fZ+Mu4f8"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-515c50dc2afso5340961e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Apr 2024 01:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712047853; x=1712652653; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wv6+xX61JtxGpKWZ45wliW2pFq+S5fBIUaTwceo8xO4=;
+        b=fZ+Mu4f8Zv0Se3wyF76ZSUh2LSawVq9Xlnx6CMHyso6UY0M6IxFizcenlEQoi/eqq9
+         oTpmzdbIVXFSJFjgwRp261n9N8+sasNx2AK0z66AVin8RRUIhD98g9qtN+OmQv+HwXcR
+         VUzA42gllfP6CaraHvKbs1K2eiGKGQ2TVAGokFvuZpHUz6bOlFrUWj+64db1+mqu1O1h
+         UD/q8qfv1SUkEKn1wTHpbadrh6X6JFi7Rx+f6Ya/sVTTadcDcp0QlG9JfY8rylpOiB8F
+         3Wiq6T+nVEuqo2qcnNg3UUbps4Do1iLUQ4vhL9sD2Fszzv9FNadkDJ6bAjkLJHYm5E9I
+         p3Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712047853; x=1712652653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wv6+xX61JtxGpKWZ45wliW2pFq+S5fBIUaTwceo8xO4=;
+        b=jvTEkGiOdaO4qhIyuAnQEraXk1XotFcesg57/D887HMXuFoKwByW8BpiVHKfjQVvs4
+         SjDtQVPqQBSic1ev+dzIKII4KO0sZfY4u9M+NzwTgEwmMW2hjaq/1VdqFZ2Gf1MpxQGw
+         0wX4kouJWKycxrB13E+WFpwxlLLTl7kydKAw+23+dHWkZ3XCRord/zL1kLwQIinowWNl
+         /+vrBAaAu2mU4xHt+xjzWVSfWjjEshbFU7+w+gKFB63MbehWXGbXQqY4ZBg3TLfvw/Ak
+         CM7M5YaK87Z8yjrz21u7bBwamKA/SNobSUa3FUNSgmrlkQxgflrLWLXMoNc/239x86mF
+         muSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXUiJF+NsHFDUISNF2/UNIQZDctorkIOUfj8Nyfek+B6cyBB3YPr942LPQmSlRNUspBvIbBLXgOq/NmpkL2rpZmTnG+KnneK1Yz
+X-Gm-Message-State: AOJu0Yx0A2qbDCDYA0CHFOLnfCDvy2JILdxOWNlyK5ECE6J+G4UPfPlR
+	x1cI0TNzwZkT3uh3zQ4R8B1asnqDxO0T3WBOhYonvaEpXDG5NoYH5cUw8RzvfsudB1KBvxhqgQk
+	QseRr5Tld0G4cbmdP/LzzBYIQrBD+0yiUuSVx8A==
+X-Google-Smtp-Source: AGHT+IGduSNxIydN/eNgINSn+xOiMxlwqSzSVthVPSafiIs8o0sXpk5/cAWBdV4gf12hs+oVvORpHioikkxS0Cer+n0=
+X-Received: by 2002:a2e:a7c3:0:b0:2d4:3e82:117e with SMTP id
+ x3-20020a2ea7c3000000b002d43e82117emr9024835ljp.32.1712047853624; Tue, 02 Apr
+ 2024 01:50:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Kevin Tian <kevin.tian@intel.com>, Dan Williams
- <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, kernel-janitors@vger.kernel.org
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Ira Weiny <ira.weiny@intel.com>,
- Jesse Brandeburg <jesse.brandeburg@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Julia Lawall <Julia.Lawall@inria.fr>, Lukas Wunner <lukas.wunner@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, LKML <linux-kernel@vger.kernel.org>
-References: <BL1PR11MB5271DB63688BF220D0317AC08C3F2@BL1PR11MB5271.namprd11.prod.outlook.com>
-Subject: RE: [v3] cleanup: Add usage and style documentation
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <BL1PR11MB5271DB63688BF220D0317AC08C3F2@BL1PR11MB5271.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:JTNDDC3fQbZw22eedVtgOny1uIqThPnTxOxFVbrDzjp4rYzGaFw
- 3eJP2d0xCDlTZakMdes3GX7bxJ1ofpe9kWhpKILziqx02qyE5lICdlFkefUJaaqo1Pn+Eq+
- viv7ysn21bw6ZfmyNgTMDdwnMNeMf1OEe9Ms4Y6PmRelsZPM2hT/UgyXkfZOI4jscCZi5hQ
- 3pebzI942P5GQrR5Wlr0w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:wqufEvOOBnU=;3sjX2UJscXMIMeiT2ovpJaBmB2f
- l9zRzPgxe4xxclVIw6AtlLYNXNaIafESCTJXewjjt/mow2bTXaXzulvshkQE4HYLinFSHG0PA
- MYydAQzVF8U/jS2Gctuyeg1hf6EB/kVPPdm5ey1Tm6muUfkSohuqTi7OhdvtK/Ml1Y2buDJoQ
- F0IjWKpOgXbxK8yKoitYUdlU6h4V5nd6O/nTB27NZtNHBa4U2pqSSTOTen4dnmSAXaCjbgLS/
- AzmpbHd3Wc8d3L1zBsY7T6tCjXji++bwKFZUR1OHawXWYQMwJ22OzVpb2zDHIPWT9I6wUfdz6
- VP3yc6Nol2UEsVhMZvjWyYoQHhLqWirsectx4sX8agQ7ipTpUUSVg5CySNY+n64lg7l/VmQN5
- gg3qSDxzuOJtUymIftZcUsJcoEcs5U8+USGYFKipJ+btRIVi0PuaDonTI4Az3MKK3rd/v2h3Z
- 3ToIkQ0HxOVuJyCGCbFWFZJ9qGCyi+wFdhhJxNdic4Cx5J6DGqVmODOp6evwO0KGwTbqk4pWa
- EhT2G6fpzM9T+DzBU79Qy6Wdf2/uOIUNe56A0Qc/dRb6/t6ELKz7A/hT/a0J5mZaDT28Q/SaK
- uE243V8rni1TP8R+S+s6HWC0qQBhgffqdSf1BeHh0jEn2Lbp9u0U/eLhhmmtem+CIltnk7msS
- QRwrTKpC7L/ontclCOCxbABz708USgh7V1mb4Zc/1ZWO8TlWN/RL8SM0X+onI/kMdg5BrxSth
- rFTtF/MWbc9v7A28evW0pemBWGWv22NInEUiwG0OqDshO8rvlMTaZ62o6Ft52qplKpMvXYVLq
- cc9ux5nBbLV09+/xfNJeqBrrSCswsKDCmpxACnPpjjenw=
+References: <20240329144318.376939-1-dlechner@baylibre.com>
+In-Reply-To: <20240329144318.376939-1-dlechner@baylibre.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 2 Apr 2024 10:50:42 +0200
+Message-ID: <CAMRc=MfUQ5+Tq3M8=gABA_t+bumWs8=5RZ8gVJXxFLg0cvcMpA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: gpio: fix typo
+To: David Lechner <dlechner@baylibre.com>
+Cc: Kent Gibson <warthog618@gmail.com>, Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+On Fri, Mar 29, 2024 at 3:43=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> EOPNOTSUPP has two 'P's.
+>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
+>  Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst =
+b/Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst
+> index 56b975801b6a..6615d6ced755 100644
+> --- a/Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst
+> +++ b/Documentation/userspace-api/gpio/gpio-v2-get-line-ioctl.rst
+> @@ -81,7 +81,7 @@ Only one event clock flag, ``GPIO_V2_LINE_FLAG_EVENT_CL=
+OCK_xxx``, may be set.
+>  If none are set then the event clock defaults to ``CLOCK_MONOTONIC``.
+>  The ``GPIO_V2_LINE_FLAG_EVENT_CLOCK_HTE`` flag requires supporting hardw=
+are
+>  and a kernel with ``CONFIG_HTE`` set.  Requesting HTE from a device that
+> -doesn't support it is an error (**EOPNOTSUP**).
+> +doesn't support it is an error (**EOPNOTSUPP**).
+>
+>  The :c:type:`debounce_period_us<gpio_v2_line_attribute>` attribute may o=
+nly
+>  be applied to lines with ``GPIO_V2_LINE_FLAG_INPUT`` set. When set, debo=
+unce
+> --
+> 2.43.2
+>
 
-Did you take any of my review comments into account for this patch version so far?
+Applied, thanks!
 
-Regards,
-Markus
+Bart
