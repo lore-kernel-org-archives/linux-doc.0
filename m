@@ -1,227 +1,87 @@
-Received: from refb02.tmes.trendmicro.eu (refb02.tmes.trendmicro.eu [18.185.115.58])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490211F958
-	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 06:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=18.185.115.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712039554; cv=fail; b=N7gT7uaXQpS7nC/w4mEQR27hNZ3m8Wlk3NgD7rty3fROXlBL9hL8YWnhn5MRRHit3BzyYqb8kywWZlQAKP9YQVMfYLjBgYcPokW47MZ5SEi9N1/KUxNO82hHVM7Xr7tAWFLEulePHL0oZDr0+a/UYCo/hUBexZDWa3HNjNPEc4o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712039554; c=relaxed/simple;
-	bh=ZBEAXjMl8aMOJStM89IW/3Bd78fUZuAHkBQ/AZwUAGs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Vdob968qvzsA74sU69jw92KH6LUgblwoaTESWCsT6Ugci+Y84Z9KGsEZGS9IyBZLPEzoFwcRV2dEYO276R74Rfsz+7kn4vFJmaqRp7eEBW9hTrxgC+5yM6LKUWtntLCgV67Uj9DPJz+La6+WZrmZfDABmpWzd5Bda98PRlfAJuc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensynergy.com; spf=pass smtp.mailfrom=opensynergy.com; dkim=pass (2048-bit key) header.d=opensynergy.com header.i=@opensynergy.com header.b=A7CGFidQ; arc=fail smtp.client-ip=18.185.115.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensynergy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensynergy.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FF23839A;
+	Tue,  2 Apr 2024 07:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712042184; cv=none; b=ii5reXlyQrlszFBiZfEWz8BwgChpNcmVXx1+phDQrjZ8BzwTJUK7Ex5L6YtBrPp669wwMG14FnW5mtsy09Rd+9xDnZwbNwvPCZ8ypsT+rSrLlt4aFPKu4Il1M8K1OrbolyCRbuzZ/MxLYEH+e7nyhSFhFAs8QpC2N/59w27oy7g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712042184; c=relaxed/simple;
+	bh=RDW+zwDa2CBhzAKEQWv7lUSIpXm7MGCiMSp3c7znYCA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=SOH2d4nDPfLyD1NkbNtetL26YtqHVUa7iaRdInvwLdgecnJ+ScohcQtJUwrjG8mDFWkJGTI+vuap/o6xIQBvaXpa2u+QqtPMNmfsbKA1BpW5ElkLzhsS6U736Uz27k28hdyY+fepUDHjsChyXE0oUuUsoKA7Q08tHbRe9Hwkc7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=klVBU1LA; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=opensynergy.com header.i=@opensynergy.com header.b="A7CGFidQ"
-Received: from 104.47.7.169_.trendmicro.com (unknown [172.21.19.51])
-	by refb02.tmes.trendmicro.eu (Postfix) with ESMTPS id DF17E10043DDB;
-	Tue,  2 Apr 2024 06:32:23 +0000 (UTC)
-Received: from 104.47.7.169_.trendmicro.com (unknown [172.21.171.124])
-	by repost01.tmes.trendmicro.eu (Postfix) with SMTP id 69DCF10000C4D;
-	Tue,  2 Apr 2024 06:32:15 +0000 (UTC)
-X-TM-MAIL-RECEIVED-TIME: 1712039438.648000
-X-TM-MAIL-UUID: 66fca560-4a5e-4235-9f5a-556509e14da8
-Received: from DEU01-BE0-obe.outbound.protection.outlook.com (unknown [104.47.7.169])
-	by repre01.tmes.trendmicro.eu (Trend Micro Email Security) with ESMTPS id 9E71A1000041F;
-	Tue,  2 Apr 2024 06:30:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GlyCwV4WCbhV0P+lbpRtzFgGSR1uDGUA+XFrwWxH6CJKm7DAbnXViMCiH6a1XDUdheA6fb+EosxWZ4ez8R4j6q5XroK274k5l7u2ay9uNr5BZLEGMfhrRxckcCO+lMiy3BwH0NBdntsaexN2HG5yq9xtFUi1an0X77H9UjRocMz+KMzgz9F7d3Q0w7Kiyc4KjWIPcUNjbPExhemLmo9dURqUNiUYo2P+OkNPZUIZDqkL/xvUm/gQprD9umO+vjPO1zUkE3NQ42KzUCiXtLIOtg+JPC3Npc3WBimvnZU1MG+v6luNHs8xy42KwYSlBPI6XuCAxDGgjwz4bxJIHOvv7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Qs0KpbVK2J6Fqba87auZMO49qKNG9wDQGX6mRNhOTc=;
- b=HLADAHymBaTD7/n/uFvEOAST/iqs06xE2ngsGIoZkaH1Qqij8hmhggFk7vbivKmlb07Tr5gDxg/8hkaIhSzC+EMVpcQZttHSSIN5XvnL1P34Wcmw22lEN3YGKaYajewEtQIZ8Wc2KY+DEtBaVmODKsOgaMP91boJA6Va6cJD/MHxSFQNI3mZiKu8KWBoO/0MTxlNmlFnR01XJ0eiAUu5BrgNDW6ASsJUUK57TVVj5qtTi4STgKTP5+0fV28DIIUmJL04x23WLoCmDVm27ZPSykEdlb4ZfIEUwuqXmkN0NhCuJ9Aln+d4k6Z067VNXkFxx2kL5I97D1Ced2IiqpRYoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=opensynergy.com; dmarc=pass action=none
- header.from=opensynergy.com; dkim=pass header.d=opensynergy.com; arc=none
-Message-ID: <cfab0ca9-6e01-4fe7-bf00-3e1e7cd5b33e@opensynergy.com>
-Date: Tue, 2 Apr 2024 08:30:31 +0200
-Subject: Re: [PATCH v2 25/25] sound: virtio: drop owner assignment
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>,
- David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jens Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Olivia Mackall <olivia@selenic.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel@ffwll.ch>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Pankaj Gupta
- <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
- kvm@vger.kernel.org, linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
- <20240331-module-owner-virtio-v2-25-98f04bfaf46a@linaro.org>
-Content-Language: en-US
-From: Anton Yakovlev <anton.yakovlev@opensynergy.com>
-In-Reply-To: <20240331-module-owner-virtio-v2-25-98f04bfaf46a@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0159.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::15) To BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:5c::11)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="klVBU1LA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1712042138; x=1712646938; i=markus.elfring@web.de;
+	bh=RDW+zwDa2CBhzAKEQWv7lUSIpXm7MGCiMSp3c7znYCA=;
+	h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:
+	 In-Reply-To;
+	b=klVBU1LApA5mIHVuMI6quyFsihVv8LzhIcTfdvNXNyI9zDmW9vvyrSPapEuB31IJ
+	 3+gzlmAlKl7UOwV4Ub4j6QZPuQuXEuLDhPpr8bJDsxdJ+c2cnpjGinpA5H6lMfztU
+	 k663VM4upYOUdgzzPS3zBaY8KspXEFYk5XpVufKyOECOz7J8iPfEDlvGBVO8HHrtC
+	 Z097LNP96ylALTvHfvh2x/cY6fQVwHGHAXNEFunpxRYIUJJQZkXXLBNbOBcVW1GPb
+	 EcAKmE3etEOIyz1vs44vj1tNlrGo+UXmPmFhb8wvgvevnSEdimWMCqKhHRjzB+3nG
+	 egtEextJn6dr5IgNcQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MFrxr-1s2nB70qQZ-00HLVA; Tue, 02
+ Apr 2024 09:15:38 +0200
+Message-ID: <e4776c82-e255-4eab-b6c4-8087e02f384f@web.de>
+Date: Tue, 2 Apr 2024 09:15:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BEZP281MB2374:EE_|FRYP281MB3161:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	fIOq54zz9MjbZGfW0IyOo00+ZveeYzBUBtoIDl46iUfIMnzeu+vTPV9G54jRufB9xtyN1SJgzy4syB6pUDEewcGzGmARyaUEc90sUbRgmsDrKe819Z80/z3vgINJIekjovyogS/XTp/EBxkIOSWNaJ66whwVox7e99xvL8NxD+HwAZ2jHmQ+TsqD3wrwuZJLuzQrQyi5EFNmyS5fdgmy2vzXKKJrIgwUKRHy14E1ldSsMkCiZrq5q8MP2RSafNX5Ep8C9X6A8i7Lh5tConcf49cGHKYiotxJV33vUr9a9fQisNF6leN4Ku38nZIW8G4WpGDZGOt6s0S60GyMXP5OVPd7c6ZYT891EILhOmyxM1NQI0QjEd+QR7xyDvBuAAZEUkFQG8IuIlPMln1iGyTOiwkCdwUDlTfCAnw1Pa7RDmqaKbcx7JDwooRlrlrcUuYpvIo6Wyv1NOqkQVAQ5LgIefzf1OxqIQcoFku95BjcG98I7PGzHFlLgXfL80U0jxfIKK8KxrJy8GE7XZKgadhy1J65AJ/Kxe6y9fFNW4jf8EnGr02Gr25zDt+ZzMkT+H/Mtrl/nzYgtmlTX6CxT82DFoDjKsWvTryQBIWSDN9b/GKTVYSBzWC6QvFwCKD2u6vbrfO4EZwdB2rWnysbst+Fu9m/RjBm9K8KIpca1RpUEq+L0gAfTaWE2DefZdolC5RREJeqXw+7ThmMxeMgLZj0xA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(921011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?blRUVjYyTkxGV0M0a0VaNlZuQ1NzVDNUYitoWnAwUXRWVFdqVW8xL3ptSnB4?=
- =?utf-8?B?VHVjTEY0VUtEZ0I2QU5jZXlHcEd4dSs5K3hmdEYzb3dzeFR1czNxZ0lBQ01G?=
- =?utf-8?B?WFZoQ2k2TXBWNHV4S3VSQWwxNGhIS0JoaFk3R1RzcW5LdHlsOHA5NVJxUElp?=
- =?utf-8?B?eUpJN2lEV3daeFA3aXZVa1Ura3REa2FNS1p4U21OTDY0NVl1b0tWZndSNnRs?=
- =?utf-8?B?c3Q4aFhocUpBNllQZlBSVjl1QVlrbDBvUVF4SDFZSUx1eFZlamV0UnFUVkd2?=
- =?utf-8?B?dUJGYkZjY09rakRaLzNPeUZtYlRDdGtqSkxDSmp6dEdMbWRPbS9xaUJWbk5Z?=
- =?utf-8?B?TEhmYlhVNW5jb3lQYi91TmlXZ3BoaFh1UkxDM2U3K21OZmI1dWNIcDRVSGVw?=
- =?utf-8?B?eXZweFIvOXpjSWhtYkVWK3lROUJSVmNIaTRUOXdYUndZVjFKczNWMDJQRlZm?=
- =?utf-8?B?amJ0aFFJTWhOclBVc2VySjRZaG9hQTI4cThXR0RoMHdQaXlibDJNR2kwc3V4?=
- =?utf-8?B?Q0VjbDVGc2lkM1JIUE1pVGNIS1A3YWRNVWhZd1U2QTYwMHhlZm5nRUtSUGFw?=
- =?utf-8?B?dC9lVjFFKzRTQ1lPYmVucTRmYUUzSVBBR1laVmdPaTQ2RkRsckdzeGErZkNF?=
- =?utf-8?B?WWl2S3pVY1JzcElhY0w0cnNjSUVla3Q3c3NvMFFJK3hHUmI0aHB0ZVkwSVMx?=
- =?utf-8?B?S0tSejhsSmlIZFZXVFdOem9JcWtIVy9Ta1VvN1ljZUo0cnZZZ3BmSXk3NDNC?=
- =?utf-8?B?OFQ1TXZKczhKdzd2RTlYU09iNHFBUVB5bTMrUENISHYyZ0FmWEdkV2dsOEF5?=
- =?utf-8?B?UWtVTFRENTV5MkZONUpSOGpqU3hBWE1HTHZGWDRaM0FXSDBPdW5MVDRROTln?=
- =?utf-8?B?ZHFrVSswQ25BQURkaUJFdG1qNGh2M1NpenFuRFhCcVNCQmVhY1ZRREZ5OVNT?=
- =?utf-8?B?MXdkUGdaUTdjNWxYbVJQMWg0cHNYbFp1UFB2cVVURUVOMEFuMkdTQ3ZaeUdQ?=
- =?utf-8?B?dzlLcXh5a3V5KzdKQTNVV1VQZ2FsMVU3OE5QQW1pL3FwMW5TQVZvRFFZVG5O?=
- =?utf-8?B?aDdrK01FNFZVdHpRTWxZK2JMK29pOEZhSmhXNHc1RElsY1dyVVI5cHRnWE81?=
- =?utf-8?B?c0NBVmlhWVNGd3RxZzBvM2I3aGR4aVA0MUNOajNUaGxZVnNhSDEySWkxUDZH?=
- =?utf-8?B?ejNrRnNLVWJJcGN1UnRoQXRxSjZqQWhVckZnWkVpK25kVUpra0E3c1NHdFJJ?=
- =?utf-8?B?RCtNaUoyRHJ4bnp1QWh5VS9GV09ydnk4bEpKOUpIaW1xRDBPbnNrNVIwOVQ1?=
- =?utf-8?B?cEJVeTU2SDQrd0hrS1Avd09FR1VBSkZPVnp2bWR4ZlV4UWJ0b0VLOUNvcWVM?=
- =?utf-8?B?OGUrVTRsVi8yckxjU1MyWjU4b2h1VU1oN1l1aXBZdGdMN3FISGJuUmxmLzRM?=
- =?utf-8?B?NEpQR2RPOVZIRnNzWjk1akt3WXlrWlFtc25NTFJZN1RSdS9xYkt4cjRWam5F?=
- =?utf-8?B?NnNzbEhjMUZBSlpieHBJVktCZFFtWjk2RTRENUoxYTROTVhXQzNEaExCWG1w?=
- =?utf-8?B?UVlFbklZYTk5ekZwUHhsTlBwM25EaWprcmprYkZKS3lzU2JDYmdWblB6ekJB?=
- =?utf-8?B?MmF1bW0xQUNFV2VNU0pkSkVRRnRkNkR6eHk0OXRBTnpuWnk3TnpSb21FVGdU?=
- =?utf-8?B?SysyWFprU0FTRFRtdGtHTm1pQlZvZmFLNXRRV01OUW1lZzRWUG01c1NlUGw4?=
- =?utf-8?B?dmRqV1pGSTZNUFpRTHJ0eUhXbEFMczBEdGJvc0J4UDJEVkkzU29WOW1GSjNJ?=
- =?utf-8?B?WDRUOXl1ay9OekVtRHFYSWV3R2dCMXJwT0VsZ2UwM3lhSEdiVWRRM2dsbjdI?=
- =?utf-8?B?TUgzeCs4YjlyMGFDM1RPRmM0RDYyd210NEtLdFFHRy9MRG1rYXpNYXVyd1FC?=
- =?utf-8?B?ei9iVHpnK0pWMzBBSW5xZTRiTG03OW15ZGFNbTdQdHRHL3FjWTlGYlFwdlIy?=
- =?utf-8?B?d2NyRnN4dVFOaXdac0RSOVE0MXdzdEcyS0draThveEVwbDNseEpKSEkxMkhL?=
- =?utf-8?B?SmVndTNoRXJtSFNwL3dIMGxzRmdkeCt2S0Q2dzhWdCtmaVVnY1h3OSttODE5?=
- =?utf-8?Q?VC6GVSFSz9C7S9Wo4L5XZo+QI?=
-X-OriginatorOrg: opensynergy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad2547a1-b8ea-4071-42df-08dc52de6885
-X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2374.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 06:30:37.2050
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IJhIWTU+RHOaEdakYzkQ1ad7D2hwRbYVRgbjUAiqMWbve5wY9sDF6b/+ijvv4JfRXP0crWSexiqoil9yPFVbCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRYP281MB3161
-X-TM-AS-ERS: 104.47.7.169-0.0.0.0
-X-TMASE-Version: StarCloud-1.3-9.1.1015-28292.005
-X-TMASE-Result: 10--5.445600-4.000000
-X-TMASE-MatchedRID: wQVy7q402w1TzAVQ78TKJRhvdi92BBAuZK1SF2R3edhrIVA3IGfCC6DE
-	DQa+uiKUH2xok6cGGNABKhB2N2U17vLk2AFN1sunQj0AQ98QP92q8lf9o0av1xIIN3MAx5f9anZ
-	VdS5mxHyDZQoKdarzvOEvGuhUCHAT+IFpwsDCYKBaOxpgjiWHdd/upPexrMg4sZFfGXBYeAAKjR
-	CEKUuElpLHk4pGN/0DFk3xbexPTOS72HhspQkaIw==
-X-TMASE-XGENCLOUD: 9e9e9fa0-8253-4e7c-919c-70703b990615-0-0-200-0
-X-TM-Deliver-Signature: 5FBE828BD7A94C0C52584343C217624E
-X-TM-Addin-Auth: 78cuz+pexj/pn1SmQsOZGkZZYypEyT/44Vj2byjl7NNjYTH0fSc9lfkL0fP
-	xPDhlwk1PfhNKWFCVMj9tFI8/gEUTGFLrDXomc/w5mFspJcQvW8bjQnb+FSG9QRjqGtUQPFgol8
-	Ww9/WL3vHqsq6VQWeaWmBp08o0va3jKPQsEnlzZ5fzN5HBIyRVKAaEU3wb8qnjye0TzNasLDM1I
-	71TpnnRTvDzoJIdCdDaXnUWrAVcysLbHbzZ6kIEdTILRnq/hwrHCMEGlyZhZlhz28TwTs1DY+2x
-	REGvXOXiBuZsb1o=.P4ei9focH1shZUt6/8XbQLxrdp4UTkVfy2yLfcnabYWfblNk64FUohEbOH
-	UOH+AMU/Ckd5AX1DzCuC3+4Pu7tKP9ejAofN7LVSP+lhgk3VVOx0jCIddBoOEKnWY3gRH0uu0Qq
-	02k3cH+Sqs0Y+R9KIz9YUAS1GDXDErPQ5pKO+r6mKkGlw1dwLJnnE2bJ6LTbHclwxioVu4fuqA5
-	Ph+bsLwi3zQKkiYBOfTAez8aGkogKYXjce0bfeArPtVJ73vac004ukEG9CR33oxoH/MOn+1CRzM
-	fR1QqFeto2OlRdIhVbHa+koY8W3at2JdfvqmDciv2+HiNF/koBYm+QsZeOg==
-X-TM-Addin-ProductCode: EMS
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=opensynergy.com;
-	s=TM-DKIM-20210503141657; t=1712039535;
-	bh=ZBEAXjMl8aMOJStM89IW/3Bd78fUZuAHkBQ/AZwUAGs=; l=889;
-	h=Date:To:From;
-	b=A7CGFidQ7EmvHwlJ1HrqwRnbnsXMZ3gjCVHFSGu9WkvgXKcwtOK84GoQWE+sJXa5d
-	 C8qilhq95NUIlunEbT3uRWpyT2VZzaGUvb8Y8d+kPfevSbp3Hw3Ja6cIYRlU5oY12L
-	 F4TIBe2UNLP7eeessSTSj8EAc2Z/5aPHH3pgY2KKN4hILWfJmMFxhfhXvFhdgJC3TC
-	 z4/hz6/LS4+jn1K4yfEJ57JrIjDulP2cPA5aszppGAdznzIyF3cf9zzvdNAoeFJO5J
-	 kVk+MnW6pUmKdCb+SrYsC0H+aO2JxIouNRNPYR8g62naKKGqj/f+AvcOv7RVCHQJ+A
-	 tPhogaFJgwvHg==
+User-Agent: Mozilla Thunderbird
+To: Kevin Tian <kevin.tian@intel.com>, Dan Williams
+ <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ira Weiny <ira.weiny@intel.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Julia Lawall <Julia.Lawall@inria.fr>, Lukas Wunner <lukas.wunner@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, LKML <linux-kernel@vger.kernel.org>
+References: <BL1PR11MB5271DB63688BF220D0317AC08C3F2@BL1PR11MB5271.namprd11.prod.outlook.com>
+Subject: RE: [v3] cleanup: Add usage and style documentation
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <BL1PR11MB5271DB63688BF220D0317AC08C3F2@BL1PR11MB5271.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:JTNDDC3fQbZw22eedVtgOny1uIqThPnTxOxFVbrDzjp4rYzGaFw
+ 3eJP2d0xCDlTZakMdes3GX7bxJ1ofpe9kWhpKILziqx02qyE5lICdlFkefUJaaqo1Pn+Eq+
+ viv7ysn21bw6ZfmyNgTMDdwnMNeMf1OEe9Ms4Y6PmRelsZPM2hT/UgyXkfZOI4jscCZi5hQ
+ 3pebzI942P5GQrR5Wlr0w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wqufEvOOBnU=;3sjX2UJscXMIMeiT2ovpJaBmB2f
+ l9zRzPgxe4xxclVIw6AtlLYNXNaIafESCTJXewjjt/mow2bTXaXzulvshkQE4HYLinFSHG0PA
+ MYydAQzVF8U/jS2Gctuyeg1hf6EB/kVPPdm5ey1Tm6muUfkSohuqTi7OhdvtK/Ml1Y2buDJoQ
+ F0IjWKpOgXbxK8yKoitYUdlU6h4V5nd6O/nTB27NZtNHBa4U2pqSSTOTen4dnmSAXaCjbgLS/
+ AzmpbHd3Wc8d3L1zBsY7T6tCjXji++bwKFZUR1OHawXWYQMwJ22OzVpb2zDHIPWT9I6wUfdz6
+ VP3yc6Nol2UEsVhMZvjWyYoQHhLqWirsectx4sX8agQ7ipTpUUSVg5CySNY+n64lg7l/VmQN5
+ gg3qSDxzuOJtUymIftZcUsJcoEcs5U8+USGYFKipJ+btRIVi0PuaDonTI4Az3MKK3rd/v2h3Z
+ 3ToIkQ0HxOVuJyCGCbFWFZJ9qGCyi+wFdhhJxNdic4Cx5J6DGqVmODOp6evwO0KGwTbqk4pWa
+ EhT2G6fpzM9T+DzBU79Qy6Wdf2/uOIUNe56A0Qc/dRb6/t6ELKz7A/hT/a0J5mZaDT28Q/SaK
+ uE243V8rni1TP8R+S+s6HWC0qQBhgffqdSf1BeHh0jEn2Lbp9u0U/eLhhmmtem+CIltnk7msS
+ QRwrTKpC7L/ontclCOCxbABz708USgh7V1mb4Zc/1ZWO8TlWN/RL8SM0X+onI/kMdg5BrxSth
+ rFTtF/MWbc9v7A28evW0pemBWGWv22NInEUiwG0OqDshO8rvlMTaZ62o6Ft52qplKpMvXYVLq
+ cc9ux5nBbLV09+/xfNJeqBrrSCswsKDCmpxACnPpjjenw=
 
-Hi Krzysztof,
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
 
-On 31.03.2024 10:44, Krzysztof Kozlowski wrote:
-> virtio core already sets the .owner, so driver does not need to.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Did you take any of my review comments into account for this patch version so far?
 
-Acked-by: Anton Yakovlev <anton.yakovlev@opensynergy.com>
-
-
-> ---
-> 
-> Depends on the first patch.
-> ---
->   sound/virtio/virtio_card.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-> index 2da20c625247..7805daea0102 100644
-> --- a/sound/virtio/virtio_card.c
-> +++ b/sound/virtio/virtio_card.c
-> @@ -438,7 +438,6 @@ static unsigned int features[] = {
->   
->   static struct virtio_driver virtsnd_driver = {
->   	.driver.name = KBUILD_MODNAME,
-> -	.driver.owner = THIS_MODULE,
->   	.id_table = id_table,
->   	.feature_table = features,
->   	.feature_table_size = ARRAY_SIZE(features),
-> 
+Regards,
+Markus
