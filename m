@@ -1,160 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375A015E5A7;
-	Tue,  2 Apr 2024 21:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A358A15E1ED;
+	Tue,  2 Apr 2024 21:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712092630; cv=none; b=fE+tPFwcA1P5VAtv/w2NJSvkgUk9+wLSvztJ7SlrVu1+3W9EYVrfcl+g+QR6YcxXc6ePMSh+MZfkKe0/r6UKCu9QKVHFJiZKHowo7mvEUxglHG2lvJwJCpCKJUTB9ZlBmhKSme1CnLkXisFRfTRw4TjL8f9dpu8kwVdj5BQpfu8=
+	t=1712092878; cv=none; b=gl6C0BB2Gm6WTuf89Bat/SxV38+zNngh3BvVjYcaFaqvsrhEmLhhF2c2Av8aoFY8mmxTFxHS7Ew6eTBwGoydnNrtKTnpuRlRPvXvgMv6xQYvFgsKe5RHdAySD1XDXZcchaMMPe7ny09gFnCuwwXZXThPS0PlVkhofXmhD0F/qW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712092630; c=relaxed/simple;
-	bh=ZDpTfGaozL6O8R8tQSwfWhVOaDOz5UisKush+5x5SmY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CiXbtjIll42YpTjFQkILefxe2IRldyiJaabghhOO7/vJlpQSEn8rYHRp8wwQIcyTBSwPD849P5Z+Fi6d3q9ytR7Yg7EqkBjQc+zMye1jIFrBHqj+3FyEMCnYifNwtQeRE1Rbx/zibLU+/8Wqc+eN1O4iNt3Lp8bBHewU21cWEWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KerdSiwZ; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712092878; c=relaxed/simple;
+	bh=bMVwUivJ9lLNd1kdGPH7hkFfEtN3FFHDuc1FCFL6HcQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YBnsHiysuZNWbg3J8ht3blnnbyBhE7mO4YxeQyxiBD6NMo3pXoMGCn0xr1OVflbxl4fnfZmu/ijlnMpz5m469EeMF5KYwcstxTmH27gpOoluecGSclfqucxVHvcWavXciqefomY7SiJobVORY9Nf1RhyLiwz1aF/P8phiVh3Q5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQKGrreZ; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KerdSiwZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712092629; x=1743628629;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZDpTfGaozL6O8R8tQSwfWhVOaDOz5UisKush+5x5SmY=;
-  b=KerdSiwZs8v2/XzW1qsMFBFALt8XZRG3A+pMj8/ImKgsxxkoBNE/ddZH
-   Ks5ZtHVDa78fbZcL3MKh4nfeWDc0kzaXIwBzaPXFyV+hmrMBJBVOHu/+/
-   xg1HYiPCAtSJaHPoo2DNTxa6bk6ibywCf9hLZUElXykuPgdX//v24KvyX
-   2c1/r0aynSMV14F7KjIWbaZtkoWp7E9K56fZ61LsikDfqrbrsCjil1PAD
-   nQh/z7Euxah+YarvyR++TRgQmMdB7lFfAHiWh0klDmdre9ILokyT5TVqR
-   oX/32KeCKWndDI8ohevITDi4SPZBwt1FHuof25cNL0PcALrD71JBINm8W
-   A==;
-X-CSE-ConnectionGUID: VJqsj9VXQRKGoh+/n2XEGQ==
-X-CSE-MsgGUID: 6xhhdoZ+TL+8pIJWClFkfA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="11114945"
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="11114945"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 14:17:09 -0700
-X-CSE-ConnectionGUID: d5/GXcNtSIWoDbNVfCNicQ==
-X-CSE-MsgGUID: i7E1/IzVTtWfABeuc15uqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="18654257"
-Received: from ooginni-mobl.amr.corp.intel.com (HELO [10.209.114.45]) ([10.209.114.45])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 14:17:09 -0700
-Message-ID: <fccce666-878a-4f5f-8899-8cc26f7f15bc@linux.intel.com>
-Date: Tue, 2 Apr 2024 14:17:08 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQKGrreZ"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4d47000f875so2310528e0c.2;
+        Tue, 02 Apr 2024 14:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712092875; x=1712697675; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vq3CfecE91BSOfD6tBbWM1V55xKe7STO9yKGnG1BXFM=;
+        b=gQKGrreZjIsMFogDcpubd/fehmE/yx00um9JEoI1fdPjwPXS+xR6zJJufkitpDFcEy
+         IHQM5tJ8CDTQ8k79JZTvg89B9/RuCGPv1GhQEWfDbioQTDF7Y+6cJ58XjxpADtjp2Spt
+         dENgNgSlsGVMBbNsc2Zlbc87kr02eJbz/ydBuR2cZ0FOR21NK6YQL/rhn/p/qAIPtxF+
+         c9wHP7IhF6FYpmWdhSLRZFcvz+yKFTYuMhEqw6+zqsYuoyB3sZVgeHewBlxOJtuY0L2R
+         aBdCI1Fop+a2LQPBccQYp7M5fmTPONTbmh+MwuH3mdtmqkR21O0+socghl/Z4mu8Vm7P
+         Tjtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712092875; x=1712697675;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vq3CfecE91BSOfD6tBbWM1V55xKe7STO9yKGnG1BXFM=;
+        b=HSUWaGPmdeJ3tot5NqgvjbwQ83+2mJy5n/97JQS9sLsuDSh4utDEwOet3Zlo7ZQWfQ
+         jZO+2ypr+maPJs794cx2mCG1qWh2PL7qOu+b/EjqLafR8GPBGhVI7a4a8SOqi0IwawkU
+         UXTA0EJdL1SnrAkuuW3E87oySrOvfZ/SdkuonDFhbNKW2RCR7pqecs2gqol7UJcXdX0M
+         tim7NsNYdX4EkOUdKs2hmEsaZdR6P3mWrzNCnEDUtB6wNZgavtREkxt8Bc66Lw9C4XDa
+         MW77a9qpzizmXKgbvijWtGIEYjKyDaK5VGufrq7WhsrBgmWDo/eMKlVHtiniO7huWYPZ
+         n+ow==
+X-Forwarded-Encrypted: i=1; AJvYcCWiHNKT5PjA7fijHIPT1A2Gq2b1MdyEfdg3HjjGGyPrnRsFTzn5A4aTqYlfti/JcgByTaOMPi2g94EDMN35LPJa0cneRC8OuJydYJ5x+PXsGysfP0IXgtMQGIurB9cXS37WmiaqkMCeqN+tNpp+yRILOpf+S3INqlMAQJo+NLeXmuKl
+X-Gm-Message-State: AOJu0YyRMk0ctCt9QKHosbJdoTOW9aYnL82wbqjre/3JqXELb8hEBBTZ
+	2dsL36tts1csyTn+0v2WcXN4/SphIEkoZ8Q3FiTUBG+AanQGK6XFoiKcRfo+aL6kn9RF+Q75jhc
+	13JNkkpDGdhlYg+VpsRB5N6YGhzo=
+X-Google-Smtp-Source: AGHT+IEy6f9Nm5LwBBzzhFjb1SYd+CGDD6rKUNN+XzVBPzjAQvMjlqio+7Ym2YNKsN9gj9s3ITLMIi8ejQT9xribV5Y=
+X-Received: by 2002:a05:6122:1805:b0:4d3:499a:830c with SMTP id
+ ay5-20020a056122180500b004d3499a830cmr11569620vkb.13.1712092875353; Tue, 02
+ Apr 2024 14:21:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] platform/x86: xiaomi-wmi: Fix race condition when
- reporting key events
-To: Armin Wolf <W_Armin@gmx.de>, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240402143059.8456-1-W_Armin@gmx.de>
- <20240402143059.8456-2-W_Armin@gmx.de>
-Content-Language: en-US
-From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <20240402143059.8456-2-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240401012120.6052-1-21cnbao@gmail.com> <20240401012120.6052-2-21cnbao@gmail.com>
+ <87msqbvj3g.fsf@meer.lwn.net>
+In-Reply-To: <87msqbvj3g.fsf@meer.lwn.net>
+From: Barry Song <21cnbao@gmail.com>
+Date: Wed, 3 Apr 2024 10:21:04 +1300
+Message-ID: <CAGsJ_4x=YaGotZwRxjaRhELi=ExVcQ+euEkSiZ2GkAoLFwhMVw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] Documentation: coding-style: ask function-like
+ macros to evaluate parameters
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: akpm@linux-foundation.org, linux-doc@vger.kernel.org, 
+	workflows@vger.kernel.org, apw@canonical.com, broonie@kernel.org, 
+	chenhuacai@loongson.cn, chris@zankel.net, dwaipayanray1@gmail.com, 
+	herbert@gondor.apana.org.au, joe@perches.com, linux-kernel@vger.kernel.org, 
+	linux@roeck-us.net, lukas.bulwahn@gmail.com, mac.xxn@outlook.com, 
+	sfr@canb.auug.org.au, v-songbaohua@oppo.com, 
+	Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Apr 3, 2024 at 5:13=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wro=
+te:
+>
+> So I'm not sure what your desired path for getting this upstream is.  I
+> can take it, but I'm generally quite leery of taking coding-style
+> changes without some serious acks on them - nobody elected me as the
+> arbiter of proper coding style.
 
-On 4/2/24 7:30 AM, Armin Wolf wrote:
-> Multiple WMI events can be received concurrently, so multiple instances
-> of xiaomi_wmi_notify() can be active at the same time. Since the input
-> device is shared between those handlers, the key input sequence can be
-> disturbed.
->
-> Fix this by protecting the key input sequence with a mutex.
->
-> Compile-tested only.
->
-> Fixes: edb73f4f0247 ("platform/x86: wmi: add Xiaomi WMI key driver")
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
+Hi Jonathan,
+Thanks!
+Andrew previously integrated it into mm-nomm and tagged it as [TO-BE-UPDATE=
+D]
+before removing it a few days back. Here's the link:
+https://lore.kernel.org/mm-commits/20240330025857.CD609C433F1@smtp.kernel.o=
+rg/
+So if feasible, I'd prefer to stick with Andrew's channel.
 
-LGTM
+>
+> A nit below
+>
+> Barry Song <21cnbao@gmail.com> writes:
+>
+> > From: Barry Song <v-songbaohua@oppo.com>
+> >
+> > Recent commit 77292bb8ca69c80 ("crypto: scomp - remove memcpy if
+> > sg_nents is 1 and pages are lowmem") leads to warnings on xtensa
+> > and loongarch,
+> >    In file included from crypto/scompress.c:12:
+> >    include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+> >    include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but=
+ not used [-Wunused-but-set-variable]
+> >       76 |                 struct page *page;
+> >          |                              ^~~~
+> >    crypto/scompress.c: In function 'scomp_acomp_comp_decomp':
+> >>> crypto/scompress.c:174:38: warning: unused variable 'dst_page' [-Wunu=
+sed-variable]
+> >      174 |                         struct page *dst_page =3D sg_page(re=
+q->dst);
+> >          |
+> >
+> > The reason is that flush_dcache_page() is implemented as a noop
+> > macro on these platforms as below,
+> >
+> >  #define flush_dcache_page(page) do { } while (0)
+> >
+> > The driver code, for itself, seems be quite innocent and placing
+> > maybe_unused seems pointless,
+> >
+> >  struct page *dst_page =3D sg_page(req->dst);
+> >
+> >  for (i =3D 0; i < nr_pages; i++)
+> >       flush_dcache_page(dst_page + i);
+> >
+> > And it should be independent of architectural implementation
+> > differences.
+> >
+> > Let's provide guidance on coding style for requesting parameter
+> > evaluation or proposing the migration to a static inline
+> > function.
+> >
+> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> > Suggested-by: Max Filippov <jcmvbkbc@gmail.com>
+> > Reviewed-by: Mark Brown <broonie@kernel.org>
+> > Cc: Chris Zankel <chris@zankel.net>
+> > Cc: Huacai Chen <chenhuacai@loongson.cn>
+> > Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> > Cc: Guenter Roeck <linux@roeck-us.net>
+> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Cc: Andy Whitcroft <apw@canonical.com>
+> > Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > Cc: Joe Perches <joe@perches.com>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Cc: Xining Xu <mac.xxn@outlook.com>
+> > ---
+> >  Documentation/process/coding-style.rst | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/pro=
+cess/coding-style.rst
+> > index 9c7cf7347394..791d333a57fd 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -827,6 +827,22 @@ Macros with multiple statements should be enclosed=
+ in a do - while block:
+> >                               do_this(b, c);          \
+> >               } while (0)
+> >
+> > +Function-like macros with unused parameters should be replaced by stat=
+ic
+> > +inline functions to avoid the issue of unused variables:
+> > +
+> > +.. code-block:: c
+>
+> I would just use the "::" notation here; the ..code-block:: just adds
+> noise IMO.
 
-Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+I am not quite sure we want this. as reading the whole coding-style.rst,
+.. code-block:: c is everywhere :-)   Should I do something different or
+just follow the tradition?
 
->  drivers/platform/x86/xiaomi-wmi.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
 >
-> diff --git a/drivers/platform/x86/xiaomi-wmi.c b/drivers/platform/x86/xiaomi-wmi.c
-> index 1f5f108d87c0..7efbdc111803 100644
-> --- a/drivers/platform/x86/xiaomi-wmi.c
-> +++ b/drivers/platform/x86/xiaomi-wmi.c
-> @@ -2,8 +2,10 @@
->  /* WMI driver for Xiaomi Laptops */
+> > +     static inline void fun(struct foo *foo)
+> > +     {
+> > +     }
+> > +
+> > +For historical reasons, many files still use the cast to (void) to eva=
+luate
+> > +parameters, but this method is not recommended:
+> > +
+> > +.. code-block:: c
+> > +
+> > +     #define macrofun(foo) do { (void) (foo); } while (0)
+> > +
 >
->  #include <linux/acpi.h>
-> +#include <linux/device.h>
->  #include <linux/input.h>
->  #include <linux/module.h>
-> +#include <linux/mutex.h>
->  #include <linux/wmi.h>
+> 1) If you're putting in examples of something *not* to do, it's probably
+> better to also put in something like:
 >
->  #include <uapi/linux/input-event-codes.h>
-> @@ -20,12 +22,21 @@
+>    /* don't do this */
 >
->  struct xiaomi_wmi {
->  	struct input_dev *input_dev;
-> +	struct mutex key_lock;	/* Protects the key event sequence */
->  	unsigned int key_code;
->  };
->
-> +static void xiaomi_mutex_destroy(void *data)
-> +{
-> +	struct mutex *lock = data;
-> +
-> +	mutex_destroy(lock);
-> +}
-> +
->  static int xiaomi_wmi_probe(struct wmi_device *wdev, const void *context)
->  {
->  	struct xiaomi_wmi *data;
-> +	int ret;
->
->  	if (wdev == NULL || context == NULL)
->  		return -EINVAL;
-> @@ -35,6 +46,11 @@ static int xiaomi_wmi_probe(struct wmi_device *wdev, const void *context)
->  		return -ENOMEM;
->  	dev_set_drvdata(&wdev->dev, data);
->
-> +	mutex_init(&data->key_lock);
-> +	ret = devm_add_action_or_reset(&wdev->dev, xiaomi_mutex_destroy, &data->key_lock);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	data->input_dev = devm_input_allocate_device(&wdev->dev);
->  	if (data->input_dev == NULL)
->  		return -ENOMEM;
-> @@ -59,10 +75,12 @@ static void xiaomi_wmi_notify(struct wmi_device *wdev, union acpi_object *dummy)
->  	if (data == NULL)
->  		return;
->
-> +	mutex_lock(&data->key_lock);
->  	input_report_key(data->input_dev, data->key_code, 1);
->  	input_sync(data->input_dev);
->  	input_report_key(data->input_dev, data->key_code, 0);
->  	input_sync(data->input_dev);
-> +	mutex_unlock(&data->key_lock);
->  }
->
->  static const struct wmi_device_id xiaomi_wmi_id_table[] = {
-> --
-> 2.39.2
->
->
--- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+> people don't always read closely.
 
+ok.
+
+>
+> 2) Can we say *why* it's not recommended?
+>
+
+Andrew makes a valid point.
+
+https://lore.kernel.org/all/20240321104427.730b859087afecf5973d1c58@linux-f=
+oundation.org/
+
+"I think so.  My overall view is that we should write things in C.  Only
+use macros if the thing we're trying to do simply cannot be done in a C
+function.
+
+- inline functions don't have the "expression with side effects
+  evaluated more than once" problem.
+
+- inline functions avoid the unused-variable issue which started this threa=
+d
+
+- inline functions look better
+
+- for some reason, people are more inclined to document inline
+  functions than macros."
+
+Andrew's point seems too lengthy for inclusion in the coding-style.rst docu=
+ment?
+I'll attempt to condense it.
+
+> Thanks,
+>
+> jon
+
+Thanks
+Barry
