@@ -1,192 +1,231 @@
-Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id B40914CB4A;
-	Tue,  2 Apr 2024 11:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B83960266;
+	Tue,  2 Apr 2024 11:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712057373; cv=none; b=LnzZ1vAF0DdhMI6HxJ+CmsRHhi4kSTOS+AaIRvBZlSHTmGbVJcfF24gHDVIM7Z1jYPriUzYEJF+iV2HagMFvnebvXoPds7rSIsAcH/LgwivIbSB6lg3JShPAA40GidRfwGPbdFAI+H75docvY3t6i2/Qq/BvXHDwlIJfT9bvmX0=
+	t=1712057493; cv=none; b=q8KewrLXbqvUM7HRYDYyMxKD4kasCzWVdwwxBm4Q4lsIu9DAoTYrQ2UnvOOqvsBgfpEKaN8qy7YWaj9cbEWPal2rIA0oKU5EFBlZX4opOHVVcKY6S985rouZPbNXzgIUUtkRx3d0x0pX2zB5zggG9nxj8YR8zQ3kktqNR7QMPVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712057373; c=relaxed/simple;
-	bh=IDwFw33UJOLLRNA0nIg6tMumyxRK6Hn6ZouhIx51qYk=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bUZ/71FAeCePRnS5Se4Wx1UY6lXb1HUGhrks79Iz11V3Ytz4yvnKpOXHIXBH2i7fQMwuS9BKIbq2vF5/jiw2IjyRkJl+1ANCQnMkoRzgkd2IpG9urrh3Gwn57WQiTIrc2vvS6HWOb2iyFWXFfnSVtdLF/RiQeWGIYBkoHpNKazI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; arc=none smtp.client-ip=111.202.70.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
-Received: from mail.didiglobal.com (unknown [10.79.65.12])
-	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 9F92B18097DE94;
-	Tue,  2 Apr 2024 19:29:28 +0800 (CST)
-Received: from didi-ThinkCentre-M930t-N000 (10.79.64.101) by
- ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 2 Apr 2024 19:29:28 +0800
-Date: Tue, 2 Apr 2024 19:29:22 +0800
-X-MD-Sfrom: tiozhang@didiglobal.com
-X-MD-SrcIP: 10.79.65.12
-From: Tio Zhang <tiozhang@didiglobal.com>
-To: <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <rostedt@goodmis.org>, <bsingharora@gmail.com>,
-	<corbet@lwn.net>, <akpm@linux-foundation.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<dietmar.eggemann@arm.com>, <bsegall@google.com>, <mgorman@suse.de>,
-	<bristot@redhat.com>, <vschneid@redhat.com>, <tiozhang@didiglobal.com>,
-	<zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>, <fuyuanli@didiglobal.com>
-Subject: [PATCH 3/3] delayacct/taskstats: make soft_delay available in
- taskstats
-Message-ID: <20240402112922.GA18945@didi-ThinkCentre-M930t-N000>
-Mail-Followup-To: mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	rostedt@goodmis.org, bsingharora@gmail.com, corbet@lwn.net,
-	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, zyhtheonly@gmail.com, zyhtheonly@yeah.net,
-	fuyuanli@didiglobal.com
+	s=arc-20240116; t=1712057493; c=relaxed/simple;
+	bh=4G0sNbKcdCOvjHdR2aysek6guxhi8tnhqOLrZUNq+Ig=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cZw0Q3H+8Yttmoo5arm2jTKytAiM9W9pQu1eq/Cc+M3KKWj8nCqUypTNUk/k9W/uVESe1vFKMRzpAsXoTMceE6IUeLJMqVN8KipnuoezZ3CyBHbYLBg6HlTecPlInMBm1oXJXd2AMJQQVuEtcWgNmOBhM7Qq7tpC9hI1ukQvMZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=3+PWiZnt; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="3+PWiZnt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1712057487;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=RACmCVo3oQizc0IV4xsfh1Yt5T/9H2Y8ArFlx9eSREM=;
+	b=3+PWiZntDUNpIPR9lZJONsKTr7S7V+JfwELyvJim7PbDNPejxbk9kNjwARkaSGeRA35wRu
+	V5DfyIBRIglj7tKbU+PHJ+/asCCVIxK5QV+R5y3Erlo69ehIchvfFuPpaCD8kHqTkHZOnB
+	ULIVfZ6QwtCtP+4iRZjRzESWmMKPAqo=
+Message-ID: <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
+Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Jonathan Corbet <corbet@lwn.net>, Lars-Peter
+ Clausen <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Nuno Sa
+ <nuno.sa@analog.com>,  Michael Hennerich <michael.hennerich@analog.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Tue, 02 Apr 2024 13:31:25 +0200
+In-Reply-To: <ZgUM1LFEWs3lwoAU@matsya>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+	 <20240310124836.31863-2-paul@crapouillou.net> <ZgUM1LFEWs3lwoAU@matsya>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
+ qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
+ JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
+ 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
+ X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
+ AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
+ Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
+ Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
+ McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
+ 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
+ LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240402112700.GA18519@didi-ThinkCentre-M930t-N000>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: ZJY01-PUBMBX-01.didichuxing.com (10.79.64.32) To
- ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12)
 
-Also update a new version of tools/accounting/getdelays.c.
+Hi Vinod,
 
-	# ./getdelays -t 4600 -d
-	print delayacct stats ON
-	TGID	4600
-	
-	CPU             count     real total  virtual total    delay total  delay average
-                 	3973    10700014780    10698803222   312345815813         78.617ms
-	IO              count    delay total  delay average
-                    	0              0              0.000ms
-	SWAP            count    delay total  delay average
-                    	0              0              0.000ms
-	RECLAIM         count    delay total  delay average
-                    	0              0              0.000ms
-	THRASHING       count    delay total  delay average
-                    	0              0              0.000ms
-	COMPACT         count    delay total  delay average
-                    	0              0              0.000ms
-	WPCOPY          count    delay total  delay average
-                   	40         266859             0.007ms
-	IRQ             count    delay total  delay average
-                	13450    17756373906          1.320ms
-	SOFTIRQ         count    delay total  delay average
+Le jeudi 28 mars 2024 =C3=A0 11:53 +0530, Vinod Koul a =C3=A9crit=C2=A0:
+> On 10-03-24, 13:48, Paul Cercueil wrote:
+> > This function can be used to initiate a scatter-gather DMA
+> > transfer,
+> > where the address and size of each segment is located in one entry
+> > of
+> > the dma_vec array.
+> >=20
+> > The major difference with dmaengine_prep_slave_sg() is that it
+> > supports
+> > specifying the lengths of each DMA transfer; as trying to override
+> > the
+> > length of the transfer with dmaengine_prep_slave_sg() is a very
+> > tedious
+> > process. The introduction of a new API function is also justified
+> > by the
+> > fact that scatterlists are on their way out.
+> >=20
+> > Note that dmaengine_prep_interleaved_dma() is not helpful either in
+> > that
+> > case, as it assumes that the address of each segment will be higher
+> > than
+> > the one of the previous segment, which we just cannot guarantee in
+> > case
+> > of a scatter-gather transfer.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> >=20
+> > ---
+> > v3: New patch
+> >=20
+> > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
+> > struct
+> > =C2=A0=C2=A0=C2=A0 'dma_vec'.
+> > =C2=A0=C2=A0=C2=A0 Note that at some point we will need to support cycl=
+ic
+> > transfers
+> > =C2=A0=C2=A0=C2=A0 using dmaengine_prep_slave_dma_vec(). Maybe with a n=
+ew "flags"
+> > =C2=A0=C2=A0=C2=A0 parameter to the function?
+> >=20
+> > v7:
+> > =C2=A0 - Renamed *device_prep_slave_dma_vec() ->
+> > device_prep_peripheral_dma_vec();
+> > =C2=A0 - Added a new flag parameter to the function as agreed between
+> > Paul
+> > =C2=A0=C2=A0=C2=A0 and Vinod. I renamed the first parameter to prep_fla=
+gs as it's
+> > supposed to
+> > =C2=A0=C2=A0=C2=A0 be used (I think) with enum dma_ctrl_flags. I'm not =
+really sure
+> > how that API
+> > =C2=A0=C2=A0=C2=A0 can grow but I was thinking in just having a bool cy=
+clic
+> > parameter (as the
+> > =C2=A0=C2=A0=C2=A0 first intention of the flags is to support cyclic tr=
+ansfers)
+> > but ended up
+> > =C2=A0=C2=A0=C2=A0 "respecting" the previously agreed approach.
+> > ---
+> > =C2=A0include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
+> > =C2=A01 file changed, 27 insertions(+)
+> >=20
+> > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> > index 752dbde4cec1..856df8cd9a4e 100644
+> > --- a/include/linux/dmaengine.h
+> > +++ b/include/linux/dmaengine.h
+> > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+> > =C2=A0	struct data_chunk sgl[];
+> > =C2=A0};
+> > =C2=A0
+> > +/**
+> > + * struct dma_vec - DMA vector
+> > + * @addr: Bus address of the start of the vector
+> > + * @len: Length in bytes of the DMA vector
+> > + */
+> > +struct dma_vec {
+> > +	dma_addr_t addr;
+> > +	size_t len;
+> > +};
+> > +
+> > =C2=A0/**
+> > =C2=A0 * enum dma_ctrl_flags - DMA flags to augment operation
+> > preparation,
+> > =C2=A0 *=C2=A0 control completion, and communicate status.
+> > @@ -910,6 +920,10 @@ struct dma_device {
+> > =C2=A0	struct dma_async_tx_descriptor
+> > *(*device_prep_dma_interrupt)(
+> > =C2=A0		struct dma_chan *chan, unsigned long flags);
+> > =C2=A0
+> > +	struct dma_async_tx_descriptor
+> > *(*device_prep_peripheral_dma_vec)(
+> > +		struct dma_chan *chan, const struct dma_vec *vecs,
+> > +		size_t nents, enum dma_transfer_direction
+> > direction,
+> > +		unsigned long prep_flags, unsigned long flags);
+> > =C2=A0	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+> > =C2=A0		struct dma_chan *chan, struct scatterlist *sgl,
+> > =C2=A0		unsigned int sg_len, enum dma_transfer_direction
+> > direction,
+> > @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_slave_single(
+> > =C2=A0						=C2=A0 dir, flags,
+> > NULL);
+> > =C2=A0}
+> > =C2=A0
+> > +static inline struct dma_async_tx_descriptor
+> > *dmaengine_prep_peripheral_dma_vec(
+> > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
+> > nents,
+> > +	enum dma_transfer_direction dir, unsigned long prep_flags,
+> > +	unsigned long flags)
+> > +{
+> > +	if (!chan || !chan->device || !chan->device-
+> > >device_prep_peripheral_dma_vec)
+> > +		return NULL;
+> > +
+> > +	return chan->device->device_prep_peripheral_dma_vec(chan,
+> > vecs, nents,
+> > +							=C2=A0=C2=A0=C2=A0 dir,
+> > prep_flags,
+> > +							=C2=A0=C2=A0=C2=A0
+> > flags);
+> > +}
+>=20
+> API looks good to me, thanks
+> Few nits though:
+> - Can we add kernel-doc for this new API please
+> - Also update the documentation adding this new api
+> - Lastly, we seem to have two flags, I know you have added a comment
+> but
+> =C2=A0 I dont seem to recall the discussion (looked at old threads for
+> clue
+> =C2=A0 as well), can you please remind me why we need both? And in your
+> case,
+> =C2=A0 what is the intended usage of these flags, i would prefer single
+> =C2=A0 clean one...
+>=20
 
-Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
----
- Documentation/accounting/delay-accounting.rst | 5 ++++-
- include/uapi/linux/taskstats.h                | 6 +++++-
- kernel/delayacct.c                            | 3 +++
- tools/accounting/getdelays.c                  | 8 +++++++-
- 4 files changed, 19 insertions(+), 3 deletions(-)
+The "prep_flags" is a mask of "enum dma_ctrl_flags".
 
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index f61c01fc376e..babff410a39d 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -17,6 +17,7 @@ e) thrashing
- f) direct compact
- g) write-protect copy
- h) IRQ/SOFTIRQ
-+i) SOFTIRQ
- 
- and makes these statistics available to userspace through
- the taskstats interface.
-@@ -50,7 +51,7 @@ this structure. See
- for a description of the fields pertaining to delay accounting.
- It will generally be in the form of counters returning the cumulative
- delay seen for cpu, sync block I/O, swapin, memory reclaim, thrash page
--cache, direct compact, write-protect copy, IRQ/SOFTIRQ etc.
-+cache, direct compact, write-protect copy, IRQ/SOFTIRQ, SOFTIRQ etc.
- 
- Taking the difference of two successive readings of a given
- counter (say cpu_delay_total) for a task will give the delay
-@@ -123,6 +124,8 @@ Get sum of delays, since system boot, for all pids with tgid 5::
-                        0              0          0.000ms
- 	IRQ             count    delay total  delay average
-                        0              0          0.000ms
-+	SOFTIRQ         count    delay total  delay average
-+                       0              0          0.000ms
- 
- Get IO accounting for pid 1, it works only with -p::
- 
-diff --git a/include/uapi/linux/taskstats.h b/include/uapi/linux/taskstats.h
-index b50b2eb257a0..5412c4d6734d 100644
---- a/include/uapi/linux/taskstats.h
-+++ b/include/uapi/linux/taskstats.h
-@@ -34,7 +34,7 @@
-  */
- 
- 
--#define TASKSTATS_VERSION	14
-+#define TASKSTATS_VERSION	15
- #define TS_COMM_LEN		32	/* should be >= TASK_COMM_LEN
- 					 * in linux/sched.h */
- 
-@@ -202,6 +202,10 @@ struct taskstats {
- 	/* v14: Delay waiting for IRQ/SOFTIRQ */
- 	__u64    irq_count;
- 	__u64    irq_delay_total;
-+
-+	/* v15: Delay waiting for SOFTIRQ */
-+	__u64    soft_count;
-+	__u64    soft_delay_total;
- };
- 
- 
-diff --git a/kernel/delayacct.c b/kernel/delayacct.c
-index 8517f1c1df88..39d9430d723f 100644
---- a/kernel/delayacct.c
-+++ b/kernel/delayacct.c
-@@ -181,6 +181,8 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
- 	d->wpcopy_delay_total = (tmp < d->wpcopy_delay_total) ? 0 : tmp;
- 	tmp = d->irq_delay_total + tsk->delays->irq_delay;
- 	d->irq_delay_total = (tmp < d->irq_delay_total) ? 0 : tmp;
-+	tmp = d->soft_delay_total + tsk->delays->soft_delay;
-+	d->soft_delay_total = (tmp < d->soft_delay_total) ? 0 : tmp;
- 	d->blkio_count += tsk->delays->blkio_count;
- 	d->swapin_count += tsk->delays->swapin_count;
- 	d->freepages_count += tsk->delays->freepages_count;
-@@ -188,6 +190,7 @@ int delayacct_add_tsk(struct taskstats *d, struct task_struct *tsk)
- 	d->compact_count += tsk->delays->compact_count;
- 	d->wpcopy_count += tsk->delays->wpcopy_count;
- 	d->irq_count += tsk->delays->irq_count;
-+	d->soft_count += tsk->delays->soft_count;
- 	raw_spin_unlock_irqrestore(&tsk->delays->lock, flags);
- 
- 	return 0;
-diff --git a/tools/accounting/getdelays.c b/tools/accounting/getdelays.c
-index 1334214546d7..6e4e032e93c4 100644
---- a/tools/accounting/getdelays.c
-+++ b/tools/accounting/getdelays.c
-@@ -210,6 +210,8 @@ static void print_delayacct(struct taskstats *t)
- 	       "WPCOPY   %12s%15s%15s\n"
- 	       "      %15llu%15llu%15.3fms\n"
- 	       "IRQ   %15s%15s%15s\n"
-+	       "      %15llu%15llu%15.3fms\n"
-+	       "SOFTIRQ  %12s%15s%15s\n"
- 	       "      %15llu%15llu%15.3fms\n",
- 	       "count", "real total", "virtual total",
- 	       "delay total", "delay average",
-@@ -245,7 +247,11 @@ static void print_delayacct(struct taskstats *t)
- 	       "count", "delay total", "delay average",
- 	       (unsigned long long)t->irq_count,
- 	       (unsigned long long)t->irq_delay_total,
--	       average_ms((double)t->irq_delay_total, t->irq_count));
-+	       average_ms((double)t->irq_delay_total, t->irq_count),
-+	       "count", "delay total", "delay average",
-+	       (unsigned long long)t->soft_count,
-+	       (unsigned long long)t->soft_delay_total,
-+	       average_ms((double)t->soft_delay_total, t->soft_count));
- }
- 
- static void task_context_switch_counts(struct taskstats *t)
--- 
-2.17.1
+The second "flags" was supposed to be specific to this function, and
+was to future-proof the API as we eventually want to have a "cyclic"
+flag, which would emulate a cyclic transfer by linking the SG hardware
+descriptors accordingly.
 
+However - I think we can already do that with DMA_PREP_REPEAT and
+DMA_PREP_LOAD_EOT, right? So we can probably drop the second "flags".
+
+Cheers,
+-Paul
