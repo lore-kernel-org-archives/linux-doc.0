@@ -1,167 +1,116 @@
-Received: from smtp1.ms.mff.cuni.cz (smtp-in1.ms.mff.cuni.cz [195.113.20.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E5F5811B;
-	Tue,  2 Apr 2024 10:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.113.20.234
+Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 19F6B604BB;
+	Tue,  2 Apr 2024 11:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712052883; cv=none; b=AzpgIloMm8f0bqkeRePb15/GF3JvaFcQR1qIUZd1jaHq9pWiDYOBpMVNCbAn+pr4N5Vb0DnBo1Mt9qpFA9Tk44gzm/jHJzG64B4QLzmYpwOjtN6iJzt2sKdfAqctVHFGyexKeEUjLq3TJ1RB433FmVGrEBXUcJ6/bHeX0G+9o80=
+	t=1712056895; cv=none; b=fbxFy63flNCAvbNmNohAWMiD121uF8l4V+IT7BN6wZQ98clBJVh0bMlLQ4OuJ3rJmwT/dioT5mY8Mqh5DEJjkKeBrdN55JY0eoUc7vMdIjsTnsEsrKVT0tHv5I6TSHLOE0gW7IvaFZEPbJjHbONaryKI9HtP49je4y/zCmaRB5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712052883; c=relaxed/simple;
-	bh=hlUCPDyMrcMVJPOFhZIUAAzhQs7Ot/u9oKA1OiN5DsA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:From:
-	 References:In-Reply-To; b=vDTPSp53ccTma0ctR/LvoYEXyfMMeCeeUpw5F0F9hTdLLxcReXgfpW6khxgYJC0oGuHlfMngBMcQ6cbYLIwBtYHr2rrpug47rnk1MZ4nDaTrIjnB63JSJFwPD+rWyJ23k1ANcdbnV4Y0IeZChOp5DpEpG1Vw0KsYVpDdxiESnG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz; spf=pass smtp.mailfrom=matfyz.cz; dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b=du3H3Kxj; arc=none smtp.client-ip=195.113.20.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matfyz.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mff.cuni.cz header.i=@mff.cuni.cz header.b="du3H3Kxj"
-X-SubmittedBy: id balejk@matfyz.cz subject /postalCode=110+2000/O=Univerzita+20Karlova/street=Ovocn+5CxC3+5CxBD+20trh+20560/5/ST=Praha,+20Hlavn+5CxC3+5CxAD+20m+5CxC4+5Cx9Bsto/C=CZ/CN=Karel+20Balej/emailAddress=balejk@matfyz.cz
-	serial F5FD910E8FE2121B897F7E55B84E351D
-	issued by /C=NL/O=GEANT+20Vereniging/CN=GEANT+20Personal+20CA+204
-	auth type TLS.CUNI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mff.cuni.cz;
-	s=submission; t=1712052842; x=1713352842;
-	bh=hlUCPDyMrcMVJPOFhZIUAAzhQs7Ot/u9oKA1OiN5DsA=; h=From;
-	b=du3H3KxjIpomuO6SxOG5G8zrXblGfU8e9B0rnTnrQQsBbtywtAnV4+MpWAaxgTOB0
-	 PfdJByEHG8uaDZ/xXyTV1dxyj3XK4dFDadX4bQEr7EzAwNlMvd4uaghS9BI1nG21oc
-	 M1OsWbg87VUSrslgmRRDYrAlrO81RLVGhFZPpZGTDWcFxJ1f9Q/+Y/A6lNpM538DlK
-	 GP4i/+qRf8wJ8bEKGnYb094FBuMV4872J3AF2WNRn6SoasrmHuN0c06HgGybYgBSn1
-	 h5sBfjrhnA+/qIbiTBJs3TcQ9FqDKw/751pmgGac5duLDqysvN5tL224qVZm2nwdUe
-	 +g6pCwFk1mo3Q==
-Received: from localhost (internet5.mraknet.com [185.200.108.250])
-	(authenticated)
-	by smtp1.ms.mff.cuni.cz (8.16.1/8.16.1) with ESMTPS id 432ADxkE089761
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
-	Tue, 2 Apr 2024 12:14:00 +0200 (CEST)
-	(envelope-from balejk@matfyz.cz)
+	s=arc-20240116; t=1712056895; c=relaxed/simple;
+	bh=gIE+7/6wqpyt6IYxNKkaCiQY+GCr5s9o467ORrHzAmo=;
+	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SOVjVOHocBKlMj46Myr8AdKus5XLUPNy3hKCFNxE7XRj5CqzgBaZSc33BCikSDNuULuVDiYXxOlMpdMmCew9kN8VnN7FIhj2FCcCzxJ/ti1iwKkM1M4AJz2ja7tr1QK4x72qqJuysTcra5mha2afaxF4nJrgq5zdLycbyofxo2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; arc=none smtp.client-ip=111.202.70.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
+Received: from mail.didiglobal.com (unknown [10.79.65.12])
+	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C4A8118097DE69;
+	Tue,  2 Apr 2024 19:21:19 +0800 (CST)
+Received: from didi-ThinkCentre-M930t-N000 (10.79.64.101) by
+ ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 2 Apr 2024 19:21:19 +0800
+Date: Tue, 2 Apr 2024 19:21:12 +0800
+X-MD-Sfrom: tiozhang@didiglobal.com
+X-MD-SrcIP: 10.79.65.12
+From: Tio Zhang <tiozhang@didiglobal.com>
+To: <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <rostedt@goodmis.org>, <bsingharora@gmail.com>,
+	<corbet@lwn.net>, <akpm@linux-foundation.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<dietmar.eggemann@arm.com>, <bsegall@google.com>, <mgorman@suse.de>,
+	<bristot@redhat.com>, <vschneid@redhat.com>, <tiozhang@didiglobal.com>,
+	<zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>, <fuyuanli@didiglobal.com>
+Subject: [PATCHSET] sched/delayacct: get task SOFTIRQ delay
+Message-ID: <20240402112112.GA17370@didi-ThinkCentre-M930t-N000>
+Mail-Followup-To: mingo@redhat.com, peterz@infradead.org,
+	juri.lelli@redhat.com, vincent.guittot@linaro.org,
+	rostedt@goodmis.org, bsingharora@gmail.com, corbet@lwn.net,
+	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+	vschneid@redhat.com, zyhtheonly@gmail.com, zyhtheonly@yeah.net,
+	fuyuanli@didiglobal.com
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 02 Apr 2024 12:13:58 +0200
-Message-Id: <D09K2WCTEKK9.2NJ2C8NVQXZ6D@matfyz.cz>
-Cc: "Randy Dunlap" <rdunlap@infradead.org>,
-        "Jonathan Corbet"
- <corbet@lwn.net>, <regressions@lists.linux.dev>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <workflows@vger.kernel.org>
-Subject: Re: [PATCH 2/2] docs: handling-regressions.rst: clarify that
- "Closes:" tags work too
-To: "Thorsten Leemhuis" <linux@leemhuis.info>
-From: "Karel Balej" <balejk@matfyz.cz>
-References: <20240328194342.11760-1-balejk@matfyz.cz>
- <20240328194342.11760-3-balejk@matfyz.cz>
- <dfa22ac1-36e9-48da-a2a8-8d7818c09187@leemhuis.info>
- <b3b37454-df45-4826-ac5a-85c687f99d20@infradead.org>
- <5ea364e9-8a7d-4239-bf3b-1f4ae13f311b@leemhuis.info>
-In-Reply-To: <5ea364e9-8a7d-4239-bf3b-1f4ae13f311b@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: ZJY01-PUBMBX-01.didichuxing.com (10.79.64.32) To
+ ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12)
 
-Thorsten,
+We can only get IRQ/SOFTIRQ delay in total now in Delay accounting, but
+getting SOFTIRQ delay and IRQ delay separetely would help users reduce
+such delays in a more convenient way.
+For IRQ delay, we can tuning irq CPU affinity or using threaded-irq.
+For SOFTIRQ delay, we can tuning rps/xps or using kernel threads for NAPI.
+And this is an example stack a task is delayed mainly by SOFTIRQ(delay
+by receiving packets when sending packets):
+	...
+	ip_rcv
+	__netif_receive_skb_core
+	__netif_receive_skb
+	process_backlog
+	net_rx_action
+	do_softirq
+	__local_bh_enable_ip
+	ip_finish_output2
+	ip_finish_output
+	ip_output
+	ip_local_out
+	ip_send_skb
+	udp_send_skb
+	udp_sendmsg
+	inet_sendmsg
+	sock_sendmsg
+	__sys_sendto
+	do_syscall_64
+	__libc_sendto
+	...
 
-thank you very much for your feedback.
+So this patchset tries to make SOFTIRQ delay observeable in Delay
+accounting and available in taskstats.
+(also update tools/accounting/getdelays.c)
 
-Thorsten Leemhuis, 2024-04-02T11:27:57+02:00:
-> On 01.04.24 17:19, Randy Dunlap wrote:
-> > On 4/1/24 1:38 AM, Thorsten Leemhuis wrote:
-> >> On 28.03.24 20:29, Karel Balej wrote:
-> >>> The regressions handling manual claims that regzbot associates patche=
-s
-> >>> fixing an issue with the report based on the occurrence of the
-> >>> appropriate "Link:" trailers. It reasons that this does not add any
-> >>> burden on the maintainers/bug fix authors as this is already mandated=
- by
-> >>> the "Submitting patches" guide. In fact however, the guide encourages
-> >>> using "Link:" tags for related discussions or issues which the patch
-> >>> fixes only partially, recommending "Closes:" for full resolutions.
-> >>>
-> >>> Despite it not being mentioned anywhere in the "Handling regressions"
-> >>> guide, regzbot does in fact take the "Closes:" tags into account and
-> >>> seems to in fact treat them fully equivalently to "Link:" tags.
-> >>>
-> >>> Clarify this in the regressions handling guide by always mentioning b=
-oth
-> >>> of the tags.
-> >>
-> >> Many thx for this and the other patch. I had planned to do something
-> >> like this myself, but never got around to.
-> >>
-> >> There is just one thing that makes me slightly unhappy: this tells
-> >> readers that they can use both, but leaves the question "what's the
-> >> difference" respectively "in which situation should I use one or the
-> >> other" unanswered.
+Also for backward compatibility, we dont want to change the meaning of
+origin IRQ/SOFTIRQ delay, instead we can get real IRQ(interrupt) delay by
+the origin IRQ/SOFTIRQ delay minus SOFTIRQ delay added by this patch.
 
-I see your point and I agree. I have perceived something similar when
-editing the document: I wondered whether it's really good to *always*
-spell out both variants or whether it would perhaps be enough in some
-places only.
+With this patch, the example above results by getdelays.c:
+	# ./getdelays -t 4600 -d
+	print delayacct stats ON
+	TGID	4600
+	
+	CPU             count     real total  virtual total    delay total  delay average
+                 	3973    10700014780    10698803222   312345815813         78.617ms
+	IO              count    delay total  delay average
+                    	0              0              0.000ms
+	SWAP            count    delay total  delay average
+                    	0              0              0.000ms
+	RECLAIM         count    delay total  delay average
+                    	0              0              0.000ms
+	THRASHING       count    delay total  delay average
+                    	0              0              0.000ms
+	COMPACT         count    delay total  delay average
+                    	0              0              0.000ms
+	WPCOPY          count    delay total  delay average
+                   	40         266859             0.007ms
+	IRQ             count    delay total  delay average
+                	13450    17756373906          1.320ms
+	SOFTIRQ         count    delay total  delay average
+        	        13450    17639154300          1.311ms
 
-I think the way that I ultimately did it counts on the reader being
-familiar with the "Submitting patches" document and knowing the "true"
-meanings of both Closes: and Link: and when to use each. So my goal was
-only to mention it because the way it was written seemed to almost imply
-to me that Closes: does *not* work and is thus not recommended which
-seemed in conflict with the "Submitting patch" guide, which was even
-more confusing since it literally referred to it.
-
-In other words, it wasn't actually my goal to answer that question you
-pose, because that is already answered in the other document.
-
-I also didn't want to be too drastic with the changes because the
-prevalence of Link: seemed so strong that I thought that I must be
-missing something and that you have a good reason to write it like this.
-So I wanted to stay safe :-)
-
-Anyway, if you are OK with that, I can definitely change it to Closes:
-everywhere and only mention Link: marginally, saying that it works too
-and explaining the difference while referring the reader to "Submitting
-patches" for more information (not that there would be too much more on
-this subject).
-
-> Just in the scope of the document and the sections where the tag is
-> mentioned I think (but it would be good to recheck) it's always about
-> a "resolving a reported regression", so Closes there makes more sense.
-
-Exactly.
-
-> Karel: if I'm asking too much here, I could pick up your patches and
-> improve upon them to handle this. Or we simply wait until two other
-> regzbot features are in place, then I could fix this as part of some
-> other changes.
-
-Not at all, I will be happy to make the changes, if you don't mind that
-it might take me some time, but I would definitely get around to it
-eventually.
-
-Of course I wouldn't want to for example delay you so if you get around
-to it sooner than I will then feel free to make the changes either as a
-modification of this patch or just on its own.
-
-Perhaps you could take the first patch already if you have no
-reservations there and I will then just send v2 of this one?
-
-> >> I also find the patch description a bit verbose; and it would be
-> >> good to turn the text upside down: first outline what the patch,
-> >> then maybe describe the "why".
-
-I actually probably like it more this way. After all, the outline (or
-"what") is the patch subject, everything that comes after it in the body
-is usually meant to explain "why". But sure, I can swap it if you want
-:-)
-
-As for the verbosity, I will keep it in mind when working on v2,
-although I also generally don't consider verbosity a bad thing. I might
-have been too verbose, though, because as I have mentioned, I was
-confused why it isn't like this already and wanted to offer my full
-reasoning so that I could be shown where I err :-)
-
-One more thing that I wanted but ultimately forgot to mention in the
-cover letter: thank you very much for writing these guides in the first
-place, I find them very instructive and useful.
-
-Kind regards,
-K. B.
+We find out SOFTIRQ impact the delay most, then tune RPS to reduce this.
