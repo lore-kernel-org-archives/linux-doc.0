@@ -1,118 +1,157 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7820E556
-	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 01:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABB48F55;
+	Tue,  2 Apr 2024 01:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712021210; cv=none; b=h4K31ZLslGpr0atpzMAtduhtRteFu1l1n3fmp+goNstcEvQxLSzozypNNxgXHzu0IyyYktxsq+2luRz3I8Dw8avabzTc+185rh+cG6K5e+kG6Jb0P5mqDWYe7pgMuRSETzfRw+epW527PQNtPBrt9I8CVqtA7szCC54D1Vu/6HE=
+	t=1712021966; cv=none; b=h1ZjuVmN3wbwRflz3CP11vtWE/6+EV2D1l6lj4vUg0WHdZeWAfr3Nhn7pV1TNjZMXrYxECc/gg9z0HikDTGPD54Jr7UL1X4BOFu4MILbpo1OJXNSV3/rurA4kpSZMfHnlC18DldCJNuDqIGj2qqS6YRzycqlwRmTNPImroWiAv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712021210; c=relaxed/simple;
-	bh=WqrYHc1OrW927dxpv9fTrIBfKRqR2NBvDdcY6XIS0bs=;
-	h=Date:Message-ID:MIME-Version:Content-Type:Content-Disposition:
-	 From:To:Cc:Subject:References:In-Reply-To; b=eIAeD+mGQ4Zwpowl1CTZKQc8QeD+3VeJfYrs4wp35txchmVhQQ/mck7iknw4AH+X6i8EOLmoK/6yINGQPWZ5LwsClhPrfzCtZtr6tJGTA3ghQSeGzZ+YAim4NU/eFRgCzdDsdfakqg+hNdGzeXAPfYhw3GLivUfChyUNfSrfbZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=G4lN+Yma; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="G4lN+Yma"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-432d5b5f00bso16755421cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Apr 2024 18:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1712021206; x=1712626006; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-disposition:mime-version:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hRws9YXLN8yb7zuQUc8CIutzWgp4avkTPI09HZCU6cI=;
-        b=G4lN+Yma1v3mXG/SF+E4Q4Vmtq9IXlAYYEGNzQXsfUcjzmflAs+JTdgx6LMlAIFL9g
-         HDlwt0Akkidq+vZKEYCuIM8jG6PdXrvmlZSZvYvCuuoFw+UXnJWjIQVzVoTaPmseSUjB
-         drYQtYihg223VfBX5smeEnjs9qy+vAJ0lPjCvzSMy/HoNWd/TZEAO8q6QRngJdOnp4EN
-         9xaNBt90oS9blyJa/pJykeOXUxR6rsO8BLXsKDz6q/rxfL+/lA7UkmJHT3RL6kelYr/t
-         eRDPrIDjF8MoOn/FpM4kB5PBwj/pbnZQyNAOl+U0vdT69ZGIZF0SqDAiL/yIpoyYbrEx
-         8StA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712021206; x=1712626006;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :content-disposition:mime-version:message-id:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hRws9YXLN8yb7zuQUc8CIutzWgp4avkTPI09HZCU6cI=;
-        b=cCHTFFm2OdZE9Dl52VOvli4R7FozmtJAQU5uobgzX5TcRZV8KBKhLDN7oHgstjro3V
-         +cZyWl8eO/I79Vwz2qlNLqTlPqwzPIFvecv+TwzN2GlA2v8uXFVchThsZBC1c+semlmY
-         lvwzsA8vRsnQ/8xtLdXbKZ5UwpuvtyuyY4fHB5qOXd2J+SF4pjX7Mkr+TUm8iqNdI5V/
-         5hFuKIlX61ks7J2UCmPj/4kXWqpWvaWEE2dnDFltxxL54zgL9hP3xRvoGy5q9XcEdysU
-         9H25hzBsGUH3J5xHT5nXXErTeLXEc9QkJA7yiEqkh2MInHuSl6F+iwA0r97PoxkEUvYH
-         RY5Q==
-X-Gm-Message-State: AOJu0YzuuzHGW3cwm8RQmLfh2SGXaC+FQ+zr1DCx2aGLgvfQX4hY8CRl
-	amIFcw9nNR8z7nfARicnJvrhpKHHufRYeEYepi463FBuUtUFV6f6WNAYTJ6Tcw==
-X-Google-Smtp-Source: AGHT+IFZ7SasfMMYh5vB3j/xGXqf/TCs4Bcif8z6dD6zV7+EZAG39P9HJEPaE4K4Urz2UW0TPzSDug==
-X-Received: by 2002:a05:622a:4b11:b0:432:de8a:3a8 with SMTP id et17-20020a05622a4b1100b00432de8a03a8mr9661426qtb.18.1712021206548;
-        Mon, 01 Apr 2024 18:26:46 -0700 (PDT)
-Received: from localhost ([70.22.175.108])
-        by smtp.gmail.com with ESMTPSA id fw4-20020a05622a4a8400b00432bcd630c8sm4405470qtb.93.2024.04.01.18.26.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Apr 2024 18:26:46 -0700 (PDT)
-Date: Mon, 01 Apr 2024 21:26:45 -0400
-Message-ID: <7bc35832c837a23773424bdc2255808b@paul-moore.com>
+	s=arc-20240116; t=1712021966; c=relaxed/simple;
+	bh=vlhqz5KpBRf9749xRgTPKFO8TUdZ9RYNixw9VsfSU0M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qnMwttw9Yr11DDtNAz7RPbb9+TnlAUzTCbPAtfbCxbdlO6I6PLGqeMpXedlNanjvTpfV7QTymw1sHWSXHnjPWy5Zs6HPuEPBiT6iXhvQb/j8rQvLXvA/aHh8XTtKwnOgGqG/LJC+Qkrb+qLn8qWQUdT79ypPjjx7iLRWHJuAI8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 85479140199;
+	Tue,  2 Apr 2024 01:39:22 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf13.hostedemail.com (Postfix) with ESMTPA id 85F292000D;
+	Tue,  2 Apr 2024 01:39:17 +0000 (UTC)
+Message-ID: <3ea68e8fc46332d45e2af0d8de938628445b6691.camel@perches.com>
+Subject: Re: [PATCH v5 2/2] scripts: checkpatch: check unused parameters for
+ function-like macro
+From: Joe Perches <joe@perches.com>
+To: Mac Xu <mac.xxn@outlook.com>, Barry Song <21cnbao@gmail.com>, 
+	"akpm@linux-foundation.org"
+	 <akpm@linux-foundation.org>, "linux-doc@vger.kernel.org"
+	 <linux-doc@vger.kernel.org>, "workflows@vger.kernel.org"
+	 <workflows@vger.kernel.org>
+Cc: "apw@canonical.com" <apw@canonical.com>, "broonie@kernel.org"
+ <broonie@kernel.org>, "chenhuacai@loongson.cn" <chenhuacai@loongson.cn>, 
+ "chris@zankel.net" <chris@zankel.net>, "corbet@lwn.net" <corbet@lwn.net>, 
+ "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+ "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux@roeck-us.net" <linux@roeck-us.net>,  "lukas.bulwahn@gmail.com"
+ <lukas.bulwahn@gmail.com>, "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>, 
+ "v-songbaohua@oppo.com" <v-songbaohua@oppo.com>, Max Filippov
+ <jcmvbkbc@gmail.com>, Jeff Johnson <quic_jjohnson@quicinc.com>, Charlemagne
+ Lasse <charlemagnelasse@gmail.com>
+Date: Mon, 01 Apr 2024 18:39:16 -0700
+In-Reply-To: <MN0PR20MB471708D419907FFAF1DB0FC2F33E2@MN0PR20MB4717.namprd20.prod.outlook.com>
+References: <20240401012120.6052-1-21cnbao@gmail.com>
+	 <20240401012120.6052-3-21cnbao@gmail.com>
+	 <f5bb12d8602a03d28b2a8aeaffd8f74f001d692d.camel@perches.com>
+	 <MN0PR20MB471708D419907FFAF1DB0FC2F33E2@MN0PR20MB4717.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=utf-8 
-Content-Disposition: inline 
-Content-Transfer-Encoding: 8bit
-From: Paul Moore <paul@paul-moore.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, Fan Wu <wufan@linux.microsoft.com>
-Subject: Re: [PATCH v16 15/20] security: add security_inode_setintegrity() hook
-References: <1711657047-10526-16-git-send-email-wufan@linux.microsoft.com>
-In-Reply-To: <1711657047-10526-16-git-send-email-wufan@linux.microsoft.com>
+MIME-Version: 1.0
+X-Rspamd-Queue-Id: 85F292000D
+X-Stat-Signature: 6ho5883h6gxd6usjtzscbx6e9uwzjpqi
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+vZ9mjWctkustVm6kw5YX3rWfz+BrXOao=
+X-HE-Tag: 1712021957-318462
+X-HE-Meta: U2FsdGVkX19ry6l9vQgZxv4Fb9Eb1aW7B+/HBhqXrlUOtlGQpxhNk8JdNQPrzJlak/pEzw0ZctqTBkStewNT8t4wXgswG8fAlqHmVOOMznK3hHXt6zv7YzxntmCnUSvmH59KTIkggyLMfjS2fChexa9S4528beBDHer9bpgp1DNkIQsOzWrGarR3tynjCgvlkmgTvTPaPJEzoEe5BQLVdnzH1isDxYupWV8pZ/kmntVtP3VG4uoCZ2EnGLMi11xe62pq4Zqed2rkH7ybMmV3wmK7XsOcTSP9R44dX+VPMikUFcx0Q8ZUeGRRYSPE7npRXm06LmQOsVCj052nPWHB+If09YfnORDWb7BK0BgaO5ahOzgALKVEOqfpIXNFyHywnHfdHi76BYEmwM3E4WIoFOEloEAweDtqO0AHxNn92Riu0YoLtne0CTjWE1zLvvHsf2dINtsOWJ4=
 
-On Mar 28, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
-> 
-> This patch introduces a new hook to save inode's integrity
-> data. For example, for fsverity enabled files, LSMs can use this hook to
-> save the verified fsverity builtin signature into the inode's security
-> blob, and LSMs can make access decisions based on the data inside
-> the signature, like the signer certificate.
-> 
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> 
-> --
-> v1-v14:
->   + Not present
-> 
-> v15:
->   + Introduced
-> 
-> v16:
->   + Switch to call_int_hook()
-> 
-> ---
->  include/linux/lsm_hook_defs.h |  2 ++
->  include/linux/security.h      | 10 ++++++++++
->  security/security.c           | 20 ++++++++++++++++++++
->  3 files changed, 32 insertions(+)
-> 
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> index b391a7f13053..6f746dfdb28b 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -1020,6 +1023,13 @@ static inline int security_inode_copy_up(struct dentry *src, struct cred **new)
->  	return 0;
->  }
->  
-> +static inline int security_inode_setintegrity(struct inode *inode,
-> +					      enum lsm_integrity_type, type,
-
-Another bonus comma ...
-
-> +					      const void *value, size_t size)
-> +{
-> +	return 0;
+On Tue, 2024-04-02 at 00:16 +0000, Mac Xu wrote:
+> > On Mon, 2024-04-01 at 14:21 +1300, Barry Song wrote:
+> > > From: Xining Xu <mac.xxn@outlook.com>
+> > >=20
+> > > If function-like macros do not utilize a parameter, it might result i=
+n a
+> > > build warning.  In our coding style guidelines, we advocate for utili=
+zing
+> > > static inline functions to replace such macros.  This patch verifies
+> > > compliance with the new rule.
+> > >=20
+> > > For a macro such as the one below,
+> > >=20
+> > > =A0#define test(a) do { } while (0)
+> > >=20
+> > > The test result is as follows.
+> > >=20
+> > > =A0ERROR: Parameter 'a' is not used in function-like macro, please us=
+e static
+> > > =A0inline instead
+> > > =A0#21: FILE: mm/init-mm.c:20:
+> > > =A0+#define test(a) do { } while (0)
+> >=20
+> > This is no longer true.
+> > Please update the ERROR->WARN and message as below
+> >=20
+> > Ideally, this would have an update to
+> > Documentation/dev-tools/checkpatch.rst
+> >=20
+> > to describe the new --verbose message type
+>=20
+> Hi Joe,
+>=20
+> Thank you for the comments, here's the code:
+>=20
+> +# check if this is an unused argument
+> +if ($define_stmt !~ /\b$arg\b/) {
+> +	WARN("MACRO_ARG_UNUSED",
+> +		"Argument '$arg' is not used in function-like macro\n" . "$herectx");
 > +}
+>=20
+> and here's the document for it which is inserted into the "Macros, Attrib=
+utes and
+> Symbols" section of checkpatch.rst starting from line 909:
 > +
+> +  **MACRO_ARG_UNUSED**
+> +    If function-like macros do not utilize a parameter, it might result
+> +    in a build warning. We advocate for utilizing static inline function=
+s
+> +    to replace such macros.
+> +    For example, for a macro as below::
+> +
+> +      #define test(a) do { } while (0)
+> +
+> +    there would be a warning as below::
+> +
+> +      WARNING: Parameter 'a' is not used in function-like macro, please =
+use
+> +      static inline instead.
+>=20
+> Please let me know if the document needs further re-wording to make it he=
+lpful enough
+> to the readers.
 
---
-paul-moore.com
+Hi again Xining.
+
+Thanks.
+
+That looks good but it doesn't match the script output
+which doesn't use ", please use static inline instead."
+(and I believe the script should not output that too)
+
+Another good thing would be to add a line like:
+
+	See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macr=
+os-enums-and-rtl
+
+For example, from: checkpatch.rst
+
+  **ALLOC_SIZEOF_STRUCT**
+    The allocation style is bad.  In general for family of
+    allocation functions using sizeof() to get memory size,
+    constructs like::
+
+      p =3D alloc(sizeof(struct foo), ...)
+
+    should be::
+
+      p =3D alloc(sizeof(*p), ...)
+
+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#a=
+llocating-memory
+
