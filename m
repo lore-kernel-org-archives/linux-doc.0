@@ -1,170 +1,181 @@
-Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 63FA664A98;
-	Tue,  2 Apr 2024 11:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712057067; cv=none; b=VrV9IuzQYD5IaGjRTM2AICU57B+/ZezFCo4BpcPcIgc/3qGez/mY5OSgE6st/wYbKBhGE86GwPKa0BGcbAK37RV5n4+3lfRjLnV92O0Lqk9tpBcUqNhvNyy10HLxjcNXhy5xOgJe8SG5kLlesJa8p0rgyH9Z81wysCWXKgmQH04=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712057067; c=relaxed/simple;
-	bh=CaTYjj8zdYnlQyXbzA5vWY5G6Z6GdB28oa29n6j0Xqw=;
-	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=AL7bnQchj8u0OStRtRDt0BQtflLopGQqeRcQAYfnNRwwSFDnp2kpwQLz9nq6Fv5dEVNQM276fTXcSX94k6/V/O5UZNGl1sMixOBXsosacEoiJjGtOFuSTgSoPbDtsaE+/TrjF9wtepR20cw5ctiTWCMo5IrOogrQbtsKLiL5dQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; arc=none smtp.client-ip=111.202.70.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
-Received: from mail.didiglobal.com (unknown [10.79.65.12])
-	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id E6CB118097DE79;
-	Tue,  2 Apr 2024 19:24:21 +0800 (CST)
-Received: from didi-ThinkCentre-M930t-N000 (10.79.64.101) by
- ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 2 Apr 2024 19:24:21 +0800
-Date: Tue, 2 Apr 2024 19:24:15 +0800
-X-MD-Sfrom: tiozhang@didiglobal.com
-X-MD-SrcIP: 10.79.65.12
-From: Tio Zhang <tiozhang@didiglobal.com>
-To: <mingo@redhat.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <rostedt@goodmis.org>, <bsingharora@gmail.com>,
-	<corbet@lwn.net>, <akpm@linux-foundation.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<dietmar.eggemann@arm.com>, <bsegall@google.com>, <mgorman@suse.de>,
-	<bristot@redhat.com>, <vschneid@redhat.com>, <tiozhang@didiglobal.com>,
-	<zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>, <fuyuanli@didiglobal.com>
-Subject: [PATCH 1/3] sched: make softirq cputime accounting separately in
- irqtime
-Message-ID: <20240402112415.GA17946@didi-ThinkCentre-M930t-N000>
-Mail-Followup-To: mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	rostedt@goodmis.org, bsingharora@gmail.com, corbet@lwn.net,
-	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, zyhtheonly@gmail.com, zyhtheonly@yeah.net,
-	fuyuanli@didiglobal.com
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2067.outbound.protection.outlook.com [40.107.93.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E5A4CB4A;
+	Tue,  2 Apr 2024 11:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712057176; cv=fail; b=GA+e5TZn80lvRGxREmNil3Z4Rd0Jezm7tO2svdMhNtAhFlggHf246lITtBJEvb8p0hjWCLcAgA8g2NPAfjwhFxlZYU7C09H0zI+RRumZk+hk8+78Nyf/947L/SbjDWulYIV5gCL0QDbx9TLw1lf7Gs1D1m2JT7+/UdLQN/Mmpxg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712057176; c=relaxed/simple;
+	bh=mgFgt3xqiPHuB3YkarFgLEcQ7hv5ZGPUBXZGAGZdmsU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hlWC1yUmXjeHJMgwbQ6i5zGGWC+h9C/g8gmIBzHmkacwhrxROpvzyP89izBaf1Qs/VXIh+7JnXtPV0YWIVQUfQ5g9WdBxNxwqorIUAIqnZQ53dwUzcFb1/wLdjkpZvyYuDfqKArXCT9JhfBU9sprUpd/TDfPn5z5LyFDpHWuCy0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gegukPFB; arc=fail smtp.client-ip=40.107.93.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gegukPFB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bSSyCwjiv9qjWnEWZ9Byt6J694CjZbo3GSyGxOoX3p8YEJxEBUIgSY+uXTsku5S9u08Bi2q1NUPe1tK1WXMTAQPEVx2IgQTEuOzNSHBgqEIc+qGEguvdWo+UISNGCE0sdzJHGWfX4ZQHRQUXc1FqY7tFf33DGSULP+pfOtKINvAjq0EgIjsLJGr3YlIYFTQ3mlq58Mp2Mt0GiPZo3t39EoiCwUB2+7mXEGpjdmFlSkrUiVY4rPiZP22tm8TrReXCaWDka2ei+tV+Cw9NuW3cYVi5EFc2B0mHUvAaVDTmtG2vTRCxd4EYHBvAlNgBumaRpDjvxfyYQSbUT6QHnNZ5ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XDSzgsB4vd4TdrVm7EJMzdd5C6dQoCvQegHRIxw4o3Q=;
+ b=iiAe74O/Y6PdhI3aXfiPP5saxdQeB6Bv+pz+ua7/q2N/NkRTTYqfPxi+t1TWGywjLOb7kscn0wgBBKW6Uk1ru3owIrNbJcDxMa79+HrG5tCkoLS09yqrxo+Ly3wyY9VHhsoCtbBEWcjIQUXbfCshXTPGIi8/LUHkEf+0Vdco1F6osRCK4BFKWhZrxjghM7kvjV5IJW4vEg89P2+VQb3PMT4NgkQcpmAX8pauPyAWpVRk2Gji2MntmXR53e8HYkmBvEywIGx24aD0EdSaVKhYyYM9Nlajp4+l5GzQQ+rvfR+6sHsgwHaFwVnI1CWMildIFmFiS72o5nS/gqJ7p/0teg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XDSzgsB4vd4TdrVm7EJMzdd5C6dQoCvQegHRIxw4o3Q=;
+ b=gegukPFBvoBJTOyUEwdTXzsjV+Xd1kS+m5j7XKlYRHNIRTO4TBE/4aKdq6d3rKIyy5B6FpSlM43ue893F5eqIHvRR06Rrj2uZUB/NIzVYM4s3+mmrVufQjkUIrmCkw9E6/+TRcnAQt7ZWs4DgHYciOv6+LK8/fi180j+krJoBZSeWGPhhtZr4ysasWgTRgk381mexSb7rYSmQw/VN4Vnr8BQNGlG25BE2eAMzJGm8dYhxYiQDX8c1zOuJ39luD0JE1RMgRMilg0qDzA0JfQRSIrL1nYURTI60urynvotnJ9ye60tQJjWPvN63K+b0hMq3CZBqTdb/j49VYXU5HmooQ==
+Received: from SJ0PR13CA0087.namprd13.prod.outlook.com (2603:10b6:a03:2c4::32)
+ by CH3PR12MB9195.namprd12.prod.outlook.com (2603:10b6:610:1a3::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
+ 2024 11:26:12 +0000
+Received: from SJ5PEPF000001C8.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c4:cafe::7) by SJ0PR13CA0087.outlook.office365.com
+ (2603:10b6:a03:2c4::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.25 via Frontend
+ Transport; Tue, 2 Apr 2024 11:26:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ5PEPF000001C8.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Tue, 2 Apr 2024 11:26:11 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Tue, 2 Apr 2024
+ 04:26:03 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.231.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Tue, 2 Apr 2024 04:26:01 -0700
+From: Parav Pandit <parav@nvidia.com>
+To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <corbet@lwn.net>,
+	<kalesh-anakkur.purayil@broadcom.com>
+CC: <saeedm@nvidia.com>, <leon@kernel.org>, <jiri@resnulli.us>,
+	<shayd@nvidia.com>, <danielj@nvidia.com>, <dchumak@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Parav Pandit
+	<parav@nvidia.com>
+Subject: [net-next v2 0/2] devlink: Add port function attribute for IO EQs
+Date: Tue, 2 Apr 2024 14:25:47 +0300
+Message-ID: <20240402112549.598596-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240402112112.GA17370@didi-ThinkCentre-M930t-N000>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: ZJY01-PUBMBX-01.didichuxing.com (10.79.64.32) To
- ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001C8:EE_|CH3PR12MB9195:EE_
+X-MS-Office365-Filtering-Correlation-Id: a8166c03-83c0-4194-c2a8-08dc5307b339
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	hr2xi6cwjPrfZi2I8i6QpEJZzJ6oFoI4bHKqjK4dOCoDGrbZgYtw8QrZG2jpeAQFDirn3Fx+BjNABkAav5XEztnSN08IsTd5e9HBquBzjUrJOwoiydkNqc6O62jfTy8kuyKzkybGx07QgjGWcUD4dtryJmWlbuahhRcCEet0MEdsYuA14VnzGppk7fmCH0JSCCyLKjHJRQQymMz54NPM8Wr7dtn/jqanxrow+2e2S4X0TIO5pNvzdFLQ8ieKzppIXNxbNUJM+QIBRhpgCxKd/TgRIl1ivwWlFgLJPooARKr7kFkfSahcJuSTfoecExZaKJId8SLrXHo/Tb2TDmOhEzhjuf+dxMB5As2gW4c773e6o1ycRIvveNAXzNxnDNa2FleBXhXzPER7ts+v0bZfmTP/XS2qyLGd07NeLUpzzYipmmL9+Eq9KVK91UZjTMYXZLB+9DPn/73APG/wKOnPKrtKbV8P0Ar9jdkPfRO6kFtVF7m3QQhnoP/jFISp5O1WUSeaL6yYJFh2Jme62Vpvm6uyIP5bqt4pzHQTxhvj7buwo4jekR0oIQA+EhKUzLHTTJpxJ00UDUOpRvV2p94CKHuT+yfnXlqvvKNmq8TgihehyqamvlrsLT40dl5efa+6XjqEZX6mk6htnuJ2lSQs06ioWRj4MxNbzaF5UIvjZtbedHI2P4bVR9oxPMgzh2Cr9WNdLOlvC8d0rV1Wls4SMMUK1CBOXYc9B6y6Vc88pSaWmAoVzH0+83QxHeOUkHuj
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(376005)(82310400014)(7416005)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2024 11:26:11.6082
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8166c03-83c0-4194-c2a8-08dc5307b339
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001C8.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9195
 
-Currently we account irq{,soft} time in "irqtime.total",
-when CONFIG_IRQ_TIME_ACCOUNTING=y. Since we account them in
-the same path (irq{,soft}_enter{,exit}), we can separately count them
-by filtering the offset.
-In order to not break backward compatibility, we do not change the meaning
-of "total", we only let softirq time to be accounted separately in
-a new field "total_soft".
-So interrupt time could also be calculated by "total" minus "total_soft".
+Currently, PCI SFs and VFs use IO event queues to deliver netdev per
+channel events. The number of netdev channels is a function of IO
+event queues. In the second scenario of an RDMA device, the
+completion vectors are also a function of IO event queues. Currently, an
+administrator on the hypervisor has no means to provision the number
+of IO event queues for the SF device or the VF device. Device/firmware
+determines some arbitrary value for these IO event queues. Due to this,
+the SF netdev channels are unpredictable, and consequently, the
+performance is too.
 
-This patch only let softirq cputime stats available in irqtime, do not
-make it in real usage.
+This short series introduces a new port function attribute: max_io_eqs.
+The goal is to provide administrators at the hypervisor level with the
+ability to provision the maximum number of IO event queues for a
+function. This gives the control to the administrator to provision
+right number of IO event queues and have predictable performance.
 
-Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
----
- kernel/sched/cputime.c | 18 ++++++++++++++----
- kernel/sched/sched.h   | 16 ++++++++++++++++
- 2 files changed, 30 insertions(+), 4 deletions(-)
+Examples of when an administrator provisions (set) maximum number of
+IO event queues when using switchdev mode:
 
-diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-index af7952f12e6c..23e4bca1e3e8 100644
---- a/kernel/sched/cputime.c
-+++ b/kernel/sched/cputime.c
-@@ -35,13 +35,14 @@ void disable_sched_clock_irqtime(void)
- }
- 
- static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
--				  enum cpu_usage_stat idx)
-+				  u64 delta_soft, enum cpu_usage_stat idx)
- {
- 	u64 *cpustat = kcpustat_this_cpu->cpustat;
- 
- 	u64_stats_update_begin(&irqtime->sync);
- 	cpustat[idx] += delta;
- 	irqtime->total += delta;
-+	irqtime->total_soft += delta_soft;
- 	irqtime->tick_delta += delta;
- 	u64_stats_update_end(&irqtime->sync);
- }
-@@ -54,7 +55,7 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- {
- 	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
- 	unsigned int pc;
--	s64 delta;
-+	s64 delta, delta_soft = 0;
- 	int cpu;
- 
- 	if (!sched_clock_irqtime)
-@@ -65,6 +66,15 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- 	irqtime->irq_start_time += delta;
- 	pc = irq_count() - offset;
- 
-+	/*
-+	 * We only account softirq time when we are called by
-+	 * account_softirq_enter{,exit}
-+	 */
-+	if ((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET)) {
-+		delta_soft = sched_clock_cpu(cpu) - irqtime->soft_start_time;
-+		irqtime->soft_start_time += delta_soft;
-+	}
-+
- 	/*
- 	 * We do not account for softirq time from ksoftirqd here.
- 	 * We want to continue accounting softirq time to ksoftirqd thread
-@@ -72,9 +82,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
- 	 * that do not consume any time, but still wants to run.
- 	 */
- 	if (pc & HARDIRQ_MASK)
--		irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
-+		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
- 	else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
--		irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
-+		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
- }
- 
- static u64 irqtime_tick_accounted(u64 maxtime)
-diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
-index 001fe047bd5d..f479c61b84b5 100644
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -2931,8 +2931,10 @@ static inline void nohz_run_idle_balance(int cpu) { }
- #ifdef CONFIG_IRQ_TIME_ACCOUNTING
- struct irqtime {
- 	u64			total;
-+	u64			total_soft;
- 	u64			tick_delta;
- 	u64			irq_start_time;
-+	u64			soft_start_time;
- 	struct u64_stats_sync	sync;
- };
- 
-@@ -2956,6 +2958,20 @@ static inline u64 irq_time_read(int cpu)
- 
- 	return total;
- }
-+
-+static inline u64 irq_time_read_soft(int cpu)
-+{
-+	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
-+	unsigned int seq;
-+	u64 total_soft;
-+
-+	do {
-+		seq = __u64_stats_fetch_begin(&irqtime->sync);
-+		total_soft = irqtime->total_soft;
-+	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
-+
-+	return total_soft;
-+}
- #endif /* CONFIG_IRQ_TIME_ACCOUNTING */
- 
- #ifdef CONFIG_CPU_FREQ
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 10
+
+  $ devlink port function set pci/0000:06:00.0/1 max_io_eqs 20
+
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 20
+
+This sets the corresponding maximum IO event queues of the function
+before it is enumerated. Thus, when the VF/SF driver reads the
+capability from the device, it sees the value provisioned by the
+hypervisor. The driver is then able to configure the number of channels
+for the net device, as well as the number of completion vectors
+for the RDMA device. The device/firmware also honors the provisioned
+value, hence any VF/SF driver attempting to create IO EQs
+beyond provisioned value results in an error.
+
+With above setting now, the administrator is able to achieve the 2x
+performance on SFs with 20 channels. In second example when SF was
+provisioned for a container with 2 cpus, the administrator provisioned only
+2 IO event queues, thereby saving device resources.
+
+With the above settings now in place, the administrator achieved 2x
+performance with the SF device with 20 channels. In the second example,
+when the SF was provisioned for a container with 2 CPUs, the administrator
+provisioned only 2 IO event queues, thereby saving device resources.
+
+changelog:
+v1->v2:
+- limited comment to 80 chars per line in header file
+- fixed set function variables for reverse christmas tree
+- fixed comments from Kalesh
+- fixed missing kfree in get call
+- returning error code for get cmd failure
+- fixed error msg copy paste error in set on cmd failure
+
+Parav Pandit (2):
+  devlink: Support setting max_io_eqs
+  mlx5/core: Support max_io_eqs for a function
+
+ .../networking/devlink/devlink-port.rst       | 25 +++++
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  2 +
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
+ .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
+ include/net/devlink.h                         | 14 +++
+ include/uapi/linux/devlink.h                  |  1 +
+ net/devlink/port.c                            | 52 ++++++++++
+ 7 files changed, 198 insertions(+)
+
 -- 
-2.17.1
+2.26.2
 
