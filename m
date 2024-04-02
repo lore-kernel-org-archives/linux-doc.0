@@ -1,46 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70185262;
-	Tue,  2 Apr 2024 15:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813C134750;
+	Tue,  2 Apr 2024 15:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071734; cv=none; b=NkDZQXJgBfYJF3sgdqcjWue4lYHLeKXdmlZMD51Orv7GdlRWcrymtFPHSkuGewL8Lr3D39WxCVhGmv8FuL1xJLp7FiUzcfz8DpvKkzuHqSBOm9Ec6TL4WsO+bHMJU4KTbLuFN3Ir9XUYr7vIrWIOayIMfrEWgEBqCs/QihSTFfg=
+	t=1712071811; cv=none; b=d/b3MbDU62UpXPiKnFzfUaqFzMefwNaCY/4TE7tb+IhXJ4zgBth4h0kQpt/2WAObJ7ttM0mdgUjgAgl5C5rJU32JElPD9R3sfLiOSsSGqbuTOeXrdeQhKe/2BqgmeJGXusaN/ErBqQlENyeY2T7uSRMoulEbbSUk/dpp5qk/zPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071734; c=relaxed/simple;
-	bh=7NDnkfIZ/ENxEybqLTj4oHT4nmKl5yX7hZHDQtYiweM=;
+	s=arc-20240116; t=1712071811; c=relaxed/simple;
+	bh=Mg63hoWgyu1emHztvlNxc4m7lNkXFrtqWqUTYT7EolU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RVoT92YtYIlAXDp5UzBaZ2H+Ct+66hhS3QApOO4iR9epTOO9d/qW81aOhrZCHTb883YMlBvvKnenKVTHP4Kmk9OeRA/rkr6P1WB5eALpdMtCk9XGHbtd2ZTjcc9Uhh4a04OwOYNwO1w7YZnlfE7fDS4rSrjyrPV1RN79RZp3cLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hJdsK2Kr; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Br24p420GIpiAogL53EiZ6Wnuy2RdIrOiva0EiVorcIy4xspkqAjgTwAZarLYNQMtSip84YeZF/gOeZjHCqcjhQ1gOiMlTJOX5m3MGswOdGEZqLYdwt3ad/k4wXO1nHoq22mjONl81pwVnFpjUDohwjmzSUlL3JhQMAXpFlse9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=taUuDJWC; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hJdsK2Kr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31D3447C34
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="taUuDJWC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9544647C1D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1712071732; bh=tsXnsiLJzqqLV0fjDegCwG4Sc9b/2WIwZUvbMTaIfQQ=;
+	t=1712071808; bh=4J0PiXaFUEU/W3BdK9lcYY6frY80SRk/ZG3pwh+Rm64=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hJdsK2KrGOU+DlAN2MQPcoHi4yaob9QGznzvGVLPfF4H64kiF+KlgH1PIQmrx8D8t
-	 fhn47IsaBnD0D5eYnuVtU+VZLHE1np62+eI3nMYBessPfMXMOBHx0pGuKE7+pPc00L
-	 cy63ZUslMcjM9D42effuc0HoZ9RfMSx/YaHW38VoymphIuOw2ekj500Qf61VAXMfuV
-	 BeLpbxj5jDnuLCcWkfLwm4a0BPtFZZDSUZ048liRbAjlOHlNLVs8/uvXts6mTErZsj
-	 AeA3cvYVVN8N5S7giSpeK3tNFhVSFyW73ovZOqgPEag9iDkkAXCElHOdRmaaxxiTC9
-	 nUP3yL0w6wZeA==
+	b=taUuDJWCrpZlU8jTnqUYUaVQOpYy+qCmcyYYeTm+l/UWyE6+a2dvQZ3xahSdTOcZ2
+	 P3imBxmlYYhcbuf5NyKHSimE+BgsLsCJ23aqosTDgoz4wBog7nJUtiYQsJxLvNvxHf
+	 ZIf6tnsoPEwQxeEjusmealuOSlQDealbt1nv44KW9mj0LoUhD8dp+aau9EQrlglHrg
+	 x//jx/jg+WfAeLMJV9Z5tm54niTm1X1as5YrjSSuWJV/Ue8g8ge3yuHU+crnn62+vc
+	 vVjWj0W2smkiqL4ymza6wHI044jrclw0o8LtDScKILZl30VHEzxy95WoTwO3aF8dHX
+	 wOLkikqWyLX2g==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 31D3447C34;
-	Tue,  2 Apr 2024 15:28:52 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9544647C1D;
+	Tue,  2 Apr 2024 15:30:08 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Li Hua <lihua@email.com>, mchehab@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Li Hua
- <lihua@email.com>
-Subject: Re: [PATCH]  scripts/sphinx-pre-install: fix Arch xelatex dependency
-In-Reply-To: <20240326104515.40346-1-lihua@email.com>
-References: <20240326104515.40346-1-lihua@email.com>
-Date: Tue, 02 Apr 2024 09:28:51 -0600
-Message-ID: <87y19vwzpo.fsf@meer.lwn.net>
+To: Thorsten Blum <thorsten.blum@toblux.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thorsten Blum
+ <thorsten.blum@toblux.com>
+Subject: Re: [PATCH] scripts: sphinx-pre-install: Add pyyaml hint to other
+ distros
+In-Reply-To: <20240323125837.2022-2-thorsten.blum@toblux.com>
+References: <20240323125837.2022-2-thorsten.blum@toblux.com>
+Date: Tue, 02 Apr 2024 09:30:07 -0600
+Message-ID: <87ttkjwznk.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,34 +51,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Li Hua <lihua@email.com> writes:
+Thorsten Blum <thorsten.blum@toblux.com> writes:
 
-> On Arch Linux, xelatex is installed in the texlive-xetex package.
+> Extend commit 84b4cc8189f2 ("docs: scripts: sphinx-pre-install: Fix
+> building docs with pyyaml package") and add pyyaml as an optional
+> package to Mageia, ArchLinux, and Gentoo.
 >
-> Signed-off-by: Li Hua <lihua@email.com>
+> The Python module pyyaml is required to build the docs, but it is only
+> listed in Documentation/sphinx/requirements.txt and is therefore missing
+> when Sphinx is installed as a package and not via pip/pypi.
+>
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
 > ---
->  scripts/sphinx-pre-install | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/sphinx-pre-install | 3 +++
+>  1 file changed, 3 insertions(+)
 >
 > diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 4c781617f..c559e43b2 100755
+> index 4c781617ffe6..d4f05216ca23 100755
 > --- a/scripts/sphinx-pre-install
 > +++ b/scripts/sphinx-pre-install
-> @@ -560,7 +560,7 @@ sub give_arch_linux_hints()
+> @@ -514,6 +514,7 @@ sub give_mageia_hints()
+>  {
+>  	my %map = (
+>  		"python-sphinx"		=> "python3-sphinx",
+> +		"yaml"			=> "python3-yaml",
+>  		"virtualenv"		=> "python3-virtualenv",
+>  		"dot"			=> "graphviz",
+>  		"convert"		=> "ImageMagick",
+> @@ -557,6 +558,7 @@ sub give_mageia_hints()
+>  sub give_arch_linux_hints()
+>  {
+>  	my %map = (
+> +		"yaml"			=> "python-yaml",
 >  		"virtualenv"		=> "python-virtualenv",
 >  		"dot"			=> "graphviz",
 >  		"convert"		=> "imagemagick",
-> -		"xelatex"		=> "texlive-bin",
-> +		"xelatex"		=> "texlive-xetex",
->  		"latexmk"		=> "texlive-core",
->  		"rsvg-convert"		=> "extra/librsvg",
->  	);
+> @@ -587,6 +589,7 @@ sub give_arch_linux_hints()
+>  sub give_gentoo_hints()
+>  {
+>  	my %map = (
+> +		"yaml"			=> "dev-python/pyyaml",
+>  		"virtualenv"		=> "dev-python/virtualenv",
+>  		"dot"			=> "media-gfx/graphviz",
+>  		"convert"		=> "media-gfx/imagemagick",
 
-This email shows as having been copied to the mailing lists, but does
-not appear to have actually arrived there.  It's trivial, so I'll apply
-it anyway, but you will want to get a handle on what is keeping your
-emails off the lists.
-
-Thanks,
+Applied, thanks.
 
 jon
