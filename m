@@ -1,46 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3325B136980;
-	Tue,  2 Apr 2024 15:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D431A13DDCD;
+	Tue,  2 Apr 2024 16:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712073558; cv=none; b=KTI8TYEwSkEvLW7bZcKDeDepC174WeEl22ad2Z251nHm0BLAjt9ZBFjdpIw9o2Yv6i3LQw0TUOlVVwkLoi0uSgss3W4qDsiRK/A7MFAJBWLZFpk6LRoq6dsQEW+fSUT4bkvitiln4lQz+Gm8ueiJ5LjVL6YH/hTC2bUyPvieG20=
+	t=1712073881; cv=none; b=PrtDKaEg1LtOQooMTVnuWG+ABh1OX53DDRB1IatweXkWD9lIuZqrTaT+siNXWVSkwVO4qrYVF35NkRAj10ih9I6DERvl9OzWfFWNSoa96UL8o+9FJe26MDVzI1Od36gGNddRAfslDp1pzuRSuwRDZrGtS+j74PMmX2t95Ddup4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712073558; c=relaxed/simple;
-	bh=4W2F+lnZAH2bD7lx3waSQduh4rTG8XhmWyZ/L37zFbA=;
+	s=arc-20240116; t=1712073881; c=relaxed/simple;
+	bh=r3rXkjJCXBAjJQaXMwZ1SYdQThC6q0B48cUjEJI3E9c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jMITYY7nCAPecY152GnvjwMkXXQl7TZKRDGeV+m871c6tRqRdkS3NjrlJB3sI9ve2UTiZkaotd1ZWPvv6L0GJhJM7BxKLxXPmbDUX8W0kZwpKTLeFFPMsGx66NkibHYgDJxysI7VIKJS7SbFQJVia0+jD5dGFtFHynaEmIScPjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hvEGzKtS; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=tnjLbgcQPhU8FzzPw7qWtO34fUqSTM17etpXc0N491w7Qk0EEp6AYKQRrR/61Tubw+r1MNerGtXXHbw7FoF2EQ8F/J0Sg4YDz0RURoXXPKn3UPaaeyg2ZUIoyg2yWEHVVkhCQhrUhmvIcQgNA96qOzDVGwOTsN04jh4cqjwd6dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=h8yobq7g; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hvEGzKtS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6662F47C3C
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="h8yobq7g"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1388F47C3C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1712073556; bh=WMeJn3vidfAVMmh7rXTscLXdrF7bcV2psAQw7kcurJQ=;
+	t=1712073879; bh=XA/dHmCc2XwjIelH6niwtn8npP/q5+SSqhyQukiun7A=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hvEGzKtSRCPayMQw0WkJG4HMt32o7Nuw0V5i+VIU/z0VI5j9upByQDiEGMFuFGA57
-	 qxmKWTlX0MhLFLQMCb3swSlQZZmOnLKzPryTWd8lrbMcD3UPZMYxaozbSmoKnCEtA1
-	 0z9teSUBBXGq4x9MX+LscUSds8CmhkaXuZ7ZpDONSZVyXP0Fkryuxz2cuwNHKm8DEl
-	 X6MuRL7CVya5ZVTbgH9mN9m4aboyVrcm4f6f/X1oDaRNQ6iAYY7eGgOw1ZlWUDkgxP
-	 nk8LsXw8DeChL72+nZgAYVzmuifJbzHwbFJsUC63/I3QRxYCuG+aiCFSjdl41mDaDG
-	 Cv2qb6C8+z1+Q==
+	b=h8yobq7gndSF1BcXzZ3nu+4jSRkncbKDo6EhXYJDel50j4F0tfcIyhPbECr+ACgb+
+	 0Etgtl7n6QTk6l69n52FgvMb5Ef7Jo7T/43fVGjZahOa0enCc/0zkfCj2zooGDK5tQ
+	 EC6+VbbI2DtR8vx06WlhgksW5+ozUeZPTE8/WNXu2PXy39Gjkl0dc96C0fTP0c8xHj
+	 Sa+quF7yjpQ73rp/sMuYM+x2owy119xwAUWOs8cymEgSUF1iBY1HYS5YXomHdrE8ec
+	 SiyhKfuDMX2MDNib03WB8yibguHRxOsP/GfhbPYBPCb9RrSt0Y+HGo80LknnxZXRKl
+	 uFjBdzJBYEfqw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6662F47C3C;
-	Tue,  2 Apr 2024 15:59:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1388F47C3C;
+	Tue,  2 Apr 2024 16:04:39 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Avadhut Naik <avadhut.naik@amd.com>
-Cc: linux-doc@vger.kernel.org, carlos.bilbao@amd.com,
- linux-kernel@vger.kernel.org, avadnaik@amd.com
-Subject: Re: [PATCH 0/4] Translate development-process into Spanish
-In-Reply-To: <20240305221839.2764380-1-avadhut.naik@amd.com>
-References: <20240305221839.2764380-1-avadhut.naik@amd.com>
-Date: Tue, 02 Apr 2024 09:59:15 -0600
-Message-ID: <874jcjwyb0.fsf@meer.lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
+ Si <siyanteng@loongson.cn>, Nathan Chancellor <nathan@kernel.org>, Nick
+ Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Vegard Nossum
+ <vegard.nossum@oracle.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] docs/zh_CN: Add dev-tools/ubsan Chinese translation
+In-Reply-To: <20240302140058.1527765-1-dzm91@hust.edu.cn>
+References: <20240302140058.1527765-1-dzm91@hust.edu.cn>
+Date: Tue, 02 Apr 2024 10:04:38 -0600
+Message-ID: <87v84zvjhl.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,51 +53,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Avadhut Naik <avadhut.naik@amd.com> writes:
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-> This patch set translates development-process and two of its associated
-> files into Spanish.
+> Translate dev-tools/ubsan.rst into Chinese, add it into
+> zh_CN/dev-tools/index.rst.
 >
-> The first patch updates the Spanish version of process/submitting-patches
-> with the changes recently introduced into its original English version.
->
-> The second patch translates the process/development-process into
-> Spanish.
->
-> The third patch translates the process/1.Intro file into Spanish
->
-> The fourth patch translates process/2.Process file into Spanish.
->
-> NOTE:
-> In order to avoid broken links in process/1.Intro, empty files have been
-> created for the documents, associated with development-process, that have
-> not been translated yet. Similar approach was taken for Italian
-> translations some time back.
->
-> Link: https://lore.kernel.org/lkml/20181108232417.14982-1-federico.vaga@vaga.pv.it/
->
-> Translations for these documents will be submitted within the coming
-> months.
->
-> Avadhut Naik (4):
->   docs/sp_SP: Update process/submitting-patches
->   docs/sp_SP: Add translation of process/development-process.rst
->   docs/sp_SP: Add translation of process/1.Intro.rst
->   docs/sp_SP: Add translation of process/2.Process.rst
->
->  .../translations/sp_SP/process/1.Intro.rst    | 302 ++++++++++
->  .../translations/sp_SP/process/2.Process.rst  | 542 ++++++++++++++++++
->  .../sp_SP/process/3.Early-stage.rst           |  11 +
->  .../translations/sp_SP/process/4.Coding.rst   |  11 +
->  .../translations/sp_SP/process/5.Posting.rst  |  11 +
->  .../sp_SP/process/6.Followthrough.rst         |  11 +
->  .../sp_SP/process/7.AdvancedTopics.rst        |  11 +
->  .../sp_SP/process/8.Conclusion.rst            |  11 +
->  .../sp_SP/process/development-process.rst     |  27 +
->  .../translations/sp_SP/process/index.rst      |   1 +
->  .../sp_SP/process/submitting-patches.rst      |  28 +
->  11 files changed, 966 insertions(+)
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  .../translations/zh_CN/dev-tools/index.rst    |  2 +-
+>  .../translations/zh_CN/dev-tools/ubsan.rst    | 91 +++++++++++++++++++
+>  2 files changed, 92 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/ubsan.rst
 
-Applied, thanks.
+This is (finally) applied, apologies for the delay.
+
+Thanks,
 
 jon
