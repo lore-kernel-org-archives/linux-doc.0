@@ -1,91 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B439133421;
-	Tue,  2 Apr 2024 18:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A4E1756A;
+	Tue,  2 Apr 2024 18:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712083416; cv=none; b=mCqFFKAslruBrBzxIK4D6wempGRUuSPhNLlkSf146ESqgapon2Gz5t04LePEYeYi8oP5Rqn3syR8mCZPSPlEsELwWu+PErM6M23ROtYXzvXdKMjcayJAeK0nz7gPt24QC8UF+xmPLmc1HKg9OwU/1J9PI4Yo6pZMGUGMA2jzTGM=
+	t=1712084400; cv=none; b=H8wMoch36zqOT9D9k8cXLiwkVdObMPm2WGlQkNbfYU1VfoUIXZmb9oyJYV4UrbSmVpz4/SwoMoUDKXChrmThShw2zvuTWbeNYfma/0JJppMxS2Gwc77LM9yeaLHz/9NQGBOi51MWz1HPJQPlky6xFbQI2NV6nZSt5jZF2Itim1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712083416; c=relaxed/simple;
-	bh=owPkFS+aHIiODbc1mDCipIfoNGM2SZCNTgceRjbgtrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SSfzrmYL2viMC/jhCeSx7CzKwAb8AHmU4vF9glCoSsj4OS1P0HXPQ+nssTOZhYW0LWWXbQBJGpkyZaWdt6CqMcC6Qm4WGqxhRzcoZWLp84QNG1A73RhlYfsgNtb/3G5CXQ0K5rPOWUduvsmSSKEH/zbxv5cave927ZGQjkWuXTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjKmuVKr; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712084400; c=relaxed/simple;
+	bh=XK2fdkBQ+MvvV6zIPd48I+1uIxWQKMWrst9IAvR7eiE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KEDpN8kE8VNOSdN+LYAvdm5kCH83QmHtmHu96A01UhXomNyag560WVC6sMQfbmUjb9gQg2SIGzFJmynS4LfEAKE24pqu6o2rRldgEadBQEckFw1sLmEba8+yD9kh6mwQwz4KZ9yG314sNjm0y+plGHUH+XeLiiZKo0g1nbgJNek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=f0AqIV4K; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjKmuVKr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712083415; x=1743619415;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=owPkFS+aHIiODbc1mDCipIfoNGM2SZCNTgceRjbgtrY=;
-  b=BjKmuVKrNGeytW7VF7N0/QSbmpnb/spRQ0DaXPlbQQKoZIFQjEZdBKdx
-   gB+d7TstebUvUICRs1CcwNEOicwcCbMMSV0U8hyK9UFymWqCMjEqSNW3s
-   TPZTM2DN5q2nWDymcdpJZ3WOHPsvpGAIHeimDQ+7kf5tNBbMjjR52xWMI
-   6EOzcx6vFrJx4CraBTm7RskorAeOR9iECHQzucl4ENbeJiIK7il/QTgfW
-   51g+8+H97wVuzrO2I0YZunB+/oB0tQndHszd30zXqvq5UHeFs3zAFVqlD
-   sths/7BZUER1iDqXT7NONrCUIZaWZ2xGI0tni9vPxOJBAEn78+ffr8MZ4
-   w==;
-X-CSE-ConnectionGUID: 5WkhkMCpQUyCIRLF0welQw==
-X-CSE-MsgGUID: fkSW7xnVSkmaUny5jO1HQg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7146471"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="7146471"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 11:43:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="915150053"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="915150053"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 11:43:31 -0700
-Received: from andy by smile with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rrj6W-00000000u3U-0fnL;
-	Tue, 02 Apr 2024 21:43:28 +0300
-Date: Tue, 2 Apr 2024 21:43:27 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH v1 0/3] gpiolib: Get rid of
- gpio_free_array()/gpio_request_array()
-Message-ID: <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
-References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="f0AqIV4K"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 432HKXhI002709;
+	Tue, 2 Apr 2024 18:59:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=VqCmabEEXms0gnwOlD8Gt
+	pYxp5nGccGkYx0Om8wRvMM=; b=f0AqIV4KVw+LUR32FIJomBJy82lsek0rN4FGg
+	+pWUVtIOQBeIzMbd1suTFVIGpFmKqCK0/nI5UWn2J9GNZ4Pij+OXv6kN57P9Qbhb
+	zYGc3ENoiLzqxBm3wiBXhw075yPStaD1qtpXaplFzg3/D7/ZywQIez9FKvBAh3ii
+	n19b9i2mVnciSQpwmAVubCFMb+uuKOjVTbqAJvnH7axh/kfW5/ME2ImFwIjAoeaT
+	iKJZfaeoXeLpWyNCgd+KaisD0TwZ4vWoa8tbe7u8hL1zesM7qICNpId5UgWYAyz7
+	FRKkZQM+bpO0C9cbn2xa2mpwqKrRhhZZj8BJcwQ9QKj56eXLw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x8gn5hc1d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Apr 2024 18:59:55 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 432IxsSM008926
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 2 Apr 2024 18:59:54 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 2 Apr 2024 11:59:54 -0700
+Date: Tue, 2 Apr 2024 11:59:52 -0700
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Jonathan Corbet <corbet@lwn.net>, <workflows@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH] docs: submitting-patches: describe additional tags
+Message-ID: <ZgxVqIwPxiFtcBrB@hu-bjorande-lv.qualcomm.com>
+References: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20240401-additional-trailers-v1-1-f472bf158d2f@linaro.org>
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: c3j5-wwZOkjC5JO4VVjP782aDnzOvVlc
+X-Proofpoint-ORIG-GUID: c3j5-wwZOkjC5JO4VVjP782aDnzOvVlc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-02_12,2024-04-01_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
+ impostorscore=0 mlxscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2404020140
 
-On Thu, Mar 07, 2024 at 03:49:02PM +0200, Andy Shevchenko wrote:
-> There are only two users left of the gpio_free_array()/gpio_request_array().
-> Convert them to very basic legacy APIs (it requires much less work for
-> now) and drop no more used gpio_free_array()/gpio_request_array().
+On Mon, Apr 01, 2024 at 08:17:03AM +0300, Dmitry Baryshkov wrote:
+> Described tags do not fully cover development needs. For example the LKP
+> robot insists on using Reported-by: tag, but that's not fully correct.
+> The robot reports an issue with the patch, not the issue that is being
+> fixed by the patch. Describe additional tags to be used while submitting
+> patches.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  Documentation/process/submitting-patches.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 66029999b587..3a24d90fa385 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -544,6 +544,25 @@ future patches, and ensures credit for the testers.
+>  Reviewed-by:, instead, indicates that the patch has been reviewed and found
+>  acceptable according to the Reviewer's Statement:
+>  
+> +Additional tags to be used while submitting patches
+> +---------------------------------------------------
+> +
+> +The tags described previously do not always cover the needs of the development
+> +process.
+> +
+> +For example, if the kernel test robot reports an issue in the patch, the robot
+> +insists that the next version of the patch gets the Reported-by: and Closes:
+> +tags.  While the Closes: tag can be considered correct in such a case, the
+> +Reported-by: tag is definitely not correct. The LKP robot hasn't reported the
+> +issue that is being fixed by the patch, but instead it has reported an issue
+> +with the patch. To be more precise you may use the Improved-thanks-to: tag for
+> +the next version of the patch.
+> +
+> +Another frequent case is when you want to express gratitude to the colleagues,
+> +who helped to improve the patch, but neither the Co-developed-by: nor
+> +Suggested-by: tags are appropriate. In such case you might prefer to use
+> +Discussed-with:, Listened-by:, or Discussed-over-a-beer-with: tags.
+> +
 
-Any comments on this? We really want to get rid of the legacy APIs.
+I really like the idea of defining two additional tags for these
+purposes ("Improved-from-review-feedback/testing-by" and "Cred-to").
 
-While at here, would be also good to have a comment/tag for
-https://lore.kernel.org/r/20240327193138.2385910-7-andriy.shevchenko@linux.intel.com
+I do however think that in order to gain acceptance and widespread
+usage, they need to be defined in the same clear fashion as the entires
+under the "Using Reported-by:, Tested-by:, ..." section.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Regards,
+Bjorn
 
-
+>  Reviewer's statement of oversight
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  
+> 
+> ---
+> base-commit: 13ee4a7161b6fd938aef6688ff43b163f6d83e37
+> change-id: 20240401-additional-trailers-2b764f3e4aee
+> 
+> Best regards,
+> -- 
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
