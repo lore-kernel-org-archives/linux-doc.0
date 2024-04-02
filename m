@@ -1,63 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A81C15B0E8;
-	Tue,  2 Apr 2024 20:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74E32209F
+	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 20:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712088364; cv=none; b=QHLhnJNC9Fyss+rA1qd1f5WKHMJSxhMoaU6c//L22p94exulW/RYTXvvJJqR/0MHRlw/KE4XH1DBqWNab58751mDHCk/HInSjxoFmohqNSWIhNgUTQjM0ouIPs+HGsI3mc+HNuBNUdUev/i1D/TMY26+BbLwCZmpd7f3kMSfeeY=
+	t=1712090020; cv=none; b=Kkbumud3ceMz7xVIGON+XSPmLF7kvVDGgoMU4QK5fBu/nLRwD8BUro+8Tqsaizz+ZjhNTGSLBHeRWVEBC2mclAQzmb0cWN3IwvfFguQTW68FQuLWtJHbeNoS9BRoFf1E9Cki36Rx9rYZ1ozqWoQrJZlYPYzeZHtp/dntsHs/APA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712088364; c=relaxed/simple;
-	bh=j2SOHpO5KZKf9U41e3IU8G3vXA+MSgv08QrrZUQ4538=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=X4gWnuu7jTtAI2j1CLBMTw7QHjGGKLAdLrl5/VwyCMcEJt6pw9JSOYjy0g3zvW8XTp2Wvy+8yhN+8B8zazbcnHwfIEuNfr5mOhrftGRe1NG1uP8DlnygN6q7jkjd82kK5ZkBx7MTWkOfWYc9zOtlG+y+vBhs8vU20kGP0mKitg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sU5nW9rG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712090020; c=relaxed/simple;
+	bh=ROySLNzi2sYnSa/JtIXRjIYuaaAEqJzMqCJdYS2UTqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmPHRFn5MOZXnSWIYexZ1JW/go5/B2i3hfaNEZRIrD2rGJgqkFcu1hs6Ce24tVHY/hbixdndT4l0hGEjJCCYPwgCeLWSydh475NnZj5QKaCdMufx5XwzXpoltiidwk5U57wbXf5T3nWxHTdz7GyPUEoda10BUmAxxl1WWdbjM7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IHYMgMwq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sU5nW9rG"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EB8A1C433C7;
-	Tue,  2 Apr 2024 20:06:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712088364;
-	bh=j2SOHpO5KZKf9U41e3IU8G3vXA+MSgv08QrrZUQ4538=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=sU5nW9rGR5iUbv7BiBMAERtD8cpL6ScJkPjAQFNDkg0y1JA5FO3Q5i9rlLXTKRjnS
-	 0YU9Y11FMk/bEsJijtlSNOD4qMs/M8mDQNb98UUu6V3nc9X9ZsC4L7freFMbzvGWvm
-	 EvZAtyGXwC1N6qp9kRikuZsvaLw0yw4AOGZXFK2JfHRzW/4WCTF7zVzgY7zUxbblDE
-	 oDhpeJ8GZKWRSaEtt5FGml3L5cswX7rWYrnU6n7t1OfjhOqd3WMlpdigIpzKRjWGom
-	 /kI/vtpQwOYz3kNMas7s4F8QyxQ9i9P+H4ZO3qSaz/dINpev6tkKUGeWica5lRCSkj
-	 SZ+y7cgWtCtXA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E1092D9A14F;
-	Tue,  2 Apr 2024 20:06:03 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fixes for 6.9
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87bk6ryf4t.fsf@meer.lwn.net>
-References: <87bk6ryf4t.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87bk6ryf4t.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.9-fixes
-X-PR-Tracked-Commit-Id: e9c44c1beaba623b12201d2028bc20f535464d9b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: b1e6ec0a0fd0252af046e542f91234cd6c30b2cb
-Message-Id: <171208836391.25987.7093038918642754169.pr-tracker-bot@kernel.org>
-Date: Tue, 02 Apr 2024 20:06:03 +0000
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IHYMgMwq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712090018;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XkVVzn7sUlZgXUm5P4BgsrM9gYYoxT1YIoFUz7D2uhU=;
+	b=IHYMgMwqCFuSQ+/WsA9pbp/btV9ZM+hx+rHMH6kMcgixeugjRrlXtw44Zi1SzcgHIA/YFO
+	IMYrUaBpnZBh/cfBMyt0c62UAiCCQnhfnVyNq7QuZYaAwc5JSTSWGoJmwRiaoUsixLbS8y
+	DIAnpL4H+LHgJ2xxgWpbG9k3aSzPSBM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-209-ywO5jcPyNGiEQomcpy8Y7w-1; Tue, 02 Apr 2024 16:33:32 -0400
+X-MC-Unique: ywO5jcPyNGiEQomcpy8Y7w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16C6F946322;
+	Tue,  2 Apr 2024 20:33:31 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.21])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EF28B17AA0;
+	Tue,  2 Apr 2024 20:33:26 +0000 (UTC)
+Date: Tue, 2 Apr 2024 16:33:21 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Hildenbrand <david@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Paolo Bonzini <pbonzini@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gonglei <arei.gonglei@huawei.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	David Airlie <airlied@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alexander Graf <graf@amazon.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	virtualization@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev, netdev@vger.kernel.org, v9fs@lists.linux.dev,
+	kvm@vger.kernel.org, linux-wireless@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 06/25] virtio_blk: drop owner assignment
+Message-ID: <20240402203321.GD2507314@fedora>
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org>
+ <20240331-module-owner-virtio-v2-6-98f04bfaf46a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="n4/kSvCMF0M05hCx"
+Content-Disposition: inline
+In-Reply-To: <20240331-module-owner-virtio-v2-6-98f04bfaf46a@linaro.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-The pull request you sent on Tue, 02 Apr 2024 09:10:26 -0600:
 
-> git://git.lwn.net/linux.git tags/docs-6.9-fixes
+--n4/kSvCMF0M05hCx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/b1e6ec0a0fd0252af046e542f91234cd6c30b2cb
+On Sun, Mar 31, 2024 at 10:43:53AM +0200, Krzysztof Kozlowski wrote:
+> virtio core already sets the .owner, so driver does not need to.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> ---
+>=20
+> Depends on the first patch.
+> ---
+>  drivers/block/virtio_blk.c | 1 -
+>  1 file changed, 1 deletion(-)
 
-Thank you!
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--n4/kSvCMF0M05hCx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmYMa5EACgkQnKSrs4Gr
+c8j8dggAqO8KJXvt+0JqXmgxsfDAxN196OA9Q6Rm7VF0fuMhGpVUUh/iuOtkH59k
+ho0oB9szUvz/1tXZEJPtShx/omt2iENmq22unjzWE7ZmNimALVjtXPaZNTCkYxJn
+Z9//Ks9v/lHCNFzLjSiKC94ktRVJLDXSmG7uEpbeutDrzN9TWRJ8DNnylKmm+qWR
+VDiL3/2+03gC5B/LovTli4ozZuS4JlG37Tnh2Z8ACNrcFC74nv45KtNuQLR+hNy8
+12jEUGkhADWps+fQH7bZebswT9ePfwTfA1xh0pXeeWKCkaiKcgFhZH+JcNQLkwkx
+fC80yZK4qnvU1SmzK2tpfzAk7jUMtQ==
+=5tJl
+-----END PGP SIGNATURE-----
+
+--n4/kSvCMF0M05hCx--
+
