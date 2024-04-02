@@ -1,120 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C969D159915;
-	Tue,  2 Apr 2024 17:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC09715AACD
+	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 18:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712078521; cv=none; b=lZ8WfDYuC9kl+bOSgieuvlOVNc2HbgfCLWnb5pa+5X6vn+EMubyAXgJ5LdFAKwaNj8ASD939tEsUEiT6MuM4CIvdgSlJ5mfmyTBwtpcYvR/fT0CbjTyvEJ5pNlf8uMpPjisrea3rNs4hxQG+j5mTEuwbUd5sQK5yDK0HaKDnzGk=
+	t=1712081321; cv=none; b=FEP1AE/itYLCliX7Lm2h72FrGPefxiMVr1CQSI0o3YYE8DjidlAXCgV9tEp4MhzJSNhjncoy69iJdhfHaqg17d7foqwswMZahJhsrGtr/PRJ++MGcYKZBclYJjfXjslj9SIZtC/VLjrtFNhuUL+btEovOVqjgFbyl0vfnklI/8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712078521; c=relaxed/simple;
-	bh=H8uWhCo1O/OYYi2drPcE1c99n/60JeLgX1yS8IFjOsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGjNJvIGiGFxZ35jwloiqOyX4lx1s7uKAagoiaDbI6kFisY5rIQHe7dCCwMtSZUPhlAN3SpNNa9DtWbtyJKI6VDlkLQyR+FzTMr6O+gYwE6uF83XOnsZrbys24cOTWffYgrkhfy7Lf/LKtdQsbcBFKiOpOh/O51Visq3xBA0CkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rUsFC7g0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712081321; c=relaxed/simple;
+	bh=6lI9VNiSXumgy0lIFnQbruvwbZ1Z01+DeNNrabaoY50=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=dR0hNAHzvDABtKlAKV+OLq5G/yiLw4jhsRV3od4MTEd+xCajSpghJMxb6bAJwvLoPWm98Q7Ff4dR4wHMy72g0R9N0j6NnOmKwUDsk41mOIQUBYeN5tgRHlwW8C8iIb9QrVoTRm7LBbKVnqVZkCCh3BuNumUZnIJX/HoAzc9nkxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=amBSn08b; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rUsFC7g0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42F3C43390;
-	Tue,  2 Apr 2024 17:21:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712078521;
-	bh=H8uWhCo1O/OYYi2drPcE1c99n/60JeLgX1yS8IFjOsk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rUsFC7g0Q8/lx515dHicpBE0b06tm9dIdiVGdJrsr/6FaGJR6vinlLAZH9bgWuqvl
-	 f4m31h7gXvhkrs0Dl8t1ul36NFUo6zzgt3NSRwa3AZxkWbcqfLL+Vlm95Rdg+9Dv8C
-	 WROYbTvaWiWyVC7ninEYSu2rSblY5/Pb1IXjdYYsIFsuw49/0sFPUwVcyf5kdR92rr
-	 KYKKG/aeS2u88JSqQHabJxVZo6DzmwNi1Acf2aV65bvZp9NvABFZtzSW/dL1Dv87dL
-	 ybQ6VcrhQTLubmx+epTLdNltL5zoO8PwmeYkORVX/BkT3fbVJSo+kxqxJjejJooHH9
-	 FYkLS5oUeTWng==
-Date: Tue, 2 Apr 2024 18:21:55 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Dave Martin <Dave.Martin@arm.com>, kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 2/5] KVM: arm64: Add newly allocated ID registers to
- register descriptions
-Message-ID: <73c6012f-adb0-470b-bd47-6093d28aea97@sirena.org.uk>
-References: <20240329-arm64-2023-dpisa-v6-0-ba42db6c27f3@kernel.org>
- <20240329-arm64-2023-dpisa-v6-2-ba42db6c27f3@kernel.org>
- <87le5ysm4l.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="amBSn08b"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6144de213f3so71751207b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 02 Apr 2024 11:08:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712081319; x=1712686119; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DgQmUs6HhPB39/8zfW/Zv0dW3hKDHFfzMOS/PR5/wFQ=;
+        b=amBSn08bcELoWschEMG6TKrSRuLWI+qRMZfe74SlqgkgJv6Idzo68jDUtPR2XH4d37
+         a52PIfg2miF7o4OuDCjqwjfjgr/O6LQg2EO5D0+DEhZ16XQIgXnHr6+vEIM6aR3R/OpY
+         NyvV+XXzXMt4kmatp1xvPmMxhrAHcG1iU/dMElmueLDzEa/EUR1Bn3lSaeLcljbjHVdt
+         A1vUkrlTP14nlC7jjygP1t7tqojCS9wFeP5AJl76r6SwDc79iYS60Ifj7qjmgLtKflpS
+         C5hgxT2QkXXfgm5Gbd+//eANPYsySsVz49ySj6cKM2kmlT6qplHpN0oTae0lyaW9cTbk
+         k6RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712081319; x=1712686119;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DgQmUs6HhPB39/8zfW/Zv0dW3hKDHFfzMOS/PR5/wFQ=;
+        b=TKfAtwkOL/VyiCpTlEv1vcdQj2+v6v2nPXcmXD4rjveeZE6Q2PwRp1Wi2/xB5zEVWW
+         KovFm7IPFdoZQAXCuQKbdcWreJiMEoTC3zx9KTPhHJRtyTvPhDLY1kHNsEJyWoAPZTiP
+         9P8jnbltsUWJx8ZPMekuuJW1r8YOdkHvl/TI4zs1RLWVRBWi5SjgxKlTKG52PDe7EvaO
+         yu9AADkamHywX0P6HdDceEJGAjvipEYgvVWjcqKnc5MUOGNkW73qjqNPM610hqvK6njK
+         iQHIixQPIsWrsxSC7duZih0m75BW0yri1shlMQXPZuY9/rYBzbiI7SdFPd2iXjwRhkmG
+         cWWg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkRHsohf/2pRlW9zx+cjbTggohWkT6xfsKvfQ7kIG65fi8hYFs5AMUPWNSdUax23QspsVWxp1dOYTJ7gYDzFwQMO4jNQFshAEK
+X-Gm-Message-State: AOJu0Yxkl3nc6Ptu/lB0hQpy7haEhHs4iysGy+4lqpLwhAW2PqT6L8lc
+	SbPtXErRwSY1jr7tg49DhBCNErL2/BQC2zO7ZcpBbRYLdFs2R29/j15cJEySfJYjYHVLA7RZAFC
+	faA==
+X-Google-Smtp-Source: AGHT+IGGv7DZZG+G95d+JpoihdeoHeoF13q18CEnx6sVaUBqbMNIOKCbzzB4wbYOoZHrUg+qy8rHvqYGjeE=
+X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:61fa:96f4:c395:2882])
+ (user=surenb job=sendgmr) by 2002:a0d:d753:0:b0:615:1fe7:298d with SMTP id
+ z80-20020a0dd753000000b006151fe7298dmr538853ywd.0.1712081318834; Tue, 02 Apr
+ 2024 11:08:38 -0700 (PDT)
+Date: Tue,  2 Apr 2024 11:08:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pwE/A28+XRVGQBHe"
-Content-Disposition: inline
-In-Reply-To: <87le5ysm4l.wl-maz@kernel.org>
-X-Cookie: Knowledge is power.
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Message-ID: <20240402180835.1661905-1-surenb@google.com>
+Subject: [PATCH 1/1] mm/mempool: Documentation: add missing
+ mempool_create_node documentation
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: rdunlap@infradead.org, sfr@canb.auug.org.au, kent.overstreet@linux.dev, 
+	surenb@google.com, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
+mempool_create_node documentation for two of its parameters is missing.
+Document those parameters.
 
---pwE/A28+XRVGQBHe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202404010132.6v0zt6oa-lkp@intel.com/
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ mm/mempool.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Sun, Mar 31, 2024 at 11:59:06AM +0100, Marc Zyngier wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+diff --git a/mm/mempool.c b/mm/mempool.c
+index 63d4e3778bbd..6ece63a00acf 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -256,6 +256,8 @@ EXPORT_SYMBOL(mempool_init_noprof);
+  * @alloc_fn:  user-defined element-allocation function.
+  * @free_fn:   user-defined element-freeing function.
+  * @pool_data: optional private data available to the user-defined functions.
++ * @gfp_mask:  memory allocation flags
++ * @node_id:   numa node to allocate on
+  *
+  * this function creates and allocates a guaranteed size, preallocated
+  * memory pool. The pool can be used from the mempool_alloc() and mempool_free()
 
-> > The 2023 architecture extensions have allocated some new ID registers, add
-> > them to the KVM system register descriptions so that they are visible to
-> > guests.
+base-commit: d4cd6840d1dc25963aa10ef5e5b1d01876baebf2
+-- 
+2.44.0.478.gd926399ef9-goog
 
-> > We make the newly introduced dpISA features writeable, as well as
-> > allowing writes to ID_AA64ISAR3_EL1.CPA for FEAT_CPA which only
-> > introduces straigforward new instructions with no additional
-> > architectural state or traps.
-
-> FPMR actively gets trapped by HCRX_EL2.
-
-Sure, I'm not clear what you're trying to say here?  The "no additional"
-bit is referring to FEAT_CPA.
-
-> > -	ID_UNALLOCATED(6,3),
-> > +	ID_WRITABLE(ID_AA64ISAR3_EL1, ~(ID_AA64ISAR2_EL1_RES0 |
-> > +					ID_AA64ISAR3_EL1_PACM |
-> > +					ID_AA64ISAR3_EL1_TLBIW)),
-> >  	ID_UNALLOCATED(6,4),
-> >  	ID_UNALLOCATED(6,5),
-> >  	ID_UNALLOCATED(6,6),
-
-> Where is the code that enforces the lack of support for MTEFAR,
-> MTESTOREONLY, and MTEPERM for SCTLR_ELx, EnPACM and EnFPM in HCRX_EL2?
-
-Could you please be more explicit regarding what you're expecting to see
-here?  Other than the writeability mask for the ID register I would have
-expected to need explicit code to enable new features rather than
-explicit code to keep currently unsupported features unsupported.  I'm
-sure what you're referencing will be obvious once I see it but I'm
-drawing a blank.
-
-> And I haven't checked whether TLBI VMALLWS2 can be trapped.
-
-I didn't see anything but I might not be aware of where to look, there
-doesn't seem to be anything for that specifically in HFGITR_EL2 or
-HFGITR2_EL2 which would be the main places I'd expect to find something.
-
---pwE/A28+XRVGQBHe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYMPrIACgkQJNaLcl1U
-h9CulwgAgH5V5RmaWYuHCCBQIUQDkouUTMklMpA9Df1ChBIBvmW1OZl0PeW56Sui
-640DAUobRml9J+gh6HsMUS3vnRLyGP11gEhxxTccwvoKuxH6ZsiBUaXkdN+f2Qfv
-R8XxRO7JYoC7un2DPg2IjgAuyEX9OB8XzPmnRnFj276YjsQHy/oYUkwqemOMCMvB
-3/rWpnLsoQ6/UC0RAfXCqN5jTPVG2fVBEFKcyiFi3eLqBxdDF/ugPgTIHtgP31Fz
-rPtAVmzDu6El/d+hpIqAtb70IH/mk8uqYzd1EoTuiTZlGnsIoZLjn5Yft89t0Ets
-B51k7JPujYgRrvFdBiC0WlPL3wYmjg==
-=Xh1Z
------END PGP SIGNATURE-----
-
---pwE/A28+XRVGQBHe--
