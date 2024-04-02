@@ -1,71 +1,87 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from rockwork.org (rockwork.org [45.32.92.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C1715E218;
-	Tue,  2 Apr 2024 21:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20078208B6;
+	Tue,  2 Apr 2024 22:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.32.92.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712094890; cv=none; b=RMOKeBv13RBCoA8m7Exvh7HlT4X8vKz+zUQfzs9xTTi3PkJZXu2Y5dCQrLQ6G7NINDX2uCD8mXph33e/RY0/aDH2MNBo9dyTFbB2V73V1ajtYomwrZor7ky5F79uP4oR0MIHP8DYipPmWwBYVkNZgW1K3niqB8p/7yOfXKfoSPw=
+	t=1712098706; cv=none; b=i3gFXd8uel4hQfxfhJuhNxFl78OjWkubqSsCm0yGxU0FXsGcmy/404KHPBpm5RZaQuHhz5dnwwWi9bH8DnRI0+2Z3uTYNwED7bDJyC9D86Yix88wRCUb4ZZSuJnQVZKD4FVxE4+VUZie00AlQZAsO0fpRqRhTjEe9BQQyzWyit4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712094890; c=relaxed/simple;
-	bh=2ufKch91pZRGc/uveyk4fgGSgZJjJ2GajcZWww18nV8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KQ/yx9WB6nMM0t5tqwVnN1GaxdjGI3DChqOQzUOJY4OYINmjLK2a+JCHJ9eYaf09r3Rxi+hXD155Dwoi5cH9u3t0H06Js3WUvSoWNxC5dJnr82DM8agNaLh3bkQvA7+Q40I5p3YaNESPhnJ0RYxvcRPS77hY8BK5WB/feK4I+Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 86C3340AE7;
-	Tue,  2 Apr 2024 21:54:40 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 1A9DE1B;
-	Tue,  2 Apr 2024 21:54:34 +0000 (UTC)
-Message-ID: <69ee112aadc8ef8ed7d819308f02dc58e56bb0a6.camel@perches.com>
-Subject: Re: [PATCH v5 1/2] Documentation: coding-style: ask function-like
- macros to evaluate parameters
-From: Joe Perches <joe@perches.com>
-To: Barry Song <21cnbao@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: akpm@linux-foundation.org, linux-doc@vger.kernel.org, 
- workflows@vger.kernel.org, apw@canonical.com, broonie@kernel.org, 
- chenhuacai@loongson.cn, chris@zankel.net, dwaipayanray1@gmail.com, 
- herbert@gondor.apana.org.au, linux-kernel@vger.kernel.org,
- linux@roeck-us.net,  lukas.bulwahn@gmail.com, mac.xxn@outlook.com,
- sfr@canb.auug.org.au,  v-songbaohua@oppo.com, Max Filippov
- <jcmvbkbc@gmail.com>
-Date: Tue, 02 Apr 2024 14:54:34 -0700
-In-Reply-To: <CAGsJ_4x=YaGotZwRxjaRhELi=ExVcQ+euEkSiZ2GkAoLFwhMVw@mail.gmail.com>
-References: <20240401012120.6052-1-21cnbao@gmail.com>
-	 <20240401012120.6052-2-21cnbao@gmail.com> <87msqbvj3g.fsf@meer.lwn.net>
-	 <CAGsJ_4x=YaGotZwRxjaRhELi=ExVcQ+euEkSiZ2GkAoLFwhMVw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	s=arc-20240116; t=1712098706; c=relaxed/simple;
+	bh=78EsPwp8HmxyHLnUJ1YI+dld/1JCGKo579CD//N9rJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K6Ff0X5i5s4ia6F0BcwilYQqbIwTdgu7Fj9xhLz1qA8YnbkFi/FgLqpKOQIzddHtR1mXvnxKRqgS0ffawci+ctwPz98kX5F/uTMM3d3YRZC8WW5vtmV5NLa5fXkSrhkx5aPi8n6BWCAzKbW7f90Kv+5GFgSiMc30UeV7zj+FaqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rockwork.org; spf=pass smtp.mailfrom=rockwork.org; arc=none smtp.client-ip=45.32.92.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rockwork.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rockwork.org
+Received: from [IPV6:2408:8340:c40:3f70:429c:5146:4b05:d866] (unknown [IPv6:2408:8340:c40:3f70:429c:5146:4b05:d866])
+	by rockwork.org (Postfix) with ESMTPSA id 56B335B42B;
+	Tue,  2 Apr 2024 22:58:16 +0000 (UTC)
+Message-ID: <d6d188a3-5604-4848-8b45-a7aff2535611@rockwork.org>
+Date: Wed, 3 Apr 2024 06:58:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 1A9DE1B
-X-Stat-Signature: ewe43ggpsk1eq3kr1ik7u891ttmytcj5
-X-Rspamd-Server: rspamout04
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX197/gDa8PCJkfXgwl9wMf5X49Ghan30t2c=
-X-HE-Tag: 1712094874-864766
-X-HE-Meta: U2FsdGVkX1///woF/qoeUKg5SwLWdaK6ZP0tsWoKYOrZ/rhYZn8rvznQEH5x+crJVi7BzKWQ+ATaHwXcyxybuEKP6eRrN/U3jOUePTyvgoYQnn/G1iU1aYnAQAGvoD1Vv+KDrwMTXQwEvhlYKTuKUWL8fR6/xEnU456bB4oWGsUC9enSgLgNd+YrcekCATQv9cJtE3/qJGzk3kHeRsBlOPZWsEwm4xrWezmExAawWt0Ay61vlQIB6OesQxpfc1T/g/fHGa9x+Nd3v20eXTBIXKhhzmUxRgi0dYUcXSH3UHkA7iZb2hx1mplnEkTTilZDcJyF9LPQ2XbmdZlUcFnUK/mPPC+azjPrLlacM4OGWK6moXQzkuPE4K0/1ap1yAEMKgdBS3Y9pZ84BVU4TBcT6Qlt2ZJeEL1qQ01DMOJbFOe6+q9aImKt+7o2QM1HETob
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: core-api: Update translation of workqueue.rst
+ to 6.9-rc1
+To: Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org, corbet@lwn.net
+Cc: zhoubinbin@loongson.cn, tj@kernel.org, wangjinchao@xfusion.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240331172116.257780-1-rockrush@rockwork.org>
+ <2932e9f7-5d5f-4331-8043-7aa85e9044a4@loongson.cn>
+Content-Language: en-US
+From: Xingyou Chen <rockrush@rockwork.org>
+In-Reply-To: <2932e9f7-5d5f-4331-8043-7aa85e9044a4@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-04-03 at 10:21 +1300, Barry Song wrote:
-> On Wed, Apr 3, 2024 at 5:13=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
-rote:
-> >=20
-> > So I'm not sure what your desired path for getting this upstream is.  I
-> > can take it, but I'm generally quite leery of taking coding-style
-> > changes without some serious acks on them - nobody elected me as the
-> > arbiter of proper coding style.
+On 4/2/24 19:47, Yanteng Si wrote:
+> Hi xingyou,
+> 
+> 在 2024/4/1 01:21, Xingyou Chen 写道:
+>> Significant changes have been made to workqueue, and there are staging
+>> works transferring from tasklet, while the current translation doesn't
+>> include description around WQ_BH, an update seems to be helpful.
+>>
+>> Synchronize translation from upstream commit 3bc1e711c26b
+>> ("workqueue: Don't implicitly make UNBOUND workqueues w/ 
+>> @max_active==1 ordered")
+> It seems that you cannot pass the build test. You need to find a way to 
+> silence these warnings
+There are some "Title underline too short" warnings, I'll send an 
+updated one.
+> 
+> 
+> /home/siyanteng/doc/linux/Documentation/core-api/workqueue:776: 
+> ./include/linux/workqueue.h:493: WARNING: Inline literal start-string 
+> without end-string
+It's "%WQ_*" in workqueue.h, and didn't found note on this labeling rule 
+after quick search, I'll do an in depth reading around reStructuredText 
+and Sphinx. We may simply remove "%" here, or protect asterisk as "%WQ_\*".
+> 
+> ...
+> 
+> 
+> You need to follow the steps below:
+> 
+> $ ./scripts/sphinx-pre-install
+> 
+>       install them.
+> 
+> $ make cleandocs
+> 
+> $ make htmldocs
+> 
+>      silence warnings
+> 
+> 
+> 
+> Thanks,
+> 
+> Yanteng
+> 
 
-I believe it is generally appropriate for macros that take
-arguments to use static inlines where feasible, so:
-
-Acked-by: Joe Perches <joe@perches.com>
-
-And yes, mm is the usual path for upstreaming at least this
-sort of checkpatch change.
