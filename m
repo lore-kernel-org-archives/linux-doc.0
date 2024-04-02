@@ -1,48 +1,45 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813C134750;
-	Tue,  2 Apr 2024 15:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B9B131745
+	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 15:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071811; cv=none; b=d/b3MbDU62UpXPiKnFzfUaqFzMefwNaCY/4TE7tb+IhXJ4zgBth4h0kQpt/2WAObJ7ttM0mdgUjgAgl5C5rJU32JElPD9R3sfLiOSsSGqbuTOeXrdeQhKe/2BqgmeJGXusaN/ErBqQlENyeY2T7uSRMoulEbbSUk/dpp5qk/zPE=
+	t=1712071915; cv=none; b=tndTpajdPkef2UZROOlGD4mqjtat6jIGVIlBt/YxypU7yiwQTBH9H1LqkyZtc9czzzI7DJkN+BuVWibaBh1ul2djfvUep01Ss36dt3/gl4h7g79wSvY7TAiEjher6sjy6v2TIBLPfNFh6awj0P505G5h43ZAEUhERq/iq14iDBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071811; c=relaxed/simple;
-	bh=Mg63hoWgyu1emHztvlNxc4m7lNkXFrtqWqUTYT7EolU=;
+	s=arc-20240116; t=1712071915; c=relaxed/simple;
+	bh=bYVVKMjogRnw/uMvri1bHvGPMbImewtmZaM+z5yLJZU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Br24p420GIpiAogL53EiZ6Wnuy2RdIrOiva0EiVorcIy4xspkqAjgTwAZarLYNQMtSip84YeZF/gOeZjHCqcjhQ1gOiMlTJOX5m3MGswOdGEZqLYdwt3ad/k4wXO1nHoq22mjONl81pwVnFpjUDohwjmzSUlL3JhQMAXpFlse9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=taUuDJWC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=M1mYVwY0g2qo64Is2Bd/dCbZTl4hblpLMkoFnjhdQMUFAkv1jFohcTlUpdU9G8mMHTnwMi+gy5+O4pApi92OL3HKGrBMUJLLXkJEmxmqmiUWlTLgMMWH8N/cZOS7cWA3Z/vt//QzT5sgig/HC49Qu7gduB2Id/I2SlVXLuswHuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sn4ZJ4GW; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="taUuDJWC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9544647C1D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sn4ZJ4GW"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 265BE47C1D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1712071808; bh=4J0PiXaFUEU/W3BdK9lcYY6frY80SRk/ZG3pwh+Rm64=;
+	t=1712071913; bh=mahJa5pAbCK7y0tcnQaiWo1AR7oTow3P3zqn0g9OI9Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=taUuDJWCrpZlU8jTnqUYUaVQOpYy+qCmcyYYeTm+l/UWyE6+a2dvQZ3xahSdTOcZ2
-	 P3imBxmlYYhcbuf5NyKHSimE+BgsLsCJ23aqosTDgoz4wBog7nJUtiYQsJxLvNvxHf
-	 ZIf6tnsoPEwQxeEjusmealuOSlQDealbt1nv44KW9mj0LoUhD8dp+aau9EQrlglHrg
-	 x//jx/jg+WfAeLMJV9Z5tm54niTm1X1as5YrjSSuWJV/Ue8g8ge3yuHU+crnn62+vc
-	 vVjWj0W2smkiqL4ymza6wHI044jrclw0o8LtDScKILZl30VHEzxy95WoTwO3aF8dHX
-	 wOLkikqWyLX2g==
+	b=sn4ZJ4GWv8/npgHfv71LG50BsbtA6q4Yd2qidZwGpw8eajDi5VXzDrqqRE1mYyQZ6
+	 WmlQ8em/HrIYgqzN124D6AXLJo9whNnRj5FT7SvRsutgkrtig8g6tYIXrg8iUA3nEt
+	 O3pPg55fgaxQf0GFer2DiY5wqjtzrFJIY/gOn0l5T+lfYY+VIOFhD4sP5FdVVH6EkX
+	 tYYzNAh4I6Sh31fjTuenoBlMyBrqLSRlJkZJz1b39wgabBqvdTfnPixJzY+BNb0gB0
+	 XPye2GTn0RaM3sjz1pq3dcjlpfvqrLi4WncSFZevburiWcP1i1ANP/rMgcCq/03K6O
+	 uOiz/HG459qhQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9544647C1D;
-	Tue,  2 Apr 2024 15:30:08 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 265BE47C1D;
+	Tue,  2 Apr 2024 15:31:53 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Blum <thorsten.blum@toblux.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Thorsten Blum
- <thorsten.blum@toblux.com>
-Subject: Re: [PATCH] scripts: sphinx-pre-install: Add pyyaml hint to other
- distros
-In-Reply-To: <20240323125837.2022-2-thorsten.blum@toblux.com>
-References: <20240323125837.2022-2-thorsten.blum@toblux.com>
-Date: Tue, 02 Apr 2024 09:30:07 -0600
-Message-ID: <87ttkjwznk.fsf@meer.lwn.net>
+To: Maki Hatano <maki.y.hatano@gmail.com>
+Cc: linux-doc@vger.kernel.org, Maki Hatano <Maki.Y.Hatano@gmail.com>
+Subject: Re: [PATCH] doc: fix spelling about ReStructured Text
+In-Reply-To: <20240323062141.14863-1-Maki.Y.Hatano@gmail.com>
+References: <20240323062141.14863-1-Maki.Y.Hatano@gmail.com>
+Date: Tue, 02 Apr 2024 09:31:52 -0600
+Message-ID: <87plv7wzkn.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,50 +48,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Thorsten Blum <thorsten.blum@toblux.com> writes:
+Maki Hatano <maki.y.hatano@gmail.com> writes:
 
-> Extend commit 84b4cc8189f2 ("docs: scripts: sphinx-pre-install: Fix
-> building docs with pyyaml package") and add pyyaml as an optional
-> package to Mageia, ArchLinux, and Gentoo.
+> - ReStructured Text should be exactly reStructuredText
+> - "reStructuredText" is ONE word, not two! according to https://docutils.sourceforge.io/rst.html
 >
-> The Python module pyyaml is required to build the docs, but it is only
-> listed in Documentation/sphinx/requirements.txt and is therefore missing
-> when Sphinx is installed as a package and not via pip/pypi.
->
-> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+> Signed-off-by: Maki Hatano <Maki.Y.Hatano@gmail.com>
 > ---
->  scripts/sphinx-pre-install | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 4c781617ffe6..d4f05216ca23 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -514,6 +514,7 @@ sub give_mageia_hints()
->  {
->  	my %map = (
->  		"python-sphinx"		=> "python3-sphinx",
-> +		"yaml"			=> "python3-yaml",
->  		"virtualenv"		=> "python3-virtualenv",
->  		"dot"			=> "graphviz",
->  		"convert"		=> "ImageMagick",
-> @@ -557,6 +558,7 @@ sub give_mageia_hints()
->  sub give_arch_linux_hints()
->  {
->  	my %map = (
-> +		"yaml"			=> "python-yaml",
->  		"virtualenv"		=> "python-virtualenv",
->  		"dot"			=> "graphviz",
->  		"convert"		=> "imagemagick",
-> @@ -587,6 +589,7 @@ sub give_arch_linux_hints()
->  sub give_gentoo_hints()
->  {
->  	my %map = (
-> +		"yaml"			=> "dev-python/pyyaml",
->  		"virtualenv"		=> "dev-python/virtualenv",
->  		"dot"			=> "media-gfx/graphviz",
->  		"convert"		=> "media-gfx/imagemagick",
+>  Documentation/doc-guide/parse-headers.rst  | 2 +-
+>  Documentation/index.rst                    | 2 +-
+>  Documentation/translations/it_IT/index.rst | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 
-Applied, thanks.
+Applied.
 
 jon
