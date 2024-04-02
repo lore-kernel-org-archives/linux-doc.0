@@ -1,191 +1,219 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10olkn2027.outbound.protection.outlook.com [40.92.40.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CD3ECF;
-	Tue,  2 Apr 2024 00:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.40.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712017005; cv=fail; b=prJlGbeNkgmha94hyWD3d74hJ4pW7LkhYVrOaCUWx83jT7KMZVxilkDEqW5Rbl1dmpU02yWVghpNtCZORrK0xPgmkBGDOQJqeF+iKv6z4nCxR9PFX6u3wpm5Kaw/mGNyO5/Oll62NUhWnRgzLOkdX1STCd8rjGtxMm9JcHfT4VA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712017005; c=relaxed/simple;
-	bh=8ZJ8lWf7jqpzPE6qXFB/HIPAQ9SYPt5CRoDWzMy6vnw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qHD+BGa13HrdZ+LTuR1mWe57B4qXH/Y+/fnHDkw7FFAwb6J4gVALPbJ1ig9wOD4NxPRU3ckDMZi1VXfPWBJrPRT+7Wr7NYtC4Cni6HRAOwyzERcWACxyI79UIx8j0IkEnljYdsWSD5ZSHn4KmHhRDHm41xFukL15d0O0XpoMU54=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=SE8bk2wY; arc=fail smtp.client-ip=40.92.40.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111668F7D
+	for <linux-doc@vger.kernel.org>; Tue,  2 Apr 2024 01:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712021206; cv=none; b=kEEp24+j/JConqt7TqKVn1eTBmRa4RUh0pxIIWaJgmtVcz+im6hnDj1ed8d7+qbdcUm5Drzq8wEuFAU8JLqe24fjR0EdlmUYqeCPeUS34BZ89olH322WS/LScwjEF1gfBe50R6ZbIehm9ofyVIHp/CSHblTJiaZAwwdruERA5WM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712021206; c=relaxed/simple;
+	bh=aVxgl65qe63F9RG61q5/c/8ucEYTRdx9vtPoLeH3Y2k=;
+	h=Date:Message-ID:MIME-Version:Content-Type:Content-Disposition:
+	 From:To:Cc:Subject:References:In-Reply-To; b=lMHT4BJKGQ+Uj8AfEk/c/LATNdzdiFeNzIhLDLFO1KO4TW+sZ8WgnswWWfjuIgN6RgtRvMjPfoR8vPRATivMfQw3atj/LZkh9ySN7zWCSdOdnBIbp/6RnrMbft4fNpADF6hH0rhp4OSM6c/b0Fl0poEOg0NAIDEqAO5pbu9fop8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Wk/I++s7; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="SE8bk2wY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E8vBQYi7H0OtgjDm758I2LrFi7Kp6st1/gy/1IIIoSV8ek+poIaXOhqq+h9lpdiZc8OdepRTVRFaer++Pd2iPKlOKRuw5oiDZR4xroclq4PVbk2YlIXCLhbdMUtJJWKA/B24kiSlssCRAWqm6nsjtLnAru7oqM3TYpGXk4LhajYn2KgFvSsDrjVFd9YPEn7O++gqT6l0xYBt4jWEBMH7/+u0Any9UHGrBwoaATC6IYu79wITcI7EWh0UerJ9Cx/q8Etg9CCFnNvbY8cUm77tBXIs/jz5Wj3rdcSn28L/ZrWzPaPuTKNf4+BGRvPmyycUFhKtqWQVLGcmvNtU+hTjMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2A83jCcDTOz7RcFC2rjzFKHWyaeOfpoTtymk6eVRBxk=;
- b=XVXmQdGkQAryfCfb+ouoe03iJ6FZZ/ufoyAbLcCDZbCzfx8IJmhwM4BgERnnC6M0of6LQwUEk1liPXMSePzjig9TpDgxQ1dV8HhVkRj0SGPZi1vq47ZKBHjlhGUzogTnyDIVBpY7Pm8XD/h3FJF15VfYfAPbmSQwUgo7iEU2p96FCoYWUGwyKnikNXXCSH8lLAMhopve49X+blwhRxIv1UeejfpvMxy0gUr6i53ywsdAfScPyQL0urWvMnwjkeSiP2ZUQPZz0nMXMIIG62rk0aoa8e1g3HFj7uaqHAt1LYvUyKHS+WwNcbwYtWv7JbVpikniG0Of8tHzfP8Mcati5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2A83jCcDTOz7RcFC2rjzFKHWyaeOfpoTtymk6eVRBxk=;
- b=SE8bk2wY1BoPk/fYpTXZY3IGxn6u5hft901bG9EIUIPy47uxCwl69HiIUhtbtBWdJV0baPr0145v03JFIfosiedKrUho7SI/4hneAWzv9x/u4N2FwvCpNEsfJX5ql0WvWtxtTmCaYGOUUE5KBaWn6qAynRs9E/91joA2OaRUqVzPztkmRN1imyCQwisT31fJBUyxZVJuaiFeepE04ki+SF+GGYQ6ua27IDfJ/Fb1O7VSFZI6QVlw6jGTWX2jNWZfaxOuB7wW7O5y7AfCzcHBCiqyvptGQF3Vx1tfhtxEdT2L6K/M6IRzp6ILoiqaNreFBEj66jQHyx1AZkHRwYQ2tw==
-Received: from MN0PR20MB4717.namprd20.prod.outlook.com (2603:10b6:208:3cf::20)
- by IA2PR20MB7306.namprd20.prod.outlook.com (2603:10b6:208:4ac::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 2 Apr
- 2024 00:16:40 +0000
-Received: from MN0PR20MB4717.namprd20.prod.outlook.com
- ([fe80::e0a3:f058:e169:988b]) by MN0PR20MB4717.namprd20.prod.outlook.com
- ([fe80::e0a3:f058:e169:988b%4]) with mapi id 15.20.7409.042; Tue, 2 Apr 2024
- 00:16:40 +0000
-From: Mac Xu <mac.xxn@outlook.com>
-To: Joe Perches <joe@perches.com>, Barry Song <21cnbao@gmail.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"workflows@vger.kernel.org" <workflows@vger.kernel.org>
-CC: "apw@canonical.com" <apw@canonical.com>, "broonie@kernel.org"
-	<broonie@kernel.org>, "chenhuacai@loongson.cn" <chenhuacai@loongson.cn>,
-	"chris@zankel.net" <chris@zankel.net>, "corbet@lwn.net" <corbet@lwn.net>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux@roeck-us.net" <linux@roeck-us.net>, "lukas.bulwahn@gmail.com"
-	<lukas.bulwahn@gmail.com>, "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>,
-	"v-songbaohua@oppo.com" <v-songbaohua@oppo.com>, Max Filippov
-	<jcmvbkbc@gmail.com>, Jeff Johnson <quic_jjohnson@quicinc.com>, Charlemagne
- Lasse <charlemagnelasse@gmail.com>
-Subject: Re: [PATCH v5 2/2] scripts: checkpatch: check unused parameters for
- function-like macro
-Thread-Topic: [PATCH v5 2/2] scripts: checkpatch: check unused parameters for
- function-like macro
-Thread-Index: AQHag9MBE6nuZEX6x0OitxYUtdLwcLFSs1aAgAFq0i4=
-Date: Tue, 2 Apr 2024 00:16:40 +0000
-Message-ID:
- <MN0PR20MB471708D419907FFAF1DB0FC2F33E2@MN0PR20MB4717.namprd20.prod.outlook.com>
-References: <20240401012120.6052-1-21cnbao@gmail.com>
-	 <20240401012120.6052-3-21cnbao@gmail.com>
- <f5bb12d8602a03d28b2a8aeaffd8f74f001d692d.camel@perches.com>
-In-Reply-To: <f5bb12d8602a03d28b2a8aeaffd8f74f001d692d.camel@perches.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-tmn: [saOEMdzaOk+YeW9/4eIevOlz48ViBAki]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN0PR20MB4717:EE_|IA2PR20MB7306:EE_
-x-ms-office365-filtering-correlation-id: 8086c10e-b3fa-4803-ab03-08dc52aa2b7e
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- rdmdNOe1lHD/rrdkBO0POP/FTLC6k9NlCWpyd9UtzUGZrB/Km7ZdiWpcLIlYa5rUANZHhPAdAXQkKGp3KHO0pLJH/YwWa6G+wHMgiR7jWDMe5mpMOVSC6KbQOYAT7790Aa20G6qUyQ0U4HbRsMAko+hBB8haywq8JVwzzDbxmRP+yjwP5KHzjrT9DQGz1bERVyZgUpg5U48/VynqSRfLeyn+kZdclvi5OyMMy+JLvAvZK6FjjRNBIF5acz9ndUvrOIic1QsGTHm6bDePHTo1qEM7tkLKsId4JNRob4oU/hgHfUPOdm8xoNLF/N9xkcaGAiC8Au4FHQMxtXQU6AvrF2kf2jPGfTf+hIEAxylVSTNo77J3vHjymA1MGY8eVFaSGN2qwhe7olLa+CXHagM9zjhss4WDaIbR7Do1EabC4ovpi+3BlvefJWNK+EvaBXnHJRZv+5I25qtNpTPtwemdkOVJ4GUuZmKnM2FUxgZLh9JQyIUjnlhieJJpvYI1h3YxVg250vf47yLE/1J/2O4IKzOa2BgEQHxdeBkIgrBKNjAPWmtXEUsHK4xE8dX9GxTw
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ELFjiU7yG8nCgBSjzE+OJcc+sz67YIUCpza2ywMPo37hX5OS36OEs3HG+w?=
- =?iso-8859-1?Q?hJXtZE6FLq827FndQfQi1QWj55WOuDUFaENGk9pDOlXZPg8KivL8pdSdfI?=
- =?iso-8859-1?Q?oU4F4bVe/ooPFbu/GTtUkZGTxrEFTf+D8wjnPi4mqzwWfeCZMguHQEETVl?=
- =?iso-8859-1?Q?cGXNqxjs+lzyHtfoXxOctYbEnSnHBzN5JeQOBtYnst7vn5EBRDYSqgtQFT?=
- =?iso-8859-1?Q?K4YtUUj8o/EwwT8pX6frk5QFOKcddocU6z28VfbPV4C2uba6YU6noNicHk?=
- =?iso-8859-1?Q?VosJlgCWYNBi4yZyhj9ax2W7PCCpiUBjSz9GzGYrgqBvtM9cCGiS2SPYLm?=
- =?iso-8859-1?Q?xpbLxvhJsI/Je0Fw32HLHqbceTHgXCZO2F3t4ELQg/GKYFFxdMyXi9Jo/6?=
- =?iso-8859-1?Q?64Pp9ZxfWy/w2lXnXUtuhYsSqi+bBhW7yclStBxwsILfDx43IKJH0dqyOo?=
- =?iso-8859-1?Q?0yF9PmjsZ9S0XDGye3lgFmqYFfBYpqpQ5+8xfptK12neLXQsweDJMMUSR+?=
- =?iso-8859-1?Q?+3vP6A71rJt7YFu595kBS4N+3DatC1Ows/4L7h7vU5DyeKPBFyCzn9F5FL?=
- =?iso-8859-1?Q?ei2qZpfmVKfZb6IJnogauDDDMLJaDzgOkHaBTIg1zBDbg5kw8IQD2GtC6P?=
- =?iso-8859-1?Q?jpJ1pTIsVX9109QHtg+HQeE7GisylAaZhjuStmy2k2zXSbR2xpotB68iTb?=
- =?iso-8859-1?Q?XGaua9YVkx9TwN0uL+l1Zen8ZvIF3ZC0s7AWhglmxQCPxGlKCA9BmkEWzZ?=
- =?iso-8859-1?Q?w5YGXO3TXLB9e4MIIPkIXVBvllHQdrGNw1xkMRYSnDbFqxH39PSpbZfuLr?=
- =?iso-8859-1?Q?aKnGOmKU/NJWM1Ebru7s/9F0RlXBoW152ye6MQQoiaTidrZ0MOlmt35kcf?=
- =?iso-8859-1?Q?kmR95h9a5SFL9g9kpa5r7sXaR4f56gJ9iubWtcaMBVPOV6jKiaHf+hHL0B?=
- =?iso-8859-1?Q?k8EfLW/MwhcONVBwYCvjHDXk0siTGB0ZPXt29TiczsM4nYZoBxBHPqakdE?=
- =?iso-8859-1?Q?UpGbX1Vfjkq8hE/KVzAvgT+nXV4iINnO/0TMZmP7l6OHHvSb4BS5yAzpxP?=
- =?iso-8859-1?Q?yfpDSpZlHGSi4O+SiLZdIAP4cia0Ft1U1TcIDc4JEkg+phjQQFg8MmZORG?=
- =?iso-8859-1?Q?Tv4AkS1bCywDLrWa5WInGbttq93i5DhziDsmZkG3Nd8qC8HzyXgN+2j77d?=
- =?iso-8859-1?Q?H2W/3FwyRbNzMLAaiAL6/D/k9XM/EhS/P6Hstmt3SARr9zRXJLQYx8VXPT?=
- =?iso-8859-1?Q?plbx8IXOzibSkDgV7tsQ=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Wk/I++s7"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-78a2290b48eso320386285a.3
+        for <linux-doc@vger.kernel.org>; Mon, 01 Apr 2024 18:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1712021203; x=1712626003; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=R2O8HEb1FethHT20zhCThThb/BGPO8YtMtgX7GfGVZI=;
+        b=Wk/I++s7wtaQ/2FeEcZ38+tZpZp1W1jPudHa22FhK2Udi6xUU0Le9ilyyu2e5ca56f
+         sZTeM6lKEGBaGNN6qmjKv/gxRA/e9dyIusCcDaQecnFRRuaPBnOTM1f6AwUwx42CHzxJ
+         y9F1LJdJWwMi5lAOcrviZfuMxaFFZkTMFcasPSWmm2+EP1815JEJYvnWVIHaMIutXqC+
+         V+LO/zNlbCsDVTxq9eWDgi3zYUXBfHSstT9HigmwXnzVYxh8lZioolkSoZsEojV1wGGX
+         cmR7yfv2ajFGhqAr2iC9CZNS/dUs0WQY07vlVDXKGDxd2tqQb6v89ncIc/NNvWJcyByx
+         FYhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712021203; x=1712626003;
+        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
+         :content-disposition:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R2O8HEb1FethHT20zhCThThb/BGPO8YtMtgX7GfGVZI=;
+        b=IZj00ms7X3Fxia/is1v6U5Cla1N+puxWpxllJ0pvDOAdS6JIFKdhLtnj7B1l3coWDV
+         wIM1TOYo9oOI9jhJTUDnfOa/9u3dEft3wfWAA+PUHWjhD07lFunhcUvvGT+Dd/DaXtIC
+         plKHs6sZ3CWw1BWyu+awCbchAZirufBjj+7aIxfm39i2O2y1+UHF1T89yoJcBIaLNQaO
+         JvQ7/1ZxDfhQnmcQrn6a4dNj8VoZyxPokx0XyOWMlwqNBtysOPd5sLzot7Zx+5dzFi7X
+         zTwO3xuhr40tyyvQwDUgmwoe9/838JlCfGO3Xl2MO663yAxd6DJu8MqX2710cOP8+pp5
+         SJ5A==
+X-Gm-Message-State: AOJu0Yw+jaRp816Rp355OsHFyXIsYiCm5B736dD3cpDbfNQc0JVP8O/f
+	8djPelW4bqKZZie/B6M1oewzwbuVNThP5u8wkDx7VoNm7/4ZNcKJV2p/8iktOA==
+X-Google-Smtp-Source: AGHT+IE++PDnPsCAN5ZlJzJBCsY9VL8rWCNTNagzE8bvtbG+6yPqmGk0WcKC3DLF/KWvtXLzI6otLg==
+X-Received: by 2002:ad4:404f:0:b0:699:1026:c0a4 with SMTP id r15-20020ad4404f000000b006991026c0a4mr2755001qvp.38.1712021202974;
+        Mon, 01 Apr 2024 18:26:42 -0700 (PDT)
+Received: from localhost ([70.22.175.108])
+        by smtp.gmail.com with ESMTPSA id fn3-20020ad45d63000000b00696934de5f7sm4964016qvb.62.2024.04.01.18.26.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Apr 2024 18:26:42 -0700 (PDT)
+Date: Mon, 01 Apr 2024 21:26:42 -0400
+Message-ID: <18dfbc23f04422e88993a13ff15b6229@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR20MB4717.namprd20.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8086c10e-b3fa-4803-ab03-08dc52aa2b7e
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2024 00:16:40.6865
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA2PR20MB7306
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=utf-8 
+Content-Disposition: inline 
+Content-Transfer-Encoding: 8bit
+From: Paul Moore <paul@paul-moore.com>
+To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>, Fan Wu <wufan@linux.microsoft.com>
+Subject: Re: [PATCH v16 11/20] block|security: add LSM blob to block_device
+References: <1711657047-10526-12-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1711657047-10526-12-git-send-email-wufan@linux.microsoft.com>
 
-=0A=
-> On Mon, 2024-04-01 at 14:21 +1300, Barry Song wrote:=0A=
-> > From: Xining Xu <mac.xxn@outlook.com>=0A=
-> >=0A=
-> > If function-like macros do not utilize a parameter, it might result in =
-a=0A=
-> > build warning.  In our coding style guidelines, we advocate for utilizi=
-ng=0A=
-> > static inline functions to replace such macros.  This patch verifies=0A=
-> > compliance with the new rule.=0A=
-> >=0A=
-> > For a macro such as the one below,=0A=
-> >=0A=
-> >  #define test(a) do { } while (0)=0A=
-> >=0A=
-> > The test result is as follows.=0A=
-> >=0A=
-> >  ERROR: Parameter 'a' is not used in function-like macro, please use st=
-atic=0A=
-> >  inline instead=0A=
-> >  #21: FILE: mm/init-mm.c:20:=0A=
-> >  +#define test(a) do { } while (0)=0A=
-> =0A=
-> This is no longer true.=0A=
-> Please update the ERROR->WARN and message as below=0A=
-> =0A=
-> Ideally, this would have an update to=0A=
-> Documentation/dev-tools/checkpatch.rst=0A=
-> =0A=
-> to describe the new --verbose message type=0A=
-=0A=
-Hi Joe,=0A=
-=0A=
-Thank you for the comments, here's the code:=0A=
-=0A=
-+# check if this is an unused argument=0A=
-+if ($define_stmt !~ /\b$arg\b/) {=0A=
-+	WARN("MACRO_ARG_UNUSED",=0A=
-+		"Argument '$arg' is not used in function-like macro\n" . "$herectx");=0A=
-+}=0A=
-=0A=
-and here's the document for it which is inserted into the "Macros, Attribut=
-es and=0A=
-Symbols" section of checkpatch.rst starting from line 909:=0A=
-+=0A=
-+  **MACRO_ARG_UNUSED**=0A=
-+    If function-like macros do not utilize a parameter, it might result=0A=
-+    in a build warning. We advocate for utilizing static inline functions=
-=0A=
-+    to replace such macros.=0A=
-+    For example, for a macro as below::=0A=
-+=0A=
-+      #define test(a) do { } while (0)=0A=
-+=0A=
-+    there would be a warning as below::=0A=
-+=0A=
-+      WARNING: Parameter 'a' is not used in function-like macro, please us=
-e=0A=
-+      static inline instead.=0A=
-=0A=
-Please let me know if the document needs further re-wording to make it help=
-ful enough=0A=
-to the readers.=0A=
-=0A=
-Thanks,=0A=
-Xining=0A=
+On Mar 28, 2024 Fan Wu <wufan@linux.microsoft.com> wrote:
+> 
+> Some block devices have valuable security properties that is only
+> accessible during the creation time.
+
+You should mention the new hook in the subject line, something like
+the following: "block,lsm: add LSM blob and new LSM hook for block
+devices".
+
+> For example, when creating a dm-verity block device, the dm-verity's
+> roothash and roothash signature, which are extreme important security
+> metadata, are passed to the kernel. However, the roothash will be saved
+> privately in dm-verity, which prevents the security subsystem to easily
+> access that information. Worse, in the current implementation the
+> roothash signature will be discarded after the verification, making it
+> impossible to utilize the roothash signature by the security subsystem.
+> 
+> With this patch, an LSM blob is added to the block_device structure.
+> This enables the security subsystem to store security-sensitive data
+> related to block devices within the security blob. For example, LSM can
+> use the new LSM blob to save the roothash signature of a dm-verity,
+> and LSM can make access decision based on the data inside the signature,
+> like the signer certificate.
+> 
+> The implementation follows the same approach used for security blobs in
+> other structures like struct file, struct inode, and struct superblock.
+> The initialization of the security blob occurs after the creation of the
+> struct block_device, performed by the security subsystem. Similarly, the
+> security blob is freed by the security subsystem before the struct
+> block_device is deallocated or freed.
+> 
+> This patch also introduces a new hook to save block device's integrity
+> data. For example, for dm-verity, LSMs can use this hook to save
+> the roothash signature of a dm-verity into the security blob,
+> and LSMs can make access decisions based on the data inside
+> the signature, like the signer certificate.
+> 
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+> ---
+> v2:
+>   + No Changes
+> 
+> v3:
+>   + Minor style changes from checkpatch --strict
+> 
+> v4:
+>   + No Changes
+> 
+> v5:
+>   + Allow multiple callers to call security_bdev_setsecurity
+> 
+> v6:
+>   + Simplify security_bdev_setsecurity break condition
+> 
+> v7:
+>   + Squash all dm-verity related patches to two patches,
+>     the additions to dm-verity/fs, and the consumption of
+>     the additions.
+> 
+> v8:
+>   + Split dm-verity related patches squashed in v7 to 3 commits based on
+>     topic:
+>       + New LSM hook
+>       + Consumption of hook outside LSM
+>       + Consumption of hook inside LSM.
+> 
+>   + change return of security_bdev_alloc / security_bdev_setsecurity
+>     to LSM_RET_DEFAULT instead of 0.
+> 
+>   + Change return code to -EOPNOTSUPP, bring inline with other
+>     setsecurity hooks.
+> 
+> v9:
+>   + Add Reviewed-by: Casey Schaufler <casey@schaufler-ca.com>
+>   + Remove unlikely when calling LSM hook
+>   + Make the security field dependent on CONFIG_SECURITY
+> 
+> v10:
+>   + No changes
+> 
+> v11:
+>   + No changes
+> 
+> v12:
+>   + No changes
+> 
+> v13:
+>   + No changes
+> 
+> v14:
+>   + No changes
+> 
+> v15:
+>   + Drop security_bdev_setsecurity() for new hook
+>     security_bdev_setintegrity() in the next commit
+>   + Update call_int_hook() for 260017f
+> 
+> v16:
+>   + Drop Reviewed-by tag for the new changes
+>   + Squash the security_bdev_setintegrity() into this commit
+>   + Rename enum from lsm_intgr_type to lsm_integrity_type
+>   + Switch to use call_int_hook() for bdev_setintegrity()
+>   + Correct comment
+>   + Fix return in security_bdev_alloc()
+> ---
+>  block/bdev.c                  |  7 +++
+>  include/linux/blk_types.h     |  3 ++
+>  include/linux/lsm_hook_defs.h |  5 ++
+>  include/linux/lsm_hooks.h     |  1 +
+>  include/linux/security.h      | 26 ++++++++++
+>  security/security.c           | 89 +++++++++++++++++++++++++++++++++++
+>  6 files changed, 131 insertions(+)
+
+
+
+> diff --git a/include/linux/security.h b/include/linux/security.h
+> index f35af7b6cfba..8e646189740e 100644
+> --- a/include/linux/security.h
+> +++ b/include/linux/security.h
+> @@ -1483,6 +1492,23 @@ static inline int lsm_fill_user_ctx(struct lsm_ctx __user *uctx,
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> +
+> +static inline int security_bdev_alloc(struct block_device *bdev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void security_bdev_free(struct block_device *bdev)
+> +{
+> +}
+> +
+> +static inline int security_bdev_setintegrity(struct block_device *bdev,
+> +					     enum lsm_integrity_type, type,
+
+I'm sure by now you've seen the reports about the errant comma ...
+
+> +					     const void *value, size_t size)
+> +{
+> +	return 0;
+> +}
+> +
+>  #endif	/* CONFIG_SECURITY */
+
+--
+paul-moore.com
