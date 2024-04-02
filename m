@@ -1,25 +1,25 @@
 Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 19F6B604BB;
-	Tue,  2 Apr 2024 11:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 63FA664A98;
+	Tue,  2 Apr 2024 11:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.202.70.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712056895; cv=none; b=fbxFy63flNCAvbNmNohAWMiD121uF8l4V+IT7BN6wZQ98clBJVh0bMlLQ4OuJ3rJmwT/dioT5mY8Mqh5DEJjkKeBrdN55JY0eoUc7vMdIjsTnsEsrKVT0tHv5I6TSHLOE0gW7IvaFZEPbJjHbONaryKI9HtP49je4y/zCmaRB5I=
+	t=1712057067; cv=none; b=VrV9IuzQYD5IaGjRTM2AICU57B+/ZezFCo4BpcPcIgc/3qGez/mY5OSgE6st/wYbKBhGE86GwPKa0BGcbAK37RV5n4+3lfRjLnV92O0Lqk9tpBcUqNhvNyy10HLxjcNXhy5xOgJe8SG5kLlesJa8p0rgyH9Z81wysCWXKgmQH04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712056895; c=relaxed/simple;
-	bh=gIE+7/6wqpyt6IYxNKkaCiQY+GCr5s9o467ORrHzAmo=;
+	s=arc-20240116; t=1712057067; c=relaxed/simple;
+	bh=CaTYjj8zdYnlQyXbzA5vWY5G6Z6GdB28oa29n6j0Xqw=;
 	h=Date:From:To:CC:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SOVjVOHocBKlMj46Myr8AdKus5XLUPNy3hKCFNxE7XRj5CqzgBaZSc33BCikSDNuULuVDiYXxOlMpdMmCew9kN8VnN7FIhj2FCcCzxJ/ti1iwKkM1M4AJz2ja7tr1QK4x72qqJuysTcra5mha2afaxF4nJrgq5zdLycbyofxo2Q=
+	 Content-Disposition:In-Reply-To; b=AL7bnQchj8u0OStRtRDt0BQtflLopGQqeRcQAYfnNRwwSFDnp2kpwQLz9nq6Fv5dEVNQM276fTXcSX94k6/V/O5UZNGl1sMixOBXsosacEoiJjGtOFuSTgSoPbDtsaE+/TrjF9wtepR20cw5ctiTWCMo5IrOogrQbtsKLiL5dQM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com; spf=pass smtp.mailfrom=didiglobal.com; arc=none smtp.client-ip=111.202.70.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=didiglobal.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=didiglobal.com
 Received: from mail.didiglobal.com (unknown [10.79.65.12])
-	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C4A8118097DE69;
-	Tue,  2 Apr 2024 19:21:19 +0800 (CST)
+	by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id E6CB118097DE79;
+	Tue,  2 Apr 2024 19:24:21 +0800 (CST)
 Received: from didi-ThinkCentre-M930t-N000 (10.79.64.101) by
  ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 2 Apr 2024 19:21:19 +0800
-Date: Tue, 2 Apr 2024 19:21:12 +0800
+ 15.1.2507.35; Tue, 2 Apr 2024 19:24:21 +0800
+Date: Tue, 2 Apr 2024 19:24:15 +0800
 X-MD-Sfrom: tiozhang@didiglobal.com
 X-MD-SrcIP: 10.79.65.12
 From: Tio Zhang <tiozhang@didiglobal.com>
@@ -30,8 +30,9 @@ CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
 	<dietmar.eggemann@arm.com>, <bsegall@google.com>, <mgorman@suse.de>,
 	<bristot@redhat.com>, <vschneid@redhat.com>, <tiozhang@didiglobal.com>,
 	<zyhtheonly@gmail.com>, <zyhtheonly@yeah.net>, <fuyuanli@didiglobal.com>
-Subject: [PATCHSET] sched/delayacct: get task SOFTIRQ delay
-Message-ID: <20240402112112.GA17370@didi-ThinkCentre-M930t-N000>
+Subject: [PATCH 1/3] sched: make softirq cputime accounting separately in
+ irqtime
+Message-ID: <20240402112415.GA17946@didi-ThinkCentre-M930t-N000>
 Mail-Followup-To: mingo@redhat.com, peterz@infradead.org,
 	juri.lelli@redhat.com, vincent.guittot@linaro.org,
 	rostedt@goodmis.org, bsingharora@gmail.com, corbet@lwn.net,
@@ -48,69 +49,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
+In-Reply-To: <20240402112112.GA17370@didi-ThinkCentre-M930t-N000>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-ClientProxiedBy: ZJY01-PUBMBX-01.didichuxing.com (10.79.64.32) To
  ZJY02-ACTMBX-02.didichuxing.com (10.79.65.12)
 
-We can only get IRQ/SOFTIRQ delay in total now in Delay accounting, but
-getting SOFTIRQ delay and IRQ delay separetely would help users reduce
-such delays in a more convenient way.
-For IRQ delay, we can tuning irq CPU affinity or using threaded-irq.
-For SOFTIRQ delay, we can tuning rps/xps or using kernel threads for NAPI.
-And this is an example stack a task is delayed mainly by SOFTIRQ(delay
-by receiving packets when sending packets):
-	...
-	ip_rcv
-	__netif_receive_skb_core
-	__netif_receive_skb
-	process_backlog
-	net_rx_action
-	do_softirq
-	__local_bh_enable_ip
-	ip_finish_output2
-	ip_finish_output
-	ip_output
-	ip_local_out
-	ip_send_skb
-	udp_send_skb
-	udp_sendmsg
-	inet_sendmsg
-	sock_sendmsg
-	__sys_sendto
-	do_syscall_64
-	__libc_sendto
-	...
+Currently we account irq{,soft} time in "irqtime.total",
+when CONFIG_IRQ_TIME_ACCOUNTING=y. Since we account them in
+the same path (irq{,soft}_enter{,exit}), we can separately count them
+by filtering the offset.
+In order to not break backward compatibility, we do not change the meaning
+of "total", we only let softirq time to be accounted separately in
+a new field "total_soft".
+So interrupt time could also be calculated by "total" minus "total_soft".
 
-So this patchset tries to make SOFTIRQ delay observeable in Delay
-accounting and available in taskstats.
-(also update tools/accounting/getdelays.c)
+This patch only let softirq cputime stats available in irqtime, do not
+make it in real usage.
 
-Also for backward compatibility, we dont want to change the meaning of
-origin IRQ/SOFTIRQ delay, instead we can get real IRQ(interrupt) delay by
-the origin IRQ/SOFTIRQ delay minus SOFTIRQ delay added by this patch.
+Signed-off-by: Tio Zhang <tiozhang@didiglobal.com>
+---
+ kernel/sched/cputime.c | 18 ++++++++++++++----
+ kernel/sched/sched.h   | 16 ++++++++++++++++
+ 2 files changed, 30 insertions(+), 4 deletions(-)
 
-With this patch, the example above results by getdelays.c:
-	# ./getdelays -t 4600 -d
-	print delayacct stats ON
-	TGID	4600
-	
-	CPU             count     real total  virtual total    delay total  delay average
-                 	3973    10700014780    10698803222   312345815813         78.617ms
-	IO              count    delay total  delay average
-                    	0              0              0.000ms
-	SWAP            count    delay total  delay average
-                    	0              0              0.000ms
-	RECLAIM         count    delay total  delay average
-                    	0              0              0.000ms
-	THRASHING       count    delay total  delay average
-                    	0              0              0.000ms
-	COMPACT         count    delay total  delay average
-                    	0              0              0.000ms
-	WPCOPY          count    delay total  delay average
-                   	40         266859             0.007ms
-	IRQ             count    delay total  delay average
-                	13450    17756373906          1.320ms
-	SOFTIRQ         count    delay total  delay average
-        	        13450    17639154300          1.311ms
+diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
+index af7952f12e6c..23e4bca1e3e8 100644
+--- a/kernel/sched/cputime.c
++++ b/kernel/sched/cputime.c
+@@ -35,13 +35,14 @@ void disable_sched_clock_irqtime(void)
+ }
+ 
+ static void irqtime_account_delta(struct irqtime *irqtime, u64 delta,
+-				  enum cpu_usage_stat idx)
++				  u64 delta_soft, enum cpu_usage_stat idx)
+ {
+ 	u64 *cpustat = kcpustat_this_cpu->cpustat;
+ 
+ 	u64_stats_update_begin(&irqtime->sync);
+ 	cpustat[idx] += delta;
+ 	irqtime->total += delta;
++	irqtime->total_soft += delta_soft;
+ 	irqtime->tick_delta += delta;
+ 	u64_stats_update_end(&irqtime->sync);
+ }
+@@ -54,7 +55,7 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+ {
+ 	struct irqtime *irqtime = this_cpu_ptr(&cpu_irqtime);
+ 	unsigned int pc;
+-	s64 delta;
++	s64 delta, delta_soft = 0;
+ 	int cpu;
+ 
+ 	if (!sched_clock_irqtime)
+@@ -65,6 +66,15 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+ 	irqtime->irq_start_time += delta;
+ 	pc = irq_count() - offset;
+ 
++	/*
++	 * We only account softirq time when we are called by
++	 * account_softirq_enter{,exit}
++	 */
++	if ((offset & SOFTIRQ_OFFSET) || (pc & SOFTIRQ_OFFSET)) {
++		delta_soft = sched_clock_cpu(cpu) - irqtime->soft_start_time;
++		irqtime->soft_start_time += delta_soft;
++	}
++
+ 	/*
+ 	 * We do not account for softirq time from ksoftirqd here.
+ 	 * We want to continue accounting softirq time to ksoftirqd thread
+@@ -72,9 +82,9 @@ void irqtime_account_irq(struct task_struct *curr, unsigned int offset)
+ 	 * that do not consume any time, but still wants to run.
+ 	 */
+ 	if (pc & HARDIRQ_MASK)
+-		irqtime_account_delta(irqtime, delta, CPUTIME_IRQ);
++		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_IRQ);
+ 	else if ((pc & SOFTIRQ_OFFSET) && curr != this_cpu_ksoftirqd())
+-		irqtime_account_delta(irqtime, delta, CPUTIME_SOFTIRQ);
++		irqtime_account_delta(irqtime, delta, delta_soft, CPUTIME_SOFTIRQ);
+ }
+ 
+ static u64 irqtime_tick_accounted(u64 maxtime)
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 001fe047bd5d..f479c61b84b5 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -2931,8 +2931,10 @@ static inline void nohz_run_idle_balance(int cpu) { }
+ #ifdef CONFIG_IRQ_TIME_ACCOUNTING
+ struct irqtime {
+ 	u64			total;
++	u64			total_soft;
+ 	u64			tick_delta;
+ 	u64			irq_start_time;
++	u64			soft_start_time;
+ 	struct u64_stats_sync	sync;
+ };
+ 
+@@ -2956,6 +2958,20 @@ static inline u64 irq_time_read(int cpu)
+ 
+ 	return total;
+ }
++
++static inline u64 irq_time_read_soft(int cpu)
++{
++	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
++	unsigned int seq;
++	u64 total_soft;
++
++	do {
++		seq = __u64_stats_fetch_begin(&irqtime->sync);
++		total_soft = irqtime->total_soft;
++	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
++
++	return total_soft;
++}
+ #endif /* CONFIG_IRQ_TIME_ACCOUNTING */
+ 
+ #ifdef CONFIG_CPU_FREQ
+-- 
+2.17.1
 
-We find out SOFTIRQ impact the delay most, then tune RPS to reduce this.
