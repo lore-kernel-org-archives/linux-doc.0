@@ -1,56 +1,56 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9AA15820F
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 23:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C00158218
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 23:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712187714; cv=none; b=SO7trUqxupgctddEP3NsJIV6dcUXnKU0AdB2FyY0U2tYdyRsXe4YLS9vqy0Aqd7VknNdyiXFO2mdNk/pOkgK+rvIOO4JrDCu5dTVfFMstgiH0vVkFtFCHB3SEYn/800ZGB9u4tAjE1D1wvZA/qD8wEFCiQgAt3SAHgSojnE0O9A=
+	t=1712187716; cv=none; b=mBefMDOGxv/LdwxENFC9ILR+/Ls0UPbPnjpO0HKQ13xQ38ort+LaEzScPGjJ3tHag9l/PIGWtaN0zKDc8gk2Wt7hX8F1k0vSSK2MzN3WnJ3W+D9mQVwe/hF6LhB1TEKq1mL69MGMbl2xOqPoVfJOxM4rzIgkHe/jsRYaCn9qvFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712187714; c=relaxed/simple;
-	bh=ZshD/5wywYZOoD7/u3SYmOTR2SIaMjHKlWumK97il8I=;
+	s=arc-20240116; t=1712187716; c=relaxed/simple;
+	bh=wuffEo00k2gSrTQVE+mHLCh38SejhCpBaK1ioNhuIa8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cvTdTVU3QO0AfoqaKRkbggq3CvByVUqIf3Uyxf0DovpG+1zUCG3x04u1xHV6Dsqxlo0BCWhRDW40PTuNKCFUL5nY/PxMohySaTFljYVTwy9zL5ki++7/mNvvb4j7nhG89paHPe8vVl/HnsQYFwTwejN3f9AlD0KpxyHa0kSZzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=WSPS38vq; arc=none smtp.client-ip=209.85.215.174
+	 MIME-Version; b=NbHEcCeVJ1qxQiuWM82NweGE5qpBj+rCaxP5pLVWrtY7wfRNoGdNfMUO2g4CrnQhyAidltgfrXQP4Y0KEJUxJO6c+2JCZdxW2dxc6yQTqQy3RCxUDUQ6sNviJG8yjCUKwB6vDJ2x6q5eMasf0y6m3+/JptON7jRR7WyFHzSWiOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=2+rkbx6G; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="WSPS38vq"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5c6bd3100fcso349808a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 16:41:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="2+rkbx6G"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5ce9555d42eso321012a12.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 16:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712187711; x=1712792511; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712187714; x=1712792514; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ABpeeFCkULjAH2+wvqdO28185Mvpk++2Yk/j/QF7GJ0=;
-        b=WSPS38vqE0RSmCl5/mHAvxiYjuUqgkGN16SPOi53Pz9owOm/JcFZbEz2PZvKqeI95x
-         6XnfV7ymNpxe20jOM58dR5YcNBEMy+tPWOyB6tTt+UkxAlesgvrNw3fEa6KjACYnntZf
-         dNC8QEjvD7luxmLJ7Dtf8pZt3/acLsD2iuwUm/3+SW3gz3IY8BF3z6TuISWsn0fTvq63
-         Eh3IfdEKTFZ87hO9mpy/jdtnbBlyDldcnMK2F6mTh5LYDPztWFahuho+HqvbfOCGyqQu
-         eYW7RP+KOMKHbq9WjsxHwTJ9Xjz63VM8JrVJZGdL5pagF5qxXl3wIRBW47ylxN9kPbVZ
-         g6xg==
+        bh=54i5AOpZ8eaoGeKx2/tq2pnpvo0kkfTAlmLvvQQ7IdM=;
+        b=2+rkbx6GtLEqKXFduQ9nWERJclW/1DHNK1/cIsgglUSmY1g5pq9bswNuN7CHRhXb1d
+         km0X/vk1Uw2oGbHE9bn6glSG2WeiDE1kCO2B9hotUrRY56nczcxjFX1oPCEHnEI4A/oB
+         GBiZYkc2Zxo4XDh64MNCqcGhP5+2T7/gk7oz1EezUD27Jhbl4rjP2Ta8QbSk+TQTFRNR
+         gTQ4HIcxp9NxoJr9+z3gwKlkoDZGuNp8jZTqtfkVvHMsMBArwa6F3NUIMpnLHFxiN+Qb
+         woU2YZ/8RAwFq3BffrVXew1iP1JIFiwQ8mdEDrAkG0Uop5K965eVHyFBvEa7Wri4kXuP
+         fHWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712187711; x=1712792511;
+        d=1e100.net; s=20230601; t=1712187714; x=1712792514;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ABpeeFCkULjAH2+wvqdO28185Mvpk++2Yk/j/QF7GJ0=;
-        b=tUmmeC/smkgPMjv4raVfMjUVzZlw68MhmVTMfo5IGZzxCmJArhJ4g0ufvXK+i+kfWB
-         xKo0unWyA5QXfd39UIDtEXcOILtHJSZoHVYb+QD8/3dyDp/qN+6BMOb7rXRYv+CaqVm5
-         1IkHSOipZbP5GC/jbto55+6HJSiF2sBP+f0+LpP24Z5+Q5YeMHoqvrFt5EeJco/lb455
-         ajboPe+f/hZ+mpaJUjOlymP/dhTyZQOxatzEL7/bh3oww8bK58N0/K0VTrgkNnJTrHvg
-         W1srDNyyHPT0EE2eU0PJh2TDOY7t73HzSr9fLubvGMheeOZdqfm8hg0QqiLnt+yfE0VC
-         ec/w==
-X-Gm-Message-State: AOJu0Ywl2XDcmYEgf3xK1f4GYl+Bucoig9nmf+r+YlcQmd4xWRR5Ki4w
-	At9Mv3Ys976G9q92zT9jjTAK6r8z21Sxgs/4bIZjAIzO1ELFTik4oGisdi7+TKc=
-X-Google-Smtp-Source: AGHT+IEuPdJ9+VZyZuaG1MlOsTEyLTpxiJH28qDOFi58HVozeCfEc+yN58hPfTIqNV3cM5o/KXJ7iw==
-X-Received: by 2002:a05:6a21:339e:b0:1a6:f8cf:1e23 with SMTP id yy30-20020a056a21339e00b001a6f8cf1e23mr1102834pzb.41.1712187711360;
-        Wed, 03 Apr 2024 16:41:51 -0700 (PDT)
+        bh=54i5AOpZ8eaoGeKx2/tq2pnpvo0kkfTAlmLvvQQ7IdM=;
+        b=GIMtcf38nsuanNcxaUdka0mahMzz6MLvzF5h6YMKasmwZ3xC7fagcP0oMRw9HQJDgX
+         /dopGCVJpPve2RrWrYh5QNMxwUFObfXuvprr9ZrO32jFmOyk4l6i1OTgLaiKwfP0laYT
+         lV//en+S/NrcpFEkSMUs7uYYSKDWzwq1WArvIVJeAM95k790HenuOIZhMMVfd1BOSJrI
+         UkQrEtSgOh2S7mG2ho10SEuoiQ7l3XRdhL78+vM0cW0ExhGZ6BD6Y6icevfuU7IJiZ7g
+         VcZa0AE9WmnZwnsSVQD3uo8dqdU8yjYsJbBBWZW8Jt6sUppfWtJ+CV9XnCoRgjhkCuV5
+         TxVA==
+X-Gm-Message-State: AOJu0YwkQR7jKCI4DVB4kgJTb/01XTLnbhJtHKv4vixE2O9zPvKt2mjl
+	zYL9/Kwqn4jWRIBfimqU/orGxiBraHqyk4B5Xb/haXOedfgGW1XOfUok4wbHf0c=
+X-Google-Smtp-Source: AGHT+IG6GlC+ZgzT+vgM3OEvECwnyeJlz7W2zSZ3hW3riRhMkNJ5fFd9UMQXlTdOrd5KXzyMbVV4Yg==
+X-Received: by 2002:a17:902:f085:b0:1e2:a5b2:ee0f with SMTP id p5-20020a170902f08500b001e2a5b2ee0fmr628269pla.24.1712187714025;
+        Wed, 03 Apr 2024 16:41:54 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id b18-20020a170902d51200b001deeac592absm13899117plg.180.2024.04.03.16.41.48
+        by smtp.gmail.com with ESMTPSA id b18-20020a170902d51200b001deeac592absm13899117plg.180.2024.04.03.16.41.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 16:41:50 -0700 (PDT)
+        Wed, 03 Apr 2024 16:41:53 -0700 (PDT)
 From: Deepak Gupta <debug@rivosinc.com>
 To: paul.walmsley@sifive.com,
 	rick.p.edgecombe@intel.com,
@@ -127,10 +127,11 @@ Cc: linux-doc@vger.kernel.org,
 	deller@gmx.de,
 	omosnace@redhat.com,
 	ojeda@kernel.org,
-	jhubbard@nvidia.com
-Subject: [PATCH v3 08/29] mm: Define VM_SHADOW_STACK for RISC-V
-Date: Wed,  3 Apr 2024 16:34:56 -0700
-Message-ID: <20240403234054.2020347-9-debug@rivosinc.com>
+	jhubbard@nvidia.com,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [PATCH v3 09/29] mm: abstract shadow stack vma behind `vma_is_shadow_stack`
+Date: Wed,  3 Apr 2024 16:34:57 -0700
+Message-ID: <20240403234054.2020347-10-debug@rivosinc.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240403234054.2020347-1-debug@rivosinc.com>
 References: <20240403234054.2020347-1-debug@rivosinc.com>
@@ -142,59 +143,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-VM_SHADOW_STACK is defined by x86 as vm flag to mark a shadow stack vma.
+VM_SHADOW_STACK (alias to VM_HIGH_ARCH_5) to encode shadow stack VMA.
 
-x86 uses VM_HIGH_ARCH_5 bit but that limits shadow stack vma to 64bit only.
-arm64 follows same path (see links)
-
-To keep things simple, RISC-V follows the same.
-This patch adds `ss` for shadow stack in process maps.
-
-Links:
-https://lore.kernel.org/lkml/20231009-arm64-gcs-v6-12-78e55deaa4dd@kernel.org/#r
+This patch changes checks of VM_SHADOW_STACK flag in generic code to call
+to a function `vma_is_shadow_stack` which will return true if its a
+shadow stack vma and default stub (when support doesnt exist) returns false.
 
 Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+Suggested-by: Mike Rapoport <rppt@kernel.org>
 ---
- fs/proc/task_mmu.c |  3 +++
- include/linux/mm.h | 11 ++++++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ include/linux/mm.h | 13 ++++++++++++-
+ mm/gup.c           |  5 +++--
+ mm/internal.h      |  2 +-
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 3f78ebbb795f..d9d63eb74f0d 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -702,6 +702,9 @@ static void show_smap_vma_flags(struct seq_file *m, struct vm_area_struct *vma)
- #endif /* CONFIG_HAVE_ARCH_USERFAULTFD_MINOR */
- #ifdef CONFIG_X86_USER_SHADOW_STACK
- 		[ilog2(VM_SHADOW_STACK)] = "ss",
-+#endif
-+#ifdef CONFIG_RISCV_USER_CFI
-+		[ilog2(VM_SHADOW_STACK)] = "ss",
- #endif
- 	};
- 	size_t i;
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index f5a97dec5169..64109f6c70f5 100644
+index 64109f6c70f5..9952937be659 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -352,7 +352,16 @@ extern unsigned int kobjsize(const void *objp);
-  * for more details on the guard size.
-  */
- # define VM_SHADOW_STACK	VM_HIGH_ARCH_5
--#else
-+#endif
-+
-+#ifdef CONFIG_RISCV_USER_CFI
-+/*
-+ * RISC-V is going along with using VM_HIGH_ARCH_5 bit position for shadow stack
-+ */
-+#define VM_SHADOW_STACK	VM_HIGH_ARCH_5
-+#endif
-+
-+#ifndef VM_SHADOW_STACK
+@@ -363,8 +363,19 @@ extern unsigned int kobjsize(const void *objp);
+ 
+ #ifndef VM_SHADOW_STACK
  # define VM_SHADOW_STACK	VM_NONE
++
++static inline bool vma_is_shadow_stack(vm_flags_t vm_flags)
++{
++	return false;
++}
++#else
++static inline bool vma_is_shadow_stack(vm_flags_t vm_flags)
++{
++	return (vm_flags & VM_SHADOW_STACK);
++}
  #endif
  
++
+ #if defined(CONFIG_X86)
+ # define VM_PAT		VM_ARCH_1	/* PAT reserves whole VMA at once (x86) */
+ #elif defined(CONFIG_PPC)
+@@ -3473,7 +3484,7 @@ static inline unsigned long stack_guard_start_gap(struct vm_area_struct *vma)
+ 		return stack_guard_gap;
+ 
+ 	/* See reasoning around the VM_SHADOW_STACK definition */
+-	if (vma->vm_flags & VM_SHADOW_STACK)
++	if (vma->vm_flags && vma_is_shadow_stack(vma->vm_flags))
+ 		return PAGE_SIZE;
+ 
+ 	return 0;
+diff --git a/mm/gup.c b/mm/gup.c
+index df83182ec72d..a7a02eb0a6b3 100644
+--- a/mm/gup.c
++++ b/mm/gup.c
+@@ -1053,7 +1053,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+ 		    !writable_file_mapping_allowed(vma, gup_flags))
+ 			return -EFAULT;
+ 
+-		if (!(vm_flags & VM_WRITE) || (vm_flags & VM_SHADOW_STACK)) {
++		if (!(vm_flags & VM_WRITE) || vma_is_shadow_stack(vm_flags)) {
+ 			if (!(gup_flags & FOLL_FORCE))
+ 				return -EFAULT;
+ 			/* hugetlb does not support FOLL_FORCE|FOLL_WRITE. */
+@@ -1071,7 +1071,8 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+ 			if (!is_cow_mapping(vm_flags))
+ 				return -EFAULT;
+ 		}
+-	} else if (!(vm_flags & VM_READ)) {
++	} else if (!(vm_flags & VM_READ) && !vma_is_shadow_stack(vm_flags)) {
++	/* reads allowed if its shadow stack vma */
+ 		if (!(gup_flags & FOLL_FORCE))
+ 			return -EFAULT;
+ 		/*
+diff --git a/mm/internal.h b/mm/internal.h
+index f309a010d50f..5035b5a58df0 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -572,7 +572,7 @@ static inline bool is_exec_mapping(vm_flags_t flags)
+  */
+ static inline bool is_stack_mapping(vm_flags_t flags)
+ {
+-	return ((flags & VM_STACK) == VM_STACK) || (flags & VM_SHADOW_STACK);
++	return ((flags & VM_STACK) == VM_STACK) || vma_is_shadow_stack(flags);
+ }
+ 
+ /*
 -- 
 2.43.2
 
