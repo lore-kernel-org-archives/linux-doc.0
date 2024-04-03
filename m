@@ -1,164 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF49154C12;
-	Wed,  3 Apr 2024 17:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712165287; cv=none; b=TFOsEpHPHvMpsXSVOrzdJ3xGTcagVMBNbbDwbmjf+qVtNIX0VuATQVq3fneF066Qom8Xs5LS2t4j+H9tYTDnf8IotFc28fiFCSiiPEGQOg+qRqzm/2YA9t5d2gVpxJlGToWYeXoivbOjEGcAVkFxtmS2i0mp2UY4NwbU6EIEgD8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712165287; c=relaxed/simple;
-	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ia2opbuoxHt0lFkgWDWQ6GW72TwXxCw0yfeQSJ/LhG7sn01WZkrj8WZRUJRsE4888fMYzSyz3Ech/P1f6Gxg8GCCmQni6+lw8lB91KappKy7elE43A1OQAfDim+Rx3i92Q5ooTwIdQtz8KoPEYKbLRt0tvnVMBkb7I6ZXCcHAOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJpsqN23; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9987F152DFE;
+	Wed,  3 Apr 2024 17:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712166132; cv=fail; b=Xx2ih7/98SIpFvquWB9HdZdUd/6xHi92MvNi6jZvXBFgDfGZ+VWR0cIUvZxm4UvLjneGTVMjZ72DqXn9d4oTi+B4PRAbqVYtkwMuYa91qvHI+wHhs+7ky76NbPrETny84xDAl0vu4/oWS7t0wyda/QbpLRHWNZAK57ipALaTQ1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712166132; c=relaxed/simple;
+	bh=jlXnKduzxaOwfaAhfgHFKV2sW/WHlIeHS2BVi7ivpM4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J1+NxYgPcnwZAOKxMUUg24DkFG+FQJE4aCLlNGR2mmZ9oMu3cpz/BstYBozGvaUerIGMde+6Uq0yNbSr+0dGZXyWrENLMj6YXrsaUn/AY1jro/YFFzs6vm1xLk8QiPVOgIgTQVJZGaLxePMet9zRRa6TFB0pfWRZNOSDoxj1MtA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UFaZalYv; arc=fail smtp.client-ip=40.107.93.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJpsqN23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25477C433F1;
-	Wed,  3 Apr 2024 17:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712165286;
-	bh=ev9qwjumkVBT21OJLnRxmj6j+tcZWLWc9gYIuhQP4YA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pJpsqN23a/bTPCDYI46/mddJ60857N8gxl0704dxwCHxM5gKzPHc731EgK6XTky8d
-	 UTSvCE/t886wLCwR1UtYWv7Xweb+uKowOagxSx/lUTLkXov7Dsf3h7EJVqcumDwZqs
-	 tOZb0mWrfqCf+8IONESe5080Pxu9nMjALf/FMnCDXF9xhUlL3R67eN2rH1I5mN6bzF
-	 1n8OJA3VkfjnGjVp4Z+o4CVz2zIgJ7Dmv0gNexlQEtkyGLrPexZxzjQpZtQ6ml5ppR
-	 mZhUqv9H4p4rGkxe60L9FXP3YjGI6r2+YWhPDeKU2GGU7vXAeDQM5+N6jWyDCaqmEM
-	 CqEUGy0nok9lw==
-Date: Wed, 3 Apr 2024 18:27:49 +0100
-From: Simon Horman <horms@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Florian Westphal <fw@strlen.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Aleksander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
-	Breno Leitao <leitao@debian.org>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [RFC PATCH net-next v8 06/14] page_pool: convert to use netmem
-Message-ID: <20240403172749.GP26556@kernel.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-7-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UFaZalYv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FMBN4VUumANqeboh8HghqaFhlV66BqchbNR8+km4iHJ4idNhCumYlm51uqJB6KrR8OT++UVpWb2nKrJeCx5UcyLJU15REQrmruyPM615zjY46lL60BSp73fKAaDX5+v1Ho8d435GfHrD0k9xlP7rNV5XL1UiaRxe3hSDW+P1YAGegI8DA0ohyLV9+AmwS1CyI9XM8GNWyzif2fIwzVShMGHqtMNpxZtxjimwAIuarhnMRcIXuMQi31w2Ms0JfLUfRxBdpq4fCcouBOmTk8g4fcEdtkjq2lp5QOD95xPu0QtmLjUJ0ECdgJ+mPoufJJBT92D7OpcAa37k4X/qJNnvmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pwuzmTafwFAoJ0FO0IlmTe6yLzn2I5ns5SoiqZwlZlE=;
+ b=DkaXeE3I82bfhV3aOjHo3zBTvjc4N76SG1U4PWYmyZlRnZRZ9bqHR4MJ0Xtv3QUOPRNzFwQdgwTHCXVqQFhVRsBjRtgJuC+a6ZEwa327ROLgDr015zibso+Xub9QZymjZYlQ8avLn/8qpJNxci7T5f7SXsdCUQprsm+TjR1F5vHAqNGJKGvcukgCWR0WaLJ13i5VcKpenSqxeBVq/ByTmmxjbt7Qun7TuD2fBA+AmQDSQbBr89rJyEn+d4U+lpRJKZEM30j6umRHzq6+cmE9JjmSPGvarc6jP9aK+RLeNbXBLebkgD0GyoLNSclQPepC06l/ELsyogemNYQl2zTr+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pwuzmTafwFAoJ0FO0IlmTe6yLzn2I5ns5SoiqZwlZlE=;
+ b=UFaZalYvdJi6AP3L8UZvTL7EeELTY0JK8T05twCn/nZvYCTIHHRVCJTaJlyjMTAoRKRx0+YIqLkSCZnI+rgYuwXjH8+KOiwbakbhtDTJ8WRUzHuoNOHM6SI9t7rAHr4xuzwjziYVI04c7bNgqom8vjfldJ7Z+95UizAw9vRxjy50mK8I47Wd8Dy6kNfDxWu8MWXsyPovF5XakIgOjajak4l0mVPO4eQLfNEA7AILHLU7msccoBewlVC65POp9mHcq8+YJC8quJ7fdcLXh1rryXITmfbg6KE6lhhmkDqvrBxw3obw8Cw3/B3JsXrlhvuooppi0K4ObnoXiJt5WPqHlA==
+Received: from MN2PR17CA0022.namprd17.prod.outlook.com (2603:10b6:208:15e::35)
+ by BL3PR12MB6476.namprd12.prod.outlook.com (2603:10b6:208:3bc::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
+ 2024 17:42:07 +0000
+Received: from MN1PEPF0000ECDB.namprd02.prod.outlook.com
+ (2603:10b6:208:15e:cafe::52) by MN2PR17CA0022.outlook.office365.com
+ (2603:10b6:208:15e::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46 via Frontend
+ Transport; Wed, 3 Apr 2024 17:42:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ MN1PEPF0000ECDB.mail.protection.outlook.com (10.167.242.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Wed, 3 Apr 2024 17:42:07 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Wed, 3 Apr 2024
+ 10:41:49 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.231.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Wed, 3 Apr 2024 10:41:48 -0700
+From: Parav Pandit <parav@nvidia.com>
+To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <corbet@lwn.net>,
+	<kalesh-anakkur.purayil@broadcom.com>
+CC: <saeedm@nvidia.com>, <leon@kernel.org>, <jiri@resnulli.us>,
+	<shayd@nvidia.com>, <danielj@nvidia.com>, <dchumak@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Parav Pandit
+	<parav@nvidia.com>
+Subject: [net-next v3 0/2] devlink: Add port function attribute for IO EQs
+Date: Wed, 3 Apr 2024 20:41:31 +0300
+Message-ID: <20240403174133.37587-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240403002053.2376017-7-almasrymina@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDB:EE_|BL3PR12MB6476:EE_
+X-MS-Office365-Filtering-Correlation-Id: db6ceca7-9b20-4916-bd29-08dc54056236
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dRpS9RN8nKku/13ECosGIa9yf7Jh4R2dIlbu55HGPuWuY6Hna2ymCSjLcY/6IsuJYyb/BmiwMEwThBtqf3IIkuMQlDwBBgL6Hm6dhQSTQBUlgKrvqAEy26SE4EwuuTkkB1cof6EoyiJ2Ny3CbHmGHsFkQYwk0BWBOsCUBnX/WukZFTMsNQFtO4y4DON1s6DoV00sSpeAd2VKKNV8vgu/ihQhuZOpVkG63fZsOFTFy0+qY5xc6CNPIdYSRr9WhYU1XGCaNwRKrAIBbliEPKi28SjJfmrWeFlpJippm/K0b3XX66rfUjRYQJX6YVYp8M4HwY/qVtIlmoEEcqacBJA+A5mEoMno5+2BEb2yWeoDbxZTErgKiy7wg5vgHydQOCw23sHqs75B64pAhHFFO4QUM69qWS+jyo28CA4eD6msTEcC6OgPcW70SUZeI6gaL3KbnyS+eskCGU2X5eMLXLrAmuJ01Dp0rEVfZQNa2dTrGvDx+V7kBl53DjtO3Nue3h09Ph/0Yy+ZQc53q3Y7cRWjgAAmZ89sF2qNb34vknV5MZm6Sv4KgdoVrbi1Q+9ERVuOVMJ2+fHQ/0C50+Z8Eu56JSyz7x+UPy2BXbcdWKwtwancbtOpKRR4ZDJ6ZAU2m9qRopmjxQWRbqfwtIAZIB7VkFNIAbBIeqJFI6ynd3mypFlvPbiOszYYQ1c/nRPMs5ZrX6xqbPzHx+6ZT7N8dAtsgcpQWpUc97OWF9rw1DC7A8Pfw5T3IMtSuYTlEKVcG8lX
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(82310400014)(376005)(36860700004)(7416005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 17:42:07.7060
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: db6ceca7-9b20-4916-bd29-08dc54056236
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000ECDB.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6476
 
-On Tue, Apr 02, 2024 at 05:20:43PM -0700, Mina Almasry wrote:
-> Abstrace the memory type from the page_pool so we can later add support
-> for new memory types. Convert the page_pool to use the new netmem type
-> abstraction, rather than use struct page directly.
-> 
-> As of this patch the netmem type is a no-op abstraction: it's always a
-> struct page underneath. All the page pool internals are converted to
-> use struct netmem instead of struct page, and the page pool now exports
-> 2 APIs:
-> 
-> 1. The existing struct page API.
-> 2. The new struct netmem API.
-> 
-> Keeping the existing API is transitional; we do not want to refactor all
-> the current drivers using the page pool at once.
-> 
-> The netmem abstraction is currently a no-op. The page_pool uses
-> page_to_netmem() to convert allocated pages to netmem, and uses
-> netmem_to_page() to convert the netmem back to pages to pass to mm APIs,
-> 
-> Follow up patches to this series add non-paged netmem support to the
-> page_pool. This change is factored out on its own to limit the code
-> churn to this 1 patch, for ease of code review.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+Currently, PCI SFs and VFs use IO event queues to deliver netdev per
+channel events. The number of netdev channels is a function of IO
+event queues. In the second scenario of an RDMA device, the
+completion vectors are also a function of IO event queues. Currently, an
+administrator on the hypervisor has no means to provision the number
+of IO event queues for the SF device or the VF device. Device/firmware
+determines some arbitrary value for these IO event queues. Due to this,
+the SF netdev channels are unpredictable, and consequently, the
+performance is too.
 
-...
+This short series introduces a new port function attribute: max_io_eqs.
+The goal is to provide administrators at the hypervisor level with the
+ability to provision the maximum number of IO event queues for a
+function. This gives the control to the administrator to provision
+right number of IO event queues and have predictable performance.
 
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+Examples of when an administrator provisions (set) maximum number of
+IO event queues when using switchdev mode:
 
-...
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 10
 
-> @@ -170,9 +172,10 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
->  	struct page *page;
->  
->  	/* Mask off __GFP_HIGHMEM to ensure we can use page_address() */
-> -	page = page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM);
-> +	page = netmem_to_page(
-> +		page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM));
->  	if (unlikely(!page))
-> -		return NULL;
-> +		return 0;
+  $ devlink port function set pci/0000:06:00.0/1 max_io_eqs 20
 
-Hi Mina,
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 20
 
-This doesn't seem right, as the return type is a pointer rather than an
-integer.
+This sets the corresponding maximum IO event queues of the function
+before it is enumerated. Thus, when the VF/SF driver reads the
+capability from the device, it sees the value provisioned by the
+hypervisor. The driver is then able to configure the number of channels
+for the net device, as well as the number of completion vectors
+for the RDMA device. The device/firmware also honors the provisioned
+value, hence any VF/SF driver attempting to create IO EQs
+beyond provisioned value results in an error.
 
-Flagged by Sparse.
+With above setting now, the administrator is able to achieve the 2x
+performance on SFs with 20 channels. In second example when SF was
+provisioned for a container with 2 cpus, the administrator provisioned only
+2 IO event queues, thereby saving device resources.
 
->  
->  	return page_address(page) + offset;
->  }
+With the above settings now in place, the administrator achieved 2x
+performance with the SF device with 20 channels. In the second example,
+when the SF was provisioned for a container with 2 CPUs, the administrator
+provisioned only 2 IO event queues, thereby saving device resources.
+
+changelog:
+v2->v3:
+- limited to 80 chars per line in devlink
+- fixed comments from Jakub in mlx5 driver to fix missing mutex unlock
+  on error path
+v1->v2:
+- limited comment to 80 chars per line in header file
+- fixed set function variables for reverse christmas tree
+- fixed comments from Kalesh
+- fixed missing kfree in get call
+- returning error code for get cmd failure
+- fixed error msg copy paste error in set on cmd failure
+
+Parav Pandit (2):
+  devlink: Support setting max_io_eqs
+  mlx5/core: Support max_io_eqs for a function
+
+ .../networking/devlink/devlink-port.rst       | 25 +++++
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  4 +
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
+ .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
+ include/net/devlink.h                         | 14 +++
+ include/uapi/linux/devlink.h                  |  1 +
+ net/devlink/port.c                            | 53 ++++++++++
+ 7 files changed, 201 insertions(+)
+
+-- 
+2.26.2
+
