@@ -1,178 +1,166 @@
-Received: from box.fidei.email (box.fidei.email [71.19.144.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2107.outbound.protection.outlook.com [40.107.102.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2153C46425;
-	Wed,  3 Apr 2024 05:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=71.19.144.250
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712122363; cv=none; b=Z9G2ctFlO0GOgsjoJkalbJ2rLBBAwkzxD3rMXbbrX9kqjkLFPVwboIyn6EE/XMF7SH7fiPl0KDycYPuytAvsH5C9R2H4fKkTQwDB4bCquDdZ4PNfpmY0d59WFoU1vXrSB1O6Gl45UvZIL6xJFT2Rfr3xrb+Sun4eZqdDFJgGI0M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712122363; c=relaxed/simple;
-	bh=NRiy2LGJHBtCVOE6rfX9SqNFWfLvoY+5HcH/4vLD7bQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=jrMvUN/VlrhJ90jrObtWeKT5ZS8anqO37WmbtCnC371w0Exw2ehM7NSnn5L09jzXK2hgbtx2YMl3oLg1urTqS1AdeE789CRSOnyQmXQkNoQF78RKHxi+YU/TTzp/69c5DClv1OCWwI4dTD0n3aBBPwWJZceLpDkOnPDY1yZQLfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me; spf=pass smtp.mailfrom=dorminy.me; dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b=MlpXF1Lc; arc=none smtp.client-ip=71.19.144.250
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dorminy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF54645;
+	Wed,  3 Apr 2024 05:46:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712123219; cv=fail; b=htRFVF9+SfU2Db/gVUL5IL1xE++9pj0TKVa6lz2Ew5ghlu54B8Q6NPL0W7Gk4RioZoSWa1veg+ugxcd9oqJqvNNp36kgVdv78YwHihmvkOCcMWpzjweuHSt5zxZD0DRIVVAsHOuF+rG/XyE5TDdNOkybz6XdsLFMoPvOuV3tSaI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712123219; c=relaxed/simple;
+	bh=OJudV+n1tKL2PiLEQo2+gi91BGv4SCkTWJstbzJUUVY=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 Content-Type:MIME-Version; b=FLkmjJlifacFk3jisZCu7UH8gQgaZVCwmxNkZUHerkNHSA6qWOsZOOBScqmrd2Q4UBp6RBViK+Cn9rz18tzjMLZ5hAagQqGUq3vocXE6u6tmDhV7mchrj4nFRusivI+iqNIM6jCsbY4ifO6oYNvdkKERvghPQrGxb4o3z5KFjII=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NcesQ6EC; arc=fail smtp.client-ip=40.107.102.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b="MlpXF1Lc"
-Received: from authenticated-user (box.fidei.email [71.19.144.250])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id B5D63807C8;
-	Wed,  3 Apr 2024 01:32:32 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1712122354; bh=NRiy2LGJHBtCVOE6rfX9SqNFWfLvoY+5HcH/4vLD7bQ=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=MlpXF1LcmKpE26Q6X3yy3eCYlZqQU2KcgdjnVJSAEKvnY8rHu8l5pFY+AQaMYRRuj
-	 gIee5zuj7ETV/9qWlFN9+cpuspm4vkFJYddmWJ59/HiDTExS79MzpUr1ce9hOv162K
-	 zvvOfCizde1o9nK39WuLBNfhaZoy9yxtXD844EQpxeoD3RK5SSGloaw0sYWwIfAZAR
-	 srwqZzl2ScCqTN+VBjx4WggowP7gc0XFCSqHV0+wFNFsy2RRSSkKf3usSKCEokP9CM
-	 TSicEaw0nYMN0DTg0CUMcYa1XLiSbU0LnzZ0inDv0b6YnuaHxiF8Ef5uB3GN2gswPb
-	 NNM/Rz9TghlDA==
-Message-ID: <ff320741-0516-410f-9aba-fc2d9d7a6b01@dorminy.me>
-Date: Wed, 3 Apr 2024 01:32:31 -0400
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NcesQ6EC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KPScQHjuPfjPWoIxVRaV0q6ghXJLDXFI4zlHfgd41ZAvNS8u9FX/imcoUPLcnQ83W+szSU/Lg6QcXE5JjdmVxFcsFVZfxuCkcybyIOLQiIrBxcf9sLWsBhslWHwu8AU8ey8n0Y0Nb5HbtZKnbrsYkeM4kfAjwSriLEuTE3s2A/4YCgDYyH2BhQVJu2TGXBYEBRymLCkfn2fVP8TiiDJ1d6dSJn8C2WVtGCjTpLYmmpDgwyxiEcNVFfVYTGSip3KRhRXr6UgD7zBv4mi2TsqU2PXuBRrIv0pWTST8EB7eqGXgP22gyYv1AhUgWm4mijCadRHBOUFtjxc63+4LoanQFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZDLk5HZw+fSKx+VIXuFdhZN6iMwF9y+6ha0jWrUWf5o=;
+ b=Y+1eFRaw5ngh4+CNwqTP5awAD0FsVzu73FLWPBzsOLfJRShFaJTxLmK7iIbFL5uLYPyVR2pUSt++oDaoffPOo7jdeTR1KiemzrlVoAs1yQUfUvrXsTvWB6Oy96sm3ODcbpOWK3L9XPXNZye+pQ/MOHdkFjo8LJ9ckKHuwcJh+Wgrpfyjw0Eybdqf/OaBl9SuZgRt3F/2njidm7IIK8NtbQCFEv6DGd7CUG8pfNKA1oJLNzFJ98v+FaErnGagJDaqtFE2u0l7V94d0JfssSsUNeGY5Ur5jKgajSkSFPCCrezHQpzU3mofyNNhP9Y/qji1nbYEgLk12p+qdo6n1JdHCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZDLk5HZw+fSKx+VIXuFdhZN6iMwF9y+6ha0jWrUWf5o=;
+ b=NcesQ6ECrZiH20fyjxfrmIpitA+zPAlgjO57tFFDQr4GG4EW5IXqfQCInwpRR+hWjSLT6AZ1w97URVKWT3tW9iSSyzlaTKO4CgcegVpHlR+lCjoh1P7P7lRKVFL24lAS69jnRKNVKrJD7QDxLIn8t7XLkwy5JV9UPLr/MQzWRee0KoSm0reW4++HoqASY+G3rLrSooeB14hyN60zuUKpLs5CHxzZBbjzi5tJ8rLa0Fw88Daq9S/5WyaLJmb1Olg5++uAZB0wN9EjzQLS2QvnaHk9w5TUZjKQqK/hejfjc8XWoLrYCmGoeGOR8RM3sILWni+vAQcvUWrgkVlw0F8FeA==
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
+ by DM6PR12MB4044.namprd12.prod.outlook.com (2603:10b6:5:21d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
+ 2024 05:46:54 +0000
+Received: from BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::459b:b6fe:a74c:5fbf]) by BYAPR12MB2743.namprd12.prod.outlook.com
+ ([fe80::459b:b6fe:a74c:5fbf%6]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
+ 05:46:54 +0000
+References: <20240402205223.137565-1-rrameshbabu@nvidia.com>
+ <20240402205223.137565-2-rrameshbabu@nvidia.com>
+ <20240402191842.66decfd3@kernel.org>
+User-agent: mu4e 1.10.8; emacs 28.2
+From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, ahmed.zaki@intel.com,
+ aleksander.lobakin@intel.com, alexandre.torgue@foss.st.com,
+ andrew@lunn.ch, cjubran@nvidia.com, corbet@lwn.net, davem@davemloft.net,
+ dtatulea@nvidia.com, edumazet@google.com, gal@nvidia.com,
+ hkallweit1@gmail.com, jacob.e.keller@intel.com, jiri@resnulli.us,
+ joabreu@synopsys.com, justinstitt@google.com, kory.maincent@bootlin.com,
+ leon@kernel.org, liuhangbin@gmail.com, maxime.chevallier@bootlin.com,
+ pabeni@redhat.com, paul.greenwalt@intel.com, przemyslaw.kitszel@intel.com,
+ rdunlap@infradead.org, richardcochran@gmail.com, saeed@kernel.org,
+ tariqt@nvidia.com, vadim.fedorenko@linux.dev, vladimir.oltean@nxp.com,
+ wojciech.drewek@intel.com
+Subject: Re: [PATCH net-next v1 1/6] ethtool: add interface to read Tx
+ hardware timestamping statistics
+Date: Tue, 02 Apr 2024 22:14:38 -0700
+In-reply-to: <20240402191842.66decfd3@kernel.org>
+Message-ID: <87r0fn2e2b.fsf@nvidia.com>
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::23) To BYAPR12MB2743.namprd12.prod.outlook.com
+ (2603:10b6:a03:61::28)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 5/5] btrfs: fiemap: return extent physical size
-Content-Language: en-US
-To: Qu Wenruo <wqu@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- linux-doc@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, kernel-team@meta.com
-References: <cover.1711588701.git.sweettea-kernel@dorminy.me>
- <93686d5c4467befe12f76e4921bfc20a13a74e2d.1711588701.git.sweettea-kernel@dorminy.me>
- <a2d3cdef-ed4e-41f0-b0d9-801c781f9512@suse.com>
-From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-In-Reply-To: <a2d3cdef-ed4e-41f0-b0d9-801c781f9512@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DM6PR12MB4044:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	pkpZMeGS9rxC1AkjYwpnuYgc9r6LxhN3+HZqdyGZHiu5HIDOkMDw/jaXkv1/cl01twrYJ+7+o4c5fTlV5GiP8f5khyQXpqM4WTK+tMc5kv82naI2pkZ3uLoNLaiWrv1HcK6ZcaDza2aYyEwwuwWuR17iLLNY4POyvfe/ME9v2h/sfczqm0UnY23JRDvAJp8MgLf9VoA9dYGsouOeeqFv6CSipkDB/jOz/+SnPgvWxGBSgAAQQf584UG9mDV8ol6J7v4/Y6JRq9O5upIOf8KfpxidLO52IlDoD1v/y4ATcREi8UBPxCGGgzrw3rvvBy9/TiNqLre0FNveKzjkw6iPVU5ZwCwh4JRSxAmdUnqpje9s45SXH3iPO98A9GKj/SeZJZnoRguFH9XDo5+gjQf3e4cejF+N/RdRwe8V2dzl2Oxn/DOdxAXuE+9O3WuHJsVoPA0muCQ7O75NWoqhyneGwxs8RuR6ZLBWD7FWoQwmxfTD53bAS6sKAOmXsqnkHD6pr9EjyOpnySNp01N3a3yd9xCHaKCEzArXLsixBcFqEQAPnqc7VtV+61OBkjEchHhAdXOzQkbhlZPCOU32fZ7cMfuQKZCuteVKlXkUQQ3lmzhFWQIeyn/pMxk4vxEoCDQ8tgFjy6o6zpbCC9aA8/R1mRYWxSl0mZoiJZxs07C4BRg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JJ7xOmvuUZQ2fv6IPHu7mllDxAPhOUEbVo5nxUud3LjspBKeozBwaFsVpg9E?=
+ =?us-ascii?Q?ZC1aj5kZf39XiwH4gbJFcJ+LOWZpHdTkvIG4uhQoIbXUzlFmIRZfOzljcSeH?=
+ =?us-ascii?Q?wmVy9J5DtFnjl4aFe6DZHPpMi4ihm6k+6Fcd4zsVErhYyLREzkHnqmFYTr1P?=
+ =?us-ascii?Q?+NS4onu+JR2PpJ1pQnn+Gl3Vw5MBB1lj/c2O+mkHXOoT1Z0JZxgX5A3WSW0A?=
+ =?us-ascii?Q?twNXSwJsqXAi3QgLWsT46QjENJfDMN6vly59eSLlHLEDnhrlScgaCp1aKzi9?=
+ =?us-ascii?Q?b2TqTQ+Rx1zbTPG09HbEY+bItMrS9o1eOrjVPq+9qLEwD1MwA7MzDhLtLtVK?=
+ =?us-ascii?Q?06msDmpsCxNJ4Pu/vRSEOQI1/cJcStHZap+/3TlWyMhmCtGrhp+w1BOUrxMa?=
+ =?us-ascii?Q?ztOOhukEzEmlUEBM0Ua6ahLsXp8Lgoe2dFnbq08/Aj/O6FRh86cEvVVvti7d?=
+ =?us-ascii?Q?LEftBW4Pj7cQj0PJ+czm2X/xKVykDkQViElWKTm8ex3oY7qFTFkjPzjdHW38?=
+ =?us-ascii?Q?TpXMvDFaN4xMi//ZkvEyb51wAInFqhKh542ZnD7gb75rL5R7Vrq/ZZWhOv7u?=
+ =?us-ascii?Q?l1NQLYyoIu0VmRpoJPeayZv/IhoK8J3WJ66PmMXBa3S4zHn6NyogoaioHADg?=
+ =?us-ascii?Q?cFbAwfh7zCbsL3Vu45Pwoh8EawD8Scg+BbKuL6xT9zYNNDNSVnXommuSqw4k?=
+ =?us-ascii?Q?hj4q/h5WAoV/P8dYx+ZV9dVxel8BxRxSbJYrbkQTR5tk9YdrmOXdvnVptAK1?=
+ =?us-ascii?Q?0oMy07baNXNfCipZYsq/igO+NdeTu2DYxxtyXW43wibQFzEO0rrVOsjOlJUq?=
+ =?us-ascii?Q?pEDKaKEofPJIZmnMekgk5x7buiFYjwoKDLAn/CnldoUTZWwDTqFkybhdsjtT?=
+ =?us-ascii?Q?67lQZt0eHRhyvqKkxPLWrBBPrjav5ET7VeeYYgcroIedURhcWRJB150fER0g?=
+ =?us-ascii?Q?0XhUOR8bKO316r8rZAKMjsEYM9ZcU8ookg4RywArjgbuYZSSqnxShnhslqIF?=
+ =?us-ascii?Q?39smW4/eLOMa70LAMOdPL2M14PQqBtWPF8mmOoB6kJ0KQBhGA3ovdQRLjXQl?=
+ =?us-ascii?Q?Kb+eNdYJWIMnYwJa+Yp2uKoPrLGttRBXWEiEEV3IR40VZM5H5zbwGWKX2btY?=
+ =?us-ascii?Q?5L9+FVeEtcSwBdPdhhnm9RuUCIKy1mOMkTdwiJgOVXqZS2wl4woeuvwnALmq?=
+ =?us-ascii?Q?2x1whM+sxBwE6YRe3kupaR3qqu8c/IL7pt33TzAqruhwiRVhazx8jgyMva72?=
+ =?us-ascii?Q?PTD7v1RWs2oUaF1q8c0gVZU2qCnEIUNMhFwS/lWMa6PEMlUK8R3O8joxjeHv?=
+ =?us-ascii?Q?5VVFpbhMVJNesUARrBdypzsRacGQvY9pMxCfKbOUCMfbwjlpobZknPy28gnv?=
+ =?us-ascii?Q?cYUH5F1Rz8eo506uIMeURwP1dUspHuEEGEF6T0fo959PCF4mJpKDgLU29ML4?=
+ =?us-ascii?Q?C3KPX7V80Roxe7QjI2Ms0IdsTA2WRdxnEhPwOwHY90uoBnLzy438AMbW/sQx?=
+ =?us-ascii?Q?ZAbiG/UWqaS/6nEmqwe8hEDM/JAUWz8mdS5nNKuWmb2mhl4JQWcV1PZe9jM/?=
+ =?us-ascii?Q?H5nJ4S3kXCt7bmGNo3N2u+pd5xC9L4X6ZV4iw5U1fZFXcs1tT1v7UXwtWcwr?=
+ =?us-ascii?Q?Ig=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbbb3d8b-ed68-46ac-bc42-08dc53a17766
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 05:46:53.9310
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CXsOx7T8CAoETY5ek3bsB2y2m0cFKsrqXO2MKzhj7mfBXok47xwXF5KU9ofddh+5JWjuGbWh8iPfmCZrDCDlJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4044
 
+On Tue, 02 Apr, 2024 19:18:42 -0700 Jakub Kicinski <kuba@kernel.org> wrote:
+> On Tue,  2 Apr 2024 13:52:01 -0700 Rahul Rameshbabu wrote:
+>> +/**
+>> + * struct ethtool_ts_stats - HW timestamping statistics
+>> + * @tx_stats: struct group for TX HW timestamping
+>> + *	@pkts: Number of packets successfully timestamped by the hardware.
+>> + *	@lost: Number of hardware timestamping requests where the timestamping
+>> + *		information from the hardware never arrived for submission with
+>> + *		the skb.
+>> + *	@err: Number of arbitrary timestamp generation error events that the
+>> + *		hardware encountered, exclusive of @lost statistics. Cases such
+>> + *		as resource exhaustion, unavailability, firmware errors, and
+>> + *		detected illogical timestamp values not submitted with the skb
+>> + *		are inclusive to this counter.
+>> + */
+>> +struct ethtool_ts_stats {
+>> +	struct_group(tx_stats,
+>
+> Doesn't seem like the group should be documented:
+>
+> include/linux/ethtool.h:503: warning: Excess struct member 'tx_stats' description in 'ethtool_ts_stats'
 
+Was looking into why our internal verification did not catch this. We
+run W=1 with clang, but looks like the warning does not get triggered
+unless explicitly run with scripts/kernel-doc.
 
-On 3/31/24 05:03, Qu Wenruo wrote:
-> 
-> 
-> 在 2024/3/28 11:52, Sweet Tea Dorminy 写道:
->> Now that fiemap allows returning extent physical size, make btrfs return
->> the appropriate extent's actual disk size.
->>
->> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-> [...]
->> @@ -3221,7 +3239,9 @@ int extent_fiemap(struct btrfs_inode *inode, 
->> struct fiemap_extent_info *fieinfo,
->>               ret = emit_fiemap_extent(fieinfo, &cache, key.offset,
->>                            disk_bytenr + extent_offset,
->> -                         extent_len, flags);
->> +                         extent_len,
->> +                         disk_size - extent_offset,
-> 
-> This means, we will emit a entry that uses the end to the physical 
-> extent end.
-> 
-> Considering a file layout like this:
-> 
->      item 6 key (257 EXTENT_DATA 0) itemoff 15816 itemsize 53
->          generation 7 type 1 (regular)
->          extent data disk byte 13631488 nr 65536
->          extent data offset 0 nr 4096 ram 65536
->          extent compression 0 (none)
->      item 7 key (257 EXTENT_DATA 4096) itemoff 15763 itemsize 53
->          generation 8 type 1 (regular)
->          extent data disk byte 13697024 nr 4096
->          extent data offset 0 nr 4096 ram 4096
->          extent compression 0 (none)
->      item 8 key (257 EXTENT_DATA 8192) itemoff 15710 itemsize 53
->          generation 7 type 1 (regular)
->          extent data disk byte 13631488 nr 65536
->          extent data offset 8192 nr 57344 ram 65536
->          extent compression 0 (none)
-> 
-> For fiemap, we would got something like this:
-> 
-> fileoff 0, logical len 4k, phy 13631488, phy len 64K
-> fileoff 4k, logical len 4k, phy 13697024, phy len 4k
-> fileoff 8k, logical len 56k, phy 13631488 + 8k, phylen 56k
-> 
-> [HOW TO CALCULATE WASTED SPACE IN USER SPACE]
-> My concern is on the first entry. It indicates that we have wasted 60K 
-> (phy len is 64K, while logical len is only 4K)
-> 
-> But that information is not correct, as in reality we only wasted 4K, 
-> the remaining 56K is still referred by file range [8K, 64K).
-> 
-> Do you mean that user space program should maintain a mapping of each 
-> utilized physical range, and when handling the reported file range [8K, 
-> 64K), the user space program should find that the physical range covers 
-> with one existing extent, and do calculation correctly?
+  https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
 
-My goal is to give an unprivileged interface for tools like compsize to 
-figure out how much space is used by a particular set of files. They 
-report the total disk space referenced by the provided list of files, 
-currently by doing a tree search (CAP_SYS_ADMIN) for all the extents 
-pertaining to the requested files and deduplicating extents based on 
-disk_bytenr.
+I have debugged using strace that the way the kernel doc checking works
+when W=1 is set is that the matching source file that is being compiled
+is passed to scripts/kernel-doc, so include files are missed from the
+doc check. I think this is worth adding to the kernel documentation.
 
-It seems simplest to me for userspace for the kernel to emit the entire 
-extent for each part of it referenced in a file, and let userspace deal 
-with deduplicating extents. This is also most similar to the existing 
-tree-search based interface. Reporting whole extents gives more 
-flexibility for userspace to figure out how to report bookend extents, 
-or shared extents, or ...
+Anyway, I will send out a v2 with this fixed but wait for potentially
+more feedback on v1.
 
-It does seem a little weird where if you request with fiemap only e.g. 
-4k-16k range in that example file you'll get reported all 68k involved, 
-but I can't figure out a way to fix that without having the kernel keep 
-track of used parts of the extents as part of reporting, which sounds 
-expensive.
+--
+Thanks,
 
-You're right that I'm being inconsistent, taking off extent_offset from 
-the reported disk size when that isn't what I should be doing, so I 
-fixed that in v3.
-
-> 
-> [COMPRESSION REPRESENTATION]
-> The biggest problem other than the complexity in user space is the 
-> handling of compressed extents.
-> 
-> Should we return the physical bytenr (disk_bytenr of file extent item) 
-> directly or with the extent offset added?
-> Either way it doesn't look consistent to me, compared to non-compressed 
-> extents.
-> 
-
-As I understand it, the goal of reporting physical bytenr is to provide 
-a number which we could theoretically then resolve into a disk location 
-or few if we cared, but which doesn't necessarily have any physical 
-meaning. To quote the fiemap documentation page: "It is always undefined 
-to try to update the data in-place by writing to the indicated location 
-without the assistance of the filesystem". So I think I'd prefer to 
-always report the entire size of the entire extent being referenced.
-
-> [ALTERNATIVE FORMAT]
-> The other alternative would be following the btrfs ondisk format, 
-> providing a unique physical bytenr for any file extent, then the 
-> offset/referred length inside the uncompressed extent.
-> 
-> That would handle compressed and regular extents more consistent, and a 
-> little easier for user space tool to handle (really just a tiny bit 
-> easier, no range overlap check needed), but more complex to represent, 
-> and I'm not sure if any other filesystem would be happy to accept the 
-> extra members they don't care.
-
-I really want to make sure that this interface reports the unused space 
-in e.g bookend extents well -- compsize has been an important tool for 
-me in this respect, e.g. a time when a 10g file was taking up 110g of 
-actual disk space. If we report the entire length of the entire extent, 
-then when used on whole files one can establish the space referenced by 
-that file but not used; similarly on multiple files. So while I like the 
-simplicity of just reporting the used length, I don't think there's a 
-way to make compsize unprivileged with that approach.
-
-Thank you!!
+Rahul Rameshbabu
