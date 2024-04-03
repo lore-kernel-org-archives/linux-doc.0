@@ -1,103 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08569146D72;
-	Wed,  3 Apr 2024 13:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9E147C89;
+	Wed,  3 Apr 2024 13:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712149550; cv=none; b=mQQaBPu+RssPCIYAdmZyaYh+qnGxejbd3EbEt3oUAFH/Mwv1wLnybqsIhFWlg1qmZFSmqftE1BiWiyyH3RjDsI9u9FNX3TMTraZkB15fjpXeOitUIJBu9ZnI9QYoP/d8XDgeCZtk0Y6VQJNodWRFud9Hlu5cv3GpNhQ8fhtL3jM=
+	t=1712150273; cv=none; b=srVof8D23pRCeXKtwX/zPDJ3bWI0+l1HR0ftTXK8a/OGZzkaCYAecv0xxRNIFjVXMckitv+BUA2rhKNTyI1QyapLfTgRQWbEe0pnQPAEX1KZrtBDZq+lxzx5xnE/1vYl+5W8AJfPIODO2sn2yWSEbx4XPH31TPkbamSECC4EEYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712149550; c=relaxed/simple;
-	bh=ND3jNXeXD8UCa8WzVy98aeHA4SFwZtX43lGgSbkdjqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sSxT24ylxmguiqGrTmejpWoqiZDzkMdxZCSCcFyT1WKxXPdfcpMxXS8DoNd+atXMGFHrZ7gBCR5i73SJLeyzB3UZuEBEBZ2l9K6zAy1+FHKbE2AZGbgbcVJGsdQBMfmAM968b7kmhNbbSPZNYuZH92PynD8lOtDHBII+tqVeE/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apHUNtpR; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1712150273; c=relaxed/simple;
+	bh=/GQ4nlYWXIxaFwy7GEB/PMFxbW1s4CmxkzraRVC432c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FvaQcpS2SzDBMRhmuOfrgoYTRRUXkWkQXMMbi2TLSE3BRQCFnnLzZYHm0mevQ0LDDDJWeNTdjbzCxG5mIHwwicYgwUnwGvslRXAPDxnqfMQNmKdMZrV7dcNltd0BN6jr/dJ6IVAioohzDn8V2I0H6bbOEO3yEcp4WTNk3UPdL9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EvFPEsjb; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apHUNtpR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712149548; x=1743685548;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ND3jNXeXD8UCa8WzVy98aeHA4SFwZtX43lGgSbkdjqg=;
-  b=apHUNtpR7UTQtGLy3gYaxv4uPVCrasYY2GG/lYUAt2LOrUQAtJ4LNKs3
-   gJk9j2eaOGVspOdZVGrOobpBlhndW0IIWz8KsjEbLUnfVfEHaL9anMeU4
-   otmGIWdsTWLO+/ciA7PNU0hiJmfQvQ7wT+wPKsNztnnBewFvyH30P+C0r
-   x1v4MclW7zeCe2duPFiItOZrp0lN4cFWdT45Fgp8NK1bqHqsoI3NcsHLq
-   nML3tDLsjsVLvHjHH2WpmuiLPuEA/y+wEvbNddsRvKbbi29WcU/5dn90i
-   e8YHHJRcO+noVD6wp18DRWtTEkaYejPuW3ncQ3sJSvbrpPu35n6f7UtrG
-   Q==;
-X-CSE-ConnectionGUID: +JQm8PsAQLa3v3O2K/aqAg==
-X-CSE-MsgGUID: I2TZ4D3tRs2JpFr3SQR93A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="17992665"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="17992665"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 06:05:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="915182954"
-X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
-   d="scan'208";a="915182954"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
-  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 06:05:43 -0700
-Received: from andy by smile with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rs0JB-000000017iB-00E6;
-	Wed, 03 Apr 2024 16:05:41 +0300
-Date: Wed, 3 Apr 2024 16:05:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>
-Subject: Re: [PATCH v1 0/3] gpiolib: Get rid of
- gpio_free_array()/gpio_request_array()
-Message-ID: <Zg1UJPhFnQoIfNBR@smile.fi.intel.com>
-References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com>
- <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
- <CAMRc=Md_81qY02=XPmQA5_EWRC1eU0zYAjRwjbAGxvGg2kOL+A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EvFPEsjb"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 930E047C42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1712150266; bh=vtB2kvFb83ghMvG0XB3eZHkEo5w776S5gMAFRtOloHo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EvFPEsjb6+voJdd1pI3kYT1oQzfUUXg693BhE5Xb4wwM6dOUVZDs/yd6M4M/mrxC3
+	 QpF84qYNcccFfyJvPURNO1Fmd0nnyaOL6EZXwwsX/Hz1I8qANp/JTFRai4+nrjMOZn
+	 CCW6KxlU6AMyeBk2ZYhPxql23DlYxDtbyY4MgL0ffq87On0Rgpe7dSUGPKX5BTXES1
+	 pIAUOWM4z+0sFUvr+1llbuz7aiIPnnOX0KSqgEWem9wzP+DiSJdblpK1Ea95phW5P7
+	 U+uMFMl80TG1LppJLYslg/j8SCEPEqQNRhxa8ThJ0hFfDs21Ge15fUwLbA9r0EYZKH
+	 +Kih6f33AVbxQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 930E047C42;
+	Wed,  3 Apr 2024 13:17:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>, Carlos Bilbao
+ <carlos.bilbao@amd.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Kaiwan N
+ Billimoria <kaiwan.billimoria@gmail.com>
+Subject: Re: [PATCH] docs: Add relevant kernel publications to list of
+ books; LKP 2E
+In-Reply-To: <20240403050824.166787-1-kaiwan.billimoria@gmail.com>
+References: <20240403050824.166787-1-kaiwan.billimoria@gmail.com>
+Date: Wed, 03 Apr 2024 07:17:45 -0600
+Message-ID: <8734s2twjq.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Md_81qY02=XPmQA5_EWRC1eU0zYAjRwjbAGxvGg2kOL+A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Wed, Apr 03, 2024 at 01:09:13PM +0200, Bartosz Golaszewski wrote:
-> On Tue, Apr 2, 2024 at 8:43 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > On Thu, Mar 07, 2024 at 03:49:02PM +0200, Andy Shevchenko wrote:
-> > > There are only two users left of the gpio_free_array()/gpio_request_array().
-> > > Convert them to very basic legacy APIs (it requires much less work for
-> > > now) and drop no more used gpio_free_array()/gpio_request_array().
-> >
-> > Any comments on this? We really want to get rid of the legacy APIs.
-> 
-> I applied the patches, they only touch the GPIO part in legacy
-> platform code. It's not very controversial IMO.
+Kaiwan N Billimoria <kaiwan.billimoria@gmail.com> writes:
 
-Thank you!
+> Hi Carlos, Jon,
+> As the 2nd edition of my 'Linux Kernel Programming' book is recently
+> published (29 Feb 2024), this patch is to request it's addition to the
+> book list.
+> I've currently kept the 1st edition as well (in reverse chronological
+> order); if this isn't required, pl let me know..
+>
+> Regards,
+> Kaiwan
 
-FWIW, In case of issue(s) I would like to help to fix, but I don't think
-it will be even one.
+Happy to add the book but ... surely the author of said book wants to
+set a good example by sending a properly written patch?
 
--- 
-With Best Regards,
-Andy Shevchenko
+- A changelog in the kernel style saying simply what is to be done and
+  why
 
+- Stick to the 80-character limit (we still really try to do that for
+  text)
 
+Thanks,
+
+jon
+
+> Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+> ---
+>  Documentation/process/kernel-docs.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+> index 8660493b91d0..f73671b65a71 100644
+> --- a/Documentation/process/kernel-docs.rst
+> +++ b/Documentation/process/kernel-docs.rst
+> @@ -75,6 +75,15 @@ On-line docs
+>  Published books
+>  ---------------
+>  
+> +    * Title: **Linux Kernel Programming: A Comprehensive and practical guide to Kernel Internals, Writing Modules, and Kernel Synchronization**
+> +
+> +      :Author: Kaiwan N Billimoria
+> +      :Publisher: Packt Publishing Ltd
+> +      :Date: February, 2024
+> +      :Pages: 826
+> +      :ISBN: 978-1803232225
+> +      :Notes: 2nd Edition
+> +
+>      * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
+>  
+>        :Author: Kaiwan N Billimoria
+> @@ -91,6 +100,7 @@ Published books
+>        :Date: March, 2021
+>        :Pages: 754
+>        :ISBN: 978-1789953435
+> +      :Notes: 1st Edition
+>  
+>      * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
+>  
+> -- 
+> 2.40.1
