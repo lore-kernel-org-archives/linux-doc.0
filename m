@@ -1,170 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9673B147C79;
-	Wed,  3 Apr 2024 16:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A678C6F099
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 16:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712161947; cv=none; b=uqiCzyp7uWZFwIiRZrfcqtOkAkzhDoCG+n3w/JpzZVdSCuYnwwB3XNqAC9YmnhiZWu5b/qiC0FKT2um+mTAM4Zi1Y5YjFpJGfE2zF+LA6wLkO5Er93iZEbG7Xg9KqQh9tVa/10R+esUOQZ5boLKQ9RychDDVxjEgqw0UOQzzSdE=
+	t=1712163348; cv=none; b=B0KtUmm9rG2wOzNC+KDPyMno2zl8Iuiy+r1HVIiQmvSrI5KaoAoEkyBPXcuXusRKgi5SlcYDcWDmQPFsAaWnQqp6Hzm7hjdTE+r3ME6F5HQFZ0g/ed17JvS/bQ14MZ4kszrqSSIbwfsQOAnKksij+nxUS38Xmc6d0j8CaUdJWLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712161947; c=relaxed/simple;
-	bh=0XnUl7dj6Ea6m99gt6Fm1hxbMTZDNcxsfZFaaTdkK5c=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=bgsIb4RWa875sCyUeyQYSPziT6n/qlhAMpBP4NQchd8AcKuk4/9gGZzCIEs6XVfYwNChl4DJ7uM0iB96JdbZLr63vSokKfEQaiWYY0J4x/boqDd9OTBr87Im7+6MRKzhM+kK0Ya3khmMeTcHw9esdWLW4kCd6/vCqKFO5pY3JWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QW0wEMDg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712163348; c=relaxed/simple;
+	bh=ER2G/SPYbdhMyH/exF2rzBC3+1Ubd8xN/6vEMjXf8Pk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P9EMzoI7hJUYBupZUDibkWBxMFziunU9Cfw+qn9LK4TbDL/5S86SKgOf2r4Zh0LLc+Wb/bb6mxIx9phXiOCCHuZPfWCUeW4JRVlu/2IOLom4mxABQAx2QehgMs9rtvT4Ol4JYxid7qaM6ncWI0GhRi7mds/2Sol7NCG1SfIO69E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cvCVs7iV; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QW0wEMDg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C6DC43390;
-	Wed,  3 Apr 2024 16:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712161947;
-	bh=0XnUl7dj6Ea6m99gt6Fm1hxbMTZDNcxsfZFaaTdkK5c=;
-	h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
-	b=QW0wEMDgMWUZ79xdJoYkLiIHXuRzTAb74DDl4+KTGBNms5tjbS3/Dq+NcDc/zM9pO
-	 6ZMVHRwU4f/KsH8hhp8YWGgsPfB2hJNE/zW10M9fNJGwioTTI5RXj9LCK+4kHdpVm7
-	 56pe0foBhqSV/IedS0ZRo0OM98CPRLAZ0exUkyl4t19cXWE+Na+N4g157rMIWwR/+a
-	 Jcd3P4AfBQbMfSwsNHWa4ynpqUPezzrEo0T5J8uagcJ/oCtRjq5w5FwG4qL0dwkbtX
-	 JqxgjIMslOOZNAxqEP/MmDLPJKxFjR8PAcnLi14nzPRradUx/1PaspPsqJ02egM7eE
-	 u7cRF7RLttn6g==
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailfauth.nyi.internal (Postfix) with ESMTP id F06881200066;
-	Wed,  3 Apr 2024 12:32:24 -0400 (EDT)
-Received: from imap48 ([10.202.2.98])
-  by compute3.internal (MEProxy); Wed, 03 Apr 2024 12:32:25 -0400
-X-ME-Sender: <xms:l4QNZnVTcmmcBj3cETMIjQPFeKyW216HWK1kyHvk5ak3_YuBQfomfQ>
-    <xme:l4QNZvnCeko_j7aVMCevTqwRM7_fqcU20j_wDEsVTZHCnw-dG_YTuNPcHDSTz9Ieb
-    ylCWq3tLYhNGdj3CNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefiedgheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    nhguhicunfhuthhomhhirhhskhhifdcuoehluhhtoheskhgvrhhnvghlrdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeduveffvdegvdefhfegjeejlefgtdffueekudfgkeduvdetvddu
-    ieeluefgjeeggfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrnhguhidomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudduiedu
-    keehieefvddqvdeifeduieeitdekqdhluhhtoheppehkvghrnhgvlhdrohhrgheslhhinh
-    hugidrlhhuthhordhush
-X-ME-Proxy: <xmx:l4QNZjYSXaRfEAGTNz9O5uebk2fHJnste73pfQtv3vctGbwaC10s2w>
-    <xmx:l4QNZiWxqHyVWKJiF4QUUEAo6lm2WIE1scUUV-YakZ7XqTXsCRovhg>
-    <xmx:l4QNZhlvWkMn1SVoZn4CWHqQr0aqpqET5Ga7LXEkXKUWMws0gzMLpw>
-    <xmx:l4QNZvdfRIc7OON-ak6PhAoHg4sCtKcl0fcLZQFhY7peszixkio4Ng>
-    <xmx:mIQNZpOteF69teRpNuPDyBpLmH21WrVMM4syyjzPzuEhN6UyjV9zI2Zh>
-Feedback-ID: ieff94742:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0360131A0064; Wed,  3 Apr 2024 12:32:22 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cvCVs7iV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712163345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qcFGTIgsVpRcFHL+8n4bltIbe5BCiFbcUwE7alUYftc=;
+	b=cvCVs7iV7A+JfWN53Q97HNARkewbq+uFP9e7q05+d/BRkZVgmP3NiTcKsogyHuQIAparZN
+	OmdrhjsbTyziMBDa0TVtNCmXCvHtJ1MfN37/MrjtLjLWZSKzmTE7n7392jQr/E5IgwO+oj
+	Wtwl+lJKq5jEGBGem6rfDHc6e72AmFA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-434-BbaFp3e6P9SwSkyIW3LFsQ-1; Wed, 03 Apr 2024 12:55:41 -0400
+X-MC-Unique: BbaFp3e6P9SwSkyIW3LFsQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 479DF88D4E8;
+	Wed,  3 Apr 2024 16:55:40 +0000 (UTC)
+Received: from bfoster (unknown [10.22.16.57])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 300632024517;
+	Wed,  3 Apr 2024 16:55:39 +0000 (UTC)
+Date: Wed, 3 Apr 2024 12:57:37 -0400
+From: Brian Foster <bfoster@redhat.com>
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+	David Sterba <dsterba@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>,
+	Chao Yu <chao@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 01/13] fs: fiemap: add physical_length field to extents
+Message-ID: <Zg2Kgdn42odZVUtE@bfoster>
+References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
+ <1ba5bfccccbf4ff792f178268badde056797d0c4.1712126039.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <10db421c-77da-4a1c-a25e-2374a7a2ef79@app.fastmail.com>
-In-Reply-To: <20240223183004.GE1112@sol.localdomain>
-References: <20240214221847.2066632-1-ross.philipson@oracle.com>
- <20240214221847.2066632-7-ross.philipson@oracle.com>
- <CAMj1kXEmMBY_jc0uM5UgZbuZ3-C7NPKzg5AScaunyu9XzLgzZA@mail.gmail.com>
- <98ad92bb-ef17-4c15-88ba-252db2a2e738@citrix.com>
- <CAMj1kXFTu+bV2kQhAyu15hrYai20NcBLb4Zu8XG2Y-XjL0f+rw@mail.gmail.com>
- <1a8e69a7-89eb-4d36-94d6-0da662d8b72f@citrix.com>
- <CAMj1kXEvmGy9RJo4s8tECsFj2dufZ8jBPoJOEtkcGUoj+x2qsw@mail.gmail.com>
- <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com>
- <20240223175449.GA1112@sol.localdomain>
- <e641e2f1-16cf-4717-8a1f-8afac2644efe@citrix.com>
- <20240223183004.GE1112@sol.localdomain>
-Date: Wed, 03 Apr 2024 09:32:02 -0700
-From: "Andy Lutomirski" <luto@kernel.org>
-To: "Eric Biggers" <ebiggers@kernel.org>,
- "Andrew Cooper" <andrew.cooper3@citrix.com>
-Cc: "Ard Biesheuvel" <ardb@kernel.org>,
- "Ross Philipson" <ross.philipson@oracle.com>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- "the arch/x86 maintainers" <x86@kernel.org>, linux-integrity@vger.kernel.org,
- linux-doc@vger.kernel.org,
- "Linux Crypto Mailing List" <linux-crypto@vger.kernel.org>,
- kexec@lists.infradead.org, linux-efi@vger.kernel.org,
- dpsmith@apertussolutions.com, "Thomas Gleixner" <tglx@linutronix.de>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- "H. Peter Anvin" <hpa@zytor.com>,
- "Dave Hansen" <dave.hansen@linux.intel.com>,
- "Matthew Garrett" <mjg59@srcf.ucam.org>,
- James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org,
- "Jason Gunthorpe" <jgg@ziepe.ca>,
- "luto@amacapital.net" <luto@amacapital.net>,
- "Arvind Sankar" <nivedita@alum.mit.edu>,
- "Herbert Xu" <herbert@gondor.apana.org.au>, davem@davemloft.net,
- kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v8 06/15] x86: Add early SHA support for Secure Launch early
- measurements
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1ba5bfccccbf4ff792f178268badde056797d0c4.1712126039.git.sweettea-kernel@dorminy.me>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
 
-On Fri, Feb 23, 2024, at 10:30 AM, Eric Biggers wrote:
-> On Fri, Feb 23, 2024 at 06:20:27PM +0000, Andrew Cooper wrote:
->> On 23/02/2024 5:54 pm, Eric Biggers wrote:
->> > On Fri, Feb 23, 2024 at 04:42:11PM +0000, Andrew Cooper wrote:
->> >> Yes, and I agree.=C2=A0 We're not looking to try and force this in=
- with
->> >> underhand tactics.
->> >>
->> >> But a blind "nack to any SHA-1" is similarly damaging in the oppos=
-ite
->> >> direction.
->> >>
->> > Well, reviewers have said they'd prefer that SHA-1 not be included =
-and given
->> > some thoughtful reasons for that.  But also they've given suggestio=
-ns on how to
->> > make the SHA-1 support more palatable, such as splitting it into a =
-separate
->> > patch and giving it a proper justification.
->> >
->> > All suggestions have been ignored.
->>=20
->> The public record demonstrates otherwise.
->>=20
->> But are you saying that you'd be happy if the commit message read
->> something more like:
->>=20
->> ---8<---
->> For better or worse, Secure Launch needs SHA-1 and SHA-256.
->>=20
->> The choice of hashes used lie with the platform firmware, not with
->> software, and is often outside of the users control.
->>=20
->> Even if we'd prefer to use SHA-256-only, if firmware elected to start=
- us
->> with the SHA-1 and SHA-256 backs active, we still need SHA-1 to parse
->> the TPM event log thus far, and deliberately cap the SHA-1 PCRs in or=
-der
->> to safely use SHA-256 for everything else.
->> ---
->
-> Please take some time to read through the comments that reviewers have=
- left on
-> previous versions of the patchset.
+On Wed, Apr 03, 2024 at 03:22:42AM -0400, Sweet Tea Dorminy wrote:
+> Some filesystems support compressed extents which have a larger logical
+> size than physical, and for those filesystems, it can be useful for
+> userspace to know how much space those extents actually use. For
+> instance, the compsize [1] tool for btrfs currently uses btrfs-internal,
+> root-only ioctl to find the actual disk space used by a file; it would
+> be better and more useful for this information to require fewer
+> privileges and to be usable on more filesystems. Therefore, use one of
+> the padding u64s in the fiemap extent structure to return the actual
+> physical length; and, for now, return this as equal to the logical
+> length.
+> 
+> [1] https://github.com/kilobyte/compsize
+> 
+> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+> ---
+>  Documentation/filesystems/fiemap.rst | 28 +++++++++++++++++-------
+>  fs/ioctl.c                           |  3 ++-
+>  include/uapi/linux/fiemap.h          | 32 ++++++++++++++++++++++------
+>  3 files changed, 47 insertions(+), 16 deletions(-)
+> 
+...
+> diff --git a/fs/ioctl.c b/fs/ioctl.c
+> index 661b46125669..8afd32e1a27a 100644
+> --- a/fs/ioctl.c
+> +++ b/fs/ioctl.c
+> @@ -138,7 +138,8 @@ int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
+>  	memset(&extent, 0, sizeof(extent));
+>  	extent.fe_logical = logical;
+>  	extent.fe_physical = phys;
+> -	extent.fe_length = len;
+> +	extent.fe_logical_length = len;
+> +	extent.fe_physical_length = len;
 
-So I went and read through the old comments, and I'm lost.  In brief sum=
-mary:
+Nit: Why start this field out as len if the next patch adds the param
+and defaults to zero? Not that it matters that much due to the next
+patch (which seems logical), but wouldn't it make more sense to set this
+to 0 from the start?
 
-If the hardware+firmware only supports SHA-1, then some reviewers would =
-prefer Linux not to support DRTM.  I personally think this is a bit sill=
-y, but it's not entirely unreasonable.  Maybe it should be a config opti=
-on?
+Brian
 
-If the hardware+firmware does support SHA-256, then it sounds (to me, re=
-ading this -- I haven't dug into the right spec pages) that, for optimal=
- security, something still needs to effectively turn SHA-1 *off* at runt=
-ime by capping the event log properly.  And that requires computing a SH=
-A-1 hash.  And, to be clear, (a) this is only on systems that already su=
-pport SHA-256 and that we should support and (b) *not* doing so leaves u=
-s potentially more vulnerable to SHA-1 attacks than doing so.  And no SH=
-A-256-supporting tooling will actually be compromised by a SHA-1 comprom=
-ise if we cap the event log.
+>  	extent.fe_flags = flags;
+>  
+>  	dest += fieinfo->fi_extents_mapped;
+> diff --git a/include/uapi/linux/fiemap.h b/include/uapi/linux/fiemap.h
+> index 24ca0c00cae3..3079159b8e94 100644
+> --- a/include/uapi/linux/fiemap.h
+> +++ b/include/uapi/linux/fiemap.h
+> @@ -14,14 +14,30 @@
+>  
+>  #include <linux/types.h>
+>  
+> +/*
+> + * For backward compatibility, where the member of the struct was called
+> + * fe_length instead of fe_logical_length.
+> + */
+> +#define fe_length fe_logical_length
+> +
+>  struct fiemap_extent {
+> -	__u64 fe_logical;  /* logical offset in bytes for the start of
+> -			    * the extent from the beginning of the file */
+> -	__u64 fe_physical; /* physical offset in bytes for the start
+> -			    * of the extent from the beginning of the disk */
+> -	__u64 fe_length;   /* length in bytes for this extent */
+> -	__u64 fe_reserved64[2];
+> -	__u32 fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
+> +	/*
+> +	 * logical offset in bytes for the start of
+> +	 * the extent from the beginning of the file
+> +	 */
+> +	__u64 fe_logical;
+> +	/*
+> +	 * physical offset in bytes for the start
+> +	 * of the extent from the beginning of the disk
+> +	 */
+> +	__u64 fe_physical;
+> +	/* logical length in bytes for this extent */
+> +	__u64 fe_logical_length;
+> +	/* physical length in bytes for this extent */
+> +	__u64 fe_physical_length;
+> +	__u64 fe_reserved64[1];
+> +	/* FIEMAP_EXTENT_* flags for this extent */
+> +	__u32 fe_flags;
+>  	__u32 fe_reserved[3];
+>  };
+>  
+> @@ -66,5 +82,7 @@ struct fiemap {
+>  						    * merged for efficiency. */
+>  #define FIEMAP_EXTENT_SHARED		0x00002000 /* Space shared with other
+>  						    * files. */
+> +#define FIEMAP_EXTENT_HAS_PHYS_LEN	0x00004000 /* Physical length is valid
+> +						    * and set by FS. */
+>  
+>  #endif /* _UAPI_LINUX_FIEMAP_H */
+> -- 
+> 2.43.0
+> 
+> 
 
-So is there a way forward?  Just saying "read through the comments" seem=
-s like a dead end.
-
-Thanks,
-Andy
