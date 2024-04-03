@@ -1,120 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9B17997;
-	Wed,  3 Apr 2024 05:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9146E645;
+	Wed,  3 Apr 2024 05:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712120574; cv=none; b=WoJmkHE6a9BFZr55Z1yDKdPX8BMy6d1G8nXwpyNAizZOiYxrU+QWJ/1NEI2wJ8+44qkWBEDD7YxwFkBmqfydTHR8SIThNE7TZ+0/nH7+U1MJJbyaAagh4jRyTQpwbGL6SMtcSw7j1T4Q+QhJwWvAIpzf79TzF+I7/lLBf+szvwo=
+	t=1712120914; cv=none; b=DLVi7V32JhXebf4e5fDBAY4xpUNKA1PrnA+oW6V+3iYWOqjp5uXCj9YJ7dThN1TNGO5fib+M8nFQfNUOhMTumRVLshGI+zkKk2HSiAkhvhf0/f+/v8fzWXLuERzlgelpwK33joHCFMM8uNO7E5KJz3wReDd0Lywu3BZyedQn7II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712120574; c=relaxed/simple;
-	bh=2/EZE/fqM7rihgoveOtBWFcjc/baKHO1PSwzHE8G7pI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1v7KDckGHDUG/nmQQuKQ9IuMdgMS5zHuLcPjx4IpIBPC3gLeaRFmKIuvWAJ4idmMJOzPshSk1g/UVkElqyN4Xuq0lA/zTH5GhMOYSkWgTiswEmMpr3AKGdCWBk6BVd5zdv1jH3eYdyWJ3mPwYpx5858M0Q3y0ixG/i9Spbu+fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FzeEsPLR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712120914; c=relaxed/simple;
+	bh=iTP2lx0+5/hKPX7Lgaiajz+wXzMvaqjQegPjM1Ons3g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oRcFOvHqj/c5ZztUShVjog1sbqQao1oj25JRurfcLDJ8iUsrAazkuVwPE1sXpihGGociSQWgz/4Y/mMXTkdZHVeRoT82+MvUQLe5i5lQmYdw/EokHSmW9HYnZLD3q9MWnnT12og+wnfG9toA0gpnaEzIMuWFwYFTPJmyH520c8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HWNU/nvt; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FzeEsPLR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE58C433C7;
-	Wed,  3 Apr 2024 05:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712120573;
-	bh=2/EZE/fqM7rihgoveOtBWFcjc/baKHO1PSwzHE8G7pI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FzeEsPLRQAOk6nAJZOzfUVRUqL5geuLfeb18kcrV9MjUceB6XAQZjcIdUuPSBxrOY
-	 yPberXlvyeONEkyn3Jjnum/VwFEpiVybx92xdNIJsd2ogM04BAKkPingFDrTgmw9H3
-	 uZuNcCNiZkK47ku6nVB8jtuvI+H5ZWZi9R9tbXdEEGCbxwswJ0YIA7SNKTOG2qURBJ
-	 zH/d3sF98I1TGg+r6IN88Z/nGGYGWG21Nm0kw5lboTl+wPb+L8DWRNmC07ebNcBIGg
-	 dUhYRG0DCJliiZuRQses+zCCoV5H7Yt8cDK4/zYjzmy3ei5U4AbFLVFMUdsA+sHreN
-	 TcCOECUiistiA==
-Date: Tue, 2 Apr 2024 22:02:51 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v16 16/20] fsverity: consume fsverity built-in signatures
- via LSM hook
-Message-ID: <20240403050251.GJ2576@sol.localdomain>
-References: <1711657047-10526-1-git-send-email-wufan@linux.microsoft.com>
- <1711657047-10526-17-git-send-email-wufan@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HWNU/nvt"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1def3340682so51552935ad.1;
+        Tue, 02 Apr 2024 22:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712120911; x=1712725711; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X+IAlcsaX9nh/sd//p39jgfKrXWxYVdvV9uT5WXHXs0=;
+        b=HWNU/nvtIl7Akmiawa5+BcYtkPS6yur2Rrzd78I+6OI0M30e/tSDodI3X2fX6ijWno
+         lQgxmcF7eldUnaP1eSrUwfv2T1y3SEfWvLMQsm+sipjHThGcj5Kk7NVDbE1rZkORCECj
+         EH0twR76bSgVWZRTWLS0IJa9ZYuIt/2nRMW8rMH/LzxSE+AJJUBzPHrwhMdoxkRrQn2H
+         WDQ6EOrwK390BDkPvEWoYOs1aCpUEPql8sKzrO1/qQfXP5AWGQhzmjF0OFmKA64yRCak
+         TMFDxrf4BuQ05g8PaDi0MjFtjHKShdzyx6IrGV2utDaytYYO8UKCUm+0Y8h6GPNYkS9s
+         AnCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712120911; x=1712725711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X+IAlcsaX9nh/sd//p39jgfKrXWxYVdvV9uT5WXHXs0=;
+        b=Vk76cg6S2fDD3RANUxYKx2Dk6PFpCaIdxxwLBEyi8FQTyVxp4bVrcFbM0nwJ7UiEUn
+         lyjfWI83cxNbpEVaixdtw1gDlm1hzZRGo37vx09ydtOgo2vuWH/9M9FNYVMNGpXa90z9
+         eyPrhg8rWa4uEC0qnFCDGK8m+uERzwZoFiWWTCE2hv+CsbJUkP9uYHt0Pwwgd2iXXGFq
+         4ZeEOPQRlDGnZOGu8rsnph92Q58r+PVc0TGqIC/firt1ck4pOqS7125ufi523D2fPcC6
+         LSGQsM79CqP/Y3vGP97YcXAOfi+mo4S//hFUawIcFh/09RfaZqbYrGzyY2Fny8akjiT6
+         n1Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCXz0ZjjR6aZwjnTIJ4+zXXqFWzzg2QdpJmZLKDsGkDLskC6Lyp2A4VKyBG810Ko97VsJJ0gWz4H4AiEofj1QWsYpkcskAtFDzA3mxzFUcjdDOvSGIug2UHtRuIFHJRUm3sOb3ERvwCH
+X-Gm-Message-State: AOJu0YwgibhXu30N+a37snoLT7+fzGsM+gXEX+v2maSGP40eyox+IvRq
+	j4bHynkUsXI85sFnLfkYRzhEIb0BNO0377mq1bN48zMTdi+TV8qT
+X-Google-Smtp-Source: AGHT+IHNtMsKzrW1xkjckiZnmLdT2waJr420bJqVcEia4dHJD/3JJU6nrRQW0Z8B17Fg8zZT8c+7YQ==
+X-Received: by 2002:a17:903:2447:b0:1e2:6191:b97f with SMTP id l7-20020a170903244700b001e26191b97fmr6425041pls.6.1712120910958;
+        Tue, 02 Apr 2024 22:08:30 -0700 (PDT)
+Received: from kaiwan-dell-7550.wlan ([205.254.163.212])
+        by smtp.gmail.com with ESMTPSA id h13-20020a170902680d00b001e27462b97fsm2304712plk.293.2024.04.02.22.08.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Apr 2024 22:08:30 -0700 (PDT)
+From: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+To: Carlos Bilbao <carlos.bilbao@amd.com>
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+Subject: [PATCH] docs: Add relevant kernel publications to list of books; LKP 2E
+Date: Wed,  3 Apr 2024 10:38:24 +0530
+Message-Id: <20240403050824.166787-1-kaiwan.billimoria@gmail.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1711657047-10526-17-git-send-email-wufan@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 28, 2024 at 01:17:23PM -0700, Fan Wu wrote:
-> fsverity: consume fsverity built-in signatures via LSM hook
+Hi Carlos, Jon,
+As the 2nd edition of my 'Linux Kernel Programming' book is recently
+published (29 Feb 2024), this patch is to request it's addition to the
+book list.
+I've currently kept the 1st edition as well (in reverse chronological
+order); if this isn't required, pl let me know..
 
-Nothing is being "consumed" in this patch.  I think you might mean something
-like "expose verified fsverity built-in signatures to LSMs".
+Regards,
+Kaiwan
 
-> It enables a policy enforcement layer within LSMs for fsverity, offering
-> granular control over the usage of authenticity claims. For instance, a policy
-> could be established to permit the execution of all files with built-in
-> fsverity signatures while restricting kernel module loading to specified
-> hashes.
+Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
+---
+ Documentation/process/kernel-docs.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-No, this patch does not enable "restricting kernel module loading to specified
-hashes."  That can be done without this patch.
+diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+index 8660493b91d0..f73671b65a71 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -75,6 +75,15 @@ On-line docs
+ Published books
+ ---------------
+ 
++    * Title: **Linux Kernel Programming: A Comprehensive and practical guide to Kernel Internals, Writing Modules, and Kernel Synchronization**
++
++      :Author: Kaiwan N Billimoria
++      :Publisher: Packt Publishing Ltd
++      :Date: February, 2024
++      :Pages: 826
++      :ISBN: 978-1803232225
++      :Notes: 2nd Edition
++
+     * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
+ 
+       :Author: Kaiwan N Billimoria
+@@ -91,6 +100,7 @@ Published books
+       :Date: March, 2021
+       :Pages: 754
+       :ISBN: 978-1789953435
++      :Notes: 1st Edition
+ 
+     * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
+ 
+-- 
+2.40.1
 
-> The introduction of a security_inode_setintegrity() hook call within
-> fsverity's workflow ensures that the verified built-in signature of a file
-> is stored in the inode's LSM blobs.
-
-No, it doesn't.  As I said on v15, this is not what IPE actually uses it for.
-
-Also, even if IPE did cache the built-in signature in i_security, the mere fact
-that it's cached would say nothing about what it's actually used for.
-
-> diff --git a/Documentation/filesystems/fsverity.rst b/Documentation/filesystems/fsverity.rst
-> index 13e4b18e5dbb..e13cf10211c8 100644
-> --- a/Documentation/filesystems/fsverity.rst
-> +++ b/Documentation/filesystems/fsverity.rst
-> @@ -86,6 +86,19 @@ authenticating fs-verity file hashes include:
->    signature in their "security.ima" extended attribute, as controlled
->    by the IMA policy.  For more information, see the IMA documentation.
->  
-> +- Integrity Policy Enforcement (IPE).  IPE supports enforcing access
-> +  control decisions based on immutable security properties of files,
-> +  including those protected by fs-verity's built-in signatures.
-> +  "IPE policy" specifically allows for the authorization of fs-verity
-> +  files using properties such as ``fsverity_digest`` for identifying
-> +  files by their verity digest, and ``fsverity_signature`` to validate
-> +  files signed with fs-verity's built-in signature mechanism.
-
-Maybe leave out the "such as" above, since fsverity_digest and
-fsverity_signature are all the IPE properties related to fs-verity.
-
-> +  This integration enhances security by ensuring the integrity and
-> +  authenticity of files on a per-file basis, leveraging fs-verity's
-> +  robust protection capabilities in conjunction with IPE's policy-driven
-> +  access control.
-
-This reads a bit like a marketing blurb and feels a bit out of place, especially
-when it comes right after the paragraph about IMA which didn't include a similar
-sentence even though the exact same sentence would apply to IMA too.  Maybe just
-leave this sentence out.
-
-> @@ -457,7 +470,10 @@ Enabling this option adds the following:
->     On success, the ioctl persists the signature alongside the Merkle
->     tree.  Then, any time the file is opened, the kernel verifies the
->     file's actual digest against this signature, using the certificates
-> -   in the ".fs-verity" keyring.
-> +   in the ".fs-verity" keyring. This verification happens as long as the
-> +   file's signature exists, regardless of the state of the sysctl variable
-> +   "fs.verity.require_signatures" described in the next item. The IPE LSM
-> +   relies on this behavior to save verified signatures into LSM blobs.
-
-No, IPE doesn't do that.
-
-- Eric
