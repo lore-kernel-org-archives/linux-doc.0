@@ -1,68 +1,68 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D649153566;
-	Wed,  3 Apr 2024 18:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A68853A7;
+	Wed,  3 Apr 2024 18:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712169941; cv=none; b=Waii4mcJ8W0skwwpL+uuQ4GW50XbltBQ9Vj85L4R5EOMHIcpOqiAK4hY2qR+W1MhuExL3WxB9nNpDrxbhcXIdDSK2d1++VDK7qRIuinGrhh5hZYq6MRAM0AKTXnNI7ntnHtaZe9e165VHPh5S9qomJOrs1IFTLkTR+dRqokegfQ=
+	t=1712170032; cv=none; b=mpyALkqm7YB1/0GUx/E6FyoLTqpAfeKstqfNZpE9O/Bz6F/xYibGAqu41z6X5BHYqk47TxDC9Oio/PSBr8RjMT+haemCP5ytb72nqhpvsIOnMrHVC8PmF60ZQfBfVXCTahVa7uOvmhDCu31sslyIsEo890sYG9L0tvxhN08OvL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712169941; c=relaxed/simple;
-	bh=qSN4Yv7Zq10gRXFhUJf6F1ppK0AjMdsqdlHAQoPSaWY=;
+	s=arc-20240116; t=1712170032; c=relaxed/simple;
+	bh=/hLqYdF5gKHHXRiWGmtGcaz5aLMxaT3b6M7ooBUSkCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ob7mwY6Wj18qa6+AYSSZSwbvBgsBhhxOdqOsjS5X6PV6i+l6nGof4fGPxuRdPd4GI0NHVcaPMq86GAuwhdZVfmkj1TRZxmPjV7FjJnvigKQWgTck9Q6fwyF9ltdn1Au4uIKbo8flfYzQ/l5iuYV5oId9TDMMCGYZOkjh5WnuFIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bDfDCzXI; arc=none smtp.client-ip=209.85.210.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=udcwe/YdvGvy74EatNfg30DaAk0paVOhDeu3VkWWxcgeevzZpW+W+xtohsUatW4pMx+lp0hB49WvbsnMiU5ZWbND5/YHWF5UFdgonNIHaODXPtYIffgPtd0/FTpwOfcA0G2WG7Tp/udJgp9Yk4dgiNkfa5zL7Dd+cXf1P0jf+vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=epfmfXag; arc=none smtp.client-ip=209.85.166.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bDfDCzXI"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6eaf7c97738so91448b3a.2;
-        Wed, 03 Apr 2024 11:45:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="epfmfXag"
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7d0845e992aso9655539f.1;
+        Wed, 03 Apr 2024 11:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712169939; x=1712774739; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1712170030; x=1712774830; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eJtx9UPAg2VkCg/WWStMTH5T4NGyXLu18Jc3mVrHPfc=;
-        b=bDfDCzXINXeXq2XXWRcPS6oVlyI1WDPWhL02Mngk+JBVZiwMapYCaXMQHYNdcMNRLp
-         NpScCu8FxrBI0/zuBSmcrUAqgQJ3Sx3bPph1TS8muXJX3VnNse0TA93qN8IWwPej5Iyd
-         m3Z5jk+KITPpU4ItIF/0RBSdgyCrtuutwEXpj0aUDdXw0pogANYp1zXXIFBJECmMZADO
-         UI/yQCvz7Y9IisGeDxC5Vrr1J8eyj24aWetb5/PLwgSB49b00f0uJNhwc26iqCGFtK1x
-         OFPOMYzmoFUlfOuED8ZU6qTZlkVwxATKrtyMDyP1TTt8bCjLNHX2TmkxBl+RFUj9qEJs
-         uRxw==
+        bh=UC5h3ZTRasG818N8HOgac3acVCmQ49CiIq6Ru5aVP7g=;
+        b=epfmfXag7OxSXACBpppBPtTonLfRAWTMd2YLFsFktJIt/6poEYPSIEqcqDt3bLEebK
+         23MqLQohBc3zUkuCo0QrpuAo6iNXVPDI+KAfNPopxTB/R0HpkzeYdTO96UDPFyT5PWGE
+         zyX2z+gQsutj3qHvuIixN/1u4JXwYxXabqmfo5M07txblD/JqZ8SEA46nM96hzBi0BMg
+         PML33fWL+nk8KZ27OysJl9Bu7CtIWrQ+wOzQXJBWUf+GmpJzVNGZnWSB+nHa5CcMWx6p
+         jZXBAd35nvkXuANhhQETqD6gTJFqUlp6UPgRcfKCC4nc7WOjhF/8bGdy29iNrIP3mW0p
+         4RQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712169939; x=1712774739;
+        d=1e100.net; s=20230601; t=1712170030; x=1712774830;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eJtx9UPAg2VkCg/WWStMTH5T4NGyXLu18Jc3mVrHPfc=;
-        b=KMjzQHyb4jw25pYY9jG2P77HiIfs8ZtODYTOt1r0Gks9BvtPgWXET0yKcuNXlZp6/u
-         n2QtTcNaEopYeCsJ4F751GXx0HKU4OzB0aKkXs3dKsc8HkKsqauVIN4Vuvks1Tlk8rFR
-         J/ZzcS6Irq8eRk/Z6x5lROb986iErqDWyjt8zwweh5F/CrkahRpBsXB85S4Ul0Nqtn8f
-         vPcD9pUyZEowgGVAUnFpfuXDa5hWvFN+HBCCZApMznm2LP7/SwLIeEa/lIUzJGdZalYK
-         ohvz11zmZA1zV4D06IMeI30Se1jELV96qgMcRXiGaSSsG5L3Fh6wOc9Tcs+7SdjlGW3d
-         hdsg==
-X-Forwarded-Encrypted: i=1; AJvYcCUaMStKsyGXtLp2ei9Nd5doKRtqtavyGwieCtEUoforl7xqiuFOYLCywpHC0O3EKh04rT+Jg30uxtmm6fbOLKdAVyjGDRpwuChjvn4ma2dQAtUvZtQt3X+al7OJ383m3F+yObh7H1bm
-X-Gm-Message-State: AOJu0Yxf/v+XOdy992RU3prHw8WDAKBZxPvY/YasDnjnw/PaoTTpvyji
-	+c/rbvA5Equ1ThGHqBu0KLnURPnnunvDF9ERNZCJyYcSQ+qIGDfJ
-X-Google-Smtp-Source: AGHT+IGzm8QA5jRXKwJjVJ4Wb04NIEU5X1Oelr4Ipd47XJ5wCJBOtuPNnnA46E5u50IV+AjTFtch7g==
-X-Received: by 2002:a05:6a20:7f96:b0:1a7:1f8:9be2 with SMTP id d22-20020a056a207f9600b001a701f89be2mr715340pzj.9.1712169939326;
-        Wed, 03 Apr 2024 11:45:39 -0700 (PDT)
+        bh=UC5h3ZTRasG818N8HOgac3acVCmQ49CiIq6Ru5aVP7g=;
+        b=XHdqwENS8m4v1chxetGJ6jb5BOg1JEToRjBDBzLIA93DZuW0xWY7S4rJgiVa3i+9Qh
+         7EQNugZAnlqhPqBWMQeXdvSYWUXvL1bEFNDnrJeY+cv+aVm3vFk6QJPTKEnE9VFr1E07
+         VfYxzdKVD392xdCU1CYqKo3VTsUP3z1ayJkCOF2F2q2NbgwMCtE0gxeFOaqCmuD+KFX5
+         yq8TiSwCMrDD3ntFYc6AvpN6DNuB3d7FyCF1g7UL+ziinzLpg38yJmvk0D5utWb4vJYI
+         afkAFrAZRvc9EV83lfVqSSn1M1Tfr6AZq1CfjvTy+FeTcpdnfuHhrJEfIB2OaldChjO4
+         xRbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXo0UxpeDziQqBzTZe+nx3cZ0ytJWwnjH5JP+K4/BGHuJkZJdE/Hv5jnTapKGDZxpLtFEf/Kt86HANcuktjtWVE5i7yQI+PUk+8X6MVJ15i4m37OQTh0fkxbvYT8qvmsSSGFmtzPTpj
+X-Gm-Message-State: AOJu0YwnQoqEfyXohPV4r6U4DYxL0YalX/wCp5oiA3cn1G/WCmtXH+38
+	TFunsq4A6U20u6ItCuQMM0Iw/btQMTSirygIZxd1xU4sDjBaLQ+4
+X-Google-Smtp-Source: AGHT+IG++c0hL3KBqwugr/8BxzCaTq+uwJm+9RN9dRLE23dvG6PefjFq24iJBJkWs8HLOJxSO8g+Gw==
+X-Received: by 2002:a05:6e02:1547:b0:368:4a3d:e8c5 with SMTP id j7-20020a056e02154700b003684a3de8c5mr545217ilu.15.1712170030135;
+        Wed, 03 Apr 2024 11:47:10 -0700 (PDT)
 Received: from localhost ([2620:10d:c090:400::5:25ab])
-        by smtp.gmail.com with ESMTPSA id x5-20020a170902a38500b001e256cb48f7sm4099606pla.197.2024.04.03.11.45.38
+        by smtp.gmail.com with ESMTPSA id d6-20020a63ed06000000b005f3c84e12c9sm4532297pgi.48.2024.04.03.11.47.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 11:45:39 -0700 (PDT)
+        Wed, 03 Apr 2024 11:47:09 -0700 (PDT)
 Sender: Tejun Heo <htejun@gmail.com>
-Date: Wed, 3 Apr 2024 08:45:37 -1000
+Date: Wed, 3 Apr 2024 08:47:08 -1000
 From: Tejun Heo <tj@kernel.org>
-To: Audra Mitchell <audra@redhat.com>
-Cc: corbet@lwn.net, jiangshanlai@gmail.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, raquini@redhat.com,
-	rdunlap@infradead.org, aros@gmx.com
-Subject: Re: [PATCH] Documentation/core-api: Update events_freezable_power
- references.
-Message-ID: <Zg2j0dmwnh2D7xEO@slm.duckdns.org>
-References: <20240403180022.16248-1-audra@redhat.com>
+To: Xingyou Chen <rockrush@rockwork.org>
+Cc: siyanteng@loongson.cn, alexs@kernel.org, corbet@lwn.net,
+	zhoubinbin@loongson.cn, wangjinchao@xfusion.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_CN: core-api: Update translation of
+ workqueue.rst to 6.9-rc1
+Message-ID: <Zg2kLON8LBZkijEE@slm.duckdns.org>
+References: <20240402230813.25472-1-rockrush@rockwork.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,15 +71,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403180022.16248-1-audra@redhat.com>
+In-Reply-To: <20240402230813.25472-1-rockrush@rockwork.org>
 
-On Wed, Apr 03, 2024 at 02:00:22PM -0400, Audra Mitchell wrote:
-> Due to commit 8318d6a6362f ("workqueue: Shorten
-> events_freezable_power_efficient name") we now have some stale
-> references in the workqeueue documentation, so updating those
-> references accordingly.
+On Wed, Apr 03, 2024 at 07:08:10AM +0800, Xingyou Chen wrote:
+> Significant changes have been made to workqueue, and there are staging
+> works transferring from tasklet, while the current translation doesn't
+> include description around WQ_BH, an update seems to be helpful.
 > 
-> Signed-off-by: Audra Mitchell <audra@redhat.com>
+> Synchronize translation from upstream commit 3bc1e711c26b
+> ("workqueue: Don't implicitly make UNBOUND workqueues w/ @max_active==1 ordered")
+> 
+> Signed-off-by: Xingyou Chen <rockrush@rockwork.org>
 
 Applied to wq/for-6.9-fixes.
 
