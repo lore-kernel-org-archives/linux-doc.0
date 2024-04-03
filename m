@@ -1,544 +1,594 @@
-Received: from rockwork.org (rockwork.org [45.32.92.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316EC2E3FD;
-	Tue,  2 Apr 2024 23:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.32.92.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FCE1373
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 00:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712099328; cv=none; b=hfP6akmm+RB1s+7uLEOBWLIv8Q+NieKMEKlTjhvy4Vg24d1AmlJFWCD+mB5J2rElkL5K1UNP+Tqtluuk1mjYshQGkQd4dGKf4Q1IH/9KpS/43ml1HA4M7KZPJYn+qnM5VeFcwS0NfwWkWt/hPXUX+T3GzTthKjg/PV9BLIpro+M=
+	t=1712103661; cv=none; b=ZgE+Ccf6yv3Zk/2tNRMaY2iJbJPhwscwHUHkLFtIccpsmdm93SB5iPcUezYpmM11T9JSIHlkjdQq3UVDvLROM3Nqnw9Obkt/YlrhaD5tqdXnVHxlwJR1u1K2nYe8q6pKBTKqDbJDzTflbLOSCcAoHHXvDQCxr3PJv6kcs6cbFt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712099328; c=relaxed/simple;
-	bh=HNaP9xcbyV3jgfhHv3KlA2APptVh2dyZAOzFhLAZ8zE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Gfpz/nyxRwp/QbhHoQTEbC/J8WDHKUW/gNVickdM88zMXbV7YG5m19WqdAVWdnuhFHhi79zbQrctVJ28ldoVmy8Cwz1L4S+W0AiFJewDWhhtHP6gXYvDf8fOrByyss7FMoDaYhLOpkqCpZle+KUvQulmDwg8HSsxfJbXl63NBsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rockwork.org; spf=pass smtp.mailfrom=rockwork.org; arc=none smtp.client-ip=45.32.92.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rockwork.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rockwork.org
-Received: from rockdesk (unknown [IPv6:2408:8340:c40:3f70:429c:5146:4b05:d866])
-	by rockwork.org (Postfix) with ESMTPSA id 3796F5993E;
-	Tue,  2 Apr 2024 23:08:44 +0000 (UTC)
-From: Xingyou Chen <rockrush@rockwork.org>
-To: siyanteng@loongson.cn
-Cc: alexs@kernel.org,
-	corbet@lwn.net,
-	zhoubinbin@loongson.cn,
-	tj@kernel.org,
-	wangjinchao@xfusion.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xingyou Chen <rockrush@rockwork.org>
-Subject: [PATCH v2] docs/zh_CN: core-api: Update translation of workqueue.rst to 6.9-rc1
-Date: Wed,  3 Apr 2024 07:08:10 +0800
-Message-ID: <20240402230813.25472-1-rockrush@rockwork.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1712103661; c=relaxed/simple;
+	bh=EwubxaqTCdBjR+dHmq4IdtNJ3UOgAGBLSrkXmBQfBEk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=RctS4rdbjUG1htqH+sHssWEcg9K1M09uNz403U8Cn0OIwan5aizjv95NcXR01iaj96kJuIYQhy3nElclRLMgwf5oPO7FfWZnClQZtOPo+zYvsi6p0pl2wA8T6XAaMoJEwwDpDz+JSE2EL3ky40PQMV+gADozwNziH+RkkzE33pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4SBCOt4w; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4SBCOt4w"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-615365a5ee0so4779257b3.1
+        for <linux-doc@vger.kernel.org>; Tue, 02 Apr 2024 17:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712103657; x=1712708457; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jdlu6V8zooZv2r6aUba4RTK3Aaet2yvqfq1JSrkINIc=;
+        b=4SBCOt4wTKBd03fuIXbq7W/gavOyq0P6K6EuR6bWIWBCHi6pPtfsaeaonhNXG2Y+iF
+         ///D7NRLYhbLifSQkqrKl8+DQRk+rc7shOodXFaP6rWOucxoSaztofbWwr3jnGbr9zwx
+         0dT5AVCmzC3sIk4tRluDSvGNdnCnjEaVoP3ZWLctQhmDh+RMSwEukxNYBTmANtAcKE/e
+         4PZa85IUNAMSBOddel54CDJXS7vHIuERrC+yKEr7ynYq0rRkWIR31ldwZdNai4e/KdK7
+         9dKfdMG/zSDs4T2A3YJW0cu46zT3UwmL+3v2YuIP0xGn1FrRsM06gFvFjqxdFMOQ6307
+         Qs2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712103657; x=1712708457;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jdlu6V8zooZv2r6aUba4RTK3Aaet2yvqfq1JSrkINIc=;
+        b=UfPMA111Z6Y0Lgcu0KbMmHYWMDMuzCieP99HBw9i9mk5dX11ABMnmLS9YKU73DL8uS
+         nbEkriuUzviRz1GYMKZIQm2J1/rlMkVu3COgnQ57p8noaeQzqSFlF+1q9/qckaB/mPzo
+         Y5Xti6EGmt/5J+kJJd3OWxN6KJurqlDKvIP4KCAvy9z6F6NGiHXZmv0KhJqG0QkOuRdU
+         PZZeshu5JAL5acLX+2z34GuT32WIi2IbLWYqZYkPUonmWwxjt8PdA4Yk4bRPMxwHnMtQ
+         0Ik1CRBDf/rYwzfF/i/qyGJJOh83spjKbEQmrYBkBeWoKh1TQSw7gNfQVCLss7kVyqzr
+         SjHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXh5FfNL72SXLxOx/OIU+rH9Sc+nkC0hczdPMbQbnZSD8Iu0RT+J7VZzE+iU7kDI1zJYHXBCfbrpFpIUDIiDWqnuBKZe5iJBD+m
+X-Gm-Message-State: AOJu0YzsU9qd1tZ37gp1EuSWTTtEKSP/lI9W0ruThRFvvODmR6j+3oAU
+	NRbIk5KLxH4DVXO9GZieBabJqTsgguV5DVWLsC8VI2CoMNJPbr8v0Y3MUEKu4qIMW9Vg/FUY4hw
+	oQZP67XZXhyxUvEMSw5J1rw==
+X-Google-Smtp-Source: AGHT+IHIXcIX5O4QMrfkZSuuipPsYwpxkH1E5HQcpeGV3SK2LOi0cKbp399HNiqi8s9vlIbaWNF70OZozg6y8HhC6Q==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:1726:7620:90a1:78b9])
+ (user=almasrymina job=sendgmr) by 2002:a81:4987:0:b0:611:66e0:8dd4 with SMTP
+ id w129-20020a814987000000b0061166e08dd4mr204794ywa.5.1712103657118; Tue, 02
+ Apr 2024 17:20:57 -0700 (PDT)
+Date: Tue,  2 Apr 2024 17:20:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Message-ID: <20240403002053.2376017-1-almasrymina@google.com>
+Subject: [RFC PATCH net-next v8 00/14] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Amritha Nambiar <amritha.nambiar@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Simon Horman <horms@kernel.org>, 
+	David Howells <dhowells@redhat.com>, Florian Westphal <fw@strlen.de>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>, 
+	Arseniy Krasnov <avkrasnov@salutedevices.com>, 
+	Aleksander Lobakin <aleksander.lobakin@intel.com>, Michael Lass <bevan@bi-co.net>, 
+	Jiri Pirko <jiri@resnulli.us>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Richard Gobert <richardbgobert@gmail.com>, 
+	Sridhar Samudrala <sridhar.samudrala@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>, 
+	Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Significant changes have been made to workqueue, and there are staging
-works transferring from tasklet, while the current translation doesn't
-include description around WQ_BH, an update seems to be helpful.
+RFC v8:
+=3D=3D=3D=3D=3D=3D=3D
 
-Synchronize translation from upstream commit 3bc1e711c26b
-("workqueue: Don't implicitly make UNBOUND workqueues w/ @max_active==1 ordered")
+Major Changes:
+--------------
 
-Signed-off-by: Xingyou Chen <rockrush@rockwork.org>
----
- .../translations/zh_CN/core-api/workqueue.rst | 398 ++++++++++++++++--
- 1 file changed, 371 insertions(+), 27 deletions(-)
+- Fixed build error generated by patch-by-patch build.
+- Applied docs suggestions from Randy.
 
-diff --git a/Documentation/translations/zh_CN/core-api/workqueue.rst b/Documentation/translations/zh_CN/core-api/workqueue.rst
-index 7fac6f75d078..fe0ff5a127f3 100644
---- a/Documentation/translations/zh_CN/core-api/workqueue.rst
-+++ b/Documentation/translations/zh_CN/core-api/workqueue.rst
-@@ -7,12 +7,13 @@
- 
-  司延腾 Yanteng Si <siyanteng@loongson.cn>
-  周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
-+ 陈兴友 Xingyou Chen <rockrush@rockwork.org>
- 
- .. _cn_workqueue.rst:
- 
--=========================
--并发管理的工作队列 (cmwq)
--=========================
-+========
-+工作队列
-+========
- 
- :日期: September, 2010
- :作者: Tejun Heo <tj@kernel.org>
-@@ -22,7 +23,7 @@
- 简介
- ====
- 
--在很多情况下，需要一个异步进程的执行环境，工作队列（wq）API是这种情况下
-+在很多情况下，需要一个异步的程序执行环境，工作队列（wq）API是这种情况下
- 最常用的机制。
- 
- 当需要这样一个异步执行上下文时，一个描述将要执行的函数的工作项（work，
-@@ -34,8 +35,8 @@
- 队列时，工作者又开始执行。
- 
- 
--为什么要cmwq?
--=============
-+为什么要有并发管理工作队列?
-+===========================
- 
- 在最初的wq实现中，多线程（MT）wq在每个CPU上有一个工作者线程，而单线程
- （ST）wq在全系统有一个工作者线程。一个MT wq需要保持与CPU数量相同的工
-@@ -73,9 +74,11 @@
- 向该函数的工作项，并在工作队列中排队等待该工作项。（就是挂到workqueue
- 队列里面去）
- 
--特定目的线程，称为工作线程（工作者），一个接一个地执行队列中的功能。
--如果没有工作项排队，工作者线程就会闲置。这些工作者线程被管理在所谓
--的工作者池中。
-+工作项可以在线程或BH(软中断)上下文中执行。
-+
-+对于由线程执行的工作队列，被称为（内核）工作者（[k]worker）的特殊
-+线程会依次执行其中的函数。如果没有工作项排队，工作者线程就会闲置。
-+这些工作者线程被管理在所谓的工作者池中。
- 
- cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上面排队工作，
- 以及管理工作者池和处理排队工作项的后端机制。
-@@ -84,6 +87,10 @@ cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上
- 优先级的工作项，还有一些额外的工作者池，用于服务未绑定工作队列的工
- 作项目——这些后备池的数量是动态的。
- 
-+BH工作队列使用相同的结构。然而，由于同一时间只可能有一个执行上下文，
-+不需要担心并发问题。每个CPU上的BH工作者池只包含一个用于表示BH执行
-+上下文的虚拟工作者。BH工作队列可以被看作软中断的便捷接口。
-+
- 当他们认为合适的时候，子系统和驱动程序可以通过特殊的
- ``workqueue API`` 函数创建和排队工作项。他们可以通过在工作队列上
- 设置标志来影响工作项执行方式的某些方面，他们把工作项放在那里。这些
-@@ -95,9 +102,9 @@ cmwq设计区分了面向用户的工作队列，子系统和驱动程序在上
- 否则一个绑定的工作队列的工作项将被排在与发起线程运行的CPU相关的普
- 通或高级工作工作者池的工作项列表中。
- 
--对于任何工作者池的实施，管理并发水平（有多少执行上下文处于活动状
--态）是一个重要问题。最低水平是为了节省资源，而饱和水平是指系统被
--充分使用。
-+对于任何线程池的实施，管理并发水平（有多少执行上下文处于活动状
-+态）是一个重要问题。cmwq试图将并发保持在一个尽可能低且充足的
-+水平。最低水平是为了节省资源，而充足是为了使系统能被充分使用。
- 
- 每个与实际CPU绑定的worker-pool通过钩住调度器来实现并发管理。每当
- 一个活动的工作者被唤醒或睡眠时，工作者池就会得到通知，并跟踪当前可
-@@ -140,6 +147,17 @@ workqueue将自动创建与属性相匹配的后备工作者池。调节并发
- ``flags``
- ---------
- 
-+``WQ_BH``
-+  BH工作队列可以被看作软中断的便捷接口。它总是每个CPU一份，
-+  其中的各个工作项也会按在队列中的顺序，被所属CPU在软中断
-+  上下文中执行。
-+
-+  BH工作队列的 ``max_active`` 值必须为0，且只能单独或和
-+  ``WQ_HIGHPRI`` 标志组合使用。
-+
-+  BH工作项不可以睡眠。像延迟排队、冲洗、取消等所有其他特性
-+  都是支持的。
-+
- ``WQ_UNBOUND``
-   排队到非绑定wq的工作项由特殊的工作者池提供服务，这些工作者不
-   绑定在任何特定的CPU上。这使得wq表现得像一个简单的执行环境提
-@@ -184,25 +202,21 @@ workqueue将自动创建与属性相匹配的后备工作者池。调节并发
- --------------
- 
- ``@max_active`` 决定了每个CPU可以分配给wq的工作项的最大执行上
--下文数量。例如，如果 ``@max_active为16`` ，每个CPU最多可以同
--时执行16个wq的工作项。
-+下文数量。例如，如果 ``@max_active`` 为16 ，每个CPU最多可以同
-+时执行16个wq的工作项。它总是每CPU属性，即便对于未绑定 wq。
- 
--目前，对于一个绑定的wq， ``@max_active`` 的最大限制是512，当指
--定为0时使用的默认值是256。对于非绑定的wq，其限制是512和
--4 * ``num_possible_cpus()`` 中的较高值。这些值被选得足够高，所
--以它们不是限制性因素，同时会在失控情况下提供保护。
-+``@max_active`` 的最大限制是512，当指定为0时使用的默认值是256。
-+这些值被选得足够高，所以它们不是限制性因素，同时会在失控情况下提供
-+保护。
- 
- 一个wq的活动工作项的数量通常由wq的用户来调节，更具体地说，是由用
- 户在同一时间可以排列多少个工作项来调节。除非有特定的需求来控制活动
- 工作项的数量，否则建议指定 为"0"。
- 
--一些用户依赖于ST wq的严格执行顺序。 ``@max_active`` 为1和 ``WQ_UNBOUND``
--的组合用来实现这种行为。这种wq上的工作项目总是被排到未绑定的工作池
--中，并且在任何时候都只有一个工作项目处于活动状态，从而实现与ST wq相
--同的排序属性。
--
--在目前的实现中，上述配置只保证了特定NUMA节点内的ST行为。相反，
--``alloc_ordered_workqueue()`` 应该被用来实现全系统的ST行为。
-+一些用户依赖于任意时刻最多只有一个工作项被执行，且各工作项被按队列中
-+顺序处理带来的严格执行顺序。``@max_active`` 为1和 ``WQ_UNBOUND``
-+的组合曾被用来实现这种行为，现在不用了。请使用
-+``alloc_ordered_workqueue()`` 。
- 
- 
- 执行场景示例
-@@ -285,7 +299,7 @@ And with cmwq with ``@max_active`` >= 3, ::
- * 除非有特殊需要，建议使用0作为@max_active。在大多数使用情
-   况下，并发水平通常保持在默认限制之下。
- 
--* 一个wq作为前进进度保证（WQ_MEM_RECLAIM，冲洗（flush）和工
-+* 一个wq作为前进进度保证，``WQ_MEM_RECLAIM`` ，冲洗（flush）和工
-   作项属性的域。不涉及内存回收的工作项，不需要作为工作项组的一
-   部分被刷新，也不需要任何特殊属性，可以使用系统中的一个wq。使
-   用专用wq和系统wq在执行特性上没有区别。
-@@ -294,6 +308,337 @@ And with cmwq with ``@max_active`` >= 3, ::
-   益的，因为wq操作和工作项执行中的定位水平提高了。
- 
- 
-+亲和性作用域
-+============
-+
-+一个非绑定工作队列根据其亲和性作用域来对CPU进行分组以提高缓存
-+局部性。比如如果一个工作队列使用默认的“cache”亲和性作用域，
-+它将根据最后一级缓存的边界来分组处理器。这个工作队列上的工作项
-+将被分配给一个与发起CPU共用最后级缓存的处理器上的工作者。根据
-+``affinity_strict`` 的设置，工作者在启动后可能被允许移出
-+所在作用域，也可能不被允许。
-+
-+工作队列目前支持以下亲和性作用域。
-+
-+``default``
-+  使用模块参数 ``workqueue.default_affinity_scope`` 指定
-+  的作用域，该参数总是会被设为以下作用域中的一个。
-+
-+``cpu``
-+  CPU不被分组。一个CPU上发起的工作项会被同一CPU上的工作者执行。
-+  这使非绑定工作队列表现得像是不含并发管理的每CPU工作队列。
-+
-+``smt``
-+  CPU被按SMT边界分组。这通常意味着每个物理CPU核上的各逻辑CPU会
-+  被分进同一组。
-+
-+``cache``
-+  CPU被按缓存边界分组。采用哪个缓存边界由架构代码决定。很多情况
-+  下会使用L3。这是默认的亲和性作用域。
-+
-+``numa``
-+  CPU被按NUMA边界分组。
-+
-+``system``
-+  所有CPU被放在同一组。工作队列不尝试在临近发起CPU的CPU上运行
-+  工作项。
-+
-+默认的亲和性作用域可以被模块参数 ``workqueue.default_affinity_scope``
-+修改，特定工作队列的亲和性作用域可以通过 ``apply_workqueue_attrs()``
-+被更改。
-+
-+如果设置了 ``WQ_SYSFS`` ，工作队列会在它的 ``/sys/devices/virtual/workqueue/WQ_NAME/``
-+目录中有以下亲和性作用域相关的接口文件。
-+
-+``affinity_scope``
-+  读操作以查看当前的亲和性作用域。写操作用于更改设置。
-+
-+  当前作用域是默认值时，当前生效的作用域也可以被从这个文件中
-+  读到（小括号内），例如 ``default (cache)`` 。
-+
-+``affinity_strict``
-+  默认值0表明亲和性作用域不是严格的。当一个工作项开始执行时，
-+  工作队列尽量尝试使工作者处于亲和性作用域内，称为遣返。启动后，
-+  调度器可以自由地将工作者调度到系统中任意它认为合适的地方去。
-+  这使得在保留使用其他CPU（如果必需且有可用）能力的同时，
-+  还能从作用域局部性上获益。
-+
-+  如果设置为1，作用域内的所有工作者将被保证总是处于作用域内。
-+  这在跨亲和性作用域会导致如功耗、负载隔离等方面的潜在影响时
-+  会有用。严格的NUMA作用域也可用于和旧版内核中工作队列的行为
-+  保持一致。
-+
-+
-+亲和性作用域与性能
-+==================
-+
-+如果非绑定工作队列的行为对绝大多数使用场景来说都是最优的，
-+不需要更多调节，就完美了。很不幸，在当前内核中，重度使用
-+工作队列时，需要在局部性和利用率间显式地作一个明显的权衡。
-+
-+更高的局部性带来更高效率，也就是相同数量的CPU周期内可以做
-+更多工作。然而，如果发起者没能将工作项充分地分散在亲和性
-+作用域间，更高的局部性也可能带来更低的整体系统利用率。以下
-+dm-crypt 的性能测试清楚地阐明了这一取舍。
-+
-+测试运行在一个12核24线程、4个L3缓存的处理器（AMD Ryzen
-+9 3900x）上。为保持一致性，关闭CPU超频。 ``/dev/dm-0``
-+是NVME SSD（三星 990 PRO）上创建，用 ``cryptsetup``
-+以默认配置打开的一个 dm-crypt 设备。
-+
-+
-+场景 1: 机器上遍布着有充足的发起者和工作量
-+------------------------------------------
-+
-+使用命令：::
-+
-+  $ fio --filename=/dev/dm-0 --direct=1 --rw=randrw --bs=32k --ioengine=libaio \
-+    --iodepth=64 --runtime=60 --numjobs=24 --time_based --group_reporting \
-+    --name=iops-test-job --verify=sha512
-+
-+这里有24个发起者，每个同时发起64个IO。 ``--verify=sha512``
-+使得 ``fio`` 每次生成和读回内容受发起者和 ``kcryptd``
-+间的执行局部性影响。下面是基于不同 ``kcryptd`` 的亲和性
-+作用域设置，各经过五次测试得到的读取带宽和CPU利用率数据。
-+
-+.. list-table::
-+   :widths: 16 20 20
-+   :header-rows: 1
-+
-+   * - 亲和性
-+     - 带宽 (MiBps)
-+     - CPU利用率（%）
-+
-+   * - system
-+     - 1159.40 ±1.34
-+     - 99.31 ±0.02
-+
-+   * - cache
-+     - 1166.40 ±0.89
-+     - 99.34 ±0.01
-+
-+   * - cache (strict)
-+     - 1166.00 ±0.71
-+     - 99.35 ±0.01
-+
-+在系统中分布着足够多发起者的情况下，不论严格与否，“cache”
-+没有表现得更差。三种配置均使整个机器达到饱和，但由于提高了
-+局部性，缓存相关的两种有0.6%的（带宽）提升。
-+
-+
-+场景 2: 更少发起者，足以达到饱和的工作量
-+----------------------------------------
-+
-+使用命令：::
-+
-+  $ fio --filename=/dev/dm-0 --direct=1 --rw=randrw --bs=32k \
-+    --ioengine=libaio --iodepth=64 --runtime=60 --numjobs=8 \
-+    --time_based --group_reporting --name=iops-test-job --verify=sha512
-+
-+与上一个场景唯一的区别是 ``--numjobs=8``。 发起者数量
-+减少为三分之一，但仍然有足以使系统达到饱和的工作总量。
-+
-+.. list-table::
-+   :widths: 16 20 20
-+   :header-rows: 1
-+
-+   * - 亲和性
-+     - 带宽 (MiBps)
-+     - CPU利用率（%）
-+
-+   * - system
-+     - 1155.40 ±0.89
-+     - 97.41 ±0.05
-+
-+   * - cache
-+     - 1154.40 ±1.14
-+     - 96.15 ±0.09
-+
-+   * - cache (strict)
-+     - 1112.00 ±4.64
-+     - 93.26 ±0.35
-+
-+这里有超过使系统达到饱和所需的工作量。“system”和“cache”
-+都接近但并未使机器完全饱和。“cache”消耗更少的CPU但更高的
-+效率使其得到和“system”相同的带宽。
-+
-+八个发起者盘桓在四个L3缓存作用域间仍然允许“cache (strict)”
-+几乎使机器饱和，但缺少对工作的保持（不移到空闲处理器上）
-+开始带来3.7%的带宽损失。
-+
-+
-+场景 3: 更少发起者，不充足的工作量
-+----------------------------------
-+
-+使用命令：::
-+
-+  $ fio --filename=/dev/dm-0 --direct=1 --rw=randrw --bs=32k \
-+    --ioengine=libaio --iodepth=64 --runtime=60 --numjobs=4 \
-+    --time_based --group_reporting --name=iops-test-job --verify=sha512
-+
-+再次，唯一的区别是 ``--numjobs=4``。由于发起者减少到四个，
-+现在没有足以使系统饱和的工作量，带宽变得依赖于完成时延。
-+
-+.. list-table::
-+   :widths: 16 20 20
-+   :header-rows: 1
-+
-+   * - 亲和性
-+     - 带宽 (MiBps)
-+     - CPU利用率（%）
-+
-+   * - system
-+     - 993.60 ±1.82
-+     - 75.49 ±0.06
-+
-+   * - cache
-+     - 973.40 ±1.52
-+     - 74.90 ±0.07
-+
-+   * - cache (strict)
-+     - 828.20 ±4.49
-+     - 66.84 ±0.29
-+
-+现在，局部性和利用率间的权衡更清晰了。“cache”展示出相比
-+“system”2%的带宽损失，而“cache (strict)”跌到20%。
-+
-+
-+结论和建议
-+----------
-+
-+在以上试验中，虽然一致并且也明显，但“cache”亲和性作用域
-+相比“system”的性能优势并不大。然而，这影响是依赖于作用域
-+间距离的，在更复杂的处理器拓扑下可能有更明显的影响。
-+
-+虽然这些情形下缺少工作保持是有坏处的，但比“cache (strict)”
-+好多了，而且最大化工作队列利用率的需求也并不常见。因此，
-+“cache”是非绑定池的默认亲和性作用域。
-+
-+* 由于不存在一个适用于大多数场景的选择，对于可能需要消耗
-+  大量CPU的工作队列，建议通过 ``apply_workqueue_attrs()``
-+  进行（专门）配置，并考虑是否启用 ``WQ_SYSFS``。
-+
-+* 设置了严格“cpu”亲和性作用域的非绑定工作队列，它的行为与
-+  ``WQ_CPU_INTENSIVE`` 每CPU工作队列一样。后者没有真正
-+  优势，而前者提供了大幅度的灵活性。
-+
-+* 亲和性作用域是从Linux v6.5起引入的。为了模拟旧版行为，
-+  可以使用严格的“numa”亲和性作用域。
-+
-+* 不严格的亲和性作用域中，缺少工作保持大概缘于调度器。内核
-+  为什么没能维护好大多数场景下的工作保持，把事情作对，还没有
-+  理论上的解释。因此，未来调度器的改进可能会使我们不再需要
-+  这些调节项。
-+
-+
-+检查配置
-+========
-+
-+使用 tools/workqueue/wq_dump.py（drgn脚本） 来检查未
-+绑定CPU的亲和性配置，工作者池，以及工作队列如何映射到池上: ::
-+
-+  $ tools/workqueue/wq_dump.py
-+  Affinity Scopes
-+  ===============
-+  wq_unbound_cpumask=0000000f
-+
-+  CPU
-+    nr_pods  4
-+    pod_cpus [0]=00000001 [1]=00000002 [2]=00000004 [3]=00000008
-+    pod_node [0]=0 [1]=0 [2]=1 [3]=1
-+    cpu_pod  [0]=0 [1]=1 [2]=2 [3]=3
-+
-+  SMT
-+    nr_pods  4
-+    pod_cpus [0]=00000001 [1]=00000002 [2]=00000004 [3]=00000008
-+    pod_node [0]=0 [1]=0 [2]=1 [3]=1
-+    cpu_pod  [0]=0 [1]=1 [2]=2 [3]=3
-+
-+  CACHE (default)
-+    nr_pods  2
-+    pod_cpus [0]=00000003 [1]=0000000c
-+    pod_node [0]=0 [1]=1
-+    cpu_pod  [0]=0 [1]=0 [2]=1 [3]=1
-+
-+  NUMA
-+    nr_pods  2
-+    pod_cpus [0]=00000003 [1]=0000000c
-+    pod_node [0]=0 [1]=1
-+    cpu_pod  [0]=0 [1]=0 [2]=1 [3]=1
-+
-+  SYSTEM
-+    nr_pods  1
-+    pod_cpus [0]=0000000f
-+    pod_node [0]=-1
-+    cpu_pod  [0]=0 [1]=0 [2]=0 [3]=0
-+
-+  Worker Pools
-+  ============
-+  pool[00] ref= 1 nice=  0 idle/workers=  4/  4 cpu=  0
-+  pool[01] ref= 1 nice=-20 idle/workers=  2/  2 cpu=  0
-+  pool[02] ref= 1 nice=  0 idle/workers=  4/  4 cpu=  1
-+  pool[03] ref= 1 nice=-20 idle/workers=  2/  2 cpu=  1
-+  pool[04] ref= 1 nice=  0 idle/workers=  4/  4 cpu=  2
-+  pool[05] ref= 1 nice=-20 idle/workers=  2/  2 cpu=  2
-+  pool[06] ref= 1 nice=  0 idle/workers=  3/  3 cpu=  3
-+  pool[07] ref= 1 nice=-20 idle/workers=  2/  2 cpu=  3
-+  pool[08] ref=42 nice=  0 idle/workers=  6/  6 cpus=0000000f
-+  pool[09] ref=28 nice=  0 idle/workers=  3/  3 cpus=00000003
-+  pool[10] ref=28 nice=  0 idle/workers= 17/ 17 cpus=0000000c
-+  pool[11] ref= 1 nice=-20 idle/workers=  1/  1 cpus=0000000f
-+  pool[12] ref= 2 nice=-20 idle/workers=  1/  1 cpus=00000003
-+  pool[13] ref= 2 nice=-20 idle/workers=  1/  1 cpus=0000000c
-+
-+  Workqueue CPU -> pool
-+  =====================
-+  [    workqueue \ CPU              0  1  2  3 dfl]
-+  events                   percpu   0  2  4  6
-+  events_highpri           percpu   1  3  5  7
-+  events_long              percpu   0  2  4  6
-+  events_unbound           unbound  9  9 10 10  8
-+  events_freezable         percpu   0  2  4  6
-+  events_power_efficient   percpu   0  2  4  6
-+  events_freezable_power_  percpu   0  2  4  6
-+  rcu_gp                   percpu   0  2  4  6
-+  rcu_par_gp               percpu   0  2  4  6
-+  slub_flushwq             percpu   0  2  4  6
-+  netns                    ordered  8  8  8  8  8
-+  ...
-+
-+参见命令的帮助消息以获取更多信息。
-+
-+
-+监视
-+====
-+
-+使用 tools/workqueue/wq_monitor.py 来监视工作队列的运行： ::
-+
-+  $ tools/workqueue/wq_monitor.py events
-+                              total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
-+  events                      18545     0      6.1       0       5       -       -
-+  events_highpri                  8     0      0.0       0       0       -       -
-+  events_long                     3     0      0.0       0       0       -       -
-+  events_unbound              38306     0      0.1       -       7       -       -
-+  events_freezable                0     0      0.0       0       0       -       -
-+  events_power_efficient      29598     0      0.2       0       0       -       -
-+  events_freezable_power_        10     0      0.0       0       0       -       -
-+  sock_diag_events                0     0      0.0       0       0       -       -
-+
-+                              total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
-+  events                      18548     0      6.1       0       5       -       -
-+  events_highpri                  8     0      0.0       0       0       -       -
-+  events_long                     3     0      0.0       0       0       -       -
-+  events_unbound              38322     0      0.1       -       7       -       -
-+  events_freezable                0     0      0.0       0       0       -       -
-+  events_power_efficient      29603     0      0.2       0       0       -       -
-+  events_freezable_power_        10     0      0.0       0       0       -       -
-+  sock_diag_events                0     0      0.0       0       0       -       -
-+
-+  ...
-+
-+参见命令的帮助消息以获取更多信息。
-+
-+
- 调试
- ====
- 
-@@ -330,7 +675,6 @@ And with cmwq with ``@max_active`` >= 3, ::
- 
- 工作队列保证，如果在工作项排队后满足以下条件，则工作项不能重入：
- 
--
-         1. 工作函数没有被改变。
-         2. 没有人将该工作项排到另一个工作队列中。
-         3. 该工作项尚未被重新启动。
--- 
-2.43.0
+RFC v7:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the feedback
+RFCv6 received from folks, namely Jakub, Yunsheng, Arnd, David, & Pavel.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v7/
+
+Detailed changelog:
+
+- Use admin-perm in netlink API.
+- Addressed feedback from Jakub with regards to netlink API
+  implementation.
+- Renamed devmem.c functions to something more appropriate for that
+  file.
+- Improve the performance seen through the page_pool benchmark.
+- Fix the value definition of all the SO_DEVMEM_* uapi.
+- Various fixes to documentation.
+
+Perf - page-pool benchmark:
+---------------------------
+
+Improved performance of bench_page_pool_simple.ko tests compared to v6:
+
+https://pastebin.com/raw/v5dYRg8L
+
+      net-next base: 8 cycle fast path.
+      RFC v6: 10 cycle fast path.
+      RFC v7: 9 cycle fast path.
+      RFC v7 with CONFIG_DMA_SHARED_BUFFER disabled: 8 cycle fast path,
+                                                     same as baseline.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+Perf is about the same regardless of the changes in v7, namely the
+removal of the static_branch_unlikely to improve the page_pool benchmark
+performance:
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+RFC v6:
+=3D=3D=3D=3D=3D=3D=3D
+
+Major Changes:
+--------------
+
+This revision largely rebases on top of net-next and addresses the little
+feedback RFCv5 received.
+
+The series remains in RFC because the queue-API ndos defined in this
+series are not yet implemented. I have a GVE implementation I carry out
+of tree for my testing. A upstreamable GVE implementation is in the
+works. Aside from that, in my estimation all the patches are ready for
+review/merge. Please do take a look.
+
+As usual the full devmem TCP changes including the full GVE driver
+implementation is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-v6/
+
+This version also comes with some performance data recorded in the cover
+letter (see below changelog).
+
+Detailed changelog:
+
+- Rebased on top of the merged netmem_ref changes.
+
+- Converted skb->dmabuf to skb->readable (Pavel). Pavel's original
+  suggestion was to remove the skb->dmabuf flag entirely, but when I
+  looked into it closely, I found the issue that if we remove the flag
+  we have to dereference the shinfo(skb) pointer to obtain the first
+  frag to tell whether an skb is readable or not. This can cause a
+  performance regression if it dirties the cache line when the
+  shinfo(skb) was not really needed. Instead, I converted the skb->dmabuf
+  flag into a generic skb->readable flag which can be re-used by io_uring
+  0-copy RX.
+
+- Squashed a few locking optimizations from Eric Dumazet in the RX path
+  and the DEVMEM_DONTNEED setsockopt.
+
+- Expanded the tests a bit. Added validation for invalid scenarios and
+  added some more coverage.
+
+Perf - page-pool benchmark:
+---------------------------
+
+bench_page_pool_simple.ko tests with and without these changes:
+https://pastebin.com/raw/ncHDwAbn
+
+AFAIK the number that really matters in the perf tests is the
+'tasklet_page_pool01_fast_path Per elem'. This one measures at about 8
+cycles without the changes but there is some 1 cycle noise in some
+results.
+
+With the patches this regresses to 9 cycles with the changes but there
+is 1 cycle noise occasionally running this test repeatedly.
+
+Lastly I tried disable the static_branch_unlikely() in
+netmem_is_net_iov() check. To my surprise disabling the
+static_branch_unlikely() check reduces the fast path back to 8 cycles,
+but the 1 cycle noise remains.
+
+Perf - Devmem TCP benchmark:
+---------------------
+
+189/200gbps bi-directional throughput with RX devmem TCP and regular TCP
+TX i.e. ~95% line rate.
+
+Major changes in RFC v5:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Rebased on top of 'Abstract page from net stack' series and used the
+   new netmem type to refer to LSB set pointers instead of re-using
+   struct page.
+
+2. Downgraded this series back to RFC and called it RFC v5. This is
+   because this series is now dependent on 'Abstract page from net
+   stack'[1] and the queue API. Both are removed from the series to
+   reduce the patch # and those bits are fairly independent or
+   pre-requisite work.
+
+3. Reworked the page_pool devmem support to use netmem and for some
+   more unified handling.
+
+4. Reworked the reference counting of net_iov (renamed from
+   page_pool_iov) to use pp_ref_count for refcounting.
+
+The full changes including the dependent series and GVE page pool
+support is here:
+
+https://github.com/mina/linux/commits/tcpdevmem-rfcv5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D810774
+
+Major changes in v1:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
+
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
+
+3. Removed RFC tag.
+
+Many smaller addressed comments across all the patches (patches have
+individual change log).
+
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
+
+Changes in RFC v3:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergeable.
+
+2. Implemented multi-rx-queue binding which was a todo in v2.
+
+3. Fix to cmsg handling.
+
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Changes in RFC v2:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this series is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This series is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this series and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Cc: Pavel Begunkov <asml.silence@gmail.com>
+Cc: David Wei <dw@davidwei.uk>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+
+
+Jakub Kicinski (1):
+  net: page_pool: create hooks for custom page providers
+
+Mina Almasry (13):
+  queue_api: define queue api
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  page_pool: convert to use netmem
+  page_pool: devmem support
+  memory-provider: dmabuf devmem memory provider
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+
+ Documentation/netlink/specs/netdev.yaml |  57 +++
+ Documentation/networking/devmem.rst     | 256 +++++++++++
+ Documentation/networking/index.rst      |   1 +
+ arch/alpha/include/uapi/asm/socket.h    |   6 +
+ arch/mips/include/uapi/asm/socket.h     |   6 +
+ arch/parisc/include/uapi/asm/socket.h   |   6 +
+ arch/sparc/include/uapi/asm/socket.h    |   6 +
+ include/linux/netdevice.h               |   3 +
+ include/linux/skbuff.h                  |  73 +++-
+ include/linux/socket.h                  |   1 +
+ include/net/devmem.h                    | 124 ++++++
+ include/net/netdev_queues.h             |  27 ++
+ include/net/netdev_rx_queue.h           |   2 +
+ include/net/netmem.h                    | 234 +++++++++-
+ include/net/page_pool/helpers.h         | 155 +++++--
+ include/net/page_pool/types.h           |  33 +-
+ include/net/sock.h                      |   2 +
+ include/net/tcp.h                       |   5 +-
+ include/trace/events/page_pool.h        |  29 +-
+ include/uapi/asm-generic/socket.h       |   6 +
+ include/uapi/linux/netdev.h             |  19 +
+ include/uapi/linux/uio.h                |  17 +
+ net/bpf/test_run.c                      |   5 +-
+ net/core/Makefile                       |   2 +-
+ net/core/datagram.c                     |   6 +
+ net/core/dev.c                          |   6 +-
+ net/core/devmem.c                       | 425 ++++++++++++++++++
+ net/core/gro.c                          |   8 +-
+ net/core/netdev-genl-gen.c              |  23 +
+ net/core/netdev-genl-gen.h              |   6 +
+ net/core/netdev-genl.c                  | 107 +++++
+ net/core/page_pool.c                    | 364 +++++++++-------
+ net/core/skbuff.c                       | 110 ++++-
+ net/core/sock.c                         |  61 +++
+ net/ipv4/esp4.c                         |   2 +-
+ net/ipv4/tcp.c                          | 254 ++++++++++-
+ net/ipv4/tcp_input.c                    |  13 +-
+ net/ipv4/tcp_ipv4.c                     |   9 +
+ net/ipv4/tcp_minisocks.c                |   2 +
+ net/ipv4/tcp_output.c                   |   5 +-
+ net/ipv6/esp6.c                         |   2 +-
+ net/packet/af_packet.c                  |   4 +-
+ tools/include/uapi/linux/netdev.h       |  19 +
+ tools/testing/selftests/net/.gitignore  |   1 +
+ tools/testing/selftests/net/Makefile    |   5 +
+ tools/testing/selftests/net/ncdevmem.c  | 546 ++++++++++++++++++++++++
+ 46 files changed, 2776 insertions(+), 277 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 net/core/devmem.c
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.44.0.478.gd926399ef9-goog
 
