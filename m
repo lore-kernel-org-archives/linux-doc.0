@@ -1,105 +1,112 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA939152E0D
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 18:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B43153501
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 18:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712167231; cv=none; b=K5YvDCKMR9A4R0G2l4jRL2QTaYXxv2NH3+2sK//rIgGvI6FcxynaXpQ8U1/4aVyaZMkF8wqjgeq0vXGv0s45/zohAG2fLpU/IJeE06t8cVlhLQAZxe7BuJ+vUEg1uZoE3svPFcxViZzZ8T9fVHbEHSRpWF5q9Yt+/nN1yVKYpzw=
+	t=1712168132; cv=none; b=JMuyAKUbkGZH/fkuY7JsoQ/iqpmszKpkRfzVi6LidRKwhXvEEG2PQsz12SnFdBBiphipt2b6BuGiwwvAkzUy31rRDhtE//Wykf16QRgiFr9d57TOm4NNlKPSkf9GcKX86ohlcOq5l59X2UfR0udlUOW+PiBkKqWi+y2pKV5ghBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712167231; c=relaxed/simple;
-	bh=ESa69bYpC8ijbm9tNxC6w6CKWUsMZjRn0lH9e8ZPGiE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LAb/9pEB/6HN8bp2Rq2LGAiMy2E47w2UqHcVQRx8fdqtMSjUt+n4BkL70wEZjXf1grGTusUKkiXt8gKEw+w17C/QILj44eFYyxJQviWkSdY3HF7nrSiWkxrCNeBnIVDDkeP4aacA38QEp/owQ+Umf1BjXMY75V7+Pw0t2KyzUF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gCna67lP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712168132; c=relaxed/simple;
+	bh=1oV7F1jBmYRZsA6svOOmuWXQI3vYZavB0QFuGC36KRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lZ93pdani677oexQuRpoFWPFGUQkLeG92Vaf2mmqNQRjRdArFnLWGCrEvWw1bXAGRglNxQqEA5zWRLNWgYNTH/22W8DHsF0IeurP+wYXSeTAAL5HFArKh93N5lWhXsXOTXl082InHtDi5lRSql2KuQmZDPueITxzwD/w8fWPyhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O+mF5tSo; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gCna67lP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712167228;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O+mF5tSo"
+Date: Wed, 3 Apr 2024 14:15:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1712168126;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=NOWzWds8cVKHQdlc47r4G0/HKNJbns4J1HuoS3oJPb0=;
-	b=gCna67lPAH03volTn4GnBj/XGNP89gBzAgmzo+OjKbxHuawuF8dvG5PdjGVPvy/T7gVce7
-	slNIDuG9amH5BONPRqs9yPHORrjAeTDm0LaNnhYo0F/bQfqWQEs63wom3vwCjYm/Q7Pynb
-	J4lltnmTDNof+wr5mfRhWfSeVjkWiPQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-628-TrN30FAFMYOnb6-VNGny2Q-1; Wed, 03 Apr 2024 14:00:25 -0400
-X-MC-Unique: TrN30FAFMYOnb6-VNGny2Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86597101A535;
-	Wed,  3 Apr 2024 18:00:23 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.22.9.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 69BE71121313;
-	Wed,  3 Apr 2024 18:00:23 +0000 (UTC)
-From: Audra Mitchell <audra@redhat.com>
-To: corbet@lwn.net
-Cc: tj@kernel.org,
-	jiangshanlai@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	aros@gmx.com
-Subject: [PATCH] Documentation/core-api: Update events_freezable_power references.
-Date: Wed,  3 Apr 2024 14:00:22 -0400
-Message-ID: <20240403180022.16248-1-audra@redhat.com>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KugM06W/s0lb++bW7levKHgpFLyEAtmCAECxADz00LA=;
+	b=O+mF5tSo+kQ3evl6evxwBacTiXzfRDinz7tasCBoCXvkVzg71Eg2Tj11aOOQOvAn2VtbKa
+	4xDUzXt3vcUN1q4BynOenQTSxBZUR+PUrwJNN863OgeLxrPH8kAqph+irAR/22JqAk8WiC
+	UUHnl3AUbkMRomaUH0xPDBYfDm7mIPM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Brian Foster <bfoster@redhat.com>
+Cc: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>, 
+	Jonathan Corbet <corbet@lwn.net>, Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+	David Sterba <dsterba@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 11/13] bcachefs: fiemap: return correct extent
+ physical length
+Message-ID: <qf3rldn7sha5nbwz7iidkzb6secoyebwldgq56tfx4sunmthxo@qdap46g7lfsc>
+References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
+ <b9b795987a485afa0fdb8f0decc09405691d9320.1712126039.git.sweettea-kernel@dorminy.me>
+ <Zg2LG1_2-ac1GlsG@bfoster>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zg2LG1_2-ac1GlsG@bfoster>
+X-Migadu-Flow: FLOW_OUT
 
-Due to commit 8318d6a6362f ("workqueue: Shorten
-events_freezable_power_efficient name") we now have some stale
-references in the workqeueue documentation, so updating those
-references accordingly.
+On Wed, Apr 03, 2024 at 01:00:11PM -0400, Brian Foster wrote:
+> On Wed, Apr 03, 2024 at 03:22:52AM -0400, Sweet Tea Dorminy wrote:
+> > Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+> > ---
+> >  fs/bcachefs/fs.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/fs/bcachefs/fs.c b/fs/bcachefs/fs.c
+> > index f830578a9cd1..d2793bae842d 100644
+> > --- a/fs/bcachefs/fs.c
+> > +++ b/fs/bcachefs/fs.c
+> > @@ -913,15 +913,17 @@ static int bch2_fill_extent(struct bch_fs *c,
+> >  			flags |= FIEMAP_EXTENT_SHARED;
+> >  
+> >  		bkey_for_each_ptr_decode(k.k, ptrs, p, entry) {
+> > -			int flags2 = 0;
+> > +			int flags2 = FIEMAP_EXTENT_HAS_PHYS_LEN;
+> > +			u64 phys_len = k.k->size << 9;
+> >  			u64 offset = p.ptr.offset;
+> >  
+> >  			if (p.ptr.unwritten)
+> >  				flags2 |= FIEMAP_EXTENT_UNWRITTEN;
+> >  
+> > -			if (p.crc.compression_type)
+> > +			if (p.crc.compression_type) {
+> >  				flags2 |= FIEMAP_EXTENT_ENCODED;
+> > -			else
+> > +				phys_len = p.crc.compressed_size << 9;
+> > +			} else
+> >  				offset += p.crc.offset;
+> >  
+> >  			if ((offset & (block_sectors(c) - 1)) ||
+> > @@ -931,7 +933,7 @@ static int bch2_fill_extent(struct bch_fs *c,
+> >  			ret = fiemap_fill_next_extent(info,
+> >  						bkey_start_offset(k.k) << 9,
+> >  						offset << 9,
+> > -						k.k->size << 9, 0,
+> > +						k.k->size << 9, phys_len,
+> >  						flags|flags2);
+> >  			if (ret)
+> >  				return ret;
+> > @@ -941,14 +943,18 @@ static int bch2_fill_extent(struct bch_fs *c,
+> >  	} else if (bkey_extent_is_inline_data(k.k)) {
+> >  		return fiemap_fill_next_extent(info,
+> >  					       bkey_start_offset(k.k) << 9,
+> > -					       0, k.k->size << 9, 0,
+> > +					       0, k.k->size << 9,
+> > +					       bkey_inline_data_bytes(k.k),
+> 
+> Question for Kent perhaps, but what's the functional difference between
+> bkey_inline_data_bytes() and k->size in this particular case?
 
-Signed-off-by: Audra Mitchell <audra@redhat.com>
----
- Documentation/core-api/workqueue.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Not much - k->size will correspond to the size of the original write -
+that is, the writeback write from the pagecache. inline_data_bytes is
+the amount of data that wasn't zeroes.
 
-diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
-index ed73c612174d..bcc370c876be 100644
---- a/Documentation/core-api/workqueue.rst
-+++ b/Documentation/core-api/workqueue.rst
-@@ -671,7 +671,7 @@ configuration, worker pools and how workqueues map to the pools: ::
-   events_unbound           unbound  9  9 10 10  8
-   events_freezable         percpu   0  2  4  6
-   events_power_efficient   percpu   0  2  4  6
--  events_freezable_power_  percpu   0  2  4  6
-+  events_freezable_pwr_ef  percpu   0  2  4  6
-   rcu_gp                   percpu   0  2  4  6
-   rcu_par_gp               percpu   0  2  4  6
-   slub_flushwq             percpu   0  2  4  6
-@@ -694,7 +694,7 @@ Use tools/workqueue/wq_monitor.py to monitor workqueue operations: ::
-   events_unbound              38306     0      0.1       -       7       -       -
-   events_freezable                0     0      0.0       0       0       -       -
-   events_power_efficient      29598     0      0.2       0       0       -       -
--  events_freezable_power_        10     0      0.0       0       0       -       -
-+  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
-   sock_diag_events                0     0      0.0       0       0       -       -
- 
-                               total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
-@@ -704,7 +704,7 @@ Use tools/workqueue/wq_monitor.py to monitor workqueue operations: ::
-   events_unbound              38322     0      0.1       -       7       -       -
-   events_freezable                0     0      0.0       0       0       -       -
-   events_power_efficient      29603     0      0.2       0       0       -       -
--  events_freezable_power_        10     0      0.0       0       0       -       -
-+  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
-   sock_diag_events                0     0      0.0       0       0       -       -
- 
-   ...
--- 
-2.44.0
-
+So inline_data_bytes is probably the right thing to use here.
