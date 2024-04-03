@@ -1,396 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72A6413443A;
-	Wed,  3 Apr 2024 10:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EC4135A5F
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 11:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712139512; cv=none; b=f+HwqGB/XqsmQaG2/BoV2WCZctaX3Rz8CR2kMMluHORaBQfg6V5Rf8x72smqaRtq3GyxxGYXVVmGxm4XtGsok5OdKRhp6ZpJTUf7dEmBFsP10MtD73lqpYlnXD2I9pUNAnFv/EhSJ54utFp/K6vm25Rsmxh4yFYSvIUENJPmvWo=
+	t=1712142567; cv=none; b=bfi28GfyUSIf1Dvm7hrvyz/hrbYfGCbJvn8qchISLF3prikZI1OS1nPIcXOtSHt26WSfcGQZu49qTg1/CkQ6fSzW55m9T1eGrbNEVVf3nKFVBQBtwimF3ub0/rJxT6XRLtx1zg0yUVXjiP7MBBKTroE9Z3goE68l3oONXIT+cHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712139512; c=relaxed/simple;
-	bh=u3KbXLQX7Pe1B8wL5OfNuEA5+5F4QzKSSClrDF23FJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tW+eV1Ich6JwCtu8n2L1MNyGrpEVn6xJUgWfcPlAkxpM6nlnnNgNPGN5J37CCppIj6qqHckdnpuN83HTB9hU2tE7o4pm4X00rDFnKabgrvrHJGbfDjiLAujdjbsfRwL/mLTFcZB0+YlB/7nPnZ3DhKxVDKsb6iYizKk5cqvzURo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6E451007;
-	Wed,  3 Apr 2024 03:19:00 -0700 (PDT)
-Received: from [10.57.17.17] (unknown [10.57.17.17])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC04E3F64C;
-	Wed,  3 Apr 2024 03:18:27 -0700 (PDT)
-From: Balint Dobszay <balint.dobszay@arm.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- sumit.garg@linaro.org, corbet@lwn.net, sudeep.holla@arm.com,
- rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
-Subject: Re: [PATCH v4 2/5] tee: optee: Move pool_op helper functions
-Date: Wed, 03 Apr 2024 12:18:25 +0200
-X-Mailer: MailMate (1.14r5937)
-Message-ID: <06138C06-8BC5-4F02-85A6-EAFCD94777E6@arm.com>
-In-Reply-To: <CAHUa44HHikgA2R_nZw9+f6ug1nKBZgwVEYvqPgKo6dx=iijAqA@mail.gmail.com>
-References: <20240325151105.135667-1-balint.dobszay@arm.com>
- <20240325151105.135667-3-balint.dobszay@arm.com>
- <CAHUa44HHikgA2R_nZw9+f6ug1nKBZgwVEYvqPgKo6dx=iijAqA@mail.gmail.com>
+	s=arc-20240116; t=1712142567; c=relaxed/simple;
+	bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vx5eH0W6JqXw8b8YyQh/kklvxLkI+wQFf2TrerQ96+Yc7GY1lBwmT0I6zOUcJaCqHr5aFOy7dd392MosNZSs7FJqzWOxdHR3kGNVjhEJk7dSxjpQbWN7SPodcafkAlju08rkiBUqQXGmuG+qtqN32UfxlGV2874P9QY623aN7zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=LpGzvPrl; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="LpGzvPrl"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513d212f818so6825396e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 04:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712142564; x=1712747364; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
+        b=LpGzvPrlS13OoUqmgHOaTiqK7sYd2b3XHXwWCIjK44+dTBhv4aIRWjyw9u8RI0WW44
+         hNvN2IoNtKUzMxAqrO0RjEHvZPfvLvCUb/WcK38jwV86gCY5f1ZNn2wz6jP3oaAfcOaZ
+         JEM75pTC2jemuSfai9r4/mbrawNB+Ah+ntyNjtPY1m9MnZmFXoS9FQNQl28mwDVIi6yp
+         BYBDa+6AhlXCLUFZJiIknKkU/Yzd19luq5LZVPG6Za02HjRQQZg8Kx9Ip78I1rZhKSeg
+         5X/2a3BL+uDd+mUqNdsTW/8aNI9Gy1oqUQ85odQB9c9SEZ8gQpCRvECtdkBmi5pNyY1g
+         TDYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712142564; x=1712747364;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
+        b=CO8+goi1tHM0mHUVCGcXmCwjqcH9z2J5TN9FQtFR86bkBKPNh4Ktm297aNqu9nQIgl
+         dTcEKQ/Ufqn+P3zJb97GHy8HUCM/N8rPNgvw7w45r9K5USFICfj9XNpgA0Fju0L4Bz1u
+         Dx1SvqQFALwht61DzA57KD6UlDRZJz13zQnrwtCBidSk0a5/A6l56FIzuPzrV0C4izxk
+         tY0SE7q/lm+qoMe/DoxrukAyy3YqMMvTyV/wnwISjbjHPgjE0bd47XtQb/ZYmw9m44RZ
+         xHAdLPvXUReHC6q3K1PghHGYXNcRpJXHWpiYGF50tdIY6WjQY2W0yRiKtHMnywCKc4Wr
+         HLGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRI1f7DCJnJRVPcY4AeVD4IqUyswI6lPWsWr2MmLMlMBJOi9YL65RFjzu4WoXnAE5QkieMTs5XdAU4WlgFQPA7VehsxDOm7IFW
+X-Gm-Message-State: AOJu0YyfXeH1VdPM/oIHq2zqQczUaLyyqzNU8lI38UmmY2IL+yBvwm9+
+	9fzuzqLUOEGBuDoIaTQH7tDg+793UH+s7bmtsMJWmdOO5qPu7MV9didZ4Nk/dF4p6pxA7LfeZSF
+	tO8ASIQLfpmFN7MYCdHxj0kWmlHoxS8Cyeem2tQ==
+X-Google-Smtp-Source: AGHT+IE+KSmXFhVMcyJZLEkbye0ZYJjFaJcaj51lNhC7WdFyAu+ZtqEyfZmnsslyKb2iSISSTnL1654PSvzdq5Z6Gns=
+X-Received: by 2002:ac2:41c8:0:b0:515:95cd:6802 with SMTP id
+ d8-20020ac241c8000000b0051595cd6802mr9184531lfi.64.1712142564017; Wed, 03 Apr
+ 2024 04:09:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com> <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
+In-Reply-To: <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 3 Apr 2024 13:09:13 +0200
+Message-ID: <CAMRc=Md_81qY02=XPmQA5_EWRC1eU0zYAjRwjbAGxvGg2kOL+A@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] gpiolib: Get rid of gpio_free_array()/gpio_request_array()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Linus Walleij <linus.walleij@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jens,
-
-On 3 Apr 2024, at 11:43, Jens Wiklander wrote:
-
-> Hi Balint,
+On Tue, Apr 2, 2024 at 8:43=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Mon, Mar 25, 2024 at 4:11=E2=80=AFPM Balint Dobszay <balint.dobszay@=
-arm.com> wrote:
->>
->> Move the pool alloc and free helper functions from the OP-TEE driver t=
-o
->> the TEE subsystem, since these could be reused in other TEE drivers.
->> This patch is not supposed to change behavior, it's only reorganizing
->> the code.
->>
->> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
->> Suggested-by: Jens Wiklander <jens.wiklander@linaro.org>
->> Signed-off-by: Balint Dobszay <balint.dobszay@arm.com>
->> ---
->>  drivers/tee/optee/core.c          | 64 ------------------------------=
--
->>  drivers/tee/optee/ffa_abi.c       |  6 +--
->>  drivers/tee/optee/optee_private.h | 12 ------
->>  drivers/tee/optee/smc_abi.c       |  9 ++---
->>  drivers/tee/tee_shm.c             | 64 ++++++++++++++++++++++++++++++=
-+
->>  include/linux/tee_core.h          | 10 +++++
->>  6 files changed, 81 insertions(+), 84 deletions(-)
+> On Thu, Mar 07, 2024 at 03:49:02PM +0200, Andy Shevchenko wrote:
+> > There are only two users left of the gpio_free_array()/gpio_request_arr=
+ay().
+> > Convert them to very basic legacy APIs (it requires much less work for
+> > now) and drop no more used gpio_free_array()/gpio_request_array().
 >
-> This patch fails to build on x86_64:
->   CC [M]  drivers/tee/tee_shm.o
-> drivers/tee/tee_shm.c: In function =E2=80=98tee_dyn_shm_alloc_helper=E2=
-=80=99:
-> linux/drivers/tee/tee_shm.c:226:22: error: implicit declaration of
-> function =E2=80=98virt_to_phys=E2=80=99; did you mean =E2=80=98virt_to_=
-page=E2=80=99?
-> [-Werror=3Dimplicit-function-declaration]
->   226 |         shm->paddr =3D virt_to_phys(shm->kaddr);
->       |                      ^~~~~~~~~~~~
->       |                      virt_to_page
+> Any comments on this? We really want to get rid of the legacy APIs.
 >
-> It's fixed by adding
-> #include <linux/io.h>
->
-> I'll fix up the patch if you agree with the fix.
 
-Thanks for catching this. I agree with the fix, please apply it.
+I applied the patches, they only touch the GPIO part in legacy
+platform code. It's not very controversial IMO.
 
-Regards,
-Balint
-
->>
->> diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
->> index f762e3a25119..39e688d4e974 100644
->> --- a/drivers/tee/optee/core.c
->> +++ b/drivers/tee/optee/core.c
->> @@ -9,7 +9,6 @@
->>  #include <linux/crash_dump.h>
->>  #include <linux/errno.h>
->>  #include <linux/io.h>
->> -#include <linux/mm.h>
->>  #include <linux/module.h>
->>  #include <linux/slab.h>
->>  #include <linux/string.h>
->> @@ -17,69 +16,6 @@
->>  #include <linux/types.h>
->>  #include "optee_private.h"
->>
->> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              size_t size, size_t align,
->> -                              int (*shm_register)(struct tee_context =
-*ctx,
->> -                                                  struct tee_shm *shm=
-,
->> -                                                  struct page **pages=
-,
->> -                                                  size_t num_pages,
->> -                                                  unsigned long start=
-))
->> -{
->> -       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
->> -       struct page **pages;
->> -       unsigned int i;
->> -       int rc =3D 0;
->> -
->> -       /*
->> -        * Ignore alignment since this is already going to be page ali=
-gned
->> -        * and there's no need for any larger alignment.
->> -        */
->> -       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
->> -                                      GFP_KERNEL | __GFP_ZERO);
->> -       if (!shm->kaddr)
->> -               return -ENOMEM;
->> -
->> -       shm->paddr =3D virt_to_phys(shm->kaddr);
->> -       shm->size =3D nr_pages * PAGE_SIZE;
->> -
->> -       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
->> -       if (!pages) {
->> -               rc =3D -ENOMEM;
->> -               goto err;
->> -       }
->> -
->> -       for (i =3D 0; i < nr_pages; i++)
->> -               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_=
-SIZE);
->> -
->> -       shm->pages =3D pages;
->> -       shm->num_pages =3D nr_pages;
->> -
->> -       if (shm_register) {
->> -               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
->> -                                 (unsigned long)shm->kaddr);
->> -               if (rc)
->> -                       goto err;
->> -       }
->> -
->> -       return 0;
->> -err:
->> -       free_pages_exact(shm->kaddr, shm->size);
->> -       shm->kaddr =3D NULL;
->> -       return rc;
->> -}
->> -
->> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              int (*shm_unregister)(struct tee_contex=
-t *ctx,
->> -                                                    struct tee_shm *s=
-hm))
->> -{
->> -       if (shm_unregister)
->> -               shm_unregister(shm->ctx, shm);
->> -       free_pages_exact(shm->kaddr, shm->size);
->> -       shm->kaddr =3D NULL;
->> -       kfree(shm->pages);
->> -       shm->pages =3D NULL;
->> -}
->> -
->>  static void optee_bus_scan(struct work_struct *work)
->>  {
->>         WARN_ON(optee_enumerate_devices(PTA_CMD_GET_DEVICES_SUPP));
->> diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c=
-
->> index cee8ccb84cb8..3235e1c719e8 100644
->> --- a/drivers/tee/optee/ffa_abi.c
->> +++ b/drivers/tee/optee/ffa_abi.c
->> @@ -374,14 +374,14 @@ static int optee_ffa_shm_unregister_supp(struct =
-tee_context *ctx,
->>  static int pool_ffa_op_alloc(struct tee_shm_pool *pool,
->>                              struct tee_shm *shm, size_t size, size_t =
-align)
->>  {
->> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
->> -                                         optee_ffa_shm_register);
->> +       return tee_dyn_shm_alloc_helper(shm, size, align,
->> +                                       optee_ffa_shm_register);
->>  }
->>
->>  static void pool_ffa_op_free(struct tee_shm_pool *pool,
->>                              struct tee_shm *shm)
->>  {
->> -       optee_pool_op_free_helper(pool, shm, optee_ffa_shm_unregister)=
-;
->> +       tee_dyn_shm_free_helper(shm, optee_ffa_shm_unregister);
->>  }
->>
->>  static void pool_ffa_op_destroy_pool(struct tee_shm_pool *pool)
->> diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opt=
-ee_private.h
->> index a0698ac18993..429cc20be5cc 100644
->> --- a/drivers/tee/optee/optee_private.h
->> +++ b/drivers/tee/optee/optee_private.h
->> @@ -283,18 +283,6 @@ int optee_cancel_req(struct tee_context *ctx, u32=
- cancel_id, u32 session);
->>  int optee_enumerate_devices(u32 func);
->>  void optee_unregister_devices(void);
->>
->> -int optee_pool_op_alloc_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              size_t size, size_t align,
->> -                              int (*shm_register)(struct tee_context =
-*ctx,
->> -                                                  struct tee_shm *shm=
-,
->> -                                                  struct page **pages=
-,
->> -                                                  size_t num_pages,
->> -                                                  unsigned long start=
-));
->> -void optee_pool_op_free_helper(struct tee_shm_pool *pool, struct tee_=
-shm *shm,
->> -                              int (*shm_unregister)(struct tee_contex=
-t *ctx,
->> -                                                    struct tee_shm *s=
-hm));
->> -
->> -
->>  void optee_remove_common(struct optee *optee);
->>  int optee_open(struct tee_context *ctx, bool cap_memref_null);
->>  void optee_release(struct tee_context *ctx);
->> diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c=
-
->> index 9c296b887dc1..734c484ed0f6 100644
->> --- a/drivers/tee/optee/smc_abi.c
->> +++ b/drivers/tee/optee/smc_abi.c
->> @@ -592,19 +592,18 @@ static int pool_op_alloc(struct tee_shm_pool *po=
-ol,
->>          * to be registered with OP-TEE.
->>          */
->>         if (shm->flags & TEE_SHM_PRIV)
->> -               return optee_pool_op_alloc_helper(pool, shm, size, ali=
-gn, NULL);
->> +               return tee_dyn_shm_alloc_helper(shm, size, align, NULL=
-);
->>
->> -       return optee_pool_op_alloc_helper(pool, shm, size, align,
->> -                                         optee_shm_register);
->> +       return tee_dyn_shm_alloc_helper(shm, size, align, optee_shm_re=
-gister);
->>  }
->>
->>  static void pool_op_free(struct tee_shm_pool *pool,
->>                          struct tee_shm *shm)
->>  {
->>         if (!(shm->flags & TEE_SHM_PRIV))
->> -               optee_pool_op_free_helper(pool, shm, optee_shm_unregis=
-ter);
->> +               tee_dyn_shm_free_helper(shm, optee_shm_unregister);
->>         else
->> -               optee_pool_op_free_helper(pool, shm, NULL);
->> +               tee_dyn_shm_free_helper(shm, NULL);
->>  }
->>
->>  static void pool_op_destroy_pool(struct tee_shm_pool *pool)
->> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
->> index 96a45c817427..5bf76c35cd9e 100644
->> --- a/drivers/tee/tee_shm.c
->> +++ b/drivers/tee/tee_shm.c
->> @@ -202,6 +202,70 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee=
-_context *ctx, size_t size)
->>  }
->>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
->>
->> +int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t=
- align,
->> +                            int (*shm_register)(struct tee_context *c=
-tx,
->> +                                                struct tee_shm *shm,
->> +                                                struct page **pages,
->> +                                                size_t num_pages,
->> +                                                unsigned long start))=
-
->> +{
->> +       size_t nr_pages =3D roundup(size, PAGE_SIZE) / PAGE_SIZE;
->> +       struct page **pages;
->> +       unsigned int i;
->> +       int rc =3D 0;
->> +
->> +       /*
->> +        * Ignore alignment since this is already going to be page ali=
-gned
->> +        * and there's no need for any larger alignment.
->> +        */
->> +       shm->kaddr =3D alloc_pages_exact(nr_pages * PAGE_SIZE,
->> +                                      GFP_KERNEL | __GFP_ZERO);
->> +       if (!shm->kaddr)
->> +               return -ENOMEM;
->> +
->> +       shm->paddr =3D virt_to_phys(shm->kaddr);
->> +       shm->size =3D nr_pages * PAGE_SIZE;
->> +
->> +       pages =3D kcalloc(nr_pages, sizeof(*pages), GFP_KERNEL);
->> +       if (!pages) {
->> +               rc =3D -ENOMEM;
->> +               goto err;
->> +       }
->> +
->> +       for (i =3D 0; i < nr_pages; i++)
->> +               pages[i] =3D virt_to_page((u8 *)shm->kaddr + i * PAGE_=
-SIZE);
->> +
->> +       shm->pages =3D pages;
->> +       shm->num_pages =3D nr_pages;
->> +
->> +       if (shm_register) {
->> +               rc =3D shm_register(shm->ctx, shm, pages, nr_pages,
->> +                                 (unsigned long)shm->kaddr);
->> +               if (rc)
->> +                       goto err;
->> +       }
->> +
->> +       return 0;
->> +err:
->> +       free_pages_exact(shm->kaddr, shm->size);
->> +       shm->kaddr =3D NULL;
->> +       return rc;
->> +}
->> +EXPORT_SYMBOL_GPL(tee_dyn_shm_alloc_helper);
->> +
->> +void tee_dyn_shm_free_helper(struct tee_shm *shm,
->> +                            int (*shm_unregister)(struct tee_context =
-*ctx,
->> +                                                  struct tee_shm *shm=
-))
->> +{
->> +       if (shm_unregister)
->> +               shm_unregister(shm->ctx, shm);
->> +       free_pages_exact(shm->kaddr, shm->size);
->> +       shm->kaddr =3D NULL;
->> +       kfree(shm->pages);
->> +       shm->pages =3D NULL;
->> +}
->> +EXPORT_SYMBOL_GPL(tee_dyn_shm_free_helper);
->> +
->>  static struct tee_shm *
->>  register_shm_helper(struct tee_context *ctx, struct iov_iter *iter, u=
-32 flags,
->>                     int id)
->> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
->> index d9b3ba8e8fa9..efd16ed52315 100644
->> --- a/include/linux/tee_core.h
->> +++ b/include/linux/tee_core.h
->> @@ -232,6 +232,16 @@ void *tee_get_drvdata(struct tee_device *teedev);=
-
->>   */
->>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_=
-t size);
->>
->> +int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t=
- align,
->> +                            int (*shm_register)(struct tee_context *c=
-tx,
->> +                                                struct tee_shm *shm,
->> +                                                struct page **pages,
->> +                                                size_t num_pages,
->> +                                                unsigned long start))=
-;
->> +void tee_dyn_shm_free_helper(struct tee_shm *shm,
->> +                            int (*shm_unregister)(struct tee_context =
-*ctx,
->> +                                                  struct tee_shm *shm=
-));
->> +
->>  /**
->>   * tee_shm_is_dynamic() - Check if shared memory object is of the dyn=
-amic kind
->>   * @shm:       Shared memory handle
->> --
->> 2.34.1
->>
+Bart
