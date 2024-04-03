@@ -1,91 +1,105 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A68853A7;
-	Wed,  3 Apr 2024 18:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAE943AB6;
+	Wed,  3 Apr 2024 20:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712170032; cv=none; b=mpyALkqm7YB1/0GUx/E6FyoLTqpAfeKstqfNZpE9O/Bz6F/xYibGAqu41z6X5BHYqk47TxDC9Oio/PSBr8RjMT+haemCP5ytb72nqhpvsIOnMrHVC8PmF60ZQfBfVXCTahVa7uOvmhDCu31sslyIsEo890sYG9L0tvxhN08OvL0=
+	t=1712176078; cv=none; b=ryQ+vSx5aKmBPYU28d0P7jx0c9LQTCdVvaZu+APQRfktosQ6EOi9ctsS8qZ1zAYn0d1rUE0oieGQrgTbyJ5QCTic67s6OXPfkZ0kLs7PV8f7Nc30P0I/W4H6hJmLv/cTBykXR90hsVYO3Lxsi0G6Hk7D3L8vinMGT0c66foGrcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712170032; c=relaxed/simple;
-	bh=/hLqYdF5gKHHXRiWGmtGcaz5aLMxaT3b6M7ooBUSkCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=udcwe/YdvGvy74EatNfg30DaAk0paVOhDeu3VkWWxcgeevzZpW+W+xtohsUatW4pMx+lp0hB49WvbsnMiU5ZWbND5/YHWF5UFdgonNIHaODXPtYIffgPtd0/FTpwOfcA0G2WG7Tp/udJgp9Yk4dgiNkfa5zL7Dd+cXf1P0jf+vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=epfmfXag; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712176078; c=relaxed/simple;
+	bh=XHvAvMoXgu7sPpDI3qeu0ABKCV3BEWhlCfPnZ6zc33o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IkT5hQdpsBptP3lZcqJXBrqyC6ejiF+/1rOWh5RoQCuj5jW0VfqOX+QEiBKYfn2TT+Km6WWg8KrYcbOJZZiwudzPDMfH46QHOmSD5PdHwd2mO2dzl/znX2O+P5pmtxtKxc5cBLX7LMSjToROdSyEhOeQoNN4cuFXhOD3AbIz0NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Fbni1UMr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="epfmfXag"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7d0845e992aso9655539f.1;
-        Wed, 03 Apr 2024 11:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712170030; x=1712774830; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UC5h3ZTRasG818N8HOgac3acVCmQ49CiIq6Ru5aVP7g=;
-        b=epfmfXag7OxSXACBpppBPtTonLfRAWTMd2YLFsFktJIt/6poEYPSIEqcqDt3bLEebK
-         23MqLQohBc3zUkuCo0QrpuAo6iNXVPDI+KAfNPopxTB/R0HpkzeYdTO96UDPFyT5PWGE
-         zyX2z+gQsutj3qHvuIixN/1u4JXwYxXabqmfo5M07txblD/JqZ8SEA46nM96hzBi0BMg
-         PML33fWL+nk8KZ27OysJl9Bu7CtIWrQ+wOzQXJBWUf+GmpJzVNGZnWSB+nHa5CcMWx6p
-         jZXBAd35nvkXuANhhQETqD6gTJFqUlp6UPgRcfKCC4nc7WOjhF/8bGdy29iNrIP3mW0p
-         4RQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712170030; x=1712774830;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UC5h3ZTRasG818N8HOgac3acVCmQ49CiIq6Ru5aVP7g=;
-        b=XHdqwENS8m4v1chxetGJ6jb5BOg1JEToRjBDBzLIA93DZuW0xWY7S4rJgiVa3i+9Qh
-         7EQNugZAnlqhPqBWMQeXdvSYWUXvL1bEFNDnrJeY+cv+aVm3vFk6QJPTKEnE9VFr1E07
-         VfYxzdKVD392xdCU1CYqKo3VTsUP3z1ayJkCOF2F2q2NbgwMCtE0gxeFOaqCmuD+KFX5
-         yq8TiSwCMrDD3ntFYc6AvpN6DNuB3d7FyCF1g7UL+ziinzLpg38yJmvk0D5utWb4vJYI
-         afkAFrAZRvc9EV83lfVqSSn1M1Tfr6AZq1CfjvTy+FeTcpdnfuHhrJEfIB2OaldChjO4
-         xRbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXo0UxpeDziQqBzTZe+nx3cZ0ytJWwnjH5JP+K4/BGHuJkZJdE/Hv5jnTapKGDZxpLtFEf/Kt86HANcuktjtWVE5i7yQI+PUk+8X6MVJ15i4m37OQTh0fkxbvYT8qvmsSSGFmtzPTpj
-X-Gm-Message-State: AOJu0YwnQoqEfyXohPV4r6U4DYxL0YalX/wCp5oiA3cn1G/WCmtXH+38
-	TFunsq4A6U20u6ItCuQMM0Iw/btQMTSirygIZxd1xU4sDjBaLQ+4
-X-Google-Smtp-Source: AGHT+IG++c0hL3KBqwugr/8BxzCaTq+uwJm+9RN9dRLE23dvG6PefjFq24iJBJkWs8HLOJxSO8g+Gw==
-X-Received: by 2002:a05:6e02:1547:b0:368:4a3d:e8c5 with SMTP id j7-20020a056e02154700b003684a3de8c5mr545217ilu.15.1712170030135;
-        Wed, 03 Apr 2024 11:47:10 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:25ab])
-        by smtp.gmail.com with ESMTPSA id d6-20020a63ed06000000b005f3c84e12c9sm4532297pgi.48.2024.04.03.11.47.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 11:47:09 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Wed, 3 Apr 2024 08:47:08 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Xingyou Chen <rockrush@rockwork.org>
-Cc: siyanteng@loongson.cn, alexs@kernel.org, corbet@lwn.net,
-	zhoubinbin@loongson.cn, wangjinchao@xfusion.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs/zh_CN: core-api: Update translation of
- workqueue.rst to 6.9-rc1
-Message-ID: <Zg2kLON8LBZkijEE@slm.duckdns.org>
-References: <20240402230813.25472-1-rockrush@rockwork.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Fbni1UMr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=J8OXQtjrrbGAGM1hq+9WwIxNq7gS8NJhOgS52sp/+eo=; b=Fbni1UMrSD0nW1RKHJStNsL6PV
+	I4KXwNid8jwhPQE/gQyvpL8IpHu3Lj143/BqJDNzhGUekgs+Y2xuW6SIb+vD5jn+98pPR024hq71p
+	O6vf0vdEAKT4lzPwhz5kl4iNQBi3WGIgaoolwRmt+9Mw4et1fUo4kUfVi9y5HpdRil8iIQe10Nx1H
+	Vfl6I4Gb6FwOKqcTZDbdDAt1uLgu0sL7VrSVbSfcm+07jUCDaCY64mplxz3OcogXms9gMMM5v7hAl
+	VEgF7jVTOMPOdZiE73ZZ/exSJP4hMC93pBaRwnoAZQKJ2DsOBb1wmP4HHjMJNFU4ZFDeUZKryMJ3Q
+	hIwyi3fQ==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rs7D7-0000000064h-1Oy3;
+	Wed, 03 Apr 2024 20:27:53 +0000
+Message-ID: <9a079670-bbed-4f5d-9ef6-876bb1d82d39@infradead.org>
+Date: Wed, 3 Apr 2024 13:27:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240402230813.25472-1-rockrush@rockwork.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation/core-api: Update events_freezable_power
+ references.
+To: Audra Mitchell <audra@redhat.com>, corbet@lwn.net
+Cc: tj@kernel.org, jiangshanlai@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, raquini@redhat.com, aros@gmx.com
+References: <20240403180022.16248-1-audra@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240403180022.16248-1-audra@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 03, 2024 at 07:08:10AM +0800, Xingyou Chen wrote:
-> Significant changes have been made to workqueue, and there are staging
-> works transferring from tasklet, while the current translation doesn't
-> include description around WQ_BH, an update seems to be helpful.
-> 
-> Synchronize translation from upstream commit 3bc1e711c26b
-> ("workqueue: Don't implicitly make UNBOUND workqueues w/ @max_active==1 ordered")
-> 
-> Signed-off-by: Xingyou Chen <rockrush@rockwork.org>
 
-Applied to wq/for-6.9-fixes.
+
+On 4/3/24 11:00 AM, Audra Mitchell wrote:
+> Due to commit 8318d6a6362f ("workqueue: Shorten
+> events_freezable_power_efficient name") we now have some stale
+> references in the workqeueue documentation, so updating those
+> references accordingly.
+> 
+> Signed-off-by: Audra Mitchell <audra@redhat.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
 Thanks.
 
+> ---
+>  Documentation/core-api/workqueue.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/core-api/workqueue.rst b/Documentation/core-api/workqueue.rst
+> index ed73c612174d..bcc370c876be 100644
+> --- a/Documentation/core-api/workqueue.rst
+> +++ b/Documentation/core-api/workqueue.rst
+> @@ -671,7 +671,7 @@ configuration, worker pools and how workqueues map to the pools: ::
+>    events_unbound           unbound  9  9 10 10  8
+>    events_freezable         percpu   0  2  4  6
+>    events_power_efficient   percpu   0  2  4  6
+> -  events_freezable_power_  percpu   0  2  4  6
+> +  events_freezable_pwr_ef  percpu   0  2  4  6
+>    rcu_gp                   percpu   0  2  4  6
+>    rcu_par_gp               percpu   0  2  4  6
+>    slub_flushwq             percpu   0  2  4  6
+> @@ -694,7 +694,7 @@ Use tools/workqueue/wq_monitor.py to monitor workqueue operations: ::
+>    events_unbound              38306     0      0.1       -       7       -       -
+>    events_freezable                0     0      0.0       0       0       -       -
+>    events_power_efficient      29598     0      0.2       0       0       -       -
+> -  events_freezable_power_        10     0      0.0       0       0       -       -
+> +  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
+>    sock_diag_events                0     0      0.0       0       0       -       -
+>  
+>                                total  infl  CPUtime  CPUhog CMW/RPR  mayday rescued
+> @@ -704,7 +704,7 @@ Use tools/workqueue/wq_monitor.py to monitor workqueue operations: ::
+>    events_unbound              38322     0      0.1       -       7       -       -
+>    events_freezable                0     0      0.0       0       0       -       -
+>    events_power_efficient      29603     0      0.2       0       0       -       -
+> -  events_freezable_power_        10     0      0.0       0       0       -       -
+> +  events_freezable_pwr_ef        10     0      0.0       0       0       -       -
+>    sock_diag_events                0     0      0.0       0       0       -       -
+>  
+>    ...
+
 -- 
-tejun
+#Randy
