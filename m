@@ -1,113 +1,116 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9E147C89;
-	Wed,  3 Apr 2024 13:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB28F147C96
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 13:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712150273; cv=none; b=srVof8D23pRCeXKtwX/zPDJ3bWI0+l1HR0ftTXK8a/OGZzkaCYAecv0xxRNIFjVXMckitv+BUA2rhKNTyI1QyapLfTgRQWbEe0pnQPAEX1KZrtBDZq+lxzx5xnE/1vYl+5W8AJfPIODO2sn2yWSEbx4XPH31TPkbamSECC4EEYI=
+	t=1712150353; cv=none; b=DOWVRGcFmMyNWbBSVHda+N1VI0uAlWMdUN5D5R4D9DQ2gITGe5VsY3rXyXCJ+PYBuV4FYLALjUSfbEN7CfR1aI3+ar4SoZpfMwcEA9yzbDuzqXwn1m7V1FftLMItp2pMFPdRAGtPtyBsETEDItF9qe2KxtMP+p6oebWnvXx4UoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712150273; c=relaxed/simple;
-	bh=/GQ4nlYWXIxaFwy7GEB/PMFxbW1s4CmxkzraRVC432c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FvaQcpS2SzDBMRhmuOfrgoYTRRUXkWkQXMMbi2TLSE3BRQCFnnLzZYHm0mevQ0LDDDJWeNTdjbzCxG5mIHwwicYgwUnwGvslRXAPDxnqfMQNmKdMZrV7dcNltd0BN6jr/dJ6IVAioohzDn8V2I0H6bbOEO3yEcp4WTNk3UPdL9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EvFPEsjb; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1712150353; c=relaxed/simple;
+	bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sv2+0fqUDAPJzDDXXms6EHybzh/vyXukWqTrBnN/e5sxEH9TCVR1VzMqa3ehIQ5cgiBFjF7cLpPwhb9sZN8lwuHjiBclDgeIB4T8RHVDiK+iB6d4V+j3CyzhvJrDZZeEKUaBUjIcDHWnQ21U8/j6bwRRznG0KPEqKrRSWEX5sQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=OzTfZbDA; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EvFPEsjb"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 930E047C42
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1712150266; bh=vtB2kvFb83ghMvG0XB3eZHkEo5w776S5gMAFRtOloHo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=EvFPEsjb6+voJdd1pI3kYT1oQzfUUXg693BhE5Xb4wwM6dOUVZDs/yd6M4M/mrxC3
-	 QpF84qYNcccFfyJvPURNO1Fmd0nnyaOL6EZXwwsX/Hz1I8qANp/JTFRai4+nrjMOZn
-	 CCW6KxlU6AMyeBk2ZYhPxql23DlYxDtbyY4MgL0ffq87On0Rgpe7dSUGPKX5BTXES1
-	 pIAUOWM4z+0sFUvr+1llbuz7aiIPnnOX0KSqgEWem9wzP+DiSJdblpK1Ea95phW5P7
-	 U+uMFMl80TG1LppJLYslg/j8SCEPEqQNRhxa8ThJ0hFfDs21Ge15fUwLbA9r0EYZKH
-	 +Kih6f33AVbxQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 930E047C42;
-	Wed,  3 Apr 2024 13:17:46 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>, Carlos Bilbao
- <carlos.bilbao@amd.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Kaiwan N
- Billimoria <kaiwan.billimoria@gmail.com>
-Subject: Re: [PATCH] docs: Add relevant kernel publications to list of
- books; LKP 2E
-In-Reply-To: <20240403050824.166787-1-kaiwan.billimoria@gmail.com>
-References: <20240403050824.166787-1-kaiwan.billimoria@gmail.com>
-Date: Wed, 03 Apr 2024 07:17:45 -0600
-Message-ID: <8734s2twjq.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="OzTfZbDA"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-432ff72d745so7666361cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 06:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712150350; x=1712755150; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+        b=OzTfZbDAK169DHvtiGLE1p56hWxrPJIvztF4HCEG28uzI7eK2DDmyoFnlpMcVff0Ju
+         c7HfnRJdMT3cqqxjH5ta+XDwFfzxP7nhChJPfdXbCh/IYQgFfXapvkwDzhtcQKIMJDU6
+         /AYta6lJ4gWauzOHkhmOzIjsNFqlePdHHn3xy9JT6hKwAeKaW0n7cYID5zC35uJ+E1J9
+         MjmpsOIduTxUPwoUx60yV5mxx/3qr0JADBO7+Rf5akc1FV1XnIFH8emGKZpFjW7KCbm0
+         cWNz6heaYM6CJ35L/MFmo5LBGu6IXNRGey0GQtZdKGb0oNwjKGxhdSPQYm+tHTmRafwM
+         UqNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712150350; x=1712755150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+        b=VLsaknrJw+RvRJ+24p2hPD9BpoxUVwjUnvaM+7G697AYSK8n7ON7NxzxMNBBkqUL88
+         4ULlyHKZqnH+wdwtUgcWM/zBUbz3d02qXbjjbnnTv9X5dR4npSE/62x6QLgm2qgO91Zk
+         dDLxX2w/kCmf2yRp1Xp/9MZzM7DwJOGQS500GIS77MwuIYyeMqLsjCEqD7EH7D0FRt4V
+         Ox28i6DOArHJT1tmYbbatWmBGyF9tYd8RJd+W01Qtiyp6aUA+VExB4/M9Hh+O1ujUNNT
+         vjSXHzkws4MjHHLc1eMChkPz82F//gk0FIbxKMXtNXSByCADKnXlJXa0PEKBHj749Hs9
+         yK8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVAiAEgYmXuIFaXReOVhTwCC1cRssiCyfe4mQC5dCA/xDG2J9Ws7cUhRj00HoV+Fnn9u5Mso1rFW+vXSM/dD92Ottn+7007z7aP
+X-Gm-Message-State: AOJu0YyXkTUorGB/sgrhIojXqR2rM3ASqEZTdGsHQ5fbxl8TCH5NTfNw
+	xgaLc1BRDAu+sqoTds/NLXC76NatCCYcCJepF/2ryzVaRIwiSfSBbWlp54wCMZaHc2/9Xqa+yip
+	fHGKnnHJRPyZvx1/IU2ykZUP8rEGOtks7iS2E9A==
+X-Google-Smtp-Source: AGHT+IEGVCWVaM3OZyGBYvZk7eIME6rUXSm4/CdsRsbb+oN0keiU95giarhKtyBsTd58XnIkGQv2TzNnxS90eOdz7ws=
+X-Received: by 2002:a05:622a:104c:b0:434:338c:31ac with SMTP id
+ f12-20020a05622a104c00b00434338c31acmr3549454qte.14.1712150349909; Wed, 03
+ Apr 2024 06:19:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+ <00555af4-8786-b772-7897-aef1e912b368@google.com> <ZfTDUGSshZUbs13-@8bytes.org>
+In-Reply-To: <ZfTDUGSshZUbs13-@8bytes.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 3 Apr 2024 09:18:33 -0400
+Message-ID: <CA+CK2bC7jd65=eZoN7szWJKSO2TLsxxKFH8D6WjHS3_2U7=McA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/11] IOMMU memory observability
+To: Joerg Roedel <joro@8bytes.org>
+Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
+	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
+	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com, 
+	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, 
+	m.szyprowski@samsung.com, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, bagasdotme@gmail.com, mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Kaiwan N Billimoria <kaiwan.billimoria@gmail.com> writes:
-
-> Hi Carlos, Jon,
-> As the 2nd edition of my 'Linux Kernel Programming' book is recently
-> published (29 Feb 2024), this patch is to request it's addition to the
-> book list.
-> I've currently kept the 1st edition as well (in reverse chronological
-> order); if this isn't required, pl let me know..
+On Fri, Mar 15, 2024 at 5:53=E2=80=AFPM Joerg Roedel <joro@8bytes.org> wrot=
+e:
 >
-> Regards,
-> Kaiwan
-
-Happy to add the book but ... surely the author of said book wants to
-set a good example by sending a properly written patch?
-
-- A changelog in the kernel style saying simply what is to be done and
-  why
-
-- Stick to the 80-character limit (we still really try to do that for
-  text)
-
-Thanks,
-
-jon
-
-> Signed-off-by: Kaiwan N Billimoria <kaiwan.billimoria@gmail.com>
-> ---
->  Documentation/process/kernel-docs.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+> Hi David,
 >
-> diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-> index 8660493b91d0..f73671b65a71 100644
-> --- a/Documentation/process/kernel-docs.rst
-> +++ b/Documentation/process/kernel-docs.rst
-> @@ -75,6 +75,15 @@ On-line docs
->  Published books
->  ---------------
->  
-> +    * Title: **Linux Kernel Programming: A Comprehensive and practical guide to Kernel Internals, Writing Modules, and Kernel Synchronization**
-> +
-> +      :Author: Kaiwan N Billimoria
-> +      :Publisher: Packt Publishing Ltd
-> +      :Date: February, 2024
-> +      :Pages: 826
-> +      :ISBN: 978-1803232225
-> +      :Notes: 2nd Edition
-> +
->      * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
->  
->        :Author: Kaiwan N Billimoria
-> @@ -91,6 +100,7 @@ Published books
->        :Date: March, 2021
->        :Pages: 754
->        :ISBN: 978-1789953435
-> +      :Notes: 1st Edition
->  
->      * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
->  
-> -- 
-> 2.40.1
+> On Fri, Mar 15, 2024 at 02:33:53PM -0700, David Rientjes wrote:
+> > Joerg, is this series anticipated to be queued up in the core branch of
+> > git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git so it gets into
+> > linux-next?
+> >
+> > This observability seems particularly useful so that we can monitor and
+> > alert on any unexpected increases (unbounded memory growth from this
+> > subsystem has in the past caused us issues before the memory is otherwi=
+se
+> > not observable by host software).
+> >
+> > Or are we still waiting on code reviews from some folks that we should
+> > ping?
+>
+> A few more reviews would certainly help, but I will also do a review on
+> my own. If things are looking good I can merge it into the iommu tree
+> when 6.9-rc3 is released (which is the usual time I start merging new
+> stuff).
+
+Hi Joerg,
+
+Would it make sense to stage this series in an unstable branch to get
+more test coverage from the 0-day robots?
+
+Thank you,
+Pasha
