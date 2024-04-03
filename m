@@ -1,169 +1,258 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A3C14A4EA
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 15:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1675714A4E0;
+	Wed,  3 Apr 2024 15:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712158092; cv=none; b=nAmvT/4DNr9UkpRYByuu1OF8CppFkHn3zV9sR6HhZIn0+hYqrPI2jAay1rn4/am0Fgq7MOua0GStEtMY9+1U3ZAVmsSYZ0u8mLotgMjDABiZOGXEVnbjgT63iEzixonSUTL32XDgs/fxzjCOEGfLh2rq99zIECvWzIKo8tVFXDI=
+	t=1712159280; cv=none; b=SdBt3zm/tClmgCO0cnZZD3Nr7ZG9R8orDWvDw1P24X5ajibDQhi7qmgu6t5CK8lR5Ava9x2qXr0QXwsX36cDkVKyiHC1aPCYPKHYkGEkynPTvenP31iPAr01WzPgxccxlOH53lM8gb82f6jcP0CwKwasF+Xyw/NzZTJ9uGAsdto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712158092; c=relaxed/simple;
-	bh=GmbD26WMynLhI5PkWa2+VgAcWtdokHdMIyR0DsUfccc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZEhLMSy7+Gc/3VCe9a/3axk6+8ykyqUWTVc49EygZVNlPQUSzpbWTiMkUm4yzw16xcVpIbNz7Ks2z+oKAZOeq4XZ/mq6x7sQscTwiUcZnEQNsV9MUwQdL5Y256SWKf+tnBMshOhlO/P49p3AvYMsJKNwv4GC66rytlDK6nIVBU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rs2WX-0006iQ-Tz; Wed, 03 Apr 2024 17:27:37 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rs2WV-00ACng-OF; Wed, 03 Apr 2024 17:27:35 +0200
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1rs2WV-00CU00-22;
-	Wed, 03 Apr 2024 17:27:35 +0200
-Date: Wed, 3 Apr 2024 17:27:35 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Rob Herring <robh@kernel.org>
-Cc: Kory Maincent <kory.maincent@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
-	Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
- way of describing several PSE PIs
-Message-ID: <Zg11Z1kJ42eLhabK@pengutronix.de>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
- <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
- <20240402132637.GA3744978-robh@kernel.org>
- <ZgworgDAXXOpf3QV@pengutronix.de>
- <20240403144448.GB3508225-robh@kernel.org>
+	s=arc-20240116; t=1712159280; c=relaxed/simple;
+	bh=rrCR4x657hJj+9Z7FfIwTOL0bKqYr1iVATWuKVnBvdc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=IfaYXXHYKBzEF6hzXXR0y75ac5wwXSIeqeBlBf/82IoNYEa8tnAHz4cD+Ckpz9spJLRhlVwqBaFS//MXMIJiodhTaCYkokEofnOdphDXd/Uut2B7WfuGaETPlyXJs+xCyIeGEkun3MkLVROOSsJLxOUvZ7CpLhJbAS2ISxWIU/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYo0Q27d; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYo0Q27d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13591C433C7;
+	Wed,  3 Apr 2024 15:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712159279;
+	bh=rrCR4x657hJj+9Z7FfIwTOL0bKqYr1iVATWuKVnBvdc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dYo0Q27dSQQ3Ch8t1bv/4TDEGdVvlFtZiK/Zz2pAtDrV2dGg+D+XOJblloji6lf8f
+	 AT/1G9mjWsRaJTEV3z+NlLz40f+kBk5nFmcrUtgEA41qda5WwW4i8s4RLr/MzdF5zi
+	 YoTjxsD9V0zKYX4yL4N07X1LoysvapSXkS7G6OsnvSJFKJeNikI8cMxk3axKsNBB+y
+	 P6Adfksr8JnIG1LemgmEFRN0C6BpU/ZKYmBXXWJOohD4naX0Imdw+22KIlCXUWOohl
+	 YL80cR6IKID87Ymp816wKnW4iT/VyBYwP0nq6oFeuIpysRTK4u+RGJb+IBGt3Xt9x0
+	 vxIbwg0cDWVFw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240403144448.GB3508225-robh@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 03 Apr 2024 18:47:51 +0300
+Message-Id: <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "David Gstir" <david@sigma-star.at>, "Mimi Zohar" <zohar@linux.ibm.com>,
+ "James Bottomley" <jejb@linux.ibm.com>, "Herbert Xu"
+ <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>
+Cc: "Shawn Guo" <shawnguo@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "NXP Linux
+ Team" <linux-imx@nxp.com>, "Ahmad Fatoum" <a.fatoum@pengutronix.de>, "sigma
+ star Kernel Team" <upstream+dcp@sigma-star.at>, "David Howells"
+ <dhowells@redhat.com>, "Li Yang" <leoyang.li@nxp.com>, "Paul Moore"
+ <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>, "Serge E.
+ Hallyn" <serge@hallyn.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
+ (Google)" <rostedt@goodmis.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-integrity@vger.kernel.org>,
+ <keyrings@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
+ <linux-security-module@vger.kernel.org>, "Richard Weinberger"
+ <richard@nod.at>, "David Oberhollenzer" <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v8 6/6] docs: trusted-encrypted: add DCP as new trust
+ source
+X-Mailer: aerc 0.17.0
+References: <20240403072131.54935-1-david@sigma-star.at>
+ <20240403072131.54935-7-david@sigma-star.at>
+In-Reply-To: <20240403072131.54935-7-david@sigma-star.at>
 
-On Wed, Apr 03, 2024 at 09:44:48AM -0500, Rob Herring wrote:
-> On Tue, Apr 02, 2024 at 05:47:58PM +0200, Oleksij Rempel wrote:
-> > On Tue, Apr 02, 2024 at 08:26:37AM -0500, Rob Herring wrote:
-> > > > +          pairsets:
-> > > > +            $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > > +            description:
-> > > > +              List of phandles, each pointing to the power supply for the
-> > > > +              corresponding pairset named in 'pairset-names'. This property
-> > > > +              aligns with IEEE 802.3-2022, Section 33.2.3 and 145.2.4.
-> > > > +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Table 145\u20133)
-> > > > +              |-----------|---------------|---------------|---------------|---------------|
-> > > > +              | Conductor | Alternative A | Alternative A | Alternative B | Alternative B |
-> > > > +              |           |    (MDI-X)    |     (MDI)     |      (X)      |      (S)      |
-> > > > +              |-----------|---------------|---------------|---------------|---------------|
-> > > > +              | 1         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
-> > > > +              | 2         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
-> > > > +              | 3         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
-> > > > +              | 4         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
-> > > > +              | 5         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
-> > > > +              | 6         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
-> > > > +              | 7         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
-> > > > +              | 8         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
-> > > > +            minItems: 1
-> > > > +            maxItems: 2
-> > > 
-> > > "pairsets" does not follow the normal design pattern of foos, foo-names, 
-> > > and #foo-cells. You could add #foo-cells I suppose, but what would cells 
-> > > convey? I don't think it's a good fit for what you need.
-> > > 
-> > > The other oddity is the number of entries and the names are fixed. That 
-> > > is usually defined per consumer. 
-> > > 
-> > > As each entry is just a power rail, why can't the regulator binding be 
-> > > used here?
-> > 
-> > I'm not against describing it consequent with regulator till the wire
-> > end, but right now I have no idea how it should be described by using
-> > regulator bindings. There are maximum 2 rails going in to PSE PI on one
-> > side and 4 rails with at least 5 combinations supported by standard on
-> > other side. Instead of inventing anything new, I suggested to describe
-> > supported output combinations by using IEEE 802.3 standard.
-> 
-> There's 4 combinations above, what's the 5th combination? SPE?
+On Wed Apr 3, 2024 at 10:21 AM EEST, David Gstir wrote:
+> Update the documentation for trusted and encrypted KEYS with DCP as new
+> trust source:
+>
+> - Describe security properties of DCP trust source
+> - Describe key usage
+> - Document blob format
+>
+> Co-developed-by: Richard Weinberger <richard@nod.at>
+> Signed-off-by: Richard Weinberger <richard@nod.at>
+> Co-developed-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> Signed-off-by: David Gstir <david@sigma-star.at>
+> ---
+>  .../security/keys/trusted-encrypted.rst       | 53 +++++++++++++++++++
+>  security/keys/trusted-keys/trusted_dcp.c      | 19 +++++++
+>  2 files changed, 72 insertions(+)
+>
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Document=
+ation/security/keys/trusted-encrypted.rst
+> index e989b9802f92..f4d7e162d5e4 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -42,6 +42,14 @@ safe.
+>           randomly generated and fused into each SoC at manufacturing tim=
+e.
+>           Otherwise, a common fixed test key is used instead.
+> =20
+> +     (4) DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs=
+)
+> +
+> +         Rooted to a one-time programmable key (OTP) that is generally b=
+urnt
+> +         in the on-chip fuses and is accessible to the DCP encryption en=
+gine only.
+> +         DCP provides two keys that can be used as root of trust: the OT=
+P key
+> +         and the UNIQUE key. Default is to use the UNIQUE key, but selec=
+ting
+> +         the OTP key can be done via a module parameter (dcp_use_otp_key=
+).
+> +
+>    *  Execution isolation
+> =20
+>       (1) TPM
+> @@ -57,6 +65,12 @@ safe.
+> =20
+>           Fixed set of operations running in isolated execution environme=
+nt.
+> =20
+> +     (4) DCP
+> +
+> +         Fixed set of cryptographic operations running in isolated execu=
+tion
+> +         environment. Only basic blob key encryption is executed there.
+> +         The actual key sealing/unsealing is done on main processor/kern=
+el space.
+> +
+>    * Optional binding to platform integrity state
+> =20
+>       (1) TPM
+> @@ -79,6 +93,11 @@ safe.
+>           Relies on the High Assurance Boot (HAB) mechanism of NXP SoCs
+>           for platform integrity.
+> =20
+> +     (4) DCP
+> +
+> +         Relies on Secure/Trusted boot process (called HAB by vendor) fo=
+r
+> +         platform integrity.
+> +
+>    *  Interfaces and APIs
+> =20
+>       (1) TPM
+> @@ -94,6 +113,11 @@ safe.
+> =20
+>           Interface is specific to silicon vendor.
+> =20
+> +     (4) DCP
+> +
+> +         Vendor-specific API that is implemented as part of the DCP cryp=
+to driver in
+> +         ``drivers/crypto/mxs-dcp.c``.
+> +
+>    *  Threat model
+> =20
+>       The strength and appropriateness of a particular trust source for a=
+ given
+> @@ -129,6 +153,13 @@ selected trust source:
+>       CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure the devic=
+e
+>       is probed.
+> =20
+> +  *  DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs)
+> +
+> +     The DCP hardware device itself does not provide a dedicated RNG int=
+erface,
+> +     so the kernel default RNG is used. SoCs with DCP like the i.MX6ULL =
+do have
+> +     a dedicated hardware RNG that is independent from DCP which can be =
+enabled
+> +     to back the kernel RNG.
+> +
+>  Users may override this by specifying ``trusted.rng=3Dkernel`` on the ke=
+rnel
+>  command-line to override the used RNG with the kernel's random number po=
+ol.
+> =20
+> @@ -231,6 +262,19 @@ Usage::
+>  CAAM-specific format.  The key length for new keys is always in bytes.
+>  Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+> =20
+> +Trusted Keys usage: DCP
+> +-----------------------
+> +
+> +Usage::
+> +
+> +    keyctl add trusted name "new keylen" ring
+> +    keyctl add trusted name "load hex_blob" ring
+> +    keyctl print keyid
+> +
+> +"keyctl print" returns an ASCII hex copy of the sealed key, which is in =
+format
+> +specific to this DCP key-blob implementation.  The key length for new ke=
+ys is
+> +always in bytes. Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+> +
+>  Encrypted Keys usage
+>  --------------------
+> =20
+> @@ -426,3 +470,12 @@ string length.
+>  privkey is the binary representation of TPM2B_PUBLIC excluding the
+>  initial TPM2B header which can be reconstructed from the ASN.1 octed
+>  string length.
+> +
+> +DCP Blob Format
+> +---------------
+> +
+> +.. kernel-doc:: security/keys/trusted-keys/trusted_dcp.c
+> +   :doc: dcp blob format
+> +
+> +.. kernel-doc:: security/keys/trusted-keys/trusted_dcp.c
+> +   :identifiers: struct dcp_blob_fmt
+> diff --git a/security/keys/trusted-keys/trusted_dcp.c b/security/keys/tru=
+sted-keys/trusted_dcp.c
+> index 16c44aafeab3..b5f81a05be36 100644
+> --- a/security/keys/trusted-keys/trusted_dcp.c
+> +++ b/security/keys/trusted-keys/trusted_dcp.c
+> @@ -19,6 +19,25 @@
+>  #define DCP_BLOB_VERSION 1
+>  #define DCP_BLOB_AUTHLEN 16
+> =20
+> +/**
+> + * DOC: dcp blob format
+> + *
+> + * The Data Co-Processor (DCP) provides hardware-bound AES keys using it=
+s
+> + * AES encryption engine only. It does not provide direct key sealing/un=
+sealing.
+> + * To make DCP hardware encryption keys usable as trust source, we defin=
+e
+> + * our own custom format that uses a hardware-bound key to secure the se=
+aling
+> + * key stored in the key blob.
+> + *
+> + * Whenever a new trusted key using DCP is generated, we generate a rand=
+om 128-bit
+> + * blob encryption key (BEK) and 128-bit nonce. The BEK and nonce are us=
+ed to
+> + * encrypt the trusted key payload using AES-128-GCM.
+> + *
+> + * The BEK itself is encrypted using the hardware-bound key using the DC=
+P's AES
+> + * encryption engine with AES-128-ECB. The encrypted BEK, generated nonc=
+e,
+> + * BEK-encrypted payload and authentication tag make up the blob format =
+together
+> + * with a version number, payload length and authentication tag.
+> + */
+> +
+>  /**
+>   * struct dcp_blob_fmt - DCP BLOB format.
+>   *
 
-The 5th combination is PoE4 where two rails are supplying power at same
-time.
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
-First 4 variants for PoE: one or two positive rails are attached (but
-only one is used at same time) to pairs 1-2 or 3-4, or 5-6, or 7-8. Or
-support all of combinations if some advanced PSE PI is present. PSE PI
-is kind of MUX for regulators.
+I can only test that this does not break a machine without the
+hardware feature.
 
-One more variant in case of PoE4: two positive rail are attached at same
-time, one to 1-2, second to 5-6. May be one more variant with opposite
-polarity, this will be the 6th combination.
+Is there anyone who could possibly peer test these patches?
 
-> Seems to me you just describe the 2 rails going to the connector and 
-> then describe all the variations the connector supports. The PSE 
-> (h/w) has little to do with which variations are supported, right?
-
-No. In case of mutli-channel PSE, it needs to know if channels are
-attached to one port or to different ports. PSE is not only responsible
-to enable the power, it runs classification of devices attached to the
-port, so it will decide, which rail should be enabled.
-
-> For example, MDI-X vs. MDI support is determined by the PHY, right?
-
-Yes and No. Until PSE do not start supplying power, PHY will not be able to
-start communication with the remote PHY, so it will not be able to
-detect MDI/X configuration.
-
-Polarity configuration is important for user space or user to get
-information about supported pin configuration and if possible,
-change the configuration.
-
-> Or it has to be supported by both the PHY and PSE?
-
-In most cases PSE and PHY work independently from each other, they just
-share same port. Potential exception are:
-- in case data line should not be shared with power lines, we need to
-  know what pins are used for power, this information would help to
-  provide PHY configuration.
-- in case PHY autoneg signals disturb PoE classification, we need to
-  coordinate PHY and PSE states.
-
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+BR, Jarkko
