@@ -1,94 +1,127 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F94415688D
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 21:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9649015623A;
+	Wed,  3 Apr 2024 22:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712181599; cv=none; b=tly4hDjrG/W3CVFnUCaRgMQvBegHVvR6pSVAu89HJCpRQx30QO7ewwSD2Q7y0KS44Z/kc7TnQLGMoGn43HcYTBYKiS13QIViKwZRDjhp1IBZSNPPMzydkcgcxz6xLLOcy9XWxdegnR8Olzlucc3nU19OlDa2EmXoudGTCTgC4uQ=
+	t=1712184202; cv=none; b=g9hueLZlPGNGtk+5kHY1ue22BJTCd5J5wJ+R629/5x2+dRSgA+wRyEl9rUaZZQRzPz22mvDbO4Ie8RVbmn8KChBdYCtHQn/rvT6vapJ9MwStNDHwJPk5OVk+5IPGHhrw2kPMYWFPtKJsfkQYcNOpJJf3tgb8U+noyiOJrgpUEzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712181599; c=relaxed/simple;
-	bh=J5cX4GqktbP0gID6yrJUxK/jCIdoAH/C/9xsI+yoDaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qB/LaJ8qOjdZpwYb4gvK2LMI14/A+43PezeRQzkWTRpDmE0XjYlUraB0iWR/l1aZs2OrU2Gh7qgIu8wrnUUDcw59J3FxOhqvkFYLOk71gXbc6wE9YfLzDUHLjDXf6leNn20eXGpGgoYCBlYFd4PBfKTJ2EWP2exAgGBEbRTSsZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1IVSAQ5V; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712184202; c=relaxed/simple;
+	bh=i83YdIPPx0R/zg6nAIJzCB1vAwrQ7TEYddQ6IihpENM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gwPVSPD82mtGAPIqynv+pQgOVVGSX+PXo9rl7G50KJF9lH/mDEhQn1QuVpt+fB7XKF6YfDBZQhHGc1HPKXL0sht8HUXOJ2ri89aZISJYH7McohUJwR4WtabECMhy+Qk1agxorsT1oXNrBoe6s3G/hoaEWv+PRFl8mhXWPK3iUDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQsTKsvP; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1IVSAQ5V"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56beb6e68aeso1658a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 14:59:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQsTKsvP"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5a47cecb98bso260872eaf.0;
+        Wed, 03 Apr 2024 15:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712181596; x=1712786396; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qTy7UZvOGfVzOyBfYCslewqivjbuSdMwhgF1qVbAn0c=;
-        b=1IVSAQ5VFCMovnIRk+cGRDEWfEwK8iC+gQ7wq77X+DWJ0/O2F+rIzuAntdOROFV6/0
-         HJpsjnAi48P5hBCYkokapjSLIfKYCWjnOXInpr9XMOdvfywFsmFTfGFD76Dn+UVJu/Mp
-         N50VbviqV4I5DbiL85StfH0HJZSigFzPSTmOuEiGPo+9Hihzs+mV+p4FxoTrFwwAa5fM
-         QKTseOEsSNws8Uyu7rYlHWAliAkPdRuYQHpxN3bRdsbzh7Sas3yu724Hf21HYGcDKg50
-         vnABWme91nBIqMKfrb2vv+MEOu1YZpUmXU4v1CeFeJguRg/UyredijICSKOvoMJIXmI3
-         pz2Q==
+        d=gmail.com; s=20230601; t=1712184199; x=1712788999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=SQsTKsvPrPSCIV412FfI6N/0E5ZYD1zVKbgeK4QzjugxGtgo2BVF4Q7TMvwWgOn89T
+         EeQvO9c+gGajPIBoE+lH6HvrkyExBobZUDrxKWidKzf17IMJQsPgtmrM7FLcJL+qX5rZ
+         TSD6QAgbCsbKknQ6TWRN/PkDWjE1N4L4o9d0nWHMTeOOPYgfPwRTe0A5u3P1UzIplL1X
+         eXC96B+sczZx4mex/AyXlJi7cQpYzCbZVsljy8CaVdmMRZuU3+SXQvKtBDJTFiStDEYs
+         o8idLgXDEEoDATml8znT5egX7kocA1ZOgpEUNB+9KmLfTEZ8rVWNZlOeupPqsP7cTo0D
+         4NNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712181596; x=1712786396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qTy7UZvOGfVzOyBfYCslewqivjbuSdMwhgF1qVbAn0c=;
-        b=em4rTBgjBltILYbbwDURciV78lPeUxDQVySOtFu/dr01yLbniIjWXLlkIe/ioiqHss
-         bzztK9ldg8+PnMvJvmILP8mQRnjqVzITU2dyBk+YtVUPhp39fF6XTIeuwAogop8+mLQI
-         mulN89EA6E9BlY/B6EvtpXq8SESUcDX2Z/zSCgqz/Q7tWJSFsCK4Y/Q5NWQ8yyZts8kI
-         ET1aSVnBmeq5ceQ8hz9u3g1rgmozv5FgNAhi1sgXLl7KR5OIPBs/RX8i/jb90gkQidzx
-         0YyKiUPHeJTVsD0GemGvo5Ssrv42UPbYoqzTLwtiwmWCLzm7SccYNDzFnZLSPvQlvTN+
-         ksIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZefomCITSez3YJJ9PZlT35anLHcweHBsJE8v35ekyNGDDV7URyHz9G67jYwVMoqReoV8DBaTqKOOY6/y1KH6eg7a6GpOoW3g/
-X-Gm-Message-State: AOJu0YxhZJxeaiKNNqM86NFs8U63SAVjjjKdKPZyk24ZyAtT1EYb5pTe
-	XTooa66TfD2Z+EppKwgAh5OBr3da2m3dzbTbCS8LBP2IcA6HxA2uqswTMtDe0ETXBLOrGk20NS8
-	4hEoDsRuGYka3RwMtqyKNUFIBz29fs9ZLX4EP
-X-Google-Smtp-Source: AGHT+IHTInqBsj+mNZa49X8OvTOGw8WohoVAZbNq1Rfczn2ElBMyortTXet/IJD1sZ4waCx5tYiTp/gANpZfOjPunrg=
-X-Received: by 2002:aa7:cfd7:0:b0:56c:522f:6799 with SMTP id
- r23-20020aa7cfd7000000b0056c522f6799mr278607edy.5.1712181595529; Wed, 03 Apr
- 2024 14:59:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712184199; x=1712788999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=Hiit4BaHnmzma/NM3gIttVfrR3YYo+fmzOxY0i59Q8FqsNGyq0L42kzIrnQt8qxW2e
+         wE/6NXDa5hqVAthwd9yTEzEOF81qPiaYbxL5iN6y/e2ucvwltl8GIxFVHksGHyAQB74z
+         1DleatuVlWL3/rZK+SIC2hnzUkMrjQKvf2i5c2dAyO841usxyZX/umCqWpQxYeF3uuC7
+         J/tYP9gkDeE170siDOK0O4Kzjwj+3jusvPTX2xbCUCYm75yb6dESlPLkr7iE3yr33AL4
+         eVkZ4pGaN1+cRAYE9F6bFpR293hULKWHJqdDYP8SgNNqn+pAWkZiGvCm143aRkrRyn56
+         xmTg==
+X-Forwarded-Encrypted: i=1; AJvYcCV2Efxa36iuyY6F6AgUzzueeOxFPbKW+olJrMPW67ZA7YuZS/LyarnfSMw4L5trkM6M0Mzd3zAQir8u8mp7p/kw4PLu+zEN5Qj2dvNqUSgBUR++A+hasP8tWb5UjiAMmba2pnkIfBVt4NmiVmDZKuRrEPi34rviw+qvRVkx52gJsty2
+X-Gm-Message-State: AOJu0YyRGQFaw2dIyXAOnnGPk1VBX+kgzPuSdrDD4LkpLEWUNXfYeN8g
+	7ikOCvTKS1ITQfQpK6Ly6FfArNt2AoFAsIiXr+g3+hAfXiv1fCyn
+X-Google-Smtp-Source: AGHT+IGGiaWtu7HMckdPJc+ewu+TUaApVj6Bfhx2mSVpxVK2P7yAETpnx6+RfPfIS1VkdOFk5JiQTw==
+X-Received: by 2002:a05:6359:4c1a:b0:183:90a2:f4ce with SMTP id kj26-20020a0563594c1a00b0018390a2f4cemr679434rwc.0.1712184199519;
+        Wed, 03 Apr 2024 15:43:19 -0700 (PDT)
+Received: from barry-desktop.hub ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id 13-20020a630b0d000000b005e840ad9aaesm12184383pgl.30.2024.04.03.15.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Apr 2024 15:43:18 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Cc: apw@canonical.com,
+	broonie@kernel.org,
+	chenhuacai@loongson.cn,
+	chris@zankel.net,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	herbert@gondor.apana.org.au,
+	joe@perches.com,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	lukas.bulwahn@gmail.com,
+	mac.xxn@outlook.com,
+	sfr@canb.auug.org.au,
+	v-songbaohua@oppo.com
+Subject: [PATCH v6 0/2] codingstyle: avoid unused parameters for a function-like macro
+Date: Thu,  4 Apr 2024 11:42:52 +1300
+Message-Id: <20240403224254.10313-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240402125109.1251232-1-jackmanb@google.com>
-In-Reply-To: <20240402125109.1251232-1-jackmanb@google.com>
-From: Daniel Latypov <dlatypov@google.com>
-Date: Wed, 3 Apr 2024 14:59:43 -0700
-Message-ID: <CAGS_qxpBmmafnQnDXYf5RftPzxghd+i8Ly4CK=EkcpidpCPP6g@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: kunit: Clarify test filter format
-To: Brendan Jackman <jackmanb@google.com>
-Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Brendan Higgins <brendan.higgins@linux.dev>, davidgow@google.com, rmoar@google.com, 
-	corbet@lwn.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 2, 2024 at 5:51=E2=80=AFAM Brendan Jackman <jackmanb@google.com=
-> wrote:
->
-> It seems obvious once you know, but at first I didn't realise that the
-> suite name is part of this format. Document it and add some examples.
->
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+From: Barry Song <v-songbaohua@oppo.com>
 
-Reviewed-by: Daniel Latypov <dlatypov@google.com>
+-v6:
+ * collect ack of Joe, thanks!
+ * refine docs according to Jonathan, thanks!
+ * add checkpatch doc according to Joe, thanks!
 
-Thanks!
+-v5:
+ * Simplify the code for Patch 2 according to Joe's suggestions.
+ * add s-o-b of Barry according to Jeff Johnson
+ v5 link:
+ https://lore.kernel.org/all/20240401012120.6052-1-21cnbao@gmail.com/
 
-I agree with your comment on v1, I think the extra verbosity is fine.
-It's still easy to read and this should hopefully eliminate the
-ambiguity for most readers.
+-v4:
+ * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
+ * fix some false positives of checkpatch.pl
+ * downgrade from ERROR to WARN in checkpatch.pl
 
-> ---
-> v1->v2: Expanded to clarify that suite_glob and test_glob are two separat=
-e
->         patterns. Also made some other trivial changes to formatting etc.
+ Thanks for Joe's comments!
 
-<snip>
+ v4 link: https://lore.kernel.org/all/20240328022136.5789-1-21cnbao@gmail.com/
+
+-v3:
+ https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
+
+A function-like macro could result in build warnings such as
+"unused variable." This patchset updates the guidance to
+recommend always using a static inline function instead
+and also provides checkpatch support for this new rule.
+
+Barry Song (1):
+  Documentation: coding-style: ask function-like macros to evaluate
+    parameters
+
+Xining Xu (1):
+  scripts: checkpatch: check unused parameters for function-like macro
+
+ Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
+ Documentation/process/coding-style.rst | 23 +++++++++++++++++++++++
+ scripts/checkpatch.pl                  |  6 ++++++
+ 3 files changed, 43 insertions(+)
+
+-- 
+2.34.1
+
