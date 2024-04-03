@@ -1,189 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C2615667F
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 21:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F94415688D
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 21:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712180921; cv=none; b=XijAABSgFUlhtTALL5SL8KOxkson7vZ/F98gmdvHQDBpSn6/Jx7Zgwt2Hrw4yjSbTlP05jTz0ZA6PHt+t5vbb9DmMykXLHyY54/+TJrNeyx+1b4HpFdobb3qhraRx/VK68xSpuhSEYsfOxN9I5h2rjWdjcu0R09MhJWtpu7sYB4=
+	t=1712181599; cv=none; b=tly4hDjrG/W3CVFnUCaRgMQvBegHVvR6pSVAu89HJCpRQx30QO7ewwSD2Q7y0KS44Z/kc7TnQLGMoGn43HcYTBYKiS13QIViKwZRDjhp1IBZSNPPMzydkcgcxz6xLLOcy9XWxdegnR8Olzlucc3nU19OlDa2EmXoudGTCTgC4uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712180921; c=relaxed/simple;
-	bh=BqZpofoUBdW4e3DpxG0Cp4X48XFGsT+PuZo9ERGPPnY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s04MOvI2QF5Ehhng07vc8bu5LdOeeCjNOEn+jIqaHOC/DJV0b3FvjxZq6jsJ4rouBWrhbIF6vvrTwNbUuf6vkcCSRWm03b4qyMOxqdcvNW+etNhKaVtpFeVHup5VqnyFdwysHuilVoQN1HzqlzUoFNqilqzhM1CMW/wZtVgFs5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ioiCUnZh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712181599; c=relaxed/simple;
+	bh=J5cX4GqktbP0gID6yrJUxK/jCIdoAH/C/9xsI+yoDaE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qB/LaJ8qOjdZpwYb4gvK2LMI14/A+43PezeRQzkWTRpDmE0XjYlUraB0iWR/l1aZs2OrU2Gh7qgIu8wrnUUDcw59J3FxOhqvkFYLOk71gXbc6wE9YfLzDUHLjDXf6leNn20eXGpGgoYCBlYFd4PBfKTJ2EWP2exAgGBEbRTSsZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1IVSAQ5V; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ioiCUnZh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712180918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=LM3COUWIzPT7dnAZypNco51j1yiA/TG+7IxlzkxR5z4=;
-	b=ioiCUnZhDp/yudOX8ESV2xC2AK/cGbH/XMA2p7oRNPeS8BLAP4eN0znT4GzsjRLtT7qz/M
-	GGeIP1nYFG1c09doPTC53DlCTT97bkjdLG3gayplcG7NbxmpdisqSshhUnBKxF9068TlHz
-	8cEg5XR4qy3/9WhBN9T3QYOgMokvfxM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-312-eklLU7RVPIibYBWWLPnJ6w-1; Wed, 03 Apr 2024 17:48:37 -0400
-X-MC-Unique: eklLU7RVPIibYBWWLPnJ6w-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3437574111dso103088f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 14:48:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1IVSAQ5V"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56beb6e68aeso1658a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 14:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712181596; x=1712786396; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qTy7UZvOGfVzOyBfYCslewqivjbuSdMwhgF1qVbAn0c=;
+        b=1IVSAQ5VFCMovnIRk+cGRDEWfEwK8iC+gQ7wq77X+DWJ0/O2F+rIzuAntdOROFV6/0
+         HJpsjnAi48P5hBCYkokapjSLIfKYCWjnOXInpr9XMOdvfywFsmFTfGFD76Dn+UVJu/Mp
+         N50VbviqV4I5DbiL85StfH0HJZSigFzPSTmOuEiGPo+9Hihzs+mV+p4FxoTrFwwAa5fM
+         QKTseOEsSNws8Uyu7rYlHWAliAkPdRuYQHpxN3bRdsbzh7Sas3yu724Hf21HYGcDKg50
+         vnABWme91nBIqMKfrb2vv+MEOu1YZpUmXU4v1CeFeJguRg/UyredijICSKOvoMJIXmI3
+         pz2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712180896; x=1712785696;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LM3COUWIzPT7dnAZypNco51j1yiA/TG+7IxlzkxR5z4=;
-        b=HELOCSC0gJg8Dvc6hY1w0JmXRG5yYxJCQPbgBonz84X2hTd0682ZpIMRgtseZn+mZH
-         uFK4w1/p8SL9QZO0IrwO9Tk353/e97BtTWI+8A3caHZJeSmA/FFTSc1eYZz+agZp97LN
-         W7ST7G7BB9zka/n2m2Vm3CXt94ympLimpLOsg31hHD6MVILXEP7L6HCtoCl+a4q/R7ig
-         +y0v2tITcJOZG/9He1G5MXxksiBU7sZjlvqy45y8T0Em0XeXSxj+LzaHncnMhx/44b4S
-         7Jfu8utN9kMj1HMZ54RlMCOzcxY7+895onIelCQxApc+C2OxtDI/WBkSHGVzQTE7hUPe
-         /mFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGcUPMYtmEZYNy0syJOMLcgHsKhXcvTbRFKAIvtQWtVsMBVKdCY7NY+qNx5409MHnJimbQb9U1L2vqQrZcSQW343UCArGS9R9q
-X-Gm-Message-State: AOJu0YxyimBeyCrQ+o5cOMsakeL74a1oTX5ni8zd2jpeodx9VT0DjTGE
-	tsLGnhyN0bpmfyPYUS7oIxEaX501LW7zBXCRyy7iSgJcu8UVyepGxQ0nz7m4hQ+ZOPZQf30nPU1
-	Yf3NRNuT6IwpQ5PRFPNPRagsideS+61mT26Wy+QaFECcIHjsGB4FBl+5GsA==
-X-Received: by 2002:adf:f58e:0:b0:343:6ffe:7a64 with SMTP id f14-20020adff58e000000b003436ffe7a64mr563170wro.59.1712180896587;
-        Wed, 03 Apr 2024 14:48:16 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFcHLAy/Z6o0Hkvw9Wda226gD8YrfteXQTpOHNQRcERsL2HGuS0fhig80i4ous83U5tg72ANQ==
-X-Received: by 2002:adf:f58e:0:b0:343:6ffe:7a64 with SMTP id f14-20020adff58e000000b003436ffe7a64mr563157wro.59.1712180896166;
-        Wed, 03 Apr 2024 14:48:16 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c73b:3100:2d28:e0b7:1254:b2f6? (p200300cbc73b31002d28e0b71254b2f6.dip0.t-ipconnect.de. [2003:cb:c73b:3100:2d28:e0b7:1254:b2f6])
-        by smtp.gmail.com with ESMTPSA id bx6-20020a5d5b06000000b00341e67a7a90sm18519899wrb.19.2024.04.03.14.48.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 14:48:15 -0700 (PDT)
-Message-ID: <9e2d09f8-2234-42f3-8481-87bbd9ad4def@redhat.com>
-Date: Wed, 3 Apr 2024 23:48:12 +0200
+        d=1e100.net; s=20230601; t=1712181596; x=1712786396;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qTy7UZvOGfVzOyBfYCslewqivjbuSdMwhgF1qVbAn0c=;
+        b=em4rTBgjBltILYbbwDURciV78lPeUxDQVySOtFu/dr01yLbniIjWXLlkIe/ioiqHss
+         bzztK9ldg8+PnMvJvmILP8mQRnjqVzITU2dyBk+YtVUPhp39fF6XTIeuwAogop8+mLQI
+         mulN89EA6E9BlY/B6EvtpXq8SESUcDX2Z/zSCgqz/Q7tWJSFsCK4Y/Q5NWQ8yyZts8kI
+         ET1aSVnBmeq5ceQ8hz9u3g1rgmozv5FgNAhi1sgXLl7KR5OIPBs/RX8i/jb90gkQidzx
+         0YyKiUPHeJTVsD0GemGvo5Ssrv42UPbYoqzTLwtiwmWCLzm7SccYNDzFnZLSPvQlvTN+
+         ksIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZefomCITSez3YJJ9PZlT35anLHcweHBsJE8v35ekyNGDDV7URyHz9G67jYwVMoqReoV8DBaTqKOOY6/y1KH6eg7a6GpOoW3g/
+X-Gm-Message-State: AOJu0YxhZJxeaiKNNqM86NFs8U63SAVjjjKdKPZyk24ZyAtT1EYb5pTe
+	XTooa66TfD2Z+EppKwgAh5OBr3da2m3dzbTbCS8LBP2IcA6HxA2uqswTMtDe0ETXBLOrGk20NS8
+	4hEoDsRuGYka3RwMtqyKNUFIBz29fs9ZLX4EP
+X-Google-Smtp-Source: AGHT+IHTInqBsj+mNZa49X8OvTOGw8WohoVAZbNq1Rfczn2ElBMyortTXet/IJD1sZ4waCx5tYiTp/gANpZfOjPunrg=
+X-Received: by 2002:aa7:cfd7:0:b0:56c:522f:6799 with SMTP id
+ r23-20020aa7cfd7000000b0056c522f6799mr278607edy.5.1712181595529; Wed, 03 Apr
+ 2024 14:59:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/37] fix missing vmalloc.h includes
-To: Kent Overstreet <kent.overstreet@linux.dev>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
- mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com,
- penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, dennis@kernel.org,
- jhubbard@nvidia.com, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
- paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
- yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
- andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
- vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
- ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
- vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, songmuchun@bytedance.com,
- jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20240321163705.3067592-1-surenb@google.com>
- <20240321163705.3067592-2-surenb@google.com>
- <20240403211240.GA307137@dev-arch.thelio-3990X>
- <4qk7f3ra5lrqhtvmipmacgzo5qwnugrfxn5dd3j4wubzwqvmv4@vzdhpalbmob3>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <4qk7f3ra5lrqhtvmipmacgzo5qwnugrfxn5dd3j4wubzwqvmv4@vzdhpalbmob3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240402125109.1251232-1-jackmanb@google.com>
+In-Reply-To: <20240402125109.1251232-1-jackmanb@google.com>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Wed, 3 Apr 2024 14:59:43 -0700
+Message-ID: <CAGS_qxpBmmafnQnDXYf5RftPzxghd+i8Ly4CK=EkcpidpCPP6g@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: kunit: Clarify test filter format
+To: Brendan Jackman <jackmanb@google.com>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Brendan Higgins <brendan.higgins@linux.dev>, davidgow@google.com, rmoar@google.com, 
+	corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 03.04.24 23:41, Kent Overstreet wrote:
-> On Wed, Apr 03, 2024 at 02:12:40PM -0700, Nathan Chancellor wrote:
->> On Thu, Mar 21, 2024 at 09:36:23AM -0700, Suren Baghdasaryan wrote:
->>> From: Kent Overstreet <kent.overstreet@linux.dev>
->>>
->>> The next patch drops vmalloc.h from a system header in order to fix
->>> a circular dependency; this adds it to all the files that were pulling
->>> it in implicitly.
->>>
->>> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
->>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->>> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->>
->> I bisected an error that I see when building ARCH=loongarch allmodconfig
->> to commit 302519d9e80a ("asm-generic/io.h: kill vmalloc.h dependency")
->> in -next, which tells me that this patch likely needs to contain
->> something along the following lines, as LoongArch was getting
->> include/linux/sizes.h transitively through the vmalloc.h include in
->> include/asm-generic/io.h.
-> 
-> gcc doesn't appear to be packaged for loongarch for debian (most other
-> cross compilers are), so that's going to make it hard for me to test
-> anything...
+On Tue, Apr 2, 2024 at 5:51=E2=80=AFAM Brendan Jackman <jackmanb@google.com=
+> wrote:
+>
+> It seems obvious once you know, but at first I didn't realise that the
+> suite name is part of this format. Document it and add some examples.
+>
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-The latest cross-compilers from Arnd [1] include a 13.2.0 one for 
-loongarch64 that works for me. Just in case you haven't heard of Arnds 
-work before and want to give it a shot.
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-[1] https://mirrors.edge.kernel.org/pub/tools/crosstool/
+Thanks!
 
--- 
-Cheers,
+I agree with your comment on v1, I think the extra verbosity is fine.
+It's still easy to read and this should hopefully eliminate the
+ambiguity for most readers.
 
-David / dhildenb
+> ---
+> v1->v2: Expanded to clarify that suite_glob and test_glob are two separat=
+e
+>         patterns. Also made some other trivial changes to formatting etc.
 
+<snip>
