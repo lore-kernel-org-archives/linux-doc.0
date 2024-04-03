@@ -1,138 +1,130 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2098.outbound.protection.outlook.com [40.107.92.98])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8181F2BB02;
-	Wed,  3 Apr 2024 21:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712180143; cv=fail; b=a1YCfHk35RSspn1S5zxlXTUm8OjX8aw9d94BKHL6pXhf3I0NWAgXCs12Ub5PmV8v2Jg4pItg9qOehC9U6v2rt/AZ+NOSTWKtkjnIMFx6gnNaD7sDh9P8P3ERe7TXewFjc3DixxCKwwyCtb9+UNpILT8y+TLSh4cP2hCMBvHV2CI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712180143; c=relaxed/simple;
-	bh=pXFxqvj+imfUq5sfwuAekt489TthqcCwSLcLfgpEAb0=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 Content-Type:MIME-Version; b=jIlPFpP/m6JbBSDunDzxbF9NI5bc+Vb9ynEsWVOqa5XtWmL++9VqW6XkOJPyZgIwEPqg03Th2wEQPSjo7vc+TUNRmXvtwspYJ+kyx+Qs+Td4JqMb7QJuNW9n+kQvJLjV2WGbZ4aG4iS1gkqlRI1DE+H5doDlVeE0AWUfJpjcsIo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PetnpU/o; arc=fail smtp.client-ip=40.107.92.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69117156870;
+	Wed,  3 Apr 2024 21:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712180534; cv=none; b=h6+Ii62YyI7aIIHlYaI4BtzzEzROpi/zu9qJWFyu6+bkbqTkJQIYPHs3ZnWA0pGXO/F6vV334h0qk70jXwe7p6dDHPsyU6iN5EY/69LRttT36q3GNub/E9eFHP/EGtWl+MAA6LJe/pV2R3CB9Cd0D1Kat6ouYb+n4jl6qiZqUPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712180534; c=relaxed/simple;
+	bh=x+FV5GoB+NEz6+1MxtrN8DBzkMq3eDfL9fgL9YEpHyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gc0ykouNvp2V8YL01pVcapvpR+affyC2QG04JcreWfiQEg32eCWQYf/XCYkpTSvVUO/6qVD28/1VCMhRH4uoyOR8A+1R5DfNiQB+kDe4a+w9XU8MYHbw28stUPz8SBlcLSgadFKzzGqbCIuhs9lQi9xiNYWowA+dRktmyQiWSWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lGMlDuct; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PetnpU/o"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OEuCdvjPOlYtP+UjLi2zX3T/BpEy5EhqBGU6F9Jxts9YKYG1Vjf5lOTO8hG3gXQl+XMvFXDKzIdGbJPQfj5UWd7X4x9VR9gjVnjhnpivta0YjustsH1TGvKfF9ubrxjwOZsYF6rcN0rKAbN9WNjCZE60R/Qfw56GBd0N1yoeiOyKSJLXB+FvZGhSLwDoDRy4MXwCU2CeVFuewRinjtF7f8Ga1jPC3ISWgnovEFdOLHdd8pSrENvLJRSoea0zP8fNAnwieKvijasnjIfnTsQm81AySSn9boM1RJKMziyJdYi9Am5Le14FAuP30nHb/qG0ppo911s+1RQrjOSYd1TMqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pXFxqvj+imfUq5sfwuAekt489TthqcCwSLcLfgpEAb0=;
- b=mltOKYwYm5QYyGmtq+suVcvygwrPerVRwvMG21pF2bBbURY1Ohm7t0yJDfRS909Fqv1uhlz0nhAKyn5JUN75gfdA0hR2GJGDGxaiu3kG6Zx6vqFrKBPp4fh3jWi6xl18VfvV9Hgj7cpkJZgNfzvLmBpp7bN3q+GxSh/iO02qZI4SFkYYV7eY64eFJwgMVvIJFqXg4APyDRkETNpoIDyJPcWiKoid6ko9hOM2/tc1ghYiXTF9WdzjdrTQdXOnPOiNWuACI+iFCC5O0rlX/E4E6D1oJXMAnUKl+h+7xNxdAbMa9m/PJ0BbpZBvuIM032ZK4KxvxFkZDxeYaNt+KgBtGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pXFxqvj+imfUq5sfwuAekt489TthqcCwSLcLfgpEAb0=;
- b=PetnpU/oRwJvEBdKgCVlmcgC9MuCvoHnE/Me653SCKjIZWbo3FklQubuhHlMEUt9le9v9M/Hv84GjP7jJVIm3sRXMZelt1tdFXXbVCVn0S383PvXOxuxWIYHjRh7VDm+p6ccznYROAXMLyS63v7uQxy9oLU+bbegBrvJoP2ewZOvrZoxrgd5w7J1SXScM5Tadl6zpVbVDPgLlgXoVONKdwz9sFzuKOkMnWbjzCjYr+1NK1pgGq3c9EZHdPMUvZP8D0Vd/Hig2zeqSNt3x5v9MvfnV8alOdTIB9HtJofF6Sm2O+BejFrKWI//MVnBrYC6lX7ZV0O8rToMs6/yFRfTig==
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com (2603:10b6:a03:61::28)
- by DS0PR12MB8317.namprd12.prod.outlook.com (2603:10b6:8:f4::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Wed, 3 Apr
- 2024 21:35:38 +0000
-Received: from BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf]) by BYAPR12MB2743.namprd12.prod.outlook.com
- ([fe80::459b:b6fe:a74c:5fbf%6]) with mapi id 15.20.7409.042; Wed, 3 Apr 2024
- 21:35:38 +0000
-References: <20240403212931.128541-1-rrameshbabu@nvidia.com>
- <20240403212931.128541-7-rrameshbabu@nvidia.com>
-User-agent: mu4e 1.10.8; emacs 28.2
-From: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-To: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, ahmed.zaki@intel.com,
- aleksander.lobakin@intel.com, alexandre.torgue@foss.st.com,
- andrew@lunn.ch, cjubran@nvidia.com, corbet@lwn.net, davem@davemloft.net,
- dtatulea@nvidia.com, edumazet@google.com, gal@nvidia.com,
- hkallweit1@gmail.com, jacob.e.keller@intel.com, jiri@resnulli.us,
- joabreu@synopsys.com, justinstitt@google.com, kory.maincent@bootlin.com,
- kuba@kernel.org, leon@kernel.org, liuhangbin@gmail.com,
- maxime.chevallier@bootlin.com, pabeni@redhat.com,
- paul.greenwalt@intel.com, przemyslaw.kitszel@intel.com,
- rdunlap@infradead.org, richardcochran@gmail.com, saeed@kernel.org,
- tariqt@nvidia.com, vadim.fedorenko@linux.dev, vladimir.oltean@nxp.com,
- wojciech.drewek@intel.com
-Subject: Re: [PATCH RFC v2 5/6] tools: ynl: ethtool.py: Make tool invokable
- from any CWD
-Date: Wed, 03 Apr 2024 14:34:42 -0700
-In-reply-to: <20240403212931.128541-7-rrameshbabu@nvidia.com>
-Message-ID: <87sf02yvrr.fsf@nvidia.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR04CA0001.namprd04.prod.outlook.com
- (2603:10b6:a03:40::14) To BYAPR12MB2743.namprd12.prod.outlook.com
- (2603:10b6:a03:61::28)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lGMlDuct"
+Date: Wed, 3 Apr 2024 17:41:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1712180527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I8oAok5It38shVDkwL940Pa8qX3ifwx6XR6MQgkhnY4=;
+	b=lGMlDuctByVDszORVgYlbk2emZzNfH18lVbOM3PP8QqASVaLVaaVhE4vLYrvnQGixqKQn+
+	JoBwih61WSwFWMdg5hVCAoj/8hdJcJ9cfeJ6GbrYKLCxCnMqAOBy1GlT1ZzritCAT4+N6a
+	jWAURONL2YqX3Zp+MfY4wq5MmwF4PmI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
+	masahiroy@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, hughd@google.com, 
+	andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com, 
+	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, 
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, songmuchun@bytedance.com, 
+	jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com, minchan@google.com, 
+	kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v6 01/37] fix missing vmalloc.h includes
+Message-ID: <4qk7f3ra5lrqhtvmipmacgzo5qwnugrfxn5dd3j4wubzwqvmv4@vzdhpalbmob3>
+References: <20240321163705.3067592-1-surenb@google.com>
+ <20240321163705.3067592-2-surenb@google.com>
+ <20240403211240.GA307137@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2743:EE_|DS0PR12MB8317:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	8hNRToBg7klJvXL03YWU+OSZT1npUMAlVXwjQhl8Cl8fto8K0PMrXGPu3vkmTdt3BWRNgsB2TzRr4u556okEp0VEo+h1yxwxe9z8WO7kuavcrEdqU3f7QXHHBFjbypsitJjkTKUBOLvuabBSANZIakUKpT6Yv5t5J7EeuBSWF1nbwBeTS6M7abDCS7XQozNQuv0x+JE4AMrqSeyMGB2jhZzYYMq6fglosyb/JRTf7has/g0IHIpN+1MjFKJsaDeMn65122HH0vRQOHAhHE4PWdRTr4vR67mHKs0DaOEV6xlgou4KOUhhRUb5TDNtz5KRD4pwmFmE95YruIAUy66paZk7r/w/YvZDJzLhCEAHypjEbToJu0tlfMqeIgQcdhuc/vU/36KwFAcjk3WuaR49z7uB+Bnm9TbNnridZxVYoW1NyiHhlUb/dqiCz8663ic7zvrKXYxaoMuN0gT7MNq7odEd6Y5eM9+FGsYlCPzeKcLLfI77CKEBltAxbSzCtuq+dijwaspjUt6B/dmUA/FUcYRmaEjGBwh0QWZlhhyUNRewHAtDh3XKlEiQKcvMWTp3cuHQTV1Cp14jkCpx/NWKxKB2DKdyldVYrIJK/P/mibypQD6QyJR3ijmm4qSUTPcgdtGNIkrAmWnyUYdwIxeKueFaFVGDgqa6ug8sWBmb/jE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2743.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?I6Sj2d6ZZs4vDZgImCnE4tBC0kAdpAU67waN9zQkuEUKWX4CCSAOB5HdFPaV?=
- =?us-ascii?Q?8FyqH8Rl0ES4HhL0Ezde09Ky4LO4mII9nkWUEnlXpsFLEBfNmsyoBrT9P1hn?=
- =?us-ascii?Q?l6bCUvMzsWy00scvpcpPhJV0ifUaAE4XLl4w6bL8rhDnzEVVVtUzBjNt2RpB?=
- =?us-ascii?Q?gtIOb47aYEbUSzmlZVv7BeeuONuT9Cvnd/UmLfmb7rGuKe1YNa9VTYfbSHnm?=
- =?us-ascii?Q?QVgkNt5btWmFsiau6NFllqyhOqUHhGjnq0vh9foR+Z0qMgPwlvfiWPecOXDa?=
- =?us-ascii?Q?Mi6KlGJcZBacrp6cPU/A30fpn2JXQexshMKQAi/CYVwicLu32ELk9Y+3jKTF?=
- =?us-ascii?Q?Jz5oRVFE79PXp8RFV0JYiMRBCNmMOK/UmIbm9bsQ2YID6wtO4l5Xo1rrIBQl?=
- =?us-ascii?Q?cee93JMkFlhm+AE3J5+qnR6pdMazB2/mDenJKLMSt4CIBwueWr+1xbLp47rC?=
- =?us-ascii?Q?sHZidScnTveoyIVsmX4a349RVzdtRtXi4vFvX8WG257W4qFRvoQx4e7veI1U?=
- =?us-ascii?Q?VtOJDBpbvqFdo6XccZtQF4c7rhOLDKE7PzTWMhcwpK2FvzHPzyt8siSB6Ft7?=
- =?us-ascii?Q?TH68ciAeRE16NLUXqBxzNz9OQVpwweOmvp3dfTvtnRXB/hwXK6Opt8gZ+RyM?=
- =?us-ascii?Q?sjzwASHOKHE9xiM4CzYZinuhzxZMABWvNIOk6TviQpkygURkQgqxxs73On/7?=
- =?us-ascii?Q?wWYkrwocKW/W4A3IW2uf0BaG+PNViXqke3HQdAt5vtAGRzBINw3K7jG3hiS/?=
- =?us-ascii?Q?iHF4zpbvGrhbcIz2XmDlvOA0pTL3vvzFPtktOSEp0EhWTrP0fVenKAHV2Uzy?=
- =?us-ascii?Q?wneoj37rdo5vpML5P+0eZ2zJdKg76OaNeiYZURcvE32SLsk9DExgndR4i4gA?=
- =?us-ascii?Q?3JZVDRRdLz+Xo65ZndgCw+T/68OVsOOBQj/2d33sewopVHIqmPR1dcXyA560?=
- =?us-ascii?Q?tL5xKzwBsRIRWco1YCK71IqfvbQXJeuQz19kCzZg1BrPbop8ScS9GNzBpCzj?=
- =?us-ascii?Q?MEGeotxHH54dWHMtEvY+sqw1Q8QmRtuE+NChFcY3Xlb+pT//DcNv6SbK6fgb?=
- =?us-ascii?Q?XcJYuTDK3U5mx3dGkHN4iWmtewFsXiZNdRaWAmM/vW/K2+EszIot2JDTRRPw?=
- =?us-ascii?Q?CDuiFxpq/sSkUIOas+Q+DUd3OZgyZYTWhv8cnP3QF05H0Fn+GSvl62ZnSVse?=
- =?us-ascii?Q?4gdXcBp6TppSxb+DgjiILNy38qVaGFnoZPrMPndJ9lhgzTIZtf9pK+wCMz4S?=
- =?us-ascii?Q?3Fwfz1CHfQQmRpaHI4zkLRTTBPAj9PtHRio4rrUZ35GKaokWtRAkf/gDt0WD?=
- =?us-ascii?Q?ZOSS6UrRKjOqc9DdHM62IlawN+fP1wwjMNg5DIFz2F+hKGGvUvbRj+OfJaAR?=
- =?us-ascii?Q?G51N3aqqk4p7t0P+8bGkKkV0COS6gwhBiBUGft6I85arhSnkTYsaLBx7cnY8?=
- =?us-ascii?Q?qvNg1eHXW6sFOn78VRKgPOotMI4FxavFcLQ7xHfd1uVWxIUxQVWpd1iQyZyS?=
- =?us-ascii?Q?LpWA50wAYY2TqAdMyIVLCtiwZwbzv4FQJVE7fypC/PMkQVxTjN8kemZLuwMH?=
- =?us-ascii?Q?Y35VAzP8UbEHzJy1s2DORZ3mWqIRq36iuBDj5OPrEKaaeXLMH7rgBptAEBp/?=
- =?us-ascii?Q?NQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ac7c25a-c76a-4524-806d-08dc542600c1
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB2743.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2024 21:35:37.9130
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DTqh3SFgFIz1VZT2iYl18qMbHCtlEliVhcUUTlwMhczgG5dXhNQvDVSb1FwxjjR8xhf+zdGFB9MR1V5teDJ5TQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8317
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403211240.GA307137@dev-arch.thelio-3990X>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 03 Apr, 2024 14:28:44 -0700 Rahul Rameshbabu <rrameshbabu@nvidia.com> wrote:
-> ethtool.py depends on yml files in a specific location of the linux kernel
-> tree. Using relative lookup for those files means that ethtool.py would
-> need to be run under tools/net/ynl/. Lookup needed yml files without
-> depending on the current working directory that ethtool.py is invoked from.
->
-> Signed-off-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
-> ---
+On Wed, Apr 03, 2024 at 02:12:40PM -0700, Nathan Chancellor wrote:
+> On Thu, Mar 21, 2024 at 09:36:23AM -0700, Suren Baghdasaryan wrote:
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > 
+> > The next patch drops vmalloc.h from a system header in order to fix
+> > a circular dependency; this adds it to all the files that were pulling
+> > it in implicitly.
+> > 
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> 
+> I bisected an error that I see when building ARCH=loongarch allmodconfig
+> to commit 302519d9e80a ("asm-generic/io.h: kill vmalloc.h dependency")
+> in -next, which tells me that this patch likely needs to contain
+> something along the following lines, as LoongArch was getting
+> include/linux/sizes.h transitively through the vmalloc.h include in
+> include/asm-generic/io.h.
 
-This patch should be dropped. Accidentally had it in my mail queue.
+gcc doesn't appear to be packaged for loongarch for debian (most other
+cross compilers are), so that's going to make it hard for me to test
+anything...
 
-Link: https://lore.kernel.org/netdev/20240402204000.115081-1-rrameshbabu@nvidia.com/
+> 
+> Cheers,
+> Nathan
+> 
+>   In file included from arch/loongarch/include/asm/io.h:11,
+>                    from include/linux/io.h:13,
+>                    from arch/loongarch/mm/mmap.c:6:
+>   include/asm-generic/io.h: In function 'ioport_map':
+>   arch/loongarch/include/asm/addrspace.h:124:25: error: 'SZ_32M' undeclared (first use in this function); did you mean 'PS_32M'?
+>     124 | #define PCI_IOSIZE      SZ_32M
+>         |                         ^~~~~~
+>   arch/loongarch/include/asm/addrspace.h:126:26: note: in expansion of macro 'PCI_IOSIZE'
+>     126 | #define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
+>         |                          ^~~~~~~~~~
+>   include/asm-generic/io.h:1113:17: note: in expansion of macro 'IO_SPACE_LIMIT'
+>    1113 |         port &= IO_SPACE_LIMIT;
+>         |                 ^~~~~~~~~~~~~~
+>   arch/loongarch/include/asm/addrspace.h:124:25: note: each undeclared identifier is reported only once for each function it appears in
+>     124 | #define PCI_IOSIZE      SZ_32M
+>         |                         ^~~~~~
+>   arch/loongarch/include/asm/addrspace.h:126:26: note: in expansion of macro 'PCI_IOSIZE'
+>     126 | #define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
+>         |                          ^~~~~~~~~~
+>   include/asm-generic/io.h:1113:17: note: in expansion of macro 'IO_SPACE_LIMIT'
+>    1113 |         port &= IO_SPACE_LIMIT;
+>         |                 ^~~~~~~~~~~~~~
+> 
+> diff --git a/arch/loongarch/include/asm/addrspace.h b/arch/loongarch/include/asm/addrspace.h
+> index b24437e28c6e..7bd47d65bf7a 100644
+> --- a/arch/loongarch/include/asm/addrspace.h
+> +++ b/arch/loongarch/include/asm/addrspace.h
+> @@ -11,6 +11,7 @@
+>  #define _ASM_ADDRSPACE_H
+>  
+>  #include <linux/const.h>
+> +#include <linux/sizes.h>
+>  
+>  #include <asm/loongarch.h>
+>  
