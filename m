@@ -1,90 +1,135 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EC4135A5F
-	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 11:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF0A73506;
+	Wed,  3 Apr 2024 11:22:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712142567; cv=none; b=bfi28GfyUSIf1Dvm7hrvyz/hrbYfGCbJvn8qchISLF3prikZI1OS1nPIcXOtSHt26WSfcGQZu49qTg1/CkQ6fSzW55m9T1eGrbNEVVf3nKFVBQBtwimF3ub0/rJxT6XRLtx1zg0yUVXjiP7MBBKTroE9Z3goE68l3oONXIT+cHw=
+	t=1712143344; cv=none; b=KO7SXcWzMr9YIU2iZTbL1FVGnGjxzEufu7w5ZLbdxWQxj3kyJVeZGSMafyOGEOcSCLA563yWoJ9FsWJIMjlAI21cAzoSxwiCm7c0iyCL6oeB2t2ntN2X3PmKBy+ylF/0iEfXYDh71yLtd/i9nMp4aGymVU/NaiBWduBOScwMpFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712142567; c=relaxed/simple;
-	bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vx5eH0W6JqXw8b8YyQh/kklvxLkI+wQFf2TrerQ96+Yc7GY1lBwmT0I6zOUcJaCqHr5aFOy7dd392MosNZSs7FJqzWOxdHR3kGNVjhEJk7dSxjpQbWN7SPodcafkAlju08rkiBUqQXGmuG+qtqN32UfxlGV2874P9QY623aN7zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=LpGzvPrl; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1712143344; c=relaxed/simple;
+	bh=flLoUByLGK4hXv0d7wMX/74B0BBNZZd/sIeSZIip6mY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jrP/dCrLBgf7l/6lE/EuK0Up6/WPomq78C/4Ad13BVbRfJV8Qn1wauK4DWHDpxWK/tPSwsn7A8mG4YYNPRuaFxsVLzEQYchGETztKsZKBVEeJY4VXWs5NsoCaeLQppu/3XFKUcubHo924T5jBw7f21o7KPnkmJOhSnCg47PAPTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DDJfiSBR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=uoMMMBa/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="LpGzvPrl"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513d212f818so6825396e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 04:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712142564; x=1712747364; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
-        b=LpGzvPrlS13OoUqmgHOaTiqK7sYd2b3XHXwWCIjK44+dTBhv4aIRWjyw9u8RI0WW44
-         hNvN2IoNtKUzMxAqrO0RjEHvZPfvLvCUb/WcK38jwV86gCY5f1ZNn2wz6jP3oaAfcOaZ
-         JEM75pTC2jemuSfai9r4/mbrawNB+Ah+ntyNjtPY1m9MnZmFXoS9FQNQl28mwDVIi6yp
-         BYBDa+6AhlXCLUFZJiIknKkU/Yzd19luq5LZVPG6Za02HjRQQZg8Kx9Ip78I1rZhKSeg
-         5X/2a3BL+uDd+mUqNdsTW/8aNI9Gy1oqUQ85odQB9c9SEZ8gQpCRvECtdkBmi5pNyY1g
-         TDYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712142564; x=1712747364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vMMeEdF7q5Dslk3ESkUVY4C2xbbVVOS/LDLiQqYUrzE=;
-        b=CO8+goi1tHM0mHUVCGcXmCwjqcH9z2J5TN9FQtFR86bkBKPNh4Ktm297aNqu9nQIgl
-         dTcEKQ/Ufqn+P3zJb97GHy8HUCM/N8rPNgvw7w45r9K5USFICfj9XNpgA0Fju0L4Bz1u
-         Dx1SvqQFALwht61DzA57KD6UlDRZJz13zQnrwtCBidSk0a5/A6l56FIzuPzrV0C4izxk
-         tY0SE7q/lm+qoMe/DoxrukAyy3YqMMvTyV/wnwISjbjHPgjE0bd47XtQb/ZYmw9m44RZ
-         xHAdLPvXUReHC6q3K1PghHGYXNcRpJXHWpiYGF50tdIY6WjQY2W0yRiKtHMnywCKc4Wr
-         HLGA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRI1f7DCJnJRVPcY4AeVD4IqUyswI6lPWsWr2MmLMlMBJOi9YL65RFjzu4WoXnAE5QkieMTs5XdAU4WlgFQPA7VehsxDOm7IFW
-X-Gm-Message-State: AOJu0YyfXeH1VdPM/oIHq2zqQczUaLyyqzNU8lI38UmmY2IL+yBvwm9+
-	9fzuzqLUOEGBuDoIaTQH7tDg+793UH+s7bmtsMJWmdOO5qPu7MV9didZ4Nk/dF4p6pxA7LfeZSF
-	tO8ASIQLfpmFN7MYCdHxj0kWmlHoxS8Cyeem2tQ==
-X-Google-Smtp-Source: AGHT+IE+KSmXFhVMcyJZLEkbye0ZYJjFaJcaj51lNhC7WdFyAu+ZtqEyfZmnsslyKb2iSISSTnL1654PSvzdq5Z6Gns=
-X-Received: by 2002:ac2:41c8:0:b0:515:95cd:6802 with SMTP id
- d8-20020ac241c8000000b0051595cd6802mr9184531lfi.64.1712142564017; Wed, 03 Apr
- 2024 04:09:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DDJfiSBR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="uoMMMBa/"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3841B35288;
+	Wed,  3 Apr 2024 11:22:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1712143340; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QUubzZCvH9kKHwxEUHRTCcZPEs1hSs/vSgYqSwznXr4=;
+	b=DDJfiSBRvnRvc0NSrGBWmcDhD8fe7TOALaFjEzp2fpBhtYpI4jGxQKLA3+l1QQzdMRimzX
+	IQEap34DDcTzJQ9Yq3z062vzUdnUQNrGZf8I3Oe/jr3My0RIbNu6t7omRzXWMbpabspnLc
+	PLp6IF8n+5lEVbD2mOAQMSJezSx2cBk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1712143340;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QUubzZCvH9kKHwxEUHRTCcZPEs1hSs/vSgYqSwznXr4=;
+	b=uoMMMBa/IrIQ9KZDERsDt9OoPPcUgK86+ANehXQPJPaMYhaZWnL43IEBU2MBLVQBwplHKn
+	5oHScmosS95C5kAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 28DB813357;
+	Wed,  3 Apr 2024 11:22:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id hubzCew7DWb0IAAAn2gu4w
+	(envelope-from <jack@suse.cz>); Wed, 03 Apr 2024 11:22:20 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id CBB66A0814; Wed,  3 Apr 2024 13:22:04 +0200 (CEST)
+Date: Wed, 3 Apr 2024 13:22:04 +0200
+From: Jan Kara <jack@suse.cz>
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Brian Foster <bfoster@redhat.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 07/13] ext4: fiemap: return correct extent physical
+ length
+Message-ID: <20240403112204.l5zmyirxueod2o5l@quack3>
+References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
+ <20935230b7513031ac497e3afe8446650d20fb1e.1712126039.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240307135109.3778316-1-andriy.shevchenko@linux.intel.com> <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
-In-Reply-To: <ZgxRzyQGeSAl4MzX@smile.fi.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 3 Apr 2024 13:09:13 +0200
-Message-ID: <CAMRc=Md_81qY02=XPmQA5_EWRC1eU0zYAjRwjbAGxvGg2kOL+A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] gpiolib: Get rid of gpio_free_array()/gpio_request_array()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Linus Walleij <linus.walleij@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20935230b7513031ac497e3afe8446650d20fb1e.1712126039.git.sweettea-kernel@dorminy.me>
+X-Spam-Score: -1.03
+X-Spamd-Result: default: False [-1.03 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-0.999];
+	 RCPT_COUNT_TWELVE(0.00)[20];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.23)[72.57%]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Tue, Apr 2, 2024 at 8:43=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Thu, Mar 07, 2024 at 03:49:02PM +0200, Andy Shevchenko wrote:
-> > There are only two users left of the gpio_free_array()/gpio_request_arr=
-ay().
-> > Convert them to very basic legacy APIs (it requires much less work for
-> > now) and drop no more used gpio_free_array()/gpio_request_array().
->
-> Any comments on this? We really want to get rid of the legacy APIs.
->
+On Wed 03-04-24 03:22:48, Sweet Tea Dorminy wrote:
+> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+> ---
+>  fs/ext4/extents.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+> index 2adade3c202a..4874f757e1bd 100644
+> --- a/fs/ext4/extents.c
+> +++ b/fs/ext4/extents.c
+> @@ -2194,7 +2194,7 @@ static int ext4_fill_es_cache_info(struct inode *inode,
+>  
+>  	while (block <= end) {
+>  		next = 0;
+> -		flags = 0;
+> +		flags = FIEMAP_EXTENT_HAS_PHYS_LEN;
 
-I applied the patches, they only touch the GPIO part in legacy
-platform code. It's not very controversial IMO.
+OK, but we should then pass (__u64)es.es_len << blksize_bits as physical
+extent length below, shouldn't we?
 
-Bart
+>  		if (!ext4_es_lookup_extent(inode, block, &next, &es))
+>  			break;
+>  		if (ext4_es_is_unwritten(&es))
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
