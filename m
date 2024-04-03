@@ -1,145 +1,185 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93782135A5F;
-	Wed,  3 Apr 2024 11:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365AB142E75
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 12:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712143568; cv=none; b=W80qhDDO76VDR+N60i53ATVqyo2W4UeBto4H90QochrkoCSAcDgVZ7ZioRkntTUvHE2cRQmMmp6vUxYPK+VD5RPxOTPEyldzTROq3gMtPAFVjppqKjWXG4yDJ+I/xh7i2nHXdK3iK0uuY1REMGSKV/oaZVh2YE+AYIMIdAH8fEk=
+	t=1712146406; cv=none; b=HsplXc/RFlLHmZZSZv12vg1xU+k0YQlMm6fdoeLIAF63FtajVMB8X4VuN3R6SAgNpu91lCwUGs3FnQW8N1S15M5oN+oIJSBn+2yW9x5RVpXmtjp5qQwEb3FwRHi8KDey80bCMnIQtolP1YH64OIoK/ayAfFYic73rbA73YpbI/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712143568; c=relaxed/simple;
-	bh=B1D7E4BM5v4MwQPNkDEDRTd/yHE8sU0PvvLfbGkYHFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QCPWCRvblYLrkO55KEVq2Ojgpdw/yLJWwtpZy8ki2WMBwZWY/qAuwb4yAccJdTgPaM4ahMp+ZOIz9E5vVeVGpB1Mucefa2Doibeea/sYE+XsRZeYkcAr2ZhGL+e68ixIklLATEevoS+FuRSxWT/We2Q/56QFm5jRSJMz3yyugUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=V6ezk5Mn; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=oHe68Sjy; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1712146406; c=relaxed/simple;
+	bh=hPesv8A+iZqlRr7D/fKBzdPB01WTru5uB9GQT6XWXBA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BEAfcGtQ8reZrvqEyl/MdxpyxbDKYGHnDK4Vud2Dq/73Yzr2Nf3J/a9wjummMgmUU5cgBBRxIktEZBSKQg8/tOm0SC2T6Nq+7RT1CAZzdHkYCWPDhY3zKeeT6ycj7f0dB8+0F4VB5M22Z4HpoAraFQVKdsdZmk0DiZf9h8zmfmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YX3rn5Gw; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="V6ezk5Mn";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="oHe68Sjy"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CBCBE35299;
-	Wed,  3 Apr 2024 11:26:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1712143563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54XuIdUwF3kNBca8B3d+4aw8AC5z3K/ax7Sw1nc33og=;
-	b=V6ezk5MnIOqz3bzeAZk3jMav5NApJuUwfgsrdqb/bT5QyNgBI4m8t7INejzbjsNHs3YsLQ
-	8Qh8+VrfFymHsI+c1Aj+fI2zL5ma1coKb03PCGQeABW2vQjs623sx+Zgj+joEAiHbGdMMO
-	CRZiMBcYYNwKLhjdBZPhSlksKWWTe7A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1712143563;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54XuIdUwF3kNBca8B3d+4aw8AC5z3K/ax7Sw1nc33og=;
-	b=oHe68SjyGtvEBCK+yhyWBnBmmLpoNa+Xyp4nigoxHletQHBaiGGyitBS8+Jv8W8+DuhYpP
-	xPMLUCz5BgUl6uCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id C04C81331E;
-	Wed,  3 Apr 2024 11:26:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id lIruLss8DWYiIgAAn2gu4w
-	(envelope-from <jack@suse.cz>); Wed, 03 Apr 2024 11:26:03 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 81366A0814; Wed,  3 Apr 2024 13:25:55 +0200 (CEST)
-Date: Wed, 3 Apr 2024 13:25:55 +0200
-From: Jan Kara <jack@suse.cz>
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Brian Foster <bfoster@redhat.com>, Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3 10/13] ocfs2: fiemap: return correct extent physical
- length
-Message-ID: <20240403112555.nj2l5jw2xjrsud3y@quack3>
-References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
- <0b492e10a9034c8fb08ca654c06471575e8bb96d.1712126039.git.sweettea-kernel@dorminy.me>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YX3rn5Gw"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5a52c5c96feso2321218eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 05:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712146403; x=1712751203; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bjRKejsFXZQk8rarEOCmsLs+7H5bp8Y0BYC9TTvN18I=;
+        b=YX3rn5GwaosHxCHilbTPQCORORsaR4ajnbYDhjFcP92Mkbg49O9Tk7I5KVy1WHDA42
+         06nyR1r0pi4BIZ1b6bCH/WzefoX+i89NKjG2fbxRbf+xJ3NHT9UKA60TkOGNv0hYpWxK
+         TsE2Or3IPL4+OFNWrQtTrMiuuVyMwTdph4sT+VnHsgV0O8tTwxZXJbLouyXx+vNiB1S+
+         1MQpSkVUihGin50cZpGRHJqZ0lSNDyOkhOeiEbRJu/DD2T4CizsUB9lnJhYKvszcAIdQ
+         +RSO+zY+DavmK+eV0BqFf2kYym4ErtHoEoFmePlhZwlQeXaxgmzlMZ2qtvaHMIrL5FOx
+         Oz8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712146403; x=1712751203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bjRKejsFXZQk8rarEOCmsLs+7H5bp8Y0BYC9TTvN18I=;
+        b=ptResZITpOnDzZ3FUocI9GtbwskHceM5ObYzTfM0uFQ07PXslxMcRKT7sQEzg5RMEK
+         U2ZYHj1RKJA5ApVXTkN55qqajQFWIqbR9zIKbxdgawJ/7wFgDUu0lSbOMoAvsmrFsYDT
+         b7o2R9P56J2riyhwbj99G+t2e+64SR/0/SpkF0+qweSPIcbC4NNu8RHtNtHzA85vlau8
+         2T0uos1Ysx413I86PBRxECzWtu8YefSZ/Vk7HTem/ZrZ3Y4wfqaF4uQEO482kiTITZf5
+         NSFnL804xQixRNYhBedFj2Yzh67K+3IPMPJ24z7WEHrSWfW9k0CTBfvXC38HpGiBjeQq
+         xMUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUPGDT+mxjMU3vZYgx9NU4iT9twTMO/u1jpuU42KVS8qAcejWgZX/TdO6wVSLWgf5vKEzea2WlSCKeXmRMEWA3+fADHVlFwnGzw
+X-Gm-Message-State: AOJu0YzvBBIPvsLh7o9IpnyQQ7e6vihZ7B+b10twY0RHBih78kek/68b
+	cT8HIPkasVpebyweiLEbpMK5Frks44RV8v8tnrBRq3WETgOigAx8Ao1LSbkcCfMt8cKP2tqXUyL
+	QCTQZS+mDGb6bQFYX0F+1zlOLySDupn/ZVrsyiQ==
+X-Google-Smtp-Source: AGHT+IFbaWK7QqXfEXj6KV33OwI/JaywKWSpgbqcwNxYrTYrdHmVOJ3P8JY85HhjUaZGh1s/c302EEresHr+B2qWtQg=
+X-Received: by 2002:a05:6820:99b:b0:5a5:8b0a:60cb with SMTP id
+ cg27-20020a056820099b00b005a58b0a60cbmr14955489oob.1.1712146403337; Wed, 03
+ Apr 2024 05:13:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b492e10a9034c8fb08ca654c06471575e8bb96d.1712126039.git.sweettea-kernel@dorminy.me>
-X-Spam-Score: -3.71
-X-Spamd-Result: default: False [-3.71 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-0.999];
-	 RCPT_COUNT_TWELVE(0.00)[20];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-2.91)[99.60%]
-X-Spam-Level: 
-X-Spam-Flag: NO
+References: <20240325151105.135667-1-balint.dobszay@arm.com>
+In-Reply-To: <20240325151105.135667-1-balint.dobszay@arm.com>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Wed, 3 Apr 2024 14:13:12 +0200
+Message-ID: <CAHUa44H-7V8SjEt6Xj5+hW-nAVMkuRC=pwvsgyGyzcgVaOXTYw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] TEE driver for Trusted Services
+To: Balint Dobszay <balint.dobszay@arm.com>
+Cc: op-tee@lists.trustedfirmware.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	sumit.garg@linaro.org, corbet@lwn.net, sudeep.holla@arm.com, 
+	rdunlap@infradead.org, krzk@kernel.org, gyorgy.szing@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 03-04-24 03:22:51, Sweet Tea Dorminy wrote:
-> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-> ---
->  fs/ocfs2/extent_map.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/ocfs2/extent_map.c b/fs/ocfs2/extent_map.c
-> index eabdf97cd685..229ea45df37b 100644
-> --- a/fs/ocfs2/extent_map.c
-> +++ b/fs/ocfs2/extent_map.c
-> @@ -705,7 +705,9 @@ static int ocfs2_fiemap_inline(struct inode *inode, struct buffer_head *di_bh,
->  	unsigned int id_count;
->  	struct ocfs2_dinode *di;
->  	u64 phys;
-> -	u32 flags = FIEMAP_EXTENT_DATA_INLINE|FIEMAP_EXTENT_LAST;
-> +	u32 flags = (FIEMAP_EXTENT_DATA_INLINE|
-> +		     FIEMAP_EXTENT_HAS_PHYS_LEN|
-> +		     FIEMAP_EXTENT_LAST);
->  	struct ocfs2_inode_info *oi = OCFS2_I(inode);
->  
->  	di = (struct ocfs2_dinode *)di_bh->b_data;
-> @@ -782,7 +784,7 @@ int ocfs2_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
->  			continue;
->  		}
->  
-> -		fe_flags = 0;
-> +		fe_flags = FIEMAP_EXTENT_HAS_PHYS_LEN;
->  		if (rec.e_flags & OCFS2_EXT_UNWRITTEN)
->  			fe_flags |= FIEMAP_EXTENT_UNWRITTEN;
->  		if (rec.e_flags & OCFS2_EXT_REFCOUNTED)
+On Mon, Mar 25, 2024 at 4:11=E2=80=AFPM Balint Dobszay <balint.dobszay@arm.=
+com> wrote:
+>
+> This series introduces a TEE driver for Trusted Services [1].
+>
+> Trusted Services is a TrustedFirmware.org project that provides a
+> framework for developing and deploying device Root of Trust services in
+> FF-A [2] Secure Partitions. The project hosts the reference
+> implementation of Arm Platform Security Architecture [3] for Arm
+> A-profile devices.
+>
+> The FF-A Secure Partitions are accessible through the FF-A driver in
+> Linux. However, the FF-A driver doesn't have a user space interface so
+> user space clients currently cannot access Trusted Services. The goal of
+> this TEE driver is to bridge this gap and make Trusted Services
+> functionality accessible from user space.
+>
+> Changelog:
+> v3[7] -> v4:
+>   - Remove unnecessary callbacks from tstee_ops
+>   - Add maintainers entry for the new driver
+>
+> v2[6] -> v3:
+>   - Add patch "tee: Refactor TEE subsystem header files" from Sumit
+>   - Remove unnecessary includes from core.c
+>   - Remove the mutex from "struct ts_context_data" since the same
+>     mechanism could be implemented by reusing the XArray's internal lock
+>   - Rename tee_shm_pool_op_*_helper functions as suggested by Sumit
+>   - Replace pr_* with dev_* as previously suggested by Krzysztof
+>
+> v1[5] -> v2:
+>   - Refactor session handling to use XArray instead of IDR and linked
+>     list (the linked list was redundant as pointed out by Jens, and IDR
+>     is now deprecated in favor of XArray)
+>   - Refactor tstee_probe() to not call tee_device_unregister() before
+>     calling tee_device_register()
+>   - Address comments from Krzysztof and Jens
+>   - Address documentation comments from Randy
+>   - Use module_ffa_driver() macro instead of separate module init / exit
+>     functions
+>   - Reformat max line length 100 -> 80
+>
+> RFC[4] -> v1:
+>   - Add patch for moving pool_op helper functions to the TEE subsystem,
+>     as suggested by Jens
+>   - Address comments from Sumit, add patch for documentation
+>
+> [1] https://www.trustedfirmware.org/projects/trusted-services/
+> [2] https://developer.arm.com/documentation/den0077/
+> [3] https://www.arm.com/architecture/security-features/platform-security
+> [4] https://lore.kernel.org/linux-arm-kernel/20230927152145.111777-1-bali=
+nt.dobszay@arm.com/
+> [5] https://lore.kernel.org/lkml/20240213145239.379875-1-balint.dobszay@a=
+rm.com/
+> [6] https://lore.kernel.org/lkml/20240223095133.109046-1-balint.dobszay@a=
+rm.com/
+> [7] https://lore.kernel.org/lkml/20240305101745.213933-1-balint.dobszay@a=
+rm.com/
+>
+>
+> Balint Dobszay (4):
+>   tee: optee: Move pool_op helper functions
+>   tee: tstee: Add Trusted Services TEE driver
+>   Documentation: tee: Add TS-TEE driver
+>   MAINTAINERS: tee: tstee: Add entry
+>
+> Sumit Garg (1):
+>   tee: Refactor TEE subsystem header files
+>
+>  Documentation/tee/index.rst         |   1 +
+>  Documentation/tee/ts-tee.rst        |  71 ++++
+>  MAINTAINERS                         |  10 +
+>  drivers/tee/Kconfig                 |   1 +
+>  drivers/tee/Makefile                |   1 +
+>  drivers/tee/amdtee/amdtee_private.h |   2 +-
+>  drivers/tee/amdtee/call.c           |   2 +-
+>  drivers/tee/amdtee/core.c           |   3 +-
+>  drivers/tee/amdtee/shm_pool.c       |   2 +-
+>  drivers/tee/optee/call.c            |   2 +-
+>  drivers/tee/optee/core.c            |  66 +---
+>  drivers/tee/optee/device.c          |   2 +-
+>  drivers/tee/optee/ffa_abi.c         |   8 +-
+>  drivers/tee/optee/notif.c           |   2 +-
+>  drivers/tee/optee/optee_private.h   |  14 +-
+>  drivers/tee/optee/rpc.c             |   2 +-
+>  drivers/tee/optee/smc_abi.c         |  11 +-
+>  drivers/tee/tee_core.c              |   2 +-
+>  drivers/tee/tee_private.h           |  35 --
+>  drivers/tee/tee_shm.c               |  66 +++-
+>  drivers/tee/tee_shm_pool.c          |   2 +-
+>  drivers/tee/tstee/Kconfig           |  11 +
+>  drivers/tee/tstee/Makefile          |   3 +
+>  drivers/tee/tstee/core.c            | 480 ++++++++++++++++++++++++++++
+>  drivers/tee/tstee/tstee_private.h   |  92 ++++++
+>  include/linux/tee_core.h            | 306 ++++++++++++++++++
+>  include/linux/tee_drv.h             | 285 ++---------------
+>  include/uapi/linux/tee.h            |   1 +
+>  28 files changed, 1094 insertions(+), 389 deletions(-)
+>  create mode 100644 Documentation/tee/ts-tee.rst
+>  create mode 100644 drivers/tee/tstee/Kconfig
+>  create mode 100644 drivers/tee/tstee/Makefile
+>  create mode 100644 drivers/tee/tstee/core.c
+>  create mode 100644 drivers/tee/tstee/tstee_private.h
+>  create mode 100644 include/linux/tee_core.h
+>
+> --
+> 2.34.1
+>
 
-Again, we should be passing non-zero phys_len if we set
-FIEMAP_EXTENT_HAS_PHYS_LEN flag AFAIU.
+I'm picking up this patch set.
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Thanks,
+Jens
