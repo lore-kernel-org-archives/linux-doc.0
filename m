@@ -1,175 +1,105 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8878692FC;
-	Wed,  3 Apr 2024 22:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593EA156881
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 22:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712184215; cv=none; b=AgdDT4A8AcahetffZR4Sy+JMDpmQ61F6A0vbdi9WunUsAOJLAfsDxOIOnVXzKKJOS7sXSZyPtuR4WiPCjYdjmfNgxsz6IGc1AF87El6BtUHm4hrKaz4011wqE9hBwDj3oIkDB0WwAKOUUEZUoITeUHuSRQ82XmJIK9A2367fzhQ=
+	t=1712185064; cv=none; b=rKfBo9GY88w6QqPishKW+3fxN/cBIPGdOc5q0aVZFT1ViWGfZsept610dCzrWenj5H09jqqZ7B66cAICI8K23wtrs3D1CFNqC438eA0Jo69QTEgUH1j2L8Hw6/Ffs94sDq5JlhzybpFKQU04k2i5zXabsbtuTvkZZ35pzsky+gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712184215; c=relaxed/simple;
-	bh=lOubGtR80AaNFh/cJV+FIWAPhTfv5Muj74fW8EsJv/8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YYqePKeCVGu54hdpwrsqdJ8fi6a3DpT/+2Jx+6dYUr9wmdy8+gjhmo8FcmKgrceKald8XvX0JoCbJ73ctV1RS30ybWYD0xuypz0omC3O2pZK/8xKg0BqSrf8shUAe0q2iJccaSUIt/o7qwIjJVfWlCn1qXp1M2hcNlkDUYzmCF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3OD0jh+; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712185064; c=relaxed/simple;
+	bh=rSC5AEVZmjhxZcqf+HrPUcVtv4hsU7DupAfE4SmRWDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VbYuBILgXEA6oBy5yE7MiYTnoXHWt53ygcdXdSTcwaziLPAe+NjZuQ4XU6gQJkWoRId/hCMRNkzMHjeH1Xln9zmIU1q01jPdTaTZJ7IRYjhIwJk77Agq/6O7h6Npeo9BFA6sv3DPmh4aYnzt93UXTlj1fx2Za5Us3RvObPVD9ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=altBgIa+; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3OD0jh+"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2a2d159e4ffso54054a91.1;
-        Wed, 03 Apr 2024 15:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712184213; x=1712789013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=W3OD0jh+2Eb5DfkfsJ0BhdCOBuT4l1oJKKlvJVZQ5FVlrtCj/aJ1uArWxbzQYHTqmA
-         RZYygt0OlHAaL71kIj3tXNyo1CCJ+CUIdJscCPrvK2+ddAFQPOcQ2CBolxi6N/RaDB62
-         fqhdvg7J++5ax5xsx0ycqq5OzAemctb10zCwOMKHecOFYneuWGNTS+uYYXMZ+HEhBWfP
-         mgQsQ0ZKySnUQ/wwxS2V9F09UDLNTnZ4dR6+Z949IROEx/qAV4P2vdv4vZGo9W/KNdlZ
-         ELts58k/V4Z6Q4qcs7RLoE7snzTc+utZdc05zj1DEoc4DlYaO0Lnfi7y0FV57fbxdaN3
-         MziA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712184213; x=1712789013;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=qRSvbdc6cQ7agMRABSabG5LfFGGFZrprMhrVniKt00a93AmPPqF2v1gXHdP37h1P+U
-         4avIMLvDvDcBrtQfYZXUYP8EwGM4ZTl+KmEANuZPvp+K7R5JVu3RCoAUiFSGTVkF8oWi
-         +CP2OSC1lce4scjElf9ayb1Qxmofm1roJS9kr2Rg8Nu4h3Bo0TFj49bnJuaFFHOpn9jy
-         rNHH1zcdVxxsEF4UdXxFi73NPKzrfdfqELlk1Mer132AiW5lVov3ICr8Pp8wijrJyVOw
-         2glyVWH0FNEmSD1nJRDv4sXzfohTF4/Qra8xTzX7+M+S/K5h5fQUojGACkKcEYzbHDQA
-         zfww==
-X-Forwarded-Encrypted: i=1; AJvYcCUoHNEhduy1jgPKZr3a/ya1HrEpKPEoonN9vnZ6/KEZJaoJ79OPWj3Ob3qauUIKCMM4nhlxvnizVv32AlkE4/yDc+hYYXqsQNjL1O94+XTxOIfyY9QXCg0oNx7CE55H8AYLHBg70ezaEuvjuxT5SSe9+pwx1ZDEKrmjwwe4ltdpX8Kn
-X-Gm-Message-State: AOJu0YxsoX8eo2+PvqRjDYMB9wWPx5BliIz6HkmyaYZYP67Pbbi/Ylbl
-	O1HA0AVT1ZTUvQir9/CNl7E7Z/hhiKPtEherNpKpH8XD8WAx6SM3
-X-Google-Smtp-Source: AGHT+IHou4AJqLm8+IeQGJUuH8c7Wq/7OSMZ7wXA890VZ2cnN0mGXEfhLE/66T7EWveDYzRPE/RIWQ==
-X-Received: by 2002:a17:90a:d48b:b0:2a2:c388:bb36 with SMTP id s11-20020a17090ad48b00b002a2c388bb36mr1387422pju.11.1712184212960;
-        Wed, 03 Apr 2024 15:43:32 -0700 (PDT)
-Received: from barry-desktop.hub ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id 13-20020a630b0d000000b005e840ad9aaesm12184383pgl.30.2024.04.03.15.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 15:43:32 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: akpm@linux-foundation.org,
-	linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org
-Cc: apw@canonical.com,
-	broonie@kernel.org,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	joe@perches.com,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Charlemagne Lasse <charlemagnelasse@gmail.com>
-Subject: [PATCH v6 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Thu,  4 Apr 2024 11:42:54 +1300
-Message-Id: <20240403224254.10313-3-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240403224254.10313-1-21cnbao@gmail.com>
-References: <20240403224254.10313-1-21cnbao@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="altBgIa+"
+Date: Wed, 3 Apr 2024 18:57:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1712185059;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AWtiyFTqYKwdJDHyaCD82L5617uAdz2F4Sz0PAghbhE=;
+	b=altBgIa+MeRE72rlksdac4u+jogeiW19C04WbQpYqlQTv7yFrJi+DeOIswL1ev0MHQMoJz
+	3P/blHm1a9ObCUExPNH7tB1oeAvKxRHvqrARJ69T91VOSSObtkLUGmQ7Nd8eHpwXRM9vPE
+	nRIje5E5zoSDcqJDGAKpSrukrB99Ej0=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: David Hildenbrand <david@redhat.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, dennis@kernel.org, 
+	jhubbard@nvidia.com, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, 
+	paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com, 
+	yuzhao@google.com, dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
+	aliceryhl@google.com, rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	kernel-team@android.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v6 01/37] fix missing vmalloc.h includes
+Message-ID: <qyyo6mjctqm734utdjen4ozhoo3t4ikswzjfjnemp7olwdgyt4@qifwishdzul4>
+References: <20240321163705.3067592-1-surenb@google.com>
+ <20240321163705.3067592-2-surenb@google.com>
+ <20240403211240.GA307137@dev-arch.thelio-3990X>
+ <4qk7f3ra5lrqhtvmipmacgzo5qwnugrfxn5dd3j4wubzwqvmv4@vzdhpalbmob3>
+ <9e2d09f8-2234-42f3-8481-87bbd9ad4def@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e2d09f8-2234-42f3-8481-87bbd9ad4def@redhat.com>
+X-Migadu-Flow: FLOW_OUT
 
-From: Xining Xu <mac.xxn@outlook.com>
+On Wed, Apr 03, 2024 at 11:48:12PM +0200, David Hildenbrand wrote:
+> On 03.04.24 23:41, Kent Overstreet wrote:
+> > On Wed, Apr 03, 2024 at 02:12:40PM -0700, Nathan Chancellor wrote:
+> > > On Thu, Mar 21, 2024 at 09:36:23AM -0700, Suren Baghdasaryan wrote:
+> > > > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > > > 
+> > > > The next patch drops vmalloc.h from a system header in order to fix
+> > > > a circular dependency; this adds it to all the files that were pulling
+> > > > it in implicitly.
+> > > > 
+> > > > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > 
+> > > I bisected an error that I see when building ARCH=loongarch allmodconfig
+> > > to commit 302519d9e80a ("asm-generic/io.h: kill vmalloc.h dependency")
+> > > in -next, which tells me that this patch likely needs to contain
+> > > something along the following lines, as LoongArch was getting
+> > > include/linux/sizes.h transitively through the vmalloc.h include in
+> > > include/asm-generic/io.h.
+> > 
+> > gcc doesn't appear to be packaged for loongarch for debian (most other
+> > cross compilers are), so that's going to make it hard for me to test
+> > anything...
+> 
+> The latest cross-compilers from Arnd [1] include a 13.2.0 one for
+> loongarch64 that works for me. Just in case you haven't heard of Arnds work
+> before and want to give it a shot.
+> 
+> [1] https://mirrors.edge.kernel.org/pub/tools/crosstool/
 
-If function-like macros do not utilize a parameter, it might result in a
-build warning.  In our coding style guidelines, we advocate for utilizing
-static inline functions to replace such macros.  This patch verifies
-compliance with the new rule.
-
-For a macro such as the one below,
-
- #define test(a) do { } while (0)
-
-The test result is as follows.
-
- WARNING: Argument 'a' is not used in function-like macro
- #21: FILE: mm/init-mm.c:20:
- +#define test(a) do { } while (0)
-
- total: 0 errors, 1 warnings, 8 lines checked
-
-Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-Tested-by: Barry Song <v-songbaohua@oppo.com>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Charlemagne Lasse <charlemagnelasse@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
- scripts/checkpatch.pl                  |  6 ++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 127968995847..a9fac978a525 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -906,6 +906,20 @@ Macros, Attributes and Symbols
- 
-     See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725/
- 
-+  **MACRO_ARG_UNUSED**
-+    If function-like macros do not utilize a parameter, it might result
-+    in a build warning. We advocate for utilizing static inline functions
-+    to replace such macros.
-+    For example, for a macro such as the one below::
-+
-+      #define test(a) do { } while (0)
-+
-+    there would be a warning like below::
-+
-+      WARNING: Argument 'a' is not used in function-like macro.
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-+
-   **SINGLE_STATEMENT_DO_WHILE_MACRO**
-     For the multi-statement macros, it is necessary to use the do-while
-     loop to avoid unpredictable code paths. The do-while loop helps to
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9c4c4a61bc83..9895d7e38a9f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6040,6 +6040,12 @@ sub process {
- 					CHK("MACRO_ARG_PRECEDENCE",
- 					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
- 				}
-+
-+# check if this is an unused argument
-+				if ($define_stmt !~ /\b$arg\b/) {
-+					WARN("MACRO_ARG_UNUSED",
-+						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+				}
- 			}
- 
- # check for macros with flow control, but without ## concatenation
--- 
-2.34.1
-
+Thanks for the pointer - but something seems to be busted with the
+loongarch build, if I'm not mistaken; one of the included headers
+references loongarch-def.h, but that's not included.
