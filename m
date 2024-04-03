@@ -1,132 +1,174 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72C014900C;
-	Wed,  3 Apr 2024 14:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B38D272;
+	Wed,  3 Apr 2024 14:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712153643; cv=none; b=fs3RfVb6VvVorO1XSf3Kjw5Vzy5qRKbbaH/0lSCOncW8RroT6usF4Yu4mc2vqWjMQfF0Wqgn5uTmJu6dFJhSLE06AsJRUHC9yt8ThmDPBLWFrwu0Oz7UKMtWX0pkL2DecR5Kek+DX95O53fz7OVlZbarqVcYUOPv2s6ggd0ZL3o=
+	t=1712154705; cv=none; b=WcgeDu01JuQW87Zf06uZGwPxmaf23oyoAVaBLWuyqPeHpQ8NfsxEYXamr+K8wIewyKCaR7UAdXU7e8Zxv1abOmDZ53WlTdF78Ckkh21v91PrFwUvKKYATnLM5zGIImMZ0n9IA3HhuoGu6ycAwTOg5SNiul3y+rOkdgSrVI/DNjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712153643; c=relaxed/simple;
-	bh=DwlKSANN19zo2hxwH89sP0PAV6BFj/6aU1fv2ORo6Dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Pny23h5cV/Sd63GEkWj32LyZmtqacd325tqxZZTfAR+GAasMq2SoO6nNfT22M2PpLyZ0Vz0lVzHiv/86VbnnGKFGiCP69RUPB1k6zssrkxkbLoXuDMMWQ9BqgnetxVyCdCrZTaAXmfN1Ptkikb1b3OXh9sD+w+bKNq6KSLnVIso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=FsgdTNda; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1712154705; c=relaxed/simple;
+	bh=awzNNZdI5HcMDUhEsGuSnb6/bioiSNUyQOEbMy3wFkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b8ycIvMxLMziBy9rrifKZIGfa1+n4g7uSVa9ttNWbgsSpsrJo4QcFEFRR0pfdI2h5cO6oWYBbqC1/L9UxDxItmxgT1mlCrCULmzlWaNOXdFqlTfXEXRNYoWSVjHcxdRcJv5or5x/pRwzBsecGo1NWjOqf8nkKS2zcCJMEV43Yjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DPbur/z4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="FsgdTNda"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:To:Subject:MIME-Version:Date:Message-ID:
-	From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=s2Hjna+7Gigv0uDBX5QjiFF/xA8CsPgyBJQvKbNatcs=; t=1712153641;
-	x=1712585641; b=FsgdTNdap3z+fS9b1TDqtQ8umiugpRhQZ6NecB2dCrUzEfqtpfAkgtAQbTSnd
-	Ns4SyFDNMdtTV/Kog1UpUz6DjBUQV4ahKqxpCjDftUQdfglfdbHy4Us9eUpYUpsOXAfheaNWkS3aP
-	vNKbog4lim5PxQ5013JfA7iUuue+RMHXPySeY2oKFbHI8tDZ5XXBlTyNBlpK8ZvdxKq/lLccdQgyX
-	9Sw0N6F619STqECYGBb+MSHW/hN7DQpU3qrv7M+s/Aaa6qJPSldaWMnUP/wZJDlc/qXwzXGaL75CU
-	1zqB+JMt2fF+Q2QUkHvm07Nm1Xo6WBT3CQKwgZtRUU73A1F+Jg==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rs1NC-0008IN-EQ; Wed, 03 Apr 2024 16:13:54 +0200
-Message-ID: <3e53f18c-12aa-4bf8-b3f7-7945bbca6882@leemhuis.info>
-Date: Wed, 3 Apr 2024 16:13:53 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DPbur/z4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE051C433F1;
+	Wed,  3 Apr 2024 14:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712154705;
+	bh=awzNNZdI5HcMDUhEsGuSnb6/bioiSNUyQOEbMy3wFkM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DPbur/z4a1tQGEOZanah0R5lQ40TUPfDY6onBOSULbDggoXDaa6XJlzOl5449fH1H
+	 orrjhONQ+tBaJewJdR1NbiPAxAKoKqCihxzjaxJ/c/JSYol0i4gVmPL1G+CETej73T
+	 L4CevX5bm3JoMhgDu4BDtPLqBDZgPwgXebq1/f1BUtnv6DLd0qxi6klKbPjjrwcCwD
+	 QrqCYWqQOrHfSy+R/gku28usZNMd3AKh87sIhB6tHjjfyVBugCmkGK9/VPrKbpFl6w
+	 7YhMetzwM7LnqvGLx479DRvuqF5HrX/B/LQJpVyQTguBkc9YFzpBbWe2QH8OIk+Yyx
+	 NNS7WMYUjX6Iw==
+Date: Wed, 3 Apr 2024 09:31:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <20240403143142.GA3508225-robh@kernel.org>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
+ <20240402132637.GA3744978-robh@kernel.org>
+ <20240403111548.30e780b5@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] docs: *-regressions.rst: unify quoting, add missing
- word
-To: Karel Balej <balejk@matfyz.cz>, Jonathan Corbet <corbet@lwn.net>,
- regressions@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-References: <20240328194342.11760-1-balejk@matfyz.cz>
- <20240328194342.11760-2-balejk@matfyz.cz>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20240328194342.11760-2-balejk@matfyz.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1712153641;1673022d;
-X-HE-SMSGID: 1rs1NC-0008IN-EQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403111548.30e780b5@kmaincent-XPS-13-7390>
 
-On 28.03.24 20:29, Karel Balej wrote:
-> Quoting of the '"no regressions" rule' expression differs between
-> occurrences, sometimes being presented as '"no regressions rule"'. Unify
-> the quoting using the first form which seems semantically correct or is
-> at least used dominantly, albeit marginally.
+On Wed, Apr 03, 2024 at 11:15:48AM +0200, Kory Maincent wrote:
+> On Tue, 2 Apr 2024 08:26:37 -0500
+> Rob Herring <robh@kernel.org> wrote:
 > 
-> One of the occurrences is obviously missing the 'rule' part -- add it.
+> > > +          pairset-names:
+> > > +            $ref: /schemas/types.yaml#/definitions/string-array
+> > > +            description:
+> > > +              Names of the pairsets as per IEEE 802.3-2022, Section
+> > > 145.2.4.
+> > > +              Valid values are "alternative-a" and "alternative-b". Each
+> > > name  
+> > 
+> > Don't state constraints in prose which are defined as schema 
+> > constraints.
 > 
-> Signed-off-by: Karel Balej <balejk@matfyz.cz>
-
-Thx for this:
-
-Reviewed-by: Thorsten Leemhuis <linux@leemhuis.info>
-
-Ciao, Thorsten
-
-
-> ---
->  Documentation/admin-guide/reporting-regressions.rst | 10 +++++-----
->  Documentation/process/handling-regressions.rst      |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
+> Ok, I will remove the line.
 > 
-> diff --git a/Documentation/admin-guide/reporting-regressions.rst b/Documentation/admin-guide/reporting-regressions.rst
-> index 76b246ecf21b..946518355a2c 100644
-> --- a/Documentation/admin-guide/reporting-regressions.rst
-> +++ b/Documentation/admin-guide/reporting-regressions.rst
-> @@ -42,12 +42,12 @@ The important basics
->  --------------------
->  
->  
-> -What is a "regression" and what is the "no regressions rule"?
-> +What is a "regression" and what is the "no regressions" rule?
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  It's a regression if some application or practical use case running fine with
->  one Linux kernel works worse or not at all with a newer version compiled using a
-> -similar configuration. The "no regressions rule" forbids this to take place; if
-> +similar configuration. The "no regressions" rule forbids this to take place; if
->  it happens by accident, developers that caused it are expected to quickly fix
->  the issue.
->  
-> @@ -173,7 +173,7 @@ Additional details about regressions
->  ------------------------------------
->  
->  
-> -What is the goal of the "no regressions rule"?
-> +What is the goal of the "no regressions" rule?
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  Users should feel safe when updating kernel versions and not have to worry
-> @@ -199,8 +199,8 @@ Exceptions to this rule are extremely rare; in the past developers almost always
->  turned out to be wrong when they assumed a particular situation was warranting
->  an exception.
->  
-> -Who ensures the "no regressions" is actually followed?
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +Who ensures the "no regressions" rule is actually followed?
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  
->  The subsystem maintainers should take care of that, which are watched and
->  supported by the tree maintainers -- e.g. Linus Torvalds for mainline and
-> diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-> index ce6753a674f3..49ba1410cfce 100644
-> --- a/Documentation/process/handling-regressions.rst
-> +++ b/Documentation/process/handling-regressions.rst
-> @@ -284,7 +284,7 @@ What else is there to known about regressions?
->  Check out Documentation/admin-guide/reporting-regressions.rst, it covers a lot
->  of other aspects you want might want to be aware of:
->  
-> - * the purpose of the "no regressions rule"
-> + * the purpose of the "no regressions" rule
->  
->   * what issues actually qualify as regression
->  
+> > > +          pairsets:
+> > > +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> > > +            description:
+> > > +              List of phandles, each pointing to the power supply for the
+> > > +              corresponding pairset named in 'pairset-names'. This property
+> > > +              aligns with IEEE 802.3-2022, Section 33.2.3 and 145.2.4.
+> > > +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Table
+> > > 145\u20133)
+> > > +
+> > > |-----------|---------------|---------------|---------------|---------------|
+> > > +              | Conductor | Alternative A | Alternative A | Alternative B
+> > > | Alternative B |
+> > > +              |           |    (MDI-X)    |     (MDI)     |      (X)
+> > > |      (S)      |
+> > > +
+> > > |-----------|---------------|---------------|---------------|---------------|
+> > > +              | 1         | Negative VPSE | Positive VPSE | \u2014
+> > >     | \u2014             |
+> > > +              | 2         | Negative VPSE | Positive VPSE | \u2014
+> > >     | \u2014             |
+> > > +              | 3         | Positive VPSE | Negative VPSE | \u2014
+> > >     | \u2014             |
+> > > +              | 4         | \u2014             | \u2014             |
+> > > Negative VPSE | Positive VPSE |
+> > > +              | 5         | \u2014             | \u2014             |
+> > > Negative VPSE | Positive VPSE |
+> > > +              | 6         | Positive VPSE | Negative VPSE | \u2014
+> > >     | \u2014             |
+> > > +              | 7         | \u2014             | \u2014             |
+> > > Positive VPSE | Negative VPSE |
+> > > +              | 8         | \u2014             | \u2014             |
+> > > Positive VPSE | Negative VPSE |
+> > > +            minItems: 1
+> > > +            maxItems: 2  
+> > 
+> > "pairsets" does not follow the normal design pattern of foos, foo-names, 
+> > and #foo-cells. You could add #foo-cells I suppose, but what would cells 
+> > convey? I don't think it's a good fit for what you need.
+> > 
+> > The other oddity is the number of entries and the names are fixed. That 
+> > is usually defined per consumer. 
+> 
+> Theoretically if the RJ45 port binding was supported it would make more sense,
+> but in reality it's not feasible as the PSE controller need this information
+> in its init process.
+> The PSE controller reset all its port to apply a configuration so we can't do
+> it when the consumer (RJ45) probe. It would reset the other ports if one
+> consumer is probed later in the process.
+
+There is no reason other than convenience that all information some 
+driver needs has to be in one node or one hierarchy of nodes. You can 
+fetch anything from anywhere in the DT. It does feel like some of this 
+belongs in a connector node. We often haven't described connectors in DT 
+and stick connector properties in the controller node associated with 
+the connector. Then as things get more complicated, it becomes a mess. 
+
+
+> > As each entry is just a power rail, why can't the regulator binding be 
+> > used here?
+> 
+> Olekisj already answered about it.
+> PSE PI is like a regulator but with few different features and more information
+> like the pinout and the polarity, so we could not really fully rely on the
+> regulator binding style.
+> 
+> > > +
+> > > +          polarity-supported:
+> > > +            $ref: /schemas/types.yaml#/definitions/string-array
+> > > +            description:
+> > > +              Polarity configuration supported by the PSE PI pairsets.
+> > > +            minItems: 1
+> > > +            maxItems: 4
+> > > +            items:
+> > > +              enum:
+> > > +                - MDI-X
+> > > +                - MDI
+> > > +                - X
+> > > +                - S
+> > > +
+> > > +          vpwr-supply:
+> > > +            description: Regulator power supply for the PSE PI.  
+> > 
+> > I don't see this being used anywhere.
+> 
+> Right, I forgot to add it to the PD692x0 and TPS23881 binding example!
+
+But is this really common/generic? I would think input power rails would 
+be chip specific.
+
+Rob
