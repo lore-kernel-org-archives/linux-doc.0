@@ -1,78 +1,169 @@
-Received: from box.fidei.email (box.fidei.email [71.19.144.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83314149C68;
-	Wed,  3 Apr 2024 15:11:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=71.19.144.250
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A3C14A4EA
+	for <linux-doc@vger.kernel.org>; Wed,  3 Apr 2024 15:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712157077; cv=none; b=uRDL6zYqYytWimYypl8GkZACEtP+lqlWPRdCb8Cn9RYxKCBTWA6wIa2H1oxi1s/FVIYQQdNQQyTzQG64610quSlBv7Nj8NKzSpyAybgs+PGwDa/d7ovX8xqHWBe80/7YyPw+zpAqywIwBdAhKeq0u5X4Vm16ClWi9urxxPU5zBM=
+	t=1712158092; cv=none; b=nAmvT/4DNr9UkpRYByuu1OF8CppFkHn3zV9sR6HhZIn0+hYqrPI2jAay1rn4/am0Fgq7MOua0GStEtMY9+1U3ZAVmsSYZ0u8mLotgMjDABiZOGXEVnbjgT63iEzixonSUTL32XDgs/fxzjCOEGfLh2rq99zIECvWzIKo8tVFXDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712157077; c=relaxed/simple;
-	bh=Odp4+WIqG+c5wEGAPagzT5gQT9nbqeYbXQ72Yo9uYoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=jZJr+0ZqewlybuZ4QE5pZl1pu1aqbZoZUgRZaYKOBvHi4gwMzLT3kTCB0qoJpABC35I/7cG29pGw9OcK+a582/SmzZDH2FnZJgeJDXCIJbwA25esOViIYa53uzTVYdNy/rc09cA76F9f9qlGn+OLfvU6IoSePwZHstU7qQxWHVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me; spf=pass smtp.mailfrom=dorminy.me; dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b=Teetk3dJ; arc=none smtp.client-ip=71.19.144.250
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dorminy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dorminy.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dorminy.me header.i=@dorminy.me header.b="Teetk3dJ"
-Received: from authenticated-user (box.fidei.email [71.19.144.250])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	by box.fidei.email (Postfix) with ESMTPSA id 9E9A98068F;
-	Wed,  3 Apr 2024 11:11:12 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dorminy.me; s=mail;
-	t=1712157074; bh=Odp4+WIqG+c5wEGAPagzT5gQT9nbqeYbXQ72Yo9uYoU=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Teetk3dJDqxv6IZpDiiE1yqMyVo5lpVBmpgKIoGsMvJlhe8wzCtov+FNZhHMh+u0n
-	 C/T7oYMSweYLdhjMkxpI6SH5+rA2lve24BIZK0OhqRuRHxjfIvhNWBDTPznhBLdSzL
-	 fc0Pdt0ULyDDbIMhpRN1H8L96QO+2HsyNsInfp/Pa5rIHZkOmjDSiW5LoEO/kyVYQ/
-	 H7wKdTnealHMtxs/uFpdatUzptr69ZSg1HxBKob5KrqVXE6plX3QCQ7bfA03wD1u5V
-	 FjDjF6goAehukPPNrJKmem+Xbg74zfrABmSH2VfH/I7WhoioqV3Xn2EhaWzKg7uaz5
-	 KXmaIVLa4y0ew==
-Message-ID: <2896ee5a-b381-45eb-abc0-54e914605e46@dorminy.me>
-Date: Wed, 3 Apr 2024 11:11:10 -0400
+	s=arc-20240116; t=1712158092; c=relaxed/simple;
+	bh=GmbD26WMynLhI5PkWa2+VgAcWtdokHdMIyR0DsUfccc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZEhLMSy7+Gc/3VCe9a/3axk6+8ykyqUWTVc49EygZVNlPQUSzpbWTiMkUm4yzw16xcVpIbNz7Ks2z+oKAZOeq4XZ/mq6x7sQscTwiUcZnEQNsV9MUwQdL5Y256SWKf+tnBMshOhlO/P49p3AvYMsJKNwv4GC66rytlDK6nIVBU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rs2WX-0006iQ-Tz; Wed, 03 Apr 2024 17:27:37 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rs2WV-00ACng-OF; Wed, 03 Apr 2024 17:27:35 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rs2WV-00CU00-22;
+	Wed, 03 Apr 2024 17:27:35 +0200
+Date: Wed, 3 Apr 2024 17:27:35 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Rob Herring <robh@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <Zg11Z1kJ42eLhabK@pengutronix.de>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
+ <20240402132637.GA3744978-robh@kernel.org>
+ <ZgworgDAXXOpf3QV@pengutronix.de>
+ <20240403144448.GB3508225-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 00/13] fiemap extension for more physical information
-Content-Language: en-US
-To: Gao Xiang <hsiangkao@linux.alibaba.com>, Jonathan Corbet
- <corbet@lwn.net>, Kent Overstreet <kent.overstreet@linux.dev>,
- Brian Foster <bfoster@redhat.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- kernel-team@meta.com
-References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
- <dce83785-af96-4ff8-9552-56d73b5daf98@linux.alibaba.com>
-From: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
-In-Reply-To: <dce83785-af96-4ff8-9552-56d73b5daf98@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240403144448.GB3508225-robh@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
+On Wed, Apr 03, 2024 at 09:44:48AM -0500, Rob Herring wrote:
+> On Tue, Apr 02, 2024 at 05:47:58PM +0200, Oleksij Rempel wrote:
+> > On Tue, Apr 02, 2024 at 08:26:37AM -0500, Rob Herring wrote:
+> > > > +          pairsets:
+> > > > +            $ref: /schemas/types.yaml#/definitions/phandle-array
+> > > > +            description:
+> > > > +              List of phandles, each pointing to the power supply for the
+> > > > +              corresponding pairset named in 'pairset-names'. This property
+> > > > +              aligns with IEEE 802.3-2022, Section 33.2.3 and 145.2.4.
+> > > > +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Table 145\u20133)
+> > > > +              |-----------|---------------|---------------|---------------|---------------|
+> > > > +              | Conductor | Alternative A | Alternative A | Alternative B | Alternative B |
+> > > > +              |           |    (MDI-X)    |     (MDI)     |      (X)      |      (S)      |
+> > > > +              |-----------|---------------|---------------|---------------|---------------|
+> > > > +              | 1         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
+> > > > +              | 2         | Negative VPSE | Positive VPSE | \u2014             | \u2014             |
+> > > > +              | 3         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
+> > > > +              | 4         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
+> > > > +              | 5         | \u2014             | \u2014             | Negative VPSE | Positive VPSE |
+> > > > +              | 6         | Positive VPSE | Negative VPSE | \u2014             | \u2014             |
+> > > > +              | 7         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
+> > > > +              | 8         | \u2014             | \u2014             | Positive VPSE | Negative VPSE |
+> > > > +            minItems: 1
+> > > > +            maxItems: 2
+> > > 
+> > > "pairsets" does not follow the normal design pattern of foos, foo-names, 
+> > > and #foo-cells. You could add #foo-cells I suppose, but what would cells 
+> > > convey? I don't think it's a good fit for what you need.
+> > > 
+> > > The other oddity is the number of entries and the names are fixed. That 
+> > > is usually defined per consumer. 
+> > > 
+> > > As each entry is just a power rail, why can't the regulator binding be 
+> > > used here?
+> > 
+> > I'm not against describing it consequent with regulator till the wire
+> > end, but right now I have no idea how it should be described by using
+> > regulator bindings. There are maximum 2 rails going in to PSE PI on one
+> > side and 4 rails with at least 5 combinations supported by standard on
+> > other side. Instead of inventing anything new, I suggested to describe
+> > supported output combinations by using IEEE 802.3 standard.
+> 
+> There's 4 combinations above, what's the 5th combination? SPE?
 
-> 
-> I'm not sure why here iomap was excluded technically or I'm missing some
-> previous comments?
-> 
-> 
-> Could you also make iomap support new FIEMAP physical extent information?
-> since compressed EROFS uses iomap FIEMAP interface to report compressed
-> extents ("z_erofs_iomap_report_ops") but there is no way to return
-> correct compressed lengths, that is unexpected.
-> 
+The 5th combination is PoE4 where two rails are supplying power at same
+time.
 
-I'll add iomap support in v4, I'd skipped it since I was worried it'd be 
-an expansive additional part not necessary initially. Thank you for 
-noting it!
+First 4 variants for PoE: one or two positive rails are attached (but
+only one is used at same time) to pairs 1-2 or 3-4, or 5-6, or 7-8. Or
+support all of combinations if some advanced PSE PI is present. PSE PI
+is kind of MUX for regulators.
 
-Sweet Tea
+One more variant in case of PoE4: two positive rail are attached at same
+time, one to 1-2, second to 5-6. May be one more variant with opposite
+polarity, this will be the 6th combination.
+
+> Seems to me you just describe the 2 rails going to the connector and 
+> then describe all the variations the connector supports. The PSE 
+> (h/w) has little to do with which variations are supported, right?
+
+No. In case of mutli-channel PSE, it needs to know if channels are
+attached to one port or to different ports. PSE is not only responsible
+to enable the power, it runs classification of devices attached to the
+port, so it will decide, which rail should be enabled.
+
+> For example, MDI-X vs. MDI support is determined by the PHY, right?
+
+Yes and No. Until PSE do not start supplying power, PHY will not be able to
+start communication with the remote PHY, so it will not be able to
+detect MDI/X configuration.
+
+Polarity configuration is important for user space or user to get
+information about supported pin configuration and if possible,
+change the configuration.
+
+> Or it has to be supported by both the PHY and PSE?
+
+In most cases PSE and PHY work independently from each other, they just
+share same port. Potential exception are:
+- in case data line should not be shared with power lines, we need to
+  know what pins are used for power, this information would help to
+  provide PHY configuration.
+- in case PHY autoneg signals disturb PoE classification, we need to
+  coordinate PHY and PSE states.
+
+Regards,
+Oleksij
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
