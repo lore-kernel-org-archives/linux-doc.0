@@ -1,154 +1,160 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B70128818
-	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 13:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3F91BDE6;
+	Thu,  4 Apr 2024 14:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712239016; cv=none; b=Z7mVWa38kGDpcVuiPUiECpRtoICHVNegzkMo/q42+GkAgTcedFDOwRWsaC75aoljclm6ATsQwDNTRRpOAtgNGFXB1wf+m/hHXzZk6i0tBq7k7h8f4MAFZgr5ETO4sLKn9mRx3w2yweHlDlN/0oBBuDCYIuiPnjsrlfb9p0LDqRY=
+	t=1712242530; cv=none; b=lKIuEBVAU2gBGydAiySPoAhvnd7N3rVPO8j1w/LifFULJNFZuWxT31TfrbqeDywOjeDYTcfyVWv2h6fdo0UoIAsmbBkWjlh3cfvb3nHvJEkoFvtBmpxBdjVGXG9xs+6LQzW7qZnaxcdzY6i8np+CUb+9e0TIbApp2Vsve6O0OxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712239016; c=relaxed/simple;
-	bh=dyJ8/jg3OEVZu3rV6eRPJgBUaaPW7kEy4ZucbMmQDWA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n5WJQYN1TsqKw9+WMeAMNzGEdANMH+afy9ZsiMJnYDRXb5MHYhyFE8A5zP7FulhcVhXb4d20um91QNW0U6cL+dnkQpyG/HmkWDqjl0CaUjWlUUlKCpL6YjLVYcrQQ0oPz0tdH74+iKMfsTHLDRxvFet4N24Ou/YmhKvOsPzxv5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=bpSxcZ8Z; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1712242530; c=relaxed/simple;
+	bh=G9lUvFywXgRdKLfamnkBnonk8oOiR9MI0r12zS6dtX0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=M7QFfmio2YvYcrlL15LTlLDyF+1BrfFDLYZPNWnhUmZft8KcbUZViPyvPTISFgE1Qkg91KZjx7Mad69ZhXIL7ypl4CgNEzOCeF9TPch1D+7vY4mdn1bJsEkU2Grr7Pv4rrIebuXQSjkG45SI6ywagFxxIJyF/H7mRHdeOWd47Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aen+RE8a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="bpSxcZ8Z"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-430c63d4da9so5707711cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 06:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712239013; x=1712843813; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=msc9tQgMq343nFV4/DBdPcJS7hGm3uD+5fv8GwkMOjA=;
-        b=bpSxcZ8ZLk4bpaTCLJg2MyKrmUNAd9lPLsMj9m2uhkhvl5+tze/0OzJhZQu6jksKt0
-         hTY1J6BkGqD9g9NawhYR4OBTb8T5PkvAapR7gOCaRMC/OV4vwxAji0uFGxw1PwU+K03g
-         5ETEx7lvWaXtXWXpQqny7lqmLNKlSsSaqPsf6l0SxgEWUIG4hXGbeHrMsDMBfu/0XXw6
-         eHXGjJ4FMR9bGGs0v4+W2L7FzsOq4YgNz2r2PfEoVxXvjkUemrK3sXUd5gxGWsKzWXxf
-         A6Klmrz96svkE/SZJc9/S9ycPkeBfFdkXjsB07aJg/7IB+FH8AQmmGwpCSCaddcXe+jY
-         9RjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712239013; x=1712843813;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=msc9tQgMq343nFV4/DBdPcJS7hGm3uD+5fv8GwkMOjA=;
-        b=JiiAzuJDThBo6sWGUzxXPb2FeN79V4oN82Bue/l7dEU4lfertET6RXeoUCZFjvVInV
-         Ogy/bh7dUED/HlodlT/NCapQnPrc6uhSnqFZRQcsx7dr1cJ9nkmcDfXPctAV2axInPIT
-         3CWF1binvi0AODyofT/EBxfgpUhdaQxpeCtPA1oN76tcqXbpy/bmxhztoSmxPiCSVSma
-         rf6yB7tJeGPKq529yxFEyym3Motj8c4EVdP+JFH+9iOLd82rUn8CUwkBRXL74ewk5xoc
-         WcQodEwHNZ75CEE30j3mwhA8jVrMLrUq8JxVSwm5+zft1h/8VHuJE7l2WadFEKTrdc3Q
-         wzFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9WbRf9+X3vSGBEQm2gVEsWhZANHE9XaU4A0z2ooGYVPGnO7otab9Cr3j3dDXGA7xzCCV1wNSg+bo32uEd+Uv2H6DJAz12cPg5
-X-Gm-Message-State: AOJu0Yw2qzwp4gggnSqI+fIAqCfp72oI2pahOjT3UwLFzTv7OS4sPbR7
-	fQw026kLo8q17bBPIUBdsKWxomiVqu+t1ay+rZI5l80FFiyPh/ENuHkIOwjIomn8g5OIbYUH3m4
-	F94NKtsqwvDSWQa2PfV5Vo0ELacGLwlQ6HN4mzA==
-X-Google-Smtp-Source: AGHT+IH9S7DU2DIf+z4/lTa3f7DcyJz1Y9kNOGjz2IQr7tohPqSHHhqayAGWHjuk7zhrLKiTZ6wb5Cu4ZzpulPIDrg0=
-X-Received: by 2002:a05:622a:2:b0:431:378d:afa with SMTP id
- x2-20020a05622a000200b00431378d0afamr2733138qtw.34.1712239013126; Thu, 04 Apr
- 2024 06:56:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aen+RE8a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D9FC433F1;
+	Thu,  4 Apr 2024 14:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712242529;
+	bh=G9lUvFywXgRdKLfamnkBnonk8oOiR9MI0r12zS6dtX0=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=aen+RE8ak25vlpX9Pe4w1s2I0IEuN0Xe8dsQ4xMCxRg401Ddm7Z4hTU7uhk3fCUgW
+	 GO+03+G0RSM+nLr2h8MsZmTZ+t+Y+YtN5Oi35yxECq2gH1KN+OeWgdWfs2BIGtmf07
+	 ozPdiS8nUL1wFS7zlORa+rjPcklbJXgUy6Y0Nvdq7gILpx6w1PCgVGDid/HHCyyQSZ
+	 egq4Ie94OJd3yeK5HZMzHWjCUNOtESyziFGcUDR12e/eav83l6kxPAo3YEAeC/nq/t
+	 2mXF9RP0DOWmABFVLYJWd7tjKUhoJwdz2l7KDmUWMIYSV8FBFzmoolBXAxqTe/LYpm
+	 Rk+PK0mphpHSg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
- <20240222173942.1481394-2-pasha.tatashin@soleen.com> <20240404121625.GB102637@hyd1403.caveonetworks.com>
-In-Reply-To: <20240404121625.GB102637@hyd1403.caveonetworks.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 4 Apr 2024 09:56:16 -0400
-Message-ID: <CA+CK2bDmya+768tOvF0N-BYq8E+RwBw4xS8vC+MmbU9eoOv_3g@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] iommu/vt-d: add wrapper functions for page allocations
-To: Linu Cherian <lcherian@marvell.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Apr 2024 17:55:22 +0300
+Message-Id: <D0BFBFRVGG47.FXCTWETKP7H4@kernel.org>
+Cc: "Andrew Cooper" <andrew.cooper3@citrix.com>, "Ard Biesheuvel"
+ <ardb@kernel.org>, "Ross Philipson" <ross.philipson@oracle.com>, "Linux
+ Kernel Mailing List" <linux-kernel@vger.kernel.org>, "the arch/x86
+ maintainers" <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, "Linux Crypto Mailing List"
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <dpsmith@apertussolutions.com>, "Thomas
+ Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>, "Borislav
+ Petkov" <bp@alien8.de>, "H. Peter Anvin" <hpa@zytor.com>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, "Matthew Garrett" <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "luto@amacapital.net" <luto@amacapital.net>,
+ "Arvind Sankar" <nivedita@alum.mit.edu>, "Herbert Xu"
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+ <kanth.ghatraju@oracle.com>, <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v8 06/15] x86: Add early SHA support for Secure Launch
+ early measurements
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Eric Biggers" <ebiggers@kernel.org>, "Andy Lutomirski"
+ <luto@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <CAMj1kXEmMBY_jc0uM5UgZbuZ3-C7NPKzg5AScaunyu9XzLgzZA@mail.gmail.com> <98ad92bb-ef17-4c15-88ba-252db2a2e738@citrix.com> <CAMj1kXFTu+bV2kQhAyu15hrYai20NcBLb4Zu8XG2Y-XjL0f+rw@mail.gmail.com> <1a8e69a7-89eb-4d36-94d6-0da662d8b72f@citrix.com> <CAMj1kXEvmGy9RJo4s8tECsFj2dufZ8jBPoJOEtkcGUoj+x2qsw@mail.gmail.com> <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com> <20240223175449.GA1112@sol.localdomain> <e641e2f1-16cf-4717-8a1f-8afac2644efe@citrix.com> <20240223183004.GE1112@sol.localdomain> <10db421c-77da-4a1c-a25e-2374a7a2ef79@app.fastmail.com> <20240403235635.GA24248@quark.localdomain>
+In-Reply-To: <20240403235635.GA24248@quark.localdomain>
 
-> Few minor nits.
-
-Hi Linu,
-
-Thank you for taking a look at this patch, my replies below.
-
-> > +/*
-> > + * All page allocations that should be reported to as "iommu-pagetables" to
-> > + * userspace must use on of the functions below.  This includes allocations of
-> > + * page-tables and other per-iommu_domain configuration structures.
+On Thu Apr 4, 2024 at 2:56 AM EEST, Eric Biggers wrote:
+> On Wed, Apr 03, 2024 at 09:32:02AM -0700, Andy Lutomirski wrote:
+> > On Fri, Feb 23, 2024, at 10:30 AM, Eric Biggers wrote:
+> > > On Fri, Feb 23, 2024 at 06:20:27PM +0000, Andrew Cooper wrote:
+> > >> On 23/02/2024 5:54 pm, Eric Biggers wrote:
+> > >> > On Fri, Feb 23, 2024 at 04:42:11PM +0000, Andrew Cooper wrote:
+> > >> >> Yes, and I agree.=C2=A0 We're not looking to try and force this i=
+n with
+> > >> >> underhand tactics.
+> > >> >>
+> > >> >> But a blind "nack to any SHA-1" is similarly damaging in the oppo=
+site
+> > >> >> direction.
+> > >> >>
+> > >> > Well, reviewers have said they'd prefer that SHA-1 not be included=
+ and given
+> > >> > some thoughtful reasons for that.  But also they've given suggesti=
+ons on how to
+> > >> > make the SHA-1 support more palatable, such as splitting it into a=
+ separate
+> > >> > patch and giving it a proper justification.
+> > >> >
+> > >> > All suggestions have been ignored.
+> > >>=20
+> > >> The public record demonstrates otherwise.
+> > >>=20
+> > >> But are you saying that you'd be happy if the commit message read
+> > >> something more like:
+> > >>=20
+> > >> ---8<---
+> > >> For better or worse, Secure Launch needs SHA-1 and SHA-256.
+> > >>=20
+> > >> The choice of hashes used lie with the platform firmware, not with
+> > >> software, and is often outside of the users control.
+> > >>=20
+> > >> Even if we'd prefer to use SHA-256-only, if firmware elected to star=
+t us
+> > >> with the SHA-1 and SHA-256 backs active, we still need SHA-1 to pars=
+e
+> > >> the TPM event log thus far, and deliberately cap the SHA-1 PCRs in o=
+rder
+> > >> to safely use SHA-256 for everything else.
+> > >> ---
+> > >
+> > > Please take some time to read through the comments that reviewers hav=
+e left on
+> > > previous versions of the patchset.
+> >=20
+> > So I went and read through the old comments, and I'm lost.  In brief su=
+mmary:
+> >=20
+> > If the hardware+firmware only supports SHA-1, then some reviewers would=
+ prefer
+> > Linux not to support DRTM.  I personally think this is a bit silly, but=
+ it's
+> > not entirely unreasonable.  Maybe it should be a config option?
+> >=20
+> > If the hardware+firmware does support SHA-256, then it sounds (to me, r=
+eading
+> > this -- I haven't dug into the right spec pages) that, for optimal secu=
+rity,
+> > something still needs to effectively turn SHA-1 *off* at runtime by cap=
+ping
+> > the event log properly.  And that requires computing a SHA-1 hash.  And=
+, to be
+> > clear, (a) this is only on systems that already support SHA-256 and tha=
+t we
+> > should support and (b) *not* doing so leaves us potentially more vulner=
+able to
+> > SHA-1 attacks than doing so.  And no SHA-256-supporting tooling will ac=
+tually
+> > be compromised by a SHA-1 compromise if we cap the event log.
+> >=20
+> > So is there a way forward?  Just saying "read through the comments" see=
+ms like
+> > a dead end.
+> >=20
 >
-> /s/use on/use one/?
+> It seems there may be a justification for some form of SHA-1 support in t=
+his
+> feature.  As I've said, the problem is that it's not explained in the pat=
+chset
+> itself.  Rather, it just talks about "SHA" and pretends like SHA-1 and SH=
+A-2 are
+> basically the same.  In fact, SHA-1 differs drastically from SHA-2 in ter=
+ms of
+> security.  SHA-1 support should be added in a separate patch, with a clea=
+rly
+> explained rationale *in the patch itself* for the SHA-1 support *specific=
+ally*.
 
-I will correct in the next version (if there is going to be one).
+Yeah, this is important so that we don't end up deleting that support
+by accident. Just adding to denote that this more than just a "process
+issue".
 
-> > + *
-> > + * This is necessary for the proper accounting as IOMMU state can be rather
-> > + * large, i.e. multiple gigabytes in size.
-> > + */
-> > +
-> > +/**
-> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
-> > + * @gfp: buddy allocator flags
->
-> Shall we keep the comments generic here(avoid reference to allocator
-> algo)  ?
+> - Eric
 
-There are no references to allocator algorithm. I specify the zero
-page because this function adds __GFP_ZERO. The order and gfp
-arguments are provided by the caller, therefore, should be mentioned.
-
-> > + * @order: page order
-> > + *
-> > + * returns the head struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
-> > +{
-> > +     struct page *page;
-> > +
-> > +     page = alloc_pages(gfp | __GFP_ZERO, order);
-> > +     if (unlikely(!page))
-> > +             return NULL;
-> > +
-> > +     return page;
-> > +}
-> > +
-> > +/**
-> > + * __iommu_free_pages - free page of a given order
-> > + * @page: head struct page of the page
-> > + * @order: page order
-> > + */
-> > +static inline void __iommu_free_pages(struct page *page, int order)
-> > +{
-> > +     if (!page)
-> > +             return;
-> > +
-> > +     __free_pages(page, order);
-> > +}
-> > +
-> > +/**
-> > + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
-> > + * specific NUMA node.
-> > + * @nid: memory NUMA node id
-> > + * @gfp: buddy allocator flags
->
-> Same here for this one and other references below.
-
-ditto.
-
-Thank you,
-Pasha
+BR, Jarkko
