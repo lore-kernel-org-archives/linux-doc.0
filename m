@@ -1,135 +1,121 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A33839F4
-	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 10:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0CE83CC9
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 11:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712226872; cv=none; b=mww8QiTO8n2vIW0Orp0BjuMJFMrqTETozEcRFMLfEwpJZDNbGAtm3F8PCHjnFlvyxs+aOZZ+JtctDaF/slocFIgq+mbh2l+PcwhDICi50b+aaHkm765acgXNfQsiQ3XaztRAv8RHVhcbVYo3KbG1DeeIl7u9wItKlXWJSuCZLEg=
+	t=1712230892; cv=none; b=NWNRHWR5M4huQQZwiWe2UzE6mXSLpveIYP2cOjQCoIh4GXWltnLXymVzCBq7wpOsr7eA4ouVt0c52V8lIBsxolU31jn63a0tGsPW+V7aFUTXapIb70dbSphdybJ5XDQ65xdy+Ys5HBA8kQ1ComBmeEXlEH+ziz5X8qwcF7/Ujyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712226872; c=relaxed/simple;
-	bh=3pUouzGKtTo71pYkdkJFB3gRP9khPlS9i6RZ43zvw+g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=svKNrBZKSx85sVJQjv+BhQfTUs2EPXLI+hfcm76QF5HR9A+uwF0dxOgkjx+2QZNXO9j7j2JHrk3a1+qvOjG/lfPUP1mx54T1qSEOSP3BytOlt/OpsvkanLqoahjVvDP7tMXfTOMAwpHsjzBhOfyiqsd+AmtpOsE9ew/2+7p5yq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=sOedv3if; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1712230892; c=relaxed/simple;
+	bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cxNUye3WScm5H+r+2wccoZjJ+D84haG6kH/nX67a+dXWLAehcbhVKWo1EgYuVFINFfQd/9Ehj4MvpkbCJ5mJdY0je+TlWTHKGRQy5qAAjYxcjpN+5Xy1xhcK32ebKMg1LVQ6gySnizrFJTk9YJkrviT69IWOfz6CJ2h72GcchXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BzpYfce4; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="sOedv3if"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-516cc5398c5so142764e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 03:34:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BzpYfce4"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dd10ebcd702so1002338276.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 04:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712226868; x=1712831668; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1712230889; x=1712835689; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qrSVtGZRwZdqSUCPKBtbbPV0rvcWw4KEF79SGVRT1V0=;
-        b=sOedv3if+OSBwFJdc4sgFYFLK3L7Xk05DJirkiErKACVIxH4wHgftYXAioYktMVYaN
-         NdAHWZ5Wef3oyA9Jta3lHGTnNUo27gqf/Th19WkNLDuOE+7Dyo6PEFkzIWGua1MjRcig
-         +fQHV8OCXE60RzexFc/4ycpyMM3hMfu0I6KWZnmYxpLcy4VyL7/RMKVf+k7M4vWlFdHI
-         BDd4PwBM6Hh+z3r2C1wU3QylbgRE7ZLvuA15QPWHaQJEsSe3O7vKBwpqpT5usjhF9A4V
-         nYbNfTubxhNOXb7Yi1ZlsWulFau/Z13KajLoVmAz2tQjduJXpIVcQKZDOq1ZIvecOHHE
-         YR9g==
+        bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+        b=BzpYfce4q/zv0gCorIvWLSXuzW4HjLtqKmXuLtELMIG7pv5Gw5rD2es8aCVqQFqD//
+         8JggHBzNznjWgNLq2nD9WBWW0NsYaidmHqnL2ihAYJpv7o5gc1VJY6DJ0clWC7aekflL
+         okxkVaJGNSO0qVH2yOxsFJLCq+7hYpnwhkr7HgXgiRTKZmRNaOv51pSZ+2EvNJ7l32Ax
+         3rV1o60Rwqf7/3WoHSX+9OLMYTDALVEnxQwPAvQSTwkL+2+b5q+pMv+fOiTCP+zwNcc+
+         ViJk4rxb2Vw07nE8VHUP+XT2krjKR9JIgTGsriDdaif1hRFImGjHsjVSH1La3PcFbNJH
+         hkUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712226868; x=1712831668;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1712230889; x=1712835689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qrSVtGZRwZdqSUCPKBtbbPV0rvcWw4KEF79SGVRT1V0=;
-        b=rGY3r7Di8lJYe2eCx194nL0mbcE1taE+1lIguGHGrJgAMBJg3JW8nlZ+YJAUXcksc/
-         lwhEgRNnumJnUqbJvUfHl+3xZ3H9izIMfWAe7CwWroM0dTglhUqzeS0asfYcTKQwLI8y
-         pO+VxMwlbyrq5Q6j53nM3Yi8VBhHnAUiACJKgwDSF8Dpu3lhtASdMlB8fLCCHmCOL7uG
-         vapFcoKdORDvXNfZstw64egWudnBXF2XerF8QDdKQ7/G7pLFVhxkOPWgbXGak9pksVrZ
-         saCLG0c1OkTscKzdk+pdTYdH3vk0h3h7ygN49HKmq6cPL5TwVCcBI/NKWMymoeJauTF/
-         H8Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGYcSIWn8Xhy9F3yLXN5rEJzLgSh54Hk9iPetkZILnuBBf63jIP5RiEUFXsWVXumQ+KwKIdWBSj4LDgNokNTRW8PqvYsiEqQDM
-X-Gm-Message-State: AOJu0YyI7qh2bPJlJ8nIjM90wr9TZX/KlI9BdDr5E+FPyJ3dLZ4QEJL0
-	5cjlQJvjVMwKbeIEBbuKNkBSLQHNif7P/qAC3jU5dznKAd+mNxe3cLfXUqhhrnw=
-X-Google-Smtp-Source: AGHT+IFMam9bMUHsyC4hhqDHYaIA0cA7zDlkrbsJGTyXcu6kj1HRLq2RIgLnRvRONkTw5gP+iloRaA==
-X-Received: by 2002:a19:8c0c:0:b0:513:d0dd:95ef with SMTP id o12-20020a198c0c000000b00513d0dd95efmr1384037lfd.5.1712226868674;
-        Thu, 04 Apr 2024 03:34:28 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:555b:1d2e:132d:dd32])
-        by smtp.gmail.com with ESMTPSA id ju8-20020a05600c56c800b00416253a0dbdsm2171340wmb.36.2024.04.04.03.34.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 03:34:27 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@atishpatra.org>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 5/5] KVM: riscv: selftests: Add Zimop extension to get-reg-list test
-Date: Thu,  4 Apr 2024 12:32:51 +0200
-Message-ID: <20240404103254.1752834-6-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240404103254.1752834-1-cleger@rivosinc.com>
-References: <20240404103254.1752834-1-cleger@rivosinc.com>
+        bh=xTu/IdCn/048THaVHddyM991QlKheudeHaOzDUEba/4=;
+        b=s1JnAtLx0o72+f0XCUw+oP+uiKN7N+trXqEYbsGJlv2KdsddNBkc9xs5rY+sglOagD
+         BlfFRJ5Tc4UslZrXuk/UeRX4HsgluuUv59CyPIL+wTrfqvrXZnx7xcXyuIMEs+bnAfZo
+         syU6hcUqDwkHRW5NiXveWvBbhsKzixuQy8AY3b09IG1T8ce27O3KrmCscj2mcpnmulNG
+         cqenk0xsiu0D+FzXgXVBqfdOTfLp2VmiKwro8dG5XKxEHTI5W4GAR91y5IH6zwwZurae
+         jsRJ3b+jVhX7axmeu+U0PBFvKen25pziqBy36MT+tlQ7w7b/VYa9VOnIZnaaTEOIwYOJ
+         Bs+w==
+X-Forwarded-Encrypted: i=1; AJvYcCWJkM6J8iGsTAyzRQdqp13Q5x3/amnTihSnrQsV57enYBJdkdqeiOm1jhmNoIOgA/KB3qfQfmcR9+ZgZo/E3SiKmaNkJctKTIrW
+X-Gm-Message-State: AOJu0Yyhgvboigt8TYE1qLlun5DfRxshrXaHMG7ujLanOsdiaX7KY6yy
+	hSit6T0ewUjfrBQfBn2b+5prSFP+E45BEQEz+C+pD0CTclMCGVOh5KlK4RvO3XXQerO/SqGV8C+
+	84Fnd9VNnjXuikU8BqZYy+tswye+DwaoS6VAQow==
+X-Google-Smtp-Source: AGHT+IEhL+O4bSIOCRsSy+Vdywn61xtrVBJ3li47sHwN1FOt8H7g9W+tj2/Or7rao9/9euGeRsXbtXq4vPMz7+GnZRc=
+X-Received: by 2002:a25:ba86:0:b0:dd1:6fab:81e4 with SMTP id
+ s6-20020a25ba86000000b00dd16fab81e4mr2034373ybg.37.1712230889318; Thu, 04 Apr
+ 2024 04:41:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240331-module-owner-virtio-v2-0-98f04bfaf46a@linaro.org> <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+In-Reply-To: <20240331-module-owner-virtio-v2-12-98f04bfaf46a@linaro.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 4 Apr 2024 13:41:18 +0200
+Message-ID: <CACRpkdYpVUq1SgxnPVfRdTiNg3o8dcBePxoxu9GRYy6LdzUE5A@mail.gmail.com>
+Subject: Re: [PATCH v2 12/25] gpio: virtio: drop owner assignment
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jonathan Corbet <corbet@lwn.net>, 
+	David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@redhat.com>, 
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Alexander Graf <graf@amazon.com>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
+	Dominique Martinet <asmadeus@codewreck.org>, Christian Schoenebeck <linux_oss@crudebyte.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, Kalle Valo <kvalo@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, "James E.J. Bottomley" <jejb@linux.ibm.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, virtualization@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-block@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+	netdev@vger.kernel.org, v9fs@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The KVM RISC-V allows Zimop extension for Guest/VM so add this
-extension to get-reg-list test.
+On Sun, Mar 31, 2024 at 10:45=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> virtio core already sets the .owner, so driver does not need to.
+>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-index b882b7b9b785..40107bb61975 100644
---- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-@@ -67,6 +67,7 @@ bool filter_reg(__u64 reg)
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZIHINTNTL:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZIHINTPAUSE:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZIHPM:
-+	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZIMOP:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZKND:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZKNE:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZKNH:
-@@ -432,6 +433,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
- 		KVM_ISA_EXT_ARR(ZIHINTNTL),
- 		KVM_ISA_EXT_ARR(ZIHINTPAUSE),
- 		KVM_ISA_EXT_ARR(ZIHPM),
-+		KVM_ISA_EXT_ARR(ZIMOP),
- 		KVM_ISA_EXT_ARR(ZKND),
- 		KVM_ISA_EXT_ARR(ZKNE),
- 		KVM_ISA_EXT_ARR(ZKNH),
-@@ -955,6 +957,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(zifencei, ZIFENCEI);
- KVM_ISA_EXT_SIMPLE_CONFIG(zihintntl, ZIHINTNTL);
- KVM_ISA_EXT_SIMPLE_CONFIG(zihintpause, ZIHINTPAUSE);
- KVM_ISA_EXT_SIMPLE_CONFIG(zihpm, ZIHPM);
-+KVM_ISA_EXT_SIMPLE_CONFIG(zimop, ZIMOP);
- KVM_ISA_EXT_SIMPLE_CONFIG(zknd, ZKND);
- KVM_ISA_EXT_SIMPLE_CONFIG(zkne, ZKNE);
- KVM_ISA_EXT_SIMPLE_CONFIG(zknh, ZKNH);
-@@ -1010,6 +1013,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
- 	&config_zihintntl,
- 	&config_zihintpause,
- 	&config_zihpm,
-+	&config_zimop,
- 	&config_zknd,
- 	&config_zkne,
- 	&config_zknh,
--- 
-2.43.0
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
+Yours,
+Linus Walleij
