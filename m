@@ -1,36 +1,36 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF5B2134A;
-	Thu,  4 Apr 2024 08:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA871E86F;
+	Thu,  4 Apr 2024 09:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712219944; cv=none; b=FtX0IwMJjD6XOtH8+FOmV+b1hDNJcU4Mh6e0IP0e5aTEnahAU90zzcK66qml0yYMI1McIC+J1pIdWIHvAvhxEs0rMXM9vy6TGkPeR1eKYcOnFqy0x9/m08c6dWjCzWXnCdvTvGpg/WXRc9SItxJICje9LkcW6Kf8Vj+BQfRB1uM=
+	t=1712222716; cv=none; b=atVuPIoQO8i7RVuzGGb9359hg7bjawuHH6WENUEoKPUePBNQOekWnID+6mh0kLCjL0PcS43apXFKOj+EPWxngVpwaGN4ZimA/h/8CzRnA9HZvqPpqw609e2IeEBph9N5hnpMEfNbbqW7CBfVGq4g+Y0xU109z4uXB58zteho9jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712219944; c=relaxed/simple;
-	bh=NsO+UaJBprZElwpaChh8YhCzSfoqK0pR4nEa/PQxt9g=;
+	s=arc-20240116; t=1712222716; c=relaxed/simple;
+	bh=goGoyXyy2aFQvi0+QqmO6oV3VAEgFQ1Y15GcxBwoZ28=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MUa8gVVfzCJRJ786S+y3TYX+JIOvXdpNqa6dCzRQzRRIO/8NlrBj7ly1UfsWBxKfqwtTFzuPcNO9N3FD0FOe0Zyt8ggypUX/9KLIN5UQLXLtxY5J0sxiSVTyYYlIHWXJSoJmUnPdDoSW2NHVjtN9TtniBla/zTlEsw5T2eMvYJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NFt5iasf; arc=none smtp.client-ip=217.70.183.196
+	 MIME-Version:Content-Type; b=udTVr4Gx5gj9Tbc0aY5enpUIDFCC9Lc7hQa8jzZhBBvuMjNYLcX5e8D0nK7ZhN94ViOTxY2yKI8Iob377bY0Htl7dCY/t4aLCcnEC5v2DsN3N07FvCg0wQBg4PiXX4o/JV4DWEZOeSYIMHi080YK5KLQsqa92XT+C473gzaBmuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K87hT6eF; arc=none smtp.client-ip=217.70.183.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NFt5iasf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5F4E0E0005;
-	Thu,  4 Apr 2024 08:38:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K87hT6eF"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 074A260008;
+	Thu,  4 Apr 2024 09:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712219939;
+	t=1712222712;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NAmpL8vsX5KgArp9IvAY0m85YPH50TlrPGvCXKaUhig=;
-	b=NFt5iasfPklTMwMaNn0kBGOxNPcCFEWRQ1NfQj9aKtWhmcw0kKqYyP0SL2FqsZlK8qOsZ9
-	92A1yTA06WS5jARRoktHosOBhKzUjpfsGR/hxO9CiC/fnk8JWe4HURmil/reMTIllGXkxT
-	dOxBZDXiG6kzngRLJtY5Isrepe+Aeb8dWxh9+t/aqy6HugDGT4Dc1mnIZyXxjMZvOk9KTl
-	/38ey+Ds/3f0tXAgeFSJz5VDH4A0iiWGIVuEIAEj5gEdioNAiGHLJBZkSgVK73SvpCVFD3
-	XwqLQeB93ACFC6DH7vOT5DN7uW/JrzWJVz3EETRafgUb+nSBkk5aTitUVzNh0g==
-Date: Thu, 4 Apr 2024 10:38:54 +0200
+	bh=JmD8Cz8LQvllwErFtC5QF38oacw9e604VmlkOt2aTy8=;
+	b=K87hT6eFy1B8OGtdw6c4NM4XNlL1sD85a1Uge3xud4ocA7A/Sh0ogIKA0De/miAF0B6wEq
+	fUWkit4VX2y1tVN0KhnXSMZy8aoAqRnwyf5j5Kkp/Fa8DiRti8LsC629SlqeSItha2dwrB
+	JljeqzL3D6OnnzHF0NMyZvtP0n633+FVoqSP+ABlnBurdoRSIIlq1XtbBUzPUPDjwnVoVu
+	+iUCEusnp+NAkyiT+85r7kqM7vZRoXz4GXHE0UF7yv+7pqYbODPTDxf11FJXL/C9ujBK+C
+	OalDYtvgOYDwpJhwlD2WJu53LgPGEvfLZyIN8A1FbgS+0/xZrSEsA8Xqm3rLNQ==
+Date: Thu, 4 Apr 2024 11:25:06 +0200
 From: Kory Maincent <kory.maincent@bootlin.com>
 To: Rob Herring <robh@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
@@ -48,7 +48,7 @@ Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
  devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
 Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
  way of describing several PSE PIs
-Message-ID: <20240404103854.29ef418c@kmaincent-XPS-13-7390>
+Message-ID: <20240404112506.2e155bad@kmaincent-XPS-13-7390>
 In-Reply-To: <20240403143142.GA3508225-robh@kernel.org>
 References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
 	<20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
@@ -70,105 +70,57 @@ X-GND-Sasl: kory.maincent@bootlin.com
 On Wed, 3 Apr 2024 09:31:42 -0500
 Rob Herring <robh@kernel.org> wrote:
 
-> On Wed, Apr 03, 2024 at 11:15:48AM +0200, Kory Maincent wrote:
-> > On Tue, 2 Apr 2024 08:26:37 -0500
-> > Rob Herring <robh@kernel.org> wrote:
 > >  =20
-> > > > +          pairset-names:
+> > > > +
+> > > > +          polarity-supported:
 > > > > +            $ref: /schemas/types.yaml#/definitions/string-array
 > > > > +            description:
-> > > > +              Names of the pairsets as per IEEE 802.3-2022, Section
-> > > > 145.2.4.
-> > > > +              Valid values are "alternative-a" and "alternative-b".
-> > > > Each name   =20
-> > >=20
-> > > Don't state constraints in prose which are defined as schema=20
-> > > constraints. =20
-> >=20
-> > Ok, I will remove the line.
-> >  =20
-> > > > +          pairsets:
-> > > > +            $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > > +            description:
-> > > > +              List of phandles, each pointing to the power supply =
-for
-> > > > the
-> > > > +              corresponding pairset named in 'pairset-names'. This
-> > > > property
-> > > > +              aligns with IEEE 802.3-2022, Section 33.2.3 and 145.=
-2.4.
-> > > > +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Table
-> > > > 145\u20133)
-> > > > +
-> > > > |-----------|---------------|---------------|---------------|------=
----------|
-> > > > +              | Conductor | Alternative A | Alternative A |
-> > > > Alternative B | Alternative B |
-> > > > +              |           |    (MDI-X)    |     (MDI)     |      (=
-X)
-> > > > |      (S)      |
-> > > > +
-> > > > |-----------|---------------|---------------|---------------|------=
----------|
-> > > > +              | 1         | Negative VPSE | Positive VPSE | \u2014
-> > > >     | \u2014             |
-> > > > +              | 2         | Negative VPSE | Positive VPSE | \u2014
-> > > >     | \u2014             |
-> > > > +              | 3         | Positive VPSE | Negative VPSE | \u2014
-> > > >     | \u2014             |
-> > > > +              | 4         | \u2014             | \u2014           =
-  |
-> > > > Negative VPSE | Positive VPSE |
-> > > > +              | 5         | \u2014             | \u2014           =
-  |
-> > > > Negative VPSE | Positive VPSE |
-> > > > +              | 6         | Positive VPSE | Negative VPSE | \u2014
-> > > >     | \u2014             |
-> > > > +              | 7         | \u2014             | \u2014           =
-  |
-> > > > Positive VPSE | Negative VPSE |
-> > > > +              | 8         | \u2014             | \u2014           =
-  |
-> > > > Positive VPSE | Negative VPSE |
+> > > > +              Polarity configuration supported by the PSE PI pairs=
+ets.
 > > > > +            minItems: 1
-> > > > +            maxItems: 2   =20
-> > >=20
-> > > "pairsets" does not follow the normal design pattern of foos, foo-nam=
-es,=20
-> > > and #foo-cells. You could add #foo-cells I suppose, but what would ce=
-lls=20
-> > > convey? I don't think it's a good fit for what you need.
-> > >=20
-> > > The other oddity is the number of entries and the names are fixed. Th=
-at=20
-> > > is usually defined per consumer.  =20
-> >=20
-> > Theoretically if the RJ45 port binding was supported it would make more
-> > sense, but in reality it's not feasible as the PSE controller need this
-> > information in its init process.
-> > The PSE controller reset all its port to apply a configuration so we ca=
-n't
-> > do it when the consumer (RJ45) probe. It would reset the other ports if=
- one
-> > consumer is probed later in the process. =20
->=20
-> There is no reason other than convenience that all information some=20
-> driver needs has to be in one node or one hierarchy of nodes. You can=20
-> fetch anything from anywhere in the DT. It does feel like some of this=20
-> belongs in a connector node. We often haven't described connectors in DT=
+> > > > +            maxItems: 4
+> > > > +            items:
+> > > > +              enum:
+> > > > +                - MDI-X
+> > > > +                - MDI
+> > > > +                - X
+> > > > +                - S
+> > > > +
+> > > > +          vpwr-supply:
+> > > > +            description: Regulator power supply for the PSE PI.   =
 =20
-> and stick connector properties in the controller node associated with=20
-> the connector. Then as things get more complicated, it becomes a mess.=20
+> > >=20
+> > > I don't see this being used anywhere. =20
+> >=20
+> > Right, I forgot to add it to the PD692x0 and TPS23881 binding example! =
+=20
+>=20
+> But is this really common/generic? I would think input power rails would=
+=20
+> be chip specific.
 
-Right, we could indeed put all the informations of the pse_pi node in the f=
-uture
-RJ45 port abstraction node. Then, this series will be put aside until we ma=
-nage
-to have the port abstraction get merged.
-I am not glad about this as it will stuck my work until then, but indeed
-removing this pse_pi wrapper node which is between the pse_controller node =
-and
-the connector node seems cleaner.
+I think as each PSE PI are seen as a regulator we may want it generic to tr=
+ack
+each PI parent. Having the parent regulator described like that would force=
+ the
+devicetree to describe where the power come from.
+In contrary, for example, on the pd692x0 controller the regulators are conn=
+ected
+to the managers (PD69208) and not directly to the PIs. So the devicetree wo=
+uld
+not really fit the hardware. It is indeed chip specific but having described
+like that would be more simple.
+
+If we decided to make it chip specific the core would have a callback to ask
+the driver to fill the regulator_init_data structure for each PI before
+registering the regulators. It is feasible.
+
+Mmh in fact I am still unsure about the solution.
+
+Oleksij as you were the first to push the idea. Have you more argument in m=
+ind
+to make it generic?
+https://lore.kernel.org/netdev/ZeObuKHkPN3tiWz_@pengutronix.de/
 
 Regards,
 --=20
