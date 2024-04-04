@@ -1,180 +1,376 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2121.outbound.protection.outlook.com [40.107.212.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D72F12D775;
-	Thu,  4 Apr 2024 18:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.121
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712255716; cv=fail; b=GKkHOiP7/SGXW6ZQyOYEjJu+zzxq9doSRAZmriobLevW78WdiJbVNsy630J/DlcJm+iK0hana7Hsk68E76yAOzBtRALVJEtlYCg0SGzRV03PSnedsicF2kvB8w3Xl/+qJpZOhxouqTpDc4pRV+eWgjbWT6CtKm677/feLgpXB0Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712255716; c=relaxed/simple;
-	bh=va6DriWkW5SqGhDpv4+BpbT4+3DdaqtkyQZZrt8afNI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=P8vBxY2gwMhc06Wbdrot3jTY+ms9tW5qZf/MyJhHRD4jjDAjjGkPdoJ3JBEv7T4z0NSMwWkp7Z0RocG/Gt8CiCWZnYENt96cMZFaMK6kL0b1u5hS+IoamhSAeNEIBa4pa+LpwgJMaiH1tio18FldYhg96J8Jht6hswO16wVxkJ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JeLTFA5r; arc=fail smtp.client-ip=40.107.212.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAE1130A58
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 18:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712256012; cv=none; b=c34axu4LYIivxiBLNyR4e6ENPdWNBQIM4RwBMFniz/YfbaB1GLRAKpewzAUfPsCQBdjTqPGgdteCX5zGYO9srEpNK0hrjcAQHoZoGs/Hm6RZjaQzmsYJV0kOZsX7vIyJbNhMw1R5GE5BJtbGd/OYVorbWlosKEs4/zE7AJLFqTI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712256012; c=relaxed/simple;
+	bh=H3pqw5Cn21mEjrw4QLbhRCTF5t3UE9p+uXoiKRje7Kc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eQEH9o4fCd2Y78ttdsEAe8l+Pmg/Kjt0XnvNfxvx+oVw9DbJxlpUu112s19zN7pTmpTa9e4qCv7ssbe/de2dQoaMj6F06LEdk1xfP76S0SyGEyDJRx6IFvv/tpmSeIXfs7tL8WD1eCptBVKOaE61ulXapxGOatdcWlLMYbnUdY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=nqQ35LSF; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JeLTFA5r"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oMKfyrr1hTsZ0imnL8ePfJDPePpgR/OokTriLAFKqpmzF1wnsKFuLnI2jtgpOlbYIqMrC+Z2rErwJMP+9eWDYpr8yct5cl/1c9v3wvhRxl2BNhtTveHv1esgs5S8iTjUXWTnuwYHJddn966NccQZLyaaJReWclWqW4dD039BXsuWaaVmKSDZTWbxDqSKE7YM3VlJfZaMHQxEECz4OLeRgBWrDL9DwHW0SnpFKDyeRejMP/3lflLp1Gb0i+k+56CN+CMf9msrejRMw8ux5PVPkR7yB5Vs+xYmdgz4UDQ9EULcRYKLU3NClGhLaKRg5bk9DUUT3Civ7EbBnAk9Y4zLLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9MtSJDkNT162Bc5l6hLKDqoYxFNdz+1uRgtPNPRumF4=;
- b=YSU1/3ZCQjrYrHjvVaziP4q9E9vNvAjIkCBJCE2heS6/9uifKsgAqDo7F6MZd07ScpgnlYfIRrIUMJv4/cimJcfN7O645vtT++BX4OkJqk72LLzrikFmQq76QVbysfHiDnoV1G+VzuJfIB2KgMBnish9C49RBJlzIMLS6mxwlMD5AfxfEauyuGuwOE2qcHQfFLOe7t/Q+69vYjlDElUxgaHwQy7KqGkNfJ7uqMC/S3HtcGoCcHKBJamAyqLJGpOS/bG9brGJej8zwp4/4eWggPbOLYh66ZKK7MNJzN/uD/nDZbovVAzdEwccBrP6TlIZMVMsaAGXILHcN10Inh1ZsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9MtSJDkNT162Bc5l6hLKDqoYxFNdz+1uRgtPNPRumF4=;
- b=JeLTFA5rwlKANjZXbDMWTlqmq9QpnMvmRam5k/h5UsLqOaV/UH9/dVXgEakkktCdeuwPO9Dl/NgltEkKOLGyhyRyKarJVN5mD3VgGa+Rh45RhyDMOEKJMDbKLjIgGv7TvVTrgvc4jsw+/48BrIceKFp1hnzjflGVzPzK2nDpHLw=
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SJ2PR12MB8719.namprd12.prod.outlook.com (2603:10b6:a03:543::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 4 Apr
- 2024 18:35:12 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57f3:51f5:d039:ed24]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57f3:51f5:d039:ed24%5]) with mapi id 15.20.7409.042; Thu, 4 Apr 2024
- 18:35:12 +0000
-Message-ID: <b2fb5b9f-ea5d-4dc6-8c42-cd14c90eaa08@amd.com>
-Date: Thu, 4 Apr 2024 13:35:07 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [RFC PATCH v3 07/17] x86/resctrl: Add support to enable/disable
- ABMC feature
-To: Peter Newman <peternewman@google.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- james.morse@arm.com
-References: <cover.1711674410.git.babu.moger@amd.com>
- <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
- <CALPaoCgRtYLnzpkL6uVjb+LvBbxD8ANRuzACP1UQ=rkzk8TCqg@mail.gmail.com>
- <a7e7f220-99f2-465f-bc36-aadccb891190@amd.com>
- <CALPaoChsU-C6fhjfLFEmxCXCdY-0PL-Hk4pHYs=TZ9PN6UFexw@mail.gmail.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <CALPaoChsU-C6fhjfLFEmxCXCdY-0PL-Hk4pHYs=TZ9PN6UFexw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR06CA0024.namprd06.prod.outlook.com (2603:10b6:8:2a::8)
- To MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="nqQ35LSF"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1e2b137d666so7748905ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 11:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1712256009; x=1712860809; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AyIyFdiyJQRDXRJOVVzrljOkrzosqdH0O43qmBP8nHA=;
+        b=nqQ35LSFvjdUkUPZ49OJd/vniNq+bOF6RVJO0VWfkER7oDEmoLHh+n4ArLRt1C1kXx
+         OrNiOAKdocsjJnNuqkda7niT61sJ508TCuXn/8uPd204y3vOu1wLR23wfAZpx2/gOC4o
+         2ZV49mSUeV1av/j2pSwtaQSUoxwGWEmpfSXrIhGqlHhnyvkI1jzIKWuO31EBCqZ5ntXD
+         IT2qx517vgbLsncbIfbiUf0zAweBfM+QAjQE7pIq/OPidF1VTX2KVVGIhz0bcBxbzPWb
+         O1kVP2lnrvBm1u5GSIQSLJmWNZ2xBE/KFSUzX0be5Lhi19UJgAaENoRb++w/2cAH3eoU
+         hW1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712256009; x=1712860809;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AyIyFdiyJQRDXRJOVVzrljOkrzosqdH0O43qmBP8nHA=;
+        b=nY3vWDLXN01tOmMt/8g/SdCt6g7D1t2Xzo3c56FI1eXy4/CBBkDlynGm5FPo/cVU+a
+         2HROA6qqWmsa3I/g9LVxannjT2LKiR8LrzydgYVsoPwcw1GWtl0OilCdVDqSx8IKKJ04
+         imTiTNjcpFQQk8Y1oDv+lGHi++W7p9NI+VQBKd26gLAHPp9ZT/8Rj35zX4S3DzlrpT+h
+         qpApLeshwvo3R+TQDdF4JxiodlK4gMmODHNBqts8Juu1Ha0q9JlzWrQOHWchv76JCcc2
+         Yxd1PhyQtBxSHMkRcGMPG9cttL6rnINca563XeJGe3Ap/L3M+29js/8f0rY9od3+YQ4x
+         PNig==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ2G9lOnUimxZVqz+CcgpdDc1Fnlh472g0zvCB6B2WSvfq2Qc2PxXKyZ6aZW2/kbjndmrtCyCDvbb+CercH+TO54WAq8JDcEBP
+X-Gm-Message-State: AOJu0YwrPl+KCkkoTKWbPU+/cHUZcqypn+jg3B5RqZSJ3qgheUV5/lnk
+	e7vltVPnM2g+TlmFk6QmvmE/Mj9T/vxgkpO6O75JREfWzvKgdLBYBzTP1srLWFE=
+X-Google-Smtp-Source: AGHT+IFOxqjhaxjG4yiKwWKB8DflifC3x7roG3kHFQHSdDjCz6+cBiGmT1J0tfx1L997ab9p0RJkCg==
+X-Received: by 2002:a17:902:b288:b0:1e0:ca47:4d96 with SMTP id u8-20020a170902b28800b001e0ca474d96mr3090938plr.3.1712256009204;
+        Thu, 04 Apr 2024 11:40:09 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa? ([2620:10d:c090:500::6:7e1f])
+        by smtp.gmail.com with ESMTPSA id f17-20020a170902ce9100b001e0e977f655sm15769263plg.159.2024.04.04.11.40.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Apr 2024 11:40:08 -0700 (PDT)
+Message-ID: <e909bd86-a6bc-4234-b895-280cbd9d66e0@davidwei.uk>
+Date: Thu, 4 Apr 2024 11:40:06 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|SJ2PR12MB8719:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	LPWQvSlHZeStcSFcneLyZGOvV/AH3rfE0t30vR0XtBfqCwp2aYKLKoBbW5/w5bN1PXot8XeO174/EB/F7G95KIQbCdLhQfB8IpNyUKGmt/MmB1Y2HDc6AKyJOcj/ONcnrXgY/z+q2mxxSJWG7ADHhON9JZF+Oxc2zfT06JSLJ1jAxWRL/07HGGGKshHAvwfuKRtFiNZeJUdGNM+mQUxgyPwvwW52/lx116BzEP43K4Z8G0ceUlF65pK/ah7XUxwZ7xytNF+nUsWV1PR9GYzChRdp7DDfpSQ1zHsCMK0F+LnwfPCvaLiFrVtjpWKmprMMyL4R3JU232upX+yjHhE5RfdswuDvPLsn8uhfshMW4u3cKO09fjCKFib7vXw9tAJVyGADq9YMhykVaAWe/8s2oF6VCOtd7I3QPbyO50mqKJOitrlEUEjkTTz84fmnFfcgCzOcBECF2zQ31vGhjS8jh+gkhUlv9jbO0EDInKWHfsaYguYVCEDGhoSnT9AiQki+sjhpE9RhJk5Z03DZ5HwdMrU7NmjYRl1m8I2R2XzpomSMcE1O9OLRmp1UtrCJqLemOiAZ5N6s4R2FhrPRe0aqlpMvXZieh3d64HOvKH9INOV+0A1KIB8XWzhynaxU8s6lO8n1Ot0AreB/JWUYACRtN2egPkRVLSGcU2V8cANDJA4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(1800799015)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YmF0WUpVQ3VOWVFSWFQ2SFhTSHJIYXlKQmFEWm1GenAwRXVrakR2aFRWKzdi?=
- =?utf-8?B?Y01RZWhQZXBnRWpMWmxSZ1kremtuRFhZb1cyRnBKM0JPNldHMTlET3NwSkgz?=
- =?utf-8?B?NSsrN1ZuV283TFVvN2I1VThCbWZUVUUxNkNVdS9mcmlleUkybVdxb0xaN0ZH?=
- =?utf-8?B?VDNzL3JodmFPNlpZUitibzlVT3FQWlFuTUR6aExLUWdHbTZEbk5sL2ptcmtF?=
- =?utf-8?B?ck9PUW1VcG5jNUx3VDFESXhCVzQ4WlZIWVF1NFVEeDlxazBBK09RK3RFQ1RO?=
- =?utf-8?B?dEE4Ynp1RmRSdVVFSUE3Mis4M2RXZFRJY003Yk5VQnc1SmVsSmV5dzBReit5?=
- =?utf-8?B?cFhQdmk4K0FQcDd4WkRkRlBDcFJ3eGU2ZlpSRmlkVDZKRWgxbzBQWHllc2ZV?=
- =?utf-8?B?TGFZUml3bFV1ZVFubVY1VytCbmRpVFNheTM0VTZGa3MyaThjbEQ0d3p3YmZW?=
- =?utf-8?B?VGo4ZkZyT3Q2SUZnSlhxN0psNndTSDhuN0VrUVR5QWdFZkU4NmppODI2L3Iw?=
- =?utf-8?B?L3JHVXFmQldVek1iRjUwMTVvMkJTenJIdUZlOTM2UUJGWVJxamNtRUJwZ0ll?=
- =?utf-8?B?YXRKek9JRWtneGgxb1B1MG9IMlJxRmRZQUNtRHkybFJ3WlFtZDhTNkQ0UGlp?=
- =?utf-8?B?bzRWdFFDK1F6V3AyeXZMaXZ0NGJCNlNmTFRHa0NRYmR4SjhDSTdaZE1Xbk80?=
- =?utf-8?B?azdHZDNQTERUejBDMjduMjVBbnJxVk5Wa1IxWXdpZXlZWUNmVTJXL1ZJcml5?=
- =?utf-8?B?cXJnRVZUbElCcVFlZkhoMnlmZXNJQ29GeWFVREtXYi9wa1BaR2JxRU5mcnN5?=
- =?utf-8?B?QXlwUHNIendJQTd4TXVTZVBONU5wREVVZUp4UzVhZDRKcVdRcHBoOXhQK2Fi?=
- =?utf-8?B?Q2phdjBxNThlbWY4SU9RM09ab3J2eDVmUHR1UDE3TEtaNGV1enhKeWFHMnZU?=
- =?utf-8?B?b3QwOHBBNkZ5S0dKMHZsZm9BZndWd1RzL3AreVpNaWVPM1JWTjlXYUFzc3VP?=
- =?utf-8?B?dnNKa3NZdTRISys1ZFlLWGkyOXU3dFZhaHpvQ2FlcWVLL0lFMlNjS1VLSGEw?=
- =?utf-8?B?YUhzSVFJcExmczk5eGZiM1d0YlhRYStaM3phejJHMnZHNktUem1xOU5rUExz?=
- =?utf-8?B?OWhsWVc5MGlDUFNYWU95U0RYNEFKMTI1a2JKL2pYM1oyOTFQc2RqRzVxY2JM?=
- =?utf-8?B?SWxSNWFkT0k0SDV4OVQ0c3E5RXhLTExlVzN0OE5FRkNaTGk1eDlEZzRIeG1x?=
- =?utf-8?B?SVRQMUw2aUVaY3orVnR4MTJkRlEyRnZ2THd4TU5ZMjliNi9kYU9SZm5aZHBo?=
- =?utf-8?B?Q295T2lxZmd5OUxpdEc4MmZoZ09YcG4vdzlnSlVjR0dXbHk2NU9xdCtGWHF0?=
- =?utf-8?B?NTZzcVhpSHJqUlhzSE1WMGJwZ21YQ3dtaktQL3MrZVlxZS9kbHZDa1U0ajVP?=
- =?utf-8?B?Q3lHTnk3cXhDWlZ6VXZOWWtGQ1A4aWlRYzVsS1BXa3J0V0lITXBBSGVZRHB1?=
- =?utf-8?B?QkIrMmtqRmdNUDd2M2E0Yzk0WTZxdUJiM2kwL2gxZDYrVUgvYkY2WjlabVhz?=
- =?utf-8?B?TE0wR1NLME9tOFdpSVlhRE1LS1cvZjBTcFYySnFkMUxCTGlpSnpadHJkQ0ty?=
- =?utf-8?B?UmQwMnR2d1pFLytrRUF3SVdMc2pFTWZYOFR4UTFCbUNJLytlZjM4MStiMDYy?=
- =?utf-8?B?WS9FcHpSbVNOMTlZbVpzcVptY3lBcS9QRlJJSUpyd1VNU2hoMGVzUEJrb3Jy?=
- =?utf-8?B?MEc1VFQzWWNmRGpIMEFDckNUbmlGcSs1MG5rdm9ma29Vd2pWNFhNQWNaVTRp?=
- =?utf-8?B?Y3BOazFBb3crM21TL3pkenNMeXdVL3BmbkdVdWJtaWVkUzNzWnFlL1JDMG9t?=
- =?utf-8?B?VStxeDdTRTZXLzlYSnp6UnRQOFFORmJiaW1WbUlKajBVU3A4bzI1ZkNsU2k2?=
- =?utf-8?B?NlNkU3d3L1ZoOFpyZW1SdCtuUmNIWXpxZXlhMEJULzMxQlg5d1J6cm9lUVdp?=
- =?utf-8?B?TlRkMUNKTzdObnNtVGJ4TEs3L2RhY05SVTNBMWhieHFqcHA5dy9ybXozSE9P?=
- =?utf-8?B?RjNwMGltZldIRTByQXlSd3hjaStYUkdQZmZ2L2RUa1FsdlRpUVluWGFLUExu?=
- =?utf-8?Q?Rpec=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07ba6ab7-ad75-420f-dec9-08dc54d5f691
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 18:35:12.2733
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +y6o9/g+Pj8R2eWUFXXspYk+Goyq57Vn/A5FSNKLDxCd0Oo++yDPLDnSJ0ylcsZd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8719
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v3 1/2] devlink: Support setting max_io_eqs
+Content-Language: en-GB
+To: Parav Pandit <parav@nvidia.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "kalesh-anakkur.purayil@broadcom.com" <kalesh-anakkur.purayil@broadcom.com>
+Cc: Saeed Mahameed <saeedm@nvidia.com>, "leon@kernel.org" <leon@kernel.org>,
+ "jiri@resnulli.us" <jiri@resnulli.us>, Shay Drori <shayd@nvidia.com>,
+ Dan Jurgens <danielj@nvidia.com>, Dima Chumak <dchumak@nvidia.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Jiri Pirko <jiri@nvidia.com>
+References: <20240403174133.37587-1-parav@nvidia.com>
+ <20240403174133.37587-2-parav@nvidia.com>
+ <b6f1dc7a-4548-42df-99ae-596dff525226@davidwei.uk>
+ <PH0PR12MB548196662E45D680214A6069DC3C2@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <PH0PR12MB548196662E45D680214A6069DC3C2@PH0PR12MB5481.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Peter,
-
-On 4/4/24 12:36, Peter Newman wrote:
-> Hi Babu,
+On 2024-04-04 10:58, Parav Pandit wrote:
+> Hi David,
 > 
-> On Thu, Apr 4, 2024 at 8:16 AM Moger, Babu <babu.moger@amd.com> wrote:
-> 
->> On 4/3/24 19:30, Peter Newman wrote:
->>> This looks like it would move to fs/resctrl/rdtgroup.c where it's not
->>> possible to dereference an rdt_hw_resource struct.
->>>
->>> It might be helpful to try building your changes on top of James's
->>> change[1] to get an idea of how this would fit in post-refactoring.
->>> I'll stop pointing out inconsistencies with his portability scheme
->>> now.
+>> From: David Wei <dw@davidwei.uk>
+>> Sent: Thursday, April 4, 2024 10:29 PM
 >>
->> Considering the complexity of James changes, I was hoping my series will
->> go first. It would be difficult for me to make changes based on transient
->> patch series. I would think it would be best to base the patches based on
->> tip/master.
+>> On 2024-04-03 10:41, Parav Pandit wrote:
+>>> Many devices send event notifications for the IO queues, such as tx
+>>> and rx queues, through event queues.
+>>>
+>>> Enable a privileged owner, such as a hypervisor PF, to set the number
+>>> of IO event queues for the VF and SF during the provisioning stage.
+>>>
+>>> example:
+>>> Get maximum IO event queues of the VF device::
+>>>
+>>>   $ devlink port show pci/0000:06:00.0/2
+>>>   pci/0000:06:00.0/2: type eth netdev enp6s0pf0vf1 flavour pcivf pfnum 0
+>> vfnum 1
+>>>       function:
+>>>           hw_addr 00:00:00:00:00:00 ipsec_packet disabled max_io_eqs
+>>> 10
+>>>
+>>> Set maximum IO event queues of the VF device::
+>>>
+>>>   $ devlink port function set pci/0000:06:00.0/2 max_io_eqs 32
+>>>
+>>>   $ devlink port show pci/0000:06:00.0/2
+>>>   pci/0000:06:00.0/2: type eth netdev enp6s0pf0vf1 flavour pcivf pfnum 0
+>> vfnum 1
+>>>       function:
+>>>           hw_addr 00:00:00:00:00:00 ipsec_packet disabled max_io_eqs
+>>> 32
+>>>
+>>> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+>>> Reviewed-by: Shay Drory <shayd@nvidia.com>
+>>> Signed-off-by: Parav Pandit <parav@nvidia.com>
+>>> ---
+>>> changelog:
+>>> v2->v3:
+>>> - limited 80 chars per line
+>>> v1->v2:
+>>> - limited comment to 80 chars per line in header file
+>>> ---
+>>>  .../networking/devlink/devlink-port.rst       | 25 +++++++++
+>>>  include/net/devlink.h                         | 14 +++++
+>>>  include/uapi/linux/devlink.h                  |  1 +
+>>>  net/devlink/port.c                            | 53 +++++++++++++++++++
+>>>  4 files changed, 93 insertions(+)
+>>>
+>>> diff --git a/Documentation/networking/devlink/devlink-port.rst
+>>> b/Documentation/networking/devlink/devlink-port.rst
+>>> index 562f46b41274..451f57393f11 100644
+>>> --- a/Documentation/networking/devlink/devlink-port.rst
+>>> +++ b/Documentation/networking/devlink/devlink-port.rst
+>>> @@ -134,6 +134,9 @@ Users may also set the IPsec crypto capability of
+>>> the function using  Users may also set the IPsec packet capability of
+>>> the function using  `devlink port function set ipsec_packet` command.
+>>>
+>>> +Users may also set the maximum IO event queues of the function using
+>>> +`devlink port function set max_io_eqs` command.
+>>> +
+>>>  Function attributes
+>>>  ===================
+>>>
+>>> @@ -295,6 +298,28 @@ policy is processed in software by the kernel.
+>>>          function:
+>>>              hw_addr 00:00:00:00:00:00 ipsec_packet enabled
+>>>
+>>> +Maximum IO events queues setup
+>>> +------------------------------
+>>> +When user sets maximum number of IO event queues for a SF or a VF,
+>>> +such function driver is limited to consume only enforced number of IO
+>>> +event queues.
+>>> +
+>>> +- Get maximum IO event queues of the VF device::
+>>> +
+>>> +    $ devlink port show pci/0000:06:00.0/2
+>>> +    pci/0000:06:00.0/2: type eth netdev enp6s0pf0vf1 flavour pcivf pfnum
+>> 0 vfnum 1
+>>> +        function:
+>>> +            hw_addr 00:00:00:00:00:00 ipsec_packet disabled
+>>> + max_io_eqs 10
+>>> +
+>>> +- Set maximum IO event queues of the VF device::
+>>> +
+>>> +    $ devlink port function set pci/0000:06:00.0/2 max_io_eqs 32
+>>> +
+>>> +    $ devlink port show pci/0000:06:00.0/2
+>>> +    pci/0000:06:00.0/2: type eth netdev enp6s0pf0vf1 flavour pcivf pfnum
+>> 0 vfnum 1
+>>> +        function:
+>>> +            hw_addr 00:00:00:00:00:00 ipsec_packet disabled
+>>> + max_io_eqs 32
+>>> +
+>>>  Subfunction
+>>>  ============
+>>>
+>>> diff --git a/include/net/devlink.h b/include/net/devlink.h index
+>>> 9ac394bdfbe4..bb1af599d101 100644
+>>> --- a/include/net/devlink.h
+>>> +++ b/include/net/devlink.h
+>>> @@ -1602,6 +1602,14 @@ void devlink_free(struct devlink *devlink);
+>>>   *			      capability. Should be used by device drivers to
+>>>   *			      enable/disable ipsec_packet capability of a
+>>>   *			      function managed by the devlink port.
+>>> + * @port_fn_max_io_eqs_get: Callback used to get port function's
+>> maximum number
+>>> + *			    of event queues. Should be used by device drivers
+>> to
+>>> + *			    report the maximum event queues of a function
+>>> + *			    managed by the devlink port.
+>>> + * @port_fn_max_io_eqs_set: Callback used to set port function's
+>> maximum number
+>>> + *			    of event queues. Should be used by device drivers
+>> to
+>>> + *			    configure maximum number of event queues
+>>> + *			    of a function managed by the devlink port.
+>>>   *
+>>>   * Note: Driver should return -EOPNOTSUPP if it doesn't support
+>>>   * port function (@port_fn_*) handling for a particular port.
+>>> @@ -1651,6 +1659,12 @@ struct devlink_port_ops {
+>>>  	int (*port_fn_ipsec_packet_set)(struct devlink_port *devlink_port,
+>>>  					bool enable,
+>>>  					struct netlink_ext_ack *extack);
+>>> +	int (*port_fn_max_io_eqs_get)(struct devlink_port *devlink_port,
+>>> +				      u32 *max_eqs,
+>>> +				      struct netlink_ext_ack *extack);
+>>> +	int (*port_fn_max_io_eqs_set)(struct devlink_port *devlink_port,
+>>> +				      u32 max_eqs,
+>>> +				      struct netlink_ext_ack *extack);
+>>>  };
+>>>
+>>>  void devlink_port_init(struct devlink *devlink, diff --git
+>>> a/include/uapi/linux/devlink.h b/include/uapi/linux/devlink.h index
+>>> 2da0c7eb6710..9401aa343673 100644
+>>> --- a/include/uapi/linux/devlink.h
+>>> +++ b/include/uapi/linux/devlink.h
+>>> @@ -686,6 +686,7 @@ enum devlink_port_function_attr {
+>>>  	DEVLINK_PORT_FN_ATTR_OPSTATE,	/* u8 */
+>>>  	DEVLINK_PORT_FN_ATTR_CAPS,	/* bitfield32 */
+>>>  	DEVLINK_PORT_FN_ATTR_DEVLINK,	/* nested */
+>>> +	DEVLINK_PORT_FN_ATTR_MAX_IO_EQS,	/* u32 */
+>>>
+>>>  	__DEVLINK_PORT_FUNCTION_ATTR_MAX,
+>>>  	DEVLINK_PORT_FUNCTION_ATTR_MAX =
+>> __DEVLINK_PORT_FUNCTION_ATTR_MAX -
+>>> 1 diff --git a/net/devlink/port.c b/net/devlink/port.c index
+>>> 118d130d2afd..be9158b4453c 100644
+>>> --- a/net/devlink/port.c
+>>> +++ b/net/devlink/port.c
+>>> @@ -16,6 +16,7 @@ static const struct nla_policy
+>> devlink_function_nl_policy[DEVLINK_PORT_FUNCTION_
+>>>  				 DEVLINK_PORT_FN_STATE_ACTIVE),
+>>>  	[DEVLINK_PORT_FN_ATTR_CAPS] =
+>>>
+>> 	NLA_POLICY_BITFIELD32(DEVLINK_PORT_FN_CAPS_VALID_MASK),
+>>> +	[DEVLINK_PORT_FN_ATTR_MAX_IO_EQS] = { .type = NLA_U32 },
+>>>  };
+>>>
+>>>  #define ASSERT_DEVLINK_PORT_REGISTERED(devlink_port)
+>> 		\
+>>> @@ -182,6 +183,30 @@ static int devlink_port_fn_caps_fill(struct
+>> devlink_port *devlink_port,
+>>>  	return 0;
+>>>  }
+>>>
+>>> +static int devlink_port_fn_max_io_eqs_fill(struct devlink_port *port,
+>>> +					   struct sk_buff *msg,
+>>> +					   struct netlink_ext_ack *extack,
+>>> +					   bool *msg_updated)
+>>> +{
+>>> +	u32 max_io_eqs;
+>>> +	int err;
+>>> +
+>>> +	if (!port->ops->port_fn_max_io_eqs_get)
+>>> +		return 0;
+>>> +
+>>> +	err = port->ops->port_fn_max_io_eqs_get(port, &max_io_eqs,
+>> extack);
+>>> +	if (err) {
+>>> +		if (err == -EOPNOTSUPP)
+>>> +			return 0;
+>>
+>> Docs above says:
+>>    * Note: Driver should return -EOPNOTSUPP if it doesn't support
+>>    * port function (@port_fn_*) handling for a particular port.
+>>
+>> But here you're returning 0 in both cases of no port_fn_max_io_eqs_get or
+>> port_fn_max_io_eqs_get() returns EOPNOTSUPP.
+>>
+> When the port does not support this op, the function pointer is null and, 0 is returned as expected.
 > 
-> I don't need you to push the patches to the mailing list based on
-> James's series. I was just asking you to try building locally on top
-> of the refactoring changes. You are putting in the effort trying to
-> make this code portable (i.e., inventing new
-> resctrl_arch_-interfaces), so it would be sensible to check your work
-> locally.
-
-I am really no focusing much on  portability in this series.
-I named it to match it with resctrl_arch_set_cdp_enabled.
-Yes. I got your concerns. I will plan check against James changes in next
-revision.
-
+> When the port for some reason has the ops function pointer set for a port, but if the port does not support the ops, it will return ENOPNOTSUPP.
+> This may be possible when the driver has chosen to use same ops callback structure for multiple port flavors.
 > 
-> However, I am the main stakeholder who cares about MPAM and ABMC
-> working in the same kernel, so I can continue to give feedback on
-> portability as I compose the series' together.
+> This code pattern is likely left over code of relatively recent work that moved ops from devlink instance to per port ops.
+> I propose to keep the current check as done in this patch,
+> and run a full audit of all the drivers, if all drivers have moved to per port ops, then simplify the code to drop the check for EOPNOTSUPP in a new series that may touch more drivers.
+> Otherwise, we may end up failing the port show operation when it returns - ENOPNOTSUPP.
 
-Agree. Please continue your feedback.
--- 
-Thanks
-Babu Moger
+Thanks for the explanation. So ideally each port flavour has its own
+unique set of struct ops, and if something is not supported then don't
+set the func ptr in the struct ops.
+
+Yes, I see that 0 has to be returned for devlink_port_fn_caps_fill() to
+succeed.
+
+Had a brief look and there's only a handful of drivers (mlx, nfp, ice)
+that use devlink_port_ops.
+
+>  
+>>> +		return err;
+>>> +	}
+>>> +	err = nla_put_u32(msg, DEVLINK_PORT_FN_ATTR_MAX_IO_EQS,
+>> max_io_eqs);
+>>> +	if (err)
+>>> +		return err;
+>>> +	*msg_updated = true;
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  int devlink_nl_port_handle_fill(struct sk_buff *msg, struct
+>>> devlink_port *devlink_port)  {
+>>>  	if (devlink_nl_put_handle(msg, devlink_port->devlink)) @@ -409,6
+>>> +434,18 @@ static int devlink_port_fn_caps_set(struct devlink_port
+>> *devlink_port,
+>>>  	return 0;
+>>>  }
+>>>
+>>> +static int
+>>> +devlink_port_fn_max_io_eqs_set(struct devlink_port *devlink_port,
+>>> +			       const struct nlattr *attr,
+>>> +			       struct netlink_ext_ack *extack) {
+>>> +	u32 max_io_eqs;
+>>> +
+>>> +	max_io_eqs = nla_get_u32(attr);
+>>> +	return devlink_port->ops->port_fn_max_io_eqs_set(devlink_port,
+>>> +							 max_io_eqs, extack);
+>>> +}
+>>> +
+>>>  static int
+>>>  devlink_nl_port_function_attrs_put(struct sk_buff *msg, struct
+>> devlink_port *port,
+>>>  				   struct netlink_ext_ack *extack) @@ -428,6
+>> +465,9 @@
+>>> devlink_nl_port_function_attrs_put(struct sk_buff *msg, struct
+>> devlink_port *por
+>>>  	if (err)
+>>>  		goto out;
+>>>  	err = devlink_port_fn_state_fill(port, msg, extack, &msg_updated);
+>>> +	if (err)
+>>> +		goto out;
+>>> +	err = devlink_port_fn_max_io_eqs_fill(port, msg, extack,
+>>> +&msg_updated);
+>>>  	if (err)
+>>>  		goto out;
+>>>  	err = devlink_rel_devlink_handle_put(msg, port->devlink, @@ -726,6
+>>> +766,12 @@ static int devlink_port_function_validate(struct devlink_port
+>> *devlink_port,
+>>>  			}
+>>>  		}
+>>>  	}
+>>> +	if (tb[DEVLINK_PORT_FN_ATTR_MAX_IO_EQS] &&
+>>> +	    !ops->port_fn_max_io_eqs_set) {
+>>> +		NL_SET_ERR_MSG_ATTR(extack,
+>> tb[DEVLINK_PORT_FN_ATTR_MAX_IO_EQS],
+>>> +				    "Function does not support max_io_eqs
+>> setting");
+>>> +		return -EOPNOTSUPP;
+>>> +	}
+>>>  	return 0;
+>>>  }
+>>>
+>>> @@ -761,6 +807,13 @@ static int devlink_port_function_set(struct
+>> devlink_port *port,
+>>>  			return err;
+>>>  	}
+>>>
+>>> +	attr = tb[DEVLINK_PORT_FN_ATTR_MAX_IO_EQS];
+>>> +	if (attr) {
+>>> +		err = devlink_port_fn_max_io_eqs_set(port, attr, extack);
+>>> +		if (err)
+>>> +			return err;
+>>> +	}
+>>> +
+>>>  	/* Keep this as the last function attribute set, so that when
+>>>  	 * multiple port function attributes are set along with state,
+>>>  	 * Those can be applied first before activating the state.
