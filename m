@@ -1,189 +1,310 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D01913173C;
-	Thu,  4 Apr 2024 18:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712256232; cv=fail; b=pbiIPl2nsM9J8bBHq2BNeV/dExW/CgnIG1ldC+GW+u/CZWUD0ieM4x3cbzr1wWcRWPSyRCGLAFLx6B6b06PDTh4RbToyx0pWKlD5DqhiNUKdvqJ7qIL+HhPT3aOVZNdBUVcVUWddlAfYn/g3EEN4C+cwCYRYPWVZ/ASOzxKFoQE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712256232; c=relaxed/simple;
-	bh=emI5CMANOrLtUusioKlQIYor9Aa8Cfx6BVPxk/88WGk=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GJAlzvkQdjWIH1jtk5/kabcl91LANpcD50aojfusG0MnAeoXuDa3foFi+x77SGuruOlZ07uKPvjsnln56TniRuh4TGTEyShKlgkmnG8aJvX5XrvQTlepl2yuZYaqUCkoll9fggad8eDZDPIGyd09F1fw3rxTu+vOAXzkXHyATxs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7yHfUAS; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E08208A7
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 18:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712256258; cv=none; b=WUPYREXArODQYHj6QfUrYozo3bgkzb/WyWZTPqHdEHGmjqvHesLmHQfcelASvtkNA08PI4n9Bb1mb05FCPyMlH9jpzPSsPAqpNUe3Asw0P+uCy59qWH+gMDENprnKDJnqEZBVZwk3YjO8pYNJb7ZqwJU/kVZHeFBbOjv6pYMmN4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712256258; c=relaxed/simple;
+	bh=HsPOpo+Xk2IcoOw5CEfqbDCp3sUQgM1R5SrXr8OmdLk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GOqYulG1Ak7wygUxkqpXxR1WsnF4nGRqaEVOjc01iahYt08wx3hyUhHTjVgc0EhEjVZkFtpRsjG06f4DX5H7phBfNj1eujqt1vLWGs+lee7THmYdmVqmOteyirzGn2A8Gn5uueomdUxcMw9CxDHlY6Bq64bFbQ6QaZA6+tHPBWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=ZdYoib4q; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7yHfUAS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712256230; x=1743792230;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=emI5CMANOrLtUusioKlQIYor9Aa8Cfx6BVPxk/88WGk=;
-  b=X7yHfUASuf7GyiPkH0srlAWe1UPV7imKzsWKWOiA9WmUkBU135l9FZDR
-   pCojD+GhPLb6e2VvG51HTwDYJz3lNVUX3BxnPFjJu5VTk9Jks6f/Yzrzs
-   l6VQ9+dWGr98sPXRY0zrj48xe80sEvXKLyq8KHj1ilG3k9V4Zu2HE+5BW
-   FhA26J5D4wG/0kMkuiMfKTvEe0DKF9sSnjf+dWesD+Ua9MES9GUmct7dc
-   H+pCRS7Lr7nzmOuGmc3Z9cC6CSboOcWNpX4XUoLGWGd80X6iknOS4ZGwR
-   1VvwKcenKx4IG1jUn/cWVHx3ugfjDvAGmDvejEYIZ2DQk+RmrDYPJPxb8
-   g==;
-X-CSE-ConnectionGUID: ZZjDmJ63QOaVikVQJ97Z/w==
-X-CSE-MsgGUID: 9GDXu3TkSVWH1RXnvmI5ow==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="7431596"
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="7431596"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2024 11:43:49 -0700
-X-CSE-ConnectionGUID: zR/YNCs4T0Wa/U0yot2SVQ==
-X-CSE-MsgGUID: WeKTLWriQQGp/1M0EGBI2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,179,1708416000"; 
-   d="scan'208";a="19487673"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Apr 2024 11:43:49 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 4 Apr 2024 11:43:48 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 4 Apr 2024 11:43:48 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 4 Apr 2024 11:43:48 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 4 Apr 2024 11:43:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WiFQ7f01VDtJlfFLr4ToercRA8JAp4JxuIQAdKYZmKpjVM+IpJgbqjLZEHF1p7q1bne0EH/Al+HNVHkr+iDOro3+yTgjY4iGPY7ld0V8cEI8JucrPi1drTiOdsjS7El5paEZptPQD6wV3/TE35/MkVrN71Woy7/HtyhNXBOxTwVrVdu1l1HmLf+ysyHgPgbf5vFLfVT8oRPklyzyfG7tgNypAnlq8tOp3fc9L8t6Dnd1RRx/Q8V/Y+89rHBiU/bOzNMk00IILvdJBK8rzfLiUyUlNhQBNdgEI9uV2R7U/4Y1P1LM0gVbXTj6T5MUB9KIc5s24PLu2f9OBbZLZzer4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bufgIWexD+L6y1z7nMeAw8NB4OB2IbmpLlNrPh3OHZI=;
- b=VWPXfM1WqXf8K8drFhl3tyOijejxc+oQcEZHC8teBKTd+X28kOwHm/UhJ0bZRv6j2/Uj72smn9xS2NLnlLzhR0Ka5/e/rJZ/jSdTRbDN5qHVEKbQTTcZM97v1jrpu/xuuwBB30Ycct9TAJSdxcj+NkFGedeVH7yiT8Wmpn5grn7YOkR8EsSzQx5br+fcMVB0D0hAzedB/f9YAIaFVBjxX8DlScmFA76l4Pajk6a7PEuoSFRTwx2z5NYk/NKlGFRrQIWE0D36MZ66xR9M36st5hM86/PbAAmyydgPAGb0kIYSWvxyvXCtfq4e6UdYfTC+EKC2n/GE7F1O6rliBKHN+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by PH8PR11MB6999.namprd11.prod.outlook.com (2603:10b6:510:221::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.26; Thu, 4 Apr
- 2024 18:43:40 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7452.019; Thu, 4 Apr 2024
- 18:43:40 +0000
-Message-ID: <08c8162a-f7d7-4e78-8a2a-d9c86780429c@intel.com>
-Date: Thu, 4 Apr 2024 11:43:36 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 07/17] x86/resctrl: Add support to enable/disable
- ABMC feature
-To: Peter Newman <peternewman@google.com>, Babu Moger <babu.moger@amd.com>
-CC: <corbet@lwn.net>, <fenghua.yu@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <james.morse@arm.com>
-References: <cover.1711674410.git.babu.moger@amd.com>
- <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
- <CALPaoCgRtYLnzpkL6uVjb+LvBbxD8ANRuzACP1UQ=rkzk8TCqg@mail.gmail.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <CALPaoCgRtYLnzpkL6uVjb+LvBbxD8ANRuzACP1UQ=rkzk8TCqg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0192.namprd03.prod.outlook.com
- (2603:10b6:303:b8::17) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="ZdYoib4q"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e2bfac15c2so5382435ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 11:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1712256256; x=1712861056; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eNtJbHvpafpmIUN8pNu/CtUD6SepMG2eb3pflE9huDo=;
+        b=ZdYoib4qGk9f3NaVSV2XuwdyGXLFfyBdmwv3S6yzVpdi6vHIlApL9SpeiOOhTjtmrI
+         unlCkvOf/WqB+uIiTunK37ZrH45dOz8lloFEr1U9MpbLuXlQyWHvo/1r1yekdhDXTrpS
+         q6IkJzDTyzLXjZKgsKwcTMvQtBS+pM0Ggn9c29Dm2YN+L3Ac6TYkd8uQhS0GcCgXSBq6
+         9Qp2L9K3tAWMpERiU26GoUcNXaLEvS55W103wEq9KxhQ9Bx3a3WRiVii8cJCaniIHHaX
+         4HmwNCZMUHlV+dZUfyOzPrXVtNUJJJMcCOrTo84KA9+pocRt9PYc3e0DE6C28MahY9PS
+         LWNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712256256; x=1712861056;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eNtJbHvpafpmIUN8pNu/CtUD6SepMG2eb3pflE9huDo=;
+        b=QDCRHcHdyt4oaQqL1Pe3RQYAV4wNNenprMCbR71HPx7Ti0JvRe4kYh9EogQS1Bj1pW
+         nvjY59QtPdcaRvn10b+BrkMNRq7USMaBYaBCz28G+YsTI17od9PS/pATvyXw/ZIJzDlp
+         m9ZkYW/LTekxe20MrTzjH2yyYE7r2HHZDI+XBU+pt/raRHDxkM9hhyrRhZ/IaKCzUZJg
+         0A2woVNks90pIejdWghFie7tcVoenwp2hKTejgPkJVpURx/EqKMTyIy2T99z8Ivk00NX
+         o5jZdt5QDFRJNlsJgAyVn0o3Yb6NQRUdlhCJNIOE9kYv4phx0QlZi7a8jR3NEDpPwupP
+         e33Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVFdQVQiJGFmw8RUDrr+oF+Py9G8iQgchMhOikInKAIsNKw4rq9cq7m+qe3JkhBZWeIwgH4Jsc876AeMoDWgcL9BkkDZJJ2EqKn
+X-Gm-Message-State: AOJu0Yww11DTv31Jot5yRqEdUtF71bbadDWEYRhtw//YBJai+ad5QG5g
+	QRshwzDzRyBogJYLNkuFaDuAUf7vlBZ5xhV9+yrihDCrHa0E3ZxCuuOjhx41XiM=
+X-Google-Smtp-Source: AGHT+IEXKm/7RIU4s3MMLCsdLTzlchxh+5Jxvev26IZQbr53eItiG+I1Dx1dMoKHuPLPXGvm2bTgRg==
+X-Received: by 2002:a17:903:11c9:b0:1e0:cd8a:58c with SMTP id q9-20020a17090311c900b001e0cd8a058cmr3338132plh.1.1712256255614;
+        Thu, 04 Apr 2024 11:44:15 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa? ([2620:10d:c090:500::6:7e1f])
+        by smtp.gmail.com with ESMTPSA id w20-20020a1709027b9400b001dca3a65200sm15842182pll.228.2024.04.04.11.44.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Apr 2024 11:44:15 -0700 (PDT)
+Message-ID: <31999fb9-2a00-44e6-8cf9-5a904d6035ce@davidwei.uk>
+Date: Thu, 4 Apr 2024 11:44:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH8PR11MB6999:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PAeh3BDtLXNZ+AR/EKw2/yp/oXtq31O5R3Q9YiajQiqVfCbmvBTRk7bKJE+wRShEeJ1LZ4h/htw2XybP5Jl38BS3zBKf2dKC1TibUDqU5yKbOUzuouTaPrI70xErU7vZqDFkQwnVI7A7A+JnIdFtTlQDporCL3/D8j9oewZzd4oFGLARau/B4kKAx7FbkU1FCa19WpdHVkrYiObWY3JcIL1ToxszGMKeXSaZj+rTR6FqJU6sbifPMUa98LRARvam4ebVni7PjzEvHkdISzBzOnl8wB9zwdlKxPwUtju19D8UOz3NTAXYC1uULu6O+7xwMwejaqF/8kQCdrvgiT0TLS9XmtL4idU6CuUYJHRdivMpmaLqofgxoYPxbr+XfXi/zXc4OD1YyTDAS8HsT3EM1C+2u5o65bB/r07y0+WL3p+ehwW/a8i8CGtlIF74c0QRYcnYiLUwot2qM3oI0keTd7f6i71zKwCJJ38NAzPl8e6V32aBF9qXgDzXCw3r/Sc3yCnrnGEksqSbxurNW5Mmnj0PbY/0XpFZ7s3pfK9gLVk2ACfO/0tVMugr54bC16pkTzsaGhwSU6F4FTg+wyMs/RmUQFPGiducdTFTfKuVLfCExvGYc0odpmTBQiYFUvzZJuPTZlerqDK9wGNt6YehcKQ4DdzvxWsuaG9kWWy89FQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b1o0MGU1UnZJRmVNNWVjN1FrYm04aUwwSHdZR0JUK2RaMFBwY2lNbXhZMU9z?=
- =?utf-8?B?cDVXUWs4WTdYUmVEcXVTYVRrNmFWS0JQOE1WTHZWMUMzRTV6Z2ZCT3ZvMDk2?=
- =?utf-8?B?bFE4Uk1QL3M2dCtFdTlPcllSVWYrWnpObXJwanFVUHBmQkppU3dyYldIeStn?=
- =?utf-8?B?SHR4SkFaWVBVaTBoZ0VVbmNRNEVXeWFiVm1WejVNaDIxaWRFK3lMWGtOb2sx?=
- =?utf-8?B?cE1JWjRhc3lOZGFwYndHRHFnT3M1bm1QRllrNHRJb254TlhiNlFoY0xxOUhI?=
- =?utf-8?B?QmhVOTc3T1Y2K2ZKVWZuYXpVaVFWUHRwa0IzSklqV1duMFJIc1Z5cEErL3kv?=
- =?utf-8?B?dUkweXlMK0VCaVl1K2h1Unl0b2djRTluSHczemszd2VOWEljMEFWR3JrSUxK?=
- =?utf-8?B?dnZlYXJ0YjhuSmZiYklqQ2tiR3RLaE5wQ3ZMSno1OXVBTkpYS25ncWpTTW43?=
- =?utf-8?B?ZE10SWovYUlOaUpITjFkL0laYkQvZDhjWERycFJZcUtGVHNuWjl6d0pPYmMy?=
- =?utf-8?B?Ti90YTUrS3BsRnZ2RjdvVDkwWmMwY091aUJucWRSNXIvKzZwL1pKTHRZeC9R?=
- =?utf-8?B?L3MxVlJWbTc1R2Uwc2oxdnJDMm1ZaUlnWk82MkhJQzdZU0NJRzFBZWJmVENM?=
- =?utf-8?B?TFIrLytLZzg1RDZ3cTlEampBejRuYXIvZnZmY2VuYW8wM3Y2WERXa2R3YWZy?=
- =?utf-8?B?OVMyaVBJcG1qWkFpakg1WnBncTFYR2VMR2NrSmFoOHNicGR2Uzdab0c5ZUtH?=
- =?utf-8?B?UDZxV0tEYjA1blhvL3ZaZnl5cktJdk1GeFkwYzlyMytsRGRSV241ZG9IcEpB?=
- =?utf-8?B?VEJyYzVld2F5SDBNdG5aUnJXQlBscDlwZ0ZuV1lQd1FaeW81Y3duUUV4UFlq?=
- =?utf-8?B?d0FNbllYSE8wZjlRTVNvbHFGQmgwOWtWQlBkNHpuUklJNEtwRzJjUU5STzRn?=
- =?utf-8?B?aFh5dXU5VGxXT2UvQURvcmppZXJBeDJkWmtKcE0yNDBQcVFUdW1jRE1xZjM4?=
- =?utf-8?B?RmttWkJVb0RKUFcvWjFFcDdEKy9oRC9VTmpIMnM2TW56MUNpWVl3UzJqWHUz?=
- =?utf-8?B?MGkrSmZQZE44V1FTYUZJVjdlS2laVlZRdjJuNEYwVXRPN1FKZDY0U0NUN1Nl?=
- =?utf-8?B?YW5xUWN6YzdBR2NpbGNQWGVrOGZvMmRGSDJwcGZjUFpuR0J0NngzZk5PdDZ5?=
- =?utf-8?B?M3FPZjVUTm8wRFhDbE5VeXZ2bVlFTFQrenA5U2d1MWlLaTNKUTFrT1JRd3ZJ?=
- =?utf-8?B?S2ZlOXlnaXhCZWJpTU1ScmVEdjBnU0t1OVRvWVpHS1NnR3VuL2JLYWFFQWVV?=
- =?utf-8?B?cWVZSWErZ0FDbkhIRHRUZHExUnNBbUZLV3BUSWRHUXI4eUd0b1p3ODdqWHNU?=
- =?utf-8?B?YUhkM1QyUHUzbXpZRytvNFByUjV1UFZvWTRqWkZIazNRcnUwQnpRZ3ZLY0lu?=
- =?utf-8?B?RzRJaDB4QlIvdXhwMU4yT1lDejNWRVY5TWkzMDdBYkxVQUpWVVJCZkU4V2dt?=
- =?utf-8?B?bjFJeUlWeDI1K0NhdG15b0E5S2x3Q2lWbmtMZVhXbUExOTgxOURycEovU2Zk?=
- =?utf-8?B?TUtlRXdSMk9FaDVCSHc2SlVEdGM5VlJGQlU4YlpkSlpnRDJzVE4zRkR6aGVX?=
- =?utf-8?B?RGMwcEs0M3NLdUwvdHZjN3p0SkdpQzJQZUVjOVI2RnVzVEI2SXFzUklpcjl1?=
- =?utf-8?B?ajlaUnA2eWo5QVZFb2FqMmV0bTZGZjdyeFZVTGxwRmE2cGs3UDFkZ0JhUGt6?=
- =?utf-8?B?WHZCRDNMWG9nc2twTVNvTklhbVl4dWtPNEtoN2tXeERGcTVBRlkvcStWbjdI?=
- =?utf-8?B?WmpzdndsRnFxU29Xa1U3SUpYd1RDNHhsa0ZtNWd6Z3JnbDBzRVZaVG9PUHRL?=
- =?utf-8?B?d01HbW1kQVkzZWh6Y3pOaTQvRGlYWmovT3VrU1dKSW1oODFpRUE4NkhhVFk1?=
- =?utf-8?B?MTAxNFBLVFhneWNCVlFsT0ZPejNKZnEzbE9NYlBwQWdFdGYxSGVtMUM2SXVx?=
- =?utf-8?B?NjJHTG43YXZEczVkZ09jcnMvL2lxN2hzMnlVcUcwWTNTYVFMZkNKcUpYNGtN?=
- =?utf-8?B?cFVMbllRenN0YlZDRURGNCtWdWdVQ3FPNm5IdEpNVUp1d0Izd0ZRK2VwV25m?=
- =?utf-8?B?eEltUmFTR1NhbnBzN2g3Z0kxQzJtOUVRT3EvcHBIM3RkR2tGZXJXeWloc3hM?=
- =?utf-8?B?ckE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf42732-34a7-4327-3c8f-08dc54d7258a
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2024 18:43:40.5935
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bk+heWsaQLbZYJ3x87joYuoI4t4W07oYYig0HEjRsPOAes1/hJNiXskX1rKBBBxS2ub+MzsdPnnZfDGZh3xLpWe818xanK36hkQQDh0aWm4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6999
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next v3 2/2] mlx5/core: Support max_io_eqs for a function
+Content-Language: en-GB
+To: Parav Pandit <parav@nvidia.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "kalesh-anakkur.purayil@broadcom.com" <kalesh-anakkur.purayil@broadcom.com>
+Cc: Saeed Mahameed <saeedm@nvidia.com>, "leon@kernel.org" <leon@kernel.org>,
+ "jiri@resnulli.us" <jiri@resnulli.us>, Shay Drori <shayd@nvidia.com>,
+ Dan Jurgens <danielj@nvidia.com>, Dima Chumak <dchumak@nvidia.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+References: <20240403174133.37587-1-parav@nvidia.com>
+ <20240403174133.37587-3-parav@nvidia.com>
+ <fae76581-bb19-43dd-a770-9a72a89e95ba@davidwei.uk>
+ <PH0PR12MB54816646A6CD3D241797CB25DC3C2@PH0PR12MB5481.namprd12.prod.outlook.com>
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <PH0PR12MB54816646A6CD3D241797CB25DC3C2@PH0PR12MB5481.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Peter,
-
-On 4/3/2024 5:30 PM, Peter Newman wrote:
-
-...
+On 2024-04-04 11:05, Parav Pandit wrote:
 > 
-> Presumably this would be called holding the rdtgroup_mutex? Perhaps a
-> lockdep assertion somewhere would be appropriate?
 > 
+>> From: David Wei <dw@davidwei.uk>
+>> Sent: Thursday, April 4, 2024 10:27 PM
+>>
+>> On 2024-04-03 10:41, Parav Pandit wrote:
+>>> Implement get and set for the maximum IO event queues for SF and VF.
+>>> This enables administrator on the hypervisor to control the maximum IO
+>>> event queues which are typically used to derive the maximum and
+>>> default number of net device channels or rdma device completion vectors.
+>>>
+>>> Reviewed-by: Shay Drory <shayd@nvidia.com>
+>>> Signed-off-by: Parav Pandit <parav@nvidia.com>
+>>> ---
+>>> changelog:
+>>> v2->v3:
+>>> - limited to 80 chars per line in devlink
+>>> - fixed comments from Jakub in mlx5 driver to fix missing mutex unlock
+>>>   on error path
+>>> v1->v2:
+>>> - fixed comments from Kalesh
+>>> - fixed missing kfree in get call
+>>> - returning error code for get cmd failure
+>>> - fixed error msg copy paste error in set on cmd failure
+>>> - limited code to 80 chars limit
+>>> - fixed set function variables for reverse christmas tree
+>>> ---
+>>>  .../mellanox/mlx5/core/esw/devlink_port.c     |  4 +
+>>>  .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
+>>>  .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
+>>>  3 files changed, 108 insertions(+)
+>>>
+>>> diff --git
+>>> a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
+>>> b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
+>>> index d8e739cbcbce..f8869c9b6802 100644
+>>> --- a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
+>>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
+>>> @@ -98,6 +98,8 @@ static const struct devlink_port_ops
+>> mlx5_esw_pf_vf_dl_port_ops = {
+>>>  	.port_fn_ipsec_packet_get =
+>> mlx5_devlink_port_fn_ipsec_packet_get,
+>>>  	.port_fn_ipsec_packet_set =
+>> mlx5_devlink_port_fn_ipsec_packet_set,
+>>>  #endif /* CONFIG_XFRM_OFFLOAD */
+>>> +	.port_fn_max_io_eqs_get = mlx5_devlink_port_fn_max_io_eqs_get,
+>>> +	.port_fn_max_io_eqs_set = mlx5_devlink_port_fn_max_io_eqs_set,
+>>>  };
+>>>
+>>>  static void mlx5_esw_offloads_sf_devlink_port_attrs_set(struct
+>>> mlx5_eswitch *esw, @@ -143,6 +145,8 @@ static const struct
+>> devlink_port_ops mlx5_esw_dl_sf_port_ops = {
+>>>  	.port_fn_state_get = mlx5_devlink_sf_port_fn_state_get,
+>>>  	.port_fn_state_set = mlx5_devlink_sf_port_fn_state_set,
+>>>  #endif
+>>> +	.port_fn_max_io_eqs_get = mlx5_devlink_port_fn_max_io_eqs_get,
+>>> +	.port_fn_max_io_eqs_set = mlx5_devlink_port_fn_max_io_eqs_set,
+>>>  };
+>>>
+>>>  int mlx5_esw_offloads_devlink_port_register(struct mlx5_eswitch *esw,
+>>> struct mlx5_vport *vport) diff --git
+>>> a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+>>> b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+>>> index 349e28a6dd8d..50ce1ea20dd4 100644
+>>> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+>>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+>>> @@ -573,6 +573,13 @@ int mlx5_devlink_port_fn_ipsec_packet_get(struct
+>>> devlink_port *port, bool *is_en  int
+>> mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port, bool
+>> enable,
+>>>  					  struct netlink_ext_ack *extack);
+>> #endif /*
+>>> CONFIG_XFRM_OFFLOAD */
+>>> +int mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port,
+>>> +					u32 *max_io_eqs,
+>>> +					struct netlink_ext_ack *extack); int
+>>> +mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port,
+>>> +					u32 max_io_eqs,
+>>> +					struct netlink_ext_ack *extack);
+>>> +
+>>>  void *mlx5_eswitch_get_uplink_priv(struct mlx5_eswitch *esw, u8
+>>> rep_type);
+>>>
+>>>  int __mlx5_eswitch_set_vport_vlan(struct mlx5_eswitch *esw, diff
+>>> --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+>>> b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+>>> index baaae628b0a0..2ad50634b401 100644
+>>> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+>>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+>>> @@ -66,6 +66,8 @@
+>>>
+>>>  #define MLX5_ESW_FT_OFFLOADS_DROP_RULE (1)
+>>>
+>>> +#define MLX5_ESW_MAX_CTRL_EQS 4
+>>> +
+>>>  static struct esw_vport_tbl_namespace mlx5_esw_vport_tbl_mirror_ns = {
+>>>  	.max_fte = MLX5_ESW_VPORT_TBL_SIZE,
+>>>  	.max_num_groups = MLX5_ESW_VPORT_TBL_NUM_GROUPS, @@ -
+>> 4557,3 +4559,98
+>>> @@ int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port,
+>>>  	return err;
+>>>  }
+>>>  #endif /* CONFIG_XFRM_OFFLOAD */
+>>> +
+>>> +int
+>>> +mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port, u32
+>> *max_io_eqs,
+>>> +				    struct netlink_ext_ack *extack) {
+>>> +	struct mlx5_vport *vport = mlx5_devlink_port_vport_get(port);
+>>> +	int query_out_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
+>>> +	u16 vport_num = vport->vport;
+>>> +	struct mlx5_eswitch *esw;
+>>> +	void *query_ctx;
+>>> +	void *hca_caps;
+>>> +	u32 max_eqs;
+>>> +	int err;
+>>> +
+>>> +	esw = mlx5_devlink_eswitch_nocheck_get(port->devlink);
+>>> +	if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
+>>> +		NL_SET_ERR_MSG_MOD(extack,
+>>> +				   "Device doesn't support VHCA
+>> management");
+>>> +		return -EOPNOTSUPP;
+>>> +	}
+>>> +
+>>> +	query_ctx = kzalloc(query_out_sz, GFP_KERNEL);
+>>> +	if (!query_ctx)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	mutex_lock(&esw->state_lock);
+>>> +	err = mlx5_vport_get_other_func_cap(esw->dev, vport_num,
+>> query_ctx,
+>>> +					    MLX5_CAP_GENERAL);
+>>> +	if (err) {
+>>> +		NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	hca_caps = MLX5_ADDR_OF(query_hca_cap_out, query_ctx,
+>> capability);
+>>> +	max_eqs = MLX5_GET(cmd_hca_cap, hca_caps, max_num_eqs);
+>>> +	if (max_eqs < MLX5_ESW_MAX_CTRL_EQS)
+>>> +		*max_io_eqs = 0;
+>>> +	else
+>>> +		*max_io_eqs = max_eqs - MLX5_ESW_MAX_CTRL_EQS;
+>>> +out:
+>>> +	mutex_unlock(&esw->state_lock);
+>>> +	kfree(query_ctx);
+>>> +	return err;
+>>> +}
+>>> +
+>>> +int
+>>> +mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port, u32
+>> max_io_eqs,
+>>> +				    struct netlink_ext_ack *extack) {
+>>> +	struct mlx5_vport *vport = mlx5_devlink_port_vport_get(port);
+>>> +	int query_out_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
+>>> +	u16 max_eqs = max_io_eqs + MLX5_ESW_MAX_CTRL_EQS;
+>>> +	u16 vport_num = vport->vport;
+>>> +	struct mlx5_eswitch *esw;
+>>> +	void *query_ctx;
+>>> +	void *hca_caps;
+>>> +	int err;
+>>> +
+>>> +	esw = mlx5_devlink_eswitch_nocheck_get(port->devlink);
+>>> +	if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
+>>> +		NL_SET_ERR_MSG_MOD(extack,
+>>> +				   "Device doesn't support VHCA
+>> management");
+>>> +		return -EOPNOTSUPP;
+>>> +	}
+>>> +
+>>> +	if (max_io_eqs + MLX5_ESW_MAX_CTRL_EQS > USHRT_MAX) {
+>>
+>> nit: this is the same as max_eqs
+>>
+> Yes.
+> max_eqs may overflow and we may miss the overflow check by reusing max_eqs.
+> Above if condition avoids that bug.
 
-Considering that you are digging into the implementation already, can
-it be assumed that you approve (while considering how "soft RMID" may
-build on this) of the new interface as described in the cover letter?
+Thanks, I missed that max_io_eqs is u32.
 
-Reinette
+> That reminds me that I can replace above max_eqs line and this with check_add_overflow() and store the result in max_io_eqs.
+> And save one line. :)
+> 
+> Shall I resend with this change?
+Yes that sounds good, thank you.
+
+> 
+>>> +		NL_SET_ERR_MSG_MOD(extack, "Supplied value out of
+>> range");
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	query_ctx = kzalloc(query_out_sz, GFP_KERNEL);
+>>> +	if (!query_ctx)
+>>> +		return -ENOMEM;
+>>> +
+>>> +	mutex_lock(&esw->state_lock);
+>>> +	err = mlx5_vport_get_other_func_cap(esw->dev, vport_num,
+>> query_ctx,
+>>> +					    MLX5_CAP_GENERAL);
+>>> +	if (err) {
+>>> +		NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
+>>> +		goto out;
+>>> +	}
+>>> +
+>>> +	hca_caps = MLX5_ADDR_OF(query_hca_cap_out, query_ctx,
+>> capability);
+>>> +	MLX5_SET(cmd_hca_cap, hca_caps, max_num_eqs, max_eqs);
+>>> +
+>>> +	err = mlx5_vport_set_other_func_cap(esw->dev, hca_caps,
+>> vport_num,
+>>> +
+>> MLX5_SET_HCA_CAP_OP_MOD_GENERAL_DEVICE);
+>>> +	if (err)
+>>> +		NL_SET_ERR_MSG_MOD(extack, "Failed setting HCA caps");
+>>> +
+>>> +out:
+>>> +	mutex_unlock(&esw->state_lock);
+>>> +	kfree(query_ctx);
+>>> +	return err;
+>>> +}
