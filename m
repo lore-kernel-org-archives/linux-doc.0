@@ -1,260 +1,347 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3454127B5C
-	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 16:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D242E129E88
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 16:58:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712249847; cv=none; b=h8WlPI2JblNWmTLHAfMny9dDCPWWN8wRSkqoj2xVFDJU4enM6BwjCasixLp1GKFHClHPmdi3RbZ/hzhg9kY3pVTfpkpfWtZS7kIVXq0wZvqT5t7tAIJI03dmi1SdwzaFal/IlgWcm2YhSjETLJa19WIHciipw7C4GtTdOZaB7Bc=
+	t=1712249892; cv=none; b=TBQvOAzKnmGq8xa654fxhdjNIXrw5x26V+6SfASCmYnH7+CAh+Mj8lCyUMP2lDTdapyS1LyGGWE2uXQp34hlmOJ15Kt1R4w8ELvHeyCqn4r8FzwiayY9U7mxQUuf2yQF8aDlA/o0dt79vhduXFzNTzQbhVsbvudIr/pzgNx32+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712249847; c=relaxed/simple;
-	bh=R+9sLKX/nC315A44AvcpxcbARQnYY3J+yoFn7VC1xFk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NOORj3QKCoWZWomRTjlJWsVOKN25v6tBVXI3rpn/9BRxgxvTCZCJIoUQaIKFSaCkrMCa1FO+tJv1MVF1KqKgOHq8xwPbMUjfkFQ/VtaeEgFTce+OhGO9CK//GRyxHiddQERF89Xa6R85zjb0GRzgHetVwG+J/tnj6bbri/H3ODQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=xzYCRirr; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	s=arc-20240116; t=1712249892; c=relaxed/simple;
+	bh=Ug3wNn9rUYSiApUWsdmJAfxaH7gkdUjC0d0zsQR/y4Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SDNxJe0pvwkjfIUAMgWWkhwlMCAPxGFiReggudSdf1sfN/F50atTXj/HV/D7eB2+nVbFbuPgWKlmMlOuUhNMS8OLVavoemiWXXCssguC7h1rwPe9A62fleIDdNosZW0Q7zQT6cJP+59tZQPi+5Xat0LmugoNAxRNp6Yw9vhzeJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VE+TMXT1; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="xzYCRirr"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5e4f79007ffso896378a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 09:57:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VE+TMXT1"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61587aa9f4cso11336577b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 09:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1712249845; x=1712854645; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KS1cKngrmdXQc+cpy3xRzjISKJ7Nt5I+OzXFPLplu34=;
-        b=xzYCRirrbqlExHb84hWiJ1usl8cxY+1nJj+wnkla9xzmMsKGsS9EM2yefrsl/WjLzT
-         ZGX06NNjxaXQ7XPOFZqVPYSngOVwKKctyiboUVSc12SsvYsDyW3y7t6jea5PdZQ2IbSJ
-         g0OS5KN7EmBEXIlrA0X/B2ZE1Gpm9vNwpjGukDzX9u0nH/guuVK5IkxI5yFbHtsBMFPx
-         Z5nxrvRoMWBh7qkUwzRZBxf5iaiU3FFR6jo28ifYu2CjFFtr8ok928BghHnQZSUOnSw2
-         pUwcJFIuplE1xehxaC4VHdGRsAG44oOWboB2CanxpsKgtFHAvgAAgWNxdD82hFTxVKV9
-         7jZw==
+        d=google.com; s=20230601; t=1712249890; x=1712854690; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SnNkrv9amLNSOChMZU1xiNRngWLHsWRGHJdyDWSVIjQ=;
+        b=VE+TMXT19IlGsNP/1GZ4QkeACDqlNHhbUWPxK9JAFxupGgfIy3o9CUYHwC3zIILeE/
+         dw0le8WSHyjn/yq30nG7WGIBs+X6a9VPfx1czXi3gORFjnFlex63/z9NmeK+P7uf4FiD
+         RHJKVnZ48GhO6Q4rq8jgk0qaybB9hdHz4S+E0g6+tSZchhycJvFOpbl7D2UtYx1SXGvj
+         gepwgqcJ7Jg/qqAYl7LvxwqsD5gHQVzcaToe3QQoSJR+sUbcEAX8lpWLwVUPvWrUQ6mm
+         MWXNXICHXg6DmfFEa3hCb/McRPKDAOzCAeHvys1ChiPt0IZ9j9LrXVHefmOmwHrmBH7X
+         jS3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712249845; x=1712854645;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KS1cKngrmdXQc+cpy3xRzjISKJ7Nt5I+OzXFPLplu34=;
-        b=hjGF3zgjkHsToeCmCBYPynXfrezXNut7cJDJx92UOP5dNnEyLOjbhUO3u6q6wWkmyl
-         AzY5EPT1sTbf+AoQRrYcUdrQuKq80CKBIoMpmJcUHDeEIcEdmhzMkuCo9TpiLQ8ChZp6
-         6fnljO1jQREfK7GF6PpIqL1gY3sR2sK2d9rzOWS9D+8RR44+ev3IhalrdUdEUp/L34nb
-         bechYiP9KXR/q4WILDnsknMoN0OH0sCVtyFtS0/Y6PWbo+AbE+13rClueC06VmWTO8w+
-         hqh9w6yjZhN/+wn8IHBjoCdRQbnT74HYDBL19cFnL1+jpy9NxpojQU2q8evdeWRlGQzc
-         YnCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ+EjrYU+JnVofHY/tSXTym09akey1tH/qEqBKncoWPJx4UTxjrK9a46P3d5Q5GdDUQ51ctz4aMHc0lIQDcqJW0q/umWMKmE3J
-X-Gm-Message-State: AOJu0YxYbZfq6dhY8/Wm3AYQbU1AiMWqxTcXOhJae7xcOOb72RNH7eiy
-	QEvnoBbc6bjBGOV4N1XL8Spv4ScKWEKOYo9aqGrduKY5zMdH4WpgubaxpZN2jto=
-X-Google-Smtp-Source: AGHT+IFXHg3+bIeE3PdrJcijxHxZjXW/l6XMYN3dgqzEsXJC3I4bedjcyU3E2K4z08JfVJ9NAGFNqQ==
-X-Received: by 2002:a17:90a:d512:b0:2a2:bbb9:c937 with SMTP id t18-20020a17090ad51200b002a2bbb9c937mr2871685pju.49.1712249845095;
-        Thu, 04 Apr 2024 09:57:25 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1156:1:1cbd:da2b:a9f2:881? ([2620:10d:c090:500::6:6984])
-        by smtp.gmail.com with ESMTPSA id em16-20020a17090b015000b002a25f8e0b98sm1752266pjb.46.2024.04.04.09.57.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Apr 2024 09:57:24 -0700 (PDT)
-Message-ID: <fae76581-bb19-43dd-a770-9a72a89e95ba@davidwei.uk>
-Date: Thu, 4 Apr 2024 09:57:21 -0700
+        d=1e100.net; s=20230601; t=1712249890; x=1712854690;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SnNkrv9amLNSOChMZU1xiNRngWLHsWRGHJdyDWSVIjQ=;
+        b=BRQAjn46LDaR4Q5w2RpqZGNPZka/uLUJmqMkGaM1JI6X8BoZBphkTpp2K651OJ+sJY
+         FlZO85UC0wAFf5xI9YiJs0IOthIavUq15K35DEtSc+ez8GDYV8r1yaURuk9YoWcMZLWC
+         UjPuFj9EoMLk6nwVxqbO8D5x+FouE9aLWRtS7C6SGuOK6IWC7yEaaVyfK9rixkYLl4C0
+         FJ/9vK/gPi4pjBriL7AG3dexO2M5uyzYDAA8mtzPD5nwypSxcI5UaxZhsAuRjc5fboPC
+         QLO7iuET+z+1iF4hkNFudC3cysKA7QRkernEQS+TM2zJy4/EGw3gk+4PpCRQfMtvJfl7
+         Oy0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXo+B8TQHNQASuehUqZj68XqzVjF0nnvFFk1iKG/JmjEZA4KFGi03uUdMuguyqlTE9KpwwwdLncqVFgfqjQQGB3yQ6qslueq+Jn
+X-Gm-Message-State: AOJu0Yw4noSobISYNlZX1ERq+iJWkvZeBooUNl/RI6I89awoRoGE5N1l
+	Z1+AThT72OsLAa22CJZIYvMsTNVBObO5qSXd9pHJXGNY5F2rS51BzP6Af8rfV0vLdWampP81QLx
+	i1APAUq6s8Duy/7rsHxWCemMvvXqH6N5/yBjQ
+X-Google-Smtp-Source: AGHT+IF7B3akhgfxRrnqjce/FXowsw1E3eakccZbE6M28J8HXpTOkV5OPQcXw5mCpvOPKhYETIzOkOwrlUerT+o2JDc=
+X-Received: by 2002:a5b:481:0:b0:dcc:9d30:58a0 with SMTP id
+ n1-20020a5b0481000000b00dcc9d3058a0mr2683124ybp.64.1712249889460; Thu, 04 Apr
+ 2024 09:58:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next v3 2/2] mlx5/core: Support max_io_eqs for a function
-Content-Language: en-GB
-To: Parav Pandit <parav@nvidia.com>, netdev@vger.kernel.org,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, corbet@lwn.net, kalesh-anakkur.purayil@broadcom.com
-Cc: saeedm@nvidia.com, leon@kernel.org, jiri@resnulli.us, shayd@nvidia.com,
- danielj@nvidia.com, dchumak@nvidia.com, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org
-References: <20240403174133.37587-1-parav@nvidia.com>
- <20240403174133.37587-3-parav@nvidia.com>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240403174133.37587-3-parav@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240321163705.3067592-1-surenb@google.com> <20240321163705.3067592-6-surenb@google.com>
+ <20240321133147.6d05af5744f9d4da88234fb4@linux-foundation.org>
+ <gnqztvimdnvz2hcepdh3o3dpg4cmvlkug4sl7ns5vd4lm7hmao@dpstjnacdubq>
+ <20240321150908.48283ba55a6c786dee273ec3@linux-foundation.org>
+ <bliyhrwtskv5xhg3rxxszouxntrhnm3nxhcmrmdwwk4iyx5wdo@vodd22dbtn75> <CAJuCfpEO4NjYysJ7X8ME_GjHc41u-_dK4AhrhmaSMh_9mxaHSA@mail.gmail.com>
+In-Reply-To: <CAJuCfpEO4NjYysJ7X8ME_GjHc41u-_dK4AhrhmaSMh_9mxaHSA@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 4 Apr 2024 09:57:55 -0700
+Message-ID: <CAJuCfpEGJHs=ygb2_PNcqEy__dvhby5N7dvwnno=3pDEvE1+2g@mail.gmail.com>
+Subject: Re: [PATCH v6 05/37] fs: Convert alloc_inode_sb() to a macro
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
+	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
+	glider@google.com, elver@google.com, dvyukov@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-04-03 10:41, Parav Pandit wrote:
-> Implement get and set for the maximum IO event queues for SF and VF.
-> This enables administrator on the hypervisor to control the maximum
-> IO event queues which are typically used to derive the maximum and
-> default number of net device channels or rdma device completion vectors.
-> 
-> Reviewed-by: Shay Drory <shayd@nvidia.com>
-> Signed-off-by: Parav Pandit <parav@nvidia.com>
-> ---
-> changelog:
-> v2->v3:
-> - limited to 80 chars per line in devlink
-> - fixed comments from Jakub in mlx5 driver to fix missing mutex unlock
->   on error path
-> v1->v2:
-> - fixed comments from Kalesh
-> - fixed missing kfree in get call
-> - returning error code for get cmd failure
-> - fixed error msg copy paste error in set on cmd failure
-> - limited code to 80 chars limit
-> - fixed set function variables for reverse christmas tree
-> ---
->  .../mellanox/mlx5/core/esw/devlink_port.c     |  4 +
->  .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
->  .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
->  3 files changed, 108 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> index d8e739cbcbce..f8869c9b6802 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/devlink_port.c
-> @@ -98,6 +98,8 @@ static const struct devlink_port_ops mlx5_esw_pf_vf_dl_port_ops = {
->  	.port_fn_ipsec_packet_get = mlx5_devlink_port_fn_ipsec_packet_get,
->  	.port_fn_ipsec_packet_set = mlx5_devlink_port_fn_ipsec_packet_set,
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +	.port_fn_max_io_eqs_get = mlx5_devlink_port_fn_max_io_eqs_get,
-> +	.port_fn_max_io_eqs_set = mlx5_devlink_port_fn_max_io_eqs_set,
->  };
->  
->  static void mlx5_esw_offloads_sf_devlink_port_attrs_set(struct mlx5_eswitch *esw,
-> @@ -143,6 +145,8 @@ static const struct devlink_port_ops mlx5_esw_dl_sf_port_ops = {
->  	.port_fn_state_get = mlx5_devlink_sf_port_fn_state_get,
->  	.port_fn_state_set = mlx5_devlink_sf_port_fn_state_set,
->  #endif
-> +	.port_fn_max_io_eqs_get = mlx5_devlink_port_fn_max_io_eqs_get,
-> +	.port_fn_max_io_eqs_set = mlx5_devlink_port_fn_max_io_eqs_set,
->  };
->  
->  int mlx5_esw_offloads_devlink_port_register(struct mlx5_eswitch *esw, struct mlx5_vport *vport)
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-> index 349e28a6dd8d..50ce1ea20dd4 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
-> @@ -573,6 +573,13 @@ int mlx5_devlink_port_fn_ipsec_packet_get(struct devlink_port *port, bool *is_en
->  int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port, bool enable,
->  					  struct netlink_ext_ack *extack);
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +int mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port,
-> +					u32 *max_io_eqs,
-> +					struct netlink_ext_ack *extack);
-> +int mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port,
-> +					u32 max_io_eqs,
-> +					struct netlink_ext_ack *extack);
-> +
->  void *mlx5_eswitch_get_uplink_priv(struct mlx5_eswitch *esw, u8 rep_type);
->  
->  int __mlx5_eswitch_set_vport_vlan(struct mlx5_eswitch *esw,
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> index baaae628b0a0..2ad50634b401 100644
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
-> @@ -66,6 +66,8 @@
->  
->  #define MLX5_ESW_FT_OFFLOADS_DROP_RULE (1)
->  
-> +#define MLX5_ESW_MAX_CTRL_EQS 4
-> +
->  static struct esw_vport_tbl_namespace mlx5_esw_vport_tbl_mirror_ns = {
->  	.max_fte = MLX5_ESW_VPORT_TBL_SIZE,
->  	.max_num_groups = MLX5_ESW_VPORT_TBL_NUM_GROUPS,
-> @@ -4557,3 +4559,98 @@ int mlx5_devlink_port_fn_ipsec_packet_set(struct devlink_port *port,
->  	return err;
->  }
->  #endif /* CONFIG_XFRM_OFFLOAD */
-> +
-> +int
-> +mlx5_devlink_port_fn_max_io_eqs_get(struct devlink_port *port, u32 *max_io_eqs,
-> +				    struct netlink_ext_ack *extack)
-> +{
-> +	struct mlx5_vport *vport = mlx5_devlink_port_vport_get(port);
-> +	int query_out_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
-> +	u16 vport_num = vport->vport;
-> +	struct mlx5_eswitch *esw;
-> +	void *query_ctx;
-> +	void *hca_caps;
-> +	u32 max_eqs;
-> +	int err;
-> +
-> +	esw = mlx5_devlink_eswitch_nocheck_get(port->devlink);
-> +	if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
-> +		NL_SET_ERR_MSG_MOD(extack,
-> +				   "Device doesn't support VHCA management");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	query_ctx = kzalloc(query_out_sz, GFP_KERNEL);
-> +	if (!query_ctx)
-> +		return -ENOMEM;
-> +
-> +	mutex_lock(&esw->state_lock);
-> +	err = mlx5_vport_get_other_func_cap(esw->dev, vport_num, query_ctx,
-> +					    MLX5_CAP_GENERAL);
-> +	if (err) {
-> +		NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
-> +		goto out;
-> +	}
-> +
-> +	hca_caps = MLX5_ADDR_OF(query_hca_cap_out, query_ctx, capability);
-> +	max_eqs = MLX5_GET(cmd_hca_cap, hca_caps, max_num_eqs);
-> +	if (max_eqs < MLX5_ESW_MAX_CTRL_EQS)
-> +		*max_io_eqs = 0;
-> +	else
-> +		*max_io_eqs = max_eqs - MLX5_ESW_MAX_CTRL_EQS;
-> +out:
-> +	mutex_unlock(&esw->state_lock);
-> +	kfree(query_ctx);
-> +	return err;
-> +}
-> +
-> +int
-> +mlx5_devlink_port_fn_max_io_eqs_set(struct devlink_port *port, u32 max_io_eqs,
-> +				    struct netlink_ext_ack *extack)
-> +{
-> +	struct mlx5_vport *vport = mlx5_devlink_port_vport_get(port);
-> +	int query_out_sz = MLX5_ST_SZ_BYTES(query_hca_cap_out);
-> +	u16 max_eqs = max_io_eqs + MLX5_ESW_MAX_CTRL_EQS;
-> +	u16 vport_num = vport->vport;
-> +	struct mlx5_eswitch *esw;
-> +	void *query_ctx;
-> +	void *hca_caps;
-> +	int err;
-> +
-> +	esw = mlx5_devlink_eswitch_nocheck_get(port->devlink);
-> +	if (!MLX5_CAP_GEN(esw->dev, vhca_resource_manager)) {
-> +		NL_SET_ERR_MSG_MOD(extack,
-> +				   "Device doesn't support VHCA management");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	if (max_io_eqs + MLX5_ESW_MAX_CTRL_EQS > USHRT_MAX) {
+On Thu, Mar 21, 2024 at 3:47=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Thu, Mar 21, 2024 at 3:17=E2=80=AFPM Kent Overstreet
+> <kent.overstreet@linux.dev> wrote:
+> >
+> > On Thu, Mar 21, 2024 at 03:09:08PM -0700, Andrew Morton wrote:
+> > > On Thu, 21 Mar 2024 17:15:39 -0400 Kent Overstreet <kent.overstreet@l=
+inux.dev> wrote:
+> > >
+> > > > On Thu, Mar 21, 2024 at 01:31:47PM -0700, Andrew Morton wrote:
+> > > > > On Thu, 21 Mar 2024 09:36:27 -0700 Suren Baghdasaryan <surenb@goo=
+gle.com> wrote:
+> > > > >
+> > > > > > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > > > > >
+> > > > > > We're introducing alloc tagging, which tracks memory allocation=
+s by
+> > > > > > callsite. Converting alloc_inode_sb() to a macro means allocati=
+ons will
+> > > > > > be tracked by its caller, which is a bit more useful.
+> > > > >
+> > > > > I'd have thought that there would be many similar
+> > > > > inlines-which-allocate-memory.  Such as, I dunno, jbd2_alloc_inod=
+e().
+> > > > > Do we have to go converting things to macros as people report
+> > > > > misleading or less useful results, or is there some more general
+> > > > > solution to this?
+> > > >
+> > > > No, this is just what we have to do.
+> > >
+> > > Well, this is something we strike in other contexts - kallsyms gives =
+us
+> > > an inlined function and it's rarely what we wanted.
+> > >
+> > > I think kallsyms has all the data which is needed to fix this - how
+> > > hard can it be to figure out that a particular function address lies
+> > > within an outer function?  I haven't looked...
+> >
+> > This is different, though - even if a function is inlined in multiple
+> > places there's only going to be one instance of a static var defined
+> > within that function.
+>
+> I guess one simple way to detect the majority of these helpers would
+> be to filter all entries from /proc/allocinfo which originate from
+> header files.
+>
+> ~# grep ".*\.h:." /proc/allocinfo
+>       933888      228 include/linux/mm.h:2863 func:pagetable_alloc
+>          848       53 include/linux/mm_types.h:1175 func:mm_alloc_cid
+>            0        0 include/linux/bpfptr.h:70 func:kvmemdup_bpfptr
+>            0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
+>            0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
+>            0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
+>            0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
+>            0        0 include/linux/bpf.h:2249 func:bpf_map_kvcalloc
+>            0        0 include/linux/bpf.h:2243 func:bpf_map_kzalloc
+>            0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
+>            0        0 include/linux/ptr_ring.h:471
+> func:__ptr_ring_init_queue_alloc
+>            0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
+>            0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
+>            0        0 include/net/tcx.h:80 func:tcx_entry_create
+>            0        0 arch/x86/include/asm/pgalloc.h:156 func:p4d_alloc_o=
+ne
+>       487424      119 include/linux/mm.h:2863 func:pagetable_alloc
+>            0        0 include/linux/mm.h:2863 func:pagetable_alloc
+>          832       13 include/linux/jbd2.h:1607 func:jbd2_alloc_inode
+>            0        0 include/linux/jbd2.h:1591 func:jbd2_alloc_handle
+>            0        0 fs/nfs/iostat.h:51 func:nfs_alloc_iostats
+>            0        0 include/net/netlabel.h:281 func:netlbl_secattr_cach=
+e_alloc
+>            0        0 include/net/netlabel.h:381 func:netlbl_secattr_allo=
+c
+>            0        0 include/crypto/internal/acompress.h:76
+> func:__acomp_request_alloc
+>         8064       84 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>         1016       74 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>          384        4 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>          704        3 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>           32        1 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>           64        1 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>           40        2 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>           32        1 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>        30000      625 include/acpi/platform/aclinuxex.h:67
+> func:acpi_os_acquire_object
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:67
+> func:acpi_os_acquire_object
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>          512        1 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>          192        6 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>          192        3 include/acpi/platform/aclinuxex.h:52 func:acpi_os_a=
+llocate
+>        61992      861 include/acpi/platform/aclinuxex.h:67
+> func:acpi_os_acquire_object
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 include/acpi/platform/aclinuxex.h:67
+> func:acpi_os_acquire_object
+>            0        0 include/acpi/platform/aclinuxex.h:57
+> func:acpi_os_allocate_zeroed
+>            0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtabl=
+e_page
+>            0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtabl=
+e_page
+>            0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtabl=
+e_page
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/hid_bpf.h:154 func:call_hid_bpf_rdesc=
+_fixup
+>            0        0 include/linux/skbuff.h:3392 func:__dev_alloc_pages
+>       114688       56 include/linux/ptr_ring.h:471
+> func:__ptr_ring_init_queue_alloc
+>            0        0 include/linux/skmsg.h:415 func:sk_psock_init_link
+>            0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
+>            0        0 include/linux/ptr_ring.h:628 func:ptr_ring_resize_m=
+ultiple
+>        24576        3 include/linux/ptr_ring.h:471
+> func:__ptr_ring_init_queue_alloc
+>            0        0 include/net/netlink.h:1896 func:nla_memdup
+>            0        0 include/linux/sockptr.h:97 func:memdup_sockptr
+>            0        0 include/net/request_sock.h:131 func:reqsk_alloc
+>            0        0 include/net/tcp.h:2456 func:tcp_v4_save_options
+>            0        0 include/net/tcp.h:2456 func:tcp_v4_save_options
+>            0        0 include/crypto/hash.h:586 func:ahash_request_alloc
+>            0        0 include/linux/sockptr.h:97 func:memdup_sockptr
+>            0        0 include/linux/sockptr.h:97 func:memdup_sockptr
+>            0        0 net/sunrpc/auth_gss/auth_gss_internal.h:38
+> func:simple_get_netobj
+>            0        0 include/crypto/hash.h:586 func:ahash_request_alloc
+>            0        0 include/net/netlink.h:1896 func:nla_memdup
+>            0        0 include/crypto/skcipher.h:869 func:skcipher_request=
+_alloc
+>            0        0 include/net/fq_impl.h:361 func:fq_init
+>            0        0 include/net/netlabel.h:316 func:netlbl_catmap_alloc
+>
+> and it finds our example:
+>
+>          832       13 include/linux/jbd2.h:1607 func:jbd2_alloc_inode
+>
+> Interestingly the inlined functions which are called from multiple
+> places will have multiple entries with the same file+line:
+>
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>            0        0 include/linux/dma-fence-chain.h:91
+> func:dma_fence_chain_alloc
+>
+> So, duplicate entries can be also used as an indication of an inlined all=
+ocator.
+> I'll go chase these down and will post a separate patch converting them.
 
-nit: this is the same as max_eqs
-
-> +		NL_SET_ERR_MSG_MOD(extack, "Supplied value out of range");
-> +		return -EINVAL;
-> +	}
-> +
-> +	query_ctx = kzalloc(query_out_sz, GFP_KERNEL);
-> +	if (!query_ctx)
-> +		return -ENOMEM;
-> +
-> +	mutex_lock(&esw->state_lock);
-> +	err = mlx5_vport_get_other_func_cap(esw->dev, vport_num, query_ctx,
-> +					    MLX5_CAP_GENERAL);
-> +	if (err) {
-> +		NL_SET_ERR_MSG_MOD(extack, "Failed getting HCA caps");
-> +		goto out;
-> +	}
-> +
-> +	hca_caps = MLX5_ADDR_OF(query_hca_cap_out, query_ctx, capability);
-> +	MLX5_SET(cmd_hca_cap, hca_caps, max_num_eqs, max_eqs);
-> +
-> +	err = mlx5_vport_set_other_func_cap(esw->dev, hca_caps, vport_num,
-> +					    MLX5_SET_HCA_CAP_OP_MOD_GENERAL_DEVICE);
-> +	if (err)
-> +		NL_SET_ERR_MSG_MOD(extack, "Failed setting HCA caps");
-> +
-> +out:
-> +	mutex_unlock(&esw->state_lock);
-> +	kfree(query_ctx);
-> +	return err;
-> +}
+I just posted https://lore.kernel.org/all/20240404165404.3805498-1-surenb@g=
+oogle.com/
+to report allocations done from the inlined functions in the headers
+to their callers.
