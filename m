@@ -1,62 +1,82 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA871E86F;
-	Thu,  4 Apr 2024 09:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E4276F1B
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 10:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712222716; cv=none; b=atVuPIoQO8i7RVuzGGb9359hg7bjawuHH6WENUEoKPUePBNQOekWnID+6mh0kLCjL0PcS43apXFKOj+EPWxngVpwaGN4ZimA/h/8CzRnA9HZvqPpqw609e2IeEBph9N5hnpMEfNbbqW7CBfVGq4g+Y0xU109z4uXB58zteho9jg=
+	t=1712226867; cv=none; b=TqKuOYY5zd64K2KG9jOyn0LGbqVh7vuW8vPTsSOiu6U4t+6Gldhh4B7+yAmu+9QOP8R90/vvqM0TN8u3WQbZvg3G95/a38h5pRltcIIvEbnhhJFKdK27cIC4KkBOa1nNR4NoZX93/ODGRNBO37oHe2/+wzYXtHFXJMuTqLH8lnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712222716; c=relaxed/simple;
-	bh=goGoyXyy2aFQvi0+QqmO6oV3VAEgFQ1Y15GcxBwoZ28=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=udTVr4Gx5gj9Tbc0aY5enpUIDFCC9Lc7hQa8jzZhBBvuMjNYLcX5e8D0nK7ZhN94ViOTxY2yKI8Iob377bY0Htl7dCY/t4aLCcnEC5v2DsN3N07FvCg0wQBg4PiXX4o/JV4DWEZOeSYIMHi080YK5KLQsqa92XT+C473gzaBmuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=K87hT6eF; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1712226867; c=relaxed/simple;
+	bh=IstxSeMIkFWqG2adq+Av3TovwemxYp/teD9978fHvcE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Yjw0NH7GxzDgCxT+dWRKiTFWr/HWJZ7bb7uTMtzPNqUP04VQUB4vXqokfzoB3lynaTNCeso9ovsNpguitOYcyTfxsSmcT0Nqq+6527vFbjxwFfkXTW0cBhoWAo2v1pg6E+yJiXc0IYPVOmjpF9XTQY68mD6kcAWyYjGRa+mYowM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mm9b3dRn; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="K87hT6eF"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 074A260008;
-	Thu,  4 Apr 2024 09:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712222712;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JmD8Cz8LQvllwErFtC5QF38oacw9e604VmlkOt2aTy8=;
-	b=K87hT6eFy1B8OGtdw6c4NM4XNlL1sD85a1Uge3xud4ocA7A/Sh0ogIKA0De/miAF0B6wEq
-	fUWkit4VX2y1tVN0KhnXSMZy8aoAqRnwyf5j5Kkp/Fa8DiRti8LsC629SlqeSItha2dwrB
-	JljeqzL3D6OnnzHF0NMyZvtP0n633+FVoqSP+ABlnBurdoRSIIlq1XtbBUzPUPDjwnVoVu
-	+iUCEusnp+NAkyiT+85r7kqM7vZRoXz4GXHE0UF7yv+7pqYbODPTDxf11FJXL/C9ujBK+C
-	OalDYtvgOYDwpJhwlD2WJu53LgPGEvfLZyIN8A1FbgS+0/xZrSEsA8Xqm3rLNQ==
-Date: Thu, 4 Apr 2024 11:25:06 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>
-Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
- way of describing several PSE PIs
-Message-ID: <20240404112506.2e155bad@kmaincent-XPS-13-7390>
-In-Reply-To: <20240403143142.GA3508225-robh@kernel.org>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
-	<20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
-	<20240402132637.GA3744978-robh@kernel.org>
-	<20240403111548.30e780b5@kmaincent-XPS-13-7390>
-	<20240403143142.GA3508225-robh@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mm9b3dRn"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e9115d501so358954f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Apr 2024 03:34:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712226864; x=1712831664; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mPiFpAJVCXedUpD6zmcxIwwzHItSuIZnjTos+8U6SVo=;
+        b=mm9b3dRn89IsJK0o13XLLrj+UWgaEvi/DAydtIdQN6wrve7NlpHAVuuaKGvpdSrzCy
+         AVfKV5syWn+HcSojxPa0KGayCviM3NzKuwhTob1zZ4vJ30CNwcMKiGxouiYtnaXNG9cN
+         cb5vXXysvxA7VZvQoe+qpm0uYrxxzXlEso0ja9RTZTx+IyiGgPGZlBZxp5DOz4EkbTxU
+         rZJT8UqUR09k/JRekFkZbRffJcLCVrdYqYodV20EFlYqJ3DGicajCWby5IIBvywV5mDn
+         GIuK8cLkeimFSVnaNTqsJIn+2ffkLvJgNkYE23KZ4CSRzt5HFjnN968ZmfrTehJZu3YF
+         lOrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712226864; x=1712831664;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mPiFpAJVCXedUpD6zmcxIwwzHItSuIZnjTos+8U6SVo=;
+        b=j2k0MPUwJJZ/99DX3LKhRfCdLVIo8PpZitmKsdDRtNMOGw37md8kZwGaHmWy0l3B+U
+         PzWpgTYPIiKp0meMx+Ke6YM4294btGlGplrCymexWJj6MXwoDpMgkjhAsJNLK45db259
+         zY+7ZZt7I973Jjn1fWfb+2En8sdRS9A+NXyapu7v2Y1YVFee+vIyLVmtyTndgSpmF6L6
+         S7g7YAXSsq1nRb1dZhytwjR/0wgPooqWNtVLHA8QyEnlj4y5wpGM/28at7qpkBCMFuoY
+         YnCWg9Ei8NxIVNRX9vLVykj6oY3V1rCOyL4wxngR1wu7S0kjSCKnCQ6WNCkGLKH5KJ5q
+         uSmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6wx/GEd3FwhRzt4GGiRgK/KeFoBQhV/ny36uIYDtfDycCK4kF/dCU2pBXuHioQlZWxo3/KNpYp/xm+cz+7eyCDf54/q72g9Hh
+X-Gm-Message-State: AOJu0Yx9IGIxpxhIco6YHVqesj1+qn4ThQvLWqpmB5b5zkIaY+a65BNM
+	6t7YCxLyXpQfDeHILiThZwz396WguMhbUTAKz+lwiW2VMRASbFYoaao66QMGMeg=
+X-Google-Smtp-Source: AGHT+IHEYXaDR5DHH4zoY4KhwUJQmkXXvB18af+Ebcotdmut1GqJvAgC8qaCJXy0+ZACV7Kq2Mh0hg==
+X-Received: by 2002:a05:600c:3b0a:b0:416:2b72:1f5b with SMTP id m10-20020a05600c3b0a00b004162b721f5bmr650188wms.2.1712226863709;
+        Thu, 04 Apr 2024 03:34:23 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:555b:1d2e:132d:dd32])
+        by smtp.gmail.com with ESMTPSA id ju8-20020a05600c56c800b00416253a0dbdsm2171340wmb.36.2024.04.04.03.34.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Apr 2024 03:34:23 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH 1/5] dt-bindings: riscv: add Zimop ISA extension description
+Date: Thu,  4 Apr 2024 12:32:47 +0200
+Message-ID: <20240404103254.1752834-2-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240404103254.1752834-1-cleger@rivosinc.com>
+References: <20240404103254.1752834-1-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,66 +84,32 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Wed, 3 Apr 2024 09:31:42 -0500
-Rob Herring <robh@kernel.org> wrote:
+Add description for the Zimop (May-Be-Operations) ISA extension which
+was ratified in commit 58220614a5f of the riscv-isa-manual.
 
-> >  =20
-> > > > +
-> > > > +          polarity-supported:
-> > > > +            $ref: /schemas/types.yaml#/definitions/string-array
-> > > > +            description:
-> > > > +              Polarity configuration supported by the PSE PI pairs=
-ets.
-> > > > +            minItems: 1
-> > > > +            maxItems: 4
-> > > > +            items:
-> > > > +              enum:
-> > > > +                - MDI-X
-> > > > +                - MDI
-> > > > +                - X
-> > > > +                - S
-> > > > +
-> > > > +          vpwr-supply:
-> > > > +            description: Regulator power supply for the PSE PI.   =
-=20
-> > >=20
-> > > I don't see this being used anywhere. =20
-> >=20
-> > Right, I forgot to add it to the PD692x0 and TPS23881 binding example! =
-=20
->=20
-> But is this really common/generic? I would think input power rails would=
-=20
-> be chip specific.
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+---
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I think as each PSE PI are seen as a regulator we may want it generic to tr=
-ack
-each PI parent. Having the parent regulator described like that would force=
- the
-devicetree to describe where the power come from.
-In contrary, for example, on the pd692x0 controller the regulators are conn=
-ected
-to the managers (PD69208) and not directly to the PIs. So the devicetree wo=
-uld
-not really fit the hardware. It is indeed chip specific but having described
-like that would be more simple.
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index 468c646247aa..616370318a66 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -363,6 +363,11 @@ properties:
+             ratified in the 20191213 version of the unprivileged ISA
+             specification.
+ 
++        - const: zimop
++          description:
++            The standard Zimop extension version 1.0, as ratified in commit
++            58220614a5f ("Zimop is ratified/1.0") of the riscv-isa-manual.
++
+         - const: ztso
+           description:
+             The standard Ztso extension for total store ordering, as ratified
+-- 
+2.43.0
 
-If we decided to make it chip specific the core would have a callback to ask
-the driver to fill the regulator_init_data structure for each PI before
-registering the regulators. It is feasible.
-
-Mmh in fact I am still unsure about the solution.
-
-Oleksij as you were the first to push the idea. Have you more argument in m=
-ind
-to make it generic?
-https://lore.kernel.org/netdev/ZeObuKHkPN3tiWz_@pengutronix.de/
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
