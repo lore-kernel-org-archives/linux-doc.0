@@ -1,139 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2B1139D;
-	Wed,  3 Apr 2024 23:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4C54C65
+	for <linux-doc@vger.kernel.org>; Thu,  4 Apr 2024 00:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712188600; cv=none; b=t4YlS2vr1XPL2zMn0LrgHZaodZOU+ikvsBqDBBUUJEB6k/aOiM4GKkdbQz9B+0ejt+RW+ZoWrw30153bNWpSqI/aVZY/oZkenGghlzfJAydmHdrfgApiWXgQZusrrwj8qLJPYYdokhgvSySefnbD0wpPQgyPw1ccg9OFXTU+xPE=
+	t=1712190667; cv=none; b=pAPxO5Oi37L+6RK0uOlMqoOfVRaHIrHiNKIQRrhwq5hF9D+EAoE3VEQMwOs2M8wWZTJvHunkWN1DgEVpBXzcwvf7PR0W5bfGc1LHErM9OOqtiwMqxUr2UF5cAGkM95HxtgA6HuO0DulvCWfMTUW+QY3/ni3Bk0+pc441rcoLuY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712188600; c=relaxed/simple;
-	bh=m8IbDM148A6sz7bWT/CQKnE9AfgQW6cHCi6VsGmG9X8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ja2EYn79rSXqeiXD8lb9opfNjasjFMdcLr5dPjCSGvanpoTHNHBh0SDtXG3KYad5lTzVi1fK5HsWdpvfAjRYMdZKzTToxQCEWkX2TD6IREq1bgwad7NZM32Ep4Ae6xAHntXQVaCHj0C1MySAMsnkaFx10UXmXu7A3RVOJhglTAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0uM6RPl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712190667; c=relaxed/simple;
+	bh=UQfToq7sHE8H1SK79LSIX5alp+MDzLz7Pi+OgG0nm6I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pY5xA7hcscsNz6jfjf+5K9AUmD+5ueyZZ32wCiy2sOoIwTNnkjUbj85gjZuSabZNcgYlAdoME4TrsSTppwxhycZoUghGtDicX6N+xGWYzvCxVmATvSDWzarlqcKdhNVndlrb8drFENbNPtM5od/IH0sOcYsbDGNMw1x6Ovsup0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lteTYVgA; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0uM6RPl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3407C43394;
-	Wed,  3 Apr 2024 23:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712188599;
-	bh=m8IbDM148A6sz7bWT/CQKnE9AfgQW6cHCi6VsGmG9X8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t0uM6RPlGuNQ2pvlqrK5sJYW3QIWUD/Ch+blAKlhtyKQCglZyMACwH2YghM8qdYTx
-	 eBPDOQhbls3SLnnU19e+ycW267im0qo3s7DmQrGBThEtcKMITPijTtYT1j6u19QNnf
-	 amG33e6JWYAg2/i6QR7pitO2x0BsQI9uWn5IiKeG944GH9LkfL4L21VdoeIIgHiyBQ
-	 gpoc8t9p9dMFVRKVRDB1eJL2fMFGmILWoJ6R8tS5FM1x1fnZGWHEyoc/jXW7wXeoSu
-	 PNyqc9GIixNFegy1D6HYuzxTwLjegR0bNGA4RUOTulmhCHilEkh1v3G/QSiOKtNKIT
-	 UfoXU+7DHB84Q==
-Date: Wed, 3 Apr 2024 18:56:35 -0500
-From: Eric Biggers <ebiggers@kernel.org>
-To: Andy Lutomirski <luto@kernel.org>
-Cc: Andrew Cooper <andrew.cooper3@citrix.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ross Philipson <ross.philipson@oracle.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org,
-	dpsmith@apertussolutions.com, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Matthew Garrett <mjg59@srcf.ucam.org>,
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-	jarkko@kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
-	"luto@amacapital.net" <luto@amacapital.net>,
-	Arvind Sankar <nivedita@alum.mit.edu>,
-	Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net,
-	kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v8 06/15] x86: Add early SHA support for Secure Launch
- early measurements
-Message-ID: <20240403235635.GA24248@quark.localdomain>
-References: <CAMj1kXEmMBY_jc0uM5UgZbuZ3-C7NPKzg5AScaunyu9XzLgzZA@mail.gmail.com>
- <98ad92bb-ef17-4c15-88ba-252db2a2e738@citrix.com>
- <CAMj1kXFTu+bV2kQhAyu15hrYai20NcBLb4Zu8XG2Y-XjL0f+rw@mail.gmail.com>
- <1a8e69a7-89eb-4d36-94d6-0da662d8b72f@citrix.com>
- <CAMj1kXEvmGy9RJo4s8tECsFj2dufZ8jBPoJOEtkcGUoj+x2qsw@mail.gmail.com>
- <431a0b3a-47e5-4e61-a7fc-31cdf56f4e4c@citrix.com>
- <20240223175449.GA1112@sol.localdomain>
- <e641e2f1-16cf-4717-8a1f-8afac2644efe@citrix.com>
- <20240223183004.GE1112@sol.localdomain>
- <10db421c-77da-4a1c-a25e-2374a7a2ef79@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lteTYVgA"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-432d55b0fa9so85131cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 03 Apr 2024 17:31:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712190665; x=1712795465; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZiIJ27wFv77rEJSbeQ8wmknGDI5PJs1qaRDO/vaKY78=;
+        b=lteTYVgAf9VjOYK0W9h4y6qvN801C8325t7qw8+bM4ALVcme4TmdUyjpMBQ+t+4UyZ
+         jUxDtJnZCu46VlnihYiql1rHRiqRgPBPjA7Va7XiT6p3046QfvqMk0NvqW1FVKZwuhbG
+         ZRmk9mXqtJEw5uXYvlQCI///XwKyAte21DeVWrdem3FkL14fmWBY/w2VKFp+eXmc0gfC
+         UBFQWoCSOVB9Z67YxZu5Mw9rDq5cvBhabtC4fKrsGnVV5hqTRl8NnS5wQVPg+tMWziV6
+         ODF4fMErBqwBfHy8WEx23TDCMLpSD5zga2wka5D6bOtiqDgBsiP5UEcdztEjubGl45Sp
+         TveA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712190665; x=1712795465;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZiIJ27wFv77rEJSbeQ8wmknGDI5PJs1qaRDO/vaKY78=;
+        b=udM95K2BSV2Ry1oAG8ZTYsl2CHIlxI8uJXoSKplzZceSbUNf56PJenPqCnjA/nTOec
+         tTLjIHd9T+++yLfXBZ0W6dKspVnz4xFN34TTwpYngb0Z1jbE7vhADmwZ/uftNoojM7o3
+         reNlchwM3l8lsErgCpluDGCROyIIoJC10qWY9PH005fb6/0MKM3dyZyeCJ0GR86dxC26
+         x9X5XtiSlB4Ha0wTZBTzpefI/YBtjYEe7SDzjMvFlJN4Em4I0PW7vC0EXZxnfLboBu85
+         0Gq0CsQcXyvkMRYdEx5HfXd2CFLF2+XAG8grtdcrPMpgWJwCoK9z2o5FgjW09p+lmzq0
+         uQiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUU2xy7+0IXIQ/oXhtdrh5/SN3foUtAu8wWhekMakrnQeNmRg/VK4zev1lJAHHFe4rzfCAAhA96/q51EAEgcNRxCWhngbJ+Vu/W
+X-Gm-Message-State: AOJu0YzPhN5Rm71uEMVH6tn5ZUx1cXdFA+Ff7UVVNB2jTJjQem6RpQ87
+	uTsPqlNSzaQBKeWW1WCyngeifhT2qsr0X53hTvWPWGd1qHL22VVSPc0b3WuOVh9L9t2RAixYT4D
+	EGaNWWHbSc9E4TK5aQVxrrgYKmqPEKL8sqfAT
+X-Google-Smtp-Source: AGHT+IHQMGoJKpmuRBhGO/nc6Y1VL8a56DE2t917MgYqdaVEfIh6Tq6+DJ4I6gRn4yObflFj0KJjM+GNNall5ISiLQQ=
+X-Received: by 2002:a05:622a:154:b0:431:814b:7618 with SMTP id
+ v20-20020a05622a015400b00431814b7618mr545679qtw.2.1712190664534; Wed, 03 Apr
+ 2024 17:31:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <10db421c-77da-4a1c-a25e-2374a7a2ef79@app.fastmail.com>
+References: <cover.1711674410.git.babu.moger@amd.com> <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
+In-Reply-To: <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 3 Apr 2024 17:30:53 -0700
+Message-ID: <CALPaoCgRtYLnzpkL6uVjb+LvBbxD8ANRuzACP1UQ=rkzk8TCqg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 07/17] x86/resctrl: Add support to enable/disable
+ ABMC feature
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 03, 2024 at 09:32:02AM -0700, Andy Lutomirski wrote:
-> On Fri, Feb 23, 2024, at 10:30 AM, Eric Biggers wrote:
-> > On Fri, Feb 23, 2024 at 06:20:27PM +0000, Andrew Cooper wrote:
-> >> On 23/02/2024 5:54 pm, Eric Biggers wrote:
-> >> > On Fri, Feb 23, 2024 at 04:42:11PM +0000, Andrew Cooper wrote:
-> >> >> Yes, and I agree.  We're not looking to try and force this in with
-> >> >> underhand tactics.
-> >> >>
-> >> >> But a blind "nack to any SHA-1" is similarly damaging in the opposite
-> >> >> direction.
-> >> >>
-> >> > Well, reviewers have said they'd prefer that SHA-1 not be included and given
-> >> > some thoughtful reasons for that.  But also they've given suggestions on how to
-> >> > make the SHA-1 support more palatable, such as splitting it into a separate
-> >> > patch and giving it a proper justification.
-> >> >
-> >> > All suggestions have been ignored.
-> >> 
-> >> The public record demonstrates otherwise.
-> >> 
-> >> But are you saying that you'd be happy if the commit message read
-> >> something more like:
-> >> 
-> >> ---8<---
-> >> For better or worse, Secure Launch needs SHA-1 and SHA-256.
-> >> 
-> >> The choice of hashes used lie with the platform firmware, not with
-> >> software, and is often outside of the users control.
-> >> 
-> >> Even if we'd prefer to use SHA-256-only, if firmware elected to start us
-> >> with the SHA-1 and SHA-256 backs active, we still need SHA-1 to parse
-> >> the TPM event log thus far, and deliberately cap the SHA-1 PCRs in order
-> >> to safely use SHA-256 for everything else.
-> >> ---
-> >
-> > Please take some time to read through the comments that reviewers have left on
-> > previous versions of the patchset.
-> 
-> So I went and read through the old comments, and I'm lost.  In brief summary:
-> 
-> If the hardware+firmware only supports SHA-1, then some reviewers would prefer
-> Linux not to support DRTM.  I personally think this is a bit silly, but it's
-> not entirely unreasonable.  Maybe it should be a config option?
-> 
-> If the hardware+firmware does support SHA-256, then it sounds (to me, reading
-> this -- I haven't dug into the right spec pages) that, for optimal security,
-> something still needs to effectively turn SHA-1 *off* at runtime by capping
-> the event log properly.  And that requires computing a SHA-1 hash.  And, to be
-> clear, (a) this is only on systems that already support SHA-256 and that we
-> should support and (b) *not* doing so leaves us potentially more vulnerable to
-> SHA-1 attacks than doing so.  And no SHA-256-supporting tooling will actually
-> be compromised by a SHA-1 compromise if we cap the event log.
-> 
-> So is there a way forward?  Just saying "read through the comments" seems like
-> a dead end.
-> 
+Hi Babu,
 
-It seems there may be a justification for some form of SHA-1 support in this
-feature.  As I've said, the problem is that it's not explained in the patchset
-itself.  Rather, it just talks about "SHA" and pretends like SHA-1 and SHA-2 are
-basically the same.  In fact, SHA-1 differs drastically from SHA-2 in terms of
-security.  SHA-1 support should be added in a separate patch, with a clearly
-explained rationale *in the patch itself* for the SHA-1 support *specifically*.
+On Thu, Mar 28, 2024 at 6:07=E2=80=AFPM Babu Moger <babu.moger@amd.com> wro=
+te:
+>  struct rdt_fs_context {
+>         struct kernfs_fs_context        kfc;
+>         bool                            enable_cdpl2;
+> @@ -433,6 +436,7 @@ struct rdt_parse_data {
+>   * @mbm_cfg_mask:      Bandwidth sources that can be tracked when Bandwi=
+dth
+>   *                     Monitoring Event Configuration (BMEC) is supporte=
+d.
+>   * @cdp_enabled:       CDP state of this resource
+> + * @abmc_enabled:      ABMC feature is enabled
+>   *
+>   * Members of this structure are either private to the architecture
+>   * e.g. mbm_width, or accessed via helpers that provide abstraction. e.g=
+.
+> @@ -448,6 +452,7 @@ struct rdt_hw_resource {
+>         unsigned int            mbm_width;
+>         unsigned int            mbm_cfg_mask;
+>         bool                    cdp_enabled;
+> +       bool                    abmc_enabled;
+>  };
+>
+>  static inline struct rdt_hw_resource *resctrl_to_arch_res(struct rdt_res=
+ource *r)
+> @@ -491,6 +496,13 @@ static inline bool resctrl_arch_get_cdp_enabled(enum=
+ resctrl_res_level l)
+>
+>  int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
+>
+> +static inline bool resctrl_arch_get_abmc_enabled(enum resctrl_res_level =
+l)
+> +{
+> +       return rdt_resources_all[l].abmc_enabled;
+> +}
 
-- Eric
+This inline definition will not work in either this file or
+fs/resctrl/internal.h, following James's change[1] moving the code.
+
+resctrl_arch-definitions are either declared in linux/resctrl.h or
+defined inline in a file like asm/resctrl.h.
+
+
+> +
+> +int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)=
+;
+> +
+>  /*
+>   * To return the common struct rdt_resource, which is contained in struc=
+t
+>   * rdt_hw_resource, walk the resctrl member of struct rdt_hw_resource.
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu=
+/resctrl/rdtgroup.c
+> index 05f551bc316e..f49073c86884 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -850,9 +850,15 @@ static int rdtgroup_mbm_assign_show(struct kernfs_op=
+en_file *of,
+>                                     struct seq_file *s, void *v)
+>  {
+>         struct rdt_resource *r =3D of->kn->parent->priv;
+> +       struct rdt_hw_resource *hw_res =3D resctrl_to_arch_res(r);
+>
+> -       if (r->mbm_assign_capable)
+> +       if (r->mbm_assign_capable && hw_res->abmc_enabled) {
+> +               seq_puts(s, "[abmc]\n");
+> +               seq_puts(s, "legacy_mbm\n");
+> +       } else if (r->mbm_assign_capable) {
+>                 seq_puts(s, "abmc\n");
+> +               seq_puts(s, "[legacy_mbm]\n");
+> +       }
+
+This looks like it would move to fs/resctrl/rdtgroup.c where it's not
+possible to dereference an rdt_hw_resource struct.
+
+It might be helpful to try building your changes on top of James's
+change[1] to get an idea of how this would fit in post-refactoring.
+I'll stop pointing out inconsistencies with his portability scheme
+now.
+
+>
+>         return 0;
+>  }
+> @@ -2433,6 +2439,74 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_=
+level l, bool enable)
+>         return 0;
+>  }
+>
+> +static void resctrl_abmc_msrwrite(void *arg)
+> +{
+> +       bool *enable =3D arg;
+> +       u64 msrval;
+> +
+> +       rdmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
+> +
+> +       if (*enable)
+> +               msrval |=3D ABMC_ENABLE;
+> +       else
+> +               msrval &=3D ~ABMC_ENABLE;
+> +
+> +       wrmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
+> +}
+> +
+> +static int resctrl_abmc_setup(enum resctrl_res_level l, bool enable)
+> +{
+> +       struct rdt_resource *r =3D &rdt_resources_all[l].r_resctrl;
+> +       struct rdt_domain *d;
+> +
+> +       /* Update QOS_CFG MSR on all the CPUs in cpu_mask */
+> +       list_for_each_entry(d, &r->domains, list) {
+> +               on_each_cpu_mask(&d->cpu_mask, resctrl_abmc_msrwrite, &en=
+able, 1);
+> +               resctrl_arch_reset_rmid_all(r, d);
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int resctrl_abmc_enable(enum resctrl_res_level l)
+> +{
+> +       struct rdt_hw_resource *hw_res =3D &rdt_resources_all[l];
+> +       int ret =3D 0;
+> +
+> +       if (!hw_res->abmc_enabled) {
+> +               ret =3D resctrl_abmc_setup(l, true);
+> +               if (!ret)
+> +                       hw_res->abmc_enabled =3D true;
+
+Presumably this would be called holding the rdtgroup_mutex? Perhaps a
+lockdep assertion somewhere would be appropriate?
+
+Thanks!
+-Peter
+
+[1] https://lore.kernel.org/lkml/20240321165106.31602-32-james.morse@arm.co=
+m/
