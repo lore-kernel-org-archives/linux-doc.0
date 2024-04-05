@@ -1,108 +1,139 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261DE364BF;
-	Fri,  5 Apr 2024 07:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE8513D26B
+	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 07:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712301822; cv=none; b=mV5A1bZQEj2dG72opzyb6JVooU2mEW1a3f4YH5WmUIKhzxHcTcb2RwftaLWTmGEQ1908rdNrqWCxAh7LNzUcA3LO0oeRc3TGKaWujVT5Y4IXg+Fis1bvIhofkxAs72HG6VasEFIs2RaDU635Z92K8GeSptynKnNBuOBkMdgS8xU=
+	t=1712303072; cv=none; b=P1N1atEtyxwrUXRhCYCNqay73idfIg+tpoNueQWZdsELTC5iTtplfhRNBUqRFHYyRv25l1amx3TpsmlvP01npcEyZmNhGVmEYg23szqn+fOh+JITss4HSGto9Pxr++2gvPVXCTIXT91ihOr67wye/BGWGMEk9sK8DG2CjWfj9xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712301822; c=relaxed/simple;
-	bh=dVtxKxdg1OU5ld/QuyllX0mtu7ceOemS+BBlFZUycWI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LKGC5JVg5VWlmQ5CLh/ARNNtq92FhXGI1ouovBSpkME6QdGWLW45oPVgKAZkGu/86MuGi1JG6XMyx7+vXWFfGVwgdsGXvrPTt1/97MhVvi/I8Nt3oeZQVM7oGBksHpA4fD1sQRKL/zbLzJGeO9ZEs4gxwwG+Mmom59QMtFFnRa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+w9Ub+j; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+w9Ub+j"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e2235c630aso11016775ad.2;
-        Fri, 05 Apr 2024 00:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712301820; x=1712906620; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XxNxklGn9SVUsQVsbibkyPFYcty9WP4EgX03Cm56A0I=;
-        b=R+w9Ub+jh5QtXNCsBXuJe9TSRtkzUszoGheKYxg8g2sseERU/699vAcFjcuNT1CTtp
-         Ba3voz7rhpcqtny+0uIKRtvvkOshHmCHqUGk1b4UxHrs3Qy7IPMTLgGmTJyRq2cUDgJd
-         jIUyZDcUzaeuXD3WsMJ+l8yL4K5HywjMczbU1ZpDhP7UNqAZwxIrPp8H3PM0H9EeSV+R
-         3l0QLDdmmuNnOHpbDBo5AC9z4+KW/owux6LQJbkCRIzpnUE1BL0eHGmcqgTtqAjYXwVY
-         OlLmSZdcYlAHPBI6LnpyIaobz3HjYyfTQIVEdBRqww8NV0HTwlK0+XcVu3VUvg8Vj2NZ
-         C5yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712301820; x=1712906620;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XxNxklGn9SVUsQVsbibkyPFYcty9WP4EgX03Cm56A0I=;
-        b=m7tIXGieGGi6bGrUg4+kyEqOQzMt/L1b8yylfpVq6lkw0IZ2wu5eMeZXtU9gVc5S0I
-         y/LKU2PlGxAlLvc5q/DX+LdIpMqDQTzUkt9gmw5sDMdJIP3uWqe6+i3TmQEivDwKQSRc
-         7AGoeuR1ubXVDS/kQxYp0Lqpp1Xt/v7ejqzvJ1AQ/k7h16V3WGzUY1Gqq+DZ/mJe4Ffd
-         fELM2G0wzT6SP39OU4P2KtEc27Ccp97Bt9eiub57MuSwNRsCaIvw/SRSZvf1FV/oAb4W
-         HtBUW9IfZEGkPG0/1puh78QW6I6AXd0ezhj2iHhfBjUAf0bgqorzIM49y0WTqhnj6cVG
-         levQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbPOgO/FBdd5fH2DAZTY1iKRo5+fsXK9z4+E/tsnqtOcOUKB9DTPvG6zUeWKbS6PXwJXxnGKaYOLRFNLODDDi0+c+zUXKQPRiMQzLlwfeZS77NafpF6O2Z7vzx7dvl7OHjwFjwJwexa2o=
-X-Gm-Message-State: AOJu0YytYUaUL3k2TBWzkpo4HErspWde5q5o+rqJlpxXtX+Nd9WHrdri
-	MQDkMsiwNDYriygbl+yWQazNfRiAE4DO1gxPrx/FO9JhnyLdHQ5E
-X-Google-Smtp-Source: AGHT+IFfc/IdC5JjDt2WRmesL07W3LVTGgo/ePNVHicM2OyAeObGMTW6GRu5VgzsOxm1/IkxQoNOwQ==
-X-Received: by 2002:a17:902:f542:b0:1e0:cc0:edf with SMTP id h2-20020a170902f54200b001e00cc00edfmr680751plf.13.1712301820418;
-        Fri, 05 Apr 2024 00:23:40 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id i6-20020a170902eb4600b001ddb4df7f70sm844656pli.304.2024.04.05.00.23.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 00:23:40 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 9C83F186046F8; Fri,  5 Apr 2024 14:23:38 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux bcachefs <linux-bcachefs@vger.kernel.org>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>,
-	Brian Foster <bfoster@redhat.com>,
+	s=arc-20240116; t=1712303072; c=relaxed/simple;
+	bh=R03D674QYB5Ga54S94jEHsV8UofXlPVpjBUr5x+5e/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8r+RNZfq6FOByWmDtrx8Xp5y5HiWmfgQyyTGLKOKylagbj6nyr4urin9TsCJcrFaA/0yNh7GqQgfRC5Xk+f6rxWut5k7Vu7k4LVliqBnBZQo05cZmqcoDr/tE2+PjWxmonzhmeEaOGWzA4SxVpNqXFqWHiVzLjBtA88VPHf3Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rseEx-0000sw-KA; Fri, 05 Apr 2024 09:43:59 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rseEr-00AWqn-SL; Fri, 05 Apr 2024 09:43:53 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1rseEr-00FbmS-2U;
+	Fri, 05 Apr 2024 09:43:53 +0200
+Date: Fri, 5 Apr 2024 09:43:53 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chandan Babu R <chandanbabu@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Steve French <stfrench@microsoft.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 2/2] MAINTAINERS: Add entry for bcachefs documentation
-Date: Fri,  5 Apr 2024 14:23:19 +0700
-Message-ID: <20240405072320.23416-3-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240405072320.23416-1-bagasdotme@gmail.com>
-References: <20240405072320.23416-1-bagasdotme@gmail.com>
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Russ Weight <russ.weight@linux.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	Dent Project <dentproject@linuxfoundation.org>
+Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <Zg-ruY_ufPJOyHad@pengutronix.de>
+References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
+ <20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
+ <20240402132637.GA3744978-robh@kernel.org>
+ <20240403111548.30e780b5@kmaincent-XPS-13-7390>
+ <20240403143142.GA3508225-robh@kernel.org>
+ <20240404112506.2e155bad@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=675; i=bagasdotme@gmail.com; h=from:subject; bh=dVtxKxdg1OU5ld/QuyllX0mtu7ceOemS+BBlFZUycWI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDGn8y3T/1XywyhFoPW+UaS1jEqgQVvdX453XVIdKyQ9v2 R4tuXilo5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABNJf8jwPy+10KKY5aQiX3Ve fX/Uea1jr5+eMvFY+L10ArPkapdX0xkZ5u1iLvs/rcSp6PmhVd837RQ9aXA004Pr8p/autl1Nxb JcQMA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240404112506.2e155bad@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Now that bcachefs docs exist in Documentation/filesystems/bcachefs/,
-cover it in MAINTAINERS entry for the filesystem.
+On Thu, Apr 04, 2024 at 11:25:06AM +0200, Kory Maincent wrote:
+> On Wed, 3 Apr 2024 09:31:42 -0500
+> Rob Herring <robh@kernel.org> wrote:
+> 
+> > >   
+> > > > > +
+> > > > > +          polarity-supported:
+> > > > > +            $ref: /schemas/types.yaml#/definitions/string-array
+> > > > > +            description:
+> > > > > +              Polarity configuration supported by the PSE PI pairsets.
+> > > > > +            minItems: 1
+> > > > > +            maxItems: 4
+> > > > > +            items:
+> > > > > +              enum:
+> > > > > +                - MDI-X
+> > > > > +                - MDI
+> > > > > +                - X
+> > > > > +                - S
+> > > > > +
+> > > > > +          vpwr-supply:
+> > > > > +            description: Regulator power supply for the PSE PI.    
+> > > > 
+> > > > I don't see this being used anywhere.  
+> > > 
+> > > Right, I forgot to add it to the PD692x0 and TPS23881 binding example!  
+> > 
+> > But is this really common/generic? I would think input power rails would 
+> > be chip specific.
+> 
+> I think as each PSE PI are seen as a regulator we may want it generic to track
+> each PI parent. Having the parent regulator described like that would force the
+> devicetree to describe where the power come from.
+> In contrary, for example, on the pd692x0 controller the regulators are connected
+> to the managers (PD69208) and not directly to the PIs. So the devicetree would
+> not really fit the hardware. It is indeed chip specific but having described
+> like that would be more simple.
+> 
+> If we decided to make it chip specific the core would have a callback to ask
+> the driver to fill the regulator_init_data structure for each PI before
+> registering the regulators. It is feasible.
+> 
+> Mmh in fact I am still unsure about the solution.
+> 
+> Oleksij as you were the first to push the idea. Have you more argument in mind
+> to make it generic?
+> https://lore.kernel.org/netdev/ZeObuKHkPN3tiWz_@pengutronix.de/
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+There can be different, chip specific power consumer, for example the
+one which is feeding the PSE controller it self, but also there are common
+providers/consumers  those which are used to feed PSE PIs. In case of
+pd692x0 based setup, the managers are actual regulator responsible to
+control power rails connected to PSE PIs, so managers should use this
+common provider. Not sure how TI is designed, but it will have same type
+of consumer to feed PSE PIs as well.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c121493f43d01..c0091a206fd206 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3573,6 +3573,7 @@ S:	Supported
- C:	irc://irc.oftc.net/bcache
- T:	git https://evilpiepirate.org/git/bcachefs.git
- F:	fs/bcachefs/
-+F:	Documentation/filesystems/bcachefs/
- 
- BDISP ST MEDIA DRIVER
- M:	Fabien Dessenne <fabien.dessenne@foss.st.com>
+Regards,
+Oleksij
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
