@@ -1,201 +1,103 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D970F27447;
-	Fri,  5 Apr 2024 10:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1BE161902;
+	Fri,  5 Apr 2024 10:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712311521; cv=none; b=HSPiC6D000hitAH+kLRdA/titRX5PVg+AMCzW2HDph7VMYwF1MNbIWU6r2Fv60+x+PRimm0zBQL1z2S/dTDKgcbQkb9qWxoN4W/N53pkYESVngYw7uy9MRVCZaTepy3JWVTd3PwgvO/3WP+z8RkwPSEQsgBabb67W1SLG4RXwPA=
+	t=1712312578; cv=none; b=kdGfLICJh0IjlS/rq3KN7WYDwyHHa7qPJGTY+ZRj4sAs//KlG5yyPLhf6eeyzrPaRLhV5FkzMO7JJQcH5CbApu2j7Wgau9HbcLgZiHGNGk02z7f6vyzik163SKVLPflJnvDb901Bg6sv/vP+E1aU/jfNF5fc42r8khTMezSqdkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712311521; c=relaxed/simple;
-	bh=7kM1F19yoDOcUM2VHaBFp2c+soyX1IiwreAYmFx4a+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fmfnQMP5B+7IySTDet8N7EDNMzESVclg6Zx5WDFUbzUqRj9P9huJY4w97OD2RW5/fhk857H/CIyKscwQavk9zWuoo4vhz7YI3gxiWxKbTZs6mVdd2V5k4YAJF8MDJwFguEc5lksBV9pZqFut+mnrxdIEXckrJE5tRipUOBoeBI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QGZzqsqC; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712312578; c=relaxed/simple;
+	bh=20WIFlqzXv8bEsaIHY6yoNZA6nIiAZntm4F/ctnVrUg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=h3Gr3dxCwS8uF/zycaJ507FB7FkdJYLTpwSJkqCRZFWTY5ofHUJvDeRSrBkR4x7boa8DlgNGZABLtyjWPtNhtFfLuEhuJReDhJ3kOUSpn72k0kngN2nAGU3H6KwA4cNK8j0GiTaEEfRhGjMMoFeQcygTF58CJeFWSPSjdONon0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=p8wGCgW6; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGZzqsqC"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-41551500a7eso15673425e9.2;
-        Fri, 05 Apr 2024 03:05:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712311518; x=1712916318; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7VnK8I425dCI37ex6fueoi4IBtnoCCvi/FqHwWJZqFc=;
-        b=QGZzqsqCxu2dBhB7OPb9oJCfC2mXNgNvv91ZNtCLWEP9kcB6O5g/bSOim370Tiunq+
-         Ue/1YXAQkrVuwm+v/udWZCaFG+u0nAKo8wVu5/fBCgzkOd98QfngW8vPjmzsYxrvS1yl
-         w0FgVwGTxGWXC4jfdmTfNgf39fr7wJeh1Eev4IVPhKjGBF+fbi+XSDm/uNwwcM4bObqL
-         ZZPAk/zaoszYU/+Suw57lwGPP/IhN2+qPtQ9qoisvVZlcW5TIjQimw4hYSlsTsoa00eI
-         am5QVAyz5hjbdGIFnZfoQozEgHbAroonT4uizCPEcgGxCP97FSQAztJ9tGGUKne6DgCB
-         Mh8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712311518; x=1712916318;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7VnK8I425dCI37ex6fueoi4IBtnoCCvi/FqHwWJZqFc=;
-        b=cuzPeMQWGBzbl2p9kWb3pJoUs3xoMztaVLIKJEcRKI5lu8nAN+1fp2kFrEwC/WY7Cg
-         3drrhVE4Uxj7WAM38PioGIqCAIztwwzmcNtuQlWsuEADT10kufoZDvKjf5u0Ew6nGwhq
-         msTLK3R0IJxX3py2BxGJ2pJm5nYjvV+wAOUnVIS6xTjZC6a1cPL9Ud59VgFrMdQ/Pkqy
-         FiOwlT+G7/nLy/vxj6jDiPtHE3CLZzRJ0qyKDwiO2/MftHO5hNLKT8DXZl6sXHDN2a1c
-         AQRnoY6zVPv0i1nBeO7kBYQim0j+uuBy7RtsE8hKH+p5He1kJ/e+CHJ3N3jV9Jzss+Y/
-         mkrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVlBQvvpu2rj0GTNHqVaC7WtcvxpwZh22OKVpKoLBAR/rR9+u9b6+PldYWJgC1d33iMLD2q2FF0cSv2/EoU0DY6CXcOcmtXgyYW9rp+irmfaenZuNUV14xAd+goKZ7TmU4pY/QnXA==
-X-Gm-Message-State: AOJu0YxRAZCK5EsfFJgSfsh3Db6eggvK/jEsJDiCY2o1tsoHsNBO63+n
-	jPFIptxXp7BnXKPA8a2J8TIzadjYup/MprfgCaBbl6Jf/sI6+/M6
-X-Google-Smtp-Source: AGHT+IHmwsqWFX78cI8qG9wG7iEN0QIO4wBuRjuQHpMWUf6mVAabIxXpRFZnZkvY3v0ce1Vc92K0/A==
-X-Received: by 2002:a05:600c:4e4a:b0:415:63df:6513 with SMTP id e10-20020a05600c4e4a00b0041563df6513mr746663wmq.39.1712311517988;
-        Fri, 05 Apr 2024 03:05:17 -0700 (PDT)
-Received: from andrea ([31.189.25.240])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05600c4f4d00b00416326cc353sm310063wmq.8.2024.04.05.03.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 03:05:17 -0700 (PDT)
-Date: Fri, 5 Apr 2024 12:05:11 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
-	will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
-	npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
-	luc.maranget@inria.fr, akiyks@gmail.com,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH memory-model 2/3] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-Message-ID: <Zg/M141yzwnwPbCi@andrea>
-References: <8550daf1-4bfd-4607-8325-bfb7c1e2d8c7@paulmck-laptop>
- <20240404192649.531112-2-paulmck@kernel.org>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="p8wGCgW6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
+	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	In-Reply-To:References; bh=CBcb0HqkxR3k46bsLAYeHj2Pxqw1LMgdMN4SvfAtuUo=;
+	t=1712312576; x=1712744576; b=p8wGCgW6veaEPLnuFcloMunOMkOFF/yhV1+DqXtM6eyZZE/
+	AWlmqN0X7+2w+bkSDuOwmvrW8qHr79ptMmK2mnKDWjA2fnBvTeHXv1/LjTjovuqsciRrztEpc2rcO
+	sb5goXnA3ti6qdw1WMdLXkhbWjXxyZW2TRSnivAdnDAmHtJF74yip6+lVQBzBEY5/+/olycGkdO1/
+	50qD8gqGoAlmmCuSVE81rIDyry06si3hcWn81eu82DM8afVdKHN9JylTHjoh7sMOmk1lXFjvrEH+N
+	uSkOfTxCTBL6MKMX1TWzgW/W4BOLlVZRjBKwQTMJSrRie3bDLLmRSZwVbzKQRreg==;
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1rsgih-0007ZM-8N; Fri, 05 Apr 2024 12:22:51 +0200
+Message-ID: <96059b4b-f58c-49f9-8fdf-ccdcfdde6abc@leemhuis.info>
+Date: Fri, 5 Apr 2024 12:22:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240404192649.531112-2-paulmck@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/3] docs: verify/bisect: fine tuning, testing fixes,
+ and using a build host
+From: "Linux regression tracking (Thorsten Leemhuis)"
+ <regressions@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+ =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
+References: <cover.1711963460.git.linux@leemhuis.info>
+Content-Language: en-US, de-DE
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <cover.1711963460.git.linux@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1712312576;f029586c;
+X-HE-SMSGID: 1rsgih-0007ZM-8N
 
->  DCL-broken.litmus
-> -	Demonstrates that double-checked locking needs more than just
-> -	the obvious lock acquisitions and releases.
-> +    Demonstrates that double-checked locking needs more than just
-> +    the obvious lock acquisitions and releases.
->  
->  DCL-fixed.litmus
-> -	Demonstrates corrected double-checked locking that uses
-> -	smp_store_release() and smp_load_acquire() in addition to the
-> -	obvious lock acquisitions and releases.
-> +    Demonstrates corrected double-checked locking that uses
-> +    smp_store_release() and smp_load_acquire() in addition to the
-> +    obvious lock acquisitions and releases.
->  
->  RM-broken.litmus
-> -	Demonstrates problems with "roach motel" locking, where code is
-> -	freely moved into lock-based critical sections.  This example also
-> -	shows how to use the "filter" clause to discard executions that
-> -	would be excluded by other code not modeled in the litmus test.
-> -	Note also that this "roach motel" optimization is emulated by
-> -	physically moving P1()'s two reads from x under the lock.
-> +    Demonstrates problems with "roach motel" locking, where code is
-> +    freely moved into lock-based critical sections.  This example also
-> +    shows how to use the "filter" clause to discard executions that
-> +    would be excluded by other code not modeled in the litmus test.
-> +    Note also that this "roach motel" optimization is emulated by
-> +    physically moving P1()'s two reads from x under the lock.
->  
-> -	What is a roach motel?	This is from an old advertisement for
-> -	a cockroach trap, much later featured in one of the "Men in
-> -	Black" movies.	"The roaches check in.	They don't check out."
-> +    What is a roach motel?  This is from an old advertisement for
-> +    a cockroach trap, much later featured in one of the "Men in
-> +    Black" movies.  "The roaches check in.  They don't check out."
->  
->  RM-fixed.litmus
-> -	The counterpart to RM-broken.litmus, showing P0()'s two loads from
-> -	x safely outside of the critical section.
-> +    The counterpart to RM-broken.litmus, showing P0()'s two loads from
-> +    x safely outside of the critical section.
+On 01.04.24 11:29, Thorsten Leemhuis wrote:
+> A quick series with various improvements for
+> Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst.
 
-AFAIU, the changes above belong to patch #1.  Looks like you realigned
-the text, but forgot to integrate the changes in #1?
+Feel free to ignore this series, I found another problem and will post a
+v2 within a few days. Will likely also use that occasion to split the
+first patch into two, it does a bit too much.
 
+Ciao, Thorsten
 
-> +C cmpxchg-fail-ordered-1
-> +
-> +(*
-> + * Result: Never
-> + *
-> + * Demonstrate that a failing cmpxchg() operation will act as a full
-> + * barrier when followed by smp_mb__after_atomic().
-> + *)
-> +
-> +{}
-> +
-> +P0(int *x, int *y, int *z)
-> +{
-> +	int r0;
-> +	int r1;
-> +
-> +	WRITE_ONCE(*x, 1);
-> +	r1 = cmpxchg(z, 1, 0);
-> +	smp_mb__after_atomic();
-> +	r0 = READ_ONCE(*y);
-> +}
-> +
-> +P1(int *x, int *y, int *z)
-> +{
-> +	int r0;
-> +
-> +	WRITE_ONCE(*y, 1);
-> +	r1 = cmpxchg(z, 1, 0);
-
-P1's r1 is undeclared (so klitmus7 will complain).
-
-The same observation holds for cmpxchg-fail-unordered-1.litmus.
-
-
-> +	smp_mb__after_atomic();
-> +	r0 = READ_ONCE(*x);
-> +}
-> +
-> +locations[0:r1;1:r1]
-> +exists (0:r0=0 /\ 1:r0=0)
-
-
-> +C cmpxchg-fail-ordered-2
-> +
-> +(*
-> + * Result: Never
-> + *
-> + * Demonstrate use of smp_mb__after_atomic() to make a failing cmpxchg
-> + * operation have acquire ordering.
-> + *)
-> +
-> +{}
-> +
-> +P0(int *x, int *y)
-> +{
-> +	int r0;
-> +	int r1;
-> +
-> +	WRITE_ONCE(*x, 1);
-> +	r1 = cmpxchg(y, 0, 1);
-> +}
-> +
-> +P1(int *x, int *y)
-> +{
-> +	int r0;
-> +
-> +	r1 = cmpxchg(y, 0, 1);
-> +	smp_mb__after_atomic();
-> +	r2 = READ_ONCE(*x);
-
-P1's r1 and r2 are undeclared.  P0's r0 and P1's r0 are unused.
-
-Same for cmpxchg-fail-unordered-2.litmus.
-
-  Andrea
+> * The first patch contains various fixes and some fine tuning.
+> 
+> * The second adds a few instructions for later testing of reverts,
+>   fixes, or newer versions. This was already hinted at; but during some
+>   early work on Documentation/admin-guide/reporting-issues.rst to better
+>   reconcile the two it seemed wise to cover this properly here.
+> 
+> * The third patch briefly outlines how to build kernels on a different
+>   host; it came into being after a second user within one week asked for
+>   this. That also allowed the text to briefly cover cross-compilation.
+> ---
+> 
+> Hi! While at it let me mention one more thing unrelated to the changes
+> where I'm unsure if the current approach by the text was a wise choice:
+> 
+> * Should the document tell users to avoid mainline during merge windows?
+> 
+> Some input from the community on this would be splendid.
+> 
+> Ciao, Thorsten
+> 
+> P.S.: Not totally sure, but I think this should go into 6.9 as this is
+> a new document; but I can split this up if the two latter patches better
+> should go into -next.
+> 
+> Thorsten Leemhuis (3):
+>   docs: verify/bisect: git switch; proper headlines; various fixes;
+>   docs: verify/bisect: explain testing reverts, patches and newer code
+>   docs: verify/bisect: describe how to use a build host
+> 
+>  .../verify-bugs-and-bisect-regressions.rst    | 469 +++++++++++++-----
+>  1 file changed, 344 insertions(+), 125 deletions(-)
+> 
+> 
+> base-commit: b8cfda5c9065cd619a97c17da081cbfab3b1e756
