@@ -1,89 +1,112 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760FE6AB6;
-	Fri,  5 Apr 2024 17:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06827171E59
+	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 17:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712337556; cv=none; b=ggPl61ihm3rtMCm+Qnud/Ke+Ezq+6sehnJ7Pf4hw/tpEIOklagynHTsmNKij/4RQdAC/SEqSUXlNkVQ0i5Uakf5LF9XNbOtHaXZHVFqjq57vf+c7UAvUc1RGe01g1Swjk2lplfvK83Qh8x2ePDTtbHvkRVkms6KSflwm4jA7+SE=
+	t=1712338438; cv=none; b=Cr2ogqW8BC8ZfXNzDziPDmny4RlJcxsNZ/B+pXQLa7NZYo5oRjJsj2rFsFfJWrc6h0NkEuYCw3MBJxoDl+6G1tvXrhoGcI1hZKbausRpPt7Emd7sqBnEPIe4rkDBVb7RmIpUesKXRb/Hx7+0PL9TEiqyi05QSkZZa7sc8UHnbq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712337556; c=relaxed/simple;
-	bh=QRMeVHlXFsGyPck1GAXCXiTs+tmUSKXsHHrqCVNReVs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nMgXpVyMZdTJ7VJBtVx2RFDet2MttT0oh7epnw4RVxBPyCVNAJZpro3ZUQQ9o/yjsrzYELFmUIeeDZNLLqksXQM/SN8eZo9RQ5dg+Vk4ZHTeRoWgaWTQBT3CShtsMs/IeC3OLZs32cY7dBFv6FZ2GzwE0n3iuUVgZMGEjxi8M04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DfVrLC7X; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1712338438; c=relaxed/simple;
+	bh=K3vmfqpd94g8+suqMPyLrxBzyLzdFpbPlGZ8DqHjkxQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gnp+5zXIfzRlnpFwU2LviDcFvieFa3vs+BhYYcmiON9/SLS9nd7EZN5tQ72xnHDIhD/BLHnuHu0Gor9bMA7B0gcHAKnvv5oC8+bW8fWW0hoI7+p3PU565zaO2J2CRdn4ATROU/sH9gLWcC01vMDwVBVECTVAPrFXIzxk+315l1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vAEYWKwU; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DfVrLC7X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7n33e9TOqfHdPSOxwwAXF/+bIY86Q75KlStQt98tMCM=; b=DfVrLC7XkfKVXbfbHth4Q1ve5o
-	YHsGv6kKKy1Cq3igmNMC3xwNRsFOWrbnS2OF7XKrNOpnLgknEGab+XA7+vLtWVInSlftOi1r8+C2W
-	yP41B4MqLaG/HJ4ZfmO6vtLB6KCN9KvqE0SmlYcBEmf2tnjnpDVIxcI/hRAxOdqCttZc/8jy6DCv7
-	bYRmOuc5eRI21661mlnb/UWYf+AM0yFTR3lkvLr2vcBG2PWvdruoF1Z/BcWPTf3OTRYLZyky9y0Zy
-	B9+Ht8InRco1L4cMbCmtCcrMmITwZKNVpQPZ+pz09RQdrG+Gk4Mjjn37t3teX9HEDVc/s0I4yVJg5
-	gdivTJ6g==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsnDZ-00000008CaJ-29Yd;
-	Fri, 05 Apr 2024 17:19:09 +0000
-Message-ID: <1536720f-7fba-4c47-8708-bfa80b701e7a@infradead.org>
-Date: Fri, 5 Apr 2024 10:19:08 -0700
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vAEYWKwU"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcc73148611so2708040276.3
+        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2024 10:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712338436; x=1712943236; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K3vmfqpd94g8+suqMPyLrxBzyLzdFpbPlGZ8DqHjkxQ=;
+        b=vAEYWKwUqG7okVe/Y2WxNAE6BtAubziz2DaI+6cg0ypRpQFh0sUq+A8pLxpcE3q6Iv
+         zp/+vYVCDCGk7RPvcV9WbNxZOE2sf/I4XEIQEmlqoUwdZJv6E4xigynEcg65YSIlC6Uc
+         YsoOap7uogahgAnFiaqMGJzZ6ClIXWbEV2Wvs2yXo+5z+WDtCSN6953gW8m+ZWEoQrGG
+         QvfXaav98xkcE55RpG9ZN0wj9snPMFeu7ZwlETp1upIeBsuB9yJjUuiW0A6Ei8Yu14aQ
+         QjFZH9OLFvk4tkxh4bdJcpfmkYeW8LNxnMFHO3EtTzqs9jzr7KCxZYm5qmHgmbODEY0O
+         RYEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712338436; x=1712943236;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K3vmfqpd94g8+suqMPyLrxBzyLzdFpbPlGZ8DqHjkxQ=;
+        b=Ec+5XD9J04oCxHM5kD2YaLxxyxmqQYSFp/nI9TA7mx98PHWzZMddq/9n5ReItc70kI
+         8uazQXTSCiFnheC5lxMteB/wh8K+cb+3uwBHdlGYbSLAUOXMqDt8iQfFb8r+boTUdyDf
+         T+4oI4jSgPupK3H3h+yLOcnu9L0OXjRDLQwbDI7vYCuLhOW06JqlQDK2tWCfm6laL1S3
+         xj2la7cJNNqe6bbNJLPZR9021uIZyLrVfDrBHCLWSGwictG6I2DtR+IrERTEt/rK3Bs2
+         8c6eKxtITQiDZILGP4MWRwsfAaMQmT1O2tB8azQXiip0i5P3SURNR3drzSFLEuBD+tRp
+         4C0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVGWDRAmjt4Y8JEOCzNYTPJeWk7YUY5PMMTsprp/cu4sYY7HlPJxKal5Z3eDOqP7ZqE2m1Oa4wKI6F4ohLIbOcIwigssbtoFgyb
+X-Gm-Message-State: AOJu0Yysvmj93G4ZStVuscRwk1BqUiRYi+LEHz8WT9+bN+UQluFmiJbs
+	UWJ4D7GMGMRjS9Nvn9luu+ZFhWAcDKfJydygdHKvXt0w71QJKZfOM5pXMXy47FDmDKDeBceA6BI
+	7oWYs/WXVkFTFQiaHj2wzKXJjeK2xtMCnGaDuAw==
+X-Google-Smtp-Source: AGHT+IHnKrc4PwDyhWJPdfeFqqNSHEu/4FbT6H+bcXEG7hzOD320BvkD3M+wSU/pjaJrd/w5bdcvFXKhZ2+tWNjNqrs=
+X-Received: by 2002:a25:f50b:0:b0:dda:a608:54bf with SMTP id
+ a11-20020a25f50b000000b00ddaa60854bfmr1849823ybe.56.1712338435998; Fri, 05
+ Apr 2024 10:33:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Add MO(mod objs) variable to process ext modules with
- subdirs
-To: Valerii Chernous <vchernou@cisco.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: xe-linux-external@cisco.com, Jonathan Corbet <corbet@lwn.net>,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240405165610.1537698-1-vchernou@cisco.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240405165610.1537698-1-vchernou@cisco.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240404103254.1752834-1-cleger@rivosinc.com> <20240405-091c6c174f023d74b434059d@orel>
+In-Reply-To: <20240405-091c6c174f023d74b434059d@orel>
+From: Deepak Gupta <debug@rivosinc.com>
+Date: Fri, 5 Apr 2024 10:33:48 -0700
+Message-ID: <CAKC1njQ3qQ8mTMoYkhhoGQfRSVtp2Tfd2LjDhAmut7UcW9-bGw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Add parsing for Zimop ISA extension
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel <anup@brainfault.org>, 
+	Shuah Khan <shuah@kernel.org>, Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Valerii,
+On Fri, Apr 5, 2024 at 8:26=E2=80=AFAM Andrew Jones <ajones@ventanamicro.co=
+m> wrote:
+>
+> On Thu, Apr 04, 2024 at 12:32:46PM +0200, Cl=C3=A9ment L=C3=A9ger wrote:
+> > The Zimop ISA extension was ratified recently. This series adds support
+> > for parsing it from riscv,isa, hwprobe export and kvm support for
+> > Guest/VM.
+>
+> I'm not sure we need this. Zimop by itself isn't useful, so I don't know
+> if we need to advertise it at all. When an extension comes along that
+> redefines some MOPs, then we'll advertise that extension, but the fact
+> Zimop is used for that extension is really just an implementation detail.
 
-On 4/5/24 9:56 AM, Valerii Chernous wrote:
-> The change allow to build external modules with nested makefiles.
-> With current unofficial way(using "src" variable) it is possible to build
-> external(out of tree) kernel module with separate source and build
-> artifacts dirs but with nested makefiles it doesn't work properly.
-> Build system trap to recursion inside makefiles, artifacts output dir
-> path grow with each iteration until exceed max path len and build failed.
-> Providing "MO" variable and using "override" directive with declaring
-> "src" variable solves the problem
-> Usage example:
-> make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
-> 
-> Cc: xe-linux-external@cisco.com
-> Cc: Valerii Chernous <vchernou@cisco.com>
-> Signed-off-by: Valerii Chernous <vchernou@cisco.com>
-> ---
->  Documentation/kbuild/kbuild.rst  | 14 +++++++++++++-
->  Documentation/kbuild/modules.rst | 16 +++++++++++++++-
->  Makefile                         | 17 +++++++++++++++++
->  scripts/Makefile.build           |  7 +++++++
->  4 files changed, 52 insertions(+), 2 deletions(-)
-> 
+Only situation I see this can be useful is this:--
 
-I can read it now. There are still a few small things that I would
-change, but they aren't a big deal.
+An implementer, implemented Zimops in CPU solely for the purpose that they =
+can
+run mainline distro & packages on their hardware and don't want to leverage=
+ any
+feature which are built on top of Zimop.
 
-I'll leave it for Masahiro or others to comment on.
+As an example zicfilp and zicfiss are dependent on zimops. glibc can
+do following
 
-Thanks.
--- 
-#Randy
+1) check elf header if binary was compiled with zicfiss and zicfilp,
+if yes goto step 2, else goto step 6.
+2) check if zicfiss/zicfilp is available in hw via hwprobe, if yes
+goto step 5. else goto step 3
+3) check if zimop is available via hwprobe, if yes goto step 6, else goto s=
+tep 4
+4) This binary won't be able to run successfully on this platform,
+issue exit syscall. <-- termination
+5) issue prctl to enable shadow stack and landing pad for current task
+<-- enable feature
+6) let the binary run <-- let the binary run because no harm can be done
