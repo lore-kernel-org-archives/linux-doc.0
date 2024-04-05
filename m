@@ -1,118 +1,149 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF3B16F848
-	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 15:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE92916F827;
+	Fri,  5 Apr 2024 15:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712330769; cv=none; b=OAoyXRBhSOgfd5fKjJC2NrKN117KAzMW8dUcl1ypvyXMxjMZo8WiLaaWZoBEUbxkicf/E8VBSV8HY0EJGUkt8fsSnH3Z1qofrez3DYonFpaHs0AZXfUnU4Fi9U486uNjpbBs7+CJalznDC+RlKKrRPnTM4oLflYP9vfAq09gchY=
+	t=1712331487; cv=none; b=bU9JkAR2x4C1ednzPuCe/Wudzt6d9smHsrUWZ1mbFHD3lnLXub+o4HG2o+HtqQf5w97FSjOkvGjmNkgCdYqbM7Aqp+rH3j8J8QBciD18XFxUNkW+Y8+uN0FVS6m2ldGEQL5SlauLtTEG7976KUI3xRhqbiV7EXZEYYEqiDS8eJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712330769; c=relaxed/simple;
-	bh=FpZsHScShuiC5TLeSY6xcW0Dmrsa7iCr6rnrwxcP7HE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kq9mR6fKEpeFVWsQd90yZ9W1H951tYBtwtgptg1/BgpoFZpEArDaKY66pnrAx8UttvPrgNdBGxSP2fD/WNnLl5Na8ybegP2wLth6CPkBe7AZOHyuTITzPeB54MIPjbtl/QrOLYLBmT3JE2HrxdJZ5zN4Kri0Jy3sdHpLj8XtiYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Wm/RTCN1; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1712331487; c=relaxed/simple;
+	bh=dPM81dfP4eacKZ5qLTkJlDyNq94WsZPQVAMWDYyYoJQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cHO7LxAtm52WLatNGql5xMzCEjApaOvCpd1PAxINsJ7JXoxsBCoZsYSCKLJitoGkIyUReL7j8+O0EvQ75EzbwoR3Fo6RE1I4v7BOlrEhpNF9uvAVvOUDOiEwTDIELTTX3tMS5UNJdoP7Y+wLsnuQKtqYgdeABnDAgbtBnuQbJcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bDJqVZLF; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Wm/RTCN1"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-56e3e03b989so179698a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2024 08:26:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bDJqVZLF"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-513cf9bacf1so3084756e87.0;
+        Fri, 05 Apr 2024 08:38:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1712330766; x=1712935566; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ed5x3XFfsBgZRAt34RC2mOQsGKeyKPo4QsC0c+Fqv3c=;
-        b=Wm/RTCN1H4zqI6tvTsI2Y1Wugd3J7bAQpDuRnLw/ck9uBGNWE/VM6C1KxhdQCJuWG7
-         rKgt9xO8xILvQgnUy5PsfJ/YeEV3Pjsx0Y09VDcOFlG5Atf8KRg6B/nmOO8s2v3xBnh1
-         ysR+iPvrpO6LzGBdrGMlgXzAwGxWuNPGLNd7xgaOmS83MjcSAqYh+M9hjZTt40oq7B2H
-         PI5F6th+qQIwqdl4Uwp3OPT0z2HH0NINm8PwFP3XltsulFvCu81hyUsUziw7wtiL8hYT
-         Tj/pXavMeoSa883CsU79YKMIqGQ9fln4AjUYl6GnPzi1R8lshp2PuiHtScOK06csT7ig
-         LWwA==
+        d=gmail.com; s=20230601; t=1712331484; x=1712936284; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A5HKjia/bBxV9bwJewCR86FUIvkQ6YbpSmsf0h/yiVw=;
+        b=bDJqVZLFSigRf74BaNCNTlJ2WMgFDsWC2nIF3nMfUUAaBDwsRWuW/gGb8JipCeHwWO
+         38PHPh7JUxy/0TBDb6lAjj36QXfx1vCLJXOLUKTDKNO3LN4zHGpTcuX6htW9uWlvpr/w
+         W6l7N45UQnK18ae/EEFfelcrX25KWAuQekgUPV17Pu20l9bGR3QFSO8w+mc9IZzWcBne
+         IkEL/Dp8rf4osO7PUptNNoCXrgVJDliuM0T5fQAiQGGVRJMFicEynEucCGiKkWbFwQ1W
+         Vn7nlE+PL63HOiRYAY7jNXjOTFg0P1wvBGeg1HSPvHJ3NWoSqVCYrx6GVLKnqkkRhEwX
+         8lDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712330766; x=1712935566;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1712331484; x=1712936284;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ed5x3XFfsBgZRAt34RC2mOQsGKeyKPo4QsC0c+Fqv3c=;
-        b=bBd3H3Igj/YyPMdwC62KFbiIZAmF+w43a3tL+xZ9zoeVfC6F4EiJxRPMpqCM99fM7t
-         NiaMe0qb+H6TuuyPPf+bxdj0IlR/HTdKxPKJmY/S4npNbsNXbfcCkTdZbjGzUNMdsVOq
-         PgFX99ez20JlKtsv+6kRFMvup+aQwC4/jHGEF1AL26s2ZkeDf71GVQqu3fpcvrcwVAyK
-         +PjSQLraqEFvGTRQzvLrN25pkd5nnpeYt53aUA4nKK0aWXvQHA8PIUIGhFB8ZYLhYIb+
-         HhHZ9NSSrB6QUa+qTLbEpvko0Ga/FE/m+OBb3BkyAA4MyntBnfCsaKIWXme+q+sYHbYi
-         VMBA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8OcL/eKRF3zP/mA7YeL/3JOp3Q8vktlFtptAmVUtmiY3RbZCmo8JBOwlwhJ52luDQNIZAtWcGSqkVQ/57VVqGIRPNYGLCltyS
-X-Gm-Message-State: AOJu0Yzah+W+NTSCC1QxvvOKE7E/+cNOKVzXkNDoyF/k2h806oMKnq3h
-	jrhr9v9fSAk4ykYlAQXhoG/ePna/PN/HCWUJsxwb0s4SpcqQuDbF69wYi7FGr/w=
-X-Google-Smtp-Source: AGHT+IE6KiAsWau+yt3agpehbLfQdmB5U5LrPm1st7ROHU8ZRsWd/qG+KSVTOZ1UuqjphPekzLBQLg==
-X-Received: by 2002:a17:906:684f:b0:a4e:2dbf:2eb0 with SMTP id a15-20020a170906684f00b00a4e2dbf2eb0mr2301320ejs.38.1712330765762;
-        Fri, 05 Apr 2024 08:26:05 -0700 (PDT)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id gx5-20020a1709068a4500b00a4e579ce949sm950515ejc.51.2024.04.05.08.26.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 08:26:05 -0700 (PDT)
-Date: Fri, 5 Apr 2024 17:26:04 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>, 
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 0/5] Add parsing for Zimop ISA extension
-Message-ID: <20240405-091c6c174f023d74b434059d@orel>
-References: <20240404103254.1752834-1-cleger@rivosinc.com>
+        bh=A5HKjia/bBxV9bwJewCR86FUIvkQ6YbpSmsf0h/yiVw=;
+        b=XjNRwRORDeaseB4SmI6PllnDHiCKTe35NzVkoZhkcyRA8P6AloH4vG/o8bepmBu5os
+         N1C2iHr29w/mLXoqxcCf/KXFxkF8/zpNfl16x2RIORvngV0NXvyLjrOVpNQS03KKxISj
+         3R8lwGtUpSXgXA31anVBdrnaKtMFNEEzOQlVvBldgP+EM89gDDf9wa4XYebMnhWzvoTd
+         RcXyUkHr1Z/c+noeSkvpLSmMJen9D2hsH2aY2Y9bG3NPm12ZK6f0ZqHJlINQg9xMm+Ep
+         ggNNoi2NFNd+qFp8dJ0X2rM1OeFrrutJv2a8rbglC8qEttx9eUGMcX2lywbmC040GUpq
+         ukcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOdB/+o6gdhoqa2nySt/mWKM3eA8DBv5y4QqIK5kuasJCKkr34+GS4WHWnBPluOy9BBXBB1CEoEjDy1gXE7jffeh+rc1MAjVaYBRUJEZDSeW8ugwgJy04JR+wsUFwDg8CJgCbzOW/2mHGqdcK5te+rH5lhcKQGt2B71OFx1HFKC29IMiseNCmy4eLkaZOc3nSgkbq+pAIlCRIL3IGjxH9FfQ3BnCO0sidL/eUujQ6lmNucbthZS/H9Kr2R/wIqrYiBNMNhMIBeW8T5Q4Vz0EbLX4tgQ2mpLMtf8Q==
+X-Gm-Message-State: AOJu0YxhSOl30Z4CnRLXmfFl5QaARPd04/mggMd2kaT/8WsDqJE9gZvs
+	j1JoOqPrPWqGgtZJPfta2njNrlMVhkmdhJ2l5WReXPCU2qSmuz+3
+X-Google-Smtp-Source: AGHT+IEIEEmughiSiBHY8eCIsSnqVoMqZUWDTHfuKcBEPEydDjJRjHpHyQHuQL28VLtLT7iqCSGbkw==
+X-Received: by 2002:a05:6512:2fa:b0:516:d029:b513 with SMTP id m26-20020a05651202fa00b00516d029b513mr1341784lfq.69.1712331483357;
+        Fri, 05 Apr 2024 08:38:03 -0700 (PDT)
+Received: from ?IPV6:2001:678:a5c:1202:2659:d6e4:5d55:b864? (soda.int.kasm.eu. [2001:678:a5c:1202:2659:d6e4:5d55:b864])
+        by smtp.gmail.com with ESMTPSA id j11-20020a056512344b00b0051589cc26afsm218610lfr.72.2024.04.05.08.38.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Apr 2024 08:38:02 -0700 (PDT)
+Message-ID: <3d496797-4173-43de-b597-af3668fd0eca@gmail.com>
+Date: Fri, 5 Apr 2024 17:37:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/37] Memory allocation profiling
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+ vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+ liam.howlett@oracle.com, penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net,
+ void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+ catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de,
+ mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+ peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+ jhubbard@nvidia.com, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+ paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
+ yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+ andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
+ vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
+ ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+ vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, songmuchun@bytedance.com,
+ jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+References: <20240321163705.3067592-1-surenb@google.com>
+ <c14cd89b-c879-4474-a800-d60fc29c1820@gmail.com>
+ <CAJuCfpHEt2n6sA7m5zvc-F+z=3-twVEKfVGCa0+y62bT10b0Bw@mail.gmail.com>
+ <41328d5a-3e41-4936-bcb7-c0a85e6ce332@gmail.com>
+ <CAJuCfpERj52X8DB64b=6+9WLcnuEBkpjnfgYBgvPs0Rq7kxOkw@mail.gmail.com>
+Content-Language: en-US, sv-SE
+From: Klara Modin <klarasmodin@gmail.com>
+In-Reply-To: <CAJuCfpERj52X8DB64b=6+9WLcnuEBkpjnfgYBgvPs0Rq7kxOkw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240404103254.1752834-1-cleger@rivosinc.com>
 
-On Thu, Apr 04, 2024 at 12:32:46PM +0200, Clément Léger wrote:
-> The Zimop ISA extension was ratified recently. This series adds support
-> for parsing it from riscv,isa, hwprobe export and kvm support for
-> Guest/VM.
 
-I'm not sure we need this. Zimop by itself isn't useful, so I don't know
-if we need to advertise it at all. When an extension comes along that
-redefines some MOPs, then we'll advertise that extension, but the fact
-Zimop is used for that extension is really just an implementation detail.
+
+On 2024-04-05 17:20, Suren Baghdasaryan wrote:
+> On Fri, Apr 5, 2024 at 7:30â€¯AM Klara Modin <klarasmodin@gmail.com> wrote:
+>>
+>> On 2024-04-05 16:14, Suren Baghdasaryan wrote:
+>>> On Fri, Apr 5, 2024 at 6:37â€¯AM Klara Modin <klarasmodin@gmail.com> wrote:
+>>>> If I enable this, I consistently get percpu allocation failures. I can
+>>>> occasionally reproduce it in qemu. I've attached the logs and my config,
+>>>> please let me know if there's anything else that could be relevant.
+>>>
+>>> Thanks for the report!
+>>> In debug_alloc_profiling.log I see:
+>>>
+>>> [    7.445127] percpu: limit reached, disable warning
+>>>
+>>> That's probably the reason. I'll take a closer look at the cause of
+>>> that and how we can fix it.
+>>
+>> Thanks!
+> 
+> In the build that produced debug_alloc_profiling.log I think we are
+> consuming all the per-cpu memory reserved for the modules. Could you
+> please try this change and see if that fixes the issue:
+> 
+>   include/linux/percpu.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/percpu.h b/include/linux/percpu.h
+> index a790afba9386..03053de557cf 100644
+> --- a/include/linux/percpu.h
+> +++ b/include/linux/percpu.h
+> @@ -17,7 +17,7 @@
+>   /* enough to cover all DEFINE_PER_CPUs in modules */
+>   #ifdef CONFIG_MODULES
+>   #ifdef CONFIG_MEM_ALLOC_PROFILING
+> -#define PERCPU_MODULE_RESERVE (8 << 12)
+> +#define PERCPU_MODULE_RESERVE (8 << 13)
+>   #else
+>   #define PERCPU_MODULE_RESERVE (8 << 10)
+>   #endif
+> 
+
+Yeah, that patch fixes the issue for me.
 
 Thanks,
-drew
-
-> 
-> Clément Léger (5):
->   dt-bindings: riscv: add Zimop ISA extension description
->   riscv: add ISA extension parsing for Zimop
->   riscv: hwprobe: export Zimop ISA extension
->   RISC-V: KVM: Allow Zimop extension for Guest/VM
->   KVM: riscv: selftests: Add Zimop extension to get-reg-list test
-> 
->  Documentation/arch/riscv/hwprobe.rst                    | 4 ++++
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 5 +++++
->  arch/riscv/include/asm/hwcap.h                          | 1 +
->  arch/riscv/include/uapi/asm/hwprobe.h                   | 1 +
->  arch/riscv/include/uapi/asm/kvm.h                       | 1 +
->  arch/riscv/kernel/cpufeature.c                          | 1 +
->  arch/riscv/kernel/sys_hwprobe.c                         | 1 +
->  arch/riscv/kvm/vcpu_onereg.c                            | 2 ++
->  tools/testing/selftests/kvm/riscv/get-reg-list.c        | 4 ++++
->  9 files changed, 20 insertions(+)
-> 
-> -- 
-> 2.43.0
-> 
-> 
-> -- 
-> kvm-riscv mailing list
-> kvm-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kvm-riscv
+Tested-by: Klara Modin
