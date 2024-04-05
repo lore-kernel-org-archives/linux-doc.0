@@ -1,243 +1,136 @@
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32075171670;
-	Fri,  5 Apr 2024 16:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.86.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B188417164E;
+	Fri,  5 Apr 2024 17:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712336243; cv=none; b=agilDD7Gtp48oap7kTEEUCKXSe94vl1HtapMJGcypbfpN6ATC6cD9j+hg2I/fzE/p+zDuca6KOFBJWjFf7q38viyoyoWShUGAAxFL6ZPhU1YGkcTPlRsfT3ac0bJWLOcuR+q/8LnY+omVmpzYCiRYGCdLvcz9tCG/m9gtBpt6No=
+	t=1712336755; cv=none; b=e7mmHLUqHOuwyl8lIqDohAndKGGlNQM9kPVZMWisxcG5W2/dZAuFOQDZtmMozu1GeJweWnxBrHAgXfJVr3lObOa9lzRagRwV/cQKz5u5Oov2MxX8EjRVymr4j34w/6PHGa8+56hI+5cVFjJhJCiDEjA1p4+s4ugsOyA6CezHJ5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712336243; c=relaxed/simple;
-	bh=qXuwMCT+b3u9KeSmgIWHdfGEQJkVakqVWx1OHSggAVc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OTWYo4Xvyio89CY3z8I7wz2K0IfIxXnq9CSkQPfLoCMxZEr/tnaKTpn9SWpBmhAcs6kWolHZ+NZYx/mvrnp5sQdgb7oPP2nEYu0UZcuvBJSIe98nqzzTAiScDS9dY3WbHGuQ4C7mvs2rcFTMF3w5rHigilSVAXunpYQ/mu9Y/sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b=GZil8yxZ; arc=none smtp.client-ip=173.37.86.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	s=arc-20240116; t=1712336755; c=relaxed/simple;
+	bh=292FtAHAQkVnLeVN989TV5AQEa/YkR9Vv3e9Rljpa14=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g9ZgvNxXPXBD9BAVk6iEAKinGJHSFJcFPloKd4FGFl7Q1BLeF98hDheU1LTcv4CHaMSxYCWeyBdavX8Cmx6NpoBI6/sqnzI2qhO0wqijTYsf7EcOkfeZqcpX1f0d4YrKGrWR/QkHSEttgO1lHgF1S03cbEg4rPxO8Q2+V64wyno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=C0JGWdqn; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=afuAoHsU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="GZil8yxZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5348; q=dns/txt; s=iport;
-  t=1712336241; x=1713545841;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3giUsTCXvDdhR8jWae0EY/dEresrV+oTZ2G7M/vJy6c=;
-  b=GZil8yxZYaGeOBquPdcMgrOOUrPOdYxPovcnhbPlhzVyM0gcdJWcP3Ja
-   FHv5BCt4rZtyzyeSXIvb/iLWbckFToSlkRvT3ZjeHgPVglxe3pAPYReC4
-   evt2ma2oLohpcoOpO9HB8x4zr8MyD8hdIx6DhKEPT8I6XWPtRgRdIIQ4s
-   M=;
-X-CSE-ConnectionGUID: y+8OyqXeSbCm8u+1be0NQg==
-X-CSE-MsgGUID: 94PtCkYcR2SQXvekIlsO8w==
-X-IPAS-Result: =?us-ascii?q?A0CQAQByLBBmmJ1dJa1aHgEBCxIMggQLg0BWQUiWPItzh?=
- =?us-ascii?q?ySKc4ElA1YPAQEBDzETBAEBhQaIEwImNgcOAQIEAQEBAQMCAwEBAQEBAQEBB?=
- =?us-ascii?q?gEBBQEBAQIBBwUUAQEBAQEBAQEeGQUQDieFbQ2GXDYBRoE9ARKDAAGCXwIBr?=
- =?us-ascii?q?zeCLIEB3i6BahiBMIx7hWEnG4FJRIEVgTuNMwSCTooAhFiGdYJYhFdKgSMDW?=
- =?us-ascii?q?SECEQFVFRoZGAk6DwwaAhsUDSQjAiw+AwkKEAIWAx0UBDARCQsmAyoGNgISD?=
- =?us-ascii?q?AYGBlsgFgkEIwMIBANQAyBwEQMEGgQLB3WDPQQTRAMQgTIGihCDFQIFIymBd?=
- =?us-ascii?q?4ESGIMLToIPAoE/AwkDBwVJQAMLGA1IESw1Bg4bBiIfbwebagGCbAYBPT4TA?=
- =?us-ascii?q?YEmSgiBKpJOEZFwgTKfOIQdjA6VHRozhVukWJhiIKQChGOBawcsgVtNIxWDI?=
- =?us-ascii?q?glJGQ+OOYMDmjkjNTsCBwsBAQMJimgBAQ?=
-IronPort-Data: A9a23:32X/hqzcYc9PJnmIVpx6t+exxirEfRIJ4+MujC+fZmUNrF6WrkUHn
- 2JMDDuHaK6DazOnf9B3O9yzoU0A6J+Ax9JhSwJr/lhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlpCCea/lH0auSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- YyaT/H3Ygf/h2Yoaj9MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE88jmSH
- rurIBmRpws1zj91Yj+Xuu+Tnn4iHtY+CTOzZk9+AMBOtPTtShsaic7XPNJEAateZq7gc9pZk
- L2hvrToIesl0zGldOk1C3Fl/y9C0aJu6fyXBmmmgcGoxWbDI2avmv9jVGcPMthNkgp3KTkmG
- f0wMjsBaFWIgPi7hez9Qeh3jcNlJ87uVG8dkig/lneCUrB3GtaaHvqiCdxwhF/cguhQFvbTf
- cwedBJkbQ/LZFtEPVJ/5JcWxr/21yOlI2MFwL6Tjftr23T4zz166uLWCerLd9+rQd5yzlnN8
- woq+EyiX0lFb4bAodafyVqoh+nSjWb4VZgUGbmQ6PFnmhuQy3YVBRlQUkG0ydG9i0ijS5dTL
- Ec85CUjt+4x+VatQ927WAe3yFaAvxgBS59TGfA77A2l1KXZ+UCaC3ICQzoHb8Yp3Oc9QiYg2
- 0Ohm8zvQzpirNW9T3OW8bOdthu8OyEOKWJEaDJsZQ0M/9nqpqkwgwjJQ9IlF7S65vXwECr5w
- zGQqzkWhLgJi8MPkaKh8jj6bymEvJPFSEs+4R/aGzzj5QJib4njbIutgbTG0RpeBJfaHn6Qp
- UgJoMK16bATTsiHmXSreepYSdlF+M25GDHbhFduGbwo+DKs52OvcOhsDNdWeh4B3iEsJ2aBX
- aPDhT698qO/K5dDUEOaS5i6B8Jvxq/6GJG7EPvVddFJJJN2cWdrHR2Ch2bOgAgBc2B1zcnT3
- Kt3l+73Ux727ow8kVKLqx81i+ND+8zH7Tq7qWrH5xqmy6GCQ3WeVK0INlCDBshgs/re+liIr
- 4kEapTUo/m6bAEYSnSHmWL0BQ1bRUXX+binwyCqXrfafVo4Qj1J5wH5mON8J+SJYJi5Zs+To
- yniARUHoLYOrXbGMg6NImtyc6/iWI03rHQwe0QR0aWAhRAejXKUxP5HLfMfJOB/nMQ6lK4cZ
- 6deIa2oXK8QIgkrDhxAN/ERWqQ4KkTy7e9PVgL4CAUCk2lIHFCZqo69JVSxpEHjzEOf7KMDn
- lFp7SuDKbJreuioJJ++hC6Hp79pgUUgpQ==
-IronPort-HdrOrdr: A9a23:iv3EfqidPvTrOZA32Mc6VzlGxHBQXtUji2hC6mlwRA09TyVXra
- yTdZMgpH3JYVkqNk3I9errBEDiewK+yXcK2+gs1N6ZNWGMhILCFu5fBOXZrgEIMheOk9K1rZ
- 0BT0C7Y+eAamSTSq3BkW2FL+o=
-X-Talos-CUID: 9a23:jYhC4WGjIgr8Sop2qmJ2tx4zC9kVf0bX53KAPgzhA2sxboSaHAo=
-X-Talos-MUID: =?us-ascii?q?9a23=3AMDdUjg1PETgcMmjvAPmjJes04TUjsviWFGsOoJ4?=
- =?us-ascii?q?84fK9BTJ9OBaZlxPnXdpy?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.07,181,1708387200"; 
-   d="scan'208";a="206922865"
-Received: from rcdn-core-6.cisco.com ([173.37.93.157])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 16:56:12 +0000
-Received: from sjc-ads-1541.cisco.com (sjc-ads-1541.cisco.com [171.70.59.233])
-	by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTP id 435GuBC2023239;
-	Fri, 5 Apr 2024 16:56:11 GMT
-From: Valerii Chernous <vchernou@cisco.com>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc: xe-linux-external@cisco.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Add MO(mod objs) variable to process ext modules with subdirs
-Date: Fri,  5 Apr 2024 09:56:08 -0700
-Message-Id: <20240405165610.1537698-1-vchernou@cisco.com>
-X-Mailer: git-send-email 2.35.6
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="C0JGWdqn";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="afuAoHsU"
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0D78021ABE;
+	Fri,  5 Apr 2024 17:05:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712336752; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vT8XBjOmiOF2DZOaI8CF1LOaUqXXvEhx/xriwZY31Nc=;
+	b=C0JGWdqn0yuOJeZdigrbYy9nkvUEiDe8JxxzqOL2EJ87oIECnDUXhxlt56Raw64ImP/hrL
+	8y+jI+/SK5758gU+BEsDOBisv7hWDx8f0BVlypYkMgPdPZauB5xFl5BLdU+4qR6RL5X56s
+	AKtAopOR2L37mXgsDUnMNUielg9mGr8=
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=afuAoHsU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712336751; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vT8XBjOmiOF2DZOaI8CF1LOaUqXXvEhx/xriwZY31Nc=;
+	b=afuAoHsUSSaWfJ0EVXtxzDQO6En30JUuysIxxye+1XlE7NzesjZW3wnqpEN2FrDtARb9lI
+	4S7yvOd/HQFJBl1UxmTMW5kIpZadEtwjFy0A+I9tYfBE/JNAML1+1Lf59G6qpcjrFcOUOO
+	Su8w6yWg3z3u/eVP4Rk3OE6UQpU8ACc=
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id BCB7013A92;
+	Fri,  5 Apr 2024 17:05:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id WMJiLW4vEGYteAAAn2gu4w
+	(envelope-from <mkoutny@suse.com>); Fri, 05 Apr 2024 17:05:50 +0000
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Subject: [RFC PATCH v3 1/9] cgroup/pids: Remove superfluous zeroing
+Date: Fri,  5 Apr 2024 19:05:40 +0200
+Message-ID: <20240405170548.15234-2-mkoutny@suse.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240405170548.15234-1-mkoutny@suse.com>
+References: <20240405170548.15234-1-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 171.70.59.233, sjc-ads-1541.cisco.com
-X-Outbound-Node: rcdn-core-6.cisco.com
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.51 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	BAYES_HAM(-0.00)[33.76%];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap2.dmz-prg2.suse.org:helo,imap2.dmz-prg2.suse.org:rdns,suse.com:dkim,suse.com:email];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Rspamd-Queue-Id: 0D78021ABE
+X-Spam-Flag: NO
+X-Spam-Score: -0.51
+X-Spamd-Bar: /
 
-The change allow to build external modules with nested makefiles.
-With current unofficial way(using "src" variable) it is possible to build
-external(out of tree) kernel module with separate source and build
-artifacts dirs but with nested makefiles it doesn't work properly.
-Build system trap to recursion inside makefiles, artifacts output dir
-path grow with each iteration until exceed max path len and build failed.
-Providing "MO" variable and using "override" directive with declaring
-"src" variable solves the problem
-Usage example:
-make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
+Atomic counters are in kzalloc'd struct. They are zeroed already and
+atomic64_t does not need special initialization
+(cf kernel/trace/trace_clock.c:trace_counter).
 
-Cc: xe-linux-external@cisco.com
-Cc: Valerii Chernous <vchernou@cisco.com>
-Signed-off-by: Valerii Chernous <vchernou@cisco.com>
+Signed-off-by: Michal Koutný <mkoutny@suse.com>
 ---
- Documentation/kbuild/kbuild.rst  | 14 +++++++++++++-
- Documentation/kbuild/modules.rst | 16 +++++++++++++++-
- Makefile                         | 17 +++++++++++++++++
- scripts/Makefile.build           |  7 +++++++
- 4 files changed, 52 insertions(+), 2 deletions(-)
+ kernel/cgroup/pids.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 9c8d1d046ea5..81413ddba2ad 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -121,10 +121,22 @@ Setting "V=..." takes precedence over KBUILD_VERBOSE.
- KBUILD_EXTMOD
- -------------
- Set the directory to look for the kernel source when building external
--modules.
-+modules. In case of using separate sources and module artifacts directories
-+(KBUILD_EXTMOD + KBUILD_EXTMOD_SRC), KBUILD_EXTMOD working as output
-+artifacts directory.
+diff --git a/kernel/cgroup/pids.c b/kernel/cgroup/pids.c
+index 7695e60bcb40..0e5ec7d59b4d 100644
+--- a/kernel/cgroup/pids.c
++++ b/kernel/cgroup/pids.c
+@@ -75,9 +75,7 @@ pids_css_alloc(struct cgroup_subsys_state *parent)
+ 	if (!pids)
+ 		return ERR_PTR(-ENOMEM);
  
- Setting "M=..." takes precedence over KBUILD_EXTMOD.
+-	atomic64_set(&pids->counter, 0);
+ 	atomic64_set(&pids->limit, PIDS_MAX);
+-	atomic64_set(&pids->events_limit, 0);
+ 	return &pids->css;
+ }
  
-+KBUILD_EXTMOD_SRC
-+-----------------
-+Set the external module source directory in case when separate module
-+sources and build artifacts directories are used. Working in pair with
-+KBUILD_EXTMOD. If KBUILD_EXTMOD_SRC is set then KBUILD_EXTMOD is used as
-+module build artifacts directory.
-+
-+Setting "MO=..." takes precedence over KBUILD_EXTMOD.
-+Setting "M=..." takes precedence over KBUILD_EXTMOD_SRC.
-+
- KBUILD_OUTPUT
- -------------
- Specify the output directory when building the kernel.
-diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index a1f3eb7a43e2..b6c30e76b314 100644
---- a/Documentation/kbuild/modules.rst
-+++ b/Documentation/kbuild/modules.rst
-@@ -79,6 +79,14 @@ executed to make module versioning work.
- 	The kbuild system knows that an external module is being built
- 	due to the "M=<dir>" option given in the command.
- 
-+	To build an external module with separate src and artifacts dirs use::
-+
-+		$ make -C <path_to_kernel_src> M=$PWD MO=<output_dir>
-+
-+	The kbuild system knows that an external module with separate sources
-+	and build artifacts dirs is being built due to the "M=<dir>" and
-+	"MO=<output_dir>" options given in the command.
-+
- 	To build against the running kernel use::
- 
- 		$ make -C /lib/modules/`uname -r`/build M=$PWD
-@@ -93,7 +101,7 @@ executed to make module versioning work.
- 
- 	($KDIR refers to the path of the kernel source directory.)
- 
--	make -C $KDIR M=$PWD
-+	make -C $KDIR M=$PWD MO=<module_output_dir>
- 
- 	-C $KDIR
- 		The directory where the kernel source is located.
-@@ -106,6 +114,12 @@ executed to make module versioning work.
- 		directory where the external module (kbuild file) is
- 		located.
- 
-+	MO=<module_output_dir>
-+		Informs kbuild that external module build artifacts
-+		should be placed into specific dir(<module_output_dir>).
-+		Parameter is optional. Without it "M" works as both
-+		source provider and build output location.
-+
- 2.3 Targets
- ===========
- 
-diff --git a/Makefile b/Makefile
-index 4bef6323c47d..3d45a41737a6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -142,6 +142,7 @@ ifeq ("$(origin M)", "command line")
-   KBUILD_EXTMOD := $(M)
- endif
- 
-+define kbuild_extmod_check_TEMPLATE
- $(if $(word 2, $(KBUILD_EXTMOD)), \
- 	$(error building multiple external modules is not supported))
- 
-@@ -152,9 +153,25 @@ $(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXTMOD)), \
- ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
- KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
- endif
-+endef
-+$(eval $(call kbuild_extmod_check_TEMPLATE))
- 
- export KBUILD_EXTMOD
- 
-+# Use make M=src_dir MO=ko_dir or set the environment variables:
-+# KBUILD_EXTMOD_SRC, KBUILD_EXTMOD to specify separate directories of
-+# external module sources and build artifacts.
-+ifeq ("$(origin MO)", "command line")
-+ifeq ($(KBUILD_EXTMOD),)
-+	$(error Ext module objects without module sources is not supported))
-+endif
-+KBUILD_EXTMOD_SRC := $(KBUILD_EXTMOD)
-+KBUILD_EXTMOD := $(MO)
-+$(eval $(call kbuild_extmod_check_TEMPLATE))
-+endif
-+
-+export KBUILD_EXTMOD_SRC
-+
- # backward compatibility
- KBUILD_EXTRA_WARN ?= $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index baf86c0880b6..a293950e2e07 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -3,7 +3,14 @@
- # Building
- # ==========================================================================
- 
-+ifeq ($(KBUILD_EXTMOD_SRC),)
- src := $(obj)
-+else ifeq ($(KBUILD_EXTMOD),$(obj))
-+override src := $(KBUILD_EXTMOD_SRC)
-+else
-+src_subdir := $(patsubst $(KBUILD_EXTMOD)/%,%,$(obj))
-+override src := $(KBUILD_EXTMOD_SRC)/$(src_subdir)
-+endif
- 
- PHONY := $(obj)/
- $(obj)/:
 -- 
-2.35.6
+2.44.0
 
