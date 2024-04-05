@@ -1,171 +1,253 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078B0172BD2
-	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 19:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4BD171077;
+	Fri,  5 Apr 2024 20:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712345516; cv=none; b=Q0cCZiaMPCgqLbGOyAC+WFlr5ejFh+cIXlYMRd99udHCQ7UYCxNUj6aULRld4HbEGTXm17+Fgcdne6K0IumvfPhL3dowOP5erpIGCZbHHztup6BNrPzrPUdYT8Cd8whP/gxvWm1sq902/Y9PgWhwhsGdOD8411IiQ1RpbdEIIQQ=
+	t=1712348926; cv=none; b=P8f4tRpKwLDCeMGSrOkYs9qCTc4TkaNhtYSLyrblAvHbGjIPSdhhYWXeg9yRptJZv+fT/GksOMJqbviuRVE5wcdK4vnoegWe5oA7kkggr40HxgWoo3XssqmHmCz/xDBdoLHJW0i1VNz0d/vC79KOIMTN22aj79gJ7C7I0ynXrj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712345516; c=relaxed/simple;
-	bh=8kF6zCx5kRw6Jm6yRPVqDMiT1Gzmz8s6r5iiyIiC1FY=;
-	h=From:Message-Id:Content-Type:Mime-Version:Subject:Date:
-	 In-Reply-To:Cc:To:References; b=oe56ep/nsYlnsJP8JlBmz17rBuIBwD6l/u2WNsIdyyOe7TkzrX+K9zMSpxd3A9QtOtZu8gScYrweF+WKXdoD7O28BmLnuwY1hLGOcqZZKmhVLHQC9VSv2IFWKzEHuLIYDaKSHiS1kmlyqNisQto0rWgbe4gVGzCFy8/J1WQr46E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=OfnyKkrm; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1712348926; c=relaxed/simple;
+	bh=SRk1BAyFbO7xlNckhNzLlmX4edRBAotwNcUvm9mn+Dc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MmPNWf3T9nizC4rMQf+a5IpeSUSuB8zIeHgyRqJOi6Xo9R4qkmo0CWULAbxZsOGVK5b9qKaEgDD46nDOAfltujujBjUoaJtiqVj1jt1t58jKPkOjjtjeUkpdx01SZ9WQlLZ/y04cjzfyUvGW6XkDSma/CLcWHbwzxBDOjftKr3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INsAG9/U; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="OfnyKkrm"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1e0878b76f3so21446235ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2024 12:31:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INsAG9/U"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2a2f82ded89so1153236a91.1;
+        Fri, 05 Apr 2024 13:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1712345513; x=1712950313; darn=vger.kernel.org;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehiwGS0Z8Xqga4/SUXxg4ntgcCdy89JIq8/1UnR2uY4=;
-        b=OfnyKkrmMpxS8E63Ua54ZDiz/m9wfoPfPUmhwmSnjH6pHXOqVZxpOGORD+iwkyDFOJ
-         bTsgoubdsRwZkJLAHOyAIMQSXfJar96hH0xFyot64ugfpNBcAHpni6XLjVPuG0azoq8j
-         GtEONsNMHdT6ypUE5jiQT49nNptq0Nq9IHarQN/qn3A3jvHvKnfVEp9tHuOp0dlut5Sj
-         aLhEbBBjW2R3raq7Ydjw4CXTdAbjTSQx/YZ52kZX453SdtBks8UUPWfhoa4m997n+OkI
-         B0Bi/60Vl3X05sPybQdmw08sbK46G6ewrKKcpFP1v8NDIjEQVYAWNV0/8A0WL9NLy8YA
-         Ca9Q==
+        d=gmail.com; s=20230601; t=1712348924; x=1712953724; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/KHiRz2MEVl6qNeBBl7ut0Lqj346TjDrch4NCQyug9w=;
+        b=INsAG9/U3eFBAZPqy+PgaI37Br6TXkpFrSyWVtK9HmQ0cA1+T/8JdEhiRoUZPMFtfh
+         l+gjX4aXzoH+PrPP/nVWMRO7gcMC3kkFK7mgcVitqt7LdwSdatFda5TMcytxZAo8nitN
+         70k1SYwd7+sZhGjsnTKkbRIKxWCezMz4Lmta7x6gxlQAdw9SCZGAUel1lKTu/xJxJlGu
+         kLL8c6BcUuxLPo6O7aVADtOFpzIHHbfzBUlG0c5R/ntVgRzqQhcRx1JJxz0KqkQ/INHd
+         qHSx2FP11k1xryqLv9xzlvW0GGsWtwGbf2A1GnEF7sQxCzmUxZR8ncVM96mF+YO+MAVw
+         LEww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712345513; x=1712950313;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ehiwGS0Z8Xqga4/SUXxg4ntgcCdy89JIq8/1UnR2uY4=;
-        b=GcrMAj+rkhXubUZhaSa2BD+TikLArIna9QhtdFO4rxRnng9UlhjMUqOLsDEDUnJjtt
-         +jBmMQzXIACwdSbhe8hxe3i1cqIizrKhkVHFa35d1qZrkm2+MVwqEhmw2qqowTQje4df
-         JsbAPy1917I+jdTsD39cmdR3eEMCe62lyU2RrtGv7K6eWRQPLszLUX90i9y6Go3HHdBR
-         as52sOyWZmxRv1aPZ6XJQ7Tod0GQVHuqd58O/XtFWfrIHnKJdI7JJq2Zkn+lxxTI9ija
-         GNEUBlIlQNJhe9uUFk7tcplnScEhsaqXgwJSMACx/sfGNkxEPv3EeCejTb2HxyQwibGK
-         L9CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvMnBV/aiaLvTENGaqdatqxQgy36uPYvkq3h2l39RMPT4a5wFFylGtQDMJccFwzwtch7YTg52HuAXQjCpe8IVlIQz1PsSPxR7Z
-X-Gm-Message-State: AOJu0Yyx/uSQNNnyF0tSvptIsFVzdgZ73+PBiUC5usQtkRVfh6EaK2Sm
-	aV+siD//U0uqDM/sPwA73z5CY0nvqmH+Zthrpvnbk6uv7ztXOiOxINhxR/Y98Pg=
-X-Google-Smtp-Source: AGHT+IHULb/f3rPAwSiSJQzmkPHmga62s3jlPMTEEo4kcs5KA8teOqWoWSLLG9DadK7OQz25CkIxEQ==
-X-Received: by 2002:a17:903:41ca:b0:1e2:6482:db0f with SMTP id u10-20020a17090341ca00b001e26482db0fmr3114175ple.29.1712345513217;
-        Fri, 05 Apr 2024 12:31:53 -0700 (PDT)
-Received: from cabot.adilger.int (S01068c763f81ca4b.cg.shawcable.net. [70.77.200.158])
-        by smtp.gmail.com with ESMTPSA id h18-20020a170902f2d200b001e29c4b7bd2sm1963190plc.240.2024.04.05.12.31.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Apr 2024 12:31:52 -0700 (PDT)
-From: Andreas Dilger <adilger@dilger.ca>
-Message-Id: <B6218039-714A-404F-BEDD-ADC54F99BE1C@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_0D1A6818-3729-442E-BD83-023C8BF27ABC";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+        d=1e100.net; s=20230601; t=1712348924; x=1712953724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/KHiRz2MEVl6qNeBBl7ut0Lqj346TjDrch4NCQyug9w=;
+        b=qsF7rNn9nOY7nbgRFChWcugEMhHGIq0X9F23NnWU2EssWWHK60sZ/IRh6o18ybZrrU
+         sEsh1exNqmOlQIKDBBuyiAizY6iW/PtlcMIgzMd/ee6aPfjwpRY2sS7kfYNQ9p34Seah
+         ECzhb7S9AQAApX1yiGCMfuY+bLV7Q0J4vfVIqmUWn9u6DtZJvb/w5D2+1UsIDmwSJ9Hy
+         KngHa08RrUvTJZgf5PAdwAjVqqUdtMUJHImUgM7IKfJ4VQsvNi4fd4BXpOaLVnESDZ7V
+         iKe+uB0tK6nDJ3Pk2yiNrBgbiERTZM14FgwK+O+11luTqQX9dR+EEQqlaSvu1IMDymuB
+         NIkw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2jAPnUburRJx8tPbp5ccLMQB/9VL+v7Kn8ukoRnwaF+pXcQGvwWiXGc9/h7z7vVmxeMLqVhQhIkxJnMYSHf6npSPzAbdvpLSVFfhWWUuuf6zhEeatNSSH0XtXTbeoXCr7L/MwdBytxQ6QwW9n7k8ALMml/vJYi5C2ReK5BBpTQ+q86g+7rA6kSJsh18DPyOev98rG2L3oGOplYr4mUhfc
+X-Gm-Message-State: AOJu0YwuQZDgR+xdJYMFQJ+6ouRClXrLlWJClXXXznw3ZjHN+Cj/6veC
+	19K3X2RE41j1ue8wUBVruN36WU9RDWXsOvyvhhsrvMQ2AvIfgauDd8zRkRzF4WhiEjU1wSZ68bm
+	xfQP3uDT1Py5naBI0fCi1CHyo3FI=
+X-Google-Smtp-Source: AGHT+IEB17rUN/p90piyyO2Fh5+5Y5JCRNaDz+2U2dzLD5suRIg39op7NfkR+8THwcH3RleE5jqbr98eGeCYB6CxcAk=
+X-Received: by 2002:a17:90a:f0c8:b0:2a2:21a7:48bf with SMTP id
+ fa8-20020a17090af0c800b002a221a748bfmr2697144pjb.14.1712348924104; Fri, 05
+ Apr 2024 13:28:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v3 13/13] bcachefs: fiemap: emit new COMPRESSED state
-Date: Fri, 5 Apr 2024 13:34:00 -0600
-In-Reply-To: <7CF0A3D0-50E7-448F-A992-90B9168D557F@dilger.ca>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Brian Foster <bfoster@redhat.com>,
- Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>,
- Chao Yu <chao@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>,
- =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- linux-doc@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-bcachefs@vger.kernel.org,
- linux-btrfs <linux-btrfs@vger.kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
- kernel-team@meta.com
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
- Kent Overstreet <kent.overstreet@linux.dev>
-References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
- <943938ff75580b210eebf6c885659dd95f029486.1712126039.git.sweettea-kernel@dorminy.me>
- <7CF0A3D0-50E7-448F-A992-90B9168D557F@dilger.ca>
-X-Mailer: Apple Mail (2.3273)
-
-
---Apple-Mail=_0D1A6818-3729-442E-BD83-023C8BF27ABC
+MIME-Version: 1.0
+References: <20240404190146.1898103-1-elver@google.com> <CAADnVQKc+Z39k9wbU2MHf-fPFma+9QsyOugmmmGq3ynQCTVfCw@mail.gmail.com>
+ <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
+In-Reply-To: <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Fri, 5 Apr 2024 13:28:32 -0700
+Message-ID: <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: Introduce bpf_probe_write_user_registered()
+To: Marco Elver <elver@google.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bpf <bpf@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Fri, Apr 5, 2024 at 1:28=E2=80=AFAM Marco Elver <elver@google.com> wrote=
+:
+>
+> On Fri, 5 Apr 2024 at 01:23, Alexei Starovoitov
+> <alexei.starovoitov@gmail.com> wrote:
+> >
+> > On Thu, Apr 4, 2024 at 12:02=E2=80=AFPM Marco Elver <elver@google.com> =
+wrote:
+> > >
+> > > With all the known caveats, tracing BPF programs may directly write t=
+o
+> > > user-space memory with the bpf_probe_write_user() helper. Memory safe=
+ty
+> > > is an obvious problem when using this helper, since it is too easy to
+> > > overwrite memory across all running processes that user space did not
+> > > expect to be touched (neither the verifier nor the kernel knows what =
+may
+> > > be touched). While it is possible to come up with mechanisms to safel=
+y
+> > > communicate to the BPF program which memory region may be written to,
+> > > there are no built-in guarantees of safety. For this reason, the help=
+er
+> > > produces a warning in the kernel log, and in newer kernels it is
+> > > possible to disallow use of the helper since 51e1bb9eeaf7 ("bpf: Add
+> > > lockdown check for probe_write_user helper").
+> >
+> > So is it a fix or a feature?
+>
+> Feature. The above paragraph is just an intro. Remove it?
+>
+> > > Nevertheless, direct user-space memory writes from BPF programs can b=
+e
+> > > useful to efficiently manipulate and communicate with cooperating use=
+r
+> > > space processes.
+> >
+> > But there are many different ways for bpf to communicate with user spac=
+e:
+> > perf ringbuf, bpf ringbug, various maps including mmap-ed array and are=
+na.
+> > The commit log doesn't explain why we need another one.
+> >
+> > > For example, one of our use cases are for events that happen relative=
+ly
+> > > frequently in the kernel (e.g. specific scheduler events), but a set =
+of
+> > > user space threads want to check for such events in very hot code pat=
+hs
+> > > to make more optimal decisions (the cost of such a check can be no mo=
+re
+> > > than a load and compare). The types of events and heuristics used may
+> > > change based on system environment and application, and a BPF program
+> > > provides the best trade-offs in terms of performance and deployment.
+> >
+> > and the tasks can use mmaped array shared across all or unique to each
+> > process.
+> > And both bpf and user space can read/write them with a single instructi=
+on.
+>
+> That's BPF_F_MMAPABLE, right?
+>
+> That does not work because the mmapped region is global. Our requirements=
+ are:
+>
+> 1. Single tracing BPF program.
+>
+> 2. Per-process (per VM) memory region (here it's per-thread, but each
+> thread just registers the same process-wide region).  No sharing
+> between processes.
+>
+> 3. From #2 it follows: exec unregisters the registered memory region;
+> fork gets a cloned region.
+>
+> 4. Unprivileged processes can do prctl(REGISTER). Some of them might
+> not be able to use the bpf syscall.
+>
+> The reason for #2 is that each user space process also writes to the
+> memory region (read by the BPF program to make updates depending on
+> what state it finds), and having shared state between processes
+> doesn't work here.
+>
+> Is there any reasonable BPF facility that can do this today? (If
+> BPF_F_MMAPABLE could do it while satisfying requirements 2-4, I'd be a
+> happy camper.)
+
+You could simulate something like this with multi-element ARRAY +
+BPF_F_MMAPABLE, though you'd need to pre-allocate up to max number of
+processes, so it's not an exact fit.
+
+But what seems to be much closer is using BPF task-local storage, if
+we support mmap()'ing its memory into user-space. We've had previous
+discussions on how to achieve this (the simplest being that
+mmap(task_local_map_fd, ...) maps current thread's part of BPF task
+local storage). You won't get automatic cloning (you'd have to do that
+from the BPF program on fork/exec tracepoint, for example), and within
+the process you'd probably want to have just one thread (main?) to
+mmap() initially and just share the pointer across all relevant
+threads. But this is a more generic building block, IMO. This relying
+on BPF map also means pinning is possible and all the other BPF map
+abstraction benefits.
 
 
-> On Apr 5, 2024, at 1:17 PM, Andreas Dilger <adilger@dilger.ca> wrote:
->=20
-> On Apr 3, 2024, at 1:22 AM, Sweet Tea Dorminy =
-<sweettea-kernel@dorminy.me> wrote:
->>=20
->> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
->> ---
->> fs/bcachefs/fs.c | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/fs/bcachefs/fs.c b/fs/bcachefs/fs.c
->> index d2793bae842d..54f613f977b4 100644
->> --- a/fs/bcachefs/fs.c
->> +++ b/fs/bcachefs/fs.c
->> @@ -921,7 +921,7 @@ static int bch2_fill_extent(struct bch_fs *c,
->> 				flags2 |=3D FIEMAP_EXTENT_UNWRITTEN;
->>=20
->> 			if (p.crc.compression_type) {
->> -				flags2 |=3D FIEMAP_EXTENT_ENCODED;
->> +				flags2 |=3D =
-FIEMAP_EXTENT_DATA_COMPRESSED;
->=20
-> (defect) This should *also* set FIEMAP_EXTENT_ENCODED in this case,
-> along with FIEMAP_EXTENT_DATA_COMPRESSED.  Both for compatibility with
-> older code that doesn't understand FIEMAP_EXTENT_DATA_COMPRESSED, and
-> because the data still cannot be read directly from the volume when it
-> is not mounted.
->=20
-> Probably Kent should chime in here with what needs to be done to set
-> the phys_len properly for bcachefs, or leave this patch out of your
-> series and let him submit it directly.  With proposed wrapper in the
-> first patch of the series there isn't a hard requirement to change
-> all of the filesystems in one shot.
-
-Ah, I missed the 11/13 patch that is handling up most of the bcachefs
-phys_len changes.  I think this should be folded into that patch so
-it is clear to the callers that the data is compressed when they see
-fe_physical_length is not the same as fe_logical_length.
-
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_0D1A6818-3729-442E-BD83-023C8BF27ABC
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmYQUikACgkQcqXauRfM
-H+B07w/+MmXpmeeehpinb/y0l8UhYl0eqiljcSOE4SDFyKHRdwMRb9tUzdvr3ZOI
-YSglCdxdJ7umd1U5D38IjlSEfNPIJ4EQ7aYo/R8DaNballbpfROENbO7B2RxVQV/
-KiJ7kJjSIgDL+T8Evdt0VopojAHlPxJlWcMh4HR4KCeaaKstdKuC1IVncs/zFtD6
-Fui3/nG6LLK2dFTtvbY1cdN7MWRDPntZ7Kt5ovjZq2AWQHBc3bSF5LF/9KHD8yAS
-yBx8McpPFcH7jFcb/YG6oby4vsvNr+g7x+l6lBFPsxzwJeQ03L8ZcDNP4eUcDGTQ
-MxwgYvbktgldnwy6V2UIG8SWQhlUFkvu6Tes5mKtRi+k3kaBiTxCFiYRtGHUD5J7
-VvJI5Ttx1fWKZAD9w+viFAgyg+q7bLL7zNeb9yKiGN60GDZzJw8kCzNYPQGC2D/T
-+q+vTtpn8hzJ89OYhDNfJRYWtpq2E3UCQZERcDHmGyjn+GVkpsXc+tCfqjYQUctD
-500EVWcI//t2TuZi7Khbp1enFw0Hg0tqbLPZcOcZxkQAm8NGTPIWr8+6PwMVI4qM
-SFYbecP+LjPBbcDggyOE63dZQfjo/Hl0LJByapB8gLLyrqhFYkC/Lwo6LyH+D6NE
-k6cJ4CjhLs67thiPQfWHvNId0/YTsQ7l02b7EGERyAkLuV637gA=
-=gQCH
------END PGP SIGNATURE-----
-
---Apple-Mail=_0D1A6818-3729-442E-BD83-023C8BF27ABC--
+>
+> bpf_probe_write_user() can, but safety is not built in, along with
+> getting fork + exec right is brittle.
+>
+> > > To achieve better safety, introduce tagged user writable regions, tha=
+t
+> > > must explicitly be registered before tracing BPF programs may use the=
+m:
+> > >
+> > >  1. The prctl() option PR_BPF_REGISTER_WRITABLE allows any user space
+> > >     process (that is allowed to use prctl()) to register tagged writa=
+ble
+> > >     memory regions for the current thread.
+> > >
+> > >  2. Conversely, the prctl() option PR_BPF_UNREGISTER_WRITABLE allows =
+a
+> > >     user space process to unregister a writable memory region that wa=
+s
+> > >     previously registered from the current thread. This must be done
+> > >     before freeing memory if the thread that registered a region is
+> > >     still running.
+> > >
+> > >  3. Tracing BPF programs may write to any registered region in the
+> > >     current thread with bpf_probe_write_user_registered(). If the mem=
+ory
+> > >     region has been tagged with a non-zero value, the BPF program mus=
+t
+> > >     provide a matching tag.
+> > >
+> > > Admin capabilities are still required to attach BPF programs that use
+> > > the new bpf_probe_write_user_registered() helper.
+> >
+> > We stopped adding new helpers ~2 years ago.
+> > Only new kfuncs are allowed.
+>
+> Sure.
+>
+> > >
+> > > With this interface, user space threads are guaranteed that no writes
+> > > happen to regions that they did not explicitly register. Tagging can =
+be
+> > > used to associate additional semantics with the memory region.
+> > >
+> > > A note on tag allocation: Since such programs can only be installed b=
+y
+> > > the local system administrator, tag allocation may be done by the sys=
+tem
+> > > administrator. For example, by providing headers with tag definitions=
+,
+> > > or a central service to distribute tags to the BPF program loader and=
+ to
+> > > user applications.
+> >
+> > Not clear how that's achieved in practice.
+> > To do prctl(REGSISTER, ... tag)
+> > the process will just pass this u32 tag.
+> > There is no way for the admin or other process to enforce certain
+> > tag usage.
+> > Since there is no way to enforce extra tag seems like a weak
+> > protection against something? What in particular?
+>
+> The main goal is to a) avoid accidental writes into areas the user
+> space program doesn't want writing to, along with 2) weakly
+> associating "type" via a tag. As soon as the user space program does
+> prctl(REGISTER, tag) it wants writes to happen. It's the user space
+> program's fault if it uses random tags, because in practice, we know
+> exactly which BPF programs are running in production and which tags
+> they service. The programs we do _care_ about are reviewed and do use
+> the right tags. The mechanism is not for protecting BPF programs or
+> what data they communicate, but for the benefit of the user space
+> program itself to bound the memory that could be touched in its own
+> address space (use the wrong region/tag .. tough luck).
