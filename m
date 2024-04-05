@@ -1,59 +1,59 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD0B172BAB
-	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 19:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC45172BC6
+	for <linux-doc@vger.kernel.org>; Fri,  5 Apr 2024 19:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712344540; cv=none; b=AZrN9pL0aVSFoFTFglucc9QfJ8w/v7uwaEDAPPUTrC6rQEKgG0NJ2RqQoMsEeEWR31cDtT69r7m0xwSeeWCtTS2Wovdar7D6g48URvQeYGIYFIKTGP52JZFSBLHYm1QQKUQenhinKtrWA1C+c8bQ+DOd6hQ8KnKSORRXxD0P0r8=
+	t=1712345072; cv=none; b=DkvxCD81EJBHlF3cOdXdfc51SeL4OCfObW2uDWUkWWMmTdltB52M8s90Nirik6ZEX54rtjdCWTDIynEaArO6PV72qCsN13YQxZ2flZnYV0xyKMsNXcvHos2D5SERsvoWpRTpcqsrC5Wb+IjXcez0rEyns3fpOGKyDiTTGxGI6pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712344540; c=relaxed/simple;
-	bh=zXljUdGcTtBGipmnNDprBpcZkCkrHGztkJZeni3/5cA=;
+	s=arc-20240116; t=1712345072; c=relaxed/simple;
+	bh=mEICjIS/Xm1y/adtTOt4oAM6pGc6Ltt0L3kruWttndY=;
 	h=From:Message-Id:Content-Type:Mime-Version:Subject:Date:
-	 In-Reply-To:Cc:To:References; b=oFY0z5IXJhuaRVZZmLG7eIs7bnjI69aYteGc5SnAyRzViTlhB1oX6i88Hkd6zcGrYYr1gNmCx/V1FxUjZCw50vhUs3x3w3BDraPmqUTByWKp+d6J1dIEwDdpCraveE3NplWHvTA/SmYRFPP4vbG92WvFb4oyfV4oNgsgBVp7j58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=dckJbH8t; arc=none smtp.client-ip=209.85.216.51
+	 In-Reply-To:Cc:To:References; b=K57xZRJonzCeBRoEhePYS4cvQp2g1qh+r+TKEeMpcDOOsYISY/9VT8Irtzr8dVxTPdsAMus+bMrAil4kAp/JplAStCbI+96azZTm9eihmPFAT3LsXu3nAxa/BiijEptPJA8bmmARH3GIusa+WhvugXNr7JkwVcw1Av8RlCtfMm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=j1og25Xo; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="dckJbH8t"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-29b7164eef6so1982340a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2024 12:15:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="j1og25Xo"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6ecff9df447so1122610b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 05 Apr 2024 12:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1712344538; x=1712949338; darn=vger.kernel.org;
+        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1712345069; x=1712949869; darn=vger.kernel.org;
         h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWmfDDERJb42IjzSqTDZHJTCfY0P4Md9v2hGsxPXotE=;
-        b=dckJbH8tqvhfIZg4vPllAk2/mB3njC7QURDRbLQER2R6RSPuZAogmdKPtofQEx7o5a
-         wxmg3HPwxbGxYxgRUlpglq0j/lHMfWofkAObH5vnV2sV46r/zBD68qkJKW5BbL9p6haI
-         6m1IYRK5whyxn84xP32ylcdC0ew4neH7Ky31k/3slaktV8xJstsG7ooEkQfNkgt2iRAP
-         VhWaYppUhga3OzKvAqHneJluIeAAhLNIxZUEroae82POI3wa9rT7MyLAmQz4iBDh7bV/
-         yli66L7hBIyNMOAveBns5sfHXoIsD+zhjNCwEzpu1RBr6Oo8dsbBsoUqH4Aez/g6+HWT
-         LnzQ==
+        bh=r+9PtxohNn5GLyNZPhR1TRelne4uxW9tVbigzA0Hv9E=;
+        b=j1og25Xodeh2U61879zqsSgDKsqz9mkJ6Fy4ZiEP/0JfRQOpwWq2BDmvPKvMmZqOv8
+         Eoi3xb3nkA+c2J6JCp0O4sx9mnVGe6vjaxwcUm/RkF0u8dtUqyH+qEl8VH2U5F+OsY1w
+         lWaJuFsVhtWqEj2VQHceIrnpoSzoraw9BQCRcMMzp9zBSP6Dk6dqGwIbkpFNDOTiWtPh
+         wZpkuJFt45E0Gui2Za26smu55yH2HfD41uIbL1mNkf4qQaPOrBNyDYDwPIUnQ8iwniZ/
+         nUsRu3NQprpW5sQoQfsPmi1rSb89ENpn1YzCwgDWxYFVtzf5Q89auV+34Tiff2wXWwWS
+         0/gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712344538; x=1712949338;
+        d=1e100.net; s=20230601; t=1712345069; x=1712949869;
         h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWmfDDERJb42IjzSqTDZHJTCfY0P4Md9v2hGsxPXotE=;
-        b=ROU47pPdbo+VaEOJnOt92SppWj8ZgR/tkaZzfRa0FSvQf/7JGntn74WP9WHbW6DRQw
-         MsK3jsjJgZEEZcsWG6PyfKwqJcXlyHqdzcL6lM2EiRwa38uOTjX7Icc+6hl7oY2C0WI7
-         W4TslMzPYQNTlbK6MvqUN6x0vgN8sryHQetZO6rPafDvDXimXWJc995MfdSIy61FzlUS
-         9oVU+T5rKK67SdR+WatlQEX24xqJDPlhxPxPxj9akJIgnevAV4LRNFs4xTZKBRjUaHHK
-         CURMc/zNyU5txo4o/Mg4MRFNU5cc4jhAPb5WdmdacJapvSHDS+GnZQTjW6WiyKGpvvFj
-         gspQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwThMDsr8RGf/nqCX511HNbWQUOy2+b1A3gbtoCZubs2AQuN/vW+JDMskOxQm99jVd71m7TAdX0ouV4j2xSTJJ5bay42jLamHD
-X-Gm-Message-State: AOJu0YxjmK4rzYa+DU9V6eEo9g8P6LVGxkeFkOs11uS+bDMP90pikBz7
-	Ga6qIm6G+egygVYCn3+wMrzWIt7ZhncnWINpbXiXb8KmXcjfLqiX9aqHXdunKbU=
-X-Google-Smtp-Source: AGHT+IHlz7CYySz4NrOEi/P6qH0+BaOoz73hQtya4g8iBNYvzcjlBcDm5rsBAIWsDBMSIH8uUJ5Ubg==
-X-Received: by 2002:a17:90a:d086:b0:2a0:38f0:dc4b with SMTP id k6-20020a17090ad08600b002a038f0dc4bmr2044465pju.7.1712344537643;
-        Fri, 05 Apr 2024 12:15:37 -0700 (PDT)
+        bh=r+9PtxohNn5GLyNZPhR1TRelne4uxW9tVbigzA0Hv9E=;
+        b=XkSbWHd+ktCYFbBMoTxiNyx1ubMaE1azZdfPJ701NAi5TNK8bfeVdGTMLD8Kt8QuHS
+         I9Z3RuklV315v9QzAqqhJWhtSPYC1NYdc23k2pHYvqAfkIQqEEAAUeCYHiBPZMf7ypSM
+         8ffiS2Ark5m89J/X2B+bbflbygTegUgLoI/0FOx2HYkRrNgabddq143obcRcS5E1GDj/
+         ++WtcVaJbYkcZPaZVsCglZbvyRjfIjVtECehKcWGJ1HkHIdol0tOHvLMdpGNE/TBtG7v
+         I6Ci3kVofQ+xlL8r67+Lwf+pPzFnOgTZHJLc8rFWXjvDyk6GmWECnDpnhzJp3B88PYPm
+         WDFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWbQLx3WZUtdyJteXvGVvLhvARcSBndPx4yaSHveN/1d4P/Jb1gQpaPaNMU8HZQe7rI6v83kTReGJkr71MFuhLdkzYVNQc9jeqo
+X-Gm-Message-State: AOJu0YyEk4rS6g330qrHi7xgUEuda/DxvPKjilwkG7QLocrolxL/pUvA
+	6xd0+0OUEjyjRXeiwKvC3WDJ2hXO9kJ7pGOCQPXX/G0dUjYPINMFtxXucQCEMeg=
+X-Google-Smtp-Source: AGHT+IHcY4t8f7Jv7XhoB88+cn6keDKBvN0wZ7yOTJw8SS3n/nX7rvkSTIIW/LwD2Rc2EvKdk2G7Hw==
+X-Received: by 2002:a05:6a20:dc95:b0:1a3:703c:c7d5 with SMTP id ky21-20020a056a20dc9500b001a3703cc7d5mr2194747pzb.34.1712345069022;
+        Fri, 05 Apr 2024 12:24:29 -0700 (PDT)
 Received: from cabot.adilger.int (S01068c763f81ca4b.cg.shawcable.net. [70.77.200.158])
-        by smtp.gmail.com with ESMTPSA id l13-20020a17090aec0d00b0029c7963a33fsm3715620pjy.10.2024.04.05.12.15.35
+        by smtp.gmail.com with ESMTPSA id fj8-20020a056a003a0800b006ea8af1569asm1872700pfb.73.2024.04.05.12.24.27
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Apr 2024 12:15:37 -0700 (PDT)
+        Fri, 05 Apr 2024 12:24:28 -0700 (PDT)
 From: Andreas Dilger <adilger@dilger.ca>
-Message-Id: <7CF0A3D0-50E7-448F-A992-90B9168D557F@dilger.ca>
+Message-Id: <CBF9FEA5-0FD4-44BE-A2DC-54B7E5D1A874@dilger.ca>
 Content-Type: multipart/signed;
- boundary="Apple-Mail=_580FDCAB-FBEF-42A4-B8AF-A599EDFED403";
+ boundary="Apple-Mail=_23208463-7A57-4687-8755-FF47195EDFA6";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -61,9 +61,10 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH v3 13/13] bcachefs: fiemap: emit new COMPRESSED state
-Date: Fri, 5 Apr 2024 13:17:45 -0600
-In-Reply-To: <943938ff75580b210eebf6c885659dd95f029486.1712126039.git.sweettea-kernel@dorminy.me>
+Subject: Re: [PATCH v3 06/13] nilfs2: fiemap: return correct extent physical
+ length
+Date: Fri, 5 Apr 2024 13:26:37 -0600
+In-Reply-To: <bd06389b4c9c33ab1411f2941875f02867b18642.1712126039.git.sweettea-kernel@dorminy.me>
 Cc: Jonathan Corbet <corbet@lwn.net>,
  Kent Overstreet <kent.overstreet@linux.dev>,
  Brian Foster <bfoster@redhat.com>,
@@ -81,16 +82,15 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
  linux-bcachefs@vger.kernel.org,
  linux-btrfs <linux-btrfs@vger.kernel.org>,
  linux-f2fs-devel@lists.sourceforge.net,
- linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-fsdevel@vger.kernel.org,
  kernel-team@meta.com
-To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
- Kent Overstreet <kent.overstreet@linux.dev>
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
- <943938ff75580b210eebf6c885659dd95f029486.1712126039.git.sweettea-kernel@dorminy.me>
+ <bd06389b4c9c33ab1411f2941875f02867b18642.1712126039.git.sweettea-kernel@dorminy.me>
 X-Mailer: Apple Mail (2.3273)
 
 
---Apple-Mail=_580FDCAB-FBEF-42A4-B8AF-A599EDFED403
+--Apple-Mail=_23208463-7A57-4687-8755-FF47195EDFA6
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
@@ -100,32 +100,76 @@ On Apr 3, 2024, at 1:22 AM, Sweet Tea Dorminy =
 >=20
 > Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
 > ---
-> fs/bcachefs/fs.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+> fs/nilfs2/inode.c | 12 ++++++++----
+> 1 file changed, 8 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/fs/bcachefs/fs.c b/fs/bcachefs/fs.c
-> index d2793bae842d..54f613f977b4 100644
-> --- a/fs/bcachefs/fs.c
-> +++ b/fs/bcachefs/fs.c
-> @@ -921,7 +921,7 @@ static int bch2_fill_extent(struct bch_fs *c,
-> 				flags2 |=3D FIEMAP_EXTENT_UNWRITTEN;
+> diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+> index 4d3c347c982b..e3108f2cead7 100644
+> --- a/fs/nilfs2/inode.c
+> +++ b/fs/nilfs2/inode.c
+> @@ -1160,7 +1160,7 @@ int nilfs_fiemap(struct inode *inode, struct =
+fiemap_extent_info *fieinfo,
+> {
+> 	struct the_nilfs *nilfs =3D inode->i_sb->s_fs_info;
+> 	__u64 logical =3D 0, phys =3D 0, size =3D 0;
+> -	__u32 flags =3D 0;
+> +	__u32 flags =3D FIEMAP_EXTENT_HAS_PHYS_LEN;
 >=20
-> 			if (p.crc.compression_type) {
-> -				flags2 |=3D FIEMAP_EXTENT_ENCODED;
-> +				flags2 |=3D =
-FIEMAP_EXTENT_DATA_COMPRESSED;
+> 	loff_t isize;
+> 	sector_t blkoff, end_blkoff;
+> 	sector_t delalloc_blkoff;
+> @@ -1197,7 +1197,9 @@ int nilfs_fiemap(struct inode *inode, struct =
+fiemap_extent_info *fieinfo,
+> 			if (blkoff > end_blkoff)
+> 				break;
+>=20
+> -			flags =3D FIEMAP_EXTENT_MERGED | =
+FIEMAP_EXTENT_DELALLOC;
+> +			flags =3D FIEMAP_EXTENT_MERGED |
+> +				FIEMAP_EXTENT_DELALLOC |
+> +				FIEMAP_EXTENT_HAS_PHYS_LEN;
 
-(defect) This should *also* set FIEMAP_EXTENT_ENCODED in this case,
-along with FIEMAP_EXTENT_DATA_COMPRESSED.  Both for compatibility with
-older code that doesn't understand FIEMAP_EXTENT_DATA_COMPRESSED, and
-because the data still cannot be read directly from the volume when it
-is not mounted.
+IMHO, rather than setting "flags =3D FIEMAP..." here, it would be better =
+to
+initialize "flags |=3D FIEMAP_HAS_PHYS_LEN" right after =
+fiemap_fill_next_extent()
+is called, and use "flags |=3D FIEMAP_EXTENT_MERGED | =
+FIEMAP_EXTENT_DELALLOC" here.
 
-Probably Kent should chime in here with what needs to be done to set
-the phys_len properly for bcachefs, or leave this patch out of your
-series and let him submit it directly.  With proposed wrapper in the
-first patch of the series there isn't a hard requirement to change
-all of the filesystems in one shot.
+That makes it more clear that MERGED|DELALLOC are "add-on" flags beyond =
+the
+base flags, and if more flags are added in the future (e.g. COMPRESSED) =
+then
+the flag management will be simpler (more on this below).
+
+> @@ -1261,14 +1263,16 @@ int nilfs_fiemap(struct inode *inode, struct =
+fiemap_extent_info *fieinfo,
+> 						break;
+>=20
+> 					/* Start another extent */
+> -					flags =3D FIEMAP_EXTENT_MERGED;
+> +					flags =3D FIEMAP_EXTENT_MERGED |
+> +						=
+FIEMAP_EXTENT_HAS_PHYS_LEN;
+
+Strictly speaking, this new extent should not have FIEMAP_EXTENT_MERGED =
+set,
+and start out with only FIEMAP_EXTENT_HAS_PHYS_LEN, since it has not =
+actually
+been merged with anything.
+
+> 					logical =3D blkoff << blkbits;
+> 					phys =3D blkphy << blkbits;
+> 					size =3D n << blkbits;
+> 				}
+> 			} else {
+> 				/* Start a new extent */
+> -				flags =3D FIEMAP_EXTENT_MERGED;
+> +				flags =3D FIEMAP_EXTENT_MERGED |
+> +					FIEMAP_EXTENT_HAS_PHYS_LEN;
+
+Then this should be "flags |=3D FIEMAP_EXTENT_MERGED" only once a second
+block has been merged into the prior one.
 
 Cheers, Andreas
 
@@ -134,7 +178,7 @@ Cheers, Andreas
 
 
 
---Apple-Mail=_580FDCAB-FBEF-42A4-B8AF-A599EDFED403
+--Apple-Mail=_23208463-7A57-4687-8755-FF47195EDFA6
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -145,19 +189,19 @@ Content-Description: Message signed with OpenPGP
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - http://gpgtools.org
 
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmYQTlkACgkQcqXauRfM
-H+Da1w/+KwGpB/pDp08sIkXnagyqUWMdqtRK9hS/4cehNOAAdPTlbycb3PfNiTxy
-m2DZwrCbnPe4P1WB1nFy5DNsprtdOTGEbOiuOXKS3hkgnf9qY2lrFoC4inAMpNZi
-W+p1IXURkUadjDgKS5Ijwyl0HpDheQcN/AVdLKUR9vKebxRsIBlJ2qlekVVOakYS
-Y5wM2U8Ct3eaU6MAW3Mr0KMZKQPj5Ez5cVNZHm0046DtRmV/LI9/5RAKJUheesok
-eF88SBmXg4t5KUsCLRIqi8wUHnrdfWEVrc83RK3l8LYAVpw/SdP+5TSYwontrBU5
-KoUUEkwdKv6p5yvzGKkdh0iR00oEQHtUvYJR1es9oCl0er6eeqOAryoNTtK7BpBG
-XbmY3rFRTCAgOp1gElHCIddnAIs2G5hDSo4jAqU/RzMkadFfS3YPuYL95BWAALlY
-bfmmXpRyeD4z9wzBQz5HRu+rhKThHdvKyOL5GkaYcYNEmFWQq64+bDTtb5aKm1DD
-FtfSEbx89tF6RyoafS3H6ESbhH4hmyYTWVmx9wpXtzLrGd8HWnRGsuQzFLx/uRWN
-tRMosixMwAJsO3rzvuAXyZKcDqsAHyzF9hHwogaZn0SmpyGwFPZc5/iIr8tBZS+U
-OWrKlNAy6Q0U91xdZPx3ZWpwSC3zh5BtCehRD0b8YX+G7DVSeFk=
-=8Pjr
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmYQUG0ACgkQcqXauRfM
+H+DusBAAjLzaPC76LsfW44HKtdh7+jVJ1aHtau12SOTY37rSSphdiw/F9U6SbJ4b
+PwbKUBwhMzFgGjXhyUE8AX8z7CmrggtnVzeRgw8ad+1O6HfDU6ibC1w04XREKgdZ
+yVFCaBcijZA3b8POL+pTCS+URpbfc355WbiS1ioIiIa+1KLoBqe83dqfO9PVuS5V
+BGUZh1pnUhpVxJOxppQ36NgweFjuEDvG32BpN9+NEZiQFrAj2GHP/QijiQTvNoPd
+7noTlgPq8zcbGPPI6HTpVyBz3ZWxYmVQ5ImDZlAOUM4WLUoyVPbUjffKC1Y66ts+
+FHQy/PRtvV2ohItJbfCTPTWjgBELQeONHyLnhbRoDYNGYyysyatprSq0TVpEVHN8
+gukb731ZJzStKaIHIa+FtyW2DlzCfgPgwxT8LAr57xVPvwUFU/im8OztJdRSERf3
+kkEg5t5fJsF+g/NekWV4g3ynWHNmKZ0dn40oanFNjHu6VsZj0Swzj9hOfRzYAm92
+yr6hPj1VQY7N5tW90Z7sMiJgFQje8/tunjh2/MEweezooqTQ3hVQrvdRykwR4j00
+ATlo/5vssOjOmRVThS0jxaSTSUUcW+nFxaEeJ00Cbm5AoRtLaGmpWBkvCVDqqavm
+dKadcnyZvZ4mwK24TlrHA9EgHUCaGvNmEP6WJ4lfnieswdJIj60=
+=J11M
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_580FDCAB-FBEF-42A4-B8AF-A599EDFED403--
+--Apple-Mail=_23208463-7A57-4687-8755-FF47195EDFA6--
