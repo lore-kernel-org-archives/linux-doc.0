@@ -1,68 +1,85 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165A81CFBC;
-	Fri,  5 Apr 2024 16:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32075171670;
+	Fri,  5 Apr 2024 16:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.86.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712335767; cv=none; b=NeYHLdCLyzBgmk71lz/R+Od8UBsWMy3U7aiIlPX7wM4E2rn9Xo+nu0TfXd4i6jqT6UKhbZ+tBbmiVaDPfZ5B1rG/1eW8j950a168tpPNMHLJw5iE2vJx6apcd1BgI0R0lFrb4zQdsHgGVCE1zyDZqYbtB4A7fMjzPYspNsFltjc=
+	t=1712336243; cv=none; b=agilDD7Gtp48oap7kTEEUCKXSe94vl1HtapMJGcypbfpN6ATC6cD9j+hg2I/fzE/p+zDuca6KOFBJWjFf7q38viyoyoWShUGAAxFL6ZPhU1YGkcTPlRsfT3ac0bJWLOcuR+q/8LnY+omVmpzYCiRYGCdLvcz9tCG/m9gtBpt6No=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712335767; c=relaxed/simple;
-	bh=T0g8xyK5uS/p7J8GajjFc1VMqONFTU1lTEm8f8h3bs8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m0DHHo+FaakVEyLyRoAR96R+DpX6BBwaY7ucuoAaojkSDBjvvGIqJ9wIuRhJFtxtyqwlAEHiIbI8Uw1nrAvTs+0SubxKCWmT0hoEM0+DDLK6Pzrndp/1hAecJVmCsJ4oohpjYORe2ilT3we+LD2pAEpdo8vpQLFRgG0sb9sNwQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eOkWhwsg; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712336243; c=relaxed/simple;
+	bh=qXuwMCT+b3u9KeSmgIWHdfGEQJkVakqVWx1OHSggAVc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OTWYo4Xvyio89CY3z8I7wz2K0IfIxXnq9CSkQPfLoCMxZEr/tnaKTpn9SWpBmhAcs6kWolHZ+NZYx/mvrnp5sQdgb7oPP2nEYu0UZcuvBJSIe98nqzzTAiScDS9dY3WbHGuQ4C7mvs2rcFTMF3w5rHigilSVAXunpYQ/mu9Y/sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b=GZil8yxZ; arc=none smtp.client-ip=173.37.86.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eOkWhwsg"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6e6ff4e1e97so1353667a34.3;
-        Fri, 05 Apr 2024 09:49:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="GZil8yxZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712335765; x=1712940565; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Q301Hmu4jkyy54Tck51kniDcTmciVu05IC0+dyM5+M=;
-        b=eOkWhwsgpgjkk+rLAAYLZiSHO83CVPCQykN5qDWUw3DrgsENm5Ilxk4TtoRFXU2EmW
-         OcQPsFNGbD3XuDKtdSJ0wapJBQzJ69z1Y0AW37r20obaXKYg+Nv+vyOj+2l0sucOZvgS
-         4prVhphKfR7BIXgkaXx1MKbP9/oZ2hEGlV2CSfWevUo0dQ7UVDfXHCMcI+YluSTEE4RD
-         8YFHjM2xbRm1TrvK43m9u2FLIC65/9YhUV23loqxQCFq1Y3pJJ+7gQ3YBLtKqum9YfJZ
-         D3l0mUikqotalPQay5h6tdhjStQmKiI3Kvrm4w6PqvzCDa7nkXJwKVfYZKqHotLvzEXs
-         OuPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712335765; x=1712940565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1Q301Hmu4jkyy54Tck51kniDcTmciVu05IC0+dyM5+M=;
-        b=pNAXt4pemaCU0p48MnVCiYDdQ5I8K+UIElFzrRRHGB0FUMNHK1gwYiPYWjyRav0MtZ
-         /WFAYsbusWCfiYIOhMPdLmGlwlhxpX4xAD9ixAx1TN1Ym1e9hy0VxzpzjII0EobBLE22
-         C1V/sT3nbzCrpKa48KBXzAnea37nGEIN62OYZRI72WvtFRw3RXft4e5Rp5yEeO8JOxOu
-         cMvCzyUDji/COrqBsK/DuTNtZg4Nzaw2gTSFVluOsuc4vTBdZJ7kgF3VdyOZx3qbCrgO
-         SFsmThPtiNNFlNh480hhmIp7dydMo1t/YUygRbYz4h2mKA43aXyW/4IoK/ckKXGPgSiv
-         qyzw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDl8LVF+pvwof9zUNJJda607CmvgO2/6wr1KydE4KblXBNvrZAY4XrCefmBeTB62p+vTP1KChQNIEwI1yh3KcIe/SxJVt7GB6iDY+o8t4vTAV8o9V41cVPdOyHpET2sjwIUx8v3TzM
-X-Gm-Message-State: AOJu0YzdOiCTbjXKnrZAhOEA1m1ykhvZuRomrLHfBr4W7RSRws8nB0I/
-	XXPIwio24HQ78UXvzCDhFtPPhJZ2RbKpnGJ1bgXhAh7RlgSvzPQb
-X-Google-Smtp-Source: AGHT+IEzk99QfVxQGmX333/pp4ac+5cgTfZoHLprBPeFsWR06+FIxuNZhd/TPqokoDumENH73G4qLg==
-X-Received: by 2002:a05:6830:1043:b0:6e9:e688:23eb with SMTP id b3-20020a056830104300b006e9e68823ebmr2026680otp.35.1712335765094;
-        Fri, 05 Apr 2024 09:49:25 -0700 (PDT)
-Received: from localhost.localdomain (024-171-058-032.res.spectrum.com. [24.171.58.32])
-        by smtp.gmail.com with ESMTPSA id d25-20020a05683018f900b006e8aeb6706bsm340376otf.6.2024.04.05.09.49.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 09:49:24 -0700 (PDT)
-From: Matthew Cassell <mcassell411@gmail.com>
-To: corbet@lwn.net,
-	akpm@linux-foundation.org,
-	vbendel@redhat.com,
-	rppt@kernel.org
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mcassell411@gmail.com
-Subject: [PATCH] Documentation/admin-guide/sysctl/vm.rst adding the importance of NUMA-node count to documentation
-Date: Fri,  5 Apr 2024 16:49:20 +0000
-Message-Id: <20240405164920.2844-1-mcassell411@gmail.com>
-X-Mailer: git-send-email 2.34.1
+  d=cisco.com; i=@cisco.com; l=5348; q=dns/txt; s=iport;
+  t=1712336241; x=1713545841;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3giUsTCXvDdhR8jWae0EY/dEresrV+oTZ2G7M/vJy6c=;
+  b=GZil8yxZYaGeOBquPdcMgrOOUrPOdYxPovcnhbPlhzVyM0gcdJWcP3Ja
+   FHv5BCt4rZtyzyeSXIvb/iLWbckFToSlkRvT3ZjeHgPVglxe3pAPYReC4
+   evt2ma2oLohpcoOpO9HB8x4zr8MyD8hdIx6DhKEPT8I6XWPtRgRdIIQ4s
+   M=;
+X-CSE-ConnectionGUID: y+8OyqXeSbCm8u+1be0NQg==
+X-CSE-MsgGUID: 94PtCkYcR2SQXvekIlsO8w==
+X-IPAS-Result: =?us-ascii?q?A0CQAQByLBBmmJ1dJa1aHgEBCxIMggQLg0BWQUiWPItzh?=
+ =?us-ascii?q?ySKc4ElA1YPAQEBDzETBAEBhQaIEwImNgcOAQIEAQEBAQMCAwEBAQEBAQEBB?=
+ =?us-ascii?q?gEBBQEBAQIBBwUUAQEBAQEBAQEeGQUQDieFbQ2GXDYBRoE9ARKDAAGCXwIBr?=
+ =?us-ascii?q?zeCLIEB3i6BahiBMIx7hWEnG4FJRIEVgTuNMwSCTooAhFiGdYJYhFdKgSMDW?=
+ =?us-ascii?q?SECEQFVFRoZGAk6DwwaAhsUDSQjAiw+AwkKEAIWAx0UBDARCQsmAyoGNgISD?=
+ =?us-ascii?q?AYGBlsgFgkEIwMIBANQAyBwEQMEGgQLB3WDPQQTRAMQgTIGihCDFQIFIymBd?=
+ =?us-ascii?q?4ESGIMLToIPAoE/AwkDBwVJQAMLGA1IESw1Bg4bBiIfbwebagGCbAYBPT4TA?=
+ =?us-ascii?q?YEmSgiBKpJOEZFwgTKfOIQdjA6VHRozhVukWJhiIKQChGOBawcsgVtNIxWDI?=
+ =?us-ascii?q?glJGQ+OOYMDmjkjNTsCBwsBAQMJimgBAQ?=
+IronPort-Data: A9a23:32X/hqzcYc9PJnmIVpx6t+exxirEfRIJ4+MujC+fZmUNrF6WrkUHn
+ 2JMDDuHaK6DazOnf9B3O9yzoU0A6J+Ax9JhSwJr/lhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlpCCea/lH0auSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ YyaT/H3Ygf/h2Yoaj9MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE88jmSH
+ rurIBmRpws1zj91Yj+Xuu+Tnn4iHtY+CTOzZk9+AMBOtPTtShsaic7XPNJEAateZq7gc9pZk
+ L2hvrToIesl0zGldOk1C3Fl/y9C0aJu6fyXBmmmgcGoxWbDI2avmv9jVGcPMthNkgp3KTkmG
+ f0wMjsBaFWIgPi7hez9Qeh3jcNlJ87uVG8dkig/lneCUrB3GtaaHvqiCdxwhF/cguhQFvbTf
+ cwedBJkbQ/LZFtEPVJ/5JcWxr/21yOlI2MFwL6Tjftr23T4zz166uLWCerLd9+rQd5yzlnN8
+ woq+EyiX0lFb4bAodafyVqoh+nSjWb4VZgUGbmQ6PFnmhuQy3YVBRlQUkG0ydG9i0ijS5dTL
+ Ec85CUjt+4x+VatQ927WAe3yFaAvxgBS59TGfA77A2l1KXZ+UCaC3ICQzoHb8Yp3Oc9QiYg2
+ 0Ohm8zvQzpirNW9T3OW8bOdthu8OyEOKWJEaDJsZQ0M/9nqpqkwgwjJQ9IlF7S65vXwECr5w
+ zGQqzkWhLgJi8MPkaKh8jj6bymEvJPFSEs+4R/aGzzj5QJib4njbIutgbTG0RpeBJfaHn6Qp
+ UgJoMK16bATTsiHmXSreepYSdlF+M25GDHbhFduGbwo+DKs52OvcOhsDNdWeh4B3iEsJ2aBX
+ aPDhT698qO/K5dDUEOaS5i6B8Jvxq/6GJG7EPvVddFJJJN2cWdrHR2Ch2bOgAgBc2B1zcnT3
+ Kt3l+73Ux727ow8kVKLqx81i+ND+8zH7Tq7qWrH5xqmy6GCQ3WeVK0INlCDBshgs/re+liIr
+ 4kEapTUo/m6bAEYSnSHmWL0BQ1bRUXX+binwyCqXrfafVo4Qj1J5wH5mON8J+SJYJi5Zs+To
+ yniARUHoLYOrXbGMg6NImtyc6/iWI03rHQwe0QR0aWAhRAejXKUxP5HLfMfJOB/nMQ6lK4cZ
+ 6deIa2oXK8QIgkrDhxAN/ERWqQ4KkTy7e9PVgL4CAUCk2lIHFCZqo69JVSxpEHjzEOf7KMDn
+ lFp7SuDKbJreuioJJ++hC6Hp79pgUUgpQ==
+IronPort-HdrOrdr: A9a23:iv3EfqidPvTrOZA32Mc6VzlGxHBQXtUji2hC6mlwRA09TyVXra
+ yTdZMgpH3JYVkqNk3I9errBEDiewK+yXcK2+gs1N6ZNWGMhILCFu5fBOXZrgEIMheOk9K1rZ
+ 0BT0C7Y+eAamSTSq3BkW2FL+o=
+X-Talos-CUID: 9a23:jYhC4WGjIgr8Sop2qmJ2tx4zC9kVf0bX53KAPgzhA2sxboSaHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3AMDdUjg1PETgcMmjvAPmjJes04TUjsviWFGsOoJ4?=
+ =?us-ascii?q?84fK9BTJ9OBaZlxPnXdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.07,181,1708387200"; 
+   d="scan'208";a="206922865"
+Received: from rcdn-core-6.cisco.com ([173.37.93.157])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 16:56:12 +0000
+Received: from sjc-ads-1541.cisco.com (sjc-ads-1541.cisco.com [171.70.59.233])
+	by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTP id 435GuBC2023239;
+	Fri, 5 Apr 2024 16:56:11 GMT
+From: Valerii Chernous <vchernou@cisco.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc: xe-linux-external@cisco.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] Add MO(mod objs) variable to process ext modules with subdirs
+Date: Fri,  5 Apr 2024 09:56:08 -0700
+Message-Id: <20240405165610.1537698-1-vchernou@cisco.com>
+X-Mailer: git-send-email 2.35.6
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,46 +87,157 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 171.70.59.233, sjc-ads-1541.cisco.com
+X-Outbound-Node: rcdn-core-6.cisco.com
 
-If any bits are set in node_reclaim_mode (tunable via
-/proc/sys/vm/zone_reclaim_mode) within get_pages_from_freelist(), then
-page allocations start getting early access to reclaim via the
-node_reclaim() code path when memory pressure increases. This behavior
-provides the most optimization for multiple NUMA node machines. The above
-is mentioned in:
+The change allow to build external modules with nested makefiles.
+With current unofficial way(using "src" variable) it is possible to build
+external(out of tree) kernel module with separate source and build
+artifacts dirs but with nested makefiles it doesn't work properly.
+Build system trap to recursion inside makefiles, artifacts output dir
+path grow with each iteration until exceed max path len and build failed.
+Providing "MO" variable and using "override" directive with declaring
+"src" variable solves the problem
+Usage example:
+make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
 
-Commit 9eeff2395e3cfd05c9b2e6 ("[PATCH] Zone reclaim: Reclaim logic")
-states "Zone reclaim is of particular importance for NUMA machines. It
-can be more beneficial to reclaim a page than taking the performance
-penalties that come with allocating a page on a REMOTE zone."
-
-While the pros/cons of staying on node versus allocating remotely are
-mentioned in commit histories and mailing lists. It isn't specifically
-mentioned in Documentation/ and isn't possible with a lone node. Imagine a
-situation where CONFIG_NUMA=y (the default on most major distributions)
-and only a single NUMA node exists. The latter is an oxymoron
-(single-node == uniform memory access). Informing the user via vm.rst that
-the most bang for their buck is when multiple nodes exist seems helpful.
-
-Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
+Cc: xe-linux-external@cisco.com
+Cc: Valerii Chernous <vchernou@cisco.com>
+Signed-off-by: Valerii Chernous <vchernou@cisco.com>
 ---
- Documentation/admin-guide/sysctl/vm.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ Documentation/kbuild/kbuild.rst  | 14 +++++++++++++-
+ Documentation/kbuild/modules.rst | 16 +++++++++++++++-
+ Makefile                         | 17 +++++++++++++++++
+ scripts/Makefile.build           |  7 +++++++
+ 4 files changed, 52 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index c59889de122b..10270548af2a 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -1031,7 +1031,8 @@ Consider enabling one or more zone_reclaim mode bits if it's known that the
- workload is partitioned such that each partition fits within a NUMA node
- and that accessing remote memory would cause a measurable performance
- reduction.  The page allocator will take additional actions before
--allocating off node pages.
-+allocating off node pages. Keep in mind enabling bits in zone_reclaim_mode
-+makes the most sense for topologies consisting of multiple NUMA nodes.
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 9c8d1d046ea5..81413ddba2ad 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -121,10 +121,22 @@ Setting "V=..." takes precedence over KBUILD_VERBOSE.
+ KBUILD_EXTMOD
+ -------------
+ Set the directory to look for the kernel source when building external
+-modules.
++modules. In case of using separate sources and module artifacts directories
++(KBUILD_EXTMOD + KBUILD_EXTMOD_SRC), KBUILD_EXTMOD working as output
++artifacts directory.
  
- Allowing zone reclaim to write out pages stops processes that are
- writing large amounts of data from dirtying pages on other nodes. Zone
+ Setting "M=..." takes precedence over KBUILD_EXTMOD.
+ 
++KBUILD_EXTMOD_SRC
++-----------------
++Set the external module source directory in case when separate module
++sources and build artifacts directories are used. Working in pair with
++KBUILD_EXTMOD. If KBUILD_EXTMOD_SRC is set then KBUILD_EXTMOD is used as
++module build artifacts directory.
++
++Setting "MO=..." takes precedence over KBUILD_EXTMOD.
++Setting "M=..." takes precedence over KBUILD_EXTMOD_SRC.
++
+ KBUILD_OUTPUT
+ -------------
+ Specify the output directory when building the kernel.
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index a1f3eb7a43e2..b6c30e76b314 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -79,6 +79,14 @@ executed to make module versioning work.
+ 	The kbuild system knows that an external module is being built
+ 	due to the "M=<dir>" option given in the command.
+ 
++	To build an external module with separate src and artifacts dirs use::
++
++		$ make -C <path_to_kernel_src> M=$PWD MO=<output_dir>
++
++	The kbuild system knows that an external module with separate sources
++	and build artifacts dirs is being built due to the "M=<dir>" and
++	"MO=<output_dir>" options given in the command.
++
+ 	To build against the running kernel use::
+ 
+ 		$ make -C /lib/modules/`uname -r`/build M=$PWD
+@@ -93,7 +101,7 @@ executed to make module versioning work.
+ 
+ 	($KDIR refers to the path of the kernel source directory.)
+ 
+-	make -C $KDIR M=$PWD
++	make -C $KDIR M=$PWD MO=<module_output_dir>
+ 
+ 	-C $KDIR
+ 		The directory where the kernel source is located.
+@@ -106,6 +114,12 @@ executed to make module versioning work.
+ 		directory where the external module (kbuild file) is
+ 		located.
+ 
++	MO=<module_output_dir>
++		Informs kbuild that external module build artifacts
++		should be placed into specific dir(<module_output_dir>).
++		Parameter is optional. Without it "M" works as both
++		source provider and build output location.
++
+ 2.3 Targets
+ ===========
+ 
+diff --git a/Makefile b/Makefile
+index 4bef6323c47d..3d45a41737a6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -142,6 +142,7 @@ ifeq ("$(origin M)", "command line")
+   KBUILD_EXTMOD := $(M)
+ endif
+ 
++define kbuild_extmod_check_TEMPLATE
+ $(if $(word 2, $(KBUILD_EXTMOD)), \
+ 	$(error building multiple external modules is not supported))
+ 
+@@ -152,9 +153,25 @@ $(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXTMOD)), \
+ ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
+ KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
+ endif
++endef
++$(eval $(call kbuild_extmod_check_TEMPLATE))
+ 
+ export KBUILD_EXTMOD
+ 
++# Use make M=src_dir MO=ko_dir or set the environment variables:
++# KBUILD_EXTMOD_SRC, KBUILD_EXTMOD to specify separate directories of
++# external module sources and build artifacts.
++ifeq ("$(origin MO)", "command line")
++ifeq ($(KBUILD_EXTMOD),)
++	$(error Ext module objects without module sources is not supported))
++endif
++KBUILD_EXTMOD_SRC := $(KBUILD_EXTMOD)
++KBUILD_EXTMOD := $(MO)
++$(eval $(call kbuild_extmod_check_TEMPLATE))
++endif
++
++export KBUILD_EXTMOD_SRC
++
+ # backward compatibility
+ KBUILD_EXTRA_WARN ?= $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)
+ 
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index baf86c0880b6..a293950e2e07 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -3,7 +3,14 @@
+ # Building
+ # ==========================================================================
+ 
++ifeq ($(KBUILD_EXTMOD_SRC),)
+ src := $(obj)
++else ifeq ($(KBUILD_EXTMOD),$(obj))
++override src := $(KBUILD_EXTMOD_SRC)
++else
++src_subdir := $(patsubst $(KBUILD_EXTMOD)/%,%,$(obj))
++override src := $(KBUILD_EXTMOD_SRC)/$(src_subdir)
++endif
+ 
+ PHONY := $(obj)/
+ $(obj)/:
 -- 
-2.34.1
+2.35.6
 
