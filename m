@@ -1,261 +1,170 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94B4422616;
-	Fri,  5 Apr 2024 02:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E134E20313;
+	Fri,  5 Apr 2024 03:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712285242; cv=none; b=RAEz5NlyGXYNBbAipkwc23JHNgfbR93S7J+OxS/8gkBNhurFpzGjg0WQQ/OtBCgVIIZ02bXT1U5pNHu4CX+ykYThafF9+q4imOoWQUeWVTkYXI68W5rux/X0Z4v+CMSoo0pSZ1cIj9KNmJGqHBsiz9fRQet8LQRZbgMtMJaUZF4=
+	t=1712286671; cv=none; b=eunkccl9NBJAzHSiu/hjWh5f/I2YOM3CbL98Zpu5/wIMKhZercItlyY85MDtKs+rRoMF6PUgJlnPhNMb6wiOjetNZ7Lf4fd84oVuSreLNtAdaP+4zzVHctJNwmrHh1u4+6e1ktJJLfAgHdjbOURFlXmFnBdKFsPM2yBvqFZzqaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712285242; c=relaxed/simple;
-	bh=JwC7YAnWyfiHK6XtAKEvLgWXV6GQ33AAA/cq7RvWPC8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GQW0K2Y5hOazEEx9Y11/HEuT6RQsqMl9r41hhTid5dwbzsY3aF3Rwp97yRo8ZZrf/c0BXG9LXx6GacvsVnxRTY+ABTA1P1NupTCusBFnKDCe79l6QZJzDoZshknm/YsERi1w3TDIGxrtwW5qr2FH0UaDpL0vIi4VBLkKeLqgxV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64B6BFEC;
-	Thu,  4 Apr 2024 19:47:50 -0700 (PDT)
-Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.41.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 28F0E3F766;
-	Thu,  4 Apr 2024 19:47:13 -0700 (PDT)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	will@kernel.org,
-	catalin.marinas@arm.com,
-	mark.rutland@arm.com
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Mark Brown <broonie@kernel.org>,
-	James Clark <james.clark@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Suzuki Poulose <suzuki.poulose@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	linux-perf-users@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH V17 4/9] arm64/boot: Enable EL2 requirements for BRBE
-Date: Fri,  5 Apr 2024 08:16:34 +0530
-Message-Id: <20240405024639.1179064-5-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240405024639.1179064-1-anshuman.khandual@arm.com>
-References: <20240405024639.1179064-1-anshuman.khandual@arm.com>
+	s=arc-20240116; t=1712286671; c=relaxed/simple;
+	bh=c/nS0D1RD43be7oZ49NydcU4l66Mke80I2ljTSJyyrs=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lr6JEyj9whuiWseHoT38D6UVYO962rpvQ8+vyx7ww+sDqFAiqk5rPmi+zYpmzKLBWIznzJK0YR756qcigUfTuWF1BRyvJm19DMpAoxL+4cy8XXyVBpJf5zDaGv8tYNb2X2DGju6yRjn5P5mS+3DTTyMH3mECiSHrqTZ29Le0tSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IZzO4Ehu; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IZzO4Ehu"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43527dFH015699;
+	Fri, 5 Apr 2024 03:10:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=FwLCTYvyG2BzUyu75wDdV
+	Y/7/PCyyGgukkUMUtOcK3k=; b=IZzO4EhuASwXIFpHvWAC//BtUgN5aVUembQHM
+	HtqVK6KAsGAILT5EiKpFiZr1/y1pG/itxOo7OJFRY3cEI8jghfsPbDf6FxFAjJ7T
+	Wlu3wixX2pg+BBmu+0Rz+KisxtBdN1t62bT4ZjnzdTGuOQvk6alsvdIxzHc5ySd7
+	TqPadYKtcefw5BjNSGrBCsPFdUfEPZ62NL+4Rwu9JZHABZxqc9Zt5IrlZPhXRCgD
+	J3DGegdHJlJunQ8Vbew+AstCUVsJUlOfs/2AvE4eHJNSkFT91/Ih2SgZq7HQ65Oz
+	NN+EB4aYXbXiy77ynOXwG4/w8jl3HaC5GXiHfYjj3ki9JAR0g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xa7m5g46f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Apr 2024 03:10:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4353AoLx021530
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 5 Apr 2024 03:10:50 GMT
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Thu, 4 Apr 2024 20:10:43 -0700
+Date: Fri, 5 Apr 2024 08:40:40 +0530
+From: Pavan Kondeti <quic_pkondeti@quicinc.com>
+To: Elliot Berman <quic_eberman@quicinc.com>
+CC: Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri
+	<quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu
+	<quic_pheragu@quicinc.com>,
+        Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Andrew
+ Morton" <akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v17 11/35] virt: gunyah: Translate gh_rm_hyp_resource
+ into gunyah_resource
+Message-ID: <ff6a3fb2-5f1a-4baa-b42a-a7767e92885a@quicinc.com>
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240222-gunyah-v17-11-1e9da6763d38@quicinc.com>
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 8XJxnYRnZpwG_GTOUSD6n18PMOkK3sY8
+X-Proofpoint-GUID: 8XJxnYRnZpwG_GTOUSD6n18PMOkK3sY8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-05_02,2024-04-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ spamscore=0 mlxscore=0 bulkscore=0 phishscore=0 adultscore=0
+ suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1011
+ mlxlogscore=825 priorityscore=1501 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2404010003 definitions=main-2404050022
 
-Fine grained trap control for BRBE registers, and instructions access need
-to be configured in HDFGRTR_EL2, HDFGWTR_EL2 and HFGITR_EL2 registers when
-kernel enters at EL1 but EL2 is present. This changes __init_el2_fgt() as
-required.
+On Thu, Feb 22, 2024 at 03:16:34PM -0800, Elliot Berman wrote:
+> When booting a Gunyah virtual machine, the host VM may gain capabilities
+> to interact with resources for the guest virtual machine. Examples of
+> such resources are vCPUs or message queues. To use those resources, we
+> need to translate the RM response into a gunyah_resource structure which
+> are useful to Linux drivers. Presently, Linux drivers need only to know
+> the type of resource, the capability ID, and an interrupt.
+> 
+> On ARM64 systems, the interrupt reported by Gunyah is the GIC interrupt
+> ID number and always a SPI or extended SPI.
+> 
+> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> ---
+>  arch/arm64/include/asm/gunyah.h | 36 ++++++++++++++++++++++
+>  drivers/virt/gunyah/rsc_mgr.c   | 67 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/virt/gunyah/rsc_mgr.h   |  5 +++
+>  include/linux/gunyah.h          |  2 ++
+>  4 files changed, 110 insertions(+)
+> 
+> diff --git a/arch/arm64/include/asm/gunyah.h b/arch/arm64/include/asm/gunyah.h
+> new file mode 100644
+> index 0000000000000..0cd3debe22b64
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/gunyah.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +#ifndef _ASM_GUNYAH_H
+> +#define _ASM_GUNYAH_H
+> +
+> +#include <linux/irq.h>
+> +#include <linux/irqdomain.h>
+> +
+> +static inline int arch_gunyah_fill_irq_fwspec_params(u32 virq,
+> +						 struct irq_fwspec *fwspec)
+> +{
+> +	/* Assume that Gunyah gave us an SPI or ESPI; defensively check it */
+> +	if (WARN(virq < 32, "Unexpected virq: %d\n", virq)) {
+> +		return -EINVAL;
+> +	} else if (virq <= 1019) {
+> +		fwspec->param_count = 3;
+> +		fwspec->param[0] = 0; /* GIC_SPI */
+> +		fwspec->param[1] = virq - 32; /* virq 32 -> SPI 0 */
+> +		fwspec->param[2] = IRQ_TYPE_EDGE_RISING;
+> +	} else if (WARN(virq < 4096, "Unexpected virq: %d\n", virq)) {
+> +		return -EINVAL;
+> +	} else if (virq < 5120) {
+> +		fwspec->param_count = 3;
+> +		fwspec->param[0] = 2; /* GIC_ESPI */
+> +		fwspec->param[1] = virq - 4096; /* virq 4096 -> ESPI 0 */
+> +		fwspec->param[2] = IRQ_TYPE_EDGE_RISING;
+> +	} else {
+> +		WARN(1, "Unexpected virq: %d\n", virq);
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
 
-Similarly cycle and mis-prediction capture need to be enabled in BRBCR_EL1
-and BRBCR_EL2 when the kernel enters either into EL1 or EL2. This adds new
-__init_el2_brbe() to achieve this objective.
+__get_intid_range() in gic-v3 driver looks more pleasing. Other than
+that the logic for the translation looks good to me.
 
-This also updates Documentation/arch/arm64/booting.rst with all the above
-EL2 along with MDRC_EL3.SBRBE requirements.
-
-First this replaces an existing hard encoding (1 << 62) with corresponding
-applicable macro HDFGRTR_EL2_nPMSNEVFR_EL1_MASK.
-
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-----
-Changes in V17:
-
-- New patch added in the series
-- Separated out from the BRBE driver implementation patch
-- Dropped the comment in __init_el2_brbe()
-- Updated __init_el2_brbe() with BRBCR_EL2.MPRED requirements
-- Updated __init_el2_brbe() with __check_hvhe() constructs
-- Updated booting.rst regarding MPRED, MDCR_EL3 and fine grained control
-
- Documentation/arch/arm64/booting.rst | 26 ++++++++
- arch/arm64/include/asm/el2_setup.h   | 90 +++++++++++++++++++++++++++-
- 2 files changed, 113 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-index b57776a68f15..512210da7dd2 100644
---- a/Documentation/arch/arm64/booting.rst
-+++ b/Documentation/arch/arm64/booting.rst
-@@ -349,6 +349,32 @@ Before jumping into the kernel, the following conditions must be met:
- 
-     - HWFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
- 
-+  For CPUs with feature Branch Record Buffer Extension (FEAT_BRBE):
-+
-+  - If the kernel is entered at EL2 and EL1 is present:
-+
-+    - BRBCR_EL1.CC (bit 3) must be initialised to 0b1.
-+    - BRBCR_EL1.MPRED (bit 4) must be initialised to 0b1.
-+
-+  - If the kernel is entered at EL1 and EL2 is present:
-+
-+    - BRBCR_EL2.CC (bit 3) must be initialised to 0b1.
-+    - BRBCR_EL2.MPRED (bit 4) must be initialised to 0b1.
-+
-+    - HDFGRTR_EL2.nBRBDATA (bit 61) must be initialised to 0b1.
-+    - HDFGRTR_EL2.nBRBCTL  (bit 60) must be initialised to 0b1.
-+    - HDFGRTR_EL2.nBRBIDR  (bit 59) must be initialised to 0b1.
-+
-+    - HDFGWTR_EL2.nBRBDATA (bit 61) must be initialised to 0b1.
-+    - HDFGWTR_EL2.nBRBCTL  (bit 60) must be initialised to 0b1.
-+
-+    - HFGITR_EL2.nBRBIALL (bit 56) must be initialised to 0b1.
-+    - HFGITR_EL2.nBRBINJ  (bit 55) must be initialised to 0b1.
-+
-+  - If EL3 is present:
-+
-+    - MDCR_EL3.SBRBE (bits 33:32) must be initialised to 0b11.
-+
-   For CPUs with the Scalable Matrix Extension FA64 feature (FEAT_SME_FA64):
- 
-   - If EL3 is present:
-diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-index b7afaa026842..7c12a8e658d4 100644
---- a/arch/arm64/include/asm/el2_setup.h
-+++ b/arch/arm64/include/asm/el2_setup.h
-@@ -154,6 +154,41 @@
- .Lskip_set_cptr_\@:
- .endm
- 
-+#ifdef CONFIG_ARM64_BRBE
-+/*
-+ * Enable BRBE cycle count and miss-prediction
-+ *
-+ * BRBE requires both BRBCR_EL1.CC and BRBCR_EL2.CC fields, be set
-+ * for the cycle counts to be available in BRBINF<N>_EL1.CC during
-+ * branch record processing after a PMU interrupt. This enables CC
-+ * field on both these registers while still executing inside EL2.
-+ *
-+ * BRBE driver would still be able to toggle branch records cycle
-+ * count support via BRBCR_EL1.CC field regardless of whether the
-+ * kernel ends up executing in EL1 or EL2.
-+ *
-+ * The same principle applies for branch record mis-prediction info
-+ * as well, thus requiring MPRED field to be set on both BRBCR_EL1
-+ * and BRBCR_EL2 while still executing inside EL2.
-+ */
-+.macro __init_el2_brbe
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-+	cbz	x1, .Lskip_brbe_\@
-+
-+	mov_q	x0, BRBCR_ELx_CC | BRBCR_ELx_MPRED
-+	msr_s	SYS_BRBCR_EL2, x0
-+
-+	__check_hvhe .Lset_brbe_nvhe_\@, x1
-+	msr_s	SYS_BRBCR_EL12, x0	// VHE
-+	b	.Lskip_brbe_\@
-+
-+.Lset_brbe_nvhe_\@:
-+	msr_s	SYS_BRBCR_EL1, x0	// NVHE
-+.Lskip_brbe_\@:
-+.endm
-+#endif /* CONFIG_ARM64_BRBE */
-+
- /* Disable any fine grained traps */
- .macro __init_el2_fgt
- 	mrs	x1, id_aa64mmfr0_el1
-@@ -161,16 +196,48 @@
- 	cbz	x1, .Lskip_fgt_\@
- 
- 	mov	x0, xzr
-+	mov	x2, xzr
- 	mrs	x1, id_aa64dfr0_el1
- 	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
- 	cmp	x1, #3
- 	b.lt	.Lset_debug_fgt_\@
-+
- 	/* Disable PMSNEVFR_EL1 read and write traps */
--	orr	x0, x0, #(1 << 62)
-+	orr	x0, x0, #HDFGRTR_EL2_nPMSNEVFR_EL1_MASK
-+	orr	x2, x2, #HDFGWTR_EL2_nPMSNEVFR_EL1_MASK
- 
- .Lset_debug_fgt_\@:
-+#ifdef CONFIG_ARM64_BRBE
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-+	cbz	x1, .Lskip_brbe_reg_fgt_\@
-+
-+	/*
-+	 * Disable read traps for the following registers
-+	 *
-+	 * [BRBSRC|BRBTGT|RBINF]_EL1
-+	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
-+	 */
-+	orr	x0, x0, #HDFGRTR_EL2_nBRBDATA_MASK
-+
-+	/*
-+	 * Disable write traps for the following registers
-+	 *
-+	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
-+	 */
-+	orr	x2, x2, #HDFGWTR_EL2_nBRBDATA_MASK
-+
-+	/* Disable read and write traps for [BRBCR|BRBFCR]_EL1 */
-+	orr	x0, x0, #HDFGRTR_EL2_nBRBCTL_MASK
-+	orr	x2, x2, #HDFGWTR_EL2_nBRBCTL_MASK
-+
-+	/* Disable read traps for BRBIDR_EL1 */
-+	orr	x0, x0, #HDFGRTR_EL2_nBRBIDR_MASK
-+
-+.Lskip_brbe_reg_fgt_\@:
-+#endif /* CONFIG_ARM64_BRBE */
- 	msr_s	SYS_HDFGRTR_EL2, x0
--	msr_s	SYS_HDFGWTR_EL2, x0
-+	msr_s	SYS_HDFGWTR_EL2, x2
- 
- 	mov	x0, xzr
- 	mrs	x1, id_aa64pfr1_el1
-@@ -193,7 +260,21 @@
- .Lset_fgt_\@:
- 	msr_s	SYS_HFGRTR_EL2, x0
- 	msr_s	SYS_HFGWTR_EL2, x0
--	msr_s	SYS_HFGITR_EL2, xzr
-+	mov	x0, xzr
-+#ifdef CONFIG_ARM64_BRBE
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-+	cbz	x1, .Lskip_brbe_insn_fgt_\@
-+
-+	/* Disable traps for BRBIALL instruction */
-+	orr	x0, x0, #HFGITR_EL2_nBRBIALL_MASK
-+
-+	/* Disable traps for BRBINJ instruction */
-+	orr	x0, x0, #HFGITR_EL2_nBRBINJ_MASK
-+
-+.Lskip_brbe_insn_fgt_\@:
-+#endif /* CONFIG_ARM64_BRBE */
-+	msr_s	SYS_HFGITR_EL2, x0
- 
- 	mrs	x1, id_aa64pfr0_el1		// AMU traps UNDEF without AMU
- 	ubfx	x1, x1, #ID_AA64PFR0_EL1_AMU_SHIFT, #4
-@@ -228,6 +309,9 @@
- 	__init_el2_nvhe_idregs
- 	__init_el2_cptr
- 	__init_el2_fgt
-+#ifdef CONFIG_ARM64_BRBE
-+	__init_el2_brbe
-+#endif
- .endm
- 
- #ifndef __KVM_NVHE_HYPERVISOR__
--- 
-2.25.1
-
+Thanks,
+Pavan
