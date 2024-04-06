@@ -1,68 +1,33 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6300D200D2
-	for <linux-doc@vger.kernel.org>; Sat,  6 Apr 2024 08:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41995249F5;
+	Sat,  6 Apr 2024 08:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712391549; cv=none; b=U2aSrw7MVz3weKwuZjRyJ6S/In/ntA3dQ2Bd/JItbaoFFng2ZJpvNNDu850MlDZYbxw1guv/a6zQL1roqVDcMKLaDEzttW80a6P04usUKFUfpAzbJ1hkDE0odUngsvolPqpAmk0B+7z4CQYd1qZLq5YxON0vy1/+ZiIV30NWmdg=
+	t=1712392660; cv=none; b=kv7d3nDub9FPJeTkcUpk03xPzfq6siF5LAo4DWQ+jD+5QKP7LEZpESgBFAuxRwgzItf1YzU96eUE8wCHTycJ4pgUTNTuxV6B/DN4MazSmQy1BLkvX1VqPdAimTt7ZAzOb+2kbgjwQK3U4QIih+F9vfyKUhHb09Xx7DOBXQsUTLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712391549; c=relaxed/simple;
-	bh=+ZWu/AKLcNNvrzCl5rJOuVqjiziWLDXqEYmXKEt7C/4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=JsC0SEs36gqq5Cx3Pc5WkRO2uLPFzfZGdT2L5OKRYqiEOtrCr9Oo7uJOZcNA3+3PBIHVQ7g07aqDlMyEf1t1ioEAQfsWb9hWaIe67hZBvi2XqRgXGf48xocIY9sncjYcWnrIrRxfikCB/UVVambyqrPG5e+Y1iAzr8+ZTXH6dx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZWpRVm0c; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZWpRVm0c"
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240406081212epoutp01da6e7f1d5a20e55af65c6fa59e9374ba~DoqmHB25k0687706877epoutp01Q
-	for <linux-doc@vger.kernel.org>; Sat,  6 Apr 2024 08:12:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240406081212epoutp01da6e7f1d5a20e55af65c6fa59e9374ba~DoqmHB25k0687706877epoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1712391132;
-	bh=2yOjy4vnwpvBCAdxac/iqkYCuYsc2EfQRMNcBXBkyX4=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=ZWpRVm0c7x8TgZJWMMCg2j0LpTnxRwODk1Yirz7wS6eNpoIH1P0MzUcn0B1rJO772
-	 HdRC2Oidvt7nftaFFPpa2eJmGTXT8M64g9kY/OScajoQ5EDu5/K172xThbRNw7gpn5
-	 dx736ZTUJxnpTJmwhqSLG/SQQ4+ofToZP8kgAg3I=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-	20240406081211epcas2p3b9f0a4f673cab580de404901c3bcdaaf~Doqlf1wtb3162731627epcas2p3P;
-	Sat,  6 Apr 2024 08:12:11 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.36.68]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4VBSkg1GwSz4x9Pv; Sat,  6 Apr
-	2024 08:12:11 +0000 (GMT)
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-	epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	31.74.09673.AD301166; Sat,  6 Apr 2024 17:12:11 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
-	20240406081210epcas2p1736b44763ba01114ce3a552aff50d780~DoqkU_fKg1233312333epcas2p12;
-	Sat,  6 Apr 2024 08:12:10 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240406081210epsmtrp27090489fc58ddd4033f7b440043c9ff6~DoqkUPAvT1735217352epsmtrp2u;
-	Sat,  6 Apr 2024 08:12:10 +0000 (GMT)
-X-AuditID: b6c32a45-a89fa700000025c9-2b-661103da6468
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CE.F7.07541.AD301166; Sat,  6 Apr 2024 17:12:10 +0900 (KST)
-Received: from KORCO045595.samsungds.net (unknown [10.229.38.76]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240406081210epsmtip23ff3b027ca69b11fa67ec1663b90333d~DoqkFDcHp2271422714epsmtip2_;
-	Sat,  6 Apr 2024 08:12:10 +0000 (GMT)
-From: Bongkyu Kim <bongkyu7.kim@samsung.com>
-To: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
-	longman@redhat.com, boqun.feng@gmail.com, corbet@lwn.net
-Cc: gregkh@linuxfoundation.org, jstultz@google.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bongkyu7.kim@samsung.com
-Subject: [PATCH v3] locking/rwsem: Reintroduce reader optimistic spinning
- conditionally
-Date: Sat,  6 Apr 2024 17:11:26 +0900
-Message-Id: <20240406081126.8030-1-bongkyu7.kim@samsung.com>
+	s=arc-20240116; t=1712392660; c=relaxed/simple;
+	bh=ZuN7yhuzIa2KgyP3LefuTAVh4Lsk7xrPnXDJ1rJeRuU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=BIDjQ+47LDV7FDMr7iRD/U9Z12R5yRAvTCPmScWdCfcglvtm+DbLDvDcZksPvzeka334F9xffewrWas2cDnthOUV2yR6oEuhrr/4ZAciSYwrg6yygTMIzScWc1cka9+jb6NK1kODP2oDawwELB6wIsp9d/jqZLWb9BRb53xIE5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrADnPsekCRFmZcfbAA--.48425S2;
+	Sat, 06 Apr 2024 16:36:52 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.12.177.116])
+	by gateway (Coremail) with SMTP id _____wBXUC+iCRFmihbZAA--.10528S2;
+	Sat, 06 Apr 2024 16:36:51 +0800 (CST)
+From: Haoyang Liu <tttturtleruss@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	Haoyang Liu <tttturtleruss@hust.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] docs/zh_CN: Add dev-tools/kmemleak Chinese translation
+Date: Sat,  6 Apr 2024 16:36:43 +0800
+Message-Id: <20240406083643.5056-1-tttturtleruss@hust.edu.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -70,724 +35,299 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmme5tZsE0gztXGS1eN75kslizpZHJ
-	4smBdkaL5sXr2Sz+nNjIZrGwbQmLxeVdc9gsTh87wWJx6cACJovjvQeYLFrumDpwe+ycdZfd
-	Y8GmUo/NK7Q8Nq3qZPPYP3cNu8fivsmsHu/3XWXz6NuyitHj8ya5AM6obJuM1MSU1CKF1Lzk
-	/JTMvHRbJe/geOd4UzMDQ11DSwtzJYW8xNxUWyUXnwBdt8wcoFuVFMoSc0qBQgGJxcVK+nY2
-	RfmlJakKGfnFJbZKqQUpOQXmBXrFibnFpXnpenmpJVaGBgZGpkCFCdkZ2+adYy+YeIqxYsHf
-	92wNjO0LGbsYOTkkBEwkmt+/Zuti5OIQEtjBKHHj7goWCOcTo8S9cz8ZIZxvjBKr551jgWk5
-	2z8dKrGXUWLqhE0IVVe/3mUFqWIT0JH4v3oGE4gtIlAusfbFMVaQImaBTkaJA1f3MIMkhAUi
-	JSYcmM4OYrMIqErcarjPBmLzCthIHF1xFmqdvMTMS9/ZIeKCEidnPgGLMwPFm7fOZgYZKiHQ
-	yCGx79FWZogGF4mHR7azQdjCEq+Ob2GHsKUkPr/bCxUvlpj4cipUcwOjRNPr7VDbjCVmPWsH
-	+ocDaIOmxPpd+iCmhICyxJFbUHv5JDoO/2WHCPNKdLQJQTSqSex+3soKYctIHDy7lgnC9pBY
-	tnIq2AVCArESC0/fYpvAKD8LyTezkHwzC2HvAkbmVYxiqQXFuempxUYFhvCITc7P3cQITrJa
-	rjsYJ7/9oHeIkYmD8RCjBAezkghvtwNvmhBvSmJlVWpRfnxRaU5q8SFGU2D4TmSWEk3OB6b5
-	vJJ4QxNLAxMzM0NzI1MDcyVx3nutc1OEBNITS1KzU1MLUotg+pg4OKUamKReXnKf9GpT/tHM
-	E6dbb+yoKHme+PhX2ef9X3N/aT0vtJ12tmpxz/mjVwI9/OZ9XzbX0SAqNuKteYTzBfWI5JpK
-	r+rnj07uqrRMnHRF3H+52qnZPx6eOt9ruHqKruZBLZdXSm4ZuivFdApv51+9sqbtHP96q1Yn
-	iXT2MIEn/FULvnus3bsk1Nr74Icws5MvFvddalwmc43tcd2bvD5l77+WUyUuWu5X+Dozq1FD
-	j41P/kj2Dw/DDr+N04tXRNj/vZDLGnXH1+mqT3LLPh8ms00MftyBASvFL26xvh55Pewv45fK
-	oPc64ucMty11leo/v2f6m3MH37525efam/o21pbft/bJqwLF3+zRfyK2SSixFGckGmoxFxUn
-	AgDfi9WEOwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsWy7bCSvO4tZsE0g752QYvXjS+ZLNZsaWSy
-	eHKgndGiefF6Nos/JzayWSxsW8JicXnXHDaL08dOsFhcOrCAyeJ47wEmi5Y7pg7cHjtn3WX3
-	WLCp1GPzCi2PTas62Tz2z13D7rG4bzKrx/t9V9k8+rasYvT4vEkugDOKyyYlNSezLLVI3y6B
-	K2PbvHPsBRNPMVYs+PuerYGxfSFjFyMnh4SAicTZ/ulgtpDAbkaJPRMTIeIyEof+rWWCsIUl
-	7rccYYWo+cIo0fM1BcRmE9CR+L96BliNiEC9xI5nz4DmcHEwC/QyShz+fY4NJCEsEC7x+mQr
-	O4jNIqAqcavhPlicV8BG4uiKsywQC+QlZl76zg4RF5Q4OfMJWJwZKN68dTbzBEa+WUhSs5Ck
-	FjAyrWKUTC0ozk3PTTYsMMxLLdcrTswtLs1L10vOz93ECA55LY0djPfm/9M7xMjEwXiIUYKD
-	WUmEt9uBN02INyWxsiq1KD++qDQntfgQozQHi5I4r+GM2SlCAumJJanZqakFqUUwWSYOTqkG
-	JoG6326NSw8ma+zeNe36/e6o2m9t0ffVP8sytfmYsAUZNF6teP1yl9lrFw/++WaP1aft6Lv7
-	LuHXthcn215u/Pyn/WOoo7/Aqcu3mvucCq4ksl6ysWFStRc8Kn/ilXlsaaLqT7MOrcpEq2ln
-	Sg8lT5ZbOT/lpVG7zeJ/H9quqvjOqj9nkit/vPd/9Wae/48WcGtZKBZ15sYedhdMYwwIbGh+
-	lNzT9G1ldNGmY09cjG/Mjde5IBduWxhRvvU/0303qcf1Kp/3ieTY27PeO/vJ9cPWd6o/ivpO
-	nSzYVzxH0PGY1mr9TfkJB8ziJR2btAxCfzv4fbULKpi2Sn///DMr/rq8ePPv9eX45Xm6GxSY
-	lFiKMxINtZiLihMBwFRq8egCAAA=
-X-CMS-MailID: 20240406081210epcas2p1736b44763ba01114ce3a552aff50d780
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240406081210epcas2p1736b44763ba01114ce3a552aff50d780
-References: <CGME20240406081210epcas2p1736b44763ba01114ce3a552aff50d780@epcas2p1.samsung.com>
+X-CM-TRANSID:HwEQrADnPsekCRFmZcfbAA--.48425S2
+Authentication-Results: app2; spf=neutral smtp.mail=tttturtleruss@hust
+	.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoW3CrW3Cw4ftw13ZFWrXrW3Awb_yoW8Jw4DXo
+	Z8uFWjkrs7AF1UXF4Sqa15GrW7CanYkr4jya13Cr1q9ry5XF18G3Wvva4fCFy5Z3s8GFsI
+	q3WrGa4xC3WUKr9rn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUO27k0a2IF6w1UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8C
+	rVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxVWxJVW8Jr1lYx0E74AGY7Cv6c
+	x26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+	F7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l42xK82
+	IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+	Ja73UjIFyTuYvjxUwOzVUUUUU
+X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQsPAmYKvLtb7gAXsO
 
-Reader optimistic spinning is helpful when the reader critical section
-is short and there aren't that many readers around. It also improves
-the chance that a reader can get the lock as writer optimistic spinning
-disproportionally favors writers much more than readers.
+Translate dev-tools/kmemleak.rst into Chinese and add it into
+zh_CN/dev-tools/index.rst.
 
-Since commit 617f3ef95177 ("locking/rwsem: Remove reader optimistic
-spinning"), reader optimistic spinning was taken out is because of
-reader fragmentation especially now that we essentially wake up all the
-readers all at once when it is reader's turn to take the read lock.
-
-But, on smaller systems with just a few CPU cores, reader optimistic
-spinning may help performance. So, reintroduce reader optimistic
-spinning and enable it when the number of cores in the system <= the
-threshold (default set to 8 cores). This threshold can be changed by
-"rwsem.rspin_maxcpus" commandline.
-
-The simple heuristic of skipping optimistic spinning if the lock is
-reader owned is kept, reader optimistic spinning won't affect handoff
-handling which requires that an unlocker see the lock will be free and
-wake up the head of the wait queue.
-
-Test result:
-This is 15 application startup performances in our exynos SoC.
-Reader optimistic spinning improves application startup time about 3.8%
-in average.
-- Cortex A78*2 + Cortex A55*6
-- android os
-- unit: ms (lower is better)
-
-Application             base      rspin  Diff  Diff(%)
---------------------  ------  ---------  ----  -------
-* Total(geomean)         343        330   -13    +3.8%
---------------------  ------  ---------  ----  -------
-helloworld               110        108    -2    +1.8%
-Amazon_Seller            397        388    -9    +2.3%
-Whatsapp                 311        304    -7    +2.3%
-Simple_PDF_Reader        500        463   -37    +7.4%
-FaceApp                  330        317   -13    +3.9%
-Timestamp_Camera_Free    451        443    -8    +1.8%
-Kindle                   629        597   -32    +5.1%
-Coinbase                 243        233   -10    +4.1%
-Firefox                  425        399   -26    +6.1%
-Candy_Crush_Soda         552        538   -14    +2.5%
-Hill_Climb_Racing        245        230   -15    +6.1%
-Call_Recorder            437        426   -11    +2.5%
-Color_Fill_3D            190        180   -10    +5.3%
-eToro                    512        505    -7    +1.4%
-GroupMe                  281        266   -15    +5.3%
-
-Signed-off-by: Bongkyu Kim <bongkyu7.kim@samsung.com>
+Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 ---
-Changes v2 -> v3:
-- Enable reader optimistic spinning by rwsem_rspin_maxcpus
-- Use static_branch for rwsem_rspin_enabled
-- Modify commit messages
+v2 -> v3: Add Reviewed-by tag.
+v1 -> v2: Adjust line length and keep consistent with the original content
 
-Changse v1 -> v2:
-- Move the rwsem_opt_rspin definition out of the "ifdef
-  CONFIG_RWSEM_SPIN_ON_OWNER" and add _ro_after_init to rwsem_opt_rspin.
----
- .../admin-guide/kernel-parameters.txt         |   6 +
- kernel/locking/lock_events_list.h             |   5 +-
- kernel/locking/rwsem.c                        | 308 +++++++++++++++---
- 3 files changed, 275 insertions(+), 44 deletions(-)
+ .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+ .../translations/zh_CN/dev-tools/kmemleak.rst | 229 ++++++++++++++++++
+ 2 files changed, 230 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/kmemleak.rst
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index ef267fbf1b71..1e8d862acfb8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5780,6 +5780,12 @@
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index c2db3e566b1b..9f52b7f452bd 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -22,6 +22,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+    sparse
+    gcov
+    kasan
++   kmemleak
+    gdb-kernel-debugging
  
- 	rw		[KNL] Mount root device read-write on boot
- 
-+	rwsem.rspin_maxcpus=	[KNL]
-+			Maximum number of cpus for enabling rwsem reader
-+			optimistic spinning. Reader optimistic spinning may
-+			help performance on a few CPU cores system. The default
-+			value is 8.
+ Todolist:
+@@ -29,7 +30,6 @@ Todolist:
+  - coccinelle
+  - kcov
+  - ubsan
+- - kmemleak
+  - kcsan
+  - kfence
+  - kgdb
+diff --git a/Documentation/translations/zh_CN/dev-tools/kmemleak.rst b/Documentation/translations/zh_CN/dev-tools/kmemleak.rst
+new file mode 100644
+index 000000000000..d248c8428095
+--- /dev/null
++++ b/Documentation/translations/zh_CN/dev-tools/kmemleak.rst
+@@ -0,0 +1,229 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- 	S		[KNL] Run init in single mode
- 
- 	s390_iommu=	[HW,S390]
-diff --git a/kernel/locking/lock_events_list.h b/kernel/locking/lock_events_list.h
-index 97fb6f3f840a..270a0d351932 100644
---- a/kernel/locking/lock_events_list.h
-+++ b/kernel/locking/lock_events_list.h
-@@ -56,9 +56,12 @@ LOCK_EVENT(rwsem_sleep_reader)	/* # of reader sleeps			*/
- LOCK_EVENT(rwsem_sleep_writer)	/* # of writer sleeps			*/
- LOCK_EVENT(rwsem_wake_reader)	/* # of reader wakeups			*/
- LOCK_EVENT(rwsem_wake_writer)	/* # of writer wakeups			*/
--LOCK_EVENT(rwsem_opt_lock)	/* # of opt-acquired write locks	*/
-+LOCK_EVENT(rwsem_opt_rlock)	/* # of opt-acquired read locks		*/
-+LOCK_EVENT(rwsem_opt_wlock)	/* # of opt-acquired write locks	*/
- LOCK_EVENT(rwsem_opt_fail)	/* # of failed optspins			*/
- LOCK_EVENT(rwsem_opt_nospin)	/* # of disabled optspins		*/
-+LOCK_EVENT(rwsem_opt_norspin)	/* # of disabled reader-only optspins	*/
-+LOCK_EVENT(rwsem_opt_rlock2)	/* # of opt-acquired 2ndary read locks	*/
- LOCK_EVENT(rwsem_rlock)		/* # of read locks acquired		*/
- LOCK_EVENT(rwsem_rlock_steal)	/* # of read locks by lock stealing	*/
- LOCK_EVENT(rwsem_rlock_fast)	/* # of fast read locks acquired	*/
-diff --git a/kernel/locking/rwsem.c b/kernel/locking/rwsem.c
-index c6d17aee4209..7cc779b5f663 100644
---- a/kernel/locking/rwsem.c
-+++ b/kernel/locking/rwsem.c
-@@ -33,13 +33,19 @@
- #include "lock_events.h"
- 
- /*
-- * The least significant 2 bits of the owner value has the following
-+ * The least significant 3 bits of the owner value has the following
-  * meanings when set.
-  *  - Bit 0: RWSEM_READER_OWNED - rwsem may be owned by readers (just a hint)
-- *  - Bit 1: RWSEM_NONSPINNABLE - Cannot spin on a reader-owned lock
-+ *  - Bit 1: RWSEM_RD_NONSPINNABLE - Readers cannot spin on this lock.
-+ *  - Bit 2: RWSEM_WR_NONSPINNABLE - Writers cannot spin on this lock.
-  *
-- * When the rwsem is reader-owned and a spinning writer has timed out,
-- * the nonspinnable bit will be set to disable optimistic spinning.
-+ * When the rwsem is either owned by an anonymous writer, or it is
-+ * reader-owned, but a spinning writer has timed out, both nonspinnable
-+ * bits will be set to disable optimistic spinning by readers and writers.
-+ * In the later case, the last unlocking reader should then check the
-+ * writer nonspinnable bit and clear it only to give writers preference
-+ * to acquire the lock via optimistic spinning, but not readers. Similar
-+ * action is also done in the reader slowpath.
- 
-  * When a writer acquires a rwsem, it puts its task_struct pointer
-  * into the owner field. It is cleared after an unlock.
-@@ -59,9 +65,47 @@
-  * is previously owned by a writer and the following conditions are met:
-  *  - rwsem is not currently writer owned
-  *  - the handoff isn't set.
-+ *
-+ * Reader optimistic spinning is helpful when the reader critical section
-+ * is short and there aren't that many readers around. It makes readers
-+ * relatively more preferred than writers. When a writer times out spinning
-+ * on a reader-owned lock and set the nospinnable bits, there are two main
-+ * reasons for that.
-+ *
-+ *  1) The reader critical section is long, perhaps the task sleeps after
-+ *     acquiring the read lock.
-+ *  2) There are just too many readers contending the lock causing it to
-+ *     take a while to service all of them.
-+ *
-+ * In the former case, long reader critical section will impede the progress
-+ * of writers which is usually more important for system performance. In
-+ * the later case, reader optimistic spinning tends to make the reader
-+ * groups that contain readers that acquire the lock together smaller
-+ * leading to more of them. That may hurt performance in some cases. In
-+ * other words, the setting of nonspinnable bits indicates that reader
-+ * optimistic spinning may not be helpful for those workloads that cause
-+ * it.
-+ *
-+ * Therefore, any writers that had observed the setting of the writer
-+ * nonspinnable bit for a given rwsem after they fail to acquire the lock
-+ * via optimistic spinning will set the reader nonspinnable bit once they
-+ * acquire the write lock. Similarly, readers that observe the setting
-+ * of reader nonspinnable bit at slowpath entry will set the reader
-+ * nonspinnable bits when they acquire the read lock via the wakeup path.
-+ *
-+ * Once the reader nonspinnable bit is on, it will only be reset when
-+ * a writer is able to acquire the rwsem in the fast path or somehow a
-+ * reader or writer in the slowpath doesn't observe the nonspinable bit.
-+ *
-+ * This is to discourage reader optmistic spinning on that particular
-+ * rwsem and make writers more preferred. This adaptive disabling of reader
-+ * optimistic spinning will alleviate the negative side effect of this
-+ * feature.
-  */
- #define RWSEM_READER_OWNED	(1UL << 0)
--#define RWSEM_NONSPINNABLE	(1UL << 1)
-+#define RWSEM_RD_NONSPINNABLE	(1UL << 1)
-+#define RWSEM_WR_NONSPINNABLE	(1UL << 2)
-+#define RWSEM_NONSPINNABLE	(RWSEM_RD_NONSPINNABLE | RWSEM_WR_NONSPINNABLE)
- #define RWSEM_OWNER_FLAGS_MASK	(RWSEM_READER_OWNED | RWSEM_NONSPINNABLE)
- 
- #ifdef CONFIG_DEBUG_RWSEMS
-@@ -78,6 +122,20 @@
- # define DEBUG_RWSEMS_WARN_ON(c, sem)
- #endif
- 
-+DEFINE_STATIC_KEY_FALSE(rwsem_rspin_enabled);
-+static int __ro_after_init rwsem_rspin_maxcpus = 8;
++.. include:: ../disclaimer-zh_CN.rst
 +
-+static int __init parse_rwsem_param(char *arg)
-+{
-+	int val;
++:Original: Documentation/dev-tools/kmemleak.rst
++:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
 +
-+	if (get_option(&arg, &val))
-+		rwsem_rspin_maxcpus = val;
++内核内存泄露检测器
++==================
 +
-+	return 0;
-+}
-+early_param("rwsem.rspin_maxcpus", parse_rwsem_param);
++Kmemleak 提供了一个类似 `可追踪的垃圾收集器 <https://en.wikipedia.org/wiki/Tra
++cing_garbage_collection>`_ 的方法来检测可能的内核内存泄漏，不同的是孤立对象不会
++被释放，而是仅通过 /sys/kernel/debug/kmemleak 报告。Valgrind 工具
++（``memcheck --leak-check``）使用了一种相似的方法来检测用户空间应用中的内存泄
++露。
 +
- /*
-  * On 64-bit architectures, the bit definitions of the count are:
-  *
-@@ -171,7 +229,7 @@ static inline void __rwsem_set_reader_owned(struct rw_semaphore *sem,
- 					    struct task_struct *owner)
- {
- 	unsigned long val = (unsigned long)owner | RWSEM_READER_OWNED |
--		(atomic_long_read(&sem->owner) & RWSEM_NONSPINNABLE);
-+		(atomic_long_read(&sem->owner) & RWSEM_RD_NONSPINNABLE);
- 
- 	atomic_long_set(&sem->owner, val);
- }
-@@ -341,6 +399,7 @@ struct rwsem_waiter {
- 	enum rwsem_waiter_type type;
- 	unsigned long timeout;
- 	bool handoff_set;
-+	unsigned long last_rowner;
- };
- #define rwsem_first_waiter(sem) \
- 	list_first_entry(&sem->wait_list, struct rwsem_waiter, list)
-@@ -480,6 +539,10 @@ static void rwsem_mark_wake(struct rw_semaphore *sem,
- 		 * the reader is copied over.
- 		 */
- 		owner = waiter->task;
-+		if (waiter->last_rowner & RWSEM_RD_NONSPINNABLE) {
-+			owner = (void *)((unsigned long)owner | RWSEM_RD_NONSPINNABLE);
-+			lockevent_inc(rwsem_opt_norspin);
-+		}
- 		__rwsem_set_reader_owned(sem, owner);
- 	}
- 
-@@ -684,6 +747,30 @@ enum owner_state {
- };
- 
- #ifdef CONFIG_RWSEM_SPIN_ON_OWNER
-+/*
-+ * Try to acquire read lock before the reader is put on wait queue.
-+ * Lock acquisition isn't allowed if the rwsem is locked or a writer handoff
-+ * is ongoing.
-+ */
-+static inline bool rwsem_try_read_lock_unqueued(struct rw_semaphore *sem)
-+{
-+	long count = atomic_long_read(&sem->count);
++用法
++----
 +
-+	if (count & (RWSEM_WRITER_MASK | RWSEM_FLAG_HANDOFF))
-+		return false;
++"Kernel hacking" 中的 CONFIG_DEBUG_KMEMLEAK 必须被启用。一个内核线程每10分钟
++（默认情况下）扫描一次内存，并且打印出新发现的未被引用的对象个数。
++如果 ``debugfs`` 没有挂载，则执行::
 +
-+	count = atomic_long_fetch_add_acquire(RWSEM_READER_BIAS, &sem->count);
-+	if (!(count & (RWSEM_WRITER_MASK | RWSEM_FLAG_HANDOFF))) {
-+		rwsem_set_reader_owned(sem);
-+		lockevent_inc(rwsem_opt_rlock);
-+		return true;
-+	}
++   # mount -t debugfs nodev /sys/kernel/debug/
 +
-+	/* Back out the change */
-+	atomic_long_add(-RWSEM_READER_BIAS, &sem->count);
-+	return false;
-+}
++显示所有扫描出的可能的内存泄漏的细节信息::
 +
- /*
-  * Try to acquire write lock before the writer has been put on wait queue.
-  */
-@@ -695,14 +782,15 @@ static inline bool rwsem_try_write_lock_unqueued(struct rw_semaphore *sem)
- 		if (atomic_long_try_cmpxchg_acquire(&sem->count, &count,
- 					count | RWSEM_WRITER_LOCKED)) {
- 			rwsem_set_owner(sem);
--			lockevent_inc(rwsem_opt_lock);
-+			lockevent_inc(rwsem_opt_wlock);
- 			return true;
- 		}
- 	}
- 	return false;
- }
- 
--static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem)
-+static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem,
-+					   unsigned long nonspinnable)
- {
- 	struct task_struct *owner;
- 	unsigned long flags;
-@@ -721,7 +809,7 @@ static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem)
- 	/*
- 	 * Don't check the read-owner as the entry may be stale.
- 	 */
--	if ((flags & RWSEM_NONSPINNABLE) ||
-+	if ((flags & nonspinnable) ||
- 	    (owner && !(flags & RWSEM_READER_OWNED) && !owner_on_cpu(owner)))
- 		ret = false;
- 
-@@ -732,9 +820,9 @@ static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem)
- #define OWNER_SPINNABLE		(OWNER_NULL | OWNER_WRITER | OWNER_READER)
- 
- static inline enum owner_state
--rwsem_owner_state(struct task_struct *owner, unsigned long flags)
-+rwsem_owner_state(struct task_struct *owner, unsigned long flags, unsigned long nonspinnable)
- {
--	if (flags & RWSEM_NONSPINNABLE)
-+	if (flags & nonspinnable)
- 		return OWNER_NONSPINNABLE;
- 
- 	if (flags & RWSEM_READER_OWNED)
-@@ -744,7 +832,7 @@ rwsem_owner_state(struct task_struct *owner, unsigned long flags)
- }
- 
- static noinline enum owner_state
--rwsem_spin_on_owner(struct rw_semaphore *sem)
-+rwsem_spin_on_owner(struct rw_semaphore *sem, unsigned long nonspinnable)
- {
- 	struct task_struct *new, *owner;
- 	unsigned long flags, new_flags;
-@@ -753,7 +841,7 @@ rwsem_spin_on_owner(struct rw_semaphore *sem)
- 	lockdep_assert_preemption_disabled();
- 
- 	owner = rwsem_owner_flags(sem, &flags);
--	state = rwsem_owner_state(owner, flags);
-+	state = rwsem_owner_state(owner, flags, nonspinnable);
- 	if (state != OWNER_WRITER)
- 		return state;
- 
-@@ -766,7 +854,7 @@ rwsem_spin_on_owner(struct rw_semaphore *sem)
- 		 */
- 		new = rwsem_owner_flags(sem, &new_flags);
- 		if ((new != owner) || (new_flags != flags)) {
--			state = rwsem_owner_state(new, new_flags);
-+			state = rwsem_owner_state(new, new_flags, nonspinnable);
- 			break;
- 		}
- 
-@@ -816,12 +904,14 @@ static inline u64 rwsem_rspin_threshold(struct rw_semaphore *sem)
- 	return sched_clock() + delta;
- }
- 
--static bool rwsem_optimistic_spin(struct rw_semaphore *sem)
-+static bool rwsem_optimistic_spin(struct rw_semaphore *sem, bool wlock)
- {
- 	bool taken = false;
- 	int prev_owner_state = OWNER_NULL;
- 	int loop = 0;
- 	u64 rspin_threshold = 0;
-+	unsigned long nonspinnable = wlock ? RWSEM_WR_NONSPINNABLE
-+					   : RWSEM_RD_NONSPINNABLE;
- 
- 	/* sem->wait_lock should not be held when doing optimistic spinning */
- 	if (!osq_lock(&sem->osq))
-@@ -836,14 +926,15 @@ static bool rwsem_optimistic_spin(struct rw_semaphore *sem)
- 	for (;;) {
- 		enum owner_state owner_state;
- 
--		owner_state = rwsem_spin_on_owner(sem);
-+		owner_state = rwsem_spin_on_owner(sem, nonspinnable);
- 		if (!(owner_state & OWNER_SPINNABLE))
- 			break;
- 
- 		/*
- 		 * Try to acquire the lock
- 		 */
--		taken = rwsem_try_write_lock_unqueued(sem);
-+		taken = wlock ? rwsem_try_write_lock_unqueued(sem)
-+			      : rwsem_try_read_lock_unqueued(sem);
- 
- 		if (taken)
- 			break;
-@@ -851,7 +942,7 @@ static bool rwsem_optimistic_spin(struct rw_semaphore *sem)
- 		/*
- 		 * Time-based reader-owned rwsem optimistic spinning
- 		 */
--		if (owner_state == OWNER_READER) {
-+		if (wlock && (owner_state == OWNER_READER)) {
- 			/*
- 			 * Re-initialize rspin_threshold every time when
- 			 * the owner state changes from non-reader to reader.
-@@ -860,7 +951,7 @@ static bool rwsem_optimistic_spin(struct rw_semaphore *sem)
- 			 * the beginning of the 2nd reader phase.
- 			 */
- 			if (prev_owner_state != OWNER_READER) {
--				if (rwsem_test_oflags(sem, RWSEM_NONSPINNABLE))
-+				if (rwsem_test_oflags(sem, nonspinnable))
- 					break;
- 				rspin_threshold = rwsem_rspin_threshold(sem);
- 				loop = 0;
-@@ -935,30 +1026,89 @@ static bool rwsem_optimistic_spin(struct rw_semaphore *sem)
- }
- 
- /*
-- * Clear the owner's RWSEM_NONSPINNABLE bit if it is set. This should
-+ * Clear the owner's RWSEM_WR_NONSPINNABLE bit if it is set. This should
-  * only be called when the reader count reaches 0.
-+ *
-+ * This give writers better chance to acquire the rwsem first before
-+ * readers when the rwsem was being held by readers for a relatively long
-+ * period of time. Race can happen that an optimistic spinner may have
-+ * just stolen the rwsem and set the owner, but just clearing the
-+ * RWSEM_WR_NONSPINNABLE bit will do no harm anyway.
-  */
--static inline void clear_nonspinnable(struct rw_semaphore *sem)
-+static inline void clear_wr_nonspinnable(struct rw_semaphore *sem)
- {
--	if (unlikely(rwsem_test_oflags(sem, RWSEM_NONSPINNABLE)))
--		atomic_long_andnot(RWSEM_NONSPINNABLE, &sem->owner);
-+	if (unlikely(rwsem_test_oflags(sem, RWSEM_WR_NONSPINNABLE)))
-+		atomic_long_andnot(RWSEM_WR_NONSPINNABLE, &sem->owner);
-+}
++   # cat /sys/kernel/debug/kmemleak
 +
-+/*
-+ * This function is called when the reader fails to acquire the lock via
-+ * optimistic spinning. In this case we will still attempt to do a trylock
-+ * when comparing the rwsem state right now with the state when entering
-+ * the slowpath indicates that the reader is still in a valid reader phase.
-+ * This happens when the following conditions are true:
-+ *
-+ * 1) The lock is currently reader owned, and
-+ * 2) The lock is previously not reader-owned or the last read owner changes.
-+ *
-+ * In the former case, we have transitioned from a writer phase to a
-+ * reader-phase while spinning. In the latter case, it means the reader
-+ * phase hasn't ended when we entered the optimistic spinning loop. In
-+ * both cases, the reader is eligible to acquire the lock. This is the
-+ * secondary path where a read lock is acquired optimistically.
-+ *
-+ * The reader non-spinnable bit wasn't set at time of entry or it will
-+ * not be here at all.
-+ */
-+static inline bool rwsem_reader_phase_trylock(struct rw_semaphore *sem,
-+					      unsigned long last_rowner)
-+{
-+	unsigned long owner = atomic_long_read(&sem->owner);
++启动一次中等程度的内存扫描::
 +
-+	if (!(owner & RWSEM_READER_OWNED))
-+		return false;
++   # echo scan > /sys/kernel/debug/kmemleak
 +
-+	if (((owner ^ last_rowner) & ~RWSEM_OWNER_FLAGS_MASK) &&
-+	    rwsem_try_read_lock_unqueued(sem)) {
-+		lockevent_inc(rwsem_opt_rlock2);
-+		lockevent_add(rwsem_opt_fail, -1);
-+		return true;
-+	}
-+	return false;
-+}
++清空当前所有可能的内存泄露列表::
 +
-+static inline bool rwsem_no_spinners(struct rw_semaphore *sem)
-+{
-+	return !osq_is_locked(&sem->osq);
- }
- 
- #else
--static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem)
-+static inline bool rwsem_can_spin_on_owner(struct rw_semaphore *sem,
-+					   unsigned long nonspinnable)
- {
- 	return false;
- }
- 
--static inline bool rwsem_optimistic_spin(struct rw_semaphore *sem)
-+static inline bool rwsem_optimistic_spin(struct rw_semaphore *sem, bool wlock)
- {
- 	return false;
- }
- 
--static inline void clear_nonspinnable(struct rw_semaphore *sem) { }
-+static inline void clear_wr_nonspinnable(struct rw_semaphore *sem) { }
++   # echo clear > /sys/kernel/debug/kmemleak
 +
-+static inline bool rwsem_reader_phase_trylock(struct rw_semaphore *sem,
-+					      unsigned long last_rowner)
-+{
-+	return false;
-+}
++当再次读取 ``/sys/kernel/debug/kmemleak`` 文件时，将会输出自上次扫描以来检测到的
++新的内存泄露。
 +
-+static inline bool rwsem_no_spinners(struct rw_semaphore *sem)
-+{
-+	return false;
-+}
- 
- static inline enum owner_state
--rwsem_spin_on_owner(struct rw_semaphore *sem)
-+rwsem_spin_on_owner(struct rw_semaphore *sem, unsigned long nonspinnable)
- {
- 	return OWNER_NONSPINNABLE;
- }
-@@ -984,7 +1134,7 @@ static inline void rwsem_cond_wake_waiter(struct rw_semaphore *sem, long count,
- 		wake_type = RWSEM_WAKE_READERS;
- 	} else {
- 		wake_type = RWSEM_WAKE_ANY;
--		clear_nonspinnable(sem);
-+		clear_wr_nonspinnable(sem);
- 	}
- 	rwsem_mark_wake(sem, wake_type, wake_q);
- }
-@@ -995,32 +1145,64 @@ static inline void rwsem_cond_wake_waiter(struct rw_semaphore *sem, long count,
- static struct rw_semaphore __sched *
- rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int state)
- {
--	long adjustment = -RWSEM_READER_BIAS;
-+	long owner, adjustment = -RWSEM_READER_BIAS;
- 	long rcnt = (count >> RWSEM_READER_SHIFT);
- 	struct rwsem_waiter waiter;
- 	DEFINE_WAKE_Q(wake_q);
- 
- 	/*
- 	 * To prevent a constant stream of readers from starving a sleeping
--	 * writer, don't attempt optimistic lock stealing if the lock is
--	 * very likely owned by readers.
-+	 * waiter, don't attempt optimistic spinning if the lock is currently
-+	 * owned by readers.
- 	 */
--	if ((atomic_long_read(&sem->owner) & RWSEM_READER_OWNED) &&
--	    (rcnt > 1) && !(count & RWSEM_WRITER_LOCKED))
-+	owner = atomic_long_read(&sem->owner);
-+	if ((owner & RWSEM_READER_OWNED) && (rcnt > 1) &&
-+	   !(count & RWSEM_WRITER_LOCKED))
- 		goto queue;
- 
- 	/*
--	 * Reader optimistic lock stealing.
-+	 * Reader optimistic lock stealing
-+	 *
-+	 * We can take the read lock directly without doing
-+	 * rwsem_optimistic_spin() if the conditions are right.
-+	 * Also wake up other readers if it is the first reader.
- 	 */
--	if (!(count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF))) {
-+	if (!(count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF)) &&
-+	    rwsem_no_spinners(sem)) {
- 		rwsem_set_reader_owned(sem);
- 		lockevent_inc(rwsem_rlock_steal);
-+		if (rcnt == 1)
-+			goto wake_readers;
-+		return sem;
-+	}
++注意，孤立目标是通过被分配时间来排序的，列表开始的对象可能会导致后续的对象都被
++识别为孤立对象。
 +
-+	if (!static_branch_unlikely(&rwsem_rspin_enabled))
-+		goto queue;
++可以通过写入 ``/sys/kernel/debug/kmemleak`` 文件在运行时修改内存扫描参数。下面是
++支持的参数：
 +
-+	/*
-+	 * Save the current read-owner of rwsem, if available, and the
-+	 * reader nonspinnable bit.
-+	 */
-+	waiter.last_rowner = owner;
-+	if (!(waiter.last_rowner & RWSEM_READER_OWNED))
-+		waiter.last_rowner &= RWSEM_RD_NONSPINNABLE;
 +
-+	if (!rwsem_can_spin_on_owner(sem, RWSEM_RD_NONSPINNABLE))
-+		goto queue;
- 
-+	/*
-+	 * Undo read bias from down_read() and do optimistic spinning.
-+	 */
-+	atomic_long_add(-RWSEM_READER_BIAS, &sem->count);
-+	adjustment = 0;
-+	if (rwsem_optimistic_spin(sem, false)) {
-+		/* rwsem_optimistic_spin() implies ACQUIRE on success */
- 		/*
--		 * Wake up other readers in the wait queue if it is
--		 * the first reader.
-+		 * Wake up other readers in the wait list if the front
-+		 * waiter is a reader.
- 		 */
--		if ((rcnt == 1) && (count & RWSEM_FLAG_WAITERS)) {
-+wake_readers:
-+		if ((atomic_long_read(&sem->count) & RWSEM_FLAG_WAITERS)) {
- 			raw_spin_lock_irq(&sem->wait_lock);
- 			if (!list_empty(&sem->wait_list))
- 				rwsem_mark_wake(sem, RWSEM_WAKE_READ_OWNED,
-@@ -1029,6 +1211,9 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
- 			wake_up_q(&wake_q);
- 		}
- 		return sem;
-+	} else if (rwsem_reader_phase_trylock(sem, waiter.last_rowner)) {
-+		/* rwsem_reader_phase_trylock() implies ACQUIRE on success */
-+		return sem;
- 	}
- 
- queue:
-@@ -1045,7 +1230,7 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
- 		 * immediately as its RWSEM_READER_BIAS has already been set
- 		 * in the count.
- 		 */
--		if (!(atomic_long_read(&sem->count) & RWSEM_WRITER_MASK)) {
-+		if (adjustment && !(atomic_long_read(&sem->count) & RWSEM_WRITER_MASK)) {
- 			/* Provide lock ACQUIRE */
- 			smp_acquire__after_ctrl_dep();
- 			raw_spin_unlock_irq(&sem->wait_lock);
-@@ -1058,7 +1243,10 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
- 	rwsem_add_waiter(sem, &waiter);
- 
- 	/* we're now waiting on the lock, but no longer actively locking */
--	count = atomic_long_add_return(adjustment, &sem->count);
-+	if (adjustment)
-+		count = atomic_long_add_return(adjustment, &sem->count);
-+	else
-+		count = atomic_long_read(&sem->count);
- 
- 	rwsem_cond_wake_waiter(sem, count, &wake_q);
- 	raw_spin_unlock_irq(&sem->wait_lock);
-@@ -1100,21 +1288,43 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
- 	return ERR_PTR(-EINTR);
- }
- 
-+/*
-+ * This function is called by the a write lock owner. So the owner value
-+ * won't get changed by others.
-+ */
-+static inline void rwsem_disable_reader_optspin(struct rw_semaphore *sem,
-+						bool disable)
-+{
-+	if (unlikely(disable)) {
-+		atomic_long_or(RWSEM_RD_NONSPINNABLE, &sem->owner);
-+		lockevent_inc(rwsem_opt_norspin);
-+	}
-+}
++* off
++    禁用 kmemleak（不可逆）
++* stack=on
++    开启任务栈扫描（默认）
++* stack=off
++    禁用任务栈扫描
++* scan=on
++    开启自动内存扫描线程（默认）
++* scan=off
++    关闭自动内存扫描线程
++* scan=<secs>;
++    设定自动内存扫描间隔，以秒为单位（默认值为 600，设置为 0 表示停
++    止自动扫描）
++* scan
++    触发一次内存扫描
++* clear
++    通过标记所有当前已报告的未被引用对象为灰，从而清空当前可能的内存泄露列
++    表；如果 kmemleak 被禁用，则释放所有 kmemleak 对象，。
++* dump=<addr>
++    输出存储在 <addr> 中的对象信息
 +
- /*
-  * Wait until we successfully acquire the write lock
-  */
- static struct rw_semaphore __sched *
- rwsem_down_write_slowpath(struct rw_semaphore *sem, int state)
- {
-+	bool disable_rspin;
- 	struct rwsem_waiter waiter;
- 	DEFINE_WAKE_Q(wake_q);
- 
- 	/* do optimistic spinning and steal lock if possible */
--	if (rwsem_can_spin_on_owner(sem) && rwsem_optimistic_spin(sem)) {
-+	if (rwsem_can_spin_on_owner(sem, RWSEM_WR_NONSPINNABLE) &&
-+	    rwsem_optimistic_spin(sem, true)) {
- 		/* rwsem_optimistic_spin() implies ACQUIRE on success */
- 		return sem;
- 	}
- 
-+	/*
-+	 * Disable reader optimistic spinning for this rwsem after
-+	 * acquiring the write lock when the setting of the nonspinnable
-+	 * bits are observed.
-+	 */
-+	disable_rspin = atomic_long_read(&sem->owner) & RWSEM_NONSPINNABLE;
++可以通过在内核命令行中传递 ``kmemleak=off`` 参数从而在启动时禁用 Kmemleak。
 +
- 	/*
- 	 * Optimistic spinning failed, proceed to the slowpath
- 	 * and block until we can acquire the sem.
-@@ -1170,7 +1380,7 @@ rwsem_down_write_slowpath(struct rw_semaphore *sem, int state)
- 		if (waiter.handoff_set) {
- 			enum owner_state owner_state;
- 
--			owner_state = rwsem_spin_on_owner(sem);
-+			owner_state = rwsem_spin_on_owner(sem, RWSEM_NONSPINNABLE);
- 			if (owner_state == OWNER_NULL)
- 				goto trylock_again;
- 		}
-@@ -1182,6 +1392,7 @@ rwsem_down_write_slowpath(struct rw_semaphore *sem, int state)
- 		raw_spin_lock_irq(&sem->wait_lock);
- 	}
- 	__set_current_state(TASK_RUNNING);
-+	rwsem_disable_reader_optspin(sem, disable_rspin);
- 	raw_spin_unlock_irq(&sem->wait_lock);
- 	lockevent_inc(rwsem_wlock);
- 	trace_contention_end(sem, 0);
-@@ -1348,7 +1559,7 @@ static inline void __up_read(struct rw_semaphore *sem)
- 	DEBUG_RWSEMS_WARN_ON(tmp < 0, sem);
- 	if (unlikely((tmp & (RWSEM_LOCK_MASK|RWSEM_FLAG_WAITERS)) ==
- 		      RWSEM_FLAG_WAITERS)) {
--		clear_nonspinnable(sem);
-+		clear_wr_nonspinnable(sem);
- 		rwsem_wake(sem);
- 	}
- 	preempt_enable();
-@@ -1720,3 +1931,14 @@ void up_read_non_owner(struct rw_semaphore *sem)
- EXPORT_SYMBOL(up_read_non_owner);
- 
- #endif
++在 kmemleak 初始化之前就可能会有内存分配或释放，这些操作被存储在一个早期日志缓
++冲区中。缓冲区的大小通过 CONFIG_DEBUG_KMEMLEAK_MEM_POOL_SIZE 选项配置。
 +
-+static int __init rwsem_init(void)
-+{
-+	if (num_possible_cpus() <= rwsem_rspin_maxcpus) {
-+		static_branch_enable(&rwsem_rspin_enabled);
-+		pr_info("rwsem: reader optimistic spinning enabled\n");
-+	}
++如果 CONFIG_DEBUG_KMEMLEAK_DEFAULT_OFF 被启用，则 kmemleak 默认被禁用。在内核命
++令行中传递 ``kmemleak=on`` 参数来开启这个功能。
 +
-+	return 0;
-+}
-+core_initcall(rwsem_init);
++如果出现 "Error while writing to stdout" 或 "write_loop: Invalid argument" 这样
++的错误，请确认 kmemleak 被正确启用。
++
++基础算法
++--------
++
++通过 :c:func:`kmalloc`, :c:func:`vmalloc`, :c:func:`kmem_cache_alloc` 以及同类
++函数均被跟踪，指针，包括一些额外的信息如大小和栈追踪等，都被存储在红黑树中。
++对应的释放函数调用也被追踪，并从 kmemleak 数据结构中移除相应指针。
++
++对于一个已分配的内存块，如果通过扫描内存（包括保存寄存器）没有发现任何指针指向
++它的起始地址或者其中的任何位置，则认为这块内存是孤立的。这意味着内核无法将该内
++存块的地址传递给一个释放内存函数，这块内存便被认为泄露了。
++
++扫描算法步骤：
++
++   1. 标记所有对象为白色（最后剩下的白色对象被认为是孤立的）
++   2. 从数据节和栈开始扫描内存，检测每个值是否是红黑树中存储的地址。如果一个指向
++      白色对象的指针被检测到，则将该对象标记为灰色。
++   3. 扫描灰色对象引用的其他对象（有些白色对象可能会变为灰色并被添加到灰名单末尾
++      ）直到灰名单为空。
++   4. 剩余的白色对象就被认为是孤立的并通过 /sys/kernel/debug/kmemleak 报告。
++
++有些指向已分配的内存块的指针存储在内核内部的数据结构中，它们不能被检测为孤立。
++为了避免这种情况，kmemleak 也存储了指向需要被查找的内存块范围内的任意地址的地址
++数量，如此一来这些内存便不会被认为泄露。一个例子是 __vmalloc()。
++
++用 kmemleak 测试特定部分
++------------------------
++
++在初始化启动阶段 /sys/kernel/debug/kmemleak 的输出可能会很多，这也可能是你在开发
++时编写的漏洞百出的代码导致的。为了解决这种情况你可以使用 'clear' 命令来清除
++/sys/kernel/debug/kmemleak 输出的所有的未引用对象。在执行 'clear' 后执行 'scan'
++可以发现新的未引用对象，这将会有利你测试代码的特定部分。
++
++为了用一个空的 kmemleak 测试一个特定部分，执行::
++
++   # echo clear > /sys/kernel/debug/kmemleak
++   ... 测试你的内核或者模块 ...
++   # echo scan > /sys/kernel/debug/kmemleak
++
++然后像平常一样获得报告::
++
++   # cat /sys/kernel/debug/kmemleak
++
++释放 kmemleak 内核对象
++----------------------
++
++为了允许访问先前发现的内存泄露，当用户禁用或发生致命错误导致 kmemleak
++被禁用时，内核中的 kmemleak 对象不会被释放。这些对象可能会占用很大
++一部分物理内存。
++
++在这种情况下，你可以用如下命令回收这些内存::
++
++   # echo clear > /sys/kernel/debug/kmemleak
++
++Kmemleak API
++------------
++
++在 include/linux/kmemleak.h 头文件中查看函数原型：
++
++- ``kmemleak_init`` - 初始化 kmemleak
++- ``kmemleak_alloc`` - 通知一个内存块的分配
++- ``kmemleak_alloc_percpu`` - 通知一个 percpu 类型的内存分配
++- ``kmemleak_vmalloc`` - 通知一个使用 vmalloc() 的内存分配
++- ``kmemleak_free`` - 通知一个内存块的释放
++- ``kmemleak_free_part`` - 通知一个部分的内存释放
++- ``kmemleak_free_percpu`` - 通知一个 percpu 类型的内存释放
++- ``kmemleak_update_trace`` - 更新分配对象过程的栈追踪
++- ``kmemleak_not_leak`` - 标记一个对象内存为未泄露的
++- ``kmemleak_ignore`` - 不要扫描或报告某个对象未泄露的
++- ``kmemleak_scan_area`` - 在内存块中添加扫描区域
++- ``kmemleak_no_scan`` - 不扫描某个内存块
++- ``kmemleak_erase`` - 在指针变量中移除某个旧的值
++- ``kmemleak_alloc_recursive`` - 和 kmemleak_alloc 效果相同但会检查是否有递归的
++   内存分配
++- ``kmemleak_free_recursive`` - 和 kmemleak_free 效果相同但会检查是否有递归的
++   内存释放
++
++下列函数使用一个物理地址作为对象指针并且只在地址有一个 lowmem 映射时做出相应的
++行为：
++
++- ``kmemleak_alloc_phys``
++- ``kmemleak_free_part_phys``
++- ``kmemleak_ignore_phys``
++
++解决假阳性/假阴性
++-----------------
++
++假阴性是指由于在内存扫描中有值指向该对象导致 kmemleak 没有报告的实际存在的内存
++泄露（孤立对象）。为了减少假阴性的出现次数，kmemleak 提供了 kmemleak_ignore，
++kmemleak_scan_area，kmemleak_no_scan 和 kmemleak_erase 函数（见上）。
++任务栈也会增加假阴性的数量并且默认不开启对它们的扫描。
++
++假阳性是对象被误报为内存泄露（孤立对象）。对于已知未泄露的对象，kmemleak
++提供了 kmemleak_not_leak 函数。同时 kmemleak_ignore 可以用于标记已知不包含任何
++其他指针的内存块，标记后该内存块不会再被扫描。
++
++一些被报告的泄露仅仅是暂时的，尤其是在 SMP（对称多处理）系统中，因为其指针
++暂存在 CPU 寄存器或栈中。Kmemleak 定义了 MSECS_MIN_AGE（默认值为 1000）
++来表示一个被报告为内存泄露的对象的最小存活时间。
++
++限制和缺点
++----------
++
++主要的缺点是内存分配和释放的性能下降。为了避免其他的损失，只有当
++/sys/kernel/debug/kmemleak 文件被读取时才会进行内存扫描。无论如何，这个工具是出于
++调试的目标，性能表现可能不是最重要的。
++
++为了保持算法简单，kmemleak 寻找指向某个内存块范围中的任何值。这可能会引发假阴性
++现象的出现。但是，最后一个真正的内存泄露也会变得明显。
++
++非指针值的数据是假阴性的另一个来源。在将来的版本中，kmemleak 仅仅会扫
++描已分配结构体中的指针成员。这个特性会解决上述很多的假阴性情况。
++
++Kmemleak 会报告假阳性。这可能发生在某些被分配的内存块不需要被释放的情况下
++（某些 init_call 函数中），指针的计算是通过其他方法而不是常规的 container_of 宏
++或是指针被存储在 kmemleak 没有扫描的地方。
++
++页分配和 ioremap 不会被追踪。
++
++使用 kmemleak-test 测试
++-----------------------
++
++为了检测是否成功启用了 kmemleak，你可以使用一个故意制造内存泄露的模块
++kmemleak-test。设置 CONFIG_SAMPLE_KMEMLEAK 为模块（不能作为内建模块使用）
++并且启动启用了 kmemleak 的内核。加载模块并执行一次扫描::
++
++   # modprobe kmemleak-test
++   # echo scan > /sys/kernel/debug/kmemleak
++
++注意你可能无法立刻或在第一次扫描后得到结果。当 kmemleak 得到结果，将会输出日
++志 ``kmemleak: <count of leaks> new suspected memory leaks`` 。然后通过读取文件
++获取信息::
++
++   # cat /sys/kernel/debug/kmemleak
++   unreferenced object 0xffff89862ca702e8 (size 32):
++     comm "modprobe", pid 2088, jiffies 4294680594 (age 375.486s)
++     hex dump (first 32 bytes):
++       6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b  kkkkkkkkkkkkkkkk
++       6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b 6b a5  kkkkkkkkkkkkkkk.
++     backtrace:
++       [<00000000e0a73ec7>] 0xffffffffc01d2036
++       [<000000000c5d2a46>] do_one_initcall+0x41/0x1df
++       [<0000000046db7e0a>] do_init_module+0x55/0x200
++       [<00000000542b9814>] load_module+0x203c/0x2480
++       [<00000000c2850256>] __do_sys_finit_module+0xba/0xe0
++       [<000000006564e7ef>] do_syscall_64+0x43/0x110
++       [<000000007c873fa6>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
++   ...
++
++用 ``rmmod kmemleak_test`` 移除模块时也会触发
++kmemleak 的结果输出。
 -- 
-2.36.1
+2.25.1
 
