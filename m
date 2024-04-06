@@ -1,214 +1,301 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97B518C1F;
-	Sat,  6 Apr 2024 19:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430C038389;
+	Sat,  6 Apr 2024 21:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712432249; cv=none; b=bRGBs2doIQTLYKPY9RVZg0mOxs05DeF90po+6FZFOtrGg4xJBQbFEUoERFdCkfKlfTENzMSQoa+OPbQguq0JcNWk4L2zdl3JOETy/JvZ6Q1OWv5t9q91AOZ3F3G3QeMkhdPYUCxhQnpsH6T/PXpU0WfglGGA7z6L/XdxLIDRJs0=
+	t=1712439445; cv=none; b=rOOAqz1a9GmBKyrnApJPFEGTQ07+kMa2iKIlryGHDliDHWzKM793Y/21wrz+5BdVDIquR1w0PuhBLNKsajXYizJ2nz9zn5cz9ytw24c5miybeSzf5rqpkbzlqvYg3mSF8MAu9mnAccw81FCkYwkrwYKK6fPTGhv3Bcz51Mb34JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712432249; c=relaxed/simple;
-	bh=1yTZEU/vJ9V2y1oczGyBe2jTqiaJrhR2iH2mxRx3bDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Himnn4sGbZSttw5iViLrFZWkTFW19DncdVDx6s8TCZZKo/0M9g8sboHmRZ/xBKPgQJxMSA9X1LTaYz+AOXaqag6WaEWYL20ztKOA6rtCA0CW8W1KSvd+ZZYBjBAK6UncB+eLNmgzsmcdHl9lV60lIwjgmXiVHxVEwP594TpW8nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UdzQFQX5; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1712439445; c=relaxed/simple;
+	bh=EtEAijm9uw1TWIb7s9qNwCRb3mIKCqYyJPbwcSFUuAA=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=LNX2lHU7zQpVenbW5qSU4de5mSxEWWecX7ipc+NmtsxbYyEwE8HJfxFHGuaKvC949IMnP6qy2YkUCB94AbxpvjhWbAWuG3wzj0gwO7vILInAsHzZi9lo3HJelS8/NcjRYOXS74y7qeYgV89bzVCFogPYf//DxpCBasfy3bU+y1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TkXSICni; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UdzQFQX5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1CE9820004;
-	Sat,  6 Apr 2024 19:37:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712432237;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FMOotppbw75EKHyjwTmpQRZSaQ2VgCtSbhNhN302GVw=;
-	b=UdzQFQX5ibpVLlHAcPf9Ypzu2EbOUUi7Wo62tQqki8HQ9pXyvkSrxloO6B0P1jh0fIKyyh
-	YgC1ay1ENafKx0rOOBvioAMHmgDM/7RQlOBuTwY4nIibUPXaWyeaQK3+6d+NZ9sgewUjQR
-	5gCEhPYMpcw1sUQWYTCd3HcSanhx8Qpv5gkjdoQKWxUJ8BK+R8wWalZULmHyDxLNPg1VMk
-	OF7YbjEMI/vauLqAw/XEuXi7FbROB/zKBaZb/VpV3RWPAnjfQGmC3EGiBxs/JlKSuA3Pvo
-	vl+XO+ph8EFKa82E5XWW6K7v+CsNeXSkBzz6nzeEq4DA1CG0r7D3zmQiJSK1iw==
-Date: Sat, 6 Apr 2024 21:37:14 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v6 11/17] dt-bindings: net: pse-pd: Add another
- way of describing several PSE PIs
-Message-ID: <20240406213714.0ae64623@kmaincent-XPS-13-7390>
-In-Reply-To: <20240404103854.29ef418c@kmaincent-XPS-13-7390>
-References: <20240326-feature_poe-v6-0-c1011b6ea1cb@bootlin.com>
-	<20240326-feature_poe-v6-11-c1011b6ea1cb@bootlin.com>
-	<20240402132637.GA3744978-robh@kernel.org>
-	<20240403111548.30e780b5@kmaincent-XPS-13-7390>
-	<20240403143142.GA3508225-robh@kernel.org>
-	<20240404103854.29ef418c@kmaincent-XPS-13-7390>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TkXSICni"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1712439441;
+	bh=EtEAijm9uw1TWIb7s9qNwCRb3mIKCqYyJPbwcSFUuAA=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=TkXSICniY6CWWM/OTWLRuNCDbbGcZsFf2LZBopnkGc1ZLw/nXCV7Us/RMrRyoGh2m
+	 vyZw4qpT2hom2ufj1Ek9n3G6IQJvDdd1zxEYYpFTeYcT8/2ivwazjeh85KCXuXCJCH
+	 M/m1EZyW4/ovbzoRj12A3vkQtTaBSRS9mKtK2E5SmqOb09ihQ6L4LIjY9564ej4+q2
+	 QAkg2qPRPsbZqPs7daMA5cI38zsFBo4FrXFyAlre7biAjWtW9lCxveAj8XQt1c1pFx
+	 50qb1bnom1P5OeMM4Sx+q88asJ9gy4bjXIgoi4KRLuGo2dXaERN9rPYyqwSL9kJPMA
+	 CqVPmsSvKsN6Q==
+Received: from [100.113.15.66] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 70F1E37809CE;
+	Sat,  6 Apr 2024 21:37:13 +0000 (UTC)
+Message-ID: <a45c2ece-acb4-4cff-9d53-f5c007c9b905@collabora.com>
+Date: Sun, 7 Apr 2024 02:37:44 +0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>
+Subject: Re: [RFC PATCH v3 6/9] selftests: cgroup: Add basic tests for pids
+ controller
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20240405170548.15234-1-mkoutny@suse.com>
+ <20240405170548.15234-7-mkoutny@suse.com>
+Content-Language: en-US
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <20240405170548.15234-7-mkoutny@suse.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Thu, 4 Apr 2024 10:38:54 +0200
-Kory Maincent <kory.maincent@bootlin.com> wrote:
+On 4/5/24 10:05 PM, Michal Koutný wrote:
+> This commit adds (and wires in) new test program for checking basic pids
+> controller functionality -- restricting tasks in a cgroup and correct
+> event counting.
+> 
+> Signed-off-by: Michal Koutný <mkoutny@suse.com>
+> ---
+>  tools/testing/selftests/cgroup/Makefile    |   2 +
+>  tools/testing/selftests/cgroup/test_pids.c | 187 +++++++++++++++++++++
+Please create/add test_pid to .gitignore file.
 
-> On Wed, 3 Apr 2024 09:31:42 -0500
-> Rob Herring <robh@kernel.org> wrote:
->=20
-> > On Wed, Apr 03, 2024 at 11:15:48AM +0200, Kory Maincent wrote: =20
-> > > On Tue, 2 Apr 2024 08:26:37 -0500
-> > > Rob Herring <robh@kernel.org> wrote:
-> > >    =20
-> > > > > +          pairset-names:
-> > > > > +            $ref: /schemas/types.yaml#/definitions/string-array
-> > > > > +            description:
-> > > > > +              Names of the pairsets as per IEEE 802.3-2022, Sect=
-ion
-> > > > > 145.2.4.
-> > > > > +              Valid values are "alternative-a" and "alternative-=
-b".
-> > > > > Each name     =20
-> > > >=20
-> > > > Don't state constraints in prose which are defined as schema=20
-> > > > constraints.   =20
-> > >=20
-> > > Ok, I will remove the line.
-> > >    =20
-> > > > > +          pairsets:
-> > > > > +            $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > > > +            description:
-> > > > > +              List of phandles, each pointing to the power suppl=
-y for
-> > > > > the
-> > > > > +              corresponding pairset named in 'pairset-names'. Th=
-is
-> > > > > property
-> > > > > +              aligns with IEEE 802.3-2022, Section 33.2.3 and
-> > > > > 145.2.4.
-> > > > > +              PSE Pinout Alternatives (as per IEEE 802.3-2022 Ta=
-ble
-> > > > > 145\u20133)
-> > > > > +
-> > > > > |-----------|---------------|---------------|---------------|----=
------------|
-> > > > > +              | Conductor | Alternative A | Alternative A |
-> > > > > Alternative B | Alternative B |
-> > > > > +              |           |    (MDI-X)    |     (MDI)     |     =
- (X)
-> > > > > |      (S)      |
-> > > > > +
-> > > > > |-----------|---------------|---------------|---------------|----=
------------|
-> > > > > +              | 1         | Negative VPSE | Positive VPSE | \u20=
-14
-> > > > >     | \u2014             |
-> > > > > +              | 2         | Negative VPSE | Positive VPSE | \u20=
-14
-> > > > >     | \u2014             |
-> > > > > +              | 3         | Positive VPSE | Negative VPSE | \u20=
-14
-> > > > >     | \u2014             |
-> > > > > +              | 4         | \u2014             | \u2014         =
-    |
-> > > > > Negative VPSE | Positive VPSE |
-> > > > > +              | 5         | \u2014             | \u2014         =
-    |
-> > > > > Negative VPSE | Positive VPSE |
-> > > > > +              | 6         | Positive VPSE | Negative VPSE | \u20=
-14
-> > > > >     | \u2014             |
-> > > > > +              | 7         | \u2014             | \u2014         =
-    |
-> > > > > Positive VPSE | Negative VPSE |
-> > > > > +              | 8         | \u2014             | \u2014         =
-    |
-> > > > > Positive VPSE | Negative VPSE |
-> > > > > +            minItems: 1
-> > > > > +            maxItems: 2     =20
-> > > >=20
-> > > > "pairsets" does not follow the normal design pattern of foos,
-> > > > foo-names, and #foo-cells. You could add #foo-cells I suppose, but =
-what
-> > > > would cells convey? I don't think it's a good fit for what you need.
-> > > >=20
-> > > > The other oddity is the number of entries and the names are fixed. =
-That=20
-> > > > is usually defined per consumer.    =20
-> > >=20
-> > > Theoretically if the RJ45 port binding was supported it would make mo=
-re
-> > > sense, but in reality it's not feasible as the PSE controller need th=
-is
-> > > information in its init process.
-> > > The PSE controller reset all its port to apply a configuration so we =
-can't
-> > > do it when the consumer (RJ45) probe. It would reset the other ports =
-if
-> > > one consumer is probed later in the process.   =20
-> >=20
-> > There is no reason other than convenience that all information some=20
-> > driver needs has to be in one node or one hierarchy of nodes. You can=20
-> > fetch anything from anywhere in the DT. It does feel like some of this=
-=20
-> > belongs in a connector node. We often haven't described connectors in D=
-T=20
-> > and stick connector properties in the controller node associated with=20
-> > the connector. Then as things get more complicated, it becomes a mess. =
- =20
->=20
-> Right, we could indeed put all the informations of the pse_pi node in the
-> future RJ45 port abstraction node. Then, this series will be put aside un=
-til
-> we manage to have the port abstraction get merged.
-> I am not glad about this as it will stuck my work until then, but indeed
-> removing this pse_pi wrapper node which is between the pse_controller nod=
-e and
-> the connector node seems cleaner.
+>  2 files changed, 189 insertions(+)
+>  create mode 100644 tools/testing/selftests/cgroup/test_pids.c
+> 
+> diff --git a/tools/testing/selftests/cgroup/Makefile b/tools/testing/selftests/cgroup/Makefile
+> index f3e1ef69e88d..f5f0886a2c4a 100644
+> --- a/tools/testing/selftests/cgroup/Makefile
+> +++ b/tools/testing/selftests/cgroup/Makefile
+> @@ -15,6 +15,7 @@ TEST_GEN_PROGS += test_hugetlb_memcg
+>  TEST_GEN_PROGS += test_kill
+>  TEST_GEN_PROGS += test_kmem
+>  TEST_GEN_PROGS += test_memcontrol
+> +TEST_GEN_PROGS += test_pids
+>  TEST_GEN_PROGS += test_zswap
+>  
+>  LOCAL_HDRS += $(selfdir)/clone3/clone3_selftests.h $(selfdir)/pidfd/pidfd.h
+> @@ -29,4 +30,5 @@ $(OUTPUT)/test_hugetlb_memcg: cgroup_util.c
+>  $(OUTPUT)/test_kill: cgroup_util.c
+>  $(OUTPUT)/test_kmem: cgroup_util.c
+>  $(OUTPUT)/test_memcontrol: cgroup_util.c
+> +$(OUTPUT)/test_pids: cgroup_util.c
+>  $(OUTPUT)/test_zswap: cgroup_util.c
+> diff --git a/tools/testing/selftests/cgroup/test_pids.c b/tools/testing/selftests/cgroup/test_pids.c
+> new file mode 100644
+> index 000000000000..c1c3a3965624
+> --- /dev/null
+> +++ b/tools/testing/selftests/cgroup/test_pids.c
+> @@ -0,0 +1,187 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#define _GNU_SOURCE
+> +
+> +#include <errno.h>
+> +#include <linux/limits.h>
+> +#include <signal.h>
+> +#include <string.h>
+> +#include <sys/stat.h>
+> +#include <sys/types.h>
+> +#include <unistd.h>
+> +
+> +#include "../kselftest.h"
+> +#include "cgroup_util.h"
+> +
+> +static int run_success(const char *cgroup, void *arg)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int run_pause(const char *cgroup, void *arg)
+> +{
+> +	return pause();
+> +}
+> +
+> +/*
+> + * This test checks that pids.max prevents forking new children above the
+> + * specified limit in the cgroup.
+> + */
+> +static int test_pids_max(const char *root)
+> +{
+> +	int ret = KSFT_FAIL;
+> +	char *cg_pids;
+> +	int pid;
+> +
+> +
+Please remove extra line.
 
-After some new thought, I thinks it is quite similar on the devicetree side=
- to
-have it in a pse_pi node or in the connector node.
-Here are my agruments to continue using this pse_pi binding description:
-- The connector abstraction is in its early work and won't really see a v1 =
-soon
-  while the PoE series got mainly all reviewed-by thanks to Andrew.
-  This would stuck the PoE series until maybe one or two Linux version.
-- It allows to use the "Power Interface" name like described in the standar=
-ds.
-- Even if this is in the PSE controller node, it is generic to all PSEs so =
-it
-  shouldn't become a mess.
-- It allows to have the PSE controller and Power Interfaces parameters grou=
-ped
-  together and it will be easier to read. May not really be an argument! ;)
-- It will keep the logic of PoDL with the PHY using a single reference to t=
-he
-  PSE PI through the pses parameter.=20
+> +	cg_pids = cg_name(root, "pids_test");
+> +	if (!cg_pids)
+> +		goto cleanup;
+> +
+> +	if (cg_create(cg_pids))
+> +		goto cleanup;
+> +
+> +	if (cg_read_strcmp(cg_pids, "pids.max", "max\n"))
+> +		goto cleanup;
+> +
+> +	if (cg_write(cg_pids, "pids.max", "2"))
+> +		goto cleanup;
+> +
+> +	if (cg_enter_current(cg_pids))
+> +		goto cleanup;
+> +
+> +	pid = cg_run_nowait(cg_pids, run_pause, NULL);
+> +	if (pid < 0)
+> +		goto cleanup;
+> +
+> +	if (cg_run_nowait(cg_pids, run_success, NULL) != -1 || errno != EAGAIN)
+> +		goto cleanup;
+> +
+> +	if (kill(pid, SIGINT))
+> +		goto cleanup;
+> +
+> +	ret = KSFT_PASS;
+> +
+> +cleanup:
+> +	cg_enter_current(root);
+> +	cg_destroy(cg_pids);
+> +	free(cg_pids);
+> +
+> +	return ret;
+> +}
+> +
+> +/*
+> + * This test checks that pids.max prevents forking new children above the
+> + * specified limit in the cgroup.
+> + */
+> +static int test_pids_events(const char *root)
+> +{
+> +	int ret = KSFT_FAIL;
+> +	char *cg_parent = NULL, *cg_child = NULL;
+> +	int pid;
+> +
+> +
+> +	cg_parent = cg_name(root, "pids_parent");
+> +	cg_child = cg_name(cg_parent, "pids_child");
+> +	if (!cg_parent || !cg_child)
+> +		goto cleanup;
+> +
+> +	if (cg_create(cg_parent))
+> +		goto cleanup;
+> +	if (cg_write(cg_parent, "cgroup.subtree_control", "+pids"))
+> +		goto cleanup;
+> +	if (cg_create(cg_child))
+> +		goto cleanup;
+> +
+> +	if (cg_write(cg_parent, "pids.max", "2"))
+> +		goto cleanup;
+> +
+> +	if (cg_read_strcmp(cg_child, "pids.max", "max\n"))
+> +		goto cleanup;
+> +
+> +	if (cg_enter_current(cg_child))
+> +		goto cleanup;
+> +
+> +	pid = cg_run_nowait(cg_child, run_pause, NULL);
+> +	if (pid < 0)
+> +		goto cleanup;
+> +
+> +	if (cg_run_nowait(cg_child, run_success, NULL) != -1 || errno != EAGAIN)
+> +		goto cleanup;
+> +
+> +	if (kill(pid, SIGINT))
+> +		goto cleanup;
+> +
+> +
+Remove extra line.
 
-Is it okay for you to continue with it?
+> +	if (cg_read_key_long(cg_child, "pids.events", "max ") != 0)
+> +		goto cleanup;
+> +	if (cg_read_key_long(cg_child, "pids.events", "max.imposed ") != 1)
+> +		goto cleanup;
+> +
+> +	if (cg_read_key_long(cg_parent, "pids.events", "max ") != 1)
+> +		goto cleanup;
+> +	if (cg_read_key_long(cg_parent, "pids.events", "max.imposed ") != 1)
+> +		goto cleanup;
+> +
+> +
+> +	ret = KSFT_PASS;
+> +
+> +cleanup:
+> +	cg_enter_current(root);
+> +	if (cg_child)
+> +		cg_destroy(cg_child);
+> +	if (cg_parent)
+> +		cg_destroy(cg_parent);
+> +	free(cg_child);
+> +	free(cg_parent);
+> +
+> +	return ret;
+> +}
+> +
+> +
+> +
+> +#define T(x) { x, #x }
+> +struct pids_test {
+> +	int (*fn)(const char *root);
+> +	const char *name;
+> +} tests[] = {
+> +	T(test_pids_max),
+> +	T(test_pids_events),
+> +};
+> +#undef T
+> +
+> +int main(int argc, char **argv)
+> +{
+> +	char root[PATH_MAX];
+> +	int i, ret = EXIT_SUCCESS;
+The
+	ksft_print_header();
+	ksft_set_plan(total_number_of_tests);
+are missing. Please use all of the ksft APIs to make the test TAP compliant.
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> +
+> +	if (cg_find_unified_root(root, sizeof(root)))
+> +		ksft_exit_skip("cgroup v2 isn't mounted\n");
+> +
+> +	/*
+> +	 * Check that pids controller is available:
+> +	 * pids is listed in cgroup.controllers
+> +	 */
+> +	if (cg_read_strstr(root, "cgroup.controllers", "pids"))
+> +		ksft_exit_skip("pids controller isn't available\n");
+> +
+> +	if (cg_read_strstr(root, "cgroup.subtree_control", "pids"))
+> +		if (cg_write(root, "cgroup.subtree_control", "+pids"))
+> +			ksft_exit_skip("Failed to set pids controller\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(tests); i++) {
+> +		switch (tests[i].fn(root)) {
+> +		case KSFT_PASS:
+> +			ksft_test_result_pass("%s\n", tests[i].name);
+> +			break;
+> +		case KSFT_SKIP:
+> +			ksft_test_result_skip("%s\n", tests[i].name);
+> +			break;
+> +		default:
+> +			ret = EXIT_FAILURE;
+> +			ksft_test_result_fail("%s\n", tests[i].name);
+> +			break;
+Use ksft_test_result_report() instead of swith-case here.
+
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+
+-- 
+BR,
+Muhammad Usama Anjum
