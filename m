@@ -1,133 +1,80 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E001A29A
-	for <linux-doc@vger.kernel.org>; Sat,  6 Apr 2024 09:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A3339FC5
+	for <linux-doc@vger.kernel.org>; Sat,  6 Apr 2024 15:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712394349; cv=none; b=ZB8PfgwFgrbJdy/EzjLAlP5fR1lKgS56MmrzApuwfzjEVmbdBROO9hkjvMlr0K2ipcN7WGN/WVRvBV15mIcrlZMNWLAKE5v7GcvYuPlZvvpXV+F80+cMXnakoRF5Tw+83K1h0fXR20uLUpht+VHzyi4x6ZIa+FePr4FqQtdyHRY=
+	t=1712418189; cv=none; b=f+O8Kg3F7xBcFWgU8654qzIP8zO94cRYWaj7gf2cyuBpW5nlgEg0i2/44NM4UvG5Qbhd7aJ3B3FxHYTJ6mvaYvEnGiQ4W2na2U6G3ZOzVxDUWpEdv01x8mcuOYk3lUCYIEshjoHVK7zczTdqyJdK+HiEvx3to8vsLwfRrzNcfkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712394349; c=relaxed/simple;
-	bh=QKT6ZgMmLZgvHpHSPv5dWWpjzG6gbWOWYvrh3WXbrcU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hdD4oI8huvHj5vO7Uigi1vJMnq/DnaEZ065mJM1i8+F3cyRoAS2lccZN6nqy05DpVKWo1yR6dJOeCDwV2RSHD3y0Vfb8M9PYJrawx4Gn1V0VA7GIAaQQcOBeYOPKdjKFm80zyPYiZKIggmMWraVacGkqbFAPuq9UIYLEUh4BRos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LL8LDxyC; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1712418189; c=relaxed/simple;
+	bh=KlnonV88efemHIAcJauLyXmI35h5Ofb30ye+h1O5iv8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uJEZK5BYCRwYtGogGn8CKJCMU68PIqrIKh0Wqk9iJI5TkbsN7Xkqf9Sc2S9QXx4pg1adGjL6aqH7wgbhVSn488doiGxPU/b5M+TgRrgtaUsqzMeYvs5pAJ+Z5YdCP/6qrR4zxPx9wUyE7p6bVsIF4mjufMDbNyWkuy8TeshExwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONOYr+zK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LL8LDxyC"
-Message-ID: <5c47f5de-c3cf-4921-9e8c-efc8b55f1d7f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1712394345;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P8QB0c6fetFanEVdDBif61y8ep5Rhwz7oQ9ZgyX91gs=;
-	b=LL8LDxyCHIsG46BUlaYrm6eGjyTeDsk7fwLU4pMX5eZnbXJf6M8TTWkzuQwW1BcJE1vIgZ
-	CFngzH65ObigEf/TceBCQTtrJ0gEJcD79/AXBMC+B0duT5sgxHCfowUAg8KTs3EEWKOe86
-	x1y1knsfC+eBZjf7u2iVcepo0QvoVDg=
-Date: Sat, 6 Apr 2024 11:05:41 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONOYr+zK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD9BC433C7;
+	Sat,  6 Apr 2024 15:43:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712418189;
+	bh=KlnonV88efemHIAcJauLyXmI35h5Ofb30ye+h1O5iv8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=ONOYr+zKX7FB4VAtyh2UVVDuuwqYFLnMyYfj9VKM/+6G9A7gFE8mjLRPg3eNaBgKA
+	 qVRge+5eW0R4BKKivukxrgMifZ5+zZQohVSAqsRSe2+NJqreQsctTWTHQTBSEFsqVt
+	 Ahl345RG4CKnYGMjjFbTqGrhltdGDBh/wckSOFdCLRrm/VDM150fLT73hxC0kqbfRt
+	 A3uJ4BZhYiNBiIghQuRLj782yXY5j0uUrvVe0wuZwR4qhEuj4Ph6eXPyohLnKF/qnW
+	 cdj5jIEWvs6+fmtperyHZIm7x6wCY3qZvPw/NNDfljU24laEEImUVpBmOiNH/k6S7i
+	 1LX7y84zE6Z6A==
+From: Simon Horman <horms@kernel.org>
+Date: Sat, 06 Apr 2024 16:43:02 +0100
+Subject: [PATCH] Documentation/gpu: correct path of reference
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [net-next v4 0/2] devlink: Add port function attribute for IO EQs
-To: Parav Pandit <parav@nvidia.com>, netdev@vger.kernel.org,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, corbet@lwn.net, dw@davidwei.uk,
- kalesh-anakkur.purayil@broadcom.com
-Cc: saeedm@nvidia.com, leon@kernel.org, jiri@resnulli.us, shayd@nvidia.com,
- danielj@nvidia.com, dchumak@nvidia.com, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org
-References: <20240406010538.220167-1-parav@nvidia.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20240406010538.220167-1-parav@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240406-doc-gpu-v1-1-fe0ad057ac7e@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAIVtEWYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDEwMz3ZT8ZN30glJdYyPLNMPkFANTo2RDJaDqgqLUtMwKsEnRsbW1AKQ
+ g3oVZAAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Maxime Ripard <mripard@kernel.org>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, amd-gfx@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.3
 
-在 2024/4/6 3:05, Parav Pandit 写道:
-> Currently, PCI SFs and VFs use IO event queues to deliver netdev per
-> channel events. The number of netdev channels is a function of IO
-> event queues. In the second scenario of an RDMA device, the
-> completion vectors are also a function of IO event queues. Currently, an
-> administrator on the hypervisor has no means to provision the number
-> of IO event queues for the SF device or the VF device. Device/firmware
-> determines some arbitrary value for these IO event queues. Due to this,
-> the SF netdev channels are unpredictable, and consequently, the
-> performance is too.
-> 
-> This short series introduces a new port function attribute: max_io_eqs.
-> The goal is to provide administrators at the hypervisor level with the
-> ability to provision the maximum number of IO event queues for a
-> function. This gives the control to the administrator to provision
-> right number of IO event queues and have predictable performance.
-> 
-> Examples of when an administrator provisions (set) maximum number of
-> IO event queues when using switchdev mode:
-> 
->    $ devlink port show pci/0000:06:00.0/1
->        pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
->            function:
->            hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 10
-> 
->    $ devlink port function set pci/0000:06:00.0/1 max_io_eqs 20
-> 
->    $ devlink port show pci/0000:06:00.0/1
->        pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
->            function:
->            hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 20
-> 
-> This sets the corresponding maximum IO event queues of the function
-> before it is enumerated. Thus, when the VF/SF driver reads the
-> capability from the device, it sees the value provisioned by the
-> hypervisor. The driver is then able to configure the number of channels
-> for the net device, as well as the number of completion vectors
-> for the RDMA device. The device/firmware also honors the provisioned
-> value, hence any VF/SF driver attempting to create IO EQs
-> beyond provisioned value results in an error.
-> 
-> With above setting now, the administrator is able to achieve the 2x
-> performance on SFs with 20 channels. In second example when SF was
-> provisioned for a container with 2 cpus, the administrator provisioned only
-> 2 IO event queues, thereby saving device resources.
-> 
+The path to GPU documentation is Documentation/gpu
+rather than Documentation/GPU
 
-The following paragraph is the same with the above paragraph?
+This appears to have been introduced by commit ba162ae749a5
+("Documentation/gpu: Introduce a simple contribution list for display code")
 
-> With the above settings now in place, the administrator achieved 2x
-> performance with the SF device with 20 channels. In the second example,
-> when the SF was provisioned for a container with 2 CPUs, the administrator
-> provisioned only 2 IO event queues, thereby saving device resources.
-> 
-> changelog:
-> v2->v3:
-> - limited to 80 chars per line in devlink
-> - fixed comments from Jakub in mlx5 driver to fix missing mutex unlock
->    on error path
-> v1->v2:
-> - limited comment to 80 chars per line in header file
-> - fixed set function variables for reverse christmas tree
-> - fixed comments from Kalesh
-> - fixed missing kfree in get call
-> - returning error code for get cmd failure
-> - fixed error msg copy paste error in set on cmd failure
-> 
-> Parav Pandit (2):
->    devlink: Support setting max_io_eqs
->    mlx5/core: Support max_io_eqs for a function
-> 
->   .../networking/devlink/devlink-port.rst       | 33 +++++++
->   .../mellanox/mlx5/core/esw/devlink_port.c     |  4 +
->   .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
->   .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
->   include/net/devlink.h                         | 14 +++
->   include/uapi/linux/devlink.h                  |  1 +
->   net/devlink/port.c                            | 53 ++++++++++
->   7 files changed, 209 insertions(+)
-> 
+Flagged by make htmldocs.
+
+Signed-off-by: Simon Horman <horms@kernel.org>
+---
+ Documentation/gpu/amdgpu/display/display-contributing.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/gpu/amdgpu/display/display-contributing.rst b/Documentation/gpu/amdgpu/display/display-contributing.rst
+index fdb2bea01d53..36f3077eee00 100644
+--- a/Documentation/gpu/amdgpu/display/display-contributing.rst
++++ b/Documentation/gpu/amdgpu/display/display-contributing.rst
+@@ -135,7 +135,7 @@ Enable underlay
+ ---------------
+ 
+ AMD display has this feature called underlay (which you can read more about at
+-'Documentation/GPU/amdgpu/display/mpo-overview.rst') which is intended to
++'Documentation/gpu/amdgpu/display/mpo-overview.rst') which is intended to
+ save power when playing a video. The basic idea is to put a video in the
+ underlay plane at the bottom and the desktop in the plane above it with a hole
+ in the video area. This feature is enabled in ChromeOS, and from our data
 
