@@ -1,253 +1,185 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4BD171077;
-	Fri,  5 Apr 2024 20:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712348926; cv=none; b=P8f4tRpKwLDCeMGSrOkYs9qCTc4TkaNhtYSLyrblAvHbGjIPSdhhYWXeg9yRptJZv+fT/GksOMJqbviuRVE5wcdK4vnoegWe5oA7kkggr40HxgWoo3XssqmHmCz/xDBdoLHJW0i1VNz0d/vC79KOIMTN22aj79gJ7C7I0ynXrj8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712348926; c=relaxed/simple;
-	bh=SRk1BAyFbO7xlNckhNzLlmX4edRBAotwNcUvm9mn+Dc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MmPNWf3T9nizC4rMQf+a5IpeSUSuB8zIeHgyRqJOi6Xo9R4qkmo0CWULAbxZsOGVK5b9qKaEgDD46nDOAfltujujBjUoaJtiqVj1jt1t58jKPkOjjtjeUkpdx01SZ9WQlLZ/y04cjzfyUvGW6XkDSma/CLcWHbwzxBDOjftKr3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=INsAG9/U; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2148F1FDA;
+	Sat,  6 Apr 2024 01:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712365575; cv=fail; b=o1TEYN7D+nGxUznnA7sYbjj/5ZuYCM8tR/9YAEgjiPiSOWZLDQOzmZhmGE9lwHMrrBNJ+uWT1xiZMDGtGUXcwLhbZScHFIoBYFLTJX2ORPynO6P287Civ8Yvajzk4mDo12OtAGU0m+NfUntM5yTwbvIj7zLBSjN+sM0RhwIGncA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712365575; c=relaxed/simple;
+	bh=oQmFNFiXHx+tRIC4QPHdDv+jxgifNqEtLebbSjrbbVM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EYZvMwlyuVflBHoKJwqmn4CxwLSqLXURvpZU+JUzMU+KcNiC/4edBt79wTjTONnQ62G/DsHz9hU//iVtCU2QRbBsOtpF5TEYyrPEccvV268VAm4O96/pu5mqgVBI5tCNvUOcdIV2SJkfj7ghenGAPJlmWVOlfPeScxNjUXG1ado=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HvB2Y9zS; arc=fail smtp.client-ip=40.107.236.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="INsAG9/U"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2a2f82ded89so1153236a91.1;
-        Fri, 05 Apr 2024 13:28:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712348924; x=1712953724; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/KHiRz2MEVl6qNeBBl7ut0Lqj346TjDrch4NCQyug9w=;
-        b=INsAG9/U3eFBAZPqy+PgaI37Br6TXkpFrSyWVtK9HmQ0cA1+T/8JdEhiRoUZPMFtfh
-         l+gjX4aXzoH+PrPP/nVWMRO7gcMC3kkFK7mgcVitqt7LdwSdatFda5TMcytxZAo8nitN
-         70k1SYwd7+sZhGjsnTKkbRIKxWCezMz4Lmta7x6gxlQAdw9SCZGAUel1lKTu/xJxJlGu
-         kLL8c6BcUuxLPo6O7aVADtOFpzIHHbfzBUlG0c5R/ntVgRzqQhcRx1JJxz0KqkQ/INHd
-         qHSx2FP11k1xryqLv9xzlvW0GGsWtwGbf2A1GnEF7sQxCzmUxZR8ncVM96mF+YO+MAVw
-         LEww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712348924; x=1712953724;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/KHiRz2MEVl6qNeBBl7ut0Lqj346TjDrch4NCQyug9w=;
-        b=qsF7rNn9nOY7nbgRFChWcugEMhHGIq0X9F23NnWU2EssWWHK60sZ/IRh6o18ybZrrU
-         sEsh1exNqmOlQIKDBBuyiAizY6iW/PtlcMIgzMd/ee6aPfjwpRY2sS7kfYNQ9p34Seah
-         ECzhb7S9AQAApX1yiGCMfuY+bLV7Q0J4vfVIqmUWn9u6DtZJvb/w5D2+1UsIDmwSJ9Hy
-         KngHa08RrUvTJZgf5PAdwAjVqqUdtMUJHImUgM7IKfJ4VQsvNi4fd4BXpOaLVnESDZ7V
-         iKe+uB0tK6nDJ3Pk2yiNrBgbiERTZM14FgwK+O+11luTqQX9dR+EEQqlaSvu1IMDymuB
-         NIkw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2jAPnUburRJx8tPbp5ccLMQB/9VL+v7Kn8ukoRnwaF+pXcQGvwWiXGc9/h7z7vVmxeMLqVhQhIkxJnMYSHf6npSPzAbdvpLSVFfhWWUuuf6zhEeatNSSH0XtXTbeoXCr7L/MwdBytxQ6QwW9n7k8ALMml/vJYi5C2ReK5BBpTQ+q86g+7rA6kSJsh18DPyOev98rG2L3oGOplYr4mUhfc
-X-Gm-Message-State: AOJu0YwuQZDgR+xdJYMFQJ+6ouRClXrLlWJClXXXznw3ZjHN+Cj/6veC
-	19K3X2RE41j1ue8wUBVruN36WU9RDWXsOvyvhhsrvMQ2AvIfgauDd8zRkRzF4WhiEjU1wSZ68bm
-	xfQP3uDT1Py5naBI0fCi1CHyo3FI=
-X-Google-Smtp-Source: AGHT+IEB17rUN/p90piyyO2Fh5+5Y5JCRNaDz+2U2dzLD5suRIg39op7NfkR+8THwcH3RleE5jqbr98eGeCYB6CxcAk=
-X-Received: by 2002:a17:90a:f0c8:b0:2a2:21a7:48bf with SMTP id
- fa8-20020a17090af0c800b002a221a748bfmr2697144pjb.14.1712348924104; Fri, 05
- Apr 2024 13:28:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HvB2Y9zS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dpYhtykdRRpwTLjs9zw67hLDwPC9QP+zMFBgxXRJOhKebjN6IkDXHLZQTtihuYDkafbY2+TGbxMgXsHtVAFYu/G6h6byQPiz3wkFm2uHjtIhKsDapL064DoumiBsJLWJuJUFGoCShLxHTCTIOzgb/3cOIPv0G3DMVaUuF048k9Y3tEbKPWs6ohExPpN7XgIE8QWpHtE0XBEuMYWeU+bAlX+FLCBkAptjW52IgGi7Pe+P3jNWnCd6k9vPBarT/qx5M/2dRlnob6zruAPlunPZQMXpai6NgE/Kx+TFoSD+tB4qzsgoxmYRcFjW/5l0hNylhGcAOvbHifdoZrGhwG1gmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1XqSzsIeo1nDWH8Oh9gjkZ++Oz8ZVd6fHKB5INEN4t0=;
+ b=Y8FCnI5C5BfQUuVN1/BSPrwF/SJyrqQdnhKI7ya0ahH6t+FhUHZWtn3fZ9Xc7e8k3J4G4jxA1FYIjgiwFvn4u0RGYE0V9Uir8iKGjAZmYk/wi1kU9GUU682AwjDyejtcfRwHMZuQDM16DitfiN+XBd8jijG56nAEAHqDVmD24j6cdTcI76TXfGfO+uJkgonJeEJW5NtNiYRWAq9j7FyuZAdxO3D/xtdQSMW1LOwE5+O3yIH4QCymxDNjKOrw8UEw9PH3ht5ghBOqMBhrbcIMsr2HmoLb8Lbf+O8M7xLqmfph1/1kbqBafvDkDCeR0BrQZux8MhDBbgZm4f2SIIkGXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1XqSzsIeo1nDWH8Oh9gjkZ++Oz8ZVd6fHKB5INEN4t0=;
+ b=HvB2Y9zSKcGGKa9FqoNedxqBEn5xd842yB+ehKtUiw7nZ6IACicsTQuXRK0wrDhQO5ouXZkQYYzvSa3wbEFaBMZV/GVgmbS10R8auZr0ox19m9sKdk+b+FkLJr7NP3PEfeBqE9Kg/ZrzU6BmXuCS38q/B05Y1dUYRG4LtZlr4S6mFo4UZazoCv5MWdgnjA9sc7A71WFBpAb4g/mPT898iZ/HbWtYp9CdeUfHxr7iV7PtrEWzkWfXSZuZLrR+9FTkOqRyED78zFxx9NBUyOAEVL3pyd21hYnSTBl7M4GKpwmY0IHJhzEilrMaay4QST6n3Qd0gmPPg/IJ/gAUNkerYA==
+Received: from DS7PR03CA0152.namprd03.prod.outlook.com (2603:10b6:5:3b2::7) by
+ LV2PR12MB5965.namprd12.prod.outlook.com (2603:10b6:408:172::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Sat, 6 Apr
+ 2024 01:06:10 +0000
+Received: from DS1PEPF00017096.namprd05.prod.outlook.com
+ (2603:10b6:5:3b2:cafe::29) by DS7PR03CA0152.outlook.office365.com
+ (2603:10b6:5:3b2::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.33 via Frontend
+ Transport; Sat, 6 Apr 2024 01:06:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DS1PEPF00017096.mail.protection.outlook.com (10.167.18.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Sat, 6 Apr 2024 01:06:10 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Fri, 5 Apr 2024
+ 18:05:58 -0700
+Received: from sw-mtx-036.mtx.labs.mlnx (10.126.230.35) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.12; Fri, 5 Apr 2024 18:05:56 -0700
+From: Parav Pandit <parav@nvidia.com>
+To: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <corbet@lwn.net>, <dw@davidwei.uk>,
+	<kalesh-anakkur.purayil@broadcom.com>
+CC: <saeedm@nvidia.com>, <leon@kernel.org>, <jiri@resnulli.us>,
+	<shayd@nvidia.com>, <danielj@nvidia.com>, <dchumak@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Parav Pandit
+	<parav@nvidia.com>
+Subject: [net-next v4 0/2] devlink: Add port function attribute for IO EQs
+Date: Sat, 6 Apr 2024 04:05:36 +0300
+Message-ID: <20240406010538.220167-1-parav@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404190146.1898103-1-elver@google.com> <CAADnVQKc+Z39k9wbU2MHf-fPFma+9QsyOugmmmGq3ynQCTVfCw@mail.gmail.com>
- <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
-In-Reply-To: <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 5 Apr 2024 13:28:32 -0700
-Message-ID: <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Introduce bpf_probe_write_user_registered()
-To: Marco Elver <elver@google.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017096:EE_|LV2PR12MB5965:EE_
+X-MS-Office365-Filtering-Correlation-Id: e566c8fd-e099-47c5-9528-08dc55d5bf3e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ZjU1VAo2J6vZk1eVm9f8venXoEkA3ItSIVhtCAAOnkm2Xcb9mMExZOWeTJ1pJQCXF/rH51YHhGXntg8AjF+V0/7Dak3O+3OxIAf7OiMbnQaG7oZq/uEoeFVk5b7jy5PN9im8Zk8cW7wsoTy5wbL+9xRB610wK7NHw4gZzn2PLU6hyoBVRJqPsweaOjga4+gIGt1Os4HuBayeSXs/4B/WEkbuA1LGeQzALEG/UlT/m8josOAzNProSbYOXWXSTE4dbP//OgwIMO3a+RpUKDR0qJFcIZVstO20q3zOH+xZAeYytFExQmEu3lukyoFHRoH2ckMxWp6noZpl2D/jJGYbbpVnIGdDkrEHiZAXiAoTuoEHT0EEB9Vc1HgnAHuw97nANOgWgz2QE4YMMeLawkXq+Wd9ireMhjL/bM9/wqSIeZ3t5YYkW2EoguQGPceVgv1LqgSAaix3cISBFBzK0vdg8H4yUs9Sz/4yJget/vjEnkxX4hUI20zh2L2wyV7j9L6+sCFu/L9lEFXOgJJiRNSMrrr6eJ9wH62bzi4krelv/9o62+dZsBXPDwDML5+9ZffCL/T1QE3IXo63/+RVH6k3G03Q3Z1pm5dhFgd0uUned7/s6l706E5S1OmX1xQb5D8bn5q8i1Bhqphd/3J+ZMf70678EQIURXN7r22hRQwi6QCbLgmAlQLZqqmFV3ZRUdAuv/IcSY7PWlI+6bQUJyVJRCNzoMGvo+iAvCeNBTELttm+V+xxuKjzO+jdgr5PRA5I
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(82310400014)(7416005)(376005)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2024 01:06:10.3149
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e566c8fd-e099-47c5-9528-08dc55d5bf3e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF00017096.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5965
 
-On Fri, Apr 5, 2024 at 1:28=E2=80=AFAM Marco Elver <elver@google.com> wrote=
-:
->
-> On Fri, 5 Apr 2024 at 01:23, Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Thu, Apr 4, 2024 at 12:02=E2=80=AFPM Marco Elver <elver@google.com> =
-wrote:
-> > >
-> > > With all the known caveats, tracing BPF programs may directly write t=
-o
-> > > user-space memory with the bpf_probe_write_user() helper. Memory safe=
-ty
-> > > is an obvious problem when using this helper, since it is too easy to
-> > > overwrite memory across all running processes that user space did not
-> > > expect to be touched (neither the verifier nor the kernel knows what =
-may
-> > > be touched). While it is possible to come up with mechanisms to safel=
-y
-> > > communicate to the BPF program which memory region may be written to,
-> > > there are no built-in guarantees of safety. For this reason, the help=
-er
-> > > produces a warning in the kernel log, and in newer kernels it is
-> > > possible to disallow use of the helper since 51e1bb9eeaf7 ("bpf: Add
-> > > lockdown check for probe_write_user helper").
-> >
-> > So is it a fix or a feature?
->
-> Feature. The above paragraph is just an intro. Remove it?
->
-> > > Nevertheless, direct user-space memory writes from BPF programs can b=
-e
-> > > useful to efficiently manipulate and communicate with cooperating use=
-r
-> > > space processes.
-> >
-> > But there are many different ways for bpf to communicate with user spac=
-e:
-> > perf ringbuf, bpf ringbug, various maps including mmap-ed array and are=
-na.
-> > The commit log doesn't explain why we need another one.
-> >
-> > > For example, one of our use cases are for events that happen relative=
-ly
-> > > frequently in the kernel (e.g. specific scheduler events), but a set =
-of
-> > > user space threads want to check for such events in very hot code pat=
-hs
-> > > to make more optimal decisions (the cost of such a check can be no mo=
-re
-> > > than a load and compare). The types of events and heuristics used may
-> > > change based on system environment and application, and a BPF program
-> > > provides the best trade-offs in terms of performance and deployment.
-> >
-> > and the tasks can use mmaped array shared across all or unique to each
-> > process.
-> > And both bpf and user space can read/write them with a single instructi=
-on.
->
-> That's BPF_F_MMAPABLE, right?
->
-> That does not work because the mmapped region is global. Our requirements=
- are:
->
-> 1. Single tracing BPF program.
->
-> 2. Per-process (per VM) memory region (here it's per-thread, but each
-> thread just registers the same process-wide region).  No sharing
-> between processes.
->
-> 3. From #2 it follows: exec unregisters the registered memory region;
-> fork gets a cloned region.
->
-> 4. Unprivileged processes can do prctl(REGISTER). Some of them might
-> not be able to use the bpf syscall.
->
-> The reason for #2 is that each user space process also writes to the
-> memory region (read by the BPF program to make updates depending on
-> what state it finds), and having shared state between processes
-> doesn't work here.
->
-> Is there any reasonable BPF facility that can do this today? (If
-> BPF_F_MMAPABLE could do it while satisfying requirements 2-4, I'd be a
-> happy camper.)
+Currently, PCI SFs and VFs use IO event queues to deliver netdev per
+channel events. The number of netdev channels is a function of IO
+event queues. In the second scenario of an RDMA device, the
+completion vectors are also a function of IO event queues. Currently, an
+administrator on the hypervisor has no means to provision the number
+of IO event queues for the SF device or the VF device. Device/firmware
+determines some arbitrary value for these IO event queues. Due to this,
+the SF netdev channels are unpredictable, and consequently, the
+performance is too.
 
-You could simulate something like this with multi-element ARRAY +
-BPF_F_MMAPABLE, though you'd need to pre-allocate up to max number of
-processes, so it's not an exact fit.
+This short series introduces a new port function attribute: max_io_eqs.
+The goal is to provide administrators at the hypervisor level with the
+ability to provision the maximum number of IO event queues for a
+function. This gives the control to the administrator to provision
+right number of IO event queues and have predictable performance.
 
-But what seems to be much closer is using BPF task-local storage, if
-we support mmap()'ing its memory into user-space. We've had previous
-discussions on how to achieve this (the simplest being that
-mmap(task_local_map_fd, ...) maps current thread's part of BPF task
-local storage). You won't get automatic cloning (you'd have to do that
-from the BPF program on fork/exec tracepoint, for example), and within
-the process you'd probably want to have just one thread (main?) to
-mmap() initially and just share the pointer across all relevant
-threads. But this is a more generic building block, IMO. This relying
-on BPF map also means pinning is possible and all the other BPF map
-abstraction benefits.
+Examples of when an administrator provisions (set) maximum number of
+IO event queues when using switchdev mode:
 
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 10
 
->
-> bpf_probe_write_user() can, but safety is not built in, along with
-> getting fork + exec right is brittle.
->
-> > > To achieve better safety, introduce tagged user writable regions, tha=
-t
-> > > must explicitly be registered before tracing BPF programs may use the=
-m:
-> > >
-> > >  1. The prctl() option PR_BPF_REGISTER_WRITABLE allows any user space
-> > >     process (that is allowed to use prctl()) to register tagged writa=
-ble
-> > >     memory regions for the current thread.
-> > >
-> > >  2. Conversely, the prctl() option PR_BPF_UNREGISTER_WRITABLE allows =
-a
-> > >     user space process to unregister a writable memory region that wa=
-s
-> > >     previously registered from the current thread. This must be done
-> > >     before freeing memory if the thread that registered a region is
-> > >     still running.
-> > >
-> > >  3. Tracing BPF programs may write to any registered region in the
-> > >     current thread with bpf_probe_write_user_registered(). If the mem=
-ory
-> > >     region has been tagged with a non-zero value, the BPF program mus=
-t
-> > >     provide a matching tag.
-> > >
-> > > Admin capabilities are still required to attach BPF programs that use
-> > > the new bpf_probe_write_user_registered() helper.
-> >
-> > We stopped adding new helpers ~2 years ago.
-> > Only new kfuncs are allowed.
->
-> Sure.
->
-> > >
-> > > With this interface, user space threads are guaranteed that no writes
-> > > happen to regions that they did not explicitly register. Tagging can =
-be
-> > > used to associate additional semantics with the memory region.
-> > >
-> > > A note on tag allocation: Since such programs can only be installed b=
-y
-> > > the local system administrator, tag allocation may be done by the sys=
-tem
-> > > administrator. For example, by providing headers with tag definitions=
-,
-> > > or a central service to distribute tags to the BPF program loader and=
- to
-> > > user applications.
-> >
-> > Not clear how that's achieved in practice.
-> > To do prctl(REGSISTER, ... tag)
-> > the process will just pass this u32 tag.
-> > There is no way for the admin or other process to enforce certain
-> > tag usage.
-> > Since there is no way to enforce extra tag seems like a weak
-> > protection against something? What in particular?
->
-> The main goal is to a) avoid accidental writes into areas the user
-> space program doesn't want writing to, along with 2) weakly
-> associating "type" via a tag. As soon as the user space program does
-> prctl(REGISTER, tag) it wants writes to happen. It's the user space
-> program's fault if it uses random tags, because in practice, we know
-> exactly which BPF programs are running in production and which tags
-> they service. The programs we do _care_ about are reviewed and do use
-> the right tags. The mechanism is not for protecting BPF programs or
-> what data they communicate, but for the benefit of the user space
-> program itself to bound the memory that could be touched in its own
-> address space (use the wrong region/tag .. tough luck).
+  $ devlink port function set pci/0000:06:00.0/1 max_io_eqs 20
+
+  $ devlink port show pci/0000:06:00.0/1
+      pci/0000:06:00.0/1: type eth netdev enp6s0pf0vf0 flavour pcivf pfnum 0 vfnum 0
+          function:
+          hw_addr 00:00:00:00:00:00 roce enable max_io_eqs 20
+
+This sets the corresponding maximum IO event queues of the function
+before it is enumerated. Thus, when the VF/SF driver reads the
+capability from the device, it sees the value provisioned by the
+hypervisor. The driver is then able to configure the number of channels
+for the net device, as well as the number of completion vectors
+for the RDMA device. The device/firmware also honors the provisioned
+value, hence any VF/SF driver attempting to create IO EQs
+beyond provisioned value results in an error.
+
+With above setting now, the administrator is able to achieve the 2x
+performance on SFs with 20 channels. In second example when SF was
+provisioned for a container with 2 cpus, the administrator provisioned only
+2 IO event queues, thereby saving device resources.
+
+With the above settings now in place, the administrator achieved 2x
+performance with the SF device with 20 channels. In the second example,
+when the SF was provisioned for a container with 2 CPUs, the administrator
+provisioned only 2 IO event queues, thereby saving device resources.
+
+changelog:
+v2->v3:
+- limited to 80 chars per line in devlink
+- fixed comments from Jakub in mlx5 driver to fix missing mutex unlock
+  on error path
+v1->v2:
+- limited comment to 80 chars per line in header file
+- fixed set function variables for reverse christmas tree
+- fixed comments from Kalesh
+- fixed missing kfree in get call
+- returning error code for get cmd failure
+- fixed error msg copy paste error in set on cmd failure
+
+Parav Pandit (2):
+  devlink: Support setting max_io_eqs
+  mlx5/core: Support max_io_eqs for a function
+
+ .../networking/devlink/devlink-port.rst       | 33 +++++++
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  4 +
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  7 ++
+ .../mellanox/mlx5/core/eswitch_offloads.c     | 97 +++++++++++++++++++
+ include/net/devlink.h                         | 14 +++
+ include/uapi/linux/devlink.h                  |  1 +
+ net/devlink/port.c                            | 53 ++++++++++
+ 7 files changed, 209 insertions(+)
+
+-- 
+2.26.2
+
