@@ -1,345 +1,211 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B554535B3
-	for <linux-doc@vger.kernel.org>; Sat,  6 Apr 2024 21:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F022911181;
+	Sun,  7 Apr 2024 08:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712440094; cv=none; b=qo1UoPxNM3ypi9vyGoGOr6TxOP+ApqbJqzexBAv1UlDph59OeQdGSnqM22C4yrsWirTeZRt7qOX7edHcOa9SGH16owa7uHcknI6FVex76ceuzrrAteU+K5ZHxI0CK8nDXgcGaBDFb4pk5qaU6Wu1M6c655g1vl8EGhPpBrfE5oM=
+	t=1712477946; cv=none; b=XJiZkaY4n3V0WZHEV1XviI6K4iscHG5y2dolkQLTwkCSU5ijA0WEhDWJUhAvHsbdzHxbSMOjH0e7BYeMUcAt8Wq3CK+bFcuP2yA62UCKX0RYKUgo1r7ODvQhIJlTTu8Dp3RLnRJ6Jq45NKvasTp4BV+a0vT7WaK4UCyv3UC3pfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712440094; c=relaxed/simple;
-	bh=F9S24iTwcnGWGKz+ubfXX8T4hECUmmw6+EfiXYVl3+U=;
+	s=arc-20240116; t=1712477946; c=relaxed/simple;
+	bh=e9UXYTAc5sFI75CK5XgqAQXmOoDPNUpaUP0KGJszuPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Te2619fald+oaOfZcELe98VODVUyMgpbGbiAeXK2RRpvm5N68lBg/QkXm4+hDUImFgz/4M5LJnbDCnoFeD04o/7jHwxFfJv+a3I7njkfum0o7yfF1jp2R/MFIbE/tkpqF+NvoUXa77E/VF6FIU0GSby/lZeYcH//OObNQV6Bhr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N4KxHh/O; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpJ5bzhQftrsakbUNkfUzf5EhcJGC3Ma6cIAEau8+6/BYp/oqghW+0N3jLzwt4nAtO6cKgDl3Grgh7RZJV9+6QeJkueIyPIvasQdRANJ5UGh6NijnLaDalSjZgoS3JBR95I/nb6qb8bDvPirgNRkirmVsLJGyLGym8r29qhcUwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bQL45DWu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N4KxHh/O"
-Date: Sat, 6 Apr 2024 17:47:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1712440087;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zidy/ZuQ9llHF4A0yXUONl+ELs1p92Ps6Z+2FVfH0JQ=;
-	b=N4KxHh/O87aO6WD/h/r5q8UlwdJoVcfJbPza8mnrpFRrkCd3NiG6ydYvvYT0bOS4m65xa9
-	mNHFONZPqGuMWVm+a+/RpiFQmShel4tR7LMJPQ/+EpclHNUDvS9KApR0qxLP/+bcEWmxrV
-	83fUuJvP9Z8rar/KsHD/T/F22UAYjpA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Klara Modin <klarasmodin@gmail.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, david@redhat.com, 
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, David Howells <dhowells@redhat.com>, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v6 13/37] lib: add allocation tagging support for memory
- allocation profiling
-Message-ID: <76nf3dl4cqptqv5oh54njnp4rizot7bej32fufjjtreizzcw3w@rkbjbgujk6pk>
-References: <6b8149f3-80e6-413c-abcb-1925ecda9d8c@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bQL45DWu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F29BC433F1;
+	Sun,  7 Apr 2024 08:19:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712477945;
+	bh=e9UXYTAc5sFI75CK5XgqAQXmOoDPNUpaUP0KGJszuPQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bQL45DWu0HxJomMb0clRFnENNm4bArAijal3EZ3qTPml9cdTdnQD/Jv+nZ6r4estn
+	 tdFm3p3nVi1vJ7RNY79r2A213/2M8AZsb3FfhENk6Agglm3lvLZmkpgMrH5L3HWAuU
+	 1mdfJp57B03c6ql4jqZ4OM6opBEQZTdC85Czud6bGKKwlGvmwv3roxGCrb88TvH02/
+	 TPIjgoqyRoHs4zvdtsgjgaUksKCcFJEmaIFG1lDVXc4m8ISrskkrOi2Hn/iIHyNQtI
+	 JNoPhQ3FBDp0yzYfHuEd/7iNzyF1QjxWLZZwhc+321A+Kax/Gni7nVcjqHjoPfQVAD
+	 +9J6be2H9OZHg==
+Date: Sun, 7 Apr 2024 13:49:00 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+Message-ID: <ZhJW9JEqN2wrejvC@matsya>
+References: <20240310124836.31863-1-paul@crapouillou.net>
+ <20240310124836.31863-2-paul@crapouillou.net>
+ <ZgUM1LFEWs3lwoAU@matsya>
+ <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6b8149f3-80e6-413c-abcb-1925ecda9d8c@gmail.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <599394c0220079b7b42dc732be817ca8a1eb4214.camel@crapouillou.net>
 
-On Fri, Apr 05, 2024 at 03:54:45PM +0200, Klara Modin wrote:
-> Hi,
+On 02-04-24, 13:31, Paul Cercueil wrote:
+> Hi Vinod,
 > 
-> On 2024-03-21 17:36, Suren Baghdasaryan wrote:
-> > Introduce CONFIG_MEM_ALLOC_PROFILING which provides definitions to easily
-> > instrument memory allocators. It registers an "alloc_tags" codetag type
-> > with /proc/allocinfo interface to output allocation tag information when
-> > the feature is enabled.
-> > CONFIG_MEM_ALLOC_PROFILING_DEBUG is provided for debugging the memory
-> > allocation profiling instrumentation.
-> > Memory allocation profiling can be enabled or disabled at runtime using
-> > /proc/sys/vm/mem_profiling sysctl when CONFIG_MEM_ALLOC_PROFILING_DEBUG=n.
-> > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT enables memory allocation
-> > profiling by default.
+> Le jeudi 28 mars 2024 à 11:53 +0530, Vinod Koul a écrit :
+> > On 10-03-24, 13:48, Paul Cercueil wrote:
+> > > This function can be used to initiate a scatter-gather DMA
+> > > transfer,
+> > > where the address and size of each segment is located in one entry
+> > > of
+> > > the dma_vec array.
+> > > 
+> > > The major difference with dmaengine_prep_slave_sg() is that it
+> > > supports
+> > > specifying the lengths of each DMA transfer; as trying to override
+> > > the
+> > > length of the transfer with dmaengine_prep_slave_sg() is a very
+> > > tedious
+> > > process. The introduction of a new API function is also justified
+> > > by the
+> > > fact that scatterlists are on their way out.
+> > > 
+> > > Note that dmaengine_prep_interleaved_dma() is not helpful either in
+> > > that
+> > > case, as it assumes that the address of each segment will be higher
+> > > than
+> > > the one of the previous segment, which we just cannot guarantee in
+> > > case
+> > > of a scatter-gather transfer.
+> > > 
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> > > 
+> > > ---
+> > > v3: New patch
+> > > 
+> > > v5: Replace with function dmaengine_prep_slave_dma_vec(), and
+> > > struct
+> > >     'dma_vec'.
+> > >     Note that at some point we will need to support cyclic
+> > > transfers
+> > >     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+> > >     parameter to the function?
+> > > 
+> > > v7:
+> > >   - Renamed *device_prep_slave_dma_vec() ->
+> > > device_prep_peripheral_dma_vec();
+> > >   - Added a new flag parameter to the function as agreed between
+> > > Paul
+> > >     and Vinod. I renamed the first parameter to prep_flags as it's
+> > > supposed to
+> > >     be used (I think) with enum dma_ctrl_flags. I'm not really sure
+> > > how that API
+> > >     can grow but I was thinking in just having a bool cyclic
+> > > parameter (as the
+> > >     first intention of the flags is to support cyclic transfers)
+> > > but ended up
+> > >     "respecting" the previously agreed approach.
+> > > ---
+> > >  include/linux/dmaengine.h | 27 +++++++++++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> > > 
+> > > diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> > > index 752dbde4cec1..856df8cd9a4e 100644
+> > > --- a/include/linux/dmaengine.h
+> > > +++ b/include/linux/dmaengine.h
+> > > @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+> > >  	struct data_chunk sgl[];
+> > >  };
+> > >  
+> > > +/**
+> > > + * struct dma_vec - DMA vector
+> > > + * @addr: Bus address of the start of the vector
+> > > + * @len: Length in bytes of the DMA vector
+> > > + */
+> > > +struct dma_vec {
+> > > +	dma_addr_t addr;
+> > > +	size_t len;
+> > > +};
+> > > +
+> > >  /**
+> > >   * enum dma_ctrl_flags - DMA flags to augment operation
+> > > preparation,
+> > >   *  control completion, and communicate status.
+> > > @@ -910,6 +920,10 @@ struct dma_device {
+> > >  	struct dma_async_tx_descriptor
+> > > *(*device_prep_dma_interrupt)(
+> > >  		struct dma_chan *chan, unsigned long flags);
+> > >  
+> > > +	struct dma_async_tx_descriptor
+> > > *(*device_prep_peripheral_dma_vec)(
+> > > +		struct dma_chan *chan, const struct dma_vec *vecs,
+> > > +		size_t nents, enum dma_transfer_direction
+> > > direction,
+> > > +		unsigned long prep_flags, unsigned long flags);
+> > >  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+> > >  		struct dma_chan *chan, struct scatterlist *sgl,
+> > >  		unsigned int sg_len, enum dma_transfer_direction
+> > > direction,
+> > > @@ -973,6 +987,19 @@ static inline struct dma_async_tx_descriptor
+> > > *dmaengine_prep_slave_single(
+> > >  						  dir, flags,
+> > > NULL);
+> > >  }
+> > >  
+> > > +static inline struct dma_async_tx_descriptor
+> > > *dmaengine_prep_peripheral_dma_vec(
+> > > +	struct dma_chan *chan, const struct dma_vec *vecs, size_t
+> > > nents,
+> > > +	enum dma_transfer_direction dir, unsigned long prep_flags,
+> > > +	unsigned long flags)
+> > > +{
+> > > +	if (!chan || !chan->device || !chan->device-
+> > > >device_prep_peripheral_dma_vec)
+> > > +		return NULL;
+> > > +
+> > > +	return chan->device->device_prep_peripheral_dma_vec(chan,
+> > > vecs, nents,
+> > > +							    dir,
+> > > prep_flags,
+> > > +							   
+> > > flags);
+> > > +}
 > > 
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > API looks good to me, thanks
+> > Few nits though:
+> > - Can we add kernel-doc for this new API please
+> > - Also update the documentation adding this new api
+> > - Lastly, we seem to have two flags, I know you have added a comment
+> > but
+> >   I dont seem to recall the discussion (looked at old threads for
+> > clue
+> >   as well), can you please remind me why we need both? And in your
+> > case,
+> >   what is the intended usage of these flags, i would prefer single
+> >   clean one...
+> > 
 > 
-> With this commit (9e2dcefa791e9d14006b360fba3455510fd3325d in
-> next-20240404), randconfig with KCONFIG_SEED=0xE6264236 fails to build
-> with the attached error. The following patch fixes the build error for me,
-> but I don't know if it's correct.
-
-Looks good - if you sound out an official patch I'll ack it.
-
+> The "prep_flags" is a mask of "enum dma_ctrl_flags".
 > 
-> Kind regards,
-> Klara Modin
+> The second "flags" was supposed to be specific to this function, and
+> was to future-proof the API as we eventually want to have a "cyclic"
+> flag, which would emulate a cyclic transfer by linking the SG hardware
+> descriptors accordingly.
 > 
-> diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> index 100ddf66eb8e..1c765d80298b 100644
-> --- a/include/linux/alloc_tag.h
-> +++ b/include/linux/alloc_tag.h
-> @@ -12,6 +12,7 @@
->  #include <asm/percpu.h>
->  #include <linux/cpumask.h>
->  #include <linux/static_key.h>
-> +#include <linux/irqflags.h>
-> 
->  struct alloc_tag_counters {
->         u64 bytes;
-> 
-> > diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> > new file mode 100644
-> > index 000000000000..b970ff1c80dc
-> > --- /dev/null
-> > +++ b/include/linux/alloc_tag.h
-> > @@ -0,0 +1,145 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * allocation tagging
-> > + */
-> > +#ifndef _LINUX_ALLOC_TAG_H
-> > +#define _LINUX_ALLOC_TAG_H
-> > +
-> > +#include <linux/bug.h>
-> > +#include <linux/codetag.h>
-> > +#include <linux/container_of.h>
-> > +#include <linux/preempt.h>
-> > +#include <asm/percpu.h>
-> > +#include <linux/cpumask.h>
-> > +#include <linux/static_key.h>
-> > +
-> > +struct alloc_tag_counters {
-> > +     u64 bytes;
-> > +     u64 calls;
-> > +};
-> > +
-> > +/*
-> > + * An instance of this structure is created in a special ELF section at every
-> > + * allocation callsite. At runtime, the special section is treated as
-> > + * an array of these. Embedded codetag utilizes codetag framework.
-> > + */
-> > +struct alloc_tag {
-> > +     struct codetag                  ct;
-> > +     struct alloc_tag_counters __percpu      *counters;
-> > +} __aligned(8);
-> > +
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +
-> > +static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
-> > +{
-> > +     return container_of(ct, struct alloc_tag, ct);
-> > +}
-> > +
-> > +#ifdef ARCH_NEEDS_WEAK_PER_CPU
-> > +/*
-> > + * When percpu variables are required to be defined as weak, static percpu
-> > + * variables can't be used inside a function (see comments for DECLARE_PER_CPU_SECTION).
-> > + */
-> > +#error "Memory allocation profiling is incompatible with ARCH_NEEDS_WEAK_PER_CPU"
-> > +#endif
-> > +
-> > +#define DEFINE_ALLOC_TAG(_alloc_tag)                                         \
-> > +     static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr);      \
-> > +     static struct alloc_tag _alloc_tag __used __aligned(8)                  \
-> > +     __section("alloc_tags") = {                                             \
-> > +             .ct = CODE_TAG_INIT,                                            \
-> > +             .counters = &_alloc_tag_cntr };
-> > +
-> > +DECLARE_STATIC_KEY_MAYBE(CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT,
-> > +                     mem_alloc_profiling_key);
-> > +
-> > +static inline bool mem_alloc_profiling_enabled(void)
-> > +{
-> > +     return static_branch_maybe(CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT,
-> > +                                &mem_alloc_profiling_key);
-> > +}
-> > +
-> > +static inline struct alloc_tag_counters alloc_tag_read(struct alloc_tag *tag)
-> > +{
-> > +     struct alloc_tag_counters v = { 0, 0 };
-> > +     struct alloc_tag_counters *counter;
-> > +     int cpu;
-> > +
-> > +     for_each_possible_cpu(cpu) {
-> > +             counter = per_cpu_ptr(tag->counters, cpu);
-> > +             v.bytes += counter->bytes;
-> > +             v.calls += counter->calls;
-> > +     }
-> > +
-> > +     return v;
-> > +}
-> > +
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> > +static inline void alloc_tag_add_check(union codetag_ref *ref, struct alloc_tag *tag)
-> > +{
-> > +     WARN_ONCE(ref && ref->ct,
-> > +               "alloc_tag was not cleared (got tag for %s:%u)\n",
-> > +               ref->ct->filename, ref->ct->lineno);
-> > +
-> > +     WARN_ONCE(!tag, "current->alloc_tag not set");
-> > +}
-> > +
-> > +static inline void alloc_tag_sub_check(union codetag_ref *ref)
-> > +{
-> > +     WARN_ONCE(ref && !ref->ct, "alloc_tag was not set\n");
-> > +}
-> > +#else
-> > +static inline void alloc_tag_add_check(union codetag_ref *ref, struct alloc_tag *tag) {}
-> > +static inline void alloc_tag_sub_check(union codetag_ref *ref) {}
-> > +#endif
-> > +
-> > +/* Caller should verify both ref and tag to be valid */
-> > +static inline void __alloc_tag_ref_set(union codetag_ref *ref, struct alloc_tag *tag)
-> > +{
-> > +     ref->ct = &tag->ct;
-> > +     /*
-> > +      * We need in increment the call counter every time we have a new
-> > +      * allocation or when we split a large allocation into smaller ones.
-> > +      * Each new reference for every sub-allocation needs to increment call
-> > +      * counter because when we free each part the counter will be decremented.
-> > +      */
-> > +     this_cpu_inc(tag->counters->calls);
-> > +}
-> > +
-> > +static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag, size_t bytes)
-> > +{
-> > +     alloc_tag_add_check(ref, tag);
-> > +     if (!ref || !tag)
-> > +             return;
-> > +
-> > +     __alloc_tag_ref_set(ref, tag);
-> > +     this_cpu_add(tag->counters->bytes, bytes);
-> > +}
-> > +
-> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)
-> > +{
-> > +     struct alloc_tag *tag;
-> > +
-> > +     alloc_tag_sub_check(ref);
-> > +     if (!ref || !ref->ct)
-> > +             return;
-> > +
-> > +     tag = ct_to_alloc_tag(ref->ct);
-> > +
-> > +     this_cpu_sub(tag->counters->bytes, bytes);
-> > +     this_cpu_dec(tag->counters->calls);
-> > +
-> > +     ref->ct = NULL;
-> > +}
-> > +
-> > +#else /* CONFIG_MEM_ALLOC_PROFILING */
-> > +
-> > +#define DEFINE_ALLOC_TAG(_alloc_tag)
-> > +static inline bool mem_alloc_profiling_enabled(void) { return false; }
-> > +static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
-> > +                              size_t bytes) {}
-> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes) {}
-> > +
-> > +#endif /* CONFIG_MEM_ALLOC_PROFILING */
-> > +
-> > +#endif /* _LINUX_ALLOC_TAG_H */
+> However - I think we can already do that with DMA_PREP_REPEAT and
+> DMA_PREP_LOAD_EOT, right? So we can probably drop the second "flags".
 
-> In file included from ./arch/x86/include/asm/percpu.h:615,
->                  from ./arch/x86/include/asm/preempt.h:6,
->                  from ./include/linux/preempt.h:79,
->                  from ./include/linux/alloc_tag.h:11,
->                  from lib/alloc_tag.c:2:
-> ./include/linux/alloc_tag.h: In function â€˜__alloc_tag_ref_setâ€™:
-> ./include/asm-generic/percpu.h:155:9: error: implicit declaration of function â€˜raw_local_irq_saveâ€™ [-Werror=implicit-function-declaration]
->   155 |         raw_local_irq_save(__flags);                                    \
->       |         ^~~~~~~~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:410:41: note: in expansion of macro â€˜this_cpu_generic_to_opâ€™
->   410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
->       |                                         ^~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:368:25: note: in expansion of macro â€˜this_cpu_add_8â€™
->   368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
->       |                         ^~~~
-> ./include/linux/percpu-defs.h:491:41: note: in expansion of macro â€˜__pcpu_size_callâ€™
->   491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
->       |                                         ^~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:501:41: note: in expansion of macro â€˜this_cpu_addâ€™
->   501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
->       |                                         ^~~~~~~~~~~~
-> ./include/linux/alloc_tag.h:106:9: note: in expansion of macro â€˜this_cpu_incâ€™
->   106 |         this_cpu_inc(tag->counters->calls);
->       |         ^~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:157:9: error: implicit declaration of function â€˜raw_local_irq_restoreâ€™ [-Werror=implicit-function-declaration]
->   157 |         raw_local_irq_restore(__flags);                                 \
->       |         ^~~~~~~~~~~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:410:41: note: in expansion of macro â€˜this_cpu_generic_to_opâ€™
->   410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pcp, val, +=)
->       |                                         ^~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:368:25: note: in expansion of macro â€˜this_cpu_add_8â€™
->   368 |                 case 8: stem##8(variable, __VA_ARGS__);break;           \
->       |                         ^~~~
-> ./include/linux/percpu-defs.h:491:41: note: in expansion of macro â€˜__pcpu_size_callâ€™
->   491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu_add_, pcp, val)
->       |                                         ^~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:501:41: note: in expansion of macro â€˜this_cpu_addâ€™
->   501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
->       |                                         ^~~~~~~~~~~~
-> ./include/linux/alloc_tag.h:106:9: note: in expansion of macro â€˜this_cpu_incâ€™
->   106 |         this_cpu_inc(tag->counters->calls);
->       |         ^~~~~~~~~~~~
-> cc1: some warnings being treated as errors
-> make[3]: *** [scripts/Makefile.build:244: lib/alloc_tag.o] Error 1
-> make[2]: *** [scripts/Makefile.build:485: lib] Error 2
-> make[1]: *** [/home/klara/git/linux/Makefile:1919: .] Error 2
-> make: *** [Makefile:240: __sub-make] Error 2
+Yeah that could be done, we should add Documentation to clarify this
 
-
-> # bad: [2b3d5988ae2cb5cd945ddbc653f0a71706231fdd] Add linux-next specific files for 20240404
-> git bisect start 'next/master'
-> # status: waiting for good commit(s), bad commit known
-> # good: [39cd87c4eb2b893354f3b850f916353f2658ae6f] Linux 6.9-rc2
-> git bisect good 39cd87c4eb2b893354f3b850f916353f2658ae6f
-> # bad: [cc7b62666779616ff52d389a344ffe2c041e36e2] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git
-> git bisect bad cc7b62666779616ff52d389a344ffe2c041e36e2
-> # bad: [d6b7dd0f8d84f9fdf2af65fceb608e3206276e81] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
-> git bisect bad d6b7dd0f8d84f9fdf2af65fceb608e3206276e81
-> # bad: [ad6a31687713a8f12165e730e0eb6e0de3beae56] Merge branch 'mm-everything' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-> git bisect bad ad6a31687713a8f12165e730e0eb6e0de3beae56
-> # good: [59266d9886adb5c9e240129ccc606727fd3a881d] Merge branch 'fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-> git bisect good 59266d9886adb5c9e240129ccc606727fd3a881d
-> # bad: [085e5fe7388cf36ab5c02d91022229e5fade5b30] mm: merge folio_is_secretmem() and folio_fast_pin_allowed() into gup_fast_folio_allowed()
-> git bisect bad 085e5fe7388cf36ab5c02d91022229e5fade5b30
-> # bad: [f6a61baa9139d174170acdae8667b3246ce44db6] lib: add memory allocations report in show_mem()
-> git bisect bad f6a61baa9139d174170acdae8667b3246ce44db6
-> # good: [302519d9e80a7fbf2cf8d0b8961d491af648759f] asm-generic/io.h: kill vmalloc.h dependency
-> git bisect good 302519d9e80a7fbf2cf8d0b8961d491af648759f
-> # bad: [e6942003e682e3883847459c3d07e23c796a2782] mm: create new codetag references during page splitting
-> git bisect bad e6942003e682e3883847459c3d07e23c796a2782
-> # good: [ed97151dec736c1541bfac2b801108d54ebee5bc] lib: code tagging module support
-> git bisect good ed97151dec736c1541bfac2b801108d54ebee5bc
-> # bad: [95767bde5020afefef4205b60e71f4ebf96da74e] lib: introduce early boot parameter to avoid page_ext memory overhead
-> git bisect bad 95767bde5020afefef4205b60e71f4ebf96da74e
-> # bad: [9e2dcefa791e9d14006b360fba3455510fd3325d] lib: add allocation tagging support for memory allocation profiling
-> git bisect bad 9e2dcefa791e9d14006b360fba3455510fd3325d
-> # good: [0eccd42fbf9d7c4ae0cbec48cce637da89813c2c] lib: prevent module unloading if memory is not freed
-> git bisect good 0eccd42fbf9d7c4ae0cbec48cce637da89813c2c
-> # first bad commit: [9e2dcefa791e9d14006b360fba3455510fd3325d] lib: add allocation tagging support for memory allocation profiling
-
+-- 
+~Vinod
