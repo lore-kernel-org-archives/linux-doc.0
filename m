@@ -1,272 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-fw-9106.amazon.com (smtp-fw-9106.amazon.com [207.171.188.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5CB5FB8F;
-	Mon,  8 Apr 2024 20:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF0B146A74;
+	Mon,  8 Apr 2024 22:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712609184; cv=none; b=E5FBbg8V4goq3gsJyis3Yl+MCM/2nxDA6MMhebTlc6ZszIlfvLPmFGqqbO4rG6ipp85/xxGKhyIN477CxJKMPbUwJb6SQvVT54lOaPZdEoO+McEE3zAVAnmCspM3ddXZ2TDDcu8+7DXUXnVkyN+4UHAl1P/peU6g513seATgKW0=
+	t=1712614079; cv=none; b=UWeV0m4LWh4F1Xv43NPVEmCESAHtIQyjBSeP6wczpOD1xqgM7EIN3mV/VT8VtbkOWnkd6g/aFHeiqauR8/zehoSAkmyruSC9w5wVbMh1RmiWjon/rusjqAR3QgO5J6knnGxZMV0ROlzhHVSuQKMTLJh+7CxNGAEUe/nF/VyEyM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712609184; c=relaxed/simple;
-	bh=bawdjiIKxvS+NQAyajiRxWqDPypoasRV2+XE1wBqy8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IDQDaMXQNCTrv1/M762jRnjC5te2WcsZWcez+O14vOUPxKL7WSuVq3mkbcnHVVea3YS44XgfP6qYWJOXmHsr884zDPG5ah3P7RgUnWuyU3oReD6naS77mAT3e4UEyZ1yKDAtui0S5q7Yj+uCEE4JOnImB3X95slcPbbDyrDEuPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7Gf5GXb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712614079; c=relaxed/simple;
+	bh=P5hRDy1wg+C00YeG8BTUnFaiaw3vCXyKjsGOdD10sf4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TtjdI8xYqSI7sY/GFqof5KhtI+8KoP/HMFroS1eZbz7WPbifmdyi6cmGmtrVZ4Elk3NXl1rq2QFONRrdZ7LfHso/BWlxO7NUAsjvUQOVNXkTpA7xN/vZRPE11OmtjUmL3+s3XsYPbev9kElaGMJv0wVvI4oKUHd1ebDYY2xfrdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=moo4OuYb; arc=none smtp.client-ip=207.171.188.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7Gf5GXb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5B0C433C7;
-	Mon,  8 Apr 2024 20:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712609183;
-	bh=bawdjiIKxvS+NQAyajiRxWqDPypoasRV2+XE1wBqy8Q=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=m7Gf5GXb6iK22KgIcBH3SH58M9klBxgKQVofhd+Nb8m3rH6B1E64AmjDkXDTjJtpV
-	 KMDbW9bJQ62vDPXXM++pnfd3qQm9H3iXL8If0Q+UOObnO5nHmEmh5F4f7/IzWPPJkg
-	 31GiIpqQRGIpmWwd/++NpVLOljDPHxSZ6B3nEk3jpFrjF1kcmKD/rzCwUBtbLGA/bN
-	 DgQnkFZCKnOwufxw+6nR/vn74S+9QPrYEKuXtzaKddQdYs7ApwVt0ngMZnLwNcHYwN
-	 9u2AY9GyWBJGsrWPwhAjb/OsLVeHj2WAxFnhPCaujLG9zKiTdhxG0MPMftAOnmb4Tz
-	 gJh9CVCrMkPBA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1CAD5CE126C; Mon,  8 Apr 2024 13:46:23 -0700 (PDT)
-Date: Mon, 8 Apr 2024 13:46:23 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Andrea Parri <parri.andrea@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
-	will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
-	npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
-	luc.maranget@inria.fr, akiyks@gmail.com,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH memory-model 2/3] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-Message-ID: <88b71a34-3d50-40a8-b4b6-c2d29a5d93a5@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <8550daf1-4bfd-4607-8325-bfb7c1e2d8c7@paulmck-laptop>
- <20240404192649.531112-2-paulmck@kernel.org>
- <Zg/M141yzwnwPbCi@andrea>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="moo4OuYb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1712614078; x=1744150078;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BNWghUNyuV6Lk+YyDToi8Tsw6HLVZtok1GuBByD/mfA=;
+  b=moo4OuYbI4mRHszXvSW5YzqcXxBnWbqrWfmewPhXBDX3GGnCeT0Xu6MP
+   6ejV2XG0i4e3B07jlSqiDunLaa5a9QjvW0w62P7VqiWnocQAiJz335O2S
+   mrX0t0ata1LS0yE151bsqqTcvi63E2Vy0vfDZUTPIqeajm9NNk5iP6kZv
+   w=;
+X-IronPort-AV: E=Sophos;i="6.07,187,1708387200"; 
+   d="scan'208";a="717029174"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.210])
+  by smtp-border-fw-9106.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 22:07:51 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [10.0.17.79:39488]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.35.41:2525] with esmtp (Farcaster)
+ id 3f231b9f-fb77-49ec-83b1-2a4b83555169; Mon, 8 Apr 2024 22:07:49 +0000 (UTC)
+X-Farcaster-Flow-ID: 3f231b9f-fb77-49ec-83b1-2a4b83555169
+Received: from EX19D033EUC002.ant.amazon.com (10.252.61.215) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Mon, 8 Apr 2024 22:07:43 +0000
+Received: from EX19MTAUEB001.ant.amazon.com (10.252.135.35) by
+ EX19D033EUC002.ant.amazon.com (10.252.61.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Mon, 8 Apr 2024 22:07:43 +0000
+Received: from dev-dsk-jalliste-1c-e3349c3e.eu-west-1.amazon.com
+ (10.13.244.142) by mail-relay.amazon.com (10.252.135.35) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28 via Frontend Transport; Mon, 8 Apr 2024 22:07:42 +0000
+From: Jack Allister <jalliste@amazon.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner
+	<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>
+CC: David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, "Jack
+ Allister" <jalliste@amazon.com>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] Add API to correct KVM/PV clock drift 
+Date: Mon, 8 Apr 2024 22:07:02 +0000
+Message-ID: <20240408220705.7637-1-jalliste@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zg/M141yzwnwPbCi@andrea>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 05, 2024 at 12:05:11PM +0200, Andrea Parri wrote:
-> >  DCL-broken.litmus
-> > -	Demonstrates that double-checked locking needs more than just
-> > -	the obvious lock acquisitions and releases.
-> > +    Demonstrates that double-checked locking needs more than just
-> > +    the obvious lock acquisitions and releases.
-> >  
-> >  DCL-fixed.litmus
-> > -	Demonstrates corrected double-checked locking that uses
-> > -	smp_store_release() and smp_load_acquire() in addition to the
-> > -	obvious lock acquisitions and releases.
-> > +    Demonstrates corrected double-checked locking that uses
-> > +    smp_store_release() and smp_load_acquire() in addition to the
-> > +    obvious lock acquisitions and releases.
-> >  
-> >  RM-broken.litmus
-> > -	Demonstrates problems with "roach motel" locking, where code is
-> > -	freely moved into lock-based critical sections.  This example also
-> > -	shows how to use the "filter" clause to discard executions that
-> > -	would be excluded by other code not modeled in the litmus test.
-> > -	Note also that this "roach motel" optimization is emulated by
-> > -	physically moving P1()'s two reads from x under the lock.
-> > +    Demonstrates problems with "roach motel" locking, where code is
-> > +    freely moved into lock-based critical sections.  This example also
-> > +    shows how to use the "filter" clause to discard executions that
-> > +    would be excluded by other code not modeled in the litmus test.
-> > +    Note also that this "roach motel" optimization is emulated by
-> > +    physically moving P1()'s two reads from x under the lock.
-> >  
-> > -	What is a roach motel?	This is from an old advertisement for
-> > -	a cockroach trap, much later featured in one of the "Men in
-> > -	Black" movies.	"The roaches check in.	They don't check out."
-> > +    What is a roach motel?  This is from an old advertisement for
-> > +    a cockroach trap, much later featured in one of the "Men in
-> > +    Black" movies.  "The roaches check in.  They don't check out."
-> >  
-> >  RM-fixed.litmus
-> > -	The counterpart to RM-broken.litmus, showing P0()'s two loads from
-> > -	x safely outside of the critical section.
-> > +    The counterpart to RM-broken.litmus, showing P0()'s two loads from
-> > +    x safely outside of the critical section.
-> 
-> AFAIU, the changes above belong to patch #1.  Looks like you realigned
-> the text, but forgot to integrate the changes in #1?
+Guest VMs can be provided with a para-virtualized clock source to
+perform timekeeping. A KVM guest can map in a PV clock via the
+MSR_KVM_SYSTEM_TIME/MSR_KVM_SYSTEM_TIME_NEW virtualized MSRs.
+Where as on a Xen guest this can be provided via the vcpu/shared
+info pages.
 
-Good eyes!  I will catch this in my next rebase.
+These PV clocks both use a common structure which is mapped between
+host <-> guest to provide the PVTI (paravirtual time information)
+for the clock. This reference information is a guest TSC timestamp
+and a host system time at a SINGULAR point in time.
 
-> > +C cmpxchg-fail-ordered-1
-> > +
-> > +(*
-> > + * Result: Never
-> > + *
-> > + * Demonstrate that a failing cmpxchg() operation will act as a full
-> > + * barrier when followed by smp_mb__after_atomic().
-> > + *)
-> > +
-> > +{}
-> > +
-> > +P0(int *x, int *y, int *z)
-> > +{
-> > +	int r0;
-> > +	int r1;
-> > +
-> > +	WRITE_ONCE(*x, 1);
-> > +	r1 = cmpxchg(z, 1, 0);
-> > +	smp_mb__after_atomic();
-> > +	r0 = READ_ONCE(*y);
-> > +}
-> > +
-> > +P1(int *x, int *y, int *z)
-> > +{
-> > +	int r0;
-> > +
-> > +	WRITE_ONCE(*y, 1);
-> > +	r1 = cmpxchg(z, 1, 0);
-> 
-> P1's r1 is undeclared (so klitmus7 will complain).
-> 
-> The same observation holds for cmpxchg-fail-unordered-1.litmus.
+If KVM decides to update the reference information due to a
+KVM_REQ_MASTERCLOCK_UPDATE, a drift between the guest TSC and
+the PV clock can be observed, this is exascerbated when the guest
+TSC is also scaled too.  
 
-Good catch in all four tests, thank you!
+If the reference guest TSC & system time within the structure stay
+the same there is no potential for a drift between the TSC and PV
+clock.
 
-Does the patch shown at the end of this email clear things up for you?
+This series adds in two patches, one to add in API/ioctl to allow
+a VMM to perform a correction/fixup of the PVTI structure when it
+knows that KVM may have updated the KVM clock information and a
+second one to verify that the drift is present & corrected.
 
-							Thanx, Paul
+Jack Allister (2):
+  KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for KVM clock drift fixup
+  KVM: selftests: Add KVM/PV clock selftest to prove timer drift
+    correction
 
-> > +	smp_mb__after_atomic();
-> > +	r0 = READ_ONCE(*x);
-> > +}
-> > +
-> > +locations[0:r1;1:r1]
-> > +exists (0:r0=0 /\ 1:r0=0)
-> 
-> 
-> > +C cmpxchg-fail-ordered-2
-> > +
-> > +(*
-> > + * Result: Never
-> > + *
-> > + * Demonstrate use of smp_mb__after_atomic() to make a failing cmpxchg
-> > + * operation have acquire ordering.
-> > + *)
-> > +
-> > +{}
-> > +
-> > +P0(int *x, int *y)
-> > +{
-> > +	int r0;
-> > +	int r1;
-> > +
-> > +	WRITE_ONCE(*x, 1);
-> > +	r1 = cmpxchg(y, 0, 1);
-> > +}
-> > +
-> > +P1(int *x, int *y)
-> > +{
-> > +	int r0;
-> > +
-> > +	r1 = cmpxchg(y, 0, 1);
-> > +	smp_mb__after_atomic();
-> > +	r2 = READ_ONCE(*x);
-> 
-> P1's r1 and r2 are undeclared.  P0's r0 and P1's r0 are unused.
-> 
-> Same for cmpxchg-fail-unordered-2.litmus.
-> 
->   Andrea
+ Documentation/virt/kvm/api.rst                |  43 ++++
+ arch/x86/kvm/x86.c                            |  87 +++++++
+ include/uapi/linux/kvm.h                      |   3 +
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/x86_64/pvclock_test.c       | 223 ++++++++++++++++++
+ 5 files changed, 357 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/pvclock_test.c
 
-------------------------------------------------------------------------
 
-commit 5ce4d0efe11fd101ff938f6116cdd9b6fe46a98c
-Author: Paul E. McKenney <paulmck@kernel.org>
-Date:   Mon Apr 8 13:41:22 2024 -0700
+base-commit: 8cb4a9a82b21623dbb4b3051dd30d98356cf95bc
+-- 
+2.40.1
 
-    Documentation/litmus-tests: Make cmpxchg() tests safe for klitmus
-    
-    The four litmus tests in Documentation/litmus-tests/atomic do not
-    declare all of their local variables.  Although this is just fine for LKMM
-    analysis by herd7, it causes build failures when run in-kernel by klitmus.
-    This commit therefore adjusts these tests to declare all local variables.
-    
-    Reported-by: Andrea Parri <parri.andrea@gmail.com>
-    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-
-diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
-index 3df1d140b189b..c0f93dc07105e 100644
---- a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
-+++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
-@@ -23,6 +23,7 @@ P0(int *x, int *y, int *z)
- P1(int *x, int *y, int *z)
- {
- 	int r0;
-+	int r1;
- 
- 	WRITE_ONCE(*y, 1);
- 	r1 = cmpxchg(z, 1, 0);
-diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
-index 54146044a16f6..5c06054f46947 100644
---- a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
-+++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
-@@ -11,7 +11,6 @@ C cmpxchg-fail-ordered-2
- 
- P0(int *x, int *y)
- {
--	int r0;
- 	int r1;
- 
- 	WRITE_ONCE(*x, 1);
-@@ -20,7 +19,8 @@ P0(int *x, int *y)
- 
- P1(int *x, int *y)
- {
--	int r0;
-+	int r1;
-+	int r2;
- 
- 	r1 = cmpxchg(y, 0, 1);
- 	smp_mb__after_atomic();
-diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
-index a727ce23b1a6e..39ea1f56a28d2 100644
---- a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
-+++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
-@@ -23,6 +23,7 @@ P0(int *x, int *y, int *z)
- P1(int *x, int *y, int *z)
- {
- 	int r0;
-+	int r1;
- 
- 	WRITE_ONCE(*y, 1);
- 	r1 = cmpxchg(z, 1, 0);
-diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
-index a245bac55b578..61aab24a4a643 100644
---- a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
-+++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
-@@ -12,7 +12,6 @@ C cmpxchg-fail-unordered-2
- 
- P0(int *x, int *y)
- {
--	int r0;
- 	int r1;
- 
- 	WRITE_ONCE(*x, 1);
-@@ -21,7 +20,8 @@ P0(int *x, int *y)
- 
- P1(int *x, int *y)
- {
--	int r0;
-+	int r1;
-+	int r2;
- 
- 	r1 = cmpxchg(y, 0, 1);
- 	r2 = READ_ONCE(*x);
