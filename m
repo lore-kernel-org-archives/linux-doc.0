@@ -1,155 +1,139 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FE54C634
-	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 09:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37463626CD
+	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 11:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712568652; cv=none; b=SYLGCYotLeHIK74hUfmKwMmwZQNRYj5idMChHZN/ZpwAMbX8AYiBKEChMVXrriHtb969IvSmHwPjuxFtQZRqncLCp/c5Gw0orMENQ0lr5r3mHe+YkW0zsr3pzi+otcmeoGPxvJXS1TdoA4vmmJvFxLv9lmG3pyoKW98q5uohUaw=
+	t=1712574239; cv=none; b=ZkHxpVXdYewYZNDtD3uc28YvaN30AwusFzkANDsS/zT7G1kKQIHbTC/CjkFkTaQee/03ZQyolwxL6UxvLTV36r204zKTWWDvIITaIKZmyEyJpBmABMVuKfZDwzXDkOqYVjT4VQobwWPWr9r/zDS88zVtY2vp0TO7+f7a8RKeerc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712568652; c=relaxed/simple;
-	bh=mXGVh5sNg5jlDv7GLXUH38FmV/TKaLl65KjI3d2PhLA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PIo81EeGB6yUOtL4NGjAgrHvw1nB/b/gpHherD/61laAvdfqhMaz4/mt7O1xfXRi6zw248ZhqLY02zB0Y/joN31fd5p2whBC6+APFROouZdljXEoUtkN4RAX680tuTxkLg40AC8Z/Wu3outv2Gu1dxoPKCWupZZuzkD9nH0/458=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tYdxR0tp; arc=none smtp.client-ip=209.85.222.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712574239; c=relaxed/simple;
+	bh=wkKRyt/Vw/5zc5dlJy0JHXCMpR/2OfytD1MG2A8RMO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WAIBQ2viy8Hh97QeTUdNdKV2+wVeUle9BRAseiLL7arM6WbwL+4UeQTX1ZecxWBmtX9xzQzijXkP0X3lK7WjV8M4DEOCAn0q3w38Ga45nwvSvaQpHw44M0OvR/gDVmthO0qX5pWRyg+ensQMzKaDQU9xJ9oTINGKOb3vfVlsWIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=QUnnJn8p; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tYdxR0tp"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-7db44846727so1090227241.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 02:30:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="QUnnJn8p"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a51e368c6dcso4741166b.3
+        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 04:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712568650; x=1713173450; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dt4+ZQSYRlcSKRtpx5FfFY83qCQMJSz/0ZWKLb2RT/U=;
-        b=tYdxR0tpqgRQdqvSM4RNMxGHia5crMBau46tsOiIcKjdtVbCT4K13ru+f5WE8XC1bh
-         B7YwXtL91oF2iNLn9UaeCZfrzY+sAEq+GdMqtwplT+9VQTiJ725Aq6jAIqE6enS7bgae
-         k9vanfSq2ki08grr8e46v53qMNbtproXy/GX53S6Y2pqI2nJHMkNF8rHG1bNnsGGVnUj
-         /ciWJ04t1JSnrDacUmnEn1JO5oVpwYyYw14yK5gJlK5O2FgrrRbAUrOOj1QUukgmhBrm
-         Om3orNRrLcMBYIlviJidFLuB8H/Mykav0I2uXlb1f2QOBGRnAexJTAsXlHuu3mtMlHEn
-         QpqA==
+        d=ventanamicro.com; s=google; t=1712574236; x=1713179036; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4g1Fe38jasdHywEL2euSnsmLnhOpgJ82XZytSUr/W9Q=;
+        b=QUnnJn8pEBYu+zh4J/NCAw2trUTPY4j7dqg1dvLrnb7kRyq47WMMmXmsPGkDqeCqam
+         5qSVvM/tQNajw1Tbw2wJ3UXlD30gyrnfkchtL3WmvUS9z1oAWL48DGwoIW0GG284ZFzF
+         2nn6O9pXtb2isRu1dwwWA7md9vFurJiOfbQHT87T/K4yFdO/WSPp/Ma7LFomKR0piXNa
+         YMKyTmZhMaD7vxSqW3eBqJzaYu6AeglocNS+UxJ+NxfsNJzcPdGTCDBkN8/JlFbZtkif
+         Err7zcMtdQTnJCj8fmn1PT+otC5l8H2OoxV5lto8v3CQLmNvp/0KbpCw0eil8FHz6w/N
+         m1xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712568650; x=1713173450;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dt4+ZQSYRlcSKRtpx5FfFY83qCQMJSz/0ZWKLb2RT/U=;
-        b=b9CTZvtVIcZgWU34Nezf/zVB2e+0nuZxWcEy1rZIbux8lXnDag1wRcMHfVKsKIILb4
-         Nhwe63dKCw5+ZdgoNudY0x10uZ1JfrKVHzQ9rPaGVbHVzqzdsr25xDxENSmH7gXVbhE9
-         Bu7MGT88BfQbeRmEkBfM1zCriNuREBfg4hM4t+lEQ7D75IxXZdUkEPPR1FKV5sQiZs2u
-         lkeCf18MyaFNcs1ht65PFVqHJzBs6rKUVk0VWoMJ18S3z0UXaZygsZUjtPqp3fPuiIrD
-         diJDxamkzXmVETzaTQcyPJmfrLuyTbSjDnWxTFO9z7JS2OUaM4C4Ok3bzOrLTKgAEDT4
-         1QnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXomguKE8SltFKeU2XwQCZ0Is9rvRShzkGHZ9qSZZfFGGhAfcmcggsqjh3JKu9xDR2/h2Ja4PVOdxnZRhHBapxyOdE170lETo3+
-X-Gm-Message-State: AOJu0Yy9ibiP62mN9M7/q10klYQ2E+sH2dNkf6eH2jKLS2oZsjgRsmmR
-	14F2/Ks60JFJvTTD0K8syPQ2qFPUxxEcAdj2keirBHWHBEtjXUsN1Qc/mH9Wz5xMLMPk+NOaSfp
-	xbj3/9f8V8f9vqC+HUFDkVIt+HTvr/JrjqTOa
-X-Google-Smtp-Source: AGHT+IHSc19HHK4rnD0e2MMJb+xfvoOodNgWrEhdPc+rpnJPoknruG/+MFwgowFZx5LQFPKVgH6cfOCOFZ1VGo3iO1E=
-X-Received: by 2002:a05:6102:509f:b0:47a:66a:189f with SMTP id
- bl31-20020a056102509f00b0047a066a189fmr883424vsb.19.1712568649739; Mon, 08
- Apr 2024 02:30:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712574236; x=1713179036;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4g1Fe38jasdHywEL2euSnsmLnhOpgJ82XZytSUr/W9Q=;
+        b=Q1x5YuHnKM8B1cT4e1qWKpJs2ciwq6V4UWnjGjkDPOYwIKRHMyhMQWpWoMkoZkcSjM
+         D2WytLsLEOaxApmmazfLqQFH6efRCeR3HJgpegYoj0MMLHAb9CPLTqoKG8+Iq4rUlX+4
+         VAA5h0aVrGV6/0G37+amPTaXyRLjMy1cK6V6DWXhpdgy65X34pD8RGz0cxraUgaDN4Nk
+         P2JjB3+8X8mRL+dSZzxeyHmYG8uzo9aNwFAGBo7vCuHRWHqrPbzSTIYEgj8ITqg32qVd
+         ZkR+o0EfuBikxa4TUDkL7oLfjfUEbF2nDCq5aGleu4xMY7lerAK540B2nuH+CY8UnCz9
+         Bp8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUroGm7Ov6Gy8d8iVvikpRPhNV3vKEILiqL+HpjJxkHHNr50a0/qhqrWP7ncJn8vFtp/Z+W1TjjOM24Ll5rSjMHkVTRPz/svD50
+X-Gm-Message-State: AOJu0YyoxYRH3n/Mad9gGclLBvPv/eF9f0UOAR9c5tF25Q5JZOjaFl44
+	qiv6YxeRvxp6PVCy8Z3tO4jy9BvDmw8BbM5yssCVO+a+Vv4uW1wxa0ldL+sD9XY=
+X-Google-Smtp-Source: AGHT+IGnIHRj0+4dG4NgzsNXCqgJTww4f9iaHdQi6M7w7Zma3E/8aHUoufLLnKT3jNOOK2m1ikAHoA==
+X-Received: by 2002:a17:906:31d4:b0:a46:da28:992e with SMTP id f20-20020a17090631d400b00a46da28992emr5801257ejf.71.1712574236283;
+        Mon, 08 Apr 2024 04:03:56 -0700 (PDT)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
+        by smtp.gmail.com with ESMTPSA id b15-20020a170906d10f00b00a4df4243473sm4279042ejz.4.2024.04.08.04.03.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 04:03:55 -0700 (PDT)
+Date: Mon, 8 Apr 2024 13:03:54 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Deepak Gupta <debug@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>, 
+	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 0/5] Add parsing for Zimop ISA extension
+Message-ID: <20240408-6c93f3f50b55234f3825ca33@orel>
+References: <20240404103254.1752834-1-cleger@rivosinc.com>
+ <20240405-091c6c174f023d74b434059d@orel>
+ <CAKC1njQ3qQ8mTMoYkhhoGQfRSVtp2Tfd2LjDhAmut7UcW9-bGw@mail.gmail.com>
+ <ddc5555a-3ae8-42e5-a08a-ca5ceaf0bf28@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404190146.1898103-1-elver@google.com> <CAADnVQKc+Z39k9wbU2MHf-fPFma+9QsyOugmmmGq3ynQCTVfCw@mail.gmail.com>
- <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com> <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com>
-In-Reply-To: <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Mon, 8 Apr 2024 11:30:11 +0200
-Message-ID: <CANpmjNMCJwCaGiUpMCukgruNJ9k120sJ8pVkrdpyo-Tonve2Sw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Introduce bpf_probe_write_user_registered()
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ddc5555a-3ae8-42e5-a08a-ca5ceaf0bf28@rivosinc.com>
 
-On Fri, 5 Apr 2024 at 22:28, Andrii Nakryiko <andrii.nakryiko@gmail.com> wr=
-ote:
->
-> On Fri, Apr 5, 2024 at 1:28=E2=80=AFAM Marco Elver <elver@google.com> wro=
-te:
-> >
-> > On Fri, 5 Apr 2024 at 01:23, Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-[...]
-> > > and the tasks can use mmaped array shared across all or unique to eac=
-h
-> > > process.
-> > > And both bpf and user space can read/write them with a single instruc=
-tion.
-> >
-> > That's BPF_F_MMAPABLE, right?
-> >
-> > That does not work because the mmapped region is global. Our requiremen=
-ts are:
-> >
-> > 1. Single tracing BPF program.
-> >
-> > 2. Per-process (per VM) memory region (here it's per-thread, but each
-> > thread just registers the same process-wide region).  No sharing
-> > between processes.
-> >
-> > 3. From #2 it follows: exec unregisters the registered memory region;
-> > fork gets a cloned region.
-> >
-> > 4. Unprivileged processes can do prctl(REGISTER). Some of them might
-> > not be able to use the bpf syscall.
-> >
-> > The reason for #2 is that each user space process also writes to the
-> > memory region (read by the BPF program to make updates depending on
-> > what state it finds), and having shared state between processes
-> > doesn't work here.
-> >
-> > Is there any reasonable BPF facility that can do this today? (If
-> > BPF_F_MMAPABLE could do it while satisfying requirements 2-4, I'd be a
-> > happy camper.)
->
-> You could simulate something like this with multi-element ARRAY +
-> BPF_F_MMAPABLE, though you'd need to pre-allocate up to max number of
-> processes, so it's not an exact fit.
+On Mon, Apr 08, 2024 at 10:01:12AM +0200, Clément Léger wrote:
+> 
+> 
+> On 05/04/2024 19:33, Deepak Gupta wrote:
+> > On Fri, Apr 5, 2024 at 8:26 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >>
+> >> On Thu, Apr 04, 2024 at 12:32:46PM +0200, Clément Léger wrote:
+> >>> The Zimop ISA extension was ratified recently. This series adds support
+> >>> for parsing it from riscv,isa, hwprobe export and kvm support for
+> >>> Guest/VM.
+> >>
+> >> I'm not sure we need this. Zimop by itself isn't useful, so I don't know
+> >> if we need to advertise it at all. When an extension comes along that
+> >> redefines some MOPs, then we'll advertise that extension, but the fact
+> >> Zimop is used for that extension is really just an implementation detail.
+> > 
+> > Only situation I see this can be useful is this:--
+> > 
+> > An implementer, implemented Zimops in CPU solely for the purpose that they can
+> > run mainline distro & packages on their hardware and don't want to leverage any
+> > feature which are built on top of Zimop.
+> 
+> Yes, the rationale was that some binaries using extensions that overload
+> MOPs could still be run. With Zimop exposed, the loader could determine
+> if the binary can be executed without potentially crashing. We could
+> also let the program run anyway but the execution could potentially
+> crash unexpectedly, which IMHO is not really good for the user
+> experience nor for debugging. I already think that the segfaults which
+> happens when executing binaries that need some missing extension are not
+> so easy to debug, so better add more guards.
 
-Right, for production use this is infeasible.
-
-> But what seems to be much closer is using BPF task-local storage, if
-> we support mmap()'ing its memory into user-space. We've had previous
-> discussions on how to achieve this (the simplest being that
-> mmap(task_local_map_fd, ...) maps current thread's part of BPF task
-> local storage). You won't get automatic cloning (you'd have to do that
-> from the BPF program on fork/exec tracepoint, for example), and within
-> the process you'd probably want to have just one thread (main?) to
-> mmap() initially and just share the pointer across all relevant
-> threads.
-
-In the way you imagine it, would that allow all threads sharing the
-same memory, despite it being task-local? Presumably each task's local
-storage would be mapped to just point to the same memory?
-
-> But this is a more generic building block, IMO. This relying
-> on BPF map also means pinning is possible and all the other BPF map
-> abstraction benefits.
-
-Deployment-wise it will make things harder because unprivileged
-processes still have to somehow get the map's shared fd somehow to
-mmap() it. Not unsolvable, and in general what you describe looks
-interesting, but I currently can't see how it will be simpler.
-
-In absence of all that, is a safer "bpf_probe_write_user()" like I
-proposed in this patch ("bpf_probe_write_user_registered()") at all
-appealing?
+OK. It's only one more extension out of dozens, so I won't complain more,
+but I was thinking that binaries that use particular extensions would
+check for those particular extensions (step 2), rather than Zimop.
 
 Thanks,
--- Marco
+drew
+
+> 
+> > 
+> > As an example zicfilp and zicfiss are dependent on zimops. glibc can
+> > do following
+> > 
+> > 1) check elf header if binary was compiled with zicfiss and zicfilp,
+> > if yes goto step 2, else goto step 6.
+> > 2) check if zicfiss/zicfilp is available in hw via hwprobe, if yes
+> > goto step 5. else goto step 3
+> > 3) check if zimop is available via hwprobe, if yes goto step 6, else goto step 4
+> 
+> I think you meant step 5 rather than step 6.
+> 
+> Clément
+> 
+> > 4) This binary won't be able to run successfully on this platform,
+> > issue exit syscall. <-- termination
+> > 5) issue prctl to enable shadow stack and landing pad for current task
+> > <-- enable feature
+> > 6) let the binary run <-- let the binary run because no harm can be done
