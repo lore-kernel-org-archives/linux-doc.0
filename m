@@ -1,83 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE70481A6;
-	Mon,  8 Apr 2024 13:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2366279F0;
+	Mon,  8 Apr 2024 13:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712582427; cv=none; b=qNClLl0NcBrvgiit0O5MqHrREOpisHuhixOdZHfLuQ4LD7SV9xpf3Y/g8tAO/xKSK3sxxZsJMyiPSxcwAUmtu+LPh6E0UGPt/i8cKhqWFEdo52Ga6O3Lz3JxRbnrHaaMhJQTHwDkk2XcbZfOIhElhxe0N4PEEHrWoQP96HN2vtM=
+	t=1712583589; cv=none; b=W3zRT5EscCa8Vs6RsgKWyN2OYpqI297rNS8CMEiZUN0ujEA4ER7qG3jk6GYInzbYMCqlkU7ruyiujdlUD1fVI+sKoWNY3/Wi6fyrSZRJDBf1Or1SyWcITZqBftcikBoVsL6plQiyFmYOklcnq9/v4igIaF96RiDasnQNcFZRECs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712582427; c=relaxed/simple;
-	bh=cGDUlw6k8tIWFZInxvFyjxFVpYYU2NmTQtQ7IW9vU/A=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=mCUwpxL7VQOnSTw1VKQoWT/iteqk7rQ8+o7UPwfzjFFvcPUcooFcucHoSHVemhPTapmJ5vdSMWEslJIM4Ys6Pwo+UXGxCV5RXHYH1ZjbL6IFyvJTr20tyF7ihc8n4XY5tTiNLSJ05uR52zCDqlmmsUyD4iJXfJ1W3FQxLRu6LHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aypNzpwL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aypNzpwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F38BEC43394;
-	Mon,  8 Apr 2024 13:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712582427;
-	bh=cGDUlw6k8tIWFZInxvFyjxFVpYYU2NmTQtQ7IW9vU/A=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aypNzpwL71CgTXwvMT2nnOIHleunSJDzp8ieXffpdoU0tCRN928ur92PPKGHlWIZm
-	 NAo9HQ1PmFLsCdC57ukZ3F6InGI8XbkusegMUhTSlY9XIZqlZU4Gy51NShqHXMHO6g
-	 CTktv64IfpLOsLUNKfr3DV4tP101GAgzlToWX3gaPtqz52GyniLGq1haqiYalwcSxS
-	 +tQV3xxdviLwIABE69MAp4taHWbJ8dW1AINlzy2lx1Kcz8zLBen3fKi01/ZPOSY8wO
-	 cNgAdRo2xeiRYAL9qzBb7Wpetbz2jGZ4vGGz+aRto684VBCd/ygdGfCUr88NrzJlsO
-	 DChFOCXT/fQEQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E683BD72A02;
-	Mon,  8 Apr 2024 13:20:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1712583589; c=relaxed/simple;
+	bh=HBiOHkqW/9TipkYoD4a9v0jztvyOEos6tX06fqvWb6s=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=MwekOagle4r6vXBdXfas35sCQtdDpqR2shMwOFfS98pifAl7LcEHIMxEospMiiSV0y+IrsC+a2li013yANGeNADdyKEZcLENJCl7HiFZwURJ3gESA7HIhBgGoJdXcKLSLzs7iwDdLxj9wfX0wHOJpw9L/wMyqgS8KAXRPfyt33A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4VCqs70pSLz1ymQ9;
+	Mon,  8 Apr 2024 21:37:31 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id BA03B1401E0;
+	Mon,  8 Apr 2024 21:39:44 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 8 Apr
+ 2024 21:39:44 +0800
+Subject: Re: [PATCH net-next v1 12/12] mm: page_frag: update documentation and
+ maintainer for page_frag
+To: Alexander H Duyck <alexander.duyck@gmail.com>, <davem@davemloft.net>,
+	<kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
+References: <20240407130850.19625-1-linyunsheng@huawei.com>
+ <20240407130850.19625-13-linyunsheng@huawei.com>
+ <b5c5866e626f6c90657a32b5e9adff724d5896db.camel@gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <c1f5a78a-3040-0cc7-f113-d5ec82c6010f@huawei.com>
+Date: Mon, 8 Apr 2024 21:39:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v4 0/2] devlink: Add port function attribute for IO EQs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171258242694.15799.9946974100091774097.git-patchwork-notify@kernel.org>
-Date: Mon, 08 Apr 2024 13:20:26 +0000
-References: <20240406010538.220167-1-parav@nvidia.com>
-In-Reply-To: <20240406010538.220167-1-parav@nvidia.com>
-To: Parav Pandit <parav@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, dw@davidwei.uk,
- kalesh-anakkur.purayil@broadcom.com, saeedm@nvidia.com, leon@kernel.org,
- jiri@resnulli.us, shayd@nvidia.com, danielj@nvidia.com, dchumak@nvidia.com,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org
+In-Reply-To: <b5c5866e626f6c90657a32b5e9adff724d5896db.camel@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Sat, 6 Apr 2024 04:05:36 +0300 you wrote:
-> Currently, PCI SFs and VFs use IO event queues to deliver netdev per
-> channel events. The number of netdev channels is a function of IO
-> event queues. In the second scenario of an RDMA device, the
-> completion vectors are also a function of IO event queues. Currently, an
-> administrator on the hypervisor has no means to provision the number
-> of IO event queues for the SF device or the VF device. Device/firmware
-> determines some arbitrary value for these IO event queues. Due to this,
-> the SF netdev channels are unpredictable, and consequently, the
-> performance is too.
+On 2024/4/8 2:13, Alexander H Duyck wrote:
+> On Sun, 2024-04-07 at 21:08 +0800, Yunsheng Lin wrote:
+>> Update documentation about design, implementation and API usages
+>> for page_frag.
+>>
+>> Also update MAINTAINERS for page_frag. Alexander seems to be the
+>> orginal author for page_frag, we can add him to the MAINTAINERS
+>> later if we have an ack from him.
+>>
+>> CC: Alexander Duyck <alexander.duyck@gmail.com>
+>> Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
 > 
-> [...]
+> Again, this seems more like 2 different pathches at least. One for the
+> Documentation and MAINTAINERS changes, and one for the function
+> documentation.
 
-Here is the summary with links:
-  - [net-next,v4,1/2] devlink: Support setting max_io_eqs
-    https://git.kernel.org/netdev/net-next/c/5af3e3876d56
-  - [net-next,v4,2/2] mlx5/core: Support max_io_eqs for a function
-    https://git.kernel.org/netdev/net-next/c/93197c7c509d
+Sure.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> 
+>> ---
+>>  Documentation/mm/page_frags.rst | 115 ++++++++++++++++++----------
+>>  MAINTAINERS                     |  10 +++
+>>  include/linux/page_frag_cache.h | 128 ++++++++++++++++++++++++++++++++
+>>  mm/page_frag_cache.c            |  51 ++++++++++---
+>>  4 files changed, 256 insertions(+), 48 deletions(-)
+>>
+>> diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
+>> index 503ca6cdb804..77256dfb58bf 100644
+>> --- a/Documentation/mm/page_frags.rst
+>> +++ b/Documentation/mm/page_frags.rst
+>> @@ -1,43 +1,80 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>>  ==============
+>>  Page fragments
+>>  ==============
+>>  
+>> -A page fragment is an arbitrary-length arbitrary-offset area of memory
+>> -which resides within a 0 or higher order compound page.  Multiple
+>> -fragments within that page are individually refcounted, in the page's
+>> -reference counter.
+>> -
+>> -The page_frag functions, page_frag_alloc and page_frag_free, provide a
+>> -simple allocation framework for page fragments.  This is used by the
+>> -network stack and network device drivers to provide a backing region of
+>> -memory for use as either an sk_buff->head, or to be used in the "frags"
+>> -portion of skb_shared_info.
+>> -
+>> -In order to make use of the page fragment APIs a backing page fragment
+>> -cache is needed.  This provides a central point for the fragment allocation
+>> -and tracks allows multiple calls to make use of a cached page.  The
+>> -advantage to doing this is that multiple calls to get_page can be avoided
+>> -which can be expensive at allocation time.  However due to the nature of
+>> -this caching it is required that any calls to the cache be protected by
+>> -either a per-cpu limitation, or a per-cpu limitation and forcing interrupts
+>> -to be disabled when executing the fragment allocation.
+>> -
+>> -The network stack uses two separate caches per CPU to handle fragment
+>> -allocation.  The netdev_alloc_cache is used by callers making use of the
+>> -netdev_alloc_frag and __netdev_alloc_skb calls.  The napi_alloc_cache is
+>> -used by callers of the __napi_alloc_frag and napi_alloc_skb calls.  The
+>> -main difference between these two calls is the context in which they may be
+>> -called.  The "netdev" prefixed functions are usable in any context as these
+>> -functions will disable interrupts, while the "napi" prefixed functions are
+>> -only usable within the softirq context.
+>> -
+>> -Many network device drivers use a similar methodology for allocating page
+>> -fragments, but the page fragments are cached at the ring or descriptor
+>> -level.  In order to enable these cases it is necessary to provide a generic
+>> -way of tearing down a page cache.  For this reason __page_frag_cache_drain
+>> -was implemented.  It allows for freeing multiple references from a single
+>> -page via a single call.  The advantage to doing this is that it allows for
+>> -cleaning up the multiple references that were added to a page in order to
+>> -avoid calling get_page per allocation.
+>> -
+>> -Alexander Duyck, Nov 29, 2016.
+> 
+> What is the point of removing this just to add it to a C file further
+> down in the diff? Honestly I am not a fan of all the noise this is
+> adding to these diffs. Can we do a little less moving of lines for the
+> sake of moving them? All it does is pollute the git blame if you try to
+> figure out the origin of the lines.
 
+I was thinking about move the doc related code to file where code is related,
+so that author will remember to update the doc when changing the code.
+Maybe above does not matter that much?
 
+> 
+>> +.. kernel-doc:: mm/page_frag_cache.c
+>> +   :doc: page_frag allocator
+>> +
+>> +Architecture overview
+>> +=====================
+>> +
+>> +.. code-block:: none
+>> +
+>> +    +----------------------+
+>> +    | page_frag API caller |
+>> +    +----------------------+
+>> +            ^
+>> +            |
+>> +            |
+>> +            |
+>> +            v
+>> +    +----------------------------------------------+
+>> +    |          request page fragment               |
+>> +    +----------------------------------------------+
+>> +        ^                                        ^
+>> +        |                                        |
+>> +        | Cache empty or not enough              |
+>> +        |                                        |
+>> +        v                                        |
+>> +    +--------------------------------+           |
+>> +    | refill cache with order 3 page |           |
+>> +    +--------------------------------+           |
+>> +     ^                  ^                        |
+>> +     |                  |                        |
+>> +     |                  | Refill failed          |
+>> +     |                  |                        | Cache is enough
+>> +     |                  |                        |
+>> +     |                  v                        |
+>> +     |    +----------------------------------+   |
+>> +     |    |  refill cache with order 0 page  |   |
+>> +     |    +----------------------------------+   |
+>> +     |                       ^                   |
+>> +     | Refill succeed        |                   |
+>> +     |                       | Refill succeed    |
+>> +     |                       |                   |
+>> +     v                       v                   v
+>> +    +----------------------------------------------+
+>> +    |       allocate fragment from cache           |
+>> +    +----------------------------------------------+
+>> +
+> 
+> +1 for the simple visualization of how this works.
+> 
+>> +API interface
+>> +=============
+>> +As the design and implementation of page_frag API, the allocation side does not
+>> +allow concurrent calling, it is assumed that the caller must ensure there is not
+>> +concurrent alloc calling to the same page_frag_cache instance by using it's own
+>> +lock or rely on some lockless guarantee like NAPI softirq.
+>> +
+>> +Depending on different use cases, callers expecting to deal with va, page or
+>> +both va and page for them may call page_frag_alloc_va(), page_frag_alloc_pg(),
+>> +or page_frag_alloc() accordingly.
+>> +
+> 
+> So the new documentation is good up to here.
+> 
+>> +There is also a use case that need minimum memory in order for forward
+>> +progressing, but can do better if there is more memory available. Introduce
+>> +page_frag_alloc_prepare() and page_frag_alloc_commit() related API, the caller
+>> +requests the minimum memory it need and the prepare API will return the maximum
+>> +size of the fragment returned, caller need to report back to the page_frag core
+>> +how much memory it actually use by calling commit API, or not calling the commit
+>> +API if deciding to not use any memory.
+>> +
+> 
+> This part is as clear as mud to me. It sounds like kind of a convoluted
+> setup where you are having the caller have to know a fair bit about the
+> internal structure of the cache and it is essentially checking the
+> state and then performing a commit. Not a huge fan. I would almost
+> prefer to see something more like what we used to do with msix where
+> you just had a range you could request and if it can't give you at
+> least the minimum it fails.>
+> I assume the patch is somewhere here in the set. Will take a look at it
+> later.
+
+Yes, the API is introduced in patch 9 and used in patch 10.
+
+> 
+>> +.. kernel-doc:: include/linux/page_frag_cache.h
+>> +   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
+>> +                 page_frag_alloc_va __page_frag_alloc_va_align
+>> +                 page_frag_alloc_va_align page_frag_alloc_va_prepare
+>> +                 page_frag_alloc_va_prepare_align page_frag_alloc_pg_prepare
+>> +                 page_frag_alloc_prepare page_frag_alloc_commit
+>> +                 page_frag_alloc_commit_noref page_frag_free_va
+>> +
+>> +.. kernel-doc:: mm/page_frag_cache.c
+>> +   :identifiers: page_frag_cache_drain
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 4745ea94d463..2f84aba59428 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -16683,6 +16683,16 @@ F:	mm/page-writeback.c
+>>  F:	mm/readahead.c
+>>  F:	mm/truncate.c
+>>  
+>> +PAGE FRAG
+>> +M:	Yunsheng Lin <linyunsheng@huawei.com>
+>> +L:	linux-mm@kvack.org
+>> +L:	netdev@vger.kernel.org
+>> +S:	Supported
+>> +F:	Documentation/mm/page_frags.rst
+>> +F:	include/linux/page_frag_cache.h
+>> +F:	mm/page_frag_cache.c
+>> +F:	mm/page_frag_test.c
+>> +
+> 
+> I would appreciate it if you could add me as I usually am having to
+> deal with issues people have with this anyway. You can probably just go
+> with:
+> Alexander Duyck <alexander.duyck@gmail.com>
+
+Sure, good to your ack here.
+
+> 
+>>  PAGE POOL
+>>  M:	Jesper Dangaard Brouer <hawk@kernel.org>
+>>  M:	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+>> diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
+>> index 28185969cd2c..d8edbecdd179 100644
