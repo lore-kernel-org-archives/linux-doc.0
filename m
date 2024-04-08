@@ -1,116 +1,162 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719842AF14
-	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 22:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C204A2EAE9;
+	Mon,  8 Apr 2024 23:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712616781; cv=none; b=O9gewzMOkITsAAWMs0Gaht7rBTCIc669ATUtd3gSr7jIGRyl17FwinIC8nVaED+1srkYx+bNlVFSv5daL35sqTQ4vf9N1W3uKA5x2YxnQAfqNQoXc37CeIFfLrBrZ7lqXDxqK0nSxyKztE0+sxxq/p0sVVmDkeKAGb1yjcrB8JI=
+	t=1712619130; cv=none; b=PLn/t66WPtL2NAXbuCKzh93AI9OfT0TmQukx20XKcE6pznxF3r1OAWaxefIeSMSXsKSZGRGNO3Gr86gOTgWhaaAGrdB4OeQ2R5ZggOoZiIJWoIvEk6hI+5N5EZxbgDOIkZziy+2fUGrxKRjrWwNmOcpliFVOpERUStOcORop1Pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712616781; c=relaxed/simple;
-	bh=5fIZfMiZLT9PI+iBH9mUuQRl4InbsAmAUPt5GNhAgws=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eK2SCFzvFev9fxK5XfYqSas1jTEpiXcyHykP+jhL8GS5gt304JQI4wWKn6vTb+r+kttIy403jxQk74KxBhg3zotywF34xIKrd6ioFsFFXOGS+NssMaj7XTK6/dwmIzL5tw32iYmZzXCRQwVSojVb61StBwmRb0CtT8vYtsMvMTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfsMG6DS; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712619130; c=relaxed/simple;
+	bh=yIZB8EQSaWasDjEcyEiSbsUsfMZm9fU7bYPjnokrYis=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uUURFfJkbD21kLkBXBbH0AxJN2zsxbz6zgEHnJVISK/vB4gFzepxBIlxP+Fqm2uKQcRxNw8ORptB+zflN2zbC947WBshT5iiLc9CEWW14gejDpRfYsMJ6rJtoyTNgK1WTSDFmcpMFKaQUEuAowNDDPqnTvvVJgPsSwmSKJ6FoVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAH4ZiT8; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfsMG6DS"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6ed20fb620fso1593207b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 15:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712616780; x=1713221580; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yfJh8d387N7rSSjcIMDr9KOCrpACJYFzOd9e4x1vZA0=;
-        b=GfsMG6DShGJizr3Nu/k3MaeVm7v9PSd4nqdpv2XcKxKVG4yy7VDjycqna9mlLCje2Z
-         sMZ2pWHK0obHYsNKyJbD/57qT36yzYqrJj5m2r0Su3Us/Y/jBym2uCxT1qiQAyr+4IFm
-         cH7ECaI70NaH5PtGvzJ0mQh/CJqtW86tXX/t/cN2k2kL9zC7U6xlTkFE/2ZAVuo39Hz5
-         wfs04TeWdtbFgebgVuaLMtq9wrC5fUEQ1wqO59rlcAt2TAh25qysyQ9nHkbhEXjnAvaz
-         v2m3SO99qBnRvd/fBDumipquL8FVfv1uyATI8hrvwmAql4xkIUbIFjZbnjsF6Pav3+m0
-         kfDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712616780; x=1713221580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yfJh8d387N7rSSjcIMDr9KOCrpACJYFzOd9e4x1vZA0=;
-        b=Gkd/ojBPd0zWa7Vi16+i4HL3mcCFhaz8x8qCkKXYgvPUN6yytO8+Bq9dO9Nxvt3poH
-         bsUQjwzBH2ueser6PdtvTiVb+p/RnwU9cTk/W1GVhwiSGSPthwHlcn3BB5frgMFn9KaZ
-         hppqUL6e/sFtcWrbRCTF1hMnG2i5xxRlMwMznVbket7iT0sd2TtfAy/7uLBEFxYtOZhx
-         RW9CcTR3tIyH7imQmK1G7ogQRWRagBBQ6QGTsnqTcUwj92ct9BQnX8A+WqENQ2YQQrPG
-         zgiD4ipVdTnmel5f0BOKXgyP14GMwZlf5y50FRKOqedWiIsN6ceMPCXbl3+efTpa7DCo
-         mTIA==
-X-Forwarded-Encrypted: i=1; AJvYcCXlj1U4mEcd4gnoLpuQadnovV3KUUUYfLqG6gIWQmpcGoEUTtmX5pz4BqqmiGE9yTdhhc5SBWIQFQWu4I5bqRe9/qrnzv/b+GMQ
-X-Gm-Message-State: AOJu0YyhirZO/R4AC/RQW2ZjyIriFXiTi6hH1x6zFmViJ07sPytBy955
-	Zfmg+AoNGgm96pAZPjF+ONnVFVXwuuLO7LlSjgQCo6OOk2mOEhvsshUSgljA4wk2/9V4ruNF/bu
-	3ZDe145XuYQwrlwzBB+9gF0KsCBk=
-X-Google-Smtp-Source: AGHT+IF/qCwCMXstJyhBYi2r/FOGdr+2OEy0jlCB7RA5oy8mD8/vMM6IqVY5tFC55wdoyhY6OL596/NJR44k2FaGzns=
-X-Received: by 2002:a05:6a20:6f8a:b0:1a7:48dd:3737 with SMTP id
- gv10-20020a056a206f8a00b001a748dd3737mr9780283pzb.41.1712616779625; Mon, 08
- Apr 2024 15:52:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAH4ZiT8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712619129; x=1744155129;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yIZB8EQSaWasDjEcyEiSbsUsfMZm9fU7bYPjnokrYis=;
+  b=nAH4ZiT8/uiUssxtKTw8xuwGOgVi6QlMORBROeqN6Sy/h9lcxWkQj4xS
+   Zed7lmz1GDb2Im74QiurXfae6ORqtMBbAkM3biCPsKvANi2pek0e8Sp6O
+   umdSr+X+t08q/3ZyRlkHHvpV4x/smwdMCWbFGQsQSaTUrdDcRs0pgAswo
+   OU1nLfxMfBPbUSvH/TgjrQE482GxEZabb/Kb3NLmafLsHKuQF0pmIDjOE
+   Yn3VYCE4FYoFSdQx3570fljf1XmU+8dzw5xIxn+KCj4AZIkK8d71hMcWz
+   Lj9kuu6ttbnzEJ8or06iUIvc17I7I18onf3FxJNvoLpcRV+g9IXVne5zW
+   w==;
+X-CSE-ConnectionGUID: 1JwhNWEJQTCAOivomm22NQ==
+X-CSE-MsgGUID: 21wDuZ1ZS2qJ7EFZI38ePg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="19350648"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="19350648"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2024 16:32:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="937092379"
+X-IronPort-AV: E=Sophos;i="6.07,187,1708416000"; 
+   d="scan'208";a="937092379"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Apr 2024 16:32:06 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 288F112C; Tue,  9 Apr 2024 02:32:04 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1 1/1] Documentation: gpio: Replace leading TABs by spaces in the code blocks
+Date: Tue,  9 Apr 2024 02:32:01 +0300
+Message-ID: <20240408233201.419893-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240406-doc-gpu-v1-1-fe0ad057ac7e@kernel.org>
-In-Reply-To: <20240406-doc-gpu-v1-1-fe0ad057ac7e@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 8 Apr 2024 18:52:47 -0400
-Message-ID: <CADnq5_NcJppSveEKAEWFQ5WJmKu4QwZYff=LN8Rvxd9MfzMN5g@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/gpu: correct path of reference
-To: Simon Horman <horms@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	"Pan, Xinhui" <Xinhui.Pan@amd.com>, Maxime Ripard <mripard@kernel.org>, 
-	Hamza Mahfooz <hamza.mahfooz@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
-	amd-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Applied.  Thanks!
+The code blocks are indented with two spaces, if the leading TAB
+is occurred the syntax highlighting might be broken in some editors.
+To prevent that unify all code blocks by using spaces instead of
+leading TAB(s).
 
-Alex
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/driver-api/gpio/driver.rst | 28 ++++++++++++------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-On Sat, Apr 6, 2024 at 11:52=E2=80=AFAM Simon Horman <horms@kernel.org> wro=
-te:
->
-> The path to GPU documentation is Documentation/gpu
-> rather than Documentation/GPU
->
-> This appears to have been introduced by commit ba162ae749a5
-> ("Documentation/gpu: Introduce a simple contribution list for display cod=
-e")
->
-> Flagged by make htmldocs.
->
-> Signed-off-by: Simon Horman <horms@kernel.org>
-> ---
->  Documentation/gpu/amdgpu/display/display-contributing.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/gpu/amdgpu/display/display-contributing.rst b/=
-Documentation/gpu/amdgpu/display/display-contributing.rst
-> index fdb2bea01d53..36f3077eee00 100644
-> --- a/Documentation/gpu/amdgpu/display/display-contributing.rst
-> +++ b/Documentation/gpu/amdgpu/display/display-contributing.rst
-> @@ -135,7 +135,7 @@ Enable underlay
->  ---------------
->
->  AMD display has this feature called underlay (which you can read more ab=
-out at
-> -'Documentation/GPU/amdgpu/display/mpo-overview.rst') which is intended t=
-o
-> +'Documentation/gpu/amdgpu/display/mpo-overview.rst') which is intended t=
-o
->  save power when playing a video. The basic idea is to put a video in the
->  underlay plane at the bottom and the desktop in the plane above it with =
-a hole
->  in the video area. This feature is enabled in ChromeOS, and from our dat=
-a
->
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index bf6319cc531b..e541bd2e898b 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -7,7 +7,7 @@ This document serves as a guide for writers of GPIO chip drivers.
+ Each GPIO controller driver needs to include the following header, which defines
+ the structures used to define a GPIO driver::
+ 
+-	#include <linux/gpio/driver.h>
++  #include <linux/gpio/driver.h>
+ 
+ 
+ Internal Representation of GPIOs
+@@ -144,7 +144,7 @@ is not open, it will present a high-impedance (tristate) to the external rail::
+      in ----||                   |/
+             ||--+         in ----|
+                 |                |\
+-               GND	           GND
++               GND                 GND
+ 
+ This configuration is normally used as a way to achieve one of two things:
+ 
+@@ -550,10 +550,10 @@ the interrupt separately and go with it:
+   struct my_gpio *g;
+   struct gpio_irq_chip *girq;
+ 
+-  ret = devm_request_threaded_irq(dev, irq, NULL,
+-		irq_thread_fn, IRQF_ONESHOT, "my-chip", g);
++  ret = devm_request_threaded_irq(dev, irq, NULL, irq_thread_fn,
++                                  IRQF_ONESHOT, "my-chip", g);
+   if (ret < 0)
+-	return ret;
++      return ret;
+ 
+   /* Get a pointer to the gpio_irq_chip */
+   girq = &g->gc.irq;
+@@ -681,12 +681,12 @@ certain operations and keep track of usage inside of the gpiolib subsystem.
+ Input GPIOs can be used as IRQ signals. When this happens, a driver is requested
+ to mark the GPIO as being used as an IRQ::
+ 
+-	int gpiochip_lock_as_irq(struct gpio_chip *chip, unsigned int offset)
++  int gpiochip_lock_as_irq(struct gpio_chip *chip, unsigned int offset)
+ 
+ This will prevent the use of non-irq related GPIO APIs until the GPIO IRQ lock
+ is released::
+ 
+-	void gpiochip_unlock_as_irq(struct gpio_chip *chip, unsigned int offset)
++  void gpiochip_unlock_as_irq(struct gpio_chip *chip, unsigned int offset)
+ 
+ When implementing an irqchip inside a GPIO driver, these two functions should
+ typically be called in the .startup() and .shutdown() callbacks from the
+@@ -708,12 +708,12 @@ When a GPIO is used as an IRQ signal, then gpiolib also needs to know if
+ the IRQ is enabled or disabled. In order to inform gpiolib about this,
+ the irqchip driver should call::
+ 
+-	void gpiochip_disable_irq(struct gpio_chip *chip, unsigned int offset)
++  void gpiochip_disable_irq(struct gpio_chip *chip, unsigned int offset)
+ 
+ This allows drivers to drive the GPIO as an output while the IRQ is
+ disabled. When the IRQ is enabled again, a driver should call::
+ 
+-	void gpiochip_enable_irq(struct gpio_chip *chip, unsigned int offset)
++  void gpiochip_enable_irq(struct gpio_chip *chip, unsigned int offset)
+ 
+ When implementing an irqchip inside a GPIO driver, these two functions should
+ typically be called in the .irq_disable() and .irq_enable() callbacks from the
+@@ -763,12 +763,12 @@ Sometimes it is useful to allow a GPIO chip driver to request its own GPIO
+ descriptors through the gpiolib API. A GPIO driver can use the following
+ functions to request and free descriptors::
+ 
+-	struct gpio_desc *gpiochip_request_own_desc(struct gpio_desc *desc,
+-						    u16 hwnum,
+-						    const char *label,
+-						    enum gpiod_flags flags)
++  struct gpio_desc *gpiochip_request_own_desc(struct gpio_desc *desc,
++                                              u16 hwnum,
++                                              const char *label,
++                                              enum gpiod_flags flags)
+ 
+-	void gpiochip_free_own_desc(struct gpio_desc *desc)
++  void gpiochip_free_own_desc(struct gpio_desc *desc)
+ 
+ Descriptors requested with gpiochip_request_own_desc() must be released with
+ gpiochip_free_own_desc().
+-- 
+2.43.0.rc1.1.gbec44491f096
+
