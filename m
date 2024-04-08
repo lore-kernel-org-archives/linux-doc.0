@@ -1,134 +1,104 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C5C1442F3;
-	Mon,  8 Apr 2024 16:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8925144303;
+	Mon,  8 Apr 2024 17:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712594075; cv=none; b=dErg0lcdWQ7cDOhzAC12FDmUSSJqWTrdpe6mz8h9q/DYgFQnjbLZA2BGGTtj/yUKBmwab02Uc8gSuPr8YeNljgRO2LOUJa3Ki+cBZZ5sBNlm8yQs5vGToO+LjOfEqPpphCnMelDnYYMyPzV76k47v3WIfjOJ1m9Zhvg896SBtDQ=
+	t=1712598942; cv=none; b=rTkNGbcLkTzHonTVyP+BK+YWVAY8qh8G4zMtpYp2B6/+C/BSDZFD4ZC5I2kgWdqYgO9sfz6cwrjf2XSelLHaGpkQPMbKKU99f4xKFGwW28KDd/Befmslbh/QklIicOF9fWbKKQatOE4kzya4pNCGQj1P6hdCS/L2BYYLQWJ4mQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712594075; c=relaxed/simple;
-	bh=GDjg6EBXUVwAARwkkfl8HCARLRaI322ITo8J7xf4XpE=;
+	s=arc-20240116; t=1712598942; c=relaxed/simple;
+	bh=8o1mOS1XIlA9jzTwvElpDAox4TOpdLwQg7jJRWx8YmU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kgVbKgNqFb+5c5UnJ81yzx0OzQeZ5UcVuGtgFu2a9rE7AIO68vhhZFMsA0kDkBrTSfxHwGzT6DXpiT6DPeQ4UqBSETJ3X4F2ho2K29L6PgQVVoZtr40Kjynlr4CWRokeHzjKyO8gLerfBtYDvWALuBjcTqiHfhZLo9X6S0iWNtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTU+IVz7; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7XOswMPq2CxNWrmg25zL+FO8KUgWAjKGYSAREFhj+Jn2bmlEDI16xyxYHGpKmOOpDYB50awJ6QzCv1XK2TkMeX0LGLhOmLA/MYg9d+hXtaTHvnUXP3nONlzUXH1q0OR+dlGm4j9E5vLNaeXAZ+f6nbTgrc/0TDYBrod5wEPkHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/24QSYh; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTU+IVz7"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e2a7b5ef7bso38330425ad.1;
-        Mon, 08 Apr 2024 09:34:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/24QSYh"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e220e40998so29364615ad.1;
+        Mon, 08 Apr 2024 10:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712594073; x=1713198873; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y8W6JiQXMJlyRVh6G0P1/xRBUWDgR2AudHru0aHPOuY=;
-        b=QTU+IVz7TvT4wffdmtolLM28ZZb8ERtTjT/kTEDBsVVH2aoQZ9eWX3OSkfDLON+mGP
-         /Lrn9e42beiGPwNv+84wjKjHyd5NIzeLw1buAo+hW8BBYpQe5QxKQM8dnxtE/kl97i5K
-         CY7hJgkjCZwN2ZeA4zyiraBAuwTg/sBSf7swHSmIWj4BASDX0op1Uz8gOCFBEqeklzc4
-         6eJ1JqUYGwVmHMIMM+YA6wjdCABihemlv5VV6PTZkTqU798GI0PnA+74OFO/HJPzpjdT
-         ECmZ5qWTbxDqj6lxmfcNQ/ubQY0WVxl6EkpMTnHSnYHPdC4Pik2wo24m76VmzfOW6CB0
-         1r6A==
+        d=gmail.com; s=20230601; t=1712598940; x=1713203740; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iq0qU2bZPir6gYsxyeW59rYYX4au+1VCIp1QdQ1bnwE=;
+        b=O/24QSYhGEAtjqI7y9BApjljBDz+DpusOUKCFa1e1VXLJ24OcsAArpKR+q7S/ZU2Qu
+         F5g6mphyWPzCmnjc9MEUV55GFBGwognIEcwesqfzjgyuMefCsmfBYUGE8KuGrgy/8hcj
+         35mr70ZXzG065LbEI1vX3S1bQK+ZKcl0myGGUCvRU2a7P5eq58ZPQhFuD98fwz+Q2/uF
+         iQgjoWAijheRKWDhvGrTJF3b9aIKZRaMSyCw1YlOBcTw9nR0btZY1UeaQ+jXXfVWHQfx
+         SlQz5qvnpgaMVKS+fE7iNEJkpBGa55RuGe6h+YdUnmAGgN/HyAF1fyb3wqQ5h5fKMJqW
+         qPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712594073; x=1713198873;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y8W6JiQXMJlyRVh6G0P1/xRBUWDgR2AudHru0aHPOuY=;
-        b=XZsIVtTfROBGgTF8bkH7xuslGiQveQFFpW+MkELO0Q1KRbiTqkoq2S4Sl7ZdZmoHdt
-         hv24XE6DTwzylS9buL7r/dFpiTfMv+Wd243pM0YXdmyiBmvuH74hXaB+B2EY5TpoNBiv
-         8XgQyphGQIVPhnrvT4TSQAeTSHkoD+zz0hHUwZ96Exq2MMLogo/pH+F2yEwc5UsQXosU
-         qBuEkkLmPZlYxn0NHfkiivkP2K5eOs8uEpSPKw1dGReWRzL4VNBKStBNubUJpAyQrkA+
-         npnsNMy3ZDHRjHx0BstNkrvgMPTGQUYMuGDgxVomclN/gd/fb6PS39TNtZEXyPr+WMZ/
-         oFYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnetRmlnnE+4xixXAqICi8M0WxLstu4JIkfqweDjTDz1AeRzgRh7W5sA//BnBU+ty4CaIxLeg0ftA+DK7Tjtxn0GE9AGmWbQAl/27XWFbjRNGAigeYDCC3Jhthv6q09AdIfmKx6mLdCsd3xYqeb4sST7fWg3FJKwVJzC9fe8GBBvU8zm1H8669dfQYJHqiyG3jsjVqhsH1qIV44h4JagHdy5JUe6WangRv73lX53880zGhtP4FLdKm/1rkwHT+zkbsPYDH9Dua2GvcSTiyqNf3bJ1r3XkqTjT4QCovQ5seOxpMD53H1NuMdDhEwWOonw==
-X-Gm-Message-State: AOJu0Yyz+0MsWPjyUrus+EYJJKcHeisIGo3v82FzoD6e3BWYJ0kzVg4t
-	yl6iu1in7rdMr8aLYmTQAPmmOENonDswAlFItDpZieG8kh7MU/A5
-X-Google-Smtp-Source: AGHT+IHjgwPwZy3e5AEopzEIQpEcmD2hcpsHcoA+sLwIBYMIqqkK3bLGAgIh/jDVDgJdWRaZ9xWs0g==
-X-Received: by 2002:a17:902:cec7:b0:1e3:f911:22b2 with SMTP id d7-20020a170902cec700b001e3f91122b2mr6050960plg.7.1712594073047;
-        Mon, 08 Apr 2024 09:34:33 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id n4-20020a170902e54400b001e2b36d0c8esm7189331plf.7.2024.04.08.09.34.32
+        d=1e100.net; s=20230601; t=1712598940; x=1713203740;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iq0qU2bZPir6gYsxyeW59rYYX4au+1VCIp1QdQ1bnwE=;
+        b=BdGOygKWVqHy4jbMSUUcKgUcUoJe3BNGSmIUcAhguwpi+ZpIG7jjHs8TbiQRSIjJQn
+         b5w/eeSoGzDoof561Bmua3lMgQLWMAqeRHj733/UjByEcpL31MrVW6IBsZ00GhCZMGSB
+         lv2Sr+Kd7LBcKHMShFDyBsSolQzaMeu80xOAU7NW1rZXU9RR6BhogshhLL59UWUgi+ZF
+         IhlliL4NrNwrVqJ0T3kXVycOKcVCg2wN0VIEBrBTg7CyafZcPx+EeqAGlrOXIrumH1UV
+         y8ixpn4JnVMNjw+PpDYucQOUCQrtwhh234eInq6ZtjljHe7UxXGXSWGzClB93PyzzGxX
+         wbWA==
+X-Forwarded-Encrypted: i=1; AJvYcCWzENFNL1Rn4pzEb3YANqMtchI3oVdS5/Ay8Yp8+b9jJJU85dAoTgBJGYQ438dXLZcsy8lgeyu5/dRmwvZOvwwlx/FffTPGZqnz1GGXTy2l9dC//SUEWTl/JsEs51v7qyvo8DyJNqbs+gmbYWONpK9vkJIsmijSAQnL0Yq0xYaiFdXzW0naKnNy
+X-Gm-Message-State: AOJu0YwA5b1p92FUOT+DbCJwvyFriSHeoXnP1I+8PFpB365XO6OdGtUK
+	8XeU3+YScOAWZ70urpKkzJXMV5ToK4ewWsQUb4Y47LAsQqUnKDXJ
+X-Google-Smtp-Source: AGHT+IFJGtNYyymZPXsyDm9MF/SQWgWu68YpokN3y3suegvMNfUwxpWPd+OvRDJCZymijr68+zcnCw==
+X-Received: by 2002:a17:903:249:b0:1e0:b6d5:bed with SMTP id j9-20020a170903024900b001e0b6d50bedmr11319522plh.5.1712598940188;
+        Mon, 08 Apr 2024 10:55:40 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:a5f4])
+        by smtp.gmail.com with ESMTPSA id h7-20020a170902680700b001dda608484asm7463360plk.57.2024.04.08.10.55.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Apr 2024 09:34:32 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 8 Apr 2024 09:34:26 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kees Cook <keescook@chromium.org>,
-	Daniel Diaz <daniel.diaz@linaro.org>,
-	David Gow <davidgow@google.com>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
-	netdev@vger.kernel.org, x86@kernel.org,
-	Linux Kernel Functional Testing <lkft@linaro.org>,
-	Eric Dumazet <edumazet@google.com>
-Subject: Re: [PATCH v3 06/15] net: kunit: Suppress lock warning noise at end
- of dev_addr_lists tests
-Message-ID: <9e8718bf-da81-463b-9436-6c8b0881a045@roeck-us.net>
-References: <20240403131936.787234-1-linux@roeck-us.net>
- <20240403131936.787234-7-linux@roeck-us.net>
- <20240403183412.16254318@kernel.org>
+        Mon, 08 Apr 2024 10:55:39 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Mon, 8 Apr 2024 07:55:38 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Subject: Re: [RFC PATCH v3 2/9] cgroup/pids: Separate semantics of
+ pids.events related to pids.max
+Message-ID: <ZhQvmnnxhiVo1duU@slm.duckdns.org>
+References: <20240405170548.15234-1-mkoutny@suse.com>
+ <20240405170548.15234-3-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240403183412.16254318@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240405170548.15234-3-mkoutny@suse.com>
 
-On Wed, Apr 03, 2024 at 06:34:12PM -0700, Jakub Kicinski wrote:
-> On Wed,  3 Apr 2024 06:19:27 -0700 Guenter Roeck wrote:
-> > dev_addr_lists_test generates lock warning noise at the end of tests
-> > if lock debugging is enabled. There are two sets of warnings.
-> > 
-> > WARNING: CPU: 0 PID: 689 at kernel/locking/mutex.c:923 __mutex_unlock_slowpath.constprop.0+0x13c/0x368
-> > DEBUG_LOCKS_WARN_ON(__owner_task(owner) != __get_current())
-> > 
-> > WARNING: kunit_try_catch/1336 still has locks held!
-> > 
-> > KUnit test cleanup is not guaranteed to run in the same thread as the test
-> > itself. For this test, this means that rtnl_lock() and rtnl_unlock() may
-> > be called from different threads. This triggers the warnings.
-> > Suppress the warnings because they are irrelevant for the test and just
-> > confusing and distracting.
-> > 
-> > The first warning can be suppressed by using START_SUPPRESSED_WARNING()
-> > and END_SUPPRESSED_WARNING() around the call to rtnl_unlock(). To suppress
-> > the second warning, it is necessary to set debug_locks_silent while the
-> > rtnl lock is held.
+Hello,
+
+On Fri, Apr 05, 2024 at 07:05:41PM +0200, Michal Koutný wrote:
+> Currently, when pids.max limit is breached in the hierarchy, the event
+> is counted and reported in the cgroup where the forking task resides.
 > 
-> Is it okay if I move the locking into the tests, instead?
-> It's only 4 lines more and no magic required, seems to work fine.
+> This decouples the limit and the notification caused by the limit making
+> it hard to detect when the actual limit was effected.
+> 
+> Let's introduce new events:
+> 	  max
+> 		The number of times the limit of the cgroup was hit.
+> 
+> 	  max.imposed
+> 		The number of times fork failed in the cgroup because of self
+> 		or ancestor limit.
 
-I don't think it is that simple. Unit tests run in a kernel thread
-and exit immediately if a test fails. While the unit test code _looks_
-sequential, that isn't really the case. Every instance of KUNIT_ASSERT_x
-or KUNIT_FAIL() results in immediate kernel thread termination. If
-that happens, any rtnl_unlock() in the failed function would not be
-executed. I am not aware of an equivalent of atexit() for kernel threads
-which would fix the problem. My understanding is that the kunit system
-doesn't support an equivalent either, but at least sometimes executes
-the exit function in a different thread context.
+The whole series make sense to me. I'm not sure about max.imposed field
+name. Maybe a name which clearly signfies rejection of forks would be
+clearer? Johannes, what do you think?
 
-Guenter
+Thanks.
+
+-- 
+tejun
