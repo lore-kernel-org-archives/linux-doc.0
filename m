@@ -1,59 +1,59 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7ED4596C
-	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 07:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC422C85F
+	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 08:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712562249; cv=none; b=ETp7jcj9tIRlipoFqp7TTEvvwRjrTSK1HpX1LsuaQ4aoDeL03IgmHAFGx8px7P+q3ZStfgvVB4+xhxiOvCzLyi1yRvbWoBbTAXOSgm1NOptNHLhhMfdOhOHLwKYqCxKNRK6lTmwtENZWFTvKofpBA72grJAPiFhi+ixZDWLcwuw=
+	t=1712563278; cv=none; b=AOwYw1g43BE6eeUOaCE0YggZT2MrUIRnk2C5Vdpi2L82V6RiyyVmzrq9Wl/IKozHbnEhq3h9QHp9awx5IRunFsk+rK2fnGCoQ2YrvQouybuXF+F9c4HKyCXBtLPhcyHXMs/ARgEuo2JfWoc2LPhGF3/B9G+WLeHhbRQVVLqPyh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712562249; c=relaxed/simple;
-	bh=2OnP4cb1z8gIRAZhhFT2S0R4H+4Hqy7YIK4KutMQgdc=;
+	s=arc-20240116; t=1712563278; c=relaxed/simple;
+	bh=oFtZMMMzF5IIyBLE1OofkhOkb8Z20H1FcMxpZ0BjJv8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uvUAID7Hubmpg2w5ijo7f37gA6dDmZtfKKHnVCzLLFncCyiqO+oXRtZUQmkgQ/6+oTLMb06CMxlZoxJH3wrfUDjg2Q02pHvEwf4aJSjrW4onS6qTZhpky/TLJvEmjWxjgECnwSg7MfOdcCZzHyrtuXJ/AOflPfsC76ijd+PGqRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=KTNsGiGU; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
+	 In-Reply-To:Content-Type; b=Pb9EJQISVq2HJu7p+MPWjkXiY+F9pWBeAQNllNsVAVZDlcKlWhQ0s7SRd6pzCWyuH04mnATMv84SrJ2v+b03+aiPYo+aKQR0vDVwPJNNd6qFUPBZKtg8fMmDWgYcdSmraEU5Ppu0SL5RSiOTHHYzyPXISvx9Aok3cf5eKOj8lY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Bip6JL3E; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="KTNsGiGU"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5a9ec68784cso1767609eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 00:44:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Bip6JL3E"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-416463e82fbso1612565e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 01:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shopee.com; s=shopee.com; t=1712562246; x=1713167046; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5KehI8KPu4upz8qJpXfAhUFMX8O5R+67ExYXkKnpvrA=;
-        b=KTNsGiGU1m4qJu4Lv7QFSK6ZKssMxhD7fAfCGyS9qPlfpOSoqI+2PfOqK0vqlxJqpR
-         DUKYGfqkFkE6hjqV4L3U8Zi8SLCSp8t1naA5Bbdhz44Vndp636t9BqIFGoE92ftmgDEk
-         fyO4/U7glT9OAg9cVGHswbrk1u0hfe02SCQeK9hUANeK7hB/3YrFR/RD7MJJ5JNU3Jwg
-         TZtJieit9+yBnQGdrpL/MYhWtfpRaVo3zeONdZzk4w7CBPP1rwhkR1NoYysDeUqA5Rmv
-         QqHmezXZ5WUHVprnv86Su28tu5qYtZ5BiZVCLtgeZIGa4S1upC6DY9DX9QqXkVbpKA1J
-         smHQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712563275; x=1713168075; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nEXus2Ynno1AeuPQLNpTk8iPF9Mbvy8RxA45xKLQHC0=;
+        b=Bip6JL3E5DmYfcHSQhhsjkUrX2FhlhScGfa3gp3f7UXkyJ6GwmgIrMmBAkeJwGHzZT
+         4bYXkqgmjaKO2CxXaUgbKsBJpBzduYctad1Y7wq9sNGEzKrHH3oA9s/RMJMiwo+0XeaJ
+         UOB2hjcxyvBBe98dnlClXCpESUeIFaKrnEgSKcASp/7AbGNKuA7oHeGvsgQFFPC4y/M0
+         iZdDt9refM7EPnt1/ks0Gl+5WTG0+y86cYwKTKVE+RzDUgCG4HeQfoh+3fSdg5niiuhX
+         qyb7qhc0Z/R5gaOIRI96amQkpLa3wponaInlsOcdTbNzd4lq92F4WQ8CUEkTcJEkhXwK
+         0nGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712562246; x=1713167046;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5KehI8KPu4upz8qJpXfAhUFMX8O5R+67ExYXkKnpvrA=;
-        b=gva7z9MxhJvNBnN+lQPkCsUp4QbBB0YQZsfsteECEkY+WL3soTIiJJQlTidvrK74hV
-         YYJpIjXm/8Jcari/ngEq6VSje8TqaXmvZIcUhfEsOvfhQKwVZVJ5zlFKPU8lMeK8dwKB
-         MJvA3+f4silstF8PgyZXihZ69zrNOII9LTGD7+QvY9UFs3vSFdNtmXKyXD2xlrGibgkc
-         Uha4+OS29peAmtiJnYJ8wqg9aaramPsvs2GwLbsbssIb1F5nzWkZwxBaJ4phVTMraXUL
-         r3S+yLrEV5FZ6LAYkMei0qnVjmKlruuY2kzAqDpOlfkp5bYchSlAvLUNf8UBWYceRahb
-         sH2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWh22SYqsblzC1/ywg57ZVx5AZpe+9bjHU09IRRXPdUfjKyJ361yr2xJCMhXrOThP7nmV1aJvDuLmh+Zw2FEz05ieOl/5Z+B/rt
-X-Gm-Message-State: AOJu0YyU1cVY7MBIj0JT8qiCDeKqPGp0oElU3W8FM0QS8HPvDRcIod6v
-	27FgnCr061g2V6MLG1QOh6SKntBGuldq1NuiOcpa0kHEq+EmBZWssDC0b4GzmVA=
-X-Google-Smtp-Source: AGHT+IFsrY4ZpM3SAF0h5M/wjAh7CCTDQmcxT7QFjm1k9lYJqPJRb9dp4KkrAB1d1fuYX++MqHlz8g==
-X-Received: by 2002:a05:6871:4cd:b0:229:8236:ae9 with SMTP id n13-20020a05687104cd00b0022982360ae9mr8836690oai.59.1712562245841;
-        Mon, 08 Apr 2024 00:44:05 -0700 (PDT)
-Received: from [10.54.24.115] ([143.92.118.3])
-        by smtp.gmail.com with ESMTPSA id u21-20020aa78495000000b006e580678dfbsm5812798pfn.193.2024.04.08.00.44.01
+        d=1e100.net; s=20230601; t=1712563275; x=1713168075;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEXus2Ynno1AeuPQLNpTk8iPF9Mbvy8RxA45xKLQHC0=;
+        b=B+J9gTCSZ94sVG0m9Q/DMv6A1V6v1Vz0FHXlEA8RbTHRXaLDgBoqIMThxkJUEE1dOi
+         GNDPliAEhriIzGxgbxumgg2N1d1TkUZ2tBGMwM+fzKICcWMxMFKn91H+tfs/HwHycDdL
+         5GYLrrMQ846vZGKRGj68UAWVVwNvsKEgu67O2CyTF1uVID7b6B5BIYAWVlKmdMr3JihQ
+         Ugo7H8m+v4rsAhiypMtRyzSxP3AVRrcDoLWG/q1TDybuyQUSORnCKKs+3MKfBnWnK8Nt
+         oOuOBTPjJPCVzevdx0QSgdWavX5h+aNZoRyVaLED0j9lbHZoMmbBpTda4Pe0sRQX1qMY
+         QeSw==
+X-Forwarded-Encrypted: i=1; AJvYcCXQmAU4nFPb9ar6sCaIW0RrvtSSmoDA2sKDJQSBnL3fmopkQbabTOYqMmowpNMBAQjPECBrwf9LDuUf8COCTj6ncnWOMLfvPOx2
+X-Gm-Message-State: AOJu0YxgoYPFmIedm1u1ePY7D4TmXTT0BTXUfOOCrkqaHmZO255koU/e
+	Zy1KapLOC+0ihxwmhlvErMEM3bez+51ItLaEpSY9Ys65kgHFLYxn/+Otsx3luVM=
+X-Google-Smtp-Source: AGHT+IEQUCd5IWDe0mYq0rDe9VUQhrgm0s8IGNzOcuAIRUoN4LcKFabia6A+gxLsv3jGCmScuNsjTA==
+X-Received: by 2002:a05:600c:3b96:b0:416:7b2c:df09 with SMTP id n22-20020a05600c3b9600b004167b2cdf09mr834824wms.1.1712563274884;
+        Mon, 08 Apr 2024 01:01:14 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:6327:edd6:6580:3ead? ([2a01:e0a:999:a3a0:6327:edd6:6580:3ead])
+        by smtp.gmail.com with ESMTPSA id n32-20020a05600c3ba000b00415612e29a1sm12515475wms.30.2024.04.08.01.01.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Apr 2024 00:44:05 -0700 (PDT)
-Message-ID: <ca45f32d-b526-4bcd-b177-08698babaf3d@shopee.com>
-Date: Mon, 8 Apr 2024 15:44:00 +0800
+        Mon, 08 Apr 2024 01:01:13 -0700 (PDT)
+Message-ID: <ddc5555a-3ae8-42e5-a08a-ca5ceaf0bf28@rivosinc.com>
+Date: Mon, 8 Apr 2024 10:01:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,91 +61,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/2] x86/resctrl: Track llc_occupancy of RMIDs in limbo
- list
-To: Reinette Chatre <reinette.chatre@intel.com>, james.morse@arm.com
-Cc: fenghua.yu@intel.com, babu.moger@amd.com, bp@alien8.de,
- tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
- hpa@zytor.com, peternewman@google.com, x86@kernel.org,
- linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20240319083039.223088-1-haifeng.xu@shopee.com>
- <4244b729-2eec-4999-9427-00b5c9f3e6fc@intel.com>
-From: Haifeng Xu <haifeng.xu@shopee.com>
-In-Reply-To: <4244b729-2eec-4999-9427-00b5c9f3e6fc@intel.com>
+Subject: Re: [PATCH 0/5] Add parsing for Zimop ISA extension
+To: Deepak Gupta <debug@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240404103254.1752834-1-cleger@rivosinc.com>
+ <20240405-091c6c174f023d74b434059d@orel>
+ <CAKC1njQ3qQ8mTMoYkhhoGQfRSVtp2Tfd2LjDhAmut7UcW9-bGw@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <CAKC1njQ3qQ8mTMoYkhhoGQfRSVtp2Tfd2LjDhAmut7UcW9-bGw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2024/3/30 07:06, Reinette Chatre wrote:
-> Hi Haifeng,
-> 
-> On 3/19/2024 1:30 AM, Haifeng Xu wrote:
->> After removing a monitor group, its RMID may not be freed immediately
->> unless its llc_occupancy is less than the re-allocation threshold. If
->> turning up the threshold, the RMID can be reused. In order to know how
->> much the threshold should be, it's necessary to acquire the llc_occupancy.
+On 05/04/2024 19:33, Deepak Gupta wrote:
+> On Fri, Apr 5, 2024 at 8:26 AM Andrew Jones <ajones@ventanamicro.com> wrote:
 >>
->> The patch series provides a new tracepoint to track the llc_occupancy.
+>> On Thu, Apr 04, 2024 at 12:32:46PM +0200, Clément Léger wrote:
+>>> The Zimop ISA extension was ratified recently. This series adds support
+>>> for parsing it from riscv,isa, hwprobe export and kvm support for
+>>> Guest/VM.
+>>
+>> I'm not sure we need this. Zimop by itself isn't useful, so I don't know
+>> if we need to advertise it at all. When an extension comes along that
+>> redefines some MOPs, then we'll advertise that extension, but the fact
+>> Zimop is used for that extension is really just an implementation detail.
 > 
-> There seems to be a problem with the DKIM attestation. Here is what I see
-> when I download this series:
+> Only situation I see this can be useful is this:--
 > 
->     $ b4 am -Q 20240319083039.223088-1-haifeng.xu@shopee.com
->     Grabbing thread from lore.kernel.org/all/20240319083039.223088-1-haifeng.xu@shopee.com/t.mbox.gz
->     Analyzing 3 messages in the thread
->     Looking for additional code-review trailers on lore.kernel.org
->     Checking attestation on all messages, may take a moment...
->     ---
->       ✗ [PATCH v6 1/2] x86/resctrl: Rename pseudo_lock_event.h to trace.h
->       ✗ [PATCH v6 2/2] x86/resctrl: Add tracepoint for llc_occupancy tracking
->     ---
->       ✗ BADSIG: DKIM/shopee.com
->     ---
->     Total patches: 2
->     ---
+> An implementer, implemented Zimops in CPU solely for the purpose that they can
+> run mainline distro & packages on their hardware and don't want to leverage any
+> feature which are built on top of Zimop.
+
+Yes, the rationale was that some binaries using extensions that overload
+MOPs could still be run. With Zimop exposed, the loader could determine
+if the binary can be executed without potentially crashing. We could
+also let the program run anyway but the execution could potentially
+crash unexpectedly, which IMHO is not really good for the user
+experience nor for debugging. I already think that the segfaults which
+happens when executing binaries that need some missing extension are not
+so easy to debug, so better add more guards.
+
 > 
-
-Hi, Reinette,
-
-I can also reproduced it. After digging into it, I found that our DKIM signature header
-has 't' and 'x' flags. They are recommended as a means to help identify spam.
-
-t= is the DKIM signature timestamp.
-x= is the DKIM signature expiration time.
-
-The source code of DKIM Validation can be seen in dkim/__init__.py(line 351), I paste it
-here.
-
- 343     if b'x' in sig:
- 344         if re.match(br"\d+$", sig[b'x']) is None:
- 345             raise ValidationError(
- 346               "x= value is not a decimal integer (%s)" % sig[b'x'])
- 347         x_sign = int(sig[b'x'])
- 348         now = int(time.time())
- 349         slop = 36000 # 10H leeway for mailers with inaccurate clocks
- 350         if x_sign < now - slop:
- 351             raise ValidationError(
- 352                 "x= value is past (%s)" % sig[b'x'])
- 353             if x_sign < t_sign:
- 354                 raise ValidationError(
- 355                     "x= value is less than t= value (x=%s t=%s)" %
- 356                     (sig[b'x'], sig[b't']))
-
-The expiry time is less than the time point you download the patch, so the validation
-fails. If I comment out these lines, this series can be successfully downloaded.
-
-The signature is only valid for a week. So if you use b4 to download the patch series,
-It's best to do it in a week after the patch is sent.
-
-Thanks.
-
-
-> The patches look good to me. Thank you very much for adding this.
-> Please resubmit with the DKIM attestation fixed and then you can add:
+> As an example zicfilp and zicfiss are dependent on zimops. glibc can
+> do following
 > 
-> | Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> 
-> Reinette
+> 1) check elf header if binary was compiled with zicfiss and zicfilp,
+> if yes goto step 2, else goto step 6.
+> 2) check if zicfiss/zicfilp is available in hw via hwprobe, if yes
+> goto step 5. else goto step 3
+> 3) check if zimop is available via hwprobe, if yes goto step 6, else goto step 4
 
-Thanks for your review.
+I think you meant step 5 rather than step 6.
+
+Clément
+
+> 4) This binary won't be able to run successfully on this platform,
+> issue exit syscall. <-- termination
+> 5) issue prctl to enable shadow stack and landing pad for current task
+> <-- enable feature
+> 6) let the binary run <-- let the binary run because no harm can be done
