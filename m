@@ -1,152 +1,151 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1362B1411D9
-	for <linux-doc@vger.kernel.org>; Mon,  8 Apr 2024 15:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDF913E8AB;
+	Mon,  8 Apr 2024 15:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712590850; cv=none; b=ECcDYyGYhu7LuitXFAFrhCJcTQaMfC3GP1I1cxWrw1/tbJoj5TDeYc+luMAfseFyj5ukzUQKb+yEdAW8WZ8jhdwLefERSyijD/SltxAz1sR7hfxEqkdKrQOWkNmFfAuPKzzhVBujlT+JM2d51QZwnLTOqlFc/GNIRBLbxAUniq8=
+	t=1712591875; cv=none; b=PQywnX5uztTVx9AI0iExlBcQNFRTCMK+tBcYC6yxbJ+sZq/y8aqC2igGy4QhuWL4q14iyuT4Mv15pnMP0ND4DLtu36TRDpTuoCK2JMyyPzW6Gh7L3MG/MmMBE0HPzmJgkycEXq1GxdT9sRRVbsnyXkFywPKwFCXJiSNkpZjh8SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712590850; c=relaxed/simple;
-	bh=53u/ieqERkyf7mkrfcHCloeINDAbD0lTZhdu4LH8wOI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ryklC0lKCuh79NJiCmt1tvPWZEzN9BTDSld0Zp8RkgCI1KbLZWJKWm7TisCCheUlp9tz3N2DzaG7ob8Zu7+YioZyQ8+VZWpiVgXE93n5QvEgzd7gJuRNE2FtYYPaZOucueL47ZWDd0on0WjEjSJ00RB/fGRLH4Z9qKxTsBz9xz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ab03kL58; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712591875; c=relaxed/simple;
+	bh=untIyZUBolJmBC+haXZFudxoskemR2WDjgQpB/oOF7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RAhNUrixkYqgxk2QY20ZvekhYMobftoLrmhVzYKVELwU+qDx7DRtdaUNPIhRTJZ4FZ+HgmypCMZjqT8vwKOYIgkT7THIh5MJFVtXcZQCFzrshdRGeQkDV24MEksvuAvaJZ0NWNokb+j6EzHRcCmdzSAGBCBz56FAAglruVA41to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TrzSNofB; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ab03kL58"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712590848;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qnh8e0FZeCXeuN57OAvQ7h9lJ3J1XV9u7rdXhlfnOms=;
-	b=ab03kL58ekied4CFhTNHO4Tfbup6zz+HA920OL3Hn94qS5nZ2nhBndxnsIsKIrvIyz/GV/
-	G4vo+c9PXiyS7PdMNlXcjwWjcSc1tF5bDeqeIh+o16tygXIrMif8C1o79dJVjFwebjG7Tm
-	6kZjDowPpZe3pLM5O8pRM7zcdQ4uWkM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-617-gmICQph0M3-v_9ueHYaq-A-1; Mon, 08 Apr 2024 11:40:46 -0400
-X-MC-Unique: gmICQph0M3-v_9ueHYaq-A-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a5199cc13b2so282601566b.0
-        for <linux-doc@vger.kernel.org>; Mon, 08 Apr 2024 08:40:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TrzSNofB"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2a2dd2221d3so2964693a91.0;
+        Mon, 08 Apr 2024 08:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712591873; x=1713196673; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=untIyZUBolJmBC+haXZFudxoskemR2WDjgQpB/oOF7s=;
+        b=TrzSNofB/+7iwz1qwxJ1kx0l5z5mdAWXGOBXrFX0/7cCpJd56VBWD77mwheGgmZXka
+         x/bkuUA47B7QKpQNp27XN05H2RS7obfhlX6q79Uy7QOCbxxGBRnu/8dQgJPAaeBfHDij
+         d9b7GrCih5KNDBgz8KQd09ZF66VWfxTDDLhR1QAFn7l2qA2yCJwJci9KMa21ysJAyonc
+         0kK9/Q1Hzvrmsd/NNt+3ZrWR7dCvOsuGJERt6rMBWKbFJytsE5iSl2LQWF6Cy/puXDn5
+         IGqpGy5FYYbmIdMlgclBw3TAuAalaLPliQTaKsN1jvtFJalCo1Uk29ywbrF95rph4zEa
+         Ab8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712590845; x=1713195645;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qnh8e0FZeCXeuN57OAvQ7h9lJ3J1XV9u7rdXhlfnOms=;
-        b=iVcOoc3W0it2Ch3AJPkr4AoCi8XpuqKzg3wKKM8BTk6GkzWVX2++urNxQxigN8+rfm
-         1UqgogtcXr8Q+6QYv4bWaF0/A1F7lU6awi8OlXjjbMmda272YSFLjZsnzy4ml6lJAy7c
-         e0s8485CSHTEiPZCYBxLFs49/USnsqeDnGpCulSdlIp1B1dCeavuNuLJHghPmMyFUAAS
-         tZWOKXp94/ZXK132OBohn9jGheJmUDbJukyV5LkESRLBRmmu9NNSS2ctfButQ+X+KcUC
-         axiW//XwUxWBgVRWZRdeMh6zGuLfLILAf7M+CZShFYVd3Imp7G8AMTZIBAhQ6ZE/fG0L
-         3DMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWrVlHs034jN/4UcKVa/hqOU73qWLwpOrxhuoez6n8YdfDDthEvmmtIwDpKc147OBtHuBoTk6ISbZPEflSABonvJvjzADi1COM2
-X-Gm-Message-State: AOJu0YyV3W4juQ8FOw98xKtztvkRGhWxn2SyCCFY2/6R23OVhx6mGuAX
-	xjKmgB5n6woY/1i28JBP/L9/on5TH0H3uzMh+OTsmfyKttguZLy1ubKe9jS8poPkt2GoWFW55eM
-	xJ2aM/Uuz/9MGFZIWpR8oEsRV4pRoysypUid4HdFuqw/iiL8y4YOXcPIncCLAGtxQJZ8/
-X-Received: by 2002:a17:907:2687:b0:a51:e427:f418 with SMTP id bn7-20020a170907268700b00a51e427f418mr30716ejc.35.1712590845509;
-        Mon, 08 Apr 2024 08:40:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFqFndACzMzgue7oq/n2V6d4eUGU5nTF24UnlZxTj1ggn2kkYl8iT6pHsyvZaXtQ8vguwA9HQ==
-X-Received: by 2002:a17:907:2687:b0:a51:e427:f418 with SMTP id bn7-20020a170907268700b00a51e427f418mr30684ejc.35.1712590845135;
-        Mon, 08 Apr 2024 08:40:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id m8-20020a1709061ec800b00a46d2e9fd73sm4573031ejj.222.2024.04.08.08.40.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Apr 2024 08:40:44 -0700 (PDT)
-Message-ID: <7d1cd4f6-118a-4dbf-a882-4c13386a0e18@redhat.com>
-Date: Mon, 8 Apr 2024 17:40:44 +0200
+        d=1e100.net; s=20230601; t=1712591873; x=1713196673;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=untIyZUBolJmBC+haXZFudxoskemR2WDjgQpB/oOF7s=;
+        b=lVuarr2uS2MH6lsfPCn6zLOuWVoko2A3PPf5Zc69DJogpOnpHeLeDP5dO2qBBPN5ya
+         11TXycCdMsVPXwofEXHKMsRq6ILjaiCDHp84/dShSk34KMSANBPS8JJ4Wof4m0HAlGSm
+         wiebhAp8RAxADqV/PQSkNV0C0cSCVT940s+Azz2x4PdVPczGZa6lKzt2Ao4mW+GQgITZ
+         HKKJAubI4TFOldsBt9Q3xHusQ6Cv+PDrvrpGUdAbqzIOCIyIvbKd0UXJYK4DtS3dOlcj
+         CGISW2uckWR/2TPAgStAaLk2oI3fbjR75r37njFswkeGfiopgFVsAD/VF11TRcfcPRbH
+         29YA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNso1C0Ns8zo1jhEyzhhtO74YZHqpNsZ/trlLewZmZwA8OAT6d7dgMFxa1YoQ99j3lexpRp+qwhVJntQx7q2/BhW4+m5fiATA/fTcFgfrKzUAvy4eWyk8DSr05BTwVXcO7FaZbwZkc4pyArUDvqRE23nM+UG0DqCyUsuVkEmOjb62mF6FgqZ44zG/rddngL+NHUWGpZvPaQXSwTK4KX53BfEDOxPMO2FRju/0Q+E4Sm/kNO8jz5OYlgRxCirRFtf5AxRpv0NPQY3K5c0vxJ13mTA/7I8ZDbDzXZ5Iy2Ll+Om8NwzHYlAuN8OmxF3IQ454PKvxs3daX21Imr0NoijRlDwIlJsUectnnMC97qrj5IZzQpQtPvUgA5/edslVDkxXGYEygawhsNWSr2i9USbDtzOOk5vEahcNx0+n6VS+0v2dkpPo/gbdO1kbBmyUE+gKssjdT0JOGXB1ZxfnAD1z+OhSN3tPTATeoRC+WtQ==
+X-Gm-Message-State: AOJu0YyXWuQctnrMCEUojAFSK1BQfSW5IAp/oDstMbA8vc7dZ6DwaeB4
+	FC+8NkTMNiO0moavdL5qhWZM8bBWyfRQVR52u1gFmrH+FmV3wcZ8
+X-Google-Smtp-Source: AGHT+IGJbb2MaWRtYADIA840woW+fg7lVmIt69WB4JS2RPl12DQD69jPbBmSk/iEenJzneHNW7DHjg==
+X-Received: by 2002:a17:90a:ab0d:b0:2a5:513:921e with SMTP id m13-20020a17090aab0d00b002a50513921emr2739861pjq.31.1712591873008;
+        Mon, 08 Apr 2024 08:57:53 -0700 (PDT)
+Received: from localhost ([2601:647:6881:9060:13a8:4fe8:4da1:7ea2])
+        by smtp.gmail.com with ESMTPSA id z24-20020a17090ab11800b002a2559fe52esm6580894pjq.56.2024.04.08.08.57.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Apr 2024 08:57:52 -0700 (PDT)
+Date: Mon, 8 Apr 2024 08:57:51 -0700
+From: Cong Wang <xiyou.wangcong@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 14/14] selftests: add ncdevmem, netcat
+ for devmem TCP
+Message-ID: <ZhQT/4RpKIkUmWut@pop-os.localdomain>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-15-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] platform/x86: wmi: Mark simple WMI drivers as
- legacy-free
-To: Armin Wolf <W_Armin@gmx.de>, ilpo.jarvinen@linux.intel.com
-Cc: corbet@lwn.net, sathyanarayanan.kuppuswamy@linux.intel.com,
- linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240402143059.8456-1-W_Armin@gmx.de>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20240402143059.8456-1-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240403002053.2376017-15-almasrymina@google.com>
 
-Hi,
+On Tue, Apr 02, 2024 at 05:20:51PM -0700, Mina Almasry wrote:
+> +static char *server_ip = "192.168.1.4";
+> +static char *client_ip = "192.168.1.2";
+> +static char *port = "5201";
+> +static size_t do_validation;
+> +static int start_queue = 8;
+> +static int num_queues = 8;
+> +static char *ifname = "eth1";
+> +static unsigned int ifindex = 3;
+> +static char *nic_pci_addr = "0000:06:00.0";
 
-On 4/2/24 4:30 PM, Armin Wolf wrote:
-> The inspur_platform_profile driver and the xiaomi-wmi driver both
-> meet the requirements for modern WMI drivers, as they both do not
-> use the legacy GUID-based interface and can be safely instantiated
-> multiple times.
-> 
-> Mark them both as legacy-free using the no_singleton flag.
-> 
-> Compile-tested only.
-> 
-> Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+It seems this is set but never used.
 
-Thank you for your patch-series, I've applied the series to my
-review-hans branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-
-> ---
-> Changes since v1:
-> - add Reviewed-by tag
-> ---
->  drivers/platform/x86/inspur_platform_profile.c | 1 +
->  drivers/platform/x86/xiaomi-wmi.c              | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/inspur_platform_profile.c b/drivers/platform/x86/inspur_platform_profile.c
-> index 743705bddda3..8440defa6788 100644
-> --- a/drivers/platform/x86/inspur_platform_profile.c
-> +++ b/drivers/platform/x86/inspur_platform_profile.c
-> @@ -207,6 +207,7 @@ static struct wmi_driver inspur_wmi_driver = {
->  	.id_table = inspur_wmi_id_table,
->  	.probe = inspur_wmi_probe,
->  	.remove = inspur_wmi_remove,
-> +	.no_singleton = true,
->  };
-> 
->  module_wmi_driver(inspur_wmi_driver);
-> diff --git a/drivers/platform/x86/xiaomi-wmi.c b/drivers/platform/x86/xiaomi-wmi.c
-> index 54a2546bb93b..1f5f108d87c0 100644
-> --- a/drivers/platform/x86/xiaomi-wmi.c
-> +++ b/drivers/platform/x86/xiaomi-wmi.c
-> @@ -83,6 +83,7 @@ static struct wmi_driver xiaomi_wmi_driver = {
->  	.id_table = xiaomi_wmi_id_table,
->  	.probe = xiaomi_wmi_probe,
->  	.notify = xiaomi_wmi_notify,
-> +	.no_singleton = true,
->  };
->  module_wmi_driver(xiaomi_wmi_driver);
-> 
-> --
-> 2.39.2
-> 
-
+Thanks.
