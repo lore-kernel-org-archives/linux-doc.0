@@ -1,206 +1,272 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A5E1448C4;
-	Mon,  8 Apr 2024 18:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5CB5FB8F;
+	Mon,  8 Apr 2024 20:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712600674; cv=none; b=qZyTeIkM0+Xf4hZmqzhqWLLIlNeA1NLUqC0CyWjzwPZS8iTy1F2BQ4v8aseJuIvt5O0L2WMmiI/pRG6pDZNQKR1C6fywoXn3GJPBA3Lwy7qQyLlILPGcFqkO97XUoorqrol9QIBLGCaXbhOo+wA/WB7dhhBOhazqkS7iWFa0MQk=
+	t=1712609184; cv=none; b=E5FBbg8V4goq3gsJyis3Yl+MCM/2nxDA6MMhebTlc6ZszIlfvLPmFGqqbO4rG6ipp85/xxGKhyIN477CxJKMPbUwJb6SQvVT54lOaPZdEoO+McEE3zAVAnmCspM3ddXZ2TDDcu8+7DXUXnVkyN+4UHAl1P/peU6g513seATgKW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712600674; c=relaxed/simple;
-	bh=BjTJYz/b0W194uG3Dy5J9ActPboXh7mVQIpU2KFg/7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ha1uoXMmmUC8uPoi/hsZli/LfGMIwgRS8lK6sTEU1vE14fsLp8t7GirkEIb8RAJIVW0JfozF+wRTnClEPw6250syrDDP6xhyKFi9ixNc4n72b4gKm2T9C6Lk3MIkrTuwZNykWjaj3fzIwQ0lqUPbpy3a2a4XSuEpzbDeJ7mvnpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W6R45nAk; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712609184; c=relaxed/simple;
+	bh=bawdjiIKxvS+NQAyajiRxWqDPypoasRV2+XE1wBqy8Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IDQDaMXQNCTrv1/M762jRnjC5te2WcsZWcez+O14vOUPxKL7WSuVq3mkbcnHVVea3YS44XgfP6qYWJOXmHsr884zDPG5ah3P7RgUnWuyU3oReD6naS77mAT3e4UEyZ1yKDAtui0S5q7Yj+uCEE4JOnImB3X95slcPbbDyrDEuPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7Gf5GXb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W6R45nAk"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3442f4e098bso1220207f8f.1;
-        Mon, 08 Apr 2024 11:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712600671; x=1713205471; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cROCssBIV4xyuzdSD8dyeKutwvbC7vcc1U8PqfuQR6M=;
-        b=W6R45nAkAaxSUwfQ6YOatTsqryM79ecst165M8IL4W+bb92MFdWRJ0673Z1XLiVUqk
-         YpwpBqP2zyTBtjwVZeaVzehbL/cIDwDQQL3lE6cB091yccqj9llxQrFgizKGXOuas5+2
-         ebFP+WNZa8IjwZ5ubPHkCIM71jQENlEU9aBgO5JGVCOf3zfAf/YWtPKv/QLS/9YBuUkm
-         IDqvOUIG7L0eMA9YmvDMuw1arFyGrKD4TI1WLFdHeg205gSeljx33A1z8inm45G7cJxu
-         6+jmm4H4FeKZVdKNKEsu4mfOkq4CgsngGqB6gIb4SRwqeUvejZSz+rSaTiuSvQ/PpefP
-         1ACQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712600671; x=1713205471;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cROCssBIV4xyuzdSD8dyeKutwvbC7vcc1U8PqfuQR6M=;
-        b=MLaTNE0BYvVYlBsJJCsZDk4DogF7z+cER62Y3uYXcBygV4VNRFlxk61Qxm8CUnbDUA
-         VB0++9OBjMZiSWbepQZjPli9j5Xb/aWXt2Sm7y3Ud5Kcyjeua69+eQkBWb3TupMae0YB
-         cBL1L4grJs+LgOmNqUydm5/C2qldxwBKQIKkpzjePAiVLMOaU1DbTALH3kAIDqRw3F+J
-         cF6ug/zezPGY2Q3mAEBVkWccn304sIKeLgl53zdVMSOurS9vMh9gs/n4N6wHahdSTIGC
-         9Y7t2EBbpgx3embYYJahJ+hx5yL5e2GSNy5o+QuE9Xl0DpWv7HEjNPS2n8dQauhS8XGI
-         JE2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXa+Gr54IROaw9ip8O2lE7FWw4lhvPfKCFSUQVRqouhcrghU3EKVDfihkK1z3GMXcz5cIpQth7qEoslQduoXZf3lcJ9OkST0RU6r+PPO9GS3n/cCqFvXPN3qy28B7RnT8bMmUUjRC8MHzZvY2ZkKj+76OaCSg5HHkboIAqfVy8NCgVgWZMjbhvifhrGleW9fy1OzxL+t4puyvsHIPv+LoSS
-X-Gm-Message-State: AOJu0Yx0UCbqC6kJIr3Fcqlc0aLvx/BJehTAwv9uUOt1/glNGFLE+qSr
-	xvVsZ3StE15eq+r8OUueEjRWFIQhS+hT26pWYzEdw6Tquk9LmAQ1Kca2tcH6QDrGmI6mU++hycK
-	TXNpo7IoiQn6xGIu89BWj31GhYcE=
-X-Google-Smtp-Source: AGHT+IFmb2xMi3DwTGlhE6Fzn2e0lZiTlA2PS5kmTAv5uiYxZ5467CLILgQgbrqh45oGjtS+CQY5Q3oTQtSnXUJzHwE=
-X-Received: by 2002:a05:6000:c8a:b0:343:c05b:e7dd with SMTP id
- dp10-20020a0560000c8a00b00343c05be7ddmr373462wrb.3.1712600671200; Mon, 08 Apr
- 2024 11:24:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7Gf5GXb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5B0C433C7;
+	Mon,  8 Apr 2024 20:46:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712609183;
+	bh=bawdjiIKxvS+NQAyajiRxWqDPypoasRV2+XE1wBqy8Q=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=m7Gf5GXb6iK22KgIcBH3SH58M9klBxgKQVofhd+Nb8m3rH6B1E64AmjDkXDTjJtpV
+	 KMDbW9bJQ62vDPXXM++pnfd3qQm9H3iXL8If0Q+UOObnO5nHmEmh5F4f7/IzWPPJkg
+	 31GiIpqQRGIpmWwd/++NpVLOljDPHxSZ6B3nEk3jpFrjF1kcmKD/rzCwUBtbLGA/bN
+	 DgQnkFZCKnOwufxw+6nR/vn74S+9QPrYEKuXtzaKddQdYs7ApwVt0ngMZnLwNcHYwN
+	 9u2AY9GyWBJGsrWPwhAjb/OsLVeHj2WAxFnhPCaujLG9zKiTdhxG0MPMftAOnmb4Tz
+	 gJh9CVCrMkPBA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 1CAD5CE126C; Mon,  8 Apr 2024 13:46:23 -0700 (PDT)
+Date: Mon, 8 Apr 2024 13:46:23 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Andrea Parri <parri.andrea@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
+	will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
+	npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
+	luc.maranget@inria.fr, akiyks@gmail.com,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH memory-model 2/3] Documentation/litmus-tests: Demonstrate
+ unordered failing cmpxchg
+Message-ID: <88b71a34-3d50-40a8-b4b6-c2d29a5d93a5@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <8550daf1-4bfd-4607-8325-bfb7c1e2d8c7@paulmck-laptop>
+ <20240404192649.531112-2-paulmck@kernel.org>
+ <Zg/M141yzwnwPbCi@andrea>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404190146.1898103-1-elver@google.com> <CAADnVQKc+Z39k9wbU2MHf-fPFma+9QsyOugmmmGq3ynQCTVfCw@mail.gmail.com>
- <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
- <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com> <CANpmjNMCJwCaGiUpMCukgruNJ9k120sJ8pVkrdpyo-Tonve2Sw@mail.gmail.com>
-In-Reply-To: <CANpmjNMCJwCaGiUpMCukgruNJ9k120sJ8pVkrdpyo-Tonve2Sw@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 8 Apr 2024 11:24:19 -0700
-Message-ID: <CAADnVQJ68X6NPYtEbQPXPM4pH1ZPg5iSrYi8c3EanL51SAW7zQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Introduce bpf_probe_write_user_registered()
-To: Marco Elver <elver@google.com>
-Cc: Andrii Nakryiko <andrii.nakryiko@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zg/M141yzwnwPbCi@andrea>
 
-On Mon, Apr 8, 2024 at 2:30=E2=80=AFAM Marco Elver <elver@google.com> wrote=
-:
->
-> On Fri, 5 Apr 2024 at 22:28, Andrii Nakryiko <andrii.nakryiko@gmail.com> =
-wrote:
-> >
-> > On Fri, Apr 5, 2024 at 1:28=E2=80=AFAM Marco Elver <elver@google.com> w=
-rote:
-> > >
-> > > On Fri, 5 Apr 2024 at 01:23, Alexei Starovoitov
-> > > <alexei.starovoitov@gmail.com> wrote:
-> [...]
-> > > > and the tasks can use mmaped array shared across all or unique to e=
-ach
-> > > > process.
-> > > > And both bpf and user space can read/write them with a single instr=
-uction.
-> > >
-> > > That's BPF_F_MMAPABLE, right?
-> > >
-> > > That does not work because the mmapped region is global. Our requirem=
-ents are:
+On Fri, Apr 05, 2024 at 12:05:11PM +0200, Andrea Parri wrote:
+> >  DCL-broken.litmus
+> > -	Demonstrates that double-checked locking needs more than just
+> > -	the obvious lock acquisitions and releases.
+> > +    Demonstrates that double-checked locking needs more than just
+> > +    the obvious lock acquisitions and releases.
+> >  
+> >  DCL-fixed.litmus
+> > -	Demonstrates corrected double-checked locking that uses
+> > -	smp_store_release() and smp_load_acquire() in addition to the
+> > -	obvious lock acquisitions and releases.
+> > +    Demonstrates corrected double-checked locking that uses
+> > +    smp_store_release() and smp_load_acquire() in addition to the
+> > +    obvious lock acquisitions and releases.
+> >  
+> >  RM-broken.litmus
+> > -	Demonstrates problems with "roach motel" locking, where code is
+> > -	freely moved into lock-based critical sections.  This example also
+> > -	shows how to use the "filter" clause to discard executions that
+> > -	would be excluded by other code not modeled in the litmus test.
+> > -	Note also that this "roach motel" optimization is emulated by
+> > -	physically moving P1()'s two reads from x under the lock.
+> > +    Demonstrates problems with "roach motel" locking, where code is
+> > +    freely moved into lock-based critical sections.  This example also
+> > +    shows how to use the "filter" clause to discard executions that
+> > +    would be excluded by other code not modeled in the litmus test.
+> > +    Note also that this "roach motel" optimization is emulated by
+> > +    physically moving P1()'s two reads from x under the lock.
+> >  
+> > -	What is a roach motel?	This is from an old advertisement for
+> > -	a cockroach trap, much later featured in one of the "Men in
+> > -	Black" movies.	"The roaches check in.	They don't check out."
+> > +    What is a roach motel?  This is from an old advertisement for
+> > +    a cockroach trap, much later featured in one of the "Men in
+> > +    Black" movies.  "The roaches check in.  They don't check out."
+> >  
+> >  RM-fixed.litmus
+> > -	The counterpart to RM-broken.litmus, showing P0()'s two loads from
+> > -	x safely outside of the critical section.
+> > +    The counterpart to RM-broken.litmus, showing P0()'s two loads from
+> > +    x safely outside of the critical section.
+> 
+> AFAIU, the changes above belong to patch #1.  Looks like you realigned
+> the text, but forgot to integrate the changes in #1?
 
-It sounds not like "requirements", but a description of the proposed
-solution.
-Pls share the actual use case.
-This "tracing prog" sounds more like a ghost scheduler that
-wants to interact with known user processes.
+Good eyes!  I will catch this in my next rebase.
 
-> > >
-> > > 1. Single tracing BPF program.
-> > >
-> > > 2. Per-process (per VM) memory region (here it's per-thread, but each
-> > > thread just registers the same process-wide region).  No sharing
-> > > between processes.
-> > >
-> > > 3. From #2 it follows: exec unregisters the registered memory region;
-> > > fork gets a cloned region.
-> > >
-> > > 4. Unprivileged processes can do prctl(REGISTER). Some of them might
-> > > not be able to use the bpf syscall.
-> > >
-> > > The reason for #2 is that each user space process also writes to the
-> > > memory region (read by the BPF program to make updates depending on
-> > > what state it finds), and having shared state between processes
-> > > doesn't work here.
-> > >
-> > > Is there any reasonable BPF facility that can do this today? (If
-> > > BPF_F_MMAPABLE could do it while satisfying requirements 2-4, I'd be =
-a
-> > > happy camper.)
-> >
-> > You could simulate something like this with multi-element ARRAY +
-> > BPF_F_MMAPABLE, though you'd need to pre-allocate up to max number of
-> > processes, so it's not an exact fit.
->
-> Right, for production use this is infeasible.
+> > +C cmpxchg-fail-ordered-1
+> > +
+> > +(*
+> > + * Result: Never
+> > + *
+> > + * Demonstrate that a failing cmpxchg() operation will act as a full
+> > + * barrier when followed by smp_mb__after_atomic().
+> > + *)
+> > +
+> > +{}
+> > +
+> > +P0(int *x, int *y, int *z)
+> > +{
+> > +	int r0;
+> > +	int r1;
+> > +
+> > +	WRITE_ONCE(*x, 1);
+> > +	r1 = cmpxchg(z, 1, 0);
+> > +	smp_mb__after_atomic();
+> > +	r0 = READ_ONCE(*y);
+> > +}
+> > +
+> > +P1(int *x, int *y, int *z)
+> > +{
+> > +	int r0;
+> > +
+> > +	WRITE_ONCE(*y, 1);
+> > +	r1 = cmpxchg(z, 1, 0);
+> 
+> P1's r1 is undeclared (so klitmus7 will complain).
+> 
+> The same observation holds for cmpxchg-fail-unordered-1.litmus.
 
-Last I heard, ghost agent and a few important tasks can mmap bpf array
-and share it with bpf prog.
-So quite feasible.
+Good catch in all four tests, thank you!
 
->
-> > But what seems to be much closer is using BPF task-local storage, if
-> > we support mmap()'ing its memory into user-space. We've had previous
-> > discussions on how to achieve this (the simplest being that
-> > mmap(task_local_map_fd, ...) maps current thread's part of BPF task
-> > local storage). You won't get automatic cloning (you'd have to do that
-> > from the BPF program on fork/exec tracepoint, for example), and within
-> > the process you'd probably want to have just one thread (main?) to
-> > mmap() initially and just share the pointer across all relevant
-> > threads.
->
-> In the way you imagine it, would that allow all threads sharing the
-> same memory, despite it being task-local? Presumably each task's local
-> storage would be mapped to just point to the same memory?
->
-> > But this is a more generic building block, IMO. This relying
-> > on BPF map also means pinning is possible and all the other BPF map
-> > abstraction benefits.
->
-> Deployment-wise it will make things harder because unprivileged
-> processes still have to somehow get the map's shared fd somehow to
-> mmap() it. Not unsolvable, and in general what you describe looks
-> interesting, but I currently can't see how it will be simpler.
+Does the patch shown at the end of this email clear things up for you?
 
-bpf map can be pinned into bpffs for any unpriv process to access.
-Then any task can bpf_obj_get it and mmap it.
-If you have few such tasks than bpf array will do.
-If you have millions of tasks then use bpf arena which is a sparse array.
-Use pid as an index or some other per-task id.
-Both bpf prog and all tasks can read/write such shared memory
-with normal load/store instructions.
+							Thanx, Paul
 
-> In absence of all that, is a safer "bpf_probe_write_user()" like I
-> proposed in this patch ("bpf_probe_write_user_registered()") at all
-> appealing?
+> > +	smp_mb__after_atomic();
+> > +	r0 = READ_ONCE(*x);
+> > +}
+> > +
+> > +locations[0:r1;1:r1]
+> > +exists (0:r0=0 /\ 1:r0=0)
+> 
+> 
+> > +C cmpxchg-fail-ordered-2
+> > +
+> > +(*
+> > + * Result: Never
+> > + *
+> > + * Demonstrate use of smp_mb__after_atomic() to make a failing cmpxchg
+> > + * operation have acquire ordering.
+> > + *)
+> > +
+> > +{}
+> > +
+> > +P0(int *x, int *y)
+> > +{
+> > +	int r0;
+> > +	int r1;
+> > +
+> > +	WRITE_ONCE(*x, 1);
+> > +	r1 = cmpxchg(y, 0, 1);
+> > +}
+> > +
+> > +P1(int *x, int *y)
+> > +{
+> > +	int r0;
+> > +
+> > +	r1 = cmpxchg(y, 0, 1);
+> > +	smp_mb__after_atomic();
+> > +	r2 = READ_ONCE(*x);
+> 
+> P1's r1 and r2 are undeclared.  P0's r0 and P1's r0 are unused.
+> 
+> Same for cmpxchg-fail-unordered-2.litmus.
+> 
+>   Andrea
 
-To be honest, another "probe" variant is not appealing.
-It's pretty much bpf_probe_write_user without pr_warn_ratelimited.
-The main issue with bpf_probe_read/write_user() is their non-determinism.
-They will error when memory is swapped out.
-These helpers are ok-ish for observability when consumers understand
-that some events might be lost, but for 24/7 production use
-losing reads becomes a problem that bpf prog cannot mitigate.
-What do bpf prog suppose to do when this safer bpf_probe_write_user errors?
-Use some other mechanism to communicate with user space?
-A mechanism with such builtin randomness in behavior is a footgun for
-bpf users.
-We have bpf_copy_from_user*() that don't have this non-determinism.
-We can introduce bpf_copy_to_user(), but it will be usable
-from sleepable bpf prog.
-While it sounds you need it somewhere where scheduler makes decisions,
-so I suspect bpf array or arena is a better fit.
+------------------------------------------------------------------------
 
-Or something that extends bpf local storage map.
-See long discussion:
-https://lore.kernel.org/bpf/45878586-cc5f-435f-83fb-9a3c39824550@linux.dev/
+commit 5ce4d0efe11fd101ff938f6116cdd9b6fe46a98c
+Author: Paul E. McKenney <paulmck@kernel.org>
+Date:   Mon Apr 8 13:41:22 2024 -0700
 
-I still like the idea to let user tasks register memory in
-bpf local storage map, the kernel will pin such pages,
-and then bpf prog can read/write these regions directly.
-In bpf prog it will be:
-ptr =3D bpf_task_storage_get(&map, task, ...);
-if (ptr) { *ptr =3D ... }
-and direct read/write into the same memory from user space.
+    Documentation/litmus-tests: Make cmpxchg() tests safe for klitmus
+    
+    The four litmus tests in Documentation/litmus-tests/atomic do not
+    declare all of their local variables.  Although this is just fine for LKMM
+    analysis by herd7, it causes build failures when run in-kernel by klitmus.
+    This commit therefore adjusts these tests to declare all local variables.
+    
+    Reported-by: Andrea Parri <parri.andrea@gmail.com>
+    Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+
+diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
+index 3df1d140b189b..c0f93dc07105e 100644
+--- a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
++++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-1.litmus
+@@ -23,6 +23,7 @@ P0(int *x, int *y, int *z)
+ P1(int *x, int *y, int *z)
+ {
+ 	int r0;
++	int r1;
+ 
+ 	WRITE_ONCE(*y, 1);
+ 	r1 = cmpxchg(z, 1, 0);
+diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
+index 54146044a16f6..5c06054f46947 100644
+--- a/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
++++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-ordered-2.litmus
+@@ -11,7 +11,6 @@ C cmpxchg-fail-ordered-2
+ 
+ P0(int *x, int *y)
+ {
+-	int r0;
+ 	int r1;
+ 
+ 	WRITE_ONCE(*x, 1);
+@@ -20,7 +19,8 @@ P0(int *x, int *y)
+ 
+ P1(int *x, int *y)
+ {
+-	int r0;
++	int r1;
++	int r2;
+ 
+ 	r1 = cmpxchg(y, 0, 1);
+ 	smp_mb__after_atomic();
+diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
+index a727ce23b1a6e..39ea1f56a28d2 100644
+--- a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
++++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-1.litmus
+@@ -23,6 +23,7 @@ P0(int *x, int *y, int *z)
+ P1(int *x, int *y, int *z)
+ {
+ 	int r0;
++	int r1;
+ 
+ 	WRITE_ONCE(*y, 1);
+ 	r1 = cmpxchg(z, 1, 0);
+diff --git a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
+index a245bac55b578..61aab24a4a643 100644
+--- a/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
++++ b/Documentation/litmus-tests/atomic/cmpxchg-fail-unordered-2.litmus
+@@ -12,7 +12,6 @@ C cmpxchg-fail-unordered-2
+ 
+ P0(int *x, int *y)
+ {
+-	int r0;
+ 	int r1;
+ 
+ 	WRITE_ONCE(*x, 1);
+@@ -21,7 +20,8 @@ P0(int *x, int *y)
+ 
+ P1(int *x, int *y)
+ {
+-	int r0;
++	int r1;
++	int r2;
+ 
+ 	r1 = cmpxchg(y, 0, 1);
+ 	r2 = READ_ONCE(*x);
