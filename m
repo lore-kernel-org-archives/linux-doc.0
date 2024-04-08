@@ -1,109 +1,81 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EE1126F07;
-	Mon,  8 Apr 2024 14:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A32A13E88F;
+	Mon,  8 Apr 2024 15:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712588141; cv=none; b=BL1xTUx5OvG2s7puZaiPm5RK+unA5T+HrzpizYwQlC3aPHmmABYSyyRlh6zTQc0U1wJNSvnvZlHhD6m8ujrIsSvjm/5m2nw7DZZmu8swVefyXjXeI2FTHruMxG/8y7s5MHQ3RdbiDYFPylFcbszzmG8eNU0zd7n+b+5wY0EUUU0=
+	t=1712590170; cv=none; b=BKlwK4A68CeUuP28Ba6ZPGGhfWnG3sX4GJ7QxWwd9iE81eKrMVKK7++7++7NcvwIMnjXqdROd//az94YhSsGYUZCTd3Hs5q0YjD/UL+TaBkTPW2n23yVhthjmDLlJAXyKhGj1mMDuB5n8sDsHPgIJI+RJTNOQLbscaWyBEA8jSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712588141; c=relaxed/simple;
-	bh=Ov2BcR6+Z6HnKIgx85TjUBUXWlTdUZPqGxh8lge3WGI=;
+	s=arc-20240116; t=1712590170; c=relaxed/simple;
+	bh=453y5TVJbT2eV9mcf+f4sFbiwFZXJLBXjLhR/YaLoiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfS2BYkyxcdHh7C6nNHP1+/JB7EUnj/MW1lqLSSMCfHQWuArs7IMFQUkQ4fuqCYvt02QYXg2FNYG5EXMHkg/WL53dEoJ0Joa8hHXcZCt1yHdbyhBjgwbGn6pQ7pQDQVK5HBGRPglykA0/w9YLRH8jlRIdIuMkSYFmqesAO+I5TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=nok+zJAZ; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8VHbPT541+zo6OecxXmniNbVc/v5Vy/E10osY4nSj9u9WzPdISSegvw8hlNAA3qWOBssXmWUrh1SlmK/0SKse2IJlWusnT5/g2Ic2eVCE6fWQDpbIvuoC2U7pgHdUfntJSVa16dWQKCKFzTaXU1HfhS732QEaR4sHShHyvpSq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Sg3Jq/3m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="nok+zJAZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1PBTRz03aq88OrjremWvkNYUDAiOv89NpdJyRW1vn4c=; b=nok+zJAZaWJpfupGZrseZ3Tvqk
-	44R0VF4WDwybUX+9OHmLLkPeWjf9bSv/+o7QqaXHJ1qMYpeyKBSZY9LTrQlV1lr86ftHWcT29r65m
-	YQwwPiuybeZ0X7NCN4RrzfoNeQ0/A4330dbcx3gGV3EIynt+43Vz7AphalzRBTEtlHW0v97cEq8Gp
-	gT70fcGaXcg0/R3VENuMDAOMOIu5zFiVMsv2Ut2aCUgFJj3UelenHeQLFRiZ6asMtFJgssbQX/8Zd
-	XAM7neTYwWs4gLnfy38iu7Nnxg5UAI5dT8VC6gnIZqmbVeIDYiPpA7v0pC5LS1698kQ73wX2gWuQu
-	nJqas7XQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35728)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rtqP9-0005JN-1h;
-	Mon, 08 Apr 2024 15:55:27 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rtqP1-0004EI-I3; Mon, 08 Apr 2024 15:55:19 +0100
-Date: Mon, 8 Apr 2024 15:55:19 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net, sdf@google.com,
-	kory.maincent@bootlin.com, maxime.chevallier@bootlin.com,
-	vladimir.oltean@nxp.com, przemyslaw.kitszel@intel.com,
-	ahmed.zaki@intel.com, richardcochran@gmail.com, shayagr@amazon.com,
-	paul.greenwalt@intel.com, jiri@resnulli.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mlxsw@nvidia.com, petrm@nvidia.com, idosch@nvidia.com
-Subject: Re: [PATCH net-next 07/10] ethtool: cmis_cdb: Add a layer for
- supporting CDB commands
-Message-ID: <ZhQFV7I3EwW7FV+H@shell.armlinux.org.uk>
-References: <20240408125340.2084269-1-danieller@nvidia.com>
- <20240408125340.2084269-8-danieller@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Sg3Jq/3m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D30FC433C7;
+	Mon,  8 Apr 2024 15:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712590169;
+	bh=453y5TVJbT2eV9mcf+f4sFbiwFZXJLBXjLhR/YaLoiU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Sg3Jq/3mxT2WhVcxVD6YHLQZ7kVWlV6jYoYpVAOU9c+q55bJrcBZxcVDmLX1qv5E9
+	 Yu0LsheLeHrWidWvY50+rF8MQTiEEz2QKnXoO0oLtC0GbmEkL87mYDqhFPr+JrrCeD
+	 j/C4elUFCodFyX4pxmxB1yQXQp70y41HUGFWL3cs=
+Date: Mon, 8 Apr 2024 11:29:26 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: Haifeng Xu <haifeng.xu@shopee.com>
+Cc: Reinette Chatre <reinette.chatre@intel.com>, james.morse@arm.com, 
+	fenghua.yu@intel.com, babu.moger@amd.com, bp@alien8.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com, 
+	peternewman@google.com, x86@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/2] x86/resctrl: Track llc_occupancy of RMIDs in
+ limbo list
+Message-ID: <20240408-stalwart-tomato-sloth-bddbae@lemur>
+References: <20240319083039.223088-1-haifeng.xu@shopee.com>
+ <4244b729-2eec-4999-9427-00b5c9f3e6fc@intel.com>
+ <ca45f32d-b526-4bcd-b177-08698babaf3d@shopee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240408125340.2084269-8-danieller@nvidia.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <ca45f32d-b526-4bcd-b177-08698babaf3d@shopee.com>
 
-On Mon, Apr 08, 2024 at 03:53:37PM +0300, Danielle Ratson wrote:
-> +/**
-> + * struct ethtool_cmis_cdb_request - CDB commands request fields as decribed in
-> + *				the CMIS standard
-> + * @id: Command ID.
-> + * @epl_len: EPL memory length.
-> + * @lpl_len: LPL memory length.
-> + * @chk_code: Check code for the previous field and the payload.
-> + * @resv1: Added to match the CMIS standard request continuity.
-> + * @resv2: Added to match the CMIS standard request continuity.
-> + * @payload: Payload for the CDB commands.
-> + */
-> +struct ethtool_cmis_cdb_request {
-> +	__be16 id;
-> +	struct_group(body,
-> +		u16 epl_len;
+On Mon, Apr 08, 2024 at 03:44:00PM +0800, Haifeng Xu wrote:
+> I can also reproduced it. After digging into it, I found that our DKIM signature header
+> has 't' and 'x' flags. They are recommended as a means to help identify spam.
+> 
+> t= is the DKIM signature timestamp.
+> x= is the DKIM signature expiration time.
+> 
+> The source code of DKIM Validation can be seen in dkim/__init__.py(line 351), I paste it
+> here.
+> 
+>  343     if b'x' in sig:
+>  344         if re.match(br"\d+$", sig[b'x']) is None:
+>  345             raise ValidationError(
+>  346               "x= value is not a decimal integer (%s)" % sig[b'x'])
+>  347         x_sign = int(sig[b'x'])
+>  348         now = int(time.time())
+>  349         slop = 36000 # 10H leeway for mailers with inaccurate clocks
+>  350         if x_sign < now - slop:
+>  351             raise ValidationError(
+>  352                 "x= value is past (%s)" % sig[b'x'])
+>  353             if x_sign < t_sign:
+>  354                 raise ValidationError(
+>  355                     "x= value is less than t= value (x=%s t=%s)" %
+>  356                     (sig[b'x'], sig[b't']))
+> 
+> The expiry time is less than the time point you download the patch, so the validation
+> fails. If I comment out these lines, this series can be successfully downloaded.
 
-u16 with a struct that also uses __be16 looks suspicious.
+FWIW, I've requested ability to ignore the x= flag when validating signatures:
+https://bugs.launchpad.net/dkimpy/+bug/2047054
 
-> +		u8 lpl_len;
-> +		u8 chk_code;
-> +		u8 resv1;
-> +		u8 resv2;
-> +		u8 payload[ETHTOOL_CMIS_CDB_LPL_MAX_PL_LENGTH];
-> +	);
-
-Does it matter if the compiler inserts some padding before this struct
-group?
-
-> +/**
-> + * struct ethtool_cmis_cdb_rpl_hdr - CDB commands reply header arguments
-> + * @rpl_len: Reply length.
-> + * @rpl_chk_code: Reply check code.
-> + */
-> +struct ethtool_cmis_cdb_rpl_hdr {
-> +	u8 rpl_len;
-> +	u8 rpl_chk_code;
-
-Does it matter if the compiler adds some padding here?
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+-K
