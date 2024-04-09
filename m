@@ -1,57 +1,56 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C93156868
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 17:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACEB156996
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 17:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712685074; cv=none; b=GHDRynp1WTRzCHsZlShQAaNnEa5nfWF4iwgzaz+C03Y6TBB1PyRQGJPf3hlIyQFveYTYqclXvLHXUnGx2Tb63PZLO+hj/Tverewqs4tyQEpCiJeyDbDnruhGZdTYxSI4NHFDW2MRVB7XGonnHmleCzoBkx274R9/hEybycbR+pI=
+	t=1712685076; cv=none; b=jjv0ZRxwTjuYh0VTU/oPgDPf7RyDJPuq+66g6Rf1kQIhQcwZvZO3CK1wyS/0dGln5F19TfR0Mg8hIA6/n4dM3h2ALesXqFNc0ZObzIZe5VnMk1JV0BVkS/ezrMknfEoM/IcUatcSAuD10UcPTYZ4NvrJQtYptmXySwrIqvNsW/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712685074; c=relaxed/simple;
-	bh=s2tc144aBgNbfS3s/tihGdBDGVdjaSbfQ+SMtFuveA0=;
+	s=arc-20240116; t=1712685076; c=relaxed/simple;
+	bh=QVtEQp4/Pcfuor0ucORpy+mLoe+0G9NQLRsGApm4biU=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p1SyUohIsEh7EYt4yEvNtLpgJfuDZpMn2bxsDRvGuO2kUNXXSM9N0pjyVIoXXLmfQpBlxeP7tsNjp89zNvLzxNGFxxGrgqoNeIKjf0Ee3uS4o4zZY4aNo2OXzeSflQPutr0kOGA6WBKGr1pzmsa8C33bbcjZTUs2iWH+0Gy33tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iZ6RqVLR; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=B+/KbfDB+6GsOfhO3f4oKJ2+BMm30cu/ezjM4Wg0zmf5xuRw+PcyYbER+81XV+Y+69YyJM2Q/r+9kUWMENwM0J5sSXhycMOY6dtS0SlvcECuwBBkPAE499TTN67mOXXnMQrxo75KsUwK4cFyqAHK4c2BwhY/a9yPMLrpq/SkHwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=itkF8bUI; arc=none smtp.client-ip=209.85.215.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iZ6RqVLR"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-61561dbdf14so77625187b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 10:51:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="itkF8bUI"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5ce67a3f275so3921614a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 10:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712685072; x=1713289872; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:reply-to:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/vL198wTn+Uk37UUg6mX+X5B2xDFF41dQr7U2AoMPZ0=;
-        b=iZ6RqVLR8jrY5bVAUNJRGENQq2blNMurn4IYjP67hksPv3HrFsQ75oZ3tHBUorGCwS
-         2CxkLbEfy1iEgqpXcMbC2J+f4Rj58jweu0OvAljFu29ig2Yry2oi3pipyqWqip3bB0sL
-         2xyXKAvcPNnjAwaWf254RKGECXXg2xWFgceKA7eqOAgmdLiNBrbJ/HeLjbHc6I/jq02n
-         owK87ZZ2KPD4DoBljFPtmspGt39bAmf7ZR/Ka+p1oJsTF/SrN4kgVFm6Kd822Fb3RyUS
-         UHBRX0pJb8k2ra5JZWqgbOANyf8izTBwsaJUXtCKA56d7BP4E8xMClr68GaCWpo4sLol
-         m8wA==
+        d=google.com; s=20230601; t=1712685075; x=1713289875; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
+        bh=A7D9RJgwpQ1W8M/aA/vuUOPVBx7m9VVMSR4azYK+r2U=;
+        b=itkF8bUIabXOiKwdBCbeeKobhWElxIjYrJNzz526HLsXUB4YJyUFvtlf9irtdKrGJN
+         sU4lz+itK40DWd6VluXd3Cqk3StVNb+rbnGQ02l2F381EX0kQcW1yjQQ5yAwnjYC5Zff
+         YSLS/OuWJCQ/WQ5xi916NnQD8d4P75LlyqekEzVMvKf70TJ4n8zBXloWAtMAmCd9hapM
+         Nh+Vdp+TrPSk2r+W80MGduWh+HCHuEZj0IM4U9IvdXnWW53jtsLTG1u+SPOO76eyab7C
+         VS0Y2kZPPVs4oN4mdFKSNQDR9u0BooXAYn7L29wdLetkqur41XLZRH3Dl9P2vM7snd2h
+         DoBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712685072; x=1713289872;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:reply-to:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/vL198wTn+Uk37UUg6mX+X5B2xDFF41dQr7U2AoMPZ0=;
-        b=VMdoz5o7etmJh8blAYvjPh4WhFDixodMZ5nU/E9ki89ioVGPHuLUsbHblffo6fjPk5
-         4d6Z9yh6PAyvrzU7AzxGgrfvz2VNbRCiueoOpIgoUmld9wkdREhZPvGRqGJKUVa1PQPG
-         fSu6gh0OyiX2ONNxmNDpqRF5fqufwyu78W7AkX7Q66t4L2JOE/PQ333WrZwldAdIUdmG
-         GYd6K38LoTeYFGjjUWIbXdjB7P8uA/mB0FrQpqk2/iP4XMGR9s43bCWO0gR2XC2j29fC
-         +mt63IZm+ppDoxR3Go3RI1UsADE3Ez2Y8o+xAK+PzJxRm0H/sF8eiSlYaVUWRk2jPQtJ
-         6IBA==
-X-Gm-Message-State: AOJu0Yx3L3UyRunUc62ZR4AKDC89mMm1cxvCdJ8jg16UqVwQoLdg5kpk
-	Hqb1omvaMY5+0NZNv68leZQWXSqYHxwjxPa91GCLBVM2edTpcXc36nM5vhrRytl5yesxZyiffZ9
-	64w==
-X-Google-Smtp-Source: AGHT+IHACX2l7YRowPE7LBYQgfxO9IwPoJAvZuIh2hi8AYJti5CEda5NxgViN/ORL+KHH0LXS6bpmGpI3cA=
+        d=1e100.net; s=20230601; t=1712685075; x=1713289875;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A7D9RJgwpQ1W8M/aA/vuUOPVBx7m9VVMSR4azYK+r2U=;
+        b=ZSFc6/qcpYWyrzeGYIaO64hkZXlhJKcEnNh4fH/A4mEHbWG7Dgr3dvkEnRFo0VfYos
+         6AyfRatCPL3ASUEtv9zKWL4pJFrlLAdGJ4Cs31L3CvMWdhnp6Dn0/MvNKGyHwhHoaZ+G
+         hc9WzjT33pf2e4Y6uJotD3zvws9GIzTTepSDnanzJGARyox9nHbVBgQVyyKV/Fe8nqeo
+         EUD7EJWB2dvwHGuPHCdqbVSnbZoVbpFRwROmKmqbm7r9DwRQqbMG/6btQ79g0qBIg7l0
+         oU4ZccZ9g0/tmwwz0scbtG5AAljkyKzjU4hFWdIAABu2/aO0DE28Qq3iXwQaauzEFFqJ
+         G6ww==
+X-Gm-Message-State: AOJu0YxPuSvEfQ0MBk/oIn4avs3UQq/J+8opTI6nHI2kls+5mgM7u+gM
+	iVu4qWcfCoH+Kuv9w0KZML5UqGcaFpLXO/9s9qEvzmLb3qXjSh20C7ci2irHgHT7gtLLGqM+hpY
+	hTQ==
+X-Google-Smtp-Source: AGHT+IH/KQ46x00AZLl2fd+Lf61jBhBT8o2VrRznGwLDVKKAWw/UNewgQ/kzIVWdr4XXtJVvXT21E0kiGIY=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:a002:0:b0:614:2a7d:5ad3 with SMTP id
- x2-20020a81a002000000b006142a7d5ad3mr819172ywg.0.1712685072337; Tue, 09 Apr
- 2024 10:51:12 -0700 (PDT)
+ (user=seanjc job=sendgmr) by 2002:a05:6a02:682:b0:5cd:8454:38b2 with SMTP id
+ ca2-20020a056a02068200b005cd845438b2mr10850pgb.11.1712685073964; Tue, 09 Apr
+ 2024 10:51:13 -0700 (PDT)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Tue,  9 Apr 2024 10:51:05 -0700
+Date: Tue,  9 Apr 2024 10:51:06 -0700
 In-Reply-To: <20240409175108.1512861-1-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -61,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240409175108.1512861-1-seanjc@google.com>
 X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
-Message-ID: <20240409175108.1512861-2-seanjc@google.com>
-Subject: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n
+Message-ID: <20240409175108.1512861-3-seanjc@google.com>
+Subject: [PATCH 2/3] x86/cpu: Disable BHI mitigation by default when SPECULATION_MITIGATIONS=n
 From: Sean Christopherson <seanjc@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
 	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
@@ -71,40 +70,41 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Sean Christopherson <seanjc@google.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
 	Daniel Sneddon <daniel.sneddon@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Initialize cpu_mitigations to CPU_MITIGATIONS_OFF if the kernel is built
-with CONFIG_SPECULATION_MITIGATIONS=3Dn, as the help text quite clearly
-states that disabling SPECULATION_MITIGATIONS is supposed to turn off all
-mitigations by default.
+Rework the initialization of bhi_mitigation to use positive CONFIG tests
+for the ON/AUTO cases so that lack of *any* CONFIG_SPECTRE_BHI_* #define,
+i.e. when the kernel is built with CONFIG_SPECULATION_MITIGATIONS=n,
+results in the mitigation being OFF by default, not AUTO.
 
-  =E2=94=82 If you say N, all mitigations will be disabled. You really
-  =E2=94=82 should know what you are doing to say so.
+Per the help text for SPECULATION_MITIGATIONS, the intent is that 'N'
+disables all mitigations.
 
-As is, the kernel still defaults to CPU_MITIGATIONS_AUTO, which results in
-some mitigations being enabled in spite of SPECULATION_MITIGATIONS=3Dn.
-
-Fixes: f43b9876e857 ("x86/retbleed: Add fine grained Kconfig knobs")
+Fixes: ec9404e40e8f ("x86/bhi: Add BHI mitigation knob")
 Cc: stable@vger.kernel.org
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Daniel Sneddon <daniel.sneddon@linux.intel.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- kernel/cpu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/bugs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index 8f6affd051f7..07ad53b7f119 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -3207,7 +3207,8 @@ enum cpu_mitigations {
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 295463707e68..e1775debeafe 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1630,9 +1630,9 @@ enum bhi_mitigations {
  };
-=20
- static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
--	CPU_MITIGATIONS_AUTO;
-+	IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
-+						     CPU_MITIGATIONS_OFF;
-=20
- static int __init mitigations_parse_cmdline(char *arg)
+ 
+ static enum bhi_mitigations bhi_mitigation __ro_after_init =
+-	IS_ENABLED(CONFIG_SPECTRE_BHI_ON)  ? BHI_MITIGATION_ON  :
+-	IS_ENABLED(CONFIG_SPECTRE_BHI_OFF) ? BHI_MITIGATION_OFF :
+-					     BHI_MITIGATION_AUTO;
++	IS_ENABLED(CONFIG_SPECTRE_BHI_ON)   ? BHI_MITIGATION_ON  :
++	IS_ENABLED(CONFIG_SPECTRE_BHI_AUTO) ? BHI_MITIGATION_AUTO :
++					      BHI_MITIGATION_OFF;
+ 
+ static int __init spectre_bhi_parse_cmdline(char *str)
  {
---=20
+-- 
 2.44.0.478.gd926399ef9-goog
 
