@@ -1,45 +1,45 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EA2157E76
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17F1157E8F
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:25:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712690691; cv=none; b=noIHApJZvdshElQs/TsqTDFii1G8V6d2Cm6LCKtxXTiHDP8ZZktY01/sb8CxXkupcvEbkaFBg2JugmCy7VPojTi6FrwXD33H/ejS8KKCUMCeDjXNDYDOpEQc+tVtnlgQgpMx8xZ1Gv4DqNA/cX8cCjZWHe6rWpOepPoMinX8oYY=
+	t=1712690706; cv=none; b=mRq1FaGiCDo0XQt7LJvmsQzH+tqsgV1yRvZQw/62O6IjlWetHMKZcI4DnTCV1cWbZqPEUqOK3qgqY0p89zZsEx2u3G/nlgyUEwQgyeIbF3HRqvzb5prdeMxynSgBoyeo+MmVBKc7Ic9/3BzQSE01RKgkmvGRxw7dI8DXybEPO+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712690691; c=relaxed/simple;
-	bh=f2r6XGWVgx08KSMlFSZ6qHtz58Yi8+jxNoK6fRu4Nds=;
+	s=arc-20240116; t=1712690706; c=relaxed/simple;
+	bh=FAIHwezgBzib8qVcIz1KMdTokmMBm7CLgJNhlG06JSY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FQFWI/Y+wzxZMj/i9/oMe87Dgxam/cUH2SckvDZfkj20+RWK5NL0j4IYdWPSUztpK9Q26aP473IH3cf2r/G1m3SCBL2Agk2UVIIPxWaL5enjN5FRygyev77FCOjkjSjcJyjZor+xqOfvPFksmnKfGK0cBSP2+K3qQdZRMiQ8fkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T5Qt6qzN; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=ohH5McRffS4R+3HV0ES9bVoiseJSSXkPrY80YvQqYk5liYdcqq/cz3DEztyxTIeRmjf07mu4r2auvS46Zqc93N2hLiv+oJ2Ju4ygWuSrfPKMMcwNNoGVElnmZFl4esqLV3W3QgOp3RjV9g/0wHRKSu9RdbAcp7pFCwlfgRUkvsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VbOHsTH1; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T5Qt6qzN"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VbOHsTH1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712690688;
+	s=mimecast20190719; t=1712690704;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kfmOqlR3LeI6JA5XUUI6YoG07vX8W74qIyKiUchjaJU=;
-	b=T5Qt6qzNSAquXuSS8SKV4xvrG+GwG/bbDBNwVKi82GGZa9K14gPFKL6aVSaP8G/eFCozGM
-	tpVnVL4DJFOCWhTkR32G3Zr7tY5G3qY/sLHgxaOXIU2wBXM2GWg8lEx2z9dAm55GcQjTk3
-	m63HWOAQBVareBt/ntrcvld6t81ZBW0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-97-N-WWN3PRODGQvvQK2vZjIQ-1; Tue, 09 Apr 2024 15:24:44 -0400
-X-MC-Unique: N-WWN3PRODGQvvQK2vZjIQ-1
+	bh=6rnCGH1F82LpMt5YjVvPZTK3t5BGo8uUqDhbNYCO1mM=;
+	b=VbOHsTH1DnZZfGRRj/XOY6YWJZrfOG8BCA2zhYi8QmR0dzyzDSalN92vnNwXF5nMTUjl8T
+	oXizKKi9JWf6oarGT33iK1a61w2UCWqaO/flzp294RKKNhoBVE4regf2vXxynyUkXLxzf3
+	aCrT54yxdArKKSKxijvu/9cO12AypCU=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-195-HVcby02FNvy6GQIyoWw54g-1; Tue,
+ 09 Apr 2024 15:24:57 -0400
+X-MC-Unique: HVcby02FNvy6GQIyoWw54g-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B730680B51A;
-	Tue,  9 Apr 2024 19:24:42 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D86429AA392;
+	Tue,  9 Apr 2024 19:24:56 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.39.192.106])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DCED040B4979;
-	Tue,  9 Apr 2024 19:24:33 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0A40740B497A;
+	Tue,  9 Apr 2024 19:24:42 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -67,9 +67,9 @@ Cc: linux-mm@kvack.org,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <naoya.horiguchi@nec.com>,
 	Richard Chang <richardycc@google.com>
-Subject: [PATCH v1 06/18] mm: make folio_mapcount() return 0 for small typed folios
-Date: Tue,  9 Apr 2024 21:22:49 +0200
-Message-ID: <20240409192301.907377-7-david@redhat.com>
+Subject: [PATCH v1 07/18] mm/memory: use folio_mapcount() in zap_present_folio_ptes()
+Date: Tue,  9 Apr 2024 21:22:50 +0200
+Message-ID: <20240409192301.907377-8-david@redhat.com>
 In-Reply-To: <20240409192301.907377-1-david@redhat.com>
 References: <20240409192301.907377-1-david@redhat.com>
 Precedence: bulk
@@ -81,42 +81,38 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-We already handle it properly for large folios. Let's also return "0"
-for small typed folios, like page_mapcount() currently would.
+We want to limit the use of page_mapcount() to the places where it is
+absolutely necessary. In zap_present_folio_ptes(), let's simply check
+the folio mapcount(). If there is some issue, it will underflow at some
+point either way when unmapping.
 
-Consequently, folio_mapcount() will never return negative values for
-typed folios, but may return negative values for underflows.
+As indicated already in commit 10ebac4f95e7 ("mm/memory: optimize unmap/zap
+with PTE-mapped THP"), we already documented "If we ever have a cheap
+folio_mapcount(), we might just want to check for underflows there.".
+
+There is no change for small folios. For large folios, we'll now catch
+more underflows when batch-unmapping, because instead of only testing
+the mapcount of the first subpage, we'll test if the folio mapcount
+underflows.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/linux/mm.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ mm/memory.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index daf687f0e8e5..d453232bba62 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1260,12 +1260,19 @@ static inline int folio_large_mapcount(const struct folio *folio)
-  * references the entire folio counts exactly once, even when such special
-  * page table entries are comprised of multiple ordinary page table entries.
-  *
-+ * Will report 0 for pages which cannot be mapped into userspace, such as
-+ * slab, page tables and similar.
-+ *
-  * Return: The number of times this folio is mapped.
-  */
- static inline int folio_mapcount(const struct folio *folio)
- {
--	if (likely(!folio_test_large(folio)))
--		return atomic_read(&folio->_mapcount) + 1;
-+	int mapcount;
-+
-+	if (likely(!folio_test_large(folio))) {
-+		mapcount = atomic_read(&folio->_mapcount);
-+		return page_type_has_type(mapcount) ? 0 : mapcount + 1;
-+	}
- 	return folio_large_mapcount(folio);
- }
+diff --git a/mm/memory.c b/mm/memory.c
+index 78422d1c7381..178492efb4af 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -1502,8 +1502,7 @@ static __always_inline void zap_present_folio_ptes(struct mmu_gather *tlb,
+ 	if (!delay_rmap) {
+ 		folio_remove_rmap_ptes(folio, page, nr, vma);
+ 
+-		/* Only sanity-check the first page in a batch. */
+-		if (unlikely(page_mapcount(page) < 0))
++		if (unlikely(folio_mapcount(folio) < 0))
+ 			print_bad_pte(vma, addr, ptent, page);
+ 	}
  
 -- 
 2.44.0
