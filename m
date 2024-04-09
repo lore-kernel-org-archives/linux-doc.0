@@ -1,45 +1,45 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513151586F2
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A77157E97
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:25:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712690718; cv=none; b=j0JflPfN3QsF/pqq+Jbb9n6rte7McDeSIBGkeaiv9a92yXyW3NQDfBq9O93hNAsAvw0hck64VIhDcjmPWPE8nHAnspqb6eCxHh9No++FtWPkFp0naQRON56PGd0XsiNDJ0J21HYq5jZnpL0q+lZSgJQ/dmNJlEmvLxhVrcdVIMo=
+	t=1712690729; cv=none; b=HYTUKBmKaCLZY22zX9z5/yh76Xb66fml48OM2tre3BpieH/VHA7UWy1txhYzYnU7aNLQdCTCTk7xTRXXKITLcaOBCl+Nt+lKfergiF9xf86KX0uNirTtbPbRBi6h0q4TXum3K45LcDp5Wle3XnVfjkkxTV7hwR8RUzkF9NR6A28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712690718; c=relaxed/simple;
-	bh=U2FYI/zDEFEDbvVedqLdfE5jV/TmoU4yobw78EI2s0U=;
+	s=arc-20240116; t=1712690729; c=relaxed/simple;
+	bh=8ggUQvHKaMkbaZKa6fSqKVjkq7jK/5ChUl8Qcha1vQY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EMEeR2A7XRQencoyPIOn+od+O0UA219lHzz5kQ0/6f3+pHWJ98CwYd3lae/JWggoj2xM37ttBhthKcnVmoAWx8RXgnLrmxwXkYZpZcr5fWSwfZz8RE1xOzyFaV1AsxW/JWSDiQSdmJd+H3kuXp8bhQ1zZO0y0iZ1UBLFl19mths=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EBmDh8v+; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=ZLUSmE76B+Y0ptyo6Zp1UvC2ks8zNiHCaWSh4Jg31eYaII/LU7DOtes4QY/KVz8N1G45DxmPSUv2wrclpEZbU/HQ7oJhn68DdwbUdopInAcIInBCcbhCOQ7VNX0HAEZXSwOIrEPNKcMMLxMV65hAPqQsdSihCaPKulUyAEaMFFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Y05YtSNc; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EBmDh8v+"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y05YtSNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712690716;
+	s=mimecast20190719; t=1712690727;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=l2g8VbuF2c0rw+gA2SjXZjA9kizkfkgdJ7YGUNRZUqA=;
-	b=EBmDh8v+lUkGic9eyCnQBJA2c2DZiknTiYryBuQOFs/dyxj04V2Aw5Ah7a46BXujwayEnl
-	Kf4rFs/0sZmdqpP3jLdsBzEFHYKeSh2f0QN1yakeA+KkTYQPrBwEXchp9D/jJ0wIhhXsa8
-	xgmtrD7Wc74z1v49PhU7ld449dDmXaw=
+	bh=UDO/LuGyFJsgzNpcvXk5nDcpkN8Vm1hlfEW8fwIXGqY=;
+	b=Y05YtSNciVyDxU7BEVJRcA36C04W6Pn/cNcRExlHjy0bKe6Ux5VucLO6HMuz8o1UGKhX4T
+	llOy287NN/A3bue4Kjzy0IiQOROYrBX753Sl3UCCF+OZfZsqjXkeeCuGjcKN/90RMYwG6H
+	fP/7BAVc7Hf6bT5IHRZcgjLi5tWvh64=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-61-9JpVPi_eMcaHlYj18Lcjpg-1; Tue, 09 Apr 2024 15:25:10 -0400
-X-MC-Unique: 9JpVPi_eMcaHlYj18Lcjpg-1
+ us-mta-79-q_7BzCqOO76DTj4PZpIcDA-1; Tue, 09 Apr 2024 15:25:22 -0400
+X-MC-Unique: q_7BzCqOO76DTj4PZpIcDA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9AB78806625;
-	Tue,  9 Apr 2024 19:25:08 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E95FE890524;
+	Tue,  9 Apr 2024 19:25:20 +0000 (UTC)
 Received: from t14s.redhat.com (unknown [10.39.192.106])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BCB3B40B4980;
-	Tue,  9 Apr 2024 19:24:56 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E1E2B40AE784;
+	Tue,  9 Apr 2024 19:25:08 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -67,9 +67,9 @@ Cc: linux-mm@kvack.org,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <naoya.horiguchi@nec.com>,
 	Richard Chang <richardycc@google.com>
-Subject: [PATCH v1 08/18] mm/huge_memory: use folio_mapcount() in zap_huge_pmd() sanity check
-Date: Tue,  9 Apr 2024 21:22:51 +0200
-Message-ID: <20240409192301.907377-9-david@redhat.com>
+Subject: [PATCH v1 09/18] mm/memory-failure: use folio_mapcount() in hwpoison_user_mappings()
+Date: Tue,  9 Apr 2024 21:22:52 +0200
+Message-ID: <20240409192301.907377-10-david@redhat.com>
 In-Reply-To: <20240409192301.907377-1-david@redhat.com>
 References: <20240409192301.907377-1-david@redhat.com>
 Precedence: bulk
@@ -82,32 +82,30 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
 We want to limit the use of page_mapcount() to the places where it is
-absolutely necessary. Let's similarly check for folio_mapcount() underflows
-instead of page_mapcount() underflows like we do in
-zap_present_folio_ptes() now.
-
-Instead of the VM_BUG_ON(), we should actually be doing something like
-print_bad_pte(). For now, let's keep it simple and use WARN_ON_ONCE(),
-performing that check independently of DEBUG_VM.
+absolutely necessary. We can only unmap full folios; page_mapped(),
+which we check here, is translated to folio_mapped() -- based on
+folio_mapcount(). So let's print the folio mapcount instead.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/huge_memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/memory-failure.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index d8d2ed80b0bf..68ac27d229ef 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1851,7 +1851,7 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 88359a185c5f..ee2f4b8905ef 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1628,8 +1628,8 @@ static bool hwpoison_user_mappings(struct page *p, unsigned long pfn,
  
- 			folio = page_folio(page);
- 			folio_remove_rmap_pmd(folio, page, vma);
--			VM_BUG_ON_PAGE(page_mapcount(page) < 0, page);
-+			WARN_ON_ONCE(folio_mapcount(folio) < 0);
- 			VM_BUG_ON_PAGE(!PageHead(page), page);
- 		} else if (thp_migration_supported()) {
- 			swp_entry_t entry;
+ 	unmap_success = !page_mapped(p);
+ 	if (!unmap_success)
+-		pr_err("%#lx: failed to unmap page (mapcount=%d)\n",
+-		       pfn, page_mapcount(p));
++		pr_err("%#lx: failed to unmap page (folio mapcount=%d)\n",
++		       pfn, folio_mapcount(page_folio(p)));
+ 
+ 	/*
+ 	 * try_to_unmap() might put mlocked page in lru cache, so call
 -- 
 2.44.0
 
