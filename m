@@ -1,98 +1,96 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2E14C85
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 17:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505C87F499
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 17:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712683683; cv=none; b=AUsjyTDSz4PUONeFboZlHvqDxSTYlyE2OdaPut9aHxA1LOuhbvsyQibNv1UjdU7y1JPRta2naU+v5OcmHuyF5akqh9FMeJYVLdZR1k8DZ4KyAmQnedTKB63DrNR7cQD/XGCH4+PxWm4aBvgml36w7+ZD5b3fFbItxQUBYQDiOZs=
+	t=1712685073; cv=none; b=eBzNnk3PKD04XOXpWOgkab+eRDC5MOQ9ZkyK39nfdvgoWTrOJ8a430ldlXtprfWm6ZPmFfHxxSdRT4HPSZXvFFVzb7Hox2uYoZLsp5q9WnTCGnhCq3VnUU4JvFucL382Bo6zdzOIO335jRatLDliFuQdDU8XSkbJTrHPkXsDZVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712683683; c=relaxed/simple;
-	bh=eHo/igXZcq8HeXdyeAD2kiUayElbdwtoFad+ENVCRhc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WfdUXwzjT9cHQHzZL+Rx2TyM/cBDoB5r1xXfkeYLKmF+HpJVcbW02iip6hN8TnfIDYoYc/HxRvP8OOlnpNbJgYwzCWOLn5pP85at4ZpoCdqAaSe5JLd7EAPU90NPxqjzMMym+NmdlRLvCGmVnoWqKlL6UXPBxMrSM2j6ylWx3w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1ruFGD-0001dT-16; Tue, 09 Apr 2024 19:27:53 +0200
-Message-ID: <4c6164e5-bcfd-4172-a76e-db989f729a8a@pengutronix.de>
-Date: Tue, 9 Apr 2024 19:27:44 +0200
+	s=arc-20240116; t=1712685073; c=relaxed/simple;
+	bh=7CKVGLEJOhMrsVcoFnVtIefSpMJClF53TVcgy2tA/2g=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=EUnLDhFgKXlAnMzys8RBpzYodkp3UJEfxVvy8LbhDBHjKqxJBCPkaNHLVVSAioARgb0Ah69nNpcG5wcLG/aofu6bBn/wJFHInX9U4+cmjXkLzmbBsVxfuGyt0bJoXGU5IJjeEl95/37HYV8bY13BhzIWcPzdmU2Pjk5w1bYPB08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1RgGbTiS; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1RgGbTiS"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-61814249649so34566237b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 10:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712685070; x=1713289870; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:reply-to:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A5eLSr5afbvnu0+fDPQYrl4RtiR5hKH4QirhAQ7AdlA=;
+        b=1RgGbTiSWbgC+I/98yIMFAg4KlC9aORwJnHZsSQ8fhyEqaL8k5Y3qv6ZCNpNUQlwft
+         HHmUOPEPPihtj656PE8R5s3DOruq+GaHnYTURrO4tL6DquGQkIUrcxsJk34KSrvCEBvT
+         zghFcmS2fF3dVYy+mBjU6jbl4Zc9yZ4ttiCbwowLqAZsLMLCPs8BhQ/hUBx5vJdp5MsE
+         jcn6H/htWh19xzGvGe1kg79huDQUT1lI6u2bBQ99XWqvVWcvxbdNkTnnNn79oy7D7A8s
+         SGk729gtxaseFV/AynVoaus736Myjma8g/1fFoZxRkBHn2FLPqMsra63ZIVqj0O6QftF
+         NeoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712685070; x=1713289870;
+        h=cc:to:from:subject:message-id:mime-version:date:reply-to
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A5eLSr5afbvnu0+fDPQYrl4RtiR5hKH4QirhAQ7AdlA=;
+        b=cB7u40Axd//HkGBY+a2acyKTb9YN/FgGPLM472DGQShJmcProBs7jkmQOOQsWJYIcO
+         Alsfj/i4BNslyWJx1DLJyAX0lLuxklgLwOWFUtqIFgLOXxtWrd20IzyAVRI5XhPdVkBI
+         coGD416DdcFH8Jo1+QnskOnNyhY7ND6X2t6kdvqzfdbCcuwX+ULtdudIReYde+7emaCo
+         e/3v+0Jtd92gYcfwMg0u9mXZABipZcksVkes7hlkMulbrL9FWp3K7PA76MmbqVRtkJ+g
+         XYHm+v6uk3O6/Cjx9CV6IT2mJpQhPzQO2JGR9Nd8YMLr58g/o323hu4LL9z4rou7AUvH
+         j7Ng==
+X-Gm-Message-State: AOJu0Yz2I0LTzanL9pXvPfaKkXqfqxrw+hN4MzitB1kOhvS8SLtwPUG3
+	rrBCKLIaqNKJ0ucB3Tfbyv/rD+gogprGHMavQhqwpBJuggQnv12zjoiRhPMmYzQz0s25LwwNIyx
+	Kyg==
+X-Google-Smtp-Source: AGHT+IGuj/QQ0/BEcuSpdkZRZJhoXvNvl8rW+Lfime7OMZS8+VMZrjL6Ff0W5H6V+gnKuvGIuG9t7tilq1w=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a0d:e6c1:0:b0:615:ca8:6058 with SMTP id
+ p184-20020a0de6c1000000b006150ca86058mr52080ywe.5.1712685070361; Tue, 09 Apr
+ 2024 10:51:10 -0700 (PDT)
+Reply-To: Sean Christopherson <seanjc@google.com>
+Date: Tue,  9 Apr 2024 10:51:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] [PATCH v8 3/6] KEYS: trusted: Introduce NXP DCP-backed
- trusted keys
-Content-Language: en-US
-To: Kshitiz Varshney <kshitiz.varshney@nxp.com>,
- David Gstir <david@sigma-star.at>, Mimi Zohar <zohar@linux.ibm.com>,
- James Bottomley <jejb@linux.ibm.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Gaurav Jain <gaurav.jain@nxp.com>, Catalin Marinas
- <catalin.marinas@arm.com>, David Howells <dhowells@redhat.com>,
- "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
- Fabio Estevam <festevam@gmail.com>, Paul Moore <paul@paul-moore.com>,
- Jonathan Corbet <corbet@lwn.net>, Richard Weinberger <richard@nod.at>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- James Morris <jmorris@namei.org>, dl-linux-imx <linux-imx@nxp.com>,
- "Serge E. Hallyn" <serge@hallyn.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pankaj Gupta <pankaj.gupta@nxp.com>,
- sigma star Kernel Team <upstream+dcp@sigma-star.at>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- David Oberhollenzer <david.oberhollenzer@sigma-star.at>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Li Yang <leoyang.li@nxp.com>,
- "linux-security-module@vger.kernel.org"
- <linux-security-module@vger.kernel.org>,
- "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Tejun Heo <tj@kernel.org>,
- "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Varun Sethi <V.Sethi@nxp.com>
-References: <20240403072131.54935-1-david@sigma-star.at>
- <20240403072131.54935-4-david@sigma-star.at>
- <DB6PR04MB31904A8EB8B481A530C90CBB8F072@DB6PR04MB3190.eurprd04.prod.outlook.com>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <DB6PR04MB31904A8EB8B481A530C90CBB8F072@DB6PR04MB3190.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Message-ID: <20240409175108.1512861-1-seanjc@google.com>
+Subject: [PATCH 0/3] x86/cpu: Fix SPECULATIVE_MITIGATION=n kernels
+From: Sean Christopherson <seanjc@google.com>
+To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sean Christopherson <seanjc@google.com>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hello Kshitiz,
+Fix the handling of SPECULATION_MITIGATIONS=n so that it actually does
+what it says it does: disable any and all mitigations.
 
-On 09.04.24 12:54, Kshitiz Varshney wrote:
-> Hi David,
->> +       b->fmt_version = DCP_BLOB_VERSION;
->> +       get_random_bytes(b->nonce, AES_KEYSIZE_128);
->> +       get_random_bytes(b->blob_key, AES_KEYSIZE_128);
-> 
-> We can use HWRNG instead of using kernel RNG. Please refer drivers/char/hw_random/imx-rngc.c 
+And because I don't see a way to provide sane behavior for overriding
+SPECULATION_MITIGATIONS=n at runtime, explicitly disallow doing so via
+the "mitigations" kernel parameter, e.g. so that the user at least knows
+that their system is still likely vulnerable to a variety of issues.
 
-imx-rngc can be enabled and used to seed the kernel entropy pool. Adding
-direct calls into imx-rngc here only introduces duplicated code at no extra
-benefit.
+Sean Christopherson (3):
+  x86/cpu: Actually turn off mitigations by default for
+    SPECULATION_MITIGATIONS=n
+  x86/cpu: Disable BHI mitigation by default when
+    SPECULATION_MITIGATIONS=n
+  x86/cpu: Ignore "mitigations" kernel parameter if
+    SPECULATION_MITIGATIONS=n
 
-Cheers,
-Ahmad
+ Documentation/admin-guide/kernel-parameters.txt |  3 +++
+ arch/x86/Kconfig                                | 10 +++++++---
+ arch/x86/kernel/cpu/bugs.c                      |  6 +++---
+ kernel/cpu.c                                    |  5 ++++-
+ 4 files changed, 17 insertions(+), 7 deletions(-)
 
+
+base-commit: 2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.44.0.478.gd926399ef9-goog
 
