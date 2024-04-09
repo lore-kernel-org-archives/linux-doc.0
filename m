@@ -1,146 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED54157489;
-	Tue,  9 Apr 2024 19:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C294158A06;
+	Tue,  9 Apr 2024 19:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712689742; cv=none; b=Z4U7Wm1j52EvO0+vc9+Wflhumbf0t6f6lVgz5Lq4h2jLBpdbhwr7YZhnrgt9/fk9uLSXvEsQB5upgj+jcoBqics/aNlm/yRpvrrOBzQN/v94sP8NtdpHoU4ScRGhZ6F/LgTo2w9pNEF02nn9olBKFRCWWPPidvNsLmW0Kof+j5s=
+	t=1712689769; cv=none; b=ec1k3Do5bHdIFEknhE323HPsoJQgxkDzWAuoVMwQo57uHhtlCngLf9rAL/u2LIODili/xzUbDSFmzZUnUtScI/xkP/V3Ii6ZeSG94DXyyDjzf9v2rnv0xcP04zz3Ma1JGwkM3O1S0gzNsBpMXz8yA0gP4EpXesvFqyzlCiKLaGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712689742; c=relaxed/simple;
-	bh=UpK3Tp7MDdksNh8J95zsXrIo50ZqivfzGhiSPuSgXZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EyiK/RCnOaYQsev/jw0ehTCWu08067hw0IScypDRsmrOyPTgh62WeJ0BTFNkz6d23XXC5GOgHItEI7tdM3D3lpIwP71O2ARlhZ2G9Eh6eO2gphvxW1YqxsGmd+cXANNbQfYB6eJcazSugD8vMIgD0p3Jlvoo+IW3DIhQGMEvqvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q0cBNmuL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712689769; c=relaxed/simple;
+	bh=uK/g3z0UXgcBV0TMzjwb41q+mX0RX+rzuFNb8X03ea8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEkM8KNPOX6EZwARJkiKDq+D8Q62aLDd8/UiHxD/r0kFOmivVQa7p6sYG65OmtMda3aFoijQUsCqWQdSJsytRJxXIIx3tkuEf53WzYYMk1aYSKxaLhPj6aL9BuLCZ8TVlK5hnVzD7BkNwxYJzbTLRwQyDerExKAvYpiRLIVWlBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZnlQmmQC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q0cBNmuL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CA36C433F1;
-	Tue,  9 Apr 2024 19:09:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZnlQmmQC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C10CFC433C7;
+	Tue,  9 Apr 2024 19:09:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712689742;
-	bh=UpK3Tp7MDdksNh8J95zsXrIo50ZqivfzGhiSPuSgXZE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q0cBNmuLTxP6dP/tIH6MPGNZ3Fhqp9BJNd5odIE3yWn5bi85AXykP9S+rHkzhm0LA
-	 MHdCQH+5hzKe92GWYhOkfInwZnAmiblE9iskOW/jJSquIolRyvEcF0hJ5Qmk9+7QD3
-	 QLH/71b2ojPVTuzw3XNzw4T57rBIL1gBcMV9fLk9QOMNucSuYwywItLMp6P5mZa9dm
-	 9a/EYYtLYgOY75qScKKktePL1UsCMUDxXpUmdKI0nyiyiZdxLz+IuprRdGCeSMBTFn
-	 YBTpT+yxzlUWhOUGf7uC4S8Ms/ZfdFNHXoM70cr/b0NW77tbH50dkiwOUgp8/UfNIU
-	 tHjH3YqvUBGSw==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-integrity@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	Alexander Steffen <Alexander.Steffen@infineon.com>,
-	"Daniel P . Smith" <dpsmith@apertussolutions.com>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lino Sanfilippo <l.sanfilippo@kunbus.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Documentation: tpm_tis
-Date: Tue,  9 Apr 2024 22:08:47 +0300
-Message-ID: <20240409190847.10869-3-jarkko@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240409190847.10869-1-jarkko@kernel.org>
-References: <20240409190847.10869-1-jarkko@kernel.org>
+	s=k20201202; t=1712689768;
+	bh=uK/g3z0UXgcBV0TMzjwb41q+mX0RX+rzuFNb8X03ea8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZnlQmmQCrd2VTu8MwIVcsiUHzECbqm2BLbX3XOyF/mLruYS7HM5x3TRmKlcCn1hAh
+	 WI97stv+lDSJHaBIv0Me05yzPq353ARF0vOqP/zGps6IfvzyAvCKeXG4GXmKzfIktF
+	 e/xNUfvjzFyhfeDIXcPHLOPipDNZF1PjrCDBcjWcVynudOrhiMrER1t5bG0oMrnvUz
+	 apZusqcn7Uc22V1FZqmyq4keZCeWL4kDCFFQxWRdBLdq+j64PqPJFu+GWY7Vs6fXTv
+	 Nr9VAQec4hs87D0lItFPPy/yFK1g/4KYI3Oi3XrVdf0GcpXhznLmf1ziTid5BD85G9
+	 T9Cr5xu16sm6w==
+Date: Tue, 9 Apr 2024 20:09:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Ruben Wauters <rubenru09@aol.com>
+Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] spi: Add documentation for last_cs_index_mask
+Message-ID: <1ec0fe6c-6af0-4cee-98ba-25fb2c67ef1d@sirena.org.uk>
+References: <20240409184106.22715-1-rubenru09.ref@aol.com>
+ <20240409184106.22715-1-rubenru09@aol.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HPlUWP5Ja3od6VbS"
+Content-Disposition: inline
+In-Reply-To: <20240409184106.22715-1-rubenru09@aol.com>
+X-Cookie: Everything you know is wrong!
 
-Based recent discussions on LKML, provide preliminary bits of tpm_tis_core
-dependent drivers. Includes only bare essentials but can be extended later
-on case by case. This way some people may even want to read it later on.
 
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
-v4:
-- Extended the text to address some of Stefan's concerns with v2.
-- Had to unfortunately remove Randy's reviewed-by because of this, given
-  the amount of text added.
-v3:
-- Fixed incorrect buffer size:
-  https://lore.kernel.org/linux-integrity/d957dbd3-4975-48d7-abc5-1a01c0959ea3@linux.ibm.com/
-v2:
-- Fixed errors reported by Randy:
-  https://lore.kernel.org/all/aed28265-d677-491a-a045-24b351854b24@infradead.org/
-- Improved the text a bit to have a better presentation.
----
- Documentation/security/tpm/index.rst   |  1 +
- Documentation/security/tpm/tpm_tis.rst | 46 ++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 Documentation/security/tpm/tpm_tis.rst
+--HPlUWP5Ja3od6VbS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index fc40e9f23c85..f27a17f60a96 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -5,6 +5,7 @@ Trusted Platform Module documentation
- .. toctree::
- 
-    tpm_event_log
-+   tpm_tis
-    tpm_vtpm_proxy
-    xen-tpmfront
-    tpm_ftpm_tee
-diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/security/tpm/tpm_tis.rst
-new file mode 100644
-index 000000000000..b448ea3db71d
---- /dev/null
-+++ b/Documentation/security/tpm/tpm_tis.rst
-@@ -0,0 +1,46 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================
-+TPM FIFO interface driver
-+=========================
-+
-+TCG PTP Specification defines two interface types: FIFO and CRB. The former is
-+based on sequenced read and write operations,  and the latter is based on a
-+buffer containing the full command or response.
-+
-+FIFO (First-In-First-Out) interface is used by the tpm_tis_core dependent
-+drivers. Originally Linux had only a driver called tpm_tis, which covered
-+memory mapped (aka MMIO) interface but it was later on extended to cover other
-+physical interfaces supported by the TCG standard.
-+
-+For legacy compliance the original MMIO driver is called tpm_tis and the
-+framework for FIFO drivers is named as tpm_tis_core. The postfix "tis" in
-+tpm_tis comes from the TPM Interface Specification, which is the hardware
-+interface specification for TPM 1.x chips.
-+
-+Communication is based on a 20 KiB buffer shared by the TPM chip through a
-+hardware bus or memory map, depending on the physical wiring. The buffer is
-+further split into five equal-size 4 KiB buffers, which provide equivalent
-+sets of registers for communication between the CPU and TPM. These
-+communication endpoints are called localities in the TCG terminology.
-+
-+When the kernel wants to send commands to the TPM chip, it first reserves
-+locality 0 by setting the requestUse bit in the TPM_ACCESS register. The bit is
-+cleared by the chip when the access is granted. Once it completes its
-+communication, the kernel writes the TPM_ACCESS.activeLocality bit. This
-+informs the chip that the locality has been relinquished.
-+
-+Pending localities are served in order by the chip in descending order, one at
-+a time:
-+
-+- Locality 0 has the lowest priority.
-+- Locality 5 has the highest priority.
-+
-+Further information on the purpose and meaning of the localities can be found
-+in section 3.2 of the TCG PC Client Platform TPM Profile Specification.
-+
-+References
-+==========
-+
-+TCG PC Client Platform TPM Profile (PTP) Specification
-+https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
--- 
-2.44.0
+On Tue, Apr 09, 2024 at 07:41:05PM +0100, Ruben Wauters wrote:
 
+> This is my first patch, so I hope I did everything right, please let
+> me know if I need to change something, and I shall endevour to do it
+> properly.
+
+Everything looks good, only issue I can see is that this question (which
+is adminstrative stuff rather than part of the changelog) should have
+gone after the --- below:
+
+>=20
+> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+> ---
+
+so that tooling can automatically remove it when applying.
+
+However a patch for this issue has already been applied but not yet
+merged into Linus' tree.
+
+--HPlUWP5Ja3od6VbS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmYVkmQACgkQJNaLcl1U
+h9AAUQf/eUxe0KKXZ5sarYJLYfRMjT5Zb6KzM3vAQbWIMGEDVQbzTGGFiHNGjsET
+E2quP77MW0ndkVbgexUMbLeuUko4X5mEsNlu1mCBfOvsb0MzFmn/Oddc236U9ota
+r9ymXI0xE26GB2ZmmWgItb8SWMSd/bv5iDsEom4FKTXydGydrWGTAr+odQB7RwwA
+uVfcLrS6x7Ty0L3t6uJVS9Moat54ER39JNyzTTOAuzFbtlEyWYb0Xxp2Ypx+2Mi8
+xVw4J/U4JOHnv50kyH0P4abOIJNmiV88FYCXnUqOCksIVw7T+B43zPgS8CwGoxoi
+4SRgsgl8frJd0FfTxHVfF318TGg9Ag==
+=9dCy
+-----END PGP SIGNATURE-----
+
+--HPlUWP5Ja3od6VbS--
