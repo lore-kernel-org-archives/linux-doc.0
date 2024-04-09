@@ -1,269 +1,295 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A137E105
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 08:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90527F46E;
+	Tue,  9 Apr 2024 08:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712650293; cv=none; b=c5zSc29qLqzaTVQr3UlY80Fne+Ju3WqX3VSm97Yga2m/tyaSOdCqaS42q6HYRI2ulHX6IEfAXImkHDHMq+1DJiZqKZ9J52qseXm4DG377bF0piQ2UicyESLD4H6cAoP3NmxPsZ9w5jBGgEleVL9Ixbvv7ycEmqZIzUFYWARlQuk=
+	t=1712651233; cv=none; b=KnKWh4QT3iloJIn8qY2rEJ4zYAMam3NsZT8lxwgYyG4UKoHECcKE0991M+P6PlwSW+0wWvVsUN1TMP2bpxqwCpnBEfO5E9mENEC1aSAbHrfcnuDKnhRgBBO4iKdKUzOD1OaqaiZGZNTk+jntG3zYjKAqRgt/VCpjC3h7iA59Ihc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712650293; c=relaxed/simple;
-	bh=Sj7xWo6dggnBKWnwopkjcfoSOT+F+b/D4Pubow5TKx8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMluD7ZelwYaddW81ogu6qwJE8O66Sm7MDjRnIFECAeQLQCY2u1w8j5YjK95LxqLpYoC1jqF/oY9JPSbqFUtegaC2w0D54IHWReqwEsVoClQ53LSYWEZzOaQRGSi0KNPG+cJSMfjGr5k9BKbQXH0hflE3j2mrpne5FuypqHHGro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0h0dJ29h; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712651233; c=relaxed/simple;
+	bh=JwD38QNn6tTIWlZF9HkEPz6Fy8OHo2LQpnGdQHieWKo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i5Q6QIQo5Pivg21Ray+Cu1eVNmI3dw7AZO6rc8koKSvj10R9hQckk74tT6+Wdk6UTZHhF5YO9J6LvZkn+/V01/pwTIW0H0ILTluDR9K3MSmLlon53ivNTfsRa+qPKy9F2B5dd71HxjgjYV5x7/PCkB6T1kh7ioqXQ+pdIN6dT2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=at7K2sEb; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0h0dJ29h"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4dae34a3806so1033144e0c.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 01:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712650291; x=1713255091; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/0nblBmM1/a+p1HrPFvTeMrGyNMRc47QQf0Yo+BcYZs=;
-        b=0h0dJ29heE2qr9EdfMpearXEVBdflTFRu1ZtFiXFt2DB9mZAuqJDfHliFJ/PX745vm
-         PqXBxjd6L9h1AUeLsIZ/lirSjEPCJ4xbFz7F26seBxIF1+hpMDwlTYOLE18Q+d/DKzIl
-         d0UT43vpHftNS5yXCJSZKbq8Hdhdb6SbVXdvTHifBJEThYmzq3jMvKiEOZPT7k+pMT5f
-         p3BGOX7jRnhVPYaMsYlz8CxFXs/ELzm+/bFR7JVwnJrGVFNLb0Wiwd0RowkhRRpk6k3v
-         NC9S5ashIcKb09sIeetgmYIPdoyOhCFvTwArmCNi4SSVlGNUIPvbxqJm5cN+Xsq82Jol
-         2kng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712650291; x=1713255091;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/0nblBmM1/a+p1HrPFvTeMrGyNMRc47QQf0Yo+BcYZs=;
-        b=b30XrnFwdrIqtiqG+fvREwTnjy4ext9VxdeqyF3JlChLFzW2a5uJohOJU2CLR+Fhyw
-         GxQzAHR0ID+5OTS4y6Qg53cmHjd9d7Xr02Kx30G2xIFg67IyCyrFNP8EjoecYvOpTbBd
-         P++TMETjZVSn21I+w8DS5PlbaOqriJR6EmSAYScYMkv38zRIP/SePUV23eyxrRV8sMkI
-         +rFXBhaVSv4Qj36jb0UO9iNNjGXuD3MeU+blJxi04LT5fPr1PGt6xtmcJ17HCp+KzA8a
-         Jgu5RJL2orL9g12vjGodiBy7xMNcvazZrl3HUXhP7ZnhwhuUqIYcLoVTpx7jSQTdSyJE
-         XOXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdfCozzKXak+Vo3Qh04iWakHXSwb5B6ixFp1vMFH6/2Hkx/XGqeBj+745MR26luGiHO6f9eO82z5Gm1kgKjUAWtpgZtbALYrLd
-X-Gm-Message-State: AOJu0YxUb8a66i+tfQ3fwzJXdMKE+RRiU5cls33gRJMpAHSvdyNVX7wO
-	JEW5FF6DdG9oneDPebl7E7MBdv0jq7cBr6/qZOwxu5i5v75/AXO+bubnSnXVkgagr8QRkvjTpE1
-	v6hFiHvpOCxLbUYoNgp9BssI4QPj+B4EoB73g
-X-Google-Smtp-Source: AGHT+IHo3sayxxc3lpEm1Fm76MGBY1zYfOZ1vpEOlwm67dbXPRGyU26Bo6MFRjwdx3BD+yQ6vx/rvX5dUBr75D/IPdA=
-X-Received: by 2002:a05:6122:264f:b0:4c7:7760:8f14 with SMTP id
- dr15-20020a056122264f00b004c777608f14mr1093930vkb.7.1712650290765; Tue, 09
- Apr 2024 01:11:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="at7K2sEb"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0CF6FFF808;
+	Tue,  9 Apr 2024 08:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712651222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HFyWfjbaTBaM1GAmRyujRBBDUuam/3zHt14NMRuR5YM=;
+	b=at7K2sEbeClK324jpDTJ9A0ghyUOvze4sBeQGJmXkTKoqBTMz+Ygc/gXU+8UzsNPClP29J
+	d28Nl9eQLPmEQFfv2EBRv7C3f7YXrpjvryAHRKQKIV5EUwSKeBEGbq9bvSYewJ73J0jRW4
+	oHvbMuA0ARNXHBeQ4HoyJNhh9p3pSxpI0+ew1yJ81qrbJg7vHibjjdg1m6eOvFfh0qVqbo
+	ixGf4/kiQ40v5ThmDAtn2kTBkr6nhTw356/lFFarznJ6UH/WXtA0kFw1gktFLAUNrAFscX
+	jcmraZaGk0cIgxIUrvX6udVC9O6+S2mr0UGvOGyHoAx9RWrsDY3u5AFm0/xbGw==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v10 00/13] net: Make timestamping selectable
+Date: Tue, 09 Apr 2024 10:26:22 +0200
+Message-Id: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240404190146.1898103-1-elver@google.com> <CAADnVQKc+Z39k9wbU2MHf-fPFma+9QsyOugmmmGq3ynQCTVfCw@mail.gmail.com>
- <CANpmjNN+rR1PWKbx6RBWhOjnmAP+jUDzc3TLcwTnmfd=ft03dg@mail.gmail.com>
- <CAEf4BzZCj=3hevf+Je=oed9Nisctotp_CX00NrLaO6_7+-0LSQ@mail.gmail.com>
- <CANpmjNMCJwCaGiUpMCukgruNJ9k120sJ8pVkrdpyo-Tonve2Sw@mail.gmail.com> <CAADnVQJ68X6NPYtEbQPXPM4pH1ZPg5iSrYi8c3EanL51SAW7zQ@mail.gmail.com>
-In-Reply-To: <CAADnVQJ68X6NPYtEbQPXPM4pH1ZPg5iSrYi8c3EanL51SAW7zQ@mail.gmail.com>
-From: Marco Elver <elver@google.com>
-Date: Tue, 9 Apr 2024 10:10:52 +0200
-Message-ID: <CANpmjNO3m-f-Yg5EqTL3ktL2CqTw7v0EjHGVth7ssWJRnNz5xQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Introduce bpf_probe_write_user_registered()
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Andrii Nakryiko <andrii.nakryiko@gmail.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-trace-kernel@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAK/7FGYC/3XOwU7DMAwG4FeZciZT7DlNstPeY0JTWxwWCZIqD
+ dXQ1Hcnq4YArRzt3/7sqxg5Bx7FfnMVmacwhhRrAeppI/pzG19ZhpfaEKhwBwpAem7LR+bTUIZ
+ T5BL5UuTOo7HaWLbUibo5ZPbhsrBHUYfkbUo81+QcxpLy53Jvapb8LrtVeWqkkgZa73s0nWJ96
+ FIqbyFu+/S+iJP5UQBoXTFVIYNsjNPApB4V+62QQmjWFVsVDcoTeiLy3aPifin4j+Juv2jdAGh
+ yHuGvMs/zF5N+eOCVAQAA
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Mon, 8 Apr 2024 at 20:24, Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Mon, Apr 8, 2024 at 2:30=E2=80=AFAM Marco Elver <elver@google.com> wro=
-te:
-> >
-> > On Fri, 5 Apr 2024 at 22:28, Andrii Nakryiko <andrii.nakryiko@gmail.com=
-> wrote:
-> > >
-> > > On Fri, Apr 5, 2024 at 1:28=E2=80=AFAM Marco Elver <elver@google.com>=
- wrote:
-> > > >
-> > > > On Fri, 5 Apr 2024 at 01:23, Alexei Starovoitov
-> > > > <alexei.starovoitov@gmail.com> wrote:
-> > [...]
-> > > > > and the tasks can use mmaped array shared across all or unique to=
- each
-> > > > > process.
-> > > > > And both bpf and user space can read/write them with a single ins=
-truction.
-> > > >
-> > > > That's BPF_F_MMAPABLE, right?
-> > > >
-> > > > That does not work because the mmapped region is global. Our requir=
-ements are:
->
-> It sounds not like "requirements", but a description of the proposed
-> solution.
+Up until now, there was no way to let the user select the hardware
+PTP provider at which time stamping occurs. The stack assumed that PHY time
+stamping is always preferred, but some MAC/PHY combinations were buggy.
 
-These requirements can also be implemented differently, e.g. with the
-proposed task-local storage maps if done right (the devil appears to
-be in the implementation-details - these details are currently beyond
-my knowledge of the BPF subsystem internals). They really are the bare
-minimum requirements for the use case. The proposed solution probably
-happens to be the simplest one, and mapping requirements is relatively
-straightforward for it.
+This series updates the default MAC/PHY default timestamping and aims to
+allow the user to select the desired hwtstamp provider administratively.
 
-> Pls share the actual use case.
-> This "tracing prog" sounds more like a ghost scheduler that
-> wants to interact with known user processes.
+Changes in v10:
+- Move declarations to net/core/dev.h instead of netdevice.h
+- Add netlink documentation.
+- Add ETHTOOL_A_TSINFO_GHWTSTAMP netlink attributes instead of a bit in
+  ETHTOOL_A_TSINFO_TIMESTAMPING bitset.
+- Send "Move from simple ida to xarray" patch standalone.
+- Add tsinfo ntf command.
+- Add rcu_lock protection mechanism to avoid memory leak.
+- Fixed doc and kdoc issue.
+- Link to v9: https://lore.kernel.org/r/20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com
 
-It's tcmalloc - we have a BPF program provide a simpler variant of the
-"thread re-scheduling" notifications discussed here:
-https://lore.kernel.org/all/CACT4Y+beLh1qnHF9bxhMUcva8KyuvZs7Mg_31SGK5xSoR=
-=3D3m1A@mail.gmail.com/
+Changes in v9:
+- Remove the RFC prefix.
+- Correct few NIT fixes.
+- Link to v8: https://lore.kernel.org/r/20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com
 
-Various synchronization algorithms can be optimized if they know about
-scheduling events. This has been proposed in [1] to implement an
-adaptive mutex. However, we think that there are many more
-possibilities, but it really depends on the kind of scheduler state
-being exposed ("thread on CPU" as in [1], or more details, like
-details about which thread was switched in, which was switched out,
-where was the thread migrated to, etc.). Committing to these narrow
-use case ABIs and extending the main kernel with more and more such
-information does not scale. Instead, BPF easily allows to expose this
-information where it's required.
+Changes in v8:
+- Drop the 6 first patch as they are now merged.
+- Change the full implementation to not be based on the hwtstamp layer
+  (MAC/PHY) but on the hwtstamp provider which mean a ptp clock and a
+  phc qualifier.
+- Made some patch to prepare the new implementation.
+- Expand netlink tsinfo instead of a new ts command for new hwtstamp
+  configuration uAPI and for dumping tsinfo of specific hwtstamp provider.
+- Link to v7: https://lore.kernel.org/r/20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com
 
-[1] https://lore.kernel.org/all/20230529191416.53955-1-mathieu.desnoyers@ef=
-ficios.com/
+Changes in v7:
+- Fix a temporary build error.
+- Link to v6: https://lore.kernel.org/r/20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com
 
-> > > > 1. Single tracing BPF program.
-> > > >
-> > > > 2. Per-process (per VM) memory region (here it's per-thread, but ea=
-ch
-> > > > thread just registers the same process-wide region).  No sharing
-> > > > between processes.
-> > > >
-> > > > 3. From #2 it follows: exec unregisters the registered memory regio=
-n;
-> > > > fork gets a cloned region.
-> > > >
-> > > > 4. Unprivileged processes can do prctl(REGISTER). Some of them migh=
-t
-> > > > not be able to use the bpf syscall.
-> > > >
-> > > > The reason for #2 is that each user space process also writes to th=
-e
-> > > > memory region (read by the BPF program to make updates depending on
-> > > > what state it finds), and having shared state between processes
-> > > > doesn't work here.
-> > > >
-> > > > Is there any reasonable BPF facility that can do this today? (If
-> > > > BPF_F_MMAPABLE could do it while satisfying requirements 2-4, I'd b=
-e a
-> > > > happy camper.)
-> > >
-> > > You could simulate something like this with multi-element ARRAY +
-> > > BPF_F_MMAPABLE, though you'd need to pre-allocate up to max number of
-> > > processes, so it's not an exact fit.
-> >
-> > Right, for production use this is infeasible.
->
-> Last I heard, ghost agent and a few important tasks can mmap bpf array
-> and share it with bpf prog.
-> So quite feasible.
+Changes in v6:
+- Few fixes from the reviews.
+- Replace the allowlist to default_timestamp flag to know which phy is
+  using old API behavior.
+- Rename the timestamping layer enum values.
+- Move to a simple enum instead of the mix between enum and bitfield.
+- Update ts_info and ts-set in software timestamping case.
 
-Nothing related to ghost.
+Changes in v5:
+- Update to ndo_hwstamp_get/set. This bring several new patches.
+- Add few patches to make the glue.
+- Convert macb to ndo_hwstamp_get/set.
+- Add netlink specs description of new ethtool commands.
+- Removed netdev notifier.
+- Split the patches that expose the timestamping to userspace to separate
+  the core and ethtool development.
+- Add description of software timestamping.
+- Convert PHYs hwtstamp callback to use kernel_hwtstamp_config.
 
-It's tcmalloc, i.e. every process running everywhere.
+Changes in v4:
+- Move on to ethtool netlink instead of ioctl.
+- Add a netdev notifier to allow packet trapping by the MAC in case of PHY
+  time stamping.
+- Add a PHY whitelist to not break the old PHY default time-stamping
+  preference API.
 
-> > > But what seems to be much closer is using BPF task-local storage, if
-> > > we support mmap()'ing its memory into user-space. We've had previous
-> > > discussions on how to achieve this (the simplest being that
-> > > mmap(task_local_map_fd, ...) maps current thread's part of BPF task
-> > > local storage). You won't get automatic cloning (you'd have to do tha=
-t
-> > > from the BPF program on fork/exec tracepoint, for example), and withi=
-n
-> > > the process you'd probably want to have just one thread (main?) to
-> > > mmap() initially and just share the pointer across all relevant
-> > > threads.
-> >
-> > In the way you imagine it, would that allow all threads sharing the
-> > same memory, despite it being task-local? Presumably each task's local
-> > storage would be mapped to just point to the same memory?
-> >
-> > > But this is a more generic building block, IMO. This relying
-> > > on BPF map also means pinning is possible and all the other BPF map
-> > > abstraction benefits.
-> >
-> > Deployment-wise it will make things harder because unprivileged
-> > processes still have to somehow get the map's shared fd somehow to
-> > mmap() it. Not unsolvable, and in general what you describe looks
-> > interesting, but I currently can't see how it will be simpler.
->
-> bpf map can be pinned into bpffs for any unpriv process to access.
-> Then any task can bpf_obj_get it and mmap it.
-> If you have few such tasks than bpf array will do.
-> If you have millions of tasks then use bpf arena which is a sparse array.
-> Use pid as an index or some other per-task id.
-> Both bpf prog and all tasks can read/write such shared memory
-> with normal load/store instructions.
->
-> > In absence of all that, is a safer "bpf_probe_write_user()" like I
-> > proposed in this patch ("bpf_probe_write_user_registered()") at all
-> > appealing?
->
-> To be honest, another "probe" variant is not appealing.
-> It's pretty much bpf_probe_write_user without pr_warn_ratelimited.
+Changes in v3:
+- Expose the PTP choice to ethtool instead of sysfs.
+  You can test it with the ethtool source on branch feature_ptp of:
+  https://github.com/kmaincent/ethtool
+- Added a devicetree binding to select the preferred timestamp.
 
-Fair enough.
+Changes in v2:
+- Move selected_timestamping_layer variable of the concerned patch.
+- Use sysfs_streq instead of strmcmp.
+- Use the PHY timestamp only if available.
 
-> The main issue with bpf_probe_read/write_user() is their non-determinism.
-> They will error when memory is swapped out.
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (13):
+      net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
+      net: Move dev_set_hwtstamp_phylib to net/core/dev.h
+      net: Make dev_get_hwtstamp_phylib accessible
+      net: Make net_hwtstamp_validate accessible
+      net: Change the API of PHY default timestamp to MAC
+      net: net_tstamp: Add unspec field to hwtstamp_source enumeration
+      net: Add struct kernel_ethtool_ts_info
+      ptp: Add phc source and helpers to register specific PTP clock or get information
+      net: Add the possibility to support a selected hwtstamp in netdevice
+      net: netdevsim: ptp_mock: Convert to netdev_ptp_clock_register
+      net: macb: Convert to netdev_ptp_clock_register
+      net: ethtool: tsinfo: Add support for hwtstamp provider and get/set hwtstamp config
+      netlink: specs: tsinfo: Enhance netlink attributes and add a set command
 
-Right. Although, user space mlock'ing and prefaulting the memory
-solves it in the common case (some corner cases like after fork() are
-still tricky).
+ Documentation/netlink/specs/ethtool.yaml           |  43 +-
+ Documentation/networking/ethtool-netlink.rst       |  38 +-
+ Documentation/networking/timestamping.rst          |  35 +-
+ drivers/net/bonding/bond_main.c                    |   4 +-
+ drivers/net/can/dev/dev.c                          |   2 +-
+ drivers/net/can/peak_canfd/peak_canfd.c            |   2 +-
+ drivers/net/can/usb/gs_usb.c                       |   2 +-
+ drivers/net/can/usb/peak_usb/pcan_usb_core.c       |   2 +-
+ drivers/net/can/usb/peak_usb/pcan_usb_core.h       |   2 +-
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c    |   2 +-
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h    |   2 +-
+ drivers/net/dsa/microchip/ksz_ptp.c                |   2 +-
+ drivers/net/dsa/microchip/ksz_ptp.h                |   2 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.c               |   2 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.h               |   4 +-
+ drivers/net/dsa/ocelot/felix.c                     |   2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.c              |   2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.h              |   2 +-
+ drivers/net/ethernet/amd/xgbe/xgbe-ethtool.c       |   2 +-
+ .../net/ethernet/aquantia/atlantic/aq_ethtool.c    |   2 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_ethtool.c    |   2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c  |   2 +-
+ drivers/net/ethernet/broadcom/tg3.c                |   2 +-
+ drivers/net/ethernet/cadence/macb.h                |   2 +-
+ drivers/net/ethernet/cadence/macb_main.c           |   4 +-
+ drivers/net/ethernet/cadence/macb_ptp.c            |   2 +-
+ drivers/net/ethernet/cavium/liquidio/lio_ethtool.c |   2 +-
+ .../net/ethernet/cavium/thunder/nicvf_ethtool.c    |   2 +-
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_ethtool.c |   2 +-
+ drivers/net/ethernet/cisco/enic/enic_ethtool.c     |   2 +-
+ drivers/net/ethernet/engleder/tsnep_ethtool.c      |   2 +-
+ drivers/net/ethernet/freescale/dpaa/dpaa_ethtool.c |   2 +-
+ .../net/ethernet/freescale/dpaa2/dpaa2-ethtool.c   |   2 +-
+ .../net/ethernet/freescale/enetc/enetc_ethtool.c   |   2 +-
+ drivers/net/ethernet/freescale/fec_main.c          |   2 +-
+ drivers/net/ethernet/freescale/gianfar_ethtool.c   |   2 +-
+ .../net/ethernet/fungible/funeth/funeth_ethtool.c  |   2 +-
+ drivers/net/ethernet/hisilicon/hns3/hnae3.h        |   2 +-
+ drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c |   2 +-
+ .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c |   2 +-
+ .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h |   2 +-
+ drivers/net/ethernet/intel/e1000e/ethtool.c        |   2 +-
+ drivers/net/ethernet/intel/i40e/i40e_ethtool.c     |   2 +-
+ drivers/net/ethernet/intel/ice/ice_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/igb/igb_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/igc/igc_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c   |   2 +-
+ drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c    |   2 +-
+ .../ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |   2 +-
+ drivers/net/ethernet/mellanox/mlx4/en_ethtool.c    |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h       |   2 +-
+ .../net/ethernet/mellanox/mlx5/core/en_ethtool.c   |   4 +-
+ .../ethernet/mellanox/mlx5/core/ipoib/ethtool.c    |   2 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum.h     |   2 +-
+ .../net/ethernet/mellanox/mlxsw/spectrum_ethtool.c |   2 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.c |   4 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.h |  10 +-
+ drivers/net/ethernet/microchip/lan743x_ethtool.c   |   2 +-
+ .../ethernet/microchip/lan966x/lan966x_ethtool.c   |   2 +-
+ .../net/ethernet/microchip/sparx5/sparx5_ethtool.c |   2 +-
+ drivers/net/ethernet/mscc/ocelot_net.c             |   2 +-
+ drivers/net/ethernet/mscc/ocelot_ptp.c             |   2 +-
+ .../net/ethernet/pensando/ionic/ionic_ethtool.c    |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ethtool.c    |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ptp.c        |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ptp.h        |   2 +-
+ drivers/net/ethernet/renesas/ravb_main.c           |   2 +-
+ drivers/net/ethernet/renesas/rswitch.c             |   2 +-
+ drivers/net/ethernet/sfc/ethtool.c                 |   2 +-
+ drivers/net/ethernet/sfc/falcon/nic.h              |   2 +-
+ drivers/net/ethernet/sfc/ptp.c                     |   2 +-
+ drivers/net/ethernet/sfc/ptp.h                     |   5 +-
+ drivers/net/ethernet/sfc/siena/ethtool.c           |   2 +-
+ drivers/net/ethernet/sfc/siena/ptp.c               |   2 +-
+ drivers/net/ethernet/sfc/siena/ptp.h               |   4 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_ethtool.c   |   2 +-
+ drivers/net/ethernet/ti/am65-cpsw-ethtool.c        |   2 +-
+ drivers/net/ethernet/ti/cpsw_ethtool.c             |   4 +-
+ drivers/net/ethernet/ti/cpsw_priv.h                |   2 +-
+ drivers/net/ethernet/ti/icssg/icssg_ethtool.c      |   2 +-
+ drivers/net/ethernet/ti/netcp_ethss.c              |   4 +-
+ drivers/net/ethernet/xscale/ixp4xx_eth.c           |   2 +-
+ drivers/net/macvlan.c                              |   2 +-
+ drivers/net/netdevsim/ethtool.c                    |   2 +-
+ drivers/net/netdevsim/netdev.c                     |  19 +-
+ drivers/net/phy/bcm-phy-ptp.c                      |   5 +-
+ drivers/net/phy/dp83640.c                          |   4 +-
+ drivers/net/phy/marvell_ptp.c                      |   2 +-
+ drivers/net/phy/micrel.c                           |  10 +-
+ drivers/net/phy/mscc/mscc_ptp.c                    |   5 +-
+ drivers/net/phy/nxp-c45-tja11xx.c                  |   5 +-
+ drivers/net/phy/phy_device.c                       |  11 +
+ drivers/ptp/ptp_clock.c                            | 182 ++++++
+ drivers/ptp/ptp_ines.c                             |   2 +-
+ drivers/ptp/ptp_mock.c                             |   4 +-
+ drivers/ptp/ptp_private.h                          |   5 +
+ drivers/s390/net/qeth_ethtool.c                    |   2 +-
+ include/linux/can/dev.h                            |   2 +-
+ include/linux/ethtool.h                            |  29 +-
+ include/linux/mii_timestamper.h                    |   2 +-
+ include/linux/net_tstamp.h                         |  16 +
+ include/linux/netdevice.h                          |   8 +-
+ include/linux/phy.h                                |  19 +-
+ include/linux/ptp_clock_kernel.h                   | 151 +++++
+ include/linux/ptp_mock.h                           |   4 +-
+ include/net/dsa.h                                  |   2 +-
+ include/soc/mscc/ocelot.h                          |   2 +-
+ include/uapi/linux/ethtool_netlink.h               |  14 +
+ include/uapi/linux/net_tstamp.h                    |  11 +
+ net/8021q/vlan_dev.c                               |   2 +-
+ net/core/dev.h                                     |   7 +
+ net/core/dev_ioctl.c                               |  56 +-
+ net/core/timestamping.c                            |  49 +-
+ net/dsa/user.c                                     |   2 +-
+ net/ethtool/common.c                               |  40 +-
+ net/ethtool/common.h                               |   5 +-
+ net/ethtool/ioctl.c                                |  12 +-
+ net/ethtool/netlink.c                              |  16 +-
+ net/ethtool/netlink.h                              |   6 +-
+ net/ethtool/tsinfo.c                               | 641 ++++++++++++++++++++-
+ net/sched/sch_taprio.c                             |   2 +-
+ 121 files changed, 1463 insertions(+), 196 deletions(-)
+---
+base-commit: 38dd36b76351504f77bf47b48c25049f64890739
+change-id: 20231011-feature_ptp_netnext-3f278578e84b
 
-> These helpers are ok-ish for observability when consumers understand
-> that some events might be lost, but for 24/7 production use
-> losing reads becomes a problem that bpf prog cannot mitigate.
-> What do bpf prog suppose to do when this safer bpf_probe_write_user error=
-s?
-> Use some other mechanism to communicate with user space?
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Right, for use cases where these errors aren't ok it does not work.
-But if the algorithm is tolerant to lossy reads/writes from the BPF
-program side, it's not an issue.
-
-> A mechanism with such builtin randomness in behavior is a footgun for
-> bpf users.
-> We have bpf_copy_from_user*() that don't have this non-determinism.
-> We can introduce bpf_copy_to_user(), but it will be usable
-> from sleepable bpf prog.
-> While it sounds you need it somewhere where scheduler makes decisions,
-> so I suspect bpf array or arena is a better fit.
-
-Correct, it can't sleep because it wants scheduler events.
-
-> Or something that extends bpf local storage map.
-> See long discussion:
-> https://lore.kernel.org/bpf/45878586-cc5f-435f-83fb-9a3c39824550@linux.de=
-v/
->
-> I still like the idea to let user tasks register memory in
-> bpf local storage map, the kernel will pin such pages,
-> and then bpf prog can read/write these regions directly.
-> In bpf prog it will be:
-> ptr =3D bpf_task_storage_get(&map, task, ...);
-> if (ptr) { *ptr =3D ... }
-> and direct read/write into the same memory from user space.
-
-I would certainly welcome something like this - I agree this looks
-better than bpf_probe_read/write.
-
-Thanks,
--- Marco
