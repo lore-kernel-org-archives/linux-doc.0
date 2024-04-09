@@ -1,95 +1,91 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1498460;
-	Tue,  9 Apr 2024 00:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CDF94E1C8;
+	Tue,  9 Apr 2024 02:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712623416; cv=fail; b=NLx4rIOCV1gmfm80Ek0g9ZAkFksGKSW+rRaw1jX/QxuZ9v9lhyyLsG6LPouqnXxeLZvWbWlBzv/wC1l3Sb8KYYP8cr5FczhehtoEK8upf4dSBnGp/mzqWqgQ7V/S/J1FOKrK+gqKyMBS+qIJWK6hnhiEgRTvoQMVIVeYb12jVEY=
+	t=1712628672; cv=fail; b=d9HLIb5mtqsmFwJmS2tg9OgLmtC5CsHi19H5Cpt20iJa3gHM5TWXsLTRSEfm+RZ0rOU+wI+zWaHUkT3Qt6HCrAb4weMGcXLDYpbVOFbYJJuCTJ6/sWQM2BP4i8fLRxMmNWnWSXUfWrbkQtsAEJb2jyf7e/3QYyoOpV8QjzVcutg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712623416; c=relaxed/simple;
-	bh=IeWLMRW4hbxdOZ2JkubwCPwhg4rqaEvRJNWggtW4Mpc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=a8OvPO3nnFJZ/gIer5n1am9jJQqjW58KWJTW0liZ89JBoV8pXkwmTrmQayNX9bICW/Ax3YA9LjD8c+FTni592+FbVjAPTKg85yRgCDBOfPvLvrvUsXH6B3oPt/ftEiXvtlR5g654B0zDp37wSVfXSAliNsDf6ZY8q6v2S6XBsEU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZxInGCFm; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=uG8vNyLS; arc=fail smtp.client-ip=205.220.165.32
+	s=arc-20240116; t=1712628672; c=relaxed/simple;
+	bh=0DbY9xNG6ZXgtKoLGCxyEXwAXikNotN9GnlaJEQ3OFk=;
+	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
+	 Content-Type:MIME-Version; b=itwY/bXxIsKygLv183CqhZGGcD1yhA0W5z4DVkFTIxulKG4zaE1j4WwwSJpYUeoO/Mi1AENiiI/XqNFtf/X3GnaMZyPxD/StBGLRVq2SON+iu0VuuvxjuEQTZV4lweJbnmzgPEjcacP/N6Wq1pdsPR9xxg9D1tdXVaEjkVV1/Z0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BFWV9Iiw; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=C3Ux/oQG; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZxInGCFm";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uG8vNyLS"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BFWV9Iiw";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="C3Ux/oQG"
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 438Ln97Z010204;
-	Tue, 9 Apr 2024 00:43:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
- b=ZxInGCFm14evKLRSoMMJQJWrp0eH393a3YjL6gq9xZc3j2vpkLUX2UzBDpYd25tsekyW
- imUT+FvCT6WlPFj1DOq93CF0JIu8NCG4t8NA+l+ZYden0qS8M2XdU5tIY6LXx0a4pQcQ
- 3NJHm0hrx/vTIKhPLuosgYzCyXIPXT/aEJWlwZZwWPwyYlFHPTRlYVea8rfjgnv0L0+e
- M4eRMi//9fyVzKRHAO1x0jzb4/LOoP8r5L9I0G4LIN7Ysd6HcMHy20RQn4kma+T18obG
- SuZyLZvM7PRR7vGWEmQFMcT/1vP5OdfVbwO4RL64qHPXfKp4OMmT1L3HzrGe6iQ+XbD/ xg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xax9b3yhx-1
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 438LnF5S010301;
+	Tue, 9 Apr 2024 02:10:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : in-reply-to : message-id : references : date : content-type :
+ mime-version; s=corp-2023-11-20;
+ bh=DpBVF0Sx0MiDS6vJkpcr/xUMTOeZGAVQZOfzvOSIbTo=;
+ b=BFWV9IiwzuICGv59KTiIDJ3pJlXkYwTbH9z4TqhkV8tpyJkRVHuapAYxYX98UhHJXZ9q
+ XSDYq4ayIdpDzqKMSzUtnj2U6K7IcwPFHPsKYy+vTMz9vA4OGyNcDWFX83QV5g8nZrMe
+ v2NrhXZibGb3ErYfRCzU416w/RNwaDTQo23dth9QWYvZAxAQjhKUqIvenKA4NnWVvDVN
+ 6u+GR3DXyWqNAcDc1ouNeWElrjtDefDqorcQvxLyRvWsI7ko3SobOpZObxg7mHy63cMt
+ qomVvustfLpUelkzIYkrs/Bn49+De/E3NjwrPeZFfJ5LUuYjoQKH/SB1kunXvOl400BJ Qg== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xax9b420f-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Apr 2024 00:43:11 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 438MvHbr007989;
-	Tue, 9 Apr 2024 00:43:11 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3xavu66j5t-1
+	Tue, 09 Apr 2024 02:10:36 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 438N7vmu010595;
+	Tue, 9 Apr 2024 02:10:36 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3xavu68aug-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Apr 2024 00:43:11 +0000
+	Tue, 09 Apr 2024 02:10:36 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cXaUX1n5GQIEV4OptFYMj4qgQz62fRtnXiyNYwFCH9hYTf6bI18Q6SE/rZ1gkvOtI/Ya16CVbF/c6cfyo34Q8C8rpRhGU5ajT1/3ZODEetpeYGWdRLzvWuAyOF5W0jvCQJ/spSNiOjXo/C+7zlWYieU4kVw+5ebN1NjeD0xPgk2GXQ7bIH68DGjNAcjAQuK/7F3MKjMJi4CWHtwI3xF/fD9t3OMH8dizUxJSWUCq9/qsqMikpnnJiBH6oQlUOdbKpNHZfj84vvKVbdWyBkw1Oc3P2k9Awk1LLrWbCWQzdLOKe6JLK9ub3I1usFRlPMPnR/vv4ibIIf8aBUMHNHZfAA==
+ b=Q2iba18BDbKtF+YrHICA95zkWtptMuLpHXQYk0LcFSt35UPAkLiwBT53VvZVFZD2Iz0jMPGMaMpmljrF0ppXtSMrQR56Ksf9cKXg5l6f6y4HVG9uvuTiygBuVe61ko47Fm6yu6vEPLvJxmtHMTt4q+s8gfmE+jq3vR2dUwmqsOZ2tX+MVbA8wO+05WvORL6S5Z8Any/t5sv9BaBrqZukhDK/K502N67qSxBWgUDpZEuDauzuBm59SNljx74X8pU8u7ZM8uXY5sF3Vogka8RtYIiT1hiooORKET++wQgeQLKul6bQQ1AjBdBjDtT9PHMBpOOePS1FwUvRumuFhLxaEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
- b=g506ozP7x0WB3i8aC+2AhMDBC06MwsysS+HHkv3ju+vMLHW4A9K4K9wNfQORYhJoFeTBHSenMr5UZdnyGMPvoPP7G1sNyD7aPUmLGympOCjijXT0OnLFgS0d0KtJ+VDyVG0OKPnp796EMAdMWY4dQNAGw4aMW5PdDOJ3hPfwkE6gpxhSUMAGfh/O3GUt4lorXulXXTXhxZj81nPAOaY9tSIiUEtNMgO/Zgccy6mEMK15HaMXjEwRQgdRo4K14FV2mbiCCG4RSd0Ch9JwcL1639Lc6bOY/MNjNpx6xEEkEn/bLRLPQsKePYuI6zpCjqLvE9j9LqkHKdg0BVApSF7vCA==
+ bh=DpBVF0Sx0MiDS6vJkpcr/xUMTOeZGAVQZOfzvOSIbTo=;
+ b=FVL4A4Oy3FmP9/XYtCulxomNERWtdZWh5OSGSKM6MJ4149k+kqBeLo8RMTMRog63edZsS2c2cOhGhNLTVT5nKtbgtLEXOLvV8Q8V4b15CKe6hc5NpiZFzIW0SSACkvO551GXDi8p742BOoeInecpodfK1h68E56cf2j+tGTC6edFj76sEEF3D7SrB82lCLPMrdcFzRRuSJxUhMhygwhX0i7CeBCLUPPGrwyT+r2rwto7jDwilT7IvKst08DeDy5funks3LtRrn5kEbHZkV0TJgi21p58AjTAbUZwR07JQ39hkWY9IuoSkHV/AbqoW7FDdlT18btXyNXe3LmL+Ff8hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
- b=uG8vNyLSW/fnrqMWZhjEZC4X5iXM0SPlp5ac5mQhWx7kAmVJrHby1QgCHwq1e7KOqEfECnhL/zmArlPqGjLeP6E9O2SBFAjKniJUCOzb20A37ItEqrHmge6ZxjSNRflQg1WbPFb0v4KON8YoEa5F0rsazhYvFwah6jMP4JcLrJU=
-Received: from SA0PR10MB6425.namprd10.prod.outlook.com (2603:10b6:806:2c0::8)
- by MW4PR10MB6632.namprd10.prod.outlook.com (2603:10b6:303:227::19) with
+ bh=DpBVF0Sx0MiDS6vJkpcr/xUMTOeZGAVQZOfzvOSIbTo=;
+ b=C3Ux/oQGPhCX4JB9MN60bdhJHAJ4Lj50G5zMUFWoLIej2/H5e98Ezh4T/RohVbKTdTTHswQVErhxqVNObz8uUnmockmRkzed+UJYZDXPJoh/MGFujhnsutWeHuNq3EutgfsjnCC0fxV4uRFmN2QCNNDhwJM/dY5OJBGvU4DZMwE=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by CH3PR10MB6810.namprd10.prod.outlook.com (2603:10b6:610:140::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 9 Apr
- 2024 00:43:08 +0000
-Received: from SA0PR10MB6425.namprd10.prod.outlook.com
- ([fe80::894:70b7:573e:da46]) by SA0PR10MB6425.namprd10.prod.outlook.com
- ([fe80::894:70b7:573e:da46%5]) with mapi id 15.20.7409.042; Tue, 9 Apr 2024
- 00:43:08 +0000
-Message-ID: <9377995a-26a4-2523-e421-be1cd92bdc34@oracle.com>
-Date: Mon, 8 Apr 2024 17:43:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
- timer drift correction
-Content-Language: en-US
-To: Jack Allister <jalliste@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240408220705.7637-1-jalliste@amazon.com>
- <20240408220705.7637-3-jalliste@amazon.com>
-From: Dongli Zhang <dongli.zhang@oracle.com>
-In-Reply-To: <20240408220705.7637-3-jalliste@amazon.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0181.namprd05.prod.outlook.com
- (2603:10b6:a03:330::6) To SA0PR10MB6425.namprd10.prod.outlook.com
- (2603:10b6:806:2c0::8)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.55; Tue, 9 Apr
+ 2024 02:10:34 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::7856:8db7:c1f6:fc59]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::7856:8db7:c1f6:fc59%4]) with mapi id 15.20.7409.042; Tue, 9 Apr 2024
+ 02:10:33 +0000
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-scsi@vger.kernel.org, "James E.J. Bottomley"
+ <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Doug Gilbert <dgilbert@interlog.com>, Sagi Grimberg <sagi@grimberg.me>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>, linux-rdma@vger.kernel.org,
+        target-devel@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
+        Bart Van
+ Assche <bvanassche@acm.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/8] scsi: documentation: clean up docs and fix kernel-doc
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+In-Reply-To: <20240408025425.18778-1-rdunlap@infradead.org> (Randy Dunlap's
+	message of "Sun, 7 Apr 2024 19:54:17 -0700")
+Organization: Oracle Corporation
+Message-ID: <yq1pluznv5c.fsf@ca-mkp.ca.oracle.com>
+References: <20240408025425.18778-1-rdunlap@infradead.org>
+Date: Mon, 08 Apr 2024 22:10:30 -0400
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR03CA0158.namprd03.prod.outlook.com
+ (2603:10b6:208:32f::24) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,377 +93,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR10MB6425:EE_|MW4PR10MB6632:EE_
+X-MS-TrafficTypeDiagnostic: PH0PR10MB4759:EE_|CH3PR10MB6810:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	JKvYvCdSMZI11NB1ef637alUvy83vGkiswwG+OpqrfuKprP//xtndqGjpdpJVeUdtaEd6XsByrMAHy5DaEj2Ze8tEIQ//mcgphSFDBr8sAG07+7UocF0uFyuDV64N9pXhml+G4a1EmL38HsLb/v3rTK1BjhHL6ovuuYmF8Uvv4CtJgWT+KDjF66hS/XECehXHjLqgd07uGmslpB+LGjWqy8KC0+zUZc831UTdTB4CwC6AdWMBd2DH7LmJeoYg/iLIbDF1qEzgcyawstqKzAk/wZq+3sFFvSULTejHDQk8xOqVfTxbvOklJBr5DssKnYVLieccwAIkQ8+ZbTTkYdJDObVl3fhmhAfvtXKhC+k2NevKxt3+8abUVGM1tgMQM5hNYoxW18witDMDvD2yrEozIk5TfFI25BPf1Z9UKW/izwTf6FnGjgBxQv4LCfKqBvGB5yfRFU2Sb8nbWa21D0MPetZgXssB7Y+79V350f3jdJlOP+BGF8RUIE5BSF+8xTaqJZzz8OnmSnUCOTLuo3QjwyYdV5g+hHygDhnJWffnomQuxSXbp5I4tQR4z1bNDU+6QEKRZRYc5yiqBIGK4hN8JF3pwWcDvWZwAbJ8Qy/9BRSsMiHsAFKHc9cFnsNG5NgKdp+z/2nvxrTWn5Dtmjdl3MmH5mr2B89sPGZvsbgggU=
+	SQCGa/n61g5+jOxTXstGjnLZsEgmHXrx+pRcxt9oGohFTwD22GSTNjc3tmUFStzi06t17RmC9kebXYLTePJF0SOl0qwCXNsjAX2pBqvzAPX1aL/B3RjOYqFlaR+8/8Jk7HGtxPTZqHYZIFAyaQ+0n1wls31HZBw6pJmr8Sx9pX1Sjawtgwapb/mcN59LEfEpVSk/Gc743S5o+teKAsNlvYWOELdyE+BQs8KjwWFR8hB0HfJCLeEUVyrqqZ5/2mKPcGUA15wj/pjZ2kBReV5G2HuAH7dieRhofPbRuGJYEQLkIdu2sbtoc/q7YWTLq30dw1xzKcKMHJwYCQPfCcJs7wLc7mzIGaKVW+nEwOVOUK+QRqpsRAKNsvJMQoJ6/2kAewpNngLyimyEQ3FW0rE5Com0P0QIY9++foIjr+4GlaEa25HCbY4aDr0mDqwy0RfXfhs4VWyfaGEKWZDu+0/6Nk+XriOtVBpaV5cBwEumBtZFbNYM15KH/t7s6aFFrIIWwP670kIuIMFeQmbgbQ2Q3uIT7JdYKomugGGUwSKO1puWxPVkFADsLnis7VBgt5ENC7Q5WmyAnr6zOX0o30tNEGYAP/4dcyyRj1CqRJUm9/3rSEPbccQU1A56CrT3IOEgwVGNIujapiK+ESUxHGrWi2Mq/hHfqMluY9YuSJkPcL4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR10MB6425.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(921011);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?QWR5cmhoWVZQVUlFajBZajkwV3FhRVdxRUlNRjlEMFZ1SEM3aGl5NzNFcnNU?=
- =?utf-8?B?Q3FKQ09hNDhWZ1JHRk9DSlVoeFBsMVRVY1BoU011VU5laHN6cytiSlc1WE8x?=
- =?utf-8?B?bzFrOXJpdVcydkFHeWZqeXpIYXJmUnR6M3ZQZHJnRnRLR0pvckpHYVhPU0ZJ?=
- =?utf-8?B?TjFNNkhFUWN2RDRIbk85elNTRXFSdENiVktXbXR4WmEySjVrRytzeUovZFhP?=
- =?utf-8?B?Mk9QWHN4ajQvRmNOQmlINlZ0RmJPSm1IQVhuOVd6VG8ybE45NXVzZEJYa1BE?=
- =?utf-8?B?WUhVdExHTk1qdDJpY09KN3d1UXRLTGR5bVpVNmcrUHVWNlF3VmR1cU1sRmpr?=
- =?utf-8?B?R1pWSW9ELzdoNkhNcUxUWTdFNU1rRnltWDlRbEhYWUpZeU1hVVZQS0lpNEdW?=
- =?utf-8?B?eVl1MUpJN1hJZFpGamw2cldmam82QWtXdnNxTGRaOUhNMGJrbk1jM3V0ZGx2?=
- =?utf-8?B?NVVLYnhoWnpHcHhPVXI2L1JRSXBTQWVoQk0zcXdiWGZGK2x0UjB2dDNHZFZN?=
- =?utf-8?B?dkVGR3MrS0cvYXpSL2tvUURYTmFrdjRkU3dEL0RzRjE2YVNMcm5sZGdDWFZj?=
- =?utf-8?B?a3dZNEV6QjlybzB1RlNncXdkQlAvV1FBOWdhSFdKclFHNTdqb2grd1dsRnl2?=
- =?utf-8?B?WG8xNG5CVVcyZmY4RFBFRFBncXJVY0JkSlZYLzBydUZmYUFPbGt2ZGtkN3gr?=
- =?utf-8?B?NWVTYzc1QlluektZcEE0clU0WTdKUStvaDZITXZXR2FxQTlteGwwamM3di85?=
- =?utf-8?B?VUZZUnI1N0wxNU1ScTlPdFRCbVlJSHpiMUV5ekl4MFY0aGROYnBtL0Jwams1?=
- =?utf-8?B?ZFNtVnpiamhJWC9nUHhadUZtK3pQMTZwcDRRN2YzbWdBQm8vL2NNMTZPYWov?=
- =?utf-8?B?MzdRbko5STdVdmtDRGppbWUxUExSK3J6elZUUW5EcGlPd3ViQVE1YjRKOHFI?=
- =?utf-8?B?dThndDBLYnllbktwVXdJTmtIMzhvMWRaUDZtWFU2NnlQemM1bGN0MEZvYVlT?=
- =?utf-8?B?Mmw0MEdXTGN0MlVublRBcGJmTi92TXhVVnI4YnNmNkRMQ3pFMkJlRm9FYjkz?=
- =?utf-8?B?clV2S3VTRFpQYmRhbUhGeTFNUG1tVEN1cGYxYkdNb0V1UmJzYVpWanpaVUFE?=
- =?utf-8?B?ZHNiRmY3Snd3Z1A5T01UVEZpNytRSy96ZTR4ZzRMbE5iWXppejNaSmVma2FZ?=
- =?utf-8?B?TGNuUWF4SHJEYVZqVnBPSXVWMGVJRE16UUZBbFNlYllIQWh1UlQ1dmNSdkxM?=
- =?utf-8?B?TlA5Y1pvdGlNSGdmcWQxRktjVXB1ZnJiY0diampnZ3BjbFNwRUMxa0pFNFhk?=
- =?utf-8?B?SmRmWmNwT3hpWVlONDJWNG01OTNqUmhMd0V2OVZvS3RtcU9GMGprRVNlSHlD?=
- =?utf-8?B?M3dyaTB4VmtMd1ZLL0J2cGJDbWczNERXZnVqWmNNcm9DWnhUWU5WUFN6UjBT?=
- =?utf-8?B?RGl0QVllMk90b0hFb1RDdUlMWExDRi9yTHpKWVp3L0V2QlJxb2FlZHk3bVRZ?=
- =?utf-8?B?ckwrUU50M0JjNUtlQitGOHBWbVFVQ0xIbStNZnJtZDA2elk1UVYyd2JGQlFM?=
- =?utf-8?B?Snhid3dwK29pVzhoOW84dFBrYkVyaXp6TzAzVC8wOWNkcVA3eEVUSWtOVkRl?=
- =?utf-8?B?NVZqaVM3NTZWeWtUR1hGQ3A2UllJdDUzU1dSQVZEMitsVDZKMEM2NHJJUGJH?=
- =?utf-8?B?cU1RczNsZlhsWStpdTZua05aQkttRGllYnVJMkEvUllpOHh0L0xQbjJoanBT?=
- =?utf-8?B?ekkrK3pJNEFUQ0pRUTJDKzA5bWUxZlB3WkUvVE5hQ0k0MG0zVkZTc0JEYTFx?=
- =?utf-8?B?ZUtxaHZLY3VKRzgwSmUyYVExWkEvYlhLQnAxRFQvNDRySjVjckd5R1UvVWVC?=
- =?utf-8?B?Ym01eFRNSys1WkxVYUdXejVadzR1ZHpDdVBHbWsxTFdkY1l6aUhGN3Fwdys5?=
- =?utf-8?B?OFNiTUZqMlc3U0FOSll1Ryt6WWtHQjdndi9MZFYxT01iSkFRL0c1dWlmZHAw?=
- =?utf-8?B?WjBhUS9mUHoydjdvcmN0SnZ1dEt6dFd6d2FXQnVuMlNJVzZXNitWVU5XWEhX?=
- =?utf-8?B?VWVYbE1qcXF4M0xzN3JPZUJRWloyRFVwNFp0TVBEUWdqa2lHTVV2MnZtem1s?=
- =?utf-8?Q?UpWdDCvaOkioVeMiuT5Tc+vqf?=
+	=?us-ascii?Q?4R2XbW7i4wzAP0pRkam4pYoDy3OFTDXR9WI6zUcmvIYCK9b5ZbTB9cicBoR2?=
+ =?us-ascii?Q?YvDztfRFXcjBhSS3OhkuTUfAFCJG/NcXtGfZ/apvDKug+5RAoMH7xSUL9f9O?=
+ =?us-ascii?Q?3El7ilAlVqtjxOxwIVbtjQJPfJKA1NW4Gor9gXk2li0/NzblrHN2mfTyUCKD?=
+ =?us-ascii?Q?7jVIlS5DLrEX47eNGDlHzuVHXIviUhfOSbB4DULMl0SC7SMPAXW57Y1fRsTu?=
+ =?us-ascii?Q?U15wK6zVSuxqM+3T6mH91V9sX2oy0eWd5cIpyKeCgBaZaEKMQjv7mOsofkTm?=
+ =?us-ascii?Q?qQH32ETTicP6Zn636XuE7sYtI32GeaOGsqg7EP4OGHolnADcDE0y4YVBJ52v?=
+ =?us-ascii?Q?QLDIA/G10trNXyadJtuypp1EtvOiJpv1beSH9kzPogNet7vp3LV91rsjrVkJ?=
+ =?us-ascii?Q?v/5vE6nCWlebeFLCVJpZF1Kn8YJjvFZUFShUjEQWSN8ADztvGBgvMPfmByJP?=
+ =?us-ascii?Q?sESCDP8TuZXZWhFARTqGhvO8b/VgUU4a6aneVJathxRucIipegz8H9IrOAjW?=
+ =?us-ascii?Q?Xhvn0XkayGFwOnAg0RFjnpB4gYdg+dkNucYPVMBz//TxLJQIJIfQvVlJEZdF?=
+ =?us-ascii?Q?yrBotRXH+nzo2lj6lTPDxWwkW1rSsHj8h9kQ2LidOrF1uocmSnTgJAliXLMR?=
+ =?us-ascii?Q?ChJX3Eg2Hk08VlPTmmaFJuVpAtCLUyMQQqTsUMgB3w7TWF0aKJsBO6BPfRhM?=
+ =?us-ascii?Q?9X5PiuVnSbIS+5NIbZCVQ7qnfnxfXw+lnn2I8Fnb0z7vEB0fqxi3l+HZtbvq?=
+ =?us-ascii?Q?mBA10wCH7aI4PAu76j2a53Xo4shbMtbZHTHs2hC/bidgBrNv5VaTF+ohg6iG?=
+ =?us-ascii?Q?z6wbbnHn4l33zDm/vPCn8dc/vdZvImxe3Etm0VPwhGgWyJOD76NAl/Pm9dCf?=
+ =?us-ascii?Q?8mNLP2UmbCND2jviqP4pCq63uRUiiAbT9MCs66uP/8hbcY4od+BKmoCZ45qR?=
+ =?us-ascii?Q?hjUXXlA6IqECIOTk8d5UqUR+WLgYNInZpvDQqeu9eUSW8AihIHhGSXlncgWm?=
+ =?us-ascii?Q?45tZ4U8HJ/pFQVGJ/Oel1THT6ld7LSmSPvrL9ytNnbUVZeESqv5qTa3x/i5p?=
+ =?us-ascii?Q?2/w4KGo7GmUzPbpewD00obVgG2v6I+qgOi68kgbBD5dypyF3DT4VGUkatt8z?=
+ =?us-ascii?Q?rpYmimnoYktgTTaxRVVueF5cFJ+0FuoTC/jC7jSYEqNqb5JMReow2JMTpG/R?=
+ =?us-ascii?Q?x6joI5Nilf3rKlykTtWTJybjsG1gMPwQHLEx3BYNmce6Y5boBJacIVcSAdi0?=
+ =?us-ascii?Q?guZxC0ZYRaHRTnT0fdLuNKFyaFeypsaAD0haEcJs0Fujv/cNUdojV2QokPL3?=
+ =?us-ascii?Q?NWLfbIAqrLuHxk+hOaBQAejKchqU9c1FCGWiBdvaKvFyBMNR4cIKIP7EGRhC?=
+ =?us-ascii?Q?hJZb4mOVp4XP8iewHesY5Zj3mmDFqnj4oKIQ1J5Rq+z3uQs6M4SsteHDt1QZ?=
+ =?us-ascii?Q?npjtoLCE5GszepzAX8YYe9t9yyMZ+DiOwW0AAiNaj0nlqAcEeLEKjOTR2x+x?=
+ =?us-ascii?Q?GZPm5FaqHQ+f+VIWCBRu3A1oUgRBs0qJGPQoTAuvlZkfBuRG+WYPBZXPP6yu?=
+ =?us-ascii?Q?8EjwWAzfSYQH8tud4BU9d0BeNkDDnsP5xkp3skBqlXKfT7MrVKZ5vtr8+eL5?=
+ =?us-ascii?Q?yA=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	xn4T1rCy1javkpMIUsAzm/VIb03mqdnWDU8lhEY8Trau2vLuzjAkjmHG82EZMnWmRuLln2TquDr50HbxQpOWS2j1gIzT4qDcmQiwfQstCnCeTQCk7KoU0O6Gm/Do4pac1fkDDXpvMP1vVQZYkFcBE/+D+5O88edcug68H/td7DmkYzLg6YH1ywi1X3gDrthDanQFsz5D7CuIlRt0VsucVtj0fVUXgf6mrsRZjsSeoJFYjYw7YLRDjw29+VAqQ92x815j4aG6r/36hOc7+B5JApuTNpLABKm+TW3nmLXZ0kzj7ef2HA5J7j3Uw6fj/ADcngd0VQUjvi25Y9UrhZrwzNeIjGk4Zti1ZaMcvL9EvOs8El9LHw17v40KFkizvEKXF+tQqu+U+a54FkO6t1ZlTgPYHpMnTkN80jKDyuYhUqpFvV9Bo6wWR3/WrYpDa2UmhD8bGphj7AtKv+4srAlZ9ND4uGwL6/sBv5an+By9tDOPlWRPItIg6FzbhniEhLUwCsZVU8WckiNan7y966dw+EHxA66SSJZSWv7ddvfy/L+8KdhtL8H6Y5MW6/x9n5PZSV2ssW9Fpc1fxv8OvGDj19DyzbXjjQiDHACAVytWxTo=
+	YS8WDM5YIbor1N2c2BI07thj0FtqkMM1TSPzKfKNe/atU6kMiXpaVL8kqNrYbG1yLCjTQkNPgEPQZCSW5nGF4JzQBEYT/PgCCZCIC2HWT5E7c7gWVF9ZPH9yZNOOogpnaaAig/DC5qVAcSSevtPSjrjZdDQNIkfeGsrSCSj6XeP23TeWw0nL3LL3FwDcdKCSZLNj0CsBkOSh1f4K2yVkpJrHSRuUMZzcDbEHkC0mjIt/z7RDMbLgmQlPsZNa8nFD1NAXs4XeTO0zxPRnoTWlAgiQgxuULyeCfeA+ixMFn+7hBmBPTX8I3wTBaTOmbicGY35x3M+Kf26jNr0wfP4G1GmuBH7ckfVIVjWCnTSGcIVUTk+72y/PNHzo0CQtAUXW10wNlzsOcJaQQIja4Z+TUY2qujphPFRhGHIAtiYgMk3GJAoC0n1Q9sScwbsK7dd7R1chLILgOndT6Dxl7CFXpPIqMMe7wkZYXrSfxuMDdDGffSOMBpPB4H01j+rAuTqs2dnUY7v/x9hYvOQ3iZwlQVTW1/Yy9MTY7NEB0Wql23HWcuG7miVOoHjEOF4CBjgEUphVbS9ycIK1wXp3OVHpAlW9UPSiynsUuqJLZznqoHo=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e32ecaa-0449-45cd-e97e-08dc582e066c
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR10MB6425.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f6307a0-639b-4deb-2565-08dc583a3cdc
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 00:43:08.0432
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 02:10:33.3039
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: or61+ylNoxQhVcmJHouMiGwyP8NEIZtDJ1CTJUZj8p/6iVxvRIR1yQBwjelnSgsmNQmSebuIz6rWlmcGrdQjdw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6632
+X-MS-Exchange-CrossTenant-UserPrincipalName: Re8y4F180NyseR8vP4LjgOrZOQbVHFCY2Ez1yT7tUcG5er+J0D4gno4lwXliJTqcBPkMnZJU7i3FSPZsBIrUoqTf4yQd4Ndah+vWfxHctVw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB6810
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_18,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- mlxscore=0 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2404010000 definitions=main-2404090000
-X-Proofpoint-GUID: EBdqpFpaAlReNZaz0hlufIWK1uxwlHMv
-X-Proofpoint-ORIG-GUID: EBdqpFpaAlReNZaz0hlufIWK1uxwlHMv
+ definitions=2024-04-08_19,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=989 malwarescore=0
+ suspectscore=0 spamscore=0 mlxscore=0 bulkscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404090011
+X-Proofpoint-GUID: VXKLroeMCSZH5dG9Pez04VRGfJEiJKYc
+X-Proofpoint-ORIG-GUID: VXKLroeMCSZH5dG9Pez04VRGfJEiJKYc
 
-Hi Jack,
 
-On 4/8/24 15:07, Jack Allister wrote:
-> This test proves that there is an inherent KVM/PV clock drift away from the
-> guest TSC when KVM decides to update the PV time information structure due
-> to a KVM_REQ_MASTERCLOCK_UPDATE. This drift is exascerbated when a guest is
+Randy,
 
-Typo: exacerbated
+> Clean up some SCSI doc files and fix kernel-doc in 6 header files in
+> include/scsi/.
 
-> using TSC scaling and running at a different frequency to the host TSC [1].
-> It also proves that KVM_[GS]ET_CLOCK_GUEST API is working to mitigate the
-> drift from TSC to within ±1ns.
-> 
-> The test simply records the PVTI (PV time information) at time of guest
-> creation, after KVM has updated it's mapped PVTI structure and once the
-> correction has taken place.
-> 
-> A singular point in time is then recorded via the guest TSC and is used to
-> calculate the a PV clock value using each of the 3 PVTI structures.
+Applied to 6.10/scsi-staging, thanks!
 
-Typo: "the a"
-
-> 
-> As seen below a drift of ~3500ns is observed if no correction has taken
-> place after KVM has updated the PVTI via master clock update. However,
-> after the correction a delta of at most 1ns can be seen.
-> 
-> * selftests: kvm: pvclock_test
-> * scaling tsc from 2999999KHz to 1499999KHz
-> * before=5038374946 uncorrected=5038371437 corrected=5038374945
-> * delta_uncorrected=3509 delta_corrected=1
-> 
-> Clocksource check code has been borrowed from [2].
-> 
-> [1]: https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=451a707813ae__;!!ACWV5N9M2RV99hQ!JWCFSSEPaZUer553HE44W0OhktMh3-Iyz4aZNE4pcjc94q_bs4QBIrVS8ciYEzj1NigrVCamkHgpvwqP1XrV$ 
-> [2]: https://urldefense.com/v3/__https://lore.kernel.org/kvm/20240106083346.29180-1-dongli.zhang@oracle.com/__;!!ACWV5N9M2RV99hQ!JWCFSSEPaZUer553HE44W0OhktMh3-Iyz4aZNE4pcjc94q_bs4QBIrVS8ciYEzj1NigrVCamkHgpv7jfLpy7$ 
-> 
-> Signed-off-by: Jack Allister <jalliste@amazon.com>
-> CC: David Woodhouse <dwmw2@infradead.org>
-> CC: Paul Durrant <paul@xen.org>
-> ---
->  tools/testing/selftests/kvm/Makefile          |   1 +
->  .../selftests/kvm/x86_64/pvclock_test.c       | 223 ++++++++++++++++++
->  2 files changed, 224 insertions(+)
->  create mode 100644 tools/testing/selftests/kvm/x86_64/pvclock_test.c
-> 
-> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-> index 741c7dc16afc..02ee1205bbed 100644
-> --- a/tools/testing/selftests/kvm/Makefile
-> +++ b/tools/testing/selftests/kvm/Makefile
-> @@ -87,6 +87,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/pmu_counters_test
->  TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
->  TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
->  TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
-> +TEST_GEN_PROGS_x86_64 += x86_64/pvclock_test
->  TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
->  TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
->  TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
-> diff --git a/tools/testing/selftests/kvm/x86_64/pvclock_test.c b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
-> new file mode 100644
-> index 000000000000..172ef4d19c60
-> --- /dev/null
-> +++ b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
-> @@ -0,0 +1,223 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright © 2024, Amazon.com, Inc. or its affiliates.
-> + *
-> + * Tests for pvclock API
-> + * KVM_SET_CLOCK_GUEST/KVM_GET_CLOCK_GUEST
-> + */
-> +#include <asm/pvclock.h>
-> +#include <asm/pvclock-abi.h>
-> +#include <sys/stat.h>
-> +#include <stdint.h>
-> +#include <stdio.h>
-> +
-> +#include "test_util.h"
-> +#include "kvm_util.h"
-> +#include "processor.h"
-> +
-> +enum {
-> +	STAGE_FIRST_BOOT,
-> +	STAGE_UNCORRECTED,
-> +	STAGE_CORRECTED,
-> +	NUM_STAGES
-> +};
-> +
-> +#define KVMCLOCK_GPA 0xc0000000ull
-> +#define KVMCLOCK_SIZE sizeof(struct pvclock_vcpu_time_info)
-> +
-> +static void trigger_pvti_update(vm_paddr_t pvti_pa)
-> +{
-> +	/*
-> +	 * We need a way to trigger KVM to update the fields
-> +	 * in the PV time info. The easiest way to do this is
-> +	 * to temporarily switch to the old KVM system time
-> +	 * method and then switch back to the new one.
-> +	 */
-> +	wrmsr(MSR_KVM_SYSTEM_TIME, pvti_pa | KVM_MSR_ENABLED);
-> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
-> +}
-> +
-> +static void guest_code(vm_paddr_t pvti_pa)
-> +{
-> +	struct pvclock_vcpu_time_info *pvti_va =
-> +		(struct pvclock_vcpu_time_info *)pvti_pa;
-> +
-> +	struct pvclock_vcpu_time_info pvti_boot;
-> +	struct pvclock_vcpu_time_info pvti_uncorrected;
-> +	struct pvclock_vcpu_time_info pvti_corrected;
-> +	uint64_t cycles_boot;
-> +	uint64_t cycles_uncorrected;
-> +	uint64_t cycles_corrected;
-> +	uint64_t tsc_guest;
-> +
-> +	/*
-> +	 * Setup the KVMCLOCK in the guest & store the original
-> +	 * PV time structure that is used.
-> +	 */
-> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
-> +	pvti_boot = *pvti_va;
-> +	GUEST_SYNC(STAGE_FIRST_BOOT);
-> +
-> +	/*
-> +	 * Trigger an update of the PVTI, if we calculate
-> +	 * the KVM clock using this structure we'll see
-> +	 * a drift from the TSC.
-> +	 */
-> +	trigger_pvti_update(pvti_pa);
-> +	pvti_uncorrected = *pvti_va;
-> +	GUEST_SYNC(STAGE_UNCORRECTED);
-> +
-> +	/*
-> +	 * The test should have triggered the correction by this
-> +	 * point in time. We have a copy of each of the PVTI structs
-> +	 * at each stage now.
-> +	 *
-> +	 * Let's sample the timestamp at a SINGLE point in time and
-> +	 * then calculate what the KVM clock would be using the PVTI
-> +	 * from each stage.
-> +	 *
-> +	 * Then return each of these values to the tester.
-> +	 */
-> +	pvti_corrected = *pvti_va;
-> +	tsc_guest = rdtsc();
-> +
-> +	cycles_boot = __pvclock_read_cycles(&pvti_boot, tsc_guest);
-> +	cycles_uncorrected = __pvclock_read_cycles(&pvti_uncorrected, tsc_guest);
-> +	cycles_corrected = __pvclock_read_cycles(&pvti_corrected, tsc_guest);
-> +
-> +	GUEST_SYNC_ARGS(STAGE_CORRECTED, cycles_boot, cycles_uncorrected,
-> +			cycles_corrected, 0);
-> +}
-> +
-> +static void run_test(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
-> +{
-> +	struct ucall uc;
-> +	uint64_t ucall_reason;
-> +	struct pvclock_vcpu_time_info pvti_before;
-> +	uint64_t before, uncorrected, corrected;
-> +	int64_t delta_uncorrected, delta_corrected;
-> +
-> +	/* Loop through each stage of the test. */
-> +	while (true) {
-> +
-> +		/* Start/restart the running vCPU code. */
-> +		vcpu_run(vcpu);
-> +		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-> +
-> +		/* Retrieve and verify our stage. */
-> +		ucall_reason = get_ucall(vcpu, &uc);
-> +		TEST_ASSERT(ucall_reason == UCALL_SYNC,
-> +			    "Unhandled ucall reason=%lu",
-> +			    ucall_reason);
-> +
-> +		/* Run host specific code relating to stage. */
-> +		switch (uc.args[1]) {
-> +		case STAGE_FIRST_BOOT:
-> +			/* Store the KVM clock values before an update. */
-> +			vm_ioctl(vm, KVM_GET_CLOCK_GUEST, &pvti_before);
-> +
-> +			/* Sleep for a set amount of time to induce drift. */
-> +			sleep(5);
-> +			break;
-> +
-> +		case STAGE_UNCORRECTED:
-> +			/* Restore the KVM clock values. */
-> +			vm_ioctl(vm, KVM_SET_CLOCK_GUEST, &pvti_before);
-> +			break;
-> +
-> +		case STAGE_CORRECTED:
-> +			/* Query the clock information and verify delta. */
-> +			before = uc.args[2];
-> +			uncorrected = uc.args[3];
-> +			corrected = uc.args[4];
-> +
-> +			delta_uncorrected = before - uncorrected;
-> +			delta_corrected = before - corrected;
-> +
-> +			pr_info("before=%lu uncorrected=%lu corrected=%lu\n",
-> +				before, uncorrected, corrected);
-> +
-> +			pr_info("delta_uncorrected=%ld delta_corrected=%ld\n",
-> +				delta_uncorrected, delta_corrected);
-> +
-> +			TEST_ASSERT((delta_corrected <= 1) && (delta_corrected >= -1),
-> +				    "larger than expected delta detected = %ld", delta_corrected);
-> +			return;
-> +		}
-> +	}
-> +}
-> +
-> +#define CLOCKSOURCE_PATH "/sys/devices/system/clocksource/clocksource0/current_clocksource"
-> +
-> +static void check_clocksource(void)
-> +{
-
-AFAIR, I copied check_clocksource() from existing code during that time.
-
-The commit e440c5f2e ("KVM: selftests: Generalize check_clocksource() from
-kvm_clock_test") has introduced sys_clocksource_is_tsc(). Later it is renamed to
-sys_clocksource_is_based_on_tsc().
-
-Any chance to re-use sys_clocksource_is_based_on_tsc()?
-
-> +	char *clk_name;
-> +	struct stat st;
-> +	FILE *fp;
-> +
-> +	fp = fopen(CLOCKSOURCE_PATH, "r");
-> +	if (!fp) {
-> +		pr_info("failed to open clocksource file: %d; assuming TSC.\n",
-> +			errno);
-> +		return;
-> +	}
-> +
-> +	if (fstat(fileno(fp), &st)) {
-> +		pr_info("failed to stat clocksource file: %d; assuming TSC.\n",
-> +			errno);
-> +		goto out;
-> +	}
-> +
-> +	clk_name = malloc(st.st_size);
-> +	TEST_ASSERT(clk_name, "failed to allocate buffer to read file\n");
-> +
-> +	if (!fgets(clk_name, st.st_size, fp)) {
-> +		pr_info("failed to read clocksource file: %d; assuming TSC.\n",
-> +			ferror(fp));
-> +		goto out;
-> +	}
-> +
-> +	TEST_ASSERT(!strncmp(clk_name, "tsc\n", st.st_size),
-> +		    "clocksource not supported: %s", clk_name);
-> +out:
-> +	fclose(fp);
-> +}
-> +
-> +static void configure_pvclock(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
-> +{
-> +	unsigned int gpages;
-> +
-> +	gpages = vm_calc_num_guest_pages(VM_MODE_DEFAULT, KVMCLOCK_SIZE);
-> +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-> +				    KVMCLOCK_GPA, 1, gpages, 0);
-> +	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA, gpages);
-> +
-> +	vcpu_args_set(vcpu, 1, KVMCLOCK_GPA);
-> +}
-> +
-> +static void configure_scaled_tsc(struct kvm_vcpu *vcpu)
-> +{
-> +	uint64_t tsc_khz;
-> +
-> +	tsc_khz =  __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
-> +	pr_info("scaling tsc from %ldKHz to %ldKHz\n", tsc_khz, tsc_khz / 2);
-> +	tsc_khz /= 2;
-> +	vcpu_ioctl(vcpu, KVM_SET_TSC_KHZ, (void *)tsc_khz);
-> +}
-
-Is configure_scaled_tsc() anecessary? Or how about to make it an option/arg?
-Then I will be able to test it on a VM/server without TSC scaling.
-
-Thank you very much!
-
-Dongli Zhang
-
-> +
-> +int main(void)
-> +{
-> +	struct kvm_vm *vm;
-> +	struct kvm_vcpu *vcpu;
-> +
-> +	check_clocksource();
-> +
-> +	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-> +
-> +	configure_pvclock(vm, vcpu);
-> +	configure_scaled_tsc(vcpu);
-> +
-> +	run_test(vm, vcpu);
-> +
-> +	return 0;
-> +}
+-- 
+Martin K. Petersen	Oracle Linux Engineering
