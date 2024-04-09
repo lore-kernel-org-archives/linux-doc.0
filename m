@@ -1,108 +1,96 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7434156870;
-	Tue,  9 Apr 2024 18:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4252113E3E8;
+	Tue,  9 Apr 2024 18:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712686266; cv=none; b=Y6CxGQ0GUf2ehi0stcvZpABUFDO68EsyQ4ZZjGei7E0IAiTpzANV0cdpU1Sd60JMih0sBiPznkbh9NyQ7ILA0RtnAj7NO5rCk9MhOD8qNyINsmuYGPlRlZsWeAu4HTfzypV7xc/EAiZAGozoN3qf3CIWcjZ5tQm7Uoh6xcUVmII=
+	t=1712688947; cv=none; b=cehb2mpDq0VpN6ZvQaT1qdLU6sY3GxKvEBPIvklNOn1UNhLsU7ZWjJnCnu+BTe0q0S5PWLqvzseEtwAk0WAGRsdlndlCUODYooHBgdxksHjxXC7H1qD8XbqX1R3eCKAt7ADjfQAiTuCzPOd3pHBnpPj8kbTSqeEK4laD+HS5kqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712686266; c=relaxed/simple;
-	bh=HqaMdhT5LRYjCxR6gMHB6EOhgxJSaOa8vauHB4zv+2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VEcXLkEQW6JyFiEwmibcC3WtjFMfD79IkVnGtESa8JlYs4ay5DUpopaCaLfXmKFzko6SIUQtdxstnBUDafbxRBsJKoGPCrdA7Vk860hmUqt0Am/x1Qg+YQ4VBolz/2UF1AjyYYVKUKz3CWRCQ2HF0kScy+9Ca0RDkS80k4Y0/YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FttKq7Yz; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712688947; c=relaxed/simple;
+	bh=Jo9vvIH5U/HV9EfsCBETk8fcu/gk0vAuBO3iGYCYU6A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hebpCfaW3b10jxHJ0ixFpceiRPBEvoonU8XCvnOSxvhvJvopvZHYcQFaUdcCPADTSzpBbRY7L+AvPtS21DyN5tnaC/UEHE4MRJPWRWv1THNjuy1bvaSUy5pWPcuB3n2A4p/aF3+xHGVF+vSSjTZbLUxTVkLjALBUH9r+Il+LkfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWldweP9; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FttKq7Yz"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e220e40998so37525675ad.1;
-        Tue, 09 Apr 2024 11:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712686264; x=1713291064; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J9dSAKFdynyhKujjaxO9n/FtMdq9OcS8F/T8JeifJ1k=;
-        b=FttKq7YzQibSu3QkW5wm1cfur0Sb9eg8CtXs6WKUr9zGDaPWl6iuiLJeLdFeC/iNY4
-         8LFySLpve+36Cug69jRdkAr49JZayGOQ+h79XwJLmN+RGRoU5XlOio1N1e8jd9GEJEmv
-         JRMv+qzkoHFdB1b4Bxkp0G2VFJ3rVPH65aFOHo/NDDOX/PNkNDIVWpjBAvpVTOv7ykb3
-         9ug8dXeQdHgfj6UX7ce9WAcNpBnhctkosX4i9G4T6hn4u3kGmYVz8wHyawwXjvaARlGr
-         yFs6XU8whVQDxMNKSkr4yiUhYOMcVBmPngklvhlTodqo1z1xR4SxxVKF1dlxKqaRVvui
-         668g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712686264; x=1713291064;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J9dSAKFdynyhKujjaxO9n/FtMdq9OcS8F/T8JeifJ1k=;
-        b=HP7vlWjUZAWHHrddjNVv3YgPx0I5azs3kmojBst3vtYYxrA1D71oIL1wOH19ZY4TUs
-         ftaKyJOnrw+v9UBFB6a0bqBKbqbLpNs68NhxBc6I4UQlLhfvlyNm7sZzP5HRpPyyMRxw
-         QVJ6GxsL0bzbuCMLLppGiH+IjkYaaBcj2IV9fcIdUXrq2ShDqTfQuupwK8tiTUbdR8OO
-         OkNIo0AogoEn0JW5q0nLKvHf37jwnzqqiZbnxJXTcIE6YW9tbYBas7IdP4x23WyjvAjD
-         FN0NrJuAkwufQY83aDqkWLEtN1t1r1vTmI+aONn9zP6XzWpktxVLO4uGULpNYulWc91k
-         CGAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWOIUq17MX3ojkp1V6Cw9t8Qzn0i7G+B0PGVWhNdNF0DHrikTZ1ScpOCibZaWUiQp6wgT+fg9eMxG/BrIIsRv+ANw33tAjJ8YbWCmPgmBXNdd2CZ9lphiimSkE8vBeIC6loU/9Ymmbt0q30VcajpRlnS34lU1J3DxmLpI8px8Vrd/4WT97R1PLf03PTLkeZ8F32eeVIrP3AiQyVZfVGiTyuaal6tu0B5qARapkRPBBrrJpzrPwvQfwmsTJSMHcsEjkaej8h+uRDEB1Drihu5D3Nyx/memLkjrg5udbv9++s8OCrYu/nGgSZYMTdhiMc7Q==
-X-Gm-Message-State: AOJu0YzL7OMOZU2B65EthKr0eCDvgim79p+ud0OvzG96sNBtdoh9Tnph
-	832vI1K28ki+3abjxbs+JvC89QxEWnzd7y3ealZCI+MUo6NH3lPv
-X-Google-Smtp-Source: AGHT+IGrjPVdFECKS3becNGGDDo38peM0R3uLnfzfKLi+hNrIYGQpqn6EkGBto25qlTyktqlNq6njg==
-X-Received: by 2002:a17:902:82c8:b0:1e2:3e1e:3d9 with SMTP id u8-20020a17090282c800b001e23e1e03d9mr529751plz.63.1712686263974;
-        Tue, 09 Apr 2024 11:11:03 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j18-20020a170902f25200b001e256cb48f7sm9195770plc.197.2024.04.09.11.11.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 11:11:03 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 9 Apr 2024 11:11:02 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: David Gow <davidgow@google.com>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Kees Cook <keescook@chromium.org>,
-	Daniel Diaz <daniel.diaz@linaro.org>,
-	Arthur Grillo <arthurgrillo@riseup.net>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	Naresh Kamboju <naresh.kamboju@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
-	netdev@vger.kernel.org, x86@kernel.org,
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Subject: Re: [PATCH v3 03/15] kunit: Add test cases for backtrace warning
- suppression
-Message-ID: <aad25d52-83ed-492f-9d56-71d26895173b@roeck-us.net>
-References: <20240403131936.787234-1-linux@roeck-us.net>
- <20240403131936.787234-4-linux@roeck-us.net>
- <CABVgOSknXkT=WU-fwi5wP4bWv04DKByxSYAPmhYhC--FaQH-PQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWldweP9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712688946; x=1744224946;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Jo9vvIH5U/HV9EfsCBETk8fcu/gk0vAuBO3iGYCYU6A=;
+  b=KWldweP9sDe1+1/lTO7cvkRjQKqXzk4s4lehv/zAQe/UPn2RYF72tCr6
+   YK8SCOL7jH4uSykNhOHTlxOZbJQ7hGw2dmGfj7Dd4h1kJWpT8qpVVOlBL
+   NiCdm0ensyspFgtFJMSPbo29XMElr5XiJOd6A7pB01YxhXF1g44OqTWBj
+   zjthuBA+efMkokFX3wTWKF12wEN23zSLAvue3lAhfVFNwYO7ciVC6aEBh
+   TQKzlXo0cRetZbe1LauRCSV+BbMWXRnv0SNG62XZWfeZ4ihc/B0VsbZ6f
+   6d4v72kWIevEBLgnRFxG66cgSRCTxgPGgG2YwGi7LCr67WSOzN9vR0tW9
+   g==;
+X-CSE-ConnectionGUID: N/u6NRxISOG0Pf8mWpPX5g==
+X-CSE-MsgGUID: rLFh+pNEREeTY5d5k7tFjw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7878068"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="7878068"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 11:55:46 -0700
+X-CSE-ConnectionGUID: y7jAz1TPTWaqFLR0JYYEuQ==
+X-CSE-MsgGUID: T2R9OcVAQYiMHo998YUXxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="20755797"
+Received: from mljaencu-mobl.amr.corp.intel.com (HELO [10.125.80.154]) ([10.125.80.154])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 11:55:44 -0700
+Message-ID: <976c385e-2174-464e-9afd-de4cb46f63b8@linux.intel.com>
+Date: Tue, 9 Apr 2024 11:55:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABVgOSknXkT=WU-fwi5wP4bWv04DKByxSYAPmhYhC--FaQH-PQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] x86/cpu: Fix SPECULATIVE_MITIGATION=n kernels
+To: Sean Christopherson <seanjc@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+References: <20240409175108.1512861-1-seanjc@google.com>
+Content-Language: en-US
+From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+In-Reply-To: <20240409175108.1512861-1-seanjc@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 09, 2024 at 04:29:42PM +0800, David Gow wrote:
-> > +ifeq ($(CCONFIG_KUNIT_SUPPRESS_BACKTRACE),y)
+On 4/9/24 10:51, Sean Christopherson wrote:
+> Fix the handling of SPECULATION_MITIGATIONS=n so that it actually does
+> what it says it does: disable any and all mitigations.
 > 
-> s/CCONFIG_/CONFIG_/ ?
+> And because I don't see a way to provide sane behavior for overriding
+> SPECULATION_MITIGATIONS=n at runtime, explicitly disallow doing so via
+> the "mitigations" kernel parameter, e.g. so that the user at least knows
+> that their system is still likely vulnerable to a variety of issues.
+> 
+> Sean Christopherson (3):
+>   x86/cpu: Actually turn off mitigations by default for
+>     SPECULATION_MITIGATIONS=n
+>   x86/cpu: Disable BHI mitigation by default when
+>     SPECULATION_MITIGATIONS=n
+>   x86/cpu: Ignore "mitigations" kernel parameter if
+>     SPECULATION_MITIGATIONS=n
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |  3 +++
+>  arch/x86/Kconfig                                | 10 +++++++---
+>  arch/x86/kernel/cpu/bugs.c                      |  6 +++---
+>  kernel/cpu.c                                    |  5 ++++-
+>  4 files changed, 17 insertions(+), 7 deletions(-)
 > 
 > 
-Odd, I know I tested this (and it still works ;-).
-The additional "C" must have slipped in at some point.
-Thanks for noticing!
+> base-commit: 2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
 
-Guenter
+Reviewed-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
