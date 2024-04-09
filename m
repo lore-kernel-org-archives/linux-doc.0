@@ -1,105 +1,222 @@
-Received: from sonic304-52.consmr.mail.gq1.yahoo.com (sonic304-52.consmr.mail.gq1.yahoo.com [98.137.68.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B3E1386C0
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.68.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5B215746F
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712690470; cv=none; b=btUQjRwdKYc5WTJQhJPYWF1GOoq6xzBeJIQsdbemvef+xmzddEaYc/6ylLdu80M5awiH4IZD9cn7uHp9sTPM+kbbk5Iir1WlinkG8ut07lTX0MkGbdKrYApUYIrqJWH1qmPvXrgO3nkoUDY2vByNc351z0opRWLdT7gPCAt3E5w=
+	t=1712690624; cv=none; b=tjOSmyYXIKo79bWGgizD3/nayavyvRe6ETXH0qeahbS9GBvIiGv1FzrSSei8E4syZAN6zeoIG9adWVOgyljsxsupkdcJ0VZviK+rKzHPCjezL1QZh2xPq+qs2h+UPMNPJ5gBW40AkqOZGsXVSBC8nvuvravCoWaHuEPWPqCCw8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712690470; c=relaxed/simple;
-	bh=aZ5Cpwss2meUrwX7WIoDa1wROmmOr4qO2DM2OUclIPY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G5KBWByjo1pis/AHuJ4vYlJ4/gUtuL9qpwvQe+bGq/ME6giTqEPXO6WEzj5z/7rsucPrZCmtkcqoP8/Aw0ksNVVM+CCafyYbAlHXr3Myy1LYtaNMfQqLgcFcvrjzJjnoqO+OWQ7LgoBHqKgSFGpcR0FTfTjqnZNwhJURgSGrlqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.co.uk; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=psyXiAU3; arc=none smtp.client-ip=98.137.68.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.co.uk
+	s=arc-20240116; t=1712690624; c=relaxed/simple;
+	bh=7q15DdmyUVZxJOE4lhL7AMeazKQwnySJ3OuJZt7ZlpY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fZ7KLXybSXZ09Oz8aG8lbbBfxwk0oBtVO4p0D7dV3i7Wy6MTqy0t3InVAu8bhThx5D6GtDu6+kCxQ4nEDKUBqOyk2JFFi8X9i6EjVX+Jq9GNokg4u5aR+K6oXUnLruOh0Aor9yt2TNQDpQT3peGZ8BoxkdAzH4VMYVwZt/E3jc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S0pg5XIR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="psyXiAU3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1712690468; bh=aZ5Cpwss2meUrwX7WIoDa1wROmmOr4qO2DM2OUclIPY=; h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To; b=psyXiAU3Ji7imvhT7MtwG35akSGhEk+imcSmL45Ayu+7Nr+y8kqVynsXVv5aB/xStYnQUoyjREI7MsYOsz9OUYN+IDQgudmRWLCVxiaY5eEL3Axx9oOskWGiqDTBntGJR8IdflXjn7Qol/Xa/SSBeCk2eBYgqnGt9qTBfa8EPv5IXZOu4JfZQINy7vYd7od78as2xL3u3L4lHe03fpB9nL67EW8XSeYBGzxl6COiZbsG6m86XEVVnjZCDPnqPEmXfWwjGy68MjJr2GO50qel/NeOPkLtGgjaPQxcSynkruGy/weBQU0r0J0tXB6nGejNYcQB30byWfvrXErObEZGWQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1712690468; bh=/rNsnzRlcGROtAqbOaVVLqtV0FJV1VZ2z/iOUoQFDIO=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=YJza9BeCU3nnqas6m9sNKMxIC8KHCW8keIM/drRhu6lf5GlOhrZXKkCtGbkybUEmmTuIdipotHZ1wUloha0i9NhMx5RUGYPDBjrepsjpfbhhfl/FwSCuwmjj1x7Hr7dvWcivXttuy7OOhfP6IJJ2JlzjLv2hjhGI3Kg2uYj6CTgUDfbweKaBcHsV01yija6LsjPrFwzurV9tAtc6uCkL4CTQwHpCMeaOl03tSLHkCBvdAmGbG3grTo7t01mWV/r1yga3lupKn+RymJo3TfTAXihf/yxqLQkkiCu4kZIiC+air7c8DTHR4NNp+Yy056kGFd5xyk8lDwLwawvamZ5tOw==
-X-YMail-OSG: W7_l5k0VM1mmT2hoIM4RcvPt_8VM2DVbHJ8JBUseiOg4YvfC3mPuK8nTKK3Mkr.
- LDXZMvBH99OlUHWBosqAbUSNA7H2zRzOBhiOVWG6aBFnjygpAmBz5eQkZzzK4RF3zxTy3IhK4SY9
- NJv.fIWH1HN6yTi9PhY6m0vSU3ZtXOYnSOV4OyW5MCVYqsRqEx82aPS8QN.etn8Go6INCNi.foq5
- voMg85jglwUX5gnii21M84j55kXY4S.xjQdd12x6IMp3Z8J3QPw0jWRyHhVjlTXaNTPYUtdlKbIo
- JQyCC5hGpnieThgnJjLDIKc9rYS2HXD1AXbL_p4VugdLHp7DJMOUGIl.VEiQBJwLJ9pBrh4cCPae
- KnlHNwwGLEXCX4UlzfsVBDlzY1H6kIASfgC5gr_.cxrXdXKro_Lh5E2jWTavTr9i4fqgLIz8NQDS
- T_gAGXeDL8s_MlXGzpkMSgzh1sz4QYUBOWpAOrxVFpalQIyUY16dOwGUz5SbkuGM5ZVVb1uORlaA
- AWplUZwj8bdK2TWSPuk4V_Za17dJ8Yg3HE4v26vYKKqNClqBXcMRg5LrBFLtDCM6vY7jR.lBjFYi
- RsEnEuW09zEI0MUEzRpg7wJ6whvVJHqneEDm3TUty1Zud7ZltrNCxCOW4GtvcUHkdm5aSBUvmx_v
- RS0EU6riTVZBC3ghu2jikKHHrqZK1fOuL9Ujxtyst3HQBCRmb93udbtIrNp65vMJGc2Skd2gz10t
- 4tRNWV3HuK3jYLZ7sN3cum56xCBjA8vAj1eUFb9LqH_5cUJTqfXXiNZX8k7jyMI9CJeiBiX3v8vC
- bap.hFNAjULzfH6GYhH4T4ZxDgkvH_xh8XUQ5cTc1BWlnlmwGBRiyey2iEDrGEBp11fKCnZLiJnf
- 20QtsdP4iZhJe7Fjm7jfODtPVfran.SX1LJ5MeHY.q_NIWHZz8P4GorrK5oTHKKiQLstw9OOA09V
- WSLK3PSr88XCTQBiVkt3qw92G0yPcx0SuXDgPN4Rwk.EvQFPxx90KetJ_lTSovgmsOCQI92EO2D9
- QdTB8QJjyLpHm0WlT9LyCmt231YqfzG3SA_ploo8NpfRUa9l8Ku3SCQgbX6hchQ6qQUB5.TpM._H
- FImz5j1cx8Y87IzFDoQ6OCPbtUwbdPldeFuAKFkRrbgOrTZVxpkta8e3EefgXIUzbuB.rJmAG_z7
- KIek6Nx.FSIQ6fjx3E0VAf3LrQC0XpKKwk5YUeBXvqABB773qSW0ySnpunigi4iW8SnipNcb8GeY
- FKLLgI5bGb8slf4Les4n2rrA8cUBT8Xt32m.NhhNKRu93XHn30PoiPYRusvsY0X2vQxeRCCHJ91w
- DDeEsa4LxR5gUrjpZe7ZIiIQT8ZTuYeXu1uJLoYKSqkjmS1Pd1gyAMfjBmjl84IIDTWkYAmPSQOp
- 3Q8UzWvyKHLGjcw8eO.ciu1NnLuOViQoPqjgBUNYKi3uyGuwQCKyRGFHyiWXZ.51vE46eVZe_F5S
- bSL387gqLEcDdg.rYqu1jXpIu1I7IqIfRs2foChm9lwhQQFQ6TDQcuDnyl2MRYYYHxb0OKRnoes8
- qwGODYi9oSxg09MiiByAAXWZj2iROyFskjnaziOpY9y3N_nyaLm7Oj5YNiTyG5JOM.mphXlVlA1i
- Q3FbpMv2k8zA7b9CGb0Ng4ij0HS1wpKPzS6eSQlFF4aVmRMsaDAQzPvR.nkMl9mpiIl8hQDuXgpF
- kQvanmPHmhSsYZ4_CJUztc2nEKMQjc0xe9ecnNpJkr1xmadhjKI0YkhV_8CEDn0oqkl0WjKNa5H2
- LqFkbnENChFvfcnwF63OQfKG2Acx6MmqamxO0wfrMiHdsIu8_X6rgimHRJ7ncljTPgXlCAPqY6Sg
- Jp8BN1BSYRVApxm7RxCBS0Z62t5vTV2S189C2iHmdS0NXrhpXePmzYFOJvhIo5hsXkyH6bGBFrsR
- 8SZJAMz699lwg5Hp6QAXgfxlmN1RS_97VOxiiF0STqi5XLjB9c3c1u7KsXZmMod9pQ_7paKatUOK
- yaeKftaz0wu733MHparx6.S55C4pM.S45u5as8H.Pen5lbH_6vVvsbVQmiGYuLFVSzuQgP3pl0Mr
- PhyUpv4i6xpng6XnuTqJAkghODJ5JRSN9GlOQHN7jqnK2JsJU3XGsrTcCU7IT9U8Crw.cYjeQBvq
- G3kUWVELa9jaHFZyVgO4s8.31Ykl0.vZ94fBTWCAa2eCJhI87_z1O9mpPETvHF3X8.SGs4duSBCN
- nsI_fePEZHYY8sxGqGPLcXcS93vQ9gnkK_3kFk9s-
-X-Sonic-MF: <rubenru09@aol.co.uk>
-X-Sonic-ID: f31c2d4c-0320-4c64-9e95-a943a61ff2a3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.gq1.yahoo.com with HTTP; Tue, 9 Apr 2024 19:21:08 +0000
-Received: by hermes--production-bf1-7d6dbd57c9-kfv4r (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d390bf4cdcc2662a3988b79bd8a73a50;
-          Tue, 09 Apr 2024 19:19:06 +0000 (UTC)
-Message-ID: <654c39d7e7c9172d165d8066a74ca81f6e208fe3.camel@aol.com>
-Subject: Re: [PATCH] spi: Add documentation for last_cs_index_mask
-From: Ruben Wauters <rubenru09@aol.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Tue, 09 Apr 2024 20:18:53 +0100
-In-Reply-To: <1ec0fe6c-6af0-4cee-98ba-25fb2c67ef1d@sirena.org.uk>
-References: <20240409184106.22715-1-rubenru09.ref@aol.com>
-	 <20240409184106.22715-1-rubenru09@aol.com>
-	 <1ec0fe6c-6af0-4cee-98ba-25fb2c67ef1d@sirena.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S0pg5XIR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712690616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TMgTsHOMAcz2aHp/mH0puI+1mQGKc2ZZZ7iHFFMIZj4=;
+	b=S0pg5XIRCB2kVLgmcaFlK4DcQ4h7WKRdhasQaJKE7vnA3gSZ3qDSjfi/ge1QtVICZ8kNLP
+	XLxCc/fqmAseS4bW00kU5HWoXhc6UXW2AqwDxuU4GDoejwkXHHggvxFz9PWvzHvjqwXrd6
+	GrKdg/vC8xl73wLBvek8QUNW7so7yxo=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-694-RG_wslZHPLGPeceHYFOmDw-1; Tue,
+ 09 Apr 2024 15:23:33 -0400
+X-MC-Unique: RG_wslZHPLGPeceHYFOmDw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 397963C100CD;
+	Tue,  9 Apr 2024 19:23:32 +0000 (UTC)
+Received: from t14s.redhat.com (unknown [10.39.192.106])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 43E8F40AE787;
+	Tue,  9 Apr 2024 19:23:22 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Peter Xu <peterx@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Yin Fengwei <fengwei.yin@intel.com>,
+	Yang Shi <shy828301@gmail.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Hugh Dickins <hughd@google.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Naoya Horiguchi <naoya.horiguchi@nec.com>,
+	Richard Chang <richardycc@google.com>
+Subject: [PATCH v1 00/18] mm: mapcount for large folios + page_mapcount() cleanups
+Date: Tue,  9 Apr 2024 21:22:43 +0200
+Message-ID: <20240409192301.907377-1-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.22205 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.2
 
-On Tue, 2024-04-09 at 20:09 +0100, Mark Brown wrote:
-> On Tue, Apr 09, 2024 at 07:41:05PM +0100, Ruben Wauters wrote:
->=20
-> > This is my first patch, so I hope I did everything right, please
-> > let
-> > me know if I need to change something, and I shall endevour to do
-> > it
-> > properly.
->=20
-> Everything looks good, only issue I can see is that this question
-> (which
-> is adminstrative stuff rather than part of the changelog) should have
-> gone after the --- below:
->=20
-> >=20
-> > Signed-off-by: Ruben Wauters <rubenru09@aol.com>
-> > ---
->=20
-> so that tooling can automatically remove it when applying.
->=20
-> However a patch for this issue has already been applied but not yet
-> merged into Linus' tree.
+This series tracks the mapcount of large folios in a single value, so
+it can be read efficiently and atomically, just like the mapcount of
+small folios.
 
-My apologies, I should have checked before submitting the patch, will
-do this in the future, and noted on the message, will also keep that in
-mind.
+folio_mapcount() is then used in a couple more places, most notably to
+reduce false negatives in folio_likely_mapped_shared(), and many users of
+page_mapcount() are cleaned up (that's maybe why you got CCed on the
+full series, sorry sh+xtensa folks! :) ).
+
+The remaining s390x user and one KSM user of page_mapcount() are getting
+removed separately on the list right now. I have patches to handle the
+other KSM one, the khugepaged one and the kpagecount one; as they are not
+as "obvious", I will send them out separately in the future. Once that is
+all in place, I'm planning on moving page_mapcount() into
+fs/proc/task_mmu.c, the remaining user for the time being (and we can
+discuss at LSF/MM details on that :) ).
+
+I proposed the mapcount for large folios (previously called total
+mapcount) originally in part of [1] and I later included it in [2] where
+it is a requirement. In the meantime, I changed the patch a bit so I
+dropped all RB's. During the discussion of [1], Peter Xu correctly raised
+that this additional tracking might affect the performance when
+PMD->PTE remapping THPs. In the meantime. I addressed that by batching RMAP
+operations during fork(), unmap/zap and when PMD->PTE remapping THPs.
+
+Running some of my micro-benchmarks [3] (fork,munmap,cow-byte,remap) on 1
+GiB of memory backed by folios with the same order, I observe the following
+on an Intel(R) Xeon(R) Silver 4210R CPU @ 2.40GHz tuned for reproducible
+results as much as possible:
+
+Standard deviation is mostly < 1%, except for order-9, where it's < 2% for
+fork() and munmap().
+
+(1) Small folios are not affected (< 1%) in all 4 microbenchmarks.
+(2) Order-4 folios are not affected (< 1%) in all 4 microbenchmarks. A bit
+    weird comapred to the other orders ...
+(3) PMD->PTE remapping of order-9 THPs is not affected (< 1%)
+(4) COW-byte (COWing a single page by writing a single byte) is not
+    affected for any order (< 1 %). The page copy_fault overhead dominates
+    everything.
+(5) fork() is mostly not affected (< 1%), except order-2, where we have
+    a slowdown of ~4%. Already for order-3 folios, we're down to a slowdown
+    of < 1%.
+(6) munmap() sees a slowdown by < 3% for some orders (order-5,
+    order-6, order-9), but less for others (< 1% for order-4 and order-8,
+    < 2% for order-2, order-3, order-7).
+
+Especially the fork() and munmap() benchmark are sensitive to each added
+instruction and other system noise, so I suspect some of the change and
+observed weirdness (order-4) is due to code layout changes and other
+factors, but not really due to the added atomics.
+
+So in the common case where we can batch, the added atomics don't really
+make a big difference, especially in light of the recent improvements for
+large folios that we recently gained due to batching. Surprisingly, for
+some cases where we cannot batch (e.g., COW), the added atomics don't seem
+to matter, because other overhead dominates.
+
+My fork and munmap micro-benchmarks don't cover cases where we cannot
+batch-process bigger parts of large folios. As this is not the common case,
+I'm not worrying about that right now.
+
+Future work is batching RMAP operations during swapout and folio
+migration.
+
+Not CCing everybody (e.g., cgroups folks just because of the doc
+updated) recommended by get_maintainers, to reduce noise. Tested on
+x86-64, compile-tested on a bunch of other archs. Will do more testing
+in the upcoming days.
+
+[1] https://lore.kernel.org/all/20230809083256.699513-1-david@redhat.com/
+[2] https://lore.kernel.org/all/20231124132626.235350-1-david@redhat.com/
+[3] https://gitlab.com/davidhildenbrand/scratchspace/-/raw/main/pte-mapped-folio-benchmarks.c?ref_type=heads
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Yin Fengwei <fengwei.yin@intel.com>
+Cc: Yang Shi <shy828301@gmail.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Hugh Dickins <hughd@google.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Chris Zankel <chris@zankel.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Muchun Song <muchun.song@linux.dev>
+Cc: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Naoya Horiguchi <naoya.horiguchi@nec.com>
+Cc: Richard Chang <richardycc@google.com>
+
+David Hildenbrand (18):
+  mm: allow for detecting underflows with page_mapcount() again
+  mm/rmap: always inline anon/file rmap duplication of a single PTE
+  mm/rmap: add fast-path for small folios when
+    adding/removing/duplicating
+  mm: track mapcount of large folios in single value
+  mm: improve folio_likely_mapped_shared() using the mapcount of large
+    folios
+  mm: make folio_mapcount() return 0 for small typed folios
+  mm/memory: use folio_mapcount() in zap_present_folio_ptes()
+  mm/huge_memory: use folio_mapcount() in zap_huge_pmd() sanity check
+  mm/memory-failure: use folio_mapcount() in hwpoison_user_mappings()
+  mm/page_alloc: use folio_mapped() in __alloc_contig_migrate_range()
+  mm/migrate: use folio_likely_mapped_shared() in
+    add_page_for_migration()
+  sh/mm/cache: use folio_mapped() in copy_from_user_page()
+  mm/filemap: use folio_mapcount() in filemap_unaccount_folio()
+  mm/migrate_device: use folio_mapcount() in migrate_vma_check_page()
+  trace/events/page_ref: trace the raw page mapcount value
+  xtensa/mm: convert check_tlb_entry() to sanity check folios
+  mm/debug: print only page mapcount (excluding folio entire mapcount)
+    in __dump_folio()
+  Documentation/admin-guide/cgroup-v1/memory.rst: don't reference
+    page_mapcount()
+
+ .../admin-guide/cgroup-v1/memory.rst          |  4 +-
+ Documentation/mm/transhuge.rst                | 12 +--
+ arch/sh/mm/cache.c                            |  2 +-
+ arch/xtensa/mm/tlb.c                          | 11 +--
+ include/linux/mm.h                            | 77 +++++++++++--------
+ include/linux/mm_types.h                      |  5 +-
+ include/linux/rmap.h                          | 40 +++++++++-
+ include/trace/events/page_ref.h               |  4 +-
+ mm/debug.c                                    | 12 +--
+ mm/filemap.c                                  |  2 +-
+ mm/huge_memory.c                              |  2 +-
+ mm/hugetlb.c                                  |  4 +-
+ mm/internal.h                                 |  3 +
+ mm/khugepaged.c                               |  2 +-
+ mm/memory-failure.c                           |  4 +-
+ mm/memory.c                                   |  3 +-
+ mm/migrate.c                                  |  2 +-
+ mm/migrate_device.c                           | 12 +--
+ mm/page_alloc.c                               | 12 ++-
+ mm/rmap.c                                     | 60 +++++++--------
+ 20 files changed, 163 insertions(+), 110 deletions(-)
+
+-- 
+2.44.0
 
