@@ -1,94 +1,94 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499696138;
-	Tue,  9 Apr 2024 00:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1498460;
+	Tue,  9 Apr 2024 00:43:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712622891; cv=fail; b=oc40zavAc42Jt5EFamqi/5XyYtOMPCcaLau96zyJqms3V9vShjOkV2Q3hZ2PSJbOv0um6A8V5JRchEUZAV19H6in0UgdSoRAmVBi/gQf+O5hxAYFqmgnz53KKssDRkHJwdJRSHY/2nz6Nl3MiMCrS/30t16n2K8ZG8UyQNpWRdg=
+	t=1712623416; cv=fail; b=NLx4rIOCV1gmfm80Ek0g9ZAkFksGKSW+rRaw1jX/QxuZ9v9lhyyLsG6LPouqnXxeLZvWbWlBzv/wC1l3Sb8KYYP8cr5FczhehtoEK8upf4dSBnGp/mzqWqgQ7V/S/J1FOKrK+gqKyMBS+qIJWK6hnhiEgRTvoQMVIVeYb12jVEY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712622891; c=relaxed/simple;
-	bh=eq2LoJAeoY/60L4tHvzXDB5tTPwLzMSxymijiCJAJjY=;
+	s=arc-20240116; t=1712623416; c=relaxed/simple;
+	bh=IeWLMRW4hbxdOZ2JkubwCPwhg4rqaEvRJNWggtW4Mpc=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DVPX0usWirQtI3NYovQt0SPjUcwBMhzWlk4taR4Rbo0CSRgvshAXNodWLiD6wO50M+CgV4SeOKa8I1WKT/+b8iM/3vFWCJMuhR0+qMW9SrZoxhkASCdket7Hgm0dACWd3KKLVJ3ZP0SADPRpP+TYn6l8aq5Syy+iOl4w2DDInU8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JO+AZy4B; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=ssrdZRqy; arc=fail smtp.client-ip=205.220.165.32
+	 Content-Type:MIME-Version; b=a8OvPO3nnFJZ/gIer5n1am9jJQqjW58KWJTW0liZ89JBoV8pXkwmTrmQayNX9bICW/Ax3YA9LjD8c+FTni592+FbVjAPTKg85yRgCDBOfPvLvrvUsXH6B3oPt/ftEiXvtlR5g654B0zDp37wSVfXSAliNsDf6ZY8q6v2S6XBsEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ZxInGCFm; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=uG8vNyLS; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JO+AZy4B";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="ssrdZRqy"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZxInGCFm";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uG8vNyLS"
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 438Ln9Bk010205;
-	Tue, 9 Apr 2024 00:34:19 GMT
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 438Ln97Z010204;
+	Tue, 9 Apr 2024 00:43:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
  subject : to : cc : references : from : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=knJyJ6FXedvMzcMC0tjIL48c1AsTv3k7B/HqdHW9wgU=;
- b=JO+AZy4BxTLH0yV++lqTnjzKZe6eEsPiQq4xCBERl2lpqtN1Bk1JxWnAnqw7az2ZFyQH
- zRRxZkeun9+2m6gC7nJ0tbo/3zo2rd2Ga0JGTmoxtHPckKWc3LIWxevYtOxV+eyul4Qq
- RIeRcd+VZSafAGziZuBTPJUx35CKQoQxHvqkSd/gEvbpaX4C0MC0wrfJv4dRQ+n/qoT0
- uklPO9TS7jONpZN8t1vylgSPas5NvUKxC2V+iHQL4s9KQVAKauSaD2guaNyXWhP2sj2S
- SMDzaspvkXORmPv2j8KeJLwQCPv9umefEJ35kAxQZ69ApsZuLhpHSCEZzrggfhRMQk/S zg== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xax9b3yb8-1
+ bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
+ b=ZxInGCFm14evKLRSoMMJQJWrp0eH393a3YjL6gq9xZc3j2vpkLUX2UzBDpYd25tsekyW
+ imUT+FvCT6WlPFj1DOq93CF0JIu8NCG4t8NA+l+ZYden0qS8M2XdU5tIY6LXx0a4pQcQ
+ 3NJHm0hrx/vTIKhPLuosgYzCyXIPXT/aEJWlwZZwWPwyYlFHPTRlYVea8rfjgnv0L0+e
+ M4eRMi//9fyVzKRHAO1x0jzb4/LOoP8r5L9I0G4LIN7Ysd6HcMHy20RQn4kma+T18obG
+ SuZyLZvM7PRR7vGWEmQFMcT/1vP5OdfVbwO4RL64qHPXfKp4OMmT1L3HzrGe6iQ+XbD/ xg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3xax9b3yhx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Apr 2024 00:34:19 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 438NBQD0019456;
-	Tue, 9 Apr 2024 00:34:17 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3xavuc72y1-1
+	Tue, 09 Apr 2024 00:43:11 +0000
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 438MvHbr007989;
+	Tue, 9 Apr 2024 00:43:11 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2171.outbound.protection.outlook.com [104.47.58.171])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3xavu66j5t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 09 Apr 2024 00:34:17 +0000
+	Tue, 09 Apr 2024 00:43:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3c+wFiyP7T2Rc1PN2EqadgvbtZ3+EqXPnFV8XO1nPgduoedCoScK8/BT+aW408Dn3epMMscOQ9U7Lz1AfoMzS/4wvyam4GPayi3rqh8JdLQ/sLB6T+8vcCBaBrRPPqp9XDs/RJhv1RL/SNGStduCl0BEeyqCmcvNRAK7iBTLhV+k4ytEq1KRY0WzcCqg6T3USkVc2IX8h1xJOd57p2pu2OBCkltk9FtH+noIIXzAb9mU+6tgfM0KvsSZ5daf/OPnggCEyNCMcqByAnyity1KfW6pQZNqk1ALQR8oc77sdoe1MKYa4iWXogBQw8929l/snfKTwakNe4RUoQMvUctUQ==
+ b=cXaUX1n5GQIEV4OptFYMj4qgQz62fRtnXiyNYwFCH9hYTf6bI18Q6SE/rZ1gkvOtI/Ya16CVbF/c6cfyo34Q8C8rpRhGU5ajT1/3ZODEetpeYGWdRLzvWuAyOF5W0jvCQJ/spSNiOjXo/C+7zlWYieU4kVw+5ebN1NjeD0xPgk2GXQ7bIH68DGjNAcjAQuK/7F3MKjMJi4CWHtwI3xF/fD9t3OMH8dizUxJSWUCq9/qsqMikpnnJiBH6oQlUOdbKpNHZfj84vvKVbdWyBkw1Oc3P2k9Awk1LLrWbCWQzdLOKe6JLK9ub3I1usFRlPMPnR/vv4ibIIf8aBUMHNHZfAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=knJyJ6FXedvMzcMC0tjIL48c1AsTv3k7B/HqdHW9wgU=;
- b=jJe9W7SAL8drCJYf2YcCesKRMYL6mJNPuVeKymth6qyQ5oVDMJl0SOZLda2igmETNa97YcltkqgplV/D16PM376Wb71fBSJxGqfZAK2SVNJH+8q9a9Vv6WwQGyisYqkukoRqL+TB5TwgZrPAxoy88I7KOd5Wqc41hX1RdoBr1v41AvjKhYpW4qe0CZaBPJHGnQ/xDxPJpt3d5EqsVn/pOtlE14ts61BmnVASwOncl610Ieazwig8so9oMthnfwvzvZDcvhMXRdM0/UEXBjNHqFLXUQ5a4bVahD8HAMjm5bhq7Gm9085BwJjlb/S/ZcQz3hrFnZgt0XPrapDaF9YhAA==
+ bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
+ b=g506ozP7x0WB3i8aC+2AhMDBC06MwsysS+HHkv3ju+vMLHW4A9K4K9wNfQORYhJoFeTBHSenMr5UZdnyGMPvoPP7G1sNyD7aPUmLGympOCjijXT0OnLFgS0d0KtJ+VDyVG0OKPnp796EMAdMWY4dQNAGw4aMW5PdDOJ3hPfwkE6gpxhSUMAGfh/O3GUt4lorXulXXTXhxZj81nPAOaY9tSIiUEtNMgO/Zgccy6mEMK15HaMXjEwRQgdRo4K14FV2mbiCCG4RSd0Ch9JwcL1639Lc6bOY/MNjNpx6xEEkEn/bLRLPQsKePYuI6zpCjqLvE9j9LqkHKdg0BVApSF7vCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=knJyJ6FXedvMzcMC0tjIL48c1AsTv3k7B/HqdHW9wgU=;
- b=ssrdZRqyt2bZo7du6DM4N2DYt6dA3IK7iKxiQgszoZpZyOBBEYPrMJlvbDaloIx+amzmVDYetqzk4zqyeqeVXVmtzGNKR8E5yfyDtMlGQXPxPn9Bif16656ERqp0p0PWBtVBg/Mitm5dkZvruO6YEXTe5sw5QsEqpH9EhSJIRAY=
+ bh=xJGQvLY+VfaD8EtueQi4HJac4FQX+NRIzB/7Wjjh/D4=;
+ b=uG8vNyLSW/fnrqMWZhjEZC4X5iXM0SPlp5ac5mQhWx7kAmVJrHby1QgCHwq1e7KOqEfECnhL/zmArlPqGjLeP6E9O2SBFAjKniJUCOzb20A37ItEqrHmge6ZxjSNRflQg1WbPFb0v4KON8YoEa5F0rsazhYvFwah6jMP4JcLrJU=
 Received: from SA0PR10MB6425.namprd10.prod.outlook.com (2603:10b6:806:2c0::8)
- by SJ0PR10MB5669.namprd10.prod.outlook.com (2603:10b6:a03:3ec::18) with
+ by MW4PR10MB6632.namprd10.prod.outlook.com (2603:10b6:303:227::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Tue, 9 Apr
- 2024 00:34:15 +0000
+ 2024 00:43:08 +0000
 Received: from SA0PR10MB6425.namprd10.prod.outlook.com
  ([fe80::894:70b7:573e:da46]) by SA0PR10MB6425.namprd10.prod.outlook.com
  ([fe80::894:70b7:573e:da46%5]) with mapi id 15.20.7409.042; Tue, 9 Apr 2024
- 00:34:15 +0000
-Message-ID: <1195c194-a2cc-6793-009c-376f091be7f0@oracle.com>
-Date: Mon, 8 Apr 2024 17:34:12 -0700
+ 00:43:08 +0000
+Message-ID: <9377995a-26a4-2523-e421-be1cd92bdc34@oracle.com>
+Date: Mon, 8 Apr 2024 17:43:05 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 1/2] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for KVM clock
- drift fixup
+Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
+ timer drift correction
+Content-Language: en-US
 To: Jack Allister <jalliste@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Sean Christopherson <seanjc@google.com>,
         Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
         Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>
 Cc: David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>,
         kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20240408220705.7637-1-jalliste@amazon.com>
- <20240408220705.7637-2-jalliste@amazon.com>
-Content-Language: en-US
+ <20240408220705.7637-3-jalliste@amazon.com>
 From: Dongli Zhang <dongli.zhang@oracle.com>
-In-Reply-To: <20240408220705.7637-2-jalliste@amazon.com>
+In-Reply-To: <20240408220705.7637-3-jalliste@amazon.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH8PR15CA0001.namprd15.prod.outlook.com
- (2603:10b6:510:2d2::13) To SA0PR10MB6425.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0181.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::6) To SA0PR10MB6425.namprd10.prod.outlook.com
  (2603:10b6:806:2c0::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -97,359 +97,377 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR10MB6425:EE_|SJ0PR10MB5669:EE_
+X-MS-TrafficTypeDiagnostic: SA0PR10MB6425:EE_|MW4PR10MB6632:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	qn2/xUUsvB7TQZrOP0Hy3xW/ZR9pUb+uKrGT52kWhtxL4HQYUas64WdyCTsKr8Mf2ANl1Xh9ykKhsaENDZ7UwqlxVy1QtO0LXo7NlwBM1AF5w/Dip2/j9E8syA5Buvbc/P3pvflBsROTEmzLK5L6LiDUrxMnG+ApNExQazXBnNvkoCTWCpC3cSdm6LLu1QerveZ4kPLhvqIUQ7D3eShGzhwFrB0Npyi3s98R+VdUuBSc2U13hC2LgCRd+UKVFTIv2kETLNGwXSJe2Gmvs6KrFECWxyomYGUf2Sp/TLmZmRvgblhiZxrOOiKlHbcXvpNbD//1agTYGE6zYR1PQ3/atdi7Qol9a/IqEXOTWrymLWv1HMQrGzgtAEfqmC8qZAGuofKaZjU8sXPWiNPqBG8nDkNTejrZDSIw79vtTgUp4FR1LI+nOVgReMvcJoKNgznz64L7KFmGQg1TLBPp8yQGLsNxZj6GclSdg8kNfPY8h4P/rtunT6dxIZEQnSU4knY/yE7o6wOuYET3N2PUejpTv1AlDEIAfRKmSK4w4m7Oly38Gl/fllN6WI4bW/weNzuxyem6z+LXEadxbvKXoXLZAQWILWmqh/Odns/U/ejqrj1ReO3M5AFt5HwGsjsungIr1KC4jHwg0CFMrMJ9Ngx66ck4vad6PMMwV+3eaHYYp7g=
+	JKvYvCdSMZI11NB1ef637alUvy83vGkiswwG+OpqrfuKprP//xtndqGjpdpJVeUdtaEd6XsByrMAHy5DaEj2Ze8tEIQ//mcgphSFDBr8sAG07+7UocF0uFyuDV64N9pXhml+G4a1EmL38HsLb/v3rTK1BjhHL6ovuuYmF8Uvv4CtJgWT+KDjF66hS/XECehXHjLqgd07uGmslpB+LGjWqy8KC0+zUZc831UTdTB4CwC6AdWMBd2DH7LmJeoYg/iLIbDF1qEzgcyawstqKzAk/wZq+3sFFvSULTejHDQk8xOqVfTxbvOklJBr5DssKnYVLieccwAIkQ8+ZbTTkYdJDObVl3fhmhAfvtXKhC+k2NevKxt3+8abUVGM1tgMQM5hNYoxW18witDMDvD2yrEozIk5TfFI25BPf1Z9UKW/izwTf6FnGjgBxQv4LCfKqBvGB5yfRFU2Sb8nbWa21D0MPetZgXssB7Y+79V350f3jdJlOP+BGF8RUIE5BSF+8xTaqJZzz8OnmSnUCOTLuo3QjwyYdV5g+hHygDhnJWffnomQuxSXbp5I4tQR4z1bNDU+6QEKRZRYc5yiqBIGK4hN8JF3pwWcDvWZwAbJ8Qy/9BRSsMiHsAFKHc9cFnsNG5NgKdp+z/2nvxrTWn5Dtmjdl3MmH5mr2B89sPGZvsbgggU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR10MB6425.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007)(921011);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR10MB6425.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(921011);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Zk5ma1R3bHpPR2VuNXFGcVZxa0FoK21PNzFMYTBPaEhXYWtXUmRMTWc1Y0RJ?=
- =?utf-8?B?THdOWU5ubVpmM1B5OFVoSVpLcmVwUFRzTkswRGJ2YmNqYVorZmxjQ0luNklv?=
- =?utf-8?B?R1dEYWNkUHdjdUM4MkFXUXZ4UWk2Mm5Tazd3aXVMengvSTEvNHlmTVFaQkNS?=
- =?utf-8?B?YUhudzhBUTJsVE05bzMwWS8vQVJsZHNhamFyOUtKemVvMWhDZE5vVnlERzFO?=
- =?utf-8?B?blhOcFpHZ2hkK1I0RmVtWGw1RFRLRU9KZm0xNmhPNXZUaUcxdzYyOVpqRDVL?=
- =?utf-8?B?aUV0K21oa1JucXkyeHhpT014ODlYeWlVUjhNaWpKVDJ4ZEQvV1FFTGx0Q2s2?=
- =?utf-8?B?ZVZRNmhhbWVBclBNZmZzVlRGalM3RHZpYWh6R2lCVktQUGQ1QjZONGoyWWpC?=
- =?utf-8?B?RXkyb2lyZm9OYVRVTmV6VkNpVFlMeEZzZVhTTVl5RFJiNEpEa25hK0lEUTFH?=
- =?utf-8?B?eWthSy9TNjFuTDBrMEVTR0J5TkE2RnJlWmhjWVFJRk1YQSszWmtrZGpueDd5?=
- =?utf-8?B?UjZsYTBwMWx5ZEZkMkJQTTJxRmxDQ0dDWE5MUTRVQjRSK3ZoeGtkcXNiUVQr?=
- =?utf-8?B?S0VGSDlIZ1E5YUhIV3dXeHl4MEFaakd5OWdSZjBGaCtSZHhNdGhuQmpiVmxX?=
- =?utf-8?B?V3dYQ2k4SENVR0I3bVR1TVlKWUErbTlhcVR0R1VQZ0RrLzRKMHh1bllkWnFH?=
- =?utf-8?B?akpuNUNDdlhmcmxYb1VVU2s2TDhOaHJORTFIbllyMGhFQlR4OFQ3WkFReDVU?=
- =?utf-8?B?bWRZZzYwMUpTdmxWVzhPdS9pK3dCMklMQVVZZDhnNTAzdmQ2ajZrQ1JPWHly?=
- =?utf-8?B?OHZIY2JGTE5tekt5RVp2ZnlneUNwbHNyRXdyVUM0c1FqU3RkOGgrQkw5MXNj?=
- =?utf-8?B?cWZBOFlRT1J2Nmx1ZFlFVmE5TkRXdytxVkdOUHZHMk1qZ1crUS85MWxQOUhW?=
- =?utf-8?B?ZW04bDUwQkhEbEdmQmR1L0tMQ1U1ellsYWU4M2ZITTRsNmVsQmdtVURNRUlG?=
- =?utf-8?B?QjVVbE0yNCtNQXJvRzJKSXRveXJ1OVI3VnppL2o0amc2UTFRVkcvYmZHK0tX?=
- =?utf-8?B?K3NJNkF5emY0N09mRFV2UUxuTDY1OXZoNGF5WW9mT2FPcU5kb3IxT1dYUmF0?=
- =?utf-8?B?MU9uKy9VN0xlenI2Z21FZGQzS3lDM1AwZkVFU0E4V2dMVDB4a0xBOWltV1pj?=
- =?utf-8?B?c3VYNnJxdzFzYlBoS0ZNeHEvVEZ5RWZacnFTRjJZcmcwK3pFOHhjNHltY3J5?=
- =?utf-8?B?b3FueHprd0x1Y3RyMHBPR3hiZzN1VjNlME42eDA1NStGbGdPM0NKci9uYk8x?=
- =?utf-8?B?RlliQXVoMUQ0RmpMbnpVcE9BR0RaSkFtRE5FS05HUzR2L3FBZGFQQk0reUpU?=
- =?utf-8?B?Wm02TFBpUFlMUkxtcnJFODR5OWJWRUcwVWI1Z0ppQ3BSbGlCVXZYYkdNUmFk?=
- =?utf-8?B?ZjhoRlVCN3RpZFR4eVIwcDJUUHBhZ3g1aDZpdEZ6TC9KSEZDU1h1MDB1OHdS?=
- =?utf-8?B?a0U2Z0srK1pkVnBaZ1FPNW5YeWlrNlZDK0pTVm5pZlVUZ1JoWDNNYjFvQmhW?=
- =?utf-8?B?VFNXbjNjTmIwY2thNFpPTExzZkVmNjVoWkJnSnIyMVVkY0VzQnFIRnVQelVF?=
- =?utf-8?B?NEVpR1M1SW1FVWFibFltTVptNVVOZmM4Q0hzOUVtWjJkTTRIMHdobWtidmdR?=
- =?utf-8?B?bVg2cWJIUGpCQ2pGNkNSamFpQzRiUnNKMFY0NWJXWTlEejkvYlErb1AyM2dI?=
- =?utf-8?B?dWUwYjFzYkZ0Q3FtT05RQmRTUUx4VzBZRmUrbThoTXRGVkVaVjB1Mk9pVGNL?=
- =?utf-8?B?UUgwMzI0OFFtMHgzdmpHK2FndUt3M1NtZDNBZjJ2emJpbWFDVmMreVBTd240?=
- =?utf-8?B?R2dzYkt2OUh0NG9WclB5cExRUlc0SGV3TU13MmlTZStybVp0YVBldjQ5bElF?=
- =?utf-8?B?UWhvbjdNY3VaRVU3UnUrMlM4Q00wMDFNRXljMC9BVUpSclpzTkgxQTZrSzhz?=
- =?utf-8?B?dHpZcVpHcHJNeXJTZ1NFUm5QenNUckd2R1dtOGhBcy84bHlPS2JzSkNUUDIv?=
- =?utf-8?B?Uk84UGx6R0FEazl5MG0yN2pzQVJaU3JQakRsSi9SRUp4VnZnd2QvWm5ndy9Y?=
- =?utf-8?Q?eUY25JRS3/6ozHQdqN9e2ebq2?=
+	=?utf-8?B?QWR5cmhoWVZQVUlFajBZajkwV3FhRVdxRUlNRjlEMFZ1SEM3aGl5NzNFcnNU?=
+ =?utf-8?B?Q3FKQ09hNDhWZ1JHRk9DSlVoeFBsMVRVY1BoU011VU5laHN6cytiSlc1WE8x?=
+ =?utf-8?B?bzFrOXJpdVcydkFHeWZqeXpIYXJmUnR6M3ZQZHJnRnRLR0pvckpHYVhPU0ZJ?=
+ =?utf-8?B?TjFNNkhFUWN2RDRIbk85elNTRXFSdENiVktXbXR4WmEySjVrRytzeUovZFhP?=
+ =?utf-8?B?Mk9QWHN4ajQvRmNOQmlINlZ0RmJPSm1IQVhuOVd6VG8ybE45NXVzZEJYa1BE?=
+ =?utf-8?B?WUhVdExHTk1qdDJpY09KN3d1UXRLTGR5bVpVNmcrUHVWNlF3VmR1cU1sRmpr?=
+ =?utf-8?B?R1pWSW9ELzdoNkhNcUxUWTdFNU1rRnltWDlRbEhYWUpZeU1hVVZQS0lpNEdW?=
+ =?utf-8?B?eVl1MUpJN1hJZFpGamw2cldmam82QWtXdnNxTGRaOUhNMGJrbk1jM3V0ZGx2?=
+ =?utf-8?B?NVVLYnhoWnpHcHhPVXI2L1JRSXBTQWVoQk0zcXdiWGZGK2x0UjB2dDNHZFZN?=
+ =?utf-8?B?dkVGR3MrS0cvYXpSL2tvUURYTmFrdjRkU3dEL0RzRjE2YVNMcm5sZGdDWFZj?=
+ =?utf-8?B?a3dZNEV6QjlybzB1RlNncXdkQlAvV1FBOWdhSFdKclFHNTdqb2grd1dsRnl2?=
+ =?utf-8?B?WG8xNG5CVVcyZmY4RFBFRFBncXJVY0JkSlZYLzBydUZmYUFPbGt2ZGtkN3gr?=
+ =?utf-8?B?NWVTYzc1QlluektZcEE0clU0WTdKUStvaDZITXZXR2FxQTlteGwwamM3di85?=
+ =?utf-8?B?VUZZUnI1N0wxNU1ScTlPdFRCbVlJSHpiMUV5ekl4MFY0aGROYnBtL0Jwams1?=
+ =?utf-8?B?ZFNtVnpiamhJWC9nUHhadUZtK3pQMTZwcDRRN2YzbWdBQm8vL2NNMTZPYWov?=
+ =?utf-8?B?MzdRbko5STdVdmtDRGppbWUxUExSK3J6elZUUW5EcGlPd3ViQVE1YjRKOHFI?=
+ =?utf-8?B?dThndDBLYnllbktwVXdJTmtIMzhvMWRaUDZtWFU2NnlQemM1bGN0MEZvYVlT?=
+ =?utf-8?B?Mmw0MEdXTGN0MlVublRBcGJmTi92TXhVVnI4YnNmNkRMQ3pFMkJlRm9FYjkz?=
+ =?utf-8?B?clV2S3VTRFpQYmRhbUhGeTFNUG1tVEN1cGYxYkdNb0V1UmJzYVpWanpaVUFE?=
+ =?utf-8?B?ZHNiRmY3Snd3Z1A5T01UVEZpNytRSy96ZTR4ZzRMbE5iWXppejNaSmVma2FZ?=
+ =?utf-8?B?TGNuUWF4SHJEYVZqVnBPSXVWMGVJRE16UUZBbFNlYllIQWh1UlQ1dmNSdkxM?=
+ =?utf-8?B?TlA5Y1pvdGlNSGdmcWQxRktjVXB1ZnJiY0diampnZ3BjbFNwRUMxa0pFNFhk?=
+ =?utf-8?B?SmRmWmNwT3hpWVlONDJWNG01OTNqUmhMd0V2OVZvS3RtcU9GMGprRVNlSHlD?=
+ =?utf-8?B?M3dyaTB4VmtMd1ZLL0J2cGJDbWczNERXZnVqWmNNcm9DWnhUWU5WUFN6UjBT?=
+ =?utf-8?B?RGl0QVllMk90b0hFb1RDdUlMWExDRi9yTHpKWVp3L0V2QlJxb2FlZHk3bVRZ?=
+ =?utf-8?B?ckwrUU50M0JjNUtlQitGOHBWbVFVQ0xIbStNZnJtZDA2elk1UVYyd2JGQlFM?=
+ =?utf-8?B?Snhid3dwK29pVzhoOW84dFBrYkVyaXp6TzAzVC8wOWNkcVA3eEVUSWtOVkRl?=
+ =?utf-8?B?NVZqaVM3NTZWeWtUR1hGQ3A2UllJdDUzU1dSQVZEMitsVDZKMEM2NHJJUGJH?=
+ =?utf-8?B?cU1RczNsZlhsWStpdTZua05aQkttRGllYnVJMkEvUllpOHh0L0xQbjJoanBT?=
+ =?utf-8?B?ekkrK3pJNEFUQ0pRUTJDKzA5bWUxZlB3WkUvVE5hQ0k0MG0zVkZTc0JEYTFx?=
+ =?utf-8?B?ZUtxaHZLY3VKRzgwSmUyYVExWkEvYlhLQnAxRFQvNDRySjVjckd5R1UvVWVC?=
+ =?utf-8?B?Ym01eFRNSys1WkxVYUdXejVadzR1ZHpDdVBHbWsxTFdkY1l6aUhGN3Fwdys5?=
+ =?utf-8?B?OFNiTUZqMlc3U0FOSll1Ryt6WWtHQjdndi9MZFYxT01iSkFRL0c1dWlmZHAw?=
+ =?utf-8?B?WjBhUS9mUHoydjdvcmN0SnZ1dEt6dFd6d2FXQnVuMlNJVzZXNitWVU5XWEhX?=
+ =?utf-8?B?VWVYbE1qcXF4M0xzN3JPZUJRWloyRFVwNFp0TVBEUWdqa2lHTVV2MnZtem1s?=
+ =?utf-8?Q?UpWdDCvaOkioVeMiuT5Tc+vqf?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	q+Ip0Yy5bDfIBct8ONQs/Dc7ftgOT7wUmafOjwc0Yi1KHLopsYsdH0LlfiFFMcejvUy8UPcsdGS+qM+Biv0dnH1QYgriD2X0l9fkyl8cDVlFaXGY0sqyN9gyIMMQJH/5Fyuv4+hps7KEULm+hK5edPVbnUYXDyRHtaPXduWoulDJktZ4lJJPSH0uFTWIIWetBF2cwx17St4Op27LKiyFm4hXg1+uaka6X+6xiF+WxMqz05gqKosrF5Pi/TZTXj52hI++VLsFSLVC9ZvVvdxxscGF59MEuRL9RjzZ6GtSfwKQm6uj7fqA+Pxyv2l5+c6hR2lORDZmGA6z4a3aRDwtxLHL0ywomriaDPSAzpS9mkzX2ci9C+bVTjY8Hazmler+DH8q3QiP9yfmLuPa/C3gwVwvWAThJQDSV5xjyh/1pqBcBXK3t5KSMOodPbkc4631gxveuGrEhUoncLU6d8+P02k94ouUmMrurbTWqYnT+adKRiExo1gnihxkV9LCXe53bJ/b1itI8uGCQJhYv+XhmWuN3YfPzpFk0YIaRCaZtyddxPjYRQaQcXTv81lJXWiw4Vl6RIn9q5pxPAeCr+I6UCpKb9nwh88dFSZIvRj0XEM=
+	xn4T1rCy1javkpMIUsAzm/VIb03mqdnWDU8lhEY8Trau2vLuzjAkjmHG82EZMnWmRuLln2TquDr50HbxQpOWS2j1gIzT4qDcmQiwfQstCnCeTQCk7KoU0O6Gm/Do4pac1fkDDXpvMP1vVQZYkFcBE/+D+5O88edcug68H/td7DmkYzLg6YH1ywi1X3gDrthDanQFsz5D7CuIlRt0VsucVtj0fVUXgf6mrsRZjsSeoJFYjYw7YLRDjw29+VAqQ92x815j4aG6r/36hOc7+B5JApuTNpLABKm+TW3nmLXZ0kzj7ef2HA5J7j3Uw6fj/ADcngd0VQUjvi25Y9UrhZrwzNeIjGk4Zti1ZaMcvL9EvOs8El9LHw17v40KFkizvEKXF+tQqu+U+a54FkO6t1ZlTgPYHpMnTkN80jKDyuYhUqpFvV9Bo6wWR3/WrYpDa2UmhD8bGphj7AtKv+4srAlZ9ND4uGwL6/sBv5an+By9tDOPlWRPItIg6FzbhniEhLUwCsZVU8WckiNan7y966dw+EHxA66SSJZSWv7ddvfy/L+8KdhtL8H6Y5MW6/x9n5PZSV2ssW9Fpc1fxv8OvGDj19DyzbXjjQiDHACAVytWxTo=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13217af3-4df2-4a7b-2e53-08dc582cc8be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e32ecaa-0449-45cd-e97e-08dc582e066c
 X-MS-Exchange-CrossTenant-AuthSource: SA0PR10MB6425.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 00:34:15.1017
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2024 00:43:08.0432
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +9/K87yj4k55UwL9SYEOR5KOq/ojG77tB1ftE3vUpgyz3pzywFFXshp6ChdJAv7I55iZuNiUw2EBA3KBa0OREQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5669
+X-MS-Exchange-CrossTenant-UserPrincipalName: or61+ylNoxQhVcmJHouMiGwyP8NEIZtDJ1CTJUZj8p/6iVxvRIR1yQBwjelnSgsmNQmSebuIz6rWlmcGrdQjdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6632
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-08_18,2024-04-05_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 adultscore=0 phishscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2404010000
- definitions=main-2404090000
-X-Proofpoint-GUID: i_VunuQSNxQK2VCCWIPZ7y-SRfp0EsaP
-X-Proofpoint-ORIG-GUID: i_VunuQSNxQK2VCCWIPZ7y-SRfp0EsaP
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2404010000 definitions=main-2404090000
+X-Proofpoint-GUID: EBdqpFpaAlReNZaz0hlufIWK1uxwlHMv
+X-Proofpoint-ORIG-GUID: EBdqpFpaAlReNZaz0hlufIWK1uxwlHMv
 
 Hi Jack,
 
 On 4/8/24 15:07, Jack Allister wrote:
-> There is a potential for drift between the TSC and a KVM/PV clock when the
-> guest TSC is scaled (as seen previously in [1]). Which fixed drift between
-> timers over the lifetime of a VM.
+> This test proves that there is an inherent KVM/PV clock drift away from the
+> guest TSC when KVM decides to update the PV time information structure due
+> to a KVM_REQ_MASTERCLOCK_UPDATE. This drift is exascerbated when a guest is
 
-Those patches mentioned "TSC scaling" mutiple times. Is it a necessary to
-reproduce this issue? I do not think it is necessary. The tsc scaling may speed
-up the drift, but not the root cause.
+Typo: exacerbated
 
-How about to cite the below patch as the beginning. The below patch only
-*avoids* KVM_REQ_MASTERCLOCK_UPDATE in some situations, but never solve the
-problem when KVM_REQ_MASTERCLOCK_UPDATE is triggered ... therefore we need this
-patchset ...
+> using TSC scaling and running at a different frequency to the host TSC [1].
+> It also proves that KVM_[GS]ET_CLOCK_GUEST API is working to mitigate the
+> drift from TSC to within ±1ns.
+> 
+> The test simply records the PVTI (PV time information) at time of guest
+> creation, after KVM has updated it's mapped PVTI structure and once the
+> correction has taken place.
+> 
+> A singular point in time is then recorded via the guest TSC and is used to
+> calculate the a PV clock value using each of the 3 PVTI structures.
 
-KVM: x86: Don't unnecessarily force masterclock update on vCPU hotplug
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c52ffadc65e28ab461fd055e9991e8d8106a0056
-
-I think this patch is only closely related to KVM_REQ_MASTERCLOCK_UPDATE, not
-TSC scaling.
+Typo: "the a"
 
 > 
-> However, there is another factor which will cause a drift. In a situation
-> such as a kexec/live-update of the kernel or a live-migration of a VM the
-> PV clock information is recalculated by KVM (KVM_REQ_MASTERCLOCK_UPDATE).
-> This update samples a new system_time & tsc_timestamp to be used in the
-> structure.
+> As seen below a drift of ~3500ns is observed if no correction has taken
+> place after KVM has updated the PVTI via master clock update. However,
+> after the correction a delta of at most 1ns can be seen.
 > 
-> For example, when a guest is running with a TSC frequency of 1.5GHz but the
-> host frequency is 3.0GHz upon an update of the PV time information a delta
-> of ~3500ns is observed between the TSC and the KVM/PV clock. There is no
-> reason why a fixup creating an accuracy of ±1ns cannot be achieved.
-
-Same as above. I think the key is to explain the issue when
-KVM_REQ_MASTERCLOCK_UPDATE is triggered, not to emphasize the TSC scaling.
-Please correct me if I am wrong.
-
+> * selftests: kvm: pvclock_test
+> * scaling tsc from 2999999KHz to 1499999KHz
+> * before=5038374946 uncorrected=5038371437 corrected=5038374945
+> * delta_uncorrected=3509 delta_corrected=1
 > 
-> Additional interfaces are added to retrieve & fixup the PV time information
-> when a VMM may believe is appropriate (deserialization after live-update/
-> migration). KVM_GET_CLOCK_GUEST can be used for the VMM to retrieve the
-> currently used PV time information and then when the VMM believes a drift
-> may occur can then instruct KVM to perform a correction via the setter
-> KVM_SET_CLOCK_GUEST.
+> Clocksource check code has been borrowed from [2].
 > 
-> The KVM_SET_CLOCK_GUEST ioctl works under the following premise. The host
-> TSC & kernel timstamp are sampled at a singular point in time. Using the
-
-Typo: "timstamp"
-
-> already known scaling/offset for L1 the guest TSC is then derived from this
-
-I assume you meant to derive guest TSC from TSC offset/scaling, not to derive
-kvmclock. What does "TSC & kernel timstamp" mean?
-
-> information.
+> [1]: https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=451a707813ae__;!!ACWV5N9M2RV99hQ!JWCFSSEPaZUer553HE44W0OhktMh3-Iyz4aZNE4pcjc94q_bs4QBIrVS8ciYEzj1NigrVCamkHgpvwqP1XrV$ 
+> [2]: https://urldefense.com/v3/__https://lore.kernel.org/kvm/20240106083346.29180-1-dongli.zhang@oracle.com/__;!!ACWV5N9M2RV99hQ!JWCFSSEPaZUer553HE44W0OhktMh3-Iyz4aZNE4pcjc94q_bs4QBIrVS8ciYEzj1NigrVCamkHgpv7jfLpy7$ 
 > 
-> From here two PV time information structures are created, one which is the
-> original time information structure prior to whatever may have caused a PV
-> clock re-calculation (live-update/migration). The second is then using the
-> singular point in time sampled just prior. An individual KVM/PV clock for
-> each of the PV time information structures using the singular guest TSC.
-> 
-> A delta is then determined between the two calculated PV times, which is
-> then used as a correction offset added onto the kvmclock_offset for the VM.
-> 
-> [1]: https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=451a707813ae__;!!ACWV5N9M2RV99hQ!OnMXeXj4Plz6xvAc5lYsKaR3d1GDGGGRhZkdLMbxr8Skc_VAv_O1H8qP9igQv4KPCtYDw2ShTUtEd2o3mD5R$ 
-> 
-> Suggested-by: David Woodhouse <dwmw2@infradead.org>
 > Signed-off-by: Jack Allister <jalliste@amazon.com>
+> CC: David Woodhouse <dwmw2@infradead.org>
 > CC: Paul Durrant <paul@xen.org>
 > ---
->  Documentation/virt/kvm/api.rst | 43 +++++++++++++++++
->  arch/x86/kvm/x86.c             | 87 ++++++++++++++++++++++++++++++++++
->  include/uapi/linux/kvm.h       |  3 ++
->  3 files changed, 133 insertions(+)
+>  tools/testing/selftests/kvm/Makefile          |   1 +
+>  .../selftests/kvm/x86_64/pvclock_test.c       | 223 ++++++++++++++++++
+>  2 files changed, 224 insertions(+)
+>  create mode 100644 tools/testing/selftests/kvm/x86_64/pvclock_test.c
 > 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 0b5a33ee71ee..5f74d8ac1002 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6352,6 +6352,49 @@ a single guest_memfd file, but the bound ranges must not overlap).
->  
->  See KVM_SET_USER_MEMORY_REGION2 for additional details.
->  
-> +4.143 KVM_GET_CLOCK_GUEST
-> +----------------------------
+> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
+> index 741c7dc16afc..02ee1205bbed 100644
+> --- a/tools/testing/selftests/kvm/Makefile
+> +++ b/tools/testing/selftests/kvm/Makefile
+> @@ -87,6 +87,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/pmu_counters_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
+> +TEST_GEN_PROGS_x86_64 += x86_64/pvclock_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
+>  TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
+> diff --git a/tools/testing/selftests/kvm/x86_64/pvclock_test.c b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
+> new file mode 100644
+> index 000000000000..172ef4d19c60
+> --- /dev/null
+> +++ b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
+> @@ -0,0 +1,223 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright © 2024, Amazon.com, Inc. or its affiliates.
+> + *
+> + * Tests for pvclock API
+> + * KVM_SET_CLOCK_GUEST/KVM_GET_CLOCK_GUEST
+> + */
+> +#include <asm/pvclock.h>
+> +#include <asm/pvclock-abi.h>
+> +#include <sys/stat.h>
+> +#include <stdint.h>
+> +#include <stdio.h>
 > +
-> +:Capability: none
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: struct pvclock_vcpu_time_info (out)
-> +:Returns: 0 on success, <0 on error
+> +#include "test_util.h"
+> +#include "kvm_util.h"
+> +#include "processor.h"
 > +
-> +Retrieves the current time information structure used for KVM/PV clocks.
-> +On x86 a PV clock is derived from the current TSC and is then scaled based
-> +upon the a specified multiplier and shift. The result of this is then added
-> +to a system time.
-
-Typo: "the a".
-
+> +enum {
+> +	STAGE_FIRST_BOOT,
+> +	STAGE_UNCORRECTED,
+> +	STAGE_CORRECTED,
+> +	NUM_STAGES
+> +};
 > +
-> +The guest needs a way to determine the system time, multiplier and shift. This
-> +can be done by multiple ways, for KVM guests this can be via an MSR write to
-> +MSR_KVM_SYSTEM_TIME / MSR_KVM_SYSTEM_TIME_NEW which defines the guest physical
-> +address KVM shall put the structure. On Xen guests this can be found in the Xen
-> +vcpu_info.
+> +#define KVMCLOCK_GPA 0xc0000000ull
+> +#define KVMCLOCK_SIZE sizeof(struct pvclock_vcpu_time_info)
 > +
-> +This is structure is useful information for a VMM to also know when taking into
-> +account potential timer drift on live-update/migration.
-> +
-> +4.144 KVM_SET_CLOCK_GUEST
-> +----------------------------
-> +
-> +:Capability: none
-> +:Architectures: x86
-> +:Type: vm ioctl
-> +:Parameters: struct pvclock_vcpu_time_info (in)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Triggers KVM to perform a correction of the KVM/PV clock structure based upon a
-> +known prior PV clock structure (see KVM_GET_CLOCK_GUEST).
-> +
-> +If a VM is utilizing TSC scaling there is a potential for a drift between the
-> +KVM/PV clock and the TSC itself. This is due to the loss of precision when
-> +performing a multiply and shift rather than divide for the TSC.
-> +
-> +To perform the correction a delta is calculated between the original time info
-> +(which is assumed correct) at a singular point in time X. The KVM clock offset
-> +is then offset by this delta.
-> +
->  5. The kvm_run structure
->  ========================
->  
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 47d9f03b7778..5d2e10cd1c30 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -6988,6 +6988,87 @@ static int kvm_vm_ioctl_set_clock(struct kvm *kvm, void __user *argp)
->  	return 0;
->  }
->  
-> +static struct kvm_vcpu *kvm_get_bsp_vcpu(struct kvm *kvm)
+> +static void trigger_pvti_update(vm_paddr_t pvti_pa)
 > +{
-> +	struct kvm_vcpu *vcpu = NULL;
-> +	int i;
-> +
-> +	for (i = 0; i < KVM_MAX_VCPUS; i++) {
-> +		vcpu = kvm_get_vcpu_by_id(kvm, i);
-> +		if (!vcpu)
-> +			continue;
-> +
-> +		if (kvm_vcpu_is_reset_bsp(vcpu))
-> +			break;
-> +	}
-> +
-> +	return vcpu;
-> +}
-
-Would the above rely not only on TSC clocksource, but also
-ka->use_master_clock==true?
-
- 3125         ka->use_master_clock = host_tsc_clocksource && vcpus_matched
- 3126                                 && !ka->backwards_tsc_observed
- 3127                                 && !ka->boot_vcpu_runs_old_kvmclock;
-
-Should the condition of (ka->use_master_clock==true) be checked in the ioctl?
-
-> +
-> +static int kvm_vm_ioctl_get_clock_guest(struct kvm *kvm, void __user *argp)
-> +{
-> +	struct kvm_vcpu *vcpu;
-> +
-> +	vcpu = kvm_get_bsp_vcpu(kvm);
-> +	if (!vcpu)
-> +		return -EINVAL;
-> +
-> +	if (!vcpu->arch.hv_clock.tsc_timestamp || !vcpu->arch.hv_clock.system_time)
-> +		return -EIO;
-> +
-> +	if (copy_to_user(argp, &vcpu->arch.hv_clock, sizeof(vcpu->arch.hv_clock)))
-> +		return -EFAULT;
-
-What will happen if the vCPU=0 (e.g., BSP) thread is racing with here to update
-the vcpu->arch.hv_clock?
-
-It is a good idea to making assumption from the VMM (e.g., QEMU) side?
-
-> +
-> +	return 0;
+> +	/*
+> +	 * We need a way to trigger KVM to update the fields
+> +	 * in the PV time info. The easiest way to do this is
+> +	 * to temporarily switch to the old KVM system time
+> +	 * method and then switch back to the new one.
+> +	 */
+> +	wrmsr(MSR_KVM_SYSTEM_TIME, pvti_pa | KVM_MSR_ENABLED);
+> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
 > +}
 > +
-> +static int kvm_vm_ioctl_set_clock_guest(struct kvm *kvm, void __user *argp)
+> +static void guest_code(vm_paddr_t pvti_pa)
 > +{
-> +	struct kvm_vcpu *vcpu;
-> +	struct pvclock_vcpu_time_info orig_pvti;
-> +	struct pvclock_vcpu_time_info dummy_pvti;
-> +	int64_t kernel_ns;
-> +	uint64_t host_tsc, guest_tsc;
-> +	uint64_t clock_orig, clock_dummy;
-> +	int64_t correction;
-> +	unsigned long i;
-
-Please ignore me if there is not any chance to make the above (and other places
-in the patchset) to honor reverse xmas tree style.
-
+> +	struct pvclock_vcpu_time_info *pvti_va =
+> +		(struct pvclock_vcpu_time_info *)pvti_pa;
 > +
-> +	vcpu = kvm_get_bsp_vcpu(kvm);
-> +	if (!vcpu)
-> +		return -EINVAL;
-> +
-> +	if (copy_from_user(&orig_pvti, argp, sizeof(orig_pvti)))
-> +		return -EFAULT;
+> +	struct pvclock_vcpu_time_info pvti_boot;
+> +	struct pvclock_vcpu_time_info pvti_uncorrected;
+> +	struct pvclock_vcpu_time_info pvti_corrected;
+> +	uint64_t cycles_boot;
+> +	uint64_t cycles_uncorrected;
+> +	uint64_t cycles_corrected;
+> +	uint64_t tsc_guest;
 > +
 > +	/*
-> +	 * Sample the kernel time and host TSC at a singular point.
-> +	 * We then calculate the guest TSC using this exact point in time,
-> +	 * From here we can then determine the delta using the
-> +	 * PV time info requested from the user and what we currently have
-> +	 * using the fixed point in time. This delta is then used as a
-> +	 * correction factor to fixup the potential drift.
+> +	 * Setup the KVMCLOCK in the guest & store the original
+> +	 * PV time structure that is used.
 > +	 */
-> +	if (!kvm_get_time_and_clockread(&kernel_ns, &host_tsc))
-> +		return -EFAULT;
+> +	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
+> +	pvti_boot = *pvti_va;
+> +	GUEST_SYNC(STAGE_FIRST_BOOT);
 > +
-> +	guest_tsc = kvm_read_l1_tsc(vcpu, host_tsc);
+> +	/*
+> +	 * Trigger an update of the PVTI, if we calculate
+> +	 * the KVM clock using this structure we'll see
+> +	 * a drift from the TSC.
+> +	 */
+> +	trigger_pvti_update(pvti_pa);
+> +	pvti_uncorrected = *pvti_va;
+> +	GUEST_SYNC(STAGE_UNCORRECTED);
 > +
-> +	dummy_pvti = orig_pvti;
-> +	dummy_pvti.tsc_timestamp = guest_tsc;
-> +	dummy_pvti.system_time = kernel_ns + kvm->arch.kvmclock_offset;
+> +	/*
+> +	 * The test should have triggered the correction by this
+> +	 * point in time. We have a copy of each of the PVTI structs
+> +	 * at each stage now.
+> +	 *
+> +	 * Let's sample the timestamp at a SINGLE point in time and
+> +	 * then calculate what the KVM clock would be using the PVTI
+> +	 * from each stage.
+> +	 *
+> +	 * Then return each of these values to the tester.
+> +	 */
+> +	pvti_corrected = *pvti_va;
+> +	tsc_guest = rdtsc();
 > +
-> +	clock_orig = __pvclock_read_cycles(&orig_pvti, guest_tsc);
-> +	clock_dummy = __pvclock_read_cycles(&dummy_pvti, guest_tsc);
+> +	cycles_boot = __pvclock_read_cycles(&pvti_boot, tsc_guest);
+> +	cycles_uncorrected = __pvclock_read_cycles(&pvti_uncorrected, tsc_guest);
+> +	cycles_corrected = __pvclock_read_cycles(&pvti_corrected, tsc_guest);
 > +
-> +	correction = clock_orig - clock_dummy;
-> +	kvm->arch.kvmclock_offset += correction;
+> +	GUEST_SYNC_ARGS(STAGE_CORRECTED, cycles_boot, cycles_uncorrected,
+> +			cycles_corrected, 0);
+> +}
+> +
+> +static void run_test(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
+> +{
+> +	struct ucall uc;
+> +	uint64_t ucall_reason;
+> +	struct pvclock_vcpu_time_info pvti_before;
+> +	uint64_t before, uncorrected, corrected;
+> +	int64_t delta_uncorrected, delta_corrected;
+> +
+> +	/* Loop through each stage of the test. */
+> +	while (true) {
+> +
+> +		/* Start/restart the running vCPU code. */
+> +		vcpu_run(vcpu);
+> +		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
+> +
+> +		/* Retrieve and verify our stage. */
+> +		ucall_reason = get_ucall(vcpu, &uc);
+> +		TEST_ASSERT(ucall_reason == UCALL_SYNC,
+> +			    "Unhandled ucall reason=%lu",
+> +			    ucall_reason);
+> +
+> +		/* Run host specific code relating to stage. */
+> +		switch (uc.args[1]) {
+> +		case STAGE_FIRST_BOOT:
+> +			/* Store the KVM clock values before an update. */
+> +			vm_ioctl(vm, KVM_GET_CLOCK_GUEST, &pvti_before);
+> +
+> +			/* Sleep for a set amount of time to induce drift. */
+> +			sleep(5);
+> +			break;
+> +
+> +		case STAGE_UNCORRECTED:
+> +			/* Restore the KVM clock values. */
+> +			vm_ioctl(vm, KVM_SET_CLOCK_GUEST, &pvti_before);
+> +			break;
+> +
+> +		case STAGE_CORRECTED:
+> +			/* Query the clock information and verify delta. */
+> +			before = uc.args[2];
+> +			uncorrected = uc.args[3];
+> +			corrected = uc.args[4];
+> +
+> +			delta_uncorrected = before - uncorrected;
+> +			delta_corrected = before - corrected;
+> +
+> +			pr_info("before=%lu uncorrected=%lu corrected=%lu\n",
+> +				before, uncorrected, corrected);
+> +
+> +			pr_info("delta_uncorrected=%ld delta_corrected=%ld\n",
+> +				delta_uncorrected, delta_corrected);
+> +
+> +			TEST_ASSERT((delta_corrected <= 1) && (delta_corrected >= -1),
+> +				    "larger than expected delta detected = %ld", delta_corrected);
+> +			return;
+> +		}
+> +	}
+> +}
+> +
+> +#define CLOCKSOURCE_PATH "/sys/devices/system/clocksource/clocksource0/current_clocksource"
+> +
+> +static void check_clocksource(void)
+> +{
 
-I am not sure if it is a good idea to rely on userspace VMM to decide the good
-timepoint to issue the ioctl, without assuming any racing.
+AFAIR, I copied check_clocksource() from existing code during that time.
 
-In addition to live migration, can the user call this API any time during the VM
-is running (to fix the clock drift)? Therefore, any requirement to protect the
-update of kvmclock_offset from racing?
+The commit e440c5f2e ("KVM: selftests: Generalize check_clocksource() from
+kvm_clock_test") has introduced sys_clocksource_is_tsc(). Later it is renamed to
+sys_clocksource_is_based_on_tsc().
 
+Any chance to re-use sys_clocksource_is_based_on_tsc()?
+
+> +	char *clk_name;
+> +	struct stat st;
+> +	FILE *fp;
+> +
+> +	fp = fopen(CLOCKSOURCE_PATH, "r");
+> +	if (!fp) {
+> +		pr_info("failed to open clocksource file: %d; assuming TSC.\n",
+> +			errno);
+> +		return;
+> +	}
+> +
+> +	if (fstat(fileno(fp), &st)) {
+> +		pr_info("failed to stat clocksource file: %d; assuming TSC.\n",
+> +			errno);
+> +		goto out;
+> +	}
+> +
+> +	clk_name = malloc(st.st_size);
+> +	TEST_ASSERT(clk_name, "failed to allocate buffer to read file\n");
+> +
+> +	if (!fgets(clk_name, st.st_size, fp)) {
+> +		pr_info("failed to read clocksource file: %d; assuming TSC.\n",
+> +			ferror(fp));
+> +		goto out;
+> +	}
+> +
+> +	TEST_ASSERT(!strncmp(clk_name, "tsc\n", st.st_size),
+> +		    "clocksource not supported: %s", clk_name);
+> +out:
+> +	fclose(fp);
+> +}
+> +
+> +static void configure_pvclock(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
+> +{
+> +	unsigned int gpages;
+> +
+> +	gpages = vm_calc_num_guest_pages(VM_MODE_DEFAULT, KVMCLOCK_SIZE);
+> +	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
+> +				    KVMCLOCK_GPA, 1, gpages, 0);
+> +	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA, gpages);
+> +
+> +	vcpu_args_set(vcpu, 1, KVMCLOCK_GPA);
+> +}
+> +
+> +static void configure_scaled_tsc(struct kvm_vcpu *vcpu)
+> +{
+> +	uint64_t tsc_khz;
+> +
+> +	tsc_khz =  __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
+> +	pr_info("scaling tsc from %ldKHz to %ldKHz\n", tsc_khz, tsc_khz / 2);
+> +	tsc_khz /= 2;
+> +	vcpu_ioctl(vcpu, KVM_SET_TSC_KHZ, (void *)tsc_khz);
+> +}
+
+Is configure_scaled_tsc() anecessary? Or how about to make it an option/arg?
+Then I will be able to test it on a VM/server without TSC scaling.
 
 Thank you very much!
 
 Dongli Zhang
 
-
 > +
-> +	kvm_for_each_vcpu(i, vcpu, kvm)
-> +		kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
+> +int main(void)
+> +{
+> +	struct kvm_vm *vm;
+> +	struct kvm_vcpu *vcpu;
+> +
+> +	check_clocksource();
+> +
+> +	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
+> +
+> +	configure_pvclock(vm, vcpu);
+> +	configure_scaled_tsc(vcpu);
+> +
+> +	run_test(vm, vcpu);
 > +
 > +	return 0;
 > +}
-> +
->  int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
->  {
->  	struct kvm *kvm = filp->private_data;
-> @@ -7246,6 +7327,12 @@ int kvm_arch_vm_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
->  	case KVM_GET_CLOCK:
->  		r = kvm_vm_ioctl_get_clock(kvm, argp);
->  		break;
-> +	case KVM_SET_CLOCK_GUEST:
-> +		r = kvm_vm_ioctl_set_clock_guest(kvm, argp);
-> +		break;
-> +	case KVM_GET_CLOCK_GUEST:
-> +		r = kvm_vm_ioctl_get_clock_guest(kvm, argp);
-> +		break;
->  	case KVM_SET_TSC_KHZ: {
->  		u32 user_tsc_khz;
->  
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 2190adbe3002..0d306311e4d6 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1548,4 +1548,7 @@ struct kvm_create_guest_memfd {
->  	__u64 reserved[6];
->  };
->  
-> +#define KVM_SET_CLOCK_GUEST       _IOW(KVMIO,  0xd5, struct pvclock_vcpu_time_info)
-> +#define KVM_GET_CLOCK_GUEST       _IOR(KVMIO,  0xd6, struct pvclock_vcpu_time_info)
-> +
->  #endif /* __LINUX_KVM_H */
