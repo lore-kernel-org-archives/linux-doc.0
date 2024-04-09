@@ -1,210 +1,108 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877F4131732;
-	Tue,  9 Apr 2024 17:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7434156870;
+	Tue,  9 Apr 2024 18:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712685507; cv=none; b=XHJKnnBlGkyquKIf+JomrOCLV2sZqRfmJuno0hM9bGcvvl/1v3Lvg7oXB85XF55MGeOwUz4RKXBTBQoS5hf++3a4RLfLgrgWWv8drsMK2cIblO05XocFrUh02NrVRON5dzgz2fmilQCYHtMiO1DduUuqfsfTWDuwXzOKVujGLbs=
+	t=1712686266; cv=none; b=Y6CxGQ0GUf2ehi0stcvZpABUFDO68EsyQ4ZZjGei7E0IAiTpzANV0cdpU1Sd60JMih0sBiPznkbh9NyQ7ILA0RtnAj7NO5rCk9MhOD8qNyINsmuYGPlRlZsWeAu4HTfzypV7xc/EAiZAGozoN3qf3CIWcjZ5tQm7Uoh6xcUVmII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712685507; c=relaxed/simple;
-	bh=AmtWxCZ4F4bQFddgYnhSmlD9kM0A3FWxzkbEkyZ+Mtw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qG1faasW26SyautHN5lhatP/jd0v5ni1tNd6Fj8zmw/JLaq+rw/jFLcZm14EXSGArQaBfUAeTl+/EURsrlX8vY9rzMcEBP1NT+laHuAAafUxSdWOIf14ihXgNqA6/atn6xeu+rKvVUzsZrcV9c8QotbrxVaDsd8CGnEzooWLHZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=xlUx2b7a; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1712686266; c=relaxed/simple;
+	bh=HqaMdhT5LRYjCxR6gMHB6EOhgxJSaOa8vauHB4zv+2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VEcXLkEQW6JyFiEwmibcC3WtjFMfD79IkVnGtESa8JlYs4ay5DUpopaCaLfXmKFzko6SIUQtdxstnBUDafbxRBsJKoGPCrdA7Vk860hmUqt0Am/x1Qg+YQ4VBolz/2UF1AjyYYVKUKz3CWRCQ2HF0kScy+9Ca0RDkS80k4Y0/YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FttKq7Yz; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="xlUx2b7a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1712685503;
-	bh=AmtWxCZ4F4bQFddgYnhSmlD9kM0A3FWxzkbEkyZ+Mtw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=xlUx2b7afVKUYuFgYA+M7Kva1C+VYO4G61wjMXsU8B1dsaHffICXZA4Di8qELpGFT
-	 ifUi6409E73XP2CXtD/bn0DoXbKtuUFLlyieKyepIMIwZoNhR38gu5UGQ2ml7NSXWH
-	 m1Dg6MtAnK85Rr//swHhTt6STb6zZq9nvhvr8A+z/uaUA1o5+/bxWx6vBUNGSl5Wu7
-	 Gty7IQP9iqOJLocCSscFAfdezDWscn+Es5xKOzDvQCXpz9gbOTHv/Er6kqW5geYXyM
-	 hOrY1My8uD+M4qSXW0EyOMC/W38bpKrZbKNYSM1LJ4fMys4dSapOb2HLbzO7BodNWD
-	 zS9BjQjJw4cww==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: aratiu)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8C66C37820EF;
-	Tue,  9 Apr 2024 17:58:22 +0000 (UTC)
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com,
-	gbiv@google.com,
-	ryanbeltran@google.com,
-	inglorion@google.com,
-	ajordanr@google.com,
-	jorgelo@chromium.org,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FttKq7Yz"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e220e40998so37525675ad.1;
+        Tue, 09 Apr 2024 11:11:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712686264; x=1713291064; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J9dSAKFdynyhKujjaxO9n/FtMdq9OcS8F/T8JeifJ1k=;
+        b=FttKq7YzQibSu3QkW5wm1cfur0Sb9eg8CtXs6WKUr9zGDaPWl6iuiLJeLdFeC/iNY4
+         8LFySLpve+36Cug69jRdkAr49JZayGOQ+h79XwJLmN+RGRoU5XlOio1N1e8jd9GEJEmv
+         JRMv+qzkoHFdB1b4Bxkp0G2VFJ3rVPH65aFOHo/NDDOX/PNkNDIVWpjBAvpVTOv7ykb3
+         9ug8dXeQdHgfj6UX7ce9WAcNpBnhctkosX4i9G4T6hn4u3kGmYVz8wHyawwXjvaARlGr
+         yFs6XU8whVQDxMNKSkr4yiUhYOMcVBmPngklvhlTodqo1z1xR4SxxVKF1dlxKqaRVvui
+         668g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712686264; x=1713291064;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J9dSAKFdynyhKujjaxO9n/FtMdq9OcS8F/T8JeifJ1k=;
+        b=HP7vlWjUZAWHHrddjNVv3YgPx0I5azs3kmojBst3vtYYxrA1D71oIL1wOH19ZY4TUs
+         ftaKyJOnrw+v9UBFB6a0bqBKbqbLpNs68NhxBc6I4UQlLhfvlyNm7sZzP5HRpPyyMRxw
+         QVJ6GxsL0bzbuCMLLppGiH+IjkYaaBcj2IV9fcIdUXrq2ShDqTfQuupwK8tiTUbdR8OO
+         OkNIo0AogoEn0JW5q0nLKvHf37jwnzqqiZbnxJXTcIE6YW9tbYBas7IdP4x23WyjvAjD
+         FN0NrJuAkwufQY83aDqkWLEtN1t1r1vTmI+aONn9zP6XzWpktxVLO4uGULpNYulWc91k
+         CGAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOIUq17MX3ojkp1V6Cw9t8Qzn0i7G+B0PGVWhNdNF0DHrikTZ1ScpOCibZaWUiQp6wgT+fg9eMxG/BrIIsRv+ANw33tAjJ8YbWCmPgmBXNdd2CZ9lphiimSkE8vBeIC6loU/9Ymmbt0q30VcajpRlnS34lU1J3DxmLpI8px8Vrd/4WT97R1PLf03PTLkeZ8F32eeVIrP3AiQyVZfVGiTyuaal6tu0B5qARapkRPBBrrJpzrPwvQfwmsTJSMHcsEjkaej8h+uRDEB1Drihu5D3Nyx/memLkjrg5udbv9++s8OCrYu/nGgSZYMTdhiMc7Q==
+X-Gm-Message-State: AOJu0YzL7OMOZU2B65EthKr0eCDvgim79p+ud0OvzG96sNBtdoh9Tnph
+	832vI1K28ki+3abjxbs+JvC89QxEWnzd7y3ealZCI+MUo6NH3lPv
+X-Google-Smtp-Source: AGHT+IGrjPVdFECKS3becNGGDDo38peM0R3uLnfzfKLi+hNrIYGQpqn6EkGBto25qlTyktqlNq6njg==
+X-Received: by 2002:a17:902:82c8:b0:1e2:3e1e:3d9 with SMTP id u8-20020a17090282c800b001e23e1e03d9mr529751plz.63.1712686263974;
+        Tue, 09 Apr 2024 11:11:03 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j18-20020a170902f25200b001e256cb48f7sm9195770plc.197.2024.04.09.11.11.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 11:11:03 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 9 Apr 2024 11:11:02 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: David Gow <davidgow@google.com>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
 	Kees Cook <keescook@chromium.org>,
-	Jann Horn <jannh@google.com>,
+	Daniel Diaz <daniel.diaz@linaro.org>,
+	Arthur Grillo <arthurgrillo@riseup.net>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Naresh Kamboju <naresh.kamboju@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [PATCH v3 2/2] proc: add Kconfigs to restrict /proc/pid/mem access
-Date: Tue,  9 Apr 2024 20:57:50 +0300
-Message-ID: <20240409175750.206445-2-adrian.ratiu@collabora.com>
-X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240409175750.206445-1-adrian.ratiu@collabora.com>
-References: <20240409175750.206445-1-adrian.ratiu@collabora.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, loongarch@lists.linux.dev,
+	netdev@vger.kernel.org, x86@kernel.org,
+	Linux Kernel Functional Testing <lkft@linaro.org>
+Subject: Re: [PATCH v3 03/15] kunit: Add test cases for backtrace warning
+ suppression
+Message-ID: <aad25d52-83ed-492f-9d56-71d26895173b@roeck-us.net>
+References: <20240403131936.787234-1-linux@roeck-us.net>
+ <20240403131936.787234-4-linux@roeck-us.net>
+ <CABVgOSknXkT=WU-fwi5wP4bWv04DKByxSYAPmhYhC--FaQH-PQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABVgOSknXkT=WU-fwi5wP4bWv04DKByxSYAPmhYhC--FaQH-PQ@mail.gmail.com>
 
-Some systems might have difficulty changing their bootloaders
-to enable the newly added restrict_proc_mem* params, for e.g.
-remote embedded doing OTA updates, so this provides a set of
-Kconfigs to set /proc/pid/mem restrictions at build-time.
+On Tue, Apr 09, 2024 at 04:29:42PM +0800, David Gow wrote:
+> > +ifeq ($(CCONFIG_KUNIT_SUPPRESS_BACKTRACE),y)
+> 
+> s/CCONFIG_/CONFIG_/ ?
+> 
+> 
+Odd, I know I tested this (and it still works ;-).
+The additional "C" must have slipped in at some point.
+Thanks for noticing!
 
-The boot params take precedence over the Kconfig values. This
-can be reversed, but doing it this way I think makes sense.
-
-Another idea is to have a global bool Kconfig which can enable
-or disable this mechanism in its entirety, however it does not
-seem necessary since all three knobs default to off, the branch
-logic overhead is rather minimal and I assume most of systems
-will want to restrict at least the use of FOLL_FORCE.
-
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
----
- fs/proc/base.c   | 33 +++++++++++++++++++++++++++++++++
- security/Kconfig | 42 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
-
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index c733836c42a65..e8ee848fc4a98 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -889,6 +889,17 @@ static int __mem_open_check_access_restriction(struct file *file)
- 		    !__mem_open_current_is_ptracer(file))
- 			return -EACCES;
- 
-+#ifdef CONFIG_SECURITY_PROC_MEM_WRITE_RESTRICT
-+		/* Deny if writes are unconditionally disabled via Kconfig */
-+		if (!strncmp(CONFIG_SECURITY_PROC_MEM_WRITE_RESTRICT, "all", 3))
-+			return -EACCES;
-+
-+		/* Deny if writes are allowed only for ptracers via Kconfig */
-+		if (!strncmp(CONFIG_SECURITY_PROC_MEM_WRITE_RESTRICT, "ptracer", 7) &&
-+		    !__mem_open_current_is_ptracer(file))
-+			return -EACCES;
-+#endif
-+
- 	} else if (file->f_mode & FMODE_READ) {
- 		/* Deny if reads are unconditionally disabled via param */
- 		if (static_branch_unlikely(&restrict_proc_mem[2]))
-@@ -898,6 +909,17 @@ static int __mem_open_check_access_restriction(struct file *file)
- 		if (static_branch_unlikely(&restrict_proc_mem[3]) &&
- 		    !__mem_open_current_is_ptracer(file))
- 			return -EACCES;
-+
-+#ifdef CONFIG_SECURITY_PROC_MEM_READ_RESTRICT
-+		/* Deny if reads are unconditionally disabled via Kconfig */
-+		if (!strncmp(CONFIG_SECURITY_PROC_MEM_READ_RESTRICT, "all", 3))
-+			return -EACCES;
-+
-+		/* Deny if reads are allowed only for ptracers via Kconfig */
-+		if (!strncmp(CONFIG_SECURITY_PROC_MEM_READ_RESTRICT, "ptracer", 7) &&
-+		    !__mem_open_current_is_ptracer(file))
-+			return -EACCES;
-+#endif
- 	}
- 
- 	return 0;
-@@ -930,6 +952,17 @@ static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
- 	    !__mem_open_current_is_ptracer(file))
- 		return 0;
- 
-+#ifdef CONFIG_SECURITY_PROC_MEM_FOLL_FORCE_RESTRICT
-+	/* Deny if FOLL_FORCE is disabled via Kconfig */
-+	if (!strncmp(CONFIG_SECURITY_PROC_MEM_FOLL_FORCE_RESTRICT, "all", 3))
-+		return 0;
-+
-+	/* Deny if FOLL_FORCE is only allowed for ptracers via Kconfig */
-+	if (!strncmp(CONFIG_SECURITY_PROC_MEM_FOLL_FORCE_RESTRICT, "ptracer", 7) &&
-+	    !__mem_open_current_is_ptracer(file))
-+		return 0;
-+#endif
-+
- 	return FOLL_FORCE;
- }
- 
-diff --git a/security/Kconfig b/security/Kconfig
-index 412e76f1575d0..31a588cedec8d 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -19,6 +19,48 @@ config SECURITY_DMESG_RESTRICT
- 
- 	  If you are unsure how to answer this question, answer N.
- 
-+config SECURITY_PROC_MEM_READ_RESTRICT
-+	string "Restrict read access to /proc/*/mem files"
-+	depends on PROC_FS
-+	default "none"
-+	help
-+	  This option allows specifying a restriction level for read access
-+	  to /proc/*/mem files. Can be one of:
-+	  - 'all' restricts all access unconditionally.
-+	  - 'ptracer' allows access only for ptracer processes.
-+
-+	  This can also be set at boot with the "restrict_proc_mem_read=" param.
-+
-+	  If unsure leave empty to continue using basic file permissions.
-+
-+config SECURITY_PROC_MEM_WRITE_RESTRICT
-+	string "Restrict write access to /proc/*/mem files"
-+	depends on PROC_FS
-+	default "none"
-+	help
-+	  This option allows specifying a restriction level for write access
-+	  to /proc/*/mem files. Can be one of:
-+	  - 'all' restricts all access unconditionally.
-+	  - 'ptracer' allows access only for ptracer processes.
-+
-+	  This can also be set at boot with the "restrict_proc_mem_write=" param.
-+
-+	  If unsure leave empty to continue using basic file permissions.
-+
-+config SECURITY_PROC_MEM_FOLL_FORCE_RESTRICT
-+	string "Restrict use of FOLL_FORCE for /proc/*/mem access"
-+	depends on PROC_FS
-+	default ""
-+	help
-+	  This option allows specifying a restriction level for FOLL_FORCE usage
-+	  for /proc/*/mem access. Can be one of:
-+	  - 'all' restricts all access unconditionally.
-+	  - 'ptracer' allows access only for ptracer processes.
-+
-+	  This can also be set at boot with the "restrict_proc_mem_foll_force=" param.
-+
-+	  If unsure leave empty to continue using FOLL_FORCE without restriction.
-+
- config SECURITY
- 	bool "Enable different security models"
- 	depends on SYSFS
--- 
-2.30.2
-
+Guenter
