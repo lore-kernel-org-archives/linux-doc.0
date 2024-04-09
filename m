@@ -1,128 +1,208 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9098F13AD3F
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 16:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34F013E3EF;
+	Tue,  9 Apr 2024 16:22:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712678570; cv=none; b=tpeFyrlt8UoSaham7GuakL8bM269tNszqme7Aud4f7uZRbjnGvLXkjSnuioJZ7NrIX+NdY2/r/XC+W9GdubbwllCxNJFcMqLh7fgPLw7dHiryT9PSuL8X7JbThrY3EB8Jm4GCbrkeJLyX114TBivZi/cyDPdMmYoPm1naIGd+fc=
+	t=1712679753; cv=none; b=GVIDf/Rau8FvjBI5wDdXtGAhsiQQN3hTcIGgB5toGTb+HqSmKtCTKD7Eq+zl/XclKExfkRH1qR6Juo+RO5Ggssa9nflCG2zYIsTA0mG/noQIss1IVpiwtdpB001wEIxOcOzONo0p/oqXoCN929ioc0LIeOE37ACMuPGHck1Fq58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712678570; c=relaxed/simple;
-	bh=dyL+TLXIFrRx9Lp5PrForFMQ5coJeHhlaD95G4Nkex4=;
+	s=arc-20240116; t=1712679753; c=relaxed/simple;
+	bh=s81ceGOY/UaeALO8XB1vF4xIKP6ybz9DnJl/IEpTMSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A06CWKcA/kDlT8l0Ty0D0FURRo8CLuQUfhtPPjmNdIfWF/QRIuMbSd+Yc7HyjbNjz/BCmOrruOrvLh7jprxEORLQ+TI7nSpKpCpl7VnqLemxzgmvAk2YnAjPVfBc5VonC6HZPhnKUkROdORB36NXYKfgiDO3jWwpWCAK+zcMec4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=cFbC+aHp; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=UIbPt3n29SPe3OM1HQr4vEBpyYGCfPIVdAkE2fllySvx4PYg/zapleLTCLHq9O7WUlasVq0hkEbOVJZCGnYCs3cXVHb4znHD7OQ39zHRu6eps8Xu2KwO2XeI2ZpU2jZjG1lXChXjVEliMPJoBvpapLfa3TBbf3yG/h6F22g5P5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uOf15R97; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="cFbC+aHp"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-221e6bf537dso3551493fac.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 09:02:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1712678567; x=1713283367; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cqPDnUUjz+kqldNCaECmKcsoHhRA5eglyoZJn6Trgmg=;
-        b=cFbC+aHp4L0u99cQueshGb2OyxJygUyW51VW1PlaL42GL5fVSk8i6pKHcDcMNFQy8b
-         dvRcySxYAOd9RLXXzSK7cMTp2WnL9/RjeWGNtre+Bvw648YJJH8jC8ByiFuw3ScLTt57
-         W/vBdHsBQUaDYB/EYie3Q8tyFt31KpsQy1xCa+S8Dq/2JzTrfF724TMBFgD+kvSBIeMW
-         kk+j6jERo8QvKYvXir0aeTJKwWs5JGGxdwHtVuD42GKXfuTww0g8XrIANMPLZU0E4xFr
-         eCzHoUxTMia0C1GXgDaqF4xmiEX2gjCoH+QBNTBHCUcLf4ETCCOaX6lxyyvzZaDGxnIz
-         0CMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712678567; x=1713283367;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cqPDnUUjz+kqldNCaECmKcsoHhRA5eglyoZJn6Trgmg=;
-        b=DAe8a74o9uu2TxiZxTdUv4oK2z4Kp0qvMhPz8eFRNigIuKolMP4RLBE0bZGvdzY2B6
-         Th3wTyHJYvtTWYAGp5FNKQbpdpbxxXXhOQA9oGh3iJ8q7lqzgUGL+nlD3hffebIH6O9a
-         dybajmHRAK7+wCPGxM2Q6/R3qz3U3ZwXDP2nyc1ZAEupI385rQbZHeuJIsWSiLAwMBxn
-         8Gbv2aseEQruoi3gWCzYPVUXOzY/h06VaUlIKjzJGP/9CSi39Dc9qcZ0o9f/v++NOEB9
-         dShgoTsigNssjLtD5xMSYly+xJh/TB0gynbov9SELLyZoWywUUJylwAt3gXj06sI9/rC
-         /3sw==
-X-Forwarded-Encrypted: i=1; AJvYcCUoPLVtLIZz+/k6RmaK95/Nyj/OHoBR9Qem6W4i1xIHOwokJHfbCBy+TEcSQjjNM1DpyefRn/gqGiGKUNvTxdmqx63Wk0M5zHoO
-X-Gm-Message-State: AOJu0YygoACesyIAlsG443I3wDPFEq4j9qRmOSYXqvhHs9N9mLSTn5Xu
-	6xp125RL4HPAWp9cRjHJNk1wapWAiJMz3lPqMrht++m/A35EO2292584JsQITl4=
-X-Google-Smtp-Source: AGHT+IEGoBrNhBqtGIUytEyqGsTfxZZgidVeUlPKiXIyqqZM8wDHEt7Se1Z5Tgf7yF4UEbMKRsx9Xg==
-X-Received: by 2002:a05:6870:3753:b0:229:f403:136e with SMTP id a19-20020a056870375300b00229f403136emr13014545oak.56.1712678567546;
-        Tue, 09 Apr 2024 09:02:47 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:400::5:6db8])
-        by smtp.gmail.com with ESMTPSA id i10-20020ac871ca000000b00434af976d2dsm1785597qtp.88.2024.04.09.09.02.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 09:02:46 -0700 (PDT)
-Date: Tue, 9 Apr 2024 12:02:41 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Subject: Re: [RFC PATCH v3 2/9] cgroup/pids: Separate semantics of
- pids.events related to pids.max
-Message-ID: <20240409160241.GC1057805@cmpxchg.org>
-References: <20240405170548.15234-1-mkoutny@suse.com>
- <20240405170548.15234-3-mkoutny@suse.com>
- <ZhQvmnnxhiVo1duU@slm.duckdns.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uOf15R97"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 783B4C433F1;
+	Tue,  9 Apr 2024 16:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712679753;
+	bh=s81ceGOY/UaeALO8XB1vF4xIKP6ybz9DnJl/IEpTMSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uOf15R97CfO4NRrpGlR+ut/EZaH8gJePsx76fVYZ2CwpkY6p2z9oJg8boVPOdOoce
+	 WETlWuf5gfSinxoonTC04g5Kc3Sj2wZe9v17KvknHY3kunNrQaSO0L6nThQ5p/8nRJ
+	 nKKPh7+OV5XuHOCgKUobpVWsMEUosqNN+Oy7MtOavp44t3NaOWktoHNU3flF3rj12P
+	 bxvOmVWzXpwkP+BPmdlgreV35svfYgm5TTPVIxw45uz3NeIFb27nURTpm/B4vJffGz
+	 rHBMtsPRwqA5Of0yoDXPSPXCbiEUfKL6dAA1Ko3ghM2b9lkhjl0APrqbDbXL3wc/MZ
+	 nHjQ03z4Hsjsg==
+Date: Tue, 9 Apr 2024 09:22:32 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Brian Foster <bfoster@redhat.com>, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3 01/13] fs: fiemap: add physical_length field to extents
+Message-ID: <20240409162232.GA6367@frogsfrogsfrogs>
+References: <cover.1712126039.git.sweettea-kernel@dorminy.me>
+ <1ba5bfccccbf4ff792f178268badde056797d0c4.1712126039.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZhQvmnnxhiVo1duU@slm.duckdns.org>
+In-Reply-To: <1ba5bfccccbf4ff792f178268badde056797d0c4.1712126039.git.sweettea-kernel@dorminy.me>
 
-On Mon, Apr 08, 2024 at 07:55:38AM -1000, Tejun Heo wrote:
-> Hello,
+On Wed, Apr 03, 2024 at 03:22:42AM -0400, Sweet Tea Dorminy wrote:
+> Some filesystems support compressed extents which have a larger logical
+> size than physical, and for those filesystems, it can be useful for
+> userspace to know how much space those extents actually use. For
+> instance, the compsize [1] tool for btrfs currently uses btrfs-internal,
+> root-only ioctl to find the actual disk space used by a file; it would
+> be better and more useful for this information to require fewer
+> privileges and to be usable on more filesystems. Therefore, use one of
+> the padding u64s in the fiemap extent structure to return the actual
+> physical length; and, for now, return this as equal to the logical
+> length.
 > 
-> On Fri, Apr 05, 2024 at 07:05:41PM +0200, Michal Koutný wrote:
-> > Currently, when pids.max limit is breached in the hierarchy, the event
-> > is counted and reported in the cgroup where the forking task resides.
-> > 
-> > This decouples the limit and the notification caused by the limit making
-> > it hard to detect when the actual limit was effected.
-> > 
-> > Let's introduce new events:
-> > 	  max
-> > 		The number of times the limit of the cgroup was hit.
-> > 
-> > 	  max.imposed
-> > 		The number of times fork failed in the cgroup because of self
-> > 		or ancestor limit.
+> [1] https://github.com/kilobyte/compsize
 > 
-> The whole series make sense to me. I'm not sure about max.imposed field
-> name. Maybe a name which clearly signfies rejection of forks would be
-> clearer? Johannes, what do you think?
+> Signed-off-by: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+> ---
+>  Documentation/filesystems/fiemap.rst | 28 +++++++++++++++++-------
+>  fs/ioctl.c                           |  3 ++-
+>  include/uapi/linux/fiemap.h          | 32 ++++++++++++++++++++++------
+>  3 files changed, 47 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/fiemap.rst b/Documentation/filesystems/fiemap.rst
+> index 93fc96f760aa..c2bfa107c8d7 100644
+> --- a/Documentation/filesystems/fiemap.rst
+> +++ b/Documentation/filesystems/fiemap.rst
+> @@ -80,14 +80,24 @@ Each extent is described by a single fiemap_extent structure as
+>  returned in fm_extents::
+>  
+>      struct fiemap_extent {
+> -	    __u64	fe_logical;  /* logical offset in bytes for the start of
+> -				* the extent */
+> -	    __u64	fe_physical; /* physical offset in bytes for the start
+> -				* of the extent */
+> -	    __u64	fe_length;   /* length in bytes for the extent */
+> -	    __u64	fe_reserved64[2];
+> -	    __u32	fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
+> -	    __u32	fe_reserved[3];
+> +            /*
+> +             * logical offset in bytes for the start of
+> +             * the extent from the beginning of the file
+> +             */
+> +            __u64 fe_logical;
+> +            /*
+> +             * physical offset in bytes for the start
+> +             * of the extent from the beginning of the disk
+> +             */
+> +            __u64 fe_physical;
+> +            /* logical length in bytes for this extent */
+> +            __u64 fe_logical_length;
+> +            /* physical length in bytes for this extent */
+> +            __u64 fe_physical_length;
+> +            __u64 fe_reserved64[1];
+> +            /* FIEMAP_EXTENT_* flags for this extent */
+> +            __u32 fe_flags;
+> +            __u32 fe_reserved[3];
+>      };
+>  
+>  All offsets and lengths are in bytes and mirror those on disk.  It is valid
+> @@ -175,6 +185,8 @@ FIEMAP_EXTENT_MERGED
+>    userspace would be highly inefficient, the kernel will try to merge most
+>    adjacent blocks into 'extents'.
+>  
+> +FIEMAP_EXTENT_HAS_PHYS_LEN
+> +  This will be set if the file system populated the physical length field.
 
-The max event at the level where the limit is set (and up, for
-hierarchical accounting) makes sense to me.
+Just out of curiosity, should filesystems set this flag and
+fe_physical_length if fe_physical_length == fe_logical_length?
+Or just leave both blank?
 
-max.imposed is conceptually not entirely unprecedented, but something
-we've tried to avoid. Usually the idea is that events correspond to
-specific cgroup limitations at that level. Failures due to constraints
-higher up could be from anything, including system-level shortages.
+>  VFS -> File System Implementation
+>  ---------------------------------
+> diff --git a/fs/ioctl.c b/fs/ioctl.c
+> index 661b46125669..8afd32e1a27a 100644
+> --- a/fs/ioctl.c
+> +++ b/fs/ioctl.c
+> @@ -138,7 +138,8 @@ int fiemap_fill_next_extent(struct fiemap_extent_info *fieinfo, u64 logical,
+>  	memset(&extent, 0, sizeof(extent));
+>  	extent.fe_logical = logical;
+>  	extent.fe_physical = phys;
+> -	extent.fe_length = len;
+> +	extent.fe_logical_length = len;
+> +	extent.fe_physical_length = len;
+>  	extent.fe_flags = flags;
+>  
+>  	dest += fieinfo->fi_extents_mapped;
+> diff --git a/include/uapi/linux/fiemap.h b/include/uapi/linux/fiemap.h
+> index 24ca0c00cae3..3079159b8e94 100644
+> --- a/include/uapi/linux/fiemap.h
+> +++ b/include/uapi/linux/fiemap.h
+> @@ -14,14 +14,30 @@
+>  
+>  #include <linux/types.h>
+>  
+> +/*
+> + * For backward compatibility, where the member of the struct was called
+> + * fe_length instead of fe_logical_length.
+> + */
+> +#define fe_length fe_logical_length
 
-IOW, events are supposed to be more about "how many times did this
-limit here trigger", and less about "how many times did something
-happen to the tasks local to this group".
+This #define has global scope; are you sure this isn't going to cause a
+weird build problem downstream with some program that declares an
+unrelated fe_length symbol?
 
-It's a bit arbitrary and not perfectly followed everywhere, but I
-think there is value in trying to maintain that distinction, so that
-somebody looking at those files doesn't have to rack their brains or
-look up every counter in the docs to figure out what it's tracking.
+> +
+>  struct fiemap_extent {
+> -	__u64 fe_logical;  /* logical offset in bytes for the start of
+> -			    * the extent from the beginning of the file */
+> -	__u64 fe_physical; /* physical offset in bytes for the start
+> -			    * of the extent from the beginning of the disk */
+> -	__u64 fe_length;   /* length in bytes for this extent */
+> -	__u64 fe_reserved64[2];
+> -	__u32 fe_flags;    /* FIEMAP_EXTENT_* flags for this extent */
+> +	/*
+> +	 * logical offset in bytes for the start of
+> +	 * the extent from the beginning of the file
+> +	 */
+> +	__u64 fe_logical;
+> +	/*
+> +	 * physical offset in bytes for the start
+> +	 * of the extent from the beginning of the disk
+> +	 */
+> +	__u64 fe_physical;
+> +	/* logical length in bytes for this extent */
+> +	__u64 fe_logical_length;
 
-It's at least true for the misc controller, and for most of memcg -
-with the weird exception of the swap.max events which we've tried to
-fix before...
+Or why not just leave the field name the same since the "logical length
+in bytes" comment is present both here in the header and again in the
+documentation?
 
-For "things that are happening to the tasks in this group", would it
-make more sense to have an e.g. pids.stat::forkfail instead?
+--D
 
-(Or just not have that event at all? I'm not sure if it's actually
-needed or whether you kept it only to maintain some form of the
-information that is currently provided by the pr_info()).
+> +	/* physical length in bytes for this extent */
+> +	__u64 fe_physical_length;
+> +	__u64 fe_reserved64[1];
+> +	/* FIEMAP_EXTENT_* flags for this extent */
+> +	__u32 fe_flags;
+>  	__u32 fe_reserved[3];
+>  };
+>  
+> @@ -66,5 +82,7 @@ struct fiemap {
+>  						    * merged for efficiency. */
+>  #define FIEMAP_EXTENT_SHARED		0x00002000 /* Space shared with other
+>  						    * files. */
+> +#define FIEMAP_EXTENT_HAS_PHYS_LEN	0x00004000 /* Physical length is valid
+> +						    * and set by FS. */
+>  
+>  #endif /* _UAPI_LINUX_FIEMAP_H */
+> -- 
+> 2.43.0
+> 
+> 
