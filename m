@@ -1,184 +1,103 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from sonic313-47.consmr.mail.gq1.yahoo.com (sonic313-47.consmr.mail.gq1.yahoo.com [98.137.65.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD0515749F
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 19:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E86E566
+	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 20:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.65.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712692639; cv=none; b=YpnaoJetELEEc+yZDg6+tNW7tbhiyxaiXGCIXh6/p4KPGH6URNjsPaPvoeI07sffV+VLAE7SAk17y9IYRvsKiZq1HSc68WexnfTe5wFCEzB05jZHWXvZBJFre19mat6F/k7lxgXDCsC8j0e6W2zIRTE0CovMtzeCX1/SfdLW/1Y=
+	t=1712693114; cv=none; b=NoCyIAN/0GA0nhoQgifp7cLCczubBWTjZZcfz2NPZQ6cTP21AZMmwCUdS0ojcaMZDTygAuAFgsYkBB+DXh4V5IEMGSRimPDI/EZUtUF6dYknDDd+xwZE13lyYHYM8K5Wx1ggmlTpMgEXfE+NRoIQlLuGh6jn5Cm1LReUCNTYMwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712692639; c=relaxed/simple;
-	bh=ZFU8p2UDWz+Lst45TmN3KpIzvXulf7s/dX2gWZBUyN4=;
-	h=From:Message-Id:Content-Type:Mime-Version:Subject:Date:
-	 In-Reply-To:Cc:To:References; b=D0Kwt0s9tpSQdjDaafRZbfOpM0A67lSZcvIcOo0ZpTApj+22eGjCLwUFodTFrJB7cHioHxI+fx8rHPxhYfMauZAy4aPW8ry7LRPsTG66v7zqcIWRhQEs5OuL3bcjBTxYreh38xTL9x4QdXErE8AMId0JggrwkDN3kbs2GtZVUeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca; spf=pass smtp.mailfrom=dilger.ca; dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b=wMRZbgIO; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dilger.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dilger.ca
+	s=arc-20240116; t=1712693114; c=relaxed/simple;
+	bh=a8ddZuehFg84N+6V98u1My4a2+ltnFQLXir6FRaBgSQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:References; b=ecZdGaxfKmNqhLySi+H4BqE3FsdLBPdPL5WfVYRT77EL24cFUk/g/T/t7H2oHBphZ/h1VExKsxooHh1npSPJ8184IbY9f6bCPwnSr2GJMszNrvp0VVU6X9iR3cgL/hUtW0vS0DI+5hIFDHyDCR4aOtUIvydABUltR4uQJQfQHzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.co.uk; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=ZMpA+yfb; arc=none smtp.client-ip=98.137.65.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dilger-ca.20230601.gappssmtp.com header.i=@dilger-ca.20230601.gappssmtp.com header.b="wMRZbgIO"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ece8991654so5410598b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 12:57:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dilger-ca.20230601.gappssmtp.com; s=20230601; t=1712692636; x=1713297436; darn=vger.kernel.org;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lf5oD1YJAqRWQcO+qVEbuqOOPtB538xNFgGiHmq1JF4=;
-        b=wMRZbgIOsBDVVT3EydX8zGNgmQqj78pfFQ1915OF/HjErq3PQRH83CiijGU8eCLccp
-         YO4N0hRkYe8a1o2ilQKNBlHC6S3zVyFWuaLQiP0UfdOQfbZWl60UgmM1FAnCGv964Zfl
-         B/Lq6bGOCEY206fcXmj+3QQ2YMsGnSJy+EFj0GXQTe3XBW7AhtT+zbE04Kaw4WPe/4t7
-         0XBE7t5IilbVEfv68Gks/D6eW4VRo+yIESm/ZVv2d/I+VKa+wSSGV0zZMKLtTbXEmUI/
-         WfiiFGGGAzbSPTPVleuTVr3SzVw21PMNqW0Lyt8pQ0++eCmnYksMZPdVe36f5q7I4je2
-         4hfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712692636; x=1713297436;
-        h=references:to:cc:in-reply-to:date:subject:mime-version:message-id
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lf5oD1YJAqRWQcO+qVEbuqOOPtB538xNFgGiHmq1JF4=;
-        b=MgwoCicsJWgU+iqtWVoyycX96e1AFndFyQ/oqeU/WWAZQeSmoePU7p/07qg9t6yM1M
-         LWpFT5UyDRxbZQFT+PwwvulYRnBf+IZsENuYZUnenB6l3XeSyUubmUfYXOMnTYYIEqL7
-         Aj+sDhWTprKh+Y1g+3NdjQ3fk08Xv290cncBugQxdogcUuHKLxPQEpcofyspVKYXWCg3
-         YvSA0ztLq9roFpCNQjDs+l4sCa5NTSGFW4R66lARXHJCxD08eMRuY3B23cLNDYfB/2Ew
-         BXmvRbBmrINihT9ccyqX/UNfrn5P9F4iKvNekZnTjDFb+UNk9YzBCfSuDueyVunH5uTz
-         svpw==
-X-Forwarded-Encrypted: i=1; AJvYcCWrtO0wwOT2BAw5PLWLOLlllnDvkG6lGL8PsxJ/3tg/cv3ulAGlmo+u2TAH5mJYDcdy7lSDFZEuklbWDXlR6BMxFdvWEQYUQjmR
-X-Gm-Message-State: AOJu0Yxs+c2iAwchkB3xF7H+xBwR0JnuhU9qqR+EkwkU+9B+MCDmdSXY
-	qs7bRiWLt7umGHwK2FvIcS90V83TVUNs4VaWL4yOlZky+hb/AKRjlMbMl7E8PYTwjN0xPyprl4s
-	6VRE=
-X-Google-Smtp-Source: AGHT+IG6mzksh1fFDdfMTB7/ZswNaf+55up0ECCTURq8a0pTe3gjPb0pivVBQWSpzMDdMub6RG+ytA==
-X-Received: by 2002:a05:6a00:c91:b0:6e7:29dd:84db with SMTP id a17-20020a056a000c9100b006e729dd84dbmr659776pfv.31.1712692636190;
-        Tue, 09 Apr 2024 12:57:16 -0700 (PDT)
-Received: from cabot.adilger.int (S01068c763f81ca4b.cg.shawcable.net. [70.77.200.158])
-        by smtp.gmail.com with ESMTPSA id gr26-20020a056a004d1a00b006ecfc7f651bsm8734606pfb.58.2024.04.09.12.57.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Apr 2024 12:57:15 -0700 (PDT)
-From: Andreas Dilger <adilger@dilger.ca>
-Message-Id: <86369AC8-3AAF-43C4-BB46-267A3EFDD293@dilger.ca>
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_6FAB8924-4A79-42AF-9FD3-39EBBA23DA64";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="ZMpA+yfb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1712693112; bh=pVMCX21u0wBc9yldyEKLn3Oo8MQzZsaUhaZmg/so+oY=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=ZMpA+yfbAIa4IPtBxYOrUnCKYTWG3fqNVxMdikauZnNh58TclMFqKfImSNUi6uec4CYPiK6iiIlx3HcaHlWJwcpd3Ed9XvFBvjrazS2RQMv61JnMZybJP4/BXET5/p9p6kxXlsO7PDCcpsq3/RACWSnOOyTZYbYcvv3rx1CTzIfNVD20xRlb420DOT1ChhINBH1VCmDr0KQXFcOcLGrvEF+LAQ4mrujKMiEURVHRsSN5UVwYG5Q8m21OEXY9MvDq4K9Xb7I3F4JcBHtiYSps2r6421XfND5cqPHKO8zOYydHdP4VPsamkGcXdD/QYOEKDUXj7tE5/57Ac0yqYSSVJA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1712693112; bh=gt29ghoDZvbTE/R7JYG6TkhxPeFgwGN5LOBLAYMIGNu=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Cq1E3HzLJ8LE228BB/a5jyTcuzRxMKMfuPluiry1hErWe8ykYkdne67UUqMP24eN3pqdNnLock0rZ1N+v1/skkYZhkV9K95Kp5UvHiZGs64ltJUJ0ungrCuoYfeQrwijFubqwhIR4KhgGZemPHIwInnu1lIZyjuSIhwjj8HiVMmI0nUz3xoo/R2mXKK7LelM4SoGfZoOITZRVstcmjo7rZZoybdNbNojgw9MhQ6XxhmYadyTbNGb24jrkJUT65Vfsz4EisgGDZhZ2nvfDkI5HwPiY/BsvWGjJqf5i7b/j76Qdeqnl4BzAME4wGNzeEC5GBbCCZJ5jfIV+NGEzijsTA==
+X-YMail-OSG: H8HCUMUVM1noYKYq9pam_9mAHVCFEQ0kfI0TQFRy1CVEGVr4g8aCR.vOpDggtW.
+ 1CtD3qRtSRmDYxZ_5RL1rE6W8z.6AqeLoUp6PxfBH2WcXDrynxwLa9DsKB62xrGjWWiUj9oU..0l
+ 8wW.q7HRey7KCRh6AbzCRGOY3ECnYFp0rGrzzLQW_SMfs57zCP5S.rqTeZ3ptJHiPNEXpnked5BR
+ .u6RHpMyMetA45iiKXDUReY2zkUOXYQXVpYkWDBZ2dqwlDSslXqCyrJ.j9JPpknFabt5U0APXjiN
+ pZWMm_zSD9tsLkPblF71rk5QPbNyN5BrB0HB1tfQLlg5C2Dte0bgJH2UVleA5PHeVoiIhixyeWv1
+ Mni3kF8TL_KhDQiuj.W0hJfH9hJx4xMq6.7iucVmQWSncecOjqhW.wSi0kv_OYOzEeky9pcoEy1U
+ usS2kbQ15OeIrOna_bs6gt0bmxp61wU8OkZI2W.tmw6k5YCU6IQ6jOPqrgPc0pmE1G1t4WVwn0qq
+ Dy0AQHg7QaJaqtpMrQca7FXPx_cbekUBdzJuHmC.U8TYd9fKy1PMam6WNmrlyrg.LhxlEppdlPnv
+ 5gnVoaS65FCKghCMtSpTfaWqoQv.xUHFNKX8XL_QVd.Z_hZAabJ19PkObSNBWMn9lM2qWp.A4w0I
+ 0EPdgxZQA2RoS0e.GVu_FizQcQiTtT6VrKguTxjDPD7E.6psZL5Dm.1L6wzVE1HChrNSWvLY_4Jy
+ rZ25JGl9qRrPBBLNld8.71JV8pKmC1AoME1CcDM145e1EwGEeFSyLTjKRgtitvQKcuWyp_xH6amB
+ FVUofWLZ_8nmOWu2QVNq_nSqKKsxuhp3c7zxQ8i_90oCR.MVszfARK65IYqbvGGEAX.zUGpYNzRo
+ vV4WeU9H20xuPwGiQWv9A_G5LOMsYK7rxJGcHWDKlbzl5wFMrFxUbIfERk4M3haX6j9aj656sqt5
+ nNk4R2pMIIBuAfPNdMaUf9q9X_PeWnLSDCZuik5yFFCAPA_bb1qcsYxRPbtKiwFynPW2FqO3XCEI
+ jHJ5EMDYtYiOMnEKZspuCj6iKSXR8PV0EDNB32GzcHWCfZZQG87JVND1CEfUJ_K2ooWQmtLwcy3u
+ WxuLyla3b1jtt3cLrUohp3Ek5y0oOFhd8c__2WtikLDQ8bFoRT_CmDT39suACkkVzsAMZQ5jCQfh
+ QzURodjD8sC0lDYHefiGNaoiy1e5_c_4EHuq6ab_I7JRuNkbEYyVTiRfSqnHMgEB6B4znhLyQ_Wr
+ GVKLYl4zt.gUdULEIlcG3IodfghiyDfUvjypHOfXfvCRfFIwkOycdK3wV2Kbl9mpClrZYdgs_w.z
+ Eb_pf30KB6d2xzFLmSZyl8jwtqHaJxlaJ8UnRsSBtviIZgZqyqy97wFHmCAmAdC4Fcslh35Zf5ee
+ JXOYmtw0FOkP_7rohmU79RWmdFrJPy8GFhc1YZcRM4Qgbh76rlbFAt6olSVmKBEPBUMknF5m7z2F
+ sg88h09sikiS.sdtyXtBn9Ng7_ljnn_W0FOwx4bcBrt2_grlfo_FRdI_ug340xWoYJh5.aw7OEWp
+ 6VE5lVVN2BUgRAjwigCfnYz0k0n1vlbRVVZgpGqnfgWBLByoYgKQW82ca_l5TYx2gtWowIIa7VtS
+ khzF554apq2d8UkieG._o9Ivk0th2cKxM7dx1xq7lsZMiDwl_KhGbFHUCkibToamd7y2lmJr74pr
+ 90rsXJOi_iP.DNTZeWXKGpmANtmhKbdaXlehb4kDlH9YDNtcQIcpIUik9N8vaYtgJbeUoB.LnGq4
+ co2OXu_a6wraMKFidSY6aMyzyKzCh2In2GalfZqQPqFJDEfdZV5AXnSn4dxng9m.cpmzHZEo2FAd
+ ox6_4yRGzCrKEbo.A3.IWdMaCkBB3XseD3f4bz4DOgrF2fo8ipVpqI60uWOWupMY45RKu6nNnDne
+ wMe3M4gnRtx9QAVP9KWBUl8NY_D2l8GieyLLR7M.swht9flwChw5KcI9ON.NdDqXiKJjoZdnWYsb
+ dee9HAsxH1iyrZX5Kpy35L7I3qWk2xCMCgTO_b_J19GsNbNIYAngZQGfKAh5N1pl1.cIYfnW7yHZ
+ vGAyyz81jfUZpgTgVkzVgkpW9yR8X3vqh4JK8r3iIB3q6FM.7zVIXj536KSc3FHsjdWZu_KbV96s
+ DCHZ2zaWM0PqZ2K5bgTYNDVYBGRXx7EFydLQvTCP_2s_kSkC_TlDPpPX5xSMs67Rk_cWiNsviDTg
+ cdVWwYJq95.FjS8nk6Xue779eoiZCqoHm9NDZHcLCXS7UkixDSH08nD2P
+X-Sonic-MF: <rubenru09@aol.co.uk>
+X-Sonic-ID: adb324b8-0163-488d-a0b9-d8a02d971dbf
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.gq1.yahoo.com with HTTP; Tue, 9 Apr 2024 20:05:12 +0000
+Received: by hermes--production-bf1-7d6dbd57c9-rgkn7 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ce6b28aff7bdb6bbe07e2f9d9b252da5;
+          Tue, 09 Apr 2024 19:53:02 +0000 (UTC)
+From: Ruben Wauters <rubenru09@aol.com>
+To: David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: Ruben Wauters <rubenru09@aol.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] drm/dp_mst: Remove unnecessary vcpi documentation
+Date: Tue,  9 Apr 2024 20:51:30 +0100
+Message-Id: <20240409195130.25057-1-rubenru09@aol.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
-Subject: Re: [PATCH 0/3] fiemap extension to add physical extent length
-Date: Tue, 9 Apr 2024 13:57:13 -0600
-In-Reply-To: <20240321185803.GH14596@suse.cz>
-Cc: "Darrick J. Wong" <djwong@kernel.org>,
- Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
- corbet@lwn.net,
- viro@zeniv.linux.org.uk,
- brauner@kernel.org,
- jack@suse.cz,
- linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org,
- linux-btrfs@vger.kernel.org,
- clm@meta.com,
- dsterba@suse.com,
- josef@toxicpanda.com,
- jbacik@toxicpanda.com,
- kernel-team@meta.com
-To: dsterba@suse.cz
-References: <cover.1709918025.git.sweettea-kernel@dorminy.me>
- <20240315030334.GQ6184@frogsfrogsfrogs> <20240321185803.GH14596@suse.cz>
-X-Mailer: Apple Mail (2.3273)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+References: <20240409195130.25057-1-rubenru09.ref@aol.com>
 
+Since vcpi has been moved into the atomic payload and
+out of the port struct, the documentation of vcpi on
+the port struct is no longer necessary, and is flagged
+as a warning by make htmldocs
 
---Apple-Mail=_6FAB8924-4A79-42AF-9FD3-39EBBA23DA64
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Vcpi is also documented elsewhere in this file, in the
+atomic payload struct itself
 
-On Mar 21, 2024, at 12:58 PM, David Sterba <dsterba@suse.cz> wrote:
->=20
-> On Thu, Mar 14, 2024 at 08:03:34PM -0700, Darrick J. Wong wrote:
->> On Fri, Mar 08, 2024 at 01:03:17PM -0500, Sweet Tea Dorminy wrote:
->>> For many years, various btrfs users have written programs to =
-discover
->>> the actual disk space used by files, using root-only interfaces.
->>> However, this information is a great fit for fiemap: it is =
-inherently
->>> tied to extent information, all filesystems can use it, and the
->>> capabilities required for FIEMAP make sense for this additional
->>> information also.
->>>=20
->>> Hence, this patchset adds physical extent length information to =
-fiemap,
->>> and extends btrfs to return it.  This uses some of the reserved =
-padding
->>> in the fiemap extent structure, so programs unaware of the new field
->>> will be unaffected by its presence.
->>>=20
->>> This is based on next-20240307. I've tested the btrfs part of this =
-with
->>> the standard btrfs testing matrix locally, and verified that the =
-physical extent
->>> information returned there is correct, but I'm still waiting on more
->>> tests. Please let me know what you think of the general idea!
->>=20
->> Seems useful!  Any chance you'd be willing to pick up this old =
-proposal
->> to report the dev_t through iomap?  iirc the iomap wrappers for =
-fiemap
->> can export that pretty easily.
->>=20
->> =
-https://lore.kernel.org/linux-fsdevel/20190211094306.fjr6gfehcstm7eqq@hade=
-s.usersys.redhat.com/
->=20
-> I think this is not too useful for btrfs (in general) due to the block
-> group profiles that store copies on multiple devices, we'd need more
-> than one device identifier per extent.
+Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+---
+ include/drm/display/drm_dp_mst_helper.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-My thought would be that there are multiple overlapping extents with the
-same logical offset returned in this case.  It wouldn't just be the =
-device
-that would be different in this case, but also the physical offset may =
-be
-different on each device (depending on how allocation is done), and =
-maybe
-even the length and flags are different if one device stores compressed
-data and another one does not.
+diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+index 9b19d8bd520a..3ae88a383a41 100644
+--- a/include/drm/display/drm_dp_mst_helper.h
++++ b/include/drm/display/drm_dp_mst_helper.h
+@@ -83,7 +83,6 @@ struct drm_dp_mst_branch;
+  * @passthrough_aux: parent aux to which DSC pass-through requests should be
+  * sent, only set if DSC pass-through is possible.
+  * @parent: branch device parent of this port
+- * @vcpi: Virtual Channel Payload info for this port.
+  * @connector: DRM connector this port is connected to. Protected by
+  * &drm_dp_mst_topology_mgr.base.lock.
+  * @mgr: topology manager this port lives under.
+-- 
+2.40.1
 
-Having multiple overlapping extents for files with built-in mirrors =
-allows
-freedom for all of the extent parameters to be different, doesn't have =
-any
-limits on the number of copies/devices that could fit in one extent, =
-etc.
-
-Cheers, Andreas
-
-
-
-
-
-
---Apple-Mail=_6FAB8924-4A79-42AF-9FD3-39EBBA23DA64
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAmYVnZoACgkQcqXauRfM
-H+B6rw//bAbIzB/vqxb8UHC9CPh3aICucWfOZw4nawnjo/zXA0RMJh6w2hsI43A6
-nfisuNPRkdEI/g1yZu74a46ZgdtuOUYZKB718F42iBr3I62kCJ02pgVViDUC3feM
-4+zLiW8ZOG+itmeJE8v+RP9T5c7dDpVFRb6uavHf70+eEGwPMqDjbIbusXYUuHB6
-6mv1oCCbk+naWZ+UUEvqBy63prr1diuq4Z1aL4biqG92YRNjSGM27yRsWNhZgr35
-xfasEOR0YbOgwEvGp6hdIejgFjzakIfNZpkb+wEhDordUI3IGnJyY/FEQnsxYGeA
-VFn3BKU3pGxLByGEgXHOTrjS5g4cY5EokV44UhrzL6YOk7IyhW15w9MLIATgE9AW
-AWDln7Q5mNCKA8/3U6Gn2U7ULhvIrbe6iYYvkmHAANYwyhWKHfjvG1iQSSKKjj3j
-qkpGNBqhaEYtTiIQcrDEcsWEfFvxJUALoyrr4HH4C5XkDoYZObEs0bGHK8ekkHNi
-tBV/9lfOfRk2w7A3SgkJbsqGzZIyTCQfgbEDaR3WLYQMZErEq/twfoPRmPLGHrHu
-cPzsefo4QXxYbX7Du4l1mSR7Thx+Eh4AQ19jIahNd700gtNyVcbkBFf1qfnRBQzY
-Eudtyuy7neaFge0g9T6m1Hc7W/3qvd4ABSI6bUPCKlZd0GsVlyI=
-=t5A5
------END PGP SIGNATURE-----
-
---Apple-Mail=_6FAB8924-4A79-42AF-9FD3-39EBBA23DA64--
