@@ -1,254 +1,561 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07E612EBE3
-	for <linux-doc@vger.kernel.org>; Tue,  9 Apr 2024 08:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7994471B3D;
+	Tue,  9 Apr 2024 08:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712651405; cv=none; b=FPpZCzi7CKVs4msnHpQX2T/cKro48kq3fc5Jo3mvPQD1OI5OPgZl5Rwug5L6kmPJIfvf+SyV5hh3pm+tJAE8T4c+3XsuN90uo2EkbpNjcBkMAKmzqBB9hc6EnhNv2C5t/dvI+ZPjuUaW4fwxXLnZt9ux3lV2Qqmz8B+13rLIC3c=
+	t=1712652550; cv=none; b=jK25bTzRtKpQF4JKVjWqRq8+UsOoa6DVoCaCW55tu1BZr3YWHQdJ3ubt3h1acIiX/lw3NmpLgQ8OTq/2bApOIpmxvCOEL2Fzmu9/9un6rKzIzjVfAUDrKOrTWIBreGxC2JKBd9BczYLCqwEmPfAXXV8brCvdcPqon5gNlhxcG+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712651405; c=relaxed/simple;
-	bh=C7tCDWN66b57jAoK5F/L5eMgcxZzBQKKIP4rvSQEric=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IBtItB+Bw0hkPBTMhBjNF7w3+fsstm/ixqMSXZSoOQQnZFiTnkpSjl0ef46cl18Yl8W9u9EBm4w54o5N5jfQy9zcdEL1Atu6lWIV599hdZmBhzFJMCLeusXYsVh2ENV/8YiMMUXwWpN04A/Tt6iI2JOsFNN2NKPZE5IN5mie4XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Vz7DG9gX; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1712652550; c=relaxed/simple;
+	bh=55Gz1d6PE5+BPGxNtnl+MkRLLOAz1Ds2T1BDn+XXDqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0cdqkKaen6Ci+LcBTstTeI6NHnUGJigtxASY/XGyY1V9FyDS1boSr0d1lyAExAVj7DUE/Jk2nQLGlKeAJa3o8yXzXXDHJ3dZEkmsBh4hTOpGcZ1Dj2ZJTkBCHoXQkUmikItyV0KtiCkxiAx8xJW/GqFi4j7LPIx1gAVVOFi3OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjDomvVD; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Vz7DG9gX"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56e5bba0908so7511a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Apr 2024 01:30:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjDomvVD"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ecf406551aso3719117b3a.2;
+        Tue, 09 Apr 2024 01:49:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712651401; x=1713256201; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=++l5qOhqeCDwIHw0C9oixhvePc79l+wbL0jwaIxYOIo=;
-        b=Vz7DG9gX1O0aMzjix0h5grpQt14+tdesQrPlyiv4MQkq+W8voUSCLqhzoW1nsOQP4P
-         XmOUwmumKcyoVTge/+s5TLq3D4U8Ebq3z/RV6VElTC0kgiKOmULMjuPLQBE646gJWEyf
-         ZjZzN9GV3DYkvnR79DWXMpu+U2GpZ3qkoGN1FqzlR9zMSY9XrW6LyrvlVksWLa4qw/1l
-         70wPHY3LafQz7ghaxe0tZGsboIlOUg/88GnKiHkxp75FdxMR10fNZVyf7iU24DqrnGVH
-         q86WVygJeDBP9Pi5HHNOYqOA0FThuJbrUdRllfNqD7382LlCJSqaBdBpbBaBPRtWFV2V
-         7ybA==
+        d=gmail.com; s=20230601; t=1712652548; x=1713257348; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MSahVrthKJCcloY4FNb4IZqh/ztA0JPEzoI52B7gCJI=;
+        b=ZjDomvVDh1ZKY0++IxJsBL6QzlcUuEU3cpZRF221sO41TlriBsLhoMh9SvlQnXR4K/
+         PCd6DcGxxCbo1AYAxHbPOC5kjQcfotZEH2Wf3ed+oSSeVWwugIqsrtyWGKBiS84u9hEm
+         OpD9LqxD7EI80DrCn9TuXP2SlHmQJ5ebNwxWj4eL3K2stG6mddZ5jSqJ1Pqla6EOfI/g
+         MgQkV2stI9Lmzw7NWSxoFmr03VjzU/0n8WGTuJeIEgdGTK9kO5Ttc7Ed7Bgax+NFtokC
+         q33o7QVj80s6tkMqKhINqbuFWngaM5p721ZQGUiNb07l2SqwowuJr05RsV5dPwlvc84Y
+         bPnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712651401; x=1713256201;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=++l5qOhqeCDwIHw0C9oixhvePc79l+wbL0jwaIxYOIo=;
-        b=oG2ztW3JyMeydLAWyFtpwrSK6tspbs3rbVOW7JtuMGP24asrFUl0HoPck6cMCC/1Hn
-         Sj/ZHhSi1YGUXJW90udxXiwCJj3JDNDV4RVXOmAjz0V9rqcWFRymtlT8bZX/nkry/1v1
-         hh7E7AfaFODvesaczxYz9dRvJ+ACCBkRbyZNh9mlpl4OLAkT/9SRUyUDv517rtSZjzRK
-         Z5c4FrJsEfbGWN/l4tFBxC8YInUIB+cpPMqzwJG6OKxhA36ihh6khWg0FV1Xi6TyyVOc
-         vYpsK5JvI9s8OVZRiKOtr7RpJt90e4mBOCHK9S+GACD9oNpgre024Qe6x8DexEPv11kG
-         cr7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVTOJNJIsvSHzUcPGxSKPNOmKzibj3YnFs9USDO6vmwcmrxv8+mtmJLhmxszHJUTkur9gDdfiB+aVN73ZoyqLGIbToJU44hG5oR
-X-Gm-Message-State: AOJu0YztlqrVDUeVJlZvACvWX8XaFAXKn66jrlaQjtV0L2PlkRnZNZJk
-	LYcG2hfZ7p9TKpRjQhQTNWSy7eaDOsw8m5raPRSTmqUp3Vmq13MW6P/D/fG6XSfmzWgwotJQHfH
-	sOIP7vMUYBaY678mguXMLvyX2o3mVrnTfNeRU
-X-Google-Smtp-Source: AGHT+IHYaeERcEkkmGD/A4tACg9YKD4kdNmAMVD2CKRyiAat0V+rnkCQ2SItMKP8w6Jo/7F9MnxE50/WwG55IF7tH+4=
-X-Received: by 2002:aa7:d7da:0:b0:56e:76e:6ea9 with SMTP id
- e26-20020aa7d7da000000b0056e076e6ea9mr106213eds.6.1712651400934; Tue, 09 Apr
- 2024 01:30:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712652548; x=1713257348;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MSahVrthKJCcloY4FNb4IZqh/ztA0JPEzoI52B7gCJI=;
+        b=ckbVIur+oxC6CDdoSJ5/Ww5WocBqfWaJ5qUxkCQQnLSek1cHe/zAGviVLYmLN6EYKy
+         j6MuqFsiDXcLvgQzY/WJEbmLtKyCUB6Jwu+77oSSLQ/Khis9a6EKdzcWX4pRu3Q+y7qh
+         SkkSs3HWeMSYF91kvfexjnq7eXbDAf9OkQC05tm4J2iTez0GlDdKA4jliSL/CJzM8LXh
+         hxVrbY6ISYCV7eozJI+IODGNyWcTVbEnGRPrZlY59RehY159M25hNr584XaJM1bF8x8E
+         1rUgAdW3Rn/hMpo1i74nVmx+3myRabeyP+6Q3NlrC/AuF4LlUs+4i28DFLmFwCUQKolz
+         eAQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUn4LiQR3ilkGKymAwbQzMJG6iTrHA8RkKEINzHJG7qe6fRUg0aGG76dYTESMpWpe4d+2vq957fth77ZscCMg7kJIv24SUB+YDkERmXaYd9yo95zax4n96eklncMB26duqg
+X-Gm-Message-State: AOJu0YzfpQPCHIbWrqbV+rY87EJOUini04PrJLMdJrlIlJAx+NYpXziP
+	N0v79Drm+d8LEUkQjnkmGOeEytUkc/8YGFKBgNFEcu2ji4LosUgC
+X-Google-Smtp-Source: AGHT+IGTmZe0nkoHN61+lsrsltYIyFugRNF31SDOecEVC/CeFyxDEeetE0uaozVJ/1v/7lkm1K31Lw==
+X-Received: by 2002:a05:6a21:9996:b0:1a3:55d2:1489 with SMTP id ve22-20020a056a21999600b001a355d21489mr12488169pzb.7.1712652547512;
+        Tue, 09 Apr 2024 01:49:07 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id p16-20020a170902e75000b001e3c77db2aesm7800300plf.88.2024.04.09.01.49.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Apr 2024 01:49:07 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A4B5618479A0F; Tue, 09 Apr 2024 15:49:04 +0700 (WIB)
+Date: Tue, 9 Apr 2024 15:49:04 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Aurelien Aptel <aaptel@nvidia.com>, linux-nvme@lists.infradead.org,
+	netdev@vger.kernel.org, sagi@grimberg.me, hch@lst.de,
+	kbusch@kernel.org, axboe@fb.com, chaitanyak@nvidia.com,
+	davem@davemloft.net, kuba@kernel.org
+Cc: Yoray Zack <yorayz@nvidia.com>, aurelien.aptel@gmail.com,
+	smalin@nvidia.com, malin1024@gmail.com, ogerlitz@nvidia.com,
+	borisp@nvidia.com, galshalom@nvidia.com, mgurtovoy@nvidia.com,
+	linux-doc@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+	corbet@lwn.net
+Subject: Re: [PATCH v24 09/20] Documentation: add ULP DDP offload
+ documentation
+Message-ID: <ZhUBAAoqLtqysnRW@archie.me>
+References: <20240404123717.11857-1-aaptel@nvidia.com>
+ <20240404123717.11857-10-aaptel@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403131936.787234-1-linux@roeck-us.net> <20240403131936.787234-5-linux@roeck-us.net>
-In-Reply-To: <20240403131936.787234-5-linux@roeck-us.net>
-From: David Gow <davidgow@google.com>
-Date: Tue, 9 Apr 2024 16:29:49 +0800
-Message-ID: <CABVgOSkk-QhmemH0p_VmiLrqLDs7SxD-mc-mjzfE4+1tj5mB+w@mail.gmail.com>
-Subject: Re: [PATCH v3 04/15] kunit: Add documentation for warning backtrace
- suppression API
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook <keescook@chromium.org>, 
-	Daniel Diaz <daniel.diaz@linaro.org>, Arthur Grillo <arthurgrillo@riseup.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Maxime Ripard <mripard@kernel.org>, 
-	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
-	kunit-dev@googlegroups.com, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	loongarch@lists.linux.dev, netdev@vger.kernel.org, x86@kernel.org, 
-	Linux Kernel Functional Testing <lkft@linaro.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000006794650615a5baad"
-
---0000000000006794650615a5baad
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 3 Apr 2024 at 21:19, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Document API functions for suppressing warning backtraces.
->
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
-
-This looks good to me: thanks for adding the documentation!
-
-If we add integration between this and the KUnit resource system,
-we'll need to add that to this documentation.
-
-I wonder if it would make sense to have an example where the
-DEFINE_SUPPRESSED_WARNING() is global, e.g., in the test init/exit
-functions. That might overcomplicate it a bit.
-
-It also might be nice to document the individual macros with kerneldoc
-comments. (Though, that could equally fit in patch #1).
-
-Still, this is the most important bit, so I'm happy to have it as-is.
-
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qvJ5B+QzDH4Cl5d1"
+Content-Disposition: inline
+In-Reply-To: <20240404123717.11857-10-aaptel@nvidia.com>
 
 
-> v2:
-> - Rebased to v6.9-rc1
-> - Added Tested-by:, Acked-by:, and Reviewed-by: tags
-> v3:
-> - Rebased to v6.9-rc2
->
->  Documentation/dev-tools/kunit/usage.rst | 30 ++++++++++++++++++++++++-
->  1 file changed, 29 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index 22955d56b379..8d3d36d4103d 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -157,6 +157,34 @@ Alternatively, one can take full control over the error message by using
->         if (some_setup_function())
->                 KUNIT_FAIL(test, "Failed to setup thing for testing");
->
-> +Suppressing warning backtraces
-> +------------------------------
+--qvJ5B+QzDH4Cl5d1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 04, 2024 at 12:37:06PM +0000, Aurelien Aptel wrote:
+> diff --git a/Documentation/networking/ulp-ddp-offload.rst b/Documentation=
+/networking/ulp-ddp-offload.rst
+> new file mode 100644
+> index 000000000000..4133e5094ff5
+> --- /dev/null
+> +++ b/Documentation/networking/ulp-ddp-offload.rst
+> @@ -0,0 +1,372 @@
+> +.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +
-> +Some unit tests trigger warning backtraces either intentionally or as side
-> +effect. Such backtraces are normally undesirable since they distract from
-> +the actual test and may result in the impression that there is a problem.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +ULP direct data placement offload
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +Such backtraces can be suppressed. To suppress a backtrace in some_function(),
-> +use the following code.
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Linux kernel ULP direct data placement (DDP) offload infrastructure
+> +provides tagged request-response protocols, such as NVMe-TCP, the abilit=
+y to
+> +place response data directly in pre-registered buffers according to head=
+er
+> +tags. DDP is particularly useful for data-intensive pipelined protocols =
+whose
+> +responses may be reordered.
+> +
+> +For example, in NVMe-TCP numerous read requests are sent together and ea=
+ch
+> +request is tagged using the PDU header CID field. Receiving servers proc=
+ess
+> +requests as fast as possible and sometimes responses for smaller requests
+> +bypasses responses to larger requests, e.g., 4KB reads bypass 1GB reads.
+> +Thereafter, clients correlate responses to requests using PDU header CID=
+ tags.
+> +The processing of each response requires copying data from SKBs to read
+> +request destination buffers; The offload avoids this copy. The offload is
+> +oblivious to destination buffers which can reside either in userspace
+> +(O_DIRECT) or in kernel pagecache.
+> +
+> +Request TCP byte-stream:
+> +
+> +.. parsed-literal::
+> +
+> + +---------------+-------+---------------+-------+---------------+------=
+-+
+> + | PDU hdr CID=3D1 | Req 1 | PDU hdr CID=3D2 | Req 2 | PDU hdr CID=3D3 |=
+ Req 3 |
+> + +---------------+-------+---------------+-------+---------------+------=
+-+
+> +
+> +Response TCP byte-stream:
+> +
+> +.. parsed-literal::
+> +
+> + +---------------+--------+---------------+--------+---------------+----=
+----+
+> + | PDU hdr CID=3D2 | Resp 2 | PDU hdr CID=3D3 | Resp 3 | PDU hdr CID=3D1=
+ | Resp 1 |
+> + +---------------+--------+---------------+--------+---------------+----=
+----+
+> +
+> +The driver builds SKB page fragments that point to destination buffers.
+> +Consequently, SKBs represent the original data on the wire, which enables
+> +*transparent* inter-operation with the network stack. To avoid copies be=
+tween
+> +SKBs and destination buffers, the layer-5 protocol (L5P) will check
+> +``if (src =3D=3D dst)`` for SKB page fragments, success indicates that d=
+ata is
+> +already placed there by NIC hardware and copy should be skipped.
+> +
+> +In addition, L5P might have DDGST which ensures data integrity over
+> +the network.  If not offloaded, ULP DDP might not be efficient as L5P
+> +will need to go over the data and calculate it by itself, cancelling
+> +out the benefits of the DDP copy skip.  ULP DDP has support for Rx/Tx
+> +DDGST offload. On the received side the NIC will verify DDGST for
+> +received PDUs and update SKB->ulp_ddp and SKB->ulp_crc bits.  If all the=
+ SKBs
+> +making up a L5P PDU have crc on, L5P will skip on calculating and
+> +verifying the DDGST for the corresponding PDU. On the Tx side, the NIC
+> +will be responsible for calculating and filling the DDGST fields in
+> +the sent PDUs.
+> +
+> +Offloading does require NIC hardware to track L5P protocol framing, simi=
+larly
+> +to RX TLS offload (see Documentation/networking/tls-offload.rst).  NIC h=
+ardware
+> +will parse PDU headers, extract fields such as operation type, length, t=
+ag
+> +identifier, etc. and only offload segments that correspond to tags regis=
+tered
+> +with the NIC, see the :ref:`buf_reg` section.
+> +
+> +Device configuration
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +During driver initialization the driver sets the ULP DDP operations
+> +for the :c:type:`struct net_device <net_device>` via
+> +`netdev->netdev_ops->ulp_ddp_ops`.
+> +
+> +The :c:member:`get_caps` operation returns the ULP DDP capabilities
+> +enabled and/or supported by the device to the caller. The current list
+> +of capabilities is represented as a bitset:
 > +
 > +.. code-block:: c
 > +
-> +       static void some_test(struct kunit *test)
-> +       {
-> +               DEFINE_SUPPRESSED_WARNING(some_function);
+> +  enum ulp_ddp_cap {
+> +	ULP_DDP_CAP_NVME_TCP,
+> +	ULP_DDP_CAP_NVME_TCP_DDGST,
+> +  };
 > +
-> +               START_SUPPRESSED_WARNING(some_function);
-> +               trigger_backtrace();
-> +               END_SUPPRESSED_WARNING(some_function);
-> +       }
+> +The enablement of capabilities can be controlled via the
+> +:c:member:`set_caps` operation. This operation is exposed to userspace
+> +via netlink. See Documentation/netlink/specs/ulp_ddp.yaml for more
+> +details.
 > +
-> +SUPPRESSED_WARNING_COUNT() returns the number of suppressed backtraces. If the
-> +suppressed backtrace was triggered on purpose, this can be used to check if
-> +the backtrace was actually triggered.
+> +Later, after the L5P completes its handshake, the L5P queries the
+> +driver for its runtime limitations via the :c:member:`limits` operation:
 > +
 > +.. code-block:: c
 > +
-> +       KUNIT_EXPECT_EQ(test, SUPPRESSED_WARNING_COUNT(some_function), 1);
->
->  Test Suites
->  ~~~~~~~~~~~
-> @@ -857,4 +885,4 @@ For example:
->                 dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
->
->                 // Everything is cleaned up automatically when the test ends.
-> -       }
-> \ No newline at end of file
-> +       }
-> --
-> 2.39.2
->
+> + int (*limits)(struct net_device *netdev,
+> +	       struct ulp_ddp_limits *lim);
+> +
+> +
+> +All L5P share a common set of limits and parameters (:c:type:`struct ulp=
+_ddp_limits <ulp_ddp_limits>`):
+> +
+> +.. code-block:: c
+> +
+> + /**
+> +  * struct ulp_ddp_limits - Generic ulp ddp limits: tcp ddp
+> +  * protocol limits.
+> +  * Add new instances of ulp_ddp_limits in the union below (nvme-tcp, et=
+c.).
+> +  *
+> +  * @type:		type of this limits struct
+> +  * @max_ddp_sgl_len:	maximum sgl size supported (zero means no limit)
+> +  * @io_threshold:	minimum payload size required to offload
+> +  * @tls:		support for ULP over TLS
+> +  * @nvmeotcp:		NVMe-TCP specific limits
+> +  */
+> + struct ulp_ddp_limits {
+> +	enum ulp_ddp_type	type;
+> +	int			max_ddp_sgl_len;
+> +	int			io_threshold;
+> +	bool			tls:1;
+> +	union {
+> +		/* ... protocol-specific limits ... */
+> +		struct nvme_tcp_ddp_limits nvmeotcp;
+> +	};
+> + };
+> +
+> +But each L5P can also add protocol-specific limits e.g.:
+> +
+> +.. code-block:: c
+> +
+> + /**
+> +  * struct nvme_tcp_ddp_limits - nvme tcp driver limitations
+> +  *
+> +  * @full_ccid_range:	true if the driver supports the full CID range
+> +  */
+> + struct nvme_tcp_ddp_limits {
+> +	bool			full_ccid_range;
+> + };
+> +
+> +Once the L5P has made sure the device is supported the offload
+> +operations are installed on the socket.
+> +
+> +If offload installation fails, then the connection is handled by softwar=
+e as if
+> +offload was not attempted.
+> +
+> +To request offload for a socket `sk`, the L5P calls :c:member:`sk_add`:
+> +
+> +.. code-block:: c
+> +
+> + int (*sk_add)(struct net_device *netdev,
+> +	       struct sock *sk,
+> +	       struct ulp_ddp_config *config);
+> +
+> +The function return 0 for success. In case of failure, L5P software shou=
+ld
+> +fallback to normal non-offloaded operations.  The `config` parameter ind=
+icates
+> +the L5P type and any metadata relevant for that protocol. For example, in
+> +NVMe-TCP the following config is used:
+> +
+> +.. code-block:: c
+> +
+> + /**
+> +  * struct nvme_tcp_ddp_config - nvme tcp ddp configuration for an IO qu=
+eue
+> +  *
+> +  * @pfv:        pdu version (e.g., NVME_TCP_PFV_1_0)
+> +  * @cpda:       controller pdu data alignment (dwords, 0's based)
+> +  * @dgst:       digest types enabled.
+> +  *              The netdev will offload crc if L5P data digest is suppo=
+rted.
+> +  * @queue_size: number of nvme-tcp IO queue elements
+> +  */
+> + struct nvme_tcp_ddp_config {
+> +	u16			pfv;
+> +	u8			cpda;
+> +	u8			dgst;
+> +	int			queue_size;
+> + };
+> +
+> +When offload is not needed anymore, e.g. when the socket is being releas=
+ed, the L5P
+> +calls :c:member:`sk_del` to release device contexts:
+> +
+> +.. code-block:: c
+> +
+> + void (*sk_del)(struct net_device *netdev,
+> +	        struct sock *sk);
+> +
+> +Normal operation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +At the very least, the device maintains the following state for each con=
+nection:
+> +
+> + * 5-tuple
+> + * expected TCP sequence number
+> + * mapping between tags and corresponding buffers
+> + * current offset within PDU, PDU length, current PDU tag
+> +
+> +NICs should not assume any correlation between PDUs and TCP packets.
+> +If TCP packets arrive in-order, offload will place PDU payloads
+> +directly inside corresponding registered buffers. NIC offload should
+> +not delay packets. If offload is not possible, than the packet is
+> +passed as-is to software. To perform offload on incoming packets
+> +without buffering packets in the NIC, the NIC stores some inter-packet
+> +state, such as partial PDU headers.
+> +
+> +RX data-path
+> +------------
+> +
+> +After the device validates TCP checksums, it can perform DDP offload.  T=
+he
+> +packet is steered to the DDP offload context according to the 5-tuple.
+> +Thereafter, the expected TCP sequence number is checked against the pack=
+et
+> +TCP sequence number. If there is a match, offload is performed: the PDU =
+payload
+> +is DMA written to the corresponding destination buffer according to the =
+PDU header
+> +tag.  The data should be DMAed only once, and the NIC receive ring will =
+only
+> +store the remaining TCP and PDU headers.
+> +
+> +We remark that a single TCP packet may have numerous PDUs embedded insid=
+e. NICs
+> +can choose to offload one or more of these PDUs according to various
+> +trade-offs. Possibly, offloading such small PDUs is of little value, and=
+ it is
+> +better to leave it to software.
+> +
+> +Upon receiving a DDP offloaded packet, the driver reconstructs the origi=
+nal SKB
+> +using page frags, while pointing to the destination buffers whenever pos=
+sible.
+> +This method enables seamless integration with the network stack, which c=
+an
+> +inspect and modify packet fields transparently to the offload.
+> +
+> +.. _buf_reg:
+> +
+> +Destination buffer registration
+> +-------------------------------
+> +
+> +To register the mapping between tags and destination buffers for a socket
+> +`sk`, the L5P calls :c:member:`setup` of :c:type:`struct ulp_ddp_dev_ops
+> +<ulp_ddp_dev_ops>`:
+> +
+> +.. code-block:: c
+> +
+> + int (*setup)(struct net_device *netdev,
+> +	      struct sock *sk,
+> +	      struct ulp_ddp_io *io);
+> +
+> +
+> +The `io` provides the buffer via scatter-gather list (`sg_table`) and
+> +corresponding tag (`command_id`):
+> +
+> +.. code-block:: c
+> +
+> + /**
+> +  * struct ulp_ddp_io - tcp ddp configuration for an IO request.
+> +  *
+> +  * @command_id:  identifier on the wire associated with these buffers
+> +  * @nents:       number of entries in the sg_table
+> +  * @sg_table:    describing the buffers for this IO request
+> +  * @first_sgl:   first SGL in sg_table
+> +  */
+> + struct ulp_ddp_io {
+> +	u32			command_id;
+> +	int			nents;
+> +	struct sg_table		sg_table;
+> +	struct scatterlist	first_sgl[SG_CHUNK_SIZE];
+> + };
+> +
+> +After the buffers have been consumed by the L5P, to release the NIC mapp=
+ing of
+> +buffers the L5P calls :c:member:`teardown` of :c:type:`struct
+> +ulp_ddp_dev_ops <ulp_ddp_dev_ops>`:
+> +
+> +.. code-block:: c
+> +
+> + void (*teardown)(struct net_device *netdev,
+> +		  struct sock *sk,
+> +		  struct ulp_ddp_io *io,
+> +		  void *ddp_ctx);
+> +
+> +`teardown` receives the same `io` context and an additional opaque
+> +`ddp_ctx` that is used for asynchronous teardown, see the :ref:`async_re=
+lease`
+> +section.
+> +
+> +.. _async_release:
+> +
+> +Asynchronous teardown
+> +---------------------
+> +
+> +To teardown the association between tags and buffers and allow tag reuse=
+ NIC HW
+> +is called by the NIC driver during `teardown`. This operation may be
+> +performed either synchronously or asynchronously. In asynchronous teardo=
+wn,
+> +`teardown` returns immediately without unmapping NIC HW buffers. Later,
+> +when the unmapping completes by NIC HW, the NIC driver will call up to L=
+5P
+> +using :c:member:`ddp_teardown_done` of :c:type:`struct ulp_ddp_ulp_ops <=
+ulp_ddp_ulp_ops>`:
+> +
+> +.. code-block:: c
+> +
+> + void (*ddp_teardown_done)(void *ddp_ctx);
+> +
+> +The `ddp_ctx` parameter passed in `ddp_teardown_done` is the same on pro=
+vided
+> +in `teardown` and it is used to carry some context about the buffers
+> +and tags that are released.
+> +
+> +Resync handling
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +RX
+> +--
+> +In presence of packet drops or network packet reordering, the device may=
+ lose
+> +synchronization between the TCP stream and the L5P framing, and require a
+> +resync with the kernel's TCP stack. When the device is out of sync, no o=
+ffload
+> +takes place, and packets are passed as-is to software. Resync is very si=
+milar
+> +to TLS offload (see documentation at Documentation/networking/tls-offloa=
+d.rst)
+> +
+> +If only packets with L5P data are lost or reordered, then resynchronizat=
+ion may
+> +be avoided by NIC HW that keeps tracking PDU headers. If, however, PDU h=
+eaders
+> +are reordered, then resynchronization is necessary.
+> +
+> +To resynchronize hardware during traffic, we use a handshake between har=
+dware
+> +and software. The NIC HW searches for a sequence of bytes that identifie=
+s L5P
+> +headers (i.e., magic pattern).  For example, in NVMe-TCP, the PDU operat=
+ion
+> +type can be used for this purpose.  Using the PDU header length field, t=
+he NIC
+> +HW will continue to find and match magic patterns in subsequent PDU head=
+ers. If
+> +the pattern is missing in an expected position, then searching for the p=
+attern
+> +starts anew.
+> +
+> +The NIC will not resume offload when the magic pattern is first identifi=
+ed.
+> +Instead, it will request L5P software to confirm that indeed this is a P=
+DU
+> +header. To request confirmation the NIC driver calls up to L5P using
+> +:c:member:`resync_request` of :c:type:`struct ulp_ddp_ulp_ops <ulp_ddp_u=
+lp_ops>`:
+> +
+> +.. code-block:: c
+> +
+> +  bool (*resync_request)(struct sock *sk, u32 seq, u32 flags);
+> +
+> +The `seq` parameter contains the TCP sequence of the last byte in the PD=
+U header.
+> +The `flags` parameter contains a flag (`ULP_DDP_RESYNC_PENDING`) indicat=
+ing whether
+> +a request is pending or not.
+> +L5P software will respond to this request after observing the packet con=
+taining
+> +TCP sequence `seq` in-order. If the PDU header is indeed there, then L5P
+> +software calls the NIC driver using the :c:member:`resync` function of
+> +the :c:type:`struct ulp_ddp_dev_ops <ulp_ddp_ops>` inside the :c:type:`s=
+truct
+> +net_device <net_device>` while passing the same `seq` to confirm it is a=
+ PDU
+> +header.
+> +
+> +.. code-block:: c
+> +
+> + void (*resync)(struct net_device *netdev,
+> +		struct sock *sk, u32 seq);
+> +
+> +Statistics
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Per L5P protocol, the NIC driver must report statistics for the above
+> +netdevice operations and packets processed by offload.
+> +These statistics are per-device and can be retrieved from userspace
+> +via netlink (see Documentation/netlink/specs/ulp_ddp.yaml).
+> +
+> +For example, NVMe-TCP offload reports:
+> +
+> + * ``rx_nvme_tcp_sk_add`` - number of NVMe-TCP Rx offload contexts creat=
+ed.
+> + * ``rx_nvme_tcp_sk_add_fail`` - number of NVMe-TCP Rx offload context c=
+reation
+> +   failures.
+> + * ``rx_nvme_tcp_sk_del`` - number of NVMe-TCP Rx offload contexts destr=
+oyed.
+> + * ``rx_nvme_tcp_setup`` - number of DDP buffers mapped.
+> + * ``rx_nvme_tcp_setup_fail`` - number of DDP buffers mapping that faile=
+d.
+> + * ``rx_nvme_tcp_teardown`` - number of DDP buffers unmapped.
+> + * ``rx_nvme_tcp_drop`` - number of packets dropped in the driver due to=
+ fatal
+> +   errors.
+> + * ``rx_nvme_tcp_resync`` - number of packets with resync requests.
+> + * ``rx_nvme_tcp_packets`` - number of packets that used offload.
+> + * ``rx_nvme_tcp_bytes`` - number of bytes placed in DDP buffers.
+> +
+> +NIC requirements
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +NIC hardware should meet the following requirements to provide this offl=
+oad:
+> +
+> + * Offload must never buffer TCP packets.
+> + * Offload must never modify TCP packet headers.
+> + * Offload must never reorder TCP packets within a flow.
+> + * Offload must never drop TCP packets.
+> + * Offload must not depend on any TCP fields beyond the
+> +   5-tuple and TCP sequence number.
 
---0000000000006794650615a5baad
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+The doc LGTM, thanks!
 
-MIIPqgYJKoZIhvcNAQcCoIIPmzCCD5cCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg0EMIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-7xDrOPfX3COqq162RFg/MFcGA1UdIARQME4wCQYHZ4EMAQUBATBBBgkrBgEEAaAyASgwNDAyBggr
-BgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wDAYDVR0TAQH/
-BAIwADCBmgYIKwYBBQUHAQEEgY0wgYowPgYIKwYBBQUHMAGGMmh0dHA6Ly9vY3NwLmdsb2JhbHNp
-Z24uY29tL2NhL2dzYXRsYXNyM3NtaW1lY2EyMDIwMEgGCCsGAQUFBzAChjxodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcnQwHwYDVR0jBBgw
-FoAUfMwKaNei6x4schvRzV2Vb4378mMwRgYDVR0fBD8wPTA7oDmgN4Y1aHR0cDovL2NybC5nbG9i
-YWxzaWduLmNvbS9jYS9nc2F0bGFzcjNzbWltZWNhMjAyMC5jcmwwDQYJKoZIhvcNAQELBQADggEB
-AK0lDd6/eSh3qHmXaw1YUfIFy07B25BEcTvWgOdla99gF1O7sOsdYaTz/DFkZI5ghjgaPJCovgla
-mRMfNcxZCfoBtsB7mAS6iOYjuwFOZxi9cv6jhfiON6b89QWdMaPeDddg/F2Q0bxZ9Z2ZEBxyT34G
-wlDp+1p6RAqlDpHifQJW16h5jWIIwYisvm5QyfxQEVc+XH1lt+taSzCfiBT0ZLgjB9Sg+zAo8ys6
-5PHxFaT2a5Td/fj5yJ5hRSrqy/nj/hjT14w3/ZdX5uWg+cus6VjiiR/5qGSZRjHt8JoApD6t6/tg
-ITv8ZEy6ByumbU23nkHTMOzzQSxczHkT+0q10/MxggJqMIICZgIBATBoMFQxCzAJBgNVBAYTAkJF
-MRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFzIFIz
-IFNNSU1FIENBIDIwMjACEAHS+TgZvH/tCq5FcDC0n9IwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZI
-hvcNAQkEMSIEIMXhuV4hAHg3WgSFIsVm8yZuEYXLcz0bF2GnnCPTizkFMBgGCSqGSIb3DQEJAzEL
-BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MDQwOTA4MzAwMVowaQYJKoZIhvcNAQkPMVww
-WjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkq
-hkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBDmb9s
-luNjFtSKUt94yd39an5GkioJdQi7RC0pT3hYcoy6KF55ujlFc7E549YObxZARF6tf59fXC/TQ1nI
-VkzuQXeeCx3jyjDBT2X/hZ/8/vo281f9Gi5wZmL51A+PK4VqiMELHh+2a1y1YRNlpwT8M4860S9j
-OCpKRcQFu1NMo9RHq35B2nYyjsqJCVJvEhvkhZXKyfSKXwYqH2VzB5YRJdrtGPFFMNsEFOOWOLZ3
-YmzFe3uye13PO4CKPtjeic5tmA6SrmKVXs78+06XherENkLGiMkChl3KDKXAr8dz3M+bmur0vO3k
-b/OoQc4mFepL31ZARxwvAIoOcJB1bh/F
---0000000000006794650615a5baad--
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--qvJ5B+QzDH4Cl5d1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZhUA/AAKCRD2uYlJVVFO
+o8SaAQDkZixppJ5xPLyPQ9vJEYm2RPo/3Kzr1CH8Zcz8P9uYRwD/QBhCaNYvto0+
+opxX3hMXPT2SKJTmykUredp05b5r7Qs=
+=xqEv
+-----END PGP SIGNATURE-----
+
+--qvJ5B+QzDH4Cl5d1--
