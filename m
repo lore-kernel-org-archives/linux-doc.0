@@ -1,135 +1,193 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8751315EFD0
-	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 09:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FBB15573D
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 09:42:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712740287; cv=none; b=eFXw1/dPjjvHr6J9ptC4cNQOgMkSmggt0YE3WV7emcilTBq5P4wumkOOTRM5v2yY3+I/Fao4jTyOAHZOITHnnD9VsuCnSOl4V20pXpOi0ZEmN3ubEIojpLaXFQyl19iUXuzCzQ+EapN2jKFbFst1WP3hmwvvxJHwtEPIKal4NNA=
+	t=1712742154; cv=none; b=sq0Qpnzc3ElQ+Q4i2OTCq4ySDWSBl/rVSC0hXzb4ZaElYQ4C8RODr7nuYJr/jBYO3uWp2wtVGPXFIXrv2vh7L/S6LXPsbL/pe7FZUH6og4xIYeqhwoFFrNu2oqGR8LXXGQPlF5ALysL71vJsqOHAEsf+xdLgC5oxifSulLcU9kU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712740287; c=relaxed/simple;
-	bh=dIKOQ7+8Gx69BlGHAWDa8bC1hIUZKhgNODc1wgGNviA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WEqo1NakUAY8DT8KwsRH5s5ZFpAYhd5aDOY42vBrGhe5kri1ydkcM7zyNZlCj2je1gnMjQaTMWPccozQodLGSasCrZddt5mHqfZ2Zab80b9qU889NuTG6MAOCeyc5+/rRjYGY4DxnuLhVM9e/lZVzRfQBb//DhL3U/fq9fsYzqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=H0S06gwr; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1712742154; c=relaxed/simple;
+	bh=iDurjAgFGrlhlEIPBAKii1dr+5SSgiTReOphZSWtcwE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hh4LqzDQmDoncejkzfnmk1UEM/NsQVxsFCmW6uXeyVGYhh15a5CG2ogmyp0CREPnnK9lIVNwebQcUPVk3qeKdp3fgAg1SKCFI1fIUdZDOwMppV+/qhAx8yNsurE4Qpc1E/TrhWyVyC5f6lmvo4AQe7yQloFnwsp164Ejhf9W/zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=StHDVKfD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="H0S06gwr"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-516d23d3bceso1854841e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 02:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712740283; x=1713345083; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OKIlCd7jL5ol5qvLgWGPfJLjgIu96MFC3958FRvJI8w=;
-        b=H0S06gwrd6ANiW4jrbHvPyJjGiOIaqcVz4LTDzaaXw9vRTwJxBwCfRaGBDPwmq4Yh1
-         cBUW/u2wEhyEo9Jjf0PG0vUrX5/JP9IR8f0e77aLywkf6tipp3gm0/Neyknnz1mRcygn
-         wcW7z1Jt5Moi45dYyMjMdMIP5X4jTjC6YrgUu9d2Wbv4MJgq+GRzDQ7RQ1p0GBl5sFbN
-         HYLFNUl/oZWw3kGA35H0eIAj4ljEzRdZHtyEKD8UnuU2xUBtxUuddWs+BoSNp4XZFUXt
-         GrHm/05lsIvlPjaczukw+t6PGpG8GRwJGms9l/cS+ioiUrohW8mvEjAnZybyHId1GbdJ
-         5/4g==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="StHDVKfD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712742151;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3bgi29jmYNkPTs9PQtxTcWx3C/WwQCp+NvBv8CYqpsw=;
+	b=StHDVKfDSL51yLckbf/ZJ3GZ2RPLU++9Uh6wTtYiYd3wDmcfiWGO1++T/MmAMVPknj0pMJ
+	DK2JiInHh1kTs18yGhQiywPLymyaL/aTzl4jSibhHDrLGMuDiZEl5TgR2asquS+RYN1e7X
+	KJKMmtBGqXbt+zQ8FT6sFudTWsgHYRU=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-73-qXfnqiSDPHef_0BWuXdJ7A-1; Wed, 10 Apr 2024 05:42:30 -0400
+X-MC-Unique: qXfnqiSDPHef_0BWuXdJ7A-1
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-78e13ed4a1eso44449285a.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 02:42:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712740283; x=1713345083;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OKIlCd7jL5ol5qvLgWGPfJLjgIu96MFC3958FRvJI8w=;
-        b=FpFjlnukKht9SFEpf/spVkAE735tZ0tjw+HvRfl180Cru6VRTXnePbRgdGQSTeAhXe
-         CGAor2KY+JoAewtLdOrufKdmqEx0DJ1OBCiE8QK7knGP4Yuh0HeKwHxO7F+dN4bMjpN6
-         5YbZ0Dc1HF+BE1fTBWXojm2CJwurj3ce8cMSR7UxUf0wKFxhr797ttKEnc0ozWBb3YQd
-         Q5r4z+yWf/pBkCfDvey8FxSEo1cJjFEPnurBjBolfEK5w2jZYnk/nKUrr70x1LZPIrFO
-         1MK6lL965O5wfoxiTNtsi6HnazoOIWUh24YSTWaOfq/RKigNxpNGUxIgiCMJpUJvs8tB
-         33nQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVas4qF4I0GtG8rUSOyVxYHm7XQT1JTKD6/a37UU5hqv9M9vjjquILOlM8Um5+/nlm/iGsFLhBuLpYy4Rf0LW6GaTggPK6yIFbx
-X-Gm-Message-State: AOJu0Yy6W8zT6fQPBXUFLEuOE9SGdTiKp07oq+3hL0fzhzON7hMyH5te
-	kR8zOfhNOBEGQc+4iru/vkMkCWavPxD0A1rmX62uFj+mPYXih6Ui7UuEabdHH0k=
-X-Google-Smtp-Source: AGHT+IGArQ/ya3SIwEsTsgk2V3XdyzaxCK6c7Q9P5Y6CwIgF+pnuGurqpRxGE7Q7fP5In4aquwsCLQ==
-X-Received: by 2002:ac2:484a:0:b0:513:c1b0:dcb2 with SMTP id 10-20020ac2484a000000b00513c1b0dcb2mr1173103lfy.3.1712740283581;
-        Wed, 10 Apr 2024 02:11:23 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:d4a6:5856:3e6c:3dff])
-        by smtp.gmail.com with ESMTPSA id d6-20020a056000114600b003456c693fa4sm9079086wrx.93.2024.04.10.02.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 02:11:22 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@atishpatra.org>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 10/10] KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
-Date: Wed, 10 Apr 2024 11:11:03 +0200
-Message-ID: <20240410091106.749233-11-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240410091106.749233-1-cleger@rivosinc.com>
-References: <20240410091106.749233-1-cleger@rivosinc.com>
+        d=1e100.net; s=20230601; t=1712742149; x=1713346949;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3bgi29jmYNkPTs9PQtxTcWx3C/WwQCp+NvBv8CYqpsw=;
+        b=odTrlNLRByEafpNcTf+FjsjMI26ev/v7zufSYpm9xTgPmzn4PaRI2+JM0w6k4tOaJP
+         Q1GpSxQy7VQs3CbyADNZLDjmeQyaWlVf2ar5cq1Vqbfct9GMsR+2/Fhr9gw8mYs6XjQl
+         R+i2byvFgmVo7WssyXHPkoLp2ZM4ywXYaoKp8lkSQqoBBx+rSaoCMIPG0qgC+mJixS4N
+         uetUd32eLamYvcLv+AQhyX7xdgi+88UjQ47FAmzZrcnLks/q3jYUrOwxBAgnogS/ZNuj
+         r9Vs3UWnhCpq8uqSPxotGhvRRPCaLnu7gXHfhPUcyWtUfcpikm7xdI4kD0oGv3g41Tuy
+         ACbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqy3fLsL3fo3e9epJUoWQtnHNGip8MFHxq/P6fR5lEkEu894QGxzZyYrXgZ5nZdYEoZdhcDPw7wP0Ld7jRsoggDEWogK5S2gnh
+X-Gm-Message-State: AOJu0YzahnR8xkou3rE3wPu21F2x3s3hJgX6TawRj9tCT3Xud6TZQYD1
+	TAV/1U+buEnjt2FcOHYkk0IFOUT4ThUhfNjeMEan7VttMKNhFeiJxhIuXUa0H640/5xnlWyZN6o
+	yVkCDvkxmrxpUonWI6ge5LA1P65J1eF7xGJRtH3BJ3hEN4DxJMYxb2VSn
+X-Received: by 2002:a05:620a:f97:b0:78d:607e:2194 with SMTP id b23-20020a05620a0f9700b0078d607e2194mr1911325qkn.3.1712742149544;
+        Wed, 10 Apr 2024 02:42:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG5BDTvXis2tHGPFgQN21Tpeh6ejkg3dj6ba9+xOWtzffuVwnJkjsQ+WKOsJO2bxNjBBYZk+A==
+X-Received: by 2002:a05:620a:f97:b0:78d:607e:2194 with SMTP id b23-20020a05620a0f9700b0078d607e2194mr1911283qkn.3.1712742147977;
+        Wed, 10 Apr 2024 02:42:27 -0700 (PDT)
+Received: from [192.168.9.29] (net-2-34-25-239.cust.vodafonedsl.it. [2.34.25.239])
+        by smtp.gmail.com with ESMTPSA id de14-20020a05620a370e00b0078d73533196sm1269317qkb.76.2024.04.10.02.42.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 02:42:27 -0700 (PDT)
+Message-ID: <9d016f83-8e7f-4bdf-8610-e3d0b49f7097@redhat.com>
+Date: Wed, 10 Apr 2024 11:42:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fpga: region: add owner module and take its refcount
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+ Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Tull <atull@opensource.altera.com>, linux-fpga@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240327160022.202934-1-marpagan@redhat.com>
+ <Zgp/jNst2yuXEbpU@yilunxu-OptiPlex-7050>
+ <64c1685a-b544-408e-97e4-8c3cff6aca6c@redhat.com>
+ <ZhS/M6pa9AHyvb0y@yilunxu-OptiPlex-7050>
+Content-Language: en-US
+From: Marco Pagani <marpagan@redhat.com>
+In-Reply-To: <ZhS/M6pa9AHyvb0y@yilunxu-OptiPlex-7050>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The KVM RISC-V allows Zcmop extension for Guest/VM so add this
-extension to get-reg-list test.
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-index 61cad4514197..9604c8ece787 100644
---- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-@@ -59,6 +59,7 @@ bool filter_reg(__u64 reg)
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCB:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCD:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCF:
-+	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCMOP:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFA:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFH:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFHMIN:
-@@ -429,6 +430,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
- 		KVM_ISA_EXT_ARR(ZCB),
- 		KVM_ISA_EXT_ARR(ZCD),
- 		KVM_ISA_EXT_ARR(ZCF),
-+		KVM_ISA_EXT_ARR(ZCMOP),
- 		KVM_ISA_EXT_ARR(ZFA),
- 		KVM_ISA_EXT_ARR(ZFH),
- 		KVM_ISA_EXT_ARR(ZFHMIN),
-@@ -957,6 +959,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(zca, ZCA),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcb, ZCB),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcd, ZCD),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcf, ZCF),
-+KVM_ISA_EXT_SIMPLE_CONFIG(zcmop, ZCMOP);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfa, ZFA);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfh, ZFH);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfhmin, ZFHMIN);
-@@ -1017,6 +1020,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
- 	&config_zcb,
- 	&config_zcd,
- 	&config_zcf,
-+	&config_zcmop,
- 	&config_zfa,
- 	&config_zfh,
- 	&config_zfhmin,
--- 
-2.43.0
+On 2024-04-09 06:08, Xu Yilun wrote:
+> On Wed, Apr 03, 2024 at 03:34:22PM +0200, Marco Pagani wrote:
+>>
+>>
+>> On 2024-04-01 11:34, Xu Yilun wrote:
+>>> On Wed, Mar 27, 2024 at 05:00:20PM +0100, Marco Pagani wrote:
+>>>> The current implementation of the fpga region assumes that the low-level
+>>>> module registers a driver for the parent device and uses its owner pointer
+>>>> to take the module's refcount. This approach is problematic since it can
+>>>> lead to a null pointer dereference while attempting to get the region
+>>>> during programming if the parent device does not have a driver.
+>>>>
+>>>> To address this problem, add a module owner pointer to the fpga_region
+>>>> struct and use it to take the module's refcount. Modify the functions for
+>>>> registering a region to take an additional owner module parameter and
+>>>> rename them to avoid conflicts. Use the old function names for helper
+>>>> macros that automatically set the module that registers the region as the
+>>>> owner. This ensures compatibility with existing low-level control modules
+>>>> and reduces the chances of registering a region without setting the owner.
+>>>>
+>>>> Also, update the documentation to keep it consistent with the new interface
+>>>> for registering an fpga region.
+>>>>
+>>>> Other changes: unlock the mutex before calling put_device() in
+>>>> fpga_region_put() to avoid potential use after release issues.
+>>>
+>>> Please try not to mix different changes in one patch, especially for
+>>> a "bug fix" as you said.
+>>
+>> You are right. I'll split out the change and eventually send it as a
+>> separate patch.
+>>
+>>> And I do have concern about the fix, see below.
+>>>
+>>> [...]
+>>>
+>>>> @@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
+>>>>  	}
+>>>>  
+>>>>  	get_device(dev);
+>>>> -	if (!try_module_get(dev->parent->driver->owner)) {
+>>>> +	if (!try_module_get(region->br_owner)) {
+>>>>  		put_device(dev);
+>>>>  		mutex_unlock(&region->mutex);
+>>>>  		return ERR_PTR(-ENODEV);
+>>>> @@ -75,9 +75,9 @@ static void fpga_region_put(struct fpga_region *region)
+>>>>  
+>>>>  	dev_dbg(dev, "put\n");
+>>>>  
+>>>> -	module_put(dev->parent->driver->owner);
+>>>> -	put_device(dev);
+>>>> +	module_put(region->br_owner);
+>>>>  	mutex_unlock(&region->mutex);
+>>>
+>>> If there is concern the region would be freed after put_device(), then
+>>> why still keep the sequence in fpga_region_get()?
+>>
+>> Ouch, sorry, I forgot to make the change also in fpga_region_get().
+>>
+>>> And is it possible region is freed before get_device() in
+>>> fpga_region_get()?
+>>
+>> If the user follows the usual pattern (i.e., waiting for
+> 
+> I can see the only safe way is fpga_region_program_fpga() or fpga_region_get()
+> should be included in:
+> 
+>   region = fpga_region_class_find();
+>   ...
+>   put_device(&region->dev);
+> 
+> That is to say, fpga_region_get() should not be called when there is no
+> region dev reference hold beforehand. In this case, no use after release
+> risk. That's why I was thinking about some documentation.
+> 
+> Another concern is we'd better keep the get/put operations symmetrical
+> for easy maintaining, as long as it doesn't cause problem.
+
+Now I see your point. So, you suggest changing only the docs to clarify
+that the region must be taken with fpga_region_class_find() before
+programming it with fpga_region_program_fpga()?
+
+That's fine by me. However, this made me wonder why we need to take the
+region dev with get_device() in fpga_region_program_fpga()->fpga_region_get().
+If we assume that the user must always call fpga_region_class_find()
+before programming with fpga_region_program_fpga(), why do we need the
+double get?
+
+Thanks,
+Marco
+ 
+>> fpga_region_program_fpga() to complete before calling
+>> fpga_region_unregister()) there should be no problem. However, I think
+>> releasing the device before unlocking the mutex contained in the context
+>> associated with the device makes the code brittle and more prone to
+>> problems.
+>>
+>>> Or we should clearly document how/when to use these functions?
+>>  
+>> I think it is not necessary to change the documentation since the
+>> in-kernel programming API will not be affected by the change.
+>>
+[...]
 
