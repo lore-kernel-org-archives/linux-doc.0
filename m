@@ -1,458 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ECC16D9D6;
-	Wed, 10 Apr 2024 14:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD6417334A
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 14:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712759720; cv=none; b=fMdRsO6BAPjdSiQGYpGexJeTFWOeKygU1aWPe2jsLsp7UQEyjd2VkPR3KaZ/2ZWlgBGwLd8jtXj2iMLnBTMxNgJc4/TSKzlx0CytMH9ZlQVWLIWOsPwkmCnyS1Yi/RTq7/65KMW4GNjvivEV+zd4j1hhlaWqnqzhNbSy+yZwBW4=
+	t=1712760377; cv=none; b=cCp1w5VGUVGnHWf54zlqMN5Ga+xo8wWRkHm9MARWY7RU0FCe55iUXeOtp+VnFMzHKG7y2gyMLKYnt91PE6E7uuT4e3kApUAa5in4HCodx9TMhSWrI/gkKBYRmb9udff2/YXEFASNKR93KoxktkW4lXVE04dHQUG1oEblFeZxhNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712759720; c=relaxed/simple;
-	bh=lp3rXRKa6Fi/CTX+nXd22i7jmZlFr/jrwPBQoIWIaag=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=au+D5ld0xusUtoo68voXPNhUrtMcR9E7ddKgUERQyab7QWnClRUAYI6IowccFddWvr4aJ6kEZ0YnAUoCq4Hru8jcGe1mx5VEKWBWav+S7AizM6uVx00q2/77cx8fhoyQSYnDuSWv8H/zxAa3TmLnXt0tjtYVWTKrIArH6qJ5zYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAM6hD8s; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712760377; c=relaxed/simple;
+	bh=WgkrZgZQAl6ugPvfnsOWKCXijBgJrcY9jgRDbI6X6mI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DoZuAtb2DGcAxdGGa8stKR4O1w4R+D9HDSRIfGqVKfvMwf5BxE+LsptAgZzxycjfFI+tl6cu9Vm1g2/khDytO3orUkDeVIy+xIYmFjVaCh5uKT0xjQzKsEbRcKSlC4lPV62DG7IaH75yrOvceuQL8wOGNe9lF/BJ7Q0xOE8WGpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=TJWmsgoq; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAM6hD8s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712759718; x=1744295718;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lp3rXRKa6Fi/CTX+nXd22i7jmZlFr/jrwPBQoIWIaag=;
-  b=mAM6hD8sfh0IlQoEiviKyEJNQJbt08dWsVlMymLxDZWhCY/krji5gPE/
-   CbgEusAtWc8t+IeX03IcgQ1lA0g7livWYndE0AVgZElIIFNRHCLfbxxUD
-   E8TdLQGYg8ZfuPK6eqNeaZqCfy9GsKzVz0KIbFdKDdM/GEBIALJnIcpZz
-   MGjbmzGugQ2zfWajk+u7iRCak7sysoZFWVXgJGS+cCTJgLdrq2gwV6DfN
-   XKewnLc/w5X+XMwU0XlBxSZEJLwnRO4GtNCZK9KvNEEaAbT2tPpKlcDKR
-   XrwMFX60BPdJq1G9g4uhY6By+KyYRwomlTqjZP/Wn4uVeH9oH8FCweFZr
-   A==;
-X-CSE-ConnectionGUID: +ibCV/esS5aVBOkZkHyxyw==
-X-CSE-MsgGUID: zv9z4XyzTjyVTNdEINiKLg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="18837741"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="18837741"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 07:35:18 -0700
-X-CSE-ConnectionGUID: k+Sjza0NTwagt4rdPS9t7w==
-X-CSE-MsgGUID: 6jMrHIHFTxmj0dV9tcelWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="25095489"
-Received: from unknown (HELO spr.sh.intel.com) ([10.239.53.118])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 07:35:13 -0700
-From: Chao Gao <chao.gao@intel.com>
-To: kvm@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="TJWmsgoq"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34602c11302so292095f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 07:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712760373; x=1713365173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ckqATcdgxJCfEplA12RhN0CYzD0p8U1UjWm+/+bzbPs=;
+        b=TJWmsgoqHnI914w0dvG2pPHOr2C7PbsovQzT8vzlsBhS5n58mJZ0lSx0FBStYA72VQ
+         qtCtUK/S6Z2WvkPAUZjSitjnza0jljsiA4gk++BxhRQKvwEuEs40vUUkVN+lhZjm6zrz
+         eLkM9z4/ftg2D4y2Sy2XrmquG7PD2HKn67ABWvng5SN0x/JRlp2I73349Qb3DDkHnvwR
+         1lB36eVdsb7cYS2Gp/OIRP5mlnLMQJdOjvLOOe2tACaAbbOMKnRYW55PSsWVVW5rAwyJ
+         beMc17SyAgny0RsMT7RX6/UmBY63H+HtKSMA1ZMLL7NfbBTaIDUZujnu9ukld4y6Pis/
+         VBpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712760373; x=1713365173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ckqATcdgxJCfEplA12RhN0CYzD0p8U1UjWm+/+bzbPs=;
+        b=aKClPh/CMw0cd/Qky1WlK9Uzagh3T/eBT5nWWfzBf7LVp8lLdPNVTz+yCUyOlVDtMT
+         Wq/n63Y13oo/bxcTb/GPuxF0hqacg529hGhBiFIRQv6KYBOjGbfe+Xi9CujjJQbjpbye
+         G3xKrqq0lapFaMLefl3fuA7CFGShkDODslCIvKBTclmYL9w2rwF1JNtDBqSWI9YUh7dI
+         Deawxtjfj62Ll2VpLzW8OAHIszH6JUbbjTOVfzpqVzubYckxUS6riVh1LRh1XdAcd5DV
+         GnzeVIdWxfG3ZrorDar4LnN1lWxScM2xtN58vFRmUhIGE0dcP3MD3NTsuhpal1UKCYR/
+         Mong==
+X-Forwarded-Encrypted: i=1; AJvYcCWnhoAS8hVlOJC78Mpd621s5ettbXL5bFHrJaghwaiCNNkZiOkfoCHPcjCbYXKHId4vYzmI/t7ymiavM4ZBp4NhZhvORMGw/cKF
+X-Gm-Message-State: AOJu0Yx6MXUuFLXlX2/rYJFNI4haOoaTy/krGST+k8X637ZJedFA0+y0
+	W7wKxcXg2QbkKLWrCpAf2EJvlNkJ/l9z1iRWR3Q5FglUdWZ41hoIa0lT09bRaqk=
+X-Google-Smtp-Source: AGHT+IHspjbKantHWWwZNJBqzLRXvPR+2MRMZ20TrdwY8/JbHDnXeP8XcmVLQ1yJ2+OlsOqgDRCxeA==
+X-Received: by 2002:a5d:64e3:0:b0:343:ba58:1297 with SMTP id g3-20020a5d64e3000000b00343ba581297mr2344809wri.3.1712760373469;
+        Wed, 10 Apr 2024 07:46:13 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:d4a6:5856:3e6c:3dff])
+        by smtp.gmail.com with ESMTPSA id c9-20020adffb09000000b00345c2f84d5asm7068715wrr.10.2024.04.10.07.46.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 07:46:13 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Cc: daniel.sneddon@linux.intel.com,
-	pawan.kumar.gupta@linux.intel.com,
-	Sean Christopherson <seanjc@google.com>,
-	Chao Gao <chao.gao@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH v3 01/10] KVM: VMX: Virtualize Intel IA32_SPEC_CTRL
-Date: Wed, 10 Apr 2024 22:34:29 +0800
-Message-Id: <20240410143446.797262-2-chao.gao@intel.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20240410143446.797262-1-chao.gao@intel.com>
-References: <20240410143446.797262-1-chao.gao@intel.com>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Robin Ehn <rehn@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	"Stefan O'Rear" <sorear@fastmail.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>
+Subject: [PATCH v5] riscv: hwprobe: export highest virtual userspace address
+Date: Wed, 10 Apr 2024 16:45:57 +0200
+Message-ID: <20240410144558.1104006-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Some userspace applications (OpenJDK for instance) uses the free MSBs
+in pointers to insert additional information for their own logic and
+need to get this information from somewhere. Currently they rely on
+parsing /proc/cpuinfo "mmu=svxx" string to obtain the current value of
+virtual address usable bits [1]. Since this reflect the raw supported
+MMU mode, it might differ from the logical one used internally which is
+why arch_get_mmap_end() is used. Exporting the highest mmapable address
+through hwprobe will allow a more stable interface to be used. For that
+purpose, add a new hwprobe key named
+RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS which will export the highest
+userspace virtual address.
 
-Currently KVM disables interception of IA32_SPEC_CTRL after a non-0 is
-written to IA32_SPEC_CTRL by guest. The guest is allowed to write any
-value directly to hardware. There is a tertiary control for
-IA32_SPEC_CTRL. This control allows for bits in IA32_SPEC_CTRL to be
-masked to prevent guests from changing those bits.
+Link: https://github.com/openjdk/jdk/blob/master/src/hotspot/os_cpu/linux_riscv/vm_version_linux_riscv.cpp#L171 [1]
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
 
-Add controls setting the mask for IA32_SPEC_CTRL and desired value for
-masked bits.
-
-These new controls are especially helpful for protecting guests that
-don't know about BHI_DIS_S and that are running on hardware that
-supports it. This allows the hypervisor to set BHI_DIS_S to fully
-protect the guest.
-
-Suggested-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-[ add a new ioctl to report supported bits. Fix the inverted check ]
-Signed-off-by: Chao Gao <chao.gao@intel.com>
 ---
- Documentation/virt/kvm/api.rst     | 39 +++++++++++++++++
- arch/x86/include/asm/kvm_host.h    |  4 ++
- arch/x86/include/asm/vmx.h         |  5 +++
- arch/x86/include/asm/vmxfeatures.h |  2 +
- arch/x86/kvm/vmx/capabilities.h    |  5 +++
- arch/x86/kvm/vmx/vmx.c             | 68 +++++++++++++++++++++++++++---
- arch/x86/kvm/vmx/vmx.h             |  3 +-
- arch/x86/kvm/x86.c                 | 30 +++++++++++++
- arch/x86/kvm/x86.h                 |  1 +
- include/uapi/linux/kvm.h           |  4 ++
- 10 files changed, 155 insertions(+), 6 deletions(-)
+Testing:
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 0b5a33ee71ee..b6eeb1d6eb65 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6352,6 +6352,19 @@ a single guest_memfd file, but the bound ranges must not overlap).
+This new hwprobe key can be tested using qemu and a simple hwprobe dump tool:
+https://github.com/clementleger/hwprobe_dump/tree/dev/cleger/highest_virt
+
+v5:
+ - Rebased on master to fix merge conflicts
+ - Link to v4: https://lore.kernel.org/lkml/20240313084554.31925-1-cleger@rivosinc.com/
+
+v4:
+ - Added Charlie Reviewed-by
+ - Replace a tab instead of a space
+ - Resend with actual V4 tag in front of message which was missing
+ - Link to v3: https://lore.kernel.org/lkml/20240301164407.475957-1-cleger@rivosinc.com/
+
+v3:
+ - Note: I did not added Stefan Reviewed-by since I did more
+   modifications than just a simple respin.
+ - Handle CONFIG_MMU=n as well and rename the key to
+   RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS
+ - Add a user_max_virt_addr() macro to handle !MMU config
+ - Link to v2: https://lore.kernel.org/lkml/20240220110950.871307-1-cleger@rivosinc.com/
+
+v2:
+ - Note: tried sysconf to export it but this is not backed by syscall
+   and thus does not allow exporting such information easily.
+ - Use arch_get_mmap_end() instead of VA_BITS since it reflects the
+   maximum logical address used by the riscv port
+ - Change hwprobe key name from RISCV_HWPROBE_KEY_VA_BITS to
+   RISCV_HWPROBE_KEY_MAX_ADDRESS
+ - Link to v1: https://lore.kernel.org/lkml/20240201140319.360088-1-cleger@rivosinc.com/
+---
+ Documentation/arch/riscv/hwprobe.rst  | 3 +++
+ arch/riscv/include/asm/hwprobe.h      | 2 +-
+ arch/riscv/include/asm/processor.h    | 6 ++++++
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 4 ++++
+ 5 files changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index b2bcc9eed9aa..875d3122bd66 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -210,3 +210,6 @@ The following keys are defined:
  
- See KVM_SET_USER_MEMORY_REGION2 for additional details.
+ * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+   represents the size of the Zicboz block in bytes.
++
++* :c:macro:`RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS`: An unsigned long which
++  represent the highest userspace virtual address usable.
+diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+index 630507dff5ea..150a9877b0af 100644
+--- a/arch/riscv/include/asm/hwprobe.h
++++ b/arch/riscv/include/asm/hwprobe.h
+@@ -8,7 +8,7 @@
  
-+4.143 KVM_GET_SUPPORTED_FORCE_SPEC_CTRL
-+---------------------------------------
-+
-+:Capability: KVM_CAP_FORCE_SPEC_CTRL
-+:Architectures: x86
-+:Type: vm ioctl
-+:Parameters: u64 supported_bitmask (out)
-+:Returns: 0 on success, -EFAULT if supported_bitmap cannot be accessed
-+
-+Returns a bitmask of SPEC_CTRL MSR bits which can be forced on. All bits can be
-+forced to 0 (i.e., prevent guest from setting it) even if KVM doesn't support
-+the bit.
-+
- 5. The kvm_run structure
- ========================
+ #include <uapi/asm/hwprobe.h>
  
-@@ -8063,6 +8076,32 @@ error/annotated fault.
+-#define RISCV_HWPROBE_MAX_KEY 6
++#define RISCV_HWPROBE_MAX_KEY 7
  
- See KVM_EXIT_MEMORY_FAULT for more information.
- 
-+7.35 KVM_CAP_FORCE_SPEC_CTRL
-+----------------------------
-+
-+:Architectures: x86
-+:Parameters: args[0] contains the bitmask to prevent guests from modifying those
-+	     bits
-+	     args[1] contains the desired value to set in IA32_SPEC_CTRL for the
-+	     masked bits
-+:Returns: 0 on success, -EINVAL if args[0] or args[1] contain invalid values
-+
-+This capability allows userspace to configure the value of IA32_SPEC_CTRL and
-+what bits the VM can and cannot access. This is especially useful when a VM is
-+migrated to newer hardware with hardware based speculation mitigations not
-+provided to the VM previously.
-+
-+IA32_SPEC_CTRL virtualization works by introducing the IA32_SPEC_CTRL shadow
-+and mask fields. When a guest writes to IA32_SPEC_CTRL when it is virtualized
-+the value written is:
-+
-+(GUEST_WRMSR_VAL & ~MASK) | (REAL_MSR_VAL & MASK).
-+
-+No bit that is masked can be modified by the guest.
-+
-+The shadow field contains the value the guest wrote to the MSR and is what is
-+returned to the guest when the virtualized MSR is read.
-+
- 8. Other capabilities.
- ======================
- 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 16e07a2eee19..8220414cf697 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1404,6 +1404,10 @@ struct kvm_arch {
- 
- 	u32 notify_window;
- 	u32 notify_vmexit_flags;
-+
-+	u64 force_spec_ctrl_mask;
-+	u64 force_spec_ctrl_value;
-+
- 	/*
- 	 * If exit_on_emulation_error is set, and the in-kernel instruction
- 	 * emulator fails to emulate an instruction, allow userspace
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 4dba17363008..f65651a3898c 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -84,6 +84,7 @@
-  * Definitions of Tertiary Processor-Based VM-Execution Controls.
-  */
- #define TERTIARY_EXEC_IPI_VIRT			VMCS_CONTROL_BIT(IPI_VIRT)
-+#define TERTIARY_EXEC_SPEC_CTRL_SHADOW		VMCS_CONTROL_BIT(SPEC_CTRL_SHADOW)
- 
- #define PIN_BASED_EXT_INTR_MASK                 VMCS_CONTROL_BIT(INTR_EXITING)
- #define PIN_BASED_NMI_EXITING                   VMCS_CONTROL_BIT(NMI_EXITING)
-@@ -236,6 +237,10 @@ enum vmcs_field {
- 	TERTIARY_VM_EXEC_CONTROL_HIGH	= 0x00002035,
- 	PID_POINTER_TABLE		= 0x00002042,
- 	PID_POINTER_TABLE_HIGH		= 0x00002043,
-+	IA32_SPEC_CTRL_MASK             = 0x0000204A,
-+	IA32_SPEC_CTRL_MASK_HIGH        = 0x0000204B,
-+	IA32_SPEC_CTRL_SHADOW           = 0x0000204C,
-+	IA32_SPEC_CTRL_SHADOW_HIGH      = 0x0000204D,
- 	GUEST_PHYSICAL_ADDRESS          = 0x00002400,
- 	GUEST_PHYSICAL_ADDRESS_HIGH     = 0x00002401,
- 	VMCS_LINK_POINTER               = 0x00002800,
-diff --git a/arch/x86/include/asm/vmxfeatures.h b/arch/x86/include/asm/vmxfeatures.h
-index 266daf5b5b84..6dbfe9004d92 100644
---- a/arch/x86/include/asm/vmxfeatures.h
-+++ b/arch/x86/include/asm/vmxfeatures.h
-@@ -90,4 +90,6 @@
- 
- /* Tertiary Processor-Based VM-Execution Controls, word 3 */
- #define VMX_FEATURE_IPI_VIRT		( 3*32+  4) /* Enable IPI virtualization */
-+#define VMX_FEATURE_SPEC_CTRL_SHADOW	( 3*32+  7) /* IA32_SPEC_CTRL shadow */
-+
- #endif /* _ASM_X86_VMXFEATURES_H */
-diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-index 41a4533f9989..6c51a5abb16b 100644
---- a/arch/x86/kvm/vmx/capabilities.h
-+++ b/arch/x86/kvm/vmx/capabilities.h
-@@ -138,6 +138,11 @@ static inline bool cpu_has_tertiary_exec_ctrls(void)
- 		CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
- }
- 
-+static inline bool cpu_has_spec_ctrl_shadow(void)
-+{
-+	return vmcs_config.cpu_based_3rd_exec_ctrl & TERTIARY_EXEC_SPEC_CTRL_SHADOW;
-+}
-+
- static inline bool cpu_has_vmx_virtualize_apic_accesses(void)
+ static inline bool riscv_hwprobe_key_is_valid(__s64 key)
  {
- 	return vmcs_config.cpu_based_2nd_exec_ctrl &
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index c37a89eda90f..a6154d725025 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2008,7 +2008,10 @@ static int vmx_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 		    !guest_has_spec_ctrl_msr(vcpu))
- 			return 1;
+diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
+index 0faf5f161f1e..345d9a3e4b25 100644
+--- a/arch/riscv/include/asm/processor.h
++++ b/arch/riscv/include/asm/processor.h
+@@ -57,6 +57,12 @@
  
--		msr_info->data = to_vmx(vcpu)->spec_ctrl;
-+		if (cpu_has_spec_ctrl_shadow())
-+			msr_info->data = vmcs_read64(IA32_SPEC_CTRL_SHADOW);
-+		else
-+			msr_info->data = to_vmx(vcpu)->spec_ctrl;
- 		break;
- 	case MSR_IA32_SYSENTER_CS:
- 		msr_info->data = vmcs_read32(GUEST_SYSENTER_CS);
-@@ -2148,6 +2151,19 @@ static u64 vmx_get_supported_debugctl(struct kvm_vcpu *vcpu, bool host_initiated
- 	return debugctl;
- }
+ #define STACK_TOP		DEFAULT_MAP_WINDOW
  
-+static void vmx_set_spec_ctrl(struct kvm_vcpu *vcpu, u64 val)
-+{
-+	struct vcpu_vmx *vmx = to_vmx(vcpu);
-+
-+	vmx->spec_ctrl = val;
-+
-+	if (cpu_has_spec_ctrl_shadow()) {
-+		vmcs_write64(IA32_SPEC_CTRL_SHADOW, val);
-+
-+		vmx->spec_ctrl |= vcpu->kvm->arch.force_spec_ctrl_value;
-+	}
-+}
++#ifdef CONFIG_MMU
++#define user_max_virt_addr() arch_get_mmap_end(ULONG_MAX, 0, 0)
++#else
++#define user_max_virt_addr() 0
++#endif /* CONFIG_MMU */
 +
  /*
-  * Writes msr value into the appropriate "register".
-  * Returns 0 on success, non-0 otherwise.
-@@ -2273,7 +2289,8 @@ static int vmx_set_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 		if (kvm_spec_ctrl_test_value(data))
- 			return 1;
+  * This decides where the kernel will search for a free chunk of vm
+  * space during mmap's.
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 9f2a8e3ff204..3630e3f30354 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -67,6 +67,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
+ #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
++#define RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS	7
+ /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
  
--		vmx->spec_ctrl = data;
-+		vmx_set_spec_ctrl(vcpu, data);
-+
- 		if (!data)
- 			break;
- 
-@@ -4785,6 +4802,23 @@ static void init_vmcs(struct vcpu_vmx *vmx)
- 	if (cpu_has_vmx_xsaves())
- 		vmcs_write64(XSS_EXIT_BITMAP, VMX_XSS_EXIT_BITMAP);
- 
-+	if (cpu_has_spec_ctrl_shadow()) {
-+		vmcs_write64(IA32_SPEC_CTRL_SHADOW, 0);
-+
-+		/*
-+		 * Note, IA32_SPEC_CTRL_{SHADOW,MASK} subtly behave *very*
-+		 * differently than other shadow+mask combinations.  Attempts
-+		 * to modify bits in MASK are silently ignored and do NOT cause
-+		 * a VM-Exit.  This allows the host to force bits to be set or
-+		 * cleared on behalf of the guest, while still allowing the
-+		 * guest modify other bits at will, without triggering VM-Exits.
-+		 */
-+		if (kvm->arch.force_spec_ctrl_mask)
-+			vmcs_write64(IA32_SPEC_CTRL_MASK, kvm->arch.force_spec_ctrl_mask);
-+		else
-+			vmcs_write64(IA32_SPEC_CTRL_MASK, 0);
-+	}
-+
- 	if (enable_pml) {
- 		vmcs_write64(PML_ADDRESS, page_to_phys(vmx->pml_pg));
- 		vmcs_write16(GUEST_PML_INDEX, PML_ENTITY_NUM - 1);
-@@ -4853,7 +4887,7 @@ static void vmx_vcpu_reset(struct kvm_vcpu *vcpu, bool init_event)
- 		__vmx_vcpu_reset(vcpu);
- 
- 	vmx->rmode.vm86_active = 0;
--	vmx->spec_ctrl = 0;
-+	vmx_set_spec_ctrl(vcpu, 0);
- 
- 	vmx->msr_ia32_umwait_control = 0;
- 
-@@ -7211,8 +7245,14 @@ void noinstr vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx,
- 	if (!cpu_feature_enabled(X86_FEATURE_MSR_SPEC_CTRL))
- 		return;
- 
--	if (flags & VMX_RUN_SAVE_SPEC_CTRL)
--		vmx->spec_ctrl = __rdmsr(MSR_IA32_SPEC_CTRL);
-+	if (flags & VMX_RUN_SAVE_SPEC_CTRL) {
-+		if (cpu_has_spec_ctrl_shadow())
-+			vmx->spec_ctrl = (vmcs_read64(IA32_SPEC_CTRL_SHADOW) &
-+					~vmx->vcpu.kvm->arch.force_spec_ctrl_mask) |
-+					 vmx->vcpu.kvm->arch.force_spec_ctrl_value;
-+		else
-+			vmx->spec_ctrl = __rdmsr(MSR_IA32_SPEC_CTRL);
-+	}
+ /* Flags */
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index 8cae41a502dd..eddc0ffc47b4 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -8,6 +8,7 @@
+ #include <asm/cacheflush.h>
+ #include <asm/cpufeature.h>
+ #include <asm/hwprobe.h>
++#include <asm/processor.h>
+ #include <asm/sbi.h>
+ #include <asm/switch_to.h>
+ #include <asm/uaccess.h>
+@@ -215,6 +216,9 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+ 			pair->value = riscv_cboz_block_size;
+ 		break;
++	case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
++		pair->value = user_max_virt_addr();
++		break;
  
  	/*
- 	 * If the guest/host SPEC_CTRL values differ, restore the host value.
-@@ -8598,6 +8638,24 @@ static __init int hardware_setup(void)
- 	kvm_caps.tsc_scaling_ratio_frac_bits = 48;
- 	kvm_caps.has_bus_lock_exit = cpu_has_vmx_bus_lock_detection();
- 	kvm_caps.has_notify_vmexit = cpu_has_notify_vmexit();
-+	kvm_caps.supported_force_spec_ctrl = 0;
-+
-+	if (cpu_has_spec_ctrl_shadow()) {
-+		kvm_caps.supported_force_spec_ctrl |= SPEC_CTRL_IBRS;
-+
-+		if (boot_cpu_has(X86_FEATURE_STIBP))
-+			kvm_caps.supported_force_spec_ctrl |= SPEC_CTRL_STIBP;
-+
-+		if (boot_cpu_has(X86_FEATURE_SSBD))
-+			kvm_caps.supported_force_spec_ctrl |= SPEC_CTRL_SSBD;
-+
-+		if (boot_cpu_has(X86_FEATURE_RRSBA_CTRL) &&
-+		    (host_arch_capabilities & ARCH_CAP_RRSBA))
-+			kvm_caps.supported_force_spec_ctrl |= SPEC_CTRL_RRSBA_DIS_S;
-+
-+		if (boot_cpu_has(X86_FEATURE_BHI_CTRL))
-+			kvm_caps.supported_force_spec_ctrl |= SPEC_CTRL_BHI_DIS_S;
-+	}
- 
- 	set_bit(0, vmx_vpid_bitmap); /* 0 is reserved for host */
- 
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 65786dbe7d60..f26ac82b5a59 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -578,7 +578,8 @@ static inline u8 vmx_get_rvi(void)
- 
- #define KVM_REQUIRED_VMX_TERTIARY_VM_EXEC_CONTROL 0
- #define KVM_OPTIONAL_VMX_TERTIARY_VM_EXEC_CONTROL			\
--	(TERTIARY_EXEC_IPI_VIRT)
-+	(TERTIARY_EXEC_IPI_VIRT |					\
-+	 TERTIARY_EXEC_SPEC_CTRL_SHADOW)
- 
- #define BUILD_CONTROLS_SHADOW(lname, uname, bits)						\
- static inline void lname##_controls_set(struct vcpu_vmx *vmx, u##bits val)			\
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 984ea2089efc..9a59b5a93d0e 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -4836,6 +4836,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		if (kvm_is_vm_type_supported(KVM_X86_SW_PROTECTED_VM))
- 			r |= BIT(KVM_X86_SW_PROTECTED_VM);
- 		break;
-+	case KVM_CAP_FORCE_SPEC_CTRL:
-+		r = !!kvm_caps.supported_force_spec_ctrl;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -4990,6 +4993,13 @@ long kvm_arch_dev_ioctl(struct file *filp,
- 		r = kvm_x86_dev_has_attr(&attr);
- 		break;
- 	}
-+	case KVM_GET_SUPPORTED_FORCE_SPEC_CTRL: {
-+		r = 0;
-+		if (copy_to_user(argp, &kvm_caps.supported_force_spec_ctrl,
-+				 sizeof(kvm_caps.supported_force_spec_ctrl)))
-+			r = -EFAULT;
-+		break;
-+	}
- 	default:
- 		r = -EINVAL;
- 		break;
-@@ -6729,6 +6739,26 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		}
- 		mutex_unlock(&kvm->lock);
- 		break;
-+	case KVM_CAP_FORCE_SPEC_CTRL:
-+		r = -EINVAL;
-+
-+		mutex_lock(&kvm->lock);
-+
-+		/*
-+		 * Note, only the value is restricted to known bits that KVM
-+		 * can force on.  Userspace is allowed to set any mask bits,
-+		 * i.e. can prevent the guest from setting a bit, even if KVM
-+		 * doesn't support the bit.
-+		 */
-+		if (kvm_caps.supported_force_spec_ctrl && !kvm->created_vcpus &&
-+		    !(~kvm_caps.supported_force_spec_ctrl & cap->args[1]) &&
-+		    !(~cap->args[0] & cap->args[1])) {
-+			kvm->arch.force_spec_ctrl_mask = cap->args[0];
-+			kvm->arch.force_spec_ctrl_value = cap->args[1];
-+			r = 0;
-+		}
-+		mutex_unlock(&kvm->lock);
-+		break;
- 	default:
- 		r = -EINVAL;
- 		break;
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index a8b71803777b..6dd12776b310 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -29,6 +29,7 @@ struct kvm_caps {
- 	u64 supported_xcr0;
- 	u64 supported_xss;
- 	u64 supported_perf_cap;
-+	u64 supported_force_spec_ctrl;
- };
- 
- void kvm_spurious_fault(void);
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 2190adbe3002..fb918bdb930c 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -917,6 +917,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_MEMORY_ATTRIBUTES 233
- #define KVM_CAP_GUEST_MEMFD 234
- #define KVM_CAP_VM_TYPES 235
-+#define KVM_CAP_FORCE_SPEC_CTRL 236
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
-@@ -1243,6 +1244,9 @@ struct kvm_vfio_spapr_tce {
- #define KVM_GET_DEVICE_ATTR	  _IOW(KVMIO,  0xe2, struct kvm_device_attr)
- #define KVM_HAS_DEVICE_ATTR	  _IOW(KVMIO,  0xe3, struct kvm_device_attr)
- 
-+/* Available with KVM_CAP_FORCE_SPEC_CTRL */
-+#define KVM_GET_SUPPORTED_FORCE_SPEC_CTRL _IOR(KVMIO,  0xe4, __u64)
-+
- /*
-  * ioctls for vcpu fds
-  */
+ 	 * For forward compatibility, unknown keys don't fail the whole
 -- 
-2.39.3
+2.43.0
 
