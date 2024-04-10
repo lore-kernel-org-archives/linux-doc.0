@@ -1,126 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2005B19067B;
-	Wed, 10 Apr 2024 22:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078D2184133;
+	Wed, 10 Apr 2024 22:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712788042; cv=none; b=cWd27bifoLBg4ud9PC6AfEnX1hD2kjFOFnE6OkmFo7yLgVPvGed7m5FXKiwAn0F5UxUt7UIptatdDybNpePHPZBt/xbcQ5pn5SPdS6quO/zMCAHyINC3Dvp+tmIYH77CvxBV+zUW7enmS8hx15NTuEmCcFHo7K75lIAJuhVudrU=
+	t=1712788128; cv=none; b=UnbgeWExYmqWSJJ8WdZ8jkNtB0enm2aQUo5JxAXS/EsJtaWORcgsox5oqlg6nPb/Ihua4E/XKxH917LNvYYMl9cH4GtSN+cx+AVmqMSrR5InKmgkCPUHwyEStRONGwlzObcAZOo9uXmwUwyW3Ra78QUlvf79IMVb5pLbRjXJbSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712788042; c=relaxed/simple;
-	bh=MQwfwXM6s1UZx2FVelAfwabzd67L2NdfTcUOcwAkZa0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sHebwPvCRjy+POpLoVEgAV8eiE/m1fBN2dT2TbXF73oJCuRmikvdt39YdtgsVR0bt+Ga846GEBW42ePhXxA4rUhEakS7MA0oMMzqj5RIrimx5CI7eT43B3unyrrkspiOIPwBx0lcNe431bKGcRtV7vz/cAznC+0s6TN8REbEThk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3/uWsva; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712788128; c=relaxed/simple;
+	bh=rGZ+6mgME8CDq8cx81U16NGCfofP7d9T2GtDJ02icag=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=oTkpIeXODoemdnt6YEV8FH1+/wgwyZRuF3avbe47VyUG9R6yBBknIRXGQmxDOCH4xoZqO0MGg5VFzuD4qlRxZXgEq+JHJqbixVv1aplwXazrONukHoQRipJzfigVoPt3LaPTve9nHgCB3EZjAp2OWORxZ33xdoCp4MOo6UPGjvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=muTnCJ68; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FPSE9QII; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3/uWsva"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E43C43390;
-	Wed, 10 Apr 2024 22:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712788041;
-	bh=MQwfwXM6s1UZx2FVelAfwabzd67L2NdfTcUOcwAkZa0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h3/uWsvaOVdQm4bUzZWXXVJh7Wz75OVPDbNxYG47HDWrUe4NRBf2haOzPZ5BTxLZr
-	 ZC6IMZAHcrynGxHiYq3jz52i7ej0rN/aJYw+es916TUJ8W0q1hU18178W6RjIR7Mtr
-	 u6w32lwy76uxqJ0KHElDXglXLwG3tqXyePsPawNR6jTQLG8NFyOdt+q8rcv9DkP0NC
-	 70nM/T3v/QA686jfQLVrIuderjJhiu+MJatd+IiwAja72W6qHSskPMT3YKq/D1IARS
-	 F5yGeIPYvce+43LFuqfCiuf0TdQJWhZrnNYilgUguhAsZx/mKtygsI+P7YAAlxXB7m
-	 KCNX0t+Sb+ZIA==
-Date: Wed, 10 Apr 2024 23:27:16 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 07/10] riscv: add ISA extension parsing for Zcmop
-Message-ID: <20240410-judgingly-appease-5df493852b70@spud>
-References: <20240410091106.749233-1-cleger@rivosinc.com>
- <20240410091106.749233-8-cleger@rivosinc.com>
- <ZhcFeVYUQJmBAKuv@debug.ba.rivosinc.com>
- <20240410-jawless-cavalry-a3eaf9c562a4@spud>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="muTnCJ68";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FPSE9QII"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1712788124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+09dt8Lue6gAfa+yZ3gUFUEMm5OBKypuTUNVnYjhGiQ=;
+	b=muTnCJ68xg/jmo1x+2PYwo/j8IVl0QMhstkOGPeUNym23NDJrX5zlIVmz9uYKGC9+/ri/7
+	r6snD/AYMuoBMQhStc6A+vE/yMOG9XexG/wrx+iGOKmU/XgUzwZOF0oGkdhko9NdJCRQas
+	2v6q7OryngQcxkh7piM54dBz7MZap2S61QX8VWH7lazZ9iBkX+GXQ+V3+HBDu8wbiW/DvR
+	Ml0UXNavBUtb/JzSyMy8zpYb7jndefj/ExMb5KkJFNnvb3MKpzzo+wv8qdhLwXMsFg7D7Y
+	jThZMktSZwHCqfIwQFGrAR3DpGQQ814EnkbCEZUx9IL1INtVwOQHwfQKCY0QGw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1712788124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+09dt8Lue6gAfa+yZ3gUFUEMm5OBKypuTUNVnYjhGiQ=;
+	b=FPSE9QIIrOJKgP7TOP2bJcNmzEPJfsb9D62zE2XFb1kLmJQ/08SWzbqjbkcHgTADwuS7DU
+	98onkVILTp2D12Aw==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, subramanian.mohan@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v6 09/11] pps: generators: Add PPS Generator TIO Driver
+In-Reply-To: <20240410114828.25581-10-lakshmi.sowjanya.d@intel.com>
+References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+ <20240410114828.25581-10-lakshmi.sowjanya.d@intel.com>
+Date: Thu, 11 Apr 2024 00:28:43 +0200
+Message-ID: <874jc83l9g.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UqyEiLRcLky9DwaJ"
-Content-Disposition: inline
-In-Reply-To: <20240410-jawless-cavalry-a3eaf9c562a4@spud>
+Content-Type: text/plain
 
+On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
+> +static bool pps_generate_next_pulse(struct pps_tio *tio, ktime_t expires)
+> +{
+> +	u64 art;
+> +
+> +	if (!ktime_real_to_base_clock(expires, CSID_X86_ART, &art)) {
+> +		pps_tio_disable(tio);
+> +		return false;
+> +	}
+> +
+> +	pps_compv_write(tio, art - ART_HW_DELAY_CYCLES);
+> +	return true;
+> +}
+> +
+> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
+> +{
+> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
+> +	ktime_t expires, now;
+> +	u32 event_count;
+> +
+> +	guard(spinlock)(&tio->lock);
+> +
+> +	/* Check if any event is missed. If an event is missed, TIO will be disabled*/
+> +	event_count = pps_tio_read(tio, TIOEC);
+> +	if (!tio->prev_count && tio->prev_count == event_count)
+> +		goto err;
+> +	tio->prev_count = event_count;
+> +	expires = hrtimer_get_expires(timer);
+> +	now = ktime_get_real();
+> +
+> +	if (now - expires < SAFE_TIME_NS) {
+> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
+> +			goto err;
+> +	}
 
---UqyEiLRcLky9DwaJ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If the hrtimer callback is invoked late so that now - expires is >=
+SAFE_TIME_NS then this just forwards the timer and tries again.
 
-On Wed, Apr 10, 2024 at 11:16:11PM +0100, Conor Dooley wrote:
-> On Wed, Apr 10, 2024 at 02:32:41PM -0700, Deepak Gupta wrote:
-> > On Wed, Apr 10, 2024 at 11:11:00AM +0200, Cl=E9ment L=E9ger wrote:
-> > > Add parsing for Zcmop ISA extension which was ratified in commit
-> > > b854a709c00 ("Zcmop is ratified/1.0") of the riscv-isa-manual.
-> > >=20
-> > > Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
-> > > ---
-> > > arch/riscv/include/asm/hwcap.h | 1 +
-> > > arch/riscv/kernel/cpufeature.c | 1 +
-> > > 2 files changed, 2 insertions(+)
-> > >=20
-> > > diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/=
-hwcap.h
-> > > index b7551bad341b..cff7660de268 100644
-> > > --- a/arch/riscv/include/asm/hwcap.h
-> > > +++ b/arch/riscv/include/asm/hwcap.h
-> > > @@ -86,6 +86,7 @@
-> > > #define RISCV_ISA_EXT_ZCB		77
-> > > #define RISCV_ISA_EXT_ZCD		78
-> > > #define RISCV_ISA_EXT_ZCF		79
-> > > +#define RISCV_ISA_EXT_ZCMOP		80
-> > >=20
-> > > #define RISCV_ISA_EXT_XLINUXENVCFG	127
-> > >=20
-> > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufe=
-ature.c
-> > > index 09dee071274d..f1450cd7231e 100644
-> > > --- a/arch/riscv/kernel/cpufeature.c
-> > > +++ b/arch/riscv/kernel/cpufeature.c
-> > > @@ -265,6 +265,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =
-=3D {
-> > > 	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
-> > > 	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
-> > > 	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
-> > > +	__RISCV_ISA_EXT_DATA(zcmop, RISCV_ISA_EXT_ZCMOP),
-> >=20
-> > As per spec zcmop is dependent on zca. So perhaps below ?
-> >=20
-> > __RISCV_ISA_EXT_SUPERSET(zicboz, RISCV_ISA_EXT_ZCMOP, RISCV_ISA_EXT_ZCA)
->=20
-> What's zicboz got to do with it, copy-pasto I guess?
-> If we're gonna imply stuff like this though I think we need some
-> comments explaining why it's okay.
+This lacks any form of explanation why this is correct as obviously
+there will be a missing pulse, no?
 
-Also, I'm inclined to call that out specifically in the binding, I've
-not yet checked if dependencies actually work for elements of a string
-array like the do for individual properties. I'll todo list that..
+> +	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
+> +	return HRTIMER_RESTART;
+> +err:
+> +	dev_err(tio->dev, "Event missed, Disabling Timed I/O");
+> +	pps_tio_disable(tio);
 
---UqyEiLRcLky9DwaJ
-Content-Type: application/pgp-signature; name="signature.asc"
+Why does this disable it again? The failure path in
+pps_generate_next_pulse() does so already, no?
 
------BEGIN PGP SIGNATURE-----
+> +	return HRTIMER_NORESTART;
+> +}
+> +
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhcSRAAKCRB4tDGHoIJi
-0q6sAP9ipmaLBEqGqnK1J/+foh06vDyH4IjZKsQzB4HnpE/08QD+LHYD03uimI1C
-REPzlhiL3W105ct+G/bLuPwbDQsvHAM=
-=29Jl
------END PGP SIGNATURE-----
+Thanks,
 
---UqyEiLRcLky9DwaJ--
+        tglx
