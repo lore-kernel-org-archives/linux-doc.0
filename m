@@ -1,124 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3F815B990;
-	Wed, 10 Apr 2024 11:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2255F156865;
+	Wed, 10 Apr 2024 11:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712749791; cv=none; b=roAY/f74bVfmQYF7/jxVA5ImkeXrA9XgRZ/UZY8LRuYXu9kvEFXhyLl6rfFr1Dclz3/YBeZQms45w+Mue1mFKSCg/Aoin1NBdil4JP4WagoJCBw6zx3mWCTx8TOxUETsz1UE4ANNMoFNROaWBOB5mTHg0vz81M5bLtIsv0r+b+s=
+	t=1712750176; cv=none; b=c7nHSpUpijhGK9zG1a8qUTFHtzfyUMCShh42oiguAL3HuinkOHUxEwSE1h6IGB4CbN4d0t5L4ki7GGlhTryzaF+r/bZ5PSnG0tICTGc9iBdPqs3sIN3GKo72tcZDEjRrykGxXYCiJl22qpboCG+8+4tUEXKFIL8g1r51u97d820=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712749791; c=relaxed/simple;
-	bh=hZSWgcp7GnBBKQ/ANmuBJ1lGoqRIvIkLrQj6268hnRY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eyhMzbfSTN2rgS6jeN1y5lVBxJXhei8YnI9cfTUPVvplNfM/DzylLw+9HETlXbJL2Aydd6+C93HDmHFio2EJv2U/DLfUc7DZ8jvhfAkUxwNRL6kZkhWiPHpLh4plPppfFM36gRNIPbKpw1ob0axzlOSeqJ3VkhlAELurOiSQqIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBmWg1Ej; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBmWg1Ej"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712749791; x=1744285791;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hZSWgcp7GnBBKQ/ANmuBJ1lGoqRIvIkLrQj6268hnRY=;
-  b=PBmWg1EjZrOXZKwQpe3+9Mz58iby46bu4mwDcdV8V369+0fUfuN2OgVJ
-   XrVylhGe54jkNyCHG0bkJhu0SqqFqEgufWZjSo/90hXdOAqigDQfOeMly
-   26kFezkNn1SizyPXGBZYPHpOTnFmTl5OGpiZUVH3GFh+ecSH+zUCKnLxC
-   ViI04zdtIT6oxxdG3RbVWvl9jaDK5NkpUvNYZAKwePp7NZnWkgHQTUuna
-   cRZn5sd+7UPFt2apkPiQVQpiCKkw3y00g1jyqiwztED/m//eg4swhdlUE
-   ipjIyRsUBhwgAHyBP3c9BVRumjmS5CV5RL/UXkYzEgZy+lzeO+/gnBhL+
-   g==;
-X-CSE-ConnectionGUID: b/dqFYzlTp2kw2Cs+oV3ZQ==
-X-CSE-MsgGUID: xzslro3WSQmtcgbPx8tUfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11944240"
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="11944240"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:49:50 -0700
-X-CSE-ConnectionGUID: OT+wDgJGSJqHR+RwN/KXfA==
-X-CSE-MsgGUID: QtnGadiqSc2BPgOAsMkeig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
-   d="scan'208";a="43769373"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Apr 2024 04:49:43 -0700
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	jstultz@google.com,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Cc: x86@kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	jesse.brandeburg@intel.com,
-	davem@davemloft.net,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	mcoquelin.stm32@gmail.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com,
-	pandith.n@intel.com,
-	subramanian.mohan@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v6 11/11] ABI: pps: Add ABI documentation for Intel TIO
-Date: Wed, 10 Apr 2024 17:18:28 +0530
-Message-Id: <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
-References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+	s=arc-20240116; t=1712750176; c=relaxed/simple;
+	bh=QOyaJy+CNi6R9607nxZfxgMXDaD6rr1ppov0JOl34z0=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=HkXeZ7a7B+OOphAFY1p6NrnUErFu1a3MzLFw9QRibRq1XeXSICIMzCp2xeRdmeC/JerMLdJqcu62RJJ5wCm4mJx74LnJ4PD0jFuQRNOcITMIeZnYUkBksWqsp3gkGSI8O4izkOYPZb8QLxvH4BK9HWGx1lMwO0+ElxMaaCIWxeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4VF1Rz0bmjz1RC7s;
+	Wed, 10 Apr 2024 19:53:19 +0800 (CST)
+Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5C4CA14037E;
+	Wed, 10 Apr 2024 19:56:11 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 10 Apr
+ 2024 19:56:11 +0800
+Subject: Re: [PATCH net-next v1 12/12] mm: page_frag: update documentation and
+ maintainer for page_frag
+To: Alexander Duyck <alexander.duyck@gmail.com>, Jakub Kicinski
+	<kuba@kernel.org>
+CC: <davem@davemloft.net>, <pabeni@redhat.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew
+ Morton <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+	<linux-doc@vger.kernel.org>
+References: <20240407130850.19625-1-linyunsheng@huawei.com>
+ <20240407130850.19625-13-linyunsheng@huawei.com>
+ <b5c5866e626f6c90657a32b5e9adff724d5896db.camel@gmail.com>
+ <c1f5a78a-3040-0cc7-f113-d5ec82c6010f@huawei.com>
+ <CAKgT0UfZBGEVJa1O7cdNt6zy_EEPoGo=aW6ugRKy8a44qg0j8w@mail.gmail.com>
+ <09d7d59b-9da3-52f7-b039-acd0344c88c8@huawei.com>
+ <20240409062504.26cfcdde@kernel.org>
+ <CAKgT0UfqDRxhUyfQhwsDrRhQmCw4qNw_7Jwq+xN1Z4f6_1Bthg@mail.gmail.com>
+From: Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <dea82ac3-65fc-c941-685f-9d4655aa4a52@huawei.com>
+Date: Wed, 10 Apr 2024 19:56:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <CAKgT0UfqDRxhUyfQhwsDrRhQmCw4qNw_7Jwq+xN1Z4f6_1Bthg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On 2024/4/9 23:11, Alexander Duyck wrote:
+> On Tue, Apr 9, 2024 at 6:25 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>>
+>> On Tue, 9 Apr 2024 15:59:58 +0800 Yunsheng Lin wrote:
+>>>> Just to be clear this isn't an Ack, but if you are going to list
+>>>> maintainers for this my name should be on the list so this is the
+>>>> preferred format. There are still some things to be cleaned up in this
+>>>> patch.
+>>>
+>>> Sure, I was talking about "Alexander seems to be the orginal author for
+>>> page_frag, we can add him to the MAINTAINERS later if we have an ack from
+>>> him." in the commit log.
+>>
+>> Do we have to have a MAINTAINERS entry for every 1000 lines of code?
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+Do we have something like rule or guidance against that?
+Looking at the entry in MAINTAINERS, it seems quite normal to me,
+I thouht it is generally encourage someone with willing and ability
+to be a maintainer/reviewer.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- MAINTAINERS                                      | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+Considering you have refused adding me as the reviewer of page_pool
+despite the support from two maintainers of page_pool, for the season
+of something like below:
+'page pool is increasingly central to the whole networking stack.
+The bar for "ownership" is getting higher and higher..'
 
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..b9b8c97a7840
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		March 2024
-+KernelVersion	6.9
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aea47e04c3a5..e63365a2d029 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17684,6 +17684,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
- L:	linuxpps@ml.enneenne.com (subscribers-only)
- S:	Maintained
- W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
-+F:	Documentation/ABI/testing/sysfs-platform-pps-tio
- F:	Documentation/ABI/testing/sysfs-pps
- F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
- F:	Documentation/driver-api/pps.rst
--- 
-2.35.3
+I think I might need a second opinion here.
 
+>> It really feels forced :/
+
+I am not a native english speaker here, I would rather not comment
+on the 'forced' part here and focus more on the technical disscusion.
+
+> 
+> I don't disagree. However, if nothing else I think it gets used as a
+> part of get_maintainers.pl that tells you who to email about changes
+> doesn't it? It might make sense in my case since I am still
+> maintaining it using my gmail account, but I think the commits for
+> that were mostly from my Intel account weren't they? So if nothing
+> else it might be a way to provide a trail of breadcrumbs on how to
+> find a maintainer who changed employers..
+
++1.
+I generally pay more attention to the patch that is to'ed or cc'ed
+to my email when I am overloaded with other work.
+
+> .
+> 
