@@ -1,282 +1,170 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FC215DBA9;
-	Wed, 10 Apr 2024 15:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AD81779AD
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 16:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712764747; cv=none; b=Yn6aMDK1J9NepSyYZAeEf8exfWwta5r1Tts3ipsgPn9/XIL5rBqZ83m/suYEgO/lkEHrY0seDzlShK8wTnu594rZXXrgAEn9YzN3DojoSBwFkUFqAp6Etx266eYdeYqO/ENSX0JSoK4R35rP/UFMoHyRsVNYPJ+hs58EFZ/Ek10=
+	t=1712765219; cv=none; b=rWRn26cSBAom/LteQRfeS/+CUjfjd28rNF1rV+uFNFBz+jKbUxQHI43R6zmU3AGE4s/XSc7DbQiE5gi42GTX0Qw6vp7hv4VwGhqtNcTKVgIEhieLHQrP68z3+Esvf8oPIbyGDSOcai7BSojEEk4VsJyv70lgUKUtmNaCV+QbvsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712764747; c=relaxed/simple;
-	bh=xfuJ3ry5n91qJc92j6kBa5Z9W5YhchcmI5daF8Z4UqY=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C3CudGzcCa84BvuYwipZaYA0DCgyK0O8kow+kyKvYUgCHxfWtbtynoyPuBk7mHSEAtvgymIYYy9BBSxiTrFyRznUwEF0VXVv6ZRnm+7b7hCBXk+FfgXVCcvIn7dlEfmPEz+GOporlrqwHAidBaMfufRPo0is8NSPMojr2vmCB7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VF6sR73psz6J9yF;
-	Wed, 10 Apr 2024 23:57:15 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 32165140DD4;
-	Wed, 10 Apr 2024 23:58:56 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 10 Apr
- 2024 16:58:55 +0100
-Date: Wed, 10 Apr 2024 16:58:54 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-CC: Russell King <rmk+kernel@armlinux.org.uk>, <linux-pm@vger.kernel.org>,
-	<loongarch@lists.linux.dev>, <linux-acpi@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
-	<kvmarm@lists.linux.dev>, <x86@kernel.org>,
-	<acpica-devel@lists.linuxfoundation.org>, <linux-csky@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-ia64@vger.kernel.org>,
-	<linux-parisc@vger.kernel.org>, Salil Mehta <salil.mehta@huawei.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, <jianyong.wu@arm.com>,
-	<justin.he@arm.com>, James Morse <james.morse@arm.com>, Miguel Luis
-	<miguel.luis@oracle.com>
-Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from
- acpi_processor_get_info()
-Message-ID: <20240410165854.00002973@huawei.com>
-In-Reply-To: <CAJZ5v0hRPFd7jmhJdCu8jVCRc4hZRUt9sKm6iWfynZH1mX7rCg@mail.gmail.com>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
-	<E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
-	<CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
-	<20240322185327.00002416@Huawei.com>
-	<20240410134318.0000193c@huawei.com>
-	<CAJZ5v0ggD042sfz3jDXQVDUxQZu_AWaF2ox-Me8CvFeRB8nczw@mail.gmail.com>
-	<20240410145005.00003050@Huawei.com>
-	<CAJZ5v0hRPFd7jmhJdCu8jVCRc4hZRUt9sKm6iWfynZH1mX7rCg@mail.gmail.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+	s=arc-20240116; t=1712765219; c=relaxed/simple;
+	bh=nvWl1bZewKIPWTM6J2d58Pmrr0Mymh7RKdxUjQRSwBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OxDVAvT09qbFuLLZFvW/MKU1j8iiXuCLxg23asffEEb5gPI5Fkiz0iY0Pfar6PsiDl5Z3V0etPYiB5viy1iCdWljY5Amx5SZuGy1xGT80UuR6HQ+7srL6goxoJQkqSRrx9o9so5hBUgmMMgkmuQZ8FqSVFtMhx7v+mCncyTanw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HSV15PhN; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HSV15PhN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712765216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=N6kKTqXMZNlUBawwTh4IwJfauVu20nj9TB2zdIeMmjI=;
+	b=HSV15PhNqDGd1xe+mspYUNKRyMyLlqyRkoHxG2G6TLq2VnpSDJ5toU6Pw+iyzp2hKIE0ew
+	kFp/iOhhpJtHOAXr3TrwhdpF+rJtI3qDR/3MaOOmKdDv1U+fqebRIfn+UcPksiqSYm0SXm
+	fFc0wdfLX/tW9GaJLXsPKKTWTTDDsPQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-486-WeFhN62tMoS92gIO_QWVQg-1; Wed, 10 Apr 2024 12:06:55 -0400
+X-MC-Unique: WeFhN62tMoS92gIO_QWVQg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-41401f598cfso39867055e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 09:06:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712765214; x=1713370014;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N6kKTqXMZNlUBawwTh4IwJfauVu20nj9TB2zdIeMmjI=;
+        b=SFdm3xwc7dwy92QnEKslWu/7xYex2eyqoVYtuAtp9EDujKqGAD6Zucz2ztPhKM9IH0
+         oJzYtxxeX4YN2BsL4pGD4wD9oD0vfG8cZrfCJA0FxQu9RT6oRtUDafErx0UsSxF+oYqQ
+         l0WaNCk2Pivvr14C64Sfj4UZWM4IsQhgsMMa8ZoPpeA/Uu2osi8bDCOXpD7cXalehwO5
+         AilEU28d+01nrLW4CSfOAi4pONpgkrsvcJn4nP9Bs84pvIyFJ7q6g0YDk5yuY+f5KRFY
+         rkzPO+bcJd1gkRWEuWxoxkP7NM+g4xCUYpEA8XnP9QGXUY0RbdMbUY+TjR+RCloTZ4lZ
+         CScA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpsYKPqEYYTMzxwzl8CB8RGqqZ+d4BI6lkKb/FypsXKERtdrpf1dBrHeWBHdBYBD+icfAcoR0yWfCUIbdoHj/wU2KXI5SB0G6K
+X-Gm-Message-State: AOJu0YxOgLtZmodi2Wj6O7KfbAizCSUTrKZiac2Wo4xrzNufjJKawSOq
+	L7VV+ve71bEzKXtdyqMRqq8m0jBEONwA/D7k21MVNl7/oOGLocKg+0Yf4ChFB70WNY5xI1dLVcH
+	0Xltnzapr2+1TWEwL18JSdpU4MHTRjtD0+hst88N9jKbnD4uYP9nERhZY6w==
+X-Received: by 2002:adf:cc0a:0:b0:33d:a944:54c0 with SMTP id x10-20020adfcc0a000000b0033da94454c0mr2083153wrh.22.1712765214165;
+        Wed, 10 Apr 2024 09:06:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGhlL13uLX3EZ0GsQxiY91L+XTbJxZjq4cVS06NgpPLCSNK6zwU3kFelw3sKKHLjU7Xf5werA==
+X-Received: by 2002:adf:cc0a:0:b0:33d:a944:54c0 with SMTP id x10-20020adfcc0a000000b0033da94454c0mr2083137wrh.22.1712765213783;
+        Wed, 10 Apr 2024 09:06:53 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c712:fa00:38eb:93ad:be38:d469? (p200300cbc712fa0038eb93adbe38d469.dip0.t-ipconnect.de. [2003:cb:c712:fa00:38eb:93ad:be38:d469])
+        by smtp.gmail.com with ESMTPSA id g12-20020a5d540c000000b00343f662327bsm12907344wrv.77.2024.04.10.09.06.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 09:06:53 -0700 (PDT)
+Message-ID: <6517b5ae-e302-4cbe-8a4c-716e604822ce@redhat.com>
+Date: Wed, 10 Apr 2024 18:06:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v1 12/12] mm: page_frag: update documentation and
+ maintainer for page_frag
+To: Alexander Duyck <alexander.duyck@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: Yunsheng Lin <linyunsheng@huawei.com>, davem@davemloft.net,
+ pabeni@redhat.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org
+References: <20240407130850.19625-1-linyunsheng@huawei.com>
+ <20240407130850.19625-13-linyunsheng@huawei.com>
+ <b5c5866e626f6c90657a32b5e9adff724d5896db.camel@gmail.com>
+ <c1f5a78a-3040-0cc7-f113-d5ec82c6010f@huawei.com>
+ <CAKgT0UfZBGEVJa1O7cdNt6zy_EEPoGo=aW6ugRKy8a44qg0j8w@mail.gmail.com>
+ <09d7d59b-9da3-52f7-b039-acd0344c88c8@huawei.com>
+ <20240409062504.26cfcdde@kernel.org>
+ <CAKgT0UfqDRxhUyfQhwsDrRhQmCw4qNw_7Jwq+xN1Z4f6_1Bthg@mail.gmail.com>
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CAKgT0UfqDRxhUyfQhwsDrRhQmCw4qNw_7Jwq+xN1Z4f6_1Bthg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Apr 2024 16:19:50 +0200
-"Rafael J. Wysocki" <rafael@kernel.org> wrote:
+On 09.04.24 17:11, Alexander Duyck wrote:
+> On Tue, Apr 9, 2024 at 6:25 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>>
+>> On Tue, 9 Apr 2024 15:59:58 +0800 Yunsheng Lin wrote:
+>>>> Just to be clear this isn't an Ack, but if you are going to list
+>>>> maintainers for this my name should be on the list so this is the
+>>>> preferred format. There are still some things to be cleaned up in this
+>>>> patch.
+>>>
+>>> Sure, I was talking about "Alexander seems to be the orginal author for
+>>> page_frag, we can add him to the MAINTAINERS later if we have an ack from
+>>> him." in the commit log.
+>>
+>> Do we have to have a MAINTAINERS entry for every 1000 lines of code?
+>> It really feels forced :/
+> 
+> I don't disagree. However, if nothing else I think it gets used as a
+> part of get_maintainers.pl that tells you who to email about changes
+> doesn't it? It might make sense in my case since I am still
+> maintaining it using my gmail account, but I think the commits for
+> that were mostly from my Intel account weren't they? So if nothing
+> else it might be a way to provide a trail of breadcrumbs on how to
+> find a maintainer who changed employers..
 
-> On Wed, Apr 10, 2024 at 3:50=E2=80=AFPM Jonathan Cameron
-> <Jonathan.Cameron@huawei.com> wrote:
-> >
-> > On Wed, 10 Apr 2024 15:28:18 +0200
-> > "Rafael J. Wysocki" <rafael@kernel.org> wrote:
-> > =20
-> > > On Wed, Apr 10, 2024 at 2:43=E2=80=AFPM Jonathan Cameron
-> > > <Jonathan.Cameron@huawei.com> wrote: =20
-> > > > =20
-> > > > > > =20
-> > > > > > > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-> > > > > > > index 47de0f140ba6..13d052bf13f4 100644
-> > > > > > > --- a/drivers/base/cpu.c
-> > > > > > > +++ b/drivers/base/cpu.c
-> > > > > > > @@ -553,7 +553,11 @@ static void __init cpu_dev_register_gene=
-ric(void)
-> > > > > > >  {
-> > > > > > >         int i, ret;
-> > > > > > >
-> > > > > > > -       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES))
-> > > > > > > +       /*
-> > > > > > > +        * When ACPI is enabled, CPUs are registered via
-> > > > > > > +        * acpi_processor_get_info().
-> > > > > > > +        */
-> > > > > > > +       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES) || !acpi_=
-disabled)
-> > > > > > >                 return; =20
-> > > > > >
-> > > > > > Honestly, this looks like a quick hack to me and it absolutely
-> > > > > > requires an ACK from the x86 maintainers to go anywhere. =20
-> > > > > Will address this separately.
-> > > > > =20
-> > > >
-> > > > So do people prefer this hack, or something along lines of the foll=
-owing?
-> > > >
-> > > > static int __init cpu_dev_register_generic(void)
-> > > > {
-> > > >         int i, ret =3D 0;
-> > > >
-> > > >         for_each_online_cpu(i) {
-> > > >                 if (!get_cpu_device(i)) {
-> > > >                         ret =3D arch_register_cpu(i);
-> > > >                         if (ret)
-> > > >                                 pr_warn("register_cpu %d failed (%d=
-)\n", i, ret);
-> > > >                 }
-> > > >         }
-> > > >         //Probably just eat the error.
-> > > >         return 0;
-> > > > }
-> > > > subsys_initcall_sync(cpu_dev_register_generic); =20
-> > >
-> > > I would prefer something like the above.
-> > >
-> > > I actually thought that arch_register_cpu() might return something
-> > > like -EPROBE_DEFER when it cannot determine whether or not the CPU is
-> > > really available. =20
-> >
-> > Ok. That would end up looking much more like the original code I think.
-> > So we wouldn't have this late registration at all, or keep it for DT
-> > on arm64?  I'm not sure that's a clean solution though leaves
-> > the x86 path alone. =20
->=20
-> I'm not sure why DT on arm64 would need to do late registration.
+Would a .mailmap entry also help for your case, such that the mail 
+address might get mapped to the new one? (note, I never edited .mailmap 
+myself)
 
-This was me falsely thinking better to do it close together for
-DT and ACPI. It definitely doesn't need to (or it wouldn't work today!)
+-- 
+Cheers,
 
->=20
-> There is this chain of calls in the mainline today:
->=20
-> driver_init()
->   cpu_dev_init()
->     cpu_dev_register_generic()
->=20
-> the last of which registers CPUs on arm64/DT systems IIUC. I don't see
-> a need to change this behavior.
->=20
-> On arm64/ACPI, though, arch_register_cpu() cannot make progress until
-> it can look into the ACPI Namespace, so I would just make it return
-> -EPROBE_DEFER or equivalent then and the ACPI enumeration will find
-> the CPU and basically treat it as one that has just appeared.
-
-Ok so giving this a go...
-
-Arm 64 version of arch_register_cpu() ended up as the following
-(obviously needs cleaning up, bikeshedding of naming etc)
-
-int arch_register_cpu(int cpu)
-{
-        struct cpu *c =3D &per_cpu(cpu_devices, cpu);
-        acpi_handle acpi_handle =3D ACPI_HANDLE(&c->dev);
-        int ret;
-
-	printk("!!!!! INTO arch_register_cpu() %px\n", ACPI_HANDLE(&c->dev));
-
-        if (!acpi_disabled && !acpi_handle)
-                return -EPROBE_DEFER;
-        if (acpi_handle) {
-                ret =3D acpi_sta_enabled(acpi_handle);
-                if (ret) {
-                        printk("Have handle, not enabled\n");
-                        /* Not enabled */
-                        return ret;
-                }
-        }
-        printk("!!!!! onwards arch_register_cpu()\n");
-
-        c->hotpluggable =3D arch_cpu_is_hotpluggable(cpu);
-
-        return register_cpu(c, cpu);
-}
-
-with new utility function in drivers/acpi/utils.c
-
-int acpi_sta_enabled(acpi_handle handle)
-{
-       unsigned long long sta;
-       bool present, enabled;
-       acpi_status status;
-
-       if (acpi_has_method(handle, "_STA")) {
-               status =3D acpi_evaluate_integer(handle, "_STA", NULL, &sta);
-               if (ACPI_FAILURE(status))
-                       return -ENODEV;
-
-               present =3D sta & ACPI_STA_DEVICE_PRESENT;
-               enabled =3D sta & ACPI_STA_DEVICE_ENABLED;
-               if (!present || !enabled) {
-                       return -EPROBE_DEFER;
-               }
-               return 0;
-       }
-       return 0; /* No _STA means always on! */
-}
-	struct cpu *c =3D &per_cpu(cpu_devices, pr->id);=09
-	ACPI_COMPANION_SET(&c->dev, device);
-
-in acpi_processor_get_info() and that calls
-
-static int acpi_processor_make_enabled(struct acpi_processor *pr)
-{
-        int ret;
-
-        if (invalid_phys_cpuid(pr->phys_id))
-                return -ENODEV;
-
-        cpus_write_lock();
-        ret =3D arch_register_cpu(pr->id);
-        cpus_write_unlock();
-
-        return ret;
-}
-
-I think setting the ACPI handle should be harmless on other architectures.
-It seems like the obvious one to set it to for cpu->dev.
-
-Brief tests on same set of DT and ACPI on x86 and arm64 seem fine.
-
->=20
-> > If we get rid of this catch all, solution would be to move the
-> > !acpi_disabled check into the arm64 version of arch_cpu_register()
-> > because we would only want the delayed registration path to be
-> > used on ACPI cases where the question of CPU availability can't
-> > yet be resolved. =20
->=20
-> Exactly.
->=20
-> This is similar (if not equivalent even) to a CPU becoming available
-> between the cpu_dev_register_generic() call and the ACPI enumeration.
-
->=20
-> > >
-> > > Then, the ACPI processor enumeration path may take care of registering
-> > > CPU that have not been registered so far and in the more-or-less the
-> > > same way regardless of the architecture (modulo some arch-specific
-> > > stuff). =20
-> >
-> > If I understand correctly, in acpi_processor_get_info() we'd end up
-> > with a similar check on whether it was already registered (the x86 path)
-> > or had be deferred (arm64 / acpi).
-> > =20
-> > >
-> > > In the end, it should be possible to avoid changing the behavior of
-> > > x86 and loongarch in this series. =20
-> >
-> > Possible, yes, but result if I understand correctly is we end up with
-> > very different flows and replication of functionality between the
-> > early registration and the late one. I'm fine with that if you prefer i=
-t! =20
->=20
-> But that's what is there today, isn't it?
-
-Agreed - but I was previously thinking we could move everything late.
-I'm fine with just keeping the two flows separate.
-
->=20
-> I think this can be changed to reduce the duplication, but I'd prefer
-> to do that later, when the requisite functionality is in place and we
-> just do the consolidation.  In that case, if anything goes wrong, we
-> can take a step back and reconsider without deferring the arm64 CPU
-> hotplug support.
-
-Great. That plan certainly works for me :)
-
-Thanks for quick replies and help getting this headed in right direction.
-
-+CC Miguel who is also looking at some of this series. Sorry Miguel,
-was assuming you were on the thread and never checked :(
-
-Jonathan
-
+David / dhildenb
 
