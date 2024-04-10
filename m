@@ -1,94 +1,146 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079B93E485
-	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 23:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A07E3FB1E
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 23:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712792184; cv=none; b=mbmE1n/bx86PALW9cfmLnHPDI8sxWdeAv1wm65miPZiZSWAFOK42mU6RKA0PX1g3GKE5yhCqWI975BvH0TFzkDmPd421DU/6YdqXAwjrGtzl3Nn8BmzHXRY4osk3WArc4a+aRc3IPrBXAKtjiQhLeBNy5oUHLJ+B+mi2EFEvhTU=
+	t=1712793511; cv=none; b=OJv4kpmtjAma324zB/e5X+TQ+GW+FuRN7gr7/QCx23q+3WN/34sRUpTK2ibfDnJsgFx0y0PpXB2co7KFR1v+2pZYaHn65N44CYDAUtF4jipEHfLbovmmkqHfMKRldPITcK3jNlpSCUJF2dss9O4ApdLjHa6aN114U320BILId6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712792184; c=relaxed/simple;
-	bh=Sfgys4M0mbwIrdfuWwMajETGhNADtXZMucFfJySAp98=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tb63o9C10V5q2WRLzL2+IN+dZapOcvU0uX14mqPmS0iDtqUnSoeo2pE6Y87AAT+jWXghXeKCDpzN89lF9lASDDfP92VnK8LqLhb620Ct3ROqVon1ldSZPnwYqguKYvDUv/AVb5MXIUoySZghMP00dAk3JIS/oVYcMaiyBffke28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iFhs0DdX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1712793511; c=relaxed/simple;
+	bh=bXItv4HYzVSIBt+RUD5HDA9HqlJYzm+XsjCsyrirxEM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=M35uIEiQ5Gvc/CneECsbWXw72LxVHcAwYUUaLk8cDs/vGNUH/rCDaajd/qM2SsG/gAXXKGS1peG2+ZF3VwNSBtNfQBvmVacje9TUIPptQyvSnYXgybI5CZI25g3c7nm2xTP4mAc73pQ9hSqNgJcv+nN+cT8K/U9CtA4w+TlwhRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ul8dGcy7; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iFhs0DdX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 174AE47C26
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1712792182; bh=QZKAIMSrSrLsquQzUA3fkcN3C0F1fIOPeZYoL05jK+A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iFhs0DdX1fuo+Z5k0BBrJDHePNtW7R63HTOm8JH5WZpZUcQyhZN/BF0IdIs+LKfdK
-	 2REaOv0Wp0vbsCm9ZoEIAQiVHIQ8rI9ZrWc3NnODFuvDd5OtonxqlsCEYMKaNuN2+c
-	 bYrGI4tz4wqEfHy4wSOYHtbGQAnzISqPLASHmwpXJt9EIalZpRjfX5Q4tyyC0RvBew
-	 0t9Slsy1zH85AHvFdvkxi10jBphtoiYLG+2vYwcea5ZfCN9nmbTbtMVFqfc+b4gz9e
-	 oO3TPXvs/MDXtyCQmXf066czt78VemIyxmJbHxgoKLWwigQm3reWfeoiTPbu2VzeIQ
-	 ezwZikNuxq8Pw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 174AE47C26;
-	Wed, 10 Apr 2024 23:36:22 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, =?utf-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
- =?utf-8?B?0Yc=?= <relect@bk.ru>, Randy Dunlap
- <rdunlap@infradead.org>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2] docs: Detect variable fonts and suggest denylisting
- them
-In-Reply-To: <02ef631f-a53a-4795-95fc-e97723386f80@gmail.com>
-References: <20240323120204.155678-1-akiyks@gmail.com>
- <20240406020416.25096-1-akiyks@gmail.com> <87le5lszxm.fsf@meer.lwn.net>
- <02ef631f-a53a-4795-95fc-e97723386f80@gmail.com>
-Date: Wed, 10 Apr 2024 17:36:21 -0600
-Message-ID: <87v84osscq.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ul8dGcy7"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e42a6158d5so36925ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 16:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712793508; x=1713398308; darn=vger.kernel.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ZXB+0PtaF+vG2Eqe2ku2kHYSPF78NFZHwzDIf6uFVo=;
+        b=ul8dGcy7CrJ4QlBF847S23xeeYmdr1uFniE4EssnJuF9uVlt7XlFWP/5saKY3aGGW6
+         R/q84JQjdLY84gy2Yu+ZQ6zCcbXvw21T5S/DGqsB8NpeuJXPW59MsqZjy/XzAygRg3FO
+         DBBcBNWAd4ELo87Pj02kig4gcrMCTCo+FYBKF7n6m8I1/hq8MFyInnBIGKI437o+MHRF
+         Gnd16K0fGkceV/fcAMhxNA84MifHHBUF3AQe6/KoL1V4r0IS8vl8ts7kJVWiL8sCrkSy
+         LRhk5QIGmrXzoSMDm5WRzQs+21LKt/dozqUiJjUDTaEeKPpjutitrYmpRn0UFk88ARtF
+         jVKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712793508; x=1713398308;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1ZXB+0PtaF+vG2Eqe2ku2kHYSPF78NFZHwzDIf6uFVo=;
+        b=wLkP3UFvaFyeT8+Xzpnpdh09AB0YI2TU+GXOFCB6PG4wNgGu4fx8D/KhvQxMKw0BFn
+         0Txb8OwGI08YnKvW7vy63Y/s1422VFsh6zF8BgMRKpvt7DhqZH1rjUv/nNIEdMmFmXRM
+         FOE56nnKjRU8LpWT7qm6RZubSREFfzTrmupJ7NBylOKpqSZUpSYGC8sTgGyUElqGeA0Z
+         kkDSQwDHnH8Pgf75Ap6KHuF72UyA1Pp+/okvw78DC667iSQdaHBVmi2OLG/LPqNwV43R
+         P7oQlUCy5uvuEzyqwf35o4WzfoT9y1WlOwEfRGlqAH5GLnXuSHvGEYVnCdliM8oGVuut
+         7VZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqL+SBra+65CMjbTUUhGFa40IawjSqte3fYHYYUJ6fn0n8tUe85ofh7Yog5mOxWAZdDUEMBf9/RhU1paVmC/XhT3f2qbT4gzCx
+X-Gm-Message-State: AOJu0Yw6gtyWHDLwyfVMdIe1ZGrOY3nKonzjRo7fKbFikmQkbaBl2iZQ
+	m2pq5bqSaON/MSwTy5GzK0c+meZXZE36e230nHo+Onyps2TGx0HWpfan8EZT2g==
+X-Google-Smtp-Source: AGHT+IGd+QI2KOJ5c/8/pTyKY+Y+N0EZgS87fvMttED3Ds2Pyg5DEehZ91bfZhC4ZUFBKIIxCloFUA==
+X-Received: by 2002:a17:902:e743:b0:1e3:c01d:fb17 with SMTP id p3-20020a170902e74300b001e3c01dfb17mr55118plf.11.1712793508162;
+        Wed, 10 Apr 2024 16:58:28 -0700 (PDT)
+Received: from [2620:0:1008:15:2d0b:3c67:e0d1:ea8] ([2620:0:1008:15:2d0b:3c67:e0d1:ea8])
+        by smtp.gmail.com with ESMTPSA id ga18-20020a056a00621200b006edcf5533cesm214863pfb.79.2024.04.10.16.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 16:58:27 -0700 (PDT)
+Date: Wed, 10 Apr 2024 16:58:26 -0700 (PDT)
+From: David Rientjes <rientjes@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+cc: Sourav Panda <souravpanda@google.com>, corbet@lwn.net, 
+    gregkh@linuxfoundation.org, rafael@kernel.org, mike.kravetz@oracle.com, 
+    muchun.song@linux.dev, rppt@kernel.org, david@redhat.com, 
+    rdunlap@infradead.org, chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
+    tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+    pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
+    shakeelb@google.com, kirill.shutemov@linux.intel.com, 
+    wangkefeng.wang@huawei.com, adobriyan@gmail.com, 
+    Vlastimil Babka <vbabka@suse.cz>, 
+    "Liam R. Howlett" <Liam.Howlett@oracle.com>, surenb@google.com, 
+    linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+    Matthew Wilcox <willy@infradead.org>, weixugc@google.com
+Subject: Re: [PATCH v9 1/1] mm: report per-page metadata information
+In-Reply-To: <20240319143320.d1b1ef7f6fa77b748579ba59@linux-foundation.org>
+Message-ID: <65b77d3e-d683-1e90-ebb0-5c7758143048@google.com>
+References: <20240220214558.3377482-1-souravpanda@google.com> <20240220214558.3377482-2-souravpanda@google.com> <20240319143320.d1b1ef7f6fa77b748579ba59@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+On Tue, 19 Mar 2024, Andrew Morton wrote:
 
-> On Wed, 10 Apr 2024 14:52:37 -0600, Jonathan Corbet wrote:
-> [...]
->> Meanwhile, it occurred to me that it would be good to let the Fedora
->> folks know that this breaks, so I've filed a bug there; we'll see if
->> they have any thoughts on the matter as well.
->
-> Actually, I opened:
->
->     https://bugzilla.redhat.com/show_bug.cgi?id=2271559
->     "google-noto-sans-cjk-vf-fonts is not compatible with XeTeX"
->
-> the other day as a bug in google-noto-sans-cjk-vf-fonts.
+> On Tue, 20 Feb 2024 13:45:58 -0800 Sourav Panda <souravpanda@google.com> wrote:
+> 
+> > Adds two new per-node fields, namely nr_memmap and nr_memmap_boot,
+> > to /sys/devices/system/node/nodeN/vmstat and a global Memmap field
+> > to /proc/meminfo. This information can be used by users to see how
+> > much memory is being used by per-page metadata, which can vary
+> > depending on build configuration, machine architecture, and system
+> > use.
+> 
+> I yield to no man in my admiration of changelogging but boy, that's a
+> lot of changelogging.  Would it be possible to consolidate the [0/N]
+> coverletter and the [1/N] changelog into a single thing please?
+> 
+> >  Documentation/filesystems/proc.rst |  3 +++
+> >  fs/proc/meminfo.c                  |  4 ++++
+> >  include/linux/mmzone.h             |  4 ++++
+> >  include/linux/vmstat.h             |  4 ++++
+> >  mm/hugetlb_vmemmap.c               | 17 ++++++++++++----
+> >  mm/mm_init.c                       |  3 +++
+> >  mm/page_alloc.c                    |  1 +
+> >  mm/page_ext.c                      | 32 +++++++++++++++++++++---------
+> >  mm/sparse-vmemmap.c                |  8 ++++++++
+> >  mm/sparse.c                        |  7 ++++++-
+> >  mm/vmstat.c                        | 26 +++++++++++++++++++++++-
+> >  11 files changed, 94 insertions(+), 15 deletions(-)
+> 
+> And yet we offer the users basically no documentation.  The new sysfs
+> file should be documented under Documentation/ABI somewhere and
+> perhaps we could prepare some more expansive user-facing documentation
+> elsewhere?
+> 
 
-Ah...I filed mine under texlive, no wonder I didn't find yours first :)
+Sourav, is it possible to refresh this series into a v10 on top of the 
+latest upstream kernel with a single condensed changelog that details the 
+current behavior, what extension this is adding, and how it is generally 
+useful?
 
-> In response, Peng Wu (one of font package maintainers) opened:
->
->     https://bugzilla.redhat.com/show_bug.cgi?id=2272153
->     "xelatex doesn't support font face from named instance of variable fonts"
->
-> as a bug in texlive-base.
+As noted here, the cover letter has great material that discusses the 
+rationale for this change but would be lost if only this patch is merged.  
+So typically the cover letter material gets concatenated into the 
+changelog, but in this case there's a lot of overlap.
 
-I'm not sure why I didn't find that one, though...I did look.
+A single patch that includes a succinct changelog would be awesome.
 
-> In #2271559, I was asked to help report this issue to upstream XeTeX,
-> which is in my to-do list.
->
-> It sounds like there should be a way for XeTeX to identify variable fonts
-> and ignore them.
+And then the requested documentation in Documentation/ABI either included 
+in the same patch or as a second patch in the series?
 
-It seems like it should certainly be possible.  We may end up carrying
-the workaround for a long time, though, before any fix filters through
-to users.
+I don't think the resulting patch series will actually need a cover letter 
+after that, it will be able to stand on its own.
 
-Thanks,
+> I'd like to hear others' views on the overall usefulness/utility of this
+> change, please?
+> 
 
-jon
+Likely true for all hyperscalers, the immediate use case that this could 
+be applied to is to track boot memory overhead and any regression over 
+time (across kernel upgrades, firmware upgrades, etc) that may change the 
+amount of total memory available.  We'd want to subtract out the boot 
+overhead that we know about (like struct page here) and then alert on any 
+regression where we're losing memory from reboot to reboot for any reason.
+
+This increased visibility into boot memory overhead allows us to create a 
+mechanism to track changes over time when otherwise that attribution of 
+that memory is not available.
