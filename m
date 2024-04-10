@@ -1,60 +1,48 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CA1836E0;
-	Wed, 10 Apr 2024 21:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCED181BA1;
+	Wed, 10 Apr 2024 21:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712784048; cv=none; b=ohQeQS6ggrSH4r+FVqBQyKsSf2JO5AF4GpzrY1rjEpD1M9QCo5dbtBaV5fL6grJvpqe+7PAprMdrlKwGlSWhtxKEHTm/tGgIQs+s09iZ7aOrY4a8e5z7wtRAPpocVrluXGdrI8uM7066gINgHx8V/oWL9PJIN1rvX1cTJxCJNl0=
+	t=1712784460; cv=none; b=QwwLYd7DE4cmzpvK6IIV/XTWzmLoBVYW13K1CdSdgEuf9MI/metlwog7Y6geyzbgfouazXOHXbJ0D+xqoC9qzGs0XJhEO40syzxiI09qhonRLTrfmarsacmIeNEF5OrySBA6gptojLyLLwGc28CN3bhrz7jKVsTEa9CfduRZgBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712784048; c=relaxed/simple;
-	bh=yZahjj479XacXe+rCfUPbnex64OHH7QkFDRhj0D3+IY=;
+	s=arc-20240116; t=1712784460; c=relaxed/simple;
+	bh=SOU/rQZS2o+jKf46j6gyPHpdHQ1JeR3VtxetWOGthQo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VIlPaWxQ7Vx2uACWdB9wwuWwqaes+yeai+j/Rp//Cg7j3+7Fe9/Wh0PpH9HQekdawCASodRGBg1fRBUfY0gAlRxOMYAuw+8XpVFLt7qCw4gqBF6lpy3kuyfs4cIOZZmVIM+wPX7Nto5Lwa78/0t2I7JJQPy1qt4mUc3Jho/yb0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FwHViD6I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TNxLVhfT; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 MIME-Version:Content-Type; b=QP2lGbtgHrIidLk+wmwiGvgX0DujuitmNr92zQY+W5aVZbqNBh700v7MltPZLtVgXZsLdHXPQ3VLnQjk8idF6GN9lNnW4rjPYplZc1kjAIuyXR2BmDktWiijPYUQ6+39peMMEXfLZ7hvTpvjGLuMWKLyko2heuDKpZbRy2gpGR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AznARsNl; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FwHViD6I";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TNxLVhfT"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1712784045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
-	b=FwHViD6IqUH6Dt4mypFv+cxXod1xbN1HB4zKr64xGYPMeUgzzfMUVoJ3kvd+VB2CvQpdqb
-	fHo+D2Hfhz+bnR9R4itTegQZbQC9gWjqfNAP97Llf0WXcwoDD5xaImLbrPk+rqf6FjuFyB
-	fHpeCmy15bhH+oQNJH7DqekBYuMT//0O0aXrqBfHWIoAPFByXVaF9lHZVB2LgJDfSvlr0O
-	xM9V1b7QNSNIm8LxQB3w5XPt/I8/WZ58t03zkl9PF+P+kz8pp+8somxMWj8WR2dOCLhV3k
-	9zeaX8Ie/CHyXq55h5LUCieWmzP0hClz+gEEztT1OutcdXmqjLFiHcEhoESLog==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1712784045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
-	b=TNxLVhfTSGEjRdOUAJEdbT0v1iAfoxcexXJbxNXc0RJ2rOoS0urv9iS637SyXee84icb4A
-	v2DWCNmgXp4sKaDg==
-To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org
-Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com,
- jesse.brandeburg@intel.com, davem@davemloft.net,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
- anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
- pandith.n@intel.com, subramanian.mohan@intel.com,
- thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
-Subject: Re: [PATCH v6 01/11] x86/tsc: Add base clock properties in
- clocksource structure
-In-Reply-To: <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
-References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
- <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
-Date: Wed, 10 Apr 2024 23:20:44 +0200
-Message-ID: <87frvs3oer.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AznARsNl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2B86C47C26
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1712784458; bh=2h0mCjUz+lkc6cFoDOOjKY+TGil3wNwGsaSJv8rWfNQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=AznARsNlSmERn5KPFpkzeAVfvk7ZZTgSWFON+3Nt0MzBvzvqbLc+3rbbowmPD6y0t
+	 l31C65IPtWlwcu5S5+kfQaHaYvbSsYjIkYDBZh6cZPPenzlWC7E0uk3ApjdQGGw9U+
+	 vLx7jKQcH2M+5k89wd6Y4IS0i7EbNQnBMQLcV7rlsTgcpiZTdnW9qjm9pXFZw14Or2
+	 M4LJVIslbkY2504d226tTHN1+q9zqk6j32wGzQcy4hLdBIhDOsaPjtLxdznJLPSFXH
+	 dRR45/dwVXjnFby/N5aV7Ss5gTTvcUG6ndPbRvpqBws/K8hzRzJz74vwV0VTBwhTAA
+	 K9t+nRnuDIegA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2B86C47C26;
+	Wed, 10 Apr 2024 21:27:38 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_CN: Add dev-tools/kmemleak Chinese translation
+In-Reply-To: <20240403052552.39292-1-tttturtleruss@hust.edu.cn>
+References: <20240403052552.39292-1-tttturtleruss@hust.edu.cn>
+Date: Wed, 10 Apr 2024 15:27:36 -0600
+Message-ID: <87zfu0sybb.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,37 +51,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
+
+> Translate dev-tools/kmemleak.rst into Chinese and add it into
+> zh_CN/dev-tools/index.rst.
 >
-> Add base clock hardware abstraction in clocksource structure.
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> ---
+> v1 -> v2: Adjust line length and keep consistent with the original content
 >
-> Add clocksource ID for x86 ART(Always Running Timer). The newly added
-> clocksource ID and conversion parameters are used to convert time in a
-> clocksource domain to base clock and vice versa.
->
-> Convert the base clock to the system clock using convert_base_to_cs() in
-> get_device_system_crosststamp().
+>  .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+>  .../translations/zh_CN/dev-tools/kmemleak.rst | 229 ++++++++++++++++++
+>  2 files changed, 230 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/kmemleak.rst
 
-In https://lore.kernel.org/all/875xxhi1ty.ffs@tglx I asked you to
-provide a change log which explains the WHY and not the WHAT. The new
-change log still fails to explain WHY this change is needed and which
-problem it is trying to solve.
+Applied, thanks.
 
-I further asked you to do:
+Incidentally, I see you sent a v3 adding just the reviewed-by tag.  If
+you change a patch for other reasons, you should definitely add such
+tags (assuming the change isn't one that requires re-review, of course),
+but there is no need to send a new version just to be sure that the tag
+is picked up - b4 is great for that.
 
-    1) Add the clocksource_base struct and provide the infrastructure in
-       get_device_system_crosststamp()
-
-    2) Make TSC/ART use it
-
-But this still does #1 and #2 in one go.
-
-If you don't understand my review comments, then please ask. If you
-disagree with them then please tell me and argue with me.
-
-Just ignoring them is not an option.
-
-Thanks,
-
-        tglx
+jon
