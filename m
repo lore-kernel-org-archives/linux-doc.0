@@ -1,143 +1,104 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800EA7F
-	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 22:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B629723BB
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 22:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712788367; cv=none; b=i4D42LieO+17edz6/VanNpD1i/AawMn+oEF3tBKPP8aSL462U0HRgY+n9Br4AjBXIV3Ue9sEzKTkj6SIvw/vYdBCV53ujrW0Q8tMl7n3VL6ROnydxQH0VA64Jqr0AZrVMb2NGm3+ZBoEl2itmEnAmB+upcYgQJWaoyaZkgL9KNg=
+	t=1712789879; cv=none; b=kCIuBYABmjC0Ft347F+X2bC0jh8uZElgb+fjpsrQ6Xcm0KruZwYyLLHoeU+JYrjBpYM5qeCGxm8miZf7lZM8I1HIbPLcaDGnbIdxWNAf+z2Ui1r3G96LPDByY0To+qtXorMFs27RIcrJn7+nACOQ+MccZMLgO2lLTiE1LmhFcGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712788367; c=relaxed/simple;
-	bh=CM4Nfxlau91i+wTCngy88tyM8dxynNHwdKc70IzsoDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JRfXiWvBWJ36ZeoCrHZDAv5q6d9sQnstdjuZy/K6jbpb0dCIzxpaCgNno/UJ+8uNCnuTtasuUL/e3dTzBRM4GfbazwLXKF/pTkmWx4G5uW0Vs7UmQdXh/KcXlVKGDOuyCjucUDUEGsf1D2IPu4QrVPevnBcIewrvDYecdINuzPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=RkkB7C1d; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1712789879; c=relaxed/simple;
+	bh=jRCAbewTab5d7SfO/16oQO7l7AL8fBRNoMvDiU5ZQhY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YolGFz5D5tIiM2Jk1q+IO2WN/w00lHbCI4of23Y7jIWk47baOyNnqGEwOcmFEuSFofGmWAKMuzOtqBwIcBlBr7q/pdCfRF7pyP9W+lpFDfr1yQVTfT03QYnCLXI7Pusx5Wco18Nl8RnxT57rrIhRt4+z6bJzAFvVCyzcuTXe/Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QmchxNjQ; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="RkkB7C1d"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5aa26990d5aso2724256eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 15:32:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QmchxNjQ"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e4266673bbso33681755ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 15:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712788363; x=1713393163; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8QwE0M/+UHCtJodiY6DO3J7/Qf3c8/oO3mN4e+iOAjs=;
-        b=RkkB7C1dNIBvXbGFDUkYVbREy9QrsdRlTumeDjfDUj/DO1V38garIc7VxpOWCXbb9P
-         5o4cPZZtezzgY7dD2ijiFiWul651qM5lzOYpo3hG6L6NQ6Hrz/5MCSdqjXqqqriwEFYF
-         NdUS7cDKYcwDeUBoINrb+0IyC+QhGQoJZtqPt90g9nXNtvrsWhCI9PttAuuEL/0uPsVR
-         RgD0FvRO3Xzctlc+2Kx8REL/EwtlgMHsDodQrY9lJpBU48nXnSZZirl0oP24J3KaSBP/
-         i6qsxMvHURwT5XFVrZ8Fc/m/i0l7r7O/NmvYWt4pjA64f41lNCm/DenCqnnuxCr2nqFJ
-         KtEg==
+        d=gmail.com; s=20230601; t=1712789877; x=1713394677; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hHlAlwRf3gJlxo2hOZ8UmyoR/vxdkzPo/5DBHCVpdgg=;
+        b=QmchxNjQRtkwJ3a9HKio7hfp/+VQk8BEbIx8fvszYnnqCzacwVxBRnur7ZFA78TWdk
+         Kzizr8fkYhE8pHob/it9BYqcbS8V4loAg68TTWWJ3epIsFgGyvwd/pIE0N0IhIRsfK4V
+         wdCGLFmpgZOF8Wq6fye1YgmgBcOe+ncZdUW3ykQwjy+bBydTTXrlEgetze+Mb8ToZy7s
+         hJzJpp3nWXSlmnF9zUKzS5Kk3m9+Pj68KzAcw6w5bUrBmAgV9Kw+gpqHQrWDBeZRGJhG
+         ecV7yYezbVrLxbDePIEt8tRw8i5I7fS34yYGdT4Q6Yut6qf+/ZgW1cUEglcUNISAUAsW
+         xNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712788363; x=1713393163;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1712789877; x=1713394677;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8QwE0M/+UHCtJodiY6DO3J7/Qf3c8/oO3mN4e+iOAjs=;
-        b=fqRtljEWVgJQ3+GFVRBlRLHO1UyWlAjoFvPR7uZ8xK97NLgCM6FEaqsoiezobCYAuK
-         coNXdaUji18fWwzMryrgpkc9tgqIr7y77O4ZBVt67CBkNbxO0GmR8c0+QOIpMPn9ztfe
-         xB4+av2hhIxqozFzlOrk4wWc1c/Lx6C6921NTgIUTPNgV9y7gDwB+xASpJjOidGF2ecp
-         Is1Gr0rUZhFB7qg4n6LGd/pwiTToQFcCAeo5BbyAtp+G7WVbnJhFxgdwa8Nyq45MNZy8
-         oC5ejiJNM4JZiQD/RhbV9sjAyORlrXDcMKVy/2jGTRpwb1a2XQVIkOXTkBosICtzBYHK
-         GeWA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9k+x6tlz6wdnvX2JLyeQRdq6aG0fTKYRTUxAsbQ9oJ+rHbSkx5zmk4a+uvIJlL1itKzS18hw0LQ9Qgiflp7neGpa6ARyzjZMT
-X-Gm-Message-State: AOJu0YyleNFOn1D0fo77n3V4d8mPfKjs/PuGNOMPOR7ooQ/md421sfE0
-	dQhFzI+iJEvpBtSWndqlnFESynt4VqXS3uFWx8sCMdRMjd5NEcndyQCcfkpgOQ4=
-X-Google-Smtp-Source: AGHT+IGx5/hd/E8Yp0sczgMFtCMtxA7z52W92PBZElrVxV9jPGQj2rV/u6V+YaWfxr37Nv+l4bXzlQ==
-X-Received: by 2002:a05:6358:b5c1:b0:186:2ac7:316c with SMTP id wb1-20020a056358b5c100b001862ac7316cmr5042482rwc.20.1712788363600;
-        Wed, 10 Apr 2024 15:32:43 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id o65-20020a634144000000b005dc36761ad1sm55196pga.33.2024.04.10.15.32.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 15:32:43 -0700 (PDT)
-Date: Wed, 10 Apr 2024 15:32:41 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 07/10] riscv: add ISA extension parsing for Zcmop
-Message-ID: <ZhcTiakvfbjb2hon@debug.ba.rivosinc.com>
-References: <20240410091106.749233-1-cleger@rivosinc.com>
- <20240410091106.749233-8-cleger@rivosinc.com>
- <ZhcFeVYUQJmBAKuv@debug.ba.rivosinc.com>
- <20240410-jawless-cavalry-a3eaf9c562a4@spud>
- <20240410-judgingly-appease-5df493852b70@spud>
+        bh=hHlAlwRf3gJlxo2hOZ8UmyoR/vxdkzPo/5DBHCVpdgg=;
+        b=Xs0vbC1rcKCoVgNpdFmKzVHgrZ1vMd56x83wFnQGGe1+otMHJ3CXN92ofHTBpZ3ylO
+         LScvJFWV8yiqeEb5MketJfdUSIMX8QR3j6wpx7U1/LDSWeiI5frZ7p3cgJPWfru8LUkp
+         tWiBu85H/1N5LhBE5bX6RfJXkSwBLgvNVXYSq4MgNLlP3B4AOCW5/XHfpULRH26obrvn
+         Mqj2qJapzp3uGjb20nsSPy4S5Oea6DWrDYxmpQGjEtiUNDoDDkqA79GfSoHic2HN9jwj
+         i/apPSe4HWZ67XO6d+tWK+VJkVJwag4nGp/SIIl1e7b9YP5h6hIB6PwI4xhIhs866ADA
+         N8Ow==
+X-Gm-Message-State: AOJu0Yws/j8iw7jChHXimSiAcCZdbejapI3F58jyk79b75h9nMT5gMkd
+	vfo8NRUgJyOqPSp7ZfzwiCBJhm887TJ14ahm3yn6ZmJM5XyEFBO4
+X-Google-Smtp-Source: AGHT+IE8AMQyXK/aTlTEYCZLdpq1h0qxn9bjDMOFnJ4PckS6yS6Z7Pca4f1c0f8J5QBQcmhemrKa3A==
+X-Received: by 2002:a17:903:230d:b0:1e0:c0dd:c5eb with SMTP id d13-20020a170903230d00b001e0c0ddc5ebmr5154623plh.9.1712789876908;
+        Wed, 10 Apr 2024 15:57:56 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902a3c500b001e290812d49sm67258plb.226.2024.04.10.15.57.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Apr 2024 15:57:56 -0700 (PDT)
+Message-ID: <02ef631f-a53a-4795-95fc-e97723386f80@gmail.com>
+Date: Thu, 11 Apr 2024 07:57:50 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240410-judgingly-appease-5df493852b70@spud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: Detect variable fonts and suggest denylisting
+ them
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, =?UTF-8?B?0JjQstCw0L0g0JjQstCw0L3QvtCy0Lg=?=
+ =?UTF-8?B?0Yc=?= <relect@bk.ru>, Randy Dunlap <rdunlap@infradead.org>,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20240323120204.155678-1-akiyks@gmail.com>
+ <20240406020416.25096-1-akiyks@gmail.com> <87le5lszxm.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87le5lszxm.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 10, 2024 at 11:27:16PM +0100, Conor Dooley wrote:
->On Wed, Apr 10, 2024 at 11:16:11PM +0100, Conor Dooley wrote:
->> On Wed, Apr 10, 2024 at 02:32:41PM -0700, Deepak Gupta wrote:
->> > On Wed, Apr 10, 2024 at 11:11:00AM +0200, Clément Léger wrote:
->> > > Add parsing for Zcmop ISA extension which was ratified in commit
->> > > b854a709c00 ("Zcmop is ratified/1.0") of the riscv-isa-manual.
->> > >
->> > > Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> > > ---
->> > > arch/riscv/include/asm/hwcap.h | 1 +
->> > > arch/riscv/kernel/cpufeature.c | 1 +
->> > > 2 files changed, 2 insertions(+)
->> > >
->> > > diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
->> > > index b7551bad341b..cff7660de268 100644
->> > > --- a/arch/riscv/include/asm/hwcap.h
->> > > +++ b/arch/riscv/include/asm/hwcap.h
->> > > @@ -86,6 +86,7 @@
->> > > #define RISCV_ISA_EXT_ZCB		77
->> > > #define RISCV_ISA_EXT_ZCD		78
->> > > #define RISCV_ISA_EXT_ZCF		79
->> > > +#define RISCV_ISA_EXT_ZCMOP		80
->> > >
->> > > #define RISCV_ISA_EXT_XLINUXENVCFG	127
->> > >
->> > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
->> > > index 09dee071274d..f1450cd7231e 100644
->> > > --- a/arch/riscv/kernel/cpufeature.c
->> > > +++ b/arch/riscv/kernel/cpufeature.c
->> > > @@ -265,6 +265,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->> > > 	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
->> > > 	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
->> > > 	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
->> > > +	__RISCV_ISA_EXT_DATA(zcmop, RISCV_ISA_EXT_ZCMOP),
->> >
->> > As per spec zcmop is dependent on zca. So perhaps below ?
->> >
->> > __RISCV_ISA_EXT_SUPERSET(zicboz, RISCV_ISA_EXT_ZCMOP, RISCV_ISA_EXT_ZCA)
->>
->> What's zicboz got to do with it, copy-pasto I guess?
+On Wed, 10 Apr 2024 14:52:37 -0600, Jonathan Corbet wrote:
+[...]
+> Meanwhile, it occurred to me that it would be good to let the Fedora
+> folks know that this breaks, so I've filed a bug there; we'll see if
+> they have any thoughts on the matter as well.
 
-Yes, copy-pasta :-)
+Actually, I opened:
 
->> If we're gonna imply stuff like this though I think we need some
->> comments explaining why it's okay.
->
->Also, I'm inclined to call that out specifically in the binding, I've
->not yet checked if dependencies actually work for elements of a string
->array like the do for individual properties. I'll todo list that..
+    https://bugzilla.redhat.com/show_bug.cgi?id=2271559
+    "google-noto-sans-cjk-vf-fonts is not compatible with XeTeX"
 
-Earlier examples of specifying dependency on envcfg actually had functional
-use case.
-So you are right, I am not sure if its actually needed in this particular case.
+the other day as a bug in google-noto-sans-cjk-vf-fonts.
 
-And yes definitley, dependency should be mentioned in binding.
+In response, Peng Wu (one of font package maintainers) opened:
 
+    https://bugzilla.redhat.com/show_bug.cgi?id=2272153
+    "xelatex doesn't support font face from named instance of variable fonts"
+
+as a bug in texlive-base.
+
+In #2271559, I was asked to help report this issue to upstream XeTeX,
+which is in my to-do list.
+
+It sounds like there should be a way for XeTeX to identify variable fonts
+and ignore them.
+
+        Thanks, Akira
 
