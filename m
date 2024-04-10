@@ -1,271 +1,150 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130EA156F27;
-	Wed, 10 Apr 2024 10:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DC8C157;
+	Wed, 10 Apr 2024 10:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712744959; cv=none; b=NHZhzlS+GwGaXtW0H0asdhN900ZOz9cwLMG8k8bCeYo65t0kM4+o0egx6M43FzVLP9ClHSs9byM7gG4+RT88rZDeb/0fvX4ptpzmqH/IRohdMUoYc0Wy4M982B/b8rVd1gt+oO8bPH3+yEEPv6sDvKSk7jMS/PgO/Kki4YZXujk=
+	t=1712745125; cv=none; b=ZmKKzlG500g2ZsSrP94U/Va4UL+nuToYgUC0nRO/26hP7wHG7qKXLaeRlF3vIIUuci92GjEeltOxy8iHpMjYTIuQ8NSHvWrnxp7fveKi8XqJ0t6tIelxQ/8ZYtALFtQVEtoI4IcpYG1LXb7PRAWfxjBknJxcBRpDELVya8Uv6W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712744959; c=relaxed/simple;
-	bh=AFjF4CiJb6IGV3uwNnUlkIJ7muZXr8iTZi2kT1N6Y3w=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ADSNgjgLW1eNuauSWvHyibGvPJUa2lFx3Sybc+33gj3T70etdWmWq+prlEU/IsskMCFb9JJhfjuWCmKQGgVwJKdO4QVGkyuvFEd1M5c3iEme8T40MmoccHQ792Msr73XCPZNAWqRLWc29WaVheGC8a/4vMtOApLbCUnFoVCjLCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GJ3OcgYX; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712745125; c=relaxed/simple;
+	bh=OzNxKoT6rtjavH+sSKdTA2aMIU0990lfBRRYYlSp7XA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=feKDrXhCCL6T2+UqZkQfZgeLH8Kmhaj4bifMXew/8xX5wRmwRpWhV1RvE8M25+evx6Gejpb5LI5+aVchC9n0mEkGhtMDo/X2vncczQTn7M86EqfvZJ33KFnvU3biKrdOk/BScaSNmWAYy4Ul3uMky5jVYD7zSJP1J7tyYazyupc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KzalsUOm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GJ3OcgYX"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-417c4bd59b3so47895e9.2;
-        Wed, 10 Apr 2024 03:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712744955; x=1713349755; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ggmDJ4ODuoznnH+obJkgP9ZZPSU+EvIoCqrdrLvAFiU=;
-        b=GJ3OcgYXt8oeE8XF+t+r6hE95Xf50vr15178oaK2z40HRHlCtDMOqEE8FIPKaTPBMB
-         LgIG0ziEF6rP3yN0Qwi3/PXTRxXrXSN3GxBq+egDoshBBgpzSfvlW8LMiu8IIpupMWKm
-         7xGI+QE7JOEe+wqOr2GcWvDkvmcN3BlczBsyIBvDxXP1Ma3G+6mQ4e09ehCJN0uFPOT9
-         AvmpfR+vvxBGgD6bJkbXQkWxDafPbFlCJmuT4g4nrJ0dT3G+vBTFSbmMwrhSjH9P6odP
-         yqTPUPNQ+qNMSfHBnOcwvqr5V16aol7tH4KWhI9/od5hQbbbA0YTNo2Abq7ud29WO38T
-         2YdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712744955; x=1713349755;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ggmDJ4ODuoznnH+obJkgP9ZZPSU+EvIoCqrdrLvAFiU=;
-        b=tzrUjjYky502z415dy5H5FPG97r5FnoS63gyiuhCzNkGO8gjdFsuSFH8aEAWEUbkhW
-         nuy8LlBr4fszb1thozqAtfAHo//atDFWXggWE2ePRbFHX3WSgvRu4txYZ0hYiRGrNNaO
-         XKcbgW57I6kb8ps+2MICjjp+c3P7cyKHX0r5BaDSwpZijsyoz5k9ZrRplsCqPUxbT0Fi
-         D6QftRD/HsgY9r/XBuMGAIexIjSK979y3RhlniTQJ1nFwNu/WO5pJ2EqKkhoBizuw1DJ
-         dk3e6scX9deFVxUi9ucWtCN99hjCqLp5vDAjQpZpc7w7CL5P2dsU1g+kquA+lFjncjoL
-         Wh7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVaQwE73OAwWBeaLpoiy+8QUY/I8Kk69NRZV3KvPxIO2ErD7dUHtdGpXVQucoxMgGTbyGjfKZRleRvycys1HByoN/uqxrTDzs86NJ7k7dtatT94zmsFolgyDSyvkDSAwdkNGdg7eLeCt+dr7VQzEw7R0T5lj243h+bXuAkE
-X-Gm-Message-State: AOJu0YzojwSjwlaHnCksAuIdoI+pgF03zlnGXY9Nvd8ZK96XqbwUJdvY
-	MgK/mLBv7iqbJQStoyTIns5sO7teASdGCg0IheFcyEm1yw4O94Df
-X-Google-Smtp-Source: AGHT+IHADtDbmvyWOUf7FMr11Y6g7lUUheaSHO6bMTumsllgsuIqktWh38pmVeYji+J9lQz1rhMELA==
-X-Received: by 2002:a05:600c:4fd4:b0:416:7b2c:def5 with SMTP id o20-20020a05600c4fd400b004167b2cdef5mr1600159wmq.2.1712744955025;
-        Wed, 10 Apr 2024 03:29:15 -0700 (PDT)
-Received: from [192.168.12.203] (54-240-197-228.amazon.com. [54.240.197.228])
-        by smtp.gmail.com with ESMTPSA id f18-20020a05600c4e9200b0041632fcf272sm1864338wmq.22.2024.04.10.03.29.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:29:14 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <005911c5-7f9d-4397-8145-a1ad4494484d@xen.org>
-Date: Wed, 10 Apr 2024 11:29:13 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KzalsUOm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C0D0C433F1;
+	Wed, 10 Apr 2024 10:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712745125;
+	bh=OzNxKoT6rtjavH+sSKdTA2aMIU0990lfBRRYYlSp7XA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KzalsUOmcblbIZ97GurA1rdPl9SC/8tq1vtLK++nVmvjVqR9HNbhdulCsgNlNpZUj
+	 NhO4HaeutbcfxdSMSiqUGFVU9mek+M+PfbLiaK11UZ2O3Pcm1Mc6zY7XAj8g8UbSaE
+	 6lkkhGnAxVFqTDIIrcjTnF3NVdW+jFwkEWP5fqybV7kidLwDueM6sPMB+OgxKrRLvV
+	 10I2eCvh2td9EFeowCycDH7ErIUGJUsVYaVx/+/g6ilmIJedkvHTmHYxFyRHGtKmvh
+	 hLtqtr2WwFmFYoQtdoA/57HlbU1WoYW7Bi6w8Te9JxTp9jOoVuF78A9vuezWC0U/rN
+	 DW7g6eiwYTL1A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1ruVFK-0036qE-TU;
+	Wed, 10 Apr 2024 11:32:02 +0100
+Date: Wed, 10 Apr 2024 11:32:02 +0100
+Message-ID: <86ttk9se3h.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Dave Martin <Dave.Martin@arm.com>,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] KVM: arm64: Add newly allocated ID registers to register descriptions
+In-Reply-To: <73c6012f-adb0-470b-bd47-6093d28aea97@sirena.org.uk>
+References: <20240329-arm64-2023-dpisa-v6-0-ba42db6c27f3@kernel.org>
+	<20240329-arm64-2023-dpisa-v6-2-ba42db6c27f3@kernel.org>
+	<87le5ysm4l.wl-maz@kernel.org>
+	<73c6012f-adb0-470b-bd47-6093d28aea97@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v2 1/2] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate
- KVM clock migration
-To: Jack Allister <jalliste@amazon.com>
-Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com,
- dwmw2@infradead.org, hpa@zytor.com, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@redhat.com,
- pbonzini@redhat.com, seanjc@google.com, tglx@linutronix.de, x86@kernel.org,
- Dongli Zhang <dongli.zhang@oracle.com>
-References: <20240408220705.7637-1-jalliste@amazon.com>
- <20240410095244.77109-1-jalliste@amazon.com>
- <20240410095244.77109-2-jalliste@amazon.com>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <20240410095244.77109-2-jalliste@amazon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Dave.Martin@arm.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 10/04/2024 10:52, Jack Allister wrote:
-> In the common case (where kvm->arch.use_master_clock is true), the KVM
-> clock is defined as a simple arithmetic function of the guest TSC, based on
-> a reference point stored in kvm->arch.master_kernel_ns and
-> kvm->arch.master_cycle_now.
+On Tue, 02 Apr 2024 18:21:55 +0100,
+Mark Brown <broonie@kernel.org> wrote:
 > 
-> The existing KVM_[GS]ET_CLOCK functionality does not allow for this
-> relationship to be precisely saved and restored by userspace. All it can
-> currently do is set the KVM clock at a given UTC reference time, which is
-> necessarily imprecise.
+> On Sun, Mar 31, 2024 at 11:59:06AM +0100, Marc Zyngier wrote:
+> > Mark Brown <broonie@kernel.org> wrote:
 > 
-> So on live update, the guest TSC can remain cycle accurate at precisely the
-> same offset from the host TSC, but there is no way for userspace to restore
-> the KVM clock accurately.
+> > > The 2023 architecture extensions have allocated some new ID registers, add
+> > > them to the KVM system register descriptions so that they are visible to
+> > > guests.
 > 
-> Even on live migration to a new host, where the accuracy of the guest time-
-> keeping is fundamentally limited by the accuracy of wallclock
-> synchronization between the source and destination hosts, the clock jump
-> experienced by the guest's TSC and its KVM clock should at least be
-> *consistent*. Even when the guest TSC suffers a discontinuity, its KVM
-> clock should still remain the *same* arithmetic function of the guest TSC,
-> and not suffer an *additional* discontinuity.
+> > > We make the newly introduced dpISA features writeable, as well as
+> > > allowing writes to ID_AA64ISAR3_EL1.CPA for FEAT_CPA which only
+> > > introduces straigforward new instructions with no additional
+> > > architectural state or traps.
 > 
-> To allow for accurate migration of the KVM clock, add per-vCPU ioctls which
-> save and restore the actual PV clock info in pvclock_vcpu_time_info.
+> > FPMR actively gets trapped by HCRX_EL2.
 > 
-> The restoration in KVM_SET_CLOCK_GUEST works by creating a new reference
-> point in time just as kvm_update_masterclock() does, and calculating the
-> corresponding guest TSC value. This guest TSC value is then passed through
-> the user-provided pvclock structure to generate the *intended* KVM clock
-> value at that point in time, and through the *actual* KVM clock calculation.
-> Then kvm->arch.kvmclock_offset is adjusted to eliminate for the difference.
-> 
-> Where kvm->arch.use_master_clock is false (because the host TSC is
-> unreliable, or the guest TSCs are configured strangely), the KVM clock
-> is *not* defined as a function of the guest TSC so KVM_GET_CLOCK_GUEST
-> returns an error. In this case, as documented, userspace shall use the
-> legacy KVM_GET_CLOCK ioctl. The loss of precision is acceptable in this
-> case since the clocks are imprecise in this mode anyway.
-> 
-> On *restoration*, if kvm->arch.use_master_clock is false, an error is
-> returned for similar reasons and userspace shall fall back to using
-> KVM_SET_CLOCK. This does mean that, as documented, userspace needs to use
-> *both* KVM_GET_CLOCK_GUEST and KVM_GET_CLOCK and send both results with the
-> migration data (unless the intent is to refuse to resume on a host with bad
-> TSC).
-> 
-> (It may have been possible to make KVM_SET_CLOCK_GUEST "good enough" in the
-> non-masterclock mode, as that mode is necessarily imprecise anyway. The
-> explicit fallback allows userspace to deliberately fail migration to a host
-> with misbehaving TSC where master clock mode wouldn't be active.)
-> 
-> Suggested-by: David Woodhouse <dwmw2@infradead.org>
-> Signed-off-by: Jack Allister <jalliste@amazon.com>
-> CC: Paul Durrant <paul@xen.org>
-> CC: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->   Documentation/virt/kvm/api.rst |  37 ++++++++++
->   arch/x86/kvm/x86.c             | 124 +++++++++++++++++++++++++++++++++
->   include/uapi/linux/kvm.h       |   3 +
->   3 files changed, 164 insertions(+)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 0b5a33ee71ee..80fcd93bba1b 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -6352,6 +6352,43 @@ a single guest_memfd file, but the bound ranges must not overlap).
->   
->   See KVM_SET_USER_MEMORY_REGION2 for additional details.
->   
-> +4.143 KVM_GET_CLOCK_GUEST
-> +----------------------------
-> +
-> +:Capability: none
-> +:Architectures: x86
-> +:Type: vcpu ioctl
-> +:Parameters: struct pvclock_vcpu_time_info (out)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Retrieves the current time information structure used for KVM/PV clocks,
-> +in precisely the form advertised to the guest vCPU, which gives parameters
-> +for a direct conversion from a guest TSC value to nanoseconds.
-> +
-> +When the KVM clock not is in "master clock" mode, for example because the
-> +host TSC is unreliable or the guest TSCs are oddly configured, the KVM clock
-> +is actually defined by the host CLOCK_MONOTONIC_RAW instead of the guest TSC.
-> +In this case, the KVM_GET_CLOCK_GUEST ioctl returns -EINVAL.
-> +
-> +4.144 KVM_SET_CLOCK_GUEST
-> +----------------------------
-> +
-> +:Capability: none
-> +:Architectures: x86
-> +:Type: vcpu ioctl
-> +:Parameters: struct pvclock_vcpu_time_info (in)
-> +:Returns: 0 on success, <0 on error
-> +
-> +Sets the KVM clock (for the whole VM) in terms of the vCPU TSC, using the
-> +pvclock structure as returned by KVM_GET_CLOCK_GUEST. This allows the precise
-> +arithmetic relationship between guest TSC and KVM clock to be preserved by
-> +userspace across migration.
-> +
-> +When the KVM clock is not in "master clock" mode, and the KVM clock is actually
-> +defined by the host CLOCK_MONOTONIC_RAW, this ioctl returns -EINVAL.
+> Sure, I'm not clear what you're trying to say here?
 
-EINVAL doesn't seem appropriate. ENOTSUP perhaps? Same for getting the 
-clock info I suppose.
+I'm saying (and not trying to say) that there are traps implied by the
+features that you are adding.
 
-> Userspace
-> +may choose to set the clock using the less precise KVM_SET_CLOCK ioctl, or may
-> +choose to fail, denying migration to a host whose TSC is misbehaving.
-> +
->   5. The kvm_run structure
->   ========================
->   
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 47d9f03b7778..d5cae3ead04d 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -5859,6 +5859,124 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
->   	}
->   }
->   
-> +static int kvm_vcpu_ioctl_get_clock_guest(struct kvm_vcpu *v, void __user *argp)
-> +{
-> +	struct pvclock_vcpu_time_info *vcpu_pvti = &v->arch.hv_clock;
-> +	struct pvclock_vcpu_time_info local_pvti = { 0 };
-> +	struct kvm_arch *ka = &v->kvm->arch;
-> +	uint64_t host_tsc, guest_tsc;
-> +	bool use_master_clock;
-> +	uint64_t kernel_ns;
-> +	unsigned int seq;
-> +
-> +	/*
-> +	 * CLOCK_MONOTONIC_RAW is not suitable for GET/SET API,
-> +	 * see kvm_vcpu_ioctl_set_clock_guest equivalent comment.
-> +	 */
-> +	if (!static_cpu_has(X86_FEATURE_CONSTANT_TSC))
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Querying needs to be performed in a seqcount loop as it's possible
-> +	 * another vCPU has triggered an update of the master clock. If so we
-> +	 * should store the host TSC & time at this point.
-> +	 */
-> +	do {
-> +		seq = read_seqcount_begin(&ka->pvclock_sc);
-> +		use_master_clock = ka->use_master_clock;
-> +		if (use_master_clock) {
-> +			host_tsc = ka->master_cycle_now;
-> +			kernel_ns = ka->master_kernel_ns;
-> +		}
-> +	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
+> The "no additional" bit is referring to FEAT_CPA.
 
-You could bail from the loop if `use_master_clock` is false, couldn't you?
+Well, that wasn't clear to me.
 
-> +
-> +	if (!use_master_clock)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * It's possible that this vCPU doesn't have a HVCLOCK configured
-> +	 * but the other vCPUs may. If this is the case calculate based
-> +	 * upon the time gathered in the seqcount but do not update the
-> +	 * vCPU specific PVTI. If we have one, then use that.
+And when it comes to CPA, there are additional controls in SCTLR2_ELx,
+which doesn't even gets context switched for EL1. What could possibly
+go wrong?
 
-Given this is a per-vCPU ioctl, why not fail in the case the vCPU 
-doesn't have HVCLOCK configured? Or is your intention that a GET/SET 
-should always work if TSC is stable?
+> 
+> > > -	ID_UNALLOCATED(6,3),
+> > > +	ID_WRITABLE(ID_AA64ISAR3_EL1, ~(ID_AA64ISAR2_EL1_RES0 |
+> > > +					ID_AA64ISAR3_EL1_PACM |
+> > > +					ID_AA64ISAR3_EL1_TLBIW)),
+> > >  	ID_UNALLOCATED(6,4),
+> > >  	ID_UNALLOCATED(6,5),
+> > >  	ID_UNALLOCATED(6,6),
+> 
+> > Where is the code that enforces the lack of support for MTEFAR,
+> > MTESTOREONLY, and MTEPERM for SCTLR_ELx, EnPACM and EnFPM in HCRX_EL2?
+> 
+> Could you please be more explicit regarding what you're expecting to see
+> here?
 
-> +	 */
-> +	if (!vcpu_pvti->tsc_timestamp && !vcpu_pvti->system_time) {
-> +		guest_tsc = kvm_read_l1_tsc(v, host_tsc);
-> +
-> +		local_pvti.tsc_timestamp = guest_tsc;
-> +		local_pvti.system_time = kernel_ns + ka->kvmclock_offset;
-> +	} else {
-> +		local_pvti = *vcpu_pvti;
-> +	}
-> +
-> +	if (copy_to_user(argp, &local_pvti, sizeof(local_pvti)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
+I'm expecting you to add all the required masking and fine-grained
+disabling of features that are not explicitly advertised to the guest.
 
+This should translate into additional init code in kvm_init_sysreg(),
+kvm_init_nv_sysregs() and limit_nv_id_reg(). You also should update
+the exception triaging infrastructure in emulate-nested.c.
+
+> Other than the writeability mask for the ID register I would have
+> expected to need explicit code to enable new features rather than
+> explicit code to keep currently unsupported features unsupported.  I'm
+> sure what you're referencing will be obvious once I see it but I'm
+> drawing a blank.
+> 
+> > And I haven't checked whether TLBI VMALLWS2 can be trapped.
+> 
+> I didn't see anything but I might not be aware of where to look, there
+> doesn't seem to be anything for that specifically in HFGITR_EL2 or
+> HFGITR2_EL2 which would be the main places I'd expect to find
+> something.
+
+That's a really odd place to look. This is a S2 invalidation
+primitive, which by definition is under the sole control of EL2, and
+therefore cannot be trapped by any of the FGT registers, as they only
+affect lesser-privileged ELs.
+
+The instruction is described in the XML:
+
+https://developer.arm.com/documentation/ddi0601/2024-03/AArch64-Instructions/TLBI-VMALLWS2E1--TLB-Invalidate-stage-2-dirty-state-by-VMID--EL1-0
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
