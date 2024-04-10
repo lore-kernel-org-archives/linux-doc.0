@@ -1,342 +1,119 @@
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3EC1591FF;
-	Wed, 10 Apr 2024 09:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D57156996;
+	Wed, 10 Apr 2024 10:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712742785; cv=none; b=TnwnumVMciZt0iMrvf25u6w/RI+qOerJYWfHOvfPBiu3n7dGBDsYZYQ9P9WnPjff3jRjlKEQabwHuXr221lpfjStYTbXdO+2Hau+6NJ3X+isZM+a+e1oPN+W8BDeV2mfqEs+TQKqdOoxObLNZSAhv43poK2s6O4vnAnTaNuleuw=
+	t=1712743514; cv=none; b=P8gk/KrrsC/mmeopwUa7QPVym5HpDtBhPmqrio2CsMunzKcN7WPDd5jK2wYHJ0HwV4VV15srV0jVXmNrwAux9icQ8ZkiPYXzd/24CMiWuzu26PfbGMIhagx/g9D4rcffSCXD1e+34vq5K0WgXh+upPxwg+oQJ6PLmn/8gALZotw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712742785; c=relaxed/simple;
-	bh=It81dOo52cFJbkn4NDB0+r7mqrZyFVAFiA/lg+d00BQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u2WGho6dShClXbkjsCNN0i8V/spJxP9y5WDAtOiwXi4tFV8ueY/Hf+VMINVZjGcWWK8FC7SdbKtUJozvlU36zL/DWG9DNqZsUzcRcdJ+l32ChRndJmqLgusWz/XLa+hH2gOC1pGLpxr6LQ+0GWaP55X2QYIgHiqjrEg6xJDRIFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=MzgsK1r5; arc=none smtp.client-ip=207.171.188.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1712743514; c=relaxed/simple;
+	bh=30woaapoAH8NpTmPC9U/LfaEmvc6WtNWd+ZQ9CZZTGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsBM8WC9CEeLq2ZKtuJOuQk/Q39uWPu2fV4iOJ+T9tsMI/dzkywMt0gAEZ1jKYGC7N/ldmoe19sV++3apAu5alzGdR7MRVZBleZQ+PNhK129dbJNs6mGGfaC9CdM/khHi/QMfYxrisiOo9i+3soZ6ozmMKn9xET+5utSLFj3eZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=QwEFMdhw; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MzgsK1r5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1712742784; x=1744278784;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nk49uWiNG81aU+f181ZTIvguocvswwWACQ+r8oTfxhM=;
-  b=MzgsK1r5XFIZHuquzA4cpoPcvPJX7DZPv4/0SjovaIEd0XMYrWQ32MMz
-   TWkdslQFnS4qaS4OKEDYYBooDkkzUtbg96stKjWfBVHM9RP6htl3JMiGn
-   DV90m0mRIZLSL+bcxwLR5gIjERSX6eB5tx16D/8RN0XD0mvv4L8J4MCmH
-   c=;
-X-IronPort-AV: E=Sophos;i="6.07,190,1708387200"; 
-   d="scan'208";a="718045443"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 09:52:58 +0000
-Received: from EX19MTAEUB001.ant.amazon.com [10.0.10.100:59612]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.27.223:2525] with esmtp (Farcaster)
- id ab2b964f-2e82-492d-bcb0-d51fa296c30f; Wed, 10 Apr 2024 09:52:56 +0000 (UTC)
-X-Farcaster-Flow-ID: ab2b964f-2e82-492d-bcb0-d51fa296c30f
-Received: from EX19D033EUC001.ant.amazon.com (10.252.61.132) by
- EX19MTAEUB001.ant.amazon.com (10.252.51.28) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Wed, 10 Apr 2024 09:52:56 +0000
-Received: from EX19MTAUEB001.ant.amazon.com (10.252.135.35) by
- EX19D033EUC001.ant.amazon.com (10.252.61.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Wed, 10 Apr 2024 09:52:55 +0000
-Received: from dev-dsk-jalliste-1c-e3349c3e.eu-west-1.amazon.com
- (10.13.244.142) by mail-relay.amazon.com (10.252.135.35) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28 via Frontend Transport; Wed, 10 Apr 2024 09:52:54 +0000
-From: Jack Allister <jalliste@amazon.com>
-To: <jalliste@amazon.com>
-CC: <bp@alien8.de>, <corbet@lwn.net>, <dave.hansen@linux.intel.com>,
-	<dwmw2@infradead.org>, <hpa@zytor.com>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<mingo@redhat.com>, <paul@xen.org>, <pbonzini@redhat.com>,
-	<seanjc@google.com>, <tglx@linutronix.de>, <x86@kernel.org>, Dongli Zhang
-	<dongli.zhang@oracle.com>
-Subject: [PATCH v2 2/2] KVM: selftests: Add KVM/PV clock selftest to prove timer correction
-Date: Wed, 10 Apr 2024 09:52:44 +0000
-Message-ID: <20240410095244.77109-3-jalliste@amazon.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240410095244.77109-1-jalliste@amazon.com>
-References: <20240408220705.7637-1-jalliste@amazon.com>
- <20240410095244.77109-1-jalliste@amazon.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="QwEFMdhw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=xGW6DVRYYKhZUWlvDMf+rQo/nW9gpAKrBh3OHMIwwlE=; b=QwEFMdhwMuz0wcDl9wC/hPW66K
+	07mOUX3JJ0RMXfGCtOeDxYS4j4nIVZBYL2lWPSxsCatpmM9cfqPt3h0CKj9RlOq2zwmzkzRp6fEjJ
+	joJ+91K/2P8ILqnSb+J+Mk2mTzhxRkeoEwIY6nA5EPseC1p1ArJHtG7+x78yWbpA9IYV6JYlsi6wn
+	w6P3j6GrORcbtmYss3I5cFLvJNAOv9YvhTO6XxqCTrmYbZOrskXqk0ATDXr3E5H8dVOS4f/wy7Pc3
+	noPZPm4VUJKTzsL7/KQmPTr/zpUSfQ720TUIyV0E1i8q+r7uk/+wuWe7VzARQr+HS8JL6V47eaEWk
+	LKcTh93A==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:45298)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1ruUou-0007it-0q;
+	Wed, 10 Apr 2024 11:04:44 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1ruUom-0005tk-D4; Wed, 10 Apr 2024 11:04:36 +0100
+Date: Wed, 10 Apr 2024 11:04:36 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v10 07/13] net: Add struct kernel_ethtool_ts_info
+Message-ID: <ZhZkNEYnY3FV7Q8E@shell.armlinux.org.uk>
+References: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
+ <20240409-feature_ptp_netnext-v10-7-0fa2ea5c89a9@bootlin.com>
+ <20240409182725.139856d5@kernel.org>
+ <20240410101200.0178e594@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410101200.0178e594@kmaincent-XPS-13-7390>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-A VM's KVM/PV clock has an inherent relationship to it's TSC (guest). When
-either the host system live-updates or the VM is live-migrated this pairing
-of the two clock sources should stay the same.
+On Wed, Apr 10, 2024 at 10:12:00AM +0200, Kory Maincent wrote:
+> On Tue, 9 Apr 2024 18:27:25 -0700
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> 
+> > On Tue, 09 Apr 2024 10:26:29 +0200 Kory Maincent wrote:
+> > > In prevision to add new UAPI for hwtstamp we will be limited to the struct
+> > > ethtool_ts_info that is currently passed in fixed binary format through the
+> > > ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new kernel code
+> > > already started operating on an extensible kernel variant of that
+> > > structure, similar in concept to struct kernel_hwtstamp_config vs struct
+> > > hwtstamp_config.
+> > > 
+> > > Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
+> > > we introduce the kernel-only structure in include/linux/ethtool.h.
+> > > The manual copy is then made in the function called by ETHTOOL_GET_TS_INFO.
+> > >  
+> > 
+> > This one now conflicts :(
+> > 
+> > Applying: net: Add struct kernel_ethtool_ts_info
+> > error: sha1 information is lacking or useless (drivers/net/phy/marvell_ptp.c).
+> > error: could not build fake ancestor
+> 
+> gnn patching my out of tree patch in the series! Sorry for that.
 
-In reality this is not the case without some correction taking place. Two
-new IOCTLs (KVM_GET_CLOCK_GUEST/KVM_SET_CLOCK_GUEST) can be utilized to
-perform a correction on the PVTI (PV time information) structure held by
-KVM to effectively fixup the kvmclock_offset prior to the guest VM resuming
-in either a live-update/migration scenario.
+Given that this path corresponds to the driver I wrote, do I assume
+that you've picked up my work on PTP support for Marvell PHYs? You
+should be aware that I still have the patches out of tree but it's
+been pointless me reposting it until the issue of which PTP gets
+used has been solved. (Publishing will just increase the pressure
+to merge it without the PTP problems being solved, and thus break
+Marvell PP2 PTP.)
 
-This test proves that without the necessary fixup there is a perceived
-change in the guest TSC & KVM/PV clock relationship before and after a LU/
-LM takes place.
-
-The following steps are made to verify there is a delta in the relationship
-and that it can be corrected:
-
-1. PVTI is sampled by guest at boot (let's call this PVTI0).
-2. Induce a change in PVTI data (KVM_REQ_MASTERCLOCK_UPDATE).
-3. PVTI is sampled by guest after change (PVTI1).
-4. Correction is requested by usermode to KVM using PVTI0.
-5. PVTI is sampled by guest after correction (PVTI2).
-
-The guest the records a singular TSC reference point in time and uses it to
-calculate 3 KVM clock values utilizing the 3 recorded PVTI prior. Let's
-call each clock value CLK[0-2].
-
-In a perfect world CLK[0-2] should all be the same value if the KVM clock
-& TSC relationship is preserved across the LU/LM (or faked in this test),
-however it is not.
-
-A delta can be observed between CLK0-CLK1 due to KVM recalculating the PVTI
-(and the inaccuracies associated with that). A delta of ~3500ns can be
-observed if guest TSC scaling to half host TSC frequency is also enabled,
-where as without scaling this is observed at ~180ns.
-
-With the correction it should be possible to achieve a delta of ±1ns.
-
-An option to enable guest TSC scaling is available via invoking the tester
-with -s/--scale-tsc.
-
-Example of the test output below:
-* selftests: kvm: pvclock_test
-* scaling tsc from 2999999KHz to 1499999KHz
-* before=5038374946 uncorrected=5038371437 corrected=5038374945
-* delta_uncorrected=3509 delta_corrected=1
-
-Signed-off-by: Jack Allister <jalliste@amazon.com>
-CC: David Woodhouse <dwmw2@infradead.org>
-CC: Paul Durrant <paul@xen.org>
-CC: Dongli Zhang <dongli.zhang@oracle.com>
----
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/x86_64/pvclock_test.c       | 192 ++++++++++++++++++
- 2 files changed, 193 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/pvclock_test.c
-
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index 741c7dc16afc..02ee1205bbed 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -87,6 +87,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/pmu_counters_test
- TEST_GEN_PROGS_x86_64 += x86_64/pmu_event_filter_test
- TEST_GEN_PROGS_x86_64 += x86_64/private_mem_conversions_test
- TEST_GEN_PROGS_x86_64 += x86_64/private_mem_kvm_exits_test
-+TEST_GEN_PROGS_x86_64 += x86_64/pvclock_test
- TEST_GEN_PROGS_x86_64 += x86_64/set_boot_cpu_id
- TEST_GEN_PROGS_x86_64 += x86_64/set_sregs_test
- TEST_GEN_PROGS_x86_64 += x86_64/smaller_maxphyaddr_emulation_test
-diff --git a/tools/testing/selftests/kvm/x86_64/pvclock_test.c b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
-new file mode 100644
-index 000000000000..376ffb730a53
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/pvclock_test.c
-@@ -0,0 +1,192 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright © 2024, Amazon.com, Inc. or its affiliates.
-+ *
-+ * Tests for pvclock API
-+ * KVM_SET_CLOCK_GUEST/KVM_GET_CLOCK_GUEST
-+ */
-+#include <asm/pvclock.h>
-+#include <asm/pvclock-abi.h>
-+#include <sys/stat.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+
-+enum {
-+	STAGE_FIRST_BOOT,
-+	STAGE_UNCORRECTED,
-+	STAGE_CORRECTED
-+};
-+
-+#define KVMCLOCK_GPA 0xc0000000ull
-+#define KVMCLOCK_SIZE sizeof(struct pvclock_vcpu_time_info)
-+
-+static void trigger_pvti_update(vm_paddr_t pvti_pa)
-+{
-+	/*
-+	 * We need a way to trigger KVM to update the fields
-+	 * in the PV time info. The easiest way to do this is
-+	 * to temporarily switch to the old KVM system time
-+	 * method and then switch back to the new one.
-+	 */
-+	wrmsr(MSR_KVM_SYSTEM_TIME, pvti_pa | KVM_MSR_ENABLED);
-+	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
-+}
-+
-+static void guest_code(vm_paddr_t pvti_pa)
-+{
-+	struct pvclock_vcpu_time_info *pvti_va =
-+		(struct pvclock_vcpu_time_info *)pvti_pa;
-+
-+	struct pvclock_vcpu_time_info pvti_boot;
-+	struct pvclock_vcpu_time_info pvti_uncorrected;
-+	struct pvclock_vcpu_time_info pvti_corrected;
-+	uint64_t cycles_boot;
-+	uint64_t cycles_uncorrected;
-+	uint64_t cycles_corrected;
-+	uint64_t tsc_guest;
-+
-+	/*
-+	 * Setup the KVMCLOCK in the guest & store the original
-+	 * PV time structure that is used.
-+	 */
-+	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, pvti_pa | KVM_MSR_ENABLED);
-+	pvti_boot = *pvti_va;
-+	GUEST_SYNC(STAGE_FIRST_BOOT);
-+
-+	/*
-+	 * Trigger an update of the PVTI, if we calculate
-+	 * the KVM clock using this structure we'll see
-+	 * a delta from the TSC.
-+	 */
-+	trigger_pvti_update(pvti_pa);
-+	pvti_uncorrected = *pvti_va;
-+	GUEST_SYNC(STAGE_UNCORRECTED);
-+
-+	/*
-+	 * The test should have triggered the correction by this
-+	 * point in time. We have a copy of each of the PVTI structs
-+	 * at each stage now.
-+	 *
-+	 * Let's sample the timestamp at a SINGLE point in time and
-+	 * then calculate what the KVM clock would be using the PVTI
-+	 * from each stage.
-+	 *
-+	 * Then return each of these values to the tester.
-+	 */
-+	pvti_corrected = *pvti_va;
-+	tsc_guest = rdtsc();
-+
-+	cycles_boot = __pvclock_read_cycles(&pvti_boot, tsc_guest);
-+	cycles_uncorrected = __pvclock_read_cycles(&pvti_uncorrected, tsc_guest);
-+	cycles_corrected = __pvclock_read_cycles(&pvti_corrected, tsc_guest);
-+
-+	GUEST_SYNC_ARGS(STAGE_CORRECTED, cycles_boot, cycles_uncorrected,
-+			cycles_corrected, 0);
-+}
-+
-+static void run_test(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
-+{
-+	struct pvclock_vcpu_time_info pvti_before;
-+	uint64_t before, uncorrected, corrected;
-+	int64_t delta_uncorrected, delta_corrected;
-+	struct ucall uc;
-+	uint64_t ucall_reason;
-+
-+	/* Loop through each stage of the test. */
-+	while (true) {
-+
-+		/* Start/restart the running vCPU code. */
-+		vcpu_run(vcpu);
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		/* Retrieve and verify our stage. */
-+		ucall_reason = get_ucall(vcpu, &uc);
-+		TEST_ASSERT(ucall_reason == UCALL_SYNC,
-+			    "Unhandled ucall reason=%lu",
-+			    ucall_reason);
-+
-+		/* Run host specific code relating to stage. */
-+		switch (uc.args[1]) {
-+		case STAGE_FIRST_BOOT:
-+			/* Store the KVM clock values before an update. */
-+			vcpu_ioctl(vcpu, KVM_GET_CLOCK_GUEST, &pvti_before);
-+
-+			/* Sleep for a set amount of time to increase delta. */
-+			sleep(5);
-+			break;
-+
-+		case STAGE_UNCORRECTED:
-+			/* Restore the KVM clock values. */
-+			vcpu_ioctl(vcpu, KVM_SET_CLOCK_GUEST, &pvti_before);
-+			break;
-+
-+		case STAGE_CORRECTED:
-+			/* Query the clock information and verify delta. */
-+			before = uc.args[2];
-+			uncorrected = uc.args[3];
-+			corrected = uc.args[4];
-+
-+			delta_uncorrected = before - uncorrected;
-+			delta_corrected = before - corrected;
-+
-+			pr_info("before=%lu uncorrected=%lu corrected=%lu\n",
-+				before, uncorrected, corrected);
-+
-+			pr_info("delta_uncorrected=%ld delta_corrected=%ld\n",
-+				delta_uncorrected, delta_corrected);
-+
-+			TEST_ASSERT((delta_corrected <= 1) && (delta_corrected >= -1),
-+				    "larger than expected delta detected = %ld", delta_corrected);
-+			return;
-+		}
-+	}
-+}
-+
-+static void configure_pvclock(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
-+{
-+	unsigned int gpages;
-+
-+	gpages = vm_calc_num_guest_pages(VM_MODE_DEFAULT, KVMCLOCK_SIZE);
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    KVMCLOCK_GPA, 1, gpages, 0);
-+	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA, gpages);
-+
-+	vcpu_args_set(vcpu, 1, KVMCLOCK_GPA);
-+}
-+
-+static void configure_scaled_tsc(struct kvm_vcpu *vcpu)
-+{
-+	uint64_t tsc_khz;
-+
-+	tsc_khz =  __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
-+	pr_info("scaling tsc from %ldKHz to %ldKHz\n", tsc_khz, tsc_khz / 2);
-+	tsc_khz /= 2;
-+	vcpu_ioctl(vcpu, KVM_SET_TSC_KHZ, (void *)tsc_khz);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	bool scale_tsc;
-+
-+	scale_tsc = argc > 1 && (!strncmp(argv[1], "-s", 3) ||
-+				 !strncmp(argv[1], "--scale-tsc", 10));
-+
-+	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-+
-+	configure_pvclock(vm, vcpu);
-+
-+	if (scale_tsc)
-+		configure_scaled_tsc(vcpu);
-+
-+	run_test(vm, vcpu);
-+
-+	return 0;
-+}
 -- 
-2.40.1
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
