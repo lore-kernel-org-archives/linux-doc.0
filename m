@@ -1,106 +1,99 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CA7181CFD;
-	Wed, 10 Apr 2024 21:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613CA1836E0;
+	Wed, 10 Apr 2024 21:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712783241; cv=none; b=VQ6IksTT8/O8xAil77IXR4m/+ESi/umn+EX3uVLFwxx0C3ydccgyWryGMcm/YINH394pJbg/krcq+ky9AWBvnl5DQkvgvTpQYR+8lkamfJI77YxVaPdcbJLq4qYe84IxM6TWotHgBQx44pIUoCaZFWZkffYNrvJEszYwijyOdtY=
+	t=1712784048; cv=none; b=ohQeQS6ggrSH4r+FVqBQyKsSf2JO5AF4GpzrY1rjEpD1M9QCo5dbtBaV5fL6grJvpqe+7PAprMdrlKwGlSWhtxKEHTm/tGgIQs+s09iZ7aOrY4a8e5z7wtRAPpocVrluXGdrI8uM7066gINgHx8V/oWL9PJIN1rvX1cTJxCJNl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712783241; c=relaxed/simple;
-	bh=WUkQx3MHNfpPK223Za2QnwYdPQf2mwT7iuWRCuTCPQM=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mLN/P1nqVz2HkBVi+OS6NK976bTyLo8RMRsOuNHvo54V4kq39PcVNIAHjkfffgizcF9rMNmfOaetlVp1CH9JU6MUSkinlmGf70QTspUEKWJKKDH8s2/cy2IWPJlom1bqE0ejPQqeJxVmwVKUn3gupbooCV/Zfn/oSFLCfHAAYwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VFFjC372rz6K6DM;
-	Thu, 11 Apr 2024 05:05:35 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 403711402C7;
-	Thu, 11 Apr 2024 05:07:14 +0800 (CST)
-Received: from localhost (10.126.168.81) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 10 Apr
- 2024 22:07:13 +0100
-Date: Wed, 10 Apr 2024 22:07:12 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-CC: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-	<linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
-	<james.morse@arm.com>, Miguel Luis <miguel.luis@oracle.com>
-Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from
- acpi_processor_get_info()
-Message-ID: <20240410220712.0000726f@Huawei.com>
-In-Reply-To: <CAJZ5v0gG0xLajHsWXVM+-V+fQZAudvojechUa-DzFgwCs2q8Dg@mail.gmail.com>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
-	<E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
-	<CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
-	<20240322185327.00002416@Huawei.com>
-	<20240410134318.0000193c@huawei.com>
-	<CAJZ5v0ggD042sfz3jDXQVDUxQZu_AWaF2ox-Me8CvFeRB8nczw@mail.gmail.com>
-	<20240410145005.00003050@Huawei.com>
-	<ZhbgwBBvh6ccdO7x@shell.armlinux.org.uk>
-	<CAJZ5v0gG0xLajHsWXVM+-V+fQZAudvojechUa-DzFgwCs2q8Dg@mail.gmail.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1712784048; c=relaxed/simple;
+	bh=yZahjj479XacXe+rCfUPbnex64OHH7QkFDRhj0D3+IY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VIlPaWxQ7Vx2uACWdB9wwuWwqaes+yeai+j/Rp//Cg7j3+7Fe9/Wh0PpH9HQekdawCASodRGBg1fRBUfY0gAlRxOMYAuw+8XpVFLt7qCw4gqBF6lpy3kuyfs4cIOZZmVIM+wPX7Nto5Lwa78/0t2I7JJQPy1qt4mUc3Jho/yb0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FwHViD6I; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TNxLVhfT; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FwHViD6I";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TNxLVhfT"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1712784045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
+	b=FwHViD6IqUH6Dt4mypFv+cxXod1xbN1HB4zKr64xGYPMeUgzzfMUVoJ3kvd+VB2CvQpdqb
+	fHo+D2Hfhz+bnR9R4itTegQZbQC9gWjqfNAP97Llf0WXcwoDD5xaImLbrPk+rqf6FjuFyB
+	fHpeCmy15bhH+oQNJH7DqekBYuMT//0O0aXrqBfHWIoAPFByXVaF9lHZVB2LgJDfSvlr0O
+	xM9V1b7QNSNIm8LxQB3w5XPt/I8/WZ58t03zkl9PF+P+kz8pp+8somxMWj8WR2dOCLhV3k
+	9zeaX8Ie/CHyXq55h5LUCieWmzP0hClz+gEEztT1OutcdXmqjLFiHcEhoESLog==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1712784045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=g6ekiFLA/bmLDiyq+3gVUA+kaAF0OcFabHDmCSx7h2A=;
+	b=TNxLVhfTSGEjRdOUAJEdbT0v1iAfoxcexXJbxNXc0RJ2rOoS0urv9iS637SyXee84icb4A
+	v2DWCNmgXp4sKaDg==
+To: lakshmi.sowjanya.d@intel.com, jstultz@google.com, giometti@enneenne.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: x86@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com,
+ jesse.brandeburg@intel.com, davem@davemloft.net,
+ alexandre.torgue@foss.st.com, joabreu@synopsys.com,
+ mcoquelin.stm32@gmail.com, perex@perex.cz, linux-sound@vger.kernel.org,
+ anthony.l.nguyen@intel.com, peter.hilber@opensynergy.com,
+ pandith.n@intel.com, subramanian.mohan@intel.com,
+ thejesh.reddy.t.r@intel.com, lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v6 01/11] x86/tsc: Add base clock properties in
+ clocksource structure
+In-Reply-To: <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
+References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+ <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 10 Apr 2024 23:20:44 +0200
+Message-ID: <87frvs3oer.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: text/plain
 
-On Wed, 10 Apr 2024 21:08:06 +0200
-"Rafael J. Wysocki" <rafael@kernel.org> wrote:
+On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>
+> Add base clock hardware abstraction in clocksource structure.
+>
+> Add clocksource ID for x86 ART(Always Running Timer). The newly added
+> clocksource ID and conversion parameters are used to convert time in a
+> clocksource domain to base clock and vice versa.
+>
+> Convert the base clock to the system clock using convert_base_to_cs() in
+> get_device_system_crosststamp().
 
-> On Wed, Apr 10, 2024 at 8:56=E2=80=AFPM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> >
-> > On Wed, Apr 10, 2024 at 02:50:05PM +0100, Jonathan Cameron wrote: =20
-> > > If we get rid of this catch all, solution would be to move the
-> > > !acpi_disabled check into the arm64 version of arch_cpu_register()
-> > > because we would only want the delayed registration path to be
-> > > used on ACPI cases where the question of CPU availability can't
-> > > yet be resolved. =20
-> >
-> > Aren't we then needing two arch_register_cpu() implementations?
-> > I'm assuming that you're suggesting that the !acpi_disabled, then
-> > do nothing check is moved into arch_register_cpu() - or to put it
-> > another way, arch_register_cpu() does nothing if ACPI is enabled.
-> >
-> > If arch_register_cpu() does nothing if ACPI is enabled, how do
-> > CPUs get registered (and sysfs files get created to control them)
-> > on ACPI systems? ACPI wouldn't be able to call arch_register_cpu(),
-> > so I suspect you'll need an ACPI-specific version of this function. =20
->=20
-> arch_register_cpu() will do what it does, but it will check (upfront)
-> if ACPI is enabled and if so, if the ACPI Namespace is available.  In
-> the case when ACPI is enabled and the ACPI Namespace is not ready, it
-> will return -EPROBE_DEFER (say).
+In https://lore.kernel.org/all/875xxhi1ty.ffs@tglx I asked you to
+provide a change log which explains the WHY and not the WHAT. The new
+change log still fails to explain WHY this change is needed and which
+problem it is trying to solve.
 
-Exactly.  I oversimplified and wasn't clear enough.
-The check is there in the arch_register_cpu() and is one of the ways
-that function can decide to actually register the cpu but not the only one.
+I further asked you to do:
 
-I think we may later want to consider breaking it into 2 arch calls
-(check if ready to register + register) to reduce code duplication
-in with the hotplug path where there is a little extra to do
-inbetween.
+    1) Add the clocksource_base struct and provide the infrastructure in
+       get_device_system_crosststamp()
 
-Hopefully that can wait though.
+    2) Make TSC/ART use it
 
-Jonathan
+But this still does #1 and #2 in one go.
+
+If you don't understand my review comments, then please ask. If you
+disagree with them then please tell me and argue with me.
+
+Just ignoring them is not an option.
+
+Thanks,
+
+        tglx
