@@ -1,194 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0364B13D52B
-	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 08:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269F415AAC6
+	for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 09:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712737256; cv=none; b=W7eSXW6ytOn5/CEO17uAz6STpYIajQz6OpxlQCE4zgqt7Nqcy8zFA5ofdsgYysspzqXtzvTgnD5NnUO8lkSpisSNuFqdQPAA6tf/RFaMEUSMuMYe2bA4B8H6h/bfGe68+o/WXCOsqfimZRaaJce/+ZdJGKmsoEMfXPni1FWs6SA=
+	t=1712740274; cv=none; b=iKwH9YRLjcaGCNliV5BOl3F9rkEccPX5a958nNH2YSh2VX/GrOPd2zrzBzU6So2skg8ZBoGpea22PHmdQuRbOH/j5IB3skIYcNrlF7Z1BiR6M9yMaDmEIQjqBVcZdmqrjzZmQb9mohoTxr182RDyudrvR+MYLJ2eyaJ1fuzth8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712737256; c=relaxed/simple;
-	bh=PnYCXwqQXwIuIUdDv2sTWF+OEhZuSBXw+2zwh+CpxY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dEW+bgTMICRjIc8l8od47heEdv3XwJExX7YXixw7VuC/kdyqO9hu65nmQ8WhoX3Pkmn1DgZxcG23mF+m9zAo5/gBngBD3oElx2TDZ0yaBiaYWgEsYvImAs4kt8btU5YvquSRFpob8IeYhPggDbQR4mwLq05kag0qrByTnzyTVbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=URbQfQ8y; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712740274; c=relaxed/simple;
+	bh=02wvApY4YND9L077VdDD/SvGSk0u3FcO0EiGYiuzYnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OAqF6YI3umS4QyXP+PBkOTS0zFTVhILq4Ytt+LWiHZMpljfCjcoqp9nKseUNuj/SzcbREv2pFmHrNeuHylwYPM5vHpFG/8Zw/OBswkJwdSZ8DEnm2fEouSKcsp9qVv3OPBgUEHHDkX8o/hKo5UfcLhaA2EoOfdfHEK6X7yy16yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=FdZ1AB63; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="URbQfQ8y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712737254;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=nXt9QgBL5KsCTsMhUv7LoBmgAUYvhj/Ac6lKPs0TUWs=;
-	b=URbQfQ8yN7KWoTPLa4pr6Sew5CBB0380BySkFWnWw7GCZNNQz17IlCRFiIIx1qqx/7msV/
-	zKM/ytAiqIUy2xzPwc0frtyfMyP6WchSV8CMUPLI9ZN1GH2Kt0e0YeQtOS6GRx+/4R3J/c
-	NUTJRZDVoOuMZyctM9YDfz6qPoQo+Lg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-R_eBYQEbM0Kol-w7H3ShJQ-1; Wed, 10 Apr 2024 04:20:49 -0400
-X-MC-Unique: R_eBYQEbM0Kol-w7H3ShJQ-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-345cc6c2367so1529024f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 01:20:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="FdZ1AB63"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-343d32aba7eso1127839f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 10 Apr 2024 02:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712740270; x=1713345070; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9SSkPjIJRaiY6nqvP2nXREr1dqNKWljAWGAyK7z7Oro=;
+        b=FdZ1AB63nr0YKyaVj2pv8TgPftr2h7prARsnXTmUCy9rF6XEob0XnX7FZCb688LVIC
+         fvEJXwZMebpTUfXJIKfCbveRhUHfxPfHVKA+9ytZ5gTKUcOfR6/quQSpeaYGu8MlioRi
+         BwcZFc2B73oV7o8HReulOeM8O7MrgxXZNGxyCof8h02COqdPpv25pWYCuiTj+MBfPQzN
+         WTj4zx1M+NypiM7ediOCQuqAqwJRdVuND40SMibdePC7CzuMjRz0WPyj0s64mBZB9vbb
+         pwz2jjs1jeLiylmdAqMUuERRuefaSNn6m2wfhBsYSwrhcBEhJ/2y+uENsAWPD3FckMu7
+         tFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712737248; x=1713342048;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nXt9QgBL5KsCTsMhUv7LoBmgAUYvhj/Ac6lKPs0TUWs=;
-        b=iazSSs2WD5IFDenEZiNc/CIoLGfx6pAreWWEyPpwsZGmlSys+GTRbehZjEO9sOSqjk
-         /Dc5JtPNpHpum4uLfuAH3BEyWtezK8eSCWJwmmOObdxJc4eVPh/HlqgWIHjEnWVaXCah
-         +VIQH32lGXdbp1ZnHpwPEi58yAo+YJkTIG2ciLyNPZgnsv1T9513lxKy9khCDbQ4Evse
-         QZY5UcH1VWylU2sFZySYWYBLocROtagJ4e4BaGuOoPzSbluEI7XZD/Qegly7b1xUc9Bq
-         TtiTXpzjFBF41Gp11V2kFKj/evscyjy/iKppwgvOkFxexs75cDLP56P6aI6Btj6rS+qG
-         05Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCVSX+HlCwpijxFsFEPrqKB4fjfdVFggliXa5oct0y5gyFMMnvRhK7NtFhJRlkaLc1Atb5KVlJPCe36tSOZJbRlwqSkQjglQy2m+
-X-Gm-Message-State: AOJu0YxsMNP9mg4WryylyOjoPO16TOjtYwOXBMiBnGCUyyCgkno+vU/O
-	KYrfMDBzc2VF5fP69QdWRsBCjMmTmOW0LJvzvHgHpP0k4S0YY1sFhNFr2ugOQMtMgTKmrhLgoPz
-	Jqvk1gakHRqVcV1DXgYyShQojwqiQ4fpY8XW/39dyxlpdoa2bEh1AtRiTcw==
-X-Received: by 2002:a05:6000:4595:b0:343:b5dd:fe1d with SMTP id gb21-20020a056000459500b00343b5ddfe1dmr3947595wrb.28.1712737248334;
-        Wed, 10 Apr 2024 01:20:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMO7YVGXMtdwn7qyE6J9DfN53segr8TeIXW6v8wiHYh+AtmrCV1qpZvYljAfNwPFGdHoDF0A==
-X-Received: by 2002:a05:6000:4595:b0:343:b5dd:fe1d with SMTP id gb21-20020a056000459500b00343b5ddfe1dmr3947569wrb.28.1712737247924;
-        Wed, 10 Apr 2024 01:20:47 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c712:fa00:38eb:93ad:be38:d469? (p200300cbc712fa0038eb93adbe38d469.dip0.t-ipconnect.de. [2003:cb:c712:fa00:38eb:93ad:be38:d469])
-        by smtp.gmail.com with ESMTPSA id e27-20020a5d595b000000b003445bb2362esm10674889wri.65.2024.04.10.01.20.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 01:20:47 -0700 (PDT)
-Message-ID: <0e829c08-74f5-4487-97bd-4f81d8b70a2f@redhat.com>
-Date: Wed, 10 Apr 2024 10:20:45 +0200
+        d=1e100.net; s=20230601; t=1712740270; x=1713345070;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9SSkPjIJRaiY6nqvP2nXREr1dqNKWljAWGAyK7z7Oro=;
+        b=qmtth6vDWAsN7GYVw2dZfDxqEFixwOrlR4umqHJQvzxTX/4wfofZ8AiQXARjj5Q5xU
+         mBP5EK6sDq5HCghAleja1xfvXHR+wbup7xLTQKGV2eR7VYLYTYUesVx8Oa9hsGv0gtmc
+         QN74ZW8gxPfdvA988A8A4kjHQQaFBCy01iNSfpvqwe65+C/vRB4/TBle1vaI+MHTPHEs
+         cHGyWvffoUpYTy/VQApgVae5YYhKTRZ2ioY6BQR8Vyq6Hbssp01ZI4lnDiSq+WqHE2v4
+         gyE6evoXStIGdqe2/RKwMkKqDHLP0q9RO7G9N1CAEqBmq6cBKavqIejyCVIkKLGyS8Gd
+         kpqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwzr3bWVxW2OrBZCRZV9I/d49E1zU1m6rAUL+G7hTFrAMDOdZoLxr6jzOxs231GMlexhxng7CcELnn3r94/z7EX4wKbSwyD9Gf
+X-Gm-Message-State: AOJu0Yz7i30ELGkURJy3s960SGmFACkxbiSiowzJLoM+mdVmzCAm64uy
+	hwWeO3TeizR10MYEEqmSKU+L/rYB355ow9xZ/7W8DtilUzLuuADYPkK7yqBTusg=
+X-Google-Smtp-Source: AGHT+IGq6GULyAjPCGB9cLzSRwOlrzNIJikNMv8sgGSqEmo6q9aRp4LbhqVra1QQcW7xHav631ZdHA==
+X-Received: by 2002:a5d:4a52:0:b0:346:500f:9297 with SMTP id v18-20020a5d4a52000000b00346500f9297mr1449075wrs.2.1712740270397;
+        Wed, 10 Apr 2024 02:11:10 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:d4a6:5856:3e6c:3dff])
+        by smtp.gmail.com with ESMTPSA id d6-20020a056000114600b003456c693fa4sm9079086wrx.93.2024.04.10.02.11.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 02:11:09 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH 00/10] Add support for a few Zc* extensions as well as Zcmop
+Date: Wed, 10 Apr 2024 11:10:53 +0200
+Message-ID: <20240410091106.749233-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/18] mm: track mapcount of large folios in single
- value
-To: Zi Yan <ziy@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Matthew Wilcox <willy@infradead.org>, Peter Xu <peterx@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Yin Fengwei <fengwei.yin@intel.com>,
- Yang Shi <shy828301@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Hugh Dickins <hughd@google.com>, Yoshinori Sato
- <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Muchun Song <muchun.song@linux.dev>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Richard Chang <richardycc@google.com>
-References: <20240409192301.907377-1-david@redhat.com>
- <20240409192301.907377-5-david@redhat.com>
- <1DFEC99F-6BCE-4E6D-9EF2-267E8A94A705@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <1DFEC99F-6BCE-4E6D-9EF2-267E8A94A705@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 09.04.24 22:13, Zi Yan wrote:
-> On 9 Apr 2024, at 15:22, David Hildenbrand wrote:
-> 
->> Let's track the mapcount of large folios in a single value. The mapcount of
->> a large folio currently corresponds to the sum of the entire mapcount and
->> all page mapcounts.
->>
->> This sum is what we actually want to know in folio_mapcount() and it is
->> also sufficient for implementing folio_mapped().
->>
->> With PTE-mapped THP becoming more important and more widely used, we want
->> to avoid looping over all pages of a folio just to obtain the mapcount
->> of large folios. The comment "In the common case, avoid the loop when no
->> pages mapped by PTE" in folio_total_mapcount() does no longer hold for
->> mTHP that are always mapped by PTE.
->>
->> Further, we are planning on using folio_mapcount() more
->> frequently, and might even want to remove page mapcounts for large
->> folios in some kernel configs. Therefore, allow for reading the mapcount of
->> large folios efficiently and atomically without looping over any pages.
->>
->> Maintain the mapcount also for hugetlb pages for simplicity. Use the new
->> mapcount to implement folio_mapcount() and folio_mapped(). Make
->> page_mapped() simply call folio_mapped(). We can now get rid of
->> folio_large_is_mapped().
->>
->> _nr_pages_mapped is now only used in rmap code and for debugging
->> purposes. Keep folio_nr_pages_mapped() around, but document that its use
->> should be limited to rmap internals and debugging purposes.
->>
->> This change implies one additional atomic add/sub whenever
->> mapping/unmapping (parts of) a large folio.
->>
->> As we now batch RMAP operations for PTE-mapped THP during fork(),
->> during unmap/zap, and when PTE-remapping a PMD-mapped THP, and we adjust
->> the large mapcount for a PTE batch only once, the added overhead in the
->> common case is small. Only when unmapping individual pages of a large folio
->> (e.g., during COW), the overhead might be bigger in comparison, but it's
->> essentially one additional atomic operation.
->>
->> Note that before the new mapcount would overflow, already our refcount
->> would overflow: each mapping requires a folio reference. Extend the
->> focumentation of folio_mapcount().
-> 
-> s/focumentation/documentation/  ;)
+Add support for (yet again) more RVA23U64 missing extensions. Add
+support for Zcmop, Zca, Zcf, Zcd and Zcb extensions isa string parsing,
+hwprobe and kvm support. Zce, Zcmt and Zcmp extensions have been left
+out since they target microcontrollers/embedded CPUs and are not needed
+by RVA23U64
 
-Thanks! :)
+This series is based on the Zimop one [1].
+
+Link: https://lore.kernel.org/linux-riscv/20240404103254.1752834-1-cleger@rivosinc.com/ [1]
+
+Clément Léger (10):
+  dt-bindings: riscv: add Zca, Zcf, Zcd and Zcb ISA extension
+    description
+  riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+  riscv: hwprobe: export Zca, Zcf, Zcd and Zcb ISA extensions
+  RISC-V: KVM: Allow Zca, Zcf, Zcd and Zcb extensions for Guest/VM
+  KVM: riscv: selftests: Add some Zc* extensions to get-reg-list test
+  dt-bindings: riscv: add Zcmop ISA extension description
+  riscv: add ISA extension parsing for Zcmop
+  riscv: hwprobe: export Zcmop ISA extension
+  RISC-V: KVM: Allow Zcmop extension for Guest/VM
+  KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
+
+ Documentation/arch/riscv/hwprobe.rst          | 24 ++++++++++++
+ .../devicetree/bindings/riscv/extensions.yaml | 37 +++++++++++++++++++
+ arch/riscv/include/asm/hwcap.h                |  5 +++
+ arch/riscv/include/uapi/asm/hwprobe.h         |  5 +++
+ arch/riscv/include/uapi/asm/kvm.h             |  5 +++
+ arch/riscv/kernel/cpufeature.c                |  5 +++
+ arch/riscv/kernel/sys_hwprobe.c               |  5 +++
+ arch/riscv/kvm/vcpu_onereg.c                  | 10 +++++
+ .../selftests/kvm/riscv/get-reg-list.c        | 20 ++++++++++
+ 9 files changed, 116 insertions(+)
 
 -- 
-Cheers,
-
-David / dhildenb
+2.43.0
 
