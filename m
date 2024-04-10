@@ -1,91 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8993815ECD2;
-	Wed, 10 Apr 2024 13:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9744315ADA2;
+	Wed, 10 Apr 2024 13:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712755364; cv=none; b=COI0WN0pijHgZYQY3fG5wPMz3lKa9/hmW4ateSjdvxxVO9by3gpL1ctsS7i3vODtxU+zQST8Wmc3wS1aov0C/7JbHfK277SZbw9tf1isgrGZNVWo+02kfgiP4WoBZNY+mOxCy0CUJxARdArwAfP7Gjx30rtbRol4qANb19y1IMk=
+	t=1712755711; cv=none; b=O/M9uf7vji4Ave9amjru6NyNlQA3EDkla8qZGZQMb5iUwoYIS3kUat4RrLUZEijh9HdvxrA/LdSZgn2tH7vqus6dGqpPXt4P02Eyehr3pADBkNVuDeUszF9ijQAWDIco1g6FE4DMuhXZbTvqTB7wBzfykeUFwjGGbrIJoOn0f5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712755364; c=relaxed/simple;
-	bh=03D0DQleB9vxk8wekat4Pmx/RVLXpwIuxViW/1q3BPE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CnQr18+SNjO7Rdyq5Zpg4f52quwewq+38ykfmpJhVCNDeUMd5lzKaXB7fWdrQp6JqHuK4w25QJWe88eAhqeR9TjBBc5xzGJzwXPq9ftCLC2wJh6bEhqLHauCsE+y/ZZpu8YH+ATeu4aIFibf41h9Ps50cJSNedbgpbFF7pa8jVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPub9SDT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712755711; c=relaxed/simple;
+	bh=vG/etX9uFWDRMQyM96dxgcCHcoWyYgwQIb4SGb4iHUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Milf5EHTOqdLYwAyKHZTQlTSuq938u+2iRPrWIp907ZhHSVBK8dudVj1Ln19aZDvvyYa7+i72OuVNnl2wLWHHZL+tiYq1XRNemPygq2JXgu1G8ozB9f3Rx3KDIjB5uUiQEr8zuA7y8qvqkrPk63fp5tWLo3F6n6w7d5ORUSu9g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iubVYXfK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPub9SDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98FF6C433C7;
-	Wed, 10 Apr 2024 13:22:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iubVYXfK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420B6C43390;
+	Wed, 10 Apr 2024 13:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712755364;
-	bh=03D0DQleB9vxk8wekat4Pmx/RVLXpwIuxViW/1q3BPE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cPub9SDTJInpTD3h3i5Bm0XMXXDO2+Pu3RoVexjDEgpyIom8aOKTpUnOi2fKfG0v/
-	 Z21+mTqNAwQ3B0ZxoDkdf+ioemD5P4CiEswiaqPYR2YMFl0r6A7CF6u2sRUasBR0fI
-	 q3A3FvUeBdN0WnAVvvxKzvY9zqoV+OKEv93rhNpW8YB4lul59+n6aXt7SE73+lxvAm
-	 UUp6giFw1XTo2UdIUxitRqf07eVX36sLFl2qCFX3CNINltqlz6x/1WSFC209Y5iFfx
-	 f9yEfchlx+Wdet8CZIpQ7odYqnkYwAV2OIENdLL2IhQRy+7gqbGhgMQRycR3Pyrrb5
-	 3f7InogKyfqbQ==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org
-Cc: conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>, Miguel
- Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson
- Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
- Chancellor <nathan@kernel.org>, Nick Desaulniers
- <ndesaulniers@google.com>, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH v3 0/1] RISC-V: enable rust
-In-Reply-To: <20240409-unsaddle-skittle-c93eb77732bb@spud>
-References: <20240409-unsaddle-skittle-c93eb77732bb@spud>
-Date: Wed, 10 Apr 2024 15:22:40 +0200
-Message-ID: <871q7d73of.fsf@all.your.base.are.belong.to.us>
+	s=k20201202; t=1712755711;
+	bh=vG/etX9uFWDRMQyM96dxgcCHcoWyYgwQIb4SGb4iHUc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=iubVYXfK6JPDhhN9TmRS0x6QzxNaToPZCeVJnHP93bzsfQkb7YaWzUGU5fvosdVlK
+	 1iYtCJ+3WmeWgXErCaKKoO8GwwKCAVsPQSeaDEZwvjhLCuOC89oo5gQpo6M/afAEAy
+	 4yeMyJV1phaU5H/syWUh2fS6hJ6AmMPbK9BuOo+0TU6FA/S11ekIIS3LR1gsLiMZaG
+	 mJvEUbFS4EnjHWHw0mmkVeePQ3ozflixNW+Mf7PgkbFPaNxs5zDRXrhRsUvsJ6qIwh
+	 nvaEhh/w7672EUsnJyENttVNo1/Exy/MsDqmdMXp6iyLxGelAPVwHWr0EhfXbeuCBH
+	 DtboMbnFmvheg==
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-22f0429c1ebso185206fac.0;
+        Wed, 10 Apr 2024 06:28:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUcst/lEX0TrGqaZcggeqiPU+99cGmB4KLjRYNj6ZHx6CvmX/0iux/PHrv9BkgPQhexl4/cAYo0E0X+DFH2SO8qCqp2crdxsi365sCWaHER2kck0+6g38wJ68p4wvsVU4wZT2We0W5OpCOLe1es/4Y0h+vrO6jFdicgDUpj+xm3oC4hjBUAvc8D3wJav6dc5iwuiE/ycdF7RYhFpQjNAnJYiIh0S3CkHKextzPzsYbdHoQT1k7ZVZ9F50NXJiTN65baYuCYKMgUrhNTHSCxxLDlmL7vtAhwlgXEi7p0zvSAxOgh7W85X18LeMstJ2xREHVhvyR5CjdsUHC9hNm/xV5hPn9JnO0Bu5osE2rLGHH
+X-Gm-Message-State: AOJu0YzEIW7zi+uQ3p6nnF2pVZwTJrnvJ+NcJT5qcWoP830PtPnIukE+
+	MFAibq2RZZXmrqB0AcDGutcTJsd2vyDnkNo9oEkBzx7IKMfLSyj18pTebcrb5MZhaaedunYN+o3
+	kUeOk+d8GCg4/+1GbCQBzvGyTeUs=
+X-Google-Smtp-Source: AGHT+IFL5SftybRh1r8JWNftMLn5Ll2W8+pkIYo7YlzdluWnaIUYaO6UpMp9mGVfMWaTjUBfbyWqBLpc+8TxlkLduX4=
+X-Received: by 2002:a05:6871:a00a:b0:22d:fb4b:9d11 with SMTP id
+ vp10-20020a056871a00a00b0022dfb4b9d11mr2534660oab.4.1712755710509; Wed, 10
+ Apr 2024 06:28:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk> <E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
+ <CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
+ <20240322185327.00002416@Huawei.com> <20240410134318.0000193c@huawei.com>
+In-Reply-To: <20240410134318.0000193c@huawei.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 10 Apr 2024 15:28:18 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0ggD042sfz3jDXQVDUxQZu_AWaF2ox-Me8CvFeRB8nczw@mail.gmail.com>
+Message-ID: <CAJZ5v0ggD042sfz3jDXQVDUxQZu_AWaF2ox-Me8CvFeRB8nczw@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from acpi_processor_get_info()
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, 
+	linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
+	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
+	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
+	James Morse <james.morse@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Conor Dooley <conor@kernel.org> writes:
+On Wed, Apr 10, 2024 at 2:43=E2=80=AFPM Jonathan Cameron
+<Jonathan.Cameron@huawei.com> wrote:
+>
+> > >
+> > > > diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+> > > > index 47de0f140ba6..13d052bf13f4 100644
+> > > > --- a/drivers/base/cpu.c
+> > > > +++ b/drivers/base/cpu.c
+> > > > @@ -553,7 +553,11 @@ static void __init cpu_dev_register_generic(vo=
+id)
+> > > >  {
+> > > >         int i, ret;
+> > > >
+> > > > -       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES))
+> > > > +       /*
+> > > > +        * When ACPI is enabled, CPUs are registered via
+> > > > +        * acpi_processor_get_info().
+> > > > +        */
+> > > > +       if (!IS_ENABLED(CONFIG_GENERIC_CPU_DEVICES) || !acpi_disabl=
+ed)
+> > > >                 return;
+> > >
+> > > Honestly, this looks like a quick hack to me and it absolutely
+> > > requires an ACK from the x86 maintainers to go anywhere.
+> > Will address this separately.
+> >
+>
+> So do people prefer this hack, or something along lines of the following?
+>
+> static int __init cpu_dev_register_generic(void)
+> {
+>         int i, ret =3D 0;
+>
+>         for_each_online_cpu(i) {
+>                 if (!get_cpu_device(i)) {
+>                         ret =3D arch_register_cpu(i);
+>                         if (ret)
+>                                 pr_warn("register_cpu %d failed (%d)\n", =
+i, ret);
+>                 }
+>         }
+>         //Probably just eat the error.
+>         return 0;
+> }
+> subsys_initcall_sync(cpu_dev_register_generic);
 
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> I've intentionally not turned on the gcc support, as discussed on
-> v1. I've also switched over to using the target, but it is a bit heavier
-> than the one arm64 seems to be using. RISC-V has fewer targets available
-> and this was the closest. I preserved the redzone disabling, just moved
-> into the Makefile. Any comment from Gary or the LLVM lads on the target
-> would be great I think:
-> https://github.com/rust-lang/rust/blob/master/compiler/rustc_target/src/s=
-pec/targets/riscv64imac_unknown_none_elf.rs
-> arm64 is using:
-> https://github.com/rust-lang/rust/blob/master/compiler/rustc_target/src/s=
-pec/targets/aarch64_unknown_none.rs
->
-> I was gonna send this yesterday, but found out last minute I had invalid
-> code in the target generation script. The kernel test robot had given my
-> branch the global all-clear - the rust coverage with all the
-> "depends on !FOO" must really limit the build coverage. I built for x86
-> with rust enabled locally this time to make sure..
->
-> As this as lifted from the state of the Rust-for-Linux tree, the commit
-> messages from there cannot be preserved, so these patches have commit
-> messages that I wrote.
->
-> I've tested this on Icicle, and the modules seem to work as expected.
-> Unfortunately there appear to be implicit 32-bit divisions (or similar)
-> in core Rust code, so, as in the downstream Rust-for-Linux tree, Rust is
-> only enabled for 64-bit.
+I would prefer something like the above.
 
-Nice, works with my simple test on VisionFive 2 as well! Cool to have
-Rust support in! Now, BTF just needs to be supported, and I can have
-Rust *and* BPF in my kernels! :-P \o/
+I actually thought that arch_register_cpu() might return something
+like -EPROBE_DEFER when it cannot determine whether or not the CPU is
+really available.
 
-Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn@rivosinc.com>
+Then, the ACPI processor enumeration path may take care of registering
+CPU that have not been registered so far and in the more-or-less the
+same way regardless of the architecture (modulo some arch-specific
+stuff).
+
+In the end, it should be possible to avoid changing the behavior of
+x86 and loongarch in this series.
+
+> Which may look familiar at it's effectively patch 3 from v3 which was dea=
+ling
+> with CPUs missing from DSDT (something we think doesn't happen).
+>
+> It might be possible to elide the arch_register_cpu() in
+> make_present() but that will mean we use different flows in this patch se=
+t
+> for the hotplug and initially present cases which is a bit messy.
+>
+> I've tested this lightly on arm64 and x86 ACPI + DT booting and it "seems=
+" fine.
+
+Sounds promising.
+
+Thanks!
