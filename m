@@ -1,113 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E7E1DFC7;
-	Wed, 10 Apr 2024 20:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84FD181CEB;
+	Wed, 10 Apr 2024 20:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712780460; cv=none; b=I4SX3AkiCvTx8MFCKUozORiH8KN6dsT5/KRR9eXHpDGtam3xd3zqzh09UHceFfhcYEP+IHxpSn1zA8BtKFqvLqDxnPH4JHQmDR7dS8EJRY9fyGF1XoC1uPn7Zz6eRbyCiM+Co4cmnfJbA/gv7hONLvGSMDBGgQ7gZTXrYp2RVfc=
+	t=1712782737; cv=none; b=GQOEYUNC2/i9FxowKyYUPSz3YUTHxWRDlwKmCAR89A0P4WmVof8ZozuRUO/6VgCBJ3Pavt33Zla+085YOAi6Q9mrY4rDXaxybZZ88Ie/sDxzi5sBLs8sIE2BsggqA+Qa15teIqN8PnMAoUSYy1t3cf8H0Mi6hP2oDwDRgRivO2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712780460; c=relaxed/simple;
-	bh=NHRDwWW5UUprKx17r2oT7Bz2q4irLQyN/KXXpfQZsKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qWUb4grt4qXagE5jSRQOYERAHxe9AdWBZS/94pNBNtAkevP8KWHUpb/08cdC7e/ni/y5+laUO3ibsxd8kmOSqOiHTaxUl2BvPSBI2Lw0R+1Qo6/ofl+EVRjd8J5mxp90eambSe3mUoLRO6CY+DsEk65GjcYF4zu9TgSlera65Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A2FDC433C7;
-	Wed, 10 Apr 2024 20:20:59 +0000 (UTC)
-Date: Wed, 10 Apr 2024 16:23:36 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ali Zahraee <ahzahraee@gmail.com>
-Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
- javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH] Documentation: tracing: update format of sched_wakeup
- in example
-Message-ID: <20240410162336.618371dd@gandalf.local.home>
-In-Reply-To: <20240314144136.19727-1-ahzahraee@gmail.com>
-References: <20240314144136.19727-1-ahzahraee@gmail.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1712782737; c=relaxed/simple;
+	bh=+/tK43G6OWAgoc1IQTUZhMc0O85NKgsfQkWwbiBN2Vs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Gjcio1guYno6LCf9G1PTBXd4vNT2YCWZC4PSVcXXMrkLSFj/DYPQMNrtOQuiEn5ZGOA/xvUiiA5rpp/U3/NUE2A4eEes/JVwmvbHtjJuYW3Xkvz0gsG+efypSkjcoX3jrHRvoMbbXw/y2YWbJRBPbf69j9sXLtGBdYMsPAsqnkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=j1G70P5U; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="j1G70P5U"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0C3A347C3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1712782735; bh=jqS9ei4MBkFAHGGRpxDKU18p0pVh8bcbcGcggGmQPfM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=j1G70P5UhkT/YPryiPKQIArCsyH4ERz/0JWB3XBZtl+d1Mh99m05L24oxivtAZIPy
+	 m71uNgfsE++Dp36nTk1fVseOW4fYvwrXSwXMyo5P46FCn5CBGeAyeLEiDLq0XnUFbl
+	 kncHD8tWB8e/3mJDAIk4O9n7dySWBLS0vcgccdUB/TJcgSgM2HdahM2eaiZblhw6SU
+	 RGSNQ5hZYrwqlEwOfgsOO0RYPNybsBcuzVdbcsXVE8swol0cYzkgKctQWU+ZQ9yNu5
+	 zdZtBbMjEhZKJXOdhAZBG7fB8LLgMh0cOi8kil2LHoPrw4yMbB/on/tp9nscMn5BBe
+	 QOIGftY6OqdVg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0C3A347C3E;
+	Wed, 10 Apr 2024 20:58:54 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: regressions@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [RFC PATCH v1 1/2] docs: reporting-issue: rework the detailed
+ guide
+In-Reply-To: <ac847c1c539d5f2c3d55ab363a5038ce6d303424.1711455295.git.linux@leemhuis.info>
+References: <cover.1711455295.git.linux@leemhuis.info>
+ <ac847c1c539d5f2c3d55ab363a5038ce6d303424.1711455295.git.linux@leemhuis.info>
+Date: Wed, 10 Apr 2024 14:58:54 -0600
+Message-ID: <87cyqxszn5.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Thu, 14 Mar 2024 15:41:36 +0100
-Ali Zahraee <ahzahraee@gmail.com> wrote:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> The format of the sched_wakeup event is used as an example in the
-> documentation. But the given format is obsolete. This patch updates the
-> format in the example to match the current format of this event.
-> 
-> Signed-off-by: Ali Zahraee <ahzahraee@gmail.com>
-> ---
->  Documentation/trace/events.rst | 25 +++++++++++++------------
->  1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> index 759907c20e75..65fe205c95e6 100644
-> --- a/Documentation/trace/events.rst
-> +++ b/Documentation/trace/events.rst
-> @@ -129,24 +129,25 @@ event::
->  	# cat /sys/kernel/tracing/events/sched/sched_wakeup/format
->  
->  	name: sched_wakeup
-> -	ID: 60
-> +	ID: 70
+> Rework the detailed step-by-step guide for various reasons:
+>
+> * Simplify the search with the help of lore.kernel.org/all/, which did
+>   not exist when the text was written.
+>
+> * Make use of the recently added document
+>   Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst,
+>   which covers many steps this text partly covered way better.
+>
+> * The 'quickly report a stable regression to the stable team' approach
+>   hardly worked out: most of the time the regression was not known yet.
+>   Try a different approach using the regressions list.
+>
+> * Reports about stable/longterm regressions most of the time were
+>   greeted with a brief reply along the lines of 'Is mainline affected as
+>   well?'; this is needed to determine who is responsible, so we might as
+>   well make the reporter check that before sending the report (which
+>   verify-bugs-and-bisect-regressions.rst already tells them to do, too).
+>
+> * A lot of fine tuning after seeing what people were struggling with.
 
-Really don't need to change that, as it's defined at compile time and may
-be different. For example, I have:
-
- system: sched
- name: sched_wakeup
- ID: 297
-
-
->  	format:
->  		field:unsigned short common_type;	offset:0;	size:2;
-> +                	signed:0;
-
-Don't line break the fields, as new lines are part of the format.
-
-
->  		field:unsigned char common_flags;	offset:2;	size:1;
-> -		field:unsigned char common_preempt_count;	offset:3;	size:1;
-> -		field:int common_pid;	offset:4;	size:4;
-> -		field:int common_tgid;	offset:8;	size:4;
-> +                	signed:0;
-> +		field:unsigned char common_preempt_count;	offset:3;
-> +                	size:1; signed:0;
-
-Again, the above needs to be on one line.
+So I have read through this, and don't find anything objectionable.  I
+will point out that each of those bullet items above might be better
+handled in a separate patch; the result might be easier to review.
 
 Thanks,
 
--- Steve
-
-> +		field:int common_pid;	offset:4;	size:4;	signed:1;
->  
-> -		field:char comm[TASK_COMM_LEN];	offset:12;	size:16;
-> -		field:pid_t pid;	offset:28;	size:4;
-> -		field:int prio;	offset:32;	size:4;
-> -		field:int success;	offset:36;	size:4;
-> -		field:int cpu;	offset:40;	size:4;
-> +		field:char comm[16];	offset:8;	size:16;	signed:0;
-> +		field:pid_t pid;	offset:24;	size:4;	signed:1;
-> +		field:int prio;	offset:28;	size:4;	signed:1;
-> +		field:int target_cpu;	offset:32;	size:4;	signed:1;
->  
-> -	print fmt: "task %s:%d [%d] success=%d [%03d]", REC->comm, REC->pid,
-> -		   REC->prio, REC->success, REC->cpu
-> +	print fmt: "comm=%s pid=%d prio=%d target_cpu=%03d", REC->comm, REC->pid,
-> +        	        REC->prio, REC->target_cpu
->  
-> -This event contains 10 fields, the first 5 common and the remaining 5
-> +This event contains 8 fields, the first 4 common and the remaining 4
->  event-specific.  All the fields for this event are numeric, except for
->  'comm' which is a string, a distinction important for event filtering.
->  
-
+jon
