@@ -1,128 +1,93 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5CA15E80D;
-	Wed, 10 Apr 2024 13:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF82415E7E6;
+	Wed, 10 Apr 2024 13:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712757260; cv=none; b=qrBz6UvqRyW81E2MfcGoGvVgX8MgIiw/XefT2JZpBYNAMAp5VUKhZtnjlg8hPyZ68id6WkXlt7PJ60jH0npPxq7jcp4m4wcqR/gdTGj8gdwow1PYGyNNDfmpN7vx98POHVpzspFy5RIJhM6oKcJ2GpkTRpO6EPzRChuA35n0XmU=
+	t=1712757575; cv=none; b=XFOTsb3/77r0o2GCEDGZjazB4FEIBy6K4r8qnv5eUdKMWuOmFmHz+k9OFLEdtvAC8Nc2pXQC3YogpaBFKxIKM8HWIx7S1t+33c7zF8JU43+O88qQPkW2O0MM/jUkxEjXmCb9MtZi0JY5iwYNLGhMN2d7+cYGGU7o47vGqtiPIPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712757260; c=relaxed/simple;
-	bh=qXgUkN/ZVhwE3W9k+C8UdVjBcT37D8ecxyft3UoOeCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o8+BJHdBUBscO9hvm7snJrv3QU+MjshPeW7Cu1+fnrLDnKGXU8JDteBD0+C3wbJVxe6l7dYietervG8ycwV5X+pmMwDt0MrZBouqzTpjDx4+rgMO294PLQF9AMhaXKN+w7kLwZWHZv1zjo2cLASKXKn0LhpZrVUzjuhR2vP/bCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZrTQ2QM8; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1712757575; c=relaxed/simple;
+	bh=KzIwAs0WuSRVdxrxETt53ZODVPWPZANummHTPBLM92g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btU3Gz6gq1I14cLFzpmqA2rJYObyucTUsgGpYC+U4hSti4beQqFibzKRTSYNPnOZTLPgTlKb88TQGQJtVbQwRT8r6sMDouhap1zFynHIYX6AULIV7UV4qolJYz9TNyS+Hasq3pbC5eShmPvzMkb2YvVD8WoILSwmMszGdQqMbsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L42VrYWg; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZrTQ2QM8"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B17C60008;
-	Wed, 10 Apr 2024 13:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712757255;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JCEBE0ZN4OCzSX6TY382vI7qZ2HEUdWjDQGoDSCw+Mg=;
-	b=ZrTQ2QM8b0VdoGlNRf/5eqC2AbdRaW74M5OQka9hEkmseL0pW75UoGr7nDzC31/bniRwlT
-	K5ut/65XW1lIb10ii2zpJwlcLDzXAGTLbbxW550BvAS6ecdr5dbQlo7JUR0jEPzNjD6ZOs
-	h9msQpN31KtZ9QrOoXMd8jleKxGTRrKkyQ1o7CCDpPxTWmNY8kb4flCKy1sMY6kp7UvwuN
-	XnEmU/nHtKCR/hcwsRehON9JO1MWFIcgksg2NY/R00R/EPKEcSqdTBQzoZ/o3gBARAgagB
-	WhYuV0AkR9NqfEzUqVtXH0Qat/EcR3wF5o29xJrOw7JZNctyzYEUW84OPN0G8Q==
-Date: Wed, 10 Apr 2024 15:54:12 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Alexandra Winter <wintera@linux.ibm.com>
-Subject: Re: [PATCH net-next v10 07/13] net: Add struct
- kernel_ethtool_ts_info
-Message-ID: <20240410155412.2f34a117@kmaincent-XPS-13-7390>
-In-Reply-To: <ZhZkNEYnY3FV7Q8E@shell.armlinux.org.uk>
-References: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
-	<20240409-feature_ptp_netnext-v10-7-0fa2ea5c89a9@bootlin.com>
-	<20240409182725.139856d5@kernel.org>
-	<20240410101200.0178e594@kmaincent-XPS-13-7390>
-	<ZhZkNEYnY3FV7Q8E@shell.armlinux.org.uk>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L42VrYWg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712757574; x=1744293574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KzIwAs0WuSRVdxrxETt53ZODVPWPZANummHTPBLM92g=;
+  b=L42VrYWgU6IzUNSnkINbQMgH4duX2iZ591pjCnZ80afEty4yJJtjZMie
+   s6P0fWcePfbnMleZSFDGdaDnCGB7plOPWl9oB/kN2XOWV6lAHt50KxP2D
+   Kt5epZYmAyLYrgtw0DbWfgUp6XYnARBBJqccJjj7LKNmOu1tXPGlsN2YK
+   k2Sb2LnnnaY/5g7MACGZu+kcbvPz7ZblOOwzHFWSE49q0ULLpLVhbBbyf
+   cdAmSNQbz4vgCSzXTXTVphakAbjEAmp5MzQ9cEOND3c59YgdK5PBNXnU8
+   UyWbUs9W/Tz5zDY5jQm43wMn+odkdKPwFcIRwIyFUh7G0An/vG4XKYuFn
+   w==;
+X-CSE-ConnectionGUID: UoQNj6plTdqvTSajANgE4Q==
+X-CSE-MsgGUID: h9eqBgaCSiqIlkbNKePQYA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7993181"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="7993181"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:59:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="915433717"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="915433717"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 06:59:28 -0700
+Received: from andy by smile with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1ruYU0-000000035Gi-3T2g;
+	Wed, 10 Apr 2024 16:59:24 +0300
+Date: Wed, 10 Apr 2024 16:59:24 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
+	davem@davemloft.net, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com, pandith.n@intel.com,
+	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v6 11/11] ABI: pps: Add ABI documentation for Intel TIO
+Message-ID: <ZhabPIK_zDJgVf4c@smile.fi.intel.com>
+References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
+ <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410114828.25581-12-lakshmi.sowjanya.d@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, 10 Apr 2024 11:04:36 +0100
-"Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+On Wed, Apr 10, 2024 at 05:18:28PM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+> 
+> Document sysfs interface for Intel Timed I/O PPS driver.
 
-> On Wed, Apr 10, 2024 at 10:12:00AM +0200, Kory Maincent wrote:
-> > On Tue, 9 Apr 2024 18:27:25 -0700
-> > Jakub Kicinski <kuba@kernel.org> wrote:
-> >  =20
-> > > On Tue, 09 Apr 2024 10:26:29 +0200 Kory Maincent wrote: =20
-> > > > In prevision to add new UAPI for hwtstamp we will be limited to the
-> > > > struct ethtool_ts_info that is currently passed in fixed binary for=
-mat
-> > > > through the ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if =
-new
-> > > > kernel code already started operating on an extensible kernel varia=
-nt
-> > > > of that structure, similar in concept to struct kernel_hwtstamp_con=
-fig
-> > > > vs struct hwtstamp_config.
-> > > >=20
-> > > > Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, he=
-re
-> > > > we introduce the kernel-only structure in include/linux/ethtool.h.
-> > > > The manual copy is then made in the function called by
-> > > > ETHTOOL_GET_TS_INFO.=20
-> > >=20
-> > > This one now conflicts :(
-> > >=20
-> > > Applying: net: Add struct kernel_ethtool_ts_info
-> > > error: sha1 information is lacking or useless
-> > > (drivers/net/phy/marvell_ptp.c). error: could not build fake ancestor=
- =20
-> >=20
-> > gnn patching my out of tree patch in the series! Sorry for that. =20
->=20
-> Given that this path corresponds to the driver I wrote, do I assume
-> that you've picked up my work on PTP support for Marvell PHYs? You
-> should be aware that I still have the patches out of tree but it's
-> been pointless me reposting it until the issue of which PTP gets
-> used has been solved. (Publishing will just increase the pressure
-> to merge it without the PTP problems being solved, and thus break
-> Marvell PP2 PTP.)
+...
 
-Yes I did with few fixes and I know you don't want to post the patches until
-setting which PTP gets used has been solved. As you can see this is one of =
-the
-subject of this series. About it, could you review this series? This would =
-help
-a lot and you will be able to post again your Marvell PTP patches if its get
-merged.
+> +Date:		March 2024
+> +KernelVersion	6.9
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+This boat is already sailed...
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
