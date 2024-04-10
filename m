@@ -1,101 +1,91 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C052912EBEF;
-	Wed, 10 Apr 2024 12:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8993815ECD2;
+	Wed, 10 Apr 2024 13:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712753011; cv=none; b=NdTenrI6Y2LyaDsEZGd2mP2/J3hbV57QHNrYaKEMgSvZRQGY1CTmXYQaEl5J1o3KtnxW2N0EtJsLmp0yK5Ba00p7UMEweea1PQGHX+Rsc0s4caWeWvw0aNgjsfdbPLLB2HNVkHiTp3/93yJJ9IWsUBJX1otnsnpBT9ZqRC//ops=
+	t=1712755364; cv=none; b=COI0WN0pijHgZYQY3fG5wPMz3lKa9/hmW4ateSjdvxxVO9by3gpL1ctsS7i3vODtxU+zQST8Wmc3wS1aov0C/7JbHfK277SZbw9tf1isgrGZNVWo+02kfgiP4WoBZNY+mOxCy0CUJxARdArwAfP7Gjx30rtbRol4qANb19y1IMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712753011; c=relaxed/simple;
-	bh=ZIAOmvrnl59E0qA8D129ku06QXp/t0U+yZH7OIQvevA=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KwXu6epO1LlSL7VqUZUZk73pX537lJcF3DZud60UWpgOfX1tA0VGvxFkPa7RwARuGoJd9l3Qy1e+myyVYn06najZ0FUYe9VtwkFkwNM0hSsQErIZWuAbgQfhVwqTaT7QjQFTSbQKI5OEvWg4dcN/Zul4gtKSONwj35MdwQzZg/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np/w1Nmi; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712755364; c=relaxed/simple;
+	bh=03D0DQleB9vxk8wekat4Pmx/RVLXpwIuxViW/1q3BPE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CnQr18+SNjO7Rdyq5Zpg4f52quwewq+38ykfmpJhVCNDeUMd5lzKaXB7fWdrQp6JqHuK4w25QJWe88eAhqeR9TjBBc5xzGJzwXPq9ftCLC2wJh6bEhqLHauCsE+y/ZZpu8YH+ATeu4aIFibf41h9Ps50cJSNedbgpbFF7pa8jVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPub9SDT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np/w1Nmi"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4166d6dab3dso23328025e9.0;
-        Wed, 10 Apr 2024 05:43:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712753008; x=1713357808; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s6W3q2bOeGE0BrRwL1fG865Gcw8RNsxpT6lmBauL/5w=;
-        b=Np/w1NmirFF4XcdCjJTrl8BuE1EdJXqSEaXVeczwbIjKJcbdHTm/E9RSXswwqi3qCm
-         RL18G3TKu0ntrPGZbKgpEet/RrZ3p+v8ja/juMHKx4njL2TsXnOAvvtpcGUM7GIbZwtf
-         7nq0RYshnvYftaRuUy4zTZ4X7iRBX9N0x22rD4tuWahJ82390wknPcMSjj+vGDBP9jCT
-         ueIwvL8xcdclm/i1Po9R8aC932VIETd5tg3CGpoWpMEAd0TYssxazcskL/L+XrslCB5l
-         +HXMSiJ/54EM8EBKxWAxFRh9802HLj0a94iAzZTrUTw0crUkYx0OQbC/F/52CnrCTSAD
-         eJeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712753008; x=1713357808;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s6W3q2bOeGE0BrRwL1fG865Gcw8RNsxpT6lmBauL/5w=;
-        b=nSVe2+T3aHMlO2b2mWeCZWCJQw+C5gLLzYXmILzHHJ6vXotoOrFXU6jShq/+jogclD
-         vw+IaUQoDMsggkvtI5phGOWTGcTV+unaDUatyQpdhZUTPhjcpKe3z/K2LGt0XwEqmSJK
-         xQNzgw6+nYY6PNqN9CKRlgUI6SbPHjSlGf3xBzS4gD00A4QQP7IfAg5NV5Yn7LMJoYFo
-         Ffz388bLToszsaChNac99e1iIy/SyCACI+RACpXMWefdNcCvI/H2yQdF93pSNkPrl06q
-         vEVzNNhUGNfUcEqyUziYon2q2umlOztmwL7cPSt0dS+MZRmCtbzAAA2+l1t7337wzlOO
-         JTSw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3cNxS7QwEkgey7RsRzAIL6eYtP4c12E7MwUbgb41ZZaYb74ltrfadVj4x0eqKU1OOnGGRHugfg3wSfriG5tk59x+Av6+7QaSBsqU384ln2GB/+5qSrjBU9Gs9N/9wpr8ridF/b+jwANhb6UxpD+F2Ws9W/3Yh1vI3i/bX
-X-Gm-Message-State: AOJu0YzUtKPTB4rv5KVCWRgOwnvzuk6X7XN9I7KC8aFV1QQeVyFSOxhB
-	eGZL5JmvumgvwceoqAnPdWB4pa1OhiPQMyluIYrXXViN5LholQoN
-X-Google-Smtp-Source: AGHT+IHcugzE8vzXE8HPH/lzuP1bY5ylrSJUYCanSNtur6lnkBf2UVBphkiKUJzhXqy7mwr2gZBryg==
-X-Received: by 2002:a05:600c:4e88:b0:414:93df:bef1 with SMTP id f8-20020a05600c4e8800b0041493dfbef1mr1751654wmq.39.1712753007855;
-        Wed, 10 Apr 2024 05:43:27 -0700 (PDT)
-Received: from [192.168.12.203] (54-240-197-228.amazon.com. [54.240.197.228])
-        by smtp.gmail.com with ESMTPSA id n15-20020a05600c500f00b00417c0fa4b82sm729506wmr.25.2024.04.10.05.43.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 05:43:27 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <26bfe5ec-e583-458d-8e43-e5ecdc5883cc@xen.org>
-Date: Wed, 10 Apr 2024 13:43:25 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPub9SDT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98FF6C433C7;
+	Wed, 10 Apr 2024 13:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712755364;
+	bh=03D0DQleB9vxk8wekat4Pmx/RVLXpwIuxViW/1q3BPE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cPub9SDTJInpTD3h3i5Bm0XMXXDO2+Pu3RoVexjDEgpyIom8aOKTpUnOi2fKfG0v/
+	 Z21+mTqNAwQ3B0ZxoDkdf+ioemD5P4CiEswiaqPYR2YMFl0r6A7CF6u2sRUasBR0fI
+	 q3A3FvUeBdN0WnAVvvxKzvY9zqoV+OKEv93rhNpW8YB4lul59+n6aXt7SE73+lxvAm
+	 UUp6giFw1XTo2UdIUxitRqf07eVX36sLFl2qCFX3CNINltqlz6x/1WSFC209Y5iFfx
+	 f9yEfchlx+Wdet8CZIpQ7odYqnkYwAV2OIENdLL2IhQRy+7gqbGhgMQRycR3Pyrrb5
+	 3f7InogKyfqbQ==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org
+Cc: conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>, Miguel
+ Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson
+ Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <ndesaulniers@google.com>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH v3 0/1] RISC-V: enable rust
+In-Reply-To: <20240409-unsaddle-skittle-c93eb77732bb@spud>
+References: <20240409-unsaddle-skittle-c93eb77732bb@spud>
+Date: Wed, 10 Apr 2024 15:22:40 +0200
+Message-ID: <871q7d73of.fsf@all.your.base.are.belong.to.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v2 1/2] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate
- KVM clock migration
-To: David Woodhouse <dwmw2@infradead.org>, Paul Durrant
- <xadimgnik@gmail.com>, Jack Allister <jalliste@amazon.com>
-Cc: bp@alien8.de, corbet@lwn.net, dave.hansen@linux.intel.com, hpa@zytor.com,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, mingo@redhat.com, pbonzini@redhat.com,
- seanjc@google.com, tglx@linutronix.de, x86@kernel.org,
- Dongli Zhang <dongli.zhang@oracle.com>
-References: <20240408220705.7637-1-jalliste@amazon.com>
- <20240410095244.77109-1-jalliste@amazon.com>
- <20240410095244.77109-2-jalliste@amazon.com>
- <005911c5-7f9d-4397-8145-a1ad4494484d@xen.org>
- <ED45576F-F1F4-452F-80CF-AACC723BFE7E@infradead.org>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <ED45576F-F1F4-452F-80CF-AACC723BFE7E@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 10/04/2024 13:09, David Woodhouse wrote:
-> On 10 April 2024 11:29:13 BST, Paul Durrant <xadimgnik@gmail.com> wrote:
->> On 10/04/2024 10:52, Jack Allister wrote:
->>> +	 * It's possible that this vCPU doesn't have a HVCLOCK configured
->>> +	 * but the other vCPUs may. If this is the case calculate based
->>> +	 * upon the time gathered in the seqcount but do not update the
->>> +	 * vCPU specific PVTI. If we have one, then use that.
->>
->> Given this is a per-vCPU ioctl, why not fail in the case the vCPU doesn't have HVCLOCK configured? Or is your intention that a GET/SET should always work if TSC is stable?
-> 
-> It definitely needs to work for SET even when the vCPU hasn't been run yet (and doesn't have a hvclock in vcpu->arch.hv_clock).
+Conor Dooley <conor@kernel.org> writes:
 
-So would it make sense to set up hvclock earlier?
+> From: Conor Dooley <conor.dooley@microchip.com>
+>
+> I've intentionally not turned on the gcc support, as discussed on
+> v1. I've also switched over to using the target, but it is a bit heavier
+> than the one arm64 seems to be using. RISC-V has fewer targets available
+> and this was the closest. I preserved the redzone disabling, just moved
+> into the Makefile. Any comment from Gary or the LLVM lads on the target
+> would be great I think:
+> https://github.com/rust-lang/rust/blob/master/compiler/rustc_target/src/s=
+pec/targets/riscv64imac_unknown_none_elf.rs
+> arm64 is using:
+> https://github.com/rust-lang/rust/blob/master/compiler/rustc_target/src/s=
+pec/targets/aarch64_unknown_none.rs
+>
+> I was gonna send this yesterday, but found out last minute I had invalid
+> code in the target generation script. The kernel test robot had given my
+> branch the global all-clear - the rust coverage with all the
+> "depends on !FOO" must really limit the build coverage. I built for x86
+> with rust enabled locally this time to make sure..
+>
+> As this as lifted from the state of the Rust-for-Linux tree, the commit
+> messages from there cannot be preserved, so these patches have commit
+> messages that I wrote.
+>
+> I've tested this on Icicle, and the modules seem to work as expected.
+> Unfortunately there appear to be implicit 32-bit divisions (or similar)
+> in core Rust code, so, as in the downstream Rust-for-Linux tree, Rust is
+> only enabled for 64-bit.
 
+Nice, works with my simple test on VisionFive 2 as well! Cool to have
+Rust support in! Now, BTF just needs to be supported, and I can have
+Rust *and* BPF in my kernels! :-P \o/
+
+Tested-by: Bj=C3=B6rn T=C3=B6pel <bjorn@rivosinc.com>
