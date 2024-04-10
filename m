@@ -1,93 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA1A180A86;
-	Wed, 10 Apr 2024 19:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8F4181311;
+	Wed, 10 Apr 2024 19:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712776099; cv=none; b=EtzrVovDPJtb3RcgD8shBseajdok2aUCNxOv/QJ5b3vg+oefJKWW2PUxlcm6Ekz3d8ZIjRl5p5HVNlnvaFqMMfa3oS5D0tkZmmRQRCS+wPuCCHHdLpRREtgLvC9B8EJH9RVUOmDHpCPmBjeeHmJ3kNPnJUvFwfMml+Ao5H0GEww=
+	t=1712777876; cv=none; b=sQpuU+wH4BJ8GX9t90Yz41bbFpc4PoA+P6MN3reU7HTv3AqqwFS5w22A7XLbjAAZihdSJ4mk5+SRadAUgyOt7/4jmRy/kHIUEF6frzTQOIa9MUXe4SJoFzhkgrlv2UUNHFPQhOPyQ//bb30B6MrOIBsHsp+85zEpYZSLQrNfz7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712776099; c=relaxed/simple;
-	bh=+eWLmlEP0bVT8/CZ2rvIUuWI74CBRr7mdsinkobDlzU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0zAlb3obPdyyh6dEX0A0aj6cuu2F96psUrSjwzaXMHD56hbfgOJoBMD0S+bFRVwRym4rzZpntr0U554uCW6OuLeYbuLnHsF7SFDfRixwnsMmGTXeqVL12Qpg5AzJ/6vU2159QnWKOhNeORCUX46+7VBozzodqFRoEXAu7RPl90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBer6g/F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712777876; c=relaxed/simple;
+	bh=K6oeNAjQ7C0hW+8CzLz9+z7T4W2t9RvIZXZ2cFItEQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eWvFHUHswGH8qqBTCzUw5Yzmr1ImB3mn48xrwJCuraie/wNKm3J2lz+N3EjpM8Wvi3CAOtIczFhy9JDZqzfpW6igq7WHVo4oPLoewXJ+FUYBrIaDQZFip+5+EWLopQJr/4U0M7gcKpcEsH6yZ52DrQFXtIDNsmAdrF8ftPxCSVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=E2POfess; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBer6g/F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5822DC43399;
-	Wed, 10 Apr 2024 19:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712776099;
-	bh=+eWLmlEP0bVT8/CZ2rvIUuWI74CBRr7mdsinkobDlzU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kBer6g/FSVcQNlQN/dT52LUBGg0hkyFCcgbXq3fUnv4hC2VilA1zuyGqPVGaoI9rz
-	 0/MBcRSiQDjk5VbvTar8s1MII5Y0adKzNxjkxeYxriw3mc+K55GlJawuRxte3IPF3T
-	 0yjLhDefgapwQ1FYh/ibQke8EUvsYSFf2Bt7tSkMULO3L6dgzwxMmS2ZrG0XpBh0qj
-	 TZ6p5zrmOCPyTsntakq4I6xUnUrHcUgIY7EjynOD9Edj3qR4Uj1GT2QnyWxaffty1+
-	 T4vEkU9e25UakyTkLUOKd2E5zgMj5xwEQfwgEcWbJ/DWijYATCohmlmkXXuvdqLrVa
-	 rpMLs6ScIMD8Q==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-22ed9094168so486564fac.1;
-        Wed, 10 Apr 2024 12:08:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVWjVtMwazDm0dYOZs7vaOMDj9FKux0jbkncjrD7balQURhAj1QAH3eEJEW4qWGJKK+qv5rYjWUTXtwtGnrwg0ukJquinUond1XfrKrvTA8o/LQHZF+uiUtqvvVDDfP7GKDMH5PZOf9I4dl/z5ZgCAIpaNuIwJ4Jcq2uJDuOCw80aGurdMWPUkmzcTeASv2JqxzOeEIwxJoQrtx5AXPrp0cvjX5J9XbRhkC9p6j0pv//LNsNK3GIDSqrGQX/m4vMwVszdwM3odXH2SL70vhGGU8b/Yo263isdiiKwVUBqS+7xwUu+Y6aW6j54H8kjM3H14lTB33kSLKu1KYwDIGGlkVaR9SWOPGR29/+aF5s+jR
-X-Gm-Message-State: AOJu0YwiuMw0E8ttSoY0iBgn9jyWMrwX8Ru1e5gfcOqDgsuCuCY6wbqV
-	93O+j6PTmqPyP0PMhf9lui1HB1uCCppeWfWsMC6vyfuAzf22t9bvD9NpFJTvL2C4gWi4IMq4ir6
-	ret42w9IjLOSPH57cUCIZtv4fRY4=
-X-Google-Smtp-Source: AGHT+IH4A92J5HCRnizSgBq3+DCMERDHMutgLTgDu/kxW+WK07c2IT8FOUNC46ZvoIhnKLsY7Mrt28XT6qdFy5OJWR8=
-X-Received: by 2002:a05:6870:219d:b0:22e:b2ea:5758 with SMTP id
- l29-20020a056870219d00b0022eb2ea5758mr3756127oae.0.1712776098584; Wed, 10 Apr
- 2024 12:08:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="E2POfess"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9hg2PSHk8E57TWYc2JeAWBrRdzJuP4lckAGhxVr40SI=; b=E2POfessUrhzeAkOj6YxIsuTDA
+	5MSm9FGxBlByPThoFcsd928J9T7kuZFVBsC1QxL1CWf7txL2yPGrbT6SNAMeLpTbkNCvFugS6GV35
+	WQRP+RzfwSeLAmzjsMC2B0nf6sWGoV+8yePiaNUvEnKqh03HDf+4WZ2yfU8ZegXqBecMsag894oWm
+	dhBDXIGYsSpgsuJCc3dJGEY1kX9CJCgkHPxIbI8KOhzERGud6KtLMjB12iMt6bhcTrmc9zdr7dn+R
+	XD3NvgLEWzU4Es6lYZROcPROfKJrV6glt+ppwnALjrDpG7sjto+t4Fb/cJ47q97/4Q3ARfVkBy3GF
+	M5IlChNg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38562)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rudlF-0008SU-1J;
+	Wed, 10 Apr 2024 20:37:33 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rudlB-0006Cv-25; Wed, 10 Apr 2024 20:37:29 +0100
+Date: Wed, 10 Apr 2024 20:37:28 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v10 07/13] net: Add struct kernel_ethtool_ts_info
+Message-ID: <ZhbqeCeTHIU0LrIn@shell.armlinux.org.uk>
+References: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
+ <20240409-feature_ptp_netnext-v10-7-0fa2ea5c89a9@bootlin.com>
+ <20240409182725.139856d5@kernel.org>
+ <20240410101200.0178e594@kmaincent-XPS-13-7390>
+ <ZhZkNEYnY3FV7Q8E@shell.armlinux.org.uk>
+ <20240410155412.2f34a117@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk> <E1rVDmU-0027YP-Jz@rmk-PC.armlinux.org.uk>
- <CAJZ5v0iiJpUWq5GMSnKFWQTzn_bdwoQz9m=hDaXNg4Lj_ePF4g@mail.gmail.com>
- <20240322185327.00002416@Huawei.com> <20240410134318.0000193c@huawei.com>
- <CAJZ5v0ggD042sfz3jDXQVDUxQZu_AWaF2ox-Me8CvFeRB8nczw@mail.gmail.com>
- <20240410145005.00003050@Huawei.com> <ZhbgwBBvh6ccdO7x@shell.armlinux.org.uk>
-In-Reply-To: <ZhbgwBBvh6ccdO7x@shell.armlinux.org.uk>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 10 Apr 2024 21:08:06 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gG0xLajHsWXVM+-V+fQZAudvojechUa-DzFgwCs2q8Dg@mail.gmail.com>
-Message-ID: <CAJZ5v0gG0xLajHsWXVM+-V+fQZAudvojechUa-DzFgwCs2q8Dg@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 02/15] ACPI: processor: Register all CPUs from acpi_processor_get_info()
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	linux-pm@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, kvmarm@lists.linux.dev, x86@kernel.org, 
-	acpica-devel@lists.linuxfoundation.org, linux-csky@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-ia64@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, Salil Mehta <salil.mehta@huawei.com>, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, jianyong.wu@arm.com, justin.he@arm.com, 
-	James Morse <james.morse@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410155412.2f34a117@kmaincent-XPS-13-7390>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Apr 10, 2024 at 8:56=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
->
-> On Wed, Apr 10, 2024 at 02:50:05PM +0100, Jonathan Cameron wrote:
-> > If we get rid of this catch all, solution would be to move the
-> > !acpi_disabled check into the arm64 version of arch_cpu_register()
-> > because we would only want the delayed registration path to be
-> > used on ACPI cases where the question of CPU availability can't
-> > yet be resolved.
->
-> Aren't we then needing two arch_register_cpu() implementations?
-> I'm assuming that you're suggesting that the !acpi_disabled, then
-> do nothing check is moved into arch_register_cpu() - or to put it
-> another way, arch_register_cpu() does nothing if ACPI is enabled.
->
-> If arch_register_cpu() does nothing if ACPI is enabled, how do
-> CPUs get registered (and sysfs files get created to control them)
-> on ACPI systems? ACPI wouldn't be able to call arch_register_cpu(),
-> so I suspect you'll need an ACPI-specific version of this function.
+On Wed, Apr 10, 2024 at 03:54:12PM +0200, Kory Maincent wrote:
+> On Wed, 10 Apr 2024 11:04:36 +0100
+> "Russell King (Oracle)" <linux@armlinux.org.uk> wrote:
+> 
+> > On Wed, Apr 10, 2024 at 10:12:00AM +0200, Kory Maincent wrote:
+> > > On Tue, 9 Apr 2024 18:27:25 -0700
+> > > Jakub Kicinski <kuba@kernel.org> wrote:
+> > >   
+> > > > On Tue, 09 Apr 2024 10:26:29 +0200 Kory Maincent wrote:  
+> > > > > In prevision to add new UAPI for hwtstamp we will be limited to the
+> > > > > struct ethtool_ts_info that is currently passed in fixed binary format
+> > > > > through the ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new
+> > > > > kernel code already started operating on an extensible kernel variant
+> > > > > of that structure, similar in concept to struct kernel_hwtstamp_config
+> > > > > vs struct hwtstamp_config.
+> > > > > 
+> > > > > Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
+> > > > > we introduce the kernel-only structure in include/linux/ethtool.h.
+> > > > > The manual copy is then made in the function called by
+> > > > > ETHTOOL_GET_TS_INFO. 
+> > > > 
+> > > > This one now conflicts :(
+> > > > 
+> > > > Applying: net: Add struct kernel_ethtool_ts_info
+> > > > error: sha1 information is lacking or useless
+> > > > (drivers/net/phy/marvell_ptp.c). error: could not build fake ancestor  
+> > > 
+> > > gnn patching my out of tree patch in the series! Sorry for that.  
+> > 
+> > Given that this path corresponds to the driver I wrote, do I assume
+> > that you've picked up my work on PTP support for Marvell PHYs? You
+> > should be aware that I still have the patches out of tree but it's
+> > been pointless me reposting it until the issue of which PTP gets
+> > used has been solved. (Publishing will just increase the pressure
+> > to merge it without the PTP problems being solved, and thus break
+> > Marvell PP2 PTP.)
+> 
+> Yes I did with few fixes and I know you don't want to post the patches until
+> setting which PTP gets used has been solved. As you can see this is one of the
+> subject of this series. About it, could you review this series? This would help
+> a lot and you will be able to post again your Marvell PTP patches if its get
+> merged.
 
-arch_register_cpu() will do what it does, but it will check (upfront)
-if ACPI is enabled and if so, if the ACPI Namespace is available.  In
-the case when ACPI is enabled and the ACPI Namespace is not ready, it
-will return -EPROBE_DEFER (say).
+I wish I could, but I'm seriously short of available time at the
+moment. I'm fitting in what I can day by day and there are many
+things wanting my attention - but I don't have enough time at the
+moment for everything. So really I can't take on anything new
+right now.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
