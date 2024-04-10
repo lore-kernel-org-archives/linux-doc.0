@@ -1,75 +1,82 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA4D158A1E;
-	Tue,  9 Apr 2024 21:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1318F391;
+	Wed, 10 Apr 2024 01:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712698969; cv=none; b=B/g0wp9WvgV+Od/BNwMG4GI7lPI4tHs2qnGayH2uQMVcBCJfFSAZkXKA8Sif3LYE8nNJSCQi4c0kjKW4JYQhfHMN8kXcN8FB/NdZhL5QyTpEdZDlX9VdrZ//tlpA5pymP9BCWPPIKRlxoM+kNDxNCb7AXw8BsTp2nls3ZaKKle8=
+	t=1712712448; cv=none; b=OoXLkCNjMSU7enuyxLxOYZ38V9CvDeGgCZPsC75zpZ1NDP5d8eGAuQvfMdQabdVluCsNAK9KemGUri2JB+6chm2HswzpOVwJ6wcKAyYmk+BECycPI8dSrrDdfBzVbl6f7OHdhSpKzOs6U/+7uZu1S53UDN061qYvVkHs5N6eOMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712698969; c=relaxed/simple;
-	bh=VnI1mV5conMscaAY6LWaUtz+ynM+a4jRDb2r1ctiVko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iil2HtdTAhX7w74xJYNazIAQAik0ZX86RJ7Wozax2ytUbpNR/vyF2H5sVAqWOXJONtcQyhrmw4JVdn6zjBgCwGGL2vX9mzzrupd5CS18JbawAZdXPFyhnz+IuUS4jb74LR+EyhytAVkhXMFttE8x67FzfRh/IIVZL1GEIaed50g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ud318HAF; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1712712448; c=relaxed/simple;
+	bh=q2tSh/sYbSxvQVVhorLxNwZpuvP0uBvNHMIk0JP8zUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=soe2MkEJrENnecBmvsCx+BsIMlzb+ngVs5VNroitw3ToRDuVS2vfHiNUFP92Gdl56pi/jwCavlqpdBDa7WXkLvsBSE893AF9JQz56oBsyWKr99jrgsmbrSDPoKZL8jVKP7P4+vu4u13eU2NcRxHkgZd+Ygk/2iK2P/veLYW+c8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=riJ6917K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ud318HAF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cAZm87PzI6fyQ1m2jU/2dvY7F4KiYWybRLHCj3v2RmA=; b=ud318HAFAMuxza1NMA5qxCWVYS
-	Q3RQ7jjtcx3N5nPxhhPAR0r9nI5meQpupzsoLYg/sLklNXZGNvq4mJldoHmAZlB8EiPlc66C1enlq
-	5v9zE4iPBgno4IMn85s2hY3bY/kxn2nymlq59ieFhSg6I4plV2yvY3X40V7jN6+qA4t8AL8cjDmKV
-	QL1wHhqVrLEbkmzXAyAszoqKaMDh+yZfRq646kXMiDKPVWpKg079mOaofT7ZiO68GJv1A7tl2Inw5
-	ry5F7XRa498awRyp/nbS9D2xQlZqxN9g3+IyGZhZ2iwmQQDGSZCm5jlUbR8JiU25qsEUpJwq5Ir6G
-	6HhHRSJw==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ruJEb-00000002zqV-2c7l;
-	Tue, 09 Apr 2024 21:42:29 +0000
-Date: Tue, 9 Apr 2024 22:42:29 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Xu <peterx@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Yin Fengwei <fengwei.yin@intel.com>, Yang Shi <shy828301@gmail.com>,
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Hugh Dickins <hughd@google.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <naoya.horiguchi@nec.com>,
-	Richard Chang <richardycc@google.com>
-Subject: Re: [PATCH v1 01/18] mm: allow for detecting underflows with
- page_mapcount() again
-Message-ID: <ZhW2RQtKDvUrbyWA@casper.infradead.org>
-References: <20240409192301.907377-1-david@redhat.com>
- <20240409192301.907377-2-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="riJ6917K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94883C433C7;
+	Wed, 10 Apr 2024 01:27:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712712447;
+	bh=q2tSh/sYbSxvQVVhorLxNwZpuvP0uBvNHMIk0JP8zUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=riJ6917KTbycUcwzl5X+15b0Es1e8f6b1ydfFMc2/2UZX9J7juMtDtyeb9zufa3AN
+	 4K2mxe+Bm7dDpAyOvfSLhfabriZyfl3DNlyynCWN4pJw1u7tncJ8hcZ2DsLpP319SU
+	 mWf1DiKy+AC64RMLtOXB8m65+HHOrYye8c0aqORzHyARNF0F2VK/9TyDJESd9NPg6h
+	 UI5rLDHF7Kko8/02PoNm5XEBn4JZfQz9R4HPFAsQx/BpPOf7ChmCAI9fhvD6Z70Zhc
+	 SL4pX+CNajtbzKxTEo43vKJesKBPSBv9paBYshU4kHf+0AFdm2M7K96zBDdFCsxrvM
+	 /O+SdeDgXzmgA==
+Date: Tue, 9 Apr 2024 18:27:25 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v10 07/13] net: Add struct
+ kernel_ethtool_ts_info
+Message-ID: <20240409182725.139856d5@kernel.org>
+In-Reply-To: <20240409-feature_ptp_netnext-v10-7-0fa2ea5c89a9@bootlin.com>
+References: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
+	<20240409-feature_ptp_netnext-v10-7-0fa2ea5c89a9@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240409192301.907377-2-david@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 09, 2024 at 09:22:44PM +0200, David Hildenbrand wrote:
-> Commit 53277bcf126d ("mm: support page_mapcount() on page_has_type()
-> pages") made it impossible to detect mapcount underflows by treating
-> any negative raw mapcount value as a mapcount of 0.
+On Tue, 09 Apr 2024 10:26:29 +0200 Kory Maincent wrote:
+> In prevision to add new UAPI for hwtstamp we will be limited to the struct
+> ethtool_ts_info that is currently passed in fixed binary format through the
+> ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new kernel code
+> already started operating on an extensible kernel variant of that
+> structure, similar in concept to struct kernel_hwtstamp_config vs struct
+> hwtstamp_config.
+> 
+> Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
+> we introduce the kernel-only structure in include/linux/ethtool.h.
+> The manual copy is then made in the function called by ETHTOOL_GET_TS_INFO.
 
-Yes, but I don't think this is the right place to check for underflow.
-We should be checking for that on modification, not on read.  I think
-it's more important for page_mapcount() to be fast than a debugging aid.
+This one now conflicts :(
 
+Applying: net: Add struct kernel_ethtool_ts_info
+error: sha1 information is lacking or useless (drivers/net/phy/marvell_ptp.c).
+error: could not build fake ancestor
+-- 
+pw-bot: cr
