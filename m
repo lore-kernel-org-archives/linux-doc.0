@@ -1,207 +1,381 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53A5145B08;
-	Thu, 11 Apr 2024 11:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E5214A094;
+	Thu, 11 Apr 2024 11:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712835330; cv=none; b=Hbehevc1NMptQTQf3LGreMFahzHdL70Wkk+NdrRQmXW1AQ+3VBK/iDa3ippdLxIdYHkGRL3WZxoSvRoU4WD8b/H68y4oGgGUkTIWAgAvPYrd5W18Icvr3CkCTXG9pxgQgj6gPjUKwMsH6KXMG15Xk0S/N1Vb/Fy0bFjCrFrhLTI=
+	t=1712835908; cv=none; b=uraZuBejrgAq4yCvRbR5GwV2y05preUbRPABqAsw6qrioWJVVBRMICIc5/dLM//2xP1HFCAT1wXmfgf5jDfcVjtvGJ0pEFCAjZMOOElt/iRWtKlV4OiotGDXD5gmpHWcNxR+EfnRZ5Qb7DLPjmWdGzDZVtbgpILyIqYtOq6ph3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712835330; c=relaxed/simple;
-	bh=2QoydNUa8ohr5BSqBTKFBG9DaUQmDb6Pl/IqqSheoek=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Siggv+M5vIGlvTY4z9aEuhxh2gsnyc2VMBeiz7H9duYZ4+dwfLobYhJl4M5uqNNyFq3pQoQvFdnjqlvhXVpG4ttlA1Gn82ZGX1E4NnzfNpsVjZgXwZDqTaPkt4GgbHQ8Kp2HKR49SqpkZ8a/Li53/NzSKhFymZtnxWE/sevlz80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VFcyt3VLqz6JB2Q;
-	Thu, 11 Apr 2024 19:33:42 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 09DC51400E7;
-	Thu, 11 Apr 2024 19:35:25 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Thu, 11 Apr
- 2024 12:35:24 +0100
-Date: Thu, 11 Apr 2024 12:35:23 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
-	<james.morse@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Luis
-	<miguel.luis@oracle.com>
-Subject: Re: [PATCH RFC v4 12/15] arm64: psci: Ignore DENIED CPUs
-Message-ID: <20240411123523.0000487a@huawei.com>
-In-Reply-To: <E1rVDnK-0027ZN-40@rmk-PC.armlinux.org.uk>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
-	<E1rVDnK-0027ZN-40@rmk-PC.armlinux.org.uk>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+	s=arc-20240116; t=1712835908; c=relaxed/simple;
+	bh=qCDSus5YNduz2h1Rhb147hdJTvCGFy6KhUQdb2RuEHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmlXk4MxmfIHuRt9lBAZXlkTMEnzI/63hKZFWaEM751bhFwJVdr3Zj1Y3nZ0pcUPKIKRK6teX8vubiAUN57U0L3fDgHn6OhrSozGGtCoxWcsle7wIuF+VzcuS1A+TtEyGXFKEZ1fPGMgknDWP6I0/xr1uH77mgLgvLBH/OwP/Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=NGhTb9Nf; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="NGhTb9Nf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1712835499; bh=qCDSus5YNduz2h1Rhb147hdJTvCGFy6KhUQdb2RuEHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NGhTb9NfmhdEp+hiJ0aBg4lmaStWiewCFWqExP+W24yvQXsXjNzO6rnCFhvZsKOXM
+	 vujFeiQ6Iaw/d4Ylfs8NOieHXz9D8Gzwu7KaRD3ghr/lM+L0tx9eLnGWtQ6f2Uifao
+	 ZSHVQZOUIDLsKWwaV37uqwpFrMcBtCabcY0mSkGQ=
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Thu, 11 Apr 2024 13:38:19 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id EEE60803A3;
+	Thu, 11 Apr 2024 13:38:20 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id E1D5A18AEFF; Thu, 11 Apr 2024 13:38:20 +0200 (CEST)
+Date: Thu, 11 Apr 2024 13:38:20 +0200
+From: Nicolas Schier <n.schier@avm.de>
+To: Valerii Chernous <vchernou@cisco.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, xe-linux-external@cisco.com,
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Add MO(mod objs) variable to process ext modules with
+ subdirs
+Message-ID: <ZhfLrGrED-ls6i5V@buildd.core.avm.de>
+References: <20240405165610.1537698-1-vchernou@cisco.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="I/NuHrpz0C8dGhJA"
+Content-Disposition: inline
+In-Reply-To: <20240405165610.1537698-1-vchernou@cisco.com>
+X-purgate-ID: 149429::1712835499-1A7BAE9F-2A5DA3E2/0/0
+X-purgate-type: clean
+X-purgate-size: 11719
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Wed, 31 Jan 2024 16:50:38 +0000
-Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
 
-> From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> When a CPU is marked as disabled, but online capable in the MADT, PSCI
-> applies some firmware policy to control when it can be brought online.
-> PSCI returns DENIED to a CPU_ON request if this is not currently
-> permitted. The OS can learn the current policy from the _STA enabled bit.
-> 
-> Handle the PSCI DENIED return code gracefully instead of printing an
-> error.
-> 
-> See https://developer.arm.com/documentation/den0022/f/?lang=en page 58.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> [ morse: Rewrote commit message ]
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+--I/NuHrpz0C8dGhJA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Valerii,
+
+thanks for your patch.  I know several non-upstream kernel developers
+that would like to see support for out-of-source builds of external
+kmods (and we developed several work-arounds at AVM as well); but please
+be aware that patches that don't fix or enhance the in-tree kernel/kmod
+build but only add feature for out-of-tree stuff, are rarely accepted.
+
+(Rational: better upstream your kmods to have them in-tree, especially
+if they are so complex that they need subdirs.)
+
+That said, I'll try to give some more concrete feedback below.
+
+On Fri, Apr 05, 2024 at 09:56:08AM -0700, Valerii Chernous wrote:
+> The change allow to build external modules with nested makefiles.
+
+better use imperative statements to the code itself:  "Allow to build..."
+
+Does "nested makefile" mean that you want to support external kernel
+modules with subdirs and Makefiles within?
+
+> With current unofficial way(using "src" variable) it is possible to build
+> external(out of tree) kernel module with separate source and build
+> artifacts dirs but with nested makefiles it doesn't work properly.
+> Build system trap to recursion inside makefiles, artifacts output dir
+> path grow with each iteration until exceed max path len and build failed.
+
+I think I know what you want to say with this sentence, but I am not
+able to parse it correctly.  Might you want to rephrase it a bit?
+
+> Providing "MO" variable and using "override" directive with declaring
+> "src" variable solves the problem
+> Usage example:
+> make -C KERNEL_SOURCE_TREE MO=3DBUILD_OUT_DIR M=3DEXT_MOD_SRC_DIR modules
+>=20
+> Cc: xe-linux-external@cisco.com
+> Cc: Valerii Chernous <vchernou@cisco.com>
+> Signed-off-by: Valerii Chernous <vchernou@cisco.com>
 > ---
+>  Documentation/kbuild/kbuild.rst  | 14 +++++++++++++-
+>  Documentation/kbuild/modules.rst | 16 +++++++++++++++-
+>  Makefile                         | 17 +++++++++++++++++
+>  scripts/Makefile.build           |  7 +++++++
+>  4 files changed, 52 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuil=
+d.rst
+> index 9c8d1d046ea5..81413ddba2ad 100644
+> --- a/Documentation/kbuild/kbuild.rst
+> +++ b/Documentation/kbuild/kbuild.rst
+> @@ -121,10 +121,22 @@ Setting "V=3D..." takes precedence over KBUILD_VERB=
+OSE.
+>  KBUILD_EXTMOD
+>  -------------
+>  Set the directory to look for the kernel source when building external
+> -modules.
+> +modules. In case of using separate sources and module artifacts director=
+ies
+> +(KBUILD_EXTMOD + KBUILD_EXTMOD_SRC), KBUILD_EXTMOD working as output
+> +artifacts directory.
 
-This change to return failure from __cpu_up in non error cases exposes
-an possible issue with cpu_up() in kernel/cpu.c in that it brings the numa node
-before we try (and fail) to bring up CPUs that may be denied.
+That means, iff you use KBUILD_EXTMOD_SRC and let KBUILD_EXTMOD point to
+some other directory, you _have_ to be sure that your kernel supported
+KBUILD_EXTMOD_SRC properly or your module will not be build at all,
+right?
 
-We could try offlining the numa node on error, or just register it later.
+> =20
+>  Setting "M=3D..." takes precedence over KBUILD_EXTMOD.
+> =20
+> +KBUILD_EXTMOD_SRC
+> +-----------------
+> +Set the external module source directory in case when separate module
+> +sources and build artifacts directories are used. Working in pair with
+> +KBUILD_EXTMOD. If KBUILD_EXTMOD_SRC is set then KBUILD_EXTMOD is used as
+> +module build artifacts directory.
+> +
+> +Setting "MO=3D..." takes precedence over KBUILD_EXTMOD.
+> +Setting "M=3D..." takes precedence over KBUILD_EXTMOD_SRC.
 
-Currently I'm testing this change which I think is harmless for cases that don't
-fail the cpu_up()
+(Just a note, not a complaint: This confused me while reading it the
+first time, but I think it is correct for your patch.  Personally, I do
+not like the semantical change of KBUILD_EXTMOD/M and would rather
+prefer the introduction of some more explicit names like
+KBUILD_EXTMOD_SOURCE and KBUILD_EXTMOD_BUILD instead.)
 
-For the cpu hotplug path note the node only comes online wiht the cpu online, not
-the earlier hotplug. Reasonable given there is nothing online in the node before
-that point.
+> +
+>  KBUILD_OUTPUT
+>  -------------
+>  Specify the output directory when building the kernel.
+> diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modu=
+les.rst
+> index a1f3eb7a43e2..b6c30e76b314 100644
+> --- a/Documentation/kbuild/modules.rst
+> +++ b/Documentation/kbuild/modules.rst
+> @@ -79,6 +79,14 @@ executed to make module versioning work.
+>  	The kbuild system knows that an external module is being built
+>  	due to the "M=3D<dir>" option given in the command.
+> =20
+> +	To build an external module with separate src and artifacts dirs use::
+> +
+> +		$ make -C <path_to_kernel_src> M=3D$PWD MO=3D<output_dir>
 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index 537099bf5d02..a4730396ccea 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -1742,10 +1742,6 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
-                return -EINVAL;
-        }
+Is it really good to evaluate MO relative to the kernel source or build tre=
+e?
 
--       err = try_online_node(cpu_to_node(cpu));
--       if (err)
--               return err;
--
-        cpu_maps_update_begin();
+    make -C /lib/modules/$(uname -r)/build M=3D/somewhere/source MO=3D../bu=
+ild
 
-        if (cpu_hotplug_disabled) {
-@@ -1760,7 +1756,10 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
-        err = _cpu_up(cpu, 0, target);
- out:
-        cpu_maps_update_done();
--       return err;
-+       if (err)
-+               return err;
-+
-+       return try_online_node(cpu_to_node(cpu));
- }
+might accidentially lead to ugly inconsistencies in the kernel build
+tree (permissions presumed).
 
-There is a kicker in the remove path where currently check_cpu_on_node()
-checks for_each_present_cpu() whereas to work for us we need to use
-for_each_online_cpu() or the node is never removed.
+> +
+> +	The kbuild system knows that an external module with separate sources
+> +	and build artifacts dirs is being built due to the "M=3D<dir>" and
+> +	"MO=3D<output_dir>" options given in the command.
+> +
+>  	To build against the running kernel use::
+> =20
+>  		$ make -C /lib/modules/`uname -r`/build M=3D$PWD
+> @@ -93,7 +101,7 @@ executed to make module versioning work.
+> =20
+>  	($KDIR refers to the path of the kernel source directory.)
+> =20
+> -	make -C $KDIR M=3D$PWD
+> +	make -C $KDIR M=3D$PWD MO=3D<module_output_dir>
+> =20
+>  	-C $KDIR
+>  		The directory where the kernel source is located.
+> @@ -106,6 +114,12 @@ executed to make module versioning work.
+>  		directory where the external module (kbuild file) is
+>  		located.
+> =20
+> +	MO=3D<module_output_dir>
+> +		Informs kbuild that external module build artifacts
+> +		should be placed into specific dir(<module_output_dir>).
 
-Now my current view is that we should only show
-nodes in /sys/bus/nodes/devices/ if there is a CPU online (assuming no other
-reasons the node should be online such as memory).
-That's easy enough to make work but all I'm really learning is that the semantics
-of what is an online form a node point of view is not consistent.
+What about "should be placed into the specified directory <module_output_di=
+r>." ?
 
-Fixing this will create a minor change on x86 but does anyone really care
-about what happens in the offline path wrt to 'when' the node disappears?
-I think the corner case is.
+> +		Parameter is optional. Without it "M" works as both
+> +		source provider and build output location.
+> +
+>  2.3 Targets
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> diff --git a/Makefile b/Makefile
+> index 4bef6323c47d..3d45a41737a6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -142,6 +142,7 @@ ifeq ("$(origin M)", "command line")
+>    KBUILD_EXTMOD :=3D $(M)
+>  endif
+> =20
+> +define kbuild_extmod_check_TEMPLATE
+>  $(if $(word 2, $(KBUILD_EXTMOD)), \
+>  	$(error building multiple external modules is not supported))
+> =20
+> @@ -152,9 +153,25 @@ $(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXT=
+MOD)), \
+>  ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
+>  KBUILD_EXTMOD :=3D $(shell dirname $(KBUILD_EXTMOD).)
+>  endif
+> +endef
+> +$(eval $(call kbuild_extmod_check_TEMPLATE))
 
-1. Add 2 CPUs (A, B) in a CPU only node.
-2. Online CPU A - this brings /sys/bus/devices/nodeX online
-3. Remove CPU A - no effect because the check for try_remove is on presence and CPU B is
-   still present.
-4. Online CPU B - no change.
-5. Offline CPU B - no change.
-4. Remove CPU B - /sys/bus/device/nodeX offline (disappears)
+Same checks make sense for KBUILD_EXTMOD_SRC, also if MO is not set.
 
-To make it work on arm64 where we never make CPUs not present.
+> =20
+>  export KBUILD_EXTMOD
+> =20
+> +# Use make M=3Dsrc_dir MO=3Dko_dir or set the environment variables:
+> +# KBUILD_EXTMOD_SRC, KBUILD_EXTMOD to specify separate directories of
+> +# external module sources and build artifacts.
+> +ifeq ("$(origin MO)", "command line")
+> +ifeq ($(KBUILD_EXTMOD),)
+> +	$(error Ext module objects without module sources is not supported))
+> +endif
+> +KBUILD_EXTMOD_SRC :=3D $(KBUILD_EXTMOD)
+> +KBUILD_EXTMOD :=3D $(MO)
+> +$(eval $(call kbuild_extmod_check_TEMPLATE))
+> +endif
+> +
+> +export KBUILD_EXTMOD_SRC
+> +
+>  # backward compatibility
+>  KBUILD_EXTRA_WARN ?=3D $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)
+> =20
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index baf86c0880b6..a293950e2e07 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -3,7 +3,14 @@
+>  # Building
+>  # =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> =20
+> +ifeq ($(KBUILD_EXTMOD_SRC),)
+>  src :=3D $(obj)
 
-1. Add 2 CPUs (A, B) in a CPU only node.
-2. Online CPU A - this brings /sys/bus/devices/nodeX online
-3. Remove CPU A - /sys/bus/devices/nodeX offline (disappears)
-4. Online CPU B - this brings /sys/bus/device/nodeX online
-5. Offline CPU B - no change (node updates only happen in hotplug code)
-6. Remove CPU B - /sys/bus/device/nodeX offline (disappears).
+I would leave the 'src :=3D $(obj)' stand alone unconditionally, to
+clearly separate the oot-oos-kmod support from default in-tree kernel or
+kmod builds and in-source but out-of-tree kmod builds.
 
-Step 5 may seem weird but I think we can't mess with nodes there because
-userspace may well rely on them still being around for some reason
-(it's a much more common situation).
+> +else ifeq ($(KBUILD_EXTMOD),$(obj))
+> +override src :=3D $(KBUILD_EXTMOD_SRC)
+> +else
+> +src_subdir :=3D $(patsubst $(KBUILD_EXTMOD)/%,%,$(obj))
+> +override src :=3D $(KBUILD_EXTMOD_SRC)/$(src_subdir)
 
-My assumption is that step3 removing the node isn't going to hurt anyone?
+bike-shedding:  see below
 
-If no one shouts, i'll go ahead with rolling a v5 patch set where this is done.
+> +endif
+> =20
+>  PHONY :=3D $(obj)/
+>  $(obj)/:
+> --=20
+> 2.35.6
+>=20
 
+Testing with a simple module w/ subdir, compilation fails for me:
 
-Jonathan
+    $ make M=3D../stupid-multidir-kmod/source V=3D2 MO=3D/tmp/build
+      CC [M]  /tmp/build/subdir/module.o - due to target missing
+      CC [M]  /tmp/build/hello.o - due to target missing
+    scripts/Makefile.modpost:118: /tmp/build/Makefile: No such file or dire=
+ctory
+    make[2]: *** No rule to make target '/tmp/build/Makefile'.  Stop.
+    make[1]: *** [/data/linux/oot-kmods-MO/Makefile:1897: modpost] Error 2
+    make: *** [Makefile:257: __sub-make] Error 2
 
+(similar for 'make clean'.)
+The test kbuild files were as simple as:
 
+=2E../source/Kbuild:
+    obj-m +=3D subdir/
+    obj-m +=3D hello.o
 
+=2E../source/subdir/Kbuild:
+    obj-m +=3D module.o
 
+Does something like this work for you?  If I understand your proposed
+commit message correctly, you have some working example with subdirs?
 
-> Changes since RFC v2
->  * Add specification reference
->  * Use EPERM rather than EPROBE_DEFER
-> Changes since RFC v3:
->  * Use EPERM everywhere
->  * Drop unnecessary changes to drivers/firmware/psci/psci.c
-> ---
->  arch/arm64/kernel/psci.c | 2 +-
->  arch/arm64/kernel/smp.c  | 3 ++-
->  2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/kernel/psci.c b/arch/arm64/kernel/psci.c
-> index 29a8e444db83..fabd732d0a2d 100644
-> --- a/arch/arm64/kernel/psci.c
-> +++ b/arch/arm64/kernel/psci.c
-> @@ -40,7 +40,7 @@ static int cpu_psci_cpu_boot(unsigned int cpu)
->  {
->  	phys_addr_t pa_secondary_entry = __pa_symbol(secondary_entry);
->  	int err = psci_ops.cpu_on(cpu_logical_map(cpu), pa_secondary_entry);
-> -	if (err)
-> +	if (err && err != -EPERM)
->  		pr_err("failed to boot CPU%d (%d)\n", cpu, err);
->  
->  	return err;
-> diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-> index 4ced34f62dab..dc0e0b3ec2d4 100644
-> --- a/arch/arm64/kernel/smp.c
-> +++ b/arch/arm64/kernel/smp.c
-> @@ -132,7 +132,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
->  	/* Now bring the CPU into our world */
->  	ret = boot_secondary(cpu, idle);
->  	if (ret) {
-> -		pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
-> +		if (ret != -EPERM)
-> +			pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
->  		return ret;
->  	}
->  
+---
 
+Bike-shedding for inspiration:
+
+While experimenting with similar solutions at AVM, we did the same src
+override but also auto-generated dummy Makefiles in $(obj) with something
+like:
+
+    ifneq ($(if $(KBUILD_EXTMOD_SRC),$(filter $(KBUILD_EXTMOD)%,$(obj))),)
+    # If KBUILD_EXTMOD_SOURCE is set, enable out-of-source kmod build
+    # support, in general.  But do not disturb the kbuild preparing targets
+    # that need the original behaviour.
+    #
+    # Thus, iff also $(obj) is set and points to some path at $(KBUILD_EXTM=
+OD) or
+    # below, we really want to set (override) $(src).
+
+    override src :=3D $(obj:$(KBUILD_EXTMOD)%=3D$(KBUILD_EXTMOD_SRC)%)
+
+    # Generate or update $(obj)/Makefile to include the original $(src)/Kbu=
+ild or
+    # $(src)/Makefile.
+   =20
+    _kbuild_extmod_src_makefile =3D $(firstword $(wildcard $(src)/Kbuild $(=
+src)/Makefile))
+   =20
+    $(lastword $(MAKEFILE_LIST)): $(obj)/Makefile
+   =20
+    $(obj)/Makefile: $(_kbuild_extmod_src_makefile) FORCE
+    	$(call filechk,build_makefile)
+   =20
+    $(eval filechk_build_makefile =3D echo include $(_kbuild_extmod_src_mak=
+efile))
+   =20
+    # Clean-up the variable space
+    undefine $(filter _kbuild_extmod_%,$(.VARIABLES))
+
+    endif
+
+but we still had to add a dependency on $(subdir-ym) for all object
+files in any kmod subdir to enforce proper dependency handling.
+Fortunately, we almost stopped using such "enhanced" oot-oos kmod build
+things.
+
+HTH,
+kind regards,
+Nicolas
+
+--I/NuHrpz0C8dGhJA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmYXy6oACgkQiMa8nIia
+bbjxJA/+N62wUl4lNCKbpN2Psg1rd0R8d/QddpACJ+No2cnkASz2xR/FeTTCws6i
+8NJFJbUH/qzNWM1qcX2ksfc/l2w1t6U9LhdQZSJOgu7vnJ6gFIZgO1GFsYLPKmsZ
+HYSCEVObwBQ8YRRK9KrN8s+1pzy+PNnGUgACM7cjIAp0UBE7xGiumto1WE59Oa0z
+LRaQllafayljG1OglnSI5EIEGNp7e0RUXOR5GSkoaz9nSNm0udvEiJscwbaKDnL0
+uwrCNDtQA2da+VY2XgFoIg6uQFmIT+ZqUBf9q9GMx1JZKa6wIEwSp83xbhl5jktS
+LPzKIioHxtvYmkEq6FC9xqZ63707czZoTaN+/cpHp6jBeD0kdwYyVfOni8Ll7o8a
+V04spksT6kVAbzElprAklo5RECSJLJHt1ofkeNoeZrdBAJbdS9BQIaPTGv43SXBM
+VvnlQdj6r4vtd/jEAUicpmtSfKaYl6pu30kJNRLxAwc7EPSzGik9E4Uj/hePAoTy
+tCGcpatNYapoeELlnTR+rnl3F61hfpldxyn4LF96W5m8LZ2DeYgym2dPXC0bRZBv
+Ps0U8qR+3YAzcMSLvN3B4L+EOMu8LWXwnshXzexRCUUfa08DafNAv8dF5UN6GD73
+enZUytr6UeZ/fD/nKkdGc6wBIo2G9aeERnuKJUMePpMf+xVvBgk=
+=Dr/I
+-----END PGP SIGNATURE-----
+
+--I/NuHrpz0C8dGhJA--
