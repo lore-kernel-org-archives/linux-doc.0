@@ -1,141 +1,279 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BF413E048
-	for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 07:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4313D2EAE5;
+	Thu, 11 Apr 2024 08:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712822080; cv=none; b=sG0goSP3kWZuNNcpsoCzE2GbZEhiQ/+ngCUkBanKKlBjx8UAMA7qAvj1bKElWJneqCKG9dhDu9YSiNqO/dWTGWdAbqA4m0+CMm9e0F0kI9Bxrnhx5nHfmwHI1dHh0fUJv/igLLRVRin2iHk6pVtp+qxFcg0FUI7lK9xb/pIpRGc=
+	t=1712825799; cv=none; b=Ge+Is5iCdO3CgaH/Ctog6LDHKlGTyo9vs2ZtZxB45rZLTR6d4kQOuynPXZlDKh3RaWahsB90qemLB7quZgu6sKswhnXCN1QMaAhy4+j3HrdzGD1O/khzcChvTWsAItdJCxiy/N+xSpxGJeQpagYuu56ntw7SMJi/YQ/FXpeGdV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712822080; c=relaxed/simple;
-	bh=ZimJfwvl3WzhsFTbPcUKcAmZJIX5Tie8DjUsEOTGLWo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PXHTrjRf+2zmhKhSga7oCfv+q5JB8FBGQaXhkUU7BmKSnCQcpw1A5r+iCuhWt/v/y3xf74hJUs9Quk2KLGn1nEkMv9D67d75UXsXHxqwWNBPHWfYlN3UhYTNJuURbQYxesQJMJQV1j9HBE59OFQHc+kBrtOZcvE+VCi8OUXk5yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWsrwpRk; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1712825799; c=relaxed/simple;
+	bh=k8fFue18W94abooyIMFAlQnDea6863DidxB+KxV3RgM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LypqsiJnZFt3RCEBnke0UW5vvbcAl6VVHZwWSstmoDvIZZVAIsH2tWzLnDfOWBBiKrcA4sNBqUpZKfFAmTGgipV8gzDWEu022BiPnBSvifCvP2RcDl3KC/XkFS4cFHdATN6IU+CpUzbdIZiMvLKPyxzO/hOl2OUG2AYgdhx408A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bJhbCR/D; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWsrwpRk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712822078;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gxDRipmzDDBkSip6m/UVrfqyWqi0BJV7Yyl6Xvbo+6E=;
-	b=VWsrwpRk4srmFfvLtNDVB0PeKOH/xGBicndcDHqO6WiBjAKZiRa5EahkbamlUFh+921pde
-	fgLSkhgNWBQRziTgYPDEJKXp1RPS7r/snl5zMOnf5HV0xGynA0YFMygIPlUI9hU/xyycbE
-	TXvXflt7jDYr6e+h+jZiTql0z4vV6kk=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-677-Nfd3Z1XUNzKUh41FAEQQsA-1; Thu, 11 Apr 2024 03:54:36 -0400
-X-MC-Unique: Nfd3Z1XUNzKUh41FAEQQsA-1
-Received: by mail-yb1-f198.google.com with SMTP id 3f1490d57ef6-dcdc3db67f0so856414276.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 00:54:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712822075; x=1713426875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gxDRipmzDDBkSip6m/UVrfqyWqi0BJV7Yyl6Xvbo+6E=;
-        b=Og0Id91DBi/AEVfJNB1mnrT2SOLj9YevNONvdp9x8RN+s4jUyTvLXHv1OkUvya9QOE
-         vG5GcdVkfqvrpRgtPT+iA4RQ3z+Tpm7106I4ZfQGtN/PzfCuBh6N3NeYop8yUg4u913B
-         NFiOzmAttsPV7hDvW/arCjh5qfp0lX8txC1KsrDmAWo8+sJxhDhvLIQ05fzomsfWb9gC
-         izifsnw+nx/yulKlBdu6OITQd3lz4KiEs1H7ZXDXbtBmIXZP9hX7udsPIzvqiFagHlh7
-         iel0srWkaB32WwSqKzOidXuD8aiO5QYnCQfUZ4miJ5x326S5gMDh7CXGhQt4JiIf795X
-         ZcIg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2J9DHn69OA9RwPBa2PW/nVt4tAqzWL+Hp+PzhhvrkQ9OPR4odFYvMIbn7CM5EzQXOZitSMxQpRIc5tG+fPCZhxmlV29q0aVtm
-X-Gm-Message-State: AOJu0YwkfeeO597rPtYnk3lhEQFnw83Un7eOPr86ESL+R2/MKoBemDI9
-	xQrkPiOYOQuAD2yJvXStwAOD0R1SbUoZUCwtDgCzgUMff3w9r+uyybelZtONy0SDi498IohW5Xx
-	763QBXo2YujD8pkzetGTkCnZsxYMgvFIbgPmDXTuRTcGN80eIusPgagM5t4MU3IcX4JpbJ3OAmr
-	ZbI7GVPhAnOTkcJfKHz7s8wdjVu5iw1esO35dmW9dTsUQ=
-X-Received: by 2002:a25:cd82:0:b0:dc6:ca3a:31da with SMTP id d124-20020a25cd82000000b00dc6ca3a31damr1446421ybf.16.1712822075239;
-        Thu, 11 Apr 2024 00:54:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG4/VROz6VRwtxqGZSnsbr8an7LRWsYWB4kGZ99T+tllX8qYXGWqrOEg5CQ+iJUfbEzOcupJtkqlQIST/p0M3k=
-X-Received: by 2002:a25:cd82:0:b0:dc6:ca3a:31da with SMTP id
- d124-20020a25cd82000000b00dc6ca3a31damr1446407ybf.16.1712822074917; Thu, 11
- Apr 2024 00:54:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bJhbCR/D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712825798; x=1744361798;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k8fFue18W94abooyIMFAlQnDea6863DidxB+KxV3RgM=;
+  b=bJhbCR/D1DYoSvzjedFLHl/uGFrItxonPTVXzVZckohmxe3awOWFZWBH
+   ISQ6YphD9fGE90xGHPW3XHC3V1IUeBugQotlk73X5RIakcZjql0A/yL5w
+   jjTKDkZJimt/Xp4+U8OQopr+cDEp7fYmBhLLS/3d/7h2Ec01Pe0Owy/7s
+   6YX21aEMpNwz5ITOH60Gq5yBhBzsDnehuETm1B8oMb9isPGa0KAMi3HaL
+   UnKPhXX+f7DKkrJtAFMakbySeuDoSRVH/xhD9zjOLVREmOFrn6y+Yui4R
+   NX2YnIhftr49HsG7mjlrPoJkm6S7xSvCQ2pCB/Por6BPA6gvgt47kmkLd
+   w==;
+X-CSE-ConnectionGUID: 89I6Aes+RqeOunEEiFe/lQ==
+X-CSE-MsgGUID: kpxFlBElRZO4QqvxA7m7Tg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8141990"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="8141990"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 01:56:37 -0700
+X-CSE-ConnectionGUID: 6XhPDa+nR8WsO8BtIm9stw==
+X-CSE-MsgGUID: wgcDGyClSQSWw2tpSpZceg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="25609000"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa004.jf.intel.com with ESMTP; 11 Apr 2024 01:56:33 -0700
+Date: Thu, 11 Apr 2024 16:51:30 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alan Tull <atull@opensource.altera.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Russ Weight <russ.weight@linux.dev>, linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] fpga: region: add owner module and take its refcount
+Message-ID: <Zhekkm6F9eYeFD33@yilunxu-OptiPlex-7050>
+References: <20240403144611.65507-1-marpagan@redhat.com>
+ <ZhTFPLWGkh0oRhL/@yilunxu-OptiPlex-7050>
+ <47d8db3f-6f36-4004-a5a6-3e5de383f7d4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240405164920.2844-1-mcassell411@gmail.com>
-In-Reply-To: <20240405164920.2844-1-mcassell411@gmail.com>
-From: Vratislav Bendel <vbendel@redhat.com>
-Date: Thu, 11 Apr 2024 09:54:18 +0200
-Message-ID: <CAHrQN1xuLfc0sfe1kMHmHrBzKQLMD-6PNEakA=EDdabEv4ATnQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/admin-guide/sysctl/vm.rst adding the
- importance of NUMA-node count to documentation
-To: Matthew Cassell <mcassell411@gmail.com>
-Cc: corbet@lwn.net, akpm@linux-foundation.org, rppt@kernel.org, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <47d8db3f-6f36-4004-a5a6-3e5de383f7d4@redhat.com>
 
-On Fri, Apr 5, 2024 at 6:49=E2=80=AFPM Matthew Cassell <mcassell411@gmail.c=
-om> wrote:
->
-> If any bits are set in node_reclaim_mode (tunable via
-> /proc/sys/vm/zone_reclaim_mode) within get_pages_from_freelist(), then
-> page allocations start getting early access to reclaim via the
-> node_reclaim() code path when memory pressure increases. This behavior
-> provides the most optimization for multiple NUMA node machines. The above
-> is mentioned in:
->
-> Commit 9eeff2395e3cfd05c9b2e6 ("[PATCH] Zone reclaim: Reclaim logic")
-> states "Zone reclaim is of particular importance for NUMA machines. It
-> can be more beneficial to reclaim a page than taking the performance
-> penalties that come with allocating a page on a REMOTE zone."
->
-> While the pros/cons of staying on node versus allocating remotely are
-> mentioned in commit histories and mailing lists. It isn't specifically
-> mentioned in Documentation/ and isn't possible with a lone node. Imagine =
-a
-> situation where CONFIG_NUMA=3Dy (the default on most major distributions)
-> and only a single NUMA node exists. The latter is an oxymoron
-> (single-node =3D=3D uniform memory access). Informing the user via vm.rst=
- that
-> the most bang for their buck is when multiple nodes exist seems helpful.
->
+On Wed, Apr 10, 2024 at 11:49:34AM +0200, Marco Pagani wrote:
+> 
+> 
+> On 2024-04-09 06:34, Xu Yilun wrote:
+> > On Wed, Apr 03, 2024 at 04:46:09PM +0200, Marco Pagani wrote:
+> >> The current implementation of the fpga region assumes that the low-level
+> >> module registers a driver for the parent device and uses its owner pointer
+> >> to take the module's refcount. This approach is problematic since it can
+> >> lead to a null pointer dereference while attempting to get the region
+> >> during programming if the parent device does not have a driver.
+> >>
+> >> To address this problem, add a module owner pointer to the fpga_region
+> >> struct and use it to take the module's refcount. Modify the functions for
+> >> registering a region to take an additional owner module parameter and
+> >> rename them to avoid conflicts. Use the old function names for helper
+> >> macros that automatically set the module that registers the region as the
+> >> owner. This ensures compatibility with existing low-level control modules
+> >> and reduces the chances of registering a region without setting the owner.
+> >>
+> >> Also, update the documentation to keep it consistent with the new interface
+> >> for registering an fpga region.
+> >>
+> >> Fixes: 0fa20cdfcc1f ("fpga: fpga-region: device tree control for FPGA")
+> >> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >> Suggested-by: Xu Yilun <yilun.xu@intel.com>
+> >> Reviewed-by: Russ Weight <russ.weight@linux.dev>
+> >> Signed-off-by: Marco Pagani <marpagan@redhat.com>
+> >> ---
+> >>
+> >> v4:
+> >> - Split out the swap between put_device() and mutex_unlock() while
+> >>   releasing the region to avoid potential use after release issues
+> >> v3:
+> >> - Add reviewed-by Russ Weight
+> >> v2:
+> >> - Fixed typo in the documentation sets -> set
+> >> - Renamed owner pointer get_br_owner -> br_owner
+> >> ---
+> >>  Documentation/driver-api/fpga/fpga-region.rst | 13 ++++++----
+> >>  drivers/fpga/fpga-region.c                    | 24 +++++++++++--------
+> >>  include/linux/fpga/fpga-region.h              | 13 +++++++---
+> >>  3 files changed, 32 insertions(+), 18 deletions(-)
+> >>
+> >> diff --git a/Documentation/driver-api/fpga/fpga-region.rst b/Documentation/driver-api/fpga/fpga-region.rst
+> >> index dc55d60a0b4a..77190a5ef330 100644
+> >> --- a/Documentation/driver-api/fpga/fpga-region.rst
+> >> +++ b/Documentation/driver-api/fpga/fpga-region.rst
+> >> @@ -46,13 +46,16 @@ API to add a new FPGA region
+> >>  ----------------------------
+> >>  
+> >>  * struct fpga_region - The FPGA region struct
+> >> -* struct fpga_region_info - Parameter structure for fpga_region_register_full()
+> >> -* fpga_region_register_full() -  Create and register an FPGA region using the
+> >> +* struct fpga_region_info - Parameter structure for __fpga_region_register_full()
+> >> +* __fpga_region_register_full() -  Create and register an FPGA region using the
+> >>    fpga_region_info structure to provide the full flexibility of options
+> >> -* fpga_region_register() -  Create and register an FPGA region using standard
+> >> +* __fpga_region_register() -  Create and register an FPGA region using standard
+> >>    arguments
+> >>  * fpga_region_unregister() -  Unregister an FPGA region
+> >>  
+> >> +Helper macros ``fpga_region_register()`` and ``fpga_region_register_full()``
+> >> +automatically set the module that registers the FPGA region as the owner.
+> >> +
+> >>  The FPGA region's probe function will need to get a reference to the FPGA
+> >>  Manager it will be using to do the programming.  This usually would happen
+> >>  during the region's probe function.
+> >> @@ -82,10 +85,10 @@ following APIs to handle building or tearing down that list.
+> >>     :functions: fpga_region_info
+> >>  
+> >>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> >> -   :functions: fpga_region_register_full
+> >> +   :functions: __fpga_region_register
+> >>  
+> >>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> >> -   :functions: fpga_region_register
+> >> +   :functions: __fpga_region_register_full
+> > 
+> > Why you swap the order? You didn't do that for fpga-mgr.
+> 
+> Ouch, it's a typo.
+> 
+> >>  
+> >>  .. kernel-doc:: drivers/fpga/fpga-region.c
+> >>     :functions: fpga_region_unregister
+> >> diff --git a/drivers/fpga/fpga-region.c b/drivers/fpga/fpga-region.c
+> >> index b364a929425c..d50ab1509989 100644
+> >> --- a/drivers/fpga/fpga-region.c
+> >> +++ b/drivers/fpga/fpga-region.c
+> >> @@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
+> >>  	}
+> >>  
+> >>  	get_device(dev);
+> >> -	if (!try_module_get(dev->parent->driver->owner)) {
+> >> +	if (!try_module_get(region->br_owner)) {
+> >>  		put_device(dev);
+> >>  		mutex_unlock(&region->mutex);
+> >>  		return ERR_PTR(-ENODEV);
+> >> @@ -75,7 +75,7 @@ static void fpga_region_put(struct fpga_region *region)
+> >>  
+> >>  	dev_dbg(dev, "put\n");
+> >>  
+> >> -	module_put(dev->parent->driver->owner);
+> >> +	module_put(region->br_owner);
+> >>  	put_device(dev);
+> >>  	mutex_unlock(&region->mutex);
+> >>  }
+> >> @@ -181,14 +181,16 @@ static struct attribute *fpga_region_attrs[] = {
+> >>  ATTRIBUTE_GROUPS(fpga_region);
+> >>  
+> >>  /**
+> >> - * fpga_region_register_full - create and register an FPGA Region device
+> >> + * __fpga_region_register_full - create and register an FPGA Region device
+> >>   * @parent: device parent
+> >>   * @info: parameters for FPGA Region
+> >> + * @owner: owner module containing the get_bridges function
+> >>   *
+> >>   * Return: struct fpga_region or ERR_PTR()
+> >>   */
+> >>  struct fpga_region *
+> >> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
+> >> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+> >> +			    struct module *owner)
+> >>  {
+> >>  	struct fpga_region *region;
+> >>  	int id, ret = 0;
+> >> @@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+> >>  	region->compat_id = info->compat_id;
+> >>  	region->priv = info->priv;
+> >>  	region->get_bridges = info->get_bridges;
+> >> +	region->br_owner = owner;
+> >>  
+> >>  	mutex_init(&region->mutex);
+> >>  	INIT_LIST_HEAD(&region->bridge_list);
+> >> @@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+> >>  
+> >>  	return ERR_PTR(ret);
+> >>  }
+> >> -EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> >> +EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+> >>  
+> >>  /**
+> >> - * fpga_region_register - create and register an FPGA Region device
+> >> + * __fpga_region_register - create and register an FPGA Region device
+> >>   * @parent: device parent
+> >>   * @mgr: manager that programs this region
+> >>   * @get_bridges: optional function to get bridges to a list
+> >> + * @owner: owner module containing get_bridges function
+> >>   *
+> >>   * This simple version of the register function should be sufficient for most users.
+> >>   * The fpga_region_register_full() function is available for users that need to
+> >> @@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> >>   * Return: struct fpga_region or ERR_PTR()
+> >>   */
+> >>  struct fpga_region *
+> >> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> >> -		     int (*get_bridges)(struct fpga_region *))
+> >> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> >> +		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+> >>  {
+> >>  	struct fpga_region_info info = { 0 };
+> >>  
+> >>  	info.mgr = mgr;
+> >>  	info.get_bridges = get_bridges;
+> >>  
+> >> -	return fpga_region_register_full(parent, &info);
+> >> +	return __fpga_region_register_full(parent, &info, owner);
+> >>  }
+> >> -EXPORT_SYMBOL_GPL(fpga_region_register);
+> >> +EXPORT_SYMBOL_GPL(__fpga_region_register);
+> >>  
+> >>  /**
+> >>   * fpga_region_unregister - unregister an FPGA region
+> >> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+> >> index 9d4d32909340..d175babc3d68 100644
+> >> --- a/include/linux/fpga/fpga-region.h
+> >> +++ b/include/linux/fpga/fpga-region.h
+> >> @@ -36,6 +36,7 @@ struct fpga_region_info {
+> >>   * @mgr: FPGA manager
+> >>   * @info: FPGA image info
+> >>   * @compat_id: FPGA region id for compatibility check.
+> >> + * @br_owner: module containing the get_bridges function
+> > 
+> > I'm a little confused that you call it br_owner, just because there is
+> > only one get_bridge() callback provided by low-level module. If we
+> > further have another callback, the name & all the doc would be a problem.
+> > And It is really the owner of the region module, not the bridge module.
+> > 
+> > Maybe just name it owner, or ops_owner?
+> 
+> Right, it makes sense to me. How about rg_ops_owner for symmetry with
+> the manager and bridge?
 
-I agree that the documentation could be improved to better express the
-implications
-and relevance of setting zone_reclaim_mode bits.
+I think ops_owner is better. First it is a member for region related
+structure, no need to emphasize the 'region' again. Second I didn't see
+any 'rg' in fpga core files, I think it is less understandable to
+everyone.
 
-Though I would suggest to go a step further and also elaborate on
-those "additional actions",
-for example something like:
-"The page allocator will attempt to reclaim memory within the zone,
-depending on the bits set,
-before looking for free pages in other zones, namely on remote memory nodes=
-."
+'br' is more widely used, so it's OK.
 
-> Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admi=
-n-guide/sysctl/vm.rst
-> index c59889de122b..10270548af2a 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -1031,7 +1031,8 @@ Consider enabling one or more zone_reclaim mode bit=
-s if it's known that the
->  workload is partitioned such that each partition fits within a NUMA node
->  and that accessing remote memory would cause a measurable performance
->  reduction.  The page allocator will take additional actions before
-> -allocating off node pages.
-> +allocating off node pages. Keep in mind enabling bits in zone_reclaim_mo=
-de
-> +makes the most sense for topologies consisting of multiple NUMA nodes.
->
->  Allowing zone reclaim to write out pages stops processes that are
->  writing large amounts of data from dirtying pages on other nodes. Zone
-> --
-> 2.34.1
->
+Thanks,
+Yilun.
 
+> 
+> 
+> Thanks,
+> Marco
+> 
+> 
