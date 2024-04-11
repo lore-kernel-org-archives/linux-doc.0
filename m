@@ -1,237 +1,263 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB5514A4E5;
-	Thu, 11 Apr 2024 13:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8945114B088;
+	Thu, 11 Apr 2024 13:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712841938; cv=none; b=Y67uUdfhecAecGJemHuuIb1k94zdpfoC3n0U5E6BO9kqmvucfiX2pA5qLhAiGRHwbDvhQBkxy/XQP0AC6mTlVJdB2Pec9SspNMabeOfFPP6w/jvCwMVM5nm55+3mu163+Gk4MSvY3xoZ8AzsZkDV3Pb79Np3V0onqz1tW5pM9Fo=
+	t=1712842133; cv=none; b=dtyj3Kx9YONQK4QNdi5MTmVHX9x79uGmVOGnmWKzF6wmGvsmkcgxgV2HVM74bK6OWlGw8wRteXHpsV+hS841xlj+5Ha8rv2ugmWV+klhPhmIlGVfzkaRL3VahtV6EN8jhgyfTWZPR2bx0NirJ367btuvs3VGJg6pqOssAh8rYeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712841938; c=relaxed/simple;
-	bh=Al33H8tBW4A6jzfbjZ0ytcFA1i1I9DnlN0rcqsygs/Q=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JouMx9QMejJ1t9d3jNVIM47rNb2Qx9llSNxdobNPB031jtzKoMdGNawM2ieiH6t1u/cGwNdA5Ju8Bgw8zjgp6sc6P7JrgUKkgaEGvnbEniHfW3R96RJGwfMdsNjSOP81QDLDsxi6QELPkcWRqTZLCQsWMLcg903PlWENC7yimt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VFgPz4KDkz6K5xZ;
-	Thu, 11 Apr 2024 21:23:51 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8A1BD140B2A;
-	Thu, 11 Apr 2024 21:25:32 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Thu, 11 Apr
- 2024 14:25:31 +0100
-Date: Thu, 11 Apr 2024 14:25:30 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
-	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
-	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
-	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
-	<james.morse@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Luis
-	<miguel.luis@oracle.com>
-Subject: Re: [PATCH RFC v4 12/15] arm64: psci: Ignore DENIED CPUs
-Message-ID: <20240411142530.00007617@huawei.com>
-In-Reply-To: <20240411123523.0000487a@huawei.com>
-References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
-	<E1rVDnK-0027ZN-40@rmk-PC.armlinux.org.uk>
-	<20240411123523.0000487a@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+	s=arc-20240116; t=1712842133; c=relaxed/simple;
+	bh=B9lrEy9mhy2sYREGwZD2TBToT5T7/+a7Ol4R4AArnoc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HtztyBA2OnaPj3B8zzDEwZ3fzvPhT01qnhr4VIDTvr+PoSmvbN5F2JjtL1Ccm9qz1isxPBi7ooDkE841yjJtwyofFc+Rd7hlJzLmZg8LlKCtwbL5sTWsWgwq1s7L5VjUmeS3+CTMPEzxvNhNtJ/OZLpfsWhgtEbYP8SJ7sU6jmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J96sxA1S; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J96sxA1S"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=B9lrEy9mhy2sYREGwZD2TBToT5T7/+a7Ol4R4AArnoc=; b=J96sxA1SXjfWjSUBUk6WCjnhIo
+	gyreybnYXKZ/US9aRDtdxMYfPaIZ3tsR2EMHgydjidVFLGVr2nfF9fKbaem9eLXp9aI/kQI9sgjq+
+	b/gk9KSmiuVE3dfYuPPUE2Wj9bWgm72rwueOo7LAa5f7sCfgdz4/nVnHI87OJvkFWZ9r95ln7/WdL
+	Wpig7M3kBvj7YtGrhIuAA87uMIXPdtTlQwz0RoGl0AV44rYVskLQjMnhBdEDPWaEubyk5kf4zLOmu
+	/YbGcne4+PUan8MmsXj4Y16bTKp6Rb9CkmE++iexhaerNsrc9Kc7wYJaHC5e5DAXZ5HM2m6/jIRWP
+	vxfYFU4A==;
+Received: from [2001:8b0:10b:5:585d:a26c:db22:46e5] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1ruuTm-000000071sd-3h50;
+	Thu, 11 Apr 2024 13:28:38 +0000
+Message-ID: <f6c9c757a1f4eb2d3c7ce06d27827e099923ef6b.camel@infradead.org>
+Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
+ timer drift correction
+From: David Woodhouse <dwmw2@infradead.org>
+To: "9377995a-26a4-2523-e421-be1cd92bdc34@oracle.com"
+ <9377995a-26a4-2523-e421-be1cd92bdc34@oracle.com>,
+ "dongli.zhang@oracle.com" <dongli.zhang@oracle.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "shuah@kernel.org" <shuah@kernel.org>, 
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "seanjc@google.com" <seanjc@google.com>,  "mingo@redhat.com"
+ <mingo@redhat.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
+ "tglx@linutronix.de" <tglx@linutronix.de>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>,  "hpa@zytor.com" <hpa@zytor.com>,
+ "paul@xen.org" <paul@xen.org>, "bp@alien8.de" <bp@alien8.de>, 
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "Allister, Jack" <jalliste@amazon.co.uk>,  "x86@kernel.org" <x86@kernel.org>
+Date: Thu, 11 Apr 2024 14:28:37 +0100
+In-Reply-To: <4f1ca4e1a8a9a31eae8057f9a813fc13d3172f77.camel@amazon.co.uk>
+References: <4f1ca4e1a8a9a31eae8057f9a813fc13d3172f77.camel@amazon.co.uk>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-OO7M3RmA0rYarTLMgT6+"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, 11 Apr 2024 12:35:23 +0100
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-> On Wed, 31 Jan 2024 16:50:38 +0000
-> Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
-> 
-> > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > 
-> > When a CPU is marked as disabled, but online capable in the MADT, PSCI
-> > applies some firmware policy to control when it can be brought online.
-> > PSCI returns DENIED to a CPU_ON request if this is not currently
-> > permitted. The OS can learn the current policy from the _STA enabled bit.
-> > 
-> > Handle the PSCI DENIED return code gracefully instead of printing an
-> > error.
-> > 
-> > See https://developer.arm.com/documentation/den0022/f/?lang=en page 58.
-> > 
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > [ morse: Rewrote commit message ]
-> > Signed-off-by: James Morse <james.morse@arm.com>
-> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
-> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
-> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
-> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---  
-> 
-> This change to return failure from __cpu_up in non error cases exposes
-> an possible issue with cpu_up() in kernel/cpu.c in that it brings the numa node
-> before we try (and fail) to bring up CPUs that may be denied.
-> 
-> We could try offlining the numa node on error, or just register it later.
-> 
-> Currently I'm testing this change which I think is harmless for cases that don't
-> fail the cpu_up()
-> 
-> For the cpu hotplug path note the node only comes online wiht the cpu online, not
-> the earlier hotplug. Reasonable given there is nothing online in the node before
-> that point.
-> 
-> diff --git a/kernel/cpu.c b/kernel/cpu.c
-> index 537099bf5d02..a4730396ccea 100644
-> --- a/kernel/cpu.c
-> +++ b/kernel/cpu.c
-> @@ -1742,10 +1742,6 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
->                 return -EINVAL;
->         }
-> 
-> -       err = try_online_node(cpu_to_node(cpu));
-> -       if (err)
-> -               return err;
-> -
->         cpu_maps_update_begin();
-> 
->         if (cpu_hotplug_disabled) {
-> @@ -1760,7 +1756,10 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
->         err = _cpu_up(cpu, 0, target);
->  out:
->         cpu_maps_update_done();
-> -       return err;
-> +       if (err)
-> +               return err;
-> +
-> +       return try_online_node(cpu_to_node(cpu));
->  }
-> 
-> There is a kicker in the remove path where currently check_cpu_on_node()
-> checks for_each_present_cpu() whereas to work for us we need to use
-> for_each_online_cpu() or the node is never removed.
-> 
-> Now my current view is that we should only show
-> nodes in /sys/bus/nodes/devices/ if there is a CPU online (assuming no other
-> reasons the node should be online such as memory).
-> That's easy enough to make work but all I'm really learning is that the semantics
-> of what is an online form a node point of view is not consistent.
-> 
-> Fixing this will create a minor change on x86 but does anyone really care
-> about what happens in the offline path wrt to 'when' the node disappears?
-> I think the corner case is.
-> 
-> 1. Add 2 CPUs (A, B) in a CPU only node.
-> 2. Online CPU A - this brings /sys/bus/devices/nodeX online
-> 3. Remove CPU A - no effect because the check for try_remove is on presence and CPU B is
->    still present.
-> 4. Online CPU B - no change.
-> 5. Offline CPU B - no change.
-> 4. Remove CPU B - /sys/bus/device/nodeX offline (disappears)
-> 
-> To make it work on arm64 where we never make CPUs not present.
-> 
-> 1. Add 2 CPUs (A, B) in a CPU only node.
-> 2. Online CPU A - this brings /sys/bus/devices/nodeX online
-> 3. Remove CPU A - /sys/bus/devices/nodeX offline (disappears)
-> 4. Online CPU B - this brings /sys/bus/device/nodeX online
-> 5. Offline CPU B - no change (node updates only happen in hotplug code)
-> 6. Remove CPU B - /sys/bus/device/nodeX offline (disappears).
-> 
-> Step 5 may seem weird but I think we can't mess with nodes there because
-> userspace may well rely on them still being around for some reason
-> (it's a much more common situation).
-> 
-> My assumption is that step3 removing the node isn't going to hurt anyone?
-> 
-> If no one shouts, i'll go ahead with rolling a v5 patch set where this is done.
+--=-OO7M3RmA0rYarTLMgT6+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This needs a little more thought as if we follow above sequence there isn't
-currently any cleanup of
-/sys/bus/cpu/devices/cpuB/node link.
+On Wed, 2024-04-10 at 10:15 +0000, Allister, Jack wrote:
+> > AFAIR, I copied check_clocksource() from existing code during that >
+> time.
+>=20
+> > The commit e440c5f2e ("KVM: selftests: Generalize check_clocksource()
+> > from kvm_clock_test") has introduced sys_clocksource_is_tsc(). Later
+> > it is renamed to sys_clocksource_is_based_on_tsc().
+> > Any chance to re-use sys_clocksource_is_based_on_tsc()?
+>=20
+> Yes I'm more than happy to change it to that. I was using your original
+> mail as a reference and did not realise there was a utility present for
+> this.
+>=20
+> > Is configure_scaled_tsc() anecessary? Or how about to make it an=C2=A0 =
+>
+> option/arg?
+> > Then I will be able to test it on a VM/server without TSC scaling.
+>=20
+> So if TSC scaling from 3GHz (host) -> 1.5GHz (guest) I do see a skew of
+> ~3500ns after the update. Where as without scaling a delta can be seen
+> but is roughly ~180ns.
 
-If you follow the sequence above an attempt is made to create it again.
-Whilst I have a WIP bit of dancing code that deals with this it is ugly as
-the check on whether a node is online needs to be dropped on this path.
-The problem coming back to the tear down and setup paths being in entirely different
-states and not remotely symmetric. 
+I don't think it's as simple as "TSC scaling makes the drift larger".
+I suspect that's just the way the arithmetic precision works out for
+those frequencies. With other frequencies of host and guest you might
+find that it works out closer *with* the scaling.
 
-So my proposal for now is to treat the whole numa node problem as something
-for another day.
+Consider a graph of "time" in the Y axis, against the host TSC as the X
+axis. As an example, let's assume the host has a TSC frequency of 3GHz.
 
-Step 1)
-For ARM64 cpu hp - NUMA nodes created at boot for any present CPUs - so all
-of them.  They never go away, hence no annoying tear down to do.
+Each of the three definitions of the KVM clock (A based on
+CLOCK_MONOTONIC_RAW, B based on the guest TSC, C based directly on the
+host TSC) will have a gradient of *roughly* 1 ns per three ticks.
 
-Step 2)
-We can consider moving to dynamic numa node handling either via the messy
-approach I have working, or via more major surgery.
-I have a bunch of other work in this area for memory hotplug, so maybe
-I can role those 2 activities together.
+Due to arithmetic precision, the gradient of each is going to vary
+slightly. We hope that CLOCK_MONOTONIC_RAW is going to do the best, as=20
+the other two are limited by the precision of the pvclock ABI that's
+exposed to the guest. You can use http://david.woodhou.se/tsdrift.c to
+see where the latter two land, for different TSC frequencies.
 
-Jonathan
-> 
-> 
-> Jonathan
-> 
-> 
-> 
-> 
-> 
-> > Changes since RFC v2
-> >  * Add specification reference
-> >  * Use EPERM rather than EPROBE_DEFER
-> > Changes since RFC v3:
-> >  * Use EPERM everywhere
-> >  * Drop unnecessary changes to drivers/firmware/psci/psci.c
-> > ---
-> >  arch/arm64/kernel/psci.c | 2 +-
-> >  arch/arm64/kernel/smp.c  | 3 ++-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/arch/arm64/kernel/psci.c b/arch/arm64/kernel/psci.c
-> > index 29a8e444db83..fabd732d0a2d 100644
-> > --- a/arch/arm64/kernel/psci.c
-> > +++ b/arch/arm64/kernel/psci.c
-> > @@ -40,7 +40,7 @@ static int cpu_psci_cpu_boot(unsigned int cpu)
-> >  {
-> >  	phys_addr_t pa_secondary_entry = __pa_symbol(secondary_entry);
-> >  	int err = psci_ops.cpu_on(cpu_logical_map(cpu), pa_secondary_entry);
-> > -	if (err)
-> > +	if (err && err != -EPERM)
-> >  		pr_err("failed to boot CPU%d (%d)\n", cpu, err);
-> >  
-> >  	return err;
-> > diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
-> > index 4ced34f62dab..dc0e0b3ec2d4 100644
-> > --- a/arch/arm64/kernel/smp.c
-> > +++ b/arch/arm64/kernel/smp.c
-> > @@ -132,7 +132,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
-> >  	/* Now bring the CPU into our world */
-> >  	ret = boot_secondary(cpu, idle);
-> >  	if (ret) {
-> > -		pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
-> > +		if (ret != -EPERM)
-> > +			pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
-> >  		return ret;
-> >  	}
-> >    
-> 
+ $ ./tsdrift 2500000000 3000000000 | tail -1
+TSC 259200000000000, guest TSC 215999999979883, guest ns 86399999971836 hos=
+t ns 86399999979883 (delta -8047)
+ $ ./tsdrift 2700000000 3000000000 | tail -1
+TSC 259200000000000, guest TSC 233279999975860, guest ns 86399999983012 hos=
+t ns 86399999979883 (delta 3129)
 
+So after a day, let's assume CLOCK_MONOTONIC_RAW will have advanced by
+86400 seconds. The KVM clock based on the host TSC will be 20=C2=B5s slow,
+while a KVM clock based on a guest TSC frequency of 2.5GHz would be an
+*additional* 8=C2=B5s slower. But a guest TSC frequency of 2.7GHz would
+actually run *faster* than the host-based one, and would only be 17=C2=B5s
+behind reality.
+
+Your test is measuring how *much* the host CLOCK_MONOTONIC_RAW (my
+definition A) drifts from definition B which is derived from the guest
+TSC.
+
+It demonstrates the discontinuity that KVM_REQ_MASTERCLOCK_UPDATE
+introduces, by clamping the KVM clock back to the 'definition A' line.
+
+Fixing that is in the TODO list I shared. Basically it involves
+realising that in use_master_clock mode, the delta between the KVM
+clock and CLOCK_MONOTONIC_RAW (ka->kvmclock_offset) is *varying* over
+time. So instead of just blindly using kvmclock_offset, we should
+*recalculate* it in precisely the way that your KVM_SET_CLOCK_GUEST
+does.
+
+Having said all that... scaling from 3GHz to 1.5GHz *doesn't* lose any
+precision; it shouldn't make any difference. But I guess your host TSC
+isn't *really* 3GHz, it's measured against the PIT or something awful,
+and comes out at a shade above or below 3GHz, leading to a more
+interesting scaling factor?
+
+> In V2 I've adjusted the test so that now by default scaling won't take
+> place, however if someone wants to test with it enabled they can pass
+> "-s/--scale-tsc" to induce the greater delta.
+
+Please do it automatically based on the availability of the feature.
+
+
+--=-OO7M3RmA0rYarTLMgT6+
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNDExMTMyODM3WjAvBgkqhkiG9w0BCQQxIgQgy0tx3tHa
+X/CuppcXAcioDknx35r8YAUFkLa4ZC/b1lIwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAKP6SnRPluyZ0P294Xx3kTefWmh0kPGNAV
+AI06rovgesa2xPcNu4Tn829ajNiWEQ8TBKfLYzTdN3g/W/RQ4x+Ng2fmghniKreMcqRXpQ1r9W9d
+XKy9fNEewsOyFRA5KqLiVZ/+Gi1ZYhxNDwgzsQ7IgtWTm5QMC4vmBorbnVEAG7z2e7owa65XSJ0i
+lRrBf3UXqqwEJIUBTPWEufBC/8yE6+xtqf5gtw2dGQ0ElQdhVlvqBSYZWXGipkm+8Bt19wY69Tzi
+co2lY7vohSE1E5NS4W6jEu/2CFNyS062VqJvxGRK1QTQfaHwOVnFreaeXm6r+sdTNkFTpH+nSzV1
+h+aeN5bRFbbQ3wksch7sb5zA8ZrKiPJ8xafqdAQpAhqSJ3IW/gyapkdJowsrjFU7RfVkyQb90QgM
+ImSsT4HHhRG7V3qDzIBfBL/+CERXiuKf/sI0Zwp3K2WT1P2xoUIW1i3gnbJEjAYaGTGy9tyrlG1l
+OOQj0RrfvKaN2Z77kPdGKP6i9jMIq9Hj8/T4kLyOKuNMcYkG06XLjhSY6MbvutRC+couSrUITZEl
+cN1xTiS1sw6Bf3OkbcZSYTtC/LDivf2slxaZebLEMQTvz7i5s75iMIv+irdUVbIWUlXMDRmLk0J6
+w7gYqMSa55k8fpku4/NyNLhkwA9IjsfRyViu3afbtAAAAAAAAA==
+
+
+--=-OO7M3RmA0rYarTLMgT6+--
