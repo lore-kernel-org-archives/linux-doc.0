@@ -1,138 +1,141 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C3913F007;
-	Thu, 11 Apr 2024 07:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BF413E048
+	for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 07:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712821835; cv=none; b=OgfJN0dP1fBlQoBh1ZP/kO4/FRLbQvT/TB1rrTFqI/CYxmjza4VqNDPaaC+vAp7FmhSHGRNGd9m4tfL8ohD7RJ1LMZVrIhCVWp7RrWGfnvWdhzUVDEXnmxkfHoB+QSfWJbJSbBxeklddeD2cKwi6OhveR8SFgHrSuIsxLie60yQ=
+	t=1712822080; cv=none; b=sG0goSP3kWZuNNcpsoCzE2GbZEhiQ/+ngCUkBanKKlBjx8UAMA7qAvj1bKElWJneqCKG9dhDu9YSiNqO/dWTGWdAbqA4m0+CMm9e0F0kI9Bxrnhx5nHfmwHI1dHh0fUJv/igLLRVRin2iHk6pVtp+qxFcg0FUI7lK9xb/pIpRGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712821835; c=relaxed/simple;
-	bh=cfNr9TUSfrX+gViiSPQaGSMEglt2ii6QATAUYTHXMtU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tTzyu6k2I0zrJKbc8s/N6V5YLB21fs4CXsDt/67yPn1IvmjYv8fCbgSrVjNIfDvInAYs9VtLWHxX1IeHwLpYT/AfRAq9yQ7qoZ88uNLl5mqljp4ZgIezp2906THOWXDu9yxHYmFILHqs4uY4Nis5AI6jku4Xra8MAyUvAH+ByGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=DaUtagbn; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1712822080; c=relaxed/simple;
+	bh=ZimJfwvl3WzhsFTbPcUKcAmZJIX5Tie8DjUsEOTGLWo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PXHTrjRf+2zmhKhSga7oCfv+q5JB8FBGQaXhkUU7BmKSnCQcpw1A5r+iCuhWt/v/y3xf74hJUs9Quk2KLGn1nEkMv9D67d75UXsXHxqwWNBPHWfYlN3UhYTNJuURbQYxesQJMJQV1j9HBE59OFQHc+kBrtOZcvE+VCi8OUXk5yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWsrwpRk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="DaUtagbn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=YyiazpK4lSCNnEdGH9tVOiGnfwuJGfEPd5FCDIH5dfI=; t=1712821833;
-	x=1713253833; b=DaUtagbn3CZbLBgUr/lzLDBLTBwfPYJqc6q/GG9IhIZpTjFbQdKvySD95Yxr7
-	1tJ8KgJMKMRl4V6WqVTL8ObHElFl7y0J3QMpPQbMIf02OWfyYPSFvhC8YzxQLLZXKcOcCHzmGpAEe
-	m4Ez3E5mcZYAIiOfPQ5i6KSpdGRS9c2K1coJ+fTBWXjx7PzPLb+/KA3EbnHQ/WCdt8WjTC5h7qOGn
-	nFNrxXwFspluUa1fFak1Jelnf3NiznYIF8AXgYQQVj/oC43gwA7SHsq1uhb7NSKRO4y9XkoPIi0E0
-	58rpWMoTkCqKVYz309Ubk2ZcBdRceiYGzf2K/zlnZwGACF0Izg==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rupCT-0005uY-H0; Thu, 11 Apr 2024 09:50:25 +0200
-Message-ID: <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
-Date: Thu, 11 Apr 2024 09:50:24 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWsrwpRk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712822078;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gxDRipmzDDBkSip6m/UVrfqyWqi0BJV7Yyl6Xvbo+6E=;
+	b=VWsrwpRk4srmFfvLtNDVB0PeKOH/xGBicndcDHqO6WiBjAKZiRa5EahkbamlUFh+921pde
+	fgLSkhgNWBQRziTgYPDEJKXp1RPS7r/snl5zMOnf5HV0xGynA0YFMygIPlUI9hU/xyycbE
+	TXvXflt7jDYr6e+h+jZiTql0z4vV6kk=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-677-Nfd3Z1XUNzKUh41FAEQQsA-1; Thu, 11 Apr 2024 03:54:36 -0400
+X-MC-Unique: Nfd3Z1XUNzKUh41FAEQQsA-1
+Received: by mail-yb1-f198.google.com with SMTP id 3f1490d57ef6-dcdc3db67f0so856414276.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 00:54:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712822075; x=1713426875;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gxDRipmzDDBkSip6m/UVrfqyWqi0BJV7Yyl6Xvbo+6E=;
+        b=Og0Id91DBi/AEVfJNB1mnrT2SOLj9YevNONvdp9x8RN+s4jUyTvLXHv1OkUvya9QOE
+         vG5GcdVkfqvrpRgtPT+iA4RQ3z+Tpm7106I4ZfQGtN/PzfCuBh6N3NeYop8yUg4u913B
+         NFiOzmAttsPV7hDvW/arCjh5qfp0lX8txC1KsrDmAWo8+sJxhDhvLIQ05fzomsfWb9gC
+         izifsnw+nx/yulKlBdu6OITQd3lz4KiEs1H7ZXDXbtBmIXZP9hX7udsPIzvqiFagHlh7
+         iel0srWkaB32WwSqKzOidXuD8aiO5QYnCQfUZ4miJ5x326S5gMDh7CXGhQt4JiIf795X
+         ZcIg==
+X-Forwarded-Encrypted: i=1; AJvYcCX2J9DHn69OA9RwPBa2PW/nVt4tAqzWL+Hp+PzhhvrkQ9OPR4odFYvMIbn7CM5EzQXOZitSMxQpRIc5tG+fPCZhxmlV29q0aVtm
+X-Gm-Message-State: AOJu0YwkfeeO597rPtYnk3lhEQFnw83Un7eOPr86ESL+R2/MKoBemDI9
+	xQrkPiOYOQuAD2yJvXStwAOD0R1SbUoZUCwtDgCzgUMff3w9r+uyybelZtONy0SDi498IohW5Xx
+	763QBXo2YujD8pkzetGTkCnZsxYMgvFIbgPmDXTuRTcGN80eIusPgagM5t4MU3IcX4JpbJ3OAmr
+	ZbI7GVPhAnOTkcJfKHz7s8wdjVu5iw1esO35dmW9dTsUQ=
+X-Received: by 2002:a25:cd82:0:b0:dc6:ca3a:31da with SMTP id d124-20020a25cd82000000b00dc6ca3a31damr1446421ybf.16.1712822075239;
+        Thu, 11 Apr 2024 00:54:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG4/VROz6VRwtxqGZSnsbr8an7LRWsYWB4kGZ99T+tllX8qYXGWqrOEg5CQ+iJUfbEzOcupJtkqlQIST/p0M3k=
+X-Received: by 2002:a25:cd82:0:b0:dc6:ca3a:31da with SMTP id
+ d124-20020a25cd82000000b00dc6ca3a31damr1446407ybf.16.1712822074917; Thu, 11
+ Apr 2024 00:54:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/4] docs: stable-kernel-rules: mention "no
- semi-automatic backport"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- stable@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1712812895.git.linux@leemhuis.info>
- <c0a08b160b286e8c98549eedb37404c6e784cf8a.1712812895.git.linux@leemhuis.info>
- <2024041156-backache-dolly-a420@gregkh>
- <3f395eca-fc24-469b-b5fc-de47ab2a6861@leemhuis.info>
- <2024041123-earthling-primarily-4656@gregkh>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: en-US, de-DE
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <2024041123-earthling-primarily-4656@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1712821833;1d82385b;
-X-HE-SMSGID: 1rupCT-0005uY-H0
+References: <20240405164920.2844-1-mcassell411@gmail.com>
+In-Reply-To: <20240405164920.2844-1-mcassell411@gmail.com>
+From: Vratislav Bendel <vbendel@redhat.com>
+Date: Thu, 11 Apr 2024 09:54:18 +0200
+Message-ID: <CAHrQN1xuLfc0sfe1kMHmHrBzKQLMD-6PNEakA=EDdabEv4ATnQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/admin-guide/sysctl/vm.rst adding the
+ importance of NUMA-node count to documentation
+To: Matthew Cassell <mcassell411@gmail.com>
+Cc: corbet@lwn.net, akpm@linux-foundation.org, rppt@kernel.org, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11.04.24 09:40, Greg Kroah-Hartman wrote:
-> On Thu, Apr 11, 2024 at 08:59:39AM +0200, Thorsten Leemhuis wrote:
->> On 11.04.24 07:29, Greg Kroah-Hartman wrote:
->>> On Thu, Apr 11, 2024 at 07:25:04AM +0200, Thorsten Leemhuis wrote:
->>>> Some developers deliberately steer clear of 'Fixes:' tags to prevent
->>>> changes from being backported semi-automatically by the stable team.
->>>> That somewhat undermines the reason for the existence of the Fixes: tag,
->>>> hence point out there is an alternative to reach the same effect.
-> [...]
->>> I do not understand, why are you saying "cc: stable" here if you do NOT
->>> want it backported?
->> Because the only alternative the developers have to make the stable team
->> not pick a single patch[1] is to deliberately omit a Fixes: tag even if
->> the patch normally should have one. Like it was done here:
->> https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secunet.com/
-> That feels odd, but ok I now see the need for this for some minor set of
-> changes (i.e. this has rarely come up in the past 15+ years)
-> 
-> [...]
->> E.g. 'ignore for the AUTOSEL and the "Fixes tag only" tools'. That was
->> the best term I came up with.
-> 
-> Thinking about it more, I think we need to be much more explicit, and
-> provide the reason why.
-> 
-> How about:
-> 	cc: <do-not-apply-to-stable@kernel.org> # Reason goes here, and must be present
-> 
-> and we can make that address be routed to /dev/null just like
-> <stable@kernel.org> is?
+On Fri, Apr 5, 2024 at 6:49=E2=80=AFPM Matthew Cassell <mcassell411@gmail.c=
+om> wrote:
+>
+> If any bits are set in node_reclaim_mode (tunable via
+> /proc/sys/vm/zone_reclaim_mode) within get_pages_from_freelist(), then
+> page allocations start getting early access to reclaim via the
+> node_reclaim() code path when memory pressure increases. This behavior
+> provides the most optimization for multiple NUMA node machines. The above
+> is mentioned in:
+>
+> Commit 9eeff2395e3cfd05c9b2e6 ("[PATCH] Zone reclaim: Reclaim logic")
+> states "Zone reclaim is of particular importance for NUMA machines. It
+> can be more beneficial to reclaim a page than taking the performance
+> penalties that come with allocating a page on a REMOTE zone."
+>
+> While the pros/cons of staying on node versus allocating remotely are
+> mentioned in commit histories and mailing lists. It isn't specifically
+> mentioned in Documentation/ and isn't possible with a lone node. Imagine =
+a
+> situation where CONFIG_NUMA=3Dy (the default on most major distributions)
+> and only a single NUMA node exists. The latter is an oxymoron
+> (single-node =3D=3D uniform memory access). Informing the user via vm.rst=
+ that
+> the most bang for their buck is when multiple nodes exist seems helpful.
+>
 
-Totally fine with me, but that feels somewhat long and hard to type. How
-about just 'no-stable@kernel.org' (or 'nostable@kernel.org')?
+I agree that the documentation could be improved to better express the
+implications
+and relevance of setting zone_reclaim_mode bits.
 
-Ciao, Thorsten
+Though I would suggest to go a step further and also elaborate on
+those "additional actions",
+for example something like:
+"The page allocator will attempt to reclaim memory within the zone,
+depending on the bits set,
+before looking for free pages in other zones, namely on remote memory nodes=
+."
+
+> Signed-off-by: Matthew Cassell <mcassell411@gmail.com>
+> ---
+>  Documentation/admin-guide/sysctl/vm.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admi=
+n-guide/sysctl/vm.rst
+> index c59889de122b..10270548af2a 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> @@ -1031,7 +1031,8 @@ Consider enabling one or more zone_reclaim mode bit=
+s if it's known that the
+>  workload is partitioned such that each partition fits within a NUMA node
+>  and that accessing remote memory would cause a measurable performance
+>  reduction.  The page allocator will take additional actions before
+> -allocating off node pages.
+> +allocating off node pages. Keep in mind enabling bits in zone_reclaim_mo=
+de
+> +makes the most sense for topologies consisting of multiple NUMA nodes.
+>
+>  Allowing zone reclaim to write out pages stops processes that are
+>  writing large amounts of data from dirtying pages on other nodes. Zone
+> --
+> 2.34.1
+>
+
