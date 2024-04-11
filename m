@@ -1,122 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F3313DDDD;
-	Thu, 11 Apr 2024 09:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAB714430D;
+	Thu, 11 Apr 2024 09:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712828087; cv=none; b=tbQ4cMW9p75MBLXHQqydwiW/FxU2c4SIJfJ6JVFypOK4SGoPyD4FPTcqrqFJOFmrdQoOhsQAYozC35v+xtJ609y3IvhN6jsVTgY7DbfXVMZcyY6FjzD25YqbeIM5eZh1lu6XpwvJnT7RrCwCGhZMu/oxLlvcLm3S96XS6QOR1vY=
+	t=1712829190; cv=none; b=TEyMnB5qBAqCzEdpT93P24br5cSJNK06+ZDzHcl2YX7ArmcJU/QzeIMdbBBvi8mhSm7DB6jqA1sjgQcq80RMjwb1snLl1RjYXWFOApA4IZ8Am1DjxOvcCEipEQHXAZ8z9v/B9O4jyt9BOcX5XIY4OfFXx6BCs7dhVLSFmBgO7Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712828087; c=relaxed/simple;
-	bh=d4DJAMB2M6nuUOPlE0e/QGcAkAWTG5ugPMVGt1FMlDs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DQPgPXyc00dUuCy/x3AGYM5DWGEnvL4FOCgLi2Te7fYx9ZPd9cpnHlHH/6xxIhW0bEATCuEojdOTWHR6mViEsLvGcqKv8O462EDybKq8+JwMy4CKJIh6ioOFeDnHgdddjUm2V2Vj58Z6fLQzsnZ6ePS8Er2UJnRINPGSsLAKgww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUk1gb38; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712829190; c=relaxed/simple;
+	bh=8SQ0a8KIXg+9Q6wH7l7+OtKBY0yEhH+2/6JYQpE8re8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vB5hEHyywfhcvcv+fvEEZf8d2X/uyJN/Hy7ui94BBySY4H4gPvrGl+P+/zSeMDVYQCd5dqresws/5G84xkgk4Fd0ExQTHfWb4jkyfOtB8FUkOeKall+CrssRv61xTpUhTcNQ511UOZG3kiozxgDKR/PWO3bk5+pHiz3wtzzvls4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=G9gbSkp7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUk1gb38"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712828086; x=1744364086;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=d4DJAMB2M6nuUOPlE0e/QGcAkAWTG5ugPMVGt1FMlDs=;
-  b=lUk1gb387uTLXpPiNKr15BtSWozpUqtCKM5KKJrWdqe7M8mIz0vAgufd
-   qV4z0mwnahUoYBo/75lWwOwXDA6EObQx2t+QWUo00GoIDMljudiGGSsLY
-   YXVMoY0J5rfhOl2Z5ZPIA5UuUPBaHFAcrIFgS/n7zqk3ToKE/bPRV4Yan
-   987UP5k86D7q8F47xDfMU8dSOcA2Htbz4OYaFDs0ClOgcyWZeJ+LNLoWU
-   0sx9cxQda5J56QF241n3XUAKASIRKcCITrM19xn97Vv02yuXc2z7nOL/2
-   Qivd322YFKGv+IxfAZMTD99hakT9US1GRwtkB5ok9sXxm3e6FTjKRd8lm
-   w==;
-X-CSE-ConnectionGUID: bXCkCXL1TzC0I0cBJzS3UQ==
-X-CSE-MsgGUID: hFhntNcTR9ufj5NOyRPPpQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11189079"
-X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="11189079"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:34:44 -0700
-X-CSE-ConnectionGUID: j43tVAdVSSmouSLq97QRXw==
-X-CSE-MsgGUID: r00DMd+GSViHjzMbZr25ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="20823130"
-Received: from newjersey.igk.intel.com ([10.102.20.203])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Apr 2024 02:34:42 -0700
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <keescook@chromium.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Keith Packard <keithp@keithp.com>,
-	nex.sw.ncis.osdt.itp.upstreaming@intel.com,
-	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel-doc: fix struct_group_tagged() parsing
-Date: Thu, 11 Apr 2024 11:32:08 +0200
-Message-ID: <20240411093208.2483580-1-aleksander.lobakin@intel.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="G9gbSkp7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9EEC433F1;
+	Thu, 11 Apr 2024 09:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1712829189;
+	bh=8SQ0a8KIXg+9Q6wH7l7+OtKBY0yEhH+2/6JYQpE8re8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G9gbSkp7oEzeuI3Q0PgtuXj1sVQzFoshmy35z6knqC8VODQ8M+jRQp7yJomxLQOXD
+	 dNeFOGL+XQjg1Lf2s1UGNC+/Gb7l6z6PIuHfU5o20nIO11lpOhSIOQ3Ur3vC7CZ+k4
+	 PEcm0JAXlJGRqkpmoG1eD++BQeSEoTmEozBpgA5s=
+Date: Thu, 11 Apr 2024 11:53:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>,
+	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] docs: stable-kernel-rules: mention "no
+ semi-automatic backport"
+Message-ID: <2024041151-reflected-dancing-607a@gregkh>
+References: <cover.1712812895.git.linux@leemhuis.info>
+ <c0a08b160b286e8c98549eedb37404c6e784cf8a.1712812895.git.linux@leemhuis.info>
+ <2024041156-backache-dolly-a420@gregkh>
+ <3f395eca-fc24-469b-b5fc-de47ab2a6861@leemhuis.info>
+ <2024041123-earthling-primarily-4656@gregkh>
+ <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
+ <2024041159-undone-deacon-3170@gregkh>
+ <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXMRJM1xQLHDc6yKWvs97W2iTZnYnNNZE=8-WrtnGRNfw@mail.gmail.com>
 
-From: Kees Cook <keescook@chromium.org>
+On Thu, Apr 11, 2024 at 11:19:57AM +0200, Geert Uytterhoeven wrote:
+> On Thu, Apr 11, 2024 at 11:13 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Apr 11, 2024 at 09:50:24AM +0200, Thorsten Leemhuis wrote:
+> > > On 11.04.24 09:40, Greg Kroah-Hartman wrote:
+> > > > On Thu, Apr 11, 2024 at 08:59:39AM +0200, Thorsten Leemhuis wrote:
+> > > >> On 11.04.24 07:29, Greg Kroah-Hartman wrote:
+> > > >>> On Thu, Apr 11, 2024 at 07:25:04AM +0200, Thorsten Leemhuis wrote:
+> > > >>>> Some developers deliberately steer clear of 'Fixes:' tags to prevent
+> > > >>>> changes from being backported semi-automatically by the stable team.
+> > > >>>> That somewhat undermines the reason for the existence of the Fixes: tag,
+> > > >>>> hence point out there is an alternative to reach the same effect.
+> > > > [...]
+> > > >>> I do not understand, why are you saying "cc: stable" here if you do NOT
+> > > >>> want it backported?
+> > > >> Because the only alternative the developers have to make the stable team
+> > > >> not pick a single patch[1] is to deliberately omit a Fixes: tag even if
+> > > >> the patch normally should have one. Like it was done here:
+> > > >> https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secunet.com/
+> > > > That feels odd, but ok I now see the need for this for some minor set of
+> > > > changes (i.e. this has rarely come up in the past 15+ years)
+> > > >
+> > > > [...]
+> > > >> E.g. 'ignore for the AUTOSEL and the "Fixes tag only" tools'. That was
+> > > >> the best term I came up with.
+> > > >
+> > > > Thinking about it more, I think we need to be much more explicit, and
+> > > > provide the reason why.
+> > > >
+> > > > How about:
+> > > >     cc: <do-not-apply-to-stable@kernel.org> # Reason goes here, and must be present
+> > > >
+> > > > and we can make that address be routed to /dev/null just like
+> > > > <stable@kernel.org> is?
+> > >
+> > > Totally fine with me, but that feels somewhat long and hard to type.
+> >
+> > I want it long and hard to type and very very explicit that this is what
+> > the developer/maintainer wants to have happen (again, because this is
+> > such a rare occurrence.)
+> >
+> > > How
+> > > about just 'no-stable@kernel.org' (or 'nostable@kernel.org')?
+> >
+> > More words are better :)
+> 
+> And after that, someone discovers this turns out to be (a hard
+> dependency for) a very critical fix that does need backporting?
 
-kernel-doc emits a warning on struct_group_tagged() if you describe your
-struct group member:
+Then we backport it and let the person know like always.
 
-include/net/libeth/rx.h:69: warning: Excess struct member 'fp' description in 'libeth_fq'
+thanks,
 
-The code:
-
-/**
- * struct libeth_fq - structure representing a buffer queue
- * @fp: hotpath part of the structure
- * @pp: &page_pool for buffer management
-[...]
- */
-struct libeth_fq {
-	struct_group_tagged(libeth_fq_fp, fp,
-		struct page_pool	*pp;
-[...]
-	);
-
-When a struct_group_tagged() is encountered, we need to build a
-`struct TAG NAME;` from it, so that it will be treated as a valid
-embedded struct.
-Decouple the regex and do the replacement there. As far as I can see,
-this doesn't produce any new warnings on the current mainline tree.
-
-Reported-by: Jakub Kicinski <kuba@kernel.org>
-Closes: https://lore.kernel.org/netdev/20240405212513.0d189968@kernel.org
-Fixes: 50d7bd38c3aa ("stddef: Introduce struct_group() helper macro")
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Co-developed-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
----
- scripts/kernel-doc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 43a30f2de513..01ac8f794b30 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1152,7 +1152,8 @@ sub dump_struct($$) {
-         # - first eat non-declaration parameters and rewrite for final match
-         # - then remove macro, outer parens, and trailing semicolon
-         $members =~ s/\bstruct_group\s*\(([^,]*,)/STRUCT_GROUP(/gos;
--        $members =~ s/\bstruct_group_(attr|tagged)\s*\(([^,]*,){2}/STRUCT_GROUP(/gos;
-+        $members =~ s/\bstruct_group_attr\s*\(([^,]*,){2}/STRUCT_GROUP(/gos;
-+        $members =~ s/\bstruct_group_tagged\s*\(([^,]*),([^,]*),/struct $1 $2; STRUCT_GROUP(/gos;
-         $members =~ s/\b__struct_group\s*\(([^,]*,){3}/STRUCT_GROUP(/gos;
-         $members =~ s/\bSTRUCT_GROUP(\(((?:(?>[^)(]+)|(?1))*)\))[^;]*;/$2/gos;
- 
--- 
-2.44.0
-
+greg k-h
