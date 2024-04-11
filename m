@@ -1,174 +1,222 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670841E48E;
-	Thu, 11 Apr 2024 10:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712832615; cv=none; b=rrfz0jqpIP0BhJKWvaFYu12kcAfnAiT4ZfcHkEGH4rv2lDa+AlIppd1pU9Gu9CGM2PqLdxuLVxSRS0QFsS6q5MkLmGFvjz84shXKwm/aRBbSIxf3FccwHHcvIH3/q0s8IrClPA9l2YPdw5HPL5KQRCtuTQj2xTDREsv9SjroCfg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712832615; c=relaxed/simple;
-	bh=40G/2iJhs7b/9hSb3u6zcH2MWcwO6qO4lwKmJTuf4Ko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Msn660BqckxQO9m0grJ049l6oZVktQ6Yj7mGzrp9gyek7xCS8ms5dX3S5g3sv0Jz0a/oe3KqDYOx0ia4sjpjNifcmqd4YihZyjcgUH/V5gAe/W1nLOf/oR/roBTR8uBUE3rJ8z+lcKSaMELpbAV95LonU91h0oJSANYRgjgRIF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c/gF3M1M; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8311F147C86;
+	Thu, 11 Apr 2024 11:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712834072; cv=fail; b=N8U93FSdHcR/+mInEzbx1mmlZafA8Y4l13A1mM67UwE4gI1FXHI1CQe/Yu+YvYZHpL0BLly03BYrmnt4HghXU4GBEnCQnvsT8330PWuEepiwx0YaVSZRBEpzV/4I/oh5BqtCe+BsSnvMXA1lp8pejJduW19GnMMv8jbI7Csrz5Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712834072; c=relaxed/simple;
+	bh=5VTBFh0LEYoNQsPPqF89OvhVGrNRn9zxM8LvZPyhTLU=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=J+YrMx91xU/stjHdQLx7kEK6CzOAybldVHTSh5Jv+lnmGpqbprTi0lsDqdYjrMwxPAivxdYoKz0fpKGpMq27Nn2sGaW2AAydREQY1If5X4Wp2YYgOvMnJpzbZxVOr49NFgUBWVLaUUTfs4sWSF26A4hbQVtFgxM7eQ2dopBf+WE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O+8aCwvh; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c/gF3M1M"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1e3c9300c65so48958875ad.0;
-        Thu, 11 Apr 2024 03:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712832614; x=1713437414; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0V8AVI188fF5AbLDUaefOD559npRcC/Ay2FvGZtxQ64=;
-        b=c/gF3M1Mx8qsK02izeo+dBs3ax9p/1XTB/386WOg7gEipYGvlAqoV8oEk9RLPbILuY
-         HPwz++6ftm+qM2UPAxJoB3wnV3Ex7pfxM3HDmIYP+9m6NKaHCyXxMu2XDyhMGn/R6mM+
-         hgjhu1cGczlNdveKsQvMdvVEmgPfx4yXxPFaNi1u4tUzEZLWJTuwEk/31a3bDox+zpqf
-         V90fHoQTKI260UZZDbEmtXFmYqmT+N/4K0qUhB2WNXlSDeWNGuWSfh/M8yjt7ydzmNlP
-         GSup/s0qRSo9U/gNNES5KPqIRpyovvUqLNJVO+Bjf8uisYKo09XQm0kuPx9yuOpOk7q0
-         9hzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712832614; x=1713437414;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0V8AVI188fF5AbLDUaefOD559npRcC/Ay2FvGZtxQ64=;
-        b=jdCKBvIbKfnn+mfFtRCgKCjMWtmPlQ5djPVtYHct7QoiOnmV5TRGgX5LUlcKsNlsXo
-         W7SE48LTaXEcXuiOUwcPHJTPBieeDcIDne+jnhSc1VetQ0nEO7oniw6DVRjT7iWHCdIb
-         xqwPulO9wyXr06kRSgdaXH45wh3yBCgmHuCl/JTqbiHKnA8N5pTIfAIMhfVzaLgwGu86
-         iwuMt0oDUSe9GNmkZwiqDv4cxlNQ8uWNkg3U8b2K0u0pUcmbRO0WBBABba5UH6/h3C1Z
-         rNaaIqNXEMM0uhnXZ8Da1D6UZiY1zV37Zo0wlyS+9H2pVr7uhveGbEo/ITVFyjgzuHD1
-         g9rg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpe7R9OYJamZrl6RrSVa3iP066RvJTRtZzFJGOR9rId4wKlcDJiecU2GEflKGOkgYVyPf/LEHrobhGEi1zSN6foR+zV0rTbJMSJBJK55n2iYWIF79oMAsAVvRw4xf59H2OuStSjsdjbrLx8x5+bq+9neaShT9DaEdIQVgXKlsOYT2tU/ZV1AjS
-X-Gm-Message-State: AOJu0YwsQ6Lv5/zL8ZU+mcANX5zrsXfHdokNKeFkpnQiqPu5GrscHZ3I
-	OzkWDYhq15YtdH3/cUvS7/dpp5w4srvRA1MDZlQAjG40GvvdpASGyadVmg==
-X-Google-Smtp-Source: AGHT+IEtQzHYcZhHF+ujcl2W4gfyTb2Kq41fyleepPcTD77/19WDgStiPTVulVfZQkv3bnNhXD/5EQ==
-X-Received: by 2002:a17:903:18d:b0:1e5:62:7ac0 with SMTP id z13-20020a170903018d00b001e500627ac0mr4509674plg.14.1712832613536;
-        Thu, 11 Apr 2024 03:50:13 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id l6-20020a170902d34600b001def175bbbfsm912997plk.251.2024.04.11.03.50.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 03:50:12 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 106E3184799FF; Thu, 11 Apr 2024 17:50:09 +0700 (WIB)
-Date: Thu, 11 Apr 2024 17:50:09 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org
-Cc: Alexander Steffen <Alexander.Steffen@infineon.com>,
-	"Daniel P . Smith" <dpsmith@apertussolutions.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
-	Lino Sanfilippo <l.sanfilippo@kunbus.com>,
-	Mimi Zohar <zohar@linux.ibm.com>, Peter Huewe <peterhuewe@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: tpm_tis
-Message-ID: <ZhfAYVLwoYAPnYbI@archie.me>
-References: <20240409190847.10869-1-jarkko@kernel.org>
- <20240409190847.10869-3-jarkko@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O+8aCwvh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712834071; x=1744370071;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=5VTBFh0LEYoNQsPPqF89OvhVGrNRn9zxM8LvZPyhTLU=;
+  b=O+8aCwvhjs5MKMEKUxabHXLSNSb576c4dBHZXSwuefs5rn7BJDucoOEm
+   B9CC3WrnFKoBHBK5Ol6LoWAWzH60e0rQiDjTjIGZP6mknwcXkVcyu8Eu6
+   pfIZf7Al/DpTHDzk/7DvPd7RDclkc7QpqiMgKIMBXOlOxXSmiUEkT04bj
+   YbLQ7DSuiZtnbZs0WZ4aSy8K6avsbDGpvKXZvo1Wl9EGn2tgZmyPw4AXX
+   Ze4AUdenU2gxZhWxvBt4fhbaW++RdlqK5tKECHJctdyBgcaDbiZDrBmkh
+   Owxro5tildAoNh5H+MkQmHVoNdinXwr8RIj5ztu+9tbTio16q/MLkWUUf
+   g==;
+X-CSE-ConnectionGUID: QglIWYJGQdCJr2szo4n54A==
+X-CSE-MsgGUID: n5GXrKP8QnK0K0PA15/avg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="19628130"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="19628130"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 04:14:29 -0700
+X-CSE-ConnectionGUID: x38YZeh4TrKVBwwLFhVUVg==
+X-CSE-MsgGUID: pgFnCclMRrCyN+CQiqnO6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="58289634"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 11 Apr 2024 04:14:28 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 11 Apr 2024 04:14:27 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Thu, 11 Apr 2024 04:14:27 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
+ edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Thu, 11 Apr 2024 04:14:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hBCnBFp9a0JzWouaVb1ljtyql84Nz52/TpW7N8601wgLd5xuNDDJQQ+p+rOqeZAv9rQYsQsNw0ZjS5r/dfnL62vOEw8lWgAzbY0R+L74hW+cuuKyJv2e5XfInWM7mNGoM5SvH1aN3XDmMECBLkdnOFRhYkN2035MR1o9Wp9vbjzQs40NFI9/A1k300b+AQfCvMCf0FY43OIvNghccm3ZW6aFM43lACPeNPWNd5i1ZKRLtk/5+r9K0sTxqr5v91F3c7CWuzpa98oIGECbWthbxqnXm/WJQryoDycG4Ztc6fc1iB2FjqDVjQC0cz/TKHHkqiKNswl0fUB2qgxsm1ErHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ip3hW/vcmTYKwOYaFixe4kuqqG8kDKt4sA3lkuXVue4=;
+ b=SBljyebddpGmTChmlLtC+BsvERNZ09gxogtYYLwyoA/Vt+nq9tmuVUtv2NLpf/c8ie3iQ3eGCvc0sSQjN5tHIlL4CF38eW7RzwikaQFGlORBuz1aP49/503VxEpA7gGSsBoDMT7JlQKww61K0x0LN5GAeiGhcCcisG8FQdbjBKl4CRi/A8+5ZCMle//i8oe8WZ5hHLVs3CMbmfPIwlOIJ9lpHwoqIHFFGMto7u2BZQHZ+ScHsI/UYDqdQTX6zJQ1aSC7GCThNBDAbf70a/PXy+HMcpN0uH5TBOS6s0328Tn8teELbja5bcT/iiL5BT/pr2MEDDq1Q7fJIiAri1HAyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
+ by CH3PR11MB7676.namprd11.prod.outlook.com (2603:10b6:610:127::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Thu, 11 Apr
+ 2024 11:14:25 +0000
+Received: from MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::5c8:d560:c544:d9cf]) by MN6PR11MB8102.namprd11.prod.outlook.com
+ ([fe80::5c8:d560:c544:d9cf%5]) with mapi id 15.20.7430.045; Thu, 11 Apr 2024
+ 11:14:25 +0000
+Message-ID: <b9804c32-9ba2-493b-bfb8-a6ac4f108175@intel.com>
+Date: Thu, 11 Apr 2024 13:14:20 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kernel-doc: fix struct_group_tagged() parsing
+To: Alexander Lobakin <aleksander.lobakin@intel.com>, Jonathan Corbet
+	<corbet@lwn.net>
+CC: Kees Cook <keescook@chromium.org>, Jakub Kicinski <kuba@kernel.org>, "Dan
+ Williams" <dan.j.williams@intel.com>, "Gustavo A. R. Silva"
+	<gustavoars@kernel.org>, Keith Packard <keithp@keithp.com>,
+	<nex.sw.ncis.osdt.itp.upstreaming@intel.com>, <linux-doc@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240411093208.2483580-1-aleksander.lobakin@intel.com>
+Content-Language: en-US
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+In-Reply-To: <20240411093208.2483580-1-aleksander.lobakin@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DU2PR04CA0283.eurprd04.prod.outlook.com
+ (2603:10a6:10:28c::18) To MN6PR11MB8102.namprd11.prod.outlook.com
+ (2603:10b6:208:46d::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QQMkQKtETCXLqH/I"
-Content-Disposition: inline
-In-Reply-To: <20240409190847.10869-3-jarkko@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|CH3PR11MB7676:EE_
+X-MS-Office365-Filtering-Correlation-Id: f055befe-3372-4460-5566-08dc5a188be0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0Ni/yvY+z4xjvcM0OAStoUthllE3AiWYEBRLpMjHk86WeCm5dfWzWD5fgFEwesLmeYHW7JpbefOZQsFhenuXlWqy1kY13MwOb+vwFcR+dmvZQ3lcmSnxxY9DgI5yL9lE9wYBa/1o5iiTPk5axLjHl/yq3hYJZUYBse+HlzgXfnYKFIdrXGQ6MQxKrf8fE19ety/aMN9mN0hhKPPLx8xBA+Eu86rZ39ZJI2eVJVY2lB/eDBe5ZVbo0yjXbznvVbj5j/dK82TU0UEfBcLVf6YxMMGwGspt/Nu/JJfPSmUy+hTuwm7yDCLgsnHT88d9pGK+HOFDpHgCPBh5yPO2GNpRZ1Io/YCdUZZCV1ro7pFBEKwsBjvT+AIecqhg2bEUazi9xUDVX8ahDWO9oyJjqW8v7NePaGFK/k0p9LWmzORs8wICSUKfkEMueZTVplDNegQ9aw2g1vqCno3KgKOd8KYATaiHJCmasatfdyxte7c8c85hPE33JigI3nUjsom4jH8vKrhy3qDo8Ni6UpByhh3ROdeoT/2Xup7cXa535Hwrclj7FXQPZGtXJx9Z0T7yDfB4I5mJMaa2a/RQaSoN48NuKvxH4n/QnajBN/jQFRhyrhhER30KdVUiKq4BEw8i8CjMiajxZbRPIv4oDNStGa0UvBZYx8fxOB5MXdOtbMxVUW8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2Z1SUZkZFNQYjVEODQ2aDM1cnh6NlRTeU1Vcks2eU92ZEVWN2xZc1QxbHly?=
+ =?utf-8?B?VFBoSmlya0FtSGxFTDM0TnB6SERlL3ZzWmlzdS9rUVZnRkxaNTV1ckRHb0tF?=
+ =?utf-8?B?OTA3TjFkYVQzYVNjV2FLUmhBUGtRbWIwbEs1dStCaktLTnVkejZKWmFnNUdH?=
+ =?utf-8?B?T2xEOWV6UUw4UkQwWDRhVzdMWlNuZFhFS0I3MlAvbGdWclQ3SUl2OGVLZ2g4?=
+ =?utf-8?B?azZLdHBMTlpBdjIwZ2FKWVpRLzRML001Q3RCSlphQjZ1Zjd6SkI4N01NZFZo?=
+ =?utf-8?B?YnpWWm5xSW9oaTRPcUp5TEhHSTFhaTRtMGI5WmlZV3p5bjdtaW5SdVVmeEky?=
+ =?utf-8?B?UUMxbXpyaGIxMUoxYjl2ZjdwQ1FqQW1YTm1VUlVkaStkakFwMmZDdkpWSitl?=
+ =?utf-8?B?cVA3NFQ2eDNCRUNyQW1zNHJNYzQzd3Q5QitENVJmQXZmbW9sS1MvdVVHQVFC?=
+ =?utf-8?B?RlkvYVFyZWx3QzBwZzVZYlNtYjNIOXp0ajdGV0QrVVViaWVBdUcyOEFJQzdP?=
+ =?utf-8?B?K3RwcWtuL3pxb1JwclhsYSsvUjZtU2p5WU9pS0NOdUdLc0J5NFd1eVJVdU0x?=
+ =?utf-8?B?ZnJuc1hvNk0zYjZCcE5zRmhFRXExQzl1azNxL29Rd3pvNHBpSW1jOXFkdUVq?=
+ =?utf-8?B?a0o0amFycVprR3hUMjNZZTcyZFBzaEJNSDNlQ3lTZjFHMHc2dFh6SWRURnBq?=
+ =?utf-8?B?YXRJZ01aZStHcmdRUEs0dXpUTmhPYlhGNkNGNmUrbC92ZHlMbGwrSjNYc25w?=
+ =?utf-8?B?SGJPNzZxVWlBYjJDZlRjbWVMdU1pRjdjUWlNcXRacjhWcHdwR3FUNFgrV1Vy?=
+ =?utf-8?B?bmpUaC8rbTR4VWE2UHRibG15K1BmRDVNSC9Sd00xZ2hDTjh5bmhYR3ozM3NG?=
+ =?utf-8?B?azlaenQzNFVkbU1aWjF2aENoNXhxMGhpVnF0NWN1bVZvaTVqbFV1MU1sTnQr?=
+ =?utf-8?B?UFpOSmo3L2RvVHdTa09mdk10eGFSZFFMQmxJNm5kRjc1bCtFVmVwSVFzc3RB?=
+ =?utf-8?B?cjIvUElrQ0RJam5FaWF6dE51bUw2aEJYaDdVa1RkOUcrZ0oydWY3ZnBLZjJM?=
+ =?utf-8?B?OEJVeEg4VGFFaGlUc1FyTzBWR2crRUF6OVJ1L3B5Y1ExU1FqbnFwRDQvRCs3?=
+ =?utf-8?B?WWNaKzExYjIrT3UrQXFuL01od0l2ZjFDcmoxaVBYRVNTZENZaW92WXpkajdo?=
+ =?utf-8?B?QUs1bGVvQTFwYzVMOGVjaVJ5RGdsRGtQK3RYbElKU1hNWEczYnpmakZPdFR2?=
+ =?utf-8?B?YmZjUEJWcXdVd0ZyRmVjcGkrcEkvdHVvdkdQMVFHS3NCakZoWWFuRVF1K0Ri?=
+ =?utf-8?B?bUVqVDNhZmdHMDFSWk9va09tdldONlNDNGNtOElsRlZRNTJodk5NYXNENGFr?=
+ =?utf-8?B?MklWVHJ4VGlhVUhUdnpuVEVkL0VZMGhabExEaUFyTkJsV25Yc1I3ZVdZdGZT?=
+ =?utf-8?B?MEdOSDFQaHJCYVlxREQvbGY2SmJNQmNXMnY3amh6N0JCVkJrZ0Z5V1JjM2FL?=
+ =?utf-8?B?ZUVWRURiekFuOE1LOW1ZdTEwTlVRY0h2b2szTllLRzQ3NHFkOUp4U01MTVU5?=
+ =?utf-8?B?VUZnUWhyMnBydkZpZnZjRVdDeTM0N0x5bHpuS1VwQ2E0Ri9yc1VFdDVGWlRH?=
+ =?utf-8?B?NDUrZ2ZmNGF3ckdXTlB3Q2ZlUit2QWMxVllxSGpzQk5ONUZwbmRZQzE3SVkv?=
+ =?utf-8?B?dlcwRUVZSTlmNFVOaHEwMWRqRGN1K213YmNJYVM3dmcrTHcwR0V1cXliN2U3?=
+ =?utf-8?B?VW5DME5uYnZVQ3kxZk5EL1N6dHBPS3BhNDAwTkZ4dEdIUlJxcGhMeUQwUTJQ?=
+ =?utf-8?B?VGJxK3g3V0dvLzJacEpnbjdpeWpUK0E1WFd3QVZCN2hRUVM1aDgwNUUzeGdp?=
+ =?utf-8?B?cS9EdGtzUVFZV05MMzlMV1ZBck1uRGs3UjFSS2p4QUNCZGhWK1NjQXlYTFg4?=
+ =?utf-8?B?WE5ZTWVzRzEvZXVmb0VGMXR5NStFTG1CTmh1Mk1RZFh3UmhKTGs5bkVjN2hm?=
+ =?utf-8?B?am5rNS9jRFEwWVBQK0hUNzlCYUs2bm1JZGx3a2J0c2hqd2o0SzNHR3N6UDBq?=
+ =?utf-8?B?dFF1SkpVajcyOU1YdFdJY2lxSTR6ZEhXSU84Z3pMUnBXaWJDM0hzQ0g2dHF2?=
+ =?utf-8?B?MGtNaUw4VVpPS0dWV3dRZlViL3FPbTlwL2dsVmxITnlJNGd3S1Z2aElUdlh5?=
+ =?utf-8?B?MGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f055befe-3372-4460-5566-08dc5a188be0
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2024 11:14:25.3134
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NoUPlXdZX9GCrrK3dhJeUKGIDQtyuTzK1vvemvCdDfcP5LLWTReHJLmWcBHxXcec4Q95/BeNzDZK0oMs6rkNPWMiTjKvDzXuWbYjcPYPIfU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7676
+X-OriginatorOrg: intel.com
 
+On 4/11/24 11:32, Alexander Lobakin wrote:
+> From: Kees Cook <keescook@chromium.org>
+> 
+> kernel-doc emits a warning on struct_group_tagged() if you describe your
+> struct group member:
+> 
+> include/net/libeth/rx.h:69: warning: Excess struct member 'fp' description in 'libeth_fq'
+> 
+> The code:
+> 
+> /**
+>   * struct libeth_fq - structure representing a buffer queue
+>   * @fp: hotpath part of the structure
+>   * @pp: &page_pool for buffer management
+> [...]
+>   */
+> struct libeth_fq {
+> 	struct_group_tagged(libeth_fq_fp, fp,
+> 		struct page_pool	*pp;
+> [...]
+> 	);
+> 
+> When a struct_group_tagged() is encountered, we need to build a
+> `struct TAG NAME;` from it, so that it will be treated as a valid
+> embedded struct.
+> Decouple the regex and do the replacement there. As far as I can see,
+> this doesn't produce any new warnings on the current mainline tree.
+> 
+> Reported-by: Jakub Kicinski <kuba@kernel.org>
+> Closes: https://lore.kernel.org/netdev/20240405212513.0d189968@kernel.org
+> Fixes: 50d7bd38c3aa ("stddef: Introduce struct_group() helper macro")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Co-developed-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> ---
+>   scripts/kernel-doc | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 43a30f2de513..01ac8f794b30 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1152,7 +1152,8 @@ sub dump_struct($$) {
+>           # - first eat non-declaration parameters and rewrite for final match
+>           # - then remove macro, outer parens, and trailing semicolon
+>           $members =~ s/\bstruct_group\s*\(([^,]*,)/STRUCT_GROUP(/gos;
+> -        $members =~ s/\bstruct_group_(attr|tagged)\s*\(([^,]*,){2}/STRUCT_GROUP(/gos;
+> +        $members =~ s/\bstruct_group_attr\s*\(([^,]*,){2}/STRUCT_GROUP(/gos;
+> +        $members =~ s/\bstruct_group_tagged\s*\(([^,]*),([^,]*),/struct $1 $2; STRUCT_GROUP(/gos;
+>           $members =~ s/\b__struct_group\s*\(([^,]*,){3}/STRUCT_GROUP(/gos;
+>           $members =~ s/\bSTRUCT_GROUP(\(((?:(?>[^)(]+)|(?1))*)\))[^;]*;/$2/gos;
+>   
 
---QQMkQKtETCXLqH/I
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I would complain on code that matches `[^,]*` part with 0 characters,
+meaning no tag for struct_group_tagged(), or no attrs for
+struct_group_attrs(). In such cases simpler struct_group() call should
+be suggested. However, that issue was presented prior to your patch.
 
-On Tue, Apr 09, 2024 at 10:08:47PM +0300, Jarkko Sakkinen wrote:
-> diff --git a/Documentation/security/tpm/tpm_tis.rst b/Documentation/secur=
-ity/tpm/tpm_tis.rst
-> new file mode 100644
-> index 000000000000..b448ea3db71d
-> --- /dev/null
-> +++ b/Documentation/security/tpm/tpm_tis.rst
-> @@ -0,0 +1,46 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +TPM FIFO interface driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +
-> +TCG PTP Specification defines two interface types: FIFO and CRB. The for=
-mer is
-> +based on sequenced read and write operations,  and the latter is based o=
-n a
-> +buffer containing the full command or response.
-> +
-> +FIFO (First-In-First-Out) interface is used by the tpm_tis_core dependent
-> +drivers. Originally Linux had only a driver called tpm_tis, which covered
-> +memory mapped (aka MMIO) interface but it was later on extended to cover=
- other
-> +physical interfaces supported by the TCG standard.
-> +
-> +For legacy compliance the original MMIO driver is called tpm_tis and the
-Did you mean "For historical reasons above ..."?
-> +framework for FIFO drivers is named as tpm_tis_core. The postfix "tis" in
-> +tpm_tis comes from the TPM Interface Specification, which is the hardware
-> +interface specification for TPM 1.x chips.
-> +
-> +Communication is based on a 20 KiB buffer shared by the TPM chip through=
- a
-> +hardware bus or memory map, depending on the physical wiring. The buffer=
- is
-> +further split into five equal-size 4 KiB buffers, which provide equivale=
-nt
-> +sets of registers for communication between the CPU and TPM. These
-> +communication endpoints are called localities in the TCG terminology.
-> +
-> +When the kernel wants to send commands to the TPM chip, it first reserves
-> +locality 0 by setting the requestUse bit in the TPM_ACCESS register. The=
- bit is
-> +cleared by the chip when the access is granted. Once it completes its
-> +communication, the kernel writes the TPM_ACCESS.activeLocality bit. This
-> +informs the chip that the locality has been relinquished.
-> +
-> +Pending localities are served in order by the chip in descending order, =
-one at
-> +a time:
-> +
-> +- Locality 0 has the lowest priority.
-> +- Locality 5 has the highest priority.
-> +
-> +Further information on the purpose and meaning of the localities can be =
-found
-> +in section 3.2 of the TCG PC Client Platform TPM Profile Specification.
-> +
-> +References
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +TCG PC Client Platform TPM Profile (PTP) Specification
-> +https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profil=
-e-ptp-specification/
-
-Other than that,
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---QQMkQKtETCXLqH/I
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZhfAXQAKCRD2uYlJVVFO
-oyTWAQDDh/ybYEQfUhhhVix+XJRKnyJS+qX3oVhOtCnaV4rdbwD/T7FQM2fd19g6
-yntkKwA+0kOawAxi5rYvOITeNGaiTwo=
-=eLHn
------END PGP SIGNATURE-----
-
---QQMkQKtETCXLqH/I--
+This is clearly an improvement, so:
+Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
