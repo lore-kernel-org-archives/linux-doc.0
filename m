@@ -1,157 +1,237 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E29714A094;
-	Thu, 11 Apr 2024 11:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB5514A4E5;
+	Thu, 11 Apr 2024 13:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712836521; cv=none; b=elUc1XiTYlcaZfD3O3nyGnMus5utac1TQbH3jr8A6FBP/w7NuXnDw/kK0QNOs0RVqEHc9TmEJvhrdrT9asGTwDpk2QmNtQNROgN3Jaxw1lq9BjlJLmdk7b2svOUY9N/ZUUuJ3CdM+iL7i/tkyZpEtJP/n0mWBtLj5tkDs4HEkzs=
+	t=1712841938; cv=none; b=Y67uUdfhecAecGJemHuuIb1k94zdpfoC3n0U5E6BO9kqmvucfiX2pA5qLhAiGRHwbDvhQBkxy/XQP0AC6mTlVJdB2Pec9SspNMabeOfFPP6w/jvCwMVM5nm55+3mu163+Gk4MSvY3xoZ8AzsZkDV3Pb79Np3V0onqz1tW5pM9Fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712836521; c=relaxed/simple;
-	bh=qUHLbICK+OzVzpgAugTLlBx/+ikYrtOfR4K8Nx4oYfw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sr3rCctWzL7tBgODvASomc3yId/sR/r0qOevb+lhYrs04lcZ2vFqAXLmxjEASs19YdSI3sh8LIxJ8exVBpJO6SSir1VdeyVsoOJwgItQ5SVCPNUocZx+HY8eFqa+cvJkANTgbwd+YlfZjOSR6P5qhjGAypIXIdanB+uZAyaIdcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=bP56bhYa; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="bP56bhYa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1712836519; x=1744372519;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qUHLbICK+OzVzpgAugTLlBx/+ikYrtOfR4K8Nx4oYfw=;
-  b=bP56bhYazXE6fy9pzuspJ00L7+mAYf9fViRTI/B1qbtIWpCrX5UoQgUr
-   bsim6FASELIQkXU8tHt60EukTZDXe0LjQuo4NSLV+7S/Fj3JtebeURRLi
-   cDS+/LaqmRv/U5HpGBa+A5vS1tV67B+o49zbWnUQhS2Zp97F3DZX0S+Pr
-   Bz3kT3FrCrjtDT/8reOa+zOyVND2f//FmvRwndqA4tZT4Q010JJw77jTu
-   A5YlSZEczLKN3i8aWAsom5h5/zlz22O0DNnmIfW+KJVpFhf0gxZq8I5Ms
-   o2jQu7ShpC9vB/21on4GXcydv0LkNlmK2kcWIQ5JyG8s/qJPJBrhbBwbg
-   g==;
-X-CSE-ConnectionGUID: z5vJuW0ISXO47ggJt+rbgA==
-X-CSE-MsgGUID: mQWA4GzKR12LP6aGbYLBwA==
-X-IronPort-AV: E=Sophos;i="6.07,193,1708412400"; 
-   d="asc'?scan'208";a="251356126"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Apr 2024 04:55:16 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 11 Apr 2024 04:54:36 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Thu, 11 Apr 2024 04:54:33 -0700
-Date: Thu, 11 Apr 2024 12:53:43 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-CC: Deepak Gupta <debug@rivosinc.com>, Conor Dooley <conor@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Anup Patel <anup@brainfault.org>, Shuah
- Khan <shuah@kernel.org>, Atish Patra <atishp@atishpatra.org>,
-	<linux-doc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
-	<linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH 07/10] riscv: add ISA extension parsing for Zcmop
-Message-ID: <20240411-backwater-opal-00c9aed2231e@wendy>
-References: <20240410091106.749233-1-cleger@rivosinc.com>
- <20240410091106.749233-8-cleger@rivosinc.com>
- <ZhcFeVYUQJmBAKuv@debug.ba.rivosinc.com>
- <20240410-jawless-cavalry-a3eaf9c562a4@spud>
- <20240410-judgingly-appease-5df493852b70@spud>
- <ZhcTiakvfbjb2hon@debug.ba.rivosinc.com>
- <1287e6e9-cb8e-4a78-9195-ce29f1c4bace@rivosinc.com>
- <20240411-superglue-errant-b32e5118695f@wendy>
- <c86f9fa8-e273-4509-83fa-f21d3265d5c9@rivosinc.com>
+	s=arc-20240116; t=1712841938; c=relaxed/simple;
+	bh=Al33H8tBW4A6jzfbjZ0ytcFA1i1I9DnlN0rcqsygs/Q=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JouMx9QMejJ1t9d3jNVIM47rNb2Qx9llSNxdobNPB031jtzKoMdGNawM2ieiH6t1u/cGwNdA5Ju8Bgw8zjgp6sc6P7JrgUKkgaEGvnbEniHfW3R96RJGwfMdsNjSOP81QDLDsxi6QELPkcWRqTZLCQsWMLcg903PlWENC7yimt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VFgPz4KDkz6K5xZ;
+	Thu, 11 Apr 2024 21:23:51 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8A1BD140B2A;
+	Thu, 11 Apr 2024 21:25:32 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Thu, 11 Apr
+ 2024 14:25:31 +0100
+Date: Thu, 11 Apr 2024 14:25:30 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: <linux-pm@vger.kernel.org>, <loongarch@lists.linux.dev>,
+	<linux-acpi@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-riscv@lists.infradead.org>, <kvmarm@lists.linux.dev>,
+	<x86@kernel.org>, <acpica-devel@lists.linuxfoundation.org>,
+	<linux-csky@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-ia64@vger.kernel.org>, <linux-parisc@vger.kernel.org>, Salil Mehta
+	<salil.mehta@huawei.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	<jianyong.wu@arm.com>, <justin.he@arm.com>, James Morse
+	<james.morse@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Miguel Luis
+	<miguel.luis@oracle.com>
+Subject: Re: [PATCH RFC v4 12/15] arm64: psci: Ignore DENIED CPUs
+Message-ID: <20240411142530.00007617@huawei.com>
+In-Reply-To: <20240411123523.0000487a@huawei.com>
+References: <Zbp5xzmFhKDAgHws@shell.armlinux.org.uk>
+	<E1rVDnK-0027ZN-40@rmk-PC.armlinux.org.uk>
+	<20240411123523.0000487a@huawei.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jM0CNQ7ZIr2lhGV/"
-Content-Disposition: inline
-In-Reply-To: <c86f9fa8-e273-4509-83fa-f21d3265d5c9@rivosinc.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
---jM0CNQ7ZIr2lhGV/
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 11 Apr 2024 12:35:23 +0100
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-On Thu, Apr 11, 2024 at 11:08:21AM +0200, Cl=E9ment L=E9ger wrote:
-> >> If we consider to have potentially broken isa string (ie extensions
-> >> dependencies not correctly handled), then we'll need some way to
-> >> validate this within the kernel.
-> >=20
-> > No, the DT passed to the kernel should be correct and we by and large we
-> > should not have to do validation of it. What I meant above was writing
-> > the binding so that something invalid will not pass dtbs_check.
->=20
-> Acked, I was mainly answering Deepak question about dependencies wrt to
-> using __RISCV_ISA_EXT_SUPERSET() which does not seems to be relevant
-> since we expect a correct isa string to be passed.
+> On Wed, 31 Jan 2024 16:50:38 +0000
+> Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
+> 
+> > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > 
+> > When a CPU is marked as disabled, but online capable in the MADT, PSCI
+> > applies some firmware policy to control when it can be brought online.
+> > PSCI returns DENIED to a CPU_ON request if this is not currently
+> > permitted. The OS can learn the current policy from the _STA enabled bit.
+> > 
+> > Handle the PSCI DENIED return code gracefully instead of printing an
+> > error.
+> > 
+> > See https://developer.arm.com/documentation/den0022/f/?lang=en page 58.
+> > 
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > [ morse: Rewrote commit message ]
+> > Signed-off-by: James Morse <james.morse@arm.com>
+> > Tested-by: Miguel Luis <miguel.luis@oracle.com>
+> > Tested-by: Vishnu Pajjuri <vishnu@os.amperecomputing.com>
+> > Tested-by: Jianyong Wu <jianyong.wu@arm.com>
+> > Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > ---  
+> 
+> This change to return failure from __cpu_up in non error cases exposes
+> an possible issue with cpu_up() in kernel/cpu.c in that it brings the numa node
+> before we try (and fail) to bring up CPUs that may be denied.
+> 
+> We could try offlining the numa node on error, or just register it later.
+> 
+> Currently I'm testing this change which I think is harmless for cases that don't
+> fail the cpu_up()
+> 
+> For the cpu hotplug path note the node only comes online wiht the cpu online, not
+> the earlier hotplug. Reasonable given there is nothing online in the node before
+> that point.
+> 
+> diff --git a/kernel/cpu.c b/kernel/cpu.c
+> index 537099bf5d02..a4730396ccea 100644
+> --- a/kernel/cpu.c
+> +++ b/kernel/cpu.c
+> @@ -1742,10 +1742,6 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
+>                 return -EINVAL;
+>         }
+> 
+> -       err = try_online_node(cpu_to_node(cpu));
+> -       if (err)
+> -               return err;
+> -
+>         cpu_maps_update_begin();
+> 
+>         if (cpu_hotplug_disabled) {
+> @@ -1760,7 +1756,10 @@ static int cpu_up(unsigned int cpu, enum cpuhp_state target)
+>         err = _cpu_up(cpu, 0, target);
+>  out:
+>         cpu_maps_update_done();
+> -       return err;
+> +       if (err)
+> +               return err;
+> +
+> +       return try_online_node(cpu_to_node(cpu));
+>  }
+> 
+> There is a kicker in the remove path where currently check_cpu_on_node()
+> checks for_each_present_cpu() whereas to work for us we need to use
+> for_each_online_cpu() or the node is never removed.
+> 
+> Now my current view is that we should only show
+> nodes in /sys/bus/nodes/devices/ if there is a CPU online (assuming no other
+> reasons the node should be online such as memory).
+> That's easy enough to make work but all I'm really learning is that the semantics
+> of what is an online form a node point of view is not consistent.
+> 
+> Fixing this will create a minor change on x86 but does anyone really care
+> about what happens in the offline path wrt to 'when' the node disappears?
+> I think the corner case is.
+> 
+> 1. Add 2 CPUs (A, B) in a CPU only node.
+> 2. Online CPU A - this brings /sys/bus/devices/nodeX online
+> 3. Remove CPU A - no effect because the check for try_remove is on presence and CPU B is
+>    still present.
+> 4. Online CPU B - no change.
+> 5. Offline CPU B - no change.
+> 4. Remove CPU B - /sys/bus/device/nodeX offline (disappears)
+> 
+> To make it work on arm64 where we never make CPUs not present.
+> 
+> 1. Add 2 CPUs (A, B) in a CPU only node.
+> 2. Online CPU A - this brings /sys/bus/devices/nodeX online
+> 3. Remove CPU A - /sys/bus/devices/nodeX offline (disappears)
+> 4. Online CPU B - this brings /sys/bus/device/nodeX online
+> 5. Offline CPU B - no change (node updates only happen in hotplug code)
+> 6. Remove CPU B - /sys/bus/device/nodeX offline (disappears).
+> 
+> Step 5 may seem weird but I think we can't mess with nodes there because
+> userspace may well rely on them still being around for some reason
+> (it's a much more common situation).
+> 
+> My assumption is that step3 removing the node isn't going to hurt anyone?
+> 
+> If no one shouts, i'll go ahead with rolling a v5 patch set where this is done.
 
-Ahh, okay.
+This needs a little more thought as if we follow above sequence there isn't
+currently any cleanup of
+/sys/bus/cpu/devices/cpuB/node link.
 
-> But as you stated, DT
-> validation clearly make sense. I think a lot of extensions strings would
-> benefit such support (All the Zv* depends on V, etc).
+If you follow the sequence above an attempt is made to create it again.
+Whilst I have a WIP bit of dancing code that deals with this it is ugly as
+the check on whether a node is online needs to be dropped on this path.
+The problem coming back to the tear down and setup paths being in entirely different
+states and not remotely symmetric. 
 
-I think it is actually as simple something like this, which makes it
-invalid to have "d" without "f":
+So my proposal for now is to treat the whole numa node problem as something
+for another day.
 
-| diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-| index 468c646247aa..594828700cbe 100644
-| --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-| +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-| @@ -484,5 +484,20 @@ properties:
-|              Registers in the AX45MP datasheet.
-|              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
-| =20
-| +allOf:
-| +  - if:
-| +      properties:
-| +        riscv,isa-extensions:
-| +          contains:
-| +            const: "d"
-| +          not:
-| +            contains:
-| +              const: "f"
-| +    then:
-| +      properties:
-| +        riscv,isa-extensions:
-| +          false
-| +
-| +
-|  additionalProperties: true
-|  ...
+Step 1)
+For ARM64 cpu hp - NUMA nodes created at boot for any present CPUs - so all
+of them.  They never go away, hence no annoying tear down to do.
 
-If you do have d without f, the checker will say:
-cpu@2: riscv,isa-extensions: False schema does not allow ['i', 'm', 'a', 'd=
-', 'c']
+Step 2)
+We can consider moving to dynamic numa node handling either via the messy
+approach I have working, or via more major surgery.
+I have a bunch of other work in this area for memory hotplug, so maybe
+I can role those 2 activities together.
 
-At least that's readable, even though not clear about what to do. I wish
-the former could be said about the wall of text you get for /each/
-undocumented entry in the string.
+Jonathan
+> 
+> 
+> Jonathan
+> 
+> 
+> 
+> 
+> 
+> > Changes since RFC v2
+> >  * Add specification reference
+> >  * Use EPERM rather than EPROBE_DEFER
+> > Changes since RFC v3:
+> >  * Use EPERM everywhere
+> >  * Drop unnecessary changes to drivers/firmware/psci/psci.c
+> > ---
+> >  arch/arm64/kernel/psci.c | 2 +-
+> >  arch/arm64/kernel/smp.c  | 3 ++-
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kernel/psci.c b/arch/arm64/kernel/psci.c
+> > index 29a8e444db83..fabd732d0a2d 100644
+> > --- a/arch/arm64/kernel/psci.c
+> > +++ b/arch/arm64/kernel/psci.c
+> > @@ -40,7 +40,7 @@ static int cpu_psci_cpu_boot(unsigned int cpu)
+> >  {
+> >  	phys_addr_t pa_secondary_entry = __pa_symbol(secondary_entry);
+> >  	int err = psci_ops.cpu_on(cpu_logical_map(cpu), pa_secondary_entry);
+> > -	if (err)
+> > +	if (err && err != -EPERM)
+> >  		pr_err("failed to boot CPU%d (%d)\n", cpu, err);
+> >  
+> >  	return err;
+> > diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
+> > index 4ced34f62dab..dc0e0b3ec2d4 100644
+> > --- a/arch/arm64/kernel/smp.c
+> > +++ b/arch/arm64/kernel/smp.c
+> > @@ -132,7 +132,8 @@ int __cpu_up(unsigned int cpu, struct task_struct *idle)
+> >  	/* Now bring the CPU into our world */
+> >  	ret = boot_secondary(cpu, idle);
+> >  	if (ret) {
+> > -		pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
+> > +		if (ret != -EPERM)
+> > +			pr_err("CPU%u: failed to boot: %d\n", cpu, ret);
+> >  		return ret;
+> >  	}
+> >    
+> 
 
---jM0CNQ7ZIr2lhGV/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhfPRwAKCRB4tDGHoIJi
-0stXAP9uCAN5bZHcv91EPinTAeqedRCedCrkE5YEE9f8JUyrxgD8CAHddpGznZHx
-TNOtc9GaDiQRS4tdrlJo9+Hn1Puv4w0=
-=k3aJ
------END PGP SIGNATURE-----
-
---jM0CNQ7ZIr2lhGV/--
