@@ -1,43 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F4A13FD92;
-	Thu, 11 Apr 2024 09:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF21A143C51;
+	Thu, 11 Apr 2024 09:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712826830; cv=none; b=mqap+kwkU7X/wBx/ay0kBvz4TWJi0V3wBMvT9C0v7wQKLjmyl3bRpa7hkreyrmKvM5DWtt8yJct8bllns0OSile0ZolrbEUU2IrcO9njt/HCEx8ur2nQK1Z5FVCu+FVZB8wbO1PTpgjqrSVMN7iAT3RcUlpDra7pPk7dbqzWJlI=
+	t=1712827012; cv=none; b=pws5G/Q+a5cCyxCpBBvyAzjOccgB9ocolGtMdFijgjCzt8rOABjONtO7B3GrIqAZjb7oeBDct+dIbM1i1fjypAYJh6EL/lZlTLoSUJGGbVUE/NYrGZGMk/MqsUGEw6Si+uJ70aaxhFiBjxYrJdRmCOQG3BXsXqMoIM4gB9fxl6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712826830; c=relaxed/simple;
-	bh=s6ENZFSjQ6+ecFmzLviY1DdLzFy5bePidVMCMUX/CCY=;
+	s=arc-20240116; t=1712827012; c=relaxed/simple;
+	bh=hYm53TXlQfcyeB+z5vDUlyedpFv/vu34UbEEPPHY+XE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OacCzb3wjj/c08meEJzCGpY4UQvwL2oy8VnrH0e2jKt1NmjVm44ndfHI+tpvt50Fc2EePKaMlb1OqKUKtPTP/jzKTiSfB6oUm+gHWItA9hRM97oitoI1/uoD9qIvRnlqfge0UcLZlzUX+5MUC69qUopJuRPDcpqRgfgr5n8cbyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VU+jY1w8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ROmw8WazikpYpOxxFHaNyV1qkTstG9VuPJpU5kC7rctQTIbbc9oKEe9XlcA+puwvN3Dirv4VkQyuRbxAa6bxCN4gIMLGs9wFv2S3wItD9Ad9GLOjSe2GF9qpqvuEykS5VkzmVkHwlZCnnP0BZA5Qr98RfehaxI6QXjoYlxvqpOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PoIk+CP1; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VU+jY1w8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D233EC433C7;
-	Thu, 11 Apr 2024 09:13:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712826830;
-	bh=s6ENZFSjQ6+ecFmzLviY1DdLzFy5bePidVMCMUX/CCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VU+jY1w8SnngczpBjeisADAOlFiQt+mnZyyaSXoal63iv1oWfNFuT5wUNFa6/bx6d
-	 6sOpq7E26LO4OSN27yU1D21HuzSLLg/kTMyzAjTjgXf7c50ZrSc4D4/lWtmXz/0hxN
-	 NN5qWk70uMBZRHprUxJroUkre9AgGyUFhUUep91s=
-Date: Thu, 11 Apr 2024 11:13:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org, workflows@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PoIk+CP1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712827011; x=1744363011;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hYm53TXlQfcyeB+z5vDUlyedpFv/vu34UbEEPPHY+XE=;
+  b=PoIk+CP13PNb+y6MSoFicDJzZIQyW8Hk9FBtHIuUO0KE85dTN6LHsLGs
+   Akdf7XKHnqb3kjZ6fmJJ+bbCBZ41tlm1j4rZPsGUdMq6HUgAXQP012SSQ
+   rjNz/K0yYfmzdJ0Hsl+ZuYPLepI/XD+BQVXSPMPwiu/Dwq1RbumLL//gw
+   C799E9B9kiETTBdcyhfviraOd/UoT9tzARxADcz4F8D7q3J1Wbb6ICDof
+   7M9B0TIgYWSUo4p3peKszgr5a2t1G02lCl153JDPFuM5tPa1mQtfiVMqw
+   fOyCtROQU9A8SwybRT9PR3qsy5odNwyMCnHURl8vJRMbCO3FXULEEWYsM
+   A==;
+X-CSE-ConnectionGUID: du3qVAslQUa9NNgrEpIxfQ==
+X-CSE-MsgGUID: b4o/dJqiQhCp70JHU5q8Uw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11187719"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="11187719"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 02:16:50 -0700
+X-CSE-ConnectionGUID: AoAFNDtVSGCeodYJQe9kWw==
+X-CSE-MsgGUID: 2hhegYBSSI6eLdjjaGCipA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="20803972"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa009.jf.intel.com with ESMTP; 11 Apr 2024 02:16:47 -0700
+Date: Thu, 11 Apr 2024 17:11:43 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>, linux-fpga@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/4] docs: stable-kernel-rules: mention "no
- semi-automatic backport"
-Message-ID: <2024041159-undone-deacon-3170@gregkh>
-References: <cover.1712812895.git.linux@leemhuis.info>
- <c0a08b160b286e8c98549eedb37404c6e784cf8a.1712812895.git.linux@leemhuis.info>
- <2024041156-backache-dolly-a420@gregkh>
- <3f395eca-fc24-469b-b5fc-de47ab2a6861@leemhuis.info>
- <2024041123-earthling-primarily-4656@gregkh>
- <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
+Subject: Re: [PATCH v2] fpga: region: add owner module and take its refcount
+Message-ID: <ZhepT8emGl27Fo5N@yilunxu-OptiPlex-7050>
+References: <20240327160022.202934-1-marpagan@redhat.com>
+ <Zgp/jNst2yuXEbpU@yilunxu-OptiPlex-7050>
+ <64c1685a-b544-408e-97e4-8c3cff6aca6c@redhat.com>
+ <ZhS/M6pa9AHyvb0y@yilunxu-OptiPlex-7050>
+ <9d016f83-8e7f-4bdf-8610-e3d0b49f7097@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,51 +67,125 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dad33d1c-77da-4b97-a0ec-4bf566f8d861@leemhuis.info>
+In-Reply-To: <9d016f83-8e7f-4bdf-8610-e3d0b49f7097@redhat.com>
 
-On Thu, Apr 11, 2024 at 09:50:24AM +0200, Thorsten Leemhuis wrote:
-> On 11.04.24 09:40, Greg Kroah-Hartman wrote:
-> > On Thu, Apr 11, 2024 at 08:59:39AM +0200, Thorsten Leemhuis wrote:
-> >> On 11.04.24 07:29, Greg Kroah-Hartman wrote:
-> >>> On Thu, Apr 11, 2024 at 07:25:04AM +0200, Thorsten Leemhuis wrote:
-> >>>> Some developers deliberately steer clear of 'Fixes:' tags to prevent
-> >>>> changes from being backported semi-automatically by the stable team.
-> >>>> That somewhat undermines the reason for the existence of the Fixes: tag,
-> >>>> hence point out there is an alternative to reach the same effect.
-> > [...]
-> >>> I do not understand, why are you saying "cc: stable" here if you do NOT
-> >>> want it backported?
-> >> Because the only alternative the developers have to make the stable team
-> >> not pick a single patch[1] is to deliberately omit a Fixes: tag even if
-> >> the patch normally should have one. Like it was done here:
-> >> https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secunet.com/
-> > That feels odd, but ok I now see the need for this for some minor set of
-> > changes (i.e. this has rarely come up in the past 15+ years)
-> > 
-> > [...]
-> >> E.g. 'ignore for the AUTOSEL and the "Fixes tag only" tools'. That was
-> >> the best term I came up with.
-> > 
-> > Thinking about it more, I think we need to be much more explicit, and
-> > provide the reason why.
-> > 
-> > How about:
-> > 	cc: <do-not-apply-to-stable@kernel.org> # Reason goes here, and must be present
-> > 
-> > and we can make that address be routed to /dev/null just like
-> > <stable@kernel.org> is?
+On Wed, Apr 10, 2024 at 11:42:23AM +0200, Marco Pagani wrote:
 > 
-> Totally fine with me, but that feels somewhat long and hard to type.
+> 
+> On 2024-04-09 06:08, Xu Yilun wrote:
+> > On Wed, Apr 03, 2024 at 03:34:22PM +0200, Marco Pagani wrote:
+> >>
+> >>
+> >> On 2024-04-01 11:34, Xu Yilun wrote:
+> >>> On Wed, Mar 27, 2024 at 05:00:20PM +0100, Marco Pagani wrote:
+> >>>> The current implementation of the fpga region assumes that the low-level
+> >>>> module registers a driver for the parent device and uses its owner pointer
+> >>>> to take the module's refcount. This approach is problematic since it can
+> >>>> lead to a null pointer dereference while attempting to get the region
+> >>>> during programming if the parent device does not have a driver.
+> >>>>
+> >>>> To address this problem, add a module owner pointer to the fpga_region
+> >>>> struct and use it to take the module's refcount. Modify the functions for
+> >>>> registering a region to take an additional owner module parameter and
+> >>>> rename them to avoid conflicts. Use the old function names for helper
+> >>>> macros that automatically set the module that registers the region as the
+> >>>> owner. This ensures compatibility with existing low-level control modules
+> >>>> and reduces the chances of registering a region without setting the owner.
+> >>>>
+> >>>> Also, update the documentation to keep it consistent with the new interface
+> >>>> for registering an fpga region.
+> >>>>
+> >>>> Other changes: unlock the mutex before calling put_device() in
+> >>>> fpga_region_put() to avoid potential use after release issues.
+> >>>
+> >>> Please try not to mix different changes in one patch, especially for
+> >>> a "bug fix" as you said.
+> >>
+> >> You are right. I'll split out the change and eventually send it as a
+> >> separate patch.
+> >>
+> >>> And I do have concern about the fix, see below.
+> >>>
+> >>> [...]
+> >>>
+> >>>> @@ -53,7 +53,7 @@ static struct fpga_region *fpga_region_get(struct fpga_region *region)
+> >>>>  	}
+> >>>>  
+> >>>>  	get_device(dev);
+> >>>> -	if (!try_module_get(dev->parent->driver->owner)) {
+> >>>> +	if (!try_module_get(region->br_owner)) {
+> >>>>  		put_device(dev);
+> >>>>  		mutex_unlock(&region->mutex);
+> >>>>  		return ERR_PTR(-ENODEV);
+> >>>> @@ -75,9 +75,9 @@ static void fpga_region_put(struct fpga_region *region)
+> >>>>  
+> >>>>  	dev_dbg(dev, "put\n");
+> >>>>  
+> >>>> -	module_put(dev->parent->driver->owner);
+> >>>> -	put_device(dev);
+> >>>> +	module_put(region->br_owner);
+> >>>>  	mutex_unlock(&region->mutex);
+> >>>
+> >>> If there is concern the region would be freed after put_device(), then
+> >>> why still keep the sequence in fpga_region_get()?
+> >>
+> >> Ouch, sorry, I forgot to make the change also in fpga_region_get().
+> >>
+> >>> And is it possible region is freed before get_device() in
+> >>> fpga_region_get()?
+> >>
+> >> If the user follows the usual pattern (i.e., waiting for
+> > 
+> > I can see the only safe way is fpga_region_program_fpga() or fpga_region_get()
+> > should be included in:
+> > 
+> >   region = fpga_region_class_find();
+> >   ...
+> >   put_device(&region->dev);
+> > 
+> > That is to say, fpga_region_get() should not be called when there is no
+> > region dev reference hold beforehand. In this case, no use after release
+> > risk. That's why I was thinking about some documentation.
+> > 
+> > Another concern is we'd better keep the get/put operations symmetrical
+> > for easy maintaining, as long as it doesn't cause problem.
+> 
+> Now I see your point. So, you suggest changing only the docs to clarify
+> that the region must be taken with fpga_region_class_find() before
+> programming it with fpga_region_program_fpga()?
 
-I want it long and hard to type and very very explicit that this is what
-the developer/maintainer wants to have happen (again, because this is
-such a rare occurrence.)
+Like:
 
-> How
-> about just 'no-stable@kernel.org' (or 'nostable@kernel.org')?
+The reference to the region must already been hold. E.g. by
+fpga_region_class_find().
 
-More words are better :)
+> 
+> That's fine by me. However, this made me wonder why we need to take the
+> region dev with get_device() in fpga_region_program_fpga()->fpga_region_get().
+> If we assume that the user must always call fpga_region_class_find()
+> before programming with fpga_region_program_fpga(), why do we need the
+> double get?
 
-thanks,
+Yeah, I have the same concern when I visit this part. I don't think it
+is necessary.
 
-greg k-h
+Thanks,
+Yilun
+
+> 
+> Thanks,
+> Marco
+>  
+> >> fpga_region_program_fpga() to complete before calling
+> >> fpga_region_unregister()) there should be no problem. However, I think
+> >> releasing the device before unlocking the mutex contained in the context
+> >> associated with the device makes the code brittle and more prone to
+> >> problems.
+> >>
+> >>> Or we should clearly document how/when to use these functions?
+> >>  
+> >> I think it is not necessary to change the documentation since the
+> >> in-kernel programming API will not be affected by the change.
+> >>
+> [...]
+> 
