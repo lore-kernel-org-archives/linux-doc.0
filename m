@@ -1,108 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B2C481AA;
-	Fri, 12 Apr 2024 06:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBC4481C2
+	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 06:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712904086; cv=none; b=FcEPPII0PjuyIcdaDdrNQgRGh0jHTZJ64CCC+El55BAD71bsFllRqYtMsxuiTRwmIH+6zZnvlB5y5AUl5wH3s1mCNb9YHQCKfE/+3nmyyCL49/KnMMSsVyiBZc7CZmYQuwVd73jZ75sEp6m8ftE0iY0OVcTg9b17N1jRVNm4YZ0=
+	t=1712904545; cv=none; b=MUCWhbFUwGDwzhzmcwGD6L8tsIY0Z3CON1ZSQAWVF39GDHqXUFEiJTZrRhHEsx4IGR6W+q0mv02FmcxyCOSoSp4RqZ9tOmIRo8gh+W4ZHK2UJWoSjlcaOpeBECcOu9tJz5nTJuekg/xag71h6+/cqlRCgfD8Hi6pNiZmSSsVOf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712904086; c=relaxed/simple;
-	bh=nnftp3y20mnefQs/zA7rIGucHoCz77k4ThTY/2DnxXQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WqZ4u2bp1etrmGwN4LvsEPc5P8AJHqF7YOdeX3PUsI0f7yW5353sMQfumFije+dnpo+1RbsV2oEBzu3BzyCh7zMWMGVGqHnsEXXP8w5YLHiRn6isxA0DilztxWv482/N9jaaplh0LdXlp6iYChmbPWluqpwmjkDKYt0JX8kP8AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSIG88PM; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1712904545; c=relaxed/simple;
+	bh=nuMVzIYiPUK+rdCRW/LSWIvAdix9AYm7Os5AfBHAvj4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=a/a2YDSfnrF7j5hYBMXHdvyrsToTEsbMmCIJ5fBaMResf6Qok0k1R/BJwNnRsK0vmT0hoa0N4OnvzCtEH5ufRpHqg10KrtPRxwAOWr+7DswzvKOie7JZRoE91kQuW95nxL3HLS/ADhQzZpsHtpQt61jH1QgToVnBxtaP0/7Jx9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=JBLmwOVr; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSIG88PM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712904084; x=1744440084;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=nnftp3y20mnefQs/zA7rIGucHoCz77k4ThTY/2DnxXQ=;
-  b=iSIG88PM9b2YgdRQ4szSPTsiEdHfMD5rvawOOi/wLLg8jMk/6RvNaAhh
-   oT8MCDqfxNcRKZIaxcmdnyc5dZFarta68w/0F5iqI/qjN12Q0xqiv/d3W
-   MzpkPrK3w3Kcc1AHe6HVTykvzAnyMk67pILZRjDVT2hnvtRmoe/Cw2Fd+
-   /uyq9R6DLLbY1+VPi8oWLD8fXYhTK1fOKpK5axS7YL1HSBv2I+Lw0Wccf
-   fe1j1FKLmWJwforIh40KJUeHO8Jk2MX9Ubj2Z2DTWjc8yz7+KWokasxYk
-   5t7Q9ylV9NvBLIftWfB78uD0Vkjhd9A4DcbrwRJ02bVl04XgItkgpfDlz
-   A==;
-X-CSE-ConnectionGUID: Y0HDLEZfStSZpp9NVKZxxw==
-X-CSE-MsgGUID: /QL/ha6+TkaFPIYYcUqo0A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="19059686"
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="19059686"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 23:41:22 -0700
-X-CSE-ConnectionGUID: gXMdnuYmRRqCKEW6OOQMYA==
-X-CSE-MsgGUID: D1rZkMzDT4yyHA2nqy/ldg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="21056020"
-Received: from gjantea-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.121])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 23:41:15 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thorsten Blum <thorsten.blum@toblux.com>, Dan Carpenter
- <dan.carpenter@linaro.org>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- speakup@linux-speakup.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-afs@lists.infradead.org, ecryptfs@vger.kernel.org,
- netfs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-arch@vger.kernel.org,
- io-uring@vger.kernel.org, cocci@inria.fr, linux-perf-users@vger.kernel.org
-Subject: Re: [PATCH] treewide: Fix common grammar mistake "the the"
-In-Reply-To: <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240411150437.496153-4-thorsten.blum@toblux.com>
- <0bd7ccc2-4d8c-455b-a6c2-972ebe1fcb08@moroto.mountain>
- <193B959E-60A3-499A-BFF3-EA7B2D0B6C12@toblux.com>
-Date: Fri, 12 Apr 2024 09:41:10 +0300
-Message-ID: <87y19j3wxl.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="JBLmwOVr"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e3ca4fe4cfso4142515ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 23:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1712904543; x=1713509343; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=USfQfM+UR81v7lHRAxHQQ1oLkFkV+dRc3UOcjHi01P4=;
+        b=JBLmwOVrBWUGKVFHHKIyDNLlyaYSHDMb/MiYRd/6+2vqsJrSOviBqxXyEAgQV363UJ
+         t31g8lmEyGhomgRVnmZwQz2BRQvu4dJ3AWww1/DRPVjKA58F5kJY+eE2dDs/z9u0fCZL
+         mvz5T0AOlcEqlHxoSBaLvb/FV5oDuyXEbFCBuzxR9JmwphEtGFop4/M8GtxZLSWHDY4A
+         k1TIblC0WVlXknri2UH3YnMLwwJ/fpIKYWoTHct5rG8sZlhEE+GurKZW0MKoWzySkRxQ
+         zD+UNMgJsG0oCZ/n+mN0jUqxyVgIRFqVvhkqfmmyDb4OHQIHDCCSlt9of66eaPixGQBC
+         31bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712904543; x=1713509343;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=USfQfM+UR81v7lHRAxHQQ1oLkFkV+dRc3UOcjHi01P4=;
+        b=VC5nQRgEXX945c6OAp1/5itylfMsxDbPzZACUb7u6nRfNwbSw3H539NhORxLFYhMwb
+         JpqcP5MO2sObSUVhtedzJZvLmDiFd/ePvu3GXJlY5UdUz+7FhO8K1F+HIvmdxICvE/nb
+         agc+Ntj/2PnGZbbRMEtcAjCudWax8Okht240WrvJyZrmHTIqUnK5FSQMRHqr+H9+IkSX
+         M8y6NlIVFYpHcsxmsqqM8sJHcUvVbb7bkaecIJbykg586Kc9VhP/f4onIK2L7dJwNPWm
+         jq/aOp5RfCBs4mVzO++vO6ckHsQcidq8fBkelgXhPFIxW/EiGL7YGa0kKiwbjDiAmmCM
+         4Svw==
+X-Forwarded-Encrypted: i=1; AJvYcCWtFmoqnLSKPwmTJ076FCkspnE3YLWUzaUlMEdP+sG65ARjl9AKb5lfwx6liH0KMZKUCGp9yvdA5q1YDL/TDR3EH7U84E+2G3kt
+X-Gm-Message-State: AOJu0YyWkVm3BicFyLH+8c9vmHJm3KsHb0AL9rvEtFgYutDnYU+LoAjR
+	61uz1qHsyDFW2tH0Q9+LiV3LLhvDMJWLYrDqrMWWNMaL0jb57FB6BKiPkkx0BRY=
+X-Google-Smtp-Source: AGHT+IFGt59LZRrXTn7Yc6vTc14Z01BARI2Go5M4fYmzWCSl9LbWjZdfj71Auc/wFDqRBDgRn+JM8A==
+X-Received: by 2002:a17:902:d50c:b0:1e4:e5fe:ce0 with SMTP id b12-20020a170902d50c00b001e4e5fe0ce0mr1931056plg.43.1712904543043;
+        Thu, 11 Apr 2024 23:49:03 -0700 (PDT)
+Received: from [127.0.1.1] (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
+        by smtp.gmail.com with ESMTPSA id q8-20020a170902b10800b001e107222eb5sm2258818plr.191.2024.04.11.23.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Apr 2024 23:49:02 -0700 (PDT)
+From: Andy Chiu <andy.chiu@sifive.com>
+Subject: [PATCH v4 0/9] Support Zve32[xf] and Zve64[xfd] Vector
+ subextensions
+Date: Fri, 12 Apr 2024 14:48:56 +0800
+Message-Id: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFjZGGYC/3XOsQ6DIBDG8VcxzD0DiFU79T0aBwJHvUFtgJJa4
+ 7sXnVw6/pO7X76VBfSEgd2KlXlMFGiecqhLwcygpycC2dxMcql4JVr4JgSLEU3Ml1Bzwa9WWl3
+ LhuWfl0dHn8N79Lmdn0eIg0d9VpRQslayFF1XNyBAT3YpzUDveyBHCUszj7s2UIizX45xqdrNf
+ ztSBRxQSKuk4I3T7Vnqt237AUdoMbbpAAAA
+To: Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Andy Chiu <andy.chiu@sifive.com>, Guo Ren <guoren@kernel.org>, 
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Evan Green <evan@rivosinc.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Palmer Dabbelt <palmer@rivosinc.com>, 
+ Vincent Chen <vincent.chen@sifive.com>, 
+ Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Joel Granados <j.granados@samsung.com>
+X-Mailer: b4 0.13-dev-a684c
 
-On Fri, 12 Apr 2024, Thorsten Blum <thorsten.blum@toblux.com> wrote:
-> On 11. Apr 2024, at 17:25, Dan Carpenter <dan.carpenter@linaro.org> wrote:
->> 
->> It's tricky to know which tree a patch like this would go through.
->
-> The patch is based on the mainline tree. Should I have sent it directly to
-> Linus then?
->
-> I'm relatively new here and therefore only sent it to the corresponding mailing
-> lists.
+The series composes of two parts. The first part provides a quick fix for
+the issue on a recent thread[1]. The issue happens when a platform has
+ununified vector register length across multiple cores. Specifically,
+patch 1 adds a comment at a callsite of riscv_setup_vsize to clarify how
+vlenb is observed by the system. Patch 2 fixes the issue by failing the
+boot process of a secondary core if vlenb mismatches.
 
-It's not just about mailing lists, it's also about changes flowing in to
-mainline via a plethora of subsystem and driver repos and branches. See
-MAINTAINERS. Or this old LWN page [1]. The development happens in those
-branches, and if you make treewide changes like this, it's not clear who
-should take it, and you also risk unnecessary conflicts if those places
-get modified in the individual branches. So it might just be easiest to
-split this up to smaller patches sent to the appropriate lists.
+The second part of the series provide a finer grain view of the Vector
+extension. Patch 3 give the obsolete ISA parser the ability to expand
+ISA extensions for sigle letter extensions. Patch 3, 4 introduces Zve32x,
+Zve32f, Zve64x, Zve64f, Zve64d for isa parsing and hwprobe. Patch 5
+updates all callsites such that Vector subextensions are maximumly
+supported by the kernel.
 
-Anyway, all that said,
+Two parts of the series are sent together to ease the effort of picking
+dependency patches. The first part can be merged independent of the
+second one if necessary.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+The series is tested on a QEMU and verified that booting, Vector
+programs context-switch, signal, ptrace, prctl interfaces works when we
+only report partial V from the ISA.
 
-on the i915 changes here.
+Note that the signal test was performed after applying the commit
+c27fa53b858b ("riscv: Fix vector state restore in rt_sigreturn()")
 
+This patch should be able to apply on risc-v for-next branch on top of
+the commit ba5ea59f768f ("riscv: Do not save the scratch CSR during suspend")
 
-BR,
-Jani.
+[1]: https://lore.kernel.org/all/20240228-vicinity-cornstalk-4b8eb5fe5730@spud/T/#u
 
+Changes in v4:
+- Add a patch to trigger prctl test on ZVE32X (9)
+- Add a patch to fix integer promotion bug in hwprobe (8)
+- Fix a build fail on !CONFIG_RISCV_ISA_V (7)
+- Add more comment in the assembly code change (2)
+- Link to v3: https://lore.kernel.org/r/20240318-zve-detection-v3-0-e12d42107fa8@sifive.com
 
-[1] https://lwn.net/Articles/737094/
+Changelog v3:
+ - Include correct maintainers and mailing list into CC.
+ - Cleanup isa string parser code (3)
+ - Adjust extensions order and name (4, 5)
+ - Refine commit message (6)
 
+Changelog v2:
+ - Update comments and commit messages (1, 2, 7)
+ - Refine isa_exts[] lists for zve extensions (4)
+ - Add a patch for dt-binding (5)
+ - Make ZVE* extensions depend on has_vector(ZVE32X) (6, 7)
+
+---
+---
+Andy Chiu (9):
+      riscv: vector: add a comment when calling riscv_setup_vsize()
+      riscv: smp: fail booting up smp if inconsistent vlen is detected
+      riscv: cpufeature: call match_isa_ext() for single-letter extensions
+      riscv: cpufeature: add zve32[xf] and zve64[xfd] isa detection
+      dt-bindings: riscv: add Zve32[xf] Zve64[xfd] ISA extension description
+      riscv: hwprobe: add zve Vector subextensions into hwprobe interface
+      riscv: vector: adjust minimum Vector requirement to ZVE32X
+      hwprobe: fix integer promotion in RISCV_HWPROBE_EXT macro
+      selftest: run vector prctl test for ZVE32X
+
+ Documentation/arch/riscv/hwprobe.rst               | 15 ++++++
+ .../devicetree/bindings/riscv/extensions.yaml      | 30 ++++++++++++
+ arch/riscv/include/asm/hwcap.h                     |  5 ++
+ arch/riscv/include/asm/switch_to.h                 |  2 +-
+ arch/riscv/include/asm/vector.h                    | 25 ++++++----
+ arch/riscv/include/asm/xor.h                       |  2 +-
+ arch/riscv/include/uapi/asm/hwprobe.h              |  7 ++-
+ arch/riscv/kernel/cpufeature.c                     | 56 ++++++++++++++++++----
+ arch/riscv/kernel/head.S                           | 19 +++++---
+ arch/riscv/kernel/kernel_mode_vector.c             |  4 +-
+ arch/riscv/kernel/process.c                        |  4 +-
+ arch/riscv/kernel/signal.c                         |  6 +--
+ arch/riscv/kernel/smpboot.c                        | 14 ++++--
+ arch/riscv/kernel/sys_hwprobe.c                    | 13 ++++-
+ arch/riscv/kernel/vector.c                         | 15 +++---
+ arch/riscv/lib/uaccess.S                           |  2 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  |  6 +--
+ 17 files changed, 174 insertions(+), 51 deletions(-)
+---
+base-commit: ba5ea59f768f67d127b319b26ba209ff67e0d9a5
+change-id: 20240318-zve-detection-50106d2da527
+
+Best regards,
 -- 
-Jani Nikula, Intel
+Andy Chiu <andy.chiu@sifive.com>
+
