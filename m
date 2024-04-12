@@ -1,176 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC9714F9ED;
-	Fri, 12 Apr 2024 19:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F09B150984
+	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 19:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712949979; cv=none; b=KBSkRd1/EeNqTRfbHa434VaEO4nEJcU+GXrS9L5d4PYVt4o79IleJSUO1ho/USB0AriTwZQmR7kGUjAKQNFsCT73e18ZtNf2B7axXTVfRw2WRcS9a6kR3ccf7Qov+gNrQPLNSP8j6Ufcd2ZNRaGqb6AZ8F02faG+LycqsuFOZa0=
+	t=1712950174; cv=none; b=iXtvqun5hHGCVn7AQT3NuErhc1QTZc1r6+YMA1helFRrhgq/lxfuCWI21Vc3DBcmPRApBF0gjtzJeQArQMETg3IVBIpjMplXIJtzX4nm7nVI0ZE8aEgcQoNRktXQq+Ey1rawVW6wSYqnBNQbRVEVC4EXwN3iEwcgv5H4P5FdFSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712949979; c=relaxed/simple;
-	bh=ArpGHG9cuv9OtQt7jL/xNgqJB9MdPk3k7JUvanjZuic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4j1llD5C+4462x+yaOTMjojkyUvHHcnKuDeTDjb84KFs7OnjCfwvicTpbS/tAGBZt5H4OSi0ogMk1XvzIlnjm7ejTEek6gnoMVNs8Pn9T0VUWKI+5m/Q8ESuubpWfxRpbW0Tcu2UcQATL/K0Ch0dg61TzYQ+ttPGd44/bSoYg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BE1ZhfCI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712950174; c=relaxed/simple;
+	bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XBrKziHalK1VvUsN0Vf0uyAvCNXrWQ6Da8dStOxcSUwbn9Nlw38ZkTtYi3UK06Bybj8OWF1JMG3XZ0cFZ4XbhT5FM/RHgkSkFtaCewmtXtciTgXl6UzJcHwfJZgEhRjpB0b60ubhjF1vqySICgUaH5eT2Wl9tBaq8o1zLYJ/POM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=pnVaRNS1; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BE1ZhfCI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5419DC113CC;
-	Fri, 12 Apr 2024 19:26:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712949978;
-	bh=ArpGHG9cuv9OtQt7jL/xNgqJB9MdPk3k7JUvanjZuic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BE1ZhfCIepy+Sz+T2/94eePFkoOBa4Wa95SbkS2QeDMiyp12yVm5dxbXQ8DBAVn7e
-	 zaEoB5oI8W25RYxz9nj1KmtQifkJbq6TcZaZvzr2BZLansHu9+OSr3iV9XFoQ9mehr
-	 WDWWtMq8E1dfTt7HdTaOi9lb15ndfSLbPuCdFZmSZKfRDjjictfHUo2RWyRlm9K4E8
-	 9JirdX8YiXS/iJ1fnkO5Y3Wi29otvkyu+i2+2rQtPRBfmq1njgVEabcy+rtzdw7f1H
-	 vOZ2jbfP0fNsPzw0gK+ZL/PdQRjsoz8WjLOPnKbLLA9WO+GJBKQMbXROTtaPlEzejH
-	 FKtr8IV7z/8qw==
-Date: Fri, 12 Apr 2024 20:26:12 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Evan Green <evan@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
-Message-ID: <20240412-earmark-sanction-810b7222cae5@spud>
-References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
- <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
- <20240412-tuesday-resident-d9d07e75463c@wendy>
- <CALs-HsuMZOMpDh8kwQx6FE2mawzt+qTD-WZ6Mvhrt+hUhkZimg@mail.gmail.com>
- <20240412-employer-crier-c201704d22e3@spud>
- <ZhmBfaKXMMtolwSr@ghost>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="pnVaRNS1"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d4979cd8c8so11636011fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 12:29:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712950170; x=1713554970; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
+        b=pnVaRNS1SIhV6qcMvXag+Ts1k+LJs1E1TkQHB6wDhvW/HnYkCnXjgO5br3fjDwzAgz
+         04yet4YmlPsb03hSaGAB6ogU5sVvu156av8irkeszqCK5VLM77s1/B+KtzI0IRro/yxi
+         Y0uS34W7RhgJb8nDRPFPSbavEz43RhNkfACjQHDrU0kJAxba0ysSGQZuZpsbnCFJA/IY
+         P61fFVM2DiaUkb5piD+EjJOmxPJzMSvOXqsiVvDRNyvqWU8eJxu2iW1kmJTtwmSsybaW
+         tSQok7e1uvX1vBhifiyhGtYkHHh+Av1DO+cAACcxkU4NcJEuyhECU54IVMi36uZRQSGq
+         OVIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712950170; x=1713554970;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
+        b=pqdlD7ktXScwpeopDSKPLpFNyE3sdhBiNKfrbPiDcypN7mlPpDaA0T4a5Yy7PCmqkY
+         uUfNagjzRjDGqMPRPFeCYcqgU2H59fWaKnerTyiwekuFTBABtI/ByjUoUbXwU9j6HSjC
+         td9R1zhJG+t3CmpXbn9i5mLIKugLzGnLWHZLK++KlSSqWlCGuSF0SpgpP9tuFz9lDBX2
+         khEKMuU75h981b4IDUXpK3Xc8pgEe+TSfIUReMC39sUhazxa6rLPUacZreNHY0SlabTg
+         N5TJdXmbnRdNHSal5rLOSGyxa3UeurSoKMDuD3Y3f30i+HZ1UZH47KLTFLUiZ+VaXDSL
+         gDVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXUonq6oCGKoZJopXdIYm2Atof3iaHyGQg138wK2wqEImc7UT+/jPLDB5JatkKfsMD+dHAp1xuxS/6XfpjvL74Og69mYvX8tHFj
+X-Gm-Message-State: AOJu0YwJL7KIC3dEugv1rcQia7cTZLAU48Ut7uy2KtfhUenFbFrLc6T/
+	CT3K0NKG7rSFy0PZYpR3zcq/s7pP9KgL3IY8PrMVX2xKv3gi1mtLDL89kStRh0T3b7iHrPQW3MZ
+	0U4mTb15e1N9Kmkz4XdQrotkRZjSqJ8PjdlH1sA==
+X-Google-Smtp-Source: AGHT+IFPPr7frvWajQHGbkpxINHZewvW3o7jH7+UGGjVYe6zp1bkg8rR8QuGlvgmrYeG+47sm5i6VRjBLlopWWTUIBw=
+X-Received: by 2002:a2e:a70e:0:b0:2d8:cea3:85e7 with SMTP id
+ s14-20020a2ea70e000000b002d8cea385e7mr1073208lje.12.1712950170486; Fri, 12
+ Apr 2024 12:29:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="tJyAzTWQiwGEEGv9"
-Content-Disposition: inline
-In-Reply-To: <ZhmBfaKXMMtolwSr@ghost>
-
-
---tJyAzTWQiwGEEGv9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240408233201.419893-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20240408233201.419893-1-andriy.shevchenko@linux.intel.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 12 Apr 2024 21:29:19 +0200
+Message-ID: <CAMRc=MfnAYFPtk-pwtd496c-qry0aQs1NJCkTEQ+jLF+JGyxNQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] Documentation: gpio: Replace leading TABs by
+ spaces in the code blocks
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 12, 2024 at 11:46:21AM -0700, Charlie Jenkins wrote:
-> On Fri, Apr 12, 2024 at 07:38:04PM +0100, Conor Dooley wrote:
-> > On Fri, Apr 12, 2024 at 10:04:17AM -0700, Evan Green wrote:
-> > > On Fri, Apr 12, 2024 at 3:26=E2=80=AFAM Conor Dooley <conor.dooley@mi=
-crochip.com> wrote:
-> > > >
-> > > > On Thu, Apr 11, 2024 at 09:11:08PM -0700, Charlie Jenkins wrote:
-> > > > > The riscv_cpuinfo struct that contains mvendorid and marchid is n=
-ot
-> > > > > populated until all harts are booted which happens after the DT p=
-arsing.
-> > > > > Use the vendorid/archid values from the DT if available or assume=
- all
-> > > > > harts have the same values as the boot hart as a fallback.
-> > > > >
-> > > > > Fixes: d82f32202e0d ("RISC-V: Ignore V from the riscv,isa DT prop=
-erty on older T-Head CPUs")
-> > > >
-> > > > If this is our only use case for getting the mvendorid/marchid stuff
-> > > > from dt, then I don't think we should add it. None of the devicetre=
-es
-> > > > that the commit you're fixing here addresses will have these proper=
-ties
-> > > > and if they did have them, they'd then also be new enough to hopefu=
-lly
-> > > > not have "v" either - the issue is they're using whatever crap the
-> > > > vendor shipped.
-> > > > If we're gonna get the information from DT, we already have somethi=
-ng
-> > > > that we can look at to perform the disable as the cpu compatibles g=
-ive
-> > > > us enough information to make the decision.
-> > > >
-> > > > I also think that we could just cache the boot CPU's marchid/mvendo=
-rid,
-> > > > since we already have to look at it in riscv_fill_cpu_mfr_info(), a=
-void
-> > > > repeating these ecalls on all systems.
-> > > >
-> > > > Perhaps for now we could just look at the boot CPU alone? To my
-> > > > knowledge the systems that this targets all have homogeneous
-> > > > marchid/mvendorid values of 0x0.
-> > >=20
-> > > It's possible I'm misinterpreting, but is the suggestion to apply the
-> > > marchid/mvendorid we find on the boot CPU and assume it's the same on
-> > > all other CPUs? Since we're reporting the marchid/mvendorid/mimpid to
-> > > usermode in a per-hart way, it would be better IMO if we really do
-> > > query marchid/mvendorid/mimpid on each hart. The problem with applying
-> > > the boot CPU's value everywhere is if we're ever wrong in the future
-> > > (ie that assumption doesn't hold on some machine), we'll only find out
-> > > about it after the fact. Since we reported the wrong information to
-> > > usermode via hwprobe, it'll be an ugly userspace ABI issue to clean
-> > > up.
-> >=20
-> > You're misinterpreting, we do get the values on all individually as
-> > they're brought online. This is only used by the code that throws a bone
-> > to people with crappy vendor dtbs that put "v" in riscv,isa when they
-> > support the unratified version.
->=20
-> Not quite,
+On Tue, Apr 9, 2024 at 1:32=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The code blocks are indented with two spaces, if the leading TAB
+> is occurred the syntax highlighting might be broken in some editors.
+> To prevent that unify all code blocks by using spaces instead of
+> leading TAB(s).
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-Remember that this patch stands in isolation and the justification given
-in your commit message does not mention anything other than fixing my
-broken patch.
+Applied, thanks!
 
-> the alternatives are patched before the other cpus are
-> booted, so the alternatives will have false positives resulting in
-> broken kernels.
-
-Over-eagerly disabling vector isn't going to break any kernels and
-really should not break a behaving userspace either.
-Under-eagerly disabling it (in a way that this approach could solve) is
-only going to happen on a system where the boot hart has non-zero values
-and claims support for v but a non-boot hart has zero values and
-claims support for v but actually doesn't implement the ratified version.
-If the boot hart doesn't support v, then we currently disable the
-extension as only homogeneous stuff is supported by Linux. If the boot
-hart claims support for "v" but doesn't actually implement the ratified
-version neither the intent of my original patch nor this fix for it are
-going to help avoid a broken kernel.
-
-I think we do have a problem if the boot cpu having some erratum leads
-to the kernel being patched in a way that does not work for the other
-CPUs on the system, but I don't think this series addresses that sort of
-issue at all as you'd be adding code to the pi section if you were fixing
-it. I also don't think we should be making pre-emptive changes to the
-errata patching code either to solve that sort of problem, until an SoC
-shows up where things don't work.
-
-Cheers,
-Conor.
-
---tJyAzTWQiwGEEGv9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhmK1AAKCRB4tDGHoIJi
-0hziAP4j1liS/8H3/sGH37oV1Ie6vt982Lewk2FPT35h55TKRQEA/iypRsMhmnBH
-35WadNZuyEtJ844XSGK0IM1bH0q7eAk=
-=Lvox
------END PGP SIGNATURE-----
-
---tJyAzTWQiwGEEGv9--
+Bart
