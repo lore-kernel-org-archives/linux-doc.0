@@ -1,79 +1,121 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2291CA80;
-	Fri, 12 Apr 2024 06:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDCE47F73;
+	Fri, 12 Apr 2024 06:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712903255; cv=none; b=OQtWV+0WMwEhmjJ/BPVAQvjY0uhxUpLCi+r/72chP5qa4hwMOPVw0/kDYkqFmPIBkRw5iBdHHnJA+yo8+LKdmtvqGELa3NTci9ApnRiDsFWg4Xz/Pk7yVUvJNqz31uEztwLXJu6PTsXd179v62Nt2rsVID8fDeSNwMHipRWk5xY=
+	t=1712903684; cv=none; b=YGr/pBC4KdT+5sfTsIloWBzuOth4BTWjwRkCT+kVvGqOD/Q/fa7zgGi7k2kqAwzowWSltdF6Yy7XDrioEzwM2X5Y8M+78SDSxQWBI6q1whK+1MT3TgGf+wbbJ2wvnNw+A3Ysw3evmtDnZzFPDpic9fly5KeKstELYRjO6bqNUg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712903255; c=relaxed/simple;
-	bh=NiPOeWOuEjw88GRyE0zYlF6pjM+hyH0f8aXHg2mS7o0=;
+	s=arc-20240116; t=1712903684; c=relaxed/simple;
+	bh=YimORL+yJ1Jg4ENKctqEw1m3ZDIHqs2suc/Ktwhr3Ug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p/hPdY1KdMbCfazzv52EdM9ZfSvuUpJ++4hQ+xuv+RDVAD1sySBuL/d14/n1CHmD+l6vC+qxnSe42mXXnUEdPVaANF9cMqQztc9RIm93mMvsq8Y9igY6NJ0Q9VVOtK0if3qefkgdTOztnpTLyi6jCFEgaXF7bNpyz5GyEtwzrLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1rvAMf-000k1Z-Ta; Fri, 12 Apr 2024 14:26:22 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 12 Apr 2024 14:26:39 +0800
-Date: Fri, 12 Apr 2024 14:26:39 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Gstir <david@sigma-star.at>, Mimi Zohar <zohar@linux.ibm.com>,
-	James Bottomley <jejb@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Shawn Guo <shawnguo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
-	David Howells <dhowells@redhat.com>, Li Yang <leoyang.li@nxp.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Tejun Heo <tj@kernel.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-security-module@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>,
-	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Subject: Re: [PATCH v8 6/6] docs: trusted-encrypted: add DCP as new trust
- source
-Message-ID: <ZhjUH3TZ99cT3Rhq@gondor.apana.org.au>
-References: <20240403072131.54935-1-david@sigma-star.at>
- <20240403072131.54935-7-david@sigma-star.at>
- <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=q+FDNM4RUSMzIhzNKj+ZYPNAKTahBCnwko10j6H/dUoS4XHaolG4jsu0SlKw1d/UCetKm35aPdiZj5avIaEYLU/m5gMqnIc4BHtCiytww1el16ONqyl/jQwE2qf61HvE+riIZefQxSEq4ljnNqwMGncaGS3jknnZLSnsgg45ui8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri, 12 Apr 2024 08:34:31 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id EE57E8053B;
+	Fri, 12 Apr 2024 08:34:31 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id E04A5180C43; Fri, 12 Apr 2024 08:34:31 +0200 (CEST)
+Date: Fri, 12 Apr 2024 08:34:31 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: "Daniel Walker (danielwa)" <danielwa@cisco.com>
+Cc: "Valerii Chernous -X (vchernou - GLOBALLOGIC INC at Cisco)" <vchernou@cisco.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] Add MO(mod objs) variable to process ext modules with
+ subdirs
+Message-ID: <ZhjV90qSCPSyWiBh@buildd.core.avm.de>
+References: <20240405165610.1537698-1-vchernou@cisco.com>
+ <ZhfLrGrED-ls6i5V@buildd.core.avm.de>
+ <ZhgdjpE+yl3IYSzl@goliath>
+ <Zhg5L2xO_lT4lLwp@fjasle.eu>
+ <ZhhNAQtV3StbaA4z@goliath>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
+In-Reply-To: <ZhhNAQtV3StbaA4z@goliath>
+X-purgate-ID: 149429::1712903671-2B7DCE5F-99954997/0/0
+X-purgate-type: clean
+X-purgate-size: 2978
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Wed, Apr 03, 2024 at 06:47:51PM +0300, Jarkko Sakkinen wrote:
->
-> Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+On Thu, Apr 11, 2024 at 08:50:10PM +0000, Daniel Walker (danielwa) wrote:
+> On Thu, Apr 11, 2024 at 09:25:35PM +0200, Nicolas Schier wrote:
+> > On Thu, Apr 11, 2024 at 05:27:42PM +0000 Daniel Walker (danielwa) wrote:
+[...]
+> > > If that were true we would not have driver/uio/ for example. It seems like
+> > > Cisco and NVM should work together produce a solution.
+> > > 
+> > > You could run into this issue even with entirely in tree modules. For example,
+> > > we may have a v6.6 kernel but we need some modules from v5.15 for some incompatibility
+> > > reason in v6.6. Then we may build the v5.15 modules as out of tree modules
+> > > against the v6.6 kernel.
+>  
+> All problems should be fixed or worked around. One bit of code maybe isn't
+> the best choice or maybe another is, but not fixing or working around the
+> problem is not really an option.
+
+Let me sum up: It is possible to build out-of-tree kmods with subdirs
+in their source tree.
+The patch attempts to put support for _out-of-source builds_ of
+out-of-tree kmods with subdirs into kbuild itself.
+
+If you really out-of-source builds for your complex out-of-tree kmods,
+than, as a "work-around", you can simply put those 'src' override lines
+into your oot-Kbuild files.  But you probably know that already, right?
+
+> > If your in-tree module in question does compile and run properly in v5.15 and
+> > in v6.6: why don't you just compile it in-tree in v6.6?  Which driver/module do
+> > you refer to?
 > 
-> I can only test that this does not break a machine without the
-> hardware feature.
+> I believe it was this driver drivers/crypto/marvell/octeontx2 . I don't recall
+> every aspect of the issues but it has to do with what Marvell supported in their
+> SDK and the exact hardware we were using and the bootloader we had on the
+> product.
+> 
+> > > You also have just normal developers making kernel modules which always start as
+> > > out of tree modules before they are upstreamed. Those modules could be any level
+> > > of complexity.
+> > 
+> > I do not agree, but there is no need to convince me as I am not in the position
+> > to decide between acceptance or denial.  I just thought it might be fair to
+> > warn that I do not expect acceptance.
+> 
+> I think it's incorrect, unhealthy even, to look at it that way. If your using
+> Linux to make a product and you have an issue, it should be consider as a real
+> issue. Not something maintainer can just discard. Unless the maintainer has
+> a suggestion to do what is needed or different code to do it.
+> 
+> Daniel
 
-Please feel free to take this through your tree.
+Daniel,
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+I am confused about the outcome from your argumentation that you might
+expect.  And I think, I as a spare-time reviewer (not maintainer), am
+not the one you want to argue with.
+
+If you have a concrete technical issue or bug, please explain it
+concretely to linux-kbuild and we will probably find someone trying to
+help you.  If you want me to hide critical thoughts when reviewing
+patches under your pillow, then please tell me so.
+
+Have a nice weekend,
+Nicolas
