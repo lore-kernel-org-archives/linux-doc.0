@@ -1,60 +1,61 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBC4481C2
-	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 06:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5147A46537
+	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 06:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712904545; cv=none; b=MUCWhbFUwGDwzhzmcwGD6L8tsIY0Z3CON1ZSQAWVF39GDHqXUFEiJTZrRhHEsx4IGR6W+q0mv02FmcxyCOSoSp4RqZ9tOmIRo8gh+W4ZHK2UJWoSjlcaOpeBECcOu9tJz5nTJuekg/xag71h6+/cqlRCgfD8Hi6pNiZmSSsVOf8=
+	t=1712904548; cv=none; b=ru+AeYV4nSsj82Hh1MEITZTPhRQIDnjDXPkjQq4jihoBbP8O2wrW8kp83oqPD0G9hEXWNGELcQ8zJxT66SUk1FS2FeGgRJ7EfbQtNUKeKf0s8AtwTBh9ypMkEoDl+PEaDVuhXnx5r0qGFl++S/i7VXsa+37CiLo92AcOhQUlp8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712904545; c=relaxed/simple;
-	bh=nuMVzIYiPUK+rdCRW/LSWIvAdix9AYm7Os5AfBHAvj4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=a/a2YDSfnrF7j5hYBMXHdvyrsToTEsbMmCIJ5fBaMResf6Qok0k1R/BJwNnRsK0vmT0hoa0N4OnvzCtEH5ufRpHqg10KrtPRxwAOWr+7DswzvKOie7JZRoE91kQuW95nxL3HLS/ADhQzZpsHtpQt61jH1QgToVnBxtaP0/7Jx9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=JBLmwOVr; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1712904548; c=relaxed/simple;
+	bh=v5lsx72T+bwwkalmCViShoyQqewfBPUAjK8ziKGVSKw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IwfxTFBRxOObCmDNsYeKHslRwBCjP28YPWzxzg1prfPCs/Te5Z/y5s2KUGtNIKs4sh7TjjJdZodOxiakuh1XhIv8ZMIKRNhGYEigoOdD7CATcXw0Zpbw4N5FGuFLXzjnIHr6623AlPRAPoSGHeVaEJYTmKq049mYvDftGxzr8k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=mJjHeDEN; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="JBLmwOVr"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e3ca4fe4cfso4142515ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 23:49:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="mJjHeDEN"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6ecf1bb7f38so595375b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 11 Apr 2024 23:49:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1712904543; x=1713509343; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=USfQfM+UR81v7lHRAxHQQ1oLkFkV+dRc3UOcjHi01P4=;
-        b=JBLmwOVrBWUGKVFHHKIyDNLlyaYSHDMb/MiYRd/6+2vqsJrSOviBqxXyEAgQV363UJ
-         t31g8lmEyGhomgRVnmZwQz2BRQvu4dJ3AWww1/DRPVjKA58F5kJY+eE2dDs/z9u0fCZL
-         mvz5T0AOlcEqlHxoSBaLvb/FV5oDuyXEbFCBuzxR9JmwphEtGFop4/M8GtxZLSWHDY4A
-         k1TIblC0WVlXknri2UH3YnMLwwJ/fpIKYWoTHct5rG8sZlhEE+GurKZW0MKoWzySkRxQ
-         zD+UNMgJsG0oCZ/n+mN0jUqxyVgIRFqVvhkqfmmyDb4OHQIHDCCSlt9of66eaPixGQBC
-         31bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712904543; x=1713509343;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sifive.com; s=google; t=1712904547; x=1713509347; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=USfQfM+UR81v7lHRAxHQQ1oLkFkV+dRc3UOcjHi01P4=;
-        b=VC5nQRgEXX945c6OAp1/5itylfMsxDbPzZACUb7u6nRfNwbSw3H539NhORxLFYhMwb
-         JpqcP5MO2sObSUVhtedzJZvLmDiFd/ePvu3GXJlY5UdUz+7FhO8K1F+HIvmdxICvE/nb
-         agc+Ntj/2PnGZbbRMEtcAjCudWax8Okht240WrvJyZrmHTIqUnK5FSQMRHqr+H9+IkSX
-         M8y6NlIVFYpHcsxmsqqM8sJHcUvVbb7bkaecIJbykg586Kc9VhP/f4onIK2L7dJwNPWm
-         jq/aOp5RfCBs4mVzO++vO6ckHsQcidq8fBkelgXhPFIxW/EiGL7YGa0kKiwbjDiAmmCM
-         4Svw==
-X-Forwarded-Encrypted: i=1; AJvYcCWtFmoqnLSKPwmTJ076FCkspnE3YLWUzaUlMEdP+sG65ARjl9AKb5lfwx6liH0KMZKUCGp9yvdA5q1YDL/TDR3EH7U84E+2G3kt
-X-Gm-Message-State: AOJu0YyWkVm3BicFyLH+8c9vmHJm3KsHb0AL9rvEtFgYutDnYU+LoAjR
-	61uz1qHsyDFW2tH0Q9+LiV3LLhvDMJWLYrDqrMWWNMaL0jb57FB6BKiPkkx0BRY=
-X-Google-Smtp-Source: AGHT+IFGt59LZRrXTn7Yc6vTc14Z01BARI2Go5M4fYmzWCSl9LbWjZdfj71Auc/wFDqRBDgRn+JM8A==
-X-Received: by 2002:a17:902:d50c:b0:1e4:e5fe:ce0 with SMTP id b12-20020a170902d50c00b001e4e5fe0ce0mr1931056plg.43.1712904543043;
-        Thu, 11 Apr 2024 23:49:03 -0700 (PDT)
+        bh=srXw+GM0AbxLDkn2sukHjOTHYGaz4TEKS2v/bKB+HwE=;
+        b=mJjHeDENzgG4gDckyAKh9nUWEQvpsykJTysvaHQg+0FZVclPPl7jziP1Sd8XitEerd
+         uF4oYbbNXMxkb3o9ZPPnRd+pB+eklLTV1n2pou/6m3mtzThBA7B97hurWEL3FpQQkcbt
+         B4z9vOtuYdADtpz3QQhStgbOYBrJsaJEMWVwnYCuL697Z+up/YlFPrMZDBvlt6k17klD
+         etmxmqDxrkPEwmWHMm88r0Nzjk7c0VIgYHAwMyp0eF5hsqIyicqWJRk6+aU86MPlEfAk
+         9DNCvqvzoiKUKjLKpyF7VycrlEmu42jbj2X9FSLsJ7oHawx3gsAT8jNMDpIB4UKEL+fT
+         BGiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712904547; x=1713509347;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=srXw+GM0AbxLDkn2sukHjOTHYGaz4TEKS2v/bKB+HwE=;
+        b=A3OXJXVdmOdfoaloTFok+iLBdlu/lQog3nIq0GWq3QmcRfHMskXUTRjvJgk9Q1CPCq
+         USZopGCkN7dD3ZwhhryLJxOGHAjth4tNJMOgEsMXbaPrRjPqjMRKRNaxDhvEpTIB3Pr0
+         bkpvrYf6HBDPkC6MdM++7Vk9vNtkwpuHyC15Wcyg/iU3suFBuYkcIKF1HnXrFtuqJZbm
+         kvRe0Amv8hkaFkSmbtUqohinsW9OqEHGG6+fzLiNdVUEhaKjk7RM2m5XwvRvfQqZDEap
+         33X6vBUN3NY5ucr1odBzQEkuy10XRbLKxIzY/sr0gASchksWDHnLnPCyS5tvM3MsDsyA
+         06LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVHuZsNWdrkvGa5vF/7B42QeafCTvT2hjToHXopGH8VgcWsK/Mapc9SDrUbErQY/Gd16VBdsITEVV0KsNV5GcL5rZkQbKMxW75
+X-Gm-Message-State: AOJu0Yxu/UCe6L9S3dnrNK0/JS/AvdnAkTk0PsPA23u5UUdm8nEx0b9p
+	SxofXQk7U7oChyJJLr3bgOwrLJ1GBWt95JDAJjNp/kfs5GDMt6DC7QPYtElA/Vc=
+X-Google-Smtp-Source: AGHT+IF5X1v/E+xWlHK5pNpmDBocfNqmMv4DyaPfDHN3Yc/L8+Q+p/aEL01S9Eh4YMSg/dpHO62FGw==
+X-Received: by 2002:a05:6a20:bf2a:b0:1a3:afdc:fe5 with SMTP id gc42-20020a056a20bf2a00b001a3afdc0fe5mr1702435pzb.42.1712904546736;
+        Thu, 11 Apr 2024 23:49:06 -0700 (PDT)
 Received: from [127.0.1.1] (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
-        by smtp.gmail.com with ESMTPSA id q8-20020a170902b10800b001e107222eb5sm2258818plr.191.2024.04.11.23.48.59
+        by smtp.gmail.com with ESMTPSA id q8-20020a170902b10800b001e107222eb5sm2258818plr.191.2024.04.11.23.49.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 23:49:02 -0700 (PDT)
+        Thu, 11 Apr 2024 23:49:06 -0700 (PDT)
 From: Andy Chiu <andy.chiu@sifive.com>
-Subject: [PATCH v4 0/9] Support Zve32[xf] and Zve64[xfd] Vector
- subextensions
-Date: Fri, 12 Apr 2024 14:48:56 +0800
-Message-Id: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
+Date: Fri, 12 Apr 2024 14:48:57 +0800
+Subject: [PATCH v4 1/9] riscv: vector: add a comment when calling
+ riscv_setup_vsize()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,10 +64,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFjZGGYC/3XOsQ6DIBDG8VcxzD0DiFU79T0aBwJHvUFtgJJa4
- 7sXnVw6/pO7X76VBfSEgd2KlXlMFGiecqhLwcygpycC2dxMcql4JVr4JgSLEU3Ml1Bzwa9WWl3
- LhuWfl0dHn8N79Lmdn0eIg0d9VpRQslayFF1XNyBAT3YpzUDveyBHCUszj7s2UIizX45xqdrNf
- ztSBRxQSKuk4I3T7Vnqt237AUdoMbbpAAAA
+Message-Id: <20240412-zve-detection-v4-1-e0c45bb6b253@sifive.com>
+References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
+In-Reply-To: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>, 
  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
  Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
@@ -80,95 +80,38 @@ Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
  Palmer Dabbelt <palmer@rivosinc.com>, 
  Vincent Chen <vincent.chen@sifive.com>, 
  Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Joel Granados <j.granados@samsung.com>
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-Mailer: b4 0.13-dev-a684c
 
-The series composes of two parts. The first part provides a quick fix for
-the issue on a recent thread[1]. The issue happens when a platform has
-ununified vector register length across multiple cores. Specifically,
-patch 1 adds a comment at a callsite of riscv_setup_vsize to clarify how
-vlenb is observed by the system. Patch 2 fixes the issue by failing the
-boot process of a secondary core if vlenb mismatches.
+The function would fail when it detects the calling hart's vlen doesn't
+match the first one's. The boot hart is the first hart calling this
+function during riscv_fill_hwcap, so it is impossible to fail here. Add
+a comment about this behavior.
 
-The second part of the series provide a finer grain view of the Vector
-extension. Patch 3 give the obsolete ISA parser the ability to expand
-ISA extensions for sigle letter extensions. Patch 3, 4 introduces Zve32x,
-Zve32f, Zve64x, Zve64f, Zve64d for isa parsing and hwprobe. Patch 5
-updates all callsites such that Vector subextensions are maximumly
-supported by the kernel.
-
-Two parts of the series are sent together to ease the effort of picking
-dependency patches. The first part can be merged independent of the
-second one if necessary.
-
-The series is tested on a QEMU and verified that booting, Vector
-programs context-switch, signal, ptrace, prctl interfaces works when we
-only report partial V from the ISA.
-
-Note that the signal test was performed after applying the commit
-c27fa53b858b ("riscv: Fix vector state restore in rt_sigreturn()")
-
-This patch should be able to apply on risc-v for-next branch on top of
-the commit ba5ea59f768f ("riscv: Do not save the scratch CSR during suspend")
-
-[1]: https://lore.kernel.org/all/20240228-vicinity-cornstalk-4b8eb5fe5730@spud/T/#u
-
-Changes in v4:
-- Add a patch to trigger prctl test on ZVE32X (9)
-- Add a patch to fix integer promotion bug in hwprobe (8)
-- Fix a build fail on !CONFIG_RISCV_ISA_V (7)
-- Add more comment in the assembly code change (2)
-- Link to v3: https://lore.kernel.org/r/20240318-zve-detection-v3-0-e12d42107fa8@sifive.com
-
-Changelog v3:
- - Include correct maintainers and mailing list into CC.
- - Cleanup isa string parser code (3)
- - Adjust extensions order and name (4, 5)
- - Refine commit message (6)
-
+Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
+---
 Changelog v2:
- - Update comments and commit messages (1, 2, 7)
- - Refine isa_exts[] lists for zve extensions (4)
- - Add a patch for dt-binding (5)
- - Make ZVE* extensions depend on has_vector(ZVE32X) (6, 7)
-
+ - update the comment (Conor)
 ---
----
-Andy Chiu (9):
-      riscv: vector: add a comment when calling riscv_setup_vsize()
-      riscv: smp: fail booting up smp if inconsistent vlen is detected
-      riscv: cpufeature: call match_isa_ext() for single-letter extensions
-      riscv: cpufeature: add zve32[xf] and zve64[xfd] isa detection
-      dt-bindings: riscv: add Zve32[xf] Zve64[xfd] ISA extension description
-      riscv: hwprobe: add zve Vector subextensions into hwprobe interface
-      riscv: vector: adjust minimum Vector requirement to ZVE32X
-      hwprobe: fix integer promotion in RISCV_HWPROBE_EXT macro
-      selftest: run vector prctl test for ZVE32X
+ arch/riscv/kernel/cpufeature.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- Documentation/arch/riscv/hwprobe.rst               | 15 ++++++
- .../devicetree/bindings/riscv/extensions.yaml      | 30 ++++++++++++
- arch/riscv/include/asm/hwcap.h                     |  5 ++
- arch/riscv/include/asm/switch_to.h                 |  2 +-
- arch/riscv/include/asm/vector.h                    | 25 ++++++----
- arch/riscv/include/asm/xor.h                       |  2 +-
- arch/riscv/include/uapi/asm/hwprobe.h              |  7 ++-
- arch/riscv/kernel/cpufeature.c                     | 56 ++++++++++++++++++----
- arch/riscv/kernel/head.S                           | 19 +++++---
- arch/riscv/kernel/kernel_mode_vector.c             |  4 +-
- arch/riscv/kernel/process.c                        |  4 +-
- arch/riscv/kernel/signal.c                         |  6 +--
- arch/riscv/kernel/smpboot.c                        | 14 ++++--
- arch/riscv/kernel/sys_hwprobe.c                    | 13 ++++-
- arch/riscv/kernel/vector.c                         | 15 +++---
- arch/riscv/lib/uaccess.S                           |  2 +-
- .../testing/selftests/riscv/vector/vstate_prctl.c  |  6 +--
- 17 files changed, 174 insertions(+), 51 deletions(-)
----
-base-commit: ba5ea59f768f67d127b319b26ba209ff67e0d9a5
-change-id: 20240318-zve-detection-50106d2da527
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 3ed2359eae35..d22b12072579 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -683,6 +683,10 @@ void __init riscv_fill_hwcap(void)
+ 	}
+ 
+ 	if (elf_hwcap & COMPAT_HWCAP_ISA_V) {
++		/*
++		 * This callsite can't fail here. It cannot fail when called on
++		 * the boot hart.
++		 */
+ 		riscv_v_setup_vsize();
+ 		/*
+ 		 * ISA string in device tree might have 'v' flag, but
 
-Best regards,
 -- 
-Andy Chiu <andy.chiu@sifive.com>
+2.44.0.rc2
 
