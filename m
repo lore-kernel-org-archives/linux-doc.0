@@ -1,86 +1,350 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F09B150984
-	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 19:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7A21509B2
+	for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 20:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712950174; cv=none; b=iXtvqun5hHGCVn7AQT3NuErhc1QTZc1r6+YMA1helFRrhgq/lxfuCWI21Vc3DBcmPRApBF0gjtzJeQArQMETg3IVBIpjMplXIJtzX4nm7nVI0ZE8aEgcQoNRktXQq+Ey1rawVW6wSYqnBNQbRVEVC4EXwN3iEwcgv5H4P5FdFSQ=
+	t=1712953254; cv=none; b=vGNlHCTXZP7mmP7p3LcAUN2tAoxmWIk6+0DnkZ+K1aSr7SVO3+TIB8qo4XKTTFYz1ASUwvrDgafcARnbl0Q32UliM34fopk/i9825JoCpB/9jn9ci23vN+HuJZxyKMaKJHei59G/UufsrzVGcBSBXV9b0/xspr+nbHI/CDgb5x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712950174; c=relaxed/simple;
-	bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XBrKziHalK1VvUsN0Vf0uyAvCNXrWQ6Da8dStOxcSUwbn9Nlw38ZkTtYi3UK06Bybj8OWF1JMG3XZ0cFZ4XbhT5FM/RHgkSkFtaCewmtXtciTgXl6UzJcHwfJZgEhRjpB0b60ubhjF1vqySICgUaH5eT2Wl9tBaq8o1zLYJ/POM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=pnVaRNS1; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1712953254; c=relaxed/simple;
+	bh=rhC/i0iadwEL7dTRicBlO/h67qbFEWpJbLwK1NO3meo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MxoH2MywgOKliZUHqspuuzkI4IgDEiiKBZhKMVsEfr8q7jONk95AyG2zo1ToOc5xSprz/vldTvnruN1GtDKfwAvibum1F27GB3Ll9cYzsekGPmnAp0/5FlsOP8ITxuaeRZrovV9s22oqOw9banT2AAv0avzAJTo0L87QyJhmFI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QFRcz+Ed; arc=none smtp.client-ip=209.85.166.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="pnVaRNS1"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d4979cd8c8so11636011fa.0
-        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 12:29:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QFRcz+Ed"
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-36b0e1301e3so2211985ab.2
+        for <linux-doc@vger.kernel.org>; Fri, 12 Apr 2024 13:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1712950170; x=1713554970; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
-        b=pnVaRNS1SIhV6qcMvXag+Ts1k+LJs1E1TkQHB6wDhvW/HnYkCnXjgO5br3fjDwzAgz
-         04yet4YmlPsb03hSaGAB6ogU5sVvu156av8irkeszqCK5VLM77s1/B+KtzI0IRro/yxi
-         Y0uS34W7RhgJb8nDRPFPSbavEz43RhNkfACjQHDrU0kJAxba0ysSGQZuZpsbnCFJA/IY
-         P61fFVM2DiaUkb5piD+EjJOmxPJzMSvOXqsiVvDRNyvqWU8eJxu2iW1kmJTtwmSsybaW
-         tSQok7e1uvX1vBhifiyhGtYkHHh+Av1DO+cAACcxkU4NcJEuyhECU54IVMi36uZRQSGq
-         OVIw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1712953248; x=1713558048; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=G4g0asrIwIh0jCELCnJaY/AHU8getaccX1K08gj5vk8=;
+        b=QFRcz+EdW4orrkGttpb70v1AenoRf5hHbOjSEzSneKf7kXobdukBi91dUhwTLxuePs
+         Lw0XXYzTuFf8RuwoL5nmkUjVCDapsaN+kO46ln5g3arbyVQdpgdSzbo2V9w1ASqjh5AN
+         NRqmvlxHn+UswtqMKQVxDFyyyYZtgXSu2j8p3sHkP+TZ4VDzg1IxEoYW5iFTYWyflOHo
+         RzHN0YDsfT68erppBJG+3uGPHuxOUUkgjAzKhbAI4m5vrnOYz7vearMEtgtVS+QyuO8b
+         CDqKQ1HWdQsvAiDECh+xvyMWc5A/D2eYMMjt9P+LTSmkieRSJfNEE5Z6S9vDJt9vuT5s
+         17NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712950170; x=1713554970;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dMU3YTqYEj6Pq0v0+vb73IdcglOkFpGJFmjvvfyr1GM=;
-        b=pqdlD7ktXScwpeopDSKPLpFNyE3sdhBiNKfrbPiDcypN7mlPpDaA0T4a5Yy7PCmqkY
-         uUfNagjzRjDGqMPRPFeCYcqgU2H59fWaKnerTyiwekuFTBABtI/ByjUoUbXwU9j6HSjC
-         td9R1zhJG+t3CmpXbn9i5mLIKugLzGnLWHZLK++KlSSqWlCGuSF0SpgpP9tuFz9lDBX2
-         khEKMuU75h981b4IDUXpK3Xc8pgEe+TSfIUReMC39sUhazxa6rLPUacZreNHY0SlabTg
-         N5TJdXmbnRdNHSal5rLOSGyxa3UeurSoKMDuD3Y3f30i+HZ1UZH47KLTFLUiZ+VaXDSL
-         gDVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUonq6oCGKoZJopXdIYm2Atof3iaHyGQg138wK2wqEImc7UT+/jPLDB5JatkKfsMD+dHAp1xuxS/6XfpjvL74Og69mYvX8tHFj
-X-Gm-Message-State: AOJu0YwJL7KIC3dEugv1rcQia7cTZLAU48Ut7uy2KtfhUenFbFrLc6T/
-	CT3K0NKG7rSFy0PZYpR3zcq/s7pP9KgL3IY8PrMVX2xKv3gi1mtLDL89kStRh0T3b7iHrPQW3MZ
-	0U4mTb15e1N9Kmkz4XdQrotkRZjSqJ8PjdlH1sA==
-X-Google-Smtp-Source: AGHT+IFPPr7frvWajQHGbkpxINHZewvW3o7jH7+UGGjVYe6zp1bkg8rR8QuGlvgmrYeG+47sm5i6VRjBLlopWWTUIBw=
-X-Received: by 2002:a2e:a70e:0:b0:2d8:cea3:85e7 with SMTP id
- s14-20020a2ea70e000000b002d8cea385e7mr1073208lje.12.1712950170486; Fri, 12
- Apr 2024 12:29:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712953248; x=1713558048;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G4g0asrIwIh0jCELCnJaY/AHU8getaccX1K08gj5vk8=;
+        b=fvlFeITZ0R+maV7v2b8Is+ZhRaD+wvhGiZtEVDWS4TWkfejDETTPtxfpPIylO4nBVd
+         3o37PooCQNJ1kVZiUo26M/j/h6fP2b004WuRrSOQDZQzWm3pItfw5Bna+ayBQZisaRBA
+         2bx1e5DeoFE8EMfSutdq5F1rqR/hI91ZVVFdb0RU6xk13w735uaNEAFRIWc5Fdie7pjz
+         E9YgSn6CsGvzR+Y18HQWhH0ufq8RSjU7wG10SvhxqGlUXkNfgxB4CFyrqj2z26GlSstg
+         X+OVppTXtnHIhUp3JcenBplCN26e5d5Dhtoli4QDjEiBl15lQtzFxcJWx3crnRp424VR
+         gFKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDR3wr+pSMssG5mTPXuBPh4Nj2lloo2uxbp6P3Gx2KTVlZYRecqVKtgWzBTpxrY3FjMvs3T4q8P5MxPr6Oeh0yEmI/E5khfFA9
+X-Gm-Message-State: AOJu0YxwXCcSrhbx6Fjk5tWFTW1LzFQ9W6X/FHkXQbjxP4v2ZK+8g2lY
+	LljLwECHgakZ2pHjvA2DL7EhKxw9NoWv1t/w6zq4jNKxcvKgrb2J31fFAmLGnUU=
+X-Google-Smtp-Source: AGHT+IFpjh0cclgh6ATH3N1bYJeehFia9hHxmNB9H0B6FBqe3hOIKZovvCJzuOOC0WQ06VxvLw7Jfw==
+X-Received: by 2002:a05:6e02:20e5:b0:36a:daf:533f with SMTP id q5-20020a056e0220e500b0036a0daf533fmr4183114ilv.0.1712953248485;
+        Fri, 12 Apr 2024 13:20:48 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id f13-20020a63100d000000b005f41aeec262sm3127345pgl.44.2024.04.12.13.20.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Apr 2024 13:20:47 -0700 (PDT)
+Date: Fri, 12 Apr 2024 13:20:45 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Evan Green <evan@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 16/19] riscv: hwprobe: Add vendor extension probing
+Message-ID: <ZhmXnUj2B1hD5QiX@ghost>
+References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-16-4af9815ec746@rivosinc.com>
+ <CALs-Hss=vuNgq-8bVL1DOR431qFpn-D13yFGn6yf_2saZO0FVQ@mail.gmail.com>
+ <Zhl6lvZzUrCoAB8N@ghost>
+ <CALs-Hsu=SLnTJ+gsGZmv7C=K8WGHRiFCn3Q=isE9+QhawcrqCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240408233201.419893-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20240408233201.419893-1-andriy.shevchenko@linux.intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 12 Apr 2024 21:29:19 +0200
-Message-ID: <CAMRc=MfnAYFPtk-pwtd496c-qry0aQs1NJCkTEQ+jLF+JGyxNQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] Documentation: gpio: Replace leading TABs by
- spaces in the code blocks
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALs-Hsu=SLnTJ+gsGZmv7C=K8WGHRiFCn3Q=isE9+QhawcrqCw@mail.gmail.com>
 
-On Tue, Apr 9, 2024 at 1:32=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> The code blocks are indented with two spaces, if the leading TAB
-> is occurred the syntax highlighting might be broken in some editors.
-> To prevent that unify all code blocks by using spaces instead of
-> leading TAB(s).
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
+On Fri, Apr 12, 2024 at 12:07:46PM -0700, Evan Green wrote:
+> On Fri, Apr 12, 2024 at 11:17 AM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> >
+> > On Fri, Apr 12, 2024 at 10:05:21AM -0700, Evan Green wrote:
+> > > On Thu, Apr 11, 2024 at 9:12 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > > >
+> > > > Add a new hwprobe key "RISCV_HWPROBE_KEY_VENDOR_EXT_0" which allows
+> > > > userspace to probe for the new RISCV_ISA_VENDOR_EXT_XTHEADVECTOR vendor
+> > > > extension.
+> > > >
+> > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > > > ---
+> > > >  arch/riscv/include/asm/hwprobe.h      |  4 +--
+> > > >  arch/riscv/include/uapi/asm/hwprobe.h | 10 +++++-
+> > > >  arch/riscv/kernel/sys_hwprobe.c       | 59 +++++++++++++++++++++++++++++++++--
+> > > >  3 files changed, 68 insertions(+), 5 deletions(-)
+> > > >
+> > > > diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+> > > > index 630507dff5ea..e68496b4f8de 100644
+> > > > --- a/arch/riscv/include/asm/hwprobe.h
+> > > > +++ b/arch/riscv/include/asm/hwprobe.h
+> > > > @@ -1,6 +1,6 @@
+> > > >  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > >  /*
+> > > > - * Copyright 2023 Rivos, Inc
+> > > > + * Copyright 2023-2024 Rivos, Inc
+> > > >   */
+> > > >
+> > > >  #ifndef _ASM_HWPROBE_H
+> > > > @@ -8,7 +8,7 @@
+> > > >
+> > > >  #include <uapi/asm/hwprobe.h>
+> > > >
+> > > > -#define RISCV_HWPROBE_MAX_KEY 6
+> > > > +#define RISCV_HWPROBE_MAX_KEY 7
+> > > >
+> > > >  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+> > > >  {
+> > > > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+> > > > index 9f2a8e3ff204..6614d3adfc75 100644
+> > > > --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> > > > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> > > > @@ -1,6 +1,6 @@
+> > > >  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > >  /*
+> > > > - * Copyright 2023 Rivos, Inc
+> > > > + * Copyright 2023-2024 Rivos, Inc
+> > > >   */
+> > > >
+> > > >  #ifndef _UAPI_ASM_HWPROBE_H
+> > > > @@ -67,6 +67,14 @@ struct riscv_hwprobe {
+> > > >  #define                RISCV_HWPROBE_MISALIGNED_UNSUPPORTED    (4 << 0)
+> > > >  #define                RISCV_HWPROBE_MISALIGNED_MASK           (7 << 0)
+> > > >  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE    6
+> > > > +/*
+> > > > + * It is not possible for one CPU to have multiple vendor ids, so each vendor
+> > > > + * has its own vendor extension "namespace". The keys for each vendor starts
+> > > > + * at zero.
+> > > > + */
+> > > > +#define RISCV_HWPROBE_KEY_VENDOR_EXT_0 7
+> > > > + /* T-Head */
+> > > > +#define                RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR   (1 << 0)
+> > > >  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+> > > >
+> > > >  /* Flags */
+> > > > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+> > > > index e0a42c851511..365ce7380443 100644
+> > > > --- a/arch/riscv/kernel/sys_hwprobe.c
+> > > > +++ b/arch/riscv/kernel/sys_hwprobe.c
+> > > > @@ -69,7 +69,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+> > > >         if (riscv_isa_extension_available(NULL, c))
+> > > >                 pair->value |= RISCV_HWPROBE_IMA_C;
+> > > >
+> > > > -       if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR))
+> > > > +       if (has_vector() &&
+> > > > +           !__riscv_isa_vendor_extension_available(NULL, RISCV_ISA_VENDOR_EXT_XTHEADVECTOR))
+> > > >                 pair->value |= RISCV_HWPROBE_IMA_V;
+> > > >
+> > > >         /*
+> > > > @@ -112,7 +113,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+> > > >                 EXT_KEY(ZACAS);
+> > > >                 EXT_KEY(ZICOND);
+> > > >
+> > > > -               if (has_vector() && !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR)) {
+> > > > +               if (has_vector() &&
+> > > > +                   !riscv_has_vendor_extension_unlikely(RISCV_ISA_VENDOR_EXT_XTHEADVECTOR)) {
+> > > >                         EXT_KEY(ZVBB);
+> > > >                         EXT_KEY(ZVBC);
+> > > >                         EXT_KEY(ZVKB);
+> > > > @@ -139,6 +141,55 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+> > > >         pair->value &= ~missing;
+> > > >  }
+> > > >
+> > > > +static void hwprobe_isa_vendor_ext0(struct riscv_hwprobe *pair,
+> > > > +                                   const struct cpumask *cpus)
+> > > > +{
+> > > > +       int cpu;
+> > > > +       u64 missing = 0;
+> > > > +
+> > > > +       pair->value = 0;
+> > > > +
+> > > > +       struct riscv_hwprobe mvendorid = {
+> > > > +               .key = RISCV_HWPROBE_KEY_MVENDORID,
+> > > > +               .value = 0
+> > > > +       };
+> > > > +
+> > > > +       hwprobe_arch_id(&mvendorid, cpus);
+> > > > +
+> > > > +       /* Set value to zero if CPUs in the set do not have the same vendor. */
+> > > > +       if (mvendorid.value == -1ULL)
+> > > > +               return;
+> > > > +
+> > > > +       /*
+> > > > +        * Loop through and record vendor extensions that 1) anyone has, and
+> > > > +        * 2) anyone doesn't have.
+> > > > +        */
+> > > > +       for_each_cpu(cpu, cpus) {
+> > > > +               struct riscv_isainfo *isavendorinfo = &hart_isa_vendor[cpu];
+> > > > +
+> > > > +#define VENDOR_EXT_KEY(ext)                                                            \
+> > > > +       do {                                                                            \
+> > > > +               if (__riscv_isa_vendor_extension_available(isavendorinfo->isa,          \
+> > > > +                                                        RISCV_ISA_VENDOR_EXT_##ext))   \
+> > > > +                       pair->value |= RISCV_HWPROBE_VENDOR_EXT_##ext;                  \
+> > > > +               else                                                                    \
+> > > > +                       missing |= RISCV_HWPROBE_VENDOR_EXT_##ext;                      \
+> > > > +       } while (false)
+> > > > +
+> > > > +       /*
+> > > > +        * Only use VENDOR_EXT_KEY() for extensions which can be exposed to userspace,
+> > > > +        * regardless of the kernel's configuration, as no other checks, besides
+> > > > +        * presence in the hart_vendor_isa bitmap, are made.
+> > > > +        */
+> > > > +       VENDOR_EXT_KEY(XTHEADVECTOR);
+> > > > +
+> > > > +#undef VENDOR_EXT_KEY
+> > >
+> > > Hey Charlie,
+> > > Thanks for writing this up! At the very least I think the
+> > > THEAD-specific stuff should probably end up in its own file, otherwise
+> > > it'll get chaotic with vendors clamoring to add stuff right here.
+> >
+> > Great idea!
+> >
+> > > What do you think about this approach:
+> > >  * We leave RISCV_HWPROBE_MAX_KEY as the max key for the "generic
+> > > world", eg 6-ish
+> > >  * We define that any key above 0x8000000000000000 is in the vendor
+> > > space, so the meaning of the keys depends first on the mvendorid
+> > > value.
+> > >  * In the kernel code, each new vendor adds on to a global struct,
+> > > which might look something like:
+> > > struct hwprobe_vendor_space vendor_space[] = {
+> > >         {
+> > >                 .mvendorid = VENDOR_THEAD,
+> > >                 .max_hwprobe_key = THEAD_MAX_HWPROBE_KEY, // currently
+> > > 1 or 0x8000000000000001 with what you've got.
+> > >                 .hwprobe_fn = thead_hwprobe
+> > >         },
+> > >         ...
+> > > };
+> > >
+> > >  * A hwprobe_thead.c implements thead_hwprobe(), and is called
+> > > whenever the generic hwprobe encounters a key >=0x8000000000000000.
+> > >  * Generic code for setting up the VDSO can then still call the
+> > > vendor-specific hwprobe_fn() repeatedly with an "all CPUs" mask from
+> > > the base to max_hwprobe_key and set up the cached tables in userspace.
+> > >  * Since the VDSO data has limited space we may have to cap the number
+> > > of vendor keys we cache to be lower than max_hwprobe_key. Since the
+> > > data itself is not exposed to usermode we can raise this cap later if
+> > > needed.
+> >
+> > I know vendor extensions are kind of the "wild west" of riscv, but in
+> > spite of that I want to design a consistent API. The issue I had with
+> > having this "vendor space" for exposing vendor extensions was that this
+> > is something that is inherently the same for all vendors. I see a vendor
+> > space like this more applicable for something like
+> > "RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE" where a vendor has a specific
+> > value they would like to expose. I do agree that having a vendor space
+> > is a good design choice, but I am not convinced that vendor extensions
+> > are the proper use-case.
+> >
+> > By having RISCV_HWPROBE_KEY_VENDOR_EXT_0 we can expose the vendor
+> > extensions in the same way that standard extensions are exposed, with a
+> > bitmask representing each extension. If these are instead in the vendor
+> > space, each vendor would probably be inclined to introduce a key like
+> > RISCV_HWPROBE_KEY_THEAD_EXT_0 that returns a bitmask of all of the thead
+> > vendor extensions. This duplicated effort is what I am trying to avoid.
+> > The alternative would be that vendors have a separate key for each
+> > vendor extension they would like to expose, but that is strictly less
+> > efficient than the existing bitmask probing.
+> >
+> > Do you think that having the vendor space is appropriate for vendor
+> > extensions given my concerns?
+> 
+> I do see what you're going for. It's tidy for a bitmask to just let
+> anyone allocate the next bit, but leaves you with the same problem
+> when a vendor decides they want to expose an enum, or decides they
+> want to expose a bazillion things. I think a generalized version of
 
-Applied, thanks!
+This patch is strictly to expose if a vendor extension is supported,
+how does exposing enums factor in here?
 
-Bart
+> the approach you've written would be: simply let vendors allocate keys
+> from the same global space we're already using. My worry was that it
+
+I am missing how my proposal suggests allowing vendors to allocate keys
+in a global space.
+
+> would turn into an expansive suburban sprawl of mostly dead bits, or
+> in the case of vendor-specific keys, full of "if (mvendor_id() !=
+> MINE) return 0;". My hope with the vendored keyspace is it would keep
+
+An application will always need to check vendorid before calling hwprobe
+with a vendor-specific feature? If that hwprobe support is a key above
+1<<63, then the application will need to pass that vendor-specific key
+and interpret the vendor-specific value. If that hwprobe support is what
+I have proposed here, then the user calls the standardized vendor
+extension hwprobe endpoint and then needs to interpret the result based
+on the vendor of the cpumask. In both cases they need to check the
+vendorid of the cpumask. In the test case I added I failed to check the
+vendorid but I should have had that.
+
+> the sprawl from polluting the general array of (hopefully valuable)
+> info with stuff that's likely to become less relevant as time passes.
+> It also lowers the bar a bit to make it easier for vendors to expose
+> bits, as they don't consume global space for everyone for all of time,
+> just themselves.
+
+The vendor keys are tied directly to the vendor. So as it grows we would
+have something like:
+
+#define RISCV_HWPROBE_KEY_VENDOR_EXT_0	7
+/* T-Head */
+#define		RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR	(1 << 0)
+#define		RISCV_HWPROBE_VENDOR_EXT_XTHEAD2	(2 << 0)
+#define		RISCV_HWPROBE_VENDOR_EXT_XTHEAD3	(3 << 0)
+/* Vendor 2 */
+#define		RISCV_HWPROBE_VENDOR_EXT_XVENDOR1	(1 << 0)
+#define		RISCV_HWPROBE_VENDOR_EXT_XVENDOR2	(2 << 0)
+/* Vendor 3 */
+...
+
+The keys overlap between vendors. To determine which extension a vendor
+supports, hwprobe gets data from hart_isa_vendor[cpu]. If the vendor is
+vendor 2, it is not possible for a vendor extension from vendor 3 to end
+up in there. Only the extensions from that vendor can be supported by
+that vendor's hardware. 
+
+> 
+> So yes, personally I'm still in the camp of siloing the vendor stuff
+> off to its own area.
+
+I don't quite see how what I have proposed doesn't "silo" the extensions
+that pertain to each vendor since the keys are specific to each vendor.
+
+- Charlie
+
+> -Evan
+
