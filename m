@@ -1,47 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6291B95B;
-	Fri, 12 Apr 2024 06:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2291CA80;
+	Fri, 12 Apr 2024 06:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712902572; cv=none; b=LHl4P8lMaaiz2j2yQxB8Ut97QxnOm7379D8/menHIKB+gPLTJNsHgUvnRiLCnyiHqo43lXblTDQiyhySQI50dqU9ZSU0wTv7lVF1fzcfqyaymXN/rz22ShcTaG0czDK07hLXCaB3G03GlCtNuxgGTC0xsLPc4eamuRFfbe2DY60=
+	t=1712903255; cv=none; b=OQtWV+0WMwEhmjJ/BPVAQvjY0uhxUpLCi+r/72chP5qa4hwMOPVw0/kDYkqFmPIBkRw5iBdHHnJA+yo8+LKdmtvqGELa3NTci9ApnRiDsFWg4Xz/Pk7yVUvJNqz31uEztwLXJu6PTsXd179v62Nt2rsVID8fDeSNwMHipRWk5xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712902572; c=relaxed/simple;
-	bh=9eQMxiafHll+DiH3/C8+rB0CEgq99HCS6lNIP6dzKx4=;
+	s=arc-20240116; t=1712903255; c=relaxed/simple;
+	bh=NiPOeWOuEjw88GRyE0zYlF6pjM+hyH0f8aXHg2mS7o0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rD1nRgfDAJazd0ZnqUNUhoyLGbfEE4WFEq529GgTBz1S/PeQ6J6kqIutanoX4gUWWKazAF0s1tVc52tUgu2MIIA4cfi+rKgqClHPTJuh4UgTs0uPcSL9qCVlBgqSRLS1zdHc/rkL5lV0x45+m+sLYS0Pu/PJ73Q21DdLx9ixg8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QvuJDJQY; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QvuJDJQY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C990C2BBFC;
-	Fri, 12 Apr 2024 06:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1712902571;
-	bh=9eQMxiafHll+DiH3/C8+rB0CEgq99HCS6lNIP6dzKx4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QvuJDJQY8WGntppmdP4fgc8Qvksv1g81oIXeT5FLOXWg5hmN8h6pR7cGEKeqYxKIo
-	 lLP4mIs4WGguK6Huha4l0KITsm+NsODwMqAhgJ5HqPzVW5gbu6IgxfpBRjeqr61LzH
-	 gOaad1saorXuoVXrs3eGLb1Cwi5sMJSzXSTuAXN8=
-Date: Fri, 12 Apr 2024 08:16:08 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 04/30] ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
-Message-ID: <2024041254-that-laurel-30f9@gregkh>
-References: <20240329000621.148791-1-zfigura@codeweavers.com>
- <20240329000621.148791-5-zfigura@codeweavers.com>
- <2024041111-handsaw-scruffy-27f3@gregkh>
- <25522541.6Emhk5qWAg@camazotz>
+	 Content-Type:Content-Disposition:In-Reply-To; b=p/hPdY1KdMbCfazzv52EdM9ZfSvuUpJ++4hQ+xuv+RDVAD1sySBuL/d14/n1CHmD+l6vC+qxnSe42mXXnUEdPVaANF9cMqQztc9RIm93mMvsq8Y9igY6NJ0Q9VVOtK0if3qefkgdTOztnpTLyi6jCFEgaXF7bNpyz5GyEtwzrLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; arc=none smtp.client-ip=144.6.53.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1rvAMf-000k1Z-Ta; Fri, 12 Apr 2024 14:26:22 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 12 Apr 2024 14:26:39 +0800
+Date: Fri, 12 Apr 2024 14:26:39 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: David Gstir <david@sigma-star.at>, Mimi Zohar <zohar@linux.ibm.com>,
+	James Bottomley <jejb@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Shawn Guo <shawnguo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	sigma star Kernel Team <upstream+dcp@sigma-star.at>,
+	David Howells <dhowells@redhat.com>, Li Yang <leoyang.li@nxp.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Tejun Heo <tj@kernel.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-security-module@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Subject: Re: [PATCH v8 6/6] docs: trusted-encrypted: add DCP as new trust
+ source
+Message-ID: <ZhjUH3TZ99cT3Rhq@gondor.apana.org.au>
+References: <20240403072131.54935-1-david@sigma-star.at>
+ <20240403072131.54935-7-david@sigma-star.at>
+ <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,23 +61,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <25522541.6Emhk5qWAg@camazotz>
+In-Reply-To: <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
 
-On Thu, Apr 11, 2024 at 07:33:07PM -0500, Elizabeth Figura wrote:
-> > Rolling your own lock is tricky, and needs review from the locking
-> > maintainers.  And probably some more documentation as to what is
-> > happening and why our normal types of locks can't be used here?
+On Wed, Apr 03, 2024 at 06:47:51PM +0300, Jarkko Sakkinen wrote:
+>
+> Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 > 
-> Definitely. (Unfortunately this hasn't gotten attention from any locking
-> maintainer yet since your last call for review; not sure if there's
-> anything I can do there.)
+> I can only test that this does not break a machine without the
+> hardware feature.
 
-You only seem to have cc:ed one of the "LOCKING PRIMITIVES" maintainers
-on this patchset, not all of them, which might be the reason why it has
-been ignored :(
+Please feel free to take this through your tree.
 
-Perhaps change that for the next version of this patchset?
-
-thanks,
-
-greg k-h
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
