@@ -1,116 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6341750241;
-	Fri, 12 Apr 2024 13:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB918626D;
+	Fri, 12 Apr 2024 14:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712930388; cv=none; b=jnBpiYGP/JUUtqqDUSNPXWOri6UL4cNBoPIhhAvi91KmHJZuDa21OPnWo0KYLLq3OYWWvaJsUibE3XEppdfEPH0sJPHzS8pnpYUnn878Ka2MrO33bqH/VH8lVu1ugVz/6zo2ZjQSJpZbclgkeIc+2n8bBNgUzLXc/MyTTZ7BkHo=
+	t=1712931808; cv=none; b=AeZKmNNueRC8lcZf14NRx8JfJZXJyz2uOgdamYEsvR/l/Tl3kNP+TMpsOufY4/ZJnAGxb7B2Bxm30kQThMqP4ZG4Br+NiAbDqW7I3IkVv/E8qxdWKmV86OWe8ABdqba8WLvhdDpLG2t1FLCfWgGE+qXGlTYaXMinsRLSSad/jRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712930388; c=relaxed/simple;
-	bh=C99AA46+hvRTtGxy3XR5W1R/6pmDxUu9xBGnM02STvk=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UObsYCgtilVOznZt18nrH79zZOSkRmgwk7ybkZte/jnjYrz+pSoP+zIbawc4LRXHHdtrGRHVRIdJ0GXuHNkbD+MSqpDuG4woaxn0X4G9iDFF1zrgt8jZAWTS1KRUqoXE/cbbk25V6xwTLxaSkzhEuZA9w6STlWR6Fit6tMQAbtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rdsm4wWM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712931808; c=relaxed/simple;
+	bh=JxNUt0WI8VJtqkr1vI04CciRk6AsgIvjNELyWKMNfaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwi/v3swpW0G79F3dc51+tSgxRK1wjg6KmkBvFBWzeYyBRFaPkVbUJwc41dsVvb2cfOI5SNkuVhqCy6+CwSXyE5y10R3gXIf0nCqQX9vdnFJ7Zw1YrGyxX4yYrkrgvnUW1AB787cJwnGc+LA9I4fwQy6pMU1Sot9UQVC1/Mbgas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=aaK8eDl8; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=aaK8eDl8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rdsm4wWM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7DCDC2BD10;
-	Fri, 12 Apr 2024 13:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712930388;
-	bh=C99AA46+hvRTtGxy3XR5W1R/6pmDxUu9xBGnM02STvk=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=Rdsm4wWMk8OGENFAWQJMUQ3jg7//LUF2BXzZ+tZwd4eQmlyho1CrXN9vMlFie6uid
-	 zzCaWvTPDe2uLER1Ctb1Jfv1j+g25uOZ9vfXV8CTJecRQausksZ733VDydUlYvkhuT
-	 1uFedZE1+kjuTsDVnTK3AIvApw9ExaqxVSsH6G7+bQ0pNeIkpbTX6wEjJM0m3G5I0e
-	 UsP0LCqhx8M4RwnWBQCNCxDBGuI+E69Jv1wZvdS09FVOjvWGKPNP5SYmKEfgl4pyXL
-	 9QRJWAywnO0JsMdcmK1yIL9sIRYFnm7rRvJoMdU4TQr4hadEm2XwMMD7Ia2gHnzaXe
-	 gEHyfb6iJZrXQ==
-Date: Fri, 12 Apr 2024 14:59:43 +0100
-From: Will Deacon <will@kernel.org>
-To: Andrea della Porta <andrea.porta@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arm64: Add the arm64.no32bit_el0 command line option
-Message-ID: <20240412135942.GB28004@willie-the-truck>
-References: <20240207105847.7739-1-andrea.porta@suse.com>
- <Zeb6RX2wpBvuJiIZ@apocalypse>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="aaK8eDl8";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="aaK8eDl8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8170B3835A;
+	Fri, 12 Apr 2024 14:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712931805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JxNUt0WI8VJtqkr1vI04CciRk6AsgIvjNELyWKMNfaI=;
+	b=aaK8eDl8BbXj/V9hd6/mjA++UiyT5kZSEtZ189Pvr4jHoHuZz9d+z4mZzyui0I2g6ZS9+b
+	SuZrlvcQKWtdyZltI/Kt3evj81rlqpDyiLMckCFuyKea/bA5Oc+Q+d4wp8GTMglf/6LLHY
+	dfoGgS7VsdYJXfExdxGLfjyMWE/llbo=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712931805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JxNUt0WI8VJtqkr1vI04CciRk6AsgIvjNELyWKMNfaI=;
+	b=aaK8eDl8BbXj/V9hd6/mjA++UiyT5kZSEtZ189Pvr4jHoHuZz9d+z4mZzyui0I2g6ZS9+b
+	SuZrlvcQKWtdyZltI/Kt3evj81rlqpDyiLMckCFuyKea/bA5Oc+Q+d4wp8GTMglf/6LLHY
+	dfoGgS7VsdYJXfExdxGLfjyMWE/llbo=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66F6C1368B;
+	Fri, 12 Apr 2024 14:23:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id FUDyGN1DGWZvcAAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Fri, 12 Apr 2024 14:23:25 +0000
+Date: Fri, 12 Apr 2024 16:23:24 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Subject: Re: Re: [RFC PATCH v3 2/9] cgroup/pids: Separate semantics of
+ pids.events related to pids.max
+Message-ID: <w7cenotcuudapq4zsq6mybfvaqyljgy5hez3uc3byqzdn44yi6@76yfnhg4irt6>
+References: <20240405170548.15234-1-mkoutny@suse.com>
+ <20240405170548.15234-3-mkoutny@suse.com>
+ <ZhQvmnnxhiVo1duU@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="746pwchwjxtzohce"
+Content-Disposition: inline
+In-Reply-To: <ZhQvmnnxhiVo1duU@slm.duckdns.org>
+X-Spam-Flag: NO
+X-Spam-Score: -5.75
+X-Spam-Level: 
+X-Spamd-Result: default: False [-5.75 / 50.00];
+	BAYES_HAM(-2.85)[99.34%];
+	SIGNED_PGP(-2.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+
+
+--746pwchwjxtzohce
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zeb6RX2wpBvuJiIZ@apocalypse>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, Mar 05, 2024 at 11:56:05AM +0100, Andrea della Porta wrote:
-> On 11:58 Wed 07 Feb     , Andrea della Porta wrote:
-> > Introducing the field 'el0' to the idreg-override for register
-> > ID_AA64PFR0_EL1. This field is also aliased to the new kernel
-> > command line option 'arm64.no32bit_el0' as a more recognizable
-> > and mnemonic name to disable the execution of 32 bit userspace
-> > applications (i.e. avoid Aarch32 execution state in EL0) from
-> > kernel command line.
-> > 
-> > Changes in V2:
-> > - fixed the order of appearance of arm64.no32bit_el0 entry in
-> >   kernel-parameters.txt documentation.
-> > 
-> > Link: https://lore.kernel.org/r/ZVTleETzfFUchs77@apocalypse
-> > Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
-> > ---
-> >  Documentation/admin-guide/kernel-parameters.txt | 3 +++
-> >  arch/arm64/kernel/idreg-override.c              | 2 ++
-> >  2 files changed, 5 insertions(+)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 65731b060e3f..fa7cdf2f4f3a 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -415,6 +415,9 @@
-> >  	arcrimi=	[HW,NET] ARCnet - "RIM I" (entirely mem-mapped) cards
-> >  			Format: <io>,<irq>,<nodeID>
-> >  
-> > +	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
-> > +			32 bit applications
-> > +
-> >  	arm64.nobti	[ARM64] Unconditionally disable Branch Target
-> >  			Identification support
-> >  
-> > diff --git a/arch/arm64/kernel/idreg-override.c b/arch/arm64/kernel/idreg-override.c
-> > index e30fd9e32ef3..642cda19e42d 100644
-> > --- a/arch/arm64/kernel/idreg-override.c
-> > +++ b/arch/arm64/kernel/idreg-override.c
-> > @@ -86,6 +86,7 @@ static const struct ftr_set_desc pfr0 __prel64_initconst = {
-> >  	.override	= &id_aa64pfr0_override,
-> >  	.fields		= {
-> >  	        FIELD("sve", ID_AA64PFR0_EL1_SVE_SHIFT, pfr0_sve_filter),
-> > +		FIELD("el0", ID_AA64PFR0_EL1_EL0_SHIFT, NULL),
-> >  		{}
-> >  	},
-> >  };
-> > @@ -197,6 +198,7 @@ static const struct {
-> >  	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
-> >  	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
-> >  	{ "nokaslr",			"arm64_sw.nokaslr=1" },
-> > +	{ "arm64.no32bit_el0",		"id_aa64pfr0.el0=1" },
-> >  };
-> >  
-> >  static int __init parse_hexdigit(const char *p, u64 *v)
-> > -- 
-> > 2.41.0
-> > 
-> 
-> A gentle ping about this patch... any thoughts about it?
+On Mon, Apr 08, 2024 at 07:55:38AM -1000, Tejun Heo <tj@kernel.org> wrote:
+> The whole series make sense to me.
 
-It looks reasonable to me, but arch/arm64/kernel/idreg-override.c no
-longer exists upstream, so you need to rebase.
+Including the migration charging?
+(Asking whether I should keep it stacked in v4 posting.)
 
 Thanks,
+Michal
 
-Will
+--746pwchwjxtzohce
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZhlD1wAKCRAGvrMr/1gc
+jqWHAP43KM4VxC2WEkbxsocIW9835Ah5tJFCnWq+L9dCH0YYeQEAgf4YC5EsufMc
+emrWLa4i67lHae7Mxu5+aJkQVhJQ2AY=
+=vxlD
+-----END PGP SIGNATURE-----
+
+--746pwchwjxtzohce--
