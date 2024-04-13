@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FC51BC41
-	for <linux-doc@vger.kernel.org>; Sat, 13 Apr 2024 05:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65111C6AE
+	for <linux-doc@vger.kernel.org>; Sat, 13 Apr 2024 06:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712985568; cv=none; b=mW0QpXmWzKpFpWPr3v+ggR4WEk/p/8kFoGiME3yw3RX7j9Ku6usbwI5tAGjtj724dPaPNUOEdl1Y1B6FdY82kTYOMUMGkCi2YNP9nGwQ3ciAh1kt9e6jDCLkV7EmO7mQVom7ziyVZyleNkthn16NYYqeRef6ERfzp2nVDUwCoxA=
+	t=1712988153; cv=none; b=lFnijiBciWCf3W2M5h6f5WPha7+sDyVzWcPQFqVt5AoeM4I9yN9NENk2CQ9flipjW7IotJW3DCdde/48G8LEI/RRgi5l4R/LYH4EJ3qzqfhxNlswy7SbhoFOBMW5jwiODejRVDYfZaqK+5L8C3vJ3C42va0+iF4lJFBo0e9YgB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712985568; c=relaxed/simple;
-	bh=ddkiC3Og9qjLT6HCQ7y0ILr4DgCj/74yhd+Gy/JeuYA=;
+	s=arc-20240116; t=1712988153; c=relaxed/simple;
+	bh=s65iWLby/RoPW/0IJikH5gpmyX/LEx/wicQbFr4ubJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LkjVBoBe30n7VrbV0j2e1TmtVLBn+RXQOuiVPYwMZjg92iKHQlNilCft7e8Bwt85TuMBtEjJTI03i4EIu3j13N2FS7RnWaHSjJDto9Y1wy6DA/WvfrNY7pGYKGAGtwORFuT6Oe+MWZWSb5NyYAEXU+C7ussJaeGhrJg2PgnnCS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQ5M1SDT; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=llJQbfIKzM0YrJB28NtCMcgWEbfhIu/s1dOT+WljafPElxmWisrrRV1etw096QRl4S+wU/BVBJVW7q6gLinkMMmWLEkEWCYDL3gdCo5hTl+3uGFQinLng0Dr6OPntKjt3/x28a9QvDrcFhe+J+XF6zqj1nOQB0TdiuCk69Gcf/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0z8DIZV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQ5M1SDT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0z8DIZV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712985567; x=1744521567;
+  t=1712988151; x=1744524151;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ddkiC3Og9qjLT6HCQ7y0ILr4DgCj/74yhd+Gy/JeuYA=;
-  b=CQ5M1SDTOHwbEeH8WKiwXGf4itxHbU7rfcwW3PntpxAmjbgO6tIAUaNa
-   YQaGC1xNaPSTwTa+kgnLiqxcQ1Igrt3H6FQp3AedbCADjey756lV1I0Ch
-   ixAUv0rDmPEI+TIKW10gs4pWVISqzu/C600zg4dXOkkiFwO5JQ0rq4ZGP
-   kxALXFREOsXr1/0f8UXjzQ84ogP2cDXwUuiIKLy5S248yZcnm/KRgcK0x
-   jtGrTRYJiA8uBlMMM5itA161UwrjrMttW1in6dK8sPuLjwmaCkewR1U2/
-   xUFKCIm2opomLkMRDsz2XNM8M7mXlo9+XIiktrEsuBkAxf01ecGOLoyeH
-   g==;
-X-CSE-ConnectionGUID: YS+6EMiySvqXAJc92Gqg3w==
-X-CSE-MsgGUID: yVjdkvZLTNK0wsprZ1/Vxg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="8575050"
+  bh=s65iWLby/RoPW/0IJikH5gpmyX/LEx/wicQbFr4ubJM=;
+  b=d0z8DIZVcPKT6A0TJTWJD++Hdyp9gnpEU98Gsk8vTwbYcqba94jomlpU
+   khFR6W+4lzOZ1DBhH9GyLxTsusaXc68D4Wve/aC8dpdo9F9u8F8mht6Pd
+   +IdSEXX2//oxmVZ4PKIgpc4spvxlPK8xtTOT8WxDjuNpsUzXNMaRpXlrb
+   rw+JZR+NrAcL8KNUIC6f3yi93ksk7To9h5cL1xhVfB5GSRbw1TXObSfWI
+   uRvCdCvzV7P8HX2MA/JfS6z3R87Xr3XITa0V2xkjg8CJbIHh4c4p8+6E6
+   w98CDBKS4r2ZZ6CDsmvdbdmGnTJ7gDkafw2fVejwe4T6qpf5hNIsj5Tyv
+   w==;
+X-CSE-ConnectionGUID: g/HQfGtMTzyjk8NIgsiYnw==
+X-CSE-MsgGUID: ur7z7tXiQ26ZSA9Id1o6XA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="19869839"
 X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="8575050"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 22:19:26 -0700
-X-CSE-ConnectionGUID: YCl6xqPER5qmivdkOJ7+KA==
-X-CSE-MsgGUID: xQGJLmBvREmNccz5QCZ0kA==
+   d="scan'208";a="19869839"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 23:02:30 -0700
+X-CSE-ConnectionGUID: FA6RmnIcTMCcDimUTeGKYQ==
+X-CSE-MsgGUID: 6197AvshSP2GyBJgn5JZIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="58844276"
+   d="scan'208";a="26225963"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Apr 2024 22:19:24 -0700
+  by orviesa005.jf.intel.com with ESMTP; 12 Apr 2024 23:02:28 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvVnO-0001pF-0y;
-	Sat, 13 Apr 2024 05:19:22 +0000
-Date: Sat, 13 Apr 2024 13:19:17 +0800
+	id 1rvWT4-0001vI-1N;
+	Sat, 13 Apr 2024 06:02:26 +0000
+Date: Sat, 13 Apr 2024 14:01:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Tim Schumacher <timschumi@gmx.de>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-doc@vger.kernel.org
-Subject: [linux-next:master 1372/6010] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/display/exynos/
-Message-ID: <202404131322.iJYhpWoV-lkp@intel.com>
+	Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 2072/6010] htmldocs: Warning:
+ Documentation/filesystems/efivarfs.rst references a file that doesn't exist:
+ Documentation/ABI/stable/sysfs-firmware-efi-vars
+Message-ID: <202404131335.BmnybEIK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,21 +67,21 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   9ed46da14b9b9b2ad4edb3b0c545b6dbe5c00d39
-commit: ad6d17e10306a66fb40985da77889bc28c2a5c1b [1372/6010] dt-bindings: display: samsung,exynos5-dp: convert to DT Schema
-reproduce: (https://download.01.org/0day-ci/archive/20240413/202404131322.iJYhpWoV-lkp@intel.com/reproduce)
+commit: cbb404e464d2350a1fc3c73237a6334f59bd58a2 [2072/6010] Documentation: Mark the 'efivars' sysfs interface as removed
+reproduce: (https://download.01.org/0day-ci/archive/20240413/202404131335.BmnybEIK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404131322.iJYhpWoV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404131335.BmnybEIK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
    Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+>> Warning: Documentation/filesystems/efivarfs.rst references a file that doesn't exist: Documentation/ABI/stable/sysfs-firmware-efi-vars
    Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
    Using alabaster theme
 
 -- 
