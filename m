@@ -1,101 +1,331 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CA74A33;
-	Sat, 13 Apr 2024 09:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FA71865;
+	Sat, 13 Apr 2024 21:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713001131; cv=none; b=H1lJi7TBTNOvkl96TPMOX6VtjXw0hcI2hZyik1Kff/Y7Z/4x1VhpPcd9xFYjfZlm1TQ1NHzmvAyvJ0E7tK1h4dn+btPKFKN69QMRTzq8Bqxy8jsCZy965P5W1matFi6P14yD9ihpn7pzgYM1jTLTyJV79cnsO/VQeRY/5Xu2YF4=
+	t=1713043508; cv=none; b=XsC1bNVr5MBVWp90hJ3hFld6MUObeeAlhRE2PXheR6KYskPziOA4ntFYT89Pqeit0O6cJMk67kOo/8WhUWs+SEwczHEq2pAns7AiKd5VwPYVAxyMksEyaESdUAEKIbAS+2a2+OsiZnWdfVSj7BJKfcLGR5H9sCBKlw6vg9z3uKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713001131; c=relaxed/simple;
-	bh=Et+IhBjd7PuuxJ8wSo2dfIX801FnHMjyZhnA43uxaLw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Sb0Apn+oH02AdB5/LENvRHuRxKcyykBp9xd3R5Gid/wdBoGCJpYC5g40CVcUyXo7HnwBaJtuB88fEiSl864f6Hfdce5aZwS9J6haaEXOSbPPh0+iKTQpDSxwat/RR/DAVUUmPIoXiwwPwJJUHK3O/hGhll975ykZtljrq6GOYIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=MjH6/odP; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+	s=arc-20240116; t=1713043508; c=relaxed/simple;
+	bh=fWaZr02lXTk8vECphDiwIWtfs63IwnIajLCUTzl+yQQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=EixbdTSu8yeQoKebQYDU1jwONCVe1rNuIk5tSv2C+IP37TbW2yURTtjz+6EIMy367XI87253qpErcJxp7ktLvEp2lEmWXGltoWMnk6hQ7YBR5d/KtdfsahAJ9SoCEYTYAfF3+iQ+UqR+P0XiAnJUxNG75ScPfQmp+DxNIgtXXvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ht8VVQRf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="MjH6/odP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1713001128;
-	bh=jPYPpXrOTdq14zbY1a5WM5rZP3IYtTcbIcNsjXlJspk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MjH6/odPeFgoAEfNG2rNSGt2thn4S+aADBoSLF86JXfv/dzzX80RNdWPYVPLWA4km
-	 WABN2/vhWdwd4HsPSsxQNyWLQDu6QVoZfSOqmsukC9DZaJ0tj27yUlx4bgXQqGe+F6
-	 7vE+canYaQukx6oxuedLYuJav6633yNYphxX7VCQoyIkzH+qRF7Pg0GQTWkWvhtGeC
-	 TipxPPhkh9hRKBh6VFWbs16RXSaOOGQavzY0JWXgyoXZn8kw6AWo1ianMcDg4HVZWG
-	 bMW6Uy37rKrath0YVIVn6h6nF4qu8QXvzFbrGlTW+nzI3LSrKdXLIihEZkUVcNx7C2
-	 Znym4ghrFREwQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VGpKM2sTsz4wb2;
-	Sat, 13 Apr 2024 19:38:47 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Christopherson
- <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
- <daniel.sneddon@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
- linux-arch@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Heiko Carstens <hca@linux.ibm.com>
-Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
- for SPECULATION_MITIGATIONS=n
-In-Reply-To: <87edb9d33r.fsf@mail.lhotse>
-References: <20240409175108.1512861-1-seanjc@google.com>
- <20240409175108.1512861-2-seanjc@google.com>
- <20240413115324.53303a68@canb.auug.org.au> <87edb9d33r.fsf@mail.lhotse>
-Date: Sat, 13 Apr 2024 19:38:47 +1000
-Message-ID: <87bk6dd2l4.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ht8VVQRf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C01F6C113CD;
+	Sat, 13 Apr 2024 21:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713043507;
+	bh=fWaZr02lXTk8vECphDiwIWtfs63IwnIajLCUTzl+yQQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=ht8VVQRfKStNVTDput5TStcrXO3vCmLyURXGRHMiofLuo0f5aDqTg5dTSM4Mf69nt
+	 6zfN0dvorP9u2CFFnEId/THX8jb1kX7N6b9aEI7V8NbtR+TZkuWRPYDqKiHqUEpreF
+	 8AVtDndGvq6jZAsyE4zYAMorJJXbrWPrnE2Fxq9Mu744XPfxsg6MFAsla8Tg1IyL/Z
+	 v8wYxt7hz4jw772i0JwSsIpTFyhSXT1DcMdicllbj44CdE0qWgPRy9Xhp8CeYV1Rha
+	 KvJsJLZSZ91rvXzoNgNuH/B/DrSw6Fki5hexSzFHx7DMhYRVdwIMI9aF2jJkA7F8WC
+	 DoTBJvleCViMQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 14 Apr 2024 00:24:58 +0300
+Message-Id: <D0JB8N9GEF25.34YVMTSVZRKZJ@kernel.org>
+Subject: Re: [EXT] Re: [PATCH v8 6/6] docs: trusted-encrypted: add DCP as
+ new trust source
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Kshitiz Varshney" <kshitiz.varshney@nxp.com>, "David Gstir"
+ <david@sigma-star.at>, "Mimi Zohar" <zohar@linux.ibm.com>, "James
+ Bottomley" <jejb@linux.ibm.com>, "Herbert Xu"
+ <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>
+Cc: "Shawn Guo" <shawnguo@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
+ "dl-linux-imx" <linux-imx@nxp.com>, "Ahmad Fatoum"
+ <a.fatoum@pengutronix.de>, "sigma star Kernel Team"
+ <upstream+dcp@sigma-star.at>, "David Howells" <dhowells@redhat.com>, "Li
+ Yang" <leoyang.li@nxp.com>, "Paul Moore" <paul@paul-moore.com>, "James
+ Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, "Paul E.
+ McKenney" <paulmck@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, "Tejun Heo" <tj@kernel.org>, "Steven Rostedt
+ (Google)" <rostedt@goodmis.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-integrity@vger.kernel.org"
+ <linux-integrity@vger.kernel.org>, "keyrings@vger.kernel.org"
+ <keyrings@vger.kernel.org>, "linux-crypto@vger.kernel.org"
+ <linux-crypto@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linuxppc-dev@lists.ozlabs.org"
+ <linuxppc-dev@lists.ozlabs.org>, "linux-security-module@vger.kernel.org"
+ <linux-security-module@vger.kernel.org>, "Richard Weinberger"
+ <richard@nod.at>, "David Oberhollenzer"
+ <david.oberhollenzer@sigma-star.at>, "Varun Sethi" <V.Sethi@nxp.com>,
+ "Gaurav Jain" <gaurav.jain@nxp.com>, "Pankaj Gupta" <pankaj.gupta@nxp.com>
+X-Mailer: aerc 0.17.0
+References: <20240403072131.54935-1-david@sigma-star.at>
+ <20240403072131.54935-7-david@sigma-star.at>
+ <D0ALT2QCUIYB.8NFTE7Z18JKN@kernel.org>
+ <DB6PR04MB3190F6B78FF3760EBCC14E758F072@DB6PR04MB3190.eurprd04.prod.outlook.com>
+In-Reply-To: <
+ <DB6PR04MB3190F6B78FF3760EBCC14E758F072@DB6PR04MB3190.eurprd04.prod.outlook.com>
 
-Michael Ellerman <mpe@ellerman.id.au> writes:
-> Stephen Rothwell <sfr@canb.auug.org.au> writes:
-...
->> On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@google.com> wrote:
-...
->>> diff --git a/kernel/cpu.c b/kernel/cpu.c
->>> index 8f6affd051f7..07ad53b7f119 100644
->>> --- a/kernel/cpu.c
->>> +++ b/kernel/cpu.c
->>> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
->>>  };
->>>  
->>>  static enum cpu_mitigations cpu_mitigations __ro_after_init =
->>> -	CPU_MITIGATIONS_AUTO;
->>> +	IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
->>> +						     CPU_MITIGATIONS_OFF;
->>>  
->>>  static int __init mitigations_parse_cmdline(char *arg)
->>>  {
+On Tue Apr 9, 2024 at 12:48 PM EEST, Kshitiz Varshney wrote:
+> Hi Jarkko,
+>
+>
+> > -----Original Message-----
+> > From: Jarkko Sakkinen <jarkko@kernel.org>
+> > Sent: Wednesday, April 3, 2024 9:18 PM
+> > To: David Gstir <david@sigma-star.at>; Mimi Zohar <zohar@linux.ibm.com>=
+;
+> > James Bottomley <jejb@linux.ibm.com>; Herbert Xu
+> > <herbert@gondor.apana.org.au>; David S. Miller <davem@davemloft.net>
+> > Cc: Shawn Guo <shawnguo@kernel.org>; Jonathan Corbet
+> > <corbet@lwn.net>; Sascha Hauer <s.hauer@pengutronix.de>; Pengutronix
+> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > <festevam@gmail.com>; dl-linux-imx <linux-imx@nxp.com>; Ahmad Fatoum
+> > <a.fatoum@pengutronix.de>; sigma star Kernel Team
+> > <upstream+dcp@sigma-star.at>; David Howells <dhowells@redhat.com>; Li
+> > Yang <leoyang.li@nxp.com>; Paul Moore <paul@paul-moore.com>; James
+> > Morris <jmorris@namei.org>; Serge E. Hallyn <serge@hallyn.com>; Paul E.
+> > McKenney <paulmck@kernel.org>; Randy Dunlap <rdunlap@infradead.org>;
+> > Catalin Marinas <catalin.marinas@arm.com>; Rafael J. Wysocki
+> > <rafael.j.wysocki@intel.com>; Tejun Heo <tj@kernel.org>; Steven Rostedt
+> > (Google) <rostedt@goodmis.org>; linux-doc@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; linux-integrity@vger.kernel.org;
+> > keyrings@vger.kernel.org; linux-crypto@vger.kernel.org; linux-arm-
+> > kernel@lists.infradead.org; linuxppc-dev@lists.ozlabs.org; linux-securi=
+ty-
+> > module@vger.kernel.org; Richard Weinberger <richard@nod.at>; David
+> > Oberhollenzer <david.oberhollenzer@sigma-star.at>
+> > Subject: [EXT] Re: [PATCH v8 6/6] docs: trusted-encrypted: add DCP as n=
+ew
+> > trust source
+> >=20
+> > Caution: This is an external email. Please take care when clicking link=
+s or
+> > opening attachments. When in doubt, report the message using the 'Repor=
+t
+> > this email' button
+> >=20
+> >=20
+> > On Wed Apr 3, 2024 at 10:21 AM EEST, David Gstir wrote:
+> > > Update the documentation for trusted and encrypted KEYS with DCP as
+> > > new trust source:
+> > >
+> > > - Describe security properties of DCP trust source
+> > > - Describe key usage
+> > > - Document blob format
+> > >
+> > > Co-developed-by: Richard Weinberger <richard@nod.at>
+> > > Signed-off-by: Richard Weinberger <richard@nod.at>
+> > > Co-developed-by: David Oberhollenzer
+> > > <david.oberhollenzer@sigma-star.at>
+> > > Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at=
+>
+> > > Signed-off-by: David Gstir <david@sigma-star.at>
+> > > ---
+> > >  .../security/keys/trusted-encrypted.rst       | 53 +++++++++++++++++=
+++
+> > >  security/keys/trusted-keys/trusted_dcp.c      | 19 +++++++
+> > >  2 files changed, 72 insertions(+)
+> > >
+> > > diff --git a/Documentation/security/keys/trusted-encrypted.rst
+> > > b/Documentation/security/keys/trusted-encrypted.rst
+> > > index e989b9802f92..f4d7e162d5e4 100644
+> > > --- a/Documentation/security/keys/trusted-encrypted.rst
+> > > +++ b/Documentation/security/keys/trusted-encrypted.rst
+> > > @@ -42,6 +42,14 @@ safe.
+> > >           randomly generated and fused into each SoC at manufacturing=
+ time.
+> > >           Otherwise, a common fixed test key is used instead.
+> > >
+> > > +     (4) DCP (Data Co-Processor: crypto accelerator of various i.MX
+> > > + SoCs)
+> > > +
+> > > +         Rooted to a one-time programmable key (OTP) that is general=
+ly
+> > burnt
+> > > +         in the on-chip fuses and is accessible to the DCP encryptio=
+n engine
+> > only.
+> > > +         DCP provides two keys that can be used as root of trust: th=
+e OTP
+> > key
+> > > +         and the UNIQUE key. Default is to use the UNIQUE key, but s=
+electing
+> > > +         the OTP key can be done via a module parameter
+> > (dcp_use_otp_key).
+> > > +
+> > >    *  Execution isolation
+> > >
+> > >       (1) TPM
+> > > @@ -57,6 +65,12 @@ safe.
+> > >
+> > >           Fixed set of operations running in isolated execution envir=
+onment.
+> > >
+> > > +     (4) DCP
+> > > +
+> > > +         Fixed set of cryptographic operations running in isolated e=
+xecution
+> > > +         environment. Only basic blob key encryption is executed the=
+re.
+> > > +         The actual key sealing/unsealing is done on main processor/=
+kernel
+> > space.
+> > > +
+> > >    * Optional binding to platform integrity state
+> > >
+> > >       (1) TPM
+> > > @@ -79,6 +93,11 @@ safe.
+> > >           Relies on the High Assurance Boot (HAB) mechanism of NXP So=
+Cs
+> > >           for platform integrity.
+> > >
+> > > +     (4) DCP
+> > > +
+> > > +         Relies on Secure/Trusted boot process (called HAB by vendor=
+) for
+> > > +         platform integrity.
+> > > +
+> > >    *  Interfaces and APIs
+> > >
+> > >       (1) TPM
+> > > @@ -94,6 +113,11 @@ safe.
+> > >
+> > >           Interface is specific to silicon vendor.
+> > >
+> > > +     (4) DCP
+> > > +
+> > > +         Vendor-specific API that is implemented as part of the DCP =
+crypto
+> > driver in
+> > > +         ``drivers/crypto/mxs-dcp.c``.
+> > > +
+> > >    *  Threat model
+> > >
+> > >       The strength and appropriateness of a particular trust source
+> > > for a given @@ -129,6 +153,13 @@ selected trust source:
+> > >       CAAM HWRNG, enable CRYPTO_DEV_FSL_CAAM_RNG_API and ensure
+> > the device
+> > >       is probed.
+> > >
+> > > +  *  DCP (Data Co-Processor: crypto accelerator of various i.MX SoCs=
+)
+> > > +
+> > > +     The DCP hardware device itself does not provide a dedicated RNG
+> > interface,
+> > > +     so the kernel default RNG is used. SoCs with DCP like the i.MX6=
+ULL do
+> > have
+> > > +     a dedicated hardware RNG that is independent from DCP which can=
+ be
+> > enabled
+> > > +     to back the kernel RNG.
+> > > +
+> > >  Users may override this by specifying ``trusted.rng=3Dkernel`` on th=
+e
+> > > kernel  command-line to override the used RNG with the kernel's rando=
+m
+> > number pool.
+> > >
+> > > @@ -231,6 +262,19 @@ Usage::
+> > >  CAAM-specific format.  The key length for new keys is always in byte=
+s.
+> > >  Trusted Keys can be 32 - 128 bytes (256 - 1024 bits).
+> > >
+> > > +Trusted Keys usage: DCP
+> > > +-----------------------
+> > > +
+> > > +Usage::
+> > > +
+> > > +    keyctl add trusted name "new keylen" ring
+> > > +    keyctl add trusted name "load hex_blob" ring
+> > > +    keyctl print keyid
+> > > +
+> > > +"keyctl print" returns an ASCII hex copy of the sealed key, which is
+> > > +in format specific to this DCP key-blob implementation.  The key
+> > > +length for new keys is always in bytes. Trusted Keys can be 32 - 128=
+ bytes
+> > (256 - 1024 bits).
+> > > +
+> > >  Encrypted Keys usage
+> > >  --------------------
+> > >
+> > > @@ -426,3 +470,12 @@ string length.
+> > >  privkey is the binary representation of TPM2B_PUBLIC excluding the
+> > > initial TPM2B header which can be reconstructed from the ASN.1 octed
+> > > string length.
+> > > +
+> > > +DCP Blob Format
+> > > +---------------
+> > > +
+> > > +.. kernel-doc:: security/keys/trusted-keys/trusted_dcp.c
+> > > +   :doc: dcp blob format
+> > > +
+> > > +.. kernel-doc:: security/keys/trusted-keys/trusted_dcp.c
+> > > +   :identifiers: struct dcp_blob_fmt
+> > > diff --git a/security/keys/trusted-keys/trusted_dcp.c
+> > > b/security/keys/trusted-keys/trusted_dcp.c
+> > > index 16c44aafeab3..b5f81a05be36 100644
+> > > --- a/security/keys/trusted-keys/trusted_dcp.c
+> > > +++ b/security/keys/trusted-keys/trusted_dcp.c
+> > > @@ -19,6 +19,25 @@
+> > >  #define DCP_BLOB_VERSION 1
+> > >  #define DCP_BLOB_AUTHLEN 16
+> > >
+> > > +/**
+> > > + * DOC: dcp blob format
+> > > + *
+> > > + * The Data Co-Processor (DCP) provides hardware-bound AES keys usin=
+g
+> > > +its
+> > > + * AES encryption engine only. It does not provide direct key
+> > sealing/unsealing.
+> > > + * To make DCP hardware encryption keys usable as trust source, we
+> > > +define
+> > > + * our own custom format that uses a hardware-bound key to secure th=
+e
+> > > +sealing
+> > > + * key stored in the key blob.
+> > > + *
+> > > + * Whenever a new trusted key using DCP is generated, we generate a
+> > > +random 128-bit
+> > > + * blob encryption key (BEK) and 128-bit nonce. The BEK and nonce ar=
+e
+> > > +used to
+> > > + * encrypt the trusted key payload using AES-128-GCM.
+> > > + *
+> > > + * The BEK itself is encrypted using the hardware-bound key using th=
+e
+> > > +DCP's AES
+> > > + * encryption engine with AES-128-ECB. The encrypted BEK, generated
+> > > +nonce,
+> > > + * BEK-encrypted payload and authentication tag make up the blob
+> > > +format together
+> > > + * with a version number, payload length and authentication tag.
+> > > + */
+> > > +
+> > >  /**
+> > >   * struct dcp_blob_fmt - DCP BLOB format.
+> > >   *
+> >=20
+> > Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+> >=20
+> > I can only test that this does not break a machine without the hardware
+> > feature.
+> >=20
+> > Is there anyone who could possibly peer test these patches?
+> I am already working on testing this patchset on i.MX6 platform.
+> Regards,
+> Kshitiz
 
-I think a minimal workaround/fix would be:
+OK great.
 
-diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-index 2b8fd6bb7da0..290be2f9e909 100644
---- a/drivers/base/Kconfig
-+++ b/drivers/base/Kconfig
-@@ -191,6 +191,10 @@ config GENERIC_CPU_AUTOPROBE
- config GENERIC_CPU_VULNERABILITIES
-        bool
-
-+config SPECULATION_MITIGATIONS
-+       def_bool y
-+       depends on !X86
-+
- config SOC_BUS
-        bool
-        select GLOB
-
-cheers
+BR, Jarkko
