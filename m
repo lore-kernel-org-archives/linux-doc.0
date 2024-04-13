@@ -1,133 +1,164 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A145DDA3;
-	Sat, 13 Apr 2024 01:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D3C8C1A;
+	Sat, 13 Apr 2024 02:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712973243; cv=none; b=VmAheqCw4h0zjiS/Gstps6gyeUI1nb3dHw4zcJBV3cFjbXtXa8milFa1zFhxbIK8OKm7xp/Hy1T8MbcP7bjmqxpc+InbFJcJZkLsoKZTfqxkHy3Zk7+5vgFN9xpfBLmqDUj9BrT/A0BrM/O2bqySzDyQndXzf3UbM2kHmyQG+MM=
+	t=1712976067; cv=none; b=gsEkCAMLDbtvp/TGZ1nAkglV/YD7qmm2pmNw5u+1YuegjW94BUJEtHCuZVfwl4vn54sEVmnNjstiSZZmgo5MwcTvg07ubaUs7+gPLycyELTFmZBvsqny/R38dZVofxol5frYEAi1upX5I1x0R6CV9hvyMsOJ7cRaV+u2mnxWGv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712973243; c=relaxed/simple;
-	bh=nsOYgZD6NcU0rdrT4T38X2Zder785/fBw+JPZN9oFnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nGcfqiP+Hdpg2xgzHavPMlSzRbPiHc/lLMcWk6PwZBuSuhnooz5Txl/5Rmq61+Sm91FlUOBfW1j0wMw0687rDC6TanDNoNCCIFMSgyP9zQ8ooJCqzuDPHM94icRDF6dLYHaKVpHtZBvZqjBfp58iI7hpYa60mq3GQxBCz/ppR3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=EDqqRVR7; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	s=arc-20240116; t=1712976067; c=relaxed/simple;
+	bh=axMJ7bTjXsx72XR3DZUHb3cgP4ohIiTGFHZNUvsGHSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jQ3KojnobEVlPE/jXwFAM04Yjdrsc9N8UjA0mwtCS4KS2A2cQj5N125qEVAuArx/5YVAmEj4SIC8nguboe5eZnQ2Qc9CAE0hzqzhOKwpo1uWbAQrT49W1vXdgjaYBpPQc+DqHJehqvjOsS+tEOMUdDjGOA3BgpFvh1QRmzP0cgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Df2AIMIR; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="EDqqRVR7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1712973232;
-	bh=Y4BOwpk8yD9IlKJHunm77VnxmVc/7lRfLru6wBoJFaA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EDqqRVR7LZ+SNtsMLjm8Fbb2ebWukmsVwlTD9Z5qqjqBTjJ+ij7wd3FflepCx5rPp
-	 h+Wwxe5GUSHf8dJHrMu8kjC21MG7Pmwk18uIvcfKqOpW/Po2ZP4FHVkBv8VjM7V8cF
-	 9XogbxEee+D2oAoGtql/r7CvmIUHJXpgeisXI96MJbJStyXttEhsr4gawGO9p2JZ39
-	 V+/kD2cFFA9AS3zn4p05EpYKcmW/SNA/bUNixWgkQhNp6LQC0EWRG8sX/VlrHxF8qg
-	 +XqSGud5sE+3h2q9V3srWooQOTG0n+K15PV6b9mm5nJBDm0BFcmCOhFf4c47Q7FKzH
-	 xTPdCfRJOiYSw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VGc0t0dkgz4wcC;
-	Sat, 13 Apr 2024 11:53:49 +1000 (AEST)
-Date: Sat, 13 Apr 2024 11:53:24 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
- <daniel.sneddon@linux.intel.com>, <linuxppc-dev@lists.ozlabs.org>, Michael
- Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
- for SPECULATION_MITIGATIONS=n
-Message-ID: <20240413115324.53303a68@canb.auug.org.au>
-In-Reply-To: <20240409175108.1512861-2-seanjc@google.com>
-References: <20240409175108.1512861-1-seanjc@google.com>
-	<20240409175108.1512861-2-seanjc@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Df2AIMIR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712976064; x=1744512064;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=axMJ7bTjXsx72XR3DZUHb3cgP4ohIiTGFHZNUvsGHSM=;
+  b=Df2AIMIRIZeaVZ5zzK2Z2mwbcHaiFDBbzztL7XAMOZ2B0MMmMeDsMuOb
+   LrG6awYWZ/6YJCEiTSZsMdxUqyjAkdG9y4rTgwZhS0+NIT9oH7XB9jziK
+   1o+Aekr8Ebf/fNKXRA/oA8juDwDSD1n4FQY1KzHssYzBjkwXBeTkQtTE1
+   +anrLRBq7wooqymQNdZWLqU9xsXbidCrPlF3zGPWjuCpOR64Xn1ra5vmc
+   TGOrhlL5JduN93dL0xVtlxZ1O01RNRTYZqBRsfIgkII/uymcPWqEttKc2
+   v9j5KnZmsBBnxxi7Vl5kqHNUarBUT7rkijDdS0I0HJjbVZ6vC9wYvkoqK
+   Q==;
+X-CSE-ConnectionGUID: Q1dPpqK0QRKuJoogrKWZ3A==
+X-CSE-MsgGUID: ImpDt05nSNKTELzT+qECAw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="19839619"
+X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
+   d="scan'208";a="19839619"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 19:41:03 -0700
+X-CSE-ConnectionGUID: NNm7cw+nRwaDjs5oPjLO2Q==
+X-CSE-MsgGUID: y5xzLG7qRymsgK360LjoVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
+   d="scan'208";a="52353158"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa002.jf.intel.com with ESMTP; 12 Apr 2024 19:40:59 -0700
+Date: Sat, 13 Apr 2024 10:35:53 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>,
+	Russ Weight <russ.weight@linux.dev>, linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] fpga: region: add owner module and take its refcount
+Message-ID: <ZhnviXAgnTdzUyV4@yilunxu-OptiPlex-7050>
+References: <20240411144811.121500-1-marpagan@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NbG7tw_eh21Qan+TJ2Af+bh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240411144811.121500-1-marpagan@redhat.com>
 
---Sig_/NbG7tw_eh21Qan+TJ2Af+bh
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+>  /**
+> - * fpga_region_register_full - create and register an FPGA Region device
+> + * __fpga_region_register_full - create and register an FPGA Region device
+>   * @parent: device parent
+>   * @info: parameters for FPGA Region
+> + * @owner: owner module containing the get_bridges function
 
-Hi Sean,
+This is too specific and easily get unaligned if we add another
+callback. How about "module containing the region ops"?
 
-I noticed this commit in linux-next.
-
-On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@google.com> =
-wrote:
->
-> Initialize cpu_mitigations to CPU_MITIGATIONS_OFF if the kernel is built
-> with CONFIG_SPECULATION_MITIGATIONS=3Dn, as the help text quite clearly
-> states that disabling SPECULATION_MITIGATIONS is supposed to turn off all
-> mitigations by default.
->=20
->   =E2=94=82 If you say N, all mitigations will be disabled. You really
->   =E2=94=82 should know what you are doing to say so.
->=20
-> As is, the kernel still defaults to CPU_MITIGATIONS_AUTO, which results in
-> some mitigations being enabled in spite of SPECULATION_MITIGATIONS=3Dn.
->=20
-> Fixes: f43b9876e857 ("x86/retbleed: Add fine grained Kconfig knobs")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> ---
->  kernel/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/kernel/cpu.c b/kernel/cpu.c
-> index 8f6affd051f7..07ad53b7f119 100644
-> --- a/kernel/cpu.c
-> +++ b/kernel/cpu.c
-> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
->  };
-> =20
->  static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
-> -	CPU_MITIGATIONS_AUTO;
-> +	IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
-> +						     CPU_MITIGATIONS_OFF;
-> =20
->  static int __init mitigations_parse_cmdline(char *arg)
+>   *
+>   * Return: struct fpga_region or ERR_PTR()
+>   */
+>  struct fpga_region *
+> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
+> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+> +			    struct module *owner)
 >  {
-> --=20
-> 2.44.0.478.gd926399ef9-goog
->=20
+>  	struct fpga_region *region;
+>  	int id, ret = 0;
+> @@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>  	region->compat_id = info->compat_id;
+>  	region->priv = info->priv;
+>  	region->get_bridges = info->get_bridges;
+> +	region->ops_owner = owner;
+>  
+>  	mutex_init(&region->mutex);
+>  	INIT_LIST_HEAD(&region->bridge_list);
+> @@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>  
+>  	return ERR_PTR(ret);
+>  }
+> -EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> +EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+>  
+>  /**
+> - * fpga_region_register - create and register an FPGA Region device
+> + * __fpga_region_register - create and register an FPGA Region device
+>   * @parent: device parent
+>   * @mgr: manager that programs this region
+>   * @get_bridges: optional function to get bridges to a list
+> + * @owner: owner module containing get_bridges function
 
-I noticed because it turned off all mitigations for my PowerPC qemu
-boot tests - probably because CONFIG_SPECULATION_MITIGATIONS only
-exists in arch/x86/Kconfig ... thus for other architectures that have
-cpu mitigations, this will always default them to off, right?
+ditto
 
---=20
-Cheers,
-Stephen Rothwell
+>   *
+>   * This simple version of the register function should be sufficient for most users.
+>   * The fpga_region_register_full() function is available for users that need to
+> @@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+>   * Return: struct fpga_region or ERR_PTR()
+>   */
+>  struct fpga_region *
+> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> -		     int (*get_bridges)(struct fpga_region *))
+> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> +		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+>  {
+>  	struct fpga_region_info info = { 0 };
+>  
+>  	info.mgr = mgr;
+>  	info.get_bridges = get_bridges;
+>  
+> -	return fpga_region_register_full(parent, &info);
+> +	return __fpga_region_register_full(parent, &info, owner);
+>  }
+> -EXPORT_SYMBOL_GPL(fpga_region_register);
+> +EXPORT_SYMBOL_GPL(__fpga_region_register);
+>  
+>  /**
+>   * fpga_region_unregister - unregister an FPGA region
+> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+> index 9d4d32909340..5fbc05fe70a6 100644
+> --- a/include/linux/fpga/fpga-region.h
+> +++ b/include/linux/fpga/fpga-region.h
+> @@ -36,6 +36,7 @@ struct fpga_region_info {
+>   * @mgr: FPGA manager
+>   * @info: FPGA image info
+>   * @compat_id: FPGA region id for compatibility check.
+> + * @ops_owner: module containing the get_bridges function
 
---Sig_/NbG7tw_eh21Qan+TJ2Af+bh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+ditto
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Yilun
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYZ5ZQACgkQAVBC80lX
-0GynlAf/Wrk3YC50MGX7+3M9JTuw86KpBU8ObFWWrRoQMz1pL8HUIJ2r3DD3jmY5
-Q+Wb4noRymG9Y+zIoB5TFzdn84TKTTJSzQhu6EVrn4loYN2rRQTimU8gmhQejExl
-75el/6d9lIOIL2VvgFAddpIvahlc+s2ovo4y1rPXlR7uAQq5LNUEz7H8fuCkGcGO
-/ATBSVfhyDN3ryvmDXO7XU+Nsb24Bz5i3NmHTv20sbdMkij26+u8QCtyZFOhmbrY
-DjMi+IxL0kcsUg4jnoXrAaC/yy1etU96S5iukrMNRj2ENI4Nv8ivwYDdawdpzIdx
-mIFCuaKOVfcaUfJ51s/eUK3Pq0PAVw==
-=K4/i
------END PGP SIGNATURE-----
-
---Sig_/NbG7tw_eh21Qan+TJ2Af+bh--
+>   * @priv: private data
+>   * @get_bridges: optional function to get bridges to a list
+>   */
+> @@ -46,6 +47,7 @@ struct fpga_region {
+>  	struct fpga_manager *mgr;
+>  	struct fpga_image_info *info;
+>  	struct fpga_compat_id *compat_id;
+> +	struct module *ops_owner;
+>  	void *priv;
+>  	int (*get_bridges)(struct fpga_region *region);
+>  };
