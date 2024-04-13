@@ -1,89 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65111C6AE
-	for <linux-doc@vger.kernel.org>; Sat, 13 Apr 2024 06:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8359F1DFF5;
+	Sat, 13 Apr 2024 09:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712988153; cv=none; b=lFnijiBciWCf3W2M5h6f5WPha7+sDyVzWcPQFqVt5AoeM4I9yN9NENk2CQ9flipjW7IotJW3DCdde/48G8LEI/RRgi5l4R/LYH4EJ3qzqfhxNlswy7SbhoFOBMW5jwiODejRVDYfZaqK+5L8C3vJ3C42va0+iF4lJFBo0e9YgB4=
+	t=1713000465; cv=none; b=KSHA4bxpAL+69sXkpLUF1AXCfJWYAkV2brSJXBSjZBIg0IP2xilP63PG64j2pGGexpgQwD34dtvczmnp8uAE4T+xs0dqRLq+L330xJufnAym9jTBrfGpcePh0dW+gig1AlGm0bfb/ibHQBVbEgyUCI2+GdG337WgU5MPppYlV+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712988153; c=relaxed/simple;
-	bh=s65iWLby/RoPW/0IJikH5gpmyX/LEx/wicQbFr4ubJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=llJQbfIKzM0YrJB28NtCMcgWEbfhIu/s1dOT+WljafPElxmWisrrRV1etw096QRl4S+wU/BVBJVW7q6gLinkMMmWLEkEWCYDL3gdCo5hTl+3uGFQinLng0Dr6OPntKjt3/x28a9QvDrcFhe+J+XF6zqj1nOQB0TdiuCk69Gcf/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0z8DIZV; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713000465; c=relaxed/simple;
+	bh=rsDou3yig95tjaZU/ZRDjjcvRLMm27lPOIafPxdw5B4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kfM9O4xOU5GL3bIufM4qyPq/SDOTCYexSYagci/qqRhjsPXnKegF8OmVFjuo/1WG0TpmE7No4q2M67Ti5wdEqFsCkj+wcM9K65+Piktj4Vz0nSDYXg/odcDyy4RGosjkdE44YuUMyZ3XHdO7wyhQkeoL8Lblmjzj+CvnNE0lVHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=BRz/xMje; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0z8DIZV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712988151; x=1744524151;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s65iWLby/RoPW/0IJikH5gpmyX/LEx/wicQbFr4ubJM=;
-  b=d0z8DIZVcPKT6A0TJTWJD++Hdyp9gnpEU98Gsk8vTwbYcqba94jomlpU
-   khFR6W+4lzOZ1DBhH9GyLxTsusaXc68D4Wve/aC8dpdo9F9u8F8mht6Pd
-   +IdSEXX2//oxmVZ4PKIgpc4spvxlPK8xtTOT8WxDjuNpsUzXNMaRpXlrb
-   rw+JZR+NrAcL8KNUIC6f3yi93ksk7To9h5cL1xhVfB5GSRbw1TXObSfWI
-   uRvCdCvzV7P8HX2MA/JfS6z3R87Xr3XITa0V2xkjg8CJbIHh4c4p8+6E6
-   w98CDBKS4r2ZZ6CDsmvdbdmGnTJ7gDkafw2fVejwe4T6qpf5hNIsj5Tyv
-   w==;
-X-CSE-ConnectionGUID: g/HQfGtMTzyjk8NIgsiYnw==
-X-CSE-MsgGUID: ur7z7tXiQ26ZSA9Id1o6XA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="19869839"
-X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="19869839"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 23:02:30 -0700
-X-CSE-ConnectionGUID: FA6RmnIcTMCcDimUTeGKYQ==
-X-CSE-MsgGUID: 6197AvshSP2GyBJgn5JZIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="26225963"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 12 Apr 2024 23:02:28 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rvWT4-0001vI-1N;
-	Sat, 13 Apr 2024 06:02:26 +0000
-Date: Sat, 13 Apr 2024 14:01:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tim Schumacher <timschumi@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 2072/6010] htmldocs: Warning:
- Documentation/filesystems/efivarfs.rst references a file that doesn't exist:
- Documentation/ABI/stable/sysfs-firmware-efi-vars
-Message-ID: <202404131335.BmnybEIK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="BRz/xMje"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1713000459;
+	bh=3aewD2oJ5lCGPTd/q9AbSX1ze3K0D7ZipcutTcBOOjA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BRz/xMjewXr7BMy3kMWgkeZJOsjd+wKW1GyUv4bUGLosF97Jk7ABL1DhG7HQ9+Hop
+	 all7poKtpvnaLLCkzwXzF3QqmcT//I4w88f5Y0uuSF4Qtgvj6fxNSiI7IIqkhfgWKA
+	 XVR2eRlygS8QCiNLOSJujhnLiHqR9Bd/9aGwlflun9+VojsvezdzXrMXjXstI0ufYz
+	 eJmsRV64sfSRlHpd+Q4JbhyAbrR+pQknoEdCEHAzOrmCqyYARIFBUseRZebMjOWIyV
+	 4PxwPqpeeWnR01lcwV9em2FoQpBmjoayJYUYNLDRMTuXfnpUB6VBHGTFajRBMht3fC
+	 5drB7aG9b+pmA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VGp4T3FZBz4wyV;
+	Sat, 13 Apr 2024 19:27:37 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Christopherson
+ <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
+ <daniel.sneddon@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
+ linux-arch@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Heiko Carstens <hca@linux.ibm.com>
+Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
+ for SPECULATION_MITIGATIONS=n
+In-Reply-To: <20240413115324.53303a68@canb.auug.org.au>
+References: <20240409175108.1512861-1-seanjc@google.com>
+ <20240409175108.1512861-2-seanjc@google.com>
+ <20240413115324.53303a68@canb.auug.org.au>
+Date: Sat, 13 Apr 2024 19:27:36 +1000
+Message-ID: <87edb9d33r.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9ed46da14b9b9b2ad4edb3b0c545b6dbe5c00d39
-commit: cbb404e464d2350a1fc3c73237a6334f59bd58a2 [2072/6010] Documentation: Mark the 'efivars' sysfs interface as removed
-reproduce: (https://download.01.org/0day-ci/archive/20240413/202404131335.BmnybEIK-lkp@intel.com/reproduce)
+Stephen Rothwell <sfr@canb.auug.org.au> writes:
+> Hi Sean,
+>
+> I noticed this commit in linux-next.
+>
+> On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@google.com=
+> wrote:
+>>
+>> Initialize cpu_mitigations to CPU_MITIGATIONS_OFF if the kernel is built
+>> with CONFIG_SPECULATION_MITIGATIONS=3Dn, as the help text quite clearly
+>> states that disabling SPECULATION_MITIGATIONS is supposed to turn off all
+>> mitigations by default.
+>>=20
+>>   =E2=94=82 If you say N, all mitigations will be disabled. You really
+>>   =E2=94=82 should know what you are doing to say so.
+>>=20
+>> As is, the kernel still defaults to CPU_MITIGATIONS_AUTO, which results =
+in
+>> some mitigations being enabled in spite of SPECULATION_MITIGATIONS=3Dn.
+>>=20
+>> Fixes: f43b9876e857 ("x86/retbleed: Add fine grained Kconfig knobs")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Sean Christopherson <seanjc@google.com>
+>> ---
+>>  kernel/cpu.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/kernel/cpu.c b/kernel/cpu.c
+>> index 8f6affd051f7..07ad53b7f119 100644
+>> --- a/kernel/cpu.c
+>> +++ b/kernel/cpu.c
+>> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
+>>  };
+>>=20=20
+>>  static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
+>> -	CPU_MITIGATIONS_AUTO;
+>> +	IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
+>> +						     CPU_MITIGATIONS_OFF;
+>>=20=20
+>>  static int __init mitigations_parse_cmdline(char *arg)
+>>  {
+>> --=20
+>> 2.44.0.478.gd926399ef9-goog
+>>=20
+>
+> I noticed because it turned off all mitigations for my PowerPC qemu
+> boot tests - probably because CONFIG_SPECULATION_MITIGATIONS only
+> exists in arch/x86/Kconfig ... thus for other architectures that have
+> cpu mitigations, this will always default them to off, right?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404131335.BmnybEIK-lkp@intel.com/
+Yep.
 
-All warnings (new ones prefixed by >>):
+The patch has the effect of changing the default for non-x86 arches from
+auto to off.
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
->> Warning: Documentation/filesystems/efivarfs.rst references a file that doesn't exist: Documentation/ABI/stable/sysfs-firmware-efi-vars
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
-   Using alabaster theme
+I see at least powerpc, arm64 and s390 use cpu_mitigations_off() and
+will be affected.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+cheers
