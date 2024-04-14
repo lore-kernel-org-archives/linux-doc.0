@@ -1,96 +1,87 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from sirabella.org (sirabella.org [207.246.81.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970411B7E9;
-	Sun, 14 Apr 2024 05:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4966A134D1;
+	Sun, 14 Apr 2024 06:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.246.81.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713072818; cv=none; b=krSsJ28dRVSOb3cJtPYeEYWgd0dFJWTKV1PnKiBlq77ST+4FinDXjJl1qe8dSxwd01DCnQU8yopj3zYFYioD4LbsXEFho5cOg3LP+7rVSQ/PnfzbYFPL8urGl1jvlFVIHxlUY5uaQLrQKZHjoMFR5ztwOEGa6pup4nCUINMdz6w=
+	t=1713077647; cv=none; b=U0/zTBS+vxB83LXFrXoa4cj5Wt9dpEnC54uDu8JD8XYMc5e0/wEE2dijnUn7prOPQ+sx02YpT9i7LQyXEfoX6lDZLKHAsjs1Njb/Si0voRvJijzIq+BsgFmGa3T3SEOYjGYNAtE5GXvsVXdgmHGn/EWbenMWTXx9SMKVA8aPYcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713072818; c=relaxed/simple;
-	bh=v0O1wkR6wbnMmmQDu44nt7zPFp5nIQyL4vIoHfxOQXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GAA/HL8nyf94muFbbzaqN0FFE4va6uvr8dlpW024o0nX1PeLVP7tDmxwm1VDzjGKmepXyaGFpyVpsg2rjnk+XIx18Pd9UfjDSv5BeI9zA9moQal5SofxBHbIW/tb5LinaN7JL/PJRKv0rCn/pG3l5vfgQpgtWT/xQDWYoGM4EkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Kjm/Dwpu; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713077647; c=relaxed/simple;
+	bh=OwZXUAQIljzatfKc1kdDes2zT7NCe9QasY61Okvdqyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NJj8Vxs98St4Z42TOeZPodaIA3aYATi+0LRDCGltPKGd/pvrVE8C+IcTzxh/Wk8z0X8mt4lILWjhaF9lBpqahkBCUA9FfXbYS2UAqBYdgpP/KtZXcmC7bbASPoCQqW3YsvgUkiwlzJI/QTpZNPu0jOnKAwIkvvSJP6eFWz2puug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sirabella.org; spf=pass smtp.mailfrom=sirabella.org; dkim=pass (1024-bit key) header.d=sirabella.org header.i=@sirabella.org header.b=H4lLj8Hl; arc=none smtp.client-ip=207.246.81.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sirabella.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sirabella.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Kjm/Dwpu"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3CDEB1BF203;
-	Sun, 14 Apr 2024 05:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713072807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mUKnW0MYxp8X8CORgAZ0KT25kUnIRWHF8DdTNT1mliE=;
-	b=Kjm/DwputspWyyw5H0eQjPK9H8b6cmGmKI8b4VmmflJxeo4FAJZlSboBiCnwGmo4z470mz
-	K7szKldCeoiusuQcZ5XaVYeblBtoD6QRrWLMbEOgFXppp0YReDCb+nDhCLlPiTTBL08P/V
-	nwZBdxcy0CnWZDcXbFw4xMhMknrFtjqtERXoqKHjCXBzHkyuLS7AhkXXA0SberDqzZw8ei
-	0Z46GaofJB/ukzevDg0AiuomRb9qdKBFGnubhi5w1e5vMBH7zhoLPsUAMVit/gAhQUK62L
-	MZ7KpC7bw9Qr5CeiHv7qsDHkHQNzXXLeNDVVLa3dUrwiZ4OhENJlAU+4HjxtMA==
-Date: Sun, 14 Apr 2024 07:33:15 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
- Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
- <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Jonathan Corbet <corbet@lwn.net>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, Simon Horman
- <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v10 08/13] ptp: Add phc source and helpers to
- register specific PTP clock or get information
-Message-ID: <20240414073315.5aa7adf0@kmaincent-XPS-13-7390>
-In-Reply-To: <66175265992c8_2d6bc6294d8@willemb.c.googlers.com.notmuch>
-References: <20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com>
-	<20240409-feature_ptp_netnext-v10-8-0fa2ea5c89a9@bootlin.com>
-	<66175265992c8_2d6bc6294d8@willemb.c.googlers.com.notmuch>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=sirabella.org header.i=@sirabella.org header.b="H4lLj8Hl"
+From: Marco Sirabella <marco@sirabella.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sirabella.org;
+	s=mail; t=1713077643;
+	bh=8yX+RfINII2LzHTSQoJ6+4gEiy7jn4rJ/Lmdru5TOLg=;
+	h=From:To:Cc:Subject:Date;
+	b=H4lLj8HlA8NDExuL9R1n42gLottdqmOcQFqh5dqCUJJVOPrKOcKzBIfZqGIV40w5u
+	 lBfvoTtmv87+pL0xzskhD463GyG+QqthLRLfAm3D3cRGqXF3IBBXPWCURzaA42UuFT
+	 PrGEpTWCebVQ3KdMUEnVkoGmUlb/K9819bEtMNt0=
+To: linux-kernel@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marco Sirabella <marco@sirabella.org>
+Subject: [PATCH] Documentation: spi: Update gpio+bitbang instruction
+Date: Sun, 14 Apr 2024 02:53:05 -0400
+Message-ID: <20240414065305.9796-1-marco@sirabella.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Apr 2024 23:00:53 -0400
-Willem de Bruijn <willemdebruijn.kernel@gmail.com> wrote:
+The way to do this was changed in
+9b00bc7b901f (spi-gpio: Rewrite to use GPIO descriptors)
+and there's no real docs outlining this,
+update defunct #include "spi-gpio.c" instructions
 
-> > +/**
-> > + * netdev_ptp_clock_register() - register a PTP hardware clock driver =
-for
-> > + *				 a net device
-> > + *
-> > + * @info: Structure describing the new clock.
-> > + * @dev:  Pointer of the net device
-> > + */
-> > +
-> > +extern struct ptp_clock *
-> > +netdev_ptp_clock_register(struct ptp_clock_info *info,
-> > +			  struct net_device *dev); =20
->=20
-> No need for explicit extern?
+Signed-off-by: Marco Sirabella <marco@sirabella.org>
+---
+ drivers/spi/spi-gpio.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-Indeed I don't think it is needed.
-I am wondering why few other functions uses it (ptp_clock_register,
-ptp_clock_event, ptp_clock_index). Do you know?
+diff --git a/drivers/spi/spi-gpio.c b/drivers/spi/spi-gpio.c
+index 909cce109bba..8c5f88f01db2 100644
+--- a/drivers/spi/spi-gpio.c
++++ b/drivers/spi/spi-gpio.c
+@@ -44,22 +44,13 @@ struct spi_gpio {
+  * per transferred bit can make performance a problem, this code
+  * is set up so that you can use it in either of two ways:
+  *
+- *   - The slow generic way:  set up platform_data to hold the GPIO
++ *   - The generic way:  set up platform_data to hold the GPIO
+  *     numbers used for MISO/MOSI/SCK, and issue procedure calls for
+  *     each of them.  This driver can handle several such busses.
+  *
+- *   - The quicker inlined way:  only helps with platform GPIO code
+- *     that inlines operations for constant GPIOs.  This can give
+- *     you tight (fast!) inner loops, but each such bus needs a
+- *     new driver.  You'll define a new C file, with Makefile and
+- *     Kconfig support; the C code can be a total of six lines:
+- *
+- *		#define DRIVER_NAME	"myboard_spi2"
+- *		#define	SPI_MISO_GPIO	119
+- *		#define	SPI_MOSI_GPIO	120
+- *		#define	SPI_SCK_GPIO	121
+- *		#define	SPI_N_CHIPSEL	4
+- *		#include "spi-gpio.c"
++ *   - The inlined way:  manually set up and register a gpiod_lookup_table with
++ *     the appropriately labelled gpio pins "sck", "mosi", "miso" & an array
++ *     named "cs" before calling devm_spi_register_controller (XXX).
+  */
+ 
+ #ifndef DRIVER_NAME
+-- 
+2.43.2
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
