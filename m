@@ -1,60 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22B01C6BD
-	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 04:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57289F9C8;
+	Mon, 15 Apr 2024 05:21:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713154731; cv=none; b=hOJJJOFPqGpjVxeA8RqHYw9SY8+Pa51Z3U9bY+PyBl/u5FOfh7q1JaCdKOGgkqIjsS8fwml7DISBGOXF5hs8BeaHrVxYmyZQ68v3zjgsRuNbwlYLjS8kNb2ii7+M8JOnZIi+9CGJOEmR6NvmUl3h+UtSOgFmfuJ0Jn8PpBbiK7Q=
+	t=1713158503; cv=none; b=nb8SqY2QLWw16b/qbIXFKfO5W9MreY2uxg4DAmlYTQBYUrUDxSyLV+sZE+8l80+p5F9FEc7ui11lIoBFXfE4BciedNgBtqvktlHaT/qBoG0h1iDFXKAy4KML3rbmWRk78L4QIGbxC4Iyl4HzdutJuygtVTKOv5n7uK/hZvReb2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713154731; c=relaxed/simple;
-	bh=mJvE/MjQ0XBxS0+v7Ptz6dVPr7TUMzZI+MYZCOxG43k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rWKkOZhWv4ZvKbUZT9uBUhxEDud3b6Mv88uFL+H6xVPQAnCi8bcxe96t5w4QLAvar2apeqnCMSbdSAhtOgYZO9/RzI06Gcj00WZSwnFnPjCU0utHUl4z93ax3nBo5fOx49XyK+uA3l7M7K0WRUUdRdWpX/J3rkEDyexEjhJxnyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWOAli5B; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713158503; c=relaxed/simple;
+	bh=nlsa6YgRAFchswkyn7KkmzAVbBm3XbY20uZqZXRwrnE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=exiapsBbAp0+ZZ3TfAwadstCrKAq8OPNuUR2+3SnbKQujCG4aB4oXX0oGLqjapncYW4rJvUrrwyPUxaUIn10poDHY6LXGlJyLbaks8qyEXF7VeHxbxmLaFPmjFO/lFLjX5uLsLkMR28/jJr0VKPH2G9GtxkOavdGTvbpfZ6o86o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fzOuenNS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWOAli5B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713154729; x=1744690729;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mJvE/MjQ0XBxS0+v7Ptz6dVPr7TUMzZI+MYZCOxG43k=;
-  b=BWOAli5BaqlxGu7u56s3DEU+ddBa+3drSCcJiHn6WSKfrDQMrcxlZvVv
-   p5t3zSbG07iMPrvAbzdxBA9Z2lcHtvV088pcFKFjfMTK4IKRArVRoOKSK
-   Uf74hcs3EUSsL/+Mt9BFX1lK3WGlDn9W9m9mEEdRVKhl/UR6hVe4sJvDD
-   xrFW+45nPAr2Sl2VjxlVz+2c3CWm6r2Flqk/p1NilzYBFxSme5viIiDrD
-   CWsQ+9ThYdNSf3L/O5urYk+/9V7I3hbm4PYTjXTb87ckpm9wVQzil/9nB
-   06cMrawsy+8OE/0c9Lz7697puKE4z8UDDPZQiqYgGkuqZzcGmZH/0eUBA
-   Q==;
-X-CSE-ConnectionGUID: dHNlL1l0QhSTloalPqZTAQ==
-X-CSE-MsgGUID: 3klz4fHIQH+fevW5NJeetg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="11477743"
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="11477743"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 21:18:48 -0700
-X-CSE-ConnectionGUID: Obf4e+VsTMKK6VufwVR+mw==
-X-CSE-MsgGUID: qIxC5G6jTCaGtlv2LhSpKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="21884564"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Apr 2024 21:18:47 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwDno-0003yG-2z;
-	Mon, 15 Apr 2024 04:18:44 +0000
-Date: Mon, 15 Apr 2024 12:17:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: [broonie-ci:fileY2I0bM 27/28] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
-Message-ID: <202404151225.icWrM668-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fzOuenNS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF97C113CC;
+	Mon, 15 Apr 2024 05:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1713158502;
+	bh=nlsa6YgRAFchswkyn7KkmzAVbBm3XbY20uZqZXRwrnE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fzOuenNSgx06ppXJccfIqUwcs1fhWSId1+Mz3jtnG34Ep+W9tUwIcwm91dFZqJYgD
+	 84sKXjWf9fJ3QY9u489oGiR33PkxTyyD4+I+0mfDnV/FNxNG4F/MxhC2hPl7LxtDWU
+	 DIKpgrRKfPy8i4BH7hjtnK4g1SjKZiJBu0UcFn5M=
+Date: Mon, 15 Apr 2024 07:21:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Alex Elder <elder@linaro.org>, corbet@lwn.net,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+Message-ID: <2024041503-affidavit-stopwatch-72d7@gregkh>
+References: <20240414170850.148122-1-elder@linaro.org>
+ <20240414194835.GA12561@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,26 +41,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240414194835.GA12561@pendragon.ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileY2I0bM
-head:   770e3da3fe7ee7ffca745b7ac300ce39fe40f465
-commit: 82116e539ffb7ce0c317c208d53d2126cdcee687 [27/28] MAINTAINERS: adjust file entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS
-reproduce: (https://download.01.org/0day-ci/archive/20240415/202404151225.icWrM668-lkp@intel.com/reproduce)
+On Sun, Apr 14, 2024 at 10:48:35PM +0300, Laurent Pinchart wrote:
+> Hi Alex,
+> 
+> Thank you for the patch.
+> 
+> On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
+> > Several times recently Greg KH has admonished that variants of WARN()
+> > should not be used, because when the panic_on_warn kernel option is set,
+> > their use can lead to a panic. His reasoning was that the majority of
+> > Linux instances (including Android and cloud systems) run with this option
+> > enabled. And therefore a condition leading to a warning will frequently
+> > cause an undesirable panic.
+> > 
+> > The "coding-style.rst" document says not to worry about this kernel
+> > option.  Update it to provide a more nuanced explanation.
+> > 
+> > Signed-off-by: Alex Elder <elder@linaro.org>
+> > ---
+> >  Documentation/process/coding-style.rst | 21 +++++++++++----------
+> >  1 file changed, 11 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> > index 9c7cf73473943..bce43b01721cb 100644
+> > --- a/Documentation/process/coding-style.rst
+> > +++ b/Documentation/process/coding-style.rst
+> > @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
+> >  to trigger easily, for example, by user space actions. pr_warn_once() is a
+> >  possible alternative, if you need to notify the user of a problem.
+> >  
+> > -Do not worry about panic_on_warn users
+> > -**************************************
+> > +The panic_on_warn kernel option
+> > +********************************
+> >  
+> > -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
+> > -available kernel option, and that many users set this option. This is why
+> > -there is a "Do not WARN lightly" writeup, above. However, the existence of
+> > -panic_on_warn users is not a valid reason to avoid the judicious use
+> > -WARN*(). That is because, whoever enables panic_on_warn has explicitly
+> > -asked the kernel to crash if a WARN*() fires, and such users must be
+> > -prepared to deal with the consequences of a system that is somewhat more
+> > -likely to crash.
+> > +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
+> > +a WARN*() call whose condition holds leads to a kernel panic.  Many users
+> > +(including Android and many cloud providers) set this option, and this is
+> > +why there is a "Do not WARN lightly" writeup, above.
+> > +
+> > +The existence of this option is not a valid reason to avoid the judicious
+> > +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
+> > +issue warnings but do **not** cause the kernel to crash. Use these if you
+> > +want to prevent such panics.
+> 
+> Those options are not equivalent, they print a single message, which is
+> much easier to ignore. WARN() is similar to -Werror in some sense, it
+> pushes vendors to fix the warnings. I have used WARN() in the past to
+> indicate usage of long-deprecated APIs that we were getting close to
+> removing for instance. dev_warn() wouldn't have had the same effect.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404151225.icWrM668-lkp@intel.com/
+If you want to reboot a box because someone called an "improper" api,
+then sure, use WARN(), but that feels like a really bad idea.  Just
+remove the api and fix up all in-kernel users instead.  Why wait?
 
-All warnings (new ones prefixed by >>):
+If you want to show a traceback, then just print that out, but I've seen
+that totally ignored as well, removing the api is usually the only way
+to get people to actually notice, as then their builds break.
 
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
-   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
-   Using alabaster theme
+thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
