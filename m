@@ -1,65 +1,60 @@
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE880C04
-	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 16:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C4C1CD23;
+	Mon, 15 Apr 2024 16:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713198403; cv=none; b=UUR9pBDEyupHCN7oEgiksiS04m8KmCTZhtz/8t74exCZHxzI/P1DcJ0rBkTNLEPpBzT2sXdGWMdUTRh43eOxOLQBuWEfVMv9/7XRb7aB/7PLIU9lsBZLuBP3ZXBnEc9279wySTqdtV1qpICeOp/7VnL6juhgG8HswGqm0yp6f6E=
+	t=1713198740; cv=none; b=Ja2sahRhEdNuXNIixMGr/hu83BLxsZLWfnQPiv8W5UjLGpfnzrcJx+QQHR+1YC24cCdELmup5VKOI3dDqQuEKzM1E4/i+BsaREYcRpBqAQ8NUHwhICjotTfA0TNgEa63qzDVOxbwyl1sN0XMYUbqn3x6oeKZvTEBnTa3ycA+MRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713198403; c=relaxed/simple;
-	bh=TPnCz2wIas6s6nm4zl4kHicnrqDlbc3QFZUPUtZbe4k=;
+	s=arc-20240116; t=1713198740; c=relaxed/simple;
+	bh=Wsb9mO0IMUs6XyEA7C68rG60ROTwki5oNLgFkNQGVfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q8V4NNsOCQhfKUMQrNZU6grsHlGkJoW5F8Ru0MtgeKHZU2oCbfnZsadk8m0KjNtuQFBhgtriiR+Jgdh5uSwp1Twjw95Y1C04l5jYf7e2KlDg00YigfLb4Cw6kNsXz2uOZMfCdbtiwgY9tL+jhxebrpg0YBo7f1rJ4sT+/cOBTjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nZ+gxhY1; arc=none smtp.client-ip=209.85.161.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEb4L3hZx/kVXZ15ajtVDPRUXB1pekZkDMZOjwqnpViKSAL9NI35n1qzEPHb5U7M4fT4zlbuLgTe6Atd3DFQdghmJ6mnnuP/xhUAxQIIZ0Q/Nob3cFI9+FeI5n1O8nOjgg5YPk7sVqGm9tptBNKK+NzbfJpLgHEL2tlpsG7jXU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDAALKxn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nZ+gxhY1"
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5aa1fe2ad39so2456957eaf.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 09:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1713198401; x=1713803201; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QKHTfr0tvl13h4ZA+OR/lP9gzZF3Fnqy/imumDFRLcI=;
-        b=nZ+gxhY1m3mhD3UrfIhn5CDg7S5qCFXvhWlgNO9Ckv8PPTkFmJCwMhQUx40+PyqJ56
-         /uszDEHZoTFaJtOn2StgYoTtBaU84GPDXS1PwbKzM4weKqUPA66n2nGR+KzKmOtIEiCM
-         v2O/sNCsCre+cgSsAvEnZBHZtcskEPOjTbzFI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713198401; x=1713803201;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QKHTfr0tvl13h4ZA+OR/lP9gzZF3Fnqy/imumDFRLcI=;
-        b=ge6afVoZxup2clvDIa3jjNOJyye5mb9yetTWA+Vivn/WNuacnpyyCZmt0gmPb7hrrl
-         jC89ZeA3QLzb/rk4HtkzBCllmzDNOR8ZbExnhqkj/y0SReKtKmVCqyrUJyi1J4Kbglg5
-         gCRFKokTM55owj4hkcAp6WEDpWHcFhAoTVSNL/G5pWHunM1af7R3o1FeMUP768ki/DZD
-         G2SX2PO4gE0nfshJ7RJHg8vSbTjcyD0EcWOogQRPNnJqNFxutHdDYLKWhSqjbIojjmMu
-         rmSJddWKJTTJsZu2cvhTDhmcaOsmvJhrXMgjg02krSCO+YghJblszsZCucUNiyGttlgJ
-         IRUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWS8zUR2EuYXXe0E1c3rE0P1iuLXkSzgiRk7EmEUcH3dYgPWA5ox5FZENoS1kVprVKN1PB/VMxjO/y8HBVZ0tWOJ8n8YdaaSaJo
-X-Gm-Message-State: AOJu0YwueYd8gkwqE10y+gTJEFHC6T5rwq19B/QtBAm2t7NXqwxMONw3
-	7JJzZ48J8WiQIcn29qgmyhQuEulQ7atkO2vneFTPu1k9w9Vau0jlOcEDZWoGULmN4P4fEXMaRmE
-	=
-X-Google-Smtp-Source: AGHT+IG5foknaEEd3MkXk9+LN5r3/huMB4/LsTYhpQfavkLppvPRN0r2oC8b83xw/nAjf+NuBYciog==
-X-Received: by 2002:a05:6358:c695:b0:183:e8d7:6f58 with SMTP id fe21-20020a056358c69500b00183e8d76f58mr7637642rwb.32.1713198401272;
-        Mon, 15 Apr 2024 09:26:41 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id x124-20020a636382000000b005bdbe9a597fsm7238801pgb.57.2024.04.15.09.26.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 09:26:40 -0700 (PDT)
-Date: Mon, 15 Apr 2024 09:26:40 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Alex Elder <elder@linaro.org>,
-	corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
-Message-ID: <202404150919.042E6FF@keescook>
-References: <20240414170850.148122-1-elder@linaro.org>
- <ZhzgTeEHFF19N3UZ@infradead.org>
- <2024041544-fester-undead-7949@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDAALKxn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B94C113CC;
+	Mon, 15 Apr 2024 16:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713198740;
+	bh=Wsb9mO0IMUs6XyEA7C68rG60ROTwki5oNLgFkNQGVfw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hDAALKxniYNrhPk7bGdZS6/mD+2lHE9dUHGMqBLvm6ZfPtEwssQoA88x2UurOeeN2
+	 ltpjL7kJB+XXWqoHe229s83KYjjbNhr9s8SHH4V8sYGTU8jYDxwjJPZj6AePV4lA8b
+	 ucSkbhHoj6CaQkA14qENjkLbGPeW4JGeF4hFAiuWTTcfNQAY1HQduj3z9VMS9GkycQ
+	 DI7pojk9FqjWIQKB9JOzHezwyg3iSRcpIh6jRjb4u7T+xoW+knmBlCsRpL4PjkuKxt
+	 3I4/YTgREcipydZmtPp5swjdQqI1Yiru8u7SZ6TNxrZoamRL8MZrxxYxDTBcD05esc
+	 hq8v/xfZ4MvHQ==
+Date: Mon, 15 Apr 2024 17:32:12 +0100
+From: Simon Horman <horms@kernel.org>
+To: Yi-De Wu <yi-de.wu@mediatek.com>
+Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
+	Ze-Yu Wang <ze-yu.wang@mediatek.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	David Bradil <dbrazdil@google.com>,
+	Trilok Soni <quic_tsoni@quicinc.com>,
+	My Chuang <my.chuang@mediatek.com>,
+	Shawn Hsiao <shawn.hsiao@mediatek.com>,
+	PeiLun Suei <peilun.suei@mediatek.com>,
+	Liju Chen <liju-clr.chen@mediatek.com>,
+	Willix Yeh <chi-shen.yeh@mediatek.com>,
+	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
+Subject: Re: [PATCH v10 19/21] virt: geniezone: Provide individual VM memory
+ statistics within debugfs
+Message-ID: <20240415163212.GE2320920@kernel.org>
+References: <20240412065718.29105-1-yi-de.wu@mediatek.com>
+ <20240412065718.29105-20-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,35 +63,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2024041544-fester-undead-7949@gregkh>
+In-Reply-To: <20240412065718.29105-20-yi-de.wu@mediatek.com>
 
-On Mon, Apr 15, 2024 at 10:35:21AM +0200, Greg KH wrote:
-> On Mon, Apr 15, 2024 at 01:07:41AM -0700, Christoph Hellwig wrote:
-> > No, this advice is wronger than wrong.  If you set panic_on_warn you
-> > get to keep the pieces.  
-> > 
+On Fri, Apr 12, 2024 at 02:57:16PM +0800, Yi-De Wu wrote:
+> From: "Jerry Wang" <ze-yu.wang@mediatek.com>
 > 
-> But don't add new WARN() calls please, just properly clean up and handle
-> the error.  And any WARN() that userspace can trigger ends up triggering
-> syzbot reports which also is a major pain, even if you don't have
-> panic_on_warn enabled.
+> Created a dedicated per-VM debugfs folder under gzvm, providing
+> user-level programs with easy access to per-VM memory statistics for
+> debugging and profiling purposes. This enables users to effectively
+> analyze and optimize the memory usage of individual virtual machines.
+> 
+> Two types of information can be obtained:
+> 
+> `cat /sys/kernel/debug/gzvm/<pid>-<vmid>/protected_hyp_mem` shows memory
+> used by the hypervisor and the size of the stage 2 table in bytes.
+> 
+> `cat /sys/kernel/debug/gzvm/<pid>-<vmid>/protected_shared_mem` gives
+> memory used by the shared resources of the guest and host in bytes.
+> 
+> For example:
+> console:/ # cat /sys/kernel/debug/gzvm/3417-15/protected_hyp_mem
+> 180328
+> console:/ # cat /sys/kernel/debug/gzvm/3417-15/protected_shared_mem
+> 262144
+> console:/ #
+> 
+> More stats will be added in the future.
+> 
+> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
+> Signed-off-by: Liju-Clr Chen <liju-clr.chen@mediatek.com>
+> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
 
-Here's what was more recently written on WARN:
+...
 
-https://docs.kernel.org/process/deprecated.html#bug-and-bug-on
+> diff --git a/drivers/virt/geniezone/gzvm_vm.c b/drivers/virt/geniezone/gzvm_vm.c
 
-Specifically:
+...
 
-- never use BUG*()
-- WARN*() should only be used for "expected to be unreachable" situations
+> @@ -398,6 +409,113 @@ static void setup_vm_demand_paging(struct gzvm *vm)
+>  	}
+>  }
+>  
+> +static int debugfs_open(struct inode *inode, struct file *file)
+> +{
+> +	file->private_data = inode->i_private;
+> +	return 0;
+> +}
 
-This, then, maps correctly to panic_on_warn: System owners may have set
-the panic_on_warn sysctl, to make sure their systems do not continue
-running in the face of "unreachable" conditions.
+nit: Coccinelle suggests that simple_open() can be used in place
+     of the debugfs_open() implementation above.
 
-As in, userspace should _never_ be able to reach a WARN(). If it can,
-either the logic leading to it needs to be fixed, or the WARN() needs to
-be changed to a pr_warn().
+...
 
--- 
-Kees Cook
+> +static const struct file_operations hyp_mem_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = debugfs_open,
+> +	.read = hyp_mem_read,
+> +	.llseek = no_llseek,
+> +};
+> +
+> +static const struct file_operations shared_mem_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = debugfs_open,
+> +	.read = shared_mem_read,
+> +	.llseek = no_llseek,
+> +};
+
+...
