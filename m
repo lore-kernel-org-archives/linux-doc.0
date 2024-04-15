@@ -1,153 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB853679E5;
-	Mon, 15 Apr 2024 14:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B50B2119;
+	Mon, 15 Apr 2024 14:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713192777; cv=none; b=nfQsGIXZk/KcRzhHspHbElF6AeBCMLJ78zbuvexALqpuJMnIjLKlE95NvxWkrgom2dNX+Q7RVemoMzcai04bXAHsO7BhIYl1neZSXCgJ5jhXNBQrpELlmYxTMYBWK/N+A8GZ0ctLurRNZ2Qza/GbHXw/gQmcXMjJbZj6Y8e7p6U=
+	t=1713192990; cv=none; b=K1zQpoiLPCUAOMJoVOEfCJgiheQxGJhnnTPgERA0FlFmGhiiWYkBtXQbyfbrTVByf6bYfO5RPSDetHF2lRtHLxQSCx7THsClecTOKonjls1ytl/Tz4u0svNXJ9VkroPPJjYuqExiTDeOpcVbzgudCBRyzsie0TYxqKct9smYi2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713192777; c=relaxed/simple;
-	bh=NhbAtc6tAGccokWSTjoKOMtgLuAbLGDa8a3OfLwV230=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OLodLUgG5tV921jANIqjXwrZDqPDNMwnbtc448V9clnxuI5aV09SoRzAK/OxOvxDpzQLMJha6fGGYK89u9eWEbWCpydwXO/5Oqr23wiTNyRxvxKF3K/fFFBF8rDU8VOti+wLxyK2+syr3bfGEKnPervk9hUUQYUYli0HtEqL2wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWrs5fKI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713192990; c=relaxed/simple;
+	bh=/mvT0EDWyKl1LlJVsDqLsYJZ3bKhS9o6DCyFrjILGz8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c+/bD4rjy0/gOOgGqkFGIwIMAD2Eymhf+YorS2kdHcQHJ5SXmwY9us/82UWP3mtVt5p9EX/SkB6Gw0P0o2JbHAxiDQ2LzbZ8VLI7khY/95Ld7ZFwdhKGfdb03QXw37V+7Q0xEiZEaMWWESpCR19iDXG238bdUhNsu2l1Pk4vLYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PEgd9GAE; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWrs5fKI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 267E2C113CC;
-	Mon, 15 Apr 2024 14:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713192776;
-	bh=NhbAtc6tAGccokWSTjoKOMtgLuAbLGDa8a3OfLwV230=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PWrs5fKIlnzoyDAUHDWP4Y/Pvl09ehPKzlzipssc5llEgsM4XodZX0woW/NTST5B0
-	 B03GQhlkgJcyHjeYjkF3SyUa20g6XEuS8KiTh2nzLYc3Gze0gL4BErAp+FmCxJDLqi
-	 bvUg4CwKXnhE2lYPOVePRzcbQQ8MsTc1venCKXnd1OzvhSY+Hnj1xlWlPSkFUF+Jvi
-	 bUpSa71+FXCgHH2/wOsYHf8ByDStbIrmopHRqOwEf0qZSD6UPlNaOMa+5qLAXv2G6P
-	 0KWdSBJRQ3odCtfC+CFjNz5OBy/p8Co9ZLQ0bETvoKnFjr2C56WASlvyOKZAExb91o
-	 UjHI3ixedmu6Q==
-Date: Mon, 15 Apr 2024 15:52:48 +0100
-From: Simon Horman <horms@kernel.org>
-To: Yi-De Wu <yi-de.wu@mediatek.com>
-Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>,
-	Willix Yeh <chi-shen.yeh@mediatek.com>,
-	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v10 15/21] virt: geniezone: Add demand paging support
-Message-ID: <20240415145248.GD2320920@kernel.org>
-References: <20240412065718.29105-1-yi-de.wu@mediatek.com>
- <20240412065718.29105-16-yi-de.wu@mediatek.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PEgd9GAE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=rSYz6ltDs8l3GpHsJ/BNWBnXGvHDJcVElTYrkRgq2hM=; b=PEgd9GAEOSK8jC+Q0K+Ai2oK2K
+	ExbXvP+V+x9B7nHBgxud3TaOYOIy9C8rQk3bulN65+YLSbnA/IzFGchEKzw8a0ruwr2eRMzuIsKw6
+	2nBUzrYjQsk2tPaPavs8/sCArkepf5xZW9R0U8EYT4SoL1PqT27hmYa2ZhgwamTYMANJTBN3AGF/8
+	PWjYVfJ3h3sjLfCw2UMqynzWUsHi0p1hxHnxIrA5vfJILn/QKfFic8c2Wsr038SOe55C08W/st6lB
+	QGQp/r/E0diq89k0udzMPfodXjo/kZ/Vkbmntrz8wFf3mV22PiW4DuMLztUyomxJaYvzv1rb9KBuM
+	UbjQzQeQ==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwNkq-00000008mEB-0FKk;
+	Mon, 15 Apr 2024 14:56:20 +0000
+Message-ID: <a2266217-c3ad-4bb2-8188-498a2c8ae36c@infradead.org>
+Date: Mon, 15 Apr 2024 07:56:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240412065718.29105-16-yi-de.wu@mediatek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 20/21] Documentation: add ipe documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Fan Wu <wufan@linux.microsoft.com>,
+ corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
+ snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
+ <1712969764-31039-21-git-send-email-wufan@linux.microsoft.com>
+ <Zh0Zh3-xraVl85Lm@archie.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <Zh0Zh3-xraVl85Lm@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 12, 2024 at 02:57:12PM +0800, Yi-De Wu wrote:
-> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+
+On 4/15/24 5:11 AM, Bagas Sanjaya wrote:
+> The doc LGTM, thanks!
 > 
-> This page fault handler helps GenieZone hypervisor to do demand paging.
-> On a lower level translation fault, GenieZone hypervisor will first
-> check the fault GPA (guest physical address or IPA in ARM) is valid
-> e.g. within the registered memory region, then it will setup the
-> vcpu_run->exit_reason with necessary information for returning to
-> gzvm driver.
-> 
-> With the fault information, the gzvm driver looks up the physical
-> address and call the MT_HVC_GZVM_MAP_GUEST to request the hypervisor
-> maps the found PA to the fault GPA (IPA).
-> 
-> There is one exception, for protected vm, we will populate full VM's
-> memory region in advance in order to improve performance.
-> 
-> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
-> Signed-off-by: kevenny hsieh <kevenny.hsieh@mediatek.com>
-> Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-...
+Hi,
+Please see netiquette, section "Trim replies".
+Thanks.
 
-> diff --git a/drivers/virt/geniezone/gzvm_exception.c b/drivers/virt/geniezone/gzvm_exception.c
-> new file mode 100644
-> index 000000000000..475bc15b0689
-> --- /dev/null
-> +++ b/drivers/virt/geniezone/gzvm_exception.c
-> @@ -0,0 +1,39 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 MediaTek Inc.
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/soc/mediatek/gzvm_drv.h>
-> +
-> +/**
-> + * gzvm_handle_guest_exception() - Handle guest exception
-> + * @vcpu: Pointer to struct gzvm_vcpu_run in userspace
-> + * Return:
-> + * * true - This exception has been processed, no need to back to VMM.
-> + * * false - This exception has not been processed, require userspace.
-> + */
-> +bool gzvm_handle_guest_exception(struct gzvm_vcpu *vcpu)
 
-Hi Yi-De Wu,
-
-The return type is bool, however the function actually
-returns either a bool or signed int.
-
-I think that either:
-
-1. The return type should be changed to int,
-   and returning true and false should be updated.
-
-2. The function should always return true or false.
-
-Flagged by Smatch.
-
-> +{
-> +	int ret;
-> +
-> +	for (int i = 0; i < ARRAY_SIZE(vcpu->run->exception.reserved); i++) {
-> +		if (vcpu->run->exception.reserved[i])
-> +			return -EINVAL;
-> +	}
-> +
-> +	switch (vcpu->run->exception.exception) {
-> +	case GZVM_EXCEPTION_PAGE_FAULT:
-> +		ret = gzvm_handle_page_fault(vcpu);
-> +		break;
-> +	case GZVM_EXCEPTION_UNKNOWN:
-> +		fallthrough;
-> +	default:
-> +		ret = -EFAULT;
-> +	}
-> +
-> +	if (!ret)
-> +		return true;
-> +	else
-> +		return false;
-> +}
-
-...
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
