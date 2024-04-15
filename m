@@ -1,195 +1,102 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E394B82862;
-	Mon, 15 Apr 2024 16:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE880C04
+	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 16:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713197613; cv=none; b=Fk33ZLvthvRUIsD5NeA3SjlEvXvMhg6uqOh0937PIHAmRaq9F0iaDXvt7mktnexI9gpgslLeQ1mx01VlkZHyjFXTRGInXwDGDPLFtOryDkZYOHbTD0jkg5mM4WqPhWT1fOTszCTDqmX2PLx3IqOX6HyyFwvgTGM04mZj/vBIhag=
+	t=1713198403; cv=none; b=UUR9pBDEyupHCN7oEgiksiS04m8KmCTZhtz/8t74exCZHxzI/P1DcJ0rBkTNLEPpBzT2sXdGWMdUTRh43eOxOLQBuWEfVMv9/7XRb7aB/7PLIU9lsBZLuBP3ZXBnEc9279wySTqdtV1qpICeOp/7VnL6juhgG8HswGqm0yp6f6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713197613; c=relaxed/simple;
-	bh=OstlfuSyRFOTycwkFPIRoGHthbADv/RkObuMjJltxto=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qBD6yVTZtH4Bp19r7NML1qrP1XIuSS5MbFMSXCqIJ7oKDqd0XyTjUBKcPmRofpdjLb2Nv+H38RWvPa5C5+9nDGJRpY6mhJTRkrlfHq77K+vhbAbKpHf+TiwqRGQo9aPN+EaNjtSku8x1C/yKcuDIopet+jMCyu2t+OAdwwupYbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4VJBcp5D7Cz9xHvk;
-	Mon, 15 Apr 2024 23:56:58 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 120C41408C5;
-	Tue, 16 Apr 2024 00:13:23 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwDn0iaZUR1m4n9HBg--.16529S11;
-	Mon, 15 Apr 2024 17:13:22 +0100 (CET)
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: corbet@lwn.net,
-	zohar@linux.ibm.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	wufan@linux.microsoft.com,
-	pbrobinson@gmail.com,
-	zbyszek@in.waw.pl,
-	hch@lst.de,
-	mjg59@srcf.ucam.org,
-	pmatilai@redhat.com,
-	jannh@google.com,
-	dhowells@redhat.com,
-	jikos@kernel.org,
-	mkoutny@suse.com,
-	ppavlu@suse.com,
-	petr.vorel@gmail.com,
-	mzerqung@0pointer.de,
-	kgold@linux.ibm.com,
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [RFC][PATCH v2 9/9] ima: Register to the digest_cache LSM notifier and process events
-Date: Mon, 15 Apr 2024 18:10:44 +0200
-Message-Id: <20240415161044.2572438-10-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240415161044.2572438-1-roberto.sassu@huaweicloud.com>
-References: <20240415161044.2572438-1-roberto.sassu@huaweicloud.com>
+	s=arc-20240116; t=1713198403; c=relaxed/simple;
+	bh=TPnCz2wIas6s6nm4zl4kHicnrqDlbc3QFZUPUtZbe4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8V4NNsOCQhfKUMQrNZU6grsHlGkJoW5F8Ru0MtgeKHZU2oCbfnZsadk8m0KjNtuQFBhgtriiR+Jgdh5uSwp1Twjw95Y1C04l5jYf7e2KlDg00YigfLb4Cw6kNsXz2uOZMfCdbtiwgY9tL+jhxebrpg0YBo7f1rJ4sT+/cOBTjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nZ+gxhY1; arc=none smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nZ+gxhY1"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5aa1fe2ad39so2456957eaf.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 09:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713198401; x=1713803201; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QKHTfr0tvl13h4ZA+OR/lP9gzZF3Fnqy/imumDFRLcI=;
+        b=nZ+gxhY1m3mhD3UrfIhn5CDg7S5qCFXvhWlgNO9Ckv8PPTkFmJCwMhQUx40+PyqJ56
+         /uszDEHZoTFaJtOn2StgYoTtBaU84GPDXS1PwbKzM4weKqUPA66n2nGR+KzKmOtIEiCM
+         v2O/sNCsCre+cgSsAvEnZBHZtcskEPOjTbzFI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713198401; x=1713803201;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QKHTfr0tvl13h4ZA+OR/lP9gzZF3Fnqy/imumDFRLcI=;
+        b=ge6afVoZxup2clvDIa3jjNOJyye5mb9yetTWA+Vivn/WNuacnpyyCZmt0gmPb7hrrl
+         jC89ZeA3QLzb/rk4HtkzBCllmzDNOR8ZbExnhqkj/y0SReKtKmVCqyrUJyi1J4Kbglg5
+         gCRFKokTM55owj4hkcAp6WEDpWHcFhAoTVSNL/G5pWHunM1af7R3o1FeMUP768ki/DZD
+         G2SX2PO4gE0nfshJ7RJHg8vSbTjcyD0EcWOogQRPNnJqNFxutHdDYLKWhSqjbIojjmMu
+         rmSJddWKJTTJsZu2cvhTDhmcaOsmvJhrXMgjg02krSCO+YghJblszsZCucUNiyGttlgJ
+         IRUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWS8zUR2EuYXXe0E1c3rE0P1iuLXkSzgiRk7EmEUcH3dYgPWA5ox5FZENoS1kVprVKN1PB/VMxjO/y8HBVZ0tWOJ8n8YdaaSaJo
+X-Gm-Message-State: AOJu0YwueYd8gkwqE10y+gTJEFHC6T5rwq19B/QtBAm2t7NXqwxMONw3
+	7JJzZ48J8WiQIcn29qgmyhQuEulQ7atkO2vneFTPu1k9w9Vau0jlOcEDZWoGULmN4P4fEXMaRmE
+	=
+X-Google-Smtp-Source: AGHT+IG5foknaEEd3MkXk9+LN5r3/huMB4/LsTYhpQfavkLppvPRN0r2oC8b83xw/nAjf+NuBYciog==
+X-Received: by 2002:a05:6358:c695:b0:183:e8d7:6f58 with SMTP id fe21-20020a056358c69500b00183e8d76f58mr7637642rwb.32.1713198401272;
+        Mon, 15 Apr 2024 09:26:41 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id x124-20020a636382000000b005bdbe9a597fsm7238801pgb.57.2024.04.15.09.26.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 09:26:40 -0700 (PDT)
+Date: Mon, 15 Apr 2024 09:26:40 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Christoph Hellwig <hch@infradead.org>, Alex Elder <elder@linaro.org>,
+	corbet@lwn.net, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+Message-ID: <202404150919.042E6FF@keescook>
+References: <20240414170850.148122-1-elder@linaro.org>
+ <ZhzgTeEHFF19N3UZ@infradead.org>
+ <2024041544-fester-undead-7949@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GxC2BwDn0iaZUR1m4n9HBg--.16529S11
-X-Coremail-Antispam: 1UD129KBjvJXoWxZr47Gr1xXw47ZFy8ArW7twb_yoWrXF1fpa
-	9rG3WrKrW8Zry7ur4fAFnFyayrK3yktayxW395X3sIyF4DXr1jy395Jr1UuFyrJr4Yqw4x
-	tw45Kry5uw1jyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPvb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x02
-	67AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I
-	80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCj
-	c4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4
-	kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E
-	5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZV
-	WrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY
-	1x0267AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
-	AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW0oVCq3bIYCTnIWIevJa73UjIFyTuY
-	vjxUxrcTDUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAOBF1jj5x3HAAAsN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2024041544-fester-undead-7949@gregkh>
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
+On Mon, Apr 15, 2024 at 10:35:21AM +0200, Greg KH wrote:
+> On Mon, Apr 15, 2024 at 01:07:41AM -0700, Christoph Hellwig wrote:
+> > No, this advice is wronger than wrong.  If you set panic_on_warn you
+> > get to keep the pieces.  
+> > 
+> 
+> But don't add new WARN() calls please, just properly clean up and handle
+> the error.  And any WARN() that userspace can trigger ends up triggering
+> syzbot reports which also is a major pain, even if you don't have
+> panic_on_warn enabled.
 
-A digest cache used for measurement/appraisal might change over the time
-(due to file modification, directory changes). When that happens, IMA
-should invalidate the cached integrity result for affected inodes and
-evaluate those inodes again.
+Here's what was more recently written on WARN:
 
-Implement ima_digest_cache_change(), to be invoked at every notification by
-the digest_cache LSM, and register it as a callback with
-digest_cache_register_notifier().
+https://docs.kernel.org/process/deprecated.html#bug-and-bug-on
 
-For every notification, and if the type of event is DIGEST_CACHE_RESET,
-retrieve the inode integrity metadata (if any), and set the
-IMA_CHANGE_XATTR atomic flag, so that IMA fully reevaluates the inode in
-process_measurement().
+Specifically:
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- security/integrity/ima/ima_digest_cache.c | 31 +++++++++++++++++++++++
- security/integrity/ima/ima_digest_cache.h |  6 +++++
- security/integrity/ima/ima_main.c         | 11 +++++++-
- 3 files changed, 47 insertions(+), 1 deletion(-)
+- never use BUG*()
+- WARN*() should only be used for "expected to be unreachable" situations
 
-diff --git a/security/integrity/ima/ima_digest_cache.c b/security/integrity/ima/ima_digest_cache.c
-index 013c69f265d8..0ab35575ff7c 100644
---- a/security/integrity/ima/ima_digest_cache.c
-+++ b/security/integrity/ima/ima_digest_cache.c
-@@ -90,3 +90,34 @@ void ima_digest_cache_update_allowed_usage(struct file *file,
- out:
- 	digest_cache_put(digest_cache);
- }
-+
-+static int ima_digest_cache_change(struct notifier_block *nb,
-+				   unsigned long event, void *data)
-+{
-+	struct ima_iint_cache *iint;
-+	struct digest_cache_event_data *event_data = data;
-+
-+	if (event != DIGEST_CACHE_RESET)
-+		return NOTIFY_DONE;
-+
-+	iint = ima_iint_find(event_data->inode);
-+	if (!iint) {
-+		pr_debug("Integrity metadata not found for inode %lu\n",
-+			 event_data->inode->i_ino);
-+		return NOTIFY_OK;
-+	}
-+
-+	set_bit(IMA_CHANGE_XATTR, &iint->atomic_flags);
-+	pr_debug("Integrity metadata of inode %lu successfully reset\n",
-+		 event_data->inode->i_ino);
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block digest_cache_notifier = {
-+	.notifier_call = ima_digest_cache_change,
-+};
-+
-+int ima_digest_cache_register_notifier(void)
-+{
-+	return digest_cache_register_notifier(&digest_cache_notifier);
-+}
-diff --git a/security/integrity/ima/ima_digest_cache.h b/security/integrity/ima/ima_digest_cache.h
-index cb47c15e975d..44c188c2fb93 100644
---- a/security/integrity/ima/ima_digest_cache.h
-+++ b/security/integrity/ima/ima_digest_cache.h
-@@ -15,6 +15,7 @@ void ima_digest_cache_store_allowed_usage(struct file *file,
- void ima_digest_cache_update_allowed_usage(struct file *file,
- 					   struct ima_iint_cache *iint,
- 					   u64 *allowed_usage);
-+int ima_digest_cache_register_notifier(void);
- #else
- static inline void
- ima_digest_cache_store_allowed_usage(struct file *file,
-@@ -27,4 +28,9 @@ ima_digest_cache_update_allowed_usage(struct file *file,
- 				      u64 *allowed_usage)
- { }
- 
-+static inline int ima_digest_cache_register_notifier(void)
-+{
-+	return 0;
-+}
-+
- #endif /* CONFIG_SECURITY_DIGEST_CACHE */
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index 7ae2bd888d41..fe826755acd1 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -1159,8 +1159,17 @@ static int __init init_ima(void)
- 		return error;
- 
- 	error = register_blocking_lsm_notifier(&ima_lsm_policy_notifier);
--	if (error)
-+	if (error) {
- 		pr_warn("Couldn't register LSM notifier, error %d\n", error);
-+		return error;
-+	}
-+
-+	error = ima_digest_cache_register_notifier();
-+	if (error) {
-+		pr_warn("Couldn't register digest cache notifier, error %d\n",
-+			error);
-+		unregister_blocking_lsm_notifier(&ima_lsm_policy_notifier);
-+	}
- 
- 	if (!error)
- 		ima_update_policy_flags();
+This, then, maps correctly to panic_on_warn: System owners may have set
+the panic_on_warn sysctl, to make sure their systems do not continue
+running in the face of "unreachable" conditions.
+
+As in, userspace should _never_ be able to reach a WARN(). If it can,
+either the logic leading to it needs to be fixed, or the WARN() needs to
+be changed to a pr_warn().
+
 -- 
-2.34.1
-
+Kees Cook
