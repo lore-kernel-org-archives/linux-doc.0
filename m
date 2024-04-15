@@ -1,85 +1,114 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210D6823CE;
-	Mon, 15 Apr 2024 21:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FBA1272B8;
+	Mon, 15 Apr 2024 23:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713215282; cv=none; b=U5Tw0PakOdzk5FYRso9Q83sh9T+TmgbJ6ukC6mSGI1a5pf/56HpmjSNLHplAlns5WEslIXqvXcCm6EirczlLAQZkpzNSLY6m0IIGidwyw433JjSKd00mgFCoX+TFWz5laf1y7+ru9b5PD9MKCypEVV5lSf/6+U526R5Fwb9bHEI=
+	t=1713223030; cv=none; b=Dhk90T1JiC9SU6BELvAYBpS+FckIw4RfQu6IShzS5pv7uU/W0NYVwsMwrKGLPIYH54k3zNb8ODU1dkQlT2MLOnh8NblV//URUDlz5R0fjc9h3YMnl/PFfzbjOcrSuI6mcJx0ucYIaeb0hQ+b88kbdqy6SAKgfcqnpp1BJH2cCzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713215282; c=relaxed/simple;
-	bh=TJCFkjZfjstSqTosq2ofApmwxwcsMnKCELg9tffipXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B82P15maPpSE57AzApg6QAC6Fbab0j2ozNqXxsE8D4OpysdbEynggBmo3Ny5vIfrgRRf5VIDyEOnMb/IryKCfJy6YIaYereH3ShBDC2XagYc1vjv4goLUy+L+vkxlRuAGf9Ruk+qVSPz9CpZDHJkf9jEBDNdxcRNo9ISmbb/fVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gIQ+xICP; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713223030; c=relaxed/simple;
+	bh=idkIPd4643iMp6zp5cWydiUKzewJWHnlG0YbVeUo8v0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GSXpS3orheRWVhtIBWqHSHb2d+02K+NQLySy7gh6rcF8AMqhALd4sjGb6G5f+lzrEBUYYjbT17hl8cyGW2qk6D1WK0gTABffgLd/NKQQTTSt43MgE7DmsdZJfZah2/8SHaAA6o9IXs3jzIDBDhgd5PIDfpGd3HCPzMJoGqdJdgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fag92VRt; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gIQ+xICP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=7+q5a4BFZOQ0nlwK9E3zO3DsPMAmGY9bri/gwPhuncQ=; b=gIQ+xICPtGPVXjX3/kXMEd3bNj
-	/YeR1j2Gj3QOsMBAqM9PLeuQnZVGqdwqlpSlIpfGUnx68Cywwdd04syLRbWGXZlHLsfdIu1EeLU7H
-	9YDDhNW15+gcofUs2psqkJaJdUarmJuAtcKaYHn3fAWYOfK3YwVu6WGQW2xPJObiwaqZ718LKlh9v
-	N07yL1LzBZzTW9NwAdCNFDW/A/Ye1fSf/onmNDQR52y85OsOG/kRWuhVbajPUx8NnQGSoLEEdoXRC
-	jwooLpl7PRhgSFwfuE1JxjYd8ua8dy1v5OF28kcJWNvVDDO8GVi8lV8uHqCYj8W7+no8qJUujWD5C
-	B/cTLbOA==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwTYH-00000009v3H-3nHt;
-	Mon, 15 Apr 2024 21:07:47 +0000
-Message-ID: <805af99c-4c78-4f2c-a15b-de69a4b8da99@infradead.org>
-Date: Mon, 15 Apr 2024 14:07:42 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fag92VRt"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-343d2b20c4bso2873330f8f.2;
+        Mon, 15 Apr 2024 16:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713223027; x=1713827827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ruJIf0VvZi4YUJJHl+VqnTHRzLwdSGx7P/d+L8YCyOQ=;
+        b=fag92VRtHUmyr0EqviDUb6u3X5+KG3RkSeHljMK9DMI+liz8zlJ241yo4UqHt4ja9R
+         2YhE2HQZjxflJmHIuv/D91FXnOtspBCCgL5hlnPYJpx5r+seUxAQs9GpSiTp53oO6e5d
+         r2XNQX2RdC8dLXspNDauCLBO85PJRWYl7CVGM0emdYYUz+XKJLtvB5bv3/CCGd8PYp+9
+         ONwS2KjDqTIjCRvwxRSfmt7wtxBZNZ3pJLyLosbaaZgUG0Jvj5eE1Afv14zRtS8yXOFL
+         UOGEYcdxSIDOuhxF6A7nKQouviijz4axXxWg8xL/DNbhpdS95XhkqWci7AW3mXbhO2/a
+         fJvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713223027; x=1713827827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ruJIf0VvZi4YUJJHl+VqnTHRzLwdSGx7P/d+L8YCyOQ=;
+        b=lIoUaMEqu++X0vTKx/gv/WHsGMlyrz6gwBAdwIx9lUl7r7Ly1JWw7uGj4MmXwGmnJL
+         d0wDduqZCjRNceiESvKW5VJSetvJViLUEQShqU+BfuT1lht779Z/PuJRTSw0gWZryrTO
+         0+cIB1KFfcPjS2do8XdV+xUKwaVWCQwBoEH6658lTgGCt5GPfnuFv8NkKvR39vnhcAOc
+         8d3HNRoTkyY2B59056v+ZRvLskhgLLyHbQEoTtJDk0Zfg9GXd0+QLtxKSYpSG8+bdr+t
+         VYJ2I2KxZ40AzPDbnZPDOl6VSScd/jIsOPVd1o36Caok/ma2MOp9kG6ZEh0SzY44vyzf
+         ECXA==
+X-Forwarded-Encrypted: i=1; AJvYcCX4EAzfAKWbmVZF9HcGodhnu5esVDZUgwBTxFtJeJvOd5xO4Vo+rFdzefF2LBWJfycsRxd/VYfEJpwVDTkeLGY79Kfjqz9PMjW0
+X-Gm-Message-State: AOJu0Yw1o9nF26mUNGmQGtaaqzmP5TzZp/8QkoTbJG9Qa6slY7EdkADq
+	QdfahjCsQpOzfabFgP1k8mbh+w5x3nO1Pu+cf11JWft9gMU0+k8jEYKV1PlTjL1aT9dntKDL3Vq
+	mfGR5GEU0VwzbEjMp+PlqkZReQgY=
+X-Google-Smtp-Source: AGHT+IEecAmwVB3re9uIi+jukJ6rI2C+0KFoXSMsLiYE6FwY01cNohbu9XFzE7AdG3SFvLMvaGvCMIgTcEx0lintfg8=
+X-Received: by 2002:a05:6000:1150:b0:343:a117:7d2 with SMTP id
+ d16-20020a056000115000b00343a11707d2mr6631391wrx.71.1713223026568; Mon, 15
+ Apr 2024 16:17:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/14] lib: Add TLV parser
-To: Jarkko Sakkinen <jarkko@kernel.org>,
- Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
- paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
- akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, mic@digikod.net
-Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
- pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
- pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com,
- jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com,
- mzerqung@0pointer.de, kgold@linux.ibm.com,
- Roberto Sassu <roberto.sassu@huawei.com>
-References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
- <20240415142436.2545003-2-roberto.sassu@huaweicloud.com>
- <D0KXTHHYLSX6.1IDLSEIVS9PA5@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <D0KXTHHYLSX6.1IDLSEIVS9PA5@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240415230612.658798-1-martin.kelly@crowdstrike.com>
+In-Reply-To: <20240415230612.658798-1-martin.kelly@crowdstrike.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Mon, 15 Apr 2024 16:16:55 -0700
+Message-ID: <CAADnVQKfo-s4vXopJJ50Q4KP-mPKCbOc_8Pwz9u=uUn2=NU1ww@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] bpf: clarify libbpf skeleton header licensing
+To: Martin Kelly <martin.kelly@crowdstrike.com>
+Cc: bpf <bpf@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 15, 2024 at 4:07=E2=80=AFPM Martin Kelly
+<martin.kelly@crowdstrike.com> wrote:
+>
+> Add an explicit statement clarifying that generated BPF code bundled
+> inside a libbpf skeleton header may have a license distinct from the
+> skeleton header (in other words, the bundled code does not alter the
+> skeleton header license). This is a follow-up from a previous thread
+> discussing licensing terms:
+> https://lore.kernel.org/bpf/54d3cb9669644995b6ae787b4d532b73@crowdstrike.=
+com/#r
+>
+> Signed-off-by: Martin Kelly <martin.kelly@crowdstrike.com>
+> ---
+>  Documentation/bpf/bpf_licensing.rst | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/bpf/bpf_licensing.rst b/Documentation/bpf/bpf_=
+licensing.rst
+> index b19c433f41d2..05bc1b845e64 100644
+> --- a/Documentation/bpf/bpf_licensing.rst
+> +++ b/Documentation/bpf/bpf_licensing.rst
+> @@ -89,4 +89,8 @@ Packaging BPF programs with user space applications
+>
+>  Generally, proprietary-licensed applications and GPL licensed BPF progra=
+ms
+>  written for the Linux kernel in the same package can co-exist because th=
+ey are
+> -separate executable processes. This applies to both cBPF and eBPF progra=
+ms.
+> +separate executable processes. In particular, BPF code bundled inside a =
+libbpf
+> +skeleton header may have a different license than that of its surroundin=
+g
+> +skeleton. In other words, the license of the bundled BPF code does not a=
+lter the
+> +license of the skeleton header nor of a program including the header. Th=
+is
+> +paragraph applies to both cBPF and eBPF programs.
 
-
-On 4/15/24 12:19 PM, Jarkko Sakkinen wrote:
-> On Mon Apr 15, 2024 at 5:24 PM EEST, Roberto Sassu wrote:
->> From: Roberto Sassu <roberto.sassu@huawei.com>
->>
->> Add a parser of a generic TLV format:
-> 
-> What is TLV?
-
-type-length-value
-
-i.e., a descriptor that contains a value.
-
-IIUC.
-
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+The doc is clear enough. This is unnecessary.
+Otherwise we'll start listing every project that bundles bpf prog
+in some form.
