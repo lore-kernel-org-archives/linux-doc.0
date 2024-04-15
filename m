@@ -1,75 +1,183 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162DE39856;
-	Mon, 15 Apr 2024 08:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2843BBEF
+	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 09:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713170783; cv=none; b=eH5+F8qXSOI3CpO2eTSf8joiDn0zzRHLWzApi69SUmup6fJ+swljFSJjnnpUdD8HzRd2/aDkNtgMNZEZWtjH/vZyygirbw5MUsrByFzFYHJeCgaQSHKewU0fQBVZgdee6h6AWAvaGYLN1TFPTRb8Ceh2s0jBnZlWRmaQo94++dM=
+	t=1713172229; cv=none; b=aP2koCOcb428JLibKNKTT5RkQyMzLVU7bkJbqnf3w9nGIriE/blBhlKzMA/y1srkEJ09EjOjUfOYtzxZUOB7yqblQ6KfKYghh8bsNfzt5iRfqPALdR3RPgZQ5hKVgjGFU8YUT2r7OZftJLpYSnj8woxaWGFiqnXSiAlFwQle3w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713170783; c=relaxed/simple;
-	bh=cPXg3aPIXYU2ij/Q5bT/qYLiuY6yQzabqRA3oLzr0x4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtLtTdj1HLyPJrz+L97iM8jET9RgsUavYzxn97w5IvZDoPsIuhANIfVHh7oYJNzrDVE3bW3xX9rBrI099ihMpVy9NAnv95xemRR9qp1rtygY91XLPdH7ZBnLCmBUVHPfgyS7dx5cL5UJYSUbi/xhQ8Uvx03o+589LFjj1yhipB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lDZIzck4; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1713172229; c=relaxed/simple;
+	bh=fZt9c9X/Jc+Z+PWYJ4t8R4woVCVorw+BDVxxptvoH5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dad2mCO2FYwJzlREtqvmlAU6RuY0SLvqphfTlWZ3Y9TqFDzRUAcYFHEKo1pLtBtR0T/yBYgSzaBkWClmhMcqYOrJngW72yWtnokZ9HP64YQKYd+AGmV8h7pD2w3pPLGFU0/DPaQXUInhkOOHFozRuKcraSHay6c28z8HKHzQlV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ZZZSUQJ0; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lDZIzck4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=/YX6USCWJSVZiip4uuo05Pgl5yLVCXv3+OwpmFbpW20=; b=lDZIzck4gsUveDH5ZPPkHWpRM2
-	7AXDgH2y/ktk2EAWhjpS5SYvHXyJo6YJ/5XM/qYf/0XFrOTVtUr9/wEzl1SUkEQpgI7893ycyIp1m
-	oy9HC2kVOJ6AHE1PcFvU1ThJ2MNVnkZRFRMEOeqACfTP7Ex2f1BxP1Ev4o5C3M8Ce8rHeJ5xLHAMu
-	smr3AQqcLzLrszlF/6D1vxW3rq2nwYGz3RKjeOHwtD5P40WiI7cvImvL4pt5zca7tDUpJoOmOjuCr
-	x5vjv/GOz+j4sp/y4an+SQaVQPnM+kT4EvaedTp5ekyO8fzwl4l9J7wODdtEalKFK2YF7DgQzsfqM
-	ohpcAmbA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwHym-00000007b7Y-22mH;
-	Mon, 15 Apr 2024 08:46:20 +0000
-Date: Mon, 15 Apr 2024 01:46:20 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Alex Elder <elder@linaro.org>,
-	corbet@lwn.net, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
-Message-ID: <ZhzpXOUeldwAzXxY@infradead.org>
-References: <20240414170850.148122-1-elder@linaro.org>
- <ZhzgTeEHFF19N3UZ@infradead.org>
- <2024041544-fester-undead-7949@gregkh>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ZZZSUQJ0"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-345606e8ac0so621649f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 02:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713172226; x=1713777026; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CMipTzrco8cuX1DyV3x6d9zPt5GQCAGmWbkRX0s3Bkk=;
+        b=ZZZSUQJ03c9MlL1ui6P6baX25LWjbkV2t/Tr+m6koC6TVUZRiS8xKQYkJSlQCcjS2C
+         JHZ4UhD++dHDfNscz88rSZn4ZEBN3WEb9ao5LyOjjz5+iMruZ/7Zm2oosrHSef4mtNN4
+         s4gLQ0Dt6901BpqfjG/oWiIvjWVr1qDXMCdtKLXQdLlFyqcVfARTXrRzQK9Q2GANRUxf
+         eD2csgR4vZKloLzlSDOYRgRUF1Pakd8rWHE4cz4cFqXhGEErKECnh4RsXFblohCBDtvp
+         VqHOH5u6/51eYfXBlyLVFeFqbGQzYU8l3VTHqRW/9ZAmherm5CvBRM6uRESNJ4uW1XxI
+         RZHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713172226; x=1713777026;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CMipTzrco8cuX1DyV3x6d9zPt5GQCAGmWbkRX0s3Bkk=;
+        b=MM0LhdPP5+l/WUM3pyujWHmGrx3YjsnpDBi7TgvYypVXD6WV6r8YZIkdqMObkHpJgS
+         KPn472Vlt1AKskl0JmcREaH474S37r04iC16ooFO6EcWhm47MQwscbHVTjlFoz8pvkYu
+         EQrJrXhlQYLOmW/+h8fK6Ce2YUk7+zvfjJRyhf27lo9QHPY2/69FlB/15Thq03eBPJCH
+         06bjLijsMHYk9lfgUaMDTa5YsToduhPDjr2xq+ZFHL+/oaeSpr4nFHUAUQ1gjYoChHYY
+         jJ/bh5AxV8Ru3CZo1JdInFq6FyntfTTQKEh9EHHFC5cOKeNcnwJXC/7S9n4G/IHapk5R
+         BVpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJtqNsUX1QD2Abj9dkZ6mJXZMaXIxeNgyFv3x8xZMt6G3mPndMBM47dOhblkndgQkfDpMm4tj/uLZv3J4czpCWM3Lw1k+Yciqw
+X-Gm-Message-State: AOJu0YzUgsfb/cGzXGC3FlgV3i7Rr8E/zVWZjYKoovXqtQ4qz2SbbqQh
+	MiNJd2sQCsO2c2gpzlYCCJie4ntj6BZBSFG5vaX2x/cpo8VGtnJvGcnI99+5xtk=
+X-Google-Smtp-Source: AGHT+IFOI8wiMfFK+eh+wkDTy9pH4EpksT9wRNII+klZpSBWS3ghE8Ipz2Lv/Q5ZldsUWaH3Q3GfEg==
+X-Received: by 2002:a05:600c:3b1f:b0:416:7b2c:df05 with SMTP id m31-20020a05600c3b1f00b004167b2cdf05mr6832257wms.1.1713172226355;
+        Mon, 15 Apr 2024 02:10:26 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:b1f5:d56c:abf9:b394? ([2a01:e0a:999:a3a0:b1f5:d56c:abf9:b394])
+        by smtp.gmail.com with ESMTPSA id gw7-20020a05600c850700b004146e58cc35sm18937831wmb.46.2024.04.15.02.10.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Apr 2024 02:10:25 -0700 (PDT)
+Message-ID: <5eda3278-24bc-4c17-a741-523ad5ff79f7@rivosinc.com>
+Date: Mon, 15 Apr 2024 11:10:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024041544-fester-undead-7949@gregkh>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/10] riscv: add ISA extension parsing for Zcmop
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Deepak Gupta <debug@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240410091106.749233-1-cleger@rivosinc.com>
+ <20240410091106.749233-8-cleger@rivosinc.com>
+ <ZhcFeVYUQJmBAKuv@debug.ba.rivosinc.com>
+ <20240410-jawless-cavalry-a3eaf9c562a4@spud>
+ <20240410-judgingly-appease-5df493852b70@spud>
+ <ZhcTiakvfbjb2hon@debug.ba.rivosinc.com>
+ <1287e6e9-cb8e-4a78-9195-ce29f1c4bace@rivosinc.com>
+ <20240411-superglue-errant-b32e5118695f@wendy>
+ <c86f9fa8-e273-4509-83fa-f21d3265d5c9@rivosinc.com>
+ <20240411-backwater-opal-00c9aed2231e@wendy>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20240411-backwater-opal-00c9aed2231e@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 15, 2024 at 10:35:21AM +0200, Greg KH wrote:
-> On Mon, Apr 15, 2024 at 01:07:41AM -0700, Christoph Hellwig wrote:
-> > No, this advice is wronger than wrong.  If you set panic_on_warn you
-> > get to keep the pieces.  
-> > 
+
+
+On 11/04/2024 13:53, Conor Dooley wrote:
+> On Thu, Apr 11, 2024 at 11:08:21AM +0200, Clément Léger wrote:
+>>>> If we consider to have potentially broken isa string (ie extensions
+>>>> dependencies not correctly handled), then we'll need some way to
+>>>> validate this within the kernel.
+>>>
+>>> No, the DT passed to the kernel should be correct and we by and large we
+>>> should not have to do validation of it. What I meant above was writing
+>>> the binding so that something invalid will not pass dtbs_check.
+>>
+>> Acked, I was mainly answering Deepak question about dependencies wrt to
+>> using __RISCV_ISA_EXT_SUPERSET() which does not seems to be relevant
+>> since we expect a correct isa string to be passed.
 > 
-> But don't add new WARN() calls please, just properly clean up and handle
-> the error.  And any WARN() that userspace can trigger ends up triggering
-> syzbot reports which also is a major pain, even if you don't have
-> panic_on_warn enabled.
+> Ahh, okay.
+> 
+>> But as you stated, DT
+>> validation clearly make sense. I think a lot of extensions strings would
+>> benefit such support (All the Zv* depends on V, etc).
+> 
+> I think it is actually as simple something like this, which makes it
+> invalid to have "d" without "f":
+> 
+> | diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> | index 468c646247aa..594828700cbe 100644
+> | --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> | +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> | @@ -484,5 +484,20 @@ properties:
+> |              Registers in the AX45MP datasheet.
+> |              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+> |  
+> | +allOf:
+> | +  - if:
+> | +      properties:
+> | +        riscv,isa-extensions:
+> | +          contains:
+> | +            const: "d"
+> | +          not:
+> | +            contains:
+> | +              const: "f"
+> | +    then:
+> | +      properties:
+> | +        riscv,isa-extensions:
+> | +          false
+> | +
+> | +
+> |  additionalProperties: true
+> |  ...
+> 
+> If you do have d without f, the checker will say:
+> cpu@2: riscv,isa-extensions: False schema does not allow ['i', 'm', 'a', 'd', 'c']
+> 
+> At least that's readable, even though not clear about what to do. I wish
 
-Important distinction here:  WARN_ON_ONCE is for internal error
-checking and absolutely intentional, and does not replace error
-handling, that's why it passes the error value through.  OF course
-it should not be trigger by user action.
+That looks really readable indeed but the messages that result from
+errors are not so informative.
 
-> And I think the "do not use panic_on_warn" recommendation has been
-> ignored, given the huge use of it by vendors who have enabled it (i.e.
-> all Samsung phones and cloud servers).
+It tried playing with various constructs and found this one to yield a
+comprehensive message:
 
-Sucks for them.
++allOf:
++  - if:
++      properties:
++        riscv,isa-extensions:
++          contains:
++            const: zcf
++          not:
++            contains:
++              const: zca
++    then:
++      properties:
++        riscv,isa-extensions:
++          items:
++            anyOf:
++              - const: zca
 
+arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb: cpu@0:
+riscv,isa-extensions:10: 'anyOf' conditional failed, one must be fixed:
+        'zca' was expected
+        from schema $id: http://devicetree.org/schemas/riscv/extensions.yaml
+
+Even though dt-bindings-check passed, not sure if this is totally a
+valid construct though...
+
+Thanks,
+
+Clément
+
+> the former could be said about the wall of text you get for /each/
+> undocumented entry in the string.
