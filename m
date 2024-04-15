@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7925515E9B
-	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 01:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22B01C6BD
+	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 04:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713144871; cv=none; b=HAwGh7wPQfqfXKuMp2ZD0cAv5JmT2B3g4wVKfBLIPo9iC5iTeFg1UmZGjsHXi+SXCiTB5Ljobo0CLA9XQ1xj3RVf1rGwnjxw1MZnjl3wdZEvTxtgoQMyFwqKaEwq3hbHCmXN46yrXOj+HieWwMp3p87RsQgIBAZ1Ae6/didQkto=
+	t=1713154731; cv=none; b=hOJJJOFPqGpjVxeA8RqHYw9SY8+Pa51Z3U9bY+PyBl/u5FOfh7q1JaCdKOGgkqIjsS8fwml7DISBGOXF5hs8BeaHrVxYmyZQ68v3zjgsRuNbwlYLjS8kNb2ii7+M8JOnZIi+9CGJOEmR6NvmUl3h+UtSOgFmfuJ0Jn8PpBbiK7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713144871; c=relaxed/simple;
-	bh=8uoBv/Eflouqt4r8vLK9eEZJ/oQx+ZU6ZnRpSmJMwoc=;
+	s=arc-20240116; t=1713154731; c=relaxed/simple;
+	bh=mJvE/MjQ0XBxS0+v7Ptz6dVPr7TUMzZI+MYZCOxG43k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SuJ0LK9D9bL1wq6ETRZ6ljHwm53hkQkB6YGikNyNIH3T7762XqlEXBfFD16vbgj3WhS81b6VGG3mx/C/db/w0DzqrykYoL6vsm6p+ao3zl1w5M1iTvR0wjUdtQMwjL7MyrpfV/ZIUvqTGyLFMjUQR9uZN6Y6KpZBY8JmvehcFrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfvYQIA2; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=rWKkOZhWv4ZvKbUZT9uBUhxEDud3b6Mv88uFL+H6xVPQAnCi8bcxe96t5w4QLAvar2apeqnCMSbdSAhtOgYZO9/RzI06Gcj00WZSwnFnPjCU0utHUl4z93ax3nBo5fOx49XyK+uA3l7M7K0WRUUdRdWpX/J3rkEDyexEjhJxnyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWOAli5B; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfvYQIA2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWOAli5B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713144869; x=1744680869;
+  t=1713154729; x=1744690729;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8uoBv/Eflouqt4r8vLK9eEZJ/oQx+ZU6ZnRpSmJMwoc=;
-  b=dfvYQIA2Xr9kGhBRARyahHgja2y1/WIKds5Ayu6YPTNiKPpPEGocmeX9
-   JR4NpTsWkYUQPWp5680t1EDCAfXWpdCp0HZtw4yvR6sNtYOwXiTl0CXzA
-   iKyZUxJZ+zhcMdzpWZb/d423GzbpG5bJFzuVFuobjBFEg3Cy07g43SaRb
-   qEwiSqZv67f+cyNsfkf9cGx1wO00h0TCvnHCMJCcoKN3chLgK83KXROFk
-   0bHjyy8aypCwt51UgwG0s7MUszQZ71/Mwu0Qpmmm1zJDpod3HYechOAad
-   v9rcpjBhTvNheWRh0r9FFLIqpURwk/HO0mFaRKJbAgDjqeVVTwmBBpVIp
-   g==;
-X-CSE-ConnectionGUID: fo0K5MdLRj2eOP1Z4BA4bQ==
-X-CSE-MsgGUID: AQ3VFONhTx6/qfFKkkOSbQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="8376602"
+  bh=mJvE/MjQ0XBxS0+v7Ptz6dVPr7TUMzZI+MYZCOxG43k=;
+  b=BWOAli5BaqlxGu7u56s3DEU+ddBa+3drSCcJiHn6WSKfrDQMrcxlZvVv
+   p5t3zSbG07iMPrvAbzdxBA9Z2lcHtvV088pcFKFjfMTK4IKRArVRoOKSK
+   Uf74hcs3EUSsL/+Mt9BFX1lK3WGlDn9W9m9mEEdRVKhl/UR6hVe4sJvDD
+   xrFW+45nPAr2Sl2VjxlVz+2c3CWm6r2Flqk/p1NilzYBFxSme5viIiDrD
+   CWsQ+9ThYdNSf3L/O5urYk+/9V7I3hbm4PYTjXTb87ckpm9wVQzil/9nB
+   06cMrawsy+8OE/0c9Lz7697puKE4z8UDDPZQiqYgGkuqZzcGmZH/0eUBA
+   Q==;
+X-CSE-ConnectionGUID: dHNlL1l0QhSTloalPqZTAQ==
+X-CSE-MsgGUID: 3klz4fHIQH+fevW5NJeetg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11044"; a="11477743"
 X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="8376602"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 18:34:29 -0700
-X-CSE-ConnectionGUID: 0ZS0p2nBThGyhp8wtBIpAg==
-X-CSE-MsgGUID: ct6RZFLMRm2CoyZIm8W9bA==
+   d="scan'208";a="11477743"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 21:18:48 -0700
+X-CSE-ConnectionGUID: Obf4e+VsTMKK6VufwVR+mw==
+X-CSE-MsgGUID: qIxC5G6jTCaGtlv2LhSpKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,202,1708416000"; 
-   d="scan'208";a="21687840"
+   d="scan'208";a="21884564"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2024 18:34:26 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 14 Apr 2024 21:18:47 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwBEX-0003tY-25;
-	Mon, 15 Apr 2024 01:34:11 +0000
-Date: Mon, 15 Apr 2024 09:33:13 +0800
+	id 1rwDno-0003yG-2z;
+	Mon, 15 Apr 2024 04:18:44 +0000
+Date: Mon, 15 Apr 2024 12:17:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-doc@vger.kernel.org
-Subject: [linux-next:pending-fixes 180/265] htmldocs: Warning: MAINTAINERS
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [broonie-ci:fileY2I0bM 27/28] htmldocs: Warning: MAINTAINERS
  references a file that doesn't exist:
- Documentation/devicetree/bindings/i2c/nxp,pnx-i2c.yaml
-Message-ID: <202404150935.JA77XfHJ-lkp@intel.com>
+ Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
+Message-ID: <202404151225.icWrM668-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,15 +64,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   2ed61b7ab3af2ea75840dad4f40e09ffbc7f04a3
-commit: 3731629ddb80ae5f52cb95d7321bccfb138cab7f [180/265] MAINTAINERS: adjust file entry in ARM/LPC32XX SOC SUPPORT
-reproduce: (https://download.01.org/0day-ci/archive/20240415/202404150935.JA77XfHJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileY2I0bM
+head:   770e3da3fe7ee7ffca745b7ac300ce39fe40f465
+commit: 82116e539ffb7ce0c317c208d53d2126cdcee687 [27/28] MAINTAINERS: adjust file entry in TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS
+reproduce: (https://download.01.org/0day-ci/archive/20240415/202404151225.icWrM668-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404150935.JA77XfHJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404151225.icWrM668-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
@@ -81,7 +80,7 @@ All warnings (new ones prefixed by >>):
    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
    Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
    Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/i2c/nxp,pnx-i2c.yaml
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
    Using alabaster theme
 
 -- 
