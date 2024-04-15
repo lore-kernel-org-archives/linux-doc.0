@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C4C1CD23;
-	Mon, 15 Apr 2024 16:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034485952;
+	Mon, 15 Apr 2024 17:03:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713198740; cv=none; b=Ja2sahRhEdNuXNIixMGr/hu83BLxsZLWfnQPiv8W5UjLGpfnzrcJx+QQHR+1YC24cCdELmup5VKOI3dDqQuEKzM1E4/i+BsaREYcRpBqAQ8NUHwhICjotTfA0TNgEa63qzDVOxbwyl1sN0XMYUbqn3x6oeKZvTEBnTa3ycA+MRk=
+	t=1713200591; cv=none; b=gf+5u/+2mFQHyiHvWS2ZGAYGEbv6pIk9v9njabli9bA8rwbxsIj2lSBRVyzVf130W2qCsPI7WkTjJnX7yJLeTKwvMGc/51ujGTVogC85U2SyG7f8aXMgkdUzZOm3KM1PghKbpkYLkJFfOX0PuqANVbrabN/c4JU8Fc03KzrHWHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713198740; c=relaxed/simple;
-	bh=Wsb9mO0IMUs6XyEA7C68rG60ROTwki5oNLgFkNQGVfw=;
+	s=arc-20240116; t=1713200591; c=relaxed/simple;
+	bh=qlN+7KOkKA0CC6PwtWEV65NHKwg6/a7Wj/1sIx6SWkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEb4L3hZx/kVXZ15ajtVDPRUXB1pekZkDMZOjwqnpViKSAL9NI35n1qzEPHb5U7M4fT4zlbuLgTe6Atd3DFQdghmJ6mnnuP/xhUAxQIIZ0Q/Nob3cFI9+FeI5n1O8nOjgg5YPk7sVqGm9tptBNKK+NzbfJpLgHEL2tlpsG7jXU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDAALKxn; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nFEPXKpY59zaQMLSa9ueO+qRjTw8VF+bTZYVL2iXGnyNj6BA9wmomLx3P8N1j2wPhrxDHmIJaa9z/pTVF5Dcq++o5urpAwydfusp+mjYWx6J7OEYRDdajkIz4jtEXMAmTDbNTz9aFqEeebKBwd48/FNizxBi1Q5Y/1BjOuvfMUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdOzrUHQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDAALKxn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B94C113CC;
-	Mon, 15 Apr 2024 16:32:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdOzrUHQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D0AC32783;
+	Mon, 15 Apr 2024 17:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713198740;
-	bh=Wsb9mO0IMUs6XyEA7C68rG60ROTwki5oNLgFkNQGVfw=;
+	s=k20201202; t=1713200590;
+	bh=qlN+7KOkKA0CC6PwtWEV65NHKwg6/a7Wj/1sIx6SWkE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hDAALKxniYNrhPk7bGdZS6/mD+2lHE9dUHGMqBLvm6ZfPtEwssQoA88x2UurOeeN2
-	 ltpjL7kJB+XXWqoHe229s83KYjjbNhr9s8SHH4V8sYGTU8jYDxwjJPZj6AePV4lA8b
-	 ucSkbhHoj6CaQkA14qENjkLbGPeW4JGeF4hFAiuWTTcfNQAY1HQduj3z9VMS9GkycQ
-	 DI7pojk9FqjWIQKB9JOzHezwyg3iSRcpIh6jRjb4u7T+xoW+knmBlCsRpL4PjkuKxt
-	 3I4/YTgREcipydZmtPp5swjdQqI1Yiru8u7SZ6TNxrZoamRL8MZrxxYxDTBcD05esc
-	 hq8v/xfZ4MvHQ==
-Date: Mon, 15 Apr 2024 17:32:12 +0100
-From: Simon Horman <horms@kernel.org>
+	b=NdOzrUHQIQ+xohAPgwt7yFhGS86vNEzoGpUkIeGZQPAm8I5BtxYz0mf3gcUoP2Pzs
+	 M9hBbh1YXWRj8qCr0oraEJhFZyaL/Epobq7yEVmzC8yRzIPeCDxiYogc2sbJcsg5Fb
+	 J8wKUf5NmpyMFsh6ZCTmkkPau4UbM9YaxoLDTPM++s0eNGtdwL/VtIWvlMGPAums6X
+	 GDCKNwni4lg9SzyMTXGRE/PLQhzPDv//j/mAtdbBtwhYGrAlI4ItFqg2ZlXnB2SuH3
+	 CSjEut9+y8YEMEUfx0ntXYfH2Em+pliaxvNLNsWhjCb5zBM/Xo1fcyhco+2aLeLE1o
+	 pkAmshwX5thXA==
+Date: Mon, 15 Apr 2024 18:03:03 +0100
+From: Conor Dooley <conor@kernel.org>
 To: Yi-De Wu <yi-de.wu@mediatek.com>
 Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
 	Ze-Yu Wang <ze-yu.wang@mediatek.com>, Rob Herring <robh@kernel.org>,
@@ -50,83 +50,76 @@ Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
 	Liju Chen <liju-clr.chen@mediatek.com>,
 	Willix Yeh <chi-shen.yeh@mediatek.com>,
 	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v10 19/21] virt: geniezone: Provide individual VM memory
- statistics within debugfs
-Message-ID: <20240415163212.GE2320920@kernel.org>
+Subject: Re: [PATCH v10 03/21] dt-bindings: hypervisor: Add MediaTek
+ GenieZone hypervisor
+Message-ID: <20240415-emerald-chief-5f27532d65bd@spud>
 References: <20240412065718.29105-1-yi-de.wu@mediatek.com>
- <20240412065718.29105-20-yi-de.wu@mediatek.com>
+ <20240412065718.29105-4-yi-de.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="C6BOR4TK2ik6wg8F"
+Content-Disposition: inline
+In-Reply-To: <20240412065718.29105-4-yi-de.wu@mediatek.com>
+
+
+--C6BOR4TK2ik6wg8F
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240412065718.29105-20-yi-de.wu@mediatek.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 12, 2024 at 02:57:16PM +0800, Yi-De Wu wrote:
-> From: "Jerry Wang" <ze-yu.wang@mediatek.com>
-> 
-> Created a dedicated per-VM debugfs folder under gzvm, providing
-> user-level programs with easy access to per-VM memory statistics for
-> debugging and profiling purposes. This enables users to effectively
-> analyze and optimize the memory usage of individual virtual machines.
-> 
-> Two types of information can be obtained:
-> 
-> `cat /sys/kernel/debug/gzvm/<pid>-<vmid>/protected_hyp_mem` shows memory
-> used by the hypervisor and the size of the stage 2 table in bytes.
-> 
-> `cat /sys/kernel/debug/gzvm/<pid>-<vmid>/protected_shared_mem` gives
-> memory used by the shared resources of the guest and host in bytes.
-> 
-> For example:
-> console:/ # cat /sys/kernel/debug/gzvm/3417-15/protected_hyp_mem
-> 180328
-> console:/ # cat /sys/kernel/debug/gzvm/3417-15/protected_shared_mem
-> 262144
-> console:/ #
-> 
-> More stats will be added in the future.
-> 
-> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
-> Signed-off-by: Liju-Clr Chen <liju-clr.chen@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+On Fri, Apr 12, 2024 at 02:57:00PM +0800, Yi-De Wu wrote:
+> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
+>=20
+> Add documentation for GenieZone(gzvm) node. This node informs gzvm
+> driver to start probing if geniezone hypervisor is available and
+> able to do virtual machine operations.
+>=20
+> [Reason to use dt solution]
+> - The GenieZone hypervisor serves as a vendor model for facilitating
+> platform virtualization, with an implementation that is independent
+> from Linuxism.
+> - In contrast to the dt solution, our previous approach involved probing
+> via hypercall to determine the existence of our hypervisor. However, this
+> method raised concerns about potentially impacting all systems, including
+> those without the GenieZone hypervisor embedded[ref].
+>=20
+> Link: https://lore.kernel.org/all/2fe0c7f9-55fc-ae63-3631-8526a0212ccd@li=
+naro.org/
 
-...
+> +properties:
+> +  compatible:
+> +    const: mediatek,geniezone-hyp
 
-> diff --git a/drivers/virt/geniezone/gzvm_vm.c b/drivers/virt/geniezone/gzvm_vm.c
+Been avoiding this binding every time it shows up because Rob had
+already told you no and hasn't revisited it since, but I feel this
+should be s/-hyp// since that's redundant information.
 
-...
+> +description:
+> +  This interface is designed for integrating GenieZone hypervisor into A=
+ndroid
+> +  Virtualization Framework(AVF) along with Crosvm as a VMM.
+> +  It acts like a wrapper for every hypercall to GenieZone hypervisor in
+> +  order to control guest VM lifecycles and virtual interrupt injections.
 
-> @@ -398,6 +409,113 @@ static void setup_vm_demand_paging(struct gzvm *vm)
->  	}
->  }
->  
-> +static int debugfs_open(struct inode *inode, struct file *file)
-> +{
-> +	file->private_data = inode->i_private;
-> +	return 0;
-> +}
+The description however doesn't really make sense. The binding claims to
+be for geniezone but the description talks about something else entirely
+that "acts like a wrapper" between the OS and geniezone. What is the
+binding actually for?
 
-nit: Coccinelle suggests that simple_open() can be used in place
-     of the debugfs_open() implementation above.
+--C6BOR4TK2ik6wg8F
+Content-Type: application/pgp-signature; name="signature.asc"
 
-...
+-----BEGIN PGP SIGNATURE-----
 
-> +static const struct file_operations hyp_mem_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = debugfs_open,
-> +	.read = hyp_mem_read,
-> +	.llseek = no_llseek,
-> +};
-> +
-> +static const struct file_operations shared_mem_fops = {
-> +	.owner = THIS_MODULE,
-> +	.open = debugfs_open,
-> +	.read = shared_mem_read,
-> +	.llseek = no_llseek,
-> +};
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh1dxwAKCRB4tDGHoIJi
+0jVFAQCJXfT7nWUYAhn0e8Ajkn5u7oxR2Cu949hDGp7nK9saPAEA3b+xCJOh8wV2
+Hv0FfTlG1rexad0mg/r96/sxZi/z9Qg=
+=e5RQ
+-----END PGP SIGNATURE-----
 
-...
+--C6BOR4TK2ik6wg8F--
