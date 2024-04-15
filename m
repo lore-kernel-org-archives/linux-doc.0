@@ -1,125 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034485952;
-	Mon, 15 Apr 2024 17:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4144F85925
+	for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 17:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713200591; cv=none; b=gf+5u/+2mFQHyiHvWS2ZGAYGEbv6pIk9v9njabli9bA8rwbxsIj2lSBRVyzVf130W2qCsPI7WkTjJnX7yJLeTKwvMGc/51ujGTVogC85U2SyG7f8aXMgkdUzZOm3KM1PghKbpkYLkJFfOX0PuqANVbrabN/c4JU8Fc03KzrHWHM=
+	t=1713201072; cv=none; b=kEaDTfAZECttCThrmHzO6Pif+DoQOizkVivN5ipDdnL6CM7zZP+5rbfWIJ+d9qKL2p+41a+WlqBOvAxD3ieLQgm0CoXnpZ4V9A1eTw7DfZ/I9dQ82KVmU2gcyDS31z4ZDTW87tn0hJBJCqsuESrVJD6qiLGDXwztzyonvF8sKzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713200591; c=relaxed/simple;
-	bh=qlN+7KOkKA0CC6PwtWEV65NHKwg6/a7Wj/1sIx6SWkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nFEPXKpY59zaQMLSa9ueO+qRjTw8VF+bTZYVL2iXGnyNj6BA9wmomLx3P8N1j2wPhrxDHmIJaa9z/pTVF5Dcq++o5urpAwydfusp+mjYWx6J7OEYRDdajkIz4jtEXMAmTDbNTz9aFqEeebKBwd48/FNizxBi1Q5Y/1BjOuvfMUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NdOzrUHQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713201072; c=relaxed/simple;
+	bh=SEcuJt/UZ8ba3isISMeftKrW6x4eGf3z22U6SReVxT8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UbqTnnppK9RJvm47/ef7MOAVvhYv47yM1DmD7CNxExqfbfGrpMBYf6vUPF6y0JwxmtV0Xm00Arj1IWVLWVlPTI5AedTDPn2ZVameRGIR2FyKipBkntSaXAowRBJiKqjsPb8fJNaHn/1SjaV5YTlDdsQyF5zVQlx7Q81rD0kpjUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HLFQr6/9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NdOzrUHQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D0AC32783;
-	Mon, 15 Apr 2024 17:03:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713200590;
-	bh=qlN+7KOkKA0CC6PwtWEV65NHKwg6/a7Wj/1sIx6SWkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NdOzrUHQIQ+xohAPgwt7yFhGS86vNEzoGpUkIeGZQPAm8I5BtxYz0mf3gcUoP2Pzs
-	 M9hBbh1YXWRj8qCr0oraEJhFZyaL/Epobq7yEVmzC8yRzIPeCDxiYogc2sbJcsg5Fb
-	 J8wKUf5NmpyMFsh6ZCTmkkPau4UbM9YaxoLDTPM++s0eNGtdwL/VtIWvlMGPAums6X
-	 GDCKNwni4lg9SzyMTXGRE/PLQhzPDv//j/mAtdbBtwhYGrAlI4ItFqg2ZlXnB2SuH3
-	 CSjEut9+y8YEMEUfx0ntXYfH2Em+pliaxvNLNsWhjCb5zBM/Xo1fcyhco+2aLeLE1o
-	 pkAmshwX5thXA==
-Date: Mon, 15 Apr 2024 18:03:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Yi-De Wu <yi-de.wu@mediatek.com>
-Cc: Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>,
-	Willix Yeh <chi-shen.yeh@mediatek.com>,
-	Kevenny Hsieh <kevenny.hsieh@mediatek.com>
-Subject: Re: [PATCH v10 03/21] dt-bindings: hypervisor: Add MediaTek
- GenieZone hypervisor
-Message-ID: <20240415-emerald-chief-5f27532d65bd@spud>
-References: <20240412065718.29105-1-yi-de.wu@mediatek.com>
- <20240412065718.29105-4-yi-de.wu@mediatek.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HLFQr6/9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713201070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khDc6xFWFIXG4OuztGv/s1Ulbk4vHwkXmIffcldK9WU=;
+	b=HLFQr6/9olfijrbzpiTzPWwruPS2pkWceet18zuE6S2YowAXgpEzWloSWAB5BhrMVWinMe
+	jgxvFwMnogxWVb4v/YyWLswbpGguRpeEnVJxGGxFUzJ9Mtqq5pUcUq2LjtdAqqaB862iYv
+	h4dsNBGQFnVqodTLvZXKSE/riugjC6g=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-97-gRS-yCA4Oz6mbHZWOcHGDg-1; Mon, 15 Apr 2024 13:11:08 -0400
+X-MC-Unique: gRS-yCA4Oz6mbHZWOcHGDg-1
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-516e86ccc45so3449200e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 10:11:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713201067; x=1713805867;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=khDc6xFWFIXG4OuztGv/s1Ulbk4vHwkXmIffcldK9WU=;
+        b=n4xXZB3BqZc8cinKreQ5CPvzjMUxxcaXlaMkxcqikkfGmgkdgpf8sGiY86foTbxBHB
+         DCao0Ii0r25z/nBlER5bjq6trDyMg8EldNDo3onPMvXuOu7lRs7gA2EnmGpwIYYOl25U
+         bn4qX/hhX7nSaubgmfMiADBUi+hY2uaR5M8mr42Z5TB6QVjyB7dLVAEh6mCSwCzUSy1I
+         S5UTXIzBRnKDbiLorP2LyNja/oBS2ui+4DYYS/Qb0gDYtbLjLHNmmlSKG/SRKuXn/GUG
+         j/Vq2CQRW8LtXx4uzfLU+0rJRE8aQ1aNwo3GWj+ZUyqWz9rMIrDotWAFJ8Fm7CaX34ze
+         9WJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ7X/a35+htqUOM+61s1P/4RRUxuxbdPF8hjwEeRXhucK0Ymf9PE1rEdn7nmCcHlsDBacn3c2rCJ37zTFoIv/eIw3rgdWAQC+i
+X-Gm-Message-State: AOJu0YyPierBR3tBch6+DJcn/0gHDtoPNyR2RnIDLTGGAdy4HupDAQGH
+	lWnUZJqmfK2Tu4mtwrBlUqJTI9URp0B1JVFSDFkHN55hc/nEnvehQ+K3H1gIDjo3qCuQyJTwEyf
+	33TXkM59FNG5qJmh5+tm23q6AQXFiLdYk6o3lzz8vJoiUbNFEFlZmZaZU
+X-Received: by 2002:a05:6512:10c7:b0:518:c82a:bdf9 with SMTP id k7-20020a05651210c700b00518c82abdf9mr5757466lfg.44.1713201067070;
+        Mon, 15 Apr 2024 10:11:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF/cIZ45K0OXdCc0M88lP7x/UqAbRwJSShIeGFCm4QF4V9CYuZrhpeNIeziBGI5i34SzHi2vQ==
+X-Received: by 2002:a05:6512:10c7:b0:518:c82a:bdf9 with SMTP id k7-20020a05651210c700b00518c82abdf9mr5757434lfg.44.1713201066606;
+        Mon, 15 Apr 2024 10:11:06 -0700 (PDT)
+Received: from [192.168.142.123] ([78.209.35.245])
+        by smtp.gmail.com with ESMTPSA id si29-20020a170906cedd00b00a4e5866448bsm5679354ejb.155.2024.04.15.10.11.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Apr 2024 10:11:06 -0700 (PDT)
+Message-ID: <e5f15ea4-f8e4-4a97-95f6-63a2099d084c@redhat.com>
+Date: Mon, 15 Apr 2024 19:11:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="C6BOR4TK2ik6wg8F"
-Content-Disposition: inline
-In-Reply-To: <20240412065718.29105-4-yi-de.wu@mediatek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] fpga: region: add owner module and take its refcount
+From: Marco Pagani <marpagan@redhat.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+ Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Tull <atull@opensource.altera.com>, Russ Weight
+ <russ.weight@linux.dev>, linux-fpga@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240411144811.121500-1-marpagan@redhat.com>
+ <ZhnviXAgnTdzUyV4@yilunxu-OptiPlex-7050>
+ <669b8b55-df83-4c32-9c8f-41895db18b75@redhat.com>
+Content-Language: en-US
+In-Reply-To: <669b8b55-df83-4c32-9c8f-41895db18b75@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 2024-04-15 14:19, Marco Pagani wrote:
+> 
+> 
+> On 2024-04-13 04:35, Xu Yilun wrote:
+>>>  /**
+>>> - * fpga_region_register_full - create and register an FPGA Region device
+>>> + * __fpga_region_register_full - create and register an FPGA Region device
+>>>   * @parent: device parent
+>>>   * @info: parameters for FPGA Region
+>>> + * @owner: owner module containing the get_bridges function
+>>
+>> This is too specific and easily get unaligned if we add another
+>> callback. How about "module containing the region ops"?
+> 
+> I had some concerns about using the name "region ops" in the kernel-doc
+> comment since it was not supported by a struct definition nor referenced
+> in the documentation. However, since the name is now referred to in the
+> ops_owner pointer, making the change makes sense to me.
+> 
 
---C6BOR4TK2ik6wg8F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On second thought, I think it would be better to leave the @owner
+description to "module containing the get_bridges function" for the
+moment. Otherwise, it could confuse the user by blurring the connection
+between the @owner and @get_bridges parameters.
 
-On Fri, Apr 12, 2024 at 02:57:00PM +0800, Yi-De Wu wrote:
-> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
->=20
-> Add documentation for GenieZone(gzvm) node. This node informs gzvm
-> driver to start probing if geniezone hypervisor is available and
-> able to do virtual machine operations.
->=20
-> [Reason to use dt solution]
-> - The GenieZone hypervisor serves as a vendor model for facilitating
-> platform virtualization, with an implementation that is independent
-> from Linuxism.
-> - In contrast to the dt solution, our previous approach involved probing
-> via hypercall to determine the existence of our hypervisor. However, this
-> method raised concerns about potentially impacting all systems, including
-> those without the GenieZone hypervisor embedded[ref].
->=20
-> Link: https://lore.kernel.org/all/2fe0c7f9-55fc-ae63-3631-8526a0212ccd@li=
-naro.org/
+* __fpga_region_register - create and register an FPGA Region device
+* [...]
+* @get_bridges: optional function to get bridges to a list
+* @owner: owner module containing get_bridges function
 
-> +properties:
-> +  compatible:
-> +    const: mediatek,geniezone-hyp
+We can always modify the @owner description later, together with all the
+necessary changes to add a new op, like grouping all ops in a structure
+and changing the registration function signature.
 
-Been avoiding this binding every time it shows up because Rob had
-already told you no and hasn't revisited it since, but I feel this
-should be s/-hyp// since that's redundant information.
+Thanks,
+Marco
 
-> +description:
-> +  This interface is designed for integrating GenieZone hypervisor into A=
-ndroid
-> +  Virtualization Framework(AVF) along with Crosvm as a VMM.
-> +  It acts like a wrapper for every hypercall to GenieZone hypervisor in
-> +  order to control guest VM lifecycles and virtual interrupt injections.
+> 
+>>
+>>>   *
+>>>   * Return: struct fpga_region or ERR_PTR()
+>>>   */
+>>>  struct fpga_region *
+>>> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
+>>> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+>>> +			    struct module *owner)
+>>>  {
+>>>  	struct fpga_region *region;
+>>>  	int id, ret = 0;
+>>> @@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>>>  	region->compat_id = info->compat_id;
+>>>  	region->priv = info->priv;
+>>>  	region->get_bridges = info->get_bridges;
+>>> +	region->ops_owner = owner;
+>>>  
+>>>  	mutex_init(&region->mutex);
+>>>  	INIT_LIST_HEAD(&region->bridge_list);
+>>> @@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+>>>  
+>>>  	return ERR_PTR(ret);
+>>>  }
+>>> -EXPORT_SYMBOL_GPL(fpga_region_register_full);
+>>> +EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+>>>  
+>>>  /**
+>>> - * fpga_region_register - create and register an FPGA Region device
+>>> + * __fpga_region_register - create and register an FPGA Region device
+>>>   * @parent: device parent
+>>>   * @mgr: manager that programs this region
+>>>   * @get_bridges: optional function to get bridges to a list
+>>> + * @owner: owner module containing get_bridges function
+>>
+>> ditto
+>>
+>>>   *
+>>>   * This simple version of the register function should be sufficient for most users.
+>>>   * The fpga_region_register_full() function is available for users that need to
+>>> @@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+>>>   * Return: struct fpga_region or ERR_PTR()
+>>>   */
+>>>  struct fpga_region *
+>>> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+>>> -		     int (*get_bridges)(struct fpga_region *))
+>>> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+>>> +		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+>>>  {
+>>>  	struct fpga_region_info info = { 0 };
+>>>  
+>>>  	info.mgr = mgr;
+>>>  	info.get_bridges = get_bridges;
+>>>  
+>>> -	return fpga_region_register_full(parent, &info);
+>>> +	return __fpga_region_register_full(parent, &info, owner);
+>>>  }
+>>> -EXPORT_SYMBOL_GPL(fpga_region_register);
+>>> +EXPORT_SYMBOL_GPL(__fpga_region_register);
+>>>  
+>>>  /**
+>>>   * fpga_region_unregister - unregister an FPGA region
+>>> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+>>> index 9d4d32909340..5fbc05fe70a6 100644
+>>> --- a/include/linux/fpga/fpga-region.h
+>>> +++ b/include/linux/fpga/fpga-region.h
+>>> @@ -36,6 +36,7 @@ struct fpga_region_info {
+>>>   * @mgr: FPGA manager
+>>>   * @info: FPGA image info
+>>>   * @compat_id: FPGA region id for compatibility check.
+>>> + * @ops_owner: module containing the get_bridges function
+>>
+>> ditto
+>>
+>> Thanks,
+>> Yilun
+>>
+>>>   * @priv: private data
+>>>   * @get_bridges: optional function to get bridges to a list
+>>>   */
+>>> @@ -46,6 +47,7 @@ struct fpga_region {
+>>>  	struct fpga_manager *mgr;
+>>>  	struct fpga_image_info *info;
+>>>  	struct fpga_compat_id *compat_id;
+>>> +	struct module *ops_owner;
+>>>  	void *priv;
+>>>  	int (*get_bridges)(struct fpga_region *region);
+>>>  };
+>>
 
-The description however doesn't really make sense. The binding claims to
-be for geniezone but the description talks about something else entirely
-that "acts like a wrapper" between the OS and geniezone. What is the
-binding actually for?
-
---C6BOR4TK2ik6wg8F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh1dxwAKCRB4tDGHoIJi
-0jVFAQCJXfT7nWUYAhn0e8Ajkn5u7oxR2Cu949hDGp7nK9saPAEA3b+xCJOh8wV2
-Hv0FfTlG1rexad0mg/r96/sxZi/z9Qg=
-=e5RQ
------END PGP SIGNATURE-----
-
---C6BOR4TK2ik6wg8F--
