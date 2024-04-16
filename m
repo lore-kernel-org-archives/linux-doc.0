@@ -1,81 +1,124 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F58D811F8;
-	Tue, 16 Apr 2024 22:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78065B201;
+	Tue, 16 Apr 2024 22:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713305943; cv=none; b=XLDo3RAHCGnbgHgm9hG5e+H5UPDcWi3YSgw+KOY/JXg4zdeBTX9JyeCbHwYrR9yDo7zYCjd1wLe8Nw3dNOxb2HOibJh9fCu6ZEQYQyaUAoWSGJY4lHJv3H+UScyr1YKjYEnIT6JhUl49FpkynX0lCCEYLNC4bBfmdQpTdEwhb3k=
+	t=1713307117; cv=none; b=DjYHVf1M5b+9R1YNdJ/fEqqMWk/nfu1q+f2Hcyp61qFPqdjT3JmYr9DlLl16dV+NiY1ltXiz9HtZBgYCdMjSPf2a/O25N6puuEjzIbQxJowrLzT9JPG0+lqPAtUOC/8yASlmHM8mYv53qvQSQW+ZzxPSw0fN/3lEE77qPRgnPHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713305943; c=relaxed/simple;
-	bh=2UTgKuAbrwfWuorBNpc3DoDq6mu+gQFxigrPLV5qftU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TitTj6dpCEmX58pbTrJdzubyM6sZw+r7PZDjBfbXLFQ0irTD/IH5SK/CNE/1nWfEJk9LLU3/6vv5Z1avP6eqnj1mZAArY2y8zpPB8ywn62sdQEMhUTIaeKKPLyrkEVGmIKEVax0YljeZ0N9wmF0abCycyU9GYIqkaFd2TRVgT34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=ShQQv/MH; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1713307117; c=relaxed/simple;
+	bh=S7sE9brjfV8uQBeIEy6QZVeO3w3xji1TwLL3sVqLSxE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=X8aCsGOmXdkSlvmzn6L/5C8wIOd0IeaLHbcbT6iKPhvdGuag2jo+4/Xbp3bEeJoJLpWavdjDeGEmtiaj7F1dmXzYh/gaJ55sl2ZirQaE1M0ZqFI/60v8F6ZNFzWvMd35BDZVW+Ked0VVNvuuDNu2pc/+bGxjVdXSrRuoZQdGiPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ctM1BE2A; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="ShQQv/MH"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ctM1BE2A"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=LjIgFuPbUWQTQ78rm1vu5j/huuLNGgrNm+YPodOSqE0=; b=ShQQv/MHydPLbBH6mC4Cus80Xh
-	Cd/y0Jq20egXeGhhrajocUzcMMi6eRAb27GMj5TF+8l7LGK8uVh8syE4ouMIAiRCqRn9zNVqVXTIQ
-	8WxVviYUjOF+H+xopFnSeGciC6EVEuc+kZbUuNGGjNsAuJPUyBAL0InlpHO1pZgGiQY6MvMzry+wu
-	V9r57YdjOWQTy1WjEdp/GQIgKJNGVfpxdou5zRROR2EmbA9Cd/63Ki/ZfEicMl+RKmF4MZNQYL2B0
-	B28WYRfSUMHQuiQ4Y4KkMCfUlwbvL2dmo5afYjCTuLNxwCIl8fAbJZ/Zpc+fQbtLBID23YRaCWGdW
-	fcoIsLbQ==;
-Received: from [10.69.139.14] (helo=terabithia.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rwr8j-00GVN4-1I;
-	Tue, 16 Apr 2024 17:18:57 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>, wine-devel@winehq.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Elizabeth Figura <zfigura@codeweavers.com>
-Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Date: Tue, 16 Apr 2024 17:18:56 -0500
-Message-ID: <3743440.MHq7AAxBmi@terabithia>
-In-Reply-To: <4340072.ejJDZkT8p0@terabithia>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416081421.GB31647@noisy.programming.kicks-ass.net>
- <4340072.ejJDZkT8p0@terabithia>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=KfsmsJ6C4WEujGSKO21oMe1mj3YNpyS/QO6bqt4zXM4=; b=ctM1BE2AsNOAM4hw0CuLWaoeqJ
+	1lQQ/eJqSuSmtDvrIK6JvP6N326ZnkSIniIE7hWafNbp3FCL0iFtyb5m+KQUzaKzU9xR8UuU8Bbz/
+	YYjBAsqlQrPDt6bCiismzxsUJuKtEsST/I6YNAD15wJHsxMcU3+t15NaksL1kD/ybGoNqFfOicP8Q
+	UstMTYx8BJBzwlvivnWN+0O3oxXOAUt9HfqCt1hZNCjxaoLlSrMHuN8iMvBaeAcEQdO1uDtQ8kitb
+	YPV0jQhZ4vwz9c2Lt6szcDymRH996jDHZt11O1Wyrl1V9GIheMkedSFOz/zxn7iPB44TUAhGbJIbA
+	uAKSGJ6g==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwrRi-0000000E4dT-3GT1;
+	Tue, 16 Apr 2024 22:38:34 +0000
+Message-ID: <ae28ae0f-c1ca-4afe-89e4-cc5d66b998b2@infradead.org>
+Date: Tue, 16 Apr 2024 15:38:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-
-On Tuesday, 16 April 2024 16:18:24 CDT Elizabeth Figura wrote:
-> On Tuesday, 16 April 2024 03:14:21 CDT Peter Zijlstra wrote:
-> > I don't support GE has it in his builds? Last time I tried, building
-> > Wine was a bit of a pain.
->=20
-> It doesn't seem so. I tried to build a GE-compatible ntsync build, upload=
-ed
-> here (thanks Arek for hosting):
->=20
->     https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine.tar.xz
-
-Oops, the initial version I uploaded had broken paths. Should be fixed now.
-
-(It's also broken on an unpatched kernel unless explicitly disabled with=20
-WINE_DISABLE_FAST_SYNC=3D1. Not sure what I messed up there=E2=80=94it shou=
-ld fall back=20
-cleanly=E2=80=94but hopefully shouldn't be too important for testing.)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] doc: Split buffer.rst out of api-summary.rst
+From: Randy Dunlap <rdunlap@infradead.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240416031754.4076917-1-willy@infradead.org>
+ <20240416031754.4076917-9-willy@infradead.org>
+ <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
+Content-Language: en-US
+In-Reply-To: <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
+
+On 4/16/24 3:18 PM, Randy Dunlap wrote:
+> 
+> 
+> On 4/15/24 8:17 PM, Matthew Wilcox (Oracle) wrote:
+>> Buffer heads are no longer a generic filesystem API but an optional
+>> filesystem support library.  Make the documentation structure reflect
+>> that, and include the fine documentation kept in buffer_head.h.
+>> We could give a better overview of what buffer heads are all about,
+>> but my enthusiasm for documenting it is limited.
+>>
+>> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+>> ---
+>>  Documentation/filesystems/api-summary.rst | 3 ---
+>>  Documentation/filesystems/index.rst       | 1 +
+>>  2 files changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
+>> index 98db2ea5fa12..cc5cc7f3fbd8 100644
+>> --- a/Documentation/filesystems/api-summary.rst
+>> +++ b/Documentation/filesystems/api-summary.rst
+>> @@ -56,9 +56,6 @@ Other Functions
+>>  .. kernel-doc:: fs/namei.c
+>>     :export:
+>>  
+>> -.. kernel-doc:: fs/buffer.c
+>> -   :export:
+>> -
+>>  .. kernel-doc:: block/bio.c
+>>     :export:
+>>  
+>> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+>> index 1f9b4c905a6a..8f5c1ee02e2f 100644
+>> --- a/Documentation/filesystems/index.rst
+>> +++ b/Documentation/filesystems/index.rst
+>> @@ -50,6 +50,7 @@ filesystem implementations.
+>>  .. toctree::
+>>     :maxdepth: 2
+>>  
+>> +   buffer
+> 
+> This causes:
+> 
+> Documentation/filesystems/index.rst:50: WARNING: toctree contains reference to nonexisting document 'filesystems/buffer'
+
+I added a simple/minimal new buffer.rst file for testing:
+(needs an SPDX line)
+
+
+
+---
+ Documentation/filesystems/buffer.rst |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff -- /dev/null b/Documentation/filesystems/buffer.rst
+--- /dev/null
++++ b/Documentation/filesystems/buffer.rst
+@@ -0,0 +1,11 @@
++
++===========================
++Filesystem buffer head APIs
++===========================
++
++.. kernel-doc:: include/linux/buffer_head.h
++   :internal:
++
++.. kernel-doc:: fs/buffer.c
++   :export:
++
