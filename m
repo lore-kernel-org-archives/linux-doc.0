@@ -1,420 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mailgw-e01.its.kfa-juelich.de (mailgw-e01.its.kfa-juelich.de [134.94.4.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51DB12C55D;
-	Tue, 16 Apr 2024 14:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53BB12CD9D
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 14:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.94.4.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713276056; cv=none; b=G3+Y+mOIAySAOwkc72a59GqvYH2iHdmrVo+UGX+OL+pZmWnoNQ8r34gQpbGpKsX85Zvhd5T0nZr9qum2xYt7G3K37KUiA22zVcIAg/nB+wYriU8yV2G78ndljA6llUJR9GZ0AMi5Xh7irA5M/0/tIX7eXq1JrYEZHANgihBVJaM=
+	t=1713276373; cv=none; b=i5lwQFj614WiPvGsNXFqR3DOILXxq2zCxsGT8DwhbFtX4/f3q1M+UORPnfJQa1vW4yB6xuZYfWH+Co3SVSjfESIDFyrruTNEkWysdKfybEBleUUziIfv1GVKzwWZWZmiPP+a5Y7GpB3veUbbsNKKh+D071795wCmJm6mL6ON0Ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713276056; c=relaxed/simple;
-	bh=tshG9UziJ9Q36ESv1OzvyrTcow7hpZts+Je0IlzMdLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rbhd3XQZXHlpNe5cwyzM8z8Jcys7UseNhVPgiR5IJSZlUH1rQS7BGnXpLVuXi1hbPyO/VdiH3/jMgCLHDkJpG/15jfTBBpzgg/1R0qqmLTOzKKEnsrFQdFBp6XBtHzqT5JDCFgIx5q05vpprTx8EC7S8sztssGXXEtpAxPwQADQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKPzsNxv; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713276373; c=relaxed/simple;
+	bh=GQwyM9ui6jmaMz63XCNGhgMzy80slOIYI18pN6oUydc=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=KVgmmmgJFofSDFRKUMvc35NUeSAyQbS8PLY7i2F4Bmi1arBByimPdMbSx3YHySUglcQ2/qjvCPDuk4E7TQTdQ/NJH57k8aIzzRtnKQo+RDNb8ZvLpeNTaZif7aq4aLPIv7aJfVaItOcFK/17lKrIT7qDojiL8D63Xqr6yO06ktI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fz-juelich.de; spf=pass smtp.mailfrom=fz-juelich.de; dkim=pass (1024-bit key) header.d=fz-juelich.de header.i=@fz-juelich.de header.b=GoYT3jO1; arc=none smtp.client-ip=134.94.4.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fz-juelich.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fz-juelich.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKPzsNxv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713276052; x=1744812052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=tshG9UziJ9Q36ESv1OzvyrTcow7hpZts+Je0IlzMdLw=;
-  b=JKPzsNxvWejemJTVHY/P+YPtEL1mqnYxq5+JrXZay2H5MrZ/YiMtD8Gg
-   I8FYSQrb8doLq9ijrC7vm3SMSoPbdzLZaMFZa6JLsqTT3aft1AmOb+Yco
-   a8ImnsOejInpn4KpcVgKGKwUM98jhigBzlEcFhtaaPch7P9MRJsWcMxjq
-   cRX22b9F2PtZvC2bZBHWuQB4HSwnnT0Df3rH+p/yvqtXTj60hZyzJC5NF
-   qEwQtKjJIygCQqhDkTbT5sSsH9CWnSGLlX+wap/7flT2WTlpJpZ04mJ9e
-   RDyTUfL0sQ3BWJISS0w9zwLGPV4ileCPd/RZ1ezRnXq3P1QhfGf+eNOqj
-   A==;
-X-CSE-ConnectionGUID: JiHX1YspRwuT++vEIdEE4Q==
-X-CSE-MsgGUID: f6chylt6QuCEY+sKc4Y+1w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9266358"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="9266358"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 07:00:33 -0700
-X-CSE-ConnectionGUID: CvuKKRs/TjWvmZ2+ZsDygA==
-X-CSE-MsgGUID: wd2whXFxQBScxg4Vz2wRXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="22332339"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 16 Apr 2024 07:00:27 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 16 Apr 2024 17:00:26 +0300
-Date: Tue, 16 Apr 2024 17:00:26 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v11 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <Zh6EevKDKt60E8e9@intel.com>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-17-c5680ffcf261@kernel.org>
+	dkim=pass (1024-bit key) header.d=fz-juelich.de header.i=@fz-juelich.de header.b="GoYT3jO1"
+Received: from localhost (localhost [127.0.0.1])
+	by mailgw-e01.its.kfa-juelich.de (Postfix) with ESMTP id ADB7C480C26
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 16:01:00 +0200 (CEST)
+Authentication-Results: mailgw-e01.its.kfa-juelich.de (amavisd-new);
+	dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
+	header.d=fz-juelich.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fz-juelich.de; h=
+	content-type:content-type:subject:subject:from:from
+	:content-language:user-agent:mime-version:date:date:message-id
+	:received:received:received; s=main; t=1713276055; bh=GQwyM9ui6j
+	maMz63XCNGhgMzy80slOIYI18pN6oUydc=; b=GoYT3jO1z1sxKLchTlVkphUGwg
+	BQMYeBONyZd+/tjAe49NyJfJvHNAcQvq1x7yv6Gb5YtXHYITO8pRb/M56b0XY2ft
+	UgJHMSwfIZO5US4cS7MHb7joJ5nRs+BSveiz5cxH4KoB/DItOex3PvCLeJjKxFSm
+	P4tWD2TZtkO3oGkDc=
+X-Virus-Scanned: Debian amavisd-new at mailgw-e01.its.kfa-juelich.de
+Received: from mailgw-e01.its.kfa-juelich.de ([127.0.0.1])
+	by localhost (mailgw-e01.its.kfa-juelich.de [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id I0932rRNC19d for <linux-doc@vger.kernel.org>;
+	Tue, 16 Apr 2024 16:00:55 +0200 (CEST)
+Received: from exch2019-k.ad.fz-juelich.de (exch2019-k.its.kfa-juelich.de [134.94.4.37])
+	by mailgw-e01.its.kfa-juelich.de (Postfix) with ESMTPS
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 16:00:55 +0200 (CEST)
+Received: from [172.25.80.180] (172.25.80.180) by exch2019-k.ad.fz-juelich.de
+ (134.94.4.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 16 Apr
+ 2024 16:00:52 +0200
+Message-ID: <cf619d75-1996-40c5-94e8-4d6e6b74f0bf@fz-juelich.de>
+Date: Tue, 16 Apr 2024 16:00:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240326-kms-hdmi-connector-state-v11-17-c5680ffcf261@kernel.org>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla Thunderbird
+To: <linux-doc@vger.kernel.org>
+Content-Language: en-US
+From: Joachim Wuttke <j.wuttke@fz-juelich.de>
+Subject: elf(5) and ld.so(8): DT_RPATH deprecated - really?
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+	micalg=sha-512; boundary="------------ms040902080403020006070108"
+X-ClientProxiedBy: exch2019-k.ad.fz-juelich.de (134.94.4.37) To
+ exch2019-k.ad.fz-juelich.de (134.94.4.37)
 
-On Tue, Mar 26, 2024 at 04:40:21PM +0100, Maxime Ripard wrote:
-> The i915 driver has a property to force the RGB range of an HDMI output.
-> The vc4 driver then implemented the same property with the same
-> semantics. KWin has support for it, and a PR for mutter is also there to
-> support it.
+--------------ms040902080403020006070108
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Is there a i915 patch to switch over to hdmi.broadcast_rgb? Though
-the "hdmi" name is perhaps not the best idea given this is also a
-thing for DP.
+Pages elf(5) and ld.so(8) say that DT_RPATH is deprecated.
 
-> 
-> Both drivers implementing the same property with the same semantics,
-> plus the userspace having support for it, is proof enough that it's
-> pretty much a de-facto standard now and we can provide helpers for it.
-> 
-> Let's plumb it into the newly created HDMI connector.
-> 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  Documentation/gpu/kms-properties.csv            |  1 -
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
->  drivers/gpu/drm/drm_atomic.c                    |  2 +
->  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
->  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++++++++++++++++
->  include/drm/drm_connector.h                     | 36 ++++++++++
->  6 files changed, 133 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/gpu/kms-properties.csv b/Documentation/gpu/kms-properties.csv
-> index 0f9590834829..caef14c532d4 100644
-> --- a/Documentation/gpu/kms-properties.csv
-> +++ b/Documentation/gpu/kms-properties.csv
-> @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type,Property Values,Object attached,De
->  ,,“saturation”,RANGE,"Min=0, Max=100",Connector,TBD
->  ,,“hue”,RANGE,"Min=0, Max=100",Connector,TBD
->  ,Virtual GPU,“suggested X”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an X offset for a connector
->  ,,“suggested Y”,RANGE,"Min=0, Max=0xffffffff",Connector,property to suggest an Y offset for a connector
->  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9"" }",Connector,TDB
-> -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full"", ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:235 and CTM is set, the hardware will be programmed with the result of the multiplication of CTM by the limited range matrix to ensure the pixels normally in the range 0..1.0 are remapped to the range 16/255..235/255."
->  ,,“audio”,ENUM,"{ ""force-dvi"", ""off"", ""auto"", ""on"" }",Connector,TBD
->  ,SDVO-TV,“mode”,ENUM,"{ ""NTSC_M"", ""NTSC_J"", ""NTSC_443"", ""PAL_B"" } etc.",Connector,TBD
->  ,,"""left_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
->  ,,"""right_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
->  ,,"""top_margin""",RANGE,"Min=0, Max= SDVO dependent",Connector,TBD
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index b9bc0fb027ea..c844cbeb675b 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -23,10 +23,11 @@ void __drm_atomic_helper_connector_hdmi_reset(struct drm_connector *connector,
->  {
->  	unsigned int max_bpc = connector->max_bpc;
->  
->  	new_conn_state->max_bpc = max_bpc;
->  	new_conn_state->max_requested_bpc = max_bpc;
-> +	new_conn_state->hdmi.broadcast_rgb = DRM_HDMI_BROADCAST_RGB_AUTO;
->  }
->  EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_reset);
->  
->  static const struct drm_display_mode *
->  connector_state_get_mode(const struct drm_connector_state *conn_state)
-> @@ -310,11 +311,12 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->  
->  	ret = hdmi_compute_config(connector, new_conn_state, mode);
->  	if (ret)
->  		return ret;
->  
-> -	if (old_conn_state->hdmi.output_bpc != new_conn_state->hdmi.output_bpc ||
-> +	if (old_conn_state->hdmi.broadcast_rgb != new_conn_state->hdmi.broadcast_rgb ||
-> +	    old_conn_state->hdmi.output_bpc != new_conn_state->hdmi.output_bpc ||
->  	    old_conn_state->hdmi.output_format != new_conn_state->hdmi.output_format) {
->  		struct drm_crtc *crtc = new_conn_state->crtc;
->  		struct drm_crtc_state *crtc_state;
->  
->  		crtc_state = drm_atomic_get_crtc_state(state, crtc);
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 26f9e525c0a0..3e57d98d8418 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1143,10 +1143,12 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->  	drm_printf(p, "\tmax_requested_bpc=%d\n", state->max_requested_bpc);
->  	drm_printf(p, "\tcolorspace=%s\n", drm_get_colorspace_name(state->colorspace));
->  
->  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
-> +		drm_printf(p, "\tbroadcast_rgb=%s\n",
-> +			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
->  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->  		drm_printf(p, "\toutput_format=%s\n",
->  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
->  		drm_printf(p, "\ttmds_char_rate=%llu\n", state->hdmi.tmds_char_rate);
->  	}
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index 29d4940188d4..2b415b4ed506 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -774,10 +774,12 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
->  						   fence_ptr);
->  	} else if (property == connector->max_bpc_property) {
->  		state->max_requested_bpc = val;
->  	} else if (property == connector->privacy_screen_sw_state_property) {
->  		state->privacy_screen_sw_state = val;
-> +	} else if (property == connector->broadcast_rgb_property) {
-> +		state->hdmi.broadcast_rgb = val;
->  	} else if (connector->funcs->atomic_set_property) {
->  		return connector->funcs->atomic_set_property(connector,
->  				state, property, val);
->  	} else {
->  		drm_dbg_atomic(connector->dev,
-> @@ -857,10 +859,12 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
->  		*val = 0;
->  	} else if (property == connector->max_bpc_property) {
->  		*val = state->max_requested_bpc;
->  	} else if (property == connector->privacy_screen_sw_state_property) {
->  		*val = state->privacy_screen_sw_state;
-> +	} else if (property == connector->broadcast_rgb_property) {
-> +		*val = state->hdmi.broadcast_rgb;
->  	} else if (connector->funcs->atomic_get_property) {
->  		return connector->funcs->atomic_get_property(connector,
->  				state, property, val);
->  	} else {
->  		drm_dbg_atomic(dev,
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 555eac20e5a4..bdd3361ccc73 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1210,10 +1210,33 @@ static const u32 dp_colorspaces =
->  	BIT(DRM_MODE_COLORIMETRY_SYCC_601) |
->  	BIT(DRM_MODE_COLORIMETRY_OPYCC_601) |
->  	BIT(DRM_MODE_COLORIMETRY_BT2020_CYCC) |
->  	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
->  
-> +static const struct drm_prop_enum_list broadcast_rgb_names[] = {
-> +	{ DRM_HDMI_BROADCAST_RGB_AUTO, "Automatic" },
-> +	{ DRM_HDMI_BROADCAST_RGB_FULL, "Full" },
-> +	{ DRM_HDMI_BROADCAST_RGB_LIMITED, "Limited 16:235" },
-> +};
-> +
-> +/*
-> + * drm_hdmi_connector_get_broadcast_rgb_name - Return a string for HDMI connector RGB broadcast selection
-> + * @broadcast_rgb: Broadcast RGB selection to compute name of
-> + *
-> + * Returns: the name of the Broadcast RGB selection, or NULL if the type
-> + * is not valid.
-> + */
-> +const char *
-> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb)
-> +{
-> +	if (broadcast_rgb >= ARRAY_SIZE(broadcast_rgb_names))
-> +		return NULL;
-> +
-> +	return broadcast_rgb_names[broadcast_rgb].name;
-> +}
-> +EXPORT_SYMBOL(drm_hdmi_connector_get_broadcast_rgb_name);
-> +
->  static const char * const output_format_str[] = {
->  	[HDMI_COLORSPACE_RGB]		= "RGB",
->  	[HDMI_COLORSPACE_YUV420]	= "YUV 4:2:0",
->  	[HDMI_COLORSPACE_YUV422]	= "YUV 4:2:2",
->  	[HDMI_COLORSPACE_YUV444]	= "YUV 4:4:4",
-> @@ -1706,10 +1729,42 @@ void drm_connector_attach_dp_subconnector_property(struct drm_connector *connect
->  EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->  
->  /**
->   * DOC: HDMI connector properties
->   *
-> + * Broadcast RGB (HDMI specific)
-> + *      Indicates the Quantization Range (Full vs Limited) used. The color
-> + *      processing pipeline will be adjusted to match the value of the
-> + *      property, and the Infoframes will be generated and sent accordingly.
-> + *
-> + *      This property is only relevant if the HDMI output format is RGB. If
-> + *      it's one of the YCbCr variant, it will be ignored.
-> + *
-> + *      The CRTC attached to the connector must be configured by user-space to
-> + *      always produce full-range pixels.
-> + *
-> + *      The value of this property can be one of the following:
-> + *
-> + *      Automatic:
-> + *              The quantization range is selected automatically based on the
-> + *              mode according to the HDMI specifications (HDMI 1.4b - Section
-> + *              6.6 - Video Quantization Ranges).
-> + *
-> + *      Full:
-> + *              Full quantization range is forced.
-> + *
-> + *      Limited 16:235:
-> + *              Limited quantization range is forced. Unlike the name suggests,
-> + *              this works for any number of bits-per-component.
-> + *
-> + *      Property values other than Automatic can result in colors being off (if
-> + *      limited is selected but the display expects full), or a black screen
-> + *      (if full is selected but the display expects limited).
-> + *
-> + *      Drivers can set up this property by calling
-> + *      drm_connector_attach_broadcast_rgb_property().
-> + *
->   * content type (HDMI specific):
->   *	Indicates content type setting to be used in HDMI infoframes to indicate
->   *	content type for the external device, so that it adjusts its display
->   *	settings accordingly.
->   *
-> @@ -2568,10 +2623,43 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
->  
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_connector_attach_hdr_output_metadata_property);
->  
-> +/**
-> + * drm_connector_attach_broadcast_rgb_property - attach "Broadcast RGB" property
-> + * @connector: connector to attach the property on.
-> + *
-> + * This is used to add support for forcing the RGB range on a connector
-> + *
-> + * Returns:
-> + * Zero on success, negative errno on failure.
-> + */
-> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	struct drm_property *prop;
-> +
-> +	prop = connector->broadcast_rgb_property;
-> +	if (!prop) {
-> +		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ENUM,
-> +						"Broadcast RGB",
-> +						broadcast_rgb_names,
-> +						ARRAY_SIZE(broadcast_rgb_names));
-> +		if (!prop)
-> +			return -EINVAL;
-> +
-> +		connector->broadcast_rgb_property = prop;
-> +	}
-> +
-> +	drm_object_attach_property(&connector->base, prop,
-> +				   DRM_HDMI_BROADCAST_RGB_AUTO);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_connector_attach_broadcast_rgb_property);
-> +
->  /**
->   * drm_connector_attach_colorspace_property - attach "Colorspace" property
->   * @connector: connector to attach the property on.
->   *
->   * This is used to allow the userspace to signal the output colorspace
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 3c0b6694074f..a40eaf3a8ce4 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -367,10 +367,33 @@ enum drm_panel_orientation {
->  	DRM_MODE_PANEL_ORIENTATION_BOTTOM_UP,
->  	DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
->  	DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
->  };
->  
-> +/**
-> + * enum drm_hdmi_broadcast_rgb - Broadcast RGB Selection for an HDMI @drm_connector
-> + */
-> +enum drm_hdmi_broadcast_rgb {
-> +	/**
-> +	 * @DRM_HDMI_BROADCAST_RGB_AUTO: The RGB range is selected
-> +	 * automatically based on the mode.
-> +	 */
-> +	DRM_HDMI_BROADCAST_RGB_AUTO,
-> +
-> +	/**
-> +	 * @DRM_HDMI_BROADCAST_RGB_FULL: Full range RGB is forced.
-> +	 */
-> +	DRM_HDMI_BROADCAST_RGB_FULL,
-> +
-> +	/**
-> +	 * @DRM_HDMI_BROADCAST_RGB_LIMITED: Limited range RGB is forced.
-> +	 */
-> +	DRM_HDMI_BROADCAST_RGB_LIMITED,
-> +};
-> +
-> +const char *
-> +drm_hdmi_connector_get_broadcast_rgb_name(enum drm_hdmi_broadcast_rgb broadcast_rgb);
->  const char *
->  drm_hdmi_connector_get_output_format_name(enum hdmi_colorspace fmt);
->  
->  /**
->   * struct drm_monitor_range_info - Panel's Monitor range in EDID for
-> @@ -1039,10 +1062,16 @@ struct drm_connector_state {
->  	/**
->  	 * @hdmi: HDMI-related variable and properties. Filled by
->  	 * @drm_atomic_helper_connector_hdmi_check().
->  	 */
->  	struct {
-> +		/**
-> +		 * @broadcast_rgb: Connector property to pass the
-> +		 * Broadcast RGB selection value.
-> +		 */
-> +		enum drm_hdmi_broadcast_rgb broadcast_rgb;
-> +
->  		/**
->  		 * @output_bpc: Bits per color channel to output.
->  		 */
->  		unsigned int output_bpc;
->  
-> @@ -1751,10 +1780,16 @@ struct drm_connector {
->  	 * @privacy_screen_hw_state_property: Optional atomic property for the
->  	 * connector to report the actual integrated privacy screen state.
->  	 */
->  	struct drm_property *privacy_screen_hw_state_property;
->  
-> +	/**
-> +	 * @broadcast_rgb_property: Connector property to set the
-> +	 * Broadcast RGB selection to output with.
-> +	 */
-> +	struct drm_property *broadcast_rgb_property;
-> +
->  #define DRM_CONNECTOR_POLL_HPD (1 << 0)
->  #define DRM_CONNECTOR_POLL_CONNECT (1 << 1)
->  #define DRM_CONNECTOR_POLL_DISCONNECT (1 << 2)
->  
->  	/**
-> @@ -2090,10 +2125,11 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev);
->  int drm_connector_attach_content_type_property(struct drm_connector *dev);
->  int drm_connector_attach_scaling_mode_property(struct drm_connector *connector,
->  					       u32 scaling_mode_mask);
->  int drm_connector_attach_vrr_capable_property(
->  		struct drm_connector *connector);
-> +int drm_connector_attach_broadcast_rgb_property(struct drm_connector *connector);
->  int drm_connector_attach_colorspace_property(struct drm_connector *connector);
->  int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *connector);
->  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
->  					     struct drm_connector_state *new_state);
->  int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
-> 
-> -- 
-> 2.44.0
+This is inconsistent with ld(1), which says no such thing
+about the -rpath option.
 
--- 
-Ville Syrjälä
-Intel
+And it is not credible. A huge amount of software would
+break down if support for DT_RPATH were ever removed.
+
+Regards, Joachim
+
+
+--------------ms040902080403020006070108
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgMFADCABgkqhkiG9w0BBwEAAKCC
+EbEwggUSMIID+qADAgECAgkA4wvV+K8l2YEwDQYJKoZIhvcNAQELBQAwgYIxCzAJBgNVBAYT
+AkRFMSswKQYDVQQKDCJULVN5c3RlbXMgRW50ZXJwcmlzZSBTZXJ2aWNlcyBHbWJIMR8wHQYD
+VQQLDBZULVN5c3RlbXMgVHJ1c3QgQ2VudGVyMSUwIwYDVQQDDBxULVRlbGVTZWMgR2xvYmFs
+Um9vdCBDbGFzcyAyMB4XDTE2MDIyMjEzMzgyMloXDTMxMDIyMjIzNTk1OVowgZUxCzAJBgNV
+BAYTAkRFMUUwQwYDVQQKEzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1dHNjaGVu
+IEZvcnNjaHVuZ3NuZXR6ZXMgZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNVBAMTJERG
+Ti1WZXJlaW4gQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkgMjCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBAMtg1/9moUHN0vqHl4pzq5lN6mc5WqFggEcVToyVsuXPztNXS43O+FZs
+FVV2B+pG/cgDRWM+cNSrVICxI5y+NyipCf8FXRgPxJiZN7Mg9mZ4F4fCnQ7MSjLnFp2uDo0p
+eQcAIFTcFV9Kltd4tjTTwXS1nem/wHdN6r1ZB+BaL2w8pQDcNb1lDY9/Mm3yWmpLYgHurDg0
+WUU2SQXaeMpqbVvAgWsRzNI8qIv4cRrKO+KA3Ra0Z3qLNupOkSk9s1FcragMvp0049ENF4N1
+xDkesJQLEvHVaY4l9Lg9K7/AjsMeO6W/VRCrKq4Xl14zzsjz9AkH4wKGMUZrAcUQDBHHWekC
+AwEAAaOCAXQwggFwMA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQUk+PYMiba1fFKpZFK4OpL
+4qIMz+EwHwYDVR0jBBgwFoAUv1kgNgB5oKAia4zV8mHSuCzLgkowEgYDVR0TAQH/BAgwBgEB
+/wIBAjAzBgNVHSAELDAqMA8GDSsGAQQBga0hgiwBAQQwDQYLKwYBBAGBrSGCLB4wCAYGZ4EM
+AQICMEwGA1UdHwRFMEMwQaA/oD2GO2h0dHA6Ly9wa2kwMzM2LnRlbGVzZWMuZGUvcmwvVGVs
+ZVNlY19HbG9iYWxSb290X0NsYXNzXzIuY3JsMIGGBggrBgEFBQcBAQR6MHgwLAYIKwYBBQUH
+MAGGIGh0dHA6Ly9vY3NwMDMzNi50ZWxlc2VjLmRlL29jc3ByMEgGCCsGAQUFBzAChjxodHRw
+Oi8vcGtpMDMzNi50ZWxlc2VjLmRlL2NydC9UZWxlU2VjX0dsb2JhbFJvb3RfQ2xhc3NfMi5j
+ZXIwDQYJKoZIhvcNAQELBQADggEBAIcL/z4Cm2XIVi3WO5qYi3FP2ropqiH5Ri71sqQPrhE4
+eTizDnS6dl2e6BiClmLbTDPo3flq3zK9LExHYFV/53RrtCyD2HlrtrdNUAtmB7Xts5et6u5/
+MOaZ/SLick0+hFvu+c+Z6n/XUjkurJgARH5pO7917tALOxrN5fcPImxHhPalR6D90Bo0fa3S
+PXez7vTXTf/D6OWST1k+kEcQSrCFWMBvf/iu7QhCnh7U3xQuTY+8npTD5+32GPg8SecmqKc2
+2CzeIs2LgtjZeOJVEqM7h0S2EQvVDFKvaYwPBt/QolOLV5h7z/0HJPT8vcP9SpIClxvyt7bP
+ZYoaorVyGTkwggWsMIIElKADAgECAgcbY7rQHiw9MA0GCSqGSIb3DQEBCwUAMIGVMQswCQYD
+VQQGEwJERTFFMEMGA1UEChM8VmVyZWluIHp1ciBGb2VyZGVydW5nIGVpbmVzIERldXRzY2hl
+biBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLEwdERk4tUEtJMS0wKwYDVQQDEyRE
+Rk4tVmVyZWluIENlcnRpZmljYXRpb24gQXV0aG9yaXR5IDIwHhcNMTYwNTI0MTEzODQwWhcN
+MzEwMjIyMjM1OTU5WjCBjTELMAkGA1UEBhMCREUxRTBDBgNVBAoMPFZlcmVpbiB6dXIgRm9l
+cmRlcnVuZyBlaW5lcyBEZXV0c2NoZW4gRm9yc2NodW5nc25ldHplcyBlLiBWLjEQMA4GA1UE
+CwwHREZOLVBLSTElMCMGA1UEAwwcREZOLVZlcmVpbiBHbG9iYWwgSXNzdWluZyBDQTCCASIw
+DQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ07eRxH3h+Gy8Zp1xCeOdfZojDbchwFfylf
+S2jxrRnWTOFrG7ELf6Gr4HuLi9gtzm6IOhDuV+UefwRRNuu6cG1joL6WLkDh0YNMZj0cZGnl
+m6Stcq5oOVGHecwX064vXWNxSzl660Knl5BpBb+Q/6RAcL0D57+eGIgfn5mITQ5HjUhfZZkQ
+0tkqSe3BuS0dnxLLFdM/fx5ULzquk1enfnjK1UriGuXtQX1TX8izKvWKMKztFwUkP7agCwf9
+TRqaA1KgNpzeJIdl5Of6x5ZzJBTN0OgbaJ4YWa52fvfRCng8h0uwN89Tyjo4EPPLR22MZD08
+WkVKusqAfLjz56dMTM0CAwEAAaOCAgUwggIBMBIGA1UdEwEB/wQIMAYBAf8CAQEwDgYDVR0P
+AQH/BAQDAgEGMCkGA1UdIAQiMCAwDQYLKwYBBAGBrSGCLB4wDwYNKwYBBAGBrSGCLAEBBDAd
+BgNVHQ4EFgQUazqYi/nyU4na4K2yMh4JH+iqO3QwHwYDVR0jBBgwFoAUk+PYMiba1fFKpZFK
+4OpL4qIMz+EwgY8GA1UdHwSBhzCBhDBAoD6gPIY6aHR0cDovL2NkcDEucGNhLmRmbi5kZS9n
+bG9iYWwtcm9vdC1nMi1jYS9wdWIvY3JsL2NhY3JsLmNybDBAoD6gPIY6aHR0cDovL2NkcDIu
+cGNhLmRmbi5kZS9nbG9iYWwtcm9vdC1nMi1jYS9wdWIvY3JsL2NhY3JsLmNybDCB3QYIKwYB
+BQUHAQEEgdAwgc0wMwYIKwYBBQUHMAGGJ2h0dHA6Ly9vY3NwLnBjYS5kZm4uZGUvT0NTUC1T
+ZXJ2ZXIvT0NTUDBKBggrBgEFBQcwAoY+aHR0cDovL2NkcDEucGNhLmRmbi5kZS9nbG9iYWwt
+cm9vdC1nMi1jYS9wdWIvY2FjZXJ0L2NhY2VydC5jcnQwSgYIKwYBBQUHMAKGPmh0dHA6Ly9j
+ZHAyLnBjYS5kZm4uZGUvZ2xvYmFsLXJvb3QtZzItY2EvcHViL2NhY2VydC9jYWNlcnQuY3J0
+MA0GCSqGSIb3DQEBCwUAA4IBAQCBeEWkTqR/DlXwCbFqPnjMaDWpHPOVnj/z+N9rOHeJLI21
+rT7H8pTNoAauusyosa0zCLYkhmI2THhuUPDVbmCNT1IxQ5dGdfBi5G5mUcFCMWdQ5UnnOR7L
+n8qGSN4IFP8VSytmm6A4nwDO/afr0X9XLchMX9wQEZc+lgQCXISoKTlslPwQkgZ7nu7YRrQb
+tQMMONncsKk/cQYLsgMHM8KNSGMlJTx6e1du94oFOO+4oK4v9NsH1VuEGMGpuEvObJAaguS5
+Pfp38dIfMwK/U+d2+dwmJUFvL6Yb+qQTkPp8ftkLYF3sv8pBoGH7EUkp2KgtdRXYShjqFu9V
+NCIaE40GMIIG5zCCBc+gAwIBAgIMJkVuT3v+UKILRFGXMA0GCSqGSIb3DQEBCwUAMIGNMQsw
+CQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVydW5nIGVpbmVzIERldXRz
+Y2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdERk4tUEtJMSUwIwYDVQQD
+DBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5nIENBMB4XDTIyMDMwNzExNDcxNVoXDTI1MDMw
+NjExNDcxNVowgYExCzAJBgNVBAYTAkRFMScwJQYDVQQKDB5Gb3JzY2h1bmdzemVudHJ1bSBK
+dWVsaWNoIEdtYkgxDTALBgNVBAsMBEpDTlMxDzANBgNVBAQMBld1dHRrZTEQMA4GA1UEKgwH
+Sm9hY2hpbTEXMBUGA1UEAwwOSm9hY2hpbSBXdXR0a2UwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQC6fSddJW1c3jmNtNtpBWDTtgpLFOpsSjScamtclgKeYysTyAUygT7GZDEb
+HYRS5LfVpdE4R3KgM2CvfJDUsg4Uk2ftQ+A76f0TlprWz0YIcZJy6cuxGuFccjt1wQ29BIWv
+/owCJR4Ntd38WRd0L2hhW0Fm19XCosWs5xcV28Glgn+omVbpDhYMj9mBW3fDxXbNA/yLrLzE
+L5iUh8BKrCzs0RZGvvbLV/FMUSMDGL21lTKhTXguFXYLhxdveWtV3eRmZQatwPxvid9s3kyD
+hQv310VO9I92/PNLk2U5ErIayB8DU4+GI7Ho4LDuoKn1bVTE4cXF8q2cvNLCjTO/6mJmndRJ
+KkIGvs7u/F+8HfQsyfoccEFtYoR4M95bYy4z7jlWJQfXmGMSp6MXsrN02rNAZur4j5pAO3q2
+jJvuFUVYKhgBBkvQLy2sJ0z/DgbdsruHC3QqUEAUsAz5bmUl2Lxe5PfgMe1K8zf3kxAyQ5eh
+4x8dJZL3AgDXioyAG6Xdx8HQxuHjZroPRCagArP6nl1DF9Fa33SiBj9qGg8jLBhnyIDehVCg
+nl4MH5Jm8wJKKWyxCD6KAi48JCALFDfxuYqbCQcnDqW+RtPeDHt+N5RR8rkusvwp/91cwpem
+jLie9DhjcdigYCJop2lbHbO5PlMzcRlubQ0MftZHMG4qrnYM3wIDAQABo4ICTzCCAkswPgYD
+VR0gBDcwNTAPBg0rBgEEAYGtIYIsAQEEMBAGDisGAQQBga0hgiwBAQQKMBAGDisGAQQBga0h
+giwCAQQKMAkGA1UdEwQCMAAwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMC
+BggrBgEFBQcDBDAdBgNVHQ4EFgQUoosjELpspvkvlz/lB2UWNhDb3sgwHwYDVR0jBBgwFoAU
+azqYi/nyU4na4K2yMh4JH+iqO3QwIQYDVR0RBBowGIEWai53dXR0a2VAZnotanVlbGljaC5k
+ZTCBjQYDVR0fBIGFMIGCMD+gPaA7hjlodHRwOi8vY2RwMS5wY2EuZGZuLmRlL2Rmbi1jYS1n
+bG9iYWwtZzIvcHViL2NybC9jYWNybC5jcmwwP6A9oDuGOWh0dHA6Ly9jZHAyLnBjYS5kZm4u
+ZGUvZGZuLWNhLWdsb2JhbC1nMi9wdWIvY3JsL2NhY3JsLmNybDCB2wYIKwYBBQUHAQEEgc4w
+gcswMwYIKwYBBQUHMAGGJ2h0dHA6Ly9vY3NwLnBjYS5kZm4uZGUvT0NTUC1TZXJ2ZXIvT0NT
+UDBJBggrBgEFBQcwAoY9aHR0cDovL2NkcDEucGNhLmRmbi5kZS9kZm4tY2EtZ2xvYmFsLWcy
+L3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDBJBggrBgEFBQcwAoY9aHR0cDovL2NkcDIucGNhLmRm
+bi5kZS9kZm4tY2EtZ2xvYmFsLWcyL3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDANBgkqhkiG9w0B
+AQsFAAOCAQEAHej5zUFmdEJ2rIxmaux8+Mpt2z6UXH9cUBUhuL9Cf1EoILoKo6Ok8F8OYXRW
+p/LhwhnXI+fzboN/Sdhh6z4ckJ51lZctUiHcYio9XOJiAOvpgF5xkLfBfAsbaKQ0gWWH2AE0
+dDnlGEcWJ8/ZU6/II91IAJugQ/fMIO6tyltvpOsSAc3ORYbungrfy86XpAP3UzHRFCFeD7qa
+tW5XGJlTiU0LrdZT6ADSeFYLLx+bMdGuQG58ythjA6CbANogFJ5m2UNw//h9rbGL5N9Yp5rw
+T26SiBJaZ7ebIXBg5YUicn7uyei4OFIC6luTL31Jh4ktHx89TRONV/QXkAibpyY0ZjGCBSsw
+ggUnAgEBMIGeMIGNMQswCQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVy
+dW5nIGVpbmVzIERldXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdE
+Rk4tUEtJMSUwIwYDVQQDDBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5nIENBAgwmRW5Pe/5Q
+ogtEUZcwDQYJYIZIAWUDBAIDBQCgggJdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJ
+KoZIhvcNAQkFMQ8XDTI0MDQxNjE0MDA1MlowTwYJKoZIhvcNAQkEMUIEQBeLhJP/TkvX9V4h
+DmUjCieY1Xe4L9Etuath/Uk+q6l74jVSdqYQwkVLJBtcFo/yV84JloOc/ptCam/W9HClYxsw
+bAYJKoZIhvcNAQkPMV8wXTALBglghkgBZQMEASowCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMH
+MA4GCCqGSIb3DQMCAgIAgDANBggqhkiG9w0DAgIBQDAHBgUrDgMCBzANBggqhkiG9w0DAgIB
+KDCBrwYJKwYBBAGCNxAEMYGhMIGeMIGNMQswCQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWlu
+IHp1ciBGb2VyZGVydW5nIGVpbmVzIERldXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYu
+MRAwDgYDVQQLDAdERk4tUEtJMSUwIwYDVQQDDBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5n
+IENBAgwmRW5Pe/5QogtEUZcwgbEGCyqGSIb3DQEJEAILMYGhoIGeMIGNMQswCQYDVQQGEwJE
+RTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVydW5nIGVpbmVzIERldXRzY2hlbiBGb3Jz
+Y2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdERk4tUEtJMSUwIwYDVQQDDBxERk4tVmVy
+ZWluIEdsb2JhbCBJc3N1aW5nIENBAgwmRW5Pe/5QogtEUZcwDQYJKoZIhvcNAQEBBQAEggIA
+YYx5X7KxBgHkCu9p0keXgus1wPFiF4wPTnq5Ggm/2B1itjyhui+1jC/fkEyx5QAMp4m7RIfL
+7cxn3TPJTDZ9mfd7A/0MNmhmrrBnIdQQntC38p1+txo8xtkZIRzXWJa7ZCNrxaDa2TALW8NN
+5LuxhrsZTHtVjLQB57pFaItBCsT4m9C9J7+iERuAhbO1uGJM6cqS0D0aS0ESuOps34b7KFkO
+cGrwbXl/SlhYeDCc41ntdnGEdYGqkhB2eFRxPGoUUHmoJTMofqM4oh6T9DwDhSXhra0zl60M
+i/RS39LwdPQnbuSEA4eLlZNYD/6fJTPWNq9I0tK20GKrcy5hcLwI0ot5HpQzfDaL10977n1c
+QoN0dh1DQCI90K7WwSGbyoMZTQwB+q46Z4Bbeh9dbev+0cHmhWSRyi6SzDMvr8shu/rTA4C/
+8Freu5X1zRGp7ZBUWgBiz1BdXC4HXY1c9lTPDJfbisKFRPmZoHG+akC/m4C6PJvY3a3UugN2
+5yPkjgnUSWF6ZrHKSBseQTMh4tNF5bMslf6ShDdzPkhzUfVOWKoUqu1Rg42mGCdbXIch5FR1
+G7OSwlvism4AjKbLWRILTc7x0J7S9iW9StbzMMOmLgI5YX/gB4GjelXWAT1WTV5u8mO5wg5A
+FdciIO0QFLbBXHz4U4f83LR/K5gZ+81/MVMAAAAAAAA=
+--------------ms040902080403020006070108--
