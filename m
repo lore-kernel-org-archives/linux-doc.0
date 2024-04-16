@@ -1,88 +1,85 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mx0a-00206402.pphosted.com (mx0a-00206402.pphosted.com [148.163.148.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82215134CD0;
-	Tue, 16 Apr 2024 18:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB6F2D60A;
+	Tue, 16 Apr 2024 18:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713291539; cv=none; b=UJDYqA+IzvtgyBlPPl88CecDRr8D0KPCT9dr7d4KATtguZzNhHfwrJUb5bBEpt7DHuIp3bj9mCguRlT4x09Lh+291joy3s801YFo3tfnaK+Xwt8wIPmgnJkps+lXfMbJUL7NAxaxh7MD04uTQExFqyxyUZ4UN/5dlXiHfg8GXog=
+	t=1713292810; cv=none; b=LtFNpdxDGx/E7fs5hfFB56gG1Jy6RJk0qM/imeIKT3BaLqQkNEkwVdnlC54zYTU5KkWkxc58Cqx50NSns9xcRnhnIKxy8/pczxpEo0JWH4JwvlzevClQqPsNNwoeoDdtVJp0XmIHkFpoI876QtwNLmoykxvBk4WGRS6O2T7JYRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713291539; c=relaxed/simple;
-	bh=b8lvL9NZew815z7UQj8VRuFSqjRmCSD7OcL9Id2dkB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CTpQnzdebsh/hzsAeO6K65fjJd4v85sdjT8UcZEM0IbkStsQ63QjYR57rDb4lC3+s0VUTgBNvTwQkRaD4rLE8W7mfUrPDFSnZjVAoXIcbVRCVfQHfE22gstb4cQJQMfGR8mnvebRDobxaJjNytfbDDSQIXzPi7unoh9KyfE3VnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=UoK8ibTI; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1713292810; c=relaxed/simple;
+	bh=s8oqw/n7tWvAIfHbgC5Y8kcQzZvxalGMqNe9yNc3GQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=syyeLsSwmeT95TfRwhPimh778wozKhuPEm7MeHJQuVNkffevwKVM6yqib9O/KQYt5VKdHjLymC3cCnuxqqbhguAvZfTOLhmnqClG6VrdquaFZtvnEwtk6IMBHfXiAoKXnSA4uGDtV3qcQI4zvjMdE9bKWFGt93L47sT4c/QJicc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=HVr4rvQ/; arc=none smtp.client-ip=148.163.148.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="UoK8ibTI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=IJtSvi5devvC9L1eX50DCm36YklubqRumK1P8fx4YOA=; b=UoK8ibTI6a9OA/iKMvvm+u23B8
-	jhD/eq0oeaNxg/BaMPkbw8KSC/bQvnRS53bnIemDyRG4Z6X/fy4sAAB7dLvo3Ccnk/iAojxu1N75a
-	rgp85eFzsGj92uzTSC5txCEaAZeOf2fUHn0eartoPoyFqFJ9dk6ewWUi1FTRpBQXXZbs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rwnOB-00DARl-KL; Tue, 16 Apr 2024 20:18:39 +0200
-Date: Tue, 16 Apr 2024 20:18:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
- internal PHY initialization
-Message-ID: <af6d3a74-7e7b-4953-bba7-f9ceb26df2d3@lunn.ch>
-References: <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
- <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
- <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
- <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
- <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
- <8de7a4bb-a127-4771-97dd-038f08fcce9d@lunn.ch>
- <372a45c3-1372-4956-8d42-8e989f86d131@microchip.com>
- <ee5dcd07-7c44-4317-9d62-0fc68565988a@microchip.com>
- <3fc3b5c3-0750-4aff-ab26-240f4bc55236@lunn.ch>
- <5100ab9d-1b70-46fb-b3ba-d4bcff6d6870@microchip.com>
+	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="HVr4rvQ/"
+Received: from pps.filterd (m0354650.ppops.net [127.0.0.1])
+	by mx0a-00206402.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43GIYKGm018603;
+	Tue, 16 Apr 2024 18:39:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
+	 h=message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	 bh=s8oqw/n7tWvAIfHbgC5Y8kcQzZvxalGMqNe9yNc3GQA=; b=HVr4rvQ/Q3H7
+	tNxcc0E0j3S/Hsu/ybiQt1JVCxJUQmQ0J2U2chyAnw4Q6sXl9W8hAP8oAhZ/eoiP
+	1hqzMBkw8B+jDp7EAUK6uRmtofDwFK8oAC8dTE9U8A/sGAJkG5uj0CczWJ1Thul6
+	C9sJCbsHqUd+Prth7FzOJ0fakCUHkJxR5cBtQOexk0r0AOrG7xtxwbeQcjST6SRw
+	GDFR/rctPx3MegoXDLl9W7NBWLgt0OibEG8a5b94sBUIbla9OS8ra3s3qNW8pBnW
+	CEDug02/pZvDP0xPc0xtxqoKhmc3z8dJsai26bpZNldrZnz3/n79KoGg+AiRR+2e
+	GXS8hjo5+Q==
+Received: from 04wpexch06.crowdstrike.sys (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
+	by mx0a-00206402.pphosted.com (PPS) with ESMTPS id 3xhxqp80fn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Apr 2024 18:39:53 +0000 (GMT)
+Received: from [10.82.58.126] (10.100.11.122) by 04wpexch06.crowdstrike.sys
+ (10.100.11.99) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 16 Apr
+ 2024 18:39:51 +0000
+Message-ID: <39ab4c5a-7074-42ad-9eea-773d4bb76bce@crowdstrike.com>
+Date: Tue, 16 Apr 2024 11:39:51 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5100ab9d-1b70-46fb-b3ba-d4bcff6d6870@microchip.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [PATCH bpf-next] bpf: clarify libbpf skeleton header
+ licensing
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+CC: bpf <bpf@vger.kernel.org>,
+        "open list:DOCUMENTATION"
+	<linux-doc@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel
+ Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+References: <20240415230612.658798-1-martin.kelly@crowdstrike.com>
+ <CAADnVQKfo-s4vXopJJ50Q4KP-mPKCbOc_8Pwz9u=uUn2=NU1ww@mail.gmail.com>
+Content-Language: en-US
+From: Martin Kelly <martin.kelly@crowdstrike.com>
+In-Reply-To: <CAADnVQKfo-s4vXopJJ50Q4KP-mPKCbOc_8Pwz9u=uUn2=NU1ww@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: base64
+X-ClientProxiedBy: 04wpexch16.crowdstrike.sys (10.100.11.106) To
+ 04wpexch06.crowdstrike.sys (10.100.11.99)
+X-Disclaimer: USA
+X-Proofpoint-GUID: Ihn54yYzjdyJukZA8YG74zn1wAOOI7Mu
+X-Proofpoint-ORIG-GUID: Ihn54yYzjdyJukZA8YG74zn1wAOOI7Mu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_16,2024-04-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 mlxlogscore=665 mlxscore=0
+ phishscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404160117
 
-> I tried this approach and it works as expected. Means whenever there is 
-> a c45 register access, it directly uses the 
-> oa_tc6_read_c45()/oa_tc6_write_c45() functions. Herewith I have attached 
-> the patch 
-> (v4-0006-net-ethernet-oa_tc6-implement-internal-PHY-initia.patch) which 
-> has this new implementation for your reference. Is this you expected? 
-> Can you comment on this?
-
-Please just post a new patch series. I will then review it just like
-other patches. Its O.K. to send patch series frequently, not just more
-than one per day.
-
-> I tried this approach by setting up is_c45 flag when I use 
-> phy_read_mmd() function but ended up with the kernel call trace 
-> (c45_kernel_call_trace.png) attached here for your reference.
-
-Please post plain ASCII. I assume you have a serial port, so you
-should be able to capture it. I'm not too surprised though, no other
-driver plays with is_c45.
-
-       Andrew
+T24gNC8xNS8yNCAxNjoxNiwgQWxleGVpIFN0YXJvdm9pdG92IHdyb3RlOg0KPiBUaGUgZG9j
+IGlzIGNsZWFyIGVub3VnaC4gVGhpcyBpcyB1bm5lY2Vzc2FyeS4NCj4gT3RoZXJ3aXNlIHdl
+J2xsIHN0YXJ0IGxpc3RpbmcgZXZlcnkgcHJvamVjdCB0aGF0IGJ1bmRsZXMgYnBmIHByb2cN
+Cj4gaW4gc29tZSBmb3JtLg0KDQpJIGZpZ3VyZWQgdGhhdCB3aXRoIGxpY2Vuc2luZywgYmVp
+bmcgZXhwbGljaXQgbmV2ZXIgaHVydHMsIGJ1dCBJIHRha2UgDQp5b3VyIHBvaW50IGFuZCBh
+bSBoYXBweSB0byBkcm9wIHRoZSBwYXRjaC4NCg0K
