@@ -1,213 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8708212CDB0;
-	Tue, 16 Apr 2024 14:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC356130A4A;
+	Tue, 16 Apr 2024 14:20:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713276590; cv=none; b=LqR8rDbPvSz+cwpESqE5TvjM3loovE647sZ/Uo4AIMcYbMEh1kxuwHjmlTkhW2sAeCHL13qighzLMlaRtd3TjwPUEHz6RSGRUAa9KMPap93pXLTKoU/aKSvKZlsn1vqNcdbktjgpphKmvVzMHhnzU/uCezBhgO4tgTjjXnrTfUk=
+	t=1713277219; cv=none; b=Fj/iYIIbsIJXvjzAhSs3nIGzo2j0XChDt5Y7ihv6d88WefwA7e/ffdnl++omZVJg3MLrwfppuGQ5HUtIsgSQwW0WL9DEAlB7U09IZXAiVuhbtc7D3yqYfpc6Yx7Zrljiiu1k6pZe6xCkNVbSYRRbBI7O9b4XQxD2XcEcW9rWTfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713276590; c=relaxed/simple;
-	bh=ojzOa7PwYri2Lph1vpvafrvjeVQgZz7o4ByRzv53LDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rpr4+qoUTo6zDsOspjjnd9dtqEoHPzsdcrWVk0T9lSBPsnEER2eZ4pi4vXHuubL0bO0GLcD0FLVC0A7wzZbmtoto57xXj2MFKazjBWwzkN95Bdh2Qx9P99DEoKQpCLiynX/V8TrvOdXicfLK/Nzow9bdzLW3ljF6hTpVC7bp+LI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6Lqod8w; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713277219; c=relaxed/simple;
+	bh=fnjq1zyVvQYgrXF/wl6IPhboOrjktoNVcF7GsyNF6J0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rdh13cX4K7HqtxJDDAiR1zm/MGUJ0BiVhUx/dRNCb0GinBGEh+GWgM0ZWo+A1frFZMYZEnzKlwM+XXdSmSEIxcuEY7onI8ObQXd3/t/r6aa3oISpUtDzKJ1d61fV00mZbskbW2ZOKfixNLbM86sGCg1rRes2Ezlc1yp7BZ5OBgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=thnaB9WR; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=VxIn4lUJ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6Lqod8w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713276587; x=1744812587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ojzOa7PwYri2Lph1vpvafrvjeVQgZz7o4ByRzv53LDQ=;
-  b=S6Lqod8wk/H0CdQyh5LdJ/89c09gBwZFkYkUtUhrNWP1y4gafNVlIRax
-   sI7F/w+Wx/duU5TlsaMd1Q2fbdNH8hjs7Sy5Y44igHPw448wS7TC4wslS
-   y1o8xcHGb66aDt9F/aaTG79g/2ywigC7RUPlI+ea0VpstJDXe24UI/FyT
-   DM+xpsHBmBKHKfda4JIPiTwiuZ1kNvHBMkpMUPxRGRDcgRhX/e8uThAC+
-   kfjFO9V3z9PRKlAXYf9TTHjBWeAo4JGoJQLvcpEd3ujMDnnL2CZIDQ57x
-   x2tnEGhxCj6/bduqiTb1mHu46FsO/Wjmh0l90FdQ/W1OjNPNoA9nuhicb
-   A==;
-X-CSE-ConnectionGUID: mmiiOGdAT52uFsgUB+cEZw==
-X-CSE-MsgGUID: 6qGLKMSsTg6b81xfCg8baw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="9268392"
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="9268392"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 07:09:46 -0700
-X-CSE-ConnectionGUID: eAfTqTRwTKu5nLh4//PJXQ==
-X-CSE-MsgGUID: i+B0PUP9T5awrB+Yrhqn2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
-   d="scan'208";a="22333147"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by fmviesa008.fm.intel.com with SMTP; 16 Apr 2024 07:09:41 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 16 Apr 2024 17:09:40 +0300
-Date: Tue, 16 Apr 2024 17:09:40 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v11 19/28] drm/connector: hdmi: Add RGB Quantization
- Range to the connector state
-Message-ID: <Zh6GpHL7k_mmsad_@intel.com>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-19-c5680ffcf261@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="thnaB9WR";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="VxIn4lUJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DD3F95F88B;
+	Tue, 16 Apr 2024 14:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1713277216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nm9OmMNv+yRwBNQE7fNDtbSWePhkSHjqXbgzKdCZ+YE=;
+	b=thnaB9WR0St7tGY09yQ+nPsqkuehI0QaZgj1S88dnqFAnY8adn5NtDz6dYVS4csShddw4e
+	auRQek7jlqpUxKY6oWpecJn7xqzYPYCRiXEgVKPKBCyOoQF4UZojM8+lhne1xQqUgeXrIN
+	hKBBoOzYOWWHnhkblat4cwn8LT/MRt0=
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1713277215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nm9OmMNv+yRwBNQE7fNDtbSWePhkSHjqXbgzKdCZ+YE=;
+	b=VxIn4lUJa+KYM9eJosRsp5HmLK+riJ4QcV7BJd20Iqks4xoaHqJUuwOuigUFk5Sq1Q++7q
+	+F6ga5S/ogp+S6/bClh+qGtI21RTAox7WIt8g9wvnELHmNhAGIg8eMHQyn4LEqDbMH7sLo
+	t+L44TGsqSu90O/Weysd/u30WCQY4VQ=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1BD513931;
+	Tue, 16 Apr 2024 14:20:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fG4aLx+JHmbAbQAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Tue, 16 Apr 2024 14:20:15 +0000
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Subject: [PATCH v4 0/6] pids controller events rework
+Date: Tue, 16 Apr 2024 16:20:08 +0200
+Message-ID: <20240416142014.27630-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240326-kms-hdmi-connector-state-v11-19-c5680ffcf261@kernel.org>
-X-Patchwork-Hint: comment
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.08 / 50.00];
+	BAYES_HAM(-1.78)[93.67%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Score: -2.08
+X-Spam-Flag: NO
 
-On Tue, Mar 26, 2024 at 04:40:23PM +0100, Maxime Ripard wrote:
-> HDMI controller drivers will need to figure out the RGB range they need
-> to configure based on a mode and property values. Let's expose that in
-> the HDMI connector state so drivers can just use that value.
-> 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 29 +++++++++++++++++++++++++
->  drivers/gpu/drm/drm_atomic.c                    |  1 +
->  include/drm/drm_connector.h                     |  6 +++++
->  3 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index c844cbeb675b..e693fe51abf5 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -49,10 +49,37 @@ connector_state_get_mode(const struct drm_connector_state *conn_state)
->  		return NULL;
->  
->  	return &crtc_state->mode;
->  }
->  
-> +static bool hdmi_is_full_range(const struct drm_connector *connector,
-> +			       const struct drm_connector_state *conn_state)
-> +{
-> +	const struct drm_display_info *display = &connector->display_info;
+This makes pids.events:max affine to pids.max limit.
 
-We call this 'info' everywhere else.
+How are the new events supposed to be useful?
 
-> +	const struct drm_display_mode *mode =
-> +		connector_state_get_mode(conn_state);
-> +
-> +	/*
-> +	 * The Broadcast RGB property only applies to RGB format, and
-> +	 * i915 just assumes limited range for YCbCr output, so let's
-> +	 * just do the same.
-> +	 */
-> +	if (conn_state->hdmi.output_format != HDMI_COLORSPACE_RGB)
-> +		return false;
-> +
-> +	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_FULL)
-> +		return true;
-> +
-> +	if (conn_state->hdmi.broadcast_rgb == DRM_HDMI_BROADCAST_RGB_LIMITED)
-> +		return false;
-> +
-> +	if (!display->is_hdmi)
-> +		return true;
-> +
-> +	return drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL ? true : false;
+- pids.events.local:max
+  - tells that cgroup's limit is hit (too tight?)
+- pids.events:*
+  - "only" directs top-down search to cgroups of interest
 
-Pointless ?:
+Changes from v3 (https://lore.kernel.org/r/20240405170548.15234-1-mkoutny@suse.com)
+- use existing functions for TAP output in selftest (Muhammad)
+- formatting in selftest (Muhammad)
+- remove pids.events:max.imposed event, keep it internal (Johannes)
+- allow legacy behavior with a mount option
+- detach migration charging patches
+- drop RFC prefix
 
-I'd probably use a switch statement to make
-the whole thing a bit more clear.
+Changes from v2 (https://lore.kernel.org/r/20200205134426.10570-1-mkoutny@suse.com)
+- implemented pids.events.local (Tejun)
+- added migration charging
 
-I was pondering if we could also use this from i915. But
-we'd have to turn the 'is_hdmi' part into a function
-argument since we derive that from the current crtc state
-rather than from the display info.
+[1] https://lore.kernel.org/r/20230202155626.1829121-1-hannes@cmpxchg.org/
 
-> +}
-> +
->  static bool
->  sink_supports_format_bpc(const struct drm_connector *connector,
->  			 const struct drm_display_info *info,
->  			 const struct drm_display_mode *mode,
->  			 unsigned int format, unsigned int bpc)
-> @@ -307,10 +334,12 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
->  		drm_atomic_get_new_connector_state(state, connector);
->  	const struct drm_display_mode *mode =
->  		connector_state_get_mode(new_conn_state);
->  	int ret;
->  
-> +	new_conn_state->hdmi.is_full_range = hdmi_is_full_range(connector, new_conn_state);
-> +
->  	ret = hdmi_compute_config(connector, new_conn_state, mode);
->  	if (ret)
->  		return ret;
->  
->  	if (old_conn_state->hdmi.broadcast_rgb != new_conn_state->hdmi.broadcast_rgb ||
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 3e57d98d8418..ec6c6beda5c9 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -1145,10 +1145,11 @@ static void drm_atomic_connector_print_state(struct drm_printer *p,
->  
->  	if (connector->connector_type == DRM_MODE_CONNECTOR_HDMIA ||
->  	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB) {
->  		drm_printf(p, "\tbroadcast_rgb=%s\n",
->  			   drm_hdmi_connector_get_broadcast_rgb_name(state->hdmi.broadcast_rgb));
-> +		drm_printf(p, "\tis_full_range=%c\n", state->hdmi.is_full_range ? 'y' : 'n');
->  		drm_printf(p, "\toutput_bpc=%u\n", state->hdmi.output_bpc);
->  		drm_printf(p, "\toutput_format=%s\n",
->  			   drm_hdmi_connector_get_output_format_name(state->hdmi.output_format));
->  		drm_printf(p, "\ttmds_char_rate=%llu\n", state->hdmi.tmds_char_rate);
->  	}
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index a40eaf3a8ce4..f5e960e89de3 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1068,10 +1068,16 @@ struct drm_connector_state {
->  		 * @broadcast_rgb: Connector property to pass the
->  		 * Broadcast RGB selection value.
->  		 */
->  		enum drm_hdmi_broadcast_rgb broadcast_rgb;
->  
-> +		/**
-> +		 * @is_full_range: Is the output supposed to use a full
-> +		 * RGB Quantization Range or not?
-> +		 */
-> +		bool is_full_range;
+Michal KoutnÃ½ (6):
+  cgroup/pids: Remove superfluous zeroing
+  cgroup/pids: Separate semantics of pids.events related to pids.max
+  cgroup/pids: Make event counters hierarchical
+  cgroup/pids: Add pids.events.local
+  selftests: cgroup: Lexicographic order in Makefile
+  selftests: cgroup: Add basic tests for pids controller
 
-I would say limited range is the exception so I would suggest
-flagging that instead. Feels a bit weird to flag the normal
-case. Maybe the name should also include 'rgb' to make it clear
-it only applies to RGB.
+ Documentation/admin-guide/cgroup-v1/pids.rst |   3 +-
+ Documentation/admin-guide/cgroup-v2.rst      |  12 ++
+ include/linux/cgroup-defs.h                  |   7 +-
+ kernel/cgroup/cgroup.c                       |  15 +-
+ kernel/cgroup/pids.c                         | 131 +++++++++++---
+ tools/testing/selftests/cgroup/.gitignore    |  11 +-
+ tools/testing/selftests/cgroup/Makefile      |  25 +--
+ tools/testing/selftests/cgroup/test_pids.c   | 178 +++++++++++++++++++
+ 8 files changed, 341 insertions(+), 41 deletions(-)
+ create mode 100644 tools/testing/selftests/cgroup/test_pids.c
 
-> +
->  		/**
->  		 * @output_bpc: Bits per color channel to output.
->  		 */
->  		unsigned int output_bpc;
->  
-> 
-> -- 
-> 2.44.0
 
+base-commit: 026e680b0a08a62b1d948e5a8ca78700bfac0e6e
 -- 
-Ville Syrjälä
-Intel
+2.44.0
+
