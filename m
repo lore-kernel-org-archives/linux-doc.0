@@ -1,96 +1,144 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C76F513;
-	Tue, 16 Apr 2024 05:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B7F33998;
+	Tue, 16 Apr 2024 06:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713247037; cv=none; b=V+gWQBiTcKX9F95QE6UWL5INULpPfDkI6hRU90SQZAmFD9H1Bo7amP7yz6XNc/mMjWle5xglHxu8xHFta68pA60XEeTVxhShBb+VjtyXVqKq/e1jGwKVfvg86iv7PxgD2dtjysuq0O66XrQ9MePDAc+RmINpUiHYedFY6ZjJYqI=
+	t=1713248021; cv=none; b=EVLkE8NIpK414Y/UEpiYV8iHSL4lVoLBlScSBB8wm/+8MY0KE0DK6CUMfg1bVbp8X6z6vxGpZ7gQxLaWmObLF7QyHi9/fg20jJkBEAGigDaoXviM2KISP4xvlrSWazfYOqqXnkPhEk1XMXyT7skIb/y+p7HMSclMINqzZ8t4yXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713247037; c=relaxed/simple;
-	bh=BSiD45iHezRW5bA1OBXq4yRQdrMCdX7Kl7um3fjh6H8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qS/s+DhogQ0tNxDmmMuqV0yO+/3dKeYvwm2JLtXE+M9fW/hEFQCerDQ3ZTg8LibI0pM9rr0RlDQyHOcYC+rlT2wObQE1OdWtvGjl9I48Y2gwJQQUIbF6+WJYgBkfFpSQDfxVjnZ1B00+GqP2ISLIxzbNYqlP79QA1TLt8mplTJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=R6lMXlNH; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713248021; c=relaxed/simple;
+	bh=bJKfCh4TOpH4ZqKQgc6vvRE6Ro7oRSWDp+zAGLT1a74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wf2Z26xt7kgGh6NTzoVDGlS9uH44BefoGbjYDNvdw2uRzZHzBXpZ1zeylLI31v3nc46UYCYONGGVJNmw+XAr8Y05hBFvZ8Ai2V/issew6yP5Xw7WZRaRBcX2B8jNEK+EYJn1opem7wR5fH9d/2yNGjHmFCHPjByQnPN5omYzNJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdsM2K5q; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="R6lMXlNH"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 25711240002;
-	Tue, 16 Apr 2024 05:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713247034;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6kUCOTU/KHoNeSRP9VYf4bLvh0d1EyGbb//Y+6ttp4=;
-	b=R6lMXlNHkx3gtA+mxyCTBUY7GsR81/Gr9OrY6Zk+YhszsFvXJ5qQP1FtxcnBY1ZtaWCzLU
-	fchP7KAvj1Okp1UnqAFmcXvXXFZrSOyHCLVF/vnjUt1BsQjBy6VnVSxTDZYIvqc6SRQncD
-	EBnveo4jzDuio7ldjDbs4aA8QOksxxxvQtZALjQrmhJls8MUKaQ0ux1See/Vnv63CLY2MV
-	H2U3ayIqb9IAxIZsFHLLs6C5H7ZtUP54Kq6XW5QVGwRKkQeJY+uJuuP2yxE77In8Ngq9QI
-	PJjnLD9gLQtbcXarPuIjb5tTVLG/C9GRIH45X44UTzwzoPE0Gfbq36w2h0BXMA==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 16 Apr 2024 07:56:18 +0200
-Subject: [PATCH 12/12] ASoC: doc: dapm: update event types
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdsM2K5q"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e2b137d666so33056155ad.2;
+        Mon, 15 Apr 2024 23:13:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713248020; x=1713852820; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CZ6ecSrVtYcanZSvOFQ1ox/50yBmtYgCGB61sRcLhXo=;
+        b=fdsM2K5q1d5NqmKfVSr5Zu++NnUS7igDswII5gacwpVP/19zrFeC8+/uC3ja++3smF
+         W8awc2ZgzFtzFDLI6hoLBmi2+mlJPKIzSaqGcKNnMkeFDJPnUgCRJu/vVAjJV4MLJ4X8
+         KA0ivhikQzyRbLgyY6vzWH47HLzHstNKWsM9bS8oVXjj7AdS32O1IQjnHZneywrLYPmP
+         AmCcVYw5FfxxZ0dQLQAKxQKlfEIdJOTeIQ+e0MNDg2AMQi5zFdbt+QBwQdXLOB7cK4oO
+         IV8DERD4+aZNRusi0VllyePy6A3em+tMnafq9XvV8IbNF5L4yrnZxE8+ua8Y58wsu6o6
+         xFrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713248020; x=1713852820;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CZ6ecSrVtYcanZSvOFQ1ox/50yBmtYgCGB61sRcLhXo=;
+        b=gmwfgjQq8ZM4x6F/g5cBPbGafoTZrt7Cum4LGgNdI3l/7ziG9RmY//VNTEA5d6I0Ip
+         W2HAWoZl9y65neEuMd32SGYQWJVx5UnF9b7R8ir9VaTp3KCpVsRDMBYyc3vhyU0N7sAu
+         3F92Ip7nU2/L/O3xis1ur4kdobl0k5ygO00bvBVBPrJ6Y7xQN4vamKrUHqKGcullYU+h
+         igm17SkDDQo2pxq3BovsdQ4+/3TUlBsCpPES60dAW7fWKvTUz3wmBgO5jb6+bsFYnf8K
+         2HtcRYIVMQAdm+M2nQbSrbL/u4eU+WXo84UymSmJPhSvjCSNro3EjA+7DerXXHHMNSm/
+         YTuw==
+X-Forwarded-Encrypted: i=1; AJvYcCXux9UtvriFOgaFRp0wvOQqDWOEC18TEmhtsVZJjAUAUMIvoc/+lsY/bxCrPbd9FJAPe4pGGcPILQmMZgzOzxzCweJv+3E3afCSuHEsjtduafLsUlM5QNSmd+f4BD3zvhnzTnhjZjD/
+X-Gm-Message-State: AOJu0YxxT6aEhRIdkhWCxqTJla5Vvf3TPs6si8mjbUbSJEcFmPdljSgJ
+	dHn3DFfgruLURQFtXTzHMKTNX65ix9G71Wv2fI0k35/KpaGDMOq1
+X-Google-Smtp-Source: AGHT+IHo1g0xIh9Zq4tQT6ZgqBpNNX8qlCCYceyGks9TWejitkCg/+/KVWFWO9PgevyWpGP9p2ZULg==
+X-Received: by 2002:a17:903:24e:b0:1e2:7aba:6d0f with SMTP id j14-20020a170903024e00b001e27aba6d0fmr15871189plh.36.1713248019757;
+        Mon, 15 Apr 2024 23:13:39 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id n9-20020a170902d2c900b001e1071cf0bbsm8940249plc.302.2024.04.15.23.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 23:13:39 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id A125A180F6DB9; Tue, 16 Apr 2024 13:13:36 +0700 (WIB)
+Date: Tue, 16 Apr 2024 13:13:35 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexander Duyck <alexander.duyck@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 14/15] mm: page_frag: update documentation
+ for page_frag
+Message-ID: <Zh4XD6jP4dLoZN4Q@archie.me>
+References: <20240415131941.51153-1-linyunsheng@huawei.com>
+ <20240415131941.51153-15-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240416-dapm-docs-v1-12-a818d2819bf6@bootlin.com>
-References: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
-In-Reply-To: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0I6/Ma35WnVqMhhN"
+Content-Disposition: inline
+In-Reply-To: <20240415131941.51153-15-linyunsheng@huawei.com>
 
-Some new event types now exist, so update the code fragment.
 
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- Documentation/sound/soc/dapm.rst | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+--0I6/Ma35WnVqMhhN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index 75a85c9e33ff..f76fc97dd162 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -405,13 +405,16 @@ See soc-dapm.h for all other widgets that support events.
- Event types
- -----------
- 
--The following event types are supported by event widgets.
--::
-+The following event types are supported by event widgets::
- 
-   /* dapm event types */
--  #define SND_SOC_DAPM_PRE_PMU	0x1 	/* before widget power up */
--  #define SND_SOC_DAPM_POST_PMU	0x2		/* after widget power up */
--  #define SND_SOC_DAPM_PRE_PMD	0x4 	/* before widget power down */
--  #define SND_SOC_DAPM_POST_PMD	0x8		/* after widget power down */
--  #define SND_SOC_DAPM_PRE_REG	0x10	/* before audio path setup */
--  #define SND_SOC_DAPM_POST_REG	0x20	/* after audio path setup */
-+  #define SND_SOC_DAPM_PRE_PMU		0x1	/* before widget power up */
-+  #define SND_SOC_DAPM_POST_PMU		0x2	/* after  widget power up */
-+  #define SND_SOC_DAPM_PRE_PMD		0x4	/* before widget power down */
-+  #define SND_SOC_DAPM_POST_PMD		0x8	/* after  widget power down */
-+  #define SND_SOC_DAPM_PRE_REG		0x10	/* before audio path setup */
-+  #define SND_SOC_DAPM_POST_REG		0x20	/* after  audio path setup */
-+  #define SND_SOC_DAPM_WILL_PMU		0x40	/* called at start of sequence */
-+  #define SND_SOC_DAPM_WILL_PMD		0x80	/* called at start of sequence */
-+  #define SND_SOC_DAPM_PRE_POST_PMD	(SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMD)
-+  #define SND_SOC_DAPM_PRE_POST_PMU	(SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU)
+On Mon, Apr 15, 2024 at 09:19:39PM +0800, Yunsheng Lin wrote:
+> +API interface
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +As the design and implementation of page_frag API, the allocation side d=
+oes not
+                                        "... implies, the allocation side .=
+=2E."
+> +allow concurrent calling, it is assumed that the caller must ensure ther=
+e is not
+                      "... . Instead, it is assumed that ...:
+> +concurrent alloc calling to the same page_frag_cache instance by using i=
+t's own
+                                                            "... by using i=
+ts own ..."
+> +lock or rely on some lockless guarantee like NAPI softirq.
+> +
+> +Depending on different use cases, callers expecting to deal with va, pag=
+e or
+> +both va and page for them may call page_frag_alloc_va*, page_frag_alloc_=
+pg*,
+> +or page_frag_alloc* API accordingly.
+> +
+> +There is also a use case that need minimum memory in order for forward
+> +progressing, but can do better if there is more memory available. Introd=
+uce
+Did you mean "... but more performant if more memory is available"?
+> +page_frag_alloc_prepare() and page_frag_alloc_commit() related API, the =
+caller
+s/Introduce/Using/
+> +requests the minimum memory it need and the prepare API will return the =
+maximum
+> +size of the fragment returned, caller need to report back to the page_fr=
+ag core
+                                  "The caller needs to either call the comm=
+it API ..."
+> +how much memory it actually use by calling commit API, or not calling th=
+e commit
+"... to report how much memory it actually uses ..."
+> +API if deciding to not use any memory.
+"... or not do so if deciding to not use any memory."
 
--- 
-2.34.1
+Thanks.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--0I6/Ma35WnVqMhhN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh4XCwAKCRD2uYlJVVFO
+o85iAP0UEZ96bTaKdZC0FmSard5z0dMjRBPD69wzKG6rmE9CagD+LpsBRsgW1frt
+81TmfyhS9gzn/HY0KhWP63uiPguKkQY=
+=zrUk
+-----END PGP SIGNATURE-----
+
+--0I6/Ma35WnVqMhhN--
