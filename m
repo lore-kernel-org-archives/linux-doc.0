@@ -1,144 +1,101 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81B7F33998;
-	Tue, 16 Apr 2024 06:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD961118E;
+	Tue, 16 Apr 2024 06:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713248021; cv=none; b=EVLkE8NIpK414Y/UEpiYV8iHSL4lVoLBlScSBB8wm/+8MY0KE0DK6CUMfg1bVbp8X6z6vxGpZ7gQxLaWmObLF7QyHi9/fg20jJkBEAGigDaoXviM2KISP4xvlrSWazfYOqqXnkPhEk1XMXyT7skIb/y+p7HMSclMINqzZ8t4yXU=
+	t=1713250624; cv=none; b=sIwHK2KwZy80i9/2Et2UzHCFcCb1rzCFa68CRCHc0sPlkL8IknhA5c6rx+hh1clhqoGgWs1yH30ELvf9RMYMb1XsB2ANJgNrjTYLoVRw3ESMOMFsEvKAtjImgq8ADyCJ4VK3+Fm48dCtikBYrcaZyiMgvdGd6iHVBYTbSvsb7Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713248021; c=relaxed/simple;
-	bh=bJKfCh4TOpH4ZqKQgc6vvRE6Ro7oRSWDp+zAGLT1a74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wf2Z26xt7kgGh6NTzoVDGlS9uH44BefoGbjYDNvdw2uRzZHzBXpZ1zeylLI31v3nc46UYCYONGGVJNmw+XAr8Y05hBFvZ8Ai2V/issew6yP5Xw7WZRaRBcX2B8jNEK+EYJn1opem7wR5fH9d/2yNGjHmFCHPjByQnPN5omYzNJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdsM2K5q; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdsM2K5q"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e2b137d666so33056155ad.2;
-        Mon, 15 Apr 2024 23:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713248020; x=1713852820; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CZ6ecSrVtYcanZSvOFQ1ox/50yBmtYgCGB61sRcLhXo=;
-        b=fdsM2K5q1d5NqmKfVSr5Zu++NnUS7igDswII5gacwpVP/19zrFeC8+/uC3ja++3smF
-         W8awc2ZgzFtzFDLI6hoLBmi2+mlJPKIzSaqGcKNnMkeFDJPnUgCRJu/vVAjJV4MLJ4X8
-         KA0ivhikQzyRbLgyY6vzWH47HLzHstNKWsM9bS8oVXjj7AdS32O1IQjnHZneywrLYPmP
-         AmCcVYw5FfxxZ0dQLQAKxQKlfEIdJOTeIQ+e0MNDg2AMQi5zFdbt+QBwQdXLOB7cK4oO
-         IV8DERD4+aZNRusi0VllyePy6A3em+tMnafq9XvV8IbNF5L4yrnZxE8+ua8Y58wsu6o6
-         xFrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713248020; x=1713852820;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CZ6ecSrVtYcanZSvOFQ1ox/50yBmtYgCGB61sRcLhXo=;
-        b=gmwfgjQq8ZM4x6F/g5cBPbGafoTZrt7Cum4LGgNdI3l/7ziG9RmY//VNTEA5d6I0Ip
-         W2HAWoZl9y65neEuMd32SGYQWJVx5UnF9b7R8ir9VaTp3KCpVsRDMBYyc3vhyU0N7sAu
-         3F92Ip7nU2/L/O3xis1ur4kdobl0k5ygO00bvBVBPrJ6Y7xQN4vamKrUHqKGcullYU+h
-         igm17SkDDQo2pxq3BovsdQ4+/3TUlBsCpPES60dAW7fWKvTUz3wmBgO5jb6+bsFYnf8K
-         2HtcRYIVMQAdm+M2nQbSrbL/u4eU+WXo84UymSmJPhSvjCSNro3EjA+7DerXXHHMNSm/
-         YTuw==
-X-Forwarded-Encrypted: i=1; AJvYcCXux9UtvriFOgaFRp0wvOQqDWOEC18TEmhtsVZJjAUAUMIvoc/+lsY/bxCrPbd9FJAPe4pGGcPILQmMZgzOzxzCweJv+3E3afCSuHEsjtduafLsUlM5QNSmd+f4BD3zvhnzTnhjZjD/
-X-Gm-Message-State: AOJu0YxxT6aEhRIdkhWCxqTJla5Vvf3TPs6si8mjbUbSJEcFmPdljSgJ
-	dHn3DFfgruLURQFtXTzHMKTNX65ix9G71Wv2fI0k35/KpaGDMOq1
-X-Google-Smtp-Source: AGHT+IHo1g0xIh9Zq4tQT6ZgqBpNNX8qlCCYceyGks9TWejitkCg/+/KVWFWO9PgevyWpGP9p2ZULg==
-X-Received: by 2002:a17:903:24e:b0:1e2:7aba:6d0f with SMTP id j14-20020a170903024e00b001e27aba6d0fmr15871189plh.36.1713248019757;
-        Mon, 15 Apr 2024 23:13:39 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id n9-20020a170902d2c900b001e1071cf0bbsm8940249plc.302.2024.04.15.23.13.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 23:13:39 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id A125A180F6DB9; Tue, 16 Apr 2024 13:13:36 +0700 (WIB)
-Date: Tue, 16 Apr 2024 13:13:35 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 14/15] mm: page_frag: update documentation
- for page_frag
-Message-ID: <Zh4XD6jP4dLoZN4Q@archie.me>
-References: <20240415131941.51153-1-linyunsheng@huawei.com>
- <20240415131941.51153-15-linyunsheng@huawei.com>
+	s=arc-20240116; t=1713250624; c=relaxed/simple;
+	bh=alaRkY2wBOwgOHdUKdvWn9i7XKY0dz66kU2v7DIz8yg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lW+II9/Vb35msyxok/USgQyZxNkt3mncVJA2bDlKn7ytQIJ4XmK9VxWf4mhDFM37jC0BER5YoB0pVwrijDwRfB6qshoi/kN11VG1ZBiYCCy424UBgDt8rcpmjyE6elpbrJ2lmBSP5uuCqQ5PF9+FCUotOEnIWzV8WiIxWnk5ROE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4VJZDD23yDz9v7Qy;
+	Tue, 16 Apr 2024 14:40:28 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id CB1F61400CC;
+	Tue, 16 Apr 2024 14:56:55 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwDHsiYkIR5md6RRBg--.14508S2;
+	Tue, 16 Apr 2024 07:56:55 +0100 (CET)
+Message-ID: <7590bb2153796db28281e81e13173f76ec0be438.camel@huaweicloud.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, corbet@lwn.net,
+ paul@paul-moore.com,  jmorris@namei.org, serge@hallyn.com,
+ akpm@linux-foundation.org, shuah@kernel.org,  mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, mic@digikod.net
+Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Tue, 16 Apr 2024 08:56:32 +0200
+In-Reply-To: <D0KXSLRDNSGJ.2EIFU7NWC20DI@kernel.org>
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+	 <D0KXSLRDNSGJ.2EIFU7NWC20DI@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0I6/Ma35WnVqMhhN"
-Content-Disposition: inline
-In-Reply-To: <20240415131941.51153-15-linyunsheng@huawei.com>
+X-CM-TRANSID:GxC2BwDHsiYkIR5md6RRBg--.14508S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFW3Kw4DuFWDZFy8JFW3Awb_yoWDWFb_u3
+	y09ryqk3sxZr4fCw1j9FyaqrZ2gFWDurW5J34Yqr1Iqrn3JFnxGr4v9F93uw48X3s7twnx
+	uryFyr4SywnF9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb7xYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
+	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
+	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r1j6r4UM28EF7xvwVC2z280aVCY1x0267
+	AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
+	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
+	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0E
+	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE
+	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
+	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAPBF1jj5h5JwAAs+
 
+On Mon, 2024-04-15 at 22:18 +0300, Jarkko Sakkinen wrote:
+> On Mon Apr 15, 2024 at 5:24 PM EEST, Roberto Sassu wrote:
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Integrity detection and protection has long been a desirable feature, t=
+o
+> > reach a large user base and mitigate the risk of flaws in the software
+> > and attacks.
+> >=20
+> > However, while solutions exist, they struggle to reach the large user
+> > base, due to requiring higher than desired constraints on performance,
+> > flexibility and configurability, that only security conscious people ar=
+e
+> > willing to accept.
+> >=20
+> > This is where the new digest_cache LSM comes into play, it offers
+> > additional support for new and existing integrity solutions, to make
+> > them faster and easier to deploy.
+>=20
+> Sorry for nitpicking but what are the existing integrity solutions,=20
+> and how does it help with this struggle? I.e. what is the gist here?
 
---0I6/Ma35WnVqMhhN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No worries... please have a look at patch 14. It should have all the
+information.
 
-On Mon, Apr 15, 2024 at 09:19:39PM +0800, Yunsheng Lin wrote:
-> +API interface
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +As the design and implementation of page_frag API, the allocation side d=
-oes not
-                                        "... implies, the allocation side .=
-=2E."
-> +allow concurrent calling, it is assumed that the caller must ensure ther=
-e is not
-                      "... . Instead, it is assumed that ...:
-> +concurrent alloc calling to the same page_frag_cache instance by using i=
-t's own
-                                                            "... by using i=
-ts own ..."
-> +lock or rely on some lockless guarantee like NAPI softirq.
-> +
-> +Depending on different use cases, callers expecting to deal with va, pag=
-e or
-> +both va and page for them may call page_frag_alloc_va*, page_frag_alloc_=
-pg*,
-> +or page_frag_alloc* API accordingly.
-> +
-> +There is also a use case that need minimum memory in order for forward
-> +progressing, but can do better if there is more memory available. Introd=
-uce
-Did you mean "... but more performant if more memory is available"?
-> +page_frag_alloc_prepare() and page_frag_alloc_commit() related API, the =
-caller
-s/Introduce/Using/
-> +requests the minimum memory it need and the prepare API will return the =
-maximum
-> +size of the fragment returned, caller need to report back to the page_fr=
-ag core
-                                  "The caller needs to either call the comm=
-it API ..."
-> +how much memory it actually use by calling commit API, or not calling th=
-e commit
-"... to report how much memory it actually uses ..."
-> +API if deciding to not use any memory.
-"... or not do so if deciding to not use any memory."
+Thanks
 
-Thanks.
+Roberto
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---0I6/Ma35WnVqMhhN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh4XCwAKCRD2uYlJVVFO
-o85iAP0UEZ96bTaKdZC0FmSard5z0dMjRBPD69wzKG6rmE9CagD+LpsBRsgW1frt
-81TmfyhS9gzn/HY0KhWP63uiPguKkQY=
-=zrUk
------END PGP SIGNATURE-----
-
---0I6/Ma35WnVqMhhN--
