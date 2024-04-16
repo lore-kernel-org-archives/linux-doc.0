@@ -1,304 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B6585280;
-	Tue, 16 Apr 2024 10:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713262309; cv=fail; b=L+i6Oj1RmJy9uy/+amO55TksQeA8Kre5TLHy1jpSaEsL2986/qu/JJ5fW/OPmxb9wlYe14TA8+1AcFRVKxmz28SoP4xleRYEHWTcyyh7J1QGuGgRVeNC8ilzKQkZIwU2RoN59SfdPoroWqZ6kdJhrcvdAhQ8ODxrryioroIcJh8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713262309; c=relaxed/simple;
-	bh=Q2wYUQV9T8KY5n72gGGnU8w4a5tbtfnBx00X22wVSWI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=GS1WfCmowMaDHyPPWuYNQ6Gs4PJkQr26VqHRI1+f1qXtnqZYzhEeLnOtppZQRJaBjP29MO/9/yiSaehRSMQkztq7PvNKHsfmLes7GkDcY/ToUteP0Hxe1eGKSD64zebe7wMB2DFeUNeI/DsHRtASN/xF0U8YckMsfzTfBzzuTpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fhx8rVSN; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fhx8rVSN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713262308; x=1744798308;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Q2wYUQV9T8KY5n72gGGnU8w4a5tbtfnBx00X22wVSWI=;
-  b=fhx8rVSNIFjp/a/smS3Zx1CaVTfYyx4qR1+GLVJSdJOwlC5lIDyjtL+4
-   LN3f2UwJACD8bXhFNjD/ydz0jTr4Ev0XPl2AobhhXB4zjjxLc46NZaHMV
-   Lh2ZGg3ak+ZemLBnwdNH+08OBwq1m7THmnMxUyf+0S/0TFVt9jL8+2dnm
-   edRjlIsp8P6hmUBTyatrux9hJOX/V0gddb72Z92kIG2tZ9D227v8h9jQ3
-   dd95bLEZ1uPicsGVbhfkUA85nD3AJXKyzM4RaC+fzk9sO1cgrdocsnxUl
-   DoVk8gSl2Dfzu9tGpe0P0PTMRBkCJgd4C2zJnbU5msumMFKeaoH0IMA9j
-   Q==;
-X-CSE-ConnectionGUID: myYYixwnQLykYYN8ixDB9w==
-X-CSE-MsgGUID: 4IPKBOtRSBqeAAj7q73u1g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19294836"
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="19294836"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 03:11:46 -0700
-X-CSE-ConnectionGUID: pfK+cAb4TIOlN2oY9PH3Xw==
-X-CSE-MsgGUID: LgRF8U8IQvGB1GNvcXz27w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="22250688"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Apr 2024 03:11:46 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 16 Apr 2024 03:11:45 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 16 Apr 2024 03:11:45 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 16 Apr 2024 03:11:45 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 16 Apr 2024 03:11:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g2S4/y5uYIgxYCuVpPthYjr8GH2t3mjW+P5mOuXwRhgQaNVaTyzsgiJXq9QiM1VYUQo3IPns9Oi+XFhPo+1XG+U2Yhh9EmOH/IOqaY5OYEnwy++gUm9lQJwD2QSqsYio/Fj2w/o7GVfED12hxQuN7OiSc3gZxwCkw+7ojUiUytEgDTntHGCOJxpEw5GK5iQoWy93Q0dzCH5J5qAQBYWCy1jnuW4FSYwgZc/daPL61213mLwdZoIj+8EyjQwrs57tgugoAp3G6A9EWptDpu/GfApm1BI7xrSiWlPjmQI+38KbWp+lPp3xanIcj2kWcTc/pfYCOUZsfYOooVtHWcdq1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KS+0q0b5WuQOGG3y+nhE0HASV2Yy27PZgLWkqLVndGo=;
- b=L+jIifzpdxiUrvwC278HqO6jka2xCe+Ydq7AF1M020avrjS7e/DUpZ63liDIFOZrg5j64uwwuQKtGIxbX3ZFKAiB3JzdbHPSN9w2ac2L5W65RZJ5UAFYFFoufJj1u2URcoIcyZgD43coKPT/qWLvxsjO5ptXEhubGBlBpGaGPygR10ohSE6Z5w9t0YKTfP/+aOQhUbcxuV1PkoVyGzq5Bb5WVytgh79NvGxNp7mHhDGHjoDR0Uorh07liZJlOuZtq0CxYeaQJkr0Xe/SaiMIo5nE3SEB/8x2lbtk+mjHR8eAYQ4u7kN0oHNqfBbOoMP7dBUWEo2AzgNsaB6ZydDYAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com (2603:10b6:930:87::14)
- by MW4PR11MB6617.namprd11.prod.outlook.com (2603:10b6:303:20d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.25; Tue, 16 Apr
- 2024 10:11:42 +0000
-Received: from CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::6a93:4191:4aa3:6f7d]) by CY8PR11MB7364.namprd11.prod.outlook.com
- ([fe80::6a93:4191:4aa3:6f7d%4]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
- 10:11:42 +0000
-From: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>, "jstultz@google.com"
-	<jstultz@google.com>, "giometti@enneenne.com" <giometti@enneenne.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: "x86@kernel.org" <x86@kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "Dong, Eddie" <eddie.dong@intel.com>,
-	"Hall, Christopher S" <christopher.s.hall@intel.com>, "Brandeburg, Jesse"
-	<jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
-	<mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Nguyen, Anthony
- L" <anthony.l.nguyen@intel.com>, "peter.hilber@opensynergy.com"
-	<peter.hilber@opensynergy.com>, "N, Pandith" <pandith.n@intel.com>, "Mohan,
- Subramanian" <subramanian.mohan@intel.com>, "T R, Thejesh Reddy"
-	<thejesh.reddy.t.r@intel.com>
-Subject: RE: [PATCH v6 01/11] x86/tsc: Add base clock properties in
- clocksource structure
-Thread-Topic: [PATCH v6 01/11] x86/tsc: Add base clock properties in
- clocksource structure
-Thread-Index: AQHaiz0PazTrRHQXt0yKbKUcSArdGrFiBscAgAiuGPA=
-Date: Tue, 16 Apr 2024 10:11:42 +0000
-Message-ID: <CY8PR11MB73648707296EE27BF4CC6F8AC4082@CY8PR11MB7364.namprd11.prod.outlook.com>
-References: <20240410114828.25581-1-lakshmi.sowjanya.d@intel.com>
- <20240410114828.25581-2-lakshmi.sowjanya.d@intel.com> <87cyqw3nup.ffs@tglx>
-In-Reply-To: <87cyqw3nup.ffs@tglx>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7364:EE_|MW4PR11MB6617:EE_
-x-ms-office365-filtering-correlation-id: 07d6207c-e559-43cd-87fe-08dc5dfd9d16
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: krLrfVozxZjWRr4OAVN2B9wa4z+nFG6YAvc+6Vt38HcIFAk5s+sp18axAsAc/RlxGjL8xRH4CNTXZMTzDPVvgMr9iuNGjKcy6Wv2Ywjr9ThhhvxSLWFrOHX0KQQWmwfh5F5Y9t7hPZUgaTMzmQ+FxRO7Wf1huPNSQ8cE4Maw0jCUW0yuUYpUqgpl2m1w5uCxmAhpa+CrOL/eSqo/cziums1Lr4/J8QroriHhbL1j2W8r4+ORkgivCmbLuvyD8wr0adWjPGscW/1gbFUDlh0XfK6VCZfB0fKQYT/+7Dm3FeO9/85Lbk9PQQ8I18fPWkOfaKYgUzzBgtPYMA/cuirTtseHRaaMH1EK8xBLncuGfKXdyCTaij4DkXriJtcj2Yk+Vi4H1lHiFGP7H9FWa3PAw53bs4YuZit1z25g1UvuXEsxI78i4JpagwNFSlZ1QziI/FCO2E/Y3xm4Z4Wdj6bmcVh4mnKsbC7SEHVFNk2SmFRAqPgqzbYkLRcIAoZhoz8bG0KeTMwRIPCyGDleaH9L4nJ0YFGy+ObUNv8d8wFhQFTj+CIikyCLvbbQViXxbENoYDSdOdwve4cXQiDBgfjxBXneOO6UIzHjROHY3RbH3qoUMhwlOltWlZMcDBMdVtecSyNfT/RCn1WMYxNHLAhQquQ0Tv+73d6gUN7AhN/XvyPGcWKxJD+NBttXj1UUtVA7lcqZPD3KP6bctjEZig7yYsOy7H5460ionK74meC5xFM=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7364.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ZA7M4/oYxkSo/ZjYlnBDW24roWcLAAX91UsF31ABUeCtSAlKpOTkhbHaAj3B?=
- =?us-ascii?Q?P42UqtpJWALNFSricGdcMbXZSY3XQ3EekK4bPwkWOKUdeDz9q0bPXEzlHdXI?=
- =?us-ascii?Q?8BFUPBOgTtJfRsE3himz03BSp/kKSFecUMh2Y77IiKaCnvc186Kfva+J+xho?=
- =?us-ascii?Q?Wkv1VvGxGINhSKzJUUDDNrDBHp1N2tKOUFdZgweKZYjr4gjwqFuL5GiEpEvk?=
- =?us-ascii?Q?Und6MS5fuk7ZrxxUkQmB0VPx6W2znjERI6LBGIh31C7JwZ8uxgRzQhNPX5z+?=
- =?us-ascii?Q?S96DhQw+Wu3bFvgxuaK2hElCyYpy/hxSKxw/gDGhfBcE1GRkJeNgsz7Bw6Rq?=
- =?us-ascii?Q?IPATcH2gf9Q/+UTE0u0IegOgNRoepmO5Q3pMfLuLmzloBJjNmjMyQ5HLoVeQ?=
- =?us-ascii?Q?+Vi2cbAd9PgAydwmZffHeF80lMSGeOvTx5yKu3gqIsmToWjg1QvukJnI52aj?=
- =?us-ascii?Q?wmKJuq38ADYj5IWqOcwUvpwnx5WwNp5JK1vb6Rxxw9bM9TcfSsUTn1hXQIo7?=
- =?us-ascii?Q?tzWMNnf4BK17Xe+/dd7IubdqPuTtkUAmldrYw2STb+Y+cLReUXEQxPj59Gzx?=
- =?us-ascii?Q?Uwx76sDmmxtxgo7S3nXg5dK9ZisB2s2fTfHhCoOGNX+/7lSmwxz9yGhm/Zym?=
- =?us-ascii?Q?teZtarUdUTDKhcrAySplq5r0JoZ+tPS+vbKIb3RylJufn5ghA72SMn55DmbC?=
- =?us-ascii?Q?jYDo+ysohf6tv1KTP7sqX7U/tXx0im4Qaz6h0/k5viyatvg2iT3xIiauKJym?=
- =?us-ascii?Q?ruNHeKPoC7gUEibZKsNdB9aa+j4LwcBseb4AiTVbpNRQZQtqhPkd+i2S3t3L?=
- =?us-ascii?Q?/Tq2tU1+fn89WZR+6LbHz9Vm/L5XaXPA+cWq1SsShCUyGkxL4UwQMXTNndHM?=
- =?us-ascii?Q?/UdGRurFQvlpZ0oywfQTXQ0kKr92XFcSAt3U1T1JtBu3ftNBvuu/I0MBdGB3?=
- =?us-ascii?Q?+agolXdAqMsdnICcRD6sZ1BO5yF0NnmqKZ/OkO/LkUDUKqs6YuXEGKokNlTk?=
- =?us-ascii?Q?5ugwB2W+hFkqlVkebv4eCcAl31VYlXNZ7N42Jfpfm28Q8EJcA316oZPlrtiO?=
- =?us-ascii?Q?niLtlQoUx0icjUQaJGmdhibz0MBrF2c7hhC7DfuT9IYgR0Fg+rmL5oFdXj87?=
- =?us-ascii?Q?mbb4SLrKBedVyM27lQ5XbcRhD2XkyAqqNClIgRLd5EBK2iGgUDBnIOwqqn7B?=
- =?us-ascii?Q?RnBBITAMH8zh9v0cm5cHsazFxqqTQsUJa3BFUhOZAD1RNOALPyctu8oeR2fk?=
- =?us-ascii?Q?peHrer49RYKNl5Lmwc2+R0jM6Afth6K15EVJuyYTGG5TVO7psLBSPlzotkTR?=
- =?us-ascii?Q?T+ryndD+ZVMyEh6OTIMAmhGzoGlIae96EWTWtozXliaUR9I4rZlLY71KmOAX?=
- =?us-ascii?Q?Y5W3YQ0LNvEuu/6hg8D2Zgs/ygUrooL5EcigW1UZLxopw8PT+ATKQsDCbTtv?=
- =?us-ascii?Q?D0N7XCfgcZoHXgiUY6RkcLGiiblXLbL1JoYEMQ4vnhmBUd7vHq2/rPx3uAiM?=
- =?us-ascii?Q?pFnhBfFxfgExitHT+bDOjM5FAcsuSyNOY6Efezu/Z0EG5R27jtNLY2lwE3co?=
- =?us-ascii?Q?tThszknHmA5NQdumfFjM2wpsb4fZWOuTDzGEPqzKURcnoD3BK84F/zpuT5l8?=
- =?us-ascii?Q?Kw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2969B1272AA;
+	Tue, 16 Apr 2024 10:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713262584; cv=none; b=m4bZ0cJPfqO4cRAvhIySDSwuV4rIQvzZOt+yCMsxS1EKMtPoYq5HBjTijBphSmaFwdCXLMOMJ/7bsOIWL00g5D5e1nY/yV3r1puYQYpwrMo/sGkT8VhAThDUigfnk2gd5Hk0BrLEShMrip5MCj5eIDJGjU2q+122eQwZSrxG96g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713262584; c=relaxed/simple;
+	bh=f0FsJk9FNilNAUik9wYD4dFl/kdk/i7363GF9x1B79g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T9USGeIo6W4xvrIMRsnKW1m45JGQtyHnDlwOG2oGUjydL6dEBqX2c5q6+ra+oboVaC2bvxbfHnqQuwfeK1w1G1c15g1GLoyyOQan6x5nHmMKlGJD6DDmLvqI6kVaLOlEaMN2RkJUVqTXL4l00l0OOEZ8jTXtBBq+vv7GmO1kTrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4VJffD242mz9xGhN;
+	Tue, 16 Apr 2024 17:59:48 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id 440B1140444;
+	Tue, 16 Apr 2024 18:16:18 +0800 (CST)
+Received: from [10.45.159.171] (unknown [10.45.159.171])
+	by APP1 (Coremail) with SMTP id LxC2BwC3qhPcTx5m7FtbBg--.13343S2;
+	Tue, 16 Apr 2024 11:16:17 +0100 (CET)
+Message-ID: <d50530db-4a5e-4f58-997f-82090797398b@huaweicloud.com>
+Date: Tue, 16 Apr 2024 12:15:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7364.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07d6207c-e559-43cd-87fe-08dc5dfd9d16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2024 10:11:42.2892
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WB3gGtc2km70pDzq5wp+V4BWeEVKAY2cOsxaCrpznaISjYZYs5+zvStj3LB0shAsKH8VsBi+9Q7I6lSbOd7NFahowjvVhK5rxgt3Pvfu+LY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6617
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/14] digest_cache: Add securityfs interface
+To: Jarkko Sakkinen <jarkko@kernel.org>, corbet@lwn.net, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com, akpm@linux-foundation.org,
+ shuah@kernel.org, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ mic@digikod.net
+Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,
+ Roberto Sassu <roberto.sassu@huawei.com>
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+ <20240415142436.2545003-4-roberto.sassu@huaweicloud.com>
+ <D0KY3YSZCLTG.24OGZPYS4AKDY@kernel.org>
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+In-Reply-To: <D0KY3YSZCLTG.24OGZPYS4AKDY@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:LxC2BwC3qhPcTx5m7FtbBg--.13343S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xry7GryUCr43WFWDXF45trb_yoW3JFy5p3
+	9Fk3WUKr4xZF13Awn2y3W7CF1Sg398KF47Cr4DW343AFZxuwnYva40yr1UuryUXr4UZa4I
+	yr4j9r13Xr4qqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+	7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAI
+	cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
+	CF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUOlksDUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAPBF1jj5x85wACs+
 
+On 4/15/2024 9:32 PM, Jarkko Sakkinen wrote:
+> On Mon Apr 15, 2024 at 5:24 PM EEST, Roberto Sassu wrote:
+>> From: Roberto Sassu <roberto.sassu@huawei.com>
+>>
+>> Add the digest_cache_path file in securityfs, to let root change/read the
+>> default path (file or directory) from where digest lists are looked up.
+>>
+>> An RW semaphore prevents the default path from changing while
+>> digest_list_new() and read_default_path() are executed, so that those read
+>> a stable value. Multiple digest_list_new() and read_default_path() calls,
+>> instead, can be done in parallel, since they are the readers.
+>>
+>> Changing the default path does not affect digest caches created with the
+>> old path.
+>>
+>> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+>> ---
+>>   security/digest_cache/Kconfig    |  4 ++
+>>   security/digest_cache/Makefile   |  2 +-
+>>   security/digest_cache/internal.h |  1 +
+>>   security/digest_cache/main.c     | 10 +++-
+>>   security/digest_cache/secfs.c    | 87 ++++++++++++++++++++++++++++++++
+>>   5 files changed, 102 insertions(+), 2 deletions(-)
+>>   create mode 100644 security/digest_cache/secfs.c
+>>
+>> diff --git a/security/digest_cache/Kconfig b/security/digest_cache/Kconfig
+>> index e53fbf0779d6..dfabe5d6e3ca 100644
+>> --- a/security/digest_cache/Kconfig
+>> +++ b/security/digest_cache/Kconfig
+>> @@ -14,3 +14,7 @@ config DIGEST_LIST_DEFAULT_PATH
+>>   	default "/etc/digest_lists"
+>>   	help
+>>   	  Default directory where digest_cache LSM expects to find digest lists.
+>> +
+>> +	  It can be changed at run-time, by writing the new path to the
+>> +	  securityfs interface. Digest caches created with the old path are
+>> +	  not affected by the change.
+>> diff --git a/security/digest_cache/Makefile b/security/digest_cache/Makefile
+>> index 48848c41253e..1330655e33b1 100644
+>> --- a/security/digest_cache/Makefile
+>> +++ b/security/digest_cache/Makefile
+>> @@ -4,4 +4,4 @@
+>>   
+>>   obj-$(CONFIG_SECURITY_DIGEST_CACHE) += digest_cache.o
+>>   
+>> -digest_cache-y := main.o
+>> +digest_cache-y := main.o secfs.o
+>> diff --git a/security/digest_cache/internal.h b/security/digest_cache/internal.h
+>> index 5f04844af3a5..bbf5eefe5c82 100644
+>> --- a/security/digest_cache/internal.h
+>> +++ b/security/digest_cache/internal.h
+>> @@ -49,6 +49,7 @@ struct digest_cache_security {
+>>   
+>>   extern struct lsm_blob_sizes digest_cache_blob_sizes;
+>>   extern char *default_path_str;
+>> +extern struct rw_semaphore default_path_sem;
+>>   
+>>   static inline struct digest_cache_security *
+>>   digest_cache_get_security(const struct inode *inode)
+>> diff --git a/security/digest_cache/main.c b/security/digest_cache/main.c
+>> index 14dba8915e99..661c8d106791 100644
+>> --- a/security/digest_cache/main.c
+>> +++ b/security/digest_cache/main.c
+>> @@ -18,6 +18,9 @@ static struct kmem_cache *digest_cache_cache __read_mostly;
+>>   
+>>   char *default_path_str = CONFIG_DIGEST_LIST_DEFAULT_PATH;
+>>   
+>> +/* Protects default_path_str. */
+>> +struct rw_semaphore default_path_sem;
+>> +
+>>   /**
+>>    * digest_cache_alloc_init - Allocate and initialize a new digest cache
+>>    * @path_str: Path string of the digest list
+>> @@ -274,9 +277,12 @@ struct digest_cache *digest_cache_get(struct dentry *dentry)
+>>   
+>>   	/* Serialize accesses to inode for which the digest cache is used. */
+>>   	mutex_lock(&dig_sec->dig_user_mutex);
+>> -	if (!dig_sec->dig_user)
+>> +	if (!dig_sec->dig_user) {
+>> +		down_read(&default_path_sem);
+>>   		/* Consume extra reference from digest_cache_create(). */
+>>   		dig_sec->dig_user = digest_cache_new(dentry);
+>> +		up_read(&default_path_sem);
+>> +	}
+>>   
+>>   	if (dig_sec->dig_user)
+>>   		/* Increment ref. count for reference returned to the caller. */
+>> @@ -386,6 +392,8 @@ static const struct lsm_id digest_cache_lsmid = {
+>>    */
+>>   static int __init digest_cache_init(void)
+>>   {
+>> +	init_rwsem(&default_path_sem);
+>> +
+>>   	digest_cache_cache = kmem_cache_create("digest_cache_cache",
+>>   					       sizeof(struct digest_cache),
+>>   					       0, SLAB_PANIC,
+>> diff --git a/security/digest_cache/secfs.c b/security/digest_cache/secfs.c
+>> new file mode 100644
+>> index 000000000000..d3a37bf3588e
+>> --- /dev/null
+>> +++ b/security/digest_cache/secfs.c
+>> @@ -0,0 +1,87 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
+>> + *
+>> + * Author: Roberto Sassu <roberto.sassu@huawei.com>
+>> + *
+>> + * Implement the securityfs interface of the digest_cache LSM.
+>> + */
+>> +
+>> +#define pr_fmt(fmt) "DIGEST CACHE: "fmt
+>> +#include <linux/security.h>
+>> +
+>> +#include "internal.h"
+>> +
+>> +static struct dentry *default_path_dentry;
+>> +
+>> +/**
+>> + * write_default_path - Write default path
+>> + * @file: File descriptor of the securityfs file
+>> + * @buf: User space buffer
+>> + * @datalen: Amount of data to write
+>> + * @ppos: Current position in the file
+>> + *
+>> + * This function sets the new default path where digest lists can be found.
+>> + * Can be either a regular file or a directory.
+>> + *
+>> + * Return: Length of path written on success, a POSIX error code otherwise.
+>> + */
+>> +static ssize_t write_default_path(struct file *file, const char __user *buf,
+>> +				  size_t datalen, loff_t *ppos)
+>> +{
+>> +	char *new_default_path_str;
+>> +
+>> +	new_default_path_str = memdup_user_nul(buf, datalen);
+>> +	if (IS_ERR(new_default_path_str))
+>> +		return PTR_ERR(new_default_path_str);
+>> +
+>> +	down_write(&default_path_sem);
+>> +	kfree_const(default_path_str);
+>> +	default_path_str = new_default_path_str;
+>> +	up_write(&default_path_sem);
+>> +	return datalen;
+>> +}
+>> +
+>> +/**
+>> + * read_default_path - Read default path
+>> + * @file: File descriptor of the securityfs file
+>> + * @buf: User space buffer
+>> + * @datalen: Amount of data to read
+>> + * @ppos: Current position in the file
+>> + *
+>> + * This function returns the current default path where digest lists can be
+>> + * found. Can be either a regular file or a directory.
+>> + *
+>> + * Return: Length of path read on success, a POSIX error code otherwise.
+>> + */
+>> +static ssize_t read_default_path(struct file *file, char __user *buf,
+>> +				 size_t datalen, loff_t *ppos)
+>> +{
+>> +	int ret;
+>> +
+>> +	down_read(&default_path_sem);
+>> +	ret = simple_read_from_buffer(buf, datalen, ppos, default_path_str,
+>> +				      strlen(default_path_str) + 1);
+>> +	up_read(&default_path_sem);
+>> +	return ret;
+>> +}
+>> +
+>> +static const struct file_operations default_path_ops = {
+>> +	.open = generic_file_open,
+>> +	.write = write_default_path,
+>> +	.read = read_default_path,
+>> +	.llseek = generic_file_llseek,
+>> +};
+>> +
+>> +static int __init digest_cache_path_init(void)
+>> +{
+>> +	default_path_dentry = securityfs_create_file("digest_cache_path", 0660,
+>> +						     NULL, NULL,
+>> +						     &default_path_ops);
+>> +	if (IS_ERR(default_path_dentry))
+>> +		return -EFAULT;
+> 
+> Nit: when overwriting error value with another error value it would be
+> best to document it with an inline comment. Otherwise, it is fine.
 
+Seems to make sense to return the right error. Will check why this one 
+(I probably took from somewhere).
 
-> -----Original Message-----
-> From: Thomas Gleixner <tglx@linutronix.de>
-> Sent: Thursday, April 11, 2024 3:03 AM
-> To: D, Lakshmi Sowjanya <lakshmi.sowjanya.d@intel.com>;
-> jstultz@google.com; giometti@enneenne.com; corbet@lwn.net; linux-
-> kernel@vger.kernel.org
-> Cc: x86@kernel.org; netdev@vger.kernel.org; linux-doc@vger.kernel.org; in=
-tel-
-> wired-lan@lists.osuosl.org; andriy.shevchenko@linux.intel.com; Dong, Eddi=
-e
-> <eddie.dong@intel.com>; Hall, Christopher S <christopher.s.hall@intel.com=
->;
-> Brandeburg, Jesse <jesse.brandeburg@intel.com>; davem@davemloft.net;
-> alexandre.torgue@foss.st.com; joabreu@synopsys.com;
-> mcoquelin.stm32@gmail.com; perex@perex.cz; linux-sound@vger.kernel.org;
-> Nguyen, Anthony L <anthony.l.nguyen@intel.com>;
-> peter.hilber@opensynergy.com; N, Pandith <pandith.n@intel.com>; Mohan,
-> Subramanian <subramanian.mohan@intel.com>; T R, Thejesh Reddy
-> <thejesh.reddy.t.r@intel.com>; D, Lakshmi Sowjanya
-> <lakshmi.sowjanya.d@intel.com>
-> Subject: Re: [PATCH v6 01/11] x86/tsc: Add base clock properties in clock=
-source
-> structure
->=20
-> On Wed, Apr 10 2024 at 17:18, lakshmi.sowjanya.d@intel.com wrote:
-> > @@ -48,6 +49,7 @@ struct module;
-> >   * @archdata:		Optional arch-specific data
-> >   * @max_cycles:		Maximum safe cycle value which won't
-> overflow on
-> >   *			multiplication
-> > + * @freq_khz:		Clocksource frequency in khz.
-> >   * @name:		Pointer to clocksource name
-> >   * @list:		List head for registration (internal)
-> >   * @rating:		Rating value for selection (higher is better)
-> > @@ -70,6 +72,8 @@ struct module;
-> >   *			validate the clocksource from which the snapshot was
-> >   *			taken.
-> >   * @flags:		Flags describing special properties
-> > + * @base:		Hardware abstraction for clock on which a clocksource
-> > + *			is based
-> >   * @enable:		Optional function to enable the clocksource
-> >   * @disable:		Optional function to disable the clocksource
-> >   * @suspend:		Optional suspend function for the clocksource
-> > @@ -105,12 +109,14 @@ struct clocksource {
-> >  	struct arch_clocksource_data archdata;  #endif
-> >  	u64			max_cycles;
-> > +	u32			freq_khz;
->=20
-> Q: Why is this a bad place to add this member?
->=20
-> A: Because it creates a 4 byte hole in the data structure.
->=20
-> >  	const char		*name;
-> >  	struct list_head	list;
->=20
-> While adding it here fills a 4 byte hole.
->=20
-> Hint:
->=20
->   pahole -c clocksource kernel/time/clocksource.o
->=20
-> would have told you that.
->=20
-> >  	int			rating;
-> >  	enum clocksource_ids	id;
-> >  	enum vdso_clock_mode	vdso_clock_mode;
-> >  	unsigned long		flags;
-> > +	struct clocksource_base *base;
->=20
-> > diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-> > index b58dffc58a8f..2542cfefbdee 100644
-> > --- a/kernel/time/timekeeping.c
-> > +++ b/kernel/time/timekeeping.c
-> > @@ -1193,6 +1193,40 @@ static bool timestamp_in_interval(u64 start, u64
-> end, u64 ts)
-> >  	return false;
-> >  }
-> >
-> > +static bool convert_clock(u64 *val, u32 numerator, u32 denominator) {
-> > +	u64 rem, res;
-> > +
-> > +	if (!numerator || !denominator)
-> > +		return false;
-> > +
-> > +	res =3D div64_u64_rem(*val, denominator, &rem) * numerator;
-> > +	*val =3D res + div_u64(rem * numerator, denominator);
-> > +	return true;
-> > +}
-> > +
-> > +static bool convert_base_to_cs(struct system_counterval_t *scv) {
-> > +	struct clocksource *cs =3D tk_core.timekeeper.tkr_mono.clock;
-> > +	struct clocksource_base *base =3D cs->base;
-> > +	u32 num, den;
-> > +
-> > +	/* The timestamp was taken from the time keeper clock source */
-> > +	if (cs->id =3D=3D scv->cs_id)
-> > +		return true;
-> > +
-> > +	/* Check whether cs_id matches the base clock */
-> > +	if (!base || base->id !=3D scv->cs_id)
-> > +		return false;
-> > +
-> > +	num =3D scv->use_nsecs ? cs->freq_khz : base->numerator;
-> > +	den =3D scv->use_nsecs ? USEC_PER_SEC : base->denominator;
-> > +
-> > +	convert_clock(&scv->cycles, num, den);
->=20
-> Q: Why does this ignore the return value of convert_clock() ?
->=20
-> A: Because all drivers will correctly fill in everything.
->=20
-> Q: Then why does convert_clock() bother to check and have a return
->    value?
->=20
-> A: Because drivers will fail to correctly fill in everything
+Thanks
 
-Agreed.
-Will add a check for error case:
+Roberto
 
-	if (!convert_clock(&scv->cycles, num, den))
-             		return false;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +late_initcall(digest_cache_path_init);
+> 
+> 
+> BR, Jarkko
 
-Thanks,
-Sowjanya
-
->=20
-> Thanks,
->=20
->         tglx
