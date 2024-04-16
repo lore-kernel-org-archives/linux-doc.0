@@ -1,183 +1,460 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB3B1384AE;
-	Tue, 16 Apr 2024 19:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713297185; cv=fail; b=XtuJ/bhrQCU/reVL/RYSSWj5Z/WnVQCrsVl6AzcgBi2iYOlESUFzRmyE61J9cJj+B1EWPOxmsbFMDoqaFx6FVe8Ch62sRaCdAqMkgS4k9V+FIOCr630vASM2jo6GYFwXYpWmsLn8c8MUjCCNAFxsTFIuiDl44LWNFKMUYpTMvLM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713297185; c=relaxed/simple;
-	bh=rwMPCcBn6tXr4KxTLWXO8iSEp4dGWTm6uxSR7GV1j7Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rKrODgejYfq8WidN4V+u2vlIqTkCIppCwGR+yyCjlhc9W8lmTyMOliyYKpc/BvNbWGPJ745IvLOqwDwXcffMv+/LeeuUATm6zWtw6r+kJjD80FvFUCm4lFG0xW92rg9R/7l172K4ql+aOc936FldROuE7UnABaedkVz2n8XsHJc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=X9JcWmd/; arc=fail smtp.client-ip=40.107.243.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4811384B1
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 20:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713298440; cv=none; b=fIC93jgPIYmHm3O+xdB70xXnFehYmMWVKqpUvirnAIeGTfzyMRp21MFYWCcEtz3cmaxd5fIV0GkwaUYly0Ekz1yG6xBmv2zSSviko+fIE+1xtm2rm2Dl4r6Hjv9sR/1DcuMxq9SPyYlZf7ye0Rg5sTCtbFV0E8l/XZVq3mTmzIk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713298440; c=relaxed/simple;
+	bh=eRv7C6mi/HY3w+g5Y3tiaa27Xxhee/YCOinhKGaZKbw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Content-Type; b=kIqP8yp5iQ8WdYSc4fKZN+s6SZbBrfYfgAplBJM8FJChWN7eafjPLB2jCR9aj7zu2fQPzcAMybJKiG/Ot7SmFgHU4ApQEAl3Xs61qR94n8QeigDcm0xXQzdmMivx+DZAAMa/ptvWQMx7Hlfj8e7SpxjS5mVZZMlz1hA75rVorOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1LBg+e43; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--souravpanda.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="X9JcWmd/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lsJZu5+9n/UpLnxx95MMHwNu4h8ZCAdoMOTtLfntrVetcLLjwwWxcmkcUP8Wvyp+EwlQUkPVpCfkdMIgByhxKait7CKNMh1Y4J2rRUOfFqSgRFcRXpcaYFquLlHcCpHX9lE/XvB67pYIzVKtRtaR0Zg+LNXp+vk4rsGIZj2Y0cEgWHR2J+or5gtGwcKKSrakz8rNcN7r/9yNVMeSG1lQo5Pfg/NJrxa9BzvbW2tfxvSe606223+l0ROfsQXgpcOg7d3uw0KXz0gYavszeQ2E49krr/gfgyabvzfIPZnmvlV2UObNaFvUG3BvSMt/bvYnotu18902+ylwy6rNe6SeQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ophsnQ3U5mdRM65iD7JNdqgMpOuRNYV8cV79nIvVu4g=;
- b=HGW9fGsXoppBFPlaOjR3z3ohYa42on+d/J1AY5X3n1HIuomXup+AWukiyvTFLQRnNG7TxzG4onn3261mtkamEIAI2hOpydQbgDh72EhCtnP+RDYMSvuFuvFMfnjAKv7a29YbkpQsEvBduZ9L8Fg6iLYqRdlqg1sIGyROHF6VlfYOqYC5ueCEDzWMFgnPbdsDOUwC5GaVLk0En1VRsbDlwBW4mae15nxqDV7vO+oXfnX3p+kQR2CSv/K393T4wPoYRuBNQwbR74HShYs52yHziZvg00IiQ+cqH07SbewdVMUa1O621zvWqOSA7LQlGX6EKYEUlWGAbK5Q33WxBJpLmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ophsnQ3U5mdRM65iD7JNdqgMpOuRNYV8cV79nIvVu4g=;
- b=X9JcWmd/h3bhO8GV9piezfoAKaSYzuZJKFv1rU27qdC3KvOeL+4uqGkPUva9S+qtO9enl7llLGHpF/wI31Np3NCuJD5/MSlaWSFemu0HQT6LQZOwfg0sdWwJBz3UK3020neNw/h3NnWXuf+oxZiRDRGLaU+qc9ti3D6BtBvPsR8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by IA0PR12MB8375.namprd12.prod.outlook.com (2603:10b6:208:3dd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Tue, 16 Apr
- 2024 19:53:01 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57f3:51f5:d039:ed24]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::57f3:51f5:d039:ed24%5]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
- 19:53:01 +0000
-Message-ID: <6d982d5a-5313-40ff-85b2-aeba5429a47b@amd.com>
-Date: Tue, 16 Apr 2024 14:52:55 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [RFC PATCH v3 09/17] x86/resctrl: Introduce assign state for the
- mon group
-To: Peter Newman <peternewman@google.com>
-Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
- peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
- lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
- leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
- kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
- kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- james.morse@arm.com
-References: <cover.1711674410.git.babu.moger@amd.com>
- <1a6bc747da259e8b3a85de339bc1d6bf94995c53.1711674410.git.babu.moger@amd.com>
- <CALPaoCj_yb_muT78jFQ5gL0wkifohSAVwxMDTm2FX_2YVpANdw@mail.gmail.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <CALPaoCj_yb_muT78jFQ5gL0wkifohSAVwxMDTm2FX_2YVpANdw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7P222CA0027.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::35)
- To MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1LBg+e43"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2a72c717f84so4248581a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 13:13:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713298438; x=1713903238; darn=vger.kernel.org;
+        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5+0mWDj5YyL9/GrbgHCkcu0KcQyCV85rLEHru7HoU1U=;
+        b=1LBg+e43KNoUQ7rPCWBv/zEUr8W3V30S8wIhip6bYjlPL1DWk6ErOatBlByq1v6k2/
+         vD7mCWepcZnbtYvvuI5X/NfR9bWLdd3wWFiEg0xuPjTRlYHptM4WJSWivIjltYyaDAY0
+         8XVDSxYt/wF86amnNnEZCYxV4VAbP/Nnii8b9mYPoUg8GNCCVhUVHQgst2Cv0H37AHVy
+         FE6emDoCZmHWB7O2ve8H6Wusf0PMFTqyThteXhG2U8KRIHiLFzSE0jB4igRmUnZAIorb
+         6JrhGpjn2WtwAAjZF51c5aLnWU/p3emFBiJouAzjPKZbIOOm60KGnEcIftmUdNXB5z0L
+         erOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713298438; x=1713903238;
+        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5+0mWDj5YyL9/GrbgHCkcu0KcQyCV85rLEHru7HoU1U=;
+        b=lURAgwD/wPZCeixDnnugM+K67S1oq0lab0GyyZsCPCqnZnf3dn28zyHWvtG/DaQz+i
+         MN+HkX+apmFuvfVg5bYX9IT6DkkOyAOSQjJGVpXJkRx45to3+UjL3IRxLf89/IbIZ6r8
+         HcxY8ND7aLUiTGIUTpp+p9QDUgK/rd7nXSjrP/cLl9eDmIJvqz0O841uKVEXS/rExUbH
+         tYWUSuyGHzUhYty0NFl1K9yyfBQqsTTrMMYDX6o0Tni1S5LGN8jZy783dpqkhysQfYFQ
+         aWTW1xqNZxtt0nIgQ/trrSRbrafJazz2V2FMHKvgZgAZCS7izSMEDfQZrBBKg8laN7WK
+         ToNg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNPZN4z+3uHTzWGzasFSDEt9/UeHzobVHEP/XBJZlvRUqoD2rTHx2EF8tqbZbN2jMoczhjHSqr1b5YNCVDiG/injh+/0YR9NwL
+X-Gm-Message-State: AOJu0Yzh61cNITSMA+ZqCWSTAw6dJudfFiNTqTnIS6ehY7yHtnvwdxnF
+	eidjC1j9uTuS4SYNbeKmKupO2cxsl9R0TR5iPAqpa4tvoT8IFcCiLC/NLtnb/P6b2/1sbDAUeVI
+	fWgNIcu1CUxY4V7VEOZUyVg==
+X-Google-Smtp-Source: AGHT+IGKjsM4HOOcxA5N+OnChlDcXH7sG0GTDw4eWq03GgmEnDAf0FLS/U1ves8jAerwenJfm+VDDKdaN/IkrbKZ3Q==
+X-Received: from souravbig.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3b3a])
+ (user=souravpanda job=sendgmr) by 2002:a17:90b:3108:b0:2a5:c859:f94f with
+ SMTP id gc8-20020a17090b310800b002a5c859f94fmr56933pjb.3.1713298438008; Tue,
+ 16 Apr 2024 13:13:58 -0700 (PDT)
+Date: Tue, 16 Apr 2024 20:13:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|IA0PR12MB8375:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec03ccd5-cdf6-4419-4149-08dc5e4ed26b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ClxwjvB0q45FBQaiGl+QBI2wJX2lSJVL8Oq+u8To+qDghaqWSoddHr100nW/qanXi6oN6QXw9edsLZIX5ar9s4KQMSJCzi6zlyfENF2T/RWdoSZj0TYBwWfsP01FAElM8yGVyBs/oFdI7BUsGgQPLz1xzHeDX+9YmOvZn6yDnorb0ErRcKuJVlWReaexjTXIFIZRjIz1KxRs5UnIVb0TrKDxgKDqwDYrchUhA2/xBek7p2wXBgB9mnexY/VK8xYw2UpSH9/s/F3KND0z8xS4yQRVPMQNwMw0lN3j/wSrsD46d7Ovrb62OhB1kdE57im8NdSyqeDsq3w0PIC63bHPsHfwgx7v0LiVgeMniyj1JDWRl8A3IR9sLAFhKz5Kl2DY9bCoDfIE/WmxknxoDIU1WbkLHIdE61ztxbOhBVqjgLIpNaa0YmHC+y+mwopG7pPHBSqpLJqSjXT7OYsVVKd9leOcvSz/nrwxc7NdiWJuAcXdygS8g5zSlZ/fvmErNuNIcHjppnUb59SfFGI39+etD+qUkXHKcoLZ7GA3I2RPwXmlHsTj4ZAZZcVgceVKIH2Fs3t4mCxRIHjCanJqF2F1iQsUYO1UgZse5XjHlvDsdPb9F3tm0gfavRI5UNHlHqbp8mg+K436gfkGn3jVRPyteoHSkDMyP95boqswwNw8VYI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MVRTQVFERHJzc2VFVFFCL2xGd2VaNys1MWh0RVZ6ZXI4UmRtblNhb3hZVzZN?=
- =?utf-8?B?Vm1YSEoyL3hwM2ExcHR5YjhzZFdFYmJObk1hVGRZRmczOEJzYlRCMnpxeXM3?=
- =?utf-8?B?dm1YZUVvODllZVVBd2lNLzZaQ1lFdU8yNk5HdFFFT1JlVVRwVThIQ3lIdmV5?=
- =?utf-8?B?eVdXZzJ1YktDeE1oZUtDbCs5UmlLcG96emp3Zkg4MzVWUHRrUzRydDdRd3Zw?=
- =?utf-8?B?QzQxZ3JkemdSSjJiSE8xTkRXQ1FXZlNzdjNjTU5hZTk2dXJsT20yM1VwUmov?=
- =?utf-8?B?T1g2L3RSaEVLcGV5NkE0OWErM2NMSUJjSG9UMWdSZnBPQ2Rsb2orZjlzbXJV?=
- =?utf-8?B?emFndjlPWUxiT0Z5VHJlc1c3L0x4RVR0SmVKK3FHcm1CRnMxL3g2VllIVzF0?=
- =?utf-8?B?NTQxYzM2ZlQ4R1NybVdQYTBQWEd5ZGJKdE5TWE1odk9qZFQwakthZkdkQXlS?=
- =?utf-8?B?MWphNGY4NnRtQnJhUFFtdUtVUVBhSFYrSXZVUllVL2k2RVoxekNMQ3UxM0Nn?=
- =?utf-8?B?cms2YWxPVlZMMCswZFNhSGI1RnQvRFJrcXVXY1Npbk51ZVdUTXd3aWVpbi85?=
- =?utf-8?B?YUpTbk5nbjJyYjRZOFpMbWd6KzFOY3IwUGsvSFJuNTZwelFzN0kwQ2JROFZv?=
- =?utf-8?B?S0dkdlpWRHJXMnl1Vm11MEhCeWhqbVVvajNocmVodG9QSklGNzFqUklhd294?=
- =?utf-8?B?YUQyd1lPUDVobG1BL29TK0FSNXIzZlhlMEdvR0xMWlNFTCtBY0VsNGhGQmJI?=
- =?utf-8?B?Mk5yK2g0WHBxSkdPYnBwRXh3OS9ZYlYxV2VoRTFDWmh0WXpYbXVadkxjT2lq?=
- =?utf-8?B?R1piaUgyemh3dDZrOForMHFLZFRuVkhlMnV0eGhzeFE0WmNnM29JRmwwQzRi?=
- =?utf-8?B?bnZER01yTURjQzhiMExqaURBQW1naml1UUE4LzIyUG9MWWJVdFB2UjIxMUU5?=
- =?utf-8?B?TVpMWllyNW5zS3pCL3I5N2h3dWdYRkVnZnVkZ0k4SFRNRS9hOW92UlJNZjJW?=
- =?utf-8?B?MDNHNDBlZUNYeWhYc0tieHc0Q0xzZ0JHanJpSWVwWlNJK1ZwZm5lQUdKL2Qx?=
- =?utf-8?B?SWJtSjJkN3FCWWFFT0VXY0ZiMkhsV3BFVTFHWHloeEJPNThsWmNlSlpicDVX?=
- =?utf-8?B?M1UxUHhnNjB5Nzh1aFlPYklVYUZDTlZjb0NzTDhaSDYvSW9yMWp2T0JvV2JR?=
- =?utf-8?B?OFA4T0ltOXJJei9TNndoOFRLUlVqSFQzNm5Xcy9icHRNTmhIL0wyenlnUFpp?=
- =?utf-8?B?SHBOV0dkdnQrYUg2Wm1kaEJtNlFUZUdDSUIvcTZMbHl5cUdYbzJpOURZc3FI?=
- =?utf-8?B?Z2M2VGQ0NTExT0JzakFaenJHa1RmWVM5TGJXcG8wa1dxR1Ura3ZjSlpkbkp4?=
- =?utf-8?B?M2w3dmNLWGJ0TnVSVzM4YXp4aEdaRnRGWmRGSVozQmpMNXE4MEw2anVjRVVO?=
- =?utf-8?B?eTR2NDY4RzB4RlppSnpGTFpDVTRTU1AxcEtxZGs3RVhZYW5iYUpMbmt0ZFJN?=
- =?utf-8?B?c2d0OGdIMlM1K29NWm9VczVjeWFLdzVaMEh3SkEwQlhjbHhDMFJ1UUNYM0x5?=
- =?utf-8?B?TkJ0KzFOMEtxL2Q4c2pyTG9wdjBmL3NjTFVLSVQrK0JmeXFaUHJPUkJMUlli?=
- =?utf-8?B?ZFRwN1FrU1JYZjMxdFBLOUpKNVUrWGdmdEQ5TDZSODFURVFnelFKSkdWY3pL?=
- =?utf-8?B?bTd5VzJ6SDlyL2VtU0l1Y0VFSkN4dGd0NU5Qc0RKNlhOdW1xYzdRajFralBN?=
- =?utf-8?B?RStvMTYxdHpkUTh0VnM2Y29hZ2pGeHRtbXl6MGdXTWk4ek1vNDBwY0JtT3Bh?=
- =?utf-8?B?bWlkeVBBdlArMlYxTVJkTitSNzFUNFpyblV5OC8wNDZsWnhybU5HakRRNmkv?=
- =?utf-8?B?S1Y3Y2dVS2RXMFBZSVd0b3k1RUhxeElVd0p6NVdUbHBsZ09SdCtrSGFCOWlY?=
- =?utf-8?B?dUZVRkovZ2tqQS9uVTdxb2VvT0pUckdMN1VweWxYcytZN2F6ZHdQb1cyVXBK?=
- =?utf-8?B?MHphak9zdVB1N3R5NzhHbUlUb2RnVWNyYVZXY1dKSEVoT1JwSkxCbHhRTS91?=
- =?utf-8?B?VWM4TTFoY0hqZ1pTSmViRys4L1lrUnl2N243WDdJM2phSmJJSjVSRDJaMjJh?=
- =?utf-8?Q?OdUU=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec03ccd5-cdf6-4419-4149-08dc5e4ed26b
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2024 19:53:01.1599
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vh1tcC6sz3+QDUVzVAVqkhPxNTpDF6TmGuagFbXC3ljx/gf9F9vFowIX3w7dnlYI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8375
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.683.g7961c838ac-goog
+Message-ID: <20240416201335.3551099-1-souravpanda@google.com>
+Subject: [PATCH v10] mm: report per-page metadata information
+From: Sourav Panda <souravpanda@google.com>
+To: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
+	rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
+	chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, souravpanda@google.com, 
+	tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
+	shakeelb@google.com, kirill.shutemov@linux.intel.com, 
+	wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
+	Liam.Howlett@Oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	willy@infradead.org, weixugc@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Peter,
+Adds a global Memmap field to /proc/meminfo. This information can
+be used by users to see how much memory is being used by per-page
+metadata, which can vary depending on build configuration, machine
+architecture, and system use.
 
-On 4/16/24 13:52, Peter Newman wrote:
-> Hi Babu,
-> 
-> On Thu, Mar 28, 2024 at 6:08 PM Babu Moger <babu.moger@amd.com> wrote:
->>
->> +/*
->> + * monitor group's state when ABMC is supported
->> + */
->> +#define ASSIGN_NONE                    0
->> +#define ASSIGN_TOTAL                   BIT(0)
->> +#define ASSIGN_LOCAL                   BIT(1)
-> 
-> We already have an enumeration for the monitoring events (i.e.,
-> QOS_L3_MBM_TOTAL_EVENT_ID), which should already be suitable for
-> maintaining a bitmap of which events have assigned monitors.
-> 
+Accounting per-page metadata allocated by boot-allocator:
+    /proc/vmstat:nr_memmap_boot * PAGE_SIZE
 
-/*
- * Event IDs, the values match those used to program IA32_QM_EVTSEL before
- * reading IA32_QM_CTR on RDT systems.
- */
-enum resctrl_event_id {
-        QOS_L3_OCCUP_EVENT_ID           = 0x01,
-        QOS_L3_MBM_TOTAL_EVENT_ID       = 0x02,
-        QOS_L3_MBM_LOCAL_EVENT_ID       = 0x03,
-};
+Accounting per-page metadata allocated by buddy-allocator:
+    /proc/vmstat:nr_memmap * PAGE_SIZE
 
-I think you are referring to this definition. We need just one bit for
-each event. The QOS_L3_MBM_LOCAL_EVENT_ID definition(both bit 0 and bit 1
-set here) does not work for us here.
+Accounting total Perpage metadata allocated on the machine:
+    (/proc/vmstat:nr_memmap_boot + /proc/vmstat:nr_memmap) * PAGE_SIZE
 
-I can change the definition to something like this.
+Utility for userspace:
 
-+#define ASSIGN_NONE                    0
-+#define ASSIGN_TOTAL                   BIT(QOS_L3_MBM_TOTAL_EVENT_ID)
-+#define ASSIGN_LOCAL                   BIT(QOS_L3_MBM_LOCAL_EVENT_ID)
+Application Optimization: Depending on the kernel version and command
+line options, the kernel would relinquish a different number of pages
+(that contain struct pages) when a hugetlb page is reserved (e.g., 0, 6
+or 7 for a 2MB hugepage). This patch allows the userspace application
+to know the exact savings achieved through page metadata deallocation
+without dealing with the intricacies of the kernel.
 
-Is that what you meant?
+Observability: Struct page overhead can only be calculated on-paper at
+boot time (e.g., 1.5% machine capacity). Beyond boot once hugepages are
+reserved or memory is hotplugged, the computation becomes complex.
+Per-page metrics will help explain part of the system memory overhead,
+which shall help guide memory optimizations and memory cgroup sizing.
 
+Debugging: Tracking the changes or absolute value in struct pages can
+help detect anomalies as they can be correlated with other metrics in
+the machine (e.g., memtotal, number of huge pages, etc).
+
+page_ext overheads: Some kernel features such as page_owner
+page_table_check that use page_ext can be optionally enabled via kernel
+parameters. Having the total per-page metadata information helps users
+precisely measure impact.
+
+For background and results see:
+lore.kernel.org/all/20240220214558.3377482-1-souravpanda@google.com
+
+Signed-off-by: Sourav Panda <souravpanda@google.com>
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+---
+Changelog:
+Consolidated changelog and coverletter.
+Synchronized with 6.9-rc4.
+
+v9:
+lore.kernel.org/all/20240220214558.3377482-1-souravpanda@google.com
+---
+ Documentation/filesystems/proc.rst |  3 +++
+ fs/proc/meminfo.c                  |  4 ++++
+ include/linux/mmzone.h             |  4 ++++
+ include/linux/vmstat.h             |  4 ++++
+ mm/hugetlb_vmemmap.c               | 17 ++++++++++++----
+ mm/mm_init.c                       |  3 +++
+ mm/page_alloc.c                    |  1 +
+ mm/page_ext.c                      | 32 +++++++++++++++++++++---------
+ mm/sparse-vmemmap.c                |  8 ++++++++
+ mm/sparse.c                        |  7 ++++++-
+ mm/vmstat.c                        | 26 +++++++++++++++++++++++-
+ 11 files changed, 94 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index c6a6b9df21049..a7445d49a3bb7 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -993,6 +993,7 @@ Example output. You may not have all of these fields.
+     AnonPages:       4654780 kB
+     Mapped:           266244 kB
+     Shmem:              9976 kB
++    Memmap:           513419 kB
+     KReclaimable:     517708 kB
+     Slab:             660044 kB
+     SReclaimable:     517708 kB
+@@ -1095,6 +1096,8 @@ Mapped
+               files which have been mmapped, such as libraries
+ Shmem
+               Total memory used by shared memory (shmem) and tmpfs
++Memmap
++              Memory used for per-page metadata
+ KReclaimable
+               Kernel allocations that the kernel will attempt to reclaim
+               under memory pressure. Includes SReclaimable (below), and other
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 45af9a989d404..3d3db55cfeab6 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -39,6 +39,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	long available;
+ 	unsigned long pages[NR_LRU_LISTS];
+ 	unsigned long sreclaimable, sunreclaim;
++	unsigned long nr_memmap;
+ 	int lru;
+ 
+ 	si_meminfo(&i);
+@@ -57,6 +58,8 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	sreclaimable = global_node_page_state_pages(NR_SLAB_RECLAIMABLE_B);
+ 	sunreclaim = global_node_page_state_pages(NR_SLAB_UNRECLAIMABLE_B);
+ 
++	nr_memmap = global_node_page_state_pages(NR_MEMMAP);
++
+ 	show_val_kb(m, "MemTotal:       ", i.totalram);
+ 	show_val_kb(m, "MemFree:        ", i.freeram);
+ 	show_val_kb(m, "MemAvailable:   ", available);
+@@ -104,6 +107,7 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 	show_val_kb(m, "Mapped:         ",
+ 		    global_node_page_state(NR_FILE_MAPPED));
+ 	show_val_kb(m, "Shmem:          ", i.sharedram);
++	show_val_kb(m, "Memmap:         ", nr_memmap);
+ 	show_val_kb(m, "KReclaimable:   ", sreclaimable +
+ 		    global_node_page_state(NR_KERNEL_MISC_RECLAIMABLE));
+ 	show_val_kb(m, "Slab:           ", sreclaimable + sunreclaim);
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index c11b7cde81efa..ba9143f90977f 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -217,6 +217,10 @@ enum node_stat_item {
+ 	PGDEMOTE_KSWAPD,
+ 	PGDEMOTE_DIRECT,
+ 	PGDEMOTE_KHUGEPAGED,
++	NR_MEMMAP,		/* Page metadata size (struct page and page_ext)
++				 * in pages
++				 */
++	NR_MEMMAP_BOOT,		/* NR_MEMMAP for bootmem */
+ 	NR_VM_NODE_STAT_ITEMS
+ };
+ 
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 343906a98d6ee..c3785fdd3668d 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -632,4 +632,8 @@ static inline void lruvec_stat_sub_folio(struct folio *folio,
+ {
+ 	lruvec_stat_mod_folio(folio, idx, -folio_nr_pages(folio));
+ }
++
++void __meminit mod_node_early_perpage_metadata(int nid, long delta);
++void __meminit store_early_perpage_metadata(void);
++
+ #endif /* _LINUX_VMSTAT_H */
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index da177e49d9564..2da8689aeb93f 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -184,10 +184,13 @@ static int vmemmap_remap_range(unsigned long start, unsigned long end,
+  */
+ static inline void free_vmemmap_page(struct page *page)
+ {
+-	if (PageReserved(page))
++	if (PageReserved(page)) {
+ 		free_bootmem_page(page);
+-	else
++		mod_node_page_state(page_pgdat(page), NR_MEMMAP_BOOT, -1);
++	} else {
+ 		__free_page(page);
++		mod_node_page_state(page_pgdat(page), NR_MEMMAP, -1);
++	}
+ }
+ 
+ /* Free a list of the vmemmap pages */
+@@ -338,6 +341,7 @@ static int vmemmap_remap_free(unsigned long start, unsigned long end,
+ 		copy_page(page_to_virt(walk.reuse_page),
+ 			  (void *)walk.reuse_addr);
+ 		list_add(&walk.reuse_page->lru, vmemmap_pages);
++		mod_node_page_state(NODE_DATA(nid), NR_MEMMAP, 1);
+ 	}
+ 
+ 	/*
+@@ -384,14 +388,19 @@ static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
+ 	unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
+ 	int nid = page_to_nid((struct page *)start);
+ 	struct page *page, *next;
++	int i;
+ 
+-	while (nr_pages--) {
++	for (i = 0; i < nr_pages; i++) {
+ 		page = alloc_pages_node(nid, gfp_mask, 0);
+-		if (!page)
++		if (!page) {
++			mod_node_page_state(NODE_DATA(nid), NR_MEMMAP, i);
+ 			goto out;
++		}
+ 		list_add(&page->lru, list);
+ 	}
+ 
++	mod_node_page_state(NODE_DATA(nid), NR_MEMMAP, nr_pages);
++
+ 	return 0;
+ out:
+ 	list_for_each_entry_safe(page, next, list, lru)
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 549e76af8f82a..1a429c73b32e4 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -27,6 +27,7 @@
+ #include <linux/swap.h>
+ #include <linux/cma.h>
+ #include <linux/crash_dump.h>
++#include <linux/vmstat.h>
+ #include "internal.h"
+ #include "slab.h"
+ #include "shuffle.h"
+@@ -1656,6 +1657,8 @@ static void __init alloc_node_mem_map(struct pglist_data *pgdat)
+ 		panic("Failed to allocate %ld bytes for node %d memory map\n",
+ 		      size, pgdat->node_id);
+ 	pgdat->node_mem_map = map + offset;
++	mod_node_early_perpage_metadata(pgdat->node_id,
++					DIV_ROUND_UP(size, PAGE_SIZE));
+ 	pr_debug("%s: node %d, pgdat %08lx, node_mem_map %08lx\n",
+ 		 __func__, pgdat->node_id, (unsigned long)pgdat,
+ 		 (unsigned long)pgdat->node_mem_map);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 14d39f34d3367..aa8dd5bccb7ac 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -5650,6 +5650,7 @@ void __init setup_per_cpu_pageset(void)
+ 	for_each_online_pgdat(pgdat)
+ 		pgdat->per_cpu_nodestats =
+ 			alloc_percpu(struct per_cpu_nodestat);
++	store_early_perpage_metadata();
+ }
+ 
+ __meminit void zone_pcp_init(struct zone *zone)
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 4548fcc66d74d..c1e324a1427e0 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -201,6 +201,8 @@ static int __init alloc_node_page_ext(int nid)
+ 		return -ENOMEM;
+ 	NODE_DATA(nid)->node_page_ext = base;
+ 	total_usage += table_size;
++	mod_node_page_state(NODE_DATA(nid), NR_MEMMAP_BOOT,
++			    DIV_ROUND_UP(table_size, PAGE_SIZE));
+ 	return 0;
+ }
+ 
+@@ -255,12 +257,15 @@ static void *__meminit alloc_page_ext(size_t size, int nid)
+ 	void *addr = NULL;
+ 
+ 	addr = alloc_pages_exact_nid(nid, size, flags);
+-	if (addr) {
++	if (addr)
+ 		kmemleak_alloc(addr, size, 1, flags);
+-		return addr;
+-	}
++	else
++		addr = vzalloc_node(size, nid);
+ 
+-	addr = vzalloc_node(size, nid);
++	if (addr) {
++		mod_node_page_state(NODE_DATA(nid), NR_MEMMAP,
++				    DIV_ROUND_UP(size, PAGE_SIZE));
++	}
+ 
+ 	return addr;
+ }
+@@ -303,18 +308,27 @@ static int __meminit init_section_page_ext(unsigned long pfn, int nid)
+ 
+ static void free_page_ext(void *addr)
+ {
++	size_t table_size;
++	struct page *page;
++	struct pglist_data *pgdat;
++
++	table_size = page_ext_size * PAGES_PER_SECTION;
++
+ 	if (is_vmalloc_addr(addr)) {
++		page = vmalloc_to_page(addr);
++		pgdat = page_pgdat(page);
+ 		vfree(addr);
+ 	} else {
+-		struct page *page = virt_to_page(addr);
+-		size_t table_size;
+-
+-		table_size = page_ext_size * PAGES_PER_SECTION;
+-
++		page = virt_to_page(addr);
++		pgdat = page_pgdat(page);
+ 		BUG_ON(PageReserved(page));
+ 		kmemleak_free(addr);
+ 		free_pages_exact(addr, table_size);
+ 	}
++
++	mod_node_page_state(pgdat, NR_MEMMAP,
++			    -1L * (DIV_ROUND_UP(table_size, PAGE_SIZE)));
++
+ }
+ 
+ static void __free_page_ext(unsigned long pfn)
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index a2cbe44c48e10..1dda6c53370b0 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -469,5 +469,13 @@ struct page * __meminit __populate_section_memmap(unsigned long pfn,
+ 	if (r < 0)
+ 		return NULL;
+ 
++	if (system_state == SYSTEM_BOOTING) {
++		mod_node_early_perpage_metadata(nid, DIV_ROUND_UP(end - start,
++								  PAGE_SIZE));
++	} else {
++		mod_node_page_state(NODE_DATA(nid), NR_MEMMAP,
++				    DIV_ROUND_UP(end - start, PAGE_SIZE));
++	}
++
+ 	return pfn_to_page(pfn);
+ }
+diff --git a/mm/sparse.c b/mm/sparse.c
+index aed0951b87fa0..684a91773bd76 100644
+--- a/mm/sparse.c
++++ b/mm/sparse.c
+@@ -14,7 +14,7 @@
+ #include <linux/swap.h>
+ #include <linux/swapops.h>
+ #include <linux/bootmem_info.h>
+-
++#include <linux/vmstat.h>
+ #include "internal.h"
+ #include <asm/dma.h>
+ 
+@@ -465,6 +465,9 @@ static void __init sparse_buffer_init(unsigned long size, int nid)
+ 	 */
+ 	sparsemap_buf = memmap_alloc(size, section_map_size(), addr, nid, true);
+ 	sparsemap_buf_end = sparsemap_buf + size;
++#ifndef CONFIG_SPARSEMEM_VMEMMAP
++	mod_node_early_perpage_metadata(nid, DIV_ROUND_UP(size, PAGE_SIZE));
++#endif
+ }
+ 
+ static void __init sparse_buffer_fini(void)
+@@ -641,6 +644,8 @@ static void depopulate_section_memmap(unsigned long pfn, unsigned long nr_pages,
+ 	unsigned long start = (unsigned long) pfn_to_page(pfn);
+ 	unsigned long end = start + nr_pages * sizeof(struct page);
+ 
++	mod_node_page_state(page_pgdat(pfn_to_page(pfn)), NR_MEMMAP,
++			    -1L * (DIV_ROUND_UP(end - start, PAGE_SIZE)));
+ 	vmemmap_free(start, end, altmap);
+ }
+ static void free_map_bootmem(struct page *memmap)
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index db79935e4a543..79466450040e6 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -1252,7 +1252,8 @@ const char * const vmstat_text[] = {
+ 	"pgdemote_kswapd",
+ 	"pgdemote_direct",
+ 	"pgdemote_khugepaged",
+-
++	"nr_memmap",
++	"nr_memmap_boot",
+ 	/* enum writeback_stat_item counters */
+ 	"nr_dirty_threshold",
+ 	"nr_dirty_background_threshold",
+@@ -2279,4 +2280,27 @@ static int __init extfrag_debug_init(void)
+ }
+ 
+ module_init(extfrag_debug_init);
++
+ #endif
++
++/*
++ * Page metadata size (struct page and page_ext) in pages
++ */
++static unsigned long early_perpage_metadata[MAX_NUMNODES] __meminitdata;
++
++void __meminit mod_node_early_perpage_metadata(int nid, long delta)
++{
++	early_perpage_metadata[nid] += delta;
++}
++
++void __meminit store_early_perpage_metadata(void)
++{
++	int nid;
++	struct pglist_data *pgdat;
++
++	for_each_online_pgdat(pgdat) {
++		nid = pgdat->node_id;
++		mod_node_page_state(NODE_DATA(nid), NR_MEMMAP_BOOT,
++				    early_perpage_metadata[nid]);
++	}
++}
 -- 
-Thanks
-Babu Moger
+2.44.0.683.g7961c838ac-goog
+
