@@ -1,124 +1,90 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78065B201;
-	Tue, 16 Apr 2024 22:38:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AAA5A4D8
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 23:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713307117; cv=none; b=DjYHVf1M5b+9R1YNdJ/fEqqMWk/nfu1q+f2Hcyp61qFPqdjT3JmYr9DlLl16dV+NiY1ltXiz9HtZBgYCdMjSPf2a/O25N6puuEjzIbQxJowrLzT9JPG0+lqPAtUOC/8yASlmHM8mYv53qvQSQW+ZzxPSw0fN/3lEE77qPRgnPHM=
+	t=1713310104; cv=none; b=oB+gPqoMNEJZ13/v5JvjmX8cyxlrpH15ByBlmLcwj/Y8JYklPL/45WRrZhTrWlPlFEJLq2b2UALeQYzmraXn/uPbx20EFBqSwkdKXtIBMCiIZmdFObdU0u0y2YIDXwzkzUlGfn0VFtan1UTzKR/7hKmDhRCMaBu5C6fAO0FIEUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713307117; c=relaxed/simple;
-	bh=S7sE9brjfV8uQBeIEy6QZVeO3w3xji1TwLL3sVqLSxE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=X8aCsGOmXdkSlvmzn6L/5C8wIOd0IeaLHbcbT6iKPhvdGuag2jo+4/Xbp3bEeJoJLpWavdjDeGEmtiaj7F1dmXzYh/gaJ55sl2ZirQaE1M0ZqFI/60v8F6ZNFzWvMd35BDZVW+Ked0VVNvuuDNu2pc/+bGxjVdXSrRuoZQdGiPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ctM1BE2A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713310104; c=relaxed/simple;
+	bh=o/m91AAWooHrvd/CwFAuz1XE0KauQ2Ma+s0g0RAhE5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TQ+RX5n0WaDH9oKSHNpPyEUo8jQ80RZy9vV9cjAP/i202KKSAQ0n3UZvZ64k+bvJyqbScDhYJ7Zev1Z9SoCp7R4lMcwUojvR79bBuycx032j1+wNS0islox/URhHAXXpLi1G9vc6hAHLZq6WSzj6Q/kLK+owd96aNUye97rtFJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVeS6rOI; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ctM1BE2A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KfsmsJ6C4WEujGSKO21oMe1mj3YNpyS/QO6bqt4zXM4=; b=ctM1BE2AsNOAM4hw0CuLWaoeqJ
-	1lQQ/eJqSuSmtDvrIK6JvP6N326ZnkSIniIE7hWafNbp3FCL0iFtyb5m+KQUzaKzU9xR8UuU8Bbz/
-	YYjBAsqlQrPDt6bCiismzxsUJuKtEsST/I6YNAD15wJHsxMcU3+t15NaksL1kD/ybGoNqFfOicP8Q
-	UstMTYx8BJBzwlvivnWN+0O3oxXOAUt9HfqCt1hZNCjxaoLlSrMHuN8iMvBaeAcEQdO1uDtQ8kitb
-	YPV0jQhZ4vwz9c2Lt6szcDymRH996jDHZt11O1Wyrl1V9GIheMkedSFOz/zxn7iPB44TUAhGbJIbA
-	uAKSGJ6g==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwrRi-0000000E4dT-3GT1;
-	Tue, 16 Apr 2024 22:38:34 +0000
-Message-ID: <ae28ae0f-c1ca-4afe-89e4-cc5d66b998b2@infradead.org>
-Date: Tue, 16 Apr 2024 15:38:33 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVeS6rOI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713310102; x=1744846102;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=o/m91AAWooHrvd/CwFAuz1XE0KauQ2Ma+s0g0RAhE5Q=;
+  b=HVeS6rOI0moXpcILyXYNKGpz5neK2Oqo39b+d2LphqQKpRgy88SNmFVy
+   ALe96c+4NmaYQdIiOaAYypReMmiRep9Y9PyY21ZBywzfFMPZ9EpBhO9Nk
+   pWGbv7kpws2qP7ddnoYimC45Wvt7ZAQrsDPJoa8H93q3Y9hDsDjsal/mS
+   GTOnTSZUYfKQean8qLELNrAHKqYAfF6gMwB+866FniF0S+PRLOOwxjmxa
+   nZvtwdZA0E8l9BfaSIjbQaRqbxJpS2yGk/aOPkZajE+vtuFjY1R6eb2LP
+   1uGVFqW1+O1IKp4zLcxLOtkpjM516WV7B+O19+ehSWAXIUh7p8qsEgRs0
+   w==;
+X-CSE-ConnectionGUID: 0hn1ncIRRk29Sjdgy4lJ+w==
+X-CSE-MsgGUID: /OXcOmvXTTiobwOUJ/TKPA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="26294538"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="26294538"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 16:28:18 -0700
+X-CSE-ConnectionGUID: mgev37eXQNC2HMZW779Irg==
+X-CSE-MsgGUID: 5qSrHN8eR2e8V4veVIhYZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="22478446"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 16 Apr 2024 16:28:16 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwsDm-0005qA-2B;
+	Tue, 16 Apr 2024 23:28:14 +0000
+Date: Wed, 17 Apr 2024 07:27:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Naushir Patuck <naush@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>, linux-doc@vger.kernel.org
+Subject: [pinchartl:rpi/v6.9/isp/v2 16/24] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+Message-ID: <202404170711.8Ri744mI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] doc: Split buffer.rst out of api-summary.rst
-From: Randy Dunlap <rdunlap@infradead.org>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20240416031754.4076917-1-willy@infradead.org>
- <20240416031754.4076917-9-willy@infradead.org>
- <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
-Content-Language: en-US
-In-Reply-To: <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git rpi/v6.9/isp/v2
+head:   5101294c3b11eb468b977df8b494c4cc4264a582
+commit: 3d28ed2a4e36222cb404c08eca65a1cbae14fa50 [16/24] staging: vc04_services: bcm2835-isp: Add a more complex ISP processing component
+reproduce: (https://download.01.org/0day-ci/archive/20240417/202404170711.8Ri744mI-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170711.8Ri744mI-lkp@intel.com/
 
-On 4/16/24 3:18 PM, Randy Dunlap wrote:
-> 
-> 
-> On 4/15/24 8:17 PM, Matthew Wilcox (Oracle) wrote:
->> Buffer heads are no longer a generic filesystem API but an optional
->> filesystem support library.  Make the documentation structure reflect
->> that, and include the fine documentation kept in buffer_head.h.
->> We could give a better overview of what buffer heads are all about,
->> but my enthusiasm for documenting it is limited.
->>
->> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
->> ---
->>  Documentation/filesystems/api-summary.rst | 3 ---
->>  Documentation/filesystems/index.rst       | 1 +
->>  2 files changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
->> index 98db2ea5fa12..cc5cc7f3fbd8 100644
->> --- a/Documentation/filesystems/api-summary.rst
->> +++ b/Documentation/filesystems/api-summary.rst
->> @@ -56,9 +56,6 @@ Other Functions
->>  .. kernel-doc:: fs/namei.c
->>     :export:
->>  
->> -.. kernel-doc:: fs/buffer.c
->> -   :export:
->> -
->>  .. kernel-doc:: block/bio.c
->>     :export:
->>  
->> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
->> index 1f9b4c905a6a..8f5c1ee02e2f 100644
->> --- a/Documentation/filesystems/index.rst
->> +++ b/Documentation/filesystems/index.rst
->> @@ -50,6 +50,7 @@ filesystem implementations.
->>  .. toctree::
->>     :maxdepth: 2
->>  
->> +   buffer
-> 
-> This causes:
-> 
-> Documentation/filesystems/index.rst:50: WARNING: toctree contains reference to nonexisting document 'filesystems/buffer'
+All warnings (new ones prefixed by >>):
 
-I added a simple/minimal new buffer.rst file for testing:
-(needs an SPDX line)
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+   Warning: Documentation/gpu/amdgpu/display/display-contributing.rst references a file that doesn't exist: Documentation/GPU/amdgpu/display/mpo-overview.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/media/v4l-drivers/bcm2835-isp.rst
+   Using alabaster theme
 
-
-
----
- Documentation/filesystems/buffer.rst |   11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff -- /dev/null b/Documentation/filesystems/buffer.rst
---- /dev/null
-+++ b/Documentation/filesystems/buffer.rst
-@@ -0,0 +1,11 @@
-+
-+===========================
-+Filesystem buffer head APIs
-+===========================
-+
-+.. kernel-doc:: include/linux/buffer_head.h
-+   :internal:
-+
-+.. kernel-doc:: fs/buffer.c
-+   :export:
-+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
