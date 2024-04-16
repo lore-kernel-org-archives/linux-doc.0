@@ -1,129 +1,198 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C26712DD95;
-	Tue, 16 Apr 2024 14:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D60812DD95;
+	Tue, 16 Apr 2024 14:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713278946; cv=none; b=lBGeUQhrNL9jrr135Z70zcOL1fXjlZ+iF2x9uQQsjBsoHrk8DDEeLT4BmX+3FVSgUX7yAw+3ht3THsh95zQjJ0hDL68O0ppuTMQf0ka+kN8HDTHoa8fFHTo9YtoD1TZZy2XMEcUsClSdBtmDteAUzYRYQAG/+8RCO66FsLGzTEk=
+	t=1713279278; cv=none; b=cZr5f2QER4b0uU8/8C+UVRVMP+r/1VjKj0twBMLBrHw/IVTBoMMoYY6O+WUsK9I5lmRAChEwlFXKNjmMTSFAWEDk1eqsztmdNzgQckHiQhtb1H4Kw2fZVpD3GH209cKb3XBWRm4MwsWD6jyMvmXf7JTX6VY/aFe0qFy+ZyKdmgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713278946; c=relaxed/simple;
-	bh=N7wBR+UpwtOV9tGvVgMsV+bnRTrkTRC+bkXsjuPHIuY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TdszABVUP8uCGvukqb+GKNp/wI7phVHWovWj+J0QIqp+wT6J4rMQoF/mJZmd1qFdDgLotUYNPpdLIVK9y9tRH7UrK9zSkEMveubHBUQCnXb/RZT3DiuydMbwqZ48omK2Jj0RtaKk6diJeI8hAgXMQ+h9/VVaihbphdDIjJ0foTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cp9aWPme; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713279278; c=relaxed/simple;
+	bh=Ky37z6+ib9PoHukGJLoU7Q3WV2IiY+rxAfk1Wn5VtXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qc/Bnd05bTi+qix6TpAXfrNOqFEVqmQ0cON4HupJ/f/lFtZI7ZiaXyHZyvKwQPKffET5AHI7uxknR9AjUBqg3J1N02yVZOPyd4xDvAEtn/jxit4oZvqSZhl9JV/7gKjHmPHZ9joJRYuZUgukzfCSwIuWTfZjcC1jM8nUac4K94o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEtD5pH9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cp9aWPme"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ed01c63657so4012379b3a.2;
-        Tue, 16 Apr 2024 07:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713278944; x=1713883744; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BX6A1PLIPUHloNbC1YwAKF3yvucqzC+IykrkDL2EP9k=;
-        b=Cp9aWPmeMH+dt/AMVWJSWZu8t/9uQxw8G/UwKTRTZwxUj9JadJkKxBHFl++VxFoiwE
-         AgLIp1xWmESaiSA5/UbYipL+s+H64p2AfNFhzJpzILY0IfZrrVBHmqqKxkkI/nxgw+7h
-         6kB+okac3WlQTYydfqpoHnmFvn4pwxCy0WgtGsrUov56z37148y/6Ipd9avj+Bld/i+u
-         k312TBwFccBR94oD1Mqw1hz1rKvJlODxVat36Gd9+cGw1Ky1szuuJIDP4tEPSF5w98Ix
-         ieFzGmi5PGiPZ0CwokfeIJFQv2NV9yuFCh7hHzKp9Sv3jR31nXxuj1S+DBPnwGiCGQzN
-         M+Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713278944; x=1713883744;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BX6A1PLIPUHloNbC1YwAKF3yvucqzC+IykrkDL2EP9k=;
-        b=TJBznwNQNwYKj022PeFNvURJ3+Ixc6bGrVQPrx2e+2+2Z8+7m8f9+CWqtjB6L72KY9
-         D/Ry/MFNSiljHfavSSj4Gk8XFm/ZLyhKUmp83LmkYOnJ2VONv4jyF6NyKOOcMsml1X71
-         GTn1bdRSK+3V1jG30+VS5htwDEZwYpvpn07GJ3EZvlnXddp3Xe4qrxsTNKP9zEh3zy5b
-         VSeCCA5f8BZsf898SGMrmbHSK1xvUsp1q3UCA/ASkBrG1AFr1zWKSzVB8n9oxXxDtAek
-         /DROd/DDDqgNmRdJ85md3UppbRW0SskzUTcqkO2ftaaOCSU24OxNFsKiV3vvYTOng/YG
-         2QpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJQkQTvTuMLMUjNoh2v+mrMhx1RHnGnK+EeKCefutz8gnnyIy93jXJhUQ1rH5Cl0sI3/0NRvjDsN5IDi+mchXp8SdMkBiKZNM+wQE7dARzuPjMPkxJW2AXff5RgcdrIe5FIF97uusdDH6euD4Qt00y/o9n8AtpkNji5kjSiQG4Mg==
-X-Gm-Message-State: AOJu0YyfRdaf1tAvlnYUg6ENAs3thHAunlbsisQogRi/YvDVG2AOHUMU
-	Ajwqd4HaHvxyq7C+cyfkvvAsIliZuNvn7n0LftYyN3M/+lHFIz++o1lv4n6huM3hJZFmjgleE4L
-	IAO1SFMGW7lTIXxHgnBKiLXdqbqrYGjFxL4I=
-X-Google-Smtp-Source: AGHT+IHwXhNE3qhkiOVa1dv2tNZZoMwwK96HbsfDvdiRkntrb7ZgeBlDRihGUMHsqNe5ZhvEp1uCE2io4H+6TCFJAD0=
-X-Received: by 2002:a05:6a20:3255:b0:1a7:9fd2:8bbb with SMTP id
- hm21-20020a056a20325500b001a79fd28bbbmr11344740pzc.24.1713278944220; Tue, 16
- Apr 2024 07:49:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEtD5pH9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32502C113CE;
+	Tue, 16 Apr 2024 14:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713279277;
+	bh=Ky37z6+ib9PoHukGJLoU7Q3WV2IiY+rxAfk1Wn5VtXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pEtD5pH9wGVvkTiTrN/Zv2kB3piFiOp8GLYBuZ4Qvza0csKCqdYE+T3XNrOkZjcDc
+	 xLdcPJG/CY+e52NYakI14kcCBLgoFt4AC7dD13hoHCIYKPPMgiadW7sCMUb2+3f51T
+	 Uh5lw6yh263zVY9j1V2bdrYKM8Z3hsKoibYhJehcBQi5CVj2ortZ3LUbKSZyi+qPkh
+	 fWP2aQd4lM7J9clMqP5DvtTkwtiOuHZ66G937Na1DSHjmW9tjeRkAT+T2hHadeJdVQ
+	 m3vTMM9KI0jjLuhJMk74BB1SDedHpANEBwdIUJW+fw+awljjiGKv2V+RLXB1Q+23H2
+	 KyWk2I4BCHAqA==
+Date: Tue, 16 Apr 2024 15:54:32 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Deepak Gupta <debug@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 07/10] riscv: add ISA extension parsing for Zcmop
+Message-ID: <20240416-gave-apron-3234098ce416@spud>
+References: <20240410091106.749233-8-cleger@rivosinc.com>
+ <ZhcFeVYUQJmBAKuv@debug.ba.rivosinc.com>
+ <20240410-jawless-cavalry-a3eaf9c562a4@spud>
+ <20240410-judgingly-appease-5df493852b70@spud>
+ <ZhcTiakvfbjb2hon@debug.ba.rivosinc.com>
+ <1287e6e9-cb8e-4a78-9195-ce29f1c4bace@rivosinc.com>
+ <20240411-superglue-errant-b32e5118695f@wendy>
+ <c86f9fa8-e273-4509-83fa-f21d3265d5c9@rivosinc.com>
+ <20240411-backwater-opal-00c9aed2231e@wendy>
+ <5eda3278-24bc-4c17-a741-523ad5ff79f7@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240414065305.9796-1-marco@sirabella.org>
-In-Reply-To: <20240414065305.9796-1-marco@sirabella.org>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Tue, 16 Apr 2024 16:48:52 +0200
-Message-ID: <CAOiHx==-V-SeyiH3+BbPD2r13vwsWE2MzRDjtHRBWX7CtFLsDg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: spi: Update gpio+bitbang instruction
-To: Marco Sirabella <marco@sirabella.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	linux-spi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="o4oWfyukzOIBXo40"
+Content-Disposition: inline
+In-Reply-To: <5eda3278-24bc-4c17-a741-523ad5ff79f7@rivosinc.com>
 
-Hi,
 
-On Sun, 14 Apr 2024 at 08:54, Marco Sirabella <marco@sirabella.org> wrote:
->
-> The way to do this was changed in
-> 9b00bc7b901f (spi-gpio: Rewrite to use GPIO descriptors)
-> and there's no real docs outlining this,
-> update defunct #include "spi-gpio.c" instructions
->
-> Signed-off-by: Marco Sirabella <marco@sirabella.org>
-> ---
->  drivers/spi/spi-gpio.c | 17 ++++-------------
->  1 file changed, 4 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/spi/spi-gpio.c b/drivers/spi/spi-gpio.c
-> index 909cce109bba..8c5f88f01db2 100644
-> --- a/drivers/spi/spi-gpio.c
-> +++ b/drivers/spi/spi-gpio.c
-> @@ -44,22 +44,13 @@ struct spi_gpio {
->   * per transferred bit can make performance a problem, this code
->   * is set up so that you can use it in either of two ways:
->   *
-> - *   - The slow generic way:  set up platform_data to hold the GPIO
-> + *   - The generic way:  set up platform_data to hold the GPIO
->   *     numbers used for MISO/MOSI/SCK, and issue procedure calls for
->   *     each of them.  This driver can handle several such busses.
+--o4oWfyukzOIBXo40
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-9b00bc7b901f (spi-gpio: Rewrite to use GPIO descriptors) removed the
-fields for the GPIO numbers, so this is definitely not the way
-anymore.
+On Mon, Apr 15, 2024 at 11:10:24AM +0200, Cl=E9ment L=E9ger wrote:
+>=20
+>=20
+> On 11/04/2024 13:53, Conor Dooley wrote:
+> > On Thu, Apr 11, 2024 at 11:08:21AM +0200, Cl=E9ment L=E9ger wrote:
+> >>>> If we consider to have potentially broken isa string (ie extensions
+> >>>> dependencies not correctly handled), then we'll need some way to
+> >>>> validate this within the kernel.
+> >>>
+> >>> No, the DT passed to the kernel should be correct and we by and large=
+ we
+> >>> should not have to do validation of it. What I meant above was writing
+> >>> the binding so that something invalid will not pass dtbs_check.
+> >>
+> >> Acked, I was mainly answering Deepak question about dependencies wrt to
+> >> using __RISCV_ISA_EXT_SUPERSET() which does not seems to be relevant
+> >> since we expect a correct isa string to be passed.
+> >=20
+> > Ahh, okay.
+> >=20
+> >> But as you stated, DT
+> >> validation clearly make sense. I think a lot of extensions strings wou=
+ld
+> >> benefit such support (All the Zv* depends on V, etc).
+> >=20
+> > I think it is actually as simple something like this, which makes it
+> > invalid to have "d" without "f":
+> >=20
+> > | diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml =
+b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > | index 468c646247aa..594828700cbe 100644
+> > | --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > | +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> > | @@ -484,5 +484,20 @@ properties:
+> > |              Registers in the AX45MP datasheet.
+> > |              https://www.andestech.com/wp-content/uploads/AX45MP-1C-R=
+ev.-5.0.0-Datasheet.pdf
+> > | =20
+> > | +allOf:
+> > | +  - if:
+> > | +      properties:
+> > | +        riscv,isa-extensions:
+> > | +          contains:
+> > | +            const: "d"
+> > | +          not:
+> > | +            contains:
+> > | +              const: "f"
+> > | +    then:
+> > | +      properties:
+> > | +        riscv,isa-extensions:
+> > | +          false
+> > | +
+> > | +
+> > |  additionalProperties: true
+> > |  ...
+> >=20
+> > If you do have d without f, the checker will say:
+> > cpu@2: riscv,isa-extensions: False schema does not allow ['i', 'm', 'a'=
+, 'd', 'c']
+> >=20
+> > At least that's readable, even though not clear about what to do. I wish
+>=20
+> That looks really readable indeed but the messages that result from
+> errors are not so informative.
+>=20
+> It tried playing with various constructs and found this one to yield a
+> comprehensive message:
+>=20
+> +allOf:
+> +  - if:
+> +      properties:
+> +        riscv,isa-extensions:
+> +          contains:
+> +            const: zcf
+> +          not:
+> +            contains:
+> +              const: zca
+> +    then:
+> +      properties:
+> +        riscv,isa-extensions:
+> +          items:
+> +            anyOf:
+> +              - const: zca
+>=20
+> arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb: cpu@0:
+> riscv,isa-extensions:10: 'anyOf' conditional failed, one must be fixed:
+>         'zca' was expected
+>         from schema $id: http://devicetree.org/schemas/riscv/extensions.y=
+aml
+>=20
+> Even though dt-bindings-check passed, not sure if this is totally a
+> valid construct though...
 
-Since the code now always uses descriptors, the performance comment in
-the first paragraph does not apply anymore as well and should be
-dropped as well.
+I asked Rob about this yesterday, he suggested adding:
+riscv,isa-extensions:
+  if:
+    contains:
+      const: zcf
+  then:
+    contains:
+      const: zca
+to the existing property, not in an allOf. I think that is by far the
+most readable version in terms of what goes into the binding. The output
+would look like:
+cpu@0: riscv,isa-extensions: ['i', 'm', 'a', 'd', 'c'] does not contain ite=
+ms matching the given schema
+(for d requiring f cos I am lazy)
 
->   *
-> - *   - The quicker inlined way:  only helps with platform GPIO code
-> - *     that inlines operations for constant GPIOs.  This can give
-> - *     you tight (fast!) inner loops, but each such bus needs a
-> - *     new driver.  You'll define a new C file, with Makefile and
-> - *     Kconfig support; the C code can be a total of six lines:
-> - *
-> - *             #define DRIVER_NAME     "myboard_spi2"
-> - *             #define SPI_MISO_GPIO   119
-> - *             #define SPI_MOSI_GPIO   120
-> - *             #define SPI_SCK_GPIO    121
-> - *             #define SPI_N_CHIPSEL   4
-> - *             #include "spi-gpio.c"
-> + *   - The inlined way:  manually set up and register a gpiod_lookup_table with
-> + *     the appropriately labelled gpio pins "sck", "mosi", "miso" & an array
-> + *     named "cs" before calling devm_spi_register_controller (XXX).
+Also, his comment about your one that gives the nice message was that it
+would wrong as the anyOf was pointless and it says all items must be
+"zca". I didn't try it, but I have a feeling your nice output will be
+rather less nice if several different deps are unmet - but hey, probably
+will still be better than having an undocumented extension!
 
-I think you need to use platform_device_register(), at least both
-remaining users do so. And this is AFAICT now the only option for
-registering it via C code (which also means that DRIVER_NAME will
-never be defined from outside, and GENERIC_BITBANG will always be true
-... ).
 
-Best Regards,
-Jonas
+--o4oWfyukzOIBXo40
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh6RJwAKCRB4tDGHoIJi
+0gKiAPwO95yHRMreVZI1sGkG9R4vNU1EfJdXv3oNOqMEeB8Z7wEA/fI5rZ01fYH6
+ZiMSKf0BThc7H4AEo7Lo2lqLwVoBngw=
+=iSce
+-----END PGP SIGNATURE-----
+
+--o4oWfyukzOIBXo40--
