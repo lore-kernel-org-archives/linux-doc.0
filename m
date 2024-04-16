@@ -1,270 +1,217 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2057.outbound.protection.outlook.com [40.107.7.57])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4265E3BB30;
-	Tue, 16 Apr 2024 13:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713273567; cv=fail; b=SSpjiue7gLgEhaZgzIdKbtyFT6YCDZcn5by8U+mP3eprfgC4n+SwxrM7Y9oqTkDr1+kX2Rj4FNMdF3kUS3cqZt8rCYBa9DW3t9pZRyMcUo7JlHGfbvBLb4wB7Ipaspw8cqiL3WkvBkOPfISY/tTNx16diaY1EAb9VxBxqeFaml4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713273567; c=relaxed/simple;
-	bh=KR/VrV+G5DdKvF2qawzBVBKExvS7/HQgWNxrT2AzNAY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=TdOrXuZLZmOIC4SfqvGO3r9j3R6loOTeKqzHOAfBJV3yWKVIwpErwRGST0kyjQUGleyzfp2ukxPi3AL08AGkPmeiRVliDHgPwt0rHC0wzRf/gB0VBLwuynBUurs56QIu2P+8m6gYvTFXtMwbHYjhESf7A1gMX2+S/cD1xewxzO8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=RjbKUFye; arc=fail smtp.client-ip=40.107.7.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A6212C7FB;
+	Tue, 16 Apr 2024 13:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713275069; cv=none; b=hTODmIRRJTA0hFwErqompjKuNwbZTaz4pIUtICxs+VWXMXkuf7PTnPTMDtHH5t7/yoQU6tV8WfT5uAHgFBsrhD40M4G8AAnZwe9a7hNwHaO/M4jnsbKORgI3CSMKTow28sg6snMAjrDT3qO404D8EmGhAwK/4+cm943VwsRgjVI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713275069; c=relaxed/simple;
+	bh=yIT1Hq1Q+QFvhkrUGnRLbVn2bvPzGMAzhArPVhVcvS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mTF/jLQSoagCGmHCEeJxqo96URRyb1K3lcgnIcH2P0NJi1JWqfJiWPy69gfydI5qF04RBKeeMhfyMAfZzh9gy5qByYmPwnuCeUcoVSR0jft9LZHKTKIKMzszfWSKwjdvrkq7BYzDfYhgGnx+MzJeA5YvCZXRWpxJ0lrEY9RgzKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnEZ9Ww7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="RjbKUFye"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ljQwafFy/kjBCtXLDhZbmgIT9oNlK0GHk9kCFF2Xe1g86klxGaz8UgpCZELxtHYKxZUgR+hI0RPBBtjVumWrbZCMnDqI5HF1bh2jCUdKwtRcHyiEc6gmZiX7sv6OThuU2d9xpxifUHAhXWm0CSr0CxRtsdriCBKFfDXubfiKC9TyZ03W72SUmzrMMgN6Im/fEPuAzCaQUQaWIjdEZQgNEDkeBrJGEm6VrlF2GErKT964fteFo+Uer6tQUFxkjLuwbI3sSyP4ztNM3xj045p9eFnGuv25DBkzU3dt4AiOM3RYRI7F4B36fSxJPnrsowXMlDJ8lhDVBxim3In8LMwLug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eqevLgnm0Wdwaly5aA+vuWQBjA/iUQZ0g4gkgcuypt0=;
- b=aZQpP3yi86S6Vhqd3575WzskQOoLpFSgOSDsW7YyZ4mgcd0womdPPHYtHiBnqA4GRY73fy086SJ+aHsyfqOnfhBsKd2Be4xgoYikmL03QqMb4Chcep5cQDBPPowaz0z8J2gzLPG+UNKySvLaYyS2KQ7lsPB0oJ6mCVbJDdRgCS1iP/+1aKGxdSX17SdCsROb4uuF/kyREjL14GuliIzsseaqCla6JT1lUWAIUozklA52uj9GTzMTnT94NtZNy0lkPkEQLFiYPK25F0d4dW/p+iZ6iCYrSfcnj24nYKQ/8v/47KMUDLLneryXLADjABdVxg1s95OWcfkNPw4gIH2Ozg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eqevLgnm0Wdwaly5aA+vuWQBjA/iUQZ0g4gkgcuypt0=;
- b=RjbKUFyebefIdEqVExh8W08hwfVTktqu1qj73PlWTHWb3SyT5sQxp8sCduNYW1F5X6xA2bXkb9E862ZKKz2hkRlb1qg7jGxuEMPZYBcA+q+Dl2ZezXgjsRVavgrfr2yz56otsQKLN1eLCYSZPCUjX2pfA8ZXcxdfgPJtiUiDsc0=
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com (2603:10a6:10:358::11)
- by PA4PR04MB9438.eurprd04.prod.outlook.com (2603:10a6:102:2aa::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Tue, 16 Apr
- 2024 13:19:21 +0000
-Received: from DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::d30b:44e7:e78e:662d]) by DU0PR04MB9417.eurprd04.prod.outlook.com
- ([fe80::d30b:44e7:e78e:662d%4]) with mapi id 15.20.7452.049; Tue, 16 Apr 2024
- 13:19:21 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Rob Herring <robh@kernel.org>
-CC: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
-	<festevam@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
-	<cristian.marussi@arm.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH v3 2/6] dt-bindings: firmware: add i.MX95 SCMI Extension
- protocol
-Thread-Topic: [PATCH v3 2/6] dt-bindings: firmware: add i.MX95 SCMI Extension
- protocol
-Thread-Index: AQHajMWwPzKaKnlwaUWTuAs/m6AnGLFkopsAgAADorCABj4qgIAAAx8Q
-Date: Tue, 16 Apr 2024 13:19:21 +0000
-Message-ID:
- <DU0PR04MB9417D5A577A5E91AC98B69C588082@DU0PR04MB9417.eurprd04.prod.outlook.com>
-References: <20240412-imx95-bbm-misc-v2-v3-0-4380a4070980@nxp.com>
- <20240412-imx95-bbm-misc-v2-v3-2-4380a4070980@nxp.com>
- <20240412133400.GA2282201-robh@kernel.org>
- <PA4PR04MB941680A7FCBCDF926417F6A388042@PA4PR04MB9416.eurprd04.prod.outlook.com>
- <20240416130703.GA1992329-robh@kernel.org>
-In-Reply-To: <20240416130703.GA1992329-robh@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DU0PR04MB9417:EE_|PA4PR04MB9438:EE_
-x-ms-office365-filtering-correlation-id: cb67333e-655c-406d-3160-08dc5e17d439
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- wLRSyMchFwbmW/rRWhOE2V6l4WqN0M5cc28HjA34MjvmBY99BKe4O0rt8chUvTlHE/LJRPC/ibLR+OQ2dJmwj4hsFdJqa5paMKhBhm1gI5OFtG2gfBMQaFwIHLFKquY1ztoJW+brB23QRNYPyfrJ2E3AdJMUZOORHNUP92lE5IjCySfY67tMHfPArHPSAI8ZfubAHTefB+vvi/z2NmXbl/rnsSr7ClaRsuClQwDZ01u35S5IlHjeFRG2DcrtYJQG5N8Ebzn8/y4GOg/ebjwrplPTOmkgUzb8UMlFcEBh1FOqbTRl0DlIw9kh+G4oo23P+nmpyyjBMMaymyWK0sfgMyhuZMUsJPX3oJ5wgdknaQbwyskdxakNvOedKqa1lt2xJA+4htHnlgsv+E3rB5l+Vhsbj3EzICK6qgBeYtFsxTRfNHoIFSvaThtZTjnJ3iL/sg7k+VuD385WqaI5YcQQpUaq3dewF+1JYWZIQQ5IqcVECDX3qUiD93NImZISYwGW760vGNYbDW+4TahxMABCLT3JskGRONdXR1XRdZ0pdtMM68H5uF6pLnBpqVqlIcXh5BF0xkKNMcBkb074/zXvxh7eFYXI1zBq0M8O3ETTc4+ouI1PRbtJDVhkJEm/3lAqm0XN9+Cp2Jt49cSZNY5rwb0wwlF1uKJuAN9Cmm1DUDR/IQJEEkZGC3wZrh0Gfd/zMnBXd/V/+qoU2yOXH3Ajaw==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9417.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?XIyl3yizMrlQt6H1YAk+Zvp/QjSqO7QyFSjFtO26JaDBbIuB6/5TIWIMsUVH?=
- =?us-ascii?Q?as94ZwjGYPZEoRlvyt+5iZ3RAMCgbpWBlS0/zfSIFSm5u4L9TtaDKMVu0pUz?=
- =?us-ascii?Q?iFnqSeOaaJyM+PbGddf7k94Z+EO/QDMp2y79TfnG9rCuaIyhuHNhYsdUXu6V?=
- =?us-ascii?Q?k8ovCKePdfG3sWKBCNzQXiIIUPwOCcWu0JuWtGxDr9cuKOZtpowRuL/WVFSH?=
- =?us-ascii?Q?05KzvL+deU1ZBnQlw1nlAycexg78stLnnVBEcGEOlLZTkCTbKSgdUhWGKTte?=
- =?us-ascii?Q?GLXA/OhTwtgZyOCKzKhqO9TIPAw7M5Q6nrwCAqiOY1DdrXjtmVzvkrlyN+9A?=
- =?us-ascii?Q?79IddHpyqJP6tWghudBvewXYtuL8D7vEEqdZebr24cE/MEdCtUuPbQ8PEqi6?=
- =?us-ascii?Q?yX99hfiQVjA/EiAJF1GqXVriacAGt0vqMZHaRPg+aYQOTL/EKBovWflJ2h6J?=
- =?us-ascii?Q?/+gEg9NuoBBkHC2FHEZh2e+KzGJNk6f1T9RJ8UrHuc3mMO7cReuYGhSq/GDS?=
- =?us-ascii?Q?4g0R4G/bbT4d4UBjZpzeUyh+cawcmWBlJuAWyjAKuGf7ssKYx0sMyZP/8ITs?=
- =?us-ascii?Q?PJxDW/ZJiabmh5Xt4SLEl0i/RYXWwETcsP2VNEloMJ1qYBBSaMR9t12j7M+4?=
- =?us-ascii?Q?xJBIeBEumVD+Xd3yBYcKIP3MarbtYk4qPYdAlDHI61dwbbCVM6dHuV9Gti8M?=
- =?us-ascii?Q?IkQrc5xCXQvPaqgjYpZzhy+jvHnMz60+rbTPzwprvsLp/QSt1NrQPzEFfT2K?=
- =?us-ascii?Q?VCGqScqfzmQJGlPccqSh5qHPdTc4qqpzE1d/KLETLAT1n+hpWqt7NkL/dydU?=
- =?us-ascii?Q?qvUoX0Es4WpJKa1cO4pDdyOtgQD/pQOU1JzamE5fvbKenQh+ED11adxj/5ih?=
- =?us-ascii?Q?m1U3FNUKtNggFejaXQyJY0vw7+SXj/1SN2Tm9gSYda77nuNJuKuqcdCq216P?=
- =?us-ascii?Q?1uKXq9BjHce1dr3HQLmc2AMPTcPHI8s/dr4r5wy8hqPevqVE40/7IrKCy+3e?=
- =?us-ascii?Q?/Gp4wESZOd9ILz/K9aAPL+8HcJrCNwNa22dMKmisjtmO9gHJ2nb89nd8EjoI?=
- =?us-ascii?Q?iVEIHfA2R0LOPrsBCKXHlUAprvXqQ+Y8KmsBW51S2IOPr1Sl45hpq5AyLbyy?=
- =?us-ascii?Q?dv6xPG3UGckTNxw3H+7BdUFahbulve41zMGEzfUB8XQk3oAHqpHrXK7jSncV?=
- =?us-ascii?Q?a8gQelsams4zRLH+P3whnFMj1e5Jj4XB/0kL7Z+x+lxFeZ83dkpNJRPQMFWj?=
- =?us-ascii?Q?umUSTRq9e1piGJh/xRT0KedF4cWTACeYS/PB/l0/xLfLmoKHvf3jj54Uzfc8?=
- =?us-ascii?Q?9Uzke/KnEa1qTSFuq9oqalf6v6FuSz4hrlxUApb3VXagPsVET5+Q9QO3mtWh?=
- =?us-ascii?Q?ntv5hQ5HLs0+d7jYaXMJr1aYwMDaZcmoty5eNd03ENB7ppeudsKmVYNH2qW3?=
- =?us-ascii?Q?b6iPFsJ2N+VWPWcJOdl5PKvQiE/4v8+cXvOz50E2hGwo28a7xEuERV3Y++8R?=
- =?us-ascii?Q?+J/Oq/nx/zaH4A12WujmKui9k+ki4S+ntgvmEC/Z+uTzQTV/0LJlFD59xKVF?=
- =?us-ascii?Q?LFlGhcCs2AlPN1VQI2g=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnEZ9Ww7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713275067; x=1744811067;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yIT1Hq1Q+QFvhkrUGnRLbVn2bvPzGMAzhArPVhVcvS4=;
+  b=dnEZ9Ww7byrw/ooxpfYc3KaclMCfbp7m+MQ3x0tHkp74OGJVbfpH6IqR
+   WP/dYGWNQoy90HnQ2EiZj76Fu27nlcS+eJjqyFMECIvZ3wa3mnCuuCTNo
+   liYh7OuTA3m7M7qyChUGOWvWGrb0xobj/PKXs2EB8c4bbSyqZ2FD+Vggf
+   KvOIGz4XeazO+1fK7Zq5MXiMIunL+mGKkXYY1IsWQmpLcB90JQOX1++PE
+   stT7eayy2u/pRWLtTCPM6xN5ShQQK4LRUgdLICQn5O0jYT4hCXY9Sb0ON
+   HC6Icmbn4QgcOTkR9AINWVVvzy3tQWdSmnvcJmhASxPGl668Nq/RLIpAt
+   A==;
+X-CSE-ConnectionGUID: duIRvNvxQBWOlCMvFRm0Sw==
+X-CSE-MsgGUID: YlW5INnFSbOzJOgN/o+9vQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8823866"
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="8823866"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 06:44:26 -0700
+X-CSE-ConnectionGUID: 6KgPAxkdTZi56IQwb7BkxQ==
+X-CSE-MsgGUID: 8H3eU6/hQGW/35RqtA+D7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,206,1708416000"; 
+   d="scan'208";a="22330276"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by fmviesa008.fm.intel.com with SMTP; 16 Apr 2024 06:44:15 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Tue, 16 Apr 2024 16:44:14 +0300
+Date: Tue, 16 Apr 2024 16:44:14 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
+ helper
+Message-ID: <Zh6Ars8z1ESz-LQO@intel.com>
+References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
+ <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9417.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb67333e-655c-406d-3160-08dc5e17d439
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2024 13:19:21.7453
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JgHprwJcEoyjBmelzh/PPE+dBTmSmIQ2g1LMFy3mlVtdF+ipPoM3CwIdPBfWeHzKYwP4MzDkUI6Szpz0oqHavA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9438
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
+X-Patchwork-Hint: comment
 
-> Subject: Re: [PATCH v3 2/6] dt-bindings: firmware: add i.MX95 SCMI
-> Extension protocol
->=20
-> On Fri, Apr 12, 2024 at 01:50:37PM +0000, Peng Fan wrote:
-> > Hi Rob,
-> >
-> > > Subject: Re: [PATCH v3 2/6] dt-bindings: firmware: add i.MX95 SCMI
-> > > Extension protocol
-> > >
-> > > On Fri, Apr 12, 2024 at 06:47:08PM +0800, Peng Fan (OSS) wrote:
-> > > > From: Peng Fan <peng.fan@nxp.com>
-> > > >
-> > > > Add i.MX SCMI Extension protocols bindings for:
-> > > >  - Battery Backed Module(BBM) Protocol
-> > > >    This contains persistent storage (GPR), an RTC, and the ON/OFF b=
-utton.
-> > > >    The protocol can also provide access to similar functions implem=
-ented
-> via
-> > > >    external board components.
-> > > >  - MISC Protocol.
-> > > >    This includes controls that are misc settings/actions that must =
-be
-> exposed
-> > > >    from the SM to agents. They are device specific and are usually =
-define
-> to
-> > > >    access bit fields in various mix block control modules,
-> > > > IOMUX_GPR, and
-> > > other
-> > > >    GPR/CSR owned by the SM.
-> > > >
-> > > > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> > > > ---
-> > > >  .../devicetree/bindings/firmware/arm,scmi.yaml     | 21 ++++++++++=
-+++
-> > > >  .../bindings/firmware/nxp,imx95-scmi.yaml          | 36
-> > > ++++++++++++++++++++++
-> > > >  2 files changed, 57 insertions(+)
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > > b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > > index 93fb7d05f849..fa2cc910c485 100644
-> > > > --- a/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > > +++ b/Documentation/devicetree/bindings/firmware/arm,scmi.yaml
-> > > > @@ -247,6 +247,27 @@ properties:
-> > > >        reg:
-> > > >          const: 0x18
-> > > >
-> > > > +  protocol@81:
-> > > > +    $ref: '#/$defs/protocol-node'
-> > > > +    unevaluatedProperties: false
-> > > > +
-> > > > +    properties:
-> > > > +      reg:
-> > > > +        const: 0x81
-> > > > +
-> > > > +  protocol@84:
-> > > > +    type: object
-> > > > +    anyOf:
-> > > > +      - allOf:
-> > > > +          - $ref: /schemas/firmware/nxp,imx95-scmi.yaml
-> > > > +          - $ref: '#/$defs/protocol-node'
-> > >
-> > > If you put the ref under the protocol node, then it's 1 schema file
-> > > per protocol per vendor. Also, we then have to list every possible
-> > > protocol node here, and every one listed here will be valid for every
-> vendor.
-> > > What we discussed is putting the list of vendor protocol schemas at
-> > > the top- level here and then the vendor schemas can list out all the
-> protocol nodes.
-> > >
-> > > Also, move "$ref: '#/$defs/protocol-node'" to nxp,imx95-scmi.yaml.
-> >
-> > In arm,scmi.yaml top level, add below:
-> > +anyOf:
-> > +  - $ref: /schemas/firmware/nxp,imx95-scmi.yaml
-> >
-> > And also add a protocol node:
-> >   protocol@84:
-> >     $ref: '#/$defs/protocol-node'
-> >
-> >     properties:
-> >       reg:
-> >         const: 0x84
-> > But here I not add unevaludatedProperties =3D false; otherwise the
-> > vendor yaml new properties will not work.
->=20
-> Just drop 'protocol@84' entirely here and change the top-level
-> additionalProperties to unevaluatedProperties.
+On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
+> A lot of HDMI drivers have some variation of the formula to calculate
+> the TMDS character rate from a mode, but few of them actually take all
+> parameters into account.
+> 
+> Let's create a helper to provide that rate taking all parameters into
+> account.
+> 
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++++++++++
+>  include/drm/display/drm_hdmi_helper.h     |  4 ++
+>  2 files changed, 74 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> index faf5e9efa7d3..2518dd1a07e7 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+>  	}
+>  
+>  	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
+>  }
+>  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+> +
+> +/**
+> + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
+> + * @mode: Display mode to compute the clock for
+> + * @bpc: Bits per character
+> + * @fmt: Output Pixel Format used
+> + *
+> + * Returns the TMDS Character Rate for a given mode, bpc count and output format.
+> + *
+> + * RETURNS:
+> + * The TMDS Character Rate, in Hertz, or 0 on error.
 
-Thanks, will fix in v4.
->=20
-> >
-> > In nxp,imx95-scmi.yaml:
-> > properties:
-> >   protocol@84:
-> >     $ref: '/schemas/firmware/arm,scmi.yaml#/$defs/protocol-node'
-> >     unevaluatedProperties: false
-> >
-> >     properties:
-> >       reg:
-> >         const: 0x84
-> >
-> >       nxp,wakeup-sources:
-> >         description:
-> >           Each entry consists of 2 integers, represents the source and =
-electric
-> signal edge
-> >         items:
-> >           items:
-> >             - description: the wakeup source
-> >             - description: the wakeup electric signal edge
->=20
-> Constraints on the items values?
+Everything generally uses kHz. Sticking to common units
+would be better.
 
-will add in v4.
+> + */
+> +unsigned long long
+> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> +			    unsigned int bpc, enum hdmi_colorspace fmt)
+> +{
+> +	unsigned long long clock = mode->clock * 1000ULL;
+> +	unsigned int vic = drm_match_cea_mode(mode);
+> +
+> +	/*
+> +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
+> +	 * mandates that VIC 1 always uses 8 bpc.
+> +	 */
+> +	if (vic == 1 && bpc != 8)
+> +		return 0;
+> +
+> +	/*
+> +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> +	 * specifies that YUV420 encoding is only available for those
+> +	 * VICs.
+> +	 */
+> +	if (fmt == HDMI_COLORSPACE_YUV420 &&
+> +	    !(vic == 96 || vic == 97 || vic == 101 ||
+> +	      vic == 102 || vic == 106 || vic == 107))
+> +		return 0;
 
->=20
-> >         minItems: 1
-> >         maxItems: 32
-> >         $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> >
-> > additionalProperties: true
-> >
-> > Are the upper looks good to you?
->=20
-> Yes, other than the one comment.
+I believe that is already outdated. I would just rip this out since the 
+sink is anyway required to declare for which timings it will support
+4:2:0 via the Y420CMDB/VDB data blocks (see
+drm_mode_is_420_{only,also}().
 
-Thanks for help reviewing the patch.
+> +
+> +	if (fmt == HDMI_COLORSPACE_YUV422) {
+> +		/*
+> +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
+> +		 * specifies that YUV422 is 36-bit only.
+> +		 */
+> +		if (bpc != 12)
+> +			return 0;
+> +
+> +		/*
+> +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
+> +		 * specifies that YUV422 requires two 12-bits components per
+> +		 * pixel clock, which is equivalent in our calculation to three
+> +		 * 8-bits components
+> +		 */
+> +		bpc = 8;
+> +	}
+> +
+> +	/*
+> +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
+> +	 * equal to half the pixel clock rate.
+> +	 */
+> +	if (fmt == HDMI_COLORSPACE_YUV420)
+> +		clock = clock / 2;
+> +
+> +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+> +		clock = clock * 2;
+> +
+> +	clock = clock * bpc;
+> +	do_div(clock, 8);
 
-Thanks,
-Peng.
->=20
-> Rob
+IMO one shouldn't use bare do_div(). There are
+more sensible wrappers for it.
 
+In this case I would use DIV_ROUND_CLOSEST_ULL().
+
+Although the 64bit math is not even required if you
+just stick to kHz like everyone else.
+
+> +
+> +	return clock;
+> +}
+> +EXPORT_SYMBOL(drm_hdmi_compute_mode_clock);
+> diff --git a/include/drm/display/drm_hdmi_helper.h b/include/drm/display/drm_hdmi_helper.h
+> index 76d234826e22..57e3b18c15ec 100644
+> --- a/include/drm/display/drm_hdmi_helper.h
+> +++ b/include/drm/display/drm_hdmi_helper.h
+> @@ -22,6 +22,10 @@ drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+>  				    const struct drm_connector_state *conn_state);
+>  
+>  void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+>  					 const struct drm_connector_state *conn_state);
+>  
+> +unsigned long long
+> +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> +			    unsigned int bpc, enum hdmi_colorspace fmt);
+> +
+>  #endif
+> 
+> -- 
+> 2.44.0
+
+-- 
+Ville Syrjälä
+Intel
