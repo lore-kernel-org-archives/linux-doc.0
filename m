@@ -1,59 +1,60 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4012F387;
-	Tue, 16 Apr 2024 16:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82215134CD0;
+	Tue, 16 Apr 2024 18:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713284369; cv=none; b=lh4RxGFEoFRh6UAFdakO15yszLmlXshAntE/2Vff5ttQ/G3rx9sWMzgqllXWwR9JS4ybCAsCBZRiOKVVsT71GzypRcMKSy9/Ouw3RdAlOGzxaoSUEhCRY3BV67ronbkFU97ZL9UrjYwq88leWVg0qQ/wLLVZtPN7tH03VpYmNWU=
+	t=1713291539; cv=none; b=UJDYqA+IzvtgyBlPPl88CecDRr8D0KPCT9dr7d4KATtguZzNhHfwrJUb5bBEpt7DHuIp3bj9mCguRlT4x09Lh+291joy3s801YFo3tfnaK+Xwt8wIPmgnJkps+lXfMbJUL7NAxaxh7MD04uTQExFqyxyUZ4UN/5dlXiHfg8GXog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713284369; c=relaxed/simple;
-	bh=3zAPfjvHteJBBddQNYzl55aQUUjHHppgPi7ePDJmnxg=;
+	s=arc-20240116; t=1713291539; c=relaxed/simple;
+	bh=b8lvL9NZew815z7UQj8VRuFSqjRmCSD7OcL9Id2dkB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=trZaFr1yc+gUKGk0qeGLIShlKsPACRgLiQKFeqiyfxMkNXhe0fbdfuD89SCOxYXf6BIq79dA88cDMzkJw6+I4eR9nqZgjYQ4drGru0n/nETPSDhZKTrIZA7rrY8CvLEH+0w+1loIegJhu7QLK9x6eRLGRgiMwtBoB7yFbw0YdbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n6oZDMS0; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=CTpQnzdebsh/hzsAeO6K65fjJd4v85sdjT8UcZEM0IbkStsQ63QjYR57rDb4lC3+s0VUTgBNvTwQkRaD4rLE8W7mfUrPDFSnZjVAoXIcbVRCVfQHfE22gstb4cQJQMfGR8mnvebRDobxaJjNytfbDDSQIXzPi7unoh9KyfE3VnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=UoK8ibTI; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n6oZDMS0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=7Xh9QahWZwTjmL2IMPLsv4+7DG/WtPClJRGihDEPKvo=; b=n6oZDMS0oxpy46eVB6FiyrfWLd
-	rAK7xR44f9IZl5U2MJX65xNnu1i+rMDlGhugRD9htFwKlOoFSgqk8DRlZD4XhW4zGqtKnRehuwsp/
-	EFHzCP4zqGxa8VbgMSR2NEYSMFqK27id8cVxPiNeWy0DxEtRU89UOdnEGzazvZHEOEMDmBDjGMf6L
-	U0zhs4xx+pDGGqesbyaR5L4p3aW7XHWQ/p3Wu3o2q5m9Wrp/yBQu+hTRpnLhixgJ7wyprk//+XyqM
-	rOIExHsz57qXdMWU4kiASQSsN3H6IyoiE4Ik2i6i2Ar1gUc+6KHaoOOq3qWyzdvTCLAYyph90htdc
-	dAtX2orw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwlWf-0000000B9dS-2K6S;
-	Tue, 16 Apr 2024 16:19:18 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3544C30047C; Tue, 16 Apr 2024 18:19:17 +0200 (CEST)
-Date: Tue, 16 Apr 2024 18:19:17 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Elizabeth Figura <zfigura@codeweavers.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
-	wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Message-ID: <20240416161917.GD12673@noisy.programming.kicks-ass.net>
-References: <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416081421.GB31647@noisy.programming.kicks-ass.net>
- <20240416155014.GB12673@noisy.programming.kicks-ass.net>
- <20240416155345.GC12673@noisy.programming.kicks-ass.net>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="UoK8ibTI"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=IJtSvi5devvC9L1eX50DCm36YklubqRumK1P8fx4YOA=; b=UoK8ibTI6a9OA/iKMvvm+u23B8
+	jhD/eq0oeaNxg/BaMPkbw8KSC/bQvnRS53bnIemDyRG4Z6X/fy4sAAB7dLvo3Ccnk/iAojxu1N75a
+	rgp85eFzsGj92uzTSC5txCEaAZeOf2fUHn0eartoPoyFqFJ9dk6ewWUi1FTRpBQXXZbs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rwnOB-00DARl-KL; Tue, 16 Apr 2024 20:18:39 +0200
+Date: Tue, 16 Apr 2024 20:18:39 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
+ internal PHY initialization
+Message-ID: <af6d3a74-7e7b-4953-bba7-f9ceb26df2d3@lunn.ch>
+References: <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
+ <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
+ <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
+ <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
+ <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
+ <8de7a4bb-a127-4771-97dd-038f08fcce9d@lunn.ch>
+ <372a45c3-1372-4956-8d42-8e989f86d131@microchip.com>
+ <ee5dcd07-7c44-4317-9d62-0fc68565988a@microchip.com>
+ <3fc3b5c3-0750-4aff-ab26-240f4bc55236@lunn.ch>
+ <5100ab9d-1b70-46fb-b3ba-d4bcff6d6870@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,74 +63,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240416155345.GC12673@noisy.programming.kicks-ass.net>
+In-Reply-To: <5100ab9d-1b70-46fb-b3ba-d4bcff6d6870@microchip.com>
 
-On Tue, Apr 16, 2024 at 05:53:45PM +0200, Peter Zijlstra wrote:
-> On Tue, Apr 16, 2024 at 05:50:14PM +0200, Peter Zijlstra wrote:
-> > On Tue, Apr 16, 2024 at 10:14:21AM +0200, Peter Zijlstra wrote:
-> > 
-> > > > Some aspects of the implementation may deserve particular comment:
-> > > > 
-> > > > * In the interest of performance, each object is governed only by a single
-> > > >   spinlock. However, NTSYNC_IOC_WAIT_ALL requires that the state of multiple
-> > > >   objects be changed as a single atomic operation. In order to achieve this, we
-> > > >   first take a device-wide lock ("wait_all_lock") any time we are going to lock
-> > > >   more than one object at a time.
-> > > > 
-> > > >   The maximum number of objects that can be used in a vectored wait, and
-> > > >   therefore the maximum that can be locked simultaneously, is 64. This number is
-> > > >   NT's own limit.
-> > 
-> > AFAICT:
-> > 
-> > 	spin_lock(&dev->wait_all_lock);
-> > 	  list_for_each_entry(entry, &obj->all_waiters, node)
-> > 	    for (i=0; i<count; i++)
-> > 	      spin_lock_nest_lock(q->entries[i].obj->lock, &dev->wait_all_lock);
-> > 
-> > Where @count <= NTSYNC_MAX_WAIT_COUNT.
-> > 
-> > So while this nests at most 65 spinlocks, there is no actual bound on
-> > the amount of nested lock sections in total. That is, all_waiters list
-> > can be grown without limits.
-> > 
-> > Can we pretty please make wait_all_lock a mutex ?
-> 
-> Hurmph, it's worse, you do that list walk while holding some obj->lock
-> spinlokc too. Still need to figure out how all that works....
+> I tried this approach and it works as expected. Means whenever there is 
+> a c45 register access, it directly uses the 
+> oa_tc6_read_c45()/oa_tc6_write_c45() functions. Herewith I have attached 
+> the patch 
+> (v4-0006-net-ethernet-oa_tc6-implement-internal-PHY-initia.patch) which 
+> has this new implementation for your reference. Is this you expected? 
+> Can you comment on this?
 
-So the point of having that other lock around is so that things like:
+Please just post a new patch series. I will then review it just like
+other patches. Its O.K. to send patch series frequently, not just more
+than one per day.
 
-	try_wake_all_obj(dev, sem)
-	try_wake_any_sem(sem)
+> I tried this approach by setting up is_c45 flag when I use 
+> phy_read_mmd() function but ended up with the kernel call trace 
+> (c45_kernel_call_trace.png) attached here for your reference.
 
-are done under the same lock?
+Please post plain ASCII. I assume you have a serial port, so you
+should be able to capture it. I'm not too surprised though, no other
+driver plays with is_c45.
 
-Where I seem to note that both those functions do that same list
-iteration.
-
-Can't you write things like:
-
-static void try_wake_all_obj(struct nysync_device *dev,
-			     struct ntsync_obj *obj,
-			     void (*wake_obj)(struct ntsync_obj *obj))
-{
-	list_for_each_entry(entry, &obj->all_waiters, node) {
-		spin_lock(&obj->lock);
-		try_wake_all(dev, event->q, obj);
-		wake_obj(obj);
-		spin_unlock(&obj->lock);
-	}
-}
-
-And then instead of the above, write:
-
-	try_wake_all_obj(dev, sem, wake_sem);
-
-[[ Also, should not something like try_wake_any_sem -- wake_sem in the
-   above -- have something like:
-
-	WARN_ON_ONCE(sem->type != NTSYNC_TYPE_SEM);
-]]
-
-  
+       Andrew
