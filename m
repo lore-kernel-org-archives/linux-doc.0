@@ -1,119 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF8B539C;
-	Tue, 16 Apr 2024 05:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419D61FA1;
+	Tue, 16 Apr 2024 05:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713246742; cv=none; b=g0jmJVBSplV/erwhTgCaxGy4eBwL9kvrLxOgaHmY+RsanKpI5NNGGm9pyimpNZHKGD/g5o+2ygjVjucS5wKXPjr8A1eynwz0BrfXu8ton8+uxo1bUHbk32pn90+vStOGGXVuRHFFe6wvESDFHt9ZcxtuOdvsjcVnjKlkeYV3Se8=
+	t=1713246984; cv=none; b=FxoTEI8MdhP5aY9kbFMACVYCV7XGAJzdgVnuuIzscZFSi8EtTl3p9nyGxEHS9sRbxpyndaG0dL7AV3kWEUdBFpHkwH2j/LL/1vYd+/yO0mfWhFbuS1FGoQzTGfIKAf1sIzrnB6kwHoVmOUSDxq5+goKZMHQi6dLn/4CipWI+um8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713246742; c=relaxed/simple;
-	bh=rYtvgcjAY58+B3BGDANfkQN4/Z8fGaWlixcG4jUdpdw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TrnhoIeMs+2UE2lqBuJhbZ1aKDW8bO6+djEQ5jvHI80LUdhsf1uwdW4vAR8aJAYhASXhwQBP63v86OH+l/VRWffP80izTxjr8rAuiSqtHAiJ+pQ3WlR2n/LhJzotwt491KYlHiUgYTcKf7UcC/8wW+xGRopt6OC/EPm3mm6+kmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVc6c6sV; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713246984; c=relaxed/simple;
+	bh=G81PiCaYxRMH5Yr1uK64EHf3fyvJO8LewC0bgtkT7gA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Gwgr7IGz8jMHEqzAAgHmuSmI72XfQnL4rZZGNFtcoxjCyaoH7U1w6ESXIu7eG8iIDuErJNhlor8ZGfoR/qPHErxV0VNmQBjnJegb/Chk+WDyDwjoruBVjodeYDVaxfoc2jM1mXvTiFUy6xyKVAFojvhzlO5QFASFqR1CVxzJl2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dMAFCz0X; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVc6c6sV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713246741; x=1744782741;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rYtvgcjAY58+B3BGDANfkQN4/Z8fGaWlixcG4jUdpdw=;
-  b=TVc6c6sVoZg9EmPUo7SnQsTIrJUWj/bpethBv/UG5vEW0Ik8eIvwrjaj
-   YTIEQUFw4ESdLLSMr0jwZUWkGt2r/xMM2Js6tJnZVCUJAVcuMgMFtmH6U
-   iMVGkme6Orvfr+dxvxXsIioCAMsgMvHFi/uNX5vEJdxErKBzwp1BfApst
-   FwgrhDOiqMoxQxitqKMDLzoOoQNhsnSj1IMcsTjgvX7vkvLawo1tmxy71
-   k1jHDaeXzV3hrtq5M9MJqmUKSM//n05E+Y0xBZFeG2Q5jpHsvjcCUE5s4
-   iuJXRUtLsxOGw566kMxNytBKjiqVNgeZdZVr5rUVQXb7kbBCNkFUDBb/l
-   Q==;
-X-CSE-ConnectionGUID: jLYzQdLRSTK8oJEG+ofHfA==
-X-CSE-MsgGUID: bdS0aOjwTKGQqgpdACoUyQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8526697"
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="8526697"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 22:52:20 -0700
-X-CSE-ConnectionGUID: kiYzeiKRTQeGeWLx8Um2cw==
-X-CSE-MsgGUID: OSEm3P45RyyKyoFFmmJB3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,205,1708416000"; 
-   d="scan'208";a="26937659"
-Received: from skuppusw-desk2.jf.intel.com ([10.165.154.101])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 22:52:20 -0700
-From: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Huang Ying <ying.huang@intel.com>
-Subject: [PATCH v1] PCI/AER: Update aer-inject tool source URL
-Date: Tue, 16 Apr 2024 05:50:35 +0000
-Message-Id: <20240416055035.200085-1-sathyanarayanan.kuppuswamy@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dMAFCz0X"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DA68E240003;
+	Tue, 16 Apr 2024 05:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713246974;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=MYsxM8sUexu5PeidcDFg7wtBhZutdc0P4xRrT0as04E=;
+	b=dMAFCz0XbNW8H5WJkyypAbjWjYkpXoJmGx9BlOkCQi4Atd1BkaeH7CtcBL+of1PNSbw3SA
+	Z57stfHKQgbfhoAo0RMgdWJTOdg5Nixb1JyDA3a9wiQxWwFPjzWl4TTihw6SU5Et7TSf4x
+	hNHpmp49CNMdWoUgrlbnVhEqthc4fEDrFCPpsKqDYIqLFZ5rP7MDZ/i+hBnpAB8wUyXxce
+	6gJaejS97CvHBs+sToD+UE8P++rSP3+3OGqw78s0423WBGPVue2yY/JTbs5OK7/AOLIyvD
+	ugK2brVD00iP4z3lgpvKslQcqIONw+W8VFHHBY0qJJiMo0uBaYeXdMMbLhVWSQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 00/12] ASoC: doc: dapm: various improvements
+Date: Tue, 16 Apr 2024 07:56:06 +0200
+Message-Id: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPYSHmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDY0NT3ZTEglzdlPzkYl1zy6QUU8M0IzPzlCQloPqCotS0zAqwWdGxtbU
+ A+qgurFsAAAA=
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-The aer-inject tool is no longer maintained in the original repository
-and is missing a fix related to the musl library. So, with the author's
-(Huang Ying) consent, it has been moved to a new repository [1]. All
-references to the repository link have been updated.
+This series applies various improvements to the DAPM documentation: a
+rewrite of a few sections for clarity, style improvements and typo fixes.
 
-Link: https://github.com/intel/aer-inject.git [1]
-CC: Huang Ying <ying.huang@intel.com>
-Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- Documentation/PCI/pcieaer-howto.rst | 2 +-
- drivers/pci/pcie/Kconfig            | 2 +-
- drivers/pci/pcie/aer_inject.c       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Luca Ceresoli (12):
+      ASoC: doc: dapm: fix typos
+      ASoC: doc: dapm: fix struct name
+      ASoC: doc: dapm: minor rewording
+      ASoC: doc: dapm: remove dash after colon
+      ASoC: doc: dapm: clarify it's an internal API
+      ASoC: doc: dapm: replace "map" with "graph"
+      ASoC: doc: dapm: extend initial descrption
+      ASoC: doc: dapm: describe how widgets and routes are registered
+      ASoC: doc: dapm: fix and improve section "Registering DAPM controls"
+      ASoC: doc: dapm: improve section "Codec/DSP Widget Interconnections"
+      ASoC: doc: dapm: update section "DAPM Widget Events"
+      ASoC: doc: dapm: update event types
 
-diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-index e00d63971695..f013f3b27c82 100644
---- a/Documentation/PCI/pcieaer-howto.rst
-+++ b/Documentation/PCI/pcieaer-howto.rst
-@@ -241,7 +241,7 @@ After reboot with new kernel or insert the module, a device file named
- Then, you need a user space tool named aer-inject, which can be gotten
- from:
- 
--    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-+    https://github.com/intel/aer-inject.git
- 
- More information about aer-inject can be found in the document in
- its source code.
-diff --git a/drivers/pci/pcie/Kconfig b/drivers/pci/pcie/Kconfig
-index 8999fcebde6a..17919b99fa66 100644
---- a/drivers/pci/pcie/Kconfig
-+++ b/drivers/pci/pcie/Kconfig
-@@ -47,7 +47,7 @@ config PCIEAER_INJECT
- 	  error injection can fake almost all kinds of errors with the
- 	  help of a user space helper tool aer-inject, which can be
- 	  gotten from:
--	     https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-+	     https://github.com/intel/aer-inject.git
- 
- config PCIEAER_CXL
- 	bool "PCI Express CXL RAS support"
-diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
-index 2dab275d252f..f81b2303bf6a 100644
---- a/drivers/pci/pcie/aer_inject.c
-+++ b/drivers/pci/pcie/aer_inject.c
-@@ -6,7 +6,7 @@
-  * trigger various real hardware errors. Software based error
-  * injection can fake almost all kinds of errors with the help of a
-  * user space helper tool aer-inject, which can be gotten from:
-- *   https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-+ *   https://github.com/intel/aer-inject.git
-  *
-  * Copyright 2009 Intel Corporation.
-  *     Huang Ying <ying.huang@intel.com>
+ Documentation/sound/soc/dapm-graph.svg | 375 +++++++++++++++++++++++++++++++++
+ Documentation/sound/soc/dapm.rst       | 178 ++++++++++------
+ 2 files changed, 494 insertions(+), 59 deletions(-)
+---
+base-commit: 8f2c057754b25075aa3da132cd4fd4478cdab854
+change-id: 20240315-dapm-docs-79bd51f267db
+
+Best regards,
 -- 
-2.25.1
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
