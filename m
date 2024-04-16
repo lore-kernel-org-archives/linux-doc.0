@@ -1,51 +1,62 @@
-Received: from mx0a-00206402.pphosted.com (mx0a-00206402.pphosted.com [148.163.148.77])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5F41272B8;
-	Mon, 15 Apr 2024 23:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165D4C98;
+	Tue, 16 Apr 2024 01:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713223349; cv=none; b=BxJkUzhN2HgKCKqrVsOZJefspbmiHL1QaUN7q2FbVRN1mYx/6bKsPvy4O0l0aTkjAk8ahe7GIiTTBvVI1uEWgmy9X0uZYAqtFPONWCkcxsgK2lmJvLvQuI1X23uZJLZzKzdvYZjsEREMCCz/XsdC45Li1rcMZebWH3eWIs1SHM8=
+	t=1713229830; cv=none; b=sjJBZ7AGmxURuci1CjRrqIupLaUPiF34u9Mo9xJ8pQj92vwxp84sRSByZD13DJQd9iUApZzgrKWHYX26hsbofunCRoq/FuH0KeZeOcyZuhMdTlEum5XWhdAJwYsUCiCVOcemM/JKXTfcNy9GumVPDjPuJ6F2Ec/PXwkXSggtWSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713223349; c=relaxed/simple;
-	bh=quDJp0nmfOtlJCGhx+JE1aXmvcXtsbLBxBDLT69n6uw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lzdGPF6RFkQ5fGF7jnnivDQ+lbzclroNaqSVyoT/Lfemi8APhrXfebbBVGkuRmcxGRgJkI3//NhkoCpBOYmuHksfj2CYfxyp4PKDC6DhDRAivKfE/tVcYkHWvp34yEeE/mCn/UWr1GNfhwT7Ss0AOjO2TYPvOANvx6KVE4xFXHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com; spf=pass smtp.mailfrom=crowdstrike.com; dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b=e3D+huNG; arc=none smtp.client-ip=148.163.148.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=crowdstrike.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crowdstrike.com
+	s=arc-20240116; t=1713229830; c=relaxed/simple;
+	bh=kZr4HBZT8xR7smvBRwRPi+gHQeVpDhR6SAAtaJhyuDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Mgrn4iD2zKp+LxCbQFXUE5YPtjJEdt3oKOV1vUYhM9q+JW8HvZGSoQWV0h7j0QsJC6L6UH4WULqVHY8fw0qcplw8/i8ouLG+0ZyFVyxJKswvMnDgFNS7DMUZq2Tfd1bcz1mmdsMPG4yLg/MuYNBGAQS6hk+cZnDuiFi8t8Mx+18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=ebhd41BF; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=crowdstrike.com header.i=@crowdstrike.com header.b="e3D+huNG"
-Received: from pps.filterd (m0354650.ppops.net [127.0.0.1])
-	by mx0a-00206402.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43FLxUMx007335;
-	Mon, 15 Apr 2024 23:06:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crowdstrike.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=default; bh=14J70gYg9
-	RDH634/oH+jURif/pgn4cONK6QdW2lwxIg=; b=e3D+huNGt/VMyIEpGhWR5/lao
-	GJV8ue40GPQ64jnImeFTcwxkGw5SUybMMvc7ULaU7RVdSJqSNSi4NugdKBRpuKXn
-	Vh+1oSVpR+Yn25KXgEuqZU5KpEld6bc7Wrhg2ayw5ja6s04VkN4EHJnf94Yli1kw
-	1/a6Pc3v5sWhBF7qY+5xbSHlaMLmrlKrr8R878DSwDi0zItqnAwNNgBc8AZYgcxg
-	UqDEZzHZcpk9/6pDk7IILnKtqy04sy190r2xuLl2u0j4xMurUOQ2PmTg/Cb/+E26
-	aGEXbPtlUqyLSuMxHEdLADq/FbFDVSyk7yyOhPToz8dkHtvwhmDj13VDehveQ==
-Received: from 04wpexch06.crowdstrike.sys (dragosx.crowdstrike.com [208.42.231.60] (may be forged))
-	by mx0a-00206402.pphosted.com (PPS) with ESMTPS id 3xhcn083u9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 15 Apr 2024 23:06:51 +0000 (GMT)
-Received: from LL-556NGK3.crowdstrike.sys (10.100.11.122) by
- 04wpexch06.crowdstrike.sys (10.100.11.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Mon, 15 Apr 2024 23:06:39 +0000
-From: Martin Kelly <martin.kelly@crowdstrike.com>
-To: <bpf@vger.kernel.org>
-CC: <linux-doc@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-        Daniel
- Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Martin Kelly <martin.kelly@crowdstrike.com>
-Subject: [PATCH bpf-next] bpf: clarify libbpf skeleton header licensing
-Date: Mon, 15 Apr 2024 16:06:12 -0700
-Message-ID: <20240415230612.658798-1-martin.kelly@crowdstrike.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="ebhd41BF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=Dqvt4R2zo6YXU5BiQKahqTvL9Mp5x1vDJQ1/oaltxP8=; b=ebhd41BFE4X+6ld3nf3OmRqxsd
+	GKn23Y+w2ftPJf6d4VZo3UCaSBYIko3ahRpKVitTkxazQSoehdY8aojXEW3Jj79OTovc51y7AUcsF
+	fzZMrhz5RycfN6sJ0pVyjuidk0XhTfwL9c0KrzpF4nGKOAvqNqsl2cDeiU9w1Ima8j7tXVVtBQ9Hz
+	V66q1FPhm/HEoZAcKL1yjcMRipTC8+/62ZgGxvyEwKxLVEZZ3lQzBzAWJEBBJt5G/X/xVEd6fqIjF
+	PfPWTX/NXkXEQc3+LJ3KreksvkFwmNgremiKt0bG7ZRpZeSIyJfOjGRkLtALsM7fYI3sLbgO0NW8D
+	NWw66RXQ==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1rwXL0-00FbQv-2k;
+	Mon, 15 Apr 2024 20:10:18 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH v4 12/27] ntsync: Introduce NTSYNC_IOC_EVENT_READ.
+Date: Mon, 15 Apr 2024 20:08:22 -0500
+Message-ID: <20240416010837.333694-13-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240416010837.333694-1-zfigura@codeweavers.com>
+References: <20240416010837.333694-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,47 +64,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: 04wpexch02.crowdstrike.sys (10.100.11.92) To
- 04wpexch06.crowdstrike.sys (10.100.11.99)
-X-Disclaimer: USA
-X-Proofpoint-ORIG-GUID: kwXhQW-ctYVmUNel2rWf6BzMWZeZf576
-X-Proofpoint-GUID: kwXhQW-ctYVmUNel2rWf6BzMWZeZf576
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-15_18,2024-04-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 clxscore=1011 mlxlogscore=563 priorityscore=1501
- spamscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404150155
 
-Add an explicit statement clarifying that generated BPF code bundled
-inside a libbpf skeleton header may have a license distinct from the
-skeleton header (in other words, the bundled code does not alter the
-skeleton header license). This is a follow-up from a previous thread
-discussing licensing terms:
-https://lore.kernel.org/bpf/54d3cb9669644995b6ae787b4d532b73@crowdstrike.com/#r
+This corresponds to the NT syscall NtQueryEvent().
 
-Signed-off-by: Martin Kelly <martin.kelly@crowdstrike.com>
+This returns the signaled state of the event and whether it is manual-reset.
+
+Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
 ---
- Documentation/bpf/bpf_licensing.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/misc/ntsync.c       | 21 +++++++++++++++++++++
+ include/uapi/linux/ntsync.h |  1 +
+ 2 files changed, 22 insertions(+)
 
-diff --git a/Documentation/bpf/bpf_licensing.rst b/Documentation/bpf/bpf_licensing.rst
-index b19c433f41d2..05bc1b845e64 100644
---- a/Documentation/bpf/bpf_licensing.rst
-+++ b/Documentation/bpf/bpf_licensing.rst
-@@ -89,4 +89,8 @@ Packaging BPF programs with user space applications
+diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+index bd043dccc9fa..a03c6fceb518 100644
+--- a/drivers/misc/ntsync.c
++++ b/drivers/misc/ntsync.c
+@@ -572,6 +572,25 @@ static int ntsync_mutex_read(struct ntsync_obj *mutex, void __user *argp)
+ 	return ret;
+ }
  
- Generally, proprietary-licensed applications and GPL licensed BPF programs
- written for the Linux kernel in the same package can co-exist because they are
--separate executable processes. This applies to both cBPF and eBPF programs.
-+separate executable processes. In particular, BPF code bundled inside a libbpf
-+skeleton header may have a different license than that of its surrounding
-+skeleton. In other words, the license of the bundled BPF code does not alter the
-+license of the skeleton header nor of a program including the header. This
-+paragraph applies to both cBPF and eBPF programs.
++static int ntsync_event_read(struct ntsync_obj *event, void __user *argp)
++{
++	struct ntsync_event_args __user *user_args = argp;
++	struct ntsync_event_args args;
++
++	if (event->type != NTSYNC_TYPE_EVENT)
++		return -EINVAL;
++
++	args.event = 0;
++	spin_lock(&event->lock);
++	args.manual = event->u.event.manual;
++	args.signaled = event->u.event.signaled;
++	spin_unlock(&event->lock);
++
++	if (copy_to_user(user_args, &args, sizeof(args)))
++		return -EFAULT;
++	return 0;
++}
++
+ static int ntsync_obj_release(struct inode *inode, struct file *file)
+ {
+ 	struct ntsync_obj *obj = file->private_data;
+@@ -605,6 +624,8 @@ static long ntsync_obj_ioctl(struct file *file, unsigned int cmd,
+ 		return ntsync_event_reset(obj, argp);
+ 	case NTSYNC_IOC_EVENT_PULSE:
+ 		return ntsync_event_set(obj, argp, true);
++	case NTSYNC_IOC_EVENT_READ:
++		return ntsync_event_read(obj, argp);
+ 	default:
+ 		return -ENOIOCTLCMD;
+ 	}
+diff --git a/include/uapi/linux/ntsync.h b/include/uapi/linux/ntsync.h
+index 797e8df10a3a..80f36de46a75 100644
+--- a/include/uapi/linux/ntsync.h
++++ b/include/uapi/linux/ntsync.h
+@@ -57,5 +57,6 @@ struct ntsync_wait_args {
+ #define NTSYNC_IOC_EVENT_PULSE		_IOR ('N', 0x8a, __u32)
+ #define NTSYNC_IOC_SEM_READ		_IOR ('N', 0x8b, struct ntsync_sem_args)
+ #define NTSYNC_IOC_MUTEX_READ		_IOR ('N', 0x8c, struct ntsync_mutex_args)
++#define NTSYNC_IOC_EVENT_READ		_IOR ('N', 0x8d, struct ntsync_event_args)
+ 
+ #endif
 -- 
-2.34.1
+2.43.0
 
