@@ -1,42 +1,42 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D703179B7;
-	Tue, 16 Apr 2024 03:17:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40931C6A8;
+	Tue, 16 Apr 2024 03:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713237481; cv=none; b=U3w58IHWgZw9qM1FQFQEDfsInBygeHCDycxgmprhibU5r34CGM9lDmDyFdRqMmQfirgGzP2CLPUoZq6kZEPU6HOjCnpYmN13pxhI2kFdfObMNIjUNMv5cY5sU8p+m7dkeN4c0sPZgzrh2HEIBXRUlQtAvuBikokvpXHmF6mwcnY=
+	t=1713237482; cv=none; b=nvEhLBLbBVm6qGD0/DMRthO4DptJmFVNmDzZxukS4CVMKh49IWLgo72xgMCK+wa/LI4NRnsG1HWBAfDNNMuRigI/IbX3ZG886LbwCm10vgPNDqF7kwWlmTVHLaCyv9FoJW25WnbJDvk8tyTCbAhiomm3NkgUG9Nn3TyLzR0DZ9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713237481; c=relaxed/simple;
-	bh=R4zR/ggMbwsDDsz3YLFyJdFeeu1DsOVGY8QCJ7KprCE=;
+	s=arc-20240116; t=1713237482; c=relaxed/simple;
+	bh=PETw0eDtqxHmcHBtZCsfJPMLTBLDTPyLoOaXeSy7CdM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ANXuuGl1CzWjJbv7R92SGn9H6oj6hTsp+9WM6SaOaZcgzbuG4xMzuhHtXvlerJ2d5xZkfMzNw5wlJRWTXhmXfYyo6RMYCmPW0biJ0T7kiCP27UrwZFe19KYj+8EohWMpx5Xi3/fqWT3p2AiptuHLbcpUZsEMDSkueOmOnCDnP7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nGYV5Bl6; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version; b=CKrmOriUClgTGdUs/tNpvChHIS1abKsmJV2Kbc1bZZkoFpxTdBQCS1TRyR+jgNsu3iyKOr210m7K0G01eFJI2srumPt7Cx7tcOYb1efIPUGZFnO3YCYNiiKyRK8owJIhpn7WLBYtsejuWVhf6VZaOV2zU7w9Vezh4Dw9ylz0kPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AaZld52W; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nGYV5Bl6"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AaZld52W"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
 	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
 	Content-Type:Content-ID:Content-Description;
-	bh=rmgDp3RNfkN3sPWJ9s/SxWrF46fF3oO8saAb/9v0RQU=; b=nGYV5Bl6OTUcQaFxNJ8Qd5UDRD
-	rAZf93AsDmTmmnsbAF7QNxF4QaDilQLQfZXDXuuUiaQB/EnzJP3bEY2Vg0JbuQIwoaGL5S5muyyVk
-	yi7iuAsew9HdGeZIU8JCyd5l6s3HnRcPVXBPM0+Xky88JGsPwPl5W584FM2EEg6eQLF90UI7w4cdn
-	XCG0B9WZoaNSvxeaMr28h4z5EZ0Htcg2yWkP+xlAkssYi9W/VgfW4yEPyg5tgxJfChOI3VLSjzW4I
-	V5z6y/B6NB7TnvZ7UKzRs2OVIOiqojSuU/iPAl9H5zGeuHWXzmzXCHYwX3M7Yxg1WmWrHa1cTLOMe
-	NGkFXbaQ==;
+	bh=frJu9FO9nwWcCqa63oYNqDsCSg+xZY7bhlunSAGmIxk=; b=AaZld52WYWilUb4dfckZ0N3fZx
+	W+7cQ5V6++2YRA+//80KybGlwsBYXfYYhyjUdjC9qWP3iiWn6lBHAlcgwlxpvy/FY2mLGPElaJbih
+	babVqBvhQiZQ93I1K1H9d4yr53b8RrcbzaY4Hei2s5pq496hbe85W5vBqaFX6mXlD2GpD0USO+Vic
+	kmshZuRNhM78CBlyejCyoSd0oHIRoEjNJSx3XvibSAAIFeYutSeRUIx6KoMYQvc0NnUn7iT5IEFT9
+	PXvCjKacaYzH0bNo2I9ZJohYCf4ga/3fLGDW7E7pHIbUPjWRjsPz04kOTlYkrD2jbdZ1Nw17o+wGi
+	6VOIavcQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwZKW-0000000H6bI-25ds;
-	Tue, 16 Apr 2024 03:17:56 +0000
+	id 1rwZKV-0000000H6au-3oL8;
+	Tue, 16 Apr 2024 03:17:55 +0000
 From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	linux-fsdevel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 8/8] doc: Split buffer.rst out of api-summary.rst
-Date: Tue, 16 Apr 2024 04:17:52 +0100
-Message-ID: <20240416031754.4076917-9-willy@infradead.org>
+Subject: [PATCH v3 1/8] doc: Improve the description of __folio_mark_dirty
+Date: Tue, 16 Apr 2024 04:17:45 +0100
+Message-ID: <20240416031754.4076917-2-willy@infradead.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240416031754.4076917-1-willy@infradead.org>
 References: <20240416031754.4076917-1-willy@infradead.org>
@@ -48,44 +48,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Buffer heads are no longer a generic filesystem API but an optional
-filesystem support library.  Make the documentation structure reflect
-that, and include the fine documentation kept in buffer_head.h.
-We could give a better overview of what buffer heads are all about,
-but my enthusiasm for documenting it is limited.
+I've learned why it's safe to call __folio_mark_dirty() from
+mark_buffer_dirty() without holding the folio lock, so update
+the description to explain why.
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- Documentation/filesystems/api-summary.rst | 3 ---
- Documentation/filesystems/index.rst       | 1 +
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ mm/page-writeback.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
-index 98db2ea5fa12..cc5cc7f3fbd8 100644
---- a/Documentation/filesystems/api-summary.rst
-+++ b/Documentation/filesystems/api-summary.rst
-@@ -56,9 +56,6 @@ Other Functions
- .. kernel-doc:: fs/namei.c
-    :export:
- 
--.. kernel-doc:: fs/buffer.c
--   :export:
--
- .. kernel-doc:: block/bio.c
-    :export:
- 
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1f9b4c905a6a..8f5c1ee02e2f 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -50,6 +50,7 @@ filesystem implementations.
- .. toctree::
-    :maxdepth: 2
- 
-+   buffer
-    journalling
-    fscrypt
-    fsverity
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 62f28fe26511..bd91d5761e39 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -2706,11 +2706,15 @@ void folio_account_cleaned(struct folio *folio, struct bdi_writeback *wb)
+  * If warn is true, then emit a warning if the folio is not uptodate and has
+  * not been truncated.
+  *
+- * The caller must hold folio_memcg_lock().  Most callers have the folio
+- * locked.  A few have the folio blocked from truncation through other
+- * means (eg zap_vma_pages() has it mapped and is holding the page table
+- * lock).  This can also be called from mark_buffer_dirty(), which I
+- * cannot prove is always protected against truncate.
++ * The caller must hold folio_memcg_lock().  It is the caller's
++ * responsibility to prevent the folio from being truncated while
++ * this function is in progress, although it may have been truncated
++ * before this function is called.  Most callers have the folio locked.
++ * A few have the folio blocked from truncation through other means (e.g.
++ * zap_vma_pages() has it mapped and is holding the page table lock).
++ * When called from mark_buffer_dirty(), the filesystem should hold a
++ * reference to the buffer_head that is being marked dirty, which causes
++ * try_to_free_buffers() to fail.
+  */
+ void __folio_mark_dirty(struct folio *folio, struct address_space *mapping,
+ 			     int warn)
 -- 
 2.43.0
 
