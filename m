@@ -1,129 +1,156 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41EE17550;
-	Tue, 16 Apr 2024 03:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487B117999
+	for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 03:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713237485; cv=none; b=oq2E/CgmTP0syFydbS92Qqk7aePBYtichgbYUTHdW2mOyasaSNQ4/ZErSeb1X9lpFe4U5aNf7apvRt5OlIBzpCN6JO44LomOgOwUOBdDBxZQ5AXuFbAf1cMP3DMQMSNfboELfXjO9QmDqkOby1L7UAOWcQEvvu3OvmBVWEkUbPw=
+	t=1713238450; cv=none; b=qVAQVH0YHFhxYSJlTfbTPSsglq1/C8bwwISBIEv9GEiEkijRo39LjFmtYiF9HR57NYiXiJOkIR5L3vhuH+TyYvUQggQgLczYc8xxxZIqBNzUj6mZ8OVrTtQObIE7HtiOFyXK+wiA1jwyho8nG7f7f2wWSkwuDFeRU6VZ2tW57CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713237485; c=relaxed/simple;
-	bh=nqkpEUdbg/EMVD3A1w81m+jCUYlbzdILtMgTK3K6UhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AEYLBFq5xv7GtUSg0nlDe4favWoCTKJN71pbDG7KfWv7btCCc43K1iqIbWq/aQkDafq5YNI/4a5ki0P/kI3hc2qZLfmCpAnoXUy1OTP0Ry9DGwICIjdh3xDroAnhKgYgTO4pFk4pI1o+q/5T8vS8mUUaTorXQ5jccRaJDzdeHms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WWGZ5zPx; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713238450; c=relaxed/simple;
+	bh=U4TMxR4A/cSP9bRdDsci+dqTH02fWMDh5jtAouNaMFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MhPKWnurME+fPfDAs9khYKw1JU3AmlW/WzEV+FtQDi4zaTpx3ecQLV/BpU5EcwUY80X2eh1cP7dJBL0MZiYZ2SNoLj4liys/ioUKyNCdaO7RXXlmXb1V2LTbMOIu9OUm8aIEb87BpNS+oR/1JUG4Ft8ObjcSgzs5e7HZwocuwCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=htLgbxQE; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WWGZ5zPx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=GOZyBLWge7qyAz30yvc9tiHbIMnsiWg9t4KEJ/+nXC4=; b=WWGZ5zPxAnL0RNs2k93S9gQ2qz
-	FQxUJIOGwQcnZ2tutDutooQ3fBX2ZBHTauGFCLmjtnXT/N/nckX//d5N4D+rpKiOwvcfQvXpRZkpi
-	izppwNkjbmUCycM5sZHa6p5qF/NWYKcFjuaBXJEnSucfZtkJCnfMdC27uNMcsxt9RqbxjZcXDFr96
-	+f9lR87GqkKJ/PyH8MG4aAF9UvUBILcLC1OHACV0vPt0v8LA7nN6a5hhE3ydSKcb1OeserZ/BVnXt
-	xGCwQcK7zjVVxXsSNTijpWPlGjzvNYf51N04GVKfso4jsnxRg0uz9NlSlf6DdAFwaZlsFHrxqn4lH
-	Aj00ipVA==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwZKV-0000000H6aw-4AGj;
-	Tue, 16 Apr 2024 03:17:56 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: [PATCH v3 2/8] buffer: Add kernel-doc for block_dirty_folio()
-Date: Tue, 16 Apr 2024 04:17:46 +0100
-Message-ID: <20240416031754.4076917-3-willy@infradead.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240416031754.4076917-1-willy@infradead.org>
-References: <20240416031754.4076917-1-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="htLgbxQE"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso2997916a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Apr 2024 20:34:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713238448; x=1713843248; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+EWmrrioxcbdhmgLzVDWs0ZmfxosK3ySncICyoT9RVM=;
+        b=htLgbxQEGIF+TfNKXCNC61imbGXjMWrsnpqFXoc0RmXScZflNlbDW+RjW1F1bGTMW9
+         /r0lyu5QA2OU0DVVvl5WcigJGOg1ggDx7isXPh+VLRILNuPy0EcfZpLRykAwXMJsd7bb
+         Kfpvm59iIAExUQUR6kl6PyEWfsAW77sD5dsb5YjhFoHKtRcT9uGrifAXO/zebh4HUTqA
+         9vkE9tRsWXXhj/3+jVmizMSUMPls6Rcp3l5ZVkJkFGHLOZuOPJzyIQYRbyUHMpSllJiR
+         k+GDUo5WjyiYJIEasnnVAFLN3MBWZy+lA3WHikQkk6qZsKKsym7OroMHW1Joe7G5hTAn
+         2JVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713238448; x=1713843248;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+EWmrrioxcbdhmgLzVDWs0ZmfxosK3ySncICyoT9RVM=;
+        b=kLPxczuTEW2kSrTqHmemLX8uVxpVsje+Hz1/XFXGXLyiGA4RRvRT3c+Hojvyxe8ZxM
+         8ZJo010/nS5D0DBSDuar7lqfJtiWVBqB3+q3p0FGvHEEYFfJckWC650sK+PRzl7v7KQV
+         cA4rc8q2xehCphHmSA4Yz0uA39vLG040ph/Uz1t/EMMX1JsVHfZow+ysai1UAUQPyHzV
+         8hZU6uO6balactBTpOs85SsAcfvvzrWgYm7q8VbQ4yQsGvQ0dur5G+SusFDEI0+01VoY
+         Rkdxf+QK/b1Ggoeu3JoWBBeH/V8IwD5m6GS43j7oSvIdKAZQZ61//+XMVhZRirrdGIlJ
+         efEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaezF0O5mlObiQ9oIc36F8+ETLuSawB7H3ssK1UfC4QRnCVe47kx0wS6O//4XRIHMXFPSaKARLK0vgpaagEplGcKcBfMLZRnQT
+X-Gm-Message-State: AOJu0YzoYlKrhoOlZ4m37YJzFpKw16Mruwi+ZD5OX9kXZZhjNKe/pb8+
+	ZLlNd7pcsmReyijCh9FrsxLVONIlvZ7QmrsZKWntHYfGN9slcmGFlnCcRh6CXF8=
+X-Google-Smtp-Source: AGHT+IG9jfOvCmqHl4/Fyo/8q6SyIRFlYI9sihLFkiHMi13PEhJw0HyUWWTm9jC0FXv9X1osScl9nA==
+X-Received: by 2002:a05:6a21:8889:b0:1a5:bc5d:3c0a with SMTP id tb9-20020a056a21888900b001a5bc5d3c0amr15476979pzc.61.1713238448517;
+        Mon, 15 Apr 2024 20:34:08 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:fd:b04f:bfdd:b666])
+        by smtp.gmail.com with ESMTPSA id i15-20020a170902c94f00b001e25da6f2f2sm8653509pla.68.2024.04.15.20.34.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Apr 2024 20:34:08 -0700 (PDT)
+Date: Mon, 15 Apr 2024 20:34:05 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 02/19] riscv: cpufeature: Fix thead vector hwcap removal
+Message-ID: <Zh3xrTfjjk3b4GHb@ghost>
+References: <20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com>
+ <20240411-dev-charlie-support_thead_vector_6_9-v1-2-4af9815ec746@rivosinc.com>
+ <20240412-tuesday-resident-d9d07e75463c@wendy>
+ <ZhlrdGXfSushUNTp@ghost>
+ <20240412-eastcoast-disparity-9c9e7d178df5@spud>
+ <ZhmeLoPS+tsfqv1T@ghost>
+ <20240412-chemist-haunt-0a30a8f280ca@spud>
+ <ZhmoPuoR00aS6qZp@ghost>
+ <20240413-sharper-unlivable-5a65660b19e2@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240413-sharper-unlivable-5a65660b19e2@spud>
 
-Turn the excellent documentation for this function into kernel-doc.
-Replace 'page' with 'folio' and make a few other minor updates.
+On Sat, Apr 13, 2024 at 12:40:26AM +0100, Conor Dooley wrote:
+> On Fri, Apr 12, 2024 at 02:31:42PM -0700, Charlie Jenkins wrote:
+> > On Fri, Apr 12, 2024 at 10:27:47PM +0100, Conor Dooley wrote:
+> > > On Fri, Apr 12, 2024 at 01:48:46PM -0700, Charlie Jenkins wrote:
+> > > > On Fri, Apr 12, 2024 at 07:47:48PM +0100, Conor Dooley wrote:
+> > > > > On Fri, Apr 12, 2024 at 10:12:20AM -0700, Charlie Jenkins wrote:
+> 
+> > > > > > This is already falling back on the boot CPU, but that is not a solution
+> > > > > > that scales. Even though all systems currently have homogenous
+> > > > > > marchid/mvendorid I am hesitant to assert that all systems are
+> > > > > > homogenous without providing an option to override this.
+> > > > > 
+> > > > > There are already is an option. Use the non-deprecated property in your
+> > > > > new system for describing what extesions you support. We don't need to
+> > > > > add any more properties (for now at least).
+> > > > 
+> > > > The issue is that it is not possible to know which vendor extensions are
+> > > > associated with a vendor. That requires a global namespace where each
+> > > > extension can be looked up in a table. I have opted to have a
+> > > > vendor-specific namespace so that vendors don't have to worry about
+> > > > stepping on other vendor's toes (or the other way around). In order to
+> > > > support that, the vendorid of the hart needs to be known prior.
+> > > 
+> > > Nah, I think you're mixing up something like hwprobe and having
+> > > namespaces there with needing namespacing on the devicetree probing side
+> > > too. You don't need any vendor namespacing, it's perfectly fine (IMO)
+> > > for a vendor to implement someone else's extension and I think we should
+> > > allow probing any vendors extension on any CPU.
+> > 
+> > I am not mixing it up. Sure a vendor can implement somebody else's
+> > extension, they just need to add it to their namespace too.
+> 
+> I didn't mean that you were mixing up how your implementation worked, my
+> point was that you're mixing up the hwprobe stuff which may need
+> namespacing for $a{b,p}i_reason and probing from DT which does not.
+> I don't think that the kernel should need to be changed at all if
+> someone shows up and implements another vendor's extension - we already
+> have far too many kernel changes required to display support for
+> extensions and I don't welcome potential for more.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
----
- fs/buffer.c | 55 ++++++++++++++++++++++++++++++-----------------------
- 1 file changed, 31 insertions(+), 24 deletions(-)
+Yes I understand where you are coming from. We do not want it to require
+very many changes to add an extension. With this framework, there are
+the same number of changes to add a vendor extension as there is to add
+a standard extension. There is the upfront cost of creating the struct
+for the first vendor extension from a vendor, but after that the
+extension only needs to be added to the associated vendor's file (I am
+extracting this out to a vendor file in the next version). This is also
+a very easy task since the fields from a different vendor can be copied
+and adapted.
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 4f73d23c2c46..b08526bdcb54 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -687,30 +687,37 @@ void mark_buffer_dirty_inode(struct buffer_head *bh, struct inode *inode)
- }
- EXPORT_SYMBOL(mark_buffer_dirty_inode);
- 
--/*
-- * Add a page to the dirty page list.
-- *
-- * It is a sad fact of life that this function is called from several places
-- * deeply under spinlocking.  It may not sleep.
-- *
-- * If the page has buffers, the uptodate buffers are set dirty, to preserve
-- * dirty-state coherency between the page and the buffers.  It the page does
-- * not have buffers then when they are later attached they will all be set
-- * dirty.
-- *
-- * The buffers are dirtied before the page is dirtied.  There's a small race
-- * window in which a writepage caller may see the page cleanness but not the
-- * buffer dirtiness.  That's fine.  If this code were to set the page dirty
-- * before the buffers, a concurrent writepage caller could clear the page dirty
-- * bit, see a bunch of clean buffers and we'd end up with dirty buffers/clean
-- * page on the dirty page list.
-- *
-- * We use i_private_lock to lock against try_to_free_buffers while using the
-- * page's buffer list.  Also use this to protect against clean buffers being
-- * added to the page after it was set dirty.
-- *
-- * FIXME: may need to call ->reservepage here as well.  That's rather up to the
-- * address_space though.
-+/**
-+ * block_dirty_folio - Mark a folio as dirty.
-+ * @mapping: The address space containing this folio.
-+ * @folio: The folio to mark dirty.
-+ *
-+ * Filesystems which use buffer_heads can use this function as their
-+ * ->dirty_folio implementation.  Some filesystems need to do a little
-+ * work before calling this function.  Filesystems which do not use
-+ * buffer_heads should call filemap_dirty_folio() instead.
-+ *
-+ * If the folio has buffers, the uptodate buffers are set dirty, to
-+ * preserve dirty-state coherency between the folio and the buffers.
-+ * Buffers added to a dirty folio are created dirty.
-+ *
-+ * The buffers are dirtied before the folio is dirtied.  There's a small
-+ * race window in which writeback may see the folio cleanness but not the
-+ * buffer dirtiness.  That's fine.  If this code were to set the folio
-+ * dirty before the buffers, writeback could clear the folio dirty flag,
-+ * see a bunch of clean buffers and we'd end up with dirty buffers/clean
-+ * folio on the dirty folio list.
-+ *
-+ * We use i_private_lock to lock against try_to_free_buffers() while
-+ * using the folio's buffer list.  This also prevents clean buffers
-+ * being added to the folio after it was set dirty.
-+ *
-+ * Context: May only be called from process context.  Does not sleep.
-+ * Caller must ensure that @folio cannot be truncated during this call,
-+ * typically by holding the folio lock or having a page in the folio
-+ * mapped and holding the page table lock.
-+ *
-+ * Return: True if the folio was dirtied; false if it was already dirtied.
-  */
- bool block_dirty_folio(struct address_space *mapping, struct folio *folio)
- {
--- 
-2.43.0
+> 
+> Another thing I just thought of was systems where the SoC vendor
+> implements some extension that gets communicated in the ISA string but
+> is not the vendor in mvendorid in their various CPUs. I wouldn't want to
+> see several different entries in structs (or several different hwprobe
+> keys, but that's another story) for this situation because you're only
+> allowing probing what's in the struct matching the vendorid.
+
+Since the isa string is a per-hart field, the vendor associated with the
+hart will be used.
+
+- Charlie
 
