@@ -1,86 +1,105 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65046BFAB;
-	Tue, 16 Apr 2024 21:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F97FBC4;
+	Tue, 16 Apr 2024 22:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713304591; cv=none; b=tMH64F4XNcsJ5xK2tmYfUv0tE0eqa8+cWGxH3qE0IyAeUWjqvlgacMEaPXB68x0cLDVsX08uznHCoroAXrBhH0rggcVOsOtCFuNBLARZhZ5EkGmEznzlhMex7JDmH7WDnKAbA9h1BgzidlALv9JBU73cqdGHAJJmECX/PMShb1A=
+	t=1713305942; cv=none; b=RYtxFWDAQwbNYJQGvPjPrmo88S0ee/sPYomuaw+TmMc1twHYhd6EP/6p57KXbxfArcRD8CeO9HvBJT+w0GPW76HPfhOXzTz4cb+ryfwuUy0P3ueW1tyKUfRL97WKfUoZ/OZW0zNf7byuDPmHKZvmCrj3ZkjMDKAPE3UWkyF482o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713304591; c=relaxed/simple;
-	bh=tk5H2x1S+80SeDSArKl9t/G5k6/98gXin1OYqB9WW3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q/o9xZeCF0ZIoemd5nzOwr5Ve8kEdol3grhT77MUOu7KOAXtEBBSGxj85SZ5GvGH27eUxx+sdaDb7zFAnLAcOb3Z/ZDD7as3DT1HnS0cu7/p0+Eyi1WHc9/LL1i2ADozmylKAwnk6PHcfYnbOUCBIwhn6R9zoPy8BocDTIvRWps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YM/yN5AQ; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713305942; c=relaxed/simple;
+	bh=bW2XiDJ/DqQxbh79M+R3dEriHWCoVS8f5WkUD5glCqI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=madhiBDC/HEYbZGnhnXA/uE+2/Fg2sLtyhlw103JyIHkWkevM2NfXkc+xo0pEU+v21Ofqsp4PjIgUxJrTyEx4Eur3nxFTCcnE+t9JRPPCpgMbePJBFRywj2ywxFBcNtRIu/5kC3Gck2WfvizGRgZ08b+yhxGEH//gQzP1WPzGX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=afuGsyg7; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YM/yN5AQ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E0BA2240004;
-	Tue, 16 Apr 2024 21:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713304586;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tk5H2x1S+80SeDSArKl9t/G5k6/98gXin1OYqB9WW3s=;
-	b=YM/yN5AQ7QYGHZdr7orwRpKwojPZXiQ9oP0Vu6J6OeIJ9hvblMKBWBewq09j9mX9SSiSbU
-	XxFT4EU25HAwhx742gAbz3dIm9z/5LuNkRev22B4RJmrA0qKT5cuHrqjeC9ZI4slNXBgWC
-	/CGJw/5DTxLf7pqadnbvdmrD/BiIARe8+pj7V8D/5K1BrpVxccs/NwGCF6UdcI2PGALNQn
-	uCy9xVIP95CAZHF99O2rdMIunVlDzKDy+L366QURD1fuJbfcchZTsWeF/+sHsw0XKfA8c6
-	LU1Np8b6V6zGlI7oSSrmyvRA+tVpK9RYdORY05hv2w97h6GPlFZ/DiYayZ/frw==
-Date: Tue, 16 Apr 2024 23:56:14 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Luis Chamberlain
- <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner
- Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v8 00/17] net: Add support for Power over
- Ethernet (PoE)
-Message-ID: <20240416235614.1ec98714@kmaincent-XPS-13-7390>
-In-Reply-To: <20240414-feature_poe-v8-0-e4bf1e860da5@bootlin.com>
-References: <20240414-feature_poe-v8-0-e4bf1e860da5@bootlin.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="afuGsyg7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=lpmxt/5MIvA45UosU7v5VkKnZE4VtxUJy2lOAA317go=; b=afuGsyg7g6WxXbTtwUNFVEFqP2
+	Cu98aJVx8WT9+r3qY4ASQOnsSrwbXxb2yAhQp7JuTuRZrBbu1foJ57OpV2VmPnGj06XLThWajRTqc
+	ojGiDNUBNiMafRZ134Di/AxT00uwzklAmQyIb13qpL0WO8LGtHlOIWMA25pP7dBmwzRNw6G+T84H/
+	jgpOQjeQS1BXZajLt9WsU9FcKOOTTDAsQWgHHEJc9RKhmHAPYCCy87+uHB3KQxJMAkhXALwT69Ws2
+	tKnBvLnlQO1lWJoXTVchvmrEnu+xsv7M3p7kQ5YA7O0lFX6HtmJFVKaKRF0AO5/dYB2awp9qTdSJM
+	33+8it4w==;
+Received: from [50.53.2.121] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwr8l-0000000E1xY-2iG7;
+	Tue, 16 Apr 2024 22:18:59 +0000
+Message-ID: <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
+Date: Tue, 16 Apr 2024 15:18:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 8/8] doc: Split buffer.rst out of api-summary.rst
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20240416031754.4076917-1-willy@infradead.org>
+ <20240416031754.4076917-9-willy@infradead.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240416031754.4076917-9-willy@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 7bit
 
-On Sun, 14 Apr 2024 16:21:49 +0200
-Kory Maincent <kory.maincent@bootlin.com> wrote:
 
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->=20
-> This patch series aims at adding support for PoE (Power over Ethernet),
-> based on the already existing support for PoDL (Power over Data Line)
-> implementation. In addition, it adds support for two specific PoE
-> controller, the Microchip PD692x0 and the TI TPS23881.
 
-If by any chance a net maintainer walk nearby and push the merge button I w=
-ould
-really appreciate! ;)
-I am giving a talk tomorrow at Embedded Linux Conference about PoE, do you
-think there would be a chance to have it merged before it? :)
+On 4/15/24 8:17 PM, Matthew Wilcox (Oracle) wrote:
+> Buffer heads are no longer a generic filesystem API but an optional
+> filesystem support library.  Make the documentation structure reflect
+> that, and include the fine documentation kept in buffer_head.h.
+> We could give a better overview of what buffer heads are all about,
+> but my enthusiasm for documenting it is limited.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>  Documentation/filesystems/api-summary.rst | 3 ---
+>  Documentation/filesystems/index.rst       | 1 +
+>  2 files changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
+> index 98db2ea5fa12..cc5cc7f3fbd8 100644
+> --- a/Documentation/filesystems/api-summary.rst
+> +++ b/Documentation/filesystems/api-summary.rst
+> @@ -56,9 +56,6 @@ Other Functions
+>  .. kernel-doc:: fs/namei.c
+>     :export:
+>  
+> -.. kernel-doc:: fs/buffer.c
+> -   :export:
+> -
+>  .. kernel-doc:: block/bio.c
+>     :export:
+>  
+> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+> index 1f9b4c905a6a..8f5c1ee02e2f 100644
+> --- a/Documentation/filesystems/index.rst
+> +++ b/Documentation/filesystems/index.rst
+> @@ -50,6 +50,7 @@ filesystem implementations.
+>  .. toctree::
+>     :maxdepth: 2
+>  
+> +   buffer
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+This causes:
+
+Documentation/filesystems/index.rst:50: WARNING: toctree contains reference to nonexisting document 'filesystems/buffer'
+
+
+>     journalling
+>     fscrypt
+>     fsverity
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
