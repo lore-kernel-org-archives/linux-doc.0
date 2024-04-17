@@ -1,124 +1,111 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B758C13A258;
-	Wed, 17 Apr 2024 10:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3A613AD34
+	for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 10:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713348342; cv=none; b=aKotXkkS9xCcP0POe5Kk0jopAB7BOFPVzZQjBY5ItccajdNy7IPztNuyUrw+3d8oFv4JcGlXSkTzt6NOmq6P9+yMLtVbVzIZZXlO9N9EuEGG5kSFsU0V9bik0qNB8++Zkksa4e1mH7s7eL4PjnzNqLWTNS1pm7Sr1vzzFS5qKtU=
+	t=1713348889; cv=none; b=seIXBLgC/S6YOpdDqgvPCC5l2araiwdLjZaX2P834VZf0CxnqIqeVBWkF8Ur+FEB/qw1eQNgzhsqep0EbrLTSJDVCpik7GRKeALh+iseUabwhmdJnqEHQl5J1S4iBxxy/XoRNy1c1PTZus7wMdWd8cAZyNKQ7nNgBKS5lxrQEuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713348342; c=relaxed/simple;
-	bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1gfO8ucyMfydlTHUFuf9SDLrFAoOZtjhQTv9e5gmJ0MS085w7yKlIvYGQM0CH3QHioEMnV8t4QcSG0PHBqo5XXIysRhL3KK8ee57DyzH8JykzQcBsQVJWdAXRlcUk7wutKUgbASxupaZd8yiGqEocxZFgAJ5kU99suoVpVtCpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AAzs3ZuR; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713348889; c=relaxed/simple;
+	bh=Nsjf4W046CIAEyOcmt/MlZoEUduqPetqmPDoVbBknjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IsYDyFm3kiqlOF4gcERwPp1mWmVgGpkx8V4rAU6giw5umtbLLY39ZSi80Bx2VbVPBavixwaPcYRjSm4FO+6deqLnuFxAUxA/q3gkfqhFI4tmkRQEnrrAv98+ts8PzO/sN78typ3Wvuu0oCFWW2dlQt90hAJl7xwJp/pqHEhwkb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWC1jbih; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AAzs3ZuR"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso4045939a12.2;
-        Wed, 17 Apr 2024 03:05:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713348340; x=1713953140; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-        b=AAzs3ZuRJX7XDEU/S31apMVw0w4s7Q7KO0FdVCxGcPYSQYxeRSY28pC1eu3Nrio5c1
-         /8hlCKRtkZAgyv8u2ZkQRGfxaZJMq1OWpJiBVcvOqdTd2WBLQIZ2kjfFBum4N2R8Isih
-         f2SkFV+0ugaXXipJ2Nlmu4lZAs98Uu7pgtHxn5StoZ+osrPawfSsDoFTHgEoyq2Tt6Q8
-         NRjLJNg4pvoJ5WApc/OPQ4IAFhbQ7RH2Kz3RT5CY8e2rwsQ/E1wXGXRIyVxPAPyHxqu0
-         xXjLmG+nWpVe8EKo2OzaEGE6HiF4EW+wqWYp7nr6UxxOhqD0p14pNRRYbP31JFxGWdYJ
-         BuPQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWC1jbih"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713348887;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mfznY1Xt+1agp915j30/FccRLbon5LKlLd7NU6tQjbY=;
+	b=VWC1jbihrlhykawVWWzGbX518hICl/ApFmJ8wEPiMoLVtISWkiuxpA/mfAAcCesWKYpW1R
+	lNLjwpZCTGHWL2jfIZ7pXQKIlPrFPUiP99Ke85Ft1QnyyKDse99/WB52dbJxEoN3A0yIZO
+	poSuG6mdm5Z0Ig9PLSfPiSHfYCHXFY8=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-499-QBJrN9DZPGSjxAWA0l7euQ-1; Wed, 17 Apr 2024 06:14:46 -0400
+X-MC-Unique: QBJrN9DZPGSjxAWA0l7euQ-1
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3c5f63dfe8cso6591069b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 03:14:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713348340; x=1713953140;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1gRmg87JIr+AbQO3Esc+cHkCY63QUm02iWl6ErooOoI=;
-        b=iIRsi31AfcqzDKUNNO6o9d3ib8xGzePLs9voX9qMDY78+WB0gtQYpo7kXPOBnw2WTm
-         YzYRwT+Oo0gI3yiO4xGWx6DR+eU0urjiDqvVEdgaDP/jcMcgDaLBdIH6/wDsRP3KCpgl
-         Pz+utAPk2ispxU0TLWkBdG2f4Y4/LM1n+AfVbxPPAGTpgEf9i0JxbOqcd4fZCsMHsSE0
-         pmro/RaRuyLVSEcdLlg9r7LgoRzpd4G5HWENm4VxUvcuRbrI2iiRiJTACsZIVfN12aSC
-         5gZk7AoirKe21tUqOoK9HMtPad2H4a5jwUjYz7cl5xmXvftqdXkjqWsHFMN08st5+AzW
-         qHEA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7IS6j45Gfqpkz+GTYOT1w1GCNrANLl/xhNlogdKJkw3K3EqUqgFKkc2TgQcow4QdjzjHAuB5G3fNaypVxqolnIJrRwppo7MhG2zZs9+/T/Nbl7SXr3Y2gQvvWRjUjEaiFSkIs1YjlyYKaPbKoSs+JVjxeDE6jhEgRQPQzpZbQHKVI10sX1XjmInTqEUNM70jCiOsLvZiLojjq55CPA52TGCgxr5GK93NyY2kPva240GtdGqkSCf2ItMR1qGvwAKhKpy4rGF4SeQ==
-X-Gm-Message-State: AOJu0Yy7solfZwT8Xrej9ZNsZNk0qeXZSEkViORqFlj1vWa7k1MVELAA
-	SlxwR+1FqfC8+ES8QkGdUbyMlj4fEsK0Id+6u0iD26wAp++h3IEJ
-X-Google-Smtp-Source: AGHT+IHoSQwgWNaYYN9PHfJ92Leu3dCSJnPJtoI+4IJ8iitgaNIncK7hpg/lzzZCpwVd83QGt3/Z2Q==
-X-Received: by 2002:a17:90a:108:b0:2aa:7057:437b with SMTP id b8-20020a17090a010800b002aa7057437bmr6040509pjb.16.1713348339921;
-        Wed, 17 Apr 2024 03:05:39 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id t12-20020a17090a5d8c00b002a474e2d7d8sm1019325pji.15.2024.04.17.03.05.38
+        d=1e100.net; s=20230601; t=1713348885; x=1713953685;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mfznY1Xt+1agp915j30/FccRLbon5LKlLd7NU6tQjbY=;
+        b=ALn7TTYldHSdqM2j8jhXTwbx0flhaN5DIY0NffriieXU/RJf3hRkv/8HDS3I1E2cQC
+         HQoiVL9GK6WeIMnQGHKy+Bs5MsCEe8Gcr25mchU3Xzd4QqKJXqwwfEnNYpyYnntj727r
+         gFM9AOHIP8IdIIgiLY+nG+BCYf5k4tB+jBkwjFEhy/rs42jUTLNOR3o/8S4aA9qQi3be
+         se1GXhgMGZJ3ffcoGmuvDthCT8uzV2bDForVVwvgxpLJjqL8MiFlcHD866+qEz+sF76S
+         hRrln82ZolTVl/Rl2qlbR5HsczGpHnFF5fBZOoHOTdqIq+T6wqpu/5qC5Pjtzgq75NQF
+         ghlg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrWf9I6QJcXYPBnQrbtGrAxIoHFqYTS7L0LHzdkE2Rw/LG+9FXVDl4kydPbhIYRXZAemue4oxSLCYC/Z5Z6HhLXE0KekeYfO2o
+X-Gm-Message-State: AOJu0YzvDzIYtVWVrAb+HY6n9cbu7lSQdrlhjcQ6n/e7wFLA40joh+oT
+	lYpOib2W8uBTzJJw+vQRYsx+iaU/qtzOSJpa5z5tbKL2GAQXo2HiumB52fvks8UpJBtQH6WoGzJ
+	p3oIT7XFdjtts04DiGOvUkxSegEzb9cKL/7d8Vz5/3rnYEsPCsIgacHHzpQ==
+X-Received: by 2002:a05:6808:6243:b0:3c7:13fd:d878 with SMTP id dt3-20020a056808624300b003c713fdd878mr7873814oib.9.1713348885377;
+        Wed, 17 Apr 2024 03:14:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGDz0OAbOJqHdNWrsnzh2Aggk3FP1TUtJ619gQjpyPq9dPplYtFuLf0MpY36myUuCQuf7T1/g==
+X-Received: by 2002:a05:6808:6243:b0:3c7:13fd:d878 with SMTP id dt3-20020a056808624300b003c713fdd878mr7873788oib.9.1713348884914;
+        Wed, 17 Apr 2024 03:14:44 -0700 (PDT)
+Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:4ce1:e394:7ac0:6905])
+        by smtp.gmail.com with ESMTPSA id js7-20020a05622a808700b0043781985244sm71939qtb.59.2024.04.17.03.14.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 03:05:38 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1682E18462BA0; Wed, 17 Apr 2024 17:05:35 +0700 (WIB)
-Date: Wed, 17 Apr 2024 17:05:35 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>,
-	Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net,
-	zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
-	tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v17 20/21] Documentation: add ipe documentation
-Message-ID: <Zh-e7945DM6f2u9T@archie.me>
-References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
- <1712969764-31039-21-git-send-email-wufan@linux.microsoft.com>
- <Zh0Zh3-xraVl85Lm@archie.me>
- <a2266217-c3ad-4bb2-8188-498a2c8ae36c@infradead.org>
+        Wed, 17 Apr 2024 03:14:44 -0700 (PDT)
+From: Lukas Bulwahn <lbulwahn@redhat.com>
+X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Akira Yokosawa <akiyks@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: [PATCH] MAINTAINERS: repair file entry in DOCUMENTATION
+Date: Wed, 17 Apr 2024 12:14:29 +0200
+Message-ID: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0nWDRmFxn5oWDUvp"
-Content-Disposition: inline
-In-Reply-To: <a2266217-c3ad-4bb2-8188-498a2c8ae36c@infradead.org>
+Content-Transfer-Encoding: 8bit
 
+From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
---0nWDRmFxn5oWDUvp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit 1e596d5eff3d ("docs: Detect variable fonts and suggest denylisting
+them") adds the new script check-variable-fonts.sh and intends to refer to
+it in the DOCUMENTATION section in MAINTAINERS. However, the file entry
+refers to scripts/check-variable-font.sh. Note the missing "s".
 
-On Mon, Apr 15, 2024 at 07:56:16AM -0700, Randy Dunlap wrote:
->=20
-> On 4/15/24 5:11 AM, Bagas Sanjaya wrote:
-> > The doc LGTM, thanks!
-> >=20
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->=20
-> Hi,
-> Please see netiquette, section "Trim replies".
-> Thanks.
->=20
->=20
-> --=20
-> #Randy
-> https://people.kernel.org/tglx/notes-about-netiquette
-> https://subspace.kernel.org/etiquette.html
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+broken reference.
 
-Thanks for the tip!
+Repair this new file entry in the DOCUMENTATION section.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---0nWDRmFxn5oWDUvp
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4356b28ce625..250c8f8caa08 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6493,7 +6493,7 @@ S:	Maintained
+ P:	Documentation/doc-guide/maintainer-profile.rst
+ T:	git git://git.lwn.net/linux.git docs-next
+ F:	Documentation/
+-F:	scripts/check-variable-font.sh
++F:	scripts/check-variable-fonts.sh
+ F:	scripts/documentation-file-ref-check
+ F:	scripts/kernel-doc
+ F:	scripts/sphinx-pre-install
+-- 
+2.44.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZh+e6wAKCRD2uYlJVVFO
-o4TXAPwN11FytsnDX/+gFpUvWYFc3CxPaaA7sJCuHF5qVYQtGAEA6GP0hs+AljG4
-tOsfo209C7he+IJJJUnxDpScnZoh/wc=
-=jvcJ
------END PGP SIGNATURE-----
-
---0nWDRmFxn5oWDUvp--
