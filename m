@@ -1,99 +1,81 @@
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED72146A95;
-	Wed, 17 Apr 2024 15:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98ABF77F2C;
+	Wed, 17 Apr 2024 15:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713366555; cv=none; b=HiAF90ZZkXRoxXlmbpQQMQtgYtOv4EVRWwx1xQkMV/kLnTtwoVVIKeYyCoj3eV1XLP0U38QMTLMPIQxp8HDBelikQ3w1MQ7kiXtFGIIl6H+jL/9M2qVSSn8ElDtPy1TgCi14uQn5QSPiBpMQDIt1y9k8bG82tfrfgPLXQhhN+EQ=
+	t=1713366935; cv=none; b=LQp1dFnF/3a2ILrKiI3ujjX0qRa1ggWaPFIUYQnvhno9hmVZ3Wah5Qzh7cACxTf12bg9Ik8u1fUcZHVkPPz4WQ5zNFHYggJ1XLaVj39mRqENmU3UDcusJeRr/eneznVe95JQpGTmbXx9GxOzMVCys0g1whqZslKc/R9O1tLRSbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713366555; c=relaxed/simple;
-	bh=ttKdkzHMSd4PN+R+DnzszfWy/6/MTbcl4uKdYya5r2I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WCBNpAvpPdhonlpAlQ4aVDeZk4Xj4xTgkqYEBaStynEyOGsrTqSd7k5mag8X2KKt8uds2iAR5OBT8eoiHA9pcDk5kw0bBt0yxiznnvrr2t2jOo+B9Iz4ZU54LJpiVefFi39Y3RLLbsy1q8wybywM97390pYc4QSqNX3SSr7skYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com; spf=pass smtp.mailfrom=thefossguy.com; dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b=e5VyCHM3; arc=none smtp.client-ip=185.70.43.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thefossguy.com
+	s=arc-20240116; t=1713366935; c=relaxed/simple;
+	bh=kOOLX0GNiMAkD1VX/95set0np7ukVjF1pfBU3LwFRW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mJX+MRJjScmVZA1XJl+lqMnjOFMTby5ZTWTEWURgGf58figyyR064yscCm480URMmmIDZvfvxMp3IzGd7xfc1lqP8GLpJfTNf0e747g1Y5anRj5zhVcW4SYHC/j+jJOQaqmBBMIbv/1Xkcoc896DYBFgLL4Jw/3STGeozWiQDN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QL7zJy6O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b="e5VyCHM3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thefossguy.com;
-	s=protonmail; t=1713366546; x=1713625746;
-	bh=KXu6bVlBQqZX1RSrSxQRTAvWT4KoOmUy+znF/34aNxM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=e5VyCHM3mqicw7sbd5rjhEtRSrbAgoctZK/gbcqUm7uzOiVPGjmzxeu9BbwCYX/f2
-	 MtXxJf8tior2UMmwju5DPxRpGjqblKn7o1zJ0bZNPftMT+ZImafvtPUq+j/Hud39E+
-	 ciBRhsZnSEaaKrW+I2kLX+Ge0i/RLIZMop9vNnoj05n/9SfbNwSwYUT32Hgv1Draqi
-	 meNehBpxi999vxqwBrTh8lrzMCL91L1/iEmJrxw46NX6JQnVc7d4cayDNJk5Xo/ujh
-	 2aQrv3/nquoKXbOkHoFlp+4dDpmeOPV45kUYOZVAcepR887lfmjRlxASjqY2nqFNb4
-	 A3TmukYCTq4sQ==
-Date: Wed, 17 Apr 2024 15:08:57 +0000
-To: Nathan Chancellor <nathan@kernel.org>
-From: Pratham Patel <prathampatel@thefossguy.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, thefirst1322@gmail.com
-Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
-Message-ID: <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
-In-Reply-To: <20240417144859.GA1471879@dev-arch.thelio-3990X>
-References: <20240417043654.60662-1-prathampatel@thefossguy.com> <20240417144859.GA1471879@dev-arch.thelio-3990X>
-Feedback-ID: 104309535:user:proton
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QL7zJy6O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82531C072AA;
+	Wed, 17 Apr 2024 15:15:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713366935;
+	bh=kOOLX0GNiMAkD1VX/95set0np7ukVjF1pfBU3LwFRW8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QL7zJy6OLSIs1652n7aexUDQ63cHmByQdZlKh1yLGxBuvWohHBx1/W44cUUtQPAKS
+	 44Yzv9uPuxjL0byOWhYvXMCY/w2/9N1r6+Q+VGO+MkL52eiodAPoTF3AJFL5X+RCcS
+	 AKTKKsX5qOL3tj7fcAS8HU7c9L9kdtmJZTO4SeQoUPepNar9GFBDODAGKUAaCq95Lx
+	 sawi7ORpD/qG7VqJQ1J0ghq4dl3u+VB/Zqi+qR4mYYXbRVGxs69PpCAQDr9eu9Kq/6
+	 N7hJpyYfLylOGmtYUGB+8XXgKAibTeVfo3P5vAvMLwGEkUKzQR3Cm7w1Ts0q73+3oz
+	 B7QgX3LaA9UGQ==
+Date: Wed, 17 Apr 2024 16:15:30 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: adm1275: add adm1281
+Message-ID: <20240417-trailside-hardhead-ad59b591c243@spud>
+References: <20240417000722.919-1-jose.sanbuenaventura@analog.com>
+ <20240417000722.919-2-jose.sanbuenaventura@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Dgh85Drl3KFrr/nH"
+Content-Disposition: inline
+In-Reply-To: <20240417000722.919-2-jose.sanbuenaventura@analog.com>
+
+
+--Dgh85Drl3KFrr/nH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
-> On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
-> > This addresses a minor nit where I want a `-devel` RPM package to be
-> > built when I build a binary RPM package with either `binrpm-pkg`
-> > or `rpm-pkg` target(s).
-> >
-> > Pratham Patel (2):
-> >   kbuild: allow toggling the `with_devel` RPM macro
-> >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
-> >
-> >  Documentation/kbuild/kbuild.rst | 6 ++++++
-> >  scripts/Makefile.package        | 5 ++++-
-> >  2 files changed, 10 insertions(+), 1 deletion(-)
-> >
-> > --
-> > 2.42.0
-> >
->
-> Hmmm, when I execute
->
->   $ make -skj"$(nproc)" ARCH=3Dx86_64 O=3Dbuild mrproper defconfig binrpm=
--pkg
->
-> I end up with
->
->   $ ls -1 build/rpmbuild/RPMS/x86_64
->   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
->   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
->   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
->
-> so it seems like this is already happening?
->
-> Cheers,
-> Nathan
+On Wed, Apr 17, 2024 at 08:07:21AM +0800, Jose Ramon San Buenaventura wrote:
+> Add support for the adm1281 Hot-Swap Controller and Digital Power
+> and Energy Monitor
+>=20
+> Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.c=
+om>
 
-Ah sorry, that was a typo. I meant to say the following:
-"This addresses a minor nit where I **don't** want a `-devel` RPM
-package to be built when I build a binary RPM package with either
-`binrpm-pkg` or `rpm-pkg` target(s)."
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-That is because on ARM systems where I just need to quickly test the
-upstream defconfig, I don't really need the `-devel` package.
+--Dgh85Drl3KFrr/nH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Also, I see that in a hurry, I did the opposite of what I wanted in the
-patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=3D0 for me
-during testing. Sorry about that!
+-----BEGIN PGP SIGNATURE-----
 
-I'll send a v2 fixing this stupid mistake.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/nkgAKCRB4tDGHoIJi
+0tHaAPwO3MjuuAqScqO7DvoyJX491xjsNeINbG0fUGpBnYXMMAD/WObAXpy2t01d
+d/nf/1XG6mSaiwuhUeK21kYIMThfFgw=
+=ndHo
+-----END PGP SIGNATURE-----
 
- -- Pratham Patel
-
+--Dgh85Drl3KFrr/nH--
