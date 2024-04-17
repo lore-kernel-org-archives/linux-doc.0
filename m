@@ -1,250 +1,529 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C3213C9CD;
-	Wed, 17 Apr 2024 08:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.153.233
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713344123; cv=fail; b=ljjQKojPE8pG8V+qG7sZkz+pOUTrmwTgxP4dzTcD6+WqsH7JNc4hwRik3R7bP5/zeO0a3IY4kG6TOYSnmziKmblE0ATI8Mqqgw8umxqgawsuECIQo4GJFp8dc0x+dGdVhknBf654OVTIAezdENEOhHYxqcbMDzSrjA2GhZViU3c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713344123; c=relaxed/simple;
-	bh=JDWfcynaD4xRnfCjRkP08kKzwOrYSmJ2B1ubivSWxzI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=f0Cd6Mv/YcUqgz8WHqnaWWhpGleLGHUgvPR/aSmD6EQQ8FHmQ52/NYKmp7Vr6P668taYkwKQbyVkCPTnMn4V6wBCrOD2VmDA+zrwhZvs0wAYIfUG7mB7l8gFV20PrQS3w+TwTuc0QA55yIM2+CXdKzxh75HiV3aHVZwSrfcEejY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=CEQAnsDm; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=2tInLu0r; arc=fail smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D703F9F9;
+	Wed, 17 Apr 2024 10:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713348114; cv=none; b=b0ZDNP2cqJ0QKlAfhoCL9IJhMw4RobjJ1ZFGomXfyjiQNSIepaiOPcZIPKW1IoONd5L9xPXDRRdyDMJ90ct8S84f41RE0dsBP7RD9zgSsZeD7ZT3WYlnIHOsDakCq71bjai+D0SnoGGMMhlPbTiKBV5LfTIUeCMj4+Zmx7H/P08=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713348114; c=relaxed/simple;
+	bh=rUBVfQqLhlJaJFr8AB2s1BgXmAgC2PR7bnCIqpCwW9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UUZsqo0+zvd+jpONXTtu/oPEd5rp2AId/hte700Dks2/0jhZZbJVoK/FR/7PnOAXDd5OWwmc5dvqAf/StapKMJaAuwJ5Y3Kcx/9JmFnLzbal04JGn97YRUScr3pymQM3klNNEKo6MYBVcHP9bH6x5zF9u/OD/MD0ppYhODZ0J7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WQDiVvA5; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="CEQAnsDm";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="2tInLu0r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713344121; x=1744880121;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=JDWfcynaD4xRnfCjRkP08kKzwOrYSmJ2B1ubivSWxzI=;
-  b=CEQAnsDmtNibJgUikPJ0BqSnUJwSFa/19Ad6xL+Mseiz0udDKGk6+aD9
-   k57Sh1K0KS4nOGaY20z4jJu/psLLCk1Xb8F2OqzWwnsHkeao2iaWMXjGF
-   evXz5CIICJh8qce/wW/bEGHAA1zzZ5LkRoF/TqCXfIH8fz86ApjEZnOxj
-   K9pe1SMVz80IGzwfKBO1Gw1i1NEufdmJwChjAdfKw3OhSU2XbzHaiYbcU
-   Lld02CYlzuUdg1pBKwkeFOPQWcyV/z0253lT11rmAYqUaesMfcW7ksuxG
-   /TZBpr3Oer+i4FNiRgjSmsJxwfkyPT2MELt3PPVbmxwO8UBzfYcbQIu5c
-   A==;
-X-CSE-ConnectionGUID: rfPXvNJOShSxHQwTNJQ11A==
-X-CSE-MsgGUID: hJcTg4PPR6GKD0Or4Sfa0Q==
-X-IronPort-AV: E=Sophos;i="6.07,208,1708412400"; 
-   d="scan'208";a="252215901"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 17 Apr 2024 01:55:18 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 17 Apr 2024 01:55:04 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 17 Apr 2024 01:55:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IoByORp6W2cIfWuWYhYe+hNjUAf/nexi3g0H4XuQiUzQ9rcrwdv3fM4PpN7iVf7oWE8hRZelXORh/iRgkzLZKepaQd+dzxWKiY2mJZTqYnUItjFg+ok4VcXXEhtgMjlpUVfN9QnTiEsQ142NL9u+5ASH9SEE5YNuCQtrI1PGk5TbrtiYd5lYM3TJYv4TcFheKRetvLUPfLqQUxmJZV8xXZB7cWDmgZoYzWSBYnzx9eusInt3PqNeOlvyNH/p2g47a20umB0rFP2bagGb4KGXK7CPacLXdCXT54JnkoAACRzhbuHGg4ju9fz6XxJC1MAfZJk755O49Ftz0ghzjZFHVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JDWfcynaD4xRnfCjRkP08kKzwOrYSmJ2B1ubivSWxzI=;
- b=nhma7Xd2SevlQGaCKMxe4xZ/cVO8JNAumS8AQl98KYXmJ8YJch34lM75JcBB0TOzpYFmxkCyn2z9nsQTxqWOsoWaHrtATGVZ/8QI6qiyPtieqrmS4eSlHNWTnfMTBp9Cca1131ahS+pUpXF6F7x6CPLbr+XE9aHPiTX1j5TQ8O4iyTdL/Dsy6p+nrTTqUsEAkHPvlSVoqKTI9GMc+e2qrmpnZpaRLG9wEQwv/5BG9PVuN1a/Mbu7aw7AdoJ22tdGklq/sdKP8Mirl8jwZdIVG4WqX0y/LT2w4CfGPbpJzVIdqc97IU83v1wqoSZeo/LxNv2dr1d3YxiL6H5g4qfMng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JDWfcynaD4xRnfCjRkP08kKzwOrYSmJ2B1ubivSWxzI=;
- b=2tInLu0rt1BWYAnuXq5PMlCfoGx8u+HyNffNCAYC5OxoasN+XiXClocQGIILa+4wxYTmSED909s+l7/pakH8I6IcY0b/AI/DlN+bCCVXdtN4rIdRyGkTz3+7VNK+/NxURJafS4RA0EYigB1b+XuptY2b8VS05TsfAPNZU/TbYQa9uXG4UuT38wEqzHePuaY/317xf8Zqd25ndvpg8ZEOeJRm9ZFqrod2fZpR4fOZtiq0+enYUnmbcYL9Rh2INU00FBOCIq1k5bcHZurEqzqyQfo63UmboW5vY6T51DQl+k2VaiM6Vono7A3R0bztQ0SzBVzECzE01vv66v85X2UErg==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by CH3PR11MB7372.namprd11.prod.outlook.com (2603:10b6:610:145::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.37; Wed, 17 Apr
- 2024 08:55:01 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::f633:b9d4:f539:177d]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::f633:b9d4:f539:177d%6]) with mapi id 15.20.7472.037; Wed, 17 Apr 2024
- 08:55:01 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <andrew@lunn.ch>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
-	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
-	<benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
- internal PHY initialization
-Thread-Topic: [PATCH net-next v3 06/12] net: ethernet: oa_tc6: implement
- internal PHY initialization
-Thread-Index: AQHab6OHj5kLkYW7WEGlK1Xe+8KWTLEregYAgADhwoCAACAwgIABRrCAgAAYZQCAD4ziAIAnRUiAgAThfYCAAW1PAIAAebiAgAD064A=
-Date: Wed, 17 Apr 2024 08:55:01 +0000
-Message-ID: <c2012ac6-d12f-4c87-90bc-a89c4557a2e9@microchip.com>
-References: <20240306085017.21731-7-Parthiban.Veerasooran@microchip.com>
- <8c2b95f4-75a7-4d6d-ab9c-9c3498c040d8@lunn.ch>
- <eeb57938-e21e-406d-a835-93c6fb19b161@microchip.com>
- <7ddbe599-187e-401f-b508-4dc62bca8374@lunn.ch>
- <e9bc573e-61f0-484a-b1fb-b5100eb9ee0a@microchip.com>
- <8de7a4bb-a127-4771-97dd-038f08fcce9d@lunn.ch>
- <372a45c3-1372-4956-8d42-8e989f86d131@microchip.com>
- <ee5dcd07-7c44-4317-9d62-0fc68565988a@microchip.com>
- <3fc3b5c3-0750-4aff-ab26-240f4bc55236@lunn.ch>
- <5100ab9d-1b70-46fb-b3ba-d4bcff6d6870@microchip.com>
- <af6d3a74-7e7b-4953-bba7-f9ceb26df2d3@lunn.ch>
-In-Reply-To: <af6d3a74-7e7b-4953-bba7-f9ceb26df2d3@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|CH3PR11MB7372:EE_
-x-ms-office365-filtering-correlation-id: 0feb1be0-5fa5-48d5-9b00-08dc5ebc1121
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hFuOmYonKaafCJKfdKHvcjNVGiYDYxBdglf5l/oR/1lbgv8X93cgDOUJ0p2t2MgIAP/CcRK1HRm/AIu7FOul83OfjweqKqU7vT4DID2qs53BYmMz4N+aNLwP5/Clmx3KS3BFIGr+4CxDhm6kG5B9plP7PEga4YmbzBrSDZkhes8Xt+lCLghDxARtzrgb0QTQKVdGKdKlK8fJNZbXknSrIYpuL1tJ4I3cKg/tnl4VgODDKU8Zpxpl45OI5hFV/Dg/8pTfirUcQ/XLd5V0ABKl8AqbdNnEPFMyom6Ue0Y3ES7+e8keB2NxAUYXlUdMVm0ALNRu1o64sPmwv84SrP51iM9twGdcaqRfUvoF+7IaTFaBZ5fvYoXMJHuofDjyHHHIIW3Z/Tw+56SymNLE4AmSoGwLibsgC9SOLW9W83pYoP/wJbgMrQ+3JrUWM/gMNrNjvrEXpSKJ9IDB0KS06vtvFjrnQycU+xq7p+eJI2IEkE4mENc0qx1A/cH2TZSiyrT1QvvSWvxAhzf2VH8jigLnOuC91rNA+8OrJfIP0LlGHu+HdmBrAy/nZyl5NSz2th/UYsb0WZF3Ra8QNypm+u6lOrdxEN6doOGR1v61QCDbQwLJqxlZPRCTCvGpF6eKsCHt3EcP3S6gtCPeC+AjNzohBTZA9UbM088UH2tS+6zi3/KLeCnk33efQLrn++t11BS/Pc1DWdIIFKYZQB0vwNdkk8pQwTYKsErk+GjbBWqGW0k=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(7416005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RjJZcm9CUURPL0pra1h6MTdHYXNpS3p4RzFLSnpDY3hqNmI5QUV4cU1xbjJi?=
- =?utf-8?B?eC9SNkFqdkZ1bUd2QTVHWGRVc0U4NGxPT1dFVnpyYXB0NEoxejJUZ1oxL0Rp?=
- =?utf-8?B?ekhSYmQvcnFZaVlSYWtnUVFMVVJrS1BQMXBsbGVZeWUrb3l3UVVBTnY0bFA1?=
- =?utf-8?B?SnE3L1JFVXBEOHcvaEJ2eHdxM2hJeWwrRG9MLzBOV3FmZzhISnNFNnIxc2Zj?=
- =?utf-8?B?SStjbmlwS2RmaWZaZ3lmVENVS1FUcE5UVUNta1Z6L2xHd3VJOEtDeXd0WDZu?=
- =?utf-8?B?Zyt6UmpjTC93a0ZpYTNQWUQyVDR4VWVmTzBlQ0hMK2hrZDY5c1FnTStxVnpy?=
- =?utf-8?B?a2t1Qi8vcmdKNzJGOW51Vzg3aFNzaWFYQ3hrQk9aZkhDbytPOW04b2YzVEll?=
- =?utf-8?B?S2RETkxZYjVoUkxDQWx0VEVpeEh1M0t4R3JjK0kyWCtXVHYrbThGMmpJc0o3?=
- =?utf-8?B?Z2hFb0tGM2YwSHArOXllLytqZzE5ZUlpNi9KUUpyRS9TS21rU0dFTmNjSDVv?=
- =?utf-8?B?eDhGeDgxR1pKNTRSRStvdStXb2NLQUlsU29CK2VZVDN1ZS9ubGkxRys5T0RG?=
- =?utf-8?B?RFZUSys1QUpKcExGUFZqR2YzcHZOMDVycUZaZ004VWpTOHJKUnhYZW1hN2Vq?=
- =?utf-8?B?WU9hdDh2WmdjdGN2KzQxdE9neS9XcG1GOHRxUk1OQmNBdkNhTXFrdC8zVUpB?=
- =?utf-8?B?OXR4dGF3QXdTK203c3BkL21wV3o3SlNWNGlXM1JBSHJVVDFIdjZFS3NoL1RX?=
- =?utf-8?B?amt5RDZlN0NFTFNUTks5b0NUQytCTWFtVXNnZlQzNitKU1NCZkpPYWVuQmVO?=
- =?utf-8?B?NjVDWm5iSXptMmJVeTRoRVRRU0g0dStqVmR4Vk9rYjRwY0pnbVRvdnZpMnVk?=
- =?utf-8?B?VHhDNWJNN1dqdGhtTld5eGZKVnRYOXR2MFY3Yjh0K3RhenlYUktlZ21zYVFH?=
- =?utf-8?B?Z1IvQmFZdlcyRklIMkdNWmYzZWNsQVUxUXBzZ2lRbXVVaDcrRGxLdXcvZlM0?=
- =?utf-8?B?c25VeXU4a0lxYSt2cU1XOG1Eam1Qd29aa3ZZOFgySHloVHNrRjM2R2lMamNZ?=
- =?utf-8?B?SWpZNE9uU3g4QmxQYUl6NkcybFNwSEVaT3JUNnZQL1BWZWw4VFRPbkE1c2xT?=
- =?utf-8?B?VTZqcDRHV0JFMXk0ZU1DU2lOYlZjdHYzQzZZcWY0K1h4KzY5RzlXNmpxVjJh?=
- =?utf-8?B?bGRyY3NaOThKTWhycCsxVmdjS0tIcUdrb0JLbDVkenlzM1dRdWxlWWJmSW1n?=
- =?utf-8?B?V0NMZWNLbG9WdDkvazlZWmovZDVoUXBGbmxtRHUwT2hIdWE4UVFKWmdKRGZ6?=
- =?utf-8?B?VHJKcFFvL04xaThFQ2pEeGp0TUM2RzZDdEE2MFRSRW9zeWRqVTNuOTZzYmxO?=
- =?utf-8?B?Uy9EazNkRlU1YVhXWlBMRHlHbHpmRk0xUWVvSzBSdEVtUmd6TDAxRCtnYkFY?=
- =?utf-8?B?K1M1QmxjcG84YXozQkFnNHluSU50cEcvb2g2MjZqd2lHVVd1ZzVYUmpvaWFa?=
- =?utf-8?B?eU80RnQ1NTIzeGhpRGtReTkvdWlmd0tLY3hncDVYVWhZZFNJbnFQcWd2THpq?=
- =?utf-8?B?L1IrdWJSRHR2MmtQd0c5T1dhdVh4akd1aUZkbGlLSzJmUjBoOUlBcXUxVlpW?=
- =?utf-8?B?Ri9ud3hUblpoNHVLOVNZMUhGZS9WTmxvMFR0aENxQmMwTzlEbEJHS2F1NHVV?=
- =?utf-8?B?Y3E1U2p6UFEzd2xYVjdyQnNWeUtCZFllT1dwNWliLzlQaXh5Q1R0b1BzYzJE?=
- =?utf-8?B?QjZ6M3E2M3IrczBqTGRSR29JdzV6eEZ6VFQ2TlZ5VFJ2enVVYjdaTEdKQkpF?=
- =?utf-8?B?M2lqTEZLMXkzSlFjY1Z4RnB1Y1RvSDF2aXhHOVpGaWVrSGs4dnlTeDFoN3RM?=
- =?utf-8?B?N2tkdWFya2NYb1BrRktpdjJ3NEZsSFJCT1lNcnEwcThoTlZvWDlmdG5TVzJw?=
- =?utf-8?B?WHY2TzJaQWV1c29EWEVRZ2l6STVrbFh1bzJpemFhL2dvZUdrQUNMMG9uNzBr?=
- =?utf-8?B?Tkt1ZzE3S0FuK2hVUkc0ZlFMV0U0dHdvSW5xT1pnYk1NU1hTRjNOaFNYbk5F?=
- =?utf-8?B?K0ZNZ1IraDRXa1BqMjlzRmhnYmowMzV1NVplR2JrVkJuSnlQWHUraHpmbmtE?=
- =?utf-8?B?VkE0b0RDRGY5ZUlFM1JQL0lKNWg1RWdMUUxwLzYxTmthNytNOXRTM0pEMjVx?=
- =?utf-8?Q?dJK3j+/fOD8BWZW8QR42Elc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5A5B568EAC7EEB459E6DCBCC89CF621B@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WQDiVvA5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uhGngePvmuEMD8gJfdvNzfddvTKaoxx5K82AJXwoko4=; b=WQDiVvA5sotO8QI7Fpz+di831F
+	zKyykOsyPzwlcfhAyJuVYyS4irXqd4mj9WqSjpOXIlLsvDeDUB43rlzH5e/kZGPAsOO1n1qahYeSb
+	KFTwehb/hbR7EGFSa1TnhonD6CHPv+aiOBGk8kYAEAD1BIMIs1+JWYyQxYnaGB6iu0yKpi0CZbOX2
+	cCQSbu58o8dB3MpSQb3BKFeotbCD1srD+kmoRjhOHYeDyWn+CFF+jYEKjnmVH77FwIr4T5W9uRGsO
+	QMVV4QSJ+L+kMjzLrfo3UJBbMWbI58i3DHD66vRDoYsBSG0N/WgpSJauioDm0vVy9Jt/bYSRl2NhA
+	vAAqW6/w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rx26f-00000002fah-1NvO;
+	Wed, 17 Apr 2024 10:01:33 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 010BC30040C; Wed, 17 Apr 2024 12:01:32 +0200 (CEST)
+Date: Wed, 17 Apr 2024 12:01:32 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
+Message-ID: <20240417100132.GK30852@noisy.programming.kicks-ass.net>
+References: <20240416010837.333694-1-zfigura@codeweavers.com>
+ <2602449.Lt9SDvczpP@terabithia>
+ <20240417052218.GI30852@noisy.programming.kicks-ass.net>
+ <1856855.atdPhlSkOF@terabithia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0feb1be0-5fa5-48d5-9b00-08dc5ebc1121
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2024 08:55:01.3471
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5rIb/tZHeB1yEyVDQPh+IcYbfD5Sv3ja9CaP79V7lNvIPSQOiKxvGqX+M0ohW3rwSN3eYUEAs6/du1IJJp2zb1k5V0pW7y3inruOlBT2hz5WfvaPVoTr31M/qsamhTnH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7372
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1856855.atdPhlSkOF@terabithia>
 
-SGkgQW5kcmV3LA0KDQpPbiAxNi8wNC8yNCAxMTo0OCBwbSwgQW5kcmV3IEx1bm4gd3JvdGU6DQo+
-IEVYVEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1
-bmxlc3MgeW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4+IEkgdHJpZWQgdGhpcyBh
-cHByb2FjaCBhbmQgaXQgd29ya3MgYXMgZXhwZWN0ZWQuIE1lYW5zIHdoZW5ldmVyIHRoZXJlIGlz
-DQo+PiBhIGM0NSByZWdpc3RlciBhY2Nlc3MsIGl0IGRpcmVjdGx5IHVzZXMgdGhlDQo+PiBvYV90
-YzZfcmVhZF9jNDUoKS9vYV90YzZfd3JpdGVfYzQ1KCkgZnVuY3Rpb25zLiBIZXJld2l0aCBJIGhh
-dmUgYXR0YWNoZWQNCj4+IHRoZSBwYXRjaA0KPj4gKHY0LTAwMDYtbmV0LWV0aGVybmV0LW9hX3Rj
-Ni1pbXBsZW1lbnQtaW50ZXJuYWwtUEhZLWluaXRpYS5wYXRjaCkgd2hpY2gNCj4+IGhhcyB0aGlz
-IG5ldyBpbXBsZW1lbnRhdGlvbiBmb3IgeW91ciByZWZlcmVuY2UuIElzIHRoaXMgeW91IGV4cGVj
-dGVkPw0KPj4gQ2FuIHlvdSBjb21tZW50IG9uIHRoaXM/DQo+IA0KPiBQbGVhc2UganVzdCBwb3N0
-IGEgbmV3IHBhdGNoIHNlcmllcy4gSSB3aWxsIHRoZW4gcmV2aWV3IGl0IGp1c3QgbGlrZQ0KPiBv
-dGhlciBwYXRjaGVzLiBJdHMgTy5LLiB0byBzZW5kIHBhdGNoIHNlcmllcyBmcmVxdWVudGx5LCBu
-b3QganVzdCBtb3JlDQo+IHRoYW4gb25lIHBlciBkYXkuDQo+IA0KU3VyZSwgdGhlbiBJIHdpbGwg
-c2VuZCB2NCBwYXRjaCBzZXJpZXMgd2l0aCB0aGlzIGNoYW5nZXMgYXMgd2VsbCBzb29uIA0KZm9y
-IHRoZSByZXZpZXcuDQo+PiBJIHRyaWVkIHRoaXMgYXBwcm9hY2ggYnkgc2V0dGluZyB1cCBpc19j
-NDUgZmxhZyB3aGVuIEkgdXNlDQo+PiBwaHlfcmVhZF9tbWQoKSBmdW5jdGlvbiBidXQgZW5kZWQg
-dXAgd2l0aCB0aGUga2VybmVsIGNhbGwgdHJhY2UNCj4+IChjNDVfa2VybmVsX2NhbGxfdHJhY2Uu
-cG5nKSBhdHRhY2hlZCBoZXJlIGZvciB5b3VyIHJlZmVyZW5jZS4NCj4gDQo+IFBsZWFzZSBwb3N0
-IHBsYWluIEFTQ0lJLiBJIGFzc3VtZSB5b3UgaGF2ZSBhIHNlcmlhbCBwb3J0LCBzbyB5b3UNCj4g
-c2hvdWxkIGJlIGFibGUgdG8gY2FwdHVyZSBpdC4gSSdtIG5vdCB0b28gc3VycHJpc2VkIHRob3Vn
-aCwgbm8gb3RoZXINCj4gZHJpdmVyIHBsYXlzIHdpdGggaXNfYzQ1Lg0KTy5LLiBQbGVhc2UgZmlu
-ZCB0aGUgYmVsb3cga2VybmVsIHRyYWNlLA0KDQpbMTU4OTAuMTI3NTI1XSAtLS0tLS0tLS0tLS1b
-IGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NClsxNTg5MC4xMjc1NDBdIHBoeV9zdGFydF9hbmVnKzB4
-MC8weDU4OiByZXR1cm5lZDogLTIyDQpbMTU4OTAuMTI3NTkyXSBXQVJOSU5HOiBDUFU6IDAgUElE
-OiAzOTM3IGF0IGRyaXZlcnMvbmV0L3BoeS9waHkuYzoxMjMzIA0KcGh5X3N0YXRlX21hY2hpbmUr
-MHhhYy8weDJmMA0KWzE1ODkwLjEyNzYwMl0gTW9kdWxlcyBsaW5rZWQgaW46IGxhbjg2NXhfdDFz
-KE8pIG1pY3JvY2hpcF90MXMoTykgcmZjb21tIA0Kc25kX3NlcV9kdW1teSBzbmRfaHJ0aW1lciBz
-bmRfc2VxIHNuZF9zZXFfZGV2aWNlIGNtYWMgYWxnaWZfaGFzaCANCmFlc19hcm02NCBhZXNfZ2Vu
-ZXJpYyBhbGdpZl9za2NpcGhlciBhZl9hbGcgYm5lcCBicmNtZm1hY193Y2MgaGNpX3VhcnQgDQpi
-dGJjbSBibHVldG9vdGggYnJjbWZtYWMgYmluZm10X21pc2MgYmNtMjgzNV92NGwyKEMpIHJwaXZp
-ZF9oZXZjKEMpIA0KYmNtMjgzNV9jb2RlYyhDKSBiY20yODM1X2lzcChDKSB2NGwyX21lbTJtZW0g
-YnJjbXV0aWwgDQpiY20yODM1X21tYWxfdmNoaXEoQykgdmlkZW9idWYyX3ZtYWxsb2MgdmlkZW9i
-dWYyX2RtYV9jb250aWcgY2ZnODAyMTEgDQplY2RoX2dlbmVyaWMgZWNjIHZpZGVvYnVmMl9tZW1v
-cHMgdmlkZW9idWYyX3Y0bDIgcmZraWxsIHZpZGVvZGV2IGxpYmFlcyANCnJhc3BiZXJyeXBpX2h3
-bW9uIHZpZGVvYnVmMl9jb21tb24gc25kX2JjbTI4MzUoQykgcmFzcGJlcnJ5cGlfZ3Bpb21lbSBt
-YyANCnZjX3NtX2NtYShDKSBudm1lbV9ybWVtIGdwaW9fZmFuIHVpb19wZHJ2X2dlbmlycSB1aW8g
-aTJjX2RldiBmdXNlIGRtX21vZCANCmlwX3RhYmxlcyB4X3RhYmxlcyBpcHY2IHNwaWRldiB2YzQg
-c25kX3NvY19oZG1pX2NvZGVjIGRybV9kaXNwbGF5X2hlbHBlciANCmNlYyBkcm1fZG1hX2hlbHBl
-ciB2M2QgZ3B1X3NjaGVkIGRybV9rbXNfaGVscGVyIGRybV9zaG1lbV9oZWxwZXIgZHJtIA0KZHJt
-X3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcyBpMmNfYnJjbXN0YiBzbmRfc29jX2NvcmUgc3BpX2Jj
-bTI4MzUgDQpzbmRfY29tcHJlc3Mgc25kX3BjbV9kbWFlbmdpbmUgc25kX3BjbSBzbmRfdGltZXIg
-c25kIGJhY2tsaWdodCBbbGFzdCANCnVubG9hZGVkOiBtaWNyb2NoaXBfdDFzKE8pXQ0KWzE1ODkw
-LjEyNzc1Nl0gQ1BVOiAwIFBJRDogMzkzNyBDb21tOiBrd29ya2VyLzA6MSBUYWludGVkOiBHICAg
-ICAgICBXQyBPIA0KICAgICAgIDYuNi4yMCtycHQtcnBpLXY4ICMxICBEZWJpYW4gMTo2LjYuMjAt
-MStycHQxDQpbMTU4OTAuMTI3NzYzXSBIYXJkd2FyZSBuYW1lOiBSYXNwYmVycnkgUGkgNCBNb2Rl
-bCBCIFJldiAxLjQgKERUKQ0KWzE1ODkwLjEyNzc2N10gV29ya3F1ZXVlOiBldmVudHNfcG93ZXJf
-ZWZmaWNpZW50IHBoeV9zdGF0ZV9tYWNoaW5lDQpbMTU4OTAuMTI3NzczXSBwc3RhdGU6IDYwMDAw
-MDA1IChuWkN2IGRhaWYgLVBBTiAtVUFPIC1UQ08gLURJVCAtU1NCUyANCkJUWVBFPS0tKQ0KWzE1
-ODkwLjEyNzc3OF0gcGMgOiBwaHlfc3RhdGVfbWFjaGluZSsweGFjLzB4MmYwDQpbMTU4OTAuMTI3
-NzgzXSBsciA6IHBoeV9zdGF0ZV9tYWNoaW5lKzB4YWMvMHgyZjANClsxNTg5MC4xMjc3ODddIHNw
-IDogZmZmZmZmYzA4NmMyYmQ2MA0KWzE1ODkwLjEyNzc5MF0geDI5OiBmZmZmZmZjMDg2YzJiZDYw
-IHgyODogMDAwMDAwMDAwMDAwMDAwMCB4Mjc6IA0KMDAwMDAwMDAwMDAwMDAwMA0KWzE1ODkwLjEy
-Nzc5OF0geDI2OiBmZmZmZmY4MWZlZjc4MWE4IHgyNTogZmZmZmZmODEwMTkwNjY0MCB4MjQ6IA0K
-ZmZmZmZmODEwMDEwY2EwNQ0KWzE1ODkwLjEyNzgwNl0geDIzOiAwMDAwMDAwMGZmZmZmZmVhIHgy
-MjogZmZmZmZmODEwM2U0MWM5OCB4MjE6IA0KMDAwMDAwMDAwMDAwMDAwNA0KWzE1ODkwLjEyNzgx
-NV0geDIwOiBmZmZmZmY4MTAzZTQxY2YwIHgxOTogZmZmZmZmODEwM2U0MTgwMCB4MTg6IA0KMDAw
-MDAwMDBmZmZmZmZmZQ0KWzE1ODkwLjEyNzgyMl0geDE3OiAwMDAwMDAwMDAwMDAwMDAwIHgxNjog
-ZmZmZmZmZTczNDZiNWI2MCB4MTU6IA0KZmZmZmZmYzA4NmMyYjk2MA0KWzE1ODkwLjEyNzgzMF0g
-eDE0OiAwMDAwMDAwMDAwMDAwMDAwIHgxMzogMzIzMjJkMjAzYTY0NjU2ZSB4MTI6IA0KNzI3NTc0
-NjU3MjIwM2EzOA0KWzE1ODkwLjEyNzgzN10geDExOiAzNTc4MzAyZjMwNzgzMDJiIHgxMDogZmZm
-ZmZmZTczNWNhMzcwOCB4OSA6IA0KZmZmZmZmZTczNDcwOTQ2Yw0KWzE1ODkwLjEyNzg0NV0geDgg
-OiAwMDAwMDAwMGZmZmZlZmZmIHg3IDogZmZmZmZmZTczNWNhMzcwOCB4NiA6IA0KODAwMDAwMDBm
-ZmZmZjAwMA0KWzE1ODkwLjEyNzg1Ml0geDUgOiBmZmZmZmY4MWZlZjY3ZDQ4IHg0IDogMDAwMDAw
-MDAwMDAwMDAwMCB4MyA6IA0KMDAwMDAwMDAwMDAwMDAyNw0KWzE1ODkwLjEyNzg2MF0geDIgOiAw
-MDAwMDAwMDAwMDAwMDAwIHgxIDogMDAwMDAwMDAwMDAwMDAwMCB4MCA6IA0KZmZmZmZmODEwNWYx
-YmQ4MA0KWzE1ODkwLjEyNzg2OF0gQ2FsbCB0cmFjZToNClsxNTg5MC4xMjc4NzJdICBwaHlfc3Rh
-dGVfbWFjaGluZSsweGFjLzB4MmYwDQpbMTU4OTAuMTI3ODc4XSAgcHJvY2Vzc19vbmVfd29yaysw
-eDE0OC8weDNiOA0KWzE1ODkwLjEyNzg4N10gIHdvcmtlcl90aHJlYWQrMHgzMmMvMHg0NTANClsx
-NTg5MC4xMjc4OTNdICBrdGhyZWFkKzB4MTFjLzB4MTI4DQpbMTU4OTAuMTI3OTAyXSAgcmV0X2Zy
-b21fZm9yaysweDEwLzB4MjANClsxNTg5MC4xMjc5MDhdIC0tLVsgZW5kIHRyYWNlIDAwMDAwMDAw
-MDAwMDAwMDAgXS0tLQ0KDQpCZXN0IHJlZ2FyZHMsDQpQYXJ0aGliYW4gVg0KPiANCj4gICAgICAg
-ICBBbmRyZXcNCj4gDQoNCg==
+On Wed, Apr 17, 2024 at 01:05:47AM -0500, Elizabeth Figura wrote:
+
+> Here's a (slightly ad-hoc) simplification of the patch into text form inlined 
+> into this message; hopefully it's readable enough.
+
+Thanks!
+
+Still needed:
+
+ s/\`\`/"/g
+ s/\.\.\ //g
+
+But then it's readable
+
+> 
+> ===================================
+> NT synchronization primitive driver
+> ===================================
+> 
+> This page documents the user-space API for the ntsync driver.
+> 
+> ntsync is a support driver for emulation of NT synchronization
+> primitives by user-space NT emulators. It exists because implementation
+> in user-space, using existing tools, cannot match Windows performance
+> while offering accurate semantics. It is implemented entirely in
+> software, and does not drive any hardware device.
+> 
+> This interface is meant as a compatibility tool only, and should not
+> be used for general synchronization. Instead use generic, versatile
+> interfaces such as futex(2) and poll(2).
+> 
+> Synchronization primitives
+> ==========================
+> 
+> The ntsync driver exposes three types of synchronization primitives:
+> semaphores, mutexes, and events.
+> 
+> A semaphore holds a single volatile 32-bit counter, and a static 32-bit
+> integer denoting the maximum value. It is considered signaled when the
+> counter is nonzero. The counter is decremented by one when a wait is
+> satisfied. Both the initial and maximum count are established when the
+> semaphore is created.
+> 
+> A mutex holds a volatile 32-bit recursion count, and a volatile 32-bit
+> identifier denoting its owner. A mutex is considered signaled when its
+> owner is zero (indicating that it is not owned). The recursion count is
+> incremented when a wait is satisfied, and ownership is set to the given
+> identifier.
+
+'signaled' is used twice now but not defined. For both Semaphore and
+Mutex this seems to indicate uncontended? Edit: seems to be needs-wakeup
+more than uncontended.
+
+> A mutex also holds an internal flag denoting whether its previous owner
+> has died; such a mutex is said to be abandoned. Owner death is not
+> tracked automatically based on thread death, but rather must be
+> communicated using NTSYNC_IOC_MUTEX_KILL. An abandoned mutex is
+> inherently considered unowned.
+> 
+> Except for the "unowned" semantics of zero, the actual value of the
+> owner identifier is not interpreted by the ntsync driver at all. The
+> intended use is to store a thread identifier; however, the ntsync
+> driver does not actually validate that a calling thread provides
+> consistent or unique identifiers.
+
+Why not verify it? Seems simple enough to put in a TID check, esp. if NT
+mandates the same.
+
+> An event holds a volatile boolean state denoting whether it is signaled
+> or not. There are two types of events, auto-reset and manual-reset. An
+> auto-reset event is designaled when a wait is satisfied; a manual-reset
+> event is not. The event type is specified when the event is created.
+
+But what is an event? I'm familiar with semaphores and mutexes, but less
+so with events.
+
+> Unless specified otherwise, all operations on an object are atomic and
+> totally ordered with respect to other operations on the same object.
+> 
+> Objects are represented by files. When all file descriptors to an
+> object are closed, that object is deleted.
+> 
+> Char device
+> ===========
+> 
+> The ntsync driver creates a single char device /dev/ntsync. Each file
+> description opened on the device represents a unique instance intended
+> to back an individual NT virtual machine. Objects created by one ntsync
+> instance may only be used with other objects created by the same
+> instance.
+> 
+> ioctl reference
+> ===============
+> 
+> All operations on the device are done through ioctls. There are four
+> structures used in ioctl calls::
+> 
+>    struct ntsync_sem_args {
+>        __u32 sem;
+>        __u32 count;
+>        __u32 max;
+>    };
+> 
+>    struct ntsync_mutex_args {
+>        __u32 mutex;
+>        __u32 owner;
+>        __u32 count;
+>    };
+> 
+>    struct ntsync_event_args {
+>        __u32 event;
+>        __u32 signaled;
+>        __u32 manual;
+>    };
+> 
+>    struct ntsync_wait_args {
+>        __u64 timeout;
+>        __u64 objs;
+>        __u32 count;
+>        __u32 owner;
+>        __u32 index;
+>        __u32 alert;
+>        __u32 flags;
+>        __u32 pad;
+>    };
+> 
+> Depending on the ioctl, members of the structure may be used as input,
+> output, or not at all. All ioctls return 0 on success.
+> 
+> The ioctls on the device file are as follows:
+> 
+> NTSYNC_IOC_CREATE_SEM
+> 
+>   Create a semaphore object. Takes a pointer to struct ntsync_sem_args,
+>   which is used as follows:
+> 
+>      * sem:   On output, contains a file descriptor to the created semaphore.
+>      * count: Initial count of the semaphore.
+>      * max:   Maximum count of the semaphore.
+> 
+>   Fails with EINVAL if `count` is greater than `max`.
+
+So the implication is that @count and @max are input argument and as
+such should be set before calling the ioctl()?
+
+It would not have been weird to have the ioctl() return the fd on
+success I suppose, instead of mixing input and output arguments like
+this, but whatever, this works.
+
+> NTSYNC_IOC_CREATE_MUTEX
+> 
+>   Create a mutex object. Takes a pointer to struct ntsync_mutex_args,
+>   which is used as follows:
+> 
+>      * mutex: On output, contains a file descriptor to the created mutex.
+>      * count: Initial recursion count of the mutex.
+>      * owner: Initial owner of the mutex.
+> 
+>   If "owner" is nonzero and "count" is zero, or if "owner" is zero
+>   and "count" is nonzero, the function fails with EINVAL.
+> 
+> NTSYNC_IOC_CREATE_EVENT
+> 
+>   Create an event object. Takes a pointer to struct ntsync_event_args,
+>   which is used as follows:
+> 
+>      * event:    On output, contains a file descriptor to the created event.
+>      * signaled: If nonzero, the event is initially signaled, otherwise
+>                  nonsignaled.
+>      * manual:   If nonzero, the event is a manual-reset event, otherwise
+>                  auto-reset.
+> 
+
+Still mystified as to what event actually is, perhaps more clues
+below...
+
+> The ioctls on the individual objects are as follows:
+> 
+> NTSYNC_IOC_SEM_POST
+> 
+>   Post to a semaphore object. Takes a pointer to a 32-bit integer,
+>   which on input holds the count to be added to the semaphore, and on
+>   output contains its previous count.
+> 
+>   If adding to the semaphore's current count would raise the latter
+>   past the semaphore's maximum count, the ioctl fails with
+>   EOVERFLOW and the semaphore is not affected. If raising the
+>   semaphore's count causes it to become signaled, eligible threads
+>   waiting on this semaphore will be woken and the semaphore's count
+>   decremented appropriately.
+
+Urg, so this is the traditional V (vrijgeven per Dijkstra, release in
+English), but now 'conveniently' called POST, such that it can be
+readily confused with the P operation (passering, or passing) which it
+is not.
+
+Glorious :-/
+
+You're of course going to tell me NT did this and you can't help this
+naming foible.
+
+> NTSYNC_IOC_MUTEX_UNLOCK
+> 
+>   Release a mutex object. Takes a pointer to struct ntsync_mutex_args,
+>   which is used as follows:
+> 
+>      * mutex: Ignored.
+>      * owner: Specifies the owner trying to release this mutex.
+>      * count: On output, contains the previous recursion count.
+> 
+>   If "owner" is zero, the ioctl fails with EINVAL. If "owner"
+>   is not the current owner of the mutex, the ioctl fails with
+>   EPERM.
+
+ISTR you having written elsewhere that NT actually demands mutexes to be
+strictly per thread, which for the above would mandate @owner to be
+current, no?
+
+>   The mutex's count will be decremented by one. If decrementing the
+>   mutex's count causes it to become zero, the mutex is marked as
+>   unowned and signaled, and eligible threads waiting on it will be
+>   woken as appropriate.
+> 
+> NTSYNC_IOC_SET_EVENT
+> 
+>   Signal an event object. Takes a pointer to a 32-bit integer, which on
+>   output contains the previous state of the event.
+> 
+>   Eligible threads will be woken, and auto-reset events will be
+>   designaled appropriately.
+
+Hmm, so the event thing is like a simple wait-wake scheme? Where the
+'signaled' bit is used as the wakeup state?
+
+> NTSYNC_IOC_RESET_EVENT
+> 
+>   Designal an event object. Takes a pointer to a 32-bit integer, which
+>   on output contains the previous state of the event.
+> 
+> NTSYNC_IOC_PULSE_EVENT
+> 
+>   Wake threads waiting on an event object while leaving it in an
+>   unsignaled state. Takes a pointer to a 32-bit integer, which on
+>   output contains the previous state of the event.
+> 
+>   A pulse operation can be thought of as a set followed by a reset,
+>   performed as a single atomic operation. If two threads are waiting on
+>   an auto-reset event which is pulsed, only one will be woken. If two
+>   threads are waiting a manual-reset event which is pulsed, both will
+>   be woken. However, in both cases, the event will be unsignaled
+>   afterwards, and a simultaneous read operation will always report the
+>   event as unsignaled.
+
+*groan*
+
+> NTSYNC_IOC_READ_SEM
+> 
+>   Read the current state of a semaphore object. Takes a pointer to
+>   struct ntsync_sem_args, which is used as follows:
+> 
+>      * sem:   Ignored.
+>      * count: On output, contains the current count of the semaphore.
+>      * max:   On output, contains the maximum count of the semaphore.
+
+This seems inherently racy -- what is the intended purpose of this
+interface?
+
+Specifically the moment a value is returned, either P or V operations
+can change it, rendering the (as yet unused) return value incorrect.
+
+> NTSYNC_IOC_READ_MUTEX
+> 
+>   Read the current state of a mutex object. Takes a pointer to struct
+>   ntsync_mutex_args, which is used as follows:
+> 
+>      * mutex: Ignored.
+>      * owner: On output, contains the current owner of the mutex, or zero
+>               if the mutex is not currently owned.
+>      * count: On output, contains the current recursion count of the mutex.
+> 
+>   If the mutex is marked as abandoned, the function fails with
+>   EOWNERDEAD. In this case, "count" and "owner" are set to zero.
+
+Another questionable interface. I suspect you're going to be telling me
+NT has them so you have to have them, but urgh.
+
+> NTSYNC_IOC_READ_EVENT
+> 
+>   Read the current state of an event object. Takes a pointer to struct
+>   ntsync_event_args, which is used as follows:
+> 
+>      * event:    Ignored.
+>      * signaled: On output, contains the current state of the event.
+>      * manual:   On output, contains 1 if the event is a manual-reset event,
+>                  and 0 otherwise.
+
+I can't help but notice all those @sem, @mutex, @event 'output' members
+being unused except for create. Seems like a waste to have them.
+
+> NTSYNC_IOC_KILL_OWNER
+> 
+>   Mark a mutex as unowned and abandoned if it is owned by the given
+>   owner. Takes an input-only pointer to a 32-bit integer denoting the
+>   owner. If the owner is zero, the ioctl fails with EINVAL. If the
+>   owner does not own the mutex, the function fails with EPERM.
+> 
+>   Eligible threads waiting on the mutex will be woken as appropriate
+>   (and such waits will fail with EOWNERDEAD, as described below).
+
+Wine will use this when it detects a thread exit I suppose.
+
+> NTSYNC_IOC_WAIT_ANY
+> 
+>   Poll on any of a list of objects, atomically acquiring at most one.
+>   Takes a pointer to struct ntsync_wait_args, which is used as follows:
+> 
+>      * timeout: Absolute timeout in nanoseconds. If NTSYNC_WAIT_REALTIME
+>                 is set, the timeout is measured against the REALTIME
+>                 clock; otherwise it is measured against the MONOTONIC
+>                 clock. If the timeout is equal to or earlier than the
+>                 current time, the function returns immediately without
+>                 sleeping. If "timeout" is U64_MAX, the function will
+>                 sleep until an object is signaled, and will not fail
+>                 with ETIMEDOUT.
+> 
+>      * objs:    Pointer to an array of "count" file descriptors
+>                 (specified as an integer so that the structure has the
+>                 same size regardless of architecture). If any object is
+>                 invalid, the function fails with EINVAL.
+> 
+>      * count:   Number of objects specified in the "objs" array. If
+>                 greater than NTSYNC_MAX_WAIT_COUNT, the function fails
+>                 with EINVAL.
+> 
+>      * owner:   Mutex owner identifier. If any object in "objs" is a
+>                 mutex, the ioctl will attempt to acquire that mutex on
+>                 behalf of "owner". If "owner" is zero, the ioctl
+>                 fails with EINVAL.
+
+Again, should that not be current? That is, why not maintain the NT
+invariant and mandates TIDs and avoid the arguments in both cases?
+
+>      * index:   On success, contains the index (into "objs") of the
+>                 object which was signaled. If "alert" was signaled
+>                 instead, this contains "count".
+
+Could be the actual return value, no? Edit: no it cannot be because
+-EOWNERDEAD case below.
+
+> 
+>      * alert:   Optional event object file descriptor. If nonzero, this
+>                 specifies an "alert" event object which, if signaled,
+>                 will terminate the wait. If nonzero, the identifier must
+>                 point to a valid event.
+> 
+>      * flags:   Zero or more flags. Currently the only flag is
+>                 NTSYNC_WAIT_REALTIME, which causes the timeout to be
+>                 measured against the REALTIME clock instead of
+>                 MONOTONIC.
+> 
+>      * pad:     Unused, must be set to zero.
+> 
+>   This function attempts to acquire one of the given objects. If unable
+>   to do so, it sleeps until an object becomes signaled, subsequently
+>   acquiring it, or the timeout expires. In the latter case the ioctl
+>   fails with ETIMEDOUT. The function only acquires one object, even if
+>   multiple objects are signaled.
+
+Any guarantee as to which will be acquired in case multiple are
+available? [A]
+
+>   A semaphore is considered to be signaled if its count is nonzero, and
+>   is acquired by decrementing its count by one. A mutex is considered
+>   to be signaled if it is unowned or if its owner matches the "owner"
+>   argument, and is acquired by incrementing its recursion count by one
+>   and setting its owner to the "owner" argument. An auto-reset event
+>   is acquired by designaling it; a manual-reset event is not affected
+>   by acquisition.
+> 
+>   Acquisition is atomic and totally ordered with respect to other
+>   operations on the same object. If two wait operations (with different
+>   "owner" identifiers) are queued on the same mutex, only one is
+>   signaled. If two wait operations are queued on the same semaphore,
+>   and a value of one is posted to it, only one is signaled. The order
+>   in which threads are signaled is not specified.
+
+Note that you do list the lack of guarantee here, but not above. I
+suspect both cases are similar and guarantee nothing.
+
+>   If an abandoned mutex is acquired, the ioctl fails with
+>   EOWNERDEAD. Although this is a failure return, the function may
+>   otherwise be considered successful. The mutex is marked as owned by
+>   the given owner (with a recursion count of 1) and as no longer
+>   abandoned, and "index" is still set to the index of the mutex.
+
+Aaah, I see, this does indeed preclude @index from being the return
+value.
+
+>   The "alert" argument is an "extra" event which can terminate the
+>   wait, independently of all other objects. If members of "objs" and
+>   "alert" are both simultaneously signaled, a member of "objs" will
+>   always be given priority and acquired first.
+> 
+>   It is valid to pass the same object more than once, including by
+>   passing the same event in the "objs" array and in "alert". If a
+>   wakeup occurs due to that object being signaled, "index" is set to
+>   the lowest index corresponding to that object.
+
+Urgh, is this an actual guarantee? This almost seems to imply that at
+[A] above we can indeed guarantee the lowest indexed object is acquired
+first.
+
+>   The function may fail with EINTR if a signal is received.
+
+In which case @index must be disregarded since nothing will be acquired,
+right?
+
+So far nothing really weird, and I'm thinking futexes should be able to
+do all this, no?
+
+> NTSYNC_IOC_WAIT_ALL
+> 
+>   Poll on a list of objects, atomically acquiring all of them. Takes a
+>   pointer to struct ntsync_wait_args, which is used identically to
+>   NTSYNC_IOC_WAIT_ANY, except that "index" is always filled with zero
+>   on success if not woken via alert.
+
+Whee, and this is the one weird operation that you're all struggling to
+emulate, right? The atomic multi-acquire is 'hard' to do with futexes.
+
+>   This function attempts to simultaneously acquire all of the given
+>   objects. If unable to do so, it sleeps until all objects become
+>   simultaneously signaled, subsequently acquiring them, or the timeout
+>   expires. In the latter case the ioctl fails with ETIMEDOUT and no
+>   objects are modified.
+> 
+>   Objects may become signaled and subsequently designaled (through
+>   acquisition by other threads) while this thread is sleeping. Only
+>   once all objects are simultaneously signaled does the ioctl acquire
+>   them and return. The entire acquisition is atomic and totally ordered
+>   with respect to other operations on any of the given objects.
+> 
+>   If an abandoned mutex is acquired, the ioctl fails with
+>   EOWNERDEAD. Similarly to NTSYNC_IOC_WAIT_ANY, all objects are
+>   nevertheless marked as acquired. Note that if multiple mutex objects
+>   are specified, there is no way to know which were marked as
+>   abandoned.
+> 
+>   As with "any" waits, the "alert" argument is an "extra" event which
+>   can terminate the wait. Critically, however, an "all" wait will
+>   succeed if all members in "objs" are signaled, *or* if "alert" is
+>   signaled. In the latter case "index" will be set to "count". As
+>   with "any" waits, if both conditions are filled, the former takes
+>   priority, and objects in "objs" will be acquired.
+> 
+>   Unlike NTSYNC_IOC_WAIT_ANY, it is not valid to pass the same
+>   object more than once, nor is it valid to pass the same object in
+>   "objs" and in "alert". If this is attempted, the function fails
+>   with EINVAL.
+
+OK, this all was helpful, I'll go stare at the code again.
+
+Thanks!
