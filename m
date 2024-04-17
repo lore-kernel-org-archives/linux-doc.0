@@ -1,79 +1,99 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD033187F;
-	Wed, 17 Apr 2024 02:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D9A4430;
+	Wed, 17 Apr 2024 02:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713320084; cv=none; b=kMgAmYcqLJAhKZRl0pXw0Ce3lBrPPMKSrLathKU4bnmQpY0HTjLZU2eaAkN/dYeB+Mm4M61p15NBA+K+85wfty3JTiB88YcDcvprCiBwzYX+rP7zXADrVWWRBwts7aae/QkW9pLS9X5PWCXoKtWEWjRxvpbyZFJiXqk5FBtcFYE=
+	t=1713320120; cv=none; b=N+/XXfn8U2B/mRbH8pllcTfPs+UY1Q4MPUoj4L4CPL4Xi6jyEQS2dsv+WgL8Idt3DO56HhQOUKylgJg1A/7Dp2XO3DG9MIsHBEkTBQEWm86JULhIJODTMTWZmRjbd3Lo0ZtrOkyG2wX3501BxZpuYQLRjikBtF4U310qTZEe9QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713320084; c=relaxed/simple;
-	bh=ZazigS3AMQcOYZUY9Qyumx/ad5tZtQXhQ5jy0E9cSJw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=tUo+zWszSJetaQdme2N9NmNPr5rp/ji29TIzZv05iRvKao8zyWMaaSp3lg5ic9jvFCjkgtni7TgmlQWRXj64CPAQTRMsf62ZRvDvH5B2cFWKClBsCkCkFS1jgHVxFuaXAwXV6R+NwE7DHd1EF6ImwcAl9rOJ+DTViLsaMnP+ap4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p+WADREx; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713320120; c=relaxed/simple;
+	bh=KcjW4v9LPhuP/rC4Hb0v6FD940Tv/do/SHcz+AsZO6g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I+n/tQb1DvmUCrR3hqwsYblNITcUiFSzpsZfK5NNapVRa2A8GnitZ4XH9MHnHsGPBLFsmReAASJySrBSH4OBvqymMQV1e/oLCnk1eo+cHbJPD3jG4Qsune+LXDRJO36XYjYXO/u1hqrJdxwtx+SoJFsnBcK8WLlkQjaDoJ+ctsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o5wayfYw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p+WADREx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=Cpbwf9J/BjnGxflxyOXiye2UjEKahQ5hazTzX4Rg3OY=; b=p+WADRExeJvhawW6UMBLPbKB9W
-	dzeaGGXKH5HF+zH4bJS7J4UYmH0OirFIKaXGlz7RvudPkB0dCBCLZbtKZk7J5LiDQY66BQSzw/iy1
-	7nRH1jiOn9GRSlrTeekwDd5VncghDHPQzSJ+nKkEz24Hwtih8PbIXTZLC18l2iSTGkBXzxyXamexN
-	03C81h2t1EsT9Sb8i5VefQ2VqJPV5YkrnZc9mjsuXXEa05en5+z4RQCFZPWoxDPJZW5VQBOu3A8ZX
-	M5fhAkFkMBsgcpXGyX+Emv40yTXWdA254PI1QZ70ugKgpm1w2o1KvpoC0p5L++dUfkJvc8Rx/uRG4
-	fa1FG2lg==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwuos-0000000ERX7-0Ax0;
-	Wed, 17 Apr 2024 02:14:42 +0000
-Message-ID: <0ae4d9c1-805c-4316-959e-c1fa13d18956@infradead.org>
-Date: Tue, 16 Apr 2024 19:14:41 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o5wayfYw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACA29C113CE;
+	Wed, 17 Apr 2024 02:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713320119;
+	bh=KcjW4v9LPhuP/rC4Hb0v6FD940Tv/do/SHcz+AsZO6g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=o5wayfYwbiuwQnVYrPQlpT72jghBvBMQC6rckXjnlBaNiTaRmHcoR8vmJ5oz8Nx9X
+	 Js+6FebnrF9YaP+4rDpGNQVtDOiFvhHaS6ggMkuwFUwvUimaawBbhEvqZyiFzq2S8l
+	 CWzB483BmU7R+fWbigPbXvlqLeJONF3zfS3O9BCsB5EgUHJfVG0/NTgkmh+I2sfsyv
+	 W/dN7gw9gF11ciLXU5fthI/js3PrMcdqFP17WYrV3kL1qJ1sEWa8vM4C65lwgPAi57
+	 VVyJ28M/BuTt2H7t44+/BLabCrxQkbVd68hw/q5oLMQUyr5wXqrCA4uDKomH/uTHMV
+	 sePX1d+1W0ZyQ==
+Date: Tue, 16 Apr 2024 19:15:17 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
+ <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, Oleksij Rempel <o.rempel@pengutronix.de>, Mark Brown
+ <broonie@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
+ <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v8 10/17] net: pse-pd: Add support for PSE PIs
+Message-ID: <20240416191517.65c63e21@kernel.org>
+In-Reply-To: <20240414-feature_poe-v8-10-e4bf1e860da5@bootlin.com>
+References: <20240414-feature_poe-v8-0-e4bf1e860da5@bootlin.com>
+	<20240414-feature_poe-v8-10-e4bf1e860da5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8a/8] doc: Split buffer.rst out of api-summary.rst
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240416031754.4076917-1-willy@infradead.org>
- <20240417015933.453505-1-willy@infradead.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240417015933.453505-1-willy@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Sun, 14 Apr 2024 16:21:59 +0200 Kory Maincent wrote:
+> +/**
+> + * of_pse_match_pi - Return the PSE PI id of the device node phandle
+> + * @pcdev: a pointer to the PSE controller device
+> + * @np: a pointer to the device node
+> + */
+> +static int of_pse_match_pi(struct pse_controller_dev *pcdev,
 
+There's new nitpick from kernel-doc - if the function returns something
+the kdoc needs to document Return:  ..
 
-On 4/16/24 6:57 PM, Matthew Wilcox (Oracle) wrote:
-> Buffer heads are no longer a generic filesystem API but an optional
-> filesystem support library.  Make the documentation structure reflect
-> that, and include the fine documentation kept in buffer_head.h.
-> We could give a better overview of what buffer heads are all about,
-> but my enthusiasm for documenting it is limited.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Sorry I missed this check failing because the fact that the series is
+17 patches lights it up as red in patchwork :( I'll apply the first
+3 patches to make v9 smaller.
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+> +			   struct device_node *np)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i <= pcdev->nr_lines; i++) {
+> +		if (pcdev->pi[i].np == np)
+> +			return i;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +/**
+> + * psec_id_xlate - translate pse_spec to the PSE line number according
+> + *		   to the number of pse-cells in case of no pse_pi node
+> + * @pcdev: a pointer to the PSE controller device
+> + * @pse_spec: PSE line specifier as found in the device tree
+> + *
+> + * Return 0 if #pse-cells = <0>. Return PSE line number otherwise.
 
-> ---
->  Documentation/filesystems/api-summary.rst |  3 ---
->  Documentation/filesystems/buffer.rst      | 13 +++++++++++++
->  Documentation/filesystems/index.rst       |  1 +
->  3 files changed, 14 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/filesystems/buffer.rst
-> 
+here missing ":"
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+> + */
+> +static int psec_id_xlate(struct pse_controller_dev *pcdev,
+> +			 const struct of_phandle_args *pse_spec)
