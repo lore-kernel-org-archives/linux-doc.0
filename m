@@ -1,258 +1,112 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id B3CB5184D
-	for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 01:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97D31860;
+	Wed, 17 Apr 2024 01:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713317094; cv=none; b=Ejf6LBU7xLtJhDzPDQe/hKDsutq9WX2Sq5xhSg2QojQ5Es1asbYGNTpbi7Auaae4QxeyVPPYVXy4GlY1UwcC/ttwC9fJy/ayM/8r0bV6JcCXfiIdLAWGtlkDklkIz532omZWMMSrXlucIYVZRwyGo4gpVUJV43GgjCJK3DT0e20=
+	t=1713319186; cv=none; b=dmUZI7PgkY9sHggwPG/zKrJ/oNKW/3xjdQatlc+aWnqSbPp0H3LYSVjEgAq3kBbgTb+yw4Bd3kFODQNU1c6p+X4knP6rsaxO1NEoby/AHiv9EM/UrMx9uQdaTk+ePRCcFG6gdOox2y7QyuYq9cGK8FaQR93kR7X9Q/tja9Trwz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713317094; c=relaxed/simple;
-	bh=QEokpzywCij/rs8KGCbS/96yPJ0h0w2hazVYrHtROdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oreilmjr1at+5e4i/bdlsHJP6EtwPY4J6lJk6roIeCowpu5n9RZlrdv/myOWpHZugepCFL/9rT4cSO9c07iEiA7x7VhK9EzOK7PHMd9vlMUNRilHfAeUUgk1hgsmGhH1hC+A0dTDaTi1DL8CFMxIfcgHMGYb95pM/6XGHnTjI+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 182709 invoked by uid 1000); 16 Apr 2024 21:24:48 -0400
-Date: Tue, 16 Apr 2024 21:24:48 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
-Cc: mdharm-usb@one-eyed-alien.net, gregkh@linuxfoundation.org,
-  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-  linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH v3] usb-storage: Optimize scan delay more precisely
-Message-ID: <4d94b2a8-dd2a-4bae-9a0c-8125747f404a@rowland.harvard.edu>
-References: <20240416082821.10164-1-Norihiko.Hama@alpsalpine.com>
+	s=arc-20240116; t=1713319186; c=relaxed/simple;
+	bh=xeypXJ2Q9SFCnMjfSlsBKbWmqmK+siVkxTj7D11imCQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=brNkJrmc/vVBBE0YWHhY8TAWthTw+4s/78feVJ1mWn4pYi5b8s1C3oasYSBU0WHmc9fKagGaXHihPC7fGLI/7RGcxCawL8FcpishI8nHdo59KuufZeCgtNqZvXnf4J3Q1upgrGAWTudtaW1lRayCen6NeH5lipIgoPAsy8khW54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jvX/klM9; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jvX/klM9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Type:Content-ID:Content-Description;
+	bh=Kv3VfAk1BQu5/cwkBbfz4nnBYslqYgF87PHMpfFu3gA=; b=jvX/klM9FdrtR/1KSEzfu8CvP+
+	CtLuIU6DAEccvpT6Ei3RLpiaXaLskisGiA0Kchj2/4JcC2AdAPeF1U8lWzoZ3K5RzPUz97/C/ga+d
+	hkxKct9oGGcqKEtf0vgsbiLIhM8eJqPtclthMD/yJjRvto4G2mB7nG4K0Rr5P+ioctUZwyMCcngvH
+	xBi2KJrZSCjg8I0kTCx6qExlYwJlSp9Wc+41Xu2XFJEPCJjczlNBbz6bk3tuxDb/1itbJf67aDsga
+	EYKAucqC20KYTJbw9+72YRC64zm9kO2ijqPhvmn0QlITp4dNLNk3eI8x0VHsncwNtjTXKBYAtq00J
+	Kadns6eg==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rwuaF-00000001u4A-29MN;
+	Wed, 17 Apr 2024 01:59:35 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: akpm@linux-foundation.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Subject: [PATCH v3 8a/8] doc: Split buffer.rst out of api-summary.rst
+Date: Wed, 17 Apr 2024 02:57:46 +0100
+Message-ID: <20240417015933.453505-1-willy@infradead.org>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240416031754.4076917-1-willy@infradead.org>
+References: <20240416031754.4076917-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240416082821.10164-1-Norihiko.Hama@alpsalpine.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 16, 2024 at 05:28:21PM +0900, Norihiko Hama wrote:
-> Current storage scan delay is reduced by the following old commit.
-> 
-> a4a47bc03fe5 ("Lower USB storage settling delay to something more reasonable")
-> 
-> It means that delay is at least 'one second', or zero with delay_use=0.
-> 'one second' is still long delay especially for embedded system but
-> when delay_use is set to 0 (no delay), still error observed on some USB drives.
-> 
-> So delay_use should not be set to 0 but 'one second' is quite long.
-> Especially for embedded system, it's important for end user
-> how quickly access to USB drive when it's connected.
-> That's why we have a chance to minimize such a constant long delay.
-> 
-> This patch optimizes scan delay more precisely
-> to minimize delay time but not to have any problems on USB drives
-> by extending module parameter 'delay_use' in milliseconds internally.
-> The parameter 'delay_use' is changed to be parsed as 3 decimal point value
-> if it has digit values with '.'.
-> It makes the range of value to 1 / 1000 in internal 32-bit value
-> but it's still enough to set the delay time.
-> By default, delay time is 'one second' for backward compatibility.
-> 
-> For example, it seems to be good by changing delay_use=0.1,
-> that is 100 millisecond delay without issues for most USB pen drives.
-> 
-> Signed-off-by: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
-> ---
+Buffer heads are no longer a generic filesystem API but an optional
+filesystem support library.  Make the documentation structure reflect
+that, and include the fine documentation kept in buffer_head.h.
+We could give a better overview of what buffer heads are all about,
+but my enthusiasm for documenting it is limited.
 
-At this location you're supposed to describe how this version of the patch 
-differs from the previous version.
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+---
+ Documentation/filesystems/api-summary.rst |  3 ---
+ Documentation/filesystems/buffer.rst      | 13 +++++++++++++
+ Documentation/filesystems/index.rst       |  1 +
+ 3 files changed, 14 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/filesystems/buffer.rst
 
->  .../admin-guide/kernel-parameters.txt         | 10 +++
->  drivers/usb/storage/usb.c                     | 72 +++++++++++++++++--
->  2 files changed, 78 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 561d0dd776c7..ae1eb5988706 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6190,6 +6190,16 @@
->  	usb-storage.delay_use=
->  			[UMS] The delay in seconds before a new device is
->  			scanned for Logical Units (default 1).
-> +			To specify more precise delay, supports 3 decimal point.
-> +			The range of decimal point is in milliseconds,
-> +			hence the minimum value is "0.001".
+diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
+index 98db2ea5fa12..cc5cc7f3fbd8 100644
+--- a/Documentation/filesystems/api-summary.rst
++++ b/Documentation/filesystems/api-summary.rst
+@@ -56,9 +56,6 @@ Other Functions
+ .. kernel-doc:: fs/namei.c
+    :export:
+ 
+-.. kernel-doc:: fs/buffer.c
+-   :export:
+-
+ .. kernel-doc:: block/bio.c
+    :export:
+ 
+diff --git a/Documentation/filesystems/buffer.rst b/Documentation/filesystems/buffer.rst
+new file mode 100644
+index 000000000000..b8e42a3bec44
+--- /dev/null
++++ b/Documentation/filesystems/buffer.rst
+@@ -0,0 +1,13 @@
++Buffer Heads
++============
++
++Linux uses buffer heads to maintain state about individual filesystem blocks.
++Buffer heads are deprecated and new filesystems should use iomap instead.
++
++Functions
++---------
++
++.. kernel-doc:: include/linux/buffer_head.h
++.. kernel-doc:: fs/buffer.c
++   :export:
++
+diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
+index 1f9b4c905a6a..8f5c1ee02e2f 100644
+--- a/Documentation/filesystems/index.rst
++++ b/Documentation/filesystems/index.rst
+@@ -50,6 +50,7 @@ filesystem implementations.
+ .. toctree::
+    :maxdepth: 2
+ 
++   buffer
+    journalling
+    fscrypt
+    fsverity
+-- 
+2.43.0
 
-The text could be better.  For example:
-
-			The delay can have up to 3 decimal places, giving a
-			resolution of one millisecond.
-
-> +			Example:
-> +				delay_use=1
-> +					1 second delay
-> +				delay_use=0.1
-> +					0.1 second delay
-> +				delay_use=2.55
-> +					2.55 second elay
-
-This should show all 3 decimal places:
-
-				delay_use=2.567
-					2.567 second delay
-
->  	usb-storage.quirks=
->  			[UMS] A list of quirks entries to supplement or
-> diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-> index 90aa9c12ffac..d5eb7dd8f3b1 100644
-> --- a/drivers/usb/storage/usb.c
-> +++ b/drivers/usb/storage/usb.c
-> @@ -67,9 +67,73 @@ MODULE_AUTHOR("Matthew Dharm <mdharm-usb@one-eyed-alien.net>");
->  MODULE_DESCRIPTION("USB Mass Storage driver for Linux");
->  MODULE_LICENSE("GPL");
->  
-> -static unsigned int delay_use = 1;
-> -module_param(delay_use, uint, S_IRUGO | S_IWUSR);
-> -MODULE_PARM_DESC(delay_use, "seconds to delay before using a new device");
-> +static unsigned int delay_use = 1 * MSEC_PER_SEC;
-> +
-> +static int delay_use_set(const char *s, const struct kernel_param *kp)
-> +{
-> +	unsigned int delay_ms = 0;
-> +	int frac = 3, ret;
-> +	char *p = skip_spaces(s);
-> +	char buf[16];
-> +
-> +	if (strlen(p) >= sizeof(buf) - frac)
-> +		return -EINVAL;
-> +
-> +	strscpy_pad(buf, p, sizeof(buf));
-> +
-> +	p = strchr(buf, '.');
-> +	if (p) {
-> +		int i = 0;
-> +		char *tmp = p + 1;
-> +
-> +		while (tmp[i] && tmp[i] != '\n')
-> +			*p++ = tmp[i++];
-> +
-> +		if (i == 0 || i > frac)
-> +			return -EINVAL;
-> +		frac -= i;
-> +	} else {
-> +		p = buf + strlen(buf) - 1;
-> +		if (*p != '\n')
-> +			p++;
-> +	}
-> +	while (frac-- > 0)
-> +		*p++ = '0';
-> +	*p = '\0';
-> +
-> +	ret = kstrtouint(buf, 10, &delay_ms);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	*((unsigned int *)kp->arg) = delay_ms;
-> +	return 0;
-> +}
-
-As I said before, the parsing code should be in a separate function to make 
-reviewing the code easier.  It also should be written more clearly.  Here's 
-my attempt (not tested at all).  You might prefer to remove some of the 
-comments; I put in a lot of them.
-
-/**
- * str_to_fixed_point_uint - parse an unsigned fixed-point decimal integer
- * @str: String to parse.
- * @ndecimals: Number of decimal places in the fixed-point value.
- * @val: Where to store the parsed value.
- *
- * Parse an unsigned fixed-point decimal value in @str, containing at
- * most ndecimal digits to the right of the decimal point.
- * Stores the parsed value in @val, scaled by 10^(@ndecimal).
- *
- * As with kstrtouint(), the string must be NUL-terminated and may
- * include a single newline before the terminating NUL.  The first
- * character may be a plus sign but not a minus sign.  The decimal
- * point and fractional digits are optional.
- *
- * Returns 0 on success, a negative error code otherwise.
- */
-static int str_to_fixed_point_uint(const char *str, int ndecimals,
-		unsigned int *val)
-{
-	int n, n1, n2;
-	const char *p;
-	char *q;
-	char buf[16];
-
-	n = strlen(str);
-	if (n > 0 && str[n - 1] == '\n');
-		--n;
-
-	p = strchr(str, '.');
-	if (p) {
-		n1 = p++ - str;		/* Length of integral part */
-		n2 = n - (n1 + 1);	/* Length of fractional part */
-		if (n2 > ndecimals)
-			return -EINVAL;
-	} else {
-		n1 = n;			/* Length of integral part */
-		n2 = 0;			/* No fractional part */
-	}
-	if (n1 + n2 == 0 || n1 + ndecimals > sizeof(buf) - 1)
-		return -EINVAL;		/* No digits present or too long */
-
-	memcpy(buf, str, n1);		/* Integer part */
-	memcpy(buf + n1, p, n2);	/* Fractional part */
-	for (q = buf + n1 + n2; n2 < ndecimals; ++n2)
-		*q++ = '0';		/* Remaining fractional digits */
-	*q = 0;
-
-	return kstrtouint(buf, 10, val);
-}
-
-> +
-> +static int delay_use_get(char *s, const struct kernel_param *kp)
-> +{
-> +	unsigned int delay_ms = *((unsigned int *)kp->arg);
-> +	unsigned int rem = do_div(delay_ms, MSEC_PER_SEC);
-> +	int len;
-> +	char buf[16];
-> +
-> +	len = scnprintf(buf, sizeof(buf), "%d", delay_ms);
-> +	if (rem) {
-> +		len += scnprintf(buf + len, sizeof(buf) - len, ".%03d", rem);
-> +		while (buf[len - 1] == '0') {
-> +			buf[len - 1] = '\0';
-> +			if (--len <= 1)
-> +				break;
-> +		}
-> +	}
-
-While this could also go in a separate function, it's short enough to keep 
-here.
-
-Alan Stern
-
-> +	return scnprintf(s, PAGE_SIZE, "%s\n", buf);
-> +}
-> +
-> +static const struct kernel_param_ops delay_use_ops = {
-> +	.set = delay_use_set,
-> +	.get = delay_use_get,
-> +};
-> +module_param_cb(delay_use, &delay_use_ops, &delay_use, 0644);
-> +MODULE_PARM_DESC(delay_use, "time to delay before using a new device");
->  
->  static char quirks[128];
->  module_param_string(quirks, quirks, sizeof(quirks), S_IRUGO | S_IWUSR);
-> @@ -1066,7 +1130,7 @@ int usb_stor_probe2(struct us_data *us)
->  	if (delay_use > 0)
->  		dev_dbg(dev, "waiting for device to settle before scanning\n");
->  	queue_delayed_work(system_freezable_wq, &us->scan_dwork,
-> -			delay_use * HZ);
-> +			msecs_to_jiffies(delay_use));
->  	return 0;
->  
->  	/* We come here if there are any problems */
-> -- 
-> 2.17.1
-> 
