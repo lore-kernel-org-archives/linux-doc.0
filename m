@@ -1,142 +1,185 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E4F1852
-	for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 00:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A5CEA4;
+	Wed, 17 Apr 2024 00:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713312916; cv=none; b=jgvt5OKkvhFZMTYMiXKp64rTUvk7/0Xv7vWYni8AE71DjToexE+p+0DSlMvhi4diiARyRyDlM59qydjzvkcQJyE7rorTJe0/cWfQLIj0WSmXTLbqfBzfKj28DXfJIi1yLgg5rEhJdtCbVdCeDkQ/k6v73DfwDLkFbJ2+rTsjMcU=
+	t=1713313970; cv=none; b=imRlNAY8vPycG8LFJ3Y34xqPawkwjBhAnzBuVB1rzEb3IFs1wqQ5WHZc/zke28ZNflajToFZuzOqU8PG9XdX76D79qHj472pNFDOdu0N5pkR1aY8mFdD/y75sxvRUemouHPvCDpOeU7hCggFzrBA02/j3TD2VNMn8eMZPHTjFnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713312916; c=relaxed/simple;
-	bh=0UVGRaaY/AaWE2yiYwE1iCIDluyE17+bs6H2PNq1AC8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tepJV6wrfiKYyNi43sMBZE93UqZ++AwXxNLEpTxd6cSliAwTG3eotvyrLar8CNZSfdIzmGjusLvT+17n6RV2nphtd7SW4h7ty6e34TomJ5+j9txo+mLo5hV0Ouk1uoRG2zfhErmuMpqZ1u3xOd5kGhKPO0LGATdVH6FGAvM6q/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WFmPEmy9; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1713313970; c=relaxed/simple;
+	bh=NvGi+FNlytUml+cmQJqRuDecT3sUWEHb8pFeNB/SQyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T1x9l5DwmFIFKXJJbIMNQ3JMpJqdc0neI+CcqIpKcMub5B9+MtWykUs1S371y2tOKZ0tFIAsbnloBntM2vheYpJ3yFsfyk3ARJSydGO/KUoc2Ji5YSxx2+9n/r2znQvteQlQgAsqglLJOYT6cgJYMAdvxNFrCwsPvRXt8nLnaR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvB9P4mZ; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WFmPEmy9"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2a5d989e820so5090479a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 16 Apr 2024 17:15:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvB9P4mZ"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6ee13f19e7eso3777579b3a.1;
+        Tue, 16 Apr 2024 17:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713312914; x=1713917714; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:from:to:cc:subject:date:message-id:reply-to;
-        bh=5ofQ3KH15PkqJ9IroccuDO0HaegnEECNOZCgmKj3yJg=;
-        b=WFmPEmy9VC08Mr25XlxHqie6e1vIwxqgWC2JZy8a1HKzRHV12FPLSq5+kU1b8SvE+r
-         HnBRbGsEq6k10t6olld2vfD2/EhaKY5F+I6cqVxsI9GienONj+iO+w1jzsy0JqoJq81V
-         UT0cDrIrPtaWrjj9GTpnzcCGMFHcLC+/HbcXeWhsrCnNEwAAIfOL7a/GD1Lxkj++jurS
-         A+Tzb5AslvTCmxvHLZfQcQ9P1t3jLBeEH0gedC7oTIoF6fkWw1SSnDyQWLgtEv19F4s4
-         2niVgkhkan+qLpjwdHPox9XoqVczMVf45kvAbBLu5Iq7uRm7ChXUyanWtNPBU7iLMRK2
-         IlqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713312914; x=1713917714;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:reply-to:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1713313968; x=1713918768; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5ofQ3KH15PkqJ9IroccuDO0HaegnEECNOZCgmKj3yJg=;
-        b=LdV8Xul7RrTwzg+9nFZo7iAJWl78BKFZz4VuAhIk7/ABwySg3wNBwhuXS54CWUEIzu
-         njqSysKHNmpbIj0YReRbdgvhhXrZV3ExFxY4KuMZPJao5WGmjiXUR+Crju/9Xx2Xkv5f
-         ntWh/z2cebz6FyLNhoqb8y340H1Mi/lyhu6zhAWDf/to/bNR6XffhaEjrfV8zggQb6/Y
-         tzfxv3Rg36g8F2rDq2kJ8fsl/syzkLDL6poBJDNezb7FXpU1AOV3slSLBvW6cQrCFkfG
-         VQsFsD00PZ1T5BlkQ6h51yeVq3FThxm9rKtWIQTrCNc2hQMCZjFeKAC9T9rzH99TlZFA
-         45Xg==
-X-Gm-Message-State: AOJu0Yy/z9vafQc9hACNtm7ccHCrlBYPjP0j2eaU2CY/sxk45P7oP6LJ
-	Ah3ShNGM32kB9HaoQJxBgokxS5pGOxrqtwoDN0Zzr4x548gUt4N6Yls598qYNW962kcK6SCFm2+
-	aJA==
-X-Google-Smtp-Source: AGHT+IF2DFS2VtgAyUhW0lsQ8B2jlSVOSsnmicyBH5IXA35vfEPayetT8/ucpiCo2V7UyBChWtpcbZH0q30=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90b:3108:b0:2a5:c859:f94f with SMTP id
- gc8-20020a17090b310800b002a5c859f94fmr58452pjb.3.1713312913929; Tue, 16 Apr
- 2024 17:15:13 -0700 (PDT)
-Reply-To: Sean Christopherson <seanjc@google.com>
-Date: Tue, 16 Apr 2024 17:15:07 -0700
-In-Reply-To: <20240417001507.2264512-1-seanjc@google.com>
+        bh=fBLXmCe5xgYwBncJSh75UqOijAj7P8rNoETI4uyFWB4=;
+        b=DvB9P4mZwgKa0TBhpwv1aR7TapZ83d2T9jWZAbs43x0d7lVEGxswdkBKDwu6F+hae8
+         TDRFf4VQE7+UlZ+USJEezkKb+SgQvaRgi/5J5ZJUo6xjKXAkfSktOfbyWA8Egu2G7QHy
+         X54DejV4Xf7moMy1bafTYdQPQ/mf3DnfQPRbO/c9r7gpS0RgSNPSHuLfWliOLmXi2EZ0
+         hGLWtQARspZ1WQ3K5H50KDxzQgiuYlTe+pxROofMl0jLAeSdtZS0BmYyVDrvNVdhtCFh
+         8+9Qv4aNROVTMpvMTK4bVlFfxnK3vhUjisa4K1SguYN9PjtwIOFVK1CR2yaqW6LEzb2P
+         r2hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713313968; x=1713918768;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fBLXmCe5xgYwBncJSh75UqOijAj7P8rNoETI4uyFWB4=;
+        b=uXXQbAy/CH7nJ37wcFm+bd463eF7/uUwmv+H5PIADMpVwv5v9TbcFSZgM+W7hZ+U+O
+         fBjTTZ8BI83Y3HK53cLcJiZCiF9t5Q6Oy1uFQynd3PGtGp5Rk2VMahCagxqOGxSoFH13
+         DwV6LGaNnJTty1trXbuIijFI/pGGKaND0v/zo6xOWDlDeBxUKZd/IueRDvIMm9wJWyIv
+         2m7WYyey8hv4rXZJmCIELeEb0SXm1oKeZrQ4+kwLZi9bIeI0w6IrAKkBustm4EXEOV4E
+         LAZlr9cTS50ZL9PLV9Jwx/RkezzoJJ8QFfTgQTahiC50LcHuMzBnLpO6qwcVHLrn0I0j
+         SzTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWYV0z8ibHEyVxtc0do/7r8xca7Z2jh1lQet+MFgidZSP29IbIIi0R8S4R28yUFr/5rMLV69UF5RZ1dEQW3p0SaIwCvbcigTNyzQgnJhMPmOJUHT2unIi5SSyQ/ysbkeQ678QJBYpa56XACjvvrWHRuWLG4lAJ1MRKozt4vLhOhasIgA7/3CeTkcwf22Oe/s19FY+ouIm9zR1wazUq5Sw==
+X-Gm-Message-State: AOJu0Yyphdsexm/Evzv+q23xu8mRK15ZrmRe5KksrNXCIoVU8+ckVBmx
+	mocUQwjA6xYeiOw/Rjr2V3Cm2HRGXoZS+p9YTOg+gSr74tPW8kcw
+X-Google-Smtp-Source: AGHT+IFXpZgHULLuOHM11N6PHcuaja6jV0Vu39kPdBy7RbGfZrXTKlg2RMU950iDGPfOjness90bnw==
+X-Received: by 2002:a05:6a00:1902:b0:6ec:fdcd:18eb with SMTP id y2-20020a056a00190200b006ecfdcd18ebmr14704468pfi.21.1713313968475;
+        Tue, 16 Apr 2024 17:32:48 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e15-20020aa798cf000000b006ea6ca5295bsm9442494pfm.164.2024.04.16.17.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Apr 2024 17:32:47 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 16 Apr 2024 17:32:46 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adm1275: add adm1281 support
+Message-ID: <b36db2c0-db31-4304-8e58-aa358ab811c5@roeck-us.net>
+References: <20240417000722.919-1-jose.sanbuenaventura@analog.com>
+ <20240417000722.919-3-jose.sanbuenaventura@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240417001507.2264512-1-seanjc@google.com>
-X-Mailer: git-send-email 2.44.0.683.g7961c838ac-goog
-Message-ID: <20240417001507.2264512-3-seanjc@google.com>
-Subject: [PATCH 2/2] cpu: Ignore "mitigations" kernel parameter if CPU_MITIGATIONS=n
-From: Sean Christopherson <seanjc@google.com>
-To: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Sean Christopherson <seanjc@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240417000722.919-3-jose.sanbuenaventura@analog.com>
 
-Explicitly disallow enabling mitigations at runtime for kernels that were
-built with CONFIG_CPU_MITIGATIONS=n, which currently is possible only on
-x86 (via x86's SPECULATION_MITIGATIONS menuconfig).
+On Wed, Apr 17, 2024 at 08:07:22AM +0800, Jose Ramon San Buenaventura wrote:
+> Adding support for adm1281 which is similar to adm1275
+> 
+> ADM1281 has STATUS_CML read support which is also being added.
+> 
+> Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
+> ---
+>  Documentation/hwmon/adm1275.rst | 14 +++++++++++---
+>  drivers/hwmon/pmbus/Kconfig     |  4 ++--
+>  drivers/hwmon/pmbus/adm1275.c   | 27 +++++++++++++++++++++++++--
+>  3 files changed, 38 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/adm1275.rst b/Documentation/hwmon/adm1275.rst
+> index 804590eea..467daf8ce 100644
+> --- a/Documentation/hwmon/adm1275.rst
+> +++ b/Documentation/hwmon/adm1275.rst
+> @@ -43,6 +43,14 @@ Supported chips:
+>  
+>      Datasheet: www.analog.com/static/imported-files/data_sheets/ADM1278.pdf
+>  
+> +  * Analog Devices ADM1281
+> +
+> +    Prefix: 'adm1281'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/adm1281.pdf
+> +
+>    * Analog Devices ADM1293/ADM1294
+>  
+>      Prefix: 'adm1293', 'adm1294'
+> @@ -58,10 +66,10 @@ Description
+>  -----------
+>  
+>  This driver supports hardware monitoring for Analog Devices ADM1075, ADM1272,
+> -ADM1275, ADM1276, ADM1278, ADM1293, and ADM1294 Hot-Swap Controller and
+> +ADM1275, ADM1276, ADM1278, ADM1281, ADM1293, and ADM1294 Hot-Swap Controller and
+>  Digital Power Monitors.
+>  
+> -ADM1075, ADM1272, ADM1275, ADM1276, ADM1278, ADM1293, and ADM1294 are hot-swap
+> +ADM1075, ADM1272, ADM1275, ADM1276, ADM1278, ADM1281, ADM1293, and ADM1294 are hot-swap
+>  controllers that allow a circuit board to be removed from or inserted into
+>  a live backplane. They also feature current and voltage readback via an
+>  integrated 12 bit analog-to-digital converter (ADC), accessed using a
+> @@ -144,5 +152,5 @@ temp1_highest		Highest observed temperature.
+>  temp1_reset_history	Write any value to reset history.
+>  
+>  			Temperature attributes are supported on ADM1272 and
+> -			ADM1278.
+> +			ADM1278, and ADM1281.
+>  ======================= =======================================================
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 557ae0c41..9c1d0d7d5 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -51,8 +51,8 @@ config SENSORS_ADM1275
+>  	tristate "Analog Devices ADM1275 and compatibles"
+>  	help
+>  	  If you say yes here you get hardware monitoring support for Analog
+> -	  Devices ADM1075, ADM1272, ADM1275, ADM1276, ADM1278, ADM1293,
+> -	  and ADM1294 Hot-Swap Controller and Digital Power Monitors.
+> +	  Devices ADM1075, ADM1272, ADM1275, ADM1276, ADM1278, ADM1281,
+> +	  ADM1293, and ADM1294 Hot-Swap Controller and Digital Power Monitors.
+>  
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called adm1275.
+> diff --git a/drivers/hwmon/pmbus/adm1275.c b/drivers/hwmon/pmbus/adm1275.c
+> index e2c61d6fa..6c3e8840f 100644
+> --- a/drivers/hwmon/pmbus/adm1275.c
+> +++ b/drivers/hwmon/pmbus/adm1275.c
+> @@ -18,7 +18,7 @@
+>  #include <linux/log2.h>
+>  #include "pmbus.h"
+>  
+> -enum chips { adm1075, adm1272, adm1275, adm1276, adm1278, adm1293, adm1294 };
+> +enum chips { adm1075, adm1272, adm1275, adm1276, adm1278, adm1281, adm1293, adm1294 };
+>  
+>  #define ADM1275_MFR_STATUS_IOUT_WARN2	BIT(0)
+>  #define ADM1293_MFR_STATUS_VAUX_UV_WARN	BIT(5)
+> @@ -101,6 +101,7 @@ struct adm1275_data {
+>  	bool have_pin_max;
+>  	bool have_temp_max;
+>  	bool have_power_sampling;
+> +	bool have_status_cml;
+>  	struct pmbus_driver_info info;
+>  };
+>  
+> @@ -469,6 +470,22 @@ static int adm1275_read_byte_data(struct i2c_client *client, int page, int reg)
+>  				ret |= PB_VOLTAGE_UV_WARNING;
+>  		}
+>  		break;
+> +	case PMBUS_STATUS_CML:
+> +		if (!data->have_status_cml)
+> +			return -ENXIO;
+> +
+> +		ret = pmbus_read_byte_data(client, page, PMBUS_STATUS_BYTE);
+> +		if (ret < 0)
+> +			break;
 
-On x86, a large pile of Kconfigs are buried behind SPECULATION_MITIGATIONS,
-and trying to provide sane behavior for retroactively enabling mitigations
-is extremely difficult, bordering on impossible.  E.g. page table isolation
-and call depth tracking requrie build-time support, BHI mitigations will
-still be off without additional kernel parameters, etc.
+You'll have to explain why this additional status byte read
+is necessary (while it isn't necessary for all other chips supporting
+PMBUS_STATUS_CML).
 
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  3 +++
- arch/x86/Kconfig                                | 10 +++++++---
- kernel/cpu.c                                    |  2 ++
- 3 files changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 902ecd92a29f..73cc672de9c3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3423,6 +3423,9 @@
- 			arch-independent options, each of which is an
- 			aggregation of existing arch-specific options.
- 
-+			Note, "mitigations" is supported on x86 if and only if
-+			the kernel was built with SPECULATION_MITIGATIONS=y.
-+
- 			off
- 				Disable all optional CPU mitigations.  This
- 				improves system performance, but it may also
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index a0eca6313276..3021976e34cf 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -2494,10 +2494,14 @@ menuconfig SPECULATION_MITIGATIONS
- 	default y
- 	help
- 	  Say Y here to enable options which enable mitigations for
--	  speculative execution hardware vulnerabilities.
-+	  speculative execution hardware vulnerabilities.  Mitigations can
-+	  be disabled or restricted to SMT systems at runtime via the
-+	  "mitigations" kernel parameter.
- 
--	  If you say N, all mitigations will be disabled. You really
--	  should know what you are doing to say so.
-+	  If you say N, all mitigations will be disabled.  This CANNOT be
-+	  overridden at runtime.
-+
-+	  Say 'Y', unless you really know what you are doing.
- 
- if SPECULATION_MITIGATIONS
- 
-diff --git a/kernel/cpu.c b/kernel/cpu.c
-index bb0ff275fb46..e3f2b34bb378 100644
---- a/kernel/cpu.c
-+++ b/kernel/cpu.c
-@@ -3214,6 +3214,8 @@ static int __init mitigations_parse_cmdline(char *arg)
- {
- 	if (!strcmp(arg, "off"))
- 		cpu_mitigations = CPU_MITIGATIONS_OFF;
-+	else if (!IS_ENABLED(CONFIG_CPU_MITIGATIONS))
-+		pr_crit("Kernel compiled without mitigations, ignoring 'mitigations'; system may still be vulnerable\n");
- 	else if (!strcmp(arg, "auto"))
- 		cpu_mitigations = CPU_MITIGATIONS_AUTO;
- 	else if (!strcmp(arg, "auto,nosmt"))
--- 
-2.44.0.683.g7961c838ac-goog
-
+Thanks,
+Guenter
