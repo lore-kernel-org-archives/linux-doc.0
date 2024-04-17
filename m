@@ -1,39 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D57148835;
-	Wed, 17 Apr 2024 15:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19B638DEC;
+	Wed, 17 Apr 2024 15:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713368199; cv=none; b=djc9hBbFDl+YrY1fvGeaqunUYgeInD4xSWs+DgkFvvv+yyjE3lufKzs0QCtsBDQ61XOci0NI+SNHQXojq6zrNdf43Vn5HDSZVm08xMA6CbdhuGCSAeH9uosmx0AAPC1in1MZXa30KzmGz17ZG8t5OB55Mkca8tt4YjxjTP+3Gho=
+	t=1713368872; cv=none; b=RR+RhJmXGUwTYijXAEadTl+EI7Hx2y90QCJRwCiB/fxb5uZXK0vr2z3h+BuCBktazbJBP5m4v68cgsYxDG2L8sXGSVWn+HmnADcWNUP2LOmf1Xl3AXU5cf/ajsGCkrc/T562L9QaxaXtNJA5Wef+JV4tvMVOmMsrXt5fn897t+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713368199; c=relaxed/simple;
-	bh=qxR8jusU4mHNUpoOFxqYhMZwDa711H7HwzT9JTySflU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=K6iiwG20rU8rDLKUw1fNbfSpN5wlGYCfzcVM9Q/i8SYzlD9Kv2TyujTs5JP1ZaQu6KP8oxbRgtmU04Ng4a+bdxeWeKGYpuk/R3XK+CNccBJ0fCWRj+Sjapy6zNpjNzV5SSfjYS9fhmaCkyDPCv1Zn+JBgE9ESSY4qNm2nolc+20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZd8tV9A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713368872; c=relaxed/simple;
+	bh=FFjMD9+pcN8PYr5aH7gGFyqpqptpUJTYM456sav4gMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEjnIGNybNTwhKTfgVg9Q4hBEMEaUk0SD1yxaRerNBblYoRSJ44Qoh5BMHGYK25mvXRrjKUmGG9Xju+yEmlwbFQr5gveL+IveHpHZnK3332S13XVkRxBqtC/hQn5mY5oaxXmZTFlYG8TQrxAbP4POXMrXugx07qUGpqkMkXXxic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFI2MDes; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZd8tV9A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06718C072AA;
-	Wed, 17 Apr 2024 15:36:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFI2MDes"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA775C072AA;
+	Wed, 17 Apr 2024 15:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713368199;
-	bh=qxR8jusU4mHNUpoOFxqYhMZwDa711H7HwzT9JTySflU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=CZd8tV9ALGZxqh/MNfiq4/qelCfLFRO0yvGlCdCtpKqgQ5xSxeVs0HxbXfLbrowGu
-	 /6vazQf+wR+RVZ3odbDTxvF8YIil/DM8au6C2ZWpAFkcSEsOU5BzBepSmzRYceO6hN
-	 4Ip2oUX+N43mwXiIdArMicU07CS6KYKRfpkti+0yl4M6oHnzSbc62pj6qsnFT/KLLM
-	 AiKfxP92njrJjgsQ7h315M9KzACeheUmVG4Mm8+Y8XB98v7HUyp/tISFB8/AI/Q1JW
-	 GDgQMg+Rb5gDQrqu08b0n1MDprYpQL6UFYcLSOjO4yZSyaFFs1mMS+ovtm2D1mnBxa
-	 uhkuxpSseLFzA==
-Date: Wed, 17 Apr 2024 10:36:36 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Huang Ying <ying.huang@intel.com>
-Subject: Re: [PATCH v1] PCI/AER: Update aer-inject tool source URL
-Message-ID: <20240417153636.GA203294@bhelgaas>
+	s=k20201202; t=1713368872;
+	bh=FFjMD9+pcN8PYr5aH7gGFyqpqptpUJTYM456sav4gMk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lFI2MDes4UBkWZ7gviQgMUhbAnm64WOAyM5s4J5MUZAxSheF3mqJL30K5rDbfauXz
+	 0ZU1kE24ZfDHOGqYgAk3FPJD7WWfrCtXlCqzxj5eDI1GVVdOye6offg/65oPuprmxK
+	 bqbPmilgxZ/4HqPOWS9GoIwpKC4nmlS3GX258kK/u593/KqQ2JHCm9JM977WjBd/Tk
+	 YJSXBD9eZHRjaqFxy8Sr5Hjk87OET8cwDfRWn9w7qyaVymyJmdTvCS5b3S3sle11Q4
+	 M4f0p19kV0yYiwWjoWhpu3qqeZ4GpKw0hSfBWRcH0u7PPxBx69FASuoCIDyPII2tpU
+	 Jh30T5y0lfUIw==
+Date: Wed, 17 Apr 2024 08:47:50 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Pratham Patel <prathampatel@thefossguy.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thefirst1322@gmail.com
+Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
+Message-ID: <20240417154750.GB1517581@dev-arch.thelio-3990X>
+References: <20240417043654.60662-1-prathampatel@thefossguy.com>
+ <20240417144859.GA1471879@dev-arch.thelio-3990X>
+ <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,65 +47,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240416055035.200085-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
 
-On Tue, Apr 16, 2024 at 05:50:35AM +0000, Kuppuswamy Sathyanarayanan wrote:
-> The aer-inject tool is no longer maintained in the original repository
-> and is missing a fix related to the musl library. So, with the author's
-> (Huang Ying) consent, it has been moved to a new repository [1]. All
-> references to the repository link have been updated.
+On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
+> On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
+> > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
+> > > This addresses a minor nit where I want a `-devel` RPM package to be
+> > > built when I build a binary RPM package with either `binrpm-pkg`
+> > > or `rpm-pkg` target(s).
+> > >
+> > > Pratham Patel (2):
+> > >   kbuild: allow toggling the `with_devel` RPM macro
+> > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
+> > >
+> > >  Documentation/kbuild/kbuild.rst | 6 ++++++
+> > >  scripts/Makefile.package        | 5 ++++-
+> > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > >
+> > > --
+> > > 2.42.0
+> > >
+> >
+> > Hmmm, when I execute
+> >
+> >   $ make -skj"$(nproc)" ARCH=x86_64 O=build mrproper defconfig binrpm-pkg
+> >
+> > I end up with
+> >
+> >   $ ls -1 build/rpmbuild/RPMS/x86_64
+> >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> >
+> > so it seems like this is already happening?
+> >
+> > Cheers,
+> > Nathan
 > 
-> Link: https://github.com/intel/aer-inject.git [1]
-> CC: Huang Ying <ying.huang@intel.com>
-> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> Ah sorry, that was a typo. I meant to say the following:
+> "This addresses a minor nit where I **don't** want a `-devel` RPM
+> package to be built when I build a binary RPM package with either
+> `binrpm-pkg` or `rpm-pkg` target(s)."
+> 
+> That is because on ARM systems where I just need to quickly test the
+> upstream defconfig, I don't really need the `-devel` package.
+> 
+> Also, I see that in a hurry, I did the opposite of what I wanted in the
+> patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=0 for me
+> during testing. Sorry about that!
+> 
+> I'll send a v2 fixing this stupid mistake.
 
-Applied to pci/aer for v6.10, thanks!
+Ah, understood! I am not sure you actually need a v2 though because I
+think you can already accomplish what you are looking for by adding
 
-> ---
->  Documentation/PCI/pcieaer-howto.rst | 2 +-
->  drivers/pci/pcie/Kconfig            | 2 +-
->  drivers/pci/pcie/aer_inject.c       | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-> index e00d63971695..f013f3b27c82 100644
-> --- a/Documentation/PCI/pcieaer-howto.rst
-> +++ b/Documentation/PCI/pcieaer-howto.rst
-> @@ -241,7 +241,7 @@ After reboot with new kernel or insert the module, a device file named
->  Then, you need a user space tool named aer-inject, which can be gotten
->  from:
->  
-> -    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> +    https://github.com/intel/aer-inject.git
->  
->  More information about aer-inject can be found in the document in
->  its source code.
-> diff --git a/drivers/pci/pcie/Kconfig b/drivers/pci/pcie/Kconfig
-> index 8999fcebde6a..17919b99fa66 100644
-> --- a/drivers/pci/pcie/Kconfig
-> +++ b/drivers/pci/pcie/Kconfig
-> @@ -47,7 +47,7 @@ config PCIEAER_INJECT
->  	  error injection can fake almost all kinds of errors with the
->  	  help of a user space helper tool aer-inject, which can be
->  	  gotten from:
-> -	     https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> +	     https://github.com/intel/aer-inject.git
->  
->  config PCIEAER_CXL
->  	bool "PCI Express CXL RAS support"
-> diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
-> index 2dab275d252f..f81b2303bf6a 100644
-> --- a/drivers/pci/pcie/aer_inject.c
-> +++ b/drivers/pci/pcie/aer_inject.c
-> @@ -6,7 +6,7 @@
->   * trigger various real hardware errors. Software based error
->   * injection can fake almost all kinds of errors with the help of a
->   * user space helper tool aer-inject, which can be gotten from:
-> - *   https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> + *   https://github.com/intel/aer-inject.git
->   *
->   * Copyright 2009 Intel Corporation.
->   *     Huang Ying <ying.huang@intel.com>
-> -- 
-> 2.25.1
-> 
+  RPMOPTS='--without devel'
+
+to your make command, at least that works for me. Commit 2a291fc315b6
+("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
+package") introduced this.
+
+Cheers,
+Nathan
