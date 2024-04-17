@@ -1,106 +1,115 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD1B8120A;
-	Tue, 16 Apr 2024 23:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BF510E9;
+	Wed, 17 Apr 2024 00:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713311270; cv=none; b=cCq4YFUFT4D+ACFgMphl9HsATml7maEiyEfXrt4dyYGYiV3u412kb1t6dRgsL4IkiP1HRpJseDvJJXal9PDJRPmGEStY2B7nJKvqfaQ94Jtk4Cuh72s2SSmrNDWGmk88+7tTS0NxUwaEY9Z1d37FPRKXa9Ep3tv+YP0BgH7Lq+0=
+	t=1713312488; cv=none; b=qKLK5tXQEqnEAuXvrqIhXq9g3vsmbn3nBGdG+KMpHM1ezqItct9MIPgvAAMpIbWqwm0dLShB1vIet8QVL4FKjwaILK48V3AUlqJkVN9ncqlj4MzvSi9Ef4MBWYQYdKQnas68ni9+Y2/V9jFFqRj0kEcFKkxNB9ps3/UNdA2H8As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713311270; c=relaxed/simple;
-	bh=E4qYFQ4yil4wjHYS1/FW8CyzUVA6B3zphOzoFqD0+Zc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MxzxavVyYeRpsTuEm9yxG+mMleqVEkxpIKKCXX+B5Ygk+E3mC/tACn5+7l7UhIVcpKAJ/jw9Let8lBivNMsNujt1uLJ91KWvORyyqEB/EiOaQIZOn55GWBOvXGXHdh4YZwVkw65wpCx9cJTB4JgB6kkPPtbq907yJmeDZq0jc7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M4K2OJqY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1713312488; c=relaxed/simple;
+	bh=QEbKUHPN28xQg3hvNSYLsfLMm928kGAUtV175U5I5Bg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K4mOGMyaZ6oqud44EGpW62zn8sR234w5Cn1CVU8yI6vishgiDew75XIUu0spZp9j68yRazWGADSMhF0c/h28AZA0KMs4IVsOQUkcwC8UGbl3g+62w8Lvqlwspit/Bv4LLWHBCW+GZOoCo394Jw+YwCukT2u5sQ9H8EMSLWE1ma8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=lKtLeQ0M; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M4K2OJqY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=3K/Zre2nKGfZWOLPiTr4t34e4XEIjZU4FnWCkwGAALc=; b=M4K2OJqYinTDuMeFDthK89IYPy
-	8Qm71W5jSfevyx77FK9P4EUC09ED28zNXDuRd0wC0MvHV9Lc/9tcPHwZBgnzpo2ykOiXGu0tuEiLb
-	CQsvnJYfS3W+fDu246WDFNjVgThOeWFsbufFxCxHkqCJx2xRZiPnmXDQXLYeEYcT4d36Tjc0Qi4ab
-	2jOAn2nub3iz/R/oeJ42UGiJoGfBip63JB7zLt0KNOyb6bPG+2XIt1WO5jqLDMOhIoYa1fyLP4Hcw
-	bNYSSoODi045Au4bTMjj+oocZ18mRicu0115QNR/zfSzDo8fVssM6atJvHJeltwubp8iZwAo/FQgX
-	Zb04R/eQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rwsWe-00000001g3j-3FGG;
-	Tue, 16 Apr 2024 23:47:44 +0000
-Date: Wed, 17 Apr 2024 00:47:44 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 8/8] doc: Split buffer.rst out of api-summary.rst
-Message-ID: <Zh8OIIv0SVgYRz5Y@casper.infradead.org>
-References: <20240416031754.4076917-1-willy@infradead.org>
- <20240416031754.4076917-9-willy@infradead.org>
- <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="lKtLeQ0M"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43GMA8LX000873;
+	Tue, 16 Apr 2024 20:07:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=DKIM; bh=tdJYlHJm0iil
+	Nkuzycg5ruKr1mm1sq6tC0qj4zXy3U8=; b=lKtLeQ0Mjok9i8mPNM9XLS274hjL
+	qo4Jf+NzeDFP66zCGlzDOUhb+vaS4tR8CC9FwIyIgl3Y2Gfr7Ku9GQ/PPGZb6dlL
+	IJWfe2ZYmtFBnzVT0/DlJtams+XoR8zqm3tW1EXPWKJuD97sTB2iiqj/+jSsA367
+	9R1fN3/yeRrVNSqLaBLh30ndFr6gJTLnGmf62hLcwzJ2I0W1N96XNtt0Lj+5yfYf
+	anNJJ14tx4iLm0ZWsDH5m4Rc0pRR6a7lNdx2GLmotfqcMWD452k5nH4BeYf2UNRc
+	gIDWNUVZ6tRJylmCXOxjQAWMCWTiaLO97+dsA6NGDNy9eFobf+OOC64KgQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 3xhvv99fqn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Apr 2024 20:07:50 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 43H07nkM061332
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 16 Apr 2024 20:07:49 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 16 Apr 2024 20:07:48 -0400
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 16 Apr 2024 20:07:48 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Tue, 16 Apr 2024 20:07:48 -0400
+Received: from JSANBUEN-L01.ad.analog.com (JSANBUEN-L01.ad.analog.com [10.117.220.64])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 43H07T2t022696;
+	Tue, 16 Apr 2024 20:07:32 -0400
+From: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
+To: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+CC: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Delphine CC
+ Chiu" <Delphine_CC_Chiu@Wiwynn.com>,
+        Jose Ramon San Buenaventura
+	<jose.sanbuenaventura@analog.com>
+Subject: [PATCH 0/2] Add adm1281 support
+Date: Wed, 17 Apr 2024 08:07:20 +0800
+Message-ID: <20240417000722.919-1-jose.sanbuenaventura@analog.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b1938bc-e675-4f1c-810b-dd91f6915f1d@infradead.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 7sk41kH7McFLjaVSan5K9mfnfvPsDT-S
+X-Proofpoint-ORIG-GUID: 7sk41kH7McFLjaVSan5K9mfnfvPsDT-S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_19,2024-04-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 priorityscore=1501 clxscore=1011 spamscore=0
+ mlxlogscore=950 bulkscore=0 malwarescore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404160158
 
-On Tue, Apr 16, 2024 at 03:18:59PM -0700, Randy Dunlap wrote:
-> On 4/15/24 8:17 PM, Matthew Wilcox (Oracle) wrote:
-> > Buffer heads are no longer a generic filesystem API but an optional
-> > filesystem support library.  Make the documentation structure reflect
-> > that, and include the fine documentation kept in buffer_head.h.
-> > We could give a better overview of what buffer heads are all about,
-> > but my enthusiasm for documenting it is limited.
-> > 
-> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > ---
-> >  Documentation/filesystems/api-summary.rst | 3 ---
-> >  Documentation/filesystems/index.rst       | 1 +
+The ADM1281 is also a Hot-swap controller designed to be a drop-in
+replacement to the ADM1278. The currently available adm1275 driver supports
+the adm1278 and this patch adds support for the adm1281, specifically
+adding support for STATUS_CML register reads.
+ 
+An existing patch was found that adds support for the adm1281 but has not 
+been followed up since November 22, 2023. This patch aims to serve as a
+follow up or an improvement of the previously submitted patch especially
+since the code was tested on the actual adm1281 evaluation board.
 
-... where did my buffer.rst go to?  I'll figure it out later/tomorrow
-and send a new 8/8.
+Jose Ramon San Buenaventura (2):
+  dt-bindings: hwmon: adm1275: add adm1281
+  hwmon: pmbus: adm1275: add adm1281 support
 
-> >  2 files changed, 1 insertion(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/filesystems/api-summary.rst b/Documentation/filesystems/api-summary.rst
-> > index 98db2ea5fa12..cc5cc7f3fbd8 100644
-> > --- a/Documentation/filesystems/api-summary.rst
-> > +++ b/Documentation/filesystems/api-summary.rst
-> > @@ -56,9 +56,6 @@ Other Functions
-> >  .. kernel-doc:: fs/namei.c
-> >     :export:
-> >  
-> > -.. kernel-doc:: fs/buffer.c
-> > -   :export:
-> > -
-> >  .. kernel-doc:: block/bio.c
-> >     :export:
-> >  
-> > diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> > index 1f9b4c905a6a..8f5c1ee02e2f 100644
-> > --- a/Documentation/filesystems/index.rst
-> > +++ b/Documentation/filesystems/index.rst
-> > @@ -50,6 +50,7 @@ filesystem implementations.
-> >  .. toctree::
-> >     :maxdepth: 2
-> >  
-> > +   buffer
-> 
-> This causes:
-> 
-> Documentation/filesystems/index.rst:50: WARNING: toctree contains reference to nonexisting document 'filesystems/buffer'
-> 
-> 
-> >     journalling
-> >     fscrypt
-> >     fsverity
-> 
-> -- 
-> #Randy
-> https://people.kernel.org/tglx/notes-about-netiquette
-> https://subspace.kernel.org/etiquette.html
+ .../bindings/hwmon/adi,adm1275.yaml           |  4 ++-
+ Documentation/hwmon/adm1275.rst               | 14 +++++++---
+ drivers/hwmon/pmbus/Kconfig                   |  4 +--
+ drivers/hwmon/pmbus/adm1275.c                 | 27 +++++++++++++++++--
+ 4 files changed, 41 insertions(+), 8 deletions(-)
+
+
+base-commit: 96fca68c4fbf77a8185eb10f7557e23352732ea2
+-- 
+2.39.2
+
