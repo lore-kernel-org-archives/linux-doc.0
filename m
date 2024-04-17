@@ -1,104 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B63213F42D;
-	Wed, 17 Apr 2024 13:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A36B13F44A;
+	Wed, 17 Apr 2024 13:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713361369; cv=none; b=s1eVofJMpRFwv78YN4aOgmSyuOFrjRBvhNoo5F5G1BWtV6Q53aSkh5tr1KXr7ZDBk+8a/BiJ0W73yNLjOoqIGEo1OEoeFXy1XsM83vpKuM1NHUDzY5ms/kwIs5yIX3YaabiSibKrN7132JDB/0GEecku8ArOkijM4k1BgZbRrc0=
+	t=1713361598; cv=none; b=Feb0B2kD0mCzvcLcnR1E6c270BlzkrKQoT+gnAVBw72c0+xFB+2jbWsDGchkHrQYwLX1hsOkpBHgqrKi5XCjUOAQgv2DMyYVFv1XLdA0zIdmyLObtE/xkkZt/WkNteJvNG+fYdRvbgqo3s//SIgJ+HernI/q/ZvDRMtxfBRopGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713361369; c=relaxed/simple;
-	bh=exPu4RcMsk/1+QRfafTnptMZ6ljl6Uz5WGS7JHUbSG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=egP+pxChIbjkio5fh0Qp70ri3zC5f3//VplYa1aSJgOCWj2DWBFR0V4gP2y/nt/eEcVygegi7zFbvENH/T4mukcWaAUOYL172cD8mRcwcBi4h2zxWm9jcM3XPvqVLCbMfESFY+YEAUEkVsXXa2wYK+prjJadzekarrEkDHPlH9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxe+qeP1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713361598; c=relaxed/simple;
+	bh=G8N3Z0ToOnGx1r5XrvH9ejqq4sKfdkitetitwXzAYLw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UO78GbghoST8cYfz5BN3K2fbRGSpm6ice2Rh3PlEMyQUTNCRajcePbv7l3Z2eK0juygLhw9Nr/NB9OX7GJhvD3Z2jgDn2NXRwL4LEQMPnHPNTUKWOJgi1Yj1a+Cxkx7M+80OG4X7TB+j1eb9Gu3wEJqrrFkzABw1k7CxaC4epTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCKJEMt1; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxe+qeP1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D799C3277B;
-	Wed, 17 Apr 2024 13:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713361368;
-	bh=exPu4RcMsk/1+QRfafTnptMZ6ljl6Uz5WGS7JHUbSG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uxe+qeP1yFDPT1hD9RgNKZpz03zbMYoYMhxqPRwisGF9SsPrzxEkUxX75wQv3zBhA
-	 BRx4qPfoMxWPdmJwOIK9wFA+qQYzEG1dHt/VODsEgTHspeEyo2FRzPdK/fhuAus2Q8
-	 ylR0jMTstUpWiASwRHCg56D+AUdM2rw88Zawp5HQxNXB+vJajPhhiKr+NK9Y/hMrkH
-	 P5SN9ZALpHHXlYBftOidVumzDmLewTgO400T9jwqyCuXvtQ/odwwW1dahLq0xrtTMx
-	 KE+MFqbTrbccApemLfMPMIb0sr3ngW/lgmXlnzVM1lPk7ua6IcTNR3De9KsJ29aUhp
-	 8KxeJSNxWvmBQ==
-Date: Wed, 17 Apr 2024 14:42:41 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 06/17] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <20240417-automaker-baton-bd816e1bd975@spud>
-References: <20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com>
- <20240415-dev-charlie-support_thead_vector_6_9-v2-6-c7d68c603268@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCKJEMt1"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e5b6e8f662so42454025ad.0;
+        Wed, 17 Apr 2024 06:46:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713361596; x=1713966396; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qsPVDr8MYadpf9OOAgciXbNWFblocQRX3lYmYadOpeI=;
+        b=bCKJEMt15zoGTp5QVk6fbyJCEKlKagV7ZjXGutLxZAWDHyK4clQmK/c/iuKnGyG4B0
+         a5A6DkSYaVDHm5E6Yq22ZWlLpwKxaQPW2tYeuDlCZxMtqOB/w0feNDdnx9kfJhJqJx2r
+         uzBcrCd4zOfETW+3RjNyClmLNfQ6Ky64t6fuVEPG5diDe7Z0Yn1l6L2HHNQADBwygOFF
+         mUQ4LP1aKMoaGqHXmK9vtzRDhCw4/A0Rm//Ti1Fz8fpm03iAljYnLX5w+k41LdGZZvA6
+         rZKACmBGLy1qYKb3o5u7lX9mfh126zrCg9Hm38nzRbewOypSZxfAfAGiT/YYtpCDRJf3
+         vcRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713361596; x=1713966396;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qsPVDr8MYadpf9OOAgciXbNWFblocQRX3lYmYadOpeI=;
+        b=OaFwyj904xSRPOVJnAbHq8aRpwJhIx5ahlAWOsmHFZ02oK/DU+VahT4GlJRHegFwtB
+         Tsr3AGFojP/t23lJSwfASj1ocWMPn7qOiT4yshEIzG3b/8fplJ4Ir67dDUq4NLYJIG+r
+         Ed51vR0XeugDIqtg0EKfknc2CY405XWTcBIfjSVivyKBit3EbBUgCtux83CFzvy7vFGP
+         c8vfHo6AqbjpqVlUOLr8Milc6J0g3qKw1l00pCji8+G468q0SipZ5vZQVL7EJ19iwF7j
+         Qc40PO4AlNlFiDKDxJ05jelgqQABGoF+3l7a/BwssaX3xPiiRsei5ZlnfLtivPh5Ts3E
+         qoXg==
+X-Forwarded-Encrypted: i=1; AJvYcCURVkmG41zha+M9+nIHoMA721/JCXGd8pClPZ0PIAFF59t7zbyPgB9s5H9o25Fxa/CritapgYw/U2fLsa4GEGwulv9ZeUky4+xOIiP10uzsddXQmELJGDltW7/hYKPuU9C18sHYZTJ3
+X-Gm-Message-State: AOJu0YzMFA5Mrx1Q7zJXzGXZHGXhiYKbhap+pL6j+dPTEjKkL393TEE6
+	8FmQGfe3KyUfIUPO5sHEmY7/UaK5AZuE/oOOh0crGIkbwUHK1bhN
+X-Google-Smtp-Source: AGHT+IGGeCeCAckqV604CKpG9NBNR+/OchdxzvOdwDnGTs0+urOSd5H2aEUxnUuxSc9N8Lj37YnsKg==
+X-Received: by 2002:a17:902:e5c6:b0:1e4:145a:ee19 with SMTP id u6-20020a170902e5c600b001e4145aee19mr17935591plf.50.1713361596324;
+        Wed, 17 Apr 2024 06:46:36 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id p18-20020a1709028a9200b001e2b4f513e1sm11541755plo.106.2024.04.17.06.46.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 06:46:36 -0700 (PDT)
+Message-ID: <82275ef2-64c4-44ec-b95f-1d53f24ef550@gmail.com>
+Date: Wed, 17 Apr 2024 22:46:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="p0QSKblu8bR1+Anb"
-Content-Disposition: inline
-In-Reply-To: <20240415-dev-charlie-support_thead_vector_6_9-v2-6-c7d68c603268@rivosinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] MAINTAINERS: repair file entry in DOCUMENTATION
+To: Lukas Bulwahn <lbulwahn@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>, Akira Yokosawa <akiyks@gmail.com>
+References: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On Wed, 17 Apr 2024 12:14:29 +0200, Lukas Bulwahn wrote:
+> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+> 
+> Commit 1e596d5eff3d ("docs: Detect variable fonts and suggest denylisting
+> them") adds the new script check-variable-fonts.sh and intends to refer to
+> it in the DOCUMENTATION section in MAINTAINERS. However, the file entry
+> refers to scripts/check-variable-font.sh. Note the missing "s".
 
---p0QSKblu8bR1+Anb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My bad... :-/
 
-On Mon, Apr 15, 2024 at 09:12:03PM -0700, Charlie Jenkins wrote:
+> 
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
+> broken reference.
+> 
+> Repair this new file entry in the DOCUMENTATION section.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-> @@ -351,6 +343,14 @@ static void __init riscv_parse_isa_string(unsigned l=
-ong *this_hwcap, struct risc
->  		bool ext_long =3D false, ext_err =3D false;
-> =20
->  		switch (*ext) {
-> +		case 'x':
-> +		case 'X':
-> +			pr_warn("Vendor extensions are ignored in riscv,isa. Use riscv,isa-ex=
-tensions instead.");
+Thank you for the fix!
 
-Was looking for something and noticed this - pr_warn_once() I think.
+Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
 
-> +			/*
-> +			 * In canonical order, the remaining extensions in the
-> +			 * isa string will be vendor extensions so exit.
-> +			 */
-> +			break;
->  		case 's':
->  			/*
->  			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4356b28ce625..250c8f8caa08 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6493,7 +6493,7 @@ S:	Maintained
+>  P:	Documentation/doc-guide/maintainer-profile.rst
+>  T:	git git://git.lwn.net/linux.git docs-next
+>  F:	Documentation/
+> -F:	scripts/check-variable-font.sh
+> +F:	scripts/check-variable-fonts.sh
+>  F:	scripts/documentation-file-ref-check
+>  F:	scripts/kernel-doc
+>  F:	scripts/sphinx-pre-install
 
---p0QSKblu8bR1+Anb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZh/R0QAKCRB4tDGHoIJi
-0vzZAQCEhpBLtL/EDT9fUbss6os6B1Bq+MiUtQnftDZaXWVoyAD+LTrtP2tTsvuJ
-r6qruyvOjKVA6j/gDB5rHH3TKzICzwk=
-=MO+X
------END PGP SIGNATURE-----
-
---p0QSKblu8bR1+Anb--
