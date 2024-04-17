@@ -1,111 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3A613AD34
-	for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 10:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D75813C9B2;
+	Wed, 17 Apr 2024 11:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713348889; cv=none; b=seIXBLgC/S6YOpdDqgvPCC5l2araiwdLjZaX2P834VZf0CxnqIqeVBWkF8Ur+FEB/qw1eQNgzhsqep0EbrLTSJDVCpik7GRKeALh+iseUabwhmdJnqEHQl5J1S4iBxxy/XoRNy1c1PTZus7wMdWd8cAZyNKQ7nNgBKS5lxrQEuA=
+	t=1713353837; cv=none; b=eCYoKbx4/9J8JRNvL4fORMlC/kaUom7nxU7M5LQ+c/72S7qAwDbRH48jb+6Z6pwmkfiPxM8NThZ4z2mQ786KC/lDje5vAWcdbBBZx0XU+xyK2NXkzN0B5jTzshAPVOgxAsBYrqHoKirRH4L/LhMEmBDi8fA4v33ABVm6s4JjyhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713348889; c=relaxed/simple;
-	bh=Nsjf4W046CIAEyOcmt/MlZoEUduqPetqmPDoVbBknjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IsYDyFm3kiqlOF4gcERwPp1mWmVgGpkx8V4rAU6giw5umtbLLY39ZSi80Bx2VbVPBavixwaPcYRjSm4FO+6deqLnuFxAUxA/q3gkfqhFI4tmkRQEnrrAv98+ts8PzO/sN78typ3Wvuu0oCFWW2dlQt90hAJl7xwJp/pqHEhwkb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VWC1jbih; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1713353837; c=relaxed/simple;
+	bh=ni1rHrQkZPj0oa4mBUOmn8s86m7db/sCZzs6v/o4CR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkfIxwl9+Pt1c+X27fylONGLeZU01zrNMBx6hlLi8n9gMUYyT0/zrX1cZ3v+zeDDJyWxDBbY5+wuARXgy92uwXcn3JoDrUbWKzhQOfIrIE+4PSoS++Wc9JkhMDKV9KEycfnuG9oDzM7pfUqQrDsohjLQA8lv+ZTxfW2TVkbUalU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bJMw/qGp; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VWC1jbih"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713348887;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mfznY1Xt+1agp915j30/FccRLbon5LKlLd7NU6tQjbY=;
-	b=VWC1jbihrlhykawVWWzGbX518hICl/ApFmJ8wEPiMoLVtISWkiuxpA/mfAAcCesWKYpW1R
-	lNLjwpZCTGHWL2jfIZ7pXQKIlPrFPUiP99Ke85Ft1QnyyKDse99/WB52dbJxEoN3A0yIZO
-	poSuG6mdm5Z0Ig9PLSfPiSHfYCHXFY8=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-499-QBJrN9DZPGSjxAWA0l7euQ-1; Wed, 17 Apr 2024 06:14:46 -0400
-X-MC-Unique: QBJrN9DZPGSjxAWA0l7euQ-1
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3c5f63dfe8cso6591069b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 03:14:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713348885; x=1713953685;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mfznY1Xt+1agp915j30/FccRLbon5LKlLd7NU6tQjbY=;
-        b=ALn7TTYldHSdqM2j8jhXTwbx0flhaN5DIY0NffriieXU/RJf3hRkv/8HDS3I1E2cQC
-         HQoiVL9GK6WeIMnQGHKy+Bs5MsCEe8Gcr25mchU3Xzd4QqKJXqwwfEnNYpyYnntj727r
-         gFM9AOHIP8IdIIgiLY+nG+BCYf5k4tB+jBkwjFEhy/rs42jUTLNOR3o/8S4aA9qQi3be
-         se1GXhgMGZJ3ffcoGmuvDthCT8uzV2bDForVVwvgxpLJjqL8MiFlcHD866+qEz+sF76S
-         hRrln82ZolTVl/Rl2qlbR5HsczGpHnFF5fBZOoHOTdqIq+T6wqpu/5qC5Pjtzgq75NQF
-         ghlg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrWf9I6QJcXYPBnQrbtGrAxIoHFqYTS7L0LHzdkE2Rw/LG+9FXVDl4kydPbhIYRXZAemue4oxSLCYC/Z5Z6HhLXE0KekeYfO2o
-X-Gm-Message-State: AOJu0YzvDzIYtVWVrAb+HY6n9cbu7lSQdrlhjcQ6n/e7wFLA40joh+oT
-	lYpOib2W8uBTzJJw+vQRYsx+iaU/qtzOSJpa5z5tbKL2GAQXo2HiumB52fvks8UpJBtQH6WoGzJ
-	p3oIT7XFdjtts04DiGOvUkxSegEzb9cKL/7d8Vz5/3rnYEsPCsIgacHHzpQ==
-X-Received: by 2002:a05:6808:6243:b0:3c7:13fd:d878 with SMTP id dt3-20020a056808624300b003c713fdd878mr7873814oib.9.1713348885377;
-        Wed, 17 Apr 2024 03:14:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGDz0OAbOJqHdNWrsnzh2Aggk3FP1TUtJ619gQjpyPq9dPplYtFuLf0MpY36myUuCQuf7T1/g==
-X-Received: by 2002:a05:6808:6243:b0:3c7:13fd:d878 with SMTP id dt3-20020a056808624300b003c713fdd878mr7873788oib.9.1713348884914;
-        Wed, 17 Apr 2024 03:14:44 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:4ce1:e394:7ac0:6905])
-        by smtp.gmail.com with ESMTPSA id js7-20020a05622a808700b0043781985244sm71939qtb.59.2024.04.17.03.14.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 03:14:44 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Akira Yokosawa <akiyks@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: repair file entry in DOCUMENTATION
-Date: Wed, 17 Apr 2024 12:14:29 +0200
-Message-ID: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bJMw/qGp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=O4FJeYjzVSrCJLMWVOfo4rKcH+oK+crdFCS4dm+nSJw=; b=bJMw/qGpR0b9/jwlohMK0wYLf1
+	3Iwlt7Xkt9gigpNoAdTdquU7sEYatU38PE510DDkwfDrHKtGRQbpAidJD8zSXTfq4tTFDwlgDLXVh
+	F4Y3GC71PcDSALfxgIDKtiFbh5WsoIjhmwBOl9qMNila0XmgFv+8lb9bZypVyLO8eapLGebDXE6O7
+	lRkgfqEQYfMeV7FRigv654M98vQQzL6C3V2ehXS4ULWzyg9sYCgt0NgCb1yQC7Pbo5Mf0gKAGJKVP
+	3p54qePNYQE4fziXioJM6YxOb3p9UMIqBk2fXDPPa5uS43dzqlUATOkKTBpTn5qzbw2y3pOKR0JRf
+	5Jpkbk5Q==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rx3b5-00000002pWR-24HE;
+	Wed, 17 Apr 2024 11:37:03 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 2553630047C; Wed, 17 Apr 2024 13:37:03 +0200 (CEST)
+Date: Wed, 17 Apr 2024 13:37:03 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Elizabeth Figura <zfigura@codeweavers.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v4 02/27] ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
+Message-ID: <20240417113703.GL30852@noisy.programming.kicks-ass.net>
+References: <20240416010837.333694-1-zfigura@codeweavers.com>
+ <20240416010837.333694-3-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416010837.333694-3-zfigura@codeweavers.com>
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+On Mon, Apr 15, 2024 at 08:08:12PM -0500, Elizabeth Figura wrote:
+> +	if (atomic_read(&sem->all_hint) > 0) {
+> +		spin_lock(&dev->wait_all_lock);
+> +		spin_lock_nest_lock(&sem->lock, &dev->wait_all_lock);
+>  
+> +		prev_count = sem->u.sem.count;
+> +		ret = post_sem_state(sem, args);
+> +		if (!ret) {
+> +			try_wake_all_obj(dev, sem);
+> +			try_wake_any_sem(sem);
+> +		}
+>  
+> +		spin_unlock(&sem->lock);
+> +		spin_unlock(&dev->wait_all_lock);
+> +	} else {
+> +		spin_lock(&sem->lock);
+> +
+> +		prev_count = sem->u.sem.count;
+> +		ret = post_sem_state(sem, args);
+> +		if (!ret)
+> +			try_wake_any_sem(sem);
+> +
+> +		spin_unlock(&sem->lock);
+> +	}
+>  
+>  	if (!ret && put_user(prev_count, user_args))
+>  		ret = -EFAULT;
 
-Commit 1e596d5eff3d ("docs: Detect variable fonts and suggest denylisting
-them") adds the new script check-variable-fonts.sh and intends to refer to
-it in the DOCUMENTATION section in MAINTAINERS. However, the file entry
-refers to scripts/check-variable-font.sh. Note the missing "s".
+vs.
 
-Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-broken reference.
+> +	/* queue ourselves */
+> +
+> +	spin_lock(&dev->wait_all_lock);
+> +
+> +	for (i = 0; i < args.count; i++) {
+> +		struct ntsync_q_entry *entry = &q->entries[i];
+> +		struct ntsync_obj *obj = entry->obj;
+> +
+> +		atomic_inc(&obj->all_hint);
+> +
+> +		/*
+> +		 * obj->all_waiters is protected by dev->wait_all_lock rather
+> +		 * than obj->lock, so there is no need to acquire obj->lock
+> +		 * here.
+> +		 */
+> +		list_add_tail(&entry->node, &obj->all_waiters);
+> +	}
 
-Repair this new file entry in the DOCUMENTATION section.
+This looks racy, consider:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	atomic_read(all_hints) /* 0 */
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4356b28ce625..250c8f8caa08 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6493,7 +6493,7 @@ S:	Maintained
- P:	Documentation/doc-guide/maintainer-profile.rst
- T:	git git://git.lwn.net/linux.git docs-next
- F:	Documentation/
--F:	scripts/check-variable-font.sh
-+F:	scripts/check-variable-fonts.sh
- F:	scripts/documentation-file-ref-check
- F:	scripts/kernel-doc
- F:	scripts/sphinx-pre-install
--- 
-2.44.0
+				spin_lock(wait_all_lock)
+				atomic_inc(all_hint)	/* 1 */
+				list_add_tail()
+
+	spin_lock(sem->lock)
+	/* try_wake_all_obj() missing */
+
+
+
+
+I've not yet thought about if this is harmful or not, but if not, it
+definitely needs a comment.
+
+Anyway, I need a break, maybe more this evening.
+
 
