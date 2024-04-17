@@ -1,138 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651C113C3EF;
-	Wed, 17 Apr 2024 15:34:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D57148835;
+	Wed, 17 Apr 2024 15:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713368068; cv=none; b=ARFys+a6ITm7aw+zHvcO88YYbb08f5aTUGdKeCPLJxtxGyPkcmIZa+EdWnkQRZYinsYKRO8JJYRq+InxkAqmFoY0VOmOkEOwhY+SJeFGNIQ2Rls1zKLrDEvEviKS+Ai2mzgxuuzdBjMiEVAa70W/sToC2wenLEKW7uEDUv/+1/M=
+	t=1713368199; cv=none; b=djc9hBbFDl+YrY1fvGeaqunUYgeInD4xSWs+DgkFvvv+yyjE3lufKzs0QCtsBDQ61XOci0NI+SNHQXojq6zrNdf43Vn5HDSZVm08xMA6CbdhuGCSAeH9uosmx0AAPC1in1MZXa30KzmGz17ZG8t5OB55Mkca8tt4YjxjTP+3Gho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713368068; c=relaxed/simple;
-	bh=IaRbObB5dEEIBtmpY4TQrQpfkbKo3yd2zwxXbfaJry0=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=jcS+eTpuaZWeVijKeU8wGzXirr/TzjuVnRf6vuvOTyySPhANT2/7qE9a31rq7CyYoztjjdnMseZOteXJdOG1qYreKfY7aiP+GkMOiscNyQfi7nc/4sIZQY0gdmz8z1SYJ+E23pEMu5YeqVZGk3SpxauCsLDcSvGR5NbgiHuQ+A8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4T6AISh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713368199; c=relaxed/simple;
+	bh=qxR8jusU4mHNUpoOFxqYhMZwDa711H7HwzT9JTySflU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=K6iiwG20rU8rDLKUw1fNbfSpN5wlGYCfzcVM9Q/i8SYzlD9Kv2TyujTs5JP1ZaQu6KP8oxbRgtmU04Ng4a+bdxeWeKGYpuk/R3XK+CNccBJ0fCWRj+Sjapy6zNpjNzV5SSfjYS9fhmaCkyDPCv1Zn+JBgE9ESSY4qNm2nolc+20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CZd8tV9A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4T6AISh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB6DC072AA;
-	Wed, 17 Apr 2024 15:34:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CZd8tV9A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06718C072AA;
+	Wed, 17 Apr 2024 15:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713368068;
-	bh=IaRbObB5dEEIBtmpY4TQrQpfkbKo3yd2zwxXbfaJry0=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=i4T6AIShq8iv6NzCQXuiVcBRjXys+gIu07VpRelIM/4VXfkxa3i1aKygFMcqTfTIP
-	 AxI1eScM8ogH6mCi0qFjCiT8MznN+YC6bE97ooKRydobQsZBEBBPl14dFQ/xJn7HcJ
-	 WhAUpXTxxQ+2Ln9OGR3rqkl/aitwNGoa5G5ULy5RqNdc8NReBC8F7Aw/raXUAR5Vla
-	 sVdUqc4laN664krEG2iJfuh8vTv5eP5X/Cd5kMpYf6dUmdG1Ce3KMwmHj+zgdDoFUO
-	 jLR33YbSwCQZlA1pjaR0uIv/IyOSNecht8uQWZ1RfasrybthQd67T+YCEJKhb1akT9
-	 aqEUnB1f0DATQ==
-Date: Wed, 17 Apr 2024 10:34:26 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1713368199;
+	bh=qxR8jusU4mHNUpoOFxqYhMZwDa711H7HwzT9JTySflU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=CZd8tV9ALGZxqh/MNfiq4/qelCfLFRO0yvGlCdCtpKqgQ5xSxeVs0HxbXfLbrowGu
+	 /6vazQf+wR+RVZ3odbDTxvF8YIil/DM8au6C2ZWpAFkcSEsOU5BzBepSmzRYceO6hN
+	 4Ip2oUX+N43mwXiIdArMicU07CS6KYKRfpkti+0yl4M6oHnzSbc62pj6qsnFT/KLLM
+	 AiKfxP92njrJjgsQ7h315M9KzACeheUmVG4Mm8+Y8XB98v7HUyp/tISFB8/AI/Q1JW
+	 GDgQMg+Rb5gDQrqu08b0n1MDprYpQL6UFYcLSOjO4yZSyaFFs1mMS+ovtm2D1mnBxa
+	 uhkuxpSseLFzA==
+Date: Wed, 17 Apr 2024 10:36:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Huang Ying <ying.huang@intel.com>
+Subject: Re: [PATCH v1] PCI/AER: Update aer-inject tool source URL
+Message-ID: <20240417153636.GA203294@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, 
- Dent Project <dentproject@linuxfoundation.org>, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- kernel@pengutronix.de, "Rafael J. Wysocki" <rafael@kernel.org>, 
- linux-doc@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Russell King <linux@armlinux.org.uk>, Russ Weight <russ.weight@linux.dev>, 
- Jakub Kicinski <kuba@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Andrew Lunn <andrew@lunn.ch>, Mark Brown <broonie@kernel.org>, 
- Eric Dumazet <edumazet@google.com>, 
- Oleksij Rempel <o.rempel@pengutronix.de>, 
- Frank Rowand <frowand.list@gmail.com>, Paolo Abeni <pabeni@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org, 
- Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20240417-feature_poe-v9-8-242293fd1900@bootlin.com>
-References: <20240417-feature_poe-v9-0-242293fd1900@bootlin.com>
- <20240417-feature_poe-v9-8-242293fd1900@bootlin.com>
-Message-Id: <171336806575.2618779.157615998420721814.robh@kernel.org>
-Subject: Re: [PATCH net-next v9 08/14] dt-bindings: net: pse-pd: Add
- another way of describing several PSE PIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416055035.200085-1-sathyanarayanan.kuppuswamy@linux.intel.com>
 
+On Tue, Apr 16, 2024 at 05:50:35AM +0000, Kuppuswamy Sathyanarayanan wrote:
+> The aer-inject tool is no longer maintained in the original repository
+> and is missing a fix related to the musl library. So, with the author's
+> (Huang Ying) consent, it has been moved to a new repository [1]. All
+> references to the repository link have been updated.
+> 
+> Link: https://github.com/intel/aer-inject.git [1]
+> CC: Huang Ying <ying.huang@intel.com>
+> Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
 
-On Wed, 17 Apr 2024 16:39:56 +0200, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> PSE PI setup may encompass multiple PSE controllers or auxiliary circuits
-> that collectively manage power delivery to one Ethernet port.
-> Such configurations might support a range of PoE standards and require
-> the capability to dynamically configure power delivery based on the
-> operational mode (e.g., PoE2 versus PoE4) or specific requirements of
-> connected devices. In these instances, a dedicated PSE PI node becomes
-> essential for accurately documenting the system architecture. This node
-> would serve to detail the interactions between different PSE controllers,
-> the support for various PoE modes, and any additional logic required to
-> coordinate power delivery across the network infrastructure.
-> 
-> The old usage of "#pse-cells" is unsuficient as it carries only the PSE PI
-> index information.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+Applied to pci/aer for v6.10, thanks!
+
 > ---
+>  Documentation/PCI/pcieaer-howto.rst | 2 +-
+>  drivers/pci/pcie/Kconfig            | 2 +-
+>  drivers/pci/pcie/aer_inject.c       | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> Changes in v3:
-> - New patch
+> diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
+> index e00d63971695..f013f3b27c82 100644
+> --- a/Documentation/PCI/pcieaer-howto.rst
+> +++ b/Documentation/PCI/pcieaer-howto.rst
+> @@ -241,7 +241,7 @@ After reboot with new kernel or insert the module, a device file named
+>  Then, you need a user space tool named aer-inject, which can be gotten
+>  from:
+>  
+> -    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
+> +    https://github.com/intel/aer-inject.git
+>  
+>  More information about aer-inject can be found in the document in
+>  its source code.
+> diff --git a/drivers/pci/pcie/Kconfig b/drivers/pci/pcie/Kconfig
+> index 8999fcebde6a..17919b99fa66 100644
+> --- a/drivers/pci/pcie/Kconfig
+> +++ b/drivers/pci/pcie/Kconfig
+> @@ -47,7 +47,7 @@ config PCIEAER_INJECT
+>  	  error injection can fake almost all kinds of errors with the
+>  	  help of a user space helper tool aer-inject, which can be
+>  	  gotten from:
+> -	     https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
+> +	     https://github.com/intel/aer-inject.git
+>  
+>  config PCIEAER_CXL
+>  	bool "PCI Express CXL RAS support"
+> diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
+> index 2dab275d252f..f81b2303bf6a 100644
+> --- a/drivers/pci/pcie/aer_inject.c
+> +++ b/drivers/pci/pcie/aer_inject.c
+> @@ -6,7 +6,7 @@
+>   * trigger various real hardware errors. Software based error
+>   * injection can fake almost all kinds of errors with the help of a
+>   * user space helper tool aer-inject, which can be gotten from:
+> - *   https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
+> + *   https://github.com/intel/aer-inject.git
+>   *
+>   * Copyright 2009 Intel Corporation.
+>   *     Huang Ying <ying.huang@intel.com>
+> -- 
+> 2.25.1
 > 
-> Changes in v4:
-> - Remove $def
-> - Fix pairset-names item list
-> - Upgrade few properties description
-> - Update the commit message
-> 
-> Changes in v5:
-> - Fix yamllint error.
-> - Replace underscore by dash in properties names.
-> - Add polarity-supported property.
-> 
-> Changes in v6:
-> - Reorder the pairset pinout table documentation to shrink the lines size.
-> - Remove pairset and polarity as required fields.
-> - Add vpwr-supply regulator supply.
-> 
-> Changes in v7:
-> - Fix weird characters issue.
-> - Fix documentation nit.
-> ---
->  .../bindings/net/pse-pd/pse-controller.yaml        | 101 ++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 3 deletions(-)
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-
-
-doc reference errors (make refcheckdocs):
-Warning: Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml references a file that doesn't exist: Documentation/networking/pse-pd/pse-pi.rst
-Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml: Documentation/networking/pse-pd/pse-pi.rst
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240417-feature_poe-v9-8-242293fd1900@bootlin.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
