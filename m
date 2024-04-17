@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F9B63A9;
-	Wed, 17 Apr 2024 02:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D544685;
+	Wed, 17 Apr 2024 02:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713320440; cv=none; b=P61pUn1/LIzuGf8qjYn2Bg86ieBoslWUxek+O6WnATjrOYwJnFj0z8iT0pTVkb84thQ7phii4JqY0KFwPIhKxnsWk8vLC9j0Q1TFkhLzDsPs+ZdpnZuTqBkhNxpMVF+5Tl4BiMFjPMPZgaQCw4ThcgCOI9UrLvnMs+kgZ/JPLxo=
+	t=1713320585; cv=none; b=WHLk5h+jwT0oH8eIo5bTuFioohG7bRGIocc5XKLKD98HUas6ZfAbnW2z9SjmOGfIAczY1ldIXTj+b2xqMDdHbaUgZs7MPLi8/J5/Wa9xwFxNdfVyv01Q0WGw6S+unuiZ8LCRfLoaMSUkVwcUowR+aFDUJRQgh2Xzv8qaLoltbk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713320440; c=relaxed/simple;
-	bh=0Hg5c0S/t8RZQIbbjbz1G+f//lzhTJ+pyxHazCXMv1Y=;
+	s=arc-20240116; t=1713320585; c=relaxed/simple;
+	bh=46aRmITiOUVBynMBETaAGe/3vLl0jA+4t6Miv67/OSU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F5RH6uDXSyRlbGkVThVLdPAsPTL0pnNjQPFo5a+PWxcg3CYNZ/4zCOYQVkCY2+OPlGpc4NYvH2PjcDsGJAIHn8kbhVG0xUuCGux2cm2TFHYSv5a3ovQ4Apm1lrtKYzsQCrbZ0kBnc3P3Kkp+J/HtHbvHwyG8Yh4tzoTwzd5QXiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rseRoqw4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=sJWZKKEYoiScu/PTqjs9x4LsGXmowoM9vhbBMxPdq0rasjo4hsWxJliyfRuT8jWcFrxxIKuiPiykiYoTRCMhWskYLBwJ63BRIj/Y/gCpmQLgwFydsbM87Td5adVqMhnM3BB9apIXC3XNhL6EZyrFhAe12ZFWGeMpE1mMxe9Wrvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5vzLal0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rseRoqw4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AB7FC2BD11;
-	Wed, 17 Apr 2024 02:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5vzLal0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0098C113CE;
+	Wed, 17 Apr 2024 02:23:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713320439;
-	bh=0Hg5c0S/t8RZQIbbjbz1G+f//lzhTJ+pyxHazCXMv1Y=;
+	s=k20201202; t=1713320585;
+	bh=46aRmITiOUVBynMBETaAGe/3vLl0jA+4t6Miv67/OSU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rseRoqw4lFdF0hhyXzvd7xrgXS6prHI7OMzmlnz4IwxZqXfNOFWg364bzbK7t0RBK
-	 d0+eM2DXbEfmfryDUxqeoahYGPISMjRWv/eO3YzFxeA1JqZkRCmpleQi52sjVLBaWc
-	 7NB545njetPwrYcrBE1fsrpUtAU97jCZP9Zgz45soGkGnCwk0UN9cWux2U2ZMMJ0gs
-	 XxfKrn1krvGLkNhewiBMuZcMFnR99eg0QboUQj+GZ2vLqOahxpZ5EwvswEOBv/BsBd
-	 kOydH/0qv4J+KqJGPlf4CF0rGFl3d19ar4HYXBhSZiPmXNSzSnZZI7SY8RmeITOAQu
-	 7wtW6Sm2gKx+A==
-Date: Tue, 16 Apr 2024 19:20:37 -0700
+	b=k5vzLal0dkLpUT57JnJ1eUDaPSfH7ufjYabxE47W5BNOqCYEC9JIxVZdl0aDEUXS4
+	 C9hvvN6Uk2H1I/Yf5zaAfmUaM/1kjWlRpnOcsH4l6/pZfpW/TyJf/s7acQgwxOe/3x
+	 FxLq9flUjWO4S/UMdeuZ3g6JwtjDH/M7HBvYR5EImzIr0MmG7AlOkpZaXncOkzblX+
+	 VUxCVLyYK17U7uIryJ5YpctQwBs4IR8oXmZL+yrqKPEGlXAI1WTT6oQkfX7zlx1UOs
+	 l6aJG6Te0XojLRV+2BaxP5ygkPxQ2cQbrktJED2ptOZfq4lm/OrfMYfAVpRHMheaej
+	 efQrPfWN/1pEA==
+Date: Tue, 16 Apr 2024 19:23:02 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
@@ -43,12 +43,12 @@ Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
  linux-doc@vger.kernel.org, devicetree@vger.kernel.org, Dent Project
  <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime Chevallier
  <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v8 04/17] ethtool: Expand Ethernet Power
- Equipment with c33 (PoE) alongside PoDL
-Message-ID: <20240416192037.50aa0136@kernel.org>
-In-Reply-To: <20240414-feature_poe-v8-4-e4bf1e860da5@bootlin.com>
+Subject: Re: [PATCH net-next v8 06/17] net: ethtool: pse-pd: Expand pse
+ commands with the PSE PoE interface
+Message-ID: <20240416192302.72b37f09@kernel.org>
+In-Reply-To: <20240414-feature_poe-v8-6-e4bf1e860da5@bootlin.com>
 References: <20240414-feature_poe-v8-0-e4bf1e860da5@bootlin.com>
-	<20240414-feature_poe-v8-4-e4bf1e860da5@bootlin.com>
+	<20240414-feature_poe-v8-6-e4bf1e860da5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,19 +58,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 14 Apr 2024 16:21:53 +0200 Kory Maincent wrote:
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_DISABLED: "The enumeration \u201cdisabled\u201d
-> + *	indicates that the PSE State diagram is in the state DISABLED."
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_SEARCHING: "The enumeration \u201csearching\u201d
-> + *	indicates the PSE State diagram is in a state other than those
-> + *	listed."
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_DELIVERING: "The enumeration
-> + *	\u201cdeliveringPower\u201d indicates that the PSE State diagram is in the
-> + *	state POWER_ON."
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_TEST: "The enumeration \u201ctest\u201d indicates that
-> + *	the PSE State diagram is in the state TEST_MODE."
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_FAULT: "The enumeration \u201cfault\u201d indicates that
-> + *	the PSE State diagram is in the state TEST_ERROR."
-> + * @ETHTOOL_C33_PSE_PW_D_STATUS_OTHERFAULT: "The enumeration \u201cotherFault\u201d
+On Sun, 14 Apr 2024 16:21:55 +0200 Kory Maincent wrote:
+> +	    !(pse_has_podl(phydev->psec))) {
+> +		NL_SET_ERR_MSG_ATTR(info->extack,
+> +				    tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL],
+> +				    "setting PoDL PSE admin control not supported");
+> +		return -EOPNOTSUPP;
+> +	}
+> +	if (tb[ETHTOOL_A_C33_PSE_ADMIN_CONTROL] &&
+> +	    !(pse_has_c33(phydev->psec))) {
 
-funny characters here: \u201c and \u201d
+nit: unnecessary parenthesis around the function call
