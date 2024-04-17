@@ -1,137 +1,124 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24D641C7C;
-	Wed, 17 Apr 2024 20:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BAD4597B
+	for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 20:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713384190; cv=none; b=Jsn+b/kuZDMGT1oGoPfbhBl6fu4duMtk4GPmE3TbvTV2p5wjbZ4fndlGTFBzHcJuCQk815QyAOeNKzPq4togTFj+LsYQ1Zzlv3i+HTz3Wsa0l8EfnDBmH7asbtG8g+LNg8LmYTgyYasJRqolY14YdFoRpEHcjE42Oim77U4r2+c=
+	t=1713387403; cv=none; b=uQKMXp5c4hkJwMYy4iKbAg1j6J4I8aQxb6Wr9odMwL7kqL0lgk52YEgOM7w3rtL036fiAKR98MLFzk7iSl0Mlyp6r7sWOBKNMWSW6AGf8dXu9l+R9+N4QUTh2VHEsYjs6YfzolifGJmGYzzkQ21q4Oxvp0LckUhzBAM6w/YO5eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713384190; c=relaxed/simple;
-	bh=1gUuVn+QjUd7F5bm51RwKzR6j6BmbQzEDGn5JENwhyo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=euCeY19nJTf2cp1TmWC2DGO+7rSHMjtn9zp1sPk8eWO5FfYKhaa3saYXfh3M8l2pe3Ssejh+L5lfqPSFk733ic2Vp+CPpcO1Pc4lqV/XhyOSfP0IzFzCOhYE8l/89zT3UsQSQj+27XfkzmwELCHqzA7CczlQzjEyfL/54rlqT/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=P1f3RaYc; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1713387403; c=relaxed/simple;
+	bh=CT9my/HzssE0lehUkChpdYWFXTCeHXjsrz6seMzdin0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YBB8qK+6IxFDImYgSxPHKL18PWDPFTirQgkXb9gO5cHz8ZoyK/0eVDVaSDgYQzK4JkROTSD4ydL5kLOV5/EkpnLHTjOdM/xOF1DxF//gDIlcULTVzfySRmHFucTlEYxGQGlzf3IyNCn5e9qzMkildhl4mmNbyhZ16/sHMiYxyQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mNLozQIM; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="P1f3RaYc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=8xZy/0NtF+dV+KHcJxF6iRNziuvt+mIUzs1R/Wc34/k=; b=P1f3RaYcYjmQe13JJtjSwquN0U
-	U4p4slLzfeBTaq/2KgWu+sL0pIHjRSKxKTGGdt7yYjj9++wr68kfwE5+WrCm7qWqgCWmuh4l4Wlkg
-	ibi9u/l/QNtS9BMqlDHfkItTqOWIqTR1qvYMBvdN9gmTKo4y/K0l4rLpMpZR1lLUT/P/PWvKXiRVY
-	Abq5b+5glRFq0RcQYJTL1QKMSd0EQbu8PHwcFsLhpts2Y0xOfZcicDWeWvmpGdn5MxIyw++A4GZkk
-	/27UKEb1GyF9ARASBfGcnfYPftM4BH+jg5O62lcjreJ/aPYCoYFkwlC7WA0Xg/JY3Ph04Ovzwn3+Y
-	lFXytdEA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rxBUn-00HOiY-26;
-	Wed, 17 Apr 2024 15:03:07 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 02/27] ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
-Date: Wed, 17 Apr 2024 15:03:05 -0500
-Message-ID: <3479054.QJadu78ljV@camazotz>
-In-Reply-To: <20240417113703.GL30852@noisy.programming.kicks-ass.net>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <20240416010837.333694-3-zfigura@codeweavers.com>
- <20240417113703.GL30852@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mNLozQIM"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-36b3738f01cso8905ab.0
+        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 13:56:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713387400; x=1713992200; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lxKPyLxO6iDeNFnO987EiXxyZaGk4JOWQZWYPIVwBKQ=;
+        b=mNLozQIMLoNhitOcSMkiQtizbJpjlPMUqJEPgSUlne8X4jZXYa6xLmTcEJY36fFpZu
+         ynY5Mvs+l/NFIo0oLbjt7SATLHnS2TII9BtDWq0gRzhe7NTkVnTJwSTuvmE9izFKx5MN
+         hX5wAyXY/LBCPqYt1GWPS8NekqfCjwo+t5sS5EVLAXFXlrCFVLJrmnL/oiSTwuGkiBVt
+         6CvS6nekL+TcQEFN8NafyX8MeYWvSOdUUskYCo319bnVkLy6/YYJ72N2DgXeoxJyhmZk
+         cqsntd7CTZHQ6VXNNqCUtaGd/01LwRIOjtZDD+q1j72uXluz7tv5PzCs0VPD6BbhCPcn
+         gobw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713387400; x=1713992200;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lxKPyLxO6iDeNFnO987EiXxyZaGk4JOWQZWYPIVwBKQ=;
+        b=hzauSWirm+tavysWbUFhW/jTfuESHIEsqyJ0ruLtoT3FdYMXKmkugZm67yiOMT4diV
+         1ZIhciBLU+dgoTRyOU2KKO6Gu0YacbwHsLkM6bmETtFGma4VwWOEDFprbAk1WLNZQZ8s
+         83uBi82iE9zUIBgHLrJw6dJsoOH1ziL6/ySLRXAPV95BDtWufdRa2s1fqsS8HdDU54fe
+         nYYGXxdTpRnq2+WicxwOWKQ7o81KG45lcR85rJ+JINEhD+Jr8YXmSDaoUE420jRsxVAA
+         2uxzTu1v5fJGRxu1HjKCZMJ8jqkbsL2EZcuDmw1GvCuziTxITxHTzHIroOksJ9hzdRzO
+         0tLA==
+X-Forwarded-Encrypted: i=1; AJvYcCWh9tgtGAPtN1aMFaTJEUT8ZqptY9Vi0hR/hwJNCKkgNc6BkdahavyMoIGW/O4DSYa55gAMB/oKZCrM8dcu2RBRKTrDUJxDkjME
+X-Gm-Message-State: AOJu0YxiWLewiR4132pwDX5eK8b7mSBrziDUuCRVNoMuIIADjkL895BM
+	aRDKQrwuWpgFGpSw6E0Qx1ex1JjLkN1LejRdbGi0Av2K725bEDsuK5UwWXDvUGWJPidhHA62WoL
+	C1gtMLmZ22Qnd+fxPip9Lo0h45C6GTfL1sWc4
+X-Google-Smtp-Source: AGHT+IFYQhHTJx7En6LnumfpaPQCQNaZFz4u96vFF1dDOGT+OGz0D9SNbQOCMWXBD9ATyWu2sDS9n3JUb5lo4C3a7U4=
+X-Received: by 2002:a92:506:0:b0:36b:3b26:3627 with SMTP id
+ q6-20020a920506000000b0036b3b263627mr13791ile.13.1713387400028; Wed, 17 Apr
+ 2024 13:56:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1711674410.git.babu.moger@amd.com> <f7dac996d87b4144e4c786178a7fd3d218eaebe8.1711674410.git.babu.moger@amd.com>
+ <CALPaoCihU+mat2A-wNtTm=qbpya8ZqhDURsfZfjuHitch0WrLA@mail.gmail.com> <9d59d38b-af1a-46d8-81c4-b426d47d4ed6@amd.com>
+In-Reply-To: <9d59d38b-af1a-46d8-81c4-b426d47d4ed6@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 17 Apr 2024 13:56:28 -0700
+Message-ID: <CALPaoCgFEybS5MhsPx4EaJmsfBe8Es_6QwWBXpoctdaNf0NcMQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 17/17] x86/resctrl: Introduce interface to modify
+ assignment states of the groups
+To: babu.moger@amd.com
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wednesday, 17 April 2024 06:37:03 CDT Peter Zijlstra wrote:
-> On Mon, Apr 15, 2024 at 08:08:12PM -0500, Elizabeth Figura wrote:
-> > +	if (atomic_read(&sem->all_hint) > 0) {
-> > +		spin_lock(&dev->wait_all_lock);
-> > +		spin_lock_nest_lock(&sem->lock, &dev->wait_all_lock);
-> > =20
-> > +		prev_count =3D sem->u.sem.count;
-> > +		ret =3D post_sem_state(sem, args);
-> > +		if (!ret) {
-> > +			try_wake_all_obj(dev, sem);
-> > +			try_wake_any_sem(sem);
-> > +		}
-> > =20
-> > +		spin_unlock(&sem->lock);
-> > +		spin_unlock(&dev->wait_all_lock);
-> > +	} else {
-> > +		spin_lock(&sem->lock);
-> > +
-> > +		prev_count =3D sem->u.sem.count;
-> > +		ret =3D post_sem_state(sem, args);
-> > +		if (!ret)
-> > +			try_wake_any_sem(sem);
-> > +
-> > +		spin_unlock(&sem->lock);
-> > +	}
-> > =20
-> >  	if (!ret && put_user(prev_count, user_args))
-> >  		ret =3D -EFAULT;
->=20
-> vs.
->=20
-> > +	/* queue ourselves */
-> > +
-> > +	spin_lock(&dev->wait_all_lock);
-> > +
-> > +	for (i =3D 0; i < args.count; i++) {
-> > +		struct ntsync_q_entry *entry =3D &q->entries[i];
-> > +		struct ntsync_obj *obj =3D entry->obj;
-> > +
-> > +		atomic_inc(&obj->all_hint);
-> > +
-> > +		/*
-> > +		 * obj->all_waiters is protected by dev->wait_all_lock rather
-> > +		 * than obj->lock, so there is no need to acquire obj->lock
-> > +		 * here.
-> > +		 */
-> > +		list_add_tail(&entry->node, &obj->all_waiters);
-> > +	}
->=20
-> This looks racy, consider:
->=20
-> 	atomic_read(all_hints) /* 0 */
->=20
-> 				spin_lock(wait_all_lock)
-> 				atomic_inc(all_hint)	/* 1 */
-> 				list_add_tail()
->=20
-> 	spin_lock(sem->lock)
-> 	/* try_wake_all_obj() missing */
->=20
->=20
->=20
->=20
-> I've not yet thought about if this is harmful or not, but if not, it
-> definitely needs a comment.
->=20
-> Anyway, I need a break, maybe more this evening.
+Hi Babu,
 
-Ach. I wrote this with the idea that the race isn't meaningful, but
-looking at it again you're right=E2=80=94there is a harmful race here.
+On Wed, Apr 17, 2024 at 12:39=E2=80=AFPM Moger, Babu <babu.moger@amd.com> w=
+rote:
+> On 4/17/24 12:45, Peter Newman wrote:
+> > On Thu, Mar 28, 2024 at 6:10=E2=80=AFPM Babu Moger <babu.moger@amd.com>=
+ wrote:
+> >> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x=
+86/resctrl.rst
+> >> index 2d96565501ab..64ec70637c66 100644
+> >> --- a/Documentation/arch/x86/resctrl.rst
+> >> +++ b/Documentation/arch/x86/resctrl.rst
+> >> @@ -328,6 +328,77 @@ with the following files:
+> >>          None of events are assigned on this mon group. This is a chil=
+d
+> >>          monitor group of the non default control mon group.
+> >>
+> >> +       Assignment state can be updated by writing to this interface.
+> >> +
+> >> +       NOTE: Assignment on one domain applied on all the domains. Use=
+r can
+> >> +       pass one valid domain and assignment will be updated on all th=
+e
+> >> +       available domains.
+> >
+> > How would different assignments to different domains work? If the
+> > allocations are global, then the allocated monitor ID is available to
+> > all domains whether they use it or not.
+>
+> That is correct.
+> [A] Hardware counters(max 2 per group) are allocated at the group level.
+> So, those counters are available to all the domains on that group. I will
+> maintain a bitmap at the domain level. The bitmap will be set on the
+> domains where assignment is applied and IPIs are sent. IPIs will not be
+> sent to other domains.
 
-I think it should be fixable by moving the atomic_read inside the lock,
-though.
+Unless the monitor allocation is scoped at the domain level, I don't
+see much point in implementing the per-domain parsing today, as the
+only benefit is avoiding IPIs to domains whose counters you don't plan
+to read.
 
-
+-Peter
