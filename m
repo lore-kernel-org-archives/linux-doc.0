@@ -1,264 +1,119 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395FA56464;
-	Thu, 18 Apr 2024 11:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAED315E214;
+	Thu, 18 Apr 2024 11:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713438166; cv=none; b=asKbC3Yd3edw8O0vQgTqhmoH4vhY28AxUj2OYZkmInw9D6BajAKhQY/L4Ons0giCIB6oGpi/vQ2M5cLNVoo4PHc7wJLPlf0DrMDTFgqbG8BCQExSZb7639zKORkn/Tzgz6sxov7OxhLn4AoseLi/PX0IhZ+qpweQ9vu9GZ61xgg=
+	t=1713439167; cv=none; b=qV2g4TQmymLWSB472fMAhkt4cS1z3gxy0FljgfGG5yM3CRucghH+Rlicz+PdA4rQQrTUAEcNiktkMZrUywPMOYbmvcD6o5DVdQ+QbWMbpCBoHq3uCzbys+lICAE6L/1g8M4Qal0PwCXKG1jt7yBw7j0sM6TQhOcejUWX1zp9+fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713438166; c=relaxed/simple;
-	bh=FyCYOXuQuFnqLJOd0ixM+LSRi8DdC/fR8KXM8DwEEqA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=es6RQ7vU4FmCDOJ2ViAKKh25hdpzrvKu/lZk6Wria6LIhQ1YCh3D48FQ0MFdG4K2xD7YgFDp9P5hv3VAqeF99nlBcmW2MqDF2hou3YbBkB/RlOWrqKPWwNkFQmYHpcuJOrQchpuY2DVjaqoVOYJUhw+nwudmbE6hcXKe3B/w7rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=DifVgYHl; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1713439167; c=relaxed/simple;
+	bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=nMqwtA7QL+S2SFZKLd91MTZxaGWDTt930LyGcV3F5r7utDnHOAhEhie4yZf8h+Exewl9yUG1DETb4671DBdvmj8uIxpMZs6ldY/dQ7WUW0rk3nTA/ZOrhFSAk+9e9xGiocxx5QM1KzX7sFGiP/RVSeS1ck2Kgk8B7QbG6uW7/x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFuLhO+7; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="DifVgYHl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFuLhO+7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713438161; x=1744974161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FyCYOXuQuFnqLJOd0ixM+LSRi8DdC/fR8KXM8DwEEqA=;
-  b=DifVgYHlQfBx5zI6f9CeWUBcx4z3d7M+vK/34ptvXsx3lLJwGEzy2EWK
-   3/ZBD8q6oFk8u1k7Q9XrN/S5k0ncYWzhFFEI1w/LlUeHJHkanKrtDFPgL
-   Qbyu909DLn0CT50D/ukR6JpnrzXvLBY+xdNJV5WZNCggH6IK4IP0gH51H
-   Wo+jhwNzgfd2R6XO6EqIKGSZPDn5tM5VIVry1PkcxFv6N7f0LFPYkDbiy
-   X7H25nEFl4PUEkkstO9xJhR4n776mHLGqPs/ISbAEp11VS7S8q1XYHUk8
-   rHgxaH3ZeM2jA8INnntyofteV5cq6JbmLZBH07VvRkAta4FdPOvN3Lf9k
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713439164; x=1744975164;
+  h=message-id:date:mime-version:subject:to:references:from:
+   in-reply-to:content-transfer-encoding;
+  bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
+  b=eFuLhO+7MWOwf3Be2FHhxYsGNnAtf8CSaPsJs0mEjKknFjM3s2tlZfN8
+   M9t13Wmk1krWAwEcbd5Cf9/VBFvahywr/i6O3DgiKoctwtcnlxS6WwJ6N
+   Qq1YHyabY+g/dHUM7e+zESHW03uhhhFjbfDP74Daqwugv1JaujCp6qi7b
+   pTb3ReldG1dY4bWBnKlt+9cwYZLyuOzeFYgj68tcjaH+oZBr4btPcDlg1
+   20nhkz4cSQScZX/7k5FURmZ2l4CwvHil2qGyj2kn5SbxkZ7sbK11M7+XA
+   3mEyocxHSdzmq6CBKX/md9xrS0WHS7Tze6TU/osZyn/JimvSIFkacFeJa
    w==;
-X-CSE-ConnectionGUID: rvrVkihjRC23jbRPgAPjgA==
-X-CSE-MsgGUID: 1ioO6pXxSeexXatwL4Ch4w==
-X-IronPort-AV: E=Sophos;i="6.07,212,1708412400"; 
-   d="asc'?scan'208";a="252394332"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Apr 2024 04:02:40 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Apr 2024 04:02:29 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Thu, 18 Apr 2024 04:02:25 -0700
-Date: Thu, 18 Apr 2024 12:02:10 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Andy Chiu <andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>
-CC: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner
-	<heiko@sntech.de>, Guo Ren <guoren@kernel.org>, Conor Dooley
-	<conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Evan
- Green <evan@rivosinc.com>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
-	<cleger@rivosinc.com>, Shuah Khan <shuah@kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Palmer
- Dabbelt <palmer@rivosinc.com>, Vincent Chen <vincent.chen@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>, <devicetree@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Joel Granados
-	<j.granados@samsung.com>, Jerry Shih <jerry.shih@sifive.com>
-Subject: Re: [PATCH v4 7/9] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <20240418-brook-chili-4d3e61d1a55c@wendy>
-References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
- <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
+X-CSE-ConnectionGUID: PA78uK40SkWGt96jKujomw==
+X-CSE-MsgGUID: BxG7aSLKT7yrNw/L4QtuTA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9097483"
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="9097483"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:24 -0700
+X-CSE-ConnectionGUID: isirGcN4S1iK1h9wO2dd9g==
+X-CSE-MsgGUID: 7OZ/fhyhQZOwpp+2HQcdxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
+   d="scan'208";a="23008225"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:14 -0700
+Message-ID: <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
+Date: Thu, 18 Apr 2024 13:19:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Gv1MjADy0vzlN0Wa"
-Content-Disposition: inline
-In-Reply-To: <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
+ playback/capture_assertion
+Content-Language: en-US
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+ <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---Gv1MjADy0vzlN0Wa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
+> soc_get_playback_capture() is now handling DPCM and normal
+> comprehensively for playback/capture stream in same code.
+> This patch converts xxx_only flag to xxx_assertion.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   sound/soc/intel/boards/bdw-rt5677.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/intel/boards/bdw-rt5677.c b/sound/soc/intel/boards/bdw-rt5677.c
+> index 54e3c5d3c251..9170b1d509e2 100644
+> --- a/sound/soc/intel/boards/bdw-rt5677.c
+> +++ b/sound/soc/intel/boards/bdw-rt5677.c
+> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
+>   	{
+>   		.name = "Codec DSP",
+>   		.stream_name = "Wake on Voice",
+> -		.capture_only = 1,
+> +		.capture_assertion = 1,
+>   		.ops = &bdw_rt5677_dsp_ops,
+>   		SND_SOC_DAILINK_REG(dsp),
+>   	},
 
-+CC Eric, Jerry
-
-On Fri, Apr 12, 2024 at 02:49:03PM +0800, Andy Chiu wrote:
-> Make has_vector take one argument. This argument represents the minimum
-> Vector subextension that the following Vector actions assume.
->=20
-> Also, change riscv_v_first_use_handler(), and boot code that calls
-> riscv_v_setup_vsize() to accept the minimum Vector sub-extension,
-> ZVE32X.
->=20
-> Most kernel/user interfaces requires minimum of ZVE32X. Thus, programs
-> compiled and run with ZVE32X should be supported by the kernel on most
-> aspects. This includes context-switch, signal, ptrace, prctl, and
-> hwprobe.
->=20
-> One exception is that ELF_HWCAP returns 'V' only if full V is supported
-> on the platform. This means that the system without a full V must not
-> rely on ELF_HWCAP to tell whether it is allowable to execute Vector
-> without first invoking a prctl() check.
->=20
-> Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
-> Acked-by: Joel Granados <j.granados@samsung.com>
-
-I'm not sure that I like this patch to be honest. As far as I can tell,
-every user here of has_vector(ext) is ZVE32X, so why bother actually
-having an argument?
-
-Could we just document that has_vector() is just a tyre kick of "is
-there a vector unit and are we allowed to use it", and anything
-requiring more than the bare-minimum (so zve32x?)must explicitly check
-for that form of vector using riscv_has_extension_[un]likely()?
-
-Finally, the in-kernel crypto stuff or other things that use
-can_use_simd() to check for vector support - do they all function correctly
-with all of the vector flavours? I don't understand the vector
-extensions well enough to evaluate that - I know that they do check for
-the individual extensions like Zvkb during probe but don't have anything
-for the vector version (at least in the chacha20 and sha256 glue code).
-If they don't, then we need to make sure those drivers do not probe with
-the cut-down variants.
-
-Eric/Jerry (although read the previous paragraph too):
-I noticed that the sha256 glue code calls crypto_simd_usable(), and in
-turn may_use_simd() before kernel_vector_begin(). The chacha20 glue code
-does not call either, which seems to violate the edict in
-kernel_vector_begin()'s kerneldoc:
-"Must not be called unless may_use_simd() returns true."
-
-What am I missing there?
-
-Cheers,
-Conor.
-
-
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
-obe.c
-> index c8219b82fbfc..e7c3fcac62a1 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -69,7 +69,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
->  	if (riscv_isa_extension_available(NULL, c))
->  		pair->value |=3D RISCV_HWPROBE_IMA_C;
-> =20
-> -	if (has_vector())
-> +	if (has_vector(v))
->  		pair->value |=3D RISCV_HWPROBE_IMA_V;
-> =20
->  	/*
-> @@ -112,7 +112,11 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *p=
-air,
->  		EXT_KEY(ZACAS);
->  		EXT_KEY(ZICOND);
-> =20
-> -		if (has_vector()) {
-> +		/*
-> +		 *  Vector crypto and ZVE* extensions are supported only if
-> +		 *  kernel has minimum V support of ZVE32X.
-> +		 */
-> +		if (has_vector(ZVE32X)) {
->  			EXT_KEY(ZVE32X);
->  			EXT_KEY(ZVE32F);
->  			EXT_KEY(ZVE64X);
-
-I find this to be an indicate of the new has_vector() being a poor API,
-as it is confusing that a check
-> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 6727d1d3b8f2..e8a47fa72351 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -53,7 +53,7 @@ int riscv_v_setup_vsize(void)
-> =20
->  void __init riscv_v_setup_ctx_cache(void)
->  {
-> -	if (!has_vector())
-> +	if (!has_vector(ZVE32X))
->  		return;
-> =20
->  	riscv_v_user_cachep =3D kmem_cache_create_usercopy("riscv_vector_ctx",
-> @@ -173,8 +173,11 @@ bool riscv_v_first_use_handler(struct pt_regs *regs)
->  	u32 __user *epc =3D (u32 __user *)regs->epc;
->  	u32 insn =3D (u32)regs->badaddr;
-> =20
-> +	if (!has_vector(ZVE32X))
-> +		return false;
-> +
->  	/* Do not handle if V is not supported, or disabled */
-> -	if (!(ELF_HWCAP & COMPAT_HWCAP_ISA_V))
-> +	if (!riscv_v_vstate_ctrl_user_allowed())
->  		return false;
-> =20
->  	/* If V has been enabled then it is not the first-use trap */
-> @@ -213,7 +216,7 @@ void riscv_v_vstate_ctrl_init(struct task_struct *tsk)
->  	bool inherit;
->  	int cur, next;
-> =20
-> -	if (!has_vector())
-> +	if (!has_vector(ZVE32X))
->  		return;
-> =20
->  	next =3D riscv_v_ctrl_get_next(tsk);
-> @@ -235,7 +238,7 @@ void riscv_v_vstate_ctrl_init(struct task_struct *tsk)
-> =20
->  long riscv_v_vstate_ctrl_get_current(void)
->  {
-> -	if (!has_vector())
-> +	if (!has_vector(ZVE32X))
->  		return -EINVAL;
-> =20
->  	return current->thread.vstate_ctrl & PR_RISCV_V_VSTATE_CTRL_MASK;
-> @@ -246,7 +249,7 @@ long riscv_v_vstate_ctrl_set_current(unsigned long ar=
-g)
->  	bool inherit;
->  	int cur, next;
-> =20
-> -	if (!has_vector())
-> +	if (!has_vector(ZVE32X))
->  		return -EINVAL;
-> =20
->  	if (arg & ~PR_RISCV_V_VSTATE_CTRL_MASK)
-> @@ -296,7 +299,7 @@ static struct ctl_table riscv_v_default_vstate_table[=
-] =3D {
-> =20
->  static int __init riscv_v_sysctl_init(void)
->  {
-> -	if (has_vector())
-> +	if (has_vector(ZVE32X))
->  		if (!register_sysctl("abi", riscv_v_default_vstate_table))
->  			return -EINVAL;
->  	return 0;
-> diff --git a/arch/riscv/lib/uaccess.S b/arch/riscv/lib/uaccess.S
-> index bc22c078aba8..bbe143bb32a0 100644
-> --- a/arch/riscv/lib/uaccess.S
-> +++ b/arch/riscv/lib/uaccess.S
-> @@ -14,7 +14,7 @@
-> =20
->  SYM_FUNC_START(__asm_copy_to_user)
->  #ifdef CONFIG_RISCV_ISA_V
-> -	ALTERNATIVE("j fallback_scalar_usercopy", "nop", 0, RISCV_ISA_EXT_v, CO=
-NFIG_RISCV_ISA_V)
-> +	ALTERNATIVE("j fallback_scalar_usercopy", "nop", 0, RISCV_ISA_EXT_ZVE32=
-X, CONFIG_RISCV_ISA_V)
->  	REG_L	t0, riscv_v_usercopy_threshold
->  	bltu	a2, t0, fallback_scalar_usercopy
->  	tail enter_vector_usercopy
->=20
-> --=20
-> 2.44.0.rc2
->=20
-
---Gv1MjADy0vzlN0Wa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiD9sgAKCRB4tDGHoIJi
-0hS5AQCdwRiPTKaH/dGSkcjf1wQonDQjGD5X0skDUYsM0VZcdQEAz/immLGV5ulM
-Dxx67jswzCJGlWQgDMMvkyy3LXO4fgA=
-=Td09
------END PGP SIGNATURE-----
-
---Gv1MjADy0vzlN0Wa--
+Should this have been part of patch 8?
