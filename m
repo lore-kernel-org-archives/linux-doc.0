@@ -1,88 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45244125D6;
-	Thu, 18 Apr 2024 09:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40B015AAAD;
+	Thu, 18 Apr 2024 09:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713433543; cv=none; b=OeSzxktGXimtOGEjZZsNjT2szUZbS4ycUodI/Q4hlL1T8yDX94G7LHrFktzKI3qLst1LKUTeaMKo6A2AfNDEnxDHfLlbk7VtQoWEVMl0ofqd+SDYE199YPsilocfk228y/tESaDxhN4q8d8qldNnWMIuPXVweHc6a3Yg/iaiTPM=
+	t=1713434114; cv=none; b=jdbIG+gEqDwBV1Nl1TkLb6K8KIav2KKwh6IORb6poLhE9DdLyJbY5Iji2MgivFGCq/lRX34tiL+WkY8WGILT1u7qjG7Lt/bMSjXgInr67GyyPl8nkUyN39BzANI/jdLUdTytyYwxOCjoCqtjpL/2KDKCgBPqjKM1YovQIT9H/tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713433543; c=relaxed/simple;
-	bh=flsCAe3Wcgtkzg6kErNrgWEmiLRjAq0+Pae7CbLV5is=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aKRjuaZj9H+TbLuv5hWeIA0Lqc/2vco5odvRymBMLapxph8Pvit8IaYEaoAC6T1OJih/uRgPCjCQTsa6F3MMb4NG1uftPdoEvtVD+TMgkJ0ftCg8NrhuAkGOQvqiatrbTGibw97M4YUdCuVsA0HJZ1gci6gNpYtNcJYEsej4L8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCzH687B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713434114; c=relaxed/simple;
+	bh=duaR1AnrObmqETtxDghvr7defhHd1q2pgv4fpE/MLDo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VruC80sYECNONcb+ArLC/6ky0kIQuW9mqHH907ndPYf9CH3v/QdaSCmus/NzJYWmnyk9dBDxLsUtVmapfob9ROnGDCCU8mwdi7NwRXqIwpZT46mEPF/SWsucs082dnEQuAi/Y1AhyHV2Y3i1v1zp+bWOgNzDs0aZjrwbK5iJeVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=n6YUKBVw; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCzH687B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02867C113CC;
-	Thu, 18 Apr 2024 09:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713433542;
-	bh=flsCAe3Wcgtkzg6kErNrgWEmiLRjAq0+Pae7CbLV5is=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OCzH687BEIR2lOzj+dxsfZqUYFtlL0+ielMEWO9Nd8Fb9rYZvXGC06xUAAKE0xTC2
-	 ODsVKHYQpTsPo+4ErswN3F55s4JiL+Joxebuu3eAnzRr3qV0GSRYyTlLavz5OjgkFC
-	 6LL/l7TN1+Q8jKfePQg5nRlURZkuxbPb9eEwxHqvVGH25vJEM0Dtja8dxWjCNUmc1/
-	 C0Lpj5CRI6NRad/dy+GGuT/7l6ytsvLALQIuRPPMIEClIodtrQFv+F7ukJy7R+84PZ
-	 Zi5yGytX4EUlRGmrc1bwC1zGznPaBiZOOV/70+TAT645DE3/RRLWyvJol6fKW33/UQ
-	 x/nQeIDi73EXQ==
-Date: Thu, 18 Apr 2024 10:45:35 +0100
-From: Simon Horman <horms@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
-	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
-	richardcochran@gmail.com, shayagr@amazon.com,
-	paul.greenwalt@intel.com, jiri@resnulli.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mlxsw@nvidia.com, petrm@nvidia.com, idosch@nvidia.com
-Subject: Re: [PATCH net-next v3 07/10] ethtool: cmis_cdb: Add a layer for
- supporting CDB commands
-Message-ID: <20240418094535.GB3974194@kernel.org>
-References: <20240417085347.2836385-1-danieller@nvidia.com>
- <20240417085347.2836385-8-danieller@nvidia.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="n6YUKBVw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1713434112; x=1744970112;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=duaR1AnrObmqETtxDghvr7defhHd1q2pgv4fpE/MLDo=;
+  b=n6YUKBVwvB2ol+qn2y164nnedPopKC3VvGAAVR6OBjd6GAr19/BmMgF6
+   lFdadHIlPA4BP13v7XA1IMZPbvaMdfgrcfuYXEl1mKOZ2sVA7s5rNRAvn
+   rCLlpYkwUZKLX8C00NT1dNpH/cos6I6zD6r2Dz7R7WDQ2fKv+NwA1J3Z6
+   lBDh2a+UBuNPZbwGcomAKsr1XIVSvpgx6Z4B7ehxuoAEokg8aVTI05/Fk
+   6osCeQb3ne7x6vhQBxQfsbygRCVTST+rnZX68N8ZApuqkd+ySTf/HN1Oc
+   VS3NfjkL2RZPt/5j7CWX/mmEjLhicRMOtPrkDfX3XQiUqhj9DheiT5i0i
+   Q==;
+X-CSE-ConnectionGUID: ECU7hUHwT6yX4X4vObkvLg==
+X-CSE-MsgGUID: G7MHUU6ZS1qzj52fb6t0/g==
+X-IronPort-AV: E=Sophos;i="6.07,211,1708412400"; 
+   d="asc'?scan'208";a="188872991"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Apr 2024 02:55:11 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 18 Apr 2024 02:54:31 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Thu, 18 Apr 2024 02:54:27 -0700
+Date: Thu, 18 Apr 2024 10:54:12 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Andy Chiu <andy.chiu@sifive.com>
+CC: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner
+	<heiko@sntech.de>, Guo Ren <guoren@kernel.org>, Conor Dooley
+	<conor@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Evan
+ Green <evan@rivosinc.com>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
+	<cleger@rivosinc.com>, Shuah Khan <shuah@kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Palmer
+ Dabbelt <palmer@rivosinc.com>, Vincent Chen <vincent.chen@sifive.com>,
+	Greentime Hu <greentime.hu@sifive.com>, <devicetree@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v4 1/9] riscv: vector: add a comment when calling
+ riscv_setup_vsize()
+Message-ID: <20240418-harsh-childlike-94403aa132b3@wendy>
+References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
+ <20240412-zve-detection-v4-1-e0c45bb6b253@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="stxnFH69aESRe/Ix"
+Content-Disposition: inline
+In-Reply-To: <20240412-zve-detection-v4-1-e0c45bb6b253@sifive.com>
+
+--stxnFH69aESRe/Ix
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240417085347.2836385-8-danieller@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 17, 2024 at 11:53:44AM +0300, Danielle Ratson wrote:
+On Fri, Apr 12, 2024 at 02:48:57PM +0800, Andy Chiu wrote:
+> The function would fail when it detects the calling hart's vlen doesn't
+> match the first one's. The boot hart is the first hart calling this
+> function during riscv_fill_hwcap, so it is impossible to fail here. Add
+> a comment about this behavior.
+>=20
+> Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
+> ---
+> Changelog v2:
+>  - update the comment (Conor)
+> ---
+>  arch/riscv/kernel/cpufeature.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..d22b12072579 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -683,6 +683,10 @@ void __init riscv_fill_hwcap(void)
+>  	}
+> =20
+>  	if (elf_hwcap & COMPAT_HWCAP_ISA_V) {
+> +		/*
+> +		 * This callsite can't fail here. It cannot fail when called on
+> +		 * the boot hart.
 
-...
+I am loathe to comment on this again, so=20
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+but you could just write this as "This cannot fail when called on the
+boot hart."
 
-> +/**
-> + * struct ethtool_cmis_cdb_cmd_args - CDB commands execution arguments
-> + * @req: CDB command fields as described in the CMIS standard.
-> + * @max_duration: Maximum duration time for command completion in msec.
-> + * @read_write_len_ext: Allowable additional number of byte octets to the LPL
-> + *			in a READ or a WRITE commands.
-> + * @rpl_exp_len: Expected reply length in bytes.
-> + * @flags: Validation flags for CDB commands.
-> + */
+Cheers,
+Conor.
 
-Hi Danielle,
+> +		 */
+>  		riscv_v_setup_vsize();
+>  		/*
+>  		 * ISA string in device tree might have 'v' flag, but
+>=20
+> --=20
+> 2.44.0.rc2
+>=20
 
-I'm fine if this gets addressed as a follow-up,
-but the Kernel doc above should include documentation
-of msleep_pre_rpl and err_msg.
+--stxnFH69aESRe/Ix
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Flagged by: ./scripts/kernel-doc -Wall -none
+-----BEGIN PGP SIGNATURE-----
 
-> +struct ethtool_cmis_cdb_cmd_args {
-> +	struct ethtool_cmis_cdb_request req;
-> +	u16				max_duration;
-> +	u8				read_write_len_ext;
-> +	u8				msleep_pre_rpl;
-> +	u8                              rpl_exp_len;
-> +	u8				flags;
-> +	char				*err_msg;
-> +};
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiDtuAAKCRB4tDGHoIJi
+0vBwAP98Il+vXK4C3r4MkJnr98Iu2kDKN2juNFv17/2CzU01XAD8DKAV9cWacroD
+OxgMcDQ3nbE0Mhf3iWlSh55SQQYoqQ4=
+=At92
+-----END PGP SIGNATURE-----
 
-...
+--stxnFH69aESRe/Ix--
