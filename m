@@ -1,68 +1,39 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317D915D5AE;
-	Thu, 18 Apr 2024 16:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A9C16F90F;
+	Thu, 18 Apr 2024 16:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713456048; cv=none; b=mjISVEvVtxIxqEUS0ML5y5at1Zk+4K6cWdjmO1SRezjcWBx0q/jEJvw13z0QDLDq0/T+Zz1DtY1cx6Kiyelyv6e5czJF2do9VtzNPRt5eA5kQTvblut/yfhvJYXz+ixu4ZDGRkfQIoZy0Bcap4qriFFutBfFPe5PdlxAIenwDtU=
+	t=1713456873; cv=none; b=gimBBCIEOHHaCK1GP+Bjdp9c4UIhCqNcPML4qRQESzdRd+U9Y15RQhpGqik1iTSldVqa0gE177OCEIhIfeq1XcD8/AvIfs/JAVH9vsb7q4s+zZZ9+OqYKoylSOtoFueeXZskMP4sM+YvFsjanfiU5rGt0CQDag1wdD2ngEeNnN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713456048; c=relaxed/simple;
-	bh=2tvjJQzckk7me2qDQz2+/czKkqYeyc4qjDGM18IMo/g=;
+	s=arc-20240116; t=1713456873; c=relaxed/simple;
+	bh=+l71YujbwnGzn01gUZb635Sx3Bh6QLbxqYBJkSt6IYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NIWgliBNdfKnradyvHu2pbYTzE3nLhVhN+jLK3gpBI/XgnQIHcJhf8yjE7epAnB5w8/HkwhYqZZ2hWweit7qz2q/OUYsxPjg4GmCSNKMrEFQJrWVgTkz61mgDwTehoNE+JC1q9Dsottb3crxwsTwixDwlWkkHYRIlwHra/cDDfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBidoEn9; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=esHmhUMMaM3yrxg/EUVPgM6UC1qQfOBh97QuRzDBHqbxwu5CRl1BzbDui/uuQ/fWBUgX5W9vRVi31FYusIbn8QGlQHC4FDE077mq3VXLdQwCKmzsULbikgU53DqpBn0589wnhN0d6dKsku0IkGdGqi3LF9oBLXHNJNfQcgrE0V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bj5tuHOY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBidoEn9"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e4266673bbso9560005ad.2;
-        Thu, 18 Apr 2024 09:00:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713456045; x=1714060845; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PQ8NnE95Wng2cbF08yApBUNklEsbuY7jF+Twef4QuI0=;
-        b=VBidoEn9MxhUEdWJNlWJzYEkSoPovRp9yRuHYCa3e3WTRNg1plIC/etfwIDPKdF2wJ
-         Oer4y+g5rPofSpcWRSqk6JS2I7IGCIi54c4bKAt3l5EiP3t+900ZcE/J/nHmW/xbTs8P
-         zvzFy5Cca9kn+OwN3T937+RXdAm8rPHy1ozsYFi4GrjYr5KoAxhViBYVUIkeiWF8pIJk
-         rLTaKWXAvmpLqiwtG0OrpZsrP91MhkYqlxjipNEUGlQA9oIlhqAZvmDK3mVrQXLETSIR
-         7TWzrm56hVOf6OrbiOkQLSHqn9LwrB77OgAyYl8Uo07JeD9mxnhRFhgM2NTxSI5o1KST
-         2DHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713456045; x=1714060845;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PQ8NnE95Wng2cbF08yApBUNklEsbuY7jF+Twef4QuI0=;
-        b=ObouYg0jC61OecC88ihVMEOKoV7UsRA/b2iUqmDaOf7zzC37bBNr0jkSLbxiHmPpcw
-         xEsUGHPf4+0/Ud3KZbreTuiKk+d8rRQVYSFqtg+28l5VcEShDAX+tmepCeukWwj23HCW
-         KDNQ6ef0WkWzdBTJ8roFfvHwAmmrTSCx2Ss2ycsILJyV4V7uDTBgetckvEcIUwKCt4Lh
-         gZqoYLzq21CoiJUjM/w3keAp39/oxA7wuJDfVrTIYT+4CUNyQ4PPn84stK7cV8rJgZU1
-         +lA4JAD3pXhbtcjGOtvzAihSnPGECDvTKfdSumoGTk29UmOck+Y3R7ah+uLMikOpxhVu
-         jygA==
-X-Forwarded-Encrypted: i=1; AJvYcCVk8pM583nGABDmI6OMx0U5b6rHS/yA8U/OlH9p8Im6VjCK34opuV7p2R/QWDCaitCG2QOSY3fSDIHZHpM9tlaC9hx4yWE97qkZhOAxxpTSG/iAUx53GlWMUMrCBcEWODmd7xS6TlMg8EOFe+nG/izJ5+aM09wwPxOSvB4DY+OZMg==
-X-Gm-Message-State: AOJu0YzigPnjsU8Btwgm7NARFaPjvr6hCIRtapNqkTumJaeYLkeeoFUx
-	I/DV/F1PDH5yfHmSc9rS5FPtcPyemULtIs9xkH2hPSx3Ox3vfGUw
-X-Google-Smtp-Source: AGHT+IE4e7zmJlTVm+rOJDjXS8ojKP/o+9OmVobTcNe+p/oMU7S06QGA/ADKTuXfUm0fMYIAFgeE+Q==
-X-Received: by 2002:a17:902:e742:b0:1e5:4f00:3754 with SMTP id p2-20020a170902e74200b001e54f003754mr4096356plf.8.1713456045245;
-        Thu, 18 Apr 2024 09:00:45 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:6f51])
-        by smtp.gmail.com with ESMTPSA id m5-20020a170902768500b001e4478e9b21sm1673804pll.244.2024.04.18.09.00.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 09:00:45 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Thu, 18 Apr 2024 06:00:43 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc: lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH -next] docs, cgroup: add entries for pids to cgroup-v2.rst
-Message-ID: <ZiFDq5NuAKLYslmn@slm.duckdns.org>
-References: <20240418123012.916411-1-xiujianfeng@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bj5tuHOY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41F7C113CC;
+	Thu, 18 Apr 2024 16:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713456872;
+	bh=+l71YujbwnGzn01gUZb635Sx3Bh6QLbxqYBJkSt6IYM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bj5tuHOYbzHnNkBi3b5apDmR8m+Zrd29XRqZpstixbbqhO/LQriaqLSst0JIt+N2m
+	 oXXIBYhFrGcbd3JDlBgCotfNw44b0ciHHRUSrlZ76F2lJIG7z946hfqpm4982OCm5P
+	 OQ2daCuX22Vot50jNGXFFr2u3hQCPPvgI5oXrUuWZr/KoeZe0jcJ1Ram/p564H6DU4
+	 F4bXQhuwPi6V+fhi4CM5w7gLrWeAb6IDD6d/RkANhmH7MawtaFXLfSIWv46gK/1W7L
+	 35F8yLI205vhJ/ycNw24ZYLKv9DINc7iIrd5FRv/l1D7dgd5uaEPTX5JhtGyzhabs6
+	 dYqdQSiZX5q+Q==
+Date: Thu, 18 Apr 2024 09:14:30 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Alex Elder <elder@linaro.org>
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+Message-ID: <20240418161430.GB2410@sol.localdomain>
+References: <20240414170850.148122-1-elder@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,19 +42,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240418123012.916411-1-xiujianfeng@huawei.com>
+In-Reply-To: <20240414170850.148122-1-elder@linaro.org>
 
-(cc'ing Michal for potential conflict in the pids controller documentation)
+On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 9c7cf73473943..bce43b01721cb 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
+>  to trigger easily, for example, by user space actions. pr_warn_once() is a
+>  possible alternative, if you need to notify the user of a problem.
+>  
+> -Do not worry about panic_on_warn users
+> -**************************************
+> +The panic_on_warn kernel option
+> +********************************
+>  
+> -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
+> -available kernel option, and that many users set this option. This is why
+> -there is a "Do not WARN lightly" writeup, above. However, the existence of
+> -panic_on_warn users is not a valid reason to avoid the judicious use
+> -WARN*(). That is because, whoever enables panic_on_warn has explicitly
+> -asked the kernel to crash if a WARN*() fires, and such users must be
+> -prepared to deal with the consequences of a system that is somewhat more
+> -likely to crash.
+> +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
+> +a WARN*() call whose condition holds leads to a kernel panic.  Many users
+> +(including Android and many cloud providers) set this option, and this is
+> +why there is a "Do not WARN lightly" writeup, above.
+> +
+> +The existence of this option is not a valid reason to avoid the judicious
+> +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
+> +issue warnings but do **not** cause the kernel to crash. Use these if you
+> +want to prevent such panics.
+>  
 
-On Thu, Apr 18, 2024 at 12:30:12PM +0000, Xiu Jianfeng wrote:
-> This patch add two entries (pids.peak and pids.events) for pids
-> controller, and also update pids.current because it's on non-root.
-> 
-> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+Nacked-by: Eric Biggers <ebiggers@google.com>
 
-Applied to cgroup/for-6.10.
+WARN*() are for recoverable assertions, i.e. situations where the condition
+being true can only happen due to a kernel bug but where they can be recovered
+from (unlike BUG*() which are for unrecoverable situations).  The people who use
+panic_on_warn *want* the kernel to crash when such a situation happens so that
+the underlying issue can be discovered and fixed.  That's the whole point.
 
-Thanks.
+Also, it's not true that "Android" sets this option.  It might be the case that
+some individual Android OEMs have decided to use it for some reason (they do
+have the ability to customize their kernel command line, after all).  It's
+certainly not used by default or even recommended.
 
--- 
-tejun
+- Eric
