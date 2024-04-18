@@ -1,114 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C6F16D314;
-	Thu, 18 Apr 2024 20:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713470408; cv=none; b=nqg9TR9hkFsjJ1+BZnpOjQBZEzBH6iZduhEFQiUSGi5D3vUw6rnvhAAh2UdD988pVp+/fTfS1K8/F2yRNE7U1lLMUUhULg8mxgqtlwj6JMjrhyu7aXPs3C0RbACJkgi8DrIFxFwtxNwhlJBBIg4oZD2wuOvdae3Z/7TVU9tq2pQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713470408; c=relaxed/simple;
-	bh=HWefGnwQI2HwNz4Knpy1Fh114LZYu0wgCLBTdlxtmUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G+tkgY+fvZtBuM+ENr0k0NIhjhFuMoia0wjM7de6oC5nPQLeab0L4kERid5AuOYxFghLc6FvsR7UuXlhG2JRnGtkBgVOAsgJuwGf3qWUdX0gx9wEJEgXFiV1H1m+81kO1UvcjGXRqMkGyy31QYL6ayZ+jySJyU7DNDAEbum0xuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eY4rQTR0; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8A317D2;
+	Thu, 18 Apr 2024 22:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713479633; cv=fail; b=BZmOH5Umc5GjVEIk6+714aTV8L2/CZ8n427l1TitjXYATbrKy9uzt3ivvppGKCW8+ACERBpeemg9+Mhbaf2ip2wd2weg8JtQ8bDj9Ven0SKQ8er3wSsLh2sbiJiwcgHKK/GQA/M4+kZM/iqR9YexB8zP7KNgu2+PohpLed3J4+w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713479633; c=relaxed/simple;
+	bh=YZ4smW1ZSi26v/jXc3HHiWjd9wmZ9X3Kh6R/uYpcdpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=BIQdZN6eDnT1RxirPmcDIIMgB85XgQC7DZ03ERKTRvDoifoTMJJhhtdap0+BnOmxUoDqwU7J8tCAuUhJQ4BMRdvhepBULJUXVs+MUQvGGlKgha09DdFSPvfhU/jNdeefOUgZFzJokAy3pAv/pHqYZLN1wLXF+zg0xNkZYd2da7Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Dqr0v/gR; arc=fail smtp.client-ip=40.107.220.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eY4rQTR0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6AAFC113CC;
-	Thu, 18 Apr 2024 20:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713470408;
-	bh=HWefGnwQI2HwNz4Knpy1Fh114LZYu0wgCLBTdlxtmUM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eY4rQTR0vB3nF31du2IEDKNwwn+Arhad3fDAJYF8yZ1FJh3Dhu/OomZi51qGz0+xm
-	 yra/nkWPz4cFawkghV0gdBKi6ECmIsqrPWj3/SQU3/50UuGZrAWlq2RS2efp5kTKhn
-	 sEsyCi98quhg615KvU+4ANrTH8KbscCy6oiuVNXuib7kuD0Id9WX3lNppWvtA90Im5
-	 0AKhCGhrvZTB2b9mhHgqt6RU8CbmlUzz8j1iWRciRpAczvqRefIU8Dz3FAeIcL/OOI
-	 zD8tMN5uEBWYh68fDMPlqOQL0e7l0KYx5v22crgl35DzYqXvHmF+v+qdFjxzsYhJvr
-	 6SFqrgLNKRXPw==
-Date: Thu, 18 Apr 2024 21:00:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner <heiko@sntech.de>,
-	Guo Ren <guoren@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Vincent Chen <vincent.chen@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Joel Granados <j.granados@samsung.com>,
-	Jerry Shih <jerry.shih@sifive.com>
-Subject: Re: [PATCH v4 7/9] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <20240418-dolphin-epileptic-749c9628e5a9@spud>
-References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
- <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
- <20240418-brook-chili-4d3e61d1a55c@wendy>
- <20240418155256.GA2410@sol.localdomain>
- <20240418-ultimatum-yam-11de4b063b83@spud>
- <20240418173203.GA1081@sol.localdomain>
- <20240418173946.GB1081@sol.localdomain>
- <20240418-sterling-sanding-d59c3b0a2aaa@spud>
- <20240418184129.GA1071@sol.localdomain>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dqr0v/gR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DE8hmUinfAd2wA/VV55Ug4oGTlLq0A9RwkQF3cnQGX9dajU3vhQ9Ys6Ts6028uQ8ax+coYxPaGzFMLIvWLuJlmQDKeoEYGCrTyO2xzQ5h8xjPiC3MHDi3y2BxQY873EKpasGM80P9nD7YfSur+DCg5Fg0C5vQA7s5Rrta0Y3opWT78cH8nxev76GCf0R4MwFOqJssD5yD/Xi6OCF0AJv+FEmnnK0plVJ7F//ctrLqs8unf3zl0+lIJrPVOCqtqx815bqG42jJTYX1rljseH4gftRRgqQOHnl9assQwVUBn5BZeQpnqvrNNb7dI10tchqwXOIVlzRH13Cy89SUlaXbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ml2DOiG9QdROq95LnfHa0LdOaopTDiTB119ItD6r5Uc=;
+ b=N04VkHvHXGItryvmI3e15YNQ88UCyC5yrq6iFLH1rzjgB9yjGKCQktaHEuxLoy66xJRrMoy+E9943D58rtjIXM893h5yqf3IR+k4gd+Lt2XsHqXWMki/m1dOcEYuOk9mZJnLx2WIzD3wbrOZO1dPohCOjaiA5j+ZKjqMg/x7/nhQZaMY/78DrStrkxJ1QXWf3kRR0G+5O11OY5HkohRhaDaIODxaQw7GbmPAVCxVAQ1VbOv7P80DRNLhxOXLaMb5UnY3iZiNfG0kk3pjfxWF4wn+y2t9X8CGQpDz6BHOIkgwDIFyDrSYVzgsJ3g7ET0txfdzrmSPcl5Llrpp5AKakw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ml2DOiG9QdROq95LnfHa0LdOaopTDiTB119ItD6r5Uc=;
+ b=Dqr0v/gR1UhtSwcTRAhX8TP1V0LevfgeUEki8hoBAqZbwBr5vvpO0bANj6BqNT/GWthtnQ7nqzMLFg7i/39tepJxHpxocWsMqktFVk33IDXe5mcmccN9mxSHxTn5gdbsmEc5/kgfvTU7ldgpf5CsdjfEJ3gfCmA3I87Up67TvCi+C2NtZ4CYwVNi4oQtgxbuvdEBSlL1fdpqUrcgRqiChoLlYfsv3b58afhEd1L4c1rbOz1+EqkhURguTakXKd2pjwPdbx3Kr7RhmpbklDSX5uXSBCdY0ZS83iyQCF729ZTP9dJntaw35zNa28z0gCUHyGtgYYxtEDzdr+Iryo+XOw==
+Received: from CYXPR03CA0082.namprd03.prod.outlook.com (2603:10b6:930:d3::10)
+ by SA1PR12MB8888.namprd12.prod.outlook.com (2603:10b6:806:38a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Thu, 18 Apr
+ 2024 22:33:46 +0000
+Received: from CY4PEPF0000FCC3.namprd03.prod.outlook.com
+ (2603:10b6:930:d3:cafe::b0) by CYXPR03CA0082.outlook.office365.com
+ (2603:10b6:930:d3::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7495.28 via Frontend
+ Transport; Thu, 18 Apr 2024 22:33:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CY4PEPF0000FCC3.mail.protection.outlook.com (10.167.242.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7452.22 via Frontend Transport; Thu, 18 Apr 2024 22:33:46 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Apr
+ 2024 15:33:21 -0700
+Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 18 Apr
+ 2024 15:33:21 -0700
+Message-ID: <4149777d-d8ab-43aa-8de2-f240fee2ba2b@nvidia.com>
+Date: Thu, 18 Apr 2024 15:33:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="MEYWdzN/KoxvaYBs"
-Content-Disposition: inline
-In-Reply-To: <20240418184129.GA1071@sol.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+To: Eric Biggers <ebiggers@kernel.org>, Alex Elder <elder@linaro.org>
+CC: <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
+	<workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20240414170850.148122-1-elder@linaro.org>
+ <20240418161430.GB2410@sol.localdomain>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20240418161430.GB2410@sol.localdomain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC3:EE_|SA1PR12MB8888:EE_
+X-MS-Office365-Filtering-Correlation-Id: b325d0fe-5246-45a3-4e41-08dc5ff79c29
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	H+HI3/dH9cnKM5HjEL9WdBoXePNLLRPmCVa5fSzVCDtElnrg1wYuoWUGowTw9v2vsc76/NbidEeRDtE7UnVyURP+jPJby45e7LSgm4LLWjFFuFt9coKSk+UdcGpvOegIlk+sZO/weox087ZvcCssVfc4VHpZqusNTwu/45FabtVt29n7uasdCO5RbFDSHWMPnvWwwdHU4Wdr9pUeU4jJjq/qXovA/f0qWrep3hS+tnZX6wXOByUaZNNajaBbuUL4UcSPaVQaZLSfdOtCmS21bCbokbjvLqJCB8IMZE6l5o8EBuvbj1MMr2+jjzxqPsdHuyWKu+/8M9v22S9pdXFyBqvy/RPgL36qmlYV/BmMMkkYawSaIlQ4JPu4kPc7vd3QDjZRxJeLXkV5zFmEVMxtn88AUzKZs7FwvhY/HNjKgPa0FbaUhP4TU78Ng4itMfFIMmJh09rPdH4zmYKodo2/LZKP5EkPW54m3Qhll5ZuZcelVRXCBSxAhDC+OtpMGnisoAcJMEragoPlVfs+yKzsOOrzrrSP+yF8Ptg0hhVph5GdapQe2OBd02DB2xVUxJD8CP5rZQg/Ju1EfxKsYlS7mCQxqSJJQRC3/O2OcwcwsLtj0SjqeTmEQ9RDSM92nvIM5AqcRSIEV8+f/SnFUUqviSujI/mIigfeEiqdR36kqRjMBkk/U6Dwwa/ot69zw0oXd1mZYVuKe20IOppzS5TwWjCj/rVWL3tYnRPquSjz/9848lltodLdnFjMnaNkVSNj
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(376005)(82310400014)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 22:33:46.0187
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b325d0fe-5246-45a3-4e41-08dc5ff79c29
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000FCC3.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8888
+
+On 4/18/24 9:14 AM, Eric Biggers wrote:
+> On Sun, Apr 14, 2024 at 12:08:50PM -0500, Alex Elder wrote:
+>> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+>> index 9c7cf73473943..bce43b01721cb 100644
+>> --- a/Documentation/process/coding-style.rst
+>> +++ b/Documentation/process/coding-style.rst
+>> @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
+>>   to trigger easily, for example, by user space actions. pr_warn_once() is a
+>>   possible alternative, if you need to notify the user of a problem.
+>>   
+>> -Do not worry about panic_on_warn users
+
+This is still[1] good advice. panic_on_warn users have made a
+trade-off that works for them, but that should not mean that
+all of the valid cases for WARN*() suddenly disappear. In fact,
+without the WARN*() calls, panic_on_warn is a no-op, as someone
+else has already pointed out.
 
 
---MEYWdzN/KoxvaYBs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> -**************************************
+>> +The panic_on_warn kernel option
+>> +********************************
+>>   
+>> -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
+>> -available kernel option, and that many users set this option. This is why
+>> -there is a "Do not WARN lightly" writeup, above. However, the existence of
+>> -panic_on_warn users is not a valid reason to avoid the judicious use
+>> -WARN*(). That is because, whoever enables panic_on_warn has explicitly
+>> -asked the kernel to crash if a WARN*() fires, and such users must be
+>> -prepared to deal with the consequences of a system that is somewhat more
+>> -likely to crash.
+>> +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
+>> +a WARN*() call whose condition holds leads to a kernel panic.  Many users
+>> +(including Android and many cloud providers) set this option, and this is
+>> +why there is a "Do not WARN lightly" writeup, above.
+>> +
+>> +The existence of this option is not a valid reason to avoid the judicious
+>> +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
+>> +issue warnings but do **not** cause the kernel to crash. Use these if you
+>> +want to prevent such panics.
+>>   
+> 
+> Nacked-by: Eric Biggers <ebiggers@google.com>
 
-On Thu, Apr 18, 2024 at 11:41:29AM -0700, Eric Biggers wrote:
+Yes. I agree with this NAK.
 
-> If the RISC-V kernel ever disables V, then it should also disable everyth=
-ing
-> that depends on V.
->=20
-> This would be similar to how on x86, if the kernel decides to disable AVX=
- to
-> mitigate the Gather Data Sampling vulnerability, it also disables AVX2, A=
-VX512,
-> VAES, VPCLMULQDQ, etc.  See cpuid_deps[] in arch/x86/kernel/cpu/cpuid-dep=
-s.c.
->=20
-> Sometimes CPU features depend on other ones.  That's just the way things =
-work.
+> 
+> WARN*() are for recoverable assertions, i.e. situations where the condition
+> being true can only happen due to a kernel bug but where they can be recovered
+> from (unlike BUG*() which are for unrecoverable situations).  The people who use
+> panic_on_warn *want* the kernel to crash when such a situation happens so that
+> the underlying issue can be discovered and fixed.  That's the whole point.
+> 
+> Also, it's not true that "Android" sets this option.  It might be the case that
+> some individual Android OEMs have decided to use it for some reason (they do
+> have the ability to customize their kernel command line, after all).  It's
+> certainly not used by default or even recommended.
+> 
+> - Eric
+> 
 
-=F0=9F=A4=A8
+[1] https://lore.kernel.org/lkml/0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com/T/#md6836102150ac1e6265569aad55a692e3af75f34
 
-> Whenever possible that should be handled centrally, not pushed down to ev=
-ery
-> user both in-kernel and userspace.
+thanks,
+-- 
+John Hubbard
+NVIDIA
 
-FWIW, anything detected but rejected while probing the DT or ACPI tables
-will cause riscv_isa_extension_available() (or other APIs) to return false.
-
-
---MEYWdzN/KoxvaYBs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiF7wQAKCRB4tDGHoIJi
-0lrQAP0ZnhY2j8dAgcGtM2slb23/HOfAFrbbsZhuBfSx0uoWSAEAubVPWlDs59pJ
-eFvw6AB3RzfrfggfMB1wA9nLHCZYzQs=
-=Ogch
------END PGP SIGNATURE-----
-
---MEYWdzN/KoxvaYBs--
