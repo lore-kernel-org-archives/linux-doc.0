@@ -1,120 +1,122 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A434E4EB23
-	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 06:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD35C10A0E;
+	Thu, 18 Apr 2024 07:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713422777; cv=none; b=uH3R0r9YoT7kCCv7lxpD2QTtxUtYVmcVaxbKADSvsSaHrBupP2qZtLVkvW2iYolBBoi0JU+/u5eVQ+t5DVAcnkLjPK2d5ajlfkKjFu4CsBRjFXvvp+UUzal1KVJIvlTr1xV8Jexro2XalEhYElT0j8VHc6Hnxl2hoIzFpEkEmLo=
+	t=1713424891; cv=none; b=nAh/0Wat+mGXrUzg+Pvf6mWedrIytXbVdrS8p3V05n2r3mOt5Nea0/JhddmFiyv/6FRgG+RlUS3HJZIR6DwEGMqtw2WOo5vf72WfSakNfgPpFh2JTDIeH0IPrk/lufpDrvl1482GMHf0kkWfSlfFVJrEphsvmqO6PtJl9fwHT2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713422777; c=relaxed/simple;
-	bh=2iicvfBJ14haF0z4MlgN0sCfropwn459k86+iV+26Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akjFcVn5LvuCw+2rKqOtAcjlPSeweoazwa80iUR7IPs9bS7s2Gh+0qq3bTXRRUSNHkr6QZAXvbGLwC5M65/96IBTKx9SZtZfkiqWAtv5yCnvZz8DM+/W4/MdwCiLrWNRpFP9Cp95eQTUjCCkg/6oJ3aw30Nm9yTTxTyTysaSrNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gTD5MRAQ; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713424891; c=relaxed/simple;
+	bh=jPuh7FIgMr6qCmpmTA3bWFbfg8Zn9tHOOZ4RAcWeeQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lX+8jyh1KhcixwETZNoAlxon+/6Lr2AZfTjsVhwgXf0n1DPXB6zzi+EtqdEtTH2Q5hmycaEU6+vhyMwOZMGNONrCw2gAoP/9R0xe/MIqpyylAsPcXmxYHtXO9HNr61XJ6EySHCjH82063UOpgOjpCW1hwvJ0MSQUHcrxxAViIhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5Ww6DWX; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gTD5MRAQ"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6ed627829e6so655587b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 17 Apr 2024 23:46:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5Ww6DWX"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e36b7e7dd2so4790425ad.1;
+        Thu, 18 Apr 2024 00:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713422774; x=1714027574; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=X3PCJ8oWEN4XTlqP9Mrd76yonyPYEOnddtJpcolQuiQ=;
-        b=gTD5MRAQtL27f38e/H0wvtqO7Gu590JtiQ96Yuc7nBmWf9Xl9l7f/topjiDQwaOFhW
-         GIDrD5shZkpfERwyASspOHcgrTrFTijhA26qKatTvyeEvHu7dr5xAUzFPN5Lu7yvvC7K
-         y/dB8NBN2SCRGmZgSfQGTFbjqR/4+OnH4z7+VMHacoAGXkMjbDzzb7OgJxYsfQsY/bNC
-         xPugv8LdMc/0IG6qGLOKWqjuKaRAwNJmV6s0bUobgWz2nJ/muCycMEEJ0bgZE78vMmPa
-         Av9QjqJuF+YHe0q93eB/4wOK3RjiZbhITZR/gtswTWrdppmjOSeIU1KseJMUKNzRMoZZ
-         QQ0w==
+        d=gmail.com; s=20230601; t=1713424889; x=1714029689; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TjH1GQTJUnKMbzxTuPWXa0AQF7LCmO+P2aRPeAVNROA=;
+        b=A5Ww6DWXxJaHcvMnICp0zWmHqHJUA4Ht1xaO5ztUr9YokVzE3N/DACbb8s3tbwBILC
+         kaUiUizPMa8Rki9rvZlRaYZriHT+CUPmM3ngvRqhoAAKSm9XNOyfA9pmDwe+QiKrDAjy
+         2Adh1WFP5kl08y0WbOEO3h1iUqGpuzCW4Mx9NmJ7yg67QQGkkEdk2dOKbEfNxdbhD1Ca
+         bbYJBv0SjIH4qG76xbp80uvX5O5QK0KqyJ17hPH/wiBZ+nXiqjDtj7p5jvowjnYxdgcD
+         ZUDRhbIYL/kJEuc8ifg7UmkG08RpfT6+JLH92XK2kk4JesqFUNotYq7Ojdnt/Z9uLsei
+         Ct7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713422774; x=1714027574;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X3PCJ8oWEN4XTlqP9Mrd76yonyPYEOnddtJpcolQuiQ=;
-        b=P2KMtekfPOwQvztTroxBBoAMGMo1lLjiWeGgsfoWSksJ0csKo5sXu74uwSQKWCx7jY
-         uZ5AlnTHoxlnPhcVgezuXwHUZHtewJpz/LuF8kZwzf++y6ig+3hVtNOI4fVJhrR+qFjb
-         lE0zx8Ky/pLazZC3H5MsQYmolpBF2c/FmM6nKHttN5pU5Sds98quMTdwpvyXFGtL3um2
-         fYoLgkvG6jRtPmbEOpEtKwZpYnJ1UO0tfFYdsojmowsmcgZXJCH9UuhYeMTWZQ8Xjv7O
-         F7UdlGfvHlw9BhnvIuKriz99F5O9pwkQ0z9w117J2pjEfNMnnb7QfskTAd5ERjW+zPIe
-         rY+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU0+p5aMbyaSV6adJetLnDQzbDdvHLJA8F4LF9kPuOHmSDQzpUG29MQesV7oRxoH0x+v96RWBMyyWy3rgMOq8uXSgZmxxJaFfpX
-X-Gm-Message-State: AOJu0YxaGUh8oh9mPIDJTz7og0YLVIwDyudga3kEkm9ltEWGS0HryZRb
-	mRZYJcnxxVDZ12Q/3a6134RjPjPLEYW/0lc2RrbjxNtrM7ih9mnqoJ5pZJZOkg==
-X-Google-Smtp-Source: AGHT+IErIqcWnCwFDCXU2XNuAS5mw68F14w7Ox0Xh6/c+FP9VMngm+XN6I+b5z3vrGagpyTKzVAaOg==
-X-Received: by 2002:a05:6a20:6a0d:b0:1a3:6fbb:e31f with SMTP id p13-20020a056a206a0d00b001a36fbbe31fmr2824885pzk.4.1713422773881;
-        Wed, 17 Apr 2024 23:46:13 -0700 (PDT)
-Received: from thinkpad ([120.56.197.253])
-        by smtp.gmail.com with ESMTPSA id f33-20020a056a000b2100b006ecee611c05sm752862pfu.182.2024.04.17.23.46.11
+        d=1e100.net; s=20230601; t=1713424889; x=1714029689;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TjH1GQTJUnKMbzxTuPWXa0AQF7LCmO+P2aRPeAVNROA=;
+        b=oQiQBSggx8vgiZlVJVD7jLC+G2b4RjoaIH19hsNPXykztNviFI+sM2i56+vGxxuGnT
+         Lu5nNIdqCgiZz+nkrT3jgeSxVqzBw3WkvTljp7XrD9ZbVaqEQgzQL3gCUv1KQkTSXn8n
+         HAerohhuAWUiGjGcaeuye0taRQVCYIjiv1W9f8mfkAL6BJHzgZVCCIhX98zaQMMjrl7i
+         pZVm2huWnWS6aBYuSNsnRI7+3q1tvUZI+kCR2tjFdfzqLbDTmXWyEHfyHiGZKFFIzCSX
+         s13u2u9xKW2Sxuljotr8OHJ0chyRIhJds9sdPManDFLaumwfXLZ3W5nIHxqdvd8MFfRD
+         fT6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWr9R//mDbVzijsiIodddYlI9oJgFaTdOFEiZa6fXv0UwQYf6+M6Hpu946RZjApW0KArUF7z0+DnV8ERQ+DtXqkZBHbVW8baxR4
+X-Gm-Message-State: AOJu0YzeMYhVqfczWZKHEw+l55K3m51SDk+KCB833EsBAnNwHhEUB6Ij
+	AhhcDJwIGQ7RxwAxEc/Pa8xvp4GkfPlm55BN7MAEDbe9epCS5kri0s+s7Q==
+X-Google-Smtp-Source: AGHT+IFwFzVBkHDOthky42ZnPS32nMZlGjHJfFSO8uFal6Q5JsQRhUDs5cm+Od0cNpdI4dK6aM+l3w==
+X-Received: by 2002:a17:902:fc8d:b0:1e4:425f:5795 with SMTP id mf13-20020a170902fc8d00b001e4425f5795mr2408473plb.58.1713424888915;
+        Thu, 18 Apr 2024 00:21:28 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id ja19-20020a170902efd300b001e290af5ec9sm818909plb.115.2024.04.18.00.21.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 23:46:13 -0700 (PDT)
-Date: Thu, 18 Apr 2024 12:16:09 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] Documentation: PCI: pci-endpoint: Fix EPF ops list
-Message-ID: <20240418064609.GF2861@thinkpad>
-References: <20240412095031.256163-1-alexander.stein@ew.tq-group.com>
+        Thu, 18 Apr 2024 00:21:27 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 66E8918462BA7; Thu, 18 Apr 2024 14:21:22 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Naohiro Aota <Naohiro.Aota@wdc.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] Documentation: workqueue: Inline WQ_* flag pattern
+Date: Thu, 18 Apr 2024 14:21:01 +0700
+Message-ID: <20240418072100.30670-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1773; i=bagasdotme@gmail.com; h=from:subject; bh=jPuh7FIgMr6qCmpmTA3bWFbfg8Zn9tHOOZ4RAcWeeQE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDGkKJyVWv8l5HmohmNvhXPN28s4nz00+84o8nLenpvqJ+ f/p/IUXO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjCRoN2MDFd+rM4/6XlUUKZU dfa61DMK/pnmuo8eJyxKfJP6x/HFkVWMDCttfTfwrVq4IPzYzHTZ2MApMdErJJqEmFSMa98Uu3V Z8AIA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240412095031.256163-1-alexander.stein@ew.tq-group.com>
 
-On Fri, Apr 12, 2024 at 11:50:31AM +0200, Alexander Stein wrote:
-> With commit 5779dd0a7dbd7 ("PCI: endpoint: Use notification chain
-> mechanism to notify EPC events to EPF") the linkup callback has been
-> removed and replaced by EPC event notifications.
-> 
-> With commit 256ae475201b1 ("PCI: endpoint: Add pci_epf_ops to expose
-> function-specific attrs") a new (optional) add_cfs callback was added.
-> Update documentation accordingly.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Sphinx reports htmldocs warning:
 
-With the change mentioned by Niklas.
+Documentation/core-api/workqueue:776: ./include/linux/workqueue.h:493: WARNING: Inline literal start-string without end-string.
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+The warning is caused by unescaped wildcard in the pattern that matches
+all workqueue flags (WQ_*). The pattern is rendered as normal text
+(with surrounding double backticks due to @argument syntax usage)
+instead of inline text like in individual flag names as a result.
 
-- Mani
+Inline the pattern to fix the warning.
 
-> ---
-> Changes in v2:
-> * Separated paragraphs by blank line
-> 
->  Documentation/PCI/endpoint/pci-endpoint.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> index 4f5622a65555..3961ff4e5beb 100644
-> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> @@ -172,8 +172,7 @@ by the PCI endpoint function driver.
->  	 * bind: ops to perform when a EPC device has been bound to EPF device
->  	 * unbind: ops to perform when a binding has been lost between a EPC
->  	   device and EPF device
-> -	 * linkup: ops to perform when the EPC device has established a
-> -	   connection with a host system
-> +	 * add_cfs: optional ops to create function specific config attributes
->  
->    The PCI Function driver can then register the PCI EPF driver by using
->    pci_epf_register_driver().
-> -- 
-> 2.34.1
-> 
+Fixes: 5797b1c18919 ("workqueue: Implement system-wide nr_active enforcement for unbound workqueues")
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ include/linux/workqueue.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+index 158784dd189ab2..c9fec74e130459 100644
+--- a/include/linux/workqueue.h
++++ b/include/linux/workqueue.h
+@@ -463,7 +463,7 @@ void workqueue_softirq_dead(unsigned int cpu);
+ /**
+  * alloc_workqueue - allocate a workqueue
+  * @fmt: printf format for the name of the workqueue
+- * @flags: WQ_* flags
++ * @flags: ``WQ_*`` flags
+  * @max_active: max in-flight work items, 0 for default
+  * remaining args: args for @fmt
+  *
+@@ -490,7 +490,7 @@ void workqueue_softirq_dead(unsigned int cpu);
+  * min_active which is set to min(@max_active, %WQ_DFL_MIN_ACTIVE). This means
+  * that the sum of per-node max_active's may be larger than @max_active.
+  *
+- * For detailed information on %WQ_* flags, please refer to
++ * For detailed information on ``WQ_*`` flags, please refer to
+  * Documentation/core-api/workqueue.rst.
+  *
+  * RETURNS:
+
+base-commit: a1d34930d1b3782307ef5d0636f4f6a9ac5028e5
 -- 
-மணிவண்ணன் சதாசிவம்
+An old man doll... just what I always wanted! - Clara
+
