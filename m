@@ -1,198 +1,295 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2055.outbound.protection.outlook.com [40.107.113.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756C46FB0;
-	Thu, 18 Apr 2024 02:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713407912; cv=none; b=oq8n5vHq673jUSyZmg2d+tHXp9yt97j+gj3SZadZ3KBRdADMW7Vz7nEitTHMcFjWSjHoM1sM4+6D5OwyIZoHHaBMswlV61g/Tgn4SG/Dk9BwOtfdU/iMzyKghTRJmehDqDndoHf9WZ56H8ZFpaSACXrMZSlWjVTxoqrtMPfN7B4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713407912; c=relaxed/simple;
-	bh=2/BplMB/+NX39KzviOne3YvcFRg/KQzo16KNiJwJ4bU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fg3bzIfzDNL7HaNIXAfyd5++grT3aDIn/j7alzHFmUayfWxIXdDJ1aCKxLwJSPrO4mUzhjQqCWfT9gaH2XhaFHmG6xuHAnrURHvBBrG1PmQBDOOEu2tZGEC114UdgYPfFokmiKdb9Q11UED28x1WlPsqdWjFbYGGPNvEvmqiDC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kM3BZftC; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EEE8C1F;
+	Thu, 18 Apr 2024 04:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713413502; cv=fail; b=Ym8Kx6HjO4NXeJrQ6qqAqK4M980Pt6SX9o3tm2Lx5HCrqeDu+cP3wicXeDgeLx/H4cqhxjxD1EtDmKVB5pKfhkxCAcqSIs6rzIPT1v+InPmy5A0UbKt3E5KI1NH88ti8LlrLfq10WfE6NBPQqGSeI5yjiay/QSey8YoVrpqnMnM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713413502; c=relaxed/simple;
+	bh=UBght8bpJ++Ea5k1ZzUWaNlBjjCZcFb2RfPDE9IUXCY=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=X0zx3E/d6z7l34w6LdE34st5l9oMd+uYUVLxsVxdVH+ygRsq4xvd+ZWayAoM1RzqKx8g0vG45HUTnyoxCBNaTE2aDi1HdEZbvH1z5WvYijPBuXDL46g22N3Jqa/Ru4cAixK7lDQa/KqG7Ep3xjhpCTPH+eAcdlVIIADsQ3HFXQM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Kg7uS2GN; arc=fail smtp.client-ip=40.107.113.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kM3BZftC"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ed32341906so448424b3a.1;
-        Wed, 17 Apr 2024 19:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713407910; x=1714012710; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+K4sgg9aCm8qn+G/ntS65DmA1a0W6wNNqGijj5xDwRw=;
-        b=kM3BZftCYpNRU9NqysGOuBK8t/x1CaB1gMIcCfLmAhIlWJN+GdBvwqiiDVji6HTYtC
-         Ych80x2ZQFwL6aCuqArdB5s0jvB2GZH5LU9TujrBAz3zmLw5P/3SjEUajN9rp7mwI0YA
-         UTSIafXZs4Ak9uoaDPDCHpMaabnJQqqS0DEoaDUofxo5XvgsOHn9J+ETUdVsl/htx9mP
-         O4FvXcu5WidbG8bUioa79SWOIrMlgi0o6rNIp7No9k+KRJ8hKfdK80pXMoAhtFT3+bmj
-         1F9Cky9hIxgp5MC/OuZ3Xn1SR2oLRxAsGkASgprqZh1aANtRk3ISrSujxL3VKgKOq5/d
-         3Oxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713407910; x=1714012710;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+K4sgg9aCm8qn+G/ntS65DmA1a0W6wNNqGijj5xDwRw=;
-        b=Ar+gIFtC2c/TbjWuTIHQUIrOgLf+2fcdwtTVg/1gzc/1+cJwmq4c2sXxlBxZQk/1hM
-         YRco9ivIR9csk85Gr4Q+5UzRHQP4Wx3C9QB1KRgyW9M/8oIK2EYD0UWiZfJk6MZqAbOu
-         ILD3WWgmuxp8K3htizTIp3CKLVPt2wO/SBpk9W067KzRCJ/ByTNOsDu2AeeGu+fgMf11
-         SA5HM9UJOwE8Lkp2Ei+8z/IEU4kMIEagjnOP0Tfy005pIyfwR/TS7zwxRNrxg6hjMa61
-         UNQllZ4gHplOUGZoK1w5FcyFjI7CMJQS09jG/ILUb0PvrOJfk5K/IdJ+WgvZ8ZRkSI/b
-         kJpA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVh5w9cHbaoz9BA9OWPOALfWy5Ff9BciB04TdOhMBN0rwDK8EXCSSWdxGkO6rOiZI/tbsAaYAqwQUBSxvpGlXLve051QDXP+gjreEysIAF0pdpypxde5MNnyBsGjInU9NLqfghXE16Qd3scORoIJAlphpVWJiZF7/mP2VcFVj2
-X-Gm-Message-State: AOJu0YxY1N5YWPCiHl7p+Z1WPeO6DReDSaqXuqAPk+uJKQFpUN1wVXjb
-	h81Pp+xGnUEFhgkXGBzxoermqExmzWGbdX8pea8cblP+psjSROLM
-X-Google-Smtp-Source: AGHT+IEUVVnRvZxZrZhTcboaTALn+DFf5fhvExyo9g/fu7Aoq5uBj3vcvOQhvSWynLrZ1OycCRPNlQ==
-X-Received: by 2002:a05:6a00:10c2:b0:6ea:d149:c4e with SMTP id d2-20020a056a0010c200b006ead1490c4emr1778396pfu.14.1713407909732;
-        Wed, 17 Apr 2024 19:38:29 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id e21-20020a62ee15000000b006e729dd12d5sm381007pfi.48.2024.04.17.19.38.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 19:38:28 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id DBD2E181A49EF; Thu, 18 Apr 2024 09:38:26 +0700 (WIB)
-Date: Thu, 18 Apr 2024 09:38:26 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Danielle Ratson <danieller@nvidia.com>, netdev@vger.kernel.org
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, linux@armlinux.org.uk,
-	sdf@google.com, kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
-	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
-	richardcochran@gmail.com, shayagr@amazon.com,
-	paul.greenwalt@intel.com, jiri@resnulli.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mlxsw@nvidia.com, petrm@nvidia.com, idosch@nvidia.com
-Subject: Re: [PATCH net-next v3 03/10] ethtool: Add an interface for flashing
- transceiver modules' firmware
-Message-ID: <ZiCHotDYOfkPrDUt@archie.me>
-References: <20240417085347.2836385-1-danieller@nvidia.com>
- <20240417085347.2836385-4-danieller@nvidia.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Kg7uS2GN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N1l2McHcn7ZGDCJh5N0e5cztJqT6YXrXo7l1xg1z0A8Cj6QiAgVr6BHxsAsz3+qKHgLWPFqiruLrd/1uaqzPmpvqMsVjQMcgp2og2J4wcfUGCIrTMbpis/h5wR2fG4pQj+H05x9QlWAG+IxrIBkbhc3Gv8QRILr5zSIMlyU/qZlkallyTKdboT4N7ffZ97vx3ZmTEkYb0XWpIL+PJoy8Vs3Rt9khRnf66nFrrH8mipZASQ+Zbax5h9PPa1xGsERb2hwnrGDq1ji0LiauSsoAvqagVsd2RZZHXBJf3seRIn0264zR89Hm6wPb8jWG95RB/H59Vp/BOp6MEAvpBgzZkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9bBN895/hUfq7cTbVS0IR4Y8A7BolwuL5sh79h4s84A=;
+ b=SpWQE+h03r7V/Y+exf+MJSwgDDSHkM9lCptWOUONES02B1H/AW+wc5mSE9HUdl2NVNsRY/7IEDYU96w3oTJRPvKqS1ArEWudbsaD4dwXgZNW/VCjgPa4yy0i4THYyDsTXxaB8bZ7S0MCdmtPBsJlzLrmhw8ghnVMuMxx2fjlQS1I9VM2IxSqCsDcogNto96HEuE3b1nv1q7fmx1gRTBc3b3WIpLOEP2/aXSRIs7oiai+W2/eIrJTtWSw0+a7kwW2TgcvKy7R2JkssIuanNLFeOg7DHrlZEEcx7fXMQ5JChDYD22im7O/g8WQ3CDkWxZpnNmhLtGWLhlPOn0t6fcuvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9bBN895/hUfq7cTbVS0IR4Y8A7BolwuL5sh79h4s84A=;
+ b=Kg7uS2GNgidMCsA44YYekbxXos6yOXGIWaQj4OZuytdYgdpoZYc/LHyXcWmczTLNIl9X/LI4URz57SO6NjZF/7f/cg82cy3jg0H7dKkZtgqxdj88whO+MyAD8A2lwRGNMB8XW6H9/gSOOG0pvDwQY0b+tvwFMP1K2UavPj9HowQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSAPR01MB7397.jpnprd01.prod.outlook.com
+ (2603:1096:604:142::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Thu, 18 Apr
+ 2024 04:11:34 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7472.037; Thu, 18 Apr 2024
+ 04:11:34 +0000
+Message-ID: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+ Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>, Jonathan
+ Corbet <corbet@lwn.net>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH v3 00/23] ASoC: Replace dpcm_playback/capture to playback/capture_assertion
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 18 Apr 2024 04:11:33 +0000
+X-ClientProxiedBy: TYCP301CA0081.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7b::18) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="U4yNIw1J+x8YhZS5"
-Content-Disposition: inline
-In-Reply-To: <20240417085347.2836385-4-danieller@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSAPR01MB7397:EE_
+X-MS-Office365-Filtering-Correlation-Id: 568833dc-43e2-4159-1d8f-08dc5f5da24f
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	/leMqX/Exe8NO+UOqsSU+YD1vcO/W0z4YFLSBoUHbpWpnE3txjsrKhCjWFlDqavb5k1yR4w9T+kHfdIcO0pwnTc6SqxPtUXu88MNOjp1BzJkl5vAGiFmVxJZpZbVRBKt0PqL8vsmz6Yjs4A79mhd7poMvA/hkAq0EVI2hG/fhXPa3FYPOE0ypf+lFYCkGK2/NfcNZ6h4K6OATp7nyM7LzOtqsFRKkVMPWhx0VLs0B9EsNUJdH5PuvDjUz75/encAWW7AadltEV/vDVuPdj96HqdBXTe4JIleRQEYMoTgWb+/ZPU82G5Yj35od1Cyv7GfApcZdl+TBcdfzot6BjDfI+xiZvCVKK3a4yppowliJNLON5J4U7iY8lCHyM/9doS2yoYphc1VzrbqixSUS4hZWsbk3aKfI1WzQuWg01H6YclbuLJf42YBcQMW6GfeFDz6LmXttTzDVZSYDql/o6MB0G4G/sj5y8EFyg4cVjIglvLMjahhZNMntBGi0QpTuDpgCic+VUyF8bj3QzJ778UKTwTIMUcphveuouStUTChlHZORBPcVGZiMZyOwLYnggCGh+MUkkaMkEIr9tJCNMutFBPpHovymaNArrZhkJbDdsE/HXowV3THJFvecfxXy/rCr2dNT5e5z3w8cgrDsD9O3hExS2RKg8b3I9ZtyjUS5lWF2bX2JxYwcSe6YLSFaqp+Rz8dfJmaR9utqZsNEsDtpz9JOQnozHAfD4orWrKU4zlvF6852vfs1uyqdZtAVujm
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(7416005)(1800799015)(376005)(366007)(38350700005)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?TTR52/CMN9o1dzdDYulkGmgHry3p3n91QYCtEpYSfq6CfOark571e1NaP9DR?=
+ =?us-ascii?Q?kCX6uwgWHYav5kSKo4E0eDTA2Q0JlTW9k8IrRocxkDSafsf1sdUdlDn5ESIw?=
+ =?us-ascii?Q?BUZUVo1CZCCJRy3C2H/OfLOhO2cQFt7KjQiLK2OLAONXmV+4I0zcMKAlfo3u?=
+ =?us-ascii?Q?Ls2fiHTzACFvz0IuCvSblLUH/DrR3CVNhj5Wi3pwRW1fGWzLmx+mwYw3Pv5p?=
+ =?us-ascii?Q?23XNH2qpaIDPCbXYUYRbmW8uXKjrbxxrtKLWANEpq1jE/XydNqwznaCk21VO?=
+ =?us-ascii?Q?3irKM/fT0d6g41zoUyhwOphzZPpoUW8gJi336Xy7ukhvc2dbJ1E+DMaqoVFU?=
+ =?us-ascii?Q?s4IGF22jCjkrdqDk8uQ/+sY0eCC29JVbd450zMk5Nr0q5NBb/51Gjfw1PufO?=
+ =?us-ascii?Q?cxzMty7blnrGXnYFxUF4TAnXSjD5A5Kw5fwQoaiiukYDMQbaRmSkntZe6gLU?=
+ =?us-ascii?Q?rBX5n5Q3K8CjvxH2hHNen4C7Cv9bKWuj3A8IuipYdkXQ3+JOPsj/Gr94HevG?=
+ =?us-ascii?Q?5xfWQeshJnXq8D7jzDD3UXKhfMJmCwMcMQptQKBtAeaoHd2QlhqCFTGA7+YX?=
+ =?us-ascii?Q?CkogAzsKmzHGQ1Q7j0U7MM1671tRwZMpRVP0auIc7tkxqM8WznT7gM4wo1xa?=
+ =?us-ascii?Q?HvriCWNaFlXTQSXD53UaMPVpXC+EfawvczAwgzADiDMg0MmKDIUIM/RiusIh?=
+ =?us-ascii?Q?hNpYw3koHm5lEI0NTlOpAq0VomtbjZ7uy4yvRZiVk1taktjywo6hoRx0E5Dm?=
+ =?us-ascii?Q?vISK2zupSA/fdcD8RXSvspZ3aafqpbenvDYzDuAXnrwuDI0RKNcW0b2gc9xh?=
+ =?us-ascii?Q?tlhl7JiBX8qenNOEpBjOfiz88HQVY8dyUnwQaTrs6IlDYwDpfirY6m4gbnBo?=
+ =?us-ascii?Q?aTnFnffn23ZmJMFcCJU4F41pqxwih1NufvmkwDCM+BKUNRkjou7EE+WQ0mkX?=
+ =?us-ascii?Q?izmcFPw1vAGTQHf2RKnuQcat6k1ni7TAPb/zONytcwJzz11iuEpO/3vN3FpD?=
+ =?us-ascii?Q?dXKq4q7qSzJ3G3pwVFfb7MRjGysMnSujUD+vgllKY8teA2JBfRuCNxolKPSF?=
+ =?us-ascii?Q?ijbecmiu3pYvdwitVCkpSc71NnF7RSAUFpwZHU/+xeuf9iiyu1Xjmhcyt/8V?=
+ =?us-ascii?Q?EctsIQ2Sh+v/t2sCdkn/vdGYsOM9ITcZe7R34ASMdL5iXe4yVpWLa6bP1OoF?=
+ =?us-ascii?Q?ED/6gQVfjUXTPYs7TbX5o9czGqAILoxa2A0rF2w+J7BqGT6+GoiP6aWg6655?=
+ =?us-ascii?Q?skLW1ERecr0BOKyzDJHOHHzYeFcm3E+5vyV+c/vidC5TrIrxaq5MRgZfKi+w?=
+ =?us-ascii?Q?IC2Vo3aOmuDbQc3Iccgd4/rXcsTHxzxG3X3HFvpj+CoYupJljmXbXFn+obhP?=
+ =?us-ascii?Q?art17U5PodsPU4iRktjkSZJpGuDyPf312yEDXuzvIDZEAWacOJS+Tp/oANF5?=
+ =?us-ascii?Q?+2bR0xqxGu0JZF+Ww/uXQ4Vql/nHGJN/Z6afRpmJBdcME0UsB/adBWDbhD2r?=
+ =?us-ascii?Q?FDvuKiQO/5NW+CbntSSJt5i7PRcbLpdJxQGbrrhOjgqQX0++vkTJpW/WxTlg?=
+ =?us-ascii?Q?ZtRB2DF5zwljix8Od8slSUm7Bs4ZO2Lt7XqmOH+ta1m0FnjhK70SNdmjEqRs?=
+ =?us-ascii?Q?0JkQL/5FtQtwKLsEUl0ziXQ=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 568833dc-43e2-4159-1d8f-08dc5f5da24f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2024 04:11:34.0304
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kcpI/7VmtxV0ufxrBInD2EoJig0JmTtlQx18JbzSrQIyYtk4m+TwB0oYwkoTk8WPAzsP2ID4b9R/eUfVQ+oyF00xqykGiHN9DWwkeHjMRt7ewr37SUaQvPuAfinP1kc8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7397
 
 
---U4yNIw1J+x8YhZS5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Mark
 
-On Wed, Apr 17, 2024 at 11:53:40AM +0300, Danielle Ratson wrote:
-> +MODULE_FW_FLASH_ACT
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Flashes transceiver module firmware.
-> +
-> +Request contents:
-> +
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +  ``ETHTOOL_A_MODULE_FW_FLASH_HEADER``     nested  request header
-> +  ``ETHTOOL_A_MODULE_FW_FLASH_FILE_NAME``  string  firmware image file n=
-ame
-> +  ``ETHTOOL_A_MODULE_FW_FLASH_PASSWORD``   u32     transceiver module pa=
-ssword
-> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +
-> +The firmware update process is composed from three logical steps:
-                          "... consists of ..."
-> +
-> +1. Downloading a firmware image to the transceiver module and validating=
- it.
-> +2. Running the firmware image.
-> +3. Committing the firmware image so that it is run upon reset.
-> +
-> +When flash command is given, those three steps are taken in that order.
-> +
-> +The ``ETHTOOL_A_MODULE_FW_FLASH_FILE_NAME`` attribute encodes the firmwa=
-re
-> +image file name. The firmware image is downloaded to the transceiver mod=
-ule,
-> +validated, run and committed.
-> +
-> +The optional ``ETHTOOL_A_MODULE_FW_FLASH_PASSWORD`` attribute encodes a =
-password
-> +that might be required as part of the transceiver module firmware update
-> +process.
-> +
-> +The firmware update process can take several minutes to complete. Theref=
-ore,
-> +during the update process notifications are emitted from the kernel to u=
-ser
-> +space updating it about the status and progress.
-> +
-> +Notification contents:
-> +
-> + +---------------------------------------------------+--------+---------=
--------+
-> + | ``ETHTOOL_A_MODULE_FW_FLASH_HEADER``              | nested | reply he=
-ader   |
-> + +---------------------------------------------------+--------+---------=
--------+
-> + | ``ETHTOOL_A_MODULE_FW_FLASH_STATUS``              | u32    | status  =
-       |
-> + +---------------------------------------------------+--------+---------=
--------+
-> + | ``ETHTOOL_A_MODULE_FW_FLASH_STATUS_MSG``          | string | status m=
-essage |
-> + +---------------------------------------------------+--------+---------=
--------+
-> + | ``ETHTOOL_A_MODULE_FW_FLASH_DONE``                | u64    | progress=
-       |
-> + +---------------------------------------------------+--------+---------=
--------+
-> + | ``ETHTOOL_A_MODULE_FW_FLASH_TOTAL``               | u64    | total   =
-       |
-> + +---------------------------------------------------+--------+---------=
--------+
-> +
-> +The ``ETHTOOL_A_MODULE_FW_FLASH_STATUS`` attribute encodes the current s=
-tatus
-> +of the firmware update process. Possible values are:
-> +
-> +.. kernel-doc:: include/uapi/linux/ethtool.h
-> +    :identifiers: ethtool_module_fw_flash_status
-> +
-> +The ``ETHTOOL_A_MODULE_FW_FLASH_STATUS_MSG`` attribute encodes a status =
-message
-> +string.
-> +
-> +The ``ETHTOOL_A_MODULE_FW_FLASH_DONE`` and ``ETHTOOL_A_MODULE_FW_FLASH_T=
-OTAL``
-> +attributes encode the completed and total amount of work, respectively.
-> +
+This is v3 patch-set
 
-The rest of doc LGTM.
+When we use DPCM, we need to set dpcm_playback/capture flag.
+If these flag are set, soc_get_playback_capture() will check its
+availability, but non DPCM doesn't need such special flags.
 
-Thanks.
+OTOH, it cares playback/capture_only flag. It is needed.
 
---=20
-An old man doll... just what I always wanted! - Clara
+This patch adds new assertion flag, and convert current dpcm_playback
+dpcm_capture flag and playback/capture_only flag to it.
 
---U4yNIw1J+x8YhZS5
-Content-Type: application/pgp-signature; name="signature.asc"
+v2 -> v3
+	- re-order patches
+	- add new playback/capture_assertion flag
+	  and covert both dpcm_xxx and xxx_only flag into it
 
------BEGIN PGP SIGNATURE-----
+v1 -> v2
+	- based on latest ASoC branch
+	- keep comment on Intel
+	- tidyup patch title
+	- tidyup DPCM BE warning output condition
+	- Add new patch for Document
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZiCHnAAKCRD2uYlJVVFO
-o9u5AQCh991QKxPxVHkr+z8uTqo7QtFFLL6GSuC0d8NU9MjenwEAh7gsRfJhdnbM
-bPm7npHuWepvh/Y0G1tafcOvUPUNKwg=
-=VpL+
------END PGP SIGNATURE-----
+Link: https://lore.kernel.org/r/87o7b353of.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87zfuesz8y.wl-kuninori.morimoto.gx@renesas.com
 
---U4yNIw1J+x8YhZS5--
+Kuninori Morimoto (23):
+  ASoC: soc-pcm: cleanup soc_get_playback_capture()
+  ASoC: soc-pcm: indicate warning if DPCM BE Codec has no settings
+  ASoC: soc-dai: remove snd_soc_dai_link_set_capabilities()
+  ASoC: amd: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: fsl: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: sof: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: meson: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: Intel: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: mediatek: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-core: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-topology: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: soc-compress: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: Intel: avs: boards: Replace dpcm_playback/capture to playback/capture_assertion
+  ASoC: ti: Replace playback/capture_only to playback/capture_assertion
+  ASoC: amd: Replace playback/capture_only to playback/capture_assertion
+  ASoC: fsl: Replace playback/capture_only to playback/capture_assertion
+  ASoC: mxs: Replace playback/capture_only to playback/capture_assertion
+  ASoC: atmel: Replace playback/capture_only to playback/capture_assertion
+  ASoC: Intel: Replace playback/capture_only to playback/capture_assertion
+  ASoC: samsung: Replace playback/capture_only to playback/capture_assertion
+  ASoC: generic: Replace playback/capture_only to playback/capture_assertion
+  ASoC: soc-pcm: remove dpcm_playback/capture and playback/capture_only
+  ASoC: doc: Replace dpcm_playback/capture to playback/capture_assertion
+
+ Documentation/sound/soc/dpcm.rst              |  10 +-
+ include/sound/simple_card_utils.h             |   2 +-
+ include/sound/soc-dai.h                       |   1 -
+ include/sound/soc.h                           |  15 +-
+ sound/soc/amd/acp-da7219-max98357a.c          |  20 +--
+ sound/soc/amd/acp-es8336.c                    |   4 +-
+ sound/soc/amd/acp/acp-mach-common.c           |  34 ++---
+ sound/soc/amd/acp3x-rt5682-max9836.c          |   8 +-
+ sound/soc/amd/ps/ps-mach.c                    |   2 +-
+ sound/soc/amd/renoir/acp3x-rn.c               |   2 +-
+ sound/soc/amd/vangogh/acp5x-mach.c            |  14 +-
+ sound/soc/amd/yc/acp6x-mach.c                 |   2 +-
+ sound/soc/atmel/sam9g20_wm8731.c              |   2 +-
+ sound/soc/fsl/fsl-asoc-card.c                 |  20 +--
+ sound/soc/fsl/imx-audmix.c                    |   8 +-
+ sound/soc/fsl/imx-card.c                      |   7 +-
+ sound/soc/fsl/imx-hdmi.c                      |  12 +-
+ sound/soc/fsl/imx-rpmsg.c                     |  10 +-
+ sound/soc/fsl/imx-spdif.c                     |  10 +-
+ sound/soc/generic/audio-graph-card.c          |   2 -
+ sound/soc/generic/audio-graph-card2.c         |  10 +-
+ sound/soc/generic/simple-card-utils.c         |   6 +-
+ sound/soc/generic/simple-card.c               |   2 -
+ sound/soc/intel/avs/boards/da7219.c           |   4 +-
+ sound/soc/intel/avs/boards/dmic.c             |   4 +-
+ sound/soc/intel/avs/boards/es8336.c           |   4 +-
+ sound/soc/intel/avs/boards/hdaudio.c          |   8 +-
+ sound/soc/intel/avs/boards/i2s_test.c         |   4 +-
+ sound/soc/intel/avs/boards/max98357a.c        |   2 +-
+ sound/soc/intel/avs/boards/max98373.c         |   4 +-
+ sound/soc/intel/avs/boards/max98927.c         |   4 +-
+ sound/soc/intel/avs/boards/nau8825.c          |   4 +-
+ sound/soc/intel/avs/boards/rt274.c            |   4 +-
+ sound/soc/intel/avs/boards/rt286.c            |   4 +-
+ sound/soc/intel/avs/boards/rt298.c            |   4 +-
+ sound/soc/intel/avs/boards/rt5514.c           |   2 +-
+ sound/soc/intel/avs/boards/rt5663.c           |   4 +-
+ sound/soc/intel/avs/boards/rt5682.c           |   4 +-
+ sound/soc/intel/avs/boards/ssm4567.c          |   4 +-
+ sound/soc/intel/boards/bdw-rt5650.c           |   8 +-
+ sound/soc/intel/boards/bdw-rt5677.c           |  10 +-
+ sound/soc/intel/boards/bdw_rt286.c            |  14 +-
+ sound/soc/intel/boards/bxt_da7219_max98357a.c |  34 ++---
+ sound/soc/intel/boards/bxt_rt298.c            |  28 ++--
+ sound/soc/intel/boards/bytcht_cx2072x.c       |  10 +-
+ sound/soc/intel/boards/bytcht_da7213.c        |  10 +-
+ sound/soc/intel/boards/bytcht_es8316.c        |  10 +-
+ sound/soc/intel/boards/bytcht_nocodec.c       |  10 +-
+ sound/soc/intel/boards/bytcr_rt5640.c         |  10 +-
+ sound/soc/intel/boards/bytcr_rt5651.c         |  10 +-
+ sound/soc/intel/boards/bytcr_wm5102.c         |  10 +-
+ sound/soc/intel/boards/cht_bsw_max98090_ti.c  |  10 +-
+ sound/soc/intel/boards/cht_bsw_nau8824.c      |  10 +-
+ sound/soc/intel/boards/cht_bsw_rt5645.c       |  10 +-
+ sound/soc/intel/boards/cht_bsw_rt5672.c       |  10 +-
+ sound/soc/intel/boards/ehl_rt5660.c           |  16 +--
+ sound/soc/intel/boards/glk_rt5682_max98357a.c |  32 ++---
+ sound/soc/intel/boards/hsw_rt5640.c           |  14 +-
+ sound/soc/intel/boards/kbl_da7219_max98357a.c |  28 ++--
+ sound/soc/intel/boards/kbl_da7219_max98927.c  |  60 ++++----
+ sound/soc/intel/boards/kbl_rt5660.c           |  20 +--
+ sound/soc/intel/boards/kbl_rt5663_max98927.c  |  48 +++----
+ .../intel/boards/kbl_rt5663_rt5514_max98927.c |  26 ++--
+ sound/soc/intel/boards/skl_hda_dsp_common.c   |  18 +--
+ .../soc/intel/boards/skl_nau88l25_max98357a.c |  28 ++--
+ sound/soc/intel/boards/skl_nau88l25_ssm4567.c |  30 ++--
+ sound/soc/intel/boards/skl_rt286.c            |  28 ++--
+ sound/soc/intel/boards/sof_board_helpers.c    |  18 +--
+ sound/soc/intel/boards/sof_es8336.c           |  10 +-
+ sound/soc/intel/boards/sof_pcm512x.c          |   8 +-
+ sound/soc/intel/boards/sof_sdw.c              |   4 +-
+ sound/soc/intel/boards/sof_wm8804.c           |   4 +-
+ sound/soc/mediatek/mt2701/mt2701-cs42448.c    |  30 ++--
+ sound/soc/mediatek/mt2701/mt2701-wm8960.c     |   8 +-
+ sound/soc/mediatek/mt6797/mt6797-mt6351.c     |  34 ++---
+ sound/soc/mediatek/mt7986/mt7986-wm8960.c     |   8 +-
+ sound/soc/mediatek/mt8173/mt8173-max98090.c   |   8 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5514.c    |   8 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5676.c    |  12 +-
+ sound/soc/mediatek/mt8173/mt8173-rt5650.c     |  12 +-
+ .../mediatek/mt8183/mt8183-da7219-max98357.c  |  40 +++---
+ .../mt8183/mt8183-mt6358-ts3a227-max98357.c   |  40 +++---
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c     | 108 +++++++--------
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c     |  60 ++++----
+ .../mt8192/mt8192-mt6359-rt1015-rt5682.c      |  86 ++++++------
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c     |  62 ++++-----
+ sound/soc/meson/axg-card.c                    |   9 +-
+ sound/soc/meson/gx-card.c                     |   1 -
+ sound/soc/meson/meson-card-utils.c            |   4 +-
+ sound/soc/mxs/mxs-sgtl5000.c                  |   4 +-
+ sound/soc/qcom/common.c                       |   1 -
+ sound/soc/samsung/odroid.c                    |  12 +-
+ sound/soc/soc-compress.c                      |   8 +-
+ sound/soc/soc-core.c                          |  15 +-
+ sound/soc/soc-dai.c                           |  38 -----
+ sound/soc/soc-pcm.c                           | 130 ++++++++++--------
+ sound/soc/soc-topology-test.c                 |   4 +-
+ sound/soc/soc-topology.c                      |   4 +-
+ sound/soc/sof/nocodec.c                       |   4 +-
+ sound/soc/ti/j721e-evm.c                      |   8 +-
+ 100 files changed, 789 insertions(+), 832 deletions(-)
+
+-- 
+2.25.1
