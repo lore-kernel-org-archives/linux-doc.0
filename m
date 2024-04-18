@@ -1,135 +1,224 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D2016C6A3
-	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 12:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2988BFA;
+	Thu, 18 Apr 2024 12:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713444252; cv=none; b=G4EMT5VRYF6KaepIL8NdrLbiDuW6rSiARbROaeLVknMKJ7zXYi62xSHlyQ6CVgnZFvkN2F4dknh+mRYzjIoHnupKiiu9AZx2UB4OwLUybftxXLjAsVR86wzphui3NTps6+bcbFn/T5xhB6qiK9dncb6TVGT9ZznADpOCLNvCr2g=
+	t=1713445055; cv=none; b=Kf2pcbRvLrkxxRaiIvks7D3//amdrmM3jmFzSGFvXJ9eAAH1MGVsJ9uDawpaKPGI58Q941KcphJqo/kf2vk+XcngIONwwi3yA0IU51s3qgYdLCF99yqQhLNj9R/xrI9kd5MkcD+5Y9vuzDHBrIt7wphlc5QQS7Zbor/25d9lx2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713444252; c=relaxed/simple;
-	bh=dIKOQ7+8Gx69BlGHAWDa8bC1hIUZKhgNODc1wgGNviA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uUjqOjBwx2EjSNYjYaIGUPV1cQH/ytG/kqnrOofGMN8W2Fuy/tmPjKgS+gbwnYnbXMhoYvPWEGWAqGLLzmDEi/X3/xb6dWTVGoL1dIDozRyGQT4+3bLqa2AnXqwZGBtnfZ2leW4KbQsMmzTsw6wMol8suwRbLSWkVl3RAofWquM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rcVYDbtp; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1713445055; c=relaxed/simple;
+	bh=hzs+cdhElRvkfgSeBVU0J84Khj0Utaoqs/UY4zJhumY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YRw2/xE4zgJ0PQGzzziN8ToIiiGWmuFuUr/Z/SC+WF8u6UibMaWB2r8dBHz/QSHmLmX8qLflO7FOzeSyLvhyE7h05ij8rMY6HJnXxg3HUailnNP8QK/TZtBz7gg6yatEiYYTSbjJmkFvaWXnZN5PYoqi/fx5ON2iV3eUIGZxr9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=pPZQ3MGV; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rcVYDbtp"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-349bd110614so143292f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 05:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713444249; x=1714049049; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OKIlCd7jL5ol5qvLgWGPfJLjgIu96MFC3958FRvJI8w=;
-        b=rcVYDbtp/oD3iclrRo+gTusRE4UnxE6WooQhL6SfF+Ch++PeE5AqV5jXpYdcWYwxuT
-         SX7aUPDxG26yTxFy9Nd9dwaRFmLphf7Q/+HvDjn5uv0e+jj9E49UVpeoVoyqo/ba68Sl
-         nDXcKmUtmQLOQY5jbol4B1j0YOdV9T6P6ZxBLAgqNIxCFJctnsw8JnUNopPs6YK2vUlQ
-         S1gWGgL2beA7YvD240cxprgyfZ4kFCAVkpt76H7IMtU9dyoy5DD2yp4utLUNG47XCVsC
-         O07A0FtrBncCnnOVTaivuuE6P4nX+NjqZKc9fF3eqNKmBfX9SdZfdPBDNOU6xh7Ukubm
-         SjwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713444249; x=1714049049;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OKIlCd7jL5ol5qvLgWGPfJLjgIu96MFC3958FRvJI8w=;
-        b=VhHRDA9NsS0uiHndcdLlnP9Ndfi4WKnJJuRzCpMz0nrdjQblPXjCCwi8MibbojDz9y
-         PcudmuwvpyGde/w3OG49t4M5gGwD1lSTgloGFqXS5W4rX0ZPHbbTpKGdImZb+7jJPYdH
-         QqNR/4wmleoDzPG/RP8hM9vTo6Es2pdulRdI7B1uSvwWBKE9A3Gk7Ohp/EgXya20zhNQ
-         aeFjrf3GnYlg/c8CIsIhwSyRhATw6A/zHvLoetdLsAaaQrDVc5//mE17k5VNDnPmAgkl
-         FcgjdQWoLwVUwfZicRs7tLWhAc1nHmvcgQz5OWTtBWHslDAu/YFnpd9wloCGvhOgepIa
-         en/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX44fYmCMSyZrinFk+/CSle9SZenFBJrQrPaOIQ80wxbLBZ6EFAW+8KVvGBnFFyyz6izrvSaDgaQDrZc8+QFc3cE7poE/TCKMQC
-X-Gm-Message-State: AOJu0YzBHQAXv6BXwUPy6lOj8wk7dmyOOb86lKCetwRBeRzEfGwzoFCQ
-	aybbv7/q0F4XH0NR+vZ/Y1zxJklkoX0QNAPaipbMs+RWyoROTK9RnIRdDMYdifQ=
-X-Google-Smtp-Source: AGHT+IEuz3T/wADyuU6lhNByO66nc3HwRSSRfc4RI/wUE1r6vwDm0YQy96IvGIrIEPLWf2aV5baVXg==
-X-Received: by 2002:a05:600c:47cf:b0:418:f991:70ff with SMTP id l15-20020a05600c47cf00b00418f99170ffmr135350wmo.1.1713444249424;
-        Thu, 18 Apr 2024 05:44:09 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:7b64:4d1d:16d8:e38b])
-        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b00418d5b16fa2sm3373412wmb.30.2024.04.18.05.44.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 05:44:08 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@atishpatra.org>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 12/12] KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
-Date: Thu, 18 Apr 2024 14:42:35 +0200
-Message-ID: <20240418124300.1387978-13-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240418124300.1387978-1-cleger@rivosinc.com>
-References: <20240418124300.1387978-1-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="pPZQ3MGV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1713445053; x=1744981053;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hzs+cdhElRvkfgSeBVU0J84Khj0Utaoqs/UY4zJhumY=;
+  b=pPZQ3MGVBApxia1BaJCtMZE4SvopQE/8APPVSf0n9nKBsrEJSzY3O5LF
+   dpEzSdCAV2tUG1lbm0LYYySmm66P2PXUlu7bpbTiobE1EHMtMZOd8RB4V
+   oEus3sIX5yhjD/HcO7j23pcnN37YjL+6Xohj0YNhbVk+0wC9A2FtIk/qd
+   V5mDfjTiDDDoUeak7r7zuLOAA8goP1hQoHrZ0sj70U9Omll1+44NNEump
+   5OJPG/lTJLAxt4jAagh9/3AL0hatZpq0rAsuq1nqQ5ys9rrqvApREZGes
+   WjQF0XAhUvVHD1ltwrtCz0IotPreMC4/bk5jkdo1pV2+rTgkWCu7VTlFY
+   g==;
+X-CSE-ConnectionGUID: /GOC6xhST+W/rwirabmEJg==
+X-CSE-MsgGUID: dcaDkZCaR7mItOV91KRkVQ==
+X-IronPort-AV: E=Sophos;i="6.07,212,1708412400"; 
+   d="scan'208";a="22153713"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Apr 2024 05:57:31 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 18 Apr 2024 05:57:12 -0700
+Received: from CHE-LT-I17164LX.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 18 Apr 2024 05:57:04 -0700
+From: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
+	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <andrew@lunn.ch>, <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+	<devicetree@vger.kernel.org>, <horatiu.vultur@microchip.com>,
+	<ruanjinjie@huawei.com>, <steen.hegelund@microchip.com>,
+	<vladimir.oltean@nxp.com>
+CC: <UNGLinuxDriver@microchip.com>, <Thorsten.Kummermehr@microchip.com>,
+	<Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
+	<Nicolas.Ferre@microchip.com>, <benjamin.bigler@bernformulastudent.ch>,
+	Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
+Subject: [PATCH net-next v4 03/12] net: ethernet: oa_tc6: implement register read operation
+Date: Thu, 18 Apr 2024 18:26:39 +0530
+Message-ID: <20240418125648.372526-4-Parthiban.Veerasooran@microchip.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The KVM RISC-V allows Zcmop extension for Guest/VM so add this
-extension to get-reg-list test.
+Implement register read operation according to the control communication
+specified in the OPEN Alliance 10BASE-T1x MACPHY Serial Interface
+document. Control read commands are used by the SPI host to read
+registers within the MAC-PHY. Each control read commands are composed of
+a 32 bits control command header.
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
+The MAC-PHY ignores all data from the SPI host following the control
+header for the remainder of the control read command. Control read
+commands can read either a single register or multiple consecutive
+registers. When multiple consecutive registers are read, the address is
+automatically post-incremented by the MAC-PHY. Reading any unimplemented
+or undefined registers shall return zero.
+
+Signed-off-by: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 ---
- tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/net/ethernet/oa_tc6.c | 84 ++++++++++++++++++++++++++++++++++-
+ include/linux/oa_tc6.h        |  3 ++
+ 2 files changed, 85 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-index 61cad4514197..9604c8ece787 100644
---- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-@@ -59,6 +59,7 @@ bool filter_reg(__u64 reg)
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCB:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCD:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCF:
-+	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCMOP:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFA:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFH:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFHMIN:
-@@ -429,6 +430,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
- 		KVM_ISA_EXT_ARR(ZCB),
- 		KVM_ISA_EXT_ARR(ZCD),
- 		KVM_ISA_EXT_ARR(ZCF),
-+		KVM_ISA_EXT_ARR(ZCMOP),
- 		KVM_ISA_EXT_ARR(ZFA),
- 		KVM_ISA_EXT_ARR(ZFH),
- 		KVM_ISA_EXT_ARR(ZFHMIN),
-@@ -957,6 +959,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(zca, ZCA),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcb, ZCB),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcd, ZCD),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcf, ZCF),
-+KVM_ISA_EXT_SIMPLE_CONFIG(zcmop, ZCMOP);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfa, ZFA);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfh, ZFH);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfhmin, ZFHMIN);
-@@ -1017,6 +1020,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
- 	&config_zcb,
- 	&config_zcd,
- 	&config_zcf,
-+	&config_zcmop,
- 	&config_zfa,
- 	&config_zfh,
- 	&config_zfhmin,
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index a92337de4534..f563329912e2 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -38,6 +38,7 @@ enum oa_tc6_header_type {
+ };
+ 
+ enum oa_tc6_register_op {
++	OA_TC6_CTRL_REG_READ = 0,
+ 	OA_TC6_CTRL_REG_WRITE = 1,
+ };
+ 
+@@ -113,7 +114,8 @@ static void oa_tc6_prepare_ctrl_spi_buf(struct oa_tc6 *tc6, u32 address,
+ 
+ 	*tx_buf = oa_tc6_prepare_ctrl_header(address, length, reg_op);
+ 
+-	oa_tc6_update_ctrl_write_data(tc6, value, length);
++	if (reg_op == OA_TC6_CTRL_REG_WRITE)
++		oa_tc6_update_ctrl_write_data(tc6, value, length);
+ }
+ 
+ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+@@ -132,6 +134,30 @@ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+ 	return 0;
+ }
+ 
++static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
++{
++	u32 *tx_buf = tc6->spi_ctrl_tx_buf;
++	u32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
++
++	/* The echoed control read header must match with the one that was
++	 * transmitted.
++	 */
++	if (*tx_buf != *rx_buf)
++		return -EPROTO;
++
++	return 0;
++}
++
++static void oa_tc6_copy_ctrl_read_data(struct oa_tc6 *tc6, u32 value[],
++				       u8 length)
++{
++	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE +
++			 OA_TC6_CTRL_HEADER_SIZE;
++
++	for (int i = 0; i < length; i++)
++		value[i] = be32_to_cpu(*rx_buf++);
++}
++
+ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 			       u8 length, enum oa_tc6_register_op reg_op)
+ {
+@@ -152,8 +178,62 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 	}
+ 
+ 	/* Check echoed/received control write command reply for errors */
+-	return oa_tc6_check_ctrl_write_reply(tc6, size);
++	if (reg_op == OA_TC6_CTRL_REG_WRITE)
++		return oa_tc6_check_ctrl_write_reply(tc6, size);
++
++	/* Check echoed/received control read command reply for errors */
++	ret = oa_tc6_check_ctrl_read_reply(tc6, size);
++	if (ret)
++		return ret;
++
++	oa_tc6_copy_ctrl_read_data(tc6, value, length);
++
++	return 0;
++}
++
++/**
++ * oa_tc6_read_registers - function for reading multiple consecutive registers.
++ * @tc6: oa_tc6 struct.
++ * @address: address of the first register to be read in the MAC-PHY.
++ * @value: values to be read from the starting register address @address.
++ * @length: number of consecutive registers to be read from @address.
++ *
++ * Maximum of 128 consecutive registers can be read starting at @address.
++ *
++ * Returns 0 on success otherwise failed.
++ */
++int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			  u8 length)
++{
++	int ret;
++
++	if (!length || length > OA_TC6_CTRL_MAX_REGISTERS) {
++		dev_err(&tc6->spi->dev, "Invalid register length parameter\n");
++		return -EINVAL;
++	}
++
++	mutex_lock(&tc6->spi_ctrl_lock);
++	ret = oa_tc6_perform_ctrl(tc6, address, value, length,
++				  OA_TC6_CTRL_REG_READ);
++	mutex_unlock(&tc6->spi_ctrl_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(oa_tc6_read_registers);
++
++/**
++ * oa_tc6_read_register - function for reading a MAC-PHY register.
++ * @tc6: oa_tc6 struct.
++ * @address: register address of the MAC-PHY to be read.
++ * @value: value read from the @address register address of the MAC-PHY.
++ *
++ * Returns 0 on success otherwise failed.
++ */
++int oa_tc6_read_register(struct oa_tc6 *tc6, u32 address, u32 *value)
++{
++	return oa_tc6_read_registers(tc6, address, value, 1);
+ }
++EXPORT_SYMBOL_GPL(oa_tc6_read_register);
+ 
+ /**
+  * oa_tc6_write_registers - function for writing multiple consecutive registers.
+diff --git a/include/linux/oa_tc6.h b/include/linux/oa_tc6.h
+index 99c490f1c8a8..85aeecf87306 100644
+--- a/include/linux/oa_tc6.h
++++ b/include/linux/oa_tc6.h
+@@ -15,3 +15,6 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi);
+ int oa_tc6_write_register(struct oa_tc6 *tc6, u32 address, u32 value);
+ int oa_tc6_write_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 			   u8 length);
++int oa_tc6_read_register(struct oa_tc6 *tc6, u32 address, u32 *value);
++int oa_tc6_read_registers(struct oa_tc6 *tc6, u32 address, u32 value[],
++			  u8 length);
 -- 
-2.43.0
+2.34.1
 
