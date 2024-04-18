@@ -1,119 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAED315E214;
-	Thu, 18 Apr 2024 11:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EEE15ECE7;
+	Thu, 18 Apr 2024 11:55:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713439167; cv=none; b=qV2g4TQmymLWSB472fMAhkt4cS1z3gxy0FljgfGG5yM3CRucghH+Rlicz+PdA4rQQrTUAEcNiktkMZrUywPMOYbmvcD6o5DVdQ+QbWMbpCBoHq3uCzbys+lICAE6L/1g8M4Qal0PwCXKG1jt7yBw7j0sM6TQhOcejUWX1zp9+fA=
+	t=1713441307; cv=none; b=djQHSLHE+5bbskYjvT7AU13DEk6pOLQHr+71Nfl7qT9vr09HDtjx3xethxSqDAF4Vt18w4DMxORlXpEwXq/MYgYgci7BV5lUYS3Yv+RtQT/s3wuNmbg5gRwZsWuXQQaUjLgcFzBAlVPXnvU10FNZWp/SxZX88ps2y5uwywNNETg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713439167; c=relaxed/simple;
-	bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nMqwtA7QL+S2SFZKLd91MTZxaGWDTt930LyGcV3F5r7utDnHOAhEhie4yZf8h+Exewl9yUG1DETb4671DBdvmj8uIxpMZs6ldY/dQ7WUW0rk3nTA/ZOrhFSAk+9e9xGiocxx5QM1KzX7sFGiP/RVSeS1ck2Kgk8B7QbG6uW7/x0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFuLhO+7; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713441307; c=relaxed/simple;
+	bh=nwsCZ2FN2Cqnl9sETuPAgY8pi31mHoGp8q6cMs4f7aI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJPNvV1a2eM2zsmVKq7m5P+CboPkgDzP3ivw5a10HgNx/co/alC1KcbPlXWxqWgILCYI3ylQGHcd23pe64yDvkIyq36hfSEhRQBI1vS7tatNbQAONIxW9ymjsdjCner3WBL4+6ntFz+I//Ha7SD2LtY5i3tKVB3Ijds0AGar46s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EsRpmzMF; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFuLhO+7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713439164; x=1744975164;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=lfgiUVfdfFtYYnbry1n8+JxXXsIYCYkmc2J1JwkNnRo=;
-  b=eFuLhO+7MWOwf3Be2FHhxYsGNnAtf8CSaPsJs0mEjKknFjM3s2tlZfN8
-   M9t13Wmk1krWAwEcbd5Cf9/VBFvahywr/i6O3DgiKoctwtcnlxS6WwJ6N
-   Qq1YHyabY+g/dHUM7e+zESHW03uhhhFjbfDP74Daqwugv1JaujCp6qi7b
-   pTb3ReldG1dY4bWBnKlt+9cwYZLyuOzeFYgj68tcjaH+oZBr4btPcDlg1
-   20nhkz4cSQScZX/7k5FURmZ2l4CwvHil2qGyj2kn5SbxkZ7sbK11M7+XA
-   3mEyocxHSdzmq6CBKX/md9xrS0WHS7Tze6TU/osZyn/JimvSIFkacFeJa
-   w==;
-X-CSE-ConnectionGUID: PA78uK40SkWGt96jKujomw==
-X-CSE-MsgGUID: BxG7aSLKT7yrNw/L4QtuTA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9097483"
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="9097483"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:24 -0700
-X-CSE-ConnectionGUID: isirGcN4S1iK1h9wO2dd9g==
-X-CSE-MsgGUID: 7OZ/fhyhQZOwpp+2HQcdxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="23008225"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 04:19:14 -0700
-Message-ID: <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
-Date: Thu, 18 Apr 2024 13:19:11 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EsRpmzMF"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c6fc350ccaso197978b6e.1;
+        Thu, 18 Apr 2024 04:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713441304; x=1714046104; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8OguDeY70AlTXt9v6PmejPi/uk8wXSgY2DK5KvsrWFU=;
+        b=EsRpmzMFIAiHxrubT4I2wI3KDQUlYfMahZR989ekB9hAMUPOpNRo8R4dkptCAiXtTW
+         f8W8ho1g2uk0isddl6eAOSDz2UZvNFQlis9VdOIkR11jJmPjdS654ubJUvbvW2cROlNU
+         L15IwwKyFcVXeq3YCsHekVNHDZbSh6IZOxqLLEd8TtLal7ZWaYn5pGaHeqyCCaPudYDI
+         RAUUObrQiLmy0o32+UosyooMA1HmNuMSDmThlobDWsagk1YmUPNxNkGWgvJLVIg31CiW
+         PHXOhf+AxQMsFIowd69VPT2MlXcsBpb702+62tgn1P9hjkhE7gtgrBclVOANR0VAKEZw
+         itYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713441304; x=1714046104;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8OguDeY70AlTXt9v6PmejPi/uk8wXSgY2DK5KvsrWFU=;
+        b=a4xMKMaO8FBCGsm5ufOaqqlb0EedA9PO9zU4Yokxs/VsO/BfLc3lICCE0uMIz4+Dt6
+         vQss4vX08arP9Fsra+WAtomngd55ANhl08TB90fG7CJQDBQ8318U5aPO9UXObaeb3bxT
+         XYa1cDoAlGFTka4vEzsEOHs5/LUSXOdxoc0fX9TDxW8SQswR6YHn+J8F2lB/jZOG92Nk
+         +IH5Mf1fq7Ll+I4AuNt+PDSsy9j/gJUkfDLXcuplZEkZ8sEiDsw5e+7LFUPRMJi05SJx
+         tRhiOi1ntvLYkS3q+ynsKs7s41o2BiUNe9jYqp8ZxJ+iUbBbgMsfkybYgWBnKTGmd7sV
+         xSxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXDGPhidqKCGad0KPaNugwlvuJnOmYXDeIg1kntfanr8S9qb7aaAk7kRcavGIZtT3Qsu0zgQuOjzyeapvApg9pJC3iJB+MV3H42a8DTWNc66yrBaJQh229uJW88ppheqtOrs+jPpIDPgffq2XKsIm5vVksEDRNtl/B3EjsWhU7wq0G8wp1FGUEZkNzfGdGbNYAcQ5DOexWTzpn7V8lSgA==
+X-Gm-Message-State: AOJu0Yz0k4pz/UbBVwJzVVRiDEMTOYwZy/WDpoc26F2P7lrERjqCFwO0
+	awtQVcGfHXGUSDWwFTrLLrNuKfpFasDXQRubjazej51QPTKNm80mNTl9dg==
+X-Google-Smtp-Source: AGHT+IHT+hfK54m+5+f/OIe9GoOm1JKFpbKM5/mSCmMUD4TsOWyGkUqNRLHRtxf5j4KI3WtZsBbCYg==
+X-Received: by 2002:a05:6808:1820:b0:3c6:942:4dcf with SMTP id bh32-20020a056808182000b003c609424dcfmr3601005oib.37.1713441303699;
+        Thu, 18 Apr 2024 04:55:03 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 16-20020a631350000000b005dcc8a3b26esm1243917pgt.16.2024.04.18.04.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 04:55:02 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 18 Apr 2024 04:55:00 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: "SanBuenaventura, Jose" <Jose.SanBuenaventura@analog.com>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adm1275: add adm1281 support
+Message-ID: <1221f2fd-758e-4c10-8551-ed571fb1577f@roeck-us.net>
+References: <20240417000722.919-1-jose.sanbuenaventura@analog.com>
+ <20240417000722.919-3-jose.sanbuenaventura@analog.com>
+ <b36db2c0-db31-4304-8e58-aa358ab811c5@roeck-us.net>
+ <62f878f4-a4fb-4e3c-8eec-d1be5ba165a4@roeck-us.net>
+ <PH0PR03MB66070CAE5E8D99158003D58FEC0E2@PH0PR03MB6607.namprd03.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
- playback/capture_assertion
-Content-Language: en-US
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PH0PR03MB66070CAE5E8D99158003D58FEC0E2@PH0PR03MB6607.namprd03.prod.outlook.com>
 
-On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
-> soc_get_playback_capture() is now handling DPCM and normal
-> comprehensively for playback/capture stream in same code.
-> This patch converts xxx_only flag to xxx_assertion.
+On Thu, Apr 18, 2024 at 08:31:42AM +0000, SanBuenaventura, Jose wrote:
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   sound/soc/intel/boards/bdw-rt5677.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/intel/boards/bdw-rt5677.c b/sound/soc/intel/boards/bdw-rt5677.c
-> index 54e3c5d3c251..9170b1d509e2 100644
-> --- a/sound/soc/intel/boards/bdw-rt5677.c
-> +++ b/sound/soc/intel/boards/bdw-rt5677.c
-> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
->   	{
->   		.name = "Codec DSP",
->   		.stream_name = "Wake on Voice",
-> -		.capture_only = 1,
-> +		.capture_assertion = 1,
->   		.ops = &bdw_rt5677_dsp_ops,
->   		SND_SOC_DAILINK_REG(dsp),
->   	},
+> The lines mentioned were added initially because the STATUS_CML read capability
+> seems to be only available in the adm1281 and so reading the said register with
+> another device shouldn't be permitted.
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Should this have been part of patch 8?
+Why ? Sure, doing so causes the CML bit to be set, but the PMBus core uses
+that method throughout to determine if a command/register is supported.
+There are exceptions - some chips react badly if an attempt is made to read
+unsupported registers. That is not the case for chips in this series, at
+least not for the ones where I have evaluation boards. In such cases,
+the chip driver should do nothing and let the PMBus core do its job.
+
+> It seems though that the functionality is redundant and is already handled by 
+> the PMBus core and maybe these lines can be removed and CML related errors
+> can be checked using the status0 and status0_cml debugfs entries.
+
+This has nothing to do with status0 and status0_cml debugfs entries. The
+PMBUs core reads STATUS_CML if the CML status bit is set in the status
+byte/word to determine if a command is supported or not. This is as
+intended. There is nothing special to be done by a chip driver.
+
+Thanks,
+Guenter
