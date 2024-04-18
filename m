@@ -1,138 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4E416C858;
-	Thu, 18 Apr 2024 16:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693711494B2;
+	Thu, 18 Apr 2024 16:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713457774; cv=none; b=BHA/eddxoTuON7OM/BNpX7kRIf6c0dZYdrOk9FV+jyiW1IU4vMYd8VpiY1/KE6tBuErHI6PO91WLeDfjoA1UapZi9bpI0Nj4Nwl5ypnWKkBFiZW5xxIQT4PMwUWm7y2PCYgDkJXTBGhWN5wVej7XchGDuBxWRcq2LWeKFNbjmTQ=
+	t=1713458037; cv=none; b=Rrp5ZABkFOwsfUL+57W6fUzxeDb8Y2etzWEBqe7YWh8GNZjpbCRb/tCb4DcCQLhsdpskinmz53okxzu1teVubZWuim7m9G5rA+kr3sb5Y4WfKqu9x6vw8pAGBHgHq7xjgME1+Y6yUUkbEoEiitA7sx4UiJ7CjENbxQthpGBZXbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713457774; c=relaxed/simple;
-	bh=n5UTBwm9LwxWCwUD5WYTPdP8hKDjMr22biXL1uuugRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=S2t8+NpLO79tu7WqACQg8BKJufLAbSwSZWTP5ZF7WDHLk7UmBuN1rc/tp0M35oGAavpjn+HqlCCgYdP9spVcwsJvSWrPvgm0a4wiRbguBHYTYM4oFw8yiYxKKqy/jkwu3Pc0fQhcBpxFDoUwhE/gUh3P6Lhy2/D1PkGwlgDlOko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XoH46lTi; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1713458037; c=relaxed/simple;
+	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxOGdD0Z1OIA4GumObY5RTcEZsnlZ4iQMEl0jKZZkUyCFfe/zAl1BJy6z88J5n1+HUaaFYIJBnwVJchisYK1wvkiE56N5s1OI9bVDzMWn1o28YYGooNDSS3lszzdyppNgTRgODieuvpSRE6uToMNq6SizQAC1yE4Tec+jEeN/Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmzhN8RY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XoH46lTi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713457772; x=1744993772;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=n5UTBwm9LwxWCwUD5WYTPdP8hKDjMr22biXL1uuugRA=;
-  b=XoH46lTiQN7Z809wteNUddzuTyacce/RFSWOwA0nm/9wpm6xsq9kaSFF
-   JyWxNo89D46lxLr/zSOnffqEv8E5UWPxQ934m+iwZ8NPA009poSiL2XBD
-   zLMYWMuLS4yaej12DhT1tlXGgJYDRk/JhTaWqmZj7RNl6vI+eFfDkLS9r
-   RZKrX/Tzr1wZXHX7mUdoEYu9gnkgonA6fuPFkJg6rQ95DJlNLVGQS2Ocv
-   DRuodz1AtrCyd+FQkk1FUw9SiyirNNP6AwfaQQzW/2S4YBv5od1pI8zfb
-   EAHZvAPVD5Fyc/Oy4Tm2/c37zz3YqmVfIwBMs9fWlvSTlHWGadV7PCmhA
-   Q==;
-X-CSE-ConnectionGUID: UUdFCRE6Q+OeSIROFp0XrA==
-X-CSE-MsgGUID: sSneA3k0S2WqwsoN7AZrTg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8882359"
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="8882359"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:27:57 -0700
-X-CSE-ConnectionGUID: QL+FsKavRtigEK3tKkR75g==
-X-CSE-MsgGUID: ZaFP6k8bT0OPD8LxfPhFXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="23105114"
-Received: from rswoodsx-mobl.amr.corp.intel.com (HELO [10.213.167.100]) ([10.213.167.100])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 09:27:53 -0700
-Message-ID: <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
-Date: Thu, 18 Apr 2024 11:26:06 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmzhN8RY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A046BC113CC;
+	Thu, 18 Apr 2024 16:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713458037;
+	bh=lArloNKVKGEPKb6sLd3btLeNdS79IuMsK6F6Ge4DTP4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SmzhN8RYacSUvgmQeoSoei5bqe+spnwnlZfh3M/5/2LphAsoTy3X4yDNKUr+kZjOP
+	 nI0GUpxnlrDcVtXz+2C2GDMRMcaYoupRC+vwqbixVNYW4O5NZRoV9ROmQp6WigP2Fl
+	 t9vpZxB85aIoGbE8IH878QDLPSg7WdqjGxSQKAsQmNervesyvQvVJdtcVT92gND8Hp
+	 OrEs566wYq0tBLwzGRcI7M9vwdTElQ+NWCqgQTLv19g7AafiALvoigjgN73I3vj8eC
+	 5h8fooNygIBvJ6jTi9EYpXgRpuQDti2BMJsvmDnne0PGqJSFdCPbNGETCdelbl4o+J
+	 /I4Qof48Leebw==
+Date: Thu, 18 Apr 2024 18:33:54 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v11 09/28] drm/display: hdmi: Add HDMI compute clock
+ helper
+Message-ID: <20240418-spiritual-loyal-hornet-2fbbfd@houat>
+References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
+ <20240326-kms-hdmi-connector-state-v11-9-c5680ffcf261@kernel.org>
+ <Zh6Ars8z1ESz-LQO@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
- playback/capture_assertion
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
- <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="wahmhb7ukfwggb5k"
+Content-Disposition: inline
+In-Reply-To: <Zh6Ars8z1ESz-LQO@intel.com>
 
 
+--wahmhb7ukfwggb5k
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/18/24 06:19, Amadeusz Sławiński wrote:
-> On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
->> soc_get_playback_capture() is now handling DPCM and normal
->> comprehensively for playback/capture stream in same code.
->> This patch converts xxx_only flag to xxx_assertion.
->>
->> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->> ---
->>   sound/soc/intel/boards/bdw-rt5677.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/sound/soc/intel/boards/bdw-rt5677.c
->> b/sound/soc/intel/boards/bdw-rt5677.c
->> index 54e3c5d3c251..9170b1d509e2 100644
->> --- a/sound/soc/intel/boards/bdw-rt5677.c
->> +++ b/sound/soc/intel/boards/bdw-rt5677.c
->> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
->>       {
->>           .name = "Codec DSP",
->>           .stream_name = "Wake on Voice",
->> -        .capture_only = 1,
->> +        .capture_assertion = 1,
->>           .ops = &bdw_rt5677_dsp_ops,
->>           SND_SOC_DAILINK_REG(dsp),
->>       },
-> 
-> Should this have been part of patch 8?
+On Tue, Apr 16, 2024 at 04:44:14PM +0300, Ville Syrj=E4l=E4 wrote:
+> On Tue, Mar 26, 2024 at 04:40:13PM +0100, Maxime Ripard wrote:
+> > A lot of HDMI drivers have some variation of the formula to calculate
+> > the TMDS character rate from a mode, but few of them actually take all
+> > parameters into account.
+> >=20
+> > Let's create a helper to provide that rate taking all parameters into
+> > account.
+> >=20
+> > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_helper.c | 70 +++++++++++++++++++++++=
+++++++++
+> >  include/drm/display/drm_hdmi_helper.h     |  4 ++
+> >  2 files changed, 74 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/dr=
+m/display/drm_hdmi_helper.c
+> > index faf5e9efa7d3..2518dd1a07e7 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+> > @@ -193,5 +193,75 @@ void drm_hdmi_avi_infoframe_content_type(struct hd=
+mi_avi_infoframe *frame,
+> >  	}
+> > =20
+> >  	frame->itc =3D conn_state->content_type !=3D DRM_MODE_CONTENT_TYPE_NO=
+_DATA;
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+> > +
+> > +/**
+> > + * drm_hdmi_compute_mode_clock() - Computes the TMDS Character Rate
+> > + * @mode: Display mode to compute the clock for
+> > + * @bpc: Bits per character
+> > + * @fmt: Output Pixel Format used
+> > + *
+> > + * Returns the TMDS Character Rate for a given mode, bpc count and out=
+put format.
+> > + *
+> > + * RETURNS:
+> > + * The TMDS Character Rate, in Hertz, or 0 on error.
+>=20
+> Everything generally uses kHz. Sticking to common units
+> would be better.
 
-Patch 8 deals with the following changes
+Not everything, no. The clock framework is using Hz for example, and on
+drm-misc drivers it's usually going to be the consumer of that field.
 
--		.dpcm_playback = 1,
--		.dpcm_capture = 1,
-+		.playback_assertion = 1,
-+		.capture_assertion = 1,
+And there's almost 200 hits on mode->clock * 1000 in drivers/gpu/drm as
+of today, including some in i915. This is a bit less than a third of all
+the mode->clock usage, including the one that are unit-neutral (like
+comparisons between two mode->clock fields).
 
-This case is about
+Given how the rest of the DRM code is structured, yes, there's going to
+be some impedance mismatch, but it's really not as clear cut as you make
+it to be.
 
-> -        .capture_only = 1,
-> +        .capture_assertion = 1,
+> > + */
+> > +unsigned long long
+> > +drm_hdmi_compute_mode_clock(const struct drm_display_mode *mode,
+> > +			    unsigned int bpc, enum hdmi_colorspace fmt)
+> > +{
+> > +	unsigned long long clock =3D mode->clock * 1000ULL;
+> > +	unsigned int vic =3D drm_match_cea_mode(mode);
+> > +
+> > +	/*
+> > +	 * CTA-861-G Spec, section 5.4 - Color Coding and Quantization
+> > +	 * mandates that VIC 1 always uses 8 bpc.
+> > +	 */
+> > +	if (vic =3D=3D 1 && bpc !=3D 8)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * HDMI 2.0 Spec, section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> > +	 * specifies that YUV420 encoding is only available for those
+> > +	 * VICs.
+> > +	 */
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420 &&
+> > +	    !(vic =3D=3D 96 || vic =3D=3D 97 || vic =3D=3D 101 ||
+> > +	      vic =3D=3D 102 || vic =3D=3D 106 || vic =3D=3D 107))
+> > +		return 0;
+>=20
+> I believe that is already outdated. I would just rip this out since the=
+=20
+> sink is anyway required to declare for which timings it will support
+> 4:2:0 via the Y420CMDB/VDB data blocks (see
+> drm_mode_is_420_{only,also}().
 
-I think it's good to make this change separately.
+Should we use drm_mode_is_420() then or rip it out entirely?
+
+> > +
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV422) {
+> > +		/*
+> > +		 * HDMI 1.4b Spec, section 6.2.3 - Pixel Encoding Requirements
+> > +		 * specifies that YUV422 is 36-bit only.
+> > +		 */
+> > +		if (bpc !=3D 12)
+> > +			return 0;
+> > +
+> > +		/*
+> > +		 * HDMI 1.0 Spec, section 6.5 - Pixel Encoding
+> > +		 * specifies that YUV422 requires two 12-bits components per
+> > +		 * pixel clock, which is equivalent in our calculation to three
+> > +		 * 8-bits components
+> > +		 */
+> > +		bpc =3D 8;
+> > +	}
+> > +
+> > +	/*
+> > +	 * HDMI 2.0 Spec, Section 7.1 - YCbCr 4:2:0 Pixel Encoding
+> > +	 * specifies that YUV420 encoding is carried at a TMDS Character Rate
+> > +	 * equal to half the pixel clock rate.
+> > +	 */
+> > +	if (fmt =3D=3D HDMI_COLORSPACE_YUV420)
+> > +		clock =3D clock / 2;
+> > +
+> > +	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+> > +		clock =3D clock * 2;
+> > +
+> > +	clock =3D clock * bpc;
+> > +	do_div(clock, 8);
+>=20
+> IMO one shouldn't use bare do_div(). There are
+> more sensible wrappers for it.
+>=20
+> In this case I would use DIV_ROUND_CLOSEST_ULL().
+
+Ack.
+
+Thanks!
+Maxime
+
+
+--wahmhb7ukfwggb5k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiFLagAKCRAnX84Zoj2+
+dlldAX9qCzh/RA7mK7FqSsjMey+9M1jDrHEO4/u17NwCJ+/AYaHi+wppWxmtK+K+
+sLdIITcBgOE4oCoHKzJp+1JalYFdUKenCg0IWTcdxL0i3zyaXi9LePr+JzQS6ptm
+EHgy3onxJA==
+=/Ryj
+-----END PGP SIGNATURE-----
+
+--wahmhb7ukfwggb5k--
