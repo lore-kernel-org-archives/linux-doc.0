@@ -1,57 +1,57 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9010163A80
-	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 12:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE170165FC9
+	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 12:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713444247; cv=none; b=QXfpaxRQsbner0zdZw1YdqDLiyNg3f/fymqGalRpIiIMmFgDmkwti2HV+pUMTdquGWG2xrNo4+bsNn6szwxuaY8MSLJC2d7GYpQltI4i2oWvWPzpADBQszQRO/C4Isg4Mqh03ZYRoYWAjw3WnUqzIzkJ2E4xzvrjUqKnWKOFlBs=
+	t=1713444248; cv=none; b=bR4SvZzrq6tMran7j/ABwXzzPsut3WH2aKYV+O+SymMWJL2vc5BMvmn+XQS4e/tWTeUFECOupIt/Vc67ktVGTrQBaAj0VtDbpAxb6jX1xsarUEFR4CS61fil+KV5nbX4LxbbzG/eSyLbxeR5HXXMgnWPqb4a3IH18Fi+pUon1SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713444247; c=relaxed/simple;
-	bh=J+bCEvF4XFdAFPpf0c/hVBuXUmoAvTnoas5SbNaML1w=;
+	s=arc-20240116; t=1713444248; c=relaxed/simple;
+	bh=boke7k+fuPr/buwvZEKJqr5O7FQgiL8dA2Us1JuDFEc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mIVG3OLTqW4XNYNjXD5yohVz/TeFDGNFhfZ/mG1UnpeqBLZBPess7mkrM7pjQ9knIG8mV6a4nxIWexUu/6xDdWEVDR3mjh7Vd4Xuo1mAdVEzIPKnJt/OmKvk4RnQLLq8wqDCVg1dZrDrQCp0KzmpDbqJ3jM6dPmgZZ+oWwaC6Gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=glD/VJY3; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version:Content-Type; b=Cuq5uBXhZRXORjOSpD0T0iSz8v05WZBz3H8etEYlN2JvMOFv5/uew09zTqfKCWfJHhbcTWyIbnipRBEPUcNnmhK05n1f45TSCvNdvVExxSjfNBEdXTWSkrcUB+TVpZpuJpFMWnPeVaBNKANA8C8WYFNlrdO8k91eXcwUdriw5Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=IzRDUPdq; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="glD/VJY3"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-34a0cc29757so75326f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 05:44:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IzRDUPdq"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2dac628f08fso2491281fa.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 05:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713444244; x=1714049044; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713444245; x=1714049045; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HCF5E0lf403bRxRvK1+a63xMUHlXis3iiu/dcBPgPms=;
-        b=glD/VJY34TARB8xfgGOO4Hip5ayivSYist1quqST1mUcOAZe4Id1KlxtlOYwcgvzE2
-         svwdA3b74QA8mac7yCTYzIrJ6DMUgKaxPybrz6JIMJeRHszzh/QhBiap58pYTCNtd+nu
-         0J6VZFWa3jQ3dxvVI2bwYqDSweHI3tvkawAg9uFg5XSJz8MF53EX901ZrV7uq6bcMPWx
-         g7VHbkVakpmoqXUoQi5f5RvQfEfTCpYVdjNkE08HTqJG9PtQ48hmLfWLOkJuQyqpbKzD
-         sE3/jPDX8ZAyl7Ag1EKCmL3Bdeoqv4Vyy2Kly62a63DC+GMF3p74WLoQhcqXoEz041Xd
-         w3SA==
+        bh=AJJluMz+u6UTg8XM641LtNTBq3D7zPplm+46K1BBT3g=;
+        b=IzRDUPdqJ4Vlg87RINfb9CIyPJREmt9Psx3Qd1IrCBHTLQjoYYN55/s9kaLgRafHp+
+         mmu3lg3cXMIVebSj3S+5gydCrwz5G5cGLX+gtS+n2lIhpprJYMMGjWeTf6q9joZycq3F
+         wA/ewDw30c3CFmaGgc/M6p0jcEWcmvmFKI8oIeFkC0Dqk1ttxA5EJ/ddZR3keeNHgLu0
+         LmgFW8GZGMgcqfAOud+b69OSuuxSumW3/NcOJ1D5GoYCqvnWb8tb+AtP6RVybGLiK4uy
+         KpKQpU+Ts8SmSOTn87kOjwUPQPw27WDoe6TXoQQGPL9CmO8Mhxv2bbmp0P1FlB6pA3jh
+         /pXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713444244; x=1714049044;
+        d=1e100.net; s=20230601; t=1713444245; x=1714049045;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HCF5E0lf403bRxRvK1+a63xMUHlXis3iiu/dcBPgPms=;
-        b=VSTHYEZHTGNRntoRPq6sWZ3czUguCQJE8eYL4+SBBQzPWzjqmllZo+4gkEA5XlvIwk
-         qrLsoTpglyvBlZIRlzACq7hknfCGrwLxdtEo2ks2jdXZamBKNxOb07KZY5yoJbSJPDEt
-         hojuVLoNX0ORhhM3/f+Fhxq5ZvvPzJQfFgvaMzwi7SDRm8/vEwlX+dIlPw8ldYERzG97
-         T8ZTYaLRjlubbUFA8Q5+9drHoTfZ5E8uD00rpicBVuUg2XDl8Dxad323Kh5RMzJQg/E6
-         rxct0Lm61RpApr1BOHtwQMvom+cu/pgOKCWElT4QPj66bArqu+MHFq4wEqYhd2d00p1g
-         +R5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXfOGMD9GVXk5C8MEF3bCKdZRnz8KECwhsPiR+d1ReSa1NT5pFVCev7raqIo7GR4h9wnVN4jzfqLu44ydy44tY8bDIy8NouEVb4
-X-Gm-Message-State: AOJu0YyctJjr0cVXmOZeXETh/p1726LmZteilHHmeOCYzsix7AbS+GK3
-	o++MM27Kpzu+zrs/wHrc64YkAZ6Kyj5uY6w0xJbaUSfK4WHqkDdCGxPzZVn8OPI=
-X-Google-Smtp-Source: AGHT+IHf5iuv0LIJwrYLLs/M29+a7bnqtqrULSppwC9XA+JzBmE6As/f1Ah2mDNqzxt/R7Bqm6p1VA==
-X-Received: by 2002:a5d:5046:0:b0:349:eb59:c185 with SMTP id h6-20020a5d5046000000b00349eb59c185mr1524481wrt.1.1713444244182;
-        Thu, 18 Apr 2024 05:44:04 -0700 (PDT)
+        bh=AJJluMz+u6UTg8XM641LtNTBq3D7zPplm+46K1BBT3g=;
+        b=lyl79OB0Q+DdajBz497yEeWoPDhWYx+yRy0O96MzbbfyHSxM9el1e+oYGwUGiOG8e/
+         adtjqIyz42hj7SNJGCIztVIcBH5i7VGoDIA+Mc/orBlZcdzRHxGj7HjbsK7/m9eGsLfe
+         W5pj5rRY8/qde3RvoKFr4Lyk21CU1VhF8ErdAlI7JGDNk5IpZJzp7JzmaNbZIouoqcRV
+         oJqLfz0pBPpfK5iwMjWzE0OzQEpdUa6UzxhprZbVVEObtCcOUSHC7GknqC81x0fvFgoz
+         /4O8qWdYcJnOq5wPZaNVgdyyt6C+UaMho/S3LT42/Dnf5KbIP8ZtLW1peZP71Y3GvaU2
+         jJgA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9AyeaeILPd6CgiJLRFGUmdDqJz6MGol++hM9+G9YWHFbe/jRCw6SzFoAlIwPity+K3w45VNE/2jv4FREyNcEGaP2o8YBgb4kO
+X-Gm-Message-State: AOJu0Yzd051Agq63dqO2DrpVcWJoUoUGERXUIa6P2cZkeDO/0md1qQr+
+	JFpvWQ/1TMg8Rlitp4TLz+5kZqa6GwDyEqyWqN0iuBsOHGNrIOSlA+Ci/jRmXmY=
+X-Google-Smtp-Source: AGHT+IEA98F7NhkSpgbqjXTJDAARemLQxPRyTCHu7WNOEPKgiNpZ7WkvoQPUAaqjKtkLyPbtJUVEhQ==
+X-Received: by 2002:a2e:9ccf:0:b0:2d9:e54d:8208 with SMTP id g15-20020a2e9ccf000000b002d9e54d8208mr1639216ljj.0.1713444245128;
+        Thu, 18 Apr 2024 05:44:05 -0700 (PDT)
 Received: from carbon-x1.. ([2a01:e0a:999:a3a0:7b64:4d1d:16d8:e38b])
-        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b00418d5b16fa2sm3373412wmb.30.2024.04.18.05.44.02
+        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b00418d5b16fa2sm3373412wmb.30.2024.04.18.05.44.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 05:44:03 -0700 (PDT)
+        Thu, 18 Apr 2024 05:44:04 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -71,9 +71,9 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	kvm@vger.kernel.org,
 	kvm-riscv@lists.infradead.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 08/12] dt-bindings: riscv: add Zcmop ISA extension description
-Date: Thu, 18 Apr 2024 14:42:31 +0200
-Message-ID: <20240418124300.1387978-9-cleger@rivosinc.com>
+Subject: [PATCH v2 09/12] riscv: add ISA extension parsing for Zcmop
+Date: Thu, 18 Apr 2024 14:42:32 +0200
+Message-ID: <20240418124300.1387978-10-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240418124300.1387978-1-cleger@rivosinc.com>
 References: <20240418124300.1387978-1-cleger@rivosinc.com>
@@ -86,45 +86,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add description for the Zcmop (Compressed May-Be-Operations) ISA
-extension which was ratified in commit c732a4f39a4 ("Zcmop is
-ratified/1.0") of the riscv-isa-manual.
+Add parsing for Zcmop ISA extension which was ratified in commit
+b854a709c00 ("Zcmop is ratified/1.0") of the riscv-isa-manual.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
 ---
- .../devicetree/bindings/riscv/extensions.yaml        | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/riscv/include/asm/hwcap.h | 1 +
+ arch/riscv/kernel/cpufeature.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index 0172cbaa13ca..a0113cb46893 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -252,6 +252,11 @@ properties:
-             merged in the riscv-isa-manual by commit dbc79cf28a2 ("Initial seed
-             of zc.adoc to src tree.").
+diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+index b7551bad341b..cff7660de268 100644
+--- a/arch/riscv/include/asm/hwcap.h
++++ b/arch/riscv/include/asm/hwcap.h
+@@ -86,6 +86,7 @@
+ #define RISCV_ISA_EXT_ZCB		77
+ #define RISCV_ISA_EXT_ZCD		78
+ #define RISCV_ISA_EXT_ZCF		79
++#define RISCV_ISA_EXT_ZCMOP		80
  
-+        - const: zcmop
-+          description:
-+            The standard Zcmop extension version 1.0, as ratified in commit
-+            c732a4f39a4 ("Zcmop is ratified/1.0") of the riscv-isa-manual.
-+
-         - const: zfa
-           description:
-             The standard Zfa extension for additional floating point
-@@ -566,6 +571,13 @@ properties:
-         then:
-           contains:
-             const: zcd
-+      # Zcmop depends on Zca
-+      - if:
-+          contains:
-+            const: zcmop
-+        then:
-+          contains:
-+            const: zca
+ #define RISCV_ISA_EXT_XLINUXENVCFG	127
  
- allOf:
-   # Zcf extension does not exists on rv64
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 09dee071274d..f1450cd7231e 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -265,6 +265,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+ 	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
+ 	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
+ 	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
++	__RISCV_ISA_EXT_DATA(zcmop, RISCV_ISA_EXT_ZCMOP),
+ 	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
+ 	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
+ 	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
 -- 
 2.43.0
 
