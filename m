@@ -1,130 +1,112 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E09165FC7;
-	Thu, 18 Apr 2024 14:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D816ABD8;
+	Thu, 18 Apr 2024 14:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713451823; cv=none; b=CpIdNtnckKcu6KIAvfXvYxvCUZ4NnhOlolraHHW/dyzRONqfosS6CBwgfiFiyvAQ8KYx95EeJur5x6zyaMe2GotO4Y9N0xxIvIQ4KP10R8LwWUN9/PUjkGfsUFWeI9Q8qvFeRripnAmJ5UFvqaMmX9tUb4FjN5JdLc8dnqUADeU=
+	t=1713452275; cv=none; b=Lsn/k1SfuLi4FsuxTpL7Iqa/Gv7Nx3CpMY1psBwLUdM7YK6Q3AU5uiqapJERmjjTP3/u+1Hk5MaOgC9fIrMjeuborappdsE4JuNDdzGt69WuUI4ofnzMFxYDSqmnx6oP7GXdJHlpH8diuVhUXnlp0f8zZ/JPp1F4R1wP/yRcdOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713451823; c=relaxed/simple;
-	bh=/exCH+IFX8Lap5lGMTpE20vQSND7MoJrr62INE+iVGE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZN38ozBV9HqOeRBE3rol8HC7ZuCkhmrimhm1TZlM20kqlN2AQNapxksfCj/xRXL4c5nBbGmuepZ1oL21HEjHsJh74yH+PMIY3jMCPB0qrfFkKzs2Q2XKjsxxVMH9+qHevaKARn3UQxq7hXLY9enrUA3p2TcqAND815fhOJy5RBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZvU5DZF; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713452275; c=relaxed/simple;
+	bh=4U3WRbyCnOnkQnZ41bTWd65ADoYW1zIFR/LVWMvI3qU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZX5jwP1HpTtoAsHQ77BSyo+bVOBuB50+VqUasqYQmHSFoI+Vm1UsWHRbhWfq9yxD6jpYexuPsJX+9WvQVkFXW/Pl3feYiP78/8Ns6V3MthHQUzj458Y6U/MmuqYv324A0CM6FvFpXq6/5OVxsatyaaMLZSACd3y5fE91bWTpAKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Fm81bzrF; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZvU5DZF"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so910609b3a.0;
-        Thu, 18 Apr 2024 07:50:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713451821; x=1714056621; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6p+8w8Hh04Jmf8oGwjxpLa/UzKTop1h7DhMYms+7Tq8=;
-        b=AZvU5DZF+y8K23dSwWeOqRhYbsX4wmBtBeGic3Ed0QP0n58NYwaFbNUD96aDwkkcJT
-         gJQ3PmWKzJS6I0Gk51QhuG3uPq1I/5s8skUk9H38/b1YN7uR4Gzx20YRWMcyevdWiCXc
-         zw6gusvU+lXalm9oSla5mDBOYtU5p5qtdGMRuy20ePP8dLDWpUxoa4tqILEywf2yCy+d
-         LxYlnblsWWaZV2sD7tv1CM8kEbWH0EKIHQB6nBUlQyvQQBPQhEBKJ9IzhnkTIUXjrXte
-         6+icHvE/ib+AaXzsUrFHtx0stXbYzGLbcptq0i6wJSgQUjn9Lp4T/uMXf7RdZkR7w848
-         jMAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713451821; x=1714056621;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6p+8w8Hh04Jmf8oGwjxpLa/UzKTop1h7DhMYms+7Tq8=;
-        b=Gb22sE3flAPlWgNbg1p0cCQieQZpW0a0Sgta9YF99Cplr4wLijBUNiWYSaY8IBWyYf
-         Ef6anJrUxIZ3m7YkAvU0eP+ZmUM3mYKvCmoqHMo5uOveqwLtP6M2/vsFsvxa99o1F/YT
-         LtSK5moZgQJXwGKFptrnCyhvdEP/vdcdUdxE3NgRO2e/l4dRIcOelBdbP0Xr2+xuZUrx
-         4BNvJZ5KfDlL7iUM79Ot6fSnPx3wNDmLtSGf3K+nTFX14vH0xNEH2kMU+VWD3tEmuaCF
-         UyF2sUnPacF/cYohVL7mGoVM0WcbiGMkT+pYueELH2xJwXBIOhgRgcSShcOnccPyT/s8
-         o5lg==
-X-Forwarded-Encrypted: i=1; AJvYcCW9Qtc7kdSs7+DRrOUQYrkACQueiV7Gn6tksI7gS8BZ0xkdW7M5CVQPZNGVD6QdBGSB1mBSCojt1sND1muYYhK9IGQuDsOA0NBkdTZfGio5F8CzLM1lOX+bZw9bVDs3Gb+4vsi7M6ofyjaYW+AkIxqknZN7u41TgQwfFHeMBdME00oaDiY/yBiNUKTIazQJCtu22DL32vg8mS5emcc2ecpAzAvAnxLa4LKGVMCjHATPHjnk+3JvbaFzBX+DTILZ2q6g7uRpMpvTPSOYeM3tdh0RRdMtiAayxNO7s/C0UQ==
-X-Gm-Message-State: AOJu0YwifrUpVrSUZ/TiqciBU07wxdXG1Mx7QRvYhDAkXOCIr49VMgp5
-	K6+/M934UC4tqY9Hdx6+86ReySfahxxYzGmeNYTXj/L5AjWAcsZ1
-X-Google-Smtp-Source: AGHT+IEy3w5ti8d/aRlYULSHP6kn4xClYK6aejX5I6/4QNKJ+uBQwqqDM8a4ftyXRx5jRuNQIVC1bQ==
-X-Received: by 2002:a05:6a00:3d0c:b0:6ed:332:ffbc with SMTP id lo12-20020a056a003d0c00b006ed0332ffbcmr3858066pfb.20.1713451821509;
-        Thu, 18 Apr 2024 07:50:21 -0700 (PDT)
-Received: from LancedeMBP.lan ([112.10.225.217])
-        by smtp.gmail.com with ESMTPSA id fv3-20020a056a00618300b006eb3c3db4afsm1552999pfb.186.2024.04.18.07.50.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 07:50:21 -0700 (PDT)
-From: Lance Yang <ioworker0@gmail.com>
-To: david@redhat.com
-Cc: akpm@linux-foundation.org,
-	cgroups@vger.kernel.org,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dalias@libc.org,
-	fengwei.yin@intel.com,
-	glaubitz@physik.fu-berlin.de,
-	hughd@google.com,
-	jcmvbkbc@gmail.com,
-	linmiaohe@huawei.com,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	muchun.song@linux.dev,
-	naoya.horiguchi@nec.com,
-	peterx@redhat.com,
-	richardycc@google.com,
-	ryan.roberts@arm.com,
-	shy828301@gmail.com,
-	willy@infradead.org,
-	ysato@users.sourceforge.jp,
-	ziy@nvidia.com
-Subject: Re: [PATCH v1 04/18] mm: track mapcount of large folios in single value
-Date: Thu, 18 Apr 2024 22:50:03 +0800
-Message-Id: <20240418145003.8780-1-ioworker0@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20240409192301.907377-5-david@redhat.com>
-References: <20240409192301.907377-5-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Fm81bzrF"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 39E6DE0005;
+	Thu, 18 Apr 2024 14:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713452269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=22V/9/vEJpEcidGLVhJgIB+KQKlIxyJ3KNXd2wPelig=;
+	b=Fm81bzrFsXBTdoR/EZ94HL5ogTTkxn9LSc1bNL+ilg4qVmIXTG78tezLsusrXWZuur5xCc
+	qw2fKRBfQK9qCvt09h033nk7SgBL/W6tasONuUi23vzQMP9KfkOvc45QLXi2xX/A1YGIgl
+	gaFN6i0jZr9GrGsi1ebo/MrcOq5MNcimyVXmdbKapBkfI3C7zJe6dh76Yg1uaKl+n2NvZu
+	0Ci4q01o+fo5UG17jZNhWmGtEsQuu58Qqyt4wWWPTOAoBwcxpdu3ZE7MtSE9jLEIhM1UkV
+	vkKHqUjhFi5APEGMQxZ66yUj2vECc1tEuAznQqlYsq47JXhne5L4hR9vYMh6Jg==
+Date: Thu, 18 Apr 2024 16:57:38 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Rob Herring <robh@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Dent Project <dentproject@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, Conor
+ Dooley <conor+dt@kernel.org>, kernel@pengutronix.de, "Rafael J. Wysocki"
+ <rafael@kernel.org>, linux-doc@vger.kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, Russ
+ Weight <russ.weight@linux.dev>, Jakub Kicinski <kuba@kernel.org>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Mark Brown
+ <broonie@kernel.org>, Eric Dumazet <edumazet@google.com>, Frank Rowand
+ <frowand.list@gmail.com>, Paolo Abeni <pabeni@redhat.com>, "David S.
+ Miller" <davem@davemloft.net>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ netdev@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH net-next v9 08/14] dt-bindings: net: pse-pd: Add another
+ way of describing several PSE PIs
+Message-ID: <20240418165738.2443f1a6@kmaincent-XPS-13-7390>
+In-Reply-To: <ZiDwz7_2nGzwVHy8@pengutronix.de>
+References: <20240417-feature_poe-v9-0-242293fd1900@bootlin.com>
+	<20240417-feature_poe-v9-8-242293fd1900@bootlin.com>
+	<171336806575.2618779.157615998420721814.robh@kernel.org>
+	<ZiDwz7_2nGzwVHy8@pengutronix.de>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hey David,
+On Thu, 18 Apr 2024 12:07:11 +0200
+Oleksij Rempel <o.rempel@pengutronix.de> wrote:
 
-FWIW, just a nit below.
+> Hi Rob,
+>=20
+> On Wed, Apr 17, 2024 at 10:34:26AM -0500, Rob Herring wrote:
+> > On Wed, 17 Apr 2024 16:39:56 +0200, Kory Maincent wrote: =20
+> ....
+> > > ---
+> > >  .../bindings/net/pse-pd/pse-controller.yaml        | 101
+> > > ++++++++++++++++++++- 1 file changed, 98 insertions(+), 3 deletions(-)
+> > >  =20
+> >=20
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> >=20
+> > yamllint warnings/errors:
+> >=20
+> > dtschema/dtc warnings/errors:
+> >=20
+> >=20
+> > doc reference errors (make refcheckdocs):
+> > Warning: Documentation/devicetree/bindings/net/pse-pd/pse-controller.ya=
+ml
+> > references a file that doesn't exist:
+> > Documentation/networking/pse-pd/pse-pi.rst
+> > Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml:
+> > Documentation/networking/pse-pd/pse-pi.rst =20
+>=20
+> Hm... this documentation was added by patch 7. I assume refcheckdocs
+> is searching in the wrong place or should the path be relative?
+>=20
+> Is this warning a blocker for this patch set?
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 2608c40dffad..08bb6834cf72 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1143,7 +1143,6 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
- 		int *nr_pmdmapped)
- {
- 	atomic_t *mapped = &folio->_nr_pages_mapped;
--	const int orig_nr_pages = nr_pages;
- 	int first, nr = 0;
- 
- 	__folio_rmap_sanity_checks(folio, page, nr_pages, level);
-@@ -1155,6 +1154,7 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
- 			break;
- 		}
- 
-+		atomic_add(nr_pages, &folio->_large_mapcount);
- 		do {
- 			first = atomic_inc_and_test(&page->_mapcount);
- 			if (first) {
-@@ -1163,7 +1163,6 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
- 					nr++;
- 			}
- 		} while (page++, --nr_pages > 0);
--		atomic_add(orig_nr_pages, &folio->_large_mapcount);
- 		break;
- 	case RMAP_LEVEL_PMD:
- 		first = atomic_inc_and_test(&folio->_entire_mapcount);
+Yeah it is a false positive.
+I don't think so. I assume maintainers time is the blockers for the patch
+series to be accepted.
 
-Thanks,
-Lance
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
