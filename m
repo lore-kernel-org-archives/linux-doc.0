@@ -1,191 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA6C16F8F7;
-	Thu, 18 Apr 2024 16:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786EE16F29A
+	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 17:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713459243; cv=none; b=THaULIbiTWQqztUthBEq2bVhqLX+sfZPSVTagCu2t3ogajUGG+bG0INv/XX1fNFNxuscJkaKdiKdyfSpo8fNyCJ1XJBOW4LV/ehe6f2+O9+02Gi1bjm7/8eP4lOIPGOKD7Rv4RIRhZ8iEOqNUAm5Gu/nNkhJGt/fC+kcD/BU+hE=
+	t=1713460329; cv=none; b=F0scAE1FFxtD/cohCkS95aPjrbmztbfyM0M9aNbR4sZdW9L1FujcKfdORGMk/2fw4cvcixDfPszNweTR76kYbUus6j7k5EdJkFLkBPnK7OMrJ9Jg8LZ9/cjFhRotg0j7t/nPow4OCC72BVPdZt2/fE+V7maJGKccM0tPhHQ73ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713459243; c=relaxed/simple;
-	bh=Td96Pr2RLxCmccrLCbz0GSBYtl2efgCYqTBO4CPC85Y=;
+	s=arc-20240116; t=1713460329; c=relaxed/simple;
+	bh=V4bD0JhlT+UQ1ATauOhPA9TteDqpGdm2KZM8d041ViM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=etOstbJZuGlqIyr2vsSeJbrjOPeqVi0l4vNJGRSOrDpZ94wbxdqvAmfKfsqZMpIYvQptLtPpdmDrZEweyjUF0CYxs1uzUffLR/I5kHTX4buXdCybbKMBbWGuZjlPLi56W/iITqnZ1XMnOWogxneCGmpTfdXR+r3nN9ecZ1FGBHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LR5SOtA8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPBqhnNXS7RuMv28V8tRzgZK0WjLDGbhoA+t+KHYwgWQkeVq71sCJnNS/tt8ucM6pkm1C+qCb+RHQTs/hx226hPaIVtXUMXT4ySsiKJkqnKaJiUp8/9qBYNfw+rCjQSAb4EQhtBgwq6EGBh1Yz1eaad5pk1L2Ec0IjAa71YrOpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=c2/2f+K3; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LR5SOtA8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F01C113CC;
-	Thu, 18 Apr 2024 16:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713459242;
-	bh=Td96Pr2RLxCmccrLCbz0GSBYtl2efgCYqTBO4CPC85Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LR5SOtA8WsHMP6vVIvV29C88LXwY4oD+ef/jdGjbN3bb54kSGt4EoJHQg89DKFlRi
-	 jJ5gOUQHX8QKRHrbQgrjvklqJroXZjGvGntVSvJ0JIClsi0k1C8TETJyXK1+EfQ9PR
-	 639TjYZyOQswbawi0oVjBq77Ithr9GznM+wr4uIy93snA3jlvZ74ZbfhtOqrKLLXAi
-	 42UUK6THGudljukfqbn7Tg0P1EtQCPLgssw+SO0QetYbyXIB7Q9vr862R7zLRENx88
-	 TjbVtJkE5kioS84t+pzUqjwDnGciFsuX3e4akgNc6bzc/0+1lkF/jK0QX8ROzMNrae
-	 oLckb+4wXzjVg==
-Date: Thu, 18 Apr 2024 17:53:55 +0100
-From: Conor Dooley <conor@kernel.org>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="c2/2f+K3"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e5715a9ebdso9651255ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 10:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1713460328; x=1714065128; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Srcc8GSfebZLoUs5UEqC/Q5n1RryFdWaKvCpiJ/RKN0=;
+        b=c2/2f+K3iNgmz9NGLiIrElX2rcXto28Q773Y5I2zC2/ext9ebHLiBn5t/R7eJnJaRj
+         /PoD3mqROt5aFHFxPXdY/RNO5VXF4g1gU6wj4lJmrP7QYIgdl3wh2eubW19wUGf6vMnL
+         ewaGuVjAHJV+LMZDbF2X2g7fhHEqOP43wPm+s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713460328; x=1714065128;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Srcc8GSfebZLoUs5UEqC/Q5n1RryFdWaKvCpiJ/RKN0=;
+        b=U1p6a6PSbo21AQUn1kOkAt7W/sTTAqRGrn0/BRfS+kT7NzMetJaSAgYUd0SzzPzFSM
+         /6F7Ca/BUOfMRtj7Pd4AQOsK0q7a75gZkgRe4C/5U98+Ox8IiM6ZpfBZuVO18spHAZGJ
+         3/mgpYfznehRX7Pk/UsbdHsXmZBIXsshaVr+G11Y034mTZIznljyjn04j5TN9K58p7lM
+         Q2Z1dcag+f75iv+5aN7zeOSLD45+8b6XvpiElefJofAgJlbyrt6P0XuTzynnRbp/SZ/5
+         vMRxSFslguhR1ZDY201YyewoIhVFlz69RrG3Xnl4+ghv/dVDp9JtMNvN/RqYCf9GXpDf
+         3GjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtGSZzGWVulqUc0ptzFySG20852l78DibYZ1FuZ6GrWspYjZy72FF3gVYSnLuavcxZTntxqurFXBm9OfpHtrE8BQLGSasQc8eu
+X-Gm-Message-State: AOJu0YyCbFATvGZRXFRQSaAtq5TWp1w9jPYbNtOtndpNepVbwkQ4V1k2
+	pE2owvHjq1MQvgvz5lVvAFzoaTikbXODKHcUsFcks0JOV1DqtLyKjsheFodKNw==
+X-Google-Smtp-Source: AGHT+IGXRsPSakc8glvVR0fVaanCDT0iQFBXasCGzm9NwhaKMLnvjPABcG55nXEozQZ+YUznpYVeKA==
+X-Received: by 2002:a17:903:493:b0:1e2:6165:8086 with SMTP id jj19-20020a170903049300b001e261658086mr3335872plb.61.1713460327781;
+        Thu, 18 Apr 2024 10:12:07 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id x7-20020a1709027c0700b001e2c8bc6bebsm1765424pll.81.2024.04.18.10.12.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 10:12:07 -0700 (PDT)
+Date: Thu, 18 Apr 2024 10:12:06 -0700
+From: Kees Cook <keescook@chromium.org>
 To: Eric Biggers <ebiggers@kernel.org>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner <heiko@sntech.de>,
-	Guo Ren <guoren@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Vincent Chen <vincent.chen@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Joel Granados <j.granados@samsung.com>,
-	Jerry Shih <jerry.shih@sifive.com>
-Subject: Re: [PATCH v4 7/9] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <20240418-ultimatum-yam-11de4b063b83@spud>
-References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
- <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
- <20240418-brook-chili-4d3e61d1a55c@wendy>
- <20240418155256.GA2410@sol.localdomain>
+Cc: Alex Elder <elder@linaro.org>, corbet@lwn.net,
+	gregkh@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+Message-ID: <202404181010.5C27FE82D@keescook>
+References: <20240414170850.148122-1-elder@linaro.org>
+ <20240418161430.GB2410@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="caZE0P60wQJMi2ZH"
-Content-Disposition: inline
-In-Reply-To: <20240418155256.GA2410@sol.localdomain>
-
-
---caZE0P60wQJMi2ZH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240418161430.GB2410@sol.localdomain>
 
-On Thu, Apr 18, 2024 at 08:52:56AM -0700, Eric Biggers wrote:
-> Hi Conor,
->=20
-> On Thu, Apr 18, 2024 at 12:02:10PM +0100, Conor Dooley wrote:
-> > +CC Eric, Jerry
-> >=20
-> > On Fri, Apr 12, 2024 at 02:49:03PM +0800, Andy Chiu wrote:
-> > > Make has_vector take one argument. This argument represents the minim=
-um
-> > > Vector subextension that the following Vector actions assume.
-> > >=20
-> > > Also, change riscv_v_first_use_handler(), and boot code that calls
-> > > riscv_v_setup_vsize() to accept the minimum Vector sub-extension,
-> > > ZVE32X.
-> > >=20
-> > > Most kernel/user interfaces requires minimum of ZVE32X. Thus, programs
-> > > compiled and run with ZVE32X should be supported by the kernel on most
-> > > aspects. This includes context-switch, signal, ptrace, prctl, and
-> > > hwprobe.
-> > >=20
-> > > One exception is that ELF_HWCAP returns 'V' only if full V is support=
-ed
-> > > on the platform. This means that the system without a full V must not
-> > > rely on ELF_HWCAP to tell whether it is allowable to execute Vector
-> > > without first invoking a prctl() check.
-> > >=20
-> > > Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
-> > > Acked-by: Joel Granados <j.granados@samsung.com>
-> >=20
-> > I'm not sure that I like this patch to be honest. As far as I can tell,
-> > every user here of has_vector(ext) is ZVE32X, so why bother actually
-> > having an argument?
-> >=20
-> > Could we just document that has_vector() is just a tyre kick of "is
-> > there a vector unit and are we allowed to use it", and anything
-> > requiring more than the bare-minimum (so zve32x?)must explicitly check
-> > for that form of vector using riscv_has_extension_[un]likely()?
-> >=20
-> > Finally, the in-kernel crypto stuff or other things that use
-> > can_use_simd() to check for vector support - do they all function corre=
-ctly
-> > with all of the vector flavours? I don't understand the vector
-> > extensions well enough to evaluate that - I know that they do check for
-> > the individual extensions like Zvkb during probe but don't have anything
-> > for the vector version (at least in the chacha20 and sha256 glue code).
-> > If they don't, then we need to make sure those drivers do not probe with
-> > the cut-down variants.
->=20
-> As far as I know, none of the RISC-V vector crypto code has been tested w=
-ith
-> Zve* yet.  Currently it always checks for VLEN >=3D 128, which should exc=
-lude most
-> Zve* implementations.
->=20
-> Currently it doesn't check for EEW >=3D 64, even though it sometimes assu=
-mes that.
-> It looks like a check for EEW >=3D 64 needs to be added in order to exclu=
-de Zve32x
-> and Zve32f implementations that don't support EEW =3D=3D 64.
+On Thu, Apr 18, 2024 at 09:14:30AM -0700, Eric Biggers wrote:
+> Also, it's not true that "Android" sets this option.  It might be the case that
+> some individual Android OEMs have decided to use it for some reason (they do
+> have the ability to customize their kernel command line, after all).  It's
+> certainly not used by default or even recommended.
 
-Cool, glad I asked then :)
+Ah yes, you are right. I had misremembered; last I looked Android uses
+of CONFIG_UBSAN_TRAP=y, which has a similar affect (effectively promoting
+warning into bug) for UBSAN checks.
 
-> If it would be useful to do so, we should be able to enable some of the c=
-ode
-> with a smaller VLEN and/or EEW once it has been tested in those configura=
-tions.
-> Some of it should work, but some of it won't be able to work.  (For examp=
-le, the
-> SHA512 instructions require EEW=3D=3D64.)
->=20
-> Also note that currently all the RISC-V vector crypto code only supports =
-riscv64
-> (XLEN=3D64).  Similarly, that could be relaxed in the future if people re=
-ally need
-> the vector crypto acceleration on 32-bit CPUs...  But similarly, the code=
- would
-> need to be revised and tested in that configuration.
->=20
-> > Eric/Jerry (although read the previous paragraph too):
-> > I noticed that the sha256 glue code calls crypto_simd_usable(), and in
-> > turn may_use_simd() before kernel_vector_begin(). The chacha20 glue code
-> > does not call either, which seems to violate the edict in
-> > kernel_vector_begin()'s kerneldoc:
-> > "Must not be called unless may_use_simd() returns true."
->=20
-> skcipher algorithms can only be invoked in process and softirq context.  =
-This
-> differs from shash algorithms which can be invoked in any context.
->=20
-> My understanding is that, like arm64, RISC-V always allows non-nested
-> kernel-mode vector to be used in process and softirq context -- and in fa=
-ct,
-> this was intentionally done in order to support use cases like this.  So =
-that's
-> why the RISC-V skcipher algorithms don't check for may_use_simd() before =
-calling
-> kernel_vector_begin().
-
-I see, thanks for explaining that. I think you should probably check
-somewhere if has_vector() returns true in that driver though before
-using vector instructions. Only checking vlen seems to me like relying on
-an implementation detail and if we set vlen for the T-Head/0.7.1 vector
-it'd be fooled. That said, I don't think that any of the 0.7.1 vector
-systems actually support Zvkb, but I hope you get my drift.
-
-Thanks,
-Conor.
-
---caZE0P60wQJMi2ZH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiFQIwAKCRB4tDGHoIJi
-0gl8AQCH5jcR0fwp68BBBcX8uk063UxUZdEjt7Yt3nU+80K6GgEA64+MkNFk/ns9
-57UBSy8tcN6JCY0eSgoJEzI8o/6y4gY=
-=d1id
------END PGP SIGNATURE-----
-
---caZE0P60wQJMi2ZH--
+-- 
+Kees Cook
