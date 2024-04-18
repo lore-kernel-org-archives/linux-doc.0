@@ -1,93 +1,88 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF98FC1F;
-	Wed, 17 Apr 2024 23:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D50E10FA;
+	Thu, 18 Apr 2024 00:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713396629; cv=none; b=pDwignKWy5yZQRAqSCZqFzmD70SnSTWwIt1HK4W+OXF23PDAv1vrOog9nYZBrcDZ6v8nm/7GWKm0itBWdLmkhxc0RkcWpqIvFByHJZM3iBzgiQ06oMyi7VJheZymVaJC/A5dyhymmkSVakf4sAKuYYp/JlP4fLX6/WMhoHcHAII=
+	t=1713401677; cv=none; b=GYpOGkibDxn79A0QtkuiLBp3fEtX661OB2FXgIJ7i2Ste0wA1zq98u84ycUkn3OwbSc/KthkIo29yKNU/GQjSGKSHc5whm3RUiuLScJQNV11gzyOtlo+OEfbH2jls/FZyIuilDuJKtwwcnUgYvCBYaj8SZTfB90T5aL5Roik8BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713396629; c=relaxed/simple;
-	bh=uStAB8Z7PetShi7DRWS4/m48vP2jVkoqSdBYHLWZmq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U2ZaF7RxLkxda4HFLRs4NQFHSdpiyL5uz5heUx2r7dN2ohOLoJ4oU6jVo/xvDRuezqNb7QgulKhDl/ALvImMANc4y5O4CzwHv1rw/Adas02KDCiEodTVXDAgeQIu5rpHKenjDQcAI5HPm4aa//koErScXQ0cCeMNEqo/lyUT8e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AXJ5pPYt; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713401677; c=relaxed/simple;
+	bh=wAfm/febHBO7WS9l7V3gS7eMe755bKnF0FqkdZH3vP4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KBEH401BF7zWeG/l/wtOY0ya9avyu5X3ofduSx9R2w8Q5Ad3ORCOJOtYNR4MPNfgflN0hSelfYPv7FLPSq8JQL0wZcihX8xf+W252FABf8ylZrbWxI2ww032eCzj3nIUBV7cff5eXrli3AiqigfkjXEG/m+yjZHoXaDY6I+4IfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=DYLgMPLH; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AXJ5pPYt"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6659E20005;
-	Wed, 17 Apr 2024 23:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713396619;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/rS7uP4fx3ZEs46hxQ2+VksSxmKsjL9TvdkkylxD0uE=;
-	b=AXJ5pPYt5xis9A/7Evxs8nE7hcciW35W9j0ocdTWXJdiLVldbEKtH6UUOFTrfMmwluBM9N
-	xm8DCuo/A1Rq0uKTvcu5G8AmmkyQKxvFRXB25PN4r2597PARWtNPimrC2bpf3pmevHrPBb
-	a6w3Bur086buNBKEtNm2vCCFahUn6BIFBOuAzcA/QhI9ZERlVZIcdx+MU8MaKVi7FqW7y8
-	1qvrOceEwd36bEqnPH7lQRWZhF3uuDIIPzufqbGu6EkjPR1CDqV5Oq7fDqdLFxS1vCgyIh
-	chft9KMIXq8+D65E+u+uaXSq3TxJf8axsvvPub3oGHy/0WxLqVdgQh5Sg+PmHw==
-Date: Thu, 18 Apr 2024 01:30:09 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] ASoC: doc: dapm: various improvements
-Message-ID: <20240418013009.25b6bf0f@booty>
-In-Reply-To: <20240416212349079fdffc@mail.local>
-References: <20240416-dapm-docs-v1-0-a818d2819bf6@bootlin.com>
-	<20240416212349079fdffc@mail.local>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="DYLgMPLH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1713401672;
+	bh=aDG3p51AHQpbTq3NLy30yBtk1qMbUt6rlsMzU/0vs+c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DYLgMPLH7SaX85J65aHjr0TWwpsRnrweVRL98MhbWZ4q21Lei0zwZPOWNu7TrLJMN
+	 s4NbXruH9JqHTfkJzzzFgRcK1lKN+PZhkpIRJajRKan9W6hjirqxzCe3nLZMSV+YHH
+	 Kka/I2aV70qA10VAlOQYT8JmsOrJX9ICFnXiJ9a1CrzJKKbwaZBVc2b73zPr8kDAXK
+	 ZX3m6zOxVzMXijOKC//fdze2SFVKFuMe8tYzb/0MnypqftsXd82i2X/7U9b4YBq6ji
+	 crBIT26y2on2KH1wNgXIXH0rC28O9n8G6ztMcIj2p/Vzy8RsnknXWX0+iLogW+YQet
+	 r91oA7HDUjB4A==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VKfS66FgYz4wjF;
+	Thu, 18 Apr 2024 10:54:30 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Sean Christopherson <seanjc@google.com>, Jonathan Corbet
+ <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stephen
+ Rothwell <sfr@canb.auug.org.au>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86
+ architectures
+In-Reply-To: <20240417001507.2264512-2-seanjc@google.com>
+References: <20240417001507.2264512-1-seanjc@google.com>
+ <20240417001507.2264512-2-seanjc@google.com>
+Date: Thu, 18 Apr 2024 10:54:28 +1000
+Message-ID: <87jzkvbid7.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: yes
-X-Spam-Level: **************************
-X-GND-Spam-Score: 400
-X-GND-Status: SPAM
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain
 
-Hi Alex,
+Sean Christopherson <seanjc@google.com> writes:
+> Add a generic Kconfig, CPU_MITIGATIONS, to control whether or not CPU
+> mitigations are enabled by default, and force it on for all architectures
+> except x86.  A recent commit to turn mitigations off by default if
+> SPECULATION_MITIGATIONS=n kinda sorta missed that "cpu_mitigations" is
+> completely generic, where as SPECULATION_MITIGATIONS is x86 specific.
+>
+> Alternatively, SPECULATION_MITIGATIONS could simply be defined in common
+> code, but that creates weirdness for x86 because SPECULATION_MITIGATIONS
+> ends up being defined twice, and the default behavior would likely depend
+> on the arbitrary include order (if the two definitions diverged).
+>
+> Ideally, CPU_MITIGATIONS would be unconditionally on by default for all
+> architectures, and manually turned off, but there is no way to unselect a
+> Kconfig.
+>
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes: https://lkml.kernel.org/r/20240413115324.53303a68%40canb.auug.org.au
+> Fixes: f337a6a21e2f ("x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> ---
 
-On Tue, 16 Apr 2024 23:23:49 +0200
-Alexandre Belloni <alexandre.belloni@bootlin.com> wrote:
+Thanks for fixing it up.
 
-> On 16/04/2024 07:56:06+0200, Luca Ceresoli wrote:
-> > This series applies various improvements to the DAPM documentation: a
-> > rewrite of a few sections for clarity, style improvements and typo fixes.
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
-> 
-> Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Tested-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-Thanks for reviewing.
-
-> > ---
-> > Luca Ceresoli (12):
-> >       ASoC: doc: dapm: fix typos
-> >       ASoC: doc: dapm: fix struct name
-> >       ASoC: doc: dapm: minor rewording  
-> 
-> I'm wondering whether you could improve this patch by not rewrapping the
-> whole paragraph.
-
-Yes, sure. Will do in v2.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+cheers
