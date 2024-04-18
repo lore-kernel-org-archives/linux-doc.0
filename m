@@ -1,87 +1,139 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C11DA26;
-	Thu, 18 Apr 2024 12:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6061885272
+	for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 12:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713443809; cv=none; b=u61AClSL4I8nd7Z0gzPpNL5fEmAmvA1ugTDnRI1jKDHwMbtxmaijmuZExxbZh3j9aS4Fj7+MZsdd41St95nqgsBSZgTcDRh6yVtz5TJ1rrJ0RyTgzbv17lNgvUcCQ01DRixOjM1W/0u41nynn/+TRemuoULu6PCz4C5lwUpML94=
+	t=1713444237; cv=none; b=r5o6/Zmnffy1CTjCL9WwJ0WirOEFj2DAMok7EUhr0TcmGxm3DaAb8sZx682B/nL9HufY7DR388DfBoocCyBgkKrmnw21WRywR0feQFGUG5LrTrKkr9E9l/xFr8AXQkhlbrTjgIkjT9ljooVPbuOZWFO0NdBiP3BJOZ0ofn6EPRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713443809; c=relaxed/simple;
-	bh=3YUauoGbeJ5ZxfusdnLISD6V1rVbaD0VMA4lUVm8NDU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PRbuY3HpWwtH+w2Ira+Iw8pFVrs9Sy9LB8PsVWVH6P1wKuZ+6OXfay8Wf99m1Wn9wVj0FGPgGNRLzzZcNJNqLIRDvB54JJNYNxAHfNj/6HECFlRctscU9GXzkbQ9pu6dKB9Szgj2t7/MOFGB+DqADkeAIOjkkvQV2a0dFGiJ4RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4VKxzT4Q43zNnwl;
-	Thu, 18 Apr 2024 20:34:13 +0800 (CST)
-Received: from dggpeml500023.china.huawei.com (unknown [7.185.36.114])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8908418006B;
-	Thu, 18 Apr 2024 20:36:38 +0800 (CST)
-Received: from hulk-vt.huawei.com (10.67.174.26) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 18 Apr 2024 20:36:38 +0800
-From: Xiu Jianfeng <xiujianfeng@huawei.com>
-To: <tj@kernel.org>, <lizefan.x@bytedance.com>, <hannes@cmpxchg.org>,
-	<corbet@lwn.net>
-CC: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] docs, cgroup: add entries for pids to cgroup-v2.rst
-Date: Thu, 18 Apr 2024 12:30:12 +0000
-Message-ID: <20240418123012.916411-1-xiujianfeng@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1713444237; c=relaxed/simple;
+	bh=BSPP+JhpgqmbSOjXMNtVSOk6UyemTIHuAPZ8lvb1GHA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Pl8otcxzHCnpuiK42jWrLDFdA1oqoP3r7gfQc+W8NTr5XycJl6aVzYfT8/D4jvViRGkUEAdG+kU2l/mG4ejT2vQalFezBLru0vpVIIPSFTl63G+iAJYBACzdzphkR1gtk+01+hXNAwbxHJjzYOMaO+ixocVKgiK6l+kk75uehhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=m2Tx15Tv; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="m2Tx15Tv"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-349a35ae298so80015f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Apr 2024 05:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713444234; x=1714049034; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=32JRcAZ8LHhKBfsqOJDGu3ZSnqgwx85ZTFPgD6hMyrs=;
+        b=m2Tx15TvdFRjHOdqyJyX67kMDKVBuysCC/o7Fc9xL4ucSvqrtNxR4vZRDWYRbobUGn
+         bLdFWiuGaWdEo41pwwa2YLmKM+RdWZ3DXUQxl0kTRJpZrf5R+UeEKp1SCisFyZjSyHgJ
+         qgrdEIO02UcnfX5osQXMANFnB0X1WEyATveHyhPHLMXnwoMCE6PhHNY71HivWRzEjxrN
+         E3lwqTgFApDl2uHX3k9u6Zxb/mf34ndDFdxZXIMfFAPvk5dh79sByNmPYnVpEmgF+4t7
+         NkJB5+jU3wUJojc/JesjaejkSlKV6V4HD+tFPJtt6RDgyyZxjLBScj0AT75/KIr0RJjj
+         icKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713444234; x=1714049034;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=32JRcAZ8LHhKBfsqOJDGu3ZSnqgwx85ZTFPgD6hMyrs=;
+        b=LJ7RwPvPNPhiYBAA9MOLm33mf0qBfosbLCZIxpRAqdO7a0vUvnxiWmRur+GaWnaqgm
+         lb5aBnsr7ysBND6xLGBjAFihm7ofTR4je4BzPEg/fHzTwxJA8jcqousR/oNn3xb5r/eY
+         mvd+HmSl+LBz+9eWcOiisrAG5jw4ca0+6YnSaIYwt5GfwTP92oRz410y+ZYakAW9EpUy
+         MjEHB0/RDCYO1Euc4AIKPD7tthmyxOaot83NYaWWQNYp+7+LuGykHif52/nQUYnsGTeD
+         hNgZFQW7rYREx3k6gcDOHZfQJoDW5WeZ6B8hIAP8RBJ0GW+7sZ8CAdqlotE5G/o73qPA
+         o7Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLr4jO6vWy1DLXNSK0dJ6UFzq8Y7Y2vUO41y0tOc0t8BK33ebEUIe0Unft7NODuNFuwDjaOFGvkIMtF4UqvqtuxFcCe7SVX+co
+X-Gm-Message-State: AOJu0YzUgfu+8gEdaQ/GfUsbFKW4uti0id2dqjBPbUAmXq3nb0RdetUJ
+	fYg17psYv0Fwr4GlwmPLWiCBaAU3bpVPL66TNLkp3EkPncJH46lBvXCpTQMmY5Y=
+X-Google-Smtp-Source: AGHT+IFziCRGNRnIuKdQWAYceCQlX3IZZXZCOpe0+zYvs0VTpiLEE6booy5ASHtPCGw5+ceQDaJ+5w==
+X-Received: by 2002:a05:600c:1c91:b0:418:9a5b:d51 with SMTP id k17-20020a05600c1c9100b004189a5b0d51mr2042383wms.0.1713444233704;
+        Thu, 18 Apr 2024 05:43:53 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:7b64:4d1d:16d8:e38b])
+        by smtp.gmail.com with ESMTPSA id bi18-20020a05600c3d9200b00418d5b16fa2sm3373412wmb.30.2024.04.18.05.43.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Apr 2024 05:43:53 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 00/12] Add support for a few Zc* extensions as well as Zcmop
+Date: Thu, 18 Apr 2024 14:42:23 +0200
+Message-ID: <20240418124300.1387978-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500023.china.huawei.com (7.185.36.114)
 
-This patch add two entries (pids.peak and pids.events) for pids
-controller, and also update pids.current because it's on non-root.
+Add support for (yet again) more RVA23U64 missing extensions. Add
+support for Zcmop, Zca, Zcf, Zcd and Zcb extensions isa string parsing,
+hwprobe and kvm support. Zce, Zcmt and Zcmp extensions have been left
+out since they target microcontrollers/embedded CPUs and are not needed
+by RVA23U64
 
-Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+This series is based on the Zimop one [1].
+
+Link: https://lore.kernel.org/linux-riscv/20240404103254.1752834-1-cleger@rivosinc.com/ [1]
+
 ---
- Documentation/admin-guide/cgroup-v2.rst | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+v2:
+ - Add Zc* dependencies validation in dt-bindings
+ - v1: https://lore.kernel.org/lkml/20240410091106.749233-1-cleger@rivosinc.com/
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index d8b00f0ea96d..6f6fe744452e 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2188,11 +2188,25 @@ PID Interface Files
- 	Hard limit of number of processes.
- 
-   pids.current
--	A read-only single value file which exists on all cgroups.
-+	A read-only single value file which exists on non-root cgroups.
- 
- 	The number of processes currently in the cgroup and its
- 	descendants.
- 
-+  pids.peak
-+	A read-only single value file which exists on non-root cgroups.
-+
-+	The maximum value that the number of processes in the cgroup and its
-+	descendants has ever reached.
-+
-+  pids.events
-+	A read-only flat-keyed file which exists on non-root cgroups. The
-+	following entries are defined. Unless specified otherwise, a value
-+	change in this file generates a file modified event.
-+
-+	  max
-+		Number of times fork failed because limit was hit.
-+
- Organisational operations are not blocked by cgroup policies, so it is
- possible to have pids.current > pids.max.  This can be done by either
- setting the limit to be smaller than pids.current, or attaching enough
+Clément Léger (12):
+  dt-bindings: riscv: add Zca, Zcf, Zcd and Zcb ISA extension
+    description
+  riscv: dts: enable Zc* extensions when needed
+  dt-bindings: riscv: add Zc* extension rules implied by C extension
+  riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+  riscv: hwprobe: export Zca, Zcf, Zcd and Zcb ISA extensions
+  RISC-V: KVM: Allow Zca, Zcf, Zcd and Zcb extensions for Guest/VM
+  KVM: riscv: selftests: Add some Zc* extensions to get-reg-list test
+  dt-bindings: riscv: add Zcmop ISA extension description
+  riscv: add ISA extension parsing for Zcmop
+  riscv: hwprobe: export Zcmop ISA extension
+  RISC-V: KVM: Allow Zcmop extension for Guest/VM
+  KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
+
+ Documentation/arch/riscv/hwprobe.rst          |  24 ++
+ .../devicetree/bindings/riscv/cpus.yaml       |   8 +-
+ .../devicetree/bindings/riscv/extensions.yaml | 124 +++++++++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |   4 +-
+ arch/riscv/boot/dts/microchip/mpfs.dtsi       |  20 +-
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+ arch/riscv/boot/dts/sifive/fu540-c000.dtsi    |  20 +-
+ arch/riscv/boot/dts/sifive/fu740-c000.dtsi    |  20 +-
+ arch/riscv/boot/dts/sophgo/cv18xx.dtsi        |   4 +-
+ arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi   | 256 +++++++++---------
+ arch/riscv/boot/dts/starfive/jh7100.dtsi      |   8 +-
+ arch/riscv/boot/dts/starfive/jh7110.dtsi      |  20 +-
+ arch/riscv/boot/dts/thead/th1520.dtsi         |  16 +-
+ arch/riscv/include/asm/hwcap.h                |   5 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |   5 +
+ arch/riscv/include/uapi/asm/kvm.h             |   5 +
+ arch/riscv/kernel/cpufeature.c                |   5 +
+ arch/riscv/kernel/sys_hwprobe.c               |   5 +
+ arch/riscv/kvm/vcpu_onereg.c                  |  10 +
+ .../selftests/kvm/riscv/get-reg-list.c        |  20 ++
+ 20 files changed, 394 insertions(+), 189 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
