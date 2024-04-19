@@ -1,158 +1,572 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5FF385;
-	Fri, 19 Apr 2024 00:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ED7387;
+	Fri, 19 Apr 2024 00:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713486733; cv=none; b=qkwe2QSPcff0bBMNYuXs/xTrfLjQqWXnYzM68RnGMKA45LWryWXU9kZDY6kik3VGe8OtsI06LuwUBpO+D5ieDd9koz+BZCt21mHkKb2r40fWi6bH6uhpUon5Rh/aFw307Ws21Rz/1ePshlA4MV4gk48xluU4xUZRIjKM/4IiHGI=
+	t=1713487726; cv=none; b=cJtgkP43HSxlLwt68nzSWeQoF8K/2NeTGNLbUuwzy1CP+LJYh+Lh0Q81Vf9W7GK2G4LLPIxxmOQsWbMz3Q7ufhLuhPSswcrH0z7q0GZS3BjRyyKd29Q0i6JTEYTeEbU2x9qJ1BMrvzh0vMhrT5TNb135CVmGUy9Bvd5T11lA3Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713486733; c=relaxed/simple;
-	bh=J9OCujdVD1wISLUjXJjfz12GpenMuoeaxYnqqdrF+mg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qmW8evTdiKPdeJ4FFt/xDl7h53qoT89Ks9aLifPAAFC4WEaa9kHFwELImN3xPrWUPHHQQINfcorSB1IkhkD8OAl6AlfSjivpVH0g/FptAjRHiH0WPzUtA8ToJw+znamux9Xlo8v7LV5YuS0sRoF6cCQ7O0jAmyljeEoh7M9V50c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XP/7kWYg; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713487726; c=relaxed/simple;
+	bh=SIGqreJTXCBJFrr/ZjH3UWpoLmG4wlKn5zwAMu4WePU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IWRLdpuNEONm7JzRiSXqAhMCjYpKteeFBbTJ+7pRdfEYM5wMlq0CwnXdGdAr62sM4fwL8j+CaNC7wDwVMQvuRi2dqE8eMXpwctxmIfm7edNxG1fG3JQKJfBWb0JQd7X18nOWEiH84CGL6Rs2ltnlqszKHHWvLxZrZBdqfkBUT1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RS2BL0dr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XP/7kWYg"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-571ba432477so1421326a12.1;
-        Thu, 18 Apr 2024 17:32:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713486730; x=1714091530; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Oj4m/kgBH9ztYxNsBRNWWV+PAwZT7yiTynnRU4KUON8=;
-        b=XP/7kWYgtDg0SsfN8fWXTCV/hM6u4zfX7NuJCuoaTp98b65vd4XHkIbEHeckEPeVyo
-         70ss19kqCNoW7Fcg+RCNan7u6wppKT6hT2hheGiPwaleqshym/g8j61gUw1G700xmDvP
-         FBx7yEIX5XkgxU6SUrNT85kMhznTYz4Jd2xX5V/o0s2u2MPRAkrO+mRl3qta1ATFz0Ba
-         4YHG7T+fzq3aBBUqMunC+rrrY/mNdvOCNGob5JAo01jOx6T2e76yzQxDc2TD1ltF89+L
-         dTy6eWmuJ4B/f7J/yf4EHFwsnNISyOOdps9iFQx8XzK4GNPAh9XvIFQkqf4CQfmDKJcC
-         UuqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713486730; x=1714091530;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Oj4m/kgBH9ztYxNsBRNWWV+PAwZT7yiTynnRU4KUON8=;
-        b=QUJh3gid5vszMq3cBRpeDTsVIJ0ZXfNF3MnvK+MAXi4OcRcGLJGBtJtq2huU4SG08+
-         rkK/hz7kPUTY2Xw+eTbt5yO29wy6Pb19Rgu+WlxWiw+2sUf9ESx5V5zaV09IFblIc3fx
-         inoJRCgIxu+qMQuZ6ckQrIeIPKV6yR2yeMBTMzNID10uEqIUK5VcJcn7k9wWvG3asdgv
-         ZyBNta0jR2rMCDHfuxKe28OTemHE4vR4iWyRV0L0MLWHbta4+4T3nAI3Yz96oJB/Y3oD
-         U4ae9aIa2f8E1Mvytgu2A2t8+xLJ2zJ7V3UJPdnMjG57xIM5a8VbisZ0c6yYFSZ9qQ1w
-         4xAg==
-X-Forwarded-Encrypted: i=1; AJvYcCVUQTm+yZVPAv3xj8g0ljbVO4txREtVW6ZtDLtstkEfPOz0+gvxnJgWkPfbXmPOyyJP7mhfWhmDvLT3tE1aZTj64DvS2gKLDULeIR6HP+qBFevudP5DI/GHWqR8kk8I4nu/eJfQWKpGM+oQpLUbvxq1GFujUCxvooIQZ5P7nhFafd59bXs1fhjjvRdxXRpNZZcEbd2XpgiflLECMLkbKwrAM5PXjfl07ThAfGitTNHgHbtoDWCSrP0i11EwmIInt3y21TUhdYlLFkMBpoyVJLgv95uEDxcua626WcTlsQ==
-X-Gm-Message-State: AOJu0YxFS2/ZIaFdeqtJbLOZcPxHrvjoyOANstkY273OwSWomeFQPSic
-	SQjrLKnIjmuch+ewttOdKDiH2kIByvIcPNC4VJpwxVq3fM8XnuxjoAExbD7UIyPr0NUGaaY2S84
-	dUF4QX5qyv533R+xihUynYAJc04A=
-X-Google-Smtp-Source: AGHT+IGKieE1Y9dItlGmKmGisjgxP6q9UdIr3kOeK+kf4J5nBKEpfrB6yJjFguszrY/TUPv6ziQLRBzzr5PxjfwC7mg=
-X-Received: by 2002:a50:9e4d:0:b0:570:db4:e5cd with SMTP id
- z71-20020a509e4d000000b005700db4e5cdmr351855ede.34.1713486729802; Thu, 18 Apr
- 2024 17:32:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RS2BL0dr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B31C113CC;
+	Fri, 19 Apr 2024 00:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713487725;
+	bh=SIGqreJTXCBJFrr/ZjH3UWpoLmG4wlKn5zwAMu4WePU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RS2BL0dr33GjjROhYrtv0fX48cL7FcSVPC6r57PybCnsYxOkgbuMLnEi/YprYeH+W
+	 TEVlBwAT/DvexX1J70kAXTY3YXcq/aYpv1b9LigloakRu/l0X2Ah+CjAtsUb29QyGH
+	 1Ppu7gab7y/kup6CorVN8QqtdvLlAqExT/TOPMVSLNW8SfitJPYN56G+heyQaEVAXh
+	 PSQn6PMNv0cxmI7v0iGXLOxNYx86B4xpVlEs1vtmtv8FXjRrCjJSPit0oJ94MKiVAK
+	 FJq1xG3n1nKEydppuCILtC3s4G4r/OcqYQbvJQvWidg6osQfDdOQNGk5p70FCfd+Su
+	 6PX1ldhdpWbFw==
+Date: Thu, 18 Apr 2024 17:48:43 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Brett Creeley <bcreeley@amd.com>, Ratheesh
+ Kannoth <rkannoth@marvell.com>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal
+ Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
+ Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ "justinstitt@google.com" <justinstitt@google.com>
+Subject: Re: [PATCH net-next v9 2/4] ethtool: provide customized dim profile
+ management
+Message-ID: <20240418174843.492078d5@kernel.org>
+In-Reply-To: <20240417155546.25691-3-hengqi@linux.alibaba.com>
+References: <20240417155546.25691-1-hengqi@linux.alibaba.com>
+	<20240417155546.25691-3-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240409192301.907377-5-david@redhat.com> <20240418145003.8780-1-ioworker0@gmail.com>
- <f8f30747-1313-4939-a2ad-3accd14ba01f@redhat.com>
-In-Reply-To: <f8f30747-1313-4939-a2ad-3accd14ba01f@redhat.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Fri, 19 Apr 2024 08:31:58 +0800
-Message-ID: <CAK1f24nO-7QUYxXsYqDH=Hg7J_Hn9rxpkfQzaBBOpqFnzbCATQ@mail.gmail.com>
-Subject: Re: [PATCH v1 04/18] mm: track mapcount of large folios in single value
-To: David Hildenbrand <david@redhat.com>
-Cc: akpm@linux-foundation.org, cgroups@vger.kernel.org, chris@zankel.net, 
-	corbet@lwn.net, dalias@libc.org, fengwei.yin@intel.com, 
-	glaubitz@physik.fu-berlin.de, hughd@google.com, jcmvbkbc@gmail.com, 
-	linmiaohe@huawei.com, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-sh@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, muchun.song@linux.dev, 
-	naoya.horiguchi@nec.com, peterx@redhat.com, richardycc@google.com, 
-	ryan.roberts@arm.com, shy828301@gmail.com, willy@infradead.org, 
-	ysato@users.sourceforge.jp, ziy@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 18, 2024 at 11:09=E2=80=AFPM David Hildenbrand <david@redhat.co=
-m> wrote:
->
-> On 18.04.24 16:50, Lance Yang wrote:
-> > Hey David,
-> >
-> > FWIW, just a nit below.
->
-> Hi!
->
+On Wed, 17 Apr 2024 23:55:44 +0800 Heng Qi wrote:
+> $ ethtool -c ethx
+> ...
+> rx-eqe-profile:
+> {.usec =   1, .pkts = 256, .comps =   0,},
+> {.usec =   8, .pkts = 256, .comps =   0,},
+> {.usec =  64, .pkts = 256, .comps =   0,},
+> {.usec = 128, .pkts = 256, .comps =   0,},
+> {.usec = 256, .pkts = 256, .comps =   0,}
+> rx-cqe-profile:   n/a
+> tx-eqe-profile:   n/a
+> tx-cqe-profile:   n/a
 
-Thanks for clarifying!
+I don't think that exposing CQE vs EQE mode makes much sense here.
+We enable the right mode via:
 
-> Thanks, but that was done on purpose.
->
-> This way, we'll have a memory barrier (due to at least one
-> atomic_inc_and_test()) between incrementing the folio refcount
-> (happening before the rmap change) and incrementing the mapcount.
->
-> Is it required? Not 100% sure, refcount vs. mapcount checks are always a
-> bit racy. But doing it this way let me sleep better at night ;)
+struct kernel_ethtool_coalesce {
+	u8 use_cqe_mode_tx;
+	u8 use_cqe_mode_rx;
 
-Yep, I understood :)
+the user needs to set the packets and usecs in an educated way 
+(matching the mode). The kernel never changes the mode.
 
-Thanks,
-Lance
+Am I missing something?
 
->
-> [with no subpage mapcounts, we'd do the atomic_inc_and_test on the large
-> mapcount and have the memory barrier there again; but that's stuff for
-> the future]
->
-> Thanks!
+> +  -
+> +    name: moderation
+
+irq-moderation ?
+
+> +    attributes:
+> +      -
+> +        name: usec
+> +        type: u32
+> +      -
+> +        name: pkts
+> +        type: u32
+> +      -
+> +        name: comps
+> +        type: u32
+
+> +++ b/include/linux/ethtool.h
+> @@ -284,7 +284,11 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
+>  #define ETHTOOL_COALESCE_TX_AGGR_MAX_BYTES	BIT(24)
+>  #define ETHTOOL_COALESCE_TX_AGGR_MAX_FRAMES	BIT(25)
+>  #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
+> -#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(26, 0)
+> +#define ETHTOOL_COALESCE_RX_EQE_PROFILE         BIT(27)
+> +#define ETHTOOL_COALESCE_RX_CQE_PROFILE         BIT(28)
+> +#define ETHTOOL_COALESCE_TX_EQE_PROFILE         BIT(29)
+> +#define ETHTOOL_COALESCE_TX_CQE_PROFILE         BIT(30)
+> +#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
+
+I think it's better to add these to netdev_ops, see below.
+
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index d45f330d083d..a1c7e9c2be86 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -80,6 +80,25 @@ struct xdp_frame;
+>  struct xdp_metadata_ops;
+>  struct xdp_md;
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+
+Don't wrap type definitions in an ifdef.
+
+> +struct dim_cq_moder;
+
+Unnecessary.
+
+> +#define NETDEV_PROFILE_USEC	BIT(0)	/* device supports usec field modification */
+> +#define NETDEV_PROFILE_PKTS	BIT(1)	/* device supports pkts field modification */
+> +#define NETDEV_PROFILE_COMPS	BIT(2)	/* device supports comps field modification */
+> +
+> +struct netdev_profile_moder {
+> +	/* See NETDEV_PROFILE_* */
+> +	unsigned int flags;
+> +
+> +	/* DIM profile lists for different dim cq modes */
+> +	struct dim_cq_moder *rx_eqe_profile;
+> +	struct dim_cq_moder *rx_cqe_profile;
+> +	struct dim_cq_moder *tx_eqe_profile;
+> +	struct dim_cq_moder *tx_cqe_profile;
+> +};
+> +#endif
+
+All of this can move to the dim header. No need to grow netdevice.h
+
+>  typedef u32 xdp_features_t;
+>  
+>  void synchronize_net(void);
 
 
+> +static int dev_dim_profile_init(struct net_device *dev)
+> +{
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	u32 supported = dev->ethtool_ops->supported_coalesce_params;
+> +
+> +	struct netdev_profile_moder *moder;
+> +	int length;
+> +
+> +	dev->moderation = kzalloc(sizeof(*dev->moderation), GFP_KERNEL);
+> +	if (!dev->moderation)
+> +		goto err_moder;
 
->
-> >
-> > diff --git a/mm/rmap.c b/mm/rmap.c
-> > index 2608c40dffad..08bb6834cf72 100644
-> > --- a/mm/rmap.c
-> > +++ b/mm/rmap.c
-> > @@ -1143,7 +1143,6 @@ static __always_inline unsigned int __folio_add_r=
-map(struct folio *folio,
-> >               int *nr_pmdmapped)
-> >   {
-> >       atomic_t *mapped =3D &folio->_nr_pages_mapped;
-> > -     const int orig_nr_pages =3D nr_pages;
-> >       int first, nr =3D 0;
-> >
-> >       __folio_rmap_sanity_checks(folio, page, nr_pages, level);
-> > @@ -1155,6 +1154,7 @@ static __always_inline unsigned int __folio_add_r=
-map(struct folio *folio,
-> >                       break;
-> >               }
-> >
-> > +             atomic_add(nr_pages, &folio->_large_mapcount);
-> >               do {
-> >                       first =3D atomic_inc_and_test(&page->_mapcount);
-> >                       if (first) {
-> > @@ -1163,7 +1163,6 @@ static __always_inline unsigned int __folio_add_r=
-map(struct folio *folio,
-> >                                       nr++;
-> >                       }
-> >               } while (page++, --nr_pages > 0);
-> > -             atomic_add(orig_nr_pages, &folio->_large_mapcount);
-> >               break;
-> >       case RMAP_LEVEL_PMD:
-> >               first =3D atomic_inc_and_test(&folio->_entire_mapcount);
-> >
-> > Thanks,
-> > Lance
-> >
->
-> --
-> Cheers,
->
-> David / dhildenb
->
+if the device has no DIM we should allocate nothing
+
+> +	moder = dev->moderation;
+> +	length = NET_DIM_PARAMS_NUM_PROFILES * sizeof(*moder->rx_eqe_profile);
+> +
+> +	if (supported & ETHTOOL_COALESCE_RX_EQE_PROFILE) {
+> +		moder->rx_eqe_profile = kmemdup(dim_rx_profile[0], length, GFP_KERNEL);
+> +		if (!moder->rx_eqe_profile)
+> +			goto err_rx_eqe;
+> +	}
+> +	if (supported & ETHTOOL_COALESCE_RX_CQE_PROFILE) {
+> +		moder->rx_cqe_profile = kmemdup(dim_rx_profile[1], length, GFP_KERNEL);
+> +		if (!moder->rx_cqe_profile)
+> +			goto err_rx_cqe;
+> +	}
+> +	if (supported & ETHTOOL_COALESCE_TX_EQE_PROFILE) {
+> +		moder->tx_eqe_profile = kmemdup(dim_tx_profile[0], length, GFP_KERNEL);
+> +		if (!moder->tx_eqe_profile)
+> +			goto err_tx_eqe;
+> +	}
+> +	if (supported & ETHTOOL_COALESCE_TX_CQE_PROFILE) {
+> +		moder->tx_cqe_profile = kmemdup(dim_tx_profile[1], length, GFP_KERNEL);
+> +		if (!moder->tx_cqe_profile)
+> +			goto err_tx_cqe;
+> +	}
+
+This code should also live in dim rather than dev.c.
+
+> +#endif
+> +	return 0;
+> +
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +err_tx_cqe:
+> +	kfree(moder->tx_eqe_profile);
+> +err_tx_eqe:
+> +	kfree(moder->rx_cqe_profile);
+> +err_rx_cqe:
+> +	kfree(moder->rx_eqe_profile);
+> +err_rx_eqe:
+> +	kfree(moder);
+> +err_moder:
+> +	return -ENOMEM;
+> +#endif
+> +}
+> +
+>  /**
+>   * register_netdevice() - register a network device
+>   * @dev: device to register
+> @@ -10258,6 +10310,10 @@ int register_netdevice(struct net_device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = dev_dim_profile_init(dev);
+> +	if (ret)
+> +		return ret;
+
+This is fine but the driver still has to manually do bunch of init:
+
+		INIT_WORK(&vi->rq[i].dim.work, virtnet_rx_dim_work);
+		vi->rq[i].dim.mode = DIM_CQ_PERIOD_MODE_START_FROM_EQE;
+
+It'd be better to collect all this static info (flags, mode, work func)
+in one place / struct, attached to netdev or netdev_ops. Then the
+driver can call a helper like which only needs to take netdev and dim
+as arguments.
+
+>  	spin_lock_init(&dev->addr_list_lock);
+>  	netdev_set_addr_lockdep_class(dev);
+>  
+> @@ -11011,6 +11067,27 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
+>  }
+>  EXPORT_SYMBOL(alloc_netdev_mqs);
+>  
+> +static void netif_free_profile(struct net_device *dev)
+> +{
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	u32 supported = dev->ethtool_ops->supported_coalesce_params;
+> +
+> +	if (supported & ETHTOOL_COALESCE_RX_EQE_PROFILE)
+> +		kfree(dev->moderation->rx_eqe_profile);
+
+kfree(NULL) is valid, you don't have to check the flags
+
+> +	if (supported & ETHTOOL_COALESCE_RX_CQE_PROFILE)
+> +		kfree(dev->moderation->rx_cqe_profile);
+> +
+> +	if (supported & ETHTOOL_COALESCE_TX_EQE_PROFILE)
+> +		kfree(dev->moderation->tx_eqe_profile);
+> +
+> +	if (supported & ETHTOOL_COALESCE_TX_CQE_PROFILE)
+> +		kfree(dev->moderation->tx_cqe_profile);
+> +
+> +	kfree(dev->moderation);
+> +#endif
+> +}
+> +
+>  /**
+>   * free_netdev - free network device
+>   * @dev: device
+> @@ -11036,6 +11113,8 @@ void free_netdev(struct net_device *dev)
+>  		return;
+>  	}
+>  
+> +	netif_free_profile(dev);
+> +
+>  	netif_free_tx_queues(dev);
+>  	netif_free_rx_queues(dev);
+>  
+> diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+> index 83112c1a71ae..3a41840fbcc7 100644
+> --- a/net/ethtool/coalesce.c
+> +++ b/net/ethtool/coalesce.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  
+> +#include <linux/dim.h>
+>  #include "netlink.h"
+>  #include "common.h"
+>  
+> @@ -51,6 +52,10 @@ __CHECK_SUPPORTED_OFFSET(COALESCE_RX_MAX_FRAMES_HIGH);
+>  __CHECK_SUPPORTED_OFFSET(COALESCE_TX_USECS_HIGH);
+>  __CHECK_SUPPORTED_OFFSET(COALESCE_TX_MAX_FRAMES_HIGH);
+>  __CHECK_SUPPORTED_OFFSET(COALESCE_RATE_SAMPLE_INTERVAL);
+> +__CHECK_SUPPORTED_OFFSET(COALESCE_RX_EQE_PROFILE);
+> +__CHECK_SUPPORTED_OFFSET(COALESCE_RX_CQE_PROFILE);
+> +__CHECK_SUPPORTED_OFFSET(COALESCE_TX_EQE_PROFILE);
+> +__CHECK_SUPPORTED_OFFSET(COALESCE_TX_CQE_PROFILE);
+>  
+>  const struct nla_policy ethnl_coalesce_get_policy[] = {
+>  	[ETHTOOL_A_COALESCE_HEADER]		=
+> @@ -82,6 +87,14 @@ static int coalesce_prepare_data(const struct ethnl_req_info *req_base,
+>  static int coalesce_reply_size(const struct ethnl_req_info *req_base,
+>  			       const struct ethnl_reply_data *reply_base)
+>  {
+> +	int modersz = nla_total_size(0) + /* _MODERATIONS_MODERATION, nest */
+> +		      nla_total_size(sizeof(u32)) + /* _MODERATION_USEC */
+> +		      nla_total_size(sizeof(u32)) + /* _MODERATION_PKTS */
+> +		      nla_total_size(sizeof(u32));  /* _MODERATION_COMPS */
+> +
+> +	int total_modersz = nla_total_size(0) +  /* _{R,T}X_{E,C}QE_PROFILE, nest */
+> +			modersz * NET_DIM_PARAMS_NUM_PROFILES;
+> +
+>  	return nla_total_size(sizeof(u32)) +	/* _RX_USECS */
+>  	       nla_total_size(sizeof(u32)) +	/* _RX_MAX_FRAMES */
+>  	       nla_total_size(sizeof(u32)) +	/* _RX_USECS_IRQ */
+> @@ -108,7 +121,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
+>  	       nla_total_size(sizeof(u8)) +	/* _USE_CQE_MODE_RX */
+>  	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
+>  	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
+> -	       nla_total_size(sizeof(u32));	/* _TX_AGGR_TIME_USECS */
+> +	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
+> +	       total_modersz * 4;		/* _{R,T}X_{E,C}QE_PROFILE */
+>  }
+>  
+>  static bool coalesce_put_u32(struct sk_buff *skb, u16 attr_type, u32 val,
+> @@ -127,6 +141,62 @@ static bool coalesce_put_bool(struct sk_buff *skb, u16 attr_type, u32 val,
+>  	return nla_put_u8(skb, attr_type, !!val);
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+
+prefer using
+
+	if (IS_ENABLED(CONFIG_DIMLIB))
+		return -EOPNOTSUPP;
+
+rather than hiding code from the compiler, where possible 
+
+> +/**
+> + * coalesce_put_profile - fill reply with a nla nest with four child nla nests.
+> + * @skb: socket buffer the message is stored in
+> + * @attr_type: nest attr type ETHTOOL_A_COALESCE_*X_*QE_PROFILE
+> + * @profile: data passed to userspace
+> + * @supported_params: modifiable parameters supported by the driver
+> + *
+> + * Put a dim profile nest attribute. Refer to ETHTOOL_A_MODERATIONS_MODERATION.
+> + *
+> + * Return: false to indicate successful placement or no placement, and
+> + * true to pass the -EMSGSIZE error to the wrapper.
+
+Why the bool? Doesn't most of the similar code return the error?
+
+> + */
+> +static bool coalesce_put_profile(struct sk_buff *skb, u16 attr_type,
+> +				 const struct dim_cq_moder *profile,
+> +				 u32 supported_params)
+> +{
+> +	struct nlattr *profile_attr, *moder_attr;
+> +	bool emsg = !!-EMSGSIZE;
+> +	int i;
+> +
+> +	if (!profile)
+> +		return false;
+> +
+> +	if (!(supported_params & attr_to_mask(attr_type)))
+> +		return false;
+> +
+> +	profile_attr = nla_nest_start(skb, attr_type);
+> +	if (!profile_attr)
+> +		return emsg;
+> +
+> +	for (i = 0; i < NET_DIM_PARAMS_NUM_PROFILES; i++) {
+> +		moder_attr = nla_nest_start(skb, ETHTOOL_A_MODERATIONS_MODERATION);
+> +		if (!moder_attr)
+> +			goto nla_cancel_profile;
+> +
+> +		if (nla_put_u32(skb, ETHTOOL_A_MODERATION_USEC, profile[i].usec) ||
+> +		    nla_put_u32(skb, ETHTOOL_A_MODERATION_PKTS, profile[i].pkts) ||
+> +		    nla_put_u32(skb, ETHTOOL_A_MODERATION_COMPS, profile[i].comps))
+
+Only put attrs for supported fields
+
+> +			goto nla_cancel_moder;
+> +
+> +		nla_nest_end(skb, moder_attr);
+> +	}
+> +
+> +	nla_nest_end(skb, profile_attr);
+> +
+> +	return 0;
+> +
+> +nla_cancel_moder:
+> +	nla_nest_cancel(skb, moder_attr);
+> +nla_cancel_profile:
+> +	nla_nest_cancel(skb, profile_attr);
+> +	return emsg;
+> +}
+> +#endif
+> +
+>  static int coalesce_fill_reply(struct sk_buff *skb,
+>  			       const struct ethnl_req_info *req_base,
+>  			       const struct ethnl_reply_data *reply_base)
+> @@ -134,6 +204,9 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+>  	const struct coalesce_reply_data *data = COALESCE_REPDATA(reply_base);
+>  	const struct kernel_ethtool_coalesce *kcoal = &data->kernel_coalesce;
+>  	const struct ethtool_coalesce *coal = &data->coalesce;
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	struct net_device *dev = req_base->dev;
+> +#endif
+>  	u32 supported = data->supported_params;
+>  
+>  	if (coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_USECS,
+> @@ -192,6 +265,21 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+>  			     kcoal->tx_aggr_time_usecs, supported))
+>  		return -EMSGSIZE;
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	if (!(dev->moderation->flags & (NETDEV_PROFILE_USEC | NETDEV_PROFILE_PKTS |
+> +					NETDEV_PROFILE_COMPS)))
+> +		return 0;
+> +
+> +	if (coalesce_put_profile(skb, ETHTOOL_A_COALESCE_RX_EQE_PROFILE,
+> +				 dev->moderation->rx_eqe_profile, supported) ||
+> +	    coalesce_put_profile(skb, ETHTOOL_A_COALESCE_RX_CQE_PROFILE,
+> +				 dev->moderation->rx_cqe_profile, supported) ||
+> +	    coalesce_put_profile(skb, ETHTOOL_A_COALESCE_TX_EQE_PROFILE,
+> +				 dev->moderation->tx_eqe_profile, supported) ||
+> +	    coalesce_put_profile(skb, ETHTOOL_A_COALESCE_TX_CQE_PROFILE,
+> +				 dev->moderation->tx_cqe_profile, supported))
+> +		return -EMSGSIZE;
+> +#endif
+>  	return 0;
+>  }
+>  
+> @@ -227,7 +315,19 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
+>  	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
+>  	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
+>  	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
+> +	[ETHTOOL_A_COALESCE_RX_EQE_PROFILE]     = { .type = NLA_NESTED },
+> +	[ETHTOOL_A_COALESCE_RX_CQE_PROFILE]     = { .type = NLA_NESTED },
+> +	[ETHTOOL_A_COALESCE_TX_EQE_PROFILE]     = { .type = NLA_NESTED },
+> +	[ETHTOOL_A_COALESCE_TX_CQE_PROFILE]     = { .type = NLA_NESTED },
+
+NLA_POLICY_NESTED(coalesce_set_profile_policy)
+
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +static const struct nla_policy coalesce_set_profile_policy[] = {
+> +	[ETHTOOL_A_MODERATION_USEC]	= {.type = NLA_U32},
+> +	[ETHTOOL_A_MODERATION_PKTS]	= {.type = NLA_U32},
+> +	[ETHTOOL_A_MODERATION_COMPS]	= {.type = NLA_U32},
+>  };
+> +#endif
+>  
+>  static int
+>  ethnl_set_coalesce_validate(struct ethnl_req_info *req_info,
+> @@ -253,6 +353,76 @@ ethnl_set_coalesce_validate(struct ethnl_req_info *req_info,
+>  	return 1;
+>  }
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +/**
+> + * ethnl_update_profile - get a nla nest with four child nla nests from userspace.
+> + * @dev: netdevice to update the profile
+> + * @dst: data get from the driver and modified by ethnl_update_profile.
+> + * @nests: nest attr ETHTOOL_A_COALESCE_*X_*QE_PROFILE to set driver's profile.
+> + * @extack: Netlink extended ack
+> + *
+> + * Layout of nests:
+> + *   Nested ETHTOOL_A_COALESCE_*X_*QE_PROFILE attr
+> + *     Nested ETHTOOL_A_MODERATIONS_MODERATION attr
+> + *       ETHTOOL_A_MODERATION_USEC attr
+> + *       ETHTOOL_A_MODERATION_PKTS attr
+> + *       ETHTOOL_A_MODERATION_COMPS attr
+> + *     ...
+> + *     Nested ETHTOOL_A_MODERATIONS_MODERATION attr
+> + *       ETHTOOL_A_MODERATION_USEC attr
+> + *       ETHTOOL_A_MODERATION_PKTS attr
+> + *       ETHTOOL_A_MODERATION_COMPS attr
+> + *
+> + * Return: 0 on success or a negative error code.
+> + */
+> +static int ethnl_update_profile(struct net_device *dev,
+> +				struct dim_cq_moder *dst,
+> +				const struct nlattr *nests,
+> +				struct netlink_ext_ack *extack)
+> +{
+> +	struct nlattr *tb_moder[ARRAY_SIZE(coalesce_set_profile_policy)];
+> +	struct dim_cq_moder profile[NET_DIM_PARAMS_NUM_PROFILES];
+> +	struct netdev_profile_moder *moder = dev->moderation;
+> +	struct nlattr *nest;
+> +	int ret, rem, i = 0;
+> +
+> +	if (!nests)
+> +		return 0;
+> +
+> +	if (!dst)
+> +		return -EOPNOTSUPP;
+> +
+> +	nla_for_each_nested_type(nest, ETHTOOL_A_MODERATIONS_MODERATION, nests, rem) {
+> +		ret = nla_parse_nested(tb_moder,
+> +				       ARRAY_SIZE(coalesce_set_profile_policy) - 1,
+> +				       nest, coalesce_set_profile_policy,
+> +				       extack);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (NL_REQ_ATTR_CHECK(extack, nest, tb_moder, ETHTOOL_A_MODERATION_USEC) ||
+> +		    NL_REQ_ATTR_CHECK(extack, nest, tb_moder, ETHTOOL_A_MODERATION_PKTS) ||
+> +		    NL_REQ_ATTR_CHECK(extack, nest, tb_moder, ETHTOOL_A_MODERATION_COMPS))
+
+Only require what the device supports, reject what it doesn't
+
+> +			return -EINVAL;
+> +
+> +		profile[i].usec = nla_get_u32(tb_moder[ETHTOOL_A_MODERATION_USEC]);
+> +		profile[i].pkts = nla_get_u32(tb_moder[ETHTOOL_A_MODERATION_PKTS]);
+> +		profile[i].comps = nla_get_u32(tb_moder[ETHTOOL_A_MODERATION_COMPS]);
+> +
+> +		if ((dst[i].usec != profile[i].usec && !(moder->flags & NETDEV_PROFILE_USEC)) ||
+> +		    (dst[i].pkts != profile[i].pkts && !(moder->flags & NETDEV_PROFILE_PKTS)) ||
+> +		    (dst[i].comps != profile[i].comps && !(moder->flags & NETDEV_PROFILE_COMPS)))
+> +			return -EOPNOTSUPP;
+> +
+> +		i++;
+> +	}
+> +
+> +	memcpy(dst, profile, sizeof(profile));
+
+Is this safe? I think you need to use some synchronization when
+swapping profiles, maybe RCU?..
+
+> +	return 0;
+> +}
+> +#endif
+> +
+>  static int
+>  __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
+>  		     bool *dual_change)
+> @@ -317,6 +487,35 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
+>  	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
+>  			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	ret = ethnl_update_profile(dev, dev->moderation->rx_eqe_profile,
+> +				   tb[ETHTOOL_A_COALESCE_RX_EQE_PROFILE],
+> +				   info->extack);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = ethnl_update_profile(dev, dev->moderation->rx_cqe_profile,
+> +				   tb[ETHTOOL_A_COALESCE_RX_CQE_PROFILE],
+> +				   info->extack);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = ethnl_update_profile(dev, dev->moderation->tx_eqe_profile,
+> +				   tb[ETHTOOL_A_COALESCE_TX_EQE_PROFILE],
+> +				   info->extack);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = ethnl_update_profile(dev, dev->moderation->tx_cqe_profile,
+> +				   tb[ETHTOOL_A_COALESCE_TX_CQE_PROFILE],
+> +				   info->extack);
+> +	if (ret < 0)
+> +		return ret;
+> +#else
+> +	if (tb[ETHTOOL_A_COALESCE_RX_EQE_PROFILE] ||
+> +	    tb[ETHTOOL_A_COALESCE_RX_CQE_PROFILE] ||
+> +	    tb[ETHTOOL_A_COALESCE_TX_EQE_PROFILE] ||
+> +	    tb[ETHTOOL_A_COALESCE_TX_CQE_PROFILE])
+> +		return -EOPNOTSUPP;
+> +
+> +#endif
+>  	/* Update operation modes */
+>  	ethnl_update_bool32(&coalesce.use_adaptive_rx_coalesce,
+>  			    tb[ETHTOOL_A_COALESCE_USE_ADAPTIVE_RX], &mod_mode);
+
