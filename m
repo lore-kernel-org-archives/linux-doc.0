@@ -1,92 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA378004E;
-	Fri, 19 Apr 2024 11:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613FE7C0AA;
+	Fri, 19 Apr 2024 11:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713526598; cv=none; b=j3vKfxvH9XiXCpLlv9F60bcDSynpn5ChSE7rNNEV607yMYTk3jgU2XHazU92oSrxxJHNABFhDMAoiajNSONVTQTh3UaSgni6RpiqK0tkC89F7xIcJ4OsS9CZK090bAgvhoSTISPyyt1PrUkHCN+xmWo5GaKqvmUumstmwqv9G3M=
+	t=1713527782; cv=none; b=q/7vAre+Rr1dr2j1P+bGnt8EQaFZYQZ9umLkBdM1T2c7/XCwp+3Ehe1AhBFvgIHfog1ronaDx9N8LLKOxWjNt6ATeG3KgbuZHXvg9cbhfUw4E/9W8rPNdUM5oygSGJT6ktRy3yO7DyhG1+CgCoGiKBClA3/El0fRJrG6Vhn8qsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713526598; c=relaxed/simple;
-	bh=RGBSiE3AtLVUYHvusd2OokOMgXmKs1k7wH7HEVhiQfg=;
+	s=arc-20240116; t=1713527782; c=relaxed/simple;
+	bh=GWzERsvmNUP7g8Ed1WxrJOHVmgznjsP7t87e9XqcluA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nHgP9h6N2bRMNI4NISzU/NYCOXWKoUDxLj/iRaS0BNUez5lKs0t7reaofzkewDVbHCJCM59kxrfmbumcc4y7A9vDGaZX4ykoM5bfgQ/lXbkC4/tZDJbxLc5BFxm917ZalmPIkP8fcSubUZ/tOyWpquOPXS+/RNdFtp9kAS1Ua/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SpnoKl85; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=r7vO4c1lboS0JVA5GOZbyg7HV3+Bq7au8bf7dAxHUE7mgOluJGG/HoaGk+S+zSz2A2U/78r9WrKyxF7yuKBjfWLdaweGcBBI86xyc1t1WaggLica+QUZAXleAnxw9xFoqteXxXj6AHGYYIlCsnOTCtK17ohSRwtKqPnOYs5qZxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPvC1V92; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SpnoKl85"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67CAC072AA;
-	Fri, 19 Apr 2024 11:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713526597;
-	bh=RGBSiE3AtLVUYHvusd2OokOMgXmKs1k7wH7HEVhiQfg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SpnoKl85z8PRUnvUV94bspdas7JkiksyoW1AUSsd8W5fmoKjOprRdlJzjtY6JkGDo
-	 F0P+F3/zUJxWmjy8oa50ws3MIqDHtYzGjVrG1jzikp5TGwnUoJn1cHGzczVzY7/vLn
-	 a/6Bo33zheUhgEgSIl9SJk7FV/aPdJQByPCu0l97+mJU3etiiUh2gM4qLtPLgq+Hwx
-	 /NVNq7ikFh7ooDTrQjG6s6bh766F3Lxjm8nHQEGC3zZR5LHt+dGGkyO3T7J68mVyU4
-	 hlmj5QeaA/+KjRDCsa3scXjCF6fBijP+eJ79KqrxYBIPcMjklOk3F+BeHm/FiCn7jA
-	 71LTAmbS+VjBQ==
-Date: Fri, 19 Apr 2024 13:36:34 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sebastian Wick <sebastian.wick@redhat.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v11 17/28] drm/connector: hdmi: Add Broadcast RGB property
-Message-ID: <20240419-intrepid-enthusiastic-spoonbill-3fb9f2@houat>
-References: <20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org>
- <20240326-kms-hdmi-connector-state-v11-17-c5680ffcf261@kernel.org>
- <Zh6EevKDKt60E8e9@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPvC1V92"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso1419525a12.2;
+        Fri, 19 Apr 2024 04:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713527780; x=1714132580; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QJ+jXRgJowxRVoSW+EcTqN6n8P9B1qwo/nyUTMpJ3AM=;
+        b=KPvC1V92FjPV2JT4n+Tf6T0d2zYyl9mFMpDJL5Bi6soji8Dv+J0p7HHkGTFrgppce+
+         CkZonR4OdXNEgzk0Fn+eWP8Q8ih2xXTewTANVtP0nYfPqgOMHHfMdaYofturojOsVyjK
+         ULzHmeGJfhHreeSsFgCa3wFrMvViUsvx7DADMg4xPZXslAyczFBAdpyNrQNmO6TOFS9L
+         l7wN1REw7VjIlJOJ2F2oYtUfqyM2IsEQZ4Z0LWNWrx/GGbXLKl24zXzs6fc9fSqTPdzB
+         cLO5N1WA23ne9VvDDDuj0YdN1ST/69JyoeFQSAKaPxuDJVJXTgs5Z3ZKCz4hJm6Q4rid
+         OA1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713527780; x=1714132580;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QJ+jXRgJowxRVoSW+EcTqN6n8P9B1qwo/nyUTMpJ3AM=;
+        b=nTHb38O7mmFh9rKMGpPMn9F8zeUU8NIF7E6uRgohnDp6VD+3OAW4LEbwzX0aK6EpW1
+         r1Y6IUrR9WPjjBz8SWhO6VhiMspHNBy8E0T3nEGNE5y5YXy+xhqkL/CTqyUQ1UwIJffB
+         nCxoUw4dNMGB7XtrW/gRmjLHFW+1L6wgaLBl4E7vJPlAd+rQzgx4Vok0GgJXhXLeqyJg
+         TKRLCNQZl7S41gnvppqnJW3gWUPf3cODS0QLTM+jxOeQVU/zYpmJdeXWgtd6N88ZUjFu
+         fej56rCtPKJFz4gLXT250F9Jr5uq3MnRJ8hJQIK6hEtDEGeoU5DAp8UpgQZA2VMTpJ/q
+         Kc1Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVDkt6JO2oL7a3OIQrQHOJLDHWagmBFhfu48TD+7gSehR/cKs7Kv14Ikm0rxfXJ/6Ia1Dl4sWevSHT+CpNYx+d+8ts/VlBlHGj5A7JP
+X-Gm-Message-State: AOJu0YxcTbxIrmlUMTqk2QJ5X1lQ3h6Wb5vhyaK51TI5dDvkJdinjW6k
+	1AYqtgj8V8RhFy6VwBgk05ideumUTBVy/Ky+0BHsFA0SEpdHe/BI
+X-Google-Smtp-Source: AGHT+IFlj6guL+Ti0g0i+N+RWQt7ElBv5omKznsJFNQdj+aAd44IxXKiC8TZGMZyNEzOS06yeA9Vxg==
+X-Received: by 2002:a17:90b:703:b0:2aa:5c79:853c with SMTP id s3-20020a17090b070300b002aa5c79853cmr2168994pjz.21.1713527780554;
+        Fri, 19 Apr 2024 04:56:20 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id b24-20020a17090aa59800b002a67b6f4417sm4702327pjq.24.2024.04.19.04.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Apr 2024 04:56:19 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id ECB521847977D; Fri, 19 Apr 2024 18:56:15 +0700 (WIB)
+Date: Fri, 19 Apr 2024 18:56:15 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Zhang Qiao <zhangqiao22@huawei.com>, mingo@kernel.org, chrubis@suse.cz,
+	rostedt@goodmis.org, corbet@lwn.net
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] sched/Documentation: Add RT_RUNTIME_SHARE
+ documentation
+Message-ID: <ZiJb319kKznLk6se@archie.me>
+References: <20240419090432.1935211-1-zhangqiao22@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="twt2bamgclgwo5q2"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BW2pnCmDs4P4T8CF"
 Content-Disposition: inline
-In-Reply-To: <Zh6EevKDKt60E8e9@intel.com>
+In-Reply-To: <20240419090432.1935211-1-zhangqiao22@huawei.com>
 
 
---twt2bamgclgwo5q2
-Content-Type: text/plain; charset=iso-8859-1
+--BW2pnCmDs4P4T8CF
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 16, 2024 at 05:00:26PM +0300, Ville Syrj=E4l=E4 wrote:
-> On Tue, Mar 26, 2024 at 04:40:21PM +0100, Maxime Ripard wrote:
-> > The i915 driver has a property to force the RGB range of an HDMI output.
-> > The vc4 driver then implemented the same property with the same
-> > semantics. KWin has support for it, and a PR for mutter is also there to
-> > support it.
->=20
-> Is there a i915 patch to switch over to hdmi.broadcast_rgb? Though
-> the "hdmi" name is perhaps not the best idea given this is also a
-> thing for DP.
+On Fri, Apr 19, 2024 at 05:04:32PM +0800, Zhang Qiao wrote:
+> +2.4 RT_RUNTIME_SHARE sched feature
+> +----------------------------------
+> +
+> +RT_RUNTIME_SHARE allows a cpu to borrow rt-runtime from other cpus if it=
+ runs
+> +out of its own rt-runtime.
+> +
+> +With this feature enabled, a rt-task may hit 100% cpu usage and can stal=
+l other
+> +per-cpu tasks like kworkers, as a result, which leads into system hang.
+> +
+> +Thus, it is advised to disable this feature by default to avoid aforemen=
+tioned
+> +issue unless you know what you're doing.
+> =20
+>  3. Future plans
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-No, there's none yet. I can try to cook one as a follow-up, but I have
-no way to test it
+LGTM, thanks!
 
-Maxime
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
---twt2bamgclgwo5q2
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--BW2pnCmDs4P4T8CF
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZiJXPQAKCRAnX84Zoj2+
-dqW3AX4z9SPfNEYqLIrzCMiper2UznzSiItRQraVPOKwQb/7kJbeWynLWAgun2KI
-ipBCYTIBgNmPOT2WW4J8MjsQTegdqZL5wVAo0erF9fB7LiOU6HNZ9VZCiYz2cjwl
-d06WM355Fw==
-=BZv7
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZiJb2AAKCRD2uYlJVVFO
+o4yLAQDX4mb0vApP9yRDdV5vfR2KjncNUqiUWwak8AaeDTGbpgEArzT60QuANCRI
+12Q0HoV1wjmQT/Rzu+B4wqeDsvV+GAI=
+=vRFp
 -----END PGP SIGNATURE-----
 
---twt2bamgclgwo5q2--
+--BW2pnCmDs4P4T8CF--
