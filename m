@@ -1,247 +1,189 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2071.outbound.protection.outlook.com [40.107.113.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89C4387;
-	Fri, 19 Apr 2024 01:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713488959; cv=fail; b=YUr587klc3yC3SKBcvp/HgR7h7dPEASKn9YCRTlt1JTnlsEKduPVmqQ7p7cw5PmK3gi4SUeO1wUz8CLipN0g6geQ2W3NS1xOiNhq8tIHjBVshZ32kM8UjHnxEj9I0ItLIQoRYOdymb8a/eAIV0zRvjg7hL+U68CHBN7KDpKaKZs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713488959; c=relaxed/simple;
-	bh=/QP/77mYjTT7IO473cqzbItBE3x40OVpecupw+h36AU=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=CKipgadujoAJnrgcAt+Zb4ANwIwVWh54OxCP3B/uG4Gr/Le/VKlCis/Mv5luuWzG3IzOEhwV/5JBESsfXlbJt9QA8nsdBFoF3t3DoA5/HSD6FBes4xe1ClOq3wPDfMibW+hVgNsLW9Mjl2RzzRzwTElcY0M/HzyY416M/lk0OTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Hwh/u8Qm; arc=fail smtp.client-ip=40.107.113.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Hwh/u8Qm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RQQNYeUkddFO7tvhrIg9T9N4oKgfgaf4XVV/6GaWScPZZoErWy5b2egwXs1osh9ioVph8DPoFemwnakKxL86h1rDAwGnN937qCkJRRpZgouB7U3YujbUYicLKI59cTrDD3Uf1EO0KjApm35KpWFwb2MjveP9bmMTmg7i4hkp3K2NHKUaywAdYMZUe3jufklwIkXzCJGa1sW3sxtIhDKBYhxgz9dqEXnAQoERZlrz9F5QFxUdlQABj9XjZxhG4PKykUJ6a0Fz0EwIQW+43Ko5xW8Vp11B9C6Z0vdLLil8c2so0LP/5udnmJiS8yr7PYlJyG54wtMMPad/5xxCI3x4Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
- b=M2UzIO1VRhV78SEAH+XObAFJ9wi8ZLgFFq5ki8wC66GiOEPqJX1gBuYxIx4HRNGDcKBA7GyNoco1uSTW0TgpMeQEeXYZOY5SwQuHsHfbK8R9UKmDO3F4EzaWHIFdRis/6rn2utXIofEX5b2ycj9QgfsRdgDrrCuNp3SvUbkY0OpNrKj0EwAu5Uv1vF5pqz/sZ+eRuckCtwpKkA59MAraSItyTtE5cf7+jCnZApffpfI2Qji5RAtPz/DF0moXv+o/9gsC9U/c5RB0j1ytTCN03QwkgwOsbf6/h9XQt3cw3dyMbtC2v3iYphIzbOCdo9My1uBd+Rnx+alLW6U7TcFSZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KYT8WVTB+I2Svg2+3BXjCp+C8IgBsz7JmMSEqMw3Tgw=;
- b=Hwh/u8QmUqf1C5aYzqzSdMhYIhWEE22zfZ8UPugAQUIdmQkFQbPcgrgk7KP5NmsH4fC0a8nZmoTbttTe9DCIy/HnoCEEOR0C3SxLaW2FeAcfqbd6gatWNHTKkDiHsWPIORVoU7FfAOTXiRS10ih8pGI70Ulkqp86rkW9d3gfZ8M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB8667.jpnprd01.prod.outlook.com
- (2603:1096:604:19b::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.43; Fri, 19 Apr
- 2024 01:09:10 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::131e:55c0:a4a0:713b%7]) with mapi id 15.20.7472.037; Fri, 19 Apr 2024
- 01:09:10 +0000
-Message-ID: <87ttjytayy.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jerome Brunet <jbrunet@baylibre.com>,	Jiawei Wang <me@jwang.link>,	Jonathan
- Corbet <corbet@lwn.net>,	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 01/23] ASoC: soc-pcm: cleanup soc_get_playback_capture()
-In-Reply-To: <a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
-	<87frvj8g2v.wl-kuninori.morimoto.gx@renesas.com>
-	<a1f63065-6d8a-404f-b4be-331d829f802f@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 19 Apr 2024 01:09:10 +0000
-X-ClientProxiedBy: TY2PR0101CA0042.apcprd01.prod.exchangelabs.com
- (2603:1096:404:8000::28) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF8EE15A4;
+	Fri, 19 Apr 2024 01:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713490999; cv=none; b=LI8LL0n1ulXrqQE6yTaubOJcfglXEVGv/oiem8kdkT6hRdMYkrZ/WbxcGcz7juw+2LeQ+IqT5+VsXz/aGlYRcI6xNuUKPIXyc5Uvj2Cf/qUSYAIl9QuyIcLmsTcQz5JkBmdw7Db7Xvos/6DIrfosaUDW6efFWmHOU5DOpP2divc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713490999; c=relaxed/simple;
+	bh=R/4UYqJsIMAtVhuHTlbZuArGFPMKCeTNMj5pZOQBEfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=grT8kED9Rl5kDGtaqSNV+cxjLvHE6fZfvfzoAlqpOiV65hcZOiXNVJEov2kTd/UWIKUGNflRuHXsZL8kEai33Fano8sREhmg86D7hnXLlv5LKidO/KBcfCYEmabDnaSH2iD4WQa/47IUyukt8yUOXCpWskMgxPvieS8glKjYJO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8AxafAxzCFmZJYpAA--.29170S3;
+	Fri, 19 Apr 2024 09:43:13 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxXRMszCFmhLt_AA--.46410S3;
+	Fri, 19 Apr 2024 09:43:10 +0800 (CST)
+Message-ID: <92615c41-b17c-49fa-89ba-f7d89adc3a15@loongson.cn>
+Date: Fri, 19 Apr 2024 09:43:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB8667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	8IsxM2bIIBdKkVrmu3ktUN+Yzd/QIvdHzb5Uzz3Q5pZZ0z5V6NTZ0wwqTFiVy6P33QdpELZ3HWBJgSQw46/GSG4YoKLkSQczZjqCD7jpfqDkD9yzNBdAyefiUhz7fP+Gf99pDwr6imk/DR+Ih+XAK6CCo1NRBitkhFMjYlMm2Ui4pRzpQjNheq5yHHjWwuzyhSPWUvnXvBPD5cQGeD6Pfx0BvY/Uiv6s4xE1sPIhqTcoxOjGtYk/H2SpFJ5aebskcoMmobD61NDlayELwvdNoeoUgW8Gi5OhklcTyr2hSR5qhUWOqNcu525GV4kIZcAUd4AJTjAlVwtEoGnmOWa06sdxePxEn24ELeK03ry9vVhCmOTT9UucnAnNrSpq25DFdG//4mRmkJdXQ92X2QhQafy4VwdcDKLEd+Z3Ei1uviTbvNoND6ri6nMZE9G2RpGCELA6n+BX4j+o4rdrylzD942dxpHGYLwBfRWUr73ETzWSq5BxzJLa7JuiB9je/cR0lvcMy88BDxKiywb9v6rezu0g8gHbm1ExG++bai4A5fFjFylcvloEx+fghXPzNjdxg+isnpuc/u1E0B/tlljyB9BfQCKXjfwegXaw+hi2/7fwSKCQHdAMORUBnZGQgiKx8wsP8tey6thpIvZlozWrV83f/lpqx8d0NA0sovA5rq1P1TVJ2Q5bCGaB1eJwW6whmcDc4/hT3ZU2Y9J5ydaXWoD9rXFaVC5NNYlIV+/AJLQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pPxh9egKltHA6rrSPEin4OLmPDAm0Td5nlyNTPhkiLBXUwiiJuZ4DIcpAAFW?=
- =?us-ascii?Q?8Tsqu/4MIjEVslTyXOfLK33oS0iDd3M5AHvB4OmTpV1JLpMvBp/CVDxrPujz?=
- =?us-ascii?Q?7BB6vk0SbI/G+OYTnT2fHqMZWw1JLEg4daRL2n2wQdrC7b3yMWNSAhShMjDD?=
- =?us-ascii?Q?V0rYLqJXv3O7LFK8rafOgOt5QsiC2LSBOL+2evkoCTlNf2zFvkQGgOiXmccX?=
- =?us-ascii?Q?Cmk8hsQWlv4ve1hFikftEcOC8uAjT7lwCS2WzD8upnNN2hT28G+Re554BpS1?=
- =?us-ascii?Q?Osz+4lqEPkJyPbiNUZNfrvVqPoQMRQejtGAwzPcKYf51fYHAxPIMbfGnzQ6U?=
- =?us-ascii?Q?aaw800fw9tovxxdrqdYhLyathOU768IYtAbDY/YG6FJZAPQBAIJzKlU3ASiM?=
- =?us-ascii?Q?7shVMCIIw6MigFTxZmx9L0myEd5eJGwjnBZSooDR1zdL57ywxOcUkHBrBPbu?=
- =?us-ascii?Q?xNcJv2bFTATzPpNs6OIGIlWhwSB8BvJEnTYdYqG3YCYGSFfKcCKiML9/Mlzr?=
- =?us-ascii?Q?pYoHPGqGGCQOuTvYwwsDk9MS10z5psUnPazaxi1AzWNUWXrWNCU1IptSa+rG?=
- =?us-ascii?Q?yL2FG5ZsRYronVOJa7bRxcAcN4+Y60IU3G0En4YP0MYU7c5drE4q08/CF8lt?=
- =?us-ascii?Q?l3ltZpm+Fie5ku6oUwvnZFg+wUQ5UluE6AzwnOnAukH3pfi4eakCPSQ/WQ7Z?=
- =?us-ascii?Q?oA2nzrV95rJVAP0XinkBceuphKV9wr59AAxlhb35WYjVK/ozwqu7bydbyX29?=
- =?us-ascii?Q?LA3oi/obRE0l4xWaXwQPDDWYfLajhWScNm7LhLte/tZn9ZDgm8ToaFBdOaok?=
- =?us-ascii?Q?4V0hq63fc6F79EFmkYHc+POgx4dMWJeL12kin+jmugK+L+ymZhSInzJTx7Ke?=
- =?us-ascii?Q?ERT/2pR1RoUyleY686rWVDqjx5ZsP1bbAjg2HW0KRRo+/3NG5KLDIdy3shIV?=
- =?us-ascii?Q?C1n4IADXC/maLMpYqPAYaqVJaCNTdpDfFjuQfwaZ4/HbCTRGZIQCoLxRPT8g?=
- =?us-ascii?Q?R5rYsBZFUPbqbMHg88v+QF73/4XcnKL5oJs8+RLFpwZqJITaimfvFw+W/SKC?=
- =?us-ascii?Q?oNxvt+DJuOFRaqEQwiF7caSLb1RTAR6HHp9llFDvMG/gX0Jgjbka9+ULcdoW?=
- =?us-ascii?Q?w1bqt3MuD2MHG8f3G/nseVjeHKbMEp/Tb3wN+0uLslTRRindUnt7YNeucBKy?=
- =?us-ascii?Q?hnKTRarnSTrp1aBdM29Hb/QsNCXDGBuklRyBuhDx7MVi15vMqdMnbPSylIub?=
- =?us-ascii?Q?B4bnltkRb4/5KitOL4Es8u/e0L+3NgKnJA9t6lMKoKLcD/MFpz+9/Uz3gzJr?=
- =?us-ascii?Q?Cegqv60vuQtiqpEkbucvqApRhHAtviVCH8fISReoUGzAMBvjDljBm81BoRHm?=
- =?us-ascii?Q?SWvkjZGUaW56LrvzTjuXLZ8xjwNSktMoAl8hXMlpXQ8qdXewcdkwq6WqBuy1?=
- =?us-ascii?Q?sQFGdXHeizUvEsHYaxx6aCuh6SlOxHTcjWV6+zl+EJTp3xsetna0SGRNnRiH?=
- =?us-ascii?Q?5I1AvpO8PjwY3m+3zyW98hgpQ7ssXCOLFh/VJhcZ8yE+OwND3hBTZGkAcdgV?=
- =?us-ascii?Q?W36bmX4+QUa8oYKx+fgMCXbhdaFxYcp5hSpRx11TaYyzi+EX9SvQTCwRcAom?=
- =?us-ascii?Q?KZjpAaImM8stBuHuv8CsPuI=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f0977ea-42cf-400e-2a6e-08dc600d51dd
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 01:09:10.5506
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wvs+otRnFGBD4X7FhQJdMZiBGU02p8tY/y6DMlzabWS+2idq4Byg++IK6VGR0R9OqUqG8yiK6lg5i+cWSb23nXsta8Iaj3pOMZp4BXYbc/lTrwVogAQTfqp5ZlmWq83v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8667
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: add process/cve Chinese translation
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240417052804.1957258-1-dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20240417052804.1957258-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxXRMszCFmhLt_AA--.46410S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3WF1kCF1xZF1fWw4xJFWxZrc_yoW3Wr1DpF
+	n2kr97ta1xKry3JFWfKr48XF18AFsrCFW3KF1xGa4fJwn5JFZ7twnrX3W5Ww17CryfCa4D
+	Xr4vkFW8ury29agCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvGb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
+	AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17
+	MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+	AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+	cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+	80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIF
+	yTuYvjxU2MKZDUUUU
 
 
-Hi Pierre-Louis
+在 2024/4/17 13:27, Dongliang Mu 写道:
+> Translate process/cve.rst into Chinese and add it to
+> Documentation/translations/zh_CN directory.
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>   .../translations/zh_CN/process/cve.rst        | 89 +++++++++++++++++++
+>   .../translations/zh_CN/process/index.rst      |  1 +
+>   2 files changed, 90 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/process/cve.rst
+>
+> diff --git a/Documentation/translations/zh_CN/process/cve.rst b/Documentation/translations/zh_CN/process/cve.rst
+> new file mode 100644
+> index 000000000000..c1e50d0b61e3
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/process/cve.rst
+> @@ -0,0 +1,89 @@
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/process/cve.rst
+> +:Translator: Dongliang Mu <dzm91@hust.edu.cn>
+> +
+> +====
+> +CVEs
+> +====
+> +
+> +Common Vulnerabilities and Exposure (CVE®) 编号是一种明确的方式来
+> +识别、定义和登记公开披露的安全漏洞。随着时间的推移，它们在内核项目中的实用性
+> +已经下降，CVE编号经常以不适当的方式和不适当的原因被分配。因此，内核开发社区
+> +倾向于避免使用它们。然而，分配CVE与其他形式的安全标识符的持续压力，以及内核
+> +社区之外的个人和公司的持续滥用，已经清楚地表明内核社区应该控制这些CVE分配。
+> +
+> +Linux内核开发团队确实有能力为潜在的Linux内核安全问题分配CVE。CVE的分配
+> +独立于 :doc:`安全漏洞报送流程</process/security-bugs>`。
+> +
+> +所有分配给Linux内核的CVE列表都可以在linux-cve邮件列表的存档中找到，如
+> +https://lore.kernel.org/linux-cve-announce/ 所示。如果想获得已分配
+> +CVE的通知，请“订阅”该邮件列表。要获得分配的CVE通知，请订阅该邮件列表：
+> +`subscribe <https://subspace.kernel.org/subscribing.html>`_。
+> +
+> +过程
+> +=======
+> +
+> +作为正常稳定发布过程的一部分，可能存在安全问题的内核更改由负责CVE编号分配
+> +的开发人员识别，并自动为其分配CVE编号。这些CVE分配会作为经常性的通告经常
+> +发布在linux-cve-announce邮件列表上。
+> +
+> +注意，由于Linux内核在系统中的特殊地位，几乎任何漏洞都可能被利用来危害内核
+> +的安全性，但是当漏洞被修复后，利用的可能性通常不明显。因此，CVE分配团队过于
+> +谨慎，并将CVE编号分配给他们识别的任何漏洞修复。这就解释了为什么Linux内核
+> +团队会发布大量的CVE。
+> +
+> +如果CVE分配团队错过了任何用户认为应该分配CVE的特定修复，请发送电子邮件到
+> +<cve@kernel.org>，那里的团队将与您一起工作。请注意，任何潜在的安全问题
+> +不应被发送到此邮箱，它仅用于为已发布的内核树中的漏洞修复分配CVE。如果你觉得
+> +自己发现了一个未修复的安全问题，请按照 :doc:`安全漏洞报送流程
+> +</process/security-bugs>` 发送到Linux内核社区。
+> +
+> +Linux内核不会给未修复的安全问题自动分配CVE；只有在安全修复可用且应用于
+> +稳定内核树后，CVE分配才会自动发生，并且它将通过安全修复的Git提交编号进行
+> +跟踪。如果有人希望在提交安全修复之前分配CVE，请联系内核CVE分配团队，从
+> +他们的一批保留编号中获得相应的CVE编号。
+> +
+> +对于目前没有得到稳定与长期维护内核团队积极支持的内核版本中发现的任何问题，
+> +都不会分配CVEs。当前支持的内核分支列表可以在 https://kernel.org/releases.html
+> +上找到。
+> +
+> +被分配CVE的争论
+> +=========================
+> +
+> +对于为特定内核修改分配的CVE，其争论或修改的权限仅属于受影响子系统的维护者。
+> +这一原则确保了漏洞报告的高度准确性和可问责性。只有那些具有深厚专业知识和
+> +对子系统深入了解的维护人员，才能有效评估内核漏洞的有效性和范围，并确定其适当的
+> +CVE指定策略。在此指定权限之外，任何争论或修改CVE的尝试都可能导致混乱、
+> +不准确的报告，并最终危及系统。
+> +
+> +无效的CVE
+> +============
+> +
+> +如果发现的安全问题存在于仅由某Linux发行版支持的Linux内核中，即安全问题是
+> +由于Linux发行版所做的更改导致，或者Linux的发行版内核版本不再是Linux内核
+> +社区支持的内核版本，那么Linux内核CVE团队将不能分配CVE，必须从Linux
+> +发行版本身请求。
+> +
+> +内核CVE分配团队以外的任何团队对Linux内核支持版本分配的CVE都不应被
+> +视为有效CVE。请通知内核CVE分配团队，以便他们可以通过CNA修复过程使
+> +这些条目失效。
+> +
+> +特定CVE的适用性
+> +==============================
+> +
+> +由于Linux内核可以以许多不同方式使用，外部用户可以通过许多不同方式访问它，或者
+> +根本没有访问，因此任何特定CVE的适用性取决于Linux用户，而不是内核CVE分配团队。
+> +请不要与我们联系来尝试确定任何特定CVE的适用性。
+> +
+> +此外，由于源代码树非常大，而任何一个系统都只使用源代码树的一小部分，因此任何
+> +Linux用户都应该意识到，大量分配的CVEs与他们的系统无关。
+> +
+> +简而言之，我们不知道您的用例，也不知道您使用的是内核的哪个部分，因此我们无法
+> +确定特定的CVE是否与您的系统相关。
+> +
+> +与往常一样，最好采取所有发布的内核更改，因为它们是由许多社区成员在一个统一的
+> +整体中一起进行测试的，而不是作为个别的精选更改。还要注意，对于许多安全问题来
+> +说，整体问题的解决方案并不是在单个更改中找到的，而是在彼此之上的许多修复的总
+> +和。理想情况下，CVE将被分配给所有问题的所有修复，但有时我们将无法注意到一些
+> +修复，因此某些修复可能在没有CVE的情况下被采取。
+> \ No newline at end of file
 
-> > (X) part is for DPCM, and it checks playback/capture availability
-> > if dai_link has dpcm_playback/capture flag (a)(b).
-> > This availability check should be available not only for DPCM, but for
-> > all connections. But it is not mandatory option. Let's name it as
-> > assertion.
-> 
-> I don't follow the 'not mandatory option'. Why not make these
-> 'assertions' mandatory? What happens in case the the option is not present?
-
-The big reason why "assertion flag" is not mandatory is that non-DPCM doesn't
-have such flag before. I can't add such flags to all of non-DPCM,
-because I don't know which direction (playback/capture) is available on
-each DAIs.
-
-> > In case of having assertion flag, non specific side will be disabled.
-> 
-> Not following the wording, multiple negatives and not clear on what
-> 'side' refers to (direction or DPCM/non-DPCM).
-
-How about this ?
-
-	If either playback or capture assertion flag was presented,
-	not presented direction will be disabled by ASoC even if
-	it was available.
-
-> I see a contradiction between "expanding the assertion to all
-> connections" and "not mandatory".
-(snip)
-> again the 'not mandatory' and 'non specific side will be disabled' are
-> confusing.
-(snip)
-> > +	/*
-> > +	 * Assertion check
-> > +	 *
-> > +	 * playback_assertion = 0	No assertion check.
-> > +	 * capture_assertion  = 0	ASoC will use detected playback/capture as-is.
-> > +	 *				No playback, No capture will be error.
-> 
-> did you mean "this combination will be handled as an error" ?
-
-Hmm... is it word selection issue ?? is "must_support" better ?
-
-(playback_xxx, capture_xxx)
-
-(0, 0) : Both are not must item. available direction is used as-is.
-         But it will be error if nothing was available.
-
-(1, 0) : DAI must support selected direction.
-(0, 1)   Not selected direction will be disabled even though it was available
-
-(1, 1) : Both must be supported.
-
-> It's probably best to have a different presentation, to avoid
-> confusions. Using multiple lines without a separator isn't great.
-> 
-> Suggested example:
-> 
-> playback_assertion = 0 capture_assertion  = 0
-> this combination will be handled as an error
-> 
-> playback_assertion = 1 capture_assertion  = 0
-> the DAIs in this dailink must support playback.
-> ASoC will disable capture.
-> In other words "playback_only"
-
-Yeah, I agree
-
-> > +	 * playback_assertion = 1	DAI must playback available. ASoC will disable capture.
-> > +	 * capture_assertion  = 0	In other words "playback_only"
-> > +	 *
-> > +	 * playback_assertion = 0	DAI must capture available. ASoC will disable playback.
-> > +	 * capture_assertion  = 1	In other words "capture_only"
-> > +	 *
-> > +	 * playback_assertion = 1	DAI must both playback/capture available.
-> > +	 * capture_assertion  = 1
-> 
-> nit-pick: the 'must X available' does not read well, 'must support X' is
-> probably what you meant.
-
-Thanks. will fix in v4
-
-> > +	if (dai_link->capture_assertion) {
-> > +		if (!has_capture) {
-> > +			dev_err(rtd->dev, "%s capture assertion check error\n", dai_link->stream_name);
-> > +			return -EINVAL;
-> > +		}
-> > +		/* makes it capture only */
-> > +		if (!dai_link->playback_assertion)
-> > +			has_playback = 0;
-> > +	}
-> 
-> we probably want a dev_ log when the has_playback/capture is overridden?
-
-OK, will do in v4
+We need a blank line here.
 
 
-Thank you for your help !!
+Thanks,
 
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+Yanteng
+
+> diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
+> index 3ca02d281be0..5c6c8ccdd50d 100644
+> --- a/Documentation/translations/zh_CN/process/index.rst
+> +++ b/Documentation/translations/zh_CN/process/index.rst
+> @@ -48,6 +48,7 @@ TODOLIST:
+>      :maxdepth: 1
+>   
+>      embargoed-hardware-issues
+> +   cve
+>   
+>   TODOLIST:
+>   
+
