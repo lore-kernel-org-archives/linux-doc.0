@@ -1,119 +1,159 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613FE7C0AA;
-	Fri, 19 Apr 2024 11:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F58B389;
+	Fri, 19 Apr 2024 12:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713527782; cv=none; b=q/7vAre+Rr1dr2j1P+bGnt8EQaFZYQZ9umLkBdM1T2c7/XCwp+3Ehe1AhBFvgIHfog1ronaDx9N8LLKOxWjNt6ATeG3KgbuZHXvg9cbhfUw4E/9W8rPNdUM5oygSGJT6ktRy3yO7DyhG1+CgCoGiKBClA3/El0fRJrG6Vhn8qsU=
+	t=1713530004; cv=none; b=M1wqEljH+JwIhVpKjCBODKAtyXxBUCT2bz1dqd972viCiAwhYCJ66rLtMHM+SG2zd3E6nK3XJ5+iUmT6dLnc5GBCCe+bZlE3o2wV28ZkKEKhnzPLJbRXpMgaCJ5z+gRkGJ/gqBTLiR2xu/SZOp4G3dXFA4q/S2vDmUNE9NldJQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713527782; c=relaxed/simple;
-	bh=GWzERsvmNUP7g8Ed1WxrJOHVmgznjsP7t87e9XqcluA=;
+	s=arc-20240116; t=1713530004; c=relaxed/simple;
+	bh=StnmeusMQF53D5OVIcXegM418o2scr3U54D6nPiuTWQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7vO4c1lboS0JVA5GOZbyg7HV3+Bq7au8bf7dAxHUE7mgOluJGG/HoaGk+S+zSz2A2U/78r9WrKyxF7yuKBjfWLdaweGcBBI86xyc1t1WaggLica+QUZAXleAnxw9xFoqteXxXj6AHGYYIlCsnOTCtK17ohSRwtKqPnOYs5qZxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPvC1V92; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=agOygI2J9h55yX4W5EVY6FzVSoGCP6pyldt2jv9yQrgt+bcHxM9MahiFiqqWt1NYbxGmOHblqDXIrSq5+VELkB/XQwb1xRGKDeHWdCzOMb5qQbKuxGRwhJ03WlpGeBYFztm4BpbCsnr48H+3NqxxjYkUGwcKysyO+m2psTS81Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0VqTJAX; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPvC1V92"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5d8b887bb0cso1419525a12.2;
-        Fri, 19 Apr 2024 04:56:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0VqTJAX"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2a2dd2221d3so1675787a91.0;
+        Fri, 19 Apr 2024 05:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713527780; x=1714132580; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1713530002; x=1714134802; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJ+jXRgJowxRVoSW+EcTqN6n8P9B1qwo/nyUTMpJ3AM=;
-        b=KPvC1V92FjPV2JT4n+Tf6T0d2zYyl9mFMpDJL5Bi6soji8Dv+J0p7HHkGTFrgppce+
-         CkZonR4OdXNEgzk0Fn+eWP8Q8ih2xXTewTANVtP0nYfPqgOMHHfMdaYofturojOsVyjK
-         ULzHmeGJfhHreeSsFgCa3wFrMvViUsvx7DADMg4xPZXslAyczFBAdpyNrQNmO6TOFS9L
-         l7wN1REw7VjIlJOJ2F2oYtUfqyM2IsEQZ4Z0LWNWrx/GGbXLKl24zXzs6fc9fSqTPdzB
-         cLO5N1WA23ne9VvDDDuj0YdN1ST/69JyoeFQSAKaPxuDJVJXTgs5Z3ZKCz4hJm6Q4rid
-         OA1w==
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ITHpHbc4Q5oTHm0pw/lm1Dwc7jn1b2wnohPusS4F1Vg=;
+        b=h0VqTJAXy9jMZXgnyKdMmM0rb8DJPs6RTRwNHurZ4fDYlaIxg8C1stefnEP3uJOhcb
+         PV/vPTeSY5VKZbuW3ms8SNR3JyWcffuiRV7Ygn3D1qMlYJRq7r6S7HqmdlZTEjpzsx21
+         R1IUj+szazMCoN2MXfPO4Er9LWm4D68GQCgsemQEBMWfowQRxZ2fpH7Mx9mtvlC/8r/B
+         S6Nlrw5g3G1NRcub4/ASXRZcCvvoplA7fR2JHPB0X8TSmpRup2z9DROzrKqO84dUb/IT
+         YOySB/zvnO5nADksn0RjWRbMBvX+Jk5d1OPKrDGCwGjDLyfPSl5BQka61iWOFO+sWuUU
+         YB8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713527780; x=1714132580;
+        d=1e100.net; s=20230601; t=1713530002; x=1714134802;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QJ+jXRgJowxRVoSW+EcTqN6n8P9B1qwo/nyUTMpJ3AM=;
-        b=nTHb38O7mmFh9rKMGpPMn9F8zeUU8NIF7E6uRgohnDp6VD+3OAW4LEbwzX0aK6EpW1
-         r1Y6IUrR9WPjjBz8SWhO6VhiMspHNBy8E0T3nEGNE5y5YXy+xhqkL/CTqyUQ1UwIJffB
-         nCxoUw4dNMGB7XtrW/gRmjLHFW+1L6wgaLBl4E7vJPlAd+rQzgx4Vok0GgJXhXLeqyJg
-         TKRLCNQZl7S41gnvppqnJW3gWUPf3cODS0QLTM+jxOeQVU/zYpmJdeXWgtd6N88ZUjFu
-         fej56rCtPKJFz4gLXT250F9Jr5uq3MnRJ8hJQIK6hEtDEGeoU5DAp8UpgQZA2VMTpJ/q
-         Kc1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVDkt6JO2oL7a3OIQrQHOJLDHWagmBFhfu48TD+7gSehR/cKs7Kv14Ikm0rxfXJ/6Ia1Dl4sWevSHT+CpNYx+d+8ts/VlBlHGj5A7JP
-X-Gm-Message-State: AOJu0YxcTbxIrmlUMTqk2QJ5X1lQ3h6Wb5vhyaK51TI5dDvkJdinjW6k
-	1AYqtgj8V8RhFy6VwBgk05ideumUTBVy/Ky+0BHsFA0SEpdHe/BI
-X-Google-Smtp-Source: AGHT+IFlj6guL+Ti0g0i+N+RWQt7ElBv5omKznsJFNQdj+aAd44IxXKiC8TZGMZyNEzOS06yeA9Vxg==
-X-Received: by 2002:a17:90b:703:b0:2aa:5c79:853c with SMTP id s3-20020a17090b070300b002aa5c79853cmr2168994pjz.21.1713527780554;
-        Fri, 19 Apr 2024 04:56:20 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id b24-20020a17090aa59800b002a67b6f4417sm4702327pjq.24.2024.04.19.04.56.19
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ITHpHbc4Q5oTHm0pw/lm1Dwc7jn1b2wnohPusS4F1Vg=;
+        b=BQ9Do87Wq5/OFi6XLXpHI5oTCB9s4xkj50X21VBkxj/iyyHf/Hj/K8SplhQxp1mr2e
+         tWj7DWc2XCUIhUe2VN4n8g1Eowayoiktca5y7xP5kgaGlCPNcXaW9mnRg1W4dAwTtsDU
+         6DzHb4RLtAH7GNloZRQVPsrK5NszTVYGtEzAL7DHQXtvcoEi5zURNKesAZkB2VjB6wqK
+         bQjcgdxEtGGtuB6TCI0ngCebLob8f/r6aAt5408Wu2yY/GdyXSMmG/3oD24BfR5EOv2B
+         3xjqHvfqw4rVsjll2hzl1hG0MHCzsEqYNAOFc/0rfuFu3rAFO/hmSWdhvs0mtTrQ/xE8
+         VqEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVYhJuNbsr4Sh4sSySHpTQ621v6b3zgkakAPOZPGB7y45vvEnS3tIo1y2uBDhMLtUVEZzq0uMZ9A5l/pu1vhTnu2uCik6ZdZH1FK4Qj7EQku7NdQFmjTT6Puj5B1kkoMumtvLqPKAZZJLhKPmMAM8GN0Cp+BoNstX/a9J9LLVt6K9vNbp5LeozSUO/APN9/ftPANvqo8nAV3s3Xk0/HsA==
+X-Gm-Message-State: AOJu0YxEtleix4EHajfiFyaQ680Du7qXTrTvCj7pMvEl6+PgVNeomhOF
+	flC+zOYXjesGqLZendC28PbA5BO5pFfxTNb6fj2t9JUZO6MehrcG
+X-Google-Smtp-Source: AGHT+IHeCzIwtleEy91tXb4pgb8RHsB52psYxgTyuwMubElgI28+ShrWaqpc1Ut5yGf+02wCRd9Mog==
+X-Received: by 2002:a17:90a:ce09:b0:2a2:34d8:ddeb with SMTP id f9-20020a17090ace0900b002a234d8ddebmr1898981pju.22.1713530001721;
+        Fri, 19 Apr 2024 05:33:21 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a13-20020a17090abe0d00b002a04eef22c5sm3015734pjs.44.2024.04.19.05.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Apr 2024 04:56:19 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id ECB521847977D; Fri, 19 Apr 2024 18:56:15 +0700 (WIB)
-Date: Fri, 19 Apr 2024 18:56:15 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Zhang Qiao <zhangqiao22@huawei.com>, mingo@kernel.org, chrubis@suse.cz,
-	rostedt@goodmis.org, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] sched/Documentation: Add RT_RUNTIME_SHARE
- documentation
-Message-ID: <ZiJb319kKznLk6se@archie.me>
-References: <20240419090432.1935211-1-zhangqiao22@huawei.com>
+        Fri, 19 Apr 2024 05:33:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 19 Apr 2024 05:33:18 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: "SanBuenaventura, Jose" <Jose.SanBuenaventura@analog.com>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH 2/2] hwmon: pmbus: adm1275: add adm1281 support
+Message-ID: <902d73a2-e46a-4f60-bde2-3badc46863da@roeck-us.net>
+References: <20240417000722.919-1-jose.sanbuenaventura@analog.com>
+ <20240417000722.919-3-jose.sanbuenaventura@analog.com>
+ <b36db2c0-db31-4304-8e58-aa358ab811c5@roeck-us.net>
+ <62f878f4-a4fb-4e3c-8eec-d1be5ba165a4@roeck-us.net>
+ <PH0PR03MB66070CAE5E8D99158003D58FEC0E2@PH0PR03MB6607.namprd03.prod.outlook.com>
+ <1221f2fd-758e-4c10-8551-ed571fb1577f@roeck-us.net>
+ <SJ0PR03MB66008186E17D3920B5B58B92EC0D2@SJ0PR03MB6600.namprd03.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BW2pnCmDs4P4T8CF"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240419090432.1935211-1-zhangqiao22@huawei.com>
+In-Reply-To: <SJ0PR03MB66008186E17D3920B5B58B92EC0D2@SJ0PR03MB6600.namprd03.prod.outlook.com>
 
+On Fri, Apr 19, 2024 at 02:46:15AM +0000, SanBuenaventura, Jose wrote:
+> > -----Original Message-----
+> > From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+> > Sent: Thursday, April 18, 2024 7:55 PM
+> > To: SanBuenaventura, Jose <Jose.SanBuenaventura@analog.com>
+> > Cc: linux-hwmon@vger.kernel.org; devicetree@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; linux-doc@vger.kernel.org; linux-i2c@vger.kernel.org;
+> > Jean Delvare <jdelvare@suse.com>; Rob Herring <robh@kernel.org>;
+> > Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Delphine CC
+> > Chiu <Delphine_CC_Chiu@wiwynn.com>
+> > Subject: Re: [PATCH 2/2] hwmon: pmbus: adm1275: add adm1281 support
+> > 
+> > [External]
+> > 
+> > On Thu, Apr 18, 2024 at 08:31:42AM +0000, SanBuenaventura, Jose wrote:
+> > >
+> > > The lines mentioned were added initially because the STATUS_CML read
+> > capability
+> > > seems to be only available in the adm1281 and so reading the said register
+> > with
+> > > another device shouldn't be permitted.
+> >   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > 
+> > Why ? Sure, doing so causes the CML bit to be set, but the PMBus core uses
+> > that method throughout to determine if a command/register is supported.
+> > There are exceptions - some chips react badly if an attempt is made to read
+> > unsupported registers. That is not the case for chips in this series, at
+> > least not for the ones where I have evaluation boards. In such cases,
+> > the chip driver should do nothing and let the PMBus core do its job.
+> > 
+> > > It seems though that the functionality is redundant and is already handled
+> > by
+> > > the PMBus core and maybe these lines can be removed and CML related
+> > errors
+> > > can be checked using the status0 and status0_cml debugfs entries.
+> > 
+> > This has nothing to do with status0 and status0_cml debugfs entries. The
+> > PMBUs core reads STATUS_CML if the CML status bit is set in the status
+> > byte/word to determine if a command is supported or not. This is as
+> > intended. There is nothing special to be done by a chip driver.
+> > 
+> > Thanks,
+> > Guenter
+> 
+> Based on the feedback, it seems that the lines mentioned can be removed since
+> the pmbus_core.c handles the checking of status_cml through different functions
+> like pmbus_check_status_cml and pmbus_check_register among others.
+> 
+> One thing we observed in the pmbus_core is that the invalid command flag was the
+> only one being utilized (PB_CML_FAULT_INVALID_COMMAND) but there are other
+> flags for cml fault in pmbus.h such as PB_CML_FAULT_PROCESSOR or 
+> PB_CML_FAULT_PACKET_ERROR that were not used. 
+> 
+> Given these observations, it would again seem right to eliminate the lines you 
+> pointed out since those items are already handled by the pmbus core and that
+> the status0_cml debugfs entry can be probed to check the register content directly
+> and see if there's any other cml fault aside from the invalid command that occurs
+> and the user can address it accordingly.
+> 
+> If ever there would be changes to address the other cml fault errors aside from the
+> invalid command it seems that the changes should be applied in the pmbus core 
+> and not on the chip driver itself.
+> 
+> I hope that I understood correctly the points you brought up and identified the 
+> possible next step to address those which is to eliminate the added case in the 
+> adm1275_read_byte_data.
+> 
+Correct.
 
---BW2pnCmDs4P4T8CF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Apr 19, 2024 at 05:04:32PM +0800, Zhang Qiao wrote:
-> +2.4 RT_RUNTIME_SHARE sched feature
-> +----------------------------------
-> +
-> +RT_RUNTIME_SHARE allows a cpu to borrow rt-runtime from other cpus if it=
- runs
-> +out of its own rt-runtime.
-> +
-> +With this feature enabled, a rt-task may hit 100% cpu usage and can stal=
-l other
-> +per-cpu tasks like kworkers, as a result, which leads into system hang.
-> +
-> +Thus, it is advised to disable this feature by default to avoid aforemen=
-tioned
-> +issue unless you know what you're doing.
-> =20
->  3. Future plans
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---BW2pnCmDs4P4T8CF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZiJb2AAKCRD2uYlJVVFO
-o4yLAQDX4mb0vApP9yRDdV5vfR2KjncNUqiUWwak8AaeDTGbpgEArzT60QuANCRI
-12Q0HoV1wjmQT/Rzu+B4wqeDsvV+GAI=
-=vRFp
------END PGP SIGNATURE-----
-
---BW2pnCmDs4P4T8CF--
+Thanks,
+Guenter
